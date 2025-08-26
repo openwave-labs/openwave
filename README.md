@@ -161,11 +161,9 @@ classDiagram
     heat.py
   }
   class `I/O`{
-    viz2d.py
-    viz3d.py
+    viz.py
     cli.py
     file.py
-    gui.py
     tests.py
   }
   `CORE

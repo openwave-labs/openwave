@@ -2,16 +2,21 @@
 OpenWave Constants
 from: https://energywavetheory.com/equations/
 
-This module exposes:
-- Wave constants (values and units per the EWT "wave constants" set)
-- Particle/electron-specific constants used throughout EWT
-- Common classical constants used alongside wave constants
+This module provides fundamental constants for Energy Wave Theory (EWT) simulations:
+
+- Classical physics constants (Planck, electromagnetic, atomic)
+- Mathematical constants (pi, e, phi)
+- Energy conversion constants and utility functions
+- All values use SI units (kg, m, s) for consistency
+
+Constants are organized into logical groups with descriptive comments
+and alternative variable names for different naming conventions.
 """
 
 
 
 # =====================
-# Classical constants used in the same context
+# Classical constants
 # =====================
 PLANCK_LENGTH = l_p = 1.616255e-35              # m, Planck length
 PLANCK_TIME = t_p = 5.391247e-44              # s, Planck time
@@ -46,7 +51,7 @@ J_CALORIE = cal = 4.184                            # J, per thermochemical calor
 
 
 # =====================
-# Unit helpers
+# Unit converters
 # =====================
 def J_to_eV(E_J: float) -> float:
     """Convert joules to electron-volts."""
@@ -55,4 +60,12 @@ def J_to_eV(E_J: float) -> float:
 def eV_to_J(E_eV: float) -> float:
     """Convert electron-volts to joules."""
     return E_eV * eV
+
+def J_to_kWh(E_J: float) -> float:
+    """Convert joules to kilowatt-hours."""
+    return E_J / kWh
+
+def kWh_to_J(E_kWh: float) -> float:
+    """Convert kilowatt-hours to joules."""
+    return E_kWh * kWh
 

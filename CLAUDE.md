@@ -141,7 +141,6 @@ Note: CLI implementations are currently incomplete but follow the pattern above.
 
 ### Current Issues
 
-- quantum_space.py has import errors (references non-existent WAVE_LENGTH and QuantumWave.LENGTH)
 - CLI entry points are not fully implemented
 - Testing infrastructure is minimal
 
