@@ -159,26 +159,31 @@ classDiagram
   }
   class `CORE
   ENGINES`{
-    Wave Engine
-    Elastic Engine
+    constants.py
+    equations.py
+    wave_physics.py
+    num_analysis.py
   }
   class `SPACETIME
   MODULES`{
-    Quantum Space
-    Quantum Wave
+    quantum_space.py
+    quantum_wave.py
   }
   class `ENERGY
   MODULES`{
-    Matter
-    Motion
-    Photon
-    Heat
+    e_matter.py
+    e_motion.py
+    e_photon.py
+    e_heat.py
   }
   class `I/O`{
-    Configuration Layer
-    Numerical Analysis
-    Data Visualization
-    File Export
+    config.py
+    viz2d.py
+    viz3d.py
+    cli.py
+    file.py
+    gui.py
+    tests.py
   }
   `BASE
   PACKAGES` --> `CORE
