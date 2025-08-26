@@ -142,34 +142,25 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 ```mermaid
 classDiagram
   direction LR
-  class `BASE
-  PACKAGES`{
-    numpy
-    scipy
-    matplotlib
-    taichi
-  }
   class `CORE
   ENGINES`{
+    config.py
     constants.py
-    equations.py
-    wave_physics.py
-    num_analysis.py
   }
   class `SPACETIME
   MODULES`{
     quantum_space.py
     quantum_wave.py
+    forces.py
   }
   class `ENERGY
   MODULES`{
-    e_matter.py
-    e_motion.py
-    e_photon.py
-    e_heat.py
+    matter.py
+    motion.py
+    photon.py
+    heat.py
   }
   class `I/O`{
-    config.py
     viz2d.py
     viz3d.py
     cli.py
@@ -177,9 +168,6 @@ classDiagram
     gui.py
     tests.py
   }
-  `BASE
-  PACKAGES` --> `CORE
-  ENGINES`
   `CORE
   ENGINES` --> `SPACETIME
   MODULES`
