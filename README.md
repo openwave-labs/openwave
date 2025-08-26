@@ -40,44 +40,36 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### On macOS / conda
 
-#### Clone the repository
-
 ```bash
+# Clone the repository
 git clone https://github.com/openwaveHQ/openwave.git
 cd openwave
-```
 
-#### Install [HOMEBREW](https://brew.sh/)
-
-```bash
-/bin/bash -c `$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)`
-```
-
-#### Config ENV
-
-Dependencies are defined in `pyproject.toml`.
-
-```bash
 # Create virtual environment
 conda create -n openwave312 python=3.12 -y
 conda activate openwave312
 
 # Install dependencies
 pip install .  # reads dependencies from pyproject.toml
+
+# Install LaTeX and FFmpeg (macOS)
 brew install --cask mactex-no-gui ffmpeg
 
-# IF issues, remove virtual environment and start over again
-conda env remove -n openwave312
-```
-
-#### LaTEX path config & sanity check
-
-```bash
+# Configure LaTeX path
 echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
 exec zsh -l
+```
+
+#### Verification
+
+```bash
+# Verify LaTeX installation
 which latex && latex --version
 which dvisvgm && dvisvgm --version
 which gs && gs --version
+
+# IF issues, remove virtual environment and start over again
+conda env remove -n openwave312
 ```
 
 ### On Linux
