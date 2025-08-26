@@ -23,7 +23,6 @@ PLANCK_TIME = t_p = 5.391247e-44              # s, Planck time
 PLANCK_MASS = m_p = 2.176434e-8               # kg, Planck mass
 PLANCK_CHARGE = q_p = 1.875545956e-18           # m, Planck charge
 PLANCK_CONSTANT = h = 6.62607015e-34              # J·s, Planck constant — exact definition
-PLANCK_REDUCED = h_bar = h / (2 * pi)          # J·s, reduced Planck constant (h-bar)
 
 FINE_STRUCTURE = alpha = 7.2973525693e-3         # fine-structure constant (dimensionless)
 ELECTRIC_CONSTANT = epsilon_0 = 8.8541878128e-12    # F/m (C^2 / N·m^2), electric constant (vacuum permittivity)
