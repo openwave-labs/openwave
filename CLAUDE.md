@@ -51,7 +51,8 @@ Full Planck-scale fidelity may be computationally prohibitive; require user-tuna
 conda create -n openwave312 python=3.12 -y
 conda activate openwave312
 
-# Install dependencies
+# Install dependencies from project directory
+cd openwave
 pip install .
 
 # Install LaTeX and FFmpeg (macOS)
@@ -70,8 +71,8 @@ which latex && latex --version
 which dvisvgm && dvisvgm --version
 which gs && gs --version
 
-# Test constants module
-python -c "import openwave.constants; openwave.constants.qwave_length_check(); print('Constants OK')"
+# Test equations module
+python -c "from openwave.equations import energy_wave_equation; print('Equations OK')"
 ```
 
 ## Project Architecture
@@ -79,10 +80,14 @@ python -c "import openwave.constants; openwave.constants.qwave_length_check(); p
 ### Core Module Structure
 
 - **constants.py**: EWT wave constants, particle constants, and classical physics constants with unit conversion utilities
-- **equations.py**: Mathematical equations from EWT (currently minimal, under development)  
 - **config.py**: Configuration management using INI files
 - **quantum_space.py**: Spacetime simulation module (entry point incomplete)
 - **quantum_wave.py**: Wave propagation and interaction modeling (entry point incomplete)
+- **forces.py**: Physics forces simulation module (under development)
+- **heat.py**: Thermal energy simulation module (under development)
+- **matter.py**: Matter formation and behavior simulation module (under development)
+- **motion.py**: Motion and velocity simulation module (under development)
+- **photon.py**: Light and photon simulation module (under development)
 
 ### Configuration System
 
