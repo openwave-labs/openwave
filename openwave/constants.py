@@ -16,22 +16,22 @@ and alternative variable names for different naming conventions.
 # =====================
 # Classical constants
 # =====================
-PLANCK_LENGTH = l_p = 1.616255e-35  # m, Planck length
-PLANCK_TIME = t_p = 5.391247e-44  # s, Planck time
-PLANCK_MASS = m_p = 2.176434e-8  # kg, Planck mass
-PLANCK_CHARGE = q_p = 1.875545956e-18  # m, Planck charge
-PLANCK_CONSTANT = h = 6.62607015e-34  # J·s, Planck constant — exact definition
+PLANCK_LENGTH = 1.616255e-35  # m, Planck length
+PLANCK_TIME = 5.391247e-44  # s, Planck time
+PLANCK_MASS = 2.176434e-8  # kg, Planck mass
+PLANCK_CHARGE = 1.875545956e-18  # m, Planck charge
+PLANCK_CONSTANT = 6.62607015e-34  # J·s, Planck constant — exact definition
 
-FINE_STRUCTURE = alpha = 7.2973525693e-3  # fine-structure constant (dimensionless)
-ELECTRIC_CONSTANT = epsilon_0 = 8.8541878128e-12  # F/m, vacuum permittivity
-MAGNETIC_CONSTANT = mu_0 = 1.25663706212e-6  # N, vacuum permeability
-BOHR_RADIUS = a_0 = 5.29177210903e-11  # m, Bohr radius
+FINE_STRUCTURE = 7.2973525693e-3  # fine-structure constant, alpha
+ELECTRIC_CONSTANT = 8.8541878128e-12  # F/m, vacuum permittivity, epsilon_0
+MAGNETIC_CONSTANT = 1.25663706212e-6  # N, vacuum permeability, mu_0
+BOHR_RADIUS = 5.29177210903e-11  # m, Bohr radius, a_0
 ELEMENTARY_CHARGE = 1.6022e-19  # m, The elementary charge from CODATA values
-COULOMB_CONSTANT = k = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant
+COULOMB_CONSTANT = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant, k
 
-PI = pi = 3.14159265358979323846  # pi (dimensionless)
-E = e = 2.71828182845904523536  # euler's number (dimensionless)
-PHI = phi = (1 + 5**0.5) / 2  # golden ratio (dimensionless)
+PI = 3.14159265358979323846  # pi (dimensionless)
+E = 2.71828182845904523536  # euler's number (dimensionless)
+PHI = (1 + 5**0.5) / 2  # golden ratio (dimensionless)
 
 # DELTA : amplitude factor (dimensionless) — user-supplied per system/transition
 # K     : particle wave center count (dimensionless)
@@ -41,29 +41,29 @@ PHI = phi = (1 + 5**0.5) / 2  # golden ratio (dimensionless)
 # =====================
 # Conversion constants
 # =====================
-J_ELECTRON_VOLT = eV = 1.602176634e-19  # J, per electron-volt
-J_KILOWATT_HOUR = kWh = 3.6e6  # J, per kilowatt-hour
-J_CALORIE = cal = 4.184  # J, per thermochemical calorie
+EV2J = 1.602176634e-19  # J, per electron-volt, eV
+KWH2J = 3.6e6  # J, per kilowatt-hour, kWh
+CAL2J = 4.184  # J, per thermochemical calorie, cal
 
 
 # =====================
 # Unit converters
 # =====================
-def J_to_eV(E_J: float) -> float:
+def J_to_eV(energy_J: float) -> float:
     """Convert joules to electron-volts."""
-    return E_J / eV
+    return energy_J / EV2J
 
 
-def eV_to_J(E_eV: float) -> float:
+def eV_to_J(energy_eV: float) -> float:
     """Convert electron-volts to joules."""
-    return E_eV * eV
+    return energy_eV * EV2J
 
 
-def J_to_kWh(E_J: float) -> float:
+def J_to_kWh(energy_J: float) -> float:
     """Convert joules to kilowatt-hours."""
-    return E_J / kWh
+    return energy_J / KWH2J
 
 
-def kWh_to_J(E_kWh: float) -> float:
+def kWh_to_J(energy_kWh: float) -> float:
     """Convert kilowatt-hours to joules."""
-    return E_kWh * kWh
+    return energy_kWh * KWH2J

@@ -2,22 +2,22 @@
 # TODO: create Quantum-Wave class
 # =====================
 
-LENGTH = lambda_l = 2.854096501e-17  # m, quantum-wave length
-AMPLITUDE = A_l = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
-SPEED = c = 299792458  # m / s, quantum-wave velocity (speed of light)
-DENSITY = rho = 3.859764540e22  # kg / m^3, quantum-wave medium density (aether)
+LENGTH = 2.854096501e-17  # m, quantum-wave length
+AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
+SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
+DENSITY = 3.859764540e22  # kg / m^3, quantum-wave medium density (aether, rho)
 
 
 def energy_wave_equation(volume, amplitude=None, wavelength=None):
     """
-    Energy Wave Equation: E = ρV(c/λ_l * A)²
+    Energy Wave Equation: E = ρV(c/λl * A)²
 
     The fundamental equation from which all EWT equations are derived.
 
     Args:
         volume (float): Volume V in m³
         amplitude (float, optional): Amplitude A in m. Defaults to QWAVE_AMPLITUDE
-        wavelength (float, optional): Wavelength λ_l in m. Defaults to QWAVE_LENGTH
+        wavelength (float, optional): Wavelength λl in m. Defaults to QWAVE_LENGTH
 
     Returns:
         float: Energy E in Joules

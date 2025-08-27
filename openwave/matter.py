@@ -8,28 +8,24 @@ This module exposes:
 - energy_wave_equation: The fundamental Energy Wave Equation E = ρV(c/λ_l * A)²
 """
 
-import config
 import quantum_wave
-
-print(quantum_wave.LENGTH)
-# print(constants.QuantumWave.LENGTH)
 
 
 # TODO: create Neutrino class
-NEUTRINO_ENERGY = Ev = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
+NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 
 # TODO: create Electron class
-ELECTRON_ENERGY = Ee = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
-ELECTRON_K = Ke = 10  # electron wave center count (dimensionless)
-ELECTRON_RADIUS = re = 2.8179403262e-15  # m, electron classical radius
-ELECTRON_OUTER_SHELL = Oe = 2.138743820  # electron outer shell multiplier
-ELECTRON_ORBITAL_G = g_lambda = 0.9873318320  # electron orbital g-factor
-ELECTRON_SPIN_G = g_A = 0.9826905018  # electron spin g-factor (dimensionless)
+ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
+ELECTRON_K = 10  # electron wave center count (dimensionless)
+ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
+ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
+ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor
+ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
 
 # TODO: create Proton class
-PROTON_ENERGY = Ep = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
-PROTON_K = Kp = 44  # proton wave center count (dimensionless)
-PROTON_ORBITAL_G = g_p = 0.9898125300  # proton orbital g-factor (dimensionless)
+PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
+PROTON_K = 44  # proton wave center count (dimensionless)
+PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
 
 
 def longitudinal_energy_equation(K):
@@ -75,6 +71,12 @@ def longitudinal_energy_equation(K):
 
 if __name__ == "__main__":
     # Example usage
-    print(f"Longitudinal energy for K=1: {longitudinal_energy_equation(1):.2e} J")
-    print(f"Longitudinal energy for K=10: {longitudinal_energy_equation(10):.2e} J")
-    print(f"Longitudinal energy for K=44: {longitudinal_energy_equation(44):.2e} J")
+    print(
+        f"Longitudinal energy for K=1 NEUTRINO: {longitudinal_energy_equation(1):.2e} J"
+    )
+    print(
+        f"Longitudinal energy for K=10 ELECTRON: {longitudinal_energy_equation(10):.2e} J"
+    )
+    print(
+        f"Longitudinal energy for K=44 PROTON: {longitudinal_energy_equation(44):.2e} J"
+    )
