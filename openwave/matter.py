@@ -8,6 +8,7 @@ This module exposes:
 - energy_wave_equation: The fundamental Energy Wave Equation E = ρV(c/λ_l * A)²
 """
 
+import numpy as np
 import quantum_wave
 
 
@@ -52,7 +53,6 @@ def longitudinal_energy_equation(K):
         ValueError: If K is not a positive integer
         TypeError: If K is not an integer
     """
-    import numpy as np
 
     if not isinstance(K, int):
         raise TypeError("K must be an integer")
