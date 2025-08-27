@@ -11,21 +11,29 @@ This module exposes:
 import quantum_wave
 
 
-# TODO: create Neutrino class
-NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
+class Neutrino:
+    """Neutrino particle with EWT constants."""
 
-# TODO: create Electron class
-ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
-ELECTRON_K = 10  # electron wave center count (dimensionless)
-ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
-ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
-ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor
-ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
+    ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 
-# TODO: create Proton class
-PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
-PROTON_K = 44  # proton wave center count (dimensionless)
-PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
+
+class Electron:
+    """Electron particle with EWT constants."""
+
+    ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
+    K = 10  # electron wave center count (dimensionless)
+    RADIUS = 2.8179403262e-15  # m, electron classical radius
+    OUTER_SHELL = 2.138743820  # electron outer shell multiplier
+    ORBITAL_G = 0.9873318320  # electron orbital g-factor
+    SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
+
+
+class Proton:
+    """Proton particle with EWT constants."""
+
+    ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
+    K = 44  # proton wave center count (dimensionless)
+    ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
 
 
 def longitudinal_energy_equation(K):
