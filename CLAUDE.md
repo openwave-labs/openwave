@@ -80,23 +80,53 @@ python -c "from openwave.equations import energy_wave_equation; print('Equations
 
 ### Core Module Structure
 
-- **constants.py**: EWT wave constants, particle constants, and classical physics constants with unit conversion utilities
-- **config.py**: Configuration management using INI files
-- **quantum_space.py**: Spacetime simulation module (entry point incomplete)
-- **quantum_wave.py**: Wave propagation and interaction modeling (entry point incomplete)
-- **forces.py**: Physics forces simulation module (under development)
-- **heat.py**: Thermal energy simulation module (under development)
-- **matter.py**: Matter formation and behavior simulation module (under development)
-- **motion.py**: Motion and velocity simulation module (under development)
-- **photon.py**: Light and photon simulation module (under development)
+```mermaid
+classDiagram
+  direction LR
+  class `CORE
+  MODULES`{
+    config
+    constants
+    equations
+  }
+  class `SPACETIME
+  MODULES`{
+    quantum_space
+    quantum_wave
+    forces
+  }
+  class `ENERGY
+  MODULES`{
+    matter
+    motion
+    photon
+    heat
+  }
+  class `I/O
+  MODULES`{
+    viz
+    cli
+    file
+    tests
+  }
+  `CORE
+  MODULES` --> `SPACETIME
+  MODULES`
+  `SPACETIME
+  MODULES` --> `ENERGY
+  MODULES`
+  `ENERGY
+  MODULES` --> `I/O
+  MODULES`
+```
 
 ### Configuration System
 
-Configuration is managed through `config.ini` with sections for:
+Configuration is managed through `config.py` with sections for:
 
-- `[universe]`: Simulation parameters (size, time_step)
-- `[screen]`: Display resolution settings
-- `[color]`: Color scheme for different physics entities (space, quantum_waves, matter, antimatter, motion, photons, energy, heat)
+- `universe`: Simulation parameters (size, time_step)
+- `screen`: Display resolution settings
+- `color`: Color scheme for different physics entities (space, quantum_waves, matter, antimatter, motion, photons, energy, heat)
 
 ### Dependencies
 
