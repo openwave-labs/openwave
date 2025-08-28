@@ -47,18 +47,19 @@ Full Planck-scale fidelity may be computationally prohibitive; require user-tuna
 ### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/openwaveHQ/openwave.git
+
 # Create conda environment
 conda create -n openwave312 python=3.12 -y
 conda activate openwave312
 
 # Install dependencies from project directory
 cd openwave
-pip install .
+pip install -e .
 
 # Install LaTeX and FFmpeg (macOS)
 brew install --cask mactex-no-gui ffmpeg
-
-# Configure LaTeX path
 echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
 exec zsh -l
 ```

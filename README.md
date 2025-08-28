@@ -43,19 +43,17 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ```bash
 # Clone the repository
 git clone https://github.com/openwaveHQ/openwave.git
-cd openwave
 
 # Create virtual environment
 conda create -n openwave312 python=3.12 -y
 conda activate openwave312
 
 # Install dependencies
-pip install .  # reads dependencies from pyproject.toml
+cd openwave
+pip install -e .  # reads dependencies from pyproject.toml
 
 # Install LaTeX and FFmpeg (macOS)
 brew install --cask mactex-no-gui ffmpeg
-
-# Configure LaTeX path
 echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
 exec zsh -l
 ```
@@ -144,27 +142,27 @@ classDiagram
   direction LR
   class `CORE
   ENGINES`{
-    config.py
-    constants.py
+    config
+    constants
   }
   class `SPACETIME
   MODULES`{
-    quantum_space.py
-    quantum_wave.py
-    forces.py
+    quantum_space
+    quantum_wave
+    forces
   }
   class `ENERGY
   MODULES`{
-    matter.py
-    motion.py
-    photon.py
-    heat.py
+    matter
+    motion
+    photon
+    heat
   }
   class `I/O`{
-    viz.py
-    cli.py
-    file.py
-    tests.py
+    viz
+    cli
+    file
+    tests
   }
   `CORE
   ENGINES` --> `SPACETIME

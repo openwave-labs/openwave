@@ -5,28 +5,28 @@ This module handles configuration options.
 # =====================
 # Universe settings
 # =====================
-universe_size = 1000
-universe_time_rate = 1  # higher or slower time rate multiplier
+UNIVERSE_SIZE = 1000
+UNIVERSE_TIME_RATE = 1  # higher or slower time rate multiplier
 
 # =====================
 # Screen settings
 # =====================
-screen_width = 1920
-screen_height = 1080
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 
 # =====================
 # Color settings (RGBA hex)
 # =====================
-color_space = "#000000ff"  # black (background, void, emptiness)
-color_infrastructure = "#ffffffff"  # white (granules, wire-framing, grids)
-color_quantum_waves = "#ff00eeff"  # magenta (quantum waves, wave functions)
-color_fields = "#00ffffff"  # cyan (fields, field lines)
-color_matter = "#0000ffff"  # blue (matter, particles)
-color_antimatter = "#ff7f00ff"  # orange (antimatter, antiparticles)
-color_motion = "#04ff00ff"  # green (motion, velocity vectors)
-color_photons = "#ffea00ff"  # yellow (photons, light particles)
-color_energy = "#8b00ffff"  # purple (energy, energy packets)
-color_heat = "#ff0000ff"  # red (heat, thermal energy)
+COLOR_SPACE = "#000000ff"  # black (background, void, emptiness)
+COLOR_INFRA = "#ffffffff"  # white (granules, wire-framing, grids)
+COLOR_QWAVES = "#ff00eeff"  # magenta (quantum waves, wave functions)
+COLOR_FIELDS = "#00ffffff"  # cyan (fields, field lines)
+COLOR_MATTER = "#0000ffff"  # blue (matter, particles)
+COLOR_ANTIMATTER = "#ff7f00ff"  # orange (antimatter, antiparticles)
+COLOR_MOTION = "#04ff00ff"  # green (motion, velocity vectors)
+COLOR_PHOTON = "#ffea00ff"  # yellow (photons, light particles)
+COLOR_HEAT = "#ff0000ff"  # red (heat, thermal energy)
+COLOR_ENERGY = "#8b00ffff"  # purple (energy, energy packets)
 
 
 # # Screen resolution definitions
