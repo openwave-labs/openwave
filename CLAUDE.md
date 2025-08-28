@@ -158,7 +158,7 @@ The `requirements/requirements_source/` directory contains simulation specificat
 
 ### Scientific Source Materials
 
-The `requirements/scientific_source_main/` directory contains foundational EWT research papers:
+The `requirements/scientific_source/` directory contains foundational EWT research papers:
 
 - a1. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
 - a2. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf

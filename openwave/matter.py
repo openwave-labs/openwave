@@ -10,6 +10,7 @@ This module exposes:
 
 import numpy as np
 import quantum_wave
+import quantum_space
 
 
 class Neutrino:
@@ -54,11 +55,6 @@ def longitudinal_energy_equation(K):
         TypeError: If K is not an integer
     """
 
-    if not isinstance(K, int):
-        raise TypeError("K must be an integer")
-    if K <= 0:
-        raise ValueError("K must be a positive integer")
-
     # Calculate the summation term
     n_values = np.arange(1, K + 1)
     summation = np.sum((n_values**3 - (n_values - 1) ** 3) / n_values**4)
@@ -67,11 +63,12 @@ def longitudinal_energy_equation(K):
     coefficient = (
         4
         * np.pi
-        * quantum_wave.DENSITY
+        * quantum_space.DENSITY
         * (K**5)
         * (quantum_wave.AMPLITUDE**6)
         * (quantum_wave.SPEED**2)
     ) / (3 * (quantum_wave.LENGTH**3))
+
     energy = coefficient * summation
 
     return energy

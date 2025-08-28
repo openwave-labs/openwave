@@ -22,12 +22,11 @@ authors = [
 ]
 
 dependencies = [
-  "numpy>=1.26,<2.0",
+  "numpy>=2.3,<3.0",
   "scipy>=1.11,<2.0",
   "matplotlib>=3.8,<4.0",
   "taichi>=1.6,<2.0"
 ]
-
 
 [project.urls]
 Homepage = "https://github.com/openwaveHQ/openwave"
