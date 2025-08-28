@@ -5,8 +5,6 @@ from: https://energywavetheory.com/equations/
 This module provides fundamental constants for Energy Wave Theory (EWT) simulations:
 
 - Classical physics constants (Planck, electromagnetic, atomic)
-- Mathematical constants (pi, e, phi)
-- Energy conversion constants and utility functions
 - All values use SI units (kg, m, s) for consistency
 
 Constants are organized into logical groups with descriptive comments
@@ -79,52 +77,6 @@ COULOMB_CONSTANT = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant, k
 
 
 # =====================
-# Conversion constants
-# =====================
-EV2J = 1.602176634e-19  # J, per electron-volt, eV
-KWH2J = 3.6e6  # J, per kilowatt-hour, kWh
-CAL2J = 4.184  # J, per thermochemical calorie, cal
-
-
-# =====================
-# Unit converters
-# =====================
-def J_to_eV(energy_J: float) -> float:
-    """Convert joules to electron-volts."""
-    return energy_J / EV2J
-
-
-def eV_to_J(energy_eV: float) -> float:
-    """Convert electron-volts to joules."""
-    return energy_eV * EV2J
-
-
-def J_to_kWh(energy_J: float) -> float:
-    """Convert joules to kilowatt-hours."""
-    return energy_J / KWH2J
-
-
-def kWh_to_J(energy_kWh: float) -> float:
-    """Convert kilowatt-hours to joules."""
-    return energy_kWh * KWH2J
-
-
-# =====================
-# ENERGY WAVE EQUATION
-# =====================
-def energy_wave_equation(volume):
-    """
-    Energy Wave Equation: E = ρV(c/λl * A)²
-    The fundamental equation from which all EWT equations are derived.
-    Args:
-        volume (float): Volume V in m³
-    Returns:
-        float: Energy E in Joules
-    """
-    return QSPACE_DENSITY * volume * (QWAVE_SPEED / QWAVE_LENGTH * QWAVE_AMPLITUDE) ** 2
-
-
-# =====================
 # Derivations
 # =====================
 def density_derivation():
@@ -175,40 +127,16 @@ def amplitude_derivation():
     return (1 / FINE_STRUCTURE) * (3 * np.pi * QWAVE_LENGTH) / (4 * ELECTRON_K**4)
 
 
-def particle_energy(K):
-    """
-    Longitudinal Energy Equation (Particles): E_l(K) = (4πρK⁵A_l⁶c²/3λ_l³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
-    Used to calculate the rest energy of particles.
-    Args:
-        K (int): Particle wave center count (dimensionless)
-    Returns:
-        float: Particle energy E_l in Joules
-    """
-    # Calculate the summation term
-    n_values = np.arange(1, K + 1)
-    summation = np.sum((n_values**3 - (n_values - 1) ** 3) / n_values**4)
-    # Calculate the energy
-    coefficient = (
-        4 * np.pi * QSPACE_DENSITY * (K**5) * (QWAVE_AMPLITUDE**6) * (QWAVE_SPEED**2)
-    ) / (3 * (QWAVE_LENGTH**3))
-    energy = coefficient * summation
-    return energy
-
-
 if __name__ == "__main__":
-    # Smoke-tests
+    # Constants smoke-tests
     print("\n===============================")
-    print("SMOKE-TESTS")
+    print("CONSTANTS SMOKE-TESTS")
     print("===============================")
 
     print("SCREEN CONFIGURATION")
     print(f"Width {config.SCREEN_WIDTH}px, Height {config.SCREEN_HEIGHT}px")
 
-    print("\n_______________________________")
-    print("ENERGY WAVE EQUATION")
-    print(f"1 m³ of vacuum: {energy_wave_equation(1):.2e} J")
-
-    print("\n_______________________________")
+    print("_______________________________")
     print("WAVE CONSTANTS DERIVATIONS")
     derived_density = density_derivation()
     print("\nQUANTUM SPACE DENSITY")
@@ -224,10 +152,4 @@ if __name__ == "__main__":
     print("\nQUANTUM WAVE AMPLITUDE")
     print(f"Derived: {derived_amplitude:.9e} m")
     print(f"Stored : {QWAVE_AMPLITUDE:.9e} m")
-
-    print("\n_______________________________")
-    print("PARTICLE ENERGY")
-    print(f"NEUTRINO (K=1): {particle_energy(1):.2e} J")
-    print(f"ELECTRON (K=10): {particle_energy(10):.2e} J")
-    print(f"PROTON (K=44): {particle_energy(44):.2e} J")
     print("_______________________________")

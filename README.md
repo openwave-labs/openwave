@@ -141,9 +141,10 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 classDiagram
   direction LR
   class `CORE
-  ENGINES`{
+  MODULES`{
     config
     constants
+    equations
   }
   class `SPACETIME
   MODULES`{
@@ -158,20 +159,22 @@ classDiagram
     photon
     heat
   }
-  class `I/O`{
+  class `I/O
+  MODULES`{
     viz
     cli
     file
     tests
   }
   `CORE
-  ENGINES` --> `SPACETIME
+  MODULES` --> `SPACETIME
   MODULES`
   `SPACETIME
   MODULES` --> `ENERGY
   MODULES`
   `ENERGY
-  MODULES` --> `I/O`
+  MODULES` --> `I/O
+  MODULES`
 ```
 
 ### Scalability
