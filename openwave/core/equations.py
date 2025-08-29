@@ -1,3 +1,32 @@
+"""
+Energy Wave Theory (EWT) equations module.
+
+This module implements the core mathematical equations of Energy Wave Theory including:
+
+Energy Equations:
+- Energy wave equation (fundamental EWT equation)
+- Particle energy (longitudinal waves)
+- Photon energy, frequency, and wavelength (transverse waves)
+
+Force Equations:
+- Electric force (charged particle interactions)
+- Magnetic force (moving charge interactions)
+- Gravitational force (mass interactions via amplitude loss)
+- Strong force (nuclear binding)
+- Orbital force (electron orbital mechanics)
+
+Relativistic Wave Energy:
+- Longitudinal in-wave energy (relativistic particles)
+- Longitudinal out-wave energy (with spin corrections)
+- Magnetic out-wave energy (transverse component)
+
+Unit Converters:
+- Energy unit conversions (J, eV, kWh, cal)
+
+All equations are derived from the fundamental Energy Wave Equation
+and use EWT-specific constants from the constants module.
+"""
+
 import numpy as np
 
 import openwave.core.constants as constants

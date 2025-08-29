@@ -1,5 +1,28 @@
-"""Configuration settings for the OpenWave project.
-This module handles configuration options.
+"""
+Configuration settings for the OpenWave project.
+
+This module provides global configuration parameters for OpenWave simulations:
+
+Universe Settings:
+- Simulation size and time rate multipliers
+
+Display Settings:
+- Screen resolution (width, height)
+- Default: 1280x720
+
+Color Scheme (RGBA hex):
+- Space: Black (#000000ff) - background/void
+- Infrastructure: White (#ffffffff) - granules/wireframes/grids
+- Quantum waves: Magenta (#ff00eeff) - wave functions
+- Fields: Cyan (#00ffffff) - field lines
+- Matter: Blue (#0000ffff) - particles
+- Antimatter: Orange (#ff7f00ff) - antiparticles
+- Motion: Green (#04ff00ff) - velocity vectors
+- Photons: Yellow (#ffea00ff) - light particles
+- Heat: Red (#ff0000ff) - thermal energy
+- Energy: Purple (#8b00ffff) - energy packets
+
+Includes commented thermal imaging palette definitions for future use.
 """
 
 # =====================

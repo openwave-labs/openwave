@@ -1,14 +1,34 @@
 """
-OpenWave Constants
-from: https://energywavetheory.com/equations/
+Energy Wave Theory (EWT) constants module.
 
-This module provides fundamental constants for Energy Wave Theory (EWT) simulations:
+This module provides fundamental constants for Energy Wave Theory simulations,
+sourced from https://energywavetheory.com/equations/
 
-- Classical physics constants (Planck, electromagnetic, atomic)
-- All values use SI units (kg, m, s) for consistency
+Constants Categories:
 
-Constants are organized into logical groups with descriptive comments
-and alternative variable names for different naming conventions.
+Quantum Space (Aether):
+- Quantum space density (aether medium density)
+
+Quantum Wave Properties:
+- Wave length, amplitude, and speed (speed of light)
+
+Particle Constants:
+- Neutrino energy (seed particle)
+- Electron properties (energy, K value, radius, g-factors)
+- Proton properties (energy, K value, g-factors, mass)
+
+Classical Physics Constants:
+- Planck units (length, time, mass, charge, constant)
+- Electromagnetic constants (fine structure, electric/magnetic constants)
+- Atomic constants (Bohr radius, elementary charge, Coulomb constant)
+
+Derivation Functions:
+- Wave constant derivations (wavelength, amplitude, density)
+- Particle constant derivations (outer shell, g-factors)
+
+All values use SI units (kg, m, s) for consistency. Constants include
+alternative naming conventions from various traditions (yoga, taoism, etc.)
+for conceptual understanding.
 """
 
 import numpy as np
