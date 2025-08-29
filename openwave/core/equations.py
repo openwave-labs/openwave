@@ -37,10 +37,14 @@ import openwave.core.constants as constants
 # =====================
 def energy_wave_equation(volume):
     """
-    Energy Wave Equation: E = ρV(c/λl * A)²
+    Energy Wave Equation:
     The fundamental equation from which all EWT equations are derived.
+
+    E = ρV(c/λl * A)²
+
     Args:
         volume (float): Volume V in m³
+
     Returns:
         float: Energy E in Joules
     """
@@ -57,10 +61,14 @@ def energy_wave_equation(volume):
 # =====================
 def particle_energy(K):
     """
-    Longitudinal Energy Equation (Particles): E_l(K) = (4πρK⁵A_l⁶c²/3λ_l³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+    Longitudinal Energy Equation (Particles):
     Used to calculate the rest energy of particles.
+
+    E_l(K) = (4πρK⁵A_l⁶c²/3λ_l³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+
     Args:
         K (int): Particle wave center count (dimensionless)
+
     Returns:
         float: Particle energy E_l in Joules
     """
@@ -87,9 +95,10 @@ def photon_energy(
     delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL
 ):
     """
-    Transverse Energy Equation (Photons): E_t = (2πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * ((δ/r) - (δ/r_0))
-
+    Transverse Energy Equation (Photons):
     Used to calculate the energy of photons emitted or absorbed by particles.
+
+    E_t = (2πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * ((δ/r) - (δ/r_0))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -120,9 +129,10 @@ def photon_energy(
 
 def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
     """
-    Photon Frequency: f = (3λ_l c / 16K_e^4 A_l) * ((δ/r) - (δ/r_0))
-
+    Photon Frequency:
     Calculates the frequency of a photon based on amplitude changes at different distances.
+
+    f = (3λ_l c / 16K_e^4 A_l) * ((δ/r) - (δ/r_0))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -146,9 +156,10 @@ def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
 
 def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
     """
-    Photon Wavelength: λ_t = (16K_e^4 A_l / 3λ_l) * (1 / ((δ/r) - (δ/r_0)))
-
+    Photon Wavelength:
     Calculates the wavelength of a photon based on amplitude changes at different distances.
+
+    λ_t = (16K_e^4 A_l / 3λ_l) * (1 / ((δ/r) - (δ/r_0)))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -186,9 +197,10 @@ def electric_force(
     g_lambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
-    Electric Force: F_e = (4πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * g_λ * (Q1*Q2 / r^2)
-
+    Electric Force:
     Force between charged particles based on particle energy at distance.
+
+    F_e = (4πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * g_λ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -227,9 +239,10 @@ def magnetic_force(
     g_lambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
-    Magnetic Force: F_m = (4πρK_e^7 A_l^6 O_e / 3λ_l^2) * g_λ * (Q1*Q2*v^2 / r^2)
-
+    Magnetic Force:
     Electromagnetic force for particles in motion (induced current).
+
+    F_m = (4πρK_e^7 A_l^6 O_e / 3λ_l^2) * g_λ * (Q1*Q2*v^2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -268,9 +281,10 @@ def gravitational_force(
     g_p=constants.PROTON_ORBITAL_G,
 ):
     """
-    Gravitational Force: F_g = (ρλ_l^2 c^2 O_e / 2K_e^31) * (A_l/36)^2 * g_λ^3 * g_p^2 * (Q1*Q2 / r^2)
-
+    Gravitational Force:
     Force based on amplitude loss in wave interactions.
+
+    F_g = (ρλ_l^2 c^2 O_e / 2K_e^31) * (A_l/36)^2 * g_λ^3 * g_p^2 * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Mass/particle count of first particle (dimensionless)
@@ -311,9 +325,10 @@ def strong_force(
     g_lambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
-    Strong Force: F_s = (16ρK_e^11 A_l^7 c^2 O_e / 9λ_l^3) * g_λ * (Q1*Q2 / r^2)
-
+    Strong Force:
     Nuclear force keeping particles bound in atomic nuclei.
+
+    F_s = (16ρK_e^11 A_l^7 c^2 O_e / 9λ_l^3) * g_λ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Particle count of first particle (dimensionless)
@@ -343,9 +358,10 @@ def strong_force(
 
 def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORBITAL_G):
     """
-    Orbital Force: F_o = (64ρK_e^17 A_l^8 c^2 O_e / 27πλ_l^3) * g_λ^2 * (Q^2 / r^3)
-
+    Orbital Force:
     Force keeping electrons in orbit around atomic nuclei.
+
+    F_o = (64ρK_e^17 A_l^8 c^2 O_e / 27πλ_l^3) * g_λ^2 * (Q^2 / r^3)
 
     Args:
         Q (float): Particle/charge count (dimensionless)
@@ -379,11 +395,11 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
 def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     """
     Longitudinal In-Wave Energy - Complete Form
-    E_l(in) = (1/2) * ρ * (4π/3 * K * λl)³ * [(c * (Ke*Al)³) / (λl * √(1 + v/c) * (Ke*λl)²)]²
-            * [(c * (Ke*Al)³) / (λl * √(1 - v/c) * (Ke*λl)²)]²
-
     Calculates the in-wave energy for particles at relativistic speeds.
     The complete form includes relativistic wavelength changes.
+
+    E_l(in) = (1/2) * ρ * (4π/3 * K * λl)³ * [(c * (Ke*Al)³) / (λl * √(1 + v/c) * (Ke*λl)²)]²
+            * [(c * (Ke*Al)³) / (λl * √(1 - v/c) * (Ke*λl)²)]²
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -436,12 +452,12 @@ def longitudinal_out_wave_energy(
 ):
     """
     Longitudinal Out-Wave Energy - Complete Form
+    Calculates the out-wave energy for particles at relativistic speeds.
+    Includes amplitude loss due to particle spin (important for gravity/magnetism).
+
     E_l(out) = (1/2) * ρ * (4π/3 * K * λl)³ *
                [(c * (Ke*Al)³ * Ke * (Al - Al*√αGe)) / (λl * √(1 + v/c) * (Ke*λl)²)]² *
                [(c * (Ke*Al)³ * Ke * (Al + Al*√αGe)) / (λl * √(1 - v/c) * (Ke*λl)²)]²
-
-    Calculates the out-wave energy for particles at relativistic speeds.
-    Includes amplitude loss due to particle spin (important for gravity/magnetism).
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -505,11 +521,11 @@ def magnetic_out_wave_energy(
 ):
     """
     Magnetic (Transverse) Out-Wave Energy - Complete Form
-    E_m(out) = (1/αe) * ρ * lp³ * [(c * (Ke*Al)³) / (Ke²*λl * √(1 + 1/c) * (Ke²*λl)²)]² *
-               [(c * (Ke*Al)³ * √(1/αGe)) / (Ke²*λl * √(1 - 1/c) * (Ke²*λl)²)]² * gλ*gA
-
     Calculates the transverse (magnetic) out-wave energy for particles at relativistic speeds.
     This is related to magnetic field generation by moving charges.
+
+    E_m(out) = (1/αe) * ρ * lp³ * [(c * (Ke*Al)³) / (Ke²*λl * √(1 + 1/c) * (Ke²*λl)²)]² *
+               [(c * (Ke*Al)³ * √(1/αGe)) / (Ke²*λl * √(1 - 1/c) * (Ke²*λl)²)]² * gλ*gA
 
     Args:
         K (int): Particle wave center count (dimensionless)

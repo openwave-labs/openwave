@@ -105,7 +105,6 @@ COULOMB_CONSTANT = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant, k
 def wavelength_derivation():
     """
     Wave Constant - Wavelength Derivation
-
     Wavelength (longitudinal) is set to the well-measured classical electron radius.
 
     λl = {re} * (1/K²e) * g_λ^-1
@@ -119,7 +118,6 @@ def wavelength_derivation():
 def amplitude_derivation():
     """
     Wave Constant - Amplitude Derivation
-
     Amplitude (longitudinal) is set to the well-measured fine structure constant
     and using wavelength calculated from wavelength_derivation.
 
@@ -134,11 +132,9 @@ def amplitude_derivation():
 def density_derivation():
     """
     Wave Constant - Density Derivation
-
     Density is set to the well-measured Planck constant and using wavelength
     calculated from wavelength_derivation.
 
-    From the EWT documentation:
     ρ = {h} * (9λl^3) / (32π * K^11e * A^7l * c * Oe) * g_λ^-1
 
     Returns:
@@ -165,9 +161,9 @@ def density_derivation():
 def electron_outer_shell_derivation():
     """
     Particle Constant - Electron Outer Shell Multiplier Derivation
-
     Electron outer shell multiplier is a constant for readability replacing the summation
     in the electron's particle energy.
+
     Oe = Σ(n=1 to Ke) [n³ - (n-1)³] / n⁴
 
     Returns:
@@ -182,8 +178,8 @@ def electron_outer_shell_derivation():
 def electron_orbital_g_derivation():
     """
     Particle Constant - Electron Orbital G-Factor Derivation
-
     Electron orbital g-factor is set to the well-measured classical electron radius.
+
     gλ = {re} * (1 / (Ke² * λl))
 
     Note: The derivation of this constant and the wavelength constant is circular.
@@ -198,8 +194,8 @@ def electron_orbital_g_derivation():
 def electron_spin_g_derivation():
     """
     Particle Constant - Electron Spin G-Factor Derivation
-
     Electron spin g-factor is set to the Planck charge.
+
     gA = {qP^-1} * (2 * Al)
 
     Where qP is the Planck charge.
@@ -215,8 +211,8 @@ def electron_spin_g_derivation():
 def proton_orbital_g_derivation():
     """
     Particle Constant - Proton Orbital G-Factor Derivation
-
     Proton orbital g-factor is set to proton's mass.
+
     gp = {mp^-1} * (4πρ * Ke^8 * Al^6 * Oe) / (9 * λl^3) * √(λl / Al)
 
     Where mp is the proton mass.
