@@ -218,7 +218,7 @@ Real human power comes from collaboration.
 
 | Public Legacy             | Credit                                            | Work |
 | :---                      | :---                                              | :--- |
-| Wave Structure of Matter  | Dr. Milo Wolff, Gabriel LaFreniere                | Pioneer models (books, webpages) |
+| Wave Structure of Matter  | Dr. Milo Wolff, Gabriel LaFreniere and Xavier Borg| Pioneer models (books, webpages) |
 | Energy Wave Theory        | Jeff Yee                                          | Physics modeling, numerical validation and initial simulator design (research papers, books, webpages and videos) |
 | OpenWave Simulator        | Rodrigo Griesi & Jeff Yee                         | Initial work on a programmatic validation, visualization and experimentation tool for the Energy Wave Theory (open-source computer based simulator) |
 | OpenWave Simulator        | development community (coming soon)               | Continuous development                        |
