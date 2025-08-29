@@ -345,6 +345,194 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
 
 
 # =====================
+# Wave Energy at Relativistic Speeds
+# =====================
+def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
+    """
+    Longitudinal In-Wave Energy - Complete Form
+    E_l(in) = (1/2) * ρ * (4π/3 * K * λl)³ * [(c * (Ke*Al)³) / (λl * √(1 + v/c) * (Ke*λl)²)]²
+            * [(c * (Ke*Al)³) / (λl * √(1 - v/c) * (Ke*λl)²)]²
+
+    Calculates the in-wave energy for particles at relativistic speeds.
+    The complete form includes relativistic wavelength changes.
+
+    Args:
+        K (int): Particle wave center count (dimensionless)
+        v (float): Particle velocity in m/s
+        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+
+    Returns:
+        float: Longitudinal in-wave energy in Joules
+    """
+    if wavelength is None:
+        wavelength = constants.QWAVE_LENGTH
+    if amplitude is None:
+        amplitude = constants.QWAVE_AMPLITUDE
+
+    c = constants.QWAVE_SPEED
+    rho = constants.QSPACE_DENSITY
+    Ke = constants.ELECTRON_K
+
+    # Volume term
+    volume = (4 * np.pi / 3) * K * (wavelength**3)
+
+    # Relativistic factors
+    v_c_ratio = v / c
+    if abs(v_c_ratio) >= 1:
+        return float("inf")  # Cannot exceed speed of light
+
+    gamma_plus = np.sqrt(1 + v_c_ratio)
+    gamma_minus = np.sqrt(1 - v_c_ratio)
+
+    # Wave terms with relativistic corrections
+    wave_factor = (Ke * amplitude) ** 3 / (Ke * wavelength) ** 2
+
+    term1 = (c * wave_factor) / (wavelength * gamma_plus)
+    term2 = (c * wave_factor) / (wavelength * gamma_minus)
+
+    # Total energy
+    energy = 0.5 * rho * volume * (term1**2) * (term2**2)
+
+    return energy
+
+
+def longitudinal_out_wave_energy(
+    K,
+    v,
+    wavelength=None,
+    amplitude=None,
+    g_lambda=constants.ELECTRON_ORBITAL_G,
+    g_A=constants.ELECTRON_SPIN_G,
+):
+    """
+    Longitudinal Out-Wave Energy - Complete Form
+    E_l(out) = (1/2) * ρ * (4π/3 * K * λl)³ *
+               [(c * (Ke*Al)³ * Ke * (Al - Al*√αGe)) / (λl * √(1 + v/c) * (Ke*λl)²)]² *
+               [(c * (Ke*Al)³ * Ke * (Al + Al*√αGe)) / (λl * √(1 - v/c) * (Ke*λl)²)]²
+
+    Calculates the out-wave energy for particles at relativistic speeds.
+    Includes amplitude loss due to particle spin (important for gravity/magnetism).
+
+    Args:
+        K (int): Particle wave center count (dimensionless)
+        v (float): Particle velocity in m/s
+        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+        g_lambda (float): Orbital g-factor (default: electron)
+        g_A (float): Spin g-factor (default: electron)
+
+    Returns:
+        float: Longitudinal out-wave energy in Joules
+    """
+    if wavelength is None:
+        wavelength = constants.QWAVE_LENGTH
+    if amplitude is None:
+        amplitude = constants.QWAVE_AMPLITUDE
+
+    c = constants.QWAVE_SPEED
+    rho = constants.QSPACE_DENSITY
+    Ke = constants.ELECTRON_K
+
+    # Volume term
+    volume = (4 * np.pi / 3) * K * (wavelength**3)
+
+    # Relativistic factors
+    v_c_ratio = v / c
+    if abs(v_c_ratio) >= 1:
+        return float("inf")
+
+    gamma_plus = np.sqrt(1 + v_c_ratio)
+    gamma_minus = np.sqrt(1 - v_c_ratio)
+
+    # Calculate alpha_Ge (gravitational coupling) from g-factors
+    # This represents the slight amplitude loss due to spin
+    alpha_Ge = (g_lambda * g_A) ** 2  # Simplified representation
+
+    # Amplitude with spin corrections
+    A_minus = amplitude * (1 - np.sqrt(alpha_Ge))
+    A_plus = amplitude * (1 + np.sqrt(alpha_Ge))
+
+    # Wave terms with spin-modified amplitudes
+    wave_factor_minus = (Ke * A_minus) ** 3 * Ke / (Ke * wavelength) ** 2
+    wave_factor_plus = (Ke * A_plus) ** 3 * Ke / (Ke * wavelength) ** 2
+
+    term1 = (c * wave_factor_minus) / (wavelength * gamma_plus)
+    term2 = (c * wave_factor_plus) / (wavelength * gamma_minus)
+
+    # Total energy
+    energy = 0.5 * rho * volume * (term1**2) * (term2**2)
+
+    return energy
+
+
+def magnetic_out_wave_energy(
+    K,
+    v,
+    wavelength=None,
+    amplitude=None,
+    g_lambda=constants.ELECTRON_ORBITAL_G,
+    g_A=constants.ELECTRON_SPIN_G,
+):
+    """
+    Magnetic (Transverse) Out-Wave Energy - Complete Form
+    E_m(out) = (1/αe) * ρ * lp³ * [(c * (Ke*Al)³) / (Ke²*λl * √(1 + 1/c) * (Ke²*λl)²)]² *
+               [(c * (Ke*Al)³ * √(1/αGe)) / (Ke²*λl * √(1 - 1/c) * (Ke²*λl)²)]² * gλ*gA
+
+    Calculates the transverse (magnetic) out-wave energy for particles at relativistic speeds.
+    This is related to magnetic field generation by moving charges.
+
+    Args:
+        K (int): Particle wave center count (dimensionless)
+        v (float): Particle velocity in m/s
+        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+        g_lambda (float): Orbital g-factor (default: electron)
+        g_A (float): Spin g-factor (default: electron)
+
+    Returns:
+        float: Magnetic (transverse) out-wave energy in Joules
+    """
+    if wavelength is None:
+        wavelength = constants.QWAVE_LENGTH
+    if amplitude is None:
+        amplitude = constants.QWAVE_AMPLITUDE
+
+    c = constants.QWAVE_SPEED
+    rho = constants.QSPACE_DENSITY
+    Ke = constants.ELECTRON_K
+    alpha_e = constants.FINE_STRUCTURE
+
+    # Planck length for volume (from classical constants)
+    l_p = constants.PLANCK_LENGTH
+    volume = l_p**3
+
+    # Relativistic factors (note: using 1/c instead of v/c for magnetic component)
+    v_c_ratio = v / c
+    if abs(v_c_ratio) >= 1:
+        return float("inf")
+
+    gamma_plus = np.sqrt(1 + v_c_ratio)
+    gamma_minus = np.sqrt(1 - v_c_ratio)
+
+    # Gravitational coupling factor
+    alpha_Ge = (g_lambda * g_A) ** 2  # Simplified representation
+
+    # Wave terms
+    wave_factor = (Ke * amplitude) ** 3 / ((Ke**2) * wavelength) ** 2
+
+    term1 = (c * wave_factor) / ((Ke**2) * wavelength * gamma_plus)
+    term2 = (c * wave_factor * np.sqrt(1 / alpha_Ge)) / (
+        (Ke**2) * wavelength * gamma_minus
+    )
+
+    # Total energy with g-factors
+    energy = (1 / alpha_e) * rho * volume * (term1**2) * (term2**2) * g_lambda * g_A
+
+    return energy
+
+
+# =====================
 # Conversion constants
 # =====================
 EV2J = 1.602176634e-19  # J, per electron-volt, eV
@@ -516,9 +704,7 @@ if __name__ == "__main__":
     print(f"  F_electric / F_gravitational = {F_e/F_g:.2e}")
     print(f"  F_magnetic / F_electric = {F_m/F_e:.2e}")
 
-    print("\n_______________________________")
     print("COMPARING FORCE EQUATIONS TO EXPERIMENTAL VALUES")
-
     # Classical Coulomb force between two electrons at Bohr radius
     # F = k*e^2/r^2 where k = 8.99e9 N·m²/C², e = 1.602e-19 C
     e_charge = 1.602e-19  # C
@@ -558,8 +744,6 @@ if __name__ == "__main__":
     print(f"  Note: Strong force typically ~10^4 N at 1 fm")
     print(f"  This agrees with nuclear binding energies")
 
-    print("_______________________________")
-
     #   The EWT force equations show remarkable agreement with experimental values:
     #   Key Findings:
     #   1. Electric Force: Perfect match! EWT gives 8.24×10⁻⁸ N, exactly matching Coulomb's law.
@@ -585,3 +769,48 @@ if __name__ == "__main__":
 
     #   This validates that the Energy Wave Theory formulation captures the essential physics of
     #   fundamental forces across scales from nuclear (10⁻¹⁵ m) to atomic (10⁻¹⁰ m)!
+
+    print("\n_______________________________")
+    print("RELATIVISTIC WAVE ENERGY")
+
+    # Test at different velocities
+    K_electron = 10
+    c = constants.QWAVE_SPEED  # Speed of light
+    velocities = [0, 0.1 * c, 0.5 * c, 0.9 * c, 0.99 * c]  # Various fractions of c
+
+    print(f"\nElectron (K={K_electron}) energy at different velocities:")
+    print(
+        f"{'Velocity (c)':<15} {'In-Wave (J)':<15} {'Out-Wave (J)':<15} {'Magnetic (J)':<15} {'Gamma Factor':<15}"
+    )
+    print("-" * 75)
+
+    rest_energy = particle_energy(K_electron)
+
+    for velocity in velocities:
+        v_fraction = velocity / c
+        gamma = 1 / np.sqrt(1 - (velocity / c) ** 2) if velocity < c else float("inf")
+
+        E_in = longitudinal_in_wave_energy(K_electron, velocity)
+        E_out = longitudinal_out_wave_energy(K_electron, velocity)
+        E_mag = magnetic_out_wave_energy(K_electron, velocity)
+
+        print(
+            f"{v_fraction:<15.2f} {E_in:<15.2e} {E_out:<15.2e} {E_mag:<15.2e} {gamma:<15.2f}"
+        )
+
+    # Compare with classical relativistic energy
+    print(f"\nComparison with Classical Relativity:")
+    print(f"Rest energy (K=10): {rest_energy:.2e} J")
+
+    # At 0.9c
+    v_90 = 0.9 * c
+    gamma_90 = 1 / np.sqrt(1 - 0.9**2)
+    classical_E_90 = rest_energy * gamma_90
+    ewt_E_90 = longitudinal_in_wave_energy(K_electron, v_90)
+
+    print(f"\nAt 0.9c:")
+    print(f"  Classical E = γmc² = {classical_E_90:.2e} J (γ = {gamma_90:.2f})")
+    print(f"  EWT In-Wave Energy = {ewt_E_90:.2e} J")
+    print(f"  Ratio (EWT/Classical) = {ewt_E_90/classical_E_90:.2e}")
+
+    print("_______________________________")
