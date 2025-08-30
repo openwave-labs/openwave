@@ -28,8 +28,9 @@ Includes commented thermal imaging palette definitions for future use.
 # =====================
 # Universe settings
 # =====================
-UNIVERSE_SIZE = 1000
-UNIVERSE_TIME_RATE = 1  # higher or slower time rate multiplier
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+GRANULE_RESOLUTION = 1e16  # length multiplier (computational efficiency)
+TIME_MULTIPLIER = 1  # higher or slower time rate multiplier
 
 # =====================
 # Screen settings
