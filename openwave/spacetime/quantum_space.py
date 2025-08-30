@@ -17,12 +17,3 @@ N = 2  # config.UNIVERSE_SIZE
 x = ti.Vector.field(2, dtype=float, shape=(N, N * 2))
 
 # print(x)
-
-
-# universe size, m [knob]
-# granule object: radius, m
-# lattice object: separation length, m
-# resolution factor (computational efficiency) [knob]
-# number of granules = calculated from resolution factor
-# display (convert to screen coordinates/size, positioning, color)
-# GUI widgets = knobs
