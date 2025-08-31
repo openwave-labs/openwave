@@ -28,15 +28,17 @@ Includes commented thermal imaging palette definitions for future use.
 # =====================
 # Universe settings
 # =====================
-UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
-GRANULE_RESOLUTION = 1e16  # length multiplier (computational efficiency)
-TIME_MULTIPLIER = 1  # higher or slower time rate multiplier
+# UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+UNIVERSE_SIZE = 1e-16  # m, square universe side length
+GRANULE_SCALE_MIN = 1e-35  # min granule scale (Planck scale)
+GRANULE_SCALE_MAX = 1e-17  # max granule scale (QWave scale)
+TIME_RATE = 1  # higher or slower time rate multiplier
 
 # =====================
 # Screen settings
 # =====================
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 900
 
 # =====================
 # Color settings (RGBA hex)

@@ -241,7 +241,7 @@ def proton_orbital_g_derivation():
         * np.sqrt(QWAVE_LENGTH / QWAVE_AMPLITUDE)
     )
 
-    # Note: This shows the mathematical relationship. The exact value requires
+    # TODO: This shows the mathematical relationship. The exact value requires
     # iterative refinement as mentioned in the EWT documentation
     return g_factor
 

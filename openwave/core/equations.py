@@ -701,7 +701,7 @@ if __name__ == "__main__":
     #   Hydrogen electron transitions to/from the ground state (n=1)
     #   do produce UV photons, which is why we can't see them with our eyes.
 
-    #   4. Calibration needed: The difference between our
+    #   TODO: 4. Calibration needed: The difference between our
     #   calculation (182.3 nm, 6.9 eV) and experimental values
     #   (121.6 nm, 10.2 eV) suggests that the amplitude factor δ
     #   needs calibration. In EWT, this δ factor would account for
@@ -803,7 +803,7 @@ if __name__ == "__main__":
     #       - EWT at 1 fm: 3.16×10⁴ N
     #       - Matches expected ~10⁴ N at nuclear distances
     #   5. Magnetic Force: Shows correct v²/c² suppression relative to electric force (ratio ~10⁻⁵)
-    #   6. Gravitational Force: Shows higher value than Newton's law (factor ~10⁶), which might relate
+    #   TODO: 6. Gravitational Force: Shows higher value than Newton's law (factor ~10⁶), which might relate
     #       to quantum corrections at small scales or need for calibration of the amplitude factors.
 
     #   The EWT equations successfully reproduce:
