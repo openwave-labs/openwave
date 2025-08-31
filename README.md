@@ -166,29 +166,29 @@ class `MATTER MODULES
   }
 class `MOTION MODULES
   (KINETIC ENERGY)`{    
-    TBD
+    --TBD*
   }
 class `PHOTON MODULES
   (PHOTON ENERGY)`{
-    TBD
+    --TBD*
   }
 class `HEAT MODULES
   (THERMAL ENERGY)`{
-    TBD
+    --TBD*
   }
 class `CORE
   MODULES`{
     config.py
     constants.py
     equations.py
-    TBD
+    --TBD*
   }
 class `I/O
   MODULES`{
     viz
     cli
     file
-    TBD
+    --TBD*
   }
 
 `SPACETIME MODULES
