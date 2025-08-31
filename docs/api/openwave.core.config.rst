@@ -1,4 +1,4 @@
-openwave.core.config
+﻿openwave.core.config
 ====================
 
 .. automodule:: openwave.core.config

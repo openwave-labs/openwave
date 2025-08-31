@@ -1,9 +1,6 @@
-openwave.core.constants
+﻿openwave.core.constants
 =======================
 
-.. currentmodule:: openwave.core.constants
+.. currentmodule:: openwave.core
 
-.. automodule:: openwave.core.constants
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. automodule:: constants

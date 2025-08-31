@@ -37,7 +37,7 @@ source_suffix = {
     ".md": "markdown",
 }
 
-autosummary_generate = False
+autosummary_generate = True
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
@@ -74,7 +74,6 @@ html_theme_options = {
     "sticky_navigation": True,
     "includehidden": True,
     "titles_only": False,
-    "display_version": True,
     "prev_next_buttons_location": "both",
 }
 
@@ -87,7 +86,6 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/", None),
     "matplotlib": ("https://matplotlib.org/stable/", None),
-    "taichi": ("https://docs.taichi-lang.org/", None),
 }
 
 # Graphviz configuration for dependency diagrams

@@ -1,4 +1,4 @@
-openwave.core.constants
+﻿openwave.core.constants
 =======================
 
 .. automodule:: openwave.core.constants

@@ -1,4 +1,4 @@
-openwave.core.equations
+﻿openwave.core.equations
 =======================
 
 .. automodule:: openwave.core.equations

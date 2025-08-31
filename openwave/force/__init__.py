@@ -1,5 +1,5 @@
 """
-Forces modules for OpenWave Energy Wave Theory simulations.
+Force modules for OpenWave Energy Wave Theory simulations.
 
 This package contains the fundamental components:
 - electric: Electric force calculations and representations

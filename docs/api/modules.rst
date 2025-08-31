@@ -14,8 +14,17 @@ Core Modules
    openwave.core.constants
    openwave.core.config
    openwave.core.equations
-   openwave.core.quantum_space
-   openwave.core.quantum_wave
+
+Spacetime Modules
+-----------------
+
+.. autosummary::
+   :toctree: generated
+   :recursive:
+   :template: custom-module-template.rst
+
+   openwave.spacetime.quantum_space
+   openwave.spacetime.quantum_wave
 
 Simulation Modules
 ------------------
@@ -25,11 +34,11 @@ Simulation Modules
    :recursive:
    :template: custom-module-template.rst
 
-   openwave.core.forces
-   openwave.core.heat
-   openwave.core.matter
-   openwave.core.motion
-   openwave.core.photon
+   openwave.force
+   openwave.heat
+   openwave.matter
+   openwave.motion
+   openwave.photon
 
 Module Dependency Graph
 -----------------------
@@ -41,23 +50,15 @@ Module Dependency Graph
       node [shape=box, style="rounded,filled", fillcolor=lightblue];
       
       "openwave.core.constants" -> "openwave.core.equations";
-      "openwave.core.config" -> "openwave.core.quantum_space";
-      "openwave.core.config" -> "openwave.core.quantum_wave";
-      "openwave.core.constants" -> "openwave.core.quantum_space";
-      "openwave.core.constants" -> "openwave.core.quantum_wave";
-      "openwave.core.equations" -> "openwave.core.quantum_wave";
-      "openwave.core.quantum_wave" -> "openwave.core.forces";
-      "openwave.core.quantum_wave" -> "openwave.core.matter";
-      "openwave.core.quantum_wave" -> "openwave.core.photon";
-      "openwave.core.matter" -> "openwave.core.motion";
-      "openwave.core.matter" -> "openwave.core.heat";
+      "openwave.core.config" -> "openwave.spacetime.quantum_space";
+      "openwave.core.config" -> "openwave.spacetime.quantum_wave";
+      "openwave.core.constants" -> "openwave.spacetime.quantum_space";
+      "openwave.core.constants" -> "openwave.spacetime.quantum_wave";
+      "openwave.core.equations" -> "openwave.spacetime.quantum_wave";
+      "openwave.spacetime.quantum_wave" -> "openwave.force";
+      "openwave.spacetime.quantum_wave" -> "openwave.matter";
+      "openwave.spacetime.quantum_wave" -> "openwave.photon";
+      "openwave.matter" -> "openwave.motion";
+      "openwave.matter" -> "openwave.heat";
    }
 
-Class Hierarchy
----------------
-
-.. inheritance-diagram:: 
-   openwave.core.constants.WaveConstants
-   openwave.core.constants.ParticleConstants
-   openwave.core.constants.ClassicalConstants
-   :parts: 1

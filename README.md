@@ -19,22 +19,22 @@ OpenWave is an open-source application designed to simulate the formation and be
 
 OpenWave provides computational and visualization tools to explore, demonstrate, and validate EWT predictions through three main functions:
 
-### Visual Demonstration
-
-- Illustrates complex, often invisible phenomena for better comprehension.  
-- Represents graphically wave equations and analyses.  
-- Automates animation export for online video publishing.
-
 ### Numerical Validation
 
-- Runs simulations derived directly from equations.  
-- Validates outcomes by comparing them against observed reality.  
+- Runs simulations derived directly from equations.
+- Validates outcomes by comparing them against observed reality.
 - Generates numerical analysis reports for scientific publications.
 
-### *--PLANNED--* Experiments Simulation (*#energy_hacking*)
+### Visual Demonstration
 
-- Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.  
-- Generates schematics to serve as baseline for patent applications.
+- Illustrates complex, often invisible phenomena for better comprehension.
+- Represents graphically wave equations and analyses.
+- [PLANNED] Automates animation export for online video publishing.
+
+### Experiments Simulation (#energy_hacking)
+
+- [PLANNED] Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
+- [PLANNED] Generates schematics to serve as baseline for patent applications.
 
 ## Installation *--WORK IN PROGRESS--*
 
@@ -83,6 +83,8 @@ TBD
 ```
 
 ## CLI Usage *--WORK IN PROGRESS--*
+
+Note: CLI implementations are currently incomplete but will follow the pattern below.
 
 ### Quantum Space
 
@@ -140,40 +142,85 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 ```mermaid
 classDiagram
   direction LR
-  class `CORE
-  MODULES`{
-    config
-    constants
-    equations
+  
+class `SPACETIME MODULES
+  (ENERGY SOURCE)`{
+    quantum_space.py
+    quantum_wave.py
   }
-  class `SPACETIME
+class `FORCE
   MODULES`{
-    quantum_space
-    quantum_wave
-    forces
+    electric.py
+    magnetic.py
+    gravitational.py
+    strong.py
+    orbital.py
   }
-  class `ENERGY
+class `MATTER MODULES
+  (PARTICLE ENERGY)`{
+    fundamental_particle.py
+    standalone_particle.py
+    composite_particle.py
+    atom.py
+    molecule.py
+  }
+class `MOTION MODULES
+  (KINETIC ENERGY)`{    
+    TBD
+  }
+class `PHOTON MODULES
+  (PHOTON ENERGY)`{
+    TBD
+  }
+class `HEAT MODULES
+  (THERMAL ENERGY)`{
+    TBD
+  }
+class `CORE
   MODULES`{
-    matter
-    motion
-    photon
-    heat
+    config.py
+    constants.py
+    equations.py
+    TBD
   }
-  class `I/O
+class `I/O
   MODULES`{
     viz
     cli
     file
-    tests
+    TBD
   }
-  `CORE
-  MODULES` --> `SPACETIME
+
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `MATTER MODULES
+  (PARTICLE ENERGY)`
+  
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `MOTION MODULES
+  (KINETIC ENERGY)`
+
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `PHOTON MODULES
+  (PHOTON ENERGY)`
+
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `HEAT MODULES
+  (THERMAL ENERGY)`
+
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `FORCE
   MODULES`
-  `SPACETIME
-  MODULES` --> `ENERGY
+  
+`MATTER MODULES
+  (PARTICLE ENERGY)` <--> `FORCE
   MODULES`
-  `ENERGY
-  MODULES` --> `I/O
+  
+`MOTION MODULES
+  (KINETIC ENERGY)` <-- `FORCE
+  MODULES`
+  
+`CORE
+  MODULES` <--> `I/O
   MODULES`
 ```
 
@@ -199,8 +246,8 @@ classDiagram
 
 ## Todo
 
-- [ ] Develop Front-end UX & GUI
-- [ ] Develop fuller documentation
+- [ ] Implement CLI entry points
+- [ ] Develop documentation
 - [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
 - [ ] Introduce automated testing and continuous integration to validate code changes
 

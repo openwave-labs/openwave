@@ -8,172 +8,36 @@ OpenWave is an open-source quantum physics simulator implementing Energy Wave Th
 
 ### Project Goals
 
-To develop the OpenWave an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `a6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the attached EWT research papers. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
+To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `a6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
 
 ### What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the Energy Wave Theory (EWT) model.Core ScopeOpenWave provides computational and visualization tools to explore, demonstrate, and validate EWT predictions through three main functions:
-
-#### Visual Demonstration
-
-Illustrates complex, often invisible phenomena for better comprehension.
-Represents graphically wave equations and analyses.
-Automates animation export for online video publishing.
-
-#### Numerical Validation
-
-Runs simulations derived directly from equations.
-Validates outcomes by comparing them against observed reality.
-Generates numerical analysis reports for scientific publications.
-
-#### --PLANNED-- Experiments Simulation (#energy_hacking)
-
-Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
-Generates schematics to serve as baseline for patent applications.
+- Refer to `README.md` for a detailed descriptions and scope of OpenWave.
 
 ### Known Challenges & Limitations
 
 #### Blender Limitation Lessons
 
-Previous QSCOPE experiments showed that Blender’s physics engine was not suitable for Planck-scale simulation (wave modifier limits, animation-focused, partial physics, limited parallel processing).
-This project will use a dedicated physics computational backend, independent of 3D modeling software.
+- Previous QSCOPE experiments showed that Blender’s physics engine was not suitable for Planck-scale simulation (wave modifier limits, animation-focused, partial physics, limited parallel processing).
+- This project will use a dedicated physics computational backend, independent of 3D modeling software.
 
 #### Granularity vs. Performance
 
-Full Planck-scale fidelity may be computationally prohibitive; require user-tunable resolution.
+- Full Planck-scale fidelity may be computationally prohibitive; require user-tunable resolution.
 
-## Development Setup
+## Installation
 
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/openwaveHQ/openwave.git
-
-# Create conda environment
-conda create -n openwave312 python=3.12 -y
-conda activate openwave312
-
-# Install dependencies from project directory
-cd openwave
-pip install -e .
-
-# Install LaTeX and FFmpeg (macOS)
-brew install --cask mactex-no-gui ffmpeg
-echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
-exec zsh -l
-```
-
-### Verification
-
-```bash
-# Verify LaTeX installation
-which latex && latex --version
-which dvisvgm && dvisvgm --version
-which gs && gs --version
-
-# Test equations module
-python -c "from openwave.equations import energy_wave_equation; print('Equations OK')"
-```
+- Refer to `README.md` for installation guidance of OpenWave.
 
 ## Project Architecture
 
-### Core Module Structure
+### Modules Structure and Objects Map
 
-```mermaid
-classDiagram
-  direction LR
-  class `CORE
-  MODULES`{
-    config
-    constants
-    equations
-  }
-  class `SPACETIME
-  MODULES`{
-    quantum_space
-    quantum_wave
-    forces
-  }
-  class `ENERGY
-  MODULES`{
-    matter
-    motion
-    photon
-    heat
-  }
-  class `I/O
-  MODULES`{
-    viz
-    cli
-    file
-    tests
-  }
-  `CORE
-  MODULES` --> `SPACETIME
-  MODULES`
-  `SPACETIME
-  MODULES` --> `ENERGY
-  MODULES`
-  `ENERGY
-  MODULES` --> `I/O
-  MODULES`
-```
-
-### Configuration System
-
-Configuration is managed through `config.py` with sections for:
-
-- `universe`: Simulation parameters (size, time_step)
-- `screen`: Display resolution settings
-- `color`: Color scheme for different physics entities (space, quantum_waves, matter, antimatter, motion, photons, energy, heat)
-
-### Dependencies
-
-- **numpy**: Numerical computing
-- **scipy**: Scientific computing and analysis
-- **matplotlib**: 2D plotting and visualization
-- **taichi**: High-performance parallel computing for simulations
+- Refer to `OBJECTS.md` file for the Modules Structure, Objects Map and System Architecture.
 
 ## CLI Usage (Work in Progress)
 
-The project provides command-line interfaces for quantum simulations:
-
-### Quantum Space Simulation
-
-```bash
-space -h  # or python openwave/quantum_space.py -h
-# Options: -R (use-ray), -t (test), -p PREFIX, -asis, -dnr, -env, -run
-```
-
-### Quantum Wave Simulation
-
-```bash
-wave -h  # or python openwave/quantum_wave.py -h
-# Same options as space command
-```
-
-Note: CLI implementations are currently incomplete but follow the pattern above.
-
-## Code Conventions
-
-### Constants Usage
-
-- Import from `openwave.constants` for all physics constants
-- Use EWT-specific constants (QWAVE_LENGTH, QWAVE_AMPLITUDE, etc.) for wave modeling
-- Classical constants are provided for compatibility and validation
-- All constants use SI units (kg, m, s)
-
-### Configuration Access
-
-- Load configuration via `openwave.config` module
-- Access screen dimensions: `config.screen_width`, `config.screen_height`
-- Configuration file: `openwave/config.ini`
-
-### Current Issues
-
-- CLI entry points are not fully implemented
-- Testing infrastructure is minimal
+- Refer to `README.md` for CLI usage instructions.
 
 ## Scientific Documentation & Requirements
 
@@ -207,7 +71,7 @@ The `requirements/scientific_source/` directory contains foundational EWT resear
 
 This project implements Energy Wave Theory concepts:
 
-- Quantum waves as fundamental building blocks
+- Quantum Waves as fundamental building blocks
 - Wave interactions forming particles and matter
 - Simulation from Planck scale to macroscopic phenomena
 - Validation against experimental observations

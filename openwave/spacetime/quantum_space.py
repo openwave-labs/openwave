@@ -1,3 +1,8 @@
+"""
+QUANTUM SPACE
+(AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
+"""
+
 import numpy as np
 import taichi as ti
 
