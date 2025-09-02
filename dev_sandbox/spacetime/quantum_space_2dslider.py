@@ -34,12 +34,14 @@ class Lattice2D:
         self.count = int(self.size / self.spacing)
 
     def granule_positions(self):
-        self.grid = ti.Vector.field(2, dtype=float, shape=(self.count, self.count))
+        # taichi: use taichi primitive types
+        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.count, self.count))
         self._populate_grid()
         return self.grid
 
     @ti.kernel
     def _populate_grid(self):
+        # taichi: parallelized for loop
         for i, j in self.grid:
             self.grid[i, j] = ti.Vector([i * self.spacing, j * self.spacing])
 

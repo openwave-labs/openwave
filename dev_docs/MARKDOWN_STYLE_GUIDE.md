@@ -2,7 +2,9 @@
 
 ## Overview
 
-This guide ensures consistent markdown formatting across all OpenWave documentation. All `.md` files must comply with these standards to pass linting checks.
+This guide ensures consistent markdown formatting across all OpenWave documentation.
+
+All `.md` files must comply with these standards to pass linting checks.
 
 ## Required Linting Rules
 
