@@ -36,108 +36,11 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 - [PLANNED] Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
 - [PLANNED] Generates schematics to serve as baseline for patent applications.
 
-## Installation *--WORK IN PROGRESS--*
-
-### On macOS / conda
-
-```bash
-# Clone the repository
-git clone https://github.com/openwaveHQ/openwave.git
-
-# Create virtual environment
-conda create -n openwave312 python=3.12 -y
-conda activate openwave312
-
-# Install dependencies
-cd openwave
-pip install -e .  # reads dependencies from pyproject.toml
-
-# Install LaTeX and FFmpeg (macOS)
-brew install --cask mactex-no-gui ffmpeg
-echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
-exec zsh -l
-```
-
-#### Verification
-
-```bash
-# Verify LaTeX installation
-which latex && latex --version
-which dvisvgm && dvisvgm --version
-which gs && gs --version
-
-# IF issues, remove virtual environment and start over again
-conda env remove -n openwave312
-```
-
-### On Linux
-
-```bash
-TBD
-```
-
-### On Windows
-
-```bash
-TBD
-```
-
-## CLI Usage *--WORK IN PROGRESS--*
-
-Note: CLI implementations are currently incomplete but will follow the pattern below.
-
-### Quantum Space
-
-- Use `space -h` to get the following help or `python openwave/space.py -h`
-
-```bash
-usage: space [-h] [-R] [-t]
-             [-p PREFIX]
-             [-asis] [-dnr] [-env] [-run]
-
-optional arguments:
-      -h, --help                    show this help message and exit
-      -R, --use-ray
-      -t, --test
-      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
-      -asis, --execute-as-is
-      -dnr, --dont-refresh          refresh
-      -env, --print-env-var         prints all environmental variables
-      -run, --run-analysis          runs at selected locations
-```
-
-### Quantum Wave
-
-- Use `wave -h` to get the following help or `python openwave/wave.py -h`
-
-```bash
-usage: wave [-h] [-R] [-t]
-             [-p PREFIX]
-             [-asis] [-dnr] [-env] [-run]
-
-optional arguments:
-      -h, --help                    show this help message and exit
-      -R, --use-ray
-      -t, --test
-      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
-      -asis, --execute-as-is
-      -dnr, --dont-refresh          refresh
-      -env, --print-env-var         prints all environmental variables
-      -run, --run-analysis          runs at selected locations
-```
-
 ## System Architecture
 
 ### Modular Design
 
-- Core physics engine (wave propagation, granule interaction, particle formation)
-- Visualization module (3D, cross-sections, mesh generator)
-- Data analysis module (plots, numerical analysis, reports)
-- Configuration layer (user parameters, simulation scale, constants)
-
-### System Modules
-
-This diagram illustrates the architecture of the OpenWave system, broken down into the following categories:
+This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
 ```mermaid
 classDiagram
@@ -235,14 +138,103 @@ class `I/O
 - **Primary Language**: Python (>=3.12)
 - **Parallel Processing**:
   - Multi-CPU/GPU utilization for computationally intensive wave simulations
-  - Ray.io python package for distributed task management
-- **Math/Physics Libraries**: NumPy, SciPy, SymPy
+- **Math/Physics Libraries**: NumPy, SciPy
 - **Visualization**:
-  - 3D rendering with Taichi, PyVista, VTK, or OpenGL-based solutions
-  - Matplotlib/Plotly for plots and cross-sectional graphs
-  - Export of 3D meshes and GIFs for visual inspection
+  - 3D rendering
+  - Matplotlib for numerical analysis plots and cross-sectional graphs
+  - Export of 3D images and GIFs for visual inspection
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
+
+## Installation *--WORK IN PROGRESS--*
+
+### On macOS / conda
+
+```bash
+# Clone the repository
+git clone https://github.com/openwaveHQ/openwave.git
+
+# Create virtual environment
+conda create -n openwave312 python=3.12 -y
+conda activate openwave312
+
+# Install dependencies
+cd openwave
+pip install -e .  # reads dependencies from pyproject.toml
+
+# Install LaTeX and FFmpeg (macOS)
+brew install --cask mactex-no-gui ffmpeg
+echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
+exec zsh -l
+```
+
+#### Verification
+
+```bash
+# Verify LaTeX installation
+which latex && latex --version
+which dvisvgm && dvisvgm --version
+which gs && gs --version
+
+# IF issues, remove virtual environment and start over again
+conda env remove -n openwave312
+```
+
+### On Linux
+
+```bash
+TBD
+```
+
+### On Windows
+
+```bash
+TBD
+```
+
+## CLI Usage *--WORK IN PROGRESS--*
+
+Note: CLI implementations are currently incomplete but will follow the pattern below.
+
+### Quantum Space
+
+- Use `space -h` to get the following help or `python openwave/space.py -h`
+
+```bash
+usage: space [-h] [-R] [-t]
+             [-p PREFIX]
+             [-asis] [-dnr] [-env] [-run]
+
+optional arguments:
+      -h, --help                    show this help message and exit
+      -R, --use-ray
+      -t, --test
+      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
+      -asis, --execute-as-is
+      -dnr, --dont-refresh          refresh
+      -env, --print-env-var         prints all environmental variables
+      -run, --run-analysis          runs at selected locations
+```
+
+### Quantum Wave
+
+- Use `wave -h` to get the following help or `python openwave/wave.py -h`
+
+```bash
+usage: wave [-h] [-R] [-t]
+             [-p PREFIX]
+             [-asis] [-dnr] [-env] [-run]
+
+optional arguments:
+      -h, --help                    show this help message and exit
+      -R, --use-ray
+      -t, --test
+      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
+      -asis, --execute-as-is
+      -dnr, --dont-refresh          refresh
+      -env, --print-env-var         prints all environmental variables
+      -run, --run-analysis          runs at selected locations
+```
 
 ## Todo
 
