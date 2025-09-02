@@ -67,6 +67,71 @@ class Particles:
 - Use appropriate block sizes for GPU kernels
 - Avoid divergent branching in GPU code
 
+### Real-World Optimization Example: Quantum Space 2D Slider
+
+The quantum space 2D slider visualization was optimized from a CPU-bound implementation to a GPU-accelerated version with the following techniques:
+
+#### Original Performance Issues
+
+- Serial CPU loops for rendering (O(n²) without parallelization)
+- Object recreation on parameter changes (memory allocation overhead)
+- Repeated calculations in render loop
+- No caching of invariant values
+
+#### Applied Optimizations
+
+1. **GPU-Parallelized Position Calculations**
+
+```python
+@ti.kernel
+def compute_screen_positions(self, offset: ti.f32, size: ti.f32):
+    for i, j in ti.ndrange(self.count, self.count):
+        universe_pos = self.grid[i, j]
+        self.screen_pos[i, j][0] = (universe_pos[0] + offset) / size
+        self.screen_pos[i, j][1] = (universe_pos[1] + offset) / size
+```
+
+1. **Pre-allocated Memory with Update Methods**
+
+```python
+class Lattice2D:
+    def __init__(self, scale_factor):
+        self.max_count = 1000  # Pre-allocate max size
+        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.max_count, self.max_count))
+        
+    def update_scale(self, scale_factor):
+        # Update existing structure instead of recreating
+        self.spacing = 2 * constants.PLANCK_LENGTH * scale_factor * np.e
+        self.count = min(int(self.size / self.spacing), self.max_count)
+```
+
+1. **Cached Calculations Outside Render Loop**
+
+```python
+# Pre-compute constants that don't change during rendering
+universe_to_screen_ratio = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
+screen_radius = max(granule.radius * universe_to_screen_ratio, 1)
+offset = (lattice.size - lattice.spacing * (lattice.count - 1)) / 2
+
+# Only recalculate when scale changes
+if scale.value != previous_scale:
+    # Update cached values
+```
+
+1. **Batch Operations for Data Transfer**
+
+```python
+# Get all positions at once instead of accessing individually
+screen_positions = lattice.get_screen_positions_numpy()
+```
+
+#### Performance Impact
+
+- Reduced position calculation from O(n²) CPU operations to parallel GPU kernel
+- Eliminated memory allocation overhead during parameter changes
+- Minimized CPU-GPU data transfer to once per frame
+- Achieved smooth real-time interaction even with thousands of granules
+
 ## Parallel Computing
 
 ### Threading Considerations

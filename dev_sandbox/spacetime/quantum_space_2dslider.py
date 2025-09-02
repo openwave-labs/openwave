@@ -35,7 +35,7 @@ class Lattice2D:
 
     def granule_positions(self):
         # taichi: use taichi primitive types
-        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.count, self.count))
+        self.grid = ti.Vector.field(2, dtype=float, shape=(self.count, self.count))
         self._populate_grid()
         return self.grid
 
@@ -58,7 +58,7 @@ def render_lattice():
     """Render the granule lattice in 2D GUI"""
     # Create GUI
     gui = ti.GUI("Quantum Granule Lattice", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
-    scale = gui.slider("Granule Scale", -18.5, -17, step=1)
+    scale = gui.slider("Granule Scale", -19, -17, step=1)
 
     # Track previous scale to detect changes
     previous_scale = scale.value

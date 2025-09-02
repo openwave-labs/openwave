@@ -83,3 +83,15 @@ This project implements Energy Wave Theory concepts:
 - Adhere to [Coding Standards](/dev_docs/CODING_STANDARDS.md) for Python code
 - Apply [Performance Guidelines](/dev_docs/PERFORMANCE_GUIDELINES.md) for optimization
 - Use [Loop Optimization](/dev_docs/LOOP_OPTIMIZATION.md) patterns for critical loops
+
+### Important: Markdown Linting Requirements
+
+When editing any `.md` files, ALWAYS ensure compliance with markdown linting rules:
+
+- Add blank lines around headings (before and after)
+- Add blank lines around lists (before and after)
+- Add blank lines around code blocks (before and after)
+- Use consistent ordered list numbering (1, 1, 1 style)
+- Check for proper spacing and formatting
+
+Run linting checks after editing to catch any issues before committing.
