@@ -76,3 +76,10 @@ This project implements Energy Wave Theory concepts:
 - Wave interactions forming particles and matter
 - Simulation from Planck scale to macroscopic phenomena
 - Validation against experimental observations
+
+## Code Style & Documentation Standards
+
+- Follow the [Markdown Style Guide](/dev_docs/MARKDOWN_STYLE_GUIDE.md) for all `.md` files
+- Adhere to [Coding Standards](/dev_docs/CODING_STANDARDS.md) for Python code
+- Apply [Performance Guidelines](/dev_docs/PERFORMANCE_GUIDELINES.md) for optimization
+- Use [Loop Optimization](/dev_docs/LOOP_OPTIMIZATION.md) patterns for critical loops

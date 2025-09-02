@@ -1,9 +1,7 @@
 # Contributing to OpenWave
 
 Thank you for your interest in contributing!  
-Whether you’re fixing a typo, adding a feature, or reporting a bug, your help makes OpenWave better for everyone.
-
----
+Whether you're fixing a typo, adding a feature, or reporting a bug, your help makes OpenWave better for everyone.
 
 ## How You Can Contribute
 
@@ -12,7 +10,14 @@ Whether you’re fixing a typo, adding a feature, or reporting a bug, your help 
 - **Improve Documentation:** Help us make guides, examples, and API references clearer.
 - **Write Code:** Fix bugs, add features, or improve existing code.
 
----
+## Development Documentation
+
+Detailed development documentation available in `/dev_docs/`:
+
+- [Coding Standards](dev_docs/CODING_STANDARDS.md)
+- [Performance Guidelines](dev_docs/PERFORMANCE_GUIDELINES.md)
+- [Loop Optimization Patterns](dev_docs/LOOP_OPTIMIZATION.md)
+- [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)
 
 ## Getting Started
 

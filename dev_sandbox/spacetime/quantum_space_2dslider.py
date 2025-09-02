@@ -1,6 +1,7 @@
 """
 QUANTUM SPACE
 (AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
+Modeled as an elastic fluid structure (compressible), that allows energy to transfer from one point to the next.
 """
 
 import numpy as np
@@ -16,12 +17,17 @@ ti.init(arch=ti.gpu)
 
 
 class Granule:
+    # Granule Model: The aether consists of "granules".
+    # Fundamental units that vibrate and create wave patterns.
+    # Their collective motion at Planck scale creates all observable phenomena.
     def __init__(self, scale_factor):
         self.radius = constants.PLANCK_LENGTH * scale_factor  # m
 
 
 @ti.data_oriented
 class Lattice2D:
+    # Granule Count on Lattice: Potentially billions of granules requiring
+    # spring constant calculations, harmonic motion, and wave propagation
     def __init__(self, scale_factor):
         self.size = config.UNIVERSE_SIZE
         self.spacing = 2 * constants.PLANCK_LENGTH * scale_factor * np.e

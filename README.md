@@ -247,6 +247,8 @@ optional arguments:
 
 Please refer to the [Contribution Guide](CONTRIBUTING.md)
 
+See `/dev_docs` for coding standards and development guidelines
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
