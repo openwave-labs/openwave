@@ -87,6 +87,8 @@ def render_lattice():
         gui.clear(0x000000)
 
         # Draw granules
+        # TODO: Implement taichi decorator for performance boost
+        # TODO: Optimize with Taichi loop root level parallelization (for i, j in range)
         for i in range(lattice.count):
             for j in range(lattice.count):
                 universe_pos = positions[i, j]
