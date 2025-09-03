@@ -28,11 +28,7 @@ Includes commented thermal imaging palette definitions for future use.
 # =====================
 # Universe settings
 # =====================
-# UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
-UNIVERSE_SIZE = 1e-16  # m, square universe side length
-GRANULE_SCALE_MIN = 1e-35  # min granule scale (Planck scale)
-GRANULE_SCALE_MAX = 1e-17  # max granule scale (QWave scale)
-TIME_RATE = 1  # higher or slower time rate multiplier
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 
 # =====================
 # Screen settings

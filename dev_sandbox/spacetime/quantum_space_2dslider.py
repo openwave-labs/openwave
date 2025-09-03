@@ -29,7 +29,7 @@ class Lattice2D:
     # Granule Count on Lattice: Potentially billions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
     def __init__(self, scale_factor):
-        self.size = config.UNIVERSE_SIZE
+        self.size = config.UNIVERSE_RADIUS
         self.spacing = 2 * constants.PLANCK_LENGTH * scale_factor * np.e
         self.count = int(self.size / self.spacing)
 

@@ -24,13 +24,13 @@ class Granule:
 @ti.data_oriented
 class Lattice2D:
     def __init__(self, scale_factor):
-        self.size = config.UNIVERSE_SIZE
+        self.size = config.UNIVERSE_RADIUS
         self.max_count = 1000  # Pre-allocate max size
         self.grid = ti.Vector.field(
-            2, dtype=ti.f32, shape=(self.max_count, self.max_count)
+            2, dtype=float, shape=(self.max_count, self.max_count)
         )
         self.screen_pos = ti.Vector.field(
-            2, dtype=ti.f32, shape=(self.max_count, self.max_count)
+            2, dtype=float, shape=(self.max_count, self.max_count)
         )
         self.update_scale(scale_factor)
 
@@ -62,6 +62,8 @@ def render_lattice_optimized():
         (config.SCREEN_WIDTH, config.SCREEN_HEIGHT),
     )
     scale = gui.slider("Granule Scale", -19, -17, step=1)
+    granule_line = gui.label("Granule Line")
+    granule_count = gui.label("Granule Count")
 
     # Track previous scale to detect changes
     previous_scale = scale.value
@@ -95,6 +97,8 @@ def render_lattice_optimized():
             offset = (lattice.size - lattice.spacing * (lattice.count - 1)) / 2
 
             previous_scale = scale.value
+            granule_line.value = lattice.count
+            granule_count.value = lattice.count * lattice.count
 
         # Compute screen positions in parallel on GPU
         lattice.compute_screen_positions(offset, lattice.size)
