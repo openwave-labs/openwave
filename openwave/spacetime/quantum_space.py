@@ -16,8 +16,8 @@ ti.init(arch=ti.gpu)
 # Universe Data Section
 # =====================
 
-granule_scale_factor = 1e-19 / 1e-35
-spacing_scale_factor = 1e-19 / 1e-35
+granule_scale_factor = 1e-20 / 1e-35
+spacing_scale_factor = 1e-20 / 1e-35
 # TODO: implement scale factor clamping
 GRANULE_SCALE_MIN = 1e-35  # min granule scale (Planck scale)
 GRANULE_SCALE_MAX = 1e-17  # max granule scale (QWave scale)
@@ -74,7 +74,7 @@ screen_positions = ti.Vector.field(
 
 
 @ti.kernel
-def compute_screen_positions(offset: ti.f32, line_size: ti.f32):
+def compute_screen_positions(offset: float, line_size: float):
     """Compute screen positions in parallel using Taichi kernel"""
     for i, j in ti.ndrange(lattice.line_count, lattice.line_count):
         universe_pos = positions[i, j]
@@ -94,9 +94,9 @@ def render_lattice():
     )
     screen_radius = granule.radius * universe_to_screen_ratio
 
-    # # Ensure minimum visible radius
-    # min_radius = 1  # pixels
-    # screen_radius = max(screen_radius, min_radius)
+    # Ensure minimum visible radius
+    min_radius = 1  # pixels
+    screen_radius = max(screen_radius, min_radius)
 
     # Create display offset to center the lattice
     offset = (lattice.line_size - lattice.spacing * (lattice.line_count - 1)) / 2

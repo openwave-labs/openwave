@@ -77,6 +77,8 @@ This project implements Energy Wave Theory concepts:
 - Simulation from Planck scale to macroscopic phenomena
 - Validation against experimental observations
 
+- Also refer to ../CLAUDE.md file to search for any available context to the OpenWave project in a parent directory.
+
 ## Code Style & Documentation Standards
 
 - Follow the [Markdown Style Guide](/dev_docs/MARKDOWN_STYLE_GUIDE.md) for all `.md` files
