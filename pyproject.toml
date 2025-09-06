@@ -40,3 +40,6 @@ openwave = [
     "README.md",
     "LICENSE",
 ]
+
+[tool.black]
+line-length = 99

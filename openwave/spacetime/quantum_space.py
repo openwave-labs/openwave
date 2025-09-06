@@ -13,38 +13,42 @@ import openwave.core.constants as constants
 ti.init(arch=ti.gpu)
 
 # =====================
-# Universe Data Section
+# Physics Engine
 # =====================
 
-granule_scale_factor = 1e-20 / 1e-35
-spacing_scale_factor = 1e-20 / 1e-35
-# TODO: implement scale factor clamping
-GRANULE_SCALE_MIN = 1e-35  # min granule scale (Planck scale)
-GRANULE_SCALE_MAX = 1e-17  # max granule scale (QWave scale)
 
-
-class Granule:
+class GranulePhysics:
     # Granule Model: The aether consists of "granules".
     # Fundamental units that vibrate and create wave patterns.
     # Their collective motion at Planck scale creates all observable phenomena.
-    def __init__(self, granule_scale_factor):
-        self.radius = constants.PLANCK_LENGTH * granule_scale_factor  # m
+
+    og_granule_radius = constants.PLANCK_LENGTH
+
+    def __init__(self, granule_radius=og_granule_radius):
+        self.radius = granule_radius  # m
 
 
 @ti.data_oriented
-class Lattice2D:
+class Lattice2DPhysics:
     # Granule Count on Lattice: Potentially billions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
-    def __init__(self, spacing_scale_factor):
-        self.line_size = config.UNIVERSE_RADIUS
-        self.spacing = 2 * constants.PLANCK_LENGTH * np.e * spacing_scale_factor
-        self.line_count = int(self.line_size / self.spacing)
+
+    og_universe_radius = config.UNIVERSE_RADIUS  # m
+    og_lattice_spacing = 2 * constants.PLANCK_LENGTH * np.e  # m, Planck-scale
+    min_lattice_spacing = 5e-21  # m, min spacing clamp, for computability in taichi
+    max_lattice_spacing = 1e-17  # m, max spacing clamp, less than QWave-scale
+
+    def __init__(self, universe_radius=og_universe_radius, lattice_spacing=min_lattice_spacing):
+        self.universe_length = 2 * universe_radius  # m, universe side length
+        # clamp lattice spacing
+        self.spacing = min(
+            max(lattice_spacing, self.min_lattice_spacing), self.max_lattice_spacing
+        )
+        self.linear_count = round(self.universe_length / self.spacing)  # number of granules
 
     def granule_positions(self):
-        # taichi: use taichi primitive types
-        self.grid = ti.Vector.field(
-            2, dtype=ti.f32, shape=(self.line_count, self.line_count)
-        )
+        # use taichi primitive types
+        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.linear_count, self.linear_count))
         self._populate_grid()
         return self.grid
 
@@ -55,102 +59,103 @@ class Lattice2D:
             self.grid[i, j] = ti.Vector([i * self.spacing, j * self.spacing])
 
 
-# Initialize instances
-granule = Granule(granule_scale_factor)
-lattice = Lattice2D(spacing_scale_factor)
-positions = lattice.granule_positions()
-
-
 # =====================
-# Screen Render Section
+# Rendering Engine
 # =====================
-
-# TODO: Implement RENDER in a separate module or class
-
-# Pre-allocate Taichi fields for screen positions (optimized rendering)
-screen_positions = ti.Vector.field(
-    2, dtype=ti.f32, shape=(lattice.line_count, lattice.line_count)
-)
+# TODO: Implement Rendering Engine in a separate module or class???
 
 
-@ti.kernel
-def compute_screen_positions(offset: float, line_size: float):
-    """Compute screen positions in parallel using Taichi kernel"""
-    for i, j in ti.ndrange(lattice.line_count, lattice.line_count):
-        universe_pos = positions[i, j]
-        # Convert to normalized screen coordinates and apply offset
-        screen_positions[i, j][0] = (universe_pos[0] + offset) / line_size
-        screen_positions[i, j][1] = (universe_pos[1] + offset) / line_size
+class GranuleRender:
+    min_granule_radius = 1  # pixels, min radius clamp for visibility
+
+    def __init__(self, lattice_spacing):
+        self.radius = max(self.min_granule_radius, lattice_spacing / (2 * np.e))  # pixels
+
+
+@ti.data_oriented
+class Lattice2DRender:
+    screen_size = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
+    lattice_spacing = 20  # pixels, increased spacing for visibility and performance
+    universe_length = screen_size  # pixels, universe side length
+    linear_count = round(universe_length / lattice_spacing)  # number of granules
+
+    # Create offset to center the lattice on display
+    offset_x = (config.SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
+    offset_y = (config.SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
+
+    def granule_positions(self):
+        # use taichi primitive types
+        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.linear_count, self.linear_count))
+        self._populate_grid()
+        return self.grid
+
+    @ti.kernel
+    def _populate_grid(self):
+        # taichi: parallelized for loop
+        for i, j in self.grid:
+            self.grid[i, j] = ti.Vector(
+                [
+                    i * self.lattice_spacing + self.offset_x,
+                    j * self.lattice_spacing + self.offset_y,
+                ]
+            )
 
 
 def render_lattice():
-    """Render the granule lattice in 2D GUI with optimized performance"""
+    print("Initializing render...")
+
+    # Initialize instances for rendering
+    lattice = Lattice2DRender()
+    positions = lattice.granule_positions()
+    granule_radius = GranuleRender(lattice.lattice_spacing).radius  # pixels
+
+    print("_______________________________")
+    print("Lattice 2D Render initialized.")
+    print(f"Lattice spacing: {lattice.lattice_spacing} pixels")
+    print(f"Granule linear count: {lattice.linear_count:,} granules")
+    print(f"Granule positions populated: {lattice.linear_count**2:,} granules")
+    print(f"Granule Radius: {granule_radius:.2f} pixels")
+
+    print("_______________________________")
+    print(f"Creating GUI window: {config.SCREEN_WIDTH}x{config.SCREEN_HEIGHT}")
+
     # Create GUI
     gui = ti.GUI("Quantum Granule Lattice", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
-    # Calculate screen size for granule size
-    universe_to_screen_ratio = (
-        min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.line_size
-    )
-    screen_radius = granule.radius * universe_to_screen_ratio
-
-    # Ensure minimum visible radius
-    min_radius = 1  # pixels
-    screen_radius = max(screen_radius, min_radius)
-
-    # Create display offset to center the lattice
-    offset = (lattice.line_size - lattice.spacing * (lattice.line_count - 1)) / 2
-
-    # Pre-compute screen positions once before the loop
-    compute_screen_positions(offset, lattice.line_size)
-
-    # Convert to numpy for batch processing
-    screen_pos_numpy = screen_positions.to_numpy()
-
-    # Pre-compute constants for the render loop
-    screen_radius_int = int(screen_radius)
-    circle_color = 0xFFFFFF
-    line_count = lattice.line_count
-
-    # Create list of circle positions for batch rendering (further optimization)
-    circles_data = []
-    for i in range(line_count):
-        for j in range(line_count):
-            circles_data.append(screen_pos_numpy[i, j])
+    print("Starting render loop...")
 
     while gui.running:
-
         # Clear to black background
         gui.clear(0x000000)
 
-        # Draw granules using pre-computed positions (optimized)
-        # Use pre-computed list for fastest iteration
-        for pos in circles_data:
-            gui.circle(pos, color=circle_color, radius=screen_radius_int)
+        # Render circles using regular Python loops
+        for i in range(lattice.linear_count):
+            for j in range(lattice.linear_count):
+                # Normalize positions to GUI coordinate system (0.0 to 1.0)
+                pos = positions[i, j]
+                x = pos[0] / config.SCREEN_WIDTH
+                y = pos[1] / config.SCREEN_HEIGHT
+                gui.circle([x, y], color=0xFFFFFF, radius=granule_radius)
 
         gui.show()
 
 
 # =====================
-# Data Print Section
+# Main calls
 # =====================
-print("\n===============================")
-print("SIMULATION DATA")
-print("===============================")
+if __name__ == "__main__":
+    print("\n===============================")
+    print("SIMULATION DATA")
+    print("===============================")
 
-print(f"Planck length: {constants.PLANCK_LENGTH:.2e} m")
-print(f"Granule Scale factor: {granule_scale_factor:.2e} m")
-print(f"Spacing Scale factor: {spacing_scale_factor:.2e} m")
+    lattice = Lattice2DPhysics(lattice_spacing=1e-21)
+    print("Lattice 2D Physics initialized.")
+    print(f"Universe length: {lattice.universe_length} m")
+    print(f"Lattice spacing: {lattice.spacing} m")
+    print(f"Granule linear count: {lattice.linear_count:,} granules")
+    print(f"Granule positions populated: {lattice.linear_count**2:,} granules")
 
-print("_______________________________")
-print(f"Universe line size: {lattice.line_size:.2e} m")
-print(f"Granule radius: {granule.radius:.2e} m")
-print(f"Lattice spacing: {lattice.spacing:.2e} m")
-print(f"Lattice line count: {lattice.line_count} x {lattice.line_count}")
-print(f"Lattice count: {lattice.line_count**2:,}")
-
-# Render the lattice
-render_lattice()
+    render_lattice()
 
 
 # Optimizations Applied to quantum_space.py:

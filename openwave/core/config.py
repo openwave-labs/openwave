@@ -33,7 +33,7 @@ UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 # =====================
 # Screen settings
 # =====================
-SCREEN_WIDTH = 900
+SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 900
 
 # =====================
