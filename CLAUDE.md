@@ -17,24 +17,24 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 ### Known Challenges & Limitations
 
-#### Blender Limitation Lessons
-
-- Previous QSCOPE experiments showed that Blender’s physics engine was not suitable for Planck-scale simulation (wave modifier limits, animation-focused, partial physics, limited parallel processing).
-- This project will use a dedicated physics computational backend, independent of 3D modeling software.
-
 #### Granularity vs. Performance
 
 - Full Planck-scale fidelity may be computationally prohibitive; require user-tunable resolution.
 
-## Installation
+#### Blender Limitation Lessons
 
-- Refer to `README.md` for installation guidance of OpenWave.
+- Previous QSCOPE experiments showed that Blender’s physics engine was not suitable for Planck-scale simulation (wave modifier limits, animation-focused, partial physics, limited parallel processing).
+- This project will use a dedicated physics computational backend, independent of 3D modeling software.
 
 ## Project Architecture
 
 ### Modules Structure and Objects Map
 
 - Refer to `OBJECTS.md` file for the Modules Structure, Objects Map and System Architecture.
+
+## Installation
+
+- Refer to `README.md` for installation guidance of OpenWave.
 
 ## CLI Usage (Work in Progress)
 

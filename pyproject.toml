@@ -17,8 +17,8 @@ keywords = [
 
 license = { text = "MIT" }
 authors = [
-  { name = "Rodrigo Griesi", email = "hello@openwaveHQ.com" },
-  { name = "Jeff Yee",     email = "hello@openwaveHQ.com" }
+  { name = "Rodrigo Griesi", email = "hello@openwavelabs.com" },
+  { name = "Jeff Yee",     email = "hello@openwavelabs.com" }
 ]
 
 dependencies = [
@@ -29,8 +29,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/openwaveHQ/openwave"
-Issues = "https://github.com/openwaveHQ/openwave/issues"
+Homepage = "https://github.com/openwave-labs/openwave"
+Issues = "https://github.com/openwave-labs/openwave/issues"
 
 [tool.setuptools.packages.find]
 include = ["openwave", "openwave.*"]

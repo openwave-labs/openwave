@@ -3,13 +3,13 @@
 `>simulate(the_universe)`
 
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=for-the-badge)](LICENSE)
-[![openwaveHQ](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwaveHQ/)
+[![openwave](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwave-labs/openwave)
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
 [![openwave](https://img.shields.io/badge/Reddit-%23FF4500.svg?style=for-the-badge&logo=Reddit&logoColor=white)](https://www.reddit.com/r/openwave/)
-[![openwave_HQ](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/openwave_HQ/)
-[![openwaveHQ](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://youtube.com/@openwaveHQ/)
+[![openwavelabs](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/openwavelabs/)
+[![openwave-labs](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://youtube.com/@openwave-labs/)
 
-[![OpenWave Logo](images/openwave-white-small.png)](https://openwavehq.com/)
+[![OpenWave Logo](images/openwave-white-small.png)](https://openwavelabs.com/)
 
 ## What is OpenWave?
 
@@ -127,21 +127,22 @@ class `I/O
   MODULES`
 ```
 
-### Scalability
+### Scalability & Performance
 
 - Support increasing simulation resolution to handle extreme granularity of Planck-scale interactions
 - Efficient handling of large particle counts and ultra-small wavelength resolution
-- Distribute computation across clusters if needed
+- GPU optimized parallel processing for computational performance
 
 ### Tech Stack
 
 - **Primary Language**: Python (>=3.12)
 - **Parallel Processing**:
-  - Multi-CPU/GPU utilization for computationally intensive wave simulations
-- **Math/Physics Libraries**: NumPy, SciPy
+  - Taichi Python Acceleration: GPU optimization for computationally intensive wave simulations
+- **Math/Physics Libraries**:
+  - NumPy, SciPy
 - **Visualization**:
-  - 3D rendering
-  - Matplotlib for numerical analysis plots and cross-sectional graphs
+  - Taichi: 3D rendering
+  - Matplotlib: numerical analysis plots and cross-sectional graphs
   - Export of 3D images and GIFs for visual inspection
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
@@ -152,7 +153,7 @@ class `I/O
 
 ```bash
 # Clone the repository
-git clone https://github.com/openwaveHQ/openwave.git
+git clone https://github.com/openwave-labs/openwave.git
 
 # Create virtual environment
 conda create -n openwave312 python=3.12 -y
