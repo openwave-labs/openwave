@@ -109,6 +109,8 @@ def render_lattice():
     lattice = Lattice2DRender()
     positions = lattice.granule_positions()
     granule_radius = GranuleRender(lattice.lattice_spacing).radius  # pixels
+    bkg_color = config.COLOR_SPACE[1]  # background
+    circle_color = config.COLOR_INFRA[1]  # granules
 
     print("_______________________________")
     print("Lattice 2D Render initialized.")
@@ -142,10 +144,10 @@ def render_lattice():
 
     while gui.running:
         # Clear to black background
-        gui.clear(0x000000)
+        gui.clear(bkg_color)
 
         # Batch render all circles at once - MUCH faster than individual draws
-        gui.circles(normalized_positions, color=0xFFFFFF, radius=granule_radius)
+        gui.circles(normalized_positions, color=circle_color, radius=granule_radius)
 
         gui.show()
 
