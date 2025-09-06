@@ -25,20 +25,20 @@ Color Scheme (RGBA hex):
 Includes commented thermal imaging palette definitions for future use.
 """
 
-# =====================
+# ================================================================
 # Universe settings
-# =====================
+# ================================================================
 UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 
-# =====================
+# ================================================================
 # Screen settings
-# =====================
+# ================================================================
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 900
 
-# =====================
+# ================================================================
 # Color settings (RGBA hex)
-# =====================
+# ================================================================
 COLOR_SPACE = "#000000ff"  # black (background, void, emptiness)
 COLOR_INFRA = "#ffffffff"  # white (granules, wire-framing, grids)
 COLOR_QWAVES = "#ff00eeff"  # magenta (quantum waves, wave functions)

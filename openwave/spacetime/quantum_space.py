@@ -12,9 +12,9 @@ import openwave.core.constants as constants
 
 ti.init(arch=ti.gpu)
 
-# =====================
+# ==================================================================
 # Physics Engine
-# =====================
+# ==================================================================
 
 
 class GranulePhysics:
@@ -59,10 +59,11 @@ class Lattice2DPhysics:
             self.grid[i, j] = ti.Vector([i * self.spacing, j * self.spacing])
 
 
-# =====================
+# ==================================================================
 # Rendering Engine
-# =====================
-# TODO: Implement Rendering Engine in a separate module or class???
+# ==================================================================
+# TODO: Implement Rendering Engine in a separate module?
+# TODO: How to re-use classes from physics engine to rendering engine?
 
 
 class GranuleRender:
@@ -75,7 +76,7 @@ class GranuleRender:
 @ti.data_oriented
 class Lattice2DRender:
     screen_size = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
-    lattice_spacing = 20  # pixels, increased spacing for visibility and performance
+    lattice_spacing = 2  # pixels, increased spacing for visibility and performance
     universe_length = screen_size  # pixels, universe side length
     linear_count = round(universe_length / lattice_spacing)  # number of granules
 
@@ -122,27 +123,36 @@ def render_lattice():
     # Create GUI
     gui = ti.GUI("Quantum Granule Lattice", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
+    # Pre-compute normalized positions for batch rendering
+    print("Pre-computing normalized positions...")
+    positions_np = positions.to_numpy()
+
+    # Reshape and normalize positions for batch rendering
+    total_points = lattice.linear_count * lattice.linear_count
+    normalized_positions = np.zeros((total_points, 2), dtype=np.float32)
+
+    idx = 0
+    for i in range(lattice.linear_count):
+        for j in range(lattice.linear_count):
+            normalized_positions[idx, 0] = positions_np[i, j][0] / config.SCREEN_WIDTH
+            normalized_positions[idx, 1] = positions_np[i, j][1] / config.SCREEN_HEIGHT
+            idx += 1
+
     print("Starting render loop...")
 
     while gui.running:
         # Clear to black background
         gui.clear(0x000000)
 
-        # Render circles using regular Python loops
-        for i in range(lattice.linear_count):
-            for j in range(lattice.linear_count):
-                # Normalize positions to GUI coordinate system (0.0 to 1.0)
-                pos = positions[i, j]
-                x = pos[0] / config.SCREEN_WIDTH
-                y = pos[1] / config.SCREEN_HEIGHT
-                gui.circle([x, y], color=0xFFFFFF, radius=granule_radius)
+        # Batch render all circles at once - MUCH faster than individual draws
+        gui.circles(normalized_positions, color=0xFFFFFF, radius=granule_radius)
 
         gui.show()
 
 
-# =====================
+# ==================================================================
 # Main calls
-# =====================
+# ==================================================================
 if __name__ == "__main__":
     print("\n===============================")
     print("SIMULATION DATA")
@@ -158,7 +168,9 @@ if __name__ == "__main__":
     render_lattice()
 
 
+# ================================================================
 # Optimizations Applied to quantum_space.py:
+# ================================================================
 
 #   1. Taichi Kernel for Parallel Computation: Added
 #   compute_screen_positions() kernel that computes all screen
@@ -186,3 +198,17 @@ if __name__ == "__main__":
 #   - Eliminating per-frame calculations
 #   - Reducing loop overhead
 #   - Minimizing variable lookups
+
+
+# Optimizations to the render_lattice() function for small-pixel spacing:
+#   1. Batch rendering: renders all points in a single draw call
+#   Replaces per-frame, per-point gui.circle() calls with
+#   a single batch gui.circles() call for improved performance.
+
+#   2. Pre-computation: Normalizes all positions once before the render
+#   loop starts
+
+#   3. Array conversion: Converts Taichi field to numpy array once,
+#   outside the loop
+
+#   significantly speeding up rendering, especially with smaller lattice spacing.

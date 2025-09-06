@@ -36,29 +36,30 @@ import numpy as np
 import openwave.core.config as config
 
 
-# =====================
+# ================================================================
 # QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
-# =====================
+# ================================================================
+
 QSPACE_DENSITY = 3.859764540e22  # kg / m^3, quantum-space density (aether medium, rho)
 
 
-# =====================
+# ================================================================
 # QUANTUM WAVE (AKA: PRANA @yoga, QI @taoism, THE FORCE @starwars)
-# =====================
+# ================================================================
 QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
 QWAVE_SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
 
 
-# =====================
+# ================================================================
 # Neutrino particle
-# =====================
+# ================================================================
 NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 
 
-# =====================
+# ================================================================
 # Electron particle
-# =====================
+# ================================================================
 ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_K = 10  # electron wave center count (dimensionless)
 ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
@@ -69,18 +70,18 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
 # a potential explanation for the values of these g-factors is presented as
 # a relation of Earth’s outward velocity and spin velocity against a rest frame for the universe.
 
-# =====================
+# ================================================================
 #  Proton particle
-# =====================
+# ================================================================
 PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_K = 44  # proton wave center count (dimensionless)
 PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
 PROTON_MASS = 1.67262192369e-27  # kg, proton mass from CODATA
 
 
-# =====================
+# ================================================================
 # Classical constants
-# =====================
+# ================================================================
 PLANCK_LENGTH = 1.616255e-35  # m, Planck length
 PLANCK_TIME = 5.391247e-44  # s, Planck time
 PLANCK_MASS = 2.176434e-8  # kg, Planck mass
@@ -99,9 +100,9 @@ COULOMB_CONSTANT = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant, k
 # Q     : particle count in a group (dimensionless)
 
 
-# =====================
+# ================================================================
 # Derivations Wave Constants
-# =====================
+# ================================================================
 def wavelength_derivation():
     """
     Wave Constant - Wavelength Derivation
@@ -143,21 +144,16 @@ def density_derivation():
     # Direct calculation based on the documented formula
     numerator = PLANCK_CONSTANT * 9 * QWAVE_LENGTH**3 * (1 / ELECTRON_ORBITAL_G)
     denominator = (
-        32
-        * np.pi
-        * ELECTRON_K**11
-        * QWAVE_AMPLITUDE**7
-        * QWAVE_SPEED
-        * ELECTRON_OUTER_SHELL
+        32 * np.pi * ELECTRON_K**11 * QWAVE_AMPLITUDE**7 * QWAVE_SPEED * ELECTRON_OUTER_SHELL
     )
     calculated_density = numerator / denominator
     # Return the calculated value to show the relationship
     return calculated_density
 
 
-# =====================
+# ================================================================
 # Derivations Particle Constants
-# =====================
+# ================================================================
 def electron_outer_shell_derivation():
     """
     Particle Constant - Electron Outer Shell Multiplier Derivation
@@ -225,20 +221,13 @@ def proton_orbital_g_derivation():
     """
     # Calculate based on the formula
     numerator = (
-        4
-        * np.pi
-        * QSPACE_DENSITY
-        * (ELECTRON_K**8)
-        * (QWAVE_AMPLITUDE**6)
-        * ELECTRON_OUTER_SHELL
+        4 * np.pi * QSPACE_DENSITY * (ELECTRON_K**8) * (QWAVE_AMPLITUDE**6) * ELECTRON_OUTER_SHELL
     )
     denominator = 9 * (QWAVE_LENGTH**3)
 
     # The full formula with the square root term
     g_factor = (
-        (1 / PROTON_MASS)
-        * (numerator / denominator)
-        * np.sqrt(QWAVE_LENGTH / QWAVE_AMPLITUDE)
+        (1 / PROTON_MASS) * (numerator / denominator) * np.sqrt(QWAVE_LENGTH / QWAVE_AMPLITUDE)
     )
 
     # TODO: This shows the mathematical relationship. The exact value requires

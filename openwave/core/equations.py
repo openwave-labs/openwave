@@ -32,9 +32,9 @@ import numpy as np
 import openwave.core.constants as constants
 
 
-# =====================
+# ================================================================
 # ENERGY WAVE EQUATION
-# =====================
+# ================================================================
 def energy_wave_equation(volume):
     """
     Energy Wave Equation:
@@ -51,14 +51,13 @@ def energy_wave_equation(volume):
     return (
         constants.QSPACE_DENSITY
         * volume
-        * (constants.QWAVE_SPEED / constants.QWAVE_LENGTH * constants.QWAVE_AMPLITUDE)
-        ** 2
+        * (constants.QWAVE_SPEED / constants.QWAVE_LENGTH * constants.QWAVE_AMPLITUDE) ** 2
     )
 
 
-# =====================
+# ================================================================
 # Particle Energy (longitudinal wave)
-# =====================
+# ================================================================
 def particle_energy(K):
     """
     Longitudinal Energy Equation (Particles):
@@ -88,12 +87,10 @@ def particle_energy(K):
     return energy
 
 
-# =====================
+# ================================================================
 # Photon Energy (transverse wave)
-# =====================
-def photon_energy(
-    delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL
-):
+# ================================================================
+def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL):
     """
     Transverse Energy Equation (Photons):
     Used to calculate the energy of photons emitted or absorbed by particles.
@@ -171,9 +168,7 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
         float: Photon wavelength λ_t in meters
     """
     # Calculate the coefficient
-    coefficient = (16 * (Ke**4) * constants.QWAVE_AMPLITUDE) / (
-        3 * constants.QWAVE_LENGTH
-    )
+    coefficient = (16 * (Ke**4) * constants.QWAVE_AMPLITUDE) / (3 * constants.QWAVE_LENGTH)
 
     # Calculate the distance-dependent term (reciprocal)
     distance_term = (delta / r) - (delta / r0)
@@ -185,9 +180,9 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
     return coefficient * (1 / distance_term)
 
 
-# =====================
+# ================================================================
 # Force Equations
-# =====================
+# ================================================================
 def electric_force(
     Q1,
     Q2,
@@ -300,10 +295,7 @@ def gravitational_force(
     """
     # Calculate the coefficient
     coefficient = (
-        constants.QSPACE_DENSITY
-        * (constants.QWAVE_LENGTH**2)
-        * (constants.QWAVE_SPEED**2)
-        * Oe
+        constants.QSPACE_DENSITY * (constants.QWAVE_LENGTH**2) * (constants.QWAVE_SPEED**2) * Oe
     ) / (2 * (Ke**31))
 
     # Amplitude factor
@@ -389,9 +381,9 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
     return coefficient * (g_lambda**2) * (Q**2) / (r**3)
 
 
-# =====================
+# ================================================================
 # Wave Energy at Relativistic Speeds
-# =====================
+# ================================================================
 def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     """
     Longitudinal In-Wave Energy - Complete Form
@@ -567,9 +559,7 @@ def magnetic_out_wave_energy(
     wave_factor = (Ke * amplitude) ** 3 / ((Ke**2) * wavelength) ** 2
 
     term1 = (c * wave_factor) / ((Ke**2) * wavelength * gamma_plus)
-    term2 = (c * wave_factor * np.sqrt(1 / alpha_Ge)) / (
-        (Ke**2) * wavelength * gamma_minus
-    )
+    term2 = (c * wave_factor * np.sqrt(1 / alpha_Ge)) / ((Ke**2) * wavelength * gamma_minus)
 
     # Total energy with g-factors
     energy = (1 / alpha_e) * rho * volume * (term1**2) * (term2**2) * g_lambda * g_A
@@ -577,17 +567,17 @@ def magnetic_out_wave_energy(
     return energy
 
 
-# =====================
+# ================================================================
 # Conversion constants
-# =====================
+# ================================================================
 EV2J = 1.602176634e-19  # J, per electron-volt, eV
 KWH2J = 3.6e6  # J, per kilowatt-hour, kWh
 CAL2J = 4.184  # J, per thermochemical calorie, cal
 
 
-# =====================
+# ================================================================
 # Unit converters
-# =====================
+# ================================================================
 def J_to_eV(energy_J: float) -> float:
     """Convert joules to electron-volts."""
     return energy_J / EV2J
@@ -839,9 +829,7 @@ if __name__ == "__main__":
         E_out = longitudinal_out_wave_energy(K_electron, velocity)
         E_mag = magnetic_out_wave_energy(K_electron, velocity)
 
-        print(
-            f"{v_fraction:<15.2f} {E_in:<15.2e} {E_out:<15.2e} {E_mag:<15.2e} {gamma:<15.2f}"
-        )
+        print(f"{v_fraction:<15.2f} {E_in:<15.2e} {E_out:<15.2e} {E_mag:<15.2e} {gamma:<15.2f}")
 
     # Compare with classical relativistic energy
     print(f"\nComparison with Classical Relativity:")
