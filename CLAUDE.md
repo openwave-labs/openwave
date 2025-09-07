@@ -59,7 +59,7 @@ The `/research_requirements/scientific_source/` directory contains foundational 
 - a1. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
 - a2. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf
 - a3. The Physics of SubAtomic Particles.pdf
-- a4. Relationship of the Speed of Light to Aether Density.docx (contains Planck mass correction)
+- a4. Relationship of the Speed of Light to Aether Density (contains Planck mass correction)
 - a5. The Relationship of Planck Constants and Wave Constants v2.pdf
 - a6. Constants and Equations - Waves.pdf (primary constants reference)
 - a7. Constants and Equations - Classical.pdf
