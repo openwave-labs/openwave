@@ -247,7 +247,7 @@ AWS: ✅ WINNER
 3. **Simulation exceeds 48GB memory**
 
    ```python
-   # Need billions of granules
+   # Need trillions of granules
    # p4d.24xlarge with 320GB HBM2
    ```
 

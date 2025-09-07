@@ -26,7 +26,7 @@ class Granule:
 
 @ti.data_oriented
 class Lattice2D:
-    # Granule Count on Lattice: Potentially billions of granules requiring
+    # Granule Count on Lattice: Potentially trillions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
     def __init__(self, scale_factor):
         self.size = config.UNIVERSE_RADIUS
@@ -79,9 +79,7 @@ def render_lattice():
             previous_scale = scale.value
 
         # Calculate screen radius for current granule size
-        universe_to_screen_ratio = (
-            min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
-        )
+        universe_to_screen_ratio = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
         screen_radius = granule.radius * universe_to_screen_ratio
 
         # Ensure minimum visible radius
@@ -105,9 +103,7 @@ def render_lattice():
                 screen_y = (universe_pos[1] + offset) / lattice.size
 
                 # Draw granule as white circle
-                gui.circle(
-                    [screen_x, screen_y], color=0xFFFFFF, radius=int(screen_radius)
-                )
+                gui.circle([screen_x, screen_y], color=0xFFFFFF, radius=int(screen_radius))
 
         gui.show()
 

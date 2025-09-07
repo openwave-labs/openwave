@@ -30,7 +30,7 @@ class GranulePhysics:
 
 @ti.data_oriented
 class Lattice2DPhysics:
-    # Granule Count on Lattice: Potentially billions of granules requiring
+    # Granule Count on Lattice: Potentially trillions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
 
     og_universe_radius = config.UNIVERSE_RADIUS  # m

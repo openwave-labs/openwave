@@ -27,6 +27,14 @@
 
 ### Mid-Range Workstations ($5,000-$15,000)
 
+#### Single RTX 5090 System (Latest 2025)
+
+- 1x RTX 5090 (104.8 TFLOPS FP32, 318 TFLOPS RT)
+- 32GB GDDR7 (1,792 GB/s bandwidth)
+- Price: $4,000-6,000 (GPU: $1,999)
+- **7.8x more compute than M4 Max**
+- **3.3x memory bandwidth vs M4 Max**
+
 #### Single RTX 4090 System
 
 - 1x RTX 4090 (82.6 TFLOPS)
@@ -63,7 +71,9 @@
 |--------|-----------|---------|-------------------|-------|-----------|
 | **Your M4 Max** | 13.5 TFLOPS | 48GB | 800M | Owned | Baseline |
 | Mac Studio M2 Ultra | 27 TFLOPS | 192GB | 3.2B | $8,000 | 2x compute, 4x granules |
+| RTX 5090 System | 104.8 TFLOPS | 32GB | 533M | $5,000 | 7.8x compute, 0.67x granules |
 | RTX 4090 System | 82.6 TFLOPS | 24GB | 400M | $4,000 | 6x compute, 0.5x granules |
+| 2x RTX 5090 | 210 TFLOPS | 64GB | 1.1B | $10,000 | 15.5x compute* |
 | 2x RTX 4090 | 165 TFLOPS | 48GB | 800M | $8,000 | 12x compute* |
 | 4x RTX 4090 | 330 TFLOPS | 96GB | 1.6B | $15,000 | 24x compute* |
 | DGX Station A100 | 624 TFLOPS | 320GB | 5.3B | $50,000 | 46x compute* |
@@ -73,6 +83,13 @@
 ## Key Considerations for OpenWave
 
 ### Best Single-GPU Upgrade
+
+#### RTX 5090 System ($5,000)
+
+- 7.8x faster compute (104.8 TFLOPS)
+- 32GB GDDR7 memory (vs your 48GB)
+- 3.3x memory bandwidth (1,792 GB/s vs 546 GB/s)
+- Latest Blackwell architecture with improved AI/tensor performance
 
 #### RTX 4090 System ($4,000)
 
@@ -102,9 +119,9 @@ For OpenWave's current single-GPU architecture:
 
 1. **If staying with current code**: Mac Studio M2 Ultra offers best upgrade path (2x compute, 4x memory, same ecosystem)
 
-2. **If willing to optimize for NVIDIA**: Single RTX 4090 system gives 6x compute boost for half the price of Mac Studio
+2. **If willing to optimize for NVIDIA**: Single RTX 5090 system gives 7.8x compute boost with 32GB memory for less than Mac Studio
 
-3. **If planning multi-GPU support**: 2x RTX 4090 custom build ($8,000) offers incredible value
+3. **If planning multi-GPU support**: 2x RTX 5090 custom build ($10,000) offers 15.5x compute with 64GB total memory
 
 ### Current M4 Max Assessment
 
@@ -118,10 +135,10 @@ Your M4 Max is actually quite competitive for its form factor. The main limitati
 
 The sweet spot upgrade would be either:
 
-- **Mac Studio M2 Ultra** for memory-bound simulations
-- **RTX 4090 system** for compute-bound work
+- **Mac Studio M2 Ultra** for memory-bound simulations (192GB unified memory)
+- **RTX 5090 system** for compute-bound work (7.8x compute, 32GB GDDR7)
 
-The choice depends on OpenWave's specific bottlenecks.
+The RTX 5090's increased memory (32GB vs RTX 4090's 24GB) and massive bandwidth (1,792 GB/s) makes it more viable for OpenWave's simulations.
 
 ## Cost-Benefit Analysis
 
@@ -132,12 +149,13 @@ The choice depends on OpenWave's specific bottlenecks.
 
 ### Production/Scale Testing
 
-- Mac Studio M2 Ultra: Best for large universe simulations
-- RTX 4090: Best for compute-intensive parameter sweeps
+- Mac Studio M2 Ultra: Best for large universe simulations (192GB memory)
+- RTX 5090: Best for compute-intensive parameter sweeps (104.8 TFLOPS, 32GB)
 
 ### Future Multi-GPU Development
 
-- 2x RTX 4090 custom build offers best performance per dollar
+- 2x RTX 5090 custom build offers superior performance (210 TFLOPS, 64GB combined)
+- 2x RTX 4090 remains good value option ($8,000 vs $10,000)
 - Requires significant code refactoring for multi-GPU support
 
 ## Conclusion

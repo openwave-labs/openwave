@@ -429,4 +429,4 @@ OpenWave is partially ready for distributed computing but needs significant modi
 - EKS/Batch for orchestration
 - CloudWatch for monitoring
 
-The investment in distributed architecture will pay off when simulating billions of particles or exploring parameter spaces in parallel.
+The investment in distributed architecture will pay off when simulating trillions of particles or exploring parameter spaces in parallel.
