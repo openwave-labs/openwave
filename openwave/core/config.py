@@ -33,22 +33,22 @@ UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 # ================================================================
 # Screen settings
 # ================================================================
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 900
+SCREEN_WIDTH = 900  # pixels
+SCREEN_HEIGHT = 900  # pixels
 
 # ================================================================
 # Color settings (RGBA hex)
 # ================================================================
-COLOR_SPACE = ["#000000ff", 0x000000]  # black (background, void, emptiness)
-COLOR_INFRA = ["#ffffffff", 0xFFFFFF]  # white (granules, wire-framing, grids)
-COLOR_QWAVES = ["#ff00eeff", 0xFF00EE]  # magenta (quantum waves, wave functions)
-COLOR_FIELDS = ["#00ffffff", 0x00FFFF]  # cyan (fields, field lines)
-COLOR_MATTER = ["#0000ffff", 0x0000FF]  # blue (matter, particles)
-COLOR_ANTIMATTER = ["#ff7f00ff", 0xFF7F00]  # orange (antimatter, antiparticles)
-COLOR_MOTION = ["#04ff00ff", 0x04FF00]  # green (motion, velocity vectors)
-COLOR_PHOTON = ["#ffea00ff", 0xFFEA00]  # yellow (photons, light particles)
-COLOR_HEAT = ["#ff0000ff", 0xFF0000]  # red (heat, thermal energy)
-COLOR_ENERGY = ["#8b00ffff", 0x8B00FF]  # purple (energy, energy packets)
+COLOR_SPACE = ["#000000ff", 0x000000, (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
+COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (granules, wire-framing, grids)
+COLOR_QWAVES = ["#ff00eeff", 0xFF00EE, (1.0, 0.0, 0.93)]  # magenta (quantum waves, wave functions)
+COLOR_FIELDS = ["#00ffffff", 0x00FFFF, (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
+COLOR_MATTER = ["#0000ffff", 0x0000FF, (0.0, 0.0, 1.0)]  # blue (matter, particles)
+COLOR_ANTIMATTER = ["#ff7f00ff", 0xFF7F00, (1.0, 0.5, 0.0)]  # orange (antimatter, antiparticles)
+COLOR_MOTION = ["#04ff00ff", 0x04FF00, (0.25, 1.0, 0.25)]  # green (motion, velocity vectors)
+COLOR_PHOTON = ["#ffea00ff", 0xFFEA00, (1.0, 0.92, 0.0)]  # yellow (photons, light particles)
+COLOR_HEAT = ["#ff0000ff", 0xFF0000, (1.0, 0.0, 0.0)]  # red (heat, thermal energy)
+COLOR_ENERGY = ["#8b00ffff", 0x8B00FF, (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
 
 
 # # Screen resolution definitions

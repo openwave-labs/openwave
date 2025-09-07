@@ -70,9 +70,7 @@ class GranuleRender:
     min_granule_radius = 1  # pixels, min radius clamp for visibility
 
     def __init__(self, lattice_spacing):
-        # Calculate radius in pixels, then convert to normalized (0.0-1.0) range
-        radius = max(self.min_granule_radius, lattice_spacing / (2 * np.e))
-        self.normalized_radius = radius / min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
+        self.radius = max(self.min_granule_radius, lattice_spacing / (2 * np.e))  # pixels
 
 
 @ti.data_oriented
@@ -82,31 +80,24 @@ class Lattice2DRender:
     universe_length = screen_size  # pixels, universe side length
     linear_count = round(universe_length / lattice_spacing)  # number of granules
 
-    # Convert pixel values to normalized (0.0-1.0) range for GGUI
-    normalized_spacing_x = lattice_spacing / config.SCREEN_WIDTH
-    normalized_spacing_y = lattice_spacing / config.SCREEN_HEIGHT
-
-    # Create normalized offset to center the lattice on display
-    offset_x_pixels = (config.SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
-    offset_y_pixels = (config.SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
-    normalized_offset_x = offset_x_pixels / config.SCREEN_WIDTH
-    normalized_offset_y = offset_y_pixels / config.SCREEN_HEIGHT
+    # Create offset to center the lattice on display
+    offset_x = (config.SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
+    offset_y = (config.SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
 
     def granule_positions(self):
-        # use taichi primitive types - now storing normalized positions directly
+        # use taichi primitive types
         self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.linear_count, self.linear_count))
         self._populate_grid()
         return self.grid
 
     @ti.kernel
     def _populate_grid(self):
-        # taichi: parallelized for loop - now computing normalized positions directly
+        # taichi: parallelized for loop
         for i, j in self.grid:
-            # Positions are already in normalized (0.0-1.0) range for GGUI
             self.grid[i, j] = ti.Vector(
                 [
-                    i * self.normalized_spacing_x + self.normalized_offset_x,
-                    j * self.normalized_spacing_y + self.normalized_offset_y,
+                    i * self.lattice_spacing + self.offset_x,
+                    j * self.lattice_spacing + self.offset_y,
                 ]
             )
 
@@ -116,53 +107,49 @@ def render_lattice():
 
     # Initialize instances for rendering
     lattice = Lattice2DRender()
-    positions = lattice.granule_positions()  # Already normalized for GGUI
-    granule_radius = GranuleRender(lattice.lattice_spacing).normalized_radius  # Already normalized
-    bkg_color = config.COLOR_SPACE[2]  # background
-    circle_color = config.COLOR_INFRA[2]  # granules
+    positions = lattice.granule_positions()
+    granule_radius = GranuleRender(lattice.lattice_spacing).radius  # pixels
+    bkg_color = config.COLOR_SPACE[1]  # background
+    circle_color = config.COLOR_INFRA[1]  # granules
 
     print("_______________________________")
     print("Lattice 2D Render initialized.")
     print(f"Lattice spacing: {lattice.lattice_spacing} pixels")
     print(f"Granule linear count: {lattice.linear_count:,} granules")
     print(f"Granule positions populated: {lattice.linear_count**2:,} granules")
-    print(f"Granule Radius (normalized): {granule_radius:.6f}")
+    print(f"Granule Radius: {granule_radius:.2f} pixels")
 
     print("_______________________________")
-    print(f"Creating GGUI window: {config.SCREEN_WIDTH}x{config.SCREEN_HEIGHT}")
+    print(f"Creating GUI window: {config.SCREEN_WIDTH}x{config.SCREEN_HEIGHT}")
 
-    # Create GGUI Window
-    window = ti.ui.Window(
-        "Quantum Granule Lattice (GGUI)", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT), vsync=True
-    )
-    canvas = window.get_canvas()
+    # Create GUI
+    gui = ti.GUI("Quantum Granule Lattice (GUI)", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
-    # Flatten the 2D grid into a 1D field for batch rendering
+    # Pre-compute normalized positions for batch rendering
+    print("Pre-computing normalized positions...")
+    positions_np = positions.to_numpy()
+
+    # Reshape and normalize positions for batch rendering
     total_points = lattice.linear_count * lattice.linear_count
-    vertices = ti.Vector.field(2, dtype=ti.f32, shape=total_points)
+    normalized_positions = np.zeros((total_points, 2), dtype=np.float32)
 
-    # Copy positions from 2D grid to 1D field (positions are already normalized)
-    @ti.kernel
-    def flatten_positions():
-        for i in range(lattice.linear_count):
-            for j in range(lattice.linear_count):
-                idx = i * lattice.linear_count + j
-                vertices[idx] = positions[i, j]
+    idx = 0
+    for i in range(lattice.linear_count):
+        for j in range(lattice.linear_count):
+            normalized_positions[idx, 0] = positions_np[i, j][0] / config.SCREEN_WIDTH
+            normalized_positions[idx, 1] = positions_np[i, j][1] / config.SCREEN_HEIGHT
+            idx += 1
 
-    flatten_positions()
-
-    print(f"Prepared {total_points:,} normalized positions")
     print("Starting render loop...")
 
-    while window.running:
-        # Set background color
-        canvas.set_background_color(bkg_color)
+    while gui.running:
+        # Clear to black background
+        gui.clear(bkg_color)
 
-        # Draw circles using Canvas - positions and radius are already normalized
-        canvas.circles(vertices, radius=granule_radius, color=circle_color)
+        # Batch render all circles at once - MUCH faster than individual draws
+        gui.circles(normalized_positions, color=circle_color, radius=granule_radius)
 
-        # Show the window
-        window.show()
+        gui.show()
 
 
 # ==================================================================
@@ -186,6 +173,7 @@ if __name__ == "__main__":
 # ================================================================
 # Optimizations Applied to quantum_space.py:
 # ================================================================
+
 #   1. Taichi Kernel for Parallel Computation: Added
 #   compute_screen_positions() kernel that computes all screen
 #   positions in parallel on the GPU
@@ -226,22 +214,3 @@ if __name__ == "__main__":
 #   outside the loop
 
 #   significantly speeding up rendering, especially with smaller lattice spacing.
-
-
-# ================================================================
-# Conversion from GUI to GGUI
-# ================================================================
-# Converted the rendering system from ti.GUI to ti.ui.Window with
-#   Canvas. Key changes:
-
-#   1. Window creation: Using ti.ui.Window() instead of ti.GUI()
-#   2. Canvas rendering: Using window.get_canvas() for 2D drawing
-#   3. Taichi fields: Created a vertices field instead of numpy array
-#   (GGUI prefers fields)
-#   4. Normalized coordinates: All positions and radius normalized to
-#   0.0-1.0 range
-#   5. Color format: Using normalized RGB tuples instead of hex values
-#   6. VSync enabled: Added vsync=True for smoother rendering
-
-#   The Canvas feature provides efficient 2D rendering while maintaining
-#    compatibility with Taichi's GPU acceleration.
