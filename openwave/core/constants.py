@@ -44,7 +44,7 @@ QSPACE_DENSITY = 3.859764540e22  # kg / m^3, quantum-space density (aether mediu
 
 
 # ================================================================
-# QUANTUM WAVE (AKA: PRANA @yoga, QI @taoism, THE FORCE @starwars)
+# QUANTUM WAVE (AKA: PRANA @yoga, QI @taoism, JEDI FORCE @starwars)
 # ================================================================
 QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
