@@ -119,7 +119,7 @@ def render_lattice():
     positions = lattice.granule_positions()
     granule_radius = GranuleRender(lattice.lattice_spacing).radius  # pixels
     bkg_color = config.COLOR_SPACE[1]  # background
-    circle_color = config.COLOR_INFRA[1]  # granules
+    circle_color = config.COLOR_GRANULE[1]  # granules
 
     print("Lattice 2D Render initialized.")
     print(f"\nLattice spacing: {lattice.lattice_spacing} pixels")

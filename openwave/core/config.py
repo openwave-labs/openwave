@@ -40,7 +40,8 @@ SCREEN_HEIGHT = 900  # pixels
 # Color settings (RGBA hex)
 # ================================================================
 COLOR_SPACE = ["#000000ff", 0x000000, (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
-COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (granules, wire-framing, grids)
+COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)
+COLOR_GRANULE = ["#1a99e6ff", 0x1A99E6, (0.1, 0.6, 0.9)]  # blue (granules)
 COLOR_QWAVES = ["#ff00eeff", 0xFF00EE, (1.0, 0.0, 0.93)]  # magenta (quantum waves, wave functions)
 COLOR_FIELDS = ["#00ffffff", 0x00FFFF, (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
 COLOR_MATTER = ["#0000ffff", 0x0000FF, (0.0, 0.0, 1.0)]  # blue (matter, particles)
