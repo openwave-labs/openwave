@@ -36,7 +36,7 @@ Detailed development documentation available in `/dev_docs/`:
 ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   pip install .  # installs dependencies from pyproject.toml
+   pip install -e .  # installs dependencies from pyproject.toml
    ```
 
 - **Create a Branch**
@@ -44,6 +44,20 @@ Detailed development documentation available in `/dev_docs/`:
 ```bash
    git checkout -b your-feature-name
    ```
+
+### Optional: LaTex & FFmpeg (video generation)
+
+```bash
+# Install LaTeX and FFmpeg (macOS)
+brew install --cask mactex-no-gui ffmpeg
+echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
+exec zsh -l
+
+# Verify LaTeX installation
+which latex && latex --version
+which dvisvgm && dvisvgm --version
+which gs && gs --version
+```
 
 ---
 

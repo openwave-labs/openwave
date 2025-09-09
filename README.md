@@ -147,9 +147,9 @@ class `I/O
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
 
-## Installation *--WORK IN PROGRESS--*
+## Installation
 
-### On macOS / conda
+### On Linux / macOS (conda)
 
 ```bash
 # Clone the repository
@@ -161,36 +161,30 @@ conda activate openwave312
 
 # Install dependencies
 cd openwave
-pip install -e .  # reads dependencies from pyproject.toml
-
-# Install LaTeX and FFmpeg (macOS)
-brew install --cask mactex-no-gui ffmpeg
-echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
-exec zsh -l
-```
-
-#### Verification
-
-```bash
-# Verify LaTeX installation
-which latex && latex --version
-which dvisvgm && dvisvgm --version
-which gs && gs --version
+pip install .  # reads dependencies from pyproject.toml
 
 # IF issues, remove virtual environment and start over again
 conda env remove -n openwave312
 ```
 
-### On Linux
+### On Windows *--WORK IN PROGRESS--*
 
 ```bash
 TBD
 ```
 
-### On Windows
+### Optional: LaTex & FFmpeg (video generation)
 
 ```bash
-TBD
+# Install LaTeX and FFmpeg (macOS)
+brew install --cask mactex-no-gui ffmpeg
+echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
+exec zsh -l
+
+# Verify LaTeX installation
+which latex && latex --version
+which dvisvgm && dvisvgm --version
+which gs && gs --version
 ```
 
 ## CLI Usage *--WORK IN PROGRESS--*
