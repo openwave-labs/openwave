@@ -3,24 +3,9 @@ Configuration settings for the OpenWave project.
 
 This module provides global configuration parameters for OpenWave simulations:
 
-Universe Settings:
-- Simulation size and time rate multipliers
-
-Display Settings:
-- Screen resolution (width, height)
-- Default: 1280x720
-
-Color Scheme (RGBA hex):
-- Space: Black (#000000ff) - background/void
-- Infrastructure: White (#ffffffff) - granules/wireframes/grids
-- Quantum waves: Magenta (#ff00eeff) - wave functions
-- Fields: Cyan (#00ffffff) - field lines
-- Matter: Blue (#0000ffff) - particles
-- Antimatter: Orange (#ff7f00ff) - antiparticles
-- Motion: Green (#04ff00ff) - velocity vectors
-- Photons: Yellow (#ffea00ff) - light particles
-- Heat: Red (#ff0000ff) - thermal energy
-- Energy: Purple (#8b00ffff) - energy packets
+- Universe Settings
+- Display Settings
+- Color Scheme (RGBA hex)
 
 Includes commented thermal imaging palette definitions for future use.
 """
@@ -52,7 +37,7 @@ COLOR_HEAT = ["#ff0000ff", 0xFF0000, (1.0, 0.0, 0.0)]  # red (heat, thermal ener
 COLOR_ENERGY = ["#8b00ffff", 0x8B00FF, (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
 
 
-# # Screen resolution definitions
+# # Future screen resolution definitions
 # [resolutions.low]
 # width = 640
 # height = 480
@@ -70,7 +55,7 @@ COLOR_ENERGY = ["#8b00ffff", 0x8B00FF, (0.55, 0.0, 0.85)]  # purple (energy, ene
 # height = 2160
 
 
-# #THERMAL IMAGING PALLETTE
+# # FUTURE THERMAL IMAGING PALLETTE
 # #https://stackoverflow.com/questions/28495390/thermal-imaging-palette
 
 # ironbow        = ["#000000ff", "#20008aff", "#cc0077ff", "#ff0000ff", "#ff7b00ff", "#ffcc00ff", "#FFFFFF"]
