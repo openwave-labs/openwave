@@ -274,15 +274,4 @@ See `/dev_docs` for coding standards and development guidelines
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-## Credits Timeline
-
 Real human power comes from collaboration.
-
-| Public Legacy             | Credit                                            | Work |
-| :---                      | :---                                              | :--- |
-| Wave Structure of Matter  | Dr. Milo Wolff, Gabriel LaFreniere and Xavier Borg| Pioneer models (books, webpages) |
-| Energy Wave Theory        | Jeff Yee                                          | Physics modeling, numerical validation and initial simulator design (research papers, books, webpages and videos) |
-| OpenWave Simulator        | Rodrigo Griesi & Jeff Yee                         | Initial work on a programmatic validation, visualization and experimentation tool for the Energy Wave Theory (open-source computer based simulator) |
-| OpenWave Simulator        | development community (coming soon)               | Continuous development                        |
-| Open-Source Libraries     | numpy, scipy, matplotlib, taichi, ffmpeg          | Development of open-source software packages by multiple communities (open-source libraries) |
-| Others to come...         |                                                   |  |
