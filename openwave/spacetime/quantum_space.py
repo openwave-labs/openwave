@@ -1,6 +1,7 @@
 """
 QUANTUM SPACE
 (AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
+QUANTUM SPACE is a Wave-Medium and Propagates Wave-Motions (QUANTUM WAVE).
 Modeled as an elastic fluid structure (compressible),
 that allows energy to transfer from one point to the next.
 """
