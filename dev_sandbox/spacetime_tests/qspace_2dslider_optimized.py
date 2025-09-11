@@ -12,6 +12,10 @@ import openwave.core.constants as constants
 
 ti.init(arch=ti.gpu)
 
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+SCREEN_WIDTH = 900  # pixels
+SCREEN_HEIGHT = 900  # pixels
+
 
 class Granule:
     def __init__(self, scale_factor):
@@ -24,14 +28,10 @@ class Granule:
 @ti.data_oriented
 class Lattice2D:
     def __init__(self, scale_factor):
-        self.size = config.UNIVERSE_RADIUS
+        self.size = UNIVERSE_RADIUS
         self.max_count = 1000  # Pre-allocate max size
-        self.grid = ti.Vector.field(
-            2, dtype=float, shape=(self.max_count, self.max_count)
-        )
-        self.screen_pos = ti.Vector.field(
-            2, dtype=float, shape=(self.max_count, self.max_count)
-        )
+        self.grid = ti.Vector.field(2, dtype=float, shape=(self.max_count, self.max_count))
+        self.screen_pos = ti.Vector.field(2, dtype=float, shape=(self.max_count, self.max_count))
         self.update_scale(scale_factor)
 
     def update_scale(self, scale_factor):
@@ -59,7 +59,7 @@ def render_lattice_optimized():
     """Optimized render of the granule lattice in 2D GUI"""
     gui = ti.GUI(
         "Quantum Granule Lattice - Optimized",
-        (config.SCREEN_WIDTH, config.SCREEN_HEIGHT),
+        (SCREEN_WIDTH, SCREEN_HEIGHT),
     )
     scale = gui.slider("Granule Scale", -19, -17, step=1)
     granule_line = gui.label("Granule Line")
@@ -74,9 +74,7 @@ def render_lattice_optimized():
     lattice = Lattice2D(scale_factor)
 
     # Pre-compute constants
-    universe_to_screen_ratio = (
-        min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
-    )
+    universe_to_screen_ratio = min(SCREEN_WIDTH, SCREEN_HEIGHT) / lattice.size
     screen_radius = max(granule.radius * universe_to_screen_ratio, 1)
     offset = (lattice.size - lattice.spacing * (lattice.count - 1)) / 2
 
@@ -90,9 +88,7 @@ def render_lattice_optimized():
             lattice.update_scale(scale_factor)
 
             # Recalculate cached values
-            universe_to_screen_ratio = (
-                min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
-            )
+            universe_to_screen_ratio = min(SCREEN_WIDTH, SCREEN_HEIGHT) / lattice.size
             screen_radius = max(granule.radius * universe_to_screen_ratio, 1)
             offset = (lattice.size - lattice.spacing * (lattice.count - 1)) / 2
 
@@ -112,9 +108,7 @@ def render_lattice_optimized():
         # Batch draw all circles
         for i in range(lattice.count):
             for j in range(lattice.count):
-                gui.circle(
-                    screen_positions[i, j], color=0xFFFFFF, radius=int(screen_radius)
-                )
+                gui.circle(screen_positions[i, j], color=0xFFFFFF, radius=int(screen_radius))
 
         gui.show()
 

@@ -16,6 +16,10 @@ ti.init(arch=ti.gpu)
 # Physics Engine
 # ==================================================================
 
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+SCREEN_WIDTH = 900  # pixels
+SCREEN_HEIGHT = 900  # pixels
+
 
 class GranulePhysics:
     # Granule Model: The aether consists of "granules".
@@ -33,7 +37,7 @@ class Lattice2DPhysics:
     # Granule Count on Lattice: Potentially trillions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
 
-    og_universe_radius = config.UNIVERSE_RADIUS  # m
+    og_universe_radius = UNIVERSE_RADIUS  # m
     og_lattice_spacing = 2 * constants.PLANCK_LENGTH * np.e  # m, Planck-scale
     min_lattice_spacing = 5e-21  # m, min spacing clamp, for computability
     max_lattice_spacing = 1e-17  # m, max spacing clamp, less than QWave-scale
@@ -75,14 +79,14 @@ class GranuleRender:
 
 @ti.data_oriented
 class Lattice2DRender:
-    screen_size = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
+    screen_size = min(SCREEN_WIDTH, SCREEN_HEIGHT)
     lattice_spacing = 6  # pixels, increased spacing for visibility and performance
     universe_length = screen_size  # pixels, universe side length
     linear_count = round(universe_length / lattice_spacing)  # number of granules
 
     # Create offset to center the lattice on display
-    offset_x = (config.SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
-    offset_y = (config.SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
+    offset_x = (SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
+    offset_y = (SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
 
     def granule_positions(self):
         # use taichi primitive types
@@ -120,10 +124,10 @@ def render_lattice():
     print(f"Granule Radius: {granule_radius:.2f} pixels")
 
     print("_______________________________")
-    print(f"Creating GUI window: {config.SCREEN_WIDTH}x{config.SCREEN_HEIGHT}")
+    print(f"Creating GUI window: {SCREEN_WIDTH}x{SCREEN_HEIGHT}")
 
     # Create GUI
-    gui = ti.GUI("Quantum Granule Lattice (GUI)", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+    gui = ti.GUI("Quantum Granule Lattice (GUI)", (SCREEN_WIDTH, SCREEN_HEIGHT))
 
     # Pre-compute normalized positions for batch rendering
     print("Pre-computing normalized positions...")
@@ -136,8 +140,8 @@ def render_lattice():
     idx = 0
     for i in range(lattice.linear_count):
         for j in range(lattice.linear_count):
-            normalized_positions[idx, 0] = positions_np[i, j][0] / config.SCREEN_WIDTH
-            normalized_positions[idx, 1] = positions_np[i, j][1] / config.SCREEN_HEIGHT
+            normalized_positions[idx, 0] = positions_np[i, j][0] / SCREEN_WIDTH
+            normalized_positions[idx, 1] = positions_np[i, j][1] / SCREEN_HEIGHT
             idx += 1
 
     print("Starting render loop...")

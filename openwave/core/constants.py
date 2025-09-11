@@ -4,9 +4,7 @@ Energy Wave Theory (EWT) constants module.
 This module provides fundamental constants for Energy Wave Theory simulations,
 sourced from https://energywavetheory.com/equations/
 
-All values use SI units (kg, m, s) for consistency. Constants include
-alternative naming conventions from various traditions (yoga, taoism, etc.)
-for conceptual understanding.
+All values use SI units (kg, m, s) for consistency.
 """
 
 import numpy as np

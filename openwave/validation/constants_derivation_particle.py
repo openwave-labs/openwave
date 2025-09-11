@@ -7,9 +7,7 @@ sourced from https://energywavetheory.com/equations/
 Derivation Functions:
 - Particle constant derivations (outer shell, g-factors)
 
-All values use SI units (kg, m, s) for consistency. Constants include
-alternative naming conventions from various traditions (yoga, taoism, etc.)
-for conceptual understanding.
+All values use SI units (kg, m, s) for consistency.
 """
 
 import numpy as np

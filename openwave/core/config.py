@@ -3,26 +3,21 @@ Configuration settings for the OpenWave project.
 
 This module provides global configuration parameters for OpenWave simulations:
 
-- Universe Settings
-- Display Settings
+- Resolution Settings
 - Color Scheme (RGBA hex)
 
 Includes commented thermal imaging palette definitions for future use.
 """
 
 # ================================================================
-# Universe settings
+# Resolution Settings
 # ================================================================
-UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+QSPACE_RES = [100, 100, 100]  # granules, xyz, computing capacity
+SCREEN_RES = [1200, 900]  # pixels, width x height, screen capacity
+
 
 # ================================================================
-# Screen settings
-# ================================================================
-SCREEN_WIDTH = 900  # pixels
-SCREEN_HEIGHT = 900  # pixels
-
-# ================================================================
-# Color settings (RGBA hex)
+# Color Settings (RGBA hex)
 # ================================================================
 COLOR_SPACE = ["#000000ff", 0x000000, (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
 COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)

@@ -1,7 +1,8 @@
 """
 Energy Wave Theory (EWT) equations module.
 
-This module implements the core mathematical equations of Energy Wave Theory including:
+This module implements the core mathematical equations of Energy Wave Theory,
+sourced from https://energywavetheory.com/equations/
 
 Energy Equations:
 - Energy wave equation (fundamental EWT equation)
@@ -40,7 +41,7 @@ def energy_wave_equation(volume):
     Energy Wave Equation:
     The fundamental equation from which all EWT equations are derived.
 
-    E = ρV(c/λl * A)²
+    E = ρV(c/λ * A)²
 
     Args:
         volume (float): Volume V in m³
@@ -63,7 +64,7 @@ def particle_energy(K):
     Longitudinal Energy Equation (Particles):
     Used to calculate the rest energy of particles.
 
-    E_l(K) = (4πρK⁵A_l⁶c²/3λ_l³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+    E_l(K) = (4πρK⁵A⁶c²/3λ³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -95,7 +96,7 @@ def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_O
     Transverse Energy Equation (Photons):
     Used to calculate the energy of photons emitted or absorbed by particles.
 
-    E_t = (2πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * ((δ/r) - (δ/r_0))
+    E_t = (2πρK_e^7 A^6 c^2 Oe / 3λ^2) * ((δ/r) - (δ/r0))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -129,7 +130,7 @@ def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
     Photon Frequency:
     Calculates the frequency of a photon based on amplitude changes at different distances.
 
-    f = (3λ_l c / 16K_e^4 A_l) * ((δ/r) - (δ/r_0))
+    f = (3λ c / 16K_e^4 A) * ((δ/r) - (δ/r_0))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -156,7 +157,7 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
     Photon Wavelength:
     Calculates the wavelength of a photon based on amplitude changes at different distances.
 
-    λ_t = (16K_e^4 A_l / 3λ_l) * (1 / ((δ/r) - (δ/r_0)))
+    λ_t = (16K_e^4 A / 3λ) * (1 / ((δ/r) - (δ/r_0)))
 
     Args:
         delta (float): Amplitude factor (dimensionless)
@@ -195,7 +196,7 @@ def electric_force(
     Electric Force:
     Force between charged particles based on particle energy at distance.
 
-    F_e = (4πρK_e^7 A_l^6 c^2 O_e / 3λ_l^2) * g_λ * (Q1*Q2 / r^2)
+    F_e = (4πρK_e^7 A^6 c^2 Oe / 3λ^2) * g_λ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -237,7 +238,7 @@ def magnetic_force(
     Magnetic Force:
     Electromagnetic force for particles in motion (induced current).
 
-    F_m = (4πρK_e^7 A_l^6 O_e / 3λ_l^2) * g_λ * (Q1*Q2*v^2 / r^2)
+    F_m = (4πρK_e^7 A^6 Oe / 3λ_^2) * g_λ * (Q1*Q2*v^2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -279,7 +280,7 @@ def gravitational_force(
     Gravitational Force:
     Force based on amplitude loss in wave interactions.
 
-    F_g = (ρλ_l^2 c^2 O_e / 2K_e^31) * (A_l/36)^2 * g_λ^3 * g_p^2 * (Q1*Q2 / r^2)
+    F_g = (ρλ^2 c^2 Oe / 2K_e^31) * (A/36)^2 * g_λ^3 * g_p^2 * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Mass/particle count of first particle (dimensionless)
@@ -320,7 +321,7 @@ def strong_force(
     Strong Force:
     Nuclear force keeping particles bound in atomic nuclei.
 
-    F_s = (16ρK_e^11 A_l^7 c^2 O_e / 9λ_l^3) * g_λ * (Q1*Q2 / r^2)
+    F_s = (16ρK_e^11 A^7 c^2 Oe / 9λ^3) * g_λ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Particle count of first particle (dimensionless)
@@ -353,7 +354,7 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
     Orbital Force:
     Force keeping electrons in orbit around atomic nuclei.
 
-    F_o = (64ρK_e^17 A_l^8 c^2 O_e / 27πλ_l^3) * g_λ^2 * (Q^2 / r^3)
+    F_o = (64ρK_e^17 A^8 c^2 Oe / 27πλ^3) * g_λ^2 * (Q^2 / r^3)
 
     Args:
         Q (float): Particle/charge count (dimensionless)
@@ -390,8 +391,8 @@ def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     Calculates the in-wave energy for particles at relativistic speeds.
     The complete form includes relativistic wavelength changes.
 
-    E_l(in) = (1/2) * ρ * (4π/3 * K * λl)³ * [(c * (Ke*Al)³) / (λl * √(1 + v/c) * (Ke*λl)²)]²
-            * [(c * (Ke*Al)³) / (λl * √(1 - v/c) * (Ke*λl)²)]²
+    E_l(in) = (1/2) * ρ * (4π/3 * K * λ)³ * [(c * (Ke*A)³) / (λ * √(1 + v/c) * (Ke*λ)²)]²
+            * [(c * (Ke*A)³) / (λ * √(1 - v/c) * (Ke*λ)²)]²
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -447,9 +448,9 @@ def longitudinal_out_wave_energy(
     Calculates the out-wave energy for particles at relativistic speeds.
     Includes amplitude loss due to particle spin (important for gravity/magnetism).
 
-    E_l(out) = (1/2) * ρ * (4π/3 * K * λl)³ *
-               [(c * (Ke*Al)³ * Ke * (Al - Al*√αGe)) / (λl * √(1 + v/c) * (Ke*λl)²)]² *
-               [(c * (Ke*Al)³ * Ke * (Al + Al*√αGe)) / (λl * √(1 - v/c) * (Ke*λl)²)]²
+    E_l(out) = (1/2) * ρ * (4π/3 * K * λ)³ *
+               [(c * (Ke*A)³ * Ke * (A - A*√αGe)) / (λ * √(1 + v/c) * (Ke*λ)²)]² *
+               [(c * (Ke*A)³ * Ke * (A + A*√αGe)) / (λ * √(1 - v/c) * (Ke*λ)²)]²
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -516,8 +517,8 @@ def magnetic_out_wave_energy(
     Calculates the transverse (magnetic) out-wave energy for particles at relativistic speeds.
     This is related to magnetic field generation by moving charges.
 
-    E_m(out) = (1/αe) * ρ * lp³ * [(c * (Ke*Al)³) / (Ke²*λl * √(1 + 1/c) * (Ke²*λl)²)]² *
-               [(c * (Ke*Al)³ * √(1/αGe)) / (Ke²*λl * √(1 - 1/c) * (Ke²*λl)²)]² * gλ*gA
+    E_m(out) = (1/αe) * ρ * lp³ * [(c * (Ke*A)³) / (Ke²*λ * √(1 + 1/c) * (Ke²*λ)²)]² *
+               [(c * (Ke*A)³ * √(1/αGe)) / (Ke²*λ * √(1 - 1/c) * (Ke²*λ)²)]² * gλ*gA
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -601,7 +602,8 @@ def kWh_to_J(energy_kWh: float) -> float:
 if __name__ == "__main__":
     print("\n_______________________________")
     print("ENERGY WAVE EQUATION")
-    print(f"1 m³ of vacuum: {energy_wave_equation(1):.2e} J")
+    print(f"1 cm³ of vacuum: {energy_wave_equation(1e-6):.2e} J")
+    print(f"1 cm³ of vacuum: {J_to_kWh(energy_wave_equation(1e-6)):.2e} kWh")
 
     print("\n_______________________________")
     print("PARTICLE ENERGY")

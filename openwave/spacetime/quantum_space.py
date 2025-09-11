@@ -1,7 +1,8 @@
 """
 QUANTUM SPACE
 (AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
-Modeled as an elastic fluid structure (compressible), that allows energy to transfer from one point to the next.
+Modeled as an elastic fluid structure (compressible),
+that allows energy to transfer from one point to the next.
 """
 
 import numpy as np
@@ -15,6 +16,9 @@ ti.init(arch=ti.gpu)
 # ==================================================================
 # Physics Engine
 # ==================================================================
+
+# TODO: replace with new resolution system
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 
 
 class GranulePhysics:
@@ -33,7 +37,7 @@ class Lattice2DPhysics:
     # Granule Count on Lattice: Potentially trillions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
 
-    og_universe_radius = config.UNIVERSE_RADIUS  # m
+    og_universe_radius = UNIVERSE_RADIUS  # m
     og_lattice_spacing = 2 * constants.PLANCK_LENGTH * np.e  # m, Planck-scale
     min_lattice_spacing = 5e-21  # m, min spacing clamp, for computability
     max_lattice_spacing = 1e-17  # m, max spacing clamp, less than QWave-scale
@@ -72,25 +76,25 @@ class GranuleRender:
     def __init__(self, lattice_spacing):
         # Calculate radius in pixels, then convert to normalized (0.0-1.0) range
         radius = max(self.min_granule_radius, lattice_spacing / (2 * np.e))
-        self.normalized_radius = radius / min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
+        self.normalized_radius = radius / min(config.SCREEN_RES[0], config.SCREEN_RES[1])
 
 
 @ti.data_oriented
 class Lattice2DRender:
-    screen_size = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT)
+    screen_size = min(config.SCREEN_RES[0], config.SCREEN_RES[1])
     lattice_spacing = 6  # pixels, increased spacing for visibility and performance
     universe_length = screen_size  # pixels, universe side length
     linear_count = round(universe_length / lattice_spacing)  # number of granules
 
     # Convert pixel values to normalized (0.0-1.0) range for GGUI
-    normalized_spacing_x = lattice_spacing / config.SCREEN_WIDTH
-    normalized_spacing_y = lattice_spacing / config.SCREEN_HEIGHT
+    normalized_spacing_x = lattice_spacing / config.SCREEN_RES[0]
+    normalized_spacing_y = lattice_spacing / config.SCREEN_RES[1]
 
     # Create normalized offset to center the lattice on display
-    offset_x_pixels = (config.SCREEN_WIDTH - lattice_spacing * (linear_count - 1)) / 2
-    offset_y_pixels = (config.SCREEN_HEIGHT - lattice_spacing * (linear_count - 1)) / 2
-    normalized_offset_x = offset_x_pixels / config.SCREEN_WIDTH
-    normalized_offset_y = offset_y_pixels / config.SCREEN_HEIGHT
+    offset_x_pixels = (config.SCREEN_RES[0] - lattice_spacing * (linear_count - 1)) / 2
+    offset_y_pixels = (config.SCREEN_RES[1] - lattice_spacing * (linear_count - 1)) / 2
+    normalized_offset_x = offset_x_pixels / config.SCREEN_RES[0]
+    normalized_offset_y = offset_y_pixels / config.SCREEN_RES[1]
 
     def granule_positions(self):
         # use taichi primitive types - now storing normalized positions directly
@@ -129,11 +133,11 @@ def render_lattice():
     print(f"Granule Radius (normalized): {granule_radius:.6f}")
 
     print("_______________________________")
-    print(f"Creating GGUI window: {config.SCREEN_WIDTH}x{config.SCREEN_HEIGHT}")
+    print(f"Creating GGUI window: {config.SCREEN_RES[0]}x{config.SCREEN_RES[1]}")
 
     # Create GGUI Window
     window = ti.ui.Window(
-        "Quantum Granule Lattice (GGUI)", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT), vsync=True
+        "Quantum Granule Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
     )
     canvas = window.get_canvas()
 

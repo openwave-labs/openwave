@@ -109,7 +109,7 @@ class Lattice2D:
 
 ```python
 # Pre-compute constants that don't change during rendering
-universe_to_screen_ratio = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
+universe_to_screen_ratio = min(config.SCREEN_RES) / lattice.size
 screen_radius = max(granule.radius * universe_to_screen_ratio, 1)
 offset = (lattice.size - lattice.spacing * (lattice.count - 1)) / 2
 

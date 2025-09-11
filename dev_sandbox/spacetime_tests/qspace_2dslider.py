@@ -12,6 +12,10 @@ import openwave.core.constants as constants
 
 ti.init(arch=ti.gpu)
 
+UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
+SCREEN_WIDTH = 900  # pixels
+SCREEN_HEIGHT = 900  # pixels
+
 # TODO: knob, remove granule scale @config.py, limit scale_factor ranges some place
 # granule_scale = 1e-18
 
@@ -29,7 +33,7 @@ class Lattice2D:
     # Granule Count on Lattice: Potentially trillions of granules requiring
     # spring constant calculations, harmonic motion, and wave propagation
     def __init__(self, scale_factor):
-        self.size = config.UNIVERSE_RADIUS
+        self.size = UNIVERSE_RADIUS
         self.spacing = 2 * constants.PLANCK_LENGTH * scale_factor * np.e
         self.count = int(self.size / self.spacing)
 
@@ -57,7 +61,7 @@ def universe_to_screen(universe_pos, universe_size):
 def render_lattice():
     """Render the granule lattice in 2D GUI"""
     # Create GUI
-    gui = ti.GUI("Quantum Granule Lattice", (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+    gui = ti.GUI("Quantum Granule Lattice", (SCREEN_WIDTH, SCREEN_HEIGHT))
     scale = gui.slider("Granule Scale", -19, -17, step=1)
 
     # Track previous scale to detect changes
@@ -79,7 +83,7 @@ def render_lattice():
             previous_scale = scale.value
 
         # Calculate screen radius for current granule size
-        universe_to_screen_ratio = min(config.SCREEN_WIDTH, config.SCREEN_HEIGHT) / lattice.size
+        universe_to_screen_ratio = min(SCREEN_WIDTH, SCREEN_HEIGHT) / lattice.size
         screen_radius = granule.radius * universe_to_screen_ratio
 
         # Ensure minimum visible radius

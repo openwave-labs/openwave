@@ -53,7 +53,7 @@ class DistributedLattice2D:
         # Each node computes a subset of the universe
         self.domain_id = domain_id
         self.total_domains = total_domains
-        self.local_line_size = config.UNIVERSE_RADIUS / sqrt(total_domains)
+        self.local_line_size = UNIVERSE_RADIUS / sqrt(total_domains)
         # Add ghost zones for boundary communication
         self.ghost_zone_width = 2  # cells
 ```
