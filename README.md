@@ -13,7 +13,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
+OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the deterministic quantum mechanics model: [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
 
 ## Core Scope
 
@@ -35,6 +35,27 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 - [PLANNED] Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
 - [PLANNED] Generates schematics to serve as baseline for patent applications.
+
+## Scientific Source
+
+OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
+
+Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of quantum mechanics from the following resources:
+
+- Website & Videos: [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory")
+- Scientific Papers: [Core Concepts](https://github.com/openwave-labs/openwave/tree/main/research_requirements/scientific_source "Energy Wave Theory")
+- Original Requirements: [Requirements Source](https://github.com/openwave-labs/openwave/tree/main/research_requirements/requirements_source "Energy Wave Theory")
+
+The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that builds upon the work of pioneers like:
+
+- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory)
+- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox)
+- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710)
+- [Gabriel LaFreniere](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
+- among others.
+
+>*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
+>>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics.
 
 ## System Architecture
 
@@ -274,4 +295,4 @@ See `/dev_docs` for coding standards and development guidelines
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-Real human power comes from collaboration.
+>Real human power comes from collaboration.
