@@ -20,7 +20,7 @@ import openwave.core.constants as constants
 # ================================================================
 
 
-def density_derivation():
+def density_derivation_wave():
     """
     Wave Constant - Density Derivation
     Density is set to the well-measured Planck constant and using wavelength
@@ -51,12 +51,83 @@ def density_derivation():
     return calculated_density
 
 
+def density_derivation_hydrogen():
+    """
+    Wave Constant - Density Derivation (Hydrogen-based)
+    Based on Eq. 1.1 from "Relationship of the Speed of Light to Aether Density"
+
+    ρ = mₚ / (4/3 πrₕ³)
+
+    Where:
+        mₚ = Planck mass
+        rₕ = Hydrogen 1s radius (Bohr radius)
+
+    Returns:
+        float: Density (aether) in kg/m³
+    """
+    # Direct calculation based on Eq. 1.1
+    calculated_density = constants.PLANCK_MASS / ((4 / 3) * np.pi * constants.BOHR_RADIUS**3)
+
+    # Return the calculated value to show the relationship
+    return calculated_density
+
+
+def density_derivation_electron():
+    """
+    Wave Constant - Density Derivation (Electron-based)
+    Based on Eq. 1.2 from "Relationship of the Speed of Light to Aether Density"
+
+    ρ = μ₀ / (4/3 πrₑ²)
+
+    Where:
+        μ₀ = Magnetic constant
+        rₑ = Electron classical radius
+
+    Note: rₑ² appears in the denominator instead of rₑ³ due to linear density considerations
+
+    Returns:
+        float: Density (aether) in kg/m³
+    """
+    # Direct calculation based on Eq. 1.2
+    calculated_density = constants.MAGNETIC_CONSTANT / (
+        (4 / 3) * np.pi * constants.ELECTRON_RADIUS**2
+    )
+
+    # Return the calculated value to show the relationship
+    return calculated_density
+
+
+def density_derivation_planck():
+    """
+    Wave Constant - Density Derivation (Planck/Photon-based)
+    Based on Eq. 1.3 from "Relationship of the Speed of Light to Aether Density"
+
+    ρ = (2h / qₚ²c) × (1 / (4/3 πrₑ²))
+
+    Where:
+        h = Planck constant
+        qₚ = Planck charge
+        c = Speed of light (wave velocity)
+        rₑ = Electron classical radius
+
+    Returns:
+        float: Density (aether) in kg/m³
+    """
+    # Direct calculation based on Eq. 1.3
+    calculated_density = (
+        (2 * constants.PLANCK_CONSTANT) / (constants.PLANCK_CHARGE**2 * constants.QWAVE_SPEED)
+    ) * (1 / ((4 / 3) * np.pi * constants.ELECTRON_RADIUS**2))
+
+    # Return the calculated value to show the relationship
+    return calculated_density
+
+
 def wavelength_derivation():
     """
     Wave Constant - Wavelength Derivation
     Wavelength (longitudinal) is set to the well-measured classical electron radius.
 
-    λl = {re} * (1/K²e) * g_λ^-1
+    λl = {re} * (1/Ke²) * g_λ^-1
 
     Returns:
         float: Wavelength (longitudinal) in meters
@@ -95,7 +166,10 @@ if __name__ == "__main__":
     print("WAVE CONSTANTS DERIVATIONS")
 
     print("\nQUANTUM SPACE DENSITY")
-    print(f"Derived: {density_derivation():.9e} kg/m³")
+    print(f"Derived Wave: {density_derivation_wave():.9e} kg/m³")
+    print(f"Derived Hydrogen: {density_derivation_hydrogen():.9e} kg/m³")
+    print(f"Derived Electron: {density_derivation_electron():.9e} kg/m³")
+    print(f"Derived Planck: {density_derivation_planck():.9e} kg/m³")
     print(f"Stored : {constants.QSPACE_DENSITY:.9e} kg/m³")
 
     print("\nQUANTUM WAVE LENGTH")

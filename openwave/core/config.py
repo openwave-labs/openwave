@@ -16,7 +16,7 @@ Includes commented thermal imaging palette definitions for future use.
 # QSPACE_RES defines the 3D grid resolution for quantum_space simulations
 # SCREEN_RES defines the 2D screen resolution for rendering and GGUI display
 # Note: Higher resolutions increase computational load and may impact performance
-QSPACE_RES = [100, 100, 100]  # xyz, max particle count, granularity (computing capacity)
+QSPACE_RES = 2000000  # max particle count, granularity (computing capacity)
 SCREEN_RES = [1200, 900]  # width x height, pixels (screen capacity)
 
 

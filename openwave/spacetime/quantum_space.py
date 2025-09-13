@@ -18,11 +18,8 @@ ti.init(arch=ti.gpu)
 # Physics Engine
 # ==================================================================
 
-# TODO: replace with new resolution system
-UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 
-
-class GranulePhysics:
+class Granule:
     # Granule Model: The aether consists of "granules".
     # Fundamental units that vibrate and create wave patterns.
     # Their collective motion at Planck scale creates all observable phenomena.
@@ -34,139 +31,262 @@ class GranulePhysics:
 
 
 @ti.data_oriented
-class Lattice2DPhysics:
-    # Granule Count on Lattice: Potentially trillions of granules requiring
-    # spring constant calculations, harmonic motion, and wave propagation
+class Lattice:
+    """
+    3D Body-Centered Cubic (BCC) lattice for quantum space simulation.
+    BCC topology: cubic unit cells with an additional granule at the center.
+    More efficient packing than simple cubic (68% vs 52% space filling).
+    """
 
-    og_universe_radius = UNIVERSE_RADIUS  # m
-    og_lattice_spacing = 2 * constants.PLANCK_LENGTH * np.e  # m, Planck-scale
-    min_lattice_spacing = 5e-21  # m, min spacing clamp, for computability
-    max_lattice_spacing = 1e-17  # m, max spacing clamp, less than QWave-scale
+    def __init__(self, universe_edge: float):
+        """
+        Initialize BCC lattice with computed unit-cell spacing.
 
-    def __init__(self, universe_radius=og_universe_radius, lattice_spacing=min_lattice_spacing):
-        self.universe_length = 2 * universe_radius  # m, universe side length
-        # clamp lattice spacing
-        self.spacing = min(
-            max(lattice_spacing, self.min_lattice_spacing), self.max_lattice_spacing
-        )
-        self.linear_count = round(self.universe_length / self.spacing)  # number of granules
+        Args:
+            universe_edge: Edge length of the cubic universe in meters
+        """
+        # Compute total volume and granule count from resolution
+        total_granules = config.QSPACE_RES
 
-    def granule_positions(self):
-        # use taichi primitive types
-        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.linear_count, self.linear_count))
-        self._populate_grid()
-        return self.grid
+        # Scale to attometers to avoid float32 precision issues
+        # This keeps position values in a reasonable range (e.g., 1000 instead of 1e-15)
+        universe_edge = universe_edge / constants.ATTOMETER_SCALE  # Convert meters to attometers
+        universe_volume = universe_edge**3
+
+        # BCC has 2 granules per unit cell (8 corners shared + 1 center)
+        # Volume per unit cell = universe_volume / (total_granules / 2)
+        unit_cell_volume = universe_volume / (total_granules / 2)
+
+        # Unit cell edge length (a^3 = volume)
+        self.unit_cell_edge = unit_cell_volume ** (1 / 3)
+        self.universe_edge = universe_edge
+
+        # Calculate grid dimensions (number of unit cells per dimension)
+        self.grid_size = int(universe_edge / self.unit_cell_edge)
+
+        # Total granules: corners + centers
+        # Corners: (grid_size + 1)^3, Centers: grid_size^3
+        corner_count = (self.grid_size + 1) ** 3
+        center_count = self.grid_size**3
+        self.total_granules = corner_count + center_count
+
+        # Initialize position and velocity fields
+        self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+
+        # Populate the lattice
+        self._populate_bcc_lattice()
 
     @ti.kernel
-    def _populate_grid(self):
-        # taichi: parallelized for loop
-        for i, j in self.grid:
-            self.grid[i, j] = ti.Vector([i * self.spacing, j * self.spacing])
+    def _populate_bcc_lattice(self):
+        """Populate BCC lattice positions in a single field."""
+        # Parallelize over all granules using single outermost loop
+        for idx in range(self.total_granules):
+            # Determine if this is a corner or center granule
+            corner_count = (self.grid_size + 1) ** 3
+
+            if idx < corner_count:
+                # Corner granule: decode 3D position from linear index
+                grid_dim = self.grid_size + 1
+                i = idx // (grid_dim * grid_dim)
+                j = (idx % (grid_dim * grid_dim)) // grid_dim
+                k = idx % grid_dim
+
+                self.positions[idx] = ti.Vector(
+                    [i * self.unit_cell_edge, j * self.unit_cell_edge, k * self.unit_cell_edge]
+                )
+            else:
+                # Center granule: decode position with offset
+                center_idx = idx - corner_count
+                i = center_idx // (self.grid_size * self.grid_size)
+                j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
+                k = center_idx % self.grid_size
+
+                offset = self.unit_cell_edge / 2.0
+                self.positions[idx] = ti.Vector(
+                    [
+                        i * self.unit_cell_edge + offset,
+                        j * self.unit_cell_edge + offset,
+                        k * self.unit_cell_edge + offset,
+                    ]
+                )
+
+            # Initialize velocity to zero for all granules
+            self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
+
+    @ti.kernel
+    def update_positions(self, dt: ti.f32):  # type: ignore
+        """Update granule positions based on velocities (for future dynamics)."""
+        for i in self.positions:
+            self.positions[i] += self.velocities[i] * dt
+
+    def get_stats(self):
+        """Return lattice statistics."""
+        return {
+            "universe_edge": self.universe_edge
+            * constants.ATTOMETER_SCALE,  # convert back to meters
+            "unit_cell_edge": self.unit_cell_edge
+            * constants.ATTOMETER_SCALE,  # convert back to meters
+            "grid_size": self.grid_size,
+            "total_granules": self.total_granules,
+            "corner_granules": (self.grid_size + 1) ** 3,
+            "center_granules": self.grid_size**3,
+            "packing_fraction": 0.68,  # BCC packing efficiency
+        }
 
 
 # ==================================================================
 # Rendering Engine
 # ==================================================================
 # TODO: Implement Rendering Engine in a separate module?
-# TODO: How to re-use classes from physics engine to rendering engine?
 
 
-class GranuleRender:
-    min_granule_radius = 1  # pixels, min radius clamp for visibility
+def render_lattice(lattice_instance=None):
+    """
+    Render 3D BCC lattice using GGUI's 3D scene.
 
-    def __init__(self, lattice_spacing):
-        # Calculate radius in pixels, then convert to normalized (0.0-1.0) range
-        radius = max(self.min_granule_radius, lattice_spacing / (2 * np.e))
-        self.normalized_radius = radius / min(config.SCREEN_RES[0], config.SCREEN_RES[1])
+    Args:
+        lattice_instance: Optional Lattice instance to render. If None, creates default.
+    """
+    print("Initializing 3D lattice render...")
 
+    # Use provided lattice or create default
+    if lattice_instance is None:
+        universe_edge = 1e-15  # 1 femtometer cube (will be scaled to attometers internally)
+        lattice = Lattice(universe_edge)
+    else:
+        lattice = lattice_instance
 
-@ti.data_oriented
-class Lattice2DRender:
-    screen_size = min(config.SCREEN_RES[0], config.SCREEN_RES[1])
-    lattice_spacing = 6  # pixels, increased spacing for visibility and performance
-    universe_length = screen_size  # pixels, universe side length
-    linear_count = round(universe_length / lattice_spacing)  # number of granules
+    # Get lattice statistics for display
+    stats = lattice.get_stats()
+    print("3D BCC Lattice Render initialized.")
 
-    # Convert pixel values to normalized (0.0-1.0) range for GGUI
-    normalized_spacing_x = lattice_spacing / config.SCREEN_RES[0]
-    normalized_spacing_y = lattice_spacing / config.SCREEN_RES[1]
-
-    # Create normalized offset to center the lattice on display
-    offset_x_pixels = (config.SCREEN_RES[0] - lattice_spacing * (linear_count - 1)) / 2
-    offset_y_pixels = (config.SCREEN_RES[1] - lattice_spacing * (linear_count - 1)) / 2
-    normalized_offset_x = offset_x_pixels / config.SCREEN_RES[0]
-    normalized_offset_y = offset_y_pixels / config.SCREEN_RES[1]
-
-    def granule_positions(self):
-        # use taichi primitive types - now storing normalized positions directly
-        self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.linear_count, self.linear_count))
-        self._populate_grid()
-        return self.grid
-
-    @ti.kernel
-    def _populate_grid(self):
-        # taichi: parallelized for loop - now computing normalized positions directly
-        for i, j in self.grid:
-            # Positions are already in normalized (0.0-1.0) range for GGUI
-            self.grid[i, j] = ti.Vector(
-                [
-                    i * self.normalized_spacing_x + self.normalized_offset_x,
-                    j * self.normalized_spacing_y + self.normalized_offset_y,
-                ]
-            )
-
-
-def render_lattice():
-    print("Initializing render...")
-
-    # Initialize instances for rendering
-    lattice = Lattice2DRender()
-    positions = lattice.granule_positions()  # Already normalized for GGUI
-    granule_radius = GranuleRender(lattice.lattice_spacing).normalized_radius  # Already normalized
-    bkg_color = config.COLOR_SPACE[2]  # background
-    circle_color = config.COLOR_GRANULE[2]  # granules
-
-    print("_______________________________")
-    print("Lattice 2D Render initialized.")
-    print(f"Lattice spacing: {lattice.lattice_spacing} pixels")
-    print(f"Granule linear count: {lattice.linear_count:,} granules")
-    print(f"Granule positions populated: {lattice.linear_count**2:,} granules")
-    print(f"Granule Radius (normalized): {granule_radius:.6f}")
-
-    print("_______________________________")
-    print(f"Creating GGUI window: {config.SCREEN_RES[0]}x{config.SCREEN_RES[1]}")
-
-    # Create GGUI Window
+    # Create GGUI window with 3D scene
     window = ti.ui.Window(
-        "Quantum Granule Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
+        "3D BCC Quantum Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
     )
     canvas = window.get_canvas()
+    scene = window.get_scene()
+    camera = ti.ui.Camera()
 
-    # Flatten the 2D grid into a 1D field for batch rendering
-    total_points = lattice.linear_count * lattice.linear_count
-    vertices = ti.Vector.field(2, dtype=ti.f32, shape=total_points)
+    # Initial camera setup (will be overridden by orbit parameters below)
+    camera.up(0, 1, 0)  # Y-axis up
 
-    # Copy positions from 2D grid to 1D field (positions are already normalized)
+    # Normalize positions for rendering (0-1 range for GGUI)
+    # Create a field for normalized positions
+    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+
     @ti.kernel
-    def flatten_positions():
-        for i in range(lattice.linear_count):
-            for j in range(lattice.linear_count):
-                idx = i * lattice.linear_count + j
-                vertices[idx] = positions[i, j]
+    def normalize_positions():
+        """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        for i in range(lattice.total_granules):
+            # Normalize from attometer scale to 0-1 range
+            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
 
-    flatten_positions()
+    # Prepare colors and radius
+    granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
+    bkg_color = config.COLOR_SPACE[2]  # Black background
 
-    print(f"Prepared {total_points:,} normalized positions")
-    print("Starting render loop...")
+    # Granule radius as fraction of unit cell for visibility
+    # Make granules visible but not overlapping
+    # Increase radius for better visibility
+    normalized_radius = lattice.unit_cell_edge / (
+        lattice.universe_edge * 2 * np.e
+    )  # unit cell edge / (2e)
+
+    # Ensure minimum radius for visibility - increased for small lattices
+    min_radius = 0.0001  # Minimum 0.01% of screen
+    normalized_radius = max(normalized_radius, min_radius)
+
+    print(f"Normalized granule radius: {normalized_radius:.6f}")
+    print("_______________________________")
+    print(f"Creating GGUI 3D window: {config.SCREEN_RES[0]}x{config.SCREEN_RES[1]}")
+    print("Starting 3D render loop...")
+    print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
+
+    # Normalize positions once before render loop
+    normalize_positions()
+
+    # # Debug: Print sample positions to verify they're in correct range
+    # sample_positions = normalized_positions.to_numpy()[: min(5, lattice.total_granules)]
+    # print(f"Sample normalized positions (first {len(sample_positions)}):")
+    # for i, pos in enumerate(sample_positions):
+    #     print(f"  Granule {i}: [{pos[0]:.3f}, {pos[1]:.3f}, {pos[2]:.3f}]")
+
+    # Camera orbit parameters - matching initial position (1.5, 1.2, 1.5) looking at (0.5, 0.5, 0.5)
+    orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
+
+    # Calculate initial angles from the desired initial position (1.5, 1.2, 1.5)
+    # Initial position relative to center: (1.0, 0.7, 1.0)
+    initial_rel_x = 1.5 - orbit_center[0]  # 1.0
+    initial_rel_y = 1.2 - orbit_center[1]  # 0.7
+    initial_rel_z = 1.5 - orbit_center[2]  # 1.0
+
+    # Calculate initial orbit parameters
+    orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
+    orbit_theta = np.arctan2(initial_rel_z, initial_rel_x)  # 45 degrees
+    orbit_phi = np.arccos(initial_rel_y / orbit_radius)  # angle from vertical
+
+    mouse_sensitivity = 0.5
+    last_mouse_pos = None
 
     while window.running:
+        # Handle mouse input for orbiting
+        mouse_pos = window.get_cursor_pos()
+
+        # Check for right mouse button drag
+        if window.is_pressed(ti.ui.RMB):
+            if last_mouse_pos is not None:
+                # Calculate mouse delta
+                dx = mouse_pos[0] - last_mouse_pos[0]
+                dy = mouse_pos[1] - last_mouse_pos[1]
+
+                # Update orbit angles
+                orbit_theta += dx * mouse_sensitivity * 2 * np.pi
+                # Allow nearly full vertical rotation (almost 180 degrees, small margin to prevent gimbal lock)
+                orbit_phi = np.clip(orbit_phi + dy * mouse_sensitivity * np.pi, 0.01, np.pi - 0.01)
+
+            last_mouse_pos = mouse_pos
+        else:
+            last_mouse_pos = None
+
+        # Handle keyboard input for zoom
+        if window.is_pressed("q"):  # Zoom in
+            orbit_radius *= 0.98
+            orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+        if window.is_pressed("a"):  # Zoom out
+            orbit_radius *= 1.02
+            orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+
+        # Calculate camera position from spherical coordinates
+        cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
+        cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
+        cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
+
+        # Update camera
+        camera.position(cam_x, cam_y, cam_z)
+        camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
+        camera.up(0, 1, 0)
+        scene.set_camera(camera)
+
         # Set background color
         canvas.set_background_color(bkg_color)
 
-        # Draw circles using Canvas - positions and radius are already normalized
-        canvas.circles(vertices, radius=granule_radius, color=circle_color)
+        # Add ambient and directional lighting
+        scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
+        scene.point_light(
+            pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0)  # Light from above center  # White light
+        )
+        scene.point_light(
+            pos=(1.0, 0.5, 1.0),  # Secondary light from corner
+            color=(0.5, 0.5, 0.5),  # Dimmer white light
+        )
 
-        # Show the window
+        # Render granules as particles (spheres)
+        scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
+
+        # Render the scene to canvas
+        canvas.scene(scene)
         window.show()
 
 
@@ -178,75 +298,20 @@ if __name__ == "__main__":
     print("SIMULATION DATA")
     print("===============================")
 
-    lattice = Lattice2DPhysics(lattice_spacing=1e-21)
-    print("Lattice 2D Physics initialized.")
-    print(f"Universe length: {lattice.universe_length} m")
-    print(f"Lattice spacing: {lattice.spacing} m")
-    print(f"Granule linear count: {lattice.linear_count:,} granules")
-    print(f"Granule positions populated: {lattice.linear_count**2:,} granules")
+    # Test the new 3D BCC lattice
+    print("\n--- 3D BCC Lattice Test ---")
+    universe_edge = 1e-15  # 1 femtometer cube
+    lattice = Lattice(universe_edge)
+    stats = lattice.get_stats()
 
-    render_lattice()
+    print(f"Universe edge: {stats['universe_edge']:.2e} m")
+    print(f"Unit cell edge: {stats['unit_cell_edge']:.2e} m")
+    print(f"Grid size: {stats['grid_size']}x{stats['grid_size']}x{stats['grid_size']}")
+    print(f"Total granules: {stats['total_granules']:,}")
+    print(f"  - Corner granules: {stats['corner_granules']:,}")
+    print(f"  - Center granules: {stats['center_granules']:,}")
+    print(f"Packing fraction: {stats['packing_fraction']:.2%}")
 
-
-# ================================================================
-# Optimizations Applied to quantum_space.py:
-# ================================================================
-#   1. Taichi Kernel for Parallel Computation: Added
-#   compute_screen_positions() kernel that computes all screen
-#   positions in parallel on the GPU
-
-#   2. Pre-computation: Screen positions are computed once before
-#   the render loop starts, eliminating redundant calculations
-#   every frame
-
-#   3. Batch Processing: Converted Taichi field to numpy array for
-#   efficient batch access
-
-#   4. Loop Optimization:
-#     - Pre-computed constants outside the loop (screen_radius_int,
-#    circle_color, line_count)
-#     - Flattened the 2D position array into a 1D list for faster
-#   iteration
-#     - Single loop instead of nested loops in the render section
-
-#   5. Memory Efficiency: Pre-allocated screen_positions field to
-#   avoid repeated memory allocation
-
-#   These optimizations significantly improve rendering performance by:
-#   - Moving computations from CPU to GPU
-#   - Eliminating per-frame calculations
-#   - Reducing loop overhead
-#   - Minimizing variable lookups
-
-
-# Optimizations to the render_lattice() function for small-pixel spacing:
-#   1. Batch rendering: renders all points in a single draw call
-#   Replaces per-frame, per-point gui.circle() calls with
-#   a single batch gui.circles() call for improved performance.
-
-#   2. Pre-computation: Normalizes all positions once before the render
-#   loop starts
-
-#   3. Array conversion: Converts Taichi field to numpy array once,
-#   outside the loop
-
-#   significantly speeding up rendering, especially with smaller lattice spacing.
-
-
-# ================================================================
-# Conversion from GUI to GGUI
-# ================================================================
-# Converted the rendering system from ti.GUI to ti.ui.Window with
-#   Canvas. Key changes:
-
-#   1. Window creation: Using ti.ui.Window() instead of ti.GUI()
-#   2. Canvas rendering: Using window.get_canvas() for 2D drawing
-#   3. Taichi fields: Created a vertices field instead of numpy array
-#   (GGUI prefers fields)
-#   4. Normalized coordinates: All positions and radius normalized to
-#   0.0-1.0 range
-#   5. Color format: Using normalized RGB tuples instead of hex values
-#   6. VSync enabled: Added vsync=True for smoother rendering
-
-#   The Canvas feature provides efficient 2D rendering while maintaining
-#    compatibility with Taichi's GPU acceleration.
+    # Render the 3D lattice
+    print("\n--- 3D Lattice Rendering ---")
+    render_lattice(lattice)  # Pass the already created lattice instance

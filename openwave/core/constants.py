@@ -15,7 +15,8 @@ import openwave.core.config as config
 # ================================================================
 # QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
 # ================================================================
-QSPACE_DENSITY = 3.859764540e22  # kg / m^3, quantum-space density (aether medium, rho)
+QSPACE_DENSITY = 3.506335701e22  # kg / m^3, quantum-space density (aether medium, rho)
+ATTOMETER_SCALE = 1e-18  # m, scale factor for attometers to avoid float32 precision issues
 
 
 # ================================================================
