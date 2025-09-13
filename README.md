@@ -176,10 +176,7 @@ class `I/O
 
 ```mermaid
 kanban
-  [TODO]
-    [@SPACETIME:
-      quantum_wave.py]
-    
+  [BACKLOG]
     [@MATTER:
       fundamental_particle.py
       standalone_particle.py
@@ -203,14 +200,16 @@ kanban
     [@HEAT:
       heat.py]
 
+  [NEXT]
+    [@SPACETIME:
+      quantum_wave.py]@{ priority: 'High', assigned: 'xrodz' }
+    
   [IN PROGRESS]
     [@SPACETIME:
       quantum_space.py]@{ priority: 'Very High', assigned: 'xrodz' }
-  
-  [TESTING]
     [@CORE:
       equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
-  
+    
   [RELEASED]
     [@CORE:
       config.py

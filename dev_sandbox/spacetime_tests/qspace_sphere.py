@@ -51,9 +51,7 @@ class Lattice:
 
         # Scale to attometers to avoid float32 precision issues
         # This keeps position values in a reasonable range (e.g., 1000 instead of 1e-15)
-        universe_radius = (
-            universe_radius / constants.ATTOMETER_SCALE
-        )  # Convert meters to attometers
+        universe_radius = universe_radius / constants.ATTO_PREFIX  # Convert meters to attometers
 
         # Define boundary zones
         self.universe_radius = universe_radius
@@ -184,18 +182,16 @@ class Lattice:
 
         return {
             "universe_radius": self.universe_radius
-            * constants.ATTOMETER_SCALE,  # convert back to meters
-            "active_radius": self.active_radius * constants.ATTOMETER_SCALE,
-            "buffer_thickness": self.buffer_thickness * constants.ATTOMETER_SCALE,
+            * constants.ATTO_PREFIX,  # convert back to meters
+            "active_radius": self.active_radius * constants.ATTO_PREFIX,
+            "buffer_thickness": self.buffer_thickness * constants.ATTO_PREFIX,
             "unit_cell_edge": self.unit_cell_edge
-            * constants.ATTOMETER_SCALE,  # convert back to meters
+            * constants.ATTO_PREFIX,  # convert back to meters
             "grid_size": self.grid_size,
             "total_granules": self.total_granules,
             "active_granules": active_count,
             "buffer_granules": buffer_count,
-            "sphere_volume": (4 / 3)
-            * np.pi
-            * (self.universe_radius * constants.ATTOMETER_SCALE) ** 3,
+            "sphere_volume": (4 / 3) * np.pi * (self.universe_radius * constants.ATTO_PREFIX) ** 3,
             "efficiency": self.total_granules
             / ((self.grid_size + 1) ** 3 + self.grid_size**3)
             * 100,
@@ -279,7 +275,7 @@ def render_lattice(lattice_instance=None):
     print(f"Creating GGUI 3D window: {config.SCREEN_RES[0]}x{config.SCREEN_RES[1]}")
     print("Starting 3D render loop...")
     print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
-    print(f"Sphere radius: {lattice.universe_radius * constants.ATTOMETER_SCALE:.2e} m")
+    print(f"Sphere radius: {lattice.universe_radius * constants.ATTO_PREFIX:.2e} m")
     print(
         f"Active zone: 0 to {lattice.active_radius / lattice.universe_radius * 100:.0f}% of radius"
     )
