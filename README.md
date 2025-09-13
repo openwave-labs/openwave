@@ -241,25 +241,29 @@ kanban
 
 ## Installation
 
-### On Linux / macOS (conda)
+### macOS
 
-```bash
-# Clone the repository
+```python
+# Install Homebrew & Python
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python@3.12
+
+# Create virtual environment (Python)
+python -m venv openwave
+source openwave/bin/activate
+
+# Create virtual environment (Conda)
+conda create -n openwave python=3.12 -y
+conda activate openwave
+# conda env remove -n openwave # IF issues, remove environment, start over
+
+# Clone the repository & install packages
 git clone https://github.com/openwave-labs/openwave.git
-
-# Create virtual environment
-conda create -n openwave312 python=3.12 -y
-conda activate openwave312
-
-# Install dependencies
-cd openwave
+cd openwave # point to local directory where OpenWave was installed
 pip install .  # reads dependencies from pyproject.toml
-
-# IF issues, remove virtual environment and start over again
-conda env remove -n openwave312
 ```
 
-### On Windows *--WORK IN PROGRESS--*
+### On Linux / Windows *--WORK IN PROGRESS--*
 
 ```bash
 TBD
