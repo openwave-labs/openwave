@@ -11,7 +11,6 @@ import taichi as ti
 
 import openwave.core.config as config
 import openwave.core.constants as constants
-import openwave.core.equations as equations
 
 ti.init(arch=ti.gpu)
 
@@ -37,54 +36,93 @@ class Lattice:
     3D Body-Centered Cubic (BCC) lattice for quantum space simulation.
     BCC topology: cubic unit cells with an additional granule at the center.
     More efficient packing than simple cubic (68% vs 52% space filling).
+    Uses spherical universe boundary with buffer zone for proper wave physics.
     """
 
-    def __init__(self, universe_edge: float):
+    def __init__(self, universe_radius: float):
         """
-        Initialize BCC lattice with computed unit-cell spacing.
+        Initialize BCC lattice within a spherical boundary.
 
         Args:
-            universe_edge: Edge length of the cubic universe in meters
+            universe_radius: Radius of the spherical universe in meters
         """
         # Compute total volume and granule count from resolution
         total_granules = config.QSPACE_RES
 
         # Scale to attometers to avoid float32 precision issues
         # This keeps position values in a reasonable range (e.g., 1000 instead of 1e-15)
-        universe_edge = universe_edge / constants.ATTOMETER_SCALE  # Convert meters to attometers
-        universe_volume = universe_edge**3
+        universe_radius = (
+            universe_radius / constants.ATTOMETER_SCALE
+        )  # Convert meters to attometers
+
+        # Define boundary zones
+        self.universe_radius = universe_radius
+        self.active_radius = universe_radius * 0.95  # Active simulation zone
+        self.buffer_thickness = universe_radius * 0.05  # Buffer zone thickness
+
+        # Use sphere volume for granule density calculation
+        sphere_volume = (4 / 3) * np.pi * (universe_radius**3)
+
+        # For lattice generation, we still need a bounding cube
+        # The cube edge should be 2*radius to fully contain the sphere
+        bounding_cube_edge = 2 * universe_radius
+        bounding_volume = bounding_cube_edge**3
 
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        # Volume per unit cell = universe_volume / (total_granules / 2)
-        unit_cell_volume = universe_volume / (total_granules / 2)
+        # We want approximately total_granules within the sphere volume
+        # Since only ~52% of bounding cube granules will be in sphere,
+        # we need to adjust the density accordingly
+
+        # Target density in sphere
+        target_density = total_granules / sphere_volume
+
+        # Volume per unit cell to achieve this density
+        # (2 granules per unit cell in BCC)
+        unit_cell_volume = 2.0 / target_density
 
         # Unit cell edge length (a^3 = volume)
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)
-        self.universe_edge = universe_edge
+        self.bounding_cube_edge = bounding_cube_edge
 
-        # Calculate grid dimensions (number of unit cells per dimension)
-        self.grid_size = int(universe_edge / self.unit_cell_edge)
+        # Calculate grid dimensions for the bounding cube
+        # Need enough cells to fill the bounding cube
+        self.grid_size = int(bounding_cube_edge / self.unit_cell_edge)
 
-        # Total granules: corners + centers
-        # Corners: (grid_size + 1)^3, Centers: grid_size^3
-        corner_count = (self.grid_size + 1) ** 3
-        center_count = self.grid_size**3
-        self.total_granules = corner_count + center_count
+        # Maximum possible granules in bounding cube
+        max_corner_count = (self.grid_size + 1) ** 3
+        max_center_count = self.grid_size**3
+        max_total = max_corner_count + max_center_count
 
-        # Initialize position and velocity fields
-        self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        # We'll allocate for max but only use granules within sphere
+        # Initialize position and velocity fields with max size
+        self.positions = ti.Vector.field(3, dtype=ti.f32, shape=max_total)
+        self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=max_total)
 
-        # Populate the lattice
-        self._populate_bcc_lattice()
+        # Granule zone classification: 0=outside, 1=active, 2=buffer
+        self.zone_type = ti.field(dtype=ti.i32, shape=max_total)
+
+        # Track actual number of granules within sphere
+        self.actual_granules = ti.field(dtype=ti.i32, shape=())
+
+        # Populate the lattice within spherical boundary
+        self._populate_spherical_bcc_lattice()
+
+        # Get the actual count after population
+        self.total_granules = self.actual_granules[None]
 
     @ti.kernel
-    def _populate_bcc_lattice(self):
-        """Populate BCC lattice positions in a single field."""
-        # Parallelize over all granules using single outermost loop
-        for idx in range(self.total_granules):
-            # Determine if this is a corner or center granule
-            corner_count = (self.grid_size + 1) ** 3
+    def _populate_spherical_bcc_lattice(self):
+        """Populate BCC lattice positions within spherical boundary."""
+        # Center of the sphere (in attometers)
+        center = ti.Vector([self.universe_radius, self.universe_radius, self.universe_radius])
+
+        valid_count = ti.i32(0)
+        corner_count = (self.grid_size + 1) ** 3
+        max_granules = corner_count + self.grid_size**3
+
+        # Process all potential granule positions
+        for idx in range(max_granules):
+            position = ti.Vector([0.0, 0.0, 0.0])
 
             if idx < corner_count:
                 # Corner granule: decode 3D position from linear index
@@ -93,7 +131,7 @@ class Lattice:
                 j = (idx % (grid_dim * grid_dim)) // grid_dim
                 k = idx % grid_dim
 
-                self.positions[idx] = ti.Vector(
+                position = ti.Vector(
                     [i * self.unit_cell_edge, j * self.unit_cell_edge, k * self.unit_cell_edge]
                 )
             else:
@@ -104,7 +142,7 @@ class Lattice:
                 k = center_idx % self.grid_size
 
                 offset = self.unit_cell_edge / 2.0
-                self.positions[idx] = ti.Vector(
+                position = ti.Vector(
                     [
                         i * self.unit_cell_edge + offset,
                         j * self.unit_cell_edge + offset,
@@ -112,8 +150,24 @@ class Lattice:
                     ]
                 )
 
-            # Initialize velocity to zero for all granules
-            self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
+            # Check if position is within sphere
+            distance = (position - center).norm()
+
+            if distance <= self.universe_radius:
+                # Use atomic add to safely increment counter in parallel
+                current_idx = ti.atomic_add(self.actual_granules[None], 1)
+
+                # Store position at current_idx (compact storage)
+                self.positions[current_idx] = position
+                self.velocities[current_idx] = ti.Vector([0.0, 0.0, 0.0])
+
+                # Classify zone: active or buffer
+                if distance <= self.active_radius:
+                    self.zone_type[current_idx] = 1  # Active zone
+                else:
+                    self.zone_type[current_idx] = 2  # Buffer zone
+                    # self.positions[current_idx] = ti.Vector([0.0, 0.0, 0.0])  # reset buffer zone
+            # Positions outside sphere are ignored (not stored)
 
     @ti.kernel
     def update_positions(self, dt: ti.f32):  # type: ignore
@@ -123,15 +177,28 @@ class Lattice:
 
     def get_stats(self):
         """Return lattice statistics."""
+        # Count granules by zone - only count valid granules (zones 1 and 2)
+        zone_counts = self.zone_type.to_numpy()[: self.total_granules]
+        active_count = int(np.sum(zone_counts == 1))
+        buffer_count = int(np.sum(zone_counts == 2))
+
         return {
-            "universe_edge": self.universe_edge
+            "universe_radius": self.universe_radius
             * constants.ATTOMETER_SCALE,  # convert back to meters
+            "active_radius": self.active_radius * constants.ATTOMETER_SCALE,
+            "buffer_thickness": self.buffer_thickness * constants.ATTOMETER_SCALE,
             "unit_cell_edge": self.unit_cell_edge
             * constants.ATTOMETER_SCALE,  # convert back to meters
             "grid_size": self.grid_size,
             "total_granules": self.total_granules,
-            "corner_granules": (self.grid_size + 1) ** 3,
-            "center_granules": self.grid_size**3,
+            "active_granules": active_count,
+            "buffer_granules": buffer_count,
+            "sphere_volume": (4 / 3)
+            * np.pi
+            * (self.universe_radius * constants.ATTOMETER_SCALE) ** 3,
+            "efficiency": self.total_granules
+            / ((self.grid_size + 1) ** 3 + self.grid_size**3)
+            * 100,
         }
 
 
@@ -143,26 +210,32 @@ class Lattice:
 
 def render_lattice(lattice_instance=None):
     """
-    Render 3D BCC lattice using GGUI's 3D scene.
+    Render 3D BCC lattice within spherical boundary using GGUI's 3D scene.
 
     Args:
         lattice_instance: Optional Lattice instance to render. If None, creates default.
     """
-    print("Initializing 3D lattice render...")
+    print("Initializing 3D spherical lattice render...")
 
     # Use provided lattice or create default
     if lattice_instance is None:
-        universe_edge = 1e-15  # 1 femtometer cube (will be scaled to attometers internally)
-        lattice = Lattice(universe_edge)
+        universe_radius = 0.5e-15  # 0.5 femtometer radius sphere
+        lattice = Lattice(universe_radius)
     else:
         lattice = lattice_instance
 
     # Get lattice statistics for display
     stats = lattice.get_stats()
+    print("3D Spherical BCC Lattice Render initialized.")
+    print(f"Active granules: {stats['active_granules']:,}")
+    print(f"Buffer granules: {stats['buffer_granules']:,}")
+    print(f"Space efficiency: {stats['efficiency']:.1f}%")
 
     # Create GGUI window with 3D scene
     window = ti.ui.Window(
-        "3D BCC Quantum Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
+        "3D Spherical BCC Quantum Lattice (GGUI)",
+        (config.SCREEN_RES[0], config.SCREEN_RES[1]),
+        vsync=True,
     )
     canvas = window.get_canvas()
     scene = window.get_scene()
@@ -178,26 +251,41 @@ def render_lattice(lattice_instance=None):
     @ti.kernel
     def normalize_positions():
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        # Center positions around 0.5 for proper sphere visualization
+        center_offset = ti.Vector(
+            [lattice.universe_radius, lattice.universe_radius, lattice.universe_radius]
+        )
+        scale = 2.0 * lattice.universe_radius  # Diameter for normalization
+
         for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
+            # Normalize from attometer scale to 0-1 range, centered at 0.5
+            normalized_positions[i] = lattice.positions[i] / scale
 
     # Prepare colors and radius
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
-    # Granule radius as fraction of unit cell
+    # Granule radius as fraction of universe diameter
     normalized_radius = lattice.unit_cell_edge / (
-        lattice.universe_edge * 2 * np.e
-    )  # radius = unit cell edge / (2e)
+        2 * lattice.universe_radius * 2 * np.e
+    )  # radius = unit cell edge / (2e * diameter)
 
     # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
 
     print(f"Normalized granule radius: {normalized_radius:.6f}")
+    print("_______________________________")
+    print(f"Creating GGUI 3D window: {config.SCREEN_RES[0]}x{config.SCREEN_RES[1]}")
     print("Starting 3D render loop...")
     print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
+    print(f"Sphere radius: {lattice.universe_radius * constants.ATTOMETER_SCALE:.2e} m")
+    print(
+        f"Active zone: 0 to {lattice.active_radius / lattice.universe_radius * 100:.0f}% of radius"
+    )
+    print(
+        f"Buffer zone: {lattice.active_radius / lattice.universe_radius * 100:.0f}% to 100% of radius"
+    )
 
     # Normalize positions once before render loop
     normalize_positions()
@@ -278,8 +366,24 @@ def render_lattice(lattice_instance=None):
             color=(0.5, 0.5, 0.5),  # Dimmer white light
         )
 
-        # Render granules as particles (spheres)
-        scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
+        # Create color field for zone visualization
+        # Active zone: brighter blue, Buffer zone: reddish
+        granule_colors_field = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+
+        @ti.kernel
+        def set_granule_colors():
+            for i in range(lattice.total_granules):
+                if lattice.zone_type[i] == 1:  # Active zone
+                    granule_colors_field[i] = ti.Vector([0.1, 0.6, 1.0])  # Bright blue
+                else:  # Buffer zone (zone_type == 2)
+                    granule_colors_field[i] = ti.Vector([1.0, 0.3, 0.3])  # Red/pink for visibility
+
+        set_granule_colors()
+
+        # Render granules as particles (spheres) with zone-based coloring
+        scene.particles(
+            normalized_positions, radius=normalized_radius, per_vertex_color=granule_colors_field
+        )
 
         # Render the scene to canvas
         canvas.scene(scene)
@@ -294,27 +398,25 @@ if __name__ == "__main__":
     print("SIMULATION DATA")
     print("===============================")
 
-    # Test the new 3D BCC lattice
-    print("\n--- 3D BCC Lattice Test ---")
-    universe_edge = 1e-15
-    lattice = Lattice(universe_edge)
+    # Test the new 3D spherical BCC lattice
+    print("\n--- 3D Spherical BCC Lattice Test ---")
+    universe_radius = 0.5e-15  # 0.5 femtometer radius sphere
+    lattice = Lattice(universe_radius)
     stats = lattice.get_stats()
 
-    print(f"Universe edge: {stats['universe_edge']:.2e} m")
+    print(f"Universe radius: {stats['universe_radius']:.2e} m")
+    print(f"Active radius: {stats['active_radius']:.2e} m")
+    print(f"Buffer thickness: {stats['buffer_thickness']:.2e} m")
     print(f"Unit cell edge: {stats['unit_cell_edge']:.2e} m")
-    print(f"Grid size: {stats['grid_size']}x{stats['grid_size']}x{stats['grid_size']}")
-    print(f"Total granules: {stats['total_granules']:,}")
-    print(f"  - Corner granules: {stats['corner_granules']:,}")
-    print(f"  - Center granules: {stats['center_granules']:,}")
-    print("\n--- Lattice Energy ---")
-    print(f"Total energy: {equations.energy_wave_equation(universe_edge**3):.2e} J")
     print(
-        f"Total energy: {equations.J_to_kWh(equations.energy_wave_equation(universe_edge**3)):.2e} KWh"
+        f"Grid size: {stats['grid_size']}x{stats['grid_size']}x{stats['grid_size']} (bounding cube)"
     )
-    print(
-        f"Total energy: {equations.J_to_kWh(equations.energy_wave_equation(universe_edge**3))/(183230*1e9):,.0f} Years of global energy use"
-    )
+    print(f"Total granules in sphere: {stats['total_granules']:,}")
+    print(f"  - Active zone: {stats['active_granules']:,}")
+    print(f"  - Buffer zone: {stats['buffer_granules']:,}")
+    print(f"Sphere volume: {stats['sphere_volume']:.2e} m³")
+    print(f"Space efficiency: {stats['efficiency']:.1f}% (vs bounding cube)")
 
-    # Render the 3D lattice
-    print("\n--- 3D Lattice Rendering ---")
+    # Render the 3D spherical lattice
+    print("\n--- 3D Spherical Lattice Rendering ---")
     render_lattice(lattice)  # Pass the already created lattice instance
