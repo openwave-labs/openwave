@@ -63,115 +63,160 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 
 This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
+- ✓ = module already released
+
 ```mermaid
 classDiagram
   direction LR
   
 class `SPACETIME MODULES
   (ENERGY SOURCE)`{
-    quantum_space.py
-    quantum_wave.py
-  }
-class `FORCE
-  MODULES`{
-    electric.py
-    magnetic.py
-    gravitational.py
-    strong.py
-    orbital.py
-  }
+    quantum_space.py ✓
+    quantum_wave.py}
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `MATTER MODULES
+  (PARTICLE ENERGY)`
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `MOTION MODULES
+  (KINETIC ENERGY)`
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `PHOTON MODULES
+  (PHOTON ENERGY)`
+`SPACETIME MODULES
+  (ENERGY SOURCE)` --> `HEAT MODULES
+  (THERMAL ENERGY)`
+
+
 class `MATTER MODULES
   (PARTICLE ENERGY)`{
     fundamental_particle.py
     standalone_particle.py
     composite_particle.py
     atom.py
-    molecule.py
-  }
+    molecule.py}
+`MATTER MODULES
+  (PARTICLE ENERGY)` <--> `FORCE
+  MODULES`
+`MATTER MODULES
+  (PARTICLE ENERGY)` --> `XPERIMENT MODULES
+  (VIRTUAL BENCH)`
+
+
+class `FORCE
+  MODULES`{
+    electric.py
+    magnetic.py
+    gravitational.py
+    strong.py
+    orbital.py}
+
+
 class `MOTION MODULES
   (KINETIC ENERGY)`{    
-    --TBD*
-  }
+    --TBD*}
+`MOTION MODULES
+  (KINETIC ENERGY)` <-- `FORCE
+  MODULES`
+`MOTION MODULES
+  (KINETIC ENERGY)` --> `XPERIMENT MODULES
+  (VIRTUAL BENCH)`
+
+
 class `PHOTON MODULES
   (PHOTON ENERGY)`{
-    --TBD*
-  }
+    --TBD*}
+`PHOTON MODULES
+  (PHOTON ENERGY)` --> `XPERIMENT MODULES
+  (VIRTUAL BENCH)`
+
+
 class `HEAT MODULES
   (THERMAL ENERGY)`{
-    --TBD*
-  }
-class `VALIDATION
-  MODULES`{
-    derivations.py
-    --TBD*
-  }
+    --TBD*}
+`HEAT MODULES
+  (THERMAL ENERGY)` --> `XPERIMENT MODULES
+  (VIRTUAL BENCH)`
+
+
 class `XPERIMENT MODULES
-  (DIY PHYSICS)`{
-    render_granule.py
-    --TBD*
-  }
+  (VIRTUAL BENCH)`{
+    render_lattice.py
+    --TBD*}
+
+
 class `CORE
   MODULES`{
-    config.py
-    constants.py
-    equations.py
-    --TBD*
-  }
+    config.py ✓
+    constants.py ✓
+    equations.py ✓
+    --TBD*}
+`CORE
+  MODULES` <--> `VALIDATION
+  MODULES`
+
+
+class `VALIDATION
+  MODULES`{
+    derivations.py ✓
+    --TBD*}
+`VALIDATION
+  MODULES` <--> `I/O
+  MODULES`
+
+
 class `I/O
   MODULES`{
     viz
     cli
     file
-    --TBD*
-  }
+    --TBD*}
+```
 
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `MATTER MODULES
-  (PARTICLE ENERGY)`
-  
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `MOTION MODULES
-  (KINETIC ENERGY)`
+### DEVELOPMENT ROADMAP
 
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `PHOTON MODULES
-  (PHOTON ENERGY)`
+```mermaid
+kanban
+  [TODO]
+    [@SPACETIME:
+      quantum_wave.py]
+    
+    [@MATTER:
+      fundamental_particle.py
+      standalone_particle.py
+      composite_particle.py
+     atom.py
+      molecule.py]
+    
+    [@FORCE:
+      electric.py
+      magnetic.py
+      gravitational.py
+      strong.py
+      orbital.py]
+    
+    [@MOTION:
+      motion.py]
+    
+    [@PHOTON:
+      photon.py]
+    
+    [@HEAT:
+      heat.py]
 
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `HEAT MODULES
-  (THERMAL ENERGY)`
+  [IN PROGRESS]
+    [@SPACETIME:
+      quantum_space.py]@{ priority: 'Very High', assigned: 'xrodz' }
   
-`MATTER MODULES
-  (PARTICLE ENERGY)` <--> `FORCE
-  MODULES`
+  [TESTING]
+    [@CORE:
+      equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
   
-`MOTION MODULES
-  (KINETIC ENERGY)` <-- `FORCE
-  MODULES`
-  
-`MATTER MODULES
-  (PARTICLE ENERGY)` --> `XPERIMENT MODULES
-  (DIY PHYSICS)`
-  
-`MOTION MODULES
-  (KINETIC ENERGY)` --> `XPERIMENT MODULES
-  (DIY PHYSICS)`
-  
-`PHOTON MODULES
-  (PHOTON ENERGY)` --> `XPERIMENT MODULES
-  (DIY PHYSICS)`
-  
-`HEAT MODULES
-  (THERMAL ENERGY)` --> `XPERIMENT MODULES
-  (DIY PHYSICS)`
-  
-`CORE
-  MODULES` <--> `VALIDATION
-  MODULES`
-
-`VALIDATION
-  MODULES` <--> `I/O
-  MODULES`
+  [RELEASED]
+    [@CORE:
+      config.py
+      constants.py]
+    [@VALIDATION:
+      derivations.py]
 ```
 
 ### Scalability & Performance
