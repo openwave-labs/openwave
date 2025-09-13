@@ -21,14 +21,18 @@ ti.init(arch=ti.gpu)
 
 
 class Granule:
-    # Granule Model: The aether consists of "granules".
-    # Fundamental units that vibrate and create wave patterns.
-    # Their collective motion at Planck scale creates all observable phenomena.
+    """
+    Granule Model: The aether consists of "granules".
+    Fundamental units that vibrate and create wave patterns.
+    Their collective motion at Planck scale creates all observable phenomena.
+    Each granule has a defined radius and mass.
+    """
 
-    og_granule_radius = constants.PLANCK_LENGTH
-
-    def __init__(self, granule_radius=og_granule_radius):
-        self.radius = granule_radius  # m
+    def __init__(self, unit_cell_edge: float):  # in meters
+        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / (2e)
+        self.mass = (
+            constants.QSPACE_DENSITY * unit_cell_edge**3 / 2
+        )  # mass = density * unit cell volume / 2 granules per cell
 
 
 @ti.data_oriented
@@ -51,7 +55,7 @@ class Lattice:
 
         # Scale to attometers to avoid float32 precision issues
         # This keeps position values in a reasonable range (e.g., 1000 instead of 1e-15)
-        universe_edge = universe_edge / constants.ATTOMETER_SCALE  # Convert meters to attometers
+        universe_edge = universe_edge / constants.ATTO_PREFIX  # Convert meters to attometers
         universe_volume = universe_edge**3
 
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
@@ -124,10 +128,9 @@ class Lattice:
     def get_stats(self):
         """Return lattice statistics."""
         return {
-            "universe_edge": self.universe_edge
-            * constants.ATTOMETER_SCALE,  # convert back to meters
+            "universe_edge": self.universe_edge * constants.ATTO_PREFIX,  # convert back to meters
             "unit_cell_edge": self.unit_cell_edge
-            * constants.ATTOMETER_SCALE,  # convert back to meters
+            * constants.ATTO_PREFIX,  # convert back to meters
             "grid_size": self.grid_size,
             "total_granules": self.total_granules,
             "corner_granules": (self.grid_size + 1) ** 3,
@@ -157,9 +160,6 @@ def render_lattice(lattice_instance=None):
     else:
         lattice = lattice_instance
 
-    # Get lattice statistics for display
-    stats = lattice.get_stats()
-
     # Create GGUI window with 3D scene
     window = ti.ui.Window(
         "3D BCC Quantum Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
@@ -182,19 +182,19 @@ def render_lattice(lattice_instance=None):
             # Normalize from attometer scale to 0-1 range
             normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
 
-    # Prepare colors and radius
+    # Prepare colors
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
-    # Granule radius as fraction of unit cell
-    normalized_radius = lattice.unit_cell_edge / (
-        lattice.universe_edge * 2 * np.e
-    )  # radius = unit cell edge / (2e)
-
+    # Granule radius scaled for visibility
+    granule = Granule(lattice.unit_cell_edge * constants.ATTO_PREFIX)  # in meters
+    normalized_radius = (granule.radius / constants.ATTO_PREFIX) / lattice.universe_edge
     # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
 
+    print(f"Granule radius: {granule.radius:.2e} m")
+    print(f"Granule mass: {granule.mass:.2e} kg")
     print(f"Normalized granule radius: {normalized_radius:.6f}")
     print("Starting 3D render loop...")
     print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
