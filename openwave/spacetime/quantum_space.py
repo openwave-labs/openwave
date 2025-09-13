@@ -131,7 +131,6 @@ class Lattice:
             "total_granules": self.total_granules,
             "corner_granules": (self.grid_size + 1) ** 3,
             "center_granules": self.grid_size**3,
-            "packing_fraction": 0.68,  # BCC packing efficiency
         }
 
 
@@ -187,14 +186,12 @@ def render_lattice(lattice_instance=None):
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
-    # Granule radius as fraction of unit cell for visibility
-    # Make granules visible but not overlapping
-    # Increase radius for better visibility
+    # Granule radius as fraction of unit cell
     normalized_radius = lattice.unit_cell_edge / (
         lattice.universe_edge * 2 * np.e
-    )  # unit cell edge / (2e)
+    )  # radius = unit cell edge / (2e)
 
-    # Ensure minimum radius for visibility - increased for small lattices
+    # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
 
@@ -213,14 +210,15 @@ def render_lattice(lattice_instance=None):
     # for i, pos in enumerate(sample_positions):
     #     print(f"  Granule {i}: [{pos[0]:.3f}, {pos[1]:.3f}, {pos[2]:.3f}]")
 
-    # Camera orbit parameters - matching initial position (1.5, 1.2, 1.5) looking at (0.5, 0.5, 0.5)
+    # Camera orbit parameters - matching initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
 
-    # Calculate initial angles from the desired initial position (1.5, 1.2, 1.5)
-    # Initial position relative to center: (1.0, 0.7, 1.0)
-    initial_rel_x = 1.5 - orbit_center[0]  # 1.0
-    initial_rel_y = 1.2 - orbit_center[1]  # 0.7
-    initial_rel_z = 1.5 - orbit_center[2]  # 1.0
+    # Calculate initial angles from the desired initial position
+    # close-up start (1.5, 1.2, 1.5) >> relative to center: (1.0, 0.7, 1.0)
+    # far-away start (3.67, 2.72, 3.67) >> relative to center: (3.17, 2.22, 3.17)
+    initial_rel_x = 3.67 - orbit_center[0]
+    initial_rel_y = 2.72 - orbit_center[1]
+    initial_rel_z = 3.67 - orbit_center[2]
 
     # Calculate initial orbit parameters
     orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
@@ -310,7 +308,6 @@ if __name__ == "__main__":
     print(f"Total granules: {stats['total_granules']:,}")
     print(f"  - Corner granules: {stats['corner_granules']:,}")
     print(f"  - Center granules: {stats['center_granules']:,}")
-    print(f"Packing fraction: {stats['packing_fraction']:.2%}")
 
     # Render the 3D lattice
     print("\n--- 3D Lattice Rendering ---")
