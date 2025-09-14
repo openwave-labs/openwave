@@ -248,39 +248,25 @@ kanban
 - [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
 - [ ] Introduce automated testing and continuous integration to validate code changes
 
-## Installation (non-developer)
+## Installation
 
-### Developer installation refer to [Contribution Guide](CONTRIBUTING.md)
-
-### macOS (non-developer, mini-conda)
+### Development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
-# These are instructions for non-developers to quickly experiment with OpenWave
-
-# From your terminal install miniconda & python
-mkdir -p ~/miniconda3
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-rm ~/miniconda3/miniconda.sh
-
-# Close & re-open terminal to refresh, then run
-source ~/miniconda3/bin/activate
-conda init --all
-
 # Clone the OpenWave repository
-git clone https://github.com/openwave-labs/openwave.git
-cd openwave # point to local directory where OpenWave was installed
+  git clone https://github.com/openwave-labs/openwave.git
+  cd openwave # point to local directory where OpenWave was installed
+
+# Create virtual environment (via Venv)
+  python -m venv openwave
+  source openwave/bin/activate  # On Windows: openwave\Scripts\activate
+   
+# Or Create virtual environment (via Conda)
+  conda create -n openwave python=3.12 -y
+  conda activate openwave
 
 # Install package & dependencies
-python3 -m pip install --upgrade pip # upgrade pip install tool
-pip install .  # reads dependencies from pyproject.toml
-
-```
-
-### On Linux / Windows *--WORK IN PROGRESS--*
-
-```bash
-TBD
+  pip install .  # reads dependencies from pyproject.toml
 ```
 
 ## Usage
@@ -292,7 +278,7 @@ x_files are virtual bench experiments where you play with quantum objects to ach
 ```bash
 # Run your first OpenWave x_file
 python openwave/spacetime/quantum_space.py
-python openwave/spacetime/x_view_tesseract_10cm.py
+python openwave/spacetime/x_view_tesseract.py
 
 # Run sample x_files available at the codebase, or create your own
 ```
