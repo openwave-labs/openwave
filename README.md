@@ -23,7 +23,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 - Runs simulations derived directly from equations.
 - Validates outcomes by comparing them against observed reality.
-- Generates numerical analysis reports for scientific publications.
+- [PLANNED] Generates numerical analysis reports for scientific publications.
 
 ### Visual Demonstration
 
@@ -34,7 +34,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ### Experiments Simulation (#energy_hacking)
 
 - [PLANNED] Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
-- [PLANNED] Generates schematics to serve as baseline for patent applications.
+- [PLANNED] Generates baseline knowledge for your patent applications.
 
 ## Scientific Source
 
@@ -44,7 +44,9 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 
 - Website & Videos: [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory")
 - Scientific Papers: [Core Concepts](https://github.com/openwave-labs/openwave/tree/main/research_requirements/scientific_source "Energy Wave Theory")
-- Original Requirements: [Requirements Source](https://github.com/openwave-labs/openwave/tree/main/research_requirements/requirements_source "Energy Wave Theory")
+- Original Requirements: [Requirements](https://github.com/openwave-labs/openwave/tree/main/research_requirements/original_requirements "Energy Wave Theory")
+
+### Origins
 
 The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that builds upon the work of pioneers like:
 
@@ -57,7 +59,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics.
 
-## System Architecture
+## System Architecture v0.1.0
 
 ### Modular Design
 
@@ -226,7 +228,8 @@ kanban
 
 ### Tech Stack
 
-- **Primary Language**: Python (>=3.12)
+- **Primary Language**:
+  - Python (>=3.12)
 - **Parallel Processing**:
   - Taichi Python Acceleration: GPU optimization for computationally intensive wave simulations
 - **Math/Physics Libraries**:
@@ -238,28 +241,40 @@ kanban
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
 
-## Installation
+### Todo
 
-### macOS
+- [ ] Implement CLI entry points
+- [ ] Develop documentation
+- [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
+- [ ] Introduce automated testing and continuous integration to validate code changes
 
-```python
-# Install Homebrew & Python
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install python@3.12
+## Installation (non-developer)
 
-# Create virtual environment (Python)
-python -m venv openwave
-source openwave/bin/activate
+### Developer installation refer to [Contribution Guide](CONTRIBUTING.md)
 
-# Create virtual environment (Conda)
-conda create -n openwave python=3.12 -y
-conda activate openwave
-# conda env remove -n openwave # IF issues, remove environment, start over
+### macOS (non-developer, mini-conda)
 
-# Clone the repository & install packages
+```bash
+# These are instructions for non-developers to quickly experiment with OpenWave
+
+# From your terminal install miniconda & python
+mkdir -p ~/miniconda3
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm ~/miniconda3/miniconda.sh
+
+# Close & re-open terminal to refresh, then run
+source ~/miniconda3/bin/activate
+conda init --all
+
+# Clone the OpenWave repository
 git clone https://github.com/openwave-labs/openwave.git
 cd openwave # point to local directory where OpenWave was installed
+
+# Install package & dependencies
+python3 -m pip install --upgrade pip # upgrade pip install tool
 pip install .  # reads dependencies from pyproject.toml
+
 ```
 
 ### On Linux / Windows *--WORK IN PROGRESS--*
@@ -268,70 +283,21 @@ pip install .  # reads dependencies from pyproject.toml
 TBD
 ```
 
-### Optional: LaTex & FFmpeg (video generation)
+## Usage
+
+### Play with x_files
+
+x_files are virtual bench experiments where you play with quantum objects to achieve a desired outcome.
 
 ```bash
-# Install LaTeX and FFmpeg (macOS)
-brew install --cask mactex-no-gui ffmpeg
-echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
-exec zsh -l
+# Run your first OpenWave x_file
+python openwave/spacetime/quantum_space.py
+python openwave/spacetime/x_view_tesseract_10cm.py
 
-# Verify LaTeX installation
-which latex && latex --version
-which dvisvgm && dvisvgm --version
-which gs && gs --version
+# Run sample x_files available at the codebase, or create your own
 ```
 
-## CLI Usage *--WORK IN PROGRESS--*
-
-Note: CLI implementations are currently incomplete but will follow the pattern below.
-
-### Quantum Space
-
-- Use `space -h` to get the following help or `python openwave/space.py -h`
-
-```bash
-usage: space [-h] [-R] [-t]
-             [-p PREFIX]
-             [-asis] [-dnr] [-env] [-run]
-
-optional arguments:
-      -h, --help                    show this help message and exit
-      -R, --use-ray
-      -t, --test
-      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
-      -asis, --execute-as-is
-      -dnr, --dont-refresh          refresh
-      -env, --print-env-var         prints all environmental variables
-      -run, --run-analysis          runs at selected locations
-```
-
-### Quantum Wave
-
-- Use `wave -h` to get the following help or `python openwave/wave.py -h`
-
-```bash
-usage: wave [-h] [-R] [-t]
-             [-p PREFIX]
-             [-asis] [-dnr] [-env] [-run]
-
-optional arguments:
-      -h, --help                    show this help message and exit
-      -R, --use-ray
-      -t, --test
-      -p PREFIX, --prefix PREFIX    modifies name, useful for report folder customization
-      -asis, --execute-as-is
-      -dnr, --dont-refresh          refresh
-      -env, --print-env-var         prints all environmental variables
-      -run, --run-analysis          runs at selected locations
-```
-
-## Todo
-
-- [ ] Implement CLI entry points
-- [ ] Develop documentation
-- [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
-- [ ] Introduce automated testing and continuous integration to validate code changes
+Note: CLI entry points are currently in progress.
 
 ## Contributing to this Project
 

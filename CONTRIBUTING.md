@@ -22,44 +22,49 @@ Detailed development documentation available in `/dev_docs/`:
 ## Getting Started
 
 - **Fork the Repository**  
-   Click “Fork” on GitHub to create your own copy.
+  - Click “Fork” on GitHub to create your own copy.
 
 - **Clone Your Fork**
 
 ```bash
-   git clone https://github.com/YOUR-USERNAME/openwave.git
-   cd openwave
+      git clone https://github.com/YOUR-USERNAME/openwave.git
+      cd openwave
    ```
 
-- **Set Up the Environment**
+- **Set Up the Environment & Install**
 
 ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   pip install -e .  # installs dependencies from pyproject.toml
+   # Create virtual environment (via Venv)
+      python -m venv openwave
+      source openwave/bin/activate  # On Windows: openwave\Scripts\activate
+   
+   # Or Create virtual environment (via Conda)
+      conda create -n openwave python=3.12 -y
+      conda activate openwave
+
+   # Install OpenWave & Dependencies for Development (-e = edit mode)
+      pip install -e .  # installs dependencies from pyproject.toml
    ```
 
-- **Create a Branch**
+- **Create a Branch to Develop Your Feature**
 
 ```bash
-   git checkout -b your-feature-name
+      git checkout -b your-feature-name
    ```
 
 ### Optional: LaTex & FFmpeg (video generation)
 
 ```bash
-# Install LaTeX and FFmpeg (macOS)
-brew install --cask mactex-no-gui ffmpeg
-echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
-exec zsh -l
+   # Install LaTeX and FFmpeg (macOS)
+      brew install --cask mactex-no-gui ffmpeg
+      echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
+      exec zsh -l
 
-# Verify LaTeX installation
-which latex && latex --version
-which dvisvgm && dvisvgm --version
-which gs && gs --version
+   # Verify LaTeX installation
+      which latex && latex --version
+      which dvisvgm && dvisvgm --version
+      which gs && gs --version
 ```
-
----
 
 ## Code Style & Quality
 
