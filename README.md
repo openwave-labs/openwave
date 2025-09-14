@@ -283,7 +283,7 @@ python openwave/spacetime/x_view_tesseract.py
 # Run sample x_files available at the codebase, or create your own
 ```
 
-Note: CLI entry points are currently in progress.
+Note: CLI entry points are in the development roadmap, if you want to contribute, please check how at the [Contribution Guide](CONTRIBUTING.md)
 
 ## Contributing to this Project
 

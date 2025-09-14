@@ -155,7 +155,7 @@ def render_lattice(lattice_instance=None):
 
     # Use provided lattice or create default
     if lattice_instance is None:
-        universe_edge = 1e-16
+        universe_edge = 1e-16  # m
         lattice = Lattice(universe_edge)
     else:
         lattice = lattice_instance
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 
     # Test the new 3D BCC lattice
     print("\n--- 3D BCC Lattice Test ---")
-    universe_edge = 1e-16
+    universe_edge = 1e-16  # m
     lattice = Lattice(universe_edge)
     stats = lattice.get_stats()
 
