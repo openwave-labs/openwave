@@ -35,10 +35,10 @@ class Granule:
     """
 
     def __init__(self, unit_cell_edge: float):  # in meters
-        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / (2e)
+        self.radius = unit_cell_edge / (2 * np.e)  # m, radius = unit cell edge / (2e)
         self.mass = (
             constants.QSPACE_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = density * unit cell volume / 2 granules per cell
+        )  # kg, mass = density * unit cell volume / 2 granules per cell
 
 
 @ti.data_oriented
@@ -47,6 +47,20 @@ class Lattice:
     3D Body-Centered Cubic (BCC) lattice for quantum space simulation.
     BCC topology: cubic unit cells with an additional granule at the center.
     More efficient packing than simple cubic (68% vs 52% space filling).
+
+    Performance Design: 1D Arrays with 3D Vectors
+    - Memory: Contiguous layout, perfect cache line utilization (64-byte alignment)
+    - Compute: Single loop parallelization, no index arithmetic (vs i*dim²+j*dim+k)
+    - GPU: Direct thread mapping (thread_i→granule_i), coalesced memory access
+    - BCC Lattice: Uniform treatment of corner+center granules in single array
+    Benefits:    
+    - Simpler updates: One kernel updates all particles
+    - Cleaner code: No need to manage multiple arrays
+    - Movement-Ready: Velocity field prepared for dynamics,
+    particles can move freely without grid remapping constraints
+    
+    This is why high-performance physics engines (molecular dynamics, N-body simulations)
+    universally use 1D arrays for particle data, regardless of spatial dimensionality.
     """
 
     def __init__(self, universe_edge: float):
@@ -65,10 +79,10 @@ class Lattice:
         universe_volume = universe_edge**3
 
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        # Volume per unit cell = universe_volume / (total_granules / 2)
+        # Volume per unit cell = universe_volume / (total_granules / 2), in attometers^3
         unit_cell_volume = universe_volume / (total_granules / 2)
 
-        # Unit cell edge length (a^3 = volume)
+        # Unit cell edge length in attometers (a^3 = volume)
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)
         self.universe_edge = universe_edge
 
@@ -81,7 +95,8 @@ class Lattice:
         center_count = self.grid_size**3
         self.total_granules = corner_count + center_count
 
-        # Initialize position and velocity fields
+        # Initialize position and velocity 1D fields
+        # Single field design: Better memory locality, simpler kernels, future-ready for dynamics
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
@@ -90,7 +105,15 @@ class Lattice:
 
     @ti.kernel
     def _populate_bcc_lattice(self):
-        """Populate BCC lattice positions in a single field."""
+        """Populate BCC lattice positions in a 1D field.
+        Kernel is properly optimized for Taichi's parallel execution:
+        1. Single outermost loop - for idx in range() allows full GPU parallelization
+        2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
+        3. No nested loops - All granules computed in parallel across GPU threads
+        4. Efficient branching - Simple if/else to determine corner vs center granules
+        This structure ensures maximum parallelization on GPU, as each thread independently
+        computes one granule's position without synchronization overhead.
+        """
         # Parallelize over all granules using single outermost loop
         for idx in range(self.total_granules):
             # Determine if this is a corner or center granule
@@ -193,13 +216,14 @@ def render_lattice(lattice_instance=None):
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
     # Granule radius scaled for visibility
-    granule = Granule(lattice.unit_cell_edge * constants.ATTO_PREFIX)  # in meters
-    normalized_radius = (granule.radius / constants.ATTO_PREFIX) / lattice.universe_edge
+    granule = Granule(lattice.unit_cell_edge)  # attometers
+    # Normalize radius to 0-1 range for GGUI rendering
+    normalized_radius = (granule.radius) / lattice.universe_edge
     # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
 
-    print(f"Granule radius: {granule.radius:.2e} m")
+    print(f"Granule radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
     print(f"Granule mass: {granule.mass:.2e} kg")
     print(f"Normalized granule radius: {normalized_radius:.6f}")
     print("Starting 3D render loop...")

@@ -50,8 +50,8 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 
 The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that builds upon the work of pioneers like:
 
-- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory)
 - [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox)
+- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory)
 - [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710)
 - [Gabriel LaFreniere](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
 - among others.
