@@ -6,7 +6,7 @@ Includes rendering simulation and theoretical comparisons.
 import time
 import numpy as np
 import taichi as ti
-from dev_sandbox.spacetime_tests.qspace_sphere import Lattice as SphericalLattice
+from dev_sandbox.universe_shape_tests.qspace_sphere import Lattice as SphericalLattice
 from openwave.spacetime.quantum_space import Lattice as CubicLattice
 import openwave.core.constants as constants
 
