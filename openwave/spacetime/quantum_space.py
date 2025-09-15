@@ -1,9 +1,14 @@
 """
 QUANTUM SPACE
-(AKA: AKASHA @yoga, WUJI @taoism, AETHER @ancient)
+(AKA: AKASHA @yoga, WUJI @taoism, AETHER @classical)
+
 QUANTUM SPACE is a Wave-Medium and Propagates Wave-Motions (QUANTUM WAVE).
-Modeled as an elastic fluid structure (compressible),
+Modeled as a particle-based elastic ideal fluid (plasma like),
 that allows energy to transfer from one point to the next.
+
+"Aether" can refer to the personification of the bright upper sky in Greek mythology,
+the classical fifth element or quintessence filling the universe,
+or a hypothetical substance once thought to carry light and other electromagnetic waves.
 """
 
 import numpy as np
@@ -14,6 +19,7 @@ import openwave.core.constants as constants
 import openwave.core.equations as equations
 
 ti.init(arch=ti.gpu)
+
 
 # ==================================================================
 # Physics Engine

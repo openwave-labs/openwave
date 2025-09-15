@@ -8,7 +8,7 @@ OpenWave is an open-source quantum physics simulator implementing Energy Wave Th
 
 ### Project Goals
 
-To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `a6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
+To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
 
 ### What is OpenWave?
 
@@ -44,7 +44,7 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 ### Project Requirements
 
-The `/research_requirements/requirements_source/` directory contains simulation specification documents:
+The `/research_requirements/original_requirements/` directory contains simulation specification documents:
 
 1. Simulating a Fundamental Particle - EWT.pdf
 2. Simulating Standalone Particles - EWT.pdf  
@@ -52,21 +52,21 @@ The `/research_requirements/requirements_source/` directory contains simulation 
 4. Simulating Atoms - EWT.pdf
 5. Simulating Molecules - EWT.pdf
 
-### Scientific Source Materials
+### Scientific Source Material
 
 The `/research_requirements/scientific_source/` directory contains foundational EWT research papers:
 
-- a1. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
-- a2. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf
-- a3. The Physics of SubAtomic Particles.pdf
-- a4. Relationship of the Speed of Light to Aether Density (contains Planck mass correction)
-- a5. The Relationship of Planck Constants and Wave Constants v2.pdf
-- a6. Constants and Equations - Waves.pdf (primary constants reference)
-- a7. Constants and Equations - Classical.pdf
-- a8. Geometry - EWT.pdf
-- a9. Mechanics - EWT.pdf
+1. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
+2. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf
+3. The Physics of SubAtomic Particles.pdf
+4. Relationship of the Speed of Light to Aether Density (contains Planck mass correction)
+5. The Relationship of Planck Constants and Wave Constants v2.pdf
+6. Constants and Equations - Waves.pdf (primary constants reference)
+7. Constants and Equations - Classical.pdf
+8. Geometry - EWT.pdf
+9. Mechanics - EWT.pdf
 
-**Key Reference**: File `a6. Constants and Equations - Waves.pdf` serves as the primary constants reference for the simulation, and `a4. Relationship of the Speed of Light to Aether Density` contains important Planck mass corrections that affect granule mass calculations.
+**Key Reference**: File `6. Constants and Equations - Waves.pdf` serves as the primary constants reference for the simulation, and `4. Relationship of the Speed of Light to Aether Density` contains important Planck mass corrections that affect granule mass calculations.
 
 ## Physics Context
 

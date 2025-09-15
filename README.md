@@ -250,7 +250,7 @@ kanban
 
 ## Installation
 
-### Development installation refer to [Contribution Guide](CONTRIBUTING.md)
+For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
 # Clone the OpenWave repository
@@ -277,8 +277,8 @@ x_files are virtual bench experiments where you play with quantum objects to ach
 
 ```bash
 # Run your first OpenWave x_file
-python openwave/spacetime/quantum_space.py
-python openwave/spacetime/x_view_tesseract.py
+  python openwave/spacetime/quantum_space.py
+  python openwave/spacetime/x_view_tesseract.py
 
 # Run sample x_files available at the codebase, or create your own
 ```
