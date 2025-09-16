@@ -53,12 +53,12 @@ class Lattice:
     - Compute: Single loop parallelization, no index arithmetic (vs i*dim²+j*dim+k)
     - GPU: Direct thread mapping (thread_i→granule_i), coalesced memory access
     - BCC Lattice: Uniform treatment of corner+center granules in single array
-    Benefits:    
+    Benefits:
     - Simpler updates: One kernel updates all particles
     - Cleaner code: No need to manage multiple arrays
     - Movement-Ready: Velocity field prepared for dynamics,
     particles can move freely without grid remapping constraints
-    
+
     This is why high-performance physics engines (molecular dynamics, N-body simulations)
     universally use 1D arrays for particle data, regardless of spatial dimensionality.
     """
