@@ -23,7 +23,7 @@ UNIVERSE_RADIUS = 1e-16  # m, spherical universe radius
 SCREEN_WIDTH = 900  # pixels
 SCREEN_HEIGHT = 900  # pixels
 
-# TODO: knob, remove granule scale @config.py, limit scale_factor ranges some place
+# INCLUDE: knob, remove granule scale @config.py, limit scale_factor ranges some place
 # granule_scale = 1e-18
 
 
@@ -57,7 +57,7 @@ class Lattice2D:
             self.grid[i, j] = ti.Vector([i * self.spacing, j * self.spacing])
 
 
-# TODO: Implement RENDER module or class
+# INCLUDE: Implement RENDER module or class
 
 
 def universe_to_screen(universe_pos, universe_size):
@@ -104,8 +104,8 @@ def render_lattice():
         gui.clear(0x000000)
 
         # Draw granules
-        # TODO: Implement taichi decorator for performance boost
-        # TODO: Optimize with Taichi loop root level parallelization (for i, j in range)
+        # INCLUDE: Implement taichi decorator for performance boost
+        # INCLUDE: Optimize with Taichi loop root level parallelization (for i, j in range)
         for i in range(lattice.count):
             for j in range(lattice.count):
                 universe_pos = positions[i, j]

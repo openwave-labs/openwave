@@ -206,7 +206,6 @@ class Lattice:
 # ==================================================================
 # Rendering Engine
 # ==================================================================
-# TODO: Implement Rendering Engine in a separate module?
 
 
 def render_lattice(lattice_instance=None):

@@ -95,11 +95,11 @@ The project uses `markdownlint` for enforcing these standards. Common issues:
 
 Before committing any `.md` file:
 
-- [ ] All headings have blank lines after them
-- [ ] Lists have blank lines before and after
-- [ ] File ends with exactly one newline
-- [ ] Code blocks specify language
-- [ ] Links use descriptive text
+- All headings have blank lines after them
+- Lists have blank lines before and after
+- File ends with exactly one newline
+- Code blocks specify language
+- Links use descriptive text
 
 ## VS Code Configuration
 

@@ -301,16 +301,16 @@ ti.profiler.print()
 
 Before optimizing a loop, consider:
 
-- [ ] Can this loop be eliminated through vectorization?
-- [ ] Is the algorithm optimal (O(n) vs O(n²))?
-- [ ] Are memory accesses cache-friendly?
-- [ ] Can the loop be parallelized?
-- [ ] Are there redundant calculations?
-- [ ] Is the loop boundary checking efficient?
-- [ ] Are data types appropriate (float32 vs float64)?
-- [ ] Can loop fusion or fission improve performance?
-- [ ] Would loop tiling improve cache usage?
-- [ ] Is the compiler able to optimize this loop?
+- Can this loop be eliminated through vectorization?
+- Is the algorithm optimal (O(n) vs O(n²))?
+- Are memory accesses cache-friendly?
+- Can the loop be parallelized?
+- Are there redundant calculations?
+- Is the loop boundary checking efficient?
+- Are data types appropriate (float32 vs float64)?
+- Can loop fusion or fission improve performance?
+- Would loop tiling improve cache usage?
+- Is the compiler able to optimize this loop?
 
 ## References
 

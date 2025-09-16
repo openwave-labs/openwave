@@ -73,8 +73,6 @@ class Lattice2DPhysics:
 # ==================================================================
 # Rendering Engine
 # ==================================================================
-# TODO: Implement Rendering Engine in a separate module?
-# TODO: How to re-use classes from physics engine to rendering engine?
 
 
 class GranuleRender:

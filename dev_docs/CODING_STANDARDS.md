@@ -108,9 +108,9 @@ def calculate_wave_amplitude(
 
 Before submitting a pull request:
 
-- [ ] Code follows style guidelines
-- [ ] All tests pass
-- [ ] Documentation is updated
-- [ ] Performance implications considered
-- [ ] No hardcoded values (use constants)
-- [ ] Error handling is appropriate
+- Code follows style guidelines
+- All tests pass
+- Documentation is updated
+- Performance implications considered
+- No hardcoded values (use constants)
+- Error handling is appropriate
