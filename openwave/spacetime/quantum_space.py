@@ -39,6 +39,9 @@ class Granule:
         self.mass = (
             constants.QSPACE_DENSITY * unit_cell_edge**3 / 2
         )  # kg, mass = density * unit cell volume / 2 granules per cell
+        self.scale_factor = (
+            self.radius / constants.PLANCK_LENGTH
+        )  # linear scale factor from Planck length
 
 
 @ti.data_oriented
@@ -90,6 +93,12 @@ class Lattice:
         # Unit cell edge length in attometers (a^3 = volume)
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)
         self.universe_edge = universe_edge
+
+        # Compute quantum wave linear resolution, sampling rate
+        # granules per wavelength, should be >2 for Nyquist
+        self.qwave_res = constants.QWAVE_LENGTH / (self.unit_cell_edge * constants.ATTO_PREFIX) * 2
+        # Compute universe linear resolution, qwavelengths per universe edge
+        self.uni_res = universe_edge * constants.ATTO_PREFIX / constants.QWAVE_LENGTH
 
         # Calculate grid dimensions (number of unit cells per dimension)
         self.grid_size = int(universe_edge / self.unit_cell_edge)
@@ -294,16 +303,24 @@ def render_lattice(lattice_instance):
         scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
 
         # Create sub-window for stats overlay
-        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.25, 0.25) as sub:
+        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.37) as sub:
+            sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
-            sub.text(f"Total Granules: {lattice.total_granules:,}")
 
-            sub.text(f"--- Granule Data ---")
-            sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
+            sub.text(f"")
+            sub.text(f"--- Linear Resolutions ---")
+            sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+            sub.text(f"Wave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
+            sub.text(f"Scale-up: {granule.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
+
+            sub.text(f"")
+            sub.text(f"--- Scaled Granule Data ---")
+            sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
 
-            sub.text(f"--- Lattice Energy Data ---")
+            sub.text(f"")
+            sub.text(f"--- Universe Energy Data ---")
             sub.text(f"Total Energy: {lattice.lattice_energy:.2e} J")
             sub.text(f"Total Energy: {lattice.lattice_energy_kWh:.2e} KWh")
             sub.text(f"{lattice.lattice_energy_years:,.1e} Years of global energy use")
