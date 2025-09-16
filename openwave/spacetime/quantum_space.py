@@ -70,6 +70,11 @@ class Lattice:
         Args:
             universe_edge: Edge length of the cubic universe in meters
         """
+        # Compute lattice total energy from quantum wave equation
+        self.lattice_energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
+        self.lattice_energy_kWh = equations.J_to_kWh(self.lattice_energy)  # in KWh
+        self.lattice_energy_years = self.lattice_energy_kWh / (183230 * 1e9)  # global energy use
+
         # Compute total volume and granule count from resolution
         total_granules = config.QSPACE_RES
 
@@ -154,18 +159,6 @@ class Lattice:
         for i in self.positions:
             self.positions[i] += self.velocities[i] * dt
 
-    def get_stats(self):
-        """Return lattice statistics."""
-        return {
-            "universe_edge": self.universe_edge * constants.ATTO_PREFIX,  # convert back to meters
-            "unit_cell_edge": self.unit_cell_edge
-            * constants.ATTO_PREFIX,  # convert back to meters
-            "grid_size": self.grid_size,
-            "total_granules": self.total_granules,
-            "corner_granules": (self.grid_size + 1) ** 3,
-            "center_granules": self.grid_size**3,
-        }
-
 
 # ==================================================================
 # Rendering Engine
@@ -173,27 +166,24 @@ class Lattice:
 # TODO: Implement Rendering Engine in a separate module?
 
 
-def render_lattice(lattice_instance=None):
+def render_lattice(lattice_instance):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
     Args:
-        lattice_instance: Optional Lattice instance to render. If None, creates default.
+        lattice_instance: Lattice instance to render
     """
-    print("Initializing 3D lattice render...")
 
-    # Use provided lattice or create default
-    if lattice_instance is None:
-        universe_edge = 1e-16  # m
-        lattice = Lattice(universe_edge)
-    else:
-        lattice = lattice_instance
+    lattice = lattice_instance
 
     # Create GGUI window with 3D scene
     window = ti.ui.Window(
-        "3D BCC Quantum Lattice (GGUI)", (config.SCREEN_RES[0], config.SCREEN_RES[1]), vsync=True
+        "Quantum-Space Lattice (3D BCC Topology)",
+        (config.SCREEN_RES[0], config.SCREEN_RES[1]),
+        vsync=True,
     )
     canvas = window.get_canvas()
+    gui = window.get_gui()
     scene = window.get_scene()
     camera = ti.ui.Camera()
 
@@ -216,27 +206,16 @@ def render_lattice(lattice_instance=None):
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
     # Granule radius scaled for visibility
-    granule = Granule(lattice.unit_cell_edge)  # attometers
+    granule = Granule(lattice.unit_cell_edge)  # in attometers
     # Normalize radius to 0-1 range for GGUI rendering
     normalized_radius = (granule.radius) / lattice.universe_edge
     # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
 
-    print(f"Granule radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
-    print(f"Granule mass: {granule.mass:.2e} kg")
-    print(f"Normalized granule radius: {normalized_radius:.6f}")
-    print("Starting 3D render loop...")
-    print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
-
     # Normalize positions once before render loop
+    print("Normalizing 3D lattice positions to screen...")
     normalize_positions()
-
-    # # Debug: Print sample positions to verify they're in correct range
-    # sample_positions = normalized_positions.to_numpy()[: min(5, lattice.total_granules)]
-    # print(f"Sample normalized positions (first {len(sample_positions)}):")
-    # for i, pos in enumerate(sample_positions):
-    #     print(f"  Granule {i}: [{pos[0]:.3f}, {pos[1]:.3f}, {pos[2]:.3f}]")
 
     # Camera orbit parameters - matching initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
@@ -255,6 +234,9 @@ def render_lattice(lattice_instance=None):
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
+
+    print("Starting 3D render loop...")
+    print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
 
     while window.running:
         # Handle mouse input for orbiting
@@ -311,6 +293,21 @@ def render_lattice(lattice_instance=None):
         # Render granules as particles (spheres)
         scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
 
+        # Create sub-window for stats overlay
+        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.25, 0.25) as sub:
+            sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
+            sub.text(f"Total Granules: {lattice.total_granules:,}")
+
+            sub.text(f"--- Granule Data ---")
+            sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
+            sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
+            sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
+
+            sub.text(f"--- Lattice Energy Data ---")
+            sub.text(f"Total Energy: {lattice.lattice_energy:.2e} J")
+            sub.text(f"Total Energy: {lattice.lattice_energy_kWh:.2e} KWh")
+            sub.text(f"{lattice.lattice_energy_years:,.1e} Years of global energy use")
+
         # Render the scene to canvas
         canvas.scene(scene)
         window.show()
@@ -320,30 +317,17 @@ def render_lattice(lattice_instance=None):
 # Main calls
 # ==================================================================
 if __name__ == "__main__":
-    print("\n===============================")
-    print("SIMULATION DATA")
-    print("===============================")
 
-    # Test the new 3D BCC lattice
-    print("\n--- 3D BCC Lattice Test ---")
+    # Quantum-Space Lattice (3D BCC Topology) Stats
     universe_edge = 1e-16  # m
     lattice = Lattice(universe_edge)
-    stats = lattice.get_stats()
 
-    print(f"Universe edge: {stats['universe_edge']:.2e} m")
-    print(f"Unit cell edge: {stats['unit_cell_edge']:.2e} m")
-    print(f"Grid size: {stats['grid_size']}x{stats['grid_size']}x{stats['grid_size']}")
-    print(f"Total granules: {stats['total_granules']:,}")
-    print(f"  - Corner granules: {stats['corner_granules']:,}")
-    print(f"  - Center granules: {stats['center_granules']:,}")
-    print("\n--- Lattice Energy ---")
-    print(f"Total energy: {equations.energy_wave_equation(universe_edge**3):.2e} J")
-    print(
-        f"Total energy: {equations.J_to_kWh(equations.energy_wave_equation(universe_edge**3)):.2e} KWh"
-    )
-    print(
-        f"Total energy: {equations.J_to_kWh(equations.energy_wave_equation(universe_edge**3))/(183230*1e9):,.0f} Years of global energy use"
-    )
+    print("\n===============================")
+    print("SIMULATION DETAILED-DATA")
+    print("===============================")
+    print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")
+    print(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
+    print(f"  - Center granules: {lattice.grid_size ** 3:,}")
 
     # Render the 3D lattice
     print("\n--- 3D Lattice Rendering ---")
