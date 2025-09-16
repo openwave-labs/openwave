@@ -221,6 +221,7 @@ def render_lattice(lattice_instance):
     # Ensure minimum radius for visibility
     min_radius = 0.0001  # Minimum 0.01% of screen
     normalized_radius = max(normalized_radius, min_radius)
+    og_normalized_radius = normalized_radius  # Store original for slider
 
     # Normalize positions once before render loop
     print("Normalizing 3D lattice positions to screen...")
@@ -299,10 +300,12 @@ def render_lattice(lattice_instance):
             color=(0.5, 0.5, 0.5),  # Dimmer white light
         )
 
-        # Render granules as particles (spheres)
-        scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
+        # Create sub-windows for stats & options overlay
+        with gui.sub_window("GRANULE CONTROLS", 0.01, 0.40, 0.15, 0.15) as sub:
+            normalized_radius = sub.slider_float("Size", normalized_radius, 0.001, 0.01)
+            if sub.button("reset"):
+                normalized_radius = og_normalized_radius
 
-        # Create sub-window for stats overlay
         with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.37) as sub:
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
@@ -324,6 +327,9 @@ def render_lattice(lattice_instance):
             sub.text(f"Total Energy: {lattice.lattice_energy:.2e} J")
             sub.text(f"Total Energy: {lattice.lattice_energy_kWh:.2e} KWh")
             sub.text(f"{lattice.lattice_energy_years:,.1e} Years of global energy use")
+
+        # Render granules as particles (spheres)
+        scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
 
         # Render the scene to canvas
         canvas.scene(scene)
