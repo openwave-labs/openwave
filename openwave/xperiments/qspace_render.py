@@ -15,7 +15,7 @@ ti.init(arch=ti.gpu)
 # ==================================================================
 
 
-def render_lattice(lattice_instance):
+def render_lattice(lattice_instance, granule_instance):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
@@ -24,6 +24,7 @@ def render_lattice(lattice_instance):
     """
 
     lattice = lattice_instance
+    granule = granule_instance
 
     # Create GGUI window with 3D scene
     window = ti.ui.Window(
@@ -54,12 +55,9 @@ def render_lattice(lattice_instance):
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
     bkg_color = config.COLOR_SPACE[2]  # Black background
 
-    # Granule radius scaled for visibility
-    granule = quantum_space.Granule(lattice.unit_cell_edge)  # in attometers
-    # Normalize radius to 0-1 range for GGUI rendering
+    # Normalize granule radius to 0-1 range for GGUI rendering
     normalized_radius = (granule.radius) / lattice.universe_edge
-    # Ensure minimum radius for visibility
-    min_radius = 0.0001  # Minimum 0.01% of screen
+    min_radius = 0.0001  # Ensure minimum 0.01% of screen radius for visibility
     normalized_radius = max(normalized_radius, min_radius)
     og_normalized_radius = normalized_radius  # Store original for slider
 
@@ -139,7 +137,7 @@ def render_lattice(lattice_instance):
             color=(0.5, 0.5, 0.5),  # Dimmer white light
         )
 
-        # Create sub-windows for stats & options overlay
+        # Create overlay sub-windows for stats & options overlay
         with gui.sub_window("CONTROLS", 0.01, 0.40, 0.20, 0.15) as sub:
             sub.text("Orbit: right-click + drag")
             sub.text("Zoom: Q/A keys")
@@ -147,7 +145,7 @@ def render_lattice(lattice_instance):
             if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
-        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.37) as sub:
+        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.35) as sub:
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
 
@@ -164,12 +162,13 @@ def render_lattice(lattice_instance):
             sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
 
             sub.text(f"")
-            sub.text(f"--- Universe Energy Data ---")
-            sub.text(f"Total Energy: {lattice.lattice_energy:.2e} J")
-            sub.text(f"Total Energy: {lattice.lattice_energy_kWh:.2e} KWh")
+            sub.text(f"--- Cube Wave Energy ---")
+            sub.text(
+                f"Energy: {lattice.lattice_energy:.2e} J ({lattice.lattice_energy_kWh:.2e} KWh)"
+            )
             sub.text(f"{lattice.lattice_energy_years:,.1e} Years of global energy use")
 
-        # Render granules as particles (spheres)
+        # Render granules as taichi particles (spheres)
         scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
 
         # Render the scene to canvas
@@ -182,17 +181,20 @@ def render_lattice(lattice_instance):
 # ==================================================================
 if __name__ == "__main__":
 
-    # Quantum-Space Lattice (3D BCC Topology) Stats
+    # Quantum objects instantiation
+    print("\n===============================")
+    print("SIMULATION START")
+    print("===============================")
+    print("Creating quantum objects: lattice and granule...")
     universe_edge = 1e-16  # m
     lattice = quantum_space.Lattice(universe_edge)
+    granule = quantum_space.Granule(lattice.unit_cell_edge)  # in attometers
 
-    print("\n===============================")
-    print("SIMULATION DETAILED-DATA")
-    print("===============================")
+    print("\n--- ADDITIONAL-DATA ---")
     print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")
     print(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
     print(f"  - Center granules: {lattice.grid_size ** 3:,}")
 
     # Render the 3D lattice
-    print("\n--- 3D Lattice Rendering ---")
-    render_lattice(lattice)  # Pass the already created lattice instance
+    print("\n--- 3D LATTICE RENDERING ---")
+    render_lattice(lattice, granule)  # Pass the already created instances
