@@ -142,7 +142,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    qspace_render.py
+    qspace_render.py ✓
     --TBD*}
 
 
@@ -181,7 +181,6 @@ class `I/O
 kanban
   [BACKLOG]
     [@MATTER:
-      fundamental_particle.py
       standalone_particle.py
       composite_particle.py
      atom.py
@@ -204,16 +203,20 @@ kanban
       heat.py]
 
   [NEXT]
-    [@SPACETIME:
-      quantum_wave.py]@{ priority: 'High', assigned: 'xrodz' }
+    [@MATTER:
+      fundamental_particle.py]@{ priority: 'High', assigned: 'xrodz' }
     
   [IN PROGRESS]
     [@SPACETIME:
-      quantum_space.py]@{ priority: 'Very High', assigned: 'xrodz' }
+      quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [@CORE:
       equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
+    [@SPACETIME:
+      quantum_space.py]
+    [@XPERIMENTS:
+      qspace_render.py]
     [@CORE:
       config.py
       constants.py]
