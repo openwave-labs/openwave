@@ -74,9 +74,9 @@ class Lattice:
             universe_edge: Edge length of the cubic universe in meters
         """
         # Compute lattice total energy from quantum wave equation
-        self.lattice_energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
-        self.lattice_energy_kWh = equations.J_to_kWh(self.lattice_energy)  # in KWh
-        self.lattice_energy_years = self.lattice_energy_kWh / (183230 * 1e9)  # global energy use
+        self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
+        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Compute total volume and granule count from resolution
         total_granules = config.QSPACE_RES

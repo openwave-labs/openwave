@@ -151,30 +151,30 @@ def render_lattice(lattice_instance, granule_instance):
             if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
-        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.40) as sub:
+        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
             sub.text(f"--- QUANTUM SPACE (aka: The Aether) ---")
             sub.text(f"Topology: 3D BCC lattice")
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
 
             sub.text(f"")
-            sub.text(f"--- Linear Resolutions ---")
-            sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
-            sub.text(f"Wave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
-            sub.text(f"Scale-up: {granule.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
-
-            sub.text(f"")
-            sub.text(f"--- Scaled Granule Data ---")
+            sub.text(f"--- Dynamic Scaling (for computation) ---")
+            sub.text(f"Factor: {granule.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
             sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
 
             sub.text(f"")
+            sub.text(f"--- Simulation Resolution (linear) ---")
+            sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
+            if lattice.qwave_res < 2:
+                sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
+            sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+
+            sub.text(f"")
             sub.text(f"--- Cube Wave Energy ---")
-            sub.text(
-                f"Energy: {lattice.lattice_energy:.2e} J ({lattice.lattice_energy_kWh:.2e} KWh)"
-            )
-            sub.text(f"{lattice.lattice_energy_years:,.1e} Years of global energy use")
+            sub.text(f"Energy: {lattice.energy:.2e} J ({lattice.energy_kWh:.2e} KWh)")
+            sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
         # Render granules as taichi particles (spheres)
         scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)

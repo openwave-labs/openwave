@@ -12,7 +12,7 @@ Includes commented thermal imaging palette definitions for future use.
 # ================================================================
 # Resolution Settings
 # ================================================================
-# Using cubic space (not spherical, radius) to match vector array and lattice structures
+# Using cubic space (not spherical, radius) to match unit-cell lattice structures
 # QSPACE_RES defines the 3D grid resolution for quantum_space simulations
 # SCREEN_RES defines the 2D screen resolution for rendering and GGUI display
 # Note: Higher resolutions increase computational load and may impact performance
