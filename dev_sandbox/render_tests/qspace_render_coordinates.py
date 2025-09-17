@@ -146,7 +146,7 @@ def render_lattice(lattice_instance, granule_instance):
         with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
             sub.text("Cam Orbit: right-click + drag")
             sub.text("Zoom: Q/A keys")
-            normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
+            normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.01)
             if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
@@ -154,7 +154,7 @@ def render_lattice(lattice_instance, granule_instance):
             sub.text(f"--- QUANTUM SPACE (aka: The Aether) ---")
             sub.text(f"Topology: 3D BCC lattice")
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
-            sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
+            sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
 
             sub.text(f"")
             sub.text(f"--- Dynamic Scaling (for computation) ---")
@@ -172,7 +172,7 @@ def render_lattice(lattice_instance, granule_instance):
 
             sub.text(f"")
             sub.text(f"--- Cube Wave Energy ---")
-            sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+            sub.text(f"Energy: {lattice.energy:.2e} J ({lattice.energy_kWh:.2e} KWh)")
             sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
         # Render granules as taichi particles (spheres)
@@ -201,6 +201,106 @@ if __name__ == "__main__":
     print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")
     print(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
     print(f"  - Center granules: {lattice.grid_size ** 3:,}")
+
+    # Extract original granule coordinates using Taichi for efficiency
+    import numpy as np
+
+    # Create fields for min/max computation
+    min_coords = ti.Vector.field(3, dtype=ti.f32, shape=())
+    max_coords = ti.Vector.field(3, dtype=ti.f32, shape=())
+    vertex_indices = ti.field(dtype=ti.i32, shape=8)
+    closest_cam_idx = ti.field(dtype=ti.i32, shape=())
+    closest_cam_dist = ti.field(dtype=ti.f32, shape=())
+
+    @ti.kernel
+    def find_extremes_and_closest():
+        """Find min/max coordinates and closest granule to camera in one pass."""
+        # Initialize with first granule
+        min_coords[None] = lattice.positions[0]
+        max_coords[None] = lattice.positions[0]
+
+        # Find min/max for all coordinates
+        for i in range(lattice.total_granules):
+            pos = lattice.positions[i]
+            for j in ti.static(range(3)):
+                if pos[j] < min_coords[None][j]:
+                    min_coords[None][j] = pos[j]
+                if pos[j] > max_coords[None][j]:
+                    max_coords[None][j] = pos[j]
+
+        # Find vertices (8 corners) - using simple index calculation for grid
+        # For a regular grid, corners are at specific indices
+        grid_size = lattice.grid_size
+        corner_idx = 0
+
+        # Calculate corner indices directly for regular grid
+        for i in ti.static(range(2)):  # x: 0 or grid_size
+            for j in ti.static(range(2)):  # y: 0 or grid_size
+                for k in ti.static(range(2)):  # z: 0 or grid_size
+                    idx = (
+                        i * grid_size * grid_size * grid_size
+                        + j * grid_size * grid_size
+                        + k * grid_size
+                    )
+                    if idx < lattice.total_granules:
+                        vertex_indices[corner_idx] = idx
+                    corner_idx += 1
+
+        # Find closest to initial camera position
+        cam_pos = ti.Vector([3.67e-16, 2.72e-16, 3.67e-16])  # in meters (attometers)
+        min_dist = 1e30  # Large initial value
+
+        for i in range(lattice.total_granules):
+            pos = lattice.positions[i]
+            dist = (pos - cam_pos).norm()
+            if dist < min_dist:
+                min_dist = dist
+                closest_cam_idx[None] = i
+                closest_cam_dist[None] = dist
+
+    # Run the kernel
+    print("Computing granule extremes and camera proximity...")
+    find_extremes_and_closest()
+
+    # Extract results
+    min_c = min_coords[None]
+    max_c = max_coords[None]
+
+    print("Cube Vertex Granules (8 corners in original lattice coordinates):")
+    print(f"   Min corner: [{min_c[0]:.0f}, {min_c[1]:.0f}, {min_c[2]:.0f}] attometers")
+    print(f"   Max corner: [{max_c[0]:.2f}, {max_c[1]:.2f}, {max_c[2]:.2f}] attometers")
+
+    # Show all 8 vertex coordinates
+    print("All 8 vertices (original coordinates):")
+    corner_names = [
+        "Min-Min-Min",
+        "Max-Min-Min",
+        "Min-Max-Min",
+        "Max-Max-Min",
+        "Min-Min-Max",
+        "Max-Min-Max",
+        "Min-Max-Max",
+        "Max-Max-Max",
+    ]
+
+    # Calculate expected positions for 8 corners
+    for i, name in enumerate(corner_names):
+        x = min_c[0] if "Min" == name.split("-")[0] else max_c[0]
+        y = min_c[1] if "Min" == name.split("-")[1] else max_c[1]
+        z = min_c[2] if "Min" == name.split("-")[2] else max_c[2]
+        print(f"    {name}: [{x:.2f}, {y:.2f}, {z:.2f}] attometers")
+
+    # Show closest to camera
+    cam_idx = closest_cam_idx[None]
+    cam_dist = closest_cam_dist[None]
+    if cam_idx >= 0 and cam_idx < lattice.total_granules:
+        closest_pos = lattice.positions[cam_idx]
+        print(f"Closest to Initial Cam Position (original lattice coordinates):")
+        print(f"  Initial cam position: [367, 272, 367] attometers")
+        print(
+            f"  Closest Granule {cam_idx}: [{closest_pos[0]:.0f}, {closest_pos[1]:.0f}, {closest_pos[2]:.0f}] attometers"
+        )
+        print(f"  Distance to cam: {cam_dist:.0f} attometers")
 
     # Render the 3D lattice
     print("\n--- 3D LATTICE RENDERING ---")

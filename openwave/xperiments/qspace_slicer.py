@@ -47,14 +47,24 @@ def render_lattice(lattice_instance, granule_instance):
     camera.up(0, 1, 0)  # Y-axis up
 
     # Normalize positions for rendering (0-1 range for GGUI)
+    # Apply block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
 
     @ti.kernel
     def normalize_positions():
-        """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        """Normalize lattice positions to 0-1 and apply block-slicing."""
         for i in range(lattice.total_granules):
             # Normalize from attometer scale to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
+            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
+            # Checking if granule is in the front 1/8th block, > halfway on all axes
+            if (
+                lattice.positions[i][0] > lattice.universe_edge / 2
+                and lattice.positions[i][1] > lattice.universe_edge / 2
+                and lattice.positions[i][2] > lattice.universe_edge / 2
+            ):
+                pass
+            else:
+                normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
 
     # Prepare colors
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
