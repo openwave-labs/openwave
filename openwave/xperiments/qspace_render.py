@@ -1,4 +1,10 @@
-""" """
+"""
+Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
+
+eg. Tweak this xperiment script changing universe_edge = 0.1 m at __main__ entry point
+(the approximate size of a tesseract) and simulate this artifact energy content
+sourced from the element aether.
+"""
 
 import numpy as np
 import taichi as ti
@@ -28,7 +34,7 @@ def render_lattice(lattice_instance, granule_instance):
 
     # Create GGUI window with 3D scene
     window = ti.ui.Window(
-        "Quantum-Space Lattice (3D BCC Topology)",
+        "Quantum-Space (Topology: 3D BCC Lattice)",
         (config.SCREEN_RES[0], config.SCREEN_RES[1]),
         vsync=True,
     )
@@ -137,15 +143,17 @@ def render_lattice(lattice_instance, granule_instance):
             color=(0.5, 0.5, 0.5),  # Dimmer white light
         )
 
-        # Create overlay sub-windows for stats & options overlay
-        with gui.sub_window("CONTROLS", 0.01, 0.40, 0.20, 0.15) as sub:
-            sub.text("Orbit: right-click + drag")
+        # Create overlay sub_windows for stats & controls
+        with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
+            sub.text("Cam Orbit: right-click + drag")
             sub.text("Zoom: Q/A keys")
             normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.01)
             if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
-        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.35) as sub:
+        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.40) as sub:
+            sub.text(f"--- QUANTUM SPACE (aka: The Aether) ---")
+            sub.text(f"Topology: 3D BCC lattice")
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.2e} m")
 

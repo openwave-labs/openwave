@@ -71,41 +71,41 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 classDiagram
   direction LR
   
-class `SPACETIME MODULES
+class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     quantum_space.py ✓
     quantum_wave.py}
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `MATTER MODULES
+`SPACETIME MODULE
+  (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `MOTION MODULES
+`SPACETIME MODULE
+  (ENERGY SOURCE)` --> `MOTION MODULE
   (KINETIC ENERGY)`
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `PHOTON MODULES
+`SPACETIME MODULE
+  (ENERGY SOURCE)` --> `PHOTON MODULE
   (PHOTON ENERGY)`
-`SPACETIME MODULES
-  (ENERGY SOURCE)` --> `HEAT MODULES
+`SPACETIME MODULE
+  (ENERGY SOURCE)` --> `HEAT MODULE
   (THERMAL ENERGY)`
 
 
-class `MATTER MODULES
+class `MATTER MODULE
   (PARTICLE ENERGY)`{
     fundamental_particle.py
     standalone_particle.py
     composite_particle.py
     atom.py
     molecule.py}
-`MATTER MODULES
+`MATTER MODULE
   (PARTICLE ENERGY)` <--> `FORCE
-  MODULES`
-`MATTER MODULES
-  (PARTICLE ENERGY)` --> `XPERIMENT MODULES
+  MODULE`
+`MATTER MODULE
+  (PARTICLE ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL BENCH)`
 
 
 class `FORCE
-  MODULES`{
+  MODULE`{
     electric.py
     magnetic.py
     gravitational.py
@@ -113,64 +113,65 @@ class `FORCE
     orbital.py}
 
 
-class `MOTION MODULES
+class `MOTION MODULE
   (KINETIC ENERGY)`{    
     --TBD*}
-`MOTION MODULES
+`MOTION MODULE
   (KINETIC ENERGY)` <-- `FORCE
-  MODULES`
-`MOTION MODULES
-  (KINETIC ENERGY)` --> `XPERIMENT MODULES
+  MODULE`
+`MOTION MODULE
+  (KINETIC ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL BENCH)`
 
 
-class `PHOTON MODULES
+class `PHOTON MODULE
   (PHOTON ENERGY)`{
     --TBD*}
-`PHOTON MODULES
-  (PHOTON ENERGY)` --> `XPERIMENT MODULES
+`PHOTON MODULE
+  (PHOTON ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL BENCH)`
 
 
-class `HEAT MODULES
+class `HEAT MODULE
   (THERMAL ENERGY)`{
     --TBD*}
-`HEAT MODULES
-  (THERMAL ENERGY)` --> `XPERIMENT MODULES
+`HEAT MODULE
+  (THERMAL ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL BENCH)`
 
 
-class `XPERIMENT MODULES
+class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    render_lattice.py
+    qspace_render.py
     --TBD*}
 
 
 class `CORE
-  MODULES`{
+  MODULE`{
     config.py ✓
     constants.py ✓
     equations.py ✓
     --TBD*}
 `CORE
-  MODULES` <--> `VALIDATION
-  MODULES`
+  MODULE` <--> `VALIDATION
+  MODULE`
 
 
 class `VALIDATION
-  MODULES`{
+  MODULE`{
     derivations.py ✓
     --TBD*}
 `VALIDATION
-  MODULES` <--> `I/O
-  MODULES`
+  MODULE` <--> `I/O
+  MODULE`
 
 
 class `I/O
-  MODULES`{
-    viz
-    cli
-    file
+  MODULE`{
+    render
+    CLI
+    file_export
+    video_manager
     --TBD*}
 ```
 
@@ -265,22 +266,23 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
   conda create -n openwave python=3.12 -y
   conda activate openwave
 
-# Install package & dependencies
+# Install OpenWave package & dependencies
   pip install .  # reads dependencies from pyproject.toml
 ```
 
 ## Usage
 
-### Play with x_files
+### Play with the /xperiments module
 
-x_files are virtual bench experiments where you play with quantum objects to achieve a desired outcome.
+Xperiments are virtual bench scripts where you can experiment with quantum objects and simulate desired outcomes.
 
 ```bash
-# Run your first OpenWave x_file
-  python openwave/spacetime/quantum_space.py
-  python openwave/spacetime/x_view_tesseract.py
+# Run your first OpenWave xperiment
+  python openwave/xperiments/qspace_render.py
 
-# Run sample x_files available at the codebase, or create your own
+# Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
+# eg. tweak the xperiment above changing universe_edge = 0.1 m (the approximate size of
+# a tesseract) and simulate this artifact energy content sourced from the element aether 
 ```
 
 Note: CLI entry points are in the development roadmap, if you want to contribute, please check how at the [Contribution Guide](CONTRIBUTING.md)
@@ -293,6 +295,6 @@ See `/dev_docs` for coding standards and development guidelines
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) page for details
 
 >Real human power comes from collaboration.
