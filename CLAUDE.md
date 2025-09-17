@@ -8,12 +8,12 @@ OpenWave is an open-source quantum physics simulator implementing Energy Wave Th
 
 ### Project Goals
 
-To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
+To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/research_requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
 
 ### What is OpenWave?
 
-- Refer to `README.md` for a detailed descriptions and scope of OpenWave.
-- Refer to `/ship_log` directory for OpenWave's record of activities.
+- Refer to `README.md` for a detailed description and scope of OpenWave.
+- Refer to `/ship_log` directory for OpenWave's record of development activities.
 
 ### Known Challenges & Limitations
 
@@ -36,9 +36,9 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 - Refer to `README.md` for installation guidance of OpenWave.
 
-## CLI Usage (Work in Progress)
+## Usage (Work in Progress)
 
-- Refer to `README.md` for CLI usage instructions.
+- Refer to `README.md` for usage instructions.
 
 ## Scientific Documentation & Requirements
 
