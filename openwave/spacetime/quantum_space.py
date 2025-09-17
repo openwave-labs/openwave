@@ -246,7 +246,6 @@ def render_lattice(lattice_instance):
     last_mouse_pos = None
 
     print("Starting 3D render loop...")
-    print("Controls: Right-click drag to rotate, Q/A keys to zoom in/out")
 
     while window.running:
         # Handle mouse input for orbiting
@@ -301,9 +300,11 @@ def render_lattice(lattice_instance):
         )
 
         # Create sub-windows for stats & options overlay
-        with gui.sub_window("GRANULE CONTROLS", 0.01, 0.40, 0.15, 0.15) as sub:
-            normalized_radius = sub.slider_float("Size", normalized_radius, 0.001, 0.01)
-            if sub.button("reset"):
+        with gui.sub_window("CONTROLS", 0.01, 0.40, 0.20, 0.15) as sub:
+            sub.text("Orbit: right-click + drag")
+            sub.text("Zoom: Q/A keys")
+            normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.01)
+            if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
         with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.37) as sub:
