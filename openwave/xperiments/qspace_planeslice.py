@@ -150,7 +150,7 @@ def render_lattice(lattice_instance, granule_instance):
             color=(0.5, 0.5, 0.5),  # Dimmer white light
         )
 
-        # Create overlay sub_windows for stats & controls
+        # Create overlay windows for stats & controls
         with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
             sub.text("Cam Orbit: right-click + drag")
             sub.text("Zoom: Q/A keys")
