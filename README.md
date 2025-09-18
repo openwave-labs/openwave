@@ -284,8 +284,6 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
   python openwave/xperiments/qspace_render.py
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
-# eg. tweak the xperiment above changing universe_edge = 0.1 m (the approximate size of
-# a tesseract) and simulate this artifact energy content sourced from the element aether 
 ```
 
 Note: CLI entry points are in the development roadmap, if you want to contribute, please check how at the [Contribution Guide](CONTRIBUTING.md)

@@ -2,7 +2,7 @@
 Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 
 eg. Tweak this xperiment script changing universe_edge = 0.1 m at __main__ entry point
-(the approximate size of a tesseract) and simulate this artifact energy content
+(the approximate size of a tesseract) and simulate this artifact energy content,
 sourced from the element aether.
 """
 
