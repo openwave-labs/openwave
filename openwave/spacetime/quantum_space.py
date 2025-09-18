@@ -115,10 +115,10 @@ class Lattice:
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice
-        self._populate_bcc_lattice()
+        self.populate_lattice()
 
     @ti.kernel
-    def _populate_bcc_lattice(self):
+    def populate_lattice(self):
         """Populate BCC lattice positions in a 1D field.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
