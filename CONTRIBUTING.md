@@ -3,7 +3,9 @@
 Thank you for your interest in contributing!  
 Whether you're fixing a typo, adding a feature, or reporting a bug, your help makes OpenWave better for everyone.
 
-## How You Can Contribute
+## This is the Way
+
+### How You Can Contribute
 
 - **Report Issues:** If you find a bug, open an issue describing the problem and how to reproduce it.
 - **Suggest Features:** Share ideas for new features or improvements through the issue tracker.
