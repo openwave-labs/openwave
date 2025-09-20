@@ -158,7 +158,7 @@ def render_lattice(lattice_instance, granule_instance):
 
             sub.text(f"")
             sub.text(f"--- Dynamic Scaling (for computation) ---")
-            sub.text(f"Factor: {granule.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
+            sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
             sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     print("Creating quantum objects: lattice and granule...")
     universe_edge = 1e-16  # m
     lattice = quantum_space.Lattice(universe_edge)
-    granule = quantum_space.Granule(lattice.unit_cell_edge)  # in attometers
+    granule = quantum_space.Granule(lattice.unit_cell_edge)  # already in attometers
 
     print("\n--- ADDITIONAL-DATA ---")
     print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")

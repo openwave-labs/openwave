@@ -29,19 +29,21 @@ ti.init(arch=ti.gpu)
 class Granule:
     """
     Granule Model: The aether consists of "granules".
-    Fundamental units that vibrate and create wave patterns.
+    Fundamental units that vibrate in harmony and create wave patterns.
     Their collective motion at Planck scale creates all observable phenomena.
     Each granule has a defined radius and mass.
     """
 
-    def __init__(self, unit_cell_edge: float):  # in meters
-        self.radius = unit_cell_edge / (2 * np.e)  # m, radius = unit cell edge / (2e)
+    def __init__(self, unit_cell_edge: float):
+        """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
+
+        Args:
+            unit_cell_edge: Edge length of the BCC unit-cell.
+        """
+        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
         self.mass = (
             constants.QSPACE_DENSITY * unit_cell_edge**3 / 2
-        )  # kg, mass = density * unit cell volume / 2 granules per cell
-        self.scale_factor = (
-            self.radius / constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length
+        )  # mass = density * scaled unit cell volume / 2 granules per BCC unit-cell
 
 
 @ti.data_oriented
@@ -68,7 +70,9 @@ class Lattice:
 
     def __init__(self, universe_edge: float):
         """
-        Initialize BCC lattice with computed unit-cell spacing.
+        Initialize BCC lattice and compute scaled-up unit-cell spacing.
+        Universe size (arg) and computing capacity (config.py) are used to define
+        scaled-up unit-cell properties and scale factor.
 
         Args:
             universe_edge: Edge length of the cubic universe in meters
@@ -78,21 +82,24 @@ class Lattice:
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Compute total volume and granule count from resolution
-        total_granules = config.QSPACE_RES
+        # Get max granule count from computing capacity resolution
+        max_granules = config.QSPACE_RES
 
         # Scale to attometers to avoid float32 precision issues
-        # This keeps position values in a reasonable range (e.g., 1000 instead of 1e-15)
+        # This keeps position values in a reasonable range (e.g., 100 instead of 1e-16)
         universe_edge = universe_edge / constants.ATTO_PREFIX  # Convert meters to attometers
+        self.universe_edge = universe_edge  # now in attometers
         universe_volume = universe_edge**3
 
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        # Volume per unit cell = universe_volume / (total_granules / 2), in attometers^3
-        unit_cell_volume = universe_volume / (total_granules / 2)
+        # Volume per unit cell = universe_volume / (max_granules / 2), in attometers^3
+        unit_cell_volume = universe_volume / (max_granules / 2)
 
-        # Unit cell edge length in attometers (a^3 = volume)
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)
-        self.universe_edge = universe_edge
+        # Compute unit cell edge length in attometers (a^3 = volume)
+        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # in attometers
+        self.scale_factor = self.unit_cell_edge / (
+            2 * constants.PLANCK_LENGTH * np.e
+        )  # linear scale factor from Planck length, increases computability
 
         # Compute quantum wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
