@@ -26,10 +26,10 @@ window = ti.ui.Window(
     (config.SCREEN_RES[0], config.SCREEN_RES[1]),
     vsync=True,
 )
-canvas = window.get_canvas()
-gui = window.get_gui()
-scene = window.get_scene()
-camera = ti.ui.Camera()
+canvas = window.get_canvas()  # Canvas for rendering the scene
+gui = window.get_gui()  # GUI manager for overlay UI elements
+scene = window.get_scene()  # 3D scene for particle rendering
+camera = ti.ui.Camera()  # Camera object for 3D view control
 camera.up(0, 1, 0)  # Y-axis up
 
 
@@ -42,8 +42,8 @@ def initialize_scene():
 def setup_scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-    scene.point_light(pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0))  # Light from above center
-    scene.point_light(pos=(1.0, 0.5, 1.0), color=(0.5, 0.5, 0.5))  # Dimmer white light
+    scene.point_light(pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0))  # White light from above center
+    scene.point_light(pos=(1.0, 0.5, 1.0), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
 
 
 def initialize_camera():
@@ -102,7 +102,13 @@ def handle_camera_input():
 
 
 def update_camera():
-    """Update camera position based on current orbit parameters."""
+    """Update camera position based on current orbit parameters.
+
+    Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
+    Cartesian coordinates and updates the camera position and orientation.
+    Camera always looks at orbit_center with Y-axis up.
+    """
+
     # Calculate camera position from spherical coordinates
     cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
     cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
@@ -162,8 +168,12 @@ def render_lattice(lattice, granule):
     Render 3D BCC lattice using GGUI's 3D scene.
 
     Args:
-        lattice: Lattice instance to render
-        granule: Granule instance for size reference
+        lattice: Lattice instance containing positions and universe parameters.
+                 Expected to have attributes: positions, total_granules, universe_edge
+        granule: Granule instance for size reference.
+                 Expected to have attribute: radius (in attometers)
+
+
     """
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
     global block_slice, normalized_radius, og_normalized_radius
@@ -193,7 +203,7 @@ def render_lattice(lattice, granule):
                 and lattice.positions[i][1] > lattice.universe_edge / 2
                 and lattice.positions[i][2] > lattice.universe_edge / 2
             ):
-                pass
+                pass  # Skip granules in front octant
             else:
                 normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
 
@@ -251,7 +261,7 @@ if __name__ == "__main__":
     print("SIMULATION START")
     print("===============================")
     print("Creating quantum objects: lattice and granule...")
-    universe_edge = 1e-16  # m
+    universe_edge = 1e-16  # m (default: 100 attometers)
     lattice = quantum_space.Lattice(universe_edge)
     granule = quantum_space.Granule(lattice.unit_cell_edge)  # already in attometers
 
