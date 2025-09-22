@@ -180,48 +180,48 @@ class `I/O
 ```mermaid
 kanban
   [BACKLOG]
-    [@MATTER:
-      standalone_particle.py
-      composite_particle.py
-     atom.py
-      molecule.py]
+    [**MATTER MODULE**
+      - stdalone_particle.py
+      - comp_particle.py
+      - atom.py
+      - molecule.py]
     
-    [@FORCE:
-      electric.py
-      magnetic.py
-      gravitational.py
-      strong.py
-      orbital.py]
+    [**FORCE MODULE**
+      - electric.py
+      - magnetic.py
+      - gravitational.py
+      - strong.py
+      - orbital.py]
     
-    [@MOTION:
-      motion.py]
+    [**MOTION MODULE**
+      - motion.py]
     
-    [@PHOTON:
-      photon.py]
+    [**PHOTON MODULE**
+      - photon.py]
     
-    [@HEAT:
-      heat.py]
+    [**HEAT MODULE**
+      - heat.py]
 
   [NEXT]
-    [@MATTER:
-      fundamental_particle.py]@{ priority: 'High', assigned: 'xrodz' }
+    [**MATTER MODULE**
+      - fundam_particle.py]@{ priority: 'High', assigned: 'xrodz' }
     
   [IN PROGRESS]
-    [@SPACETIME:
-      quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
-    [@CORE:
-      equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
+    [**SPACETIME MODULE**
+      - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
+    [**CORE MODULE**
+      - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
-    [@SPACETIME:
-      quantum_space.py]
-    [@XPERIMENTS:
-      qspace_render.py]
-    [@CORE:
-      config.py
-      constants.py]
-    [@VALIDATION:
-      derivations.py]
+    [**SPACETIME MODULE**
+      - quantum_space.py]
+    [**XPERIMENTS MODULE**
+      - qspace_render.py]
+    [**CORE MODULE**
+      - config.py
+      - constants.py]
+    [**VALIDATION MODULE**
+      - derivations.py]
 ```
 
 ### Scalability & Performance
