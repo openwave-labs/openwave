@@ -261,7 +261,7 @@ if __name__ == "__main__":
     print("SIMULATION START")
     print("===============================")
     print("Creating quantum objects: lattice and granule...")
-    universe_edge = 1e-16  # m (default: 100 attometers)
+    universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
     lattice = quantum_space.Lattice(universe_edge)
     granule = quantum_space.Granule(lattice.unit_cell_edge)  # already in attometers
 
