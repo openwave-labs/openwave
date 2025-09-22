@@ -27,6 +27,7 @@ def render_lattice(lattice_instance, granule_instance):
 
     Args:
         lattice_instance: Lattice instance to render
+        granule_instance: Granule instance for size reference
     """
 
     lattice = lattice_instance
