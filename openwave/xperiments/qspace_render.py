@@ -56,6 +56,25 @@ def render_lattice(lattice_instance, granule_instance):
             # Normalize from attometer scale to 0-1 range
             normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
 
+    # Apply block-slicing: hide front 1/8th of the lattice for see-through effect
+    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+
+    @ti.kernel
+    def normalize_positions_sliced():
+        """Normalize lattice positions to 0-1 and apply block-slicing."""
+        for i in range(lattice.total_granules):
+            # Normalize from attometer scale to 0-1 range
+            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
+            # Checking if granule is in the front 1/8th block, > halfway on all axes
+            if (
+                lattice.positions[i][0] > lattice.universe_edge / 2
+                and lattice.positions[i][1] > lattice.universe_edge / 2
+                and lattice.positions[i][2] > lattice.universe_edge / 2
+            ):
+                pass
+            else:
+                normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
+
     # Prepare colors
     granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
     bkg_color = config.COLOR_SPACE[2]  # Black background
@@ -69,6 +88,8 @@ def render_lattice(lattice_instance, granule_instance):
     # Normalize positions once before render loop
     print("Normalizing 3D lattice positions to screen...")
     normalize_positions()
+    normalize_positions_sliced()
+    block_slice = False  # Initialize Block-slicing toggle
 
     # Camera orbit parameters - matching initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
@@ -146,37 +167,43 @@ def render_lattice(lattice_instance, granule_instance):
         with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
             sub.text("Cam Orbit: right-click + drag")
             sub.text("Zoom: Q/A keys")
+            block_slice = sub.checkbox("Block Slice", block_slice)
             normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
             if sub.button("Reset Granule"):
                 normalized_radius = og_normalized_radius
 
         with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
-            sub.text(f"--- QUANTUM SPACE (aka: The Aether) ---")
-            sub.text(f"Topology: 3D BCC lattice")
+            sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
+            sub.text("Topology: 3D BCC lattice")
             sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
             sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
 
-            sub.text(f"")
-            sub.text(f"--- Dynamic Scaling (for computation) ---")
+            sub.text("")
+            sub.text("--- Dynamic Scaling (for computation) ---")
             sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
             sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
             sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
 
-            sub.text(f"")
-            sub.text(f"--- Simulation Resolution (linear) ---")
+            sub.text("")
+            sub.text("--- Simulation Resolution (linear) ---")
             sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
             if lattice.qwave_res < 2:
                 sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
             sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
-            sub.text(f"")
-            sub.text(f"--- Cube Wave Energy ---")
+            sub.text("")
+            sub.text("--- Cube Wave Energy ---")
             sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
             sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
-        # Render granules as taichi particles (spheres)
-        scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
+        # Render granules as taichi particles, with block-slicing option
+        if block_slice:
+            scene.particles(
+                normalized_positions_sliced, radius=normalized_radius, color=granule_color
+            )
+        else:
+            scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
 
         # Render the scene to canvas
         canvas.scene(scene)
