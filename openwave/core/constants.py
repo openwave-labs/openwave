@@ -13,14 +13,14 @@ import openwave.core.config as config
 
 
 # ================================================================
-# QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @taoism, AETHER @classical)
+# QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
 QSPACE_DENSITY = 3.506335701e22  # kg / m^3, quantum-space density (aether medium, rho)
 ATTO_PREFIX = 1e-18  # m, scale factor for attometers to avoid float32 precision issues
 
 
 # ================================================================
-# QUANTUM WAVE (AKA: PRANA @yoga, QI @taoism, JEDI FORCE @starwars)
+# QUANTUM WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 # ================================================================
 QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)

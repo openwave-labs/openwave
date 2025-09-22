@@ -1,4 +1,4 @@
 """
 QUANTUM WAVE
-(AKA: PRANA @yoga, QI @taoism, JEDI FORCE @starwars)
+(AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 """
