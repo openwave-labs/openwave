@@ -33,6 +33,19 @@ camera = ti.ui.Camera()
 camera.up(0, 1, 0)  # Y-axis up
 
 
+def initialize_scene():
+    """Initialize scene settings that only need to be set once."""
+    # Set background color once
+    canvas.set_background_color(config.COLOR_SPACE[2])
+
+
+def setup_scene_lighting():
+    """Set up scene lighting - must be called every frame in GGUI."""
+    scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
+    scene.point_light(pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0))  # Light from above center
+    scene.point_light(pos=(1.0, 0.5, 1.0), color=(0.5, 0.5, 0.5))  # Dimmer white light
+
+
 def initialize_camera():
     """Initialize camera parameters for orbit & zoom controls."""
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
@@ -56,38 +69,9 @@ def initialize_camera():
     last_mouse_pos = None
 
 
-def show_data_dashboard():
-    """Display simulation data dashboard."""
-    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
-        sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
-        sub.text("Topology: 3D BCC lattice")
-        sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
-        sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
-
-        sub.text("")
-        sub.text("--- Dynamic Scaling (for computation) ---")
-        sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
-        sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
-        sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
-
-        sub.text("")
-        sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
-        if lattice.qwave_res < 2:
-            sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
-
-        sub.text("")
-        sub.text("--- Cube Wave Energy ---")
-        sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
-        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
-
-
-def show_controls():
-    """Display user controls dashboard."""
-    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-    global block_slice, normalized_radius, og_normalized_radius
+def handle_camera_input():
+    """Handle mouse and keyboard input for camera controls."""
+    global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos
 
     # Handle mouse input for orbiting
     mouse_pos = window.get_cursor_pos()
@@ -116,6 +100,9 @@ def show_controls():
         orbit_radius *= 1.02
         orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
 
+
+def update_camera():
+    """Update camera position based on current orbit parameters."""
     # Calculate camera position from spherical coordinates
     cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
     cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
@@ -127,18 +114,10 @@ def show_controls():
     camera.up(0, 1, 0)
     scene.set_camera(camera)
 
-    # Set background color
-    canvas.set_background_color(config.COLOR_SPACE[2])
 
-    # Add ambient and directional lighting
-    scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-    scene.point_light(
-        pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0)  # Light from above center  # White light
-    )
-    scene.point_light(
-        pos=(1.0, 0.5, 1.0),  # Secondary light from corner
-        color=(0.5, 0.5, 0.5),  # Dimmer white light
-    )
+def render_controls():
+    """Render the controls UI overlay."""
+    global block_slice, normalized_radius, og_normalized_radius
 
     # Create overlay windows for stats & controls
     with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
@@ -148,6 +127,34 @@ def show_controls():
         normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
         if sub.button("Reset Granule"):
             normalized_radius = og_normalized_radius
+
+
+def render_data_dashboard():
+    """Display simulation data dashboard."""
+    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
+        sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
+        sub.text("Topology: 3D BCC lattice")
+        sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
+        sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
+
+        sub.text("")
+        sub.text("--- Dynamic Scaling (for computation) ---")
+        sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
+        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
+        sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
+        sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
+
+        sub.text("")
+        sub.text("--- Simulation Resolution (linear) ---")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
+        if lattice.qwave_res < 2:
+            sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
+        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+
+        sub.text("")
+        sub.text("--- Cube Wave Energy ---")
+        sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
 def render_lattice(lattice, granule):
@@ -201,13 +208,21 @@ def render_lattice(lattice, granule):
     normalized_radius = max(normalized_radius, min_radius)
     og_normalized_radius = normalized_radius  # Store original for slider
 
+    initialize_scene()  # Set up background once
     initialize_camera()  # Set initial camera parameters
 
     print("Starting 3D render loop...")
 
     while window.running:
-        show_data_dashboard()
-        show_controls()
+        setup_scene_lighting()  # Lighting must be set each frame in GGUI
+
+        # Handle input and update camera
+        handle_camera_input()
+        update_camera()
+
+        # Render UI overlays
+        render_data_dashboard()
+        render_controls()
 
         # Render granules as taichi particles, with block-slicing option
         if block_slice:
