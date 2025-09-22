@@ -20,77 +20,22 @@ ti.init(arch=ti.gpu)
 # Rendering Engine
 # ==================================================================
 
+# Create GGUI window with 3D scene
+window = ti.ui.Window(
+    "Quantum-Space (Topology: 3D BCC Lattice)",
+    (config.SCREEN_RES[0], config.SCREEN_RES[1]),
+    vsync=True,
+)
+canvas = window.get_canvas()
+gui = window.get_gui()
+scene = window.get_scene()
+camera = ti.ui.Camera()
+camera.up(0, 1, 0)  # Y-axis up
 
-def render_lattice(lattice_instance, granule_instance):
-    """
-    Render 3D BCC lattice using GGUI's 3D scene.
 
-    Args:
-        lattice_instance: Lattice instance to render
-        granule_instance: Granule instance for size reference
-    """
-
-    lattice = lattice_instance
-    granule = granule_instance
-
-    # Create GGUI window with 3D scene
-    window = ti.ui.Window(
-        "Quantum-Space (Topology: 3D BCC Lattice)",
-        (config.SCREEN_RES[0], config.SCREEN_RES[1]),
-        vsync=True,
-    )
-    canvas = window.get_canvas()
-    gui = window.get_gui()
-    scene = window.get_scene()
-    camera = ti.ui.Camera()
-
-    # Initial camera setup (will be overridden by orbit parameters below)
-    camera.up(0, 1, 0)  # Y-axis up
-
-    # Normalize positions for rendering (0-1 range for GGUI)
-    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-
-    @ti.kernel
-    def normalize_positions():
-        """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
-
-    # Apply block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-
-    @ti.kernel
-    def normalize_positions_sliced():
-        """Normalize lattice positions to 0-1 and apply block-slicing."""
-        for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
-            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
-            # Checking if granule is in the front 1/8th block, > halfway on all axes
-            if (
-                lattice.positions[i][0] > lattice.universe_edge / 2
-                and lattice.positions[i][1] > lattice.universe_edge / 2
-                and lattice.positions[i][2] > lattice.universe_edge / 2
-            ):
-                pass
-            else:
-                normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
-
-    # Prepare colors
-    granule_color = config.COLOR_GRANULE[2]  # Blue color for granules
-    bkg_color = config.COLOR_SPACE[2]  # Black background
-
-    # Normalize granule radius to 0-1 range for GGUI rendering
-    normalized_radius = (granule.radius) / lattice.universe_edge
-    min_radius = 0.0001  # Ensure minimum 0.01% of screen radius for visibility
-    normalized_radius = max(normalized_radius, min_radius)
-    og_normalized_radius = normalized_radius  # Store original for slider
-
-    # Normalize positions once before render loop
-    print("Normalizing 3D lattice positions to screen...")
-    normalize_positions()
-    normalize_positions_sliced()
-    block_slice = False  # Initialize Block-slicing toggle
+def initialize_camera():
+    """Initialize camera parameters for orbit & zoom controls."""
+    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
 
     # Camera orbit parameters - matching initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
@@ -110,101 +55,171 @@ def render_lattice(lattice_instance, granule_instance):
     mouse_sensitivity = 0.5
     last_mouse_pos = None
 
+
+def show_data_dashboard():
+    """Display simulation data dashboard."""
+    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
+        sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
+        sub.text("Topology: 3D BCC lattice")
+        sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
+        sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
+
+        sub.text("")
+        sub.text("--- Dynamic Scaling (for computation) ---")
+        sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
+        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
+        sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
+        sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
+
+        sub.text("")
+        sub.text("--- Simulation Resolution (linear) ---")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
+        if lattice.qwave_res < 2:
+            sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
+        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+
+        sub.text("")
+        sub.text("--- Cube Wave Energy ---")
+        sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
+
+
+def show_controls():
+    """Display user controls dashboard."""
+    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
+    global block_slice, normalized_radius, og_normalized_radius
+
+    # Handle mouse input for orbiting
+    mouse_pos = window.get_cursor_pos()
+
+    # Check for right mouse button drag
+    if window.is_pressed(ti.ui.RMB):
+        if last_mouse_pos is not None:
+            # Calculate mouse delta
+            dx = mouse_pos[0] - last_mouse_pos[0]
+            dy = mouse_pos[1] - last_mouse_pos[1]
+
+            # Update orbit angles
+            orbit_theta += dx * mouse_sensitivity * 2 * np.pi
+            # Allow nearly full vertical rotation (almost 180 degrees, small margin to prevent gimbal lock)
+            orbit_phi = np.clip(orbit_phi + dy * mouse_sensitivity * np.pi, 0.01, np.pi - 0.01)
+
+        last_mouse_pos = mouse_pos
+    else:
+        last_mouse_pos = None
+
+    # Handle keyboard input for zoom
+    if window.is_pressed("q"):  # Zoom in
+        orbit_radius *= 0.98
+        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+    if window.is_pressed("a"):  # Zoom out
+        orbit_radius *= 1.02
+        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+
+    # Calculate camera position from spherical coordinates
+    cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
+    cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
+    cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
+
+    # Update camera
+    camera.position(cam_x, cam_y, cam_z)
+    camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
+    camera.up(0, 1, 0)
+    scene.set_camera(camera)
+
+    # Set background color
+    canvas.set_background_color(config.COLOR_SPACE[2])
+
+    # Add ambient and directional lighting
+    scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
+    scene.point_light(
+        pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0)  # Light from above center  # White light
+    )
+    scene.point_light(
+        pos=(1.0, 0.5, 1.0),  # Secondary light from corner
+        color=(0.5, 0.5, 0.5),  # Dimmer white light
+    )
+
+    # Create overlay windows for stats & controls
+    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
+        sub.text("Cam Orbit: right-click + drag")
+        sub.text("Zoom: Q/A keys")
+        block_slice = sub.checkbox("Block Slice", block_slice)
+        normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
+        if sub.button("Reset Granule"):
+            normalized_radius = og_normalized_radius
+
+
+def render_lattice(lattice, granule):
+    """
+    Render 3D BCC lattice using GGUI's 3D scene.
+
+    Args:
+        lattice: Lattice instance to render
+        granule: Granule instance for size reference
+    """
+    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
+    global block_slice, normalized_radius, og_normalized_radius
+
+    # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
+    # block-slicing: hide front 1/8th of the lattice for see-through effect
+    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    block_slice = False  # Initialize Block-slicing toggle
+
+    @ti.kernel
+    def normalize_positions():
+        """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        for i in range(lattice.total_granules):
+            # Normalize from attometer scale to 0-1 range
+            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
+
+    @ti.kernel
+    def normalize_positions_sliced():
+        """Normalize lattice positions to 0-1 and apply block-slicing."""
+        for i in range(lattice.total_granules):
+            # Normalize from attometer scale to 0-1 range
+            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
+            # Checking if granule is in the front 1/8th block, > halfway on all axes
+            if (
+                lattice.positions[i][0] > lattice.universe_edge / 2
+                and lattice.positions[i][1] > lattice.universe_edge / 2
+                and lattice.positions[i][2] > lattice.universe_edge / 2
+            ):
+                pass
+            else:
+                normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
+
+    # Normalize positions once before render loop
+    print("Normalizing 3D lattice positions to screen...")
+    normalize_positions()
+    normalize_positions_sliced()
+
+    # Normalize granule radius to 0-1 range for GGUI rendering
+    normalized_radius = (granule.radius) / lattice.universe_edge
+    min_radius = 0.0001  # Ensure minimum 0.01% of screen radius for visibility
+    normalized_radius = max(normalized_radius, min_radius)
+    og_normalized_radius = normalized_radius  # Store original for slider
+
+    initialize_camera()  # Set initial camera parameters
+
     print("Starting 3D render loop...")
 
     while window.running:
-        # Handle mouse input for orbiting
-        mouse_pos = window.get_cursor_pos()
-
-        # Check for right mouse button drag
-        if window.is_pressed(ti.ui.RMB):
-            if last_mouse_pos is not None:
-                # Calculate mouse delta
-                dx = mouse_pos[0] - last_mouse_pos[0]
-                dy = mouse_pos[1] - last_mouse_pos[1]
-
-                # Update orbit angles
-                orbit_theta += dx * mouse_sensitivity * 2 * np.pi
-                # Allow nearly full vertical rotation (almost 180 degrees, small margin to prevent gimbal lock)
-                orbit_phi = np.clip(orbit_phi + dy * mouse_sensitivity * np.pi, 0.01, np.pi - 0.01)
-
-            last_mouse_pos = mouse_pos
-        else:
-            last_mouse_pos = None
-
-        # Handle keyboard input for zoom
-        if window.is_pressed("q"):  # Zoom in
-            orbit_radius *= 0.98
-            orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
-        if window.is_pressed("a"):  # Zoom out
-            orbit_radius *= 1.02
-            orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
-
-        # Calculate camera position from spherical coordinates
-        cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
-        cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
-        cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
-
-        # Update camera
-        camera.position(cam_x, cam_y, cam_z)
-        camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
-        camera.up(0, 1, 0)
-        scene.set_camera(camera)
-
-        # Set background color
-        canvas.set_background_color(bkg_color)
-
-        # Add ambient and directional lighting
-        scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-        scene.point_light(
-            pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0)  # Light from above center  # White light
-        )
-        scene.point_light(
-            pos=(1.0, 0.5, 1.0),  # Secondary light from corner
-            color=(0.5, 0.5, 0.5),  # Dimmer white light
-        )
-
-        # Create overlay windows for stats & controls
-        with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
-            sub.text("Cam Orbit: right-click + drag")
-            sub.text("Zoom: Q/A keys")
-            block_slice = sub.checkbox("Block Slice", block_slice)
-            normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
-            if sub.button("Reset Granule"):
-                normalized_radius = og_normalized_radius
-
-        with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
-            sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
-            sub.text("Topology: 3D BCC lattice")
-            sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
-            sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
-
-            sub.text("")
-            sub.text("--- Dynamic Scaling (for computation) ---")
-            sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
-            sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
-            sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
-            sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
-
-            sub.text("")
-            sub.text("--- Simulation Resolution (linear) ---")
-            sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
-            if lattice.qwave_res < 2:
-                sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-            sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
-
-            sub.text("")
-            sub.text("--- Cube Wave Energy ---")
-            sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
-            sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
+        show_data_dashboard()
+        show_controls()
 
         # Render granules as taichi particles, with block-slicing option
         if block_slice:
             scene.particles(
-                normalized_positions_sliced, radius=normalized_radius, color=granule_color
+                normalized_positions_sliced,
+                radius=normalized_radius,
+                color=config.COLOR_GRANULE[2],
             )
         else:
-            scene.particles(normalized_positions, radius=normalized_radius, color=granule_color)
+            scene.particles(
+                normalized_positions, radius=normalized_radius, color=config.COLOR_GRANULE[2]
+            )
 
         # Render the scene to canvas
         canvas.scene(scene)
