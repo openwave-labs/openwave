@@ -85,27 +85,25 @@ class Lattice:
         # Get max granule count from computing capacity resolution
         max_granules = config.QSPACE_RES
 
-        # Scale to attometers to avoid float32 precision issues
-        # This keeps position values in a reasonable range (e.g., 100 instead of 1e-16)
-        universe_edge = universe_edge / constants.ATTO_PREFIX  # Convert meters to attometers
-        self.universe_edge = universe_edge  # now in attometers
+        # Set universe properties
+        self.universe_edge = universe_edge
         universe_volume = universe_edge**3
 
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        # Volume per unit cell = universe_volume / (max_granules / 2), in attometers^3
+        # Volume per unit cell = universe_volume / (max_granules / 2)
         unit_cell_volume = universe_volume / (max_granules / 2)
 
-        # Compute unit cell edge length in attometers (a^3 = volume)
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # in attometers
+        # Compute unit cell edge length (a^3 = volume)
+        self.unit_cell_edge = unit_cell_volume ** (1 / 3)
         self.scale_factor = self.unit_cell_edge / (
             2 * constants.PLANCK_LENGTH * np.e
         )  # linear scale factor from Planck length, increases computability
 
         # Compute quantum wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
-        self.qwave_res = constants.QWAVE_LENGTH / (self.unit_cell_edge * constants.ATTO_PREFIX) * 2
+        self.qwave_res = constants.QWAVE_LENGTH / self.unit_cell_edge * 2
         # Compute universe linear resolution, qwavelengths per universe edge
-        self.uni_res = universe_edge * constants.ATTO_PREFIX / constants.QWAVE_LENGTH
+        self.uni_res = universe_edge / constants.QWAVE_LENGTH
 
         # Calculate grid dimensions (number of unit cells per dimension)
         self.grid_size = int(universe_edge / self.unit_cell_edge)

@@ -141,14 +141,14 @@ def render_data_dashboard():
         sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
-        sub.text(f"Universe Cube Edge: {lattice.universe_edge * constants.ATTO_PREFIX:.1e} m")
+        sub.text(f"Universe Cube Edge: {lattice.universe_edge:.1e} m")
 
         sub.text("")
         sub.text("--- Dynamic Scaling (for computation) ---")
-        sub.text(f"Factor: {lattice.scale_factor*constants.ATTO_PREFIX:.1e} x Planck Length")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge * constants.ATTO_PREFIX:.2e} m")
-        sub.text(f"Granule Radius: {granule.radius * constants.ATTO_PREFIX:.2e} m")
-        sub.text(f"Granule Mass: {granule.mass * constants.ATTO_PREFIX**3:.2e} kg")
+        sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Length")
+        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Granule Radius: {granule.radius:.2e} m")
+        sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("")
         sub.text("--- Simulation Resolution (linear) ---")
@@ -171,7 +171,7 @@ def render_lattice(lattice, granule):
         lattice: Lattice instance containing positions and universe parameters.
                  Expected to have attributes: positions, total_granules, universe_edge
         granule: Granule instance for size reference.
-                 Expected to have attribute: radius (in attometers)
+                 Expected to have attribute: radius
 
 
     """
@@ -188,14 +188,14 @@ def render_lattice(lattice, granule):
     def normalize_positions():
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
         for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
+            # Normalize to 0-1 range
             normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
 
     @ti.kernel
     def normalize_positions_sliced():
         """Normalize lattice positions to 0-1 and apply block-slicing."""
         for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
+            # Normalize to 0-1 range
             # And hide front 1/8th of the lattice for see-through effect (block-slicing)
             # Checking if granule is in the front 1/8th block, > halfway on all axes
             if (
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     print("Creating quantum objects: lattice and granule...")
     universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
     lattice = quantum_space.Lattice(universe_edge)
-    granule = quantum_space.Granule(lattice.unit_cell_edge)  # already in attometers
+    granule = quantum_space.Granule(lattice.unit_cell_edge)
 
     print("\n--- ADDITIONAL-DATA ---")
     print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")
