@@ -176,47 +176,56 @@ def render_lattice(lattice, granule):
 
     """
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-    global block_slice, radius_factor
+    global block_slice, radius_factor, prev_radius_factor
+    global normalized_positions, normalized_radius, normalized_radius_sliced
+    global lattice_ref, granule_ref  # Store references for kernel access
+
+    # Store references for kernel access
+    lattice_ref = lattice
+    granule_ref = granule
 
     # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    block_slice = False  # Initialize Block-slicing toggle
+    normalized_radius = ti.field(dtype=ti.f32, shape=lattice.total_granules)
+    normalized_radius_sliced = ti.field(dtype=ti.f32, shape=lattice.total_granules)
+    block_slice = True  # Initialize Block-slicing toggle
+    radius_factor = 1.0  # Initialize granule size factor
+    prev_radius_factor = 1.0  # Track previous value to detect changes
 
     @ti.kernel
     def normalize_positions():
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(lattice.total_granules):
+        for i in range(lattice_ref.total_granules):
             # Normalize from attometer scale to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
+            normalized_positions[i] = lattice_ref.positions[i] / lattice_ref.universe_edge
 
     @ti.kernel
-    def normalize_positions_sliced():
-        """Normalize lattice positions to 0-1 and apply block-slicing."""
-        for i in range(lattice.total_granules):
-            # Normalize from attometer scale to 0-1 range
-            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
+    def update_radius(factor: ti.f32):
+        """Update both radius fields with the given factor."""
+        for i in range(lattice_ref.total_granules):
+            # granule radius to 0-1 range for GGUI rendering
+            base_radius = max(
+                granule_ref.radius / lattice_ref.universe_edge * factor, 0.0001
+            )  # Show granule with minimum 0.01% of screen radius for visibility
+
+            normalized_radius[i] = base_radius
+
+            # Apply block-slicing for the sliced version
             # Checking if granule is in the front 1/8th block, > halfway on all axes
             if (
-                lattice.positions[i][0] > lattice.universe_edge / 2
-                and lattice.positions[i][1] > lattice.universe_edge / 2
-                and lattice.positions[i][2] > lattice.universe_edge / 2
+                lattice_ref.positions[i][0] > lattice_ref.universe_edge / 2
+                and lattice_ref.positions[i][1] > lattice_ref.universe_edge / 2
+                and lattice_ref.positions[i][2] > lattice_ref.universe_edge / 2
             ):
-                pass  # Skip granules in front octant
+                normalized_radius_sliced[i] = 0.0  # Hide granule
             else:
-                normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
+                normalized_radius_sliced[i] = base_radius
 
     # Normalize positions once before render loop
     print("Normalizing 3D lattice positions to screen...")
     normalize_positions()
-    normalize_positions_sliced()
-
-    # Normalize granule radius to 0-1 range for GGUI rendering
-    normalized_radius = max(
-        granule.radius / lattice.universe_edge, 0.0001
-    )  # Ensure minimum 0.01% of screen radius for visibility
-    radius_factor = 1.0  # Initialize granule size factor
+    update_radius(radius_factor)
 
     initialize_scene()  # Set up background once
     initialize_camera()  # Set initial camera parameters
@@ -234,17 +243,26 @@ def render_lattice(lattice, granule):
         render_controls()
         render_data_dashboard()
 
+        # Update radius fields if factor changed
+        if radius_factor != prev_radius_factor:
+            update_radius(radius_factor)
+            prev_radius_factor = radius_factor
+
         # Render granules as taichi particles, with block-slicing option
+        # Use a base radius value (will be overridden by per_vertex_radius)
+        base_radius = granule.radius / lattice.universe_edge * radius_factor
         if block_slice:
             scene.particles(
-                normalized_positions_sliced,
-                radius=normalized_radius * radius_factor,
+                normalized_positions,
+                radius=base_radius,
+                per_vertex_radius=normalized_radius_sliced,
                 color=config.COLOR_GRANULE[2],
             )
         else:
             scene.particles(
                 normalized_positions,
-                radius=normalized_radius * radius_factor,
+                radius=base_radius,
+                per_vertex_radius=normalized_radius,
                 color=config.COLOR_GRANULE[2],
             )
 
