@@ -8,7 +8,7 @@ OpenWave is an open-source quantum physics simulator implementing Energy Wave Th
 
 ### Project Goals
 
-To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `6. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/research_requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
+To develop OpenWave, an open-source computer simulator with objectives described in the text below, based on the papers attached as 9 files, with special attention to the file `Relationship of the Speed of Light to Aether Density` where there is a Planck mass correction from previous papers (affecting granule mass), using the `06. Constants and Equations - Waves.pdf` as constants reference, built in phases. Simulation physics, constants, and equations will be drawn from the EWT research papers located at the `/research_requirements` folder. For performance on the granular physics simulations we'll be using the Taichi Lang python library.
 
 ### What is OpenWave?
 
@@ -56,17 +56,17 @@ The `/research_requirements/original_requirements/` directory contains simulatio
 
 The `/research_requirements/scientific_source/` directory contains foundational EWT research papers:
 
-1. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
-2. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf
-3. The Physics of SubAtomic Particles.pdf
-4. Relationship of the Speed of Light to Aether Density (contains Planck mass correction)
-5. The Relationship of Planck Constants and Wave Constants v2.pdf
-6. Constants and Equations - Waves.pdf (primary constants reference)
-7. Constants and Equations - Classical.pdf
-8. Geometry - EWT.pdf
-9. Mechanics - EWT.pdf
+01. The Geometry of Spacetime and the Unification of Forces v2.3.pdf
+02. The Geometry of Particles and the Explanation of Their Creation and Decay v2.pdf
+03. The Physics of SubAtomic Particles.pdf
+04. Relationship of the Speed of Light to Aether Density (contains Planck mass correction)
+05. The Relationship of Planck Constants and Wave Constants v2.pdf
+06. Constants and Equations - Waves.pdf (primary constants reference)
+07. Constants and Equations - Classical.pdf
+08. Geometry - EWT.pdf
+09. Mechanics - EWT.pdf
 
-**Key Reference**: File `6. Constants and Equations - Waves.pdf` serves as the primary constants reference for the simulation, and `4. Relationship of the Speed of Light to Aether Density` contains important Planck mass corrections that affect granule mass calculations.
+**Key Reference**: File `06. Constants and Equations - Waves.pdf` serves as the primary constants reference for the simulation, and `04. Relationship of the Speed of Light to Aether Density` contains important Planck mass corrections that affect granule mass calculations.
 
 ## Physics Context
 
