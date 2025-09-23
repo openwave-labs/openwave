@@ -123,16 +123,16 @@ def update_camera():
 
 def render_controls():
     """Render the controls UI overlay."""
-    global block_slice, normalized_radius, og_normalized_radius
+    global block_slice, radius_factor
 
     # Create overlay windows for stats & controls
     with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
         sub.text("Cam Orbit: right-click + drag")
         sub.text("Zoom: Q/A keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
-        normalized_radius = sub.slider_float("Granule", normalized_radius, 0.001, 0.006)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
         if sub.button("Reset Granule"):
-            normalized_radius = og_normalized_radius
+            radius_factor = 1.0
 
 
 def render_data_dashboard():
@@ -176,7 +176,7 @@ def render_lattice(lattice, granule):
 
     """
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-    global block_slice, normalized_radius, og_normalized_radius
+    global block_slice, radius_factor
 
     # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
@@ -216,7 +216,7 @@ def render_lattice(lattice, granule):
     normalized_radius = (granule.radius) / lattice.universe_edge
     min_radius = 0.0001  # Ensure minimum 0.01% of screen radius for visibility
     normalized_radius = max(normalized_radius, min_radius)
-    og_normalized_radius = normalized_radius  # Store original for slider
+    radius_factor = 1.0  # Initialize granule size factor
 
     initialize_scene()  # Set up background once
     initialize_camera()  # Set initial camera parameters
@@ -238,12 +238,14 @@ def render_lattice(lattice, granule):
         if block_slice:
             scene.particles(
                 normalized_positions_sliced,
-                radius=normalized_radius,
+                radius=normalized_radius * radius_factor,
                 color=config.COLOR_GRANULE[2],
             )
         else:
             scene.particles(
-                normalized_positions, radius=normalized_radius, color=config.COLOR_GRANULE[2]
+                normalized_positions,
+                radius=normalized_radius * radius_factor,
+                color=config.COLOR_GRANULE[2],
             )
 
         # Render the scene to canvas
