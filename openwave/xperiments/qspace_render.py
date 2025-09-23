@@ -231,8 +231,8 @@ def render_lattice(lattice, granule):
         update_camera()
 
         # Render UI overlays
-        render_data_dashboard()
         render_controls()
+        render_data_dashboard()
 
         # Render granules as taichi particles, with block-slicing option
         if block_slice:
