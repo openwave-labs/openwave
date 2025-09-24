@@ -25,16 +25,14 @@ window = ti.ui.Window(
     (config.SCREEN_RES[0], config.SCREEN_RES[1]),
     vsync=True,
 )
+camera = ti.ui.Camera()  # Camera object for 3D view control
 canvas = window.get_canvas()  # Canvas for rendering the scene
 gui = window.get_gui()  # GUI manager for overlay UI elements
 scene = window.get_scene()  # 3D scene for particle rendering
-camera = ti.ui.Camera()  # Camera object for 3D view control
-camera.up(0, 1, 0)  # Y-axis up
 
 
 def initialize_scene():
-    """Initialize scene settings that only need to be set once."""
-    # Set background color once
+    """Initialize scene settings."""
     canvas.set_background_color(config.COLOR_SPACE[2])
 
 
@@ -49,15 +47,14 @@ def initialize_camera():
     """Initialize camera parameters for orbit & zoom controls."""
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
 
-    # Camera orbit parameters - matching initial position looking at center
+    # Camera orbit parameters - initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
+    cam_position = [2.0, 1.5, 2.0]  # Camera starting position
 
     # Calculate initial angles from the desired initial position
-    # close-up start (1.5, 1.2, 1.5) >> relative to center: (1.0, 0.7, 1.0)
-    # far-away start (3.67, 2.72, 3.67) >> relative to center: (3.17, 2.22, 3.17)
-    initial_rel_x = 3.67 - orbit_center[0]
-    initial_rel_y = 2.72 - orbit_center[1]
-    initial_rel_z = 3.67 - orbit_center[2]
+    initial_rel_x = cam_position[0] - orbit_center[0]
+    initial_rel_y = cam_position[1] - orbit_center[1]
+    initial_rel_z = cam_position[2] - orbit_center[2]
 
     # Calculate initial orbit parameters
     orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
@@ -68,7 +65,7 @@ def initialize_camera():
     last_mouse_pos = None
 
 
-def handle_camera_input():
+def handle_camera():
     """Handle mouse and keyboard input for camera controls."""
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos
 
@@ -99,10 +96,7 @@ def handle_camera_input():
         orbit_radius *= 1.02
         orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
 
-
-def update_camera():
-    """Update camera position based on current orbit parameters.
-
+    """Now update camera position based on current orbit parameters.
     Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
     Cartesian coordinates and updates the camera position and orientation.
     Camera always looks at orbit_center with Y-axis up.
@@ -224,12 +218,9 @@ def render_lattice(lattice, granule):
 
     while window.running:
         setup_scene_lighting()  # Lighting must be set each frame in GGUI
+        handle_camera()  # Handle camera input and update position
 
-        # Handle input and update camera
-        handle_camera_input()
-        update_camera()
-
-        # Render UI overlays
+        # Render UI overlay windows
         render_controls()
         render_data_dashboard()
 
