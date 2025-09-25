@@ -288,14 +288,15 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
 
 Note: CLI entry points are in the development roadmap, if you want to contribute, please check how at the [Contribution Guide](CONTRIBUTING.md)
 
-## Wanna Contribute to this Project? This is the Way
+## Wanna Contribute to this Project?
 
 - Please read the [Contribution Guide](CONTRIBUTING.md)
 - See `/dev_docs` for coding standards and development guidelines
   - [Coding Standards](dev_docs/CODING_STANDARDS.md)
   - [Performance Guidelines](dev_docs/PERFORMANCE_GUIDELINES.md)
   - [Loop Optimization Patterns](dev_docs/LOOP_OPTIMIZATION.md)
-  - [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)
+  - [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)  
+- *This is the Way!*
 
 ## License
 
