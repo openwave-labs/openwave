@@ -169,6 +169,6 @@ class Lattice:
 
     @ti.kernel
     def update_positions(self, dt: ti.f32):  # type: ignore
-        """Update granule positions based on velocities (for future dynamics)."""
+        """Update granule positions based on velocities."""
         for i in self.positions:
             self.positions[i] += self.velocities[i] * dt

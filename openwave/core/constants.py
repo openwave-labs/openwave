@@ -69,7 +69,7 @@ ELECTRIC_CONSTANT = 8.8541878128e-12  # F/m, vacuum permittivity, epsilon_0
 MAGNETIC_CONSTANT = 1.25663706212e-6  # N, vacuum permeability, mu_0
 BOHR_RADIUS = 5.29177210903e-11  # m, Bohr radius, a_0
 ELEMENTARY_CHARGE = 1.6022e-19  # m, The elementary charge from CODATA values
-COULOMB_CONSTANT = 8.9875517923e9  # N·m^2 / C^2, Coulomb's constant, k
+COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
 
 # DELTA : amplitude factor (dimensionless) — user-supplied per system/transition
 # K     : particle wave center count (dimensionless)
