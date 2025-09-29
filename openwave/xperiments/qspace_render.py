@@ -119,7 +119,7 @@ def render_controls():
     global block_slice, radius_factor
 
     # Create overlay windows for stats & controls
-    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.15) as sub:
+    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.15) as sub:
         sub.text("Cam Orbit: right-click + drag")
         sub.text("Zoom: Q/A keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
@@ -130,11 +130,14 @@ def render_controls():
 
 def render_data_dashboard():
     """Display simulation data dashboard."""
-    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.4) as sub:
+    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.45) as sub:
         sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
-        sub.text(f"Universe Cube Edge: {lattice.universe_edge:.1e} m")
+        sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
+        sub.text(f"  - Center granules: {lattice.grid_size ** 3:,}")
+        sub.text(f"Universe Lattice Edge: {lattice.universe_edge:.1e} m")
+        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
 
         sub.text("")
         sub.text("--- Dynamic Scaling (for computation) ---")
@@ -151,7 +154,7 @@ def render_data_dashboard():
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
         sub.text("")
-        sub.text("--- Cube Wave Energy ---")
+        sub.text("--- Universe Lattice Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
@@ -256,11 +259,6 @@ if __name__ == "__main__":
     universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
     lattice = quantum_space.Lattice(universe_edge)
     granule = quantum_space.Granule(lattice.unit_cell_edge)
-
-    print("\n--- ADDITIONAL-DATA ---")
-    print(f"Grid size: {lattice.grid_size} x {lattice.grid_size} x {lattice.grid_size}")
-    print(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
-    print(f"  - Center granules: {lattice.grid_size ** 3:,}")
 
     # Render the 3D lattice
     print("\n--- 3D LATTICE RENDERING ---")

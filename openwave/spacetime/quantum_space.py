@@ -83,18 +83,25 @@ class Lattice:
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Get max granule count from computing capacity resolution
-        max_granules = config.QSPACE_RES
+        target_granules = config.QSPACE_RES
 
         # Set universe properties
         self.universe_edge = universe_edge
         universe_volume = universe_edge**3
 
+        # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        # Volume per unit cell = universe_volume / (max_granules / 2)
-        unit_cell_volume = universe_volume / (max_granules / 2)
+        init_unit_cell_volume = universe_volume / (target_granules / 2)
+        init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
-        # Compute unit cell edge length (a^3 = volume)
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)
+        # Calculate grid dimensions (number of unit cells per dimension)
+        # Round to nearest odd integer for symmetric grid
+        self.raw_size = universe_edge / init_unit_cell_edge
+        floor = int(self.raw_size)
+        self.grid_size = floor if floor % 2 == 1 else floor + 1
+
+        # Recompute unit-cell edge length based on rounded grid size and scale factor
+        self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
         self.scale_factor = self.unit_cell_edge / (
             2 * constants.PLANCK_LENGTH * np.e
         )  # linear scale factor from Planck length, increases computability
@@ -104,9 +111,6 @@ class Lattice:
         self.qwave_res = constants.QWAVE_LENGTH / self.unit_cell_edge * 2
         # Compute universe linear resolution, qwavelengths per universe edge
         self.uni_res = universe_edge / constants.QWAVE_LENGTH
-
-        # Calculate grid dimensions (number of unit cells per dimension)
-        self.grid_size = int(universe_edge / self.unit_cell_edge)
 
         # Total granules: corners + centers
         # Corners: (grid_size + 1)^3, Centers: grid_size^3
