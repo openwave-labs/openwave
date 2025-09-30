@@ -14,9 +14,9 @@ or a hypothetical substance once thought to carry light and other electromagneti
 import numpy as np
 import taichi as ti
 
-import openwave.core.config as config
-import openwave.core.constants as constants
-import openwave.core.equations as equations
+import openwave.common.config as config
+import openwave.common.constants as constants
+import openwave.common.equations as equations
 
 ti.init(arch=ti.gpu)
 

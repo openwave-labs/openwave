@@ -1,5 +1,5 @@
 """
-Core modules for OpenWave Energy Wave Theory simulations.
+Common Modules for OpenWave Energy Wave Theory simulations.
 
 This package contains the fundamental components:
 - config: Configuration settings

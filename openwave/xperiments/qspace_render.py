@@ -9,7 +9,7 @@ sourced from the element aether.
 import numpy as np
 import taichi as ti
 
-import openwave.core.config as config
+import openwave.common.config as config
 import openwave.spacetime.quantum_space as quantum_space
 
 ti.init(arch=ti.gpu)

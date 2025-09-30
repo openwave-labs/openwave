@@ -146,13 +146,13 @@ class `XPERIMENTS MODULE
     --TBD*}
 
 
-class `CORE
+class `COMMON
   MODULE`{
     config.py ✓
     constants.py ✓
     equations.py ✓
     --TBD*}
-`CORE
+`COMMON
   MODULE` <--> `VALIDATION
   MODULE`
 
@@ -209,7 +209,7 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
-    [**CORE MODULE**
+    [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
@@ -217,7 +217,7 @@ kanban
       - quantum_space.py]
     [**XPERIMENTS MODULE**
       - qspace_render.py]
-    [**CORE MODULE**
+    [**COMMON MODULE**
       - config.py
       - constants.py]
     [**VALIDATION MODULE**

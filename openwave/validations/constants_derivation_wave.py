@@ -12,7 +12,7 @@ All values use SI units (kg, m, s) for consistency.
 
 import numpy as np
 
-import openwave.core.constants as constants
+import openwave.common.constants as constants
 
 
 # ================================================================

@@ -7,11 +7,6 @@ sourced from https://energywavetheory.com/equations/
 All values use SI units (kg, m, s) for consistency.
 """
 
-import numpy as np
-
-import openwave.core.config as config
-
-
 # ================================================================
 # QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
