@@ -282,3 +282,113 @@ class Lattice:
         """Update granule positions based on velocities."""
         for i in self.positions:
             self.positions[i] += self.velocities[i] * dt
+
+
+@ti.data_oriented
+class Spring:
+    """
+    Spring couplings between granules in BCC lattice.
+    Models elastic connections with 8-way, 4-way, 2-way, or 1-way topology
+    depending on granule type (core/central, face, edge, vertex).
+
+    In BCC lattice, each interior granule has 8 nearest neighbors at distance a*√3/2)
+    where a is the unit cell edge length.
+    """
+
+    def __init__(self, lattice: Lattice):
+        """
+        Initialize spring connections for the lattice.
+
+        Args:
+            lattice: Lattice instance containing granule positions and types
+            stiffness: Spring constant k (default 1.0)
+        """
+        self.lattice = lattice
+        self.stiffness = 1.0  # Spring constant k
+
+        # Rest length for BCC nearest neighbor connections
+        # In BCC, nearest neighbor distance = a * sqrt(3) / 2
+        # Note: rest_length is a scalar distance, not a vector
+        # Direction vectors will be computed dynamically between connected granules
+        self.rest_length = lattice.unit_cell_edge * np.sqrt(3) / 2
+
+        # Connection topology: [granule_idx] -> [8 possible neighbors]
+        # Value -1 indicates no connection (for boundary granules)
+        # Max 8 neighbors for BCC structure
+        self.links = ti.field(dtype=ti.i32, shape=(lattice.total_granules, 8))
+
+        # Number of active links per granule (for optimization)
+        self.links_count = ti.field(dtype=ti.i32, shape=lattice.total_granules)
+
+        # Build the connectivity graph
+        self.build_links()
+
+    @ti.kernel
+    def build_links(self):
+        """
+        Build neighbor connectivity based on BCC lattice structure and granule types.
+
+        Connection rules:
+        - CORE/CENTRAL: 8 neighbors (full BCC connectivity)
+        - FACE: 4 neighbors (perpendicular to boundary face)
+        - EDGE: 2 neighbors (along edge direction)
+        - VERTEX: 1 neighbor (toward lattice center)
+        """
+        # Initialize all links to -1 (no connection)
+        for i in range(self.lattice.total_granules):
+            for j in range(8):
+                self.links[i, j] = -1
+            self.links_count[i] = 0
+
+        # Build links for each granule
+        for idx in range(self.lattice.total_granules):
+            granule_type = self.lattice.granule_type[idx]
+            pos = self.lattice.positions[idx]
+
+            # Search for nearest neighbors within distance threshold
+            # BCC nearest neighbor distance with small tolerance
+            search_radius = self.rest_length * 1.1
+            neighbor_idx = 0
+
+            # Check all other granules for neighbor candidates
+            for j in range(self.lattice.total_granules):
+                if j != idx:
+                    other_pos = self.lattice.positions[j]
+                    distance = ti.sqrt(
+                        (pos[0] - other_pos[0]) ** 2
+                        + (pos[1] - other_pos[1]) ** 2
+                        + (pos[2] - other_pos[2]) ** 2
+                    )
+
+                    # Check if within nearest neighbor distance
+                    if distance < search_radius:
+                        # Apply connection rules based on granule type
+                        add_connection = False
+
+                        if granule_type == config.TYPE_CORE or granule_type == config.TYPE_CENTRAL:
+                            # Core/Central: accept all 8 neighbors
+                            add_connection = True
+                        elif granule_type == config.TYPE_FACE:
+                            # Face: only neighbors not on the same face (4 neighbors)
+                            # Check if neighbor is in perpendicular direction
+                            add_connection = neighbor_idx < 4
+                        elif granule_type == config.TYPE_EDGE:
+                            # Edge: only 2 neighbors along the edge
+                            add_connection = neighbor_idx < 2
+                        elif granule_type == config.TYPE_VERTEX:
+                            # Vertex: only 1 neighbor toward center
+                            add_connection = neighbor_idx < 1
+
+                        if add_connection and neighbor_idx < 8:
+                            self.links[idx, neighbor_idx] = j
+                            neighbor_idx += 1
+                            self.links_count[idx] = neighbor_idx
+
+                        # Stop if we've found enough neighbors for this type
+                        if (
+                            (granule_type == config.TYPE_VERTEX and neighbor_idx >= 1)
+                            or (granule_type == config.TYPE_EDGE and neighbor_idx >= 2)
+                            or (granule_type == config.TYPE_FACE and neighbor_idx >= 4)
+                            or (neighbor_idx >= 8)
+                        ):
+                            break
