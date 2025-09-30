@@ -122,10 +122,11 @@ class Lattice:
         # 1D array design: Better memory locality, simpler kernels, future-ready for dynamics
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
         # Populate the lattice
         self.populate_lattice()
-        self.granule_indexing()
+        self.find_front_octant()
 
     @ti.kernel
     def populate_lattice(self):
@@ -171,6 +172,22 @@ class Lattice:
 
             # Initialize velocity to zero for all granules
             self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
+
+    @ti.kernel
+    def find_front_octant(self):
+        """."""
+        for i in range(self.total_granules):
+            # Mark if granule is in the front 1/8th block, > halfway on all axes
+            # 0 = not in front octant, 1 = in front octant
+            self.front_octant[i] = (
+                1
+                if (
+                    self.positions[i][0] > self.universe_edge / 2
+                    and self.positions[i][1] > self.universe_edge / 2
+                    and self.positions[i][2] > self.universe_edge / 2
+                )
+                else 0
+            )
 
     @ti.kernel
     def update_positions(self, dt: ti.f32):  # type: ignore

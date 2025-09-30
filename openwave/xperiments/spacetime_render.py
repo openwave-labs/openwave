@@ -193,14 +193,8 @@ def render_lattice(lattice, granule):
         for i in range(lattice.total_granules):
             # Normalize to 0-1 range
             # And hide front 1/8th of the lattice for see-through effect (block-slicing)
-            # Checking if granule is in the front 1/8th block, > halfway on all axes
-            if (
-                lattice.positions[i][0] > lattice.universe_edge / 2
-                and lattice.positions[i][1] > lattice.universe_edge / 2
-                and lattice.positions[i][2] > lattice.universe_edge / 2
-            ):
-                pass  # Skip granules in front octant
-            else:
+            # 0 = not in front octant (render it), 1 = in front octant (skip it)
+            if lattice.front_octant[i] == 0:
                 normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
 
     # Normalize positions once before render loop
