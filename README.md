@@ -217,11 +217,11 @@ kanban
       - spacetime.py]
     [**XPERIMENTS MODULE**
       - spacetime_render.py]
+    [**VALIDATIONS MODULE**
+      - derivations.py]
     [**COMMON MODULE**
       - config.py
       - constants.py]
-    [**VALIDATIONS MODULE**
-      - derivations.py]
 ```
 
 ### Scalability & Performance

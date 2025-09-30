@@ -38,12 +38,12 @@ class Granule:
         """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
 
         Args:
-            unit_cell_edge: Edge length of the BCC unit-cell.
+            unit_cell_edge: Edge length of the BCC unit-cell in meters.
         """
         self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
         self.mass = (
             constants.SPACETIME_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = density * scaled unit cell volume / 2 granules per BCC unit-cell
+        )  # mass = spacetime density * scaled unit cell volume / 2 granules per BCC unit-cell
 
 
 @ti.data_oriented
@@ -118,17 +118,18 @@ class Lattice:
         center_count = self.grid_size**3
         self.total_granules = corner_count + center_count
 
-        # Initialize position and velocity 1D fields
-        # Single field design: Better memory locality, simpler kernels, future-ready for dynamics
+        # Initialize position and velocity 1D arrays
+        # 1D array design: Better memory locality, simpler kernels, future-ready for dynamics
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice
         self.populate_lattice()
+        self.granule_indexing()
 
     @ti.kernel
     def populate_lattice(self):
-        """Populate BCC lattice positions in a 1D field.
+        """Populate BCC lattice positions in a 1D array.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
         2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
@@ -159,7 +160,7 @@ class Lattice:
                 j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
                 k = center_idx % self.grid_size
 
-                offset = self.unit_cell_edge / 2.0
+                offset = self.unit_cell_edge / 2
                 self.positions[idx] = ti.Vector(
                     [
                         i * self.unit_cell_edge + offset,
