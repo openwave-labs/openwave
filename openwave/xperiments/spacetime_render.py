@@ -124,7 +124,7 @@ def render_controls():
         sub.text("Zoom: Q/A keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
-        show_springs = sub.checkbox("Show Springs (<1k granules)", show_springs)
+        show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
         if sub.button("Reset Granule"):
             radius_factor = 1.0

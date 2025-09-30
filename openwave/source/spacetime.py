@@ -320,8 +320,13 @@ class Spring:
         # Number of active links per granule (for optimization)
         self.links_count = ti.field(dtype=ti.i32, shape=lattice.total_granules)
 
-        # Build the connectivity graph using simple distance-based approach
-        self.build_links_simple()
+        # Build the connectivity graph using appropriate method based on lattice size
+        if lattice.total_granules < 1000:
+            # For small lattices, use simple distance-based search
+            self.build_links_simple()
+        else:
+            # For large lattices, use structured BCC approach
+            self.build_links_structured()
 
     @ti.kernel
     def build_links_simple(self):
@@ -370,3 +375,218 @@ class Spring:
                         self.links[i, neighbor_count] = j
                         neighbor_count += 1
                         self.links_count[i] = neighbor_count
+
+    @ti.kernel
+    def build_links_structured(self):
+        """
+        Efficient O(n) connection building using BCC lattice structure.
+
+        This method directly computes neighbor indices based on the BCC topology
+        rather than searching through all granules. Much faster for large lattices.
+
+        In BCC, each granule has 8 nearest neighbors at specific offsets:
+        - Corner granules connect to 4 centers in adjacent cells
+        - Center granules connect to 8 corners of their cell
+        """
+        corner_count = (self.lattice.grid_size + 1) ** 3
+        grid_size = self.lattice.grid_size
+
+        # Initialize all links
+        for i in range(self.lattice.total_granules):
+            for j in ti.static(range(8)):
+                self.links[i, j] = -1
+            self.links_count[i] = 0
+
+        # Process each granule
+        for idx in range(self.lattice.total_granules):
+            granule_type = self.lattice.granule_type[idx]
+            neighbor_count = 0
+
+            if idx < corner_count:
+                # Corner granule: decode 3D grid position
+                grid_dim = grid_size + 1
+                i = idx // (grid_dim * grid_dim)
+                j = (idx % (grid_dim * grid_dim)) // grid_dim
+                k = idx % grid_dim
+
+                # For corner granules, connect to adjacent center granules
+                # Determine max connections based on granule type
+                max_neighbors = 8
+                if granule_type == config.TYPE_VERTEX:
+                    max_neighbors = 1
+                elif granule_type == config.TYPE_EDGE:
+                    max_neighbors = 2
+                elif granule_type == config.TYPE_FACE:
+                    max_neighbors = 4
+
+                # Each center is offset by (-0.5, -0.5, -0.5) from corners
+                for di in ti.static(range(2)):
+                    for dj in ti.static(range(2)):
+                        for dk in ti.static(range(2)):
+                            if neighbor_count < max_neighbors:
+                                # Calculate center cell indices
+                                ci = i + di - 1
+                                cj = j + dj - 1
+                                ck = k + dk - 1
+
+                                # Check bounds for center cell
+                                if (
+                                    ci >= 0
+                                    and ci < grid_size
+                                    and cj >= 0
+                                    and cj < grid_size
+                                    and ck >= 0
+                                    and ck < grid_size
+                                ):
+                                    # Calculate center granule index
+                                    center_idx = (
+                                        corner_count
+                                        + ci * grid_size * grid_size
+                                        + cj * grid_size
+                                        + ck
+                                    )
+
+                                    self.links[idx, neighbor_count] = center_idx
+                                    neighbor_count += 1
+                                    self.links_count[idx] = neighbor_count
+            else:
+                # Center granule: decode position
+                center_idx = idx - corner_count
+                i = center_idx // (grid_size * grid_size)
+                j = (center_idx % (grid_size * grid_size)) // grid_size
+                k = center_idx % grid_size
+
+                # For center granules, connect to 8 surrounding corners
+                for di in ti.static(range(2)):
+                    for dj in ti.static(range(2)):
+                        for dk in ti.static(range(2)):
+                            # Calculate corner indices
+                            ci = i + di
+                            cj = j + dj
+                            ck = k + dk
+
+                            # Corner index calculation
+                            grid_dim = grid_size + 1
+                            corner_idx = ci * grid_dim * grid_dim + cj * grid_dim + ck
+
+                            # Centers are always CORE or CENTRAL type, so connect to all 8
+                            self.links[idx, neighbor_count] = corner_idx
+                            neighbor_count += 1
+                            self.links_count[idx] = neighbor_count
+
+
+if __name__ == "__main__":
+    # Test script for spacetime module
+    import time
+
+    print("================================================================")
+    print("SPACETIME MODULE TEST")
+    print("================================================================")
+
+    # Create lattice
+    universe_edge = 3e-16  # m (default 300 attometers)
+    print(f"Creating lattice with universe edge: {universe_edge:.1e} m")
+
+    start_time = time.time()
+    lattice = Lattice(universe_edge)
+    lattice_time = time.time() - start_time
+
+    print(f"\nLattice Statistics:")
+    print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
+    print(f"  Total granules: {lattice.total_granules:,}")
+    print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
+    print(f"  Scale factor: {lattice.scale_factor:.2e}x Planck")
+    print(f"  Creation time: {lattice_time:.3f} seconds")
+
+    # Create granule
+    granule = Granule(lattice.unit_cell_edge)
+    print(f"\nGranule Properties:")
+    print(f"  Radius: {granule.radius:.2e} m")
+    print(f"  Mass: {granule.mass:.2e} kg")
+
+    # Create springs
+    print(f"\nBuilding spring connections...")
+    start_time = time.time()
+    springs = Spring(lattice)
+    spring_time = time.time() - start_time
+
+    print(f"Spring Statistics:")
+    print(f"  Rest length: {springs.rest_length:.2e} m")
+    print(
+        f"  Build method: {'distance-based' if lattice.total_granules < 1000 else 'structured BCC'}"
+    )
+    print(f"  Build time: {spring_time:.3f} seconds")
+
+    # Sample connections (avoiding slice notation)
+    print(f"\nSample Connections:")
+    sample_indices = [0, 1, lattice.total_granules // 2, lattice.total_granules - 1]
+    for idx in sample_indices:
+        if idx < lattice.total_granules:
+            count = springs.links_count[idx]
+            granule_type = lattice.granule_type[idx]
+            type_names = {0: "VERTEX", 1: "EDGE", 2: "FACE", 3: "CORE", 4: "CENTRAL"}
+
+            # Get first few connections without slicing
+            connections = []
+            for j in range(min(count, 3)):  # Show first 3 connections
+                connections.append(springs.links[idx, j])
+
+            print(
+                f"  Granule {idx:6d} ({type_names.get(granule_type, 'UNKNOWN'):7s}): "
+                f"{count} links -> {connections}{'...' if count > 3 else ''}"
+            )
+
+    # Overall statistics - with progress for large lattices
+    print(f"\nComputing connection statistics...")
+
+    if lattice.total_granules > 10000:
+        # For large lattices, sample instead of checking all
+        print(f"  (Sampling 1000 granules from {lattice.total_granules:,} total)")
+        sample_size = 1000
+        import random
+
+        sample_indices = random.sample(range(lattice.total_granules), sample_size)
+
+        total_connections = 0
+        max_connections = 0
+        min_connections = 1000
+
+        for i in sample_indices:
+            count = springs.links_count[i]
+            total_connections += count
+            max_connections = max(max_connections, count)
+            min_connections = min(min_connections, count)
+
+        # Estimate total connections
+        avg_per_granule = total_connections / sample_size
+        estimated_total = int(avg_per_granule * lattice.total_granules)
+
+        print(f"\nConnection Summary (estimated from sample):")
+        print(f"  Est. total connections: ~{estimated_total:,}")
+        print(f"  Est. average per granule: {avg_per_granule:.2f}")
+        print(f"  Sample min/max connections: {min_connections}/{max_connections}")
+    else:
+        # For small lattices, check all
+        total_connections = 0
+        max_connections = 0
+        min_connections = 1000
+
+        for i in range(lattice.total_granules):
+            count = springs.links_count[i]
+            total_connections += count
+            max_connections = max(max_connections, count)
+            min_connections = min(min_connections, count)
+
+        print(f"\nConnection Summary:")
+        print(f"  Total connections: {total_connections:,}")
+        print(f"  Average per granule: {total_connections/lattice.total_granules:.2f}")
+        print(f"  Min/Max connections: {min_connections}/{max_connections}")
+
+    print(f"  Total build time: {lattice_time + spring_time:.3f} seconds")
+
+    print("================================================================")
+
+    # Properly exit
+    import sys
+
+    sys.exit(0)
