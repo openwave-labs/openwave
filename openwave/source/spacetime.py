@@ -122,10 +122,14 @@ class Lattice:
         # 1D array design: Better memory locality, simpler kernels, future-ready for dynamics
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
+        self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
-        # Populate the lattice
+        # Populate the lattice & index granule types
         self.populate_lattice()
+        self.index_granule_type()
+        self.set_granule_colors()
         self.find_front_octant()
 
     @ti.kernel
@@ -174,8 +178,92 @@ class Lattice:
             self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
+    def index_granule_type(self):
+        """Classify each granule by its position in the BCC lattice structure.
+
+        Classification:
+        - VERTEX (0): 8 corner vertices of the cubic lattice boundary
+        - EDGE (1): Granules on the 12 edges (but not corners)
+        - FACE (2): Granules on the 6 faces (but not on edges/corners)
+        - CORE (3): All other interior granules (not on boundary)
+        - CENTRAL (4): Single granule at exact center of lattice
+        """
+        corner_count = (self.grid_size + 1) ** 3
+        half_grid = self.grid_size // 2
+
+        for idx in range(self.total_granules):
+            if idx < corner_count:
+                # Corner granule: decode 3D grid position
+                grid_dim = self.grid_size + 1
+                i = idx // (grid_dim * grid_dim)
+                j = (idx % (grid_dim * grid_dim)) // grid_dim
+                k = idx % grid_dim
+
+                # Count how many coordinates are at boundaries (0 or grid_size)
+                at_boundary = 0
+                if i == 0 or i == self.grid_size:
+                    at_boundary += 1
+                if j == 0 or j == self.grid_size:
+                    at_boundary += 1
+                if k == 0 or k == self.grid_size:
+                    at_boundary += 1
+
+                if at_boundary == 3:
+                    self.granule_type[idx] = config.TYPE_VERTEX
+                elif at_boundary == 2:
+                    self.granule_type[idx] = config.TYPE_EDGE
+                elif at_boundary == 1:
+                    self.granule_type[idx] = config.TYPE_FACE
+                else:
+                    self.granule_type[idx] = config.TYPE_CORE
+            else:
+                # Center granule: decode position with offset
+                center_idx = idx - corner_count
+                i = center_idx // (self.grid_size * self.grid_size)
+                j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
+                k = center_idx % self.grid_size
+
+                # Check if this is the exact central granule (only for odd grid_size)
+                if i == half_grid and j == half_grid and k == half_grid:
+                    self.granule_type[idx] = config.TYPE_CENTRAL
+                else:
+                    # Center granules are always in core (offset by 0.5 means never on boundary)
+                    self.granule_type[idx] = config.TYPE_CORE
+
+    @ti.kernel
+    def set_granule_colors(self):
+        """Assign colors to granules based on their classified type."""
+        # Color lookup table (type index -> RGB color)
+        color_lut = ti.Matrix(
+            [
+                config.COLOR_VERTEX[1],  # TYPE_VERTEX = 0
+                config.COLOR_EDGE[1],  # TYPE_EDGE = 1
+                config.COLOR_FACE[1],  # TYPE_FACE = 2
+                config.COLOR_CORE[1],  # TYPE_CORE = 3
+                config.COLOR_CENTRAL[1],  # TYPE_CENTRAL = 4
+            ]
+        )
+
+        for i in range(self.total_granules):
+            granule_type = self.granule_type[i]
+            if 0 <= granule_type <= 4:
+                self.granule_color[i] = ti.Vector(
+                    [
+                        color_lut[granule_type, 0],
+                        color_lut[granule_type, 1],
+                        color_lut[granule_type, 2],
+                    ]
+                )
+            else:
+                self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
+
+    @ti.kernel
     def find_front_octant(self):
-        """."""
+        """Mark granules in the front octant (for block-slicing visualization).
+
+        Front octant = granules where x, y, z > universe_edge/2
+        Used for rendering: 0 = render, 1 = skip (for see-through effect)
+        """
         for i in range(self.total_granules):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
             # 0 = not in front octant, 1 = in front octant

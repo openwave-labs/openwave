@@ -33,7 +33,7 @@ scene = window.get_scene()  # 3D scene for particle rendering
 
 def initialize_scene():
     """Initialize scene settings."""
-    canvas.set_background_color(config.COLOR_SPACE[2])
+    canvas.set_background_color(config.COLOR_SPACE[1])
 
 
 def setup_scene_lighting():
@@ -116,13 +116,14 @@ def handle_camera():
 
 def render_controls():
     """Render the controls UI overlay."""
-    global block_slice, radius_factor
+    global block_slice, granule_type, radius_factor
 
     # Create overlay windows for stats & controls
-    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.15) as sub:
+    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.20) as sub:
         sub.text("Cam Orbit: right-click + drag")
         sub.text("Zoom: Q/A keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
+        granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
         if sub.button("Reset Granule"):
             radius_factor = 1.0
@@ -172,13 +173,14 @@ def render_lattice(lattice, granule):
 
     """
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-    global block_slice, radius_factor
+    global block_slice, granule_type, radius_factor
 
     # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     block_slice = False  # Initialize Block-slicing toggle
+    granule_type = False  # Initialize Granule type coloring toggle
 
     @ti.kernel
     def normalize_positions():
@@ -221,18 +223,20 @@ def render_lattice(lattice, granule):
         render_controls()
         render_data_dashboard()
 
-        # Render granules as taichi particles, with block-slicing option
-        if block_slice:
+        # Render granules with optional block-slicing and type-coloring
+        centers = normalized_positions_sliced if block_slice else normalized_positions
+
+        if granule_type:
             scene.particles(
-                normalized_positions_sliced,
+                centers,
                 radius=normalized_radius * radius_factor,
-                color=config.COLOR_GRANULE[2],
+                per_vertex_color=lattice.granule_color,
             )
         else:
             scene.particles(
-                normalized_positions,
+                centers,
                 radius=normalized_radius * radius_factor,
-                color=config.COLOR_GRANULE[2],
+                color=config.COLOR_GRANULE[1],
             )
 
         # Render the scene to canvas

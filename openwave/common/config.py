@@ -23,17 +23,38 @@ SCREEN_RES = [1300, 900]  # width x height, pixels (screen capacity)
 # ================================================================
 # Color Settings (RGBA hex)
 # ================================================================
-COLOR_SPACE = ["#000000ff", 0x000000, (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
-COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)
-COLOR_GRANULE = ["#1a99e6ff", 0x1A99E6, (0.1, 0.6, 0.9)]  # blue (granules)
-COLOR_QWAVES = ["#ff00eeff", 0xFF00EE, (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
-COLOR_FIELDS = ["#00ffffff", 0x00FFFF, (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
-COLOR_MATTER = ["#0000ffff", 0x0000FF, (0.0, 0.0, 1.0)]  # blue (matter, particles)
-COLOR_ANTIMATTER = ["#ff7f00ff", 0xFF7F00, (1.0, 0.5, 0.0)]  # orange (antimatter, antiparticles)
-COLOR_MOTION = ["#04ff00ff", 0x04FF00, (0.25, 1.0, 0.25)]  # green (motion, velocity vectors)
-COLOR_PHOTON = ["#ffea00ff", 0xFFEA00, (1.0, 0.92, 0.0)]  # yellow (photons, light particles)
-COLOR_HEAT = ["#ff0000ff", 0xFF0000, (1.0, 0.0, 0.0)]  # red (heat, thermal energy)
-COLOR_ENERGY = ["#8b00ffff", 0x8B00FF, (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
+COLOR_SPACE = ["#000000ff", (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
+COLOR_INFRA = ["#ffffffff", (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)
+COLOR_GRANULE = ["#1a99e6ff", (0.1, 0.6, 0.9)]  # blue (granules)
+COLOR_QWAVES = ["#ff00eeff", (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
+COLOR_FIELDS = ["#00ffffff", (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
+COLOR_MATTER = ["#0000ffff", (0.0, 0.0, 1.0)]  # blue (matter, particles)
+COLOR_ANTIMATTER = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # orange (antimatter, antiparticles)
+COLOR_MOTION = ["#04ff00ff", (0.25, 1.0, 0.25)]  # green (motion, velocity vectors)
+COLOR_PHOTON = ["#ffea00ff", (1.0, 0.92, 0.0)]  # yellow (photons, light particles)
+COLOR_HEAT = ["#ff0000ff", (1.0, 0.0, 0.0)]  # red (heat, thermal energy)
+COLOR_ENERGY = ["#8b00ffff", (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
+
+
+# ==================================================================
+# Granule Type Classification & Colors
+# ==================================================================
+# Granule types identify position within BCC lattice structure
+# Used for visualization, analysis, and debugging lattice topology
+
+# Type constants (integer values for GPU compatibility)
+TYPE_VERTEX = 0  # 8 corner vertices of the lattice cube
+TYPE_EDGE = 1  # 12 edges of the lattice cube
+TYPE_FACE = 2  # 6 faces of the lattice cube
+TYPE_CORE = 3  # Interior granules (not on boundary)
+TYPE_CENTRAL = 4  # Single central granule (lattice center)
+
+# Type-specific colors [hex_rgba, (r, g, b)]
+COLOR_VERTEX = ["#ffffffff", (1.0, 1.0, 1.0)]  # White - cube vertices
+COLOR_EDGE = ["#ffea00ff", (1.0, 0.92, 0.0)]  # Yellow - cube edges
+COLOR_FACE = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # Orange - cube faces
+COLOR_CORE = COLOR_GRANULE  # Blue - interior granules
+COLOR_CENTRAL = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - center granule
 
 
 # # Future screen resolution definitions
