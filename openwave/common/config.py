@@ -13,10 +13,10 @@ Includes commented thermal imaging palette definitions for future use.
 # Resolution Settings
 # ================================================================
 # Using cubic space (not spherical, radius) to match unit-cell lattice structures
-# QSPACE_RES defines the 3D grid resolution for quantum_space simulations
+# SPACETIME_RES defines the 3D grid granularity for spacetime simulations
 # SCREEN_RES defines the 2D screen resolution for rendering and GGUI display
 # Note: Higher resolutions increase computational load and may impact performance
-QSPACE_RES = 1e6  # target particle count, granularity (max computing capacity)
+SPACETIME_RES = 1e6  # target particle count, granularity (max computing capacity)
 SCREEN_RES = [1300, 900]  # width x height, pixels (screen capacity)
 
 
@@ -26,7 +26,7 @@ SCREEN_RES = [1300, 900]  # width x height, pixels (screen capacity)
 COLOR_SPACE = ["#000000ff", 0x000000, (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
 COLOR_INFRA = ["#ffffffff", 0xFFFFFF, (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)
 COLOR_GRANULE = ["#1a99e6ff", 0x1A99E6, (0.1, 0.6, 0.9)]  # blue (granules)
-COLOR_QWAVES = ["#ff00eeff", 0xFF00EE, (1.0, 0.0, 0.93)]  # magenta (quantum waves, wave functions)
+COLOR_QWAVES = ["#ff00eeff", 0xFF00EE, (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
 COLOR_FIELDS = ["#00ffffff", 0x00FFFF, (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
 COLOR_MATTER = ["#0000ffff", 0x0000FF, (0.0, 0.0, 1.0)]  # blue (matter, particles)
 COLOR_ANTIMATTER = ["#ff7f00ff", 0xFF7F00, (1.0, 0.5, 0.0)]  # orange (antimatter, antiparticles)

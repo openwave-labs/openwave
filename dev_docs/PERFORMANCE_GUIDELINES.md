@@ -67,9 +67,9 @@ class Particles:
 - Use appropriate block sizes for GPU kernels
 - Avoid divergent branching in GPU code
 
-### Real-World Optimization Example: Quantum Space 2D Slider
+### Real-World Optimization Example: Spacetime 2D Slider
 
-The quantum space 2D slider visualization was optimized from a CPU-bound implementation to a GPU-accelerated version with the following techniques:
+The Spacetime 2D slider visualization was optimized from a CPU-bound implementation to a GPU-accelerated version with the following techniques:
 
 #### Original Performance Issues
 

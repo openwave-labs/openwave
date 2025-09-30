@@ -8,13 +8,13 @@ All values use SI units (kg, m, s) for consistency.
 """
 
 # ================================================================
-# QUANTUM SPACE (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+# SPACETIME (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
-QSPACE_DENSITY = 3.506335701e22  # kg / m^3, quantum-space density (aether medium, rho)
+SPACETIME_DENSITY = 3.506335701e22  # kg / m^3, spacetime density (aether medium, rho)
 
 
 # ================================================================
-# QUANTUM WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
+# QUANTUM-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 # ================================================================
 QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)

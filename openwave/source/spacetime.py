@@ -1,10 +1,10 @@
 """
-QUANTUM SPACE
+SPACETIME
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
-QUANTUM SPACE is a Wave-Medium and Propagates Wave-Motions (QUANTUM WAVE).
-Modeled as a particle-based elastic ideal fluid (plasma like),
-that allows energy to transfer from one point to the next.
+SPACETIME is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+Modeled as a particle-based elastic medium that allows energy
+to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
 the classical fifth element or quintessence filling the universe,
@@ -42,14 +42,14 @@ class Granule:
         """
         self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
         self.mass = (
-            constants.QSPACE_DENSITY * unit_cell_edge**3 / 2
+            constants.SPACETIME_DENSITY * unit_cell_edge**3 / 2
         )  # mass = density * scaled unit cell volume / 2 granules per BCC unit-cell
 
 
 @ti.data_oriented
 class Lattice:
     """
-    3D Body-Centered Cubic (BCC) lattice for quantum space simulation.
+    3D Body-Centered Cubic (BCC) lattice for spacetime simulation.
     BCC topology: cubic unit cells with an additional granule at the center.
     More efficient packing than simple cubic (68% vs 52% space filling).
 
@@ -77,13 +77,13 @@ class Lattice:
         Args:
             universe_edge: Edge length of the cubic universe in meters
         """
-        # Compute lattice total energy from quantum wave equation
+        # Compute lattice total energy from quantum-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Get max granule count from computing capacity resolution
-        target_granules = config.QSPACE_RES
+        target_granules = config.SPACETIME_RES
 
         # Set universe properties
         self.universe_edge = universe_edge
@@ -106,7 +106,7 @@ class Lattice:
             2 * constants.PLANCK_LENGTH * np.e
         )  # linear scale factor from Planck length, increases computability
 
-        # Compute quantum wave linear resolution, sampling rate
+        # Compute quantum-wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
         self.qwave_res = constants.QWAVE_LENGTH / self.unit_cell_edge * 2
         # Compute universe linear resolution, qwavelengths per universe edge

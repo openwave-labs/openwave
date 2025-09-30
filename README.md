@@ -71,20 +71,20 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 classDiagram
   direction LR
   
-class `SPACETIME MODULE
+class `SOURCE MODULE
   (ENERGY SOURCE)`{
-    quantum_space.py ✓
+    spacetime.py ✓
     quantum_wave.py}
-`SPACETIME MODULE
+`SOURCE MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
-`SPACETIME MODULE
+`SOURCE MODULE
   (ENERGY SOURCE)` --> `MOTION MODULE
   (KINETIC ENERGY)`
-`SPACETIME MODULE
+`SOURCE MODULE
   (ENERGY SOURCE)` --> `PHOTON MODULE
   (PHOTON ENERGY)`
-`SPACETIME MODULE
+`SOURCE MODULE
   (ENERGY SOURCE)` --> `HEAT MODULE
   (THERMAL ENERGY)`
 
@@ -142,7 +142,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    qspace_render.py ✓
+    spacetime_render.py ✓
     --TBD*}
 
 
@@ -153,15 +153,15 @@ class `COMMON
     equations.py ✓
     --TBD*}
 `COMMON
-  MODULE` <--> `VALIDATION
+  MODULE` <--> `VALIDATIONS
   MODULE`
 
 
-class `VALIDATION
+class `VALIDATIONS
   MODULE`{
     derivations.py ✓
     --TBD*}
-`VALIDATION
+`VALIDATIONS
   MODULE` <--> `I/O
   MODULE`
 
@@ -197,7 +197,7 @@ kanban
       - motion.py]
     
     [**PHOTON MODULE**
-      - photon.py]
+      - light.py]
     
     [**HEAT MODULE**
       - heat.py]
@@ -207,20 +207,20 @@ kanban
       - fundam_particle.py]@{ priority: 'High', assigned: 'xrodz' }
     
   [IN PROGRESS]
-    [**SPACETIME MODULE**
+    [**SOURCE MODULE**
       - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
-    [**SPACETIME MODULE**
-      - quantum_space.py]
+    [**SOURCE MODULE**
+      - spacetime.py]
     [**XPERIMENTS MODULE**
-      - qspace_render.py]
+      - spacetime_render.py]
     [**COMMON MODULE**
       - config.py
       - constants.py]
-    [**VALIDATION MODULE**
+    [**VALIDATIONS MODULE**
       - derivations.py]
 ```
 
@@ -281,7 +281,7 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
 
 ```bash
 # Run your first OpenWave xperiment
-  python openwave/xperiments/qspace_render.py
+  python openwave/xperiments/spacetime_render.py
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```

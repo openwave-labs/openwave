@@ -165,18 +165,18 @@ if __name__ == "__main__":
 
     print("WAVE CONSTANTS DERIVATIONS")
 
-    print("\nQUANTUM SPACE DENSITY")
+    print("\nSPACETIME DENSITY")
     print(f"Derived Wave: {density_derivation_wave():.9e} kg/m³")
     print(f"Derived Hydrogen: {density_derivation_hydrogen():.9e} kg/m³")
     print(f"Derived Electron: {density_derivation_electron():.9e} kg/m³")
     print(f"Derived Planck: {density_derivation_planck():.9e} kg/m³")
-    print(f"Stored : {constants.QSPACE_DENSITY:.9e} kg/m³")
+    print(f"Stored : {constants.SPACETIME_DENSITY:.9e} kg/m³")
 
-    print("\nQUANTUM WAVE LENGTH")
+    print("\nQUANTUM-WAVE LENGTH")
     print(f"Derived: {wavelength_derivation():.9e} m")
     print(f"Stored : {constants.QWAVE_LENGTH:.9e} m")
 
-    print("\nQUANTUM WAVE AMPLITUDE")
+    print("\nQUANTUM-WAVE AMPLITUDE")
     print(f"Derived: {amplitude_derivation():.9e} m")
     print(f"Stored : {constants.QWAVE_AMPLITUDE:.9e} m")
     print("_______________________________")

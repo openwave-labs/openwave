@@ -10,7 +10,7 @@ import numpy as np
 import taichi as ti
 
 import openwave.common.config as config
-import openwave.spacetime.quantum_space as quantum_space
+import openwave.source.spacetime as spacetime
 
 ti.init(arch=ti.gpu)
 
@@ -21,7 +21,7 @@ ti.init(arch=ti.gpu)
 
 # Create GGUI window with 3D scene
 window = ti.ui.Window(
-    "Quantum-Space (Topology: 3D BCC Lattice)",
+    "Spacetime (Topology: 3D BCC Lattice)",
     (config.SCREEN_RES[0], config.SCREEN_RES[1]),
     vsync=True,
 )
@@ -131,7 +131,7 @@ def render_controls():
 def render_data_dashboard():
     """Display simulation data dashboard."""
     with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.45) as sub:
-        sub.text("--- QUANTUM SPACE (aka: The Aether) ---")
+        sub.text("--- SPACETIME ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
         sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
@@ -257,8 +257,8 @@ if __name__ == "__main__":
     print("===============================")
     print("Creating quantum objects: lattice and granule...")
     universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-    lattice = quantum_space.Lattice(universe_edge)
-    granule = quantum_space.Granule(lattice.unit_cell_edge)
+    lattice = spacetime.Lattice(universe_edge)
+    granule = spacetime.Granule(lattice.unit_cell_edge)
 
     # Render the 3D lattice
     print("\n--- 3D LATTICE RENDERING ---")
