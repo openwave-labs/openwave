@@ -116,14 +116,15 @@ def handle_camera():
 
 def render_controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, radius_factor
+    global block_slice, granule_type, show_springs, radius_factor
 
     # Create overlay windows for stats & controls
-    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.20) as sub:
+    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.22) as sub:
         sub.text("Cam Orbit: right-click + drag")
         sub.text("Zoom: Q/A keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
+        show_springs = sub.checkbox("Show Springs (<1k granules)", show_springs)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
         if sub.button("Reset Granule"):
             radius_factor = 1.0
@@ -160,7 +161,7 @@ def render_data_dashboard():
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
-def render_lattice(lattice, granule):
+def render_lattice(lattice, granule, springs=None):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
@@ -169,11 +170,12 @@ def render_lattice(lattice, granule):
                  Expected to have attributes: positions, total_granules, universe_edge
         granule: Granule instance for size reference.
                  Expected to have attribute: radius
+        springs: Spring instance containing connectivity information (optional)
 
 
     """
     global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-    global block_slice, granule_type, radius_factor
+    global block_slice, granule_type, show_springs, radius_factor
 
     # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
@@ -181,6 +183,20 @@ def render_lattice(lattice, granule):
     normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     block_slice = False  # Initialize Block-slicing toggle
     granule_type = False  # Initialize Granule type coloring toggle
+    show_springs = False  # Initialize spring visualization toggle
+
+    # Prepare spring line endpoints if springs provided
+    max_connections = 0
+    spring_lines = None
+    spring_color = config.COLOR_INFRA[1]
+    if springs is not None:
+        # Count total connections for line buffer
+        for i in range(lattice.total_granules):
+            max_connections += springs.links_count[i]
+
+        if max_connections > 0:
+            # Allocate line endpoint buffer (2 points per line)
+            spring_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
 
     @ti.kernel
     def normalize_positions():
@@ -199,10 +215,41 @@ def render_lattice(lattice, granule):
             if lattice.front_octant[i] == 0:
                 normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
 
+    # Create a field to track line index atomically
+    line_counter = ti.field(dtype=ti.i32, shape=())
+
+    @ti.kernel
+    def build_spring_lines():
+        """Build line endpoints for spring connections."""
+        # Reset counter
+        line_counter[None] = 0
+
+        # Build lines with atomic indexing to ensure correct ordering
+        for i in range(lattice.total_granules):
+            num_links = springs.links_count[i]
+            if num_links > 0:
+                pos_i = lattice.positions[i] / lattice.universe_edge  # Normalized position
+
+                for j in range(num_links):
+                    neighbor_idx = springs.links[i, j]
+                    if neighbor_idx >= 0:  # Valid connection
+                        pos_j = lattice.positions[neighbor_idx] / lattice.universe_edge
+
+                        # Get current line index atomically
+                        line_idx = ti.atomic_add(line_counter[None], 1)
+
+                        # Add line endpoints (from i to j)
+                        if line_idx < max_connections:  # Safety check
+                            spring_lines[line_idx * 2] = pos_i
+                            spring_lines[line_idx * 2 + 1] = pos_j
+
     # Normalize positions once before render loop
-    print("Normalizing 3D lattice positions to screen...")
     normalize_positions()
     normalize_positions_sliced()
+
+    # Build spring lines if springs provided
+    if springs is not None and max_connections > 0:
+        build_spring_lines()
 
     # Normalize granule radius to 0-1 range for GGUI rendering
     normalized_radius = max(
@@ -212,8 +259,6 @@ def render_lattice(lattice, granule):
 
     initialize_scene()  # Set up background once
     initialize_camera()  # Set initial camera parameters
-
-    print("Starting 3D render loop...")
 
     while window.running:
         setup_scene_lighting()  # Lighting must be set each frame in GGUI
@@ -239,6 +284,10 @@ def render_lattice(lattice, granule):
                 color=config.COLOR_GRANULE[1],
             )
 
+        # Render springs if enabled and available
+        if show_springs and springs is not None and spring_lines is not None:
+            scene.lines(spring_lines, width=5, color=spring_color)
+
         # Render the scene to canvas
         canvas.scene(scene)
         window.show()
@@ -250,14 +299,13 @@ def render_lattice(lattice, granule):
 if __name__ == "__main__":
 
     # Quantum objects instantiation
-    print("\n===============================")
-    print("SIMULATION START")
-    print("===============================")
-    print("Creating quantum objects: lattice and granule...")
     universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
     lattice = spacetime.Lattice(universe_edge)
     granule = spacetime.Granule(lattice.unit_cell_edge)
+    if config.SPACETIME_RES <= 1000:
+        springs = spacetime.Spring(lattice)  # Create spring links between granules
+    else:
+        springs = None  # Skip springs for very high resolutions to save memory
 
     # Render the 3D lattice
-    print("\n--- 3D LATTICE RENDERING ---")
-    render_lattice(lattice, granule)  # Pass the already created instances
+    render_lattice(lattice, granule, springs)
