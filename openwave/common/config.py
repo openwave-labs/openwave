@@ -36,9 +36,9 @@ COLOR_HEAT = ["#ff0000ff", (1.0, 0.0, 0.0)]  # red (heat, thermal energy)
 COLOR_ENERGY = ["#8b00ffff", (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
 
 
-# ==================================================================
+# ================================================================
 # Granule Type Classification & Colors
-# ==================================================================
+# ================================================================
 # Granule types identify position within BCC lattice structure
 # Used for visualization, analysis, and debugging lattice topology
 
