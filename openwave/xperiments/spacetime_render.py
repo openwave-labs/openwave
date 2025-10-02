@@ -97,13 +97,13 @@ def handle_camera():
         orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
 
     # Handle keyboard input for panning
-    if window.is_pressed(ti.ui.DOWN):  # Tilt up
+    if window.is_pressed(ti.ui.UP):  # Tilt up
         orbit_center[1] += 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.UP):  # Tilt down
+    if window.is_pressed(ti.ui.DOWN):  # Tilt down
         orbit_center[1] -= 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.RIGHT):  # Pan left
+    if window.is_pressed(ti.ui.LEFT):  # Pan left
         orbit_center[0] -= 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.LEFT):  # Pan right
+    if window.is_pressed(ti.ui.RIGHT):  # Pan right
         orbit_center[0] += 0.01 * orbit_radius
 
     """Now update camera position based on current orbit parameters.
