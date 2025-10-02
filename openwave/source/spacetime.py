@@ -476,12 +476,11 @@ class Spring:
 
 
 if __name__ == "__main__":
-    # Test script for spacetime module
-    import time
+    print("\n================================================================")
+    print("START SMOKE TEST: SPACETIME MODULE")
+    print("================================================================")
 
-    print("================================================================")
-    print("SPACETIME MODULE TEST")
-    print("================================================================")
+    import time
 
     # Create lattice
     universe_edge = 3e-16  # m (default 300 attometers)
@@ -584,6 +583,8 @@ if __name__ == "__main__":
 
     print(f"  Total build time: {lattice_time + spring_time:.3f} seconds")
 
+    print("\n================================================================")
+    print("END SMOKE TEST: SPACETIME MODULE")
     print("================================================================")
 
     # Properly exit
