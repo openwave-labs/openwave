@@ -10,9 +10,20 @@ import numpy as np
 import taichi as ti
 
 import openwave.common.config as config
+from openwave.common import constants
 import openwave.source.spacetime as spacetime
 
 ti.init(arch=ti.gpu)
+
+# ================================================================
+# Constants
+# ================================================================
+# Constants
+# ================================================================
+DT = 0.001  # seconds, simulation time step (smaller = more accurate, but slower)
+AMPLITUDE = constants.QWAVE_AMPLITUDE  # m, quantum-wave amplitude (equilibrium-to-peak)
+FREQUENCY = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
+SLOW_MO = 1e25  # slow-motion factor (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 
 # ================================================================
