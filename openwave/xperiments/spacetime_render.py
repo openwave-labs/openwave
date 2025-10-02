@@ -142,8 +142,8 @@ def render_data_dashboard():
         sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
 
         sub.text("")
-        sub.text("--- Dynamic Scaling (for computation) ---")
-        sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Length")
+        sub.text("--- Scaling-Up (for computation) ---")
+        sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale (magnified)")
         sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")

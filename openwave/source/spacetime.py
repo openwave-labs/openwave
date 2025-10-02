@@ -61,7 +61,7 @@ class Lattice:
     Benefits:
     - Simpler updates: One kernel updates all particles
     - Cleaner code: No need to manage multiple arrays
-    - Movement-Ready: Velocity field prepared for dynamics,
+    - Movement-Ready: Velocity field ready for dynamics,
     particles can move freely without grid remapping constraints
 
     This is why high-performance physics engines (molecular dynamics, N-body simulations)
@@ -119,7 +119,7 @@ class Lattice:
         self.total_granules = corner_count + center_count
 
         # Initialize position and velocity 1D arrays
-        # 1D array design: Better memory locality, simpler kernels, future-ready for dynamics
+        # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -494,7 +494,7 @@ if __name__ == "__main__":
     print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
     print(f"  Total granules: {lattice.total_granules:,}")
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
-    print(f"  Scale factor: {lattice.scale_factor:.2e}x Planck")
+    print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
     print(f"  Creation time: {lattice_time:.3f} seconds")
 
     # Create granule
