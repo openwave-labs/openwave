@@ -123,14 +123,17 @@ class Lattice:
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
+        self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
+        self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
-        self.populate_lattice()
-        self.index_granule_type()
-        self.set_granule_colors()
-        self.find_front_octant()
+        self.populate_lattice()  # initialize positions and velocities
+        self.build_granule_type()  # classifies granules
+        self.build_vertex_indices()  # builds the 8-element vertex index array
+        self.set_granule_colors()  # colors based on granule_type
+        self.find_front_octant()  # for block-slicing visualization
 
     @ti.kernel
     def populate_lattice(self):
@@ -178,7 +181,7 @@ class Lattice:
             self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
-    def index_granule_type(self):
+    def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
         Classification:
@@ -229,6 +232,31 @@ class Lattice:
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
                     self.granule_type[idx] = config.TYPE_CORE
+
+    @ti.kernel
+    def build_vertex_indices(self):
+        """Directly compute indices of 8 corner vertices and their direction vectors to center.
+        Uses the corner granule indexing formula: idx = i*(grid_dim^2) + j*grid_dim + k
+        where grid_dim = grid_size + 1, and i,j,k ∈ {0, grid_size}
+        Also computes normalized direction vectors from each vertex to lattice center (0.5, 0.5, 0.5).
+        """
+        grid_dim = self.grid_size + 1
+        lattice_center = ti.Vector([0.5, 0.5, 0.5])
+
+        # Map each of 8 vertices (binary encoding of corner position)
+        for v in range(8):
+            i = self.grid_size if (v & 4) else 0
+            j = self.grid_size if (v & 2) else 0
+            k = self.grid_size if (v & 1) else 0
+            self.vertex_indices[v] = i * (grid_dim * grid_dim) + j * grid_dim + k
+
+            # Compute normalized direction from vertex to center
+            # Vertex position in normalized coordinates (0 or 1 in each dimension)
+            vertex_pos = ti.Vector(
+                [float(i) / self.grid_size, float(j) / self.grid_size, float(k) / self.grid_size]
+            )
+            direction = lattice_center - vertex_pos
+            self.vertex_directions[v] = direction.normalized()
 
     @ti.kernel
     def set_granule_colors(self):
