@@ -92,9 +92,19 @@ def handle_camera():
     if window.is_pressed("q"):  # Zoom in
         orbit_radius *= 0.98
         orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
-    if window.is_pressed("a"):  # Zoom out
+    if window.is_pressed("z"):  # Zoom out
         orbit_radius *= 1.02
         orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+
+    # Handle keyboard input for panning
+    if window.is_pressed(ti.ui.DOWN):  # Tilt up
+        orbit_center[1] += 0.01 * orbit_radius
+    if window.is_pressed(ti.ui.UP):  # Tilt down
+        orbit_center[1] -= 0.01 * orbit_radius
+    if window.is_pressed(ti.ui.RIGHT):  # Pan left
+        orbit_center[0] -= 0.01 * orbit_radius
+    if window.is_pressed(ti.ui.LEFT):  # Pan right
+        orbit_center[0] += 0.01 * orbit_radius
 
     """Now update camera position based on current orbit parameters.
     Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
@@ -119,9 +129,10 @@ def render_controls():
     global block_slice, granule_type, show_springs, radius_factor
 
     # Create overlay windows for stats & controls
-    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.22) as sub:
+    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.23) as sub:
         sub.text("Cam Orbit: right-click + drag")
-        sub.text("Zoom: Q/A keys")
+        sub.text("Zoom: Q/Z keys")
+        sub.text("Pan: Arrow keys")
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
