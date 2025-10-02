@@ -16,7 +16,7 @@ SPACETIME_DENSITY = 3.506335701e22  # kg / m^3, spacetime density (aether medium
 # ================================================================
 # QUANTUM-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 # ================================================================
-QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length
+QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length, lambda
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
 QWAVE_SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
 
