@@ -224,10 +224,36 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 - Propagate oscillating motion like a wave through the lattice
 - Implement spring constants: k = 5.56081e44 kg/s² (single spring when granule radius is Planck length)
   - Already adjusted for scale-up factor on Spring class: `k = COULOMB_CONSTANT / granule.radius`
-  - But need to find spring constant from multiple spring mesh on a BCC lattice configuration
-  - May need effective k_total calculation for BCC topology
+  - **BCC Spring Constant Issue**: In BCC, each granule has 8 springs. Question: is the effective stiffness different?
+    - Option 1: Use individual spring k directly (8 springs act independently, forces add vectorially)
+    - Option 2: Calculate effective k_eff for the lattice (may need tensor analysis)
+    - **Recommendation**: Start with Option 1 (individual k), validate wave speed matches theory
+    - Yes lets start with option 1
 - No damping in our case (energy-conserving system)
 - Wave propagation dynamics using numerical integration method detailed below
+
+### Critical Physics Notes
+
+**Wave Speed Validation**:
+
+- Expected wave speed in medium: `v = sqrt(k/m) * lattice_spacing`
+- For our system: check if emergent wave speed ≈ speed of light (c = 299,792,458 m/s)
+- If too fast/slow: adjust k or validate spring topology
+
+**Wavelength Validation**:
+
+- Driving frequency: f = QWAVE_SPEED / QWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
+- Expected wavelength: λ = c / f ≈ 2.854e-17 m (QWAVE_LENGTH constant)
+- Measurement: Sample granule positions along propagation axis, find spatial period
+- Relationship: λ = v / f, so if v ≈ c and f is correct → λ should match QWAVE_LENGTH
+- **This validates the entire physics model**: correct k, m, lattice spacing, and wave equation
+
+**BCC Spring Topology**:
+
+- Each interior granule has 8 neighbors
+- Force on granule i: `F_i = sum over j (k * (|r_ij| - L0) * r_ij_hat)`
+- Resultant force is vector sum of 8 spring forces
+- Should naturally produce isotropic wave propagation in 3D
 
 ### Data Structures Needed
 
@@ -246,6 +272,75 @@ Use `quantum_wave.py` for all wave dynamics functions:
 3. `propagate_qwave()` - Main function that orchestrates the above with substepping
 
 - **ATTENTION**: vertex granules have their own motion (harmonic oscillation) as they inject energy in the lattice (wave makers) so we can't update vertex velocities/position when iterating over all the other granules in the lattice, OR we might find a better way to implement both for better performance
+
+### Phase 2 Implementation Checklist
+
+#### Step 1: Leapfrog Integration Research & Setup
+
+- [ ] Study Leapfrog algorithm (velocity Verlet variant)
+- [ ] Implement basic Leapfrog kernel for single particle test
+- [ ] Compare energy conservation: Leapfrog vs Euler
+- [ ] Determine optimal substep count for stability
+
+#### Step 2: Spring Force Computation Kernel
+
+- [ ] Implement `compute_spring_forces()` kernel in quantum_wave.py
+- [ ] For each granule: iterate through Spring.links to find neighbors
+- [ ] Calculate displacement vector: `d = pos[neighbor] - pos[current]`
+- [ ] Calculate distance: `dist = |d|`
+- [ ] Calculate spring extension: `x = dist - rest_length`
+- [ ] Calculate spring force magnitude: `F_mag = -k * x`
+- [ ] Calculate force direction: `F_vec = F_mag * (d / dist)` (unit vector)
+- [ ] Accumulate forces from all 8 neighbors into resultant force
+- [ ] Return force field (or acceleration field = F/mass)
+
+#### Step 3: Vertex Exclusion Strategy
+
+Two approaches to handle vertices (wave makers) vs propagating granules:
+
+- **Option A: Skip vertices in propagation loop (won't work)**
+  - Check `if granule_type[i] != TYPE_VERTEX` before computing spring forces
+  - Vertices keep harmonic motion, others use spring-mass dynamics
+  - Simple but may lose some coupling at vertex-neighbor interface
+
+- **Option B: Hybrid force model**
+  - Vertices: prescribed motion from `oscillate_vertex()` (boundary condition)
+  - Non-vertices: spring forces include vertex positions as inputs
+  - More physically accurate energy injection from vertices to neighbors
+  - Recommended approach
+  - I agree to use option B, if we remove vertex there wont be any motion (they ar the wave makers, the triggers)
+
+#### Step 4: Leapfrog Integration Kernel
+
+- [ ] Implement `integrate_motion()` in quantum_wave.py
+- [ ] Half-step velocity update: `v(t+dt/2) = v(t) + a(t) * dt/2`
+- [ ] Position update: `x(t+dt) = x(t) + v(t+dt/2) * dt`
+- [ ] Force recompute at new positions
+- [ ] Final half-step velocity: `v(t+dt) = v(t+dt/2) + a(t+dt) * dt/2`
+- [ ] Exclude vertices from integration (keep their prescribed motion)
+
+#### Step 5: Main Propagation Orchestrator
+
+- [ ] Create `propagate_qwave()` function
+- [ ] Call `oscillate_vertex()` first (boundary condition)
+- [ ] Loop substeps:
+  - Compute spring forces on non-vertex granules
+  - Integrate motion using Leapfrog
+  - Accumulate substep time
+- [ ] Update rendering positions after all substeps
+
+#### Step 6: Validation & Tuning
+
+- [ ] Verify wave propagates from vertices
+- [ ] Check energy conservation (should be stable over time)
+- [ ] Tune substep count for stability vs performance
+- [ ] **Measure wave speed**: Compare emergent propagation velocity to expected `c = QWAVE_SPEED`
+- [ ] **Measure wavelength**: Track spatial period of oscillation, compare to `λ = QWAVE_LENGTH`
+  - Method: Sample positions along radial line from vertex, measure distance between peaks
+  - Expected: λ ≈ 2.854e-17 m (from constants)
+  - Validates both spring constant k and lattice discretization
+- [ ] Visualize wave patterns (should see spherical/radial propagation)
+- [ ] **Success criteria**: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance)
 
 ### Integration Method Review (TODO - Before Phase 2 Implementation)
 
@@ -282,6 +377,42 @@ The Leapfrog integrator occupies a sweet spot for our needs:
 
 **Decision Point**: Research and implement Leapfrog before Phase 2 integration. Compare energy conservation and performance against Euler baseline.
 
+### Leapfrog Algorithm (Velocity Verlet) - Detailed
+
+**Standard Leapfrog (Kick-Drift-Kick)**:
+
+```python
+# Half-step velocity update (kick)
+v_half = v(t) + 0.5 * a(t) * dt
+
+# Full-step position update (drift)
+x(t+dt) = x(t) + v_half * dt
+
+# Compute new acceleration from new positions
+a(t+dt) = F(x(t+dt)) / m
+
+# Final half-step velocity update (kick)
+v(t+dt) = v_half + 0.5 * a(t+dt) * dt
+```
+
+**Key Properties**:
+
+- Time-reversible (run backward to get original state)
+- Symplectic (preserves phase space volume → energy conservation)
+- Second-order accurate (error O(dt²))
+- Requires 1 force evaluation per timestep (same as Euler)
+- Velocities and positions offset by dt/2 (leapfrog pattern)
+
+**Implementation Strategy for Phase 2**:
+
+1. Store current acceleration field from previous step (or compute initially)
+2. Half-kick all non-vertex velocities
+3. Drift all non-vertex positions
+4. Update vertex positions via `oscillate_vertex()` (boundary condition)
+5. Compute new accelerations from spring forces (using updated positions including vertices)
+6. Final half-kick non-vertex velocities
+7. Repeat for substeps
+
 ## Integration method (draft, from game development practices, upgrade to Leapfrog method after research)
 
 use reference file: spring_mass_example.py (but its the euler integration with substeps)
@@ -301,8 +432,8 @@ compute 8-way 3D granule distance and direction vectors (A-B), plus forces and a
 
 Perform Integration (LeapFrog)
 
-- vel(i+1/2) += a(i+1/2) * dt # compute new velocity
-- pos(i) += vel(i+1/2) * dt # compute new position
+- vel(i+1/2) = v(i-1/2) + a(i) * dt # compute new velocity
+- pos(i+1) = pos(i) + vel(i+1/2) * dt # compute new position
 
 ## How to achieve numerical stability in spring-mass systems (best practices & techniques in computational physics simulators)
 
