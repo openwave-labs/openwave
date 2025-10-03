@@ -315,7 +315,7 @@ if __name__ == "__main__":
     lattice = spacetime.Lattice(universe_edge)
     granule = spacetime.Granule(lattice.unit_cell_edge)
     if config.SPACETIME_RES <= 1000:
-        springs = spacetime.Spring(lattice)  # Create spring links between granules
+        springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
     else:
         springs = None  # Skip springs for very high resolutions to save memory
 

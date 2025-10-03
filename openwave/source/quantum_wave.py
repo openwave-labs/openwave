@@ -15,7 +15,7 @@ from openwave.common import constants
 # ================================================================
 amplitude = constants.QWAVE_AMPLITUDE  # m, quantum-wave amplitude (equilibrium-to-peak)
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
-# slow-motion factor (divides frequency for human-visible motion)
+# slow-motion factor (divides frequency for human-visible motion, time microscope)
 slow_mo = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 

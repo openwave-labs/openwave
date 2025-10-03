@@ -15,7 +15,7 @@ Implement harmonic oscillation for the 8 lattice vertices to inject energy into 
 **Two-Phase Implementation**:
 
 1. **Phase 1** (Current): Forced harmonic motion of 8 vertices only
-2. **Phase 2** (Future): Spring-mass wave propagation to all granules
+2. **Phase 2** (Next): Spring-mass wave propagation to all granules
 
 ## Reference Materials
 
@@ -82,7 +82,7 @@ Recommendation: Update both for physical consistency, prepares for Phase 2.
 ### 5. Frame Rate & Time Step
 
 - Should we cap frame rate (e.g., 60 FPS)?
-- `dt` vs actual elapsed time - use `time.time()` for real-time or fixed `dt`? I was thinking on using dt not tracking current time, specially preparing for the next stage of spring-mass oscillation on other granules for wave propagation, that I'm planning to use an Euler Integrator method alike game developers use
+- `dt` vs actual elapsed time - use `time.time()` for real-time or fixed `dt`? I was thinking on using dt not tracking current time, specially preparing for the next stage of spring-mass oscillation on other granules for wave propagation, that I'm planning to use a numerical integrator method alike game developers use
 - Currently the while loop runs uncapped - should we add frame rate limiting? lets skip FPS cap for now, if need we implement it later
 
 ### 6. Function Placement & Implementation Details
@@ -222,11 +222,12 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 
 - Connect vertices to other granules via spring forces: spring links are already created at spacetime.py Spring class
 - Propagate oscillating motion like a wave through the lattice
-- Implement spring constants: k = 5.56081e44 kg/s² (single spring at Planck scale)
-  - Need to adjust for scale-up factor and BCC lattice configuration
+- Implement spring constants: k = 5.56081e44 kg/s² (single spring when granule radius is Planck length)
+  - Already adjusted for scale-up factor on Spring class: `k = COULOMB_CONSTANT / granule.radius`
+  - But need to find spring constant from multiple spring mesh on a BCC lattice configuration
   - May need effective k_total calculation for BCC topology
 - No damping in our case (energy-conserving system)
-- Wave propagation dynamics using Euler integration
+- Wave propagation dynamics using numerical integration method detailed below
 
 ### Data Structures Needed
 
@@ -240,9 +241,11 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 
 Use `quantum_wave.py` for all wave dynamics functions:
 
-1. `compute_spring_forces()` - Calculate force on each granule from connected springs
+1. `compute_spring_forces()` - Compute displacement and calculate force on each granule from connected springs
 2. `integrate_motion()` - Update velocities and positions using best method below
-3. `update_wave_propagation()` - Main function that orchestrates the above with substepping
+3. `propagate_qwave()` - Main function that orchestrates the above with substepping
+
+- **ATTENTION**: vertex granules have their own motion (harmonic oscillation) as they inject energy in the lattice (wave makers) so we can't update vertex velocities/position when iterating over all the other granules in the lattice, OR we might find a better way to implement both for better performance
 
 ### Integration Method Review (TODO - Before Phase 2 Implementation)
 
@@ -281,28 +284,25 @@ The Leapfrog integrator occupies a sweet spot for our needs:
 
 ## Integration method (draft, from game development practices, upgrade to Leapfrog method after research)
 
-use reference file: spring_mass_example.py (euler integration with substeps)
+use reference file: spring_mass_example.py (but its the euler integration with substeps)
 
 compute each granule new position = propagation
 
 - Fs, v, x = zero # initialize local vars for safety
 
-compute 8-way 3D granule distance and direction vectors (A-B)
+compute 8-way 3D granule distance and direction vectors (A-B), plus forces and acceleration
 
-- x = |B-A| - L0 (displacement from rest L0, already computed in Spring.rest_length)
-  - we need to find the up to 8 linked granules to each granule iteration, find distance (for displacement from rest calculation here) and direction (for resultant force calculation later)
+- x = |B-A| - L0 (displacement from rest L0, already computed in `Spring.rest_length`)
+  - use Spring.links to find the up to 8 linked granules to each granule iteration, find distance B-A (and displacement from rest calculation) with direction (for resultant force calculation later)
 - Fs = -k * x (computes the spring force from current displacement at that frame)
-  - k constant will be defined later, we need a new way to find it, we have the single spring k = 5.56081e44 (kg/s^2), but this is the individual spring at planck scale, we're using a planck scale-up factor, and also the BCC lattice configuration may generate a new k constant, i'm not sure if the linear 1D in series spring k equation works here (1/k_total)=n*(1/k)
+  - k constant needs to be defined, we have the single spring k = 5.56081e44 (kg/s^2) at planck length and an equation for k related to granule.radius, but the BCC lattice configuration may generate a new k constant, i'm not sure if the linear 1D in series spring k equation works here (1/k_total)=n*(1/k)
 - a = Fs / m (compute acceleration from Granule.mass)
-
 - find resultant 3D force vector (from 8-way force vectors)
 
-Perform Integration (LepaFrog or Eurler)
+Perform Integration (LeapFrog)
 
 - vel(i+1/2) += a(i+1/2) * dt # compute new velocity
 - pos(i) += vel(i+1/2) * dt # compute new position
-
-- after this implementation: review maybe only compute velocity for 8 vertex harmonics and update positions together inside this new script
 
 ## How to achieve numerical stability in spring-mass systems (best practices & techniques in computational physics simulators)
 

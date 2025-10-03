@@ -322,16 +322,16 @@ class Spring:
     where a is the unit cell edge length.
     """
 
-    def __init__(self, lattice: Lattice):
+    def __init__(self, lattice: Lattice, granule: Granule):
         """
         Initialize spring connections for the lattice.
 
         Args:
             lattice: Lattice instance containing granule positions and types
-            stiffness: Spring constant k (default 1.0)
+            granule: Granule instance representing the current granule specs
         """
         self.lattice = lattice
-        self.stiffness = 1.0  # Spring constant k
+        self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
 
         # Rest length for BCC nearest neighbor connections
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2
