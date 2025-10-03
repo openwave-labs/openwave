@@ -241,12 +241,47 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 Use `quantum_wave.py` for all wave dynamics functions:
 
 1. `compute_spring_forces()` - Calculate force on each granule from connected springs
-2. `integrate_euler()` - Update velocities and positions using explicit Euler
+2. `integrate_motion()` - Update velocities and positions using best method below
 3. `update_wave_propagation()` - Main function that orchestrates the above with substepping
 
-## Explicit Euler integration method (draft, from game development practices)
+### Integration Method Review (TODO - Before Phase 2 Implementation)
 
-example file: spring_mass_example.py
+#### Priority: Evaluate Leapfrog Integration Method
+
+The Leapfrog integrator occupies a sweet spot for our needs:
+
+- **Second-order accuracy** (more accurate than Euler's first-order)
+- **Symplectic** (conserves energy better - critical for undamped systems)
+- **Computational efficiency** (similar cost to Euler, unlike RK4's 4x overhead)
+- **Physics pedigree** (widely used in quantum physics and molecular dynamics)
+- **May reduce substep requirements** (better accuracy per step than Euler)
+
+**Evaluation Checklist**:
+
+- [ ] **Leapfrog Method (Primary Candidate)**
+  - Second-order symplectic integrator for Newton's equations of motion
+  - Energy-conserving (essential for our undamped wave propagation)
+  - Minimal performance cost vs Euler
+  - Well-suited for oscillatory spring-mass systems
+  - May significantly reduce need for multiple substeps
+
+- [ ] **Runge-Kutta 4 (RK4) - Secondary Option**
+  - Fourth-order accuracy (very high precision)
+  - NOT symplectic (may drift in energy over long simulations)
+  - 4x computational cost per step (expensive for large lattice)
+  - Consider only if Leapfrog accuracy insufficient
+
+- [ ] **Explicit Euler (Baseline)**
+  - First-order accuracy (lowest)
+  - Requires many substeps for stability
+  - Simple but energy-drifting
+  - Keep as fallback/comparison
+
+**Decision Point**: Research and implement Leapfrog before Phase 2 integration. Compare energy conservation and performance against Euler baseline.
+
+## Integration method (draft, from game development practices, upgrade to Leapfrog method after research)
+
+use reference file: spring_mass_example.py (euler integration with substeps)
 
 compute each granule new position = propagation
 
@@ -262,10 +297,12 @@ compute 8-way 3D granule distance and direction vectors (A-B)
 
 - find resultant 3D force vector (from 8-way force vectors)
 
-Perform Euler Integration
+Perform Integration (LepaFrog or Eurler)
 
-- v += a * dt # compute new velocity
-- p += v * dt # compute new position
+- vel(i+1/2) += a(i+1/2) * dt # compute new velocity
+- pos(i) += vel(i+1/2) * dt # compute new position
+
+- after this implementation: review maybe only compute velocity for 8 vertex harmonics and update positions together inside this new script
 
 ## How to achieve numerical stability in spring-mass systems (best practices & techniques in computational physics simulators)
 
