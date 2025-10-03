@@ -125,6 +125,7 @@ class Lattice:
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
+        self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
@@ -248,7 +249,11 @@ class Lattice:
             i = self.grid_size if (v & 4) else 0
             j = self.grid_size if (v & 2) else 0
             k = self.grid_size if (v & 1) else 0
-            self.vertex_indices[v] = i * (grid_dim * grid_dim) + j * grid_dim + k
+            idx = i * (grid_dim * grid_dim) + j * grid_dim + k
+            self.vertex_indices[v] = idx
+
+            # Store equilibrium position for this vertex
+            self.vertex_equilibrium[v] = self.positions[idx]
 
             # Compute normalized direction from vertex to center
             # Vertex position in normalized coordinates (0 or 1 in each dimension)

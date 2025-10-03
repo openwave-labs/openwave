@@ -223,6 +223,7 @@ def render_lattice(lattice, granule, springs=None):
             # Normalize to 0-1 range
             # And hide front 1/8th of the lattice for see-through effect (block-slicing)
             # 0 = not in front octant (render it), 1 = in front octant (skip it)
+            # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
             if lattice.front_octant[i] == 0:
                 normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
 

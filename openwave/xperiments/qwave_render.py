@@ -8,10 +8,12 @@ sourced from the element aether.
 
 import numpy as np
 import taichi as ti
+import time
 
 import openwave.common.config as config
 from openwave.common import constants
 import openwave.source.spacetime as spacetime
+import openwave.source.quantum_wave as qwave
 
 ti.init(arch=ti.gpu)
 
@@ -20,7 +22,6 @@ ti.init(arch=ti.gpu)
 # ================================================================
 # Constants
 # ================================================================
-DT = 0.001  # seconds, simulation time step (smaller = more accurate, but slower)
 AMPLITUDE = constants.QWAVE_AMPLITUDE  # m, quantum-wave amplitude (equilibrium-to-peak)
 FREQUENCY = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 SLOW_MO = 1e25  # slow-motion factor (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
@@ -234,6 +235,7 @@ def render_lattice(lattice, granule, springs=None):
             # Normalize to 0-1 range
             # And hide front 1/8th of the lattice for see-through effect (block-slicing)
             # 0 = not in front octant (render it), 1 = in front octant (skip it)
+            # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
             if lattice.front_octant[i] == 0:
                 normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
 
@@ -282,7 +284,34 @@ def render_lattice(lattice, granule, springs=None):
     initialize_scene()  # Set up background once
     initialize_camera()  # Set initial camera parameters
 
+    # Time tracking for harmonic oscillation
+    t = 0.0
+    last_time = time.time()
+
     while window.running:
+        # Calculate actual elapsed time (real-time tracking)
+        current_time = time.time()
+        dt_real = current_time - last_time
+        last_time = current_time
+        t += dt_real  # Use real elapsed time instead of fixed DT
+
+        # Update vertex oscillation (Phase 1: harmonic wave makers)
+        qwave.oscillate_vertex(
+            lattice.positions,
+            lattice.velocities,
+            lattice.vertex_indices,
+            lattice.vertex_equilibrium,
+            lattice.vertex_directions,
+            t,
+            AMPLITUDE,
+            FREQUENCY,
+            SLOW_MO,
+        )
+
+        # Update normalized positions for rendering (must happen after position updates)
+        normalize_positions()
+        normalize_positions_sliced()
+
         setup_scene_lighting()  # Lighting must be set each frame in GGUI
         handle_camera()  # Handle camera input and update position
 
