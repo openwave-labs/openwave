@@ -124,15 +124,15 @@ class Lattice:
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
-        self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
         self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
+        self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize positions and velocities
         self.build_granule_type()  # classifies granules
-        self.build_vertex_indices()  # builds the 8-element vertex index array
+        self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.set_granule_colors()  # colors based on granule_type
         self.find_front_octant()  # for block-slicing visualization
 
@@ -235,7 +235,7 @@ class Lattice:
                     self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def build_vertex_indices(self):
+    def build_vertex_data(self):
         """Directly compute indices of 8 corner vertices and their direction vectors to center.
         Uses the corner granule indexing formula: idx = i*(grid_dim^2) + j*grid_dim + k
         where grid_dim = grid_size + 1, and i,j,k ∈ {0, grid_size}
@@ -309,12 +309,6 @@ class Lattice:
                 )
                 else 0
             )
-
-    @ti.kernel
-    def update_positions(self, dt: ti.f32):  # type: ignore
-        """Update granule positions based on velocities."""
-        for i in self.positions:
-            self.positions[i] += self.velocities[i] * dt
 
 
 @ti.data_oriented

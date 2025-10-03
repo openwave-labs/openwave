@@ -11,20 +11,10 @@ import taichi as ti
 import time
 
 import openwave.common.config as config
-from openwave.common import constants
 import openwave.source.spacetime as spacetime
 import openwave.source.quantum_wave as qwave
 
 ti.init(arch=ti.gpu)
-
-# ================================================================
-# Constants
-# ================================================================
-# Constants
-# ================================================================
-AMPLITUDE = constants.QWAVE_AMPLITUDE  # m, quantum-wave amplitude (equilibrium-to-peak)
-FREQUENCY = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
-SLOW_MO = 1e25  # slow-motion factor (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 
 # ================================================================
@@ -295,7 +285,7 @@ def render_lattice(lattice, granule, springs=None):
         last_time = current_time
         t += dt_real  # Use real elapsed time instead of fixed DT
 
-        # Update vertex oscillation (Phase 1: harmonic wave makers)
+        # Update vertex oscillation (harmonic wave makers)
         qwave.oscillate_vertex(
             lattice.positions,
             lattice.velocities,
@@ -303,9 +293,6 @@ def render_lattice(lattice, granule, springs=None):
             lattice.vertex_equilibrium,
             lattice.vertex_directions,
             t,
-            AMPLITUDE,
-            FREQUENCY,
-            SLOW_MO,
         )
 
         # Update normalized positions for rendering (must happen after position updates)
