@@ -215,8 +215,10 @@ def render_lattice(lattice, granule, springs=None):
     def normalize_positions():
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
         for i in range(lattice.total_granules):
-            # Normalize to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge
+            # Normalize to 0-1 range (positions are in attometers, scale them back)
+            normalized_positions[i] = lattice.positions[i] / (
+                lattice.universe_edge * lattice.UNIT_SCALE
+            )
 
     @ti.kernel
     def normalize_positions_sliced():
@@ -227,7 +229,9 @@ def render_lattice(lattice, granule, springs=None):
             # 0 = not in front octant (render it), 1 = in front octant (skip it)
             # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
             if lattice.front_octant[i] == 0:
-                normalized_positions_sliced[i] = lattice.positions[i] / lattice.universe_edge
+                normalized_positions_sliced[i] = lattice.positions[i] / (
+                    lattice.universe_edge * lattice.UNIT_SCALE
+                )
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
@@ -242,12 +246,15 @@ def render_lattice(lattice, granule, springs=None):
         for i in range(lattice.total_granules):
             num_links = springs.links_count[i]
             if num_links > 0:
-                pos_i = lattice.positions[i] / lattice.universe_edge  # Normalized position
+                # Normalized position (scale back from attometers)
+                pos_i = lattice.positions[i] / (lattice.universe_edge * lattice.UNIT_SCALE)
 
                 for j in range(num_links):
                     neighbor_idx = springs.links[i, j]
                     if neighbor_idx >= 0:  # Valid connection
-                        pos_j = lattice.positions[neighbor_idx] / lattice.universe_edge
+                        pos_j = lattice.positions[neighbor_idx] / (
+                            lattice.universe_edge * lattice.UNIT_SCALE
+                        )
 
                         # Get current line index atomically
                         line_idx = ti.atomic_add(line_counter[None], 1)
@@ -285,15 +292,19 @@ def render_lattice(lattice, granule, springs=None):
         last_time = current_time
         t += dt_real  # Use real elapsed time instead of fixed DT
 
-        # Update vertex oscillation (harmonic wave makers)
-        qwave.oscillate_vertex(
-            lattice.positions,
-            lattice.velocities,
-            lattice.vertex_indices,
-            lattice.vertex_equilibrium,
-            lattice.vertex_directions,
-            t,
-        )
+        # Update wave propagation (spring-mass dynamics with vertex wave makers)
+        if springs is not None:
+            qwave.propagate_qwave(lattice, springs, granule, t, dt_real, substeps=30)
+        else:
+            # Fallback to vertex oscillation only if no springs
+            qwave.oscillate_vertex(
+                lattice.positions,
+                lattice.velocities,
+                lattice.vertex_indices,
+                lattice.vertex_equilibrium,
+                lattice.vertex_directions,
+                t,
+            )
 
         # Update normalized positions for rendering (must happen after position updates)
         normalize_positions()
@@ -340,8 +351,14 @@ if __name__ == "__main__":
     universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
     lattice = spacetime.Lattice(universe_edge)
     granule = spacetime.Granule(lattice.unit_cell_edge)
+
+    # Debug: Check positions after lattice init
+    print(f"[INIT] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
     if config.SPACETIME_RES <= 1000:
         springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
+        # Debug: Check positions after spring init
+        print(f"Spring constant k: {springs.stiffness:.2e} N/m")
+        print(f"[AFTER_SPRING] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
     else:
         springs = None  # Skip springs for very high resolutions to save memory
 
