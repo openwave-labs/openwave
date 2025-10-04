@@ -354,7 +354,7 @@ if __name__ == "__main__":
 
     # Debug: Check positions after lattice init
     print(f"[INIT] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
-    if config.SPACETIME_RES <= 1000:
+    if config.SPACETIME_RES <= 10000:
         springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
         # Debug: Check positions after spring init
         print(f"Spring constant k: {springs.stiffness:.2e} N/m")

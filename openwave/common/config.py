@@ -16,7 +16,7 @@ Includes commented thermal imaging palette definitions for future use.
 # SPACETIME_RES defines the 3D grid granularity for spacetime simulations
 # SCREEN_RES defines the 2D screen resolution for rendering and GGUI display
 # Note: Higher resolutions increase computational load and may impact performance
-SPACETIME_RES = 1e3  # target particle count, granularity (max computing capacity)
+SPACETIME_RES = 1e4  # target particle count, granularity (max computing capacity)
 SCREEN_RES = [1300, 900]  # width x height, pixels (screen capacity)
 
 

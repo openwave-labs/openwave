@@ -14,7 +14,7 @@ from openwave.common import constants
 # Quantum-Wave Oscillation Parameters
 # ================================================================
 UNIT_SCALE = 1e18  # meters to attometers (must match spacetime.py)
-amplitude = constants.QWAVE_AMPLITUDE * 10 * UNIT_SCALE  # am, oscillation amplitude
+amplitude = constants.QWAVE_AMPLITUDE * UNIT_SCALE  # am, oscillation amplitude
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 # slow-motion factor (divides frequency for human-visible motion, time microscope)
 slow_mo = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
@@ -190,7 +190,7 @@ def propagate_qwave(
     granule,
     t: float,
     dt: float,
-    substeps: int = 10,
+    substeps: int = 1000,
 ):
     """Main wave propagation orchestrator using spring-mass dynamics.
 
