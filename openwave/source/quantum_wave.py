@@ -54,10 +54,14 @@ def oscillate_vertex(
         idx = vertex_indices[v]
         direction = vertex_directions[v]
 
-        # Position: x(t) = x_eq + A·cos(ωt)·direction
-        displacement = amplitude * ti.cos(omega * t)
+        # Add phase shift to break symmetry: each vertex oscillates with different phase
+        # Phase = v * π/4 (45° increments for 8 vertices)
+        phase = float(v) * ti.math.pi / 4.0
+
+        # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
+        displacement = amplitude * ti.cos(omega * t + phase)
         positions[idx] = vertex_equilibrium[v] + displacement * direction
 
-        # Velocity: v(t) = -A·ω·sin(ωt)·direction (derivative of position)
-        velocity_magnitude = -amplitude * omega * ti.sin(omega * t)
+        # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
+        velocity_magnitude = -amplitude * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_magnitude * direction
