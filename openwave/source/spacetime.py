@@ -118,8 +118,13 @@ class Lattice:
         center_count = self.grid_size**3
         self.total_granules = corner_count + center_count
 
+        # Unit conversion: Store positions in attometers (1e-18 m) for f32 precision
+        # This scales 1e-17 m values to ~10 am, well within f32 range
+        self.UNIT_SCALE = 1e18  # meters to attometers
+
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
+        # Positions in attometers, velocities in attometers/second
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -159,8 +164,13 @@ class Lattice:
                 j = (idx % (grid_dim * grid_dim)) // grid_dim
                 k = idx % grid_dim
 
+                # Store positions in attometers (scaled by UNIT_SCALE)
                 self.positions[idx] = ti.Vector(
-                    [i * self.unit_cell_edge, j * self.unit_cell_edge, k * self.unit_cell_edge]
+                    [
+                        i * self.unit_cell_edge * self.UNIT_SCALE,
+                        j * self.unit_cell_edge * self.UNIT_SCALE,
+                        k * self.unit_cell_edge * self.UNIT_SCALE,
+                    ]
                 )
             else:
                 # Center granule: decode position with offset
@@ -170,11 +180,12 @@ class Lattice:
                 k = center_idx % self.grid_size
 
                 offset = self.unit_cell_edge / 2
+                # Store positions in attometers (scaled by UNIT_SCALE)
                 self.positions[idx] = ti.Vector(
                     [
-                        i * self.unit_cell_edge + offset,
-                        j * self.unit_cell_edge + offset,
-                        k * self.unit_cell_edge + offset,
+                        (i * self.unit_cell_edge + offset) * self.UNIT_SCALE,
+                        (j * self.unit_cell_edge + offset) * self.UNIT_SCALE,
+                        (k * self.unit_cell_edge + offset) * self.UNIT_SCALE,
                     ]
                 )
 
@@ -331,13 +342,20 @@ class Spring:
             granule: Granule instance representing the current granule specs
         """
         self.lattice = lattice
-        self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
+        # self.stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
+        # self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
+        # self.stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
+        self.stiffness = 5e-11  # Spring constant k (N/m), tuned for stability
 
         # Rest length for BCC nearest neighbor connections
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2
         # Note: rest_length is a scalar distance, not a vector
         # Direction vectors will be computed dynamically between connected granules
+        # Store in meters (will be scaled to attometers when passed to kernels)
         self.rest_length = lattice.unit_cell_edge * np.sqrt(3) / 2
+
+        # For link building, use attometer-scaled rest_length to match position units
+        self.rest_length_scaled = self.rest_length * lattice.UNIT_SCALE
 
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
@@ -396,7 +414,8 @@ class Spring:
                     dist_sq = dx * dx + dy * dy + dz * dz
 
                     # Check if within neighbor distance (with small tolerance)
-                    max_dist_sq = (self.rest_length * 1.1) ** 2
+                    # Use scaled rest_length to match attometer position units
+                    max_dist_sq = (self.rest_length_scaled * 1.1) ** 2
 
                     if dist_sq < max_dist_sq:
                         self.links[i, neighbor_count] = j
@@ -533,7 +552,7 @@ if __name__ == "__main__":
     # Create springs
     print(f"\nBuilding spring connections...")
     start_time = time.time()
-    springs = Spring(lattice)
+    springs = Spring(lattice, granule)
     spring_time = time.time() - start_time
 
     print(f"Spring Statistics:")
