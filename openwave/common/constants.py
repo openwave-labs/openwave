@@ -12,7 +12,6 @@ All values use SI units (kg, m, s) for consistency.
 # ================================================================
 SPACETIME_DENSITY = 3.506335701e22  # kg / m^3, spacetime density (aether medium, rho)
 
-
 # ================================================================
 # QUANTUM-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 # ================================================================
@@ -20,12 +19,10 @@ QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length, lambda
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
 QWAVE_SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
 
-
 # ================================================================
 # Neutrino particle (seed particle)
 # ================================================================
 NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
-
 
 # ================================================================
 # Electron particle
@@ -40,7 +37,6 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
 # a potential explanation for the values of these g-factors is presented as
 # a relation of Earth’s outward velocity and spin velocity against a rest frame for the universe.
 
-
 # ================================================================
 #  Proton particle
 # ================================================================
@@ -48,7 +44,6 @@ PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_K = 44  # proton wave center count (dimensionless)
 PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
 PROTON_MASS = 1.67262192369e-27  # kg, proton mass from CODATA
-
 
 # ================================================================
 # Classical constants

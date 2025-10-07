@@ -552,7 +552,7 @@ if __name__ == "__main__":
     # Create springs
     print(f"\nBuilding spring connections...")
     start_time = time.time()
-    springs = Spring(lattice)
+    springs = Spring(lattice, granule)
     spring_time = time.time() - start_time
 
     print(f"Spring Statistics:")
