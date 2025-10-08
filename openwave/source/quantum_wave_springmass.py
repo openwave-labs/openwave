@@ -2,7 +2,7 @@
 QUANTUM-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
-Wave dynamics and motion physics for spacetime granules.
+Wave dynamics and motion physics for spacetime.
 OpenWave proprietary physics engine.
 """
 
@@ -13,7 +13,7 @@ from openwave.common import constants
 # ================================================================
 # Quantum-Wave Oscillation Parameters
 # ================================================================
-UNIT_SCALE = 1e18  # meters to attometers (must match spacetime.py)
+UNIT_SCALE = 1e18  # meters to attometers
 amplitude = constants.QWAVE_AMPLITUDE * UNIT_SCALE  # am, oscillation amplitude
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 # slow-motion factor (divides frequency for human-visible motion, time microscope)

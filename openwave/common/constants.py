@@ -8,9 +8,9 @@ All values use SI units (kg, m, s) for consistency.
 """
 
 # ================================================================
-# SPACETIME (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+# SPACE-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
-SPACETIME_DENSITY = 3.506335701e22  # kg / m^3, spacetime density (aether medium, rho)
+MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, space-medium density (aether medium, rho)
 
 # ================================================================
 # QUANTUM-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)

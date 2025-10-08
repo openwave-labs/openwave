@@ -77,7 +77,7 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    spacetime.py ✓
+    space_medium.py ✓
     quantum_wave.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
@@ -146,7 +146,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    qwave_render.py ✓
+    render_springmass.py ✓
     --TBD*}
 
 
@@ -218,9 +218,9 @@ kanban
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - spacetime.py]
+      - space_medium.py]
     [**XPERIMENTS MODULE**
-      - qwave_render.py]
+      - render_springmass.py]
     [**VALIDATIONS MODULE**
       - derivations.py]
     [**COMMON MODULE**
@@ -286,7 +286,7 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
 
 ```bash
 # Run your first OpenWave xperiment
-  python openwave/xperiments/qwave_render.py
+  python openwave/xperiments/render_springmass.py
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```

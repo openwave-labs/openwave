@@ -11,8 +11,8 @@ import time
 
 import openwave.common.config as config
 import openwave.common.render as render
-import openwave.source.spacetime as spacetime
-import openwave.source.quantum_wave as qwave
+import openwave.source.space_medium_latticebcc as space_medium
+import openwave.source.quantum_wave_springmass as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -22,16 +22,16 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-target_particles = 1e5  # target particle count, granularity (impacts performance)
-lattice = spacetime.LatticeBCC(universe_edge, target_particles)
-granule = spacetime.Granule(lattice.unit_cell_edge)
-neighbors = spacetime.NeighborsBCC(lattice)  # Create neighbor links between granules
+target_particles = 1e6  # target particle count, granularity (impacts performance)
+lattice = space_medium.LatticeBCC(universe_edge, target_particles)
+granule = space_medium.Granule(lattice.unit_cell_edge)
+neighbors = space_medium.NeighborsBCC(lattice)  # Create neighbor links between granules
 
 # Spring constant k (N/am), tuned for stability and wave speed
 # Note:
 # This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-stiffness = 1e-10
+stiffness = 1e-12
 # stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
 # stiffness = constants.COULOMB_CONSTANT / granule.radius
 # stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
@@ -47,7 +47,7 @@ render.init_UI()  # Initialize the GGUI window
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
-        sub.text("--- MEDIUM ---")
+        sub.text("--- SPACE-MEDIUM ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Particle Count: {lattice.total_granules:,} (config.py)")

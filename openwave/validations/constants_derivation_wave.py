@@ -170,7 +170,7 @@ if __name__ == "__main__":
     print(f"Derived Hydrogen: {density_derivation_hydrogen():.9e} kg/m³")
     print(f"Derived Electron: {density_derivation_electron():.9e} kg/m³")
     print(f"Derived Planck: {density_derivation_planck():.9e} kg/m³")
-    print(f"Stored : {constants.SPACETIME_DENSITY:.9e} kg/m³")
+    print(f"Stored : {constants.MEDIUM_DENSITY:.9e} kg/m³")
 
     print("\nQUANTUM-WAVE LENGTH")
     print(f"Derived: {wavelength_derivation():.9e} m")

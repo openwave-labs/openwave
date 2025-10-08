@@ -1,8 +1,8 @@
 """
-SPACETIME
+SPACE-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
-SPACETIME is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+SPACE-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
 Modeled as a particle-based elastic medium that allows energy
 to transfer from one point to the next.
 
@@ -308,8 +308,8 @@ class Granule:
         """
         self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
         self.mass = (
-            constants.SPACETIME_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = spacetime density * scaled unit cell volume / 2 granules per BCC unit-cell
+            constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
+        )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
 
 
 @ti.data_oriented

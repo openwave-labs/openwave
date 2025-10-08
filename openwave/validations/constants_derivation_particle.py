@@ -89,7 +89,7 @@ def proton_orbital_g_derivation():
     numerator = (
         4
         * np.pi
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (constants.ELECTRON_K**8)
         * (constants.QWAVE_AMPLITUDE**6)
         * constants.ELECTRON_OUTER_SHELL

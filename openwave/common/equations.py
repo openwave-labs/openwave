@@ -50,7 +50,7 @@ def energy_wave_equation(volume):
         float: Energy E in Joules
     """
     return (
-        constants.SPACETIME_DENSITY
+        constants.MEDIUM_DENSITY
         * volume
         * (constants.QWAVE_SPEED / constants.QWAVE_LENGTH * constants.QWAVE_AMPLITUDE) ** 2
     )
@@ -79,7 +79,7 @@ def particle_energy(K):
     coefficient = (
         4
         * np.pi
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (K**5)
         * (constants.QWAVE_AMPLITUDE**6)
         * (constants.QWAVE_SPEED**2)
@@ -112,7 +112,7 @@ def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_O
     coefficient = (
         2
         * np.pi
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (Ke**7)
         * (constants.QWAVE_AMPLITUDE**6)
         * (constants.QWAVE_SPEED**2)
@@ -213,7 +213,7 @@ def electric_force(
     coefficient = (
         4
         * np.pi
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (Ke**7)
         * (constants.QWAVE_AMPLITUDE**6)
         * (constants.QWAVE_SPEED**2)
@@ -256,7 +256,7 @@ def magnetic_force(
     coefficient = (
         4
         * np.pi
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (Ke**7)
         * (constants.QWAVE_AMPLITUDE**6)
         * Oe
@@ -296,7 +296,7 @@ def gravitational_force(
     """
     # Calculate the coefficient
     coefficient = (
-        constants.SPACETIME_DENSITY * (constants.QWAVE_LENGTH**2) * (constants.QWAVE_SPEED**2) * Oe
+        constants.MEDIUM_DENSITY * (constants.QWAVE_LENGTH**2) * (constants.QWAVE_SPEED**2) * Oe
     ) / (2 * (Ke**31))
 
     # Amplitude factor
@@ -337,7 +337,7 @@ def strong_force(
     # Calculate the coefficient
     coefficient = (
         16
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (Ke**11)
         * (constants.QWAVE_AMPLITUDE**7)
         * (constants.QWAVE_SPEED**2)
@@ -371,7 +371,7 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
     # Calculate the coefficient
     coefficient = (
         64
-        * constants.SPACETIME_DENSITY
+        * constants.MEDIUM_DENSITY
         * (Ke**17)
         * (constants.QWAVE_AMPLITUDE**8)
         * (constants.QWAVE_SPEED**2)
@@ -409,7 +409,7 @@ def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
         amplitude = constants.QWAVE_AMPLITUDE
 
     c = constants.QWAVE_SPEED
-    rho = constants.SPACETIME_DENSITY
+    rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
 
     # Volume term
@@ -469,7 +469,7 @@ def longitudinal_out_wave_energy(
         amplitude = constants.QWAVE_AMPLITUDE
 
     c = constants.QWAVE_SPEED
-    rho = constants.SPACETIME_DENSITY
+    rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
 
     # Volume term
@@ -537,7 +537,7 @@ def magnetic_out_wave_energy(
         amplitude = constants.QWAVE_AMPLITUDE
 
     c = constants.QWAVE_SPEED
-    rho = constants.SPACETIME_DENSITY
+    rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
     alpha_e = constants.FINE_STRUCTURE
 
