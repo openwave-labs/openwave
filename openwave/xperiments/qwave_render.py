@@ -29,11 +29,14 @@ else:
     springs = None  # Skip springs for very high resolutions to save memory
 granule = spacetime.Granule(lattice.unit_cell_edge)
 
-# spring_stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
-# spring_stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
-# spring_stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
-spring_stiffness = 1e-10  # Spring constant k (N/m), tuned for stability
+# Spring constant k, tuned for stability and wave speed
+# Note:
+# This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
+stiffness = 1e-10  # Spring constant k (N/am)
+# stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
+# stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
+# stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
 
 
 # ================================================================
@@ -231,9 +234,7 @@ def render_lattice(lattice, granule, springs=None):
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
         if springs is not None:
-            qwave.propagate_qwave(
-                lattice, granule, springs, spring_stiffness, t, dt_real, substeps=30
-            )
+            qwave.propagate_qwave(lattice, granule, springs, stiffness, t, dt_real, substeps=30)
         else:
             # Fallback to vertex oscillation only if no springs
             qwave.oscillate_vertex(
