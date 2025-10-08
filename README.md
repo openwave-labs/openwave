@@ -36,6 +36,10 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 - Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
 - [PLANNED] Generates baseline knowledge for your patent applications.
 
+## Render SPACETIME in 3D
+
+![demo clip](images/demo2.gif)
+
 ## Scientific Source
 
 OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
@@ -151,6 +155,7 @@ class `COMMON
     config.py ✓
     constants.py ✓
     equations.py ✓
+    render.py ✓
     --TBD*}
 `COMMON
   MODULE` <--> `VALIDATIONS
@@ -221,7 +226,8 @@ kanban
       - derivations.py]
     [**COMMON MODULE**
       - config.py
-      - constants.py]
+      - constants.py
+      - render.py]
 ```
 
 ### Scalability & Performance
