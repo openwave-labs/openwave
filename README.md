@@ -75,20 +75,20 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 classDiagram
   direction LR
   
-class `SOURCE MODULE
+class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     spacetime.py ✓
     quantum_wave.py}
-`SOURCE MODULE
+`SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
-`SOURCE MODULE
+`SPACETIME MODULE
   (ENERGY SOURCE)` --> `MOTION MODULE
   (KINETIC ENERGY)`
-`SOURCE MODULE
+`SPACETIME MODULE
   (ENERGY SOURCE)` --> `PHOTON MODULE
   (PHOTON ENERGY)`
-`SOURCE MODULE
+`SPACETIME MODULE
   (ENERGY SOURCE)` --> `HEAT MODULE
   (THERMAL ENERGY)`
 
@@ -211,13 +211,13 @@ kanban
       - fundam_particle.py]@{ priority: 'High', assigned: 'xrodz' }
     
   [IN PROGRESS]
-    [**SOURCE MODULE**
+    [**SPACETIME MODULE**
       - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
-    [**SOURCE MODULE**
+    [**SPACETIME MODULE**
       - spacetime.py]
     [**XPERIMENTS MODULE**
       - qwave_render.py]

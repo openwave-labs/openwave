@@ -19,26 +19,6 @@ import openwave.common.constants as constants
 import openwave.common.equations as equations
 
 
-class Granule:
-    """
-    Granule Model: The aether consists of "granules".
-    Fundamental units that vibrate in harmony and create wave patterns.
-    Their collective motion at Planck scale creates all observable phenomena.
-    Each granule has a defined radius and mass.
-    """
-
-    def __init__(self, unit_cell_edge: float):
-        """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
-
-        Args:
-            unit_cell_edge: Edge length of the BCC unit-cell in meters.
-        """
-        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
-        self.mass = (
-            constants.SPACETIME_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = spacetime density * scaled unit cell volume / 2 granules per BCC unit-cell
-
-
 @ti.data_oriented
 class LatticeBCC:
     """
@@ -315,6 +295,26 @@ class LatticeBCC:
             )
 
 
+class Granule:
+    """
+    Granule Model: The aether consists of "granules".
+    Fundamental units that vibrate in harmony and create wave patterns.
+    Their collective motion at Planck scale creates all observable phenomena.
+    Each granule has a defined radius and mass.
+    """
+
+    def __init__(self, unit_cell_edge: float):
+        """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
+
+        Args:
+            unit_cell_edge: Edge length of the BCC unit-cell in meters.
+        """
+        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
+        self.mass = (
+            constants.SPACETIME_DENSITY * unit_cell_edge**3 / 2
+        )  # mass = spacetime density * scaled unit cell volume / 2 granules per BCC unit-cell
+
+
 @ti.data_oriented
 class Spring:
     """
@@ -326,7 +326,7 @@ class Spring:
     where a is the unit cell edge length.
     """
 
-    def __init__(self, lattice: LatticeBCC, granule: Granule):
+    def __init__(self, lattice: LatticeBCC):
         """
         Initialize spring connections for the lattice.
 
@@ -335,11 +335,6 @@ class Spring:
             granule: Granule instance representing the current granule specs
         """
         self.lattice = lattice
-
-        # self.stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
-        # self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
-        # self.stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
-        self.stiffness = 1e-10  # Spring constant k (N/m), tuned for stability
 
         # Rest length for BCC nearest neighbor connections
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2

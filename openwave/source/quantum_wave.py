@@ -21,7 +21,7 @@ slow_mo = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trill
 
 
 # ================================================================
-# Quantum-Wave Maker Kernel (harmonic oscillations)
+# Quantum-Wave Driver Kernel (harmonic oscillations)
 # ================================================================
 
 
@@ -34,7 +34,7 @@ def oscillate_vertex(
     vertex_directions: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
 ):
-    """Update 8 vertex positions and velocities using harmonic oscillation (wave makers).
+    """Update 8 vertex positions and velocities using harmonic oscillation (wave drivers).
 
     Vertices oscillate radially along direction vectors toward/away from lattice center.
     Position: x(t) = x_eq + A·cos(ωt + φ)·direction
@@ -76,13 +76,12 @@ def oscillate_vertex(
 @ti.kernel
 def compute_spring_forces(
     positions: ti.template(),  # type: ignore
-    granule_type: ti.template(),  # type: ignore
+    mass: ti.f32,  # type: ignore
     spring_links: ti.template(),  # type: ignore
     spring_links_count: ti.template(),  # type: ignore
+    rest_length: ti.f32,  # type: ignore
     accelerations: ti.template(),  # type: ignore
     stiffness: ti.f32,  # type: ignore
-    rest_length: ti.f32,  # type: ignore
-    mass: ti.f32,  # type: ignore
 ):
     """Compute spring forces and accelerations for all non-vertex granules.
 
@@ -91,11 +90,10 @@ def compute_spring_forces(
 
     Args:
         positions: Position field for all granules
-        granule_type: Type classification (vertex=0, edge=1, face=2, core=3, central=4)
         spring_links: Connectivity matrix [granule_idx, neighbor_idx]
         spring_links_count: Number of active links per granule
         accelerations: Output acceleration field (F/m)
-        stiffness: Spring constant k (N/m)
+        stiffness: Spring constant k (N/am)
         rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
         mass: Granule mass
     """
@@ -132,8 +130,8 @@ def compute_spring_forces(
 def integrate_motion(
     positions: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
-    accelerations: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
+    accelerations: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """Integrate equations of motion using Leapfrog (Velocity Verlet) method.
@@ -186,8 +184,9 @@ def initialize_propagation(total_granules: int):
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
     lattice,
-    springs,
     granule,
+    springs,
+    stiffness,
     t: float,
     dt: float,
     substeps: int = 1000,
@@ -233,17 +232,14 @@ def propagate_qwave(
         # Step 2: Compute spring forces on all granules (vertices get zero acceleration)
         # Scale rest_length to attometers to match position units
         # Scale stiffness to N/am (from N/m) to match extension units
-        # IMPORTANT: Also reduce stiffness by 1e20 for numerical stability
-        # (Real physical stiffness causes timestep requirements beyond computational feasibility)
         compute_spring_forces(
             lattice.positions,
-            lattice.granule_type,
+            granule.mass,
             springs.links,
             springs.links_count,
-            accelerations,
-            springs.stiffness / UNIT_SCALE,
             springs.rest_length * UNIT_SCALE,
-            granule.mass,
+            accelerations,
+            stiffness / UNIT_SCALE,
         )
 
         # Step 3: Integrate motion for non-vertex granules
@@ -251,8 +247,8 @@ def propagate_qwave(
         integrate_motion(
             lattice.positions,
             lattice.velocities,
-            accelerations,
             lattice.granule_type,
+            accelerations,
             dt_sub,
         )
 

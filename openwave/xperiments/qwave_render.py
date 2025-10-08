@@ -23,11 +23,17 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 lattice = spacetime.LatticeBCC(universe_edge)
-granule = spacetime.Granule(lattice.unit_cell_edge)
 if config.SPACETIME_RES <= 10000:
-    springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
+    springs = spacetime.Spring(lattice)  # Create spring links between granules
 else:
     springs = None  # Skip springs for very high resolutions to save memory
+granule = spacetime.Granule(lattice.unit_cell_edge)
+
+# spring_stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
+# spring_stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
+# spring_stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
+spring_stiffness = 1e-10  # Spring constant k (N/m), tuned for stability
+# Real physical stiffness causes timestep requirements beyond computational feasibility
 
 
 # ================================================================
@@ -225,7 +231,9 @@ def render_lattice(lattice, granule, springs=None):
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
         if springs is not None:
-            qwave.propagate_qwave(lattice, springs, granule, t, dt_real, substeps=30)
+            qwave.propagate_qwave(
+                lattice, granule, springs, spring_stiffness, t, dt_real, substeps=30
+            )
         else:
             # Fallback to vertex oscillation only if no springs
             qwave.oscillate_vertex(
