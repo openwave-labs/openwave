@@ -6,131 +6,23 @@ eg. Tweak this xperiment script changing universe_edge = 0.1 m at __main__ entry
 sourced from the element aether.
 """
 
-import numpy as np
 import taichi as ti
 import time
 
-import pyautogui
-import tomli
-
 import openwave.common.config as config
+import openwave.common.render as render
 import openwave.source.spacetime as spacetime
 import openwave.source.quantum_wave as qwave
 
-ti.init(arch=ti.gpu)
+# Define the architecture to be used by Taichi (GPU vs CPU)
+ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
+
+render.init_UI()  # Initialize the GGUI window
 
 
-# ================================================================
-# Render Engine
-# ================================================================
-
-# Create GGUI window with 3D scene
-with open("pyproject.toml", "rb") as f:
-    pyproject = tomli.load(f)
-title = pyproject["project"]["name"] + " (v" + pyproject["project"]["version"] + ")"
-width, height = pyautogui.size()
-
-window = ti.ui.Window(title, (width, height), vsync=True, fps_limit=120)
-camera = ti.ui.Camera()  # Camera object for 3D view control
-canvas = window.get_canvas()  # Canvas for rendering the scene
-gui = window.get_gui()  # GUI manager for overlay UI elements
-scene = window.get_scene()  # 3D scene for particle rendering
-
-# Set initial camera parameters & background color
-# Camera orbit parameters - initial position looking at center
-orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
-cam_position = [2.0, 1.5, 2.0]  # Camera starting position
-
-# Calculate initial angles from the desired initial position
-initial_rel_x = cam_position[0] - orbit_center[0]
-initial_rel_y = cam_position[1] - orbit_center[1]
-initial_rel_z = cam_position[2] - orbit_center[2]
-
-# Calculate initial orbit parameters
-orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
-orbit_theta = np.arctan2(initial_rel_z, initial_rel_x)  # 45 degrees
-orbit_phi = np.arccos(initial_rel_y / orbit_radius)  # angle from vertical
-
-mouse_sensitivity = 0.5
-last_mouse_pos = None
-canvas.set_background_color(config.COLOR_SPACE[1])
-
-
-def scene_lighting():
-    """Set up scene lighting - must be called every frame in GGUI."""
-    scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-    scene.point_light(pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0))  # White light from above center
-    scene.point_light(pos=(1.0, 0.5, 1.0), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
-
-
-def handle_camera():
-    """Handle mouse and keyboard input for camera controls."""
-    global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos
-
-    # Handle mouse input for orbiting
-    mouse_pos = window.get_cursor_pos()
-
-    # Check for right mouse button drag
-    if window.is_pressed(ti.ui.RMB):
-        if last_mouse_pos is not None:
-            # Calculate mouse delta
-            dx = mouse_pos[0] - last_mouse_pos[0]
-            dy = mouse_pos[1] - last_mouse_pos[1]
-
-            # Update orbit angles
-            orbit_theta += dx * mouse_sensitivity * 2 * np.pi
-            # Allow nearly full vertical rotation (almost 180 degrees, small margin to prevent gimbal lock)
-            orbit_phi = np.clip(orbit_phi + dy * mouse_sensitivity * np.pi, 0.01, np.pi - 0.01)
-
-        last_mouse_pos = mouse_pos
-    else:
-        last_mouse_pos = None
-
-    # Handle keyboard input for zoom
-    if window.is_pressed("q"):  # Zoom in
-        orbit_radius *= 0.98
-        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
-    if window.is_pressed("z"):  # Zoom out
-        orbit_radius *= 1.02
-        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
-
-    # Handle keyboard input for panning
-    if window.is_pressed(ti.ui.UP):  # Tilt up
-        orbit_center[1] += 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.DOWN):  # Tilt down
-        orbit_center[1] -= 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.LEFT):  # Pan left
-        orbit_center[0] -= 0.01 * orbit_radius
-    if window.is_pressed(ti.ui.RIGHT):  # Pan right
-        orbit_center[0] += 0.01 * orbit_radius
-
-    """Now update camera position based on current orbit parameters.
-    Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
-    Cartesian coordinates and updates the camera position and orientation.
-    Camera always looks at orbit_center with Y-axis up.
-    """
-
-    # Calculate camera position from spherical coordinates
-    cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
-    cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
-    cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
-
-    # Update camera
-    camera.position(cam_x, cam_y, cam_z)
-    camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
-    camera.up(0, 1, 0)
-    scene.set_camera(camera)
-
-    # Render camera movement instructions overlay
-    with gui.sub_window("CAMERA MOVEMENT", 0.01, 0.90, 0.15, 0.10) as sub:
-        sub.text("Orbit: right-click + drag")
-        sub.text("Zoom: Q/Z keys")
-        sub.text("Pan/Tilt: Arrow keys")
-
-
-def overlay_data_dashboard():
+def data_dashboard():
     """Display simulation data dashboard."""
-    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
         sub.text("--- SPACETIME ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
@@ -159,12 +51,12 @@ def overlay_data_dashboard():
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
-def overlay_controls():
+def controls():
     """Render the controls UI overlay."""
     global block_slice, granule_type, show_springs, radius_factor
 
     # Create overlay windows for controls
-    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
+    with render.gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
@@ -186,7 +78,6 @@ def render_lattice(lattice, granule, springs=None):
 
 
     """
-    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
     global block_slice, granule_type, show_springs, radius_factor
 
     # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
@@ -281,7 +172,7 @@ def render_lattice(lattice, granule, springs=None):
     t = 0.0
     last_time = time.time()
 
-    while window.running:
+    while render.window.running:
         # Calculate actual elapsed time (real-time tracking)
         current_time = time.time()
         dt_real = current_time - last_time
@@ -307,20 +198,20 @@ def render_lattice(lattice, granule, springs=None):
         normalize_positions_sliced()
 
         # Render UI overlay windows
-        overlay_data_dashboard()
-        overlay_controls()
+        data_dashboard()
+        controls()
 
         # Render granules with optional block-slicing and type-coloring
         centers = normalized_positions_sliced if block_slice else normalized_positions
 
         if granule_type:
-            scene.particles(
+            render.scene.particles(
                 centers,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_color,
             )
         else:
-            scene.particles(
+            render.scene.particles(
                 centers,
                 radius=normalized_radius * radius_factor,
                 color=config.COLOR_GRANULE[1],
@@ -328,13 +219,10 @@ def render_lattice(lattice, granule, springs=None):
 
         # Render springs if enabled and available
         if show_springs and springs is not None and spring_lines is not None:
-            scene.lines(spring_lines, width=5, color=spring_color)
+            render.scene.lines(spring_lines, width=5, color=spring_color)
 
         # Render the scene to canvas
-        scene_lighting()  # Lighting must be set each frame in GGUI
-        handle_camera()  # Handle camera input and update position
-        canvas.scene(scene)
-        window.show()
+        render.show_scene()
 
 
 # ================================================================

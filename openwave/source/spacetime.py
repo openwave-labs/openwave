@@ -18,13 +18,6 @@ import openwave.common.config as config
 import openwave.common.constants as constants
 import openwave.common.equations as equations
 
-ti.init(arch=ti.gpu)
-
-
-# ================================================================
-# Physics Engine
-# ================================================================
-
 
 class Granule:
     """
@@ -527,6 +520,8 @@ if __name__ == "__main__":
     print("================================================================")
 
     import time
+
+    ti.init(arch=ti.gpu)
 
     # Create lattice
     universe_edge = 3e-16  # m (default 300 attometers)
