@@ -31,7 +31,7 @@ You may NOT use the OpenWave trademark to:
 - **Domain names:** Register domain names containing "OpenWave" (except for clear fan sites or community resources with our permission)
 - **Forks and derivatives:** Create a competing project called "OpenWave [Something]" without clear differentiation
 
-**Note:** OpenWave is licensed under AGPL-3.0, which allows commercial use. This trademark policy does not restrict commercial use of the software itself, only misuse of the "OpenWave" trademark.
+**Note:** OpenWave is licensed under GNU AGPL-3.0, which allows commercial use. This trademark policy does not restrict commercial use of the software itself, only misuse of the "OpenWave" trademark.
 
 ## Modified Versions and Forks
 
@@ -74,8 +74,8 @@ We prefer to resolve issues cooperatively and will work with you in good faith.
 
 If you're unsure whether your use is permitted, please contact us at:
 
-- GitHub Issues: <https://github.com/OpenWave-Labs/openwave/issues>
-- GitHub Discussions: <https://github.com/OpenWave-Labs/openwave/discussions>
+- GitHub Issues: <https://github.com/openwave-labs/openwave/issues>
+- GitHub Discussions: <https://github.com/openwave-labs/openwave/discussions>
 
 ## Changes to This Policy
 

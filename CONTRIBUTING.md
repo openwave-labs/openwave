@@ -129,7 +129,7 @@ This means:
 
 - ✅ **Open-Source:** Free to use, modify, and distribute
 - ✅ **Commercial use allowed:** Businesses can use OpenWave
-- ✅ **Strong copyleft:** If you distribute modified versions (including use over a network/SaaS), you MUST share your source code under AGPL-3.0
+- ✅ **Strong copyleft:** If you distribute modified versions (including use over a network/SaaS), you MUST share your source code under GNU AGPL-3.0
 - ✅ **Network protection:** Even cloud/web services must disclose source
 - ⚠️ **No proprietary forks:** You cannot create closed-source versions
 

@@ -94,4 +94,4 @@ We may update this Code of Conduct over time. Major changes will be discussed op
 
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the [LICENSE](LICENSE) file for details.
 
-**Note:** AGPL-3.0 is a strong copyleft license. If you modify and distribute this software (including use over a network), you must release your modifications under the same license.
+**Note:** GNU AGPL-3.0 is a strong copyleft license. If you modify and distribute this software (including use over a network), you must release your modifications under the same license.
