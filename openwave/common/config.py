@@ -14,7 +14,6 @@ Includes commented thermal imaging palette definitions for future use.
 # ================================================================
 # Using cubic space (not spherical, radius) to match unit-cell lattice structures
 # SPACETIME_RES defines the 3D grid granularity for spacetime simulations
-# SCREEN_RES defines the 2D screen resolution for rendering and GGUI display
 # Note: Higher resolutions increase computational load and may impact performance
 SPACETIME_RES = 1e4  # target particle count, granularity (max computing capacity)
 

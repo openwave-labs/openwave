@@ -25,7 +25,8 @@ dependencies = [
   "numpy>=2.3,<3.0",
   "scipy>=1.11,<2.0",
   "matplotlib>=3.8,<4.0",
-  "taichi>=1.6,<2.0"
+  "taichi>=1.6,<2.0",
+  "pyautogui>=0.9,<1.0"
 ]
 
 [project.urls]
