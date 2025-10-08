@@ -65,33 +65,64 @@ def controls():
             radius_factor = 1.0
 
 
-def render_lattice(lattice, granule, springs=None):
+@ti.kernel
+def normalize_positions():
+    """Normalize lattice positions to 0-1 range for GGUI rendering."""
+    for i in range(lattice.total_granules):
+        # Normalize to 0-1 range (positions are in attometers, scale them back)
+        normalized_positions[i] = lattice.positions[i] / (
+            lattice.universe_edge * lattice.UNIT_SCALE
+        )
+
+
+@ti.kernel
+def normalize_positions_sliced():
+    """Normalize lattice positions to 0-1 and apply block-slicing."""
+    for i in range(lattice.total_granules):
+        # Normalize to 0-1 range
+        # And hide front 1/8th of the lattice for see-through effect (block-slicing)
+        # 0 = not in front octant (render it), 1 = in front octant (skip it)
+        # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
+        if lattice.front_octant[i] == 0:
+            normalized_positions_sliced[i] = lattice.positions[i] / (
+                lattice.universe_edge * lattice.UNIT_SCALE
+            )
+
+
+def normalize_lattice():
     """
-    Render 3D BCC lattice using GGUI's 3D scene.
-
-    Args:
-        lattice: Lattice instance containing positions and universe parameters.
-                 Expected to have attributes: positions, total_granules, universe_edge
-        granule: Granule instance for size reference.
-                 Expected to have attribute: radius
-        springs: Spring instance containing connectivity information (optional)
-
-
+    Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
+    block-slicing: hide front 1/8th of the lattice for see-through effect
     """
-    global block_slice, granule_type, show_springs, radius_factor
 
-    # Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
-    # block-slicing: hide front 1/8th of the lattice for see-through effect
+    global normalized_positions, normalized_positions_sliced
+
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    block_slice = False  # Initialize Block-slicing toggle
-    granule_type = False  # Initialize Granule type coloring toggle
-    show_springs = False  # Initialize spring visualization toggle
+
+    # Normalize positions once before render loop
+    normalize_positions()
+    normalize_positions_sliced()
+
+
+def normalize_granule():
+    """Normalize granule radius to 0-1 range for GGUI rendering"""
+
+    global normalized_radius
+
+    normalized_radius = max(
+        granule.radius / lattice.universe_edge, 0.0001
+    )  # Ensure minimum 0.01% of screen radius for visibility
+
+
+def normalize_springs():
+    """Create & Normalize springs to 0-1 range for GGUI rendering"""
+
+    global spring_lines
 
     # Prepare spring line endpoints if springs provided
     max_connections = 0
     spring_lines = None
-    spring_color = config.COLOR_INFRA[1]
     if springs is not None:
         # Count total connections for line buffer
         for i in range(lattice.total_granules):
@@ -100,28 +131,6 @@ def render_lattice(lattice, granule, springs=None):
         if max_connections > 0:
             # Allocate line endpoint buffer (2 points per line)
             spring_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
-
-    @ti.kernel
-    def normalize_positions():
-        """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(lattice.total_granules):
-            # Normalize to 0-1 range (positions are in attometers, scale them back)
-            normalized_positions[i] = lattice.positions[i] / (
-                lattice.universe_edge * lattice.UNIT_SCALE
-            )
-
-    @ti.kernel
-    def normalize_positions_sliced():
-        """Normalize lattice positions to 0-1 and apply block-slicing."""
-        for i in range(lattice.total_granules):
-            # Normalize to 0-1 range
-            # And hide front 1/8th of the lattice for see-through effect (block-slicing)
-            # 0 = not in front octant (render it), 1 = in front octant (skip it)
-            # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
-            if lattice.front_octant[i] == 0:
-                normalized_positions_sliced[i] = lattice.positions[i] / (
-                    lattice.universe_edge * lattice.UNIT_SCALE
-                )
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
@@ -154,25 +163,43 @@ def render_lattice(lattice, granule, springs=None):
                             spring_lines[line_idx * 2] = pos_i
                             spring_lines[line_idx * 2 + 1] = pos_j
 
-    # Normalize positions once before render loop
-    normalize_positions()
-    normalize_positions_sliced()
-
     # Build spring lines if springs provided
     if springs is not None and max_connections > 0:
         build_spring_lines()
 
-    # Normalize granule radius to 0-1 range for GGUI rendering
-    normalized_radius = max(
-        granule.radius / lattice.universe_edge, 0.0001
-    )  # Ensure minimum 0.01% of screen radius for visibility
+
+def render_lattice(lattice, granule, springs=None):
+    """
+    Render 3D BCC lattice using GGUI's 3D scene.
+
+    Args:
+        lattice: Lattice instance containing positions and universe parameters.
+                 Expected to have attributes: positions, total_granules, universe_edge
+        granule: Granule instance for size reference.
+                 Expected to have attribute: radius
+        springs: Spring instance containing connectivity information (optional)
+    """
+    global block_slice, granule_type, show_springs, radius_factor
+
+    # Initialize variables
+    block_slice = False  # Block-slicing toggle
+    granule_type = False  # Granule type coloring toggle
+    show_springs = False  # spring visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
 
     # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
 
+    normalize_lattice()
+    normalize_granule()
+    normalize_springs()
+
     while render.window.running:
+        # Render UI overlay windows
+        data_dashboard()
+        controls()
+
         # Calculate actual elapsed time (real-time tracking)
         current_time = time.time()
         dt_real = current_time - last_time
@@ -197,10 +224,6 @@ def render_lattice(lattice, granule, springs=None):
         normalize_positions()
         normalize_positions_sliced()
 
-        # Render UI overlay windows
-        data_dashboard()
-        controls()
-
         # Render granules with optional block-slicing and type-coloring
         centers = normalized_positions_sliced if block_slice else normalized_positions
 
@@ -219,7 +242,7 @@ def render_lattice(lattice, granule, springs=None):
 
         # Render springs if enabled and available
         if show_springs and springs is not None and spring_lines is not None:
-            render.scene.lines(spring_lines, width=5, color=spring_color)
+            render.scene.lines(spring_lines, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene()

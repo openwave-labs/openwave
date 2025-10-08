@@ -96,18 +96,13 @@ def handle_camera():
     if window.is_pressed(ti.ui.RIGHT):  # Pan right
         orbit_center[0] += 0.01 * orbit_radius
 
-    """Now update camera position based on current orbit parameters.
-    Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
-    Cartesian coordinates and updates the camera position and orientation.
-    Camera always looks at orbit_center with Y-axis up.
-    """
-
-    # Calculate camera position from spherical coordinates
+    # Now update camera position based on current orbit parameters.
+    # Converts spherical coordinates (orbit_radius, orbit_theta, orbit_phi) to
+    # Cartesian coordinates and updates the camera position and orientation.
+    # Camera always looks at orbit_center with Y-axis up.
     cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
     cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
     cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
-
-    # Update camera
     camera.position(cam_x, cam_y, cam_z)
     camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
     camera.up(0, 1, 0)
