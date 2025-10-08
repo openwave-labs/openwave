@@ -314,9 +314,9 @@ class Lattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.positions[i][0] > self.universe_edge / 2
-                    and self.positions[i][1] > self.universe_edge / 2
-                    and self.positions[i][2] > self.universe_edge / 2
+                    self.positions[i][0] > self.universe_edge * self.UNIT_SCALE / 2
+                    and self.positions[i][1] > self.universe_edge * self.UNIT_SCALE / 2
+                    and self.positions[i][2] > self.universe_edge * self.UNIT_SCALE / 2
                 )
                 else 0
             )

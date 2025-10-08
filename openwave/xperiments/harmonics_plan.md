@@ -579,14 +579,15 @@ Rest well! 🌙
 
 > Does this paper give us any clue on a solution for our simulator numerical instability problem: Research Paper source: <https://matthias-research.github.io/pages/publications/smallsteps.pdf>
 
+### New Paper Might Solve It
+
 YES! This paper is EXACTLY what we need!
 
 The "Small Steps in Physics Simulation" paper directly addresses our problem and provides the solution:
 
 Key Findings Relevant to Our Problem:
 
-Main Discovery: "performing a single large time step with n constraint solver iterations is LESS effective than computing n smaller
-time steps, each with a single constraint solver iteration"
+Main Discovery: "performing a single large time step with n constraint solver iterations is LESS effective than computing n smaller time steps, each with a single constraint solver iteration"
 
 Why it works:
 

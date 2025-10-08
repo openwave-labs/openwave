@@ -8,6 +8,7 @@ sourced from the element aether.
 
 import numpy as np
 import taichi as ti
+import pyautogui
 import time
 
 import openwave.common.config as config
@@ -22,11 +23,8 @@ ti.init(arch=ti.gpu)
 # ================================================================
 
 # Create GGUI window with 3D scene
-window = ti.ui.Window(
-    "Spacetime (Topology: 3D BCC Lattice)",
-    (config.SCREEN_RES[0], config.SCREEN_RES[1]),
-    vsync=True,
-)
+width, height = pyautogui.size()
+window = ti.ui.Window("SPACETIME", (width, height), vsync=True)
 camera = ti.ui.Camera()  # Camera object for 3D view control
 canvas = window.get_canvas()  # Canvas for rendering the scene
 gui = window.get_gui()  # GUI manager for overlay UI elements
