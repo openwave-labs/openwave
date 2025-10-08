@@ -63,7 +63,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
 
-## System Architecture v0.1.0
+## System Architecture
 
 ### Modular Design
 
@@ -146,7 +146,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    spacetime_render.py ✓
+    qwave_render.py ✓
     --TBD*}
 
 
@@ -173,7 +173,6 @@ class `VALIDATIONS
 
 class `I/O
   MODULE`{
-    render
     CLI
     file_export
     video_manager
@@ -221,7 +220,7 @@ kanban
     [**SOURCE MODULE**
       - spacetime.py]
     [**XPERIMENTS MODULE**
-      - spacetime_render.py]
+      - qwave_render.py]
     [**VALIDATIONS MODULE**
       - derivations.py]
     [**COMMON MODULE**
@@ -287,7 +286,7 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
 
 ```bash
 # Run your first OpenWave xperiment
-  python openwave/xperiments/spacetime_render.py
+  python openwave/xperiments/qwave_render.py
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```
