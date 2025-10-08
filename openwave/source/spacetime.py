@@ -40,7 +40,7 @@ class Granule:
 
 
 @ti.data_oriented
-class Lattice:
+class LatticeBCC:
     """
     3D Body-Centered Cubic (BCC) lattice for spacetime simulation.
     BCC topology: cubic unit cells with an additional granule at the center.
@@ -326,7 +326,7 @@ class Spring:
     where a is the unit cell edge length.
     """
 
-    def __init__(self, lattice: Lattice, granule: Granule):
+    def __init__(self, lattice: LatticeBCC, granule: Granule):
         """
         Initialize spring connections for the lattice.
 
@@ -335,6 +335,7 @@ class Spring:
             granule: Granule instance representing the current granule specs
         """
         self.lattice = lattice
+
         # self.stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
         # self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
         # self.stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
@@ -528,7 +529,7 @@ if __name__ == "__main__":
     print(f"Creating lattice with universe edge: {universe_edge:.1e} m")
 
     start_time = time.time()
-    lattice = Lattice(universe_edge)
+    lattice = LatticeBCC(universe_edge)
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")

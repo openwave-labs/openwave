@@ -50,7 +50,7 @@ Also check `/research_requirements/original_requirements/1. Simulating a Fundame
 
 ### 3. Harmonic Oscillator Equation
 
-Vertices should oscillate in the direction found at Lattice.vertex_directions from equilibrium (starting position) inwards 1 amplitude back to equilibrium and outwards 1 amplitude, with velocities variations in a sine wave form (harmonic).
+Vertices should oscillate in the direction found at LatticeBCC.vertex_directions from equilibrium (starting position) inwards 1 amplitude back to equilibrium and outwards 1 amplitude, with velocities variations in a sine wave form (harmonic).
 
 **Position equation**:
 

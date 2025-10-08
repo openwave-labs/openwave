@@ -48,7 +48,7 @@
 Split the universe into spatial domains that can be computed independently:
 
 ```python
-class DistributedLattice2D:
+class DistributedLattice:
     def __init__(self, domain_id, total_domains, spacing_scale_factor):
         # Each node computes a subset of the universe
         self.domain_id = domain_id
@@ -87,7 +87,7 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-class MPILattice2D:
+class MPILattice:
     def __init__(self):
         self.rank = rank
         self.size = size

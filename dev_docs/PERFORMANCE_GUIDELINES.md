@@ -94,7 +94,7 @@ def compute_screen_positions(self, offset: ti.f32, size: ti.f32):
 1. **Pre-allocated Memory with Update Methods**
 
 ```python
-class Lattice2D:
+class Lattice:
     def __init__(self, scale_factor):
         self.max_count = 1000  # Pre-allocate max size
         self.grid = ti.Vector.field(2, dtype=ti.f32, shape=(self.max_count, self.max_count))

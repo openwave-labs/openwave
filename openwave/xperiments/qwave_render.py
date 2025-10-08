@@ -17,6 +17,23 @@ import openwave.source.quantum_wave as qwave
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
+# ================================================================
+# Xperiment Parameters & Quantum Objects Instantiation
+# ================================================================
+
+universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+lattice = spacetime.LatticeBCC(universe_edge)
+granule = spacetime.Granule(lattice.unit_cell_edge)
+if config.SPACETIME_RES <= 10000:
+    springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
+else:
+    springs = None  # Skip springs for very high resolutions to save memory
+
+
+# ================================================================
+# Xperiment Rendering
+# ================================================================
+
 render.init_UI()  # Initialize the GGUI window
 
 
@@ -253,20 +270,8 @@ def render_lattice(lattice, granule, springs=None):
 # ================================================================
 if __name__ == "__main__":
 
-    # Quantum objects instantiation
-    universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-    lattice = spacetime.Lattice(universe_edge)
-    granule = spacetime.Granule(lattice.unit_cell_edge)
-
     # Debug: Check positions after lattice init
     print(f"[INIT] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
-    if config.SPACETIME_RES <= 10000:
-        springs = spacetime.Spring(lattice, granule)  # Create spring links between granules
-        # Debug: Check positions after spring init
-        print(f"Spring constant k: {springs.stiffness:.2e} N/m")
-        print(f"[AFTER_SPRING] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
-    else:
-        springs = None  # Skip springs for very high resolutions to save memory
 
     # Render the 3D lattice
     render_lattice(lattice, granule, springs)
