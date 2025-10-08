@@ -11,8 +11,8 @@ import time
 
 import openwave.common.config as config
 import openwave.common.render as render
-import openwave.source.space_medium_latticebcc as space_medium
-import openwave.source.quantum_wave_springmass as qwave
+import openwave.spacetime.space_medium_latticebcc as space_medium
+import openwave.spacetime.quantum_wave_springmass as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU

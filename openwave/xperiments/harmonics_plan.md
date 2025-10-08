@@ -154,7 +154,7 @@ while window.running:
 
 #### Step 3: Modify qwave_render.py
 
-- [ ] Import quantum_wave module: `import openwave.source.quantum_wave as qwave`
+- [ ] Import quantum_wave module: `import openwave.spacetime.quantum_wave as qwave`
 - [ ] Initialize time: `t = 0.0` before while loop
 - [ ] Add time accumulation: `t += DT` at start of while loop
 - [ ] Call oscillation update before rendering
