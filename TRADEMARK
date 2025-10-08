@@ -1,0 +1,84 @@
+# OpenWave Trademark Policy
+
+## Trademark Ownership
+
+"OpenWave" and the OpenWave logo (if applicable) are trademarks of OpenWave Labs ("we" or "us").
+
+## Purpose
+
+This policy explains how you may and may not use the OpenWave trademarks. Our goal is to:
+
+1. Protect the OpenWave brand and reputation
+1. Prevent confusion about the source or affiliation of projects
+1. Allow reasonable community use of our trademarks
+
+## Permitted Uses
+
+You may use the OpenWave trademark without permission to:
+
+- **Reference the project:** Accurately refer to the OpenWave software project in text, articles, documentation, or presentations
+- **Link to our repository:** Use "Powered by OpenWave" or "Built with OpenWave" with a link to our official repository
+- **Community discussion:** Discuss OpenWave in forums, social media, blog posts, or academic papers
+- **Modified versions:** State that your project is "based on OpenWave" or "derived from OpenWave" (but see restrictions below)
+
+## Prohibited Uses
+
+You may NOT use the OpenWave trademark to:
+
+- **Suggest endorsement:** Imply that we sponsor, endorse, or are affiliated with your project, product, or service
+- **Create confusion:** Use "OpenWave" in a way that could confuse users about the source of the software
+- **Commercial products:** Name a commercial product or service "OpenWave" or include "OpenWave" prominently in product names
+- **Domain names:** Register domain names containing "OpenWave" (except for clear fan sites or community resources with our permission)
+- **Forks and derivatives:** Create a competing project called "OpenWave [Something]" without clear differentiation
+
+## Modified Versions and Forks
+
+If you create a modified version or fork of OpenWave:
+
+- ✅ **DO** clearly state it is based on or derived from OpenWave
+- ✅ **DO** use a different project name to avoid confusion
+- ✅ **DO** link back to the official OpenWave repository
+- ❌ **DON'T** use "OpenWave" as your project name
+- ❌ **DON'T** imply your fork is the official OpenWave project
+
+**Good examples:**
+
+- "QuantumSim (based on OpenWave)"
+- "WaveSimPro - a fork of OpenWave"
+
+**Bad examples:**
+
+- "OpenWave Pro"
+- "OpenWave Commercial Edition"
+
+## Logo Usage
+
+If we create an official OpenWave logo:
+
+- You may use it only to refer to the official OpenWave project
+- You must not modify, distort, or alter the logo
+- You must not use the logo in a way that suggests endorsement
+
+## Enforcement
+
+We will enforce this trademark policy to protect the OpenWave brand. Violations may result in:
+
+- Request to cease use
+- Legal action if necessary
+
+We prefer to resolve issues cooperatively and will work with you in good faith.
+
+## Questions
+
+If you're unsure whether your use is permitted, please contact us at:
+
+- GitHub Issues: <https://github.com/OpenWave-Labs/openwave/issues>
+- GitHub Discussions: <https://github.com/OpenWave-Labs/openwave/discussions>
+
+## Changes to This Policy
+
+We may update this trademark policy. Check this file periodically for changes.
+
+---
+
+**Last Updated:** 2025-10-08

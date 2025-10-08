@@ -91,4 +91,7 @@ We may update this Code of Conduct over time. Major changes will be discussed op
 ---
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+This project is licensed under the Polyform Noncommercial License 1.0.0 - see the [LICENSE](LICENSE) file for details.
+
+**Note:** This is a noncommercial license. The software may only be used for personal, educational, research, or other noncommercial purposes. Business and commercial use is prohibited.

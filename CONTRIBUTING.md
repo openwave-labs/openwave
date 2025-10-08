@@ -97,6 +97,47 @@ See `/dev_docs` for coding standards and development guidelines
 - Open a Pull Request (PR) on GitHub.
 - Be ready to discuss and revise your PR after review.
 
+## Contributor License Agreement (CLA)
+
+By contributing to OpenWave, you agree that:
+
+1. **You own the rights** to your contribution, or have permission to contribute it.
+1. **You grant OpenWave Labs** a perpetual, worldwide, non-exclusive, royalty-free, irrevocable license to use, modify, and distribute your contribution under the project's license.
+1. **Your contribution is voluntary** and you receive no compensation.
+1. **You understand** that OpenWave is licensed under the Polyform Noncommercial License 1.0.0, which restricts commercial use.
+1. **You agree** that your contributions will be subject to the same license as the project.
+1. **You represent** that your contribution is your original work and does not violate any third-party rights.
+
+### Why We Need This
+
+This agreement ensures:
+
+- OpenWave Labs can maintain and distribute the project
+- All contributions remain under the same license
+- The project is legally protected
+- Contributors retain credit for their work
+
+### Attribution
+
+All contributors will be credited in project documentation and/or a CONTRIBUTORS file.
+
+## License Notice
+
+This project is licensed under the **Polyform Noncommercial License 1.0.0**.
+
+This means:
+
+- ✅ Personal, educational, and research use is permitted
+- ✅ You can modify and share the software
+- ❌ Commercial and business use is prohibited
+- ❌ You cannot use this software in for-profit activities
+
+See the [LICENSE](LICENSE) file for full terms.
+
+## Trademark Notice
+
+"OpenWave" is a trademark of OpenWave Labs. See [TRADEMARK](TRADEMARK) for usage guidelines.
+
 ## Need Help?
 
-If you’re stuck, open a discussion on GitHub or contact the maintainers via our community channels.
+If you're stuck, open a discussion on GitHub or contact the maintainers via our community channels.
