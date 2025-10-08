@@ -21,7 +21,7 @@ slow_mo = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trill
 
 
 # ================================================================
-# Quantum-Wave Driver Kernel (harmonic oscillations)
+# Quantum-Wave Driver Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -34,7 +34,7 @@ def oscillate_vertex(
     vertex_directions: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
 ):
-    """Update 8 vertex positions and velocities using harmonic oscillation (wave drivers).
+    """Inject energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
 
     Vertices oscillate radially along direction vectors toward/away from lattice center.
     Position: x(t) = x_eq + A·cos(ωt + φ)·direction
