@@ -92,6 +92,6 @@ We may update this Code of Conduct over time. Major changes will be discussed op
 
 ## License
 
-This project is licensed under the Polyform Noncommercial License 1.0.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the [LICENSE](LICENSE) file for details.
 
-**Note:** This is a noncommercial license. The software may only be used for personal, educational, research, or other noncommercial purposes. Business and commercial use is prohibited.
+**Note:** AGPL-3.0 is a strong copyleft license. If you modify and distribute this software (including use over a network), you must release your modifications under the same license.

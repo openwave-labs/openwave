@@ -2,9 +2,8 @@
 
 `>simulate(the_universe)`
 
-[![License](https://img.shields.io/badge/License-PolyForm_Noncommercial_1.0.0-blue.svg?style=for-the-badge)](https://polyformproject.org/licenses/noncommercial/1.0.0/)
+[![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=for-the-badge)](https://polyformproject.org/licenses/noncommercial/1.0.0/)
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
-
 [![openwave](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwave-labs/openwave)
 [![openwave](https://img.shields.io/badge/Reddit-%23FF4500.svg?style=for-the-badge&logo=Reddit&logoColor=white)](https://www.reddit.com/r/openwave/)
 [![openwavelabs](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/openwavelabs/)
@@ -303,9 +302,3 @@ Note: CLI entry points are in the development roadmap, if you want to contribute
   - [Loop Optimization Patterns](dev_docs/LOOP_OPTIMIZATION.md)
   - [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)  
 - **This is the Way!** ... Real human power comes from collaboration.
-
-## License
-
-This project is licensed under the Polyform Noncommercial License 1.0.0 - see the [LICENSE](LICENSE) file for details.
-
-**Note:** This is a noncommercial license. The software may only be used for personal, educational, research, or other noncommercial purposes. Business and commercial use is prohibited.

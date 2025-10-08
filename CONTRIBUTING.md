@@ -104,7 +104,7 @@ By contributing to OpenWave, you agree that:
 1. **You own the rights** to your contribution, or have permission to contribute it.
 1. **You grant OpenWave Labs** a perpetual, worldwide, non-exclusive, royalty-free, irrevocable license to use, modify, and distribute your contribution under the project's license.
 1. **Your contribution is voluntary** and you receive no compensation.
-1. **You understand** that OpenWave is licensed under the Polyform Noncommercial License 1.0.0, which restricts commercial use.
+1. **You understand** that OpenWave is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0), which is a strong copyleft license.
 1. **You agree** that your contributions will be subject to the same license as the project.
 1. **You represent** that your contribution is your original work and does not violate any third-party rights.
 
@@ -123,14 +123,17 @@ All contributors will be credited in project documentation and/or a CONTRIBUTORS
 
 ## License Notice
 
-This project is licensed under the **Polyform Noncommercial License 1.0.0**.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
 
 This means:
 
-- ✅ Personal, educational, and research use is permitted
-- ✅ You can modify and share the software
-- ❌ Commercial and business use is prohibited
-- ❌ You cannot use this software in for-profit activities
+- ✅ **Open-Source:** Free to use, modify, and distribute
+- ✅ **Commercial use allowed:** Businesses can use OpenWave
+- ✅ **Strong copyleft:** If you distribute modified versions (including use over a network/SaaS), you MUST share your source code under AGPL-3.0
+- ✅ **Network protection:** Even cloud/web services must disclose source
+- ⚠️ **No proprietary forks:** You cannot create closed-source versions
+
+This protects against misuse while keeping the project truly open-source.
 
 See the [LICENSE](LICENSE) file for full terms.
 
