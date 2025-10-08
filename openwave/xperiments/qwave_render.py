@@ -22,14 +22,10 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-target_particles = 1e4  # target particle count, granularity (impacts performance)
-
+target_particles = 1e5  # target particle count, granularity (impacts performance)
 lattice = spacetime.LatticeBCC(universe_edge, target_particles)
-if target_particles <= 10000:
-    neighbors = spacetime.NeighborsBCC(lattice)  # Create neighbor links between granules
-else:
-    neighbors = None  # Skip neighbors for very high resolutions to save memory
 granule = spacetime.Granule(lattice.unit_cell_edge)
+neighbors = spacetime.NeighborsBCC(lattice)  # Create neighbor links between granules
 
 # Spring constant k (N/am), tuned for stability and wave speed
 # Note:
@@ -53,7 +49,7 @@ def data_dashboard():
     with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
         sub.text("--- MEDIUM ---")
         sub.text("Topology: 3D BCC lattice")
-        sub.text(f"Universe Lattice Edge: {lattice.universe_edge:.1e} m")
+        sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Particle Count: {lattice.total_granules:,} (config.py)")
         sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
         sub.text(f"  - Center granules: {lattice.grid_size ** 3:,}")
@@ -143,22 +139,20 @@ def normalize_granule():
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
-def normalize_links():
+def normalize_neighbors_links():
     """Create & Normalize links to 0-1 range for GGUI rendering"""
 
     global link_lines
 
-    # Prepare link line endpoints if links provided
+    # Prepare link line endpoints
     max_connections = 0
-    link_lines = None
-    if neighbors is not None:
-        # Count total connections for line buffer
-        for i in range(lattice.total_granules):
-            max_connections += neighbors.links_count[i]
 
-        if max_connections > 0:
-            # Allocate line endpoint buffer (2 points per line)
-            link_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+    # Count total connections for line buffer
+    for i in range(lattice.total_granules):
+        max_connections += neighbors.links_count[i]
+    if max_connections > 0:
+        # Allocate line endpoint buffer (2 points per line)
+        link_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
@@ -191,8 +185,8 @@ def normalize_links():
                             link_lines[line_idx * 2] = pos_i
                             link_lines[line_idx * 2 + 1] = pos_j
 
-    # Build link lines if neighbors provided
-    if neighbors is not None and max_connections > 0:
+    # Build link lines
+    if max_connections > 0:
         build_link_lines()
 
 
@@ -208,12 +202,14 @@ def render_lattice(lattice, granule, neighbors=None):
         neighbors: NeighborsBCC instance containing connectivity information (optional)
     """
     global block_slice, granule_type, show_links, radius_factor
+    global link_lines
 
     # Initialize variables
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
+    link_lines = None  # Link line buffer
 
     # Time tracking for harmonic oscillation
     t = 0.0
@@ -221,7 +217,8 @@ def render_lattice(lattice, granule, neighbors=None):
 
     normalize_lattice()
     normalize_granule()
-    normalize_links()
+    if target_particles <= 1e3:
+        normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:
         # Render UI overlay windows
@@ -269,7 +266,7 @@ def render_lattice(lattice, granule, neighbors=None):
             )
 
         # Render links if enabled and available
-        if show_links and neighbors is not None and link_lines is not None:
+        if show_links and link_lines is not None:
             render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas

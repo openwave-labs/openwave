@@ -521,14 +521,14 @@ if __name__ == "__main__":
     # ================================================================
 
     universe_edge = 3e-16  # m (default 300 attometers)
-    target_particles = 1e3  # target particle count, granularity (impacts performance)
+    target_particles = 1e6  # target particle count, granularity (impacts performance)
     start_time = time.time()
     lattice = LatticeBCC(universe_edge, target_particles)
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
     print(f"  Universe edge: {universe_edge:.1e} m")
-    print(f"  Particle Count: {lattice.total_granules:,}")
+    print(f"  Particle count: {lattice.total_granules:,}")
     print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
