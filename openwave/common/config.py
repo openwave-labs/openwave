@@ -3,20 +3,10 @@ Configuration settings for the OpenWave project.
 
 This module provides global configuration parameters for OpenWave simulations:
 
-- Resolution Settings
-- Color Scheme (RGBA hex)
+- Color Schemes (RGBA hex)
 
 Includes commented thermal imaging palette definitions for future use.
 """
-
-# ================================================================
-# Resolution Settings
-# ================================================================
-# Using cubic space (not spherical, radius) to match unit-cell lattice structures
-# SPACETIME_RES defines the 3D grid granularity for spacetime simulations
-# Note: Higher resolutions increase computational load and may impact performance
-SPACETIME_RES = 1e4  # target particle count, granularity (max computing capacity)
-
 
 # ================================================================
 # Color Settings (RGBA hex)

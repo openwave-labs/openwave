@@ -22,8 +22,10 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-lattice = spacetime.LatticeBCC(universe_edge)
-if config.SPACETIME_RES <= 10000:
+target_particles = 1e4  # target particle count, granularity (impacts performance)
+
+lattice = spacetime.LatticeBCC(universe_edge, target_particles)
+if target_particles <= 10000:
     neighbors = spacetime.NeighborsBCC(lattice)  # Create neighbor links between granules
 else:
     neighbors = None  # Skip neighbors for very high resolutions to save memory
@@ -49,12 +51,12 @@ render.init_UI()  # Initialize the GGUI window
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
-        sub.text("--- SPACETIME ---")
+        sub.text("--- MEDIUM ---")
         sub.text("Topology: 3D BCC lattice")
-        sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
+        sub.text(f"Universe Lattice Edge: {lattice.universe_edge:.1e} m")
+        sub.text(f"Particle Count: {lattice.total_granules:,} (config.py)")
         sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
         sub.text(f"  - Center granules: {lattice.grid_size ** 3:,}")
-        sub.text(f"Universe Lattice Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
 
         sub.text("")

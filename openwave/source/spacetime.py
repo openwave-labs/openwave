@@ -41,7 +41,7 @@ class LatticeBCC:
     universally use 1D arrays for particle data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge: float):
+    def __init__(self, universe_edge, target_particles):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size (arg) and computing capacity (config.py) are used to define
@@ -55,16 +55,13 @@ class LatticeBCC:
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Get max granule count from computing capacity resolution
-        target_granules = config.SPACETIME_RES
-
         # Set universe properties
         self.universe_edge = universe_edge
         universe_volume = universe_edge**3
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        init_unit_cell_volume = universe_volume / (target_granules / 2)
+        init_unit_cell_volume = universe_volume / (target_particles / 2)
         init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
         # Calculate grid dimensions (number of unit cells per dimension)
@@ -519,17 +516,20 @@ if __name__ == "__main__":
 
     ti.init(arch=ti.gpu)
 
-    # Create lattice
-    universe_edge = 3e-16  # m (default 300 attometers)
-    print(f"Creating lattice with universe edge: {universe_edge:.1e} m")
+    # ================================================================
+    # Parameters & Quantum Objects Instantiation
+    # ================================================================
 
+    universe_edge = 3e-16  # m (default 300 attometers)
+    target_particles = 1e3  # target particle count, granularity (impacts performance)
     start_time = time.time()
-    lattice = LatticeBCC(universe_edge)
+    lattice = LatticeBCC(universe_edge, target_particles)
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
+    print(f"  Universe edge: {universe_edge:.1e} m")
+    print(f"  Particle Count: {lattice.total_granules:,}")
     print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
-    print(f"  Total granules: {lattice.total_granules:,}")
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
     print(f"  Creation time: {lattice_time:.3f} seconds")
