@@ -345,7 +345,7 @@ class Spring:
         # self.stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
         # self.stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
         # self.stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
-        self.stiffness = 5e-11  # Spring constant k (N/m), tuned for stability
+        self.stiffness = 1e-10  # Spring constant k (N/m), tuned for stability
 
         # Rest length for BCC nearest neighbor connections
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2

@@ -8,8 +8,10 @@ sourced from the element aether.
 
 import numpy as np
 import taichi as ti
-import pyautogui
 import time
+
+import pyautogui
+import tomli
 
 import openwave.common.config as config
 import openwave.source.spacetime as spacetime
@@ -19,50 +21,46 @@ ti.init(arch=ti.gpu)
 
 
 # ================================================================
-# Rendering Engine
+# Render Engine
 # ================================================================
 
 # Create GGUI window with 3D scene
+with open("pyproject.toml", "rb") as f:
+    pyproject = tomli.load(f)
+title = pyproject["project"]["name"] + " (v" + pyproject["project"]["version"] + ")"
 width, height = pyautogui.size()
-window = ti.ui.Window("SPACETIME", (width, height), vsync=True)
+
+window = ti.ui.Window(title, (width, height), vsync=True, fps_limit=120)
 camera = ti.ui.Camera()  # Camera object for 3D view control
 canvas = window.get_canvas()  # Canvas for rendering the scene
 gui = window.get_gui()  # GUI manager for overlay UI elements
 scene = window.get_scene()  # 3D scene for particle rendering
 
+# Set initial camera parameters & background color
+# Camera orbit parameters - initial position looking at center
+orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
+cam_position = [2.0, 1.5, 2.0]  # Camera starting position
 
-def initialize_scene():
-    """Initialize scene settings."""
-    canvas.set_background_color(config.COLOR_SPACE[1])
+# Calculate initial angles from the desired initial position
+initial_rel_x = cam_position[0] - orbit_center[0]
+initial_rel_y = cam_position[1] - orbit_center[1]
+initial_rel_z = cam_position[2] - orbit_center[2]
+
+# Calculate initial orbit parameters
+orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
+orbit_theta = np.arctan2(initial_rel_z, initial_rel_x)  # 45 degrees
+orbit_phi = np.arccos(initial_rel_y / orbit_radius)  # angle from vertical
+
+mouse_sensitivity = 0.5
+last_mouse_pos = None
+canvas.set_background_color(config.COLOR_SPACE[1])
 
 
-def setup_scene_lighting():
+def scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
     scene.point_light(pos=(0.5, 1.5, 0.5), color=(1.0, 1.0, 1.0))  # White light from above center
     scene.point_light(pos=(1.0, 0.5, 1.0), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
-
-
-def initialize_camera():
-    """Initialize camera parameters for orbit & zoom controls."""
-    global orbit_center, orbit_radius, orbit_theta, orbit_phi, mouse_sensitivity, last_mouse_pos
-
-    # Camera orbit parameters - initial position looking at center
-    orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
-    cam_position = [2.0, 1.5, 2.0]  # Camera starting position
-
-    # Calculate initial angles from the desired initial position
-    initial_rel_x = cam_position[0] - orbit_center[0]
-    initial_rel_y = cam_position[1] - orbit_center[1]
-    initial_rel_z = cam_position[2] - orbit_center[2]
-
-    # Calculate initial orbit parameters
-    orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
-    orbit_theta = np.arctan2(initial_rel_z, initial_rel_x)  # 45 degrees
-    orbit_phi = np.arccos(initial_rel_y / orbit_radius)  # angle from vertical
-
-    mouse_sensitivity = 0.5
-    last_mouse_pos = None
 
 
 def handle_camera():
@@ -123,30 +121,14 @@ def handle_camera():
     camera.up(0, 1, 0)
     scene.set_camera(camera)
 
-
-def render_cam_instructions():
-    """Render camera movement instructions overlay."""
+    # Render camera movement instructions overlay
     with gui.sub_window("CAMERA MOVEMENT", 0.01, 0.90, 0.15, 0.10) as sub:
         sub.text("Orbit: right-click + drag")
         sub.text("Zoom: Q/Z keys")
         sub.text("Pan/Tilt: Arrow keys")
 
 
-def render_controls():
-    """Render the controls UI overlay."""
-    global block_slice, granule_type, show_springs, radius_factor
-
-    # Create overlay windows for controls
-    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
-        block_slice = sub.checkbox("Block Slice", block_slice)
-        granule_type = sub.checkbox("Granule Type Color", granule_type)
-        show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
-        if sub.button("Reset Granule"):
-            radius_factor = 1.0
-
-
-def render_data_dashboard():
+def overlay_data_dashboard():
     """Display simulation data dashboard."""
     with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
         sub.text("--- SPACETIME ---")
@@ -175,6 +157,20 @@ def render_data_dashboard():
         sub.text("--- Universe Lattice Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
+
+
+def overlay_controls():
+    """Render the controls UI overlay."""
+    global block_slice, granule_type, show_springs, radius_factor
+
+    # Create overlay windows for controls
+    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
+        block_slice = sub.checkbox("Block Slice", block_slice)
+        granule_type = sub.checkbox("Granule Type Color", granule_type)
+        show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
+        if sub.button("Reset Granule"):
+            radius_factor = 1.0
 
 
 def render_lattice(lattice, granule, springs=None):
@@ -281,9 +277,6 @@ def render_lattice(lattice, granule, springs=None):
     )  # Ensure minimum 0.01% of screen radius for visibility
     radius_factor = 1.0  # Initialize granule size factor
 
-    initialize_scene()  # Set up background once
-    initialize_camera()  # Set initial camera parameters
-
     # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
@@ -313,13 +306,9 @@ def render_lattice(lattice, granule, springs=None):
         normalize_positions()
         normalize_positions_sliced()
 
-        setup_scene_lighting()  # Lighting must be set each frame in GGUI
-        handle_camera()  # Handle camera input and update position
-
         # Render UI overlay windows
-        render_cam_instructions()
-        render_controls()
-        render_data_dashboard()
+        overlay_data_dashboard()
+        overlay_controls()
 
         # Render granules with optional block-slicing and type-coloring
         centers = normalized_positions_sliced if block_slice else normalized_positions
@@ -342,6 +331,8 @@ def render_lattice(lattice, granule, springs=None):
             scene.lines(spring_lines, width=5, color=spring_color)
 
         # Render the scene to canvas
+        scene_lighting()  # Lighting must be set each frame in GGUI
+        handle_camera()  # Handle camera input and update position
         canvas.scene(scene)
         window.show()
 
