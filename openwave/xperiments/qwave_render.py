@@ -124,15 +124,20 @@ def handle_camera():
     scene.set_camera(camera)
 
 
+def render_cam_instructions():
+    """Render camera movement instructions overlay."""
+    with gui.sub_window("CAMERA MOVEMENT", 0.01, 0.90, 0.15, 0.10) as sub:
+        sub.text("Orbit: right-click + drag")
+        sub.text("Zoom: Q/Z keys")
+        sub.text("Pan/Tilt: Arrow keys")
+
+
 def render_controls():
     """Render the controls UI overlay."""
     global block_slice, granule_type, show_springs, radius_factor
 
-    # Create overlay windows for stats & controls
-    with gui.sub_window("CONTROLS", 0.01, 0.50, 0.20, 0.23) as sub:
-        sub.text("Cam Orbit: right-click + drag")
-        sub.text("Zoom: Q/Z keys")
-        sub.text("Pan: Arrow keys")
+    # Create overlay windows for controls
+    with gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
@@ -143,7 +148,7 @@ def render_controls():
 
 def render_data_dashboard():
     """Display simulation data dashboard."""
-    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.24, 0.45) as sub:
+    with gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
         sub.text("--- SPACETIME ---")
         sub.text("Topology: 3D BCC lattice")
         sub.text(f"Total Granules: {lattice.total_granules:,} (config.py)")
@@ -312,6 +317,7 @@ def render_lattice(lattice, granule, springs=None):
         handle_camera()  # Handle camera input and update position
 
         # Render UI overlay windows
+        render_cam_instructions()
         render_controls()
         render_data_dashboard()
 
