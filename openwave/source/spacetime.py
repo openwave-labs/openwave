@@ -316,10 +316,10 @@ class Granule:
 
 
 @ti.data_oriented
-class Spring:
+class NeighborsBCC:
     """
-    Spring couplings between granules in BCC lattice.
-    Models elastic connections with 8-way, 4-way, 2-way, or 1-way topology
+    8-way neighbors couplings between granules in BCC lattice.
+    Models connections with 8-way, 4-way, 2-way, or 1-way topology
     depending on granule type (core/central, face, edge, vertex).
 
     In BCC lattice, each interior granule has 8 nearest neighbors at distance a*√3/2)
@@ -328,7 +328,7 @@ class Spring:
 
     def __init__(self, lattice: LatticeBCC):
         """
-        Initialize spring connections for the lattice.
+        Initialize neighbors links for the BCC lattice.
 
         Args:
             lattice: Lattice instance containing granule positions and types
@@ -540,32 +540,32 @@ if __name__ == "__main__":
     print(f"  Radius: {granule.radius:.2e} m")
     print(f"  Mass: {granule.mass:.2e} kg")
 
-    # Create springs
-    print(f"\nBuilding spring connections...")
+    # Create links
+    print(f"\nBuilding neighbor connections...")
     start_time = time.time()
-    springs = Spring(lattice, granule)
-    spring_time = time.time() - start_time
+    neighbors = NeighborsBCC(lattice)
+    neighbor_time = time.time() - start_time
 
-    print(f"Spring Statistics:")
-    print(f"  Rest length: {springs.rest_length:.2e} m")
+    print(f"Neighbor Statistics:")
+    print(f"  Rest length: {neighbors.rest_length:.2e} m")
     print(
         f"  Build method: {'distance-based' if lattice.total_granules < 1000 else 'structured BCC'}"
     )
-    print(f"  Build time: {spring_time:.3f} seconds")
+    print(f"  Build time: {neighbor_time:.3f} seconds")
 
     # Sample connections (avoiding slice notation)
     print(f"\nSample Connections:")
     sample_indices = [0, 1, lattice.total_granules // 2, lattice.total_granules - 1]
     for idx in sample_indices:
         if idx < lattice.total_granules:
-            count = springs.links_count[idx]
+            count = neighbors.links_count[idx]
             granule_type = lattice.granule_type[idx]
             type_names = {0: "VERTEX", 1: "EDGE", 2: "FACE", 3: "CORE", 4: "CENTRAL"}
 
             # Get first few connections without slicing
             connections = []
             for j in range(min(count, 3)):  # Show first 3 connections
-                connections.append(springs.links[idx, j])
+                connections.append(neighbors.links[idx, j])
 
             print(
                 f"  Granule {idx:6d} ({type_names.get(granule_type, 'UNKNOWN'):7s}): "
@@ -588,7 +588,7 @@ if __name__ == "__main__":
         min_connections = 1000
 
         for i in sample_indices:
-            count = springs.links_count[i]
+            count = neighbors.links_count[i]
             total_connections += count
             max_connections = max(max_connections, count)
             min_connections = min(min_connections, count)
@@ -608,7 +608,7 @@ if __name__ == "__main__":
         min_connections = 1000
 
         for i in range(lattice.total_granules):
-            count = springs.links_count[i]
+            count = neighbors.links_count[i]
             total_connections += count
             max_connections = max(max_connections, count)
             min_connections = min(min_connections, count)
@@ -618,7 +618,7 @@ if __name__ == "__main__":
         print(f"  Average per granule: {total_connections/lattice.total_granules:.2f}")
         print(f"  Min/Max connections: {min_connections}/{max_connections}")
 
-    print(f"  Total build time: {lattice_time + spring_time:.3f} seconds")
+    print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")
 
     print("\n================================================================")
     print("END SMOKE TEST: SPACETIME MODULE")

@@ -24,18 +24,18 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 lattice = spacetime.LatticeBCC(universe_edge)
 if config.SPACETIME_RES <= 10000:
-    springs = spacetime.Spring(lattice)  # Create spring links between granules
+    neighbors = spacetime.NeighborsBCC(lattice)  # Create neighbor links between granules
 else:
-    springs = None  # Skip springs for very high resolutions to save memory
+    neighbors = None  # Skip neighbors for very high resolutions to save memory
 granule = spacetime.Granule(lattice.unit_cell_edge)
 
-# Spring constant k, tuned for stability and wave speed
+# Spring constant k (N/am), tuned for stability and wave speed
 # Note:
 # This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-stiffness = 1e-10  # Spring constant k (N/am)
-# stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # Spring constant k
-# stiffness = constants.COULOMB_CONSTANT / granule.radius  # Spring constant k
+stiffness = 1e-10
+# stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
+# stiffness = constants.COULOMB_CONSTANT / granule.radius
 # stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
 
 
@@ -79,13 +79,13 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_springs, radius_factor
+    global block_slice, granule_type, show_links, radius_factor
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
-        show_springs = sub.checkbox("Show Springs (if <1k granules)", show_springs)
+        show_links = sub.checkbox("Show Links (if <1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
         if sub.button("Reset Granule"):
             radius_factor = 1.0
@@ -141,41 +141,41 @@ def normalize_granule():
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
-def normalize_springs():
-    """Create & Normalize springs to 0-1 range for GGUI rendering"""
+def normalize_links():
+    """Create & Normalize links to 0-1 range for GGUI rendering"""
 
-    global spring_lines
+    global link_lines
 
-    # Prepare spring line endpoints if springs provided
+    # Prepare link line endpoints if links provided
     max_connections = 0
-    spring_lines = None
-    if springs is not None:
+    link_lines = None
+    if neighbors is not None:
         # Count total connections for line buffer
         for i in range(lattice.total_granules):
-            max_connections += springs.links_count[i]
+            max_connections += neighbors.links_count[i]
 
         if max_connections > 0:
             # Allocate line endpoint buffer (2 points per line)
-            spring_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+            link_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
 
     @ti.kernel
-    def build_spring_lines():
-        """Build line endpoints for spring connections."""
+    def build_link_lines():
+        """Build line endpoints for BBC granule connections."""
         # Reset counter
         line_counter[None] = 0
 
         # Build lines with atomic indexing to ensure correct ordering
         for i in range(lattice.total_granules):
-            num_links = springs.links_count[i]
+            num_links = neighbors.links_count[i]
             if num_links > 0:
                 # Normalized position (scale back from attometers)
                 pos_i = lattice.positions[i] / (lattice.universe_edge * lattice.UNIT_SCALE)
 
                 for j in range(num_links):
-                    neighbor_idx = springs.links[i, j]
+                    neighbor_idx = neighbors.links[i, j]
                     if neighbor_idx >= 0:  # Valid connection
                         pos_j = lattice.positions[neighbor_idx] / (
                             lattice.universe_edge * lattice.UNIT_SCALE
@@ -186,15 +186,15 @@ def normalize_springs():
 
                         # Add line endpoints (from i to j)
                         if line_idx < max_connections:  # Safety check
-                            spring_lines[line_idx * 2] = pos_i
-                            spring_lines[line_idx * 2 + 1] = pos_j
+                            link_lines[line_idx * 2] = pos_i
+                            link_lines[line_idx * 2 + 1] = pos_j
 
-    # Build spring lines if springs provided
-    if springs is not None and max_connections > 0:
-        build_spring_lines()
+    # Build link lines if neighbors provided
+    if neighbors is not None and max_connections > 0:
+        build_link_lines()
 
 
-def render_lattice(lattice, granule, springs=None):
+def render_lattice(lattice, granule, neighbors=None):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
@@ -203,14 +203,14 @@ def render_lattice(lattice, granule, springs=None):
                  Expected to have attributes: positions, total_granules, universe_edge
         granule: Granule instance for size reference.
                  Expected to have attribute: radius
-        springs: Spring instance containing connectivity information (optional)
+        neighbors: NeighborsBCC instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_springs, radius_factor
+    global block_slice, granule_type, show_links, radius_factor
 
     # Initialize variables
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
-    show_springs = False  # spring visualization toggle
+    show_links = False  # link visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
 
     # Time tracking for harmonic oscillation
@@ -219,7 +219,7 @@ def render_lattice(lattice, granule, springs=None):
 
     normalize_lattice()
     normalize_granule()
-    normalize_springs()
+    normalize_links()
 
     while render.window.running:
         # Render UI overlay windows
@@ -233,10 +233,10 @@ def render_lattice(lattice, granule, springs=None):
         t += dt_real  # Use real elapsed time instead of fixed DT
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
-        if springs is not None:
-            qwave.propagate_qwave(lattice, granule, springs, stiffness, t, dt_real, substeps=30)
+        if neighbors is not None:
+            qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
         else:
-            # Fallback to vertex oscillation only if no springs
+            # Fallback to vertex oscillation only if no neighbors
             qwave.oscillate_vertex(
                 lattice.positions,
                 lattice.velocities,
@@ -266,9 +266,9 @@ def render_lattice(lattice, granule, springs=None):
                 color=config.COLOR_GRANULE[1],
             )
 
-        # Render springs if enabled and available
-        if show_springs and springs is not None and spring_lines is not None:
-            render.scene.lines(spring_lines, width=5, color=config.COLOR_INFRA[1])
+        # Render links if enabled and available
+        if show_links and neighbors is not None and link_lines is not None:
+            render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene()
@@ -283,4 +283,4 @@ if __name__ == "__main__":
     print(f"[INIT] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
 
     # Render the 3D lattice
-    render_lattice(lattice, granule, springs)
+    render_lattice(lattice, granule, neighbors)

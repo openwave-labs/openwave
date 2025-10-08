@@ -77,8 +77,8 @@ def oscillate_vertex(
 def compute_spring_forces(
     positions: ti.template(),  # type: ignore
     mass: ti.f32,  # type: ignore
-    spring_links: ti.template(),  # type: ignore
-    spring_links_count: ti.template(),  # type: ignore
+    links: ti.template(),  # type: ignore
+    links_count: ti.template(),  # type: ignore
     rest_length: ti.f32,  # type: ignore
     accelerations: ti.template(),  # type: ignore
     stiffness: ti.f32,  # type: ignore
@@ -90,11 +90,11 @@ def compute_spring_forces(
 
     Args:
         positions: Position field for all granules
-        spring_links: Connectivity matrix [granule_idx, neighbor_idx]
-        spring_links_count: Number of active links per granule
+        links: Connectivity matrix [granule_idx, neighbor_idx]
+        links_count: Number of active links per granule
+        rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
         accelerations: Output acceleration field (F/m)
         stiffness: Spring constant k (N/am)
-        rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
         mass: Granule mass
     """
     for i in range(positions.shape[0]):
@@ -103,10 +103,10 @@ def compute_spring_forces(
 
         # Accumulate spring forces from all neighbors
         total_force = ti.Vector([0.0, 0.0, 0.0])
-        num_links = spring_links_count[i]
+        num_links = links_count[i]
 
         for j in range(num_links):
-            neighbor_idx = spring_links[i, j]
+            neighbor_idx = links[i, j]
             if neighbor_idx >= 0:  # Valid connection
                 # Displacement vector from current to neighbor
                 d = positions[neighbor_idx] - positions[i]
@@ -185,7 +185,7 @@ def initialize_propagation(total_granules: int):
 def propagate_qwave(
     lattice,
     granule,
-    springs,
+    neighbors,
     stiffness,
     t: float,
     dt: float,
@@ -200,7 +200,7 @@ def propagate_qwave(
 
     Args:
         lattice: Lattice instance with positions, velocities, granule_type
-        springs: Spring instance with connectivity and stiffness
+        neighbors: NeighborsBCC instance with connectivity information
         granule: Granule instance for mass
         t: Current simulation time
         dt: Frame timestep
@@ -235,9 +235,9 @@ def propagate_qwave(
         compute_spring_forces(
             lattice.positions,
             granule.mass,
-            springs.links,
-            springs.links_count,
-            springs.rest_length * UNIT_SCALE,
+            neighbors.links,
+            neighbors.links_count,
+            neighbors.rest_length * UNIT_SCALE,
             accelerations,
             stiffness / UNIT_SCALE,
         )
