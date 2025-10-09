@@ -509,7 +509,7 @@ class NeighborsBCC:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("START SMOKE TEST: SPACETIME MODULE")
+    print("SMOKE TEST: SPACE-MEDIUM MODULE")
     print("================================================================")
 
     import time
@@ -522,8 +522,8 @@ if __name__ == "__main__":
 
     universe_edge = 3e-16  # m (default 300 attometers)
     target_particles = 1e6  # target particle count, granularity (impacts performance)
-    start_time = time.time()
     lattice = LatticeBCC(universe_edge, target_particles)
+    start_time = time.time()
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
@@ -621,7 +621,7 @@ if __name__ == "__main__":
     print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")
 
     print("\n================================================================")
-    print("END SMOKE TEST: SPACETIME MODULE")
+    print("END SMOKE TEST: SPACE-MEDIUM MODULE")
     print("================================================================")
 
     # Properly exit

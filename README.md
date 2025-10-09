@@ -146,7 +146,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL BENCH)`{
-    render_springmass.py ✓
+    spring_mass.py ✓
     --TBD*}
 
 
@@ -220,7 +220,7 @@ kanban
     [**SPACETIME MODULE**
       - space_medium.py]
     [**XPERIMENTS MODULE**
-      - render_springmass.py]
+      - spring_mass.py]
     [**VALIDATIONS MODULE**
       - derivations.py]
     [**COMMON MODULE**
@@ -286,7 +286,7 @@ Xperiments are virtual bench scripts where you can experiment with quantum objec
 
 ```bash
 # Run your first OpenWave xperiment
-  python openwave/xperiments/render_springmass.py
+  python openwave/xperiments/spring_mass.py
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```

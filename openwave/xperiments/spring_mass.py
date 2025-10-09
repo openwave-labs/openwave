@@ -27,11 +27,10 @@ lattice = space_medium.LatticeBCC(universe_edge, target_particles)
 granule = space_medium.Granule(lattice.unit_cell_edge)
 neighbors = space_medium.NeighborsBCC(lattice)  # Create neighbor links between granules
 
-# Spring constant k (N/am), tuned for stability and wave speed
 # Note:
 # This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-stiffness = 1e-12
+stiffness = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
 # stiffness = constants.COULOMB_CONSTANT / granule.radius
 # stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
@@ -60,8 +59,7 @@ def data_dashboard():
         sub.text("--- SPACE-MEDIUM ---")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Particle Count: {lattice.total_granules:,} granules")
-        sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
-        sub.text(f"  - Center granules: {lattice.grid_size ** 3:,}")
+        sub.text(f"Spring Stiffness: {stiffness:.1e} N/m")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -243,18 +241,7 @@ def render_lattice(lattice, granule, neighbors=None):
         t += dt_real  # Use real elapsed time instead of fixed DT
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
-        if neighbors is not None:
-            qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
-        else:
-            # Fallback to vertex oscillation only if no neighbors
-            qwave.oscillate_vertex(
-                lattice.positions,
-                lattice.velocities,
-                lattice.vertex_indices,
-                lattice.vertex_equilibrium,
-                lattice.vertex_directions,
-                t,
-            )
+        qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
 
         # Update normalized positions for rendering (must happen after position updates)
         normalize_positions()

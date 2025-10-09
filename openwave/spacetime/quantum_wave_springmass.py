@@ -200,8 +200,9 @@ def propagate_qwave(
 
     Args:
         lattice: Lattice instance with positions, velocities, granule_type
-        neighbors: NeighborsBCC instance with connectivity information
         granule: Granule instance for mass
+        neighbors: NeighborsBCC instance with connectivity information
+        stiffness: Spring constant k (N/m)
         t: Current simulation time
         dt: Frame timestep
         substeps: Number of substeps per frame for stability
