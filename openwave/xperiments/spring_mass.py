@@ -120,22 +120,6 @@ def normalize_positions_sliced():
             )
 
 
-def normalize_lattice():
-    """
-    Normalize granule positions for rendering (0-1 range for GGUI) & block-slicing
-    block-slicing: hide front 1/8th of the lattice for see-through effect
-    """
-
-    global normalized_positions, normalized_positions_sliced
-
-    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-
-    # Normalize positions once before render loop
-    normalize_positions()
-    normalize_positions_sliced()
-
-
 def normalize_granule():
     """Normalize granule radius to 0-1 range for GGUI rendering"""
 
@@ -210,6 +194,7 @@ def render_lattice(lattice, granule, neighbors=None):
     """
     global block_slice, granule_type, show_links, radius_factor
     global link_lines
+    global normalized_positions, normalized_positions_sliced
 
     # Initialize variables
     block_slice = False  # Block-slicing toggle
@@ -222,7 +207,10 @@ def render_lattice(lattice, granule, neighbors=None):
     t = 0.0
     last_time = time.time()
 
-    normalize_lattice()
+    # Initialize normalized positions (0-1 range for GGUI) & block-slicing
+    # block-slicing: hide front 1/8th of the lattice for see-through effect
+    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
     if target_particles <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
@@ -244,12 +232,15 @@ def render_lattice(lattice, granule, neighbors=None):
         qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
 
         # Update normalized positions for rendering (must happen after position updates)
-        normalize_positions()
-        normalize_positions_sliced()
+        # Render granules with optional block-slicing
+        if block_slice:
+            normalize_positions_sliced()
+            centers = normalized_positions_sliced
+        else:
+            normalize_positions()
+            centers = normalized_positions
 
-        # Render granules with optional block-slicing and type-coloring
-        centers = normalized_positions_sliced if block_slice else normalized_positions
-
+        # Render granules with optional type-coloring
         if granule_type:
             render.scene.particles(
                 centers,
