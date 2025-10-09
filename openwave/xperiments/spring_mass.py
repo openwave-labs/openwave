@@ -9,8 +9,9 @@ sourced from the element aether.
 import taichi as ti
 import time
 
-import openwave.common.config as config
-import openwave.common.render as render
+from openwave.common import config
+from openwave.common import render
+
 import openwave.spacetime.medium_bcclattice as medium
 import openwave.spacetime.quantum_wave_springmass as qwave
 
@@ -116,9 +117,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_positions[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / (
-                lattice.universe_edge * lattice.UNIT_SCALE
-            )
+            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge_am
 
 
 def normalize_granule():
@@ -160,14 +159,12 @@ def normalize_neighbors_links():
             num_links = neighbors.links_count[i]
             if num_links > 0:
                 # Normalized position (scale back from attometers)
-                pos_i = lattice.positions[i] / (lattice.universe_edge * lattice.UNIT_SCALE)
+                pos_i = lattice.positions[i] / lattice.universe_edge_am
 
                 for j in range(num_links):
                     neighbor_idx = neighbors.links[i, j]
                     if neighbor_idx >= 0:  # Valid connection
-                        pos_j = lattice.positions[neighbor_idx] / (
-                            lattice.universe_edge * lattice.UNIT_SCALE
-                        )
+                        pos_j = lattice.positions[neighbor_idx] / lattice.universe_edge_am
 
                         # Get current line index atomically
                         line_idx = ti.atomic_add(line_counter[None], 1)
@@ -234,7 +231,14 @@ def render_lattice(lattice, granule, neighbors):
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
         qwave.propagate_qwave(
-            lattice, granule, neighbors, STIFFNESS, t, dt_real, 30, SLOW_MO / slomo_factor
+            lattice,
+            granule,
+            neighbors,
+            STIFFNESS,
+            t,
+            dt_real,
+            30,
+            SLOW_MO / slomo_factor,
         )
 
         # Update normalized positions for rendering (must happen after position updates)

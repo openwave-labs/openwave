@@ -13,9 +13,7 @@ from openwave.common import constants
 # ================================================================
 # Quantum-Wave Oscillation Parameters
 # ================================================================
-UNIT_SCALE = 1e18  # meters to attometers
-
-amplitude = constants.QWAVE_AMPLITUDE * UNIT_SCALE  # am, oscillation amplitude
+amplitude_am = constants.QWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 
 
@@ -60,11 +58,11 @@ def oscillate_vertex(
         phase = float(v) * ti.math.pi / 4.0
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-        displacement = amplitude * ti.cos(omega * t + phase)
+        displacement = amplitude_am * ti.cos(omega * t + phase)
         positions[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_magnitude * direction
 
 
@@ -80,8 +78,8 @@ def compute_spring_forces(
     links: ti.template(),  # type: ignore
     links_count: ti.template(),  # type: ignore
     rest_length: ti.f32,  # type: ignore
-    accelerations: ti.template(),  # type: ignore
     stiffness: ti.f32,  # type: ignore
+    accelerations: ti.template(),  # type: ignore
 ):
     """Compute spring forces and accelerations for all non-vertex granules.
 
@@ -229,13 +227,13 @@ def propagate_qwave(
         # Scale rest_length to attometers to match position units
         # Scale stiffness to N/am (from N/m) to match extension units
         compute_spring_forces(
-            lattice.positions,
+            lattice.positions,  # in am
             granule.mass,
             neighbors.links,
             neighbors.links_count,
-            neighbors.rest_length * UNIT_SCALE,
-            accelerations,
-            stiffness / UNIT_SCALE,
+            neighbors.rest_length_am,  # rest_length in am
+            stiffness * constants.ATTOMETTER,  # stiffness in N/am
+            accelerations,  # output accelerations in am/s^2
         )
 
         # Step 3: Integrate motion for non-vertex granules

@@ -7,7 +7,7 @@ import taichi as ti
 import pyautogui
 import tomli
 
-import openwave.common.config as config
+from openwave.common import config
 
 
 def init_UI():

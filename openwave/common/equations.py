@@ -30,7 +30,7 @@ and use EWT-specific constants from the constants module.
 
 import numpy as np
 
-import openwave.common.constants as constants
+from openwave.common import constants
 
 
 # ================================================================

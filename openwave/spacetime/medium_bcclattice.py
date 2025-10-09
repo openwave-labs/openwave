@@ -14,9 +14,9 @@ or a hypothetical substance once thought to carry light and other electromagneti
 import numpy as np
 import taichi as ti
 
-import openwave.common.config as config
-import openwave.common.constants as constants
-import openwave.common.equations as equations
+from openwave.common import config
+from openwave.common import constants
+from openwave.common import equations
 
 
 @ti.data_oriented
@@ -58,6 +58,7 @@ class BCCLattice:
 
         # Set universe properties
         self.universe_edge = universe_edge
+        self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
         universe_volume = universe_edge**3
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
@@ -73,6 +74,7 @@ class BCCLattice:
 
         # Recompute unit-cell edge length based on rounded grid size and scale factor
         self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
         self.scale_factor = self.unit_cell_edge / (
             2 * constants.PLANCK_LENGTH * np.e
         )  # linear scale factor from Planck length, increases computability
@@ -89,13 +91,10 @@ class BCCLattice:
         center_count = self.grid_size**3
         self.total_granules = corner_count + center_count
 
-        # Unit conversion: Store positions in attometers (1e-18 m) for f32 precision
-        # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.UNIT_SCALE = 1e18  # meters to attometers
-
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # Positions in attometers, velocities in attometers/second
+        # Positions in attometers, velocities in attometers/second for f32 precision
+        # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -135,12 +134,12 @@ class BCCLattice:
                 j = (idx % (grid_dim * grid_dim)) // grid_dim
                 k = idx % grid_dim
 
-                # Store positions in attometers (scaled by UNIT_SCALE)
+                # Store positions in attometers (scaled to attometers)
                 self.positions[idx] = ti.Vector(
                     [
-                        i * self.unit_cell_edge * self.UNIT_SCALE,
-                        j * self.unit_cell_edge * self.UNIT_SCALE,
-                        k * self.unit_cell_edge * self.UNIT_SCALE,
+                        i * self.unit_cell_edge_am,
+                        j * self.unit_cell_edge_am,
+                        k * self.unit_cell_edge_am,
                     ]
                 )
             else:
@@ -150,13 +149,13 @@ class BCCLattice:
                 j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
                 k = center_idx % self.grid_size
 
-                offset = self.unit_cell_edge / 2
-                # Store positions in attometers (scaled by UNIT_SCALE)
+                offset = self.unit_cell_edge_am / 2
+                # Store positions in attometers (scaled to attometers)
                 self.positions[idx] = ti.Vector(
                     [
-                        (i * self.unit_cell_edge + offset) * self.UNIT_SCALE,
-                        (j * self.unit_cell_edge + offset) * self.UNIT_SCALE,
-                        (k * self.unit_cell_edge + offset) * self.UNIT_SCALE,
+                        (i * self.unit_cell_edge_am + offset),
+                        (j * self.unit_cell_edge_am + offset),
+                        (k * self.unit_cell_edge_am + offset),
                     ]
                 )
 
@@ -285,9 +284,9 @@ class BCCLattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.positions[i][0] > self.universe_edge * self.UNIT_SCALE / 2
-                    and self.positions[i][1] > self.universe_edge * self.UNIT_SCALE / 2
-                    and self.positions[i][2] > self.universe_edge * self.UNIT_SCALE / 2
+                    self.positions[i][0] > self.universe_edge_am / 2
+                    and self.positions[i][1] > self.universe_edge_am / 2
+                    and self.positions[i][2] > self.universe_edge_am / 2
                 )
                 else 0
             )
@@ -337,11 +336,9 @@ class BCCNeighbors:
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2
         # Note: rest_length is a scalar distance, not a vector
         # Direction vectors will be computed dynamically between connected granules
-        # Store in meters (will be scaled to attometers when passed to kernels)
         self.rest_length = lattice.unit_cell_edge * np.sqrt(3) / 2
-
         # For link building, use attometer-scaled rest_length to match position units
-        self.rest_length_scaled = self.rest_length * lattice.UNIT_SCALE
+        self.rest_length_am = lattice.unit_cell_edge_am * np.sqrt(3) / 2
 
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
@@ -401,7 +398,7 @@ class BCCNeighbors:
 
                     # Check if within neighbor distance (with small tolerance)
                     # Use scaled rest_length to match attometer position units
-                    max_dist_sq = (self.rest_length_scaled * 1.1) ** 2
+                    max_dist_sq = (self.rest_length_am * 1.1) ** 2
 
                     if dist_sq < max_dist_sq:
                         self.links[i, neighbor_count] = j
