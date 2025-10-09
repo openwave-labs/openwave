@@ -44,20 +44,29 @@ stiffness = 1e-12
 render.init_UI()  # Initialize the GGUI window
 
 
+def xperiment_specs():
+    """Display xperiment definitions & specs."""
+    with render.gui.sub_window("XPERIMENT: Spring-Mass", 0.01, 0.01, 0.20, 0.14) as sub:
+        sub.text("Medium: 3D BCC lattice")
+        sub.text("Granule Type: Point Mass")
+        sub.text("Coupling: 8-way neighbors springs")
+        sub.text("QWave Driver: 8 Vertex Oscillators")
+        sub.text("QWave Propagation: Spring-Mass Dynamics")
+
+
 def data_dashboard():
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.01, 0.22, 0.43) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.16, 0.20, 0.41) as sub:
         sub.text("--- SPACE-MEDIUM ---")
-        sub.text("Topology: 3D BCC lattice")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
-        sub.text(f"Particle Count: {lattice.total_granules:,} (config.py)")
+        sub.text(f"Particle Count: {lattice.total_granules:,} granules")
         sub.text(f"  - Corner granules: {(lattice.grid_size + 1) ** 3:,}")
         sub.text(f"  - Center granules: {lattice.grid_size ** 3:,}")
-        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
-        sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale (magnified)")
+        sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale magnified")
+        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
         sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
@@ -80,7 +89,7 @@ def controls():
     global block_slice, granule_type, show_links, radius_factor
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.01, 0.45, 0.20, 0.16) as sub:
+    with render.gui.sub_window("CONTROLS", 0.01, 0.58, 0.20, 0.16) as sub:
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (if <1k granules)", show_links)
@@ -222,8 +231,10 @@ def render_lattice(lattice, granule, neighbors=None):
 
     while render.window.running:
         # Render UI overlay windows
-        data_dashboard()
+        render.cam_instructions()
         controls()
+        data_dashboard()
+        xperiment_specs()
 
         # Calculate actual elapsed time (real-time tracking)
         current_time = time.time()
