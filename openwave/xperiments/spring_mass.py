@@ -32,7 +32,7 @@ neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granul
 # Note:
 # This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+STIFFNESS = 1e-13  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius
 # STIFFNESS = lattice.scale_factor * constants.COULOMB_CONSTANT
@@ -117,7 +117,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_positions[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_positions[i] = lattice.positions[i] / lattice.universe_edge_am
+            normalized_positions[i] = lattice.positions_am[i] / lattice.universe_edge_am
 
 
 def normalize_granule():
@@ -159,12 +159,12 @@ def normalize_neighbors_links():
             num_links = neighbors.links_count[i]
             if num_links > 0:
                 # Normalized position (scale back from attometers)
-                pos_i = lattice.positions[i] / lattice.universe_edge_am
+                pos_i = lattice.positions_am[i] / lattice.universe_edge_am
 
                 for j in range(num_links):
                     neighbor_idx = neighbors.links[i, j]
                     if neighbor_idx >= 0:  # Valid connection
-                        pos_j = lattice.positions[neighbor_idx] / lattice.universe_edge_am
+                        pos_j = lattice.positions_am[neighbor_idx] / lattice.universe_edge_am
 
                         # Get current line index atomically
                         line_idx = ti.atomic_add(line_counter[None], 1)
@@ -184,7 +184,7 @@ def normalize_neighbors_links():
 # ================================================================
 
 
-def render_lattice(lattice, granule, neighbors):
+def render_xperiment(lattice, granule, neighbors):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
@@ -273,7 +273,7 @@ def render_lattice(lattice, granule, neighbors):
 if __name__ == "__main__":
 
     # Debug: Check positions after lattice init
-    print(f"[INIT] pos[0]={lattice.positions[0]}, pos[513]={lattice.positions[513]}")
+    print(f"[INIT] pos[0]={lattice.positions_am[0]}, pos[513]={lattice.positions_am[513]}")
 
     # Render the 3D lattice
-    render_lattice(lattice, granule, neighbors)
+    render_xperiment(lattice, granule, neighbors)

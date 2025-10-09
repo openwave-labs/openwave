@@ -95,11 +95,11 @@ class BCCLattice:
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # Positions in attometers, velocities in attometers/second for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.positions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.velocities = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
-        self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
+        self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
         self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -134,8 +134,8 @@ class BCCLattice:
                 j = (idx % (grid_dim * grid_dim)) // grid_dim
                 k = idx % grid_dim
 
-                # Store positions in attometers (scaled to attometers)
-                self.positions[idx] = ti.Vector(
+                # Store positions in attometers
+                self.positions_am[idx] = ti.Vector(
                     [
                         i * self.unit_cell_edge_am,
                         j * self.unit_cell_edge_am,
@@ -150,8 +150,8 @@ class BCCLattice:
                 k = center_idx % self.grid_size
 
                 offset = self.unit_cell_edge_am / 2
-                # Store positions in attometers (scaled to attometers)
-                self.positions[idx] = ti.Vector(
+                # Store positions in attometers
+                self.positions_am[idx] = ti.Vector(
                     [
                         (i * self.unit_cell_edge_am + offset),
                         (j * self.unit_cell_edge_am + offset),
@@ -160,7 +160,7 @@ class BCCLattice:
                 )
 
             # Initialize velocity to zero for all granules
-            self.velocities[idx] = ti.Vector([0.0, 0.0, 0.0])
+            self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
     def build_granule_type(self):
@@ -234,7 +234,7 @@ class BCCLattice:
             self.vertex_indices[v] = idx
 
             # Store equilibrium position for this vertex
-            self.vertex_equilibrium[v] = self.positions[idx]
+            self.vertex_equilibrium_am[v] = self.positions_am[idx]
 
             # Compute normalized direction from vertex to center
             # Vertex position in normalized coordinates (0 or 1 in each dimension)
@@ -284,9 +284,9 @@ class BCCLattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.positions[i][0] > self.universe_edge_am / 2
-                    and self.positions[i][1] > self.universe_edge_am / 2
-                    and self.positions[i][2] > self.universe_edge_am / 2
+                    self.positions_am[i][0] > self.universe_edge_am / 2
+                    and self.positions_am[i][1] > self.universe_edge_am / 2
+                    and self.positions_am[i][2] > self.universe_edge_am / 2
                 )
                 else 0
             )
@@ -372,7 +372,7 @@ class BCCNeighbors:
 
         # For each granule, find and connect to nearest neighbors
         for i in range(self.lattice.total_granules):
-            pos_i = self.lattice.positions[i]
+            pos_i = self.lattice.positions_am[i]
             granule_type = self.lattice.granule_type[i]
             neighbor_count = 0
 
@@ -388,7 +388,7 @@ class BCCNeighbors:
             # Search through all granules (simplified for small lattices)
             for j in range(self.lattice.total_granules):
                 if i != j and neighbor_count < max_neighbors:
-                    pos_j = self.lattice.positions[j]
+                    pos_j = self.lattice.positions_am[j]
 
                     # Calculate distance
                     dx = pos_i[0] - pos_j[0]

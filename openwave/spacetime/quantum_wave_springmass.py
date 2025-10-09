@@ -173,12 +173,6 @@ def integrate_motion(
 accelerations = None
 
 
-def initialize_propagation(total_granules: int):
-    """Initialize acceleration field for wave propagation."""
-    global accelerations
-    accelerations = ti.Vector.field(3, dtype=ti.f32, shape=total_granules)
-
-
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
     lattice, granule, neighbors, stiffness, t: float, dt: float, substeps: int, slow_mo
@@ -203,7 +197,7 @@ def propagate_qwave(
 
     # Initialize on first call
     if accelerations is None:
-        initialize_propagation(lattice.total_granules)
+        accelerations = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
         print(f"[WAVE_PROPAGATION_INITIALIZED] All 8 vertices will oscillate with phase shifts")
 
     # Substep for numerical stability
@@ -212,10 +206,10 @@ def propagate_qwave(
     # Update vertex positions ONCE per frame (not per substep)
     # Vertices provide boundary condition for entire frame
     oscillate_vertex(
-        lattice.positions,
-        lattice.velocities,
+        lattice.positions_am,  # in am
+        lattice.velocities_am,  # in am/s
         lattice.vertex_indices,
-        lattice.vertex_equilibrium,
+        lattice.vertex_equilibrium_am,  # in am
         lattice.vertex_directions,
         t,
         slow_mo,
@@ -227,7 +221,7 @@ def propagate_qwave(
         # Scale rest_length to attometers to match position units
         # Scale stiffness to N/am (from N/m) to match extension units
         compute_spring_forces(
-            lattice.positions,  # in am
+            lattice.positions_am,  # in am
             granule.mass,
             neighbors.links,
             neighbors.links_count,
@@ -239,10 +233,10 @@ def propagate_qwave(
         # Step 3: Integrate motion for non-vertex granules
         # dt stays in seconds - no scaling needed (positions in am, velocities in am/s)
         integrate_motion(
-            lattice.positions,
-            lattice.velocities,
+            lattice.positions_am,  # in am
+            lattice.velocities_am,  # in am/s
             lattice.granule_type,
-            accelerations,
+            accelerations,  # in am/s^2
             dt_sub,
         )
 
@@ -251,9 +245,9 @@ def propagate_qwave(
             # Print every ~0.01 seconds
             if abs(t - round(t * 100) / 100) < 0.0001:
                 pos_eq = ti.Vector([0.0, 0.0, 42.857143])  # Equilibrium position of granule 1
-                disp = lattice.positions[1] - pos_eq
+                disp = lattice.positions_am[1] - pos_eq
                 disp_norm = disp.norm()
-                vel_norm = lattice.velocities[1].norm()
+                vel_norm = lattice.velocities_am[1].norm()
                 # Check if values are finite
                 is_finite = disp_norm == disp_norm and vel_norm == vel_norm  # NaN check
                 status = "OK" if is_finite else "NaN/Inf!"
