@@ -23,6 +23,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 target_particles = 1e6  # target particle count, granularity (impacts performance)
+
 lattice = space_medium.LatticeBCC(universe_edge, target_particles)
 granule = space_medium.Granule(lattice.unit_cell_edge)
 neighbors = space_medium.NeighborsBCC(lattice)  # Create neighbor links between granules
@@ -37,7 +38,7 @@ stiffness = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 
 
 # ================================================================
-# Xperiment Rendering
+# Xperiment UI and overlay windows
 # ================================================================
 
 render.init_UI()  # Initialize the GGUI window
@@ -96,8 +97,13 @@ def controls():
             radius_factor = 1.0
 
 
+# ================================================================
+# Xperiment Normalization to Screen Coordinates
+# ================================================================
+
+
 @ti.kernel
-def normalize_positions(enable_slice: ti.i32):  # type: ignore
+def normalize_lattice(enable_slice: ti.i32):  # type: ignore
     """Normalize lattice positions to 0-1 range for GGUI rendering."""
     for i in range(lattice.total_granules):
         # Normalize to 0-1 range (positions are in attometers, scale them back)
@@ -172,7 +178,12 @@ def normalize_neighbors_links():
         build_link_lines()
 
 
-def render_lattice(lattice, granule, neighbors=None):
+# ================================================================
+# Xperiment Rendering
+# ================================================================
+
+
+def render_lattice(lattice, granule, neighbors):
     """
     Render 3D BCC lattice using GGUI's 3D scene.
 
@@ -222,8 +233,8 @@ def render_lattice(lattice, granule, neighbors=None):
         qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
 
         # Update normalized positions for rendering (must happen after position updates)
-        # Render granules with optional block-slicing (see-through effect)
-        normalize_positions(1 if block_slice else 0)
+        # with optional block-slicing (see-through effect)
+        normalize_lattice(1 if block_slice else 0)
 
         # Render granules with optional type-coloring
         if granule_type:
@@ -239,7 +250,7 @@ def render_lattice(lattice, granule, neighbors=None):
                 color=config.COLOR_GRANULE[1],
             )
 
-        # Render links if enabled and available
+        # Render spring links if enabled and available
         if show_links and link_lines is not None:
             render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
 
