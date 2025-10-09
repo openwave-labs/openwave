@@ -45,24 +45,6 @@ COLOR_CORE = COLOR_GRANULE  # Blue - interior granules
 COLOR_CENTRAL = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - center granule
 
 
-# # Future screen resolution definitions
-# [resolutions.low]
-# width = 640
-# height = 480
-
-# [resolutions.high]
-# width = 1280
-# height = 720
-
-# [resolutions.hd]
-# width = 1920
-# height = 1080
-
-# [resolutions.4k]
-# width = 3840
-# height = 2160
-
-
 # # FUTURE THERMAL IMAGING PALLETTE
 # #https://stackoverflow.com/questions/28495390/thermal-imaging-palette
 

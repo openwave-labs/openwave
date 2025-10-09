@@ -14,10 +14,9 @@ from openwave.common import constants
 # Quantum-Wave Oscillation Parameters
 # ================================================================
 UNIT_SCALE = 1e18  # meters to attometers
+
 amplitude = constants.QWAVE_AMPLITUDE * UNIT_SCALE  # am, oscillation amplitude
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
-# slow-motion factor (divides frequency for human-visible motion, time microscope)
-slow_mo = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 
 # ================================================================
@@ -33,6 +32,7 @@ def oscillate_vertex(
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_directions: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
+    slow_mo: ti.f32,  # type: ignore
 ):
     """Inject energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
 
@@ -183,13 +183,7 @@ def initialize_propagation(total_granules: int):
 
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
-    lattice,
-    granule,
-    neighbors,
-    stiffness,
-    t: float,
-    dt: float,
-    substeps: int = 1000,
+    lattice, granule, neighbors, stiffness, t: float, dt: float, substeps: int, slow_mo
 ):
     """Main wave propagation orchestrator using spring-mass dynamics.
 
@@ -226,6 +220,7 @@ def propagate_qwave(
         lattice.vertex_equilibrium,
         lattice.vertex_directions,
         t,
+        slow_mo,
     )
 
     for step in range(substeps):

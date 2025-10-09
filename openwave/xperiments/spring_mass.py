@@ -21,20 +21,23 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-target_particles = 1e6  # target particle count, granularity (impacts performance)
+UNIVERSE_EDGE = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
-lattice = medium.BCCLattice(universe_edge, target_particles)
+lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
 neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 # Note:
 # This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-stiffness = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
-# stiffness = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
-# stiffness = constants.COULOMB_CONSTANT / granule.radius
-# stiffness = lattice.scale_factor * constants.COULOMB_CONSTANT
+STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+# STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
+# STIFFNESS = constants.COULOMB_CONSTANT / granule.radius
+# STIFFNESS = lattice.scale_factor * constants.COULOMB_CONSTANT
+
+# slow-motion factor (divides frequency for human-visible motion, time microscope)
+SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 
 # ================================================================
@@ -60,7 +63,7 @@ def data_dashboard():
         sub.text("--- SPACE-MEDIUM ---")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"Spring Stiffness: {stiffness:.1e} N/m")
+        sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -189,9 +192,7 @@ def render_lattice(lattice, granule, neighbors):
 
     Args:
         lattice: Lattice instance containing positions and universe parameters.
-                 Expected to have attributes: positions, total_granules, universe_edge
         granule: Granule instance for size reference.
-                 Expected to have attribute: radius
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
     global block_slice, granule_type, show_links, radius_factor
@@ -213,7 +214,7 @@ def render_lattice(lattice, granule, neighbors):
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-    if target_particles <= 1e3:
+    if TARGET_PARTICLES <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:
@@ -230,7 +231,7 @@ def render_lattice(lattice, granule, neighbors):
         t += dt_real  # Use real elapsed time instead of fixed DT
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
-        qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
+        qwave.propagate_qwave(lattice, granule, neighbors, STIFFNESS, t, dt_real, 30, SLOW_MO)
 
         # Update normalized positions for rendering (must happen after position updates)
         # with optional block-slicing (see-through effect)

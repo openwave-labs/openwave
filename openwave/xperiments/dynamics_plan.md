@@ -212,7 +212,7 @@ while window.running:
 
    **Answer:** above
 
-## PHASE 2: Mass-Spring System (Future QWave-Propagation)
+## PHASE 2: Mass-Spring System (QWave-Propagation)
 
 ### Overview Phase 2
 
