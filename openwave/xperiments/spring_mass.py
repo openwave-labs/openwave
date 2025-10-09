@@ -97,25 +97,16 @@ def controls():
 
 
 @ti.kernel
-def normalize_positions():
+def normalize_positions(enable_slice: ti.i32):  # type: ignore
     """Normalize lattice positions to 0-1 range for GGUI rendering."""
     for i in range(lattice.total_granules):
         # Normalize to 0-1 range (positions are in attometers, scale them back)
-        normalized_positions[i] = lattice.positions[i] / (
-            lattice.universe_edge * lattice.UNIT_SCALE
-        )
-
-
-@ti.kernel
-def normalize_positions_sliced():
-    """Normalize lattice positions to 0-1 and apply block-slicing."""
-    for i in range(lattice.total_granules):
-        # Normalize to 0-1 range
-        # And hide front 1/8th of the lattice for see-through effect (block-slicing)
-        # 0 = not in front octant (render it), 1 = in front octant (skip it)
-        # Currently block-slicing don't hide granules, just move them to origin (0,0,0)
-        if lattice.front_octant[i] == 0:
-            normalized_positions_sliced[i] = lattice.positions[i] / (
+        if enable_slice == 1 and lattice.front_octant[i] == 1:
+            # Block-slicing enabled: hide front octant granules by moving to origin
+            normalized_positions[i] = ti.Vector([0.0, 0.0, 0.0])
+        else:
+            # Normal rendering: normalize to 0-1 range
+            normalized_positions[i] = lattice.positions[i] / (
                 lattice.universe_edge * lattice.UNIT_SCALE
             )
 
@@ -194,7 +185,7 @@ def render_lattice(lattice, granule, neighbors=None):
     """
     global block_slice, granule_type, show_links, radius_factor
     global link_lines
-    global normalized_positions, normalized_positions_sliced
+    global normalized_positions
 
     # Initialize variables
     block_slice = False  # Block-slicing toggle
@@ -210,7 +201,6 @@ def render_lattice(lattice, granule, neighbors=None):
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    normalized_positions_sliced = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
     if target_particles <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
@@ -232,24 +222,19 @@ def render_lattice(lattice, granule, neighbors=None):
         qwave.propagate_qwave(lattice, granule, neighbors, stiffness, t, dt_real, substeps=30)
 
         # Update normalized positions for rendering (must happen after position updates)
-        # Render granules with optional block-slicing
-        if block_slice:
-            normalize_positions_sliced()
-            centers = normalized_positions_sliced
-        else:
-            normalize_positions()
-            centers = normalized_positions
+        # Render granules with optional block-slicing (see-through effect)
+        normalize_positions(1 if block_slice else 0)
 
         # Render granules with optional type-coloring
         if granule_type:
             render.scene.particles(
-                centers,
+                normalized_positions,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_color,
             )
         else:
             render.scene.particles(
-                centers,
+                normalized_positions,
                 radius=normalized_radius * radius_factor,
                 color=config.COLOR_GRANULE[1],
             )
