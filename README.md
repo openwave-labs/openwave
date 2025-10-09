@@ -38,7 +38,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ## Model spacetime with real physics accuracy and render it in 3D
 
-![demo clip](images/demo2.gif)
+![demo clip](images/demo.gif)
 
 ## Scientific Source
 
@@ -77,7 +77,7 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    space_medium.py ✓
+    medium.py ✓
     quantum_wave.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
@@ -218,7 +218,7 @@ kanban
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - space_medium.py]
+      - medium_bcclattice.py]
     [**XPERIMENTS MODULE**
       - spring_mass.py]
     [**VALIDATIONS MODULE**

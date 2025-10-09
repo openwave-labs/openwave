@@ -11,7 +11,7 @@ import time
 
 import openwave.common.config as config
 import openwave.common.render as render
-import openwave.spacetime.space_medium_latticebcc as space_medium
+import openwave.spacetime.medium_bcclattice as medium
 import openwave.spacetime.quantum_wave_springmass as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -24,9 +24,9 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 universe_edge = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 target_particles = 1e6  # target particle count, granularity (impacts performance)
 
-lattice = space_medium.LatticeBCC(universe_edge, target_particles)
-granule = space_medium.Granule(lattice.unit_cell_edge)
-neighbors = space_medium.NeighborsBCC(lattice)  # Create neighbor links between granules
+lattice = medium.BCCLattice(universe_edge, target_particles)
+granule = medium.Granule(lattice.unit_cell_edge)
+neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 # Note:
 # This is a scaled value for computational feasibility
@@ -47,7 +47,7 @@ render.init_UI()  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Spring-Mass", 0.01, 0.01, 0.20, 0.14) as sub:
-        sub.text("Medium: 3D BCC lattice")
+        sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
         sub.text("QWave Driver: 8 Vertex Oscillators")
@@ -59,7 +59,7 @@ def data_dashboard():
     with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.16, 0.20, 0.41) as sub:
         sub.text("--- SPACE-MEDIUM ---")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
-        sub.text(f"Particle Count: {lattice.total_granules:,} granules")
+        sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Spring Stiffness: {stiffness:.1e} N/m")
 
         sub.text("")
@@ -192,7 +192,7 @@ def render_lattice(lattice, granule, neighbors):
                  Expected to have attributes: positions, total_granules, universe_edge
         granule: Granule instance for size reference.
                  Expected to have attribute: radius
-        neighbors: NeighborsBCC instance containing connectivity information (optional)
+        neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
     global block_slice, granule_type, show_links, radius_factor
     global link_lines
