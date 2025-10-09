@@ -21,7 +21,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
@@ -36,7 +36,7 @@ STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius
 # STIFFNESS = lattice.scale_factor * constants.COULOMB_CONSTANT
 
-# slow-motion factor (divides frequency for human-visible motion, time microscope)
+# slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
 
 
@@ -88,7 +88,7 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_links, radius_factor
+    global block_slice, granule_type, show_links, radius_factor, slomo_factor
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.01, 0.58, 0.20, 0.16) as sub:
@@ -96,8 +96,9 @@ def controls():
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (if <1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
-        if sub.button("Reset Granule"):
-            radius_factor = 1.0
+        # if sub.button("Reset Granule"):
+        #     radius_factor = 1.0
+        slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
 
 
 # ================================================================
@@ -195,7 +196,7 @@ def render_lattice(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_links, radius_factor
+    global block_slice, granule_type, show_links, radius_factor, slomo_factor
     global link_lines
     global normalized_positions
 
@@ -204,6 +205,7 @@ def render_lattice(lattice, granule, neighbors):
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
+    slomo_factor = 1.0  # Initialize slow motion factor
     link_lines = None  # Link line buffer
 
     # Time tracking for harmonic oscillation
@@ -231,7 +233,9 @@ def render_lattice(lattice, granule, neighbors):
         t += dt_real  # Use real elapsed time instead of fixed DT
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
-        qwave.propagate_qwave(lattice, granule, neighbors, STIFFNESS, t, dt_real, 30, SLOW_MO)
+        qwave.propagate_qwave(
+            lattice, granule, neighbors, STIFFNESS, t, dt_real, 30, SLOW_MO / slomo_factor
+        )
 
         # Update normalized positions for rendering (must happen after position updates)
         # with optional block-slicing (see-through effect)
