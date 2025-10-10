@@ -93,10 +93,11 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # Positions in attometers, velocities in attometers/second for f32 precision
+        # Positions, velocities and accelerations in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.accelerations_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions

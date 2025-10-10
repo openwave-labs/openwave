@@ -92,7 +92,7 @@ def compute_spring_forces(
         links_count: Number of active links per granule
         rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
         accelerations: Output acceleration field (F/m)
-        stiffness: Spring constant k (N/am)
+        stiffness: Spring constant k
         mass: Granule mass
     """
     for i in range(positions.shape[0]):
@@ -128,8 +128,8 @@ def compute_spring_forces(
 def integrate_motion(
     positions: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
-    granule_type: ti.template(),  # type: ignore
     accelerations: ti.template(),  # type: ignore
+    granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """Integrate equations of motion using Leapfrog (Velocity Verlet) method.
@@ -169,10 +169,6 @@ def integrate_motion(
         positions[i] += velocities[i] * dt
 
 
-# Global acceleration field for wave propagation (allocated once)
-accelerations = None
-
-
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
     lattice, granule, neighbors, stiffness, t: float, dt: float, substeps: int, slow_mo
@@ -193,12 +189,6 @@ def propagate_qwave(
         dt: Frame timestep
         substeps: Number of substeps per frame for stability
     """
-    global accelerations
-
-    # Initialize on first call
-    if accelerations is None:
-        accelerations = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-        print(f"[WAVE_PROPAGATION_INITIALIZED] All 8 vertices will oscillate with phase shifts")
 
     # Substep for numerical stability
     dt_sub = dt / substeps
@@ -227,7 +217,7 @@ def propagate_qwave(
             neighbors.links_count,
             neighbors.rest_length_am,  # rest_length in am
             stiffness * constants.ATTOMETTER,  # stiffness in N/am
-            accelerations,  # output accelerations in am/s^2
+            lattice.accelerations_am,  # output accelerations in am/s^2
         )
 
         # Step 3: Integrate motion for non-vertex granules
@@ -235,8 +225,8 @@ def propagate_qwave(
         integrate_motion(
             lattice.positions_am,  # in am
             lattice.velocities_am,  # in am/s
+            lattice.accelerations_am,  # in am/s^2
             lattice.granule_type,
-            accelerations,  # in am/s^2
             dt_sub,
         )
 

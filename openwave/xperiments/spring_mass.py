@@ -10,6 +10,7 @@ import taichi as ti
 import time
 
 from openwave.common import config
+from openwave.common import constants
 from openwave.common import render
 
 import openwave.spacetime.medium_bcclattice as medium
@@ -61,9 +62,10 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.01, 0.16, 0.20, 0.41) as sub:
-        sub.text("--- SPACE-MEDIUM ---")
+        sub.text("--- SPACETIME-MEDIUM ---")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
+        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
