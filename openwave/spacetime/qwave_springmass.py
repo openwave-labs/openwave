@@ -182,8 +182,8 @@ def propagate_qwave(
     - Spring-mass dynamics for non-vertex granules
     - Velocity Verlet (Leapfrog) integration for energy conservation
 
-    Integrate equations of motion using Velocity Verlet (Leapfrog) method,
-    a symplectic integrator that conserves energy in oscillatory systems.
+    Integrate motion using Velocity Verlet (Leapfrog) method, a 2nd-order
+    symplectic integrator that conserves energy in oscillatory systems.
     Uses kick-drift-kick pattern:
         1. Half-step velocity update (kick)
             v(t+dt/2) = v(t) + a(t)*dt/2
