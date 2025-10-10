@@ -124,35 +124,41 @@ def compute_spring_forces(
 
 
 @ti.kernel
-def integrate_motion(
-    positions: ti.template(),  # type: ignore
+def velocity_half_kick(
     velocities: ti.template(),  # type: ignore
     accelerations: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
-    """Integrate equations of motion using Leapfrog (Velocity Verlet) method.
+    """First half of Velocity Verlet (Leapfrog): v(t+dt/2) = v(t) + a(t)*dt/2.
 
-    Leapfrog is a symplectic integrator that conserves energy in oscillatory systems.
-    Uses kick-drift-kick pattern:
-    1. Half-step velocity update (kick)
-    2. Full-step position update (drift)
-    3. Compute new accelerations (done externally)
-    4. Final half-step velocity update (kick)
+    Args:
+        velocities: Velocity field
+        accelerations: Acceleration field (from spring forces at time t)
+        granule_type: Type classification (skip vertices)
+        dt: Timestep
+    """
+    for i in range(velocities.shape[0]):
+        # Skip vertices - they have prescribed motion from oscillate_vertex()
+        if granule_type[i] == 0:  # TYPE_VERTEX = 0
+            continue
 
-    This function performs steps 1-2, then caller recomputes accelerations, then
-    call this again for final velocity update. OR use two-stage approach.
+        # Half-step velocity update (first kick)
+        velocities[i] += accelerations[i] * (dt * 0.5)
 
-    For simplicity, using velocity Verlet single-call version:
-    v(t+dt/2) = v(t) + a(t)*dt/2
-    x(t+dt) = x(t) + v(t+dt/2)*dt
-    (compute a(t+dt) externally)
-    v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
+
+@ti.kernel
+def position_drift(
+    positions: ti.template(),  # type: ignore
+    velocities: ti.template(),  # type: ignore
+    granule_type: ti.template(),  # type: ignore
+    dt: ti.f32,  # type: ignore
+):
+    """Position update using half-step velocity: x(t+dt) = x(t) + v(t+dt/2)*dt.
 
     Args:
         positions: Position field
-        velocities: Velocity field
-        accelerations: Acceleration field (from spring forces)
+        velocities: Velocity field (at t+dt/2)
         granule_type: Type classification (skip vertices)
         dt: Timestep
     """
@@ -161,10 +167,7 @@ def integrate_motion(
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             continue
 
-        # Damped Leapfrog integration for numerical stability
-        # Light damping prevents instability in extremely stiff spring system
-        damping = 0.999  # 0.1% energy loss per step
-        velocities[i] = damping * (velocities[i] + accelerations[i] * dt)
+        # Full-step position update using half-step velocity (drift)
         positions[i] += velocities[i] * dt
 
 
@@ -177,7 +180,19 @@ def propagate_qwave(
     Propagates quantum waves through the lattice using:
     - Vertex boundary conditions (harmonic oscillators inject energy)
     - Spring-mass dynamics for non-vertex granules
-    - Leapfrog integration for energy conservation
+    - Velocity Verlet (Leapfrog) integration for energy conservation
+
+    Integrate equations of motion using Velocity Verlet (Leapfrog) method,
+    a symplectic integrator that conserves energy in oscillatory systems.
+    Uses kick-drift-kick pattern:
+        1. Half-step velocity update (kick)
+            v(t+dt/2) = v(t) + a(t)*dt/2
+        2. Full-step position update (drift)
+            x(t+dt) = x(t) + v(t+dt/2)*dt
+        3. Compute new accelerations (done externally)
+            (compute a(t+dt) externally)
+        4. Final half-step velocity update (kick)
+            v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
 
     Args:
         lattice: Lattice instance with positions, velocities, granule_type
@@ -206,9 +221,8 @@ def propagate_qwave(
 
     for step in range(substeps):
 
-        # Step 2: Compute spring forces on all granules (vertices get zero acceleration)
-        # Scale rest_length to attometers to match position units
-        # Scale stiffness to N/am (from N/m) to match extension units
+        # Velocity Verlet (Leapfrog) integration (kick-drift-kick):
+        # 1. Compute accelerations at current positions a(t)
         compute_spring_forces(
             lattice.positions_am,  # in am
             granule.mass,
@@ -219,12 +233,37 @@ def propagate_qwave(
             lattice.accelerations_am,  # output accelerations in am/s^2
         )
 
-        # Step 3: Integrate motion for non-vertex granules
-        # dt stays in seconds - no scaling needed (positions in am, velocities in am/s)
-        integrate_motion(
-            lattice.positions_am,  # in am
+        # 2. First kick: v(t+dt/2) = v(t) + a(t)*dt/2
+        velocity_half_kick(
             lattice.velocities_am,  # in am/s
             lattice.accelerations_am,  # in am/s^2
+            lattice.granule_type,
+            dt_sub,
+        )
+
+        # 3. Drift: x(t+dt) = x(t) + v(t+dt/2)*dt
+        position_drift(
+            lattice.positions_am,  # in am
+            lattice.velocities_am,  # in am/s (now at t+dt/2)
+            lattice.granule_type,
+            dt_sub,
+        )
+
+        # 4. Compute new accelerations at new positions a(t+dt)
+        compute_spring_forces(
+            lattice.positions_am,  # in am (now at t+dt)
+            granule.mass,
+            neighbors.links,
+            neighbors.links_count,
+            neighbors.rest_length_am,  # rest_length in am
+            stiffness * constants.ATTOMETTER,  # stiffness in N/am
+            lattice.accelerations_am,  # output a(t+dt) in am/s^2
+        )
+
+        # 5. Second kick: v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
+        velocity_half_kick(
+            lattice.velocities_am,  # in am/s (now at t+dt/2)
+            lattice.accelerations_am,  # in am/s^2 (now at t+dt)
             lattice.granule_type,
             dt_sub,
         )
