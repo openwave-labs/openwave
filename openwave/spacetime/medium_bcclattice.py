@@ -11,7 +11,6 @@ the classical fifth element or quintessence filling the universe,
 or a hypothetical substance once thought to carry light and other electromagnetic waves.
 """
 
-import numpy as np
 import taichi as ti
 
 from openwave.common import config
@@ -76,7 +75,7 @@ class BCCLattice:
         self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
         self.scale_factor = self.unit_cell_edge / (
-            2 * constants.PLANCK_LENGTH * np.e
+            2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
         # Compute quantum-wave linear resolution, sampling rate
@@ -344,7 +343,7 @@ class Granule:
         Args:
             unit_cell_edge: Edge length of the BCC unit-cell in meters.
         """
-        self.radius = unit_cell_edge / (2 * np.e)  # radius = unit cell edge / 2e
+        self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
         self.mass = (
             constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
         )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
@@ -374,9 +373,9 @@ class BCCNeighbors:
         # In BCC, nearest neighbor distance = a * sqrt(3) / 2
         # Note: rest_length is a scalar distance, not a vector
         # Direction vectors will be computed dynamically between connected granules
-        self.rest_length = lattice.unit_cell_edge * np.sqrt(3) / 2
+        self.rest_length = lattice.unit_cell_edge * ti.math.sqrt(3) / 2
         # For link building, use attometer-scaled rest_length to match position units
-        self.rest_length_am = lattice.unit_cell_edge_am * np.sqrt(3) / 2
+        self.rest_length_am = lattice.unit_cell_edge_am * ti.math.sqrt(3) / 2
 
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
