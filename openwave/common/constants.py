@@ -20,6 +20,9 @@ QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length, lambda
 QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
 QWAVE_SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
 
+QWAVE_FREQUENCY = 1.050393558e25  # Hz, quantum-wave frequency (QWAVE_SPEED/QWAVE_LENGTH)
+QWAVE_PERIOD = 9.520241169e-26  # s, quantum-wave period (1 / QWAVE_FREQUENCY)
+
 # ================================================================
 # Neutrino particle (seed particle)
 # ================================================================

@@ -1,5 +1,5 @@
 """
-XPERIMENT: Spring-Mass Quantum Wave Oscillation
+XPERIMENT: Unstable Spring-Mass Quantum Wave Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 
 eg. Tweak this XPERIMENT script changing universe_edge = 0.1 m at __main__ entry point
@@ -15,7 +15,7 @@ from openwave.common import constants
 from openwave.common import render
 
 import openwave.spacetime.medium_bcclattice as medium
-import openwave.spacetime.qwave_springmass as qwave
+import openwave.spacetime.qwave_unstable as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -51,7 +51,7 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spring-Mass", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Unstable Spring-Mass", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")

@@ -96,6 +96,8 @@ class BCCLattice:
         # Positions, velocities and accelerations in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
+        self.directions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # to center
         self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.accelerations_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -108,6 +110,7 @@ class BCCLattice:
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize positions and velocities
         self.build_granule_type()  # classifies granules
+        self.build_directions()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.set_granule_colors()  # colors based on granule_type
         self.find_front_octant()  # for block-slicing visualization
@@ -160,8 +163,42 @@ class BCCLattice:
                     ]
                 )
 
+            self.equilibrium_am[idx] = self.positions_am[idx]  # set equilibrium position
+
             # Initialize velocity to zero for all granules
             self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
+
+    @ti.kernel
+    def build_directions(self):
+        """Compute normalized direction vectors from all granules to lattice center.
+
+        For each granule in the positions_am array, computes a normalized direction vector
+        pointing from the granule's position toward the geometric center of the lattice.
+        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
+
+        Direction vectors are stored in the directions field and used for radial operations
+        such as compression/expansion forces or wave propagation from the center.
+        """
+        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
+        lattice_center = ti.Vector([0.5, 0.5, 0.5])
+
+        # Process all granules in the lattice
+        for idx in range(self.total_granules):
+            # Convert granule position from attometers to normalized coordinates [0, 1]
+            # by dividing by the total universe edge length in attometers
+            pos_normalized = ti.Vector(
+                [
+                    self.positions_am[idx][0] / self.universe_edge_am,
+                    self.positions_am[idx][1] / self.universe_edge_am,
+                    self.positions_am[idx][2] / self.universe_edge_am,
+                ]
+            )
+
+            # Compute direction vector from granule position to lattice center
+            direction = lattice_center - pos_normalized
+
+            # Normalize and store the direction vector
+            self.directions[idx] = direction.normalized()
 
     @ti.kernel
     def build_granule_type(self):
@@ -519,7 +556,7 @@ if __name__ == "__main__":
     # ================================================================
 
     UNIVERSE_EDGE = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-    TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
+    TARGET_PARTICLES = 1e8  # target particle count, granularity (impacts performance)
 
     lattice = BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
     start_time = time.time()

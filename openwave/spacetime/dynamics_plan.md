@@ -415,8 +415,6 @@ v(t+dt) = v_half + 0.5 * a(t+dt) * dt
 
 ## Integration method (draft, from game development practices, upgrade to Leapfrog method after research)
 
-use reference file: spring_mass_example.py (but its the euler integration with substeps)
-
 compute each granule new position = propagation
 
 - Fs, v, x = zero # initialize local vars for safety
@@ -436,8 +434,6 @@ Perform Integration (LeapFrog)
 - pos(i+1) = pos(i) + vel(i+1/2) * dt # compute new position
 
 ## How to achieve numerical stability in spring-mass systems (best practices & techniques in computational physics simulators)
-
-example file: spring_mass_example.py
 
 So the 30 iterations are substeps per frame, not pre-warming! This is a common technique in physics simulations where:
 

@@ -111,7 +111,7 @@ def handle_camera():
 
 def cam_instructions():
     """Overlay camera movement instructions."""
-    with gui.sub_window("CAMERA MOVEMENT", 0.01, 0.90, 0.13, 0.10) as sub:
+    with gui.sub_window("CAMERA MOVEMENT", 0.87, 0.90, 0.13, 0.10) as sub:
         sub.text("Orbit: right-click + drag")
         sub.text("Zoom: Q/Z keys")
         sub.text("Pan/Tilt: Arrow keys")
