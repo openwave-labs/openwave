@@ -1,7 +1,7 @@
 """
-Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
+Run sample Xperiments shipped with the OpenWave package, tweak them, or create your own
 
-eg. Tweak this xperiment script changing universe_edge = 0.1 m at __main__ entry point
+eg. Tweak this Xperiment script changing universe_edge = 0.1 m at __main__ entry point
 (the approximate size of a tesseract) and simulate this artifact energy content,
 sourced from the element aether.
 """
@@ -36,7 +36,7 @@ neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granul
 STIFFNESS = 1e-13  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius
-# STIFFNESS = lattice.scale_factor * constants.COULOMB_CONSTANT
+# STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillions * trillions FPS)
