@@ -120,7 +120,7 @@ def compute_spring_forces(
 
         # Acceleration = F / m
         acc = total_force / mass
-        accelerations[i] = acc
+        accelerations[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
 
 
 @ti.kernel
@@ -233,7 +233,7 @@ def propagate_qwave(
         if step == 0:
             # Print every ~0.01 seconds
             if abs(t - round(t * 100) / 100) < 0.0001:
-                pos_eq = ti.Vector([0.0, 0.0, 42.857143])  # Equilibrium position of granule 1
+                pos_eq = ti.Vector([0.0, 0.0, 0.0])  # Equilibrium position of granule 0
                 disp = lattice.positions_am[1] - pos_eq
                 disp_norm = disp.norm()
                 vel_norm = lattice.velocities_am[1].norm()

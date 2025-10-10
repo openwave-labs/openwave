@@ -2,8 +2,8 @@
 Rendering engine for OPENWAVE using Taichi GGUI.
 """
 
-import numpy as np
 import taichi as ti
+import numpy as np
 import pyautogui
 import tomli
 

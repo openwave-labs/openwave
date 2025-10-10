@@ -120,7 +120,7 @@ def compute_spring_forces(
 
         # Acceleration = F / m
         acc = total_force / mass
-        accelerations[i] = acc
+        accelerations[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
 
 
 @ti.kernel

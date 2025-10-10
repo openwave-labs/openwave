@@ -239,7 +239,7 @@ def render_xperiment(lattice, granule, neighbors):
             STIFFNESS,
             t,
             dt_real,
-            30,
+            30,  # substeps for stability
             SLOW_MO / slomo_factor,
         )
 
