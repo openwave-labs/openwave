@@ -91,7 +91,8 @@ def controls():
     global block_slice, granule_type, show_links, radius_factor, slomo_factor
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.18) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
+        render.show_axis = sub.checkbox("Axis", render.show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
@@ -149,7 +150,7 @@ def normalize_neighbors_links():
 
     @ti.kernel
     def build_link_lines():
-        """Build line endpoints for BBC granule connections."""
+        """Build line endpoints for BCC granule connections."""
         # Reset counter
         line_counter[None] = 0
 

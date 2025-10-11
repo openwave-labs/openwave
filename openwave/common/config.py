@@ -12,7 +12,7 @@ Includes commented thermal imaging palette definitions for future use.
 # Color Settings (RGBA hex)
 # ================================================================
 COLOR_SPACE = ["#000000ff", (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
-COLOR_INFRA = ["#ffffffff", (1.0, 1.0, 1.0)]  # white (wave-center, wire-framing, grids)
+COLOR_INFRA = ["#ffffffff", (1.0, 1.0, 1.0)]  # white (wire-framing, grids, links)
 COLOR_GRANULE = ["#1a99e6ff", (0.1, 0.6, 0.9)]  # blue (granules)
 COLOR_QWAVES = ["#ff00eeff", (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
 COLOR_FIELDS = ["#00ffffff", (0.0, 1.0, 1.0)]  # cyan (fields, field lines)

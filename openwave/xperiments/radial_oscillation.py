@@ -92,7 +92,8 @@ def controls():
     global block_slice, granule_type, radius_factor, slomo_factor
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.18) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
+        render.show_axis = sub.checkbox("Axis", render.show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)

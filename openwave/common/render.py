@@ -14,7 +14,7 @@ def init_UI():
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
-    global mouse_sensitivity
+    global mouse_sensitivity, show_axis
 
     with open("pyproject.toml", "rb") as f:
         pyproject = tomli.load(f)
@@ -45,6 +45,7 @@ def init_UI():
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
+    show_axis = True  # Toggle to show/hide axis lines
     canvas.set_background_color(config.COLOR_SPACE[1])
 
 
@@ -117,8 +118,34 @@ def cam_instructions():
         sub.text("Pan/Tilt: Arrow keys")
 
 
+def axis_lines():
+    """Render XYZ axis lines for orientation."""
+    axis = ti.Vector.field(3, dtype=ti.f32, shape=6)
+
+    # Populate axis line endpoints
+    axis.from_numpy(
+        np.array(
+            [
+                [0.0, 0.0, 0.0],
+                [2.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 2.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 2.0],
+            ],
+            dtype=np.float32,
+        )
+    )
+
+    scene.lines(axis, color=config.COLOR_INFRA[1], width=2)
+
+
 def show_scene():
+    global show_axis
+
     scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
+    if show_axis:
+        axis_lines()
     canvas.scene(scene)
     window.show()
