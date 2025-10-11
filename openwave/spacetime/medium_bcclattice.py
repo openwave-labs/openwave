@@ -554,8 +554,8 @@ if __name__ == "__main__":
     # Parameters & Quantum Objects Instantiation
     # ================================================================
 
-    UNIVERSE_EDGE = 3e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-    TARGET_PARTICLES = 1e8  # target particle count, granularity (impacts performance)
+    UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+    TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
     lattice = BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
     start_time = time.time()

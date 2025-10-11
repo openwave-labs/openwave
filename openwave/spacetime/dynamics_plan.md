@@ -631,76 +631,11 @@ Shooting granules away from the lattice, even increasing damping and softer spri
 
 The fundamental issue is that we're hitting the stability limit of explicit integrators. Even the Small Steps paper can't overcome this for extremely stiff springs at Planck scale.
 
-### Stats
-
-```bash
-import math
-
-# From constants
-QWAVE_LENGTH = 2.854096501e-17  # m
-QWAVE_FREQUENCY = 1.050393558e25  # Hz
-MEDIUM_DENSITY = 3.506335701e22  # kg/m³
-
-# Current simulation parameters
-STIFFNESS = 1e-13  # N/m (already reduced by ~1e20!)
-UNIVERSE_EDGE = 1e-16  # m
-TARGET_PARTICLES = 1e6
-
-# Calculate granule properties (simplified BCC lattice estimate)
-granules_per_edge = (TARGET_PARTICLES ** (1/3))
-unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
-granule_volume = (unit_cell_edge ** 3) / 2  # BCC has 2 atoms per unit cell
-granule_mass = MEDIUM_DENSITY * granule_volume
-
-# Spring-mass system natural frequency
-omega = math.sqrt(STIFFNESS / granule_mass)  # rad/s
-frequency_hz = omega / (2 * math.pi)
-period = 1 / frequency_hz
-
-# Critical timestep for stability (explicit integrators)
-# For semi-implicit Euler: dt < 2/omega
-dt_critical = 2 / omega
-
-# Typical frame time at 30 FPS
-dt_frame = 1/30  # 33ms
-
-# How many substeps needed?
-substeps_needed = dt_frame / dt_critical
-
-print("=" * 60)
-print("STABILITY ANALYSIS")
-print("=" * 60)
-print(f"Granule mass: {granule_mass:.3e} kg")
-print(f"Spring stiffness: {STIFFNESS:.3e} N/m")
-print(f"Natural frequency ω: {omega:.3e} rad/s ({frequency_hz:.3e} Hz)")
-print(f"Natural period T: {period:.3e} s")
-print(f"\nCritical timestep (stability limit): {dt_critical:.3e} s")
-print(f"Frame timestep (30 FPS): {dt_frame:.3e} s")
-print(f"\nSubsteps needed for stability: {substeps_needed:.1f}")
-print(f"You're using: 200 substeps")
-print(f"\nRatio (actual/needed): {200/substeps_needed:.2%}")
-
-if substeps_needed > 200:
-    print(f"\n❌ UNSTABLE! Need {substeps_needed:.0f} substeps, only using 200")
-else:
-    print(f"\n✓ Should be stable")
-
-# What stiffness would work with 200 substeps?
-dt_sub = dt_frame / 200
-omega_max = 2 / dt_sub
-stiffness_max = (omega_max ** 2) * granule_mass
-print(f"\n" + "=" * 60)
-print(f"For 200 substeps to be stable:")
-print(f"Maximum stiffness: {stiffness_max:.3e} N/m")
-print(f"Current stiffness: {STIFFNESS:.3e} N/m")
-print(f"Need to reduce by: {STIFFNESS/stiffness_max:.1f}x")
-EOF
-)
-```
-
 ==========================================================
 
-STABILITY ANALYSIS
+### Stats
+
+STABILITY ANALYSIS (stability_analysis.py)
 
 - Granule mass: 1.753e-32 kg
 - Spring stiffness: 1.000e-13 N/m
@@ -714,7 +649,7 @@ TIMESTEPS
 - Substeps needed for stability: 39804942.5
 - You're using: 200 substeps
 
-❌ UNSTABLE! Need 40M substeps, only using 200
+❌ UNSTABLE! Need 40M substeps (120M iterations/second), only using 200 (6k i/s)
 
 ==========================================================
 
@@ -726,7 +661,7 @@ For 200 substeps to be stable:
 
 ### Findings
 
-There's the problem! You need 40 MILLION substeps for stability, but you're only using 200. Even the Small Steps paper can't help when you're off by 8 orders of magnitude.
+There's the problem! You need 40 MILLION substeps for stability (120M iterations/second), but you're only using 200 (6k i/s). Even the Small Steps paper can't help when you're off by 8 orders of magnitude.
 
 The Fundamental Issue:
 

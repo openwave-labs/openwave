@@ -9,6 +9,10 @@ Energy Equations:
 - Particle energy (longitudinal waves)
 - Photon energy, frequency, and wavelength (transverse waves)
 
+Frequency Equations:
+- Natural frequency of oscillation (spring-mass systems)
+- Stiffness from frequency and mass (spring-mass systems)
+
 Force Equations:
 - Electric force (charged particle interactions)
 - Magnetic force (moving charge interactions)
@@ -179,6 +183,43 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
         return float("inf")
 
     return coefficient * (1 / distance_term)
+
+
+# ================================================================
+# ENERGY WAVE EQUATION
+# ================================================================
+def natural_frequency(stiffness, mass):
+    """
+    Natural Frequency of Oscillation:
+    Calculates the natural frequency of a spring-mass system.
+
+    f_n = √(k/m)/2π
+
+    Args:
+        stiffness (float): Spring stiffness k in N/m
+        mass (float): Mass m in kg
+
+    Returns:
+        float: Natural frequency f_n in Hz
+    """
+    return np.sqrt(stiffness / mass) / (2 * np.pi)
+
+
+def stiffness_from_frequency(frequency, mass):
+    """
+    Stiffness from Frequency and Mass:
+    Calculates the spring stiffness required for a given natural frequency and mass.
+
+    k = (2πf_n)² * m
+
+    Args:
+        frequency (float): Natural frequency f_n in Hz
+        mass (float): Mass m in kg
+
+    Returns:
+        float: Spring stiffness k in N/m
+    """
+    return (2 * np.pi * frequency) ** 2 * mass
 
 
 # ================================================================
