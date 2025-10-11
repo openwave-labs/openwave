@@ -40,6 +40,7 @@ def oscillate_vertex(
     vertex_directions: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
+    amplitude_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
 
@@ -54,6 +55,8 @@ def oscillate_vertex(
         vertex_equilibrium: Equilibrium positions of 8 vertices
         vertex_directions: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
+        slow_mo: Slow motion factor
+        amplitude_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
@@ -67,11 +70,12 @@ def oscillate_vertex(
         phase = float(v) * ti.math.pi / 4.0
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-        displacement = amplitude_am * ti.cos(omega * t + phase)
+        # Apply amplitude_boost for visibility in scaled-up lattices
+        displacement = amplitude_am * amplitude_boost * ti.cos(omega * t + phase)
         positions[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * amplitude_boost * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_magnitude * direction
 
 
@@ -259,6 +263,7 @@ def propagate_qwave(
     slow_mo: float = 1.0,
     damping: float = 0.999,
     omega: float = 1.5,
+    amplitude_boost: float = 1.0,
 ):
     """Main wave propagation using XPBD with Small Steps strategy.
 
@@ -292,6 +297,7 @@ def propagate_qwave(
         slow_mo: Slow motion factor for time microscope
         damping: Velocity damping per substep (0.999 recommended)
         omega: SOR parameter for faster convergence (1.5 recommended)
+        amplitude_boost: Multiplier for oscillation amplitude (1.0 = physical, >1 = visible)
     """
     # Allocate temporary fields for XPBD (if not already created)
     if not hasattr(lattice, "prev_positions_am"):
@@ -311,6 +317,7 @@ def propagate_qwave(
         lattice.vertex_directions,
         t,
         slow_mo,
+        amplitude_boost,
     )
 
     # XPBD substep loop (following "Small Steps" paper Algorithm 1)

@@ -31,6 +31,12 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
+# Amplitude scaling for visibility in scaled-up lattices
+# For scaled lattices, multiply physical amplitude by this factor to make waves visible
+# Physical amplitude: ~0.92 am, but lattice spacing: ~3800 am (79x79x79)
+# Suggested: 10-100 for visible waves without breaking physics too much
+AMPLITUDE_BOOST = 10.0  # multiplier for oscillation amplitude (1.0 = physical, >1 = visible)
+
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
 neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
@@ -72,6 +78,7 @@ def data_dashboard():
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
+        sub.text(f"Amplitude Boost: {AMPLITUDE_BOOST:.0f}x (physical = 1x)")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -255,6 +262,7 @@ def render_xperiment(lattice, granule, neighbors):
             slow_mo=SLOW_MO / slomo_factor,
             damping=0.999,  # 0.1% energy loss per substep
             omega=1.5,  # SOR parameter for faster convergence
+            amplitude_boost=AMPLITUDE_BOOST,  # Visibility boost for scaled lattices
         )
 
         # Update normalized positions for rendering (must happen after position updates)
