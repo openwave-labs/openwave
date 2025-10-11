@@ -758,3 +758,336 @@ This creates a coupled system where:
 - Each granule affected by all 8 neighbors
 - Iterative solving propagates constraints through lattice
 - Wave behavior emerges from constraint satisfaction dynamics
+
+---
+
+## Additional XPBD Implementation Details (From Unified Particle Physics Paper)
+
+### Parallel Constraint Solving with Jacobi Iteration
+
+**Key Issue**: Gauss-Seidel (sequential) vs Jacobi (parallel)
+
+**From Unified Particle Physics (Section 4.1-4.3):**
+
+- **Gauss-Seidel**: Sequential solving, better convergence, NOT GPU-friendly
+- **Jacobi**: Parallel solving, slower convergence, but can diverge for rank-deficient systems
+- **Solution**: Constraint averaging (mass-splitting) for stability
+
+#### Constraint Averaging (Section 4.2)
+
+Instead of immediately applying position corrections, accumulate them and average:
+
+```python
+# Phase 1: Accumulate deltas (parallel)
+@ti.kernel
+def solve_constraints_jacobi():
+    for i in range(num_granules):
+        delta[i] = vec3(0.0)
+        count[i] = 0
+
+        for j in range(8):  # 8 neighbors in BCC
+            neighbor = links[i, j]
+            # Compute constraint correction
+            Δλ = compute_lagrange_multiplier(i, neighbor)
+            Δx = compute_position_delta(i, Δλ)
+
+            # Accumulate (don't apply yet!)
+            delta[i] += Δx
+            count[i] += 1
+
+# Phase 2: Apply averaged corrections (parallel)
+@ti.kernel
+def apply_corrections():
+    for i in range(num_granules):
+        positions[i] += delta[i] / count[i]  # Average over constraints
+```
+
+**Why this works**: Prevents oscillation when multiple identical/near-identical constraints affect same particle.
+
+#### Successive Over-Relaxation (SOR) - Section 4.3
+
+Add user parameter ω to control convergence speed:
+
+```python
+# Apply with relaxation factor
+positions[i] += (ω / count[i]) * delta[i]
+
+# Typical values:
+# ω = 1.0  → Standard averaging (safe)
+# ω = 1.5  → Faster convergence (recommended for stiff systems)
+# ω = 2.0  → Maximum over-relaxation (may diverge)
+```
+
+**For your quantum lattice**: Try ω = 1.5 to accelerate convergence with 8-neighbor connectivity.
+
+---
+
+### Handling Initial Constraint Violations (Section 4.4)
+
+**Problem**: Starting with violated constraints adds artificial energy!
+
+**Example**: Granule starts interpenetrating → XPBD projects it out → velocity derived from projection → false momentum!
+
+**Solution**: Pre-stabilization pass
+
+```python
+# Algorithm 1, steps 10-15: Stabilization before main solve
+@ti.kernel
+def stabilize_initial_positions():
+    # Use ORIGINAL positions (not predicted x*)
+    for iteration in range(1, 2):  # 1-2 iterations sufficient
+        solve_distance_constraints(positions_original)  # Not x*!
+
+    # Apply same corrections to predicted positions
+    x_star += (positions - positions_original)
+```
+
+**When to use**:
+
+- ✅ Contact constraints (most visible source of error)
+- ❌ Not needed for distance constraints in stable lattice (always satisfied)
+
+**For your BCC lattice**: Probably not needed initially, but useful if implementing collision detection later.
+
+---
+
+### Particle Sleeping (Section 4.5)
+
+**Problem**: Positional drift when constraints not fully converged.
+
+**Solution**: Freeze particles below velocity threshold:
+
+```python
+@ti.kernel
+def apply_sleeping(epsilon: float):
+    for i in range(num_granules):
+        if velocities[i].norm() < epsilon:
+            positions[i] = positions_old[i]  # Freeze in place
+        else:
+            positions[i] = x_star[i]  # Apply new position
+```
+
+**For your quantum lattice**:
+
+- Not needed for active wave region (vertices always moving)
+- Could be useful for large lattice to "freeze" distant granules
+- Set threshold: `epsilon = 1e-20 m/s` (Planck scale appropriate)
+
+---
+
+### Constraint Grouping for Faster Convergence (Section 4.3)
+
+**Idea**: Process constraint types in groups, apply corrections between groups.
+
+**From Algorithm 1 (steps 17-21)**:
+
+```python
+# Instead of single iteration over all constraints:
+for iteration in range(solver_iterations):
+    for constraint_group in constraint_groups:
+        solve_constraint_group(constraint_group)  # Parallel within group
+        apply_corrections()  # Apply before next group
+
+# Example groups for BCC lattice:
+# Group 1: Distance constraints (8-neighbors)
+# Group 2: Contact constraints (if any)
+# Group 3: Vertex boundary conditions (prescribed motion)
+```
+
+**Benefit**: Propagates corrections faster → fewer iterations needed.
+
+**For your quantum lattice**:
+
+- Start with single group (all distance constraints)
+- If convergence slow, split by spatial regions
+
+---
+
+### Damping Formulation for Small Steps (From Small Steps Paper)
+
+**Critical finding**: Many small steps can cause over-stiffness without damping!
+
+**From Small Steps paper Eq. 8**:
+
+```python
+# Add explicit damping to velocities
+velocities[i] *= damping_factor
+
+# Typical values:
+# damping = 0.999  → 0.1% energy loss per step
+# damping = 0.99   → 1% energy loss per step
+# damping = 1.0    → No damping (conservative, may oscillate)
+```
+
+**For your quantum lattice**: Start with `damping = 0.999` (per substep).
+
+---
+
+### Complete XPBD Algorithm (Unified Paper + Small Steps)
+
+**Full algorithm combining both papers**:
+
+```python
+def simulate_frame(dt_frame: float, num_substeps: int):
+    dt_sub = dt_frame / num_substeps
+
+    # Pre-stabilization (if needed)
+    for iteration in range(2):
+        solve_constraints(positions)
+
+    # Main substep loop
+    for substep in range(num_substeps):
+        # 1. Apply external forces (gravity, etc.)
+        apply_forces(dt_sub)
+
+        # 2. Predict positions (explicit)
+        predict_positions(dt_sub)
+
+        # 3. Update vertex boundary conditions
+        update_vertex_motion(t_current)
+
+        # 4. Solve constraints (XPBD core)
+        for iteration in range(solver_iterations_per_substep):  # Usually 1!
+            delta[:] = 0
+            count[:] = 0
+
+            # Solve all constraints in parallel (Jacobi)
+            solve_distance_constraints_parallel(delta, count)
+
+            # Apply with SOR
+            apply_corrections_with_sor(delta, count, omega=1.5)
+
+        # 5. Update velocities from position changes
+        update_velocities(dt_sub, damping=0.999)
+
+        # 6. Apply sleeping (optional)
+        apply_sleeping(epsilon=1e-20)
+
+        # 7. Update time
+        t_current += dt_sub
+```
+
+---
+
+### Performance Optimization Tips (From Unified Paper)
+
+#### Memory Coherence (Section 9)
+
+- Reorder particle data by spatial hash-grid cell index
+- Improves cache locality for neighbor lookups
+- Can give 2-3x speedup on GPU
+
+```python
+# Once per frame (or less frequently):
+sort_particles_by_spatial_hash()
+```
+
+#### Atomic Operations vs Gather (Section 10, Algorithms 2-3)
+
+**Constraint-Centric (scatter)**:
+
+```python
+# Each thread processes ONE constraint
+for constraint in constraints:  # Parallel
+    compute Δλ, ∇C
+    for particle in constraint:
+        atomicAdd(delta[particle], correction)  # Atomic write
+```
+
+**Particle-Centric (gather)**:
+
+```python
+# Each thread processes ONE particle
+for particle in particles:  # Parallel
+    for constraint in affecting_particle:
+        compute correction
+        delta += correction  # No atomics needed!
+    positions[particle] += delta  # Single write
+```
+
+**For BCC lattice**: Use **particle-centric** (gather) approach:
+
+- Each granule processes its 8 distance constraints
+- No atomic operations needed
+- Better performance on GPU
+
+---
+
+### Expected Performance (From Paper Table 1)
+
+**Unified Particle Physics Examples**:
+
+- 44k particles, 2 substeps, 2 iters → 3.8 ms/frame (263 FPS)
+- 50k particles, 2 substeps, 4 iters → 10.1 ms/frame (100 FPS)
+
+**For your 7×7×7 BCC lattice**:
+
+- ~343 granules
+- 100 substeps, 1 iter/substep
+- Expected: < 1 ms/frame (1000+ FPS)
+
+**Bottleneck will be rendering, not simulation!**
+
+---
+
+## Implementation Roadmap (Updated with Paper Insights)
+
+### Phase 1: Basic XPBD Distance Constraints
+
+- [x] Read both papers
+- [ ] Implement particle-centric Jacobi solver
+- [ ] Add constraint averaging
+- [ ] Test with realistic stiffness (k = 1e7 N/m, no reduction!)
+
+### Phase 2: Optimization
+
+- [ ] Add SOR parameter (ω = 1.5)
+- [ ] Add velocity damping (0.999 per substep)
+- [ ] Verify no explosions with extreme stiffness
+
+### Phase 3: Validation
+
+- [ ] Measure wave speed vs theoretical
+- [ ] Measure wavelength vs driving frequency
+- [ ] Compare energy conservation vs force-based
+
+### Phase 4: Advanced Features (Future)
+
+- [ ] Particle sleeping for large lattices
+- [ ] Spatial hash reordering for performance
+- [ ] Pre-stabilization for contact constraints
+
+---
+
+## Key Takeaways from Papers
+
+### Small Steps Paper
+
+1. **Many substeps + 1 iteration** > Few substeps + many iterations
+2. **Explicit damping** needed for small timesteps
+3. **Quadratic error reduction**: error ∝ dt²
+4. **Jacobi iteration** works with proper averaging
+
+### Unified Particle Physics Paper
+
+1. **Constraint averaging** prevents Jacobi divergence
+2. **SOR parameter** accelerates convergence (ω ∈ [1, 2])
+3. **Pre-stabilization** prevents artificial energy injection
+4. **Particle-centric** gather better than constraint-centric scatter
+5. **Real-time capable** even with complex constraint networks
+
+### Application to Quantum Lattice
+
+**Your BCC lattice is structurally identical to cloth simulation**:
+
+- Fixed connectivity (8 neighbors per granule)
+- Distance constraints maintain lattice structure
+- Vertices as moving boundary conditions
+- XPBD handles extreme stiffness without instability
+
+**Expected outcome**:
+
+- ✅ Stable with realistic stiffness (k ~ 1e7 N/m)
+- ✅ Wave propagation at correct speed
+- ✅ Real-time performance (30-60 FPS)
+- ✅ No frequency mismatch issues (XPBD is unconditionally stable)
