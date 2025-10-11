@@ -319,3 +319,442 @@ Key advantages over spring-mass:
 2. Simpler per-iteration (just position projection)
 3. Can use realistic stiffness values
 4. Still benefits from Small Steps (Δt² error reduction)
+
+## XPBD SUMMARY
+
+### How XPBD Propagates Waves WITHOUT Forces
+
+#### The Fundamental Difference
+
+```bash
+Force-Based (Newton's Laws):
+F = ma → a = F/m → v += a·dt → x += v·dt
+[Force causes acceleration → velocity → position]
+
+XPBD (Constraint-Based):
+C(x) = 0 → Δx to satisfy C → v = Δx/dt
+[Constraint violation → position correction → velocity derived]
+```
+
+### Wave Propagation in XPBD (Step-by-Step)
+
+#### 1. Constraints Replace Springs
+
+Instead of:
+
+```python
+# Force-based:
+F = -k × (distance - L₀)  # Spring force
+```
+
+You have:
+
+```python
+# XPBD:
+C = distance - L₀  # Distance constraint
+# "These two granules MUST be L₀ apart"
+```
+
+#### 2. How Momentum Transfers (The Magic!)
+
+Let's trace a wave through 3 granules:
+
+```bash
+Time t=0: Vertex oscillates
+┌─────┐     ┌─────┐     ┌─────┐
+│  V  │────▶│  A  │─────│  B  │
+└─────┘     └─────┘     └─────┘
+ moves       still      still
+```
+
+##### Step 1: Vertex moves (boundary condition)
+
+```python
+# Vertex moves outward by distance d
+vertex_new = vertex_old + d
+```
+
+##### Step 2: Constraint between Vertex-A is violated
+
+```python
+C_VA = ||vertex_new - A|| - L₀
+# Result: C_VA > 0 (too far apart!)
+```
+
+##### Step 3: XPBD corrects positions to satisfy constraint
+
+```python
+# Lagrange multiplier tells us "how hard to pull":
+Δλ = -C_VA / (1/m_vertex + 1/m_A + α̃)
+
+# Position corrections:
+vertex_correction = -(1/m_vertex) × direction × Δλ
+A_correction = +(1/m_A) × direction × Δλ
+
+# Result: Vertex pulls back slightly, A moves toward vertex!
+A_new = A_old + A_correction  # A moves!
+```
+
+##### Step 4: Now constraint A-B is violated
+
+```python
+C_AB = ||A_new - B|| - L₀
+# Result: C_AB > 0 (A moved, now too far from B!)
+```
+
+##### Step 5: Constraint satisfaction propagates
+
+```python
+# A-B constraint correction:
+B_correction = +(1/m_B) × direction × Δλ_AB
+B_new = B_old + B_correction  # B moves!
+
+# Wave has propagated: V → A → B
+```
+
+#### 3. Where's the Momentum?
+
+**The brilliant part:** Momentum is **implicit** in position changes!
+
+```python
+# After constraint solving, positions changed:
+Δx_A = A_new - A_old
+
+# Velocity is derived from position change:
+v_A = Δx_A / dt
+
+# Momentum automatically emerges:
+p_A = m_A × v_A = m_A × (Δx_A / dt)
+```
+
+**Momentum conservation happens through:**
+
+1. **Mass weighting** in position corrections: `w = 1/m`
+2. **Newton's 3rd law** is built-in: `Δx_i = -Δx_j` (equal/opposite)
+3. **Velocity derived** from position changes
+
+### Visual Analogy
+
+#### Force-Based (Push)
+
+```bash
+[V pushes A] → [A accelerates] → [A pushes B] → [B accelerates]
+    F_VA          a_A = F/m         F_AB         a_B = F/m
+```
+
+**Problem:** Accumulates error, requires tiny timesteps for stability
+
+#### XPBD (Constrained Dance)
+
+```bash
+[V moves] → [A must follow (constraint)] → [B must follow] → ...
+   x_V        C_VA forces A to move      C_AB forces B to move
+```
+
+**Advantage:** Directly enforces geometric relationships, stable!
+
+### Why This Propagates Waves
+
+#### Local Constraint → Global Wave
+
+```python
+# Each granule has 8 distance constraints to neighbors
+# When one granule moves, ALL 8 constraints get violated
+# Correction propagates to all 8 neighbors
+# Each neighbor has 8 more constraints...
+# → Wave spreads through lattice!
+```
+
+**Example with your vertex:**
+
+```bash
+Frame 1:
+Vertex oscillates → 8 neighbors move (satisfy constraint)
+
+Frame 2:
+8 neighbors moved → each has 7 more neighbors affected
+                    (56 granules total)
+
+Frame 3:
+56 granules moved → each has connections
+                    (hundreds affected)
+
+...wave propagates spherically!
+```
+
+### The Physics is EQUIVALENT
+
+#### Mathematical Proof
+
+**Force-based spring:**
+
+```python
+F = -k(x - L₀)
+a = F/m = -k(x - L₀)/m
+```
+
+**XPBD constraint (first iteration is equivalent!):**
+
+```python
+Δλ = -C / (1/m + α̃) = -(x - L₀) / (1/m + 1/(k·dt²))
+
+# For small dt and large k:
+α̃ = 1/(k·dt²) << 1/m
+
+Δλ ≈ -(x - L₀) / (1/m) = -m(x - L₀)
+Δx = (1/m)·Δλ ≈ -(x - L₀)
+
+# Velocity from position change:
+v = Δx/dt ≈ -(x - L₀)/dt
+
+# This is equivalent to:
+v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
+```
+
+**From the Small Steps paper:** "the first iteration of XPBD is equivalent to the first step of a Newton solver operating on the backward Euler equations."
+
+**Translation:** XPBD IS doing implicit integration, just without solving the matrix!
+
+### Summary
+
+#### XPBD Still Uses
+
+- ✅ Granules (particles) - same as before
+- ✅ Masses - for position correction weighting
+- ✅ Connectivity (8 neighbors) - same BCC lattice
+- ✅ Stiffness (k) - encoded in compliance α̃ = 1/(k·dt²)
+
+#### XPBD Does NOT Use
+
+- ❌ Spring forces (F = -kx)
+- ❌ Force accumulation
+- ❌ Explicit velocity integration
+
+#### How Waves Propagate
+
+1. **Vertex moves** (boundary condition)
+2. **Constraints violated** (distances too large/small)
+3. **XPBD corrects positions** (pull granules together/apart)
+4. **Corrections propagate** (neighbors move → their constraints violated → ...)
+5. **Velocities derived** (v = Δx/dt)
+6. **Momentum emerges** (p = m·v)
+7. **Wave spreads** through lattice!
+
+### The Conceptual Shift
+
+**Force-Based Thinking:**
+
+> "Forces cause acceleration, which integrates to velocity, which integrates to position"
+> (Dynamic → Kinematic)
+
+**Constraint-Based Thinking:**
+
+> "Positions must satisfy geometric constraints, velocities are consequence of position changes"
+> (Kinematic → Dynamic)
+
+**Both are valid physics!** XPBD just solves it "backwards" - and turns out to be more stable for stiff systems.
+
+## Implementation Status
+
+### Files Created
+
+- `xpbd.py` - Main render loop (replaces spring_mass.py)
+- `qwave_xpbd.py` - XPBD constraint solver (replaces qwave_springmass.py)
+- `medium_bcclattice.py` - Unchanged (same BCC structure)
+
+### Files Archived (for reference)
+
+- `spring_mass.py` - Force-based render loop
+- `qwave_springmass.py` - Semi-implicit Euler integration
+- `qwave_springleapfrog.py` - Velocity Verlet attempt
+
+### Implementation Checklist
+
+**Step 1: XPBD Constraint Kernel** (Pending)
+
+- [ ] Create `solve_distance_constraint_xpbd()` kernel
+- [ ] Implement position corrections per Eq 4-7
+- [ ] Handle vertex exclusion (boundary conditions)
+- [ ] Use Jacobi iteration (parallel-safe for GPU)
+
+**Step 2: Velocity Update** (Pending)
+
+- [ ] Compute velocities from position changes: `v = (x_new - x_old) / dt`
+- [ ] Store previous positions for velocity calculation
+
+**Step 3: Small Steps Integration** (Pending)
+
+- [ ] Split frame into substeps (start with 30-100)
+- [ ] Single XPBD iteration per substep
+- [ ] Update vertex boundary conditions per frame
+
+**Step 4: Validation** (Pending)
+
+- [ ] Test with realistic stiffness (no reduction needed!)
+- [ ] Verify no NaN/Inf explosions
+- [ ] Check wave propagation from vertices
+- [ ] Measure wave speed vs expected c
+- [ ] Measure wavelength vs expected λ
+
+### Key Implementation Notes
+
+**Jacobi vs Gauss-Seidel:**
+
+- Paper uses Jacobi (parallel iteration)
+- Read positions from previous iteration, write corrections to buffer
+- Apply all corrections simultaneously (GPU-friendly)
+- Gauss-Seidel (sequential) would be faster but not parallelizable
+
+**Compliance Parameter α̃:**
+
+- α̃ = 1/(k·dt²) where k is spring stiffness
+- Lower α̃ = stiffer constraint (less compliance)
+- With realistic k and small dt, α̃ will be very small → near-rigid constraints
+- This is GOOD - we want stiff springs to maintain lattice structure
+
+**Vertex Handling:**
+
+- Vertices maintain prescribed harmonic motion
+- Non-vertices solve XPBD constraints
+- Vertices act as moving boundary conditions
+- Energy injection happens through vertex-neighbor constraints
+
+**Performance Expectations:**
+
+- XPBD single iteration ≈ same cost as one force evaluation
+- With 100 substeps: ~3000 constraint solves/second at 30 FPS
+- Should be much faster than 200 substeps with 2 force evals (spring-mass)
+
+## Detailed XPBD Mathematics (From Paper)
+
+### Distance Constraint for BCC Lattice
+
+For each pair of connected granules (i, j):
+
+```bash
+Constraint function:
+C(x_i, x_j) = ||x_i - x_j|| - L₀ = 0
+
+Where:
+- x_i, x_j = positions of granules i and j
+- L₀ = rest length (BCC neighbor distance)
+- ||·|| = Euclidean norm (distance)
+```
+
+### Constraint Gradient (∇C)
+
+```bash
+∂C/∂x_i = (x_i - x_j) / ||x_i - x_j|| = n̂  (unit direction)
+∂C/∂x_j = -(x_i - x_j) / ||x_i - x_j|| = -n̂
+
+Where n̂ is the normalized direction vector from j to i
+```
+
+### Compliance (α̃)
+
+```bash
+α̃ = 1/(k·Δt²)
+
+Where:
+- k = spring stiffness (N/m)
+- Δt = substep timestep
+- α̃ → 0 as k → ∞ (rigid constraint)
+- α̃ → ∞ as k → 0 (no constraint)
+```
+
+### Lagrange Multiplier (Δλ)
+
+From paper Equation 7:
+
+```bash
+Δλ = -C(x) / (∇C·M⁻¹·∇Cᵀ + α̃)
+
+For two particles:
+Δλ = -C / (w_i + w_j + α̃)
+
+Where:
+- w_i = 1/m_i (inverse mass of particle i)
+- w_j = 1/m_j (inverse mass of particle j)
+- C = ||x_i - x_j|| - L₀ (current constraint violation)
+```
+
+### Position Corrections (Δx)
+
+From paper Equation 4:
+
+```bash
+Δx_i = w_i · n̂ · Δλ  (move particle i)
+Δx_j = -w_j · n̂ · Δλ (move particle j in opposite direction)
+
+Where:
+- Positive Δλ → particles too far apart → pull together
+- Negative Δλ → particles too close → push apart
+- Heavier particles (larger m) move less (smaller w=1/m)
+```
+
+### Full Algorithm Per Constraint
+
+```python
+# 1. Current distance and violation
+d = x_i - x_j
+distance = ||d||
+C = distance - L₀
+
+# 2. Normalized direction
+n̂ = d / distance
+
+# 3. Inverse masses
+w_i = 1 / m_i
+w_j = 1 / m_j
+
+# 4. Compliance
+α̃ = 1 / (k · Δt²)
+
+# 5. Lagrange multiplier
+Δλ = -C / (w_i + w_j + α̃)
+
+# 6. Position corrections
+Δx_i = w_i · n̂ · Δλ
+Δx_j = -w_j · n̂ · Δλ
+
+# 7. Apply corrections
+x_i_new = x_i + Δx_i
+x_j_new = x_j - Δx_j
+
+# 8. Update velocities (after all constraints)
+v_i = (x_i_new - x_i_old) / Δt
+```
+
+### Physical Interpretation
+
+**Why this works:**
+
+1. **C** measures how much the constraint is violated (stretch/compression)
+2. **Δλ** is the "force intensity" needed to fix the violation
+3. **Δx** moves particles proportionally to their mobility (w=1/m)
+4. **α̃** controls stiffness: small α̃ → nearly rigid constraint
+5. Process repeats every substep, gradually satisfying all constraints
+
+**Energy conservation:**
+
+- With α̃=0 (infinite stiffness): perfectly rigid, energy-conserving
+- With α̃>0 (finite stiffness): slight energy loss (numerical damping)
+- Small substeps minimize this damping (paper's key finding!)
+
+### BCC Lattice Application
+
+For a granule with 8 neighbors:
+
+```bash
+for each neighbor j in [0..7]:
+    Apply distance constraint between granule i and neighbor j
+    Accumulate position corrections
+
+Final position = initial + sum of all 8 corrections
+```
+
+This creates a coupled system where:
+
+- Each granule affected by all 8 neighbors
+- Iterative solving propagates constraints through lattice
+- Wave behavior emerges from constraint satisfaction dynamics
