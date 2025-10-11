@@ -35,7 +35,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 # For scaled lattices, multiply physical amplitude by this factor to make waves visible
 # Physical amplitude: ~0.92 am, but lattice spacing: ~3800 am (79x79x79)
 # Suggested: 10-100 for visible waves without breaking physics too much
-AMPLITUDE_BOOST = 10.0  # multiplier for oscillation amplitude (1.0 = physical, >1 = visible)
+AMPLITUDE_BOOST = 1  # multiplier for oscillation amplitude (1 = physical, >1 = visible)
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
