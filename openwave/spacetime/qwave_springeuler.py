@@ -1,5 +1,5 @@
 """
-QUANTUM-WAVE
+QUANTUM-WAVE DYNAMICS
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave dynamics and motion physics for spacetime.
@@ -31,7 +31,7 @@ def oscillate_vertex(
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
 ):
-    """Inject energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
+    """Injects energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
 
     Vertices oscillate radially along direction vectors toward/away from lattice center.
     Position: x(t) = x_eq + A·cos(ωt + φ)·direction
@@ -124,30 +124,23 @@ def compute_spring_forces(
 
 
 @ti.kernel
-def integrate_motion(
+def integrate_motion_semiimplicit(
     positions: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
     accelerations: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
+    damping: ti.f32,  # type: ignore
 ):
-    """Integrate equations of motion using Leapfrog (Velocity Verlet) method.
+    """Semi-Implicit Euler integration with explicit damping.
 
-    Leapfrog is a symplectic integrator that conserves energy in oscillatory systems.
-    Uses kick-drift-kick pattern:
-    1. Half-step velocity update (kick)
-    2. Full-step position update (drift)
-    3. Compute new accelerations (done externally)
-    4. Final half-step velocity update (kick)
+    Following "Small Steps in Physics Simulation" paper (Algorithm 1):
+    v(t+dt) = damping * [v(t) + a(t)*dt]
+    x(t+dt) = x(t) + v(t+dt)*dt
 
-    This function performs steps 1-2, then caller recomputes accelerations, then
-    call this again for final velocity update. OR use two-stage approach.
-
-    For simplicity, using velocity Verlet single-call version:
-    v(t+dt/2) = v(t) + a(t)*dt/2
-    x(t+dt) = x(t) + v(t+dt/2)*dt
-    (compute a(t+dt) externally)
-    v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
+    This is a symplectic integrator (energy-conserving in undamped case).
+    Explicit damping is added per paper Section 4.1: "Reducing the time step
+    reduces numerical dissipation, making explicit damping important."
 
     Args:
         positions: Position field
@@ -155,29 +148,44 @@ def integrate_motion(
         accelerations: Acceleration field (from spring forces)
         granule_type: Type classification (skip vertices)
         dt: Timestep
+        damping: Damping coefficient (1.0 = no damping, 0.999 = 0.1% loss/step)
     """
     for i in range(positions.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             continue
 
-        # Damped Leapfrog integration for numerical stability
-        # Light damping prevents instability in extremely stiff spring system
-        damping = 0.999  # 0.1% energy loss per step
+        # Semi-Implicit Euler with damping
+        # Update velocity first using current acceleration
         velocities[i] = damping * (velocities[i] + accelerations[i] * dt)
+
+        # Update position using NEW velocity (semi-implicit = symplectic)
         positions[i] += velocities[i] * dt
 
 
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
-    lattice, granule, neighbors, stiffness, t: float, dt: float, substeps: int, slow_mo
+    lattice,
+    granule,
+    neighbors,
+    stiffness,
+    t: float,
+    dt: float,
+    substeps: int,
+    slow_mo,
+    damping: float = 0.99,
 ):
-    """Main wave propagation orchestrator using spring-mass dynamics.
+    """Main wave propagation using Small Steps strategy.
 
-    Propagates quantum waves through the lattice using:
-    - Vertex boundary conditions (harmonic oscillators inject energy)
-    - Spring-mass dynamics for non-vertex granules
-    - Leapfrog integration for energy conservation
+    Implements the "Small Steps in Physics Simulation" approach:
+    - Split frame timestep into many substeps (30-100)
+    - Perform SINGLE force evaluation per substep
+    - Use semi-implicit Euler integration (symplectic, energy-conserving)
+    - Add explicit damping to compensate for reduced numerical dissipation
+
+    Key insight from paper: Position error scales as Δt², so smaller timesteps
+    provide quadratic error reduction. This is more effective than adding
+    solver iterations!
 
     Args:
         lattice: Lattice instance with positions, velocities, granule_type
@@ -186,10 +194,12 @@ def propagate_qwave(
         stiffness: Spring constant k (N/m)
         t: Current simulation time
         dt: Frame timestep
-        substeps: Number of substeps per frame for stability
+        substeps: Number of substeps per frame (30-100 recommended)
+        slow_mo: Slow motion factor for visualization
+        damping: Velocity damping per substep (0.999 = 0.1% energy loss/step)
     """
 
-    # Substep for numerical stability
+    # Substep for numerical stability (Small Steps strategy)
     dt_sub = dt / substeps
 
     # Update vertex positions ONCE per frame (not per substep)
@@ -206,9 +216,8 @@ def propagate_qwave(
 
     for step in range(substeps):
 
-        # Step 2: Compute spring forces on all granules (vertices get zero acceleration)
-        # Scale rest_length to attometers to match position units
-        # Scale stiffness to N/am (from N/m) to match extension units
+        # Small Steps Algorithm (following paper Algorithm 1):
+        # 1. Compute forces/accelerations at current positions
         compute_spring_forces(
             lattice.positions_am,  # in am
             granule.mass,
@@ -219,12 +228,27 @@ def propagate_qwave(
             lattice.accelerations_am,  # output accelerations in am/s^2
         )
 
-        # Step 3: Integrate motion for non-vertex granules
-        # dt stays in seconds - no scaling needed (positions in am, velocities in am/s)
-        integrate_motion(
+        # 2. Integrate motion using semi-implicit Euler (SINGLE iteration per substep)
+        integrate_motion_semiimplicit(
             lattice.positions_am,  # in am
             lattice.velocities_am,  # in am/s
             lattice.accelerations_am,  # in am/s^2
             lattice.granule_type,
             dt_sub,
+            damping,
         )
+
+        # Debug: Check granule 1 (neighbor to vertex 0) periodically
+        if step == 0:
+            # Print every ~0.01 seconds
+            if abs(t - round(t * 100) / 100) < 0.0001:
+                pos_eq = ti.Vector([0.0, 0.0, 0.0])  # Equilibrium position of granule 0
+                disp = lattice.positions_am[1] - pos_eq
+                disp_norm = disp.norm()
+                vel_norm = lattice.velocities_am[1].norm()
+                # Check if values are finite
+                is_finite = disp_norm == disp_norm and vel_norm == vel_norm  # NaN check
+                status = "OK" if is_finite else "NaN/Inf!"
+                print(
+                    f"[t={t:.3f}] pos[1]: disp={disp_norm:.2e} am, vel={vel_norm:.2e} am/s [{status}]"
+                )

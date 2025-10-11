@@ -624,3 +624,353 @@ Critical insight from paper: The error reduction from small timesteps (Δt²) is
 This perfectly explains why our simulation keeps going unstable - we've been doing the opposite of what works! We should use many substeps with 1 iteration each, not few steps with many iterations.
 
 Tomorrow we should implement their exact algorithm!
+
+## STILL DISINTEGRATING
+
+Shooting granules away from the lattice, even increasing damping and softer spring (that is already unrealistic) and increasing substeps to 200, but still an unstable spring-mass system.
+
+The fundamental issue is that we're hitting the stability limit of explicit integrators. Even the Small Steps paper can't overcome this for extremely stiff springs at Planck scale.
+
+### Stats
+
+```bash
+import math
+
+# From constants
+QWAVE_LENGTH = 2.854096501e-17  # m
+QWAVE_FREQUENCY = 1.050393558e25  # Hz
+MEDIUM_DENSITY = 3.506335701e22  # kg/m³
+
+# Current simulation parameters
+STIFFNESS = 1e-13  # N/m (already reduced by ~1e20!)
+UNIVERSE_EDGE = 1e-16  # m
+TARGET_PARTICLES = 1e6
+
+# Calculate granule properties (simplified BCC lattice estimate)
+granules_per_edge = (TARGET_PARTICLES ** (1/3))
+unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
+granule_volume = (unit_cell_edge ** 3) / 2  # BCC has 2 atoms per unit cell
+granule_mass = MEDIUM_DENSITY * granule_volume
+
+# Spring-mass system natural frequency
+omega = math.sqrt(STIFFNESS / granule_mass)  # rad/s
+frequency_hz = omega / (2 * math.pi)
+period = 1 / frequency_hz
+
+# Critical timestep for stability (explicit integrators)
+# For semi-implicit Euler: dt < 2/omega
+dt_critical = 2 / omega
+
+# Typical frame time at 30 FPS
+dt_frame = 1/30  # 33ms
+
+# How many substeps needed?
+substeps_needed = dt_frame / dt_critical
+
+print("=" * 60)
+print("STABILITY ANALYSIS")
+print("=" * 60)
+print(f"Granule mass: {granule_mass:.3e} kg")
+print(f"Spring stiffness: {STIFFNESS:.3e} N/m")
+print(f"Natural frequency ω: {omega:.3e} rad/s ({frequency_hz:.3e} Hz)")
+print(f"Natural period T: {period:.3e} s")
+print(f"\nCritical timestep (stability limit): {dt_critical:.3e} s")
+print(f"Frame timestep (30 FPS): {dt_frame:.3e} s")
+print(f"\nSubsteps needed for stability: {substeps_needed:.1f}")
+print(f"You're using: 200 substeps")
+print(f"\nRatio (actual/needed): {200/substeps_needed:.2%}")
+
+if substeps_needed > 200:
+    print(f"\n❌ UNSTABLE! Need {substeps_needed:.0f} substeps, only using 200")
+else:
+    print(f"\n✓ Should be stable")
+
+# What stiffness would work with 200 substeps?
+dt_sub = dt_frame / 200
+omega_max = 2 / dt_sub
+stiffness_max = (omega_max ** 2) * granule_mass
+print(f"\n" + "=" * 60)
+print(f"For 200 substeps to be stable:")
+print(f"Maximum stiffness: {stiffness_max:.3e} N/m")
+print(f"Current stiffness: {STIFFNESS:.3e} N/m")
+print(f"Need to reduce by: {STIFFNESS/stiffness_max:.1f}x")
+EOF
+)
+```
+
+==========================================================
+
+STABILITY ANALYSIS
+
+- Granule mass: 1.753e-32 kg
+- Spring stiffness: 1.000e-13 N/m
+- Natural frequency ω: 2.388e+09 rad/s (3.801e+08 Hz)
+- Natural period T: 2.631e-09 s
+
+TIMESTEPS
+
+- Critical timestep (stability limit): 8.374e-10 s
+- Frame timestep (30 FPS): 3.333e-02 s
+- Substeps needed for stability: 39804942.5
+- You're using: 200 substeps
+
+❌ UNSTABLE! Need 40M substeps, only using 200
+
+==========================================================
+
+For 200 substeps to be stable:
+
+- Maximum stiffness: 2.525e-24 N/m
+- Current stiffness: 1.000e-13 N/m
+- Need to reduce by: 39610836135.6x
+
+### Findings
+
+There's the problem! You need 40 MILLION substeps for stability, but you're only using 200. Even the Small Steps paper can't help when you're off by 8 orders of magnitude.
+
+The Fundamental Issue:
+
+The problem isn't our implementation - it's physics. You're trying to simulate springs that are ~10²⁰ times stiffer than what's computationally feasible, even with the already reduced stiffness of 1e-13 N/m.
+
+Solutions:
+
+Option 1: Use Implicit Integration (Recommended)
+
+Switch to a truly implicit solver that doesn't have stability limits:
+
+- Backward Euler with Newton-Raphson iteration
+- Requires: Solving linear system each step (more complex)
+- Benefit: Unconditionally stable, can use any timestep
+
+Option 2: Reduce Stiffness to Feasible Level
+
+STIFFNESS = 2.5e-24  # N/m (this would be stable with 200 substeps)
+But this is 11 orders of magnitude softer than your already-reduced value!
+
+Option 3: Accept This Phase Isn't Ready
+
+Document in dynamics_plan.md that spring-mass propagation hits computational limits at Planck scale. The Small Steps paper works great
+for cloth/soft bodies, but can't overcome the fundamental barrier for ultra-stiff quantum springs.
+
+Option 4: Different Physics Approach
+
+Instead of mass-spring, consider:
+
+- Wave equation directly (finite difference method)
+- Spectral methods (FFT-based)
+- Cellular automata (discrete wave propagation rules)
+
+My Recommendation:
+
+Accept that spring-mass dynamics won't work at this scale and document this finding. The Small Steps paper is correct - it DOES help -
+but you're asking it to bridge an impossible gap (40 million substeps isn't feasible).
+
+Consider this a successful negative result: "We've proven that explicit spring-mass integration, even with state-of-the-art Small Steps
+  optimization, cannot simulate Planck-scale stiffness in real-time."
+
+Should I help you:
+
+1. Document this finding in dynamics_plan.md?
+2. Explore implicit solvers (complex but might work)?
+3. Research alternative wave propagation methods?
+
+## SOLUTIONS
+
+### Implicit Solvers for Stiff Springs
+
+Backward Euler (Most Common)
+
+- How it works: Solves for next state using forces at the future timestep
+- Equation: M(v_{n+1} - v_n)/dt = f(x_{n+1})
+- Requires: Solving nonlinear system via Newton-Raphson
+- Stability: Unconditionally stable (any timestep size)
+- Damping: Introduces artificial damping (energy loss)
+
+BDF2 (2nd Order Backward Difference)
+
+- Better than: Backward Euler (less damping)
+- Used by: Baraff & Witkin 1998 cloth simulation
+- Trade-off: More complex, needs 2 previous states
+
+Variational/Symplectic Implicit
+
+- Examples: Implicit midpoint, Newmark-β
+- Benefit: Better energy conservation than Backward Euler
+- Used in: High-quality physics (games usually skip this)
+
+### XPBD Position Constraints (What the Paper Actually Uses)
+
+This is KEY - the paper doesn't use spring forces at all! They use position-based constraints.
+
+The Difference:
+
+```python
+Force-Based (What we are doing):
+# Compute spring force
+F = -k * (distance - rest_length) * direction
+a = F / m
+v += a * dt
+x += v * dt
+
+Position-Based (XPBD - What paper uses):
+# Directly project positions to satisfy constraint
+C(x) = distance - rest_length  # Constraint violation
+Δx = -C(x) / ||∇C||²  # Position correction
+x += Δx  # Move particles to satisfy constraint
+
+XPBD Algorithm (from paper page 3):
+
+Looking at Equations 4-7 in the paper:
+
+# For each constraint (e.g., distance constraint between particles i,j):
+Δλ = -C(x) / (∇C · M^-1 · ∇C^T + α̃)  # Eq 7
+Δx = M^-1 · ∇C^T · Δλ                  # Eq 4
+x_new = x + Δx                         # Apply correction
+
+Where:
+- C(x) = ||x_i - x_j|| - L_0 (distance constraint)
+- ∇C = (x_i - x_j) / ||x_i - x_j|| (constraint gradient)
+- α̃ = 1/(k·dt²) (compliance, inverse of stiffness)
+- M^-1 = inverse mass matrix
+```
+
+Why XPBD is Better for Stiff Systems:
+
+1. No stability limit - works like implicit solver
+2. Simpler - no matrix assembly/factorization
+3. Local - solves one constraint at a time
+4. Handles inequality constraints easily (contacts, friction)
+
+For Your Quantum Simulation:
+
+You have two viable paths:
+
+#### PATH A: Implement XPBD (Recommended for your use case)
+
+Pros:
+
+- Unconditionally stable (handles any stiffness)
+- Simpler than full implicit
+- Works with your existing BCC neighbor structure
+- Can still use Small Steps strategy
+
+Cons:
+
+- Major code refactor (constraint-based vs force-based)
+- Need to understand Lagrange multipliers
+- Iterative (but paper shows 1 iteration per substep works!)
+
+Implementation outline:
+
+```python
+@ti.kernel
+def solve_distance_constraint_xpbd(
+    positions, masses, links, rest_length, 
+    compliance, dt, granule_type
+):
+    for i in range(positions.shape[0]):
+        if granule_type[i] == 0: continue  # Skip vertices
+
+        for j in range(links_count[i]):
+            neighbor = links[i, j]
+
+            # Constraint: C = ||xi - xj|| - L0
+            d = positions[neighbor] - positions[i]
+            distance = d.norm()
+            C = distance - rest_length
+
+            # Gradient: ∇C = d / ||d||
+            grad = d / distance
+
+            # Compliance α̃ = 1/(k·dt²)
+            alpha_tilde = 1.0 / (stiffness * dt * dt)
+
+            # Lagrange multiplier increment (Eq 7)
+            w_sum = (1/masses[i] + 1/masses[neighbor])
+            delta_lambda = -C / (w_sum + alpha_tilde)
+
+            # Position correction (Eq 4)
+            delta_x_i = -(1/masses[i]) * grad * delta_lambda
+            delta_x_j = (1/masses[neighbor]) * grad * delta_lambda
+
+            # Apply corrections
+            positions[i] += delta_x_i
+            positions[neighbor] += delta_x_j
+
+Then update velocities: v = (x_new - x_old) / dt
+```
+
+#### PATH B: Backward Euler (Full Implicit)
+
+Pros:
+
+- Unconditionally stable
+- Can use larger timesteps
+- Well-documented in literature
+
+Cons:
+
+- Very complex - requires:
+  - Assembling global stiffness matrix
+  - Newton-Raphson iterations
+  - Linear solver (Conjugate Gradient or direct)
+- Artificial damping (loses energy)
+- Hard to get right
+
+Not recommended for first attempt - XPBD is simpler and works better for your use case.
+
+---
+My Recommendation:
+
+Try XPBD approach because:
+
+1. ✅ Handles extreme stiffness (unconditionally stable)
+2. ✅ Simpler than full implicit
+3. ✅ Works with Small Steps (paper's whole point!)
+4. ✅ Local solver (fits your neighbor-based structure)
+5. ✅ Can use 1 iteration per substep (paper proves this works)
+
+The paper's entire contribution is showing that XPBD with many substeps (1 iteration each) beats traditional implicit solvers (few
+substeps, many iterations).
+
+### What We Learned from Spring-Mass Phase
+
+✅ Successful findings:
+
+1. Small Steps strategy DOES work (validated algorithm)
+2. Semi-implicit Euler is correct integration method
+3. Damping is necessary with small timesteps
+4. Position error scales as Δt² (confirmed quadratically)
+
+❌ Fundamental limitation discovered:
+
+- Force-based explicit integration cannot handle Planck-scale stiffness
+- Need ~40 million substeps for stability (computationally impossible)
+- Even with reduced stiffness (1e-13 N/m), still 8 orders of magnitude too stiff
+
+✅ Solution identified:
+
+- XPBD constraint solver (unconditionally stable)
+- Same Small Steps strategy (many substeps, 1 iteration each)
+- Direct position correction (no force accumulation)
+
+---
+Ready for Tomorrow's Implementation:
+
+Core XPBD algorithm to implement (from paper Eq 4-7):
+
+For each distance constraint:
+
+- C = ||xi - xj|| - L0           # Constraint violation
+- α̃ = 1/(k·dt²)                  # Compliance (inverse stiffness)
+- ∇C = (xi - xj)/||xi - xj||     # Gradient
+- Δλ = -C / (∇C·M⁻¹·∇Cᵀ + α̃)    # Lagrange multiplier
+- Δx = M⁻¹·∇Cᵀ·Δλ                # Position correction
+- x_new = x + Δx                 # Apply correction
+
+Key advantages over spring-mass:
+
+1. No stability limit (works with ANY stiffness)
+2. Simpler per-iteration (just position projection)
+3. Can use realistic stiffness values
+4. Still benefits from Small Steps (Δt² error reduction)

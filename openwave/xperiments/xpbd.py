@@ -1,5 +1,5 @@
 """
-XPERIMENT: Unstable Spring-Mass Quantum Wave Oscillation
+XPERIMENT: Spring-Mass Quantum Wave Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 
 eg. Tweak this XPERIMENT script changing universe_edge = 0.1 m at __main__ entry point
@@ -15,7 +15,7 @@ from openwave.common import constants
 from openwave.common import render
 
 import openwave.spacetime.medium_bcclattice as medium
-import openwave.spacetime.qwave_unstable as qwave
+import openwave.spacetime.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -32,10 +32,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
-# STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH
-# STIFFNESS = constants.COULOMB_CONSTANT / granule.radius
-# STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor
+STIFFNESS = 1e-13  # N/m, spring stiffness (tuned for stability and wave speed)
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
@@ -51,7 +48,7 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Unstable Spring-Mass", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Spring-Mass", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
@@ -232,6 +229,9 @@ def render_xperiment(lattice, granule, neighbors):
         t += dt_real  # Use real elapsed time instead of fixed DT
 
         # Update wave propagation (spring-mass dynamics with vertex wave makers)
+        # Using Small Steps strategy: many substeps with single force evaluation each
+        # From "Small Steps in Physics Simulation" paper - error scales as Δt²
+        # Paper uses 30-100 substeps for good balance of stability/performance
         qwave.propagate_qwave(
             lattice,
             granule,
@@ -239,8 +239,8 @@ def render_xperiment(lattice, granule, neighbors):
             STIFFNESS,
             t,
             dt_real,
-            30,  # substeps for stability
-            SLOW_MO / slomo_factor,
+            substeps=100,  # 30-100 recommended (Small Steps strategy)
+            slow_mo=SLOW_MO / slomo_factor,
         )
 
         # Update normalized positions for rendering (must happen after position updates)
