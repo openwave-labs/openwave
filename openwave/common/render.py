@@ -2,6 +2,8 @@
 Rendering engine for OPENWAVE using Taichi GGUI.
 """
 
+from pathlib import Path
+
 import taichi as ti
 import numpy as np
 import pyautogui
@@ -16,7 +18,11 @@ def init_UI():
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
     global mouse_sensitivity, show_axis
 
-    with open("pyproject.toml", "rb") as f:
+    # Get the absolute path to pyproject.toml (in the package root)
+    package_root = Path(__file__).parent.parent.parent
+    pyproject_path = package_root / "pyproject.toml"
+
+    with open(pyproject_path, "rb") as f:
         pyproject = tomli.load(f)
 
     title = pyproject["project"]["name"] + " (v" + pyproject["project"]["version"] + ")"
