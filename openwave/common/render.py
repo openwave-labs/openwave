@@ -28,7 +28,7 @@ def init_UI():
     title = pyproject["project"]["name"] + " (v" + pyproject["project"]["version"] + ")"
     width, height = pyautogui.size()
 
-    window = ti.ui.Window(title, (width, height), vsync=True, fps_limit=120)
+    window = ti.ui.Window(title, (width, height), vsync=True)
     camera = ti.ui.Camera()  # Camera object for 3D view control
     canvas = window.get_canvas()  # Canvas for rendering the scene
     gui = window.get_gui()  # GUI manager for overlay UI elements

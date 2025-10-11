@@ -237,18 +237,3 @@ def propagate_qwave(
             dt_sub,
             damping,
         )
-
-        # Debug: Check granule 1 (neighbor to vertex 0) periodically
-        if step == 0:
-            # Print every ~0.01 seconds
-            if abs(t - round(t * 100) / 100) < 0.0001:
-                pos_eq = ti.Vector([0.0, 0.0, 0.0])  # Equilibrium position of granule 0
-                disp = lattice.positions_am[1] - pos_eq
-                disp_norm = disp.norm()
-                vel_norm = lattice.velocities_am[1].norm()
-                # Check if values are finite
-                is_finite = disp_norm == disp_norm and vel_norm == vel_norm  # NaN check
-                status = "OK" if is_finite else "NaN/Inf!"
-                print(
-                    f"[t={t:.3f}] pos[1]: disp={disp_norm:.2e} am, vel={vel_norm:.2e} am/s [{status}]"
-                )
