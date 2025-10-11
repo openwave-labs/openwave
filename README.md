@@ -256,7 +256,6 @@ kanban
 
 ### Todo
 
-- [x] Implement CLI entry points
 - [ ] Develop documentation
 - [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
 - [ ] Introduce automated testing and continuous integration to validate code changes
@@ -291,9 +290,9 @@ Xperiments are virtual lab scripts where you can experiment with quantum objects
 
 ```bash
 # Launch xperiments using the CLI interactive xperiment selector
+# This will display an interactive menu of available experiments
 openwave -x
 
-# This will display an interactive menu of available experiments.
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```
 

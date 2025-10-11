@@ -1,5 +1,5 @@
 """
-XPERIMENT: Spring-Mass Quantum Wave Oscillation
+XPERIMENT: XPBD Quantum Wave Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 
 eg. Tweak this XPERIMENT script changing universe_edge = 0.1 m at __main__ entry point
