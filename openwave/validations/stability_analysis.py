@@ -12,6 +12,7 @@ QWAVE_FREQUENCY = constants.QWAVE_FREQUENCY
 # Current simulation parameters
 UNIVERSE_EDGE = 1e-16  # m
 TARGET_PARTICLES = 1e6  # target particle count, granularity (planck scale ~3e54)
+SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
 # Calculate granule properties (simplified BCC lattice estimate)
@@ -45,7 +46,8 @@ print(f"Granule mass: {granule.mass:.2e} kg")
 
 print(f"\nCurrent Spring stiffness: {STIFFNESS:.2e} N/m")
 print(f"Natural frequency: {frequency:.2e} Hz (period: {period:.2e} s)")
-print(f"Quantum-wave frequency: {QWAVE_FREQUENCY:.2e} Hz")
+print(f"Quantum-Wave frequency: {QWAVE_FREQUENCY:.2e} Hz")
+print(f"Quantum-Wave slowed: {QWAVE_FREQUENCY / SLOW_MO:.2e} Hz")
 print(
     f"Stiffness to match: {equations.stiffness_from_frequency(QWAVE_FREQUENCY, granule.mass):.2e} N/m"
 )
