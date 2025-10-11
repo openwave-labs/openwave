@@ -30,7 +30,7 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 ### Modules Structure and Objects Map
 
-- Refer to `OBJECTS.md` file for the Modules Structure, Objects Map and System Architecture.
+- Refer to `README.md` file for the Modules Structure, Objects Map and System Architecture.
 
 ## Installation
 

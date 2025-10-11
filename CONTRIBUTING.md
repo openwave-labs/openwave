@@ -41,13 +41,14 @@ See `/dev_docs` for coding standards and development guidelines
 - **Set Up the Environment & Install**
 
 ```bash
-# Create virtual environment (via Venv)
-   python -m venv openwave
-   source openwave/bin/activate  # On Windows: openwave\Scripts\activate
+# Create virtual environment
+  # Option 1: via Venv
+    python -m venv openwave
+    source openwave/bin/activate  # On Windows: openwave\Scripts\activate
    
-# Or Create virtual environment (via Conda)
-   conda create -n openwave python=3.12 -y
-   conda activate openwave
+  # Option 2: via Conda (recommended)
+    conda create -n openwave python=3.12 -y
+    conda activate openwave
 
 # Install OpenWave & Dependencies for Development (-e = edit mode)
    pip install -e .  # installs dependencies from pyproject.toml

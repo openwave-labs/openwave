@@ -105,7 +105,7 @@ class `MATTER MODULE
   MODULE`
 `MATTER MODULE
   (PARTICLE ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL BENCH)`
+  (VIRTUAL LAB)`
 
 
 class `FORCE
@@ -125,7 +125,7 @@ class `MOTION MODULE
   MODULE`
 `MOTION MODULE
   (KINETIC ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL BENCH)`
+  (VIRTUAL LAB)`
 
 
 class `PHOTON MODULE
@@ -133,7 +133,7 @@ class `PHOTON MODULE
     --TBD*}
 `PHOTON MODULE
   (PHOTON ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL BENCH)`
+  (VIRTUAL LAB)`
 
 
 class `HEAT MODULE
@@ -141,11 +141,11 @@ class `HEAT MODULE
     --TBD*}
 `HEAT MODULE
   (THERMAL ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL BENCH)`
+  (VIRTUAL LAB)`
 
 
 class `XPERIMENTS MODULE
-  (VIRTUAL BENCH)`{
+  (VIRTUAL LAB)`{
     spring_mass.py ✓
     --TBD*}
 
@@ -173,9 +173,9 @@ class `VALIDATIONS
 
 class `I/O
   MODULE`{
-    CLI
-    file_export
-    video_manager
+    cli.py ✓
+    file_export.py
+    video_manager.py
     --TBD*}
 ```
 
@@ -220,13 +220,17 @@ kanban
     [**SPACETIME MODULE**
       - medium_bcclattice.py]
     [**XPERIMENTS MODULE**
-      - spring_mass.py]
+      - radial_oscillation.py
+      - spring_mass.py
+      - xpbd.py]
     [**VALIDATIONS MODULE**
       - derivations.py]
     [**COMMON MODULE**
       - config.py
       - constants.py
       - render.py]
+    [**I/O MODULE**
+      - cli.py]
 ```
 
 ### Scalability & Performance
@@ -252,7 +256,7 @@ kanban
 
 ### Todo
 
-- [ ] Implement CLI entry points
+- [x] Implement CLI entry points
 - [ ] Develop documentation
 - [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
 - [ ] Introduce automated testing and continuous integration to validate code changes
@@ -266,13 +270,14 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
 
-# Create virtual environment (via Venv)
-  python -m venv openwave
-  source openwave/bin/activate  # On Windows: openwave\Scripts\activate
+# Create virtual environment
+  # Option 1: via Venv
+    python -m venv openwave
+    source openwave/bin/activate  # On Windows: openwave\Scripts\activate
    
-# Or Create virtual environment (via Conda)
-  conda create -n openwave python=3.12 -y
-  conda activate openwave
+  # Option 2: via Conda (recommended)
+    conda create -n openwave python=3.12 -y
+    conda activate openwave
 
 # Install OpenWave package & dependencies
   pip install .  # reads dependencies from pyproject.toml
@@ -282,16 +287,15 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ### Play with the /xperiments module
 
-Xperiments are virtual bench scripts where you can experiment with quantum objects and simulate desired outcomes.
+Xperiments are virtual lab scripts where you can experiment with quantum objects and simulate desired outcomes.
 
 ```bash
-# Run your first OpenWave xperiment
-  python openwave/xperiments/spring_mass.py
+# Launch xperiments using the CLI interactive xperiment selector
+openwave -x
 
+# This will display an interactive menu of available experiments.
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```
-
-Note: CLI entry points are in the development roadmap, if you want to contribute, please check how at the [Contribution Guide](CONTRIBUTING.md)
 
 ## Wanna Contribute to this Project?
 
