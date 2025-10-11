@@ -186,7 +186,7 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
 
 
 # ================================================================
-# ENERGY WAVE EQUATION
+# SPRING-MASS SYSTEMS
 # ================================================================
 def natural_frequency(stiffness, mass):
     """

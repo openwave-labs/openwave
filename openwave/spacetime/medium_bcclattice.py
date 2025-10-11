@@ -377,6 +377,11 @@ class BCCNeighbors:
         # For link building, use attometer-scaled rest_length to match position units
         self.rest_length_am = lattice.unit_cell_edge_am * ti.math.sqrt(3) / 2
 
+        # Natural frequency for wave propagation at speed of light
+        # For wave speed c in lattice with spacing L: f_n = c / (2L)
+        # where λ_lattice ≈ 2L (minimum resolvable wavelength in discrete lattice)
+        self.natural_frequency = constants.QWAVE_SPEED / (2 * self.rest_length)  # Hz
+
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
         # Max 8 neighbors for BCC structure

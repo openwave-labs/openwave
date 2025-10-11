@@ -12,6 +12,7 @@ import time
 
 from openwave.common import config
 from openwave.common import constants
+from openwave.common import equations
 from openwave.common import render
 
 import openwave.spacetime.medium_bcclattice as medium
@@ -30,13 +31,19 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
-# Note: This is a scaled value for computational feasibility
-# Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-13  # N/m, spring stiffness (tuned for stability and wave speed)
-
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
 neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
+
+# PHYSICAL STIFFNESS (calculated for speed of light wave propagation)
+# With XPBD, we can finally use REAL physical values!
+# Using EWT spring-mass equation: k = (2πf_n)² * m
+# where f_n = natural frequency = c/λ_lattice
+# For wave propagation at speed c in lattice with spacing L:
+#   λ_lattice ≈ 2L (minimum resolvable wavelength)
+#   f_n = c / (2L)
+# For 79x79x79 grid (1M particles): k ≈ 2.66e21 N/m
+STIFFNESS = equations.stiffness_from_frequency(neighbors.natural_frequency, granule.mass)
 
 
 # ================================================================
@@ -48,12 +55,12 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spring-Mass", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: XPBD Quantum-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
-        sub.text("Coupling: 8-way neighbors springs")
+        sub.text("Coupling: 8-way distance constraints")
         sub.text("QWave Driver: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Dynamics")
+        sub.text("QWave Propagation: XPBD")
 
 
 def data_dashboard():
@@ -63,6 +70,7 @@ def data_dashboard():
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
@@ -229,19 +237,24 @@ def render_xperiment(lattice, granule, neighbors):
         last_time = current_time
         t += dt_real  # Use real elapsed time instead of fixed DT
 
-        # Update wave propagation (spring-mass dynamics with vertex wave makers)
-        # Using Small Steps strategy: many substeps with single force evaluation each
-        # From "Small Steps in Physics Simulation" paper - error scales as Δt²
-        # Paper uses 30-100 substeps for good balance of stability/performance
+        # Update wave propagation using XPBD constraint solver
+        # XPBD = Extended Position-Based Dynamics (unconditionally stable!)
+        # Following "Small Steps" + "Unified Particle Physics" papers:
+        # - 100 substeps with 1 iteration each (error scales as Δt²)
+        # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
+        # - SOR omega=1.5 for faster convergence
+        # - Damping=0.999 per substep (explicit dissipation)
         qwave.propagate_qwave(
             lattice,
             granule,
             neighbors,
-            STIFFNESS,
+            STIFFNESS,  # REAL physical value!
             t,
             dt_real,
-            substeps=100,  # 30-100 recommended (Small Steps strategy)
+            substeps=100,  # 100 recommended from papers
             slow_mo=SLOW_MO / slomo_factor,
+            damping=0.999,  # 0.1% energy loss per substep
+            omega=1.5,  # SOR parameter for faster convergence
         )
 
         # Update normalized positions for rendering (must happen after position updates)
