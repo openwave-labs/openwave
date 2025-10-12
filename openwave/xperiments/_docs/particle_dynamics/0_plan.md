@@ -1,4 +1,4 @@
-# Harmonic Oscillators Specs (QWave-Driver)
+# Harmonic Oscillators Specs (QWave Source)
 
 ## Overview
 

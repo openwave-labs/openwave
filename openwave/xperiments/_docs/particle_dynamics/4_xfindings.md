@@ -7,7 +7,7 @@
 - Check energy conservation (should be stable over time)
 - RESULT: I dont see waves propagating, maybe the energy injected is too small (just 1 granule, 1 granule mass, not much momentum/energy driving the waves or a stiff lattice)?
 
-### Wave drivers
+### Wave Source
 
 - frequency: f = QWAVE_SPEED / QWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
 - RESULT: I noticed natural _frequency is showing a slight discrepancy from the injected frequency

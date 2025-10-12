@@ -28,7 +28,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 
 # ================================================================
-# Quantum-Wave Driver Kernel (energy injection, harmonic oscillation, rhythm)
+# Quantum-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -43,7 +43,7 @@ def oscillate_vertex(
     slow_mo: ti.f32,  # type: ignore
     amplitude_boost: ti.f32,  # type: ignore
 ):
-    """Injects energy into 8 vertices using harmonic oscillation (wave drivers, rhythm).
+    """Injects energy into 8 vertices using harmonic oscillation (wave source, rhythm).
 
     Vertices oscillate radially along direction vectors toward/away from lattice center.
     Position: x(t) = x_eq + A·cos(ωt + φ)·direction

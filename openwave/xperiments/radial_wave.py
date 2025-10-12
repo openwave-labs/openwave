@@ -1,7 +1,10 @@
 """
-XPERIMENT: Radial Quantum Wave Oscillation
+XPERIMENT: Radial Quantum-Wave Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
+
+eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate size of
+a tesseract) and simulate this artifact energy content, sourced from the element aether.
 
 Demonstrates radial harmonic oscillation of all granules in the BCC lattice.
 All granules oscillate toward/away from the lattice center along their
@@ -31,7 +34,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+UNIVERSE_EDGE = 0.1  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
@@ -54,7 +57,7 @@ def xperiment_specs():
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: NONE")
-        sub.text("QWave Driver: All Granule Oscillators")
+        sub.text("QWave Source: All Granule Oscillators")
         sub.text("QWave Propagation: Radial from Center")
 
 

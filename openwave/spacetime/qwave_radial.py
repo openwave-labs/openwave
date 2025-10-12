@@ -22,7 +22,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 
 # ================================================================
-# Quantum-Wave Driver Kernel (energy injection, harmonic oscillation, rhythm)
+# Quantum-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -36,7 +36,7 @@ def oscillate_granules(
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
 ):
-    """Injects energy into all granules using harmonic oscillation (wave drivers, rhythm).
+    """Injects energy into all granules using harmonic oscillation (wave source, rhythm).
 
     All granules oscillate radially along their direction vectors to lattice center.
     Phase is determined by radial distance from center, creating outward-propagating

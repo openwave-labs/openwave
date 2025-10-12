@@ -1,10 +1,5 @@
 """
 XPERIMENT: Spring-Mass Euler Wave Oscillation (UNSTABLE)
-Run sample XPERIMENTS shipped with the OpenWave package or create your own
-
-eg. Tweak this XPERIMENT script changing universe_edge = 0.1 m at __main__ entry point
-(the approximate size of a tesseract) and simulate this artifact energy content,
-sourced from the element aether.
 """
 
 import taichi as ti
@@ -55,7 +50,7 @@ def xperiment_specs():
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
-        sub.text("QWave Driver: 8 Vertex Oscillators")
+        sub.text("QWave Source: 8 Vertex Oscillators")
         sub.text("QWave Propagation: Spring-Mass Dynamics")
 
 
