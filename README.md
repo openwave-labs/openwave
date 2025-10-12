@@ -2,6 +2,8 @@
 
 `>simulate(the_universe)`
 
+<div align = "center">
+
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/)
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
 [![openwave](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwave-labs/openwave)
@@ -10,6 +12,8 @@
 [![openwave-labs](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://youtube.com/@openwave-labs/)
 
 [![OpenWave Logo](images/openwave-white-small.png)](https://openwavelabs.com/)
+
+</div>
 
 ## What is OpenWave?
 
@@ -294,7 +298,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ### Play with the /xperiments module
 
-XPERIMENTS are virtual lab scripts where you can experiment with quantum objects and simulate desired outcomes.
+XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
 
 ```bash
 # Launch xperiments using the CLI interactive xperiment selector
@@ -309,13 +313,13 @@ openwave -x
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_wave.png" height="200px"></a>
+          <a><img src="images/x_wave.png" height="200px" alt="xperiment"></a>
           <br>Radial Wave Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_leap.png" height="200px"></a>
+          <a><img src="images/x_leap.png" height="200px" alt="xperiment"></a>
           <br>LeapFrog Xperiment
         </div>
       </td>
@@ -323,13 +327,13 @@ openwave -x
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_euler.png" height="200px"></a>
+          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
           <br>Euler Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_xpbd.png" height="200px"></a>
+          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
           <br>XPBD Xperiment
         </div>
       </td>
