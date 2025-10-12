@@ -88,10 +88,10 @@ def handle_camera():
     # Handle keyboard input for zoom
     if window.is_pressed("q"):  # Zoom in
         orbit_radius *= 0.98
-        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+        orbit_radius = np.clip(orbit_radius, 0.1, 5.0)
     if window.is_pressed("z"):  # Zoom out
         orbit_radius *= 1.02
-        orbit_radius = np.clip(orbit_radius, 0.5, 5.0)
+        orbit_radius = np.clip(orbit_radius, 0.1, 5.0)
 
     # Handle keyboard input for panning
     if window.is_pressed(ti.ui.UP):  # Tilt up

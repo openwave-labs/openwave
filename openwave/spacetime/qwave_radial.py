@@ -17,6 +17,7 @@ from openwave.common import constants
 # Quantum-Wave Oscillation Parameters
 # ================================================================
 amplitude_am = constants.QWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER  # in attometers
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 
 
@@ -31,35 +32,47 @@ def oscillate_granules(
     velocities: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     directions: ti.template(),  # type: ignore
+    radial_distances: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
 ):
     """Injects energy into all granules using harmonic oscillation (wave drivers, rhythm).
 
     All granules oscillate radially along their direction vectors to lattice center.
-    Each granule oscillates with a unique phase based on its index, creating wave patterns.
+    Phase is determined by radial distance from center, creating outward-propagating
+    spherical wave fronts. Granules at similar distances form oscillating shell-like
+    structures, with the wave originating from the lattice center.
 
-    Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-    Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
+    Position: x(t) = x_eq + A·cos(ωt - kr + φ₀)·direction
+    Velocity: v(t) = -A·ω·sin(ωt - kr + φ₀)·direction (derivative of position)
+
+    where k = 2π/λ is the wave number, r is the radial distance from center.
 
     Args:
         positions: Position field for all granules
         velocities: Velocity field for all granules
         equilibrium: Equilibrium positions of all granules
         directions: Normalized direction vectors from all granules to center
+        radial_distances: Distance from each granule to lattice center (in attometers)
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor (divides frequency for visualization)
     """
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
+    # Wave number k = 2π/λ (for spatial phase variation)
+    # Using quantum wavelength to determine how phase changes with distance
+    k = 2.0 * ti.math.pi / wavelength_am  # wave number (radians per attometer)
+
     # Process all granules in the lattice
     for idx in range(positions.shape[0]):
         direction = directions[idx]
 
-        # Add phase shift based on granule index to create wave interference patterns
-        # Using modulo 8 to create repeating phase pattern (45° increments)
-        phase = float(idx % 8) * ti.math.pi / 4.0
+        # Phase determined by radial distance from center
+        # Negative k·r creates outward propagating wave (wave starts at center)
+        # Granules at same distance r oscillate in phase (shell-like behavior)
+        r = radial_distances[idx]  # distance to center in attometers
+        phase = -k * r  # phase shift based on distance (outward propagating)
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
         displacement = amplitude_am * ti.cos(omega * t + phase)

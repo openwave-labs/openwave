@@ -80,7 +80,7 @@ class BCCLattice:
 
         # Compute quantum-wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
-        self.qwave_res = constants.QWAVE_LENGTH / self.unit_cell_edge * 2
+        self.qwave_res = ti.math.round(constants.QWAVE_LENGTH / self.unit_cell_edge * 2)
         # Compute universe linear resolution, qwavelengths per universe edge
         self.uni_res = universe_edge / constants.QWAVE_LENGTH
 
@@ -97,6 +97,7 @@ class BCCLattice:
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.directions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # to center
+        self.radial_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # distance to center
         self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.accelerations_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -168,38 +169,6 @@ class BCCLattice:
             self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
-    def build_directions(self):
-        """Compute normalized direction vectors from all granules to lattice center.
-
-        For each granule in the positions_am array, computes a normalized direction vector
-        pointing from the granule's position toward the geometric center of the lattice.
-        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
-
-        Direction vectors are stored in the directions field and used for radial operations
-        such as compression/expansion forces or wave propagation from the center.
-        """
-        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
-        lattice_center = ti.Vector([0.5, 0.5, 0.5])
-
-        # Process all granules in the lattice
-        for idx in range(self.total_granules):
-            # Convert granule position from attometers to normalized coordinates [0, 1]
-            # by dividing by the total universe edge length in attometers
-            pos_normalized = ti.Vector(
-                [
-                    self.positions_am[idx][0] / self.universe_edge_am,
-                    self.positions_am[idx][1] / self.universe_edge_am,
-                    self.positions_am[idx][2] / self.universe_edge_am,
-                ]
-            )
-
-            # Compute direction vector from granule position to lattice center
-            direction = lattice_center - pos_normalized
-
-            # Normalize and store the direction vector
-            self.directions[idx] = direction.normalized()
-
-    @ti.kernel
     def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
@@ -251,6 +220,48 @@ class BCCLattice:
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
                     self.granule_type[idx] = config.TYPE_CORE
+
+    @ti.kernel
+    def build_directions(self):
+        """Compute normalized direction vectors from all granules to lattice center.
+
+        For each granule in the positions_am array, computes a normalized direction vector
+        pointing from the granule's position toward the geometric center of the lattice.
+        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
+
+        Direction vectors are stored in the directions field and used for radial operations
+        such as compression/expansion forces or wave propagation from the center.
+
+        Special case: The central granule (TYPE_CENTRAL) has zero distance and a default
+        direction vector, ensuring it remains stationary in radial wave patterns.
+        """
+        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
+        lattice_center = ti.Vector([0.5, 0.5, 0.5])
+
+        # Process all granules in the lattice
+        for idx in range(self.total_granules):
+            # Special case: Central granule should have zero distance and no direction
+            if self.granule_type[idx] == config.TYPE_CENTRAL:
+                # Central granule: zero distance, arbitrary direction (won't be used)
+                self.directions[idx] = ti.Vector([0.0, 0.0, 0.0])
+                self.radial_am[idx] = 0.0
+            else:
+                # Convert granule position from attometers to normalized coordinates [0, 1]
+                # by dividing by the total universe edge length in attometers
+                pos_normalized = ti.Vector(
+                    [
+                        self.positions_am[idx][0] / self.universe_edge_am,
+                        self.positions_am[idx][1] / self.universe_edge_am,
+                        self.positions_am[idx][2] / self.universe_edge_am,
+                    ]
+                )
+
+                # Compute direction vector from granule position to lattice center
+                direction = lattice_center - pos_normalized
+
+                # Normalize and store the direction and distance to center vectors
+                self.directions[idx] = direction.normalized()
+                self.radial_am[idx] = direction.norm() * self.universe_edge_am  # in attometers
 
     @ti.kernel
     def build_vertex_data(self):

@@ -50,7 +50,7 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Radial Oscillation", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Radial Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: NONE")
@@ -76,7 +76,7 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 10)")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (>10)")
         if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
@@ -150,7 +150,7 @@ def render_xperiment(lattice, granule):
     global normalized_positions
 
     # Initialize variables
-    block_slice = False  # Block-slicing toggle
+    block_slice = True  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
     slomo_factor = 1.0  # Initialize slow motion factor
@@ -179,12 +179,13 @@ def render_xperiment(lattice, granule):
 
         # Apply radial harmonic oscillation to all granules
         # All granules oscillate toward/away from lattice center along their direction vectors
-        # Each granule has a phase-shifted oscillation (repeating every 8 granules)
+        # Phase is determined by radial distance, creating outward-propagating spherical waves
         qwave.oscillate_granules(
             lattice.positions_am,  # Granule positions in attometers
             lattice.velocities_am,  # Granule velocities in am/s
             lattice.equilibrium_am,  # Rest positions for all granules
             lattice.directions,  # Direction vectors to center for all granules
+            lattice.radial_am,  # Radial distance from each granule to center
             t,
             SLOW_MO / slomo_factor,
         )
