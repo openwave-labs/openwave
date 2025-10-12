@@ -26,7 +26,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
-TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
+TARGET_PARTICLES = 1e5  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
@@ -90,8 +90,8 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
-        if lattice.qwave_res < 2:
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 10)")
+        if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
@@ -224,6 +224,9 @@ def render_xperiment(lattice, granule, neighbors):
     t = 0.0
     last_time = time.time()
 
+    # Initialize wave diagnostics
+    qwave.init_wave_diagnostics(measurement_interval=1.0)
+
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
@@ -268,6 +271,15 @@ def render_xperiment(lattice, granule, neighbors):
         # Update normalized positions for rendering (must happen after position updates)
         # with optional block-slicing (see-through effect)
         normalize_lattice(1 if block_slice else 0)
+
+        # Probe wave diagnostics (measurements happen automatically at configured interval)
+        qwave.probe_wave_diagnostics(
+            lattice,
+            neighbors,
+            t,
+            current_time,
+            SLOW_MO / slomo_factor,
+        )
 
         # Render granules with optional type-coloring
         if granule_type:

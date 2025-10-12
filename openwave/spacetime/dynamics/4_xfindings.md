@@ -105,3 +105,36 @@ The frequency discrepancy is not a bug - its the difference between:
   - Quantum frequency (what we are trying to simulate: 1.05e25 Hz)
   - Lattice mechanics frequency (what the discrete grid naturally supports: 1.36e26 Hz for c propagation)
 ```
+
+## WAVE DIAGNOSTICS SYSTEM
+
+Wave Speed Measurement (every 1 second)
+
+- Tracks wavefront position (granules with displacement > 10% of amplitude)
+- Measures distance traveled from first detection
+- Calculates: v = distance / time × SLOW_MO
+- Prints:
+  - WAVE SPEED MEASUREMENT #X
+  - Wave speed: X.XXXe+08 m/s
+  - Expected:   2.998e+08 m/s (speed of light)
+  - Error:      X.X%
+
+Wavelength Measurement (every 5 seconds)
+
+- Samples 100 points along radial line from vertex to center
+- Detects peaks in displacement (spatial period)
+- Calculates average peak spacing = wavelength
+- Compares to expected: λ_lattice = 2L = 2 × rest_length
+- Prints:
+  - WAVELENGTH MEASUREMENT
+  - Measured wavelength: X.XXXe-18 m (X.X am)
+  - Expected (2L):       X.XXXe-18 m (X.X am)
+  - Error:               X.X%
+  - Number of peaks:     X
+
+Key Features:
+
+- Accounts for SLOW_MO: Converts simulation time to real physics time
+- Non-intrusive: Measurements don't affect simulation
+- Automatic: Prints to console every interval
+- Validates physics: Compares to theoretical expectations

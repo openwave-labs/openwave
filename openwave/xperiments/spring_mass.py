@@ -78,8 +78,8 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 2)")
-        if lattice.qwave_res < 2:
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (min 10)")
+        if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
