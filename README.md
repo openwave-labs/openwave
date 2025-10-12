@@ -305,9 +305,9 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
 
 ```bash
-# Launch xperiments using the CLI interactive xperiment selector
-# This will display an interactive menu of available experiments
-openwave -x
+# Launch xperiments using the CLI xperiment selector
+
+  openwave -x
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```
@@ -323,22 +323,22 @@ openwave -x
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_leap.png" height="200px" alt="xperiment"></a>
-          <br>LeapFrog Xperiment
+          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
+          <br>XPBD Xperiment
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Euler Xperiment
+          <a><img src="images/x_leap.png" height="200px" alt="xperiment"></a>
+          <br>LeapFrog Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
-          <br>XPBD Xperiment
+          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
+          <br>Euler Xperiment
         </div>
       </td>
     </tr>
@@ -352,5 +352,32 @@ openwave -x
   - [Coding Standards](dev_docs/CODING_STANDARDS.md)
   - [Performance Guidelines](dev_docs/PERFORMANCE_GUIDELINES.md)
   - [Loop Optimization Patterns](dev_docs/LOOP_OPTIMIZATION.md)
-  - [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)  
+  - [Markdown Style Guide](dev_docs/MARKDOWN_STYLE_GUIDE.md)
 - **This is the Way!** ... Real human power comes from collaboration.
+
+## License and Attribution
+
+OpenWave is licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE).
+
+This means:
+
+- ✅ You can use, modify, and distribute OpenWave
+- ✅ Commercial use is permitted
+- ⚠️ If you distribute modified versions (including as a web service), you must release your source code under AGPL-3.0
+- ⚠️ You cannot create closed-source proprietary versions (this PROTECTS against misuse while keeping the project truly open-source)
+
+### Third-Party Software
+
+OpenWave uses several open-source libraries. See [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES) for full attribution and license information for:
+
+- **Taichi Lang** (Apache 2.0) - GPU-accelerated computing and rendering
+- **NumPy** (BSD-3) - Numerical computing
+- **SciPy** (BSD-3) - Scientific computing
+- **Matplotlib** (BSD-compatible) - Visualization
+- **PyAutoGUI** (BSD-3) - GUI automation
+
+All dependencies use licenses compatible with AGPL-3.0.
+
+### Trademark
+
+"OpenWave" is a trademark of OpenWave Labs. See [TRADEMARK](TRADEMARK) for usage guidelines.

@@ -1,5 +1,5 @@
 """
-XPERIMENT: Spring-Mass Euler Wave Oscillation
+XPERIMENT: Spring-Mass Euler Wave Oscillation (UNSTABLE)
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 
 eg. Tweak this XPERIMENT script changing universe_edge = 0.1 m at __main__ entry point
@@ -32,7 +32,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+STIFFNESS = 1e-11  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m

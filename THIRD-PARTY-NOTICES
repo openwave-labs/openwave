@@ -1,0 +1,116 @@
+# Third-Party Software Notices and Licenses
+
+OpenWave uses the following open-source software components. We are grateful to the developers and maintainers of these projects.
+
+---
+
+## Taichi Lang
+
+**License:** Apache License 2.0
+
+**Copyright:** Copyright (c) Taichi Graphics
+
+**Website:** https://www.taichi-lang.org/
+
+**Repository:** https://github.com/taichi-dev/taichi
+
+**Usage:** GPU-accelerated parallel computing for high-performance physics simulations
+
+Taichi is licensed under the Apache License 2.0. Full license text available at:
+https://www.apache.org/licenses/LICENSE-2.0
+
+---
+
+## NumPy
+
+**License:** BSD 3-Clause License
+
+**Copyright:** Copyright (c) 2005-2025, NumPy Developers
+
+**Website:** https://numpy.org/
+
+**Repository:** https://github.com/numpy/numpy
+
+**Usage:** Fundamental package for numerical computing with arrays and mathematical functions
+
+NumPy is licensed under the BSD 3-Clause License. Full license text available at:
+https://numpy.org/doc/stable/license.html
+
+---
+
+## SciPy
+
+**License:** BSD 3-Clause License
+
+**Copyright:** Copyright (c) 2001-2025, SciPy Developers
+
+**Website:** https://scipy.org/
+
+**Repository:** https://github.com/scipy/scipy
+
+**Usage:** Scientific computing library for optimization, integration, and advanced mathematics
+
+SciPy is licensed under the BSD 3-Clause License. Full license text available at:
+https://scipy.org/scipylib/license.html
+
+---
+
+## Matplotlib
+
+**License:** Matplotlib License (BSD-compatible)
+
+**Copyright:** Copyright (c) 2002-2025, Matplotlib Development Team
+
+**Website:** https://matplotlib.org/
+
+**Repository:** https://github.com/matplotlib/matplotlib
+
+**Usage:** Comprehensive library for creating static, animated, and interactive visualizations
+
+Matplotlib is licensed under a PSF-based license (BSD-compatible). Full license text available at:
+https://matplotlib.org/stable/users/project/license.html
+
+---
+
+## PyAutoGUI
+
+**License:** BSD 3-Clause License
+
+**Copyright:** Copyright (c) Al Sweigart
+
+**Website:** https://pyautogui.readthedocs.io/
+
+**Repository:** https://github.com/asweigart/pyautogui
+
+**Usage:** GUI automation for programmatic control of mouse and keyboard
+
+PyAutoGUI is licensed under the BSD 3-Clause License. Full license text available at:
+https://github.com/asweigart/pyautogui/blob/master/LICENSE.txt
+
+---
+
+## License Compatibility Statement
+
+OpenWave is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
+
+All third-party dependencies listed above use licenses that are compatible with AGPL-3.0:
+
+- **Apache 2.0** is compatible with GPL v3 and AGPL v3
+- **BSD 3-Clause** is a permissive license compatible with all GPL/AGPL versions
+
+This means OpenWave can legally use these libraries while maintaining its AGPL-3.0 license.
+
+---
+
+## Attribution Requirements
+
+When using or distributing OpenWave, you must:
+
+1. Include this THIRD-PARTY-NOTICES file
+1. Maintain all copyright notices from dependencies
+1. Comply with AGPL-3.0 license terms for OpenWave
+1. Comply with individual license terms for each dependency
+
+---
+
+**Last Updated:** 2025-10-12
