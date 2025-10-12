@@ -3,9 +3,6 @@ XPERIMENT: Radial Quantum-Wave Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
-eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate size of
-a tesseract) and simulate this artifact energy content, sourced from the element aether.
-
 Demonstrates radial harmonic oscillation of all granules in the BCC lattice.
 All granules oscillate toward/away from the lattice center along their
 individual direction vectors, creating spherical wave interference patterns.
@@ -158,7 +155,7 @@ def render_xperiment(lattice, granule):
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
     slomo_factor = 1.0  # Initialize slow motion factor
-    amplitude_boost = 1.0  # Initialize amplitude boost factor
+    amplitude_boost = 5.0  # Initialize amplitude boost factor
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0

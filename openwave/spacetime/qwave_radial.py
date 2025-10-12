@@ -44,10 +44,11 @@ def oscillate_granules(
     spherical wave fronts. Granules at similar distances form oscillating shell-like
     structures, with the wave originating from the lattice center.
 
-    Position: x(t) = x_eq + A·cos(ωt - kr + φ₀)·direction
-    Velocity: v(t) = -A·ω·sin(ωt - kr + φ₀)·direction (derivative of position)
-
-    where k = 2π/λ is the wave number, r is the radial distance from center.
+    Position: x(t) = x_eq + A·cos(ωt + φ)·direction
+    Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
+    Phase: φ = -kr, where
+        k = 2π/λ is the wave number,
+        r is the radial distance from center.
 
     Args:
         positions: Position field for all granules
@@ -74,7 +75,7 @@ def oscillate_granules(
         # Negative k·r creates outward propagating wave (wave starts at center)
         # Granules at same distance r oscillate in phase (shell-like behavior)
         r = radial_distances[idx]  # distance to center in attometers
-        phase = -k * r  # phase shift based on distance (outward propagating)
+        phase = -k * r  # phase shift based on distance from center (outward propagating)
 
         # Apply amplitude_boost for visibility in scaled-up lattices
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction

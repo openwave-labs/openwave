@@ -1,6 +1,4 @@
-# OpenWave
-
-`>simulate(the_universe)`
+# OpenWave `>simulate(the_universe)`
 
 <div align = "center">
 
