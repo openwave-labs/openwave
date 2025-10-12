@@ -38,7 +38,8 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ## Model spacetime with real physics accuracy and render it in 3D
 
-![demo clip](images/demo.gif)
+![demo1 clip](images/demo1.gif)
+![demo2 clip](images/demo2.gif)
 
 ## Scientific Source
 
@@ -62,6 +63,13 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
+
+## Published Research by OpenWave Authors
+
+- [*"The Geometry of Spacetime and the Unification of the Electromagnetic, Gravitational and Strong Forces"*](https://www.researchgate.net/publication/334316805_The_Geometry_of_Spacetime_and_the_Unification_of_the_Electromagnetic_Gravitational_and_Strong_Forces)
+- [*"The Physics of Subatomic Particles and their Behavior Modeled with Classical Laws"*](https://www.researchgate.net/publication/338634046_The_Physics_of_Subatomic_Particles_and_their_Behavior_Modeled_with_Classical_Laws)
+- [*"The Geometry of Particles and the Explanation of their Creation and Decay"*](https://www.researchgate.net/publication/335101008_The_Geometry_of_Particles_and_the_Explanation_of_their_Creation_and_Decay)
+- [*"Method for Controlling the Motion of Non-Magnetic Objects Utilizing Proton Vibration Energy"*](https://www.researchgate.net/publication/396329338_Method_for_Controlling_the_Motion_of_Non-Magnetic_Objects_Utilizing_Proton_Vibration_Energy)
 
 ## System Architecture
 
@@ -286,7 +294,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ### Play with the /xperiments module
 
-Xperiments are virtual lab scripts where you can experiment with quantum objects and simulate desired outcomes.
+XPERIMENTS are virtual lab scripts where you can experiment with quantum objects and simulate desired outcomes.
 
 ```bash
 # Launch xperiments using the CLI interactive xperiment selector
@@ -295,6 +303,39 @@ openwave -x
 
 # Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
 ```
+
+<div align = "center" style="text-align: center">
+  <table>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_wave.png" height="200px"></a>
+          <br>Radial Wave Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_leap.png" height="200px"></a>
+          <br>LeapFrog Xperiment
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_euler.png" height="200px"></a>
+          <br>Euler Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_xpbd.png" height="200px"></a>
+          <br>XPBD Xperiment
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## Wanna Contribute to this Project?
 
