@@ -1,5 +1,5 @@
 """
-QUANTUM-WAVE DYNAMICS
+QUANTUM-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave dynamics and motion physics for spacetime.
