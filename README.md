@@ -158,7 +158,10 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    spring_mass.py ✓
+    radial_wave.py ✓
+    spring_euler.py ✓
+    spring_leapfrog.py ✓
+    xpbd.py ✓
     --TBD*}
 
 
@@ -232,8 +235,9 @@ kanban
     [**SPACETIME MODULE**
       - medium_bcclattice.py]
     [**XPERIMENTS MODULE**
-      - radial_oscillation.py
-      - spring_mass.py
+      - radial_wave.py
+      - spring_euler.py
+      - spring_leapfrog.py
       - xpbd.py]
     [**VALIDATIONS MODULE**
       - derivations.py]
