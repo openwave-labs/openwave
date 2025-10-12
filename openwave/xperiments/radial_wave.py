@@ -34,7 +34,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 0.1  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
@@ -92,10 +92,10 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, radius_factor, slomo_factor
+    global block_slice, granule_type, radius_factor, slomo_factor, amplitude_boost
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
         render.show_axis = sub.checkbox("Axis", render.show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
@@ -103,6 +103,7 @@ def controls():
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
         slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
+        amplitude_boost = sub.slider_float("Amp Boost", amplitude_boost, 1.0, 5.0)
 
 
 # ================================================================
@@ -149,7 +150,7 @@ def render_xperiment(lattice, granule):
         granule: Granule instance for size reference
         neighbors: BCCNeighbors instance for optional link visualization
     """
-    global block_slice, granule_type, radius_factor, slomo_factor
+    global block_slice, granule_type, radius_factor, slomo_factor, amplitude_boost
     global normalized_positions
 
     # Initialize variables
@@ -157,6 +158,7 @@ def render_xperiment(lattice, granule):
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
     slomo_factor = 1.0  # Initialize slow motion factor
+    amplitude_boost = 1.0  # Initialize amplitude boost factor
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -191,6 +193,7 @@ def render_xperiment(lattice, granule):
             lattice.radial_am,  # Radial distance from each granule to center
             t,
             SLOW_MO / slomo_factor,
+            amplitude_boost,  # Visibility boost for scaled lattices
         )
 
         # Update normalized positions for rendering (must happen after position updates)

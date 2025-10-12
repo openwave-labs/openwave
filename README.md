@@ -44,6 +44,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ![demo1 clip](images/demo1.gif)
 ![demo2 clip](images/demo2.gif)
+![demo3 clip](images/demo3.gif)
 
 ## Scientific Source
 

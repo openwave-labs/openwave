@@ -51,7 +51,7 @@ def xperiment_specs():
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
         sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Dynamics")
+        sub.text("QWave Propagation: Spring-Mass Euler")
 
 
 def data_dashboard():

@@ -26,12 +26,6 @@ TARGET_PARTICLES = 1e4  # target particle count, granularity (impacts performanc
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
-# Amplitude scaling for visibility in scaled-up lattices
-# For scaled lattices, multiply physical amplitude by this factor to make waves visible
-# Physical amplitude: ~0.92 am, but lattice spacing: ~3800 am (79x79x79)
-# Suggested: 10-100 for visible waves without breaking physics too much
-AMPLITUDE_BOOST = 1  # multiplier for oscillation amplitude (1 = physical, >1 = visible)
-
 lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = medium.Granule(lattice.unit_cell_edge)
 neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
@@ -73,7 +67,6 @@ def data_dashboard():
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
-        sub.text(f"Amplitude Boost: {AMPLITUDE_BOOST:.0f}x (physical = 1x)")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -98,10 +91,10 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor
+    global block_slice, granule_type, show_links, radius_factor, slomo_factor, amplitude_boost
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.23) as sub:
         render.show_axis = sub.checkbox("Axis", render.show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
@@ -110,6 +103,7 @@ def controls():
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
         slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
+        amplitude_boost = sub.slider_float("Amp Boost", amplitude_boost, 1.0, 5.0)
 
 
 # ================================================================
@@ -203,7 +197,7 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor
+    global block_slice, granule_type, show_links, radius_factor, slomo_factor, amplitude_boost
     global link_lines
     global normalized_positions
 
@@ -213,6 +207,7 @@ def render_xperiment(lattice, granule, neighbors):
     show_links = True  # link visualization toggle
     radius_factor = 0.5  # Initialize granule size factor
     slomo_factor = 1.0  # Initialize slow motion factor
+    amplitude_boost = 1.0  # Initialize amplitude boost factor
     link_lines = None  # Link line buffer
 
     # Time tracking for harmonic oscillation
@@ -260,7 +255,7 @@ def render_xperiment(lattice, granule, neighbors):
             slow_mo=SLOW_MO / slomo_factor,
             damping=0.999,  # 0.1% energy loss per substep
             omega=1.5,  # SOR parameter for faster convergence
-            amplitude_boost=AMPLITUDE_BOOST,  # Visibility boost for scaled lattices
+            amplitude_boost=amplitude_boost,  # Visibility boost for scaled lattices
         )
 
         # Update normalized positions for rendering (must happen after position updates)
