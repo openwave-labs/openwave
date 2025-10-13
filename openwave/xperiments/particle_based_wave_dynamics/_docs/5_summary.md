@@ -170,11 +170,7 @@ Standard Notation for Wave Mechanics:
 - ωt = temporal oscillation (controls rhythm, time-varying component)
 - φ (phi) = spatial phase shift (controls phase shift, wave relationship, interference, position-dependent component)
 - k = wave number (2π/λ)
-- r = radial distance (from wave source/center)
 - t = time
-- m = granule mass
-- v = velocity
-- x = position
 
 Why Separate ωt and φ is Superior:
 
