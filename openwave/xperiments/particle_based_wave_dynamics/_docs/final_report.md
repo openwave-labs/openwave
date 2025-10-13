@@ -414,8 +414,8 @@ where $\omega t$ (temporal) and $\phi$ (spatial) remain distinct, rather than co
 **Rationale for Separation:**
 
 1. **Conceptual Clarity**
-   - $\omega t$ = temporal oscillation (rhythm, frequency domain)
-   - $\phi = -kr$ = spatial phase shift (wave relationships, interference domain)
+   - $\omega t$ = temporal oscillation (controls rhythm, time-varying component)
+   - $\phi = -kr$ = spatial phase shift (controls phase relationships, interference, position-dependent component)
 
    This separation makes explicit that we control two independent aspects of wave behavior.
 

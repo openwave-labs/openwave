@@ -159,6 +159,23 @@ high forces and momentum impossible to compute because the math fails (the integ
 
 ## PHASE SHIFT: KEY ASPECT
 
+Standard Notation for Wave Mechanics:
+
+- ρ (rho) = medium density (aether)
+- c = wave speed (speed of light)
+- λ (lambda) = wavelength
+- A = wave amplitude
+- f = frequency (c / λ)
+- ω (omega) = angular frequency (2πf)
+- ωt = temporal oscillation (controls rhythm, time-varying component)
+- φ (phi) = spatial phase shift (controls phase shift, wave relationship, interference, position-dependent component)
+- k = wave number (2π/λ)
+- r = radial distance (from wave source/center)
+- t = time
+- m = granule mass
+- v = velocity
+- x = position
+
 Why Separate ωt and φ is Superior:
 
 ### Conceptual Clarity
@@ -171,10 +188,6 @@ Phase: φ = -kr, where
   k = 2π/λ is the wave number,
   r is the radial distance from center.
   (φ represents spatial phase shift; negative creates outward propagation)
-
-cos(ωt + φ)
-- ωt = temporal oscillation (rhythm, frequency)
-- φ = spatial phase shift (wave relationship, interference)
 ```
 
 This makes it clear that we have two independent controls:
