@@ -91,7 +91,7 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor
+    global block_slice, granule_type, show_links, radius_factor, freq_boost
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
@@ -102,7 +102,7 @@ def controls():
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
-        slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
+        freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
 
 
 # ================================================================
@@ -196,7 +196,7 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor
+    global block_slice, granule_type, show_links, radius_factor, freq_boost
     global link_lines
     global normalized_positions
 
@@ -205,7 +205,7 @@ def render_xperiment(lattice, granule, neighbors):
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
-    slomo_factor = 1.0  # Initialize slow motion factor
+    freq_boost = 1.0  # Initialize frequency boost
     link_lines = None  # Link line buffer
 
     # Time tracking for harmonic oscillation
@@ -244,7 +244,7 @@ def render_xperiment(lattice, granule, neighbors):
             t,
             dt_real,
             substeps=100,  # 30-100 recommended (Small Steps strategy)
-            slow_mo=SLOW_MO / slomo_factor,
+            slow_mo=SLOW_MO / freq_boost,
         )
 
         # Update normalized positions for rendering (must happen after position updates)

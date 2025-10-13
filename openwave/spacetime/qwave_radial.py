@@ -35,7 +35,7 @@ def oscillate_granules(
     radial_distances: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
-    amplitude_boost: ti.f32,  # type: ignore
+    amp_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into all granules using harmonic oscillation (wave source, rhythm).
 
@@ -59,7 +59,7 @@ def oscillate_granules(
         radial_distances: Distance from each granule to lattice center (in attometers)
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor (divides frequency for visualization)
-        amplitude_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
+        amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
@@ -78,11 +78,11 @@ def oscillate_granules(
         r = radial_distances[idx]  # distance to center in attometers
         phase = -k * r  # phase shift based on distance from center (outward propagating)
 
-        # Apply amplitude_boost for visibility in scaled-up lattices
+        # Apply amp_boost for visibility in scaled-up lattices
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-        displacement = amplitude_am * amplitude_boost * ti.cos(omega * t + phase)
+        displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
         positions[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_am * amplitude_boost * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_magnitude * direction

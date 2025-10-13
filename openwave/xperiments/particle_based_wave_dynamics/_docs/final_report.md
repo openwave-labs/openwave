@@ -464,7 +464,7 @@ This design philosophy reflects the insight that phase relationships are more fu
 @ti.kernel
 def oscillate_granules(
     positions, velocities, equilibrium, directions,
-    radial_distances, t, slow_mo, amplitude_boost
+    radial_distances, t, slow_mo, amp_boost
 ):
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed
@@ -476,11 +476,11 @@ def oscillate_granules(
         phase = -k * r  # Outward propagating
 
         # Direct position calculation (no integration!)
-        displacement = amplitude_am * amplitude_boost * ti.cos(omega * t + phase)
+        displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
         positions[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity from derivative
-        velocity_mag = -amplitude_am * amplitude_boost * omega * ti.sin(omega * t + phase)
+        velocity_mag = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_mag * direction
 ```
 
@@ -789,7 +789,7 @@ def solve_distance_constraints(positions, neighbors, masses,
 ```python
 @ti.kernel
 def oscillate_granules(positions, velocities, equilibrium, directions,
-                       radial_distances, t, slow_mo, amplitude_boost):
+                       radial_distances, t, slow_mo, amp_boost):
     """Phase-synchronized harmonic oscillation (qwave_radial.py)"""
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed
@@ -801,10 +801,10 @@ def oscillate_granules(positions, velocities, equilibrium, directions,
         phase = -k * r  # Outward propagating wave
 
         # Direct analytical solution (no integration!)
-        displacement = amplitude_am * amplitude_boost * ti.cos(omega * t + phase)
+        displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
         positions[idx] = equilibrium[idx] + displacement * direction
 
-        velocity_magnitude = -amplitude_am * amplitude_boost * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
         velocities[idx] = velocity_magnitude * direction
 ```
 

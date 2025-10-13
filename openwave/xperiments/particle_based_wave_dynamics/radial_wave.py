@@ -89,7 +89,7 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, radius_factor, slomo_factor, amplitude_boost
+    global block_slice, granule_type, radius_factor, freq_boost, amp_boost
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
@@ -99,8 +99,8 @@ def controls():
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
-        slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
-        amplitude_boost = sub.slider_float("Amp Boost", amplitude_boost, 1.0, 5.0)
+        freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
 
 
 # ================================================================
@@ -147,15 +147,15 @@ def render_xperiment(lattice, granule):
         granule: Granule instance for size reference
         neighbors: BCCNeighbors instance for optional link visualization
     """
-    global block_slice, granule_type, radius_factor, slomo_factor, amplitude_boost
+    global block_slice, granule_type, radius_factor, freq_boost, amp_boost
     global normalized_positions
 
     # Initialize variables
     block_slice = True  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
-    slomo_factor = 1.0  # Initialize slow motion factor
-    amplitude_boost = 5.0  # Initialize amplitude boost factor
+    freq_boost = 1.0  # Initialize frequency boost
+    amp_boost = 5.0  # Initialize amplitude boost
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -189,8 +189,8 @@ def render_xperiment(lattice, granule):
             lattice.directions,  # Direction vectors to center for all granules
             lattice.radial_am,  # Radial distance from each granule to center
             t,
-            SLOW_MO / slomo_factor,
-            amplitude_boost,  # Visibility boost for scaled lattices
+            SLOW_MO / freq_boost,
+            amp_boost,  # Visibility boost for scaled lattices
         )
 
         # Update normalized positions for rendering (must happen after position updates)

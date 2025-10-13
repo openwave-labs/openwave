@@ -93,7 +93,7 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor, amplitude_boost
+    global block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.23) as sub:
@@ -104,8 +104,8 @@ def controls():
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
-        slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
-        amplitude_boost = sub.slider_float("Amp Boost", amplitude_boost, 1.0, 5.0)
+        freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
 
 
 # ================================================================
@@ -199,7 +199,7 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_links, radius_factor, slomo_factor, amplitude_boost
+    global block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost
     global link_lines
     global normalized_positions
 
@@ -208,8 +208,8 @@ def render_xperiment(lattice, granule, neighbors):
     granule_type = True  # Granule type coloring toggle
     show_links = True  # link visualization toggle
     radius_factor = 0.5  # Initialize granule size factor
-    slomo_factor = 1.0  # Initialize slow motion factor
-    amplitude_boost = 1.0  # Initialize amplitude boost factor
+    freq_boost = 1.0  # Initialize frequency boost
+    amp_boost = 1.0  # Initialize amplitude boost
     link_lines = None  # Link line buffer
 
     # Time tracking for harmonic oscillation
@@ -254,10 +254,10 @@ def render_xperiment(lattice, granule, neighbors):
             t,
             dt_real,
             substeps=100,  # 100 recommended from papers
-            slow_mo=SLOW_MO / slomo_factor,
+            slow_mo=SLOW_MO / freq_boost,
             damping=0.999,  # 0.1% energy loss per substep
             omega=1.5,  # SOR parameter for faster convergence
-            amplitude_boost=amplitude_boost,  # Visibility boost for scaled lattices
+            amp_boost=amp_boost,  # Visibility boost for scaled lattices
         )
 
         # Update normalized positions for rendering (must happen after position updates)
@@ -270,7 +270,7 @@ def render_xperiment(lattice, granule, neighbors):
             neighbors,
             t,
             current_time,
-            SLOW_MO / slomo_factor,
+            SLOW_MO / freq_boost,
         )
 
         # Render granules with optional type-coloring
