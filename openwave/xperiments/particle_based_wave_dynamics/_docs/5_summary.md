@@ -1,5 +1,10 @@
 # SUMMARY
 
+**Key Breakthrough**: Discovered that force-based integration methods (Euler, Leapfrog) and constraint-based methods (XPBD) are fundamentally inadequate for quantum-scale wave simulation due to numerical instability and the "impossible triangle" problem. Solution: Phase-Synchronized Harmonic Oscillators (PSHO) - directly computing positions from wave equations rather than integrating forces.
+
+![alt text](images/demo2.gif)
+![alt text](images/demo3.gif)
+
 ## PARTICLE-BASED WAVE DYNAMICS
 
 Limitations:
@@ -55,6 +60,9 @@ x += v * dt
 > "Forces cause acceleration, which integrates to velocity, which integrates to position"
 > (Dynamic → Kinematic)
 
+![alt text](images/x_euler.png)
+![alt text](images/x_leap.png)
+
 ### XPBD (Constraint-Based Integration)
 
 ---
@@ -82,6 +90,8 @@ x += Δx  # Move particles to satisfy constraint
 > (Kinematic → Dynamic)
 
 **Both are valid physics!** XPBD just solves it "backwards" - and turns out to be more stable for stiff systems.
+
+![alt text](images/x_xpbd.png)
 
 ### PHASE-SYNCHRONIZED HARMONIC-OSCILLATORS (PSHO)
 
@@ -138,11 +148,13 @@ This is actually a profound realization: You can't simulate wave phenomena using
 
 This validates EWT's wave-centric view - phase relationships are more fundamental than forces at quantum scale
 
+![alt text](images/x_wave.png)
+
 ## STILL NEEDS VALIDATION
 
-Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance), using real physics parameters (k, m, lattice sizes, wave equations) AND medium natural resonant frequency.
+Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance), using real physics parameters AND medium natural resonant frequency.
 
-- This will validate the entire physics model: correct k, m, lattice spacing, and wave equation
+- This will validate the entire physics model
 
 ### WAVE INTERACTION NEEDS
 
@@ -231,3 +243,5 @@ This is:
 Phase control is the key to implementing wave interactions, interference, and particle formation in the future. Keep φ as an independent, first-class parameter!
 
 ## OTHER OPTION: GRID-BASED WAVE DYNAMICS
+
+Scale expansion beyond neutrino scale if computationally feasible
