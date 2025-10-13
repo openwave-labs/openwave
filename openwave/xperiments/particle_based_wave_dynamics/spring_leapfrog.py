@@ -91,11 +91,11 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, show_links, radius_factor, freq_boost
+    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.20) as sub:
-        render.show_axis = sub.checkbox("Axis", render.show_axis)
+        show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
@@ -196,11 +196,12 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global block_slice, granule_type, show_links, radius_factor, freq_boost
+    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost
     global link_lines
     global normalized_positions
 
     # Initialize variables
+    show_axis = True  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
@@ -270,7 +271,7 @@ def render_xperiment(lattice, granule, neighbors):
             render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
-        render.show_scene()
+        render.show_scene(show_axis)
 
 
 # ================================================================

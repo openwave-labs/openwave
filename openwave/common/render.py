@@ -15,7 +15,7 @@ def init_UI():
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
-    global mouse_sensitivity, show_axis
+    global mouse_sensitivity
 
     # Get package name and version from metadata
     pkg_name = metadata("OPENWAVE")["Name"]
@@ -46,7 +46,6 @@ def init_UI():
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
-    show_axis = True  # Toggle to show/hide axis lines
     canvas.set_background_color(config.COLOR_SPACE[1])
 
 
@@ -141,9 +140,8 @@ def axis_lines():
     scene.lines(axis, color=config.COLOR_INFRA[1], width=2)
 
 
-def show_scene():
-    global show_axis
-
+def show_scene(show_axis=True):
+    """Render the 3D scene with lighting and camera controls."""
     scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
     if show_axis:

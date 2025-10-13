@@ -89,16 +89,14 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global block_slice, granule_type, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
-        render.show_axis = sub.checkbox("Axis", render.show_axis)
+        show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
-        # if sub.button("Reset Granule"):
-        #     radius_factor = 1.0
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
 
@@ -147,10 +145,11 @@ def render_xperiment(lattice, granule):
         granule: Granule instance for size reference
         neighbors: BCCNeighbors instance for optional link visualization
     """
-    global block_slice, granule_type, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost
     global normalized_positions
 
     # Initialize variables
+    show_axis = False  # Toggle to show/hide axis lines
     block_slice = True  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
@@ -212,7 +211,7 @@ def render_xperiment(lattice, granule):
             )
 
         # Render the scene to canvas
-        render.show_scene()
+        render.show_scene(show_axis)
 
 
 # ================================================================
