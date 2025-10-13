@@ -99,7 +99,7 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.0, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         # if sub.button("Reset Granule"):
         #     radius_factor = 1.0
         slomo_factor = sub.slider_float("Speed", slomo_factor, 0.1, 10.0)
