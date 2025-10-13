@@ -49,6 +49,7 @@ def oscillate_granules(
     Phase: φ = -kr, where
         k = 2π/λ is the wave number,
         r is the radial distance from center.
+        (φ represents spatial phase shift; negative creates outward propagation)
 
     Args:
         positions: Position field for all granules

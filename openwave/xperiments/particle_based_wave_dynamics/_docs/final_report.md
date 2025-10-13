@@ -403,7 +403,62 @@ Phase relationship $\phi = -kr$ creates **outward-propagating spherical wave** f
 
 **Result:** We got a perfect wave! Clear wavefronts visible, matching both wave speed and wavelength parameters exactly.
 
-#### 5.4.2 Implementation (qwave_radial.py)
+#### 5.4.2 Design Decision: Separating Temporal and Spatial Phase Terms
+
+A critical design choice in our implementation is maintaining **separate, independent factors** for temporal oscillation and spatial phase:
+
+$$x(t) = x_{eq} + A \cdot \cos(\omega t + \phi) \cdot \hat{d}$$
+
+where $\omega t$ (temporal) and $\phi$ (spatial) remain distinct, rather than collapsing them into a single term like $\cos(kr - \omega t)$.
+
+**Rationale for Separation:**
+
+1. **Conceptual Clarity**
+   - $\omega t$ = temporal oscillation (rhythm, frequency domain)
+   - $\phi = -kr$ = spatial phase shift (wave relationships, interference domain)
+
+   This separation makes explicit that we control two independent aspects of wave behavior.
+
+2. **EWT Alignment**
+
+   Energy Wave Theory is fundamentally about **phase relationships** between waves:
+   - Particle formation via constructive/destructive interference = phase relationships
+   - Standing waves = specific phase patterns
+   - Wave centers creating particles = phase synchronization
+
+   Keeping $\phi$ as a first-class, independent parameter makes this physics visible in the code and allows direct manipulation of the core mechanism in EWT.
+
+3. **Future Flexibility**
+
+   With separate factors, we can independently control and manipulate phase without affecting frequency:
+
+   ```python
+   # Current: Simple radial phase
+   φ = -k * r
+
+   # Future: Multi-source interference
+   φ = calculate_interference_phase(r, source_array)
+
+   # Future: Particle-induced phase shifts
+   φ = apply_phase_shift_from_particle(r, particle_position)
+
+   # Future: Standing wave patterns
+   φ = create_standing_wave_phase(r, boundary_conditions)
+   ```
+
+   This design enables future implementation of wave interactions, interference patterns, and particle formation without restructuring the fundamental wave equation.
+
+4. **Standard Physics Convention**
+
+   The separated form $x(t) = A \cdot \cos(\omega t + \phi_0)$ is actually standard in physics, where $\phi_0$ represents initial or spatial phase. Our implementation extends this by making $\phi$ spatially-varying based on position.
+
+**Why This Matters for Quantum Simulation:**
+
+At quantum scale, **phase control is the fundamental mechanism** for wave behavior. Particle formation, wave interactions, and interference all emerge from phase relationships, not force interactions. By treating phase as an independent, manipulable parameter rather than collapsing it into the wave equation, we maintain the ability to implement the full range of quantum phenomena predicted by EWT.
+
+This design philosophy reflects the insight that phase relationships are more fundamental than forces at quantum scale - the very principle that makes PSHO successful where force-based methods fail.
+
+#### 5.4.3 Implementation (qwave_radial.py)
 
 ```python
 @ti.kernel
@@ -431,7 +486,7 @@ def oscillate_granules(
 
 ![Radial Wave Experiment](images/x_wave.png)
 
-#### 5.4.3 Results: Perfect Waves Achieved
+#### 5.4.4 Results: Perfect Waves Achieved
 
 **Visual Validation:**
 
@@ -465,7 +520,7 @@ Measured spatially: Distance between wavefronts matches theoretical
 4. ✅ Computationally efficient - Just trigonometric functions, no constraint solving
 5. ✅ Physically accurate - Matches EWT parameters exactly
 
-#### 5.4.4 Comparison Table
+#### 5.4.5 Comparison Table
 
 | Method | Wave Speed | Wavelength | Stability | Realistic k? |
 |--------|-----------|------------|-----------|--------------|

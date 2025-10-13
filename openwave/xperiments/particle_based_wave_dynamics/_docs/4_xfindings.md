@@ -172,7 +172,7 @@ radial_wave.py approach:
 
 ### Direct harmonic oscillation - no integration needed
 
-displacement = amplitude * cos(ωt - kr + φ₀)
+displacement = amplitude * cos(ωt + φ₀)
 
 position = equilibrium + displacement * direction
 
