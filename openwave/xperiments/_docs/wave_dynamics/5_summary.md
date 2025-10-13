@@ -31,6 +31,23 @@ x += v * dt
     - High stiffness = explosion
     - Lowering stiffness = non-fidelity to physics (toy-physics, "wet noodle" stiffness waves don't propagate)
 
+  **THE IMPOSSIBLE TRIANGLE:**
+  Cannot simultaneously achieve all three:
+  - Realistic stiffness (for physics fidelity)
+  - Numerical stability (no explosions)
+  - Human-visible motion (slow-mo factor)
+
+  Frequency mismatch: 360 million : 1 gap (spring natural frequency 380 MHz vs driving frequency ~1 Hz)
+  This gap is unbridgeable with explicit integration methods.
+
+```bash
+         Realistic Stiffness
+                / \
+               /   \
+              /     \
+        Stability --- Human-Visible Motion
+```
+
 **Force-Based Thinking:**
 
 > "Forces cause acceleration, which integrates to velocity, which integrates to position"
@@ -38,7 +55,7 @@ x += v * dt
 
 ### XPBD (Constraint-Based Integration)
 
-- Ordinary Differential Equation (ODE)???
+- Constraint satisfaction method using Lagrange multipliers
 
 ```python
 # Directly project positions to satisfy constraint
@@ -53,7 +70,7 @@ x += Δx  # Move particles to satisfy constraint
 - LIMITATIONS
   - Waves don't propagate properly, don't satisfy real physics fidelity
   - Issue: We're not using actual Planck-size granules, but instead a scaled-up version with larger granules and mass to become computationally feasible (max particle count)
-    - Trade-off: can only satisfy 1 accurate parameter: wave-speed (c) or wave-length (lambda)
+    - Trade-off: can't accurately satisfy either wave properties perfectly: wave-speed (c) or wave-length (lambda)
 
 **Constraint-Based Thinking:**
 
@@ -91,7 +108,7 @@ Phase: φ = -kr, where
 
 #### Direct harmonic oscillation - no integration needed
 
-- displacement = amplitude * cos(ωt - kr + φ₀)
+- displacement = amplitude * cos(ωt + φ₀)
 - position = equilibrium + displacement * direction
 
 Benefits:
@@ -111,6 +128,8 @@ The Journey / evolution:
 
 This is actually a profound realization: You can't simulate wave phenomena using particle mechanics at quantum scales - you need to simulate them as waves!
 
+This validates EWT's wave-centric view - phase relationships are more fundamental than forces at quantum scale
+
 ## STILL NEEDS VALIDATION
 
 Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance), using real physics parameters (k, m, lattice sizes, wave equations) AND medium natural resonant frequency.
@@ -123,8 +142,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - Wave Reflection (particles, boundaries)
 - MAP (minimum amplitude principle)
 
-We're using classical physics wave equations, force-based physics are not feasible to reach numerical stability necessary when simulating extreme physics of small planck scale, high
-wave speeds (speed of light) in a high density aether medium (force mechanics vs wave mechanics)
+We're using classical physics wave equations, force-based integration methods are not feasible to reach numerical stability necessary when simulating extreme physics of small planck scale, high wave speeds (speed of light) in a high density aether medium (force mechanics vs wave mechanics)
 
 >> high frequencies > high stiffness > high iterations needed and extremely low dt
 
