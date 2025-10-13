@@ -326,8 +326,8 @@ Key advantages over spring-mass:
 
 #### The Fundamental Difference
 
-```bash
-Force-Based (Newton's Laws):
+```python
+Force-Based (Newtons Laws):
 F = ma → a = F/m → v += a·dt → x += v·dt
 [Force causes acceleration → velocity → position]
 

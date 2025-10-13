@@ -204,7 +204,7 @@ def render_xperiment(lattice, granule, neighbors):
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
-    radius_factor = 1.0  # Initialize granule size factor
+    radius_factor = 0.5  # Initialize granule size factor
     slomo_factor = 1.0  # Initialize slow motion factor
     link_lines = None  # Link line buffer
 
