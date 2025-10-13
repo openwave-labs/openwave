@@ -11,6 +11,8 @@ Limitations:
 
 ### SPRING-MASS (Force-Based Integration)
 
+---
+
 - Ordinary Differential Equation (ODE)
 
 ```python
@@ -55,6 +57,8 @@ x += v * dt
 
 ### XPBD (Constraint-Based Integration)
 
+---
+
 - Constraint satisfaction method using Lagrange multipliers
 
 ```python
@@ -80,6 +84,8 @@ x += Δx  # Move particles to satisfy constraint
 **Both are valid physics!** XPBD just solves it "backwards" - and turns out to be more stable for stiff systems.
 
 ### PHASE-SYNCHRONIZED HARMONIC-OSCILLATORS (PSHO)
+
+---
 
 Then today I had an idea: remove springs and constraints and use synchronized phase between granules (harmonic phi rhythm) in the file radial_wave.py. A radial wave is point-sourced from the lattice center with propagation via synchronized phase shift - not force/constraint driving a position integrator, but instead a simple harmonic oscillation equation defining position over time for each granule.
 
@@ -149,4 +155,4 @@ We're using classical physics wave equations, force-based integration methods ar
 This only confirms the energy contained in the quantum waves is huge, evidenced by
 high forces and momentum impossible to compute because the math fails (the integration methods actually), its not even a computational feasibility issue, even if we had computer power to run
 
-## OPTION: PURE WAVE GRID
+## OTHER OPTION: GRID-BASED WAVE DYNAMICS
