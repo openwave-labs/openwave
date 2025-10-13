@@ -15,7 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the deterministic quantum mechanics model: [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
+OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the deterministic quantum mechanics model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
 
 ## Core Scope
 
@@ -23,9 +23,9 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### Numerical Validation
 
-- Runs simulations derived directly from equations.
+- Runs simulations derived directly from built-in equations and quantum-wave phenomena.
 - Validates outcomes by comparing them against observed reality.
-- [PLANNED] Generates numerical analysis reports for scientific publications.
+- Generates numerical analysis and reports for scientific publications (assisted by your preferred LLM).
 
 ### Visual Demonstration
 
@@ -52,7 +52,6 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 
 - Website & Videos: [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory")
 - Scientific Papers: [Core Concepts](https://github.com/openwave-labs/openwave/tree/main/research_requirements/scientific_source "Energy Wave Theory")
-- Original Requirements: [Requirements](https://github.com/openwave-labs/openwave/tree/main/research_requirements/original_requirements "Energy Wave Theory")
 
 ### Origins
 
@@ -290,7 +289,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
     source openwave/bin/activate  # On Windows: openwave\Scripts\activate
    
   # Option 2: via Conda (recommended)
-    conda create -n openwave python=3.12 -y
+    conda create -n openwave python=3.12
     conda activate openwave
 
 # Install OpenWave package & dependencies

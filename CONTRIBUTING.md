@@ -47,7 +47,7 @@ See `/dev_docs` for coding standards and development guidelines
     source openwave/bin/activate  # On Windows: openwave\Scripts\activate
    
   # Option 2: via Conda (recommended)
-    conda create -n openwave python=3.12 -y
+    conda create -n openwave python=3.12
     conda activate openwave
 
 # Install OpenWave & Dependencies for Development (-e = edit mode)
