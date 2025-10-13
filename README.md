@@ -279,18 +279,15 @@ kanban
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
-# Clone the OpenWave repository
+# Clone the OpenWave repository, on your terminal:
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
 
-# Create virtual environment
-  # Option 1: via Venv
-    python -m venv openwave
-    source openwave/bin/activate  # On Windows: openwave\Scripts\activate
-   
-  # Option 2: via Conda (recommended)
-    conda create -n openwave python=3.12
-    conda activate openwave
+# Make sure you have Python >=3.12 installed
+# Recommended Anaconda Package Distribution
+  install from: https://www.anaconda.com
+  conda create -n openwave python=3.12
+  conda activate openwave
 
 # Install OpenWave package & dependencies
   pip install .  # reads dependencies from pyproject.toml
@@ -330,13 +327,13 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
       <td style="text-align: center">
         <div align = "center">
           <a><img src="images/x_leap.png" height="200px" alt="xperiment"></a>
-          <br>LeapFrog Xperiment
+          <br>LeapFrog Xperiment (UNSTABLE)
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
           <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Euler Xperiment
+          <br>Euler Xperiment (UNSTABLE)
         </div>
       </td>
     </tr>
