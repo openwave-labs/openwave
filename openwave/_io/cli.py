@@ -17,6 +17,7 @@ from simple_term_menu import TerminalMenu
 def get_experiments_list():
     """
     Get a list of available Xperiment files from the xperiments directory.
+    Recursively searches subdirectories, excluding _docs folders.
 
     Returns:
         list: List of tuples containing (display_name, file_path)
@@ -30,11 +31,25 @@ def get_experiments_list():
         print(f"Error: Xperiments directory not found at {xperiments_dir}")
         sys.exit(1)
 
-    # Get all Python files in the xperiments directory
-    experiments = []
-    for file_path in sorted(xperiments_dir.glob("*.py")):
+    # Dictionary to organize experiments by category
+    experiments_by_category = {}
+
+    # Recursively find all Python files, excluding _docs directories
+    for file_path in xperiments_dir.rglob("*.py"):
+        # Skip files in directories that start with underscore (like _docs)
+        if any(part.startswith("_") for part in file_path.parts):
+            continue
+
+        # Skip __init__.py and similar files
         if file_path.name.startswith("__"):
-            continue  # Skip __init__.py and similar files
+            continue
+
+        # Determine category (subdirectory name or "root" if directly in xperiments)
+        relative_path = file_path.relative_to(xperiments_dir)
+        if len(relative_path.parts) > 1:
+            category = relative_path.parts[0]
+        else:
+            category = "root"
 
         # Read the first few lines to get the description
         description = ""
@@ -62,7 +77,39 @@ def get_experiments_list():
         else:
             display_name = name
 
-        experiments.append((display_name, str(file_path)))
+        # Add to category
+        if category not in experiments_by_category:
+            experiments_by_category[category] = []
+
+        experiments_by_category[category].append((display_name, str(file_path), category))
+
+    # Build flat list with tree structure display
+    experiments = []
+    sorted_categories = sorted(experiments_by_category.keys())
+
+    for category_idx, category in enumerate(sorted_categories):
+        # Sort experiments within each category
+        category_experiments = sorted(experiments_by_category[category], key=lambda x: x[0])
+
+        for idx, (display_name, file_path, _) in enumerate(category_experiments):
+            # Format with tree structure
+            if category == "root":
+                formatted_name = display_name
+            else:
+                # Add category header for first item in category
+                if idx == 0:
+                    # Add blank line separator before category (except for first category)
+                    if category_idx > 0:
+                        experiments.append(("", None))  # Blank line separator
+
+                    # Format category name as header
+                    category_display = category.replace("_", " ").replace("-", " ").title()
+                    experiments.append((f"─── /{category_display}/ ───", None))  # Category header
+
+                # Indent all items under category
+                formatted_name = f"  → {display_name}"
+
+            experiments.append((formatted_name, file_path))
 
     return experiments
 
@@ -81,26 +128,35 @@ def show_menu_simple(experiments):
     print("OpenWave - Available Xperiments")
     print("=" * 64)
 
-    for idx, (display_name, _) in enumerate(experiments, 1):
-        print(f"{idx}. {display_name}")
+    # Create numbered list of selectable experiments
+    selectable_experiments = []
+    display_idx = 1
 
-    print(f"{len(experiments) + 1}. Exit")
-    print("=" * 70)
+    for display_name, file_path in experiments:
+        if file_path is None:  # Category header or separator
+            print(f"\n{display_name}")
+        else:
+            print(f"{display_idx}. {display_name}")
+            selectable_experiments.append((display_name, file_path))
+            display_idx += 1
+
+    print(f"\n{len(selectable_experiments) + 1}. Exit")
+    print("=" * 64)
 
     while True:
         try:
             choice = input("\nSelect an Xperiment (enter number): ").strip()
             choice_num = int(choice)
 
-            if choice_num == len(experiments) + 1:
+            if choice_num == len(selectable_experiments) + 1:
                 print("Exiting...")
                 sys.exit(0)
 
-            if 1 <= choice_num <= len(experiments):
-                return experiments[choice_num - 1][1]
+            if 1 <= choice_num <= len(selectable_experiments):
+                return selectable_experiments[choice_num - 1][1]
             else:
                 print(
-                    f"Invalid choice. Please enter a number between 1 and {len(experiments) + 1}"
+                    f"Invalid choice. Please enter a number between 1 and {len(selectable_experiments) + 1}"
                 )
         except ValueError:
             print("Invalid input. Please enter a number.")
@@ -119,25 +175,39 @@ def show_menu_interactive(experiments):
     Returns:
         str: Path to the selected xperiment file
     """
-    # Create menu options
-    menu_options = [display_name for display_name, _ in experiments]
+    # Build menu with category headers marked as non-selectable
+    menu_options = []
+    file_path_map = {}  # Maps option index to file path
+    option_idx = 0
+
+    for display_name, file_path in experiments:
+        menu_options.append(display_name if display_name else " ")  # Empty line or display name
+        if file_path is not None:
+            file_path_map[option_idx] = file_path
+        option_idx += 1
+
     menu_options.append("EXIT")
+    exit_idx = option_idx
 
     terminal_menu = TerminalMenu(
         menu_options,
-        title="\nOPENWAVE - Available Xperiments\n(↑/↓ to navigate, ENTER to select)",
-        menu_cursor="→ ",
+        title="\n================================================================\nOPENWAVE - Available Xperiments\n(↑/↓ to navigate, ENTER to select)",
+        menu_cursor="  ",
         menu_cursor_style=("fg_green", "bold"),
         menu_highlight_style=("bg_green", "fg_black"),
     )
 
-    choice_idx = terminal_menu.show()
+    while True:
+        choice_idx = terminal_menu.show()
 
-    if choice_idx is None or choice_idx == len(experiments):
-        print("Exiting...")
-        sys.exit(0)
+        if choice_idx is None or choice_idx == exit_idx:
+            print("Exiting...")
+            sys.exit(0)
 
-    return experiments[choice_idx][1]
+        # Check if this is a selectable experiment
+        if choice_idx in file_path_map:
+            return file_path_map[choice_idx]
+        # If category header selected, continue loop to allow re-selection
 
 
 def run_experiment(file_path):
