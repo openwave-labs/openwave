@@ -5,7 +5,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OPENWAVE"
-version = "1.0"
+
+# Semantic Versioning (SemVer): MAJOR.MINOR.PATCH
+# - MAJOR: Breaking changes (incompatible API changes)
+# - MINOR: New features (backward-compatible)
+# - PATCH: Bug fixes (backward-compatible)
+version = "0.1.0"  # 0.x = pre-release (API still evolving)
+
 requires-python = ">=3.12"
 
 description = "Simulates matter and energy formation using Energy Wave Theory"
