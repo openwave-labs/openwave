@@ -15,7 +15,7 @@ from openwave.common import constants
 from openwave.common import render
 
 import openwave.spacetime.quantum_medium_lattice as medium
-import openwave.spacetime.qwave_springleapfrog as qwave
+import openwave.spacetime.quantum_wave_springleapfrog as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
