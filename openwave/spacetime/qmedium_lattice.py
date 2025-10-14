@@ -11,6 +11,8 @@ the classical fifth element or quintessence filling the universe,
 or a hypothetical substance once thought to carry light and other electromagnetic waves.
 """
 
+import random
+
 import taichi as ti
 
 from openwave.common import config
@@ -113,6 +115,7 @@ class BCCLattice:
         self.build_directions()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.set_granule_colors()  # colors based on granule_type
+        self.select_slice_plane_probes()  # select random probes on slice planes
         self.find_front_octant()  # for block-slicing visualization
 
     @ti.kernel
@@ -318,6 +321,94 @@ class BCCLattice:
                 )
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
+
+    def select_slice_plane_probes(self):
+        """Select 3 random granules from each of the 3 planes exposed by the front octant slice.
+
+        The front octant is defined as the region where x, y, z > universe_edge/2.
+        When this octant is removed, three interior faces are exposed:
+        - YZ plane: x just <= universe_edge/2, but ONLY where y,z > universe_edge/2 (inside removed region)
+        - XZ plane: y just <= universe_edge/2, but ONLY where x,z > universe_edge/2 (inside removed region)
+        - XY plane: z just <= universe_edge/2, but ONLY where x,y > universe_edge/2 (inside removed region)
+
+        Updates the granule_color array to set selected probes to COLOR_PROBE.
+        The granules remain TYPE_CORE but are visually distinct as probe particles.
+        """
+        # Use structured approach to find granules on slice planes
+        # Based on grid coordinates rather than iterating all positions
+        corner_count = (self.grid_size + 1) ** 3
+        half_grid = self.grid_size // 2
+
+        # Collect granules on each EXPOSED plane (the interior faces of the removed octant)
+        yz_plane_indices = []  # YZ face: x at boundary, y,z > boundary
+        xz_plane_indices = []  # XZ face: y at boundary, x,z > boundary
+        xy_plane_indices = []  # XY face: z at boundary, x,y > boundary
+
+        # Check corner granules
+        # The exposed face is where one coordinate is just INSIDE the boundary (half_grid + 1),
+        # and the other two are BEYOND the boundary (in the removed octant region)
+        grid_dim = self.grid_size + 1
+        for i in range(grid_dim):
+            for j in range(grid_dim):
+                for k in range(grid_dim):
+                    idx = i * (grid_dim * grid_dim) + j * grid_dim + k
+
+                    # YZ plane: x just inside boundary (i == half_grid + 1), EXPOSED part (j,k > half_grid)
+                    if i == half_grid + 1 and j > half_grid and k > half_grid:
+                        yz_plane_indices.append(idx)
+
+                    # XZ plane: y just inside boundary (j == half_grid + 1), EXPOSED part (i,k > half_grid)
+                    if j == half_grid + 1 and i > half_grid and k > half_grid:
+                        xz_plane_indices.append(idx)
+
+                    # XY plane: z just inside boundary (k == half_grid + 1), EXPOSED part (i,j > half_grid)
+                    if k == half_grid + 1 and i > half_grid and j > half_grid:
+                        xy_plane_indices.append(idx)
+
+        # Check center granules
+        # Center granules are offset by 0.5, so we need those at half_grid
+        # that are adjacent to the removed octant (right on the boundary)
+        for i in range(self.grid_size):
+            for j in range(self.grid_size):
+                for k in range(self.grid_size):
+                    idx = corner_count + i * self.grid_size * self.grid_size + j * self.grid_size + k
+
+                    # YZ plane: center granules at x boundary, EXPOSED part (j,k >= half_grid)
+                    if i == half_grid and j >= half_grid and k >= half_grid:
+                        yz_plane_indices.append(idx)
+
+                    # XZ plane: center granules at y boundary, EXPOSED part (i,k >= half_grid)
+                    if j == half_grid and i >= half_grid and k >= half_grid:
+                        xz_plane_indices.append(idx)
+
+                    # XY plane: center granules at z boundary, EXPOSED part (i,j >= half_grid)
+                    if k == half_grid and i >= half_grid and j >= half_grid:
+                        xy_plane_indices.append(idx)
+
+        # Select 3 random probes from each plane if available
+        if len(yz_plane_indices) >= 3:
+            selected = random.sample(yz_plane_indices, 3)
+            self._mark_probes_on_plane(selected)
+
+        if len(xz_plane_indices) >= 3:
+            selected = random.sample(xz_plane_indices, 3)
+            self._mark_probes_on_plane(selected)
+
+        if len(xy_plane_indices) >= 3:
+            selected = random.sample(xy_plane_indices, 3)
+            self._mark_probes_on_plane(selected)
+
+    def _mark_probes_on_plane(self, indices):
+        """Mark specified granules as probes by updating their color.
+
+        Args:
+            indices: List of granule indices to mark as probes
+        """
+        probe_color = config.COLOR_PROBE[1]
+        for idx in indices:
+            # Never mark the central granule as a probe
+            if self.granule_type[idx] != config.TYPE_CENTRAL:
+                self.granule_color[idx] = ti.Vector([probe_color[0], probe_color[1], probe_color[2]])
 
     @ti.kernel
     def find_front_octant(self):
