@@ -12,7 +12,7 @@ from openwave.common import constants
 from openwave.common import equations
 from openwave.common import render
 
-import openwave.spacetime.medium_bcclattice as medium
+import openwave.spacetime.quantum_medium_lattice as medium
 import openwave.spacetime.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)

@@ -3,7 +3,7 @@ import math
 from openwave.common import constants
 from openwave.common import equations
 
-import openwave.spacetime.medium_bcclattice as medium
+import openwave.spacetime.quantum_medium_lattice as medium
 
 
 # From constants

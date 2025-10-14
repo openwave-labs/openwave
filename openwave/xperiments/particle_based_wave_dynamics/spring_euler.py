@@ -14,7 +14,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave.common import render
 
-import openwave.spacetime.medium_bcclattice as medium
+import openwave.spacetime.quantum_medium_lattice as medium
 import openwave.spacetime.qwave_springeuler as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
