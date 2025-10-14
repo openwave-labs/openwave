@@ -73,8 +73,8 @@ We demonstrate through a systematic experimental journey:
 | Symbol | Description | Value |
 |--------|-------------|-------|
 | c | Speed of light (wave speed) | 2.998×10^8 m/s |
-| λ_q | Quantum wavelength | 2.854×10^-17 m (28.54 am) |
-| f_q | Quantum frequency | c/λ_q ≈ 1.05×10^25 Hz |
+| λ_q | Quantum Wave length | 2.854×10^-17 m (28.54 am) |
+| f_q | Quantum Wave frequency | c/λ_q ≈ 1.05×10^25 Hz |
 | A | Wave amplitude | 9.215×10^-19 m |
 | l_p | Planck length | 1.616×10^-35 m |
 | m_p | Planck mass | 2.17×10^-8 kg |

@@ -1,8 +1,8 @@
 """
-SPACETIME-MEDIUM
+QUANTUM-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
-SPACETIME-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
 Modeled as a particle-based elastic medium that allows energy
 to transfer from one point to the next.
 
@@ -559,7 +559,7 @@ class BCCNeighbors:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: SPACE-MEDIUM MODULE")
+    print("SMOKE TEST: QUANTUM-MEDIUM MODULE")
     print("================================================================")
 
     import time
@@ -672,7 +672,7 @@ if __name__ == "__main__":
     print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")
 
     print("\n================================================================")
-    print("END SMOKE TEST: SPACE-MEDIUM MODULE")
+    print("END SMOKE TEST: QUANTUM-MEDIUM MODULE")
     print("================================================================")
 
     # Properly exit

@@ -8,9 +8,9 @@ All values use SI units (kg, m, s) for consistency.
 """
 
 # ================================================================
-# SPACE-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+# QUANTUM-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
-MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, space-medium density (aether medium, rho)
+MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, quantum-medium density (aether, rho)
 ATTOMETTER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================

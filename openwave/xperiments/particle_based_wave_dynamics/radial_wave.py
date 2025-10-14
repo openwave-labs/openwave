@@ -51,7 +51,7 @@ render.init_UI()  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Radial Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: BCC lattice")
+        sub.text("QMedium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: NONE")
         sub.text("QWave Source: All Granule Oscillators")
@@ -61,10 +61,10 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
-        sub.text("--- SPACETIME-MEDIUM ---")
+        sub.text("--- QUANTUM-MEDIUM ---")
         sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
