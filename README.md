@@ -64,7 +64,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 - [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox)
 - [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory)
 - [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710)
-- [Gabriel LaFreniere](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
+- Gabriel LaFreniere
 - among others.
 
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
