@@ -359,7 +359,7 @@ C = distance - L₀  # Distance constraint
 
 Let's trace a wave through 3 granules:
 
-```bash
+```python
 Time t=0: Vertex oscillates
 ┌─────┐     ┌─────┐     ┌─────┐
 │  V  │────▶│  A  │─────│  B  │
@@ -437,7 +437,7 @@ p_A = m_A × v_A = m_A × (Δx_A / dt)
 
 #### Force-Based (Push)
 
-```bash
+```python
 [V pushes A] → [A accelerates] → [A pushes B] → [B accelerates]
     F_VA          a_A = F/m         F_AB         a_B = F/m
 ```
@@ -446,7 +446,7 @@ p_A = m_A × v_A = m_A × (Δx_A / dt)
 
 #### XPBD (Constrained Dance)
 
-```bash
+```python
 [V moves] → [A must follow (constraint)] → [B must follow] → ...
    x_V        C_VA forces A to move      C_AB forces B to move
 ```
@@ -467,7 +467,7 @@ p_A = m_A × v_A = m_A × (Δx_A / dt)
 
 **Example with your vertex:**
 
-```bash
+```python
 Frame 1:
 Vertex oscillates → 8 neighbors move (satisfy constraint)
 
@@ -630,7 +630,7 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 For each pair of connected granules (i, j):
 
-```bash
+```python
 Constraint function:
 C(x_i, x_j) = ||x_i - x_j|| - L₀ = 0
 
@@ -642,7 +642,7 @@ Where:
 
 ### Constraint Gradient (∇C)
 
-```bash
+```python
 ∂C/∂x_i = (x_i - x_j) / ||x_i - x_j|| = n̂  (unit direction)
 ∂C/∂x_j = -(x_i - x_j) / ||x_i - x_j|| = -n̂
 
@@ -651,7 +651,7 @@ Where n̂ is the normalized direction vector from j to i
 
 ### Compliance (α̃)
 
-```bash
+```python
 α̃ = 1/(k·Δt²)
 
 Where:
@@ -665,7 +665,7 @@ Where:
 
 From paper Equation 7:
 
-```bash
+```python
 Δλ = -C(x) / (∇C·M⁻¹·∇Cᵀ + α̃)
 
 For two particles:
@@ -681,7 +681,7 @@ Where:
 
 From paper Equation 4:
 
-```bash
+```python
 Δx_i = w_i · n̂ · Δλ  (move particle i)
 Δx_j = -w_j · n̂ · Δλ (move particle j in opposite direction)
 
@@ -744,7 +744,7 @@ v_i = (x_i_new - x_i_old) / Δt
 
 For a granule with 8 neighbors:
 
-```bash
+```python
 for each neighbor j in [0..7]:
     Apply distance constraint between granule i and neighbor j
     Accumulate position corrections

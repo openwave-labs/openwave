@@ -75,7 +75,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 ### What we're doing now
 
-```bash
+```python
 # Natural frequency based on LATTICE spacing (scaled-up not planck scale)
 natural_frequency = c / (2 * rest_length)
                   = c / (2 * 1.1 am)
@@ -97,7 +97,7 @@ Interpretation: The lattice is simulating waves at speed c, but at the lattice's
 
 Lattice discretization is explicit - We know we're sampling at ~1.27 am spacing
 
-```bash
+```python
 # The medium has the right properties to propagate at c (sacred)
 # But the actual wave mechanics work at the lattice scale
 

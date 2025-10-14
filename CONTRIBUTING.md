@@ -33,14 +33,14 @@ See `/dev_docs` for coding standards and development guidelines
 
 - **Clone Your Fork**
 
-```bash
+```python
    git clone https://github.com/YOUR-USERNAME/openwave.git
    cd openwave
    ```
 
 - **Set Up the Environment & Install**
 
-```bash
+```python
 # Create virtual environment
   # Option 1: via Venv
     python -m venv openwave
@@ -56,13 +56,13 @@ See `/dev_docs` for coding standards and development guidelines
 
 - **Create a Branch to Develop Your Feature**
 
-```bash
+```python
    git checkout -b your-feature-name
    ```
 
 - Optional: LaTex & FFmpeg (video generation)
 
-```bash
+```python
 # Install LaTeX and FFmpeg (macOS)
    brew install --cask mactex-no-gui ffmpeg
    echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
@@ -80,7 +80,7 @@ See `/dev_docs` for coding standards and development guidelines
 - Use [Black](https://black.readthedocs.io/) and [isort](https://pycqa.github.io/isort/) for formatting.
 - Run tests before committing:
 
-```bash
+```python
   pytest
   ```
 
@@ -91,7 +91,7 @@ See `/dev_docs` for coding standards and development guidelines
 - Commit with a clear, descriptive message.
 - Push your branch to your fork:
 
-```bash
+```python
    git push origin your-feature-name
    ```
 

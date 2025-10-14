@@ -181,7 +181,7 @@ results = cuda.from_device(results_gpu)        # Transfer back
 
 ### Scenario 1: Development & Small Simulations
 
-```bash
+```python
 M4 Max: ✅ WINNER
 - Zero marginal cost
 - Better interactivity
@@ -191,7 +191,7 @@ M4 Max: ✅ WINNER
 
 ### Scenario 2: Large Scale Production (Current Code)
 
-```bash
+```python
 M4 Max: ✅ STILL WINNER
 - AWS single GPU barely faster
 - Not worth $700-3000/month
@@ -200,7 +200,7 @@ M4 Max: ✅ STILL WINNER
 
 ### Scenario 3: Massive Scale (With Distributed Code)
 
-```bash
+```python
 AWS: ✅ WINNER
 - Can scale to 100s of GPUs
 - Process TB-scale simulations

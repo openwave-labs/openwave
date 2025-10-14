@@ -8,7 +8,7 @@ The spring system's natural frequency (380 MHz) is **360 MILLION times faster** 
 
 This creates a **severe frequency mismatch**:
 
-```bash
+```python
 Vertex oscillation: ~1 Hz (very slow, human-visible)
 Spring vibration: ~380 MHz (extremely fast)
 Ratio: 360,000,000:1
@@ -96,7 +96,7 @@ But this brings us back to the original problem: **timestep too large for high f
 
 Experimental testing revealed the **fundamental problem**:
 
-```bash
+```python
   ⚠️  Can not have all three! ⚠️
 
     Realistic Stiffness
@@ -124,7 +124,7 @@ The 360-million-times frequency gap is **unbridgeable** with explicit integratio
 
 XPBD **solves all three requirements simultaneously**:
 
-```bash
+```python
 ✅ XPBD breaks the triangle! ✅
 
     Realistic Stiffness ✓

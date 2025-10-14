@@ -275,7 +275,7 @@ kanban
 
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
-```bash
+```python
 # Clone the OpenWave repository, on your terminal:
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
@@ -296,7 +296,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
 
-```bash
+```python
 # Launch xperiments using the CLI xperiment selector
 
   openwave -x

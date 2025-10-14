@@ -47,7 +47,7 @@ x += v * dt
   Frequency mismatch: 360 million : 1 gap (spring natural frequency 380 MHz vs driving frequency ~1 Hz)
   This gap is unbridgeable with explicit integration methods.
 
-```bash
+```python
          Realistic Stiffness
                 / \
                /   \
