@@ -231,7 +231,7 @@ To enable visualization of quantum-scale dynamics, we implemented a temporal sca
 - No integration (analytical position calculation)
 - All granules oscillate radially with phase φ = -kr
 - Stiffness: N/A (no springs, pure wave mechanics)
-- All granules oscillate radially along their direction vectors to lattice center
+- All granules oscillate radially along their direction vectors to wave source
 - Phase determined by radial distance, creating outward-propagating spherical wavefronts
 
 ---
@@ -436,11 +436,11 @@ where:
 - $\omega = 2\pi f$ (angular frequency)
 - $k = 2\pi/\lambda$ (wave number)
 - $r$ = radial distance from source
-- $\hat{d}$ = unit vector from granule to lattice center
+- $\hat{d}$ = unit vector from granule to wave source
 
-**Key insight:** Radial waves originate from the lattice center and propagate via synchronized phase shifts. This approach replaces force-driven position integration with direct harmonic oscillation equations that define granule positions as functions of time.
+**Key insight:** Radial waves originate from the wave source and propagate via synchronized phase shifts. This approach replaces force-driven position integration with direct harmonic oscillation equations that define granule positions as functions of time.
 
-The phase relationship $\phi = -kr$ generates outward-propagating spherical waves from the lattice center without requiring spring forces or numerical integration.
+The phase relationship $\phi = -kr$ generates outward-propagating spherical waves from the wave source without requiring spring forces or numerical integration.
 
 **Result:** This approach achieves exact wave propagation with clearly defined wavefronts, matching both theoretical wave speed and wavelength parameters.
 
@@ -531,7 +531,7 @@ def oscillate_granules(
 
 **Observed Phenomena:**
 
-- Spherical wavefronts propagating outward from the lattice center
+- Spherical wavefronts propagating outward from the wave source
 - Wavelength λ = 2π/k verified through spatial pattern analysis
 - Frequency f confirmed through temporal oscillation measurements
 - Absence of numerical artifacts or instabilities
