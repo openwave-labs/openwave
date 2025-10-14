@@ -559,13 +559,13 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 ### Files Created
 
 - `xpbd.py` - Main render loop
-- `quantum_wave_xpbd.py` - XPBD constraint solver
-- `quantum_medium_lattice.py` - Unchanged (same BCC structure)
+- `qwave_xpbd.py` - XPBD constraint solver
+- `qmedium_lattice.py` - Unchanged (same BCC structure)
 
 ### Files Archived (for reference)
 
-- `quantum_wave_springeuler.py` - Semi-implicit Euler integration
-- `quantum_wave_springleap.py` - Velocity Verlet attempt
+- `qwave_springeuler.py` - Semi-implicit Euler integration
+- `qwave_springleap.py` - Velocity Verlet attempt
 
 ### Implementation Checklist
 

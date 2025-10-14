@@ -499,7 +499,7 @@ At quantum scale, **phase control is the fundamental mechanism** for wave behavi
 
 This design philosophy reflects the insight that phase relationships are more fundamental than forces at quantum scale - the very principle that makes PSHO successful where force-based methods fail.
 
-#### 5.4.3 Implementation (qwave_radial.py)
+#### 5.4.3 Implementation (radial_wave.py)
 
 ```python
 @ti.kernel
@@ -829,7 +829,7 @@ def solve_distance_constraints(positions, neighbors, masses,
 @ti.kernel
 def oscillate_granules(positions, velocities, equilibrium, directions,
                        radial_distances, t, slow_mo, amp_boost):
-    """Phase-synchronized harmonic oscillation (qwave_radial.py)"""
+    """Phase-synchronized harmonic oscillation (radial_wave.py)"""
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
