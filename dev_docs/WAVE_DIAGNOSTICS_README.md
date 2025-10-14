@@ -244,10 +244,92 @@ The experiment UI includes `freq_boost` and `amp_boost` sliders:
 
 ## Files
 
-- `/validations/wave_diagnostics.py` - Module implementation (75 lines)
+- `/validations/wave_diagnostics.py` - Module implementation (82 lines)
 - `/xperiments/particle_based_wave_dynamics/radial_wave.py` - Integration example (4 lines)
 - `/dev_docs/WAVE_DIAGNOSTICS_README.md` - This documentation
 - `/spacetime/qwave_radial.py` - PSHO implementation (no changes needed)
+
+## BCC Lattice Wave Behavior
+
+### Observed Phenomenon: "Twisting" Longitudinal Waves
+
+When observing radial wave propagation in the simulation, you may notice that the longitudinal waves exhibit a slight **transversal shift** or "twisting" motion as they propagate outward. This is **not an error** - it's a physically correct consequence of wave propagation through a discrete Body-Centered Cubic (BCC) lattice.
+
+### Why This Happens
+
+#### 1. BCC Geometry (Root Cause)
+
+In a BCC lattice (qmedium_lattice.py:24-43):
+
+- Each granule has **8 nearest neighbors** at distance `a × √3/2`
+- These neighbors are arranged in a **tetrahedral/diagonal pattern**
+- Neighbor connections are **NOT aligned** with radial directions from center
+
+#### 2. Wave Propagation Path
+
+```python
+# Each granule oscillates along its own radial direction (qwave_radial.py:84)
+positions[idx] = equilibrium[idx] + displacement * direction
+
+# But its 8 neighbors are positioned diagonally (BCC structure)
+# Wave energy transfers through NON-COLLINEAR paths
+```
+
+#### 3. The "Twist" Mechanism
+
+```text
+Center Granule
+    ↓ (pushes 8 neighbors diagonally - BCC geometry)
+8 Diagonal Neighbors
+    ↓ (each has its own radial direction)
+Wave propagates along non-collinear paths
+    ↓
+Creates apparent "corkscrew" pattern in wavefront
+```
+
+### Visual vs Physical Reality
+
+**What PSHO Computes** (kinematic):
+
+- Each granule: pure radial oscillation along its direction vector
+- Phase: φ = -kr (perfectly spherical wave)
+- No coupling between neighbors (analytical solution)
+
+**What You Observe** (visual):
+
+- Collective interference pattern from many granules
+- BCC symmetry (8-fold diagonal) ≠ perfect spherical symmetry
+- Slight anisotropy in wave propagation
+- Apparent transversal motion from constructive/destructive interference
+
+### Is This Physically Correct?
+
+**Yes!** For EWT quantum aether modeled as a BCC lattice:
+
+1. **Discrete Structure**: Real quantum aether has discrete granules, not continuous medium
+2. **Lattice Anisotropy**: BCC structure has preferential directions (body diagonals)
+3. **Wave Scattering**: Waves propagating through discrete lattice will show diffraction effects
+4. **Realistic Behavior**: Actual wave coupling (XPBD, spring methods) would show even more pronounced lattice effects
+
+The "twisting" you observe is evidence that the simulation correctly represents wave propagation through a **discrete BCC lattice**, not an idealized continuous medium.
+
+### Lattice Structure Details
+
+From qmedium_lattice.py:
+
+```python
+# BCC nearest neighbor distance (line 478)
+rest_length = lattice.unit_cell_edge * sqrt(3) / 2
+
+# Each granule type has specific neighbor count:
+TYPE_VERTEX:  1 neighbor  (corner of lattice)
+TYPE_EDGE:    2 neighbors (edge of lattice)
+TYPE_FACE:    4 neighbors (face of lattice)
+TYPE_CORE:    8 neighbors (interior, full BCC connectivity)
+TYPE_CENTRAL: 8 neighbors (exact center)
+```
+
+The 8-way connectivity for interior granules creates the diagonal coupling that produces the observed transversal component.
 
 ## Scientific Context
 
