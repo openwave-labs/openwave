@@ -174,6 +174,7 @@ class `COMMON
 
 class `VALIDATIONS
   MODULE`{
+    wave_diagnostics.py ✓
     derivations.py ✓
     --TBD*}
 `VALIDATIONS
@@ -235,6 +236,7 @@ kanban
       - spring_leap.py
       - xpbd.py]
     [**VALIDATIONS MODULE**
+      - wave_diagnostics.py
       - derivations.py]
     [**COMMON MODULE**
       - config.py

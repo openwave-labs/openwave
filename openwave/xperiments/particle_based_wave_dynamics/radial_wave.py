@@ -23,6 +23,7 @@ from openwave.common import render
 
 import openwave.spacetime.qmedium_lattice as qmedium
 import openwave.spacetime.qwave_radial as qwave
+import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -40,6 +41,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = qmedium.Granule(lattice.unit_cell_edge)
 
+WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
 # Xperiment UI and overlay windows
@@ -166,11 +168,16 @@ def render_xperiment(lattice, granule):
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
     last_time = time.time()
+    frame = 0  # Frame counter for diagnostics
 
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
+
+    # Print diagnostics header if enabled
+    if WAVE_DIAGNOSTICS:
+        diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
 
     while render.window.running:
         # Render UI overlay windows
@@ -203,6 +210,16 @@ def render_xperiment(lattice, granule):
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
+
+            # Wave diagnostics (minimal footprint)
+            if WAVE_DIAGNOSTICS:
+                diagnostics.print_wave_diagnostics(
+                    t,
+                    frame,
+                    print_interval=100,  # Print every 100 frames
+                )
+
+            frame += 1  # Increment frame counter
         else:
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
