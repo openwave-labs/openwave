@@ -47,7 +47,7 @@ class BCCLattice:
         scaled-up unit-cell properties and scale factor.
 
         Args:
-            universe_edge: Edge length of the cubic universe in meters
+            universe_edge: Simulation domain size, edge length of the cubic universe in meters
             target_particles: Target number of granules (impacts performance)
         """
         # Compute lattice total energy from quantum-wave equation
@@ -55,7 +55,7 @@ class BCCLattice:
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Set universe properties
+        # Set universe properties (simulation domain)
         self.universe_edge = universe_edge
         self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
         universe_volume = universe_edge**3
@@ -570,7 +570,7 @@ if __name__ == "__main__":
     # Parameters & Quantum Objects Instantiation
     # ================================================================
 
-    UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+    UNIVERSE_EDGE = 1e-16  # m, simulation domain size, edge length of cubic universe
     TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
     lattice = BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)

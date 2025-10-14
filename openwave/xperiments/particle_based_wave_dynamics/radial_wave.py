@@ -31,7 +31,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 1e-16  # m (default 300 attometers, contains ~10 qwaves per linear edge)
+UNIVERSE_EDGE = 1e-16  # m simulation domain size, edge length of cubic universe
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
@@ -62,7 +62,7 @@ def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
         sub.text("--- QUANTUM-MEDIUM ---")
-        sub.text(f"Universe Edge: {lattice.universe_edge:.1e} m")
+        sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
