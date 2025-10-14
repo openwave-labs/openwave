@@ -25,7 +25,7 @@ Also check `/research_requirements/original_requirements/1. Simulating a Fundame
 
 ## PHASE 1: Vertex Harmonic Oscillation (Current Phase)
 
-### 1. Constants already declared (at script qwave_render.py beginning)
+### 1. Constants already declared
 
 - `AMPLITUDE` - how far vertices move from equilibrium (units already declared as well)
 - `FREQUENCY` - base frequency of oscillation (Hz)
@@ -121,7 +121,7 @@ def oscillate_vertex(
         lattice_velocities[idx] = velocity_magnitude * direction
 ```
 
-**Call from qwave_render.py**:
+**Call from qwave.py**:
 
 ```python
 t = 0.0  # Initialize time before while loop
@@ -152,7 +152,7 @@ while window.running:
 - [ ] Implement `oscillate_vertex()` kernel (see signature above)
 - [ ] Test with simple parameters first
 
-#### Step 3: Modify qwave_render.py
+#### Step 3: Modify qwave.py
 
 - [ ] Import quantum_wave module: `import openwave.spacetime.quantum_wave as qwave`
 - [ ] Initialize time: `t = 0.0` before while loop

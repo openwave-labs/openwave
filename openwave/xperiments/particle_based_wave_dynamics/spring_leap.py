@@ -14,8 +14,8 @@ from openwave.common import config
 from openwave.common import constants
 from openwave.common import render
 
-import openwave.spacetime.quantum_medium_lattice as medium
-import openwave.spacetime.quantum_wave_springleapfrog as qwave
+import openwave.spacetime.quantum_medium_lattice as qmedium
+import openwave.spacetime.quantum_wave_springleap as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -37,9 +37,9 @@ STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
 
-lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = medium.Granule(lattice.unit_cell_edge)
-neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
+granule = qmedium.Granule(lattice.unit_cell_edge)
+neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 
 # ================================================================

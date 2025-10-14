@@ -155,7 +155,7 @@ class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     radial_wave.py ✓
     spring_euler.py ✓
-    spring_leapfrog.py ✓
+    spring_leap.py ✓
     xpbd.py ✓
     --TBD*}
 
@@ -232,7 +232,7 @@ kanban
     [**XPERIMENTS MODULE**
       - radial_wave.py
       - spring_euler.py
-      - spring_leapfrog.py
+      - spring_leap.py
       - xpbd.py]
     [**VALIDATIONS MODULE**
       - derivations.py]

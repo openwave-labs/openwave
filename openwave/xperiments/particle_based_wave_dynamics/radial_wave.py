@@ -21,7 +21,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave.common import render
 
-import openwave.spacetime.quantum_medium_lattice as medium
+import openwave.spacetime.quantum_medium_lattice as qmedium
 import openwave.spacetime.quantum_wave_radial as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -37,8 +37,8 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
-lattice = medium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = medium.Granule(lattice.unit_cell_edge)
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
+granule = qmedium.Granule(lattice.unit_cell_edge)
 
 
 # ================================================================

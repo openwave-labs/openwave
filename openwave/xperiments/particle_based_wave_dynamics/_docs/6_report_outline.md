@@ -12,7 +12,7 @@ Lets document all the wave-dynamics journey, implementation, findings and every 
   - terminology (notation, constants)
   - background
   - equations (in latex)
-  - code snippets (re-read the radial_wave.py and qwave_radial.py to get the formula exactly as in the code now, also include that)
+  - code snippets (re-read the radial_wave.py and quantum_wave_radial.py to get the formula exactly as in the code now, also include that)
   - some images are located at the readme.md file (gifs at "Model spacetime with real physics accuracy and render it in 3D" and "Usage" sections)
   - experiments, tables, plots, charts
   - limitations, future work and conclusions

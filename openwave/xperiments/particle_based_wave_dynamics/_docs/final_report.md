@@ -177,11 +177,11 @@ We model the quantum aether as a Body-Centered Cubic (BCC) lattice:
 
 **Modules:**
 
-- `medium_bcclattice.py`: BCC lattice construction, granule initialization
-- `qwave_springmass.py`: Force-based spring-mass dynamics (Euler)
-- `qwave_springleapfrog.py`: Force-based Leapfrog integration
-- `qwave_xpbd.py`: XPBD constraint-based solver
-- `qwave_radial.py`: Phase-synchronized harmonic oscillation
+- `quantum_medium_lattice.py`: BCC lattice construction, granule initialization
+- `quantum_wave_springeuler.py`: Force-based spring-mass dynamics (Euler)
+- `quantum_wave_springleap.py`: Force-based Leapfrog integration
+- `quantum_wave_xpbd.py`: XPBD constraint-based solver
+- `quantum_wave_radial.py`: Phase-synchronized harmonic oscillation
 
 ![OpenWave Demo 2](images/demo2.gif)
 ![OpenWave Demo 3](images/demo3.gif)
