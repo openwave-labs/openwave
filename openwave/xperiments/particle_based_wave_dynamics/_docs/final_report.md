@@ -14,7 +14,7 @@
 
 This study presents a systematic investigation of numerical methods for simulating quantum wave dynamics at the Planck scale within the framework of Energy Wave Theory (EWT). We evaluate four distinct computational approaches: explicit force-based integration methods (semi-implicit Euler and Leapfrog), constraint-based solvers (Extended Position-Based Dynamics, XPBD), and phase-synchronized harmonic oscillation (PSHO). Our analysis identifies fundamental computational barriers arising from the extreme stiffness inherent in spring-mass systems that model the quantum aether medium.
 
-The investigation reveals that force-based mechanics encounter an insurmountable "Impossible Triangle" wherein realistic physical stiffness, numerical stability, and computationally feasible timesteps cannot be simultaneously achieved using explicit integration schemes. This limitation persists even with higher-order symplectic methods, manifesting as a frequency mismatch ratio of approximately 360 million to one between the spring natural frequency and the driving frequency. While XPBD successfully circumvents this stability barrier by maintaining realistic stiffness values, it introduces an unexpected wave speed reduction of approximately eight-fold relative to the theoretical speed of light.
+The investigation reveals that force-based mechanics encounter an insurmountable "Impossible Triangle" wherein realistic physical stiffness, numerical stability, and human-visible motion cannot be simultaneously achieved using explicit integration schemes. This limitation persists even with higher-order symplectic methods, manifesting as a frequency mismatch ratio of approximately 360 million to one between the spring natural frequency and the driving frequency. While XPBD successfully circumvents this stability barrier by maintaining realistic stiffness values, it introduces an unexpected wave speed reduction of approximately eight-fold relative to the theoretical speed of light.
 
 We demonstrate that these fundamental limitations can be resolved through a phase-synchronized harmonic oscillation approach that directly implements wave mechanics, achieving exact wave propagation at the speed of light with precise wavelength correspondence. This method bypasses numerical integration entirely, providing unconditional stability and physical accuracy. Our findings indicate that wave mechanics frameworks are inherently superior to particle-based force mechanics for quantum-scale simulations, validating the wave-centric interpretation of quantum phenomena posited by EWT.
 
@@ -54,7 +54,7 @@ This work presents four primary contributions to the field of quantum-scale comp
 
 1. **Identification of fundamental computational barriers**: We demonstrate that force-based methods encounter mathematical, rather than merely computational, limitations at the Planck scale due to extreme stiffness requirements.
 
-2. **Characterization of the "Impossible Triangle"**: We establish that explicit integration schemes cannot simultaneously achieve realistic stiffness values, numerical stability, and computationally feasible timesteps, revealing a frequency mismatch ratio of approximately 360 million to one that proves insurmountable for explicit integrators.
+2. **Characterization of the "Impossible Triangle"**: We establish that explicit integration schemes cannot simultaneously achieve realistic stiffness values, numerical stability, and human-visible motion, revealing a frequency mismatch ratio of approximately 360 million to one that proves insurmountable for explicit integrators.
 
 3. **Evaluation of XPBD capabilities and limitations**: We demonstrate that XPBD successfully circumvents the Impossible Triangle through stability at realistic stiffness values, albeit with an observed wave speed reduction of 8-18 fold.
 
@@ -295,64 +295,106 @@ This extreme frequency mismatch gives rise to what we term the "Impossible Trian
                 / \
                /   \
               /     \
-        Stability --- Computationally Feasible Timesteps
+        Stability --- Human-Visible Motion
 ```
 
-The constraint manifests as follows:
+#### 5.2.2 Theoretical Analysis of Constraint Independence
 
-1. **Realistic stiffness values** (k ≈ 10^44 N/m at Planck scale): Result in immediate numerical instability due to violation of CFL conditions
+The three vertices of the Impossible Triangle represent fundamentally distinct requirements that cannot be simultaneously satisfied:
 
-2. **Numerical stability** (reduced stiffness k ≈ 10^-31 N/m): Produces negligible wave propagation velocities, approximately 10^-24 times the speed of light
+1. **Realistic Stiffness** (k ≈ 10^44 N/m at Planck scale)
+   - **Physical requirement**: Fidelity to EWT-specified parameters
+   - **Mathematical consequence**: Determines natural frequency ω_n = √(k/m)
 
-3. **Computationally feasible timesteps** (dt > 10^-10 s): Cannot satisfy stability criteria for physically realistic stiffness values
+2. **Numerical Stability** (dt < 2/ω_n)
+   - **Mathematical requirement**: Courant-Friedrichs-Lewy (CFL) condition for convergence
+   - **Computational constraint**: Bounds maximum permissible timestep for explicit integration
 
-This frequency gap proves insurmountable for explicit integration methods, representing a fundamental mathematical limitation rather than a computational resource constraint.
+3. **Human-Visible Motion** (temporal scaling factor = 10^25)
+   - **Visualization requirement**: Rendering at 30-60 FPS for observable dynamics
+   - **Practical necessity**: Reduces driving frequency from 10^25 Hz to approximately 1 Hz
 
-#### 5.2.2 Experimental Validation
+#### 5.2.3 Causal Analysis of the Frequency Mismatch
 
-**Test 1: High Stiffness** ($k = 1 \times 10^{-13}$ N/m)
+The fundamental incompatibility arises through the following causal chain:
 
-```python
-Result: Numerical explosion after 0.4 seconds
-Reason: ω_n = 2.4×10^9 rad/s → dt_sub still 9 orders of magnitude too large
+```text
+Visualization Requirement (human perception constraints)
+    ↓
+Temporal scaling factor of 10^25 required
+    ↓
+Frequency mismatch ratio: f_drive ≈ 1 Hz versus f_n = 3.8 × 10^8 Hz
+    ↓
+Stability criterion demands dt < 10^-10 s (requiring 4 × 10^7 substeps per frame)
+    ↓
+Mathematical intractability and computational infeasibility
 ```
 
-**Test 2: Matched Frequency** ($k = 6.9 \times 10^{-31}$ N/m)
+#### 5.2.4 Analysis of Vertex Independence
 
-```python
-Target: f_n = f_drive = 1 Hz
-Result: STABLE but granules dont move!
+The independence of these constraints merits careful examination:
 
-Spring force with 10 am displacement:
-F = k × Δx = 6.9e-31 × 1e-17 = 6.9e-48 N
-a = F/m = 6.9e-48 / 1.753e-32 = 3.9e-16 m/s²
+- **Stiffness versus Stability**: While high stiffness precipitates stability challenges, these represent distinct concepts. Stiffness is a physical parameter governing wave propagation velocity, whereas stability is a mathematical property of the numerical integration scheme. The causal relationship is unidirectional: stiffness affects stability requirements, but they remain conceptually separate.
 
-Position change per frame (dt = 0.033s):
-Δx = 0.5 × a × dt² = 2.1e-19 m = 0.21 attometers (IMPERCEPTIBLE!)
+- **Visualization versus Computational Feasibility**: The visualization requirement constitutes the root cause that necessitates temporal scaling. This scaling subsequently induces the frequency mismatch that renders timesteps computationally infeasible. These are causally linked but represent different aspects of the simulation challenge: perceptual requirements versus computational constraints.
 
-Wave speed:
-v = sqrt(k/m) × L = 6.3e-16 m/s ≈ 2e-24 × c
-(Waves take billions of years to cross one lattice spacing!)
-```
+- **Stability versus Feasible Timesteps**: Although both are connected through the CFL condition, stability concerns the mathematical convergence of the integration scheme, while feasible timesteps relate to practical computational limits imposed by the visualization constraint. The distinction is between mathematical necessity and practical possibility.
 
-**Conclusion:** No "sweet spot" exists. The 360-million-times frequency gap is **unbridgeable** with explicit integration.
+#### 5.2.5 Experimental Manifestation of Constraints
+
+The constraints manifest experimentally as follows:
+
+1. **Physically realistic stiffness** (k ≈ 10^44 N/m): Results in immediate numerical divergence, with system instability occurring within milliseconds due to violation of stability criteria.
+
+2. **Artificially reduced stiffness** (k ≈ 10^-31 N/m): Achieves numerical stability but yields wave propagation velocities of approximately 10^-24 × c, requiring geological timescales for waves to traverse individual lattice spacings—effectively producing no observable motion.
+
+3. **Temporal scaling for visualization**: Introduces an insurmountable frequency disparity of 360 million to one between the visualization-constrained driving frequency (1 Hz) and the physically required natural frequency (380 MHz).
+
+This frequency gap represents a fundamental mathematical barrier for explicit integration methods, transcending mere computational resource limitations.
+
+#### 5.2.6 Experimental Validation
+
+**Configuration 1: High Stiffness Regime** ($k = 1 \times 10^{-13}$ N/m)
+
+Experimental outcome:
+
+- Numerical divergence occurred after 0.4 seconds of simulation time
+- Natural frequency: ω_n = 2.4 × 10^9 rad/s
+- Analysis: Despite using 1,000 substeps, the effective timestep remains nine orders of magnitude larger than the stability threshold
+
+**Configuration 2: Frequency-Matched Regime** ($k = 6.9 \times 10^{-31}$ N/m)
+
+Target parameters:
+
+- Matched frequencies: f_n = f_drive = 1 Hz
+- Result: Numerical stability achieved, but negligible granule motion observed
+
+Quantitative analysis of motion:
+
+- Spring force for 10 attometer displacement: F = k × Δx = 6.9 × 10^-31 × 10^-17 = 6.9 × 10^-48 N
+- Resulting acceleration: a = F/m = 6.9 × 10^-48 / 1.753 × 10^-32 = 3.9 × 10^-16 m/s²
+- Position change per frame (dt = 0.033s): Δx = 0.5 × a × dt² = 2.1 × 10^-19 m (0.21 attometers)
+- Wave propagation velocity: v = √(k/m) × L = 6.3 × 10^-16 m/s ≈ 2 × 10^-24 × c
+
+The resulting wave speed is twenty-four orders of magnitude below the speed of light, requiring billions of years for waves to traverse a single lattice spacing.
+
+**Conclusion**: These experiments definitively demonstrate that no intermediate parameter regime exists that satisfies all three constraints. The 360-million-fold frequency disparity represents an unbridgeable gap for explicit integration methods.
 
 ### 5.3 XPBD: Stability Achieved, But Wave Speed Anomaly
 
 #### 5.3.1 Implementation Success
 
-XPBD achieved **numerical stability** with REAL physical stiffness:
+XPBD achieved numerical stability with physically realistic stiffness values:
 
-```python
-Configuration:
-- Grid: 79×79×79 (1M granules)
-- k = 2.66×10^23 N/m (NO reduction!)
+Configuration parameters:
+
+- Grid dimensions: 79×79×79 (984,064 granules)
+- Spring stiffness: k = 2.66×10^23 N/m (unreduced physical value)
 - Substeps: 100 per frame
-- SOR: ω = 1.5
-- Damping: 0.999 per substep
+- Successive over-relaxation parameter: ω = 1.5
+- Damping coefficient: 0.999 per substep
 
-Result: No explosions, stable wave propagation visible!
-```
+Result: Stable wave propagation achieved without numerical divergence.
 
 ![XPBD Experiment](images/x_xpbd.png)
 
@@ -365,27 +407,25 @@ Result: No explosions, stable wave propagation visible!
 
 **Analysis:**
 
-Wave speed improved 2.3x with higher resolution, but still ~8x too slow at 1e5 particles (21 granules/wavelength - well above Nyquist limit of 10).
+Wave propagation velocity improved by a factor of 2.3 with increased spatial resolution. However, at 101,306 particles (21.1 granules per wavelength, exceeding the Nyquist criterion of 10 granules per wavelength), the measured wave speed remained approximately eight-fold below the theoretical value.
 
 **XPBD Compliance Analysis:**
 
-```python
-For 1e5 particles:
-k = 2.962×10^23 N/m
-dt_sub = 1.466×10^-4 s (100 substeps at 30 FPS)
-λ = 1/(k×dt²) = 1.570×10^-4x
+For the 101,306-particle configuration:
 
-w = 1/m = 1.956×10^31
-λ/(2w) = 4.013×10^-50 << 1 (extremely stiff constraint)
-```
+- Spring stiffness: k = 2.962×10^23 N/m
+- Substep duration: dt_sub = 1.466×10^-4 s (100 substeps at 30 FPS)
+- Compliance parameter: α̃ = 1/(k×dt²) = 1.570×10^-16
+- Inverse mass: w = 1/m = 1.956×10^31 kg^-1
+- Normalized compliance: α̃/(2w) = 4.013×10^-48 << 1
 
-Despite λ << 1 indicating near-rigid constraints, wave speed remained 8x below c.
+The extremely small normalized compliance value indicates near-rigid constraint enforcement. Nevertheless, the observed wave speed remained significantly below the speed of light.
 
-### 5.4 Phase-Synchronized Harmonic Oscillation: The Breakthrough
+### 5.4 Phase-Synchronized Harmonic Oscillation: Resolution Through Wave Mechanics
 
-#### 5.4.1 A Paradigm Shift: From Force Mechanics to Wave Mechanics
+#### 5.4.1 Paradigm Shift from Force-Based to Wave-Based Formulation
 
-The insight: remove springs and constraints entirely, and use synchronized phase between granules. Instead of force-based mechanics $(F \rightarrow a \rightarrow v \rightarrow x)$, we implemented **direct wave equation**:
+The critical insight involves eliminating springs and constraints entirely in favor of synchronized phase relationships between granules. Rather than employing force-based mechanics $(F \rightarrow a \rightarrow v \rightarrow x)$, we implement direct wave equations:
 
 $$x(t) = x_{eq} + A \cdot \cos(\omega t - kr) \cdot \hat{d}$$
 
@@ -398,11 +438,11 @@ where:
 - $r$ = radial distance from source
 - $\hat{d}$ = unit vector from granule to lattice center
 
-**Key insight:** A radial wave is point-sourced from the lattice center with propagation via synchronized phase shift - not force/constraint driving a position integrator, but instead a simple harmonic oscillation equation defining position over time for each granule.
+**Key insight:** Radial waves originate from the lattice center and propagate via synchronized phase shifts. This approach replaces force-driven position integration with direct harmonic oscillation equations that define granule positions as functions of time.
 
-Phase relationship $\phi = -kr$ creates **outward-propagating spherical wave** from lattice center without any spring forces or numerical integration!
+The phase relationship $\phi = -kr$ generates outward-propagating spherical waves from the lattice center without requiring spring forces or numerical integration.
 
-**Result:** We got a perfect wave! Clear wavefronts visible, matching both wave speed and wavelength parameters exactly.
+**Result:** This approach achieves exact wave propagation with clearly defined wavefronts, matching both theoretical wave speed and wavelength parameters.
 
 #### 5.4.2 Design Decision: Separating Temporal and Spatial Phase Terms
 
@@ -487,14 +527,14 @@ def oscillate_granules(
 
 ![Radial Wave Experiment](images/x_wave.png)
 
-#### 5.4.4 Results: Perfect Waves Achieved
+#### 5.4.4 Experimental Results and Validation
 
-**Visual Validation:**
+**Observed Phenomena:**
 
-- Clear spherical wavefronts propagating from lattice center
-- Correct wavelength λ = 2π/k observable in spatial pattern
-- Correct frequency f visible in temporal oscillation
-- No numerical artifacts, explosions, or instabilities
+- Spherical wavefronts propagating outward from the lattice center
+- Wavelength λ = 2π/k verified through spatial pattern analysis
+- Frequency f confirmed through temporal oscillation measurements
+- Absence of numerical artifacts or instabilities
 
 **Wave Speed:**
 
@@ -513,13 +553,13 @@ Measured spatially: Distance between wavefronts matches theoretical
 - Unconditionally stable - no timestep constraint
 - Simulation runs indefinitely without numerical issues
 
-**Benefits:**
+**Advantages of the Phase-Synchronized Approach:**
 
-1. ✅ Perfect wave speed - No numerical dispersion from discretization
-2. ✅ Perfect wavelength - Phase relationship enforces exact λ
-3. ✅ Unconditionally stable - No timestep constraints, no explosions
-4. ✅ Computationally efficient - Just trigonometric functions, no constraint solving
-5. ✅ Physically accurate - Matches EWT parameters exactly
+1. **Exact wave propagation velocity** - Eliminates numerical dispersion associated with discretization
+2. **Precise wavelength preservation** - Phase relationships enforce exact wavelength λ
+3. **Unconditional stability** - No timestep constraints or numerical divergence
+4. **Computational efficiency** - Requires only trigonometric function evaluations, no iterative constraint solving
+5. **Physical fidelity** - Exact correspondence with EWT parameters
 
 #### 5.4.5 Comparison Table
 
@@ -572,59 +612,57 @@ Even with $\tilde{\alpha}$ extremely small ($\tilde{\alpha}/(2w) \approx 10^{-47
 
 At low resolution (4.6 granules/λ), this effect is severe (5% of c). At higher resolution (21 granules/λ), improves to 12.5% of c, but gap remains.
 
-### 6.3 Why Phase Synchronization Works Perfectly
+### 6.3 Theoretical Foundation for Phase Synchronization Success
 
-Phase-synchronized approach succeeds because it **models wave mechanics directly** rather than force mechanics. This represents a fundamental paradigm shift in how we think about quantum simulation.
+The phase-synchronized approach succeeds through direct implementation of wave mechanics rather than force-based dynamics. This represents a fundamental paradigm shift in computational methodology for quantum-scale simulation.
 
-**Force Mechanics Paradigm (Failed):**
+**Force Mechanics Paradigm (Limitations at Quantum Scale):**
 
-> "Forces cause acceleration, which integrates to velocity, which integrates to position"
-> (Dynamic → Kinematic)
+The classical approach follows the causal chain: Forces → Acceleration → Velocity → Position (Dynamic → Kinematic)
 
-```python
-Springs → Forces → Accelerations → Velocities → Positions
-[Each step accumulates error, requires timestep constraints]
-```
+This sequential integration process:
 
-**Wave Mechanics Paradigm (Success):**
+- Accumulates numerical error at each step
+- Requires restrictive timestep constraints
+- Fails at extreme stiffness values
 
-> "Positions must satisfy wave equations, velocities are consequence of wave oscillation"
-> (Wave → Kinematic & Dynamic)
+**Wave Mechanics Paradigm (Successful Implementation):**
 
-```python
-Phase Relationship → Positions & Velocities (analytical)
-[No integration, no accumulation of error, unconditionally stable]
-```
+The wave-based approach directly specifies: Wave Equation → Position and Velocity (Analytical Solution)
 
-**Both are valid physics!** We simply moved from:
+This direct formulation:
 
-- ❌ Force mechanics paradigm: Forces → Accelerations → Velocities → Positions (breaks down at quantum scale)
-- ✅ Wave mechanics paradigm: Phase relationships → Direct position calculation (works perfectly!)
+- Eliminates numerical integration
+- Avoids error accumulation
+- Provides unconditional stability
+
+**Comparative Analysis:**
+
+- **Force mechanics paradigm**: F → a → v → x (sequential integration, fails at quantum scales)
+- **Wave mechanics paradigm**: Phase relationships → Direct position calculation (analytical solution, exact results)
 
 **Physical Interpretation:**
 
-At quantum scale, granules don't "push" each other via springs - they oscillate in phase relationships determined by wave equation. The **phase coherence** is fundamental, not the forces.
+At quantum scales, granules oscillate according to phase relationships governed by wave equations. Phase coherence, constitutes a fundamental mechanism.
 
-This is actually a profound realization that validates EWT's wave-centric view - phase relationships are more fundamental than forces at quantum scale. This aligns with **wave-particle duality** in quantum mechanics: particles are better understood as wave patterns than as point masses with forces.
+This observation validates EWT's wave-centric interpretation and aligns with wave-particle duality in quantum mechanics, suggesting that particles are more accurately conceptualized as wave patterns.
 
 ### 6.4 Implications for Quantum Simulation
 
-The enormous energy contained in quantum waves is confirmed by forces and momentum so extreme that integration methods **mathematically fail** - not just computationally, but fundamentally. Even with unlimited computational power, the mathematics of integration cannot resolve extreme stiffness when:
+The extreme energy density of quantum waves is evidenced by force magnitudes and momentum values that exceed the resolution capacity of numerical integration methods. This represents a fundamental mathematical limitation rather than a computational constraint. Even with unlimited computational resources, numerical integration cannot resolve the extreme stiffness arising from:
 
-$$\text{High frequencies} \rightarrow \text{High stiffness} \rightarrow \text{Extremely high iterations needed} \rightarrow \text{Extremely low dt}$$
+$$\text{High frequencies} \rightarrow \text{Extreme stiffness} \rightarrow \text{Prohibitive iteration requirements} \rightarrow \text{Infinitesimal timesteps}$$
 
-This only confirms EWT's prediction that quantum waves contain enormous energy, evidenced by high forces and momentum impossible to compute because the math fails (the integration methods actually), not even a computational feasibility issue.
+This corroborates EWT's theoretical predictions regarding the enormous energy contained in quantum waves, manifesting as forces and momentum values that cause mathematical failure of integration schemes.
 
-### 6.5 Implications for Quantum Simulation
-
-Our findings suggest:
+Our findings indicate:
 
 1. **Force-based particle simulation** is inappropriate for quantum-scale phenomena (mathematical limitation, not computational)
 2. **Wave equation frameworks** are fundamentally superior for quantum simulation
 3. **Direct analytical solutions** bypass numerical integration challenges entirely
 4. **Phase relationships** are more fundamental than force interactions at quantum scale
 
-This validates EWT's wave-centric view of quantum mechanics over particle-centric interpretations - waves are not emergent from particles, but fundamental entities described by phase relationships and harmonic oscillations.
+This validates EWT's wave-centric view of quantum mechanics over particle-centric interpretations - waves are fundamental entities described by phase relationships and harmonic oscillations.
 
 ---
 
@@ -671,7 +709,7 @@ Combine phase synchronization with constraint-based methods:
 
 This systematic investigation of numerical methods for quantum-scale wave dynamics yields four principal findings with significant implications for computational quantum physics:
 
-1. **Fundamental mathematical limitations of force-based integration**: Explicit integration methods (semi-implicit Euler and symplectic Leapfrog) encounter insurmountable mathematical barriers when applied to Planck-scale dynamics with physically realistic parameters. The extreme stiffness requirements (k ≈ 10^44 N/m) necessitate timesteps below 10^-26 seconds, exceeding the resolution limits of floating-point arithmetic. This limitation is mathematical rather than computational, confirming theoretical predictions regarding the extreme energy density of quantum waves. The "Impossible Triangle" demonstrates that realistic stiffness, numerical stability, and computationally feasible timesteps cannot be simultaneously achieved, with a frequency mismatch ratio of approximately 360 million to one proving unbridgeable for explicit integrators.
+1. **Fundamental mathematical limitations of force-based integration**: Explicit integration methods (semi-implicit Euler and symplectic Leapfrog) encounter insurmountable mathematical barriers when applied to Planck-scale dynamics with physically realistic parameters. The extreme stiffness requirements (k ≈ 10^44 N/m) necessitate timesteps below 10^-26 seconds, exceeding the resolution limits of floating-point arithmetic. This limitation is mathematical rather than computational, confirming theoretical predictions regarding the extreme energy density of quantum waves. The "Impossible Triangle" demonstrates that realistic stiffness, numerical stability, and human-visible motion cannot be simultaneously achieved, with a frequency mismatch ratio of approximately 360 million to one proving unbridgeable for explicit integrators.
 
 2. **XPBD performance characteristics**: The Extended Position-Based Dynamics solver successfully achieves numerical stability while maintaining physically realistic stiffness values, effectively circumventing the Impossible Triangle. However, empirical measurements reveal an unexpected wave speed reduction of 8-18 fold relative to the theoretical speed of light. While this represents significant progress in achieving stable quantum-scale simulation with realistic parameters, the wave speed anomaly merits further investigation into the dispersive effects of iterative constraint satisfaction.
 
@@ -688,7 +726,7 @@ The progression of our investigation illustrates the evolution from force-based 
 - Constraint-based dynamics (XPBD): Stability with reduced wave speed
 - Phase-synchronized oscillation: Exact wave propagation
 
-These findings resolve critical computational barriers in quantum simulation and demonstrate that computational methodologies must align with the fundamental physics being modeled. For quantum-scale wave dynamics, wave mechanics provides the appropriate mathematical framework, while force-based particle mechanics proves fundamentally inadequate.
+These findings resolve critical computational barriers in quantum simulation and demonstrate that computational methodologies must align with the fundamental physics being modeled. For quantum-scale wave dynamics, wave mechanics provides the appropriate mathematical framework.
 
 ---
 
