@@ -89,7 +89,7 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
@@ -99,6 +99,12 @@ def controls():
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        if paused:
+            if sub.button("Continue"):
+                paused = False
+        else:
+            if sub.button("Pause"):
+                paused = True
 
 
 # ================================================================
@@ -145,7 +151,7 @@ def render_xperiment(lattice, granule):
         granule: Granule instance for size reference
         neighbors: BCCNeighbors instance for optional link visualization
     """
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
     global normalized_positions
 
     # Initialize variables
@@ -155,6 +161,7 @@ def render_xperiment(lattice, granule):
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
+    paused = False  # Pause toggle
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -172,29 +179,33 @@ def render_xperiment(lattice, granule):
         data_dashboard()
         xperiment_specs()
 
-        # Calculate actual elapsed time (real-time tracking)
-        current_time = time.time()
-        dt_real = current_time - last_time
-        last_time = current_time
-        t += dt_real  # Use real elapsed time instead of fixed DT
+        if not paused:
+            # Calculate actual elapsed time (real-time tracking)
+            current_time = time.time()
+            dt_real = current_time - last_time
+            last_time = current_time
+            t += dt_real  # Use real elapsed time instead of fixed DT
 
-        # Apply radial harmonic oscillation to all granules
-        # All granules oscillate toward/away from lattice center along their direction vectors
-        # Phase is determined by radial distance, creating outward-propagating spherical waves
-        qwave.oscillate_granules(
-            lattice.positions_am,  # Granule positions in attometers
-            lattice.velocities_am,  # Granule velocities in am/s
-            lattice.equilibrium_am,  # Rest positions for all granules
-            lattice.directions,  # Direction vectors to center for all granules
-            lattice.radial_am,  # Radial distance from each granule to center
-            t,
-            SLOW_MO / freq_boost,
-            amp_boost,  # Visibility boost for scaled lattices
-        )
+            # Apply radial harmonic oscillation to all granules
+            # All granules oscillate toward/away from lattice center along their direction vectors
+            # Phase is determined by radial distance, creating outward-propagating spherical waves
+            qwave.oscillate_granules(
+                lattice.positions_am,  # Granule positions in attometers
+                lattice.velocities_am,  # Granule velocities in am/s
+                lattice.equilibrium_am,  # Rest positions for all granules
+                lattice.directions,  # Direction vectors to center for all granules
+                lattice.radial_am,  # Radial distance from each granule to center
+                t,
+                SLOW_MO / freq_boost,
+                amp_boost,  # Visibility boost for scaled lattices
+            )
 
-        # Update normalized positions for rendering (must happen after position updates)
-        # with optional block-slicing (see-through effect)
-        normalize_lattice(1 if block_slice else 0)
+            # Update normalized positions for rendering (must happen after position updates)
+            # with optional block-slicing (see-through effect)
+            normalize_lattice(1 if block_slice else 0)
+        else:
+            # Update last_time during pause to prevent time jump on resume
+            last_time = time.time()
 
         # Render granules with optional type-coloring
         if granule_type:

@@ -93,10 +93,10 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.23) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
@@ -104,6 +104,12 @@ def controls():
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        if paused:
+            if sub.button("Continue"):
+                paused = False
+        else:
+            if sub.button("Pause"):
+                paused = True
 
 
 # ================================================================
@@ -197,7 +203,7 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost
+    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost, paused
     global link_lines
     global normalized_positions
 
@@ -210,6 +216,7 @@ def render_xperiment(lattice, granule, neighbors):
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 1.0  # Initialize amplitude boost
     link_lines = None  # Link line buffer
+    paused = False  # Pause toggle
 
     # Time tracking for harmonic oscillation
     t = 0.0
@@ -232,36 +239,40 @@ def render_xperiment(lattice, granule, neighbors):
         data_dashboard()
         xperiment_specs()
 
-        # Calculate actual elapsed time (real-time tracking)
-        current_time = time.time()
-        dt_real = current_time - last_time
-        last_time = current_time
-        t += dt_real  # Use real elapsed time instead of fixed DT
+        if not paused:
+            # Calculate actual elapsed time (real-time tracking)
+            current_time = time.time()
+            dt_real = current_time - last_time
+            last_time = current_time
+            t += dt_real  # Use real elapsed time instead of fixed DT
 
-        # Update wave propagation using XPBD constraint solver
-        # XPBD = Extended Position-Based Dynamics (unconditionally stable!)
-        # Following "Small Steps" + "Unified Particle Physics" papers:
-        # - 100 substeps with 1 iteration each (error scales as Δt²)
-        # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
-        # - SOR omega=1.5 for faster convergence
-        # - Damping=0.999 per substep (explicit dissipation)
-        qwave.propagate_qwave(
-            lattice,
-            granule,
-            neighbors,
-            STIFFNESS,  # REAL physical value!
-            t,
-            dt_real,
-            substeps=100,  # 100 recommended from papers
-            slow_mo=SLOW_MO / freq_boost,
-            damping=0.999,  # 0.1% energy loss per substep
-            omega=1.5,  # SOR parameter for faster convergence
-            amp_boost=amp_boost,  # Visibility boost for scaled lattices
-        )
+            # Update wave propagation using XPBD constraint solver
+            # XPBD = Extended Position-Based Dynamics (unconditionally stable!)
+            # Following "Small Steps" + "Unified Particle Physics" papers:
+            # - 100 substeps with 1 iteration each (error scales as Δt²)
+            # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
+            # - SOR omega=1.5 for faster convergence
+            # - Damping=0.999 per substep (explicit dissipation)
+            qwave.propagate_qwave(
+                lattice,
+                granule,
+                neighbors,
+                STIFFNESS,  # REAL physical value!
+                t,
+                dt_real,
+                substeps=100,  # 100 recommended from papers
+                slow_mo=SLOW_MO / freq_boost,
+                damping=0.999,  # 0.1% energy loss per substep
+                omega=1.5,  # SOR parameter for faster convergence
+                amp_boost=amp_boost,  # Visibility boost for scaled lattices
+            )
 
-        # Update normalized positions for rendering (must happen after position updates)
-        # with optional block-slicing (see-through effect)
-        normalize_lattice(1 if block_slice else 0)
+            # Update normalized positions for rendering (must happen after position updates)
+            # with optional block-slicing (see-through effect)
+            normalize_lattice(1 if block_slice else 0)
+        else:
+            # Update last_time during pause to prevent time jump on resume
+            last_time = time.time()
 
         # Probe wave diagnostics (measurements happen automatically at configured interval)
         qwave.probe_wave_diagnostics(
