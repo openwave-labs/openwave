@@ -87,7 +87,7 @@ class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     QUANTUM-MEDIUM OBJECTS
     qmedium_particles.py ✓
-    *WIP*: qmedium_aether.py
+    *WIP*: qmedium_fields.py
     ---
     QUANTUM-WAVE ENGINES
     qwave_radial.py ✓
@@ -165,7 +165,7 @@ class `XPERIMENTS MODULE
     - spring_mass.py ✓
     - xpbd.py ✓
     ---
-    AETHER-BASED
+    FIELD-BASED
     - *WIP*: flow_wave.py
     ---
     ANTI-GRAVITY
@@ -239,7 +239,7 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - qmedium_aether.py
+      - qmedium_fields.py
       - qwave_flow.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }

@@ -12,7 +12,7 @@
 
 ## Abstract
 
-This study presents a systematic investigation of numerical methods for simulating quantum wave dynamics at the Planck scale within the framework of Energy Wave Theory (EWT). We evaluate four distinct computational approaches: explicit force-based integration methods (semi-implicit Euler and Leapfrog), constraint-based solvers (Extended Position-Based Dynamics, XPBD), and phase-synchronized harmonic oscillation (PSHO). Our analysis identifies fundamental computational barriers arising from the extreme stiffness inherent in spring-mass systems that model the quantum aether medium.
+This study presents a systematic investigation of numerical methods for simulating quantum wave dynamics at the Planck scale within the framework of Energy Wave Theory (EWT). We evaluate four distinct computational approaches: explicit force-based integration methods (semi-implicit Euler and Leapfrog), constraint-based solvers (Extended Position-Based Dynamics, XPBD), and phase-synchronized harmonic oscillation (PSHO). Our analysis identifies fundamental computational barriers arising from the extreme stiffness inherent in spring-mass systems that model the quantum medium aether.
 
 The investigation reveals that force-based mechanics encounter an insurmountable "Impossible Triangle" wherein realistic physical stiffness, numerical stability, and human-visible motion cannot be simultaneously achieved using explicit integration schemes. This limitation persists even with higher-order symplectic methods, manifesting as a frequency mismatch ratio of approximately 360 million to one between the spring natural frequency and the driving frequency. While XPBD successfully circumvents this stability barrier by maintaining realistic stiffness values, it introduces an unexpected wave speed reduction of approximately eight-fold relative to the theoretical speed of light.
 
@@ -24,7 +24,7 @@ We demonstrate that these fundamental limitations can be resolved through a phas
 
 ### 1.1 Motivation
 
-Energy Wave Theory (EWT) [1-3] presents a deterministic framework for quantum mechanics, proposing that matter and energy emerge from wave interactions within a dense quantum aether medium. Computational validation of EWT necessitates the simulation of wave propagation through a lattice of quantum granules operating at or near the Planck scale (1.616×10^-35 m). The physical parameters required for such simulations include:
+Energy Wave Theory (EWT) [1-3] presents a deterministic framework for quantum mechanics, proposing that matter and energy emerge from wave interactions within a dense quantum medium aether. Computational validation of EWT necessitates the simulation of wave propagation through a lattice of quantum granules operating at or near the Planck scale (1.616×10^-35 m). The physical parameters required for such simulations include:
 
 - Spring stiffness coefficient: k ≈ 5.56×10^44 N/m (at Planck length)
 - Wave frequency: f ≈ 1.05×10^25 Hz
@@ -71,10 +71,10 @@ This work presents four primary contributions to the field of quantum-scale comp
 | c | Speed of light (wave speed) | 2.998×10^8 m/s |
 | λ_q | Quantum Wave length | 2.854×10^-17 m (28.54 am) |
 | f_q | Quantum Wave frequency | c/λ_q ≈ 1.05×10^25 Hz |
-| A | Wave amplitude | 9.215×10^-19 m |
+| A | Quantum Wave amplitude | 9.215×10^-19 m |
 | l_p | Planck length | 1.616×10^-35 m |
 | m_p | Planck mass | 2.17×10^-8 kg |
-| ρ_aether | Medium density | 5.16×10^96 kg/m³ |
+| ρ | Quantum Medium density | 5.16×10^96 kg/m³ |
 
 ### 2.2 Lattice Parameters
 
@@ -123,9 +123,9 @@ where $k = 2\pi/\lambda$ (wave number), $r$ = radial distance from source, $\hat
 
 ### 3.1 Energy Wave Theory (EWT)
 
-EWT [1-3] proposes that spacetime emerges from a dense quantum aether composed of fundamental granules at or near Planck scale. These granules:
+EWT [1-3] proposes that spacetime emerges from a dense quantum medium aether composed of fundamental granules at or near Planck scale. These granules:
 
-- Possess mass (Planck mass corrected by aether density [4])
+- Possess mass (Planck mass corrected by medium density [4])
 - Are connected by elastic interactions (quantifiable as spring constant)
 - Oscillate harmonically to propagate quantum waves
 - Form particles through standing wave interference patterns
@@ -142,7 +142,7 @@ $$v_{wave} = c \quad \text{(Wave propagation at speed of light)}$$
 
 ### 3.2 BCC Lattice Structure
 
-We model the quantum aether as a Body-Centered Cubic (BCC) lattice:
+We model the quantum medium aether as a Body-Centered Cubic (BCC) lattice:
 
 - **Topology:** 8-way connectivity (each interior granule connected to 8 neighbors)
 - **Rest length:** $L = L_0 \cdot \sqrt{3}/2$ (where $L_0$ is unit cell edge)

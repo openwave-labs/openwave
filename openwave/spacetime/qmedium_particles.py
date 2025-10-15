@@ -120,13 +120,13 @@ class BCCLattice:
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.center_direction = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.center_distance_am = ti.field(dtype=ti.f32, shape=self.total_granules)
-        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_index = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest position
         self.vertex_center_direction = ti.Vector.field(3, dtype=ti.f32, shape=8)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
