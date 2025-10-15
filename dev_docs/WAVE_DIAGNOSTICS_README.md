@@ -326,7 +326,7 @@ TYPE_VERTEX:  1 neighbor  (corner of lattice)
 TYPE_EDGE:    2 neighbors (edge of lattice)
 TYPE_FACE:    4 neighbors (face of lattice)
 TYPE_CORE:    8 neighbors (interior, full BCC connectivity)
-TYPE_CENTRAL: 8 neighbors (exact center)
+TYPE_CENTER: 8 neighbors (exact center)
 ```
 
 The 8-way connectivity for interior granules creates the diagonal coupling that produces the observed transversal component.

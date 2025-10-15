@@ -35,14 +35,14 @@ TYPE_VERTEX = 0  # 8 corner vertices of the lattice cube
 TYPE_EDGE = 1  # 12 edges of the lattice cube
 TYPE_FACE = 2  # 6 faces of the lattice cube
 TYPE_CORE = 3  # Interior granules (not on boundary)
-TYPE_CENTRAL = 4  # Single central granule (lattice center)
+TYPE_CENTER = 4  # Single central granule (lattice center)
 
 # Type-specific colors [hex_rgba, (r, g, b)]
 COLOR_VERTEX = ["#ffffffff", (1.0, 1.0, 1.0)]  # White - cube vertices
 COLOR_EDGE = ["#ffea00ff", (1.0, 0.92, 0.0)]  # Yellow - cube edges
 COLOR_FACE = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # Orange - cube faces
 COLOR_CORE = COLOR_MEDIUM  # Blue - interior granules
-COLOR_CENTRAL = ["#8b00ffff", (0.55, 0.0, 0.85)]  # Purple - central granule
+COLOR_CENTER = ["#8b00ffff", (0.55, 0.0, 0.85)]  # Purple - central granule
 COLOR_SOURCE = ["#ff00eeff", (1.0, 0.0, 0.93)]  # Magenta - source granule
 COLOR_PROBE = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - probe granule
 

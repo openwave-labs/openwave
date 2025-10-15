@@ -136,7 +136,7 @@ class BCCNeighbors:
     TYPE_EDGE:    2 neighbors (edge of lattice boundary)
     TYPE_FACE:    4 neighbors (face of lattice boundary)
     TYPE_CORE:    8 neighbors (interior, full BCC connectivity)
-    TYPE_CENTRAL: 8 neighbors (exact center granule)
+    TYPE_CENTER: 8 neighbors (exact center granule)
 ```
 
 **8-Way BCC Connectivity**:

@@ -131,10 +131,10 @@ class BCCLattice:
 
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize positions and velocities
-        self.build_directions()  # builds direction vectors for all granules to center
         self.build_granule_type()  # classifies granules
-        self.find_front_octant()  # for block-slicing visualization
+        self.build_directions()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
+        self.find_front_octant()  # for block-slicing visualization
         self.set_granule_colors()  # colors based on granule_type
         self.select_slice_plane_probes()  # select random probes on slice planes
 
@@ -192,48 +192,6 @@ class BCCLattice:
             self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
-    def build_directions(self):
-        """Compute normalized direction vectors from all granules to lattice center.
-
-        For each granule in the positions_am array, computes a normalized direction vector
-        pointing from the granule's position toward the geometric center of the lattice.
-        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
-
-        Direction vectors are stored in the directions field and used for radial operations
-        such as compression/expansion forces or wave propagation from the center.
-
-        Special case: The central granule (TYPE_CENTRAL) has zero distance and a default
-        direction vector, ensuring it remains stationary in radial wave patterns.
-        """
-        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
-        lattice_center = ti.Vector([0.5, 0.5, 0.5])
-
-        # Process all granules in the lattice
-        for idx in range(self.total_granules):
-            # Special case: Central granule should have zero distance and no direction
-            if self.granule_type[idx] == config.TYPE_CENTRAL:
-                # Central granule: zero distance, arbitrary direction (won't be used)
-                self.directions[idx] = ti.Vector([0.0, 0.0, 0.0])
-                self.radial_am[idx] = 0.0
-            else:
-                # Convert granule position from attometers to normalized coordinates [0, 1]
-                # by dividing by the total universe edge length in attometers
-                pos_normalized = ti.Vector(
-                    [
-                        self.positions_am[idx][0] / self.universe_edge_am,
-                        self.positions_am[idx][1] / self.universe_edge_am,
-                        self.positions_am[idx][2] / self.universe_edge_am,
-                    ]
-                )
-
-                # Compute direction vector from granule position to lattice center
-                direction = lattice_center - pos_normalized
-
-                # Normalize and store the direction and distance to center vectors
-                self.directions[idx] = direction.normalized()
-                self.radial_am[idx] = direction.norm() * self.universe_edge_am  # in attometers
-
-    @ti.kernel
     def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
@@ -242,7 +200,7 @@ class BCCLattice:
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
-        - CENTRAL (4): Single granule at exact center of lattice
+        - CENTER (4): Single granule at exact center of lattice
         """
         corner_count = (self.grid_size + 1) ** 3
         half_grid = self.grid_size // 2
@@ -281,30 +239,52 @@ class BCCLattice:
 
                 # Check if this is the exact central granule (only for odd grid_size)
                 if i == half_grid and j == half_grid and k == half_grid:
-                    self.granule_type[idx] = config.TYPE_CENTRAL
+                    self.granule_type[idx] = config.TYPE_CENTER
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
                     self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def find_front_octant(self):
-        """Mark granules in the front octant (for block-slicing visualization).
+    def build_directions(self):
+        """Compute normalized direction vectors from all granules to lattice center.
 
-        Front octant = granules where x, y, z > universe_edge/2
-        Used for rendering: 0 = render, 1 = skip (for see-through effect)
+        For each granule in the positions_am array, computes a normalized direction vector
+        pointing from the granule's position toward the geometric center of the lattice.
+        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
+
+        Direction vectors are stored in the directions field and used for radial operations
+        such as compression/expansion forces or wave propagation from the center.
+
+        Special case: The central granule (TYPE_CENTER) has zero distance and a default
+        direction vector, ensuring it remains stationary in radial wave patterns.
         """
-        for i in range(self.total_granules):
-            # Mark if granule is in the front 1/8th block, > halfway on all axes
-            # 0 = not in front octant, 1 = in front octant
-            self.front_octant[i] = (
-                1
-                if (
-                    self.positions_am[i][0] > self.universe_edge_am / 2
-                    and self.positions_am[i][1] > self.universe_edge_am / 2
-                    and self.positions_am[i][2] > self.universe_edge_am / 2
+        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
+        lattice_center = ti.Vector([0.5, 0.5, 0.5])
+
+        # Process all granules in the lattice
+        for idx in range(self.total_granules):
+            # Special case: Central granule should have zero distance and no direction
+            if self.granule_type[idx] == config.TYPE_CENTER:
+                # Central granule: zero distance, arbitrary direction (won't be used)
+                self.directions[idx] = ti.Vector([0.0, 0.0, 0.0])
+                self.radial_am[idx] = 0.0
+            else:
+                # Convert granule position from attometers to normalized coordinates [0, 1]
+                # by dividing by the total universe edge length in attometers
+                pos_normalized = ti.Vector(
+                    [
+                        self.positions_am[idx][0] / self.universe_edge_am,
+                        self.positions_am[idx][1] / self.universe_edge_am,
+                        self.positions_am[idx][2] / self.universe_edge_am,
+                    ]
                 )
-                else 0
-            )
+
+                # Compute direction vector from granule position to lattice center
+                direction = lattice_center - pos_normalized
+
+                # Normalize and store the direction and distance to center vectors
+                self.directions[idx] = direction.normalized()
+                self.radial_am[idx] = direction.norm() * self.universe_edge_am  # in attometers
 
     @ti.kernel
     def build_vertex_data(self):
@@ -336,6 +316,26 @@ class BCCLattice:
             self.vertex_directions[v] = direction.normalized()
 
     @ti.kernel
+    def find_front_octant(self):
+        """Mark granules in the front octant (for block-slicing visualization).
+
+        Front octant = granules where x, y, z > universe_edge/2
+        Used for rendering: 0 = render, 1 = skip (for see-through effect)
+        """
+        for i in range(self.total_granules):
+            # Mark if granule is in the front 1/8th block, > halfway on all axes
+            # 0 = not in front octant, 1 = in front octant
+            self.front_octant[i] = (
+                1
+                if (
+                    self.positions_am[i][0] > self.universe_edge_am / 2
+                    and self.positions_am[i][1] > self.universe_edge_am / 2
+                    and self.positions_am[i][2] > self.universe_edge_am / 2
+                )
+                else 0
+            )
+
+    @ti.kernel
     def set_granule_colors(self):
         """Assign colors to granules based on their classified type."""
         # Color lookup table (type index -> RGB color)
@@ -345,7 +345,7 @@ class BCCLattice:
                 config.COLOR_EDGE[1],  # TYPE_EDGE = 1
                 config.COLOR_FACE[1],  # TYPE_FACE = 2
                 config.COLOR_CORE[1],  # TYPE_CORE = 3
-                config.COLOR_CENTRAL[1],  # TYPE_CENTRAL = 4
+                config.COLOR_CENTER[1],  # TYPE_CENTER = 4
             ]
         )
 
@@ -449,7 +449,7 @@ class BCCLattice:
         probe_color = config.COLOR_PROBE[1]
         for idx in indices:
             # Never mark the central granule as a probe
-            if self.granule_type[idx] != config.TYPE_CENTRAL:
+            if self.granule_type[idx] != config.TYPE_CENTER:
                 self.granule_color[idx] = ti.Vector(
                     [probe_color[0], probe_color[1], probe_color[2]]
                 )
@@ -460,7 +460,7 @@ class BCCNeighbors:
     """
     8-way neighbors couplings between granules in BCC lattice.
     Models connections with 8-way, 4-way, 2-way, or 1-way topology
-    depending on granule type (core/central, face, edge, vertex).
+    depending on granule type (core/center, face, edge, vertex).
 
     In BCC lattice, each interior granule has 8 nearest neighbors at distance a*√3/2)
     where a is the unit cell edge length.
@@ -525,7 +525,7 @@ class BCCNeighbors:
             neighbor_count = 0
 
             # Determine max neighbors based on type
-            max_neighbors = 8  # Default for CORE/CENTRAL
+            max_neighbors = 8  # Default for CORE/CENTER
             if granule_type == config.TYPE_VERTEX:
                 max_neighbors = 1
             elif granule_type == config.TYPE_EDGE:
@@ -646,7 +646,7 @@ class BCCNeighbors:
                             grid_dim = grid_size + 1
                             corner_idx = ci * grid_dim * grid_dim + cj * grid_dim + ck
 
-                            # Centers are always CORE or CENTRAL type, so connect to all 8
+                            # Centers are always CORE or CENTER type, so connect to all 8
                             self.links[idx, neighbor_count] = corner_idx
                             neighbor_count += 1
                             self.links_count[idx] = neighbor_count
@@ -706,7 +706,7 @@ if __name__ == "__main__":
         if idx < lattice.total_granules:
             count = neighbors.links_count[idx]
             granule_type = lattice.granule_type[idx]
-            type_names = {0: "VERTEX", 1: "EDGE", 2: "FACE", 3: "CORE", 4: "CENTRAL"}
+            type_names = {0: "VERTEX", 1: "EDGE", 2: "FACE", 3: "CORE", 4: "CENTER"}
 
             # Get first few connections without slicing
             connections = []
