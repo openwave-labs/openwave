@@ -137,10 +137,10 @@ ti.init(arch=ti.cuda)   # Good but not as refined as Metal
 
 ```python
 # M4 Max - No transfer needed
-positions = compute_positions()  # Already accessible to GPU/CPU
+position = compute_position()  # Already accessible to GPU/CPU
 
 # AWS GPU - Requires transfers
-positions_gpu = cuda.to_device(positions_cpu)  # Transfer overhead
+position_gpu = cuda.to_device(position_cpu)  # Transfer overhead
 results = cuda.from_device(results_gpu)        # Transfer back
 ```
 

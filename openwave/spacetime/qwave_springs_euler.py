@@ -23,7 +23,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 @ti.kernel
 def oscillate_vertex(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
@@ -38,10 +38,10 @@ def oscillate_vertex(
     Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
 
     Args:
-        positions: Position field for all granules
+        position: Position field for all granules
         velocity: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
-        vertex_equilibrium: Equilibrium positions of 8 vertices
+        vertex_equilibrium: Equilibrium position of 8 vertices
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
     """
@@ -58,7 +58,7 @@ def oscillate_vertex(
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
         displacement = amplitude_am * ti.cos(omega * t + phase)
-        positions[idx] = vertex_equilibrium[v] + displacement * direction
+        position[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
@@ -72,7 +72,7 @@ def oscillate_vertex(
 
 @ti.kernel
 def compute_spring_forces(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     mass: ti.f32,  # type: ignore
     links: ti.template(),  # type: ignore
     links_count: ti.template(),  # type: ignore
@@ -86,7 +86,7 @@ def compute_spring_forces(
     F = sum over neighbors: -k * (distance - L0) * direction_unit_vector
 
     Args:
-        positions: Position field for all granules
+        position: Position field for all granules
         links: Connectivity matrix [granule_idx, neighbor_idx]
         links_count: Number of active links per granule
         rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
@@ -94,7 +94,7 @@ def compute_spring_forces(
         stiffness: Spring constant k
         mass: Granule mass
     """
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         # Compute forces for ALL granules (including vertices for debug)
         # Note: vertices will have their motion overridden by oscillate_vertex anyway
 
@@ -106,7 +106,7 @@ def compute_spring_forces(
             neighbor_idx = links[i, j]
             if neighbor_idx >= 0:  # Valid connection
                 # Displacement vector from current to neighbor
-                d = positions[neighbor_idx] - positions[i]
+                d = position[neighbor_idx] - position[i]
                 distance = d.norm()
 
                 if distance > 1e-12:  # Avoid division by zero
@@ -125,7 +125,7 @@ def compute_spring_forces(
 
 @ti.kernel
 def integrate_motion_semiimplicit(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     acceleration: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
@@ -143,14 +143,14 @@ def integrate_motion_semiimplicit(
     reduces numerical dissipation, making explicit damping important."
 
     Args:
-        positions: Position field
+        position: Position field
         velocity: Velocity field
         acceleration: Acceleration field (from spring forces)
         granule_type: Type classification (skip vertices)
         dt: Timestep
         damping: Damping coefficient (1.0 = no damping, 0.999 = 0.1% loss/step)
     """
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             continue
@@ -160,7 +160,7 @@ def integrate_motion_semiimplicit(
         velocity[i] = damping * (velocity[i] + acceleration[i] * dt)
 
         # Update position using NEW velocity (semi-implicit = symplectic)
-        positions[i] += velocity[i] * dt
+        position[i] += velocity[i] * dt
 
 
 # Orchestrator function to run the full propagation step
@@ -188,7 +188,7 @@ def propagate_qwave(
     solver iterations!
 
     Args:
-        lattice: Lattice instance with positions, velocity, granule_type
+        lattice: Lattice instance with position, velocity, granule_type
         granule: Granule instance for mass
         neighbors: BCCNeighbors instance with connectivity information
         stiffness: Spring constant k (N/m)
@@ -205,7 +205,7 @@ def propagate_qwave(
     # Update vertex positions ONCE per frame (not per substep)
     # Vertices provide boundary condition for entire frame
     oscillate_vertex(
-        lattice.positions_am,  # in am
+        lattice.position_am,  # in am
         lattice.velocity_am,  # in am/s
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,  # in am
@@ -217,9 +217,9 @@ def propagate_qwave(
     for step in range(substeps):
 
         # Small Steps Algorithm (following paper Algorithm 1):
-        # 1. Compute forces/accelerations at current positions
+        # 1. Compute forces/accelerations at current position
         compute_spring_forces(
-            lattice.positions_am,  # in am
+            lattice.position_am,  # in am
             granule.mass,
             neighbors.links,
             neighbors.links_count,
@@ -230,7 +230,7 @@ def propagate_qwave(
 
         # 2. Integrate motion using semi-implicit Euler (SINGLE iteration per substep)
         integrate_motion_semiimplicit(
-            lattice.positions_am,  # in am
+            lattice.position_am,  # in am
             lattice.velocity_am,  # in am/s
             lattice.acceleration_am,  # in am/s^2
             lattice.granule_type,
@@ -243,7 +243,7 @@ def propagate_qwave(
             # Print every ~0.01 seconds
             if abs(t - round(t * 100) / 100) < 0.0001:
                 pos_eq = ti.Vector([0.0, 0.0, 0.0])  # Equilibrium position of granule 0
-                disp = lattice.positions_am[1] - pos_eq
+                disp = lattice.position_am[1] - pos_eq
                 disp_norm = disp.norm()
                 vel_norm = lattice.velocity_am[1].norm()
                 # Check if values are finite

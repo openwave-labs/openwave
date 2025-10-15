@@ -127,7 +127,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.positions_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.position_am[i] / lattice.universe_edge_am
 
 
 def normalize_granule():
@@ -169,12 +169,12 @@ def normalize_neighbors_links():
             num_links = neighbors.links_count[i]
             if num_links > 0:
                 # Normalized position (scale back from attometers)
-                pos_i = lattice.positions_am[i] / lattice.universe_edge_am
+                pos_i = lattice.position_am[i] / lattice.universe_edge_am
 
                 for j in range(num_links):
                     neighbor_idx = neighbors.links[i, j]
                     if neighbor_idx >= 0:  # Valid connection
-                        pos_j = lattice.positions_am[neighbor_idx] / lattice.universe_edge_am
+                        pos_j = lattice.position_am[neighbor_idx] / lattice.universe_edge_am
 
                         # Get current line index atomically
                         line_idx = ti.atomic_add(line_counter[None], 1)

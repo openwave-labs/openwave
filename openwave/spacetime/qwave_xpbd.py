@@ -34,7 +34,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 @ti.kernel
 def oscillate_vertex(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
@@ -50,10 +50,10 @@ def oscillate_vertex(
     Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
 
     Args:
-        positions: Position field for all granules
+        position: Position field for all granules
         velocity: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
-        vertex_equilibrium: Equilibrium positions of 8 vertices
+        vertex_equilibrium: Equilibrium position of 8 vertices
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor
@@ -73,7 +73,7 @@ def oscillate_vertex(
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
         # Apply amp_boost for visibility in scaled-up lattices
         displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
-        positions[idx] = vertex_equilibrium[v] + displacement * direction
+        position[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
@@ -87,7 +87,7 @@ def oscillate_vertex(
 
 @ti.kernel
 def solve_distance_constraints_xpbd(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     prev_position: ti.template(),  # type: ignore
     masses: ti.f32,  # type: ignore
     links: ti.template(),  # type: ignore
@@ -116,8 +116,8 @@ def solve_distance_constraints_xpbd(
     6. Δxj = -wj · ∇C · Δλ                (position correction for j)
 
     Args:
-        positions: Current positions (predicted x*)
-        prev_position: Previous positions (for velocity computation)
+        position: Current position (predicted x*)
+        prev_position: Previous position (for velocity computation)
         masses: Granule mass (scalar, same for all)
         links: Connectivity matrix
         links_count: Number of links per granule
@@ -130,7 +130,7 @@ def solve_distance_constraints_xpbd(
         constraint_count: Number of constraints per granule (output)
     """
     # Phase 1: Accumulate position deltas (PARALLEL - Jacobi iteration)
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             position_delta[i] = ti.Vector([0.0, 0.0, 0.0])
@@ -153,7 +153,7 @@ def solve_distance_constraints_xpbd(
             neighbor_idx = links[i, j]
             if neighbor_idx >= 0:  # Valid connection
                 # Constraint: C = ||xi - xj|| - L0
-                d = positions[i] - positions[neighbor_idx]
+                d = position[i] - position[neighbor_idx]
                 distance = d.norm()
 
                 if distance > 1e-12:  # Avoid division by zero
@@ -183,7 +183,7 @@ def solve_distance_constraints_xpbd(
 
 @ti.kernel
 def apply_position_corrections(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     position_delta: ti.template(),  # type: ignore
     constraint_count: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
@@ -197,13 +197,13 @@ def apply_position_corrections(
     Δx_final = (ω / count) · Σ Δx_constraints
 
     Args:
-        positions: Position field (updated in-place)
+        position: Position field (updated in-place)
         position_delta: Accumulated corrections from solve_distance_constraints_xpbd
         constraint_count: Number of constraints per granule
         granule_type: Skip vertices
         omega: SOR parameter (1.0 = standard averaging, 1.5 = over-relaxation)
     """
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         # Skip vertices
         if granule_type[i] == 0:
             continue
@@ -212,12 +212,12 @@ def apply_position_corrections(
         count = constraint_count[i]
         if count > 0:
             # Constraint averaging with SOR: Δx = (ω/n) · Σ Δx
-            positions[i] += (omega / ti.f32(count)) * position_delta[i]
+            position[i] += (omega / ti.f32(count)) * position_delta[i]
 
 
 @ti.kernel
-def update_velocity_from_positions(
-    positions: ti.template(),  # type: ignore
+def update_velocity_from_position(
+    position: ti.template(),  # type: ignore
     prev_position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
@@ -233,20 +233,20 @@ def update_velocity_from_positions(
     v_damped = damping · v
 
     Args:
-        positions: New positions (after constraint solve)
-        prev_position: Old positions (before constraint solve)
+        position: New position (after constraint solve)
+        prev_position: Old position (before constraint solve)
         velocity: Velocity field (updated in-place)
         granule_type: Skip vertices
         dt: Substep timestep
         damping: Damping coefficient (0.999 recommended)
     """
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         # Skip vertices - they have prescribed velocity from oscillate_vertex()
         if granule_type[i] == 0:
             continue
 
         # Velocity from position change
-        velocity_raw = (positions[i] - prev_position[i]) / dt
+        velocity_raw = (position[i] - prev_position[i]) / dt
 
         # Apply damping
         velocity[i] = damping * velocity_raw
@@ -274,7 +274,7 @@ def propagate_qwave(
 
     XPBD Algorithm per substep:
     1. Update vertex boundary conditions (once per frame)
-    2. Save previous positions (for velocity computation)
+    2. Save previous position (for velocity computation)
     3. Solve distance constraints (Jacobi iteration):
        a. Accumulate position corrections (parallel)
        b. Apply averaged corrections with SOR (parallel)
@@ -288,7 +288,7 @@ def propagate_qwave(
     - Real-time performance (100 substeps, 1 iteration each)
 
     Args:
-        lattice: Lattice instance with positions, velocity, granule_type
+        lattice: Lattice instance with position, velocity, granule_type
         granule: Granule instance for mass
         neighbors: BCCNeighbors instance with connectivity
         stiffness: Spring constant k (N/m) - USE REAL PHYSICAL VALUE!
@@ -311,7 +311,7 @@ def propagate_qwave(
 
     # Update vertex positions ONCE per frame (boundary condition)
     oscillate_vertex(
-        lattice.positions_am,
+        lattice.position_am,
         lattice.velocity_am,
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,
@@ -323,13 +323,13 @@ def propagate_qwave(
 
     # XPBD substep loop (following "Small Steps" paper Algorithm 1)
     for step in range(substeps):
-        # Save previous positions for velocity computation
-        lattice.prev_position_am.copy_from(lattice.positions_am)
+        # Save previous position for velocity computation
+        lattice.prev_position_am.copy_from(lattice.position_am)
 
         # XPBD constraint solve (SINGLE iteration per substep)
         # Phase 1: Accumulate position deltas (Jacobi iteration)
         solve_distance_constraints_xpbd(
-            lattice.positions_am,
+            lattice.position_am,
             lattice.prev_position_am,
             granule.mass,
             neighbors.links,
@@ -345,7 +345,7 @@ def propagate_qwave(
 
         # Phase 2: Apply averaged corrections with SOR
         apply_position_corrections(
-            lattice.positions_am,
+            lattice.position_am,
             lattice.position_delta_am,
             lattice.constraint_count,
             lattice.granule_type,
@@ -353,8 +353,8 @@ def propagate_qwave(
         )
 
         # Update velocity from position changes with damping
-        update_velocity_from_positions(
-            lattice.positions_am,
+        update_velocity_from_position(
+            lattice.position_am,
             lattice.prev_position_am,
             lattice.velocity_am,
             lattice.granule_type,
@@ -474,11 +474,11 @@ def probe_wave_diagnostics(
             f"({wavelength_data['max_displacement']/neighbors.rest_length_am*100:.1f}% of rest_length)"
         )
         print(f"  Peak threshold: {wavelength_data['threshold_displacement']:.3f} am (30% of max)")
-        if len(wavelength_data["peak_positions"]) > 0:
+        if len(wavelength_data["peak_position"]) > 0:
             print(
-                f"  Peak-to-peak distances: min={np.min(wavelength_data['peak_positions']):.1f} am, "
-                f"avg={np.mean(wavelength_data['peak_positions']):.1f} am, "
-                f"max={np.max(wavelength_data['peak_positions']):.1f} am"
+                f"  Peak-to-peak distances: min={np.min(wavelength_data['peak_position']):.1f} am, "
+                f"avg={np.mean(wavelength_data['peak_position']):.1f} am, "
+                f"max={np.max(wavelength_data['peak_position']):.1f} am"
             )
 
         if wavelength_data["num_peaks"] >= 1:  # Show even single peak
@@ -531,7 +531,7 @@ def probe_wave_diagnostics(
 
 @ti.kernel
 def measure_wave_displacement(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     displacement_mag: ti.template(),  # type: ignore
 ):
@@ -540,12 +540,12 @@ def measure_wave_displacement(
     Calculates ||x - x_eq|| for detecting wavefront propagation.
 
     Args:
-        positions: Current positions
-        equilibrium: Equilibrium positions
+        position: Current position
+        equilibrium: Equilibrium position
         displacement_mag: Output displacement magnitudes (scalar field)
     """
-    for i in range(positions.shape[0]):
-        disp = positions[i] - equilibrium[i]
+    for i in range(position.shape[0]):
+        disp = position[i] - equilibrium[i]
         displacement_mag[i] = disp.norm()
 
 
@@ -573,7 +573,7 @@ def measure_wave_speed(
 
     # Measure displacements
     measure_wave_displacement(
-        lattice.positions_am,
+        lattice.position_am,
         lattice.equilibrium_am,
         lattice.displacement_mag_am,
     )
@@ -585,20 +585,20 @@ def measure_wave_speed(
 
     # Find maximum distance from vertices where displacement exceeds threshold
     max_distance = 0.0
-    vertex_positions = []
+    vertex_position = []
     for v in range(8):
         idx = lattice.vertex_index[v]
-        pos = lattice.positions_am[idx].to_numpy()
-        vertex_positions.append(pos)
+        pos = lattice.position_am[idx].to_numpy()
+        vertex_position.append(pos)
 
     # Check each granule
-    positions_np = lattice.positions_am.to_numpy()
+    position_np = lattice.position_am.to_numpy()
     for i in range(lattice.total_granules):
         if displacements[i] > threshold:
             # Find minimum distance to any vertex
-            pos = positions_np[i]
+            pos = position_np[i]
             min_dist = float("inf")
-            for v_pos in vertex_positions:
+            for v_pos in vertex_position:
                 dist = np.linalg.norm(pos - v_pos)
                 min_dist = min(min_dist, dist)
             max_distance = max(max_distance, min_dist)
@@ -612,12 +612,12 @@ def measure_wave_speed(
 
 @ti.kernel
 def sample_radial_line(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     vertex_idx: ti.i32,  # type: ignore
     center_pos: ti.template(),  # type: ignore
     num_samples: ti.i32,  # type: ignore
-    sample_positions: ti.template(),  # type: ignore
+    sample_position: ti.template(),  # type: ignore
     sample_displacements: ti.template(),  # type: ignore
 ):
     """Sample displacement along a radial line from vertex to center.
@@ -626,12 +626,12 @@ def sample_radial_line(
     This samples granules along a line and measures their displacements.
 
     Args:
-        positions: Current positions
-        equilibrium: Equilibrium positions
+        position: Current position
+        equilibrium: Equilibrium position
         vertex_idx: Starting vertex index
         center_pos: Center position of lattice
         num_samples: Number of samples to take
-        sample_positions: Output sample positions along line (distances from vertex)
+        sample_position: Output sample position along line (distances from vertex)
         sample_displacements: Output displacement magnitudes at samples
     """
     vertex_pos = equilibrium[vertex_idx]
@@ -646,15 +646,15 @@ def sample_radial_line(
         # Find nearest granule to sample position
         nearest_idx = 0
         min_dist_sq = 1e30
-        for j in range(positions.shape[0]):
+        for j in range(position.shape[0]):
             dist_sq = (equilibrium[j] - sample_pos).norm_sqr()
             if dist_sq < min_dist_sq:
                 min_dist_sq = dist_sq
                 nearest_idx = j
 
         # Record displacement at this sample
-        disp = positions[nearest_idx] - equilibrium[nearest_idx]
-        sample_positions[i] = (sample_pos - vertex_pos).norm()
+        disp = position[nearest_idx] - equilibrium[nearest_idx]
+        sample_position[i] = (sample_pos - vertex_pos).norm()
         sample_displacements[i] = disp.norm()
 
 
@@ -684,7 +684,7 @@ def measure_wavelength(
         lattice.displacement_mag_am = ti.field(dtype=ti.f32, shape=lattice.total_granules)
 
     measure_wave_displacement(
-        lattice.positions_am,
+        lattice.position_am,
         lattice.equilibrium_am,
         lattice.displacement_mag_am,
     )
@@ -745,9 +745,9 @@ def measure_wavelength(
     return {
         "wavelength_am": wavelength_am,
         "num_peaks": len(peak_indices),
-        "sample_positions": np.array([]),  # Not used in new approach
+        "sample_position": np.array([]),  # Not used in new approach
         "sample_displacements": displacements,
-        "peak_positions": peak_distances,
+        "peak_position": peak_distances,
         "max_displacement": max_disp,
         "threshold_displacement": threshold_disp,
     }

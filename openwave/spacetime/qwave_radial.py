@@ -28,7 +28,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 @ti.kernel
 def oscillate_granules(
-    positions: ti.template(),  # type: ignore
+    position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     center_direction: ti.template(),  # type: ignore
@@ -52,9 +52,9 @@ def oscillate_granules(
         (φ represents spatial phase shift; negative creates outward propagation)
 
     Args:
-        positions: Position field for all granules
+        position: Position field for all granules
         velocity: Velocity field for all granules
-        equilibrium: Equilibrium positions of all granules
+        equilibrium: Equilibrium position of all granules
         center_direction: Normalized direction vectors from all granules to center
         center_distance: Distance from each granule to lattice center (in attometers)
         t: Current simulation time (accumulated)
@@ -69,7 +69,7 @@ def oscillate_granules(
     k = 2.0 * ti.math.pi / wavelength_am  # wave number (radians per attometer)
 
     # Process all granules in the lattice
-    for idx in range(positions.shape[0]):
+    for idx in range(position.shape[0]):
         direction = center_direction[idx]
 
         # Phase determined by radial distance from center
@@ -81,7 +81,7 @@ def oscillate_granules(
         # Apply amp_boost for visibility in scaled-up lattices
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
         displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
-        positions[idx] = equilibrium[idx] + displacement * direction
+        position[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)

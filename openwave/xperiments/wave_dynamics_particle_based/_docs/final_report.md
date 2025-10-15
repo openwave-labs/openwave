@@ -511,14 +511,14 @@ def oscillate_granules(
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
-    for idx in positions:
+    for idx in position:
         direction = directions[idx]
         r = radial_distances[idx]
         phase = -k * r  # Outward propagating
 
         # Direct position calculation (no integration!)
         displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
-        positions[idx] = equilibrium[idx] + displacement * direction
+        position[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity from derivative
         velocity_mag = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
@@ -762,15 +762,15 @@ This research was conducted using the OpenWave simulator (available at <https://
 
 ```python
 @ti.kernel
-def compute_spring_forces(positions, equilibrium, forces, links,
+def compute_spring_forces(position, equilibrium, forces, links,
                           links_count, rest_length, stiffness):
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         force = ti.Vector([0.0, 0.0, 0.0])
         for j in range(links_count[i]):
             neighbor = links[i, j]
 
             # Spring force: F = -k(x - L0)
-            d = positions[neighbor] - positions[i]
+            d = position[neighbor] - position[i]
             distance = d.norm()
             displacement = distance - rest_length
             force_mag = -stiffness * displacement
@@ -779,22 +779,22 @@ def compute_spring_forces(positions, equilibrium, forces, links,
         forces[i] = force
 
 @ti.kernel
-def integrate_euler(positions, velocity, forces, mass, dt, damping):
-    for i in range(positions.shape[0]):
+def integrate_euler(position, velocity, forces, mass, dt, damping):
+    for i in range(position.shape[0]):
         a = forces[i] / mass
         velocity[i] += a * dt
         velocity[i] *= damping
-        positions[i] += velocity[i] * dt
+        position[i] += velocity[i] * dt
 ```
 
 ### A.2 XPBD Constraint Solver - STABLE
 
 ```python
 @ti.kernel
-def solve_distance_constraints(positions, neighbors, masses,
+def solve_distance_constraints(position, neighbors, masses,
                                 rest_length, compliance, dt, omega):
     # Phase 1: Accumulate position deltas (Jacobi iteration)
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         delta[i] = ti.Vector([0.0, 0.0, 0.0])
         count[i] = 0
 
@@ -802,7 +802,7 @@ def solve_distance_constraints(positions, neighbors, masses,
             neighbor = neighbors.links[i, j]
 
             # Constraint: C = ||xi - xj|| - L0
-            d = positions[neighbor] - positions[i]
+            d = position[neighbor] - position[i]
             distance = d.norm()
             C = distance - rest_length
 
@@ -818,30 +818,30 @@ def solve_distance_constraints(positions, neighbors, masses,
             count[i] += 1
 
     # Phase 2: Apply with SOR and constraint averaging
-    for i in range(positions.shape[0]):
+    for i in range(position.shape[0]):
         if count[i] > 0:
-            positions[i] += (omega / count[i]) * delta[i]
+            position[i] += (omega / count[i]) * delta[i]
 ```
 
 ### A.3 Phase-Synchronized Harmonic - PERFECT
 
 ```python
 @ti.kernel
-def oscillate_granules(positions, velocity, equilibrium, direction,
+def oscillate_granules(position, velocity, equilibrium, direction,
                        radial_distance, t, slow_mo, amp_boost):
     """Phase-synchronized harmonic oscillation (radial_wave.py)"""
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
-    for idx in range(positions.shape[0]):
+    for idx in range(position.shape[0]):
         direction = directions[idx]
         r = radial_distances[idx]
         phase = -k * r  # Outward propagating wave
 
         # Direct analytical solution (no integration!)
         displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
-        positions[idx] = equilibrium[idx] + displacement * direction
+        position[idx] = equilibrium[idx] + displacement * direction
 
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
         velocity[idx] = velocity_magnitude * direction

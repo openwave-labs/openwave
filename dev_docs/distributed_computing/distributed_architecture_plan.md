@@ -132,15 +132,15 @@ import dask.array as da
 import zarr
 
 # Use Dask for distributed arrays
-positions = da.zeros((billion_scale, billion_scale, 2), 
+position = da.zeros((billion_scale, billion_scale, 2), 
                      chunks=(1000, 1000, 2),
                      dtype=np.float32)
 
 # Use Zarr for distributed storage
 store = zarr.DirectoryStore('s3://my-bucket/openwave-data')
-positions_zarr = zarr.open_array(store, mode='w', 
-                                  shape=positions.shape,
-                                  chunks=positions.chunks)
+position_zarr = zarr.open_array(store, mode='w', 
+                                  shape=position.shape,
+                                  chunks=position.chunks)
 ```
 
 ## AWS Deployment Strategy
@@ -394,7 +394,7 @@ class CheckpointManager:
     def save_checkpoint(self, signum, frame):
         # AWS gives 2-minute warning
         checkpoint = {
-            'positions': positions,
+            'position': position,
             'velocities': velocities,
             'iteration': current_iteration
         }

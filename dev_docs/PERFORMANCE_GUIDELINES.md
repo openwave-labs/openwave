@@ -84,7 +84,7 @@ The Spacetime 2D slider visualization was optimized from a CPU-bound implementat
 
 ```python
 @ti.kernel
-def compute_screen_positions(self, offset: ti.f32, size: ti.f32):
+def compute_screen_position(self, offset: ti.f32, size: ti.f32):
     for i, j in ti.ndrange(self.count, self.count):
         universe_pos = self.grid[i, j]
         self.screen_pos[i, j][0] = (universe_pos[0] + offset) / size
@@ -121,8 +121,8 @@ if scale.value != previous_scale:
 1. **Batch Operations for Data Transfer**
 
 ```python
-# Get all positions at once instead of accessing individually
-screen_positions = lattice.get_screen_positions_numpy()
+# Get all position at once instead of accessing individually
+screen_position = lattice.get_screen_position_numpy()
 ```
 
 #### Performance Impact

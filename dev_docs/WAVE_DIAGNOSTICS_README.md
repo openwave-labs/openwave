@@ -269,7 +269,7 @@ In a BCC lattice (qmedium_particles.py:24-43):
 
 ```python
 # Each granule oscillates along its own radial direction (qwave_radial.py:84)
-positions[idx] = equilibrium[idx] + displacement * direction
+position[idx] = equilibrium[idx] + displacement * direction
 
 # But its 8 neighbors are positioned diagonally (BCC structure)
 # Wave energy transfers through NON-COLLINEAR paths

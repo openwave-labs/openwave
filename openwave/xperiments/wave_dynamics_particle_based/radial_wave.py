@@ -131,7 +131,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.positions_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.position_am[i] / lattice.universe_edge_am
 
 
 def normalize_granule():
@@ -177,7 +177,7 @@ def render_xperiment(lattice, granule):
     last_time = time.time()
     frame = 0  # Frame counter for diagnostics
 
-    # Initialize normalized positions (0-1 range for GGUI) & block-slicing
+    # Initialize normalized position (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
@@ -204,7 +204,7 @@ def render_xperiment(lattice, granule):
             # All granules oscillate toward/away from lattice center along their direction vectors
             # Phase is determined by radial distance, creating outward-propagating spherical waves
             qwave.oscillate_granules(
-                lattice.positions_am,  # Granule positions in attometers
+                lattice.position_am,  # Granule positions in attometers
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.center_direction,  # Direction vectors to center for all granules

@@ -114,9 +114,9 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # Positions, velocity and acceleration in attometers for f32 precision
+        # position, velocity and acceleration in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -125,18 +125,18 @@ class BCCLattice:
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_index = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
-        self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
+        self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest position
         self.vertex_center_direction = ti.Vector.field(3, dtype=ti.f32, shape=8)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
-        self.populate_lattice()  # initialize positions and velocity
+        self.populate_lattice()  # initialize position and velocity
         self.build_granule_type()  # classifies granules
         self.build_center_direction()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
-        self.set_granule_colors()  # colors based on granule_type
-        self.select_slice_plane_probes()  # select random probes on slice planes
+        self.set_granule_color()  # colors based on granule_type
+        self.select_slice_plane_probe()  # select random probes on slice planes
 
     @ti.kernel
     def populate_lattice(self):
@@ -162,7 +162,7 @@ class BCCLattice:
                 k = idx % grid_dim
 
                 # Store positions in attometers
-                self.positions_am[idx] = ti.Vector(
+                self.position_am[idx] = ti.Vector(
                     [
                         i * self.unit_cell_edge_am,
                         j * self.unit_cell_edge_am,
@@ -178,7 +178,7 @@ class BCCLattice:
 
                 offset = self.unit_cell_edge_am / 2
                 # Store positions in attometers
-                self.positions_am[idx] = ti.Vector(
+                self.position_am[idx] = ti.Vector(
                     [
                         (i * self.unit_cell_edge_am + offset),
                         (j * self.unit_cell_edge_am + offset),
@@ -186,7 +186,7 @@ class BCCLattice:
                     ]
                 )
 
-            self.equilibrium_am[idx] = self.positions_am[idx]  # set equilibrium position
+            self.equilibrium_am[idx] = self.position_am[idx]  # set equilibrium position
 
             # Initialize velocity to zero for all granules
             self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
@@ -248,7 +248,7 @@ class BCCLattice:
     def build_center_direction(self):
         """Compute normalized direction vectors from all granules to lattice center.
 
-        For each granule in the positions_am array, computes a normalized direction vector
+        For each granule in the position_am array, computes a normalized direction vector
         pointing from the granule's position toward the geometric center of the lattice.
         The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
 
@@ -273,9 +273,9 @@ class BCCLattice:
                 # by dividing by the total universe edge length in attometers
                 pos_normalized = ti.Vector(
                     [
-                        self.positions_am[idx][0] / self.universe_edge_am,
-                        self.positions_am[idx][1] / self.universe_edge_am,
-                        self.positions_am[idx][2] / self.universe_edge_am,
+                        self.position_am[idx][0] / self.universe_edge_am,
+                        self.position_am[idx][1] / self.universe_edge_am,
+                        self.position_am[idx][2] / self.universe_edge_am,
                     ]
                 )
 
@@ -307,7 +307,7 @@ class BCCLattice:
             self.vertex_index[v] = idx
 
             # Store equilibrium position for this vertex
-            self.vertex_equilibrium_am[v] = self.positions_am[idx]
+            self.vertex_equilibrium_am[v] = self.position_am[idx]
 
             # Compute normalized direction from vertex to center
             # Vertex position in normalized coordinates (0 or 1 in each dimension)
@@ -330,15 +330,15 @@ class BCCLattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.positions_am[i][0] > self.universe_edge_am / 2
-                    and self.positions_am[i][1] > self.universe_edge_am / 2
-                    and self.positions_am[i][2] > self.universe_edge_am / 2
+                    self.position_am[i][0] > self.universe_edge_am / 2
+                    and self.position_am[i][1] > self.universe_edge_am / 2
+                    and self.position_am[i][2] > self.universe_edge_am / 2
                 )
                 else 0
             )
 
     @ti.kernel
-    def set_granule_colors(self):
+    def set_granule_color(self):
         """Assign colors to granules based on their classified type."""
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
@@ -364,7 +364,7 @@ class BCCLattice:
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
 
-    def select_slice_plane_probes(self):
+    def select_slice_plane_probe(self):
         """Select 3 random granules from each of the 3 planes exposed by the front octant slice.
 
         The front octant is defined as the region where x, y, z > universe_edge/2.
@@ -432,21 +432,21 @@ class BCCLattice:
         # Select 3 random probes from each plane if available
         if len(yz_plane_indices) >= 3:
             selected = random.sample(yz_plane_indices, 3)
-            self._mark_probes_on_plane(selected)
+            self._mark_probe_on_plane(selected)
 
         if len(xz_plane_indices) >= 3:
             selected = random.sample(xz_plane_indices, 3)
-            self._mark_probes_on_plane(selected)
+            self._mark_probe_on_plane(selected)
 
         if len(xy_plane_indices) >= 3:
             selected = random.sample(xy_plane_indices, 3)
-            self._mark_probes_on_plane(selected)
+            self._mark_probe_on_plane(selected)
 
-    def _mark_probes_on_plane(self, indices):
-        """Mark specified granules as probes by updating their color.
+    def _mark_probe_on_plane(self, indices):
+        """Mark specified granules as probe by updating their color.
 
         Args:
-            indices: List of granule indices to mark as probes
+            indices: List of granule indices to mark as probe
         """
         probe_color = config.COLOR_PROBE[1]
         for idx in indices:
@@ -473,7 +473,7 @@ class BCCNeighbors:
         Initialize neighbors links for the BCC Lattice.
 
         Args:
-            lattice: Lattice instance containing granule positions and types
+            lattice: Lattice instance containing granule position and types
         """
         self.lattice = lattice
 
@@ -522,7 +522,7 @@ class BCCNeighbors:
 
         # For each granule, find and connect to nearest neighbors
         for i in range(self.lattice.total_granules):
-            pos_i = self.lattice.positions_am[i]
+            pos_i = self.lattice.position_am[i]
             granule_type = self.lattice.granule_type[i]
             neighbor_count = 0
 
@@ -538,7 +538,7 @@ class BCCNeighbors:
             # Search through all granules (simplified for small lattices)
             for j in range(self.lattice.total_granules):
                 if i != j and neighbor_count < max_neighbors:
-                    pos_j = self.lattice.positions_am[j]
+                    pos_j = self.lattice.position_am[j]
 
                     # Calculate distance
                     dx = pos_i[0] - pos_j[0]
