@@ -126,7 +126,7 @@ class BCCLattice:
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_index = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
-        self.vertex_center_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)
+        self.vertex_center_direction = ti.Vector.field(3, dtype=ti.f32, shape=8)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
@@ -315,7 +315,7 @@ class BCCLattice:
                 [float(i) / self.grid_size, float(j) / self.grid_size, float(k) / self.grid_size]
             )
             direction = lattice_center - vertex_pos
-            self.vertex_center_directions[v] = direction.normalized()
+            self.vertex_center_direction[v] = direction.normalized()
 
     @ti.kernel
     def find_front_octant(self):

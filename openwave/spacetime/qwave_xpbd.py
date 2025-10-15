@@ -38,7 +38,7 @@ def oscillate_vertex(
     velocities: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
-    vertex_center_directions: ti.template(),  # type: ignore
+    vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
@@ -54,7 +54,7 @@ def oscillate_vertex(
         velocities: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
         vertex_equilibrium: Equilibrium positions of 8 vertices
-        vertex_center_directions: Normalized direction vectors from vertices to center
+        vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
@@ -64,7 +64,7 @@ def oscillate_vertex(
 
     for v in range(8):
         idx = vertex_index[v]
-        direction = vertex_center_directions[v]
+        direction = vertex_center_direction[v]
 
         # Add phase shift to break symmetry: each vertex oscillates with different phase
         # Phase = v * π/4 (45° increments for 8 vertices)
@@ -88,7 +88,7 @@ def oscillate_vertex(
 @ti.kernel
 def solve_distance_constraints_xpbd(
     positions: ti.template(),  # type: ignore
-    prev_positions: ti.template(),  # type: ignore
+    prev_position: ti.template(),  # type: ignore
     masses: ti.f32,  # type: ignore
     links: ti.template(),  # type: ignore
     links_count: ti.template(),  # type: ignore
@@ -117,7 +117,7 @@ def solve_distance_constraints_xpbd(
 
     Args:
         positions: Current positions (predicted x*)
-        prev_positions: Previous positions (for velocity computation)
+        prev_position: Previous positions (for velocity computation)
         masses: Granule mass (scalar, same for all)
         links: Connectivity matrix
         links_count: Number of links per granule
@@ -218,7 +218,7 @@ def apply_position_corrections(
 @ti.kernel
 def update_velocities_from_positions(
     positions: ti.template(),  # type: ignore
-    prev_positions: ti.template(),  # type: ignore
+    prev_position: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
@@ -234,7 +234,7 @@ def update_velocities_from_positions(
 
     Args:
         positions: New positions (after constraint solve)
-        prev_positions: Old positions (before constraint solve)
+        prev_position: Old positions (before constraint solve)
         velocities: Velocity field (updated in-place)
         granule_type: Skip vertices
         dt: Substep timestep
@@ -246,7 +246,7 @@ def update_velocities_from_positions(
             continue
 
         # Velocity from position change
-        velocity_raw = (positions[i] - prev_positions[i]) / dt
+        velocity_raw = (positions[i] - prev_position[i]) / dt
 
         # Apply damping
         velocities[i] = damping * velocity_raw
@@ -301,8 +301,8 @@ def propagate_qwave(
         amp_boost: Multiplier for oscillation amplitude (1.0 = physical, >1 = visible)
     """
     # Allocate temporary fields for XPBD (if not already created)
-    if not hasattr(lattice, "prev_positions_am"):
-        lattice.prev_positions_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    if not hasattr(lattice, "prev_position_am"):
+        lattice.prev_position_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
         lattice.position_delta_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
         lattice.constraint_count = ti.field(dtype=ti.i32, shape=lattice.total_granules)
 
@@ -315,7 +315,7 @@ def propagate_qwave(
         lattice.velocities_am,
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,
-        lattice.vertex_center_directions,
+        lattice.vertex_center_direction,
         t,
         slow_mo,
         amp_boost,
@@ -324,13 +324,13 @@ def propagate_qwave(
     # XPBD substep loop (following "Small Steps" paper Algorithm 1)
     for step in range(substeps):
         # Save previous positions for velocity computation
-        lattice.prev_positions_am.copy_from(lattice.positions_am)
+        lattice.prev_position_am.copy_from(lattice.positions_am)
 
         # XPBD constraint solve (SINGLE iteration per substep)
         # Phase 1: Accumulate position deltas (Jacobi iteration)
         solve_distance_constraints_xpbd(
             lattice.positions_am,
-            lattice.prev_positions_am,
+            lattice.prev_position_am,
             granule.mass,
             neighbors.links,
             neighbors.links_count,
@@ -355,7 +355,7 @@ def propagate_qwave(
         # Update velocities from position changes with damping
         update_velocities_from_positions(
             lattice.positions_am,
-            lattice.prev_positions_am,
+            lattice.prev_position_am,
             lattice.velocities_am,
             lattice.granule_type,
             dt_sub,

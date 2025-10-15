@@ -128,10 +128,10 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
         # Normalize to 0-1 range (positions are in attometers, scale them back)
         if enable_slice == 1 and lattice.front_octant[i] == 1:
             # Block-slicing enabled: hide front octant granules by moving to origin
-            normalized_positions[i] = ti.Vector([0.0, 0.0, 0.0])
+            normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_positions[i] = lattice.positions_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.positions_am[i] / lattice.universe_edge_am
 
 
 def normalize_granule():
@@ -161,7 +161,7 @@ def render_xperiment(lattice, granule):
         neighbors: BCCNeighbors instance for optional link visualization
     """
     global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
-    global normalized_positions
+    global normalized_position
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
@@ -179,7 +179,7 @@ def render_xperiment(lattice, granule):
 
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_positions = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
 
     # Print diagnostics header if enabled
@@ -234,13 +234,13 @@ def render_xperiment(lattice, granule):
         # Render granules with optional type-coloring
         if granule_type:
             render.scene.particles(
-                normalized_positions,
+                normalized_position,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_color,
             )
         else:
             render.scene.particles(
-                normalized_positions,
+                normalized_position,
                 radius=normalized_radius * radius_factor,
                 color=config.COLOR_MEDIUM[1],
             )

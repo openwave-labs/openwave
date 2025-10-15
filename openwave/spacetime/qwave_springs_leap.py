@@ -27,7 +27,7 @@ def oscillate_vertex(
     velocities: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
-    vertex_center_directions: ti.template(),  # type: ignore
+    vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
 ):
@@ -42,7 +42,7 @@ def oscillate_vertex(
         velocities: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
         vertex_equilibrium: Equilibrium positions of 8 vertices
-        vertex_center_directions: Normalized direction vectors from vertices to center
+        vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
     """
     f_slowed = frequency / slow_mo
@@ -50,7 +50,7 @@ def oscillate_vertex(
 
     for v in range(8):
         idx = vertex_index[v]
-        direction = vertex_center_directions[v]
+        direction = vertex_center_direction[v]
 
         # Add phase shift to break symmetry: each vertex oscillates with different phase
         # Phase = v * π/4 (45° increments for 8 vertices)
@@ -214,7 +214,7 @@ def propagate_qwave(
         lattice.velocities_am,  # in am/s
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,  # in am
-        lattice.vertex_center_directions,
+        lattice.vertex_center_direction,
         t,
         slow_mo,
     )
