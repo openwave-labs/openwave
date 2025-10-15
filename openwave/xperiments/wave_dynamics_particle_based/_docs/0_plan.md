@@ -38,7 +38,7 @@ Also check `/research_requirements/original_requirements/1. Simulating a Fundame
   - Reason: We NEED this because `self.positions` will be constantly updated each frame
   - Without stored equilibrium, we'd have to recalculate from grid indices every frame (wasteful)
   - Add to quantum_medium.py during initialization: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
-  - Populate during `build_vertex_indices()` by storing `self.positions[vertex_idx]`
+  - Populate during `build_vertex_index()` by storing `self.positions[vertex_idx]`
 
 - **Time accumulation**: Use accumulated time variable `t` (not just dt)
   - Reason: `cos(2π * f * t)` requires absolute time, not delta
@@ -96,7 +96,7 @@ Recommendation: Update both for physical consistency, prepares for Phase 2.
 def oscillate_vertex(
     lattice_positions: ti.template(),
     lattice_velocities: ti.template(),
-    vertex_indices: ti.template(),
+    vertex_index: ti.template(),
     vertex_equilibrium: ti.template(),
     vertex_directions: ti.template(),
     t: ti.f32,
@@ -109,7 +109,7 @@ def oscillate_vertex(
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     for v in range(8):
-        idx = vertex_indices[v]
+        idx = vertex_index[v]
         direction = vertex_directions[v]
 
         # Position: x(t) = x_eq + A·cos(ωt)·direction
@@ -130,7 +130,7 @@ while window.running:
     quantum_wave.oscillate_vertex(
         lattice.positions,
         lattice.velocities,
-        lattice.vertex_indices,
+        lattice.vertex_index,
         lattice.vertex_equilibrium,
         lattice.vertex_directions,
         t, AMPLITUDE, FREQUENCY, SLOW_MO
@@ -143,8 +143,8 @@ while window.running:
 #### Step 1: Modify quantum_medium.py
 
 - [ ] Add field: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
-- [ ] In `build_vertex_indices()`: Store equilibrium positions after computing index
-  - `self.vertex_equilibrium[v] = self.positions[self.vertex_indices[v]]`
+- [ ] In `build_vertex_index()`: Store equilibrium positions after computing index
+  - `self.vertex_equilibrium[v] = self.positions[self.vertex_index[v]]`
 
 #### Step 2: Create quantum_wave.py functions
 

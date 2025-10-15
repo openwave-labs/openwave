@@ -36,7 +36,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 def oscillate_vertex(
     positions: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
-    vertex_indices: ti.template(),  # type: ignore
+    vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_center_directions: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
@@ -52,7 +52,7 @@ def oscillate_vertex(
     Args:
         positions: Position field for all granules
         velocities: Velocity field for all granules
-        vertex_indices: Indices of 8 corner vertices
+        vertex_index: Indices of 8 corner vertices
         vertex_equilibrium: Equilibrium positions of 8 vertices
         vertex_center_directions: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
@@ -63,7 +63,7 @@ def oscillate_vertex(
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     for v in range(8):
-        idx = vertex_indices[v]
+        idx = vertex_index[v]
         direction = vertex_center_directions[v]
 
         # Add phase shift to break symmetry: each vertex oscillates with different phase
@@ -313,7 +313,7 @@ def propagate_qwave(
     oscillate_vertex(
         lattice.positions_am,
         lattice.velocities_am,
-        lattice.vertex_indices,
+        lattice.vertex_index,
         lattice.vertex_equilibrium_am,
         lattice.vertex_center_directions,
         t,
@@ -587,7 +587,7 @@ def measure_wave_speed(
     max_distance = 0.0
     vertex_positions = []
     for v in range(8):
-        idx = lattice.vertex_indices[v]
+        idx = lattice.vertex_index[v]
         pos = lattice.positions_am[idx].to_numpy()
         vertex_positions.append(pos)
 

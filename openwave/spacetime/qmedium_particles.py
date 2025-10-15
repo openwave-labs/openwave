@@ -124,7 +124,7 @@ class BCCLattice:
         self.center_distance_am = ti.field(dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
+        self.vertex_index = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
         self.vertex_center_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -304,7 +304,7 @@ class BCCLattice:
             j = self.grid_size if (v & 2) else 0
             k = self.grid_size if (v & 1) else 0
             idx = i * (grid_dim * grid_dim) + j * grid_dim + k
-            self.vertex_indices[v] = idx
+            self.vertex_index[v] = idx
 
             # Store equilibrium position for this vertex
             self.vertex_equilibrium_am[v] = self.positions_am[idx]
