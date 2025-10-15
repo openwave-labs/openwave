@@ -29,10 +29,10 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 @ti.kernel
 def oscillate_granules(
     positions: ti.template(),  # type: ignore
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
-    directions: ti.template(),  # type: ignore
-    radial_distances: ti.template(),  # type: ignore
+    center_direction: ti.template(),  # type: ignore
+    center_distance: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
@@ -53,10 +53,10 @@ def oscillate_granules(
 
     Args:
         positions: Position field for all granules
-        velocities: Velocity field for all granules
+        velocity: Velocity field for all granules
         equilibrium: Equilibrium positions of all granules
-        directions: Normalized direction vectors from all granules to center
-        radial_distances: Distance from each granule to lattice center (in attometers)
+        center_direction: Normalized direction vectors from all granules to center
+        center_distance: Distance from each granule to lattice center (in attometers)
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor (divides frequency for visualization)
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
@@ -70,12 +70,12 @@ def oscillate_granules(
 
     # Process all granules in the lattice
     for idx in range(positions.shape[0]):
-        direction = directions[idx]
+        direction = center_direction[idx]
 
         # Phase determined by radial distance from center
         # Negative k·r creates outward propagating wave (wave starts at center)
         # Granules at same distance r oscillate in phase (shell-like behavior)
-        r = radial_distances[idx]  # distance to center in attometers
+        r = center_distance[idx]  # distance to center in attometers
         phase = -k * r  # phase shift based on distance from center (outward propagating)
 
         # Apply amp_boost for visibility in scaled-up lattices
@@ -85,4 +85,4 @@ def oscillate_granules(
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
-        velocities[idx] = velocity_magnitude * direction
+        velocity[idx] = velocity_magnitude * direction

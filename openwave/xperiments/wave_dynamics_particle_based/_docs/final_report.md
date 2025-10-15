@@ -522,7 +522,7 @@ def oscillate_granules(
 
         # Velocity from derivative
         velocity_mag = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
-        velocities[idx] = velocity_mag * direction
+        velocity[idx] = velocity_mag * direction
 ```
 
 ![Radial Wave Experiment](images/x_wave.png)
@@ -779,12 +779,12 @@ def compute_spring_forces(positions, equilibrium, forces, links,
         forces[i] = force
 
 @ti.kernel
-def integrate_euler(positions, velocities, forces, mass, dt, damping):
+def integrate_euler(positions, velocity, forces, mass, dt, damping):
     for i in range(positions.shape[0]):
         a = forces[i] / mass
-        velocities[i] += a * dt
-        velocities[i] *= damping
-        positions[i] += velocities[i] * dt
+        velocity[i] += a * dt
+        velocity[i] *= damping
+        positions[i] += velocity[i] * dt
 ```
 
 ### A.2 XPBD Constraint Solver - STABLE
@@ -827,8 +827,8 @@ def solve_distance_constraints(positions, neighbors, masses,
 
 ```python
 @ti.kernel
-def oscillate_granules(positions, velocities, equilibrium, directions,
-                       radial_distances, t, slow_mo, amp_boost):
+def oscillate_granules(positions, velocity, equilibrium, direction,
+                       radial_distance, t, slow_mo, amp_boost):
     """Phase-synchronized harmonic oscillation (radial_wave.py)"""
     f_slowed = frequency / slow_mo
     omega = 2.0 * ti.math.pi * f_slowed
@@ -844,7 +844,7 @@ def oscillate_granules(positions, velocities, equilibrium, directions,
         positions[idx] = equilibrium[idx] + displacement * direction
 
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
-        velocities[idx] = velocity_magnitude * direction
+        velocity[idx] = velocity_magnitude * direction
 ```
 
 ---

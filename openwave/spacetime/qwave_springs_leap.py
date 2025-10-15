@@ -24,7 +24,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 @ti.kernel
 def oscillate_vertex(
     positions: ti.template(),  # type: ignore
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_center_direction: ti.template(),  # type: ignore
@@ -39,7 +39,7 @@ def oscillate_vertex(
 
     Args:
         positions: Position field for all granules
-        velocities: Velocity field for all granules
+        velocity: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
         vertex_equilibrium: Equilibrium positions of 8 vertices
         vertex_center_direction: Normalized direction vectors from vertices to center
@@ -62,7 +62,7 @@ def oscillate_vertex(
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
-        velocities[idx] = velocity_magnitude * direction
+        velocity[idx] = velocity_magnitude * direction
 
 
 # ================================================================
@@ -125,7 +125,7 @@ def compute_spring_forces(
 
 @ti.kernel
 def velocity_half_kick(
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     acceleration: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
@@ -133,24 +133,24 @@ def velocity_half_kick(
     """First half of Velocity Verlet (Leapfrog): v(t+dt/2) = v(t) + a(t)*dt/2.
 
     Args:
-        velocities: Velocity field
+        velocity: Velocity field
         acceleration: Acceleration field (from spring forces at time t)
         granule_type: Type classification (skip vertices)
         dt: Timestep
     """
-    for i in range(velocities.shape[0]):
+    for i in range(velocity.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             continue
 
         # Half-step velocity update (first kick)
-        velocities[i] += acceleration[i] * (dt * 0.5)
+        velocity[i] += acceleration[i] * (dt * 0.5)
 
 
 @ti.kernel
 def position_drift(
     positions: ti.template(),  # type: ignore
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
@@ -158,7 +158,7 @@ def position_drift(
 
     Args:
         positions: Position field
-        velocities: Velocity field (at t+dt/2)
+        velocity: Velocity field (at t+dt/2)
         granule_type: Type classification (skip vertices)
         dt: Timestep
     """
@@ -168,7 +168,7 @@ def position_drift(
             continue
 
         # Full-step position update using half-step velocity (drift)
-        positions[i] += velocities[i] * dt
+        positions[i] += velocity[i] * dt
 
 
 # Orchestrator function to run the full propagation step
@@ -195,7 +195,7 @@ def propagate_qwave(
             v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
 
     Args:
-        lattice: Lattice instance with positions, velocities, granule_type
+        lattice: Lattice instance with positions, velocity, granule_type
         granule: Granule instance for mass
         neighbors: BCCNeighbors instance with connectivity information
         stiffness: Spring constant k (N/m)
@@ -211,7 +211,7 @@ def propagate_qwave(
     # Vertices provide boundary condition for entire frame
     oscillate_vertex(
         lattice.positions_am,  # in am
-        lattice.velocities_am,  # in am/s
+        lattice.velocity_am,  # in am/s
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,  # in am
         lattice.vertex_center_direction,
@@ -235,7 +235,7 @@ def propagate_qwave(
 
         # 2. First kick: v(t+dt/2) = v(t) + a(t)*dt/2
         velocity_half_kick(
-            lattice.velocities_am,  # in am/s
+            lattice.velocity_am,  # in am/s
             lattice.acceleration_am,  # in am/s^2
             lattice.granule_type,
             dt_sub,
@@ -244,7 +244,7 @@ def propagate_qwave(
         # 3. Drift: x(t+dt) = x(t) + v(t+dt/2)*dt
         position_drift(
             lattice.positions_am,  # in am
-            lattice.velocities_am,  # in am/s (now at t+dt/2)
+            lattice.velocity_am,  # in am/s (now at t+dt/2)
             lattice.granule_type,
             dt_sub,
         )
@@ -262,7 +262,7 @@ def propagate_qwave(
 
         # 5. Second kick: v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
         velocity_half_kick(
-            lattice.velocities_am,  # in am/s (now at t+dt/2)
+            lattice.velocity_am,  # in am/s (now at t+dt/2)
             lattice.acceleration_am,  # in am/s^2 (now at t+dt)
             lattice.granule_type,
             dt_sub,
@@ -275,7 +275,7 @@ def propagate_qwave(
                 pos_eq = ti.Vector([0.0, 0.0, 0.0])  # Equilibrium position of granule 0
                 disp = lattice.positions_am[1] - pos_eq
                 disp_norm = disp.norm()
-                vel_norm = lattice.velocities_am[1].norm()
+                vel_norm = lattice.velocity_am[1].norm()
                 # Check if values are finite
                 is_finite = disp_norm == disp_norm and vel_norm == vel_norm  # NaN check
                 status = "OK" if is_finite else "NaN/Inf!"

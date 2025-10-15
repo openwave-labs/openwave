@@ -205,7 +205,7 @@ def render_xperiment(lattice, granule):
             # Phase is determined by radial distance, creating outward-propagating spherical waves
             qwave.oscillate_granules(
                 lattice.positions_am,  # Granule positions in attometers
-                lattice.velocities_am,  # Granule velocities in am/s
+                lattice.velocity_am,  # Granule velocity in am/s
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.center_direction,  # Direction vectors to center for all granules
                 lattice.center_distance_am,  # Radial distance from each granule to center

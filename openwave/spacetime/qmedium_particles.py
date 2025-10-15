@@ -114,11 +114,11 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # Positions, velocities and acceleration in attometers for f32 precision
+        # Positions, velocity and acceleration in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.center_direction = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.center_distance_am = ti.field(dtype=ti.f32, shape=self.total_granules)
@@ -130,7 +130,7 @@ class BCCLattice:
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
-        self.populate_lattice()  # initialize positions and velocities
+        self.populate_lattice()  # initialize positions and velocity
         self.build_granule_type()  # classifies granules
         self.build_center_direction()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
@@ -189,7 +189,7 @@ class BCCLattice:
             self.equilibrium_am[idx] = self.positions_am[idx]  # set equilibrium position
 
             # Initialize velocity to zero for all granules
-            self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
+            self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
     def build_granule_type(self):

@@ -35,7 +35,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 @ti.kernel
 def oscillate_vertex(
     positions: ti.template(),  # type: ignore
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     vertex_index: ti.template(),  # type: ignore
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_center_direction: ti.template(),  # type: ignore
@@ -51,7 +51,7 @@ def oscillate_vertex(
 
     Args:
         positions: Position field for all granules
-        velocities: Velocity field for all granules
+        velocity: Velocity field for all granules
         vertex_index: Indices of 8 corner vertices
         vertex_equilibrium: Equilibrium positions of 8 vertices
         vertex_center_direction: Normalized direction vectors from vertices to center
@@ -77,7 +77,7 @@ def oscillate_vertex(
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
         velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
-        velocities[idx] = velocity_magnitude * direction
+        velocity[idx] = velocity_magnitude * direction
 
 
 # ================================================================
@@ -216,15 +216,15 @@ def apply_position_corrections(
 
 
 @ti.kernel
-def update_velocities_from_positions(
+def update_velocity_from_positions(
     positions: ti.template(),  # type: ignore
     prev_position: ti.template(),  # type: ignore
-    velocities: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
     damping: ti.f32,  # type: ignore
 ):
-    """Derive velocities from position changes with damping.
+    """Derive velocity from position changes with damping.
 
     In XPBD, velocity is derived from position changes:
     v = (x_new - x_old) / dt
@@ -235,7 +235,7 @@ def update_velocities_from_positions(
     Args:
         positions: New positions (after constraint solve)
         prev_position: Old positions (before constraint solve)
-        velocities: Velocity field (updated in-place)
+        velocity: Velocity field (updated in-place)
         granule_type: Skip vertices
         dt: Substep timestep
         damping: Damping coefficient (0.999 recommended)
@@ -249,7 +249,7 @@ def update_velocities_from_positions(
         velocity_raw = (positions[i] - prev_position[i]) / dt
 
         # Apply damping
-        velocities[i] = damping * velocity_raw
+        velocity[i] = damping * velocity_raw
 
 
 # Orchestrator function to run the full XPBD propagation step
@@ -278,7 +278,7 @@ def propagate_qwave(
     3. Solve distance constraints (Jacobi iteration):
        a. Accumulate position corrections (parallel)
        b. Apply averaged corrections with SOR (parallel)
-    4. Update velocities from position changes
+    4. Update velocity from position changes
     5. Apply damping
 
     Key advantages:
@@ -288,7 +288,7 @@ def propagate_qwave(
     - Real-time performance (100 substeps, 1 iteration each)
 
     Args:
-        lattice: Lattice instance with positions, velocities, granule_type
+        lattice: Lattice instance with positions, velocity, granule_type
         granule: Granule instance for mass
         neighbors: BCCNeighbors instance with connectivity
         stiffness: Spring constant k (N/m) - USE REAL PHYSICAL VALUE!
@@ -312,7 +312,7 @@ def propagate_qwave(
     # Update vertex positions ONCE per frame (boundary condition)
     oscillate_vertex(
         lattice.positions_am,
-        lattice.velocities_am,
+        lattice.velocity_am,
         lattice.vertex_index,
         lattice.vertex_equilibrium_am,
         lattice.vertex_center_direction,
@@ -352,11 +352,11 @@ def propagate_qwave(
             omega,
         )
 
-        # Update velocities from position changes with damping
-        update_velocities_from_positions(
+        # Update velocity from position changes with damping
+        update_velocity_from_positions(
             lattice.positions_am,
             lattice.prev_position_am,
-            lattice.velocities_am,
+            lattice.velocity_am,
             lattice.granule_type,
             dt_sub,
             damping,
