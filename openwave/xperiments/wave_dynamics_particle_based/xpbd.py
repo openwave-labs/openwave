@@ -79,14 +79,14 @@ def data_dashboard():
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("")
-        sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (>10)")
+        sub.text("--- Sim Resolution (linear) ---")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
         if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
         sub.text("")
-        sub.text("--- Universe Lattice Wave Energy ---")
+        sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 

@@ -53,16 +53,16 @@ render.init_UI()  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Radial Wave PSHO", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: BCC lattice")
+        sub.text("QMedium: Particles in BCC lattice")
         sub.text("Granule Type: Point Mass")
-        sub.text("Coupling: NONE")
-        sub.text("QWave Source: All Granule Oscillators")
+        sub.text("Coupling: Phase Sync")
+        sub.text("QWave Source: Harmonic Oscillators")
         sub.text("QWave Propagation: Radial from Center")
 
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
         sub.text("--- QUANTUM-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
@@ -77,14 +77,21 @@ def data_dashboard():
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("")
-        sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (>10)")
+        sub.text("--- Sim Resolution (linear) ---")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
         if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
         sub.text("")
-        sub.text("--- Universe Lattice Wave Energy ---")
+        sub.text("--- QUANTUM-WAVE ---")
+        sub.text(f"QWAVE Speed (c): {constants.QWAVE_SPEED:.1e} m/s")
+        sub.text(f"QWAVE Wavelength (lambda): {constants.QWAVE_LENGTH:.1e} m")
+        sub.text(f"QWAVE Frequency (f): {constants.QWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"QWAVE Amplitude (A): {constants.QWAVE_AMPLITUDE:.1e} m")
+
+        sub.text("")
+        sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 

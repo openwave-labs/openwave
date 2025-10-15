@@ -17,6 +17,7 @@ from openwave.common import constants
 # PSHO Diagnostic Functions (Zero-Overhead)
 # ================================================================
 
+
 def print_wave_diagnostics(
     t: float,
     frame: int,
@@ -38,8 +39,8 @@ def print_wave_diagnostics(
     # For PSHO, just print confirmation that wave is running correctly
     print(f"\n=== WAVE DIAGNOSTICS (Frame {frame}, t={t:.3f}s) ===")
     print(f"✓ PSHO Running - Wave parameters guaranteed correct by construction:")
-    print(f"  Wave Speed:    c = {constants.QWAVE_SPEED:.6e} m/s (exact)")
-    print(f"  Wavelength:    λ = {constants.QWAVE_LENGTH:.6e} m (exact)")
+    print(f"  Wave Speed:    c = {constants.QWAVE_SPEED:.6e} m/s")
+    print(f"  Wavelength:    λ = {constants.QWAVE_LENGTH:.6e} m")
     print(f"  Frequency:     f = {constants.QWAVE_FREQUENCY:.6e} Hz")
     print(f"  Phase relation: φ = -kr ensures outward propagation")
     print(f"  Validation:     v = f × λ = c ✓")
@@ -65,7 +66,7 @@ def print_initial_parameters(slow_mo: float = 1.0):
         print()
         print(f"Simulation Parameters:")
         print(f"  Slow-motion factor:           {slow_mo:.2e}")
-        print(f"  Effective frequency:          {f_slowed:.6e} Hz")
+        print(f"  Effective frequency:          {f_slowed:.2e} Hz")
         print(f"  (Wave speed and wavelength remain c and λ by construction)")
 
     print()
