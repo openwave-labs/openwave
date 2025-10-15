@@ -1,5 +1,5 @@
 """
-XPERIMENT: Spring-Mass Leapfrog Wave Oscillation (UNSTABLE)
+XPERIMENT: Spring-Mass Euler Wave Oscillation (UNSTABLE)
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
@@ -14,8 +14,8 @@ from openwave.common import config
 from openwave.common import constants
 from openwave.common import render
 
-import openwave.spacetime.qmedium_lattice as qmedium
-import openwave.spacetime.qwave_springleap as qwave
+import openwave.spacetime.qmedium_particles as qmedium
+import openwave.spacetime.qwave_springeuler as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -32,7 +32,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+STIFFNESS = 1e-11  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
@@ -51,12 +51,12 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spring-Mass Leapfrog", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Spring-Mass Euler", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("QMedium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
         sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Leapfrog")
+        sub.text("QWave Propagation: Spring-Mass Euler")
 
 
 def data_dashboard():
@@ -211,7 +211,7 @@ def render_xperiment(lattice, granule, neighbors):
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
-    radius_factor = 0.5  # Initialize granule size factor
+    radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     link_lines = None  # Link line buffer
     paused = False  # Pause toggle
@@ -274,7 +274,7 @@ def render_xperiment(lattice, granule, neighbors):
             render.scene.particles(
                 normalized_positions,
                 radius=normalized_radius * radius_factor,
-                color=config.COLOR_GRANULE[1],
+                color=config.COLOR_MEDIUM[1],
             )
 
         # Render spring links if enabled and available

@@ -2,7 +2,7 @@
 
 ## From Particle Mechanics to Wave Mechanics in Planck-Scale Simulation
 
-**Author:** Rodrigo Griesi
+**Author:** Rodrigo Griesi (<rodrigo@neptunya.net>)
 
 **Date:** October 2025
 
@@ -173,7 +173,7 @@ The experimental investigation was conducted using the OpenWave simulator, a spe
 
 The simulator architecture comprises five primary computational modules:
 
-- `quantum_medium_lattice.py`: Implements BCC lattice topology construction and granule initialization procedures
+- `quantum_medium_particles.py`: Implements BCC lattice topology construction and granule initialization procedures
 - `quantum_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
 - `quantum_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
 - `quantum_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation

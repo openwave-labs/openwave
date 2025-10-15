@@ -259,7 +259,7 @@ When observing radial wave propagation in the simulation, you may notice that th
 
 #### 1. BCC Geometry (Root Cause)
 
-In a BCC lattice (qmedium_lattice.py:24-43):
+In a BCC lattice (qmedium_particles.py:24-43):
 
 - Each granule has **8 nearest neighbors** at distance `a × √3/2`
 - These neighbors are arranged in a **tetrahedral/diagonal pattern**
@@ -315,7 +315,7 @@ The "twisting" you observe is evidence that the simulation correctly represents 
 
 ### Lattice Structure Details
 
-From qmedium_lattice.py:
+From qmedium_particles.py:
 
 ```python
 # BCC nearest neighbor distance (line 478)

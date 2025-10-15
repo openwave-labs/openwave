@@ -20,6 +20,26 @@ from openwave.common import constants
 from openwave.common import equations
 
 
+class Granule:
+    """
+    Granule Model: The aether consists of "granules".
+    Fundamental units that vibrate in harmony and create wave patterns.
+    Their collective motion at Planck scale creates all observable phenomena.
+    Each granule has a defined radius and mass.
+    """
+
+    def __init__(self, unit_cell_edge: float):
+        """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
+
+        Args:
+            unit_cell_edge: Edge length of the BCC unit-cell in meters.
+        """
+        self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
+        self.mass = (
+            constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
+        )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
+
+
 @ti.data_oriented
 class BCCLattice:
     """
@@ -98,25 +118,25 @@ class BCCLattice:
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.directions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # to center
-        self.radial_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # distance to center
         self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.accelerations_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.directions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # to center
+        self.radial_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # distance to center
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.vertex_indices = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest positions
         self.vertex_directions = ti.Vector.field(3, dtype=ti.f32, shape=8)  # direction to center
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize positions and velocities
-        self.build_granule_type()  # classifies granules
         self.build_directions()  # builds direction vectors for all granules to center
+        self.build_granule_type()  # classifies granules
+        self.find_front_octant()  # for block-slicing visualization
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.set_granule_colors()  # colors based on granule_type
         self.select_slice_plane_probes()  # select random probes on slice planes
-        self.find_front_octant()  # for block-slicing visualization
 
     @ti.kernel
     def populate_lattice(self):
@@ -172,6 +192,48 @@ class BCCLattice:
             self.velocities_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
+    def build_directions(self):
+        """Compute normalized direction vectors from all granules to lattice center.
+
+        For each granule in the positions_am array, computes a normalized direction vector
+        pointing from the granule's position toward the geometric center of the lattice.
+        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
+
+        Direction vectors are stored in the directions field and used for radial operations
+        such as compression/expansion forces or wave propagation from the center.
+
+        Special case: The central granule (TYPE_CENTRAL) has zero distance and a default
+        direction vector, ensuring it remains stationary in radial wave patterns.
+        """
+        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
+        lattice_center = ti.Vector([0.5, 0.5, 0.5])
+
+        # Process all granules in the lattice
+        for idx in range(self.total_granules):
+            # Special case: Central granule should have zero distance and no direction
+            if self.granule_type[idx] == config.TYPE_CENTRAL:
+                # Central granule: zero distance, arbitrary direction (won't be used)
+                self.directions[idx] = ti.Vector([0.0, 0.0, 0.0])
+                self.radial_am[idx] = 0.0
+            else:
+                # Convert granule position from attometers to normalized coordinates [0, 1]
+                # by dividing by the total universe edge length in attometers
+                pos_normalized = ti.Vector(
+                    [
+                        self.positions_am[idx][0] / self.universe_edge_am,
+                        self.positions_am[idx][1] / self.universe_edge_am,
+                        self.positions_am[idx][2] / self.universe_edge_am,
+                    ]
+                )
+
+                # Compute direction vector from granule position to lattice center
+                direction = lattice_center - pos_normalized
+
+                # Normalize and store the direction and distance to center vectors
+                self.directions[idx] = direction.normalized()
+                self.radial_am[idx] = direction.norm() * self.universe_edge_am  # in attometers
+
+    @ti.kernel
     def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
@@ -225,46 +287,24 @@ class BCCLattice:
                     self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def build_directions(self):
-        """Compute normalized direction vectors from all granules to lattice center.
+    def find_front_octant(self):
+        """Mark granules in the front octant (for block-slicing visualization).
 
-        For each granule in the positions_am array, computes a normalized direction vector
-        pointing from the granule's position toward the geometric center of the lattice.
-        The lattice center is at (0.5, 0.5, 0.5) in normalized coordinates.
-
-        Direction vectors are stored in the directions field and used for radial operations
-        such as compression/expansion forces or wave propagation from the center.
-
-        Special case: The central granule (TYPE_CENTRAL) has zero distance and a default
-        direction vector, ensuring it remains stationary in radial wave patterns.
+        Front octant = granules where x, y, z > universe_edge/2
+        Used for rendering: 0 = render, 1 = skip (for see-through effect)
         """
-        # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
-        lattice_center = ti.Vector([0.5, 0.5, 0.5])
-
-        # Process all granules in the lattice
-        for idx in range(self.total_granules):
-            # Special case: Central granule should have zero distance and no direction
-            if self.granule_type[idx] == config.TYPE_CENTRAL:
-                # Central granule: zero distance, arbitrary direction (won't be used)
-                self.directions[idx] = ti.Vector([0.0, 0.0, 0.0])
-                self.radial_am[idx] = 0.0
-            else:
-                # Convert granule position from attometers to normalized coordinates [0, 1]
-                # by dividing by the total universe edge length in attometers
-                pos_normalized = ti.Vector(
-                    [
-                        self.positions_am[idx][0] / self.universe_edge_am,
-                        self.positions_am[idx][1] / self.universe_edge_am,
-                        self.positions_am[idx][2] / self.universe_edge_am,
-                    ]
+        for i in range(self.total_granules):
+            # Mark if granule is in the front 1/8th block, > halfway on all axes
+            # 0 = not in front octant, 1 = in front octant
+            self.front_octant[i] = (
+                1
+                if (
+                    self.positions_am[i][0] > self.universe_edge_am / 2
+                    and self.positions_am[i][1] > self.universe_edge_am / 2
+                    and self.positions_am[i][2] > self.universe_edge_am / 2
                 )
-
-                # Compute direction vector from granule position to lattice center
-                direction = lattice_center - pos_normalized
-
-                # Normalize and store the direction and distance to center vectors
-                self.directions[idx] = direction.normalized()
-                self.radial_am[idx] = direction.norm() * self.universe_edge_am  # in attometers
+                else 0
+            )
 
     @ti.kernel
     def build_vertex_data(self):
@@ -371,7 +411,9 @@ class BCCLattice:
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 for k in range(self.grid_size):
-                    idx = corner_count + i * self.grid_size * self.grid_size + j * self.grid_size + k
+                    idx = (
+                        corner_count + i * self.grid_size * self.grid_size + j * self.grid_size + k
+                    )
 
                     # YZ plane: center granules at x boundary, EXPOSED part (j,k >= half_grid)
                     if i == half_grid and j >= half_grid and k >= half_grid:
@@ -408,47 +450,9 @@ class BCCLattice:
         for idx in indices:
             # Never mark the central granule as a probe
             if self.granule_type[idx] != config.TYPE_CENTRAL:
-                self.granule_color[idx] = ti.Vector([probe_color[0], probe_color[1], probe_color[2]])
-
-    @ti.kernel
-    def find_front_octant(self):
-        """Mark granules in the front octant (for block-slicing visualization).
-
-        Front octant = granules where x, y, z > universe_edge/2
-        Used for rendering: 0 = render, 1 = skip (for see-through effect)
-        """
-        for i in range(self.total_granules):
-            # Mark if granule is in the front 1/8th block, > halfway on all axes
-            # 0 = not in front octant, 1 = in front octant
-            self.front_octant[i] = (
-                1
-                if (
-                    self.positions_am[i][0] > self.universe_edge_am / 2
-                    and self.positions_am[i][1] > self.universe_edge_am / 2
-                    and self.positions_am[i][2] > self.universe_edge_am / 2
+                self.granule_color[idx] = ti.Vector(
+                    [probe_color[0], probe_color[1], probe_color[2]]
                 )
-                else 0
-            )
-
-
-class Granule:
-    """
-    Granule Model: The aether consists of "granules".
-    Fundamental units that vibrate in harmony and create wave patterns.
-    Their collective motion at Planck scale creates all observable phenomena.
-    Each granule has a defined radius and mass.
-    """
-
-    def __init__(self, unit_cell_edge: float):
-        """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
-
-        Args:
-            unit_cell_edge: Edge length of the BCC unit-cell in meters.
-        """
-        self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
-        self.mass = (
-            constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
 
 
 @ti.data_oriented

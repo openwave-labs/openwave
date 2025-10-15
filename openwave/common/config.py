@@ -13,7 +13,7 @@ Includes commented thermal imaging palette definitions for future use.
 # ================================================================
 COLOR_SPACE = ["#000000ff", (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
 COLOR_INFRA = ["#ffffffff", (1.0, 1.0, 1.0)]  # white (wire-framing, grids, links)
-COLOR_GRANULE = ["#1a99e6ff", (0.1, 0.6, 0.9)]  # blue (granules)
+COLOR_MEDIUM = ["#1a99e6ff", (0.1, 0.6, 0.9)]  # blue (medium, granules)
 COLOR_QWAVES = ["#ff00eeff", (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
 COLOR_FIELDS = ["#00ffffff", (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
 COLOR_MATTER = ["#0000ffff", (0.0, 0.0, 1.0)]  # blue (matter, particles)
@@ -41,9 +41,10 @@ TYPE_CENTRAL = 4  # Single central granule (lattice center)
 COLOR_VERTEX = ["#ffffffff", (1.0, 1.0, 1.0)]  # White - cube vertices
 COLOR_EDGE = ["#ffea00ff", (1.0, 0.92, 0.0)]  # Yellow - cube edges
 COLOR_FACE = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # Orange - cube faces
-COLOR_CORE = COLOR_GRANULE  # Blue - interior granules
-COLOR_CENTRAL = ["#8b00ffff", (0.55, 0.0, 0.85)]  # Purple - probe granules
-COLOR_PROBE = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - center granule
+COLOR_CORE = COLOR_MEDIUM  # Blue - interior granules
+COLOR_CENTRAL = ["#8b00ffff", (0.55, 0.0, 0.85)]  # Purple - central granule
+COLOR_SOURCE = ["#ff00eeff", (1.0, 0.0, 0.93)]  # Magenta - source granule
+COLOR_PROBE = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - probe granule
 
 
 # # FUTURE THERMAL IMAGING PALLETTE

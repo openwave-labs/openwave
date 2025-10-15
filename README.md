@@ -229,7 +229,7 @@ kanban
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - quantum_medium.py]
+      - qmedium_particles.py]
     [**XPERIMENTS MODULE**
       - radial_wave.py
       - spring_euler.py
