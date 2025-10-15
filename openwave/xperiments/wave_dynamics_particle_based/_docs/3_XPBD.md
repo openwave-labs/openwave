@@ -564,8 +564,8 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 ### Files Archived (for reference)
 
-- `qwave_springeuler.py` - Semi-implicit Euler integration
-- `qwave_springleap.py` - Velocity Verlet attempt
+- `qwave_springs_euler.py` - Semi-implicit Euler integration
+- `qwave_springs_leap.py` - Velocity Verlet attempt
 
 ### Implementation Checklist
 

@@ -1,5 +1,5 @@
 """
-XPERIMENT: Radial Quantum-Wave Oscillation
+XPERIMENT: Phase Sync Harmonic Oscillation
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
@@ -52,7 +52,7 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Radial Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Radial Wave PSHO", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("QMedium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: NONE")

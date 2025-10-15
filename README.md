@@ -85,9 +85,14 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
+    QUANTUM-MEDIUM OBJECTS
     qmedium_particles.py ✓
     *WIP*: qmedium_aether.py
-    *WIP*: quantum_wave.py}
+    ---
+    QUANTUM-WAVE ENGINES
+    qwave_radial.py ✓
+    qwave_springs.py ✓
+    *WIP*: qwave_flow.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -157,13 +162,15 @@ class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     PARTICLE-BASED
     - radial_wave.py ✓
-    - spring_euler.py ✓
-    - spring_leap.py ✓
+    - spring_mass.py ✓
     - xpbd.py ✓
+    ---
     AETHER-BASED
-    - *WIP*: flux_wave.py
+    - *WIP*: flow_wave.py
+    ---
     ANTI-GRAVITY
     - *WIP*: proton_vibration.py
+    ---
     HEAT-DYNAMICS
     - *WIP*: heat_waves.py
 }
@@ -233,17 +240,19 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - qmedium_aether.py
-      - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
+      - qwave_flow.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - qmedium_particles.py]
+      - qmedium_particles.py
+      - qwave_radial.py
+      - qwave_springs.py
+      - qwave_xpbd.py]
     [**XPERIMENTS MODULE**
       - radial_wave.py
-      - spring_euler.py
-      - spring_leap.py
+      - spring_mass.py
       - xpbd.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
