@@ -10,7 +10,7 @@ import time
 from openwave.common import config
 from openwave.common import constants
 from openwave.common import equations
-from openwave.common import render
+from openwave._io import render
 
 import openwave.spacetime.qmedium_particles as qmedium
 import openwave.spacetime.qwave_xpbd as qwave

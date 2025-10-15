@@ -77,6 +77,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
 - ✓ = module already released
+- *WIP* = work in process
 
 ```mermaid
 classDiagram
@@ -84,8 +85,9 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    quantum_medium.py ✓
-    quantum_wave.py}
+    qmedium_particles.py ✓
+    *WIP*: qmedium_aether.py
+    *WIP*: quantum_wave.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -102,11 +104,11 @@ class `SPACETIME MODULE
 
 class `MATTER MODULE
   (PARTICLE ENERGY)`{
-    fundamental_particle.py
-    standalone_particle.py
-    composite_particle.py
-    atom.py
-    molecule.py}
+    *WIP*: fundamental_particle.py
+    *WIP*: standalone_particle.py
+    *WIP*: composite_particle.py
+    *WIP*: atom.py
+    *WIP*: molecule.py}
 `MATTER MODULE
   (PARTICLE ENERGY)` <--> `FORCE
   MODULE`
@@ -117,16 +119,16 @@ class `MATTER MODULE
 
 class `FORCE
   MODULE`{
-    electric.py
-    magnetic.py
-    gravitational.py
-    strong.py
-    orbital.py}
+    *WIP*: electric.py
+    *WIP*: magnetic.py
+    *WIP*: gravitational.py
+    *WIP*: strong.py
+    *WIP*: orbital.py}
 
 
 class `MOTION MODULE
   (KINETIC ENERGY)`{    
-    --TBD*}
+    ---WIP*}
 `MOTION MODULE
   (KINETIC ENERGY)` <-- `FORCE
   MODULE`
@@ -137,7 +139,7 @@ class `MOTION MODULE
 
 class `PHOTON MODULE
   (PHOTON ENERGY)`{
-    --TBD*}
+    ---WIP*}
 `PHOTON MODULE
   (PHOTON ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL LAB)`
@@ -145,7 +147,7 @@ class `PHOTON MODULE
 
 class `HEAT MODULE
   (THERMAL ENERGY)`{
-    --TBD*}
+    ---WIP*}
 `HEAT MODULE
   (THERMAL ENERGY)` --> `XPERIMENTS MODULE
   (VIRTUAL LAB)`
@@ -153,11 +155,18 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    radial_wave.py ✓
-    spring_euler.py ✓
-    spring_leap.py ✓
-    xpbd.py ✓
-    --TBD*}
+    PARTICLE-BASED
+    - radial_wave.py ✓
+    - spring_euler.py ✓
+    - spring_leap.py ✓
+    - xpbd.py ✓
+    AETHER-BASED
+    - *WIP*: flux_wave.py
+    ANTI-GRAVITY
+    - *WIP*: proton_vibration.py
+    HEAT-DYNAMICS
+    - *WIP*: heat_waves.py
+}
 
 
 class `COMMON
@@ -165,8 +174,7 @@ class `COMMON
     config.py ✓
     constants.py ✓
     equations.py ✓
-    render.py ✓
-    --TBD*}
+  }
 `COMMON
   MODULE` <--> `VALIDATIONS
   MODULE`
@@ -176,7 +184,7 @@ class `VALIDATIONS
   MODULE`{
     wave_diagnostics.py ✓
     derivations.py ✓
-    --TBD*}
+  }
 `VALIDATIONS
   MODULE` <--> `I/O
   MODULE`
@@ -185,9 +193,10 @@ class `VALIDATIONS
 class `I/O
   MODULE`{
     cli.py ✓
-    file_export.py
-    video_manager.py
-    --TBD*}
+    render.py ✓
+    *WIP*: file_export.py
+    *WIP*: video_manager.py
+  }
 ```
 
 ### DEVELOPMENT ROADMAP
@@ -223,6 +232,7 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
+      - qmedium_aether.py
       - quantum_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**COMMON MODULE**
       - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
@@ -240,10 +250,10 @@ kanban
       - derivations.py]
     [**COMMON MODULE**
       - config.py
-      - constants.py
-      - render.py]
+      - constants.py]
     [**I/O MODULE**
-      - cli.py]
+      - cli.py
+      - render.py]
 ```
 
 ### Scalability & Performance
