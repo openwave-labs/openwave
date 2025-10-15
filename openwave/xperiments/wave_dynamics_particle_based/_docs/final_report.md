@@ -1,7 +1,5 @@
 # Numerical Methods for Quantum-Scale Wave Dynamics: A Comparative Analysis of Force-Based and Phase-Synchronized Approaches
 
-## From Particle Mechanics to Wave Mechanics in Planck-Scale Simulation
-
 **Author:** Rodrigo Griesi (<rodrigo@neptunya.net>)
 
 **Date:** October 2025
@@ -113,9 +111,15 @@ $$\tilde{\alpha} = 1/(k \cdot dt^2)$$
 
 **Phase-Synchronized Position:**
 
-$$x(t) = x_{eq} + A \cdot \cos(\omega t - kr) \cdot \hat{d}$$
+$$x(t) = x_{eq} + A(r) \cdot \cos(\omega t - kr) \cdot \hat{d}$$
 
-where $k = 2\pi/\lambda$ (wave number), $r$ = radial distance from source, $\hat{d}$ = direction unit vector.
+where $k = 2\pi/\lambda$ (wave number), $r$ = radial distance from wave source, $\hat{d}$ = direction unit vector, and $A(r) = A_0 \cdot (r_0/r)$ for spherical wave energy conservation.
+
+**Amplitude Falloff (Spherical Waves):**
+
+$$A(r) = A_0 \cdot \frac{r_0}{r} \quad \text{for } r \geq r_{min}$$
+
+where $r_0$ = reference radius (1 wavelength), $r_{min}$ = minimum safe radius (1 wavelength from wave source).
 
 ---
 
@@ -230,9 +234,11 @@ To enable visualization of quantum-scale dynamics, we implemented a temporal sca
 - Method: Direct harmonic oscillation equation
 - No integration (analytical position calculation)
 - All granules oscillate radially with phase φ = -kr
+- Amplitude falloff: A(r) = A₀(r₀/r) for spherical wave energy conservation
+- Minimum safe radius: r_min = 1λ (based on EWT neutrino boundary)
 - Stiffness: N/A (no springs, pure wave mechanics)
 - All granules oscillate radially along their direction vectors to wave source
-- Phase determined by radial distance, creating outward-propagating spherical wavefronts
+- Phase determined by radial distance from wave source, creating outward-propagating spherical wavefronts
 
 ---
 
@@ -427,22 +433,56 @@ The extremely small normalized compliance value indicates near-rigid constraint 
 
 The critical insight involves eliminating springs and constraints entirely in favor of synchronized phase relationships between granules. Rather than employing force-based mechanics $(F \rightarrow a \rightarrow v \rightarrow x)$, we implement direct wave equations:
 
-$$x(t) = x_{eq} + A \cdot \cos(\omega t - kr) \cdot \hat{d}$$
+$$x(t) = x_{eq} + A(r) \cdot \cos(\omega t - kr) \cdot \hat{d}$$
 
-$$v(t) = -A \cdot \omega \cdot \sin(\omega t - kr) \cdot \hat{d}$$
+$$v(t) = -A(r) \cdot \omega \cdot \sin(\omega t - kr) \cdot \hat{d}$$
 
 where:
 
 - $\omega = 2\pi f$ (angular frequency)
 - $k = 2\pi/\lambda$ (wave number)
-- $r$ = radial distance from source
+- $r$ = radial distance from wave source
 - $\hat{d}$ = unit vector from granule to wave source
+- $A(r) = A_0 \cdot (r_0/r)$ = distance-dependent amplitude for energy conservation
 
 **Key insight:** Radial waves originate from the wave source and propagate via synchronized phase shifts. This approach replaces force-driven position integration with direct harmonic oscillation equations that define granule positions as functions of time.
 
 The phase relationship $\phi = -kr$ generates outward-propagating spherical waves from the wave source without requiring spring forces or numerical integration.
 
-**Result:** This approach achieves exact wave propagation with clearly defined wavefronts, matching both theoretical wave speed and wavelength parameters.
+**Spherical Wave Energy Conservation:**
+
+For spherical waves propagating from a point source, total energy must be conserved as the wave expands. The energy of a wave system is given by:
+
+$$E = \rho V \left(\frac{c}{\lambda} \times A\right)^2$$
+
+As a spherical wave propagates through a uniform medium, wavelength $\lambda$ and wave speed $c$ remain constant, requiring amplitude $A$ to decrease with distance. Energy density integrated over expanding spherical shells must remain constant:
+
+$$E_{total} = \int A^2(r) \times 4\pi r^2 \, dr = \text{constant}$$
+
+This requires $A^2(r) \times r^2 = \text{constant}$, yielding the amplitude falloff law:
+
+$$A(r) = A_0 \cdot \frac{r_0}{r}$$
+
+where $r_0$ is the reference radius (set to one wavelength). This ensures energy conservation across all radial distances from the wave source.
+
+**Near-Field vs Far-Field Regions:**
+
+Based on electromagnetic wave theory and EWT specifications, the region around the wave source divides into three zones:
+
+1. **Near field** ($r < \lambda$ from wave source): Source region where wave structure is forming. Amplitude is clamped to prevent singularity at $r \to 0$.
+
+2. **Transition zone** ($\lambda < r < 2\lambda$ from wave source): Wave fronts organize into spherical geometry, transitioning toward far-field behavior.
+
+3. **Far field** ($r > 2\lambda$ from wave source): Fully formed spherical waves with clean $A \propto 1/r$ energy conservation law.
+
+The implementation uses $r_{min} = 1\lambda$ (one wavelength from wave source) as the minimum safe radius, based on:
+
+- EWT neutrino boundary specification at $r = 1\lambda$
+- EM theory transition to radiative fields around $\lambda$
+- Prevention of singularity at $r \to 0$
+- Numerical stability and physical wave behavior
+
+**Result:** This approach achieves exact wave propagation with clearly defined wavefronts, matching both theoretical wave speed and wavelength parameters while conserving energy through physically accurate amplitude falloff.
 
 #### 5.4.2 Design Decision: Separating Temporal and Spatial Phase Terms
 
@@ -499,29 +539,40 @@ At quantum scale, **phase control is the fundamental mechanism** for wave behavi
 
 This design philosophy reflects the insight that phase relationships are more fundamental than forces at quantum scale - the very principle that makes PSHO successful where force-based methods fail.
 
-#### 5.4.3 Implementation (radial_wave.py)
+#### 5.4.3 Implementation (qwave_radial.py)
 
 ```python
 @ti.kernel
 def oscillate_granules(
     positions, velocities, equilibrium, directions,
-    radial_distances, t, slow_mo, amp_boost
+    radial_distances, t, slow_mo, freq_boost, amp_boost
 ):
-    f_slowed = frequency / slow_mo
+    f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
+    # Reference radius for amplitude normalization (one wavelength from wave source)
+    r_reference = wavelength_am  # attometers
+
     for idx in position:
         direction = directions[idx]
-        r = radial_distances[idx]
-        phase = -k * r  # Outward propagating
+        r = radial_distances[idx]  # distance from wave source
+        phase = -k * r  # Outward propagating wave
+
+        # Amplitude falloff for spherical wave energy conservation: A(r) = A₀(r₀/r)
+        # Uses r_min = 1λ based on EWT neutrino boundary and EM near-field physics
+        r_safe = ti.max(r, r_reference * 1)  # minimum 1 wavelength from wave source
+        amplitude_falloff = r_reference / r_safe
+
+        # Total amplitude at distance r from wave source
+        amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
 
         # Direct position calculation (no integration!)
-        displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
+        displacement = amplitude_at_r * ti.cos(omega * t + phase)
         position[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity from derivative
-        velocity_mag = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
+        velocity_mag = -amplitude_at_r * omega * ti.sin(omega * t + phase)
         velocity[idx] = velocity_mag * direction
 ```
 
@@ -557,9 +608,10 @@ Measured spatially: Distance between wavefronts matches theoretical
 
 1. **Exact wave propagation velocity** - Eliminates numerical dispersion associated with discretization
 2. **Precise wavelength preservation** - Phase relationships enforce exact wavelength λ
-3. **Unconditional stability** - No timestep constraints or numerical divergence
-4. **Computational efficiency** - Requires only trigonometric function evaluations, no iterative constraint solving
-5. **Physical fidelity** - Exact correspondence with EWT parameters
+3. **Energy conservation** - Amplitude falloff A ∝ 1/r ensures total energy remains constant across spherical shells
+4. **Unconditional stability** - No timestep constraints or numerical divergence
+5. **Computational efficiency** - Requires only trigonometric function evaluations, no iterative constraint solving
+6. **Physical fidelity** - Exact correspondence with EWT parameters and electromagnetic wave theory
 
 #### 5.4.5 Comparison Table
 
@@ -828,22 +880,33 @@ def solve_distance_constraints(position, neighbors, masses,
 ```python
 @ti.kernel
 def oscillate_granules(position, velocity, equilibrium, direction,
-                       radial_distance, t, slow_mo, amp_boost):
-    """Phase-synchronized harmonic oscillation (radial_wave.py)"""
-    f_slowed = frequency / slow_mo
+                       radial_distance, t, slow_mo, freq_boost, amp_boost):
+    """Phase-synchronized harmonic oscillation (qwave_radial.py)"""
+    f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
+    # Reference radius for amplitude normalization (one wavelength from wave source)
+    r_reference = wavelength_am  # attometers
+
     for idx in range(position.shape[0]):
         direction = directions[idx]
-        r = radial_distances[idx]
+        r = radial_distances[idx]  # distance from wave source
         phase = -k * r  # Outward propagating wave
 
+        # Amplitude falloff for spherical wave energy conservation: A(r) = A₀(r₀/r)
+        # Uses r_min = 1λ based on EWT neutrino boundary and EM near-field physics
+        r_safe = ti.max(r, r_reference * 1)  # minimum 1 wavelength from wave source
+        amplitude_falloff = r_reference / r_safe
+
+        # Total amplitude at distance r from wave source
+        amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+
         # Direct analytical solution (no integration!)
-        displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
+        displacement = amplitude_at_r * ti.cos(omega * t + phase)
         position[idx] = equilibrium[idx] + displacement * direction
 
-        velocity_magnitude = -amplitude_am * amp_boost * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_at_r * omega * ti.sin(omega * t + phase)
         velocity[idx] = velocity_magnitude * direction
 ```
 

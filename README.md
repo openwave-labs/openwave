@@ -92,6 +92,7 @@ class `SPACETIME MODULE
     QUANTUM-WAVE ENGINES
     qwave_radial.py ✓
     qwave_springs.py ✓
+    qwave_xpbd.py ✓
     *WIP*: qwave_flow.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE

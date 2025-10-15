@@ -58,6 +58,7 @@ def oscillate_vertex(
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
         slow_mo: Slow motion factor
+        freq_boost: Frequency multiplier
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
     f_slowed = frequency / slow_mo * freq_boost
