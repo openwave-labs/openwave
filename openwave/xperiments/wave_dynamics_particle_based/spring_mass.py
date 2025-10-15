@@ -253,7 +253,8 @@ def render_xperiment(lattice, granule, neighbors):
                 t,
                 dt_real,
                 substeps=100,  # 30-100 recommended (Small Steps strategy)
-                slow_mo=SLOW_MO / freq_boost,
+                slow_mo=SLOW_MO,  # Slow-motion factor for visibility
+                freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
             )
 
             # Update normalized positions for rendering (must happen after position updates)

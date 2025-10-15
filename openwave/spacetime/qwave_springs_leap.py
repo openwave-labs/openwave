@@ -30,6 +30,7 @@ def oscillate_vertex(
     vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into 8 vertices using harmonic oscillation (wave source, rhythm).
 
@@ -45,7 +46,7 @@ def oscillate_vertex(
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
     """
-    f_slowed = frequency / slow_mo
+    f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     for v in range(8):
@@ -173,7 +174,15 @@ def position_drift(
 
 # Orchestrator function to run the full propagation step
 def propagate_qwave(
-    lattice, granule, neighbors, stiffness, t: float, dt: float, substeps: int, slow_mo
+    lattice,
+    granule,
+    neighbors,
+    stiffness,
+    t: float,
+    dt: float,
+    substeps: int,
+    slow_mo: float = 1.0,
+    freq_boost: float = 1.0,
 ):
     """Main wave propagation orchestrator using spring-mass dynamics.
 
@@ -217,6 +226,7 @@ def propagate_qwave(
         lattice.vertex_center_direction,
         t,
         slow_mo,
+        freq_boost,
     )
 
     for step in range(substeps):

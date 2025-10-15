@@ -29,12 +29,13 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 @ti.kernel
 def oscillate_granules(
     position: ti.template(),  # type: ignore
-    velocity: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
+    velocity: ti.template(),  # type: ignore
     center_direction: ti.template(),  # type: ignore
     center_distance: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into all granules using harmonic oscillation (wave source, rhythm).
@@ -61,7 +62,7 @@ def oscillate_granules(
         slow_mo: Slow motion factor (divides frequency for visualization)
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slow_mo
+    f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     # Wave number k = 2π/λ (for spatial phase variation)

@@ -41,6 +41,7 @@ def oscillate_vertex(
     vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
     slow_mo: ti.f32,  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into 8 vertices using harmonic oscillation (wave source, rhythm).
@@ -59,7 +60,7 @@ def oscillate_vertex(
         slow_mo: Slow motion factor
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slow_mo
+    f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     for v in range(8):
@@ -261,9 +262,10 @@ def propagate_qwave(
     t: float,
     dt: float,
     substeps: int = 100,
-    slow_mo: float = 1.0,
     damping: float = 0.999,
     omega: float = 1.5,
+    slow_mo: float = 1.0,
+    freq_boost: float = 1.0,
     amp_boost: float = 1.0,
 ):
     """Main wave propagation using XPBD with Small Steps strategy.
@@ -318,6 +320,7 @@ def propagate_qwave(
         lattice.vertex_center_direction,
         t,
         slow_mo,
+        freq_boost,
         amp_boost,
     )
 

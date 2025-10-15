@@ -261,10 +261,11 @@ def render_xperiment(lattice, granule, neighbors):
                 t,
                 dt_real,
                 substeps=100,  # 100 recommended from papers
-                slow_mo=SLOW_MO / freq_boost,
                 damping=0.999,  # 0.1% energy loss per substep
                 omega=1.5,  # SOR parameter for faster convergence
-                amp_boost=amp_boost,  # Visibility boost for scaled lattices
+                slow_mo=SLOW_MO,  # Slow-motion factor for visibility
+                freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost=amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)

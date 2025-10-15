@@ -205,13 +205,14 @@ def render_xperiment(lattice, granule):
             # Phase is determined by radial distance, creating outward-propagating spherical waves
             qwave.oscillate_granules(
                 lattice.position_am,  # Granule positions in attometers
-                lattice.velocity_am,  # Granule velocity in am/s
                 lattice.equilibrium_am,  # Rest positions for all granules
+                lattice.velocity_am,  # Granule velocity in am/s
                 lattice.center_direction,  # Direction vectors to center for all granules
                 lattice.center_distance_am,  # Radial distance from each granule to center
                 t,
-                SLOW_MO / freq_boost,
-                amp_boost,  # Visibility boost for scaled lattices
+                SLOW_MO,  # Slow-motion factor for visibility
+                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)
