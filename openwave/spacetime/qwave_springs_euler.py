@@ -78,7 +78,7 @@ def compute_spring_forces(
     links_count: ti.template(),  # type: ignore
     rest_length: ti.f32,  # type: ignore
     stiffness: ti.f32,  # type: ignore
-    accelerations: ti.template(),  # type: ignore
+    acceleration: ti.template(),  # type: ignore
 ):
     """Compute spring forces and accelerations for all non-vertex granules.
 
@@ -90,7 +90,7 @@ def compute_spring_forces(
         links: Connectivity matrix [granule_idx, neighbor_idx]
         links_count: Number of active links per granule
         rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
-        accelerations: Output acceleration field (F/m)
+        acceleration: Output acceleration field (F/m)
         stiffness: Spring constant k
         mass: Granule mass
     """
@@ -120,14 +120,14 @@ def compute_spring_forces(
 
         # Acceleration = F / m
         acc = total_force / mass
-        accelerations[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
+        acceleration[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
 
 
 @ti.kernel
 def integrate_motion_semiimplicit(
     positions: ti.template(),  # type: ignore
     velocities: ti.template(),  # type: ignore
-    accelerations: ti.template(),  # type: ignore
+    acceleration: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
     damping: ti.f32,  # type: ignore
@@ -145,7 +145,7 @@ def integrate_motion_semiimplicit(
     Args:
         positions: Position field
         velocities: Velocity field
-        accelerations: Acceleration field (from spring forces)
+        acceleration: Acceleration field (from spring forces)
         granule_type: Type classification (skip vertices)
         dt: Timestep
         damping: Damping coefficient (1.0 = no damping, 0.999 = 0.1% loss/step)
@@ -157,7 +157,7 @@ def integrate_motion_semiimplicit(
 
         # Semi-Implicit Euler with damping
         # Update velocity first using current acceleration
-        velocities[i] = damping * (velocities[i] + accelerations[i] * dt)
+        velocities[i] = damping * (velocities[i] + acceleration[i] * dt)
 
         # Update position using NEW velocity (semi-implicit = symplectic)
         positions[i] += velocities[i] * dt
@@ -225,14 +225,14 @@ def propagate_qwave(
             neighbors.links_count,
             neighbors.rest_length_am,  # rest_length in am
             stiffness * constants.ATTOMETTER,  # stiffness in N/am
-            lattice.accelerations_am,  # output accelerations in am/s^2
+            lattice.acceleration_am,  # output acceleration in am/s^2
         )
 
         # 2. Integrate motion using semi-implicit Euler (SINGLE iteration per substep)
         integrate_motion_semiimplicit(
             lattice.positions_am,  # in am
             lattice.velocities_am,  # in am/s
-            lattice.accelerations_am,  # in am/s^2
+            lattice.acceleration_am,  # in am/s^2
             lattice.granule_type,
             dt_sub,
             damping,

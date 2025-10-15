@@ -207,7 +207,7 @@ def render_xperiment(lattice, granule):
                 lattice.positions_am,  # Granule positions in attometers
                 lattice.velocities_am,  # Granule velocities in am/s
                 lattice.equilibrium_am,  # Rest positions for all granules
-                lattice.center_directions,  # Direction vectors to center for all granules
+                lattice.center_direction,  # Direction vectors to center for all granules
                 lattice.center_distance_am,  # Radial distance from each granule to center
                 t,
                 SLOW_MO / freq_boost,

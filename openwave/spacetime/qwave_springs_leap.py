@@ -78,9 +78,9 @@ def compute_spring_forces(
     links_count: ti.template(),  # type: ignore
     rest_length: ti.f32,  # type: ignore
     stiffness: ti.f32,  # type: ignore
-    accelerations: ti.template(),  # type: ignore
+    acceleration: ti.template(),  # type: ignore
 ):
-    """Compute spring forces and accelerations for all non-vertex granules.
+    """Compute spring forces and acceleration for all non-vertex granules.
 
     For each granule, calculates resultant force from connected springs:
     F = sum over neighbors: -k * (distance - L0) * direction_unit_vector
@@ -90,7 +90,7 @@ def compute_spring_forces(
         links: Connectivity matrix [granule_idx, neighbor_idx]
         links_count: Number of active links per granule
         rest_length: Spring rest length (unit_cell_edge * sqrt(3)/2 for BCC)
-        accelerations: Output acceleration field (F/m)
+        acceleration: Output acceleration field (F/m)
         stiffness: Spring constant k
         mass: Granule mass
     """
@@ -120,13 +120,13 @@ def compute_spring_forces(
 
         # Acceleration = F / m
         acc = total_force / mass
-        accelerations[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
+        acceleration[i] = ti.math.round(acc * 1000) / 1000  # Round to avoid tiny numerical noise
 
 
 @ti.kernel
 def velocity_half_kick(
     velocities: ti.template(),  # type: ignore
-    accelerations: ti.template(),  # type: ignore
+    acceleration: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
@@ -134,7 +134,7 @@ def velocity_half_kick(
 
     Args:
         velocities: Velocity field
-        accelerations: Acceleration field (from spring forces at time t)
+        acceleration: Acceleration field (from spring forces at time t)
         granule_type: Type classification (skip vertices)
         dt: Timestep
     """
@@ -144,7 +144,7 @@ def velocity_half_kick(
             continue
 
         # Half-step velocity update (first kick)
-        velocities[i] += accelerations[i] * (dt * 0.5)
+        velocities[i] += acceleration[i] * (dt * 0.5)
 
 
 @ti.kernel
@@ -189,7 +189,7 @@ def propagate_qwave(
             v(t+dt/2) = v(t) + a(t)*dt/2
         2. Full-step position update (drift)
             x(t+dt) = x(t) + v(t+dt/2)*dt
-        3. Compute new accelerations (done externally)
+        3. Compute new acceleration (done externally)
             (compute a(t+dt) externally)
         4. Final half-step velocity update (kick)
             v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
@@ -222,7 +222,7 @@ def propagate_qwave(
     for step in range(substeps):
 
         # Velocity Verlet (Leapfrog) integration (kick-drift-kick):
-        # 1. Compute accelerations at current positions a(t)
+        # 1. Compute acceleration at current positions a(t)
         compute_spring_forces(
             lattice.positions_am,  # in am
             granule.mass,
@@ -230,13 +230,13 @@ def propagate_qwave(
             neighbors.links_count,
             neighbors.rest_length_am,  # rest_length in am
             stiffness * constants.ATTOMETTER,  # stiffness in N/am
-            lattice.accelerations_am,  # output accelerations in am/s^2
+            lattice.acceleration_am,  # output acceleration in am/s^2
         )
 
         # 2. First kick: v(t+dt/2) = v(t) + a(t)*dt/2
         velocity_half_kick(
             lattice.velocities_am,  # in am/s
-            lattice.accelerations_am,  # in am/s^2
+            lattice.acceleration_am,  # in am/s^2
             lattice.granule_type,
             dt_sub,
         )
@@ -249,7 +249,7 @@ def propagate_qwave(
             dt_sub,
         )
 
-        # 4. Compute new accelerations at new positions a(t+dt)
+        # 4. Compute new acceleration at new positions a(t+dt)
         compute_spring_forces(
             lattice.positions_am,  # in am (now at t+dt)
             granule.mass,
@@ -257,13 +257,13 @@ def propagate_qwave(
             neighbors.links_count,
             neighbors.rest_length_am,  # rest_length in am
             stiffness * constants.ATTOMETTER,  # stiffness in N/am
-            lattice.accelerations_am,  # output a(t+dt) in am/s^2
+            lattice.acceleration_am,  # output a(t+dt) in am/s^2
         )
 
         # 5. Second kick: v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
         velocity_half_kick(
             lattice.velocities_am,  # in am/s (now at t+dt/2)
-            lattice.accelerations_am,  # in am/s^2 (now at t+dt)
+            lattice.acceleration_am,  # in am/s^2 (now at t+dt)
             lattice.granule_type,
             dt_sub,
         )

@@ -114,13 +114,13 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # Positions, velocities and accelerations in attometers for f32 precision
+        # Positions, velocities and acceleration in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.positions_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocities_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.accelerations_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.center_directions = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.center_direction = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.center_distance_am = ti.field(dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
@@ -132,7 +132,7 @@ class BCCLattice:
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize positions and velocities
         self.build_granule_type()  # classifies granules
-        self.build_center_directions()  # builds direction vectors for all granules to center
+        self.build_center_direction()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
         self.set_granule_colors()  # colors based on granule_type
@@ -245,7 +245,7 @@ class BCCLattice:
                     self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def build_center_directions(self):
+    def build_center_direction(self):
         """Compute normalized direction vectors from all granules to lattice center.
 
         For each granule in the positions_am array, computes a normalized direction vector
@@ -266,7 +266,7 @@ class BCCLattice:
             # Special case: Central granule should have zero distance and no direction
             if self.granule_type[idx] == config.TYPE_CENTER:
                 # Central granule: zero distance, arbitrary direction (won't be used)
-                self.center_directions[idx] = ti.Vector([0.0, 0.0, 0.0])
+                self.center_direction[idx] = ti.Vector([0.0, 0.0, 0.0])
                 self.center_distance_am[idx] = 0.0
             else:
                 # Convert granule position from attometers to normalized coordinates [0, 1]
@@ -283,7 +283,7 @@ class BCCLattice:
                 direction = lattice_center - pos_normalized
 
                 # Normalize and store the direction and distance to center vectors
-                self.center_directions[idx] = direction.normalized()
+                self.center_direction[idx] = direction.normalized()
                 self.center_distance_am[idx] = (
                     direction.norm() * self.universe_edge_am
                 )  # in attometers
