@@ -93,6 +93,7 @@ class `SPACETIME MODULE
     qwave_radial.py ✓
     qwave_springs.py ✓
     qwave_xpbd.py ✓
+    qwave_xwaves.py ✓
     *WIP*: qwave_flow.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
@@ -167,6 +168,7 @@ class `XPERIMENTS MODULE
     - spherical_wave.py ✓
     - spring_mass.py ✓
     - xpbd.py ✓
+    - x_waves.py ✓
     ---
     FIELD-BASED
     - *WIP*: flow_wave.py
@@ -243,28 +245,30 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - qmedium_fields.py
-      - qwave_flow.py]@{ priority: 'Very High', assigned: 'xrodz' }
-    [**COMMON MODULE**
-      - equations.py]@{ priority: 'Very Low', assigned: 'xrodz' }
+      - qwave_flow.py
+      - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
       - qmedium_particles.py
       - qwave_radial.py
       - qwave_springs.py
-      - qwave_xpbd.py]
+      - qwave_xpbd.py
+      - qwave_xwaves.py]
     [**XPERIMENTS MODULE**
       - pulse.py
       - radial_wave.py
       - spherical_wave.py
       - spring_mass.py
-      - xpbd.py]
+      - xpbd.py
+      - x_waves.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
       - derivations.py]
     [**COMMON MODULE**
       - config.py
-      - constants.py]
+      - constants.py
+      - equations.py]
     [**I/O MODULE**
       - cli.py
       - render.py]
@@ -341,22 +345,22 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
-          <br>XPBD Xperiment
+          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
+          <br>Pulse Xperiment
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_leap.png" height="200px" alt="xperiment"></a>
-          <br>LeapFrog Xperiment (UNSTABLE)
+          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
+          <br>XPBD Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
           <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Euler Xperiment (UNSTABLE)
+          <br>Spring-Mass Xperiment (UNSTABLE)
         </div>
       </td>
     </tr>

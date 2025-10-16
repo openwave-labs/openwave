@@ -103,7 +103,7 @@ def get_experiments_list():
                         experiments.append(("", None))  # Blank line separator
 
                     # Format category name as header
-                    category_display = category.replace("_", " ").replace("-", " ").title()
+                    category_display = category.replace("__", ": ").replace("_", " ").replace("-", " ").title()
                     experiments.append((f"─── /{category_display}/ ───", None))  # Category header
 
                 # Indent all items under category
