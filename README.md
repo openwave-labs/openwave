@@ -162,7 +162,9 @@ class `HEAT MODULE
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     PARTICLE-BASED
+    - pulse.py ✓
     - radial_wave.py ✓
+    - spherical_wave.py ✓
     - spring_mass.py ✓
     - xpbd.py ✓
     ---
@@ -252,7 +254,9 @@ kanban
       - qwave_springs.py
       - qwave_xpbd.py]
     [**XPERIMENTS MODULE**
+      - pulse.py
       - radial_wave.py
+      - spherical_wave.py
       - spring_mass.py
       - xpbd.py]
     [**VALIDATIONS MODULE**

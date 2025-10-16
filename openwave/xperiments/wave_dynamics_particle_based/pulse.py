@@ -1,5 +1,5 @@
 """
-XPERIMENT: View a Pulse from the Quantum-Wave Source
+XPERIMENT: Pulse from a Quantum-Wave Source
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
