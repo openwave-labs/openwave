@@ -11,7 +11,7 @@ import pyautogui
 from openwave.common import config
 
 
-def init_UI():
+def init_UI(cam_init_pos=[2.0, 1.5, 2.0]):
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
@@ -32,17 +32,16 @@ def init_UI():
     # Set initial camera parameters & background color
     # Camera orbit parameters - initial position looking at center
     orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
-    cam_position = [2.0, 1.5, 2.0]  # Camera starting position
 
     # Calculate initial angles from the desired initial position
-    initial_rel_x = cam_position[0] - orbit_center[0]
-    initial_rel_y = cam_position[1] - orbit_center[1]
-    initial_rel_z = cam_position[2] - orbit_center[2]
+    init_rel_x = cam_init_pos[0] - orbit_center[0]
+    init_rel_y = cam_init_pos[1] - orbit_center[1]
+    init_rel_z = cam_init_pos[2] - orbit_center[2]
 
     # Calculate initial orbit parameters
-    orbit_radius = np.sqrt(initial_rel_x**2 + initial_rel_y**2 + initial_rel_z**2)  # ~1.5
-    orbit_theta = np.arctan2(initial_rel_z, initial_rel_x)  # 45 degrees
-    orbit_phi = np.arccos(initial_rel_y / orbit_radius)  # angle from vertical
+    orbit_radius = np.sqrt(init_rel_x**2 + init_rel_y**2 + init_rel_z**2)  # ~1.5
+    orbit_theta = np.arctan2(init_rel_z, init_rel_x)  # 45 degrees
+    orbit_phi = np.arccos(init_rel_y / orbit_radius)  # angle from vertical
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
@@ -59,6 +58,7 @@ def scene_lighting():
 def handle_camera():
     """Handle mouse and keyboard input for camera controls."""
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
+    global cam_x, cam_y, cam_z
 
     # Handle mouse input for orbiting
     mouse_pos = window.get_cursor_pos()
@@ -104,6 +104,7 @@ def handle_camera():
     cam_x = orbit_center[0] + orbit_radius * np.sin(orbit_phi) * np.cos(orbit_theta)
     cam_y = orbit_center[1] + orbit_radius * np.cos(orbit_phi)
     cam_z = orbit_center[2] + orbit_radius * np.sin(orbit_phi) * np.sin(orbit_theta)
+
     camera.position(cam_x, cam_y, cam_z)
     camera.lookat(orbit_center[0], orbit_center[1], orbit_center[2])
     camera.up(0, 1, 0)
@@ -112,10 +113,12 @@ def handle_camera():
 
 def cam_instructions():
     """Overlay camera movement instructions."""
-    with gui.sub_window("CAMERA MOVEMENT", 0.87, 0.90, 0.13, 0.10) as sub:
+    global cam_x, cam_y, cam_z
+    with gui.sub_window("CAMERA MOVEMENT", 0.87, 0.88, 0.13, 0.12) as sub:
         sub.text("Orbit: right-click + drag")
         sub.text("Zoom: Q/Z keys")
         sub.text("Pan/Tilt: Arrow keys")
+        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z))
 
 
 def axis_lines():
@@ -140,11 +143,16 @@ def axis_lines():
     scene.lines(axis, color=config.COLOR_INFRA[1], width=2)
 
 
-def show_scene(show_axis=True):
-    """Render the 3D scene with lighting and camera controls."""
+def init_scene(show_axis=True):
+    """Initialize the 3D scene with lighting and camera controls."""
     scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
+    cam_instructions()  # Overlay camera instructions
     if show_axis:
-        axis_lines()
+        axis_lines()  # Render XYZ axis lines
+
+
+def show_scene():
+    """Render the 3D scene."""
     canvas.scene(scene)
     window.show()

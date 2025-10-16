@@ -1,5 +1,6 @@
 """
 XPERIMENT: Spring-Mass Leapfrog Wave Oscillation (UNSTABLE)
+
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
@@ -46,7 +47,7 @@ neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granu
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI()  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.0, 1.5, 2.0])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -229,7 +230,7 @@ def render_xperiment(lattice, granule, neighbors):
 
     while render.window.running:
         # Render UI overlay windows
-        render.cam_instructions()
+        render.init_scene(show_axis)  # Initialize scene with lighting and camera
         controls()
         data_dashboard()
         xperiment_specs()
@@ -283,7 +284,7 @@ def render_xperiment(lattice, granule, neighbors):
             render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
-        render.show_scene(show_axis)
+        render.show_scene()
 
 
 # ================================================================

@@ -1,5 +1,6 @@
 """
 XPERIMENT: Phase Sync Harmonic Oscillation
+
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
@@ -47,7 +48,7 @@ WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measureme
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI()  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.0, 1.5, 2.0])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -56,7 +57,7 @@ def xperiment_specs():
         sub.text("QMedium: Particles in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
-        sub.text("QWave Source: Harmonic Oscillators")
+        sub.text("QWave Source: 1 Harmonic Oscillator")
         sub.text("QWave Propagation: Radial from Center")
 
 
@@ -188,7 +189,7 @@ def render_xperiment(lattice, granule):
 
     while render.window.running:
         # Render UI overlay windows
-        render.cam_instructions()
+        render.init_scene(show_axis)  # Initialize scene with lighting and camera
         controls()
         data_dashboard()
         xperiment_specs()
@@ -247,7 +248,7 @@ def render_xperiment(lattice, granule):
             )
 
         # Render the scene to canvas
-        render.show_scene(show_axis)
+        render.show_scene()
 
 
 # ================================================================
