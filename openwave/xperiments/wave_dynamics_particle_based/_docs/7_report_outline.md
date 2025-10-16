@@ -2,7 +2,7 @@
 
 ## Initial-Production Prompt
 
-Lets document all the wave-dynamics journey, implementation, findings and every detail in a scientific publication grade final report, including critical points from our conversation, and also:
+Lets document all the wave-dynamics journey, implementation, findings and every detail in a final report, including critical points from our conversation, and also:
 
 - review all the .md files for extra context (i saved most of our conversation in the folder /xperiments)
 - i created a file final_report.md for the report content
@@ -25,12 +25,12 @@ Lets document all the wave-dynamics journey, implementation, findings and every 
 
 Review final report through OPUS 4.1:
 
-- Polish the writing on this document to be more aligned with a scientific publication grade prose, scientific rigor, formal academic language and tone, technical terminology, precise scientific phrasing
+- Polish the writing on this document to be more aligned with a more formal scientific prose, language and tone, keeping scientific rigor, technical terminology, precise scientific phrasing
 - now make a final review of the document for any detailed we missed
 
 ## Resulting Final Report
 
-- ✅ Complete 724-line scientific publication covering the entire journey
+- ✅ Complete 724-line report covering the entire journey
 - ✅ All sections present: Abstract, Introduction, Background, Experimental Setup, Results, Discussion, Conclusions, References, Appendices
 - ✅ Proper LaTeX equations throughout
 - ✅ Code snippets from all three implementations (Euler, XPBD, Phase-Synchronized)

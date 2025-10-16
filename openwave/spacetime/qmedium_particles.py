@@ -136,7 +136,7 @@ class BCCLattice:
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
         self.set_granule_color()  # colors based on granule_type
-        self.select_slice_plane_probe()  # select random probes on slice planes
+        self.set_sliced_plane_objects()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
     def populate_lattice(self):
@@ -364,8 +364,8 @@ class BCCLattice:
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
 
-    def select_slice_plane_probe(self):
-        """Select 3 random granules from each of the 3 planes exposed by the front octant slice.
+    def set_sliced_plane_objects(self):
+        """Select random granules from each of the 3 planes exposed by the front octant slice.
 
         The front octant is defined as the region where x, y, z > universe_edge/2.
         When this octant is removed, three interior faces are exposed:
@@ -432,22 +432,23 @@ class BCCLattice:
         # Select 3 random probes from each plane if available
         if len(yz_plane_indices) >= 3:
             selected = random.sample(yz_plane_indices, 3)
-            self._mark_probe_on_plane(selected)
+            self._mark_object_on_plane(selected)
 
         if len(xz_plane_indices) >= 3:
             selected = random.sample(xz_plane_indices, 3)
-            self._mark_probe_on_plane(selected)
+            self._mark_object_on_plane(selected)
 
         if len(xy_plane_indices) >= 3:
             selected = random.sample(xy_plane_indices, 3)
-            self._mark_probe_on_plane(selected)
+            self._mark_object_on_plane(selected)
 
-    def _mark_probe_on_plane(self, indices):
-        """Mark specified granules as probe by updating their color.
+    def _mark_object_on_plane(self, indices):
+        """Mark specified granules as object by updating their color.
 
         Args:
-            indices: List of granule indices to mark as probe
+            indices: List of granule indices to mark as object
         """
+        field_color = config.COLOR_FIELDS[1]
         probe_color = config.COLOR_PROBE[1]
         for idx in indices:
             # Never mark the central granule as a probe

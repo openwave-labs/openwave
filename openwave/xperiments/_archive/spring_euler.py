@@ -1,5 +1,5 @@
 """
-XPERIMENT: Spring-Mass Leapfrog Wave Oscillation (UNSTABLE)
+XPERIMENT: Spring-Mass Euler Wave Oscillation (UNSTABLE)
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
@@ -15,7 +15,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.qmedium_particles as qmedium
-import openwave.spacetime.qwave_springs as qwave
+import openwave.xperiments._archive.qwave_springs_euler as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -32,7 +32,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+STIFFNESS = 1e-11  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
@@ -51,12 +51,12 @@ render.init_UI()  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spring-Mass Leapfrog", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Spring-Mass Euler", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("QMedium: BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
         sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Leapfrog")
+        sub.text("QWave Propagation: Spring-Mass Euler")
 
 
 def data_dashboard():
@@ -77,14 +77,14 @@ def data_dashboard():
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("")
-        sub.text("--- Sim Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
+        sub.text("--- Simulation Resolution (linear) ---")
+        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (>10)")
         if lattice.qwave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
         sub.text("")
-        sub.text("--- Sim Universe Wave Energy ---")
+        sub.text("--- Universe Lattice Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
         sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
@@ -118,9 +118,9 @@ def controls():
 
 @ti.kernel
 def normalize_lattice(enable_slice: ti.i32):  # type: ignore
-    """Normalize lattice positions to 0-1 range for GGUI rendering."""
+    """Normalize lattice position to 0-1 range for GGUI rendering."""
     for i in range(lattice.total_granules):
-        # Normalize to 0-1 range (positions are in attometers, scale them back)
+        # Normalize to 0-1 range (position are in attometers, scale them back)
         if enable_slice == 1 and lattice.front_octant[i] == 1:
             # Block-slicing enabled: hide front octant granules by moving to origin
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
@@ -142,7 +142,7 @@ def normalize_granule():
 def normalize_neighbors_links():
     """Create & Normalize links to 0-1 range for GGUI rendering"""
 
-    global link_line
+    global link_lines
 
     # Prepare link line endpoints
     max_connections = 0
@@ -152,13 +152,13 @@ def normalize_neighbors_links():
         max_connections += neighbors.links_count[i]
     if max_connections > 0:
         # Allocate line endpoint buffer (2 points per line)
-        link_line = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+        link_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
 
     @ti.kernel
-    def build_link_line():
+    def build_link_lines():
         """Build line endpoints for BCC granule connections."""
         # Reset counter
         line_counter[None] = 0
@@ -180,12 +180,12 @@ def normalize_neighbors_links():
 
                         # Add line endpoints (from i to j)
                         if line_idx < max_connections:  # Safety check
-                            link_line[line_idx * 2] = pos_i
-                            link_line[line_idx * 2 + 1] = pos_j
+                            link_lines[line_idx * 2] = pos_i
+                            link_lines[line_idx * 2 + 1] = pos_j
 
     # Build link lines
     if max_connections > 0:
-        build_link_line()
+        build_link_lines()
 
 
 # ================================================================
@@ -198,12 +198,12 @@ def render_xperiment(lattice, granule, neighbors):
     Render 3D BCC lattice using GGUI's 3D scene.
 
     Args:
-        lattice: Lattice instance containing positions and universe parameters.
+        lattice: Lattice instance containing position and universe parameters.
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
     global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, paused
-    global link_line
+    global link_lines
     global normalized_position
 
     # Initialize variables
@@ -211,16 +211,16 @@ def render_xperiment(lattice, granule, neighbors):
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
-    radius_factor = 0.5  # Initialize granule size factor
+    radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    link_line = None  # Link line buffer
+    link_lines = None  # Link line buffer
     paused = False  # Pause toggle
 
     # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
 
-    # Initialize normalized positions (0-1 range for GGUI) & block-slicing
+    # Initialize normalized position (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
@@ -253,11 +253,10 @@ def render_xperiment(lattice, granule, neighbors):
                 t,
                 dt_real,
                 substeps=100,  # 30-100 recommended (Small Steps strategy)
-                slow_mo=SLOW_MO,  # Slow-motion factor for visibility
-                freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                slow_mo=SLOW_MO / freq_boost,
             )
 
-            # Update normalized positions for rendering (must happen after position updates)
+            # Update normalized position for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
         else:
@@ -279,8 +278,8 @@ def render_xperiment(lattice, granule, neighbors):
             )
 
         # Render spring links if enabled and available
-        if show_links and link_line is not None:
-            render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
+        if show_links and link_lines is not None:
+            render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene(show_axis)

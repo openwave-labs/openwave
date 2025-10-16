@@ -38,7 +38,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 - Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
 - [PLANNED] Generates baseline knowledge for your patent applications.
 
-## Model spacetime with real physics accuracy and render it in 3D
+## Model spacetime with physics accuracy and render it in 3D
 
 ![demo1 clip](images/demo1.gif)
 ![demo2 clip](images/demo2.gif)
