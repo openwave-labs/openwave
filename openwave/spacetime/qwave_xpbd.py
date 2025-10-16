@@ -2,7 +2,8 @@
 QUANTUM-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
-Wave dynamics and motion physics for spacetime using XPBD (Extended Position-Based Dynamics).
+Wave Physics Engine @spacetime module.
+Wave dynamics and motion.
 
 XPBD Implementation based on:
 1. "Small Steps in Physics Simulation" - Macklin & Müller (2019)

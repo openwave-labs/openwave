@@ -89,7 +89,7 @@ class `SPACETIME MODULE
     qmedium_particles.py ✓
     *WIP*: qmedium_fields.py
     ---
-    QUANTUM-WAVE ENGINES
+    QUANTUM-WAVE PHYSICS ENGINES
     qwave_radial.py ✓
     qwave_springs.py ✓
     qwave_xpbd.py ✓

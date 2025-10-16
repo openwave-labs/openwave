@@ -2,11 +2,12 @@
 QUANTUM-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
+Wave Physics Engine @spacetime module.
+Wave dynamics and motion.
+
 Radial harmonic oscillation for BCC lattice granules.
 All granules oscillate toward/away from the lattice center along
 their individual direction vectors, creating spherical wave interference patterns.
-
-Wave dynamics and motion physics for spacetime.
 """
 
 import taichi as ti
