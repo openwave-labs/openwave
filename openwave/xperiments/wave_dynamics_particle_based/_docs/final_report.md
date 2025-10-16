@@ -4,31 +4,29 @@
 
 **Project:** OpenWave Quantum Wave Dynamics Simulator Development
 
-**Keywords:** Numerical methods, spring-mass dynamics, position-based dynamics, CFL condition, stiffness problems, wave simulation, procedural animation, physics-based simulation
+**Keywords:** Numerical methods, spring-mass dynamics, position-based dynamics, CFL condition, stiffness problems, wave simulation, physics-based simulation
 
 ---
 
 ## Important Disclaimer
 
-**This is experimental work during simulator development, not peer-reviewed research.** This document describes technical experiments conducted while developing the OpenWave quantum wave dynamics simulator, exploring numerical integration challenges when simulating extremely stiff spring-mass systems. The work is based on Energy Wave Theory (EWT), an alternative physics framework published on ResearchGate that is **not peer-reviewed or experimentally validated mainstream physics**. The parameters and physical interpretations used here are speculative and should not be considered scientifically established.
+**This is experimental work during simulator development, not peer-reviewed research.** This document describes technical experiments conducted while developing the OpenWave quantum wave dynamics simulator, exploring numerical integration challenges when simulating extremely stiff spring-mass systems. The work is based on the Energy Wave Theory (EWT).
 
-This report documents practical rediscovery of well-known concepts from numerical methods and computational physics (particularly the CFL condition for stiff systems) encountered during simulator development. It is shared to document technical implementation details and lessons learned, **not as a scientific contribution or publication-worthy research**.
-
-The experiments were conducted with assistance from Claude AI while developing GPU-accelerated physics simulation capabilities using Taichi Lang and exploring the practical challenges of simulating high-frequency oscillatory systems.
+This report documents practical rediscovery of known concepts from numerical methods and computational physics (particularly the CFL condition for stiff systems) encountered during simulator development. It is shared to document technical implementation details and lessons learned.
 
 ---
 
 ## Abstract
 
-This report documents experimental comparisons of numerical methods conducted during development of the OpenWave simulator, focusing on wave propagation in extremely stiff spring-mass lattices inspired by Energy Wave Theory's "quantum medium" concept. We implemented and tested four approaches: explicit force-based integrators (semi-implicit Euler and Leapfrog), a constraint-based solver (Extended Position-Based Dynamics/XPBD), and a kinematic animation method that directly evaluates the wave equation ("phase-synchronized harmonic oscillation").
+This report documents experimental comparisons of numerical methods conducted during development of the OpenWave simulator, focusing on wave propagation in extremely stiff spring-mass lattices inspired by Energy Wave Theory's "quantum medium" concept. We implemented and tested four approaches: explicit force-based integrators (semi-implicit Euler and Leapfrog), a constraint-based solver (Extended Position-Based Dynamics/XPBD), and a PSHO method that directly evaluates the wave equation ("phase-synchronized harmonic oscillation").
 
-The experiments confirmed well-known limitations of explicit integrators for stiff systems: the Courant-Friedrichs-Lewy (CFL) stability condition requires impractically small timesteps for the high spring stiffness values needed to propagate waves at realistic speeds. This is standard knowledge in numerical analysis—the value here is documenting practical experience in a GPU-accelerated simulation context.
+The experiments confirmed known limitations of explicit integrators for stiff systems: the Courant-Friedrichs-Lewy (CFL) stability condition requires impractically small timesteps for the high spring stiffness values needed to propagate waves at realistic speeds. This is standard knowledge in numerical analysis—the value here is documenting practical experience in a GPU-accelerated simulation context.
 
-XPBD achieved stability with realistic stiffness values but exhibited reduced wave speeds compared to theoretical predictions, likely due to approximations inherent in iterative constraint solvers (a known characteristic of position-based methods in graphics applications).
+XPBD achieved stability with realistic stiffness values but exhibited reduced wave speeds compared to theoretical predictions, likely due to approximations inherent in iterative constraint solvers.
 
-The kinematic approach succeeded by bypassing simulation entirely: we directly compute particle positions from the analytical wave equation solution, similar to procedural animation techniques used in computer graphics (e.g., ocean wave shaders). This method achieves "exact" wave propagation by construction, imposing the solution rather than deriving it from dynamics.
+The PSHO approach succeeded: we directly compute particle positions from the analytical wave equation solution. This method achieves "exact" wave propagation by construction.
 
-**Key Lessons:** This experimental work reinforced that numerical method selection must match the problem's mathematical characteristics. For extremely stiff systems, explicit methods fail due to fundamental timestep constraints, constraint-based methods offer stability with accuracy trade-offs, and analytical solutions (when available) bypass simulation challenges entirely. These are well-established concepts in computational physics and computer graphics.
+**Key Lessons:** This experimental work reinforced that numerical method selection must match the problem's mathematical characteristics. For extremely stiff systems, explicit methods fail due to fundamental timestep constraints, constraint-based methods offer stability with accuracy trade-offs, and analytical solutions (when available) bypass integration challenges.
 
 ---
 
@@ -36,7 +34,7 @@ The kinematic approach succeeded by bypassing simulation entirely: we directly c
 
 ### 1.1 Development Context
 
-During development of the OpenWave quantum wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3]—an alternative physics framework from ResearchGate—created a challenging test case for method selection. EWT proposes that a dense "quantum medium aether" made of Planck-scale particles could explain quantum phenomena through classical wave mechanics. While EWT is not peer-reviewed or scientifically established, it provides extreme parameter values useful for stress-testing numerical methods.
+During development of the OpenWave quantum wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "quantum medium aether" made of Planck-scale particles could explain quantum phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
 
 The hypothetical parameters from EWT create an unusually stiff numerical scenario:
 
@@ -45,18 +43,18 @@ The hypothetical parameters from EWT create an unusually stiff numerical scenari
 - Wave propagation velocity: c = 2.998×10^8 m/s
 - Granule mass: m ≈ 2.17×10^-8 kg (Planck mass)
 
-These extreme values (which may not represent real physics) proved useful for understanding the practical limits of different numerical integration methods during simulator development.
+These extreme values proved useful for understanding the practical limits of different numerical integration methods during simulator development.
 
 ### 1.2 Experimental Objectives
 
 This experimental evaluation aimed to gain practical experience with:
 
-1. **Stiff system numerics**: Encountering the well-known CFL (Courant-Friedrichs-Lewy) stability condition and observing why explicit integrators fail for stiff systems
+1. **Stiff system numerics**: Encountering the CFL (Courant-Friedrichs-Lewy) stability condition and observing why explicit integrators fail for stiff systems
 2. **GPU-accelerated simulation**: Implementing methods using Taichi Lang for parallel computing
 3. **Constraint-based methods**: Applying XPBD (Extended Position-Based Dynamics) from computer graphics literature to an extreme stiffness regime
 4. **Trade-offs in method selection**: Comparing accuracy, stability, and performance across different approaches
 
-The challenges encountered are well-documented in numerical analysis textbooks and computational physics literature. This work represents practical rediscovery and demonstration of these known concepts through hands-on implementation.
+The challenges encountered are well-documented in numerical analysis textbooks and computational physics literature. This work represents practical rediscovery and demonstration of these concepts through hands-on implementation.
 
 ### 1.3 Questions Explored
 
@@ -66,19 +64,19 @@ This experimental project investigated:
 2. What timestep would be needed to maintain stability, and is it computationally feasible?
 3. Can XPBD achieve stability while maintaining the target stiffness values?
 4. How do wave speeds in XPBD compare to theoretical predictions?
-5. Can kinematic/procedural animation methods bypass the integration challenges entirely?
+5. Can PSHO methods bypass the integration challenges?
 
 ### 1.4 What This Experimental Work Demonstrates
 
 This experimental evaluation during simulator development:
 
-1. **Confirms the CFL condition in practice**: Explicit integrators require impractically small timesteps for stiff systems—a well-known result from numerical analysis, encountered here in a GPU simulation context.
+1. **Confirms the CFL condition in practice**: Explicit integrators require impractically small timesteps for stiff systems—a result from numerical analysis, encountered here in a GPU simulation context.
 
 2. **Illustrates the "stiffness problem"**: We visualize the three-way trade-off between stiffness, stability, and visualization timescales (informally termed the "Impossible Triangle"). This is analogous to challenges in molecular dynamics, cloth simulation, and other stiff systems.
 
 3. **Tests XPBD on extreme parameters**: We apply a constraint-based solver from computer graphics (designed for games and real-time applications) to an unusually stiff problem, observing stability but reduced wave speeds—consistent with XPBD being an approximate method.
 
-4. **Implements procedural wave animation**: We develop a kinematic approach that directly evaluates the wave equation, similar to ocean shader techniques in graphics. This achieves "perfect" waves by construction, bypassing simulation entirely.
+4. **Implements PSHO wave oscillation**: We develop a PSHO approach that directly evaluates the wave equation, similar to ocean shader techniques in graphics. This achieves "perfect" waves by construction, bypassing integration methods.
 
 **Note**: These are practical rediscoveries of established concepts encountered during development, not novel research contributions. The value is in documenting implementation details and lessons learned for GPU-accelerated simulation using Taichi Lang.
 
@@ -251,7 +249,7 @@ To enable visualization of quantum-scale dynamics, we implemented a temporal sca
 - Substeps: 100 per frame, 1 iteration each
 - SOR parameter: ω = 1.5
 - Damping: 0.999 per substep
-- Stiffness: REAL physical value (k ≈ 2.66×10^23 N/m for 79×79×79 grid)
+- Stiffness: physical value (k ≈ 2.66×10^23 N/m for 79×79×79 grid)
 
 #### Configuration D: Phase-Synchronized Harmonic Oscillators (PSHO)
 
@@ -310,7 +308,7 @@ This requirement exceeds practical computational limits by several orders of mag
 
 ### 5.2 The Frequency Mismatch Problem: Visualizing the Stiffness Challenge
 
-#### 5.2.1 Understanding the Well-Known CFL Stability Constraint
+#### 5.2.1 Understanding the CFL Stability Constraint
 
 Our experiments demonstrate the classic incompatibility between stiff systems and explicit integrators—a well-documented phenomenon in numerical analysis known as the CFL (Courant-Friedrichs-Lewy) condition. The frequency disparity in our setup can be quantified as follows:
 
@@ -318,7 +316,7 @@ Our experiments demonstrate the classic incompatibility between stiff systems an
 - Spring natural frequency: f_n = 3.8 × 10^8 Hz
 - Frequency ratio: approximately 380,000,000:1
 
-This extreme frequency mismatch illustrates what we informally call the "Impossible Triangle" (a pedagogical visualization of the well-known stiffness problem)—wherein three simulation requirements conflict:
+This extreme frequency mismatch illustrates what we informally call the "Impossible Triangle" (a visualization of the stiffness problem)—wherein three simulation requirements conflict:
 
 ```text
          Realistic Stiffness
@@ -410,7 +408,7 @@ Quantitative analysis of motion:
 
 The resulting wave speed is twenty-four orders of magnitude below the speed of light, requiring billions of years for waves to traverse a single lattice spacing.
 
-**Learning Point**: These experiments confirm what numerical analysis textbooks teach: explicit integrators cannot handle extremely stiff systems when real-time visualization is required. The 360-million-fold frequency disparity demonstrates the severity of the CFL constraint for this parameter regime. This is a well-known limitation; implicit integrators or alternative methods are standard solutions in computational physics.
+**Learning Point**: These experiments confirm what numerical analysis textbooks teach: explicit integrators cannot handle extremely stiff systems when real-time visualization is required. The 360-million-fold frequency disparity demonstrates the severity of the CFL constraint for this parameter regime.
 
 ### 5.3 XPBD: Stability Achieved, But Wave Speed Anomaly
 
@@ -453,9 +451,9 @@ For the 101,306-particle configuration:
 
 The extremely small normalized compliance value indicates near-rigid constraint enforcement. Nevertheless, the observed wave speed remained significantly below the speed of light.
 
-### 5.4 Phase-Synchronized Harmonic Oscillation: Kinematic Wave Animation
+### 5.4 Phase-Synchronized Harmonic Oscillation
 
-#### 5.4.1 From Simulation to Procedural Animation
+#### 5.4.1 From Force-Simulation to Harmonic Oscillators
 
 The "phase-synchronized" approach eliminates springs and constraints entirely, replacing force-based simulation $(F \rightarrow a \rightarrow v \rightarrow x)$ with direct evaluation of the wave equation:
 
@@ -472,8 +470,6 @@ where:
 - $A(r) = A_0 \cdot (r_0/r)$ = distance-dependent amplitude for energy conservation
 
 **Implementation approach:** We directly compute particle positions as functions of time using the analytical wave equation solution. Each particle oscillates radially from a central source with phase $\phi = -kr$ creating the appearance of outward-propagating spherical waves—similar to procedural ocean wave shaders in computer graphics.
-
-This is **not a simulation**—we're imposing the known solution rather than deriving it from dynamics. It's kinematic animation.
 
 **Spherical Wave Energy Conservation (for physical correctness):**
 
@@ -507,8 +503,6 @@ The implementation uses $r_{min} = 1\lambda$ (one wavelength from wave source) a
 - EM theory transition to radiative fields around $\lambda$
 - Prevention of singularity at $r \to 0$
 - Numerical stability and physical wave behavior
-
-**Result:** This kinematic approach achieves visually perfect wave propagation because we're directly imposing the solution. Wave speed and wavelength match by construction, not through emergent dynamics.
 
 #### 5.4.2 Implementation Detail: Separating Temporal and Spatial Phase Terms
 
@@ -563,8 +557,6 @@ where $\omega t$ (temporal) and $\phi$ (spatial) remain distinct, rather than co
 
 Keeping phase as a separate, first-class parameter makes the code more flexible for future extensions (multiple wave sources, interference patterns, standing waves). It also makes the physics more explicit in the code structure, which is helpful for learning and experimentation.
 
-This design reflects a graphics/animation mindset: treating phase relationships as controllable parameters for creating visual effects, rather than deriving them from simulated dynamics.
-
 #### 5.4.3 Implementation (qwave_radial.py)
 
 ```python
@@ -604,20 +596,18 @@ def oscillate_granules(
 
 ![Radial Wave Experiment](images/x_wave.png)
 
-#### 5.4.4 Results from Kinematic Animation Approach
+#### 5.4.4 Results from PSHO Approach
 
 **Visual Observations:**
 
 - Clean spherical wavefronts propagating outward from center
 - Wavelength λ = 2π/k by construction (we set k directly)
 - Frequency f by construction (we set ω directly)
-- No numerical artifacts or instabilities (no numerical integration to fail!)
+- No numerical artifacts or instabilities
 
 **Wave Speed:**
 
 $$\text{By construction: } v = f \times \lambda = (c/\lambda_q) \times \lambda_q = c \quad \checkmark$$
-
-This is exact because we're directly evaluating the wave equation with these parameters.
 
 **Wavelength:**
 
@@ -627,21 +617,17 @@ Again, exact by construction—we define k in the code.
 
 **Stability:**
 
-- Unconditionally stable because there's no integration (just evaluating cos/sin functions)
+- Unconditionally stable
 - Runs indefinitely without issues
 
 **Practical Advantages of This Approach:**
 
-1. **Perfect wave propagation** - Because we impose the analytical solution
-2. **Exact wavelength** - Because we set it explicitly
+1. **Perfect wave propagation** - by construction
+2. **Exact wavelength** - by construction
 3. **Energy conservation** - Amplitude falloff A ∝ 1/r implemented directly
-4. **Unconditional stability** - No CFL constraint (no integration at all)
+4. **Unconditional stability** - No CFL constraint
 5. **Computational efficiency** - Just trigonometric evaluations, very fast
 6. **Simple implementation** - Clean, readable code
-
-**Fundamental Limitation:**
-
-This only works for systems where you know the analytical solution in advance. It cannot simulate interactions, nonlinear effects, collisions, or any emergent dynamics—it's pure animation, not physics simulation.
 
 #### 5.4.5 Comparison Summary
 
@@ -650,7 +636,7 @@ This only works for systems where you know the analytical solution in advance. I
 | Euler | N/A (crashes) | N/A | Unstable | No (10^-10×) | CFL violation |
 | Leapfrog | N/A (crashes) | N/A | Unstable | No (10^-10×) | CFL violation |
 | XPBD | 0.125c (at 1e5) | Not measured | Stable | Yes | Approx. solver |
-| Kinematic | c (exact) | λ_q (exact) | Unconditional | N/A | Not simulation |
+| PSHO | c (exact) | λ_q (exact) | Unconditional | N/A | Expected |
 
 ---
 
@@ -658,11 +644,11 @@ This only works for systems where you know the analytical solution in advance. I
 
 ### 6.1 Understanding Explicit Integrator Limitations for Stiff Systems
 
-This project demonstrates the well-known limitations of explicit numerical methods when applied to extremely stiff systems. The CFL stability condition creates a direct relationship between stiffness and required timestep:
+This project demonstrates the limitations of explicit numerical methods when applied to extremely stiff systems. The CFL stability condition creates a direct relationship between stiffness and required timestep:
 
 $$\text{High frequency} \rightarrow \text{Extreme stiffness} \rightarrow \text{Prohibitive timestep constraints}$$
 
-For the hypothetical EWT parameters (which may not represent real physics), the wave frequency is:
+For the EWT parameters, the wave frequency is:
 
 $$f_q = 1.05 \times 10^{25} \text{ Hz}$$
 
@@ -685,8 +671,6 @@ This is a classic stiffness problem. In real computational physics, this situati
 - **Reduced models** or coarse-graining approaches
 - **Analytical solutions** where available
 
-This project did not implement implicit methods, which would be the standard next step in a serious investigation.
-
 ### 6.2 Why XPBD Shows Reduced Wave Speed
 
 XPBD achieves stability through **compliance parameter** $\tilde{\alpha}$:
@@ -701,9 +685,9 @@ Even with $\tilde{\alpha}$ extremely small ($\tilde{\alpha}/(2w) \approx 10^{-47
 
 At low resolution (4.6 granules/λ), this effect is severe (5% of c). At higher resolution (21 granules/λ), improves to 12.5% of c, but gap remains.
 
-### 6.3 Why Kinematic Animation Bypasses Simulation Challenges
+### 6.3 Why PSHO Bypasses Integration Challenges
 
-The "phase-synchronized" approach succeeds by not being a simulation at all—it's procedural animation. Instead of simulating dynamics, we directly evaluate the analytical wave equation solution.
+We directly evaluate the analytical wave equation solution.
 
 **Force-Based Approach (What We Tried to Simulate):**
 
@@ -715,25 +699,23 @@ This sequential integration process:
 - Requires restrictive timestep constraints (CFL condition)
 - Fails at extreme stiffness values (as we demonstrated)
 
-**Kinematic Approach (What Actually Worked):**
+**PSHO Approach (What Actually Worked):**
 
 Direct evaluation: Wave Equation → Position and Velocity (Analytical Solution)
 
 This approach:
 
 - Bypasses numerical integration entirely
-- Has no stability constraints (you're just evaluating a function)
-- Trivially achieves "exact" results (because you're imposing the solution)
+- Has no stability constraints
+- Achieves "exact" results
 
-**Why This Is Not Surprising:**
-
-This is analogous to techniques used in computer graphics for decades:
+This is analogous to techniques used in computer graphics:
 
 - Ocean wave shaders (Tessendorf 2001) directly evaluate Fourier wave sums
 - Procedural animation of cloth or hair using analytical curves
-- Any "physics-based" visual effect that directly evaluates equations rather than simulating
+- Any "physics-based" visual effect that directly evaluates equations
 
-The "phase-synchronized" method is essentially the same idea applied to a spring-mass lattice. It works perfectly for creating visuals but doesn't help with simulating actual particle interactions, nonlinear effects, or emergent phenomena (which require true dynamics).
+The "phase-synchronized" method is essentially the same idea applied to a spring-mass lattice.
 
 ### 6.4 Reflections on Method Selection
 
@@ -741,10 +723,8 @@ This project reinforced several lessons from computational physics and graphics:
 
 1. **Match method to problem**: Explicit integrators are great for many problems but fundamentally unsuitable for extremely stiff systems without massive computational resources
 2. **Understand trade-offs**: XPBD trades accuracy for stability and speed (appropriate for games, questionable for physics validation)
-3. **Analytical solutions are best when available**: If you know the answer (wave equation), directly evaluating it beats simulation
+3. **Analytical solutions are best when available**: If you know the answer (wave equation), directly evaluating it beats integration methods
 4. **Missing methods matter**: We didn't test implicit integrators, spectral methods, or FDTD—all standard approaches for wave problems in computational physics
-
-**On the EWT connection**: This project doesn't validate or invalidate EWT's physics claims. We simply demonstrated that simulating classical spring-mass systems at hypothetical Planck-scale parameters hits well-known numerical analysis barriers. Real quantum mechanics uses very different mathematical frameworks (Schrödinger equation, path integrals, density functional theory) that don't involve classical springs and masses.
 
 ---
 
@@ -789,15 +769,11 @@ Combine phase synchronization with constraint-based methods:
 
 ## 8. Conclusions and Lessons Learned
 
-This experimental evaluation during OpenWave simulator development explored numerical methods for simulating wave propagation in extremely stiff spring-mass lattices, with parameters inspired by the speculative Energy Wave Theory framework. The experiments confirmed well-known principles from numerical analysis and computational physics:
+This experimental evaluation during OpenWave simulator development explored numerical methods for simulating wave propagation in extremely stiff spring-mass lattices, with parameters inspired by the Energy Wave Theory framework. The experiments confirmed principles from numerical analysis and computational physics:
 
 1. **Explicit integrators and the CFL condition**: Semi-implicit Euler and symplectic Leapfrog methods both failed at high stiffness values, as expected from the CFL stability condition. The timestep required for stability (~10^-26 seconds for hypothetical Planck-scale parameters) would demand 10^25 steps per second—confirming textbook predictions about stiff system behavior. Our informal "Impossible Triangle" visualization helped us understand the three-way conflict between stiffness, stability, and visualization timescales—a challenge well-documented in molecular dynamics, cloth simulation, and other stiff-system domains.
 
-2. **XPBD as a practical compromise**: The Extended Position-Based Dynamics solver (borrowed from computer graphics literature) achieved stability at target stiffness values but exhibited reduced wave speeds (12.5-5% of theoretical). This is consistent with XPBD being an approximate, compliance-based method designed for speed and stability in real-time applications (games), not physical accuracy. The wave speed reduction likely stems from dispersion in the iterative constraint solver—a known characteristic of position-based methods.
-
-3. **Kinematic animation as a non-solution**: Our "phase-synchronized harmonic oscillation" approach achieved perfect wave propagation by bypassing simulation entirely—we directly evaluated the analytical wave equation, similar to ocean shader techniques in graphics (Tessendorf 2001). This is procedural animation, not physics simulation. It works beautifully for visualization but doesn't help with simulating interactions, nonlinear effects, or emergent phenomena.
-
-4. **Missing methods and incomplete exploration**: This project did not implement the standard solutions to stiff systems: implicit integrators (Backward Euler, BDF), specialized wave solvers (FDTD, spectral methods), or reduced models. A complete investigation would include these approaches, which are well-established in computational physics.
+2. **XPBD as a practical compromise**: The Extended Position-Based Dynamics solver (borrowed from computer graphics literature) achieved stability at target stiffness values but exhibited reduced wave speeds (12.5-5% of theoretical). This is consistent with XPBD being an approximate, compliance-based method designed for speed and stability in real-time applications (games), not physical accuracy. The wave speed reduction likely stems from dispersion in the iterative constraint solver—a characteristic of position-based methods.
 
 **Practical Outcomes:**
 
@@ -805,23 +781,16 @@ This experimental work successfully:
 
 - Implemented GPU-accelerated physics simulation using Taichi Lang
 - Gained practical experience with the CFL stability constraint in stiff systems
-- Compared explicit integrators, constraint solvers, and kinematic methods hands-on
+- Compared explicit integrators, constraint solvers, and PSHO methods hands-on
 - Demonstrated the importance of matching numerical methods to problem characteristics
-- Showed why analytical solutions (when available) outperform simulation
-
-**Important Limitations:**
-
-- Not a validation of Energy Wave Theory (EWT is speculative, non-peer-reviewed physics)
-- Not a contribution to quantum mechanics (real QM uses very different mathematics)
-- Not publication-worthy research (practical rediscovery of known concepts from numerical analysis)
-- Not a complete investigation (missing implicit methods, spectral solvers, etc.)
+- Showed why analytical solutions (when available) outperform integration methods
 
 The progression through different methods during development:
 
 - Force-based integration (Euler): Encountered CFL stability barrier ✓
 - Symplectic integration (Leapfrog): Same CFL limitation ✓
 - Constraint-based dynamics (XPBD): Stability with accuracy trade-offs ✓
-- Kinematic approach: Bypassed simulation entirely ✓
+- PSHO approach: Bypassed integration methods ✓
 
 This experimental evaluation served its purpose during OpenWave development, providing practical insights into GPU computing, numerical methods, and physics-based simulation. The documented code and experimental results may be useful for others working with Taichi Lang or exploring similar challenges in stiff-system simulation.
 
@@ -829,17 +798,17 @@ This experimental evaluation served its purpose during OpenWave development, pro
 
 ## Acknowledgments
 
-This experimental work was conducted using the OpenWave simulator (available at <https://github.com/openwave-labs/openwave>), implemented with the Taichi Lang GPU acceleration framework. The author gratefully acknowledges extensive assistance from Claude AI (Anthropic) throughout this development process—including code development, debugging, experimental design, data analysis, interpretation of results, and document preparation.
+This experimental work was conducted using the OpenWave simulator (available at <https://github.com/openwave-labs/openwave>), implemented with the Taichi Lang GPU acceleration framework. Assistance from Claude AI (Anthropic) throughout this development process include code development, debugging, experimental design, data analysis, interpretation of results, and document preparation.
 
 Special thanks to the computer graphics and computational physics communities whose published work informed this experimental evaluation:
 
 - Matthias Müller and colleagues for their seminal work on Position-Based Dynamics and XPBD [5-6, 8], which provided clear documentation for implementing constraint-based solvers
 - Miles Macklin et al. for "Unified Particle Physics for Real-Time Applications" [7]
 - Robert Bridson et al. for foundational work on numerical simulation [8]
-- Jerry Tessendorf for ocean wave simulation techniques that inspired the kinematic approach
+- Jerry Tessendorf for ocean wave simulation techniques that inspired the PSHO approach
 - The Taichi Lang development team for creating an accessible GPU computing framework
 
-The author takes full responsibility for any errors, misinterpretations, or overstated claims in this document. This is experimental work during simulator development, not peer-reviewed research, and should be evaluated as such.
+This is experimental work during simulator development, not peer-reviewed research, and should be evaluated as such.
 
 ---
 

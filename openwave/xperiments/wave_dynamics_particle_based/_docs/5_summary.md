@@ -97,7 +97,7 @@ x += Δx  # Move particles to satisfy constraint
 
 ---
 
-Then today I had an idea: remove springs and constraints and use synchronized phase between granules (harmonic phi rhythm) in the file radial_wave.py. A radial wave is point-sourced from the lattice center with propagation via synchronized phase shift - not force/constraint driving a position integrator, but instead a simple harmonic oscillation equation defining position over time for each granule.
+The idea: remove springs and constraints and use synchronized phase between granules (harmonic phi rhythm) in the file radial_wave.py. A radial wave is point-sourced from the lattice center with propagation via synchronized phase shift - not force/constraint driving a position integrator, but instead a simple harmonic oscillation equation defining position over time for each granule.
 
 Result: We got a perfect wave! I can clearly see the wavefronts and it matches both wave speed and lambda parameters.
 
@@ -242,6 +242,6 @@ This is:
 
 Phase control is the key to implementing wave interactions, interference, and particle formation in the future. Keep φ as an independent, first-class parameter!
 
-## OTHER OPTION: GRID-BASED WAVE DYNAMICS
+## OTHER OPTION: FIELD-BASED WAVE DYNAMICS
 
 Scale expansion beyond neutrino scale if computationally feasible
