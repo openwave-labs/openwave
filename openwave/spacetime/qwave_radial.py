@@ -28,7 +28,7 @@ frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave f
 
 
 @ti.kernel
-def oscillate_granules(
+def oscillate_granules_tocenter(
     position: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore

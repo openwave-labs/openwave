@@ -204,7 +204,7 @@ def render_xperiment(lattice, granule):
             # Apply radial harmonic oscillation to all granules
             # All granules oscillate toward/away from lattice center along their direction vectors
             # Phase is determined by radial distance, creating outward-propagating spherical waves
-            qwave.oscillate_granules(
+            qwave.oscillate_granules_tocenter(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s

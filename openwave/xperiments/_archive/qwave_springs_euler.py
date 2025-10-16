@@ -2,7 +2,8 @@
 QUANTUM-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
-Wave dynamics and motion physics for spacetime.
+Wave Physics Engine @spacetime module.
+Wave dynamics and motion.
 """
 
 import taichi as ti
