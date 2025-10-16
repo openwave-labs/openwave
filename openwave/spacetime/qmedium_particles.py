@@ -134,7 +134,7 @@ class BCCLattice:
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize position and velocity
         self.build_granule_type()  # classifies granules
-        self.build_center_direction()  # builds direction vectors for all granules to center
+        self.build_center_vectors()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
         self.set_granule_color()  # colors based on granule_type
@@ -247,8 +247,8 @@ class BCCLattice:
                     self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def build_center_direction(self):
-        """Compute normalized direction vectors from all granules to lattice center.
+    def build_center_vectors(self):
+        """Compute distance & direction vectors from all granules to lattice center.
 
         For each granule in the position_am array, computes a normalized direction vector
         pointing from the granule's position toward the geometric center of the lattice.
