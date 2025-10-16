@@ -429,7 +429,7 @@ class BCCLattice:
         half_grid = self.grid_size // 2
         half_universe = self.universe_edge_am / 2.0
         plane_tolerance = self.unit_cell_edge_am * 0.6
-        circle_tolerance = wavelength_am * 0.05
+        circle_tolerance = wavelength_am * 0.15
 
         # Calculate center granule index
         center_idx = (
