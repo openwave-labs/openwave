@@ -364,7 +364,7 @@ class BCCLattice:
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
 
-    def set_sliced_plane_objects(self, num_circles=0, num_probes=0):
+    def set_sliced_plane_objects(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
 
         Uses hybrid approach: Python for probe selection, GPU kernel for field circles.
