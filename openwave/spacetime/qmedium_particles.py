@@ -364,98 +364,141 @@ class BCCLattice:
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
 
-    def set_sliced_plane_objects(self):
+    def set_sliced_plane_objects(self, num_circles=3, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
 
-        The front octant is defined as the region where x, y, z > universe_edge/2.
-        When this octant is removed, three interior faces are exposed:
-        - YZ plane: x just <= universe_edge/2, but ONLY where y,z > universe_edge/2 (inside removed region)
-        - XZ plane: y just <= universe_edge/2, but ONLY where x,z > universe_edge/2 (inside removed region)
-        - XY plane: z just <= universe_edge/2, but ONLY where x,y > universe_edge/2 (inside removed region)
+        Uses hybrid approach: Python for probe selection, GPU kernel for field circles.
 
-        Updates the granule_color array to set selected probes to COLOR_PROBE.
-        The granules remain TYPE_CORE but are visually distinct as probe particles.
+        Args:
+            num_circles: Number of concentric circles (1λ, 2λ, 3λ, etc.) to create.
+            num_probes: Number of random probe granules per plane.
         """
-        # Use structured approach to find granules on slice planes
-        # Based on grid coordinates rather than iterating all positions
+        # Quick plane collection (small lists, Python is acceptable)
         corner_count = (self.grid_size + 1) ** 3
         half_grid = self.grid_size // 2
-
-        # Collect granules on each EXPOSED plane (the interior faces of the removed octant)
-        yz_plane_indices = []  # YZ face: x at boundary, y,z > boundary
-        xz_plane_indices = []  # XZ face: y at boundary, x,z > boundary
-        xy_plane_indices = []  # XY face: z at boundary, x,y > boundary
-
-        # Check corner granules
-        # The exposed face is where one coordinate is just INSIDE the boundary (half_grid + 1),
-        # and the other two are BEYOND the boundary (in the removed octant region)
         grid_dim = self.grid_size + 1
+
+        yz_plane, xz_plane, xy_plane = [], [], []
+
+        # Corner granules on exposed planes
         for i in range(grid_dim):
             for j in range(grid_dim):
                 for k in range(grid_dim):
-                    idx = i * (grid_dim * grid_dim) + j * grid_dim + k
-
-                    # YZ plane: x just inside boundary (i == half_grid + 1), EXPOSED part (j,k > half_grid)
+                    idx = i * (grid_dim**2) + j * grid_dim + k
                     if i == half_grid + 1 and j > half_grid and k > half_grid:
-                        yz_plane_indices.append(idx)
-
-                    # XZ plane: y just inside boundary (j == half_grid + 1), EXPOSED part (i,k > half_grid)
+                        yz_plane.append(idx)
                     if j == half_grid + 1 and i > half_grid and k > half_grid:
-                        xz_plane_indices.append(idx)
-
-                    # XY plane: z just inside boundary (k == half_grid + 1), EXPOSED part (i,j > half_grid)
+                        xz_plane.append(idx)
                     if k == half_grid + 1 and i > half_grid and j > half_grid:
-                        xy_plane_indices.append(idx)
+                        xy_plane.append(idx)
 
-        # Check center granules
-        # Center granules are offset by 0.5, so we need those at half_grid
-        # that are adjacent to the removed octant (right on the boundary)
+        # Center granules on exposed planes
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 for k in range(self.grid_size):
-                    idx = (
-                        corner_count + i * self.grid_size * self.grid_size + j * self.grid_size + k
-                    )
-
-                    # YZ plane: center granules at x boundary, EXPOSED part (j,k >= half_grid)
+                    idx = corner_count + i * self.grid_size**2 + j * self.grid_size + k
                     if i == half_grid and j >= half_grid and k >= half_grid:
-                        yz_plane_indices.append(idx)
-
-                    # XZ plane: center granules at y boundary, EXPOSED part (i,k >= half_grid)
+                        yz_plane.append(idx)
                     if j == half_grid and i >= half_grid and k >= half_grid:
-                        xz_plane_indices.append(idx)
-
-                    # XY plane: center granules at z boundary, EXPOSED part (i,j >= half_grid)
+                        xz_plane.append(idx)
                     if k == half_grid and i >= half_grid and j >= half_grid:
-                        xy_plane_indices.append(idx)
+                        xy_plane.append(idx)
 
-        # Select 3 random probes from each plane if available
-        if len(yz_plane_indices) >= 3:
-            selected = random.sample(yz_plane_indices, 3)
-            self._mark_object_on_plane(selected)
-
-        if len(xz_plane_indices) >= 3:
-            selected = random.sample(xz_plane_indices, 3)
-            self._mark_object_on_plane(selected)
-
-        if len(xy_plane_indices) >= 3:
-            selected = random.sample(xy_plane_indices, 3)
-            self._mark_object_on_plane(selected)
-
-    def _mark_object_on_plane(self, indices):
-        """Mark specified granules as object by updating their color.
-
-        Args:
-            indices: List of granule indices to mark as object
-        """
-        field_color = config.COLOR_FIELDS[1]
+        # Select and mark random probes
         probe_color = config.COLOR_PROBE[1]
-        for idx in indices:
-            # Never mark the central granule as a probe
+        for plane in [yz_plane, xz_plane, xy_plane]:
+            if len(plane) >= num_probes:
+                for idx in random.sample(plane, num_probes):
+                    if self.granule_type[idx] != config.TYPE_CENTER:
+                        self.granule_color[idx] = ti.Vector(
+                            [probe_color[0], probe_color[1], probe_color[2]]
+                        )
+
+        # Convert quantum wavelength and call GPU kernel for field circles
+        wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER
+        self._mark_sliced_plane_objects(wavelength_am, num_circles)
+
+    @ti.kernel
+    def _mark_sliced_plane_objects(self, wavelength_am: ti.f32, num_circles: ti.i32):  # type: ignore
+        """GPU kernel to mark field circles on exposed planes.
+
+        This kernel processes all granules in parallel, marking:
+        - Field circles at 1λ, 2λ, etc. from the center granule
+        """
+        corner_count = (self.grid_size + 1) ** 3
+        half_grid = self.grid_size // 2
+        half_universe = self.universe_edge_am / 2.0
+        plane_tolerance = self.unit_cell_edge_am * 0.6
+        circle_tolerance = wavelength_am * 0.05
+
+        # Calculate center granule index
+        center_idx = (
+            corner_count
+            + half_grid * self.grid_size * self.grid_size
+            + half_grid * self.grid_size
+            + half_grid
+        )
+        center_pos = self.position_am[center_idx]
+
+        # Colors
+        field_color = ti.Vector(config.COLOR_FIELDS[1])
+
+        # Process all granules in parallel
+        for idx in range(self.total_granules):
             if self.granule_type[idx] != config.TYPE_CENTER:
-                self.granule_color[idx] = ti.Vector(
-                    [probe_color[0], probe_color[1], probe_color[2]]
-                )
+                pos = self.position_am[idx]
+
+                # Check if granule is on one of the exposed planes and mark field circles
+                # YZ plane (x at boundary)
+                if (
+                    ti.abs(pos[0] - half_universe) < plane_tolerance
+                    and pos[1] > half_universe
+                    and pos[2] > half_universe
+                ):
+                    # Calculate 2D distance in YZ plane
+                    dy = pos[1] - center_pos[1]
+                    dz = pos[2] - center_pos[2]
+                    dist_2d = ti.sqrt(dy * dy + dz * dz)
+
+                    # Check if on a target circle
+                    for n in range(1, num_circles + 1):
+                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                            self.granule_color[idx] = field_color
+                            break
+
+                # XZ plane (y at boundary)
+                elif (
+                    ti.abs(pos[1] - half_universe) < plane_tolerance
+                    and pos[0] > half_universe
+                    and pos[2] > half_universe
+                ):
+                    # Calculate 2D distance in XZ plane
+                    dx = pos[0] - center_pos[0]
+                    dz = pos[2] - center_pos[2]
+                    dist_2d = ti.sqrt(dx * dx + dz * dz)
+
+                    # Check if on a target circle
+                    for n in range(1, num_circles + 1):
+                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                            self.granule_color[idx] = field_color
+                            break
+
+                # XY plane (z at boundary)
+                elif (
+                    ti.abs(pos[2] - half_universe) < plane_tolerance
+                    and pos[0] > half_universe
+                    and pos[1] > half_universe
+                ):
+                    # Calculate 2D distance in XY plane
+                    dx = pos[0] - center_pos[0]
+                    dy = pos[1] - center_pos[1]
+                    dist_2d = ti.sqrt(dx * dx + dy * dy)
+
+                    # Check if on a target circle
+                    for n in range(1, num_circles + 1):
+                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                            self.granule_color[idx] = field_color
+                            break
 
 
 @ti.data_oriented
