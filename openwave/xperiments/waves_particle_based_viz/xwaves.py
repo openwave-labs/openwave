@@ -44,14 +44,14 @@ NUM_SOURCES = 8  # Number of active wave sources for this xperiment
 # Each row represents [x, y, z] coordinates for one source
 # Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
 sources_position = [
-    [0.0, 1.0, 0.0],  # Source 0
+    [0.0, 1.0, 1.0],  # Source 0
     [1.0, 1.0, 0.0],  # Source 1
-    [1.0, 1.0, 1.0],  # Source 2
-    [0.0, 1.0, 1.0],  # Source 3
-    [0.0, 0.0, 0.0],  # Source 4
-    [1.0, 0.0, 0.0],  # Source 5
-    [1.0, 0.0, 1.0],  # Source 6
-    [0.0, 0.0, 1.0],  # Source 7
+    [0.0, 0.0, 1.0],  # Source 2
+    [1.0, 0.0, 0.0],  # Source 3
+    [0.0, 1.0, 0.0],  # Source 4
+    [1.0, 1.0, 1.0],  # Source 5
+    [0.0, 0.0, 0.0],  # Source 6
+    [1.0, 0.0, 1.0],  # Source 7
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -196,7 +196,7 @@ def render_xperiment(lattice):
     global normalized_position
 
     # Initialize variables
-    show_axis = True  # Toggle to show/hide axis lines
+    show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
