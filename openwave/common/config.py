@@ -11,17 +11,32 @@ Includes commented thermal imaging palette definitions for future use.
 # ================================================================
 # Color Settings (RGBA hex)
 # ================================================================
-COLOR_SPACE = ["#000000ff", (0.0, 0.0, 0.0)]  # black (background, void, emptiness)
-COLOR_INFRA = ["#ffffffff", (1.0, 1.0, 1.0)]  # white (wire-framing, grids, links)
-COLOR_MEDIUM = ["#1a99e6ff", (0.1, 0.6, 0.9)]  # blue (medium, granules)
-COLOR_QWAVES = ["#ff00eeff", (1.0, 0.0, 0.93)]  # magenta (quantum-waves, wave functions)
-COLOR_FIELDS = ["#00ffffff", (0.0, 1.0, 1.0)]  # cyan (fields, field lines)
-COLOR_MATTER = ["#0000ffff", (0.0, 0.0, 1.0)]  # blue (matter, particles)
-COLOR_ANTIMATTER = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # orange (antimatter, antiparticles)
-COLOR_MOTION = ["#04ff00ff", (0.25, 1.0, 0.25)]  # green (motion, velocity vectors)
-COLOR_PHOTON = ["#ffea00ff", (1.0, 0.92, 0.0)]  # yellow (photons, light particles)
-COLOR_HEAT = ["#ff0000ff", (1.0, 0.0, 0.0)]  # red (heat, thermal energy)
-COLOR_ENERGY = ["#8b00ffff", (0.55, 0.0, 0.85)]  # purple (energy, energy packets)
+BLACK = ["#000000ff", (0.0, 0.0, 0.0)]
+WHITE = ["#ffffffff", (1.0, 1.0, 1.0)]
+LIGHT_BLUE = ["#1a99e6ff", (0.1, 0.6, 0.9)]
+MAGENTA = ["#ff00eeff", (1.0, 0.0, 0.93)]
+CYAN = ["#00ffffff", (0.0, 1.0, 1.0)]
+DARK_BLUE = ["#0000ffff", (0.0, 0.0, 1.0)]
+ORANGE = ["#ff7f00ff", (1.0, 0.5, 0.0)]
+GREEN = ["#04ff00ff", (0.25, 1.0, 0.25)]
+YELLOW = ["#ffea00ff", (1.0, 0.92, 0.0)]
+RED = ["#ff0000ff", (1.0, 0.0, 0.0)]
+PURPLE = ["#8b00ffff", (0.55, 0.0, 0.85)]
+
+# ================================================================
+# Color Palette
+# ================================================================
+COLOR_SPACE = BLACK  # background, void, emptiness
+COLOR_INFRA = WHITE  # wire-framing, grids, links
+COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
+COLOR_QWAVES = ORANGE  # quantum-waves, wave functions
+COLOR_FIELDS = CYAN  # fields, field lines
+COLOR_MATTER = DARK_BLUE  # matter, particles
+COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
+COLOR_MOTION = GREEN  # motion, velocity vectors
+COLOR_PHOTON = YELLOW  # photons, light particles
+COLOR_HEAT = RED  # heat, thermal energy
+COLOR_ENERGY = PURPLE  # energy, energy packets
 
 
 # ================================================================
@@ -38,13 +53,12 @@ TYPE_CORE = 3  # Interior granules (not on boundary)
 TYPE_CENTER = 4  # Single central granule (lattice center)
 
 # Type-specific colors [hex_rgba, (r, g, b)]
-COLOR_VERTEX = ["#ffffffff", (1.0, 1.0, 1.0)]  # White - cube vertices
-COLOR_EDGE = ["#ffea00ff", (1.0, 0.92, 0.0)]  # Yellow - cube edges
-COLOR_FACE = ["#ff7f00ff", (1.0, 0.5, 0.0)]  # Orange - cube faces
-COLOR_CORE = COLOR_MEDIUM  # Blue - interior granules
-COLOR_CENTER = ["#8b00ffff", (0.55, 0.0, 0.85)]  # Purple - central granule
-COLOR_SOURCE = ["#ff00eeff", (1.0, 0.0, 0.93)]  # Magenta - source granule
-COLOR_PROBE = ["#ff0000ff", (1.0, 0.0, 0.0)]  # Red - probe granule
+COLOR_VERTEX = YELLOW  # cube vertices
+COLOR_EDGE = WHITE  # cube edges
+COLOR_FACE = ORANGE  # cube faces
+COLOR_CORE = COLOR_MEDIUM  # interior granules
+COLOR_CENTER = BLACK  # central granule
+COLOR_PROBE = RED  # probe granule
 
 
 # # FUTURE THERMAL IMAGING PALLETTE

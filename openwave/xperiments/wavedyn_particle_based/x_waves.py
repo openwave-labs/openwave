@@ -81,7 +81,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[1.75, 1.75, 1.75])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.00, 1.75, 1.50])  # Initialize the GGUI window
 
 
 def xperiment_specs():
