@@ -14,7 +14,7 @@ from openwave.common import equations
 from openwave._io import render
 
 import openwave.spacetime.qmedium_particles as qmedium
-import openwave.spacetime.qwave_xpbd as qwave
+import openwave.xperiments._archive.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU

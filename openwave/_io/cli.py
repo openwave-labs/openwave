@@ -125,9 +125,14 @@ def get_experiments_list():
 
                     # Fall back to formatted category name if no docstring found
                     if not category_display:
-                        category_display = category.replace("__", ": ").replace("_", " ").replace("-", " ").title()
+                        category_display = (
+                            category.replace("__", ": ")
+                            .replace("_", " ")
+                            .replace("-", " ")
+                            .title()
+                        )
 
-                    experiments.append((f"─── /{category_display}/ ───", None))  # Category header
+                    experiments.append((f"─── /{category_display}\ ───", None))  # Category header
 
                 # Indent all items under category
                 formatted_name = f"  → {display_name}"
@@ -148,7 +153,7 @@ def show_menu_simple(experiments):
         str: Path to the selected xperiment file
     """
     print("\n" + "=" * 64)
-    print("OpenWave - Available Xperiments")
+    print("OPENWAVE - Available XPERIMENTS")
     print("=" * 64)
 
     # Create numbered list of selectable experiments
@@ -214,7 +219,7 @@ def show_menu_interactive(experiments):
 
     terminal_menu = TerminalMenu(
         menu_options,
-        title="\n================================================================\nOPENWAVE - Available Xperiments\n(↑/↓ to navigate, ENTER to select)",
+        title="\n================================================================\nOPENWAVE - Available XPERIMENTS (↑/↓ navigate, ENTER selects)",
         menu_cursor="  ",
         menu_cursor_style=("fg_green", "bold"),
         menu_highlight_style=("bg_green", "fg_black"),

@@ -86,15 +86,14 @@ classDiagram
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     QUANTUM-MEDIUM OBJECTS
-    qmedium_particles.py ✓
     *WIP*: qmedium_fields.py
+    qmedium_particles.py ✓
     ---
     QUANTUM-WAVE PHYSICS ENGINES
+    *WIP*: qwave_flow.py
     qwave_radial.py ✓
     qwave_springs.py ✓
-    qwave_xpbd.py ✓
-    qwave_xwaves.py ✓
-    *WIP*: qwave_flow.py}
+    qwave_xwaves.py ✓}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -167,8 +166,7 @@ class `XPERIMENTS MODULE
     - radial_wave.py ✓
     - spherical_wave.py ✓
     - spring_mass.py ✓
-    - xpbd.py ✓
-    - x_waves.py ✓
+    - xwaves.py ✓
     ---
     FIELD-BASED
     - *WIP*: flow_wave.py
@@ -261,7 +259,7 @@ kanban
       - spherical_wave.py
       - spring_mass.py
       - xpbd.py
-      - x_waves.py]
+      - xwaves.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
       - derivations.py]
@@ -339,8 +337,8 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_wave.png" height="200px" alt="xperiment"></a>
-          <br>Radial Wave Xperiment
+          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
+          <br>X-Waves Xperiment
         </div>
       </td>
       <td style="text-align: center">
@@ -353,8 +351,8 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_xpbd.png" height="200px" alt="xperiment"></a>
-          <br>XPBD Xperiment
+          <a><img src="images/x_radial.png" height="200px" alt="xperiment"></a>
+          <br>Radial Wave Xperiment
         </div>
       </td>
       <td style="text-align: center">
