@@ -8,6 +8,11 @@ eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate 
 a tesseract) and simulate this artifact energy content, sourced from the element aether.
 """
 
+print("⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale")
+print("    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously")
+print("    See working alternative: radial_wave.py (Phase-Synchronized Harmonic Oscillators)")
+print("")
+
 import taichi as ti
 import time
 

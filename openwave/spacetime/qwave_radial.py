@@ -115,8 +115,15 @@ def oscillate_granules_tocenter(
         amplitude_falloff = r_reference / r_safe
 
         # Total amplitude at distance r from wave source
-        # Includes energy conservation (amplitude_falloff) and visualization scaling (amp_boost)
-        amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+        # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
+        amplitude_uncapped = amplitude_am * amplitude_falloff * amp_boost
+
+        # Step 2: Cap amplitude to distance from source (A ≤ r)
+        # Prevents non-physical behavior: granules crossing through wave source
+        # When A > r, displacement could exceed distance to source, placing granule
+        # on opposite side of source (physically impossible for longitudinal waves)
+        # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
+        amplitude_at_r = ti.min(amplitude_uncapped, r)
 
         # Position: x(t) = x_eq + A(r)·cos(ωt + φ)·direction
         displacement = amplitude_at_r * ti.cos(omega * t + phase)

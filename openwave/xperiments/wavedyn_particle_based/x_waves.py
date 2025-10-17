@@ -4,15 +4,15 @@ XPERIMENT: Crossing waves harmonic oscillations
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
-Demonstrates radial harmonic oscillation of all granules in the BCC lattice.
-All granules oscillate toward/away from the lattice center along their
-individual direction vectors, creating spherical wave interference patterns.
+Demonstrates wave interference from multiple sources in the BCC lattice.
+Each source generates spherical longitudinal waves that superpose at each granule,
+creating constructive and destructive interference patterns.
 
 This XPERIMENT showcases:
-- Radial wave propagation from lattice center
-- Phase-shifted oscillations creating wave interference
-- Uniform energy injection across all granules
-- No spring coupling (pure oscillation demonstration)
+- Multiple wave sources (up to 8, configurable positions)
+- Wave superposition and interference patterns
+- Phase control between sources (constructive/destructive interference)
+- No spring coupling (pure wave propagation)
 """
 
 import taichi as ti
@@ -36,6 +36,39 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_EDGE = 1e-16  # m simulation domain size, edge length of cubic universe
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
+# Multiple wave sources (max 8, one per octant)
+# MAX_SOURCES is defined in qwave_xwaves.py (Taichi compilation constraint)
+NUM_SOURCES = 8  # Number of active wave sources for this xperiment
+
+# Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Each row represents [x, y, z] coordinates for one source
+# Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
+sources_position = [
+    [0.0, 1.0, 0.0],  # Source 0
+    [1.0, 1.0, 0.0],  # Source 1
+    [1.0, 1.0, 1.0],  # Source 2
+    [0.0, 1.0, 1.0],  # Source 3
+    [0.0, 0.0, 0.0],  # Source 4
+    [1.0, 0.0, 0.0],  # Source 5
+    [1.0, 0.0, 1.0],  # Source 6
+    [0.0, 0.0, 1.0],  # Source 7
+]
+
+# Phase offsets for each source (integer degrees, converted to radians internally)
+# Allows creating constructive/destructive interference patterns
+# Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
+# Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
+sources_phase_deg = [
+    0,  # Source 0 (eg. 0 = in phase)
+    0,  # Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
+    0,  # Source 2
+    0,  # Source 3
+    0,  # Source 4
+    0,  # Source 5
+    0,  # Source 6
+    0,  # Source 7
+]
+
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
@@ -48,7 +81,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.0, 1.5, 2.0])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[1.75, 1.75, 1.75])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -57,8 +90,8 @@ def xperiment_specs():
         sub.text("QMedium: Particles in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
-        sub.text("QWave Source: 1 Harmonic Oscillator")
-        sub.text("QWave Propagation: Radial from Center")
+        sub.text(f"QWave Sources: {NUM_SOURCES} Harmonic Oscillators")
+        sub.text("QWave Propagation: Radial from Sources")
 
 
 def data_dashboard():
@@ -108,7 +141,7 @@ def controls():
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -150,23 +183,21 @@ def normalize_granule():
 # ================================================================
 
 
-def render_xperiment(lattice, granule):
-    """Render 3D BCC lattice with radial harmonic oscillation using GGUI's 3D scene.
+def render_xperiment(lattice):
+    """Render 3D BCC lattice with multiple wave sources using GGUI's 3D scene.
 
-    Visualizes all granules oscillating radially from the lattice center,
-    creating spherical wave interference patterns through phase-shifted oscillations.
+    Visualizes wave superposition from multiple sources, creating interference patterns
+    where waves constructively and destructively combine.
 
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
-        granule: Granule instance for size reference
-        neighbors: BCCNeighbors instance for optional link visualization
     """
     global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
     global normalized_position
 
     # Initialize variables
-    show_axis = False  # Toggle to show/hide axis lines
-    block_slice = True  # Block-slicing toggle
+    show_axis = True  # Toggle to show/hide axis lines
+    block_slice = False  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
@@ -182,6 +213,14 @@ def render_xperiment(lattice, granule):
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
+
+    # Convert phase from degrees to radians for physics calculations
+    # Conversion: radians = degrees × π/180
+    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
+
+    qwave.build_source_vectors(
+        sources_position, sources_phase_rad, NUM_SOURCES, lattice
+    )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled
     if WAVE_DIAGNOSTICS:
@@ -201,15 +240,14 @@ def render_xperiment(lattice, granule):
             last_time = current_time
             t += dt_real  # Use real elapsed time instead of fixed DT
 
-            # Apply radial harmonic oscillation to all granules
-            # All granules oscillate toward/away from lattice center along their direction vectors
-            # Phase is determined by radial distance, creating outward-propagating spherical waves
+            # Apply radial harmonic oscillation to all granules from multiple wave sources
+            # Each granule receives wave contributions from all active sources
+            # Waves superpose creating interference patterns (constructive/destructive)
             qwave.oscillate_granules(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s
-                lattice.center_direction,  # Direction vectors to center for all granules
-                lattice.center_distance_am,  # Radial distance from each granule to center
+                NUM_SOURCES,  # Number of active wave sources
                 t,
                 SLOW_MO,  # Slow-motion factor for visibility
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
@@ -257,4 +295,4 @@ def render_xperiment(lattice, granule):
 if __name__ == "__main__":
 
     # Render the 3D lattice
-    render_xperiment(lattice, granule)
+    render_xperiment(lattice)

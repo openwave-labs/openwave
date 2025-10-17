@@ -108,7 +108,7 @@ def controls():
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -150,7 +150,7 @@ def normalize_granule():
 # ================================================================
 
 
-def render_xperiment(lattice, granule):
+def render_xperiment(lattice):
     """Render 3D BCC lattice with radial harmonic oscillation using GGUI's 3D scene.
 
     Visualizes all granules oscillating radially from the lattice center,
@@ -158,8 +158,6 @@ def render_xperiment(lattice, granule):
 
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
-        granule: Granule instance for size reference
-        neighbors: BCCNeighbors instance for optional link visualization
     """
     global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
     global normalized_position
@@ -257,4 +255,4 @@ def render_xperiment(lattice, granule):
 if __name__ == "__main__":
 
     # Render the 3D lattice
-    render_xperiment(lattice, granule)
+    render_xperiment(lattice)
