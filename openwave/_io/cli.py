@@ -219,7 +219,7 @@ def show_menu_interactive(experiments):
 
     terminal_menu = TerminalMenu(
         menu_options,
-        title="\n================================================================\nOPENWAVE - Available XPERIMENTS (↑/↓ navigate, ENTER selects)",
+        title="\n================================================================\nOPENWAVE - Available XPERIMENTS (↑/↓ navigate, ENTER selects)\n================================================================",
         menu_cursor="  ",
         menu_cursor_style=("fg_green", "bold"),
         menu_highlight_style=("bg_green", "fg_black"),
