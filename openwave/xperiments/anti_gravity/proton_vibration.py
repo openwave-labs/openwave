@@ -1,5 +1,5 @@
 """
-XPERIMENT: [PLANNED] Proton Vibration for Anti-Gravity (contact us to join)
+XPERIMENT: [PLANNED] Proton Vibration for Gravity Attenuation (contact us to join)
 """
 
 print("=" * 64)

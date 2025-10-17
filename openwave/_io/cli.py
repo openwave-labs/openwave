@@ -103,7 +103,30 @@ def get_experiments_list():
                         experiments.append(("", None))  # Blank line separator
 
                     # Format category name as header
-                    category_display = category.replace("__", ": ").replace("_", " ").replace("-", " ").title()
+                    # Check if __init__.py exists in category folder
+                    category_init_path = xperiments_dir / category / "__init__.py"
+                    category_display = None
+
+                    if category_init_path.exists():
+                        try:
+                            with open(category_init_path, "r") as f:
+                                lines = f.readlines()
+                                # Look for docstring (use only first line)
+                                if len(lines) > 0 and '"""' in lines[0]:
+                                    for line in lines[1:]:
+                                        if '"""' in line:
+                                            break
+                                        stripped = line.strip()
+                                        if stripped:
+                                            category_display = stripped
+                                            break
+                        except Exception:
+                            pass
+
+                    # Fall back to formatted category name if no docstring found
+                    if not category_display:
+                        category_display = category.replace("__", ": ").replace("_", " ").replace("-", " ").title()
+
                     experiments.append((f"─── /{category_display}/ ───", None))  # Category header
 
                 # Indent all items under category
