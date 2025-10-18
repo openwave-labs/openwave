@@ -1,5 +1,5 @@
 """
-XPERIMENT: Crossing waves harmonic oscillations
+XPERIMENT: Crossing Waves Harmonic Oscillations
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
