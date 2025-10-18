@@ -40,8 +40,28 @@ def init_UI(cam_init_pos=[2.0, 1.5, 2.0]):
 
     # Calculate initial orbit parameters
     orbit_radius = np.sqrt(init_rel_x**2 + init_rel_y**2 + init_rel_z**2)  # ~1.5
-    orbit_theta = np.arctan2(init_rel_z, init_rel_x)  # 45 degrees
-    orbit_phi = np.arccos(init_rel_y / orbit_radius)  # angle from vertical
+
+    # Prevent division by zero and handle edge cases
+    if orbit_radius < 1e-6:
+        # Camera at exact center - use default position
+        orbit_radius = 1.0
+        orbit_theta = 0.0
+        orbit_phi = np.pi / 4  # 45 degrees default
+    else:
+        # Handle arctan2(0, 0) case when camera is directly above/below center
+        # Also handle gimbal lock when phi is too close to 0 or pi
+        if abs(init_rel_x) < 1e-6 and abs(init_rel_z) < 1e-6:
+            # Camera directly above/below - add small offset to avoid gimbal lock
+            orbit_theta = 0.0
+            orbit_phi = np.arccos(np.clip(init_rel_y / orbit_radius, -1.0, 1.0))
+            # If phi is too close to 0 (top) or pi (bottom), add small offset
+            if orbit_phi < 0.01:
+                orbit_phi = 0.01  # Minimum angle from vertical
+            elif orbit_phi > np.pi - 0.01:
+                orbit_phi = np.pi - 0.01  # Maximum angle from vertical
+        else:
+            orbit_theta = np.arctan2(init_rel_z, init_rel_x)
+            orbit_phi = np.arccos(np.clip(init_rel_y / orbit_radius, -1.0, 1.0))
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
