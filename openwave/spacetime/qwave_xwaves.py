@@ -21,7 +21,7 @@ wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER  # in attometers
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 
 # Maximum number of wave sources (fixed for Taichi parallelization)
-MAX_SOURCES = 8
+MAX_SOURCES = 9
 
 # ================================================================
 # Quantum-Wave Source Data (Global Fields)
@@ -88,7 +88,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         """Compute direction and distance from each granule to each source.
 
         Parallelized over all granules (outermost loop). Inner loop over sources
-        is sequential but short (max 8 sources).
+        is sequential but short (MAX_SOURCES).
         """
         for granule_idx in range(lattice.total_granules):
             # Loop through all active sources
@@ -174,7 +174,7 @@ def oscillate_granules(
 
     Parallelization Strategy:
         - Outermost loop (granules): Fully parallelized on GPU
-        - Inner loop (sources): Sequential per granule (max 8 iterations)
+        - Inner loop (sources): Sequential per granule (MAX_SOURCES iterations)
         - This maximizes GPU utilization while handling variable source counts
 
     Args:
@@ -204,7 +204,7 @@ def oscillate_granules(
         total_displacement = ti.Vector([0.0, 0.0, 0.0])  # sum of displacements from all sources
         total_velocity = ti.Vector([0.0, 0.0, 0.0])  # sum of velocities from all sources
 
-        # Sum contributions from all active sources (sequential loop, max 8 iterations)
+        # Sum contributions from all active sources (sequential loop, MAX_SOURCES iterations)
         for source_idx in ti.static(range(MAX_SOURCES)):
             if source_idx < num_sources:
                 # Get precomputed direction and distance for this granule-source pair

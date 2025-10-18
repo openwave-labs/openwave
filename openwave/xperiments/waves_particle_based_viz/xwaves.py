@@ -36,22 +36,23 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_EDGE = 1e-16  # m simulation domain size, edge length of cubic universe
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
-# Multiple wave sources (max 8, one per octant)
+# Multiple wave sources (max MAX_SOURCES, one per octant)
 # MAX_SOURCES is defined in qwave_xwaves.py (Taichi compilation constraint)
-NUM_SOURCES = 8  # Number of active wave sources for this xperiment
+NUM_SOURCES = 9  # Number of active wave sources for this xperiment
 
 # Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source
 # Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
 sources_position = [
-    [0.0, 1.0, 1.0],  # Source 0
-    [1.0, 1.0, 0.0],  # Source 1
-    [0.0, 0.0, 1.0],  # Source 2
-    [1.0, 0.0, 0.0],  # Source 3
-    [0.0, 1.0, 0.0],  # Source 4
-    [1.0, 1.0, 1.0],  # Source 5
-    [0.0, 0.0, 0.0],  # Source 6
-    [1.0, 0.0, 1.0],  # Source 7
+    [0.5, 0.5, 0.5],  # Source 0
+    [0.0, 1.0, 1.0],  # Source 1
+    [1.0, 1.0, 0.0],  # Source 2
+    [0.0, 0.0, 1.0],  # Source 3
+    [1.0, 0.0, 0.0],  # Source 4
+    [0.0, 1.0, 0.0],  # Source 5
+    [1.0, 1.0, 1.0],  # Source 6
+    [0.0, 0.0, 0.0],  # Source 7
+    [1.0, 0.0, 1.0],  # Source 8
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -59,7 +60,7 @@ sources_position = [
 # Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
 sources_phase_deg = [
-    0,  # Source 0 (eg. 0 = in phase)
+    180,  # Source 0 (eg. 0 = in phase)
     0,  # Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
     0,  # Source 2
     0,  # Source 3
@@ -67,6 +68,7 @@ sources_phase_deg = [
     0,  # Source 5
     0,  # Source 6
     0,  # Source 7
+    0,  # Source 8
 ]
 
 # slow-motion (divides frequency for human-visible motion, time microscope)

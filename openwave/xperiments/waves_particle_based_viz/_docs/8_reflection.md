@@ -1,4 +1,4 @@
-# just planning, no implementation yet
+# Wave Reflection Planning
 
 - using the files xwaves.py and qwave_xwaves.py as initial references, that simulates wave superposition
 - i need to simulate wave reflection, to a boundary wall or maybe an object inside the simulation universe
