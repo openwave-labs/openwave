@@ -10,9 +10,9 @@ import openwave.spacetime.qmedium_particles as qmedium
 QWAVE_FREQUENCY = constants.QWAVE_FREQUENCY
 
 # Current simulation parameters
-UNIVERSE_EDGE = 1e-16  # m
+UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 TARGET_PARTICLES = 1e6  # target particle count, granularity (planck scale ~3e54)
-SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
+SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
 # Calculate granule properties (simplified BCC lattice estimate)

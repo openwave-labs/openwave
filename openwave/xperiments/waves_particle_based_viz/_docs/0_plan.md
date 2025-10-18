@@ -184,7 +184,7 @@ while window.running:
 - **Direction sign**: `vertex_directions` points FROM vertex TO center (inward)
   - Positive displacement moves INWARD (correct)
   - Negative displacement moves OUTWARD (correct)
-- **Numerical precision**: With SLOW_MO = 1e25, ensure `f_slowed` doesn't underflow to zero
+- **Numerical precision**: With SLOW_MO, ensure `f_slowed` doesn't underflow to zero
   - `f_slowed = (3e8 / 2.85e-17) / 1e25 ≈ 1.05e0` (safe, no underflow)
 - **Performance**: Monitor FPS with uncapped frame rate
 - **Coordinate system**: Ensure `vertex_directions` normalized vectors are correct

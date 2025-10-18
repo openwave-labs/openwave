@@ -64,7 +64,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - **natural_frequency** (varies with resolution): What the discrete lattice supports for c propagation
 - Not a bug - reflects difference between quantum scale and computational sampling
 
-**Test results (UNIVERSE_EDGE = 1e-16 m):**
+**Test results (UNIVERSE_EDGE = 1e-16):**
 
 - TARGET_PARTICLES = 1e3: natural_freq = 1.2e25 Hz, resolution = 4 granules/qwave (VISIBLE WAVE PROPAGATION)
 - TARGET_PARTICLES = 1e6: natural_freq = ~1.36e26 Hz, resolution = 45 granules/qwave (NO VISIBLE WAVE PROPAGATION)

@@ -713,7 +713,9 @@ if __name__ == "__main__":
     # Parameters & Quantum Objects Instantiation
     # ================================================================
 
-    UNIVERSE_EDGE = 1e-16  # m, simulation domain size, edge length of cubic universe
+    UNIVERSE_EDGE = (
+        4 * constants.QWAVE_LENGTH
+    )  # m, simulation domain, edge length of cubic universe
     TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
 
     lattice = BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
