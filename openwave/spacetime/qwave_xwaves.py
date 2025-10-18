@@ -21,7 +21,7 @@ wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER  # in attometers
 frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
 
 # Maximum number of wave sources (fixed for Taichi parallelization)
-MAX_SOURCES = 9
+MAX_SOURCES = 10
 
 # ================================================================
 # Quantum-Wave Source Data (Global Fields)

@@ -33,8 +33,11 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 1e-16  # m simulation domain size, edge length of cubic universe
+UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
+
+# slow-motion (divides frequency for human-visible motion, time microscope)
+SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # Multiple wave sources (max MAX_SOURCES, one per octant)
 # MAX_SOURCES is defined in qwave_xwaves.py (Taichi compilation constraint)
@@ -69,10 +72,8 @@ sources_phase_deg = [
     0,  # Wave Source 6
     0,  # Wave Source 7
     0,  # Wave Source 8
+    0,  # Wave Source 9
 ]
-
-# slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trillions FPS)
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
 granule = qmedium.Granule(lattice.unit_cell_edge)
