@@ -30,6 +30,7 @@ COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grids, links
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 COLOR_QWAVES = ORANGE  # quantum-waves, wave functions
+
 COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MATTER = DARK_BLUE  # matter, particles
 COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
@@ -59,6 +60,7 @@ COLOR_FACE = ORANGE  # cube faces
 COLOR_CORE = COLOR_MEDIUM  # interior granules
 COLOR_CENTER = BLACK  # central granule
 COLOR_PROBE = RED  # probe granule
+COLOR_SOURCE = COLOR_QWAVES  # source granules
 
 
 # # FUTURE THERMAL IMAGING PALLETTE

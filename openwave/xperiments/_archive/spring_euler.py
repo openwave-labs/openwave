@@ -92,7 +92,8 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
@@ -143,7 +144,7 @@ def normalize_granule():
 def normalize_neighbors_links():
     """Create & Normalize links to 0-1 range for GGUI rendering"""
 
-    global link_lines
+    global link_line
 
     # Prepare link line endpoints
     max_connections = 0
@@ -153,13 +154,13 @@ def normalize_neighbors_links():
         max_connections += neighbors.links_count[i]
     if max_connections > 0:
         # Allocate line endpoint buffer (2 points per line)
-        link_lines = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+        link_line = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
 
     # Create a field to track line index atomically
     line_counter = ti.field(dtype=ti.i32, shape=())
 
     @ti.kernel
-    def build_link_lines():
+    def build_link_line():
         """Build line endpoints for BCC granule connections."""
         # Reset counter
         line_counter[None] = 0
@@ -181,12 +182,12 @@ def normalize_neighbors_links():
 
                         # Add line endpoints (from i to j)
                         if line_idx < max_connections:  # Safety check
-                            link_lines[line_idx * 2] = pos_i
-                            link_lines[line_idx * 2 + 1] = pos_j
+                            link_line[line_idx * 2] = pos_i
+                            link_line[line_idx * 2 + 1] = pos_j
 
     # Build link lines
     if max_connections > 0:
-        build_link_lines()
+        build_link_line()
 
 
 # ================================================================
@@ -203,8 +204,9 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, paused
-    global link_lines
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
+    global link_line
     global normalized_position
 
     # Initialize variables
@@ -214,7 +216,7 @@ def render_xperiment(lattice, granule, neighbors):
     show_links = False  # link visualization toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    link_lines = None  # Link line buffer
+    link_line = None  # Link line buffer
     paused = False  # Pause toggle
 
     # Time tracking for harmonic oscillation
@@ -279,8 +281,8 @@ def render_xperiment(lattice, granule, neighbors):
             )
 
         # Render spring links if enabled and available
-        if show_links and link_lines is not None:
-            render.scene.lines(link_lines, width=5, color=config.COLOR_INFRA[1])
+        if show_links and link_line is not None:
+            render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene()

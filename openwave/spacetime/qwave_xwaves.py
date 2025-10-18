@@ -28,9 +28,9 @@ MAX_SOURCES = 9
 # ================================================================
 # These fields are initialized once by build_source_vectors() and used by oscillate_granules()
 # Shape: (total_granules, MAX_SOURCES) for parallel access
-sources_direction = None  # Direction vectors from each granule to each source
-sources_distance_am = None  # Distances from each granule to each source (attometers)
-sources_phase_shift = None  # Phase offset for each source (radians)
+sources_direction = None  # Direction vectors from each granule to each wave source
+sources_distance_am = None  # Distances from each granule to each wave source (attometers)
+sources_phase_shift = None  # Phase offset for each wave source (radians)
 
 
 # ================================================================
@@ -52,14 +52,14 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     change between xperiments.
 
     Args:
-        sources_position: List of [x,y,z] coordinates (normalized 0-1) for each source
-        sources_phase: List of phase offsets (radians) for each source
+        sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source
+        sources_phase: List of phase offsets (radians) for each wave source
         num_sources: Number of active wave sources (1 to MAX_SOURCES)
         lattice: BCCLattice instance with granule positions and universe parameters
     """
-    global sources_direction, sources_distance_am, sources_phase_shift
+    global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
 
-    # Allocate Taichi fields for all granules and all sources
+    # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
     sources_direction = ti.Vector.field(
         3, dtype=ti.f32, shape=(lattice.total_granules, MAX_SOURCES)
@@ -85,13 +85,13 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
 
     @ti.kernel
     def compute_vectors(num_active: ti.i32):  # type: ignore
-        """Compute direction and distance from each granule to each source.
+        """Compute direction and distance from each granule to each wave source.
 
         Parallelized over all granules (outermost loop). Inner loop over sources
         is sequential but short (MAX_SOURCES).
         """
         for granule_idx in range(lattice.total_granules):
-            # Loop through all active sources
+            # Loop through all active wave sources
             for source_idx in ti.static(range(MAX_SOURCES)):
                 if source_idx < num_active:
                     # Convert normalized source position to attometers
@@ -130,29 +130,29 @@ def oscillate_granules(
 ):
     """Injects energy into all granules from multiple wave sources using wave superposition.
 
-    Each granule receives wave contributions from all active sources. Waves are summed
+    Each granule receives wave contributions from all active wave sources. Waves are summed
     (superposed) to create interference patterns - constructive where waves align in phase,
     destructive where they oppose.
 
     Physics Model:
-    - Each source generates spherical longitudinal waves
-    - Waves propagate radially outward from each source
-    - At each granule, displacement = sum of displacements from all sources
-    - Phase determined by distance from each source (creates wave fronts)
+    - Each wave source generates spherical longitudinal waves
+    - Waves propagate radially outward from each wave source
+    - At each granule, displacement = sum of displacements from all wave sources
+    - Phase determined by distance from each wave source (creates wave fronts)
     - Amplitude decreases as 1/r for energy conservation (spherical waves)
 
     Wave Superposition Principle:
-        x_total(t) = Σ[x_i(t)] for all sources i
+        x_total(t) = Σ[x_i(t)] for all wave sources i
         x_i(t) = x_eq + A_i(r_i)·cos(ωt + φ_i + φ_source_i)·dir_i
 
-    Where for each source i:
-        - r_i: distance from source i to granule
+    Where for each wave source i:
+        - r_i: distance from wave source i to granule
         - φ_i = -k·r_i: spatial phase (wave propagation)
-        - φ_source_i: initial phase offset of source i
-        - dir_i: direction from source i to granule (outward propagation)
+        - φ_source_i: initial phase offset of wave source i
+        - dir_i: direction from wave source i to granule (outward propagation)
         - A_i(r_i) = A₀·(r₀/r_i): amplitude falloff with distance
 
-    Near-Field vs Far-Field (per source):
+    Near-Field vs Far-Field (per wave source):
         - Near field (r < λ): Source region, wave structure forming
         - Transition zone (λ < r < 2λ): Wave fronts organizing
         - Far field (r > 2λ): Fully formed spherical waves, 1/r falloff
@@ -187,7 +187,7 @@ def oscillate_granules(
         freq_boost: Frequency multiplier (applied after slow-mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
-    # Compute temporal parameters (same for all sources)
+    # Compute temporal parameters (same for all wave sources)
     f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 

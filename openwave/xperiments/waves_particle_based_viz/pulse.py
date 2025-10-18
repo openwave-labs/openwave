@@ -99,7 +99,8 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type
+    global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
@@ -159,7 +160,8 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type
+    global radius_factor, freq_boost, amp_boost, paused
     global normalized_position
 
     # Initialize variables

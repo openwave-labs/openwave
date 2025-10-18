@@ -94,7 +94,8 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
@@ -204,7 +205,8 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, amp_boost, paused
     global link_line
     global normalized_position
 

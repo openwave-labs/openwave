@@ -8,8 +8,12 @@ eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate 
 a tesseract) and simulate this artifact energy content, sourced from the element aether.
 """
 
-print("⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale")
-print("    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously")
+print(
+    "⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale"
+)
+print(
+    "    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously"
+)
 print("    See working alternative: radial_wave.py (Phase-Synchronized Harmonic Oscillators)")
 print("")
 
@@ -38,7 +42,7 @@ SLOW_MO = 1e25  # (1 = real-time, 10 = 10x slower, 1e25 = 10 * trillion * trilli
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 1e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+STIFFNESS = 2e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
@@ -97,7 +101,8 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
@@ -208,7 +213,8 @@ def render_xperiment(lattice, granule, neighbors):
         granule: Granule instance for size reference.
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type, show_links, radius_factor, freq_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
     global link_line
     global normalized_position
 

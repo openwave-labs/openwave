@@ -40,19 +40,19 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 # MAX_SOURCES is defined in qwave_xwaves.py (Taichi compilation constraint)
 NUM_SOURCES = 9  # Number of active wave sources for this xperiment
 
-# Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source
 # Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
 sources_position = [
-    [0.5, 0.5, 0.5],  # Source 0
-    [0.0, 1.0, 1.0],  # Source 1
-    [1.0, 1.0, 0.0],  # Source 2
-    [0.0, 0.0, 1.0],  # Source 3
-    [1.0, 0.0, 0.0],  # Source 4
-    [0.0, 1.0, 0.0],  # Source 5
-    [1.0, 1.0, 1.0],  # Source 6
-    [0.0, 0.0, 0.0],  # Source 7
-    [1.0, 0.0, 1.0],  # Source 8
+    [0.5, 0.5, 0.5],  # Wave Source 0
+    [0.0, 1.0, 1.0],  # Wave Source 1
+    [1.0, 1.0, 0.0],  # Wave Source 2
+    [0.0, 0.0, 1.0],  # Wave Source 3
+    [1.0, 0.0, 0.0],  # Wave Source 4
+    [0.0, 1.0, 0.0],  # Wave Source 5
+    [1.0, 1.0, 1.0],  # Wave Source 6
+    [0.0, 0.0, 0.0],  # Wave Source 7
+    [1.0, 0.0, 1.0],  # Wave Source 8
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -60,15 +60,15 @@ sources_position = [
 # Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
 sources_phase_deg = [
-    180,  # Source 0 (eg. 0 = in phase)
-    0,  # Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Source 2
-    0,  # Source 3
-    0,  # Source 4
-    0,  # Source 5
-    0,  # Source 6
-    0,  # Source 7
-    0,  # Source 8
+    180,  # Wave Source 0 (eg. 0 = in phase)
+    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
+    0,  # Wave Source 2
+    0,  # Wave Source 3
+    0,  # Wave Source 4
+    0,  # Wave Source 5
+    0,  # Wave Source 6
+    0,  # Wave Source 7
+    0,  # Wave Source 8
 ]
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
@@ -134,13 +134,15 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_sources
+    global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
+        show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
@@ -194,13 +196,15 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, granule_type, radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_sources
+    global radius_factor, freq_boost, amp_boost, paused
     global normalized_position
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
+    show_sources = True  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
@@ -285,6 +289,14 @@ def render_xperiment(lattice):
                 normalized_position,
                 radius=normalized_radius * radius_factor,
                 color=config.COLOR_MEDIUM[1],
+            )
+
+        # Render the wave sources
+        if show_sources:
+            render.scene.particles(
+                centers=qwave.sources_pos_field,
+                radius=normalized_radius * 2,
+                color=config.COLOR_SOURCE[1],
             )
 
         # Render the scene to canvas
