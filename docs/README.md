@@ -74,7 +74,7 @@ docs/
 
 API documentation needs regeneration when:
 
-- ✅ Modules are renamed (e.g., `qmedium_granule` → `qmedium_granules`)
+- ✅ Modules are renamed (e.g., `qmedium_granule` → `qmedium_granule`)
 - ✅ New modules/classes are added
 - ✅ Docstrings are updated
 - ✅ Package structure changes
