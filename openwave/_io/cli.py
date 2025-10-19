@@ -10,6 +10,8 @@ import os
 import sys
 import subprocess
 from pathlib import Path
+from importlib.metadata import version, metadata
+
 
 from simple_term_menu import TerminalMenu
 
@@ -149,8 +151,10 @@ def show_menu_simple(experiments):
     Returns:
         str: Path to the selected xperiment file
     """
+    pkg_version = version("OPENWAVE")
+
     print("\n" + "=" * 64)
-    print("OPENWAVE - Available XPERIMENTS")
+    print(f"OPENWAVE (v{pkg_version}) - Available XPERIMENTS")
     print("=" * 64)
 
     # Create numbered list of selectable experiments
@@ -204,6 +208,7 @@ def show_menu_interactive(experiments):
     menu_options = []
     file_path_map = {}  # Maps option index to file path
     option_idx = 0
+    pkg_version = version("OPENWAVE")
 
     for display_name, file_path in experiments:
         menu_options.append(display_name if display_name else " ")  # Empty line or display name
@@ -216,7 +221,7 @@ def show_menu_interactive(experiments):
 
     terminal_menu = TerminalMenu(
         menu_options,
-        title="\n================================================================\nOPENWAVE - Available XPERIMENTS (↑/↓ navigate, ENTER selects)\n================================================================",
+        title=f"\n==========================================================================\nOPENWAVE (v{pkg_version}) - Available XPERIMENTS (↑/↓ navigate, ENTER selects)\n==========================================================================",
         menu_cursor="  ",
         menu_cursor_style=("fg_green", "bold"),
         menu_highlight_style=("bg_green", "fg_black"),
