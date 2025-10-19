@@ -3,7 +3,7 @@ import math
 from openwave.common import constants
 from openwave.common import equations
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.qmedium_granules as qmedium
 
 
 # From constants

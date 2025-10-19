@@ -560,7 +560,7 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 - `xpbd.py` - Main render loop
 - `qwave_xpbd.py` - XPBD constraint solver
-- `qmedium_granule.py` - Unchanged (same BCC structure)
+- `qmedium_granules.py` - Unchanged (same BCC structure)
 
 ### Files Archived (for reference)
 

@@ -13,7 +13,7 @@ from openwave.common import constants
 from openwave.common import equations
 from openwave._io import render
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.qmedium_granules as qmedium
 import openwave.xperiments._archive.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)

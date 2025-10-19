@@ -86,8 +86,8 @@ classDiagram
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     QUANTUM-MEDIUM [Objects]
-    *WIP*: qmedium_field.py
-    qmedium_granule.py ✓
+    *WIP*: qmedium_fields.py
+    qmedium_granules.py ✓
     ---
     QUANTUM-WAVE [Physics Engines]
     *WIP*: qwave_flow.py
@@ -242,13 +242,13 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - qmedium_field.py
+      - qmedium_fields.py
       - qwave_flow.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - qmedium_granule.py
+      - qmedium_granules.py
       - qwave_radial.py
       - qwave_springs.py
       - qwave_xpbd.py
