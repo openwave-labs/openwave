@@ -34,12 +34,12 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
+TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
@@ -54,7 +54,7 @@ render.init_UI(cam_init_pos=[1.35, 0.68, 0.91])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: Particles in BCC lattice")
+        sub.text("QMedium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text("QWave Source: 1 Harmonic Oscillator")

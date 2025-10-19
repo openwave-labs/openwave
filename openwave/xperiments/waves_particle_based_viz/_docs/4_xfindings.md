@@ -66,8 +66,8 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 **Test results (UNIVERSE_EDGE = 1e-16):**
 
-- TARGET_PARTICLES = 1e3: natural_freq = 1.2e25 Hz, resolution = 4 granules/qwave (VISIBLE WAVE PROPAGATION)
-- TARGET_PARTICLES = 1e6: natural_freq = ~1.36e26 Hz, resolution = 45 granules/qwave (NO VISIBLE WAVE PROPAGATION)
+- TARGET_GRANULES = 1e3: natural_freq = 1.2e25 Hz, resolution = 4 granules/qwave (VISIBLE WAVE PROPAGATION)
+- TARGET_GRANULES = 1e6: natural_freq = ~1.36e26 Hz, resolution = 45 granules/qwave (NO VISIBLE WAVE PROPAGATION)
 - Higher resolution → higher natural frequency → smaller lattice wavelength
 - But wave speed = c in all cases ✓
 
@@ -143,7 +143,7 @@ Key Features:
 
 Great news! Despite the last XPBD implementation (after removing spring forces and replacing them with distance constraints using Jacobi iteration and Lagrange multipliers), we got waves flowing but could not satisfy the trade-off between wave speed (c) and wavelength (λ) to respect real physics fidelity from EWT parameters. This is due to not using actual Planck-size granules, but instead a scaled-up version with larger granules and mass to become computationally feasible.
 
-We also had numerical explosions and instability with the explicit methods attempted: Euler integration and Leapfrog/Velocity Verlet (second-order accuracy). With high stiffness, it's impossible to numerically solve and causes numerical explosion. When scaling down stiffness to make it tractable, the particle-based approach introduces artificial damping that breaks the wave physics we're trying to simulate. Even reducing stiffness manually didn't work - waves were not created, everything stayed static because of too-soft "wet noodle" springs.
+We also had numerical explosions and instability with the explicit methods attempted: Euler integration and Leapfrog/Velocity Verlet (second-order accuracy). With high stiffness, it's impossible to numerically solve and causes numerical explosion. When scaling down stiffness to make it tractable, the granule-medium approach introduces artificial damping that breaks the wave physics we're trying to simulate. Even reducing stiffness manually didn't work - waves were not created, everything stayed static because of too-soft "wet noodle" springs.
 
 The idea: remove springs and constraints and use synchronized phase between granules (harmonic phi rhythm) in the file radial_wave.py. A radial wave is point-sourced from the lattice center with propagation via synchronized phase shift - not force/constraint driving a position integrator, but instead a simple harmonic oscillation equation defining position over time for each granule.
 

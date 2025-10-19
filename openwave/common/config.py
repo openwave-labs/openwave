@@ -35,7 +35,7 @@ COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MATTER = DARK_BLUE  # matter, particles
 COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
 COLOR_MOTION = GREEN  # motion, velocity vectors
-COLOR_PHOTON = YELLOW  # photons, light particles
+COLOR_PHOTON = YELLOW  # photons
 COLOR_HEAT = RED  # heat, thermal energy
 COLOR_ENERGY = PURPLE  # energy, energy packets
 

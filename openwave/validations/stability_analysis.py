@@ -11,12 +11,12 @@ QWAVE_FREQUENCY = constants.QWAVE_FREQUENCY
 
 # Current simulation parameters
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_PARTICLES = 1e6  # target particle count, granularity (planck scale ~3e54)
+TARGET_GRANULES = 1e6  # target particle count, granularity (planck scale ~3e54)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
 # Calculate granule properties (simplified BCC lattice estimate)
-granules_per_edge = TARGET_PARTICLES ** (1 / 3) * 0.8  # 80% fill factor
+granules_per_edge = TARGET_GRANULES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 # unit_cell_edge = 2 * math.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
 granule = qmedium.BCCGranule(unit_cell_edge)

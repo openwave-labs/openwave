@@ -1,6 +1,6 @@
 # SPH
 
-Reviewing paper - "Particle-Based Fluid Simulation for Interactive Applications" (the original SPH fluids paper by Müller et al., 2003). This is a classic foundational paper on SPH for computer graphics.
+Reviewing paper - "Granule-Medium Fluid Simulation for Interactive Applications" (the original SPH fluids paper by Müller et al., 2003). This is a classic foundational paper on SPH for computer graphics.
 
 Let me analyze what's relevant to your XPBD implementation for the quantum lattice:
 

@@ -5,8 +5,7 @@ QUANTUM-MEDIUM
 Objects Engine @spacetime module.
 
 QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
-Modeled as a particle-based elastic medium that allows energy
-to transfer from one point to the next.
+Modeled as an fluid medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
 the classical fifth element or quintessence filling the universe,
@@ -55,24 +54,24 @@ class BCCLattice:
     - GPU: Direct thread mapping (thread_i→granule_i), coalesced memory access
     - BCC Lattice: Uniform treatment of corner+center granules in single array
     Benefits:
-    - Simpler updates: One kernel updates all particles
+    - Simpler updates: One kernel updates all granules
     - Cleaner code: No need to manage multiple arrays
     - Movement-Ready: Velocity field ready for dynamics,
-    particles can move freely without grid remapping constraints
+    granules can move freely without grid remapping constraints
 
     This is why high-performance physics engines (molecular dynamics, N-body simulations)
-    universally use 1D arrays for particle data, regardless of spatial dimensionality.
+    universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge, target_particles):
+    def __init__(self, universe_edge, target_granules):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
-        Universe edge (size) and target particles are used to define
+        Universe edge (size) and target granules are used to define
         scaled-up unit-cell properties and scale factor.
 
         Args:
             universe_edge: Simulation domain size, edge length of the cubic universe in meters
-            target_particles: Target number of granules (impacts performance)
+            target_granules: Target number of granules (impacts performance)
         """
         # Compute lattice total energy from quantum-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
@@ -86,7 +85,7 @@ class BCCLattice:
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        init_unit_cell_volume = universe_volume / (target_particles / 2)
+        init_unit_cell_volume = universe_volume / (target_granules / 2)
         init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
         # Calculate grid dimensions (number of unit cells per dimension)
@@ -716,15 +715,15 @@ if __name__ == "__main__":
     UNIVERSE_EDGE = (
         4 * constants.QWAVE_LENGTH
     )  # m, simulation domain, edge length of cubic universe
-    TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performance)
+    TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
 
-    lattice = BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
+    lattice = BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
     start_time = time.time()
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
     print(f"  Universe edge: {UNIVERSE_EDGE:.1e} m")
-    print(f"  Particle count: {lattice.total_granules:,}")
+    print(f"  Granule count: {lattice.total_granules:,}")
     print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")

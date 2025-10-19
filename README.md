@@ -85,11 +85,11 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    QUANTUM-MEDIUM OBJECTS
-    *WIP*: qmedium_fields.py
-    qmedium_particles.py ✓
+    QUANTUM-MEDIUM [Objects]
+    *WIP*: qmedium_field.py
+    qmedium_granule.py ✓
     ---
-    QUANTUM-WAVE PHYSICS ENGINES
+    QUANTUM-WAVE [Physics Engines]
     *WIP*: qwave_flow.py
     qwave_radial.py ✓
     qwave_springs.py ✓
@@ -161,14 +161,14 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    PARTICLE-BASED
+    GRANULE-BASED MEDIUM
     - pulse.py ✓
     - radial_wave.py ✓
     - spherical_wave.py ✓
     - spring_mass.py ✓
     - xwaves.py ✓
     ---
-    FIELD-BASED
+    FIELD-BASED MEDIUM
     - *WIP*: flow_wave.py
     ---
     ANTI-GRAVITY
@@ -248,7 +248,7 @@ kanban
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - qmedium_particles.py
+      - qmedium_granule.py
       - qwave_radial.py
       - qwave_springs.py
       - qwave_xpbd.py

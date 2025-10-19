@@ -24,12 +24,12 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_PARTICLES = 1e4  # target particle count, granularity (impacts performance)
+TARGET_GRANULES = 1e4  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
@@ -54,7 +54,7 @@ render.init_UI(cam_init_pos=[2.0, 1.5, 2.0])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: XPBD Quantum-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: BCC lattice")
+        sub.text("QMedium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way distance constraints")
         sub.text("QWave Source: 8 Vertex Oscillators")
@@ -231,7 +231,7 @@ def render_xperiment(lattice, granule, neighbors):
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-    if TARGET_PARTICLES <= 1e3:
+    if TARGET_GRANULES <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:

@@ -27,7 +27,7 @@ def init_UI(cam_init_pos=[2.0, 1.5, 2.0]):
     camera = ti.ui.Camera()  # Camera object for 3D view control
     canvas = window.get_canvas()  # Canvas for rendering the scene
     gui = window.get_gui()  # GUI manager for overlay UI elements
-    scene = window.get_scene()  # 3D scene for particle rendering
+    scene = window.get_scene()  # 3D scene for rendering
 
     # Set initial camera parameters & background color
     # Camera orbit parameters - initial position looking at center

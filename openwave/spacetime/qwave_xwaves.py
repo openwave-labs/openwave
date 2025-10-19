@@ -44,9 +44,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     - Distances (attometers): affects phase and amplitude of waves from each source
     - Phase offsets (radians): initial phase shift for each source
 
-    Unlike build_center_vectors() in qmedium_particles.py (which uses the fixed
-    lattice center), this function handles arbitrary source positions that may
-    change between xperiments.
+    This function handles arbitrary source positions that may change between xperiments.
 
     Args:
         sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source

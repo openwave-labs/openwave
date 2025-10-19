@@ -5,8 +5,7 @@ QUANTUM-MEDIUM
 Objects Engine @spacetime module.
 
 QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
-Modeled as a particle-based elastic medium that allows energy
-to transfer from one point to the next.
+Modeled as an fluid medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
 the classical fifth element or quintessence filling the universe,

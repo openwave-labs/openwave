@@ -5,11 +5,11 @@
 ![alt text](images/demo2.gif)
 ![alt text](images/demo3.gif)
 
-## PARTICLE-BASED WAVE DYNAMICS
+## GRANULE-BASED MEDIUM WAVE DYNAMICS
 
 Limitations:
 
-- MAX PARTICLE COUNT = 1e6  # granularity for GPU optimized computational performance
+- MAX GRANULE COUNT = 1e6  # granularity for GPU optimized computational performance
 - MAX UNIVERSE SIZE = 1e-15 # m, Nyquist sampling wave resolution (granules/lambda), for above particle count
   - only up to neutrino scale simulations (5e-17)
   - electron = 5e-15, nuclei = 1e-14, H atom = 1e-10
@@ -242,6 +242,6 @@ This is:
 
 Phase control is the key to implementing wave interactions, interference, and particle formation in the future. Keep φ as an independent, first-class parameter!
 
-## OTHER OPTION: FIELD-BASED WAVE DYNAMICS
+## OTHER OPTION: FIELD-BASED MEDIUM WAVE DYNAMICS
 
 Scale expansion beyond neutrino scale if computationally feasible
