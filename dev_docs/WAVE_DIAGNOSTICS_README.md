@@ -245,7 +245,7 @@ The experiment UI includes `freq_boost` and `amp_boost` sliders:
 ## Files
 
 - `/validations/wave_diagnostics.py` - Module implementation (82 lines)
-- `/xperiments/particle_based_wave_dynamics/radial_wave.py` - Integration example (4 lines)
+- `/xperiments/waves_granule_medium/radial_wave.py` - Integration example (4 lines)
 - `/dev_docs/WAVE_DIAGNOSTICS_README.md` - This documentation
 - `/spacetime/qwave_radial.py` - PSHO implementation (no changes needed)
 
