@@ -242,7 +242,7 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - qmedium_fields.py
+      - qmedium_field.py
       - qwave_flow.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     

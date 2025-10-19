@@ -18,7 +18,7 @@ When running `radial_wave.py` experiment with PSHO implementation, longitudinal 
 
 The user's hypothesis was **correct**. The transversal component is a direct consequence of the Body-Centered Cubic (BCC) lattice structure:
 
-**BCC Structure** (`qmedium_particles.py:24-43`):
+**BCC Structure** (`qmedium_granule.py:24-43`):
 
 - Each interior granule has **8 nearest neighbors**
 - Nearest neighbor distance: `a × √3/2` (where `a` is unit cell edge)
@@ -122,7 +122,7 @@ OpenWave's behavior matches this!
 
 ## BCC Lattice Connectivity Details
 
-From `qmedium_particles.py:455-649`:
+From `qmedium_granule.py:455-649`:
 
 ```python
 class BCCNeighbors:
@@ -219,7 +219,7 @@ This observation demonstrates that OpenWave correctly simulates wave propagation
 
 ## References
 
-- `/spacetime/qmedium_particles.py` - BCC lattice implementation
+- `/spacetime/qmedium_granule.py` - BCC lattice implementation
 - `/spacetime/qwave_radial.py` - PSHO wave implementation
 - `/validations/wave_diagnostics.py` - Wave validation module
 - `/dev_docs/WAVE_DIAGNOSTICS_README.md` - Complete documentation

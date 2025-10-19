@@ -2,6 +2,8 @@
 QUANTUM-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
+GRANULE-BASED MEDIUM
+
 Objects Engine @spacetime module.
 
 QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).

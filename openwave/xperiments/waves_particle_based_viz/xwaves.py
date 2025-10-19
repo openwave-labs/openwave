@@ -22,7 +22,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.qmedium_particles as qmedium
+import openwave.spacetime.qmedium_granule as qmedium
 import openwave.spacetime.qwave_xwaves as qwave
 import openwave.validations.wave_diagnostics as diagnostics
 
