@@ -219,7 +219,7 @@ def render_xperiment(lattice, granule, neighbors):
     global normalized_position
 
     # Initialize variables
-    show_axis = True  # Toggle to show/hide axis lines
+    show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
     show_links = False  # link visualization toggle
