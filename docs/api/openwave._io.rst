@@ -1,7 +1,7 @@
-openwave.core
+﻿openwave.\_io
 =============
 
-.. automodule:: openwave.core
+.. automodule:: openwave._io
 
    
 .. rubric:: Modules
@@ -10,6 +10,5 @@ openwave.core
    :toctree:
    :recursive:
 
-   config
-   constants
-   equations
+   cli
+   render

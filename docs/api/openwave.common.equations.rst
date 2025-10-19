@@ -1,7 +1,7 @@
-openwave.core.equations
-=======================
+openwave.common.equations
+=========================
 
-.. automodule:: openwave.core.equations
+.. automodule:: openwave.common.equations
 
    
    .. rubric:: Functions
@@ -19,10 +19,12 @@ openwave.core.equations
       longitudinal_out_wave_energy
       magnetic_force
       magnetic_out_wave_energy
+      natural_frequency
       orbital_force
       particle_energy
       photon_energy
       photon_frequency
       photon_wavelength
+      stiffness_from_frequency
       strong_force
    

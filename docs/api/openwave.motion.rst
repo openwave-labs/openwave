@@ -1,21 +1,13 @@
-openwave.motion package
-========================
-
-Submodules
-----------
-
-openwave.motion.motion module
-------------------------------
-
-.. automodule:: openwave.motion.motion
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
+openwave.motion
+===============
 
 .. automodule:: openwave.motion
-   :members:
-   :undoc-members:
-   :show-inheritance:
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   motion

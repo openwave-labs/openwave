@@ -1,7 +1,7 @@
-openwave.photon
+openwave.common
 ===============
 
-.. automodule:: openwave.photon
+.. automodule:: openwave.common
 
    
 .. rubric:: Modules
@@ -10,4 +10,6 @@ openwave.photon
    :toctree:
    :recursive:
 
-   light
+   config
+   constants
+   equations

@@ -5,14 +5,27 @@ Configuration file for Sphinx documentation builder.
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 sys.path.insert(0, os.path.abspath(".."))
+
+# Read version from pyproject.toml
+def get_version():
+    """Extract version from pyproject.toml."""
+    pyproject_path = Path(__file__).parent.parent / "pyproject.toml"
+    with open(pyproject_path, "r") as f:
+        for line in f:
+            if line.startswith("version"):
+                # Extract version string from: version = "0.1.2"
+                return line.split("=")[1].strip().strip('"').split("#")[0].strip()
+    return "0.1.0"  # fallback
 
 # Project information
 project = "OpenWave"
 copyright = f"{datetime.now().year}, OpenWave Team"
 author = "OpenWave Team"
-release = "0.1.0"
+release = get_version()
+version = release  # Short version (for display)
 
 # General configuration
 extensions = [
@@ -40,6 +53,14 @@ source_suffix = {
 autosummary_generate = True
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+# Mock imports for libraries that may not be available during doc build
+autodoc_mock_imports = [
+    "taichi",
+    "matplotlib",
+    "numpy",
+    "scipy",
+]
 
 # Autodoc configuration
 autodoc_default_options = {

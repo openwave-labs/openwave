@@ -1,21 +1,13 @@
-openwave.heat package
-=====================
-
-Submodules
-----------
-
-openwave.heat.heat module
---------------------------
-
-.. automodule:: openwave.heat.heat
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
+openwave.heat
+=============
 
 .. automodule:: openwave.heat
-   :members:
-   :undoc-members:
-   :show-inheritance:
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   heat

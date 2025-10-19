@@ -25,7 +25,6 @@ def generate_pydeps_graph():
         '--keep-target-cluster',
         '--rankdir', 'TB',
         '--show-deps',
-        '--show-raw-import-names',
         '-o', str(output_dir / 'openwave_deps.svg'),
         '--no-show',
         '--pylib-all'

@@ -1,7 +1,6 @@
-openwave.heat.heat module
-==========================
+openwave.heat.heat
+==================
 
 .. automodule:: openwave.heat.heat
-   :members:
-   :undoc-members:
-   :show-inheritance:
+
+   

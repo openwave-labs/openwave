@@ -28,14 +28,21 @@ Quick Start
 
 .. code-block:: bash
 
-   # Install OpenWave
-   pip install -e .
+   # Clone the OpenWave repository
+   git clone https://github.com/openwave-labs/openwave.git
+   cd openwave
 
-   # Run quantum space simulation
-   space -h
+   # Create conda environment (recommended, Python >=3.12)
+   conda create -n openwave python=3.12
+   conda activate openwave
 
-   # Run quantum wave simulation
-   wave -h
+   # Install OpenWave package & dependencies
+   pip install .
+
+   # Launch xperiments using the CLI xperiment selector
+   openwave -x
+
+For detailed installation and usage instructions, see :doc:`getting_started`.
 
 API Reference
 -------------

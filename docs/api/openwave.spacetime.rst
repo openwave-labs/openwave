@@ -10,5 +10,9 @@ openwave.spacetime
    :toctree:
    :recursive:
 
-   quantum_space
-   quantum_wave
+   qmedium_fields
+   qmedium_granules
+   qwave_flow
+   qwave_radial
+   qwave_springs
+   qwave_xwaves

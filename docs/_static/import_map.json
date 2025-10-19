@@ -1,0 +1,160 @@
+{
+  "openwave._io.__init__": [
+    "openwave._io.cli"
+  ],
+  "openwave._io.cli": [
+    "argparse",
+    "os",
+    "sys",
+    "subprocess",
+    "pathlib",
+    "simple_term_menu"
+  ],
+  "openwave._io.render": [
+    "importlib.metadata",
+    "taichi",
+    "numpy",
+    "pyautogui",
+    "openwave.common"
+  ],
+  "openwave.common.equations": [
+    "numpy",
+    "openwave.common"
+  ],
+  "openwave.spacetime.qmedium_granules": [
+    "random",
+    "taichi",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "time",
+    "sys",
+    "random"
+  ],
+  "openwave.spacetime.qwave_radial": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.spacetime.qwave_springs": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.spacetime.qwave_xwaves": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.validations.constants_derivation_particle": [
+    "numpy",
+    "openwave.common.constants"
+  ],
+  "openwave.validations.constants_derivation_wave": [
+    "numpy",
+    "openwave.common.constants"
+  ],
+  "openwave.validations.stability_analysis": [
+    "math",
+    "openwave.common",
+    "openwave.common",
+    "openwave.spacetime.qmedium_granules"
+  ],
+  "openwave.validations.wave_diagnostics": [
+    "openwave.common"
+  ],
+  "openwave.xperiments._archive.qwave_springs_euler": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archive.qwave_xpbd": [
+    "taichi",
+    "numpy",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archive.spring_euler": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.xperiments._archive.qwave_springs_euler"
+  ],
+  "openwave.xperiments._archive.xpbd": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.xperiments._archive.qwave_xpbd"
+  ],
+  "openwave.xperiments.waves_granule_medium.pulse": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.waves_granule_medium.radial_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.waves_granule_medium.spherical_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.waves_granule_medium.spring_mass": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_springs"
+  ],
+  "openwave.xperiments.waves_granule_medium.xwaves": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_xwaves",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.waves_granule_medium.ztest-standing_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_xwaves",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.waves_granule_medium.ztest-xwaves": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.qmedium_granules",
+    "openwave.spacetime.qwave_xwaves",
+    "openwave.validations.wave_diagnostics"
+  ]
+}

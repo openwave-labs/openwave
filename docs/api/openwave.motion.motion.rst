@@ -1,7 +1,6 @@
-openwave.motion.motion module
-==============================
+openwave.motion.motion
+======================
 
 .. automodule:: openwave.motion.motion
-   :members:
-   :undoc-members:
-   :show-inheritance:
+
+   

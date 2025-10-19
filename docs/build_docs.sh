@@ -66,6 +66,14 @@ cat > _static/custom.css << 'EOF'
 }
 EOF
 
+# Clean old API documentation
+echo "Cleaning old API documentation..."
+rm -rf api/*.rst
+
+# Regenerate API documentation from source
+echo "Generating API documentation from source code..."
+python -m sphinx.ext.apidoc -f -e -M -o api ../openwave
+
 # Generate dependency graphs
 echo "Generating dependency graphs..."
 python generate_deps.py || echo "Warning: Some dependency graphs could not be generated"
