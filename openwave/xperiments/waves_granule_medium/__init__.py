@@ -1,5 +1,5 @@
 """
-Wave Dynamics on a Granule-Based Medium (for visualization)
+Wave Dynamics on Granule-Based Medium (for visualization)
 
-Experiments exploring wave dynamics using granule-based medium simulation approaches.
+Experiments exploring wave dynamics using granule-based medium simulation.
 """

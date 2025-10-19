@@ -1,5 +1,5 @@
 """
-Wave Dynamics on a Field-Based Medium (for numerical analysis)
+Wave Dynamics on Field-Based Medium (for numerical analysis)
 
-Experiments exploring wave dynamics using field-based medium simulation approaches.
+Experiments exploring wave dynamics using field-based medium simulation.
 """
