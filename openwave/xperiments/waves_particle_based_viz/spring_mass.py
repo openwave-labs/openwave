@@ -48,7 +48,7 @@ STIFFNESS = 2e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = qmedium.Granule(lattice.unit_cell_edge)
+granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 

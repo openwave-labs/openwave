@@ -30,7 +30,7 @@ TARGET_PARTICLES = 1e4  # target particle count, granularity (impacts performanc
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = qmedium.Granule(lattice.unit_cell_edge)
+granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 # PHYSICAL STIFFNESS (calculated for speed of light wave propagation)

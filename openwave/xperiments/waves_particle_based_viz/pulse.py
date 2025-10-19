@@ -40,7 +40,7 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = qmedium.Granule(lattice.unit_cell_edge)
+granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 

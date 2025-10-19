@@ -22,7 +22,7 @@ from openwave.common import constants
 from openwave.common import equations
 
 
-class Granule:
+class BCCGranule:
     """
     Granule Model: The aether consists of "granules".
     Fundamental units that vibrate in harmony and create wave patterns.
@@ -731,7 +731,7 @@ if __name__ == "__main__":
     print(f"  Creation time: {lattice_time:.3f} seconds")
 
     # Create granule
-    granule = Granule(lattice.unit_cell_edge)
+    granule = BCCGranule(lattice.unit_cell_edge)
     print(f"\nGranule Properties:")
     print(f"  Radius: {granule.radius:.2e} m")
     print(f"  Mass: {granule.mass:.2e} kg")

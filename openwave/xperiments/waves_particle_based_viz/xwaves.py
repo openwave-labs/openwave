@@ -75,7 +75,7 @@ sources_phase_deg = [
 ]
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_PARTICLES)
-granule = qmedium.Granule(lattice.unit_cell_edge)
+granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
@@ -129,7 +129,6 @@ def data_dashboard():
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
-        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
 def controls():

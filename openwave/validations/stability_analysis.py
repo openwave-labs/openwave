@@ -19,7 +19,7 @@ STIFFNESS = 1e-13  # N/m (already reduced!)
 granules_per_edge = TARGET_PARTICLES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 # unit_cell_edge = 2 * math.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
-granule = qmedium.Granule(unit_cell_edge)
+granule = qmedium.BCCGranule(unit_cell_edge)
 
 # Spring-mass system natural frequency
 frequency = equations.natural_frequency(STIFFNESS, granule.mass)  # Hz
