@@ -39,13 +39,12 @@ TARGET_PARTICLES = 1e6  # target particle count, granularity (impacts performanc
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-# Multiple wave sources (max MAX_SOURCES, one per octant)
-# MAX_SOURCES is defined in qwave_xwaves.py (Taichi compilation constraint)
-NUM_SOURCES = 9  # Number of active wave sources for this xperiment
+# Number of wave sources for this xperiment
+NUM_SOURCES = 9
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source
-# Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
+# Only provide NUM_SOURCES entries (only active sources needed)
 sources_position = [
     [0.5, 0.5, 0.5],  # Wave Source 0
     [0.0, 1.0, 1.0],  # Wave Source 1
@@ -60,7 +59,7 @@ sources_position = [
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
-# Must provide exactly qwave.MAX_SOURCES entries (Taichi requires fixed array size)
+# Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
 sources_phase_deg = [
     180,  # Wave Source 0 (eg. 0 = in phase)
