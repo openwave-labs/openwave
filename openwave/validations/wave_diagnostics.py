@@ -57,8 +57,8 @@ def print_initial_parameters(slow_mo: float = 1.0):
     print("WAVE DIAGNOSTICS ENABLED")
     print("=" * 70)
     print(f"Expected Wave Speed (c):        {constants.QWAVE_SPEED:.6e} m/s")
-    print(f"Expected Wavelength (λ_q):      {constants.QWAVE_LENGTH:.6e} m")
-    print(f"Expected Frequency (f_q):       {constants.QWAVE_FREQUENCY:.6e} Hz")
+    print(f"Expected Wavelength (λ):      {constants.QWAVE_LENGTH:.6e} m")
+    print(f"Expected Frequency (f):       {constants.QWAVE_FREQUENCY:.6e} Hz")
     print(f"Expected Amplitude (A):         {constants.QWAVE_AMPLITUDE:.6e} m")
 
     if slow_mo > 1.0:

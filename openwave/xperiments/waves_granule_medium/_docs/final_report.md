@@ -89,8 +89,8 @@ This experimental evaluation during simulator development:
 | Symbol | Description | Value |
 |--------|-------------|-------|
 | c | Speed of light (wave speed) | 2.998×10^8 m/s |
-| λ_q | Quantum Wave length | 2.854×10^-17 m (28.54 am) |
-| f_q | Quantum Wave frequency | c/λ_q ≈ 1.05×10^25 Hz |
+| λ | Quantum Wave length | 2.854×10^-17 m (28.54 am) |
+| f | Quantum Wave frequency | c/λ ≈ 1.05×10^25 Hz |
 | A | Quantum Wave amplitude | 9.215×10^-19 m |
 | l_p | Planck length | 1.616×10^-35 m |
 | m_p | Planck mass | 2.17×10^-8 kg |
@@ -636,7 +636,7 @@ Again, exact by construction—we define k in the code.
 | Euler | N/A (crashes) | N/A | Unstable | No (10^-10×) | CFL violation |
 | Leapfrog | N/A (crashes) | N/A | Unstable | No (10^-10×) | CFL violation |
 | XPBD | 0.125c (at 1e5) | Not measured | Stable | Yes | Approx. solver |
-| PSHO | c (exact) | λ_q (exact) | Unconditional | N/A | Expected |
+| PSHO | c (exact) | λ (exact) | Unconditional | N/A | Expected |
 
 ---
 
@@ -650,7 +650,7 @@ $$\text{High frequency} \rightarrow \text{Extreme stiffness} \rightarrow \text{P
 
 For the EWT parameters, the wave frequency is:
 
-$$f_q = 1.05 \times 10^{25} \text{ Hz}$$
+$$f = 1.05 \times 10^{25} \text{ Hz}$$
 
 This yields a spring stiffness coefficient of:
 

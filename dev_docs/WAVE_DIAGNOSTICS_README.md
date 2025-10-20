@@ -75,8 +75,8 @@ if WAVE_DIAGNOSTICS:
 WAVE DIAGNOSTICS ENABLED
 ======================================================================
 Expected Wave Speed (c):        2.997925e+08 m/s
-Expected Wavelength (λ_q):      2.854097e-17 m
-Expected Frequency (f_q):       1.050394e+25 Hz
+Expected Wavelength (λ):      2.854097e-17 m
+Expected Frequency (f):       1.050394e+25 Hz
 Expected Amplitude (A):         9.215406e-19 m
 
 Simulation Parameters:
@@ -338,8 +338,8 @@ The 8-way connectivity for interior granules creates the diagonal coupling that 
 From `/research_requirements/scientific_source/06. Constants and Equations - Waves.pdf`:
 
 - **Quantum Wave Speed**: c = 2.997925×10⁸ m/s (speed of light)
-- **Quantum Wavelength**: λ_q = 2.854097×10⁻¹⁷ m (Planck scale)
-- **Quantum Frequency**: f_q = 1.050394×10²⁵ Hz (extremely high)
+- **Quantum Wavelength**: λ = 2.854097×10⁻¹⁷ m (Planck scale)
+- **Quantum Frequency**: f = 1.050394×10²⁵ Hz (extremely high)
 - **Quantum Amplitude**: A = 9.215406×10⁻¹⁹ m (subatomic scale)
 
 ### Validation Equation
