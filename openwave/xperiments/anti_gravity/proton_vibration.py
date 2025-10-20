@@ -3,7 +3,8 @@ XPERIMENT: [WIP] Proton Vibration for Gravity Attenuation (contact us to join xp
 """
 
 print("=" * 64)
-print("Wanna contribute to the Anti-Gravity Xperiment?")
+print("WIP XPERIMENT: Proton Vibration for Gravity Attenuation")
+print("\nWanna join the Anti-Gravity Xperiment?")
 print("Contact us at www.openwavelabs.com")
 print("=" * 64)
 print("")
