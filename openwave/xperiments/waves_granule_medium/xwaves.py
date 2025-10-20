@@ -43,18 +43,18 @@ SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human vis
 NUM_SOURCES = 9
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
-# Each row represents [x, y, z] coordinates for one source
+# Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0
-    [0.0, 1.0, 1.0],  # Wave Source 1
-    [1.0, 1.0, 0.0],  # Wave Source 2
-    [0.0, 0.0, 1.0],  # Wave Source 3
-    [1.0, 0.0, 0.0],  # Wave Source 4
-    [0.0, 1.0, 0.0],  # Wave Source 5
-    [1.0, 1.0, 1.0],  # Wave Source 6
-    [0.0, 0.0, 0.0],  # Wave Source 7
-    [1.0, 0.0, 1.0],  # Wave Source 8
+    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
+    [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
+    [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner
+    [0.0, 1.0, 0.0],  # Wave Source 3 - Back-bottom-left corner
+    [1.0, 0.0, 0.0],  # Wave Source 4 - Front-bottom-right corner
+    [0.0, 0.0, 1.0],  # Wave Source 5 - Front-top-left corner
+    [1.0, 1.0, 1.0],  # Wave Source 6 - Back-top-right corner
+    [0.0, 0.0, 0.0],  # Wave Source 7 - Front-bottom-left corner
+    [1.0, 1.0, 0.0],  # Wave Source 8 - Back-bottom-right corner
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -83,7 +83,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.00, 1.75, 1.50])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
 
 
 def xperiment_specs():

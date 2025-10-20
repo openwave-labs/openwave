@@ -47,7 +47,8 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     This function handles arbitrary source positions that may change between xperiments.
 
     Args:
-        sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source
+        sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source.
+            Uses Z-up coordinate system: X=horizontal, Y=depth, Z=vertical.
         sources_phase: List of phase offsets (radians) for each wave source
         num_sources: Number of wave sources
         lattice: BCCLattice instance with granule positions and universe parameters

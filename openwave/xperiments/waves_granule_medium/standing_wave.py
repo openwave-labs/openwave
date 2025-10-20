@@ -43,29 +43,29 @@ SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human vis
 NUM_SOURCES = 9
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
-# Each row represents [x, y, z] coordinates for one source
+# Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 # fmt: off
 sources_position1 = [
     [0.5, 0.5, 0.5],
-    [0.0, 1.0, 1.0], [1.0, 1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0],
-    [0.0, 1.0, 0.0], [1.0, 1.0, 1.0], [0.0, 0.0, 0.0], [1.0, 0.0, 1.0]
+    [0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0],
+    [0.0, 0.0, 1.0], [1.0, 1.0, 1.0], [0.0, 0.0, 0.0], [1.0, 1.0, 0.0]
 ]
 sources_position2 = [
-    [0.5, 1, 0.5],
-    [0, 1, 0], [1, 1, 0], [1, 1, 1], [0, 1, 1]
+    [0.5, 0.5, 1],
+    [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]
 ]
 pythag = ti.math.sqrt(2)
 sources_position = [
-    [0.5, 0, 0.5],
-    [0, 1, 0.5],
-    [(pythag*0.5-0.5)/pythag, 1, (pythag*0.5-0.5)/pythag],
-    [0.5, 1, 0],
-    [1-(pythag*0.5-0.5)/pythag, 1, (pythag*0.5-0.5)/pythag],
-    [1, 1, 0.5],
-    [1-(pythag*0.5-0.5)/pythag, 1, 1-(pythag*0.5-0.5)/pythag],
+    [0.5, 0.5, 0],
+    [0, 0.5, 1],
+    [(pythag*0.5-0.5)/pythag, (pythag*0.5-0.5)/pythag, 1],
+    [0.5, 0, 1],
+    [1-(pythag*0.5-0.5)/pythag, (pythag*0.5-0.5)/pythag, 1],
+    [1, 0.5, 1],
+    [1-(pythag*0.5-0.5)/pythag, 1-(pythag*0.5-0.5)/pythag, 1],
     [0.5, 1, 1],
-    [(pythag*0.5-0.5)/pythag, 1, 1-(pythag*0.5-0.5)/pythag]
+    [(pythag*0.5-0.5)/pythag, 1-(pythag*0.5-0.5)/pythag, 1]
 ]
 # fmt: on
 
@@ -95,7 +95,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[0.50, 2.25, 0.50])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[0.50, 0.49, 2.25])  # Initialize the GGUI window
 
 
 def xperiment_specs():
