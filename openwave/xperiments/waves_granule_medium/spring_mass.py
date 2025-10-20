@@ -56,7 +56,7 @@ neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granu
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.0, 1.5, 2.0])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 
 
 def xperiment_specs():
