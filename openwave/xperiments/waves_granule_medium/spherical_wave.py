@@ -108,7 +108,7 @@ def controls():
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -169,7 +169,7 @@ def render_xperiment(lattice):
     granule_type = False  # Granule type coloring toggle
     radius_factor = 0.4  # Initialize granule size factor
     freq_boost = 0.1  # Initialize frequency boost
-    amp_boost = 10.0  # Initialize amplitude boost
+    amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
 
     # Time tracking for radial harmonic oscillation of all granules

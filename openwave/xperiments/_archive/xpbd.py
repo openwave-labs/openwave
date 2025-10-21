@@ -104,7 +104,7 @@ def controls():
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
