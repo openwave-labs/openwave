@@ -183,7 +183,7 @@ def render_xperiment(lattice):
 
     # Print diagnostics header if enabled
     if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+        diagnostics.print_initial_parameters()
 
     while render.window.running:
         # Render UI overlay windows

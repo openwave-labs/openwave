@@ -10,6 +10,7 @@ This module simply confirms the simulation is running with correct parameters.
 This provides zero-overhead diagnostics that can be toggled on/off per experiment.
 """
 
+from openwave.common import config
 from openwave.common import constants
 
 
@@ -47,7 +48,7 @@ def print_wave_diagnostics(
     print("=" * 50)
 
 
-def print_initial_parameters(slow_mo: float = 1.0):
+def print_initial_parameters():
     """Print expected wave parameters at startup.
 
     Args:
@@ -61,13 +62,12 @@ def print_initial_parameters(slow_mo: float = 1.0):
     print(f"Expected Frequency (f):       {constants.QWAVE_FREQUENCY:.6e} Hz")
     print(f"Expected Amplitude (A):         {constants.QWAVE_AMPLITUDE:.6e} m")
 
-    if slow_mo > 1.0:
-        f_slowed = constants.QWAVE_FREQUENCY / slow_mo
-        print()
-        print(f"Simulation Parameters:")
-        print(f"  Slow-motion factor:           {slow_mo:.2e}")
-        print(f"  Effective frequency:          {f_slowed:.2e} Hz")
-        print(f"  (Wave speed and wavelength remain c and λ by construction)")
+    f_slowed = constants.QWAVE_FREQUENCY / config.SLOW_MO
+    print()
+    print(f"Simulation Parameters:")
+    print(f"  Slow-motion factor:           {config.SLOW_MO:.2e}")
+    print(f"  Effective frequency:          {f_slowed:.2e} Hz")
+    print(f"  (Wave speed and wavelength remain c and λ by construction)")
 
     print()
     print("NOTE: Phase-Synchronized Harmonic Oscillation (PSHO) guarantees")

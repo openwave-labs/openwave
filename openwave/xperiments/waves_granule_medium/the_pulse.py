@@ -35,9 +35,6 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
-# slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
-
 # Number of wave sources for this xperiment
 NUM_SOURCES = 1
 
@@ -59,7 +56,7 @@ sources_phase_deg = [
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
-WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
+WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
 # Xperiment UI and overlay windows
@@ -211,7 +208,7 @@ def render_xperiment(lattice):
 
     # Print diagnostics header if enabled
     if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+        diagnostics.print_initial_parameters()
 
     while render.window.running:
         # Render UI overlay windows
@@ -236,7 +233,6 @@ def render_xperiment(lattice):
                 lattice.velocity_am,  # Granule velocity in am/s
                 NUM_SOURCES,  # Number of active wave sources
                 t,
-                SLOW_MO,  # Slow-motion factor for visibility
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )

@@ -3,15 +3,21 @@ Configuration settings for the OpenWave project.
 
 This module provides global configuration parameters for OpenWave simulations:
 
+- Resolution & Magnification Settings
 - Color Schemes (RGBA hex)
 
 Includes commented thermal imaging palette definitions for future use.
 """
 
+from openwave.common import constants
+
 # ================================================================
-# Resolution Definitions
+# Resolution & Magnification Settings
 # ================================================================
 TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
+
+# slow-motion (divides wave frequency for human-visible motion, time microscope)
+SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 
 # ================================================================

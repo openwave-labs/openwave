@@ -11,6 +11,7 @@ Each source generates spherical longitudinal waves that superpose at each granul
 
 import taichi as ti
 
+from openwave.common import config
 from openwave.common import constants
 
 # ================================================================
@@ -109,7 +110,6 @@ def oscillate_granules(
     velocity: ti.template(),  # type: ignore
     num_sources: ti.i32,  # type: ignore
     t: ti.f32,  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
@@ -168,12 +168,11 @@ def oscillate_granules(
         equilibrium: Equilibrium (rest) positions for all granules
         num_sources: Number of wave sources
         t: Current simulation time (accumulated, seconds)
-        slow_mo: Slow motion factor (divides frequency for visualization)
-        freq_boost: Frequency multiplier (applied after slow-mo)
+        freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute temporal parameters (same for all wave sources)
-    f_slowed = frequency / slow_mo * freq_boost
+    f_slowed = frequency / config.SLOW_MO * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Wave number k = 2π/λ (spatial phase variation)

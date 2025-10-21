@@ -52,7 +52,7 @@ import openwave.validations.wave_diagnostics as diagnostics
 
 ```python
 if WAVE_DIAGNOSTICS:
-    diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+    diagnostics.print_initial_parameters()
 ```
 
 ### 4. Print Periodic Diagnostics in Simulation Loop
@@ -190,7 +190,7 @@ diagnostics.print_wave_diagnostics(t, frame, print_interval=1)
 
    ```python
    if WAVE_DIAGNOSTICS:
-       diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+       diagnostics.print_initial_parameters()
    ```
 
 4. Call periodic diagnostics in main loop:
