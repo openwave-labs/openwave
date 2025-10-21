@@ -333,7 +333,7 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
+          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
           <br>X-Waves Xperiment
         </div>
       </td>
@@ -347,14 +347,14 @@ XPERIMENTS are virtual lab scripts where you can play with quantum objects and s
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_radial.png" height="200px" alt="xperiment"></a>
-          <br>Radial Wave Xperiment
+          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
+          <br>Standing Wave Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
           <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Spring-Mass Xperiment (UNSTABLE)
+          <br>Spring-Mass Xperiment
         </div>
       </td>
     </tr>
