@@ -1,5 +1,6 @@
 import math
 
+from openwave.common import config
 from openwave.common import constants
 from openwave.common import equations
 
@@ -11,7 +12,7 @@ QWAVE_FREQUENCY = constants.QWAVE_FREQUENCY
 
 # Current simulation parameters
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e6  # target particle count, granularity (planck scale ~3e54)
+TARGET_GRANULES = config.TARGET_GRANULES  # target granule count
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 

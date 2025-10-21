@@ -35,7 +35,6 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
@@ -47,7 +46,7 @@ STIFFNESS = 1e-13  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
@@ -236,7 +235,7 @@ def render_xperiment(lattice, granule, neighbors):
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-    if TARGET_GRANULES <= 1e3:
+    if lattice.target_granules <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:

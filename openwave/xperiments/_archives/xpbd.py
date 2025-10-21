@@ -24,12 +24,11 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e4  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
+lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
@@ -212,11 +211,11 @@ def render_xperiment(lattice, granule, neighbors):
     # Initialize variables
     show_axis = True  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = True  # Granule type coloring toggle
+    granule_type = False  # Granule type coloring toggle
     show_links = True  # link visualization toggle
     radius_factor = 0.5  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 1.0  # Initialize amplitude boost
+    amp_boost = 5.0  # Initialize amplitude boost
     link_line = None  # Link line buffer
     paused = False  # Pause toggle
 
@@ -231,7 +230,7 @@ def render_xperiment(lattice, granule, neighbors):
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-    if TARGET_GRANULES <= 1e3:
+    if lattice.target_granules <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:

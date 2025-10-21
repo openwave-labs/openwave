@@ -9,6 +9,12 @@ Includes commented thermal imaging palette definitions for future use.
 """
 
 # ================================================================
+# Resolution Definitions
+# ================================================================
+TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
+
+
+# ================================================================
 # Color Definitions (RGBA hex)
 # ================================================================
 BLACK = ["#000000ff", (0.0, 0.0, 0.0)]

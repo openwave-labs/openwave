@@ -72,7 +72,7 @@ def scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
     scene.point_light(pos=(0.5, 0.5, 1.5), color=(1.0, 1.0, 1.0))  # White light from above center
-    scene.point_light(pos=(1.0, 1.0, 1.0), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
+    scene.point_light(pos=(1.2, 1.2, 1.2), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
 
 
 def handle_camera():

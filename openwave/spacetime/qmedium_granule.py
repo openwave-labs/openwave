@@ -65,7 +65,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge, target_granules):
+    def __init__(self, universe_edge):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe edge (size) and target granules are used to define
@@ -73,7 +73,6 @@ class BCCLattice:
 
         Args:
             universe_edge: Simulation domain size, edge length of the cubic universe in meters
-            target_granules: Target number of granules (impacts performance)
         """
         # Compute lattice total energy from quantum-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
@@ -81,13 +80,14 @@ class BCCLattice:
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Set universe properties (simulation domain)
+        self.target_granules = config.TARGET_GRANULES
         self.universe_edge = universe_edge
         self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
         universe_volume = universe_edge**3
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        init_unit_cell_volume = universe_volume / (target_granules / 2)
+        init_unit_cell_volume = universe_volume / (self.target_granules / 2)
         init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
         # Calculate grid dimensions (number of unit cells per dimension)
@@ -717,9 +717,8 @@ if __name__ == "__main__":
     UNIVERSE_EDGE = (
         4 * constants.QWAVE_LENGTH
     )  # m, simulation domain, edge length of cubic universe
-    TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
 
-    lattice = BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
+    lattice = BCCLattice(UNIVERSE_EDGE)
     start_time = time.time()
     lattice_time = time.time() - start_time
 
