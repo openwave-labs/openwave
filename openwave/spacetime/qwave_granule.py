@@ -221,6 +221,7 @@ def oscillate_granules(
             # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
             amplitude_at_r = ti.min(amplitude_uncapped, r)
 
+            # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
             displacement_magnitude = amplitude_at_r * ti.cos(omega * t + total_phase)
             source_displacement = displacement_magnitude * direction
