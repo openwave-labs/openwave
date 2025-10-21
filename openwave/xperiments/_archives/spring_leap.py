@@ -1,19 +1,21 @@
 """
-XPERIMENT: Crossing Waves Harmonic Oscillations
+XPERIMENT: Spring-Mass Wave Oscillation (UNSTABLE)
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
-Demonstrates wave interference from multiple sources in the BCC lattice.
-Each source generates spherical longitudinal waves that superpose at each granule,
-creating constructive and destructive interference patterns.
-
-This XPERIMENT showcases:
-- Multiple wave sources (up to 8, configurable positions)
-- Wave superposition and interference patterns
-- Phase control between sources (constructive/destructive interference)
-- No spring coupling (pure wave propagation)
+eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate size of
+a tesseract) and simulate this artifact energy content, sourced from the element aether.
 """
+
+print(
+    "⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale"
+)
+print(
+    "    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously"
+)
+print("    See working alternative: radial_wave.py (Phase-Synchronized Harmonic Oscillators)")
+print("")
 
 import taichi as ti
 import time
@@ -23,8 +25,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.qmedium_granule as qmedium
-import openwave.spacetime.qwave_granule as qwave
-import openwave.validations.wave_diagnostics as diagnostics
+import openwave.xperiments._archives.qwave_spring_leap as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -39,70 +40,43 @@ TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-# Number of wave sources for this xperiment
-NUM_SOURCES = 9
-
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
-# Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
-# Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
-    [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
-    [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner
-    [0.0, 1.0, 0.0],  # Wave Source 3 - Back-bottom-left corner
-    [1.0, 0.0, 0.0],  # Wave Source 4 - Front-bottom-right corner
-    [0.0, 0.0, 1.0],  # Wave Source 5 - Front-top-left corner
-    [1.0, 1.0, 1.0],  # Wave Source 6 - Back-top-right corner
-    [0.0, 0.0, 0.0],  # Wave Source 7 - Front-bottom-left corner
-    [1.0, 1.0, 0.0],  # Wave Source 8 - Back-bottom-right corner
-]
-
-# Phase offsets for each source (integer degrees, converted to radians internally)
-# Allows creating constructive/destructive interference patterns
-# Only provide NUM_SOURCES entries (only active sources needed)
-# Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    180,  # Wave Source 0 (eg. 0 = in phase)
-    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Wave Source 2
-    0,  # Wave Source 3
-    0,  # Wave Source 4
-    0,  # Wave Source 5
-    0,  # Wave Source 6
-    0,  # Wave Source 7
-    0,  # Wave Source 8
-    0,  # Wave Source 9
-]
+# Note: This is a scaled value for computational feasibility
+# Real physical stiffness causes timestep requirements beyond computational feasibility
+STIFFNESS = 2e-12  # N/m, spring stiffness (tuned for stability and wave speed)
+# STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
+# STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
+# STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
 
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
+neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
-WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Crossing Waves", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Spring-Mass Leapfrog", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("QMedium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
-        sub.text("Coupling: Phase Sync")
-        sub.text(f"QWave Sources: {NUM_SOURCES} Harmonic Oscillators")
-        sub.text("QWave Propagation: Radial from Source")
+        sub.text("Coupling: 8-way neighbors springs")
+        sub.text("QWave Source: 8 Vertex Oscillators")
+        sub.text("QWave Propagation: Spring-Mass Leapfrog")
 
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
         sub.text("--- QUANTUM-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -120,31 +94,26 @@ def data_dashboard():
         sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
 
         sub.text("")
-        sub.text("--- QUANTUM-WAVE ---")
-        sub.text(f"QWAVE Speed (c): {constants.QWAVE_SPEED:.1e} m/s")
-        sub.text(f"QWAVE Wavelength (lambda): {constants.QWAVE_LENGTH:.1e} m")
-        sub.text(f"QWAVE Frequency (f): {constants.QWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"QWAVE Amplitude (A): {constants.QWAVE_AMPLITUDE:.1e} m")
-
-        sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_sources
-    global radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
-        show_sources = sub.checkbox("Show Wave Sources", show_sources)
+        show_links = sub.checkbox("Show Links (<1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
+        # if sub.button("Reset Granule"):
+        #     radius_factor = 1.0
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -181,55 +150,94 @@ def normalize_granule():
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
+def normalize_neighbors_links():
+    """Create & Normalize links to 0-1 range for GGUI rendering"""
+
+    global link_line
+
+    # Prepare link line endpoints
+    max_connections = 0
+
+    # Count total connections for line buffer
+    for i in range(lattice.total_granules):
+        max_connections += neighbors.links_count[i]
+    if max_connections > 0:
+        # Allocate line endpoint buffer (2 points per line)
+        link_line = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+
+    # Create a field to track line index atomically
+    line_counter = ti.field(dtype=ti.i32, shape=())
+
+    @ti.kernel
+    def build_link_line():
+        """Build line endpoints for BCC granule connections."""
+        # Reset counter
+        line_counter[None] = 0
+
+        # Build lines with atomic indexing to ensure correct ordering
+        for i in range(lattice.total_granules):
+            num_links = neighbors.links_count[i]
+            if num_links > 0:
+                # Normalized position (scale back from attometers)
+                pos_i = lattice.position_am[i] / lattice.universe_edge_am
+
+                for j in range(num_links):
+                    neighbor_idx = neighbors.links[i, j]
+                    if neighbor_idx >= 0:  # Valid connection
+                        pos_j = lattice.position_am[neighbor_idx] / lattice.universe_edge_am
+
+                        # Get current line index atomically
+                        line_idx = ti.atomic_add(line_counter[None], 1)
+
+                        # Add line endpoints (from i to j)
+                        if line_idx < max_connections:  # Safety check
+                            link_line[line_idx * 2] = pos_i
+                            link_line[line_idx * 2 + 1] = pos_j
+
+    # Build link lines
+    if max_connections > 0:
+        build_link_line()
+
+
 # ================================================================
 # Xperiment Rendering
 # ================================================================
 
 
-def render_xperiment(lattice):
-    """Render 3D BCC lattice with multiple wave sources using GGUI's 3D scene.
-
-    Visualizes wave superposition from multiple sources, creating interference patterns
-    where waves constructively and destructively combine.
+def render_xperiment(lattice, granule, neighbors):
+    """
+    Render 3D BCC lattice using GGUI's 3D scene.
 
     Args:
-        lattice: Lattice instance with positions, directions, and universe parameters
+        lattice: Lattice instance containing positions and universe parameters.
+        granule: Granule instance for size reference.
+        neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type, show_sources
-    global radius_factor, freq_boost, amp_boost, paused
+    global show_axis, block_slice, granule_type, show_links
+    global radius_factor, freq_boost, paused
+    global link_line
     global normalized_position
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = True  # Granule type coloring toggle
-    show_sources = True  # Show wave sources toggle
-    radius_factor = 1.0  # Initialize granule size factor
+    granule_type = False  # Granule type coloring toggle
+    show_links = False  # link visualization toggle
+    radius_factor = 0.5  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 5.0  # Initialize amplitude boost
+    link_line = None  # Link line buffer
     paused = False  # Pause toggle
 
-    # Time tracking for radial harmonic oscillation of all granules
+    # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
-    frame = 0  # Frame counter for diagnostics
 
-    # Initialize normalized position (0-1 range for GGUI) & block-slicing
+    # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-
-    # Convert phase from degrees to radians for physics calculations
-    # Conversion: radians = degrees × π/180
-    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
-
-    qwave.build_source_vectors(
-        sources_position, sources_phase_rad, NUM_SOURCES, lattice
-    )  # compute distance & direction vectors to all sources
-
-    # Print diagnostics header if enabled
-    if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+    if TARGET_GRANULES <= 1e3:
+        normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:
         # Render UI overlay windows
@@ -245,33 +253,25 @@ def render_xperiment(lattice):
             last_time = current_time
             t += dt_real  # Use real elapsed time instead of fixed DT
 
-            # Apply radial harmonic oscillation to all granules from multiple wave sources
-            # Each granule receives wave contributions from all active sources
-            # Waves superpose creating interference patterns (constructive/destructive)
-            qwave.oscillate_granules(
-                lattice.position_am,  # Granule positions in attometers
-                lattice.equilibrium_am,  # Rest positions for all granules
-                lattice.velocity_am,  # Granule velocity in am/s
-                NUM_SOURCES,  # Number of active wave sources
+            # Update wave propagation (spring-mass dynamics with vertex wave makers)
+            # Using Small Steps strategy: many substeps with single force evaluation each
+            # From "Small Steps in Physics Simulation" paper - error scales as Δt²
+            # Paper uses 30-100 substeps for good balance of stability/performance
+            qwave.propagate_qwave(
+                lattice,
+                granule,
+                neighbors,
+                STIFFNESS,
                 t,
-                SLOW_MO,  # Slow-motion factor for visibility
-                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
-                amp_boost,  # Amplitude visibility boost for scaled lattices
+                dt_real,
+                substeps=100,  # 30-100 recommended (Small Steps strategy)
+                slow_mo=SLOW_MO,  # Slow-motion factor for visibility
+                freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
             )
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
-
-            # Wave diagnostics (minimal footprint)
-            if WAVE_DIAGNOSTICS:
-                diagnostics.print_wave_diagnostics(
-                    t,
-                    frame,
-                    print_interval=100,  # Print every 100 frames
-                )
-
-            frame += 1  # Increment frame counter
         else:
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
@@ -290,13 +290,9 @@ def render_xperiment(lattice):
                 color=config.COLOR_MEDIUM[1],
             )
 
-        # Render the wave sources
-        if show_sources:
-            render.scene.particles(
-                centers=qwave.sources_pos_field,
-                radius=normalized_radius * 2,
-                color=config.COLOR_SOURCE[1],
-            )
+        # Render spring links if enabled and available
+        if show_links and link_line is not None:
+            render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene()
@@ -308,4 +304,4 @@ def render_xperiment(lattice):
 if __name__ == "__main__":
 
     # Render the 3D lattice
-    render_xperiment(lattice)
+    render_xperiment(lattice, granule, neighbors)

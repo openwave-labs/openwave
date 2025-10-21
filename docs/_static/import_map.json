@@ -39,7 +39,7 @@
     "taichi",
     "openwave.common"
   ],
-  "openwave.spacetime.qwave_xwaves": [
+  "openwave.spacetime.qwave_granule": [
     "taichi",
     "openwave.common"
   ],
@@ -60,25 +60,25 @@
   "openwave.validations.wave_diagnostics": [
     "openwave.common"
   ],
-  "openwave.xperiments._archive.qwave_springs_euler": [
+  "openwave.xperiments._archives.qwave_springs_euler": [
     "taichi",
     "openwave.common"
   ],
-  "openwave.xperiments._archive.qwave_xpbd": [
+  "openwave.xperiments._archives.qwave_xpbd": [
     "taichi",
     "numpy",
     "openwave.common"
   ],
-  "openwave.xperiments._archive.spring_euler": [
+  "openwave.xperiments._archives.spring_euler": [
     "taichi",
     "time",
     "openwave.common",
     "openwave.common",
     "openwave._io",
     "openwave.spacetime.qmedium_granule",
-    "openwave.xperiments._archive.qwave_springs_euler"
+    "openwave.xperiments._archives.qwave_springs_euler"
   ],
-  "openwave.xperiments._archive.xpbd": [
+  "openwave.xperiments._archives.xpbd": [
     "taichi",
     "time",
     "openwave.common",
@@ -86,7 +86,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.spacetime.qmedium_granule",
-    "openwave.xperiments._archive.qwave_xpbd"
+    "openwave.xperiments._archives.qwave_xpbd"
   ],
   "openwave.xperiments.waves_granule_medium.pulse": [
     "taichi",
@@ -134,7 +134,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.spacetime.qmedium_granule",
-    "openwave.spacetime.qwave_xwaves",
+    "openwave.spacetime.qwave_granule",
     "openwave.validations.wave_diagnostics"
   ],
   "openwave.xperiments.waves_granule_medium.ztest-standing_wave": [
@@ -144,7 +144,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.spacetime.qmedium_granule",
-    "openwave.spacetime.qwave_xwaves",
+    "openwave.spacetime.qwave_granule",
     "openwave.validations.wave_diagnostics"
   ],
   "openwave.xperiments.waves_granule_medium.ztest-xwaves": [
@@ -154,7 +154,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.spacetime.qmedium_granule",
-    "openwave.spacetime.qwave_xwaves",
+    "openwave.spacetime.qwave_granule",
     "openwave.validations.wave_diagnostics"
   ]
 }

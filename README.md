@@ -90,10 +90,8 @@ class `SPACETIME MODULE
     qmedium_granule.py ✓
     ---
     QUANTUM-WAVE [Physics Engines]
-    *WIP*: qwave_flow.py
-    qwave_radial.py ✓
-    qwave_springs.py ✓
-    qwave_xwaves.py ✓}
+    *WIP*: qwave_field.py
+    qwave_granule.py ✓}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -162,10 +160,11 @@ class `HEAT MODULE
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     GRANULE-BASED MEDIUM
+    - aether_vibration.py✓
     - pulse.py ✓
-    - radial_wave.py ✓
     - spherical_wave.py ✓
-    - spring_mass.py ✓
+    - standing_wave.py ✓
+    - superposing_wave.py ✓
     - xwaves.py ✓
     ---
     FIELD-BASED MEDIUM
@@ -243,22 +242,19 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - qmedium_field.py
-      - qwave_flow.py
+      - qwave_field.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
       - qmedium_granule.py
-      - qwave_radial.py
-      - qwave_springs.py
-      - qwave_xpbd.py
-      - qwave_xwaves.py]
+      - qwave_granule.py]
     [**XPERIMENTS MODULE**
+      - aether_vibration.py
       - pulse.py
-      - radial_wave.py
       - spherical_wave.py
-      - spring_mass.py
-      - xpbd.py
+      - standing_wave.py
+      - superposing_wave.py
       - xwaves.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py

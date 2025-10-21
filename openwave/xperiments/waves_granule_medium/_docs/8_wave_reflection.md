@@ -1,6 +1,6 @@
 # Wave Reflection Planning
 
-- using the files xwaves.py and qwave_xwaves.py as initial references, that simulates wave superposition
+- using the files xwaves.py and qwave_granule.py as initial references, that simulates wave superposition
 - i need to simulate wave reflection, to a boundary wall or maybe an object inside the simulation universe
 - we would need to have collision logic and invert the velocity vector?
 - but since we don't use the velocity vector in the x_wave logic, it uses a kinematic approach, not a force base approach (like am euler simplectic model) where we integrate position based on velocity at each frame
@@ -13,7 +13,7 @@ traditional collision response (velocity inversion) not directly applicable.
 
 Analysis of Current Approach
 
-From xwaves.py and qwave_xwaves.py, the waves use:
+From xwaves.py and qwave_granule.py, the waves use:
 
 - Kinematic position updates: Direct position manipulation based on wave equations
 - Phase-based propagation: Position changes driven by wave phase evolution

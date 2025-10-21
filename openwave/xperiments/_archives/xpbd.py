@@ -1,31 +1,20 @@
 """
-XPERIMENT: Spring-Mass Wave Oscillation (UNSTABLE)
+XPERIMENT: XPBD Quantum-Wave Oscillation
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
-
-eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate size of
-a tesseract) and simulate this artifact energy content, sourced from the element aether.
 """
-
-print(
-    "⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale"
-)
-print(
-    "    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously"
-)
-print("    See working alternative: radial_wave.py (Phase-Synchronized Harmonic Oscillators)")
-print("")
 
 import taichi as ti
 import time
 
 from openwave.common import config
 from openwave.common import constants
+from openwave.common import equations
 from openwave._io import render
 
 import openwave.spacetime.qmedium_granule as qmedium
-import openwave.spacetime.qwave_springs as qwave
+import openwave.xperiments._archives.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -35,21 +24,24 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
+TARGET_GRANULES = 1e4  # target particle count, granularity (impacts performance)
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-# Note: This is a scaled value for computational feasibility
-# Real physical stiffness causes timestep requirements beyond computational feasibility
-STIFFNESS = 2e-12  # N/m, spring stiffness (tuned for stability and wave speed)
-# STIFFNESS = constants.COULOMB_CONSTANT / constants.PLANCK_LENGTH  # 5.6e44 N/m
-# STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
-# STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
-
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
+
+# PHYSICAL STIFFNESS (calculated for speed of light wave propagation)
+# With XPBD, we can finally use REAL physical values!
+# Using EWT spring-mass equation: k = (2πf_n)² * m
+# where f_n = natural frequency = c/λ_lattice
+# For wave propagation at speed c in lattice with spacing L:
+#   λ_lattice ≈ 2L (minimum resolvable wavelength)
+#   f_n = c / (2L)
+# For 79x79x79 grid (1M particles): k ≈ 2.66e21 N/m
+STIFFNESS = equations.stiffness_from_frequency(neighbors.natural_frequency, granule.mass)
 
 
 # ================================================================
@@ -61,12 +53,12 @@ render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spring-Mass Leapfrog", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: XPBD Quantum-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("QMedium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
-        sub.text("Coupling: 8-way neighbors springs")
+        sub.text("Coupling: 8-way distance constraints")
         sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Leapfrog")
+        sub.text("QWave Propagation: XPBD")
 
 
 def data_dashboard():
@@ -76,6 +68,7 @@ def data_dashboard():
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
@@ -96,24 +89,22 @@ def data_dashboard():
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
-        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
 
 
 def controls():
     """Render the controls UI overlay."""
     global show_axis, block_slice, granule_type, show_links
-    global radius_factor, freq_boost, paused
+    global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
-        # if sub.button("Reset Granule"):
-        #     radius_factor = 1.0
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -214,23 +205,27 @@ def render_xperiment(lattice, granule, neighbors):
         neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
     global show_axis, block_slice, granule_type, show_links
-    global radius_factor, freq_boost, paused
+    global radius_factor, freq_boost, amp_boost, paused
     global link_line
     global normalized_position
 
     # Initialize variables
-    show_axis = False  # Toggle to show/hide axis lines
+    show_axis = True  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = False  # Granule type coloring toggle
-    show_links = False  # link visualization toggle
+    granule_type = True  # Granule type coloring toggle
+    show_links = True  # link visualization toggle
     radius_factor = 0.5  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
+    amp_boost = 1.0  # Initialize amplitude boost
     link_line = None  # Link line buffer
     paused = False  # Pause toggle
 
     # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
+
+    # Initialize wave diagnostics
+    qwave.init_wave_diagnostics(measurement_interval=1.0)
 
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
@@ -253,20 +248,26 @@ def render_xperiment(lattice, granule, neighbors):
             last_time = current_time
             t += dt_real  # Use real elapsed time instead of fixed DT
 
-            # Update wave propagation (spring-mass dynamics with vertex wave makers)
-            # Using Small Steps strategy: many substeps with single force evaluation each
-            # From "Small Steps in Physics Simulation" paper - error scales as Δt²
-            # Paper uses 30-100 substeps for good balance of stability/performance
+            # Update wave propagation using XPBD constraint solver
+            # XPBD = Extended Position-Based Dynamics (unconditionally stable!)
+            # Following "Small Steps" + "Unified Particle Physics" papers:
+            # - 100 substeps with 1 iteration each (error scales as Δt²)
+            # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
+            # - SOR omega=1.5 for faster convergence
+            # - Damping=0.999 per substep (explicit dissipation)
             qwave.propagate_qwave(
                 lattice,
                 granule,
                 neighbors,
-                STIFFNESS,
+                STIFFNESS,  # REAL physical value!
                 t,
                 dt_real,
-                substeps=100,  # 30-100 recommended (Small Steps strategy)
+                substeps=100,  # 100 recommended from papers
+                damping=0.999,  # 0.1% energy loss per substep
+                omega=1.5,  # SOR parameter for faster convergence
                 slow_mo=SLOW_MO,  # Slow-motion factor for visibility
                 freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost=amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)
@@ -275,6 +276,15 @@ def render_xperiment(lattice, granule, neighbors):
         else:
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
+
+        # Probe wave diagnostics (measurements happen automatically at configured interval)
+        qwave.probe_wave_diagnostics(
+            lattice,
+            neighbors,
+            t,
+            current_time,
+            SLOW_MO / freq_boost,
+        )
 
         # Render granules with optional type-coloring
         if granule_type:

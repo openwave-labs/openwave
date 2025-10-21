@@ -15,4 +15,4 @@ openwave.spacetime
    qwave_flow
    qwave_radial
    qwave_springs
-   qwave_xwaves
+   qwave_granule

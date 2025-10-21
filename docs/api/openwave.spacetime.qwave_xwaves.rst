@@ -1,7 +1,7 @@
 openwave.spacetime.qwave\_xwaves
 ================================
 
-.. automodule:: openwave.spacetime.qwave_xwaves
+.. automodule:: openwave.spacetime.qwave_granule
 
    
    .. rubric:: Functions
