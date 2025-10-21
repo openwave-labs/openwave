@@ -33,44 +33,38 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_EDGE = 6 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 9
+NUM_SOURCES = 19
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-circle_factor = (ti.math.sqrt(2) * 0.5 - 0.5) / ti.math.sqrt(2)  # ~0.2071
-sources_position = [
-    [0.5, 0.5, 1],
-    [0, 0.5, 1],
-    [circle_factor, circle_factor, 1],
-    [0.5, 0, 1],
-    [1 - circle_factor, circle_factor, 1],
-    [1, 0.5, 1],
-    [1 - circle_factor, 1 - circle_factor, 1],
-    [0.5, 1, 1],
-    [circle_factor, 1 - circle_factor, 1],
-]
+z_position = [1.0]  # Initialize Z positions
+sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at center top
+# Generate positions for remaining sources in a circle around center top
+for i in range(NUM_SOURCES - 1):
+    sources_position.append(
+        [
+            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
+            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
+            z_position[0],
+        ]
+    )
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    180,  # Wave Source 0 (eg. 0 = in phase)
-    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Wave Source 2
-    0,  # Wave Source 3
-    0,  # Wave Source 4
-    0,  # Wave Source 5
-    0,  # Wave Source 6
-    0,  # Wave Source 7
-    0,  # Wave Source 8
-    0,  # Wave Source 9
-]
 
+
+sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
+# Generate phase for remaining sources in a circle around center top
+for i in range(NUM_SOURCES - 1):
+    sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
+
+# Instantiate the BCC lattice and granule objects
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
@@ -203,7 +197,7 @@ def render_xperiment(lattice):
     show_sources = True  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 2.5  # Initialize amplitude boost
+    amp_boost = 1.5  # Initialize amplitude boost
     paused = False  # Pause toggle
 
     # Time tracking for radial harmonic oscillation of all granules

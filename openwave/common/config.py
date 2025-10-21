@@ -15,10 +15,7 @@ from openwave.common import constants
 # Resolution & Magnification Settings
 # ================================================================
 TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
-
-# slow-motion (divides wave frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
-
 
 # ================================================================
 # Color Definitions (RGBA hex)
@@ -51,13 +48,10 @@ COLOR_PHOTON = YELLOW  # photons
 COLOR_HEAT = RED  # heat, thermal energy
 COLOR_ENERGY = PURPLE  # energy, energy packets
 
-
 # ================================================================
 # Granule Type Classification & Colors
 # ================================================================
 # Granule types identify position within BCC lattice structure
-# Used for visualization, analysis, and debugging lattice topology
-
 # Type constants (integer values for GPU compatibility)
 TYPE_VERTEX = 0  # 8 corner vertices of the lattice cube
 TYPE_EDGE = 1  # 12 edges of the lattice cube

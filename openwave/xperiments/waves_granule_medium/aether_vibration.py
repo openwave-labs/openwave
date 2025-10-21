@@ -70,6 +70,7 @@ sources_phase_deg = [
     0,  # Wave Source 9
 ]
 
+# Instantiate the BCC lattice and granule objects
 lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
 granule = qmedium.BCCGranule(lattice.unit_cell_edge)
 
