@@ -101,7 +101,7 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_links = sub.checkbox("Show Links (<1k granules)", show_links)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
