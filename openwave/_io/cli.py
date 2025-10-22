@@ -131,7 +131,7 @@ def get_experiments_list():
                             group.replace("__", ": ").replace("_", " ").replace("-", " ").title()
                         )
 
-                    experiments.append((f"─── /{group_display}\ ───", None))  # group header
+                    experiments.append((f"─── /{group_display}/ ───", None))  # group header
 
                 # Indent all items under group
                 formatted_name = f"  → {display_name}"
