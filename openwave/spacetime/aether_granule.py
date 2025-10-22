@@ -38,9 +38,7 @@ class SCGranule:
             unit_cell_edge: Edge length of the SC unit-cell in meters.
         """
         self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
-        self.mass = (
-            constants.MEDIUM_DENSITY * unit_cell_edge**3
-        )  # mass = medium density * scaled unit cell volume / 1 granule per SC unit-cell
+        self.mass = constants.MEDIUM_DENSITY * unit_cell_edge**3  # medium density * cell volume
 
 
 @ti.data_oriented
@@ -87,17 +85,14 @@ class SCLattice:
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # SC has 1 granule per unit cell
-        init_unit_cell_volume = universe_volume / self.target_granules
-        init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
+        self.unit_cell_volume = universe_volume / self.target_granules
+        self.unit_cell_edge = self.unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
         # Calculate grid dimensions (number of unit cells per dimension)
         # Round to nearest odd integer for symmetric grid
-        self.raw_size = universe_edge / init_unit_cell_edge
-        floor = int(self.raw_size)
-        self.grid_size = floor if floor % 2 == 1 else floor + 1
+        self.grid_size = int(universe_edge / self.unit_cell_edge)
 
         # Recompute unit-cell edge length based on rounded grid size and scale factor
-        self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
