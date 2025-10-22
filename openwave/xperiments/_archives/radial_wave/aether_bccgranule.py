@@ -242,7 +242,7 @@ class BCCLattice:
 
                 # Check if this is the exact central granule (only for odd grid_size)
                 if i == half_grid and j == half_grid and k == half_grid:
-                    self.granule_type[idx] = config.TYPE_CENTER
+                    self.granule_type[idx] = 4
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
                     self.granule_type[idx] = config.TYPE_CORE
@@ -267,7 +267,7 @@ class BCCLattice:
         # Process all granules in the lattice
         for idx in range(self.total_granules):
             # Special case: Central granule should have zero distance and no direction
-            if self.granule_type[idx] == config.TYPE_CENTER:
+            if self.granule_type[idx] == 4:
                 # Central granule: zero distance, arbitrary direction (won't be used)
                 self.center_direction[idx] = ti.Vector([0.0, 0.0, 0.0])
                 self.center_distance_am[idx] = 0.0
@@ -350,7 +350,7 @@ class BCCLattice:
                 config.COLOR_EDGE[1],  # TYPE_EDGE = 1
                 config.COLOR_FACE[1],  # TYPE_FACE = 2
                 config.COLOR_CORE[1],  # TYPE_CORE = 3
-                config.COLOR_CENTER[1],  # TYPE_CENTER = 4
+                config.BLACK[1],  # TYPE_CENTER = 4
             ]
         )
 
@@ -412,7 +412,7 @@ class BCCLattice:
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    if self.granule_type[idx] != config.TYPE_CENTER:
+                    if self.granule_type[idx] != 4:
                         self.granule_color[idx] = ti.Vector(
                             [probe_color[0], probe_color[1], probe_color[2]]
                         )
@@ -448,7 +448,7 @@ class BCCLattice:
 
         # Process all granules in parallel
         for idx in range(self.total_granules):
-            if self.granule_type[idx] != config.TYPE_CENTER:
+            if self.granule_type[idx] != 4:
                 pos = self.position_am[idx]
 
                 # Check if granule is on one of the exposed planes and mark field circles

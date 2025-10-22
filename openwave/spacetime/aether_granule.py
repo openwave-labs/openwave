@@ -196,10 +196,8 @@ class BCCLattice:
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
-        - CENTER (4): Single granule at exact center of lattice
         """
         corner_count = (self.grid_size + 1) ** 3
-        half_grid = self.grid_size // 2
 
         for idx in range(self.total_granules):
             if idx < corner_count:
@@ -227,18 +225,8 @@ class BCCLattice:
                 else:
                     self.granule_type[idx] = config.TYPE_CORE
             else:
-                # Center granule: decode position with offset
-                center_idx = idx - corner_count
-                i = center_idx // (self.grid_size * self.grid_size)
-                j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
-                k = center_idx % self.grid_size
-
-                # Check if this is the exact central granule (only for odd grid_size)
-                if i == half_grid and j == half_grid and k == half_grid:
-                    self.granule_type[idx] = config.TYPE_CENTER
-                else:
-                    # Center granules are always in core (offset by 0.5 means never on boundary)
-                    self.granule_type[idx] = config.TYPE_CORE
+                # Center granules are always in core (offset by 0.5 means never on boundary)
+                self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
     def find_front_octant(self):
@@ -270,7 +258,6 @@ class BCCLattice:
                 config.COLOR_EDGE[1],  # TYPE_EDGE = 1
                 config.COLOR_FACE[1],  # TYPE_FACE = 2
                 config.COLOR_CORE[1],  # TYPE_CORE = 3
-                config.COLOR_CENTER[1],  # TYPE_CENTER = 4
             ]
         )
 
@@ -332,10 +319,9 @@ class BCCLattice:
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    if self.granule_type[idx] != config.TYPE_CENTER:
-                        self.granule_color[idx] = ti.Vector(
-                            [probe_color[0], probe_color[1], probe_color[2]]
-                        )
+                    self.granule_color[idx] = ti.Vector(
+                        [probe_color[0], probe_color[1], probe_color[2]]
+                    )
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -368,60 +354,59 @@ class BCCLattice:
 
         # Process all granules in parallel
         for idx in range(self.total_granules):
-            if self.granule_type[idx] != config.TYPE_CENTER:
-                pos = self.position_am[idx]
+            pos = self.position_am[idx]
 
-                # Check if granule is on one of the exposed planes and mark field circles
-                # YZ plane (x at boundary)
-                if (
-                    ti.abs(pos[0] - half_universe) < plane_tolerance
-                    and pos[1] > half_universe
-                    and pos[2] > half_universe
-                ):
-                    # Calculate 2D distance in YZ plane
-                    dy = pos[1] - center_pos[1]
-                    dz = pos[2] - center_pos[2]
-                    dist_2d = ti.sqrt(dy * dy + dz * dz)
+            # Check if granule is on one of the exposed planes and mark field circles
+            # YZ plane (x at boundary)
+            if (
+                ti.abs(pos[0] - half_universe) < plane_tolerance
+                and pos[1] > half_universe
+                and pos[2] > half_universe
+            ):
+                # Calculate 2D distance in YZ plane
+                dy = pos[1] - center_pos[1]
+                dz = pos[2] - center_pos[2]
+                dist_2d = ti.sqrt(dy * dy + dz * dz)
 
-                    # Check if on a target circle
-                    for n in range(1, num_circles + 1):
-                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                            self.granule_color[idx] = field_color
-                            break
+                # Check if on a target circle
+                for n in range(1, num_circles + 1):
+                    if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                        self.granule_color[idx] = field_color
+                        break
 
-                # XZ plane (y at boundary)
-                elif (
-                    ti.abs(pos[1] - half_universe) < plane_tolerance
-                    and pos[0] > half_universe
-                    and pos[2] > half_universe
-                ):
-                    # Calculate 2D distance in XZ plane
-                    dx = pos[0] - center_pos[0]
-                    dz = pos[2] - center_pos[2]
-                    dist_2d = ti.sqrt(dx * dx + dz * dz)
+            # XZ plane (y at boundary)
+            elif (
+                ti.abs(pos[1] - half_universe) < plane_tolerance
+                and pos[0] > half_universe
+                and pos[2] > half_universe
+            ):
+                # Calculate 2D distance in XZ plane
+                dx = pos[0] - center_pos[0]
+                dz = pos[2] - center_pos[2]
+                dist_2d = ti.sqrt(dx * dx + dz * dz)
 
-                    # Check if on a target circle
-                    for n in range(1, num_circles + 1):
-                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                            self.granule_color[idx] = field_color
-                            break
+                # Check if on a target circle
+                for n in range(1, num_circles + 1):
+                    if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                        self.granule_color[idx] = field_color
+                        break
 
-                # XY plane (z at boundary)
-                elif (
-                    ti.abs(pos[2] - half_universe) < plane_tolerance
-                    and pos[0] > half_universe
-                    and pos[1] > half_universe
-                ):
-                    # Calculate 2D distance in XY plane
-                    dx = pos[0] - center_pos[0]
-                    dy = pos[1] - center_pos[1]
-                    dist_2d = ti.sqrt(dx * dx + dy * dy)
+            # XY plane (z at boundary)
+            elif (
+                ti.abs(pos[2] - half_universe) < plane_tolerance
+                and pos[0] > half_universe
+                and pos[1] > half_universe
+            ):
+                # Calculate 2D distance in XY plane
+                dx = pos[0] - center_pos[0]
+                dy = pos[1] - center_pos[1]
+                dist_2d = ti.sqrt(dx * dx + dy * dy)
 
-                    # Check if on a target circle
-                    for n in range(1, num_circles + 1):
-                        if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                            self.granule_color[idx] = field_color
-                            break
+                # Check if on a target circle
+                for n in range(1, num_circles + 1):
+                    if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
+                        self.granule_color[idx] = field_color
+                        break
 
 
 if __name__ == "__main__":
