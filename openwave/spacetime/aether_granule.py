@@ -431,14 +431,14 @@ class SCGranule:
 class SCLattice:
     """
     Simple Cubic (SC) lattice for spacetime simulation.
-    SC topology: cubic unit cells with one granule at each corner.
+    SC topology: cubic unit cells with one granule at each corner (no center granules).
     Less efficient packing than body-centered cubic (52% vs 68% space filling).
 
     Performance Design: 1D Arrays with 3D Vectors
     - Memory: Contiguous layout, perfect cache line utilization (64-byte alignment)
     - Compute: Single loop parallelization, no index arithmetic (vs i*dim²+j*dim+k)
     - GPU: Direct thread mapping (thread_i→granule_i), coalesced memory access
-    - SC Lattice: Uniform treatment of corner+center granules in single array
+    - SC Lattice: All granules stored in single 1D array (corner granules only)
     Benefits:
     - Simpler updates: One kernel updates all granules
     - Cleaner code: No need to manage multiple arrays
