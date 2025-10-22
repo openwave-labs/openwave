@@ -9,7 +9,7 @@ XPBD Implementation based on:
 1. "Small Steps in Physics Simulation" - Macklin & Müller (2019)
 2. "Unified Particle Physics for Real-Time Applications" - Macklin et al. (2014)
 
-Key advantages of XPBD for quantum lattice:
+Key advantages of XPBD for aether lattice:
 - Unconditionally stable (handles extreme stiffness)
 - Correct wave propagation at speed of light
 - No frequency mismatch issues
@@ -519,7 +519,7 @@ def probe_wave_diagnostics(
                     f"Measured / 2L:        {wavelength_data['wavelength_am']/(2*neighbors.rest_length_am):.2f}x"
                 )
                 print(
-                    f"Measured / λ_quantum: {wavelength_data['wavelength_am']/(constants.EWAVE_LENGTH/constants.ATTOMETTER):.2f}x"
+                    f"Measured / λ: {wavelength_data['wavelength_am']/(constants.EWAVE_LENGTH/constants.ATTOMETTER):.2f}x"
                 )
             else:
                 print(

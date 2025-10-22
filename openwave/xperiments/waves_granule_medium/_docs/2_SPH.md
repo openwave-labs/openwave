@@ -2,7 +2,7 @@
 
 Reviewing paper - "Granule-Medium Fluid Simulation for Interactive Applications" (the original SPH fluids paper by Müller et al., 2003). This is a classic foundational paper on SPH for computer graphics.
 
-Let me analyze what's relevant to your XPBD implementation for the quantum lattice:
+Let me analyze what's relevant to your XPBD implementation for the aether lattice:
 
 Key Analysis: Why This Paper is NOT Directly Applicable
 
@@ -21,7 +21,7 @@ SPH vs XPBD for Your Lattice
 
 Why You Should NOT Use SPH
 
-Your quantum lattice has:
+Your aether lattice has:
 
 - ✅ Fixed 8 neighbors per granule (BCC connectivity)
 - ✅ Constant spacing (rest length L₀)

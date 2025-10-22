@@ -304,9 +304,9 @@ Creates apparent "corkscrew" pattern in wavefront
 
 ### Is This Physically Correct?
 
-**Yes!** For EWT quantum aether modeled as a BCC lattice:
+**Yes!** For EWT subatomic aether modeled as a BCC lattice:
 
-1. **Discrete Structure**: Real quantum aether has discrete granules, not continuous medium
+1. **Discrete Structure**: Real subatomic aether has discrete granules, not continuous medium
 2. **Lattice Anisotropy**: BCC structure has preferential directions (body diagonals)
 3. **Wave Scattering**: Waves propagating through discrete lattice will show diffraction effects
 4. **Realistic Behavior**: Actual wave coupling (XPBD, spring methods) would show even more pronounced lattice effects
@@ -339,8 +339,8 @@ From `/research_requirements/scientific_source/06. Constants and Equations - Wav
 
 - **Energy Wave Speed**: c = 2.997925×10⁸ m/s (speed of light)
 - **Energy Wavelength**: λ = 2.854097×10⁻¹⁷ m (Planck scale)
-- **Quantum Frequency**: f = 1.050394×10²⁵ Hz (extremely high)
-- **Quantum Amplitude**: A = 9.215406×10⁻¹⁹ m (subatomic scale)
+- **EWave Frequency**: f = 1.050394×10²⁵ Hz (extremely high)
+- **EWave Amplitude**: A = 9.215406×10⁻¹⁹ m (subatomic scale)
 
 ### Validation Equation
 

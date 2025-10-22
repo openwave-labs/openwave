@@ -1,6 +1,6 @@
 # SUMMARY
 
-**Key Breakthrough**: Discovered that force-based integration methods (Euler, Leapfrog) and constraint-based methods (XPBD) are fundamentally inadequate for quantum-scale wave simulation due to numerical instability and the "impossible triangle" problem. Solution: Phase-Synchronized Harmonic Oscillators (PSHO) - directly computing positions from wave equations rather than integrating forces.
+**Key Breakthrough**: Discovered that force-based integration methods (Euler, Leapfrog) and constraint-based methods (XPBD) are fundamentally inadequate for subatomic-scale wave simulation due to numerical instability and the "impossible triangle" problem. Solution: Phase-Synchronized Harmonic Oscillators (PSHO) - directly computing positions from wave equations rather than integrating forces.
 
 ![alt text](images/demo2.gif)
 ![alt text](images/demo3.gif)
@@ -105,7 +105,7 @@ I'm very happy with this (and my GPU as well, its also easier on computational l
 
 moved from:
 
-- ❌ Force mechanics paradigm: Forces → Accelerations → Velocities → Positions (breaks down at quantum scale)
+- ❌ Force mechanics paradigm: Forces → Accelerations → Velocities → Positions (breaks down at subatomic scale)
 - ✅ Wave mechanics paradigm: Phase relationships → Direct position calculation (works perfectly!)
 
 ```python
@@ -144,9 +144,9 @@ The Journey / evolution:
 3. XPBD Constraints → Stable but slow waves (~8x too slow)
 4. Phase-Synchronized Oscillators → ✅ Perfect waves!
 
-This is actually a profound realization: You can't simulate wave phenomena using particle mechanics at quantum scales - you need to simulate them as waves!
+This is actually a profound realization: You can't simulate wave phenomena using particle mechanics at subatomic scales - you need to simulate them as waves!
 
-This validates EWT's wave-centric view - phase relationships are more fundamental than forces at quantum scale
+This validates EWT's wave-centric view - phase relationships are more fundamental than forces at subatomic scale
 
 ![alt text](images/x_wave.png)
 

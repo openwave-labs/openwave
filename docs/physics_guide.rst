@@ -21,7 +21,7 @@ The foundation of EWT is the energy wave, characterized by:
 Granular Spacetime
 ~~~~~~~~~~~~~~~~~~
 
-Spacetime is modeled as a lattice of quantum granules with:
+Spacetime is modeled as a lattice of Aether Granules with:
 
 - **Granule spacing**: Planck length
 - **Granule mass**: Corrected Planck mass (see scientific_source/a4)

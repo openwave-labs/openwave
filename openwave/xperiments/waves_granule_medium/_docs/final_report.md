@@ -34,7 +34,7 @@ The PSHO approach succeeded: we directly compute particle positions from the ana
 
 ### 1.1 Development Context
 
-During development of the OpenWave energy wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "aether medium" made of Planck-scale particles could explain quantum phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
+During development of the OpenWave energy wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "aether medium" made of Planck-scale particles could explain subatomic phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
 
 The hypothetical parameters from EWT create an unusually stiff numerical scenario:
 
@@ -195,7 +195,7 @@ We model the aether medium aether as a Body-Centered Cubic (BCC) lattice:
 
 ### 4.1 Computational Framework
 
-The experimental investigation was conducted using the OpenWave simulator, a specialized computational framework developed for quantum-scale wave dynamics simulation. The implementation utilizes Python with Taichi Lang GPU acceleration to achieve the computational throughput necessary for large-scale granular simulations.
+The experimental investigation was conducted using the OpenWave simulator, a specialized computational framework developed for subatomic-scale wave dynamics simulation. The implementation utilizes Python with Taichi Lang GPU acceleration to achieve the computational throughput necessary for large-scale granular simulations.
 
 The simulator architecture comprises five primary computational modules:
 
@@ -221,7 +221,7 @@ To achieve computationally feasible simulations while maintaining physical relev
 
 **Temporal Scaling:**
 
-To enable visualization of quantum-scale dynamics, we implemented a temporal scaling factor:
+To enable visualization of subatomic-scale dynamics, we implemented a temporal scaling factor:
 
 - Slow-motion factor: 1×10^25
 - Effective frequency reduction: 1.05×10^25 Hz → ~1 Hz

@@ -20,7 +20,7 @@ import openwave.xperiments._archives.energy_wave_xpbd as ewave
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 # ================================================================
-# Xperiment Parameters & Quantum Objects Instantiation
+# Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe

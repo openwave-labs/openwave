@@ -72,7 +72,7 @@ Key Differences:
 | Best for       | Cloth, ropes, bodies       | Liquids, gases          | Snow, sand, elastoplastic |
 
 ---
-How They Relate to Your Quantum Lattice:
+How They Relate to Your aether lattice:
 
 Your BCC Lattice Structure:
 
@@ -118,7 +118,7 @@ Geometric Constraint Solving (CAD software)
 - XPBD: "These particles must be distance L apart"
 
 ---
-For Your Quantum Lattice:
+For Your aether lattice:
 
 XPBD is the right choice because:
 
@@ -207,7 +207,7 @@ Why XPBD is Better for Stiff Systems:
 3. Local - solves one constraint at a time
 4. Handles inequality constraints easily (contacts, friction)
 
-For Your Quantum Simulation:
+For Your Subatomic Simulation:
 
 You have two viable paths:
 
@@ -817,7 +817,7 @@ positions[i] += (ω / count[i]) * delta[i]
 # ω = 2.0  → Maximum over-relaxation (may diverge)
 ```
 
-**For your quantum lattice**: Try ω = 1.5 to accelerate convergence with 8-neighbor connectivity.
+**For your aether lattice**: Try ω = 1.5 to accelerate convergence with 8-neighbor connectivity.
 
 ---
 
@@ -866,7 +866,7 @@ def apply_sleeping(epsilon: float):
             positions[i] = x_star[i]  # Apply new position
 ```
 
-**For your quantum lattice**:
+**For your aether lattice**:
 
 - Not needed for active wave region (vertices always moving)
 - Could be useful for large lattice to "freeze" distant granules
@@ -895,7 +895,7 @@ for iteration in range(solver_iterations):
 
 **Benefit**: Propagates corrections faster → fewer iterations needed.
 
-**For your quantum lattice**:
+**For your aether lattice**:
 
 - Start with single group (all distance constraints)
 - If convergence slow, split by spatial regions
@@ -918,7 +918,7 @@ velocities[i] *= damping_factor
 # damping = 1.0    → No damping (conservative, may oscillate)
 ```
 
-**For your quantum lattice**: Start with `damping = 0.999` (per substep).
+**For your aether lattice**: Start with `damping = 0.999` (per substep).
 
 ---
 
@@ -1075,7 +1075,7 @@ for particle in particles:  # Parallel
 4. **Particle-centric** gather better than constraint-centric scatter
 5. **Real-time capable** even with complex constraint networks
 
-### Application to Quantum Lattice
+### Application to aether lattice
 
 **Your BCC lattice is structurally identical to cloth simulation**:
 

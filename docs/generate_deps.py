@@ -47,7 +47,7 @@ def generate_pydeps_graph():
         "constants",
         "config",
         "equations",
-        "quantum_space",
+        "aether_medium",
         "energy_wave",
         "forces",
         "heat",

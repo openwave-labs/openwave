@@ -711,7 +711,7 @@ if __name__ == "__main__":
     ti.init(arch=ti.gpu)
 
     # ================================================================
-    # Parameters & Quantum Objects Instantiation
+    # Parameters & Subatomic Objects Instantiation
     # ================================================================
 
     UNIVERSE_EDGE = (

@@ -9,7 +9,7 @@ a tesseract) and simulate this artifact energy content, sourced from the element
 """
 
 print(
-    "⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at quantum scale"
+    "⚠️  UNSTABLE: Demonstrates 'The Impossible Triangle' - force-based integration fails at subatomic scale"
 )
 print(
     "    Cannot achieve: Realistic Stiffness + Numerical Stability + Human-Visible Motion simultaneously"
@@ -31,7 +31,7 @@ import openwave.xperiments._archives.energy_wave_spring_euler as ewave
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 # ================================================================
-# Xperiment Parameters & Quantum Objects Instantiation
+# Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
 
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe

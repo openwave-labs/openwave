@@ -293,7 +293,7 @@ def cli_main():
     Handles command-line arguments and routes to appropriate functionality.
     """
     parser = argparse.ArgumentParser(
-        description="OpenWave - Quantum Physics Simulator",
+        description="OpenWave - Subatomic Simulator",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 

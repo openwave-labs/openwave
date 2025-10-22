@@ -224,7 +224,7 @@ But this is 11 orders of magnitude softer than your already-reduced value!
 Option 3: Accept This Phase Isn't Ready
 
 Document in dynamics_plan.md that spring-mass propagation hits computational limits at Planck scale. The Small Steps paper works great
-for cloth/soft bodies, but can't overcome the fundamental barrier for ultra-stiff quantum springs.
+for cloth/soft bodies, but can't overcome the fundamental barrier for ultra-stiff subatomic springs.
 
 Option 4: Different Physics Approach
 
