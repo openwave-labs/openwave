@@ -53,7 +53,7 @@ render.init_UI(cam_init_pos=[0.97, 2.06, 0.82])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: 3D Spherical Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text("EWave Source: 1 Harmonic Oscillator")
@@ -72,7 +72,7 @@ def data_dashboard():
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
@@ -150,7 +150,7 @@ def normalize_granule():
 
 
 def render_xperiment(lattice):
-    """Render 3D BCC lattice with radial harmonic oscillation using GGUI's 3D scene.
+    """Render 3D lattice with radial harmonic oscillation using GGUI's 3D scene.
 
     Visualizes all granules oscillating radially from the lattice center,
     creating spherical wave interference patterns through phase-shifted oscillations.

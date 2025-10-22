@@ -4,7 +4,7 @@ XPERIMENT: Radiation from a Wave Source
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
 
-Demonstrates wave interference from multiple sources in the BCC lattice.
+Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,
 creating constructive and destructive interference patterns.
 
@@ -69,7 +69,7 @@ render.init_UI(cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")
@@ -88,7 +88,7 @@ def data_dashboard():
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
@@ -167,7 +167,7 @@ def normalize_granule():
 
 
 def render_xperiment(lattice):
-    """Render 3D BCC lattice with multiple wave sources using GGUI's 3D scene.
+    """Render 3D lattice with multiple wave sources using GGUI's 3D scene.
 
     Visualizes wave superposition from multiple sources, creating interference patterns
     where waves constructively and destructively combine.

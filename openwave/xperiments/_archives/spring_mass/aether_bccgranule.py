@@ -507,7 +507,7 @@ class BCCLattice:
 @ti.data_oriented
 class BCCNeighbors:
     """
-    8-way neighbors couplings between granules in BCC lattice.
+    8-way neighbors couplings between Granules in lattice.
     Models connections with 8-way, 4-way, 2-way, or 1-way topology
     depending on granule type (core/center, face, edge, vertex).
 

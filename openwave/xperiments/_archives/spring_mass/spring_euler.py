@@ -61,7 +61,7 @@ render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Spring-Mass Euler", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
         sub.text("EWave Source: 8 Vertex Oscillators")
@@ -81,7 +81,7 @@ def data_dashboard():
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
@@ -205,7 +205,7 @@ def normalize_neighbors_links():
 
 def render_xperiment(lattice, granule, neighbors):
     """
-    Render 3D BCC lattice using GGUI's 3D scene.
+    Render 3D lattice using GGUI's 3D scene.
 
     Args:
         lattice: Lattice instance containing position and universe parameters.
