@@ -128,14 +128,14 @@ class BCCLattice:
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
-        self.populate_lattice()  # initialize position and velocity
-        self.build_granule_type()  # classifies granules
-        self.find_front_octant()  # for block-slicing visualization
-        self.set_granule_color()  # colors based on granule_type
-        self.set_sliced_plane_objects()  # set near/far-fields & random probes on sliced planes
+        self.populate_latticeBCC()  # initialize position and velocity
+        self.build_granule_typeBCC()  # classifies granules
+        self.find_front_octantBCC()  # for block-slicing visualization
+        self.set_granule_colorBCC()  # colors based on granule_type
+        self.set_sliced_plane_objectsBCC()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
-    def populate_lattice(self):
+    def populate_latticeBCC(self):
         """Populate BCC lattice positions in a 1D array.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
@@ -188,7 +188,7 @@ class BCCLattice:
             self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
-    def build_granule_type(self):
+    def build_granule_typeBCC(self):
         """Classify each granule by its position in the BCC lattice structure.
 
         Classification:
@@ -229,7 +229,7 @@ class BCCLattice:
                 self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
-    def find_front_octant(self):
+    def find_front_octantBCC(self):
         """Mark granules in the front octant (for block-slicing visualization).
 
         Front octant = granules where x, y, z > universe_edge/2
@@ -249,7 +249,7 @@ class BCCLattice:
             )
 
     @ti.kernel
-    def set_granule_color(self):
+    def set_granule_colorBCC(self):
         """Assign colors to granules based on their classified type."""
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
@@ -274,7 +274,7 @@ class BCCLattice:
             else:
                 self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
 
-    def set_sliced_plane_objects(self, num_circles=0, num_probes=3):
+    def set_sliced_plane_objectsBCC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
 
         Uses hybrid approach: Python for probe selection, GPU kernel for field circles.
