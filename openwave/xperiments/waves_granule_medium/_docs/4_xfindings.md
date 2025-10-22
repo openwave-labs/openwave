@@ -37,7 +37,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 **Two approaches:**
 
-1. **Match EWAVE_FREQUENCY** (quantum frequency):
+1. **Match EWAVE_FREQUENCY**:
    - Use `k = (2π × EWAVE_FREQUENCY)² × m` where EWAVE_FREQUENCY ≈ 1.05e25 Hz
    - Result: λ = EWAVE_LENGTH ✓, f = EWAVE_FREQUENCY ✓
    - **Problem:** Wave speed ≈ c/13 ≈ 23,000 km/s (NOT speed of light!)
@@ -62,7 +62,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 - **EWAVE_FREQUENCY** (1.05e25 Hz): Target quantum value from EWT theory
 - **natural_frequency** (varies with resolution): What the discrete lattice supports for c propagation
-- Not a bug - reflects difference between quantum scale and computational sampling
+- Not a bug - reflects difference between subatomic scale and computational sampling
 
 **Test results (UNIVERSE_EDGE = 1e-16):**
 
@@ -102,7 +102,7 @@ Lattice discretization is explicit - We know we're sampling at ~1.27 am spacing
 # But the actual wave mechanics work at the lattice scale
 
 The frequency discrepancy is not a bug - its the difference between:
-  - Quantum frequency (what we are trying to simulate: 1.05e25 Hz)
+  - EWave frequency (what we are trying to simulate: 1.05e25 Hz)
   - Lattice mechanics frequency (what the discrete grid naturally supports: 1.36e26 Hz for c propagation)
 ```
 
@@ -161,10 +161,10 @@ Your Key Insight
 
 You've moved from:
 
-- ❌ Force mechanics paradigm: Forces → Accelerations → Velocities → Positions (breaks down at quantum scale)
+- ❌ Force mechanics paradigm: Forces → Accelerations → Velocities → Positions (breaks down at subatomic scale)
 - ✅ Wave mechanics paradigm: Phase relationships → Direct position calculation (works perfectly!)
 
-This aligns beautifully with Energy Wave Theory - at the quantum scale, particles are standing wave patterns with phase relationships!
+This aligns beautifully with Energy Wave Theory - at the subatomic scale, particles are standing wave patterns with phase relationships!
 
 Why This Works
 
@@ -193,7 +193,7 @@ Let me document this evolution:
 3. XPBD Constraints → Stable but slow waves (~8x too slow)
 4. Phase-Synchronized Oscillators → ✅ Perfect waves!
 
-This is actually a profound realization: You can't simulate wave phenomena using particle mechanics at quantum scales - you need to simulate them as waves!
+This is actually a profound realization: You can't simulate wave phenomena using particle mechanics at subatomic scales - you need to simulate them as waves!
 
 What This Means for OpenWave:
 

@@ -7,7 +7,7 @@ Lets document all the wave-dynamics journey, implementation, findings and every 
 - review all the .md files for extra context (i saved most of our conversation in the folder /xperiments)
 - i created a file final_report.md for the report content
 - make sure we adhere and include:
-  - Suggested title (change if you find better words related to the work): Computational limits and solution for simulating granule-medium quantum dynamics at Planck scale
+  - Suggested title (change if you find better words related to the work): Computational limits and solution for simulating granule-medium subatomic dynamics at Planck scale
   - layout: i'll convert all to 1-column PDF later
   - authors, date, keywords
   - abstract
@@ -41,7 +41,7 @@ Review final report through OPUS 4.1:
 
 The content captures everything important:
 
-- Your key insight about force mechanics vs wave mechanics at quantum scale
+- Your key insight about force mechanics vs wave mechanics at subatomic scale
 - The mathematical (not computational) limitation discovery
 - The 360M:1 frequency mismatch problem
 - XPBD's achievement (stability with real k) and limitation (8x slow waves)

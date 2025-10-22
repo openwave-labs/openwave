@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive physical justification and implementation details for amplitude falloff in spherical wave propagation within the OpenWave quantum simulator. The implementation accounts for energy conservation, near-field/far-field physics, and Energy Wave Theory (EWT) specifications.
+This document provides comprehensive physical justification and implementation details for amplitude falloff in spherical wave propagation within the OpenWave subatomic simulator. The implementation accounts for energy conservation, near-field/far-field physics, and Energy Wave Theory (EWT) specifications.
 
 ## Physical Background: Spherical Wave Energy Conservation
 
