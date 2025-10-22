@@ -1,5 +1,5 @@
 """
-XPERIMENT: 3D Spherical Energy-Wave
+XPERIMENT: Radiation from an Energy-Wave Source
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.xperiments._archives.energy_wave_radial as ewave
+import openwave.xperiments._archives.radial_wave.energy_wave_radial as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -47,12 +47,12 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[0.97, 2.06, 0.82])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: 3D Spherical Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -164,10 +164,10 @@ def render_xperiment(lattice):
 
     # Initialize variables
     show_axis = True  # Toggle to show/hide axis lines
-    block_slice = True  # Block-slicing toggle
+    block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
-    radius_factor = 0.4  # Initialize granule size factor
-    freq_boost = 0.1  # Initialize frequency boost
+    radius_factor = 0.1  # Initialize granule size factor
+    freq_boost = 10.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
 

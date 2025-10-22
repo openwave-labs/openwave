@@ -1,18 +1,8 @@
 """
-XPERIMENT: Radiation from an Energy-Wave Source
+XPERIMENT: XPBD Energy-Wave Oscillation
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
-
-Demonstrates radial harmonic oscillation of all granules in the BCC lattice.
-All granules oscillate toward/away from the lattice center along their
-individual direction vectors, creating spherical wave interference patterns.
-
-This XPERIMENT showcases:
-- Radial wave propagation from lattice center
-- Phase-shifted oscillations creating wave interference
-- Uniform energy injection across all granules
-- No spring coupling (pure oscillation demonstration)
 """
 
 import taichi as ti
@@ -20,11 +10,11 @@ import time
 
 from openwave.common import config
 from openwave.common import constants
+from openwave.common import equations
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.xperiments._archives.energy_wave_radial as ewave
-import openwave.validations.wave_diagnostics as diagnostics
+import openwave.xperiments._archives.spring_mass.energy_wave_xpbd as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -40,33 +30,45 @@ SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human vis
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
+neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
-WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
+# PHYSICAL STIFFNESS (calculated for speed of light wave propagation)
+# With XPBD, we can finally use REAL physical values!
+# Using EWT spring-mass equation: k = (2πf_n)² * m
+# where f_n = natural frequency = c/λ_lattice
+# For wave propagation at speed c in lattice with spacing L:
+#   λ_lattice ≈ 2L (minimum resolvable wavelength)
+#   f_n = c / (2L)
+# For 79x79x79 grid (1M particles): k ≈ 2.66e21 N/m
+STIFFNESS = equations.stiffness_from_frequency(neighbors.natural_frequency, granule.mass)
+
 
 # ================================================================
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the GGUI window
+render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: XPBD Energy-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
-        sub.text("Coupling: Phase Sync")
-        sub.text("EWave Source: 1 Harmonic Oscillator")
-        sub.text("EWave Propagation: Radial from Center")
+        sub.text("Coupling: 8-way distance constraints")
+        sub.text("EWave Source: 8 Vertex Oscillators")
+        sub.text("EWave Propagation: XPBD")
 
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
         sub.text("--- AETHER-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
+        sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
@@ -84,27 +86,21 @@ def data_dashboard():
         sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
-        sub.text("--- ENERGY-WAVE ---")
-        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
-        sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
-        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-
-        sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
 
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type
+    global show_axis, block_slice, granule_type, show_links
     global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.21) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
+        show_links = sub.checkbox("Show Links (<1k granules)", show_links)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
@@ -144,46 +140,98 @@ def normalize_granule():
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
+def normalize_neighbors_links():
+    """Create & Normalize links to 0-1 range for GGUI rendering"""
+
+    global link_line
+
+    # Prepare link line endpoints
+    max_connections = 0
+
+    # Count total connections for line buffer
+    for i in range(lattice.total_granules):
+        max_connections += neighbors.links_count[i]
+    if max_connections > 0:
+        # Allocate line endpoint buffer (2 points per line)
+        link_line = ti.Vector.field(3, dtype=ti.f32, shape=max_connections * 2)
+
+    # Create a field to track line index atomically
+    line_counter = ti.field(dtype=ti.i32, shape=())
+
+    @ti.kernel
+    def build_link_line():
+        """Build line endpoints for BCC granule connections."""
+        # Reset counter
+        line_counter[None] = 0
+
+        # Build lines with atomic indexing to ensure correct ordering
+        for i in range(lattice.total_granules):
+            num_links = neighbors.links_count[i]
+            if num_links > 0:
+                # Normalized position (scale back from attometers)
+                pos_i = lattice.position_am[i] / lattice.universe_edge_am
+
+                for j in range(num_links):
+                    neighbor_idx = neighbors.links[i, j]
+                    if neighbor_idx >= 0:  # Valid connection
+                        pos_j = lattice.position_am[neighbor_idx] / lattice.universe_edge_am
+
+                        # Get current line index atomically
+                        line_idx = ti.atomic_add(line_counter[None], 1)
+
+                        # Add line endpoints (from i to j)
+                        if line_idx < max_connections:  # Safety check
+                            link_line[line_idx * 2] = pos_i
+                            link_line[line_idx * 2 + 1] = pos_j
+
+    # Build link lines
+    if max_connections > 0:
+        build_link_line()
+
+
 # ================================================================
 # Xperiment Rendering
 # ================================================================
 
 
-def render_xperiment(lattice):
-    """Render 3D BCC lattice with radial harmonic oscillation using GGUI's 3D scene.
-
-    Visualizes all granules oscillating radially from the lattice center,
-    creating spherical wave interference patterns through phase-shifted oscillations.
+def render_xperiment(lattice, granule, neighbors):
+    """
+    Render 3D BCC lattice using GGUI's 3D scene.
 
     Args:
-        lattice: Lattice instance with positions, directions, and universe parameters
+        lattice: Lattice instance containing positions and universe parameters.
+        granule: Granule instance for size reference.
+        neighbors: BCCNeighbors instance containing connectivity information (optional)
     """
-    global show_axis, block_slice, granule_type
+    global show_axis, block_slice, granule_type, show_links
     global radius_factor, freq_boost, amp_boost, paused
+    global link_line
     global normalized_position
 
     # Initialize variables
     show_axis = True  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     granule_type = False  # Granule type coloring toggle
-    radius_factor = 0.1  # Initialize granule size factor
-    freq_boost = 10.0  # Initialize frequency boost
+    show_links = True  # link visualization toggle
+    radius_factor = 0.5  # Initialize granule size factor
+    freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
+    link_line = None  # Link line buffer
     paused = False  # Pause toggle
 
-    # Time tracking for radial harmonic oscillation of all granules
+    # Time tracking for harmonic oscillation
     t = 0.0
     last_time = time.time()
-    frame = 0  # Frame counter for diagnostics
 
-    # Initialize normalized position (0-1 range for GGUI) & block-slicing
+    # Initialize wave diagnostics
+    ewave.init_wave_diagnostics(measurement_interval=1.0)
+
+    # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
-
-    # Print diagnostics header if enabled
-    if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters()
+    if lattice.target_granules <= 1e3:
+        normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory
 
     while render.window.running:
         # Render UI overlay windows
@@ -199,37 +247,43 @@ def render_xperiment(lattice):
             last_time = current_time
             t += dt_real  # Use real elapsed time instead of fixed DT
 
-            # Apply radial harmonic oscillation to all granules
-            # All granules oscillate toward/away from lattice center along their direction vectors
-            # Phase is determined by radial distance, creating outward-propagating spherical waves
-            ewave.oscillate_granules_tocenter(
-                lattice.position_am,  # Granule positions in attometers
-                lattice.equilibrium_am,  # Rest positions for all granules
-                lattice.velocity_am,  # Granule velocity in am/s
-                lattice.center_direction,  # Direction vectors to center for all granules
-                lattice.center_distance_am,  # Radial distance from each granule to center
+            # Update wave propagation using XPBD constraint solver
+            # XPBD = Extended Position-Based Dynamics (unconditionally stable!)
+            # Following "Small Steps" + "Unified Particle Physics" papers:
+            # - 100 substeps with 1 iteration each (error scales as Δt²)
+            # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
+            # - SOR omega=1.5 for faster convergence
+            # - Damping=0.999 per substep (explicit dissipation)
+            ewave.propagate_ewave(
+                lattice,
+                granule,
+                neighbors,
+                STIFFNESS,  # REAL physical value!
                 t,
-                SLOW_MO,  # Slow-motion factor for visibility
-                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
-                amp_boost,  # Amplitude visibility boost for scaled lattices
+                dt_real,
+                substeps=100,  # 100 recommended from papers
+                damping=0.999,  # 0.1% energy loss per substep
+                omega=1.5,  # SOR parameter for faster convergence
+                slow_mo=SLOW_MO,  # Slow-motion factor for visibility
+                freq_boost=freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost=amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
-
-            # Wave diagnostics (minimal footprint)
-            if WAVE_DIAGNOSTICS:
-                diagnostics.print_wave_diagnostics(
-                    t,
-                    frame,
-                    print_interval=100,  # Print every 100 frames
-                )
-
-            frame += 1  # Increment frame counter
         else:
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
+
+        # Probe wave diagnostics (measurements happen automatically at configured interval)
+        ewave.probe_wave_diagnostics(
+            lattice,
+            neighbors,
+            t,
+            current_time,
+            SLOW_MO / freq_boost,
+        )
 
         # Render granules with optional type-coloring
         if granule_type:
@@ -245,6 +299,10 @@ def render_xperiment(lattice):
                 color=config.COLOR_MEDIUM[1],
             )
 
+        # Render spring links if enabled and available
+        if show_links and link_line is not None:
+            render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
+
         # Render the scene to canvas
         render.show_scene()
 
@@ -255,4 +313,4 @@ def render_xperiment(lattice):
 if __name__ == "__main__":
 
     # Render the 3D lattice
-    render_xperiment(lattice)
+    render_xperiment(lattice, granule, neighbors)

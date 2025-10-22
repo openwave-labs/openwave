@@ -184,7 +184,7 @@ def render_xperiment(lattice):
     granule_type = False  # Granule type coloring toggle
     show_sources = False  # Show wave sources toggle
     radius_factor = 0.4  # Initialize granule size factor
-    freq_boost = 0.1  # Initialize frequency boost
+    freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
 
