@@ -1,12 +1,12 @@
-openwave.spacetime.qwave\_springs
+openwave.spacetime.ewave\_springs
 =================================
 
-.. automodule:: openwave.spacetime.qwave_springs
+.. automodule:: openwave.spacetime.ewave_springs
 
    
    .. rubric:: Functions
 
    .. autosummary::
    
-      propagate_qwave
+      propagate_ewave
    

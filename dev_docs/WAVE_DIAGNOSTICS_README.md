@@ -247,7 +247,7 @@ The experiment UI includes `freq_boost` and `amp_boost` sliders:
 - `/validations/wave_diagnostics.py` - Module implementation (82 lines)
 - `/xperiments/waves_granule_medium/radial_wave.py` - Integration example (4 lines)
 - `/dev_docs/WAVE_DIAGNOSTICS_README.md` - This documentation
-- `/spacetime/qwave_radial.py` - PSHO implementation (no changes needed)
+- `/spacetime/ewave_radial.py` - PSHO implementation (no changes needed)
 
 ## BCC Lattice Wave Behavior
 
@@ -268,7 +268,7 @@ In a BCC lattice (aether_granule.py:24-43):
 #### 2. Wave Propagation Path
 
 ```python
-# Each granule oscillates along its own radial direction (qwave_radial.py:84)
+# Each granule oscillates along its own radial direction (ewave_radial.py:84)
 position[idx] = equilibrium[idx] + displacement * direction
 
 # But its 8 neighbors are positioned diagonally (BCC structure)
@@ -337,8 +337,8 @@ The 8-way connectivity for interior granules creates the diagonal coupling that 
 
 From `/research_requirements/scientific_source/06. Constants and Equations - Waves.pdf`:
 
-- **Quantum Wave Speed**: c = 2.997925×10⁸ m/s (speed of light)
-- **Quantum Wavelength**: λ = 2.854097×10⁻¹⁷ m (Planck scale)
+- **Energy Wave Speed**: c = 2.997925×10⁸ m/s (speed of light)
+- **Energy Wavelength**: λ = 2.854097×10⁻¹⁷ m (Planck scale)
 - **Quantum Frequency**: f = 1.050394×10²⁵ Hz (extremely high)
 - **Quantum Amplitude**: A = 9.215406×10⁻¹⁹ m (subatomic scale)
 
@@ -373,7 +373,7 @@ If OpenWave adds plane waves, standing waves, or interference patterns:
 
 1. `/ship_log/5_summary.md` - PSHO implementation journey
 2. `/dev_docs/final_report.md` - Detailed PSHO vs XPBD comparison
-3. `/spacetime/qwave_radial.py` - PSHO implementation
+3. `/spacetime/ewave_radial.py` - PSHO implementation
 4. `/research_requirements/scientific_source/` - EWT theoretical foundation
 
 ## Version History

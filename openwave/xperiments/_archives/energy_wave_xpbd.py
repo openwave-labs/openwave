@@ -1,5 +1,5 @@
 """
-QUANTUM-WAVE
+ENERGY-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave Physics Engine @spacetime module.
@@ -22,14 +22,14 @@ import numpy as np
 from openwave.common import constants
 
 # ================================================================
-# Quantum-Wave Oscillation Parameters
+# Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.QWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
-frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
 # ================================================================
-# Quantum-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
+# Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -256,7 +256,7 @@ def update_velocity_from_position(
 
 
 # Orchestrator function to run the full XPBD propagation step
-def propagate_qwave(
+def propagate_ewave(
     lattice,
     granule,
     neighbors,
@@ -453,13 +453,13 @@ def probe_wave_diagnostics(
         wave_speed = distance_traveled_m / dt_real if dt_real > 0 else 0
 
         # Calculate error vs speed of light
-        speed_error = abs(wave_speed - constants.QWAVE_SPEED) / constants.QWAVE_SPEED * 100
+        speed_error = abs(wave_speed - constants.EWAVE_SPEED) / constants.EWAVE_SPEED * 100
 
         print(f"\n{'='*70}")
         print(f"WAVE SPEED MEASUREMENT #{_diagnostic_state['measurement_count']}")
         print(f"{'='*70}")
         print(f"Wave speed: {wave_speed:.3e} m/s")
-        print(f"Expected:   {constants.QWAVE_SPEED:.3e} m/s (speed of light)")
+        print(f"Expected:   {constants.EWAVE_SPEED:.3e} m/s (speed of light)")
         print(f"Error:      {speed_error:.1f}%")
         print(f"Distance traveled: {distance_traveled_m:.3e} m ({distance_traveled_am:.1f} am)")
         print(f"Time elapsed (sim): {dt_sim:.3e} s (real: {dt_real:.3e} s)")
@@ -510,7 +510,7 @@ def probe_wave_diagnostics(
                 print(f"Reference lengths:")
                 print(f"  Unit cell edge:    {lattice.unit_cell_edge_am:.1f} am")
                 print(f"  Rest length (L):   {neighbors.rest_length_am:.1f} am")
-                print(f"  QWAVE_LENGTH:      {constants.QWAVE_LENGTH/constants.ATTOMETTER:.1f} am")
+                print(f"  EWAVE_LENGTH:      {constants.EWAVE_LENGTH/constants.ATTOMETTER:.1f} am")
                 print(f"")
                 print(
                     f"Measured / Unit cell: {wavelength_data['wavelength_am']/lattice.unit_cell_edge_am:.2f}x"
@@ -519,7 +519,7 @@ def probe_wave_diagnostics(
                     f"Measured / 2L:        {wavelength_data['wavelength_am']/(2*neighbors.rest_length_am):.2f}x"
                 )
                 print(
-                    f"Measured / λ_quantum: {wavelength_data['wavelength_am']/(constants.QWAVE_LENGTH/constants.ATTOMETTER):.2f}x"
+                    f"Measured / λ_quantum: {wavelength_data['wavelength_am']/(constants.EWAVE_LENGTH/constants.ATTOMETTER):.2f}x"
                 )
             else:
                 print(

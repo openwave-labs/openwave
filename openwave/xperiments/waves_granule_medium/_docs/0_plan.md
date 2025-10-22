@@ -1,15 +1,15 @@
-# Harmonic Oscillators Specs (QWave Source)
+# Harmonic Oscillators Specs (EWave Source)
 
 ## Overview
 
 Implement harmonic oscillation for the 8 lattice vertices to inject energy into the spacetime lattice. These vertices will act as "wave makers" that later propagate motion through the spring-mass system to other granules.
 
-**Goal**: Create radially-oscillating boundary conditions that drive quantum wave propagation through the BCC lattice.
+**Goal**: Create radially-oscillating boundary conditions that drive energy wave propagation through the BCC lattice.
 
 **Physics**: Each vertex oscillates harmonically along its direction vector to lattice center, with:
 
-- Amplitude: `QWAVE_AMPLITUDE = 9.215e-19 m`
-- Frequency: `QWAVE_SPEED / QWAVE_LENGTH ≈ 1.05e25 Hz` (slowed by factor 1e25)
+- Amplitude: `EWAVE_AMPLITUDE = 9.215e-19 m`
+- Frequency: `EWAVE_SPEED / EWAVE_LENGTH ≈ 1.05e25 Hz` (slowed by factor 1e25)
 - Motion: `displacement(t) = A·cos(2πft)` along radial direction
 
 **Two-Phase Implementation**:
@@ -87,7 +87,7 @@ Recommendation: Update both for physical consistency, prepares for Phase 2.
 
 ### 6. Function Placement & Implementation Details
 
-**Location**: `quantum_wave.py` (not aether_medium.py - keep it modular)
+**Location**: `energy_wave.py` (not aether_medium.py - keep it modular)
 
 **Function signature**:
 
@@ -121,13 +121,13 @@ def oscillate_vertex(
         lattice_velocities[idx] = velocity_magnitude * direction
 ```
 
-**Call from qwave.py**:
+**Call from ewave.py**:
 
 ```python
 t = 0.0  # Initialize time before while loop
 while window.running:
     t += DT  # Accumulate time
-    quantum_wave.oscillate_vertex(
+    energy_wave.oscillate_vertex(
         lattice.positions,
         lattice.velocities,
         lattice.vertex_index,
@@ -146,15 +146,15 @@ while window.running:
 - [ ] In `build_vertex_index()`: Store equilibrium positions after computing index
   - `self.vertex_equilibrium[v] = self.positions[self.vertex_index[v]]`
 
-#### Step 2: Create quantum_wave.py functions
+#### Step 2: Create energy_wave.py functions
 
 - [ ] Import taichi and necessary modules
 - [ ] Implement `oscillate_vertex()` kernel (see signature above)
 - [ ] Test with simple parameters first
 
-#### Step 3: Modify qwave.py
+#### Step 3: Modify ewave.py
 
-- [ ] Import quantum_wave module: `import openwave.spacetime.quantum_wave as qwave`
+- [ ] Import energy_wave module: `import openwave.spacetime.energy_wave as ewave`
 - [ ] Initialize time: `t = 0.0` before while loop
 - [ ] Add time accumulation: `t += DT` at start of while loop
 - [ ] Call oscillation update before rendering
@@ -212,7 +212,7 @@ while window.running:
 
    **Answer:** above
 
-## PHASE 2: Mass-Spring System (QWave-Propagation)
+## PHASE 2: Mass-Spring System (EWave-Propagation)
 
 ### Overview Phase 2
 
@@ -242,10 +242,10 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 
 **Wavelength Validation**:
 
-- Driving frequency: f = QWAVE_SPEED / QWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
-- Expected wavelength: λ = c / f ≈ 2.854e-17 m (QWAVE_LENGTH constant)
+- Driving frequency: f = EWAVE_SPEED / EWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
+- Expected wavelength: λ = c / f ≈ 2.854e-17 m (EWAVE_LENGTH constant)
 - Measurement: Sample granule positions along propagation axis, find spatial period
-- Relationship: λ = v / f, so if v ≈ c and f is correct → λ should match QWAVE_LENGTH
+- Relationship: λ = v / f, so if v ≈ c and f is correct → λ should match EWAVE_LENGTH
 - **This validates the entire physics model**: correct k, m, lattice spacing, and wave equation
 
 **BCC Spring Topology**:
@@ -265,11 +265,11 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 
 ### Implementation Strategy
 
-Use `quantum_wave.py` for all wave dynamics functions:
+Use `energy_wave.py` for all wave dynamics functions:
 
 1. `compute_spring_forces()` - Compute displacement and calculate force on each granule from connected springs
 2. `integrate_motion()` - Update velocities and positions using best method below
-3. `propagate_qwave()` - Main function that orchestrates the above with substepping
+3. `propagate_ewave()` - Main function that orchestrates the above with substepping
 
 - **ATTENTION**: vertex granules have their own motion (harmonic oscillation) as they inject energy in the lattice (wave makers) so we can't update vertex velocities/position when iterating over all the other granules in the lattice, OR we might find a better way to implement both for better performance
 
@@ -284,7 +284,7 @@ Use `quantum_wave.py` for all wave dynamics functions:
 
 #### Step 2: Spring Force Computation Kernel
 
-- [ ] Implement `compute_spring_forces()` kernel in quantum_wave.py
+- [ ] Implement `compute_spring_forces()` kernel in energy_wave.py
 - [ ] For each granule: iterate through Spring.links to find neighbors
 - [ ] Calculate displacement vector: `d = pos[neighbor] - pos[current]`
 - [ ] Calculate distance: `dist = |d|`
@@ -312,7 +312,7 @@ Two approaches to handle vertices (wave makers) vs propagating granules:
 
 #### Step 4: Leapfrog Integration Kernel
 
-- [ ] Implement `integrate_motion()` in quantum_wave.py
+- [ ] Implement `integrate_motion()` in energy_wave.py
 - [ ] Half-step velocity update: `v(t+dt/2) = v(t) + a(t) * dt/2`
 - [ ] Position update: `x(t+dt) = x(t) + v(t+dt/2) * dt`
 - [ ] Force recompute at new positions
@@ -321,7 +321,7 @@ Two approaches to handle vertices (wave makers) vs propagating granules:
 
 #### Step 5: Main Propagation Orchestrator
 
-- [ ] Create `propagate_qwave()` function
+- [ ] Create `propagate_ewave()` function
 - [ ] Call `oscillate_vertex()` first (boundary condition)
 - [ ] Loop substeps:
   - Compute spring forces on non-vertex granules
@@ -334,8 +334,8 @@ Two approaches to handle vertices (wave makers) vs propagating granules:
 - [ ] Verify wave propagates from vertices
 - [ ] Check energy conservation (should be stable over time)
 - [ ] Tune substep count for stability vs performance
-- [ ] **Measure wave speed**: Compare emergent propagation velocity to expected `c = QWAVE_SPEED`
-- [ ] **Measure wavelength**: Track spatial period of oscillation, compare to `λ = QWAVE_LENGTH`
+- [ ] **Measure wave speed**: Compare emergent propagation velocity to expected `c = EWAVE_SPEED`
+- [ ] **Measure wavelength**: Track spatial period of oscillation, compare to `λ = EWAVE_LENGTH`
   - Method: Sample positions along radial line from vertex, measure distance between peaks
   - Expected: λ ≈ 2.854e-17 m (from constants)
   - Validates both spring constant k and lattice discretization

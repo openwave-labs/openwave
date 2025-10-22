@@ -236,7 +236,7 @@ Performance Optimization Path (Taichi-based)
 
 Instead of switching frameworks, focus on:
 
-1. Kernel Fusion (openwave/spacetime/qwave_radial.py:135):
+1. Kernel Fusion (openwave/spacetime/ewave_radial.py:135):
 
 - Combine oscillate_granules_tocenter + compute_spring_forces
 - Reduce memory bandwidth by 30-40%

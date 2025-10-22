@@ -1,5 +1,5 @@
 """
-QUANTUM-WAVE
+ENERGY-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave Physics Engine @spacetime module.
@@ -11,14 +11,14 @@ import taichi as ti
 from openwave.common import constants
 
 # ================================================================
-# Quantum-Wave Oscillation Parameters
+# Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.QWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
-frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
 # ================================================================
-# Quantum-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
+# Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -68,7 +68,7 @@ def oscillate_vertex(
 
 
 # ================================================================
-# Quantum-Wave Propagation (spring-mass dynamics)
+# Energy-Wave Propagation (spring-mass dynamics)
 # ================================================================
 
 
@@ -82,7 +82,7 @@ def compute_spring_forces(
     stiffness: ti.f32,  # type: ignore
     acceleration: ti.template(),  # type: ignore
 ):
-    """Compute spring forces and acceleration for all non-vertex granules.
+    """Compute spring forces and accelerations for all non-vertex granules.
 
     For each granule, calculates resultant force from connected springs:
     F = sum over neighbors: -k * (distance - L0) * direction_unit_vector
@@ -126,55 +126,47 @@ def compute_spring_forces(
 
 
 @ti.kernel
-def velocity_half_kick(
+def integrate_motion_semiimplicit(
+    position: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
     acceleration: ti.template(),  # type: ignore
     granule_type: ti.template(),  # type: ignore
     dt: ti.f32,  # type: ignore
+    damping: ti.f32,  # type: ignore
 ):
-    """First half of Velocity Verlet (Leapfrog): v(t+dt/2) = v(t) + a(t)*dt/2.
+    """Semi-Implicit Euler integration with explicit damping.
 
-    Args:
-        velocity: Velocity field
-        acceleration: Acceleration field (from spring forces at time t)
-        granule_type: Type classification (skip vertices)
-        dt: Timestep
-    """
-    for i in range(velocity.shape[0]):
-        # Skip vertices - they have prescribed motion from oscillate_vertex()
-        if granule_type[i] == 0:  # TYPE_VERTEX = 0
-            continue
+    Following "Small Steps in Physics Simulation" paper (Algorithm 1):
+    v(t+dt) = damping * [v(t) + a(t)*dt]
+    x(t+dt) = x(t) + v(t+dt)*dt
 
-        # Half-step velocity update (first kick)
-        velocity[i] += acceleration[i] * (dt * 0.5)
-
-
-@ti.kernel
-def position_drift(
-    position: ti.template(),  # type: ignore
-    velocity: ti.template(),  # type: ignore
-    granule_type: ti.template(),  # type: ignore
-    dt: ti.f32,  # type: ignore
-):
-    """Position update using half-step velocity: x(t+dt) = x(t) + v(t+dt/2)*dt.
+    This is a symplectic integrator (energy-conserving in undamped case).
+    Explicit damping is added per paper Section 4.1: "Reducing the time step
+    reduces numerical dissipation, making explicit damping important."
 
     Args:
         position: Position field
-        velocity: Velocity field (at t+dt/2)
+        velocity: Velocity field
+        acceleration: Acceleration field (from spring forces)
         granule_type: Type classification (skip vertices)
         dt: Timestep
+        damping: Damping coefficient (1.0 = no damping, 0.999 = 0.1% loss/step)
     """
     for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
         if granule_type[i] == 0:  # TYPE_VERTEX = 0
             continue
 
-        # Full-step position update using half-step velocity (drift)
+        # Semi-Implicit Euler with damping
+        # Update velocity first using current acceleration
+        velocity[i] = damping * (velocity[i] + acceleration[i] * dt)
+
+        # Update position using NEW velocity (semi-implicit = symplectic)
         position[i] += velocity[i] * dt
 
 
 # Orchestrator function to run the full propagation step
-def propagate_qwave(
+def propagate_ewave(
     lattice,
     granule,
     neighbors,
@@ -184,25 +176,19 @@ def propagate_qwave(
     substeps: int,
     slow_mo: float = 1.0,
     freq_boost: float = 1.0,
+    damping: float = 0.99,
 ):
-    """Main wave propagation orchestrator using spring-mass dynamics.
+    """Main wave propagation using Small Steps strategy.
 
-    Propagates quantum waves through the lattice using:
-    - Vertex boundary conditions (harmonic oscillators inject energy)
-    - Spring-mass dynamics for non-vertex granules
-    - Velocity Verlet (Leapfrog) integration for energy conservation
+    Implements the "Small Steps in Physics Simulation" approach:
+    - Split frame timestep into many substeps (30-100)
+    - Perform SINGLE force evaluation per substep
+    - Use semi-implicit Euler integration (symplectic, energy-conserving)
+    - Add explicit damping to compensate for reduced numerical dissipation
 
-    Integrate motion using Velocity Verlet (Leapfrog) method, a 2nd-order
-    symplectic integrator that conserves energy in oscillatory systems.
-    Uses kick-drift-kick pattern:
-        1. Half-step velocity update (kick)
-            v(t+dt/2) = v(t) + a(t)*dt/2
-        2. Full-step position update (drift)
-            x(t+dt) = x(t) + v(t+dt/2)*dt
-        3. Compute new acceleration (done externally)
-            (compute a(t+dt) externally)
-        4. Final half-step velocity update (kick)
-            v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
+    Key insight from paper: Position error scales as Δt², so smaller timesteps
+    provide quadratic error reduction. This is more effective than adding
+    solver iterations!
 
     Args:
         lattice: Lattice instance with position, velocity, granule_type
@@ -211,10 +197,12 @@ def propagate_qwave(
         stiffness: Spring constant k (N/m)
         t: Current simulation time
         dt: Frame timestep
-        substeps: Number of substeps per frame for stability
+        substeps: Number of substeps per frame (30-100 recommended)
+        slow_mo: Slow motion factor for visualization
+        damping: Velocity damping per substep (0.999 = 0.1% energy loss/step)
     """
 
-    # Substep for numerical stability
+    # Substep for numerical stability (Small Steps strategy)
     dt_sub = dt / substeps
 
     # Update vertex positions ONCE per frame (not per substep)
@@ -232,8 +220,8 @@ def propagate_qwave(
 
     for step in range(substeps):
 
-        # Velocity Verlet (Leapfrog) integration (kick-drift-kick):
-        # 1. Compute acceleration at current position a(t)
+        # Small Steps Algorithm (following paper Algorithm 1):
+        # 1. Compute forces/accelerations at current position
         compute_spring_forces(
             lattice.position_am,  # in am
             granule.mass,
@@ -244,39 +232,14 @@ def propagate_qwave(
             lattice.acceleration_am,  # output acceleration in am/s^2
         )
 
-        # 2. First kick: v(t+dt/2) = v(t) + a(t)*dt/2
-        velocity_half_kick(
+        # 2. Integrate motion using semi-implicit Euler (SINGLE iteration per substep)
+        integrate_motion_semiimplicit(
+            lattice.position_am,  # in am
             lattice.velocity_am,  # in am/s
             lattice.acceleration_am,  # in am/s^2
             lattice.granule_type,
             dt_sub,
-        )
-
-        # 3. Drift: x(t+dt) = x(t) + v(t+dt/2)*dt
-        position_drift(
-            lattice.position_am,  # in am
-            lattice.velocity_am,  # in am/s (now at t+dt/2)
-            lattice.granule_type,
-            dt_sub,
-        )
-
-        # 4. Compute new acceleration at new position a(t+dt)
-        compute_spring_forces(
-            lattice.position_am,  # in am (now at t+dt)
-            granule.mass,
-            neighbors.links,
-            neighbors.links_count,
-            neighbors.rest_length_am,  # rest_length in am
-            stiffness * constants.ATTOMETTER,  # stiffness in N/am
-            lattice.acceleration_am,  # output a(t+dt) in am/s^2
-        )
-
-        # 5. Second kick: v(t+dt) = v(t+dt/2) + a(t+dt)*dt/2
-        velocity_half_kick(
-            lattice.velocity_am,  # in am/s (now at t+dt/2)
-            lattice.acceleration_am,  # in am/s^2 (now at t+dt)
-            lattice.granule_type,
-            dt_sub,
+            damping,
         )
 
         # Debug: Check granule 1 (neighbor to vertex 0) periodically

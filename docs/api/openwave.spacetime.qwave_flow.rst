@@ -1,6 +1,6 @@
-openwave.spacetime.qwave\_flow
+openwave.spacetime.ewave\_flow
 ==============================
 
-.. automodule:: openwave.spacetime.qwave_flow
+.. automodule:: openwave.spacetime.ewave_flow
 
    

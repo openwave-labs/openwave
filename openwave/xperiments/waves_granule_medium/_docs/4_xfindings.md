@@ -9,19 +9,19 @@
 
 ### Wave Source
 
-- frequency: f = QWAVE_SPEED / QWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
+- frequency: f = EWAVE_SPEED / EWAVE_LENGTH ≈ 1.05e25 Hz (slowed by factor 1e25 → ~1 Hz visible)
 - RESULT: I noticed natural _frequency is showing a slight discrepancy from the injected frequency
 
 ### Main Parameters to MATCH (considering the SLO_MO factor)
 
-- Measure wavespeed: Compare emergent propagation velocity to expected c = QWAVE_SPEED
+- Measure wavespeed: Compare emergent propagation velocity to expected c = EWAVE_SPEED
   - RESULT: we need a way to measure that in the script (converted from SLO_MO)
 
-- Measure wavelength: Track spatial period of oscillation, compare to λ = QWAVE_LENGTH (λ = c / f)
+- Measure wavelength: Track spatial period of oscillation, compare to λ = EWAVE_LENGTH (λ = c / f)
   - Suggested Method: Sample positions along radial line from vertex, measure distance between peaks, find spatial period
   - Expected: λ ≈ 2.854e-17 m (from constants)
   - Validates both stiffness k and lattice discretization
-  - Relationship: λ = v / f, so if v ≈ c and f is correct → λ should match QWAVE_LENGTH
+  - Relationship: λ = v / f, so if v ≈ c and f is correct → λ should match EWAVE_LENGTH
   - RESULT: we need a way to measure that in the script (converted from SLO_MO)
 
 Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance), using real physics parameters (k, m, lattice sizes, wave equations).
@@ -37,9 +37,9 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 **Two approaches:**
 
-1. **Match QWAVE_FREQUENCY** (quantum frequency):
-   - Use `k = (2π × QWAVE_FREQUENCY)² × m` where QWAVE_FREQUENCY ≈ 1.05e25 Hz
-   - Result: λ = QWAVE_LENGTH ✓, f = QWAVE_FREQUENCY ✓
+1. **Match EWAVE_FREQUENCY** (quantum frequency):
+   - Use `k = (2π × EWAVE_FREQUENCY)² × m` where EWAVE_FREQUENCY ≈ 1.05e25 Hz
+   - Result: λ = EWAVE_LENGTH ✓, f = EWAVE_FREQUENCY ✓
    - **Problem:** Wave speed ≈ c/13 ≈ 23,000 km/s (NOT speed of light!)
 
 2. **Match SPEED OF LIGHT** (current approach):
@@ -55,19 +55,19 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - **Lattice discretization is explicit** - We're sampling at discrete spacing L
 - **Physical interpretation:**
   - Medium propagates waves at speed c (validates aether properties)
-  - Resolution (granules/wavelength) determines how well we **represent** quantum waves
+  - Resolution (granules/wavelength) determines how well we **represent** energy wave
   - Actual wave mechanics operate at lattice scale (like pixels representing an image)
 
 **Frequency "discrepancy" explained:**
 
-- **QWAVE_FREQUENCY** (1.05e25 Hz): Target quantum value from EWT theory
+- **EWAVE_FREQUENCY** (1.05e25 Hz): Target quantum value from EWT theory
 - **natural_frequency** (varies with resolution): What the discrete lattice supports for c propagation
 - Not a bug - reflects difference between quantum scale and computational sampling
 
 **Test results (UNIVERSE_EDGE = 1e-16):**
 
-- TARGET_GRANULES = 1e3: natural_freq = 1.2e25 Hz, resolution = 4 granules/qwave (VISIBLE WAVE PROPAGATION)
-- TARGET_GRANULES = 1e6: natural_freq = ~1.36e26 Hz, resolution = 45 granules/qwave (NO VISIBLE WAVE PROPAGATION)
+- TARGET_GRANULES = 1e3: natural_freq = 1.2e25 Hz, resolution = 4 granules/ewave (VISIBLE WAVE PROPAGATION)
+- TARGET_GRANULES = 1e6: natural_freq = ~1.36e26 Hz, resolution = 45 granules/ewave (NO VISIBLE WAVE PROPAGATION)
 - Higher resolution → higher natural frequency → smaller lattice wavelength
 - But wave speed = c in all cases ✓
 
@@ -88,12 +88,12 @@ k = (2π × natural_frequency)² × m
 Result:
 
 - Wave speed in lattice = c ✓ (correct!)
-- But frequency = 1.36e26 Hz (13x higher than QWAVE_FREQUENCY)
-- Wavelength in lattice ≈ 2.2 am (13x smaller than QWAVE_LENGTH)
+- But frequency = 1.36e26 Hz (13x higher than EWAVE_FREQUENCY)
+- Wavelength in lattice ≈ 2.2 am (13x smaller than EWAVE_LENGTH)
 
-The lattice is resolving waves much SMALLER than the quantum wavelength! - the actual wave mechanics operate at the discretized lattice scale.
+The lattice is resolving waves much SMALLER than the energy wavelength! - the actual wave mechanics operate at the discretized lattice scale.
 
-Interpretation: The lattice is simulating waves at speed c, but at the lattice's natural wavelength, not the quantum wavelength - Spacing is coarser than quantum (1.27 am unit cells vs Planck scale, scale factor of ~1e16x planck scale).
+Interpretation: The lattice is simulating waves at speed c, but at the lattice's natural wavelength, not the energy wavelength - Spacing is coarser than quantum (1.27 am unit cells vs Planck scale, scale factor of ~1e16x planck scale).
 
 Lattice discretization is explicit - We know we're sampling at ~1.27 am spacing
 
@@ -202,7 +202,7 @@ You now have four complementary experiments:
 1. Spring-Force wave - Classical mechanics demonstration
 2. Leapfrog wave - Higher accuracy classical mechanics
 3. XPBD wave - Constraint-based with numerical stability
-4. Radial wave - ✅ Phase-synchronized, physically accurate quantum waves
+4. Radial wave - ✅ Phase-synchronized, physically accurate energy wave
 
 The radial_wave.py is your proof of concept that the EWT parameters work when you use the right mathematical framework!
 

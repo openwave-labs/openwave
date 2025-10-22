@@ -2,7 +2,7 @@
 
 **Date:** October 2025
 
-**Project:** OpenWave Quantum Wave Dynamics Simulator Development
+**Project:** OpenWave Energy Wave Dynamics Simulator Development
 
 **Keywords:** Numerical methods, spring-mass dynamics, position-based dynamics, CFL condition, stiffness problems, wave simulation, physics-based simulation
 
@@ -10,7 +10,7 @@
 
 ## Important Disclaimer
 
-**This is experimental work during simulator development, not peer-reviewed research.** This document describes technical experiments conducted while developing the OpenWave quantum wave dynamics simulator, exploring numerical integration challenges when simulating extremely stiff spring-mass systems. The work is based on the Energy Wave Theory (EWT).
+**This is experimental work during simulator development, not peer-reviewed research.** This document describes technical experiments conducted while developing the OpenWave energy wave dynamics simulator, exploring numerical integration challenges when simulating extremely stiff spring-mass systems. The work is based on the Energy Wave Theory (EWT).
 
 This report documents practical rediscovery of known concepts from numerical methods and computational physics (particularly the CFL condition for stiff systems) encountered during simulator development. It is shared to document technical implementation details and lessons learned.
 
@@ -34,7 +34,7 @@ The PSHO approach succeeded: we directly compute particle positions from the ana
 
 ### 1.1 Development Context
 
-During development of the OpenWave quantum wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "aether medium" made of Planck-scale particles could explain quantum phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
+During development of the OpenWave energy wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "aether medium" made of Planck-scale particles could explain quantum phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
 
 The hypothetical parameters from EWT create an unusually stiff numerical scenario:
 
@@ -89,12 +89,12 @@ This experimental evaluation during simulator development:
 | Symbol | Description | Value |
 |--------|-------------|-------|
 | c | Speed of light (wave speed) | 2.998×10^8 m/s |
-| λ | Quantum Wave length | 2.854×10^-17 m (28.54 am) |
-| f | Quantum Wave frequency | c/λ ≈ 1.05×10^25 Hz |
-| A | Quantum Wave amplitude | 9.215×10^-19 m |
+| λ | Energy Wave length | 2.854×10^-17 m (28.54 am) |
+| f | Energy Wave frequency | c/λ ≈ 1.05×10^25 Hz |
+| A | Energy Wave amplitude | 9.215×10^-19 m |
 | l_p | Planck length | 1.616×10^-35 m |
 | m_p | Planck mass | 2.17×10^-8 kg |
-| ρ | Quantum Medium density | 5.16×10^96 kg/m³ |
+| ρ | Medium density | 5.16×10^96 kg/m³ |
 
 ### 2.2 Lattice Parameters
 
@@ -153,7 +153,7 @@ EWT [1-3] proposes that spacetime emerges from a dense aether medium aether comp
 
 - Possess mass (Planck mass corrected by medium density [4])
 - Are connected by elastic interactions (quantifiable as spring constant)
-- Oscillate harmonically to propagate quantum waves
+- Oscillate harmonically to propagate energy wave
 - Form particles through standing wave interference patterns
 
 **Key Physical Relationships:**
@@ -200,10 +200,10 @@ The experimental investigation was conducted using the OpenWave simulator, a spe
 The simulator architecture comprises five primary computational modules:
 
 - `aether_granule.py`: Implements BCC lattice topology construction and granule initialization procedures
-- `quantum_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
-- `quantum_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
-- `quantum_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation
-- `quantum_wave_radial.py`: Implements phase-synchronized harmonic oscillation methodology
+- `energy_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
+- `energy_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
+- `energy_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation
+- `energy_wave_radial.py`: Implements phase-synchronized harmonic oscillation methodology
 
 ![OpenWave Demo 2](images/demo2.gif)
 ![OpenWave Demo 3](images/demo3.gif)
@@ -557,7 +557,7 @@ where $\omega t$ (temporal) and $\phi$ (spatial) remain distinct, rather than co
 
 Keeping phase as a separate, first-class parameter makes the code more flexible for future extensions (multiple wave sources, interference patterns, standing waves). It also makes the physics more explicit in the code structure, which is helpful for learning and experimentation.
 
-#### 5.4.3 Implementation (qwave_radial.py)
+#### 5.4.3 Implementation (ewave_radial.py)
 
 ```python
 @ti.kernel
@@ -905,7 +905,7 @@ def solve_distance_constraints(position, neighbors, masses,
 @ti.kernel
 def oscillate_granules(position, velocity, equilibrium, direction,
                        radial_distance, t, slow_mo, freq_boost, amp_boost):
-    """Phase-synchronized harmonic oscillation (qwave_radial.py)"""
+    """Phase-synchronized harmonic oscillation (ewave_radial.py)"""
     f_slowed = frequency / slow_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number

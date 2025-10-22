@@ -1,5 +1,5 @@
 """
-XPERIMENT: XPBD Quantum-Wave Oscillation
+XPERIMENT: XPBD Energy-Wave Oscillation
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
@@ -14,7 +14,7 @@ from openwave.common import equations
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.xperiments._archives.qwave_xpbd as qwave
+import openwave.xperiments._archives.energy_wave_xpbd as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -23,10 +23,10 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
@@ -52,12 +52,12 @@ render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: XPBD Quantum-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: XPBD Energy-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way distance constraints")
-        sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: XPBD")
+        sub.text("EWave Source: 8 Vertex Oscillators")
+        sub.text("EWave Propagation: XPBD")
 
 
 def data_dashboard():
@@ -80,10 +80,10 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Sim Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
-        if lattice.qwave_res < 10:
+        sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
+        if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
@@ -224,7 +224,7 @@ def render_xperiment(lattice, granule, neighbors):
     last_time = time.time()
 
     # Initialize wave diagnostics
-    qwave.init_wave_diagnostics(measurement_interval=1.0)
+    ewave.init_wave_diagnostics(measurement_interval=1.0)
 
     # Initialize normalized positions (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
@@ -254,7 +254,7 @@ def render_xperiment(lattice, granule, neighbors):
             # - Jacobi iteration with constraint averaging (parallel GPU-friendly)
             # - SOR omega=1.5 for faster convergence
             # - Damping=0.999 per substep (explicit dissipation)
-            qwave.propagate_qwave(
+            ewave.propagate_ewave(
                 lattice,
                 granule,
                 neighbors,
@@ -277,7 +277,7 @@ def render_xperiment(lattice, granule, neighbors):
             last_time = time.time()
 
         # Probe wave diagnostics (measurements happen automatically at configured interval)
-        qwave.probe_wave_diagnostics(
+        ewave.probe_wave_diagnostics(
             lattice,
             neighbors,
             t,

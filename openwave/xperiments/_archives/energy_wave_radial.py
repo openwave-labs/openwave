@@ -1,5 +1,5 @@
 """
-QUANTUM-WAVE
+ENERGY-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave Physics Engine @spacetime module.
@@ -15,15 +15,15 @@ import taichi as ti
 from openwave.common import constants
 
 # ================================================================
-# Quantum-Wave Oscillation Parameters
+# Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.QWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
-wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER  # in attometers
-frequency = constants.QWAVE_SPEED / constants.QWAVE_LENGTH  # Hz, quantum-wave frequency
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER  # in attometers
+frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
 # ================================================================
-# Quantum-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
+# Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -91,7 +91,7 @@ def oscillate_granules_tocenter(
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     # Wave number k = 2π/λ (for spatial phase variation)
-    # Using quantum wavelength to determine how phase changes with distance
+    # Using energy wavelength to determine how phase changes with distance
     k = 2.0 * ti.math.pi / wavelength_am  # wave number (radians per attometer)
 
     # Reference radius for amplitude normalization (one wavelength from wave source)

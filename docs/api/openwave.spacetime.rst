@@ -12,7 +12,7 @@ openwave.spacetime
 
    aether_field
    aether_granule
-   qwave_flow
-   qwave_radial
-   qwave_springs
-   qwave_granule
+   ewave_flow
+   ewave_radial
+   ewave_springs
+   ewave_granule

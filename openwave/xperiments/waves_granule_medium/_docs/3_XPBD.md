@@ -559,13 +559,13 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 ### Files Created
 
 - `xpbd.py` - Main render loop
-- `qwave_xpbd.py` - XPBD constraint solver
+- `ewave_xpbd.py` - XPBD constraint solver
 - `aether_granule.py` - Unchanged (same BCC structure)
 
 ### Files Archived (for reference)
 
-- `qwave_springs_euler.py` - Semi-implicit Euler integration
-- `qwave_springs_leap.py` - Velocity Verlet attempt
+- `ewave_springs_euler.py` - Semi-implicit Euler integration
+- `ewave_springs_leap.py` - Velocity Verlet attempt
 
 ### Implementation Checklist
 

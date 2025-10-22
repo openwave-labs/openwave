@@ -50,7 +50,7 @@ def electron_orbital_g_derivation():
     Returns:
         float: Electron orbital g-factor (dimensionless)
     """
-    return constants.ELECTRON_RADIUS * (1 / (constants.ELECTRON_K**2 * constants.QWAVE_LENGTH))
+    return constants.ELECTRON_RADIUS * (1 / (constants.ELECTRON_K**2 * constants.EWAVE_LENGTH))
 
 
 def electron_spin_g_derivation():
@@ -67,7 +67,7 @@ def electron_spin_g_derivation():
     """
     # From the document: gA = {qP^-1} * 2 * Al
     # This means: gA = (2 * Al) / qP
-    return (2 * constants.QWAVE_AMPLITUDE) / constants.PLANCK_CHARGE
+    return (2 * constants.EWAVE_AMPLITUDE) / constants.PLANCK_CHARGE
 
 
 def proton_orbital_g_derivation():
@@ -91,16 +91,16 @@ def proton_orbital_g_derivation():
         * np.pi
         * constants.MEDIUM_DENSITY
         * (constants.ELECTRON_K**8)
-        * (constants.QWAVE_AMPLITUDE**6)
+        * (constants.EWAVE_AMPLITUDE**6)
         * constants.ELECTRON_OUTER_SHELL
     )
-    denominator = 9 * (constants.QWAVE_LENGTH**3)
+    denominator = 9 * (constants.EWAVE_LENGTH**3)
 
     # The full formula with the square root term
     g_factor = (
         (1 / constants.PROTON_MASS)
         * (numerator / denominator)
-        * np.sqrt(constants.QWAVE_LENGTH / constants.QWAVE_AMPLITUDE)
+        * np.sqrt(constants.EWAVE_LENGTH / constants.EWAVE_AMPLITUDE)
     )
 
     # TODO: This shows the mathematical relationship. The exact value requires

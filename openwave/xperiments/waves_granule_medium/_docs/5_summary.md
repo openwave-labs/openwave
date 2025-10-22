@@ -166,7 +166,7 @@ We're using classical physics wave equations, force-based integration methods ar
 
 >> high frequencies > high stiffness > high iterations needed and extremely low dt
 
-This only confirms the energy contained in the quantum waves is huge, evidenced by
+This only confirms the energy contained in the energy wave is huge, evidenced by
 high forces and momentum impossible to compute because the math fails (the integration methods actually), its not even a computational feasibility issue, even if we had computer power to run
 
 ## PHASE SHIFT: KEY ASPECT

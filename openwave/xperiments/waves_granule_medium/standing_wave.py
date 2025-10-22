@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.spacetime.qwave_granule as qwave
+import openwave.spacetime.energy_wave_granule as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -33,7 +33,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 6 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # Number of wave sources for this xperiment
 NUM_SOURCES = 19
@@ -83,8 +83,8 @@ def xperiment_specs():
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
-        sub.text(f"QWave Sources: {NUM_SOURCES} Harmonic Oscillators")
-        sub.text("QWave Propagation: Radial from Source")
+        sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")
+        sub.text("EWave Propagation: Radial from Source")
 
 
 def data_dashboard():
@@ -105,17 +105,17 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Sim Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
-        if lattice.qwave_res < 10:
+        sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
+        if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
-        sub.text("--- QUANTUM-WAVE ---")
-        sub.text(f"QWAVE Speed (c): {constants.QWAVE_SPEED:.1e} m/s")
-        sub.text(f"QWAVE Wavelength (lambda): {constants.QWAVE_LENGTH:.1e} m")
-        sub.text(f"QWAVE Frequency (f): {constants.QWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"QWAVE Amplitude (A): {constants.QWAVE_AMPLITUDE:.1e} m")
+        sub.text("--- ENERGY-WAVE ---")
+        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
+        sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
@@ -214,7 +214,7 @@ def render_xperiment(lattice):
     # Conversion: radians = degrees × π/180
     sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
 
-    qwave.build_source_vectors(
+    ewave.build_source_vectors(
         sources_position, sources_phase_rad, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
@@ -239,7 +239,7 @@ def render_xperiment(lattice):
             # Apply radial harmonic oscillation to all granules from multiple wave sources
             # Each granule receives wave contributions from all active sources
             # Waves superpose creating interference patterns (constructive/destructive)
-            qwave.oscillate_granules(
+            ewave.oscillate_granules(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s
@@ -283,7 +283,7 @@ def render_xperiment(lattice):
         # Render the wave sources
         if show_sources:
             render.scene.particles(
-                centers=qwave.sources_pos_field,
+                centers=ewave.sources_pos_field,
                 radius=normalized_radius * 2,
                 color=config.COLOR_SOURCE[1],
             )

@@ -56,7 +56,7 @@ def energy_wave_equation(volume):
     return (
         constants.MEDIUM_DENSITY
         * volume
-        * (constants.QWAVE_SPEED / constants.QWAVE_LENGTH * constants.QWAVE_AMPLITUDE) ** 2
+        * (constants.EWAVE_SPEED / constants.EWAVE_LENGTH * constants.EWAVE_AMPLITUDE) ** 2
     )
 
 
@@ -85,9 +85,9 @@ def particle_energy(K):
         * np.pi
         * constants.MEDIUM_DENSITY
         * (K**5)
-        * (constants.QWAVE_AMPLITUDE**6)
-        * (constants.QWAVE_SPEED**2)
-    ) / (3 * (constants.QWAVE_LENGTH**3))
+        * (constants.EWAVE_AMPLITUDE**6)
+        * (constants.EWAVE_SPEED**2)
+    ) / (3 * (constants.EWAVE_LENGTH**3))
     energy = coefficient * summation
     return energy
 
@@ -118,10 +118,10 @@ def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_O
         * np.pi
         * constants.MEDIUM_DENSITY
         * (Ke**7)
-        * (constants.QWAVE_AMPLITUDE**6)
-        * (constants.QWAVE_SPEED**2)
+        * (constants.EWAVE_AMPLITUDE**6)
+        * (constants.EWAVE_SPEED**2)
         * Oe
-    ) / (3 * (constants.QWAVE_LENGTH**2))
+    ) / (3 * (constants.EWAVE_LENGTH**2))
 
     # Calculate the distance-dependent term
     distance_term = (delta / r) - (delta / r0)
@@ -146,8 +146,8 @@ def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
         float: Photon frequency f in Hz
     """
     # Calculate the coefficient
-    coefficient = (3 * constants.QWAVE_LENGTH * constants.QWAVE_SPEED) / (
-        16 * (Ke**4) * constants.QWAVE_AMPLITUDE
+    coefficient = (3 * constants.EWAVE_LENGTH * constants.EWAVE_SPEED) / (
+        16 * (Ke**4) * constants.EWAVE_AMPLITUDE
     )
 
     # Calculate the distance-dependent term
@@ -173,7 +173,7 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
         float: Photon wavelength λ_t in meters
     """
     # Calculate the coefficient
-    coefficient = (16 * (Ke**4) * constants.QWAVE_AMPLITUDE) / (3 * constants.QWAVE_LENGTH)
+    coefficient = (16 * (Ke**4) * constants.EWAVE_AMPLITUDE) / (3 * constants.EWAVE_LENGTH)
 
     # Calculate the distance-dependent term (reciprocal)
     distance_term = (delta / r) - (delta / r0)
@@ -256,11 +256,11 @@ def electric_force(
         * np.pi
         * constants.MEDIUM_DENSITY
         * (Ke**7)
-        * (constants.QWAVE_AMPLITUDE**6)
-        * (constants.QWAVE_SPEED**2)
+        * (constants.EWAVE_AMPLITUDE**6)
+        * (constants.EWAVE_SPEED**2)
         * Oe
         * g_lambda
-    ) / (3 * (constants.QWAVE_LENGTH**2))
+    ) / (3 * (constants.EWAVE_LENGTH**2))
 
     # Calculate force
     return coefficient * (Q1 * Q2) / (r**2)
@@ -299,10 +299,10 @@ def magnetic_force(
         * np.pi
         * constants.MEDIUM_DENSITY
         * (Ke**7)
-        * (constants.QWAVE_AMPLITUDE**6)
+        * (constants.EWAVE_AMPLITUDE**6)
         * Oe
         * g_lambda
-    ) / (3 * (constants.QWAVE_LENGTH**2))
+    ) / (3 * (constants.EWAVE_LENGTH**2))
 
     # Calculate force with velocity factor
     return coefficient * (Q1 * Q2 * (v**2)) / (r**2)
@@ -337,11 +337,11 @@ def gravitational_force(
     """
     # Calculate the coefficient
     coefficient = (
-        constants.MEDIUM_DENSITY * (constants.QWAVE_LENGTH**2) * (constants.QWAVE_SPEED**2) * Oe
+        constants.MEDIUM_DENSITY * (constants.EWAVE_LENGTH**2) * (constants.EWAVE_SPEED**2) * Oe
     ) / (2 * (Ke**31))
 
     # Amplitude factor
-    amplitude_factor = (constants.QWAVE_AMPLITUDE / 36) ** 2
+    amplitude_factor = (constants.EWAVE_AMPLITUDE / 36) ** 2
 
     # G-factor contributions
     g_factor = (g_lambda**3) * (g_p**2)
@@ -380,11 +380,11 @@ def strong_force(
         16
         * constants.MEDIUM_DENSITY
         * (Ke**11)
-        * (constants.QWAVE_AMPLITUDE**7)
-        * (constants.QWAVE_SPEED**2)
+        * (constants.EWAVE_AMPLITUDE**7)
+        * (constants.EWAVE_SPEED**2)
         * Oe
         * g_lambda
-    ) / (9 * (constants.QWAVE_LENGTH**3))
+    ) / (9 * (constants.EWAVE_LENGTH**3))
 
     # Calculate force
     return coefficient * (Q1 * Q2) / (r**2)
@@ -414,10 +414,10 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
         64
         * constants.MEDIUM_DENSITY
         * (Ke**17)
-        * (constants.QWAVE_AMPLITUDE**8)
-        * (constants.QWAVE_SPEED**2)
+        * (constants.EWAVE_AMPLITUDE**8)
+        * (constants.EWAVE_SPEED**2)
         * Oe
-    ) / (27 * np.pi * (constants.QWAVE_LENGTH**3))
+    ) / (27 * np.pi * (constants.EWAVE_LENGTH**3))
 
     # Calculate force with g_lambda squared
     return coefficient * (g_lambda**2) * (Q**2) / (r**3)
@@ -438,18 +438,18 @@ def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     Args:
         K (int): Particle wave center count (dimensionless)
         v (float): Particle velocity in m/s
-        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
-        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+        wavelength (float, optional): Wavelength in meters. If None, uses EWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses EWAVE_AMPLITUDE
 
     Returns:
         float: Longitudinal in-wave energy in Joules
     """
     if wavelength is None:
-        wavelength = constants.QWAVE_LENGTH
+        wavelength = constants.EWAVE_LENGTH
     if amplitude is None:
-        amplitude = constants.QWAVE_AMPLITUDE
+        amplitude = constants.EWAVE_AMPLITUDE
 
-    c = constants.QWAVE_SPEED
+    c = constants.EWAVE_SPEED
     rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
 
@@ -496,8 +496,8 @@ def longitudinal_out_wave_energy(
     Args:
         K (int): Particle wave center count (dimensionless)
         v (float): Particle velocity in m/s
-        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
-        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+        wavelength (float, optional): Wavelength in meters. If None, uses EWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses EWAVE_AMPLITUDE
         g_lambda (float): Orbital g-factor (default: electron)
         g_A (float): Spin g-factor (default: electron)
 
@@ -505,11 +505,11 @@ def longitudinal_out_wave_energy(
         float: Longitudinal out-wave energy in Joules
     """
     if wavelength is None:
-        wavelength = constants.QWAVE_LENGTH
+        wavelength = constants.EWAVE_LENGTH
     if amplitude is None:
-        amplitude = constants.QWAVE_AMPLITUDE
+        amplitude = constants.EWAVE_AMPLITUDE
 
-    c = constants.QWAVE_SPEED
+    c = constants.EWAVE_SPEED
     rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
 
@@ -564,8 +564,8 @@ def magnetic_out_wave_energy(
     Args:
         K (int): Particle wave center count (dimensionless)
         v (float): Particle velocity in m/s
-        wavelength (float, optional): Wavelength in meters. If None, uses QWAVE_LENGTH
-        amplitude (float, optional): Amplitude in meters. If None, uses QWAVE_AMPLITUDE
+        wavelength (float, optional): Wavelength in meters. If None, uses EWAVE_LENGTH
+        amplitude (float, optional): Amplitude in meters. If None, uses EWAVE_AMPLITUDE
         g_lambda (float): Orbital g-factor (default: electron)
         g_A (float): Spin g-factor (default: electron)
 
@@ -573,11 +573,11 @@ def magnetic_out_wave_energy(
         float: Magnetic (transverse) out-wave energy in Joules
     """
     if wavelength is None:
-        wavelength = constants.QWAVE_LENGTH
+        wavelength = constants.EWAVE_LENGTH
     if amplitude is None:
-        amplitude = constants.QWAVE_AMPLITUDE
+        amplitude = constants.EWAVE_AMPLITUDE
 
-    c = constants.QWAVE_SPEED
+    c = constants.EWAVE_SPEED
     rho = constants.MEDIUM_DENSITY
     Ke = constants.ELECTRON_K
     alpha_e = constants.FINE_STRUCTURE
@@ -689,7 +689,7 @@ if __name__ == "__main__":
     # Verify relationship: c = λf
     calculated_speed = abs(photon_lambda * photon_f)
     print(f"\nVerification: |λf| = {calculated_speed:.2e} m/s")
-    print(f"Speed of light c = {constants.QWAVE_SPEED:.2e} m/s")
+    print(f"Speed of light c = {constants.EWAVE_SPEED:.2e} m/s")
 
     # Electromagnetic spectrum context
     print(f"\nElectromagnetic Spectrum Context:")
@@ -853,7 +853,7 @@ if __name__ == "__main__":
 
     # Test at different velocities
     K_electron = 10
-    c = constants.QWAVE_SPEED  # Speed of light
+    c = constants.EWAVE_SPEED  # Speed of light
     velocities = [0, 0.1 * c, 0.5 * c, 0.9 * c, 0.99 * c]  # Various fractions of c
 
     print(f"\nElectron (K={K_electron}) energy at different velocities:")

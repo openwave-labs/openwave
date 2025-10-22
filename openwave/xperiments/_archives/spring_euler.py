@@ -25,7 +25,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.xperiments._archives.qwave_spring_euler as qwave
+import openwave.xperiments._archives.energy_wave_spring_euler as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -34,10 +34,10 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
@@ -64,8 +64,8 @@ def xperiment_specs():
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way neighbors springs")
-        sub.text("QWave Source: 8 Vertex Oscillators")
-        sub.text("QWave Propagation: Spring-Mass Euler")
+        sub.text("EWave Source: 8 Vertex Oscillators")
+        sub.text("EWave Propagation: Spring-Mass Euler")
 
 
 def data_dashboard():
@@ -87,10 +87,10 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Simulation Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwavelength (>10)")
-        if lattice.qwave_res < 10:
+        sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewavelength (>10)")
+        if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
         sub.text("--- Universe Lattice Wave Energy ---")
@@ -256,7 +256,7 @@ def render_xperiment(lattice, granule, neighbors):
             # Using Small Steps strategy: many substeps with single force evaluation each
             # From "Small Steps in Physics Simulation" paper - error scales as Δt²
             # Paper uses 30-100 substeps for good balance of stability/performance
-            qwave.propagate_qwave(
+            ewave.propagate_ewave(
                 lattice,
                 granule,
                 neighbors,

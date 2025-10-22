@@ -169,7 +169,7 @@ The choice of 1λ minimum radius aligns with multiple physical principles:
 
 ### Implementation Summary
 
-The amplitude falloff implementation in `qwave_radial.py` uses the following approach:
+The amplitude falloff implementation in `ewave_radial.py` uses the following approach:
 
 ```python
 # Reference radius for amplitude normalization (one wavelength from wave source)

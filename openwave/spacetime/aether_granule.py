@@ -6,7 +6,7 @@ GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 
-AETHER-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+AETHER-MEDIUM is a Wave Medium and Propagates Wave Motion (ENERGY-WAVE).
 Modeled as an fluid medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
@@ -74,7 +74,7 @@ class BCCLattice:
         Args:
             universe_edge: Simulation domain size, edge length of the cubic universe in meters
         """
-        # Compute lattice total energy from quantum-wave equation
+        # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
@@ -103,11 +103,11 @@ class BCCLattice:
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
-        # Compute quantum-wave linear resolution, sampling rate
+        # Compute energy-wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
-        self.qwave_res = ti.math.round(constants.QWAVE_LENGTH / self.unit_cell_edge * 2)
-        # Compute universe linear resolution, qwavelengths per universe edge
-        self.uni_res = universe_edge / constants.QWAVE_LENGTH
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
+        # Compute universe linear resolution, ewavelengths per universe edge
+        self.uni_res = universe_edge / constants.EWAVE_LENGTH
 
         # Total granules: corners + centers
         # Corners: (grid_size + 1)^3, Centers: grid_size^3
@@ -417,8 +417,8 @@ class BCCLattice:
                             [probe_color[0], probe_color[1], probe_color[2]]
                         )
 
-        # Convert quantum wavelength and call GPU kernel for field circles
-        wavelength_am = constants.QWAVE_LENGTH / constants.ATTOMETTER
+        # Convert energy wavelength and call GPU kernel for field circles
+        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
         self._mark_sliced_plane_objects(wavelength_am, num_circles)
 
     @ti.kernel
@@ -535,7 +535,7 @@ class BCCNeighbors:
         # Natural frequency for wave propagation at speed of light
         # For wave speed c in lattice with spacing L: f_n = c / (2L)
         # where λ_lattice ≈ 2L (minimum resolvable wavelength in discrete lattice)
-        self.natural_frequency = constants.QWAVE_SPEED / (2 * self.rest_length)  # Hz
+        self.natural_frequency = constants.EWAVE_SPEED / (2 * self.rest_length)  # Hz
 
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
@@ -715,7 +715,7 @@ if __name__ == "__main__":
     # ================================================================
 
     UNIVERSE_EDGE = (
-        4 * constants.QWAVE_LENGTH
+        4 * constants.EWAVE_LENGTH
     )  # m, simulation domain, edge length of cubic universe
 
     lattice = BCCLattice(UNIVERSE_EDGE)

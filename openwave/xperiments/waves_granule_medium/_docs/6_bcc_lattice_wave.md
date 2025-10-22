@@ -41,7 +41,7 @@ Collective effect: "Twisting" wavefront
 
 ### PSHO Implementation Details
 
-From `qwave_radial.py:72-88`:
+From `ewave_radial.py:72-88`:
 
 ```python
 for idx in range(positions.shape[0]):
@@ -220,7 +220,7 @@ This observation demonstrates that OpenWave correctly simulates wave propagation
 ## References
 
 - `/spacetime/aether_granule.py` - BCC lattice implementation
-- `/spacetime/qwave_radial.py` - PSHO wave implementation
+- `/spacetime/ewave_radial.py` - PSHO wave implementation
 - `/validations/wave_diagnostics.py` - Wave validation module
 - `/dev_docs/WAVE_DIAGNOSTICS_README.md` - Complete documentation
 - Ashcroft & Mermin, "Solid State Physics" - Chapter 22 (Phonons in crystals)

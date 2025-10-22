@@ -87,7 +87,7 @@ SLOW_MO_PHYSICS = 1.0  # Full speed for physics
 SLOW_MO_RENDER = 1e25   # Slow down for human visualization
 
 # In oscillate_vertex:
-f_physics = QWAVE_FREQUENCY / SLOW_MO_PHYSICS  # 1.05e25 Hz
+f_physics = EWAVE_FREQUENCY / SLOW_MO_PHYSICS  # 1.05e25 Hz
 ```
 
 But this brings us back to the original problem: **timestep too large for high frequency!**
@@ -346,7 +346,7 @@ Your Proposal:
 ```python
 for frame in range(10000):
     # Run 1000 substeps per frame (takes 5 seconds per frame, who cares!)
-    propagate_qwave(..., substeps=1000)
+    propagate_ewave(..., substeps=1000)
     save_frame_to_disk(f"frame_{frame:05d}.png")
 
 # Later: compile frames to video

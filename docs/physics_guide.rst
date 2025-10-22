@@ -4,15 +4,15 @@ Physics Guide
 Energy Wave Theory (EWT) Implementation
 ----------------------------------------
 
-OpenWave implements Energy Wave Theory, which proposes that all matter and energy arise from quantum wave interactions in a granular spacetime medium.
+OpenWave implements Energy Wave Theory, which proposes that all matter and energy arise from energy wave interactions in a granular spacetime medium.
 
 Fundamental Concepts
 --------------------
 
-Quantum Waves
+Energy Wave
 ~~~~~~~~~~~~~
 
-The foundation of EWT is the quantum wave, characterized by:
+The foundation of EWT is the energy wave, characterized by:
 
 - **Wavelength**: Planck length (λₚ = 1.616255 × 10⁻³⁵ m)
 - **Amplitude**: Related to energy density

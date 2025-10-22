@@ -1,5 +1,5 @@
 """
-XPERIMENT: Radiation from a Quantum-Wave Source
+XPERIMENT: Radiation from an Energy-Wave Source
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe_edge and other parameters to explore different scales.
@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.aether_granule as medium
-import openwave.xperiments._archives.qwave_radial as qwave
+import openwave.xperiments._archives.energy_wave_radial as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -33,10 +33,10 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Quantum Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
@@ -56,8 +56,8 @@ def xperiment_specs():
         sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
-        sub.text("QWave Source: 1 Harmonic Oscillator")
-        sub.text("QWave Propagation: Radial from Center")
+        sub.text("EWave Source: 1 Harmonic Oscillator")
+        sub.text("EWave Propagation: Radial from Center")
 
 
 def data_dashboard():
@@ -78,17 +78,17 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Sim Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
-        if lattice.qwave_res < 10:
+        sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
+        if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
-        sub.text("--- QUANTUM-WAVE ---")
-        sub.text(f"QWAVE Speed (c): {constants.QWAVE_SPEED:.1e} m/s")
-        sub.text(f"QWAVE Wavelength (lambda): {constants.QWAVE_LENGTH:.1e} m")
-        sub.text(f"QWAVE Frequency (f): {constants.QWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"QWAVE Amplitude (A): {constants.QWAVE_AMPLITUDE:.1e} m")
+        sub.text("--- ENERGY-WAVE ---")
+        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
+        sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
@@ -202,7 +202,7 @@ def render_xperiment(lattice):
             # Apply radial harmonic oscillation to all granules
             # All granules oscillate toward/away from lattice center along their direction vectors
             # Phase is determined by radial distance, creating outward-propagating spherical waves
-            qwave.oscillate_granules_tocenter(
+            ewave.oscillate_granules_tocenter(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s

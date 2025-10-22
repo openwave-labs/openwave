@@ -15,7 +15,7 @@ from openwave.common import constants
 # Resolution & Magnification Settings
 # ================================================================
 TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # ================================================================
 # Color Definitions (RGBA hex)
@@ -39,7 +39,7 @@ COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grids, links
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 
-COLOR_QWAVE = ORANGE  # quantum-wave, wave functions
+COLOR_EWAVE = ORANGE  # energy-wave, wave functions
 COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MATTER = DARK_BLUE  # matter, particles
 COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles

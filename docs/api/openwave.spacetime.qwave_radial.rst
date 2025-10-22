@@ -1,6 +1,6 @@
-openwave.spacetime.qwave\_radial
+openwave.spacetime.ewave\_radial
 ================================
 
-.. automodule:: openwave.spacetime.qwave_radial
+.. automodule:: openwave.spacetime.ewave_radial
 
    
