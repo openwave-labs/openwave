@@ -2,7 +2,7 @@
 XPERIMENT: Phase Sync Harmonic Oscillation
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
-Tweak universe_edge and other parameters to explore different scales.
+Tweak universe size and other parameters to explore different scales.
 
 Demonstrates radial harmonic oscillation of all granules in the BCC lattice.
 All granules oscillate toward/away from the lattice center along their

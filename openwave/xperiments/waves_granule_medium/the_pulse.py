@@ -2,7 +2,7 @@
 XPERIMENT: Radiation from a Wave Source
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
-Tweak universe_edge and other parameters to explore different scales.
+Tweak universe size and other parameters to explore different scales.
 
 Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,

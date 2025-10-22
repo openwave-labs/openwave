@@ -2,7 +2,7 @@
 XPERIMENT: XPBD Energy-Wave Oscillation
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
-Tweak universe_edge and other parameters to explore different scales.
+Tweak universe size and other parameters to explore different scales.
 """
 
 import taichi as ti
