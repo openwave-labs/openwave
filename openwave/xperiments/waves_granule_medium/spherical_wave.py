@@ -53,6 +53,7 @@ sources_phase_deg = [
     0,  # Wave Source 0 (eg. 0 = in phase)
 ]
 
+# Instantiate the lattice and granule objects
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 

@@ -64,7 +64,7 @@ sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
 for i in range(NUM_SOURCES - 1):
     sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
 
-# Instantiate the BCC lattice and granule objects
+# Instantiate the lattice and granule objects
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
