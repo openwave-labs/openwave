@@ -64,7 +64,7 @@ sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
 for i in range(NUM_SOURCES - 1):
     sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
 
-# Instantiate the lattice and granule objects
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_EDGE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
@@ -80,7 +80,7 @@ render.init_UI(cam_init_pos=[1.50, 0.50, 2.50])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in lattice")
+        sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")

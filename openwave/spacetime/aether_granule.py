@@ -84,15 +84,18 @@ class SCLattice:
         universe_volume = universe_edge**3
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
-        # SC has 1 granule per unit cell
-        self.unit_cell_volume = universe_volume / self.target_granules
-        self.unit_cell_edge = self.unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
+        # SC has 1 granule per unit cell (each corner is shared by 8 cells = 1/8 per cell * 8 corners)
+        init_unit_cell_volume = universe_volume / self.target_granules
+        init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
         # Calculate grid dimensions (number of unit cells per dimension)
         # Round to nearest odd integer for symmetric grid
-        self.grid_size = int(universe_edge / self.unit_cell_edge)
+        self.raw_size = universe_edge / init_unit_cell_edge
+        floor = int(self.raw_size)
+        self.grid_size = floor if floor % 2 == 1 else floor + 1
 
         # Recompute unit-cell edge length based on rounded grid size and scale factor
+        self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
@@ -100,15 +103,13 @@ class SCLattice:
 
         # Compute energy-wave linear resolution, sampling rate
         # granules per wavelength, should be >2 for Nyquist
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
         # Compute universe linear resolution, ewavelengths per universe edge
         self.uni_res = universe_edge / constants.EWAVE_LENGTH
 
-        # Total granules: corners + centers
-        # Corners: (grid_size + 1)^3, Centers: grid_size^3
-        corner_count = (self.grid_size + 1) ** 3
-        center_count = self.grid_size**3
-        self.total_granules = corner_count + center_count
+        # Total granules: corners only (no centers for SC)
+        # Corners: (grid_size + 1)^3
+        self.total_granules = (self.grid_size + 1) ** 3
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
@@ -136,46 +137,27 @@ class SCLattice:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
         2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
         3. No nested loops - All granules computed in parallel across GPU threads
-        4. Efficient branching - Simple if/else to determine corner vs center granules
         This structure ensures maximum parallelization on GPU, as each thread independently
         computes one granule's position without synchronization overhead.
+
+        Simple Cubic: Only corner granules are created (no center granules).
         """
         # Parallelize over all granules using single outermost loop
         for idx in range(self.total_granules):
-            # Determine if this is a corner or center granule
-            corner_count = (self.grid_size + 1) ** 3
+            # SC lattice: only corner granules
+            grid_dim = self.grid_size + 1
+            i = idx // (grid_dim * grid_dim)
+            j = (idx % (grid_dim * grid_dim)) // grid_dim
+            k = idx % grid_dim
 
-            if idx < corner_count:
-                # Corner granule: decode 3D position from linear index
-                grid_dim = self.grid_size + 1
-                i = idx // (grid_dim * grid_dim)
-                j = (idx % (grid_dim * grid_dim)) // grid_dim
-                k = idx % grid_dim
-
-                # Store positions in attometers
-                self.position_am[idx] = ti.Vector(
-                    [
-                        i * self.unit_cell_edge_am,
-                        j * self.unit_cell_edge_am,
-                        k * self.unit_cell_edge_am,
-                    ]
-                )
-            else:
-                # Center granule: decode position with offset
-                center_idx = idx - corner_count
-                i = center_idx // (self.grid_size * self.grid_size)
-                j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
-                k = center_idx % self.grid_size
-
-                offset = self.unit_cell_edge_am / 2
-                # Store positions in attometers
-                self.position_am[idx] = ti.Vector(
-                    [
-                        (i * self.unit_cell_edge_am + offset),
-                        (j * self.unit_cell_edge_am + offset),
-                        (k * self.unit_cell_edge_am + offset),
-                    ]
-                )
+            # Store positions in attometers
+            self.position_am[idx] = ti.Vector(
+                [
+                    i * self.unit_cell_edge_am,
+                    j * self.unit_cell_edge_am,
+                    k * self.unit_cell_edge_am,
+                ]
+            )
 
             self.equilibrium_am[idx] = self.position_am[idx]  # set equilibrium position
 
@@ -191,36 +173,32 @@ class SCLattice:
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
+
+        Simple Cubic: All granules are corners, so classification is based on grid position only.
         """
-        corner_count = (self.grid_size + 1) ** 3
-
         for idx in range(self.total_granules):
-            if idx < corner_count:
-                # Corner granule: decode 3D grid position
-                grid_dim = self.grid_size + 1
-                i = idx // (grid_dim * grid_dim)
-                j = (idx % (grid_dim * grid_dim)) // grid_dim
-                k = idx % grid_dim
+            # SC lattice: all granules are corner granules
+            grid_dim = self.grid_size + 1
+            i = idx // (grid_dim * grid_dim)
+            j = (idx % (grid_dim * grid_dim)) // grid_dim
+            k = idx % grid_dim
 
-                # Count how many coordinates are at boundaries (0 or grid_size)
-                at_boundary = 0
-                if i == 0 or i == self.grid_size:
-                    at_boundary += 1
-                if j == 0 or j == self.grid_size:
-                    at_boundary += 1
-                if k == 0 or k == self.grid_size:
-                    at_boundary += 1
+            # Count how many coordinates are at boundaries (0 or grid_size)
+            at_boundary = 0
+            if i == 0 or i == self.grid_size:
+                at_boundary += 1
+            if j == 0 or j == self.grid_size:
+                at_boundary += 1
+            if k == 0 or k == self.grid_size:
+                at_boundary += 1
 
-                if at_boundary == 3:
-                    self.granule_type[idx] = config.TYPE_VERTEX
-                elif at_boundary == 2:
-                    self.granule_type[idx] = config.TYPE_EDGE
-                elif at_boundary == 1:
-                    self.granule_type[idx] = config.TYPE_FACE
-                else:
-                    self.granule_type[idx] = config.TYPE_CORE
+            if at_boundary == 3:
+                self.granule_type[idx] = config.TYPE_VERTEX
+            elif at_boundary == 2:
+                self.granule_type[idx] = config.TYPE_EDGE
+            elif at_boundary == 1:
+                self.granule_type[idx] = config.TYPE_FACE
             else:
-                # Center granules are always in core (offset by 0.5 means never on boundary)
                 self.granule_type[idx] = config.TYPE_CORE
 
     @ti.kernel
@@ -279,13 +257,12 @@ class SCLattice:
             num_probes: Number of random probe granules per plane.
         """
         # Quick plane collection (small lists, Python is acceptable)
-        corner_count = (self.grid_size + 1) ** 3
         half_grid = self.grid_size // 2
         grid_dim = self.grid_size + 1
 
         yz_plane, xz_plane, xy_plane = [], [], []
 
-        # Corner granules on exposed planes
+        # SC lattice: only corner granules on exposed planes
         for i in range(grid_dim):
             for j in range(grid_dim):
                 for k in range(grid_dim):
@@ -295,18 +272,6 @@ class SCLattice:
                     if j == half_grid + 1 and i > half_grid and k > half_grid:
                         xz_plane.append(idx)
                     if k == half_grid + 1 and i > half_grid and j > half_grid:
-                        xy_plane.append(idx)
-
-        # Center granules on exposed planes
-        for i in range(self.grid_size):
-            for j in range(self.grid_size):
-                for k in range(self.grid_size):
-                    idx = corner_count + i * self.grid_size**2 + j * self.grid_size + k
-                    if i == half_grid and j >= half_grid and k >= half_grid:
-                        yz_plane.append(idx)
-                    if j == half_grid and i >= half_grid and k >= half_grid:
-                        xz_plane.append(idx)
-                    if k == half_grid and i >= half_grid and j >= half_grid:
                         xy_plane.append(idx)
 
         # Select and mark random probes
@@ -328,19 +293,21 @@ class SCLattice:
 
         This kernel processes all granules in parallel, marking:
         - Field circles at 1λ, 2λ, etc. from the center granule
+
+        Simple Cubic: Center is calculated from corner granule positions.
         """
-        corner_count = (self.grid_size + 1) ** 3
+        grid_dim = self.grid_size + 1
         half_grid = self.grid_size // 2
         half_universe = self.universe_edge_am / 2.0
         plane_tolerance = self.unit_cell_edge_am * 0.6
         circle_tolerance = wavelength_am * 0.05
 
-        # Calculate center granule index
+        # Calculate center granule index (corner granule at center of lattice)
+        # For SC lattice, this is the corner at (half_grid+1, half_grid+1, half_grid+1)
         center_idx = (
-            corner_count
-            + half_grid * self.grid_size * self.grid_size
-            + half_grid * self.grid_size
-            + half_grid
+            (half_grid + 1) * grid_dim * grid_dim
+            + (half_grid + 1) * grid_dim
+            + (half_grid + 1)
         )
         center_pos = self.position_am[center_idx]
 
