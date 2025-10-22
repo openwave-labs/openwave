@@ -68,12 +68,10 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
 
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
-    sources_phase_field = ti.field(dtype=ti.f32, shape=num_sources)
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
         sources_pos_field[i] = ti.Vector(sources_position[i])
-        sources_phase_field[i] = sources_phase[i]
         sources_phase_shift[i] = sources_phase[i]
 
     @ti.kernel
@@ -87,7 +85,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
             # Loop through all wave sources
             for source_idx in range(num_active):
                 # Convert normalized source position to attometers
-                source_pos_am = sources_pos_field[source_idx] * lattice.universe_edge_am
+                source_pos_am = sources_pos_field[source_idx] * lattice.max_universe_edge_am
 
                 # Vector from source to granule (for outward propagation)
                 dir_vec = lattice.position_am[granule_idx] - source_pos_am

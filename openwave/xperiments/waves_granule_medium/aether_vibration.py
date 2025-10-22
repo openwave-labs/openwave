@@ -33,7 +33,11 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_SIZE = [
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
 NUM_SOURCES = 9
@@ -71,7 +75,7 @@ sources_phase_deg = [
 ]
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
-lattice = medium.BCCLattice(UNIVERSE_EDGE)
+lattice = medium.BCCLattice(UNIVERSE_SIZE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
@@ -80,7 +84,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -97,14 +101,14 @@ def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
         sub.text("--- AETHER-MEDIUM ---")
-        sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
+        sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
-        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
+        sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
@@ -114,7 +118,7 @@ def data_dashboard():
         sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
         if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
+        sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
         sub.text("--- ENERGY-WAVE ---")
@@ -165,7 +169,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.position_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.position_am[i] / lattice.max_universe_edge_am
 
 
 def normalize_granule():
@@ -174,7 +178,7 @@ def normalize_granule():
     global normalized_radius
 
     normalized_radius = max(
-        granule.radius / lattice.universe_edge, 0.0001
+        granule.radius / lattice.max_universe_edge, 0.0001
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 

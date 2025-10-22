@@ -65,54 +65,97 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge):
+    def __init__(self, universe_size):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
-        Universe edge (size) and target granules are used to define
+        Universe size and target granules are used to define
         scaled-up unit-cell properties and scale factor.
 
         Args:
-            universe_edge: Simulation domain size, edge length of the cubic universe in meters
+            universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
         """
         # Compute lattice total energy from energy-wave equation
-        self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
+        universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
+        self.energy = equations.energy_wave_equation(universe_volume)  # in Joules
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Set universe properties (simulation domain)
+        # Set universe properties (simulation domain) - asymmetric support
         self.target_granules = config.TARGET_GRANULES
-        self.universe_edge = universe_edge
-        self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
-        universe_volume = universe_edge**3
+        self.universe_size = universe_size  # [x, y, z] dimensions
+        self.universe_size_am = [
+            universe_size[0] / constants.ATTOMETTER,
+            universe_size[1] / constants.ATTOMETTER,
+            universe_size[2] / constants.ATTOMETTER,
+        ]
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # BCC has 2 granules per unit cell (8 corners shared + 1 center)
         init_unit_cell_volume = universe_volume / (self.target_granules / 2)
         init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
-        # Calculate grid dimensions (number of unit cells per dimension)
-        # Round to nearest odd integer for symmetric grid
-        self.raw_size = universe_edge / init_unit_cell_edge
-        floor = int(self.raw_size)
-        self.grid_size = floor if floor % 2 == 1 else floor + 1
+        # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
+        # Round to nearest odd integer for symmetric grid per axis
+        self.raw_size = [
+            universe_size[0] / init_unit_cell_edge,
+            universe_size[1] / init_unit_cell_edge,
+            universe_size[2] / init_unit_cell_edge,
+        ]
+        self.grid_size = [
+            int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
+            int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
+            int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
+        ]
 
-        # Recompute unit-cell edge length based on rounded grid size and scale factor
-        self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
+        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
+        # This preserves BCC crystal structure. Only the NUMBER of cells varies per axis.
+        self.unit_cell_edge = init_unit_cell_edge  # single scalar - cubic symmetry preserved
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
+
+        # Recompute actual universe dimensions to fit integer number of cubic unit cells
+        self.universe_size = [
+            self.grid_size[0] * self.unit_cell_edge,
+            self.grid_size[1] * self.unit_cell_edge,
+            self.grid_size[2] * self.unit_cell_edge,
+        ]
+        self.universe_size_am = [
+            self.universe_size[0] / constants.ATTOMETTER,
+            self.universe_size[1] / constants.ATTOMETTER,
+            self.universe_size[2] / constants.ATTOMETTER,
+        ]
+        self.max_universe_edge = max(
+            self.grid_size[0] * self.unit_cell_edge,
+            self.grid_size[1] * self.unit_cell_edge,
+            self.grid_size[2] * self.unit_cell_edge,
+        )
+        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETTER
+        self.max_grid_size = max(
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )
+
+        # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
         # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >2 for Nyquist
+        # granules per wavelength, should be >2 for Nyquist (same for all axes with cubic cells)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
-        # Compute universe linear resolution, ewavelengths per universe edge
-        self.uni_res = universe_edge / constants.EWAVE_LENGTH
 
-        # Total granules: corners + centers
-        # Corners: (grid_size + 1)^3, Centers: grid_size^3
-        corner_count = (self.grid_size + 1) ** 3
-        center_count = self.grid_size**3
+        # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
+        self.max_uni_res = max(
+            self.universe_size[0] / constants.EWAVE_LENGTH,
+            self.universe_size[1] / constants.EWAVE_LENGTH,
+            self.universe_size[2] / constants.EWAVE_LENGTH,
+        )
+
+        # Total granules: corners + centers (asymmetric grid)
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
         self.total_granules = corner_count + center_count
 
         # Initialize position and velocity 1D arrays
@@ -136,7 +179,7 @@ class BCCLattice:
 
     @ti.kernel
     def populate_latticeBCC(self):
-        """Populate BCC lattice positions in a 1D array.
+        """Populate BCC lattice positions in a 1D array with asymmetric grid support.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
         2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
@@ -144,20 +187,27 @@ class BCCLattice:
         4. Efficient branching - Simple if/else to determine corner vs center granules
         This structure ensures maximum parallelization on GPU, as each thread independently
         computes one granule's position without synchronization overhead.
+
+        Asymmetric grid: Different grid sizes for x, y, z dimensions.
         """
         # Parallelize over all granules using single outermost loop
         for idx in range(self.total_granules):
             # Determine if this is a corner or center granule
-            corner_count = (self.grid_size + 1) ** 3
+            corner_count = (
+                (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+            )
 
             if idx < corner_count:
-                # Corner granule: decode 3D position from linear index
-                grid_dim = self.grid_size + 1
-                i = idx // (grid_dim * grid_dim)
-                j = (idx % (grid_dim * grid_dim)) // grid_dim
-                k = idx % grid_dim
+                # Corner granule: decode 3D position from linear index (asymmetric)
+                grid_dim_x = self.grid_size[0] + 1
+                grid_dim_y = self.grid_size[1] + 1
+                grid_dim_z = self.grid_size[2] + 1
 
-                # Store positions in attometers
+                i = idx // (grid_dim_y * grid_dim_z)
+                j = (idx % (grid_dim_y * grid_dim_z)) // grid_dim_z
+                k = idx % grid_dim_z
+
+                # Store positions in attometers (cubic unit cells)
                 self.position_am[idx] = ti.Vector(
                     [
                         i * self.unit_cell_edge_am,
@@ -166,19 +216,19 @@ class BCCLattice:
                     ]
                 )
             else:
-                # Center granule: decode position with offset
+                # Center granule: decode position with offset (asymmetric grid)
                 center_idx = idx - corner_count
-                i = center_idx // (self.grid_size * self.grid_size)
-                j = (center_idx % (self.grid_size * self.grid_size)) // self.grid_size
-                k = center_idx % self.grid_size
+                i = center_idx // (self.grid_size[1] * self.grid_size[2])
+                j = (center_idx % (self.grid_size[1] * self.grid_size[2])) // self.grid_size[2]
+                k = center_idx % self.grid_size[2]
 
+                # Store positions in attometers (cubic unit cells with offset)
                 offset = self.unit_cell_edge_am / 2
-                # Store positions in attometers
                 self.position_am[idx] = ti.Vector(
                     [
-                        (i * self.unit_cell_edge_am + offset),
-                        (j * self.unit_cell_edge_am + offset),
-                        (k * self.unit_cell_edge_am + offset),
+                        i * self.unit_cell_edge_am + offset,
+                        j * self.unit_cell_edge_am + offset,
+                        k * self.unit_cell_edge_am + offset,
                     ]
                 )
 
@@ -192,28 +242,32 @@ class BCCLattice:
         """Classify each granule by its position in the BCC lattice structure.
 
         Classification:
-        - VERTEX (0): 8 corner vertices of the cubic lattice boundary
+        - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
+
+        Asymmetric grid: Works with different grid sizes for x, y, z dimensions.
         """
-        corner_count = (self.grid_size + 1) ** 3
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
 
         for idx in range(self.total_granules):
             if idx < corner_count:
-                # Corner granule: decode 3D grid position
-                grid_dim = self.grid_size + 1
-                i = idx // (grid_dim * grid_dim)
-                j = (idx % (grid_dim * grid_dim)) // grid_dim
-                k = idx % grid_dim
+                # Corner granule: decode 3D grid position (asymmetric)
+                grid_dim_y = self.grid_size[1] + 1
+                grid_dim_z = self.grid_size[2] + 1
 
-                # Count how many coordinates are at boundaries (0 or grid_size)
+                i = idx // (grid_dim_y * grid_dim_z)
+                j = (idx % (grid_dim_y * grid_dim_z)) // grid_dim_z
+                k = idx % grid_dim_z
+
+                # Count how many coordinates are at boundaries (0 or grid_size per axis)
                 at_boundary = 0
-                if i == 0 or i == self.grid_size:
+                if i == 0 or i == self.grid_size[0]:
                     at_boundary += 1
-                if j == 0 or j == self.grid_size:
+                if j == 0 or j == self.grid_size[1]:
                     at_boundary += 1
-                if k == 0 or k == self.grid_size:
+                if k == 0 or k == self.grid_size[2]:
                     at_boundary += 1
 
                 if at_boundary == 3:
@@ -232,8 +286,10 @@ class BCCLattice:
     def find_front_octantBCC(self):
         """Mark granules in the front octant (for block-slicing visualization).
 
-        Front octant = granules where x, y, z > universe_edge/2
+        Front octant = granules where x, y, z > universe_size/2 (per axis)
         Used for rendering: 0 = render, 1 = skip (for see-through effect)
+
+        Asymmetric grid: Uses different thresholds for x, y, z dimensions.
         """
         for i in range(self.total_granules):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
@@ -241,9 +297,9 @@ class BCCLattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.position_am[i][0] > self.universe_edge_am / 2
-                    and self.position_am[i][1] > self.universe_edge_am / 2
-                    and self.position_am[i][2] > self.universe_edge_am / 2
+                    self.position_am[i][0] > self.universe_size_am[0] / 2
+                    and self.position_am[i][1] > self.universe_size_am[1] / 2
+                    and self.position_am[i][2] > self.universe_size_am[2] / 2
                 )
                 else 0
             )
@@ -282,36 +338,43 @@ class BCCLattice:
         Args:
             num_circles: Number of concentric circles (1λ, 2λ, 3λ, etc.) to create.
             num_probes: Number of random probe granules per plane.
+
+        Asymmetric grid: Works with different grid sizes for x, y, z dimensions.
         """
         # Quick plane collection (small lists, Python is acceptable)
-        corner_count = (self.grid_size + 1) ** 3
-        half_grid = self.grid_size // 2
-        grid_dim = self.grid_size + 1
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        half_grid = [self.grid_size[0] // 2, self.grid_size[1] // 2, self.grid_size[2] // 2]
+        grid_dim = [self.grid_size[0] + 1, self.grid_size[1] + 1, self.grid_size[2] + 1]
 
         yz_plane, xz_plane, xy_plane = [], [], []
 
-        # Corner granules on exposed planes
-        for i in range(grid_dim):
-            for j in range(grid_dim):
-                for k in range(grid_dim):
-                    idx = i * (grid_dim**2) + j * grid_dim + k
-                    if i == half_grid + 1 and j > half_grid and k > half_grid:
+        # Corner granules on exposed planes (asymmetric indexing)
+        for i in range(grid_dim[0]):
+            for j in range(grid_dim[1]):
+                for k in range(grid_dim[2]):
+                    idx = i * (grid_dim[1] * grid_dim[2]) + j * grid_dim[2] + k
+                    if i == half_grid[0] + 1 and j > half_grid[1] and k > half_grid[2]:
                         yz_plane.append(idx)
-                    if j == half_grid + 1 and i > half_grid and k > half_grid:
+                    if j == half_grid[1] + 1 and i > half_grid[0] and k > half_grid[2]:
                         xz_plane.append(idx)
-                    if k == half_grid + 1 and i > half_grid and j > half_grid:
+                    if k == half_grid[2] + 1 and i > half_grid[0] and j > half_grid[1]:
                         xy_plane.append(idx)
 
-        # Center granules on exposed planes
-        for i in range(self.grid_size):
-            for j in range(self.grid_size):
-                for k in range(self.grid_size):
-                    idx = corner_count + i * self.grid_size**2 + j * self.grid_size + k
-                    if i == half_grid and j >= half_grid and k >= half_grid:
+        # Center granules on exposed planes (asymmetric indexing)
+        for i in range(self.grid_size[0]):
+            for j in range(self.grid_size[1]):
+                for k in range(self.grid_size[2]):
+                    idx = (
+                        corner_count
+                        + i * (self.grid_size[1] * self.grid_size[2])
+                        + j * self.grid_size[2]
+                        + k
+                    )
+                    if i == half_grid[0] and j >= half_grid[1] and k >= half_grid[2]:
                         yz_plane.append(idx)
-                    if j == half_grid and i >= half_grid and k >= half_grid:
+                    if j == half_grid[1] and i >= half_grid[0] and k >= half_grid[2]:
                         xz_plane.append(idx)
-                    if k == half_grid and i >= half_grid and j >= half_grid:
+                    if k == half_grid[2] and i >= half_grid[0] and j >= half_grid[1]:
                         xy_plane.append(idx)
 
         # Select and mark random probes
@@ -333,19 +396,26 @@ class BCCLattice:
 
         This kernel processes all granules in parallel, marking:
         - Field circles at 1λ, 2λ, etc. from the center granule
+
+        Asymmetric grid: Uses different spacing and thresholds for x, y, z dimensions.
         """
-        corner_count = (self.grid_size + 1) ** 3
-        half_grid = self.grid_size // 2
-        half_universe = self.universe_edge_am / 2.0
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        half_grid = [self.grid_size[0] // 2, self.grid_size[1] // 2, self.grid_size[2] // 2]
+        half_universe = [
+            self.universe_size_am[0] / 2.0,
+            self.universe_size_am[1] / 2.0,
+            self.universe_size_am[2] / 2.0,
+        ]
+        # Plane tolerance based on cubic unit cell edge
         plane_tolerance = self.unit_cell_edge_am * 0.6
         circle_tolerance = wavelength_am * 0.05
 
-        # Calculate center granule index
+        # Calculate center granule index (asymmetric)
         center_idx = (
             corner_count
-            + half_grid * self.grid_size * self.grid_size
-            + half_grid * self.grid_size
-            + half_grid
+            + half_grid[0] * self.grid_size[1] * self.grid_size[2]
+            + half_grid[1] * self.grid_size[2]
+            + half_grid[2]
         )
         center_pos = self.position_am[center_idx]
 
@@ -359,9 +429,9 @@ class BCCLattice:
             # Check if granule is on one of the exposed planes and mark field circles
             # YZ plane (x at boundary)
             if (
-                ti.abs(pos[0] - half_universe) < plane_tolerance
-                and pos[1] > half_universe
-                and pos[2] > half_universe
+                ti.abs(pos[0] - half_universe[0]) < plane_tolerance
+                and pos[1] > half_universe[1]
+                and pos[2] > half_universe[2]
             ):
                 # Calculate 2D distance in YZ plane
                 dy = pos[1] - center_pos[1]
@@ -376,9 +446,9 @@ class BCCLattice:
 
             # XZ plane (y at boundary)
             elif (
-                ti.abs(pos[1] - half_universe) < plane_tolerance
-                and pos[0] > half_universe
-                and pos[2] > half_universe
+                ti.abs(pos[1] - half_universe[1]) < plane_tolerance
+                and pos[0] > half_universe[0]
+                and pos[2] > half_universe[2]
             ):
                 # Calculate 2D distance in XZ plane
                 dx = pos[0] - center_pos[0]
@@ -393,9 +463,9 @@ class BCCLattice:
 
             # XY plane (z at boundary)
             elif (
-                ti.abs(pos[2] - half_universe) < plane_tolerance
-                and pos[0] > half_universe
-                and pos[1] > half_universe
+                ti.abs(pos[2] - half_universe[2]) < plane_tolerance
+                and pos[0] > half_universe[0]
+                and pos[1] > half_universe[1]
             ):
                 # Calculate 2D distance in XY plane
                 dx = pos[0] - center_pos[0]
@@ -449,53 +519,97 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge):
+    def __init__(self, universe_size):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
-        Universe edge (size) and target granules are used to define
+        Universe size and target granules are used to define
         scaled-up unit-cell properties and scale factor.
 
         Args:
-            universe_edge: Simulation domain size, edge length of the cubic universe in meters
+            universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
         """
         # Compute lattice total energy from energy-wave equation
-        self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
+        universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
+        self.energy = equations.energy_wave_equation(universe_volume)  # in Joules
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Set universe properties (simulation domain)
+        # Set universe properties (simulation domain) - asymmetric support
         self.target_granules = config.TARGET_GRANULES
-        self.universe_edge = universe_edge
-        self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
-        universe_volume = universe_edge**3
+        self.universe_size = universe_size  # [x, y, z] dimensions
+        self.universe_size_am = [
+            universe_size[0] / constants.ATTOMETTER,
+            universe_size[1] / constants.ATTOMETTER,
+            universe_size[2] / constants.ATTOMETTER,
+        ]
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
         # SC has 1 granule per unit cell (each corner is shared by 8 cells = 1/8 per cell * 8 corners)
         init_unit_cell_volume = universe_volume / self.target_granules
         init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
 
-        # Calculate grid dimensions (number of unit cells per dimension)
-        # Round to nearest odd integer for symmetric grid
-        self.raw_size = universe_edge / init_unit_cell_edge
-        floor = int(self.raw_size)
-        self.grid_size = floor if floor % 2 == 1 else floor + 1
+        # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
+        # Round to nearest odd integer for symmetric grid per axis
+        self.raw_size = [
+            universe_size[0] / init_unit_cell_edge,
+            universe_size[1] / init_unit_cell_edge,
+            universe_size[2] / init_unit_cell_edge,
+        ]
+        self.grid_size = [
+            int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
+            int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
+            int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
+        ]
 
-        # Recompute unit-cell edge length based on rounded grid size and scale factor
-        self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
+        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
+        # This preserves SC crystal structure. Only the NUMBER of cells varies per axis.
+        self.unit_cell_edge = init_unit_cell_edge  # single scalar - cubic symmetry preserved
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
+
+        # Recompute actual universe dimensions to fit integer number of cubic unit cells
+        self.universe_size = [
+            self.grid_size[0] * self.unit_cell_edge,
+            self.grid_size[1] * self.unit_cell_edge,
+            self.grid_size[2] * self.unit_cell_edge,
+        ]
+        self.universe_size_am = [
+            self.universe_size[0] / constants.ATTOMETTER,
+            self.universe_size[1] / constants.ATTOMETTER,
+            self.universe_size[2] / constants.ATTOMETTER,
+        ]
+        self.max_universe_edge = max(
+            self.grid_size[0] * self.unit_cell_edge,
+            self.grid_size[1] * self.unit_cell_edge,
+            self.grid_size[2] * self.unit_cell_edge,
+        )
+        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETTER
+        self.max_grid_size = max(
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )
+
+        # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
         # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >2 for Nyquist
+        # granules per wavelength, should be >2 for Nyquist (same for all axes with cubic cells)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
-        # Compute universe linear resolution, ewavelengths per universe edge
-        self.uni_res = universe_edge / constants.EWAVE_LENGTH
 
-        # Total granules: corners only (no centers for SC)
-        # Corners: (grid_size + 1)^3
-        self.total_granules = (self.grid_size + 1) ** 3
+        # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
+        self.max_uni_res = max(
+            self.universe_size[0] / constants.EWAVE_LENGTH,
+            self.universe_size[1] / constants.EWAVE_LENGTH,
+            self.universe_size[2] / constants.EWAVE_LENGTH,
+        )
+
+        # Total granules: corners only (no centers for SC) - asymmetric grid
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        self.total_granules = (
+            (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        )
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
@@ -518,7 +632,7 @@ class SCLattice:
 
     @ti.kernel
     def populate_latticeSC(self):
-        """Populate SC lattice positions in a 1D array.
+        """Populate SC lattice positions in a 1D array with asymmetric grid support.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
         2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
@@ -527,16 +641,19 @@ class SCLattice:
         computes one granule's position without synchronization overhead.
 
         Simple Cubic: Only corner granules are created (no center granules).
+        Asymmetric grid: Different grid sizes for x, y, z dimensions.
         """
         # Parallelize over all granules using single outermost loop
         for idx in range(self.total_granules):
-            # SC lattice: only corner granules
-            grid_dim = self.grid_size + 1
-            i = idx // (grid_dim * grid_dim)
-            j = (idx % (grid_dim * grid_dim)) // grid_dim
-            k = idx % grid_dim
+            # SC lattice: only corner granules (asymmetric)
+            grid_dim_y = self.grid_size[1] + 1
+            grid_dim_z = self.grid_size[2] + 1
 
-            # Store positions in attometers
+            i = idx // (grid_dim_y * grid_dim_z)
+            j = (idx % (grid_dim_y * grid_dim_z)) // grid_dim_z
+            k = idx % grid_dim_z
+
+            # Store positions in attometers (cubic unit cells)
             self.position_am[idx] = ti.Vector(
                 [
                     i * self.unit_cell_edge_am,
@@ -555,27 +672,30 @@ class SCLattice:
         """Classify each granule by its position in the SC lattice structure.
 
         Classification:
-        - VERTEX (0): 8 corner vertices of the cubic lattice boundary
+        - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
 
         Simple Cubic: All granules are corners, so classification is based on grid position only.
+        Asymmetric grid: Works with different grid sizes for x, y, z dimensions.
         """
         for idx in range(self.total_granules):
-            # SC lattice: all granules are corner granules
-            grid_dim = self.grid_size + 1
-            i = idx // (grid_dim * grid_dim)
-            j = (idx % (grid_dim * grid_dim)) // grid_dim
-            k = idx % grid_dim
+            # SC lattice: all granules are corner granules (asymmetric)
+            grid_dim_y = self.grid_size[1] + 1
+            grid_dim_z = self.grid_size[2] + 1
 
-            # Count how many coordinates are at boundaries (0 or grid_size)
+            i = idx // (grid_dim_y * grid_dim_z)
+            j = (idx % (grid_dim_y * grid_dim_z)) // grid_dim_z
+            k = idx % grid_dim_z
+
+            # Count how many coordinates are at boundaries (0 or grid_size per axis)
             at_boundary = 0
-            if i == 0 or i == self.grid_size:
+            if i == 0 or i == self.grid_size[0]:
                 at_boundary += 1
-            if j == 0 or j == self.grid_size:
+            if j == 0 or j == self.grid_size[1]:
                 at_boundary += 1
-            if k == 0 or k == self.grid_size:
+            if k == 0 or k == self.grid_size[2]:
                 at_boundary += 1
 
             if at_boundary == 3:
@@ -591,8 +711,10 @@ class SCLattice:
     def find_front_octantSC(self):
         """Mark granules in the front octant (for block-slicing visualization).
 
-        Front octant = granules where x, y, z > universe_edge/2
+        Front octant = granules where x, y, z > universe_size/2 (per axis)
         Used for rendering: 0 = render, 1 = skip (for see-through effect)
+
+        Asymmetric grid: Uses different thresholds for x, y, z dimensions.
         """
         for i in range(self.total_granules):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
@@ -600,9 +722,9 @@ class SCLattice:
             self.front_octant[i] = (
                 1
                 if (
-                    self.position_am[i][0] > self.universe_edge_am / 2
-                    and self.position_am[i][1] > self.universe_edge_am / 2
-                    and self.position_am[i][2] > self.universe_edge_am / 2
+                    self.position_am[i][0] > self.universe_size_am[0] / 2
+                    and self.position_am[i][1] > self.universe_size_am[1] / 2
+                    and self.position_am[i][2] > self.universe_size_am[2] / 2
                 )
                 else 0
             )
@@ -641,23 +763,25 @@ class SCLattice:
         Args:
             num_circles: Number of concentric circles (1λ, 2λ, 3λ, etc.) to create.
             num_probes: Number of random probe granules per plane.
+
+        Asymmetric grid: Works with different grid sizes for x, y, z dimensions.
         """
         # Quick plane collection (small lists, Python is acceptable)
-        half_grid = self.grid_size // 2
-        grid_dim = self.grid_size + 1
+        half_grid = [self.grid_size[0] // 2, self.grid_size[1] // 2, self.grid_size[2] // 2]
+        grid_dim = [self.grid_size[0] + 1, self.grid_size[1] + 1, self.grid_size[2] + 1]
 
         yz_plane, xz_plane, xy_plane = [], [], []
 
-        # SC lattice: only corner granules on exposed planes
-        for i in range(grid_dim):
-            for j in range(grid_dim):
-                for k in range(grid_dim):
-                    idx = i * (grid_dim**2) + j * grid_dim + k
-                    if i == half_grid + 1 and j > half_grid and k > half_grid:
+        # SC lattice: only corner granules on exposed planes (asymmetric indexing)
+        for i in range(grid_dim[0]):
+            for j in range(grid_dim[1]):
+                for k in range(grid_dim[2]):
+                    idx = i * (grid_dim[1] * grid_dim[2]) + j * grid_dim[2] + k
+                    if i == half_grid[0] + 1 and j > half_grid[1] and k > half_grid[2]:
                         yz_plane.append(idx)
-                    if j == half_grid + 1 and i > half_grid and k > half_grid:
+                    if j == half_grid[1] + 1 and i > half_grid[0] and k > half_grid[2]:
                         xz_plane.append(idx)
-                    if k == half_grid + 1 and i > half_grid and j > half_grid:
+                    if k == half_grid[2] + 1 and i > half_grid[0] and j > half_grid[1]:
                         xy_plane.append(idx)
 
         # Select and mark random probes
@@ -681,17 +805,25 @@ class SCLattice:
         - Field circles at 1λ, 2λ, etc. from the center granule
 
         Simple Cubic: Center is calculated from corner granule positions.
+        Asymmetric grid: Uses different spacing and thresholds for x, y, z dimensions.
         """
-        grid_dim = self.grid_size + 1
-        half_grid = self.grid_size // 2
-        half_universe = self.universe_edge_am / 2.0
+        grid_dim = [self.grid_size[0] + 1, self.grid_size[1] + 1, self.grid_size[2] + 1]
+        half_grid = [self.grid_size[0] // 2, self.grid_size[1] // 2, self.grid_size[2] // 2]
+        half_universe = [
+            self.universe_size_am[0] / 2.0,
+            self.universe_size_am[1] / 2.0,
+            self.universe_size_am[2] / 2.0,
+        ]
+        # Plane tolerance based on cubic unit cell edge
         plane_tolerance = self.unit_cell_edge_am * 0.6
         circle_tolerance = wavelength_am * 0.05
 
-        # Calculate center granule index (corner granule at center of lattice)
+        # Calculate center granule index (corner granule at center of lattice) - asymmetric
         # For SC lattice, this is the corner at (half_grid+1, half_grid+1, half_grid+1)
         center_idx = (
-            (half_grid + 1) * grid_dim * grid_dim + (half_grid + 1) * grid_dim + (half_grid + 1)
+            (half_grid[0] + 1) * grid_dim[1] * grid_dim[2]
+            + (half_grid[1] + 1) * grid_dim[2]
+            + (half_grid[2] + 1)
         )
         center_pos = self.position_am[center_idx]
 
@@ -705,9 +837,9 @@ class SCLattice:
             # Check if granule is on one of the exposed planes and mark field circles
             # YZ plane (x at boundary)
             if (
-                ti.abs(pos[0] - half_universe) < plane_tolerance
-                and pos[1] > half_universe
-                and pos[2] > half_universe
+                ti.abs(pos[0] - half_universe[0]) < plane_tolerance
+                and pos[1] > half_universe[1]
+                and pos[2] > half_universe[2]
             ):
                 # Calculate 2D distance in YZ plane
                 dy = pos[1] - center_pos[1]
@@ -722,9 +854,9 @@ class SCLattice:
 
             # XZ plane (y at boundary)
             elif (
-                ti.abs(pos[1] - half_universe) < plane_tolerance
-                and pos[0] > half_universe
-                and pos[2] > half_universe
+                ti.abs(pos[1] - half_universe[1]) < plane_tolerance
+                and pos[0] > half_universe[0]
+                and pos[2] > half_universe[2]
             ):
                 # Calculate 2D distance in XZ plane
                 dx = pos[0] - center_pos[0]
@@ -739,9 +871,9 @@ class SCLattice:
 
             # XY plane (z at boundary)
             elif (
-                ti.abs(pos[2] - half_universe) < plane_tolerance
-                and pos[0] > half_universe
-                and pos[1] > half_universe
+                ti.abs(pos[2] - half_universe[2]) < plane_tolerance
+                and pos[0] > half_universe[0]
+                and pos[1] > half_universe[1]
             ):
                 # Calculate 2D distance in XY plane
                 dx = pos[0] - center_pos[0]
@@ -768,19 +900,28 @@ if __name__ == "__main__":
     # Parameters & Subatomic Objects Instantiation
     # ================================================================
 
-    UNIVERSE_EDGE = (
-        4 * constants.EWAVE_LENGTH
-    )  # m, simulation domain, edge length of cubic universe
+    UNIVERSE_SIZE = [
+        4 * constants.EWAVE_LENGTH,
+        4 * constants.EWAVE_LENGTH,
+        4 * constants.EWAVE_LENGTH,
+    ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    lattice = BCCLattice(UNIVERSE_EDGE)
+    lattice = BCCLattice(UNIVERSE_SIZE)
     start_time = time.time()
     lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
-    print(f"  Universe edge: {UNIVERSE_EDGE:.1e} m")
+    print(
+        f"  Requested universe: [{UNIVERSE_SIZE[0]:.1e}, {UNIVERSE_SIZE[1]:.1e}, {UNIVERSE_SIZE[2]:.1e}] m"
+    )
+    print(
+        f"  Actual universe: [{lattice.universe_size[0]:.1e}, {lattice.universe_size[1]:.1e}, {lattice.universe_size[2]:.1e}] m"
+    )
+    print(
+        f"  Grid size: {lattice.grid_size[0]}x{lattice.grid_size[1]}x{lattice.grid_size[2]} unit cells"
+    )
+    print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m (cubic - same for all axes)")
     print(f"  Granule count: {lattice.total_granules:,}")
-    print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
-    print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
     print(f"  Creation time: {lattice_time:.3f} seconds")
 

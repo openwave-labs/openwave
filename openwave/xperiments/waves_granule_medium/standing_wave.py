@@ -33,15 +33,19 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+UNIVERSE_SIZE = [
+    6 * constants.EWAVE_LENGTH,
+    6 * constants.EWAVE_LENGTH,
+    1 * constants.EWAVE_LENGTH,
+]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 19
+NUM_SOURCES = 21
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [1.0]  # Initialize Z positions
+z_position = [0.166]  # Initialize Z positions
 sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at center top
 # Generate positions for remaining sources in a circle around center top
 for i in range(NUM_SOURCES - 1):
@@ -65,7 +69,7 @@ for i in range(NUM_SOURCES - 1):
     sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
-lattice = medium.BCCLattice(UNIVERSE_EDGE)
+lattice = medium.BCCLattice(UNIVERSE_SIZE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
@@ -74,7 +78,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[1.50, 0.50, 2.50])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[0.50, 0.50, 1.80])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -91,14 +95,14 @@ def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
         sub.text("--- AETHER-MEDIUM ---")
-        sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
+        sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
-        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
+        sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
@@ -108,7 +112,7 @@ def data_dashboard():
         sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
         if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} ewaves/universe-edge")
+        sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
         sub.text("--- ENERGY-WAVE ---")
@@ -133,7 +137,7 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
@@ -159,7 +163,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.position_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.position_am[i] / lattice.max_universe_edge_am
 
 
 def normalize_granule():
@@ -168,7 +172,7 @@ def normalize_granule():
     global normalized_radius
 
     normalized_radius = max(
-        granule.radius / lattice.universe_edge, 0.0001
+        granule.radius / lattice.max_universe_edge, 0.0001
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
