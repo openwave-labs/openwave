@@ -1,7 +1,7 @@
-openwave.spacetime.qmedium\_granules
+openwave.spacetime.aether\_granules
 ====================================
 
-.. automodule:: openwave.spacetime.qmedium_granule
+.. automodule:: openwave.spacetime.aether_granule
 
    
    .. rubric:: Classes

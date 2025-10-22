@@ -1,12 +1,12 @@
 """
-QUANTUM-MEDIUM
+AETHER-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
 GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 
-QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+AETHER-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
 Modeled as an fluid medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
@@ -703,7 +703,7 @@ class BCCNeighbors:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: QUANTUM-MEDIUM MODULE")
+    print("SMOKE TEST: AETHER-MEDIUM MODULE")
     print("================================================================")
 
     import time
@@ -817,7 +817,7 @@ if __name__ == "__main__":
     print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")
 
     print("\n================================================================")
-    print("END SMOKE TEST: QUANTUM-MEDIUM MODULE")
+    print("END SMOKE TEST: AETHER-MEDIUM MODULE")
     print("================================================================")
 
     # Properly exit

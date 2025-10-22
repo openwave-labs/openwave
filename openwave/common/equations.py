@@ -738,7 +738,7 @@ if __name__ == "__main__":
     #   calculation (182.3 nm, 6.9 eV) and experimental values
     #   (121.6 nm, 10.2 eV) suggests that the amplitude factor δ
     #   needs calibration. In EWT, this δ factor would account for
-    #   the specific quantum mechanical properties of the hydrogen
+    #   the specific subatomic properties of the hydrogen
     #   atom that aren't captured in the simplified model.
 
     #   This is actually a validation that the EWT equations are

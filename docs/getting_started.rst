@@ -40,7 +40,7 @@ Quick Start
 Play with Xperiments
 ^^^^^^^^^^^^^^^^^^^^
 
-XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
+XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
 
 .. code-block:: bash
 

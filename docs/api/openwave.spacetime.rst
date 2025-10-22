@@ -10,8 +10,8 @@ openwave.spacetime
    :toctree:
    :recursive:
 
-   qmedium_field
-   qmedium_granule
+   aether_field
+   aether_granule
    qwave_flow
    qwave_radial
    qwave_springs

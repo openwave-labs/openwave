@@ -15,7 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the deterministic quantum mechanics model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
+OpenWave is an open-source application designed to simulate the formation and behavior of matter and other modalities of energy — from the emergence of spacetime and energy waves, through the creation of particles, to the development of matter, motion, light, and heat — based on the deterministic subatomic model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
 
 ## Core Scope
 
@@ -23,7 +23,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### Numerical Validation
 
-- Runs simulations derived directly from built-in equations and quantum-wave phenomena.
+- Runs simulations derived directly from built-in equations and energy-wave phenomena.
 - Validates outcomes by comparing them against observed reality.
 - Generates numerical analysis and reports for scientific publications (assisted by your preferred LLM).
 
@@ -48,7 +48,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
 
-Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of quantum mechanics from the following resources:
+Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of subatomic physics from the following resources:
 
 ### ENERGY WAVE THEORY (EWT)
 
@@ -85,13 +85,13 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    QUANTUM-MEDIUM [Objects]
-    *WIP*: qmedium_field.py
-    qmedium_granule.py ✓
+    AETHER-MEDIUM [Objects]
+    *WIP*: aether_field.py
+    aether_granule.py ✓
     ---
-    QUANTUM-WAVE [Physics Engines]
-    *WIP*: qwave_field.py
-    qwave_granule.py ✓}
+    ENERGY-WAVE [Physics Engines]
+    *WIP*: energy_wave_field.py
+    energy_wave_granule.py ✓}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -241,14 +241,14 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - qmedium_field.py
-      - qwave_field.py
+      - aether_field.py
+      - ewave_field.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - qmedium_granule.py
-      - qwave_granule.py]
+      - aether_granule.py
+      - ewave_granule.py]
     [**XPERIMENTS MODULE**
       - aether_vibration.py
       - pulse.py
@@ -318,7 +318,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ### Play with the /xperiments module
 
-XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
+XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
 
 ```python
 # Launch xperiments using the CLI xperiment selector

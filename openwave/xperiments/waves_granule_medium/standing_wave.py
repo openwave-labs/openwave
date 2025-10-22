@@ -22,7 +22,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.aether_granule as medium
 import openwave.spacetime.qwave_granule as qwave
 import openwave.validations.wave_diagnostics as diagnostics
 
@@ -65,8 +65,8 @@ for i in range(NUM_SOURCES - 1):
     sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
 
 # Instantiate the BCC lattice and granule objects
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
-granule = qmedium.BCCGranule(lattice.unit_cell_edge)
+lattice = medium.BCCLattice(UNIVERSE_EDGE)
+granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
@@ -80,7 +80,7 @@ render.init_UI(cam_init_pos=[1.50, 0.50, 2.50])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text(f"QWave Sources: {NUM_SOURCES} Harmonic Oscillators")
@@ -90,10 +90,10 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- QUANTUM-MEDIUM ---")
+        sub.text("--- AETHER-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")

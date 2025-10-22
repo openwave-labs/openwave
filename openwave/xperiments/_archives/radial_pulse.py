@@ -22,7 +22,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.aether_granule as medium
 import openwave.xperiments._archives.qwave_radial as qwave
 import openwave.validations.wave_diagnostics as diagnostics
 
@@ -38,8 +38,8 @@ UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
-granule = qmedium.BCCGranule(lattice.unit_cell_edge)
+lattice = medium.BCCLattice(UNIVERSE_EDGE)
+granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
@@ -53,7 +53,7 @@ render.init_UI(cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text("QWave Source: 1 Harmonic Oscillator")
@@ -63,10 +63,10 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- QUANTUM-MEDIUM ---")
+        sub.text("--- AETHER-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")

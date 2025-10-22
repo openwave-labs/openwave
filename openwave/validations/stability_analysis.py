@@ -4,7 +4,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave.common import equations
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.aether_granule as medium
 
 
 # From constants
@@ -20,7 +20,7 @@ STIFFNESS = 1e-13  # N/m (already reduced!)
 granules_per_edge = TARGET_GRANULES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 # unit_cell_edge = 2 * math.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
-granule = qmedium.BCCGranule(unit_cell_edge)
+granule = medium.BCCGranule(unit_cell_edge)
 
 # Spring-mass system natural frequency
 frequency = equations.natural_frequency(STIFFNESS, granule.mass)  # Hz

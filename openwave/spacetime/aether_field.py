@@ -1,12 +1,12 @@
 """
-QUANTUM-MEDIUM
+AETHER-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
 FIELD-BASED MEDIUM
 
 Objects Engine @spacetime module.
 
-QUANTUM-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
+AETHER-MEDIUM is a Wave Medium and Propagates Wave Motions (QUANTUM-WAVE).
 Modeled as an fluid medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,

@@ -13,7 +13,7 @@ from openwave.common import constants
 from openwave.common import equations
 from openwave._io import render
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.aether_granule as medium
 import openwave.xperiments._archives.qwave_xpbd as qwave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -28,9 +28,9 @@ UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE)
-granule = qmedium.BCCGranule(lattice.unit_cell_edge)
-neighbors = qmedium.BCCNeighbors(lattice)  # Create neighbor links between granules
+lattice = medium.BCCLattice(UNIVERSE_EDGE)
+granule = medium.BCCGranule(lattice.unit_cell_edge)
+neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
 
 # PHYSICAL STIFFNESS (calculated for speed of light wave propagation)
 # With XPBD, we can finally use REAL physical values!
@@ -53,7 +53,7 @@ render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: XPBD Quantum-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way distance constraints")
         sub.text("QWave Source: 8 Vertex Oscillators")
@@ -63,10 +63,10 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
-        sub.text("--- QUANTUM-MEDIUM ---")
+        sub.text("--- AETHER-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 

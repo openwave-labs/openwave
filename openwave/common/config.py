@@ -39,7 +39,7 @@ COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grids, links
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 
-COLOR_QWAVES = ORANGE  # quantum-waves, wave functions
+COLOR_QWAVE = ORANGE  # quantum-wave, wave functions
 COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MATTER = DARK_BLUE  # matter, particles
 COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
