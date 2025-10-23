@@ -246,6 +246,9 @@ def run_experiment(file_path):
 
     Args:
         file_path: Path to the xperiment Python file
+
+    Returns:
+        int: The return code from the experiment process
     """
     print(f"\n{'=' * 64}")
     print(f"Running XPERIMENT: {Path(file_path).stem}")
@@ -257,13 +260,13 @@ def run_experiment(file_path):
             [sys.executable, file_path],
             env=os.environ.copy(),
         )
-        sys.exit(result.returncode)
+        return result.returncode
     except KeyboardInterrupt:
         print("\n\nExperiment interrupted by user.")
-        sys.exit(0)
+        return 0
     except Exception as e:
         print(f"\nError running XPERIMENT: {e}")
-        sys.exit(1)
+        return 1
 
 
 def main():
@@ -271,19 +274,34 @@ def main():
     Main entry point for the OpenWave CLI.
 
     This function is called when running 'openwave -x' from the command line.
+    Loops to show the menu again after each experiment closes.
     """
-    # Check if -x flag was provided (handled by entry point name)
-    experiments = get_experiments_list()
+    while True:
+        # Get list of available experiments
+        experiments = get_experiments_list()
 
-    if not experiments:
-        print("No Xperiments found in the xperiments directory.")
-        sys.exit(1)
+        if not experiments:
+            print("No Xperiments found in the xperiments directory.")
+            sys.exit(1)
 
-    # Try to use interactive menu, fall back to simple menu if not available
-    selected_file = show_menu_interactive(experiments)
+        # Show interactive menu and get user selection
+        selected_file = show_menu_interactive(experiments)
 
-    # Run the selected xperiment
-    run_experiment(selected_file)
+        # Run the selected xperiment
+        returncode = run_experiment(selected_file)
+
+        # After experiment closes, wait for user input before returning to menu
+        print(f"\n{'=' * 64}")
+        print(f"XPERIMENT closed (exit code: {returncode})")
+        print(f"{'=' * 64}")
+
+        try:
+            input("\nPress ENTER to return to menu...")
+        except KeyboardInterrupt:
+            print("\n\nExiting...")
+            sys.exit(0)
+
+        print()  # Add blank line before menu reappears
 
 
 def cli_main():
