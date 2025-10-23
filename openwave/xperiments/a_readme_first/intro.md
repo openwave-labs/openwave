@@ -49,7 +49,10 @@ Standing waves are what gives matter its structure, from fundamental particles t
 
 Now that you are introduced to the basic concepts of wave phenomena, you can start experimenting with different wave configurations and parameters. Use the tools provided in the OpenWave Xperiments platform to create your own simulations and explore the behavior of waves in various scenarios.
 
-To launch the Xperiments Selector Menu, on your terminal, run:
+To launch the Xperiments Selector Menu:
+
+- Make sure you follow the installation instructions at [README file](../../../README.md)
+- Then on your terminal, run:
 
 ```bash
 openwave -x

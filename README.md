@@ -70,7 +70,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
 
-## Installation
+## Installation Instructions
 
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
