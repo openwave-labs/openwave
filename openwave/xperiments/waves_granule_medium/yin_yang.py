@@ -1,5 +1,5 @@
 """
-XPERIMENT: Standing Wave Exploration
+XPERIMENT: Yin and Yang Spiral Wave Interference Pattern
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -36,23 +36,24 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_SIZE = [
     6 * constants.EWAVE_LENGTH,
     6 * constants.EWAVE_LENGTH,
-    1 * constants.EWAVE_LENGTH,
+    2 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 21
+NUM_SOURCES = 13
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [0.166]  # Initialize Z positions
-sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at center top
+z_position = [0]  # Initialize Z positions
+sources_position = [[0 + 0.5, 0 + 0.5, 10]]  # Wave Source 0 at center top
 # Generate positions for remaining sources in a circle around center top
+# r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
 for i in range(NUM_SOURCES - 1):
     sources_position.append(
         [
-            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
-            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
+            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
+            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
             z_position[0],
         ]
     )
@@ -65,8 +66,9 @@ for i in range(NUM_SOURCES - 1):
 
 sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
 # Generate phase for remaining sources in a circle around center top
+# 30° offset between each source for yin-yang pattern
 for i in range(NUM_SOURCES - 1):
-    sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
+    sources_phase_deg.append(i * 30)  # Wave Sources (eg. 0 = in phase)
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE)
@@ -78,7 +80,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.67, 0.08, 1.29])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.50, 0.50, 1.50])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -200,8 +202,8 @@ def render_xperiment(lattice):
     granule_type = True  # Granule type coloring toggle
     show_sources = True  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 1.5  # Initialize amplitude boost
+    freq_boost = 0.1  # Initialize frequency boost
+    amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
 
     # Time tracking for radial harmonic oscillation of all granules
