@@ -29,7 +29,7 @@ Whether you're researching the emergence of particles from wave convergence, ana
 - Now reduce the granule size and you'll clearly see them, they are called the ENERGY WAVES,
 the fundamental building blocks of reality.
 
-![Aether vibration visualization](images/aether_vibration.gif)
+![Aether vibration visualization](images/aether_vibes.gif)
 
 ### 2. Spherical Wave
 
@@ -47,7 +47,7 @@ Standing waves are what gives matter its structure, from fundamental particles t
 
 ### 4. Play with Xperiments and Start your Research
 
-Now that you are introduced to the basic concepts of wave phenomena, you can start experimenting with different wave configurations and parameters. Use the tools provided in the OpenWave Xperiments platform to create your own simulations and explore the behavior of waves in various scenarios.
+Now that you are introduced to the basic concepts of wave phenomena, you can start experimenting with different wave configurations and parameters. Use the tools provided in the OpenWave platform to create your own simulations and explore the behavior of waves in various scenarios.
 
 To launch the Xperiments Selector Menu:
 
