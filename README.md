@@ -320,6 +320,8 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
 
+- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.html) to get started.
+
 ```python
 # Launch xperiments using the CLI xperiment selector
 

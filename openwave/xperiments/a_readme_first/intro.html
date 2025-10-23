@@ -14,6 +14,9 @@
             background-color: #000;
             color: #e0e0e0;
         }
+        a {
+            color: #3498db;
+        }
         h1 {
             color: #3498db;
             border-bottom: 3px solid #3498db;
@@ -42,8 +45,6 @@
             height: auto;
             display: block;
             margin: 20px auto;
-            border: 1px solid #444;
-            border-radius: 4px;
         }
         .summary {
             background-color: #1a1a1a;
@@ -52,47 +53,118 @@
             margin-bottom: 20px;
             border: 1px solid #333;
         }
+        .text-with-image {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .text-with-image .text-content {
+            flex: 0 0 70%;
+        }
+        .text-with-image .image-content {
+            flex: 0 0 30%;
+            padding: 10px;
+        }
+        .text-with-image img {
+            width: 180px;
+            height: auto;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <h1>INTRO TO OPENWAVE XPERIMENTS</h1>
 
     <div class="summary">
-        <h2>SUMMARY</h2>
+        <h2>OpenWave</h2>
 
-        <p>A week advancing OpenWave from single-source radial waves to multi-source interference patterns while establishing physics-accurate terminology throughout the codebase. Major focus on visualization tools and wave analysis capabilities.</p>
+        <div class="text-with-image">
+            <div class="text-content">
+                <p>OpenWave is an open-source application designed to simulate the formation
+                    and behavior of matter and other modalities of energy — from the emergence
+                    of spacetime and energy waves, through the creation of particles, to the
+                    development of matter, motion, light, and heat — based on the deterministic
+                    subatomic model of the
+                    <a href="https://energywavetheory.com">Energy Wave Theory (EWT)</a>.
+                </p>
+            </div>
+            <div class="image-content">
+                <img src="images/openwave-white-small.png" alt="OpenWave logo">
+            </div>
+        </div>
 
-        <p><strong>Key Achievements</strong>:</p>
+        <h2>Xperiments</h2>
+        
+        <p>OpenWave Xperiments is a collection of interactive physics simulations that
+            brings Energy Wave Theory to life through real-time visualization and experimentation.
+            <br><br>
+            These xperiments allow you to explore the fundamental nature of spacetime and matter
+            formation by running pre-configured demonstrations that showcase various wave
+            phenomena, from simple spherical wave propagation to complex multi-source interference
+            patterns. Each xperiment is fully customizable, enabling you to adjust critical
+            parameters such as universe size, wave source configurations, and visualization
+            settings to investigate physics at different scales—from Planck-scale interactions
+            to macroscopic wave behaviors.
+            <br><br>
+            Whether you're researching the emergence of particles from wave convergence, analyzing
+            constructive and destructive interference patterns, or creating entirely new
+            experimental setups to test theoretical predictions, OpenWave Xperiments provides a
+            virtual laboratory where you can manipulate the fundamental building blocks of reality
+            and observe how energy waves interact within the aether medium.</p>
 
-        <ol>
-            <li><strong>Multi-Source Wave Physics</strong>: Expanded from single to 10 simultaneous wave sources, enabling complex interference pattern studies and wave superposition validation</li>
-            <li><strong>Advanced Visualization Tools</strong>: Introduced probe granules, borescope camera, near-far field visualization, and comprehensive wave diagnostics module</li>
-            <li><strong>Terminology Standardization</strong>: Completed systematic transition from "particle" to "granule-medium" language, aligning codebase with EWT wave-centric paradigm</li>
-            <li><strong>Documentation Revamp</strong>: Complete restructuring of API references, module documentation, and technical analysis (Taichi vs Warp comparison)</li>
-        </ol>
+        <p><strong style="color: orange;">Recommended:</strong></p>
+        <ul><li style="color: orange;">Follow the demo sequence below if you are new to OpenWave</li></ul>
 
-        <p><strong>Impact</strong>: This week transforms OpenWave into a true virtual laboratory for wave physics research, with professional-grade diagnostic tools and the foundation for studying particle formation from wave convergence.</p>
     </div>
 
-    <h2>WAVE DYNAMICS ENHANCEMENTS</h2>
+    <h2>XPERIMENTS BASIC DEMO (follow this intro sequence)</h2>
 
-    <h3>Spherical Wave Visualization in 3D:</h3>
+    <h3>1. Aether Vibration</h3>
+    <p>The aether is a FLUID LIKE MEDIUM that fills all space.
+        <br><br>
+        It vibrates at a HIGH FREQUENCY (10^25Hz) which gives rise to the phenomena of spacetime.
+        <br><br>
+        If you slow down the simulator frequency and increase the amp boost, you can observe
+        WAVE PATTERNS. They are the visual effect of the aether's harmonic oscillations.
+        <br><br>
+        Those wave patterns are the SOURCE of all physical phenomena in the universe. Including
+        all ENERGY forms and FORCES, the formation of MATTER and TIME ITSELF (they are the universal clock).
+        <br><br>
+        Now reduce the granule size and you'll clearly see them,
+        they are the ENERGY WAVES, the fundamental building blocks of reality.
+    </p>
 
-    <p>New 3D wave propagation demo.</p>
+    <img src="images/aether_vibration.gif" alt="Aether vibration visualization">
+    <br><br>
 
+    <h3>2. Spherical Wave</h3>
+    <p>This xperiment demonstrates how a spherical wave propagates in a 3D medium.</p>
     <img src="images/spherical_wave.gif" alt="Spherical wave visualization">
+    <br><br>
+    
+    <h3>3. Standing Wave</h3>
+    <p>This xperiment demonstrates standing wave patterns that emerge from inward and outward
+        wave interactions.
+        <br><br>
+        Standing waves are what gives matter its structure, from fundamental particles to atoms and molecules.
+    </p>
+    <img src="images/standing_wave.gif" alt="Standing wave visualization">
+    <br><br>
 
-    <h3>Multi-Source Wave System and Wave Interference:</h3>
+    <h3>4. Play with Xperiments and Start your Research</h3>
+    <p>Now that you are introduced to the basic concepts of wave phenomena, you can start
+        experimenting with different wave configurations and parameters. Use the tools provided
+        in the OpenWave Xperiments platform to create your own simulations and explore the
+        behavior of waves in various scenarios.
+    </p>
 
-    <ul>
-        <li><strong>Wave Source Scaling</strong>: Increased maximum wave sources from default to 10 sources (Oct 17-18)</li>
-        <li><strong>Variable Wave Source Support</strong>: Refactored wave source handling to support variable count dynamically (Oct 18)</li>
-        <li><strong>Crossing Waves Experiment</strong>: Added new <code>xwaves</code> (crossing waves) experiment with dedicated <code>ewave_granule</code> kernel (Oct 16)</li>
-        <li><strong>Wave Interference Visualization</strong>: Implemented multi-source interference patterns showing constructive/destructive interference</li>
-        <li><strong>UI Controls</strong>: Added toggle for showing/hiding wave sources in visualization (Oct 17)</li>
-    </ul>
+    <p>To launch the Xperiments Selector Menu, on your terminal, run:</p>
+    <pre><code>openwave -x</code></pre>
 
-    <img src="images/x_waves2.gif" alt="Crossing waves interference pattern">
+    <p>For more details on the concept, numerical proof and research papers, refer to the:
+        <a href="https://energywavetheory.com">Energy Wave Theory (EWT)</a>.
+    </p>
+    <br><br>
 
 </body>
 </html>

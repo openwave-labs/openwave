@@ -144,7 +144,7 @@ def controls():
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
-        freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
+        freq_boost = sub.slider_float("f Boost", freq_boost, 0.5, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):

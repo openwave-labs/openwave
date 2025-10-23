@@ -33,8 +33,8 @@ def get_experiments_list():
         print(f"Error: Xperiments directory not found at {xperiments_dir}")
         sys.exit(1)
 
-    # Dictionary to organize experiments by group
-    experiments_by_group = {}
+    # Dictionary to organize experiments by collection
+    experiments_by_collection = {}
 
     # Recursively find all Python files, excluding _docs directories
     for file_path in xperiments_dir.rglob("*.py"):
@@ -46,12 +46,12 @@ def get_experiments_list():
         if file_path.name.startswith("__"):
             continue
 
-        # Determine group (subdirectory name or "root" if directly in xperiments)
+        # Determine collection (subdirectory name or "root" if directly in xperiments)
         relative_path = file_path.relative_to(xperiments_dir)
         if len(relative_path.parts) > 1:
-            group = relative_path.parts[0]
+            collection = relative_path.parts[0]
         else:
-            group = "root"
+            collection = "root"
 
         # Read the first few lines to get the description
         description = ""
@@ -79,39 +79,39 @@ def get_experiments_list():
         else:
             display_name = name
 
-        # Add to group
-        if group not in experiments_by_group:
-            experiments_by_group[group] = []
+        # Add to collection
+        if collection not in experiments_by_collection:
+            experiments_by_collection[collection] = []
 
-        experiments_by_group[group].append((display_name, str(file_path), group))
+        experiments_by_collection[collection].append((display_name, str(file_path), collection))
 
     # Build flat list with tree structure display
     experiments = []
-    sorted_group = sorted(experiments_by_group.keys())
+    sorted_collection = sorted(experiments_by_collection.keys())
 
-    for group_idx, group in enumerate(sorted_group):
-        # Sort experiments within each group
-        group_experiments = sorted(experiments_by_group[group], key=lambda x: x[0])
+    for collection_idx, collection in enumerate(sorted_collection):
+        # Sort experiments within each collection
+        collection_experiments = sorted(experiments_by_collection[collection], key=lambda x: x[0])
 
-        for idx, (display_name, file_path, _) in enumerate(group_experiments):
+        for idx, (display_name, file_path, _) in enumerate(collection_experiments):
             # Format with tree structure
-            if group == "root":
+            if collection == "root":
                 formatted_name = display_name
             else:
-                # Add group header for first item in group
+                # Add collection header for first item in collection
                 if idx == 0:
-                    # Add blank line separator before group (except for first group)
-                    if group_idx > 0:
+                    # Add blank line separator before collection (except for first collection)
+                    if collection_idx > 0:
                         experiments.append(("", None))  # Blank line separator
 
-                    # Format group name as header
-                    # Check if __init__.py exists in group folder
-                    group_init_path = xperiments_dir / group / "__init__.py"
-                    group_display = None
+                    # Format collection name as header
+                    # Check if __init__.py exists in collection folder
+                    collection_init_path = xperiments_dir / collection / "__init__.py"
+                    collection_display = None
 
-                    if group_init_path.exists():
+                    if collection_init_path.exists():
                         try:
-                            with open(group_init_path, "r") as f:
+                            with open(collection_init_path, "r") as f:
                                 lines = f.readlines()
                                 # Look for docstring (use only first line)
                                 if len(lines) > 0 and '"""' in lines[0]:
@@ -120,20 +120,25 @@ def get_experiments_list():
                                             break
                                         stripped = line.strip()
                                         if stripped:
-                                            group_display = stripped
+                                            collection_display = stripped
                                             break
                         except Exception:
                             pass
 
-                    # Fall back to formatted group name if no docstring found
-                    if not group_display:
-                        group_display = (
-                            group.replace("__", ": ").replace("_", " ").replace("-", " ").title()
+                    # Fall back to formatted collection name if no docstring found
+                    if not collection_display:
+                        collection_display = (
+                            collection.replace("__", ": ")
+                            .replace("_", " ")
+                            .replace("-", " ")
+                            .title()
                         )
 
-                    experiments.append((f"─── /{group_display}/ ───", None))  # group header
+                    experiments.append(
+                        (f"─── /{collection_display}/ ───", None)
+                    )  # collection header
 
-                # Indent all items under group
+                # Indent all items under collection
                 formatted_name = f"  → {display_name}"
 
             experiments.append((formatted_name, file_path))
@@ -162,7 +167,7 @@ def show_menu_simple(experiments):
     display_idx = 1
 
     for display_name, file_path in experiments:
-        if file_path is None:  # group header or separator
+        if file_path is None:  # collection header or separator
             print(f"\n{display_name}")
         else:
             print(f"{display_idx}. {display_name}")
@@ -204,7 +209,7 @@ def show_menu_interactive(experiments):
     Returns:
         str: Path to the selected xperiment file
     """
-    # Build menu with group headers marked as non-selectable
+    # Build menu with collection headers marked as non-selectable
     menu_options = []
     file_path_map = {}  # Maps option index to file path
     option_idx = 0
@@ -237,7 +242,7 @@ def show_menu_interactive(experiments):
         # Check if this is a selectable experiment
         if choice_idx in file_path_map:
             return file_path_map[choice_idx]
-        # If group header selected, continue loop to allow re-selection
+        # If collection header selected, continue loop to allow re-selection
 
 
 def run_experiment(file_path):
