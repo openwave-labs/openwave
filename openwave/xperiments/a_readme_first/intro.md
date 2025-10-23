@@ -39,9 +39,9 @@ This xperiment demonstrates how a spherical wave propagates in a 3D medium.
 
 ### 3. Standing Wave
 
-This xperiment demonstrates standing wave patterns that emerge from inward and outward wave interactions.
+This xperiment demonstrates standing wave patterns that emerge from inward and outward wave interactions. Standing waves are what gives matter its structure, from fundamental particles to atoms and molecules.
 
-Standing waves are what gives matter its structure, from fundamental particles to atoms and molecules.
+- Play with the granule size control and see the emergence of crystal-like structures.
 
 ![Standing wave visualization](images/standing_wave.gif)
 
