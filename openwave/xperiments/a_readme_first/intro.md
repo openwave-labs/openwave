@@ -23,9 +23,9 @@ Whether you're researching the emergence of particles from wave convergence, ana
 ### 1. Aether Vibration
 
 - The aether is a FLUID LIKE MEDIUM that fills all space.
-- It vibrates at EXTREMELY HIGH FREQUENCY (10^25Hz) which gives rise to the phenomena of spacetime.
+- It vibrates at EXTREMELY HIGH FREQUENCIES (10^25Hz) which gives rise to the phenomena of spacetime.
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of the aether's harmonic oscillations.
-- Those wave patterns are the SOURCE of all physical phenomena in the universe. Including all ENERGY forms and FORCES, the formation of MATTER and TIME ITSELF (their frequency is the universe clock).
+- Those wave patterns are the SOURCE of all physical phenomena in the universe. Including all ENERGY forms and FORCES, the formation of MATTER and TIME ITSELF (their frequency is the universe's clock).
 - Now reduce the granule size and you'll clearly see them, they are called the ENERGY WAVES,
 the fundamental building blocks of reality.
 
