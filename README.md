@@ -70,6 +70,74 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
 
+## Installation
+
+For development installation refer to [Contribution Guide](CONTRIBUTING.md)
+
+```python
+# Clone the OpenWave repository, on your terminal:
+  git clone https://github.com/openwave-labs/openwave.git
+  cd openwave # point to local directory where OpenWave was installed
+
+# Make sure you have Python >=3.12 installed
+# Recommended Anaconda Package Distribution
+  install from: https://www.anaconda.com
+  conda create -n openwave python=3.12
+  conda activate openwave
+
+# Install OpenWave package & dependencies
+  pip install .  # reads dependencies from pyproject.toml
+```
+
+## Usage
+
+### Play with the /xperiments module
+
+XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
+
+- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+
+```python
+# Launch xperiments using the CLI xperiment selector
+
+  openwave -x
+
+# Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
+```
+
+<div align = "center" style="text-align: center">
+  <table>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
+          <br>X-Waves Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
+          <br>Pulse Xperiment
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
+          <br>Standing Wave Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
+          <br>Spring-Mass Xperiment
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
 ## System Architecture
 
 ### Modular Design
@@ -289,81 +357,7 @@ kanban
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
 
-### Todo
-
-- [ ] Develop documentation
-- [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
-- [ ] Introduce automated testing and continuous integration to validate code changes
-
-## Installation
-
-For development installation refer to [Contribution Guide](CONTRIBUTING.md)
-
-```python
-# Clone the OpenWave repository, on your terminal:
-  git clone https://github.com/openwave-labs/openwave.git
-  cd openwave # point to local directory where OpenWave was installed
-
-# Make sure you have Python >=3.12 installed
-# Recommended Anaconda Package Distribution
-  install from: https://www.anaconda.com
-  conda create -n openwave python=3.12
-  conda activate openwave
-
-# Install OpenWave package & dependencies
-  pip install .  # reads dependencies from pyproject.toml
-```
-
-## Usage
-
-### Play with the /xperiments module
-
-XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
-
-- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.html) to get started.
-
-```python
-# Launch xperiments using the CLI xperiment selector
-
-  openwave -x
-
-# Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
-```
-
-<div align = "center" style="text-align: center">
-  <table>
-    <tr>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
-        </div>
-      </td>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
-          <br>Pulse Xperiment
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
-          <br>Standing Wave Xperiment
-        </div>
-      </td>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Spring-Mass Xperiment
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
-
-## Wanna Contribute to this Project?
+## Wanna Help Developing this Project?
 
 - Please read the [Contribution Guide](CONTRIBUTING.md)
 - See `/dev_docs` for coding standards and development guidelines
