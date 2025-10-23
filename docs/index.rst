@@ -1,8 +1,8 @@
 OpenWave Documentation
 ======================
 
-**OpenWave** is an open-source quantum physics simulator implementing Energy Wave Theory (EWT) 
-to model the formation of matter and energy from quantum wave interactions.
+**OpenWave** is an open-source subatomic physics simulator implementing Energy Wave Theory (EWT) 
+to model the formation of matter and energy from energy wave interactions.
 
 .. toctree::
    :maxdepth: 2
@@ -17,10 +17,10 @@ to model the formation of matter and energy from quantum wave interactions.
 Features
 --------
 
-* **Quantum Wave Simulation**: Model wave interactions at the Planck scale
+* **Energy Wave Simulation**: Model wave interactions at the Planck scale
 * **Particle Formation**: Simulate the emergence of subatomic particles
 * **Matter Behavior**: Track complex matter interactions
-* **Visual Demonstration**: Real-time visualization of quantum phenomena
+* **Visual Demonstration**: Real-time visualization of subatomic phenomena
 * **Numerical Validation**: Compare simulations against experimental data
 
 Quick Start

@@ -15,7 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other identities of energy — from the emergence of spacetime and quantum waves, through the creation of subatomic particles, to the development of matter, motion, light, and heat — based on the deterministic quantum mechanics model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
+OpenWave is an open-source application designed to simulate the formation and behavior of matter and other modalities of energy — from the emergence of spacetime and energy waves, through the creation of particles, to the development of matter, motion, light, and heat — based on the deterministic subatomic model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
 
 ## Core Scope
 
@@ -23,7 +23,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### Numerical Validation
 
-- Runs simulations derived directly from built-in equations and quantum-wave phenomena.
+- Runs simulations derived directly from built-in equations and energy-wave phenomena.
 - Validates outcomes by comparing them against observed reality.
 - Generates numerical analysis and reports for scientific publications (assisted by your preferred LLM).
 
@@ -48,7 +48,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
 
-Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of quantum mechanics from the following resources:
+Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of subatomic physics from the following resources:
 
 ### ENERGY WAVE THEORY (EWT)
 
@@ -70,6 +70,74 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 >*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
 >>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
 
+## Installation Instructions
+
+For development installation refer to [Contribution Guide](CONTRIBUTING.md)
+
+```bash
+# Clone the OpenWave repository, on your terminal:
+  git clone https://github.com/openwave-labs/openwave.git
+  cd openwave # point to local directory where OpenWave was installed
+
+# Make sure you have Python >=3.12 installed
+# Recommended Anaconda Package Distribution
+  install from: https://www.anaconda.com
+  conda create -n openwave python=3.12
+  conda activate openwave
+
+# Install OpenWave package & dependencies
+  pip install .  # reads dependencies from pyproject.toml
+```
+
+## Usage
+
+### Play with the /xperiments module
+
+XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
+
+- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+
+```bash
+# Launch xperiments using the CLI xperiment selector
+
+  openwave -x
+
+# Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
+```
+
+<div align = "center" style="text-align: center">
+  <table>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
+          <br>X-Waves Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
+          <br>Pulse Xperiment
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
+          <br>Standing Wave Xperiment
+        </div>
+      </td>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
+          <br>Spring-Mass Xperiment
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
 ## System Architecture
 
 ### Modular Design
@@ -85,15 +153,13 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    QUANTUM-MEDIUM [Objects]
-    *WIP*: qmedium_field.py
-    qmedium_granule.py ✓
+    AETHER-MEDIUM [Objects]
+    *WIP*: aether_field.py
+    aether_granule.py ✓
     ---
-    QUANTUM-WAVE [Physics Engines]
-    *WIP*: qwave_flow.py
-    qwave_radial.py ✓
-    qwave_springs.py ✓
-    qwave_xwaves.py ✓}
+    ENERGY-WAVE [Physics Engines]
+    *WIP*: energy_wave_field.py
+    energy_wave_granule.py ✓}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -162,11 +228,13 @@ class `HEAT MODULE
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     GRANULE-BASED MEDIUM
-    - pulse.py ✓
-    - radial_wave.py ✓
+    - aether_vibration.py✓
     - spherical_wave.py ✓
-    - spring_mass.py ✓
+    - standing_wave.py ✓
+    - superposing_wave.py ✓
+    - the_pulse.py ✓
     - xwaves.py ✓
+    - yin_yang.py ✓
     ---
     FIELD-BASED MEDIUM
     - *WIP*: flow_wave.py
@@ -242,24 +310,22 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - qmedium_field.py
-      - qwave_flow.py
+      - aether_field.py
+      - ewave_field.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - qmedium_granule.py
-      - qwave_radial.py
-      - qwave_springs.py
-      - qwave_xpbd.py
-      - qwave_xwaves.py]
+      - aether_granule.py
+      - ewave_granule.py]
     [**XPERIMENTS MODULE**
-      - pulse.py
-      - radial_wave.py
+      - aether_vibration.py
       - spherical_wave.py
-      - spring_mass.py
-      - xpbd.py
-      - xwaves.py]
+      - standing_wave.py
+      - superposing_wave.py
+      - the_pulse.py
+      - xwaves.py
+      - yin_yang.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
       - derivations.py]
@@ -293,79 +359,7 @@ kanban
 - **Data Output**:
   - Numerical datasets, graphs, and analysis reports in open formats (CSV, JSON, PNG, STL)
 
-### Todo
-
-- [ ] Develop documentation
-- [ ] Define pre-commit hooks and style enforcement tools to ensure consistent formatting
-- [ ] Introduce automated testing and continuous integration to validate code changes
-
-## Installation
-
-For development installation refer to [Contribution Guide](CONTRIBUTING.md)
-
-```python
-# Clone the OpenWave repository, on your terminal:
-  git clone https://github.com/openwave-labs/openwave.git
-  cd openwave # point to local directory where OpenWave was installed
-
-# Make sure you have Python >=3.12 installed
-# Recommended Anaconda Package Distribution
-  install from: https://www.anaconda.com
-  conda create -n openwave python=3.12
-  conda activate openwave
-
-# Install OpenWave package & dependencies
-  pip install .  # reads dependencies from pyproject.toml
-```
-
-## Usage
-
-### Play with the /xperiments module
-
-XPERIMENTS are virtual lab scripts where you can play with quantum objects and simulate desired outcomes.
-
-```python
-# Launch xperiments using the CLI xperiment selector
-
-  openwave -x
-
-# Run sample xperiments shipped with the OpenWave package, tweak them, or create your own
-```
-
-<div align = "center" style="text-align: center">
-  <table>
-    <tr>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
-        </div>
-      </td>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
-          <br>Pulse Xperiment
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_radial.png" height="200px" alt="xperiment"></a>
-          <br>Radial Wave Xperiment
-        </div>
-      </td>
-      <td style="text-align: center">
-        <div align = "center">
-          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Spring-Mass Xperiment (UNSTABLE)
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
-
-## Wanna Contribute to this Project?
+## Wanna Help Developing this Project?
 
 - Please read the [Contribution Guide](CONTRIBUTING.md)
 - See `/dev_docs` for coding standards and development guidelines

@@ -10,10 +10,10 @@ openwave.xperiments.waves\_granule\_medium
    :toctree:
    :recursive:
 
-   pulse
-   radial_wave
+   aether_vibration
    spherical_wave
-   spring_mass
+   standing_wave
+   superposing_wave
+   the_pulse
    xwaves
-   ztest-standing_wave
-   ztest-xwaves
+   yin_yang

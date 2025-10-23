@@ -35,15 +35,15 @@ def density_derivation_wave():
     numerator = (
         constants.PLANCK_CONSTANT
         * 9
-        * constants.QWAVE_LENGTH**3
+        * constants.EWAVE_LENGTH**3
         * (1 / constants.ELECTRON_ORBITAL_G)
     )
     denominator = (
         32
         * np.pi
         * constants.ELECTRON_K**11
-        * constants.QWAVE_AMPLITUDE**7
-        * constants.QWAVE_SPEED
+        * constants.EWAVE_AMPLITUDE**7
+        * constants.EWAVE_SPEED
         * constants.ELECTRON_OUTER_SHELL
     )
     calculated_density = numerator / denominator
@@ -115,7 +115,7 @@ def density_derivation_planck():
     """
     # Direct calculation based on Eq. 1.3
     calculated_density = (
-        (2 * constants.PLANCK_CONSTANT) / (constants.PLANCK_CHARGE**2 * constants.QWAVE_SPEED)
+        (2 * constants.PLANCK_CONSTANT) / (constants.PLANCK_CHARGE**2 * constants.EWAVE_SPEED)
     ) * (1 / ((4 / 3) * np.pi * constants.ELECTRON_RADIUS**2))
 
     # Return the calculated value to show the relationship
@@ -152,7 +152,7 @@ def amplitude_derivation():
     """
     return (
         (1 / constants.FINE_STRUCTURE)
-        * (3 * np.pi * constants.QWAVE_LENGTH)
+        * (3 * np.pi * constants.EWAVE_LENGTH)
         / (4 * constants.ELECTRON_K**4)
     )
 
@@ -172,11 +172,11 @@ if __name__ == "__main__":
     print(f"Derived Planck: {density_derivation_planck():.9e} kg/m³")
     print(f"Stored : {constants.MEDIUM_DENSITY:.9e} kg/m³")
 
-    print("\nQUANTUM-WAVE LENGTH")
+    print("\nENERGY-WAVE LENGTH")
     print(f"Derived: {wavelength_derivation():.9e} m")
-    print(f"Stored : {constants.QWAVE_LENGTH:.9e} m")
+    print(f"Stored : {constants.EWAVE_LENGTH:.9e} m")
 
-    print("\nQUANTUM-WAVE AMPLITUDE")
+    print("\nENERGY-WAVE AMPLITUDE")
     print(f"Derived: {amplitude_derivation():.9e} m")
-    print(f"Stored : {constants.QWAVE_AMPLITUDE:.9e} m")
+    print(f"Stored : {constants.EWAVE_AMPLITUDE:.9e} m")
     print("_______________________________")

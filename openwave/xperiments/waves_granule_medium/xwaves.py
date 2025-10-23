@@ -2,9 +2,9 @@
 XPERIMENT: Crossing Waves Harmonic Oscillations
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
-Tweak universe_edge and other parameters to explore different scales.
+Tweak universe size and other parameters to explore different scales.
 
-Demonstrates wave interference from multiple sources in the BCC lattice.
+Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,
 creating constructive and destructive interference patterns.
 
@@ -22,22 +22,22 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.qmedium_granule as qmedium
-import openwave.spacetime.qwave_xwaves as qwave
+import openwave.spacetime.aether_granule as medium
+import openwave.spacetime.energy_wave_granule as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 
 # ================================================================
-# Xperiment Parameters & Quantum Objects Instantiation
+# Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
 
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
-
-# slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+UNIVERSE_SIZE = [
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
 NUM_SOURCES = 9
@@ -74,8 +74,9 @@ sources_phase_deg = [
     0,  # Wave Source 9
 ]
 
-lattice = qmedium.BCCLattice(UNIVERSE_EDGE, TARGET_GRANULES)
-granule = qmedium.BCCGranule(lattice.unit_cell_edge)
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
+lattice = medium.BCCLattice(UNIVERSE_SIZE)
+granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
@@ -83,48 +84,48 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: Crossing Waves", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("QMedium: Granules in BCC lattice")
+        sub.text("Medium: Aether Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
-        sub.text(f"QWave Sources: {NUM_SOURCES} Harmonic Oscillators")
-        sub.text("QWave Propagation: Radial from Source")
+        sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")
+        sub.text("EWave Propagation: Radial from Source")
 
 
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- QUANTUM-MEDIUM ---")
-        sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
+        sub.text("--- AETHER-MEDIUM ---")
+        sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
-        sub.text(f"QMedium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
         sub.text("--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
-        sub.text(f"Unit-Cells per Lattice Edge: {lattice.grid_size:,}")
-        sub.text(f"BCC Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
+        sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("")
         sub.text("--- Sim Resolution (linear) ---")
-        sub.text(f"QWave: {lattice.qwave_res:.0f} granules/qwave (>10)")
-        if lattice.qwave_res < 10:
+        sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
+        if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {lattice.uni_res:.1f} qwaves/universe-edge")
+        sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("")
-        sub.text("--- QUANTUM-WAVE ---")
-        sub.text(f"QWAVE Speed (c): {constants.QWAVE_SPEED:.1e} m/s")
-        sub.text(f"QWAVE Wavelength (lambda): {constants.QWAVE_LENGTH:.1e} m")
-        sub.text(f"QWAVE Frequency (f): {constants.QWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"QWAVE Amplitude (A): {constants.QWAVE_AMPLITUDE:.1e} m")
+        sub.text("--- ENERGY-WAVE ---")
+        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
+        sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
@@ -142,9 +143,9 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.01, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 10.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -168,7 +169,7 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
         else:
             # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.position_am[i] / lattice.universe_edge_am
+            normalized_position[i] = lattice.position_am[i] / lattice.max_universe_edge_am
 
 
 def normalize_granule():
@@ -177,7 +178,7 @@ def normalize_granule():
     global normalized_radius
 
     normalized_radius = max(
-        granule.radius / lattice.universe_edge, 0.0001
+        granule.radius / lattice.max_universe_edge, 0.0001
     )  # Ensure minimum 0.01% of screen radius for visibility
 
 
@@ -187,7 +188,7 @@ def normalize_granule():
 
 
 def render_xperiment(lattice):
-    """Render 3D BCC lattice with multiple wave sources using GGUI's 3D scene.
+    """Render 3D lattice with multiple wave sources using GGUI's 3D scene.
 
     Visualizes wave superposition from multiple sources, creating interference patterns
     where waves constructively and destructively combine.
@@ -223,13 +224,13 @@ def render_xperiment(lattice):
     # Conversion: radians = degrees × π/180
     sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
 
-    qwave.build_source_vectors(
+    ewave.build_source_vectors(
         sources_position, sources_phase_rad, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled
     if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters(slow_mo=SLOW_MO)
+        diagnostics.print_initial_parameters()
 
     while render.window.running:
         # Render UI overlay windows
@@ -248,13 +249,12 @@ def render_xperiment(lattice):
             # Apply radial harmonic oscillation to all granules from multiple wave sources
             # Each granule receives wave contributions from all active sources
             # Waves superpose creating interference patterns (constructive/destructive)
-            qwave.oscillate_granules(
+            ewave.oscillate_granules(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s
                 NUM_SOURCES,  # Number of active wave sources
                 t,
-                SLOW_MO,  # Slow-motion factor for visibility
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
@@ -293,7 +293,7 @@ def render_xperiment(lattice):
         # Render the wave sources
         if show_sources:
             render.scene.particles(
-                centers=qwave.sources_pos_field,
+                centers=ewave.sources_pos_field,
                 radius=normalized_radius * 2,
                 color=config.COLOR_SOURCE[1],
             )

@@ -8,20 +8,20 @@ All values use SI units (kg, m, s) for consistency.
 """
 
 # ================================================================
-# QUANTUM-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+# AETHER-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 # ================================================================
-MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, quantum-medium density (aether, rho)
+MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, aether-medium density (rho)
 ATTOMETTER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================
-# QUANTUM-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
+# ENERGY-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 # ================================================================
-QWAVE_LENGTH = 2.854096501e-17  # m, quantum-wave length, lambda
-QWAVE_AMPLITUDE = 9.215405708e-19  # m, quantum-wave amplitude (equilibrium-to-peak)
-QWAVE_SPEED = 299792458  # m / s, quantum-wave velocity (speed of light, c)
+EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length, lambda
+EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (equilibrium-to-peak)
+EWAVE_SPEED = 299792458  # m / s, energy-wave velocity (speed of light, c)
 
-QWAVE_FREQUENCY = 1.050393558e25  # Hz, quantum-wave frequency (QWAVE_SPEED/QWAVE_LENGTH)
-QWAVE_PERIOD = 9.520241169e-26  # s, quantum-wave period (1 / QWAVE_FREQUENCY)
+EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (EWAVE_SPEED/EWAVE_LENGTH)
+EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (1 / EWAVE_FREQUENCY)
 
 # ================================================================
 # Neutrino particle (seed particle)

@@ -17,7 +17,7 @@ requires-python = ">=3.12"
 description = "Simulates matter and energy formation using Energy Wave Theory"
 readme = "README.md"
 keywords = [
-  "Energy Wave Theory", "Quantum Simulation", "Quantum Mechanics",
+  "Energy Wave Theory", "Subatomic Simulation", "Quantum Mechanics",
   "Matter Formation", "Energy Formation", "Physics Simulation"
 ]
 

@@ -1,9 +1,9 @@
-﻿openwave.\_io
+openwave.\_io
 =============
 
 .. automodule:: openwave._io
 
-   
+
 .. rubric:: Modules
 
 .. autosummary::

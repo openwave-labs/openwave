@@ -11,7 +11,7 @@ import pyautogui
 from openwave.common import config
 
 
-def init_UI(cam_init_pos=[2.0, 2.0, 1.5]):
+def init_UI(universe_size=[1.0, 1.0, 1.0], cam_init_pos=[2.0, 2.0, 1.5]):
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
@@ -31,7 +31,13 @@ def init_UI(cam_init_pos=[2.0, 2.0, 1.5]):
 
     # Set initial camera parameters & background color
     # Camera orbit parameters - initial position looking at center
-    orbit_center = [0.5, 0.5, 0.5]  # Center of the lattice
+    # Compute orbit center proportional to asymmetric universe (normalized by max dimension)
+    max_dim = max(universe_size[0], universe_size[1], universe_size[2])
+    orbit_center = [
+        0.5 * (universe_size[0] / max_dim),  # X center
+        0.5 * (universe_size[1] / max_dim),  # Y center
+        0.5 * (universe_size[2] / max_dim),  # Z center
+    ]
 
     # Calculate initial angles from the desired initial position
     init_rel_x = cam_init_pos[0] - orbit_center[0]
@@ -72,7 +78,7 @@ def scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
     scene.point_light(pos=(0.5, 0.5, 1.5), color=(1.0, 1.0, 1.0))  # White light from above center
-    scene.point_light(pos=(1.0, 1.0, 1.0), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
+    scene.point_light(pos=(1.2, 1.2, 1.2), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
 
 
 def handle_camera():

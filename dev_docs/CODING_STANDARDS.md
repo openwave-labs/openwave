@@ -42,7 +42,7 @@ def calculate_wave_amplitude(
     time: float
 ) -> float:
     """
-    Calculate the amplitude of a quantum wave at a given time.
+    Calculate the amplitude of an energy wave at a given time.
     
     Parameters
     ----------

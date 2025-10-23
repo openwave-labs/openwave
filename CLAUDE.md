@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-OpenWave is an open-source quantum physics simulator implementing Energy Wave Theory (EWT) to model the formation of matter and energy from quantum wave interactions. The project simulates phenomena from spacetime emergence through particle formation to complex matter behavior.
+OpenWave is an open-source subatomic physics simulator implementing Energy Wave Theory (EWT) to model the formation of matter and energy from energy wave interactions. The project simulates phenomena from spacetime emergence through particle formation to complex matter behavior.
 
 ### Project Goals
 
@@ -72,7 +72,7 @@ The `/research_requirements/scientific_source/` directory contains foundational 
 
 This project implements Energy Wave Theory concepts:
 
-- Quantum Waves as fundamental building blocks
+- Energy Wave as fundamental building blocks
 - Wave interactions forming particles and matter
 - Simulation from Planck scale to macroscopic phenomena
 - Validation against experimental observations

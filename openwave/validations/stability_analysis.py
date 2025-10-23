@@ -1,25 +1,26 @@
 import math
 
+from openwave.common import config
 from openwave.common import constants
 from openwave.common import equations
 
-import openwave.spacetime.qmedium_granule as qmedium
+import openwave.spacetime.aether_granule as medium
 
 
 # From constants
-QWAVE_FREQUENCY = constants.QWAVE_FREQUENCY
+EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY
 
 # Current simulation parameters
-UNIVERSE_EDGE = 4 * constants.QWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = 1e6  # target particle count, granularity (planck scale ~3e54)
-SLOW_MO = constants.QWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
+TARGET_GRANULES = config.TARGET_GRANULES  # target granule count
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
 # Calculate granule properties (simplified BCC lattice estimate)
 granules_per_edge = TARGET_GRANULES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 # unit_cell_edge = 2 * math.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
-granule = qmedium.BCCGranule(unit_cell_edge)
+granule = medium.BCCGranule(unit_cell_edge)
 
 # Spring-mass system natural frequency
 frequency = equations.natural_frequency(STIFFNESS, granule.mass)  # Hz
@@ -46,10 +47,10 @@ print(f"Granule mass: {granule.mass:.2e} kg")
 
 print(f"\nCurrent Spring stiffness: {STIFFNESS:.2e} N/m")
 print(f"Natural frequency: {frequency:.2e} Hz (period: {period:.2e} s)")
-print(f"Quantum-Wave frequency: {QWAVE_FREQUENCY:.2e} Hz")
-print(f"Quantum-Wave slowed: {QWAVE_FREQUENCY / SLOW_MO:.2e} Hz")
+print(f"Energy-Wave frequency: {EWAVE_FREQUENCY:.2e} Hz")
+print(f"Energy-Wave slowed: {EWAVE_FREQUENCY / SLOW_MO:.2e} Hz")
 print(
-    f"Stiffness to match: {equations.stiffness_from_frequency(QWAVE_FREQUENCY, granule.mass):.2e} N/m"
+    f"Stiffness to match: {equations.stiffness_from_frequency(EWAVE_FREQUENCY, granule.mass):.2e} N/m"
 )
 
 print(f"\nCritical timestep (stability limit): {dt_critical:.2e} s")

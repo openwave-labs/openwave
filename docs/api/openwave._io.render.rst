@@ -1,4 +1,4 @@
-openwave.\_io.render
+﻿openwave.\_io.render
 ====================
 
 .. automodule:: openwave._io.render

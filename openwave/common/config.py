@@ -3,34 +3,43 @@ Configuration settings for the OpenWave project.
 
 This module provides global configuration parameters for OpenWave simulations:
 
+- Resolution & Magnification Settings
 - Color Schemes (RGBA hex)
 
 Includes commented thermal imaging palette definitions for future use.
 """
 
+from openwave.common import constants
+
 # ================================================================
-# Color Settings (RGBA hex)
+# Resolution & Magnification Settings
+# ================================================================
+TARGET_GRANULES = 1e6  # target particle count, granularity (impacts performance)
+SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+
+# ================================================================
+# Color Definitions (RGBA hex)
 # ================================================================
 BLACK = ["#000000ff", (0.0, 0.0, 0.0)]
 WHITE = ["#ffffffff", (1.0, 1.0, 1.0)]
 LIGHT_BLUE = ["#1a99e6ff", (0.1, 0.6, 0.9)]
 MAGENTA = ["#ff00eeff", (1.0, 0.0, 0.93)]
 CYAN = ["#00ffffff", (0.0, 1.0, 1.0)]
-DARK_BLUE = ["#0000ffff", (0.0, 0.0, 1.0)]
-ORANGE = ["#ff7f00ff", (1.0, 0.5, 0.0)]
+DARK_BLUE = ["#1a3366ff", (0.1, 0.2, 0.4)]
+ORANGE = ["#ff6600ff", (1.0, 0.4, 0.0)]
 GREEN = ["#04ff00ff", (0.25, 1.0, 0.25)]
 YELLOW = ["#ffea00ff", (1.0, 0.92, 0.0)]
 RED = ["#ff0000ff", (1.0, 0.0, 0.0)]
 PURPLE = ["#8b00ffff", (0.55, 0.0, 0.85)]
 
 # ================================================================
-# Color Palette
+# Color Settings
 # ================================================================
 COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grids, links
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
-COLOR_QWAVES = ORANGE  # quantum-waves, wave functions
 
+COLOR_EWAVE = ORANGE  # energy-wave, wave functions
 COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MATTER = DARK_BLUE  # matter, particles
 COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
@@ -39,28 +48,23 @@ COLOR_PHOTON = YELLOW  # photons
 COLOR_HEAT = RED  # heat, thermal energy
 COLOR_ENERGY = PURPLE  # energy, energy packets
 
-
 # ================================================================
 # Granule Type Classification & Colors
 # ================================================================
 # Granule types identify position within BCC lattice structure
-# Used for visualization, analysis, and debugging lattice topology
-
 # Type constants (integer values for GPU compatibility)
 TYPE_VERTEX = 0  # 8 corner vertices of the lattice cube
 TYPE_EDGE = 1  # 12 edges of the lattice cube
 TYPE_FACE = 2  # 6 faces of the lattice cube
 TYPE_CORE = 3  # Interior granules (not on boundary)
-TYPE_CENTER = 4  # Single central granule (lattice center)
 
 # Type-specific colors [hex_rgba, (r, g, b)]
-COLOR_VERTEX = YELLOW  # cube vertices
-COLOR_EDGE = WHITE  # cube edges
-COLOR_FACE = ORANGE  # cube faces
+COLOR_VERTEX = BLACK  # cube vertices
+COLOR_EDGE = BLACK  # cube edges
+COLOR_FACE = DARK_BLUE  # cube faces
 COLOR_CORE = COLOR_MEDIUM  # interior granules
-COLOR_CENTER = BLACK  # central granule
 COLOR_PROBE = RED  # probe granule
-COLOR_SOURCE = COLOR_QWAVES  # source granules
+COLOR_SOURCE = ORANGE  # source granules
 
 
 # # FUTURE THERMAL IMAGING PALLETTE

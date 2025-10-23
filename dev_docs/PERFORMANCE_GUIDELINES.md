@@ -2,7 +2,7 @@
 
 ## Overview
 
-OpenWave simulates quantum physics at the Planck scale, requiring careful attention to performance optimization. This guide provides best practices for writing high-performance code in the project. It contains general performance principles, Taichi optimization, GPU best practices, and benchmarking guidelines.
+OpenWave simulates subatomic physics at the Planck scale, requiring careful attention to performance optimization. This guide provides best practices for writing high-performance code in the project. It contains general performance principles, Taichi optimization, GPU best practices, and benchmarking guidelines.
 
 ## General Performance Principles
 

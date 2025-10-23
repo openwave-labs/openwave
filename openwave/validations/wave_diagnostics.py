@@ -10,6 +10,7 @@ This module simply confirms the simulation is running with correct parameters.
 This provides zero-overhead diagnostics that can be toggled on/off per experiment.
 """
 
+from openwave.common import config
 from openwave.common import constants
 
 
@@ -39,15 +40,15 @@ def print_wave_diagnostics(
     # For PSHO, just print confirmation that wave is running correctly
     print(f"\n=== WAVE DIAGNOSTICS (Frame {frame}, t={t:.3f}s) ===")
     print(f"✓ PSHO Running - Wave parameters guaranteed correct by construction:")
-    print(f"  Wave Speed:    c = {constants.QWAVE_SPEED:.6e} m/s")
-    print(f"  Wavelength:    λ = {constants.QWAVE_LENGTH:.6e} m")
-    print(f"  Frequency:     f = {constants.QWAVE_FREQUENCY:.6e} Hz")
+    print(f"  Wave Speed:    c = {constants.EWAVE_SPEED:.6e} m/s")
+    print(f"  Wavelength:    λ = {constants.EWAVE_LENGTH:.6e} m")
+    print(f"  Frequency:     f = {constants.EWAVE_FREQUENCY:.6e} Hz")
     print(f"  Phase relation: φ = -kr ensures outward propagation")
     print(f"  Validation:     v = f × λ = c ✓")
     print("=" * 50)
 
 
-def print_initial_parameters(slow_mo: float = 1.0):
+def print_initial_parameters():
     """Print expected wave parameters at startup.
 
     Args:
@@ -56,18 +57,17 @@ def print_initial_parameters(slow_mo: float = 1.0):
     print("\n" + "=" * 70)
     print("WAVE DIAGNOSTICS ENABLED")
     print("=" * 70)
-    print(f"Expected Wave Speed (c):        {constants.QWAVE_SPEED:.6e} m/s")
-    print(f"Expected Wavelength (λ):      {constants.QWAVE_LENGTH:.6e} m")
-    print(f"Expected Frequency (f):       {constants.QWAVE_FREQUENCY:.6e} Hz")
-    print(f"Expected Amplitude (A):         {constants.QWAVE_AMPLITUDE:.6e} m")
+    print(f"Expected Wave Speed (c):        {constants.EWAVE_SPEED:.6e} m/s")
+    print(f"Expected Wavelength (λ):      {constants.EWAVE_LENGTH:.6e} m")
+    print(f"Expected Frequency (f):       {constants.EWAVE_FREQUENCY:.6e} Hz")
+    print(f"Expected Amplitude (A):         {constants.EWAVE_AMPLITUDE:.6e} m")
 
-    if slow_mo > 1.0:
-        f_slowed = constants.QWAVE_FREQUENCY / slow_mo
-        print()
-        print(f"Simulation Parameters:")
-        print(f"  Slow-motion factor:           {slow_mo:.2e}")
-        print(f"  Effective frequency:          {f_slowed:.2e} Hz")
-        print(f"  (Wave speed and wavelength remain c and λ by construction)")
+    f_slowed = constants.EWAVE_FREQUENCY / config.SLOW_MO
+    print()
+    print(f"Simulation Parameters:")
+    print(f"  Slow-motion factor:           {config.SLOW_MO:.2e}")
+    print(f"  Effective frequency:          {f_slowed:.2e} Hz")
+    print(f"  (Wave speed and wavelength remain c and λ by construction)")
 
     print()
     print("NOTE: Phase-Synchronized Harmonic Oscillation (PSHO) guarantees")
