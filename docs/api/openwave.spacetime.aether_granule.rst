@@ -1,5 +1,5 @@
-openwave.spacetime.aether\_granules
-====================================
+openwave.spacetime.aether\_granule
+==================================
 
 .. automodule:: openwave.spacetime.aether_granule
 
@@ -9,4 +9,5 @@ openwave.spacetime.aether\_granules
    .. autosummary::
    
       BCCGranule
+      SCGranule
    

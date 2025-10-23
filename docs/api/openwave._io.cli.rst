@@ -1,4 +1,4 @@
-openwave.\_io.cli
+﻿openwave.\_io.cli
 =================
 
 .. automodule:: openwave._io.cli
