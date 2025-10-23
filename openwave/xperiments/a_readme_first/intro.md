@@ -25,9 +25,10 @@ Whether you're researching the emergence of particles from wave convergence, ana
 - The aether is an EXTREMELY THIN FLUID-LIKE MEDIUM that fills all space.
 - It vibrates at EXTREMELY HIGH FREQUENCIES (10^25Hz) which gives rise to the phenomena of spacetime.
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of the aether's harmonic oscillations.
-- Those wave patterns are the SOURCE of all physical phenomena in the universe. Including all ENERGY forms and FORCES, the formation of MATTER and TIME ITSELF (their frequency is the universe's clock).
-- Now reduce the granule size and you'll clearly see them, they are called the ENERGY WAVES,
-the fundamental building blocks of reality.
+  - Those wave patterns are the SOURCE of all physical phenomena in the universe.
+  - Including all ENERGY forms, FORCES, and the development of MATTER.
+- Now reduce the granule size and observe the wave pulse, that rhythm is TIME ITSELF. The waves frequency is the universe's clock.
+- These waves are called the ENERGY WAVES, the fundamental building blocks of reality.
 
 ![Aether vibration visualization](images/aether_vibes.gif)
 
@@ -45,7 +46,7 @@ This xperiment demonstrates standing wave patterns that emerge from inward and o
 
 ![Standing wave visualization](images/standing_wave.gif)
 
-### 4. Play with Xperiments and Start your Research
+### 4. Play with other Xperiments and Start your Research
 
 Now that you are introduced to the basic concepts of wave phenomena, you can start experimenting with different wave configurations and parameters. Use the tools provided in the OpenWave platform to create your own simulations and explore the behavior of waves in various scenarios.
 

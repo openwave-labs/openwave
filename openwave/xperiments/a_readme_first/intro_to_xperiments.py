@@ -5,25 +5,13 @@ from pathlib import Path
 
 
 def main():
-    """Open intro.html in the default browser."""
-    # Get the directory where this script is located
-    script_dir = Path(__file__).parent.resolve()
+    """Open intro in the default browser."""
 
-    # Build the path to intro.html
-    html_file = script_dir / "intro.html"
-
-    # Check if the file exists
-    if not html_file.exists():
-        print(f"Error: intro.html not found at {html_file}")
-        sys.exit(1)
-
-    # Convert to file:// URL for better cross-platform compatibility
-    file_url = html_file.as_uri()
-
-    print(f"Opening {html_file} in your default browser...")
+    url = "https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/a_readme_first/intro.md"
+    print(f"Opening intro in your default browser...")
 
     # Open in the default browser
-    webbrowser.open(file_url)
+    webbrowser.open(url)
 
     print("Done!")
 
