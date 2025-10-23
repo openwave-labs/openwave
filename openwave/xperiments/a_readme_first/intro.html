@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro to Xperiments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000;
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #5dade2;
+            margin-top: 30px;
+            border-bottom: 2px solid #5dade2;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #85c1e9;
+        }
+        strong {
+            color: #ffffff;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #444;
+            border-radius: 4px;
+        }
+        .summary {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>INTRO TO OPENWAVE XPERIMENTS</h1>
+
+    <div class="summary">
+        <h2>SUMMARY</h2>
+
+        <p>A week advancing OpenWave from single-source radial waves to multi-source interference patterns while establishing physics-accurate terminology throughout the codebase. Major focus on visualization tools and wave analysis capabilities.</p>
+
+        <p><strong>Key Achievements</strong>:</p>
+
+        <ol>
+            <li><strong>Multi-Source Wave Physics</strong>: Expanded from single to 10 simultaneous wave sources, enabling complex interference pattern studies and wave superposition validation</li>
+            <li><strong>Advanced Visualization Tools</strong>: Introduced probe granules, borescope camera, near-far field visualization, and comprehensive wave diagnostics module</li>
+            <li><strong>Terminology Standardization</strong>: Completed systematic transition from "particle" to "granule-medium" language, aligning codebase with EWT wave-centric paradigm</li>
+            <li><strong>Documentation Revamp</strong>: Complete restructuring of API references, module documentation, and technical analysis (Taichi vs Warp comparison)</li>
+        </ol>
+
+        <p><strong>Impact</strong>: This week transforms OpenWave into a true virtual laboratory for wave physics research, with professional-grade diagnostic tools and the foundation for studying particle formation from wave convergence.</p>
+    </div>
+
+    <h2>WAVE DYNAMICS ENHANCEMENTS</h2>
+
+    <h3>Spherical Wave Visualization in 3D:</h3>
+
+    <p>New 3D wave propagation demo.</p>
+
+    <img src="images/spherical_wave.gif" alt="Spherical wave visualization">
+
+    <h3>Multi-Source Wave System and Wave Interference:</h3>
+
+    <ul>
+        <li><strong>Wave Source Scaling</strong>: Increased maximum wave sources from default to 10 sources (Oct 17-18)</li>
+        <li><strong>Variable Wave Source Support</strong>: Refactored wave source handling to support variable count dynamically (Oct 18)</li>
+        <li><strong>Crossing Waves Experiment</strong>: Added new <code>xwaves</code> (crossing waves) experiment with dedicated <code>ewave_granule</code> kernel (Oct 16)</li>
+        <li><strong>Wave Interference Visualization</strong>: Implemented multi-source interference patterns showing constructive/destructive interference</li>
+        <li><strong>UI Controls</strong>: Added toggle for showing/hiding wave sources in visualization (Oct 17)</li>
+    </ul>
+
+    <img src="images/x_waves2.gif" alt="Crossing waves interference pattern">
+
+</body>
+</html>
