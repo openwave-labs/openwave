@@ -33,14 +33,14 @@ See `/dev_docs` for coding standards and development guidelines
 
 - **Clone Your Fork**
 
-```python
+```bash
    git clone https://github.com/YOUR-USERNAME/openwave.git
    cd openwave
    ```
 
 - **Set Up the Environment & Install**
 
-```python
+```bash
 # Create virtual environment
   # Option 1: via Venv
     python -m venv openwave
@@ -56,13 +56,13 @@ See `/dev_docs` for coding standards and development guidelines
 
 - **Create a Branch to Develop Your Feature**
 
-```python
+```bash
    git checkout -b your-feature-name
    ```
 
 - Optional: LaTex & FFmpeg (video generation)
 
-```python
+```bash
 # Install LaTeX and FFmpeg (macOS)
    brew install --cask mactex-no-gui ffmpeg
    echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc

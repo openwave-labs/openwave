@@ -97,7 +97,7 @@ XPERIMENTS are virtual lab scripts where you can play with subatomic objects and
 
 - Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
 
-```python
+```bash
 # Launch xperiments using the CLI xperiment selector
 
   openwave -x
