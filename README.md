@@ -74,7 +74,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
-```python
+```bash
 # Clone the OpenWave repository, on your terminal:
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
