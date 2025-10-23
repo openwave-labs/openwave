@@ -229,11 +229,12 @@ class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     GRANULE-BASED MEDIUM
     - aether_vibration.py✓
-    - pulse.py ✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
     - superposing_wave.py ✓
+    - the_pulse.py ✓
     - xwaves.py ✓
+    - yin_yang.py ✓
     ---
     FIELD-BASED MEDIUM
     - *WIP*: flow_wave.py
@@ -319,11 +320,12 @@ kanban
       - ewave_granule.py]
     [**XPERIMENTS MODULE**
       - aether_vibration.py
-      - pulse.py
       - spherical_wave.py
       - standing_wave.py
       - superposing_wave.py
-      - xwaves.py]
+      - the_pulse.py
+      - xwaves.py
+      - yin_yang.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
       - derivations.py]
