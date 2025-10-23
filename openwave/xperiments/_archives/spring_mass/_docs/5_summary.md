@@ -1,6 +1,6 @@
 # SUMMARY
 
-**Key Breakthrough**: Discovered that force-based integration methods (Euler, Leapfrog) and constraint-based methods (XPBD) are fundamentally inadequate for subatomic-scale wave simulation due to numerical instability and the "impossible triangle" problem. Solution: Phase-Synchronized Harmonic Oscillators (PSHO) - directly computing positions from wave equations rather than integrating forces.
+**Key Insight**: Discovered that force-based integration methods (Euler, Leapfrog) and constraint-based methods (XPBD) are fundamentally inadequate for subatomic-scale wave simulation due to numerical instability and the "impossible triangle" problem. Solution: Phase-Synchronized Harmonic Oscillators (PSHO) - directly computing positions from wave equations rather than integrating forces.
 
 ![alt text](images/demo2.gif)
 ![alt text](images/demo3.gif)
