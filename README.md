@@ -95,7 +95,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
 
-- **Highly Recommended:** Read the [Quick Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+- **Highly Recommended:** Read the [Welcome to OpenWave](/openwave/xperiments/a_readme_first/welcome.md) to get started.
 - Then, on your terminal run:
 
 ```bash

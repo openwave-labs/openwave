@@ -1,4 +1,4 @@
-# INTRO TO OPENWAVE XPERIMENTS
+# WELCOME TO OPENWAVE
 
 ## OpenWave
 
@@ -18,7 +18,7 @@ Whether you're researching the emergence of particles from wave convergence, ana
 
 - **Follow the demo sequence below if you are new to OpenWave**
 
-## XPERIMENTS BASIC DEMO (follow this intro sequence)
+## XPERIMENTS BASIC DEMO (start here)
 
 ### 1. Aether Vibration
 
