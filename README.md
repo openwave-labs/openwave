@@ -15,7 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other modalities of energy — from the emergence of spacetime and energy waves, through the creation of particles, to the development of matter, motion, light, and heat — based on the deterministic subatomic model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
+OpenWave is an open-source application designed to simulate the formation and behavior of matter and other modalities of energy — from the emergence of spacetime and energy waves, through the creation of particles, and the development of matter, motion, light, and heat — based on the deterministic subatomic model of the [Energy Wave Theory (EWT)](https://energywavetheory.com).
 
 ## Core Scope
 
@@ -110,7 +110,7 @@ XPERIMENTS are virtual lab scripts where you can play with subatomic objects and
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
+          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
           <br>X-Waves Xperiment
         </div>
       </td>

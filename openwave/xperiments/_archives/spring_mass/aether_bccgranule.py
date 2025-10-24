@@ -25,7 +25,7 @@ from openwave.common import equations
 
 class BCCGranule:
     """
-    Granule Model: The aether consists of "granules".
+    Granule Model: The Aether consists of "granules".
     Fundamental units that vibrate in harmony and create wave patterns.
     Their collective motion at Planck scale creates all observable phenomena.
     Each granule has a defined radius and mass.
