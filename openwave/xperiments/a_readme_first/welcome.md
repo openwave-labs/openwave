@@ -104,11 +104,12 @@ For more details on the theory concepts, numerical proof and research papers, re
 
 | OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
 |----------|---------------------|---------------|------------------|
-| LOGIC | GRANULE-BASED MEDIUM (personal computers) | FIELD-BASED MEDIUM (personal computers) | ADVANCED COMPUTING PLATFORMS |
-| aether medium | granule-base lattice | field-based grid | port to computing-clusters / quantum-computing |
+| LOGIC | GRANULE-BASED MEDIUM | FIELD-BASED MEDIUM | ADVANCED COMPUTING PLATFORMS |
+| system requirements | runs on personal computers | runs on personal computers | computing-clusters / quantum-computing |
+| aether medium | granule-base lattice | field-based grid | to be developed |
 | wave engine | phase shifted harmonic oscillations | vector field propagation | to be developed |
 | USE-CASE | ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Visualization, Animation, Welcome to OpenWave | Numerical Analysis, Scientific Research, Subatomic Engineering | large quantities of matter (atoms/molecules) |
 | DESCRIPTION | wave formation fundamentals, spacetime & wave phenomena, aether/granules INTO waves, planck-scale to waves, waves modeled as granules, granule-based wave dynamics, how waves are made, universe foundation, energy source | wave interaction, matter, forces, EM & heat, waves INTO everything, λ-scale to particles/matter, universe modeled as waves, wave-based universe dynamics, how waves make everything, material universe, objects, energy effects, manifestations, combinations, modalities | TBD |
-| PLATFORM | OPENWAVE Platform (from v0.3.0+) | OPENWAVE Platform (from v0.4.0+) | OPENWAVE Platform vTBD|
+| PLATFORM | OPENWAVE Platform (from v0.3.0+) | OPENWAVE Platform (from v0.4.0+) | OPENWAVE Platform (vTBD)|
 | | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code |
