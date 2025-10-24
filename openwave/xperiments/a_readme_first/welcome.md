@@ -107,7 +107,7 @@ For more details on the theory concepts, numerical proof and research papers, re
 | LOGIC | GRANULE-BASED MEDIUM | FIELD-BASED MEDIUM | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters / quantum-computing |
 | aether medium | granule-base lattice | field-based grid | to be developed |
-| wave engine | phase shifted harmonic oscillations | vector field propagation | to be developed |
+| wave engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Visualization, Animation, Welcome to OpenWave | Numerical Analysis, Scientific Research, Subatomic Engineering | large quantities of matter (atoms/molecules) |
 | DESCRIPTION | wave formation fundamentals, spacetime & wave phenomena, aether/granules INTO waves, planck-scale to waves, waves modeled as granules, granule-based wave dynamics, how waves are made, universe foundation, energy source | wave interaction, matter, forces, EM & heat, waves INTO everything, λ-scale to particles/matter, universe modeled as waves, wave-based universe dynamics, how waves make everything, material universe, objects, energy effects, manifestations, combinations, modalities | TBD |
