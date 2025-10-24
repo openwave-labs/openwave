@@ -25,7 +25,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 - Runs simulations derived directly from built-in equations and energy-wave phenomena.
 - Validates outcomes by comparing them against observed reality.
-- Generates numerical analysis and reports for scientific publications (assisted by your preferred LLM).
+- Generates numerical analysis and data support for scientific publications.
 
 ### Visual Demonstration
 
@@ -95,7 +95,8 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
 
-- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+- **Highly Recommended:** Read the [Quick Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+- Then, on your terminal run:
 
 ```bash
 # Launch xperiments using the CLI xperiment selector
