@@ -146,7 +146,7 @@ XPERIMENTS are virtual lab scripts where you can play with subatomic objects and
 This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
 - ✓ = module already released
-- *WIP* = work in process
+- *WIP* = work in progress
 
 ```mermaid
 classDiagram
@@ -155,12 +155,12 @@ classDiagram
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     AETHER-MEDIUM [Objects]
-    *WIP*: aether_field.py
-    aether_granule.py ✓
+    aether_level0.py ✓
+    *WIP*: aether_level1.py
     ---
     ENERGY-WAVE [Physics Engines]
-    *WIP*: energy_wave_field.py
-    energy_wave_granule.py ✓}
+    energy_wave_level0.py ✓
+    *WIP*: energy_wave_level1.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -228,7 +228,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    GRANULE-BASED MEDIUM
+    LEVEL-0: GRANULE-BASED 
     - aether_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
@@ -237,7 +237,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    FIELD-BASED MEDIUM
+    LEVEL-1: FIELD-BASED
     - *WIP*: flow_wave.py
     ---
     ANTI-GRAVITY
@@ -311,15 +311,15 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - aether_field.py
-      - ewave_field.py
+      - aether_level1.py
+      - ewave_level1.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - aether_granule.py
-      - ewave_granule.py]
-    [**XPERIMENTS MODULE**
+      - aether_level0.py
+      - ewave_level0.py]
+    [**XPERIMENTS LEVEL-0**
       - aether_vibration.py
       - spherical_wave.py
       - standing_wave.py

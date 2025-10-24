@@ -560,7 +560,7 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 - `xpbd.py` - Main render loop
 - `ewave_xpbd.py` - XPBD constraint solver
-- `aether_granule.py` - Unchanged (same BCC structure)
+- `aether_level0.py` - Unchanged (same BCC structure)
 
 ### Files Archived (for reference)
 

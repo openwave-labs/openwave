@@ -18,7 +18,7 @@ Whether you're researching the emergence of particles from wave convergence, ana
 
 - **Follow the demo sequence below if you are new to OpenWave**
 
-## XPERIMENTS BASIC DEMO (start here)
+## XPERIMENTS LEVEL-0 DEMO (start here)
 
 ### 1. Aether Vibration
 
@@ -99,3 +99,16 @@ To launch the Xperiments Selector Menu:
 ## SCIENTIFIC SOURCE
 
 For more details on the theory concepts, numerical proof and research papers, refer to the: [Energy Wave Theory (EWT)](https://energywavetheory.com).
+
+## OPENWAVE LEVELS
+
+| OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
+|----------|---------------------|---------------|------------------|
+| LOGIC | GRANULE-BASED MEDIUM (personal computers) | FIELD-BASED MEDIUM (personal computers) | ADVANCED COMPUTING PLATFORMS |
+| aether medium | granule-base lattice | field-based grid | port to computing-clusters / quantum-computing |
+| wave engine | phase shifted harmonic oscillations | vector field propagation | to be developed |
+| USE-CASE | ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
+| | Visualization, Animation, Welcome to OpenWave | Numerical Analysis, Scientific Research, Subatomic Engineering | large quantities of matter (atoms/molecules) |
+| DESCRIPTION | wave formation fundamentals, spacetime & wave phenomena, aether/granules INTO waves, planck-scale to waves, waves modeled as granules, granule-based wave dynamics, how waves are made, universe foundation, energy source | wave interaction, matter, forces, EM & heat, waves INTO everything, λ-scale to particles/matter, universe modeled as waves, wave-based universe dynamics, how waves make everything, material universe, objects, energy effects, manifestations, combinations, modalities | TBD |
+| PLATFORM | OPENWAVE Platform (from v0.3.0+) | OPENWAVE Platform (from v0.4.0+) | OPENWAVE Platform vTBD|
+| | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code | GPU optimization, Xperiments module, CLI, Rendering engine, Common & I/O modules, Open-Source code |

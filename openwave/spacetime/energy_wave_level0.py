@@ -2,7 +2,7 @@
 ENERGY-WAVE
 (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
-ON GRANULE-BASED MEDIUM
+LEVEL-0: ON GRANULE-BASED MEDIUM
 
 Wave Physics Engine @spacetime module.
 Wave dynamics and motion.

@@ -2,7 +2,7 @@
 AETHER-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
-FIELD-BASED MEDIUM
+LEVEL-1: FIELD-BASED MEDIUM
 
 Objects Engine @spacetime module.
 

@@ -2,7 +2,7 @@
 AETHER-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
-GRANULE-BASED MEDIUM
+LEVEL-0: GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 

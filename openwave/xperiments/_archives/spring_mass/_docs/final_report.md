@@ -199,7 +199,7 @@ The experimental investigation was conducted using the OpenWave simulator, a spe
 
 The simulator architecture comprises five primary computational modules:
 
-- `aether_granule.py`: Implements BCC lattice topology construction and granule initialization procedures
+- `aether_level0.py`: Implements BCC lattice topology construction and granule initialization procedures
 - `energy_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
 - `energy_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
 - `energy_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation
