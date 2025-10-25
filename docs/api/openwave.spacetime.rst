@@ -10,7 +10,7 @@ openwave.spacetime
    :toctree:
    :recursive:
 
-   aether_field
-   aether_level0
+   medium_field
+   medium_level0
    energy_wave_field
    energy_wave_level0

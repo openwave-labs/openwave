@@ -259,7 +259,7 @@ When observing radial wave propagation in the simulation, you may notice that th
 
 #### 1. BCC Geometry (Root Cause)
 
-In a BCC lattice (aether_level0.py:24-43):
+In a BCC lattice (medium_level0.py:24-43):
 
 - Each granule has **8 nearest neighbors** at distance `a × √3/2`
 - These neighbors are arranged in a **tetrahedral/diagonal pattern**
@@ -315,7 +315,7 @@ The "twisting" you observe is evidence that the simulation correctly represents 
 
 ### Lattice Structure Details
 
-From aether_level0.py:
+From medium_level0.py:
 
 ```python
 # BCC nearest neighbor distance (line 478)

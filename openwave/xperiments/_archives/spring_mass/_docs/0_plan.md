@@ -37,7 +37,7 @@ Also check `/research_requirements/original_requirements/1. Simulating a Fundame
 - **Equilibrium positions**: Store initial vertex positions in `vertex_equilibrium` field (8-element Vector field)
   - Reason: We NEED this because `self.positions` will be constantly updated each frame
   - Without stored equilibrium, we'd have to recalculate from grid indices every frame (wasteful)
-  - Add to aether_medium.py during initialization: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
+  - Add to medium.py during initialization: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
   - Populate during `build_vertex_index()` by storing `self.positions[vertex_idx]`
 
 - **Time accumulation**: Use accumulated time variable `t` (not just dt)
@@ -87,7 +87,7 @@ Recommendation: Update both for physical consistency, prepares for Phase 2.
 
 ### 6. Function Placement & Implementation Details
 
-**Location**: `energy_wave.py` (not aether_medium.py - keep it modular)
+**Location**: `energy_wave.py` (not medium.py - keep it modular)
 
 **Function signature**:
 
@@ -140,7 +140,7 @@ while window.running:
 
 ### 7. Implementation Checklist (Phase 1)
 
-#### Step 1: Modify aether_medium.py
+#### Step 1: Modify medium.py
 
 - [ ] Add field: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
 - [ ] In `build_vertex_index()`: Store equilibrium positions after computing index
@@ -220,7 +220,7 @@ Propagate vertex oscillations through the entire lattice using spring-mass dynam
 
 ### Key Requirements
 
-- Connect vertices to other granules via spring forces: spring links are already created at aether_medium.py Spring class
+- Connect vertices to other granules via spring forces: spring links are already created at medium.py Spring class
 - Propagate oscillating motion like a wave through the lattice
 - Implement spring constants: k = 5.56081e44 kg/s² (single spring when granule radius is Planck length)
   - Already adjusted for scale-up factor on Spring class: `k = COULOMB_CONSTANT / granule.radius`
