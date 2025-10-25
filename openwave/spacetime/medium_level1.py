@@ -1,6 +1,5 @@
 """
 WAVE-MEDIUM
-(AKA: QUANTUM-FIELDS @modern, AETHER @classical, AKASHA @yoga, WUJI @daoism)
 
 LEVEL-1: FIELD-BASED MEDIUM
 

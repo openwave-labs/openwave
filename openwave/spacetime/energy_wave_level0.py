@@ -1,6 +1,5 @@
 """
 ENERGY-WAVE
-(AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 LEVEL-0: ON GRANULE-BASED MEDIUM
 

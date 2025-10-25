@@ -38,6 +38,28 @@
 - continuos wave source, propagation by phase shift, reflection by another "source"
 VS energy injected once
 
+## FIELD-BASED MEDIUM (analytical tool) vs. GRANULE-BASED MEDIUM (visualization tool)
+
+- modeled as a 3D vector field (array / grid / matrix)
+  - propagating scalar attributes
+  - amplitude/density-pressure/λ/frequency
+  - potential vs kinetic energy (amplitude)
+- Medium is modeled as space coordinates and data (just information)
+- Rendered particles will be neutrinos + anti-particles
+  - they move for MAP
+  - Forces arise from amplitude gradients in the wave field
+  - Greater wave amplitude = higher momentum density
+  - Force vectors point toward decreasing wave amplitude
+
+MAIN QUESTION for FIELD-BASED
+
+- how to inject initial energy?
+- how to propagate amplitude, frequency (c/λ) and phase (φ)
+  - how to transfer momentum? energy?
+  - wave propagation vs. amplitude direction?
+- how grid interacts w/ particle/boundary
+  - wave center reflection & MAP
+
 ## Core Simulation Architecture (CRITICAL FOR OPENWAVE)
 
 Non-Particle Grid System

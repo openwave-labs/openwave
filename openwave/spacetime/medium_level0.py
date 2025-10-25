@@ -1,6 +1,5 @@
 """
 WAVE-MEDIUM
-(AKA: QUANTUM-FIELDS @modern, AETHER @classical, AKASHA @yoga, WUJI @daoism)
 
 LEVEL-0: GRANULE-BASED MEDIUM
 
