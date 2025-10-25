@@ -89,8 +89,8 @@ render.init_UI(UNIVERSE_SIZE, cam_init_pos=[2.00, 1.50, 1.75])  # Initialize the
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Aether Vibration", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in BCC lattice")
+    with render.gui.sub_window("XPERIMENT: Wave Medium Vibration", 0.00, 0.00, 0.19, 0.14) as sub:
+        sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")
@@ -100,7 +100,7 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- AETHER-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")

@@ -1,4 +1,4 @@
-openwave.spacetime.aether\_granule
+openwave.spacetime.medium\_granule
 ==================================
 
 .. automodule:: openwave.spacetime.medium_level0

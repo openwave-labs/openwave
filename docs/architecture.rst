@@ -12,7 +12,7 @@ Core Components
 The system is built around several key modules:
 
 - **Core Module**: Contains fundamental constants, equations, and configuration
-- **Spacetime Module**: Implements Aether Medium lattice and wave mechanics
+- **Spacetime Module**: Implements Wave Medium lattice and wave mechanics
 - **Force Module**: Simulates fundamental forces and interactions
 - **Matter Module**: Models particle formation and matter behavior
 - **Motion Module**: Handles particle dynamics and trajectories
@@ -26,7 +26,7 @@ Data Flow
 
 1. Configuration loaded from config.ini
 2. Constants and equations initialized
-3. Aether Medium lattice created
+3. Wave Medium lattice created
 4. Wave functions propagated
 5. Particle interactions calculated
 6. Visualization rendered

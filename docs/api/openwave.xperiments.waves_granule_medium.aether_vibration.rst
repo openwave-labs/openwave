@@ -1,4 +1,4 @@
-openwave.xperiments.waves\_granule\_medium.aether\_vibration module
+openwave.xperiments.waves\_granule\_medium.medium\_vibration module
 ===================================================================
 
 .. automodule:: openwave.xperiments.waves_granule_medium.medium_vibration
