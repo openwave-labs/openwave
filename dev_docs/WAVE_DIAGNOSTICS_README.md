@@ -304,9 +304,9 @@ Creates apparent "corkscrew" pattern in wavefront
 
 ### Is This Physically Correct?
 
-**Yes!** For EWT subatomic Aether modeled as a BCC lattice:
+**Yes!** For EWT subatomic medium modeled as a BCC lattice:
 
-1. **Discrete Structure**: Real subatomic Aether has discrete granules, not continuous medium
+1. **Discrete Structure**: Real subatomic medium has discrete granules, not continuous medium
 2. **Lattice Anisotropy**: BCC structure has preferential directions (body diagonals)
 3. **Wave Scattering**: Waves propagating through discrete lattice will show diffraction effects
 4. **Realistic Behavior**: Actual wave coupling (XPBD, spring methods) would show even more pronounced lattice effects

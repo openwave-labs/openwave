@@ -12,7 +12,7 @@ OpenWave Xperiments is a collection of interactive physics simulations that brin
 
 These xperiments allow you to explore the fundamental nature of spacetime and matter formation by running pre-configured demonstrations that showcase various wave phenomena, from simple spherical wave propagation to complex multi-source interference patterns. Each xperiment is fully customizable (via user controls and python scripting), enabling you to adjust critical parameters such as universe size, wave source configurations, and visualization settings to investigate physics at different scales—from Planck-scale interactions to macroscopic wave behaviors.
 
-Whether you're researching the emergence of particles from wave convergence, analyzing constructive and destructive interference patterns, or creating entirely new experimental setups to test theoretical predictions, OpenWave Xperiments provides a virtual laboratory where you can manipulate the fundamental building blocks of reality and observe how energy waves interact within the Aether medium.
+Whether you're researching the emergence of particles from wave convergence, analyzing constructive and destructive interference patterns, or creating entirely new experimental setups to test theoretical predictions, OpenWave Xperiments provides a virtual laboratory where you can manipulate the fundamental building blocks of reality and observe how energy waves interact.
 
 **Recommended:**
 
@@ -20,17 +20,17 @@ Whether you're researching the emergence of particles from wave convergence, ana
 
 ## XPERIMENTS LEVEL-0 DEMO (start here)
 
-### 1. Aether Vibration
+### 1. Medium Vibration
 
-- The Aether is an EXTREMELY THIN FLUID-LIKE MEDIUM that fills all space.
+- The Medium is an EXTREMELY THIN FLUID-LIKE substance that fills all space.
 - It vibrates at EXTREMELY HIGH FREQUENCIES (10^25Hz) which gives rise to the phenomena of spacetime.
-- If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of the Aether's harmonic oscillations.
+- If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of harmonic oscillations.
   - Those wave patterns are the SOURCE of all physical phenomena in the universe.
   - Including all ENERGY forms, FORCES, and the development of MATTER.
 - Now reduce the granule size and observe the wave pulse, that rhythm is TIME ITSELF. The waves frequency is the universe's clock.
 - These waves are called the ENERGY WAVES, the fundamental building blocks of reality.
 
-![Aether vibration visualization](images/aether_vibes.gif)
+![Medium vibration visualization](images/medium_vibes.gif)
 
 ### 2. Spherical Wave
 

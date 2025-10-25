@@ -1,5 +1,5 @@
 """
-XPERIMENT: Vibrating Aether Medium
+XPERIMENT: Spacetime Harmonic Oscillations
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -22,7 +22,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.aether_level0 as medium
+import openwave.spacetime.medium_level0 as medium
 import openwave.spacetime.energy_wave_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 

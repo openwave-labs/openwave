@@ -154,9 +154,9 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    AETHER-MEDIUM [Objects]
-    aether_level0.py ✓
-    *WIP*: aether_level1.py
+    WAVE-MEDIUM [Objects]
+    medium_level0.py ✓
+    *WIP*: medium_level1.py
     ---
     ENERGY-WAVE [Physics Engines]
     energy_wave_level0.py ✓
@@ -229,7 +229,7 @@ class `HEAT MODULE
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     LEVEL-0: GRANULE-BASED 
-    - aether_vibration.py✓
+    - medium_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
     - superposing_wave.py ✓
@@ -311,16 +311,16 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - aether_level1.py
+      - medium_level1.py
       - ewave_level1.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - aether_level0.py
+      - medium_level0.py
       - ewave_level0.py]
     [**XPERIMENTS LEVEL-0**
-      - aether_vibration.py
+      - medium_vibration.py
       - spherical_wave.py
       - standing_wave.py
       - superposing_wave.py

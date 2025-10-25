@@ -1,13 +1,13 @@
 """
-AETHER-MEDIUM
+WAVE-MEDIUM
 (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
 
 LEVEL-0: GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 
-AETHER is a Wave Medium and Propagates Wave Motion (ENERGY-WAVE).
-Modeled as an fluid medium that allows energy to transfer from one point to the next.
+WAVE-MEDIUM propagates Wave Motion (ENERGY-WAVE).
+Modeled as a fluid-like medium that allows energy to transfer from one point to the next.
 
 "Aether" can refer to the personification of the bright upper sky in Greek mythology,
 the classical fifth element or quintessence filling the universe,
