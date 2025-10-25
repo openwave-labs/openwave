@@ -259,7 +259,7 @@ When observing radial wave propagation in the simulation, you may notice that th
 
 #### 1. BCC Geometry (Root Cause)
 
-In a BCC lattice (aether_granule.py:24-43):
+In a BCC lattice (medium_level0.py:24-43):
 
 - Each granule has **8 nearest neighbors** at distance `a × √3/2`
 - These neighbors are arranged in a **tetrahedral/diagonal pattern**
@@ -304,9 +304,9 @@ Creates apparent "corkscrew" pattern in wavefront
 
 ### Is This Physically Correct?
 
-**Yes!** For EWT subatomic aether modeled as a BCC lattice:
+**Yes!** For EWT subatomic medium modeled as a BCC lattice:
 
-1. **Discrete Structure**: Real subatomic aether has discrete granules, not continuous medium
+1. **Discrete Structure**: Real subatomic medium has discrete granules, not continuous medium
 2. **Lattice Anisotropy**: BCC structure has preferential directions (body diagonals)
 3. **Wave Scattering**: Waves propagating through discrete lattice will show diffraction effects
 4. **Realistic Behavior**: Actual wave coupling (XPBD, spring methods) would show even more pronounced lattice effects
@@ -315,7 +315,7 @@ The "twisting" you observe is evidence that the simulation correctly represents 
 
 ### Lattice Structure Details
 
-From aether_granule.py:
+From medium_level0.py:
 
 ```python
 # BCC nearest neighbor distance (line 478)

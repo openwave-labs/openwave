@@ -8,13 +8,13 @@ All values use SI units (kg, m, s) for consistency.
 """
 
 # ================================================================
-# AETHER-MEDIUM (AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+# WAVE-MEDIUM
 # ================================================================
-MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, aether-medium density (rho)
+MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (rho)
 ATTOMETTER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================
-# ENERGY-WAVE (AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
+# ENERGY-WAVE
 # ================================================================
 EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length, lambda
 EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (equilibrium-to-peak)

@@ -54,7 +54,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - **Speed of light is fundamental** - Measured constant, must be preserved
 - **Lattice discretization is explicit** - We're sampling at discrete spacing L
 - **Physical interpretation:**
-  - Medium propagates waves at speed c (validates aether properties)
+  - Medium propagates waves at speed c (validates Medium properties)
   - Resolution (granules/wavelength) determines how well we **represent** energy wave
   - Actual wave mechanics operate at lattice scale (like pixels representing an image)
 
@@ -71,7 +71,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - Higher resolution → higher natural frequency → smaller lattice wavelength
 - But wave speed = c in all cases ✓
 
-**Conclusion:** Validate wave speed = c. This confirms medium properties are correct for simulating the aether at computational scale.
+**Conclusion:** Validate wave speed = c. This confirms medium properties are correct for simulating the Medium at computational scale.
 
 ### What we're doing now
 

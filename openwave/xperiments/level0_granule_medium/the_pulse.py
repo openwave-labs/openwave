@@ -1,5 +1,5 @@
 """
-XPERIMENT: Yin and Yang Spiral Wave Interference Pattern
+XPERIMENT: Radiation from a Wave Source
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -22,8 +22,8 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.spacetime.aether_granule as medium
-import openwave.spacetime.energy_wave_granule as ewave
+import openwave.spacetime.medium_level0 as medium
+import openwave.spacetime.energy_wave_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -34,59 +34,46 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_SIZE = [
-    6 * constants.EWAVE_LENGTH,
-    6 * constants.EWAVE_LENGTH,
-    2 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
+    4 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 13
+NUM_SOURCES = 1
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [0]  # Initialize Z positions
-sources_position = [[0 + 0.5, 0 + 0.5, 10]]  # Wave Source 0 at center top
-# Generate positions for remaining sources in a circle around center top
-# r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
-for i in range(NUM_SOURCES - 1):
-    sources_position.append(
-        [
-            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
-            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
-            z_position[0],
-        ]
-    )
+sources_position = [
+    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
+]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-
-
-sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
-# Generate phase for remaining sources in a circle around center top
-# 30° offset between each source for yin-yang pattern
-for i in range(NUM_SOURCES - 1):
-    sources_phase_deg.append(i * 30)  # Wave Sources (eg. 0 = in phase)
+sources_phase_deg = [
+    0,  # Wave Source 0 (eg. 0 = in phase)
+]
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
-WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
+WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.50, 0.50, 1.50])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in BCC lattice")
+    with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
+        sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text(f"EWave Sources: {NUM_SOURCES} Harmonic Oscillators")
@@ -96,7 +83,7 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- AETHER-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
@@ -139,7 +126,7 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
@@ -197,12 +184,12 @@ def render_xperiment(lattice):
     global normalized_position
 
     # Initialize variables
-    show_axis = False  # Toggle to show/hide axis lines
+    show_axis = True  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = True  # Granule type coloring toggle
-    show_sources = True  # Show wave sources toggle
-    radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 0.1  # Initialize frequency boost
+    granule_type = False  # Granule type coloring toggle
+    show_sources = False  # Show wave sources toggle
+    radius_factor = 0.1  # Initialize granule size factor
+    freq_boost = 10.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
 

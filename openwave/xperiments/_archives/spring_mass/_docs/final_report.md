@@ -18,7 +18,7 @@ This report documents practical rediscovery of known concepts from numerical met
 
 ## Abstract
 
-This report documents experimental comparisons of numerical methods conducted during development of the OpenWave simulator, focusing on wave propagation in extremely stiff spring-mass lattices inspired by Energy Wave Theory's "aether medium" concept. We implemented and tested four approaches: explicit force-based integrators (semi-implicit Euler and Leapfrog), a constraint-based solver (Extended Position-Based Dynamics/XPBD), and a PSHO method that directly evaluates the wave equation ("phase-synchronized harmonic oscillation").
+This report documents experimental comparisons of numerical methods conducted during development of the OpenWave simulator, focusing on wave propagation in extremely stiff spring-mass lattices inspired by Energy Wave Theory's "Wave Medium" concept. We implemented and tested four approaches: explicit force-based integrators (semi-implicit Euler and Leapfrog), a constraint-based solver (Extended Position-Based Dynamics/XPBD), and a PSHO method that directly evaluates the wave equation ("phase-synchronized harmonic oscillation").
 
 The experiments confirmed known limitations of explicit integrators for stiff systems: the Courant-Friedrichs-Lewy (CFL) stability condition requires impractically small timesteps for the high spring stiffness values needed to propagate waves at realistic speeds. This is standard knowledge in numerical analysis—the value here is documenting practical experience in a GPU-accelerated simulation context.
 
@@ -34,7 +34,7 @@ The PSHO approach succeeded: we directly compute particle positions from the ana
 
 ### 1.1 Development Context
 
-During development of the OpenWave energy wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "aether medium" made of Planck-scale particles could explain subatomic phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
+During development of the OpenWave energy wave dynamics simulator, we encountered the need to evaluate numerical methods for simulating wave propagation in extremely stiff spring-mass systems. The target parameters, inspired by Energy Wave Theory (EWT) [1-3] created a challenging test case for method selection. EWT proposes that a dense "Wave Medium" made of Planck-scale particles could explain subatomic phenomena through classical wave mechanics. EWT provides extreme parameter values useful for stress-testing numerical methods.
 
 The hypothetical parameters from EWT create an unusually stiff numerical scenario:
 
@@ -149,7 +149,7 @@ where $r_0$ = reference radius (1 wavelength), $r_{min}$ = minimum safe radius (
 
 ### 3.1 Energy Wave Theory (EWT)
 
-EWT [1-3] proposes that spacetime emerges from a dense aether medium aether composed of fundamental granules at or near Planck scale. These granules:
+EWT [1-3] proposes that spacetime emerges from a dense Wave Medium composed of fundamental granules at or near Planck scale. These granules:
 
 - Possess mass (Planck mass corrected by medium density [4])
 - Are connected by elastic interactions (quantifiable as spring constant)
@@ -168,7 +168,7 @@ $$v_{wave} = c \quad \text{(Wave propagation at speed of light)}$$
 
 ### 3.2 BCC Lattice Structure
 
-We model the aether medium aether as a Body-Centered Cubic (BCC) lattice:
+We model the Wave Medium as a Body-Centered Cubic (BCC) lattice:
 
 - **Topology:** 8-way connectivity (each interior granule connected to 8 neighbors)
 - **Rest length:** $L = L_0 \cdot \sqrt{3}/2$ (where $L_0$ is unit cell edge)
@@ -199,7 +199,7 @@ The experimental investigation was conducted using the OpenWave simulator, a spe
 
 The simulator architecture comprises five primary computational modules:
 
-- `aether_granule.py`: Implements BCC lattice topology construction and granule initialization procedures
+- `medium_level0.py`: Implements BCC lattice topology construction and granule initialization procedures
 - `energy_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
 - `energy_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
 - `energy_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation
@@ -820,7 +820,7 @@ This is experimental work during simulator development, not peer-reviewed resear
 
 [3] Yee, J. (2019). "The Geometry of Particles and the Explanation of their Creation and Decay." Energy Wave Theory. <https://www.researchgate.net/publication/335101008>
 
-[4] Yee, J. "Relationship of the Speed of Light to Aether Density." Energy Wave Theory. (Contains Planck mass correction affecting granule mass calculations)
+[4] Yee, J. "Relationship of the Speed of Light to Medium Density." Energy Wave Theory. (Contains Planck mass correction affecting granule mass calculations)
 
 [5] Müller, M., et al. (2020). "Small Steps in Physics Simulation." SCA '20: ACM SIGGRAPH/Eurographics Symposium on Computer Animation. <https://matthias-research.github.io/pages/publications/smallsteps.pdf>
 

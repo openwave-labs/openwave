@@ -162,7 +162,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 - Wave Reflection (particles, boundaries)
 - MAP (minimum amplitude principle)
 
-We're using classical physics wave equations, force-based integration methods are not feasible to reach numerical stability necessary when simulating extreme physics of small planck scale, high wave speeds (speed of light) in a high density aether medium (force mechanics vs wave mechanics)
+We're using classical physics wave equations, force-based integration methods are not feasible to reach numerical stability necessary when simulating extreme physics of small planck scale, high wave speeds (speed of light) in a high density Wave Medium (force mechanics vs wave mechanics)
 
 >> high frequencies > high stiffness > high iterations needed and extremely low dt
 
@@ -173,7 +173,7 @@ high forces and momentum impossible to compute because the math fails (the integ
 
 Standard Notation for Wave Mechanics:
 
-- ρ (rho) = medium density (aether)
+- ρ (rho) = medium density
 - c = wave speed (speed of light)
 - λ (lambda) = wavelength
 - A = wave amplitude

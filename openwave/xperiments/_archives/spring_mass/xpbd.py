@@ -13,7 +13,7 @@ from openwave.common import constants
 from openwave.common import equations
 from openwave._io import render
 
-import openwave.xperiments._archives.spring_mass.aether_bccgranule as medium
+import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium
 import openwave.xperiments._archives.spring_mass.energy_wave_xpbd as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -53,7 +53,7 @@ render.init_UI(cam_init_pos=[2.0, 2.0, 1.5])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: XPBD Energy-Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in lattice")
+        sub.text("Medium: Granules in lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: 8-way distance constraints")
         sub.text("EWave Source: 8 Vertex Oscillators")
@@ -63,7 +63,7 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
-        sub.text("--- AETHER-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")

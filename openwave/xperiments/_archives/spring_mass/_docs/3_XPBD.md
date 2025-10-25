@@ -72,7 +72,7 @@ Key Differences:
 | Best for       | Cloth, ropes, bodies       | Liquids, gases          | Snow, sand, elastoplastic |
 
 ---
-How They Relate to Your aether lattice:
+How They Relate to Your Medium lattice:
 
 Your BCC Lattice Structure:
 
@@ -118,7 +118,7 @@ Geometric Constraint Solving (CAD software)
 - XPBD: "These particles must be distance L apart"
 
 ---
-For Your aether lattice:
+For Your Medium lattice:
 
 XPBD is the right choice because:
 
@@ -560,7 +560,7 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 - `xpbd.py` - Main render loop
 - `ewave_xpbd.py` - XPBD constraint solver
-- `aether_granule.py` - Unchanged (same BCC structure)
+- `medium_level0.py` - Unchanged (same BCC structure)
 
 ### Files Archived (for reference)
 
@@ -817,7 +817,7 @@ positions[i] += (ω / count[i]) * delta[i]
 # ω = 2.0  → Maximum over-relaxation (may diverge)
 ```
 
-**For your aether lattice**: Try ω = 1.5 to accelerate convergence with 8-neighbor connectivity.
+**For your Medium lattice**: Try ω = 1.5 to accelerate convergence with 8-neighbor connectivity.
 
 ---
 
@@ -866,7 +866,7 @@ def apply_sleeping(epsilon: float):
             positions[i] = x_star[i]  # Apply new position
 ```
 
-**For your aether lattice**:
+**For your Medium lattice**:
 
 - Not needed for active wave region (vertices always moving)
 - Could be useful for large lattice to "freeze" distant granules
@@ -895,7 +895,7 @@ for iteration in range(solver_iterations):
 
 **Benefit**: Propagates corrections faster → fewer iterations needed.
 
-**For your aether lattice**:
+**For your Medium lattice**:
 
 - Start with single group (all distance constraints)
 - If convergence slow, split by spatial regions
@@ -918,7 +918,7 @@ velocities[i] *= damping_factor
 # damping = 1.0    → No damping (conservative, may oscillate)
 ```
 
-**For your aether lattice**: Start with `damping = 0.999` (per substep).
+**For your Medium lattice**: Start with `damping = 0.999` (per substep).
 
 ---
 
@@ -1075,7 +1075,7 @@ for particle in particles:  # Parallel
 4. **Particle-centric** gather better than constraint-centric scatter
 5. **Real-time capable** even with complex constraint networks
 
-### Application to aether lattice
+### Application to Medium lattice
 
 **Your BCC lattice is structurally identical to cloth simulation**:
 

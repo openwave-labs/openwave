@@ -22,7 +22,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.xperiments._archives.radial_wave.aether_bccgranule as medium
+import openwave.xperiments._archives.radial_wave.medium_bccgranule as medium
 import openwave.xperiments._archives.radial_wave.energy_wave_radial as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
@@ -53,7 +53,7 @@ render.init_UI(cam_init_pos=[0.97, 2.06, 0.82])  # Initialize the GGUI window
 def xperiment_specs():
     """Display xperiment definitions & specs."""
     with render.gui.sub_window("XPERIMENT: 3D Spherical Wave", 0.00, 0.00, 0.19, 0.14) as sub:
-        sub.text("Medium: Aether Granules in lattice")
+        sub.text("Medium: Granules in lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
         sub.text("EWave Source: 1 Harmonic Oscillator")
@@ -63,7 +63,7 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
-        sub.text("--- AETHER-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")

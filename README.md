@@ -1,21 +1,47 @@
-# OpenWave `>simulate(the_universe)`
+# OpenWave
 
 <div align = "center">
 
-[![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/)
-[![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
-[![openwave](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwave-labs/openwave)
-[![openwave](https://img.shields.io/badge/Reddit-%23FF4500.svg?style=for-the-badge&logo=Reddit&logoColor=white)](https://www.reddit.com/r/openwave/)
-[![openwavelabs](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/openwavelabs/)
-[![openwave-labs](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://youtube.com/@openwave-labs/)
+  [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/)
+  [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
+  [![openwave](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/openwave-labs/openwave)
+  [![openwave](https://img.shields.io/badge/Reddit-%23FF4500.svg?style=for-the-badge&logo=Reddit&logoColor=white)](https://www.reddit.com/r/openwave/)
+  [![openwavelabs](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/openwavelabs/)
+  [![openwave-labs](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://youtube.com/@openwave-labs/)
 
-[![OpenWave Logo](images/openwave-white-small.png)](https://openwavelabs.com/)
+  [![OpenWave Logo](images/openwave-white-small.png)](https://openwavelabs.com/)
 
 </div>
 
 ## What is OpenWave?
 
-OpenWave is an open-source application designed to simulate the formation and behavior of matter and other modalities of energy — from the emergence of spacetime and energy waves, through the creation of particles, to the development of matter, motion, light, and heat — based on the deterministic subatomic model of the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory").
+OpenWave is an open-source computational physics toolkit that explores whether matter and energy phenomena can be modeled using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+
+### Two Computational Approaches
+
+#### Level-1: Field-Based Medium (for Research)
+
+- 3D vector field using partial differential equations (PDEs)
+- Similar methodology to lattice QCD (quantum chromodynamics)
+- Scalable for matter formation and force simulations
+- Indexed by spatial coordinates with field properties at each point
+
+#### Level-0: Granule-Based Medium (for Education)
+
+- Discrete particle visualization with phase-shifted oscillations
+- Intuitive for understanding wave mechanics
+- Ideal for education and visualization
+
+### Research Goals
+
+OpenWave aims to:
+
+- Explore whether wave field dynamics can model matter and energy phenomena
+- Simulate particle emergence from standing wave patterns in fields
+- Validate whether field-based wave mechanics can reproduce known physics
+- Provide computational and visualization tools for wave-based models
+
+**Scientific Status:** OpenWave is a research tool for computational exploration. It uses lattice field theory methodology to investigate whether alternative field equations can reproduce observed physics.
 
 ## Core Scope
 
@@ -23,32 +49,81 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### Numerical Validation
 
-- Runs simulations derived directly from built-in equations and energy-wave phenomena.
-- Validates outcomes by comparing them against observed reality.
-- Generates numerical analysis and reports for scientific publications (assisted by your preferred LLM).
+- Runs simulations derived directly from built-in equations and energy-wave phenomena
+- Validates outcomes by comparing them against experimental observations
+- Generates numerical analysis and data support for scientific publications
 
 ### Visual Demonstration
 
-- Illustrates complex, often invisible phenomena for better comprehension.
-- Represents graphically wave equations and analyses.
-- [PLANNED] Automates animation export for online video publishing.
+- Illustrates complex, often invisible phenomena for better comprehension
+- Represents graphically wave equations and analyses
+- [PLANNED] Automates animation export for online video publishing
 
 ### Experiments Simulation (#energy_hacking)
 
-- Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations.
-- [PLANNED] Generates baseline knowledge for your patent applications.
+- Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations
+- [PLANNED] Generates baseline knowledge for your patent applications
 
-## Model spacetime with physics accuracy and render it in 3D
+## Model spacetime with physics accuracy and render in 3D
 
 ![demo1 clip](images/demo1.gif)
 ![demo2 clip](images/demo2.gif)
 ![demo4 clip](images/demo4.gif)
 
+## Relationship to Mainstream Physics
+
+OpenWave implements Energy Wave Theory (EWT), a deterministic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory (QFT). Key points:
+
+### Computational Approach
+
+- **QFT Standard Method:** Lattice gauge theory - discretizes spacetime into a grid with quantum field values at each point
+- **OpenWave Level-1:** Lattice wave mechanics - discretizes spacetime into a grid with classical wave field values at each point
+- **OpenWave Level-0:** Granule-based particles - educational visualization of wave mechanics
+- **Both QFT and OpenWave:** Produce predictions about particle behavior, forces, and interactions from field dynamics
+
+### Scientific Context
+
+- Quantum field theory is the experimentally validated standard framework
+- Lattice QCD is the standard computational method for QFT (Nobel Prize 2004, 2008)
+- OpenWave Level-1 uses similar lattice methodology but with different field equations
+- Research question: Can classical wave field dynamics reproduce quantum-like phenomena?
+- EWT provides testable predictions that can be validated against experimental data
+
+### The "Medium" Question
+
+EWT proposes a wave-propagating medium. Important clarifications:
+
+1. **In Level-1:** The "medium" is a 3D vector field (computational grid storing field values)
+2. **In Level-0:** The "medium" is a collection of granules (computational particles)
+3. **Both are computational constructs** - discretization methods for simulation
+4. **We focus on:** Can field dynamics reproduce known physics?
+5. **We acknowledge:** Modern physics (QFT) works without requiring a classical medium
+
+**Key insight:** Just as lattice QCD doesn't claim spacetime IS a cubic lattice, OpenWave doesn't claim space IS literally a granular or field-based medium. These are computational discretization methods. The research question is whether the field equations we use can successfully model observed physics.
+
+### Goal: Computational Utility
+
+OpenWave aims to determine if wave field mechanics:
+
+**At Level-1 for Research:**
+
+- ✅ Can reproduce experimentally observed particle properties
+- ✅ Can model matter formation (electrons, nuclei, atoms, molecules)
+- ✅ Can derive forces (electric, magnetic, gravitational, nuclear) from field gradients
+- ✅ Can validate predictions against experimental data
+- ✅ Provides computationally efficient alternative for specific simulations
+
+**At Level-0 for Education:**
+
+- ✅ Makes wave mechanics intuitive and visual
+- ✅ Demonstrates wave interference, standing waves, propagation
+- ✅ Helps students understand field-based thinking
+
 ## Scientific Source
 
-OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") model.
+OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") mathematical framework.
 
-Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this interpretation of subatomic physics from the following resources:
+Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this approach to subatomic physics from the following resources:
 
 ### ENERGY WAVE THEORY (EWT)
 
@@ -57,18 +132,17 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 - Explainer Videos: [Video Channel](https://www.youtube.com/@EnergyWaveTheory)
 - Literature: [eBooks](https://www.amazon.com/gp/product/B078RYP7XD)
 
-### Origins
+### Theoretical Background
 
 The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that builds upon the work of pioneers like:
 
-- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox)
-- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory)
-- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710)
-- Gabriel LaFreniere
-- among others.
+- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) (EPR paradox, determinism)
+- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) (pilot wave theory)
+- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) (wave structure of matter)
+- Gabriel LaFreniere (standing wave models)
+- among others
 
->*"Quantum mechanics is very worthy of respect. But an inner voice tells me this is not the genuine article after all. The theory delivers much but it hardly brings us closer to the Old One's secret. In any event, I am convinced that He is not playing dice."*
->>Albert Einstein (December 4, 1926), challenging the adoption of a probabilistic interpretation to quantum mechanics, arguing that the description of physical reality provided was incomplete.
+**Note:** EWT belongs to the family of deterministic alternative formalisms (like Bohmian mechanics or stochastic electrodynamics) that attempts to provide mechanistic explanations for quantum phenomena.
 
 ## Installation Instructions
 
@@ -93,9 +167,11 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ### Play with the /xperiments module
 
-XPERIMENTS are virtual lab scripts where you can play with subatomic objects and simulate desired outcomes.
+XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simulate various phenomena.
 
-- Read the quick [Intro to Xperiments](/openwave/xperiments/a_readme_first/intro.md) to get started.
+- **Highly Recommended:**
+  - Read the [WELCOME TO OPENWAVE](/openwave/xperiments/a_readme_first/welcome.md) to get started.
+- Then, on your terminal run:
 
 ```bash
 # Launch xperiments using the CLI xperiment selector
@@ -110,7 +186,7 @@ XPERIMENTS are virtual lab scripts where you can play with subatomic objects and
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves2.png" height="200px" alt="xperiment"></a>
+          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
           <br>X-Waves Xperiment
         </div>
       </td>
@@ -145,7 +221,7 @@ XPERIMENTS are virtual lab scripts where you can play with subatomic objects and
 This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
 - ✓ = module already released
-- *WIP* = work in process
+- *WIP* = work in progress
 
 ```mermaid
 classDiagram
@@ -153,13 +229,13 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    AETHER-MEDIUM [Objects]
-    *WIP*: aether_field.py
-    aether_granule.py ✓
+    WAVE-MEDIUM [Objects]
+    medium_level0.py ✓
+    *WIP*: medium_level1.py
     ---
     ENERGY-WAVE [Physics Engines]
-    *WIP*: energy_wave_field.py
-    energy_wave_granule.py ✓}
+    energy_wave_level0.py ✓
+    *WIP*: energy_wave_level1.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -227,8 +303,8 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    GRANULE-BASED MEDIUM
-    - aether_vibration.py✓
+    LEVEL-0: GRANULE-BASED MEDIUM
+    - medium_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
     - superposing_wave.py ✓
@@ -236,7 +312,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    FIELD-BASED MEDIUM
+    LEVEL-1: FIELD-BASED MEDIUM
     - *WIP*: flow_wave.py
     ---
     ANTI-GRAVITY
@@ -310,16 +386,16 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - aether_field.py
-      - ewave_field.py
+      - medium_level1.py
+      - ewave_level1.py
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - aether_granule.py
-      - ewave_granule.py]
-    [**XPERIMENTS MODULE**
-      - aether_vibration.py
+      - medium_level0.py
+      - ewave_level0.py]
+    [**XPERIMENTS LEVEL-0**
+      - medium_vibration.py
       - spherical_wave.py
       - standing_wave.py
       - superposing_wave.py

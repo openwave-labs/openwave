@@ -1,7 +1,7 @@
 openwave.spacetime.energy\_wave\_granule
 ========================================
 
-.. automodule:: openwave.spacetime.energy_wave_granule
+.. automodule:: openwave.spacetime.energy_wave_level0
 
    
    .. rubric:: Functions

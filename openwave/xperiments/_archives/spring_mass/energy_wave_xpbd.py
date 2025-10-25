@@ -1,6 +1,5 @@
 """
 ENERGY-WAVE
-(AKA: PRANA @yoga, QI @daoism, JEDI FORCE @starwars)
 
 Wave Physics Engine @spacetime module.
 Wave dynamics and motion.
@@ -9,7 +8,7 @@ XPBD Implementation based on:
 1. "Small Steps in Physics Simulation" - Macklin & Müller (2019)
 2. "Unified Particle Physics for Real-Time Applications" - Macklin et al. (2014)
 
-Key advantages of XPBD for aether lattice:
+Key advantages of XPBD for Medium lattice:
 - Unconditionally stable (handles extreme stiffness)
 - Correct wave propagation at speed of light
 - No frequency mismatch issues

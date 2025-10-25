@@ -103,7 +103,7 @@ OpenWave-Specific Analysis
 
 Your Current Implementation Patterns
 
-From openwave/spacetime/aether_granule.py:827:
+From openwave/spacetime/medium_level0.py:827:
 @ti.kernel
 def oscillate_granules_tocenter(
 position: ti.template(),
@@ -241,7 +241,7 @@ Instead of switching frameworks, focus on:
 - Combine oscillate_granules_tocenter + compute_spring_forces
 - Reduce memory bandwidth by 30-40%
 
-2. Spatial Hashing (openwave/spacetime/aether_granule.py:827):
+2. Spatial Hashing (openwave/spacetime/medium_level0.py:827):
 
 - Replace O(N²) neighbor search with O(N)
 - 10x faster initialization for large lattices

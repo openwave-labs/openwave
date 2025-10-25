@@ -1,17 +1,12 @@
 """
-AETHER-MEDIUM
-(AKA: AKASHA @yoga, WUJI @daoism, AETHER @classical)
+WAVE-MEDIUM
 
-GRANULE-BASED MEDIUM
+LEVEL-0: GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 
-AETHER is a Wave Medium and Propagates Wave Motion (ENERGY-WAVE).
-Modeled as an fluid medium that allows energy to transfer from one point to the next.
-
-"Aether" can refer to the personification of the bright upper sky in Greek mythology,
-the classical fifth element or quintessence filling the universe,
-or a hypothetical substance once thought to carry light and other electromagnetic waves.
+WAVE-MEDIUM propagates Wave Motion (ENERGY-WAVE).
+Modeled as a fluid-like medium that allows energy to transfer from one point to the next.
 """
 
 import random
@@ -25,7 +20,7 @@ from openwave.common import equations
 
 class BCCGranule:
     """
-    Granule Model: The aether consists of "granules".
+    Granule Model: The Medium consists of "granules".
     Fundamental units that vibrate in harmony and create wave patterns.
     Their collective motion at Planck scale creates all observable phenomena.
     Each granule has a defined radius and mass.
@@ -160,12 +155,11 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # position, velocity and acceleration in attometers for f32 precision
+        # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -481,7 +475,7 @@ class BCCLattice:
 
 class SCGranule:
     """
-    Granule Model: The aether consists of "granules".
+    Granule Model: The Medium consists of "granules".
     Fundamental units that vibrate in harmony and create wave patterns.
     Their collective motion at Planck scale creates all observable phenomena.
     Each granule has a defined radius and mass.
@@ -613,12 +607,11 @@ class SCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # position, velocity and acceleration in attometers for f32 precision
+        # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -889,7 +882,7 @@ class SCLattice:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: AETHER-MEDIUM MODULE")
+    print("SMOKE TEST: WAVE-MEDIUM MODULE")
     print("================================================================")
 
     import time
@@ -932,7 +925,7 @@ if __name__ == "__main__":
     print(f"  Mass: {granule.mass:.2e} kg")
 
     print("\n================================================================")
-    print("END SMOKE TEST: AETHER-MEDIUM MODULE")
+    print("END SMOKE TEST: WAVE-MEDIUM MODULE")
     print("================================================================")
 
     # Properly exit

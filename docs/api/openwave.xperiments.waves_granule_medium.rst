@@ -10,7 +10,7 @@ openwave.xperiments.waves\_granule\_medium
    :toctree:
    :recursive:
 
-   aether_vibration
+   medium_vibration
    spherical_wave
    standing_wave
    superposing_wave

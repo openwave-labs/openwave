@@ -29,7 +29,7 @@ def density_derivation_wave():
     ρ = {h} * (9λl^3) / (32π * K^11e * A^7l * c * Oe) * g_λ^-1
 
     Returns:
-        float: Density (aether) in kg/m³
+        float: Medium Density in kg/m³
     """
     # Direct calculation based on the documented formula
     numerator = (
@@ -63,7 +63,7 @@ def density_derivation_hydrogen():
         rₕ = Hydrogen 1s radius (Bohr radius)
 
     Returns:
-        float: Density (aether) in kg/m³
+        float: Medium Density in kg/m³
     """
     # Direct calculation based on Eq. 1.1
     calculated_density = constants.PLANCK_MASS / ((4 / 3) * np.pi * constants.BOHR_RADIUS**3)
@@ -86,7 +86,7 @@ def density_derivation_electron():
     Note: rₑ² appears in the denominator instead of rₑ³ due to linear density considerations
 
     Returns:
-        float: Density (aether) in kg/m³
+        float: Medium Density in kg/m³
     """
     # Direct calculation based on Eq. 1.2
     calculated_density = constants.MAGNETIC_CONSTANT / (
@@ -111,7 +111,7 @@ def density_derivation_planck():
         rₑ = Electron classical radius
 
     Returns:
-        float: Density (aether) in kg/m³
+        float: Medium Density in kg/m³
     """
     # Direct calculation based on Eq. 1.3
     calculated_density = (
