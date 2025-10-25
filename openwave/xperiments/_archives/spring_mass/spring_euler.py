@@ -3,9 +3,6 @@ XPERIMENT: Spring-Mass Euler Wave Oscillation (UNSTABLE)
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
-
-eg. Tweak this XPERIMENT script changing UNIVERSE_EDGE = 0.1 m, the approximate size of
-a tesseract) and simulate this artifact energy content, sourced from the element Aether.
 """
 
 print(
