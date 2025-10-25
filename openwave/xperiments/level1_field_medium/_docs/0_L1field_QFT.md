@@ -18,7 +18,7 @@
 
 **Relationship to Physics:**
 
-- Similar to: Pilot wave theory, mechanical aether models
+- Similar to: Pilot wave theory, mechanical models
 - Educational value: High (intuitive, visualizable)
 - Research value: Limited (computationally expensive, scale limitations)
 - QFT alignment: **LOW** (fundamentally particle-based)
@@ -168,7 +168,7 @@ Fundamental particles can form composite structures
 
 **This is MUCH more defensible than:**
 
-- "Granular aether simulation" (Level-0)
+- "Granular medium simulation" (Level-0)
 
 ## Updated Risk Assessment for Level-1
 
@@ -198,7 +198,7 @@ Fundamental particles can form composite structures
 ### Positioning Improvement: **MAJOR**
 
 **Before (Level-0 only):**
-> "Alternative physics simulator using granular aether"
+> "Alternative physics simulator using granular medium"
 
 - Sounds fringe
 - Difficult to defend academically
@@ -404,8 +404,6 @@ Level-1 uses the SAME methodology as lattice QCD (Nobel Prize-winning computatio
 - ✅ Forces from field gradients
 - ✅ Energy conservation through field evolution
 
-This is legitimate computational physics, not fringe aether theory!
-
 **The key insight:**
 
 - Level-1 doesn't claim to BE quantum field theory
@@ -416,7 +414,7 @@ This is legitimate computational physics, not fringe aether theory!
 **Strategic Recommendation:**
 **LEAD WITH LEVEL-1 in all public communications.** Position Level-0 as educational support, not the main research framework. This dramatically improves scientific credibility and reduces risk of dismissal as "pseudoscience."
 
-The aether question becomes less important when you emphasize:
-> "We use field-based computation, similar to lattice gauge theory. Whether you call the field 'aether' or 'spacetime' or 'computational substrate' is semantic - what matters is whether the field dynamics reproduce known physics."
+The medium question becomes less important when you emphasize:
+> "We use field-based computation, similar to lattice gauge theory. Whether you call the 'field' or 'spacetime' or 'computational substrate' is semantic - what matters is whether the field dynamics reproduce known physics."
 
 This reframing is defensible, scientifically legitimate, and much more likely to be taken seriously by the physics community.
