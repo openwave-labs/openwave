@@ -1,5 +1,5 @@
 """
-XPERIMENT: 3D Spherical Wave
+XPERIMENT: 3D Longitudinal Wave
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.

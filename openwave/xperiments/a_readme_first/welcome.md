@@ -27,14 +27,14 @@ Whether you're researching the emergence of particles from wave convergence, ana
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of harmonic oscillations.
   - Those wave patterns are the SOURCE of all physical phenomena in the universe.
   - Including all ENERGY forms, FORCES, and the development of MATTER.
-- Now reduce the granule size and observe the wave pulse, that rhythm is TIME ITSELF. The waves frequency is the universe's clock.
-- These waves are called the ENERGY WAVES, the fundamental building blocks of reality.
+- Now reduce the granule size and observe the wave pulse, that rhythm is TIME ITSELF. The wave's frequency defines the universe's clock.
+- These waves are called ENERGY WAVES, the fundamental building blocks of reality.
 
 ![Medium vibration visualization](images/medium_vibes.gif)
 
 ### 2. Spherical Wave
 
-This xperiment demonstrates in a 3D view how a spherical longitudinal wave (the mode of the ENERGY WAVE) propagates.
+This xperiment demonstrates in a 3D view how a spherical longitudinal wave propagates (longitudinal is the mode of the ENERGY WAVE).
 
 ![Spherical wave visualization](images/spherical_wave.gif)
 

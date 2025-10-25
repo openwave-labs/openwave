@@ -1,5 +1,5 @@
 """
-XPERIMENT: Yin and Yang Spiral Wave Interference Pattern
+XPERIMENT: Spiral Wave Pattern
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
