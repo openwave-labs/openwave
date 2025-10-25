@@ -24,7 +24,7 @@ from openwave.common import config
 from openwave.common import constants
 from openwave._io import render
 
-import openwave.xperiments._archives.spring_mass.aether_bccgranule as medium
+import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium
 import openwave.xperiments._archives.spring_mass.energy_wave_spring_leap as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)

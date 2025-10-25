@@ -84,7 +84,7 @@ Wave Interactions:
 - Frequency dictated by source, propagates and interferes with other frequencies
 - Multiple frequencies combine at each point into composite states
 
-## The Aether Medium (CRITICAL FOR OPENWAVE)
+## The Wave Medium (CRITICAL FOR OPENWAVE)
 
 Implementation:
 
@@ -95,7 +95,7 @@ Implementation:
 
 Energy Density:
 
-- Can be charged to calculated aether energy density per volume
+- Can be charged to calculated medium energy density per volume
 - Energy remains conserved as waves bounce and interfere
 
 Near-field vs. Far-field:
@@ -292,7 +292,7 @@ Key Computational Components
 - Momentum and mass-velocity relationships
 
 ---
-Note: This architecture prioritizes computational efficiency while maintaining physical accuracy. The aether is a computational construct (force field) rather than physical substrate, with all forces emerging from wave behavior and the single principle of amplitude minimization.
+Note: This architecture prioritizes computational efficiency while maintaining physical accuracy. The medium is a computational construct (force field) rather than physical substrate, with all forces emerging from wave behavior and the single principle of amplitude minimization.
 
 ---
 

@@ -22,7 +22,7 @@ Whether you're researching the emergence of particles from wave convergence, ana
 
 ### 1. Medium Vibration
 
-- The Medium is an EXTREMELY THIN FLUID-LIKE substance that fills all space.
+- The Wave Medium is an EXTREMELY THIN FLUID-LIKE substance that fills all space.
 - It vibrates at EXTREMELY HIGH FREQUENCIES (10^25Hz) which gives rise to the phenomena of spacetime.
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of harmonic oscillations.
   - Those wave patterns are the SOURCE of all physical phenomena in the universe.

@@ -31,7 +31,7 @@
 
 ### Notation
 
-- ρ (rho) = medium density (Aether)
+- ρ (rho) = medium density
 - c = wave speed (speed of light)
 - λ (lambda) = wavelength
 - A = wave amplitude
