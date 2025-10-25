@@ -4,7 +4,11 @@
 
 OpenWave is an open-source computational physics toolkit that explores whether matter and energy phenomena can be modeled using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 field-based simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
 
-![OpenWave logo](images/openwave-white-small.png)
+<div align = "center">
+
+  ![OpenWave logo](images/openwave-white-small.png)
+
+</div>
 
 ## Two Computational Approaches
 
@@ -59,7 +63,11 @@ Each Xperiment is fully customizable (via user controls and Python scripting), e
 
 **What you're seeing:** A computational representation of how wave mechanics might underlie physical phenomena.
 
-![Medium vibration visualization](images/medium_vibes.gif)
+<div align = "center">
+
+  ![Medium vibration visualization](images/medium_vibes.gif)
+
+</div>
 
 ### 2. Spherical Wave
 
@@ -67,7 +75,11 @@ This xperiment demonstrates in a 3D view how a spherical longitudinal wave propa
 
 **Educational value:** Helps visualize how waves spread through a medium and how energy transfers from one location to another.
 
-![Spherical wave visualization](images/spherical_wave.gif)
+<div align = "center">
+
+  ![Spherical wave visualization](images/spherical_wave.gif)
+
+</div>
 
 ### 3. Standing Wave
 
@@ -78,7 +90,11 @@ This xperiment demonstrates standing wave patterns that emerge from inward and o
 
 **Research question:** Can standing wave patterns account for particle properties like mass, charge, and spin? OpenWave helps explore this computationally.
 
-![Standing wave visualization](images/standing_wave.gif)
+<div align = "center">
+
+  ![Standing wave visualization](images/standing_wave.gif)
+
+</div>
 
 ### 4. Play with other Xperiments and Start your Research
 
