@@ -160,12 +160,11 @@ class BCCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # position, velocity and acceleration in attometers for f32 precision
+        # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -613,12 +612,11 @@ class SCLattice:
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # position, velocity and acceleration in attometers for f32 precision
+        # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.acceleration_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
