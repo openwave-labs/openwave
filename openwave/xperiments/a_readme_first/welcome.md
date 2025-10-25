@@ -20,10 +20,9 @@ Whether you're researching the emergence of particles from wave convergence, ana
 
 ## XPERIMENTS LEVEL-0 DEMO (start here)
 
-### 1. Medium Vibration
+### 1. Spacetime Vibration
 
-- The Wave Medium is an EXTREMELY THIN FLUID-LIKE substance that fills all space.
-- It vibrates at EXTREMELY HIGH FREQUENCIES (10^25Hz) which gives rise to the phenomena of spacetime.
+- Spacetime oscillates at EXTREMELY HIGH FREQUENCIES (10^25Hz).
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS. They are the visual effect of harmonic oscillations.
   - Those wave patterns are the SOURCE of all physical phenomena in the universe.
   - Including all ENERGY forms, FORCES, and the development of MATTER.
@@ -107,10 +106,10 @@ For more details on the theory concepts, numerical proof and research papers, re
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
 | LOGIC | GRANULE-BASED MEDIUM | FIELD-BASED MEDIUM | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| medium | granule-base lattice | field-based grid | to be developed |
-| wave engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
-| USE-CASE | ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
-| | Visualization <br> Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
+| wave-medium | granule-base lattice | field-based grid | to be developed |
+| wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
+| USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
+| | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
 | DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
 | PLATFORM | OPENWAVE Platform <br> (from v0.3.0+) | OPENWAVE Platform <br> (from v0.4.0+) | OPENWAVE Platform <br> (vTBD)|
 | | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
