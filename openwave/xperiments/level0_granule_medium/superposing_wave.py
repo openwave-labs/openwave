@@ -75,7 +75,7 @@ sources_phase_deg = [
 ]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-COLOR_THEME = "DESERT"
+COLOR_THEME = "OCEAN"
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
