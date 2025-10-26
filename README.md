@@ -59,12 +59,12 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 - Represents graphically wave equations and analyses
 - [PLANNED] Automates animation export for online video publishing
 
-### Experiments Simulation (#energy_hacking)
+### Exploratory Simulations
 
-- Models experimental conditions to explore new tech derived from subatomic-scale energy exchange simulations
-- [PLANNED] Generates baseline knowledge for your patent applications
+- Models experimental wave field configurations for parametric studies
+- [PLANNED] Supports hypothesis testing and comparative analysis against theoretical predictions
 
-## Model spacetime with physics accuracy and render in 3D
+## Explore Wave Field Dynamics with 3D Visualization
 
 ![demo1 clip](images/demo1.gif)
 ![demo2 clip](images/demo2.gif)
@@ -103,17 +103,21 @@ EWT proposes a wave-propagating medium. Important clarifications:
 
 ### Goal: Computational Utility
 
-OpenWave aims to determine if wave field mechanics:
+OpenWave serves two distinct purposes depending on implementation level:
 
 **At Level-1 for Research:**
 
-- ✅ Can reproduce experimentally observed particle properties
-- ✅ Can model matter formation (electrons, nuclei, atoms, molecules)
-- ✅ Can derive forces (electric, magnetic, gravitational, nuclear) from field gradients
-- ✅ Can validate predictions against experimental data
-- ✅ Provides computationally efficient alternative for specific simulations
+Research questions to investigate:
+
+- 🔬 Can wave dynamics reproduce experimentally observed particle properties?
+- 🔬 Can standing wave patterns model matter formation (electrons, nuclei, atoms, molecules)?
+- 🔬 Can fundamental forces (electric, magnetic, gravitational, nuclear) emerge from field gradients?
+- 🔬 Can computational predictions be validated against experimental data?
+- 🔬 Can this approach provide computationally efficient alternatives for specific simulations?
 
 **At Level-0 for Education:**
+
+Current capabilities (Released):
 
 - ✅ Makes wave mechanics intuitive and visual
 - ✅ Demonstrates wave interference, standing waves, propagation
@@ -127,22 +131,27 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 
 ### ENERGY WAVE THEORY (EWT)
 
+OpenWave uses EWT as a computational framework to explore whether wave-based models can reproduce observed phenomena.
+
+**EWT Resources:**
+
 - Main Entry Point: [EWT Website](https://energywavetheory.com)
-- Scientific Publications: [Research Papers](https://www.researchgate.net/profile/Jeff-Yee-3)
+- Research Papers: [Publications](https://www.researchgate.net/profile/Jeff-Yee-3)
 - Explainer Videos: [Video Channel](https://www.youtube.com/@EnergyWaveTheory)
 - Literature: [eBooks](https://www.amazon.com/gp/product/B078RYP7XD)
 
 ### Theoretical Background
 
-The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that builds upon the work of pioneers like:
+The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that draws conceptual inspiration from historical work on wave interpretations of quantum mechanics:
 
-- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) (EPR paradox, determinism)
-- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) (pilot wave theory)
-- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) (wave structure of matter)
-- Gabriel LaFreniere (standing wave models)
-- among others
+**Historical Inspiration (established physics):**
 
-**Note:** EWT belongs to the family of deterministic alternative formalisms (like Bohmian mechanics or stochastic electrodynamics) that attempts to provide mechanistic explanations for quantum phenomena.
+- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) - EPR paradox, determinism debates
+- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) - Pilot wave theory foundations
+- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure explorations
+- Gabriel LaFreniere - Standing wave visualizations
+
+**Theoretical Classification:** EWT belongs to the family of deterministic alternative formalisms (like Bohmian mechanics or stochastic electrodynamics) that attempt to provide mechanistic explanations for quantum phenomena. Unlike Bohmian mechanics, which is philosophically equivalent to standard quantum mechanics, EWT proposes different underlying field equations that may produce testably different predictions.
 
 ## Installation Instructions
 

@@ -51,10 +51,10 @@ Each Xperiment is fully customizable (via user controls and Python scripting), e
 
 **In this model:**
 
-- Spacetime is represented as oscillations at extremely high frequencies (10^25Hz)
+- Spacetime is computationally represented as oscillations at extremely high frequencies (~10^25Hz in EWT's framework)
 - If you slow down the simulator frequency and increase the amp boost, you can observe WAVE PATTERNS (these waves are the effect of harmonic oscillations)
-- The wave patterns serve as the SOURCE for modeling all energy forms, forces, and matter development in the simulation
-- Now reduce the granule size and observe the wave pulse - this rhythm represents TIME ITSELF in the model (the wave's frequency defines the simulation's fundamental clock)
+- The wave patterns serve as the energy source for modeling all energy forms, forces, and matter development in the simulation
+- Now reduce the granule size and observe the wave pulse - this rhythm represents the model's fundamental time parameter (the wave's frequency defines the simulation's clock)
 - These waves are called ENERGY WAVES in EWT's framework - the computational primitives for this modeling approach
 
 **What you're seeing:** A computational representation of how wave mechanics might underlie physical phenomena.
