@@ -38,7 +38,11 @@ UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length 
 # slow-motion (divides frequency for human-visible motion, time microscope)
 SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
-lattice = medium.BCCLattice(UNIVERSE_EDGE)
+# Choose color theme for rendering (OCEAN, DESERT, FOREST)
+COLOR_THEME = "OCEAN"
+
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
+lattice = medium.BCCLattice(UNIVERSE_EDGE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)

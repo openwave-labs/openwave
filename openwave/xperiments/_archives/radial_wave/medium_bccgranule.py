@@ -60,7 +60,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge):
+    def __init__(self, universe_edge, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe edge (size) and target granules are used to define
@@ -68,6 +68,7 @@ class BCCLattice:
 
         Args:
             universe_edge: Simulation domain size, edge length of the cubic universe in meters
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
@@ -132,7 +133,7 @@ class BCCLattice:
         self.build_center_vectors()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
-        self.set_granule_color()  # colors based on granule_type
+        self.set_granule_color(theme)  # colors based on granule_type
         self.set_sliced_plane_objects()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -334,17 +335,52 @@ class BCCLattice:
                 else 0
             )
 
+    def set_granule_color(self, theme="OCEAN"):
+        """Assign colors to granules based on their classified type and color theme.
+
+        Args:
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
+        """
+        # Get theme configuration from config module
+        theme_config = getattr(config, theme, config.OCEAN)
+
+        # Extract color values from theme
+        color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
+        color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
+        color_face = ti.Vector(theme_config["COLOR_FACE"][1])
+        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+        color_center = ti.Vector(config.BLACK[1])
+
+        # Call GPU kernel with theme colors
+        self._apply_granule_colorsBCC(
+            color_vertex, color_edge, color_face, color_core, color_center
+        )
+
     @ti.kernel
-    def set_granule_color(self):
-        """Assign colors to granules based on their classified type."""
+    def _apply_granule_colorsBCC(
+        self,
+        color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
+        color_edge: ti.types.vector(3, ti.f32),  # type: ignore
+        color_face: ti.types.vector(3, ti.f32),  # type: ignore
+        color_core: ti.types.vector(3, ti.f32),  # type: ignore
+        color_center: ti.types.vector(3, ti.f32),  # type: ignore
+    ):
+        """GPU kernel to apply colors based on granule type.
+
+        Args:
+            color_vertex: RGB color for VERTEX granules (type 0)
+            color_edge: RGB color for EDGE granules (type 1)
+            color_face: RGB color for FACE granules (type 2)
+            color_core: RGB color for CORE granules (type 3)
+        """
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
-                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
-                config.COLOR_FACE[1],  # Granule Type: FACE (2)
-                config.COLOR_MEDIUM[1],  # Granule Type: CORE (3)
-                config.BLACK[1],  # Granule Type: CENTER (4)
+                [color_vertex[0], color_vertex[1], color_vertex[2]],  # VERTEX (0)
+                [color_edge[0], color_edge[1], color_edge[2]],  # EDGE (1)
+                [color_face[0], color_face[1], color_face[2]],  # FACE (2)
+                [color_core[0], color_core[1], color_core[2]],  # CORE (3)
+                [color_center[0], color_center[1], color_center[2]],  # CENTER (4)
             ]
         )
 

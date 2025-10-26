@@ -26,8 +26,8 @@ LIGHT_BLUE = ["#1a99e6ff", (0.1, 0.6, 0.9)]
 MAGENTA = ["#ff00eeff", (1.0, 0.0, 0.93)]
 CYAN = ["#00ffffff", (0.0, 1.0, 1.0)]
 DARK_BLUE = ["#1a3366ff", (0.1, 0.2, 0.4)]
-ORANGE = ["#ff6600ff", (1.0, 0.4, 0.0)]
-GREEN = ["#04ff00ff", (0.25, 1.0, 0.25)]
+ORANGE = ["#ff7b00ff", (1.0, 0.5, 0.0)]
+GREEN = ["#028800ff", (0.0, 0.53, 0.0)]
 YELLOW = ["#ffea00ff", (1.0, 0.92, 0.0)]
 RED = ["#ff0000ff", (1.0, 0.0, 0.0)]
 PURPLE = ["#8b00ffff", (0.55, 0.0, 0.85)]
@@ -45,9 +45,23 @@ COLOR_SOURCE = ORANGE  # wave source
 # ================================================================
 # Color Themes
 # ================================================================
-COLOR_VERTEX = BLACK  # cube vertices
-COLOR_EDGE = BLACK  # cube edges
-COLOR_FACE = DARK_BLUE  # cube faces
+OCEAN = {
+    "COLOR_VERTEX": BLACK,  # vertices
+    "COLOR_EDGE": BLACK,  # edges
+    "COLOR_FACE": DARK_BLUE,  # faces
+}
+
+DESERT = {
+    "COLOR_VERTEX": WHITE,  # vertices
+    "COLOR_EDGE": WHITE,  # edges
+    "COLOR_FACE": ORANGE,  # faces
+}
+
+FOREST = {
+    "COLOR_VERTEX": BLACK,  # vertices
+    "COLOR_EDGE": BLACK,  # edges
+    "COLOR_FACE": GREEN,  # faces
+}
 
 
 # ================================================================

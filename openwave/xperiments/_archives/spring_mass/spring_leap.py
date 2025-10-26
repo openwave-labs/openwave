@@ -43,7 +43,11 @@ STIFFNESS = 2e-12  # N/m, spring stiffness (tuned for stability and wave speed)
 # STIFFNESS = constants.COULOMB_CONSTANT / granule.radius  # 3.9e28 N/m
 # STIFFNESS = constants.COULOMB_CONSTANT * lattice.scale_factor  # 1.2e26 N/m
 
-lattice = medium.BCCLattice(UNIVERSE_EDGE)
+# Choose color theme for rendering (OCEAN, DESERT, FOREST)
+COLOR_THEME = "OCEAN"
+
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
+lattice = medium.BCCLattice(UNIVERSE_EDGE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granules
 

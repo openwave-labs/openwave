@@ -60,7 +60,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_size):
+    def __init__(self, universe_size, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -68,6 +68,7 @@ class BCCLattice:
 
         Args:
             universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
         universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
@@ -168,7 +169,7 @@ class BCCLattice:
         self.populate_latticeBCC()  # initialize position and velocity
         self.build_granule_typeBCC()  # classifies granules
         self.find_front_octantBCC()  # for block-slicing visualization
-        self.set_granule_colorBCC()  # colors based on granule_type
+        self.set_granule_colorBCC(theme)  # colors based on granule_type
         self.set_sliced_plane_objectsBCC()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -298,16 +299,47 @@ class BCCLattice:
                 else 0
             )
 
+    def set_granule_colorBCC(self, theme="OCEAN"):
+        """Assign colors to granules based on their classified type and color theme.
+
+        Args:
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
+        """
+        # Get theme configuration from config module
+        theme_config = getattr(config, theme, config.OCEAN)
+
+        # Extract color values from theme
+        color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
+        color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
+        color_face = ti.Vector(theme_config["COLOR_FACE"][1])
+        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+
+        # Call GPU kernel with theme colors
+        self._apply_granule_colorsBCC(color_vertex, color_edge, color_face, color_core)
+
     @ti.kernel
-    def set_granule_colorBCC(self):
-        """Assign colors to granules based on their classified type."""
+    def _apply_granule_colorsBCC(
+        self,
+        color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
+        color_edge: ti.types.vector(3, ti.f32),  # type: ignore
+        color_face: ti.types.vector(3, ti.f32),  # type: ignore
+        color_core: ti.types.vector(3, ti.f32),  # type: ignore
+    ):
+        """GPU kernel to apply colors based on granule type.
+
+        Args:
+            color_vertex: RGB color for VERTEX granules (type 0)
+            color_edge: RGB color for EDGE granules (type 1)
+            color_face: RGB color for FACE granules (type 2)
+            color_core: RGB color for CORE granules (type 3)
+        """
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
-                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
-                config.COLOR_FACE[1],  # Granule Type: FACE (2)
-                config.COLOR_MEDIUM[1],  # Granule Type: CORE (3)
+                [color_vertex[0], color_vertex[1], color_vertex[2]],  # VERTEX (0)
+                [color_edge[0], color_edge[1], color_edge[2]],  # EDGE (1)
+                [color_face[0], color_face[1], color_face[2]],  # FACE (2)
+                [color_core[0], color_core[1], color_core[2]],  # CORE (3)
             ]
         )
 
@@ -511,7 +543,7 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_size):
+    def __init__(self, universe_size, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -519,6 +551,7 @@ class SCLattice:
 
         Args:
             universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
         universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
@@ -618,7 +651,7 @@ class SCLattice:
         self.populate_latticeSC()  # initialize position and velocity
         self.build_granule_typeSC()  # classifies granules
         self.find_front_octantSC()  # for block-slicing visualization
-        self.set_granule_colorSC()  # colors based on granule_type
+        self.set_granule_colorSC(theme)  # colors based on granule_type
         self.set_sliced_plane_objectsSC()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -720,16 +753,47 @@ class SCLattice:
                 else 0
             )
 
+    def set_granule_colorSC(self, theme="OCEAN"):
+        """Assign colors to granules based on their classified type and color theme.
+
+        Args:
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
+        """
+        # Get theme configuration from config module
+        theme_config = getattr(config, theme, config.OCEAN)
+
+        # Extract color values from theme
+        color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
+        color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
+        color_face = ti.Vector(theme_config["COLOR_FACE"][1])
+        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+
+        # Call GPU kernel with theme colors
+        self._apply_granule_colorsSC(color_vertex, color_edge, color_face, color_core)
+
     @ti.kernel
-    def set_granule_colorSC(self):
-        """Assign colors to granules based on their classified type."""
+    def _apply_granule_colorsSC(
+        self,
+        color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
+        color_edge: ti.types.vector(3, ti.f32),  # type: ignore
+        color_face: ti.types.vector(3, ti.f32),  # type: ignore
+        color_core: ti.types.vector(3, ti.f32),  # type: ignore
+    ):
+        """GPU kernel to apply colors based on granule type.
+
+        Args:
+            color_vertex: RGB color for VERTEX granules (type 0)
+            color_edge: RGB color for EDGE granules (type 1)
+            color_face: RGB color for FACE granules (type 2)
+            color_core: RGB color for CORE granules (type 3)
+        """
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
-                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
-                config.COLOR_FACE[1],  # Granule Type: FACE (2)
-                config.COLOR_MEDIUM[1],  # Granule Type: CORE (3)
+                [color_vertex[0], color_vertex[1], color_vertex[2]],  # VERTEX (0)
+                [color_edge[0], color_edge[1], color_edge[2]],  # EDGE (1)
+                [color_face[0], color_face[1], color_face[2]],  # FACE (2)
+                [color_core[0], color_core[1], color_core[2]],  # CORE (3)
             ]
         )
 
