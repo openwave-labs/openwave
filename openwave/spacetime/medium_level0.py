@@ -313,7 +313,7 @@ class BCCLattice:
 
         for i in range(self.total_granules):
             granule_type = self.granule_type[i]
-            if 0 <= granule_type <= 4:
+            if 0 <= granule_type <= 3:
                 self.granule_color[i] = ti.Vector(
                     [
                         color_lut[granule_type, 0],
@@ -735,7 +735,7 @@ class SCLattice:
 
         for i in range(self.total_granules):
             granule_type = self.granule_type[i]
-            if 0 <= granule_type <= 4:
+            if 0 <= granule_type <= 3:
                 self.granule_color[i] = ti.Vector(
                     [
                         color_lut[granule_type, 0],
@@ -746,7 +746,7 @@ class SCLattice:
             else:
                 self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
-    def set_sliced_plane_objectsSC(self, num_circles=2, num_probes=3):
+    def set_sliced_plane_objectsSC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
 
         Uses hybrid approach: Python for probe selection, GPU kernel for field circles.
