@@ -57,7 +57,7 @@ Each Xperiment is fully customizable (via user controls and Python scripting), e
 - Now reduce the granule size and observe the wave pulse - this rhythm represents the model's fundamental time parameter (the wave's frequency defines the simulation's clock)
 - These waves are called ENERGY WAVES in EWT's framework - the computational primitives for this modeling approach
 
-**What you're seeing:** A computational representation of how wave mechanics might underlie physical phenomena.
+**What you're seeing:** A computational representation of wave mechanics as the foundation for physical phenomena.
 
 <div align = "center">
 
@@ -154,7 +154,7 @@ To launch the Xperiments Selector Menu:
 
 For more details on the theoretical framework, mathematical derivations, and research papers, refer to: [Energy Wave Theory (EWT)](https://energywavetheory.com).
 
-**Context:** EWT is an alternative formalism to quantum field theory that proposes deterministic, wave-based explanations for quantum phenomena. Like Bohmian mechanics or stochastic electrodynamics, it offers a different mathematical approach to describing physical observations.
+**Context:** EWT is a deterministic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory for describing physical observations.
 
 **OpenWave's Computational Implementation:**
 

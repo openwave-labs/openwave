@@ -96,8 +96,7 @@ EWT proposes a wave-propagating medium. Important clarifications:
 1. **In Level-1:** The "medium" is a 3D vector field (computational grid storing field values)
 2. **In Level-0:** The "medium" is a collection of granules (computational particles)
 3. **Both are computational constructs** - discretization methods for simulation
-4. **We focus on:** Can field dynamics reproduce known physics?
-5. **We acknowledge:** Modern physics (QFT) works without requiring a classical medium
+4. **Research focus:** Can field dynamics reproduce known physics?
 
 **Key insight:** Just as lattice QCD doesn't claim spacetime IS a cubic lattice, OpenWave doesn't claim space IS literally a granular or field-based medium. These are computational discretization methods. The research question is whether the field equations we use can successfully model observed physics.
 
@@ -131,8 +130,6 @@ Prior to using and contributing to OpenWave, it is recommended to study and fami
 
 ### ENERGY WAVE THEORY (EWT)
 
-OpenWave uses EWT as a computational framework to explore whether wave-based models can reproduce observed phenomena.
-
 **EWT Resources:**
 
 - Main Entry Point: [EWT Website](https://energywavetheory.com)
@@ -151,7 +148,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 - [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure explorations
 - Gabriel LaFreniere - Standing wave visualizations
 
-**Theoretical Classification:** EWT belongs to the family of deterministic alternative formalisms (like Bohmian mechanics or stochastic electrodynamics) that attempt to provide mechanistic explanations for quantum phenomena. Unlike Bohmian mechanics, which is philosophically equivalent to standard quantum mechanics, EWT proposes different underlying field equations that may produce testably different predictions.
+**Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave field dynamics.
 
 ## Installation Instructions
 
