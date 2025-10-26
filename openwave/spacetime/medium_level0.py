@@ -322,7 +322,7 @@ class BCCLattice:
                     ]
                 )
             else:
-                self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
+                self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
     def set_sliced_plane_objectsBCC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
@@ -746,7 +746,7 @@ class SCLattice:
                     ]
                 )
             else:
-                self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
+                self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
     def set_sliced_plane_objectsSC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
