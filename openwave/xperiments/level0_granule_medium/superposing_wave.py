@@ -34,9 +34,9 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_SIZE = [
+    8 * constants.EWAVE_LENGTH,
     6 * constants.EWAVE_LENGTH,
-    6 * constants.EWAVE_LENGTH,
-    6 * constants.EWAVE_LENGTH,
+    1 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
@@ -46,9 +46,9 @@ NUM_SOURCES = 2
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 sources_position = [
-    # [0.5, 0.5, 0.5],  # Wave Source 0 - Center (commented out)
-    [0, 1, 1.0],  # Wave Source 1 - Top plane (Z=1), center-back
-    [1, 1, 1.0],  # Wave Source 2 - Top plane (Z=1), center-front
+    # [0.5, 0.5, 0.12],  # Wave Source 0 - Center (commented out)
+    [0, 0.5, 0.12],  # Wave Source 1 - Top plane (Z=1), center-back
+    [1, 0.5, 0.12],  # Wave Source 2 - Top plane (Z=1), center-front
     [0.0, 1.0, 0.0],  # Wave Source 3 - Bottom-back-left corner
     [1.0, 0.0, 0.0],  # Wave Source 4 - Bottom-front-right corner
     [0.0, 0.0, 1.0],  # Wave Source 5 - Top-front-left corner
@@ -87,7 +87,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[0.50, 2.00, 2.40])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[0.50, 1.20, 1.30])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -208,7 +208,7 @@ def render_xperiment(lattice):
     block_slice = False  # Block-slicing toggle
     granule_type = True  # Granule type coloring toggle
     show_sources = True  # Show wave sources toggle
-    radius_factor = 1.0  # Initialize granule size factor
+    radius_factor = 1.5  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
