@@ -1,0 +1,232 @@
+{
+  "openwave._io.__init__": [
+    "openwave._io.cli"
+  ],
+  "openwave._io.cli": [
+    "argparse",
+    "os",
+    "sys",
+    "subprocess",
+    "pathlib",
+    "importlib.metadata",
+    "simple_term_menu"
+  ],
+  "openwave._io.render": [
+    "importlib.metadata",
+    "taichi",
+    "numpy",
+    "pyautogui",
+    "openwave.common"
+  ],
+  "openwave.common.config": [
+    "openwave.common"
+  ],
+  "openwave.common.equations": [
+    "numpy",
+    "openwave.common"
+  ],
+  "openwave.spacetime.energy_wave_level0": [
+    "taichi",
+    "openwave.common",
+    "openwave.common"
+  ],
+  "openwave.spacetime.medium_level0": [
+    "random",
+    "taichi",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "time",
+    "sys"
+  ],
+  "openwave.validations.constants_derivation_particle": [
+    "numpy",
+    "openwave.common.constants"
+  ],
+  "openwave.validations.constants_derivation_wave": [
+    "numpy",
+    "openwave.common.constants"
+  ],
+  "openwave.validations.stability_analysis": [
+    "math",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "openwave.spacetime.medium_level0"
+  ],
+  "openwave.validations.wave_diagnostics": [
+    "openwave.common",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archives.radial_wave.energy_wave_radial": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archives.radial_wave.medium_bccgranule": [
+    "random",
+    "taichi",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "time",
+    "sys",
+    "random"
+  ],
+  "openwave.xperiments._archives.radial_wave.radial_pulse": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.radial_wave.medium_bccgranule",
+    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments._archives.radial_wave.radial_spherical": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.radial_wave.medium_bccgranule",
+    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments._archives.radial_wave.radial_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.radial_wave.medium_bccgranule",
+    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments._archives.spring_mass.energy_wave_spring_euler": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archives.spring_mass.energy_wave_spring_leap": [
+    "taichi",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archives.spring_mass.energy_wave_xpbd": [
+    "taichi",
+    "numpy",
+    "openwave.common"
+  ],
+  "openwave.xperiments._archives.spring_mass.medium_bccgranule": [
+    "random",
+    "taichi",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "time",
+    "sys",
+    "random"
+  ],
+  "openwave.xperiments._archives.spring_mass.spring_euler": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.spring_mass.medium_bccgranule",
+    "openwave.xperiments._archives.spring_mass.energy_wave_spring_euler"
+  ],
+  "openwave.xperiments._archives.spring_mass.spring_leap": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.spring_mass.medium_bccgranule",
+    "openwave.xperiments._archives.spring_mass.energy_wave_spring_leap"
+  ],
+  "openwave.xperiments._archives.spring_mass.xpbd": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.xperiments._archives.spring_mass.medium_bccgranule",
+    "openwave.xperiments._archives.spring_mass.energy_wave_xpbd"
+  ],
+  "openwave.xperiments.a_readme_first.welcome_to_openwave": [
+    "os",
+    "sys",
+    "webbrowser",
+    "pathlib"
+  ],
+  "openwave.xperiments.level0_granule_medium.spacetime_vibration": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.spherical_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.standing_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.superposing_wave": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.the_pulse": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.xwaves": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ],
+  "openwave.xperiments.level0_granule_medium.yin_yang": [
+    "taichi",
+    "time",
+    "openwave.common",
+    "openwave.common",
+    "openwave._io",
+    "openwave.spacetime.medium_level0",
+    "openwave.spacetime.energy_wave_level0",
+    "openwave.validations.wave_diagnostics"
+  ]
+}
