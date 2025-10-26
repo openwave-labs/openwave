@@ -314,12 +314,6 @@ class `XPERIMENTS MODULE
     ---
     LEVEL-1: FIELD-BASED MEDIUM
     - *WIP*: flow_wave.py
-    ---
-    ANTI-GRAVITY
-    - *WIP*: proton_vibration.py
-    ---
-    HEAT-DYNAMICS
-    - *WIP*: heat_waves.py
 }
 
 
