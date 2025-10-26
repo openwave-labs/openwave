@@ -106,7 +106,7 @@ Now that you're introduced to the basic concepts of wave phenomena in this compu
 
 To launch the Xperiments Selector Menu:
 
-- Follow installation instructions at [README file](../../../README.md)
+- Follow installation instructions at [README file](README.md)
 - Then, on your terminal run:
 
 ```bash
@@ -179,7 +179,7 @@ For more details on the theoretical framework, mathematical derivations, and res
 
 ## Getting Help and Contributing
 
-- See the main [README](../../../README.md) for contribution guidelines
+- See the main [README](README.md) for contribution guidelines
 - Follow development on [GitHub](https://github.com/openwave-labs/openwave)
 - Join discussions on [Reddit](https://www.reddit.com/r/openwave/)
 - Watch tutorials on [YouTube](https://youtube.com/@openwave-labs/)
