@@ -38,8 +38,9 @@ PURPLE = ["#8b00ffff", (0.55, 0.0, 0.85)]
 COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grid, links
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
-
-COLOR_FIELDS = CYAN  # fields, field lines
+COLOR_FIELD = CYAN  # fields, field lines
+COLOR_PROBE = RED  # probes, sensors
+COLOR_SOURCE = ORANGE  # wave source
 
 # ================================================================
 # Color Themes
@@ -47,10 +48,6 @@ COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_VERTEX = BLACK  # cube vertices
 COLOR_EDGE = BLACK  # cube edges
 COLOR_FACE = DARK_BLUE  # cube faces
-COLOR_CORE = COLOR_MEDIUM  # interior granules
-
-COLOR_PROBE = RED  # probe granule
-COLOR_SOURCE = ORANGE  # source granules
 
 
 # ================================================================

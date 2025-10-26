@@ -307,7 +307,7 @@ class BCCLattice:
                 config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
                 config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
                 config.COLOR_FACE[1],  # Granule Type: FACE (2)
-                config.COLOR_CORE[1],  # Granule Type: CORE (3)
+                config.COLOR_MEDIUM[1],  # Granule Type: CORE (3)
             ]
         )
 
@@ -372,13 +372,11 @@ class BCCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = config.COLOR_PROBE[1]
+        probe_color = ti.Vector(config.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    self.granule_color[idx] = ti.Vector(
-                        [probe_color[0], probe_color[1], probe_color[2]]
-                    )
+                    self.granule_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -414,7 +412,7 @@ class BCCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELDS[1])
+        field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.total_granules):
@@ -731,7 +729,7 @@ class SCLattice:
                 config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
                 config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
                 config.COLOR_FACE[1],  # Granule Type: FACE (2)
-                config.COLOR_CORE[1],  # Granule Type: CORE (3)
+                config.COLOR_MEDIUM[1],  # Granule Type: CORE (3)
             ]
         )
 
@@ -748,7 +746,7 @@ class SCLattice:
             else:
                 self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
-    def set_sliced_plane_objectsSC(self, num_circles=0, num_probes=3):
+    def set_sliced_plane_objectsSC(self, num_circles=2, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
 
         Uses hybrid approach: Python for probe selection, GPU kernel for field circles.
@@ -778,13 +776,11 @@ class SCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = config.COLOR_PROBE[1]
+        probe_color = ti.Vector(config.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    self.granule_color[idx] = ti.Vector(
-                        [probe_color[0], probe_color[1], probe_color[2]]
-                    )
+                    self.granule_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -821,7 +817,7 @@ class SCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELDS[1])
+        field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.total_granules):
