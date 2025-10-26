@@ -132,11 +132,11 @@ class BCCNeighbors:
     rest_length = lattice.unit_cell_edge * sqrt(3) / 2
 
     # Granule type → Neighbor count
-    TYPE_VERTEX:  1 neighbor  (corner of lattice boundary)
-    TYPE_EDGE:    2 neighbors (edge of lattice boundary)
-    TYPE_FACE:    4 neighbors (face of lattice boundary)
-    TYPE_CORE:    8 neighbors (interior, full BCC connectivity)
-    TYPE_CENTER: 8 neighbors (exact center granule)
+    VERTEX (0): 1 neighbor  (corner of lattice boundary)
+    EDGE (1):   2 neighbors (edge of lattice boundary)
+    FACE (2):   4 neighbors (face of lattice boundary)
+    CORE (3):   8 neighbors (interior, full BCC connectivity)
+    CENTER (4): 8 neighbors (exact center granule)
 ```
 
 **8-Way BCC Connectivity**:

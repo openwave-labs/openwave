@@ -60,7 +60,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_edge):
+    def __init__(self, universe_edge, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe edge (size) and target granules are used to define
@@ -68,6 +68,7 @@ class BCCLattice:
 
         Args:
             universe_edge: Simulation domain size, edge length of the cubic universe in meters
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
@@ -132,7 +133,7 @@ class BCCLattice:
         self.build_center_vectors()  # builds direction vectors for all granules to center
         self.build_vertex_data()  # builds the 8-element vertex data (indices, equilibrium, directions)
         self.find_front_octant()  # for block-slicing visualization
-        self.set_granule_color()  # colors based on granule_type
+        self.set_granule_color(theme)  # colors based on granule_type
         self.set_sliced_plane_objects()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -192,8 +193,8 @@ class BCCLattice:
     def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
-        Classification:
-        - VERTEX (0): 8 corner vertices of the cubic lattice boundary
+        Granule Type:
+        - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
@@ -220,13 +221,13 @@ class BCCLattice:
                     at_boundary += 1
 
                 if at_boundary == 3:
-                    self.granule_type[idx] = config.TYPE_VERTEX
+                    self.granule_type[idx] = 0  # Granule Type: VERTEX (0)
                 elif at_boundary == 2:
-                    self.granule_type[idx] = config.TYPE_EDGE
+                    self.granule_type[idx] = 1  # Granule Type: EDGE (1)
                 elif at_boundary == 1:
-                    self.granule_type[idx] = config.TYPE_FACE
+                    self.granule_type[idx] = 2  # Granule Type: FACE (2)
                 else:
-                    self.granule_type[idx] = config.TYPE_CORE
+                    self.granule_type[idx] = 3  # Granule Type: CORE (3)
             else:
                 # Center granule: decode position with offset
                 center_idx = idx - corner_count
@@ -239,7 +240,7 @@ class BCCLattice:
                     self.granule_type[idx] = 4
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
-                    self.granule_type[idx] = config.TYPE_CORE
+                    self.granule_type[idx] = 3  # Granule Type: CORE (3)
 
     @ti.kernel
     def build_center_vectors(self):
@@ -252,7 +253,7 @@ class BCCLattice:
         Direction vectors are stored in the directions field and used for radial operations
         such as compression/expansion forces or wave propagation from the center.
 
-        Special case: The central granule (TYPE_CENTER) has zero distance and a default
+        Special case: The central granule (Granule Type CENTER (4)) has zero distance and a default
         direction vector, ensuring it remains stationary in radial wave patterns.
         """
         # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
@@ -334,17 +335,52 @@ class BCCLattice:
                 else 0
             )
 
+    def set_granule_color(self, theme="OCEAN"):
+        """Assign colors to granules based on their classified type and color theme.
+
+        Args:
+            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
+        """
+        # Get theme configuration from config module
+        theme_config = getattr(config, theme, config.OCEAN)
+
+        # Extract color values from theme
+        color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
+        color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
+        color_face = ti.Vector(theme_config["COLOR_FACE"][1])
+        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+        color_center = ti.Vector(config.BLACK[1])
+
+        # Call GPU kernel with theme colors
+        self._apply_granule_colorsBCC(
+            color_vertex, color_edge, color_face, color_core, color_center
+        )
+
     @ti.kernel
-    def set_granule_color(self):
-        """Assign colors to granules based on their classified type."""
+    def _apply_granule_colorsBCC(
+        self,
+        color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
+        color_edge: ti.types.vector(3, ti.f32),  # type: ignore
+        color_face: ti.types.vector(3, ti.f32),  # type: ignore
+        color_core: ti.types.vector(3, ti.f32),  # type: ignore
+        color_center: ti.types.vector(3, ti.f32),  # type: ignore
+    ):
+        """GPU kernel to apply colors based on granule type.
+
+        Args:
+            color_vertex: RGB color for VERTEX granules (type 0)
+            color_edge: RGB color for EDGE granules (type 1)
+            color_face: RGB color for FACE granules (type 2)
+            color_core: RGB color for CORE granules (type 3)
+        """
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # TYPE_VERTEX = 0
-                config.COLOR_EDGE[1],  # TYPE_EDGE = 1
-                config.COLOR_FACE[1],  # TYPE_FACE = 2
-                config.COLOR_CORE[1],  # TYPE_CORE = 3
-                config.BLACK[1],  # TYPE_CENTER = 4
+                [color_vertex[0], color_vertex[1], color_vertex[2]],  # VERTEX (0)
+                [color_edge[0], color_edge[1], color_edge[2]],  # EDGE (1)
+                [color_face[0], color_face[1], color_face[2]],  # FACE (2)
+                [color_core[0], color_core[1], color_core[2]],  # CORE (3)
+                [color_center[0], color_center[1], color_center[2]],  # CENTER (4)
             ]
         )
 
@@ -359,7 +395,7 @@ class BCCLattice:
                     ]
                 )
             else:
-                self.granule_color[i] = ti.Vector([1.0, 0.0, 1.0])  # Magenta for undefined
+                self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
     def set_sliced_plane_objects(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
@@ -402,14 +438,12 @@ class BCCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = config.COLOR_PROBE[1]
+        probe_color = ti.Vector(config.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
                     if self.granule_type[idx] != 4:
-                        self.granule_color[idx] = ti.Vector(
-                            [probe_color[0], probe_color[1], probe_color[2]]
-                        )
+                        self.granule_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -438,7 +472,7 @@ class BCCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELDS[1])
+        field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.total_granules):
@@ -569,11 +603,11 @@ class BCCNeighbors:
 
             # Determine max neighbors based on type
             max_neighbors = 8  # Default for CORE/CENTER
-            if granule_type == config.TYPE_VERTEX:
+            if granule_type == 0:  # Granule Type: VERTEX (0)
                 max_neighbors = 1
-            elif granule_type == config.TYPE_EDGE:
+            elif granule_type == 1:  # Granule Type: EDGE (1)
                 max_neighbors = 2
-            elif granule_type == config.TYPE_FACE:
+            elif granule_type == 2:  # Granule Type: FACE (2)
                 max_neighbors = 4
 
             # Search through all granules (simplified for small lattices)
@@ -632,11 +666,11 @@ class BCCNeighbors:
                 # For corner granules, connect to adjacent center granules
                 # Determine max connections based on granule type
                 max_neighbors = 8
-                if granule_type == config.TYPE_VERTEX:
+                if granule_type == 0:  # Granule Type: VERTEX (0)
                     max_neighbors = 1
-                elif granule_type == config.TYPE_EDGE:
+                elif granule_type == 1:  # Granule Type: EDGE (1)
                     max_neighbors = 2
-                elif granule_type == config.TYPE_FACE:
+                elif granule_type == 2:  # Granule Type: FACE (2)
                     max_neighbors = 4
 
                 # Each center is offset by (-0.5, -0.5, -0.5) from corners

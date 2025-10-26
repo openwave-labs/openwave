@@ -141,7 +141,7 @@ def velocity_half_kick(
     """
     for i in range(velocity.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
-        if granule_type[i] == 0:  # TYPE_VERTEX = 0
+        if granule_type[i] == 0:  # Granule Type: VERTEX (0)
             continue
 
         # Half-step velocity update (first kick)
@@ -165,7 +165,7 @@ def position_drift(
     """
     for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
-        if granule_type[i] == 0:  # TYPE_VERTEX = 0
+        if granule_type[i] == 0:  # Granule Type: VERTEX (0)
             continue
 
         # Full-step position update using half-step velocity (drift)

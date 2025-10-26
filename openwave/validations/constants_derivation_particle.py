@@ -120,15 +120,15 @@ if __name__ == "__main__":
     print(f"Derived: {electron_outer_shell_derivation():.9f}")
     print(f"Stored : {constants.ELECTRON_OUTER_SHELL:.9f}")
 
-    print("\nELECTRON ORBITAL G-FACTOR")
+    print("\nELECTRON ORBITAL G-FACTOR (gλ)")
     print(f"Derived: {electron_orbital_g_derivation():.10f}")
     print(f"Stored : {constants.ELECTRON_ORBITAL_G:.10f}")
 
-    print("\nELECTRON SPIN G-FACTOR")
+    print("\nELECTRON SPIN G-FACTOR (gA)")
     print(f"Derived: {electron_spin_g_derivation():.10f}")
     print(f"Stored : {constants.ELECTRON_SPIN_G:.10f}")
 
-    print("\nPROTON ORBITAL G-FACTOR")
+    print("\nPROTON ORBITAL G-FACTOR (gp)")
     print(f"Derived: {proton_orbital_g_derivation():.10f}")
     print(f"Stored : {constants.PROTON_ORBITAL_G:.10f}")
     print("_______________________________")

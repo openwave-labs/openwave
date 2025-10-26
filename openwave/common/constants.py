@@ -1,8 +1,8 @@
 """
-Energy Wave Theory (EWT) constants module.
+OpenWave constants module.
 
-This module provides fundamental constants for Energy Wave Theory simulations,
-sourced from https://energywavetheory.com/equations/
+This module provides fundamental constants for OpenWave simulations,
+sourced from EWT at https://energywavetheory.com/equations/
 
 All values use SI units (kg, m, s) for consistency.
 """
@@ -10,18 +10,18 @@ All values use SI units (kg, m, s) for consistency.
 # ================================================================
 # WAVE-MEDIUM
 # ================================================================
-MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (rho)
+MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (ρ)
 ATTOMETTER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================
 # ENERGY-WAVE
 # ================================================================
-EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length, lambda
-EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (equilibrium-to-peak)
-EWAVE_SPEED = 299792458  # m / s, energy-wave velocity (speed of light, c)
+EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length (λ)
+EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (A, equilibrium-to-peak)
+EWAVE_SPEED = 299792458  # m / s, energy-wave velocity (c, speed of light)
 
-EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (EWAVE_SPEED/EWAVE_LENGTH)
-EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (1 / EWAVE_FREQUENCY)
+EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED/EWAVE_LENGTH)
+EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY)
 
 # ================================================================
 # Neutrino particle (seed particle)
@@ -35,8 +35,8 @@ ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_K = 10  # electron wave center count (dimensionless)
 ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
 ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
-ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor
-ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
+ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor (gλ, dimensionless)
+ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
 # In Energy Wave Equations: Correction Factors (https://vixra.org/abs/1803.0243),
 # a potential explanation for the values of these g-factors is presented as
 # a relation of Earth’s outward velocity and spin velocity against a rest frame for the universe.
@@ -46,7 +46,7 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (dimensionless)
 # ================================================================
 PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_K = 44  # proton wave center count (dimensionless)
-PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (dimensionless)
+PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (gp, dimensionless)
 PROTON_MASS = 1.67262192369e-27  # kg, proton mass from CODATA
 
 # ================================================================

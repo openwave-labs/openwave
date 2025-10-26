@@ -74,8 +74,11 @@ sources_phase_deg = [
     0,  # Wave Source 9
 ]
 
+# Choose color theme for rendering (OCEAN, DESERT, FOREST)
+COLOR_THEME = "OCEAN"
+
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
-lattice = medium.BCCLattice(UNIVERSE_SIZE)
+lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)

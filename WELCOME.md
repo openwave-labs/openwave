@@ -180,8 +180,8 @@ For more details on the theoretical framework, mathematical derivations, and res
 ## Getting Help and Contributing
 
 - See the main [README](../../../README.md) for contribution guidelines
-- Join discussions on [Reddit](https://www.reddit.com/r/openwave/)
 - Follow development on [GitHub](https://github.com/openwave-labs/openwave)
+- Join discussions on [Reddit](https://www.reddit.com/r/openwave/)
 - Watch tutorials on [YouTube](https://youtube.com/@openwave-labs/)
 
 **Welcome to the exploration!** 🌊

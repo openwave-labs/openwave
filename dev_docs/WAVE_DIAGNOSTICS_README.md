@@ -322,11 +322,11 @@ From medium_level0.py:
 rest_length = lattice.unit_cell_edge * sqrt(3) / 2
 
 # Each granule type has specific neighbor count:
-TYPE_VERTEX:  1 neighbor  (corner of lattice)
-TYPE_EDGE:    2 neighbors (edge of lattice)
-TYPE_FACE:    4 neighbors (face of lattice)
-TYPE_CORE:    8 neighbors (interior, full BCC connectivity)
-TYPE_CENTER: 8 neighbors (exact center)
+VERTEX (0):   1 neighbor  (corner of lattice)
+EDGE (1):     2 neighbors (edge of lattice)
+FACE (2):     4 neighbors (face of lattice)
+CORE (3):     8 neighbors (interior, full BCC connectivity)
+CENTER (4):   8 neighbors (exact center)
 ```
 
 The 8-way connectivity for interior granules creates the diagonal coupling that produces the observed transversal component.
