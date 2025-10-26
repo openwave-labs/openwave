@@ -37,28 +37,12 @@ PURPLE = ["#8b00ffff", (0.55, 0.0, 0.85)]
 # ================================================================
 COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grids, links
+COLOR_FIELDS = CYAN  # fields, field lines
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 
-COLOR_EWAVE = ORANGE  # energy-wave, wave functions
-COLOR_FIELDS = CYAN  # fields, field lines
-COLOR_MATTER = DARK_BLUE  # matter, particles
-COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
-COLOR_MOTION = GREEN  # motion, velocity vectors
-COLOR_PHOTON = YELLOW  # photons
-COLOR_HEAT = RED  # heat, thermal energy
-COLOR_ENERGY = PURPLE  # energy, energy packets
-
 # ================================================================
-# Granule Type Classification & Colors
+# Granule Colors
 # ================================================================
-# Granule types identify position within BCC lattice structure
-# Type constants (integer values for GPU compatibility)
-TYPE_VERTEX = 0  # 8 corner vertices of the lattice cube
-TYPE_EDGE = 1  # 12 edges of the lattice cube
-TYPE_FACE = 2  # 6 faces of the lattice cube
-TYPE_CORE = 3  # Interior granules (not on boundary)
-
-# Type-specific colors [hex_rgba, (r, g, b)]
 COLOR_VERTEX = BLACK  # cube vertices
 COLOR_EDGE = BLACK  # cube edges
 COLOR_FACE = DARK_BLUE  # cube faces
@@ -66,9 +50,19 @@ COLOR_CORE = COLOR_MEDIUM  # interior granules
 COLOR_PROBE = RED  # probe granule
 COLOR_SOURCE = ORANGE  # source granules
 
+# ================================================================
+# FUTURE COLOR PALETTES
+# COLOR_EWAVE = ORANGE  # energy-wave, wave functions
+# COLOR_MATTER = DARK_BLUE  # matter, particles
+# COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
+# COLOR_MOTION = GREEN  # motion, velocity vectors
+# COLOR_PHOTON = YELLOW  # photons
+# COLOR_HEAT = RED  # heat, thermal energy
+# COLOR_ENERGY = PURPLE  # energy, energy packets
 
-# # FUTURE THERMAL IMAGING PALLETTE
-# #https://stackoverflow.com/questions/28495390/thermal-imaging-palette
+
+# FUTURE THERMAL IMAGING PALLETTE
+# https://stackoverflow.com/questions/28495390/thermal-imaging-palette
 
 # ironbow        = ["#000000ff", "#20008aff", "#cc0077ff", "#ff0000ff", "#ff7b00ff", "#ffcc00ff", "#FFFFFF"]
 

@@ -1,8 +1,8 @@
 """
-Energy Wave Theory (EWT) equations module.
+OpenWave equations module.
 
-This module implements the core mathematical equations of Energy Wave Theory,
-sourced from https://energywavetheory.com/equations/
+This module implements the core mathematical equations of OpenWave,
+sourced from EWT at https://energywavetheory.com/equations/
 
 Energy Equations:
 - Energy wave equation (fundamental EWT equation)
@@ -231,13 +231,13 @@ def electric_force(
     r,
     Ke=constants.ELECTRON_K,
     Oe=constants.ELECTRON_OUTER_SHELL,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
     Electric Force:
     Force between charged particles based on particle energy at distance.
 
-    F_e = (4πρK_e^7 A^6 c^2 Oe / 3λ^2) * g_λ * (Q1*Q2 / r^2)
+    F_e = (4πρK_e^7 A^6 c^2 Oe / 3λ^2) * gλ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -245,7 +245,7 @@ def electric_force(
         r (float): Distance between particles in meters
         Ke (int): Particle wave center count (default: electron K=10)
         Oe (float): Outer shell multiplier (default: electron)
-        g_lambda (float): Orbital g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
 
     Returns:
         float: Electric force F_e in Newtons
@@ -259,7 +259,7 @@ def electric_force(
         * (constants.EWAVE_AMPLITUDE**6)
         * (constants.EWAVE_SPEED**2)
         * Oe
-        * g_lambda
+        * glambda
     ) / (3 * (constants.EWAVE_LENGTH**2))
 
     # Calculate force
@@ -273,13 +273,13 @@ def magnetic_force(
     v,
     Ke=constants.ELECTRON_K,
     Oe=constants.ELECTRON_OUTER_SHELL,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
     Magnetic Force:
     Electromagnetic force for particles in motion (induced current).
 
-    F_m = (4πρK_e^7 A^6 Oe / 3λ_^2) * g_λ * (Q1*Q2*v^2 / r^2)
+    F_m = (4πρK_e^7 A^6 Oe / 3λ_^2) * gλ * (Q1*Q2*v^2 / r^2)
 
     Args:
         Q1 (float): Charge/particle count of first particle (dimensionless)
@@ -288,7 +288,7 @@ def magnetic_force(
         v (float): Relative velocity of particles in m/s
         Ke (int): Particle wave center count (default: electron K=10)
         Oe (float): Outer shell multiplier (default: electron)
-        g_lambda (float): Orbital g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
 
     Returns:
         float: Magnetic force F_m in Newtons
@@ -301,7 +301,7 @@ def magnetic_force(
         * (Ke**7)
         * (constants.EWAVE_AMPLITUDE**6)
         * Oe
-        * g_lambda
+        * glambda
     ) / (3 * (constants.EWAVE_LENGTH**2))
 
     # Calculate force with velocity factor
@@ -314,14 +314,14 @@ def gravitational_force(
     r,
     Ke=constants.ELECTRON_K,
     Oe=constants.ELECTRON_OUTER_SHELL,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
-    g_p=constants.PROTON_ORBITAL_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
+    gp=constants.PROTON_ORBITAL_G,
 ):
     """
     Gravitational Force:
     Force based on amplitude loss in wave interactions.
 
-    F_g = (ρλ^2 c^2 Oe / 2K_e^31) * (A/36)^2 * g_λ^3 * g_p^2 * (Q1*Q2 / r^2)
+    F_g = (ρλ^2 c^2 Oe / 2K_e^31) * (A/36)^2 * gλ^3 * gp^2 * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Mass/particle count of first particle (dimensionless)
@@ -329,8 +329,8 @@ def gravitational_force(
         r (float): Distance between particles in meters
         Ke (int): Particle wave center count (default: electron K=10)
         Oe (float): Outer shell multiplier (default: electron)
-        g_lambda (float): Electron orbital g-factor (default: electron)
-        g_p (float): Proton orbital g-factor (default: proton)
+        glambda (float): Electron orbital g-factor (default: electron)
+        gp (float): Proton orbital g-factor (default: proton)
 
     Returns:
         float: Gravitational force F_g in Newtons
@@ -344,7 +344,7 @@ def gravitational_force(
     amplitude_factor = (constants.EWAVE_AMPLITUDE / 36) ** 2
 
     # G-factor contributions
-    g_factor = (g_lambda**3) * (g_p**2)
+    g_factor = (glambda**3) * (gp**2)
 
     # Calculate force
     return coefficient * amplitude_factor * g_factor * (Q1 * Q2) / (r**2)
@@ -356,13 +356,13 @@ def strong_force(
     r,
     Ke=constants.ELECTRON_K,
     Oe=constants.ELECTRON_OUTER_SHELL,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
 ):
     """
     Strong Force:
     Nuclear force keeping particles bound in atomic nuclei.
 
-    F_s = (16ρK_e^11 A^7 c^2 Oe / 9λ^3) * g_λ * (Q1*Q2 / r^2)
+    F_s = (16ρK_e^11 A^7 c^2 Oe / 9λ^3) * gλ * (Q1*Q2 / r^2)
 
     Args:
         Q1 (float): Particle count of first particle (dimensionless)
@@ -370,7 +370,7 @@ def strong_force(
         r (float): Distance between particles in meters
         Ke (int): Particle wave center count (default: electron K=10)
         Oe (float): Outer shell multiplier (default: electron)
-        g_lambda (float): Orbital g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
 
     Returns:
         float: Strong force F_s in Newtons
@@ -383,25 +383,25 @@ def strong_force(
         * (constants.EWAVE_AMPLITUDE**7)
         * (constants.EWAVE_SPEED**2)
         * Oe
-        * g_lambda
+        * glambda
     ) / (9 * (constants.EWAVE_LENGTH**3))
 
     # Calculate force
     return coefficient * (Q1 * Q2) / (r**2)
 
 
-def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORBITAL_G):
+def orbital_force(Q, r, Ke=constants.ELECTRON_K, glambda=constants.ELECTRON_ORBITAL_G):
     """
     Orbital Force:
     Force keeping electrons in orbit around atomic nuclei.
 
-    F_o = (64ρK_e^17 A^8 c^2 Oe / 27πλ^3) * g_λ^2 * (Q^2 / r^3)
+    F_o = (64ρK_e^17 A^8 c^2 Oe / 27πλ^3) * gλ^2 * (Q^2 / r^3)
 
     Args:
         Q (float): Particle/charge count (dimensionless)
         r (float): Orbital radius in meters
         Ke (int): Particle wave center count (default: electron K=10)
-        g_lambda (float): Orbital g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
 
     Returns:
         float: Orbital force F_o in Newtons
@@ -419,8 +419,8 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, g_lambda=constants.ELECTRON_ORB
         * Oe
     ) / (27 * np.pi * (constants.EWAVE_LENGTH**3))
 
-    # Calculate force with g_lambda squared
-    return coefficient * (g_lambda**2) * (Q**2) / (r**3)
+    # Calculate force with glambda squared
+    return coefficient * (glambda**2) * (Q**2) / (r**3)
 
 
 # ================================================================
@@ -481,8 +481,8 @@ def longitudinal_out_wave_energy(
     v,
     wavelength=None,
     amplitude=None,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
-    g_A=constants.ELECTRON_SPIN_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
+    gA=constants.ELECTRON_SPIN_G,
 ):
     """
     Longitudinal Out-Wave Energy - Complete Form
@@ -498,8 +498,8 @@ def longitudinal_out_wave_energy(
         v (float): Particle velocity in m/s
         wavelength (float, optional): Wavelength in meters. If None, uses EWAVE_LENGTH
         amplitude (float, optional): Amplitude in meters. If None, uses EWAVE_AMPLITUDE
-        g_lambda (float): Orbital g-factor (default: electron)
-        g_A (float): Spin g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
+        gA (float): Spin g-factor (default: electron)
 
     Returns:
         float: Longitudinal out-wave energy in Joules
@@ -526,7 +526,7 @@ def longitudinal_out_wave_energy(
 
     # Calculate alpha_Ge (gravitational coupling) from g-factors
     # This represents the slight amplitude loss due to spin
-    alpha_Ge = (g_lambda * g_A) ** 2  # Simplified representation
+    alpha_Ge = (glambda * gA) ** 2  # Simplified representation
 
     # Amplitude with spin corrections
     A_minus = amplitude * (1 - np.sqrt(alpha_Ge))
@@ -550,8 +550,8 @@ def magnetic_out_wave_energy(
     v,
     wavelength=None,
     amplitude=None,
-    g_lambda=constants.ELECTRON_ORBITAL_G,
-    g_A=constants.ELECTRON_SPIN_G,
+    glambda=constants.ELECTRON_ORBITAL_G,
+    gA=constants.ELECTRON_SPIN_G,
 ):
     """
     Magnetic (Transverse) Out-Wave Energy - Complete Form
@@ -566,8 +566,8 @@ def magnetic_out_wave_energy(
         v (float): Particle velocity in m/s
         wavelength (float, optional): Wavelength in meters. If None, uses EWAVE_LENGTH
         amplitude (float, optional): Amplitude in meters. If None, uses EWAVE_AMPLITUDE
-        g_lambda (float): Orbital g-factor (default: electron)
-        g_A (float): Spin g-factor (default: electron)
+        glambda (float): Orbital g-factor (default: electron)
+        gA (float): Spin g-factor (default: electron)
 
     Returns:
         float: Magnetic (transverse) out-wave energy in Joules
@@ -595,7 +595,7 @@ def magnetic_out_wave_energy(
     gamma_minus = np.sqrt(1 - v_c_ratio)
 
     # Gravitational coupling factor
-    alpha_Ge = (g_lambda * g_A) ** 2  # Simplified representation
+    alpha_Ge = (glambda * gA) ** 2  # Simplified representation
 
     # Wave terms
     wave_factor = (Ke * amplitude) ** 3 / ((Ke**2) * wavelength) ** 2
@@ -604,7 +604,7 @@ def magnetic_out_wave_energy(
     term2 = (c * wave_factor * np.sqrt(1 / alpha_Ge)) / ((Ke**2) * wavelength * gamma_minus)
 
     # Total energy with g-factors
-    energy = (1 / alpha_e) * rho * volume * (term1**2) * (term2**2) * g_lambda * g_A
+    energy = (1 / alpha_e) * rho * volume * (term1**2) * (term2**2) * glambda * gA
 
     return energy
 

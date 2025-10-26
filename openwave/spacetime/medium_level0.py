@@ -235,7 +235,7 @@ class BCCLattice:
     def build_granule_typeBCC(self):
         """Classify each granule by its position in the BCC lattice structure.
 
-        Classification:
+        Granule Type:
         - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
@@ -265,16 +265,16 @@ class BCCLattice:
                     at_boundary += 1
 
                 if at_boundary == 3:
-                    self.granule_type[idx] = config.TYPE_VERTEX
+                    self.granule_type[idx] = 0  # Granule Type: VERTEX (0)
                 elif at_boundary == 2:
-                    self.granule_type[idx] = config.TYPE_EDGE
+                    self.granule_type[idx] = 1  # Granule Type: EDGE (1)
                 elif at_boundary == 1:
-                    self.granule_type[idx] = config.TYPE_FACE
+                    self.granule_type[idx] = 2  # Granule Type: FACE (2)
                 else:
-                    self.granule_type[idx] = config.TYPE_CORE
+                    self.granule_type[idx] = 3  # Granule Type: CORE (3)
             else:
                 # Center granules are always in core (offset by 0.5 means never on boundary)
-                self.granule_type[idx] = config.TYPE_CORE
+                self.granule_type[idx] = 3  # Granule Type: CORE (3)
 
     @ti.kernel
     def find_front_octantBCC(self):
@@ -304,10 +304,10 @@ class BCCLattice:
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # TYPE_VERTEX = 0
-                config.COLOR_EDGE[1],  # TYPE_EDGE = 1
-                config.COLOR_FACE[1],  # TYPE_FACE = 2
-                config.COLOR_CORE[1],  # TYPE_CORE = 3
+                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
+                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
+                config.COLOR_FACE[1],  # Granule Type: FACE (2)
+                config.COLOR_CORE[1],  # Granule Type: CORE (3)
             ]
         )
 
@@ -664,7 +664,7 @@ class SCLattice:
     def build_granule_typeSC(self):
         """Classify each granule by its position in the SC lattice structure.
 
-        Classification:
+        Granule Type:
         - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
@@ -692,13 +692,13 @@ class SCLattice:
                 at_boundary += 1
 
             if at_boundary == 3:
-                self.granule_type[idx] = config.TYPE_VERTEX
+                self.granule_type[idx] = 0  # Granule Type: VERTEX (0)
             elif at_boundary == 2:
-                self.granule_type[idx] = config.TYPE_EDGE
+                self.granule_type[idx] = 1  # Granule Type: EDGE (1)
             elif at_boundary == 1:
-                self.granule_type[idx] = config.TYPE_FACE
+                self.granule_type[idx] = 2  # Granule Type: FACE (2)
             else:
-                self.granule_type[idx] = config.TYPE_CORE
+                self.granule_type[idx] = 3  # Granule Type: CORE (3)
 
     @ti.kernel
     def find_front_octantSC(self):
@@ -728,10 +728,10 @@ class SCLattice:
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # TYPE_VERTEX = 0
-                config.COLOR_EDGE[1],  # TYPE_EDGE = 1
-                config.COLOR_FACE[1],  # TYPE_FACE = 2
-                config.COLOR_CORE[1],  # TYPE_CORE = 3
+                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
+                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
+                config.COLOR_FACE[1],  # Granule Type: FACE (2)
+                config.COLOR_CORE[1],  # Granule Type: CORE (3)
             ]
         )
 

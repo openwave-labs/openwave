@@ -134,7 +134,7 @@ def solve_distance_constraints_xpbd(
     # Phase 1: Accumulate position deltas (PARALLEL - Jacobi iteration)
     for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
-        if granule_type[i] == 0:  # TYPE_VERTEX = 0
+        if granule_type[i] == 0:  # Granule Type: VERTEX (0)
             position_delta[i] = ti.Vector([0.0, 0.0, 0.0])
             constraint_count[i] = 0
             continue

@@ -299,7 +299,7 @@ Use `energy_wave.py` for all wave dynamics functions:
 Two approaches to handle vertices (wave makers) vs propagating granules:
 
 - **Option A: Skip vertices in propagation loop (won't work)**
-  - Check `if granule_type[i] != TYPE_VERTEX` before computing spring forces
+  - Check `if granule_type[i] != 0  # Granule Type: VERTEX (0)` before computing spring forces
   - Vertices keep harmonic motion, others use spring-mass dynamics
   - Simple but may lose some coupling at vertex-neighbor interface
 

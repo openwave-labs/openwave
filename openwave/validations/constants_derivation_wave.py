@@ -26,7 +26,7 @@ def density_derivation_wave():
     Density is set to the well-measured Planck constant and using wavelength
     calculated from wavelength_derivation.
 
-    ρ = {h} * (9λl^3) / (32π * K^11e * A^7l * c * Oe) * g_λ^-1
+    ρ = {h} * (9λl^3) / (32π * K^11e * A^7l * c * Oe) * gλ^-1
 
     Returns:
         float: Medium Density in kg/m³
@@ -127,7 +127,7 @@ def wavelength_derivation():
     Wave Constant - Wavelength Derivation
     Wavelength (longitudinal) is set to the well-measured classical electron radius.
 
-    λl = {re} * (1/Ke²) * g_λ^-1
+    λl = {re} * (1/Ke²) * gλ^-1
 
     Returns:
         float: Wavelength (longitudinal) in meters

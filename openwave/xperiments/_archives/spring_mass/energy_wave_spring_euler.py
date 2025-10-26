@@ -153,7 +153,7 @@ def integrate_motion_semiimplicit(
     """
     for i in range(position.shape[0]):
         # Skip vertices - they have prescribed motion from oscillate_vertex()
-        if granule_type[i] == 0:  # TYPE_VERTEX = 0
+        if granule_type[i] == 0:  # Granule Type: VERTEX (0)
             continue
 
         # Semi-Implicit Euler with damping

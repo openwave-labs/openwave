@@ -193,8 +193,8 @@ class BCCLattice:
     def build_granule_type(self):
         """Classify each granule by its position in the BCC lattice structure.
 
-        Classification:
-        - VERTEX (0): 8 corner vertices of the cubic lattice boundary
+        Granule Type:
+        - VERTEX (0): 8 corner vertices of the lattice boundary
         - EDGE (1): Granules on the 12 edges (but not corners)
         - FACE (2): Granules on the 6 faces (but not on edges/corners)
         - CORE (3): All other interior granules (not on boundary)
@@ -221,13 +221,13 @@ class BCCLattice:
                     at_boundary += 1
 
                 if at_boundary == 3:
-                    self.granule_type[idx] = config.TYPE_VERTEX
+                    self.granule_type[idx] = 0  # Granule Type: VERTEX (0)
                 elif at_boundary == 2:
-                    self.granule_type[idx] = config.TYPE_EDGE
+                    self.granule_type[idx] = 1  # Granule Type: EDGE (1)
                 elif at_boundary == 1:
-                    self.granule_type[idx] = config.TYPE_FACE
+                    self.granule_type[idx] = 2  # Granule Type: FACE (2)
                 else:
-                    self.granule_type[idx] = config.TYPE_CORE
+                    self.granule_type[idx] = 3  # Granule Type: CORE (3)
             else:
                 # Center granule: decode position with offset
                 center_idx = idx - corner_count
@@ -240,7 +240,7 @@ class BCCLattice:
                     self.granule_type[idx] = 4
                 else:
                     # Center granules are always in core (offset by 0.5 means never on boundary)
-                    self.granule_type[idx] = config.TYPE_CORE
+                    self.granule_type[idx] = 3  # Granule Type: CORE (3)
 
     @ti.kernel
     def build_center_vectors(self):
@@ -253,7 +253,7 @@ class BCCLattice:
         Direction vectors are stored in the directions field and used for radial operations
         such as compression/expansion forces or wave propagation from the center.
 
-        Special case: The central granule (TYPE_CENTER) has zero distance and a default
+        Special case: The central granule (Granule Type CENTER (4)) has zero distance and a default
         direction vector, ensuring it remains stationary in radial wave patterns.
         """
         # Lattice center in normalized coordinates (0.5, 0.5, 0.5)
@@ -341,11 +341,11 @@ class BCCLattice:
         # Color lookup table (type index -> RGB color)
         color_lut = ti.Matrix(
             [
-                config.COLOR_VERTEX[1],  # TYPE_VERTEX = 0
-                config.COLOR_EDGE[1],  # TYPE_EDGE = 1
-                config.COLOR_FACE[1],  # TYPE_FACE = 2
-                config.COLOR_CORE[1],  # TYPE_CORE = 3
-                config.BLACK[1],  # TYPE_CENTER = 4
+                config.COLOR_VERTEX[1],  # Granule Type: VERTEX (0)
+                config.COLOR_EDGE[1],  # Granule Type: EDGE (1)
+                config.COLOR_FACE[1],  # Granule Type: FACE (2)
+                config.COLOR_CORE[1],  # Granule Type: CORE (3)
+                config.BLACK[1],  # Granule Type: CENTER (4)
             ]
         )
 
@@ -570,11 +570,11 @@ class BCCNeighbors:
 
             # Determine max neighbors based on type
             max_neighbors = 8  # Default for CORE/CENTER
-            if granule_type == config.TYPE_VERTEX:
+            if granule_type == 0:  # Granule Type: VERTEX (0)
                 max_neighbors = 1
-            elif granule_type == config.TYPE_EDGE:
+            elif granule_type == 1:  # Granule Type: EDGE (1)
                 max_neighbors = 2
-            elif granule_type == config.TYPE_FACE:
+            elif granule_type == 2:  # Granule Type: FACE (2)
                 max_neighbors = 4
 
             # Search through all granules (simplified for small lattices)
@@ -633,11 +633,11 @@ class BCCNeighbors:
                 # For corner granules, connect to adjacent center granules
                 # Determine max connections based on granule type
                 max_neighbors = 8
-                if granule_type == config.TYPE_VERTEX:
+                if granule_type == 0:  # Granule Type: VERTEX (0)
                     max_neighbors = 1
-                elif granule_type == config.TYPE_EDGE:
+                elif granule_type == 1:  # Granule Type: EDGE (1)
                     max_neighbors = 2
-                elif granule_type == config.TYPE_FACE:
+                elif granule_type == 2:  # Granule Type: FACE (2)
                     max_neighbors = 4
 
                 # Each center is offset by (-0.5, -0.5, -0.5) from corners
