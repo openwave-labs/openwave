@@ -15,7 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit that explores whether matter and energy phenomena can be modeled using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ### Two Computational Approaches
 
@@ -36,12 +36,12 @@ OpenWave is an open-source computational physics toolkit that explores whether m
 
 OpenWave aims to:
 
-- Explore whether wave field dynamics can model matter and energy phenomena
+- Model matter and energy phenomena through wave field dynamics
 - Simulate particle emergence from standing wave patterns in fields
-- Validate whether field-based wave mechanics can reproduce known physics
+- Validate field-based wave mechanics against known physics
 - Provide computational and visualization tools for wave-based models
 
-**Scientific Status:** OpenWave is a research tool for computational exploration. It uses lattice field theory methodology to investigate whether alternative field equations can reproduce observed physics.
+**Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.
 
 ## Core Scope
 
@@ -98,7 +98,7 @@ EWT proposes a wave-propagating medium. Important clarifications:
 3. **Both are computational constructs** - discretization methods for simulation
 4. **Research focus:** Can field dynamics reproduce known physics?
 
-**Key insight:** Just as lattice QCD doesn't claim spacetime IS a cubic lattice, OpenWave doesn't claim space IS literally a granular or field-based medium. These are computational discretization methods. The research question is whether the field equations we use can successfully model observed physics.
+**Key insight:** Just as lattice QCD uses a cubic lattice as a computational tool without claiming spacetime is literally cubic, OpenWave uses granular and field-based representations as discretization methods for numerical simulation. The research investigates how well these field equations model observed physics.
 
 ### Goal: Computational Utility
 

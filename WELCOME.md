@@ -2,7 +2,7 @@
 
 ## OpenWave
 
-OpenWave is an open-source computational physics toolkit that explores whether matter and energy phenomena can be modeled using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 field-based simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 field-based simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
 
 ![OpenWave logo](images/openwave-white-small.png)
 
@@ -30,7 +30,7 @@ OpenWave provides two complementary ways to explore wave mechanics:
 - **Purpose:** Educational visualization, understanding wave formation
 - **Use Case:** Learning, illustration, animation, introduction to wave concepts
 
-**Key Insight:** Level-1 uses the same computational approach as quantum field theory (lattice discretization), while Level-0 provides intuitive visuals. Both are computational tools for exploring whether wave dynamics can model physical phenomena.
+**Key Insight:** Level-1 uses the same computational approach as quantum field theory (lattice discretization), while Level-0 provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
 
 ## Xperiments
 
@@ -160,7 +160,7 @@ For more details on the theoretical framework, mathematical derivations, and res
 
 - **Level-1** uses lattice field theory methodology (similar to lattice QCD) with EWT's field equations
 - **Level-0** provides particle-based visualizations for intuitive understanding
-- Both are computational frameworks for testing whether EWT's mathematics can reproduce experimentally observed physics
+- Both are computational frameworks for investigating EWT's mathematical predictions against experimentally observed physics
 
 ## OPENWAVE LEVELS
 
