@@ -12,7 +12,7 @@
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
 | DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
-| PLATFORM | OPENWAVE Platform <br> (from v0.3.0+) | OPENWAVE Platform <br> (from v0.4.0+) | OPENWAVE Platform <br> (vTBD)|
+| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD)|
 | | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
 
 ### Limitations of Granule-Based Wave Dynamics (LEVEL-0)

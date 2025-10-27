@@ -19,14 +19,14 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 ### Two Computational Approaches
 
-#### Level-1: Field-Based Medium (for Research)
+#### Level-1: Field-Based Medium (Research Oriented)
 
 - 3D vector field using partial differential equations (PDEs)
 - Similar methodology to lattice QCD (quantum chromodynamics)
 - Scalable for matter formation and force simulations
 - Indexed by spatial coordinates with field properties at each point
 
-#### Level-0: Granule-Based Medium (for Education)
+#### Level-0: Granule-Based Medium (Education Oriented)
 
 - Discrete particle visualization with phase-shifted oscillations
 - Intuitive for understanding wave mechanics
@@ -145,7 +145,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 
 - [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) - EPR paradox, determinism debates
 - [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) - Pilot wave theory foundations
-- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure explorations
+- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure of matter explorations
 - Gabriel LaFreniere - Standing wave visualizations
 
 **Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave field dynamics.

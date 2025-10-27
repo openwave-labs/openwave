@@ -10,17 +10,17 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 OpenWave provides two complementary ways to explore wave mechanics:
 
-### Level-1: Field-Based Medium (for Research)
+### Level-1: Field-Based Medium (Research Oriented)
 
 **Status:** Work in Progress (WIP)
 
-- **Methodology:** Lattice field theory - similar to lattice QCD computational methods
-- **Implementation:** 3D vector field grid with PDE-based wave propagation
+- **Methodology:** Lattice field theory - similar to lattice QCD computational methods (Nobel Prize 2004, 2008)
+- **Implementation:** 3D vector field grid with PDE-based wave propagation equations
 - **Scale:** Wavelength-scale to molecules
 - **Purpose:** Research simulations for matter formation, force modeling, numerical validation
 - **Use Case:** Scientific research, advanced simulations, subatomic engineering
 
-### Level-0: Granule-Based Medium (for Education)
+### Level-0: Granule-Based Medium (Education Oriented)
 
 **Status:** Released and Available
 
@@ -174,7 +174,7 @@ For more details on the theoretical framework, mathematical derivations, and res
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
 | DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
-| PLATFORM | OPENWAVE Platform <br> (from v0.3.0+) | OPENWAVE Platform <br> (from v0.4.0+) | OPENWAVE Platform <br> (vTBD)|
+| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD)|
 | | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
 
 ## Getting Help and Contributing
