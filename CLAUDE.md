@@ -13,7 +13,7 @@ To develop OpenWave, an open-source computer simulator with objectives described
 ### What is OpenWave?
 
 - Refer to `README.md` for a detailed description and scope of OpenWave.
-- Refer to `Welcome.md` for a quick intro to OpenWave (openwave/xperiments/a_readme_first/welcome.md)
+- Refer to `WELCOME.md` for a quick intro to OpenWave.
 - Refer to `/ship_log` directory for OpenWave's record of development activities.
 
 ### Known Challenges & Limitations
@@ -21,10 +21,6 @@ To develop OpenWave, an open-source computer simulator with objectives described
 #### Granularity vs. Performance
 
 - Full Planck-scale fidelity may be computationally prohibitive; require user-tunable resolution.
-
-#### Blender Limitation Lessons
-
-- Previous QSCOPE experiments showed that Blender’s physics engine was not suitable for Planck-scale simulation (wave modifier limits, animation-focused, partial physics, limited parallel processing).
 - This project will use a dedicated physics computational backend, independent of 3D modeling software.
 
 ## Project Architecture
@@ -43,16 +39,6 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 ## Scientific Documentation & Requirements
 
-### Project Requirements
-
-The `/research_requirements/original_requirements/` directory contains simulation specification documents:
-
-1. Simulating a Fundamental Particle - EWT.pdf
-2. Simulating Standalone Particles - EWT.pdf  
-3. Simulating Composite Particles - EWT.pdf
-4. Simulating Atoms - EWT.pdf
-5. Simulating Molecules - EWT.pdf
-
 ### Scientific Source Material
 
 The `/research_requirements/scientific_source/` directory contains foundational EWT research papers:
@@ -68,6 +54,16 @@ The `/research_requirements/scientific_source/` directory contains foundational 
 09. Mechanics - EWT.pdf
 
 **Key Reference**: File `06. Constants and Equations - Waves.pdf` serves as the primary constants reference for the simulation, and `04. Relationship of the Speed of Light to Aether Density` contains important Planck mass corrections that affect granule mass calculations.
+
+### Project Initial Requirements
+
+The `/research_requirements/original_requirements/` directory contains simulation specification documents:
+
+1. Simulating a Fundamental Particle - EWT.pdf
+2. Simulating Standalone Particles - EWT.pdf  
+3. Simulating Composite Particles - EWT.pdf
+4. Simulating Atoms - EWT.pdf
+5. Simulating Molecules - EWT.pdf
 
 ## Physics Context
 
