@@ -4,7 +4,7 @@
 
 OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 field-based simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
 
-![OpenWave logo](images/openwave-white-small.png)
+[![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)](https://openwavelabs.com/)
 
 ## Two Computational Approaches
 
