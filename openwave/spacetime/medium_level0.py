@@ -164,6 +164,7 @@ class BCCLattice:
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_latticeBCC()  # initialize position and velocity
@@ -646,6 +647,7 @@ class SCLattice:
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_latticeSC()  # initialize position and velocity

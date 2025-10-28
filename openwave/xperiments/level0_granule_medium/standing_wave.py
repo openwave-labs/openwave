@@ -81,7 +81,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.67, 0.08, 1.29])  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.26, 0.33, 1.63])  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -131,14 +131,13 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.22) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
-        granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
@@ -149,6 +148,22 @@ def controls():
         else:
             if sub.button("Pause"):
                 paused = True
+
+
+def color_menu():
+    """Render color selection menu."""
+    global granule_type, ironbow
+
+    with render.gui.sub_window("COLOR MENU", 0.87, 0.75, 0.13, 0.12) as sub:
+        if sub.checkbox("Medium Default Color", not (granule_type or ironbow)):
+            granule_type = False
+            ironbow = False
+        if sub.checkbox("Granule Type Color", granule_type):
+            granule_type = True
+            ironbow = False
+        if sub.checkbox("Ironbow (displacement)", ironbow):
+            ironbow = True
+            granule_type = False
 
 
 # ================================================================
@@ -193,19 +208,21 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, granule_type, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
+    global granule_type, ironbow
     global normalized_position
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = True  # Granule type coloring toggle
     show_sources = True  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 1.5  # Initialize amplitude boost
     paused = False  # Pause toggle
+    granule_type = True  # Granule type coloring toggle
+    ironbow = False  # Ironbow (displacement) coloring toggle
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -233,6 +250,7 @@ def render_xperiment(lattice):
         # Render UI overlay windows
         render.init_scene(show_axis)  # Initialize scene with lighting and camera
         controls()
+        color_menu()
         data_dashboard()
         xperiment_specs()
 
@@ -250,6 +268,7 @@ def render_xperiment(lattice):
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s
+                lattice.granule_var_color,  # Granule color variations
                 NUM_SOURCES,  # Number of active wave sources
                 t,
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
@@ -279,6 +298,12 @@ def render_xperiment(lattice):
                 normalized_position,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_type_color,
+            )
+        elif ironbow:
+            render.scene.particles(
+                normalized_position,
+                radius=normalized_radius * radius_factor,
+                per_vertex_color=lattice.granule_var_color,
             )
         else:
             render.scene.particles(

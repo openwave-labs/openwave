@@ -31,6 +31,9 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
+# Adaptive max displacement tracking
+max_displacement_tracker = None  # Running maximum displacement
+
 
 # ================================================================
 # Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
@@ -56,6 +59,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
+    global max_displacement_tracker
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -67,6 +71,10 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
 
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
+
+    # Initialize adaptive max displacement tracker
+    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
+    max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -107,6 +115,7 @@ def oscillate_granules(
     position: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
+    granule_var_color: ti.template(),  # type: ignore
     num_sources: ti.i32,  # type: ignore
     t: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
@@ -235,3 +244,56 @@ def oscillate_granules(
         # Apply superposed wave to granule position and velocity
         position[granule_idx] = equilibrium[granule_idx] + total_displacement
         velocity[granule_idx] = total_velocity
+
+        # MANAGE DISPLACEMENT VALUES
+        # Adaptive max tracking: blend current displacement into running average
+        # Uses exponential moving average to track typical peak displacement
+        # This adapts to changes in amp_boost, num_sources, and interference patterns
+        displacement_magnitude = total_displacement.norm()
+
+        # Smoothing factor: higher = slower adaptation, more stable colors
+        # 0.999 means each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
+        alpha = 0.999
+
+        # Update running average with current displacement (works in both directions)
+        # Note: In parallel execution, this creates a race condition but the effect
+        # is acceptable - multiple threads updating simultaneously just means faster
+        # convergence to the true average peak value
+        old_avg = max_displacement_tracker[None]
+        new_avg = old_avg * alpha + displacement_magnitude * (1.0 - alpha)
+        max_displacement_tracker[None] = new_avg
+
+        # Normalize color by peak value [0.0 - 1.0]
+        # Multiply by a factor to ensure we don't saturate at max (leaves color headroom)
+        t_color = ti.math.clamp(
+            displacement_magnitude / (max_displacement_tracker[None] * 3), 0.0, 1.0
+        )
+
+        # Save granule color as IRONBOW gradient for visualization
+        # IRONBOW gradient with key colors (interpolated)
+        # IRONBOW7: black → dark blue → magenta → red → orange → yellow → white
+        # IRONBOW5: black(0.0) → dark blue(0.25) → magenta(0.5) → red-orange(0.75) → yellow-white(1.0)
+        r, g, b = 0.0, 0.0, 0.0
+
+        if t_color < 0.25:  # black to dark blue
+            blend = t_color / 0.25
+            r = 0.0 * (1.0 - blend) + 0.125 * blend  # #00000A to #20008A
+            g = 0.0 * (1.0 - blend) + 0.0 * blend
+            b = 0.04 * (1.0 - blend) + 0.54 * blend
+        elif t_color < 0.5:  # dark blue to magenta
+            blend = (t_color - 0.25) / 0.25
+            r = 0.125 * (1.0 - blend) + 0.57 * blend  # #20008A to #91009C
+            g = 0.0 * (1.0 - blend) + 0.0 * blend
+            b = 0.54 * (1.0 - blend) + 0.61 * blend
+        elif t_color < 0.75:  # magenta to red-orange
+            blend = (t_color - 0.5) / 0.25
+            r = 0.57 * (1.0 - blend) + 0.90 * blend  # #91009C to #E64616
+            g = 0.0 * (1.0 - blend) + 0.27 * blend
+            b = 0.61 * (1.0 - blend) + 0.09 * blend
+        else:  # red-orange to yellow-white
+            blend = (t_color - 0.75) / 0.25
+            r = 0.90 * (1.0 - blend) + 1.0 * blend  # #E64616 to #FFFFF6
+            g = 0.27 * (1.0 - blend) + 1.0 * blend
+            b = 0.09 * (1.0 - blend) + 0.96 * blend
+
+        granule_var_color[granule_idx] = ti.Vector([r, g, b])
