@@ -31,6 +31,9 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
+# Adaptive max displacement tracking
+max_displacement_tracker = None  # Running maximum displacement
+
 
 # ================================================================
 # Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
@@ -56,6 +59,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
+    global max_displacement_tracker
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -67,6 +71,10 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
 
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
+
+    # Initialize adaptive max displacement tracker
+    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
+    max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -107,6 +115,7 @@ def oscillate_granules(
     position: ti.template(),  # type: ignore
     equilibrium: ti.template(),  # type: ignore
     velocity: ti.template(),  # type: ignore
+    granule_var_color: ti.template(),  # type: ignore
     num_sources: ti.i32,  # type: ignore
     t: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
@@ -235,3 +244,32 @@ def oscillate_granules(
         # Apply superposed wave to granule position and velocity
         position[granule_idx] = equilibrium[granule_idx] + total_displacement
         velocity[granule_idx] = total_velocity
+
+        # ================================================================
+        # DISPLACEMENT TRACKING
+        # ================================================================
+        # Compute displacement magnitude for color mapping
+        displacement_magnitude = total_displacement.norm()
+
+        # Adaptive max tracking: exponential moving average (EMA) of peak displacement
+        # Tracks typical maximum displacement to normalize colors adaptively
+        # Responds to changes in amp_boost, num_sources, and interference patterns
+        # Works bidirectionally: increases when amp goes up, decreases when amp goes down
+
+        # Smoothing factor: higher = slower adaptation, more stable colors
+        # 0.999 = each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
+        alpha = 0.999
+
+        # Update running average with current displacement
+        # Note: Parallel execution creates race conditions but effect is acceptable
+        # Multiple threads updating simultaneously just means faster convergence
+        old_avg = max_displacement_tracker[None]
+        new_avg = old_avg * alpha + displacement_magnitude * (1.0 - alpha)
+        max_displacement_tracker[None] = new_avg
+
+        # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
+        # Map displacement to IRONBOW thermal gradient color
+        # Args: (value, min, max, saturation_headroom_factor)
+        granule_var_color[granule_idx] = config.get_ironbow_color(
+            displacement_magnitude, 0.0, max_displacement_tracker[None], 3.0
+        )

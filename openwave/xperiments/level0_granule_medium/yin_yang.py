@@ -40,16 +40,16 @@ UNIVERSE_SIZE = [
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 13
+NUM_SOURCES = 12
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0]  # Initialize Z positions
-sources_position = [[0 + 0.5, 0 + 0.5, 10]]  # Wave Source 0 at center top
+sources_position = []  # Initialize source positions list
 # Generate positions for remaining sources in a circle around center top
 # r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
-for i in range(NUM_SOURCES - 1):
+for i in range(NUM_SOURCES):
     sources_position.append(
         [
             ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
@@ -62,13 +62,11 @@ for i in range(NUM_SOURCES - 1):
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-
-
-sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
+sources_phase_deg = []  # Initialize source phases list
 # Generate phase for remaining sources in a circle around center top
 # 30° offset between each source for yin-yang pattern
-for i in range(NUM_SOURCES - 1):
-    sources_phase_deg.append(i * 30)  # Wave Sources (eg. 0 = in phase)
+for i in range(NUM_SOURCES):
+    sources_phase_deg.append(i * 30)  # 0°, 30°, 60°, ..., 330°
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -133,16 +131,15 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, block_slice, granule_type, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.24) as sub:
+    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.22) as sub:
         show_axis = sub.checkbox("Axis", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
-        granule_type = sub.checkbox("Granule Type Color", granule_type)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
@@ -151,6 +148,22 @@ def controls():
         else:
             if sub.button("Pause"):
                 paused = True
+
+
+def color_menu():
+    """Render color selection menu."""
+    global granule_type, ironbow
+
+    with render.gui.sub_window("COLOR MENU", 0.87, 0.75, 0.13, 0.12) as sub:
+        if sub.checkbox("Medium Default Color", not (granule_type or ironbow)):
+            granule_type = False
+            ironbow = False
+        if sub.checkbox("Granule Type Color", granule_type):
+            granule_type = True
+            ironbow = False
+        if sub.checkbox("Ironbow (displacement)", ironbow):
+            ironbow = True
+            granule_type = False
 
 
 # ================================================================
@@ -195,19 +208,21 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, granule_type, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
+    global granule_type, ironbow
     global normalized_position
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    granule_type = True  # Granule type coloring toggle
     show_sources = True  # Show wave sources toggle
     radius_factor = 2.0  # Initialize granule size factor
     freq_boost = 0.1  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
+    granule_type = True  # Granule type coloring toggle
+    ironbow = False  # Ironbow (displacement) coloring toggle
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -235,6 +250,7 @@ def render_xperiment(lattice):
         # Render UI overlay windows
         render.init_scene(show_axis)  # Initialize scene with lighting and camera
         controls()
+        color_menu()
         data_dashboard()
         xperiment_specs()
 
@@ -252,6 +268,7 @@ def render_xperiment(lattice):
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
                 lattice.velocity_am,  # Granule velocity in am/s
+                lattice.granule_var_color,  # Granule color variations
                 NUM_SOURCES,  # Number of active wave sources
                 t,
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
@@ -280,7 +297,13 @@ def render_xperiment(lattice):
             render.scene.particles(
                 normalized_position,
                 radius=normalized_radius * radius_factor,
-                per_vertex_color=lattice.granule_color,
+                per_vertex_color=lattice.granule_type_color,
+            )
+        elif ironbow:
+            render.scene.particles(
+                normalized_position,
+                radius=normalized_radius * radius_factor,
+                per_vertex_color=lattice.granule_var_color,
             )
         else:
             render.scene.particles(

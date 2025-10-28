@@ -67,8 +67,8 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ## Explore Wave Field Dynamics with 3D Visualization
 
 ![demo1 clip](images/demo1.gif)
-![demo2 clip](images/demo2.gif)
-![demo4 clip](images/demo4.gif)
+![demo2a clip](images/demo2a.gif)
+![demo3 clip](images/demo3.gif)
 
 ## Relationship to Mainstream Physics
 
@@ -155,19 +155,21 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
-# Clone the OpenWave repository, on your terminal:
+# Make sure you have Python >=3.12 installed
+# If not, refer to Python installation instructions below
+
+# Clone the OpenWave repository, on your terminal run:
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
-
-# Make sure you have Python >=3.12 installed
-# Recommended Anaconda Package Distribution
-  install from: https://www.anaconda.com
-  conda create -n openwave python=3.12
-  conda activate openwave
 
 # Install OpenWave package & dependencies
   pip install .  # reads dependencies from pyproject.toml
 ```
+
+### Python installation instructions
+
+- Recommended: Anaconda Package Distribution
+- Install from: <https://www.anaconda.com>
 
 ## Usage
 
@@ -192,22 +194,22 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
+          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
+          <br>Standing Wave Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
-          <br>Pulse Xperiment
+          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
+          <br> Wave Interference Xperiment
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
-          <br>Standing Wave Xperiment
+          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
+          <br>X-Waves Xperiment
         </div>
       </td>
       <td style="text-align: center">
@@ -309,16 +311,16 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    LEVEL-0: GRANULE-BASED MEDIUM
-    - medium_vibration.py✓
+    L0: GRANULE-BASED Medium
+    - spacetime_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
-    - superposing_wave.py ✓
-    - the_pulse.py ✓
+    - wave_interference.py ✓
+    - wave_pulse.py ✓
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    LEVEL-1: FIELD-BASED MEDIUM
+    L1: FIELD-BASED Medium
     - *WIP*: flow_wave.py
 }
 
@@ -387,19 +389,20 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - medium_level1.py
-      - ewave_level1.py
+      - ewave_level1.py]@{ priority: 'Very High', assigned: 'xrodz' }
+    [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
       - medium_level0.py
       - ewave_level0.py]
-    [**XPERIMENTS LEVEL-0**
-      - medium_vibration.py
+    [**XPERIMENTS L0**
+      - spacetm_vibration.py
       - spherical_wave.py
       - standing_wave.py
-      - superposing_wave.py
-      - the_pulse.py
+      - wave_interference.py
+      - wave_pulse.py
       - xwaves.py
       - yin_yang.py]
     [**VALIDATIONS MODULE**
