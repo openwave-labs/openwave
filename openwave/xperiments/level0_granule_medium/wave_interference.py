@@ -1,5 +1,5 @@
 """
-XPERIMENT: Wave Interaction Exploration
+XPERIMENT: Wave Superposition Exploration
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -42,19 +42,18 @@ UNIVERSE_SIZE = [
 # Number of wave sources for this xperiment
 NUM_SOURCES = 3
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 sources_position = [
-    # [0.5, 0.5, 0.12],  # Wave Source 0 - Center (commented out)
-    [0, 0.5, 0.12],  # Wave Source 1 - Top plane (Z=1), center-back
-    [1, 0.5, 0.12],  # Wave Source 2 - Top plane (Z=1), center-front
-    [0.0, 1.0, 0.12],  # Wave Source 3 - Bottom-back-left corner
-    [1.0, 0.0, 0.0],  # Wave Source 4 - Bottom-front-right corner
-    [0.0, 0.0, 1.0],  # Wave Source 5 - Top-front-left corner
-    [1.0, 1.0, 1.0],  # Wave Source 6 - Top-back-right corner
-    [0.0, 0.0, 0.0],  # Wave Source 7 - Bottom-front-left corner
-    [1.0, 1.0, 0.0],  # Wave Source 8 - Bottom-back-right corner
+    [0.25, 0.55, 0.12],  # Wave Source 0
+    [0.75, 0.55, 0.12],  # Wave Source 1
+    [0.5, 0.15, 0.12],  # Wave Source 2
+    [1.0, 0.0, 0.0],  # Wave Source 3
+    [0.0, 0.0, 1.0],  # Wave Source 4
+    [1.0, 1.0, 1.0],  # Wave Source 5
+    [0.0, 0.0, 0.0],  # Wave Source 6
+    [1.0, 1.0, 0.0],  # Wave Source 7
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -64,14 +63,12 @@ sources_position = [
 sources_phase_deg = [
     0,  # Wave Source 0 (eg. 0 = in phase)
     0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Wave Source 2
+    180,  # Wave Source 2
     0,  # Wave Source 3
     0,  # Wave Source 4
     0,  # Wave Source 5
     0,  # Wave Source 6
     0,  # Wave Source 7
-    0,  # Wave Source 8
-    0,  # Wave Source 9
 ]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
@@ -92,7 +89,7 @@ render.init_UI(UNIVERSE_SIZE, cam_init_pos=[0.25, 0.91, 1.00])  # Initialize the
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Superposing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Wave Interference", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -223,7 +220,7 @@ def render_xperiment(lattice):
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     show_sources = True  # Show wave sources toggle
-    radius_factor = 1.5  # Initialize granule size factor
+    radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
     amp_boost = 1.0  # Initialize amplitude boost
     paused = False  # Pause toggle

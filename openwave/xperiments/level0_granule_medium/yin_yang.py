@@ -40,16 +40,16 @@ UNIVERSE_SIZE = [
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 13
+NUM_SOURCES = 12
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0]  # Initialize Z positions
-sources_position = [[0 + 0.5, 0 + 0.5, 10]]  # Wave Source 0 at center top
+sources_position = []  # Initialize source positions list
 # Generate positions for remaining sources in a circle around center top
 # r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
-for i in range(NUM_SOURCES - 1):
+for i in range(NUM_SOURCES):
     sources_position.append(
         [
             ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
@@ -62,13 +62,11 @@ for i in range(NUM_SOURCES - 1):
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-
-
-sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
+sources_phase_deg = []  # Initialize source phases list
 # Generate phase for remaining sources in a circle around center top
 # 30° offset between each source for yin-yang pattern
-for i in range(NUM_SOURCES - 1):
-    sources_phase_deg.append(i * 30)  # Wave Sources (eg. 0 = in phase)
+for i in range(NUM_SOURCES):
+    sources_phase_deg.append(i * 30)  # 0°, 30°, 60°, ..., 330°
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"

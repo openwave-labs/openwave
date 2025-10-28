@@ -42,7 +42,7 @@ UNIVERSE_SIZE = [
 # Number of wave sources for this xperiment
 NUM_SOURCES = 9
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 sources_position = [

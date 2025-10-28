@@ -42,7 +42,7 @@ UNIVERSE_SIZE = [
 # Number of wave sources for this xperiment
 NUM_SOURCES = 21
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0.166]  # Initialize Z positions
@@ -61,8 +61,6 @@ for i in range(NUM_SOURCES - 1):
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-
-
 sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
 # Generate phase for remaining sources in a circle around center top
 for i in range(NUM_SOURCES - 1):

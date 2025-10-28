@@ -42,20 +42,16 @@ UNIVERSE_SIZE = [
 # Number of wave sources for this xperiment
 NUM_SOURCES = 1
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
-]
+sources_position = [[0.5, 0.5, 0.5]]  # Wave Source position - Center
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    0,  # Wave Source 0 (eg. 0 = in phase)
-]
+sources_phase_deg = [0]  # Wave Source phase offsets in degrees
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -75,7 +71,7 @@ render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.35, 0.91, 0.68])  # Initialize the
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: The Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Wave Pulse", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")

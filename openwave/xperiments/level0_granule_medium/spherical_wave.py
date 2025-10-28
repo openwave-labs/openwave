@@ -42,20 +42,16 @@ UNIVERSE_SIZE = [
 # Number of wave sources for this xperiment
 NUM_SOURCES = 1
 
-# Wave Source positions: normalized coordinates (0-1 range, relative to universe edge)
+# Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
-]
+sources_position = [[0.5, 0.5, 0.5]]  # Wave Source position - Center
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    0,  # Wave Source 0 (eg. 0 = in phase)
-]
+sources_phase_deg = [0]  # Wave Source phase offsets in degrees
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
