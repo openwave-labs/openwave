@@ -163,13 +163,13 @@ class BCCLattice:
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_latticeBCC()  # initialize position and velocity
         self.build_granule_typeBCC()  # classifies granules
         self.find_front_octantBCC()  # for block-slicing visualization
-        self.set_granule_colorBCC(theme)  # colors based on granule_type
+        self.set_granule_type_colorBCC(theme)  # colors based on granule_type
         self.set_sliced_plane_objectsBCC()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -299,7 +299,7 @@ class BCCLattice:
                 else 0
             )
 
-    def set_granule_colorBCC(self, theme="OCEAN"):
+    def set_granule_type_colorBCC(self, theme="OCEAN"):
         """Assign colors to granules based on their classified type and color theme.
 
         Args:
@@ -315,10 +315,10 @@ class BCCLattice:
         color_core = ti.Vector(config.COLOR_MEDIUM[1])
 
         # Call GPU kernel with theme colors
-        self._apply_granule_colorsBCC(color_vertex, color_edge, color_face, color_core)
+        self._apply_granule_type_colorsBCC(color_vertex, color_edge, color_face, color_core)
 
     @ti.kernel
-    def _apply_granule_colorsBCC(
+    def _apply_granule_type_colorsBCC(
         self,
         color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
         color_edge: ti.types.vector(3, ti.f32),  # type: ignore
@@ -346,7 +346,7 @@ class BCCLattice:
         for i in range(self.total_granules):
             granule_type = self.granule_type[i]
             if 0 <= granule_type <= 3:
-                self.granule_color[i] = ti.Vector(
+                self.granule_type_color[i] = ti.Vector(
                     [
                         color_lut[granule_type, 0],
                         color_lut[granule_type, 1],
@@ -354,7 +354,7 @@ class BCCLattice:
                     ]
                 )
             else:
-                self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
+                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
     def set_sliced_plane_objectsBCC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
@@ -408,7 +408,7 @@ class BCCLattice:
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    self.granule_color[idx] = probe_color
+                    self.granule_type_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -465,7 +465,7 @@ class BCCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
             # XZ plane (y at boundary)
@@ -482,7 +482,7 @@ class BCCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
             # XY plane (z at boundary)
@@ -499,7 +499,7 @@ class BCCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
 
@@ -645,13 +645,13 @@ class SCLattice:
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 
         # Populate the lattice & index granule types
         self.populate_latticeSC()  # initialize position and velocity
         self.build_granule_typeSC()  # classifies granules
         self.find_front_octantSC()  # for block-slicing visualization
-        self.set_granule_colorSC(theme)  # colors based on granule_type
+        self.set_granule_type_colorSC(theme)  # colors based on granule_type
         self.set_sliced_plane_objectsSC()  # set near/far-fields & random probes on sliced planes
 
     @ti.kernel
@@ -753,7 +753,7 @@ class SCLattice:
                 else 0
             )
 
-    def set_granule_colorSC(self, theme="OCEAN"):
+    def set_granule_type_colorSC(self, theme="OCEAN"):
         """Assign colors to granules based on their classified type and color theme.
 
         Args:
@@ -769,10 +769,10 @@ class SCLattice:
         color_core = ti.Vector(config.COLOR_MEDIUM[1])
 
         # Call GPU kernel with theme colors
-        self._apply_granule_colorsSC(color_vertex, color_edge, color_face, color_core)
+        self._apply_granule_type_colorsSC(color_vertex, color_edge, color_face, color_core)
 
     @ti.kernel
-    def _apply_granule_colorsSC(
+    def _apply_granule_type_colorsSC(
         self,
         color_vertex: ti.types.vector(3, ti.f32),  # type: ignore
         color_edge: ti.types.vector(3, ti.f32),  # type: ignore
@@ -800,7 +800,7 @@ class SCLattice:
         for i in range(self.total_granules):
             granule_type = self.granule_type[i]
             if 0 <= granule_type <= 3:
-                self.granule_color[i] = ti.Vector(
+                self.granule_type_color[i] = ti.Vector(
                     [
                         color_lut[granule_type, 0],
                         color_lut[granule_type, 1],
@@ -808,7 +808,7 @@ class SCLattice:
                     ]
                 )
             else:
-                self.granule_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
+                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
 
     def set_sliced_plane_objectsSC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
@@ -844,7 +844,7 @@ class SCLattice:
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
-                    self.granule_color[idx] = probe_color
+                    self.granule_type_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
         wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
@@ -902,7 +902,7 @@ class SCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
             # XZ plane (y at boundary)
@@ -919,7 +919,7 @@ class SCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
             # XY plane (z at boundary)
@@ -936,7 +936,7 @@ class SCLattice:
                 # Check if on a target circle
                 for n in range(1, num_circles + 1):
                     if ti.abs(dist_2d - ti.f32(n) * wavelength_am) <= circle_tolerance:
-                        self.granule_color[idx] = field_color
+                        self.granule_type_color[idx] = field_color
                         break
 
 

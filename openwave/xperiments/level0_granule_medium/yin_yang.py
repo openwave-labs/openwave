@@ -280,7 +280,7 @@ def render_xperiment(lattice):
             render.scene.particles(
                 normalized_position,
                 radius=normalized_radius * radius_factor,
-                per_vertex_color=lattice.granule_color,
+                per_vertex_color=lattice.granule_type_color,
             )
         else:
             render.scene.particles(
