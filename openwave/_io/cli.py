@@ -301,7 +301,7 @@ def main():
         print(f"{'=' * 64}")
 
         try:
-            input("\nPress ENTER to return to menu...")
+            print("\nReturning to menu...")
         except KeyboardInterrupt:
             print("\n\nExiting...")
             sys.exit(0)
