@@ -312,11 +312,11 @@ class `HEAT MODULE
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
     LEVEL-0: GRANULE-BASED MEDIUM
-    - medium_vibration.py✓
+    - spacetime_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
-    - superposing_wave.py ✓
-    - the_pulse.py ✓
+    - wave_interference.py ✓
+    - wave_pulse.py ✓
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
@@ -389,19 +389,20 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - medium_level1.py
-      - ewave_level1.py
+      - ewave_level1.py]@{ priority: 'Very High', assigned: 'xrodz' }
+    [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
       - medium_level0.py
       - ewave_level0.py]
-    [**XPERIMENTS LEVEL-0**
-      - medium_vibration.py
+    [**XPERIMENTS L0**
+      - spacetm_vibration.py
       - spherical_wave.py
       - standing_wave.py
-      - superposing_wave.py
-      - the_pulse.py
+      - wave_interference.py
+      - wave_pulse.py
       - xwaves.py
       - yin_yang.py]
     [**VALIDATIONS MODULE**
