@@ -89,17 +89,6 @@ OpenWave implements Energy Wave Theory (EWT), a deterministic wave mechanics fra
 - Research question: Can classical wave field dynamics reproduce quantum-like phenomena?
 - EWT provides testable predictions that can be validated against experimental data
 
-### The "Medium" Question
-
-EWT proposes a wave-propagating medium. Important clarifications:
-
-1. **In Level-1:** The "medium" is a 3D vector field (computational grid storing field values)
-2. **In Level-0:** The "medium" is a collection of granules (computational particles)
-3. **Both are computational constructs** - discretization methods for simulation
-4. **Research focus:** Can field dynamics reproduce known physics?
-
-**Key insight:** Just as lattice QCD uses a cubic lattice as a computational tool without claiming spacetime is literally cubic, OpenWave uses granular and field-based representations as discretization methods for numerical simulation. The research investigates how well these field equations model observed physics.
-
 ### Goal: Computational Utility
 
 OpenWave serves two distinct purposes depending on implementation level:
