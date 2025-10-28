@@ -155,19 +155,21 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
-# Clone the OpenWave repository, on your terminal:
+# Make sure you have Python >=3.12 installed
+# If not, refer to Python installation instructions below
+
+# Clone the OpenWave repository, on your terminal run:
   git clone https://github.com/openwave-labs/openwave.git
   cd openwave # point to local directory where OpenWave was installed
-
-# Make sure you have Python >=3.12 installed
-# Recommended Anaconda Package Distribution
-  install from: https://www.anaconda.com
-  conda create -n openwave python=3.12
-  conda activate openwave
 
 # Install OpenWave package & dependencies
   pip install .  # reads dependencies from pyproject.toml
 ```
+
+### Python installation instructions
+
+- Recommended: Anaconda Package Distribution
+- Install from: <https://www.anaconda.com>
 
 ## Usage
 
