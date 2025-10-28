@@ -67,8 +67,8 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ## Explore Wave Field Dynamics with 3D Visualization
 
 ![demo1 clip](images/demo1.gif)
-![demo2 clip](images/demo2.gif)
-![demo4 clip](images/demo4.gif)
+![demo2a clip](images/demo2a.gif)
+![demo3 clip](images/demo3.gif)
 
 ## Relationship to Mainstream Physics
 
@@ -194,22 +194,22 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
+          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
+          <br>Standing Wave Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_pulse.png" height="200px" alt="xperiment"></a>
-          <br>Pulse Xperiment
+          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
+          <br> Wave Interference Xperiment
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_standing.png" height="200px" alt="xperiment"></a>
-          <br>Standing Wave Xperiment
+          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
+          <br>X-Waves Xperiment
         </div>
       </td>
       <td style="text-align: center">
