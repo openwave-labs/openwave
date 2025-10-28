@@ -40,7 +40,7 @@ UNIVERSE_SIZE = [
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 21
+NUM_SOURCES = 17
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
@@ -51,8 +51,8 @@ sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at cente
 for i in range(NUM_SOURCES - 1):
     sources_position.append(
         [
-            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
-            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.5 + 0.5,
+            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.333 + 0.5,
+            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.333 + 0.5,
             z_position[0],
         ]
     )
@@ -214,10 +214,10 @@ def render_xperiment(lattice):
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    show_sources = True  # Show wave sources toggle
+    show_sources = False  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
     freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 1.5  # Initialize amplitude boost
+    amp_boost = 1.0  # Initialize amplitude boost
     paused = False  # Pause toggle
     granule_type = True  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
