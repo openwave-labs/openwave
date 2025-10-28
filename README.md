@@ -311,7 +311,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    LEVEL-0: GRANULE-BASED MEDIUM
+    L0: GRANULE-BASED Medium
     - spacetime_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
@@ -320,7 +320,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    LEVEL-1: FIELD-BASED MEDIUM
+    L1: FIELD-BASED Medium
     - *WIP*: flow_wave.py
 }
 
