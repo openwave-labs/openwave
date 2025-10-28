@@ -245,55 +245,31 @@ def oscillate_granules(
         position[granule_idx] = equilibrium[granule_idx] + total_displacement
         velocity[granule_idx] = total_velocity
 
-        # MANAGE DISPLACEMENT VALUES
-        # Adaptive max tracking: blend current displacement into running average
-        # Uses exponential moving average to track typical peak displacement
-        # This adapts to changes in amp_boost, num_sources, and interference patterns
+        # ================================================================
+        # DISPLACEMENT TRACKING
+        # ================================================================
+        # Compute displacement magnitude for color mapping
         displacement_magnitude = total_displacement.norm()
 
+        # Adaptive max tracking: exponential moving average (EMA) of peak displacement
+        # Tracks typical maximum displacement to normalize colors adaptively
+        # Responds to changes in amp_boost, num_sources, and interference patterns
+        # Works bidirectionally: increases when amp goes up, decreases when amp goes down
+
         # Smoothing factor: higher = slower adaptation, more stable colors
-        # 0.999 means each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
+        # 0.999 = each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
         alpha = 0.999
 
-        # Update running average with current displacement (works in both directions)
-        # Note: In parallel execution, this creates a race condition but the effect
-        # is acceptable - multiple threads updating simultaneously just means faster
-        # convergence to the true average peak value
+        # Update running average with current displacement
+        # Note: Parallel execution creates race conditions but effect is acceptable
+        # Multiple threads updating simultaneously just means faster convergence
         old_avg = max_displacement_tracker[None]
         new_avg = old_avg * alpha + displacement_magnitude * (1.0 - alpha)
         max_displacement_tracker[None] = new_avg
 
-        # Normalize color by peak value [0.0 - 1.0]
-        # Multiply by a factor to ensure we don't saturate at max (leaves color headroom)
-        t_color = ti.math.clamp(
-            displacement_magnitude / (max_displacement_tracker[None] * 3), 0.0, 1.0
+        # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
+        # Map displacement to IRONBOW thermal gradient color
+        # Args: (value, min, max, saturation_headroom_factor)
+        granule_var_color[granule_idx] = config.get_ironbow_color(
+            displacement_magnitude, 0.0, max_displacement_tracker[None], 3.0
         )
-
-        # Save granule color as IRONBOW gradient for visualization
-        # IRONBOW gradient with key colors (interpolated)
-        # IRONBOW7: black → dark blue → magenta → red → orange → yellow → white
-        # IRONBOW5: black(0.0) → dark blue(0.25) → magenta(0.5) → red-orange(0.75) → yellow-white(1.0)
-        r, g, b = 0.0, 0.0, 0.0
-
-        if t_color < 0.25:  # black to dark blue
-            blend = t_color / 0.25
-            r = 0.0 * (1.0 - blend) + 0.125 * blend  # #00000A to #20008A
-            g = 0.0 * (1.0 - blend) + 0.0 * blend
-            b = 0.04 * (1.0 - blend) + 0.54 * blend
-        elif t_color < 0.5:  # dark blue to magenta
-            blend = (t_color - 0.25) / 0.25
-            r = 0.125 * (1.0 - blend) + 0.57 * blend  # #20008A to #91009C
-            g = 0.0 * (1.0 - blend) + 0.0 * blend
-            b = 0.54 * (1.0 - blend) + 0.61 * blend
-        elif t_color < 0.75:  # magenta to red-orange
-            blend = (t_color - 0.5) / 0.25
-            r = 0.57 * (1.0 - blend) + 0.90 * blend  # #91009C to #E64616
-            g = 0.0 * (1.0 - blend) + 0.27 * blend
-            b = 0.61 * (1.0 - blend) + 0.09 * blend
-        else:  # red-orange to yellow-white
-            blend = (t_color - 0.75) / 0.25
-            r = 0.90 * (1.0 - blend) + 1.0 * blend  # #E64616 to #FFFFF6
-            g = 0.27 * (1.0 - blend) + 1.0 * blend
-            b = 0.09 * (1.0 - blend) + 0.96 * blend
-
-        granule_var_color[granule_idx] = ti.Vector([r, g, b])
