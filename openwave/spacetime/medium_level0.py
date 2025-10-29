@@ -60,53 +60,42 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
         scaled-up unit-cell properties and scale factor.
 
         Args:
-            universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
+            init_universe_size: Requested simulation domain size [x, y, z] in meters (can be asymmetric)
+                Will be rounded to fit integer number of cubic unit-cells.
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
-        # Compute lattice total energy from energy-wave equation
-        universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
-        self.energy = equations.energy_wave_equation(universe_volume)  # in Joules
-        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
-
-        # Set universe properties (simulation domain) - asymmetric support
+        # Compute initial lattice properties (before rounding and lattice symmetry)
+        init_universe_volume = (
+            init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
+        )
         self.target_granules = config.TARGET_GRANULES
-        self.universe_size = universe_size  # [x, y, z] dimensions
-        self.universe_size_am = [
-            universe_size[0] / constants.ATTOMETTER,
-            universe_size[1] / constants.ATTOMETTER,
-            universe_size[2] / constants.ATTOMETTER,
-        ]
 
-        # Compute initial unit-cell properties (before rounding and lattice symmetry)
-        # BCC has 2 granules per unit cell (8 corners shared + 1 center)
-        init_unit_cell_volume = universe_volume / (self.target_granules / 2)
-        init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
+        # Calculate unit cell properties
+        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
+        # This preserves crystal structure. Only the NUMBER of cells varies per axis.
+        unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
+        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
 
         # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
-        # Round to nearest odd integer for symmetric grid per axis
         self.raw_size = [
-            universe_size[0] / init_unit_cell_edge,
-            universe_size[1] / init_unit_cell_edge,
-            universe_size[2] / init_unit_cell_edge,
+            init_universe_size[0] / self.unit_cell_edge,
+            init_universe_size[1] / self.unit_cell_edge,
+            init_universe_size[2] / self.unit_cell_edge,
         ]
+        # Round to nearest odd integer for symmetric grid per axis
         self.grid_size = [
             int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
             int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
             int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
         ]
-
-        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
-        # This preserves BCC crystal structure. Only the NUMBER of cells varies per axis.
-        self.unit_cell_edge = init_unit_cell_edge  # single scalar - cubic symmetry preserved
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
         self.universe_size = [
@@ -130,6 +119,9 @@ class BCCLattice:
             self.grid_size[1],
             self.grid_size[2],
         )
+        self.universe_volume = (
+            self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
+        )
 
         # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
@@ -137,15 +129,10 @@ class BCCLattice:
         )  # linear scale factor from Planck length, increases computability
 
         # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >2 for Nyquist (same for all axes with cubic cells)
+        # granules per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
-
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
-        self.max_uni_res = max(
-            self.universe_size[0] / constants.EWAVE_LENGTH,
-            self.universe_size[1] / constants.EWAVE_LENGTH,
-            self.universe_size[2] / constants.EWAVE_LENGTH,
-        )
+        self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Total granules: corners + centers (asymmetric grid)
         # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
@@ -153,6 +140,11 @@ class BCCLattice:
         corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
         center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
         self.total_granules = corner_count + center_count
+
+        # Compute lattice total energy from energy-wave equation
+        self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
+        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
@@ -544,53 +536,42 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
         scaled-up unit-cell properties and scale factor.
 
         Args:
-            universe_size: Simulation domain size [x, y, z] in meters (can be asymmetric)
+            init_universe_size: Requested simulation domain size [x, y, z] in meters (can be asymmetric)
+                Will be rounded to fit integer number of cubic unit-cells.
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
-        # Compute lattice total energy from energy-wave equation
-        universe_volume = universe_size[0] * universe_size[1] * universe_size[2]
-        self.energy = equations.energy_wave_equation(universe_volume)  # in Joules
-        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
-
-        # Set universe properties (simulation domain) - asymmetric support
+        # Compute initial lattice properties (before rounding and lattice symmetry)
+        init_universe_volume = (
+            init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
+        )
         self.target_granules = config.TARGET_GRANULES
-        self.universe_size = universe_size  # [x, y, z] dimensions
-        self.universe_size_am = [
-            universe_size[0] / constants.ATTOMETTER,
-            universe_size[1] / constants.ATTOMETTER,
-            universe_size[2] / constants.ATTOMETTER,
-        ]
 
-        # Compute initial unit-cell properties (before rounding and lattice symmetry)
-        # SC has 1 granule per unit cell (each corner is shared by 8 cells = 1/8 per cell * 8 corners)
-        init_unit_cell_volume = universe_volume / self.target_granules
-        init_unit_cell_edge = init_unit_cell_volume ** (1 / 3)  # unit cell edge (a^3 = volume)
+        # Calculate unit cell properties
+        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
+        # This preserves crystal structure. Only the NUMBER of cells varies per axis.
+        unit_cell_volume = init_universe_volume / self.target_granules  # SC = 1 /unit-cell
+        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
 
         # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
-        # Round to nearest odd integer for symmetric grid per axis
         self.raw_size = [
-            universe_size[0] / init_unit_cell_edge,
-            universe_size[1] / init_unit_cell_edge,
-            universe_size[2] / init_unit_cell_edge,
+            init_universe_size[0] / self.unit_cell_edge,
+            init_universe_size[1] / self.unit_cell_edge,
+            init_universe_size[2] / self.unit_cell_edge,
         ]
+        # Round to nearest odd integer for symmetric grid per axis
         self.grid_size = [
             int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
             int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
             int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
         ]
-
-        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
-        # This preserves SC crystal structure. Only the NUMBER of cells varies per axis.
-        self.unit_cell_edge = init_unit_cell_edge  # single scalar - cubic symmetry preserved
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
         self.universe_size = [
@@ -614,6 +595,9 @@ class SCLattice:
             self.grid_size[1],
             self.grid_size[2],
         )
+        self.universe_volume = (
+            self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
+        )
 
         # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
@@ -621,21 +605,21 @@ class SCLattice:
         )  # linear scale factor from Planck length, increases computability
 
         # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >2 for Nyquist (same for all axes with cubic cells)
+        # granules per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
-
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
-        self.max_uni_res = max(
-            self.universe_size[0] / constants.EWAVE_LENGTH,
-            self.universe_size[1] / constants.EWAVE_LENGTH,
-            self.universe_size[2] / constants.EWAVE_LENGTH,
-        )
+        self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Total granules: corners only (no centers for SC) - asymmetric grid
         # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
         self.total_granules = (
             (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
         )
+
+        # Compute lattice total energy from energy-wave equation
+        self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
+        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
@@ -956,9 +940,9 @@ if __name__ == "__main__":
     # ================================================================
 
     UNIVERSE_SIZE = [
-        4 * constants.EWAVE_LENGTH,
-        4 * constants.EWAVE_LENGTH,
-        4 * constants.EWAVE_LENGTH,
+        2e-16,
+        2e-16,
+        1e-16,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
     lattice = BCCLattice(UNIVERSE_SIZE)
@@ -979,6 +963,13 @@ if __name__ == "__main__":
     print(f"  Granule count: {lattice.total_granules:,}")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
     print(f"  Creation time: {lattice_time:.3f} seconds")
+
+    # Resolutions
+    print(f"\nLattice Linear Resolutions:")
+    print(f"  Energy-wave resolution: {lattice.ewave_res:.2f} granules per wavelength")
+    print(
+        f"  Max universe resolution: {lattice.max_uni_res:.2f} ewavelengths per max universe edge"
+    )
 
     # Create granule
     granule = BCCGranule(lattice.unit_cell_edge)
