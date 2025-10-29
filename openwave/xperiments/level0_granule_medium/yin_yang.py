@@ -96,37 +96,43 @@ def xperiment_specs():
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
+    global t, freq_boost, frame
+
+    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.42, 0.19, 0.58) as sub:
         sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
-        sub.text("")
-        sub.text("--- Scaling-Up (for computation) ---")
+        sub.text("\n--- Scaling-Up (for computation) ---")
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
-        sub.text("")
-        sub.text("--- Sim Resolution (linear) ---")
+        sub.text("\n--- Sim Resolution (linear) ---")
         sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
         if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
-        sub.text("")
-        sub.text("--- ENERGY-WAVE ---")
+        sub.text("\n--- ENERGY-WAVE ---")
         sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
         sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
-        sub.text("")
-        sub.text("--- Sim Universe Wave Energy ---")
+        sub.text("\n--- Sim Universe Wave Energy ---")
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+
+        sub.text("\n--- TIME MICROSCOPE ---")
+        slowed_mo = config.SLOW_MO / freq_boost
+        fps = 0 if t == 0 else frame / t
+        sub.text(f"Frames Rendered: {frame}")
+        sub.text(f"Real Time: {t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
+        sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
+        sub.text(f"Sim Time (slow-mo): {t:.2f}s ({fps:.0f} FPS)")
 
 
 def controls():
@@ -212,6 +218,7 @@ def render_xperiment(lattice):
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global normalized_position
+    global t, freq_boost, frame
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
