@@ -50,8 +50,8 @@ sources_position = [
     [0.25, 0.55, z_position[0]],  # Wave Source 0
     [0.75, 0.55, z_position[0]],  # Wave Source 1
     [0.5, 0.15, z_position[0]],  # Wave Source 2
-    [0.0, 0.0, z_position[0]],  # Wave Source 4
-    [1.0, 0.0, z_position[0]],  # Wave Source 3
+    [0.0, 0.0, z_position[0]],  # Wave Source 3
+    [1.0, 0.0, z_position[0]],  # Wave Source 4
     [1.0, 0.75, z_position[0]],  # Wave Source 5
     [0.0, 0.75, z_position[0]],  # Wave Source 6
 ]
