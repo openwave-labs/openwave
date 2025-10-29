@@ -45,15 +45,15 @@ NUM_SOURCES = 3
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
+z_position = [0.12]  # Initialize Z positions
 sources_position = [
-    [0.25, 0.55, 0.12],  # Wave Source 0
-    [0.75, 0.55, 0.12],  # Wave Source 1
-    [0.5, 0.15, 0.12],  # Wave Source 2
-    [1.0, 0.0, 0.0],  # Wave Source 3
-    [0.0, 0.0, 1.0],  # Wave Source 4
-    [1.0, 1.0, 1.0],  # Wave Source 5
-    [0.0, 0.0, 0.0],  # Wave Source 6
-    [1.0, 1.0, 0.0],  # Wave Source 7
+    [0.25, 0.55, z_position[0]],  # Wave Source 0
+    [0.75, 0.55, z_position[0]],  # Wave Source 1
+    [0.5, 0.15, z_position[0]],  # Wave Source 2
+    [0.0, 0.0, z_position[0]],  # Wave Source 4
+    [1.0, 0.0, z_position[0]],  # Wave Source 3
+    [1.0, 0.75, z_position[0]],  # Wave Source 5
+    [0.0, 0.75, z_position[0]],  # Wave Source 6
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -68,7 +68,6 @@ sources_phase_deg = [
     0,  # Wave Source 4
     0,  # Wave Source 5
     0,  # Wave Source 6
-    0,  # Wave Source 7
 ]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)

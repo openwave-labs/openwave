@@ -45,7 +45,7 @@ NUM_SOURCES = 17
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [0.166]  # Initialize Z positions
+z_position = [0.175]  # Initialize Z positions
 sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at center top
 # Generate positions for remaining sources in a circle around center top
 for i in range(NUM_SOURCES - 1):
