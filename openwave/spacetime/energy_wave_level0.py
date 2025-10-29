@@ -196,7 +196,7 @@ def oscillate_granules(
         total_displacement = ti.Vector([0.0, 0.0, 0.0])  # sum of displacements from all sources
         total_velocity = ti.Vector([0.0, 0.0, 0.0])  # sum of velocities from all sources
 
-        # Sum contributions from all sources (sequential loop, num_sources iterations)
+        # Sum contributions from all sources (superposition principle)
         for source_idx in range(num_sources):
             # Get precomputed direction and distance for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
@@ -217,24 +217,24 @@ def oscillate_granules(
             r_safe = ti.max(r, r_reference)  # minimum 1 wavelength from source
             amplitude_falloff = r_reference / r_safe
 
-            # Total amplitude at this distance from source
+            # Total amplitude at granule distance from source
             # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-            amplitude_uncapped = amplitude_am * amplitude_falloff * amp_boost
+            amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
 
             # Step 2: Cap amplitude to distance from source (A ≤ r)
             # Prevents non-physical behavior: granules crossing through wave source
             # When A > r, displacement could exceed distance to source, placing granule
             # on opposite side of source (physically impossible for longitudinal waves)
             # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
-            amplitude_at_r = ti.min(amplitude_uncapped, r)
+            amplitude_at_r_cap = ti.min(amplitude_at_r, r)
 
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
-            displacement_magnitude = amplitude_at_r * ti.cos(omega * t + total_phase)
+            displacement_magnitude = amplitude_at_r_cap * ti.cos(omega * t + total_phase)
             source_displacement = displacement_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
-            velocity_magnitude = -amplitude_at_r * omega * ti.sin(omega * t + total_phase)
+            velocity_magnitude = -amplitude_at_r_cap * omega * ti.sin(omega * t + total_phase)
             source_velocity = velocity_magnitude * direction
 
             # Accumulate this source's contribution (wave superposition)
