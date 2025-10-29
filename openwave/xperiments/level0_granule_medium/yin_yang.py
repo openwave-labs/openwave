@@ -86,7 +86,7 @@ render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.50, 0.80, 1.50])  # Initialize the
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Yin-Yang Spiral Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
