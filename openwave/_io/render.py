@@ -163,35 +163,73 @@ def cam_instructions():
         sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z))
 
 
-def axis_lines():
+def axis_lines(tick_spacing=0.25):
     """Render XYZ axis lines for orientation."""
-    axis = ti.Vector.field(3, dtype=ti.f32, shape=6)
+    tick_width = 0.02
+    num_ticks = int(2.0 / tick_spacing) + 1
+    # Calculate total number of points: 6 for axis lines + (num_ticks-1) * 3 axes * 2 points per tick
+    total_points = 6 + (num_ticks - 1) * 3 * 2
+    axis = ti.Vector.field(3, dtype=ti.f32, shape=total_points)
 
-    # Populate axis line endpoints
-    axis.from_numpy(
-        np.array(
-            [
-                [0.0, 0.0, 0.0],
-                [2.0, 0.0, 0.0],
-                [0.0, 0.0, 0.0],
-                [0.0, 2.0, 0.0],
-                [0.0, 0.0, 0.0],
-                [0.0, 0.0, 2.0],
-            ],
-            dtype=np.float32,
-        )
+    # Define axis line endpoints
+    axis_prep = np.array(
+        [
+            [0.0, 0.0, 0.0],
+            [2.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 2.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 0.0, 2.0],
+        ],
+        dtype=np.float32,
     )
 
+    # Define axis tick marks
+    for t in range(1, num_ticks):
+        offset = t * tick_spacing
+        # X-axis ticks
+        axis_prep = np.vstack(
+            (
+                axis_prep,
+                np.array(
+                    [[offset, -tick_width / 2, 0.0], [offset, 0.0, 0.0]],
+                    dtype=np.float32,
+                ),
+            )
+        )
+        # Y-axis ticks
+        axis_prep = np.vstack(
+            (
+                axis_prep,
+                np.array(
+                    [[-tick_width / 2, offset, 0.0], [0.0, offset, 0.0]],
+                    dtype=np.float32,
+                ),
+            )
+        )
+        # Z-axis ticks
+        axis_prep = np.vstack(
+            (
+                axis_prep,
+                np.array(
+                    [[-tick_width / 2, 0.0, offset], [0.0, 0.0, offset]],
+                    dtype=np.float32,
+                ),
+            )
+        )
+
+    # Populate axis line endpoints
+    axis.from_numpy(axis_prep)
     scene.lines(axis, color=config.COLOR_INFRA[1], width=2)
 
 
-def init_scene(show_axis=True):
+def init_scene(show_axis=True, tick_spacing=0.25):
     """Initialize the 3D scene with lighting and camera controls."""
     scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
     cam_instructions()  # Overlay camera instructions
     if show_axis:
-        axis_lines()  # Render XYZ axis lines
+        axis_lines(tick_spacing)  # Render XYZ axis lines
 
 
 def show_scene():
