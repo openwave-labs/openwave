@@ -11,11 +11,12 @@ import pyautogui
 from openwave.common import config
 
 
-def init_UI(universe_size=[1.0, 1.0, 1.0], cam_init_pos=[2.0, 2.0, 1.5]):
+def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0, 2.0, 1.5]):
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
     global mouse_sensitivity
+    global axis_field
 
     # Get package name and version from metadata
     pkg_name = metadata("OPENWAVE")["Name"]
@@ -72,6 +73,45 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], cam_init_pos=[2.0, 2.0, 1.5]):
     mouse_sensitivity = 0.5
     last_mouse_pos = None
     canvas.set_background_color(config.COLOR_SPACE[1])
+
+    # Initialize axis field only once (tick_spacing is constant per session)
+    tick_width = 0.01
+    num_ticks = int(2.0 / tick_spacing) + 1
+    # Calculate total number of points: 6 for axis lines + (num_ticks-1) * 3 axes * 2 points per tick
+    total_points = 6 + (num_ticks - 1) * 3 * 2
+    axis_field = ti.Vector.field(3, dtype=ti.f32, shape=total_points)
+    populate_axis_field(tick_spacing, tick_width, num_ticks)
+
+
+@ti.kernel
+def populate_axis_field(
+    tick_spacing: ti.f32, tick_width: ti.f32, num_ticks: ti.i32  # type: ignore
+):
+    """Populate axis field using Taichi kernel for performance."""
+    # Axis lines (6 points = 3 axes * 2 endpoints each)
+    axis_field[0] = ti.Vector([0.0, 0.0, 0.0])  # X-axis start
+    axis_field[1] = ti.Vector([2.0, 0.0, 0.0])  # X-axis end
+    axis_field[2] = ti.Vector([0.0, 0.0, 0.0])  # Y-axis start
+    axis_field[3] = ti.Vector([0.0, 2.0, 0.0])  # Y-axis end
+    axis_field[4] = ti.Vector([0.0, 0.0, 0.0])  # Z-axis start
+    axis_field[5] = ti.Vector([0.0, 0.0, 2.0])  # Z-axis end
+
+    # Tick marks (parallel loop for performance)
+    for t in range(1, num_ticks):
+        offset = t * tick_spacing
+        idx_base = 6 + (t - 1) * 6  # Starting index for this tick's 6 points
+
+        # X-axis ticks (2 points)
+        axis_field[idx_base + 0] = ti.Vector([offset, -tick_width, 0.0])
+        axis_field[idx_base + 1] = ti.Vector([offset, 0.0, 0.0])
+
+        # Y-axis ticks (2 points)
+        axis_field[idx_base + 2] = ti.Vector([-tick_width, offset, 0.0])
+        axis_field[idx_base + 3] = ti.Vector([0.0, offset, 0.0])
+
+        # Z-axis ticks (2 points)
+        axis_field[idx_base + 4] = ti.Vector([-tick_width, 0.0, offset])
+        axis_field[idx_base + 5] = ti.Vector([0.0, 0.0, offset])
 
 
 def scene_lighting():
@@ -163,73 +203,16 @@ def cam_instructions():
         sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z))
 
 
-def axis_lines(tick_spacing=0.25):
-    """Render XYZ axis lines for orientation."""
-    tick_width = 0.02
-    num_ticks = int(2.0 / tick_spacing) + 1
-    # Calculate total number of points: 6 for axis lines + (num_ticks-1) * 3 axes * 2 points per tick
-    total_points = 6 + (num_ticks - 1) * 3 * 2
-    axis = ti.Vector.field(3, dtype=ti.f32, shape=total_points)
-
-    # Define axis line endpoints
-    axis_prep = np.array(
-        [
-            [0.0, 0.0, 0.0],
-            [2.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0],
-            [0.0, 2.0, 0.0],
-            [0.0, 0.0, 0.0],
-            [0.0, 0.0, 2.0],
-        ],
-        dtype=np.float32,
-    )
-
-    # Define axis tick marks
-    for t in range(1, num_ticks):
-        offset = t * tick_spacing
-        # X-axis ticks
-        axis_prep = np.vstack(
-            (
-                axis_prep,
-                np.array(
-                    [[offset, -tick_width / 2, 0.0], [offset, 0.0, 0.0]],
-                    dtype=np.float32,
-                ),
-            )
-        )
-        # Y-axis ticks
-        axis_prep = np.vstack(
-            (
-                axis_prep,
-                np.array(
-                    [[-tick_width / 2, offset, 0.0], [0.0, offset, 0.0]],
-                    dtype=np.float32,
-                ),
-            )
-        )
-        # Z-axis ticks
-        axis_prep = np.vstack(
-            (
-                axis_prep,
-                np.array(
-                    [[-tick_width / 2, 0.0, offset], [0.0, 0.0, offset]],
-                    dtype=np.float32,
-                ),
-            )
-        )
-
-    # Populate axis line endpoints
-    axis.from_numpy(axis_prep)
-    scene.lines(axis, color=config.COLOR_INFRA[1], width=2)
-
-
-def init_scene(show_axis=True, tick_spacing=0.25):
+def init_scene(show_axis=True):
     """Initialize the 3D scene with lighting and camera controls."""
+    global axis_field
+
     scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
     cam_instructions()  # Overlay camera instructions
     if show_axis:
-        axis_lines(tick_spacing)  # Render XYZ axis lines
+        # Render the pre-populated axis field (very fast, no data transfer)
+        scene.lines(axis_field, color=config.COLOR_INFRA[1], width=2)
 
 
 def show_scene():

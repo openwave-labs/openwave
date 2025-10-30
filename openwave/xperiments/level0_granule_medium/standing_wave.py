@@ -38,6 +38,7 @@ UNIVERSE_SIZE = [
     6 * constants.EWAVE_LENGTH,
     1 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
+TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
 NUM_SOURCES = 17
@@ -79,7 +80,9 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.26, 0.33, 1.63])  # Initialize the GGUI window
+render.init_UI(
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.26, 0.33, 1.63]
+)  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -135,12 +138,12 @@ def data_dashboard():
 
 def controls():
     """Render the controls UI overlay."""
-    global show_axis, tick_spacing, block_slice, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.22) as sub:
-        show_axis = sub.checkbox(f"Axis (tick marks: {tick_spacing})", show_axis)
+        show_axis = sub.checkbox(f"Axis (tick marks: {TICK_SPACING})", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
@@ -212,7 +215,7 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, tick_spacing, block_slice, show_sources
+    global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global normalized_position
@@ -220,7 +223,6 @@ def render_xperiment(lattice):
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
-    tick_spacing = 0.25  # Tick marks spacing
     block_slice = False  # Block-slicing toggle
     show_sources = False  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
@@ -254,7 +256,7 @@ def render_xperiment(lattice):
 
     while render.window.running:
         # Render UI overlay windows
-        render.init_scene(show_axis, tick_spacing)  # Initialize scene with lighting and camera
+        render.init_scene(show_axis)  # Initialize scene with lighting and camera
         controls()
         color_menu()
         data_dashboard()
