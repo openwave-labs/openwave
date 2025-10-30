@@ -75,43 +75,70 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     canvas.set_background_color(config.COLOR_SPACE[1])
 
     # Initialize axis field only once (tick_spacing is constant per session)
-    tick_width = 0.01
-    num_ticks = int(2.0 / tick_spacing) + 1
-    # Calculate total number of points: 6 for axis lines + (num_ticks-1) * 3 axes * 2 points per tick
-    total_points = 6 + (num_ticks - 1) * 3 * 2
+    # Use particles instead of lines for better performance (scene.particles() is much faster than scene.lines())
+    tick_width = 0.02  # Length of tick marks
+    num_ticks = int(2.0 / tick_spacing)
+
+    # Total: 3 axes * points_per_axis + 3 axes * num_ticks * points_per_tick
+    points_per_axis = 1000  # Dense point sampling to make solid-looking lines
+    points_per_tick = 50  # Points per tick mark
+    total_points = 3 * points_per_axis + 3 * num_ticks * points_per_tick
+
     axis_field = ti.Vector.field(3, dtype=ti.f32, shape=total_points)
-    populate_axis_field(tick_spacing, tick_width, num_ticks)
+    populate_axis_field(tick_spacing, tick_width, num_ticks, points_per_axis, points_per_tick)
 
 
 @ti.kernel
 def populate_axis_field(
-    tick_spacing: ti.f32, tick_width: ti.f32, num_ticks: ti.i32  # type: ignore
+    tick_spacing: ti.f32,  # type: ignore
+    tick_width: ti.f32,  # type: ignore
+    num_ticks: ti.i32,  # type: ignore
+    points_per_axis: ti.i32,  # type: ignore
+    points_per_tick: ti.i32,  # type: ignore
 ):
-    """Populate axis field using Taichi kernel for performance."""
-    # Axis lines (6 points = 3 axes * 2 endpoints each)
-    axis_field[0] = ti.Vector([0.0, 0.0, 0.0])  # X-axis start
-    axis_field[1] = ti.Vector([2.0, 0.0, 0.0])  # X-axis end
-    axis_field[2] = ti.Vector([0.0, 0.0, 0.0])  # Y-axis start
-    axis_field[3] = ti.Vector([0.0, 2.0, 0.0])  # Y-axis end
-    axis_field[4] = ti.Vector([0.0, 0.0, 0.0])  # Z-axis start
-    axis_field[5] = ti.Vector([0.0, 0.0, 2.0])  # Z-axis end
+    """Populate axis field as particles instead of lines for better performance."""
+    axis_length = 2.0
 
-    # Tick marks (parallel loop for performance)
-    for t in range(1, num_ticks):
-        offset = t * tick_spacing
-        idx_base = 6 + (t - 1) * 6  # Starting index for this tick's 6 points
+    # X-axis particles (dense points from 0 to 2.0)
+    for i in range(points_per_axis):
+        t = i / (points_per_axis - 1)
+        axis_field[i] = ti.Vector([t * axis_length, 0.0, 0.0])
 
-        # X-axis ticks (2 points)
-        axis_field[idx_base + 0] = ti.Vector([offset, -tick_width, 0.0])
-        axis_field[idx_base + 1] = ti.Vector([offset, 0.0, 0.0])
+    # Y-axis particles
+    offset = points_per_axis
+    for i in range(points_per_axis):
+        t = i / (points_per_axis - 1)
+        axis_field[offset + i] = ti.Vector([0.0, t * axis_length, 0.0])
 
-        # Y-axis ticks (2 points)
-        axis_field[idx_base + 2] = ti.Vector([-tick_width, offset, 0.0])
-        axis_field[idx_base + 3] = ti.Vector([0.0, offset, 0.0])
+    # Z-axis particles
+    offset = 2 * points_per_axis
+    for i in range(points_per_axis):
+        t = i / (points_per_axis - 1)
+        axis_field[offset + i] = ti.Vector([0.0, 0.0, t * axis_length])
 
-        # Z-axis ticks (2 points)
-        axis_field[idx_base + 4] = ti.Vector([-tick_width, 0.0, offset])
-        axis_field[idx_base + 5] = ti.Vector([0.0, 0.0, offset])
+    # Tick marks as particles (from -tick_width to 0.0 for each axis)
+    offset = 3 * points_per_axis
+    for tick_idx in range(num_ticks):
+        tick_pos = (tick_idx + 1) * tick_spacing
+        base_idx = offset + tick_idx * 3 * points_per_tick
+
+        # X-axis tick (varies in Y from -tick_width to 0.0)
+        for i in range(points_per_tick):
+            t = i / (points_per_tick - 1) if points_per_tick > 1 else 0.5
+            y = -tick_width + t * tick_width  # From -tick_width to 0.0
+            axis_field[base_idx + i] = ti.Vector([tick_pos, y, 0.0])
+
+        # Y-axis tick (varies in X from -tick_width to 0.0)
+        for i in range(points_per_tick):
+            t = i / (points_per_tick - 1) if points_per_tick > 1 else 0.5
+            x = -tick_width + t * tick_width  # From -tick_width to 0.0
+            axis_field[base_idx + points_per_tick + i] = ti.Vector([x, tick_pos, 0.0])
+
+        # Z-axis tick (varies in X from -tick_width to 0.0)
+        for i in range(points_per_tick):
+            t = i / (points_per_tick - 1) if points_per_tick > 1 else 0.5
+            x = -tick_width + t * tick_width  # From -tick_width to 0.0
+            axis_field[base_idx + 2 * points_per_tick + i] = ti.Vector([x, 0.0, tick_pos])
 
 
 def scene_lighting():
@@ -211,8 +238,8 @@ def init_scene(show_axis=True):
     handle_camera()  # Handle camera input and update position
     cam_instructions()  # Overlay camera instructions
     if show_axis:
-        # Render the pre-populated axis field (very fast, no data transfer)
-        scene.lines(axis_field, color=config.COLOR_INFRA[1], width=2)
+        # Render axis as particles instead of lines (much faster, uses same efficient path as granules)
+        scene.particles(axis_field, radius=0.001, color=config.COLOR_INFRA[1])
 
 
 def show_scene():

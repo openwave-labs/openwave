@@ -38,6 +38,7 @@ UNIVERSE_SIZE = [
     6 * constants.EWAVE_LENGTH,
     1 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
+TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
 NUM_SOURCES = 17
@@ -79,7 +80,9 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, cam_init_pos=[1.26, 0.33, 1.63])  # Initialize the GGUI window
+render.init_UI(
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.26, 0.33, 1.63]
+)  # Initialize the GGUI window
 
 
 def xperiment_specs():
@@ -140,7 +143,7 @@ def controls():
 
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.22) as sub:
-        show_axis = sub.checkbox("Axis", show_axis)
+        show_axis = sub.checkbox(f"Axis (tick marks: {TICK_SPACING})", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)

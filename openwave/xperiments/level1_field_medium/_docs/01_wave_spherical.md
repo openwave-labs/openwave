@@ -2,6 +2,18 @@
 
 This document provides comprehensive physical justification and implementation details for amplitude falloff in spherical wave propagation within the OpenWave subatomic simulator. The implementation accounts for energy conservation, near-field/far-field physics, and Energy Wave Theory (EWT) specifications.
 
+## Visual Reference
+
+See `01_wave_spherical_plot.py` for the amplitude vs radius visualization showing:
+
+- Near-field behavior (r < λ)
+- Transition zone (λ to 2λ)
+- Far-field 1/r falloff (r > 2λ)
+- Amplitude cap constraint (A ≤ r)
+- Singularity prevention at r_min = 1λ
+
+![Amplitude vs Radius](images/wave_amplitude_vs_radius.png)
+
 ## Physical Background: Spherical Wave Energy Conservation
 
 ### Energy Conservation Principle
@@ -165,56 +177,105 @@ The choice of 1λ minimum radius aligns with multiple physical principles:
 4. **Numerical Stability**: Prevents singularity at r → 0
 5. **Physical Behavior**: Matches observed stable wave propagation
 
+## Two Separate Physical Constraints
+
+The implementation uses **two independent constraints** to ensure physical accuracy and numerical stability:
+
+### 1. Singularity Prevention (r_safe)
+
+**Purpose**: Prevent mathematical singularity (division by zero)
+
+The amplitude formula `A(r) = A₀·(λ/r)` creates a singularity at r → 0:
+
+- As r approaches zero, A(r) → ∞ (infinite amplitude)
+- Division by zero causes numerical instability
+- Solution: `r_safe = max(r, 1λ)` enforces minimum distance
+
+**Effect**: For r < 1λ, amplitude calculation uses r = 1λ, keeping amplitude constant at A₀.
+
+### 2. Physical Cap (A ≤ r)
+
+**Purpose**: Prevent granules from crossing through the wave source
+
+For longitudinal waves, if amplitude A exceeds distance r:
+
+- Granule displacement could place it on opposite side of source
+- Physically impossible for longitudinal wave propagation
+- Violates constraint: |x - x_eq| ≤ |x_eq - x_source|
+
+**Effect**: Caps amplitude to never exceed distance: `A_final = min(A(r), r)`
+
+These constraints work together but solve different problems:
+
+- **Singularity prevention**: Mathematical/numerical issue
+- **A ≤ r cap**: Physical realism constraint
+
 ### Implementation Summary
 
-The amplitude falloff implementation in `ewave_radial.py` uses the following approach:
+The amplitude falloff implementation in `energy_wave_level0.py` (lines 215-229) uses the following approach:
 
 ```python
 # Reference radius for amplitude normalization (one wavelength from wave source)
-# This prevents singularity at r=0 and provides physically meaningful normalization
+# Prevents singularity at r=0 and provides physically meaningful normalization
 r_reference = wavelength_am  # attometers
 
-for idx in range(position.shape[0]):
-    direction = center_direction[idx]
+for source_idx in range(num_sources):
+    # Get precomputed direction and distance for this granule-source pair
+    direction = sources_direction[granule_idx, source_idx]
+    r = sources_distance_am[granule_idx, source_idx]  # distance in attometers
 
-    # Distance from granule to wave source (in attometers)
-    r = center_distance[idx]
+    # Spatial phase: φ = -k·r (negative for outward propagation)
+    spatial_phase = -k * r
+    total_phase = spatial_phase + phase_offset
 
-    # Phase determined by radial distance from wave source
-    # Negative k·r creates outward propagating wave
-    phase = -k * r
-
-    # Amplitude falloff for spherical wave energy conservation: A(r) = A₀(r₀/r)
-    # Prevents division by zero and non-physical amplitudes very close to wave source
-    r_safe = ti.max(r, r_reference * 1)  # minimum 1 wavelength
+    # CONSTRAINT 1: Singularity Prevention
+    # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
+    # Use r_safe to prevent singularity (division by zero) at r → 0
+    # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
+    r_safe = ti.max(r, r_reference)  # minimum 1 wavelength from source
     amplitude_falloff = r_reference / r_safe
 
-    # Total amplitude including geometric falloff and visibility boost
+    # Total amplitude at granule distance from source
+    # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
     amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+
+    # CONSTRAINT 2: Physical Cap (A ≤ r)
+    # Step 2: Cap amplitude to distance from source (A ≤ r)
+    # Prevents non-physical behavior: granules crossing through wave source
+    # When A > r, displacement could exceed distance to source, placing granule
+    # on opposite side of source (physically impossible for longitudinal waves)
+    # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
+    amplitude_at_r_cap = ti.min(amplitude_at_r, r)
 ```
 
 **Key Implementation Details**:
 
-1. **r_reference = wavelength_am**:
+1. **r_reference = wavelength_am** (energy_wave_level0.py:191):
    - Reference radius set to one wavelength from wave source
    - Provides physically meaningful normalization scale
-   - Amplitude at r = λ equals nominal amplitude_am
+   - Amplitude at r = λ equals nominal amplitude A₀
 
-2. **r_safe = max(r, 1λ)**:
+2. **r_safe = max(r, r_reference)** (energy_wave_level0.py:217):
+   - **CONSTRAINT 1**: Singularity prevention
    - Enforces minimum distance of 1λ from wave source
-   - Prevents singularity at r → 0
+   - Prevents division by zero when r → 0
    - Aligns with EWT neutrino boundary specification
-   - Ensures stable numerical behavior
+   - Ensures numerical stability
 
-3. **amplitude_falloff = r_reference / r_safe**:
+3. **amplitude_falloff = r_reference / r_safe** (energy_wave_level0.py:218):
    - Implements A ∝ 1/r energy conservation law
    - Valid for far-field region (r > λ)
    - Clamped to constant amplitude for r < λ (source region)
 
-4. **amplitude_at_r = amplitude_am × amplitude_falloff × amp_boost**:
-   - Final amplitude at distance r from wave source
-   - Includes energy conservation (amplitude_falloff)
+4. **amplitude_at_r = amplitude_am × amplitude_falloff × amp_boost** (energy_wave_level0.py:222):
+   - Amplitude after singularity prevention and energy conservation
    - Includes visualization scaling (amp_boost)
+
+5. **amplitude_at_r_cap = min(amplitude_at_r, r)** (energy_wave_level0.py:229):
+   - **CONSTRAINT 2**: Physical cap (A ≤ r)
+   - Final amplitude used in wave equation
+   - Prevents granules from crossing through wave source
+   - Ensures physical validity of longitudinal wave displacement
 
 ### Position and Velocity Equations
 
@@ -285,11 +346,32 @@ This demonstrates that total energy integrated over a spherical shell remains co
 
 ### Conclusion
 
-The implementation choice of **r_min = 1λ** (one wavelength from wave source) is physically accurate and supported by:
+The implementation uses **two independent constraints** for physical accuracy:
 
-- Energy Wave Theory fundamental particle specifications
-- Electromagnetic near-field/far-field transition physics
-- Experimental validation in the simulator
-- Energy conservation requirements for spherical waves
+1. **Singularity Prevention (r_min = 1λ)**:
+   - Prevents division by zero at wave source
+   - Supported by EWT neutrino boundary specification
+   - Aligns with EM near-field/far-field transition physics
+   - Ensures numerical stability
+
+2. **Physical Cap (A ≤ r)**:
+   - Prevents granules from crossing through wave source
+   - Enforces physical constraint for longitudinal waves
+   - Active primarily in near field (r < 0.2λ)
 
 For distances r > 1λ from the wave source, the amplitude follows the 1/r energy conservation law appropriate for spherical wave propagation in the far-field region.
+
+## Visualization
+
+The behavior described above is visualized in `images/wave_amplitude_vs_radius.png`, generated by `01_wave_spherical_plot.py`. The plot shows:
+
+- **Red line**: Actual implemented amplitude with both constraints
+- **Blue dashed line**: Theoretical 1/r falloff (uncapped)
+- **Black dotted line**: A = r boundary (cap limit)
+- **Field regions**: Near field (r < λ), Transition (λ to 2λ), Far field (r > 2λ)
+- **Key points**: A(1λ) = 1.0A₀, A(2λ) = 0.5A₀
+
+The plot uses actual EWT constants:
+
+- A₀ = 9.215×10⁻¹⁹ m (0.922 attometers)
+- λ = 2.854×10⁻¹⁷ m (28.541 attometers)
