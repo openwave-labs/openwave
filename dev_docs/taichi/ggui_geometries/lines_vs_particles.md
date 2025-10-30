@@ -13,6 +13,7 @@ During development, we observed significant FPS drops when enabling axis renderi
 - **With axis using scene.particles()**: ~47 FPS (minimal loss)
 
 The performance impact scaled with base framerate:
+
 - Experiment A (33 FPS baseline): 33 → 32 FPS with lines (1 FPS loss)
 - Experiment B (48 FPS baseline): 48 → 38 FPS with lines (10 FPS loss)
 
@@ -27,6 +28,7 @@ We initially suspected `scene.lines()` had inherent overhead compared to `scene.
 ### 2. Optimization Attempts
 
 Created optimized version moving field allocation to initialization:
+
 - Pre-allocate Taichi field once in `init_UI()`
 - Populate using Taichi kernel (no numpy transfers)
 - Reuse same field every frame
@@ -34,6 +36,7 @@ Created optimized version moving field allocation to initialization:
 ### 3. Particle-Based Workaround
 
 Developed alternative using `scene.particles()` to render dense point-sampled lines:
+
 - 1000 points per axis line
 - 50 points per tick mark
 - Total: ~4200 particles for axis visualization
@@ -42,6 +45,7 @@ Developed alternative using `scene.particles()` to render dense point-sampled li
 ### 4. Reproduction Attempts
 
 Created minimal test case (`lines_vs_particles.py`) to reproduce:
+
 - 1.2M particles with physics simulation
 - Per-vertex coloring
 - Multiple GUI windows
@@ -73,6 +77,7 @@ After MacBook reboot, the performance issue **completely disappeared**. Both `sc
 ### 📝 Final Implementation
 
 OpenWave uses **optimized `scene.lines()`** for axis rendering:
+
 - Clean, simple code using the right primitive for the job
 - Field pre-allocated and pre-populated once
 - 54 points (3 axes + tick marks) vs 4200+ for particle workaround
