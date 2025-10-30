@@ -213,7 +213,8 @@ def oscillate_granules(
             total_phase = spatial_phase + phase_offset
 
             # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
-            # Prevents division by zero using r_min = 1λ
+            # Use r_safe to prevent singularity (division by zero) at r → 0
+            # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
             r_safe = ti.max(r, r_reference)  # minimum 1 wavelength from source
             amplitude_falloff = r_reference / r_safe
 
