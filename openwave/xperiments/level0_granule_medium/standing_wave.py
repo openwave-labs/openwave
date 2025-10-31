@@ -41,19 +41,19 @@ UNIVERSE_SIZE = [
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 17
+NUM_SOURCES = 64
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0.175]  # Initialize Z positions
-sources_position = [[0 + 0.5, 0 + 0.5, z_position[0]]]  # Wave Source 0 at center top
+sources_position = []  # Initialize source positions list
 # Generate positions for remaining sources in a circle around center top
-for i in range(NUM_SOURCES - 1):
+for i in range(NUM_SOURCES):
     sources_position.append(
         [
-            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.333 + 0.5,
-            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) * 0.333 + 0.5,
+            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES)) * 0.333 + 0.5,
+            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES)) * 0.333 + 0.5,
             z_position[0],
         ]
     )
@@ -62,10 +62,10 @@ for i in range(NUM_SOURCES - 1):
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [0]  # Wave Source 0 (eg. 180 = opposite phase)
+sources_phase_deg = []  # Initialize source phases list
 # Generate phase for remaining sources in a circle around center top
-for i in range(NUM_SOURCES - 1):
-    sources_phase_deg.append(0)  # Wave Sources (eg. 0 = in phase)
+for i in range(NUM_SOURCES):
+    sources_phase_deg.append(0)  # Wave Sources Phase (eg. 0 = in phase)
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -81,7 +81,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # ================================================================
 
 render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.26, 0.33, 1.63]
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.72, 0.05, 1.14]
 )  # Initialize the GGUI window
 
 
@@ -147,7 +147,7 @@ def controls():
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 1.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -224,11 +224,11 @@ def render_xperiment(lattice):
     block_slice = False  # Block-slicing toggle
     show_sources = False  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 1.0  # Initialize frequency boost
-    amp_boost = 1.0  # Initialize amplitude boost
+    freq_boost = 0.5  # Initialize frequency boost
+    amp_boost = 0.1  # Initialize amplitude boost
     paused = False  # Pause toggle
-    granule_type = True  # Granule type coloring toggle
-    ironbow = False  # Ironbow (displacement) coloring toggle
+    granule_type = False  # Granule type coloring toggle
+    ironbow = True  # Ironbow (displacement) coloring toggle
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0

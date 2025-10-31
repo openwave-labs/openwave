@@ -41,7 +41,7 @@ UNIVERSE_SIZE = [
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 3
+NUM_SOURCES = 3  # This xperiment has pre-populated list for 6 sources, change to test
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
@@ -55,7 +55,6 @@ sources_position = [
     [0.0, 0.0, z_position[0]],  # Wave Source 3
     [1.0, 0.0, z_position[0]],  # Wave Source 4
     [1.0, 0.75, z_position[0]],  # Wave Source 5
-    [0.0, 0.75, z_position[0]],  # Wave Source 6
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -69,7 +68,6 @@ sources_phase_deg = [
     0,  # Wave Source 3
     0,  # Wave Source 4
     0,  # Wave Source 5
-    0,  # Wave Source 6
 ]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
