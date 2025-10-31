@@ -47,9 +47,10 @@ NUM_SOURCES = 3
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0.12]  # Initialize Z positions
+equilateral = ti.sqrt(0.5**2 - 0.25**2)  # Factor for perfect triangle arrangement
 sources_position = [
-    [0.25, 0.55, z_position[0]],  # Wave Source 0
-    [0.75, 0.55, z_position[0]],  # Wave Source 1
+    [0.25, 0.15 + equilateral, z_position[0]],  # Wave Source 0
+    [0.75, 0.15 + equilateral, z_position[0]],  # Wave Source 1
     [0.5, 0.15, z_position[0]],  # Wave Source 2
     [0.0, 0.0, z_position[0]],  # Wave Source 3
     [1.0, 0.0, z_position[0]],  # Wave Source 4
@@ -64,7 +65,7 @@ sources_position = [
 sources_phase_deg = [
     0,  # Wave Source 0 (eg. 0 = in phase)
     0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    180,  # Wave Source 2
+    0,  # Wave Source 2
     0,  # Wave Source 3
     0,  # Wave Source 4
     0,  # Wave Source 5
