@@ -40,7 +40,13 @@ from openwave.common import constants
 # ================================================================
 # ENERGY WAVE EQUATION
 # ================================================================
-def energy_wave_equation(volume):
+def energy_wave_equation(
+    volume,
+    density=constants.MEDIUM_DENSITY,
+    speed=constants.EWAVE_SPEED,
+    wavelength=constants.EWAVE_LENGTH,
+    amplitude=constants.EWAVE_AMPLITUDE,
+):
     """
     Energy Wave Equation:
     The fundamental equation from which all EWT equations are derived.
@@ -49,15 +55,13 @@ def energy_wave_equation(volume):
 
     Args:
         volume (float): Volume V in m³
+        wavelength (float): Wavelength λ in meters (default: constants.EWAVE_LENGTH)
+        amplitude (float): Amplitude A in meters (default: constants.EWAVE_AMPLITUDE)
 
     Returns:
         float: Energy E in Joules
     """
-    return (
-        constants.MEDIUM_DENSITY
-        * volume
-        * (constants.EWAVE_SPEED / constants.EWAVE_LENGTH * constants.EWAVE_AMPLITUDE) ** 2
-    )
+    return density * volume * (speed / wavelength * amplitude) ** 2
 
 
 # ================================================================

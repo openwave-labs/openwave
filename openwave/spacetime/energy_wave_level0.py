@@ -31,8 +31,8 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
-# Adaptive max displacement tracking
-max_displacement_tracker = None  # Running maximum displacement
+# Adaptive max displacement tracking (amplitude)
+max_displacement_tracker = None  # Running maximum displacement (EMA)
 
 
 # ================================================================
@@ -72,7 +72,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize adaptive max displacement tracker
+    # Initialize adaptive max displacement tracker (amplitude)
     max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
     max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
 
@@ -261,7 +261,7 @@ def oscillate_granules(
         # 0.999 = each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
         alpha = 0.999
 
-        # Update running average with current displacement
+        # Update max displacement running average (EMA) with current displacement (amplitude)
         # Note: Parallel execution creates race conditions but effect is acceptable
         # Multiple threads updating simultaneously just means faster convergence
         old_avg = max_displacement_tracker[None]
