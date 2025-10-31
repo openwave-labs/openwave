@@ -220,22 +220,22 @@ def oscillate_granules(
 
             # Total amplitude at granule distance from source
             # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-            amplitude_at_r_am = amplitude_am * amplitude_falloff * amp_boost
+            amplitude_am_at_r = amplitude_am * amplitude_falloff * amp_boost
 
             # Step 2: Cap amplitude to distance from source (A ≤ r)
             # Prevents non-physical behavior: granules crossing through wave source
             # When A > r, displacement could exceed distance to source, placing granule
             # on opposite side of source (physically impossible for longitudinal waves)
             # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
-            amplitude_at_r_am_cap = ti.min(amplitude_at_r_am, r_am)
+            amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
 
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
-            displacement_magnitude = amplitude_at_r_am_cap * ti.cos(omega * t + total_phase)
+            displacement_magnitude = amplitude_am_at_r_cap * ti.cos(omega * t + total_phase)
             source_displacement = displacement_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
-            velocity_magnitude = -amplitude_at_r_am_cap * omega * ti.sin(omega * t + total_phase)
+            velocity_magnitude = -amplitude_am_at_r_cap * omega * ti.sin(omega * t + total_phase)
             source_velocity = velocity_magnitude * direction
 
             # Accumulate this source's contribution (wave superposition)
