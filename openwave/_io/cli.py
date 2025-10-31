@@ -10,8 +10,6 @@ import os
 import sys
 import subprocess
 from pathlib import Path
-from importlib.metadata import version, metadata
-
 
 from simple_term_menu import TerminalMenu
 
@@ -156,7 +154,14 @@ def show_menu_simple(experiments):
     Returns:
         str: Path to the selected xperiment file
     """
-    pkg_version = version("OPENWAVE")
+    # Get version from source (works with editable installs)
+    try:
+        from openwave import __version__
+        pkg_version = __version__
+    except ImportError:
+        # Fallback to metadata if __version__ not available
+        from importlib.metadata import version
+        pkg_version = version("OPENWAVE")
 
     print("\n" + "=" * 64)
     print(f"OPENWAVE (v{pkg_version}) - Available XPERIMENTS")
@@ -213,7 +218,15 @@ def show_menu_interactive(experiments):
     menu_options = []
     file_path_map = {}  # Maps option index to file path
     option_idx = 0
-    pkg_version = version("OPENWAVE")
+
+    # Get version from source (works with editable installs)
+    try:
+        from openwave import __version__
+        pkg_version = __version__
+    except ImportError:
+        # Fallback to metadata if __version__ not available
+        from importlib.metadata import version
+        pkg_version = version("OPENWAVE")
 
     for display_name, file_path in experiments:
         menu_options.append(display_name if display_name else " ")  # Empty line or display name
