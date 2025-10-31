@@ -32,7 +32,8 @@ sources_distance_am = None  # Distances from each granule to each wave source (a
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
 # Adaptive max displacement tracking (amplitude)
-max_displacement_tracker = None  # Running maximum displacement (EMA)
+frame_max_displacement = None  # Maximum displacement in current frame
+max_displacement_tracker = None  # Running maximum displacement (EMA smoothed)
 
 
 # ================================================================
@@ -59,7 +60,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global max_displacement_tracker
+    global frame_max_displacement, max_displacement_tracker
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -72,7 +73,9 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize adaptive max displacement tracker (amplitude)
+    # Initialize displacement tracking fields (amplitude)
+    frame_max_displacement = ti.field(dtype=ti.f32, shape=())
+    frame_max_displacement[None] = 0.0
     max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
     max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
 
@@ -179,6 +182,9 @@ def oscillate_granules(
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
+    # Reset frame max displacement to find the peak displacement this frame
+    frame_max_displacement[None] = 0.0
+
     # Compute temporal parameters (same for all wave sources)
     f_slowed = frequency / config.SLOW_MO * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
@@ -231,8 +237,8 @@ def oscillate_granules(
 
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
-            displacement_magnitude = amplitude_am_at_r_cap * ti.cos(omega * t + total_phase)
-            source_displacement = displacement_magnitude * direction
+            source_displacement_magnitude = amplitude_am_at_r_cap * ti.cos(omega * t + total_phase)
+            source_displacement = source_displacement_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
             velocity_magnitude = -amplitude_am_at_r_cap * omega * ti.sin(omega * t + total_phase)
@@ -252,25 +258,22 @@ def oscillate_granules(
         # Compute displacement magnitude for color mapping
         displacement_magnitude = total_displacement.norm()
 
-        # Adaptive max tracking: exponential moving average (EMA) of peak displacement
-        # Tracks typical maximum displacement to normalize colors adaptively
-        # Responds to changes in amp_boost, num_sources, and interference patterns
-        # Works bidirectionally: increases when amp goes up, decreases when amp goes down
-
-        # Smoothing factor: higher = slower adaptation, more stable colors
-        # 0.999 = each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
-        alpha = 0.999
-
-        # Update max displacement running average (EMA) with current displacement (amplitude)
-        # Note: Parallel execution creates race conditions but effect is acceptable
-        # Multiple threads updating simultaneously just means faster convergence
-        old_avg = max_displacement_tracker[None]
-        new_avg = old_avg * alpha + displacement_magnitude * (1.0 - alpha)
-        max_displacement_tracker[None] = new_avg
+        # Track maximum displacement across all granules in this frame
+        # Uses atomic max to find peak displacement (thread-safe)
+        ti.atomic_max(frame_max_displacement[None], displacement_magnitude)
 
         # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
         # Map displacement to IRONBOW thermal gradient color
         # Args: (value, min, max, saturation_headroom_factor)
         granule_var_color[granule_idx] = config.get_ironbow_color(
-            displacement_magnitude, 0.0, max_displacement_tracker[None], 3.0
+            displacement_magnitude, 0.0, max_displacement_tracker[None]
         )
+
+    # Apply exponential moving average (EMA) smoothing to max displacement
+    # This smooths out frame-to-frame variations for stable color scaling
+    # Smoothing factor: 0.95 = fast adaptation, responds quickly to changes
+    # Adapts to changes in amp_boost or wave dynamics over time
+    alpha = 0.95
+    old_max = max_displacement_tracker[None]
+    new_max = old_max * alpha + frame_max_displacement[None] * (1.0 - alpha)
+    max_displacement_tracker[None] = new_max
