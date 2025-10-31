@@ -99,7 +99,6 @@ def xperiment_specs():
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    global t, freq_boost, frame
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.42, 0.19, 0.58) as sub:
         sub.text("--- WAVE-MEDIUM ---")
@@ -111,7 +110,7 @@ def data_dashboard():
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
-        sub.text(f"Granule Radius: {granule.radius:.2e} m")
+        sub.text(f"Granule Radius: {granule.radius * radius_factor:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("\n--- Sim Resolution (linear) ---")
@@ -195,7 +194,6 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
 
 def normalize_granule():
     """Normalize granule radius to 0-1 range for GGUI rendering"""
-
     global normalized_radius
 
     normalized_radius = max(
@@ -284,6 +282,10 @@ def render_xperiment(lattice):
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
+
+            # Update lattice energy based on wave amplitude (called every 30 frames to reduce overhead)
+            if frame % 30 == 0:
+                ewave.update_lattice_energy(lattice)
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)

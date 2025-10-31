@@ -90,7 +90,7 @@ ironbow7 = [
 
 
 @ti.func
-def get_ironbow_color(value, min_value, max_value, saturation):
+def get_ironbow_color(value, min_value, max_value, saturation=1.0):
     """Maps a numerical value to an IRONBOW thermal camera gradient color.
 
     IRONBOW gradient: black → dark blue → magenta → red-orange → yellow-white

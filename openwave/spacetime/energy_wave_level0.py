@@ -14,6 +14,7 @@ import taichi as ti
 
 from openwave.common import config
 from openwave.common import constants
+from openwave.common import equations
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -31,8 +32,10 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
-# Adaptive max displacement tracking (amplitude)
-max_displacement_tracker = None  # Running maximum displacement (EMA)
+# Adaptive displacement tracking for data analytics
+frame_max_displacement = None  # Maximum displacement in current frame
+max_displacement_tracker = None  # Running maximum displacement (EMA smoothed, peak amplitude)
+avg_amplitude = None  # RMS amplitude for energy calculation (peak * 0.707)
 
 
 # ================================================================
@@ -59,7 +62,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global max_displacement_tracker
+    global frame_max_displacement, max_displacement_tracker, avg_amplitude
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -72,9 +75,13 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize adaptive max displacement tracker (amplitude)
-    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
+    # Initialize displacement tracking fields for data analytics
+    frame_max_displacement = ti.field(dtype=ti.f32, shape=())
+    frame_max_displacement[None] = 0.0
+    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())  # peak amplitude
     max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
+    avg_amplitude = ti.field(dtype=ti.f32, shape=())
+    avg_amplitude[None] = amplitude_am * 0.707  # RMS amplitude (peak / √2)
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -170,15 +177,24 @@ def oscillate_granules(
         - Inner loop (sources): Sequential per granule (num_sources iterations)
         - This maximizes GPU utilization while handling variable source counts
 
+    Displacement Tracking for Data Analytics:
+        - Tracks maximum displacement per frame using atomic_max (peak amplitude)
+        - Converts to RMS amplitude using max * 0.707 (peak / √2) for energy calculation
+        - Uses EMA smoothing for stable visualization and energy display
+
     Args:
         position: Position field for all granules (modified in-place)
-        velocity: Velocity field for all granules (modified in-place)
         equilibrium: Equilibrium (rest) positions for all granules
+        velocity: Velocity field for all granules (modified in-place)
+        granule_var_color: Color field for IRONBOW displacement visualization
         num_sources: Number of wave sources
         t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
+    # Reset frame max displacement for this frame
+    frame_max_displacement[None] = 0.0
+
     # Compute temporal parameters (same for all wave sources)
     f_slowed = frequency / config.SLOW_MO * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
@@ -188,7 +204,7 @@ def oscillate_granules(
 
     # Reference radius for amplitude normalization (one wavelength)
     # Prevents singularity at r=0 and provides physically meaningful normalization
-    r_reference = wavelength_am  # attometers
+    r_reference_am = wavelength_am  # attometers
 
     # Process all granules in parallel (outermost loop = GPU parallelization)
     for granule_idx in range(position.shape[0]):
@@ -200,14 +216,14 @@ def oscillate_granules(
         for source_idx in range(num_sources):
             # Get precomputed direction and distance for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
-            r = sources_distance_am[granule_idx, source_idx]  # distance in attometers
+            r_am = sources_distance_am[granule_idx, source_idx]  # distance in attometers
 
             # Get source phase offset
             phase_offset = sources_phase_shift[source_idx]
 
             # Spatial phase: φ = -k·r (negative for outward propagation)
             # Creates spherical wave fronts expanding from source
-            spatial_phase = -k * r
+            spatial_phase = -k * r_am
 
             # Total phase: includes spatial phase and source's initial offset
             total_phase = spatial_phase + phase_offset
@@ -215,27 +231,27 @@ def oscillate_granules(
             # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
             # Use r_safe to prevent singularity (division by zero) at r → 0
             # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
-            r_safe = ti.max(r, r_reference)  # minimum 1 wavelength from source
-            amplitude_falloff = r_reference / r_safe
+            r_safe_am = ti.max(r_am, r_reference_am)  # minimum 1 wavelength_am from source
+            amplitude_falloff = r_reference_am / r_safe_am
 
             # Total amplitude at granule distance from source
             # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-            amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+            amplitude_am_at_r = amplitude_am * amplitude_falloff * amp_boost
 
             # Step 2: Cap amplitude to distance from source (A ≤ r)
             # Prevents non-physical behavior: granules crossing through wave source
             # When A > r, displacement could exceed distance to source, placing granule
             # on opposite side of source (physically impossible for longitudinal waves)
             # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
-            amplitude_at_r_cap = ti.min(amplitude_at_r, r)
+            amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
 
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
-            displacement_magnitude = amplitude_at_r_cap * ti.cos(omega * t + total_phase)
-            source_displacement = displacement_magnitude * direction
+            source_displacement_magnitude = amplitude_am_at_r_cap * ti.cos(omega * t + total_phase)
+            source_displacement = source_displacement_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
-            velocity_magnitude = -amplitude_at_r_cap * omega * ti.sin(omega * t + total_phase)
+            velocity_magnitude = -amplitude_am_at_r_cap * omega * ti.sin(omega * t + total_phase)
             source_velocity = velocity_magnitude * direction
 
             # Accumulate this source's contribution (wave superposition)
@@ -247,30 +263,53 @@ def oscillate_granules(
         velocity[granule_idx] = total_velocity
 
         # ================================================================
-        # DISPLACEMENT TRACKING
+        # DISPLACEMENT TRACKING - DATA ANALYTICS
         # ================================================================
-        # Compute displacement magnitude for color mapping
+        # Compute displacement magnitude
         displacement_magnitude = total_displacement.norm()
 
-        # Adaptive max tracking: exponential moving average (EMA) of peak displacement
-        # Tracks typical maximum displacement to normalize colors adaptively
-        # Responds to changes in amp_boost, num_sources, and interference patterns
-        # Works bidirectionally: increases when amp goes up, decreases when amp goes down
-
-        # Smoothing factor: higher = slower adaptation, more stable colors
-        # 0.999 = each sample contributes 0.1%, adapts in ~1000 samples (~1 second at 60fps)
-        alpha = 0.999
-
-        # Update max displacement running average (EMA) with current displacement (amplitude)
-        # Note: Parallel execution creates race conditions but effect is acceptable
-        # Multiple threads updating simultaneously just means faster convergence
-        old_avg = max_displacement_tracker[None]
-        new_avg = old_avg * alpha + displacement_magnitude * (1.0 - alpha)
-        max_displacement_tracker[None] = new_avg
+        # Track maximum displacement across all granules (thread-safe atomic max)
+        # Used for data analytics
+        ti.atomic_max(frame_max_displacement[None], displacement_magnitude)
 
         # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
         # Map displacement to IRONBOW thermal gradient color
-        # Args: (value, min, max, saturation_headroom_factor)
+        # Args: (value, min, max)
         granule_var_color[granule_idx] = config.get_ironbow_color(
-            displacement_magnitude, 0.0, max_displacement_tracker[None], 3.0
+            displacement_magnitude, 0.0, max_displacement_tracker[None]
         )
+
+    # Apply EMA smoothing to max displacement for stable color scaling
+    # Smoothing factor: 0.95 = fast adaptation, responds quickly to changes
+    alpha_max = 0.95
+    old_max = max_displacement_tracker[None]
+    new_max = old_max * alpha_max + frame_max_displacement[None] * (1.0 - alpha_max)
+    max_displacement_tracker[None] = new_max
+
+    # Convert peak amplitude to RMS amplitude for energy calculation
+    # RMS amplitude = peak / √2 ≈ peak * 0.707
+    # This is the standard conversion for sinusoidal oscillations
+    # Energy equation uses amplitude, and RMS gives the effective energy content
+    avg_amplitude[None] = max_displacement_tracker[None] * 0.707
+
+
+def update_lattice_energy(lattice):
+    """Update lattice energy based on RMS amplitude from peak displacement.
+
+    Must be called after oscillate_granules() to compute energy from wave amplitude.
+    Cannot be done inside the kernel as lattice.energy is not a Taichi field.
+
+    Uses RMS amplitude (peak * 0.707) which represents the effective energy content
+    of sinusoidal oscillations. The peak is tracked across all granules, and the
+    RMS conversion gives the equivalent constant amplitude that would produce the
+    same energy. This avoids expensive per-frame averaging while providing physically
+    meaningful energy values.
+
+    Args:
+        lattice: Lattice instance with universe_volume and energy fields
+    """
+    lattice.energy = equations.energy_wave_equation(
+        volume=lattice.universe_volume, amplitude=avg_amplitude[None] * constants.ATTOMETTER
+    )
+    lattice.energy_kWh = equations.J_to_kWh(lattice.energy)  # in KWh
+    lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use
