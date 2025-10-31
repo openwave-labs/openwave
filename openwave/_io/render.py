@@ -2,8 +2,6 @@
 Rendering engine for OPENWAVE using Taichi GGUI.
 """
 
-from importlib.metadata import version, metadata
-
 import taichi as ti
 import numpy as np
 import pyautogui
@@ -18,9 +16,16 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     global mouse_sensitivity
     global axis_field
 
-    # Get package name and version from metadata
-    pkg_name = metadata("OPENWAVE")["Name"]
-    pkg_version = version("OPENWAVE")
+    # Get package name and version from source (works with editable installs)
+    try:
+        from openwave import __version__
+        pkg_version = __version__
+    except ImportError:
+        # Fallback to metadata if __version__ not available
+        from importlib.metadata import version
+        pkg_version = version("OPENWAVE")
+
+    pkg_name = "OPENWAVE"
     title = pkg_name + " (v" + pkg_version + ")"
     width, height = pyautogui.size()
 
