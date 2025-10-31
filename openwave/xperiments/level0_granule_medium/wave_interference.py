@@ -41,20 +41,20 @@ UNIVERSE_SIZE = [
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 3
+NUM_SOURCES = 3  # This xperiment has pre-populated list for 6 sources, change to test
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0.12]  # Initialize Z positions
+equilateral = ti.sqrt(0.5**2 - 0.25**2)  # Factor for perfect triangle arrangement
 sources_position = [
-    [0.25, 0.55, z_position[0]],  # Wave Source 0
-    [0.75, 0.55, z_position[0]],  # Wave Source 1
+    [0.25, 0.15 + equilateral, z_position[0]],  # Wave Source 0
+    [0.75, 0.15 + equilateral, z_position[0]],  # Wave Source 1
     [0.5, 0.15, z_position[0]],  # Wave Source 2
     [0.0, 0.0, z_position[0]],  # Wave Source 3
     [1.0, 0.0, z_position[0]],  # Wave Source 4
     [1.0, 0.75, z_position[0]],  # Wave Source 5
-    [0.0, 0.75, z_position[0]],  # Wave Source 6
 ]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
@@ -64,11 +64,10 @@ sources_position = [
 sources_phase_deg = [
     0,  # Wave Source 0 (eg. 0 = in phase)
     0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    180,  # Wave Source 2
+    0,  # Wave Source 2
     0,  # Wave Source 3
     0,  # Wave Source 4
     0,  # Wave Source 5
-    0,  # Wave Source 6
 ]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
@@ -101,7 +100,6 @@ def xperiment_specs():
 
 def data_dashboard():
     """Display simulation data dashboard."""
-    global t, freq_boost, frame
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.42, 0.19, 0.58) as sub:
         sub.text("--- WAVE-MEDIUM ---")
@@ -113,7 +111,7 @@ def data_dashboard():
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
-        sub.text(f"Granule Radius: {granule.radius:.2e} m")
+        sub.text(f"Granule Radius: {granule.radius * radius_factor:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
         sub.text("\n--- Sim Resolution (linear) ---")
@@ -197,7 +195,6 @@ def normalize_lattice(enable_slice: ti.i32):  # type: ignore
 
 def normalize_granule():
     """Normalize granule radius to 0-1 range for GGUI rendering"""
-
     global normalized_radius
 
     normalized_radius = max(
@@ -286,6 +283,10 @@ def render_xperiment(lattice):
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
+
+            # Update lattice energy based on wave amplitude (called every 30 frames to reduce overhead)
+            if frame % 30 == 0:
+                ewave.update_lattice_energy(lattice)
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
