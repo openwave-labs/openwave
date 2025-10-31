@@ -34,8 +34,8 @@ sources_phase_shift = None  # Phase offset for each wave source (radians)
 
 # Adaptive displacement tracking for data analytics
 frame_max_displacement = None  # Maximum displacement in current frame
-max_displacement_tracker = None  # Running maximum displacement (EMA smoothed, actual amplitude)
-avg_displacement = None  # Estimated average displacement
+max_displacement_tracker = None  # Running maximum displacement (EMA smoothed, peak amplitude)
+avg_amplitude = None  # RMS amplitude for energy calculation (peak * 0.707)
 
 
 # ================================================================
@@ -62,7 +62,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global frame_max_displacement, max_displacement_tracker, avg_displacement
+    global frame_max_displacement, max_displacement_tracker, avg_amplitude
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -78,10 +78,10 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Initialize displacement tracking fields for data analytics
     frame_max_displacement = ti.field(dtype=ti.f32, shape=())
     frame_max_displacement[None] = 0.0
-    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())  # actual amplitude
+    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())  # peak amplitude
     max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
-    avg_displacement = ti.field(dtype=ti.f32, shape=())
-    avg_displacement[None] = amplitude_am * 0.5  # Estimated average
+    avg_amplitude = ti.field(dtype=ti.f32, shape=())
+    avg_amplitude[None] = amplitude_am * 0.707  # RMS amplitude (peak / √2)
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -178,8 +178,8 @@ def oscillate_granules(
         - This maximizes GPU utilization while handling variable source counts
 
     Displacement Tracking for Data Analytics:
-        - Tracks maximum displacement per frame using atomic_max (actual amplitude)
-        - Estimates average displacement as max * 0.5 (for energy calculation)
+        - Tracks maximum displacement per frame using atomic_max (peak amplitude)
+        - Converts to RMS amplitude using max * 0.707 (peak / √2) for energy calculation
         - Uses EMA smoothing for stable visualization and energy display
 
     Args:
@@ -286,27 +286,30 @@ def oscillate_granules(
     new_max = old_max * alpha_max + frame_max_displacement[None] * (1.0 - alpha_max)
     max_displacement_tracker[None] = new_max
 
-    # Estimate average displacement for energy calculation
-    # For sinusoidal waves with interference, average amplitude ≈ max * 0.5 (typical)
-    # This avoids expensive per-frame averaging while providing reasonable energy estimate
-    avg_displacement[None] = max_displacement_tracker[None] * 0.5
+    # Convert peak amplitude to RMS amplitude for energy calculation
+    # RMS amplitude = peak / √2 ≈ peak * 0.707
+    # This is the standard conversion for sinusoidal oscillations
+    # Energy equation uses amplitude, and RMS gives the effective energy content
+    avg_amplitude[None] = max_displacement_tracker[None] * 0.707
 
 
 def update_lattice_energy(lattice):
-    """Update lattice energy based on estimated average displacement.
+    """Update lattice energy based on RMS amplitude from peak displacement.
 
     Must be called after oscillate_granules() to compute energy from wave amplitude.
     Cannot be done inside the kernel as lattice.energy is not a Taichi field.
 
-    Uses estimated average displacement (max * 0.5) for performance reasons.
-    Computing exact average would require expensive reduction operations every frame.
-    For sinusoidal waves with interference, this approximation is reasonable.
+    Uses RMS amplitude (peak * 0.707) which represents the effective energy content
+    of sinusoidal oscillations. The peak is tracked across all granules, and the
+    RMS conversion gives the equivalent constant amplitude that would produce the
+    same energy. This avoids expensive per-frame averaging while providing physically
+    meaningful energy values.
 
     Args:
         lattice: Lattice instance with universe_volume and energy fields
     """
     lattice.energy = equations.energy_wave_equation(
-        volume=lattice.universe_volume, amplitude=avg_displacement[None] * constants.ATTOMETTER
+        volume=lattice.universe_volume, amplitude=avg_amplitude[None] * constants.ATTOMETTER
     )
     lattice.energy_kWh = equations.J_to_kWh(lattice.energy)  # in KWh
     lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use
