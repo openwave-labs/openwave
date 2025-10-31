@@ -188,7 +188,7 @@ def oscillate_granules(
 
     # Reference radius for amplitude normalization (one wavelength)
     # Prevents singularity at r=0 and provides physically meaningful normalization
-    r_reference = wavelength_am  # attometers
+    r_reference_am = wavelength_am  # attometers
 
     # Process all granules in parallel (outermost loop = GPU parallelization)
     for granule_idx in range(position.shape[0]):
@@ -200,14 +200,14 @@ def oscillate_granules(
         for source_idx in range(num_sources):
             # Get precomputed direction and distance for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
-            r = sources_distance_am[granule_idx, source_idx]  # distance in attometers
+            r_am = sources_distance_am[granule_idx, source_idx]  # distance in attometers
 
             # Get source phase offset
             phase_offset = sources_phase_shift[source_idx]
 
             # Spatial phase: φ = -k·r (negative for outward propagation)
             # Creates spherical wave fronts expanding from source
-            spatial_phase = -k * r
+            spatial_phase = -k * r_am
 
             # Total phase: includes spatial phase and source's initial offset
             total_phase = spatial_phase + phase_offset
@@ -215,27 +215,27 @@ def oscillate_granules(
             # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
             # Use r_safe to prevent singularity (division by zero) at r → 0
             # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
-            r_safe = ti.max(r, r_reference)  # minimum 1 wavelength from source
-            amplitude_falloff = r_reference / r_safe
+            r_safe_am = ti.max(r_am, r_reference_am)  # minimum 1 wavelength_am from source
+            amplitude_falloff = r_reference_am / r_safe_am
 
             # Total amplitude at granule distance from source
             # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-            amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+            amplitude_at_r_am = amplitude_am * amplitude_falloff * amp_boost
 
             # Step 2: Cap amplitude to distance from source (A ≤ r)
             # Prevents non-physical behavior: granules crossing through wave source
             # When A > r, displacement could exceed distance to source, placing granule
             # on opposite side of source (physically impossible for longitudinal waves)
             # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
-            amplitude_at_r_cap = ti.min(amplitude_at_r, r)
+            amplitude_at_r_am_cap = ti.min(amplitude_at_r_am, r_am)
 
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
-            displacement_magnitude = amplitude_at_r_cap * ti.cos(omega * t + total_phase)
+            displacement_magnitude = amplitude_at_r_am_cap * ti.cos(omega * t + total_phase)
             source_displacement = displacement_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
-            velocity_magnitude = -amplitude_at_r_cap * omega * ti.sin(omega * t + total_phase)
+            velocity_magnitude = -amplitude_at_r_am_cap * omega * ti.sin(omega * t + total_phase)
             source_velocity = velocity_magnitude * direction
 
             # Accumulate this source's contribution (wave superposition)
