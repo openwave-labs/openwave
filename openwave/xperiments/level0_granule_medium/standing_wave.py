@@ -98,7 +98,7 @@ def xperiment_specs():
 def data_dashboard():
     """Display simulation data dashboard."""
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.42, 0.19, 0.58) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
         sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
