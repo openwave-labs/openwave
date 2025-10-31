@@ -14,6 +14,7 @@ import taichi as ti
 
 from openwave.common import config
 from openwave.common import constants
+from openwave.common import equations
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -31,9 +32,10 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
-# Adaptive max displacement tracking (amplitude)
+# Adaptive displacement tracking for data analytics
 frame_max_displacement = None  # Maximum displacement in current frame
-max_displacement_tracker = None  # Running maximum displacement (EMA smoothed)
+max_displacement_tracker = None  # Running maximum displacement (EMA smoothed, actual amplitude)
+avg_displacement = None  # Estimated average displacement
 
 
 # ================================================================
@@ -60,7 +62,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global frame_max_displacement, max_displacement_tracker
+    global frame_max_displacement, max_displacement_tracker, avg_displacement
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -73,11 +75,13 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize displacement tracking fields (amplitude)
+    # Initialize displacement tracking fields for data analytics
     frame_max_displacement = ti.field(dtype=ti.f32, shape=())
     frame_max_displacement[None] = 0.0
-    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())
+    max_displacement_tracker = ti.field(dtype=ti.f32, shape=())  # actual amplitude
     max_displacement_tracker[None] = amplitude_am  # Start with base amplitude
+    avg_displacement = ti.field(dtype=ti.f32, shape=())
+    avg_displacement[None] = amplitude_am * 0.5  # Estimated average
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -173,16 +177,22 @@ def oscillate_granules(
         - Inner loop (sources): Sequential per granule (num_sources iterations)
         - This maximizes GPU utilization while handling variable source counts
 
+    Displacement Tracking for Data Analytics:
+        - Tracks maximum displacement per frame using atomic_max (actual amplitude)
+        - Estimates average displacement as max * 0.5 (for energy calculation)
+        - Uses EMA smoothing for stable visualization and energy display
+
     Args:
         position: Position field for all granules (modified in-place)
-        velocity: Velocity field for all granules (modified in-place)
         equilibrium: Equilibrium (rest) positions for all granules
+        velocity: Velocity field for all granules (modified in-place)
+        granule_var_color: Color field for IRONBOW displacement visualization
         num_sources: Number of wave sources
         t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
-    # Reset frame max displacement to find the peak displacement this frame
+    # Reset frame max displacement for this frame
     frame_max_displacement[None] = 0.0
 
     # Compute temporal parameters (same for all wave sources)
@@ -253,27 +263,50 @@ def oscillate_granules(
         velocity[granule_idx] = total_velocity
 
         # ================================================================
-        # DISPLACEMENT TRACKING
+        # DISPLACEMENT TRACKING - DATA ANALYTICS
         # ================================================================
-        # Compute displacement magnitude for color mapping
+        # Compute displacement magnitude
         displacement_magnitude = total_displacement.norm()
 
-        # Track maximum displacement across all granules in this frame
-        # Uses atomic max to find peak displacement (thread-safe)
+        # Track maximum displacement across all granules (thread-safe atomic max)
+        # Used for data analytics
         ti.atomic_max(frame_max_displacement[None], displacement_magnitude)
 
         # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
         # Map displacement to IRONBOW thermal gradient color
-        # Args: (value, min, max, saturation_headroom_factor)
+        # Args: (value, min, max)
         granule_var_color[granule_idx] = config.get_ironbow_color(
             displacement_magnitude, 0.0, max_displacement_tracker[None]
         )
 
-    # Apply exponential moving average (EMA) smoothing to max displacement
-    # This smooths out frame-to-frame variations for stable color scaling
+    # Apply EMA smoothing to max displacement for stable color scaling
     # Smoothing factor: 0.95 = fast adaptation, responds quickly to changes
-    # Adapts to changes in amp_boost or wave dynamics over time
-    alpha = 0.95
+    alpha_max = 0.95
     old_max = max_displacement_tracker[None]
-    new_max = old_max * alpha + frame_max_displacement[None] * (1.0 - alpha)
+    new_max = old_max * alpha_max + frame_max_displacement[None] * (1.0 - alpha_max)
     max_displacement_tracker[None] = new_max
+
+    # Estimate average displacement for energy calculation
+    # For sinusoidal waves with interference, average amplitude ≈ max * 0.5 (typical)
+    # This avoids expensive per-frame averaging while providing reasonable energy estimate
+    avg_displacement[None] = max_displacement_tracker[None] * 0.5
+
+
+def update_lattice_energy(lattice):
+    """Update lattice energy based on estimated average displacement.
+
+    Must be called after oscillate_granules() to compute energy from wave amplitude.
+    Cannot be done inside the kernel as lattice.energy is not a Taichi field.
+
+    Uses estimated average displacement (max * 0.5) for performance reasons.
+    Computing exact average would require expensive reduction operations every frame.
+    For sinusoidal waves with interference, this approximation is reasonable.
+
+    Args:
+        lattice: Lattice instance with universe_volume and energy fields
+    """
+    lattice.energy = equations.energy_wave_equation(
+        volume=lattice.universe_volume, amplitude=avg_displacement[None] * constants.ATTOMETTER
+    )
+    lattice.energy_kWh = equations.J_to_kWh(lattice.energy)  # in KWh
+    lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use

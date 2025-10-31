@@ -283,6 +283,10 @@ def render_xperiment(lattice):
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
+            # Update lattice energy based on wave amplitude (called every 30 frames to reduce overhead)
+            if frame % 30 == 0:
+                ewave.update_lattice_energy(lattice)
+
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
