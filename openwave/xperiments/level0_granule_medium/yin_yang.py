@@ -101,34 +101,34 @@ def data_dashboard():
     """Display simulation data dashboard."""
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
-        sub.text("--- WAVE-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
-        sub.text("\n--- Scaling-Up (for computation) ---")
+        sub.text("\n--- Scaling-Up (for computation) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius * radius_factor:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
-        sub.text("\n--- Sim Resolution (linear) ---")
+        sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
         if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---")
+        sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
         sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
         sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
-        sub.text("\n--- Sim Universe Wave Energy ---")
+        sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
 
-        sub.text("\n--- TIME MICROSCOPE ---")
+        sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
         slowed_mo = config.SLOW_MO / freq_boost
         fps = 0 if t == 0 else frame / t
         sub.text(f"Frames Rendered: {frame}")
