@@ -410,7 +410,7 @@ def measure_wavelength() -> ti.f32:
 
 **Mathematical Statement**:
 
-```
+```text
 F = -∇A
 ```
 
@@ -450,7 +450,7 @@ x_new = x_old + v_new * dt
 
 **Newton's Second Law**:
 
-```
+```text
 F = ma
 a = F / m
 ```
