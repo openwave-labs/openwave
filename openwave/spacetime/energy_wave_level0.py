@@ -32,7 +32,7 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
-# Adaptive displacement tracking for data analytics
+# Adaptive displacement tracking for numerical analysis
 frame_max_displacement_am = None  # Maximum displacement in current frame
 max_displacement_am_tracker = None  # Running maximum displacement (EMA smoothed, peak amplitude)
 avg_amplitude_am = None  # RMS amplitude for energy calculation (peak * 0.707)
@@ -75,7 +75,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize displacement tracking fields for data analytics
+    # Initialize displacement tracking fields for numerical analysis
     frame_max_displacement_am = ti.field(dtype=ti.f32, shape=())
     frame_max_displacement_am[None] = 0.0
     max_displacement_am_tracker = ti.field(dtype=ti.f32, shape=())  # peak amplitude
@@ -177,7 +177,7 @@ def oscillate_granules(
         - Inner loop (sources): Sequential per granule (num_sources iterations)
         - This maximizes GPU utilization while handling variable source counts
 
-    Displacement Tracking for Data Analytics:
+    Displacement Tracking for Numerical Analysis:
         - Tracks maximum displacement per frame using atomic_max (peak amplitude)
         - Converts to RMS amplitude using max * 0.707 (peak / √2) for energy calculation
         - Uses EMA smoothing for stable visualization and energy display
@@ -267,13 +267,13 @@ def oscillate_granules(
         velocity_am[granule_idx] = total_velocity_am
 
         # ================================================================
-        # DISPLACEMENT TRACKING - DATA ANALYTICS
+        # DISPLACEMENT TRACKING - NUMERICAL ANALYSIS
         # ================================================================
         # Compute displacement magnitude
         displacement_am_magnitude = total_displacement_am.norm()
 
         # Track maximum displacement across all granules (thread-safe atomic max)
-        # Used for data analytics
+        # Used for numerical analysis
         ti.atomic_max(frame_max_displacement_am[None], displacement_am_magnitude)
 
         # IRONBOW COLOR CONVERSION OF DISPLACEMENT VALUE
