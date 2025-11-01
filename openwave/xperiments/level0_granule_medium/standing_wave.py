@@ -36,7 +36,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_SIZE = [
     6 * constants.EWAVE_LENGTH,
     6 * constants.EWAVE_LENGTH,
-    1 * constants.EWAVE_LENGTH,
+    0.5 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
@@ -46,7 +46,7 @@ NUM_SOURCES = 64
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [0.175]  # Initialize Z positions
+z_position = [0.09]  # Initialize Z positions
 sources_position = []  # Initialize source positions list
 # Generate positions for remaining sources in a circle around center top
 for i in range(NUM_SOURCES):
