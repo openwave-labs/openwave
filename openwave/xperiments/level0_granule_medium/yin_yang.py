@@ -176,7 +176,7 @@ def color_menu():
     # Display ironbow gradient palette
     # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
     if ironbow == True:
-        with render.gui.sub_window("GRADIENT", 0.94, 0.61, 0.06, 0.13) as palette:
+        with render.gui.sub_window("GRADIENT", 0.93, 0.61, 0.07, 0.13) as palette:
             palette.text("@@@ - high", color=(1.0, 1.0, 0.96))  # yellow-white
             palette.text("@@@", color=(0.90, 0.27, 0.09))  # red-orange
             palette.text("@@@", color=(0.57, 0.0, 0.61))  # magenta
