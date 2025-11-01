@@ -32,7 +32,7 @@ dependencies = [
   "matplotlib>=3.8,<4.0",
   "taichi>=1.6,<2.0",
   "pyautogui>=0.9,<1.0",
-  "simple-term-menu>=1.6.0,<2.0"
+  "simple-term-menu>=1.6.0,<2.0; sys_platform != 'win32'"
 ]
 
 [project.scripts]
