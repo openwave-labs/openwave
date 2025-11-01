@@ -168,26 +168,26 @@ def color_menu():
     """Render color selection menu."""
     global granule_type, ironbow
 
-    with render.gui.sub_window("COLOR MENU", 0.87, 0.75, 0.13, 0.12) as sub:
-        if sub.checkbox("Ironbow (displacement)", ironbow):
+    with render.gui.sub_window("COLOR MENU", 0.87, 0.76, 0.13, 0.12) as sub:
+        if sub.checkbox("Displacement (Ironbow)", ironbow):
             ironbow = True
             granule_type = False
-        if sub.checkbox("Granule Type Color", granule_type):
+        if sub.checkbox("Granule Type (Color)", granule_type):
             granule_type = True
             ironbow = False
-        if sub.checkbox("Medium Default Color", not (granule_type or ironbow)):
+        if sub.checkbox("Medium Default (Color)", not (granule_type or ironbow)):
             granule_type = False
             ironbow = False
 
     # Display ironbow gradient palette
     # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
     if ironbow == True:
-        with render.gui.sub_window("GRADIENT", 0.93, 0.61, 0.07, 0.13) as palette:
-            palette.text("@@@ - high", color=(1.0, 1.0, 0.96))  # yellow-white
+        with render.gui.sub_window("IRONBOW", 0.94, 0.64, 0.06, 0.12) as palette:
+            palette.text("@@@: high", color=(1.0, 1.0, 0.96))  # yellow-white
             palette.text("@@@", color=(0.90, 0.27, 0.09))  # red-orange
             palette.text("@@@", color=(0.57, 0.0, 0.61))  # magenta
             palette.text("@@@", color=(0.125, 0.0, 0.54))  # dark blue
-            palette.text("@@@ - Low", color=(0.0, 0.0, 0.04))  # black
+            # palette.text("@@@ - Low", color=(0.0, 0.0, 0.04))  # black
 
 
 # ================================================================

@@ -30,6 +30,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     pkg_name = "OPENWAVE"
     title = pkg_name + " (v" + pkg_version + ")"
     width, height = pyautogui.size()
+    # width, height = 1470, 956  # uncomment to test on min resolution
 
     window = ti.ui.Window(title, (width, height), vsync=True)
     camera = ti.ui.Camera()  # Camera object for 3D view control
