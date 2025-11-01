@@ -1,4 +1,4 @@
-# PARTICLES (Wave Centers)
+# MATTER (Particles, Wave Centers)
 
 ## Table of Contents
 
@@ -514,5 +514,5 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 **Related Documentation**:
 
 - [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation and force calculation
-- [`06_EMERGENT_FIELDS.md`](./06_EMERGENT_FIELDS.md) - How forces emerge from waves
-- [`05_VISUALIZATION.md`](./05_VISUALIZATION.md) - Visualizing particles and wave centers
+- [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md) - How forces emerge from waves
+- [`04_VISUALIZATION.md`](./04_VISUALIZATION.md) - Visualizing particles and wave centers

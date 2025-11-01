@@ -1,4 +1,4 @@
-# EMERGENT FIELDS
+# FORCES & MOTION
 
 ## Table of Contents
 
@@ -437,5 +437,5 @@ def measure_wavelength() -> ti.f32:
 **Related Documentation**:
 
 - [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation creating these fields
-- [`04_PARTICLES.md`](./04_PARTICLES.md) - How particles respond to emergent forces
+- [`05_MATTER.md`](./05_MATTER.md) - How particles respond to emergent forces
 - [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - Properties that create fields

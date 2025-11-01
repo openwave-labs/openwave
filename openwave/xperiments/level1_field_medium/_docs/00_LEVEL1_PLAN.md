@@ -1,4 +1,4 @@
-# Ideas for LEVEL-1 Simulation Architecture & Visualization Concepts
+# PLAN FOR LEVEL-1 SIMULATION ARCHITECTURE
 
 ## Overview
 
@@ -130,7 +130,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 - How do wave centers reflect waves?
 - How does MAP (Minimum Amplitude Principle) work?
 
-**Approach**: Hybrid field-particle system (see [`04_PARTICLES.md`](./04_PARTICLES.md))
+**Approach**: Hybrid field-particle system (see [`05_MATTER.md`](./05_MATTER.md))
 
 ## Core Architecture Components
 
@@ -176,7 +176,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 **Purpose**: Simulate fundamental particles as wave reflection centers
 
-**Details**: See [`04_PARTICLES.md`](./04_PARTICLES.md)
+**Details**: See [`05_MATTER.md`](./05_MATTER.md)
 
 **Key Features**:
 
@@ -189,7 +189,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 **Purpose**: Make wave fields and particles visible
 
-**Details**: See [`05_VISUALIZATION.md`](./05_VISUALIZATION.md)
+**Details**: See [`04_VISUALIZATION.md`](./04_VISUALIZATION.md)
 
 **Key Systems**:
 
@@ -203,7 +203,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 **Purpose**: All forces emerge from wave interactions
 
-**Details**: See [`06_EMERGENT_FIELDS.md`](./06_EMERGENT_FIELDS.md)
+**Details**: See [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md)
 
 **Key Concepts**:
 
@@ -254,9 +254,9 @@ For implementation details, see:
 1. **[01_WAVE_FIELD.md](./01_WAVE_FIELD.md)** - Grid structure, voxels, indices, positioning
 2. **[02_WAVE_PROPERTIES.md](./02_WAVE_PROPERTIES.md)** - Scalar/vector properties, storage
 3. **[03_WAVE_ENGINE.md](./03_WAVE_ENGINE.md)** - Wave propagation, PDEs, interference, reflection
-4. **[04_PARTICLES.md](./04_PARTICLES.md)** - Wave centers, MAP, particle dynamics
-5. **[05_VISUALIZATION.md](./05_VISUALIZATION.md)** - Rendering techniques for fields and particles
-6. **[06_EMERGENT_FIELDS.md](./06_EMERGENT_FIELDS.md)** - How forces emerge from waves
+4. **[05_MATTER.md](./05_MATTER.md)** - Wave centers, MAP, particle dynamics
+5. **[04_VISUALIZATION.md](./04_VISUALIZATION.md)** - Rendering techniques for fields and particles
+6. **[06_FORCE_MOTION.md](./06_FORCE_MOTION.md)** - How forces emerge from waves
 
 ### Supporting Research Documentation
 

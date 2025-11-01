@@ -404,7 +404,7 @@ def compute_force_field():
         force[i,j,k] = -ti.Vector([grad_x, grad_y, grad_z])
 ```
 
-**Usage**: Force field drives particle motion (see [`04_PARTICLES.md`](./04_PARTICLES.md))
+**Usage**: Force field drives particle motion (see [`05_MATTER.md`](./05_MATTER.md))
 
 ### Energy Tracking
 
@@ -476,4 +476,4 @@ dt = 0.5 * dx / c  # Safety factor of 0.5
 
 - [`01_WAVE_FIELD.md`](./01_WAVE_FIELD.md) - Grid architecture
 - [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - Wave properties
-- [`04_PARTICLES.md`](./04_PARTICLES.md) - Particle system and MAP
+- [`05_MATTER.md`](./05_MATTER.md) - Particle system and MAP
