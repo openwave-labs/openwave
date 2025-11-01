@@ -25,11 +25,18 @@
 1. [Near-Field vs Far-Field](#near-field-vs-far-field)
    - [Behavior Differences](#behavior-differences)
    - [Wave Formation Zones](#wave-formation-zones)
+1. [Particle Motion from Forces](#particle-motion-from-forces)
+   - [Minimum Amplitude Principle (MAP)](#minimum-amplitude-principle-map)
+   - [Force-Driven Motion](#force-driven-motion)
+   - [Position Updates](#position-updates)
+   - [Particle Dynamics Algorithm](#particle-dynamics-algorithm)
 1. [Implementation Strategy](#implementation-strategy)
 
 ## Overview
 
 In Energy Wave Theory (EWT) as implemented in LEVEL-1, **all forces emerge from wave interactions**. There are no separate force fields—gravity, electromagnetism, and all other forces are derivations and compositions of the underlying energy wave field.
+
+Electric, magnetic, gravitational, strong forces are disturbances on the energy wave.
 
 **Key Paradigm Shift**:
 
@@ -384,6 +391,210 @@ def measure_wavelength() -> ti.f32:
 - Neutrino: Simple spherical standing wave
 - Electron: Two-center pattern with specific node structure
 - Proton: Complex multi-center pattern
+
+## Particle Motion from Forces
+
+### Minimum Amplitude Principle (MAP)
+
+**Single Governing Principle**: Particles move to minimize amplitude.
+
+**Physical Motivation**:
+
+- Forces arise from amplitude gradients in the wave field
+- Greater wave amplitude = higher momentum density
+- Force vectors point toward decreasing wave amplitude
+- Particles seek lowest energy configuration
+- Amplitude represents wave intensity/pressure
+- High amplitude = high pressure → repulsive
+- Low amplitude = low pressure → attractive
+
+**Mathematical Statement**:
+
+```
+F = -∇A
+```
+
+Force points toward decreasing amplitude (downhill on amplitude landscape).
+
+**Implications**:
+
+- Particles repelled from high-amplitude regions
+- Particles attracted to low-amplitude regions (nodes)
+- Creates effective "forces" between particles
+- Emergent gravity, EM, all forces from MAP
+
+### Force-Driven Motion
+
+**Force Calculation**:
+
+Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
+
+```python
+F[i,j,k] = -∇A[i,j,k]
+```
+
+**Applying Force to Particle**:
+
+```python
+# For particle at position (x, y, z)
+# Interpolate force from nearby voxels
+F_particle = interpolate_field(force_field, x, y, z)
+
+# Update velocity (Newton's second law)
+a = F_particle / mass
+v_new = v_old + a * dt
+
+# Update position
+x_new = x_old + v_new * dt
+```
+
+**Newton's Second Law**:
+
+```
+F = ma
+a = F / m
+```
+
+**Force Acts on Mass**:
+
+- Amplitude gradient creates force
+- Force accelerates mass (trapped wave energy)
+- Larger mass → smaller acceleration for same force
+
+**Distance and Work**:
+
+- Force acts over distance: `W = F · d`
+- Work changes kinetic energy: `ΔKE = W`
+- Energy conservation maintained
+
+### Position Updates
+
+**Integration Scheme**:
+
+```python
+@ti.kernel
+def update_particle_positions(dt: ti.f32):
+    for p in particles:
+        # Get force at particle position
+        F = get_force_at_position(particles.pos[p])
+
+        # Acceleration from force
+        a = F / particles.mass[p]
+
+        # Velocity Verlet integration
+        particles.vel[p] += a * dt
+        particles.pos[p] += particles.vel[p] * dt
+```
+
+**Boundary Handling**:
+
+- Reflect particles at universe boundaries
+- Elastic collision with walls
+- Or periodic boundary conditions
+
+```python
+@ti.kernel
+def apply_particle_boundaries():
+    for p in particles:
+        if particles.active[p]:
+            # Reflective boundaries
+            if particles.pos[p].x < 0:
+                particles.pos[p].x = -particles.pos[p].x
+                particles.vel[p].x = -particles.vel[p].x
+            if particles.pos[p].x > L:
+                particles.pos[p].x = 2*L - particles.pos[p].x
+                particles.vel[p].x = -particles.vel[p].x
+            # Similar for y, z
+```
+
+### Particle Dynamics Algorithm
+
+**Complete Update Cycle**:
+
+```python
+@ti.kernel
+def particle_dynamics_step(dt: ti.f32):
+    """Complete particle dynamics for one timestep."""
+
+    # 1. Compute force field from wave amplitude
+    compute_force_field()  # F = -∇A
+
+    # 2. Update each particle
+    for p in range(max_particles):
+        if particles.active[p]:
+            # Get interpolated force at particle position
+            F = interpolate_force(particles.pos[p])
+
+            # Newton's second law
+            a = F / particles.mass[p]
+
+            # Velocity Verlet integration (half-step)
+            particles.vel[p] += 0.5 * a * dt
+
+            # Update position
+            particles.pos[p] += particles.vel[p] * dt
+
+            # Apply boundary conditions
+            apply_boundary_reflections(p)
+
+            # Recompute force at new position
+            F_new = interpolate_force(particles.pos[p])
+            a_new = F_new / particles.mass[p]
+
+            # Velocity Verlet (second half-step)
+            particles.vel[p] += 0.5 * a_new * dt
+
+    # 3. Apply wave reflections at new particle positions
+    for p in range(max_particles):
+        if particles.active[p]:
+            apply_wave_reflection_at_center(particles.pos[p])
+```
+
+**Force Interpolation** (trilinear):
+
+```python
+@ti.func
+def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
+    """Interpolate force field at arbitrary position."""
+    # Convert to grid coordinates
+    x = pos.x / dx
+    y = pos.y / dx
+    z = pos.z / dx
+
+    # Grid indices
+    i = ti.cast(ti.floor(x), ti.i32)
+    j = ti.cast(ti.floor(y), ti.i32)
+    k = ti.cast(ti.floor(z), ti.i32)
+
+    # Fractional parts
+    fx = x - i
+    fy = y - j
+    fz = z - k
+
+    # Trilinear interpolation
+    F000 = force[i,   j,   k  ]
+    F100 = force[i+1, j,   k  ]
+    F010 = force[i,   j+1, k  ]
+    F110 = force[i+1, j+1, k  ]
+    F001 = force[i,   j,   k+1]
+    F101 = force[i+1, j,   k+1]
+    F011 = force[i,   j+1, k+1]
+    F111 = force[i+1, j+1, k+1]
+
+    # Interpolate
+    F_interp = (
+        F000 * (1-fx) * (1-fy) * (1-fz) +
+        F100 * fx     * (1-fy) * (1-fz) +
+        F010 * (1-fx) * fy     * (1-fz) +
+        F110 * fx     * fy     * (1-fz) +
+        F001 * (1-fx) * (1-fy) * fz     +
+        F101 * fx     * (1-fy) * fz     +
+        F011 * (1-fx) * fy     * fz     +
+        F111 * fx     * fy     * fz
+    )
+
+    return F_interp
+```
 
 ## Implementation Strategy
 

@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
+1. [Summary](#summary)
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
    - [Amplitude (A)](#amplitude-a)
@@ -22,9 +22,49 @@
 1. [Property Relationships](#property-relationships)
 1. [LEVEL-0 vs LEVEL-1 Properties](#level-0-vs-level-1-properties)
 
-## Overview
+## SUMMARY
 
 Wave field attributes represent physical quantities and wave disturbances stored at each voxel in the field-based medium. Properties are categorized as **scalar** (magnitude only) or **vector** (magnitude + direction).
+
+### Wave Medium
+
+- MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
+- WAVE-SOURCE: defines frequency, rhythm, vibration and injects energy
+
+### Wave Form
+
+- WAVE-MODE: longitudinal, transverse (polarization)
+- WAVE-TYPE: standing, traveling
+
+### Wave Energy
+
+- WAVE-SPEED (c): constant, has direction of propagation
+- WAVE-LENGTH (λ): changes when moving particle (doppler)
+- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
+- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
+
+### Wave Rhythm
+
+- FREQUENCY (f): c / λ (can change)
+- TIME: the wave's frequency, rhythm
+
+### Wave Interaction
+
+- INTERFERENCE: amplitude combinations (resonance, superposition) [sources diffs: phase, motion, freq]
+- REFLECTION: changes direction of propagation (velocity vector)
+
+### Notation
+
+- ρ (rho) = medium density
+- c = wave speed (speed of light)
+- λ (lambda) = wavelength
+- A = wave amplitude
+- f = frequency (c / λ)
+- ω (omega) = angular frequency (2πf)
+- ωt = temporal oscillation (controls rhythm, time-varying component)
+- φ (phi) = spatial phase shift (controls phase shift, wave relationship, interference, position-dependent component)
+- k = wave number (2π/λ)
+- t = time
 
 ## Scalar Properties (Magnitude)
 

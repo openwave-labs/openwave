@@ -1,4 +1,4 @@
-# MATTER (Particles, Wave Centers)
+# MATTER (Wave Centers, Particles & Anti-particles)
 
 ## Table of Contents
 
@@ -11,14 +11,9 @@
    - [Reflection Behavior](#reflection-behavior)
    - [Wave Inversion](#wave-inversion)
    - [Near-Field Effects](#near-field-effects)
-1. [Particle Motion Rules](#particle-motion-rules)
-   - [Minimum Amplitude Principle (MAP)](#minimum-amplitude-principle-map)
-   - [Force-Driven Motion](#force-driven-motion)
-   - [Position Updates](#position-updates)
 1. [Mass and Energy](#mass-and-energy)
    - [Mass Accumulation](#mass-accumulation)
    - [Energy-Mass Relationship](#energy-mass-relationship)
-   - [Force and Acceleration](#force-and-acceleration)
 1. [Complex Structures](#complex-structures)
    - [Composite Particles](#composite-particles)
    - [Electron Formation](#electron-formation)
@@ -27,7 +22,6 @@
    - [Taichi Particle System](#taichi-particle-system)
    - [Field-Particle Interaction](#field-particle-interaction)
    - [Boundary Conditions](#boundary-conditions)
-1. [Particle Dynamics Algorithm](#particle-dynamics-algorithm)
 
 ## Overview
 
@@ -142,83 +136,7 @@ def apply_wave_center_reflection(xc: ti.f32, yc: ti.f32, zc: ti.f32):
 - Determines particle structure (size, shape)
 - Different particles have different near-field patterns
 
-## Particle Motion Rules
-
-### Minimum Amplitude Principle (MAP)
-
-**Single Governing Principle**: Particles move to minimize amplitude.
-
-**Physical Motivation**:
-
-- Particles seek lowest energy configuration
-- Amplitude represents wave intensity/pressure
-- High amplitude = high pressure → repulsive
-- Low amplitude = low pressure → attractive
-
-**Mathematical Statement**:
-
-```text
-F = -∇A
-```
-
-Force points toward decreasing amplitude (downhill on amplitude landscape).
-
-**Implications**:
-
-- Particles repelled from high-amplitude regions
-- Particles attracted to low-amplitude regions (nodes)
-- Creates effective "forces" between particles
-- Emergent gravity, EM, all forces from MAP
-
-### Force-Driven Motion
-
-**Force Calculation**:
-
-Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
-
-```python
-F[i,j,k] = -∇A[i,j,k]
-```
-
-**Applying Force to Particle**:
-
-```python
-# For particle at position (x, y, z)
-# Interpolate force from nearby voxels
-F_particle = interpolate_field(force_field, x, y, z)
-
-# Update velocity (Newton's second law)
-a = F_particle / mass
-v_new = v_old + a * dt
-
-# Update position
-x_new = x_old + v_new * dt
-```
-
-### Position Updates
-
-**Integration Scheme**:
-
-```python
-@ti.kernel
-def update_particle_positions(dt: ti.f32):
-    for p in particles:
-        # Get force at particle position
-        F = get_force_at_position(particles.pos[p])
-
-        # Acceleration from force
-        a = F / particles.mass[p]
-
-        # Velocity Verlet integration
-        particles.vel[p] += a * dt
-        particles.pos[p] += particles.vel[p] * dt
-```
-
-**Boundary Handling**:
-
-- Reflect particles at universe boundaries
-- Elastic collision with walls
-- Or periodic boundary conditions
+**For particle motion dynamics**, see [`06_FORCE_MOTION.md` - Particle Motion from Forces](./06_FORCE_MOTION.md#particle-motion-from-forces)
 
 ## Mass and Energy
 
@@ -264,27 +182,6 @@ def compute_particle_mass(p: ti.i32) -> ti.f32:
 - Total energy (field + particle mass) conserved
 - Energy can transfer: field ↔ particle mass
 - Particle motion carries kinetic energy
-
-### Force and Acceleration
-
-**Newton's Second Law**:
-
-```text
-F = ma
-a = F / m
-```
-
-**Force Acts on Mass**:
-
-- Amplitude gradient creates force
-- Force accelerates mass (trapped wave energy)
-- Larger mass → smaller acceleration for same force
-
-**Distance and Work**:
-
-- Force acts over distance: `W = F · d`
-- Work changes kinetic energy: `ΔKE = W`
-- Energy conservation maintained
 
 ## Complex Structures
 
@@ -414,105 +311,14 @@ def apply_particle_boundaries():
             # Similar for y, z
 ```
 
-## Particle Dynamics Algorithm
-
-### Complete Update Cycle
-
-```python
-@ti.kernel
-def particle_dynamics_step(dt: ti.f32):
-    """Complete particle dynamics for one timestep."""
-
-    # 1. Compute force field from wave amplitude
-    compute_force_field()  # F = -∇A
-
-    # 2. Update each particle
-    for p in range(max_particles):
-        if particles.active[p]:
-            # Get interpolated force at particle position
-            F = interpolate_force(particles.pos[p])
-
-            # Newton's second law
-            a = F / particles.mass[p]
-
-            # Velocity Verlet integration (half-step)
-            particles.vel[p] += 0.5 * a * dt
-
-            # Update position
-            particles.pos[p] += particles.vel[p] * dt
-
-            # Apply boundary conditions
-            apply_boundary_reflections(p)
-
-            # Recompute force at new position
-            F_new = interpolate_force(particles.pos[p])
-            a_new = F_new / particles.mass[p]
-
-            # Velocity Verlet (second half-step)
-            particles.vel[p] += 0.5 * a_new * dt
-
-    # 3. Apply wave reflections at new particle positions
-    for p in range(max_particles):
-        if particles.active[p]:
-            apply_wave_reflection_at_center(particles.pos[p])
-```
-
-### Interpolation
-
-**Force Interpolation** (trilinear):
-
-```python
-@ti.func
-def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
-    """Interpolate force field at arbitrary position."""
-    # Convert to grid coordinates
-    x = pos.x / dx
-    y = pos.y / dx
-    z = pos.z / dx
-
-    # Grid indices
-    i = ti.cast(ti.floor(x), ti.i32)
-    j = ti.cast(ti.floor(y), ti.i32)
-    k = ti.cast(ti.floor(z), ti.i32)
-
-    # Fractional parts
-    fx = x - i
-    fy = y - j
-    fz = z - k
-
-    # Trilinear interpolation
-    F000 = force[i,   j,   k  ]
-    F100 = force[i+1, j,   k  ]
-    F010 = force[i,   j+1, k  ]
-    F110 = force[i+1, j+1, k  ]
-    F001 = force[i,   j,   k+1]
-    F101 = force[i+1, j,   k+1]
-    F011 = force[i,   j+1, k+1]
-    F111 = force[i+1, j+1, k+1]
-
-    # Interpolate
-    F_interp = (
-        F000 * (1-fx) * (1-fy) * (1-fz) +
-        F100 * fx     * (1-fy) * (1-fz) +
-        F010 * (1-fx) * fy     * (1-fz) +
-        F110 * fx     * fy     * (1-fz) +
-        F001 * (1-fx) * (1-fy) * fz     +
-        F101 * fx     * (1-fy) * fz     +
-        F011 * (1-fx) * fy     * fz     +
-        F111 * fx     * fy     * fz
-    )
-
-    return F_interp
-```
-
 ---
 
-**Status**: Particle system architecture defined
+**Status**: Matter/particle system architecture defined
 
-**Next Steps**: Implement particle dynamics with MAP force calculation
+**Next Steps**: Implement wave centers with reflection properties
 
 **Related Documentation**:
 
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation and force calculation
-- [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md) - How forces emerge from waves
+- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation and reflection at wave centers
+- [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md) - Particle motion dynamics and force calculations
 - [`04_VISUALIZATION.md`](./04_VISUALIZATION.md) - Visualizing particles and wave centers
