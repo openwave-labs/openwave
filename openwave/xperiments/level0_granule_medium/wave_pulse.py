@@ -204,7 +204,7 @@ def render_xperiment(lattice):
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global normalized_position
-    global t, freq_boost, frame
+    global t, frame
 
     # Initialize variables
     show_axis = True  # Toggle to show/hide axis lines
