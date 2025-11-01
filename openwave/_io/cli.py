@@ -9,9 +9,15 @@ import argparse
 import os
 import sys
 import subprocess
+import platform
 from pathlib import Path
 
-from simple_term_menu import TerminalMenu
+# Conditional import for simple_term_menu (not available on Windows)
+try:
+    from simple_term_menu import TerminalMenu
+    HAS_INTERACTIVE_MENU = True
+except (ImportError, NotImplementedError):
+    HAS_INTERACTIVE_MENU = False
 
 
 def get_experiments_list():
@@ -207,6 +213,7 @@ def show_menu_simple(experiments):
 def show_menu_interactive(experiments):
     """
     Display an interactive menu using arrow keys for Xperiment selection.
+    Only available on Unix-like systems (Linux, macOS).
 
     Args:
         experiments: List of tuples containing (display_name, file_path)
@@ -214,6 +221,10 @@ def show_menu_interactive(experiments):
     Returns:
         str: Path to the selected xperiment file
     """
+    if not HAS_INTERACTIVE_MENU:
+        # Fallback to simple menu if interactive menu not available
+        return show_menu_simple(experiments)
+
     # Build menu with collection headers marked as non-selectable
     menu_options = []
     file_path_map = {}  # Maps option index to file path

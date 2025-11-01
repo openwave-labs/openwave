@@ -137,8 +137,12 @@ def handle_camera():
     # Handle mouse input for orbiting
     mouse_pos = window.get_cursor_pos()
 
-    # Check for right mouse button drag
-    if window.is_pressed(ti.ui.RMB):
+    # Check for orbit controls: right-click drag OR shift+left-click drag (for trackpads)
+    is_orbiting = window.is_pressed(ti.ui.RMB) or (
+        window.is_pressed(ti.ui.LMB) and window.is_pressed(ti.ui.SHIFT)
+    )
+
+    if is_orbiting:
         if last_mouse_pos is not None:
             # Calculate mouse delta
             dx = mouse_pos[0] - last_mouse_pos[0]
@@ -205,7 +209,7 @@ def cam_instructions():
     """Overlay camera movement instructions."""
     global cam_x, cam_y, cam_z
     with gui.sub_window("CAMERA MOVEMENT", 0.87, 0.88, 0.13, 0.12) as sub:
-        sub.text("Orbit: right-click + drag")
+        sub.text("Orbit: RMB or Shift+LMB")
         sub.text("Zoom: Q/Z keys")
         sub.text("Pan: Arrow keys")
         sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=config.LIGHT_BLUE[1])
