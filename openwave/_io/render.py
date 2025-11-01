@@ -19,10 +19,12 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     # Get package name and version from source (works with editable installs)
     try:
         from openwave import __version__
+
         pkg_version = __version__
     except ImportError:
         # Fallback to metadata if __version__ not available
         from importlib.metadata import version
+
         pkg_version = version("OPENWAVE")
 
     pkg_name = "OPENWAVE"
@@ -205,7 +207,7 @@ def cam_instructions():
         sub.text("Orbit: right-click + drag")
         sub.text("Zoom: Q/Z keys")
         sub.text("Pan: Arrow keys")
-        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z))
+        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=config.LIGHT_BLUE[1])
 
 
 def init_scene(show_axis=True):

@@ -102,34 +102,34 @@ def data_dashboard():
     """Display simulation data dashboard."""
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
-        sub.text("--- WAVE-MEDIUM ---")
+        sub.text("--- WAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
-        sub.text("\n--- Scaling-Up (for computation) ---")
+        sub.text("\n--- Scaling-Up (for computation) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Factor: {lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {granule.radius * radius_factor:.2e} m")
         sub.text(f"Granule Mass: {granule.mass:.2e} kg")
 
-        sub.text("\n--- Sim Resolution (linear) ---")
+        sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"EWave: {lattice.ewave_res:.0f} granules/ewave (>10)")
         if lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {lattice.max_uni_res:.1f} ewaves/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---")
+        sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
         sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
         sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
-        sub.text("\n--- Sim Universe Wave Energy ---")
+        sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
 
-        sub.text("\n--- TIME MICROSCOPE ---")
+        sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
         slowed_mo = config.SLOW_MO / freq_boost
         fps = 0 if t == 0 else frame / t
         sub.text(f"Frames Rendered: {frame}")
@@ -164,15 +164,25 @@ def color_menu():
     global granule_type, ironbow
 
     with render.gui.sub_window("COLOR MENU", 0.87, 0.75, 0.13, 0.12) as sub:
-        if sub.checkbox("Medium Default Color", not (granule_type or ironbow)):
-            granule_type = False
-            ironbow = False
-        if sub.checkbox("Granule Type Color", granule_type):
-            granule_type = True
-            ironbow = False
         if sub.checkbox("Ironbow (displacement)", ironbow):
             ironbow = True
             granule_type = False
+        if sub.checkbox("Granule Type Color", granule_type):
+            granule_type = True
+            ironbow = False
+        if sub.checkbox("Medium Default Color", not (granule_type or ironbow)):
+            granule_type = False
+            ironbow = False
+
+    # Display ironbow gradient palette
+    # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+    if ironbow == True:
+        with render.gui.sub_window("GRADIENT", 0.94, 0.61, 0.06, 0.13) as palette:
+            palette.text("@@@ - high", color=(1.0, 1.0, 0.96))  # yellow-white
+            palette.text("@@@", color=(0.90, 0.27, 0.09))  # red-orange
+            palette.text("@@@", color=(0.57, 0.0, 0.61))  # magenta
+            palette.text("@@@", color=(0.125, 0.0, 0.54))  # dark blue
+            palette.text("@@@ - Low", color=(0.0, 0.0, 0.04))  # black
 
 
 # ================================================================
@@ -220,7 +230,7 @@ def render_xperiment(lattice):
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global normalized_position
-    global t, freq_boost, frame
+    global t, frame
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
