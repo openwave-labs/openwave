@@ -43,6 +43,24 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 - Provide intuitive understanding of wave mechanics
 - Support scientific analysis and debugging
 
+**Primary Rendering Technologies**:
+
+1. **WAVE VIEWING**:
+   - **Taichi Meshes**: Flux detector films/planes display wave properties
+   - **Color Gradients**: Defined in `config.py` for energy wave visualization
+   - **Wave Properties**: Render wave fronts, amplitude, energy density
+
+2. **PARTICLE VIEWING**:
+   - **Taichi Particle Rendering**: GPU-accelerated point/sphere rendering
+   - **Spray/Cloud Visualization**: Tiny particles display standing waves
+   - **Standing Wave Rings**: Positioned at λ/2 intervals around wave centers
+   - **Particle Radius**: Visualize one or two wavelengths around particles
+
+3. **VECTOR/FLOW VISUALIZATION**:
+   - **Taichi Lines**: Display vector fields (force, direction, amplitude gradient)
+   - **Streamlines**: Follow flow/energy propagation paths
+   - **Polylines**: Smooth curves showing wave dynamics
+
 ## Flux Detector Films/Planes
 
 ### Purpose and Concept
@@ -142,6 +160,16 @@ def amplitude_to_color(amp: ti.f32) -> ti.math.vec3:
 
     # Option 3: Viridis/Plasma colormap (better for scientific viz)
 ```
+
+**Rendering with Taichi Meshes**:
+
+- Use **Taichi mesh rendering** for detector planes
+- Define **energy wave color gradient** in `config.py`
+- Apply color gradient to display wave properties:
+  - **Wave fronts**: Surfaces of constant phase
+  - **Amplitude**: Intensity mapped to color
+  - **Energy density**: Brightness/saturation
+- Mesh vertices updated each frame with wave field data
 
 ## Universe Boundaries
 
@@ -250,11 +278,22 @@ def update_viz_particles():
 - Density of particles = wave amplitude
 - Similar to smoke/dust visualization in sound waves
 
-**Rendering**:
+**Rendering with Taichi Particles**:
 
+- Use **Taichi particle rendering system**
 - Very small spheres or points
 - Color by amplitude or energy
 - Transparency for layered view
+- GPU-accelerated for millions of visualization particles
+
+**Use Cases**:
+
+- **Standing waves**: Display rings around wave centers at wave nodes
+  - Rings positioned at integer multiples of λ/2
+  - One or two wavelengths radius for particle visualization
+  - Tiny particle spray/cloud forming concentric shells
+- **Wave fronts**: Track surfaces of constant phase
+- **Energy density**: Particle density represents wave intensity
 
 ### Vector Fields
 
@@ -264,7 +303,7 @@ def update_viz_particles():
 - Arrow direction = force direction
 - Arrow length = force magnitude
 
-**Implementation**:
+**Implementation with Taichi Lines**:
 
 ```python
 @ti.kernel
@@ -276,15 +315,23 @@ def render_vector_field(stride: ti.i32):
         pos = get_position(i, j, k)
         vec = force[i, j, k]
 
-        # Draw arrow from pos in direction vec
+        # Draw arrow from pos in direction vec using Taichi lines
         render_arrow(pos, vec)
 ```
+
+**Rendering Options**:
+
+- **Taichi lines**: For vector arrows (direction + magnitude)
+- **Line primitives**: Efficient GPU rendering
+- **Color coding**: Direction (hue) or magnitude (saturation)
+- **Subsampling**: Show every Nth vector for clarity
 
 **Use Cases**:
 
 - Visualize force fields (F = -∇A)
 - Show wave propagation directions
 - Understand particle motion (MAP)
+- Display amplitude gradient vectors
 
 ### Streamlines
 
@@ -308,11 +355,22 @@ def compute_streamline(start_pos: ti.math.vec3):
         streamline_points[step] = pos
 ```
 
+**Rendering Flow/Stream Lines**:
+
+- **Taichi lines**: Connect streamline points
+- **Polyline rendering**: Smooth curves through points
+- **Color coding**:
+  - By speed (faster = brighter)
+  - By time (gradient from start to end)
+  - By energy (local amplitude)
+- **Animation**: Time-evolving streamlines showing wave motion
+
 **Use Cases**:
 
 - Show wave propagation paths
-- Visualize energy flow
-- Understand wave dynamics
+- Visualize energy flow directions
+- Understand wave dynamics and interference
+- Display Poynting vector (energy flux)
 
 ### Wave Fronts
 
