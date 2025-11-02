@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.medium_level0 as medium
-import openwave.spacetime.energy_wave_level0 as ewave
+import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
