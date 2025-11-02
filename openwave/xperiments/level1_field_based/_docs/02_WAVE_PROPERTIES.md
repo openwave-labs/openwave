@@ -29,7 +29,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 ### Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
-- WAVE-SOURCE: defines frequency, rhythm, vibration and injects energy
+- WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
 
 ### Wave Form
 

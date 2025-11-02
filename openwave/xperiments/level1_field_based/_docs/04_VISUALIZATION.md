@@ -24,7 +24,7 @@
 1. [Electron Visualization](#electron-visualization)
    - [Spin Representation](#spin-representation)
    - [Formation Events](#formation-events)
-   - [Energy Injection Animation](#energy-injection-animation)
+   - [Energy Charging Animation](#energy-charging-animation)
 1. [Reference Infrastructure](#reference-infrastructure)
    - [Grid Lines](#grid-lines)
    - [Coordinate Indicators](#coordinate-indicators)
@@ -575,11 +575,11 @@ def detect_electron_formation():
                 trigger_formation_event(p1, p2)
 ```
 
-### Energy Injection Animation
+### Energy Charging Animation
 
 **Show Transformation**:
 
-- Visualize energy being injected
+- Visualize energy being Charged
 - Wave pattern changes
 - Color shifts during transformation
 - Particle properties update

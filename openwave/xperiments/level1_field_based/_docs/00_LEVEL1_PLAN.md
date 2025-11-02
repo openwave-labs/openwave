@@ -61,7 +61,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 - No true wave source
 - Continuous wave source with propagation by phase shift
 - Reflection by another "source"
-- Cannot model: energy injected once, conserved propagation
+- Cannot model: energy Charged once, conserved propagation
 
 **LEVEL-1 Solution**: True wave propagation with energy conservation
 
@@ -99,14 +99,14 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 ## Main Questions for LEVEL-1
 
-### Energy Injection
+### Energy Charging
 
-**Question**: How to inject initial energy into field?
+**Question**: How to Charge initial energy into field?
 
 **Approaches**:
 
 - Point source initialization
-- Plane wave injection
+- Plane wave Charge
 - Multiple source superposition
 - Pulse vs continuous sources
 

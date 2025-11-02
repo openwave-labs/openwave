@@ -38,7 +38,7 @@ avg_amplitude_am = None  # RMS amplitude for energy calculation (peak * 0.707)
 
 
 # ================================================================
-# Energy-Wave Source Kernel (energy injection, harmonic oscillation, rhythm)
+# Energy-Wave Source Kernel (energy charge, harmonic oscillation, rhythm)
 # ================================================================
 
 
@@ -123,11 +123,11 @@ def oscillate_granules(
     velocity_am: ti.template(),  # type: ignore
     granule_var_color: ti.template(),  # type: ignore
     num_sources: ti.i32,  # type: ignore
-    t: ti.f32,  # type: ignore
+    elapsed_t: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
-    """Injects energy into all granules from multiple wave sources using wave superposition.
+    """Charges energy into all granules from multiple wave sources using wave superposition.
 
     Each granule receives wave contributions from all active wave sources. Waves are summed
     (superposed) to create interference patterns - constructive where waves align in phase,
@@ -187,7 +187,7 @@ def oscillate_granules(
         velocity_am: Velocity field for all granules (modified in-place, in attometers/second)
         granule_var_color: Color field for IRONBOW displacement visualization
         num_sources: Number of wave sources
-        t: Current simulation time (accumulated, seconds)
+        elapsed_t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
@@ -247,13 +247,13 @@ def oscillate_granules(
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
             source_displacement_am_magnitude = amplitude_am_at_r_cap * ti.cos(
-                omega * t + total_phase
+                omega * elapsed_t + total_phase
             )
             source_displacement_am = source_displacement_am_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
             velocity_am_magnitude = (
-                -amplitude_am_at_r_cap * omega * ti.sin(omega * t + total_phase)
+                -amplitude_am_at_r_cap * omega * ti.sin(omega * elapsed_t + total_phase)
             )
             source_velocity_am = velocity_am_magnitude * direction
 

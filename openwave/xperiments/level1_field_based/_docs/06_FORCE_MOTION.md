@@ -211,7 +211,7 @@ Force is the negative gradient of amplitude. Particles move toward regions of lo
 
 **Wave Sources**:
 
-- Energy injection points in the field
+- Energy Charging points in the field
 - Each source has specific frequency
 - Sources can be:
   - External (initial conditions)
