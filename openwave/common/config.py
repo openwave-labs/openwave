@@ -85,6 +85,9 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
     IRONBOW gradient: black → dark blue → magenta → red-orange → yellow-white
     Used for thermal visualization where cold = black/blue, hot = yellow/white.
 
+    Optimized for maximum performance with millions of particles.
+    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+
     Args:
         value: The displacement magnitude to visualize
         min_value: Minimum displacement in range (typically 0.0)
