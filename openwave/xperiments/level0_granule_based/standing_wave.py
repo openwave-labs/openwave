@@ -179,7 +179,7 @@ def color_menu():
             palette.text("@@@", color=(0.90, 0.27, 0.09))  # red-orange
             palette.text("@@@", color=(0.57, 0.0, 0.61))  # magenta
             palette.text("@@@", color=(0.125, 0.0, 0.54))  # dark blue
-            # palette.text("@@@ - Low", color=(0.0, 0.0, 0.04))  # black
+            # palette.text("@@@ - Low", color=(0.0, 0.0, 0.0))  # black
 
 
 # ================================================================

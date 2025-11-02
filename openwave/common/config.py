@@ -70,22 +70,11 @@ FOREST = {
 # ================================================================
 # Simplified thermal imaging palette (5-color)
 ironbow5 = [
-    "#00000A",  # black
-    "#20008A",  # dark blue
-    "#91009C",  # magenta
-    "#E64616",  # red-orange
-    "#FFFFF6",  # yellow-white
-]
-
-# Thermal imaging palette (7-color)
-ironbow7 = [
-    "#000000ff",  # black
-    "#20008aff",  # dark blue
-    "#cc0077ff",  # magenta
-    "#ff0000ff",  # red
-    "#ff7b00ff",  # orange
-    "#ffcc00ff",  # yellow
-    "#FFFFFF",  # white
+    ["#000000", (0.0, 0.0, 0.0)],  # black
+    ["#20008A", (0.125, 0.0, 0.54)],  # dark blue
+    ["#91009C", (0.57, 0.0, 0.61)],  # magenta
+    ["#E64616", (0.90, 0.27, 0.09)],  # red-orange
+    ["#FFFFF6", (1.0, 1.0, 0.96)],  # yellow-white
 ]
 
 
@@ -124,9 +113,9 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 
     if norm_color < 0.25:  # black to dark blue
         blend = norm_color / 0.25
-        r = 0.0 * (1.0 - blend) + 0.125 * blend  # #00000A to #20008A
+        r = 0.0 * (1.0 - blend) + 0.125 * blend  # #000000 to #20008A
         g = 0.0 * (1.0 - blend) + 0.0 * blend
-        b = 0.04 * (1.0 - blend) + 0.54 * blend
+        b = 0.0 * (1.0 - blend) + 0.54 * blend
     elif norm_color < 0.5:  # dark blue to magenta
         blend = (norm_color - 0.25) / 0.25
         r = 0.125 * (1.0 - blend) + 0.57 * blend  # #20008A to #91009C
@@ -157,3 +146,14 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 # COLOR_PHOTON = YELLOW  # photons
 # COLOR_HEAT = RED  # heat, thermal energy
 # COLOR_ENERGY = PURPLE  # energy, energy packets
+
+# Thermal imaging palette (7-color)
+# ironbow7 = [
+#     "#000000ff",  # black
+#     "#20008aff",  # dark blue
+#     "#cc0077ff",  # magenta
+#     "#ff0000ff",  # red
+#     "#ff7b00ff",  # orange
+#     "#ffcc00ff",  # yellow
+#     "#FFFFFF",  # white
+# ]
