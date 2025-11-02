@@ -81,7 +81,7 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # ================================================================
 
 render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.72, 0.05, 1.14]
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.33, 0.67, 1.52]
 )  # Initialize the GGUI window
 
 
