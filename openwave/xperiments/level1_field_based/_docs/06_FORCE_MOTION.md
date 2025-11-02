@@ -6,6 +6,7 @@
 1. [Fundamental Principle](#fundamental-principle)
    - [All Forces from Waves](#all-forces-from-waves)
    - [Wave Derivations](#wave-derivations)
+1. [Motion Equations](#motion-equations)
 1. [Force Field Types](#force-field-types)
    - [Gravitational Field](#gravitational-field)
    - [Electric Field](#electric-field)
@@ -14,10 +15,6 @@
 1. [The Electron's Special Role](#the-electrons-special-role)
    - [Wave Transformation](#wave-transformation)
    - [EM Wave Generation](#em-wave-generation)
-1. [Wave Propagation Properties](#wave-propagation-properties)
-   - [Source Characteristics](#source-characteristics)
-   - [Frequency Propagation](#frequency-propagation)
-   - [Multiple Source Interference](#multiple-source-interference)
 1. [Measurable vs Point Properties](#measurable-vs-point-properties)
    - [Point Properties](#point-properties)
    - [Derived Properties](#derived-properties)
@@ -77,36 +74,38 @@ Force is the negative gradient of amplitude. Particles move toward regions of lo
 - Superposition creates complex force fields
 - Force on particle A from particle B = effect of B's reflected waves on A
 
+## Motion Equations
+
+```bash
+p = m * v (momentum is conserved in collisions, Newton's cradle)
+F = m * a (Newton's 2nd law)
+
+Derivatives
+v = dx/dt
+a = dv/dt = d2x/dt2
+F = dp/dt (force is diff of momentum)
+F = -dU/dt (force is diff of potential)
+
+Work / Energy
+W = F * d
+
+OSCILLATING MOTION
+HARMONIC OSCLLIATOR (equation of motion)
+Fs = -k * x = m * a (Hooke's + Newton's)
+m * dx/dt = -k * x (differential equation)
+
+solution, function of position over time
+x(t) = A * cos(ω * t)
+x(t) = A * cos(2pi*f * t)
+
+ω = sqrt(k / m) (angular frequency)
+f = ω / 2pi (frequency)
+T = 2pi / ω (period)
+
+U = 1/2 * k * x**2
+```
+
 ## Force Field Types
-
-### Gravitational Field
-
-**Gravitational Force from Waves**:
-
-- Mass = trapped energy in standing waves around particle
-- More mass = more wave energy = stronger wave reflections
-- Reflected waves create amplitude gradient around massive particles
-- Other particles experience force from this gradient
-
-**Mechanism**:
-
-1. Massive particle traps waves (standing wave pattern)
-2. Trapped waves reflect incoming waves from other sources
-3. Reflection creates amplitude minimum near massive particle
-4. Other particles attracted toward amplitude minimum (MAP)
-5. Result: Gravitational attraction
-
-**Why Always Attractive?**:
-
-- Wave reflection creates amplitude minimum (node region)
-- All particles seek amplitude minimum (MAP)
-- Therefore all particles attracted to massive objects
-
-**1/r² Law**:
-
-- Amplitude from spherical source/reflector ∝ 1/r
-- Force ∝ amplitude gradient ∝ d/dr(1/r) ∝ 1/r²
-- Natural consequence of spherical wave geometry
 
 ### Electric Field
 
@@ -149,6 +148,35 @@ Force is the negative gradient of amplitude. Particles move toward regions of lo
 - Moving charge experiences wave pattern from other moving charges
 - Force depends on relative velocities (Lorentz force)
 - Cross-product nature (v × B) from wave directional effects
+
+### Gravitational Field
+
+**Gravitational Force from Waves**:
+
+- Mass = trapped energy in standing waves around particle
+- More mass = more wave energy = stronger wave reflections
+- Reflected waves create amplitude gradient around massive particles
+- Other particles experience force from this gradient
+
+**Mechanism**:
+
+1. Massive particle traps waves (standing wave pattern)
+2. Trapped waves reflect incoming waves from other sources
+3. Reflection creates amplitude minimum near massive particle
+4. Other particles attracted toward amplitude minimum (MAP)
+5. Result: Gravitational attraction
+
+**Why Always Attractive?**:
+
+- Wave reflection creates amplitude minimum (node region)
+- All particles seek amplitude minimum (MAP)
+- Therefore all particles attracted to massive objects
+
+**1/r² Law**:
+
+- Amplitude from spherical source/reflector ∝ 1/r
+- Force ∝ amplitude gradient ∝ d/dr(1/r) ∝ 1/r²
+- Natural consequence of spherical wave geometry
 
 ### Electromagnetic Waves
 
@@ -204,84 +232,6 @@ Force is the negative gradient of amplitude. Particles move toward regions of lo
 - Accelerating electrons → EM radiation (synchrotron, antenna)
 - Electron transitions in atoms → photons (specific frequencies)
 - All light/radio/X-rays from electron oscillations
-
-## Wave Propagation Properties
-
-### Source Characteristics
-
-**Wave Sources**:
-
-- Energy Charging points in the field
-- Each source has specific frequency
-- Sources can be:
-  - External (initial conditions)
-  - Particles (wave reflection = re-emission)
-  - Electrons (EM wave generation)
-
-**Frequency of Source**:
-
-- Determines wavelength: λ = c/f
-- Determines energy density: E ∝ f
-- Propagates with wave: frequency is carried property
-
-### Frequency Propagation
-
-**Frequency as Field Property**:
-
-- Each point in field can have associated frequency
-- Frequency propagates with wave amplitude
-- Multiple frequencies can coexist (superposition)
-
-**Multi-Frequency Fields**:
-
-```python
-# Optional: store frequency per voxel
-frequency = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-
-# When wave propagates, frequency propagates too
-@ti.kernel
-def propagate_frequency():
-    for i, j, k in frequency:
-        # Frequency advects with wave direction
-        # Similar to amplitude propagation
-```
-
-**Frequency Mixing**:
-
-- Different sources → different frequencies
-- Frequencies combine at each point
-- Interference patterns depend on frequency
-- Beat frequencies emerge naturally
-
-### Multiple Source Interference
-
-**Superposition**:
-
-- Waves from multiple sources add linearly
-- Each source contributes its amplitude and frequency
-- Total field = sum of all source contributions
-
-**Complex Patterns**:
-
-- Standing waves from interference
-- Beat patterns from close frequencies
-- Constructive/destructive interference regions
-- Forces emerge from combined amplitude gradients
-
-**Example - Two Sources**:
-
-```python
-# Source 1: frequency f1, position r1
-# Source 2: frequency f2, position r2
-
-amplitude_total[x,y,z] = (
-    A1 * sin(k1*|r-r1| - ω1*t) +
-    A2 * sin(k2*|r-r2| - ω2*t)
-)
-
-# If f1 ≈ f2: beat patterns
-# If f1 = f2: standing waves (constructive/destructive)
-```
 
 ## Measurable vs Point Properties
 
@@ -606,23 +556,23 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 2. Test with simple wave patterns
 3. Verify MAP (particles seek amplitude minimum)
 
-**Phase 2 - Gravitational Analog**:
-
-1. Create particles with mass (trapped wave energy)
-2. Observe attraction between particles
-3. Verify 1/r² force law
-
-**Phase 3 - Electric Analog**:
+**Phase 2 - Electric Analog**:
 
 1. Implement different particle types (charges)
 2. Create attractive and repulsive patterns
 3. Test like/opposite charge interactions
 
-**Phase 4 - Magnetic Analog**:
+**Phase 3 - Magnetic Analog**:
 
 1. Add velocity-dependent forces
 2. Implement moving particle wave patterns
 3. Test Lorentz-like force (v × B analog)
+
+**Phase 4 - Gravitational Analog**:
+
+1. Create particles with mass (trapped wave energy)
+2. Observe attraction between particles
+3. Verify 1/r² force law
 
 ### Research Requirements
 

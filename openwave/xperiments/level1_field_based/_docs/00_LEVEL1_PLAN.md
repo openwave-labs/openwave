@@ -251,12 +251,14 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 For implementation details, see:
 
-1. **[01_WAVE_FIELD.md](./01_WAVE_FIELD.md)** - Grid structure, voxels, indices, positioning
-2. **[02_WAVE_PROPERTIES.md](./02_WAVE_PROPERTIES.md)** - Scalar/vector properties, storage
-3. **[03_WAVE_ENGINE.md](./03_WAVE_ENGINE.md)** - Wave propagation, PDEs, interference, reflection
-4. **[05_MATTER.md](./05_MATTER.md)** - Wave centers, MAP, particle dynamics
-5. **[04_VISUALIZATION.md](./04_VISUALIZATION.md)** - Rendering techniques for fields and particles
-6. **[06_FORCE_MOTION.md](./06_FORCE_MOTION.md)** - How forces emerge from waves
+1. **[01_WAVE_FIELD.md](./01_WAVE_FIELD.md)** - Cell-centered grid architecture with position mapping
+2. **[02_WAVE_PROPERTIES.md](./02_WAVE_PROPERTIES.md)** - Scalar/vector properties and energy oscillation physics
+3. **[03_WAVE_ENGINE.md](./03_WAVE_ENGINE.md)** - Energy injection, propagation, and wave mechanics
+4. **[04_VISUALIZATION.md](./04_VISUALIZATION.md)** - Taichi rendering methods for waves and particles
+5. **[05_MATTER.md](./05_MATTER.md)** - Particle structure and wave centers
+6. **[06_FORCE_MOTION.md](./06_FORCE_MOTION.md)** - MAP principle and particle dynamics
+7. **[07_PHOTON_HEAT.md](./07_PHOTON_HEAT.md)** - Light and thermal behavior
+8. **[08_NUMERICAL_ANALYSIS.md](./08_NUMERICAL_ANALYSIS.md)** - Computational methods
 
 ### Supporting Research Documentation
 

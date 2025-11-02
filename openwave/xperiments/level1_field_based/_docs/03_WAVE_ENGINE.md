@@ -23,6 +23,7 @@
    - [Standing Waves](#standing-waves)
    - [Traveling Waves](#traveling-waves)
    - [Multi-Frequency Superposition](#multi-frequency-superposition)
+   - [Source Characteristics and Frequency Propagation](#source-characteristics-and-frequency-propagation)
 1. [Computational Implementation](#computational-implementation)
    - [Wave Sources](#wave-sources)
    - [Interference Calculations](#interference-calculations)
@@ -511,6 +512,78 @@ Nodes at: `x = nλ/2` (n = 0, 1, 2, ...)
 **Beat Frequency**:
 
 When two close frequencies interfere: `f_beat = |f₁ - f₂|`
+
+### Source Characteristics and Frequency Propagation
+
+**Wave Sources**:
+
+- Energy Charging points in the field
+- Each source has specific frequency
+- Sources can be:
+  - External (initial conditions)
+  - Particles (wave reflection = re-emission)
+  - Electrons (EM wave generation)
+
+**Frequency of Source**:
+
+- Determines wavelength: λ = c/f
+- Determines energy density: E ∝ f
+- Propagates with wave: frequency is carried property
+
+**Frequency as Field Property**:
+
+- Each point in field can have associated frequency
+- Frequency propagates with wave amplitude
+- Multiple frequencies can coexist (superposition)
+
+**Multi-Frequency Fields**:
+
+```python
+# Optional: store frequency per voxel
+frequency = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+
+# When wave propagates, frequency propagates too
+@ti.kernel
+def propagate_frequency():
+    for i, j, k in frequency:
+        # Frequency advects with wave direction
+        # Similar to amplitude propagation
+```
+
+**Frequency Mixing**:
+
+- Different sources → different frequencies
+- Frequencies combine at each point
+- Interference patterns depend on frequency
+- Beat frequencies emerge naturally
+
+**Multiple Source Interference**:
+
+- Waves from multiple sources add linearly
+- Each source contributes its amplitude and frequency
+- Total field = sum of all source contributions
+
+**Complex Patterns**:
+
+- Standing waves from interference
+- Beat patterns from close frequencies
+- Constructive/destructive interference regions
+- Forces emerge from combined amplitude gradients
+
+**Example - Two Sources**:
+
+```python
+# Source 1: frequency f1, position r1
+# Source 2: frequency f2, position r2
+
+amplitude_total[x,y,z] = (
+    A1 * sin(k1*|r-r1| - ω1*t) +
+    A2 * sin(k2*|r-r2| - ω2*t)
+)
+
+# If f1 ≈ f2: beat patterns
+# If f1 = f2: standing waves (constructive/destructive)
+```
 
 ## Computational Implementation
 
