@@ -70,22 +70,11 @@ FOREST = {
 # ================================================================
 # Simplified thermal imaging palette (5-color)
 ironbow5 = [
-    "#00000A",  # black
-    "#20008A",  # dark blue
-    "#91009C",  # magenta
-    "#E64616",  # red-orange
-    "#FFFFF6",  # yellow-white
-]
-
-# Thermal imaging palette (7-color)
-ironbow7 = [
-    "#000000ff",  # black
-    "#20008aff",  # dark blue
-    "#cc0077ff",  # magenta
-    "#ff0000ff",  # red
-    "#ff7b00ff",  # orange
-    "#ffcc00ff",  # yellow
-    "#FFFFFF",  # white
+    ["#000000", (0.0, 0.0, 0.0)],  # black
+    ["#20008A", (0.125, 0.0, 0.54)],  # dark blue
+    ["#91009C", (0.57, 0.0, 0.61)],  # magenta
+    ["#E64616", (0.90, 0.27, 0.09)],  # red-orange
+    ["#FFFFF6", (1.0, 1.0, 0.96)],  # yellow-white
 ]
 
 
@@ -95,6 +84,9 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 
     IRONBOW gradient: black → dark blue → magenta → red-orange → yellow-white
     Used for thermal visualization where cold = black/blue, hot = yellow/white.
+
+    Optimized for maximum performance with millions of particles.
+    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
 
     Args:
         value: The displacement magnitude to visualize
@@ -124,9 +116,9 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 
     if norm_color < 0.25:  # black to dark blue
         blend = norm_color / 0.25
-        r = 0.0 * (1.0 - blend) + 0.125 * blend  # #00000A to #20008A
+        r = 0.0 * (1.0 - blend) + 0.125 * blend  # #000000 to #20008A
         g = 0.0 * (1.0 - blend) + 0.0 * blend
-        b = 0.04 * (1.0 - blend) + 0.54 * blend
+        b = 0.0 * (1.0 - blend) + 0.54 * blend
     elif norm_color < 0.5:  # dark blue to magenta
         blend = (norm_color - 0.25) / 0.25
         r = 0.125 * (1.0 - blend) + 0.57 * blend  # #20008A to #91009C
@@ -148,6 +140,66 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
     return ironbow_color
 
 
+def get_ironbow_palette():
+    """Generate ironbow palette indicator as vertical gradient using triangles.
+
+    Creates a vertical color bar from all 5 ironbow colors (black -> yellow-white).
+    Each color band is made of 2 triangles forming a rectangle.
+    Canvas coordinates: (0,0) at bottom-left, Y increases upward.
+
+    Returns:
+        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
+    """
+    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
+    num_bands = len(ironbow5) - 1  # 4 color transitions
+    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
+
+    # Create Taichi fields for triangle vertices and colors
+    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
+    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
+
+    # Position parameters (screen coordinates)
+    x_left = 0.99
+    x_right = 1.00
+    y_top = 0.34
+    y_bottom = 0.24
+    band_height = (y_top - y_bottom) / num_bands
+
+    # Generate triangles for each color band
+    for i in range(num_bands):
+        # Calculate Y positions for this band (top to bottom, reversed because ironbow goes hot->cold)
+        band_idx = num_bands - 1 - i  # Reverse order: yellow-white at top, black at bottom
+        y_upper = y_top - (i * band_height)
+        y_lower = y_top - ((i + 1) * band_height)
+
+        # Get colors from ironbow5 (index 1 is the RGB tuple)
+        color_upper = ti.Vector(ironbow5[band_idx + 1][1])  # Hot color (upper)
+        color_lower = ti.Vector(ironbow5[band_idx][1])  # Cold color (lower)
+
+        # Vertex indices for this band's two triangles
+        v_idx = i * 6
+
+        # First triangle (top-left, top-right, bottom-left)
+        palette_vertices[v_idx + 0] = ti.Vector([x_left, y_upper])
+        palette_vertices[v_idx + 1] = ti.Vector([x_right, y_upper])
+        palette_vertices[v_idx + 2] = ti.Vector([x_left, y_lower])
+
+        palette_colors[v_idx + 0] = color_upper
+        palette_colors[v_idx + 1] = color_upper
+        palette_colors[v_idx + 2] = color_lower
+
+        # Second triangle (bottom-left, top-right, bottom-right)
+        palette_vertices[v_idx + 3] = ti.Vector([x_left, y_lower])
+        palette_vertices[v_idx + 4] = ti.Vector([x_right, y_upper])
+        palette_vertices[v_idx + 5] = ti.Vector([x_right, y_lower])
+
+        palette_colors[v_idx + 3] = color_lower
+        palette_colors[v_idx + 4] = color_upper
+        palette_colors[v_idx + 5] = color_lower
+
+    return palette_vertices, palette_colors
+
+
 # ================================================================
 # FUTURE COLOR PALETTES
 # COLOR_EWAVE = ORANGE  # energy-wave, wave functions
@@ -157,3 +209,14 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 # COLOR_PHOTON = YELLOW  # photons
 # COLOR_HEAT = RED  # heat, thermal energy
 # COLOR_ENERGY = PURPLE  # energy, energy packets
+
+# Thermal imaging palette (7-color)
+# ironbow7 = [
+#     "#000000ff",  # black
+#     "#20008aff",  # dark blue
+#     "#cc0077ff",  # magenta
+#     "#ff0000ff",  # red
+#     "#ff7b00ff",  # orange
+#     "#ffcc00ff",  # yellow
+#     "#FFFFFF",  # white
+# ]
