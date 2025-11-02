@@ -231,8 +231,8 @@ class `SPACETIME MODULE
     *WIP*: medium_level1.py
     ---
     ENERGY-WAVE [Physics Engines]
-    energy_wave_level0.py ✓
-    *WIP*: energy_wave_level1.py}
+    wave_engine_level0.py ✓
+    *WIP*: wave_engine_level1.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`

@@ -3,6 +3,11 @@
 ## Table of Contents
 
 1. [Overview](#overview)
+1. [Energy Wave Injection](#energy-wave-injection)
+   - [Initial Energy Requirement](#initial-energy-requirement)
+   - [Injection Methods](#injection-methods)
+   - [Stabilization Phase](#stabilization-phase)
+   - [Wave Evolution](#wave-evolution)
 1. [Wave Propagation Engine](#wave-propagation-engine)
    - [Propagation Mechanics](#propagation-mechanics)
    - [Neighbor Connectivity](#neighbor-connectivity)
@@ -31,6 +36,210 @@
 The **Wave Engine** is the core computational system that propagates wave disturbances through the field-based medium in LEVEL-1. It handles wave propagation, interference, reflection, and all wave interactions governed by partial differential equations (PDEs).
 
 **Key Principle**: Waves propagate through the grid by transferring amplitude, phase, and energy to neighboring voxels according to wave equations and Huygens' principle.
+
+## Energy Wave Injection
+
+### Initial Energy Requirement
+
+Before wave propagation, reflection, interference, and all subsequent dynamics can occur, **energy must be injected** into the simulation domain. This initial energy establishes the wave field that will then evolve according to the wave equations.
+
+**Energy Equation Constraint**:
+
+- Total energy injected must match the **energy equation value** defined in `equations.py`
+- Energy density must be appropriate for the simulation domain volume
+- Energy is conserved throughout simulation after injection
+
+**Formula**:
+
+```python
+# From equations.py
+E_total = energy_density * volume
+volume = nx * ny * nz * dx³
+
+# Example:
+energy_density = <from EWT equations>  # Energy per cubic meter
+E_total_required = energy_density * (nx * ny * nz * dx**3)
+```
+
+**Critical Requirement**: The amount of energy injected determines:
+
+- Wave amplitude levels
+- Force magnitudes (F = -∇A)
+- Particle dynamics
+- Realistic physics behavior
+
+### Injection Methods
+
+**1. Point Source Injection**:
+
+```python
+@ti.kernel
+def inject_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
+                        energy: ti.f32, frequency: ti.f32):
+    """Inject energy at a single point with specific frequency."""
+    # Initialize amplitude at source point
+    omega = 2.0 * pi * frequency
+    amplitude[pos_x, pos_y, pos_z] = compute_amplitude_from_energy(energy)
+
+    # Set initial phase
+    phase[pos_x, pos_y, pos_z] = 0.0
+
+    # Set propagation direction (outward from source)
+    wave_direction[pos_x, pos_y, pos_z] = ti.Vector([0.0, 0.0, 0.0])  # Will be set by propagation
+```
+
+**2. Plane Wave Injection**:
+
+```python
+@ti.kernel
+def inject_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
+    """Inject uniform plane wave across domain."""
+    k = 2.0 * pi / wavelength  # Wave number
+
+    for i, j, k_idx in amplitude:
+        pos = get_position(i, j, k_idx)
+
+        # Plane wave: A * sin(k·r)
+        phase_val = k * direction.dot(pos)
+        amplitude[i, j, k_idx] = A_0 * ti.sin(phase_val)
+        wave_direction[i, j, k_idx] = direction.normalized()
+```
+
+**3. Spherical Wave Injection**:
+
+```python
+@ti.kernel
+def inject_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
+    """Inject spherical wave from center point."""
+    k = 2.0 * pi / wavelength
+
+    for i, j, k_idx in amplitude:
+        pos = get_position(i, j, k_idx)
+        r_vec = pos - center
+        r = r_vec.norm()
+
+        if r > 0:
+            # Spherical wave: (A/r) * sin(kr - ωt)
+            amplitude[i, j, k_idx] = (A_0 / r) * ti.sin(k * r)
+            wave_direction[i, j, k_idx] = r_vec.normalized()  # Radial
+```
+
+**4. Multiple Source Injection**:
+
+```python
+# Inject energy from multiple points
+for source in source_positions:
+    inject_point_source(source.x, source.y, source.z,
+                       E_total / num_sources, frequency)
+```
+
+### Stabilization Phase
+
+After initial energy injection, the wave field requires a **stabilization period** before reaching steady-state dynamics.
+
+**Stabilization Process**:
+
+1. **Initial State** (t = 0):
+   - Energy concentrated at injection points/regions
+   - Clear propagation path/direction from sources
+   - No interference patterns yet
+
+2. **Early Propagation** (t = 0 to t_stab):
+   - Waves propagate outward from sources at speed c
+   - First reflections from boundaries
+   - Initial interference patterns begin to form
+
+3. **Stabilization Time**:
+
+   ```python
+   # Time for wave to cross domain and reflect back
+   domain_size = max(nx*dx, ny*dx, nz*dx)
+   t_stabilization = 2 * domain_size / c  # Round trip time
+
+   # Run simulation without particle updates during stabilization
+   for step in range(int(t_stabilization / dt)):
+       propagate_wave_field(dt)  # No particle forces yet
+   ```
+
+4. **Quasi-Equilibrium** (t > t_stab):
+   - Wave energy distributed throughout domain
+   - Interference patterns established
+   - Ready for particle dynamics
+
+**Why Stabilization is Needed**:
+
+- Prevents artificial transients from affecting particle motion
+- Allows interference patterns to form naturally
+- Ensures energy distribution reaches quasi-equilibrium
+- Provides realistic initial conditions for particle dynamics
+
+### Wave Evolution
+
+**Phase 1: Directed Propagation** (Initial)
+
+- Waves have clear propagation direction from sources
+- Wavefronts are coherent (plane, spherical, etc.)
+- Energy flows outward from injection points
+- Minimal interference
+
+**Phase 2: Boundary Reflections** (Early Time)
+
+- Waves reach simulation boundaries (walls)
+- Hard reflection: phase inversion
+- Reflected waves propagate back into domain
+- Counter-propagating waves begin to interfere
+
+**Phase 3: Interference Buildup** (Stabilization)
+
+- Incident + reflected waves create interference patterns
+- Constructive interference (amplitude increases locally)
+- Destructive interference (amplitude cancels locally)
+- Standing wave patterns begin to form near boundaries
+
+**Phase 4: Wave Dilution** (Quasi-Steady State)
+
+- Energy spreads throughout volume
+- Waves propagate in **all directions** (omni-directional field)
+- **"Diluted" waves**: Energy distributed, not concentrated
+- Waves continuously:
+  - Propagate (traveling component)
+  - Reflect (from boundaries and wave centers)
+  - Interfere (constructive/destructive)
+  - Create standing patterns (nodes/antinodes)
+
+**Steady-State Characteristics**:
+
+```python
+# After stabilization, the field exhibits:
+# - Waves coming from all directions (not just sources)
+# - Complex interference patterns throughout domain
+# - Energy density distributed (not localized)
+# - Dynamic equilibrium (total energy constant)
+```
+
+**Visual Description**:
+
+- **Initial**: Coherent waves radiating from sources (like ripples from stones dropped in water)
+- **Intermediate**: Waves bouncing off walls, interfering with each other
+- **Steady**: Chaotic-looking field with waves going everywhere, but total energy conserved
+
+**Energy Conservation Check**:
+
+```python
+@ti.kernel
+def verify_energy_conservation() -> ti.f32:
+    """Verify total energy remains constant."""
+    total = 0.0
+    for i, j, k in amplitude:
+        # E = kinetic + potential
+        E_k = 0.5 * velocity_field[i,j,k].norm_sqr()
+        E_p = 0.5 * amplitude[i,j,k]**2
+        total += (E_k + E_p) * dx**3  # Energy per voxel
+    return total
+
+# Should match E_total_injected (within numerical tolerance)
+assert abs(verify_energy_conservation() - E_total_injected) < tolerance
+```
 
 ## Wave Propagation Engine
 

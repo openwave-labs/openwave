@@ -38,9 +38,9 @@ LEVEL-1 uses a **cell-centered grid** where field indices `[i,j,k]` represent th
 
 ### Computational Method
 
-- **Medium** = information grid (not physical substrate)
+- **Medium** = WAVE FIELD (the grid - not physical substrate, just information carrier)
+- **Unit** = VOXEL (unit of volume, cell-centered grid point, industry standard)
 - **Data structure** = 3D scalar/vector Taichi fields
-- **Grid type** = Cell-centered (industry standard)
 
 ### Index-to-Position Mapping (CRITICAL)
 

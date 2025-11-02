@@ -1,5 +1,5 @@
 """
-XPERIMENT: Harmonic Oscillations
+XPERIMENT: 3D Longitudinal Wave
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.medium_level0 as medium
-import openwave.spacetime.energy_wave_level0 as ewave
+import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -41,39 +41,18 @@ UNIVERSE_SIZE = [
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 9
+NUM_SOURCES = 1
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
-    [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
-    [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner
-    [0.0, 1.0, 0.0],  # Wave Source 3 - Back-bottom-left corner
-    [1.0, 0.0, 0.0],  # Wave Source 4 - Front-bottom-right corner
-    [0.0, 0.0, 1.0],  # Wave Source 5 - Front-top-left corner
-    [1.0, 1.0, 1.0],  # Wave Source 6 - Back-top-right corner
-    [0.0, 0.0, 0.0],  # Wave Source 7 - Front-bottom-left corner
-    [1.0, 1.0, 0.0],  # Wave Source 8 - Back-bottom-right corner
-]
+sources_position = [[0.5, 0.5, 0.5]]  # Wave Source position - Center
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    180,  # Wave Source 0 (eg. 0 = in phase)
-    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Wave Source 2
-    0,  # Wave Source 3
-    0,  # Wave Source 4
-    0,  # Wave Source 5
-    0,  # Wave Source 6
-    0,  # Wave Source 7
-    0,  # Wave Source 8
-    0,  # Wave Source 9
-]
+sources_phase_deg = [0]  # Wave Source phase offsets in degrees
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -89,13 +68,13 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # ================================================================
 
 render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[2.00, 1.50, 1.75]
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[0.97, 2.06, 0.82]
 )  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Spacetime Vibration", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: 3D Spherical Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -154,7 +133,7 @@ def controls():
         block_slice = sub.checkbox("Block Slice", block_slice)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
-        freq_boost = sub.slider_float("f Boost", freq_boost, 0.5, 10.0)
+        freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
         amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
@@ -238,14 +217,14 @@ def render_xperiment(lattice):
     global t, frame
 
     # Initialize variables
-    show_axis = False  # Toggle to show/hide axis lines
-    block_slice = False  # Block-slicing toggle
+    show_axis = True  # Toggle to show/hide axis lines
+    block_slice = True  # Block-slicing toggle
     show_sources = False  # Show wave sources toggle
-    radius_factor = 0.5  # Initialize granule size factor
-    freq_boost = 10.0  # Initialize frequency boost
-    amp_boost = 1.0  # Initialize amplitude boost
+    radius_factor = 0.4  # Initialize granule size factor
+    freq_boost = 1.0  # Initialize frequency boost
+    amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
-    granule_type = True  # Granule type coloring toggle
+    granule_type = False  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
 
     # Time tracking for radial harmonic oscillation of all granules

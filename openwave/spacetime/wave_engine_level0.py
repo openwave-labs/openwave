@@ -1,10 +1,9 @@
 """
-ENERGY-WAVE
+ENERGY-WAVE ENGINE
 
 LEVEL-0: ON GRANULE-BASED MEDIUM
 
-Wave Physics Engine @spacetime module.
-Wave dynamics and motion.
+Wave Physics Engine @spacetime module. Wave dynamics and motion.
 
 Multiple Wave Sources: Models wave interference from multiple harmonic oscillators.
 Each source generates spherical longitudinal waves that superpose at each granule.

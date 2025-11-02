@@ -1,5 +1,5 @@
 """
-XPERIMENT: Crossing Waves Harmonic Oscillations
+XPERIMENT: Spiral Wave Pattern
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.medium_level0 as medium
-import openwave.spacetime.energy_wave_level0 as ewave
+import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -34,49 +34,43 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_SIZE = [
-    4 * constants.EWAVE_LENGTH,
-    4 * constants.EWAVE_LENGTH,
-    4 * constants.EWAVE_LENGTH,
+    6 * constants.EWAVE_LENGTH,
+    6 * constants.EWAVE_LENGTH,
+    2 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 9
+NUM_SOURCES = 12
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [
-    [0.5, 0.5, 0.5],  # Wave Source 0 - Center
-    [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
-    [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner
-    [0.0, 1.0, 0.0],  # Wave Source 3 - Back-bottom-left corner
-    [1.0, 0.0, 0.0],  # Wave Source 4 - Front-bottom-right corner
-    [0.0, 0.0, 1.0],  # Wave Source 5 - Front-top-left corner
-    [1.0, 1.0, 1.0],  # Wave Source 6 - Back-top-right corner
-    [0.0, 0.0, 0.0],  # Wave Source 7 - Front-bottom-left corner
-    [1.0, 1.0, 0.0],  # Wave Source 8 - Back-bottom-right corner
-]
+z_position = [0]  # Initialize Z positions
+sources_position = []  # Initialize source positions list
+# Generate positions for remaining sources in a circle around center top
+# r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
+for i in range(NUM_SOURCES):
+    sources_position.append(
+        [
+            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
+            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
+            z_position[0],
+        ]
+    )
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [
-    180,  # Wave Source 0 (eg. 0 = in phase)
-    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
-    0,  # Wave Source 2
-    0,  # Wave Source 3
-    0,  # Wave Source 4
-    0,  # Wave Source 5
-    0,  # Wave Source 6
-    0,  # Wave Source 7
-    0,  # Wave Source 8
-    0,  # Wave Source 9
-]
+sources_phase_deg = []  # Initialize source phases list
+# Generate phase for remaining sources in a circle around center top
+# 30° offset between each source for yin-yang pattern
+for i in range(NUM_SOURCES):
+    sources_phase_deg.append(i * 30)  # 0°, 30°, 60°, ..., 330°
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-COLOR_THEME = "DESERT"
+COLOR_THEME = "OCEAN"
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
@@ -89,13 +83,13 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # ================================================================
 
 render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[2.00, 1.50, 1.75]
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.50, 0.80, 1.50]
 )  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Crossing Waves", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Yin-Yang Spiral Wave", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -241,8 +235,8 @@ def render_xperiment(lattice):
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
     show_sources = True  # Show wave sources toggle
-    radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 1.0  # Initialize frequency boost
+    radius_factor = 2.0  # Initialize granule size factor
+    freq_boost = 0.1  # Initialize frequency boost
     amp_boost = 5.0  # Initialize amplitude boost
     paused = False  # Pause toggle
     granule_type = True  # Granule type coloring toggle

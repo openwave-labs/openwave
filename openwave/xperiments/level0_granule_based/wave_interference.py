@@ -1,5 +1,5 @@
 """
-XPERIMENT: Standing Wave Exploration
+XPERIMENT: Wave Superposition Exploration
 
 Run sample XPERIMENTS shipped with the OpenWave package or create your own
 Tweak universe size and other parameters to explore different scales.
@@ -23,7 +23,7 @@ from openwave.common import constants
 from openwave._io import render
 
 import openwave.spacetime.medium_level0 as medium
-import openwave.spacetime.energy_wave_level0 as ewave
+import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
@@ -34,38 +34,41 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 # ================================================================
 
 UNIVERSE_SIZE = [
+    8 * constants.EWAVE_LENGTH,
     6 * constants.EWAVE_LENGTH,
-    6 * constants.EWAVE_LENGTH,
-    0.5 * constants.EWAVE_LENGTH,
+    1 * constants.EWAVE_LENGTH,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 TICK_SPACING = 0.25  # Axis tick marks spacing for position reference
 
 # Number of wave sources for this xperiment
-NUM_SOURCES = 64
+NUM_SOURCES = 3  # This xperiment has pre-populated list for 6 sources, change to test
 
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-z_position = [0.09]  # Initialize Z positions
-sources_position = []  # Initialize source positions list
-# Generate positions for remaining sources in a circle around center top
-for i in range(NUM_SOURCES):
-    sources_position.append(
-        [
-            ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES)) * 0.333 + 0.5,
-            ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES)) * 0.333 + 0.5,
-            z_position[0],
-        ]
-    )
+z_position = [0.12]  # Initialize Z positions
+equilateral = ti.sqrt(0.5**2 - 0.25**2)  # Factor for perfect triangle arrangement
+sources_position = [
+    [0.25, 0.15 + equilateral, z_position[0]],  # Wave Source 0
+    [0.75, 0.15 + equilateral, z_position[0]],  # Wave Source 1
+    [0.5, 0.15, z_position[0]],  # Wave Source 2
+    [0.0, 0.0, z_position[0]],  # Wave Source 3
+    [1.0, 0.0, z_position[0]],  # Wave Source 4
+    [1.0, 0.75, z_position[0]],  # Wave Source 5
+]
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = []  # Initialize source phases list
-# Generate phase for remaining sources in a circle around center top
-for i in range(NUM_SOURCES):
-    sources_phase_deg.append(0)  # Wave Sources Phase (eg. 0 = in phase)
+sources_phase_deg = [
+    0,  # Wave Source 0 (eg. 0 = in phase)
+    0,  # Wave Source 1 (eg. 180 = opposite phase, creates destructive interference nodes)
+    0,  # Wave Source 2
+    0,  # Wave Source 3
+    0,  # Wave Source 4
+    0,  # Wave Source 5
+]
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -81,13 +84,13 @@ WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurem
 # ================================================================
 
 render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.72, 0.05, 1.14]
+    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[0.25, 0.91, 1.00]
 )  # Initialize the GGUI window
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window("XPERIMENT: Wave Interference", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -145,9 +148,9 @@ def controls():
         show_axis = sub.checkbox(f"Axis (tick marks: {TICK_SPACING})", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 1.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
@@ -232,10 +235,10 @@ def render_xperiment(lattice):
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
     block_slice = False  # Block-slicing toggle
-    show_sources = False  # Show wave sources toggle
+    show_sources = True  # Show wave sources toggle
     radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 0.5  # Initialize frequency boost
-    amp_boost = 0.1  # Initialize amplitude boost
+    freq_boost = 1.0  # Initialize frequency boost
+    amp_boost = 1.0  # Initialize amplitude boost
     paused = False  # Pause toggle
     granule_type = False  # Granule type coloring toggle
     ironbow = True  # Ironbow (displacement) coloring toggle
