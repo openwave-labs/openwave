@@ -173,16 +173,6 @@ def color_menu():
             granule_type = False
             ironbow = False
 
-    # Display ironbow gradient palette
-    # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
-    if ironbow == True:
-        with render.gui.sub_window("IRONBOW", 0.94, 0.64, 0.06, 0.12) as palette:
-            palette.text("@@@: high", color=(1.0, 1.0, 0.96))  # yellow-white
-            palette.text("@@@", color=(0.90, 0.27, 0.09))  # red-orange
-            palette.text("@@@", color=(0.57, 0.0, 0.61))  # magenta
-            palette.text("@@@", color=(0.125, 0.0, 0.54))  # dark blue
-            # palette.text("@@@ - Low", color=(0.0, 0.0, 0.0))  # black
-
 
 # ================================================================
 # Xperiment Normalization to Screen Coordinates
@@ -241,6 +231,7 @@ def render_xperiment(lattice):
     paused = False  # Pause toggle
     granule_type = True  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
+    palette_vertices, palette_colors = config.get_ironbow_palette()  # Prep ironbow palette
 
     # Time tracking for radial harmonic oscillation of all granules
     t = 0.0
@@ -327,6 +318,9 @@ def render_xperiment(lattice):
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_var_color,
             )
+            # Display ironbow gradient palette
+            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+            render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
         else:
             render.scene.particles(
                 normalized_position,
