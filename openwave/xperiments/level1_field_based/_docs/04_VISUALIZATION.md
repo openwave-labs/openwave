@@ -55,6 +55,8 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
    - **Spray/Cloud Visualization**: Tiny particles display standing waves
    - **Standing Wave Rings**: Positioned at λ/2 intervals around wave centers
    - **Particle Radius**: Visualize one or two wavelengths around particles
+   - **Mesh Wireframe**: Use mesh wireframe to view see tru effects (sphere)
+   - **Target Lock**: Use small green>red squares (canvas.lines) to track positions
 
 3. **VECTOR/FLOW VISUALIZATION**:
    - **Taichi Lines**: Display vector fields (force, direction, amplitude gradient)
