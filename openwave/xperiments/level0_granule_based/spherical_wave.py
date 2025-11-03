@@ -61,6 +61,8 @@ COLOR_THEME = "OCEAN"
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
+# DATA SAMPLING & DIAGNOSTICS ==================================
+max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
@@ -157,6 +159,11 @@ def color_menu():
         if sub.checkbox("Medium Default (Color)", not (granule_type or ironbow)):
             granule_type = False
             ironbow = False
+        if ironbow:  # Display ironbow gradient palette
+            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+            render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
+            with render.gui.sub_window("displacement", 0.92, 0.70, 0.08, 0.06) as sub:
+                sub.text(f"0       {max_displacement:.0e}m")
 
 
 # ================================================================
@@ -202,11 +209,12 @@ def render_xperiment(lattice):
     """
     global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
-    global granule_type, ironbow
-    global normalized_position
+    global granule_type, ironbow, palette_vertices, palette_colors
     global elapsed_t, frame
+    global normalized_position
+    global max_displacement
 
-    # Initialize variables
+    # Initialize UI control variables
     show_axis = True  # Toggle to show/hide axis lines
     block_slice = True  # Block-slicing toggle
     show_sources = False  # Show wave sources toggle
@@ -216,7 +224,7 @@ def render_xperiment(lattice):
     paused = False  # Pause toggle
     granule_type = False  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
-    palette_vertices, palette_colors = config.get_ironbow_palette()  # Prep ironbow palette
+    palette_vertices, palette_colors = config.ironbow_palette_horiz()  # Prep ironbow palette
 
     # Time tracking for radial harmonic oscillation of all granules
     elapsed_t = 0.0
@@ -241,12 +249,10 @@ def render_xperiment(lattice):
         diagnostics.print_initial_parameters()
 
     while render.window.running:
-        # Render UI overlay windows
         render.init_scene(show_axis)  # Initialize scene with lighting and camera
-        controls()
-        color_menu()
+        # Render UI overlay windows
         data_dashboard()
-        xperiment_specs()
+        controls()
 
         if not paused:
             # Calculate actual elapsed time (real-time tracking)
@@ -269,13 +275,15 @@ def render_xperiment(lattice):
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
-            # Update lattice energy based on wave amplitude (called every 30 frames to reduce overhead)
-            if frame % 30 == 0:
-                ewave.update_lattice_energy(lattice)
-
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
+
+            # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
+            # Update data sampling every 30 frames to reduce overhead
+            if frame % 30 == 0:
+                ewave.update_lattice_energy(lattice)  # Update energy based on wave amplitude
+                max_displacement = ewave.max_displacement_am_tracker[None] * constants.ATTOMETTER
 
             # Wave diagnostics (minimal footprint)
             if WAVE_DIAGNOSTICS:
@@ -321,7 +329,9 @@ def render_xperiment(lattice):
                 color=config.COLOR_SOURCE[1],
             )
 
-        # Render the scene to canvas
+        # Render final UI overlay and scene
+        color_menu()
+        xperiment_specs()
         render.show_scene()
 
 
