@@ -83,7 +83,7 @@ Data Structures
    field = ti.field(dtype=ti.f32, shape=N)
 
    # Use attometer units for precision
-   position_am = position / constants.ATTOMETTER
+   position_am = position / constants.ATTOMETER
 
 Minimize Allocations
 ~~~~~~~~~~~~~~~~~~~~

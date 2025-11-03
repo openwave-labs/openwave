@@ -11,7 +11,7 @@ All values use SI units (kg, m, s) for consistency.
 # WAVE-MEDIUM
 # ================================================================
 MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (ρ)
-ATTOMETTER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
+ATTOMETER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================
 # ENERGY-WAVE

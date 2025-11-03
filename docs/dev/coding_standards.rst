@@ -202,7 +202,7 @@ Comment for:
 
    # Use attometer units for f32 precision
    # This scales 1e-17 m values to ~10 am
-   position_am = position / constants.ATTOMETTER
+   position_am = position / constants.ATTOMETER
 
 When Not to Comment
 ~~~~~~~~~~~~~~~~~~~

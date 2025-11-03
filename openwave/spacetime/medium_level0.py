@@ -82,7 +82,7 @@ class BCCLattice:
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
         unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
         self.raw_size = [
@@ -104,16 +104,16 @@ class BCCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         ]
         self.universe_size_am = [
-            self.universe_size[0] / constants.ATTOMETTER,
-            self.universe_size[1] / constants.ATTOMETTER,
-            self.universe_size[2] / constants.ATTOMETTER,
+            self.universe_size[0] / constants.ATTOMETER,
+            self.universe_size[1] / constants.ATTOMETER,
+            self.universe_size[2] / constants.ATTOMETER,
         ]
         self.max_universe_edge = max(
             self.grid_size[0] * self.unit_cell_edge,
             self.grid_size[1] * self.unit_cell_edge,
             self.grid_size[2] * self.unit_cell_edge,
         )
-        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETTER
+        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
         self.max_grid_size = max(
             self.grid_size[0],
             self.grid_size[1],
@@ -404,7 +404,7 @@ class BCCLattice:
                     self.granule_type_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
-        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
+        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
         self._mark_sliced_plane_objects(wavelength_am, num_circles)
 
     @ti.kernel
@@ -558,7 +558,7 @@ class SCLattice:
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
         unit_cell_volume = init_universe_volume / self.target_granules  # SC = 1 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
         self.raw_size = [
@@ -580,16 +580,16 @@ class SCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         ]
         self.universe_size_am = [
-            self.universe_size[0] / constants.ATTOMETTER,
-            self.universe_size[1] / constants.ATTOMETTER,
-            self.universe_size[2] / constants.ATTOMETTER,
+            self.universe_size[0] / constants.ATTOMETER,
+            self.universe_size[1] / constants.ATTOMETER,
+            self.universe_size[2] / constants.ATTOMETER,
         ]
         self.max_universe_edge = max(
             self.grid_size[0] * self.unit_cell_edge,
             self.grid_size[1] * self.unit_cell_edge,
             self.grid_size[2] * self.unit_cell_edge,
         )
-        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETTER
+        self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
         self.max_grid_size = max(
             self.grid_size[0],
             self.grid_size[1],
@@ -833,7 +833,7 @@ class SCLattice:
                     self.granule_type_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
-        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
+        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
         self._mark_sliced_plane_objects(wavelength_am, num_circles)
 
     @ti.kernel

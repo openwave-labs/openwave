@@ -23,7 +23,7 @@ from openwave.common import constants
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
@@ -339,7 +339,7 @@ def propagate_ewave(
             neighbors.links,
             neighbors.links_count,
             neighbors.rest_length_am,
-            stiffness * constants.ATTOMETTER,  # Convert to N/am for attometer units
+            stiffness * constants.ATTOMETER,  # Convert to N/am for attometer units
             lattice.granule_type,
             dt_sub,
             omega,
@@ -444,7 +444,7 @@ def probe_wave_diagnostics(
         distance_traveled_am = (
             wave_data["max_distance_am"] - _diagnostic_state["first_measurement"]["distance_am"]
         )
-        distance_traveled_m = distance_traveled_am * constants.ATTOMETTER
+        distance_traveled_m = distance_traveled_am * constants.ATTOMETER
 
         # Convert simulation time to real time (account for SLOW_MO)
         # SLOW_MO slows down time, so to get real time: divide by SLOW_MO
@@ -486,7 +486,7 @@ def probe_wave_diagnostics(
             )
 
         if wavelength_data["num_peaks"] >= 1:  # Show even single peak
-            wavelength_m = wavelength_data["wavelength_am"] * constants.ATTOMETTER
+            wavelength_m = wavelength_data["wavelength_am"] * constants.ATTOMETER
             expected_wavelength_m = 2 * neighbors.rest_length  # λ_lattice = 2L
             wavelength_error = (
                 abs(wavelength_m - expected_wavelength_m) / expected_wavelength_m * 100
@@ -509,7 +509,7 @@ def probe_wave_diagnostics(
                 print(f"Reference lengths:")
                 print(f"  Unit cell edge:    {lattice.unit_cell_edge_am:.1f} am")
                 print(f"  Rest length (L):   {neighbors.rest_length_am:.1f} am")
-                print(f"  EWAVE_LENGTH:      {constants.EWAVE_LENGTH/constants.ATTOMETTER:.1f} am")
+                print(f"  EWAVE_LENGTH:      {constants.EWAVE_LENGTH/constants.ATTOMETER:.1f} am")
                 print(f"")
                 print(
                     f"Measured / Unit cell: {wavelength_data['wavelength_am']/lattice.unit_cell_edge_am:.2f}x"
@@ -518,7 +518,7 @@ def probe_wave_diagnostics(
                     f"Measured / 2L:        {wavelength_data['wavelength_am']/(2*neighbors.rest_length_am):.2f}x"
                 )
                 print(
-                    f"Measured / λ: {wavelength_data['wavelength_am']/(constants.EWAVE_LENGTH/constants.ATTOMETTER):.2f}x"
+                    f"Measured / λ: {wavelength_data['wavelength_am']/(constants.EWAVE_LENGTH/constants.ATTOMETER):.2f}x"
                 )
             else:
                 print(

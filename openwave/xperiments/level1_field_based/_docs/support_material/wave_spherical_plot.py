@@ -37,8 +37,8 @@ wavelength = constants.EWAVE_LENGTH  # m, energy-wave length (λ)
 r_reference = wavelength  # Reference radius = 1λ
 
 # Convert to attometers for plotting
-A0_am = A0 / constants.ATTOMETTER  # attometers
-wavelength_am = wavelength / constants.ATTOMETTER  # attometers
+A0_am = A0 / constants.ATTOMETER  # attometers
+wavelength_am = wavelength / constants.ATTOMETER  # attometers
 
 # ================================================================
 # Amplitude Functions
@@ -114,9 +114,9 @@ fig, ax = plt.subplots(figsize=(12, 8))
 # ================================================================
 
 # Convert to attometers for y-axis
-A_uncapped_am = A_uncapped / constants.ATTOMETTER
-A_capped_am = A_capped / constants.ATTOMETTER
-r_am = r / constants.ATTOMETTER
+A_uncapped_am = A_uncapped / constants.ATTOMETER
+A_capped_am = A_capped / constants.ATTOMETER
+r_am = r / constants.ATTOMETER
 
 # A = r line (the cap boundary) - plot first so it's in background
 ax.plot(r / wavelength, r_am, "k:", linewidth=1.5, alpha=0.5, label="A = r (cap limit)")
@@ -163,12 +163,12 @@ ax.axvline(
 
 # Amplitude at r = 1λ
 A_at_1lambda = amplitude_with_cap(wavelength)
-A_at_1lambda_am = A_at_1lambda / constants.ATTOMETTER
+A_at_1lambda_am = A_at_1lambda / constants.ATTOMETER
 ax.plot(1.0, A_at_1lambda_am, "ro", markersize=10, label=f"A(1λ) = {A_at_1lambda/A0:.1f}A₀")
 
 # Amplitude at r = 2λ
 A_at_2lambda = amplitude_with_cap(2 * wavelength)
-A_at_2lambda_am = A_at_2lambda / constants.ATTOMETTER
+A_at_2lambda_am = A_at_2lambda / constants.ATTOMETER
 ax.plot(2.0, A_at_2lambda_am, "go", markersize=10, label=f"A(2λ) = {A_at_2lambda/A0:.1f}A₀")
 
 # Annotate regions (adjusted for 2 am y-axis scale)
