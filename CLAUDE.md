@@ -14,7 +14,6 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 - Refer to `README.md` for a detailed description and scope of OpenWave.
 - Refer to `WELCOME.md` for a quick intro to OpenWave.
-- Refer to `/ship_log` directory for OpenWave's record of development activities.
 
 ### Known Challenges & Limitations
 

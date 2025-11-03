@@ -371,10 +371,9 @@ If OpenWave adds plane waves, standing waves, or interference patterns:
 
 ## References
 
-1. `/ship_log/5_summary.md` - PSHO implementation journey
-2. `/dev_docs/final_report.md` - Detailed PSHO vs XPBD comparison
-3. `/spacetime/ewave_radial.py` - PSHO implementation
-4. `/research_requirements/scientific_source/` - EWT theoretical foundation
+1. `/dev_docs/final_report.md` - Detailed PSHO vs XPBD comparison
+2. `/spacetime/ewave_radial.py` - PSHO implementation
+3. `/research_requirements/scientific_source/` - EWT theoretical foundation
 
 ## Version History
 
