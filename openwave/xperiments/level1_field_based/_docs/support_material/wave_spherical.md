@@ -151,7 +151,7 @@ During implementation testing, granules at distances less than 1λ from the wave
 The observed instability reveals important physics about what happens near the wave source (r < λ):
 
 1. **Source Region Physics** (r < λ):
-   - This is the source region where energy is being injected
+   - This is the source region where energy is being Charged
    - Wave structure is not yet fully formed
    - Near-field effects dominate over far-field radiation
    - Simple 1/r amplitude falloff does not apply

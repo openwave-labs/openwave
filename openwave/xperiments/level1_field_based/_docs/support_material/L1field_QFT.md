@@ -112,7 +112,7 @@ All fields (electric, magnetic, gravitational) are derivations of wave fields
 **OpenWave L1:**
 
 ```text
-Energy injected once, totally conserved throughout universe
+Energy Charged once, totally conserved throughout universe
 Energy density per volume stored in field
 Amplitude reduces with radius (1/r), but total energy constant
 Field evolution governed by wave equations (PDEs)

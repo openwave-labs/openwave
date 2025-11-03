@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Energy Wave Injection](#energy-wave-injection)
+1. [Energy Wave Inital Charge](#energy-wave-initial-charge)
    - [Initial Energy Requirement](#initial-energy-requirement)
-   - [Injection Methods](#injection-methods)
+   - [Charging Methods](#charging-methods)
    - [Stabilization Phase](#stabilization-phase)
    - [Wave Evolution](#wave-evolution)
 1. [Wave Propagation Engine](#wave-propagation-engine)
@@ -23,6 +23,7 @@
    - [Standing Waves](#standing-waves)
    - [Traveling Waves](#traveling-waves)
    - [Multi-Frequency Superposition](#multi-frequency-superposition)
+   - [Source Characteristics and Frequency Propagation](#source-characteristics-and-frequency-propagation)
 1. [Computational Implementation](#computational-implementation)
    - [Wave Sources](#wave-sources)
    - [Interference Calculations](#interference-calculations)
@@ -37,17 +38,17 @@ The **Wave Engine** is the core computational system that propagates wave distur
 
 **Key Principle**: Waves propagate through the grid by transferring amplitude, phase, and energy to neighboring voxels according to wave equations and Huygens' principle.
 
-## Energy Wave Injection
+## Energy Wave Initial Charge
 
 ### Initial Energy Requirement
 
-Before wave propagation, reflection, interference, and all subsequent dynamics can occur, **energy must be injected** into the simulation domain. This initial energy establishes the wave field that will then evolve according to the wave equations.
+Before wave propagation, reflection, interference, and all subsequent dynamics can occur, **energy must be charged** into the simulation domain. This initial energy establishes the wave field that will then evolve according to the wave equations.
 
 **Energy Equation Constraint**:
 
-- Total energy injected must match the **energy equation value** defined in `equations.py`
+- Total energy charged must match the **energy equation value** defined in `equations.py`
 - Energy density must be appropriate for the simulation domain volume
-- Energy is conserved throughout simulation after injection
+- Energy is conserved throughout simulation after initial charge
 
 **Formula**:
 
@@ -61,22 +62,22 @@ energy_density = <from EWT equations>  # Energy per cubic meter
 E_total_required = energy_density * (nx * ny * nz * dx**3)
 ```
 
-**Critical Requirement**: The amount of energy injected determines:
+**Critical Requirement**: The amount of energy charged determines:
 
 - Wave amplitude levels
 - Force magnitudes (F = -∇A)
 - Particle dynamics
 - Realistic physics behavior
 
-### Injection Methods
+### Charging Methods
 
-**1. Point Source Injection**:
+**1. Point Source Charge**:
 
 ```python
 @ti.kernel
-def inject_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
+def charge_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
                         energy: ti.f32, frequency: ti.f32):
-    """Inject energy at a single point with specific frequency."""
+    """Charge energy at a single point with specific frequency."""
     # Initialize amplitude at source point
     omega = 2.0 * pi * frequency
     amplitude[pos_x, pos_y, pos_z] = compute_amplitude_from_energy(energy)
@@ -88,12 +89,12 @@ def inject_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
     wave_direction[pos_x, pos_y, pos_z] = ti.Vector([0.0, 0.0, 0.0])  # Will be set by propagation
 ```
 
-**2. Plane Wave Injection**:
+**2. Plane Wave Charge**:
 
 ```python
 @ti.kernel
-def inject_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
-    """Inject uniform plane wave across domain."""
+def charge_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
+    """Charge uniform plane wave across domain."""
     k = 2.0 * pi / wavelength  # Wave number
 
     for i, j, k_idx in amplitude:
@@ -105,12 +106,12 @@ def inject_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f3
         wave_direction[i, j, k_idx] = direction.normalized()
 ```
 
-**3. Spherical Wave Injection**:
+**3. Spherical Wave Charge**:
 
 ```python
 @ti.kernel
-def inject_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
-    """Inject spherical wave from center point."""
+def charge_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
+    """Charge spherical wave from center point."""
     k = 2.0 * pi / wavelength
 
     for i, j, k_idx in amplitude:
@@ -124,23 +125,23 @@ def inject_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f
             wave_direction[i, j, k_idx] = r_vec.normalized()  # Radial
 ```
 
-**4. Multiple Source Injection**:
+**4. Multiple Source Charge**:
 
 ```python
-# Inject energy from multiple points
+# Charge energy from multiple points
 for source in source_positions:
-    inject_point_source(source.x, source.y, source.z,
+    charge_point_source(source.x, source.y, source.z,
                        E_total / num_sources, frequency)
 ```
 
 ### Stabilization Phase
 
-After initial energy injection, the wave field requires a **stabilization period** before reaching steady-state dynamics.
+After initial energy Charge, the wave field requires a **stabilization period** before reaching steady-state dynamics.
 
 **Stabilization Process**:
 
 1. **Initial State** (t = 0):
-   - Energy concentrated at injection points/regions
+   - Energy concentrated at Charge points/regions
    - Clear propagation path/direction from sources
    - No interference patterns yet
 
@@ -179,7 +180,7 @@ After initial energy injection, the wave field requires a **stabilization period
 
 - Waves have clear propagation direction from sources
 - Wavefronts are coherent (plane, spherical, etc.)
-- Energy flows outward from injection points
+- Energy flows outward from Charging points
 - Minimal interference
 
 **Phase 2: Boundary Reflections** (Early Time)
@@ -237,8 +238,8 @@ def verify_energy_conservation() -> ti.f32:
         total += (E_k + E_p) * dx**3  # Energy per voxel
     return total
 
-# Should match E_total_injected (within numerical tolerance)
-assert abs(verify_energy_conservation() - E_total_injected) < tolerance
+# Should match E_total_Charged (within numerical tolerance)
+assert abs(verify_energy_conservation() - E_total_Charge) < tolerance
 ```
 
 ## Wave Propagation Engine
@@ -355,7 +356,7 @@ E_total = Σ (E_kinetic[i,j,k] + E_potential[i,j,k])
 
 **Implementation Requirements**:
 
-- Energy injected once at initialization
+- Energy Charged once at initialization
 - No energy creation or destruction during propagation
 - Energy only redistributes through wave motion
 - Numerical scheme must preserve energy (symplectic integrator preferred)
@@ -494,12 +495,12 @@ Nodes at: `x = nλ/2` (n = 0, 1, 2, ...)
 **Implementation**:
 
 - Natural result of wave equation propagation
-- Source injects energy with specific frequency
+- Source Charges energy with specific frequency
 - Wave propagates outward at speed c
 
 ### Multi-Frequency Superposition
 
-**Multiple Frequencies**: Different wave sources can inject different frequencies.
+**Multiple Frequencies**: Different wave sources can Charge different frequencies.
 
 **Behavior**:
 
@@ -512,11 +513,83 @@ Nodes at: `x = nλ/2` (n = 0, 1, 2, ...)
 
 When two close frequencies interfere: `f_beat = |f₁ - f₂|`
 
+### Source Characteristics and Frequency Propagation
+
+**Wave Sources**:
+
+- Energy Charging points in the field
+- Each source has specific frequency
+- Sources can be:
+  - External (initial conditions)
+  - Particles (wave reflection = re-emission)
+  - Electrons (EM wave generation)
+
+**Frequency of Source**:
+
+- Determines wavelength: λ = c/f
+- Determines energy density: E ∝ f
+- Propagates with wave: frequency is carried property
+
+**Frequency as Field Property**:
+
+- Each point in field can have associated frequency
+- Frequency propagates with wave amplitude
+- Multiple frequencies can coexist (superposition)
+
+**Multi-Frequency Fields**:
+
+```python
+# Optional: store frequency per voxel
+frequency = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+
+# When wave propagates, frequency propagates too
+@ti.kernel
+def propagate_frequency():
+    for i, j, k in frequency:
+        # Frequency advects with wave direction
+        # Similar to amplitude propagation
+```
+
+**Frequency Mixing**:
+
+- Different sources → different frequencies
+- Frequencies combine at each point
+- Interference patterns depend on frequency
+- Beat frequencies emerge naturally
+
+**Multiple Source Interference**:
+
+- Waves from multiple sources add linearly
+- Each source contributes its amplitude and frequency
+- Total field = sum of all source contributions
+
+**Complex Patterns**:
+
+- Standing waves from interference
+- Beat patterns from close frequencies
+- Constructive/destructive interference regions
+- Forces emerge from combined amplitude gradients
+
+**Example - Two Sources**:
+
+```python
+# Source 1: frequency f1, position r1
+# Source 2: frequency f2, position r2
+
+amplitude_total[x,y,z] = (
+    A1 * sin(k1*|r-r1| - ω1*t) +
+    A2 * sin(k2*|r-r2| - ω2*t)
+)
+
+# If f1 ≈ f2: beat patterns
+# If f1 = f2: standing waves (constructive/destructive)
+```
+
 ## Computational Implementation
 
 ### Wave Sources
 
-**Energy Injection Points**:
+**Energy Charging Points**:
 
 - Initialize amplitude at specific voxels
 - Set initial phase and frequency
@@ -527,16 +600,16 @@ When two close frequencies interfere: `f_beat = |f₁ - f₂|`
 
 1. **Point source**: Single voxel, spherical waves
 2. **Plane wave source**: Line/plane of voxels, uniform propagation
-3. **Pulsed source**: Time-limited energy injection
+3. **Pulsed source**: Time-limited energy Charge
 4. **Continuous source**: Ongoing oscillation (for testing)
 
 **Implementation**:
 
 ```python
 @ti.kernel
-def inject_wave_source(x: ti.i32, y: ti.i32, z: ti.i32,
+def charge_wave_source(x: ti.i32, y: ti.i32, z: ti.i32,
                        freq: ti.f32, phase: ti.f32, t: ti.f32):
-    """Inject sinusoidal wave at source location."""
+    """Charge sinusoidal wave at source location."""
     omega = 2.0 * pi * freq
     amplitude[x, y, z] += A_source * ti.sin(omega * t + phase)
 ```

@@ -63,7 +63,7 @@ In LEVEL-1, **particles are wave centers** that reflect waves back into the medi
 
 - **Fundamental particles**: Hundreds to thousands (not millions)
 - Example: 1 neutrino = 1 wave center
-- Example: 1 electron = 2 wave centers ("click" together)
+- Example: 1 electron = 10 wave centers ("click" together)
 - Example: 1 proton = complex multi-center structure
 
 **Comparison to LEVEL-0**:
@@ -195,7 +195,7 @@ def compute_particle_mass(p: ti.i32) -> ti.f32:
 
 **Examples**:
 
-- **Electron**: 2 wave centers in specific configuration
+- **Electron**: 10 wave centers in specific configuration
 - **Proton**: Complex multi-center structure
 - **Neutron**: Different multi-center arrangement
 
@@ -210,9 +210,9 @@ def compute_particle_mass(p: ti.i32) -> ti.f32:
 
 **Conditions**:
 
-- Specific approach velocity
+- Specific approach velocity / kinetic energy
+- Other Specific energy configuration, external force
 - Specific wave phase relationship
-- Specific energy configuration
 
 **Visualization**:
 

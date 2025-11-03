@@ -136,11 +136,11 @@ def data_dashboard():
 
         sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
         slowed_mo = config.SLOW_MO / freq_boost
-        fps = 0 if t == 0 else frame / t
+        fps = 0 if elapsed_t == 0 else frame / elapsed_t
         sub.text(f"Frames Rendered: {frame}")
-        sub.text(f"Real Time: {t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
+        sub.text(f"Real Time: {elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
         sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"Sim Time (slow-mo): {t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"Sim Time (slow-mo): {elapsed_t:.2f}s ({fps:.0f} FPS)")
 
 
 def controls():
@@ -225,7 +225,7 @@ def render_xperiment(lattice):
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global normalized_position
-    global t, frame
+    global elapsed_t, frame
 
     # Initialize variables
     show_axis = False  # Toggle to show/hide axis lines
@@ -240,7 +240,7 @@ def render_xperiment(lattice):
     palette_vertices, palette_colors = config.get_ironbow_palette()  # Prep ironbow palette
 
     # Time tracking for radial harmonic oscillation of all granules
-    t = 0.0
+    elapsed_t = 0.0
     last_time = time.time()
     frame = 0  # Frame counter for diagnostics
 
@@ -274,7 +274,7 @@ def render_xperiment(lattice):
             current_time = time.time()
             dt_real = current_time - last_time
             last_time = current_time
-            t += dt_real  # Use real elapsed time instead of fixed DT
+            elapsed_t += dt_real  # Use real elapsed time instead of fixed DT
 
             # Apply radial harmonic oscillation to all granules from multiple wave sources
             # Each granule receives wave contributions from all active sources
@@ -285,7 +285,7 @@ def render_xperiment(lattice):
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.granule_var_color,  # Granule color variations
                 NUM_SOURCES,  # Number of active wave sources
-                t,
+                elapsed_t,
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )
@@ -301,7 +301,7 @@ def render_xperiment(lattice):
             # Wave diagnostics (minimal footprint)
             if WAVE_DIAGNOSTICS:
                 diagnostics.print_wave_diagnostics(
-                    t,
+                    elapsed_t,
                     frame,
                     print_interval=100,  # Print every 100 frames
                 )

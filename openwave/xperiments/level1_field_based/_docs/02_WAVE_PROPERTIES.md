@@ -29,7 +29,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 ### Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
-- WAVE-SOURCE: defines frequency, rhythm, vibration and injects energy
+- WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
 
 ### Wave Form
 
@@ -292,10 +292,10 @@ Key wave equation relationships:
 
 ```python
 # Wave equation fundamentals
-f = c / wavelength              # Frequency from speed and wavelength
-omega = 2 * pi * f              # Angular frequency
-k = 2 * pi / wavelength         # Wave number
-xi = 1 / wavelength             # Spatial frequency
+f = c / λ              # Frequency from speed and wavelength
+ω = 2 * pi * f         # Angular frequency
+k = 2 * pi / λ         # Wave number
+xi = 1 / λ             # Spatial frequency
 
 # Energy relationships
 E_total = E_kinetic + E_potential   # Total energy (conserved)
