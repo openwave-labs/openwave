@@ -16,8 +16,8 @@ from openwave.common import constants
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
-wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER  # in attometers
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 

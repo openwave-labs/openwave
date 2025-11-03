@@ -78,7 +78,7 @@ class BCCLattice:
         # Set universe properties (simulation domain)
         self.target_granules = config.TARGET_GRANULES
         self.universe_edge = universe_edge
-        self.universe_edge_am = universe_edge / constants.ATTOMETTER  # in attometers
+        self.universe_edge_am = universe_edge / constants.ATTOMETER  # in attometers
         universe_volume = universe_edge**3
 
         # Compute initial unit-cell properties (before rounding and lattice symmetry)
@@ -94,7 +94,7 @@ class BCCLattice:
 
         # Recompute unit-cell edge length based on rounded grid size and scale factor
         self.unit_cell_edge = universe_edge / self.grid_size  # adjusted unit cell edge length
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETTER  # in attometers
+        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER  # in attometers
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
@@ -446,7 +446,7 @@ class BCCLattice:
                         self.granule_color[idx] = probe_color
 
         # Convert energy wavelength and call GPU kernel for field circles
-        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER
+        wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
         self._mark_sliced_plane_objects(wavelength_am, num_circles)
 
     @ti.kernel

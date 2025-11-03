@@ -18,8 +18,8 @@ from openwave.common import equations
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
-wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETTER  # in attometers
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 # ================================================================
@@ -312,7 +312,7 @@ def update_lattice_energy(lattice):
         lattice: Lattice instance with universe_volume and energy fields
     """
     lattice.energy = equations.energy_wave_equation(
-        volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETTER
+        volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
     lattice.energy_kWh = equations.J_to_kWh(lattice.energy)  # in KWh
     lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use

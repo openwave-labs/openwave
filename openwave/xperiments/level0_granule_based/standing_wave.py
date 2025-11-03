@@ -296,7 +296,7 @@ def render_xperiment(lattice):
             # Update data sampling every 30 frames to reduce overhead
             if frame % 30 == 0:
                 ewave.update_lattice_energy(lattice)  # Update energy based on wave amplitude
-                max_displacement = ewave.max_displacement_am_tracker[None] * constants.ATTOMETTER
+                max_displacement = ewave.max_displacement_am_tracker[None] * constants.ATTOMETER
 
             # Wave diagnostics (minimal footprint)
             if WAVE_DIAGNOSTICS:

@@ -12,7 +12,7 @@ from openwave.common import constants
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETTER  # am, oscillation amplitude
+amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
@@ -227,7 +227,7 @@ def propagate_ewave(
             neighbors.links,
             neighbors.links_count,
             neighbors.rest_length_am,  # rest_length in am
-            stiffness * constants.ATTOMETTER,  # stiffness in N/am
+            stiffness * constants.ATTOMETER,  # stiffness in N/am
             lattice.acceleration_am,  # output acceleration in am/s^2
         )
 
