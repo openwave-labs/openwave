@@ -161,6 +161,10 @@ def controls():
                 paused = True
 
 
+# Initialize ironbow palette vertices & colors for gradient rendering
+palette_vertices, palette_colors = config.ironbow_palette(0.92, 0.69, 0.079, 0.01)
+
+
 def color_menu():
     """Render color selection menu."""
     global granule_type, ironbow
@@ -225,7 +229,7 @@ def render_xperiment(lattice):
     """
     global show_axis, block_slice, show_sources
     global radius_factor, freq_boost, amp_boost, paused
-    global granule_type, ironbow, palette_vertices, palette_colors
+    global granule_type, ironbow
     global elapsed_t, frame
     global normalized_position
     global max_displacement
@@ -240,7 +244,6 @@ def render_xperiment(lattice):
     paused = False  # Pause toggle
     granule_type = False  # Granule type coloring toggle
     ironbow = True  # Ironbow (displacement) coloring toggle
-    palette_vertices, palette_colors = config.ironbow_palette_horiz()  # Prep ironbow palette
 
     # Time tracking for radial harmonic oscillation of all granules
     elapsed_t = 0.0
