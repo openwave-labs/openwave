@@ -74,6 +74,22 @@ COLOR_THEME = "OCEAN"
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
 
+# Initialize UI control variables
+show_axis = False  # Toggle to show/hide axis lines
+block_slice = False  # Block-slicing toggle
+show_sources = False  # Show wave sources toggle
+radius_factor = 1.0  # Initialize granule size factor
+freq_boost = 0.5  # Initialize frequency boost
+amp_boost = 0.1  # Initialize amplitude boost
+paused = False  # Pause toggle
+granule_type = False  # Granule type coloring toggle
+ironbow = True  # Ironbow (displacement) coloring toggle
+
+# Initialize time tracking for harmonic oscillations
+elapsed_t = 0.0
+last_time = time.time()
+frame = 0  # Frame counter for diagnostics
+
 # DATA SAMPLING & DIAGNOSTICS --------------------------------------------
 peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
@@ -196,27 +212,7 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, show_sources
-    global radius_factor, freq_boost, amp_boost, paused
-    global granule_type, ironbow
-    global elapsed_t, frame
-    global peak_amplitude
-
-    # Initialize UI control variables
-    show_axis = False  # Toggle to show/hide axis lines
-    block_slice = False  # Block-slicing toggle
-    show_sources = False  # Show wave sources toggle
-    radius_factor = 1.0  # Initialize granule size factor
-    freq_boost = 0.5  # Initialize frequency boost
-    amp_boost = 0.1  # Initialize amplitude boost
-    paused = False  # Pause toggle
-    granule_type = False  # Granule type coloring toggle
-    ironbow = True  # Ironbow (displacement) coloring toggle
-
-    # Time tracking for harmonic oscillation of all granules
-    elapsed_t = 0.0
-    last_time = time.time()
-    frame = 0  # Frame counter for diagnostics
+    global elapsed_t, last_time, frame, peak_amplitude
 
     # Convert phase from degrees to radians for physics calculations
     # Conversion: radians = degrees × π/180
@@ -240,8 +236,8 @@ def render_xperiment(lattice):
             # Calculate actual elapsed time (real-time tracking)
             current_time = time.time()
             dt_real = current_time - last_time
-            last_time = current_time
             elapsed_t += dt_real  # Use real elapsed time instead of fixed DT
+            last_time = current_time
 
             # Apply radial harmonic oscillation to all granules from multiple wave sources
             # Each granule receives wave contributions from all active sources
