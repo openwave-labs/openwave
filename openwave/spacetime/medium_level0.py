@@ -151,6 +151,7 @@ class BCCLattice:
         # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # granule amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -292,6 +293,18 @@ class BCCLattice:
                 )
                 else 0
             )
+
+    @ti.kernel
+    def normalize_to_screen(self, enable_slice: ti.i32):  # type: ignore
+        """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        for i in range(self.total_granules):
+            # Normalize to 0-1 range (positions are in attometers, scale them back)
+            if enable_slice == 1 and self.front_octant[i] == 1:
+                # Block-slicing enabled: hide front octant granules by moving to origin
+                self.position_screen[i] = ti.Vector([0.0, 0.0, 0.0])
+            else:
+                # Normal rendering: normalize to 0-1 range
+                self.position_screen[i] = self.position_am[i] / self.max_universe_edge_am
 
     def set_granule_type_colorBCC(self, theme="OCEAN"):
         """Assign colors to granules based on their classified type and color theme.
@@ -627,6 +640,7 @@ class SCLattice:
         # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
         self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # granule amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -740,6 +754,18 @@ class SCLattice:
                 )
                 else 0
             )
+
+    @ti.kernel
+    def normalize_to_screen(self, enable_slice: ti.i32):  # type: ignore
+        """Normalize lattice positions to 0-1 range for GGUI rendering."""
+        for i in range(self.total_granules):
+            # Normalize to 0-1 range (positions are in attometers, scale them back)
+            if enable_slice == 1 and self.front_octant[i] == 1:
+                # Block-slicing enabled: hide front octant granules by moving to origin
+                self.position_screen[i] = ti.Vector([0.0, 0.0, 0.0])
+            else:
+                # Normal rendering: normalize to 0-1 range
+                self.position_screen[i] = self.position_am[i] / self.max_universe_edge_am
 
     def set_granule_type_colorSC(self, theme="OCEAN"):
         """Assign colors to granules based on their classified type and color theme.

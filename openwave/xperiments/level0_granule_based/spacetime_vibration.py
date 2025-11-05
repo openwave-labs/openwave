@@ -107,7 +107,6 @@ def xperiment_specs():
 
 def data_dashboard():
     """Display simulation data dashboard."""
-
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
         sub.text("--- WAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
@@ -196,19 +195,6 @@ def color_menu():
 # ================================================================
 
 
-@ti.kernel
-def normalize_lattice(enable_slice: ti.i32):  # type: ignore
-    """Normalize lattice positions to 0-1 range for GGUI rendering."""
-    for i in range(lattice.total_granules):
-        # Normalize to 0-1 range (positions are in attometers, scale them back)
-        if enable_slice == 1 and lattice.front_octant[i] == 1:
-            # Block-slicing enabled: hide front octant granules by moving to origin
-            normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
-        else:
-            # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.position_am[i] / lattice.max_universe_edge_am
-
-
 def normalize_granule():
     """Normalize granule radius to 0-1 range for GGUI rendering"""
     global normalized_radius
@@ -236,7 +222,6 @@ def render_xperiment(lattice):
     global radius_factor, freq_boost, amp_boost, paused
     global granule_type, ironbow
     global elapsed_t, frame
-    global normalized_position
     global peak_amplitude
 
     # Initialize UI control variables
@@ -257,7 +242,6 @@ def render_xperiment(lattice):
 
     # Initialize normalized position (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
     normalize_granule()
 
     # Convert phase from degrees to radians for physics calculations
@@ -302,7 +286,7 @@ def render_xperiment(lattice):
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
-            normalize_lattice(1 if block_slice else 0)
+            lattice.normalize_to_screen(1 if block_slice else 0)
 
             # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
             # Update data sampling every 30 frames to reduce overhead
@@ -323,16 +307,16 @@ def render_xperiment(lattice):
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
 
-        # Render granules with optional type-coloring
+        # Render granules with optional coloring
         if granule_type:
             render.scene.particles(
-                normalized_position,
+                lattice.position_screen,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_type_color,
             )
         elif ironbow:
             render.scene.particles(
-                normalized_position,
+                lattice.position_screen,
                 radius=normalized_radius * radius_factor,
                 per_vertex_color=lattice.granule_var_color,
             )
@@ -341,7 +325,7 @@ def render_xperiment(lattice):
             render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
         else:
             render.scene.particles(
-                normalized_position,
+                lattice.position_screen,
                 radius=normalized_radius * radius_factor,
                 color=config.COLOR_MEDIUM[1],
             )
