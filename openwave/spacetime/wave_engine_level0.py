@@ -35,6 +35,7 @@ sources_phase_shift = None  # Phase offset for each wave source (radians)
 max_displacement_am = None  # Maximum displacement from all granules
 peak_amplitude_am = None  # Peak amplitude
 avg_amplitude_am = None  # RMS amplitude for energy calculation (peak * 0.707)
+last_amp_boost = None  # Track last amp_boost value for reset
 
 
 # ================================================================
@@ -83,7 +84,6 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     peak_amplitude_am = ti.field(dtype=ti.f32, shape=())
     avg_amplitude_am = ti.field(dtype=ti.f32, shape=())
     last_amp_boost = ti.field(dtype=ti.f32, shape=())  # Track last amp_boost value
-    last_amp_boost[None] = 1.0
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
