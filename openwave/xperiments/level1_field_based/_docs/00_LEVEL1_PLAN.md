@@ -264,7 +264,7 @@ For implementation details, see:
 
 - **[support_material/L1field_QFT.md](./support_material/L1field_QFT.md)** - Connections to QFT and lattice QCD
 - **[support_material/phase_shift.md](./support_material/phase_shift.md)** - Phase shift wave mechanics
-- **[support_material/wave_xponential.md](./support_material/wave_xponential.md)** - Exponential wave solutions
+- **[support_material/wave_exponential.md](./support_material/wave_exponential.md)** - Exponential wave solutions
 - **[support_material/wave_spherical.md](./support_material/wave_spherical.md)** - Spherical wave solutions
 
 ---
