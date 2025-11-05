@@ -85,7 +85,8 @@ freq_boost = 0.1  # Initialize frequency boost
 amp_boost = 5.0  # Initialize amplitude boost
 paused = False  # Pause toggle
 granule_type = True  # Granule type coloring toggle
-ironbow = False  # Ironbow (displacement) coloring toggle
+ironbow = False  # Ironbow coloring toggle
+ib_displacement = True  # Ironbow displacement vs amplitude toggle
 
 # Initialize time tracking for harmonic oscillations
 elapsed_t = 0.0
@@ -93,7 +94,8 @@ last_time = time.time()
 frame = 0  # Frame counter for diagnostics
 
 # DATA SAMPLING & DIAGNOSTICS --------------------------------------------
-peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
+max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
+peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
@@ -176,16 +178,21 @@ def controls():
 
 
 # Initialize ironbow palette vertices & colors for gradient rendering
-palette_vertices, palette_colors = config.ironbow_palette(0.92, 0.69, 0.079, 0.01)
+palette_vertices, palette_colors = config.ironbow_palette(0.92, 0.67, 0.079, 0.01)
 
 
 def color_menu():
     """Render color selection menu."""
-    global granule_type, ironbow
+    global granule_type, ironbow, ib_displacement
 
-    with render.gui.sub_window("COLOR MENU", 0.87, 0.76, 0.13, 0.12) as sub:
-        if sub.checkbox("Displacement (Ironbow)", ironbow):
+    with render.gui.sub_window("COLOR MENU", 0.87, 0.74, 0.13, 0.14) as sub:
+        if sub.checkbox("Displacement (Ironbow)", ironbow and ib_displacement):
             ironbow = True
+            ib_displacement = True
+            granule_type = False
+        if sub.checkbox("Amplitude (Ironbow)", ironbow and not ib_displacement):
+            ironbow = True
+            ib_displacement = False
             granule_type = False
         if sub.checkbox("Granule Type (Color)", granule_type):
             granule_type = True
@@ -196,8 +203,10 @@ def color_menu():
         if ironbow:  # Display ironbow gradient palette
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
-            with render.gui.sub_window("displacement", 0.92, 0.70, 0.08, 0.06) as sub:
-                sub.text(f"0       {peak_amplitude:.0e}m")
+            with render.gui.sub_window(
+                "displacement" if ib_displacement else "amplitude", 0.92, 0.68, 0.08, 0.06
+            ) as sub:
+                sub.text(f"0       {max_displacement if ib_displacement else peak_amplitude:.0e}m")
 
 
 # ================================================================
@@ -214,7 +223,7 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global elapsed_t, last_time, frame, peak_amplitude
+    global elapsed_t, last_time, frame, max_displacement, peak_amplitude
 
     ewave.build_source_vectors(
         sources_position, sources_phase_deg, NUM_SOURCES, lattice
@@ -246,6 +255,7 @@ def render_xperiment(lattice):
                 lattice.amplitude_am,  # Granule amplitude in am
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.granule_var_color,  # Granule color variations
+                ib_displacement,  # Ironbow displacement vs amplitude toggle
                 NUM_SOURCES,  # Number of active wave sources
                 elapsed_t,
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
@@ -259,8 +269,9 @@ def render_xperiment(lattice):
             # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
             # Update data sampling every 30 frames to reduce overhead
             if frame % 30 == 0:
-                ewave.update_lattice_energy(lattice)  # Update energy based on wave amplitude
+                max_displacement = ewave.max_displacement_am[None] * constants.ATTOMETER
                 peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
+                ewave.update_lattice_energy(lattice)  # Update energy based on wave amplitude
 
             # Wave diagnostics (minimal footprint)
             if WAVE_DIAGNOSTICS:
