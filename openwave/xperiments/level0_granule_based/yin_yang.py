@@ -74,7 +74,23 @@ COLOR_THEME = "OCEAN"
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
-granule = medium.BCCGranule(lattice.unit_cell_edge)
+granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
+
+# Initialize UI control variables
+show_axis = False  # Toggle to show/hide axis lines
+block_slice = False  # Block-slicing toggle
+show_sources = True  # Show wave sources toggle
+radius_factor = 2.0  # Initialize granule size factor
+freq_boost = 0.1  # Initialize frequency boost
+amp_boost = 5.0  # Initialize amplitude boost
+paused = False  # Pause toggle
+granule_type = True  # Granule type coloring toggle
+ironbow = False  # Ironbow (displacement) coloring toggle
+
+# Initialize time tracking for harmonic oscillations
+elapsed_t = 0.0
+last_time = time.time()
+frame = 0  # Frame counter for diagnostics
 
 # DATA SAMPLING & DIAGNOSTICS --------------------------------------------
 peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
@@ -101,7 +117,6 @@ def xperiment_specs():
 
 def data_dashboard():
     """Display simulation data dashboard."""
-
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
         sub.text("--- WAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {lattice.max_universe_edge:.1e} m (max edge)")
@@ -186,33 +201,6 @@ def color_menu():
 
 
 # ================================================================
-# Xperiment Normalization to Screen Coordinates
-# ================================================================
-
-
-@ti.kernel
-def normalize_lattice(enable_slice: ti.i32):  # type: ignore
-    """Normalize lattice positions to 0-1 range for GGUI rendering."""
-    for i in range(lattice.total_granules):
-        # Normalize to 0-1 range (positions are in attometers, scale them back)
-        if enable_slice == 1 and lattice.front_octant[i] == 1:
-            # Block-slicing enabled: hide front octant granules by moving to origin
-            normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
-        else:
-            # Normal rendering: normalize to 0-1 range
-            normalized_position[i] = lattice.position_am[i] / lattice.max_universe_edge_am
-
-
-def normalize_granule():
-    """Normalize granule radius to 0-1 range for GGUI rendering"""
-    global normalized_radius
-
-    normalized_radius = max(
-        granule.radius / lattice.max_universe_edge, 0.0001
-    )  # Ensure minimum 0.01% of screen radius for visibility
-
-
-# ================================================================
 # Xperiment Rendering
 # ================================================================
 
@@ -226,40 +214,10 @@ def render_xperiment(lattice):
     Args:
         lattice: Lattice instance with positions, directions, and universe parameters
     """
-    global show_axis, block_slice, show_sources
-    global radius_factor, freq_boost, amp_boost, paused
-    global granule_type, ironbow
-    global elapsed_t, frame
-    global normalized_position
-    global peak_amplitude
-
-    # Initialize UI control variables
-    show_axis = False  # Toggle to show/hide axis lines
-    block_slice = False  # Block-slicing toggle
-    show_sources = True  # Show wave sources toggle
-    radius_factor = 2.0  # Initialize granule size factor
-    freq_boost = 0.1  # Initialize frequency boost
-    amp_boost = 5.0  # Initialize amplitude boost
-    paused = False  # Pause toggle
-    granule_type = True  # Granule type coloring toggle
-    ironbow = False  # Ironbow (displacement) coloring toggle
-
-    # Time tracking for harmonic oscillation of all granules
-    elapsed_t = 0.0
-    last_time = time.time()
-    frame = 0  # Frame counter for diagnostics
-
-    # Initialize normalized position (0-1 range for GGUI) & block-slicing
-    # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-    normalize_granule()
-
-    # Convert phase from degrees to radians for physics calculations
-    # Conversion: radians = degrees × π/180
-    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
+    global elapsed_t, last_time, frame, peak_amplitude
 
     ewave.build_source_vectors(
-        sources_position, sources_phase_rad, NUM_SOURCES, lattice
+        sources_position, sources_phase_deg, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled
@@ -276,8 +234,8 @@ def render_xperiment(lattice):
             # Calculate actual elapsed time (real-time tracking)
             current_time = time.time()
             dt_real = current_time - last_time
-            last_time = current_time
             elapsed_t += dt_real  # Use real elapsed time instead of fixed DT
+            last_time = current_time
 
             # Apply radial harmonic oscillation to all granules from multiple wave sources
             # Each granule receives wave contributions from all active sources
@@ -296,7 +254,7 @@ def render_xperiment(lattice):
 
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
-            normalize_lattice(1 if block_slice else 0)
+            lattice.normalize_to_screen(1 if block_slice else 0)
 
             # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
             # Update data sampling every 30 frames to reduce overhead
@@ -317,17 +275,17 @@ def render_xperiment(lattice):
             # Update last_time during pause to prevent time jump on resume
             last_time = time.time()
 
-        # Render granules with optional type-coloring
+        # Render granules with optional coloring
         if granule_type:
             render.scene.particles(
-                normalized_position,
-                radius=normalized_radius * radius_factor,
+                lattice.position_screen,
+                radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_type_color,
             )
         elif ironbow:
             render.scene.particles(
-                normalized_position,
-                radius=normalized_radius * radius_factor,
+                lattice.position_screen,
+                radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_var_color,
             )
             # Display ironbow gradient palette
@@ -335,8 +293,8 @@ def render_xperiment(lattice):
             render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
         else:
             render.scene.particles(
-                normalized_position,
-                radius=normalized_radius * radius_factor,
+                lattice.position_screen,
+                radius=granule.radius_screen * radius_factor,
                 color=config.COLOR_MEDIUM[1],
             )
 
@@ -344,7 +302,7 @@ def render_xperiment(lattice):
         if show_sources:
             render.scene.particles(
                 centers=ewave.sources_pos_field,
-                radius=normalized_radius * 2,
+                radius=granule.radius_screen * 2,
                 color=config.COLOR_SOURCE[1],
             )
 

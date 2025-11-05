@@ -42,7 +42,7 @@ avg_amplitude_am = None  # RMS amplitude for energy calculation (peak * 0.707)
 # ================================================================
 
 
-def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
+def build_source_vectors(sources_position, sources_phase_deg, num_sources, lattice):
     """Precompute distance & direction vectors from all granules to multiple wave sources.
 
     This function is called once during initialization. It computes the geometric
@@ -56,12 +56,16 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     Args:
         sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source.
             Uses Z-up coordinate system: X=horizontal, Y=depth, Z=vertical.
-        sources_phase: List of phase offsets (radians) for each wave source
+        sources_phase_deg: List of phase offsets (degrees) for each wave source
         num_sources: Number of wave sources
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
     global frame_max_displacement_am, peak_amplitude_am, avg_amplitude_am
+
+    # Convert phase from degrees to radians for physics calculations
+    # Conversion: radians = degrees × π/180
+    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -85,7 +89,7 @@ def build_source_vectors(sources_position, sources_phase, num_sources, lattice):
     # Copy source data to Taichi fields
     for i in range(num_sources):
         sources_pos_field[i] = ti.Vector(sources_position[i])
-        sources_phase_shift[i] = sources_phase[i]
+        sources_phase_shift[i] = sources_phase_rad[i]
 
     @ti.kernel
     def compute_vectors(num_active: ti.i32):  # type: ignore
