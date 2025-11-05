@@ -201,12 +201,8 @@ def render_xperiment(lattice):
     """
     global elapsed_t, last_time, frame, peak_amplitude
 
-    # Convert phase from degrees to radians for physics calculations
-    # Conversion: radians = degrees × π/180
-    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
-
     ewave.build_source_vectors(
-        sources_position, sources_phase_rad, NUM_SOURCES, lattice
+        sources_position, sources_phase_deg, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled
