@@ -26,13 +26,18 @@ class BCCGranule:
     Each granule has a defined radius and mass.
     """
 
-    def __init__(self, unit_cell_edge: float):
+    def __init__(self, unit_cell_edge: float, max_universe_edge: float):
         """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
+        Normalize granule radius to 0-1 range for GGUI rendering.
 
         Args:
             unit_cell_edge: Edge length of the BCC unit-cell in meters.
+            max_universe_edge: Maximum edge length of the universe for normalization.
         """
         self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
+        self.radius_screen = max(
+            self.radius / max_universe_edge, 0.0001
+        )  # Ensure minimum 0.01% of screen radius for visibility
         self.mass = (
             constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
         )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
@@ -301,6 +306,7 @@ class BCCLattice:
             # Normalize to 0-1 range (positions are in attometers, scale them back)
             if enable_slice == 1 and self.front_octant[i] == 1:
                 # Block-slicing enabled: hide front octant granules by moving to origin
+                # hide front 1/8th of the lattice for see-through effect
                 self.position_screen[i] = ti.Vector([0.0, 0.0, 0.0])
             else:
                 # Normal rendering: normalize to 0-1 range
@@ -518,13 +524,18 @@ class SCGranule:
     Each granule has a defined radius and mass.
     """
 
-    def __init__(self, unit_cell_edge: float):
+    def __init__(self, unit_cell_edge: float, max_universe_edge: float):
         """Initialize scaled-up granule properties based on scaled-up unit cell edge length.
+        Normalize granule radius to 0-1 range for GGUI rendering.
 
         Args:
             unit_cell_edge: Edge length of the SC unit-cell in meters.
+            max_universe_edge: Maximum edge length of the universe for normalization.
         """
         self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
+        self.radius_screen = max(
+            self.radius / max_universe_edge, 0.0001
+        )  # Ensure minimum 0.01% of screen radius for visibility
         self.mass = constants.MEDIUM_DENSITY * unit_cell_edge**3  # medium density * cell volume
 
 
@@ -762,6 +773,7 @@ class SCLattice:
             # Normalize to 0-1 range (positions are in attometers, scale them back)
             if enable_slice == 1 and self.front_octant[i] == 1:
                 # Block-slicing enabled: hide front octant granules by moving to origin
+                # hide front 1/8th of the lattice for see-through effect
                 self.position_screen[i] = ti.Vector([0.0, 0.0, 0.0])
             else:
                 # Normal rendering: normalize to 0-1 range

@@ -80,7 +80,7 @@ COLOR_THEME = "OCEAN"
 
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
-granule = medium.BCCGranule(lattice.unit_cell_edge)
+granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
 
 # DATA SAMPLING & DIAGNOSTICS --------------------------------------------
 peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
@@ -191,20 +191,6 @@ def color_menu():
 
 
 # ================================================================
-# Xperiment Normalization to Screen Coordinates
-# ================================================================
-
-
-def normalize_granule():
-    """Normalize granule radius to 0-1 range for GGUI rendering"""
-    global normalized_radius
-
-    normalized_radius = max(
-        granule.radius / lattice.max_universe_edge, 0.0001
-    )  # Ensure minimum 0.01% of screen radius for visibility
-
-
-# ================================================================
 # Xperiment Rendering
 # ================================================================
 
@@ -239,10 +225,6 @@ def render_xperiment(lattice):
     elapsed_t = 0.0
     last_time = time.time()
     frame = 0  # Frame counter for diagnostics
-
-    # Initialize normalized position (0-1 range for GGUI) & block-slicing
-    # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalize_granule()
 
     # Convert phase from degrees to radians for physics calculations
     # Conversion: radians = degrees × π/180
@@ -311,13 +293,13 @@ def render_xperiment(lattice):
         if granule_type:
             render.scene.particles(
                 lattice.position_screen,
-                radius=normalized_radius * radius_factor,
+                radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_type_color,
             )
         elif ironbow:
             render.scene.particles(
                 lattice.position_screen,
-                radius=normalized_radius * radius_factor,
+                radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_var_color,
             )
             # Display ironbow gradient palette
@@ -326,7 +308,7 @@ def render_xperiment(lattice):
         else:
             render.scene.particles(
                 lattice.position_screen,
-                radius=normalized_radius * radius_factor,
+                radius=granule.radius_screen * radius_factor,
                 color=config.COLOR_MEDIUM[1],
             )
 
@@ -334,7 +316,7 @@ def render_xperiment(lattice):
         if show_sources:
             render.scene.particles(
                 centers=ewave.sources_pos_field,
-                radius=normalized_radius * 2,
+                radius=granule.radius_screen * 2,
                 color=config.COLOR_SOURCE[1],
             )
 
