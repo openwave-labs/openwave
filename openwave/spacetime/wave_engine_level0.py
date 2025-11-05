@@ -277,9 +277,9 @@ def oscillate_granules(
         # Compute displacement magnitude
         displacement_am_magnitude = total_displacement_am.norm()
 
-        # # Track granule amplitude for debugging/analysis (max displacement per granule)
-        # if displacement_am_magnitude > amplitude_am[granule_idx]:
-        #     amplitude_am[granule_idx] = displacement_am_magnitude
+        # Track granule amplitude for analysis (max displacement per granule)
+        if displacement_am_magnitude > amplitude_am[granule_idx]:
+            amplitude_am[granule_idx] = displacement_am_magnitude
 
         # Track maximum displacement across all granules (thread-safe atomic max)
         # Used for numerical analysis
