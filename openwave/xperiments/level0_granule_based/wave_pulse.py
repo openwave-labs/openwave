@@ -61,7 +61,7 @@ COLOR_THEME = "OCEAN"
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
-# DATA SAMPLING & DIAGNOSTICS ==================================
+# DATA SAMPLING & DIAGNOSTICS --------------------------------------------
 peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
 WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
@@ -229,7 +229,7 @@ def render_xperiment(lattice):
     granule_type = False  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
 
-    # Time tracking for radial harmonic oscillation of all granules
+    # Time tracking for harmonic oscillation of all granules
     elapsed_t = 0.0
     last_time = time.time()
     frame = 0  # Frame counter for diagnostics
