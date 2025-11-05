@@ -126,11 +126,11 @@ def oscillate_granules(
     amplitude_am: ti.template(),  # type: ignore
     velocity_am: ti.template(),  # type: ignore
     granule_var_color: ti.template(),  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
+    amp_boost: ti.f32,  # type: ignore
     ib_displacement: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
-    freq_boost: ti.f32,  # type: ignore
-    amp_boost: ti.f32,  # type: ignore
 ):
     """Charges energy into all granules from multiple wave sources using wave superposition.
 

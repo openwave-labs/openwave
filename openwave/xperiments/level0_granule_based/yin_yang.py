@@ -255,11 +255,11 @@ def render_xperiment(lattice):
                 lattice.amplitude_am,  # Granule amplitude in am
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.granule_var_color,  # Granule color variations
+                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost,  # Amplitude visibility boost for scaled lattices
                 ib_displacement,  # Ironbow displacement vs amplitude toggle
                 NUM_SOURCES,  # Number of active wave sources
                 elapsed_t,
-                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
-                amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)
