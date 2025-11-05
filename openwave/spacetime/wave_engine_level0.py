@@ -62,7 +62,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global frame_max_displacement_am, max_displacement_am, peak_amplitude_am, avg_amplitude_am
+    global frame_max_displacement_am, max_displacement_am, peak_amplitude_am, avg_amplitude_am, last_amp_boost
 
     # Convert phase from degrees to radians for physics calculations
     # Conversion: radians = degrees × π/180
@@ -85,6 +85,8 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     max_displacement_am = ti.field(dtype=ti.f32, shape=())  # max displacement
     peak_amplitude_am = ti.field(dtype=ti.f32, shape=())
     avg_amplitude_am = ti.field(dtype=ti.f32, shape=())
+    last_amp_boost = ti.field(dtype=ti.f32, shape=())  # Track last amp_boost value
+    last_amp_boost[None] = 1.0
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -302,6 +304,14 @@ def oscillate_granules(
     old_max = max_displacement_am[None]
     new_max = old_max * alpha_max + frame_max_displacement_am[None] * (1.0 - alpha_max)
     max_displacement_am[None] = new_max
+
+    # Reset granule amplitude and peak amplitude if amplitude boost changed
+    # Prevents stale high values when amp_boost is reduced, loop through all granules
+    if last_amp_boost[None] != amp_boost:
+        for i in range(amplitude_am.shape[0]):
+            amplitude_am[i] = 0.0
+        peak_amplitude_am[None] = 0.0
+        last_amp_boost[None] = amp_boost
 
     # Convert peak amplitude to RMS amplitude for energy calculation
     # RMS amplitude = peak / √2 ≈ peak * 0.707
