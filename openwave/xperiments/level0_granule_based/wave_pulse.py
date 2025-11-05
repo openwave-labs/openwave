@@ -61,8 +61,8 @@ COLOR_THEME = "OCEAN"
 lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
 
-# DATA SAMPLING & DIAGNOSTICS ==================================
-max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
+# DATA SAMPLING & DIAGNOSTICS --------------------------------------------
+peak_amplitude = 0.0  # Initialize granule max displacement (data sampling variable)
 WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
@@ -167,7 +167,7 @@ def color_menu():
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
             with render.gui.sub_window("displacement", 0.92, 0.70, 0.08, 0.06) as sub:
-                sub.text(f"0       {max_displacement:.0e}m")
+                sub.text(f"0       {peak_amplitude:.0e}m")
 
 
 # ================================================================
@@ -216,7 +216,7 @@ def render_xperiment(lattice):
     global granule_type, ironbow
     global elapsed_t, frame
     global normalized_position
-    global max_displacement
+    global peak_amplitude
 
     # Initialize UI control variables
     show_axis = True  # Toggle to show/hide axis lines
@@ -229,7 +229,7 @@ def render_xperiment(lattice):
     granule_type = False  # Granule type coloring toggle
     ironbow = False  # Ironbow (displacement) coloring toggle
 
-    # Time tracking for radial harmonic oscillation of all granules
+    # Time tracking for harmonic oscillation of all granules
     elapsed_t = 0.0
     last_time = time.time()
     frame = 0  # Frame counter for diagnostics
@@ -270,6 +270,7 @@ def render_xperiment(lattice):
             ewave.oscillate_granules(
                 lattice.position_am,  # Granule positions in attometers
                 lattice.equilibrium_am,  # Rest positions for all granules
+                lattice.amplitude_am,  # Granule amplitude in am
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.granule_var_color,  # Granule color variations
                 NUM_SOURCES,  # Number of active wave sources
@@ -286,7 +287,7 @@ def render_xperiment(lattice):
             # Update data sampling every 30 frames to reduce overhead
             if frame % 30 == 0:
                 ewave.update_lattice_energy(lattice)  # Update energy based on wave amplitude
-                max_displacement = ewave.max_displacement_am_tracker[None] * constants.ATTOMETER
+                peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
 
             # Wave diagnostics (minimal footprint)
             if WAVE_DIAGNOSTICS:
