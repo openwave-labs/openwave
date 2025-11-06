@@ -57,12 +57,12 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 - Illustrates complex, often invisible phenomena for better comprehension
 - Represents graphically wave equations and analyses
-- [PLANNED] Automates animation export for online video publishing
+- Automates animation export for online video publishing
 
 ### Exploratory Simulations
 
 - Models experimental wave field configurations for parametric studies
-- [PLANNED] Supports hypothesis testing and comparative analysis against theoretical predictions
+- Supports hypothesis testing and comparative analysis against theoretical predictions
 
 ## Explore Wave Field Dynamics with 3D Visualization
 
@@ -339,8 +339,7 @@ class `I/O
   MODULE`{
     cli.py ✓
     render.py ✓
-    *WIP*: file_export.py
-    *WIP*: video_manager.py
+    video.py ✓
   }
 ```
 
@@ -403,7 +402,8 @@ kanban
       - equations.py]
     [**I/O MODULE**
       - cli.py
-      - render.py]
+      - render.py
+      - video.py]
 ```
 
 ### Scalability & Performance

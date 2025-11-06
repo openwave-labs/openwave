@@ -18,8 +18,7 @@ This XPERIMENT showcases:
 import taichi as ti
 import time
 
-from openwave.common import config
-from openwave.common import constants
+from openwave.common import config, constants
 from openwave._io import render
 
 import openwave.xperiments._archives.radial_wave.medium_bccgranule as medium

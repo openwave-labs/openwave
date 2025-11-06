@@ -17,8 +17,7 @@ print("")
 import taichi as ti
 import time
 
-from openwave.common import config
-from openwave.common import constants
+from openwave.common import config, constants
 from openwave._io import render
 
 import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium

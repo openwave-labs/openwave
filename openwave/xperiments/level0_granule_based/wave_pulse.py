@@ -18,16 +18,15 @@ This XPERIMENT showcases:
 import taichi as ti
 import time
 
-from openwave.common import config
-from openwave.common import constants
-from openwave._io import render
+from openwave.common import config, constants
+from openwave._io import render, video
 
 import openwave.spacetime.medium_level0 as medium
 import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
-ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
+ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
 # ================================================================
 # Xperiment Parameters & Subatomic Objects Instantiation
@@ -82,6 +81,8 @@ frame = 0  # Frame counter for diagnostics
 max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
 peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
 WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
+EXPORT_VIDEO = False  # Toggle frame image export to video directory
+VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize video export
 
 # ================================================================
 # Xperiment UI and overlay windows
@@ -240,11 +241,11 @@ def render_xperiment(lattice):
                 lattice.amplitude_am,  # Granule amplitude in am
                 lattice.velocity_am,  # Granule velocity in am/s
                 lattice.granule_var_color,  # Granule color variations
+                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
+                amp_boost,  # Amplitude visibility boost for scaled lattices
                 ib_displacement,  # Ironbow displacement vs amplitude toggle
                 NUM_SOURCES,  # Number of active wave sources
                 elapsed_t,
-                freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
-                amp_boost,  # Amplitude visibility boost for scaled lattices
             )
 
             # Update normalized positions for rendering (must happen after position updates)
@@ -306,6 +307,10 @@ def render_xperiment(lattice):
         color_menu()
         xperiment_specs()
         render.show_scene()
+
+        # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
+        if EXPORT_VIDEO:
+            video.export(frame, VIDEO_FRAMES)
 
 
 # ================================================================
