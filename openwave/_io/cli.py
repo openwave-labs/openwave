@@ -9,12 +9,12 @@ import argparse
 import os
 import sys
 import subprocess
-import platform
 from pathlib import Path
 
 # Conditional import for simple_term_menu (not available on Windows)
 try:
     from simple_term_menu import TerminalMenu
+
     HAS_INTERACTIVE_MENU = True
 except (ImportError, NotImplementedError):
     HAS_INTERACTIVE_MENU = False
@@ -163,10 +163,12 @@ def show_menu_simple(experiments):
     # Get version from source (works with editable installs)
     try:
         from openwave import __version__
+
         pkg_version = __version__
     except ImportError:
         # Fallback to metadata if __version__ not available
         from importlib.metadata import version
+
         pkg_version = version("OPENWAVE")
 
     print("\n" + "=" * 64)
@@ -233,10 +235,12 @@ def show_menu_interactive(experiments):
     # Get version from source (works with editable installs)
     try:
         from openwave import __version__
+
         pkg_version = __version__
     except ImportError:
         # Fallback to metadata if __version__ not available
         from importlib.metadata import version
+
         pkg_version = version("OPENWAVE")
 
     for display_name, file_path in experiments:

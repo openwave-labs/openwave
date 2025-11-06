@@ -212,10 +212,5 @@ __marimo__/
 # Taichi artifacts
 imgui.ini
 
-# Development Sandbox - Experimental Code
-# Uncomment the lines below to ignore sandbox experiments
-# /dev_sandbox/wip_*
-# /dev_sandbox/*/wip_*
-# Or ignore everything except README:
-# /dev_sandbox/*
-# !/dev_sandbox/README.md
+# Video export directory
+/openwave/video_export

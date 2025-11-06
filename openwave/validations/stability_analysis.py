@@ -1,8 +1,6 @@
 import math
 
-from openwave.common import config
-from openwave.common import constants
-from openwave.common import equations
+from openwave.common import config, constants, equations
 
 import openwave.spacetime.medium_level0 as medium
 

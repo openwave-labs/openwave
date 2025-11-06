@@ -11,9 +11,7 @@ Each source generates spherical longitudinal waves that superpose at each granul
 
 import taichi as ti
 
-from openwave.common import config
-from openwave.common import constants
-from openwave.common import equations
+from openwave.common import config, constants, equations
 
 # ================================================================
 # Energy-Wave Oscillation Parameters

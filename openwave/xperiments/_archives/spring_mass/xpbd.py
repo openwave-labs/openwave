@@ -8,9 +8,7 @@ Tweak universe size and other parameters to explore different scales.
 import taichi as ti
 import time
 
-from openwave.common import config
-from openwave.common import constants
-from openwave.common import equations
+from openwave.common import config, constants, equations
 from openwave._io import render
 
 import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium
