@@ -198,6 +198,117 @@ def ironbow_palette(x, y, width, height):
 
 
 # ================================================================
+# Blueprint Imaging Palette
+# ================================================================
+# Simplified blueprint imaging palette (4-color)
+blueprint4 = [
+    ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
+    ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
+    ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
+    ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
+]
+
+
+@ti.func
+def get_blueprint_color(value, min_value, max_value):
+    """Maps a numerical value to a BLUEPRINT color gradient.
+
+    BLUEPRINT gradient: dark blue → medium blue → light blue → extra-light blue
+    Used for blueprint-style visualization where low = dark, high = light.
+
+    Args:
+        value: The displacement magnitude to visualize
+        min_value: Minimum displacement in range (typically 0.0)
+        max_value: Maximum displacement observed
+    """
+    # Compute normalized scale range
+    scale = max_value - min_value
+
+    # Normalize color by scale range [0.0 - 1.0]
+    norm_color = ti.math.clamp(value / scale, 0.0, 1.0)
+
+    # Compute color as BLUEPRINT gradient for visualization
+    # blueprint4 gradient with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+    if norm_color < 0.33:  # dark blue to medium blue
+        blend = norm_color / 0.33
+        r = 0.1 * (1.0 - blend) + 0.25 * blend  # #192C64 to #405CB1
+        g = 0.17 * (1.0 - blend) + 0.36 * blend
+        b = 0.39 * (1.0 - blend) + 0.69 * blend
+    elif norm_color < 0.66:  # medium blue to light blue
+        blend = (norm_color - 0.33) / 0.33
+        r = 0.25 * (1.0 - blend) + 0.6 * blend  # #405CB1 to #98AEDD
+        g = 0.36 * (1.0 - blend) + 0.68 * blend
+        b = 0.69 * (1.0 - blend) + 0.87 * blend
+    else:  # light blue to extra-light blue
+        blend = (norm_color - 0.66) / 0.34
+        r = 0.6 * (1.0 - blend) + 0.9 * blend  # #98AEDD to #E4EAF6
+        g = 0.68 * (1.0 - blend) + 0.94 * blend
+        b = 0.87 * (1.0 - blend) + 0.98 * blend
+
+    blueprint_color = ti.Vector([r, g, b])
+
+    return blueprint_color
+
+
+def blueprint_palette(x, y, width, height):
+    """Generate blueprint palette indicator as horizontal gradient using triangles.
+
+    Creates a horizontal color bar from all 4 blueprint colors (dark blue -> extra-light blue).
+    Each color band is made of 2 triangles forming a rectangle.
+    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
+
+    Returns:
+        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
+    """
+    # Calculate number of vertices needed: 3 color bands × 2 triangles × 3 vertices = 18
+    num_bands = len(blueprint4) - 1  # 3 color transitions
+    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
+
+    # Create Taichi fields for triangle vertices and colors
+    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
+    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
+
+    # Position parameters (screen coordinates)
+    x_left = x
+    x_right = x + width
+    y_top = 1 - y
+    y_bottom = 1 - (y + height)
+    band_width = (x_right - x_left) / num_bands
+
+    # Generate triangles for each color band
+    for i in range(num_bands):
+        # Calculate X positions for this band
+        x_start = x_left + (i * band_width)
+        x_end = x_left + ((i + 1) * band_width)
+
+        # Get colors from blueprint4 (index 1 is the RGB tuple)
+        color_left = ti.Vector(blueprint4[i][1])  # Dark color (left)
+        color_right = ti.Vector(blueprint4[i + 1][1])  # Light color (right)
+
+        # Vertex indices for this band's two triangles
+        v_idx = i * 6
+
+        # First triangle (bottom-left, bottom-right, top-left)
+        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
+        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
+        palette_colors[v_idx + 0] = color_left
+        palette_colors[v_idx + 1] = color_right
+        palette_colors[v_idx + 2] = color_left
+
+        # Second triangle (top-left, bottom-right, top-right)
+        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
+        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
+        palette_colors[v_idx + 3] = color_left
+        palette_colors[v_idx + 4] = color_right
+        palette_colors[v_idx + 5] = color_right
+
+    return palette_vertices, palette_colors
+
+
+# ================================================================
 # FUTURE COLOR PALETTES
 # COLOR_EWAVE = ORANGE  # energy-wave, wave functions
 # COLOR_MATTER = DARK_BLUE  # matter, particles
