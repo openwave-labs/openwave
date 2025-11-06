@@ -126,7 +126,7 @@ def oscillate_granules(
     granule_var_color: ti.template(),  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
-    ib_displacement: ti.i32,  # type: ignore
+    color_disp: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
 ):
@@ -189,7 +189,7 @@ def oscillate_granules(
         amplitude_am: Amplitude field for all granules (modified in-place, in attometers)
         velocity_am: Velocity field for all granules (modified in-place, in attometers/second)
         granule_var_color: Color field for IRONBOW displacement visualization
-        ib_displacement: Ironbow displacement vs amplitude toggle
+        color_disp: Ironbow displacement vs amplitude toggle
         num_sources: Number of wave sources
         elapsed_t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
@@ -282,12 +282,12 @@ def oscillate_granules(
         # Used for numerical analysis
         ti.atomic_max(max_displacement_am[None], displacement_am)
 
-        # IRONBOW COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUE
-        # Map displacement/amplitude to IRONBOW thermal gradient color
+        # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
+        # Map displacement/amplitude to gradient color
         granule_var_color[granule_idx] = config.get_ironbow_color(
-            displacement_am if ib_displacement else amplitude_am[granule_idx],
+            displacement_am if color_disp else amplitude_am[granule_idx],
             0.0,
-            max_displacement_am[None] if ib_displacement else peak_amplitude_am[None],
+            max_displacement_am[None] if color_disp else peak_amplitude_am[None],
         )
 
     # Reset amplitude trackers if amplitude boost changed

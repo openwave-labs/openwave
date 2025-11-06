@@ -83,7 +83,7 @@ amp_boost = 0.1  # Initialize amplitude boost
 paused = False  # Pause toggle
 granule_type = False  # Granule type coloring toggle
 ironbow = True  # Ironbow coloring toggle
-ib_displacement = True  # Ironbow displacement vs amplitude toggle
+color_disp = True  # Ironbow displacement vs amplitude toggle
 
 # Initialize time tracking for harmonic oscillations
 elapsed_t = 0.0
@@ -182,30 +182,30 @@ palette_vertices, palette_colors = config.ironbow_palette(0.92, 0.67, 0.079, 0.0
 
 def color_menu():
     """Render color selection menu."""
-    global granule_type, ironbow, ib_displacement
+    global granule_type, ironbow, color_disp
 
     with render.gui.sub_window("COLOR MENU", 0.87, 0.74, 0.13, 0.14) as sub:
-        if sub.checkbox("Displacement (Ironbow)", ironbow and ib_displacement):
+        if sub.checkbox("Displacement (ironbow)", ironbow and color_disp):
             ironbow = True
-            ib_displacement = True
+            color_disp = True
             granule_type = False
-        if sub.checkbox("Amplitude (Ironbow)", ironbow and not ib_displacement):
+        if sub.checkbox("Amplitude (ironbow)", ironbow and not color_disp):
             ironbow = True
-            ib_displacement = False
+            color_disp = False
             granule_type = False
-        if sub.checkbox("Granule Type (Color)", granule_type):
+        if sub.checkbox("Granule Type (color)", granule_type):
             granule_type = True
             ironbow = False
-        if sub.checkbox("Medium Default (Color)", not (granule_type or ironbow)):
+        if sub.checkbox("Medium Default (color)", not (granule_type or ironbow)):
             granule_type = False
             ironbow = False
         if ironbow:  # Display ironbow gradient palette
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
             with render.gui.sub_window(
-                "displacement" if ib_displacement else "amplitude", 0.92, 0.68, 0.08, 0.06
+                "displacement" if color_disp else "amplitude", 0.92, 0.68, 0.08, 0.06
             ) as sub:
-                sub.text(f"0       {max_displacement if ib_displacement else peak_amplitude:.0e}m")
+                sub.text(f"0       {max_displacement if color_disp else peak_amplitude:.0e}m")
 
 
 # ================================================================
@@ -256,7 +256,7 @@ def render_xperiment(lattice):
                 lattice.granule_var_color,  # Granule color variations
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
-                ib_displacement,  # Ironbow displacement vs amplitude toggle
+                color_disp,  # Ironbow displacement vs amplitude toggle
                 NUM_SOURCES,  # Number of active wave sources
                 elapsed_t,
             )
