@@ -210,12 +210,12 @@ After initial energy Charge, the wave field requires a **stabilization period** 
 
 **Steady-State Characteristics**:
 
-```python
-# After stabilization, the field exhibits:
-# - Waves coming from all directions (not just sources)
-# - Complex interference patterns throughout domain
-# - Energy density distributed (not localized)
-# - Dynamic equilibrium (total energy constant)
+```text
+After stabilization, the field exhibits:
+- Waves coming from all directions (not just sources)
+- Complex interference patterns throughout domain
+- Energy density distributed (not localized)
+- Dynamic equilibrium (total energy constant)
 ```
 
 **Visual Description**:

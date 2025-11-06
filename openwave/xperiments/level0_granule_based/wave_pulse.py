@@ -70,7 +70,8 @@ amp_boost = 5.0  # Initialize amplitude boost
 paused = False  # Pause toggle
 granule_type = False  # Granule type coloring toggle
 ironbow = False  # Ironbow coloring toggle
-color_disp = True  # Ironbow displacement vs amplitude toggle
+blueprint = False  # Blueprint coloring toggle
+color_disp = True  # Displacement vs amplitude toggle
 
 # Initialize time tracking for harmonic oscillations
 elapsed_t = 0.0
@@ -163,34 +164,53 @@ def controls():
                 paused = True
 
 
-# Initialize ironbow palette vertices & colors for gradient rendering
-palette_vertices, palette_colors = config.ironbow_palette(0.92, 0.67, 0.079, 0.01)
+# Initialize palette vertices & colors for gradient rendering
+ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.92, 0.65, 0.079, 0.01)
+bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.92, 0.65, 0.079, 0.01)
 
 
 def color_menu():
     """Render color selection menu."""
-    global granule_type, ironbow, color_disp
+    global granule_type, ironbow, blueprint, color_disp
 
-    with render.gui.sub_window("COLOR MENU", 0.87, 0.74, 0.13, 0.14) as sub:
+    with render.gui.sub_window("COLOR MENU", 0.87, 0.72, 0.13, 0.16) as sub:
         if sub.checkbox("Displacement (ironbow)", ironbow and color_disp):
+            granule_type = False
             ironbow = True
+            blueprint = False
             color_disp = True
-            granule_type = False
         if sub.checkbox("Amplitude (ironbow)", ironbow and not color_disp):
-            ironbow = True
-            color_disp = False
             granule_type = False
-        if sub.checkbox("Granule Type (color)", granule_type):
+            ironbow = True
+            blueprint = False
+            color_disp = False
+        if sub.checkbox("Amplitude (blueprint)", blueprint and not color_disp):
+            granule_type = False
+            ironbow = False
+            blueprint = True
+            color_disp = False
+        if sub.checkbox("Granule Type Color", granule_type):
             granule_type = True
             ironbow = False
-        if sub.checkbox("Medium Default (color)", not (granule_type or ironbow)):
+            blueprint = False
+            color_disp = False
+        if sub.checkbox("Medium Default Color", not (granule_type or ironbow or blueprint)):
             granule_type = False
             ironbow = False
+            blueprint = False
+            color_disp = False
         if ironbow:  # Display ironbow gradient palette
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
-            render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
+            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(
-                "displacement" if color_disp else "amplitude", 0.92, 0.68, 0.08, 0.06
+                "displacement" if color_disp else "amplitude", 0.92, 0.66, 0.08, 0.06
+            ) as sub:
+                sub.text(f"0       {max_displacement if color_disp else peak_amplitude:.0e}m")
+        if blueprint:  # Display blueprint gradient palette
+            # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
+            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
+            with render.gui.sub_window(
+                "displacement" if color_disp else "amplitude", 0.92, 0.66, 0.08, 0.06
             ) as sub:
                 sub.text(f"0       {max_displacement if color_disp else peak_amplitude:.0e}m")
 
@@ -243,7 +263,8 @@ def render_xperiment(lattice):
                 lattice.granule_var_color,  # Granule color variations
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
-                color_disp,  # Ironbow displacement vs amplitude toggle
+                ironbow,  # Ironbow coloring toggle
+                color_disp,  # Displacement vs amplitude toggle
                 NUM_SOURCES,  # Number of active wave sources
                 elapsed_t,
             )
@@ -279,15 +300,12 @@ def render_xperiment(lattice):
                 radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_type_color,
             )
-        elif ironbow:
+        elif ironbow or blueprint:
             render.scene.particles(
                 lattice.position_screen,
                 radius=granule.radius_screen * radius_factor,
                 per_vertex_color=lattice.granule_var_color,
             )
-            # Display ironbow gradient palette
-            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
-            render.canvas.triangles(palette_vertices, per_vertex_color=palette_colors)
         else:
             render.scene.particles(
                 lattice.position_screen,
