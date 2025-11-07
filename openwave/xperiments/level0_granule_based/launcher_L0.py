@@ -497,7 +497,9 @@ def main():
 
         # Handle xperiment switching - restart program with new xperiment
         if new_xperiment:
-            print(f"\nRestarting with xperiment: {new_xperiment}")
+            print("\n================================================================")
+            print("XPERIMENT LAUNCH")
+            print(f"Now running: {new_xperiment}\n")
 
             # Flush output before restart
             sys.stdout.flush()
