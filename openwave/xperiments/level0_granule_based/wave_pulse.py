@@ -25,11 +25,8 @@ import openwave.spacetime.medium_level0 as medium
 import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
-# Define the architecture to be used by Taichi (GPU vs CPU)
-ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
-
 # ================================================================
-# Xperiment Parameters & Subatomic Objects Instantiation
+# XPERIMENT PARAMETERS
 # ================================================================
 X_NAME = "Wave Pulse"  # Name of this xperiment
 CAM_INIT = [1.35, 0.91, 0.68]  # Initial camera position [x, y, z] in normalized coordinates
@@ -58,11 +55,7 @@ SOURCES_PHASE_DEG = [0]  # Wave Source phase offsets in degrees
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
 
-# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
-lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
-granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
-
-# Initialize UI control variables
+# UI control variables
 show_axis = True  # Toggle to show/hide axis lines
 block_slice = False  # Block-slicing toggle
 show_sources = False  # Show wave sources toggle
@@ -75,14 +68,7 @@ ironbow = False  # Ironbow coloring toggle
 blueprint = False  # Blueprint coloring toggle
 var_displacement = True  # Displacement vs amplitude toggle
 
-# Initialize time tracking for harmonic oscillations
-elapsed_t = 0.0
-last_time = time.time()
-frame = 0  # Frame counter for diagnostics
-
-# DATA SAMPLING & DIAGNOSTICS --------------------------------------------
-max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
-peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
+# Diagnostics & video export toggles
 WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 EXPORT_VIDEO = False  # Toggle frame image export to video directory
 VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize video export
@@ -91,7 +77,22 @@ VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize vide
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
+# Define the architecture to be used by Taichi (GPU vs CPU)
+ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+
+# Initialize GGUI UI
+render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)
+
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
+lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
+granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
+
+# Initialize time tracking & data sampling for harmonic oscillations
+elapsed_t = 0.0
+last_time = time.time()
+frame = 0  # Frame counter for diagnostics
+max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
+peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
 
 
 def xperiment_specs():
