@@ -10,7 +10,7 @@ print("\nWanna join the Anti-Gravity Xperiment?")
 print("- Contact us at www.openwavelabs.com")
 
 try:
-    input("\nPress ENTER to return to menu...")
+    input("\nPress ENTER to return...")
 except KeyboardInterrupt:
     print("\n\nExiting...")
     sys.exit(0)

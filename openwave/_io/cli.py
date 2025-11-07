@@ -307,34 +307,27 @@ def main():
     Main entry point for the OpenWave CLI.
 
     This function is called when running 'openwave -x' from the command line.
-    Loops to show the menu again after each experiment closes.
+    Runs the selected xperiment and exits when it closes.
     """
-    while True:
-        # Get list of available experiments
-        experiments = get_experiments_list()
+    # Get list of available experiments
+    experiments = get_experiments_list()
 
-        if not experiments:
-            print("No Xperiments found in the xperiments directory.")
-            sys.exit(1)
+    if not experiments:
+        print("No Xperiments found in the xperiments directory.")
+        sys.exit(1)
 
-        # Show interactive menu and get user selection
-        selected_file = show_menu_interactive(experiments)
+    # Show interactive menu and get user selection
+    selected_file = show_menu_interactive(experiments)
 
-        # Run the selected xperiment
-        returncode = run_experiment(selected_file)
+    # Run the selected xperiment
+    returncode = run_experiment(selected_file)
 
-        # After experiment closes, wait for user input before returning to menu
-        print(f"\n{'=' * 64}")
-        print(f"XPERIMENT closed (exit code: {returncode})")
-        print(f"{'=' * 64}")
+    # Exit after xperiment closes
+    print(f"\n{'=' * 64}")
+    print(f"XPERIMENT closed (exit code: {returncode})")
+    print(f"{'=' * 64}\n")
 
-        try:
-            print("\nReturning to menu...")
-        except KeyboardInterrupt:
-            print("\n\nExiting...")
-            sys.exit(0)
-
-        print()  # Add blank line before menu reappears
+    sys.exit(returncode)
 
 
 def cli_main():
