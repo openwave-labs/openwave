@@ -35,7 +35,7 @@ python launcher_L0.py
 
 ### Selecting Xperiments
 
-The xperiment selector UI appears at the **top-left** of the window, just above the xperiment specs panel. Features include:
+The xperiment launcher UI appears at the **top-left** of the window, just above the xperiment specs panel. Features include:
 
 - **Current xperiment display**: Shows which xperiment is currently running
 - **Xperiment list**: All available xperiments as checkboxes
@@ -125,7 +125,7 @@ CONFIG = {
 }
 ```
 
-3. Run `launcher_L0.py` - your new xperiment will automatically appear in the selector!
+3. Run `launcher_L0.py` - your new xperiment will automatically appear in the launcher!
 
 ## Config File Features
 
@@ -200,7 +200,7 @@ When switching xperiments:
 
 ## Troubleshooting
 
-### Xperiment not appearing in selector
+### Xperiment not appearing in launcher
 
 - Ensure config file is in `configs/` directory
 - Filename must end with `.py` (not `__init__.py`)

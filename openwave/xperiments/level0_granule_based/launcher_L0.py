@@ -195,13 +195,13 @@ class SimulationState:
 def xperiment_specs(state):
     """Display xperiment definitions & specs."""
     with render.gui.sub_window(f"LEVEL-0: Granule-Based Medium", 0.00, 0.00, 0.19, 0.10) as sub:
+        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
-        sub.text(f"EWave Sources: {state.NUM_SOURCES} Harmonic Oscillators")
-        sub.text("EWave Propagation: Radial from Source")
+        sub.text("Propagation: Radial from Source")
 
 
-def xperiment_selector(xperiment_mgr, state):
-    """Display xperiment selector overlay at top-left.
+def xperiment_launcher(xperiment_mgr, state):
+    """Display xperiment launcher overlay at top-left.
 
     Args:
         xperiment_mgr: XperimentManager instance
@@ -212,7 +212,7 @@ def xperiment_selector(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT SELECTOR", 0.00, 0.10, 0.13, 0.23) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.10, 0.13, 0.23) as sub:
         # Display all available xperiments as selectable options
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -450,7 +450,7 @@ def render_elements(state):
 
 def main():
     """Main entry point for the xperiment launcher."""
-    # Parse command-line arguments for xperiment selection
+    # Parse command-line arguments for xperiment selection, CLI
     selected_xperiment_arg = None
     if len(sys.argv) > 1:
         selected_xperiment_arg = sys.argv[1]
@@ -466,7 +466,7 @@ def main():
     xperiment_mgr = XperimentManager()
     state = SimulationState()
 
-    # Load xperiment (from command-line arg or default)
+    # Load xperiment (from command-line arg or default, CLI)
     default_xperiment = selected_xperiment_arg or "spacetime_vibration"
     if default_xperiment in xperiment_mgr.available_xperiments:
         config_dict = xperiment_mgr.load_xperiment(default_xperiment)
@@ -491,7 +491,7 @@ def main():
             break
 
         # Render UI overlay windows
-        new_xperiment = xperiment_selector(xperiment_mgr, state)
+        new_xperiment = xperiment_launcher(xperiment_mgr, state)
         data_dashboard(state)
         controls(state)
 
