@@ -48,7 +48,7 @@ Electric, magnetic, gravitational, strong forces are disturbances on the energy 
 
 - Electric field = reflected wave patterns from charged particles
 - Magnetic field = reflected wave patterns with specific geometry
-- Gravitational field = reflected wave patterns from mass (trapped waves)
+- Gravitational field = longitudinal wave amplitude loss to spin (shading effect)
 - All forces = amplitude gradients in wave field
 
 **Mathematical Expression**:
@@ -119,7 +119,7 @@ U = 1/2 * k * x**2
 **Charge Types**:
 
 - **Positive charge**: One wave reflection pattern
-- **Negative charge**: Different (inverted?) wave reflection pattern
+- **Negative charge**: Different phase (inverted?) wave reflection pattern
 - **Opposite charges attract**: Wave patterns create amplitude minimum between them
 - **Like charges repel**: Wave patterns create amplitude maximum between them
 
@@ -153,10 +153,10 @@ U = 1/2 * k * x**2
 
 **Gravitational Force from Waves**:
 
+- longitudinal wave amplitude loss to spin (shading effect)
 - Mass = trapped energy in standing waves around particle
 - More mass = more wave energy = stronger wave reflections
-- Reflected waves create amplitude gradient around massive particles
-- Other particles experience force from this gradient
+- Other particles experience force from shading gradient
 
 **Mechanism**:
 
@@ -339,7 +339,7 @@ def measure_wavelength() -> ti.f32:
 **Examples**:
 
 - Neutrino: Simple spherical standing wave
-- Electron: Two-center pattern with specific node structure
+- Electron: 10-center pattern with specific node structure
 - Proton: Complex multi-center pattern
 
 ## Particle Motion from Forces
