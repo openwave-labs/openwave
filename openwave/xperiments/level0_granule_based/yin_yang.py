@@ -31,6 +31,7 @@ ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info l
 # ================================================================
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
+CAM_INIT = [1.50, 0.80, 1.50]  # Initial camera position [x, y, z] in normalized coordinates
 
 UNIVERSE_SIZE = [
     6 * constants.EWAVE_LENGTH,
@@ -46,11 +47,11 @@ NUM_SOURCES = 12
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
 z_position = [0]  # Initialize Z positions
-sources_position = []  # Initialize source positions list
+SOURCES_POSITION = []  # Initialize source positions list
 # Generate positions for remaining sources in a circle around center top
 # r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
 for i in range(NUM_SOURCES):
-    sources_position.append(
+    SOURCES_POSITION.append(
         [
             ti.cos(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
             ti.sin(i * 2 * ti.math.pi / (NUM_SOURCES - 1)) / (6 * 1.618) + 0.5,
@@ -62,11 +63,11 @@ for i in range(NUM_SOURCES):
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = []  # Initialize source phases list
+SOURCES_PHASE_DEG = []  # Initialize source phases list
 # Generate phase for remaining sources in a circle around center top
 # 30° offset between each source for yin-yang pattern
 for i in range(NUM_SOURCES):
-    sources_phase_deg.append(i * 30)  # 0°, 30°, 60°, ..., 330°
+    SOURCES_PHASE_DEG.append(i * 30)  # 0°, 30°, 60°, ..., 330°
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -104,9 +105,7 @@ VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize vide
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.50, 0.80, 1.50]
-)  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
 
 
 def xperiment_specs():
@@ -251,7 +250,7 @@ def render_xperiment(lattice):
     global elapsed_t, last_time, frame, max_displacement, peak_amplitude
 
     ewave.build_source_vectors(
-        sources_position, sources_phase_deg, NUM_SOURCES, lattice
+        SOURCES_POSITION, SOURCES_PHASE_DEG, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled

@@ -31,6 +31,7 @@ ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info l
 # ================================================================
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
+CAM_INIT = [1.35, 0.91, 0.68]  # Initial camera position [x, y, z] in normalized coordinates
 
 UNIVERSE_SIZE = [
     4 * constants.EWAVE_LENGTH,
@@ -45,13 +46,13 @@ NUM_SOURCES = 1
 # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
 # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
 # Only provide NUM_SOURCES entries (only active sources needed)
-sources_position = [[0.5, 0.5, 0.5]]  # Wave Source position - Center
+SOURCES_POSITION = [[0.5, 0.5, 0.5]]  # Wave Source position - Center
 
 # Phase offsets for each source (integer degrees, converted to radians internally)
 # Allows creating constructive/destructive interference patterns
 # Only provide NUM_SOURCES entries (only active sources needed)
 # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
-sources_phase_deg = [0]  # Wave Source phase offsets in degrees
+SOURCES_PHASE_DEG = [0]  # Wave Source phase offsets in degrees
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
@@ -89,9 +90,7 @@ VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize vide
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(
-    UNIVERSE_SIZE, TICK_SPACING, cam_init_pos=[1.35, 0.91, 0.68]
-)  # Initialize the GGUI window
+render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
 
 
 def xperiment_specs():
@@ -236,7 +235,7 @@ def render_xperiment(lattice):
     global elapsed_t, last_time, frame, max_displacement, peak_amplitude
 
     ewave.build_source_vectors(
-        sources_position, sources_phase_deg, NUM_SOURCES, lattice
+        SOURCES_POSITION, SOURCES_PHASE_DEG, NUM_SOURCES, lattice
     )  # compute distance & direction vectors to all sources
 
     # Print diagnostics header if enabled

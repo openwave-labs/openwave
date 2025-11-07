@@ -23,7 +23,7 @@ All positions in experiments are specified using normalized coordinates in the r
 When defining wave sources in experiment files:
 
 ```python
-sources_position = [
+SOURCES_POSITION = [
     [x, y, z],  # where z ∈ [0,1] represents vertical position
     [0.5, 0.5, 1.0],  # Example: center top (Z=1 is top)
     [0.5, 0.5, 0.0],  # Example: center bottom (Z=0 is bottom)
