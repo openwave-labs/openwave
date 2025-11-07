@@ -1,13 +1,10 @@
 """
 L0 XPERIMENTS LAUNCHER
 
-This unified xperiment launcher allows you to:
-- Select and run any xperiment from the UI
-- Switch between xperiments without restarting
-- Maintain single source of truth for UI and rendering code
-
-All xperiment-specific parameters are defined in separate parameter files
-located in the _parameters/ directory.
+Unified launcher for Level-0 granule-based xperiments featuring:
+- UI-based xperiment selection and switching
+- Single source of truth for rendering and UI code
+- Xperiment-specific parameters in _parameters/ directory
 """
 
 import taichi as ti
@@ -38,34 +35,31 @@ class XperimentManager:
         self.current_parameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in the _parameters/ directory."""
+        """Discover all available xperiment parameters in _parameters/ directory."""
         parameters_dir = Path(__file__).parent / "_parameters"
-        xperiment_files = []
 
-        if parameters_dir.exists():
-            for file in parameters_dir.glob("*.py"):
-                if file.name != "__init__.py":
-                    xperiment_files.append(file.stem)
+        if not parameters_dir.exists():
+            return []
 
-        # Sort alphabetically for consistent ordering
+        xperiment_files = [
+            file.stem for file in parameters_dir.glob("*.py") if file.name != "__init__.py"
+        ]
+
         return sorted(xperiment_files)
 
     def load_xperiment(self, xperiment_name):
-        """Load an xperiment parameters by name.
+        """Load xperiment parameters by name.
 
         Args:
-            xperiment_name: Name of the xperiment parameter file (without .py extension)
+            xperiment_name: Parameter file name without .py extension
 
         Returns:
-            dict: Parameters dictionary
+            dict: Parameters dictionary or None if loading fails
         """
         try:
-            # Import the parameters module dynamically
             module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
-
-            # Reload the module to ensure fresh parameters (useful during development)
-            importlib.reload(parameters_module)
+            importlib.reload(parameters_module)  # Reload for fresh parameters
 
             self.current_xperiment = xperiment_name
             self.current_parameters = parameters_module.PARAMETERS
@@ -77,8 +71,7 @@ class XperimentManager:
             return None
 
     def get_xperiment_display_name(self, xperiment_name):
-        """Get the display name for an xperiment."""
-        # Convert snake_case to Title Case
+        """Convert xperiment filename to display name (snake_case to Title Case)."""
         return " ".join(word.capitalize() for word in xperiment_name.split("_"))
 
 
@@ -135,46 +128,45 @@ class SimulationState:
         self.max_displacement = 0.0
         self.peak_amplitude = 0.0
 
-    def apply_parameters(self, parameters_dict):
-        """Apply parameters from dictionary."""
+    def apply_parameters(self, params):
+        """Apply parameters from xperiment parameter dictionary."""
         # Meta
-        self.X_NAME = parameters_dict["meta"]["name"]
+        self.X_NAME = params["meta"]["name"]
 
         # Camera
-        self.CAM_INIT = parameters_dict["camera"]["initial_position"]
+        self.CAM_INIT = params["camera"]["initial_position"]
 
         # Universe
-        universe_cfg = parameters_dict["universe"]
-        size = universe_cfg["size"]
-        self.UNIVERSE_SIZE = [size[0], size[1], size[2]]
-        self.TICK_SPACING = universe_cfg["tick_spacing"]
-        self.COLOR_THEME = universe_cfg["color_theme"]
+        universe = params["universe"]
+        self.UNIVERSE_SIZE = list(universe["size"])
+        self.TICK_SPACING = universe["tick_spacing"]
+        self.COLOR_THEME = universe["color_theme"]
 
         # Wave sources
-        sources_cfg = parameters_dict["wave_sources"]
-        self.NUM_SOURCES = sources_cfg["count"]
-        self.SOURCES_POSITION = sources_cfg["positions"]
-        self.SOURCES_PHASE_DEG = sources_cfg["phase_offsets_deg"]
+        sources = params["wave_sources"]
+        self.NUM_SOURCES = sources["count"]
+        self.SOURCES_POSITION = sources["positions"]
+        self.SOURCES_PHASE_DEG = sources["phase_offsets_deg"]
 
         # UI defaults
-        ui_cfg = parameters_dict["ui_defaults"]
-        self.show_axis = ui_cfg["show_axis"]
-        self.block_slice = ui_cfg["block_slice"]
-        self.show_sources = ui_cfg["show_sources"]
-        self.radius_factor = ui_cfg["radius_factor"]
-        self.freq_boost = ui_cfg["freq_boost"]
-        self.amp_boost = ui_cfg["amp_boost"]
-        self.paused = ui_cfg["paused"]
-        self.granule_type = ui_cfg["granule_type"]
-        self.ironbow = ui_cfg["ironbow"]
-        self.blueprint = ui_cfg["blueprint"]
-        self.var_displacement = ui_cfg["var_displacement"]
+        ui = params["ui_defaults"]
+        self.show_axis = ui["show_axis"]
+        self.block_slice = ui["block_slice"]
+        self.show_sources = ui["show_sources"]
+        self.radius_factor = ui["radius_factor"]
+        self.freq_boost = ui["freq_boost"]
+        self.amp_boost = ui["amp_boost"]
+        self.paused = ui["paused"]
+        self.granule_type = ui["granule_type"]
+        self.ironbow = ui["ironbow"]
+        self.blueprint = ui["blueprint"]
+        self.var_displacement = ui["var_displacement"]
 
         # Diagnostics
-        diag_cfg = parameters_dict["diagnostics"]
-        self.WAVE_DIAGNOSTICS = diag_cfg["wave_diagnostics"]
-        self.EXPORT_VIDEO = diag_cfg["export_video"]
-        self.VIDEO_FRAMES = diag_cfg["video_frames"]
+        diag = params["diagnostics"]
+        self.WAVE_DIAGNOSTICS = diag["wave_diagnostics"]
+        self.EXPORT_VIDEO = diag["export_video"]
+        self.VIDEO_FRAMES = diag["video_frames"]
 
     def initialize_lattice(self):
         """Initialize or reinitialize the lattice and granule objects."""
@@ -190,35 +182,33 @@ class SimulationState:
 
 
 def xperiment_specs(state):
-    """Display xperiment definitions & specs."""
-    with render.gui.sub_window(f"LEVEL-0: Granule-Based Medium", 0.00, 0.00, 0.19, 0.10) as sub:
+    """Display xperiment specifications overlay."""
+    with render.gui.sub_window("LEVEL-0: Granule-Based Medium", 0.00, 0.00, 0.19, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
 
 
 def xperiment_launcher(xperiment_mgr, state):
-    """Display xperiment launcher overlay at top-left.
+    """Display xperiment launcher UI with selectable xperiments.
 
     Args:
         xperiment_mgr: XperimentManager instance
-        state: SimulationState instance
+        state: SimulationState instance (unused but kept for consistency)
 
     Returns:
-        str or None: Name of xperiment to switch to, or None
+        str or None: Selected xperiment name or None
     """
     selected_xperiment = None
 
     with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.10, 0.13, 0.23) as sub:
-        # Display all available xperiments as selectable options
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
             is_current = xp_name == xperiment_mgr.current_xperiment
 
-            # Use checkbox to show selection (radio button style)
-            if sub.checkbox(f"{display_name}", is_current):
-                if not is_current:
-                    selected_xperiment = xp_name
+            if sub.checkbox(display_name, is_current) and not is_current:
+                selected_xperiment = xp_name
+
         sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
 
     return selected_xperiment
@@ -348,90 +338,79 @@ def color_menu(
 
 
 def initialize_xperiment(state):
-    """Initialize xperiment sources and diagnostics (called once after lattice init).
+    """Initialize wave sources and diagnostics (called once after lattice init).
 
     Args:
-        state: SimulationState instance containing all xperiment parameters and state
+        state: SimulationState instance with xperiment parameters
     """
-    # Build source vectors (distance & direction to all sources) - only once!
     ewave.build_source_vectors(
         state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
     )
 
-    # Print diagnostics header if enabled
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
 
 def compute_motion(state):
-    """Compute 3D lattice motion with multiple wave sources.
-
-    Visualizes wave superposition from multiple sources, creating interference patterns
-    where waves constructively and destructively combine.
+    """Compute lattice motion from wave superposition and update visualization data.
 
     Args:
-        state: SimulationState instance containing all xperiment parameters and state
+        state: SimulationState instance with xperiment parameters
     """
-    # Apply radial harmonic oscillation to all granules from multiple wave sources
-    # Each granule receives wave contributions from all active sources
-    # Waves superpose creating interference patterns (constructive/destructive)
+    # Apply wave oscillations from all sources (creates interference patterns)
     ewave.oscillate_granules(
-        state.lattice.position_am,  # Granule positions in attometers
-        state.lattice.equilibrium_am,  # Rest positions for all granules
-        state.lattice.amplitude_am,  # Granule amplitude in am
-        state.lattice.velocity_am,  # Granule velocity in am/s
-        state.lattice.granule_var_color,  # Granule color variations
-        state.freq_boost,  # Frequency visibility boost (applied over slow-motion factor)
-        state.amp_boost,  # Amplitude visibility boost for scaled lattices
-        state.ironbow,  # Ironbow coloring toggle
-        state.var_displacement,  # Displacement vs amplitude toggle
-        state.NUM_SOURCES,  # Number of active wave sources
+        state.lattice.position_am,
+        state.lattice.equilibrium_am,
+        state.lattice.amplitude_am,
+        state.lattice.velocity_am,
+        state.lattice.granule_var_color,
+        state.freq_boost,
+        state.amp_boost,
+        state.ironbow,
+        state.var_displacement,
+        state.NUM_SOURCES,
         state.elapsed_t,
     )
 
-    # Update normalized positions for rendering (must happen after position updates)
-    # with optional block-slicing (see-through effect)
+    # Update normalized positions for rendering with optional block-slicing
     state.lattice.normalize_to_screen(1 if state.block_slice else 0)
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # Update data sampling every 30 frames to reduce overhead
+    # Update data sampling every 30 frames
     if state.frame % 30 == 0:
         state.max_displacement = ewave.max_displacement_am[None] * constants.ATTOMETER
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-        ewave.update_lattice_energy(state.lattice)  # Update energy based on wave amplitude
+        ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
 
-    # Wave diagnostics (minimal footprint)
     if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_wave_diagnostics(
-            state.elapsed_t,
-            state.frame,
-            print_interval=100,  # Print every 100 frames
-        )
+        diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
 
 
 def render_elements(state):
-    """Render the 3D scene elements with granules and wave sources."""
-    # Render granules with optional coloring
+    """Render granules and wave sources with appropriate coloring."""
+    radius_render = state.granule.radius_screen * state.radius_factor
+
+    # Render granules with color scheme
     if state.granule_type:
         render.scene.particles(
             state.lattice.position_screen,
-            radius=state.granule.radius_screen * state.radius_factor,
+            radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
     elif state.ironbow or state.blueprint:
         render.scene.particles(
             state.lattice.position_screen,
-            radius=state.granule.radius_screen * state.radius_factor,
+            radius=radius_render,
             per_vertex_color=state.lattice.granule_var_color,
         )
     else:
         render.scene.particles(
             state.lattice.position_screen,
-            radius=state.granule.radius_screen * state.radius_factor,
+            radius=radius_render,
             color=config.COLOR_MEDIUM[1],
         )
 
-    # Render the wave sources
+    # Render wave sources
     if state.show_sources:
         render.scene.particles(
             centers=ewave.sources_pos_field,
@@ -446,16 +425,14 @@ def render_elements(state):
 
 
 def main():
-    """Main entry point for the xperiment launcher."""
-    # Parse command-line arguments for xperiment selection, CLI
-    selected_xperiment_arg = None
-    if len(sys.argv) > 1:
-        selected_xperiment_arg = sys.argv[1]
+    """Main entry point for xperiment launcher."""
+    # Parse command-line argument for xperiment selection
+    selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
-    # Initialize palette vertices & colors for gradient rendering (after ti.init)
+    # Initialize color palettes for gradient rendering (after ti.init)
     ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.92, 0.65, 0.079, 0.01)
     bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.92, 0.65, 0.079, 0.01)
 
@@ -463,75 +440,64 @@ def main():
     xperiment_mgr = XperimentManager()
     state = SimulationState()
 
-    # Load xperiment (from command-line arg or default, CLI)
+    # Load xperiment (from CLI arg or default)
     default_xperiment = selected_xperiment_arg or "spacetime_vibration"
-    if default_xperiment in xperiment_mgr.available_xperiments:
-        parameters_dict = xperiment_mgr.load_xperiment(default_xperiment)
-        if parameters_dict:
-            state.apply_parameters(parameters_dict)
-            state.initialize_lattice()
-            initialize_xperiment(state)  # Initialize sources and diagnostics (once)
-    else:
+    if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
 
-    # Initialize GGUI UI with initial xperiment parameters
+    params = xperiment_mgr.load_xperiment(default_xperiment)
+    if not params:
+        return
+
+    state.apply_parameters(params)
+    state.initialize_lattice()
+    initialize_xperiment(state)
+
+    # Initialize GGUI rendering
     render.init_UI(state.UNIVERSE_SIZE, state.TICK_SPACING, state.CAM_INIT)
 
     # Main rendering loop
     while render.window.running:
         render.init_scene(state.show_axis)  # Initialize scene with lighting and camera
 
-        # Handle keyboard shortcuts for window close
+        # Handle ESC key for window close
         if render.window.is_pressed(ti.ui.ESCAPE):
             render.window.running = False
             break
 
-        # Render UI overlay windows
+        # Render UI overlays
         new_xperiment = xperiment_launcher(xperiment_mgr, state)
         data_dashboard(state)
         controls(state)
 
-        # Handle xperiment switching - restart program with new xperiment
+        # Handle xperiment switching via process replacement
         if new_xperiment:
             print("\n================================================================")
             print("XPERIMENT LAUNCH")
             print(f"Now running: {new_xperiment}\n")
 
-            # Flush output before restart
             sys.stdout.flush()
             sys.stderr.flush()
-
-            # Close window first to clean up Taichi resources
             render.window.running = False
 
-            # Replace current process with new xperiment (no subprocess, no hanging)
-            # This is like running the command fresh from shell
-            # Note: os.execv on macOS shows "Task policy set failed" warning (harmless)
-            # and breaks Cmd+Q (use ESC or window X button instead)
-            python = sys.executable
-            script = __file__
-            os.execv(python, [python, script, new_xperiment])  # cspell:ignore execv
+            # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
+            os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.paused:
-            # Calculate actual elapsed time (real-time tracking)
+            # Update elapsed time and run simulation step
             current_time = time.time()
-            dt_real = current_time - state.last_time
-            state.elapsed_t += dt_real  # Use real elapsed time instead of fixed DT
+            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
             state.last_time = current_time
 
-            # Run xperiment simulation step
             compute_motion(state)
-            state.frame += 1  # Increment frame counter
-
+            state.frame += 1
         else:
-            # Update last_time during pause to prevent time jump on resume
+            # Prevent time jump on resume
             state.last_time = time.time()
 
-        # Render 3D scene elements
+        # Render scene elements
         render_elements(state)
-
-        # Render final UI overlay and scene
         color_menu(
             state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
         )
