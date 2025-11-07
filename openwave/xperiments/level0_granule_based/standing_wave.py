@@ -31,6 +31,7 @@ ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info l
 # ================================================================
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
+X_NAME = "Standing Wave"  # Name of this xperiment
 CAM_INIT = [1.33, 0.67, 1.52]  # Initial camera position [x, y, z] in normalized coordinates
 
 UNIVERSE_SIZE = [
@@ -108,7 +109,7 @@ render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Standing Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window(f"XPERIMENT: {X_NAME}", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -165,9 +166,9 @@ def controls():
         show_axis = sub.checkbox(f"Axis (tick marks: {TICK_SPACING})", show_axis)
         block_slice = sub.checkbox("Block Slice", block_slice)
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
-        radius_factor = sub.slider_float("Granule", radius_factor, 0.3, 2.0)
+        radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 1.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False

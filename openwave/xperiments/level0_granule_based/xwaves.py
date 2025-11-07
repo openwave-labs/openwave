@@ -31,6 +31,7 @@ ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info l
 # ================================================================
 # Xperiment Parameters & Subatomic Objects Instantiation
 # ================================================================
+X_NAME = "Crossing Waves"  # Name of this xperiment
 CAM_INIT = [2.00, 1.50, 1.75]  # Initial camera position [x, y, z] in normalized coordinates
 
 UNIVERSE_SIZE = [
@@ -116,7 +117,7 @@ render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Crossing Waves", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window(f"XPERIMENT: {X_NAME}", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -175,7 +176,7 @@ def controls():
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
