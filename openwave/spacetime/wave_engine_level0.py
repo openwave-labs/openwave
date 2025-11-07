@@ -302,10 +302,10 @@ def oscillate_granules(
     # Reset amplitude trackers if amplitude boost changed
     # Prevents stale high values when amp_boost is reduced
     if last_amp_boost[None] != amp_boost:
-        max_displacement_am[None] = base_amplitude_am
+        max_displacement_am[None] = 0.0
         for i in range(amplitude_am.shape[0]):
             amplitude_am[i] = 0.0
-        peak_amplitude_am[None] = base_amplitude_am
+        peak_amplitude_am[None] = 0.0
         last_amp_boost[None] = amp_boost
 
     # Convert peak amplitude to RMS amplitude for energy calculation

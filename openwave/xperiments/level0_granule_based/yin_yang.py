@@ -25,12 +25,10 @@ import openwave.spacetime.medium_level0 as medium
 import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
-# Define the architecture to be used by Taichi (GPU vs CPU)
-ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
-
 # ================================================================
-# Xperiment Parameters & Subatomic Objects Instantiation
+# XPERIMENT PARAMETERS
 # ================================================================
+X_NAME = "Yin-Yang Spiral Wave"  # Name of this xperiment
 CAM_INIT = [1.50, 0.80, 1.50]  # Initial camera position [x, y, z] in normalized coordinates
 
 UNIVERSE_SIZE = [
@@ -72,11 +70,7 @@ for i in range(NUM_SOURCES):
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "OCEAN"
 
-# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
-lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
-granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
-
-# Initialize UI control variables
+# UI control variables
 show_axis = False  # Toggle to show/hide axis lines
 block_slice = False  # Block-slicing toggle
 show_sources = True  # Show wave sources toggle
@@ -89,14 +83,7 @@ ironbow = False  # Ironbow coloring toggle
 blueprint = False  # Blueprint coloring toggle
 var_displacement = True  # Displacement vs amplitude toggle
 
-# Initialize time tracking for harmonic oscillations
-elapsed_t = 0.0
-last_time = time.time()
-frame = 0  # Frame counter for diagnostics
-
-# DATA SAMPLING & DIAGNOSTICS --------------------------------------------
-max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
-peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
+# Diagnostics & video export toggles
 WAVE_DIAGNOSTICS = False  # Toggle wave diagnostics (speed & wavelength measurements)
 EXPORT_VIDEO = False  # Toggle frame image export to video directory
 VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize video export
@@ -105,12 +92,27 @@ VIDEO_FRAMES = 24  # The target frame number to stop recording and finalize vide
 # Xperiment UI and overlay windows
 # ================================================================
 
-render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)  # Initialize GGUI UI
+# Define the architecture to be used by Taichi (GPU vs CPU)
+ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+
+# Initialize GGUI UI
+render.init_UI(UNIVERSE_SIZE, TICK_SPACING, CAM_INIT)
+
+# Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
+lattice = medium.BCCLattice(UNIVERSE_SIZE, theme=COLOR_THEME)
+granule = medium.BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
+
+# Initialize time tracking & data sampling for harmonic oscillations
+elapsed_t = 0.0
+last_time = time.time()
+frame = 0  # Frame counter for diagnostics
+max_displacement = 0.0  # Initialize granule max displacement (data sampling variable)
+peak_amplitude = 0.0  # Initialize granule peak amplitude (data sampling variable)
 
 
 def xperiment_specs():
     """Display xperiment definitions & specs."""
-    with render.gui.sub_window("XPERIMENT: Yin-Yang Spiral Wave", 0.00, 0.00, 0.19, 0.14) as sub:
+    with render.gui.sub_window(f"XPERIMENT: {X_NAME}", 0.00, 0.00, 0.19, 0.14) as sub:
         sub.text("Medium: Granules in BCC lattice")
         sub.text("Granule Type: Point Mass")
         sub.text("Coupling: Phase Sync")
@@ -169,7 +171,7 @@ def controls():
         show_sources = sub.checkbox("Show Wave Sources", show_sources)
         radius_factor = sub.slider_float("Granule", radius_factor, 0.1, 2.0)
         freq_boost = sub.slider_float("f Boost", freq_boost, 0.1, 10.0)
-        amp_boost = sub.slider_float("Amp Boost", amp_boost, 1.0, 5.0)
+        amp_boost = sub.slider_float("Amp Boost", amp_boost, 0.1, 5.0)
         if paused:
             if sub.button("Continue"):
                 paused = False
