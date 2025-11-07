@@ -9,7 +9,7 @@ This directory has been refactored to eliminate code duplication and improve mai
 ```text
 level0_granule_based/
 ├── launcher_L0.py               # Universal xperiment launcher (run this!)
-├── parameters/                     # Xperiment parameter files
+├── _parameters/                 # Xperiment parameter files (underscore prefix hides from CLI.py)
 │   ├── __init__.py
 │   ├── spacetime_vibration.py   # Default xperiment parameters
 │   ├── spherical_wave.py
@@ -20,8 +20,10 @@ level0_granule_based/
 │   └── yin_yang.py
 ├── _legacy/                     # Original xperiment files (archived)
 │   └── [old standalone files]
-└── README_REFACTORING.md        # This file
+└── README.md                    # This file
 ```
+
+**Note**: The `_parameters/` directory uses an underscore prefix to prevent CLI.py from picking up individual parameter files when scanning for xperiments. Only `launcher_L0.py` should be visible as the user-facing entry point.
 
 ## How to Use
 
@@ -76,7 +78,7 @@ The xperiment launcher UI appears at the **top-left** of the window, just above 
 
 To create a new xperiment:
 
-1. Create a new parameter file in `parameters/` directory (e.g., `my_xperiment.py`)
+1. Create a new parameter file in `_parameters/` directory (e.g., `my_xperiment.py`)
 2. Define the `PARAMETERS` dictionary with required parameters:
 
 ```python
@@ -202,14 +204,14 @@ When switching xperiments:
 
 ### Xperiment not appearing in launcher
 
-- Ensure parameter file is in `parameters/` directory
+- Ensure parameter file is in `_parameters/` directory
 - Filename must end with `.py` (not `__init__.py`)
 - Must contain a `PARAMETERS` dictionary
 
 ### Import errors
 
 - Parameter files are imported as modules
-- Import path: `openwave.xperiments.level0_granule_based.parameters.<name>`
+- Import path: `openwave.xperiments.level0_granule_based._parameters.<name>`
 - Ensure all required fields are present in PARAMETERS
 
 ### Switching fails

@@ -7,7 +7,7 @@ This unified xperiment launcher allows you to:
 - Maintain single source of truth for UI and rendering code
 
 All xperiment-specific parameters are defined in separate parameter files
-located in the parameters/ directory.
+located in the _parameters/ directory.
 """
 
 import taichi as ti
@@ -37,8 +37,8 @@ class XperimentManager:
         self.current_parameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in the parameters/ directory."""
-        parameters_dir = Path(__file__).parent / "parameters"
+        """Discover all available xperiment parameters in the _parameters/ directory."""
+        parameters_dir = Path(__file__).parent / "_parameters"
         xperiment_files = []
 
         if parameters_dir.exists():
@@ -60,7 +60,7 @@ class XperimentManager:
         """
         try:
             # Import the parameters module dynamically
-            module_path = f"openwave.xperiments.level0_granule_based.parameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
 
             # Reload the module to ensure fresh parameters (useful during development)
