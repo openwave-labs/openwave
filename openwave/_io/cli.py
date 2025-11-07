@@ -77,11 +77,11 @@ def get_experiments_list():
             pass
 
         # Create display name
-        name = file_path.stem.replace("_", " ").title()
+        # name = file_path.stem.replace("_", " ").title()
         if description:
-            display_name = f"{name} - {description}"
+            display_name = f"{description}"
         else:
-            display_name = name
+            display_name = "*** file missing description ***"
 
         # Add to collection
         if collection not in experiments_by_collection:
@@ -138,9 +138,7 @@ def get_experiments_list():
                             .title()
                         )
 
-                    experiments.append(
-                        (f"─── /{collection_display}/ ───", None)
-                    )  # collection header
+                    experiments.append((f"{collection_display}", None))  # collection header
 
                 # Indent all items under collection
                 formatted_name = f"  → {display_name}"
@@ -249,7 +247,9 @@ def show_menu_interactive(experiments):
             file_path_map[option_idx] = file_path
         option_idx += 1
 
-    menu_options.append("EXIT")
+    menu_options.append(" ")  # Blank line before EXIT
+    option_idx += 1
+    menu_options.append("─── EXIT ───")
     exit_idx = option_idx
 
     terminal_menu = TerminalMenu(
@@ -307,34 +307,27 @@ def main():
     Main entry point for the OpenWave CLI.
 
     This function is called when running 'openwave -x' from the command line.
-    Loops to show the menu again after each experiment closes.
+    Runs the selected xperiment and exits when it closes.
     """
-    while True:
-        # Get list of available experiments
-        experiments = get_experiments_list()
+    # Get list of available experiments
+    experiments = get_experiments_list()
 
-        if not experiments:
-            print("No Xperiments found in the xperiments directory.")
-            sys.exit(1)
+    if not experiments:
+        print("No Xperiments found in the xperiments directory.")
+        sys.exit(1)
 
-        # Show interactive menu and get user selection
-        selected_file = show_menu_interactive(experiments)
+    # Show interactive menu and get user selection
+    selected_file = show_menu_interactive(experiments)
 
-        # Run the selected xperiment
-        returncode = run_experiment(selected_file)
+    # Run the selected xperiment
+    returncode = run_experiment(selected_file)
 
-        # After experiment closes, wait for user input before returning to menu
-        print(f"\n{'=' * 64}")
-        print(f"XPERIMENT closed (exit code: {returncode})")
-        print(f"{'=' * 64}")
+    # Exit after xperiment closes
+    print(f"\n{'=' * 64}")
+    print(f"XPERIMENT closed (exit code: {returncode})")
+    print(f"{'=' * 64}\n")
 
-        try:
-            print("\nReturning to menu...")
-        except KeyboardInterrupt:
-            print("\n\nExiting...")
-            sys.exit(0)
-
-        print()  # Add blank line before menu reappears
+    sys.exit(returncode)
 
 
 def cli_main():

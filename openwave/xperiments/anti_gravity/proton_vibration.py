@@ -1,5 +1,5 @@
 """
-XPERIMENT: [WIP] Proton Vibration for Gravity Attenuation (contact us to join xperiment)
+XPERIMENT: Gravity Attenuation by Proton Vibration (WIP, contact us to join xperiment)
 """
 
 import sys
@@ -10,7 +10,7 @@ print("\nWanna join the Anti-Gravity Xperiment?")
 print("- Contact us at www.openwavelabs.com")
 
 try:
-    input("\nPress ENTER to return to menu...")
+    input("\nPress ENTER to return...")
 except KeyboardInterrupt:
     print("\n\nExiting...")
     sys.exit(0)
