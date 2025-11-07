@@ -1,5 +1,5 @@
 """
-XPERIMENT CONFIG: Spacetime Vibration
+XPERIMENT PARAMETERS: Spacetime Vibration
 
 Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,
@@ -12,7 +12,7 @@ This XPERIMENT showcases:
 - No spring coupling (pure wave propagation)
 """
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "Spacetime Vibration",
         "description": "Harmonic Oscillations with 9 sources demonstrating wave interference",

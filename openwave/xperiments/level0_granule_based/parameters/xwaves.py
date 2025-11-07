@@ -1,5 +1,5 @@
 """
-XPERIMENT CONFIG: Crossing Waves
+XPERIMENT PARAMETERS: Crossing Waves
 
 Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,
@@ -13,7 +13,7 @@ This XPERIMENT showcases:
 - No spring coupling (pure wave propagation)
 """
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "Crossing Waves",
         "description": "Crossing Waves Harmonic Oscillations with 9 sources",

@@ -1,5 +1,5 @@
 """
-XPERIMENT CONFIG: Wave Interference
+XPERIMENT PARAMETERS: Wave Interference
 
 Demonstrates wave interference from three sources arranged in an equilateral triangle.
 Each source generates spherical longitudinal waves that superpose at each granule,
@@ -18,7 +18,7 @@ import math
 EQUILATERAL = math.sqrt(3) / 6  # Height factor for equilateral triangle
 Z_POSITION = 0.12
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "Wave Interference",
         "description": "3 sources in triangular pattern demonstrating wave superposition",

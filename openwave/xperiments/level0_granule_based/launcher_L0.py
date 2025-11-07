@@ -6,8 +6,8 @@ This unified xperiment launcher allows you to:
 - Switch between xperiments without restarting
 - Maintain single source of truth for UI and rendering code
 
-All xperiment-specific parameters are defined in separate config files
-located in the configs/ directory.
+All xperiment-specific parameters are defined in separate parameter files
+located in the parameters/ directory.
 """
 
 import taichi as ti
@@ -24,25 +24,25 @@ import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # ================================================================
-# XPERIMENT CONFIGURATION MANAGEMENT
+# XPERIMENT PARAMETERS MANAGEMENT
 # ================================================================
 
 
 class XperimentManager:
-    """Manages loading and switching between xperiment configurations."""
+    """Manages loading and switching between xperiment parameters."""
 
     def __init__(self):
         self.available_xperiments = self._discover_xperiments()
         self.current_xperiment = None
-        self.current_config = None
+        self.current_parameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment configs in the configs/ directory."""
-        configs_dir = Path(__file__).parent / "configs"
+        """Discover all available xperiment parameters in the parameters/ directory."""
+        parameters_dir = Path(__file__).parent / "parameters"
         xperiment_files = []
 
-        if configs_dir.exists():
-            for file in configs_dir.glob("*.py"):
+        if parameters_dir.exists():
+            for file in parameters_dir.glob("*.py"):
                 if file.name != "__init__.py":
                     xperiment_files.append(file.stem)
 
@@ -50,26 +50,26 @@ class XperimentManager:
         return sorted(xperiment_files)
 
     def load_xperiment(self, xperiment_name):
-        """Load an xperiment configuration by name.
+        """Load an xperiment parameters by name.
 
         Args:
-            xperiment_name: Name of the xperiment config file (without .py extension)
+            xperiment_name: Name of the xperiment parameter file (without .py extension)
 
         Returns:
-            dict: Configuration dictionary
+            dict: Parameters dictionary
         """
         try:
-            # Import the config module dynamically
-            module_path = f"openwave.xperiments.level0_granule_based.configs.{xperiment_name}"
-            config_module = importlib.import_module(module_path)
+            # Import the parameters module dynamically
+            module_path = f"openwave.xperiments.level0_granule_based.parameters.{xperiment_name}"
+            parameters_module = importlib.import_module(module_path)
 
-            # Reload the module to ensure fresh config (useful during development)
-            importlib.reload(config_module)
+            # Reload the module to ensure fresh parameters (useful during development)
+            importlib.reload(parameters_module)
 
             self.current_xperiment = xperiment_name
-            self.current_config = config_module.CONFIG
+            self.current_parameters = parameters_module.PARAMETERS
 
-            return self.current_config
+            return self.current_parameters
 
         except Exception as e:
             print(f"Error loading xperiment '{xperiment_name}': {e}")
@@ -98,7 +98,7 @@ class SimulationState:
         self.max_displacement = 0.0
         self.peak_amplitude = 0.0
 
-        # Current xperiment parameters (loaded from config)
+        # Current xperiment parameters
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
@@ -134,16 +134,16 @@ class SimulationState:
         self.max_displacement = 0.0
         self.peak_amplitude = 0.0
 
-    def apply_config(self, config_dict):
-        """Apply configuration from a config dictionary."""
+    def apply_parameters(self, parameters_dict):
+        """Apply parameters from dictionary."""
         # Meta
-        self.X_NAME = config_dict["meta"]["name"]
+        self.X_NAME = parameters_dict["meta"]["name"]
 
         # Camera
-        self.CAM_INIT = config_dict["camera"]["initial_position"]
+        self.CAM_INIT = parameters_dict["camera"]["initial_position"]
 
         # Universe
-        universe_cfg = config_dict["universe"]
+        universe_cfg = parameters_dict["universe"]
         size_multipliers = universe_cfg["size_multipliers"]
         self.UNIVERSE_SIZE = [
             size_multipliers[0] * constants.EWAVE_LENGTH,
@@ -154,13 +154,13 @@ class SimulationState:
         self.COLOR_THEME = universe_cfg["color_theme"]
 
         # Wave sources
-        sources_cfg = config_dict["wave_sources"]
+        sources_cfg = parameters_dict["wave_sources"]
         self.NUM_SOURCES = sources_cfg["count"]
         self.SOURCES_POSITION = sources_cfg["positions"]
         self.SOURCES_PHASE_DEG = sources_cfg["phase_offsets_deg"]
 
         # UI defaults
-        ui_cfg = config_dict["ui_defaults"]
+        ui_cfg = parameters_dict["ui_defaults"]
         self.show_axis = ui_cfg["show_axis"]
         self.block_slice = ui_cfg["block_slice"]
         self.show_sources = ui_cfg["show_sources"]
@@ -174,7 +174,7 @@ class SimulationState:
         self.var_displacement = ui_cfg["var_displacement"]
 
         # Diagnostics
-        diag_cfg = config_dict["diagnostics"]
+        diag_cfg = parameters_dict["diagnostics"]
         self.WAVE_DIAGNOSTICS = diag_cfg["wave_diagnostics"]
         self.EXPORT_VIDEO = diag_cfg["export_video"]
         self.VIDEO_FRAMES = diag_cfg["video_frames"]
@@ -469,9 +469,9 @@ def main():
     # Load xperiment (from command-line arg or default, CLI)
     default_xperiment = selected_xperiment_arg or "spacetime_vibration"
     if default_xperiment in xperiment_mgr.available_xperiments:
-        config_dict = xperiment_mgr.load_xperiment(default_xperiment)
-        if config_dict:
-            state.apply_config(config_dict)
+        parameters_dict = xperiment_mgr.load_xperiment(default_xperiment)
+        if parameters_dict:
+            state.apply_parameters(parameters_dict)
             state.initialize_lattice()
             initialize_xperiment(state)  # Initialize sources and diagnostics (once)
     else:

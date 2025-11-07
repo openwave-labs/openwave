@@ -2,16 +2,16 @@
 
 ## Overview
 
-This directory has been refactored to eliminate code duplication and improve maintainability. All xperiments now share a single unified launcher with xperiment-specific parameters stored in separate config files.
+This directory has been refactored to eliminate code duplication and improve maintainability. All xperiments now share a single unified launcher with xperiment-specific parameters stored in separate parameter files.
 
 ## Directory Structure
 
 ```text
 level0_granule_based/
 ├── launcher_L0.py               # Universal xperiment launcher (run this!)
-├── configs/                     # Xperiment configuration files
+├── parameters/                     # Xperiment parameter files
 │   ├── __init__.py
-│   ├── spacetime_vibration.py   # Default xperiment config
+│   ├── spacetime_vibration.py   # Default xperiment parameters
 │   ├── spherical_wave.py
 │   ├── standing_wave.py
 │   ├── wave_interference.py
@@ -66,27 +66,27 @@ The xperiment launcher UI appears at the **top-left** of the window, just above 
 ### After Refactoring
 
 - **Single launcher** with shared UI/rendering code (~540 lines)
-- **7 config files** containing only xperiment-specific parameters (~60 lines each)
+- **7 parameter files** containing only xperiment-specific parameters (~60 lines each)
 - **~960 lines total** (50% reduction in code)
 - Single source of truth for all UI and rendering logic
-- Easy to add new xperiments (just create a config file)
+- Easy to add new xperiments (just create a parameter file)
 - Bugs fixed once affect all xperiments
 
 ## Creating New Xperiments
 
 To create a new xperiment:
 
-1. Create a new config file in `configs/` directory (e.g., `my_xperiment.py`)
-2. Define the `CONFIG` dictionary with required parameters:
+1. Create a new parameter file in `parameters/` directory (e.g., `my_xperiment.py`)
+2. Define the `PARAMETERS` dictionary with required parameters:
 
 ```python
 """
-XPERIMENT CONFIG: My Custom Xperiment
+XPERIMENT PARAMETERS: My Custom Xperiment
 
 Description of what this xperiment demonstrates.
 """
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "My Custom Xperiment",
         "description": "Brief description",
@@ -127,11 +127,11 @@ CONFIG = {
 
 3. Run `launcher_L0.py` - your new xperiment will automatically appear in the launcher!
 
-## Config File Features
+## Parameter File Features
 
 ### Computed Positions
 
-Config files can use Python code to compute positions:
+Parameter files can use Python code to compute positions:
 
 ```python
 import math
@@ -174,8 +174,8 @@ The `SimulationState` class manages all xperiment parameters and simulation stat
 
 The `XperimentManager` class handles:
 
-- Auto-discovery of config files
-- Dynamic loading of configurations
+- Auto-discovery of parameter files
+- Dynamic loading of parameters
 - Module reloading for development
 
 ### Xperiment Switching Process
@@ -184,7 +184,7 @@ When switching xperiments:
 
 1. Current window closes
 2. Program automatically restarts with new xperiment
-3. New instance loads selected config
+3. New instance loads selected parameters
 4. Lattice is initialized with new parameters
 5. Fresh time tracking begins
 6. Rendering starts with new xperiment
@@ -194,7 +194,7 @@ When switching xperiments:
 ## Performance Considerations
 
 - Switching takes 2-5 seconds (program restart)
-- Config files are loaded dynamically on startup
+- Parameter files are loaded dynamically on startup
 - No performance impact during normal rendering
 - Each xperiment runs in a fresh Taichi instance
 
@@ -202,20 +202,20 @@ When switching xperiments:
 
 ### Xperiment not appearing in launcher
 
-- Ensure config file is in `configs/` directory
+- Ensure parameter file is in `parameters/` directory
 - Filename must end with `.py` (not `__init__.py`)
-- Must contain a `CONFIG` dictionary
+- Must contain a `PARAMETERS` dictionary
 
 ### Import errors
 
-- Config files are imported as modules
-- Import path: `openwave.xperiments.level0_granule_based.configs.<name>`
-- Ensure all required fields are present in CONFIG
+- Parameter files are imported as modules
+- Import path: `openwave.xperiments.level0_granule_based.parameters.<name>`
+- Ensure all required fields are present in PARAMETERS
 
 ### Switching fails
 
 - Check console for error messages
-- Verify config dictionary structure
+- Verify parameter dictionary structure
 - Ensure all list lengths match (e.g., NUM_SOURCES vs positions)
 
 ## Migration Notes
@@ -224,17 +224,17 @@ If you have custom modifications to the old standalone files:
 
 1. Locate your modified file in `_legacy/`
 2. Extract the parameter values (lines 1-95)
-3. Create a new config file with these parameters
+3. Create a new parameter file with these parameters
 4. Test with `launcher_level0.py`
 
 ## Future Enhancements
 
 Potential improvements:
 
-- Config validation with helpful error messages
+- Parameter validation with helpful error messages
 - Preset library with example patterns
-- Config file templates
-- Export current state as new config
+- Parameter file templates
+- Export current state as new parameters
 - Xperiment descriptions in UI tooltips
 
 ---

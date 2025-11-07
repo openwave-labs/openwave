@@ -1,5 +1,5 @@
 """
-XPERIMENT CONFIG: Standing Wave
+XPERIMENT PARAMETERS: Standing Wave
 
 Demonstrates standing wave patterns from multiple sources arranged in a circle.
 64 sources generate spherical longitudinal waves that superpose at each granule,
@@ -31,7 +31,7 @@ SOURCES_POSITION = [
 
 SOURCES_PHASE_DEG = [0] * NUM_SOURCES
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "Standing Wave",
         "description": "64 sources in circular pattern creating standing wave patterns",

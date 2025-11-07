@@ -1,5 +1,5 @@
 """
-XPERIMENT CONFIG: Yin-Yang Spiral Wave
+XPERIMENT PARAMETERS: Yin-Yang Spiral Wave
 
 Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio spiral.
 12 sources generate spherical longitudinal waves that superpose at each granule,
@@ -33,7 +33,7 @@ SOURCES_POSITION = [
 # Phase offsets: 30° increments (0°, 30°, 60°, ..., 330°)
 SOURCES_PHASE_DEG = [i * 30 for i in range(NUM_SOURCES)]
 
-CONFIG = {
+PARAMETERS = {
     "meta": {
         "name": "Yin-Yang Spiral Wave",
         "description": "12 sources in golden ratio spiral with progressive phase offsets",
