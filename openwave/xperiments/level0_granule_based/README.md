@@ -1,255 +1,385 @@
-# Level 0 Granule-Based Xperiments - Refactored Structure
+# Level 0 Granule-Based Xperiments
 
 ## Overview
 
-This directory has been refactored to eliminate code duplication and improve maintainability. All xperiments now share a single unified launcher with xperiment-specific parameters stored in separate parameter files.
+Interactive wave propagation simulations demonstrating interference patterns from multiple harmonic oscillators in a BCC lattice medium. Features a unified launcher with UI-based xperiment selection and real-time parameter control.
+
+## Quick Start
+
+Run the launcher from command line:
+
+```bash
+python launcher_L0.py
+```
+
+Or use the OpenWave CLI menu to select from available xperiments.
+
+## Available Xperiments
+
+1. **Spacetime Vibration** (default) - 9 sources demonstrating wave interference
+2. **3D Spherical Wave** - Single source with pure radial propagation
+3. **Standing Wave** - 64 sources in circular pattern creating standing waves
+4. **Wave Interference** - 3 sources in triangular arrangement
+5. **Wave Pulse** - Single source with wave diagnostics enabled
+6. **Crossing Waves** - 9 sources with desert color theme
+7. **Yin-Yang Spiral Wave** - 12 sources in golden ratio spiral pattern
+
+## Keyboard Controls
+
+- **ESC** - Close window and exit
+- **Q** - Zoom camera in/out
+- **Cmd+Q** - Not available (use ESC instead, see Technical Notes below)
+
+## Switching Between Xperiments
+
+The xperiment launcher appears at the **top-left** of the window:
+
+1. Click any xperiment checkbox to select it
+2. Program automatically restarts with the new xperiment
+3. All parameters reset to the selected xperiment's defaults
+
+**Note**: Switching requires a program restart (2-5 seconds) due to Taichi's field initialization constraints. This prevents crashes when changing lattice dimensions.
+
+## UI Controls
+
+All xperiments share these interactive controls:
+
+### Display Options
+
+- **Axis** - Show/hide coordinate axes with tick marks
+- **Block Slice** - Enable see-through slicing effect
+- **Show Wave Sources** - Display wave source markers
+- **Granule Size** - Adjust particle radius (0.1-2.0x)
+
+### Wave Parameters
+
+- **f Boost** - Frequency multiplier for slow-motion visibility (0.1-10.0x)
+- **Amp Boost** - Amplitude multiplier for visualization (0.1-5.0x)
+- **Pause/Continue** - Freeze/resume simulation
+
+### Color Schemes
+
+- **Displacement (ironbow)** - Color by granule displacement from rest
+- **Amplitude (ironbow)** - Color by oscillation amplitude
+- **Amplitude (blueprint)** - Blueprint-style amplitude coloring
+- **Granule Type Color** - Color by lattice position type
+- **Medium Default Color** - Uniform medium color
+
+## Creating Custom Xperiments
+
+### 1. Create Parameter File
+
+Create a new file in `_parameters/` directory (e.g., `my_wave.py`):
+
+```python
+"""
+XPERIMENT PARAMETERS: My Custom Wave
+
+Brief description of what this xperiment demonstrates.
+"""
+
+PARAMETERS = {
+    "meta": {
+        "name": "My Custom Wave",
+        "description": "Custom wave interference pattern",
+    },
+    "camera": {
+        "initial_position": [2.0, 1.5, 1.75],  # [x, y, z] in normalized coordinates
+    },
+    "universe": {
+        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "tick_spacing": 0.25,  # Axis tick marks spacing
+        "color_theme": "OCEAN",  # OCEAN, DESERT, or FOREST
+    },
+    "wave_sources": {
+        "count": 4,  # Number of wave sources
+        "positions": [
+            [0.25, 0.25, 0.5],  # Source positions in normalized coords (0-1)
+            [0.75, 0.25, 0.5],
+            [0.25, 0.75, 0.5],
+            [0.75, 0.75, 0.5],
+        ],
+        "phase_offsets_deg": [0, 90, 180, 270],  # Phase offsets in degrees
+    },
+    "ui_defaults": {
+        "show_axis": True,
+        "block_slice": False,
+        "show_sources": True,
+        "radius_factor": 0.5,
+        "freq_boost": 1.0,
+        "amp_boost": 1.0,
+        "paused": False,
+        "granule_type": False,
+        "ironbow": True,
+        "blueprint": False,
+        "var_displacement": True,
+    },
+    "diagnostics": {
+        "wave_diagnostics": False,  # Enable wave speed/wavelength measurements
+        "export_video": False,  # Export frames for video
+        "video_frames": 24,  # Number of frames to capture
+    },
+}
+```
+
+### 2. Run Launcher
+
+Your new xperiment automatically appears in the launcher UI!
+
+## Parameter Customization Guide
+
+### Positioning Wave Sources
+
+Use Python code for computed positions:
+
+```python
+import math
+
+# Circular pattern
+NUM_SOURCES = 8
+CIRCLE_RADIUS = 0.4
+SOURCES_POSITION = [
+    [
+        0.5 + CIRCLE_RADIUS * math.cos(2 * math.pi * i / NUM_SOURCES),
+        0.5 + CIRCLE_RADIUS * math.sin(2 * math.pi * i / NUM_SOURCES),
+        0.5,
+    ]
+    for i in range(NUM_SOURCES)
+]
+
+# Equilateral triangle
+EQUILATERAL = math.sqrt(3) / 6
+SOURCES_POSITION = [
+    [0.5, 0.5 - EQUILATERAL, 0.5],      # Bottom
+    [0.25, 0.5 + EQUILATERAL/2, 0.5],   # Top left
+    [0.75, 0.5 + EQUILATERAL/2, 0.5],   # Top right
+]
+
+# Grid pattern
+SOURCES_POSITION = [
+    [x/3, y/3, 0.5]
+    for x in range(1, 4)
+    for y in range(1, 4)
+]
+```
+
+### Phase Offset Patterns
+
+Create interference effects with phase control:
+
+```python
+# All in phase (constructive interference)
+SOURCES_PHASE_DEG = [0, 0, 0, 0]
+
+# Alternating phase (standing waves)
+SOURCES_PHASE_DEG = [0, 180, 0, 180]
+
+# Progressive spiral
+SOURCES_PHASE_DEG = [i * 30 for i in range(12)]  # 0°, 30°, 60°, ..., 330°
+
+# Random phase (chaotic patterns)
+import random
+SOURCES_PHASE_DEG = [random.randint(0, 360) for _ in range(NUM_SOURCES)]
+```
+
+### Universe Dimensions
+
+Adjust simulation volume:
+
+```python
+from openwave.common import constants
+
+# Cubic volume
+"size": [1e-16, 1e-16, 1e-16]
+
+# Thin slice (2.5D visualization)
+"size": [2e-16, 2e-16, 1e-17]
+
+# Elongated volume
+"size": [2e-16, 1.5e-16, 1e-16]
+
+# Using wavelength multiples
+"size": [
+    6 * constants.EWAVE_LENGTH,
+    6 * constants.EWAVE_LENGTH,
+    2 * constants.EWAVE_LENGTH,
+]
+```
+
+### Camera Positioning
+
+Set initial camera view:
+
+```python
+# Top-down view
+"initial_position": [1.0, 0.0, 2.0]
+
+# Angled view
+"initial_position": [2.0, 1.5, 1.75]
+
+# Side view
+"initial_position": [0.0, 2.0, 1.0]
+
+# Close-up
+"initial_position": [0.5, 0.5, 0.8]
+```
+
+## Parameter Reference
+
+### Required Fields
+
+All parameter files must include:
+
+- `meta` - Xperiment name and description
+- `camera` - Initial camera position
+- `universe` - Simulation domain size and theme
+- `wave_sources` - Source count, positions, and phases
+- `ui_defaults` - Default UI control states
+- `diagnostics` - Diagnostic and export settings
+
+### Coordinate System
+
+- **Positions**: Normalized coordinates (0.0-1.0 range)
+  - `0.0` = minimum universe edge
+  - `1.0` = maximum universe edge
+  - `0.5` = center
+- **Axes**: Z-up coordinate system (X-right, Y-forward, Z-up)
+- **Camera**: Free-rotation orbit camera (mouse drag to rotate)
+
+### Color Themes
+
+Available universe color themes:
+
+- `OCEAN` - Blue/cyan tones (default)
+- `DESERT` - Warm earth tones
+- `FOREST` - Green/natural tones
 
 ## Directory Structure
 
 ```text
 level0_granule_based/
-├── launcher_L0.py               # Universal xperiment launcher (run this!)
-├── _parameters/                 # Xperiment parameter files (underscore prefix hides from CLI.py)
-│   ├── __init__.py
-│   ├── spacetime_vibration.py   # Default xperiment parameters
+├── launcher_L0.py          # Main launcher (run this)
+├── _parameters/            # Xperiment parameter files
+│   ├── spacetime_vibration.py
 │   ├── spherical_wave.py
 │   ├── standing_wave.py
 │   ├── wave_interference.py
 │   ├── wave_pulse.py
 │   ├── xwaves.py
 │   └── yin_yang.py
-├── _legacy/                     # Original xperiment files (archived)
-│   └── [old standalone files]
-└── README.md                    # This file
+├── _legacy/                # Archived standalone files
+└── README.md               # This file
 ```
 
-**Note**: The `_parameters/` directory uses an underscore prefix to prevent CLI.py from picking up individual parameter files when scanning for xperiments. Only `launcher_L0.py` should be visible as the user-facing entry point.
-
-## How to Use
-
-### Running Xperiments
-
-Simply run the universal launcher:
-
-```bash
-python launcher_L0.py
-```
-
-### Keyboard Shortcuts
-
-- **ESC** - Close window and exit
-- **Q** - Zoom camera
-- **Cmd+Q** - ⚠️ Not available (use ESC instead)
-
-### Selecting Xperiments
-
-The xperiment launcher UI appears at the **top-left** of the window, just above the xperiment specs panel. Features include:
-
-- **Current xperiment display**: Shows which xperiment is currently running
-- **Xperiment list**: All available xperiments as checkboxes
-- **Xperiment switching**: Click any xperiment to switch to it
-- **Automatic restart**: The program automatically restarts with the new xperiment
-
-**Technical Note**: Due to Taichi's field initialization constraints, switching xperiments requires restarting the program using `os.execv()`. This causes two known side effects on macOS:
-
-1. A harmless warning message: "Task policy set failed: 4" (can be ignored)
-2. Cmd+Q shortcut doesn't work (use **ESC key** or click window **X button** instead)
-
-### Available Xperiments
-
-1. **Spacetime Vibration** (default) - 9 sources with interference patterns
-2. **3D Spherical Wave** - Single source demonstrating radial propagation
-3. **Standing Wave** - 64 sources in circular pattern
-4. **Wave Interference** - 3 sources in triangular arrangement
-5. **Wave Pulse** - Single source with diagnostics enabled
-6. **Crossing Waves** - 9 sources with DESERT color theme
-7. **Yin-Yang Spiral Wave** - 12 sources in golden ratio spiral
-
-## Architecture Benefits
-
-### Before Refactoring
-
-- **7 separate files** with ~270 lines of duplicated code each
-- **~1,890 lines** of duplicated UI/rendering code total
-- Any bug fix required updating all 7 files
-- Inconsistent behavior if files got out of sync
-
-### After Refactoring
-
-- **Single launcher** with shared UI/rendering code (~540 lines)
-- **7 parameter files** containing only xperiment-specific parameters (~60 lines each)
-- **~960 lines total** (50% reduction in code)
-- Single source of truth for all UI and rendering logic
-- Easy to add new xperiments (just create a parameter file)
-- Bugs fixed once affect all xperiments
-
-## Creating New Xperiments
-
-To create a new xperiment:
-
-1. Create a new parameter file in `_parameters/` directory (e.g., `my_xperiment.py`)
-2. Define the `PARAMETERS` dictionary with required parameters:
-
-```python
-"""
-XPERIMENT PARAMETERS: My Custom Xperiment
-
-Description of what this xperiment demonstrates.
-"""
-
-PARAMETERS = {
-    "meta": {
-        "name": "My Custom Xperiment",
-        "description": "Brief description",
-    },
-    "camera": {
-        "initial_position": [x, y, z],  # Normalized coordinates
-    },
-    "universe": {
-        "size": [x, y, z],  # m
-        "tick_spacing": 0.25,
-        "color_theme": "OCEAN",  # OCEAN, DESERT, or FOREST
-    },
-    "wave_sources": {
-        "count": n,
-        "positions": [[x1, y1, z1], [x2, y2, z2], ...],  # Normalized
-        "phase_offsets_deg": [0, 180, ...],
-    },
-    "ui_defaults": {
-        "show_axis": False,
-        "block_slice": False,
-        "show_sources": False,
-        "radius_factor": 0.5,
-        "freq_boost": 10.0,
-        "amp_boost": 1.0,
-        "paused": False,
-        "granule_type": True,
-        "ironbow": False,
-        "blueprint": False,
-        "var_displacement": True,
-    },
-    "diagnostics": {
-        "wave_diagnostics": False,
-        "export_video": False,
-        "video_frames": 24,
-    },
-}
-```
-
-3. Run `launcher_L0.py` - your new xperiment will automatically appear in the launcher!
-
-## Parameter File Features
-
-### Computed Positions
-
-Parameter files can use Python code to compute positions:
-
-```python
-import math
-
-NUM_SOURCES = 64
-SOURCES_POSITION = [
-    [
-        0.5 + 0.3 * math.cos(2 * math.pi * i / NUM_SOURCES),
-        0.5 + 0.3 * math.sin(2 * math.pi * i / NUM_SOURCES),
-        0.5,
-    ]
-    for i in range(NUM_SOURCES)
-]
-```
-
-### Phase Patterns
-
-Create interesting interference patterns with phase offsets:
-
-```python
-SOURCES_PHASE_DEG = [i * 30 for i in range(12)]  # 0°, 30°, 60°, ..., 330°
-```
-
-## Legacy Files
-
-The original standalone xperiment files are preserved in `_legacy/` for reference. These files still work but are no longer maintained.
-
-## Technical Details
-
-### State Management
-
-The `SimulationState` class manages all xperiment parameters and simulation state:
-
-- Lattice initialization
-- Time tracking
-- UI control variables
-- Diagnostics settings
-
-### XperimentManager
-
-The `XperimentManager` class handles:
-
-- Auto-discovery of parameter files
-- Dynamic loading of parameters
-- Module reloading for development
-
-### Xperiment Switching Process
-
-When switching xperiments:
-
-1. Current window closes
-2. Program automatically restarts with new xperiment
-3. New instance loads selected parameters
-4. Lattice is initialized with new parameters
-5. Fresh time tracking begins
-6. Rendering starts with new xperiment
-
-**Why restart?** Taichi doesn't support reinitializing fields with different dimensions after they've been created. Attempting to do so causes segmentation faults. The restart approach ensures clean initialization and prevents crashes.
-
-## Performance Considerations
-
-- Switching takes 2-5 seconds (program restart)
-- Parameter files are loaded dynamically on startup
-- No performance impact during normal rendering
-- Each xperiment runs in a fresh Taichi instance
+**Note**: The underscore prefix on `_parameters/` prevents individual parameter files from appearing in the CLI menu. Only `launcher_L0.py` is user-facing.
 
 ## Troubleshooting
 
 ### Xperiment not appearing in launcher
 
-- Ensure parameter file is in `_parameters/` directory
+- Ensure file is in `_parameters/` directory
 - Filename must end with `.py` (not `__init__.py`)
 - Must contain a `PARAMETERS` dictionary
+- Check console for import errors
+
+### Incorrect interference patterns
+
+- Verify `count` matches number of entries in `positions` and `phase_offsets_deg`
+- Ensure positions are in normalized coordinates (0-1 range)
+- Check phase offsets are in degrees (not radians)
+
+### Performance issues
+
+- Reduce universe size for faster simulation
+- Decrease granule count by using smaller universe
+- Lower `freq_boost` to reduce computation per frame
+- Disable `wave_diagnostics` when not needed
 
 ### Import errors
 
-- Parameter files are imported as modules
-- Import path: `openwave.xperiments.level0_granule_based._parameters.<name>`
-- Ensure all required fields are present in PARAMETERS
+- Parameter files are imported as Python modules
+- Import path: `openwave.xperiments.level0_granule_based._parameters.<filename>`
+- Ensure all required imports are at top of parameter file
 
-### Switching fails
+## Technical Notes
 
-- Check console for error messages
-- Verify parameter dictionary structure
-- Ensure all list lengths match (e.g., NUM_SOURCES vs positions)
+### Xperiment Switching Mechanism
 
-## Migration Notes
+Due to Taichi's constraints, switching xperiments uses `os.execv()` to replace the current process. This has two side effects on macOS:
 
-If you have custom modifications to the old standalone files:
+1. **Warning message**: "Task policy set failed: 4" (harmless, can be ignored)
+2. **Cmd+Q disabled**: Use ESC key or window X button to exit instead
 
-1. Locate your modified file in `_legacy/`
-2. Extract the parameter values (lines 1-95)
-3. Create a new parameter file with these parameters
-4. Test with `launcher_level0.py`
+This approach ensures clean lattice initialization and prevents segmentation faults when changing universe dimensions.
 
-## Future Enhancements
+### State Management
 
-Potential improvements:
+The launcher maintains:
 
-- Parameter validation with helpful error messages
-- Preset library with example patterns
-- Parameter file templates
-- Export current state as new parameters
-- Xperiment descriptions in UI tooltips
+- `XperimentManager` - Auto-discovers and loads parameter files
+- `SimulationState` - Tracks simulation time, frames, and UI states
+- Fresh initialization on each xperiment switch
+
+### Performance Optimization
+
+- Data sampling updates every 30 frames (not every frame)
+- Parameter files loaded once at startup
+- Module reloading enabled for development
+- No performance impact during rendering
+
+## Example Patterns
+
+### Interference Node Pattern
+
+```python
+# 4 sources at corners create central null point
+"wave_sources": {
+    "count": 4,
+    "positions": [
+        [0.25, 0.25, 0.5],
+        [0.75, 0.25, 0.5],
+        [0.25, 0.75, 0.5],
+        [0.75, 0.75, 0.5],
+    ],
+    "phase_offsets_deg": [0, 180, 180, 0],  # Opposite corners in phase
+}
+```
+
+### Rotating Wave Pattern
+
+```python
+# Progressive phase creates rotating interference
+"wave_sources": {
+    "count": 6,
+    "positions": [
+        [0.5 + 0.3 * math.cos(i * math.pi/3),
+         0.5 + 0.3 * math.sin(i * math.pi/3),
+         0.5]
+        for i in range(6)
+    ],
+    "phase_offsets_deg": [i * 60 for i in range(6)],  # 60° increments
+}
+```
+
+### Focused Wave Beam
+
+```python
+# Linear array creates directional beam
+"wave_sources": {
+    "count": 5,
+    "positions": [[0.2 + i*0.15, 0.5, 0.5] for i in range(5)],
+    "phase_offsets_deg": [0, 0, 0, 0, 0],  # All in phase
+}
+```
+
+## Additional Resources
+
+- **Physics Background**: See `/research_requirements/` for Energy Wave Theory papers
+- **Code Documentation**: See `launcher_L0.py` docstrings for implementation details
+- **Legacy Files**: See `_legacy/` for original standalone xperiment files
 
 ---
 
-**Last Updated**: November 7, 2025
-**Refactored By**: Claude Code
-**Reason**: Eliminate code duplication, improve maintainability, enhance user experience
+**Directory**: `openwave/xperiments/level0_granule_based/`
+
+**Purpose**: Educational simulations of wave interference in granular spacetime medium
