@@ -14,6 +14,8 @@ This XPERIMENT showcases:
 
 import math
 
+from openwave.common import constants
+
 # Generate 12 sources in a golden ratio spiral
 NUM_SOURCES = 12
 GOLDEN_RATIO = 1.618
@@ -42,7 +44,11 @@ PARAMETERS = {
         "initial_position": [1.50, 0.80, 1.50],
     },
     "universe": {
-        "size_multipliers": [6, 6, 2],  # Multiplies EWAVE_LENGTH
+        "size": [
+            6 * constants.EWAVE_LENGTH,
+            6 * constants.EWAVE_LENGTH,
+            2 * constants.EWAVE_LENGTH,
+        ],  # m
         "tick_spacing": 0.25,
         "color_theme": "OCEAN",
     },

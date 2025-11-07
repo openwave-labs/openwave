@@ -1,5 +1,5 @@
 """
-XPERIMENT LAUNCHER: Granule-Based Simulations
+XPERIMENT LAUNCHER
 
 This unified xperiment launcher allows you to:
 - Select and run any xperiment from the UI
@@ -14,6 +14,7 @@ import taichi as ti
 import time
 import importlib
 import sys
+import os
 from pathlib import Path
 
 from openwave.common import config, constants
@@ -144,12 +145,8 @@ class SimulationState:
 
         # Universe
         universe_cfg = parameters_dict["universe"]
-        size_multipliers = universe_cfg["size_multipliers"]
-        self.UNIVERSE_SIZE = [
-            size_multipliers[0] * constants.EWAVE_LENGTH,
-            size_multipliers[1] * constants.EWAVE_LENGTH,
-            size_multipliers[2] * constants.EWAVE_LENGTH,
-        ]
+        size = universe_cfg["size"]
+        self.UNIVERSE_SIZE = [size[0], size[1], size[2]]
         self.TICK_SPACING = universe_cfg["tick_spacing"]
         self.COLOR_THEME = universe_cfg["color_theme"]
 
@@ -505,28 +502,16 @@ def main():
             sys.stdout.flush()
             sys.stderr.flush()
 
-            # Launch new instance using nohup (detaches from terminal)
+            # Close window first to clean up Taichi resources
+            render.window.running = False
+
+            # Replace current process with new xperiment (no subprocess, no hanging)
+            # This is like running the command fresh from shell
+            # Note: os.execv on macOS shows "Task policy set failed" warning (harmless)
+            # and breaks Cmd+Q (use ESC or window X button instead)
             python = sys.executable
             script = __file__
-
-            import subprocess
-            import shutil
-
-            # Check if nohup is available, otherwise fallback to direct execution
-            nohup_path = shutil.which("nohup")
-
-            # Launch detached process (logs will be visible)
-            subprocess.Popen(
-                [python, script, new_xperiment],
-                start_new_session=True,
-            )
-
-            # Give subprocess a moment to start
-            time.sleep(0.1)
-
-            # Close current window and exit
-            render.window.running = False
-            break  # Exit render loop immediately
+            os.execv(python, [python, script, new_xperiment])  # cspell:ignore execv
 
         if not state.paused:
             # Calculate actual elapsed time (real-time tracking)

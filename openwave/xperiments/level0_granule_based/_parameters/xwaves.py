@@ -22,9 +22,9 @@ PARAMETERS = {
         "initial_position": [2.00, 1.50, 1.75],
     },
     "universe": {
-        "size_multipliers": [4, 4, 4],  # Multiplies EWAVE_LENGTH
+        "size": [1e-16, 1e-16, 1e-16],  # m
         "tick_spacing": 0.25,
-        "color_theme": "DESERT",  # Only xperiment using DESERT theme
+        "color_theme": "DESERT",  # using DESERT theme
     },
     "wave_sources": {
         "count": 9,

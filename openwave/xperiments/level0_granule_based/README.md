@@ -35,6 +35,12 @@ Simply run the universal launcher:
 python launcher_L0.py
 ```
 
+### Keyboard Shortcuts
+
+- **ESC** - Close window and exit
+- **Q** - Zoom camera
+- **Cmd+Q** - ⚠️ Not available (use ESC instead)
+
 ### Selecting Xperiments
 
 The xperiment launcher UI appears at the **top-left** of the window, just above the xperiment specs panel. Features include:
@@ -44,7 +50,10 @@ The xperiment launcher UI appears at the **top-left** of the window, just above 
 - **Xperiment switching**: Click any xperiment to switch to it
 - **Automatic restart**: The program automatically restarts with the new xperiment
 
-**Note**: Due to Taichi's field initialization constraints, switching xperiments requires restarting the program. When you select a new xperiment, the current window closes and a new instance launches with the selected xperiment. This happens automatically and takes just a few seconds.
+**Technical Note**: Due to Taichi's field initialization constraints, switching xperiments requires restarting the program using `os.execv()`. This causes two known side effects on macOS:
+
+1. A harmless warning message: "Task policy set failed: 4" (can be ignored)
+2. Cmd+Q shortcut doesn't work (use **ESC key** or click window **X button** instead)
 
 ### Available Xperiments
 
@@ -97,7 +106,7 @@ PARAMETERS = {
         "initial_position": [x, y, z],  # Normalized coordinates
     },
     "universe": {
-        "size_multipliers": [x, y, z],  # Multiplies EWAVE_LENGTH
+        "size": [x, y, z],  # m
         "tick_spacing": 0.25,
         "color_theme": "OCEAN",  # OCEAN, DESERT, or FOREST
     },

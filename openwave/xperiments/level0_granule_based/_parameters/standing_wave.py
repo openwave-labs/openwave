@@ -18,7 +18,7 @@ import math
 # Generate 64 sources in a circular pattern
 NUM_SOURCES = 64
 CIRCLE_RADIUS = 0.333
-Z_POSITION = 0.09
+Z_POSITION = 0.06
 
 SOURCES_POSITION = [
     [
@@ -40,7 +40,7 @@ PARAMETERS = {
         "initial_position": [1.33, 0.67, 1.52],
     },
     "universe": {
-        "size_multipliers": [6, 6, 0.5],  # Multiplies EWAVE_LENGTH
+        "size": [2e-16, 2e-16, 1e-17],  # m
         "tick_spacing": 0.25,
         "color_theme": "OCEAN",
     },

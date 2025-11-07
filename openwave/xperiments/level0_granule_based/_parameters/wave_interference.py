@@ -16,7 +16,7 @@ import math
 
 # Calculate equilateral triangle positions
 EQUILATERAL = math.sqrt(3) / 6  # Height factor for equilateral triangle
-Z_POSITION = 0.12
+Z_POSITION = 0.05
 
 PARAMETERS = {
     "meta": {
@@ -27,16 +27,16 @@ PARAMETERS = {
         "initial_position": [0.25, 0.91, 1.00],
     },
     "universe": {
-        "size_multipliers": [8, 6, 1],  # Multiplies EWAVE_LENGTH
+        "size": [2e-16, 1.5e-16, 1e-17],  # m
         "tick_spacing": 0.25,
         "color_theme": "OCEAN",
     },
     "wave_sources": {
         "count": 3,
         "positions": [
-            [0.5, 0.45 - EQUILATERAL, Z_POSITION],  # Bottom center
-            [0.25, 0.45 + EQUILATERAL / 2, Z_POSITION],  # Top left
-            [0.75, 0.45 + EQUILATERAL / 2, Z_POSITION],  # Top right
+            [0.5, 0.45 - EQUILATERAL, Z_POSITION],  # center
+            [0.25, 0.45 + EQUILATERAL / 2, Z_POSITION],  # left
+            [0.75, 0.45 + EQUILATERAL / 2, Z_POSITION],  # right
         ],
         "phase_offsets_deg": [0, 0, 0],
     },
