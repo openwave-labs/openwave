@@ -1,5 +1,5 @@
 """
-XPERIMENT: [WIP] Flow Wave
+XPERIMENT: Flow Wave (WIP)
 """
 
 import sys

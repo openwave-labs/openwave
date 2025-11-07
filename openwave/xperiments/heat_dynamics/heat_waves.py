@@ -1,5 +1,5 @@
 """
-XPERIMENT: [WIP] Heat as Wave Energy inside Particle Boundary (contact us to join xperiment)
+XPERIMENT: Heat as Wave Energy in Particle Boundary (WIP, contact us to join xperiment)
 """
 
 import sys

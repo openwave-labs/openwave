@@ -77,11 +77,11 @@ def get_experiments_list():
             pass
 
         # Create display name
-        name = file_path.stem.replace("_", " ").title()
+        # name = file_path.stem.replace("_", " ").title()
         if description:
-            display_name = f"{name} - {description}"
+            display_name = f"{description}"
         else:
-            display_name = name
+            display_name = "*** file missing description ***"
 
         # Add to collection
         if collection not in experiments_by_collection:
@@ -138,9 +138,7 @@ def get_experiments_list():
                             .title()
                         )
 
-                    experiments.append(
-                        (f"─── /{collection_display}/ ───", None)
-                    )  # collection header
+                    experiments.append((f"{collection_display}", None))  # collection header
 
                 # Indent all items under collection
                 formatted_name = f"  → {display_name}"
@@ -249,7 +247,9 @@ def show_menu_interactive(experiments):
             file_path_map[option_idx] = file_path
         option_idx += 1
 
-    menu_options.append("EXIT")
+    menu_options.append(" ")  # Blank line before EXIT
+    option_idx += 1
+    menu_options.append("─── EXIT ───")
     exit_idx = option_idx
 
     terminal_menu = TerminalMenu(
