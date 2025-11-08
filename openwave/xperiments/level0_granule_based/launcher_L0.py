@@ -193,7 +193,7 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.31) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -211,7 +211,7 @@ def xperiment_launcher(xperiment_mgr, state):
 def controls(state):
     """Render the controls UI overlay."""
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.00, 0.31, 0.15, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
         state.block_slice = sub.checkbox("Block Slice", state.block_slice)
         state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
@@ -230,7 +230,7 @@ def color_menu(
     state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
 ):
     """Render color selection menu."""
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.71, 0.13, 0.17) as sub:
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
         if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
             state.granule_type = False
             state.ironbow = True
@@ -265,7 +265,7 @@ def color_menu(
             with render.gui.sub_window(
                 "displacement" if state.var_displacement else "amplitude",
                 0.00,
-                0.65,
+                0.64,
                 0.08,
                 0.06,
             ) as sub:
@@ -278,7 +278,7 @@ def color_menu(
             with render.gui.sub_window(
                 "displacement" if state.var_displacement else "amplitude",
                 0.00,
-                0.65,
+                0.64,
                 0.08,
                 0.06,
             ) as sub:
@@ -435,8 +435,8 @@ def main():
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
     # Initialize color palettes for gradient rendering (after ti.init)
-    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.64, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.64, 0.079, 0.01)
+    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
+    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()

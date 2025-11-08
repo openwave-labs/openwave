@@ -41,7 +41,7 @@ PARAMETERS = {
         "initial_position": [1.33, 0.67, 1.52],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [2e-16, 2e-16, 1e-17],  # m, simulation domain [x, y, z] (can be asymmetric)
+        "size": [2e-16, 2e-16, 0.1e-16],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },

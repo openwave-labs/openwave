@@ -17,15 +17,18 @@ from openwave.common import constants
 
 # Generate 12 sources in a golden ratio spiral for Yin-Yang pattern
 NUM_SOURCES = 12  # Number of wave sources for this xperiment
-GOLDEN_RATIO = 1.618  # Golden ratio φ ≈ 1.618 for spiral geometry
 Z_POSITION = 0.0  # Z-axis position for all sources (flat plane)
 
-# Original formula: r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
+# Calculate source positions in a golden ratio spiral
+UNIVERSE_EDGE = 12 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+GOLDEN_RADIUS = constants.EWAVE_LENGTH / constants.GOLDEN_RATIO  # m, r = λ / φ, for spiral effect
+NORMALIZED_RADIUS = GOLDEN_RADIUS / UNIVERSE_EDGE  # normalized radius
+
 # Position divides by (6 * golden_ratio) to scale the radius to universe size
 SOURCES_POSITION = [
     [
-        math.cos(i * 2 * math.pi / NUM_SOURCES) / (6 * GOLDEN_RATIO) + 0.5,
-        math.sin(i * 2 * math.pi / NUM_SOURCES) / (6 * GOLDEN_RATIO) + 0.5,
+        math.cos(i * 2 * math.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
+        math.sin(i * 2 * math.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)
@@ -40,14 +43,14 @@ PARAMETERS = {
         "description": "12 sources in golden ratio spiral with progressive phase offsets",
     },
     "camera": {
-        "initial_position": [1.50, 0.80, 1.50],  # [x, y, z] in normalized coordinates
+        "initial_position": [1.25, 0.70, 1.65],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [
-            6 * constants.EWAVE_LENGTH,
-            6 * constants.EWAVE_LENGTH,
-            2 * constants.EWAVE_LENGTH,
-        ],  # m, simulation domain [x, y, z] (thin Z for 2.5D visualization)
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE / 6,
+        ],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
