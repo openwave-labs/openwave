@@ -11,7 +11,7 @@ This XPERIMENT showcases:
 - Spiral wave interference patterns
 """
 
-import math
+import numpy as np
 
 from openwave.common import constants
 
@@ -27,8 +27,8 @@ NORMALIZED_RADIUS = GOLDEN_RADIUS / UNIVERSE_EDGE  # normalized radius
 # Positions relative to universe center (0.5, 0.5, Z_POSITION)
 SOURCES_POSITION = [
     [
-        math.cos(i * 2 * math.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
-        math.sin(i * 2 * math.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
+        np.cos(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
+        np.sin(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)

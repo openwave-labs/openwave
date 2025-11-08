@@ -12,7 +12,7 @@ This XPERIMENT showcases:
 - Thin Z dimension for 2.5D visualization
 """
 
-import math
+import numpy as np
 
 # Generate 64 sources in a circular pattern
 NUM_SOURCES = 64  # Number of wave sources for this xperiment
@@ -22,8 +22,8 @@ Z_POSITION = 0.06  # Z-axis position for all sources (thin slice)
 # Calculate source positions in a circle around center
 SOURCES_POSITION = [
     [
-        0.5 + CIRCLE_RADIUS * math.cos(2 * math.pi * i / NUM_SOURCES),
-        0.5 + CIRCLE_RADIUS * math.sin(2 * math.pi * i / NUM_SOURCES),
+        0.5 + CIRCLE_RADIUS * np.cos(2 * np.pi * i / NUM_SOURCES),
+        0.5 + CIRCLE_RADIUS * np.sin(2 * np.pi * i / NUM_SOURCES),
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)

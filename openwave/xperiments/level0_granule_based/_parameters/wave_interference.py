@@ -11,10 +11,10 @@ This XPERIMENT showcases:
 - Thin Z dimension for 2.5D visualization
 """
 
-import math
+import numpy as np
 
 # Calculate equilateral triangle positions for symmetric interference pattern
-EQUILATERAL = math.sqrt(3) / 6  # Height factor for equilateral triangle geometry
+EQUILATERAL = np.sqrt(3) / 6  # Height factor for equilateral triangle geometry
 Z_POSITION = 0.05  # Z-axis position for all sources
 
 PARAMETERS = {

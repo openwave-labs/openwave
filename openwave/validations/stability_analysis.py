@@ -1,4 +1,4 @@
-import math
+import numpy as np
 
 from openwave.common import config, constants, equations
 
@@ -17,12 +17,12 @@ STIFFNESS = 1e-13  # N/m (already reduced!)
 # Calculate granule properties (simplified BCC lattice estimate)
 granules_per_edge = TARGET_GRANULES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
-# unit_cell_edge = 2 * math.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
-granule = medium.BCCGranule(unit_cell_edge)
+# unit_cell_edge = 2 * np.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
+granule = medium.BCCGranule(unit_cell_edge, UNIVERSE_EDGE)
 
 # Spring-mass system natural frequency
 frequency = equations.natural_frequency(STIFFNESS, granule.mass)  # Hz
-omega = 2 * math.pi * frequency  # rad/s
+omega = 2 * np.pi * frequency  # rad/s
 period = 1 / frequency
 
 # Critical timestep for stability (explicit integrators)
