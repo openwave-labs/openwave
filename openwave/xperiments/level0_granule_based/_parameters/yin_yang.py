@@ -21,11 +21,11 @@ GOLDEN_RATIO = 1.618  # Golden ratio φ ≈ 1.618 for spiral geometry
 Z_POSITION = 0.0  # Z-axis position for all sources (flat plane)
 
 # Original formula: r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
-# Position divides by (6 * golden_ratio) to scale the radius
+# Position divides by (6 * golden_ratio) to scale the radius to universe size
 SOURCES_POSITION = [
     [
-        math.cos(i * 2 * math.pi / (NUM_SOURCES - 1)) / (6 * GOLDEN_RATIO) + 0.5,
-        math.sin(i * 2 * math.pi / (NUM_SOURCES - 1)) / (6 * GOLDEN_RATIO) + 0.5,
+        math.cos(i * 2 * math.pi / NUM_SOURCES) / (6 * GOLDEN_RATIO) + 0.5,
+        math.sin(i * 2 * math.pi / NUM_SOURCES) / (6 * GOLDEN_RATIO) + 0.5,
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)
