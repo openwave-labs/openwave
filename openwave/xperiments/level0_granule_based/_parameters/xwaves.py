@@ -10,7 +10,6 @@ This XPERIMENT showcases:
 - Crossing wave patterns
 - Phase control between sources (constructive/destructive interference)
 - DESERT color theme for different visual experience
-- No spring coupling (pure wave propagation)
 """
 
 PARAMETERS = {

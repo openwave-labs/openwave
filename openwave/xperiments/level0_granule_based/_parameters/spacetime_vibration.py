@@ -9,7 +9,6 @@ This XPERIMENT showcases:
 - Multiple wave sources (9 sources: center + 8 corners)
 - Wave superposition and interference patterns
 - Phase control between sources (constructive/destructive interference)
-- No spring coupling (pure wave propagation)
 """
 
 PARAMETERS = {

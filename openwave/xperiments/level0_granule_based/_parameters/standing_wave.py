@@ -10,7 +10,6 @@ This XPERIMENT showcases:
 - Standing wave formation
 - Complex interference patterns
 - Thin Z dimension for 2.5D visualization
-- No spring coupling (pure wave propagation)
 """
 
 import math

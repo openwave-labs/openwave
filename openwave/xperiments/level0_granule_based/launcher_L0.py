@@ -181,14 +181,6 @@ class SimulationState:
 # ================================================================
 
 
-def xperiment_specs(state):
-    """Display xperiment specifications overlay."""
-    with render.gui.sub_window("LEVEL-0: Granule-Based Medium", 0.00, 0.00, 0.19, 0.10) as sub:
-        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
-        sub.text("Coupling: Phase Sync")
-        sub.text("Propagation: Radial from Source")
-
-
 def xperiment_launcher(xperiment_mgr, state):
     """Display xperiment launcher UI with selectable xperiments.
 
@@ -201,7 +193,8 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.10, 0.13, 0.23) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.31) as sub:
+        sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
             is_current = xp_name == xperiment_mgr.current_xperiment
@@ -209,14 +202,102 @@ def xperiment_launcher(xperiment_mgr, state):
             if sub.checkbox(display_name, is_current) and not is_current:
                 selected_xperiment = xp_name
 
-        sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
+        if sub.button("Close Launcher (esc)"):
+            render.window.running = False
 
     return selected_xperiment
 
 
+def controls(state):
+    """Render the controls UI overlay."""
+    # Create overlay windows for controls
+    with render.gui.sub_window("CONTROLS", 0.00, 0.31, 0.15, 0.22) as sub:
+        state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
+        state.block_slice = sub.checkbox("Block Slice", state.block_slice)
+        state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
+        state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
+        state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
+        state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
+        if state.paused:
+            if sub.button("Continue"):
+                state.paused = False
+        else:
+            if sub.button("Pause"):
+                state.paused = True
+
+
+def color_menu(
+    state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
+):
+    """Render color selection menu."""
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.71, 0.13, 0.17) as sub:
+        if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
+            state.granule_type = False
+            state.ironbow = True
+            state.blueprint = False
+            state.var_displacement = True
+        if sub.checkbox("Amplitude (ironbow)", state.ironbow and not state.var_displacement):
+            state.granule_type = False
+            state.ironbow = True
+            state.blueprint = False
+            state.var_displacement = False
+        if sub.checkbox("Amplitude (blueprint)", state.blueprint and not state.var_displacement):
+            state.granule_type = False
+            state.ironbow = False
+            state.blueprint = True
+            state.var_displacement = False
+        if sub.checkbox("Granule Type Color", state.granule_type):
+            state.granule_type = True
+            state.ironbow = False
+            state.blueprint = False
+            state.var_displacement = False
+        if sub.checkbox(
+            "Medium Default Color",
+            not (state.granule_type or state.ironbow or state.blueprint),
+        ):
+            state.granule_type = False
+            state.ironbow = False
+            state.blueprint = False
+            state.var_displacement = False
+        if state.ironbow:  # Display ironbow gradient palette
+            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
+            with render.gui.sub_window(
+                "displacement" if state.var_displacement else "amplitude",
+                0.00,
+                0.65,
+                0.08,
+                0.06,
+            ) as sub:
+                sub.text(
+                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
+                )
+        if state.blueprint:  # Display blueprint gradient palette
+            # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
+            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
+            with render.gui.sub_window(
+                "displacement" if state.var_displacement else "amplitude",
+                0.00,
+                0.65,
+                0.08,
+                0.06,
+            ) as sub:
+                sub.text(
+                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
+                )
+
+
+def xperiment_specs(state):
+    """Display xperiment specifications overlay."""
+    with render.gui.sub_window("LEVEL-0: Granule-Based Medium", 0.82, 0.00, 0.18, 0.10) as sub:
+        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
+        sub.text("Coupling: Phase Sync")
+        sub.text("Propagation: Radial from Source")
+
+
 def data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.41, 0.19, 0.59) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- WAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {state.lattice.total_granules:,} particles")
@@ -251,85 +332,6 @@ def data_dashboard(state):
         sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
         sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
         sub.text(f"Sim Time (slow-mo): {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
-
-
-def controls(state):
-    """Render the controls UI overlay."""
-    # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.85, 0.00, 0.15, 0.22) as sub:
-        state.show_axis = sub.checkbox(f"Axis (tick marks: {state.TICK_SPACING})", state.show_axis)
-        state.block_slice = sub.checkbox("Block Slice", state.block_slice)
-        state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
-        state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
-        state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
-        state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
-        if state.paused:
-            if sub.button("Continue"):
-                state.paused = False
-        else:
-            if sub.button("Pause"):
-                state.paused = True
-
-
-def color_menu(
-    state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
-):
-    """Render color selection menu."""
-    with render.gui.sub_window("COLOR MENU", 0.87, 0.72, 0.13, 0.16) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = True
-        if sub.checkbox("Amplitude (ironbow)", state.ironbow and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox("Amplitude (blueprint)", state.blueprint and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = True
-            state.var_displacement = False
-        if sub.checkbox("Granule Type Color", state.granule_type):
-            state.granule_type = True
-            state.ironbow = False
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox(
-            "Medium Default Color",
-            not (state.granule_type or state.ironbow or state.blueprint),
-        ):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = False
-            state.var_displacement = False
-        if state.ironbow:  # Display ironbow gradient palette
-            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
-            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(
-                "displacement" if state.var_displacement else "amplitude",
-                0.92,
-                0.66,
-                0.08,
-                0.06,
-            ) as sub:
-                sub.text(
-                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
-                )
-        if state.blueprint:  # Display blueprint gradient palette
-            # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
-            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(
-                "displacement" if state.var_displacement else "amplitude",
-                0.92,
-                0.66,
-                0.08,
-                0.06,
-            ) as sub:
-                sub.text(
-                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
-                )
 
 
 # ================================================================
@@ -433,8 +435,8 @@ def main():
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
     # Initialize color palettes for gradient rendering (after ti.init)
-    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.92, 0.65, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.92, 0.65, 0.079, 0.01)
+    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.64, 0.079, 0.01)
+    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.64, 0.079, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -468,7 +470,6 @@ def main():
 
         # Render UI overlays
         new_xperiment = xperiment_launcher(xperiment_mgr, state)
-        data_dashboard(state)
         controls(state)
 
         # Handle xperiment switching via process replacement
@@ -498,9 +499,12 @@ def main():
 
         # Render scene elements
         render_elements(state)
+
+        # Render additional UI elements and scene
         color_menu(
             state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
         )
+        data_dashboard(state)
         xperiment_specs(state)
         render.show_scene()
 
