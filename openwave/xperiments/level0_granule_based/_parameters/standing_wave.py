@@ -14,16 +14,22 @@ This XPERIMENT showcases:
 
 import numpy as np
 
+from openwave.common import constants
+
 # Generate 64 sources in a circular pattern
 NUM_SOURCES = 64  # Number of wave sources for this xperiment
-CIRCLE_RADIUS = 0.333  # Normalized radius of circular arrangement (0-1 range)
-Z_POSITION = 0.06  # Z-axis position for all sources (thin slice)
+Z_POSITION = 0.05  # Z-axis position for all sources (thin slice)
 
 # Calculate source positions in a circle around center
+UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+SOURCES_RADIUS = 2 * constants.EWAVE_LENGTH  # m, r = n * λ, interference radius
+NORMALIZED_RADIUS = SOURCES_RADIUS / UNIVERSE_EDGE  # normalized radius
+
+# Positions relative to universe center (0.5, 0.5, Z_POSITION)
 SOURCES_POSITION = [
     [
-        0.5 + CIRCLE_RADIUS * np.cos(2 * np.pi * i / NUM_SOURCES),
-        0.5 + CIRCLE_RADIUS * np.sin(2 * np.pi * i / NUM_SOURCES),
+        np.cos(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
+        np.sin(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)
@@ -41,7 +47,11 @@ PARAMETERS = {
         "initial_position": [1.33, 0.67, 1.52],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [2e-16, 2e-16, 0.1e-16],  # m, simulation domain [x, y, z]
+        "size": [
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE / 20,
+        ],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
