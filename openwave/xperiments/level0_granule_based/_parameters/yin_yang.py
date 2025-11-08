@@ -1,12 +1,12 @@
 """
-XPERIMENT PARAMETERS: Yin-Yang Spiral Wave
+XPERIMENT PARAMETERS: Yin-Yang Effect from Golden-Ratio Spiral Wave
 
-Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio spiral.
+Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio radius.
 12 sources generate spherical longitudinal waves that superpose at each granule,
 creating beautiful spiral interference patterns inspired by the Yin-Yang symbol.
 
 This XPERIMENT showcases:
-- 12 wave sources arranged in golden ratio spiral pattern
+- 12 wave sources arranged in golden ratio pattern
 - Progressive phase offsets (30° increments)
 - Spiral wave interference patterns
 """
@@ -15,16 +15,16 @@ import math
 
 from openwave.common import constants
 
-# Generate 12 sources in a golden ratio spiral for Yin-Yang pattern
+# Generate 12 sources in a golden ratio pattern for spiral Yin-Yang effect
 NUM_SOURCES = 12  # Number of wave sources for this xperiment
 Z_POSITION = 0.0  # Z-axis position for all sources (flat plane)
 
-# Calculate source positions in a golden ratio spiral
+# Calculate source positions in a golden ratio pattern
 UNIVERSE_EDGE = 12 * constants.EWAVE_LENGTH  # m, universe edge length in meters
 GOLDEN_RADIUS = constants.EWAVE_LENGTH / constants.GOLDEN_RATIO  # m, r = λ / φ, for spiral effect
 NORMALIZED_RADIUS = GOLDEN_RADIUS / UNIVERSE_EDGE  # normalized radius
 
-# Position divides by (6 * golden_ratio) to scale the radius to universe size
+# Positions relative to universe center (0.5, 0.5, Z_POSITION)
 SOURCES_POSITION = [
     [
         math.cos(i * 2 * math.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
@@ -39,8 +39,8 @@ SOURCES_PHASE_DEG = [i * 30 for i in range(NUM_SOURCES)]
 
 PARAMETERS = {
     "meta": {
-        "name": "Yin-Yang Spiral Wave",
-        "description": "12 sources in golden ratio spiral with progressive phase offsets",
+        "name": "Golden-Ratio Spiral",
+        "description": "12 sources in golden ratio pattern with progressive phase offsets",
     },
     "camera": {
         "initial_position": [1.25, 0.70, 1.65],  # [x, y, z] in normalized coordinates

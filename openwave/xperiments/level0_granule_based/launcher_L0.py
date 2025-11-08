@@ -31,6 +31,7 @@ class XperimentManager:
 
     def __init__(self):
         self.available_xperiments = self._discover_xperiments()
+        self.xperiment_display_names = {}  # Cache display names from meta
         self.current_xperiment = None
         self.current_parameters = None
 
@@ -64,6 +65,9 @@ class XperimentManager:
             self.current_xperiment = xperiment_name
             self.current_parameters = parameters_module.PARAMETERS
 
+            # Cache display name from meta
+            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"]["name"]
+
             return self.current_parameters
 
         except Exception as e:
@@ -71,8 +75,20 @@ class XperimentManager:
             return None
 
     def get_xperiment_display_name(self, xperiment_name):
-        """Convert xperiment filename to display name (snake_case to Title Case)."""
-        return " ".join(word.capitalize() for word in xperiment_name.split("_"))
+        """Get display name from parameter meta or fallback to filename conversion."""
+        if xperiment_name in self.xperiment_display_names:
+            return self.xperiment_display_names[xperiment_name]
+
+        # Fallback: try to load just for the name
+        try:
+            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            parameters_module = importlib.import_module(module_path)
+            display_name = parameters_module.PARAMETERS["meta"]["name"]
+            self.xperiment_display_names[xperiment_name] = display_name
+            return display_name
+        except:
+            # Final fallback: convert filename
+            return " ".join(word.capitalize() for word in xperiment_name.split("_"))
 
 
 # ================================================================
