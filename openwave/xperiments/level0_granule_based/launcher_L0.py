@@ -66,7 +66,9 @@ class XperimentManager:
             self.current_parameters = parameters_module.PARAMETERS
 
             # Cache display name from meta
-            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"]["name"]
+            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"][
+                "name"
+            ]
 
             return self.current_parameters
 
