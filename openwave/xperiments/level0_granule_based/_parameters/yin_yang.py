@@ -9,7 +9,6 @@ This XPERIMENT showcases:
 - 12 wave sources arranged in golden ratio spiral pattern
 - Progressive phase offsets (30° increments)
 - Spiral wave interference patterns
-- No spring coupling (pure wave propagation)
 """
 
 import math

@@ -9,7 +9,6 @@ This XPERIMENT showcases:
 - 3 wave sources in equilateral triangle pattern
 - Wave superposition and interference patterns
 - Thin Z dimension for 2.5D visualization
-- No spring coupling (pure wave propagation)
 """
 
 import math

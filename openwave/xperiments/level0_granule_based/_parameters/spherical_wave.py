@@ -9,7 +9,6 @@ This XPERIMENT showcases:
 - Single wave source at center
 - Pure spherical wave propagation
 - Radial wave patterns
-- No spring coupling (pure wave propagation)
 """
 
 PARAMETERS = {

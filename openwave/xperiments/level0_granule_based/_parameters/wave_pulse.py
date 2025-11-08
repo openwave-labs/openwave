@@ -8,7 +8,6 @@ This XPERIMENT showcases:
 - Single wave source at center
 - Wave pulse radiation
 - Wave diagnostics enabled for speed and wavelength measurements
-- No spring coupling (pure wave propagation)
 """
 
 PARAMETERS = {
