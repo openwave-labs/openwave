@@ -17,14 +17,16 @@
    - [Velocity (Granules/Particles Only)](#velocity-granulesparticles-only)
    - [Force](#force)
 1. [Field Storage in Taichi](#field-storage-in-taichi)
-   - [Scalar Fields](#scalar-fields)
-   - [Vector Fields](#vector-fields)
+   - [Complete WaveField Class Implementation](#complete-wavefield-class-implementation)
+   - [Field Categories](#field-categories)
 1. [Property Relationships](#property-relationships)
 1. [LEVEL-0 vs LEVEL-1 Properties](#level-0-vs-level-1-properties)
 
 ## SUMMARY
 
 Wave field attributes represent physical quantities and wave disturbances stored at each voxel in the field-based medium. Properties are categorized as **scalar** (magnitude only) or **vector** (magnitude + direction).
+
+**IMPORTANT**: Field values like amplitude and wavelength use **attometer scaling** for numerical precision with f32 storage, following the same principle as LEVEL-0. This prevents catastrophic cancellation in gradient calculations and maintains 6-7 significant digits of precision. See the complete `WaveField` class implementation below for details.
 
 ### Wave Medium
 
@@ -259,31 +261,152 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 ## Field Storage in Taichi
 
-### Scalar Fields
+### Complete WaveField Class Implementation
 
 ```python
 import taichi as ti
+from openwave.common import constants
 
-# Required scalar fields
-amplitude = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+@ti.data_oriented
+class WaveField:
+    """
+    Wave field simulation using cell-centered grid with attometer scaling.
 
-# Optional scalar fields
-energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-frequency = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # If multi-frequency
+    This class implements LEVEL-1 field-based wave propagation with:
+    - Cell-centered cubic grid
+    - Attometer scaling for numerical precision (f32 fields)
+    - Computed positions from indices (memory efficient)
+    - Wave properties stored at each voxel
+    """
+
+    def __init__(self, nx, ny, nz, wavelength_m, points_per_wavelength=40):
+        """
+        Initialize wave field grid.
+
+        Args:
+            nx, ny, nz: Grid dimensions (number of voxels per axis)
+            wavelength_m: Wavelength in meters (e.g., 2.854096501e-17 for energy wave)
+            points_per_wavelength: Sampling rate (voxels per wavelength, default: 40)
+        """
+        # Grid dimensions
+        self.nx, self.ny, self.nz = nx, ny, nz
+
+        # ATTOMETER SCALING (critical for f32 precision)
+        self.wavelength_am = wavelength_m / constants.ATTOMETER
+        self.dx_am = self.wavelength_am / points_per_wavelength  # Voxel size in am
+
+        # Physical sizes in meters (for external reporting)
+        self.dx_m = self.dx_am * constants.ATTOMETER
+        self.domain_size_m = [nx * self.dx_m, ny * self.dx_m, nz * self.dx_m]
+
+        # SCALAR FIELDS (values in attometers where applicable)
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am
+        self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
+
+        # SCALAR FIELDS (no attometer scaling needed)
+        self.density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
+        self.energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # J
+
+        # VECTOR FIELDS (directions normalized, magnitudes may need scaling)
+        self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # unit vector
+        self.amplitude_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # unit vector
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # am/s
+        self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # N
+
+    @ti.func
+    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+        """Get physical position of voxel center in attometers."""
+        return ti.Vector([
+            (i + 0.5) * self.dx_am,
+            (j + 0.5) * self.dx_am,
+            (k + 0.5) * self.dx_am
+        ])
+
+    @ti.func
+    def get_position_m(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+        """Get physical position of voxel center in meters (for external use)."""
+        pos_am = self.get_position_am(i, j, k)
+        return pos_am * ti.f32(constants.ATTOMETER)
+
+    @ti.func
+    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:
+        """
+        Get voxel index from position in attometers.
+
+        Inverse mapping: position → index
+        Used for particle-field interactions.
+        """
+        return ti.Vector([
+            ti.i32((pos_am[0] / self.dx_am) - 0.5),
+            ti.i32((pos_am[1] / self.dx_am) - 0.5),
+            ti.i32((pos_am[2] / self.dx_am) - 0.5)
+        ])
+
+    @ti.kernel
+    def compute_amplitude_gradient(self):
+        """
+        Compute force from amplitude gradient using attometer-scaled values.
+
+        Force follows MAP (Minimum Amplitude Principle): F = -∇A
+        Particles move toward regions of lower amplitude.
+        """
+        for i, j, k in self.amplitude_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                # Gradient in attometer space (better precision)
+                grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+                grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+                grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+                # Force proportional to negative gradient (MAP principle)
+                # Note: gradient is in am/am = dimensionless
+                # Force scaling applied separately based on physical constants
+                self.force[i,j,k] = -ti.Vector([grad_x, grad_y, grad_z])
+
+    @ti.kernel
+    def compute_laplacian(self, output: ti.template()):  # type: ignore
+        """
+        Compute Laplacian operator for wave equation (6-connectivity).
+
+        Laplacian: ∇²A = (∂²A/∂x² + ∂²A/∂y² + ∂²A/∂z²)
+        Used in wave equation: ∂²A/∂t² = c²∇²A
+        """
+        for i, j, k in self.amplitude_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                # 6-connectivity stencil (face neighbors only)
+                laplacian = (
+                    self.amplitude_am[i+1, j, k] + self.amplitude_am[i-1, j, k] +
+                    self.amplitude_am[i, j+1, k] + self.amplitude_am[i, j-1, k] +
+                    self.amplitude_am[i, j, k+1] + self.amplitude_am[i, j, k-1] -
+                    6.0 * self.amplitude_am[i, j, k]
+                ) / (self.dx_am * self.dx_am)
+
+                output[i, j, k] = laplacian
 ```
 
-### Vector Fields
+### Field Categories
+
+**Scalar fields with attometer scaling:**
 
 ```python
-# Required vector fields
-wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
-amplitude_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
+```
 
-# Computed/optional vector fields
-velocity = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
-force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+**Scalar fields without attometer scaling:**
+
+```python
+phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Radians
+density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
+energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Joules
+frequency = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Hz (if multi-frequency)
+```
+
+**Vector fields:**
+
+```python
+wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # Unit vector
+amplitude_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # Unit vector
+velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # am/s
+force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # N
 ```
 
 ## Property Relationships
