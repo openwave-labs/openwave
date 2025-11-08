@@ -20,7 +20,7 @@ PARAMETERS = {
         "initial_position": [0.97, 2.06, 0.82],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z] (cubic)
+        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
@@ -37,7 +37,7 @@ PARAMETERS = {
         "block_slice": True,  # Block-slicing toggle
         "show_sources": False,  # Toggle to show/hide wave source markers
         "radius_factor": 0.4,  # Granule radius scaling factor
-        "freq_boost": 1.0,  # Frequency boost multiplier
+        "freq_boost": 0.5,  # Frequency boost multiplier
         "amp_boost": 5.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
         "granule_type": False,  # Granule type color

@@ -20,7 +20,7 @@ PARAMETERS = {
         "initial_position": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z] (cubic)
+        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
@@ -41,7 +41,7 @@ PARAMETERS = {
         ],
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Center source at 180° creates destructive interference with corner sources at 0°
-        "phase_offsets_deg": [180, 0, 0, 0, 0, 0, 0, 0, 0],
+        "phase_offsets_deg": [0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
     "ui_defaults": {
         "show_axis": False,  # Toggle to show/hide axis lines

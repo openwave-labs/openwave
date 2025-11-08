@@ -87,17 +87,16 @@ class BCCLattice:
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
-        # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
-        self.raw_size = [
-            init_universe_size[0] / self.unit_cell_edge,
-            init_universe_size[1] / self.unit_cell_edge,
-            init_universe_size[2] / self.unit_cell_edge,
-        ]
-        # Round to nearest odd integer for symmetric grid per axis
+        # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
+        # int() is required because:
+        # 1. User-specified universe size is arbitrary (any float value)
+        # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
+        # 3. Ensures integer count needed for array indexing and loop bounds
+        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
-            int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
-            int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
-            int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
+            int(init_universe_size[0] / self.unit_cell_edge),
+            int(init_universe_size[1] / self.unit_cell_edge),
+            int(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
@@ -583,17 +582,16 @@ class SCLattice:
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
-        # Calculate grid dimensions (number of unit cells per dimension) - asymmetric
-        self.raw_size = [
-            init_universe_size[0] / self.unit_cell_edge,
-            init_universe_size[1] / self.unit_cell_edge,
-            init_universe_size[2] / self.unit_cell_edge,
-        ]
-        # Round to nearest odd integer for symmetric grid per axis
+        # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
+        # int() is required because:
+        # 1. User-specified universe size is arbitrary (any float value)
+        # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
+        # 3. Ensures integer count needed for array indexing and loop bounds
+        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
-            int(self.raw_size[0]) if int(self.raw_size[0]) % 2 == 1 else int(self.raw_size[0]) + 1,
-            int(self.raw_size[1]) if int(self.raw_size[1]) % 2 == 1 else int(self.raw_size[1]) + 1,
-            int(self.raw_size[2]) if int(self.raw_size[2]) % 2 == 1 else int(self.raw_size[2]) + 1,
+            int(init_universe_size[0] / self.unit_cell_edge),
+            int(init_universe_size[1] / self.unit_cell_edge),
+            int(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells

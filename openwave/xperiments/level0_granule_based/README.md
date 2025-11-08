@@ -133,22 +133,22 @@ Your new xperiment automatically appears in the launcher UI!
 Use Python code for computed positions:
 
 ```python
-import math
+import numpy as np
 
 # Circular pattern
 NUM_SOURCES = 8
 CIRCLE_RADIUS = 0.4
 SOURCES_POSITION = [
     [
-        0.5 + CIRCLE_RADIUS * math.cos(2 * math.pi * i / NUM_SOURCES),
-        0.5 + CIRCLE_RADIUS * math.sin(2 * math.pi * i / NUM_SOURCES),
+        0.5 + CIRCLE_RADIUS * np.cos(2 * np.pi * i / NUM_SOURCES),
+        0.5 + CIRCLE_RADIUS * np.sin(2 * np.pi * i / NUM_SOURCES),
         0.5,
     ]
     for i in range(NUM_SOURCES)
 ]
 
 # Equilateral triangle
-EQUILATERAL = math.sqrt(3) / 6
+EQUILATERAL = np.sqrt(3) / 6
 SOURCES_POSITION = [
     [0.5, 0.5 - EQUILATERAL, 0.5],      # Bottom
     [0.25, 0.5 + EQUILATERAL/2, 0.5],   # Top left
@@ -352,8 +352,8 @@ The launcher maintains:
 "wave_sources": {
     "count": 6,
     "positions": [
-        [0.5 + 0.3 * math.cos(i * math.pi/3),
-         0.5 + 0.3 * math.sin(i * math.pi/3),
+        [0.5 + 0.3 * np.cos(i * np.pi/3),
+         0.5 + 0.3 * np.sin(i * np.pi/3),
          0.5]
         for i in range(6)
     ],

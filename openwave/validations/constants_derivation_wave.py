@@ -60,7 +60,7 @@ def density_derivation_hydrogen():
 
     Where:
         mₚ = Planck mass
-        rₕ = Hydrogen 1s radius (Bohr radius)
+        rₕ = Hydrogen 1s radius (Bohr Radius)
 
     Returns:
         float: Medium Density in kg/m³

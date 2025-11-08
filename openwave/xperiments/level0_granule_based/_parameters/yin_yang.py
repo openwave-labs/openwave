@@ -1,31 +1,34 @@
 """
-XPERIMENT PARAMETERS: Yin-Yang Spiral Wave
+XPERIMENT PARAMETERS: Yin-Yang Effect from Golden-Ratio Spiral Wave
 
-Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio spiral.
+Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio radius.
 12 sources generate spherical longitudinal waves that superpose at each granule,
 creating beautiful spiral interference patterns inspired by the Yin-Yang symbol.
 
 This XPERIMENT showcases:
-- 12 wave sources arranged in golden ratio spiral pattern
+- 12 wave sources arranged in golden ratio pattern
 - Progressive phase offsets (30° increments)
 - Spiral wave interference patterns
 """
 
-import math
+import numpy as np
 
 from openwave.common import constants
 
-# Generate 12 sources in a golden ratio spiral for Yin-Yang pattern
+# Generate 12 sources in a golden ratio pattern for spiral Yin-Yang effect
 NUM_SOURCES = 12  # Number of wave sources for this xperiment
-GOLDEN_RATIO = 1.618  # Golden ratio φ ≈ 1.618 for spiral geometry
 Z_POSITION = 0.0  # Z-axis position for all sources (flat plane)
 
-# Original formula: r = λ / φ, where φ = golden ratio ~1.618, for yin-yang spiral effect
-# Position divides by (6 * golden_ratio) to scale the radius
+# Calculate source positions in a golden ratio pattern
+UNIVERSE_EDGE = 12 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+GOLDEN_RADIUS = constants.EWAVE_LENGTH / constants.GOLDEN_RATIO  # m, r = λ / φ, for spiral effect
+NORMALIZED_RADIUS = GOLDEN_RADIUS / UNIVERSE_EDGE  # normalized radius
+
+# Positions relative to universe center (0.5, 0.5, Z_POSITION)
 SOURCES_POSITION = [
     [
-        math.cos(i * 2 * math.pi / (NUM_SOURCES - 1)) / (6 * GOLDEN_RATIO) + 0.5,
-        math.sin(i * 2 * math.pi / (NUM_SOURCES - 1)) / (6 * GOLDEN_RATIO) + 0.5,
+        np.cos(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
+        np.sin(i * 2 * np.pi / NUM_SOURCES) * NORMALIZED_RADIUS + 0.5,
         Z_POSITION,
     ]
     for i in range(NUM_SOURCES)
@@ -36,18 +39,18 @@ SOURCES_PHASE_DEG = [i * 30 for i in range(NUM_SOURCES)]
 
 PARAMETERS = {
     "meta": {
-        "name": "Yin-Yang Spiral Wave",
-        "description": "12 sources in golden ratio spiral with progressive phase offsets",
+        "name": "Golden-Ratio Spiral",
+        "description": "12 sources in golden ratio pattern with progressive phase offsets",
     },
     "camera": {
-        "initial_position": [1.50, 0.80, 1.50],  # [x, y, z] in normalized coordinates
+        "initial_position": [1.25, 0.70, 1.65],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [
-            6 * constants.EWAVE_LENGTH,
-            6 * constants.EWAVE_LENGTH,
-            2 * constants.EWAVE_LENGTH,
-        ],  # m, simulation domain [x, y, z] (thin Z for 2.5D visualization)
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE / 6,
+        ],  # m, simulation domain [x, y, z]
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },

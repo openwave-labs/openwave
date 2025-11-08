@@ -31,6 +31,7 @@ class XperimentManager:
 
     def __init__(self):
         self.available_xperiments = self._discover_xperiments()
+        self.xperiment_display_names = {}  # Cache display names from meta
         self.current_xperiment = None
         self.current_parameters = None
 
@@ -64,6 +65,11 @@ class XperimentManager:
             self.current_xperiment = xperiment_name
             self.current_parameters = parameters_module.PARAMETERS
 
+            # Cache display name from meta
+            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"][
+                "name"
+            ]
+
             return self.current_parameters
 
         except Exception as e:
@@ -71,8 +77,20 @@ class XperimentManager:
             return None
 
     def get_xperiment_display_name(self, xperiment_name):
-        """Convert xperiment filename to display name (snake_case to Title Case)."""
-        return " ".join(word.capitalize() for word in xperiment_name.split("_"))
+        """Get display name from parameter meta or fallback to filename conversion."""
+        if xperiment_name in self.xperiment_display_names:
+            return self.xperiment_display_names[xperiment_name]
+
+        # Fallback: try to load just for the name
+        try:
+            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            parameters_module = importlib.import_module(module_path)
+            display_name = parameters_module.PARAMETERS["meta"]["name"]
+            self.xperiment_display_names[xperiment_name] = display_name
+            return display_name
+        except:
+            # Final fallback: convert filename
+            return " ".join(word.capitalize() for word in xperiment_name.split("_"))
 
 
 # ================================================================
@@ -193,7 +211,7 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.31) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -211,7 +229,7 @@ def xperiment_launcher(xperiment_mgr, state):
 def controls(state):
     """Render the controls UI overlay."""
     # Create overlay windows for controls
-    with render.gui.sub_window("CONTROLS", 0.00, 0.31, 0.15, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
         state.block_slice = sub.checkbox("Block Slice", state.block_slice)
         state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
@@ -230,7 +248,7 @@ def color_menu(
     state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
 ):
     """Render color selection menu."""
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.71, 0.13, 0.17) as sub:
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
         if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
             state.granule_type = False
             state.ironbow = True
@@ -265,7 +283,7 @@ def color_menu(
             with render.gui.sub_window(
                 "displacement" if state.var_displacement else "amplitude",
                 0.00,
-                0.65,
+                0.64,
                 0.08,
                 0.06,
             ) as sub:
@@ -278,7 +296,7 @@ def color_menu(
             with render.gui.sub_window(
                 "displacement" if state.var_displacement else "amplitude",
                 0.00,
-                0.65,
+                0.64,
                 0.08,
                 0.06,
             ) as sub:
@@ -435,8 +453,8 @@ def main():
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
     # Initialize color palettes for gradient rendering (after ti.init)
-    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.64, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.64, 0.079, 0.01)
+    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
+    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()

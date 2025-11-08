@@ -7,6 +7,8 @@ sourced from EWT at https://energywavetheory.com/equations/
 All values use SI units (kg, m, s) for consistency.
 """
 
+import numpy as np
+
 # ================================================================
 # WAVE-MEDIUM
 # ================================================================
@@ -56,14 +58,21 @@ PLANCK_LENGTH = 1.616255e-35  # m, Planck length
 PLANCK_TIME = 5.391247e-44  # s, Planck time
 PLANCK_MASS = 2.176434e-8  # kg, Planck mass
 PLANCK_CHARGE = 1.875545956e-18  # m, Planck charge
-PLANCK_CONSTANT = 6.62607015e-34  # J·s, Planck constant — exact definition
+PLANCK_CONSTANT = 6.62607015e-34  # J·s, h = Planck constant
+PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Planck constant
 
 FINE_STRUCTURE = 7.2973525693e-3  # fine-structure constant, alpha
 ELECTRIC_CONSTANT = 8.8541878128e-12  # F/m, vacuum permittivity, epsilon_0
 MAGNETIC_CONSTANT = 1.25663706212e-6  # N, vacuum permeability, mu_0
-BOHR_RADIUS = 5.29177210903e-11  # m, Bohr radius, a_0
+
+BOHR_RADIUS = 5.29177210903e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
+HYDROGEN_LINE = 1.420405751e9  # Hz, Hydrogen 21cm line frequency, spin-flip transition
+HYDROGEN_LYMAN_ALPHA = 2.4660677e15  # Hz, Hydrogen Lyman-alpha frequency
+
 ELEMENTARY_CHARGE = 1.6022e-19  # m, The elementary charge from CODATA values
 COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
+
+GOLDEN_RATIO = 1.6180339887  # φ = (1+sqrt(5))/2 (dimensionless)
 
 # DELTA : amplitude factor (dimensionless) — user-supplied per system/transition
 # K     : particle wave center count (dimensionless)
