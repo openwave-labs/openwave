@@ -211,6 +211,72 @@ def compute_force_field_newtons(self):
             self.force[i,j,k] = -force_scale * A_m * grad_vector  # N = kg⋅m/s²
 ```
 
+#### Force Direction Vector
+
+**Understanding Force Direction**:
+
+The force is a **vector** quantity with both magnitude and direction:
+
+```text
+F = -∇A = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
+```
+
+**Direction Meaning**:
+
+- **Negative gradient**: Force points toward **decreasing** amplitude (MAP principle)
+- **Each component**:
+  - `F_x`: Force component in x-direction
+  - `F_y`: Force component in y-direction
+  - `F_z`: Force component in z-direction
+- **Magnitude**: `|F| = √(F_x² + F_y² + F_z²)` [Newtons]
+- **Direction**: `F_hat = F / |F|` (unit vector)
+
+**Physical Interpretation**:
+
+```python
+# Example: Force vector at a voxel
+F = [-2.5e-30, 1.0e-30, 0.0]  # Newtons
+
+# This means:
+# - Force pulls particle in -x direction (2.5e-30 N)
+# - Force pushes particle in +y direction (1.0e-30 N)
+# - No force in z direction
+
+# Magnitude
+|F| = sqrt(2.5² + 1.0²) × 1e-30 = 2.69e-30 N
+
+# Direction (unit vector)
+F_hat = [-0.928, 0.371, 0.0]
+# Pointing mostly in -x direction, slightly in +y
+```
+
+**Why This Matters for Particle Motion**:
+
+When a particle at position `(x, y, z)` experiences this force:
+
+1. **Interpolate force** from nearby voxels to particle position
+2. **Vector components** determine motion in 3D space
+3. **Acceleration direction**: `a = F/m` (same direction as force)
+4. **Velocity change**: Particle accelerates along force direction
+5. **Position update**: Particle moves toward amplitude minimum
+
+**Computing Force Direction (if needed separately)**:
+
+```python
+@ti.func
+def get_force_direction(i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+    """Get unit vector in direction of force at voxel [i,j,k]."""
+    F = self.force[i,j,k]
+    F_mag = F.norm()
+
+    if F_mag > 1e-40:  # Avoid division by zero
+        return F / F_mag  # Normalized direction
+    else:
+        return ti.Vector([0.0, 0.0, 0.0])  # No preferred direction
+```
+
+**Key Point**: The gradient operator `∇A` automatically gives you the **direction** (as a vector) pointing toward maximum amplitude increase. The negative sign `-∇A` reverses this to point toward amplitude **decrease** (MAP principle).
+
 #### Dimensional Analysis Verification
 
 ```text
@@ -477,6 +543,504 @@ p[i,j,k] = ρ × ψ[i,j,k] × wave_direction[i,j,k]
 ```
 
 Where `wave_direction` is determined by the gradient of phase (see Answer 4).
+
+#### Wave Mode: Longitudinal vs Transverse
+
+**Fundamental Concept**:
+
+Wave mode is determined by the relationship between **medium displacement direction** and **wave propagation direction**:
+
+- **Longitudinal wave**: Displacement parallel to propagation (compression wave)
+- **Transverse wave**: Displacement perpendicular to propagation (shear wave)
+- **Mixed mode**: Both components present
+
+**Mathematical Definition**:
+
+```text
+Wave propagation direction: k̂ = S / |S|  (from energy flux, see Answer 4)
+Medium displacement direction: û = ∇ψ / |∇ψ|  (from amplitude gradient)
+
+Dot product: cos(θ) = k̂ · û
+- cos(θ) ≈ ±1: Longitudinal (parallel/antiparallel)
+- cos(θ) ≈ 0:  Transverse (perpendicular)
+- 0 < |cos(θ)| < 1: Mixed mode
+```
+
+**Implementation**:
+
+```python
+@ti.kernel
+def compute_wave_mode(self):
+    """
+    Compute wave mode at each voxel.
+
+    Returns:
+    - wave_mode[i,j,k] = 1.0:  Pure longitudinal
+    - wave_mode[i,j,k] = 0.0:  Pure transverse
+    - wave_mode[i,j,k] ∈ (0,1): Mixed mode
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # 1. Compute wave propagation direction (energy flux)
+            psi = self.amplitude_am[i,j,k]
+
+            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+            # Energy flux (wave propagation direction)
+            S = -c**2 * psi * grad_psi
+            S_mag = S.norm()
+
+            if S_mag > 1e-12:
+                k_hat = S / S_mag  # Wave propagation direction (unit vector)
+
+                # 2. Compute medium displacement direction
+                grad_mag = grad_psi.norm()
+
+                if grad_mag > 1e-12:
+                    u_hat = grad_psi / grad_mag  # Displacement direction (unit vector)
+
+                    # 3. Compute alignment (dot product)
+                    cos_theta = ti.abs(k_hat.dot(u_hat))  # |cos(θ)|, range [0,1]
+
+                    # Store wave mode
+                    # cos_theta = 1.0 → longitudinal
+                    # cos_theta = 0.0 → transverse
+                    self.wave_mode[i,j,k] = cos_theta
+                else:
+                    self.wave_mode[i,j,k] = 0.0  # No displacement
+            else:
+                self.wave_mode[i,j,k] = 0.0  # No propagation
+```
+
+**Physical Interpretation**:
+
+```python
+# Example values:
+wave_mode = 0.98  # Mostly longitudinal (compression wave)
+wave_mode = 0.05  # Mostly transverse (shear wave)
+wave_mode = 0.50  # Mixed mode (45° angle)
+
+# In EWT context:
+# - Gravitational waves: Expected to be longitudinal (compression)
+# - EM waves from electron: May have transverse components
+# - Near particle centers: Complex mix of modes
+```
+
+**Storage**:
+
+```python
+# In WaveField class __init__
+self.wave_mode = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Range [0,1]
+```
+
+#### Wave Decomposition: Separating Longitudinal and Transverse Components
+
+**Key Insight**: A single voxel can carry **both** longitudinal and transverse wave components simultaneously!
+
+**Physical Reality**:
+
+In a complex wave field (like near a particle or in interference regions), the displacement at a voxel is typically **not** purely parallel or perpendicular to the propagation direction. Instead, the displacement vector can be decomposed into:
+
+1. **Longitudinal component**: Part parallel to wave propagation
+2. **Transverse component**: Part perpendicular to wave propagation
+
+**Vector Decomposition**:
+
+```text
+Given:
+- k̂: Wave propagation direction (unit vector)
+- u: Medium displacement vector (from ∇ψ)
+
+Decompose u into parallel and perpendicular parts:
+
+u_longitudinal = (u · k̂) k̂           (projection onto k̂)
+u_transverse = u - u_longitudinal    (rejection from k̂)
+
+Magnitudes:
+|u_longitudinal| = |u · k̂|
+|u_transverse| = |u| sin(θ)  where θ is angle between u and k̂
+
+Check (should reconstruct original):
+u = u_longitudinal + u_transverse ✓
+```
+
+**Implementation**:
+
+```python
+@ti.kernel
+def compute_wave_components(self):
+    """
+    Decompose wave into longitudinal and transverse components.
+
+    Stores:
+    - longitudinal_amplitude[i,j,k]: Magnitude of longitudinal component
+    - transverse_amplitude[i,j,k]: Magnitude of transverse component
+    - longitudinal_fraction[i,j,k]: Fraction of energy in longitudinal mode
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # 1. Compute wave propagation direction (energy flux)
+            psi = self.amplitude_am[i,j,k]
+
+            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+            # Energy flux (wave propagation direction)
+            S = -c**2 * psi * grad_psi
+            S_mag = S.norm()
+
+            if S_mag > 1e-12:
+                k_hat = S / S_mag  # Wave propagation direction (unit vector)
+
+                # 2. Displacement vector (from gradient)
+                u = grad_psi  # Displacement direction
+
+                # 3. Decompose into longitudinal and transverse
+                # Longitudinal component (parallel to k̂)
+                u_parallel_magnitude = u.dot(k_hat)  # Can be positive or negative
+                u_longitudinal = u_parallel_magnitude * k_hat
+
+                # Transverse component (perpendicular to k̂)
+                u_transverse = u - u_longitudinal
+
+                # 4. Store magnitudes
+                self.longitudinal_amplitude[i,j,k] = ti.abs(u_parallel_magnitude)
+                self.transverse_amplitude[i,j,k] = u_transverse.norm()
+
+                # 5. Compute energy fractions
+                # Energy ∝ amplitude²
+                E_long = u_parallel_magnitude**2
+                E_trans = u_transverse.norm()**2
+                E_total = E_long + E_trans
+
+                if E_total > 1e-20:
+                    self.longitudinal_fraction[i,j,k] = E_long / E_total
+                    self.transverse_fraction[i,j,k] = E_trans / E_total
+                else:
+                    self.longitudinal_fraction[i,j,k] = 0.0
+                    self.transverse_fraction[i,j,k] = 0.0
+
+                # 6. Store decomposed vectors (optional, for visualization)
+                self.u_longitudinal[i,j,k] = u_longitudinal
+                self.u_transverse[i,j,k] = u_transverse
+            else:
+                # No propagation
+                self.longitudinal_amplitude[i,j,k] = 0.0
+                self.transverse_amplitude[i,j,k] = 0.0
+                self.longitudinal_fraction[i,j,k] = 0.0
+                self.transverse_fraction[i,j,k] = 0.0
+```
+
+**Physical Example**:
+
+```python
+# Example: Wave at a voxel near particle
+k_hat = [1.0, 0.0, 0.0]           # Propagating in +x direction
+u = [0.8, 0.6, 0.0]               # Displacement vector (not aligned!)
+
+# Decompose:
+u_long = (0.8)(1.0, 0.0, 0.0) = [0.8, 0.0, 0.0]  # Longitudinal part
+u_trans = [0.8, 0.6, 0.0] - [0.8, 0.0, 0.0] = [0.0, 0.6, 0.0]  # Transverse part
+
+# Magnitudes:
+|u_long| = 0.8
+|u_trans| = 0.6
+
+# Energy fractions:
+E_long = 0.8² = 0.64
+E_trans = 0.6² = 0.36
+E_total = 1.00
+
+longitudinal_fraction = 0.64 (64% longitudinal)
+transverse_fraction = 0.36   (36% transverse)
+
+# This voxel carries BOTH modes!
+# The wave_mode[i,j,k] value would be:
+cos(θ) = 0.8 / 1.0 = 0.8  (mixed mode, mostly longitudinal)
+```
+
+**Visualization**:
+
+```python
+# For a voxel, you can visualize the decomposition:
+def visualize_wave_components(i, j, k):
+    """Show how displacement splits into L and T components."""
+    k_hat = get_propagation_direction(i, j, k)
+    u_long = longitudinal_component(i, j, k)
+    u_trans = transverse_component(i, j, k)
+
+    # Draw arrows:
+    # - Black arrow: Total displacement (u)
+    # - Red arrow: Longitudinal component (u_long) along k_hat
+    # - Blue arrow: Transverse component (u_trans) perpendicular to k_hat
+```
+
+**When Does This Happen?**
+
+1. **Wave interference**: When multiple waves cross
+   - Each wave may have different propagation direction
+   - Superposition creates mixed displacement
+
+2. **Near particle boundaries**:
+   - Incident wave (traveling)
+   - Reflected wave (traveling opposite direction)
+   - Interference creates complex displacement patterns
+
+3. **Spherical waves**:
+   - Wave propagates radially outward (k̂ = r̂)
+   - But field oscillations can have tangential components
+   - Creates both radial (long.) and tangential (trans.) parts
+
+4. **EM wave generation** (in EWT):
+   - Electron transforms energy waves
+   - May create transverse component from originally longitudinal field
+   - Transition region has mixed character
+
+**Energy Partition**:
+
+The total wave energy at a voxel splits between modes:
+
+```text
+E_total = E_longitudinal + E_transverse
+
+where:
+E_long ∝ |u_long|² (energy in compression/rarefaction)
+E_trans ∝ |u_trans|² (energy in shear/transverse oscillation)
+```
+
+**Storage Requirements**:
+
+```python
+# In WaveField class __init__
+# Scalar fields (magnitudes)
+self.longitudinal_amplitude = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.transverse_amplitude = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.longitudinal_fraction = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # [0,1]
+self.transverse_fraction = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # [0,1]
+
+# Vector fields (optional, for detailed visualization)
+self.u_longitudinal = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+self.u_transverse = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+```
+
+**Key Takeaway**:
+
+- **`wave_mode[i,j,k]`** gives you a **single number** (0-1) summarizing the dominant mode
+  - 1.0 = purely longitudinal
+  - 0.0 = purely transverse
+  - 0.5 = equal mix (45° angle)
+
+- **Component decomposition** gives you **detailed breakdown**:
+  - `longitudinal_fraction[i,j,k]` = energy in longitudinal mode
+  - `transverse_fraction[i,j,k]` = energy in transverse mode
+  - These two always sum to 1.0
+
+Both approaches are valid! Use `wave_mode` for quick classification, use decomposition for detailed analysis.
+
+#### Wave Type: Standing vs Traveling
+
+**Fundamental Concept**:
+
+Wave type is determined by whether the wave **moves through space**:
+
+- **Traveling wave**: Energy moves, nodes move (wave velocity ≠ 0)
+- **Standing wave**: Energy stationary, nodes fixed (wave velocity = 0)
+- **Quasi-standing**: Slow-moving pattern (wave velocity ≈ 0)
+
+**Mathematical Definition**:
+
+```text
+Wave velocity (phase velocity): v_phase = ∂x/∂t (position of constant phase)
+
+For amplitude-based detection:
+Temporal derivative: ∂ψ/∂t (how fast amplitude changes at fixed point)
+Spatial derivative: ∇ψ (how much amplitude varies in space)
+
+Standing wave criterion:
+- |∂ψ/∂t| is large (rapid oscillation in time)
+- But spatial pattern is stationary (nodes don't move)
+- Ratio: |∂ψ/∂t| / (c|∇ψ|) ≈ 0 for traveling, ≠ 0 for standing
+```
+
+**Better Method - Energy Flux Analysis**:
+
+```text
+Traveling wave: Net energy flux (S ≠ 0 consistently)
+Standing wave: No net energy flux (S ≈ 0 on average, oscillates locally)
+
+Time-averaged energy flux:
+<S> = (1/T) ∫ S dt over period T
+
+- <S> ≈ 0: Standing wave (no net energy transport)
+- <S> > threshold: Traveling wave (energy transport)
+```
+
+**Implementation**:
+
+```python
+@ti.kernel
+def compute_wave_type(self):
+    """
+    Compute wave type at each voxel using energy flux analysis.
+
+    Returns:
+    - wave_type[i,j,k] = 0.0: Standing wave (no net energy transport)
+    - wave_type[i,j,k] = 1.0: Traveling wave (energy moving)
+    - wave_type[i,j,k] ∈ (0,1): Quasi-standing (slow energy transport)
+
+    Method: Measure ratio of kinetic to potential energy
+    - Pure standing wave: E_k and E_p oscillate 90° out of phase, <E_k> = <E_p>
+    - Pure traveling wave: E_k = E_p at all times (in phase)
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+    ρ = ti.f32(constants.MEDIUM_DENSITY)
+    λ_m = self.wavelength_am * constants.ATTOMETER
+
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Current amplitude
+            psi = self.amplitude_am[i,j,k] * constants.ATTOMETER  # meters
+
+            # Velocity (time derivative approximation)
+            v_wave = (self.amplitude_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
+            v_wave_m = v_wave * constants.ATTOMETER  # m/s
+
+            # Kinetic energy density
+            E_k = 0.5 * ρ * v_wave_m**2
+
+            # Potential energy density
+            E_p = 0.5 * ρ * c**2 * (psi / λ_m)**2
+
+            # Total energy
+            E_total = E_k + E_p
+
+            if E_total > 1e-20:  # Avoid division by zero
+                # Energy ratio
+                # Standing wave: E_k and E_p alternate (ratio varies)
+                # Traveling wave: E_k = E_p (ratio = 0.5)
+                ratio = E_k / E_total
+
+                # Measure deviation from traveling wave (ratio = 0.5)
+                deviation = ti.abs(ratio - 0.5) * 2.0  # Range [0,1]
+
+                # wave_type = 0: Standing (deviation = 1, E_k or E_p dominates)
+                # wave_type = 1: Traveling (deviation = 0, E_k = E_p)
+                self.wave_type[i,j,k] = 1.0 - deviation
+            else:
+                self.wave_type[i,j,k] = 0.0  # No wave energy
+```
+
+**Alternative Method - Node Motion Detection**:
+
+```python
+@ti.kernel
+def compute_wave_type_node_motion(self, dt: ti.f32):
+    """
+    Alternative: Detect wave type by tracking node positions over time.
+
+    Standing wave: Nodes (ψ=0) remain at fixed spatial locations
+    Traveling wave: Nodes move with wave velocity
+    """
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Check if current voxel is near a node (zero crossing)
+            psi_now = self.amplitude_am[i,j,k]
+            psi_old = self.amplitude_old[i,j,k]
+
+            # Zero crossing detection
+            if psi_now * psi_old < 0:  # Sign change (crossed zero)
+                # This is a node position
+                # Check if node moved in space
+
+                # For standing wave: same spatial location has zero repeatedly
+                # For traveling wave: zero location moves
+
+                # Store node position and compare with previous timesteps
+                # (Requires additional node tracking data structure)
+                pass
+```
+
+**Physical Interpretation**:
+
+```python
+# Example values:
+wave_type = 0.95  # Traveling wave (energy moving through space)
+wave_type = 0.05  # Standing wave (energy oscillating in place)
+wave_type = 0.50  # Quasi-standing (slow-moving pattern)
+
+# In EWT context:
+# - Far from particles: Traveling waves (expanding spherical fronts)
+# - Near particle centers: Standing waves (interference patterns)
+# - Particle boundaries: Mixed (partial standing, partial traveling)
+```
+
+**Storage**:
+
+```python
+# In WaveField class __init__
+self.wave_type = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Range [0,1]
+```
+
+**Combined Analysis**:
+
+```python
+@ti.kernel
+def analyze_wave_characteristics(self):
+    """
+    Complete wave analysis: mode + type.
+
+    Produces 4 wave categories:
+    1. Longitudinal traveling wave (gravity wave propagating)
+    2. Longitudinal standing wave (mass formation, particle interior)
+    3. Transverse traveling wave (EM radiation)
+    4. Transverse standing wave (electron orbital?)
+    """
+    self.compute_wave_mode()    # Longitudinal vs Transverse
+    self.compute_wave_type()    # Standing vs Traveling
+
+    # Can combine for visualization or analysis
+    for i, j, k in self.wave_mode:
+        mode = self.wave_mode[i,j,k]    # 0=transverse, 1=longitudinal
+        wtype = self.wave_type[i,j,k]   # 0=standing, 1=traveling
+
+        # Classification:
+        if mode > 0.7 and wtype > 0.7:
+            # Longitudinal traveling wave (gravitational radiation)
+            self.wave_class[i,j,k] = 1
+        elif mode > 0.7 and wtype < 0.3:
+            # Longitudinal standing wave (particle mass)
+            self.wave_class[i,j,k] = 2
+        elif mode < 0.3 and wtype > 0.7:
+            # Transverse traveling wave (EM radiation)
+            self.wave_class[i,j,k] = 3
+        elif mode < 0.3 and wtype < 0.3:
+            # Transverse standing wave (electron shell?)
+            self.wave_class[i,j,k] = 4
+        else:
+            # Mixed/transitional
+            self.wave_class[i,j,k] = 0
+```
+
+**Summary Table**:
+
+| Property | Longitudinal | Transverse | Standing | Traveling |
+|----------|--------------|------------|----------|-----------|
+| **Definition** | Displacement ∥ propagation | Displacement ⊥ propagation | Nodes fixed | Nodes moving |
+| **Measurement** | k̂ · û ≈ 1 | k̂ · û ≈ 0 | E_k ≠ E_p (alternating) | E_k = E_p (in phase) |
+| **Energy flux** | Along k̂ direction | Perpendicular components | <S> = 0 | <S> ≠ 0 |
+| **EWT example** | Gravity waves | EM waves (from electron) | Particle interior | Propagating radiation |
+| **Field storage** | `wave_mode[i,j,k]` | `wave_mode[i,j,k]` | `wave_type[i,j,k]` | `wave_type[i,j,k]` |
 
 ---
 
