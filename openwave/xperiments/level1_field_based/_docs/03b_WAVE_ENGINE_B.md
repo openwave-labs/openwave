@@ -1042,6 +1042,322 @@ def analyze_wave_characteristics(self):
 | **EWT example** | Gravity waves | EM waves (from electron) | Particle interior | Propagating radiation |
 | **Field storage** | `wave_mode[i,j,k]` | `wave_mode[i,j,k]` | `wave_type[i,j,k]` | `wave_type[i,j,k]` |
 
+#### Wavelength and Frequency Variation in the Medium
+
+**Fundamental Relationship**:
+
+```text
+c = λ × f
+
+where:
+c = wave speed (constant in uniform medium)
+λ = wavelength (can vary locally)
+f = frequency (can vary locally)
+```
+
+**Key Insight for EWT**:
+
+In Energy Wave Theory, the medium (spacetime fabric) has **constant properties everywhere**:
+
+- **Wave speed c**: Always 2.998×10⁸ m/s (speed of light)
+- **Medium density ρ**: Always 3.860×10²² kg/m³
+
+However, **wavelength λ and frequency f can vary** due to:
+
+1. **Different energy sources** (particles with different energies)
+2. **Wave interactions** (constructive/destructive interference)
+3. **Doppler effects** (moving sources)
+4. **Energy transformations** (electron converting to EM waves)
+
+**Dispersion in EWT Medium**:
+
+```text
+Question: Is the medium dispersive or non-dispersive?
+
+Non-dispersive medium: c is constant for all frequencies
+- c = λf holds everywhere
+- Different frequencies travel at same speed
+- No frequency-dependent effects
+
+Answer for EWT: Non-dispersive!
+- All energy waves travel at c regardless of frequency
+- λf = c always holds
+- This is like electromagnetic waves in vacuum
+```
+
+**Measuring Local Wavelength**:
+
+Since wavelength can vary spatially, we need to **measure it locally** from the wave pattern:
+
+```python
+@ti.kernel
+def compute_local_wavelength(self):
+    """
+    Compute wavelength at each voxel by measuring spatial oscillation.
+
+    Method: Count distance between successive amplitude peaks/troughs.
+    """
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Method 1: From wave number (spatial frequency)
+            # Wave number k = 2π/λ
+            # Can estimate from spatial derivative of phase
+
+            # For now, we'll use a simpler approach:
+            # Measure distance to next amplitude maximum
+
+            # Get wave propagation direction
+            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_mag = ti.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
+
+            if grad_mag > 1e-12:
+                # Wave number (spatial frequency)
+                # k ≈ |∇A| / A (for sinusoidal wave)
+                k = grad_mag / ti.abs(self.amplitude_am[i,j,k] + 1e-20)
+
+                # Wavelength from wave number
+                # λ = 2π/k
+                wavelength_am = 2.0 * ti.math.pi / (k + 1e-20)
+
+                self.wavelength_local[i,j,k] = wavelength_am
+            else:
+                # No gradient, use default
+                self.wavelength_local[i,j,k] = self.wavelength_am
+```
+
+**Computing Local Frequency**:
+
+Once we have local wavelength, frequency follows from c = λf:
+
+```python
+@ti.kernel
+def compute_local_frequency(self):
+    """
+    Compute frequency at each voxel from c = λf.
+
+    Note: In non-dispersive medium (EWT), this is straightforward.
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+    c_am = c / constants.ATTOMETER  # Convert to am/s for consistency
+
+    for i, j, k in self.wavelength_local:
+        if self.wavelength_local[i,j,k] > 0:
+            # f = c / λ
+            self.frequency_local[i,j,k] = c_am / self.wavelength_local[i,j,k]
+        else:
+            self.frequency_local[i,j,k] = 0.0
+```
+
+**Alternative: Phase-Based Wavelength Measurement**:
+
+A more robust method uses the **phase field**:
+
+```python
+@ti.kernel
+def compute_wavelength_from_phase(self):
+    """
+    Compute wavelength from spatial phase gradient.
+
+    Wave number: k = |∇φ|
+    Wavelength: λ = 2π/k
+    """
+    for i, j, k in self.phase:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Phase gradient (unwrapped)
+            grad_phi_x = (self.phase[i+1,j,k] - self.phase[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_phi_y = (self.phase[i,j+1,k] - self.phase[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_phi_z = (self.phase[i,j,k+1] - self.phase[i,j,k-1]) / (2.0 * self.dx_am)
+
+            # Wave number magnitude
+            k = ti.sqrt(grad_phi_x**2 + grad_phi_y**2 + grad_phi_z**2)
+
+            if k > 1e-12:
+                # Wavelength
+                wavelength_am = 2.0 * ti.math.pi / k
+                self.wavelength_local[i,j,k] = wavelength_am
+            else:
+                self.wavelength_local[i,j,k] = self.wavelength_am  # Default
+```
+
+**Wavelength Propagation and Changes**:
+
+**Q: How does wavelength change propagate through the field?**
+
+**A: Wavelength doesn't "propagate" - it's a property of the local wave pattern!**
+
+Here's the key distinction:
+
+1. **Wave amplitude** propagates (governed by wave equation)
+2. **Wavelength** is **measured** from the spatial pattern of amplitude
+
+Think of it like this:
+
+```text
+Analogy: Water waves
+
+- Wave height (amplitude): Propagates through water
+- Distance between crests (wavelength): Measured from pattern
+- If you drop a small stone: short wavelength
+- If you drop a large stone: long wavelength
+- Different wavelengths can coexist in the same water
+
+In EWT:
+- Amplitude ψ: Propagates via ∂²ψ/∂t² = c²∇²ψ
+- Wavelength λ: Measured from spatial pattern
+- Different particles create different wavelengths
+- λ varies spatially based on energy source
+```
+
+**Frequency Changes and Energy**:
+
+In EWT, **frequency is related to energy**:
+
+```text
+E = hf  (Planck relation)
+
+where:
+E = photon/quantum energy
+h = Planck's constant
+f = frequency
+
+Higher frequency → Higher energy
+Shorter wavelength → Higher energy (since c = λf is constant)
+```
+
+**How Frequency Changes Occur**:
+
+1. **Different sources**:
+   ```python
+   # Neutrino creates waves at frequency f1
+   λ1 = c / f1
+
+   # Electron creates waves at frequency f2
+   λ2 = c / f2
+
+   # Both propagate through same medium at speed c
+   # But with different wavelengths
+   ```
+
+2. **Energy transformations** (e.g., electron converting energy wave → EM wave):
+   ```python
+   # Incoming energy wave: f_in, λ_in
+   # Electron oscillates at f_electron
+   # Outgoing EM wave: f_out = f_electron, λ_out = c/f_electron
+
+   # Frequency changed by transformation!
+   ```
+
+3. **Doppler shift** (moving source):
+   ```text
+   For source moving with velocity v:
+
+   f_observed = f_source × (c / (c ± v))
+
+   Approaching: f increases (blueshift), λ decreases
+   Receding: f decreases (redshift), λ increases
+   ```
+
+**Implementing Frequency/Wavelength Tracking**:
+
+```python
+# In WaveField class __init__
+self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Measured wavelength
+self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # Computed frequency
+
+# Default wavelength (from initial conditions)
+self.wavelength_am = wavelength_m / constants.ATTOMETER
+
+# Update cycle:
+def update_wave_properties(self):
+    """Update derived wave properties."""
+    self.compute_local_wavelength()   # Measure λ from pattern
+    self.compute_local_frequency()    # Compute f = c/λ
+```
+
+**Superposition of Different Wavelengths**:
+
+**Key Point**: Multiple waves with **different wavelengths** can exist simultaneously in the same region!
+
+```text
+Superposition example:
+
+Wave 1: ψ₁ = A₁ sin(k₁·r - ω₁t)  with λ₁ = 2π/k₁
+Wave 2: ψ₂ = A₂ sin(k₂·r - ω₂t)  with λ₂ = 2π/k₂
+
+Total: ψ = ψ₁ + ψ₂
+
+Question: What is "the" wavelength at a voxel?
+
+Answer: There isn't a single wavelength!
+- Must decompose into frequency components (Fourier analysis)
+- Or define "dominant wavelength" from spatial pattern
+- Or track each wave component separately
+```
+
+**Fourier Decomposition** (advanced):
+
+For complex wave patterns with multiple wavelengths:
+
+```python
+@ti.kernel
+def measure_dominant_wavelength(self):
+    """
+    Measure dominant wavelength using local Fourier analysis.
+
+    Samples amplitude along wave propagation direction,
+    performs FFT, finds peak frequency component.
+    """
+    # For each voxel:
+    # 1. Sample amplitude along propagation direction
+    # 2. FFT to get frequency spectrum
+    # 3. Find dominant frequency
+    # 4. Convert to wavelength: λ = c/f_dominant
+
+    # (Requires FFT implementation, beyond basic scope)
+    pass
+```
+
+**Practical Approach for LEVEL-1**:
+
+For initial implementation, **assume single wavelength** (monochromatic):
+
+```python
+# Initialize with single wavelength
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
+
+# All voxels start with this wavelength
+# Wave equation preserves wavelength for monochromatic source
+```
+
+**Future Enhancement** for multiple wavelengths:
+
+1. **Track wave packets** with different λ separately
+2. Use **frequency tagging** to follow each component
+3. Implement **Fourier analysis** for decomposition
+
+**Summary Table**:
+
+| Property | Constant? | How Determined? | Propagates? |
+|----------|-----------|-----------------|-------------|
+| **c** (wave speed) | ✓ Yes (constant everywhere) | From medium properties | N/A (property of medium) |
+| **ρ** (medium density) | ✓ Yes (uniform medium) | From EWT constants | N/A (property of medium) |
+| **ψ** (amplitude) | ✗ No (varies spatially/temporally) | Wave equation evolution | ✓ Yes (via PDE) |
+| **λ** (wavelength) | ✗ No (varies spatially) | **Measured** from pattern | ✗ No (derived property) |
+| **f** (frequency) | ✗ No (varies spatially) | **Computed** f = c/λ | ✗ No (derived property) |
+| **E** (energy) | ✗ No (varies spatially) | E = hf or E ∝ A² | ✓ Yes (via wave) |
+
+**Key Takeaways**:
+
+1. **c is constant** throughout the EWT medium (non-dispersive)
+2. **λ can vary** spatially based on energy sources and interactions
+3. **λ is measured**, not propagated (it's a property of the spatial pattern)
+4. **f = c/λ** gives you local frequency once you measure λ
+5. For **single source**, λ is constant; for **multiple sources**, λ varies
+6. Use **phase gradient** or **amplitude gradient** to measure local λ
+
 ---
 
 ### Answer 3: Choosing Between PDE and Huygens
