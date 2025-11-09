@@ -63,7 +63,7 @@ PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Pl
 
 FINE_STRUCTURE = 7.2973525693e-3  # fine-structure constant, alpha
 ELECTRIC_CONSTANT = 8.8541878128e-12  # F/m, vacuum permittivity, epsilon_0
-MAGNETIC_CONSTANT = 1.25663706212e-6  # N, vacuum permeability, mu_0
+MAGNETIC_CONSTANT = 1.25663706212e-6  # kg/m, vacuum permeability, 2π.10-7, mu_0
 
 BOHR_RADIUS = 5.29177210903e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
 HYDROGEN_LINE = 1.420405751e9  # Hz, Hydrogen 21cm line frequency, spin-flip transition

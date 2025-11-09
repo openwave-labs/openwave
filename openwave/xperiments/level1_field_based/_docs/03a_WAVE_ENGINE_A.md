@@ -714,7 +714,7 @@ def track_energy() -> ti.f32:
 
 ### Recommended Approach
 
-1. **Start Simple**: Implement 1D wave equation first
+1. **Start Simple**: Implement wave equation first
 2. **Extend to 3D**: Add spatial dimensions incrementally
 3. **Add Features**: Interference → Reflection → Sources → Particles
 4. **Optimize**: Profile and optimize critical kernels
