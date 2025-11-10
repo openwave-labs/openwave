@@ -1,5 +1,5 @@
 """
-L0 XPERIMENTS LAUNCHER
+L0 XPERIMENT LAUNCHER
 
 Unified launcher for Level-0 granule-based xperiments featuring:
 - UI-based xperiment selection and switching
