@@ -143,7 +143,6 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 **Key Features**:
 
 - Cell-centered grid
-- No attometer conversion needed (unlike LEVEL-0)
 - Configurable neighbor connectivity (6/18/26)
 - SI units (meters) throughout
 

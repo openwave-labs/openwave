@@ -10,10 +10,33 @@ All values use SI units (kg, m, s) for consistency.
 import numpy as np
 
 # ================================================================
+# Scaled SI Units for Numerical Precision
+# ================================================================
+# OpenWave engines use scaled units to maintain f32 precision:
+# Spatial:  ATTOMETER = 1e-18 m
+#   - Wavelength: ~28.5 am (vs 2.85e-17 m)
+#   - Grid spacing: ~1.25 am (vs 1.25e-18 m)
+#   - Naming: variables/fields with suffix '_am'
+#
+# Temporal: RONTOSECOND = 1e-27 s
+#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
+#   - Period: ~95.2 rs (vs 9.52e-26 s)
+#   - Naming: variables/fields with suffix '_rs'
+#
+# Benefits:
+#   - Solution for floating-point precision
+#   - Prevents catastrophic cancellation in derivatives/gradients
+#   - Maintains 6-7 significant digits with f32
+#   - Scaled values near 1.0 (optimal for floating point)
+#   - Reduces memory usage (f32 vs f64)
+#   - Improves computational performance (f32 vs f64)
+ATTOMETER = 1e-18  # m, attometer length scale
+RONTOSECOND = 1e-27  # s, rontosecond time scale
+
+# ================================================================
 # WAVE-MEDIUM
 # ================================================================
 MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (ρ)
-ATTOMETER = 1e-18  # m, attometer length scale (for memory efficiency in simulations)
 
 # ================================================================
 # ENERGY-WAVE
@@ -63,7 +86,7 @@ PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Pl
 
 FINE_STRUCTURE = 7.2973525693e-3  # fine-structure constant, alpha
 ELECTRIC_CONSTANT = 8.8541878128e-12  # F/m, vacuum permittivity, epsilon_0
-MAGNETIC_CONSTANT = 1.25663706212e-6  # N, vacuum permeability, mu_0
+MAGNETIC_CONSTANT = 1.25663706212e-6  # kg/m, vacuum permeability, 2π.10-7, mu_0
 
 BOHR_RADIUS = 5.29177210903e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
 HYDROGEN_LINE = 1.420405751e9  # Hz, Hydrogen 21cm line frequency, spin-flip transition

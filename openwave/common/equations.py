@@ -7,7 +7,7 @@ sourced from EWT at https://energywavetheory.com/equations/
 Energy Equations:
 - Energy wave equation (fundamental EWT equation)
 - Particle energy (longitudinal waves)
-- Photon energy, frequency, and wavelength (transverse waves)
+- Photon energy, frequency and wavelength (transverse waves)
 
 Frequency Equations:
 - Natural frequency of oscillation (spring-mass systems)

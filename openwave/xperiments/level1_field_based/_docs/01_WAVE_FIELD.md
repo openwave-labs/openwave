@@ -7,9 +7,14 @@
    - [Computational Method](#computational-method)
    - [Index-to-Position Mapping (CRITICAL)](#index-to-position-mapping-critical)
    - [Why Cell-Centered (Not Vertex-Centered)?](#why-cell-centered-not-vertex-centered)
-1. [Attometer Conversion: NOT NEEDED in LEVEL-1](#attometer-conversion-not-needed-in-level-1)
+1. [Field Indexing: 1D vs 3D Arrays](#field-indexing-1d-vs-3d-arrays)
+   - [LEVEL-0 Uses 1D Arrays (Particle-Based)](#level-0-uses-1d-arrays-particle-based)
+   - [LEVEL-1 Uses 3D Arrays (Grid-Based)](#level-1-uses-3d-arrays-grid-based)
+   - [Why 3D Arrays for LEVEL-1?](#why-3d-arrays-for-level-1)
+   - [Performance Considerations](#performance-considerations)
+1. [Attometer Scaling Strategy for LEVEL-1](#attometer-scaling-strategy-for-level-1)
    - [LEVEL-0 vs LEVEL-1 Comparison](#level-0-vs-level-1-comparison)
-   - [Why LEVEL-1 Avoids Attometer Conversion](#why-level-1-avoids-attometer-conversion)
+   - [Why LEVEL-1 Still Needs Attometer Scaling](#why-level-1-still-needs-attometer-scaling)
 1. [Data Containers: Taichi Fields](#data-containers-taichi-fields)
    - [Field Categories](#field-categories)
    - [Example Field Declaration](#example-field-declaration)
@@ -32,7 +37,7 @@
 
 ## SUMMARY
 
-LEVEL-1 uses a **cell-centered grid** where field indices `[i,j,k]` represent the centers of cubic voxels in 3D space. This approach follows industry standards from Lattice QCD and Computational Fluid Dynamics, providing optimal memory efficiency and numerical accuracy. Unlike LEVEL-0's particle-based system, LEVEL-1 eliminates the need for attometer conversion by computing positions from indices, significantly reducing code complexity while maintaining physical precision.
+LEVEL-1 uses a **cell-centered grid** where field indices `[i,j,k]` represent the centers of cubic voxels in 3D space. This approach follows industry standards from Lattice QCD and Computational Fluid Dynamics, providing optimal memory efficiency and numerical accuracy. Unlike LEVEL-0's particle-based system which stores positions explicitly, LEVEL-1 computes positions from indices. However, **attometer scaling is still required** for field values (amplitude, wavelength, voxel size) to maintain numerical precision in f32 calculations, following the same precision principles as LEVEL-0.
 
 ## Grid Architecture: Cell-Centered Design
 
@@ -48,24 +53,25 @@ LEVEL-1 uses a **cell-centered grid** where field indices `[i,j,k]` represent th
 
 ```python
 # Grid index [i,j,k] maps to physical position:
-pos_x = (i + 0.5) * dx
-pos_y = (j + 0.5) * dx
-pos_z = (k + 0.5) * dx
+pos_x = (i + 0.5) * dx_am  # Position in attometers
+pos_y = (j + 0.5) * dx_am
+pos_z = (k + 0.5) * dx_am
 
 # Where:
-# - dx = voxel edge length (meters, NOT attometers)
+# - dx_am = voxel edge length in attometers (for f32 precision)
 # - (i,j,k) = integer grid indices (0, 1, 2, ...)
 # - 0.5 offset centers the point in the voxel
+# - To convert to meters: pos_m = pos_am * ATTOMETER
 ```
 
 **Voxel Geometry**:
 
-- Voxel `[i,j,k]` occupies physical space from:
-  - `x: i*dx to (i+1)*dx`
-  - `y: j*dx to (j+1)*dx`
-  - `z: k*dx to (k+1)*dx`
-- Voxel center at `((i+0.5)*dx, (j+0.5)*dx, (k+0.5)*dx)`
-- Voxel boundaries at integer multiples of `dx`
+- Voxel `[i,j,k]` occupies physical space from (in attometers):
+  - `x: i*dx_am to (i+1)*dx_am`
+  - `y: j*dx_am to (j+1)*dx_am`
+  - `z: k*dx_am to (k+1)*dx_am`
+- Voxel center at `((i+0.5)*dx_am, (j+0.5)*dx_am, (k+0.5)*dx_am)`
+- Voxel boundaries at integer multiples of `dx_am`
 
 ### Why Cell-Centered (Not Vertex-Centered)?
 
@@ -77,31 +83,207 @@ pos_z = (k + 0.5) * dx
 4. **Symmetric neighbors**: Cleaner stencil calculations
 5. **Taichi optimization**: Direct index mapping, better cache locality
 
-## Attometer Conversion: NOT NEEDED in LEVEL-1
+## Field Indexing: 1D vs 3D Arrays
+
+### LEVEL-0 Uses 1D Arrays (Particle-Based)
+
+**Medium Object**: Granule (moves freely in space)
+
+```python
+# LEVEL-0: 1D array of granules with 3D position vectors
+self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)
+
+# Access granule 12345
+pos = self.position_am[12345]  # Returns [x, y, z] in attometers
+amp = self.amplitude_am[12345]  # Scalar amplitude
+```
+
+**Why 1D is optimal for LEVEL-0:**
+
+- ✅ **Granules move**: No fixed spatial relationship between index and position
+- ✅ **Particle dynamics**: Iterate over all granules to update state
+- ✅ **Cache-friendly**: Sequential access pattern
+- ✅ **Dynamic topology**: Granules can rearrange, no grid constraints
+- ✅ **Industry standard**: All particle-based engines use 1D arrays
+
+**Spatial lookup challenge:**
+
+```python
+# Question: "What's at position (x, y, z)?"
+# Answer: Must search ALL granules - O(N) complexity!
+
+@ti.kernel
+def find_granule_at_position(target_pos: ti.math.vec3) -> ti.i32:
+    closest_idx = -1
+    min_dist = 1e10
+
+    for i in range(self.total_granules):  # O(N) search
+        dist = (self.position_am[i] - target_pos).norm()
+        if dist < min_dist:
+            min_dist = dist
+            closest_idx = i
+
+    return closest_idx
+```
+
+This is acceptable in LEVEL-0 because **spatial queries are rare** - you mainly iterate over all granules.
+
+### LEVEL-1 Uses 3D Arrays (Grid-Based)
+
+**Medium Object**: Voxel (fixed position in grid)
+
+```python
+# LEVEL-1: 3D grid of field values
+self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+
+# Access voxel [100, 200, 300]
+amp = self.amplitude_am[100, 200, 300]  # Direct O(1) access!
+vel = self.velocity_am[100, 200, 300]   # 3D vector at this voxel
+```
+
+**Why 3D is optimal for LEVEL-1:**
+
+- ✅ **Voxels don't move**: Fixed spatial relationship (index = position)
+- ✅ **Spatial queries**: Constantly need "what's at (x,y,z)?" - O(1) lookup
+- ✅ **Neighbor access**: Natural 6/18/26-connectivity via index offsets
+- ✅ **Grid algorithms**: Laplacian, gradients, stencils are trivial
+- ✅ **Readable code**: `amplitude_am[i, j, k]` has clear spatial meaning
+
+**Spatial lookup solution:**
+
+```python
+# Question: "What's the amplitude at position (x, y, z)?"
+# Answer: O(1) direct index calculation!
+
+@ti.func
+def get_amplitude_at_position(pos_am: ti.math.vec3) -> ti.f32:
+    # Convert position to voxel index (instant calculation)
+    i = ti.i32((pos_am[0] / self.dx_am) - 0.5)
+    j = ti.i32((pos_am[1] / self.dx_am) - 0.5)
+    k = ti.i32((pos_am[2] / self.dx_am) - 0.5)
+
+    # Direct O(1) lookup - no searching!
+    return self.amplitude_am[i, j, k]
+```
+
+### Why 3D Arrays for LEVEL-1?
+
+**Gradient calculation example** (demonstrates the power of 3D indexing):
+
+```python
+# Computing amplitude gradient: ∇A = [∂A/∂x, ∂A/∂y, ∂A/∂z]
+
+# With 3D arrays (clean and efficient):
+@ti.kernel
+def compute_gradient_3D():
+    for i, j, k in self.amplitude_am:  # Taichi auto-generates 3D loop
+        if 0 < i < nx-1 and 0 < j < ny-1 and 0 < k < nz-1:
+            # Neighbor access is trivial and readable
+            grad_x = (amplitude_am[i+1, j, k] - amplitude_am[i-1, j, k]) / (2.0 * dx_am)
+            grad_y = (amplitude_am[i, j+1, k] - amplitude_am[i, j-1, k]) / (2.0 * dx_am)
+            grad_z = (amplitude_am[i, j, k+1] - amplitude_am[i, j, k-1]) / (2.0 * dx_am)
+
+            force[i, j, k] = -ti.Vector([grad_x, grad_y, grad_z])
+
+# With 1D arrays (complex and error-prone):
+@ti.kernel
+def compute_gradient_1D():
+    for idx in range(total_voxels):
+        # Convert 1D index to 3D coordinates (expensive)
+        i = idx // (ny * nz)
+        j = (idx % (ny * nz)) // nz
+        k = idx % nz
+
+        if 0 < i < nx-1 and 0 < j < ny-1 and 0 < k < nz-1:
+            # Compute neighbor indices (6 complex calculations!)
+            idx_xp = (i+1) * (ny * nz) + j * nz + k  # i+1
+            idx_xm = (i-1) * (ny * nz) + j * nz + k  # i-1
+            idx_yp = i * (ny * nz) + (j+1) * nz + k  # j+1
+            idx_ym = i * (ny * nz) + (j-1) * nz + k  # j-1
+            idx_zp = i * (ny * nz) + j * nz + (k+1)  # k+1
+            idx_zm = i * (ny * nz) + j * nz + (k-1)  # k-1
+
+            grad_x = (amplitude_am[idx_xp] - amplitude_am[idx_xm]) / (2.0 * dx_am)
+            grad_y = (amplitude_am[idx_yp] - amplitude_am[idx_ym]) / (2.0 * dx_am)
+            grad_z = (amplitude_am[idx_zp] - amplitude_am[idx_zm]) / (2.0 * dx_am)
+
+            force[idx] = ti.Vector([grad_x, grad_y, grad_z])
+```
+
+The 3D version is **cleaner, more readable, and less error-prone**.
+
+### Performance Considerations
+
+**Memory Layout**: Taichi stores 3D arrays as 1D in memory (row-major order)
+
+- `amplitude_am[i, j, k]` is compiled to efficient 1D index calculation
+- **You get clean syntax + compiler optimization**
+- No performance penalty vs explicit 1D indexing
+
+**Cache Locality**: 3D loops maintain good cache performance
+
+```python
+for i, j, k in amplitude_am:
+    # Taichi ensures k varies fastest (innermost loop)
+    # = Sequential memory access pattern
+    value = amplitude_am[i, j, k]
+```
+
+**Summary Table**:
+
+| Aspect | LEVEL-0 (1D Arrays) | LEVEL-1 (3D Arrays) |
+|--------|---------------------|---------------------|
+| **Medium object** | Granule (moves) | Voxel (fixed) |
+| **Position** | Stored explicitly | Computed from index |
+| **Access pattern** | Iterate all particles | Spatial queries by position |
+| **Spatial lookup** | O(N) search required | O(1) index calculation |
+| **Neighbor access** | Complex (requires search) | Trivial (`[i±1, j±1, k±1]`) |
+| **Gradient/Laplacian** | N/A (particle-based) | Essential (field operators) |
+| **Code readability** | `position_am[i]` | `amplitude_am[i, j, k]` |
+| **Best practice** | 1D ✓ (particle engines) | 3D ✓ (field solvers) |
+| **Use case** | Moving particles, N-body | Fixed grid, PDEs, wave equations |
+
+## Attometer Scaling Strategy for LEVEL-1
 
 ### LEVEL-0 vs LEVEL-1 Comparison
 
 | Aspect | LEVEL-0 (Granule-Based) | LEVEL-1 (Field-Based) |
 |--------|------------------------|----------------------|
-| **Position Storage** | Stored in vector fields `pos[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx` |
-| **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx` (shared) |
-| **Precision Issue** | Need attometers (10⁻¹⁸m) for each coordinate | `dx` stored in meters (f32 sufficient) |
-| **Code Complexity** | Attometer conversion everywhere | No conversion needed |
-| **Conversion Function** | `am_to_m()`, `m_to_am()` required | **NOT REQUIRED** |
+| **Position Storage** | Stored in vector fields `pos_am[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx_am` |
+| **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx_am` (shared) |
+| **Field Values** | amplitude_am, velocity_am per granule | amplitude_am per voxel |
+| **Attometer Benefit** | Prevents catastrophic cancellation in distance calculations | Prevents precision loss in amplitude gradients and wave calculations |
+| **Code Complexity** | Conversion for positions and field values | Conversion for field values only (positions computed) |
 
-### Why LEVEL-1 Avoids Attometer Conversion
+### Why LEVEL-1 Still Needs Attometer Scaling
 
-**Position Calculation**:
+**Position Calculation** (computed, not stored):
 
 ```python
-# LEVEL-1: Position computed from arithmetic
-dx = 1.0e-18  # meters (f32 can handle this scalar)
+# LEVEL-1: Position computed from arithmetic using attometer-scaled dx
+dx_am = 1.25  # attometers (f32 handles well: 1-100 range)
 i, j, k = 100, 200, 300  # integers (exact)
-pos_x = (i + 0.5) * dx  # Computed on-the-fly
+pos_x_am = (i + 0.5) * dx_am  # Computed on-the-fly in attometers
 
-# NO storage of individual coordinates
-# NO precision loss from storing millions of tiny values
-# NO need for attometer integer conversion
+# NO storage of individual coordinates (memory efficient ✓)
+# Still benefits from attometer scaling for precision in calculations
+```
+
+**Field Values** (stored, need precision):
+
+```python
+# Critical: Amplitude, wavelength, and voxel size need attometer scaling
+wavelength_am = 28.54096501  # attometers (vs 2.854e-17 m)
+amplitude_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
+
+# F32 precision preserved:
+# - Amplitude gradients: ∇A computed with 6-7 significant digits
+# - Wave number: k = 2π/λ_am with better precision
+# - Force calculations: F = -∇A maintains accuracy
 ```
 
 **Inverse Mapping** (Position → Index):
@@ -109,31 +291,29 @@ pos_x = (i + 0.5) * dx  # Computed on-the-fly
 When implementing the wave engine with particles, you can efficiently find the voxel index from a particle's position using the inverse formula:
 
 ```python
-# Given particle position (pos_x, pos_y, pos_z) in meters
+# Given particle position (pos_x_am, pos_y_am, pos_z_am) in attometers
 # Find containing voxel index [i, j, k]
-i = int((pos_x / dx) - 0.5)  # or int(pos_x / dx - 0.5)
-j = int((pos_y / dx) - 0.5)
-k = int((pos_z / dx) - 0.5)
+i = int((pos_x_am / dx_am) - 0.5)
+j = int((pos_y_am / dx_am) - 0.5)
+k = int((pos_z_am / dx_am) - 0.5)
 
 # Example:
-pos_x = 1.25e-16  # particle position in meters
-dx = 1.25e-18     # voxel size
-i = int((1.25e-16 / 1.25e-18) - 0.5) = int(100 - 0.5) = 99
+pos_x_am = 125.0  # particle position in attometers (1.25e-16 m)
+dx_am = 1.25      # voxel size in attometers (1.25e-18 m)
+i = int((125.0 / 1.25) - 0.5) = int(100 - 0.5) = 99
 
 # This is fast: O(1) lookup, no searching required!
 ```
 
-**Use case**: When particles interact with the field (wave reflection, force calculation), you need to know which voxel contains the particle. This inverse mapping is instant.
+**Use case**: When particles interact with the field (wave reflection, force calculation), you need to know which voxel contains the particle. This inverse mapping is instant and precise.
 
-**Key Insight**: Only **one scalar** (`dx`) needs sub-nanometer precision, not millions of coordinates. A single `f32` value can represent `1e-18` adequately for this purpose.
+**Key Benefits of Attometer Scaling**:
 
-**Benefits**:
-
-- ✅ Simpler code (no conversion functions)
-- ✅ Lower memory usage
-- ✅ Easier for new developers
-- ✅ Still maintains physical accuracy
-- ✅ Direct SI units (meters) throughout
+- ✅ **Numerical precision**: Field values (amplitude, wavelength) in f32-friendly range (1-100 am)
+- ✅ **Memory efficiency**: Positions computed from indices (not stored)
+- ✅ **Gradient accuracy**: Amplitude gradients maintain 6-7 significant digits
+- ✅ **Catastrophic cancellation prevented**: Same principle as LEVEL-0
+- ✅ **Consistent with LEVEL-0**: Both levels use attometer units internally
 
 ## Data Containers: Taichi Fields
 
@@ -150,12 +330,19 @@ LEVEL-1 uses Taichi fields to store wave properties at each voxel. Fields are 3D
 
 ```python
 import taichi as ti
+from openwave.common import constants
 
-# Scalar field example
-amplitude = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+# Scalar fields with attometer scaling
+amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
+phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Radians (no scaling)
 
-# Vector field example
-wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+# Scalar fields without attometer scaling
+density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
+energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Joules
+
+# Vector fields
+wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # Unit vector
+velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # am/s
 ```
 
 ## Resolution & Sampling
@@ -169,19 +356,27 @@ wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 ### Voxel Size Calculation
 
 ```python
-# For wavelength λ and sampling rate
-wavelength = 5.0e-17  # meters (neutrino scale)
-points_per_wavelength = 40
-dx = wavelength / points_per_wavelength  # voxel edge length
+from openwave.common import constants
 
-# Example: λ=5e-17m, 40 pts/λ → dx=1.25e-18m
+# For wavelength λ and sampling rate
+wavelength_m = 5.0e-17  # meters (neutrino scale)
+wavelength_am = wavelength_m / constants.ATTOMETER  # Convert to attometers: 50.0 am
+
+points_per_wavelength = 40
+dx_am = wavelength_am / points_per_wavelength  # voxel edge length in attometers
+
+# Example: λ=50 am, 40 pts/λ → dx_am=1.25 am (1.25e-18 m)
 ```
 
 ### Numerical Precision
 
-- **Float precision**: `f32` (single precision) sufficient for field values
+- **Float precision**: `f32` (single precision) sufficient when using attometer scaling
+  - Amplitude in attometers: 0.1-10 am (good f32 range, 6-7 significant digits)
+  - Wavelength in attometers: 10-100 am (good f32 range)
+  - Phase in radians: 0-2π (no scaling needed)
 - **Index precision**: `i32` integers for grid indices (exact)
 - **Physical scale**: Planck scale (10⁻³⁵m) to molecular (10⁻⁹m)
+- **Attometer scaling**: Prevents catastrophic cancellation in gradient calculations
 
 ## Terminology & Best Practices
 
@@ -197,11 +392,14 @@ dx = wavelength / points_per_wavelength  # voxel edge length
 
 ```python
 # Recommended variable names
-nx, ny, nz          # Grid dimensions (number of voxels)
-dx, dy, dz          # Voxel edge lengths (meters)
-i, j, k             # Grid indices (integers)
-pos, position       # Physical coordinates (meters)
-field[i,j,k]        # Field value at voxel [i,j,k]
+nx, ny, nz              # Grid dimensions (number of voxels)
+dx_am, dy_am, dz_am     # Voxel edge lengths (attometers)
+dx_m, dy_m, dz_m        # Voxel edge lengths (meters, for external reporting)
+i, j, k                 # Grid indices (integers)
+pos_am, position_am     # Physical coordinates (attometers)
+pos_m, position_m       # Physical coordinates (meters, for external use)
+amplitude_am[i,j,k]     # Amplitude field in attometers
+phase[i,j,k]            # Phase field in radians
 ```
 
 ## Lattice Type: Cubic vs Orthorhombic
@@ -214,10 +412,18 @@ field[i,j,k]        # Field value at voxel [i,j,k]
 - **Similar to LEVEL-0**: Maintains consistency
 
 ```python
+from openwave.common import constants
+
 class CubicFieldMedium:
-    def __init__(self, nx, ny, nz, dx):
+    def __init__(self, nx, ny, nz, wavelength_m, points_per_wavelength=40):
         self.nx, self.ny, self.nz = nx, ny, nz
-        self.dx = dx  # Single edge length for all axes
+
+        # Attometer scaling for precision
+        self.wavelength_am = wavelength_m / constants.ATTOMETER
+        self.dx_am = self.wavelength_am / points_per_wavelength  # Single edge length (am)
+
+        # Meters for external reporting
+        self.dx_m = self.dx_am * constants.ATTOMETER
 ```
 
 ### Orthorhombic Lattice (Future Extension)
@@ -228,10 +434,19 @@ class CubicFieldMedium:
 - **Use case**: Non-uniform domains (e.g., thin film simulations)
 
 ```python
+from openwave.common import constants
+
 class OrthorhombicFieldMedium:
-    def __init__(self, nx, ny, nz, dx, dy, dz):
+    def __init__(self, nx, ny, nz, dx_m, dy_m, dz_m):
         self.nx, self.ny, self.nz = nx, ny, nz
-        self.dx, self.dy, self.dz = dx, dy, dz  # Per-axis edge lengths
+
+        # Attometer scaling for precision
+        self.dx_am = dx_m / constants.ATTOMETER
+        self.dy_am = dy_m / constants.ATTOMETER
+        self.dz_am = dz_m / constants.ATTOMETER
+
+        # Meters for external reporting
+        self.dx_m, self.dy_m, self.dz_m = dx_m, dy_m, dz_m
 ```
 
 **Recommendation**: Start with cubic for simplicity, extend to orthorhombic if needed.
@@ -274,54 +489,18 @@ Coupling strength inversely proportional to distance:
 
 ## Implementation Example
 
-```python
-import taichi as ti
-
-@ti.data_oriented
-class CellCenteredFieldMedium:
-    """Cell-centered grid for wave field simulation."""
-
-    def __init__(self, nx, ny, nz, dx):
-        # Grid parameters
-        self.nx, self.ny, self.nz = nx, ny, nz
-        self.dx = dx  # Voxel edge length (meters, NOT attometers)
-
-        # Field allocations
-        self.amplitude = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-        self.velocity = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
-        self.density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-
-    @ti.func
-    def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
-        """Get physical position of voxel center [i,j,k]."""
-        return ti.Vector([
-            (i + 0.5) * self.dx,
-            (j + 0.5) * self.dx,
-            (k + 0.5) * self.dx
-        ])
-
-    @ti.kernel
-    def compute_laplacian(self):
-        """Example: 6-connectivity Laplacian operator."""
-        for i, j, k in self.amplitude:
-            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-                laplacian = (
-                    self.amplitude[i+1, j, k] + self.amplitude[i-1, j, k] +
-                    self.amplitude[i, j+1, k] + self.amplitude[i, j-1, k] +
-                    self.amplitude[i, j, k+1] + self.amplitude[i, j, k-1] -
-                    6.0 * self.amplitude[i, j, k]
-                ) / (self.dx * self.dx)
-                # Use laplacian in wave equation...
-```
+See [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) for the complete `WaveField` class implementation with attometer scaling.
 
 ## Key Design Decisions
 
-1. ✅ **Cell-centered grid** (industry standard)
-2. ✅ **No attometer conversion** (computed positions)
-3. ✅ **Cubic lattice initially** (symmetric, simpler)
-4. ✅ **Configurable connectivity** (6/18/26 neighbors)
-5. ✅ **Distance-based weighting** (physical accuracy)
-6. ✅ **SI units (meters)** throughout code (clarity)
+1. ✅ **Cell-centered grid** (industry standard for field solvers)
+2. ✅ **3D array indexing** `shape=(nx, ny, nz)` (optimal for grid-based algorithms, unlike LEVEL-0's 1D arrays)
+3. ✅ **Attometer scaling for field values** (numerical precision, same principle as LEVEL-0)
+4. ✅ **Computed positions from indices** (memory efficiency, no explicit position storage)
+5. ✅ **Cubic lattice initially** (symmetric, simpler)
+6. ✅ **Configurable connectivity** (6/18/26 neighbors)
+7. ✅ **Distance-based weighting** (physical accuracy)
+8. ✅ **Attometer units internally, meters for external reporting** (precision + clarity)
 
 ---
 

@@ -151,6 +151,7 @@ class BCCLattice:
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # position, velocity in attometers for f32 precision
+        # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
@@ -645,6 +646,7 @@ class SCLattice:
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # position, velocity in attometers for f32 precision
+        # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
