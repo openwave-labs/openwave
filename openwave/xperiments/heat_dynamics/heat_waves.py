@@ -1,11 +1,11 @@
 """
-XPERIMENT: Heat as Wave Energy in Particle Boundary (WIP, contact us to join xperiment)
+XPERIMENT: [WIP] Heat as Wave Energy in Particle Boundary (contact us to join xperiment)
 """
 
 import sys
 
 print("Work in Progress XPERIMENT")
-print("- Heat as Wave Energy inside Particle Boundary")
+print("- Heat as Wave Energy in Particle Boundary")
 print("\nWanna join the Heat Dynamics Xperiment?")
 print("- Contact us at www.openwavelabs.com")
 
