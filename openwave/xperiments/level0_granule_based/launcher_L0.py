@@ -107,7 +107,6 @@ class SimulationState:
         self.elapsed_t = 0.0
         self.last_time = time.time()
         self.frame = 0
-        self.max_displacement = 0.0
         self.peak_amplitude = 0.0
 
         # Current xperiment parameters
@@ -143,7 +142,6 @@ class SimulationState:
         self.elapsed_t = 0.0
         self.last_time = time.time()
         self.frame = 0
-        self.max_displacement = 0.0
         self.peak_amplitude = 0.0
 
     def apply_parameters(self, params):
@@ -248,6 +246,7 @@ def color_menu(
     state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
 ):
     """Render color selection menu."""
+    tracker = "displacement" if state.var_displacement else "amplitude"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
         if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
             state.granule_type = False
@@ -280,29 +279,13 @@ def color_menu(
         if state.ironbow:  # Display ironbow gradient palette
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(
-                "displacement" if state.var_displacement else "amplitude",
-                0.00,
-                0.64,
-                0.08,
-                0.06,
-            ) as sub:
-                sub.text(
-                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
-                )
+            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.blueprint:  # Display blueprint gradient palette
             # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(
-                "displacement" if state.var_displacement else "amplitude",
-                0.00,
-                0.64,
-                0.08,
-                0.06,
-            ) as sub:
-                sub.text(
-                    f"0       {state.max_displacement if state.var_displacement else state.peak_amplitude:.0e}m"
-                )
+            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
 def xperiment_specs(state):
@@ -398,7 +381,6 @@ def compute_motion(state):
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Update data sampling every 30 frames
     if state.frame % 30 == 0:
-        state.max_displacement = ewave.max_displacement_am[None] * constants.ATTOMETER
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
         ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
 
