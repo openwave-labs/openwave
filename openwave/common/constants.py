@@ -36,7 +36,7 @@ RONTOSECOND = 1e-27  # s, rontosecond time scale
 # ================================================================
 # WAVE-MEDIUM
 # ================================================================
-MEDIUM_DENSITY = 3.506335701e22  # kg / m^3, wave-medium density (ρ)
+MEDIUM_DENSITY = 3.859764604e22  # kg / m^3, wave-medium density (ρ)
 
 # ================================================================
 # ENERGY-WAVE
