@@ -316,7 +316,7 @@ def oscillate_granules(
 
 
 def update_lattice_energy(lattice):
-    """Update lattice energy based on RMS amplitude from peak displacement.
+    """Update lattice energy based on RMS amplitude from max displacement.
 
     Must be called after oscillate_granules() to compute energy from wave amplitude.
     Cannot be done inside the kernel as lattice.energy is not a Taichi field.

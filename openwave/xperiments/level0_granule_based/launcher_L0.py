@@ -212,7 +212,7 @@ def xperiment_launcher(xperiment_mgr, state):
     selected_xperiment = None
 
     with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.33) as sub:
-        sub.text("(needs window restart)", color=config.LIGHT_BLUE[1])
+        sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
             is_current = xp_name == xperiment_mgr.current_xperiment
