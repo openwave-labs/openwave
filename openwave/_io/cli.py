@@ -76,12 +76,11 @@ def get_experiments_list():
         except Exception:
             pass
 
-        # Create display name
-        # name = file_path.stem.replace("_", " ").title()
+        # Create display name from docstring description or fallback to formatted filename
         if description:
             display_name = f"{description}"
         else:
-            display_name = "*** file missing description ***"
+            display_name = file_path.stem.replace("_", " ").title()  # Fallback to file name
 
         # Add to collection
         if collection not in experiments_by_collection:
@@ -151,6 +150,7 @@ def get_experiments_list():
 def show_menu_simple(experiments):
     """
     Display a simple numbered menu for Xperiment selection.
+    Fallback for systems where interactive menu is not available.
 
     Args:
         experiments: List of tuples containing (display_name, file_path)
@@ -173,19 +173,24 @@ def show_menu_simple(experiments):
     print(f"OPENWAVE (v{pkg_version}) - Available XPERIMENTS")
     print("=" * 64)
 
-    # Create numbered list of selectable experiments
+    # Create numbered list of selectable experiments only
     selectable_experiments = []
     display_idx = 1
 
     for display_name, file_path in experiments:
-        if file_path is None:  # collection header or separator
-            print(f"\n{display_name}")
+        if file_path is None:
+            # Collection header or blank line
+            if display_name.strip():
+                # Show collection header (not numbered)
+                print(f"\n{display_name}")
+            # Skip blank lines (empty display_name) entirely
         else:
+            # Selectable experiment - add with number
             print(f"{display_idx}. {display_name}")
             selectable_experiments.append((display_name, file_path))
             display_idx += 1
 
-    print(f"\n{len(selectable_experiments) + 1}. Exit")
+    print(f"\n{len(selectable_experiments) + 1}. EXIT")
     print("=" * 64)
 
     while True:
@@ -225,11 +230,6 @@ def show_menu_interactive(experiments):
         # Fallback to simple menu if interactive menu not available
         return show_menu_simple(experiments)
 
-    # Build menu with collection headers marked as non-selectable
-    menu_options = []
-    file_path_map = {}  # Maps option index to file path
-    option_idx = 0
-
     # Get version from source (works with editable installs)
     try:
         from openwave import __version__
@@ -241,23 +241,54 @@ def show_menu_interactive(experiments):
 
         pkg_version = version("OPENWAVE")
 
-    for display_name, file_path in experiments:
-        menu_options.append(display_name if display_name else " ")  # Empty line or display name
-        if file_path is not None:
-            file_path_map[option_idx] = file_path
-        option_idx += 1
+    # Build menu - use None for blank lines (will be skipped)
+    # Keep collection headers visible but they won't be skipped (no way to skip non-empty text)
+    menu_options = []
+    file_path_map = {}  # Maps menu index to file path
+    menu_idx = 0
 
-    menu_options.append(" ")  # Blank line before EXIT
-    option_idx += 1
+    for display_name, file_path in experiments:
+        if file_path is None:
+            # Collection header or blank line
+            if display_name.strip():
+                # Collection header - keep it visible
+                # Don't add separator - the blank line from previous group or
+                # the header itself provides visual separation
+                menu_options.append(display_name)
+                menu_idx += 1
+            else:
+                # Explicit blank line between collections - keep it
+                menu_options.append(None)  # WILL be skipped
+                menu_idx += 1
+        else:
+            # This is a selectable experiment
+            menu_options.append(display_name)
+            file_path_map[menu_idx] = file_path
+            menu_idx += 1
+
+    # Add separator and EXIT
+    menu_options.append(None)  # Blank line - WILL be skipped
+    menu_idx += 1
     menu_options.append("─── EXIT ───")
-    exit_idx = option_idx
+    exit_idx = menu_idx
+
+    # Build title with proper formatting
+    title_lines = [
+        "",
+        "=" * 64,
+        f"OPENWAVE (v{pkg_version}) - Available XPERIMENTS",
+        "(↑/↓ navigate, ENTER selects)",
+        "=" * 64,
+    ]
 
     terminal_menu = TerminalMenu(
         menu_options,
-        title=f"\n==========================================================================\nOPENWAVE (v{pkg_version}) - Available XPERIMENTS (↑/↓ navigate, ENTER selects)\n==========================================================================",
+        title="\n".join(title_lines),
         menu_cursor="  ",
         menu_cursor_style=("fg_green", "bold"),
         menu_highlight_style=("bg_green", "fg_black"),
+        cycle_cursor=True,
+        skip_empty_entries=True,
     )
 
     while True:
@@ -267,10 +298,12 @@ def show_menu_interactive(experiments):
             print("Exiting...")
             sys.exit(0)
 
-        # Check if this is a selectable experiment
+        # Check if valid experiment selected (not a collection header)
         if choice_idx in file_path_map:
             return file_path_map[choice_idx]
-        # If collection header selected, continue loop to allow re-selection
+
+        # If collection header was selected, ignore and continue loop
+        # (blank lines are automatically skipped by skip_empty_entries=True)
 
 
 def run_experiment(file_path):
@@ -345,7 +378,7 @@ def cli_main():
         "-x",
         "--xperiments",
         action="store_true",
-        help="Launch the xperiments selector",
+        help="launch the xperiments selector",
     )
 
     args = parser.parse_args()
