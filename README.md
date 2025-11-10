@@ -305,6 +305,7 @@ class `XPERIMENTS MODULE
     - spherical_wave.py ✓
     - standing_wave.py ✓
     - wave_interference.py ✓
+    - wave_magnet.py ✓
     - wave_pulse.py ✓
     - xwaves.py ✓
     - yin_yang.py ✓
@@ -390,6 +391,7 @@ kanban
       - spherical_wave.py
       - standing_wave.py
       - wave_interference.py
+      - wave_magnet.py
       - wave_pulse.py
       - xwaves.py
       - yin_yang.py]
