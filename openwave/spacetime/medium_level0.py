@@ -1010,7 +1010,7 @@ if __name__ == "__main__":
     )
 
     # Create granule
-    granule = BCCGranule(lattice.unit_cell_edge)
+    granule = BCCGranule(lattice.unit_cell_edge, lattice.max_universe_edge)
     print(f"\nGranule Properties:")
     print(f"  Radius: {granule.radius:.2e} m")
     print(f"  Mass: {granule.mass:.2e} kg")
