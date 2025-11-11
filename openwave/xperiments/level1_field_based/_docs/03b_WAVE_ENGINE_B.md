@@ -225,80 +225,93 @@ All generated from the fundamental energy wave (EWT).
 
 #### YES, You Can Compute Force in Newtons
 
-**Key Formula from EWT**:
+**Key Formula from EWT (Frequency-Based)**:
 
 ```text
-Energy density: u = ρc²(A/λ)²     [J/m³]  (EWT, no ½ factor)
+Energy density: u = ρ(Af)²        [J/m³]  (EWT, no ½ factor)
 Force density:  f = -∇u           [N/m³]
 Force on voxel: F = f × dx³       [N]
-Final formula:  F = -2(ρdx³c²/λ²)×A×∇A  (factor of 2 from chain rule)
+Final formula:  F = -2ρVAf×[f∇A + A∇f]  (full form with frequency gradients)
+Monochromatic:  F = -2ρVf²×A∇A           (when ∇f = 0)
 ```
 
 Where:
 
 - `ρ` = medium density (3.860×10²² kg/m³ from EWT)
-- `c` = wave speed (2.998×10⁸ m/s, speed of light)
 - `A` = wave amplitude (meters)
-- `λ` = wavelength (meters)
-- `dx³` = voxel volume (cubic meters)
+- `f` = frequency (Hz, where f = c/λ)
+- `V = dx³` = voxel volume (cubic meters)
+- Note: c = 2.998×10⁸ m/s embedded in f via f = c/λ
 
 #### Physics Derivation
 
-**Energy in wave field (EWT formulation)**:
+**Energy in wave field (EWT formulation - Frequency-Based)**:
 
 ```text
 Total energy: E = ∫ u dV
-where u = ρc²(A/λ)² is energy density (from EWT)
+where u = ρ(Af)² is energy density (from EWT)
 ```
 
-**Note**: EWT energy equation `E = ρVc²(A/λ)²` does **not** include the ½ factor found in classical wave mechanics.
+**Note**: EWT energy equation `E = ρV(Af)²` does **not** include the ½ factor found in classical wave mechanics.
+
+**Elegance of Frequency Formulation**:
+
+- **E = ρV(Af)²** is cleaner than E = ρVc²(A/λ)²
+- Aligns with **Planck's E = hf** (energy proportional to frequency!)
+- **Spacetime coupling**: A (spatial) × f (temporal) = natural pairing
+- Human-intuitive: frequency used in radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
 
 **Physical Meaning of EWT Formula**:
 
 In oscillating wave systems, energy alternates between kinetic (medium motion) and potential (compression):
 
 ```text
-Classical time-averaged: ⟨E⟩ = ½ρVc²(A/λ)²  (average over cycle)
+Classical time-averaged: ⟨E⟩ = ½ρV(Af)²   (average over cycle)
 
-EWT total/peak energy:   E = ρVc²(A/λ)²     (total energy capacity)
+EWT total/peak energy:   E = ρV(Af)²      (total energy capacity)
                          E = 2 × ⟨E⟩classical
 ```
 
 **Why use total instead of average?**
 
 - Amplitude A represents **peak displacement** (maximum pressure)
+- Frequency f represents **oscillation rate** (temporal character)
 - Forces respond to **total energy gradients** (peak pressure differences)
 - `E_EWT = max(KE + PE)` = total energy that sloshes between kinetic and potential
 - This is the "energy budget" that creates pressure gradients driving particle motion
 
-Analogy: Sound pressure - objects respond to peak amplitude (loudness), not time-averaged sound.
+Analogy: Sound pressure - objects respond to peak amplitude (loudness) at a given frequency (pitch), not time-averaged sound.
 
 **Force from total energy gradient**:
 
 ```text
 F = -∇E
-  = -∇(u × V)
-  = -∇(ρVc²(A/λ)²)
-  = -(ρVc²/λ²) × ∇(A²)
-  = -(ρVc²/λ²) × 2A∇A
-  = -2(ρVc²/λ²) × A∇A
+  = -∇[ρV(Af)²]
+  = -ρV × ∇(A²f²)
+  = -ρV × [f²∇(A²) + A²∇(f²)]
+  = -ρV × [f² × 2A∇A + A² × 2f∇f]
+  = -2ρV × [Af² × ∇A + A²f × ∇f]
+  = -2ρVAf × [f∇A + A∇f]
 ```
 
 Where `V = dx³` is voxel volume.
 
-**Implementation Note**: The factor of 2 comes from chain rule (∇A² = 2A∇A) and remains in the final force formula.
+**Implementation Note**: The factor of 2 comes from chain rule (∇(A²f²) = 2A∇A×f² + 2A²f∇f) and remains in the final force formula.
 
 **EWT vs Classical Comparison**:
 
 ```text
 Classical wave mechanics:
-  u = ½ρc²(A/λ)²  → F = -(ρVc²/λ²) × A∇A
+  u = ½ρ(Af)²  → F = -ρVAf × [f∇A + A∇f]
 
 EWT (used in this simulation):
-  u = ρc²(A/λ)²   → F = -2(ρVc²/λ²) × A∇A
+  u = ρ(Af)²   → F = -2ρVAf × [f∇A + A∇f]
 
 The EWT force constant is 2× classical due to using total energy (no ½ factor).
 Use EWT formulation for consistency with energywavetheory.com
+
+Wavelength relation (when needed for spatial design):
+  λ = c/f  (c = 2.998×10⁸ m/s constant)
 ```
 
 #### Implementation
@@ -309,26 +322,27 @@ def compute_force_field_newtons(self):
     """
     Compute force in Newtons from amplitude gradient (EWT formulation).
 
-    Physics:
-    - Energy density: u = ρc²(A/λ)² (EWT, no ½ factor)
-    - Force: F = -∇E = -∇(u×V) = -2(ρVc²/λ²) × A × ∇A
+    Physics (Frequency-Based):
+    - Energy density: u = ρ(Af)² (EWT, no ½ factor)
+    - Force: F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]
+    - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
     where V = dx³ (voxel volume)
 
-    Note: Factor of 2 from chain rule (∇A² = 2A∇A) is included.
+    Note: Factor of 2 from chain rule remains in final formula.
     This differs from classical wave mechanics by factor of 2.
 
     MAP Principle: Force points toward lower amplitude (negative gradient)
     """
     # Physical constants from EWT
     ρ = ti.f32(constants.MEDIUM_DENSITY)  # 3.860e22 kg/m³
-    c = ti.f32(constants.EWAVE_SPEED)     # 2.998e8 m/s
-    λ_m = self.wavelength_am * constants.ATTOMETER  # wavelength in meters
-    dx_m = self.dx_am * constants.ATTOMETER         # voxel size in meters
+    f = ti.f32(constants.EWAVE_FREQUENCY) # 1.050e25 Hz
+    dx_m = self.dx_am * constants.ATTOMETER  # voxel size in meters
+    V = dx_m**3  # voxel volume in m³
 
-    # Force scaling factor (EWT formulation with factor of 2)
-    # F = -2(ρdx³c²/λ²) × A × ∇A
-    # Dimensional analysis: 2 × (kg/m³)(m³)(m²/s²)/(m²) = kg⋅m/s² = N
-    force_scale = 2.0 * (ρ * c**2 / λ_m**2) * (dx_m**3)
+    # Force scaling factor (EWT frequency-based formulation with factor of 2)
+    # F = -2ρVf² × A × ∇A  (monochromatic, ∇f = 0)
+    # Dimensional analysis: 2 × (kg/m³)(m³)(Hz²) = 2 × (kg)(1/s²) = kg⋅m/s² when multiplied by A∇A
+    force_scale = 2.0 * ρ * V * f**2
 
     for i, j, k in self.amplitude_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
@@ -413,21 +427,29 @@ def get_force_direction(i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
 
 **Key Point**: The gradient operator `∇A` automatically gives you the **direction** (as a vector) pointing toward maximum amplitude increase. The negative sign `-∇A` reverses this to point toward amplitude **decrease** (MAP principle).
 
-#### Dimensional Analysis Verification
+#### Dimensional Analysis Verification (Frequency-Based)
 
 ```text
 ρ:          [kg/m³]
-c²:         [m²/s²]
-λ²:         [m²]
-dx³:        [m³]
+f:          [Hz] = [1/s]
+f²:         [1/s²]
+V = dx³:    [m³]
 A:          [m]
 ∇A:         [dimensionless] = [m/m] after gradient divided by dx
 
-force_scale = (kg/m³) × (m²/s²) / (m²) × (m³) = kg⋅m/s²  ✓ (Newton)
-F = (kg⋅m/s²) × (m) × (dimensionless) = kg⋅m/s² = N  ✓✓
+force_scale = (kg/m³) × (m³) × (1/s²) = kg/s²
+F = force_scale × A × ∇A
+F = (kg/s²) × (m) × (dimensionless) = kg⋅m/s² = N  ✓✓
 ```
 
-**This is correct!**
+**This is correct!** Note how f² naturally provides the 1/s² dimension without needing explicit c².
+
+**Relation to wavelength-based form**:
+```text
+f = c/λ  →  f² = c²/λ²
+
+force_scale (frequency) = 2ρVf² = 2ρV(c²/λ²) = force_scale (wavelength)  ✓
+```
 
 #### Particle Mass from Standing Waves
 
@@ -1354,43 +1376,58 @@ Answer for EWT: Non-dispersive!
 - This is like electromagnetic waves in vacuum
 ```
 
-**Measuring Local Frequency and Wavelength - Simple Temporal Method**:
+**Measuring Local Frequency - Direct Temporal Method**:
+
+**Frequency is the Primary Measured Property** - Wavelength is derived from it.
 
 The most direct way to measure frequency is to **time the oscillations directly**:
 
-**Method**: Track when ψ reaches amplitude (peak detection), measure period T between peaks, then compute f = 1/T and λ = c/f.
+**Method**:
+
+1. **Measure dt** between peaks (when |ψ| reaches A)
+2. **Compute f = 1/dt** (frequency in Hz) - this is the core measurement
+3. **Derive T = dt** (period, same value different name)
+4. **Derive λ = c/f** (wavelength, computed from frequency)
+
+**Why Frequency First?**
+
+- **Direct measurement**: dt → f = 1/dt (immediate, no conversion)
+- **Frequency-centric**: Aligns with human intuition (radio, audio, WiFi all use f)
+- **Planck relation**: E = hf (energy proportional to frequency, not wavelength!)
+- **Spacetime coupling**: A (spatial) × f (temporal) = natural pairing
+- **Wavelength is derived**: λ = c/f (computed when needed for spatial design)
 
 **Advantages**:
 
-- **Direct measurement**: Measures actual oscillation period (what frequency means!)
 - **Simple implementation**: Reuses existing amplitude tracking (`amplitude_am`)
 - **Physical intuition**: Each voxel times its own oscillations
 - **Works per voxel**: Independent measurement at each location
-- **Handles superposition**: Measures dominant frequency automatically
+- **Handles superposition**: Measures dominant/beating frequency automatically
+- **Natural for multi-frequency**: Frequency domain is the natural representation
 
 **Implementation**:
 
 ```python
 # In WaveField class __init__, add:
 self.last_peak_time_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Time of last peak (rontoseconds)
-self.period_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))          # Measured period (rontoseconds)
-self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # f = 1/T (Hz)
-self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # λ = c/f (attometers)
+self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # f (Hz) - PRIMARY measured property
+self.period_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))          # T (rontoseconds) - derived from f
+self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # λ (attometers) - derived from f
 
 @ti.kernel
-def measure_period_and_frequency(self, current_time_rs: ti.f32):
+def measure_frequency(self, current_time_rs: ti.f32):
     """
     Measure frequency by timing peaks (when |ψ| = A).
 
-    Method:
-    1. Detect when displacement reaches amplitude (peak)
-    2. Measure time between consecutive peaks = period T
-    3. Compute frequency: f = 1/T
-    4. Compute wavelength: λ = c/f
+    Measurement hierarchy:
+    1. Measure dt between peaks (timing measurement)
+    2. Compute f = 1/dt (PRIMARY property)
+    3. Derive T = dt (period, same as measured dt)
+    4. Derive λ = c/f (wavelength from frequency)
 
-    Note: Similar to wave_engine_level0.py amplitude tracking approach.
+    Note: Frequency-centric approach - f is measured, λ is computed.
     """
-    c_amrs = ti.f32(constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND)
+    c = ti.f32(constants.EWAVE_SPEED)  # m/s
 
     for i, j, k in self.displacement_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
@@ -1402,21 +1439,23 @@ def measure_period_and_frequency(self, current_time_rs: ti.f32):
             # This is a peak!
 
             if self.last_peak_time_rs[i,j,k] > 0:  # Not the first peak
-                # Measure period (time since last peak)
-                T_rs = current_time_rs - self.last_peak_time_rs[i,j,k]
+                # Measure time between peaks (dt)
+                dt_rs = current_time_rs - self.last_peak_time_rs[i,j,k]
 
-                if T_rs > 0:
-                    # Store period (in rontoseconds)
-                    self.period_rs[i,j,k] = T_rs
+                if dt_rs > 0:
+                    # Convert dt to seconds
+                    dt_seconds = dt_rs * constants.RONTOSECOND
 
-                    # Frequency = 1/T
-                    # Convert period from rontoseconds to seconds, then f = 1/T
-                    T_seconds = T_rs * constants.RONTOSECOND
-                    self.frequency_local[i,j,k] = 1.0 / T_seconds  # Hz
+                    # PRIMARY: Compute frequency f = 1/dt
+                    self.frequency_local[i,j,k] = 1.0 / dt_seconds  # Hz
 
-                    # Wavelength = c/f (in attometers)
-                    # λ = c / f = c × T
-                    self.wavelength_local[i,j,k] = c_amrs * T_rs
+                    # DERIVED: Store period (same as dt, different name)
+                    self.period_rs[i,j,k] = dt_rs  # rontoseconds
+
+                    # DERIVED: Compute wavelength λ = c/f
+                    f_Hz = self.frequency_local[i,j,k]
+                    wavelength_m = c / f_Hz  # meters
+                    self.wavelength_local[i,j,k] = wavelength_m / constants.ATTOMETER  # attometers
 
             # Update last peak time for next measurement
             self.last_peak_time_rs[i,j,k] = current_time_rs
@@ -1432,8 +1471,8 @@ def update_timestep(self, dt_rs: ti.f32):
     # 2. Track amplitude envelope
     self.track_amplitude_envelope()
 
-    # 3. Measure period/frequency from peaks
-    self.measure_period_and_frequency(self.current_time_rs)
+    # 3. Measure frequency from peaks (f = 1/dt, then derive T and λ)
+    self.measure_frequency(self.current_time_rs)
 
     # 4. Compute wave direction
     self.compute_wave_direction()
@@ -1472,8 +1511,11 @@ Spatial gradient method (old):
 - Sensitive to noise in gradients
 - Complex for superposition
 
-Temporal peak timing (new):
-- T = time between peaks
+Temporal peak timing (new - frequency-centric):
+- dt = time between peaks
+- f = 1/dt (PRIMARY measurement)
+- T = dt (period, same value)
+- λ = c/f (derived from frequency)
 - Direct measurement of oscillation
 - Robust to spatial noise
 - Natural handling of beating/interference
@@ -1481,60 +1523,60 @@ Temporal peak timing (new):
 
 **Multi-Frequency Superposition Challenge**:
 
-When multiple waves with different wavelengths overlap at a voxel, the displacement becomes:
+When multiple waves with different frequencies overlap at a voxel, the displacement becomes:
 
 ```text
-ψ_total(t) = Σ A_i sin(k_i·r - ω_i·t)
+ψ_total(t) = Σ A_i sin(k_i·r - ω_i·t)  where ω_i = 2πf_i
 
-Problem: What is "the" wavelength at this voxel?
-Answer: There isn't one unique wavelength!
+Problem: What is "the" frequency at this voxel?
+Answer: There isn't one unique frequency!
 ```
 
-**Implications for Force Calculation**:
+**Implications for Force Calculation (Frequency-Based)**:
 
-The full force derivation with variable λ includes a wavelength gradient term:
+The full force derivation with variable f includes a frequency gradient term:
 
 ```text
-F = -∇E = -∇(ρVc²(A/λ)²)
+F = -∇E = -∇[ρV(Af)²]
 
 Full expansion with product rule:
-F = -2ρVc² × [A∇A/λ² - A²∇λ/λ³]
+F = -2ρVAf × [f∇A + A∇f]
 
 Two terms:
-1. Amplitude gradient: -2ρVc² × A∇A/λ²    (primary - particles move toward lower A)
-2. Wavelength gradient: +2ρVc² × A²∇λ/λ³  (secondary - particles move toward higher λ)
+1. Amplitude gradient: -2ρVAf × f∇A = -2ρVf² × A∇A    (primary - particles move toward lower A)
+2. Frequency gradient: -2ρVAf × A∇f = -2ρVA²f × ∇f    (secondary - particles move toward higher f)
 ```
 
 **Solutions (Implementation Strategies)**:
 
 1. **Monochromatic Approximation** (initial implementation):
-   - Single wave source → uniform λ
-   - ∇λ ≈ 0 → wavelength gradient term negligible
-   - Use simplified: `F = -2(ρVc²/λ²) × A∇A`
+   - Single wave source → uniform f
+   - ∇f ≈ 0 → frequency gradient term negligible
+   - Use simplified: `F = -2ρVf² × A∇A`
    - **Recommended for first version**
    - Pros: Simple, fast, good for initial development
    - Cons: Doesn't handle multi-frequency scenarios
 
-2. **Dominant Wavelength** (intermediate):
-   - Measure period from temporal peaks (documented above)
-   - Gives dominant/beating wavelength: `λ_local = c × T_measured`
+2. **Dominant Frequency** (intermediate):
+   - Measure frequency from temporal peaks (documented above)
+   - Gives dominant/beating frequency: `f_local = 1/dt_measured`
    - Include both gradient terms:
 
      ```python
      # Compute amplitude gradient force (primary term)
-     # F_amplitude = -2(ρVc²/λ_local²) × A × ∇A
+     # F_amplitude = -2ρVf² × A × ∇A
      grad_A = compute_gradient(amplitude_am)
-     force_scale = 2.0 * (ρ * V * c**2 / wavelength_local**2)
+     force_scale = 2.0 * ρ * V * frequency_local**2
      F_amplitude = -force_scale * A * grad_A
 
-     # Compute wavelength gradient correction (secondary term)
-     # F_wavelength = +2(ρVc²/λ_local³) × A² × ∇λ_local
-     grad_λ = compute_gradient(wavelength_local)
-     correction_scale = 2.0 * (ρ * V * c**2 / wavelength_local**3)
-     F_wavelength = correction_scale * A**2 * grad_λ
+     # Compute frequency gradient correction (secondary term)
+     # F_frequency = -2ρVA²f × ∇f
+     grad_f = compute_gradient(frequency_local)
+     correction_scale = 2.0 * ρ * V * A**2 * frequency_local
+     F_frequency = -correction_scale * grad_f
 
      # Total force includes both terms
-     F_total = F_amplitude + F_wavelength
+     F_total = F_amplitude + F_frequency
      ```
 
    - **Good balance of accuracy vs complexity**
@@ -1543,7 +1585,7 @@ Two terms:
 
 3. **Fourier Decomposition** (advanced, future):
    - Track multiple frequency modes per voxel
-   - Store: `amplitude_modes[i,j,k,mode]`, `wavelength_modes[i,j,k,mode]`
+   - Store: `amplitude_modes[i,j,k,mode]`, `frequency_modes[i,j,k,mode]`
    - Compute force contribution from each mode separately
    - Requires FFT or temporal spectral analysis
    - **Memory intensive**: num_modes × field size
@@ -1554,7 +1596,7 @@ Two terms:
 
 **Recommendation for Initial Implementation**:
 
-Start with **monochromatic approximation** (uniform λ, single source). Once wave propagation is working, add **dominant wavelength tracking** with the temporal peak method documented above. This captures the most important physics (beating frequencies, Doppler shifts) without the complexity of full Fourier decomposition.
+Start with **monochromatic approximation** (uniform f, single source). Once wave propagation is working, add **dominant frequency tracking** with the temporal peak method documented above. This captures the most important physics (beating frequencies, Doppler shifts) without the complexity of full Fourier decomposition.
 
 **Wavelength Propagation and Changes**:
 
@@ -1715,7 +1757,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 2. Use **frequency tagging** to follow each component
 3. Implement **Fourier analysis** for decomposition
 
-**Summary Table**:
+**Summary Table (Frequency-Centric)**:
 
 | Property | Constant? | How Determined? | Propagates? |
 |----------|-----------|-----------------|-------------|
@@ -1723,19 +1765,21 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 | **c** (wave speed) | ✓ Yes (constant everywhere) | From medium properties | N/A (property of medium) |
 | **ψ** (displacement) | ✗ No (varies spatially/temporally) | Wave equation evolution | ✓ Yes (via PDE) |
 | **A** (amplitude) | ✗ No (varies spatially/temporally) | **Tracked max**(\|ψ\|) | ✓ Yes (via PDE) |
-| **T** (period) | ✗ No (varies spatially) | **Measured** (time between peaks) | ✗ No (derived property) |
-| **f** (frequency) | ✗ No (varies spatially) | **Computed** f = 1/T | ✗ No (derived property) |
-| **λ** (wavelength) | ✗ No (varies spatially) | **Computed** λ = c/f = cT | ✗ No (derived property) |
-| **E** (energy) | ✗ No (varies spatially) | E = ρVc²(A/λ)² | ✓ Yes (via wave energy) |
+| **f** (frequency) | ✗ No (varies spatially) | **PRIMARY: Measured** f = 1/dt | ✗ No (derived property) |
+| **T** (period) | ✗ No (varies spatially) | **Derived** T = dt = 1/f | ✗ No (derived property) |
+| **λ** (wavelength) | ✗ No (varies spatially) | **Derived** λ = c/f | ✗ No (derived property) |
+| **E** (energy) | ✗ No (varies spatially) | E = ρV(Af)² | ✓ Yes (via wave energy) |
 
-**Key Takeaways**:
+**Key Takeaways (Frequency-Centric Philosophy)**:
 
 1. **c is constant** throughout the EWT medium (non-dispersive)
-2. **T is measured directly** by timing oscillations (when \|ψ\| reaches A)
-3. **f = 1/T** and **λ = c/f** are computed from measured period
-4. **Simple and robust**: Direct temporal measurement, not sensitive to spatial gradients
-5. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
-6. For **single source**, λ is constant; for **multiple sources**, measures dominant frequency
+2. **dt is measured** directly by timing oscillations (when \|ψ\| reaches A)
+3. **f = 1/dt is PRIMARY** - frequency computed first (human-intuitive, Planck E=hf)
+4. **T = dt and λ = c/f are DERIVED** - period and wavelength computed from frequency
+5. **Simple and robust**: Direct temporal measurement, not sensitive to spatial gradients
+6. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
+7. For **single source**, f is constant; for **multiple sources**, measures dominant frequency
+8. **Spacetime coupling**: A (spatial) × f (temporal) = natural pairing in E = ρV(Af)²
 
 ---
 
