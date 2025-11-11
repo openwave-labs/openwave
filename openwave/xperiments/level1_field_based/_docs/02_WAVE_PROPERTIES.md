@@ -155,12 +155,207 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 **Storage**: Optional `ti.field(dtype=ti.f32)` if needed for multi-frequency waves
 
-**Why Frequency-Centric?**
+### Why Frequency-Centric? (Design Rationale)
 
-1. Direct measurement: dt → f = 1/dt (immediate, no conversion)
-2. More information: f = c/λ already incorporates wave speed c
-3. Elegant energy formula: E = ρV(Af)² vs E = ρVc²(A/λ)²
-4. Spacetime coupling: A (amplitude, spatial) × f (frequency, temporal)
+This implementation uses **frequency (f) as the primary wave property** rather than wavelength (λ), with λ treated as a derived quantity. This design decision is based on multiple converging considerations:
+
+#### 1. Mathematical Elegance
+
+Energy formula becomes dramatically simpler:
+
+```text
+Frequency-centric: E = ρV(Af)²
+vs.
+Wavelength-based:  E = ρVc²(A/λ)²
+```
+
+The frequency-based formulation:
+
+- Eliminates explicit c² factor (c is embedded in f via f = c/λ)
+- Removes division by λ (cleaner arithmetic)
+- More compact and readable
+
+Force formula maintains equivalent complexity:
+
+```text
+Frequency-centric: F = -2ρVAf × [f∇A + A∇f]
+Wavelength-based:  F = -2ρVc² × [A∇A/λ² - A²∇λ/λ³]
+```
+
+Both have two terms (amplitude gradient + wavelength/frequency gradient), but the frequency version:
+
+- Uses multiplication instead of division
+- Has simpler dimensional structure
+- Monochromatic case: F = -2ρVf² × A∇A is symmetric and elegant
+
+#### 2. Spacetime Coupling (Fundamental Physics Insight)
+
+The product **Af represents natural spacetime coupling**:
+
+- A: Spatial domain (amplitude, meters)
+- f: Temporal domain (frequency, 1/seconds)
+- Af: Spacetime product (m·Hz = m/s, related to velocity)
+
+This mirrors fundamental physics concepts:
+
+- Amplitude describes "how much" space is displaced
+- Frequency describes "how fast" in time
+- Their product Af captures the complete wave character
+- Energy E ∝ (Af)² shows energy depends on spacetime coupling squared
+
+This may relate to spacetime curvature: the Laplacian ∇²ψ in the wave equation measures local curvature of the displacement field, and the factor Af determines how this curvature "stretches" spacetime.
+
+#### 3. Quantum Mechanics Alignment (Planck Relation)
+
+Planck's quantum energy relation:
+
+```text
+E = hf    (energy proportional to frequency)
+```
+
+The frequency-centric formulation E = ρV(Af)² naturally aligns with this:
+
+- Energy proportional to f² (frequency squared)
+- NOT proportional to 1/λ² (inverse wavelength squared)
+- Quantum mechanics uses frequency as fundamental, not wavelength
+- Our classical wave formulation matches quantum intuition
+
+#### 4. Human Intuition and Real-World Usage
+
+Frequency is the natural parameter across multiple domains:
+
+- **Radio/telecommunications**: FM 98.7 MHz (frequency, not wavelength)
+- **Audio/acoustics**: A4 = 440 Hz (musical pitch by frequency)
+- **WiFi/RF**: 2.4 GHz, 5 GHz (frequency bands)
+- **Medical**: Ultrasound 1-10 MHz (frequency)
+- **Brain waves**: Alpha 8-13 Hz, Beta 13-30 Hz (frequency)
+
+**Radio analogy (double match)**:
+
+- **AM/FM**: Amplitude Modulation / Frequency Modulation
+- A (amplitude) and f (frequency) are the fundamental wave properties
+- Radio controls map directly to wave parameters:
+  - Volume knob = Sound Amplitude (A)
+  - Station dial = Transmission Frequency (f)
+
+People think in terms of frequency, not wavelength:
+
+- "440 Hz A note" is intuitive
+- "0.78 m wavelength sound" is not
+
+#### 5. Direct Temporal Measurement
+
+Frequency is measured directly from time-domain observations:
+
+```python
+# Measure period T between wave peaks
+dt = time_peak_n - time_peak_(n-1)
+
+# PRIMARY property computed immediately
+f = 1.0 / dt    # Frequency (Hz)
+
+# DERIVED properties
+T = dt          # Period (same value, different name)
+λ = c / f       # Wavelength (requires conversion)
+```
+
+This measurement hierarchy is natural:
+
+1. Observe temporal oscillations (direct)
+1. Measure time period dt (direct)
+1. Compute frequency f = 1/dt (immediate)
+1. Derive wavelength λ = c/f (when needed for spatial design)
+
+#### 6. Frequency Domain Analysis
+
+Multi-frequency superposition is natural in frequency space:
+
+- Fourier decomposition operates in frequency domain
+- Each mode characterized by (A_mode, f_mode) pair
+- Energy per mode: E_mode = ρV(A_mode × f_mode)²
+- Total energy: E_total = Σ E_mode
+
+Frequency-centric formulation aligns with:
+
+- Signal processing (frequency spectrum)
+- Fourier analysis (frequency components)
+- Harmonic decomposition (frequency modes)
+
+#### 7. Information Content
+
+Frequency carries more information than wavelength:
+
+```text
+f = c/λ  (frequency incorporates constant c)
+```
+
+Since c is constant in the medium:
+
+- f uniquely determines λ via λ = c/f
+- λ uniquely determines f via f = c/λ
+- But f = c/λ shows f "already contains" the wave speed c
+- f carries both temporal oscillation rate AND spatial periodicity (via c)
+
+#### 8. Scientific Rigor Maintained
+
+The frequency-centric formulation is **equally rigorous** as wavelength-based:
+
+- f = c/λ embeds the speed of light (no information lost)
+- All physics is preserved (force equations equivalent)
+- Dimensional analysis consistent: [f²] = [1/s²] provides same scaling as [c²/λ²]
+- Aligns with quantum mechanics convention (Planck uses f, not λ)
+
+#### 9. Practical Implementation
+
+Code becomes cleaner and more intuitive:
+
+```python
+# Energy calculation (frequency-centric)
+energy = rho * V * (A * f)**2                    # Clean!
+
+# vs. wavelength-based
+energy = rho * V * c**2 * (A / wavelength)**2    # More complex
+
+# Force calculation (monochromatic)
+force_scale = 2.0 * rho * V * f**2               # Simple
+F = -force_scale * A * grad_A
+
+# vs. wavelength-based
+force_scale = 2.0 * rho * V * c**2 / wavelength**2   # Division
+F = -force_scale * A * grad_A
+```
+
+#### 10. Wavelength Used When Needed
+
+Wavelength is still available when required for spatial design:
+
+```python
+# Convert to wavelength for spatial layout
+wavelength = c / frequency
+
+# Voxel spacing from wavelength
+dx = wavelength / points_per_wavelength
+
+# Spatial pattern design
+def design_wave_pattern(frequency):
+    wavelength = constants.EWAVE_SPEED / frequency
+    return create_spatial_pattern(wavelength)
+```
+
+#### Summary: Why Frequency is Primary
+
+| Aspect | Frequency (f) | Wavelength (λ) |
+|--------|---------------|----------------|
+| **Energy formula** | E = ρV(Af)² ✓ Elegant | E = ρVc²(A/λ)² (complex) |
+| **Measurement** | Direct: f = 1/dt ✓ | Indirect: λ = c/f |
+| **Information** | Embeds c: f = c/λ ✓ | Spatial only |
+| **Spacetime** | A×f couples space×time ✓ | A/λ is less natural |
+| **Quantum** | E = hf (Planck) ✓ | E ∝ 1/λ (derived) |
+| **Human use** | Radio, audio, WiFi ✓ | Scientific contexts |
+| **Domain** | Temporal/frequency ✓ | Spatial |
+| **Rigor** | Full (f = c/λ) ✓ | Full |
+
+**Conclusion**: Frequency-centric formulation is more elegant, more intuitive, aligns with quantum mechanics, and maintains full scientific rigor. Wavelength is computed as λ = c/f when needed for spatial design tasks.
 
 ### Wavelength (λ)
 
