@@ -1702,7 +1702,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 | **T** (period) | ✗ No (varies spatially) | **Measured** (time between peaks) | ✗ No (derived property) |
 | **f** (frequency) | ✗ No (varies spatially) | **Computed** f = 1/T | ✗ No (derived property) |
 | **λ** (wavelength) | ✗ No (varies spatially) | **Computed** λ = c/f = cT | ✗ No (derived property) |
-| **E** (energy) | ✗ No (varies spatially) | E = ρV(c/λ.A)^2 | ✓ Yes (via wave energy) |
+| **E** (energy) | ✗ No (varies spatially) | E = ρVc²(A/λ)² | ✓ Yes (via wave energy) |
 
 **Key Takeaways**:
 

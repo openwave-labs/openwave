@@ -114,8 +114,8 @@ Wave field attributes represent physical quantities and wave disturbances stored
   - Used for wave propagation mechanics
 - **A (amplitude)**: Envelope of |ψ| (slowly varying maximum)
   - A = max|ψ| over time (running maximum)
-  - Used for energy density: u = ½ρc²(A/λ)²
-  - Used for forces: F = -∇A (MAP: Minimum Amplitude Principle)
+  - Used for energy density: u = ρc²(A/λ)² (EWT, no ½ factor)
+  - Used for forces: F = -2(ρVc²/λ²) × A∇A (where V = dx³)
   - Particles respond to envelope A, not instantaneous ψ oscillations
 
 **Field-based** (LEVEL-1):
