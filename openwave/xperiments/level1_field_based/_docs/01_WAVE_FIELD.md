@@ -289,7 +289,7 @@ displacement_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
 # F32 precision preserved:
 # - Amplitude gradients: ∇A computed with 6-7 significant digits
 # - Wave number: k = 2π/λ_am with better precision
-# - Force calculations: F = -∇A maintains accuracy
+# - Force calculations: F = -2ρVAf×[f∇A + A∇f] maintains accuracy (frequency-based)
 ```
 
 **Inverse Mapping** (Position → Index):

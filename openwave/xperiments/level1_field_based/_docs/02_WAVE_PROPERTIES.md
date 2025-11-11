@@ -6,8 +6,8 @@
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
    - [Amplitude (A)](#amplitude-a)
-   - [Wavelength (λ)](#wavelength-λ)
    - [Frequency (f)](#frequency-f)
+   - [Wavelength (λ)](#wavelength-λ)
    - [Density](#density)
    - [Energy](#energy)
    - [Phase (φ)](#phase-φ)
@@ -114,9 +114,10 @@ Wave field attributes represent physical quantities and wave disturbances stored
   - Used for wave propagation mechanics
 - **A (amplitude)**: Envelope of |ψ| (slowly varying maximum)
   - A = max|ψ| over time (running maximum)
-  - Used for energy density: u = ρc²(A/λ)² (EWT, no ½ factor)
-  - Used for forces: F = -2(ρVc²/λ²) × A∇A (where V = dx³)
+  - Used for energy density: u = ρ(Af)² (EWT, no ½ factor, frequency-based)
+  - Used for forces: F = -2ρVAf × [f∇A + A∇f] (full form) or F = -2ρVf² × A∇A (monochromatic, ∇f = 0)
   - Particles respond to envelope A, not instantaneous ψ oscillations
+  - Note: f = c/λ embeds wave speed c
 
 **Field-based** (LEVEL-1):
 
@@ -140,26 +141,37 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - **Total amplitude** determines total energy in the wave: `E_total ∝ A²`
 - Negative amplitude = displacement in opposite direction from positive
 
-### Wavelength (λ)
-
-**Spatial Period of Wave**:
-
-- Distance between successive wave crests/troughs
-- **Not stored directly** in fields
-- **Derived/measured** from spatial patterns
-- Used to calculate voxel resolution: `dx = λ / points_per_wavelength`
-
-**Calculation**: Measure distance between amplitude maxima in field
-
 ### Frequency (f)
 
-**Temporal Period of Wave**:
+**Temporal Period of Wave** (PRIMARY wave property):
 
-- `f = c / λ` (wave equation)
-- **Spatial frequency**: `ξ = 1/λ` (inverse wavelength)
+- **Primary property**: Measured directly from temporal oscillations (f = 1/dt)
+- **Embeds wave speed**: f = c/λ incorporates constant c
+- **Natural pairing**: A (spatial) × f (temporal) in energy formula E = ρV(Af)²
+- **Human-intuitive**: Radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
+- **Planck alignment**: E = hf (energy proportional to frequency)
+- **Spatial frequency**: ξ = 1/λ = f/c (inverse wavelength, derived)
 - Can be stored per-voxel if multiple wave sources with different frequencies
 
 **Storage**: Optional `ti.field(dtype=ti.f32)` if needed for multi-frequency waves
+
+**Why Frequency-Centric?**
+
+1. Direct measurement: dt → f = 1/dt (immediate, no conversion)
+2. More information: f = c/λ already incorporates wave speed c
+3. Elegant energy formula: E = ρV(Af)² vs E = ρVc²(A/λ)²
+4. Spacetime coupling: A (amplitude, spatial) × f (frequency, temporal)
+
+### Wavelength (λ)
+
+**Spatial Period of Wave** (DERIVED from frequency):
+
+- Distance between successive wave crests/troughs
+- **Derived property**: λ = c/f (computed from frequency)
+- **Not stored directly** in fields (unless measured independently)
+- Used to calculate voxel resolution: `dx = λ / points_per_wavelength`
+
+**Calculation**: λ = c/f (from frequency) or measure distance between amplitude maxima in field
 
 ### Density
 
@@ -184,12 +196,13 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - **Kinetic energy** (motion): `E_k ∝ v²`
   - Maximum at equilibrium position (zero displacement)
   - Zero at maximum displacement (turning points)
-- **Potential energy** (compression/displacement): `E_p ∝ A²`
+- **Potential energy** (compression/displacement): `E_p ∝ (Af)²`
   - Maximum at maximum displacement
   - Zero at equilibrium position
 - **Total energy**: `E_total = E_kinetic + E_potential = constant`
 - **Energy oscillation**: `E_k ↔ E_p` (continuously converts)
-- **Amplitude-energy relationship**: `E_total ∝ A²` (energy proportional to amplitude squared)
+- **Amplitude-frequency relationship**: `E_total ∝ (Af)²` (energy proportional to amplitude × frequency squared)
+- **EWT energy formula**: `E = ρV(Af)²` (frequency-centric, no ½ factor)
 
 **Storage**: `ti.field(dtype=ti.f32)` per voxel (optional, can be computed)
 
@@ -274,17 +287,21 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 **Force Vector at Voxel**:
 
-- Derived from displacement gradients: `F ∝ -∇A`
+- Derived from amplitude gradients (frequency-based formulation):
+  - Full form: `F = -2ρVAf × [f∇A + A∇f]` (dual-term with amplitude and frequency gradients)
+  - Monochromatic: `F = -2ρVf² × A∇A` (when ∇f = 0, single wave source)
 - Points toward minimum amplitude (MAP: Minimum Amplitude Principle)
 - Drives particle motion in LEVEL-1
+- Frequency-centric: f² provides natural 1/s² dimensional scaling
 
 **Storage**: `ti.Vector.field(3, dtype=ti.f32)` per voxel (computed)
 
 **Physical meaning**:
 
-- Gradient of potential (amplitude)
+- Gradient of energy potential u = ρ(Af)²
 - Determines particle acceleration
 - Source of emergent forces (gravity, EM, etc.)
+- Dual-term structure captures both amplitude variation and frequency variation contributions
 
 ## Field Storage in Taichi
 
@@ -451,24 +468,40 @@ class WaveField:
             ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
 
     @ti.kernel
-    def compute_amplitude_gradient(self):
+    def compute_force_field_newtons(self):
         """
-        Compute force from amplitude gradient using attometer-scaled values.
+        Compute force from amplitude gradient (EWT frequency-based formulation).
 
-        Force follows MAP (Minimum Amplitude Principle): F = -∇A
-        Particles move toward regions of lower amplitude (envelope, not instantaneous ψ).
+        Physics (Frequency-Based):
+        - Energy density: u = ρ(Af)² (EWT, no ½ factor)
+        - Force: F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]
+        - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
+
+        Force follows MAP (Minimum Amplitude Principle): particles move toward
+        regions of lower amplitude (envelope, not instantaneous ψ).
         """
+        ρ = ti.f32(constants.MEDIUM_DENSITY)  # 3.860e22 kg/m³
+        f = ti.f32(constants.EWAVE_FREQUENCY) # 1.050e25 Hz
+        dx_m = self.dx_am * constants.ATTOMETER
+        V = dx_m**3
+
+        # Force scaling factor (EWT frequency-based formulation)
+        # F = -2ρVf² × A × ∇A  (monochromatic, ∇f = 0)
+        force_scale = 2.0 * ρ * V * f**2
+
         for i, j, k in self.amplitude_am:
             if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                A_m = self.amplitude_am[i,j,k] * constants.ATTOMETER
+
                 # Gradient in attometer space (better precision)
                 grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
                 grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
                 grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
 
-                # Force proportional to negative gradient (MAP principle)
-                # Note: gradient is in am/am = dimensionless
-                # Force scaling applied separately based on physical constants
-                self.force[i,j,k] = -ti.Vector([grad_x, grad_y, grad_z])
+                grad_vector = ti.Vector([grad_x, grad_y, grad_z])
+
+                # Force in Newtons (frequency-based formulation)
+                self.force[i,j,k] = -force_scale * A_m * grad_vector
 
     @ti.kernel
     def compute_laplacian(self, output: ti.template()):  # type: ignore
@@ -578,27 +611,30 @@ force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # N
 
 ## Property Relationships
 
-Key wave equation relationships:
+Key wave equation relationships (frequency-centric):
 
 ```python
-# Wave equation fundamentals
-f = c / λ              # Frequency from speed and wavelength
+# Wave equation fundamentals (frequency-centric)
+f = c / λ              # Frequency from speed and wavelength (PRIMARY property)
+λ = c / f              # Wavelength derived from frequency (DERIVED property)
 ω = 2 * pi * f         # Angular frequency
 k = 2 * pi / λ         # Wave number
-xi = 1 / λ             # Spatial frequency
+xi = 1 / λ = f / c     # Spatial frequency (derived from frequency)
 
-# Energy relationships
+# Energy relationships (frequency-based)
 E_total = E_kinetic + E_potential   # Total energy (conserved)
 E_kinetic ∝ v²                      # Kinetic energy from velocity
-E_potential ∝ A²                    # Potential energy from displacement
-E_total ∝ A²                        # Total energy proportional to amplitude squared
+E_potential ∝ (Af)²                 # Potential energy from amplitude × frequency
+E_total ∝ (Af)²                     # Total energy proportional to (amplitude × frequency)²
+E = ρV(Af)²                         # EWT energy formula (frequency-centric, no ½ factor)
 
 # Energy oscillation in time
 # At equilibrium (A=0): E_kinetic = max, E_potential = 0
 # At max displacement (A=max): E_kinetic = 0, E_potential = max
 
-# Force from displacement gradient
-F = -gradient(amplitude)        # MAP: move toward lower amplitude
+# Force from amplitude gradient (frequency-based)
+F = -2ρVAf × [f∇A + A∇f]       # Full form (dual-term with amplitude and frequency gradients)
+F = -2ρVf² × A∇A                # Monochromatic (∇f = 0, single frequency)
 
 # Density-amplitude relationship (equation of state)
 density ∝ amplitude             # For compression waves

@@ -30,8 +30,8 @@
 
 - **In code**: `self.amplitude_am[i,j,k]`
 - **Used for**:
-  - **Energy density**: u = ρc²(A/λ)² (EWT, no ½ factor)
-  - **Force calculation**: F = -∇A (MAP: Minimum **Amplitude** Principle)
+  - **Energy density**: u = ρ(Af)² (EWT, no ½ factor, frequency-centric)
+  - **Force calculation**: F = -2ρVAf×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
   - Energy gradients
   - Pressure-like field that drives particle motion
 
@@ -445,6 +445,7 @@ F = (kg/s²) × (m) × (dimensionless) = kg⋅m/s² = N  ✓✓
 **This is correct!** Note how f² naturally provides the 1/s² dimension without needing explicit c².
 
 **Relation to wavelength-based form**:
+
 ```text
 f = c/λ  →  f² = c²/λ²
 
@@ -2078,8 +2079,8 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 ┌─────────────────────────────────────────────────────────┐
 │ 3. FORCE GENERATION (amplitude gradients)               │
 │    ├─ Force field from energy gradient: F = -∇E [N]     │
-│    ├─── Monochromatic: F = -2(ρVc²/λ²)×A×∇A (∇λ≈0)      │
-│    ├─── Full: F = -2ρVc²×[A∇A/λ² - A²∇λ/λ³]             │
+│    ├─── Monochromatic: F = -2ρVf²×A×∇A (∇f≈0)           │
+│    ├─── Full: F = -2ρVAf×[f∇A + A∇f]                    │
 │    ├─ Forces emerge from wave patterns                  │
 │    ├─ Electric: wave reflection patterns (charges)      │
 │    ├─ Magnetic: moving wave patterns (currents)         │
@@ -2119,14 +2120,16 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 
 ```text
 ∂²ψ/∂t² = c²∇²ψ                             (wave propagation)
-F = -∇E = -2ρVc²×[A∇A/λ² - A²∇λ/λ³]        (force from energy gradient, EWT)
+F = -∇E = -2ρVAf×[f∇A + A∇f]               (force from energy gradient, EWT frequency-centric)
+F = -2ρVf²×A∇A                              (monochromatic, ∇f ≈ 0)
 ```
 
-Where:
+Where (frequency-centric formulation):
 
-- First term (A∇A/λ²): Primary force from amplitude gradients
-- Second term (A²∇λ/λ³): Secondary correction for variable wavelength
-- For monochromatic waves (∇λ ≈ 0): F = -2(ρVc²/λ²)×A×∇A
+- First term (f²∇A): Primary force from amplitude gradients
+- Second term (Af∇f): Secondary correction for variable frequency
+- For monochromatic waves (∇f ≈ 0): F = -2ρVf²×A×∇A
+- Equivalence: f² = (c/λ)² ensures dimensional consistency
 
 This is the foundation of reality in Energy Wave Theory.
 

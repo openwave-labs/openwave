@@ -18,10 +18,10 @@ See `01_wave_spherical_plot.py` for the amplitude vs radius visualization showin
 
 ### Energy Conservation Principle
 
-For spherical waves propagating from a point source, total energy must be conserved as the wave expands outward. The energy of a wave system is given by:
+For spherical waves propagating from a point source, total energy must be conserved as the wave expands outward. The energy of a wave system is given by (EWT frequency-centric formulation):
 
 ```python
-E = ρV(c/λ × A)²
+E = ρV(Af)²
 ```
 
 Where:
@@ -29,12 +29,18 @@ Where:
 - `E` = total energy
 - `ρ` = medium density
 - `V` = volume
-- `c` = wave propagation speed
-- `λ` = wavelength
 - `A` = amplitude
+- `f` = frequency (Hz, where f = c/λ)
+
+Equivalent wavelength-based form (historical):
+
+```python
+E = ρV(c/λ × A)² = ρV(Af)²  (since f = c/λ)
+```
 
 As a spherical wave propagates through a uniform medium:
 
+- `f` remains constant (frequency unchanged in uniform medium, f = c/λ)
 - `λ` remains constant (wavelength unchanged in uniform medium)
 - `c` remains constant (wave speed unchanged in uniform medium)
 - `ρ` remains constant (uniform medium density)
@@ -309,12 +315,19 @@ This is the time derivative of position, ensuring kinematically consistent motio
 The implementation conserves energy through:
 
 1. **Amplitude Falloff**: A(r) = A₀(λ/r) for r > λ
-2. **Constant Parameters**: λ, c, ρ remain constant
-3. **Energy Equation**: E = ρV(c/λ × A)²
+2. **Constant Parameters**: f, λ, c, ρ remain constant (f = c/λ)
+3. **Energy Equation** (frequency-centric): E = ρV(Af)²
 
 At any radius r > λ from the wave source:
 
 ```python
+# Frequency-centric form
+E_total = ρ × (4πr²) × (A₀λ/r × f)²
+E_total = ρ × 4πr² × f² × (A₀λ)²/r²
+E_total = ρ × 4π × f² × (A₀λ)²
+E_total = constant (independent of r)
+
+# Equivalent wavelength-based form (since f = c/λ)
 E_total = ρ × (4πr²) × (c/λ × A₀λ/r)²
 E_total = ρ × 4πr² × (c/λ)² × (A₀λ)²/r²
 E_total = ρ × 4π × (c/λ)² × (A₀λ)²

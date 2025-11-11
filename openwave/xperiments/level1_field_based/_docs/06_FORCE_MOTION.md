@@ -51,13 +51,21 @@ Electric, magnetic, gravitational, strong forces are disturbances on the energy 
 - Gravitational field = longitudinal wave amplitude loss to spin (shading effect)
 - All forces = amplitude gradients in wave field
 
-**Mathematical Expression**:
+**Mathematical Expression** (frequency-centric formulation):
 
 ```text
-F = -∇A
+F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]   (full form, dual-term)
+F = -2ρVf² × A∇A                             (monochromatic, ∇f = 0)
 ```
 
-Force is the negative gradient of amplitude. Particles move toward regions of lower amplitude (MAP: Minimum Amplitude Principle).
+Where:
+- u = ρ(Af)² is energy density (EWT, frequency-based, no ½ factor)
+- ρ = medium density (3.860×10²² kg/m³)
+- V = dx³ (voxel volume)
+- A = amplitude (meters)
+- f = frequency (Hz, where f = c/λ)
+
+Force points toward decreasing energy (downhill on energy landscape). Particles move toward regions of lower amplitude (MAP: Minimum Amplitude Principle).
 
 ### Wave Derivations
 
@@ -258,16 +266,19 @@ dir = wave_direction[i, j, k]
 
 **Computed from Field**:
 
-- **Wavelength λ**: Measured as distance between wave crests
-  - Not stored, measured from spatial pattern
-  - `λ = distance(amplitude_max[n], amplitude_max[n+1])`
-
-- **Frequency f**: Can be stored OR derived
+- **Frequency f**: PRIMARY property, measured from temporal oscillations
+  - Measured directly: f = 1/dt (where dt is time between peaks)
   - If stored: propagates with wave
-  - If derived: `f = c/λ` from measured wavelength
+  - Aligns with Planck E = hf (energy proportional to frequency)
 
-- **Energy**: Integral of energy density
-  - `E_total = Σ energy_density[i,j,k] * dx³`
+- **Wavelength λ**: DERIVED from frequency
+  - Computed from frequency: λ = c/f
+  - Can also be measured spatially: `λ = distance(amplitude_max[n], amplitude_max[n+1])`
+  - Not typically stored (derived when needed)
+
+- **Energy**: Integral of energy density (frequency-based)
+  - Energy density: u = ρ(Af)² (EWT, frequency-centric, no ½ factor)
+  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(Af)²[i,j,k] * dx³`
 
 **Measurement Algorithms**:
 
@@ -360,13 +371,16 @@ def measure_wavelength() -> ti.f32:
 - High amplitude = high pressure → repulsive
 - Low amplitude = low pressure → attractive
 
-**Mathematical Statement**:
+**Mathematical Statement** (frequency-centric):
 
 ```text
-F = -∇A
+Energy density: u = ρ(Af)²
+Force from energy gradient: F = -∇E = -∇(u×V)
+Expanded form: F = -2ρVAf × [f∇A + A∇f]   (dual-term)
+Monochromatic: F = -2ρVf² × A∇A           (when ∇f = 0)
 ```
 
-Force points toward decreasing amplitude (downhill on amplitude landscape).
+Force points toward decreasing energy density (downhill on energy landscape).
 
 **Implications**:
 
@@ -377,12 +391,21 @@ Force points toward decreasing amplitude (downhill on amplitude landscape).
 
 ### Force-Driven Motion
 
-**Force Calculation**:
+**Force Calculation** (frequency-based):
 
-Force computed from displacement gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
+Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
 
 ```python
-F[i,j,k] = -∇A[i,j,k]
+# Full form with frequency gradients
+F[i,j,k] = -2ρVAf × [f∇A + A∇f][i,j,k]
+
+# Monochromatic approximation (single frequency, ∇f = 0)
+F[i,j,k] = -2ρVf² × A∇A[i,j,k]
+
+# Where:
+# ρ = constants.MEDIUM_DENSITY  # 3.860e22 kg/m³
+# f = constants.EWAVE_FREQUENCY # 1.050e25 Hz
+# V = dx³ (voxel volume)
 ```
 
 **Applying Force to Particle**:
@@ -468,8 +491,8 @@ def apply_particle_boundaries():
 def particle_dynamics_step(dt: ti.f32):
     """Complete particle dynamics for one timestep."""
 
-    # 1. Compute force field from wave amplitude
-    compute_force_field()  # F = -∇A
+    # 1. Compute force field from wave amplitude (frequency-based)
+    compute_force_field()  # F = -2ρVf² × A∇A (monochromatic)
 
     # 2. Update each particle
     for p in range(max_particles):
@@ -554,9 +577,9 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 
 **Phase 1 - Basic Forces**:
 
-1. Implement displacement gradient force (F = -∇A)
+1. Implement energy gradient force (F = -2ρVf² × A∇A, frequency-based)
 2. Test with simple wave patterns
-3. Verify MAP (particles seek amplitude minimum)
+3. Verify MAP (particles seek amplitude minimum / energy minimum)
 
 **Phase 2 - Electric Analog**:
 
