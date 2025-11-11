@@ -44,16 +44,14 @@ def laplacian(i, j):
 def gradient(i, j):
     return ti.Vector(
         [
-            (height[i + 1, j] if i < shape[0] - 1 else 0)
-            - (height[i - 1, j] if i > 1 else 0),
-            (height[i, j + 1] if j < shape[1] - 1 else 0)
-            - (height[i, j - 1] if j > 1 else 0),
+            (height[i + 1, j] if i < shape[0] - 1 else 0) - (height[i - 1, j] if i > 1 else 0),
+            (height[i, j + 1] if j < shape[1] - 1 else 0) - (height[i, j - 1] if j > 1 else 0),
         ]
     ) * (0.5 / dx)
 
 
 @ti.kernel
-def create_wave(amplitude: ti.f32, x: ti.f32, y: ti.f32):
+def create_wave(amplitude: ti.f32, x: ti.f32, y: ti.f32):  # type: ignore
     for i, j in ti.ndrange((1, shape[0] - 1), (1, shape[1] - 1)):
         r2 = (i - x) ** 2 + (j - y) ** 2
         height[i, j] = height[i, j] + amplitude * ti.exp(-0.02 * r2)
