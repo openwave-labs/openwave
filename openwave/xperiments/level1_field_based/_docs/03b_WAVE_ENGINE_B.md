@@ -525,6 +525,30 @@ Where:
 - Negative Laplacian: voxel higher than average → displacement will decrease
 - This drives wave propagation: differences smooth out over time
 
+#### Boundary Reflection
+
+Boundary handling (Dirichlet boundary conditions):
+
+1. Propagation loop: ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1))
+
+- Only updates interior points (excludes boundaries at i=0, i=max, j=0, j=max, z=0, z=max)
+- Boundary values remain at ψ = 0 (from initialization)
+
+2. Laplacian operator:
+
+- Accesses neighbors directly without bounds checking
+- When called on interior points, it reads boundary values (which are always ψ = 0)
+
+This creates :
+
+- Fixed displacement ψ = 0 at all boundaries
+- Acts like a rigid wall - waves should reflect back
+
+The boundary behavior is NOT in the Laplacian itself - it's implemented through:
+
+1. Keeping boundaries fixed at zero (never updated)
+2. Interior points "see" zero at boundaries when computing Laplacian
+
 #### Time Evolution Implementation
 
 ```python
@@ -2009,8 +2033,9 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
                          ↓
 ┌─────────────────────────────────────────────────────────┐
 │ 3. FORCE GENERATION (amplitude gradients)               │
-│    ├─ Force field: F = -∇E (force from energy gradient) │
-│    ├─ F = -2(ρVc²/λ²)×A×∇A [Newtons]                    │
+│    ├─ Force field from energy gradient: F = -∇E [N]     │
+│    ├─── Monochromatic: F = -2(ρVc²/λ²)×A×∇A (∇λ≈0)      │
+│    ├─── Full: F = -2ρVc²×[A∇A/λ² - A²∇λ/λ³]             │
 │    ├─ Forces emerge from wave patterns                  │
 │    ├─ Electric: wave reflection patterns (charges)      │
 │    ├─ Magnetic: moving wave patterns (currents)         │
@@ -2049,9 +2074,15 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 **Everything emerges from two equations**:
 
 ```text
-∂²ψ/∂t² = c²∇²ψ                    (wave propagation)
-F = -∇E = -∇(ρVc²(A/λ)²)         (force from energy gradient, EWT)
+∂²ψ/∂t² = c²∇²ψ                             (wave propagation)
+F = -∇E = -2ρVc²×[A∇A/λ² - A²∇λ/λ³]        (force from energy gradient, EWT)
 ```
+
+Where:
+
+- First term (A∇A/λ²): Primary force from amplitude gradients
+- Second term (A²∇λ/λ³): Secondary correction for variable wavelength
+- For monochromatic waves (∇λ ≈ 0): F = -2(ρVc²/λ²)×A×∇A
 
 This is the foundation of reality in Energy Wave Theory.
 
