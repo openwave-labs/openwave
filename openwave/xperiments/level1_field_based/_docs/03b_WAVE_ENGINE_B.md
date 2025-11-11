@@ -1455,6 +1455,83 @@ Temporal peak timing (new):
 - Natural handling of beating/interference
 ```
 
+**Multi-Frequency Superposition Challenge**:
+
+When multiple waves with different wavelengths overlap at a voxel, the displacement becomes:
+
+```text
+ψ_total(t) = Σ A_i sin(k_i·r - ω_i·t)
+
+Problem: What is "the" wavelength at this voxel?
+Answer: There isn't one unique wavelength!
+```
+
+**Implications for Force Calculation**:
+
+The full force derivation with variable λ includes a wavelength gradient term:
+
+```text
+F = -∇E = -∇(ρVc²(A/λ)²)
+
+Full expansion with product rule:
+F = -2ρVc² × [A∇A/λ² - A²∇λ/λ³]
+
+Two terms:
+1. Amplitude gradient: -2ρVc² × A∇A/λ²    (primary - particles move toward lower A)
+2. Wavelength gradient: +2ρVc² × A²∇λ/λ³  (secondary - particles move toward higher λ)
+```
+
+**Solutions (Implementation Strategies)**:
+
+1. **Monochromatic Approximation** (initial implementation):
+   - Single wave source → uniform λ
+   - ∇λ ≈ 0 → wavelength gradient term negligible
+   - Use simplified: `F = -2(ρVc²/λ²) × A∇A`
+   - **Recommended for first version**
+   - Pros: Simple, fast, good for initial development
+   - Cons: Doesn't handle multi-frequency scenarios
+
+2. **Dominant Wavelength** (intermediate):
+   - Measure period from temporal peaks (documented above)
+   - Gives dominant/beating wavelength: `λ_local = c × T_measured`
+   - Include both gradient terms:
+
+     ```python
+     # Compute amplitude gradient force (primary term)
+     # F_amplitude = -2(ρVc²/λ_local²) × A × ∇A
+     grad_A = compute_gradient(amplitude_am)
+     force_scale = 2.0 * (ρ * V * c**2 / wavelength_local**2)
+     F_amplitude = -force_scale * A * grad_A
+
+     # Compute wavelength gradient correction (secondary term)
+     # F_wavelength = +2(ρVc²/λ_local³) × A² × ∇λ_local
+     grad_λ = compute_gradient(wavelength_local)
+     correction_scale = 2.0 * (ρ * V * c**2 / wavelength_local**3)
+     F_wavelength = correction_scale * A**2 * grad_λ
+
+     # Total force includes both terms
+     F_total = F_amplitude + F_wavelength
+     ```
+
+   - **Good balance of accuracy vs complexity**
+   - Pros: Captures beating/Doppler, computationally tractable
+   - Cons: Single dominant mode may miss details
+
+3. **Fourier Decomposition** (advanced, future):
+   - Track multiple frequency modes per voxel
+   - Store: `amplitude_modes[i,j,k,mode]`, `wavelength_modes[i,j,k,mode]`
+   - Compute force contribution from each mode separately
+   - Requires FFT or temporal spectral analysis
+   - **Memory intensive**: num_modes × field size
+   - **Computationally expensive**: FFT per voxel per timestep
+   - Only needed for complex multi-source scenarios
+   - Pros: Physically complete, handles arbitrary superposition
+   - Cons: Memory × num_modes, computationally expensive
+
+**Recommendation for Initial Implementation**:
+
+Start with **monochromatic approximation** (uniform λ, single source). Once wave propagation is working, add **dominant wavelength tracking** with the temporal peak method documented above. This captures the most important physics (beating frequencies, Doppler shifts) without the complexity of full Fourier decomposition.
+
 **Wavelength Propagation and Changes**:
 
 **Q: How does wavelength change propagate through the field?**
