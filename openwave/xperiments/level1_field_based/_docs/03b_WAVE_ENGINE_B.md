@@ -1366,7 +1366,7 @@ def measure_period_and_frequency(self, current_time_rs: ti.f32):
 
     Note: Similar to wave_engine_level0.py amplitude tracking approach.
     """
-    c_am_per_rs = ti.f32(constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND)
+    c_amrs = ti.f32(constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND)
 
     for i, j, k in self.displacement_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
@@ -1392,7 +1392,7 @@ def measure_period_and_frequency(self, current_time_rs: ti.f32):
 
                     # Wavelength = c/f (in attometers)
                     # λ = c / f = c × T
-                    self.wavelength_local[i,j,k] = c_am_per_rs * T_rs
+                    self.wavelength_local[i,j,k] = c_amrs * T_rs
 
             # Update last peak time for next measurement
             self.last_peak_time_rs[i,j,k] = current_time_rs
