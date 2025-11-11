@@ -80,7 +80,7 @@ def charge_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
     """Charge energy at a single point with specific frequency."""
     # Initialize amplitude at source point
     omega = 2.0 * pi * frequency
-    amplitude[pos_x, pos_y, pos_z] = compute_amplitude_from_energy(energy)
+    displacement[pos_x, pos_y, pos_z] = compute_amplitude_from_energy(energy)
 
     # Set initial phase
     phase[pos_x, pos_y, pos_z] = 0.0
@@ -102,7 +102,7 @@ def charge_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f3
 
         # Plane wave: A * sin(k·r)
         phase_val = k * direction.dot(pos)
-        amplitude[i, j, k_idx] = A_0 * ti.sin(phase_val)
+        displacement[i, j, k_idx] = A_0 * ti.sin(phase_val)
         wave_direction[i, j, k_idx] = direction.normalized()
 ```
 
@@ -121,7 +121,7 @@ def charge_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f
 
         if r > 0:
             # Spherical wave: (A/r) * sin(kr - ωt)
-            amplitude[i, j, k_idx] = (A_0 / r) * ti.sin(k * r)
+            displacement[i, j, k_idx] = (A_0 / r) * ti.sin(k * r)
             wave_direction[i, j, k_idx] = r_vec.normalized()  # Radial
 ```
 
@@ -234,7 +234,7 @@ def verify_energy_conservation() -> ti.f32:
     for i, j, k in amplitude:
         # E = kinetic + potential
         E_k = 0.5 * velocity_field[i,j,k].norm_sqr()
-        E_p = 0.5 * amplitude[i,j,k]**2
+        E_p = 0.5 * displacement[i,j,k]**2
         total += (E_k + E_p) * dx**3  # Energy per voxel
     return total
 
@@ -262,7 +262,7 @@ Each voxel propagates its wave properties to neighboring voxels through a weight
 # ∂²ψ/∂t² = c² ∇²ψ
 
 amplitude_new[i,j,k] = (
-    2 * amplitude[i,j,k]
+    2 * displacement[i,j,k]
     - amplitude_old[i,j,k]
     + (c * dt / dx)² * laplacian[i,j,k]
 )
@@ -306,10 +306,10 @@ Where:
 
 ```python
 laplacian[i,j,k] = (
-    amplitude[i+1,j,k] + amplitude[i-1,j,k] +
-    amplitude[i,j+1,k] + amplitude[i,j-1,k] +
-    amplitude[i,j,k+1] + amplitude[i,j,k-1] -
-    6.0 * amplitude[i,j,k]
+    displacement[i+1,j,k] + displacement[i-1,j,k] +
+    displacement[i,j+1,k] + displacement[i,j-1,k] +
+    displacement[i,j,k+1] + displacement[i,j,k-1] -
+    6.0 * displacement[i,j,k]
 ) / (dx * dx)
 ```
 
@@ -335,7 +335,7 @@ Huygens' principle: Each point on a wavefront acts as a source of secondary wave
 # From voxel [i,j,k] to neighbor [i+di, j+dj, k+dk]
 distance = sqrt(di² + dj² + dk²) * dx
 weight = 1.0 / distance  # Inverse distance weighting
-wavelet_contribution = amplitude[i,j,k] * weight * directional_factor
+wavelet_contribution = displacement[i,j,k] * weight * directional_factor
 ```
 
 **Directional Factor**:
@@ -371,7 +371,7 @@ def compute_total_energy() -> ti.f32:
         # Kinetic energy ∝ (∂ψ/∂t)²
         E_k = 0.5 * velocity_field[i,j,k].norm_sqr()
         # Potential energy ∝ amplitude²
-        E_p = 0.5 * amplitude[i,j,k]**2
+        E_p = 0.5 * displacement[i,j,k]**2
         total += E_k + E_p
     return total
 ```
@@ -414,7 +414,7 @@ def compute_total_energy() -> ti.f32:
 ```python
 # At boundary (e.g., i=0 face)
 if i == 0:
-    amplitude[i,j,k] = -amplitude[i+1,j,k]  # Hard reflection
+    displacement[i,j,k] = -displacement[i+1,j,k]  # Hard reflection
 ```
 
 ## Wave Interactions
@@ -438,7 +438,7 @@ if i == 0:
 ```python
 # Multiple waves naturally interfere by summing contributions
 for source in wave_sources:
-    amplitude[i,j,k] += source.contribution(i, j, k, t)
+    displacement[i,j,k] += source.contribution(i, j, k, t)
 ```
 
 ### Reflection
@@ -611,7 +611,7 @@ def charge_wave_source(x: ti.i32, y: ti.i32, z: ti.i32,
                        freq: ti.f32, phase: ti.f32, t: ti.f32):
     """Charge sinusoidal wave at source location."""
     omega = 2.0 * pi * freq
-    amplitude[x, y, z] += A_source * ti.sin(omega * t + phase)
+    displacement[x, y, z] += A_source * ti.sin(omega * t + phase)
 ```
 
 ### Interference Calculations
@@ -657,9 +657,9 @@ def compute_interference():
 def apply_boundary_reflection(i: ti.i32, j: ti.i32, k: ti.i32):
     """Apply hard boundary reflection."""
     if i == 0:  # Left boundary
-        amplitude[i,j,k] = -amplitude[i+1,j,k]
+        displacement[i,j,k] = -displacement[i+1,j,k]
     if i == nx-1:  # Right boundary
-        amplitude[i,j,k] = -amplitude[i-1,j,k]
+        displacement[i,j,k] = -displacement[i-1,j,k]
     # Similar for other boundaries
 ```
 
@@ -678,9 +678,9 @@ F = -∇A
 def compute_force_field():
     for i, j, k in ti.ndrange((1, nx-1), (1, ny-1), (1, nz-1)):
         # Compute gradient using finite differences
-        grad_x = (amplitude[i+1,j,k] - amplitude[i-1,j,k]) / (2*dx)
-        grad_y = (amplitude[i,j+1,k] - amplitude[i,j-1,k]) / (2*dx)
-        grad_z = (amplitude[i,j,k+1] - amplitude[i,j,k-1]) / (2*dx)
+        grad_x = (displacement[i+1,j,k] - displacement[i-1,j,k]) / (2*dx)
+        grad_y = (displacement[i,j+1,k] - displacement[i,j-1,k]) / (2*dx)
+        grad_z = (displacement[i,j,k+1] - displacement[i,j,k-1]) / (2*dx)
 
         # Force = -gradient (toward minimum amplitude)
         force[i,j,k] = -ti.Vector([grad_x, grad_y, grad_z])
@@ -705,7 +705,7 @@ def track_energy() -> ti.f32:
     potential = 0.0
     for i, j, k in amplitude:
         kinetic += 0.5 * velocity_field[i,j,k].norm_sqr()
-        potential += 0.5 * amplitude[i,j,k]**2
+        potential += 0.5 * displacement[i,j,k]**2
     total = kinetic + potential
     return total
 ```
@@ -747,6 +747,13 @@ Ensures numerical stability for explicit time integration.
 ```python
 dt = 0.5 * dx / c  # Safety factor of 0.5
 ```
+
+**IMPORTANT**: LEVEL-1 requires **fixed timesteps** (not variable/elapsed time):
+
+- Wave equation stability requires dt ≤ dt_max at all times
+- Variable timesteps (like LEVEL-0's elapsed_t) would violate CFL
+- Use fixed dt with frame accumulator for real-time rendering
+- See [`03b_WAVE_ENGINE_B.md`](./03b_WAVE_ENGINE_B.md#timestep-strategy-fixed-vs-elapsed-time) for detailed timestep strategy
 
 ---
 

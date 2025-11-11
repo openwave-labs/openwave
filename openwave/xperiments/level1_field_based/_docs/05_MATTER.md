@@ -98,7 +98,7 @@ def apply_wave_center_reflection(xc: ti.f32, yc: ti.f32, zc: ti.f32):
     k = ti.cast(zc / dx, ti.i32)
 
     # Invert amplitude (hard reflection)
-    amplitude[i,j,k] = -amplitude[i,j,k]
+    displacement[i,j,k] = -displacement[i,j,k]
 ```
 
 ### Wave Inversion
@@ -271,7 +271,7 @@ def init_particles():
 
 **Two-Way Coupling**:
 
-1. **Field → Particle**: Force from amplitude gradient
+1. **Field → Particle**: Force from displacement gradient
 2. **Particle → Field**: Wave reflection at particle location
 
 **Algorithm**:

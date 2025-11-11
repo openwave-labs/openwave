@@ -239,7 +239,8 @@ U = 1/2 * k * x**2
 
 **Stored at Each Voxel**:
 
-- Amplitude: Instantaneous value at [i,j,k]
+- Displacement (ψ): Instantaneous oscillating value at [i,j,k]
+- Amplitude (A): Envelope, running maximum of |ψ| at [i,j,k]
 - Density: Local compression/rarefaction
 - Speed: Oscillation velocity at point
 - Direction: Wave propagation direction at point
@@ -248,7 +249,8 @@ U = 1/2 * k * x**2
 **Direct Access**:
 
 ```python
-amp = amplitude[i, j, k]
+psi = displacement_am[i, j, k]  # Instantaneous displacement
+A = amplitude_am[i, j, k]        # Envelope (max|ψ|)
 dir = wave_direction[i, j, k]
 ```
 
@@ -350,7 +352,7 @@ def measure_wavelength() -> ti.f32:
 
 **Physical Motivation**:
 
-- Forces arise from amplitude gradients in the wave field
+- Forces arise from displacement gradients in the wave field
 - Greater wave amplitude = higher momentum density
 - Force vectors point toward decreasing wave amplitude
 - Particles seek lowest energy configuration
@@ -377,7 +379,7 @@ Force points toward decreasing amplitude (downhill on amplitude landscape).
 
 **Force Calculation**:
 
-Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
+Force computed from displacement gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
 
 ```python
 F[i,j,k] = -∇A[i,j,k]
@@ -552,7 +554,7 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 
 **Phase 1 - Basic Forces**:
 
-1. Implement amplitude gradient force (F = -∇A)
+1. Implement displacement gradient force (F = -∇A)
 2. Test with simple wave patterns
 3. Verify MAP (particles seek amplitude minimum)
 

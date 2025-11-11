@@ -12,9 +12,9 @@
    - [LEVEL-1 Uses 3D Arrays (Grid-Based)](#level-1-uses-3d-arrays-grid-based)
    - [Why 3D Arrays for LEVEL-1?](#why-3d-arrays-for-level-1)
    - [Performance Considerations](#performance-considerations)
-1. [Attometer Scaling Strategy for LEVEL-1](#attometer-scaling-strategy-for-level-1)
+1. [Scaled SI Units Strategy for LEVEL-1](#scaled-si-units-strategy-for-level-1)
    - [LEVEL-0 vs LEVEL-1 Comparison](#level-0-vs-level-1-comparison)
-   - [Why LEVEL-1 Still Needs Attometer Scaling](#why-level-1-still-needs-attometer-scaling)
+   - [Why LEVEL-1 Still Needs Scaled Units](#why-level-1-still-needs-scaled-units)
 1. [Data Containers: Taichi Fields](#data-containers-taichi-fields)
    - [Field Categories](#field-categories)
    - [Example Field Declaration](#example-field-declaration)
@@ -33,6 +33,7 @@
    - [Configurable Connectivity Parameter](#configurable-connectivity-parameter)
    - [Distance-Based Weighting](#distance-based-weighting)
 1. [Implementation Example](#implementation-example)
+1. [Asymmetric Universe Support](#asymmetric-universe-support)
 1. [Key Design Decisions](#key-design-decisions)
 
 ## SUMMARY
@@ -93,11 +94,11 @@ pos_z = (k + 0.5) * dx_am
 # LEVEL-0: 1D array of granules with 3D position vectors
 self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
 self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)
+self.displacement_am = ti.field(dtype=ti.f32, shape=self.total_granules)
 
 # Access granule 12345
 pos = self.position_am[12345]  # Returns [x, y, z] in attometers
-amp = self.amplitude_am[12345]  # Scalar amplitude
+amp = self.displacement_am[12345]  # Scalar amplitude
 ```
 
 **Why 1D is optimal for LEVEL-0:**
@@ -136,12 +137,12 @@ This is acceptable in LEVEL-0 because **spatial queries are rare** - you mainly 
 
 ```python
 # LEVEL-1: 3D grid of field values
-self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 
 # Access voxel [100, 200, 300]
-amp = self.amplitude_am[100, 200, 300]  # Direct O(1) access!
+amp = self.displacement_am[100, 200, 300]  # Direct O(1) access!
 vel = self.velocity_am[100, 200, 300]   # 3D vector at this voxel
 ```
 
@@ -151,7 +152,7 @@ vel = self.velocity_am[100, 200, 300]   # 3D vector at this voxel
 - ✅ **Spatial queries**: Constantly need "what's at (x,y,z)?" - O(1) lookup
 - ✅ **Neighbor access**: Natural 6/18/26-connectivity via index offsets
 - ✅ **Grid algorithms**: Laplacian, gradients, stencils are trivial
-- ✅ **Readable code**: `amplitude_am[i, j, k]` has clear spatial meaning
+- ✅ **Readable code**: `displacement_am[i, j, k]` has clear spatial meaning
 
 **Spatial lookup solution:**
 
@@ -167,7 +168,7 @@ def get_amplitude_at_position(pos_am: ti.math.vec3) -> ti.f32:
     k = ti.i32((pos_am[2] / self.dx_am) - 0.5)
 
     # Direct O(1) lookup - no searching!
-    return self.amplitude_am[i, j, k]
+    return self.displacement_am[i, j, k]
 ```
 
 ### Why 3D Arrays for LEVEL-1?
@@ -175,7 +176,7 @@ def get_amplitude_at_position(pos_am: ti.math.vec3) -> ti.f32:
 **Gradient calculation example** (demonstrates the power of 3D indexing):
 
 ```python
-# Computing amplitude gradient: ∇A = [∂A/∂x, ∂A/∂y, ∂A/∂z]
+# Computing amplitude gradient for forces: ∇A = [∂A/∂x, ∂A/∂y, ∂A/∂z]
 
 # With 3D arrays (clean and efficient):
 @ti.kernel
@@ -220,17 +221,17 @@ The 3D version is **cleaner, more readable, and less error-prone**.
 
 **Memory Layout**: Taichi stores 3D arrays as 1D in memory (row-major order)
 
-- `amplitude_am[i, j, k]` is compiled to efficient 1D index calculation
+- `displacement_am[i, j, k]` is compiled to efficient 1D index calculation
 - **You get clean syntax + compiler optimization**
 - No performance penalty vs explicit 1D indexing
 
 **Cache Locality**: 3D loops maintain good cache performance
 
 ```python
-for i, j, k in amplitude_am:
+for i, j, k in displacement_am:
     # Taichi ensures k varies fastest (innermost loop)
     # = Sequential memory access pattern
-    value = amplitude_am[i, j, k]
+    value = displacement_am[i, j, k]
 ```
 
 **Summary Table**:
@@ -243,11 +244,16 @@ for i, j, k in amplitude_am:
 | **Spatial lookup** | O(N) search required | O(1) index calculation |
 | **Neighbor access** | Complex (requires search) | Trivial (`[i±1, j±1, k±1]`) |
 | **Gradient/Laplacian** | N/A (particle-based) | Essential (field operators) |
-| **Code readability** | `position_am[i]` | `amplitude_am[i, j, k]` |
+| **Code readability** | `position_am[i]` | `displacement_am[i, j, k]` |
 | **Best practice** | 1D ✓ (particle engines) | 3D ✓ (field solvers) |
 | **Use case** | Moving particles, N-body | Fixed grid, PDEs, wave equations |
 
-## Attometer Scaling Strategy for LEVEL-1
+## Scaled SI Units Strategy for LEVEL-1
+
+LEVEL-1 uses **scaled SI units** for both spatial and temporal values to maintain numerical precision with f32:
+
+- **Spatial**: ATTOMETER = 10⁻¹⁸ m (variable/field suffix: `_am`)
+- **Temporal**: RONTOSECOND = 10⁻²⁷ s (variable/field suffix: `_rs`)
 
 ### LEVEL-0 vs LEVEL-1 Comparison
 
@@ -255,11 +261,11 @@ for i, j, k in amplitude_am:
 |--------|------------------------|----------------------|
 | **Position Storage** | Stored in vector fields `pos_am[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx_am` |
 | **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx_am` (shared) |
-| **Field Values** | amplitude_am, velocity_am per granule | amplitude_am per voxel |
-| **Attometer Benefit** | Prevents catastrophic cancellation in distance calculations | Prevents precision loss in amplitude gradients and wave calculations |
+| **Field Values** | displacement_am, velocity_am per granule | displacement_am per voxel |
+| **Attometer Benefit** | Prevents catastrophic cancellation in distance calculations | Prevents precision loss in displacement gradients and wave calculations |
 | **Code Complexity** | Conversion for positions and field values | Conversion for field values only (positions computed) |
 
-### Why LEVEL-1 Still Needs Attometer Scaling
+### Why LEVEL-1 Still Needs Scaled Units
 
 **Position Calculation** (computed, not stored):
 
@@ -278,7 +284,7 @@ pos_x_am = (i + 0.5) * dx_am  # Computed on-the-fly in attometers
 ```python
 # Critical: Amplitude, wavelength, and voxel size need attometer scaling
 wavelength_am = 28.54096501  # attometers (vs 2.854e-17 m)
-amplitude_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
+displacement_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
 
 # F32 precision preserved:
 # - Amplitude gradients: ∇A computed with 6-7 significant digits
@@ -333,7 +339,7 @@ import taichi as ti
 from openwave.common import constants
 
 # Scalar fields with attometer scaling
-amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
+displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
 phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Radians (no scaling)
 
 # Scalar fields without attometer scaling
@@ -398,7 +404,7 @@ dx_m, dy_m, dz_m        # Voxel edge lengths (meters, for external reporting)
 i, j, k                 # Grid indices (integers)
 pos_am, position_am     # Physical coordinates (attometers)
 pos_m, position_m       # Physical coordinates (meters, for external use)
-amplitude_am[i,j,k]     # Amplitude field in attometers
+displacement_am[i,j,k]     # Amplitude field in attometers
 phase[i,j,k]            # Phase field in radians
 ```
 
@@ -491,16 +497,77 @@ Coupling strength inversely proportional to distance:
 
 See [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) for the complete `WaveField` class implementation with attometer scaling.
 
+## Asymmetric Universe Support
+
+**Design Principle** (following LEVEL-0's `BCCLattice` / `SCLattice`):
+
+```python
+# CRITICAL: Voxel size (dx) MUST remain cubic (same edge length on all axes)
+# This preserves wave physics and numerical stability.
+# Only the NUMBER of voxels varies per axis.
+
+# Initialization with asymmetric universe size
+init_universe_size = [x_size, y_size, z_size]  # meters, can be asymmetric
+
+# Grid dimensions - different counts per axis
+nx = int(init_universe_size[0] / dx)  # Number of voxels in x
+ny = int(init_universe_size[1] / dx)  # Number of voxels in y
+nz = int(init_universe_size[2] / dx)  # Number of voxels in z
+
+# Actual universe dimensions (rounded to fit integer voxel counts)
+universe_size = [nx * dx, ny * dx, nz * dx]  # meters
+
+# Taichi field declaration (asymmetric shape)
+self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+```
+
+### Example: Flat Universe (Different z)
+
+```python
+# User request: 250×250×125 attometer universe
+init_universe_size = [250e-18, 250e-18, 125e-18]  # meters
+
+# With points_per_wavelength = 40
+dx = wavelength / 40  # Cubic voxel size (same for all axes)
+
+# Grid dimensions
+nx = int(250e-18 / dx) = 350  # voxels in x
+ny = int(250e-18 / dx) = 350  # voxels in y
+nz = int(125e-18 / dx) = 175  # voxels in z (half of x/y)
+
+# Result: 350×350×175 grid with cubic voxels
+# Total voxels: 21,437,500 (vs 42,875,000 for symmetric 350³)
+# Memory saved: 50% for flat universe!
+```
+
+**Key Benefits:**
+
+1. ✓ **Memory efficiency**: Match simulation domain to physical requirements
+2. ✓ **Preserves wave physics**: Cubic voxels maintain isotropic wave propagation
+3. ✓ **Consistent with LEVEL-0**: Same design philosophy as `BCCLattice`
+4. ✓ **Boundary conditions**: Easy to implement reflecting/periodic boundaries per axis
+5. ✓ **Visualization**: Natural for flat or elongated domains
+
+**Implementation Notes:**
+
+- All Laplacian stencils use same `dx` for all axes (isotropic)
+- CFL condition computed using cubic voxel: `dt ≤ dx / (c√3)`
+- Index ranges: `0 ≤ i < nx`, `0 ≤ j < ny`, `0 ≤ k < nz`
+- Position mapping: `pos = [(i+0.5)*dx, (j+0.5)*dx, (k+0.5)*dx]`
+
 ## Key Design Decisions
 
 1. ✅ **Cell-centered grid** (industry standard for field solvers)
 2. ✅ **3D array indexing** `shape=(nx, ny, nz)` (optimal for grid-based algorithms, unlike LEVEL-0's 1D arrays)
-3. ✅ **Attometer scaling for field values** (numerical precision, same principle as LEVEL-0)
-4. ✅ **Computed positions from indices** (memory efficiency, no explicit position storage)
-5. ✅ **Cubic lattice initially** (symmetric, simpler)
-6. ✅ **Configurable connectivity** (6/18/26 neighbors)
-7. ✅ **Distance-based weighting** (physical accuracy)
-8. ✅ **Attometer units internally, meters for external reporting** (precision + clarity)
+3. ✅ **Asymmetric universe support** (nx ≠ ny ≠ nz allowed, following LEVEL-0 design)
+4. ✅ **Cubic voxels required** (dx same for all axes, preserves wave physics)
+5. ✅ **Attometer scaling for field values** (numerical precision, same principle as LEVEL-0)
+6. ✅ **Computed positions from indices** (memory efficiency, no explicit position storage)
+7. ✅ **Configurable connectivity** (6/18/26 neighbors)
+8. ✅ **Distance-based weighting** (physical accuracy)
+9. ✅ **Attometer units internally, meters for external reporting** (precision + clarity)
 
 ---
 

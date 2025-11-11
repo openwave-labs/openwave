@@ -1,7 +1,100 @@
 # WAVE ENGINE - FORCE CALCULATION & WAVE PROPAGATION
 
+## Notation Clarification: ψ vs A
+
+**Two Distinct Physical Quantities - Both Needed!**
+
+### 1. ψ (psi): Instantaneous Displacement
+
+- **What it is**: The actual wave displacement at each instant in time
+  - Oscillates rapidly at wave frequency (~10²⁵ Hz for energy waves)
+  - Can be positive or negative
+  - Varies: ψ(x,y,z,t)
+  - **Propagates via wave equation**: ∂²ψ/∂t² = c²∇²ψ
+
+- **In code**: `self.displacement_am[i,j,k]`
+- **Used for**:
+  - Wave propagation (PDEs, Laplacian)
+  - Wave mode analysis (longitudinal vs transverse)
+  - Phase calculations
+  - Instantaneous field values
+
+### 2. A: Amplitude Envelope
+
+- **What it is**: The **maximum displacement** at each location (envelope)
+  - For sinusoidal wave: ψ(x,t) = A(x) sin(kx - ωt)
+  - A is the peak: |ψ|max = A
+  - Always positive: A ≥ 0
+  - Slowly varying (envelope of high-frequency oscillation)
+  - **Tracked as running maximum** of |ψ| over time
+
+- **In code**: `self.amplitude_am[i,j,k]`
+- **Used for**:
+  - **Energy density**: u = ρc²(A/λ)² (EWT, no ½ factor)
+  - **Force calculation**: F = -∇A (MAP: Minimum **Amplitude** Principle)
+  - Energy gradients
+  - Pressure-like field that drives particle motion
+
+### Why Two Fields Are Needed
+
+**The High-Frequency Problem**:
+
+- Energy waves oscillate at ~10²⁵ Hz (from EWT)
+- Particles have mass/inertia - cannot respond to every oscillation
+- Particles respond to **time-averaged** force = force from **envelope** (A)
+
+**Analogy** (Speaker Diaphragm):
+
+- **ψ**: Diaphragm position oscillating at audio frequency
+- **A**: "Volume" setting - controls maximum displacement
+- You feel air pressure from **A** (volume), not individual oscillations (ψ)
+
+### Implementation Strategy
+
+**Wave Equation** propagates ψ (displacement):
+
+```python
+# High-frequency oscillation (updated every timestep)
+∂²ψ/∂t² = c²∇²ψ
+self.displacement_am[i,j,k]  # Stores current ψ
+```
+
+**Amplitude Tracking** extracts envelope A from ψ:
+
+```python
+# Track maximum |ψ| over time (envelope extraction)
+@ti.kernel
+def track_amplitude_envelope(self):
+    for i, j, k in self.displacement_am:
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+```
+
+**Force Calculation** uses A (not ψ):
+
+```python
+# Particles respond to amplitude gradient (envelope)
+F = -∇A  # Not -∇ψ !
+F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
+```
+
+### Summary Table
+
+| Property | ψ (Displacement) | A (Amplitude) |
+|----------|------------------|---------------|
+| **Field name** | `displacement_am[i,j,k]` | `amplitude_am[i,j,k]` |
+| **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
+| **Frequency** | High (~10²⁵ Hz) | Slowly varying |
+| **Sign** | ± (positive/negative) | + (always positive) |
+| **Propagation** | Wave equation (PDE) | Tracked from ψ |
+| **Used for** | Wave dynamics, phase, mode | Forces, energy, MAP |
+| **Formula** | ∂²ψ/∂t² = c²∇²ψ | A = max(\|ψ\|) over time |
+
+**Critical Point**: Forces use **amplitude gradient** (∇A), not displacement gradient (∇ψ)! This is because MAP = "Minimum **Amplitude** Principle" - particles move toward regions of lower amplitude envelope, not lower instantaneous displacement.
+
 ## Table of Contents
 
+1. [Notation Clarification: ψ vs A](#notation-clarification-ψ-vs-a)
 1. [Questions](#questions)
    - [Part 1: Force Calculation in Newtons](#part-1-force-calculation-in-newtons)
    - [Part 2: Wave Amplitude Propagation](#part-2-wave-amplitude-propagation)
@@ -25,7 +118,8 @@
 
 **Known**:
 
-- Each voxel stores wave amplitude in attometers
+- Each voxel stores wave displacement ψ in attometers
+- Each voxel tracks amplitude envelope A (max|ψ|) in attometers
 - Force follows MAP (Minimum Amplitude Principle): `F = -∇A`
 - Amplitude gradient can be calculated from neighboring voxels using finite differences
 
@@ -134,9 +228,10 @@ All generated from the fundamental energy wave (EWT).
 **Key Formula from EWT**:
 
 ```text
-Energy density: u = ½ρc²(A/λ)²  [J/m³]
-Force density:  f = -∇u        [N/m³]
-Force on voxel: F = f × dx³    [N]
+Energy density: u = ρc²(A/λ)²     [J/m³]  (EWT, no ½ factor)
+Force density:  f = -∇u           [N/m³]
+Force on voxel: F = f × dx³       [N]
+Final formula:  F = -2(ρdx³c²/λ²)×A×∇A  (factor of 2 from chain rule)
 ```
 
 Where:
@@ -149,25 +244,62 @@ Where:
 
 #### Physics Derivation
 
-**Energy in wave field**:
+**Energy in wave field (EWT formulation)**:
 
 ```text
 Total energy: E = ∫ u dV
-where u = ½ρc²(A/λ)² is energy density
+where u = ρc²(A/λ)² is energy density (from EWT)
 ```
 
-**Force from energy gradient**:
+**Note**: EWT energy equation `E = ρVc²(A/λ)²` does **not** include the ½ factor found in classical wave mechanics.
+
+**Physical Meaning of EWT Formula**:
+
+In oscillating wave systems, energy alternates between kinetic (medium motion) and potential (compression):
+
+```text
+Classical time-averaged: ⟨E⟩ = ½ρVc²(A/λ)²  (average over cycle)
+
+EWT total/peak energy:   E = ρVc²(A/λ)²     (total energy capacity)
+                         E = 2 × ⟨E⟩classical
+```
+
+**Why use total instead of average?**
+
+- Amplitude A represents **peak displacement** (maximum pressure)
+- Forces respond to **total energy gradients** (peak pressure differences)
+- `E_EWT = max(KE + PE)` = total energy that sloshes between kinetic and potential
+- This is the "energy budget" that creates pressure gradients driving particle motion
+
+Analogy: Sound pressure - objects respond to peak amplitude (loudness), not time-averaged sound.
+
+**Force from total energy gradient**:
 
 ```text
 F = -∇E
   = -∇(u × V)
-  = -∇(½ρc²(A/λ)² × V)
-  = -(ρc²/λ²) × V × ∇(A²)
-  = -(ρc²/λ²) × V × 2A∇A
-  = -(ρc²/λ²) × V × A × ∇A  (neglecting factor of 2)
+  = -∇(ρVc²(A/λ)²)
+  = -(ρVc²/λ²) × ∇(A²)
+  = -(ρVc²/λ²) × 2A∇A
+  = -2(ρVc²/λ²) × A∇A
 ```
 
 Where `V = dx³` is voxel volume.
+
+**Implementation Note**: The factor of 2 comes from chain rule (∇A² = 2A∇A) and remains in the final force formula.
+
+**EWT vs Classical Comparison**:
+
+```text
+Classical wave mechanics:
+  u = ½ρc²(A/λ)²  → F = -(ρVc²/λ²) × A∇A
+
+EWT (used in this simulation):
+  u = ρc²(A/λ)²   → F = -2(ρVc²/λ²) × A∇A
+
+The EWT force constant is 2× classical due to using total energy (no ½ factor).
+Use EWT formulation for consistency with energywavetheory.com
+```
 
 #### Implementation
 
@@ -175,12 +307,15 @@ Where `V = dx³` is voxel volume.
 @ti.kernel
 def compute_force_field_newtons(self):
     """
-    Compute force in Newtons from amplitude gradient.
+    Compute force in Newtons from amplitude gradient (EWT formulation).
 
     Physics:
-    - Energy density: u = ½ρc²(A/λ)²
-    - Force: F = -∇E = -∇(u×V) = -(ρc²/λ²) × V × A × ∇A
+    - Energy density: u = ρc²(A/λ)² (EWT, no ½ factor)
+    - Force: F = -∇E = -∇(u×V) = -2(ρVc²/λ²) × A × ∇A
     where V = dx³ (voxel volume)
+
+    Note: Factor of 2 from chain rule (∇A² = 2A∇A) is included.
+    This differs from classical wave mechanics by factor of 2.
 
     MAP Principle: Force points toward lower amplitude (negative gradient)
     """
@@ -190,9 +325,10 @@ def compute_force_field_newtons(self):
     λ_m = self.wavelength_am * constants.ATTOMETER  # wavelength in meters
     dx_m = self.dx_am * constants.ATTOMETER         # voxel size in meters
 
-    # Force scaling factor
-    # Dimensional analysis: (kg/m³)(m²/s²)/(m²)(m³) = kg⋅m/s² = N
-    force_scale = (ρ * c**2 / λ_m**2) * (dx_m**3)
+    # Force scaling factor (EWT formulation with factor of 2)
+    # F = -2(ρdx³c²/λ²) × A × ∇A
+    # Dimensional analysis: 2 × (kg/m³)(m³)(m²/s²)/(m²) = kg⋅m/s² = N
+    force_scale = 2.0 * (ρ * c**2 / λ_m**2) * (dx_m**3)
 
     for i, j, k in self.amplitude_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
@@ -258,7 +394,7 @@ When a particle at position `(x, y, z)` experiences this force:
 2. **Vector components** determine motion in 3D space
 3. **Acceleration direction**: `a = F/m` (same direction as force)
 4. **Velocity change**: Particle accelerates along force direction
-5. **Position update**: Particle moves toward amplitude minimum
+5. **Position update**: Particle moves toward lower amplitude (MAP)
 
 **Computing Force Direction (if needed separately)**:
 
@@ -351,22 +487,24 @@ LEVEL-1 uses **PDEs (Partial Differential Equations)** to propagate waves throug
 
 ```text
 ∂²ψ/∂t² = c²∇²ψ
+or,
+ψ" = c²Δψ
 ```
 
 Where:
 
-- `ψ` = wave amplitude field (scalar)
+- `ψ` = wave displacement field (scalar)
 - `c` = wave propagation speed (speed of light, 2.998×10⁸ m/s)
-- `∇²ψ` = Laplacian operator (spatial second derivative)
-- `∂²ψ/∂t²` = second time derivative (acceleration of amplitude)
+- `∇²ψ` = Laplacian operator (second-order spatial derivative)
+- `∂²ψ/∂t²` = second-order time derivative (acceleration of displacement)
 
 **Physical Interpretation**:
 
-- Left side: How fast amplitude is accelerating in time
-- Right side: How much amplitude differs from neighbors (curvature)
-- Equation says: "Amplitude accelerates toward its neighbors' average"
+- Left side: How fast displacement is accelerating in time
+- Right side: How much displacement differs from neighbors (curvature)
+- Equation says: "Displacement accelerates toward its neighbors' average"
 
-#### Laplacian Operator (How Voxels Share Amplitude)
+#### Laplacian Operator (How Voxels Share Displacement)
 
 **Discrete Laplacian** (6-connectivity, face neighbors only):
 
@@ -382,9 +520,9 @@ Where:
 
 **Physical Meaning**:
 
-- Laplacian measures how much a voxel's amplitude differs from its neighbors' average
-- Positive Laplacian: voxel lower than average → amplitude will increase
-- Negative Laplacian: voxel higher than average → amplitude will decrease
+- Laplacian measures how much a voxel's displacement differs from its neighbors' average
+- Positive Laplacian: voxel lower than average → displacement will increase
+- Negative Laplacian: voxel higher than average → displacement will decrease
 - This drives wave propagation: differences smooth out over time
 
 #### Time Evolution Implementation
@@ -393,7 +531,7 @@ Where:
 @ti.kernel
 def propagate_wave_field(dt: ti.f32):
     """
-    Propagate wave amplitude using wave equation.
+    Propagate wave displacement using wave equation.
 
     Second-order in time (requires storing two previous timesteps):
     ψ_new = 2ψ_current - ψ_old + (c×dt/dx)² × ∇²ψ
@@ -408,31 +546,31 @@ def propagate_wave_field(dt: ti.f32):
     # If violated, solution becomes unstable
 
     # Update all interior voxels
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Compute Laplacian (6-connectivity)
             laplacian = (
-                self.amplitude_am[i+1,j,k] + self.amplitude_am[i-1,j,k] +
-                self.amplitude_am[i,j+1,k] + self.amplitude_am[i,j-1,k] +
-                self.amplitude_am[i,j,k+1] + self.amplitude_am[i,j,k-1] -
-                6.0 * self.amplitude_am[i,j,k]
+                self.displacement_am[i+1,j,k] + self.displacement_am[i-1,j,k] +
+                self.displacement_am[i,j+1,k] + self.displacement_am[i,j-1,k] +
+                self.displacement_am[i,j,k+1] + self.displacement_am[i,j,k-1] -
+                6.0 * self.displacement_am[i,j,k]
             ) / (self.dx_am * self.dx_am)
 
             # Wave equation update (leap-frog scheme)
-            self.amplitude_new[i,j,k] = (
-                2.0 * self.amplitude_am[i,j,k]  # Current amplitude
-                - self.amplitude_old[i,j,k]      # Previous amplitude
+            self.displacement_new[i,j,k] = (
+                2.0 * self.displacement_am[i,j,k]  # Current displacement
+                - self.displacement_old[i,j,k]      # Previous displacement
                 + cfl_factor * laplacian          # Wave propagation term
             )
 
     # Swap timesteps for next iteration
     # old ← current ← new
-    self.amplitude_old, self.amplitude_am = self.amplitude_am, self.amplitude_new
+    self.displacement_old, self.displacement_am = self.displacement_am, self.displacement_new
 ```
 
 **Storage Requirements**:
 
-- Three amplitude fields: `amplitude_old`, `amplitude_am` (current), `amplitude_new`
+- Three displacement fields: `displacement_old`, `displacement_am` (current), `displacement_new`
 - Needed for second-order time integration
 
 **Stability Condition** (CFL - Courant-Friedrichs-Lewy):
@@ -446,7 +584,114 @@ c = 2.998e8 m/s
 dt_max = 1.25e-18 / (2.998e8 × √3) ≈ 2.4e-27 s
 ```
 
-This is extremely small! Need many timesteps.
+**This is extremely small!** Timesteps are ~10⁻²⁷ seconds (rontosecond scale).
+
+**Rontosecond Scaling Solution**:
+
+Just as spatial scales use attometer (10⁻¹⁸ m) scaling for numerical precision, **temporal scales use rontosecond (10⁻²⁷ s) scaling**:
+
+```python
+# Scaling constants
+ATTOMETER = 1e-18     # m, attometer length scale
+RONTOSECOND = 1e-27   # s, rontosecond time scale
+
+# Convert timestep to rontoseconds
+dt_rs = dt / constants.RONTOSECOND
+
+# Example:
+dt = 2.4e-27  # Physical timestep in seconds (SI)
+dt_rs = 2.4e-27 / 1e-27 = 2.4  # Scaled to rontoseconds
+```
+
+**Benefits**:
+
+- Maintains numerical precision with f32 (6-7 significant digits)
+- Prevents catastrophic cancellation in time derivatives
+- dt_rs values ~1.0 (optimal range for f32 precision)
+- Naming convention: `_am` for spatial (attometers), `_rs` for temporal (rontoseconds)
+
+#### Timestep Strategy: Fixed vs Elapsed Time
+
+**CRITICAL DECISION**: LEVEL-1 must use **fixed timesteps** (unlike LEVEL-0's elapsed time approach).
+
+**Why LEVEL-0 Uses Elapsed Time**:
+
+```python
+# LEVEL-0 (particle-based, no CFL constraint)
+elapsed_t = time.time() - previous_time  # Variable (0.001-0.1s typical)
+update_particles(elapsed_t)  # Particles can handle variable dt
+```
+
+**Pros**: Real-time sync, adapts to frame rate, good for interactive visualization
+
+**Cons**: Non-deterministic, timing depends on system performance
+
+**Why LEVEL-1 CANNOT Use Elapsed Time**:
+
+```python
+# Wave equation CFL requirement
+dt_max = dx / (c√3) ≈ 2.4e-27 s  # MUST NOT EXCEED!
+
+# But elapsed time is typically:
+elapsed_t ≈ 0.001 to 0.1 s  # Frame time (milliseconds)
+
+# Ratio: elapsed_t / dt_max ≈ 10^24
+# Result: IMMEDIATE NUMERICAL EXPLOSION 💥
+```
+
+**The wave equation becomes unstable if dt > dt_max**. Using elapsed time would violate CFL by ~24 orders of magnitude!
+
+**LEVEL-1 Solution: Fixed Timestep + Frame Accumulator**:
+
+```python
+# Fixed physics timestep (respects CFL)
+dt_physics = 2.0e-27  # seconds (or 2.0 in rontoseconds)
+dt_physics_rs = 2.0   # rontoseconds (scaled)
+
+# Hybrid approach: decouple physics from rendering
+accumulated_time = 0.0
+
+def main_loop():
+    previous_time = time.time()
+
+    while running:
+        # Measure elapsed real time
+        current_time = time.time()
+        elapsed_t = current_time - previous_time
+        previous_time = current_time
+
+        # Accumulate time for physics
+        accumulated_time += elapsed_t
+
+        # Run fixed timesteps until caught up
+        while accumulated_time >= dt_physics:
+            update_physics(dt_physics_rs)  # Fixed dt (rontoseconds)
+            accumulated_time -= dt_physics
+
+        # Render at variable rate (decoupled from physics)
+        render_frame()
+```
+
+**Benefits of Fixed Timestep Approach**:
+
+- ✓ **Guarantees CFL stability** (dt always ≤ dt_max)
+- ✓ Deterministic results (reproducible simulations)
+- ✓ Accurate physics regardless of frame rate
+- ✓ Can run faster or slower than real-time
+- ✓ Can save/replay exact simulation states
+
+**Comparison Table**:
+
+| Aspect | LEVEL-0 (Elapsed) | LEVEL-1 (Fixed) |
+|--------|-------------------|-----------------|
+| **Timestep** | Variable (frame-dependent) | Fixed (CFL-limited) |
+| **Stability** | Robust to large dt | Requires dt ≤ dt_max |
+| **Real-time sync** | Perfect | Approximate (via accumulator) |
+| **Deterministic** | No (varies per run) | Yes (reproducible) |
+| **Physics accuracy** | Euler integration (acceptable) | PDE solver (requires fixed dt) |
+| **Use case** | Interactive particle systems | Scientific wave simulation |
+
+**Recommendation**: LEVEL-1 **MUST** use fixed timesteps for numerical stability. The hybrid accumulator approach allows real-time rendering while maintaining stable physics.
 
 #### Alternative: Huygens Wavelets
 
@@ -467,8 +712,8 @@ def propagate_huygens(dt: ti.f32):
     c = ti.f32(constants.EWAVE_SPEED)
     propagation_distance = c * dt
 
-    for i, j, k in self.amplitude_am:
-        if ti.abs(self.amplitude_am[i,j,k]) > threshold:
+    for i, j, k in self.displacement_am:
+        if ti.abs(self.displacement_am[i,j,k]) > threshold:
             # This voxel emits wavelets to neighbors
             for di in range(-1, 2):
                 for dj in range(-1, 2):
@@ -485,7 +730,7 @@ def propagate_huygens(dt: ti.f32):
                             distance = ti.sqrt(ti.f32(di*di + dj*dj + dk*dk)) * self.dx_am
 
                             # Wavelet contribution (inverse distance weighting)
-                            contribution = self.amplitude_am[i,j,k] / distance
+                            contribution = self.displacement_am[i,j,k] / distance
 
                             # Add to neighbor (superposition)
                             # Note: This is simplified, full implementation needs proper weighting
@@ -519,15 +764,15 @@ def compute_total_energy() -> ti.f32:
     """Verify energy conservation in wave field."""
     total_energy = 0.0
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         # Velocity (time derivative of amplitude)
-        v = (self.amplitude_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
+        v = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
 
         # Kinetic energy density
         E_k = 0.5 * ρ * v**2
 
         # Potential energy density
-        E_p = 0.5 * ρ * c**2 * (self.amplitude_am[i,j,k] / λ)**2
+        E_p = 0.5 * ρ * c**2 * (self.displacement_am[i,j,k] / λ)**2
 
         # Add to total
         total_energy += (E_k + E_p) * dx**3
@@ -558,7 +803,7 @@ Wave mode is determined by the relationship between **medium displacement direct
 
 ```text
 Wave propagation direction: k̂ = S / |S|  (from energy flux, see Answer 4)
-Medium displacement direction: û = ∇ψ / |∇ψ|  (from amplitude gradient)
+Medium displacement direction: û = ∇ψ / |∇ψ|  (from displacement gradient)
 
 Dot product: cos(θ) = k̂ · û
 - cos(θ) ≈ ±1: Longitudinal (parallel/antiparallel)
@@ -581,14 +826,14 @@ def compute_wave_mode(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # 1. Compute wave propagation direction (energy flux)
-            psi = self.amplitude_am[i,j,k]
+            psi = self.displacement_am[i,j,k]
 
-            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -685,14 +930,14 @@ def compute_wave_components(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # 1. Compute wave propagation direction (energy flux)
-            psi = self.amplitude_am[i,j,k]
+            psi = self.displacement_am[i,j,k]
 
-            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -907,13 +1152,13 @@ def compute_wave_type(self):
     ρ = ti.f32(constants.MEDIUM_DENSITY)
     λ_m = self.wavelength_am * constants.ATTOMETER
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Current amplitude
-            psi = self.amplitude_am[i,j,k] * constants.ATTOMETER  # meters
+            # Current displacement
+            psi = self.displacement_am[i,j,k] * constants.ATTOMETER  # meters
 
             # Velocity (time derivative approximation)
-            v_wave = (self.amplitude_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
+            v_wave = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
             v_wave_m = v_wave * constants.ATTOMETER  # m/s
 
             # Kinetic energy density
@@ -952,10 +1197,10 @@ def compute_wave_type_node_motion(self, dt: ti.f32):
     Standing wave: Nodes (ψ=0) remain at fixed spatial locations
     Traveling wave: Nodes move with wave velocity
     """
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Check if current voxel is near a node (zero crossing)
-            psi_now = self.amplitude_am[i,j,k]
+            psi_now = self.displacement_am[i,j,k]
             psi_old = self.amplitude_old[i,j,k]
 
             # Zero crossing detection
@@ -1085,101 +1330,129 @@ Answer for EWT: Non-dispersive!
 - This is like electromagnetic waves in vacuum
 ```
 
-**Measuring Local Wavelength**:
+**Measuring Local Frequency and Wavelength - Simple Temporal Method**:
 
-Since wavelength can vary spatially, we need to **measure it locally** from the wave pattern:
+The most direct way to measure frequency is to **time the oscillations directly**:
+
+**Method**: Track when ψ reaches amplitude (peak detection), measure period T between peaks, then compute f = 1/T and λ = c/f.
+
+**Advantages**:
+
+- **Direct measurement**: Measures actual oscillation period (what frequency means!)
+- **Simple implementation**: Reuses existing amplitude tracking (`amplitude_am`)
+- **Physical intuition**: Each voxel times its own oscillations
+- **Works per voxel**: Independent measurement at each location
+- **Handles superposition**: Measures dominant frequency automatically
+
+**Implementation**:
 
 ```python
+# In WaveField class __init__, add:
+self.last_peak_time_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Time of last peak (rontoseconds)
+self.period_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))          # Measured period (rontoseconds)
+self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # f = 1/T (Hz)
+self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # λ = c/f (attometers)
+
 @ti.kernel
-def compute_local_wavelength(self):
+def measure_period_and_frequency(self, current_time_rs: ti.f32):
     """
-    Compute wavelength at each voxel by measuring spatial oscillation.
+    Measure frequency by timing peaks (when |ψ| = A).
 
-    Method: Count distance between successive amplitude peaks/troughs.
+    Method:
+    1. Detect when displacement reaches amplitude (peak)
+    2. Measure time between consecutive peaks = period T
+    3. Compute frequency: f = 1/T
+    4. Compute wavelength: λ = c/f
+
+    Note: Similar to wave_engine_level0.py amplitude tracking approach.
     """
-    for i, j, k in self.amplitude_am:
-        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Method 1: From wave number (spatial frequency)
-            # Wave number k = 2π/λ
-            # Can estimate from spatial derivative of phase
+    c_am_per_rs = ti.f32(constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND)
 
-            # For now, we'll use a simpler approach:
-            # Measure distance to next amplitude maximum
+    for i, j, k in self.displacement_am:
+        # Check if displacement is at a peak (|ψ| ≈ A)
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        amp = self.amplitude_am[i,j,k]
 
-            # Get wave propagation direction
-            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+        # Peak detection: current displacement within 1% of amplitude
+        if amp > 1e-12 and disp_mag >= amp * 0.99:
+            # This is a peak!
 
-            grad_mag = ti.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
+            if self.last_peak_time_rs[i,j,k] > 0:  # Not the first peak
+                # Measure period (time since last peak)
+                T_rs = current_time_rs - self.last_peak_time_rs[i,j,k]
 
-            if grad_mag > 1e-12:
-                # Wave number (spatial frequency)
-                # k ≈ |∇A| / A (for sinusoidal wave)
-                k = grad_mag / ti.abs(self.amplitude_am[i,j,k] + 1e-20)
+                if T_rs > 0:
+                    # Store period (in rontoseconds)
+                    self.period_rs[i,j,k] = T_rs
 
-                # Wavelength from wave number
-                # λ = 2π/k
-                wavelength_am = 2.0 * ti.math.pi / (k + 1e-20)
+                    # Frequency = 1/T
+                    # Convert period from rontoseconds to seconds, then f = 1/T
+                    T_seconds = T_rs * constants.RONTOSECOND
+                    self.frequency_local[i,j,k] = 1.0 / T_seconds  # Hz
 
-                self.wavelength_local[i,j,k] = wavelength_am
-            else:
-                # No gradient, use default
-                self.wavelength_local[i,j,k] = self.wavelength_am
+                    # Wavelength = c/f (in attometers)
+                    # λ = c / f = c × T
+                    self.wavelength_local[i,j,k] = c_am_per_rs * T_rs
+
+            # Update last peak time for next measurement
+            self.last_peak_time_rs[i,j,k] = current_time_rs
+
+# Usage in main simulation loop:
+def update_timestep(self, dt_rs: ti.f32):
+    """Complete wave field update for one timestep."""
+    self.current_time_rs += dt_rs
+
+    # 1. Propagate wave displacement
+    self.propagate_wave_field(dt_rs)
+
+    # 2. Track amplitude envelope
+    self.track_amplitude_envelope()
+
+    # 3. Measure period/frequency from peaks
+    self.measure_period_and_frequency(self.current_time_rs)
+
+    # 4. Compute wave direction
+    self.compute_wave_direction()
+
+    # 5. Compute force field
+    self.compute_force_field_newtons()
 ```
 
-**Computing Local Frequency**:
+**Physical Notes**:
 
-Once we have local wavelength, frequency follows from c = λf:
+- **First peak**: Just records time, no period computed yet
+- **Second peak**: Computes first period measurement (T = t2 - t1)
+- **Convergence**: Takes ~2 oscillation periods to get stable measurements
+- **Standing waves**: Correctly measures temporal oscillation frequency
+- **Traveling waves**: Measures frequency of passing wave crests
+- **Superposition**: Measures dominant/beating frequency pattern
+
+**Connection to LEVEL-0**:
+
+This approach mirrors `wave_engine_level0.py`'s amplitude tracking:
 
 ```python
-@ti.kernel
-def compute_local_frequency(self):
-    """
-    Compute frequency at each voxel from c = λf.
+# LEVEL-0 tracks amplitude per granule:
+amplitude_am[granule_idx] = max(|ψ|)
 
-    Note: In non-dispersive medium (EWT), this is straightforward.
-    """
-    c = ti.f32(constants.EWAVE_SPEED)
-    c_am = c / constants.ATTOMETER  # Convert to am/s for consistency
-
-    for i, j, k in self.wavelength_local:
-        if self.wavelength_local[i,j,k] > 0:
-            # f = c / λ
-            self.frequency_local[i,j,k] = c_am / self.wavelength_local[i,j,k]
-        else:
-            self.frequency_local[i,j,k] = 0.0
+# LEVEL-1 extends this to track period:
+period_rs[i,j,k] = time between peaks when |ψ| = amplitude_am[i,j,k]
 ```
 
-**Alternative: Phase-Based Wavelength Measurement**:
+**Why This Works Better Than Spatial Methods**:
 
-A more robust method uses the **phase field**:
+```text
+Spatial gradient method (old):
+- k ≈ |∇A|/A, then λ = 2π/k
+- Requires stable spatial pattern
+- Sensitive to noise in gradients
+- Complex for superposition
 
-```python
-@ti.kernel
-def compute_wavelength_from_phase(self):
-    """
-    Compute wavelength from spatial phase gradient.
-
-    Wave number: k = |∇φ|
-    Wavelength: λ = 2π/k
-    """
-    for i, j, k in self.phase:
-        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Phase gradient (unwrapped)
-            grad_phi_x = (self.phase[i+1,j,k] - self.phase[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_phi_y = (self.phase[i,j+1,k] - self.phase[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_phi_z = (self.phase[i,j,k+1] - self.phase[i,j,k-1]) / (2.0 * self.dx_am)
-
-            # Wave number magnitude
-            k = ti.sqrt(grad_phi_x**2 + grad_phi_y**2 + grad_phi_z**2)
-
-            if k > 1e-12:
-                # Wavelength
-                wavelength_am = 2.0 * ti.math.pi / k
-                self.wavelength_local[i,j,k] = wavelength_am
-            else:
-                self.wavelength_local[i,j,k] = self.wavelength_am  # Default
+Temporal peak timing (new):
+- T = time between peaks
+- Direct measurement of oscillation
+- Robust to spatial noise
+- Natural handling of beating/interference
 ```
 
 **Wavelength Propagation and Changes**:
@@ -1205,7 +1478,7 @@ Analogy: Water waves
 - Different wavelengths can coexist in the same water
 
 In EWT:
-- Amplitude ψ: Propagates via ∂²ψ/∂t² = c²∇²ψ
+- Displacement ψ: Propagates via ∂²ψ/∂t² = c²∇²ψ
 - Wavelength λ: Measured from spatial pattern
 - Different particles create different wavelengths
 - λ varies spatially based on energy source
@@ -1230,6 +1503,7 @@ Shorter wavelength → Higher energy (since c = λf is constant)
 **How Frequency Changes Occur**:
 
 1. **Different sources**:
+
    ```python
    # Neutrino creates waves at frequency f1
    λ1 = c / f1
@@ -1242,6 +1516,7 @@ Shorter wavelength → Higher energy (since c = λf is constant)
    ```
 
 2. **Energy transformations** (e.g., electron converting energy wave → EM wave):
+
    ```python
    # Incoming energy wave: f_in, λ_in
    # Electron oscillates at f_electron
@@ -1251,6 +1526,7 @@ Shorter wavelength → Higher energy (since c = λf is constant)
    ```
 
 3. **Doppler shift** (moving source):
+
    ```text
    For source moving with velocity v:
 
@@ -1342,21 +1618,23 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 
 | Property | Constant? | How Determined? | Propagates? |
 |----------|-----------|-----------------|-------------|
-| **c** (wave speed) | ✓ Yes (constant everywhere) | From medium properties | N/A (property of medium) |
 | **ρ** (medium density) | ✓ Yes (uniform medium) | From EWT constants | N/A (property of medium) |
-| **ψ** (amplitude) | ✗ No (varies spatially/temporally) | Wave equation evolution | ✓ Yes (via PDE) |
-| **λ** (wavelength) | ✗ No (varies spatially) | **Measured** from pattern | ✗ No (derived property) |
-| **f** (frequency) | ✗ No (varies spatially) | **Computed** f = c/λ | ✗ No (derived property) |
-| **E** (energy) | ✗ No (varies spatially) | E = hf or E ∝ A² | ✓ Yes (via wave) |
+| **c** (wave speed) | ✓ Yes (constant everywhere) | From medium properties | N/A (property of medium) |
+| **ψ** (displacement) | ✗ No (varies spatially/temporally) | Wave equation evolution | ✓ Yes (via PDE) |
+| **A** (amplitude) | ✗ No (varies spatially/temporally) | **Tracked max**(\|ψ\|) | ✓ Yes (via PDE) |
+| **T** (period) | ✗ No (varies spatially) | **Measured** (time between peaks) | ✗ No (derived property) |
+| **f** (frequency) | ✗ No (varies spatially) | **Computed** f = 1/T | ✗ No (derived property) |
+| **λ** (wavelength) | ✗ No (varies spatially) | **Computed** λ = c/f = cT | ✗ No (derived property) |
+| **E** (energy) | ✗ No (varies spatially) | E = ρV(c/λ.A)^2 | ✓ Yes (via wave energy) |
 
 **Key Takeaways**:
 
 1. **c is constant** throughout the EWT medium (non-dispersive)
-2. **λ can vary** spatially based on energy sources and interactions
-3. **λ is measured**, not propagated (it's a property of the spatial pattern)
-4. **f = c/λ** gives you local frequency once you measure λ
-5. For **single source**, λ is constant; for **multiple sources**, λ varies
-6. Use **phase gradient** or **amplitude gradient** to measure local λ
+2. **T is measured directly** by timing oscillations (when \|ψ\| reaches A)
+3. **f = 1/T** and **λ = c/f** are computed from measured period
+4. **Simple and robust**: Direct temporal measurement, not sensitive to spatial gradients
+5. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
+6. For **single source**, λ is constant; for **multiple sources**, measures dominant frequency
 
 ---
 
@@ -1536,15 +1814,15 @@ def compute_wave_direction(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Current amplitude
-            psi = self.amplitude_am[i,j,k]
+            # Current displacement
+            psi = self.displacement_am[i,j,k]
 
             # Amplitude gradient
-            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -1580,10 +1858,10 @@ def compute_wave_direction_velocity(self):
     Wave velocity: v = ∂ψ/∂t ≈ (ψ_current - ψ_old) / dt
     Direction: gradient of velocity field
     """
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Time derivative (wave velocity)
-            v_wave = (self.amplitude_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
+            v_wave = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
 
             # Gradient of velocity gives acceleration direction
             # (This is less direct, energy flux method is better)
@@ -1654,7 +1932,8 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
                          ↓
 ┌─────────────────────────────────────────────────────────┐
 │ 3. FORCE GENERATION (amplitude gradients)               │
-│    ├─ Force field: F = -(ρc²/λ²)×V×A×∇A [Newtons]       │
+│    ├─ Force field: F = -∇E (force from energy gradient) │
+│    ├─ F = -2(ρVc²/λ²)×A×∇A [Newtons]                    │
 │    ├─ Forces emerge from wave patterns                  │
 │    ├─ Electric: wave reflection patterns (charges)      │
 │    ├─ Magnetic: moving wave patterns (currents)         │
@@ -1694,7 +1973,7 @@ self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 
 ```text
 ∂²ψ/∂t² = c²∇²ψ                    (wave propagation)
-F = -∇E = -∇(½ρc²(A/λ)²×V)        (force from energy gradient)
+F = -∇E = -∇(ρVc²(A/λ)²)         (force from energy gradient, EWT)
 ```
 
 This is the foundation of reality in Energy Wave Theory.
@@ -1715,7 +1994,7 @@ class WaveField:
 
         # Three amplitude fields for wave equation (leap-frog)
         self.amplitude_old = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
         self.amplitude_new = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 
         # Wave direction (computed from energy flux)
@@ -1738,7 +2017,7 @@ class WaveField:
 
     @ti.kernel
     def compute_force_field_newtons(self):
-        """Compute force in Newtons from amplitude gradient."""
+        """Compute force in Newtons from amplitude gradient (EWT)."""
         # See Answer 1
         pass
 
