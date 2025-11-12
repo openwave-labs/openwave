@@ -38,7 +38,7 @@ OpenWave aims to:
 
 - Model matter and energy phenomena through wave field dynamics
 - Simulate particle emergence from standing wave patterns in fields
-- Validate field-based wave mechanics against known physics
+- Validate field-based mechanics against known physics
 - Provide computational and visualization tools for wave-based models
 
 **Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.

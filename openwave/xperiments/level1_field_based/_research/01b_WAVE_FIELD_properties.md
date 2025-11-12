@@ -511,7 +511,7 @@ class WaveField:
     """
     Wave field simulation using cell-centered grid with attometer scaling.
 
-    This class implements LEVEL-1 field-based wave propagation with:
+    This class implements LEVEL-1 field-based propagation with:
     - Cell-centered cubic grid
     - Attometer scaling for numerical precision (f32 fields)
     - Computed positions from indices (memory efficient)

@@ -39,7 +39,7 @@
 - Similar to: **Quantum field theory computational implementations**
 - Educational value: Moderate (requires field theory understanding)
 - Research value: **HIGH** (scalable, physics-accurate, matter formation capable)
-- QFT alignment: **VERY HIGH** (fundamentally field-based)
+- QFT alignment: **VERY HIGH** (fundamentally field-theory)
 
 ## Why Level-1 Aligns Strongly with QFT
 
