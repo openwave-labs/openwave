@@ -835,6 +835,55 @@ F = -2ρVf² × A∇A                # Monochromatic (∇f = 0, single frequency
 density ∝ amplitude             # For compression waves
 ```
 
+### Point Properties
+
+**Stored at Each Voxel**:
+
+- Displacement (ψ): Instantaneous oscillating value at [i,j,k]
+- Amplitude (A): Envelope, running maximum of |ψ| at [i,j,k]
+- Density: Local compression/rarefaction
+- Speed: Oscillation velocity at point
+- Direction: Wave propagation direction at point
+- Phase: Position in wave cycle
+
+**Direct Access**:
+
+```python
+psi = displacement_am[i, j, k]  # Instantaneous displacement
+A = amplitude_am[i, j, k]        # Envelope (max|ψ|)
+dir = wave_direction[i, j, k]
+```
+
+### Derived Properties
+
+**Computed from Field**:
+
+- **Frequency f**: PRIMARY property, measured from temporal oscillations
+  - Measured directly: f = 1/dt (where dt is time between peaks)
+  - If stored: propagates with wave
+  - Aligns with Planck E = hf (energy proportional to frequency)
+
+- **Wavelength λ**: DERIVED from frequency
+  - Computed from frequency: λ = c/f
+  - Can also be measured spatially: `λ = distance(amplitude_max[n], amplitude_max[n+1])`
+  - Not typically stored (derived when needed)
+
+- **Energy**: Integral of energy density (frequency-based)
+  - Energy density: u = ρ(fA)² (EWT, frequency-centric, no ½ factor)
+  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(fA)²[i,j,k] * dx³`
+
+**Measurement Algorithms**:
+
+```python
+@ti.kernel
+def measure_wavelength() -> ti.f32:
+    """Measure wavelength from spatial pattern."""
+    # Find two successive amplitude maxima
+    max_positions = find_amplitude_maxima()
+    wavelength = distance(max_positions[0], max_positions[1])
+    return wavelength
+```
+
 ## LEVEL-0 vs LEVEL-1 Properties
 
 | Property | LEVEL-0 (Granule) | LEVEL-1 (Field) |

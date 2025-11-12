@@ -14,10 +14,6 @@
 1. [Mass and Energy](#mass-and-energy)
    - [Mass Accumulation](#mass-accumulation)
    - [Energy-Mass Relationship](#energy-mass-relationship)
-1. [Complex Structures](#complex-structures)
-   - [Composite Particles](#composite-particles)
-   - [Electron Formation](#electron-formation)
-   - [Particle Binding](#particle-binding)
 1. [Implementation Details](#implementation-details)
    - [Taichi Particle System](#taichi-particle-system)
    - [Field-Particle Interaction](#field-particle-interaction)
@@ -138,6 +134,54 @@ def apply_wave_center_reflection(xc: ti.f32, yc: ti.f32, zc: ti.f32):
 
 **For particle motion dynamics**, see [`06_FORCE_MOTION.md` - Particle Motion from Forces](./06_FORCE_MOTION.md#particle-motion-from-forces)
 
+### Near-Field vs Far-Field
+
+#### Behavior Differences
+
+**Near-Field** (r < few λ):
+
+- Complex interference patterns
+- Standing waves dominate
+- Strong amplitude gradients (strong forces)
+- Multiple wavelength components
+- Non-spherical patterns
+
+**Far-Field** (r >> λ):
+
+- Simpler traveling waves
+- Spherical wave fronts
+- Weak amplitude gradients (weak forces)
+- Single wavelength dominant
+- 1/r amplitude falloff
+
+**Transition Region** (r ≈ λ):
+
+- Mixed behavior
+- Depends on source geometry
+- Important for particle interactions
+
+#### Wave Formation Zones
+
+**Formation Region**:
+
+- Occurs in near-field around particles
+- Standing waves "lock in" particle structure
+- Determines particle properties (mass, charge, etc.)
+- Where particle identity is established
+
+**Stable Patterns**:
+
+- Standing wave nodes define particle structure
+- Node positions at r = nλ/2
+- Specific patterns = specific particles
+- Changes in pattern = particle transformation
+
+**Examples**:
+
+- Neutrino: Simple spherical standing wave
+- Electron: 10-center pattern with specific node structure
+- Proton: Complex multi-center pattern
+
 ## Mass and Energy
 
 ### Mass Accumulation
@@ -182,59 +226,6 @@ def compute_particle_mass(p: ti.i32) -> ti.f32:
 - Total energy (field + particle mass) conserved
 - Energy can transfer: field ↔ particle mass
 - Particle motion carries kinetic energy
-
-## Complex Structures
-
-### Composite Particles
-
-**Multi-Center Particles**:
-
-- Fundamental particles can combine
-- Multiple wave centers form bound state
-- Standing wave pattern spans multiple centers
-
-**Examples**:
-
-- **Electron**: 10 wave centers in specific configuration
-- **Proton**: Complex multi-center structure
-- **Neutron**: Different multi-center arrangement
-
-### Electron Formation
-
-**"Click" Event**:
-
-- Two wave centers approach each other
-- At critical distance, standing wave pattern locks
-- Centers bind together → electron forms
-- Transformation visible in simulation
-
-**Conditions**:
-
-- Specific approach velocity / kinetic energy
-- Other Specific energy configuration, external force
-- Specific wave phase relationship
-
-**Visualization**:
-
-- Show two centers approaching
-- Standing wave pattern changes
-- Sudden "snap" into bound configuration
-- New composite particle with different properties
-
-### Particle Binding
-
-**Binding Mechanism**:
-
-- Wave interference creates attractive/repulsive regions
-- Centers settle into stable configuration
-- Minimum amplitude principle maintains binding
-- Similar to quantum mechanical orbitals
-
-**Stability**:
-
-- Bound state = local energy minimum
-- Perturbations cause oscillations, not unbinding
-- Different stable configurations = different particles
 
 ## Implementation Details
 
