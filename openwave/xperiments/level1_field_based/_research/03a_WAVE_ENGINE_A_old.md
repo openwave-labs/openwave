@@ -34,7 +34,7 @@
 
 ## Overview
 
-The **Wave Engine** is the core computational system that propagates wave disturbances through the field-based medium in LEVEL-1. It handles wave propagation, interference, reflection, and all wave interactions governed by partial differential equations (PDEs).
+The **Wave Engine** is the core computational system that propagates wave disturbances through the wave-field medium in LEVEL-1. It handles wave propagation, interference, reflection, and all wave interactions governed by partial differential equations (PDEs).
 
 **Key Principle**: Waves propagate through the grid by transferring amplitude, phase, and energy to neighboring voxels according to wave equations and Huygens' principle.
 
@@ -620,7 +620,7 @@ def charge_wave_source(x: ti.i32, y: ti.i32, z: ti.i32,
 
 - Each voxel receives contributions from all neighbors
 - Sum all incoming wavelets
-- Natural consequence of field-based approach
+- Natural consequence of wave-field approach
 
 **Algorithm**:
 

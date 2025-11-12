@@ -1,7 +1,7 @@
 """
 WAVE-MEDIUM
 
-LEVEL-1: FIELD-BASED MEDIUM
+LEVEL-1: WAVE-FIELD MEDIUM
 
 Objects Engine @spacetime module.
 

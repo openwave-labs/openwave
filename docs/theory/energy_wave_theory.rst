@@ -86,7 +86,7 @@ Level-0: Granule-Based
 - Educational visualization
 - Intuitive wave mechanics
 
-Level-1: Field-Based
+Level-1: Wave-Field
 ~~~~~~~~~~~~~~~~~~~~
 
 - Continuous field PDE solver
@@ -132,7 +132,7 @@ Relationship to QFT
 Similarities
 ~~~~~~~~~~~~
 
-- Both use field-based descriptions
+- Both use wave-field descriptions
 - Both predict particle behavior
 - Both use lattice methods computationally
 

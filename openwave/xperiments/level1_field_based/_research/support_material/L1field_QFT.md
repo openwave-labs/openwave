@@ -1,8 +1,8 @@
-# LEVEL-1 FIELD-BASED MEDIUM: Alignment with Quantum Field Theory
+# LEVEL-1 WAVE-FIELD MEDIUM: Alignment with Quantum Field Theory
 
 ## Executive Summary
 
-**CRITICAL INSIGHT:** OpenWave's Level-1 field-based approach is fundamentally MORE aligned with quantum field theory (QFT) than Level-0's granule-based approach. This dramatically improves the project's scientific positioning.
+**CRITICAL INSIGHT:** OpenWave's Level-1 wave-field approach is fundamentally MORE aligned with quantum field theory (QFT) than Level-0's granule-based approach. This dramatically improves the project's scientific positioning.
 
 ## Level-0 vs Level-1 Comparison
 
@@ -23,7 +23,7 @@
 - Research value: Limited (computationally expensive, scale limitations)
 - QFT alignment: **LOW** (fundamentally particle-based)
 
-### Level-1: Field-Based Medium
+### Level-1: Wave-Field Medium
 
 **Computational Model:**
 
@@ -220,7 +220,7 @@ Fundamental particles can form composite structures
 - Limited scalability
 - Educational tool only
 
-### Level-1 (Field-Based): 8/10
+### Level-1 (Wave-Field): 8/10
 
 - Field-centric (core QFT principle) ✓
 - Force fields emerge from wave fields ✓
@@ -245,7 +245,7 @@ Fundamental particles can form composite structures
 
 **Emphasize Level-1, Not Level-0:**
 
-1. **Lead with field-based approach:**
+1. **Lead with wave-field approach:**
    - "OpenWave implements computational field theory"
    - "Similar to lattice gauge theory but for wave mechanics"
    - "Explores whether classical field dynamics can reproduce quantum phenomena"
@@ -253,12 +253,12 @@ Fundamental particles can form composite structures
 2. **Position Level-0 as educational tool:**
    - "Level-0 provides intuitive visualization"
    - "Granule-based model for understanding wave formation"
-   - "Educational introduction before field-based research tools"
+   - "Educational introduction before wave-field research tools"
 
 3. **Frame as computational physics research:**
    - "Novel PDE system for wave field dynamics"
    - "Testing whether alternative field equations reproduce Standard Model"
-   - "Computational exploration of field-based particle emergence"
+   - "Computational exploration of wave-field particle emergence"
 
 ### Academic Venue Possibilities
 
@@ -340,14 +340,14 @@ Add section highlighting Level-1:
 - **Strength:** Highly visual, easy to understand wave formation
 - **Use Case:** Education, introduction to wave concepts, visualization
 
-### Level-1: Field-Based Medium (Research)
+### Level-1: Wave-Field Medium (Research)
 - **Purpose:** Scalable simulations for matter formation research
 - **Method:** Lattice field theory using 3D vector fields and PDEs
 - **Strength:** Computationally efficient, physics-accurate, similar to QFT methods
 - **Use Case:** Scientific research, numerical validation, matter/force simulation
 
 **Relationship to Quantum Field Theory:**
-Level-1's field-based approach is structurally similar to lattice gauge theory,
+Level-1's wave-field approach is structurally similar to lattice gauge theory,
 the industry-standard computational method for QFT. Like lattice QCD, we discretize
 spacetime into a grid where each point stores field values. Unlike QCD, we use
 classical wave field equations to explore whether deterministic field dynamics
@@ -357,7 +357,7 @@ can reproduce quantum-like phenomena.
 ### Technical Advantages of Level-1
 
 ```markdown
-## Why Field-Based Computation?
+## Why Wave-Field Computation?
 
 **Computational Efficiency:**
 - Indexed by coordinates (not particle IDs)
@@ -415,6 +415,6 @@ Level-1 uses the SAME methodology as lattice QCD (Nobel Prize-winning computatio
 **LEAD WITH LEVEL-1 in all public communications.** Position Level-0 as educational support, not the main research framework. This dramatically improves scientific credibility and reduces risk of dismissal as "pseudoscience."
 
 The medium question becomes less important when you emphasize:
-> "We use field-based computation, similar to lattice gauge theory. Whether you call the 'field' or 'spacetime' or 'computational substrate' is semantic - what matters is whether the field dynamics reproduce known physics."
+> "We use wave-field computation, similar to lattice gauge theory. Whether you call the 'field' or 'spacetime' or 'computational substrate' is semantic - what matters is whether the field dynamics reproduce known physics."
 
 This reframing is defensible, scientifically legitimate, and much more likely to be taken seriously by the physics community.

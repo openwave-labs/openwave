@@ -15,11 +15,11 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a wave-field method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ### Two Computational Approaches
 
-#### Level-1: Field-Based Medium (Research Oriented)
+#### Level-1: Wave-Field Medium (Research Oriented)
 
 - 3D vector field using partial differential equations (PDEs)
 - Similar methodology to lattice QCD (quantum chromodynamics)
@@ -38,7 +38,7 @@ OpenWave aims to:
 
 - Model matter and energy phenomena through wave field dynamics
 - Simulate particle emergence from standing wave patterns in fields
-- Validate field-based mechanics against known physics
+- Validate wave-field mechanics against known physics
 - Provide computational and visualization tools for wave-based models
 
 **Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.
@@ -109,7 +109,7 @@ Current capabilities (Released):
 
 - ✅ Makes wave mechanics intuitive and visual
 - ✅ Demonstrates wave interference, standing waves, propagation
-- ✅ Helps students understand field-based thinking
+- ✅ Helps students understand wave-field thinking
 
 ## Scientific Source
 
@@ -310,7 +310,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    L1: FIELD-BASED Medium
+    L1: WAVE-FIELD Medium
     - *WIP*: flow_wave.py
 }
 

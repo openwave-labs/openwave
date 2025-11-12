@@ -1,5 +1,5 @@
 """
-LEVEL-1: Field-Based Medium (analytical tools)
+LEVEL-1: Wave-Field Medium (analytical tools)
 
-Experiments exploring wave dynamics using field-based medium simulation.
+Experiments exploring wave dynamics using wave-field medium simulation.
 """

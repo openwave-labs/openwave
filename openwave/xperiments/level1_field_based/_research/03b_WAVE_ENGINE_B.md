@@ -114,7 +114,7 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 
 ### Part 1: Force Calculation in Newtons
 
-**Context**: Understanding force calculation in LEVEL-1 field-based simulation.
+**Context**: Understanding force calculation in LEVEL-1 wave-field simulation.
 
 **Known**:
 

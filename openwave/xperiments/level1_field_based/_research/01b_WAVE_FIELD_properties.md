@@ -25,7 +25,7 @@
 
 ## SUMMARY
 
-Wave field attributes represent physical quantities and wave disturbances stored at each voxel in the field-based medium. Properties are categorized as **scalar** (magnitude only) or **vector** (magnitude + direction).
+Wave field attributes represent physical quantities and wave disturbances stored at each voxel in the wave-field medium. Properties are categorized as **scalar** (magnitude only) or **vector** (magnitude + direction).
 
 **IMPORTANT**: Field values use **scaled SI units** for numerical precision with f32 storage, following the same principle as LEVEL-0. This prevents catastrophic cancellation in gradient and derivative calculations and maintains 6-7 significant digits of precision. See the complete `WaveField` class implementation below for details.
 
@@ -511,7 +511,7 @@ class WaveField:
     """
     Wave field simulation using cell-centered grid with attometer scaling.
 
-    This class implements LEVEL-1 field-based propagation with:
+    This class implements LEVEL-1 wave-field propagation with:
     - Cell-centered cubic grid
     - Attometer scaling for numerical precision (f32 fields)
     - Computed positions from indices (memory efficient)

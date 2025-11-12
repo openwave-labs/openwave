@@ -2,7 +2,7 @@
 
 ## OpenWave
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 field-based simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 wave-field simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
@@ -10,7 +10,7 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 OpenWave provides two complementary ways to explore wave mechanics:
 
-### Level-1: Field-Based Medium (Research Oriented)
+### Level-1: Wave-Field Medium (Research Oriented)
 
 **Status:** Work in Progress (WIP)
 
@@ -167,9 +167,9 @@ For more details on the theoretical framework, mathematical derivations, and res
 | OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
 |----------|---------------------|---------------|------------------|
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED MEDIUM | FIELD-BASED MEDIUM | ADVANCED COMPUTING PLATFORMS |
+| LOGIC | GRANULE-BASED MEDIUM | WAVE-FIELD MEDIUM | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| wave-medium | granule-base lattice | field-based grid | to be developed |
+| wave-medium | granule-base lattice | wave-field grid | to be developed |
 | wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |

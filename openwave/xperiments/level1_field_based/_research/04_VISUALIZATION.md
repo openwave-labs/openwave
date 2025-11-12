@@ -33,7 +33,7 @@
 
 ## Overview
 
-LEVEL-1 visualization systems convert wave field data into observable visual representations. Unlike LEVEL-0's direct particle rendering, LEVEL-1 requires specialized techniques to visualize field-based, interference patterns, and emergent phenomena.
+LEVEL-1 visualization systems convert wave field data into observable visual representations. Unlike LEVEL-0's direct particle rendering, LEVEL-1 requires specialized techniques to visualize wave-field, interference patterns, and emergent phenomena.
 
 **Visualization Goals**:
 

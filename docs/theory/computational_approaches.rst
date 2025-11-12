@@ -86,13 +86,13 @@ Limitations
 ⚠️ **Memory Intensive:** Large lattices require significant memory
 ⚠️ **Research Scope:** Less suitable for complex force calculations
 
-Level-1: Field-Based Medium
+Level-1: Wave-Field Medium
 ----------------------------
 
 Description
 ~~~~~~~~~~~
 
-The field-based approach treats the medium as a continuous 3D vector field, similar to lattice QCD
+The wave-field approach treats the medium as a continuous 3D vector field, similar to lattice QCD
 (quantum chromodynamics) but with classical wave field equations.
 
 Key Features
@@ -112,7 +112,7 @@ The medium is a discretized field:
 
    from openwave.spacetime.medium_level1 import FieldMedium  # WIP
 
-   # Create field-based medium
+   # Create wave-field medium
    field = FieldMedium(
        grid_size=[nx, ny, nz],
        grid_spacing=dx
