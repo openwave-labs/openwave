@@ -37,7 +37,7 @@ SOURCES_POSITION = [
 # Phase offsets: 30° increments (0°, 30°, 60°, ..., 330°) for progressive spiral wave pattern
 SOURCES_PHASE_DEG = [i * 30 for i in range(NUM_SOURCES)]
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Golden-Ratio Spiral",
         "description": "12 sources in golden ratio pattern with progressive phase offsets",

@@ -12,7 +12,7 @@ This XPERIMENT showcases:
 - DESERT color theme for different visual experience
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Crossing Waves",
         "description": "Crossing Waves Harmonic Oscillations with 9 sources",

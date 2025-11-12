@@ -14,7 +14,7 @@ This XPERIMENT showcases:
 # Generate 2 sources in a linear pattern
 Z_POSITION = 0.07  # Z-axis position for all sources
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Wave Magnet",
         "description": "2 sources in linear pattern demonstrating wave superposition",

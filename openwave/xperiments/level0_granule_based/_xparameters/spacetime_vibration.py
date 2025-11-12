@@ -11,7 +11,7 @@ This XPERIMENT showcases:
 - Phase control between sources (constructive/destructive interference)
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Spacetime Vibration",
         "description": "Harmonic Oscillations with 9 sources demonstrating wave interference",

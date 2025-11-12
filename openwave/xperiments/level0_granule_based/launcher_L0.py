@@ -63,10 +63,10 @@ class XperimentManager:
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
             self.current_xperiment = xperiment_name
-            self.current_parameters = parameters_module.PARAMETERS
+            self.current_parameters = parameters_module.XPARAMETERS
 
             # Cache display name from meta
-            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"][
+            self.xperiment_display_names[xperiment_name] = parameters_module.XPARAMETERS["meta"][
                 "name"
             ]
 
@@ -85,7 +85,7 @@ class XperimentManager:
         try:
             module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
-            display_name = parameters_module.PARAMETERS["meta"]["name"]
+            display_name = parameters_module.XPARAMETERS["meta"]["name"]
             self.xperiment_display_names[xperiment_name] = display_name
             return display_name
         except:

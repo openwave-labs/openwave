@@ -17,7 +17,7 @@ import numpy as np
 EQUILATERAL = np.sqrt(3) / 6  # Height factor for equilateral triangle geometry
 Z_POSITION = 0.05  # Z-axis position for all sources
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Wave Interference",
         "description": "3 sources in triangular pattern demonstrating wave superposition",

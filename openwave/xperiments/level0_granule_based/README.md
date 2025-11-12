@@ -78,7 +78,7 @@ XPERIMENT PARAMETERS: My Custom Wave
 Brief description of what this xperiment demonstrates.
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "My Custom Wave",
         "description": "Custom wave interference pattern",
@@ -279,7 +279,7 @@ level0_granule_based/
 
 - Ensure file is in `/_xparameters` directory
 - Filename must end with `.py` (not `__init__.py`)
-- Must contain a `PARAMETERS` dictionary
+- Must contain a `XPARAMETERS` dictionary
 - Check console for import errors
 
 ### Incorrect interference patterns
