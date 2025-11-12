@@ -69,7 +69,7 @@ All xperiments share these interactive controls:
 
 ### 1. Create Parameter File
 
-Create a new file in `_parameters/` directory (e.g., `my_wave.py`):
+Create a new file in `/_xparameters` directory (e.g., `my_wave.py`):
 
 ```python
 """
@@ -78,7 +78,7 @@ XPERIMENT PARAMETERS: My Custom Wave
 Brief description of what this xperiment demonstrates.
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "My Custom Wave",
         "description": "Custom wave interference pattern",
@@ -259,27 +259,27 @@ Available universe color themes:
 ```text
 level0_granule_based/
 ├── launcher_L0.py          # Main launcher (run this)
-├── _parameters/            # Xperiment parameter files
+├── _xparameters/            # Xperiment parameter files
 │   ├── spacetime_vibration.py
 │   ├── spherical_wave.py
 │   ├── standing_wave.py
 │   ├── wave_interference.py
+│   ├── wave_magnet.py
 │   ├── wave_pulse.py
 │   ├── xwaves.py
 │   └── yin_yang.py
-├── _legacy/                # Archived standalone files
 └── README.md               # This file
 ```
 
-**Note**: The underscore prefix on `_parameters/` prevents individual parameter files from appearing in the CLI menu. Only `launcher_L0.py` is user-facing.
+**Note**: The underscore prefix on `/_xparameters` prevents individual parameter files from appearing in the CLI menu. Only `launcher_L0.py` is user-facing.
 
 ## Troubleshooting
 
 ### Xperiment not appearing in launcher
 
-- Ensure file is in `_parameters/` directory
+- Ensure file is in `/_xparameters` directory
 - Filename must end with `.py` (not `__init__.py`)
-- Must contain a `PARAMETERS` dictionary
+- Must contain a `XPARAMETERS` dictionary
 - Check console for import errors
 
 ### Incorrect interference patterns
@@ -298,7 +298,7 @@ level0_granule_based/
 ### Import errors
 
 - Parameter files are imported as Python modules
-- Import path: `openwave.xperiments.level0_granule_based._parameters.<filename>`
+- Import path: `openwave.xperiments.level0_granule_based._xparameters.<filename>`
 - Ensure all required imports are at top of parameter file
 
 ## Technical Notes

@@ -70,7 +70,7 @@ Upcoming Releases
 Version 0.4.0 (Planned)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-**Focus:** Field-Based Medium (Level-1)
+**Focus:** Wave-Field Medium (Level-1)
 
 **Planned Features:**
 
@@ -125,7 +125,7 @@ Development Roadmap
 
 **Current Focus (2024-2025):**
 
-1. Level-1 field-based implementation
+1. Level-1 wave-field implementation
 2. Matter module development
 3. Force module prototypes
 4. Performance optimization

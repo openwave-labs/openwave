@@ -144,7 +144,7 @@ OpenWave draws computational analogies:
 
 - QFT: quantum operators
 - EWT: classical wave amplitudes
-- Both: field-based frameworks
+- Both: wave-field frameworks
 
 Relationship to Experiments
 ---------------------------

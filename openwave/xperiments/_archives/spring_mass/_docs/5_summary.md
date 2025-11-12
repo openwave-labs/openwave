@@ -242,6 +242,6 @@ This is:
 
 Phase control is the key to implementing wave interactions, interference, and particle formation in the future. Keep φ as an independent, first-class parameter!
 
-## OTHER OPTION: FIELD-BASED MEDIUM WAVE DYNAMICS
+## OTHER OPTION: WAVE-FIELD MEDIUM WAVE DYNAMICS
 
 Scale expansion beyond neutrino scale if computationally feasible

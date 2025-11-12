@@ -160,7 +160,7 @@ High Priority
 
 🚨 **Level-1 Field Implementation**
 
-Help implement field-based medium:
+Help implement wave-field medium:
 
 - PDE solvers
 - Boundary conditions

@@ -187,7 +187,7 @@ Level-0: Granule-Based
 - Creating visualizations
 - Rapid prototyping
 
-Level-1: Field-Based
+Level-1: Wave-Field
 ~~~~~~~~~~~~~~~~~~~~
 
 **Status:** Work in Progress

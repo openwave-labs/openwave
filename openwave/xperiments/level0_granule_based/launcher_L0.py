@@ -4,7 +4,7 @@ L0 XPERIMENT LAUNCHER
 Unified launcher for Level-0 granule-based xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
-- Xperiment-specific parameters in _parameters/ directory
+- Xperiment-specific parameters in /_xparameters directory
 """
 
 import taichi as ti
@@ -33,11 +33,11 @@ class XperimentManager:
         self.available_xperiments = self._discover_xperiments()
         self.xperiment_display_names = {}  # Cache display names from meta
         self.current_xperiment = None
-        self.current_parameters = None
+        self.current_xparameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in _parameters/ directory."""
-        parameters_dir = Path(__file__).parent / "_parameters"
+        """Discover all available xperiment parameters in /_xparameters directory."""
+        parameters_dir = Path(__file__).parent / "_xparameters"
 
         if not parameters_dir.exists():
             return []
@@ -58,19 +58,19 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
             self.current_xperiment = xperiment_name
-            self.current_parameters = parameters_module.PARAMETERS
+            self.current_xparameters = parameters_module.XPARAMETERS
 
             # Cache display name from meta
-            self.xperiment_display_names[xperiment_name] = parameters_module.PARAMETERS["meta"][
+            self.xperiment_display_names[xperiment_name] = parameters_module.XPARAMETERS["meta"][
                 "name"
             ]
 
-            return self.current_parameters
+            return self.current_xparameters
 
         except Exception as e:
             print(f"Error loading xperiment '{xperiment_name}': {e}")
@@ -83,9 +83,9 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
-            display_name = parameters_module.PARAMETERS["meta"]["name"]
+            display_name = parameters_module.XPARAMETERS["meta"]["name"]
             self.xperiment_display_names[xperiment_name] = display_name
             return display_name
         except:
@@ -144,7 +144,7 @@ class SimulationState:
         self.frame = 0
         self.peak_amplitude = 0.0
 
-    def apply_parameters(self, params):
+    def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
         # Meta
         self.X_NAME = params["meta"]["name"]
@@ -209,7 +209,7 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER L0", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -288,9 +288,10 @@ def color_menu(
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
-def xperiment_specs(state):
-    """Display xperiment specifications overlay."""
-    with render.gui.sub_window("LEVEL-0: Granule-Based Medium", 0.82, 0.00, 0.18, 0.10) as sub:
+def level_specs(state, level_bar_vertices):
+    """Display OpenWave level specifications overlay."""
+    render.canvas.triangles(level_bar_vertices, color=config.WHITE[1])
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
@@ -303,6 +304,7 @@ def data_dashboard(state):
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {state.lattice.total_granules:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
+        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- Scaling-Up (for computation) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
@@ -318,7 +320,6 @@ def data_dashboard(state):
         sub.text(f"Universe: {state.lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"EWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
         sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
@@ -434,9 +435,10 @@ def main():
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
-    # Initialize color palettes for gradient rendering (after ti.init)
+    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
     ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
     bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
+    level_bar_vertices = config.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -452,7 +454,7 @@ def main():
     if not params:
         return
 
-    state.apply_parameters(params)
+    state.apply_xparameters(params)
     state.initialize_lattice()
     initialize_xperiment(state)
 
@@ -505,7 +507,7 @@ def main():
             state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
         )
         data_dashboard(state)
-        xperiment_specs(state)
+        level_specs(state, level_bar_vertices)
         render.show_scene()
 
         # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)

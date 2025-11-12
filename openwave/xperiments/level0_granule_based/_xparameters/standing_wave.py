@@ -38,7 +38,7 @@ SOURCES_POSITION = [
 # All sources in phase (0°) to create standing wave pattern
 SOURCES_PHASE_DEG = [0] * NUM_SOURCES
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Standing Wave",
         "description": "64 sources in circular pattern creating standing wave patterns",

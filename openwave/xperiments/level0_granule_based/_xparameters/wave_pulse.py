@@ -10,7 +10,7 @@ This XPERIMENT showcases:
 - Wave diagnostics enabled for speed and wavelength measurements
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "Wave Pulse",
         "description": "Single source radiation with wave diagnostics",

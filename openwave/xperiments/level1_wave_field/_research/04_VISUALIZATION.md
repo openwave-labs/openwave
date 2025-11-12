@@ -16,7 +16,7 @@
    - [Vector Fields](#vector-fields)
    - [Streamlines](#streamlines)
    - [Wave Fronts](#wave-fronts)
-   - [Ether Visualization](#ether-visualization)
+   - [Spacetime Visualization](#spacetime-visualization)
 1. [Particle/Wave Center Visualization](#particlewave-center-visualization)
    - [Wave Centers](#wave-centers)
    - [Standing Wave Shells](#standing-wave-shells)
@@ -33,7 +33,7 @@
 
 ## Overview
 
-LEVEL-1 visualization systems convert wave field data into observable visual representations. Unlike LEVEL-0's direct particle rendering, LEVEL-1 requires specialized techniques to visualize field-based waves, interference patterns, and emergent phenomena.
+LEVEL-1 visualization systems convert wave field data into observable visual representations. Unlike LEVEL-0's direct particle rendering, LEVEL-1 requires specialized techniques to visualize wave-field, interference patterns, and emergent phenomena.
 
 **Visualization Goals**:
 
@@ -267,7 +267,7 @@ def update_viz_particles():
     """Position particles at wave nodes (high amplitude regions)."""
     count = 0
     for i, j, k in amplitude:
-        if ti.abs(amplitude[i,j,k]) > threshold:
+        if ti.abs(displacement[i,j,k]) > threshold:
             if count < num_viz_particles:
                 viz_particles[count] = get_position(i, j, k)
                 count += 1
@@ -397,9 +397,9 @@ def extract_wavefront(phase_value: ti.f32):
 - Color by amplitude or frequency
 - Animate over time to show propagation
 
-### Ether Visualization
+### Spacetime Visualization
 
-**Concept**: Visualize the "ether" (medium) itself.
+**Concept**: Visualize the spacetime medium itself.
 
 **Appearance**:
 
@@ -418,12 +418,12 @@ def extract_wavefront(phase_value: ti.f32):
 
 ```python
 @ti.kernel
-def render_ether():
-    """Render ether with density proportional to wave energy."""
+def render_spacetime():
+    """Render spacetime with density proportional to wave energy."""
     for i, j, k in amplitude:
-        energy_density = amplitude[i,j,k]**2
+        energy_density = displacement[i,j,k]**2
 
-        # Ether opacity ∝ energy density
+        # Spacetime opacity ∝ energy density
         opacity = energy_density / max_energy
 
         # Blue luminous color

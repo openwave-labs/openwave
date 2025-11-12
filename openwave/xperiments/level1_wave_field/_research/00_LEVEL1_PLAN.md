@@ -2,13 +2,13 @@
 
 ## Overview
 
-This document provides a high-level overview of LEVEL-1 field-based simulation architecture. For detailed technical specifications, see the linked documentation files.
+This document provides a high-level overview of LEVEL-1 wave-field simulation architecture. For detailed technical specifications, see the linked documentation files.
 
 ## Table of Contents
 
 1. [OPENWAVE Levels Comparison](#openwave-levels-comparison)
 1. [LEVEL-0 Limitations](#level-0-limitations)
-1. [LEVEL-1 Field-Based Approach](#level-1-field-based-approach)
+1. [LEVEL-1 Wave-Field Approach](#level-1-wave-field-approach)
 1. [Main Questions for LEVEL-1](#main-questions-for-level-1)
 1. [Core Architecture Components](#core-architecture-components)
 1. [Validation Status](#validation-status)
@@ -19,9 +19,9 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 | OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
 |----------|---------------------|---------------|------------------|
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED MEDIUM | FIELD-BASED MEDIUM | ADVANCED COMPUTING PLATFORMS |
+| LOGIC | GRANULE-BASED MEDIUM | WAVE-FIELD MEDIUM | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| wave-medium | granule-base lattice | field-based grid | to be developed |
+| wave-medium | granule-base lattice | wave-field grid | to be developed |
 | wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
@@ -47,7 +47,7 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 - Must count granules in region to compute density
 - Expensive neighbor searches
 
-**Field-Based Medium** (LEVEL-1 solution):
+**Wave-Field Medium** (LEVEL-1 solution):
 
 - Indexed coordinates that change values
 - Direct access to state at coordinate
@@ -65,9 +65,9 @@ This document provides a high-level overview of LEVEL-1 field-based simulation a
 
 **LEVEL-1 Solution**: True wave propagation with energy conservation
 
-## LEVEL-1 Field-Based Approach
+## LEVEL-1 Wave-Field Approach
 
-### Field-Based Medium
+### Wave-Field Medium
 
 **Architecture**:
 

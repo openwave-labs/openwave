@@ -11,7 +11,7 @@ This XPERIMENT showcases:
 - Radial wave patterns
 """
 
-PARAMETERS = {
+XPARAMETERS = {
     "meta": {
         "name": "3D Spherical Wave",
         "description": "Single source spherical wave demonstrating radial propagation",
