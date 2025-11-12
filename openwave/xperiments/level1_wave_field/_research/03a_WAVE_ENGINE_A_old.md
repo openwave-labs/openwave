@@ -3,7 +3,7 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Energy Wave Inital Charge](#energy-wave-initial-charge)
+1. [Energy Wave Initial Charge](#energy-wave-initial-charge)
    - [Initial Energy Requirement](#initial-energy-requirement)
    - [Charging Methods](#charging-methods)
    - [Stabilization Phase](#stabilization-phase)
