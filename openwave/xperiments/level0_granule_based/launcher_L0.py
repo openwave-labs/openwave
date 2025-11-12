@@ -4,7 +4,7 @@ L0 XPERIMENT LAUNCHER
 Unified launcher for Level-0 granule-based xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
-- Xperiment-specific parameters in _parameters/ directory
+- Xperiment-specific parameters in /_xparameters directory
 """
 
 import taichi as ti
@@ -36,8 +36,8 @@ class XperimentManager:
         self.current_parameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in _parameters/ directory."""
-        parameters_dir = Path(__file__).parent / "_parameters"
+        """Discover all available xperiment parameters in /_xparameters directory."""
+        parameters_dir = Path(__file__).parent / "_xparameters"
 
         if not parameters_dir.exists():
             return []
@@ -58,7 +58,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -83,7 +83,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._parameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.PARAMETERS["meta"]["name"]
             self.xperiment_display_names[xperiment_name] = display_name
