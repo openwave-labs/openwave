@@ -42,9 +42,8 @@ EWAVE_SPEED = 299792458  # m / s, energy-wave velocity (c, speed of light)
 # ================================================================
 # ENERGY-WAVE
 # ================================================================
+EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (A, equilibrium-to-peak)
-EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f)
-
 EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length (λ = EWAVE_SPEED / EWAVE_FREQUENCY)
 EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY)
 

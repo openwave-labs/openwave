@@ -124,8 +124,8 @@ class SimulationState:
         self.block_slice = False
         self.show_sources = False
         self.radius_factor = 0.5
-        self.amp_boost = 1.0
         self.freq_boost = 10.0
+        self.amp_boost = 1.0
         self.paused = False
         self.granule_type = True
         self.ironbow = False
@@ -170,8 +170,8 @@ class SimulationState:
         self.block_slice = ui["block_slice"]
         self.show_sources = ui["show_sources"]
         self.radius_factor = ui["radius_factor"]
-        self.amp_boost = ui["amp_boost"]
         self.freq_boost = ui["freq_boost"]
+        self.amp_boost = ui["amp_boost"]
         self.paused = ui["paused"]
         self.granule_type = ui["granule_type"]
         self.ironbow = ui["ironbow"]
@@ -232,8 +232,8 @@ def controls(state):
         state.block_slice = sub.checkbox("Block Slice", state.block_slice)
         state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
         state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
-        state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
         state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
+        state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
         if state.paused:
             if sub.button("Continue"):
                 state.paused = False
@@ -320,9 +320,9 @@ def data_dashboard(state):
         sub.text(f"Universe: {state.lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"EWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"EWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"EWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
@@ -368,8 +368,8 @@ def compute_motion(state):
         state.lattice.amplitude_am,
         state.lattice.velocity_am,
         state.lattice.granule_var_color,
-        state.amp_boost,
         state.freq_boost,
+        state.amp_boost,
         state.ironbow,
         state.var_displacement,
         state.NUM_SOURCES,

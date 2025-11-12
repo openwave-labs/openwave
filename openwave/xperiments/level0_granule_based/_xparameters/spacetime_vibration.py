@@ -48,8 +48,8 @@ XPARAMETERS = {
         "block_slice": False,  # Block-slicing toggle
         "show_sources": False,  # Toggle to show/hide wave source markers
         "radius_factor": 0.5,  # Granule radius scaling factor
-        "amp_boost": 1.0,  # Amplitude boost multiplier
         "freq_boost": 10.0,  # Frequency boost multiplier
+        "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
         "granule_type": True,  # Granule type color
         "ironbow": False,  # Ironbow color scheme toggle
