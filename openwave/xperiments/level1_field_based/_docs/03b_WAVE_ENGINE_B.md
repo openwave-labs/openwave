@@ -811,7 +811,96 @@ E = ρV(Af)²    # Since f = c/λ
 
 **Standing Wave Particles Come Later**: The IN/OUT wave reflections from wave centers (reflective voxels) will automatically create steady-state standing waves (fundamental particles) when we implement particle wave centers. For now, just inject energy with correct wave properties.
 
-**Implementation - Option 1: Uniform Energy Density (Simplest)**:
+#### Energy Evolution Sequence: From Pulse to Particle
+
+The complete energy evolution follows seven distinct phases:
+
+##### Phase 1: Center-Concentrated Pulse Injection
+
+- Energy concentrated at universe center
+- Single pulse (or a few pulses for precision)
+- Total energy exactly matches `equations.energy_wave_equation(volume)`
+- Uses proper wave characteristics (f, A, λ from constants)
+- Implementation: **Option 2 (Spherical Gaussian)** recommended
+
+##### Phase 2: Outward Propagation via Wave Equation
+
+- Wave equation ∂²ψ/∂t² = c²∇²ψ governs propagation
+- Energy travels outward at wave speed c
+- Spherical wave fronts expand from center
+- No manual 1/r falloff needed - emerges naturally from Laplacian operator
+- Energy automatically conserved by wave equation physics
+
+##### Phase 3: Boundary Reflections
+
+- Waves reach universe boundaries (walls)
+- Boundary conditions enforce ψ = 0 at walls
+- Waves reflect back into domain
+- Reflections create interference patterns
+- Total energy remains constant (no absorption at boundaries)
+
+##### Phase 4: Energy Dilution into Stable Distributed State
+
+- Multiple reflections distribute energy throughout field
+- After sufficient time, energy reaches quasi-equilibrium
+- Energy density becomes relatively uniform across universe
+- Small fluctuations remain (natural wave motion)
+- System ready for wave center insertion
+
+##### Phase 5: Wave Center Insertion (Reflective Voxels)
+
+- Insert reflective voxels at specific positions
+- Wave centers: ψ = 0 always (never changes)
+- Function like internal boundary walls
+- Disturb neighboring voxels to invert wave direction
+- Create local reflection sites within the field
+
+##### Phase 6: Standing Wave Emergence (IN + OUT Interference)
+
+- Reflected waves (OUT) interfere with incoming waves (IN)
+- Constructive/destructive interference creates nodes and antinodes
+- Pattern: Φ = Φ₀ e^(iωt) sin(kr)/r (Wolff's solution)
+- Steady-state standing wave forms around wave center
+- Wave center = particle core
+
+##### Phase 7: Particle Formation (Mass = Trapped Energy)
+
+- Standing wave boundary defines particle extent
+- Energy trapped within standing wave pattern
+- Steady-state energy density inside boundary
+- **Particle mass = total energy in standing wave region**
+- Fundamental particle successfully formed
+
+##### Visual Summary
+
+```text
+Time 0:      [    •    ]  ← Concentrated pulse at center
+
+Time 1:     [   ◯◯◯   ]  ← Expanding wave front
+
+Time 2:    [  ◯     ◯  ]  ← Reached boundaries, reflecting
+
+Time 3:    [ ░░░░░░░░░ ]  ← Energy distributed (diluted state)
+
+Time 4:    [ ░ ⊕ ░ ⊕ ░ ]  ← Wave centers (⊕) inserted
+
+Time 5:    [ ░ ◉ ░ ◉ ░ ]  ← Standing waves (◉) formed = particles!
+```
+
+##### Why This Sequence?
+
+1. **Energy Correctness**: Start with exact EWT energy amount
+2. **Natural Evolution**: Let wave equation physics handle distribution
+3. **Stable Foundation**: Distributed energy provides stable background field
+4. **Clean Particle Formation**: Wave centers create particles in equilibrium field
+5. **Physical Realism**: Mimics natural wave behavior and particle emergence
+
+##### Implementation Timeline
+
+- **NOW (LEVEL-1 Phase A)**: Phases 1-4 (energy injection → stable distribution)
+- **LATER (LEVEL-1 Phase B)**: Phases 5-7 (wave centers → particle formation)
+
+##### Implementation - Option 1: Uniform Energy Density (Simplest)
 
 ```python
 @ti.kernel
@@ -851,7 +940,7 @@ def charge_uniform_energy(self):
     # E_total = ρV(Af)² where V = nx × ny × nz × dx³
 ```
 
-**Implementation - Option 2: Spherical Gaussian Wave (Recommended)**:
+##### Implementation - Option 2: Spherical Gaussian Wave Pulse (Recommended)
 
 ```python
 @ti.kernel
@@ -862,15 +951,23 @@ def charge_spherical_gaussian(
     width_factor: ti.f32 = 3.0  # Width as multiple of wavelength
 ):
     """
-    Initialize field with spherical Gaussian wave packet.
+    Initialize field with center-concentrated spherical Gaussian pulse.
 
-    This creates a smooth, localized wave that will propagate outward.
-    Total energy is carefully matched to EWT energy equation.
+    IMPLEMENTS PHASE 1 OF ENERGY EVOLUTION SEQUENCE:
+    - Single smooth pulse concentrated at universe center
+    - Total energy exactly matches equations.energy_wave_equation(volume)
+    - Will propagate outward, reflect off boundaries, and dilute (Phases 2-4)
+    - After stabilization, wave centers can be inserted (Phase 5)
+
+    This does NOT create particle standing waves - those emerge automatically
+    later when wave centers (reflective voxels) are inserted.
 
     Args:
-        center: Center position in meters
+        center: Pulse center position in meters (typically universe center)
         total_energy: Total energy from equations.energy_wave_equation(volume)
-        width_factor: Gaussian width = width_factor × wavelength
+        width_factor: Pulse width = width_factor × wavelength (default: 3.0)
+                     Smaller width = more concentrated pulse
+                     Larger width = smoother, more spread out
     """
     # Convert to scaled units
     center_am = center / constants.ATTOMETER
@@ -910,7 +1007,7 @@ def charge_spherical_gaussian(
         self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
 ```
 
-**Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)**:
+##### Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)
 
 ```python
 @ti.kernel
@@ -955,17 +1052,18 @@ def charge_wolff_spherical_wave(
         self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
 ```
 
-**Usage Example**:
+##### Usage Example (Implementing Phase 1: Center-Concentrated Pulse)
 
 ```python
 from openwave.common import constants, equations
+import taichi as ti
 
-# Calculate universe volume
+# Calculate universe volume (meters³)
 universe_volume = wave_field.actual_universe_size[0] * \
                   wave_field.actual_universe_size[1] * \
                   wave_field.actual_universe_size[2]
 
-# Get correct total energy from EWT equation
+# Get correct total energy from EWT equation (Phase 1)
 total_energy = equations.energy_wave_equation(
     volume=universe_volume,
     density=constants.MEDIUM_DENSITY,
@@ -974,23 +1072,80 @@ total_energy = equations.energy_wave_equation(
     amplitude=constants.EWAVE_AMPLITUDE
 )
 
-# Charge field with correct energy (Option 2 recommended)
+# Calculate universe center position
+side_length = universe_volume ** (1/3)  # Assuming cubic universe
+center_position = ti.Vector([side_length / 2.0] * 3)  # meters
+
+# PHASE 1: Inject center-concentrated pulse with exact EWT energy
+# This is a single pulse (or few pulses) that will propagate outward
 wave_field.charge_spherical_gaussian(
-    center=ti.Vector([universe_volume**(1/3)/2] * 3),  # Center of universe
-    total_energy=total_energy,
-    width_factor=3.0  # 3× wavelength width
+    center=center_position,           # Universe center
+    total_energy=total_energy,        # Exact EWT energy amount
+    width_factor=3.0                  # Pulse width = 3× wavelength
 )
 
-# Verify energy (should match equations.energy_wave_equation)
+# Verify energy matches EWT equation
 measured_energy = wave_field.compute_total_energy()
-print(f"Target energy: {total_energy:.2e} J")
+energy_match_percent = abs(measured_energy - total_energy) / total_energy * 100
+
+print(f"=== Initial Energy Charging (Phase 1) ===")
+print(f"Universe volume: {universe_volume:.2e} m³")
+print(f"Target energy (EWT): {total_energy:.2e} J")
 print(f"Measured energy: {measured_energy:.2e} J")
-print(f"Match: {abs(measured_energy - total_energy) / total_energy * 100:.2f}%")
+print(f"Energy match: {energy_match_percent:.2f}%")
+print(f"\nPulse centered at: {center_position} m")
+print(f"Pulse width: {3.0 * constants.EWAVE_LENGTH:.2e} m")
+
+# PHASES 2-4 will happen automatically during simulation:
+# - Wave propagates outward (Phase 2)
+# - Reflects off boundaries (Phase 3)
+# - Dilutes into stable state (Phase 4)
+
+# Run simulation to allow energy distribution
+# After energy stabilizes, we'll implement Phase 5 (wave center insertion)
 ```
 
-**Recommendation**:
+#### Advanced Technique: Multiple Pulses for Precision
+
+For more precise energy control, you can inject a few successive pulses:
+
+```python
+# Option A: Single large pulse (simple, recommended)
+wave_field.charge_spherical_gaussian(
+    center=center_position,
+    total_energy=total_energy,
+    width_factor=3.0
+)
+
+# Option B: Multiple smaller pulses (higher precision)
+# Useful if single pulse causes numerical instability
+num_pulses = 3
+energy_per_pulse = total_energy / num_pulses
+
+for pulse_idx in range(num_pulses):
+    # Add each pulse with small time delay
+    wave_field.charge_spherical_gaussian(
+        center=center_position,
+        total_energy=energy_per_pulse,
+        width_factor=3.0
+    )
+    # Run a few timesteps between pulses to let energy spread
+    for _ in range(10):
+        wave_field.propagate_wave(dt)
+```
+
+Multiple pulses can provide:
+
+- Better numerical stability (smaller amplitude changes per timestep)
+- More gradual energy injection
+- Finer control over energy distribution
+
+However, single pulse is usually sufficient and simpler.
+
+##### Recommendation
 
 - **Now**: Use **Option 2 (Spherical Gaussian)** - simple, smooth, energy-conserving
+- **Single vs Multiple Pulses**: Start with single pulse; use multiple only if needed for stability
 - **Later**: Use **Option 3 (Wolff's sin(kr)/r)** when implementing wave centers and particle formation
 - **Option 1**: Only for testing wave equation stability
 
@@ -2080,7 +2235,7 @@ For 100³ = 1M voxels:
 - ✗ Energy conservation requires careful implementation
 - ✗ More complex to code and debug
 
-#### Recommendation
+#### Recommended
 
 **Use PDE (Wave Equation)** for LEVEL-1:
 
