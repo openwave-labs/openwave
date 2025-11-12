@@ -114,8 +114,8 @@ Wave field attributes represent physical quantities and wave disturbances stored
   - Used for wave propagation mechanics
 - **A (amplitude)**: Envelope of |ψ| (slowly varying maximum)
   - A = max|ψ| over time (running maximum)
-  - Used for energy density: u = ρ(Af)² (EWT, no ½ factor, frequency-based)
-  - Used for forces: F = -2ρVAf × [f∇A + A∇f] (full form) or F = -2ρVf² × A∇A (monochromatic, ∇f = 0)
+  - Used for energy density: u = ρ(fA)² (EWT, no ½ factor, frequency-based)
+  - Used for forces: F = -2ρVfA × [f∇A + A∇f] (full form) or F = -2ρVf² × A∇A (monochromatic, ∇f = 0)
   - Particles respond to envelope A, not instantaneous ψ oscillations
   - Note: f = c/λ embeds wave speed c
 
@@ -147,7 +147,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 - **Primary property**: Measured directly from temporal oscillations (f = 1/dt)
 - **Embeds wave speed**: f = c/λ incorporates constant c
-- **Natural pairing**: A (spatial) × f (temporal) in energy formula E = ρV(Af)²
+- **Natural pairing**: f (temporal) × A (spatial) in energy formula E = ρV(fA)²
 - **Human-intuitive**: Radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
 - **Planck alignment**: E = hf (energy proportional to frequency)
 - **Spatial frequency**: ξ = 1/λ = f/c (inverse wavelength, derived)
@@ -164,7 +164,7 @@ This implementation uses **frequency (f) as the primary wave property** rather t
 Energy formula becomes dramatically simpler:
 
 ```text
-Frequency-centric: E = ρV(Af)²
+Frequency-centric: E = ρV(fA)²
 vs.
 Wavelength-based:  E = ρVc²(A/λ)²
 ```
@@ -178,7 +178,7 @@ The frequency-based formulation:
 Force formula maintains equivalent complexity:
 
 ```text
-Frequency-centric: F = -2ρVAf × [f∇A + A∇f]
+Frequency-centric: F = -2ρVfA × [f∇A + A∇f]
 Wavelength-based:  F = -2ρVc² × [A∇A/λ² - A²∇λ/λ³]
 ```
 
@@ -190,20 +190,20 @@ Both have two terms (amplitude gradient + wavelength/frequency gradient), but th
 
 #### 2. Spacetime Coupling (Fundamental Physics Insight)
 
-The product **Af represents natural spacetime coupling**:
+The product **fA represents natural spacetime coupling**:
 
-- A: Spatial domain (amplitude, meters)
 - f: Temporal domain (frequency, 1/seconds)
-- Af: Spacetime product (m·Hz = m/s, related to velocity)
+- A: Spatial domain (amplitude, meters)
+- fA: Spacetime product (Hz·m = m/s, related to velocity)
 
 This mirrors fundamental physics concepts:
 
-- Amplitude describes "how much" space is displaced
 - Frequency describes "how fast" in time
-- Their product Af captures the complete wave character
-- Energy E ∝ (Af)² shows energy depends on spacetime coupling squared
+- Amplitude describes "how much" space is displaced
+- Their product fA captures the complete wave character
+- Energy E ∝ (fA)² shows energy depends on spacetime coupling squared
 
-This may relate to spacetime curvature: the Laplacian ∇²ψ in the wave equation measures local curvature of the displacement field, and the factor Af determines how this curvature "stretches" spacetime.
+This may relate to spacetime curvature: the Laplacian ∇²ψ in the wave equation measures local curvature of the displacement field, and the factor fA determines how this curvature "stretches" spacetime.
 
 #### 3. Quantum Mechanics Alignment (Planck Relation)
 
@@ -213,7 +213,7 @@ Planck's quantum energy relation:
 E = hf    (energy proportional to frequency)
 ```
 
-The frequency-centric formulation E = ρV(Af)² naturally aligns with this:
+The frequency-centric formulation E = ρV(fA)² naturally aligns with this:
 
 - Energy proportional to f² (frequency squared)
 - NOT proportional to 1/λ² (inverse wavelength squared)
@@ -346,7 +346,7 @@ def design_wave_pattern(frequency):
 
 | Aspect | Frequency (f) | Wavelength (λ) |
 |--------|---------------|----------------|
-| **Energy formula** | E = ρV(Af)² ✓ Elegant | E = ρVc²(A/λ)² (complex) |
+| **Energy formula** | E = ρV(fA)² ✓ Elegant | E = ρVc²(A/λ)² (complex) |
 | **Measurement** | Direct: f = 1/dt ✓ | Indirect: λ = c/f |
 | **Information** | Embeds c: f = c/λ ✓ | Spatial only |
 | **Spacetime** | A×f couples space×time ✓ | A/λ is less natural |
@@ -391,13 +391,13 @@ def design_wave_pattern(frequency):
 - **Kinetic energy** (motion): `E_k ∝ v²`
   - Maximum at equilibrium position (zero displacement)
   - Zero at maximum displacement (turning points)
-- **Potential energy** (compression/displacement): `E_p ∝ (Af)²`
+- **Potential energy** (compression/displacement): `E_p ∝ (fA)²`
   - Maximum at maximum displacement
   - Zero at equilibrium position
 - **Total energy**: `E_total = E_kinetic + E_potential = constant`
 - **Energy oscillation**: `E_k ↔ E_p` (continuously converts)
-- **Amplitude-frequency relationship**: `E_total ∝ (Af)²` (energy proportional to amplitude × frequency squared)
-- **EWT energy formula**: `E = ρV(Af)²` (frequency-centric, no ½ factor)
+- **Amplitude-frequency relationship**: `E_total ∝ (fA)²` (energy proportional to frequency × amplitude squared)
+- **EWT energy formula**: `E = ρV(fA)²` (frequency-centric, no ½ factor)
 
 **Storage**: `ti.field(dtype=ti.f32)` per voxel (optional, can be computed)
 
@@ -483,7 +483,7 @@ def design_wave_pattern(frequency):
 **Force Vector at Voxel**:
 
 - Derived from amplitude gradients (frequency-based formulation):
-  - Full form: `F = -2ρVAf × [f∇A + A∇f]` (dual-term with amplitude and frequency gradients)
+  - Full form: `F = -2ρVfA × [f∇A + A∇f]` (dual-term with amplitude and frequency gradients)
   - Monochromatic: `F = -2ρVf² × A∇A` (when ∇f = 0, single wave source)
 - Points toward minimum amplitude (MAP: Minimum Amplitude Principle)
 - Drives particle motion in LEVEL-1
@@ -493,7 +493,7 @@ def design_wave_pattern(frequency):
 
 **Physical meaning**:
 
-- Gradient of energy potential u = ρ(Af)²
+- Gradient of energy potential u = ρ(fA)²
 - Determines particle acceleration
 - Source of emergent forces (gravity, EM, etc.)
 - Dual-term structure captures both amplitude variation and frequency variation contributions
@@ -668,8 +668,8 @@ class WaveField:
         Compute force from amplitude gradient (EWT frequency-based formulation).
 
         Physics (Frequency-Based):
-        - Energy density: u = ρ(Af)² (EWT, no ½ factor)
-        - Force: F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]
+        - Energy density: u = ρ(fA)² (EWT, no ½ factor)
+        - Force: F = -∇E = -∇(u×V) = -2ρVfA × [f∇A + A∇f]
         - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
 
         Force follows MAP (Minimum Amplitude Principle): particles move toward
@@ -819,16 +819,16 @@ xi = 1 / λ = f / c     # Spatial frequency (derived from frequency)
 # Energy relationships (frequency-based)
 E_total = E_kinetic + E_potential   # Total energy (conserved)
 E_kinetic ∝ v²                      # Kinetic energy from velocity
-E_potential ∝ (Af)²                 # Potential energy from amplitude × frequency
-E_total ∝ (Af)²                     # Total energy proportional to (amplitude × frequency)²
-E = ρV(Af)²                         # EWT energy formula (frequency-centric, no ½ factor)
+E_potential ∝ (fA)²                 # Potential energy from frequency × amplitude
+E_total ∝ (fA)²                     # Total energy proportional to (frequency × amplitude)²
+E = ρV(fA)²                         # EWT energy formula (frequency-centric, no ½ factor)
 
 # Energy oscillation in time
 # At equilibrium (A=0): E_kinetic = max, E_potential = 0
 # At max displacement (A=max): E_kinetic = 0, E_potential = max
 
 # Force from amplitude gradient (frequency-based)
-F = -2ρVAf × [f∇A + A∇f]       # Full form (dual-term with amplitude and frequency gradients)
+F = -2ρVfA × [f∇A + A∇f]       # Full form (dual-term with amplitude and frequency gradients)
 F = -2ρVf² × A∇A                # Monochromatic (∇f = 0, single frequency)
 
 # Density-amplitude relationship (equation of state)

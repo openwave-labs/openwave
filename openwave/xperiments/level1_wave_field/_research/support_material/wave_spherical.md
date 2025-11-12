@@ -21,7 +21,7 @@ See `01_wave_spherical_plot.py` for the amplitude vs radius visualization showin
 For spherical waves propagating from a point source, total energy must be conserved as the wave expands outward. The energy of a wave system is given by (EWT frequency-centric formulation):
 
 ```python
-E = ρV(Af)²
+E = ρV(fA)²
 ```
 
 Where:
@@ -29,13 +29,13 @@ Where:
 - `E` = total energy
 - `ρ` = medium density
 - `V` = volume
-- `A` = amplitude
 - `f` = frequency (Hz, where f = c/λ)
+- `A` = amplitude
 
 Equivalent wavelength-based form (historical):
 
 ```python
-E = ρV(c/λ × A)² = ρV(Af)²  (since f = c/λ)
+E = ρV(c/λ × A)² = ρV(fA)²  (since f = c/λ)
 ```
 
 As a spherical wave propagates through a uniform medium:
@@ -316,7 +316,7 @@ The implementation conserves energy through:
 
 1. **Amplitude Falloff**: A(r) = A₀(λ/r) for r > λ
 2. **Constant Parameters**: f, λ, c, ρ remain constant (f = c/λ)
-3. **Energy Equation** (frequency-centric): E = ρV(Af)²
+3. **Energy Equation** (frequency-centric): E = ρV(fA)²
 
 At any radius r > λ from the wave source:
 

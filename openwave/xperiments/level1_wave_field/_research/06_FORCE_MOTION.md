@@ -54,17 +54,17 @@ Electric, magnetic, gravitational, strong forces are disturbances on the energy 
 **Mathematical Expression** (frequency-centric formulation):
 
 ```text
-F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]   (full form, dual-term)
+F = -∇E = -∇(u×V) = -2ρVfA × [f∇A + A∇f]   (full form, dual-term)
 F = -2ρVf² × A∇A                             (monochromatic, ∇f = 0)
 ```
 
 Where:
 
-- u = ρ(Af)² is energy density (EWT, frequency-based, no ½ factor)
+- u = ρ(fA)² is energy density (EWT, frequency-based, no ½ factor)
 - ρ = medium density (3.860×10²² kg/m³)
 - V = dx³ (voxel volume)
-- A = amplitude (meters)
 - f = frequency (Hz, where f = c/λ)
+- A = amplitude (meters)
 
 Force points toward decreasing energy (downhill on energy landscape). Particles move toward regions of lower amplitude (MAP: Minimum Amplitude Principle).
 
@@ -278,8 +278,8 @@ dir = wave_direction[i, j, k]
   - Not typically stored (derived when needed)
 
 - **Energy**: Integral of energy density (frequency-based)
-  - Energy density: u = ρ(Af)² (EWT, frequency-centric, no ½ factor)
-  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(Af)²[i,j,k] * dx³`
+  - Energy density: u = ρ(fA)² (EWT, frequency-centric, no ½ factor)
+  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(fA)²[i,j,k] * dx³`
 
 **Measurement Algorithms**:
 
@@ -375,9 +375,9 @@ def measure_wavelength() -> ti.f32:
 **Mathematical Statement** (frequency-centric):
 
 ```text
-Energy density: u = ρ(Af)²
+Energy density: u = ρ(fA)²
 Force from energy gradient: F = -∇E = -∇(u×V)
-Expanded form: F = -2ρVAf × [f∇A + A∇f]   (dual-term)
+Expanded form: F = -2ρVfA × [f∇A + A∇f]   (dual-term)
 Monochromatic: F = -2ρVf² × A∇A           (when ∇f = 0)
 ```
 
@@ -398,7 +398,7 @@ Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Forc
 
 ```python
 # Full form with frequency gradients
-F[i,j,k] = -2ρVAf × [f∇A + A∇f][i,j,k]
+F[i,j,k] = -2ρVfA × [f∇A + A∇f][i,j,k]
 
 # Monochromatic approximation (single frequency, ∇f = 0)
 F[i,j,k] = -2ρVf² × A∇A[i,j,k]

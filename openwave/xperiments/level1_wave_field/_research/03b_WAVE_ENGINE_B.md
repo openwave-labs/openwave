@@ -30,8 +30,8 @@
 
 - **In code**: `self.amplitude_am[i,j,k]`
 - **Used for**:
-  - **Energy density**: u = ρ(Af)² (EWT, no ½ factor, frequency-centric)
-  - **Force calculation**: F = -2ρVAf×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
+  - **Energy density**: u = ρ(fA)² (EWT, no ½ factor, frequency-centric)
+  - **Force calculation**: F = -2ρVfA×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
   - Energy gradients
   - Pressure-like field that drives particle motion
 
@@ -151,7 +151,7 @@ Can we compute force in **Newtons** (kg⋅m/s²) from the amplitude gradient?
    - Amplitude, displacement
    - Wave direction, speed
    - Energy, phase
-   - Wavelength, frequency
+   - Frequency, Wavelength
 4. **Propagation Methods** (unclear which to use):
    - PDEs (Partial Differential Equations)?
    - Laplacian operator?
@@ -228,18 +228,18 @@ All generated from the fundamental energy wave (EWT).
 **Key Formula from EWT (Frequency-Based)**:
 
 ```text
-Energy density: u = ρ(Af)²        [J/m³]  (EWT, no ½ factor)
+Energy density: u = ρ(fA)²        [J/m³]  (EWT, no ½ factor)
 Force density:  f = -∇u           [N/m³]
 Force on voxel: F = f × dx³       [N]
-Final formula:  F = -2ρVAf×[f∇A + A∇f]  (full form with frequency gradients)
+Final formula:  F = -2ρVfA×[f∇A + A∇f]  (full form with frequency gradients)
 Monochromatic:  F = -2ρVf²×A∇A           (when ∇f = 0)
 ```
 
 Where:
 
 - `ρ` = medium density (3.860×10²² kg/m³ from EWT)
-- `A` = wave amplitude (meters)
 - `f` = frequency (Hz, where f = c/λ)
+- `A` = wave amplitude (meters)
 - `V = dx³` = voxel volume (cubic meters)
 - Note: c = 2.998×10⁸ m/s embedded in f via f = c/λ
 
@@ -249,16 +249,16 @@ Where:
 
 ```text
 Total energy: E = ∫ u dV
-where u = ρ(Af)² is energy density (from EWT)
+where u = ρ(fA)² is energy density (from EWT)
 ```
 
-**Note**: EWT energy equation `E = ρV(Af)²` does **not** include the ½ factor found in classical wave mechanics.
+**Note**: EWT energy equation `E = ρV(fA)²` does **not** include the ½ factor found in classical wave mechanics.
 
 **Elegance of Frequency Formulation**:
 
-- **E = ρV(Af)²** is cleaner than E = ρVc²(A/λ)²
+- **E = ρV(fA)²** is cleaner than E = ρVc²(A/λ)²
 - Aligns with **Planck's E = hf** (energy proportional to frequency!)
-- **Spacetime coupling**: A (spatial) × f (temporal) = natural pairing
+- **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing
 - Human-intuitive: frequency used in radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
 
 **Physical Meaning of EWT Formula**:
@@ -266,16 +266,16 @@ where u = ρ(Af)² is energy density (from EWT)
 In oscillating wave systems, energy alternates between kinetic (medium motion) and potential (compression):
 
 ```text
-Classical time-averaged: ⟨E⟩ = ½ρV(Af)²   (average over cycle)
+Classical time-averaged: ⟨E⟩ = ½ρV(fA)²   (average over cycle)
 
-EWT total/peak energy:   E = ρV(Af)²      (total energy capacity)
+EWT total/peak energy:   E = ρV(fA)²      (total energy capacity)
                          E = 2 × ⟨E⟩classical
 ```
 
 **Why use total instead of average?**
 
-- Amplitude A represents **peak displacement** (maximum pressure)
 - Frequency f represents **oscillation rate** (temporal character)
+- Amplitude A represents **peak displacement** (maximum pressure)
 - Forces respond to **total energy gradients** (peak pressure differences)
 - `E_EWT = max(KE + PE)` = total energy that sloshes between kinetic and potential
 - This is the "energy budget" that creates pressure gradients driving particle motion
@@ -286,12 +286,12 @@ Analogy: Sound pressure - objects respond to peak amplitude (loudness) at a give
 
 ```text
 F = -∇E
-  = -∇[ρV(Af)²]
+  = -∇[ρV(fA)²]
   = -ρV × ∇(A²f²)
   = -ρV × [f²∇(A²) + A²∇(f²)]
   = -ρV × [f² × 2A∇A + A² × 2f∇f]
-  = -2ρV × [Af² × ∇A + A²f × ∇f]
-  = -2ρVAf × [f∇A + A∇f]
+  = -2ρV × [f²A × ∇A + A²f × ∇f]
+  = -2ρVfA × [f∇A + A∇f]
 ```
 
 Where `V = dx³` is voxel volume.
@@ -302,10 +302,10 @@ Where `V = dx³` is voxel volume.
 
 ```text
 Classical wave mechanics:
-  u = ½ρ(Af)²  → F = -ρVAf × [f∇A + A∇f]
+  u = ½ρ(fA)²  → F = -ρVfA × [f∇A + A∇f]
 
 EWT (used in this simulation):
-  u = ρ(Af)²   → F = -2ρVAf × [f∇A + A∇f]
+  u = ρ(fA)²   → F = -2ρVfA × [f∇A + A∇f]
 
 The EWT force constant is 2× classical due to using total energy (no ½ factor).
 Use EWT formulation for consistency with energywavetheory.com
@@ -323,8 +323,8 @@ def compute_force_field_newtons(self):
     Compute force in Newtons from amplitude gradient (EWT formulation).
 
     Physics (Frequency-Based):
-    - Energy density: u = ρ(Af)² (EWT, no ½ factor)
-    - Force: F = -∇E = -∇(u×V) = -2ρVAf × [f∇A + A∇f]
+    - Energy density: u = ρ(fA)² (EWT, no ½ factor)
+    - Force: F = -∇E = -∇(u×V) = -2ρVfA × [f∇A + A∇f]
     - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
     where V = dx³ (voxel volume)
 
@@ -807,7 +807,7 @@ E = ρV(c/λ × A)²
 **Frequency-centric equivalent**:
 
 ```python
-E = ρV(Af)²    # Since f = c/λ
+E = ρV(fA)²    # Since f = c/λ
 ```
 
 **Critical Requirements**:
@@ -924,8 +924,8 @@ def charge_uniform_energy(self):
     """
     # EWT constants
     ρ = ti.f32(constants.MEDIUM_DENSITY)
-    A = ti.f32(constants.EWAVE_AMPLITUDE)
     f = ti.f32(constants.EWAVE_FREQUENCY)
+    A = ti.f32(constants.EWAVE_AMPLITUDE)
 
     # Uniform initial displacement (all voxels same)
     # Use small random perturbation to avoid perfect symmetry
@@ -945,7 +945,7 @@ def charge_uniform_energy(self):
         self.displacement_old[i, j, k] = self.displacement_am[i, j, k]
 
     # Verify total energy matches equations.energy_wave_equation()
-    # E_total = ρV(Af)² where V = nx × ny × nz × dx³
+    # E_total = ρV(fA)² where V = nx × ny × nz × dx³
 ```
 
 ##### Implementation - Option 2: Spherical Gaussian Wave Pulse (Recommended)
@@ -989,7 +989,7 @@ def charge_spherical_gaussian(
     σ_am = width_factor * λ_am  # Width in attometers
 
     # Calculate amplitude to match desired total energy
-    # E = ∫ ρ(Af)² dV for Gaussian: E ≈ ρ(Af)² × (π^(3/2) × σ³)
+    # E = ∫ ρ(fA)² dV for Gaussian: E ≈ ρ(fA)² × (π^(3/2) × σ³)
     # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
     volume_factor = (ti.math.pi ** 1.5) * (σ_am * constants.ATTOMETER) ** 3
     A_required = ti.sqrt(total_energy / (ρ * f * f * volume_factor))
@@ -1022,8 +1022,8 @@ def charge_spherical_gaussian(
 def charge_wolff_spherical_wave(
     self,
     center: ti.math.vec3,
-    amplitude: ti.f32,
     frequency: ti.f32,
+    amplitude: ti.f32,
     initial_phase: ti.f32 = 0.0
 ):
     """
@@ -1909,14 +1909,14 @@ Answer: There isn't one unique frequency!
 The full force derivation with variable f includes a frequency gradient term:
 
 ```text
-F = -∇E = -∇[ρV(Af)²]
+F = -∇E = -∇[ρV(fA)²]
 
 Full expansion with product rule:
-F = -2ρVAf × [f∇A + A∇f]
+F = -2ρVfA × [f∇A + A∇f]
 
 Two terms:
-1. Amplitude gradient: -2ρVAf × f∇A = -2ρVf² × A∇A    (primary - particles move toward lower A)
-2. Frequency gradient: -2ρVAf × A∇f = -2ρVA²f × ∇f    (secondary - particles move toward higher f)
+1. Amplitude gradient: -2ρVfA × f∇A = -2ρVf² × A∇A    (primary - particles move toward lower A)
+2. Frequency gradient: -2ρVfA × A∇f = -2ρVA²f × ∇f    (secondary - particles move toward higher f)
 ```
 
 **Solutions (Implementation Strategies)**:
@@ -2055,8 +2055,8 @@ Shorter wavelength → Higher energy (since c = λf is constant)
 
 ```python
 # In WaveField class __init__
-self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Measured wavelength
-self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # Computed frequency
+self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # Measured frequency
+self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Computed wavelength
 
 # Default wavelength (from initial conditions)
 self.wavelength_am = wavelength_m / constants.ATTOMETER
@@ -2064,8 +2064,8 @@ self.wavelength_am = wavelength_m / constants.ATTOMETER
 # Update cycle:
 def update_wave_properties(self):
     """Update derived wave properties."""
-    self.compute_local_wavelength()   # Measure λ from pattern
-    self.compute_local_frequency()    # Compute f = c/λ
+    self.compute_local_frequency()    # Measure from pattern
+    self.compute_local_wavelength()   # Compute λ = c/f
 ```
 
 **Superposition of Different Wavelengths**:
@@ -2140,7 +2140,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 | **f** (frequency) | ✗ No (varies spatially) | **PRIMARY: Measured** f = 1/dt | ✗ No (derived property) |
 | **T** (period) | ✗ No (varies spatially) | **Derived** T = dt = 1/f | ✗ No (derived property) |
 | **λ** (wavelength) | ✗ No (varies spatially) | **Derived** λ = c/f | ✗ No (derived property) |
-| **E** (energy) | ✗ No (varies spatially) | E = ρV(Af)² | ✓ Yes (via wave energy) |
+| **E** (energy) | ✗ No (varies spatially) | E = ρV(fA)² | ✓ Yes (via wave energy) |
 
 **Key Takeaways (Frequency-Centric Philosophy)**:
 
@@ -2151,7 +2151,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 5. **Simple and robust**: Direct temporal measurement, not sensitive to spatial gradients
 6. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
 7. For **single source**, f is constant; for **multiple sources**, measures dominant frequency
-8. **Spacetime coupling**: A (spatial) × f (temporal) = natural pairing in E = ρV(Af)²
+8. **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing in E = ρV(fA)²
 
 ---
 
@@ -2572,8 +2572,8 @@ wave_field = WaveField(nx=100, ny=100, nz=100,
 # Charge initial energy using Wolff's standing wave solution
 wave_field.charge_spherical_standing_wave(
     center=center,
-    amplitude=constants.EWAVE_AMPLITUDE,
     frequency=constants.EWAVE_FREQUENCY,
+    amplitude=constants.EWAVE_AMPLITUDE,
     initial_phase=0.0
 )
 
