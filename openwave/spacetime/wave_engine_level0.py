@@ -122,8 +122,8 @@ def oscillate_granules(
     amplitude_am: ti.template(),  # type: ignore
     velocity_am: ti.template(),  # type: ignore
     granule_var_color: ti.template(),  # type: ignore
-    freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
     ironbow: ti.i32,  # type: ignore
     var_displacement: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
@@ -192,8 +192,8 @@ def oscillate_granules(
         var_displacement: Displacement vs amplitude toggle
         num_sources: Number of wave sources
         elapsed_t: Current simulation time (accumulated, seconds)
-        freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
+        freq_boost: Frequency multiplier (applied after slow_mo)
     """
     # Compute temporal parameters (same for all wave sources)
     f_slowed = frequency / config.SLOW_MO * freq_boost
