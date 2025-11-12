@@ -48,6 +48,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 ### Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
+- WAVE-SPEED (c): constant by medium property, has direction of propagation
 - WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
 
 ### Wave Form
@@ -55,38 +56,33 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - WAVE-MODE: longitudinal, transverse (polarization)
 - WAVE-TYPE: standing, traveling
 
-### Wave Energy
-
-- WAVE-SPEED (c): constant, has direction of propagation
-- WAVE-LENGTH (λ): changes when moving particle (doppler)
-- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
-- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
-
 ### Wave Rhythm
 
 - FREQUENCY (f): c / λ (can change)
-- TIME: the wave's frequency, rhythm
+- PERIOD (T): 1/f
+  - TIME =  the wave's frequency, rhythm
+
+### Wave Size
+
+- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
+- WAVE-LENGTH (λ): c / f (changes when moving particle, doppler)
+
+### Wave Energy
+
+- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
 
 ### Wave Interaction
 
-- INTERFERENCE: amplitude combinations (resonance, superposition) [sources diffs: phase, motion, freq]
 - REFLECTION: changes direction of propagation (velocity vector)
+- INTERFERENCE: amplitude/λ combinations (resonance, superposition) [sources diffs: phase, motion, freq]
 
-### Notation
+### Other Notation
 
-- ρ (rho) = medium density
-- c = wave speed (speed of light)
-- λ (lambda) = wavelength
-- ψ (psi) = instantaneous wave displacement
-- A = wave amplitude (envelope, max|ψ|)
-- f = frequency (c / λ)
+- ψ (psi) = displacement
+- φ (phi) = phase shift
 - ω (omega) = angular frequency (2πf)
 - ωt = temporal oscillation (controls rhythm, time-varying component)
-- φ (phi) = spatial phase shift (controls phase shift, wave relationship, interference, position-dependent component)
-- k = wave number (2π/λ)
-- t = time
-- dx = spatial step (meters), dx_am = scaled (attometers, 10⁻¹⁸ m)
-- dt = time step (seconds), dt_rs = scaled (rontoseconds, 10⁻²⁷ s)
+- k = angular wave number (2π/λ)
 
 ## Scalar Properties (Magnitude)
 
@@ -722,6 +718,60 @@ class WaveField:
                 output[i, j, k] = laplacian
 ```
 
+### CLAUDE REVIEW: old content WaveField Class Methods
+
+```python
+@ti.data_oriented
+class WaveField:
+    """Complete wave field with force calculation."""
+
+    def __init__(self, nx, ny, nz, wavelength_m, points_per_wavelength=40):
+        # ... initialization with attometer scaling ...
+
+        # Three amplitude fields for wave equation (leap-frog)
+        self.amplitude_old = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+        self.amplitude_new = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+
+        # Wave direction (computed from energy flux)
+        self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+
+        # Force field (in Newtons)
+        self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+
+    @ti.kernel
+    def propagate_wave_field(self, dt: ti.f32):
+        """PDE-based wave propagation."""
+        # See Answer 2
+        pass
+
+    @ti.kernel
+    def compute_wave_direction(self):
+        """Compute direction from energy flux."""
+        # See Answer 4
+        pass
+
+    @ti.kernel
+    def compute_force_field_newtons(self):
+        """Compute force in Newtons from amplitude gradient (EWT)."""
+        # See Answer 1
+        pass
+
+    def update_timestep(self, dt):
+        """Complete wave field update for one timestep."""
+        # 1. Propagate wave amplitude
+        self.propagate_wave_field(dt)
+
+        # 2. Compute wave direction
+        self.compute_wave_direction()
+
+        # 3. Compute force field
+        self.compute_force_field_newtons()
+
+        # 4. Apply boundary conditions
+        self.apply_boundary_conditions()
+```
+
 ### Initialization Comparison: LEVEL-0 vs LEVEL-1
 
 | Aspect | LEVEL-0 (BCCLattice) | LEVEL-1 (WaveField) |
@@ -1016,9 +1066,3 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 | **Forces** | Inter-granule forces | Computed from gradients |
 
 **Key Difference**: LEVEL-1 stores properties directly at fixed grid locations, while LEVEL-0 computes from moving particles.
-
----
-
-**Status**: Properties defined, ready for wave engine implementation
-
-**Next Steps**: Implement wave propagation using these field properties

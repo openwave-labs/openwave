@@ -568,9 +568,3 @@ nz = int(125e-18 / dx) = 175  # voxels in z (half of x/y)
 7. ✅ **Configurable connectivity** (6/18/26 neighbors)
 8. ✅ **Distance-based weighting** (physical accuracy)
 9. ✅ **Attometer units internally, meters for external reporting** (precision + clarity)
-
----
-
-**Status**: Architecture defined, ready for implementation
-
-**Next Steps**: Implement wave propagation engine using this grid structure

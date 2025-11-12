@@ -27,7 +27,7 @@
 
 ### Electron Formation
 
-**"Click" Event**:
+**"Lock" Event**:
 
 - Two wave centers approach each other
 - At critical distance, standing wave pattern locks
