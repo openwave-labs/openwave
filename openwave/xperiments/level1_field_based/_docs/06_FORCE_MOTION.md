@@ -1,4 +1,4 @@
-# FORCES & MOTION
+# FORCE & MOTION
 
 ## Table of Contents
 
@@ -59,6 +59,7 @@ F = -2ρVf² × A∇A                             (monochromatic, ∇f = 0)
 ```
 
 Where:
+
 - u = ρ(Af)² is energy density (EWT, frequency-based, no ½ factor)
 - ρ = medium density (3.860×10²² kg/m³)
 - V = dx³ (voxel volume)
