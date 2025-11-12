@@ -817,6 +817,18 @@ E = ρV(fA)²    # Since f = c/λ
 3. **Simple Initial Condition**: DON'T try to create particle standing waves yet - those emerge automatically later
 4. **Energy Conservation**: Wave equation will maintain total energy during propagation
 
+Charge Energy Wave
+
+- injection of n (even) pulses with universe energy (eq)
+  - phase 0, time t: max positive displacement
+  - phase π, time: t + 1 wave period: min negative displacement
+- vs. start with a sine-wave of displacement (wave driver)
+  - that will be picked up by stencil voxels
+
+- hard coded point source or multiple sources (fast charge)
+  - direction = spherical
+- UI button, counter til stable
+
 **Standing Wave Particles Come Later**: The IN/OUT wave reflections from wave centers (reflective voxels) will automatically create steady-state standing waves (fundamental particles) when we implement particle wave centers. For now, just inject energy with correct wave properties.
 
 #### Energy Evolution Sequence: From Pulse to Particle
@@ -949,6 +961,8 @@ def charge_uniform_energy(self):
 ```
 
 ##### Implementation - Option 2: Spherical Gaussian Wave Pulse (Recommended)
+
+ψ(x) = e^(-x²)  (Gaussian bump)
 
 ```python
 @ti.kernel
