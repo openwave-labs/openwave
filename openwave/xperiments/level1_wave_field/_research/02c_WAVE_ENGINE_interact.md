@@ -27,55 +27,32 @@ The boundary behavior is NOT in the Laplacian itself - it's implemented through:
 1. Keeping boundaries fixed at zero (never updated)
 2. Interior points "see" zero at boundaries when computing Laplacian
 
-## Wave Superposition
-
-Wave superposition after reflection.
-Superposition principle.
-
-## CLAUDE REVIEW: OLD CONTENT Wave Interactions
-
-### Boundary Reflections
-
-**Reflection at Boundaries**: Waves reflect without energy loss.
-
-**Boundary Types**:
-
-1. **Hard boundaries** (universe walls):
-   - Perfect reflection: `ψ_reflected = -ψ_incident`
-   - Phase inversion for fixed boundaries
-   - No phase inversion for free boundaries
-
-2. **Wave centers** (particles):
-   - Reflect waves like boundaries
-   - Invert wavelet propagation direction
-   - Source of emergent forces (MAP)
-
-**Implementation**:
-
-```python
-# At boundary (e.g., i=0 face)
-if i == 0:
-    displacement[i,j,k] = -displacement[i+1,j,k]  # Hard reflection
-```
-
-### Reflection
+### Detailed Reflection
 
 **Wave Reflection** from boundaries and wave centers:
 
 **At Universe Boundaries**:
 
 - Waves reflect back into domain
-- Energy conserved
+- Perfect reflection with phase inversion: `ψ_reflected = -ψ_incident`
+- Energy conserved (no absorption)
 - Creates standing wave patterns near walls
 
 **At Wave Centers** (particles):
 
-- Particles act as reflectors
+- Particles act as reflectors (like internal boundaries)
 - Inverts wave propagation direction
 - Creates near-field wave patterns around particles
 - Source of particle forces (MAP)
 
-### Interference
+**Boundary Types**:
+
+1. **Fixed (Dirichlet) boundaries**: `ψ = 0` at wall → phase inversion
+2. **Free boundaries**: No phase inversion (not used in LEVEL-1)
+
+**Implementation Note**: Fixed boundaries are implemented by never updating boundary voxels, keeping them at `ψ = 0`. Interior voxels "see" this zero value when computing Laplacian, creating natural reflection.
+
+## Wave Superposition
 
 **Superposition Principle**: Multiple waves combine linearly at each point.
 

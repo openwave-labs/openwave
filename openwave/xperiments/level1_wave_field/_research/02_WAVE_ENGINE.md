@@ -2,6 +2,27 @@
 
 ## Table of Contents
 
+1. [Overview](#overview)
+1. [Wave Propagation Mechanics](#wave-propagation-mechanics)
+1. [Energy Evolution Sequence: From Pulse to Particle](#energy-evolution-sequence-from-pulse-to-particle)
+   - [Phase 1: Center-Concentrated Pulse Injection](#phase-1-center-concentrated-pulse-injection)
+   - [Phase 2: Outward Propagation via Wave Equation](#phase-2-outward-propagation-via-wave-equation)
+   - [Phase 3: Boundary Reflections](#phase-3-boundary-reflections)
+   - [Phase 4: Energy Dilution into Stable Distributed State](#phase-4-energy-dilution-into-stable-distributed-state)
+   - [Phase 5: Wave Center Insertion (Reflective Voxels)](#phase-5-wave-center-insertion-reflective-voxels)
+   - [Phase 6: Standing Wave Emergence (IN + OUT Interference)](#phase-6-standing-wave-emergence-in--out-interference)
+   - [Phase 7: Particle Formation (Mass = Trapped Energy)](#phase-7-particle-formation-mass--trapped-energy)
+   - [Visual Summary](#visual-summary)
+   - [Why This Sequence?](#why-this-sequence)
+1. [Energy and Momentum Conservation](#energy-and-momentum-conservation)
+1. [Wave Mode: Longitudinal vs Transverse](#wave-mode-longitudinal-vs-transverse)
+1. [Wave Decomposition: Separating Longitudinal and Transverse Components](#wave-decomposition-separating-longitudinal-and-transverse-components)
+1. [Wave Type: Standing vs Traveling](#wave-type-standing-vs-traveling)
+1. [Wavelength and Frequency Variation in the Medium](#wavelength-and-frequency-variation-in-the-medium)
+1. [Wave Direction Computation](#wave-direction-computation)
+1. [The Complete Picture](#the-complete-picture)
+1. [Implementation Summary](#implementation-summary)
+
 ## Overview
 
 The **Wave Engine** is the core computational system that propagates wave disturbances through the wave-field medium in LEVEL-1. It handles wave propagation, interference, reflection, and all wave interactions governed by partial differential equations (PDEs).

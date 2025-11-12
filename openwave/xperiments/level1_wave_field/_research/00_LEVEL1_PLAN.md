@@ -52,7 +52,7 @@ LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (
 
 **See**: [`01a_WAVE_FIELD_grid.md`](./01a_WAVE_FIELD_grid.md), [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md)
 
-### 3. Energy Charging
+### 2. Energy Charging
 
 **Purpose**: Initialize wave field with correct total energy
 
@@ -135,7 +135,7 @@ E = ρV(fA)²    (no ½ factor - total energy, not time-averaged)
 - Standing wave radius: r = nλ/2 (nodes at half-wavelengths)
 - Mass = E/c² where E = trapped standing wave energy
 
-**See**: [`05_FUNDAMENTAL_PARTICLE.md`](./05_FUNDAMENTAL_PARTICLE.md), [`07_MATTER.md`](./07_MATTER.md)
+**See**: [`03_FUNDAMENTAL_PARTICLE.md`](./03_FUNDAMENTAL_PARTICLE.md), [`05_MATTER.md`](./05_MATTER.md)
 
 ### 6. Forces (Emergent)
 
@@ -160,7 +160,7 @@ Units: [N] = [kg⋅m/s²]
 - **Magnetic**: Moving wave patterns (velocity-dependent)
 - **Strong**: Near-field standing wave coupling
 
-**See**: [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md)
+**See**: [`04_FORCE_MOTION.md`](./04_FORCE_MOTION.md)
 
 ### 7. Visualization
 
@@ -174,7 +174,7 @@ Units: [N] = [kg⋅m/s²]
 
 **NOT rendering all voxels**: Only field slices, isosurfaces, sample points
 
-**See**: [`04_VISUALIZATION.md`](./04_VISUALIZATION.md)
+**See**: [`07_VISUALIZATION.md`](./07_VISUALIZATION.md)
 
 ## Energy Evolution Sequence
 
@@ -405,14 +405,14 @@ F = -2ρVf² × A∇A    (MAP: particles respond to envelope)
 1. **[02b_WAVE_ENGINE_propagate.md](./02b_WAVE_ENGINE_propagate.md)** - PDE propagation, Laplacian, CFL stability
 1. **[02c_WAVE_ENGINE_interact.md](./02c_WAVE_ENGINE_interact.md)** - Boundary reflections, superposition
 
-### Visualization & Matter
+### Particles, Forces & Visualization
 
-1. **[04_VISUALIZATION.md](./04_VISUALIZATION.md)** - Detector planes, wall painting, particle spray, vector fields
-1. **[05_FUNDAMENTAL_PARTICLE.md](./05_FUNDAMENTAL_PARTICLE.md)** - Wave centers, reflection behavior, mass accumulation
-1. **[06_FORCE_MOTION.md](./06_FORCE_MOTION.md)** - Force calculation, MAP principle, emergent fields
-1. **[07_MATTER.md](./07_MATTER.md)** - Composite particles, electron formation, binding
-1. **[08_PHOTON_HEAT.md](./08_PHOTON_HEAT.md)** - (placeholder for future content)
-1. **[09_NUMERICAL_ANALYSIS.md](./09_NUMERICAL_ANALYSIS.md)** - (placeholder for data sampling, plotting)
+1. **[03_FUNDAMENTAL_PARTICLE.md](./03_FUNDAMENTAL_PARTICLE.md)** - Wave centers, reflection behavior, mass accumulation
+1. **[04_FORCE_MOTION.md](./04_FORCE_MOTION.md)** - Force calculation, MAP principle, emergent fields
+1. **[05_MATTER.md](./05_MATTER.md)** - Composite particles, electron formation, binding
+1. **[06_PHOTON_HEAT.md](./06_PHOTON_HEAT.md)** - (placeholder for future content)
+1. **[07_VISUALIZATION.md](./07_VISUALIZATION.md)** - Detector planes, wall painting, particle spray, vector fields
+1. **[08_NUMERICAL_ANALYSIS.md](./08_NUMERICAL_ANALYSIS.md)** - (placeholder for data sampling, plotting)
 
 ### Supporting Material
 
@@ -428,7 +428,7 @@ Located in `support_material/`:
 
 ### Reference
 
-1. **[10_OTHER_METHODS.md](./10_OTHER_METHODS.md)** - Evaluation of alternative numerical methods
+1. **[09_OTHER_METHODS.md](./09_OTHER_METHODS.md)** - Evaluation of alternative numerical methods
 
 ## Current Status & Next Steps
 
