@@ -786,6 +786,214 @@ def propagate_huygens(dt: ti.f32):
 
 **Note**: Huygens method is less efficient on regular grids. The wave equation (PDE) implicitly implements Huygens' principle through the Laplacian operator.
 
+#### Initial Energy Charging: Match EWT Energy Equation
+
+**Context**: When initializing the wave field, we need to charge it with the correct amount of energy as specified by the EWT energy wave equation from `equations.py`.
+
+**EWT Energy Wave Equation** (wavelength-based form):
+
+```python
+E = ρV(c/λ × A)²
+```
+
+**Frequency-centric equivalent**:
+
+```python
+E = ρV(Af)²    # Since f = c/λ
+```
+
+**Critical Requirements**:
+
+1. **Match Total Energy**: Initial field energy must equal `energy_wave_equation(volume)` from equations.py
+2. **Correct Wave Characteristics**: Use proper frequency, amplitude, wavelength from constants
+3. **Simple Initial Condition**: DON'T try to create particle standing waves yet - those emerge automatically later
+4. **Energy Conservation**: Wave equation will maintain total energy during propagation
+
+**Standing Wave Particles Come Later**: The IN/OUT wave reflections from wave centers (reflective voxels) will automatically create steady-state standing waves (fundamental particles) when we implement particle wave centers. For now, just inject energy with correct wave properties.
+
+**Implementation - Option 1: Uniform Energy Density (Simplest)**:
+
+```python
+@ti.kernel
+def charge_uniform_energy(self):
+    """
+    Initialize field with uniform energy density matching EWT equation.
+
+    This is the simplest initial condition - just charge the field uniformly
+    with the correct total energy from equations.energy_wave_equation().
+
+    Wave propagation will then naturally evolve this initial state.
+    Standing waves will emerge when wave centers (reflective voxels) are added.
+    """
+    # EWT constants
+    ρ = ti.f32(constants.MEDIUM_DENSITY)
+    A = ti.f32(constants.EWAVE_AMPLITUDE)
+    f = ti.f32(constants.EWAVE_FREQUENCY)
+
+    # Uniform initial displacement (all voxels same)
+    # Use small random perturbation to avoid perfect symmetry
+    import random
+    base_displacement = A / 2.0  # Half amplitude to start
+
+    for i, j, k in self.displacement_am:
+        # Small random perturbation (±10%) to break symmetry
+        perturbation = 1.0 + 0.1 * (random.random() - 0.5)
+        displacement = base_displacement * perturbation
+
+        self.displacement_am[i, j, k] = displacement / constants.ATTOMETER
+        self.amplitude_am[i, j, k] = ti.abs(self.displacement_am[i, j, k])
+
+    # Initialize old displacement (same as current for stationary start)
+    for i, j, k in self.displacement_old:
+        self.displacement_old[i, j, k] = self.displacement_am[i, j, k]
+
+    # Verify total energy matches equations.energy_wave_equation()
+    # E_total = ρV(Af)² where V = nx × ny × nz × dx³
+```
+
+**Implementation - Option 2: Spherical Gaussian Wave (Recommended)**:
+
+```python
+@ti.kernel
+def charge_spherical_gaussian(
+    self,
+    center: ti.math.vec3,      # Wave center position (meters)
+    total_energy: ti.f32,       # Total energy to inject (Joules)
+    width_factor: ti.f32 = 3.0  # Width as multiple of wavelength
+):
+    """
+    Initialize field with spherical Gaussian wave packet.
+
+    This creates a smooth, localized wave that will propagate outward.
+    Total energy is carefully matched to EWT energy equation.
+
+    Args:
+        center: Center position in meters
+        total_energy: Total energy from equations.energy_wave_equation(volume)
+        width_factor: Gaussian width = width_factor × wavelength
+    """
+    # Convert to scaled units
+    center_am = center / constants.ATTOMETER
+
+    # EWT constants
+    ρ = ti.f32(constants.MEDIUM_DENSITY)
+    f = ti.f32(constants.EWAVE_FREQUENCY)
+    λ_am = ti.f32(constants.EWAVE_LENGTH / constants.ATTOMETER)
+
+    # Gaussian width
+    σ_am = width_factor * λ_am  # Width in attometers
+
+    # Calculate amplitude to match desired total energy
+    # E = ∫ ρ(Af)² dV for Gaussian: E ≈ ρ(Af)² × (π^(3/2) × σ³)
+    # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
+    volume_factor = (ti.math.pi ** 1.5) * (σ_am * constants.ATTOMETER) ** 3
+    A_required = ti.sqrt(total_energy / (ρ * f * f * volume_factor))
+    A_am = A_required / constants.ATTOMETER
+
+    # Apply Gaussian wave packet
+    for i, j, k_idx in self.displacement_am:
+        pos_am = self.get_position_am(i, j, k_idx)
+        r_vec = pos_am - center_am
+        r_squared = r_vec.dot(r_vec)
+
+        # Gaussian envelope: exp(-r²/(2σ²))
+        gaussian = ti.exp(-r_squared / (2.0 * σ_am * σ_am))
+
+        # Initial displacement with Gaussian envelope
+        displacement = A_am * gaussian
+
+        self.displacement_am[i, j, k_idx] = displacement
+        self.amplitude_am[i, j, k_idx] = ti.abs(displacement)
+
+    # Initialize old displacement (same as current for stationary start)
+    for i, j, k_idx in self.displacement_old:
+        self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
+```
+
+**Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)**:
+
+```python
+@ti.kernel
+def charge_wolff_spherical_wave(
+    self,
+    center: ti.math.vec3,
+    amplitude: ti.f32,
+    frequency: ti.f32,
+    initial_phase: ti.f32 = 0.0
+):
+    """
+    Initialize using Wolff's analytical solution: Φ = Φ₀ e^(iωt) sin(kr)/r
+
+    USE THIS LATER when implementing wave centers (reflective voxels).
+    This creates the sin(kr)/r pattern that will become a standing wave
+    when IN and OUT waves interfere.
+
+    For now, use simpler Gaussian (Option 2) for initial charging.
+    """
+    center_am = center / constants.ATTOMETER
+    amplitude_am = amplitude / constants.ATTOMETER
+    k = 2.0 * ti.math.pi * frequency / constants.EWAVE_SPEED
+
+    for i, j, k_idx in self.displacement_am:
+        pos_am = self.get_position_am(i, j, k_idx)
+        r_vec = pos_am - center_am
+        r = r_vec.norm()
+
+        # sin(kr)/r pattern (finite at r=0: lim = k)
+        if r < 0.01:
+            spatial_factor = k
+        else:
+            kr = k * r * constants.ATTOMETER
+            spatial_factor = ti.sin(kr) / (r * constants.ATTOMETER)
+
+        wave_displacement = amplitude_am * ti.cos(initial_phase) * spatial_factor
+
+        self.displacement_am[i, j, k_idx] = wave_displacement
+        self.amplitude_am[i, j, k_idx] = ti.abs(wave_displacement)
+
+    for i, j, k_idx in self.displacement_old:
+        self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
+```
+
+**Usage Example**:
+
+```python
+from openwave.common import constants, equations
+
+# Calculate universe volume
+universe_volume = wave_field.actual_universe_size[0] * \
+                  wave_field.actual_universe_size[1] * \
+                  wave_field.actual_universe_size[2]
+
+# Get correct total energy from EWT equation
+total_energy = equations.energy_wave_equation(
+    volume=universe_volume,
+    density=constants.MEDIUM_DENSITY,
+    speed=constants.EWAVE_SPEED,
+    wavelength=constants.EWAVE_LENGTH,
+    amplitude=constants.EWAVE_AMPLITUDE
+)
+
+# Charge field with correct energy (Option 2 recommended)
+wave_field.charge_spherical_gaussian(
+    center=ti.Vector([universe_volume**(1/3)/2] * 3),  # Center of universe
+    total_energy=total_energy,
+    width_factor=3.0  # 3× wavelength width
+)
+
+# Verify energy (should match equations.energy_wave_equation)
+measured_energy = wave_field.compute_total_energy()
+print(f"Target energy: {total_energy:.2e} J")
+print(f"Measured energy: {measured_energy:.2e} J")
+print(f"Match: {abs(measured_energy - total_energy) / total_energy * 100:.2f}%")
+```
+
+**Recommendation**:
+
+- **Now**: Use **Option 2 (Spherical Gaussian)** - simple, smooth, energy-conserving
+- **Later**: Use **Option 3 (Wolff's sin(kr)/r)** when implementing wave centers and particle formation
+- **Option 1**: Only for testing wave equation stability
+
 #### Energy and Momentum Conservation
 
 **Energy Density at Each Voxel**:
@@ -2198,10 +2406,15 @@ class WaveField:
 wave_field = WaveField(nx=100, ny=100, nz=100,
                        wavelength_m=constants.EWAVE_LENGTH)
 
-# Charge initial energy
-wave_field.charge_spherical_wave(center, energy, wavelength)
+# Charge initial energy using Wolff's standing wave solution
+wave_field.charge_spherical_standing_wave(
+    center=center,
+    amplitude=constants.EWAVE_AMPLITUDE,
+    frequency=constants.EWAVE_FREQUENCY,
+    initial_phase=0.0
+)
 
-# Stabilization phase
+# Stabilization phase (waves naturally evolve via PDE)
 for step in range(stabilization_steps):
     wave_field.update_timestep(dt)
 
