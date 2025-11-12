@@ -288,9 +288,10 @@ def color_menu(
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
-def level_specs(state):
+def level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.00, 0.18, 0.10) as sub:
+    render.canvas.triangles(level_bar_vertices, color=config.WHITE[1])
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
@@ -434,9 +435,10 @@ def main():
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
-    # Initialize color palettes for gradient rendering (after ti.init)
+    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
     ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
     bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
+    level_bar_vertices = config.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -505,7 +507,7 @@ def main():
             state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
         )
         data_dashboard(state)
-        level_specs(state)
+        level_specs(state, level_bar_vertices)
         render.show_scene()
 
         # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
