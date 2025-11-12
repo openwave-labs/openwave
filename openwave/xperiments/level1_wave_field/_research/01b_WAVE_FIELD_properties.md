@@ -5,6 +5,7 @@
 1. [Summary](#summary)
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
+   - [Displacement (ψ)](#displacement-ψ)
    - [Amplitude (A)](#amplitude-a)
    - [Frequency (f)](#frequency-f)
    - [Wavelength (λ)](#wavelength-λ)
@@ -21,6 +22,7 @@
    - [Initialization Comparison: LEVEL-0 vs LEVEL-1](#initialization-comparison-level-0-vs-level-1)
    - [Field Categories](#field-categories)
 1. [Property Relationships](#property-relationships)
+1. [Notation Clarification: ψ vs A](#notation-clarification-ψ-vs-a)
 1. [LEVEL-0 vs LEVEL-1 Properties](#level-0-vs-level-1-properties)
 
 ## SUMMARY
@@ -102,16 +104,17 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 **Storage**: Typically derived from medium properties, not stored per-voxel
 
-### Amplitude (A)
-
-**Maximum Displacement/Disturbance**:
-
-**IMPORTANT DISTINCTION**: ψ (psi) vs A (amplitude)
+### Displacement (ψ)
 
 - **ψ (displacement)**: Instantaneous wave displacement at high frequency (~10²⁵ Hz)
   - What propagates via wave equation: ∂²ψ/∂t² = c²∇²ψ
   - Oscillates rapidly between positive and negative
   - Used for wave propagation mechanics
+
+### Amplitude (A)
+
+**Maximum Displacement/Disturbance**:
+
 - **A (amplitude)**: Envelope of |ψ| (slowly varying maximum)
   - A = max|ψ| over time (running maximum)
   - Used for energy density: u = ρ(fA)² (EWT, no ½ factor, frequency-based)
@@ -883,6 +886,121 @@ def measure_wavelength() -> ti.f32:
     wavelength = distance(max_positions[0], max_positions[1])
     return wavelength
 ```
+
+## Notation Clarification: ψ vs A
+
+**Two Distinct Physical Quantities - Both Needed!**
+
+The Physics Distinction. In wave physics, these symbols typically mean:
+
+- ψ (psi): The wave field itself (displacement from equilibrium, instantaneous displacement at position x)
+- A: Amplitude envelope (maximum of |ψ|)
+
+For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
+
+- ψ varies between -A and +A
+- A is the constant amplitude (maximum displacement)
+
+| Computation            | Uses                          |
+|------------------------|-------------------------------|
+| Wave propagation (PDE) | ψ (displacement_am)           |
+| Energy density         | A² (amplitude_am²)            |
+| Force calculation, MAP | ∇A (gradient of amplitude_am) |
+| Wave mode (long/trans) | ∇ψ (displacement direction)   |
+| Phase                  | From ψ field                  |
+
+- granule displacement (from rest, sine wave, localized)
+- granule amplitude = granule max displacement (constant, localized)
+- universe peak amplitude = max from all granule amplitude (constant)
+- universe avg amplitude = avg from all granule amplitude (constant)
+
+### 1. ψ (psi): Instantaneous Displacement
+
+- **What it is**: The actual wave displacement at each instant in time
+  - Oscillates rapidly at wave frequency (~10²⁵ Hz for energy waves)
+  - Can be positive or negative
+  - Varies: ψ(x,y,z,t)
+  - **Propagates via wave equation**: ∂²ψ/∂t² = c²∇²ψ
+
+- **In code**: `self.displacement_am[i,j,k]`
+- **Used for**:
+  - Wave propagation (PDEs, Laplacian)
+  - Wave mode analysis (longitudinal vs transverse)
+  - Phase calculations
+  - Instantaneous field values
+
+### 2. A: Amplitude Envelope
+
+- **What it is**: The **maximum displacement** at each location (envelope)
+  - For sinusoidal wave: ψ(x,t) = A(x) sin(kx - ωt)
+  - A is the peak: |ψ|max = A
+  - Always positive: A ≥ 0
+  - Slowly varying (envelope of high-frequency oscillation)
+  - **Tracked as running maximum** of |ψ| over time
+
+- **In code**: `self.amplitude_am[i,j,k]`
+- **Used for**:
+  - **Energy density**: u = ρ(fA)² (EWT, no ½ factor, frequency-centric)
+  - **Force calculation**: F = -2ρVfA×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
+  - Energy gradients
+  - Pressure-like field that drives particle motion
+
+### Why Two Fields Are Needed
+
+**The High-Frequency Problem**:
+
+- Energy waves oscillate at ~10²⁵ Hz (from EWT)
+- Particles have mass/inertia - cannot respond to every oscillation
+- Particles respond to **time-averaged** force = force from **envelope** (A)
+
+**Analogy** (Speaker Diaphragm):
+
+- **ψ**: Diaphragm position oscillating at audio frequency
+- **A**: "Volume" setting - controls maximum displacement
+- You feel air pressure from **A** (volume), not individual oscillations (ψ)
+
+### Implementation Strategy
+
+**Wave Equation** propagates ψ (displacement):
+
+```python
+# High-frequency oscillation (updated every timestep)
+∂²ψ/∂t² = c²∇²ψ
+self.displacement_am[i,j,k]  # Stores current ψ
+```
+
+**Amplitude Tracking** extracts envelope A from ψ:
+
+```python
+# Track maximum |ψ| over time (envelope extraction)
+@ti.kernel
+def track_amplitude_envelope(self):
+    for i, j, k in self.displacement_am:
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+```
+
+**Force Calculation** uses A (not ψ):
+
+```python
+# Particles respond to amplitude gradient (envelope)
+F = -∇A  # Not -∇ψ !
+F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
+```
+
+### Summary Table
+
+| Property | ψ (Displacement) | A (Amplitude) |
+|----------|------------------|---------------|
+| **Field name** | `displacement_am[i,j,k]` | `amplitude_am[i,j,k]` |
+| **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
+| **Frequency** | High (~10²⁵ Hz) | Slowly varying |
+| **Sign** | ± (positive/negative) | + (always positive) |
+| **Propagation** | Wave equation (PDE) | Tracked from ψ |
+| **Used for** | Wave dynamics, phase, mode | Forces, energy, MAP |
+| **Formula** | ∂²ψ/∂t² = c²∇²ψ | A = max(\|ψ\|) over time |
+
+**Critical Point**: Forces use **amplitude gradient** (∇A), not displacement gradient (∇ψ)! This is because MAP = "Minimum **Amplitude** Principle" - particles move toward regions of lower amplitude envelope, not lower instantaneous displacement.
 
 ## LEVEL-0 vs LEVEL-1 Properties
 

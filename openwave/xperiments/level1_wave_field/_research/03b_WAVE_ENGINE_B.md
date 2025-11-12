@@ -1,100 +1,7 @@
 # WAVE ENGINE - FORCE CALCULATION & WAVE PROPAGATION
 
-## Notation Clarification: ψ vs A
-
-**Two Distinct Physical Quantities - Both Needed!**
-
-### 1. ψ (psi): Instantaneous Displacement
-
-- **What it is**: The actual wave displacement at each instant in time
-  - Oscillates rapidly at wave frequency (~10²⁵ Hz for energy waves)
-  - Can be positive or negative
-  - Varies: ψ(x,y,z,t)
-  - **Propagates via wave equation**: ∂²ψ/∂t² = c²∇²ψ
-
-- **In code**: `self.displacement_am[i,j,k]`
-- **Used for**:
-  - Wave propagation (PDEs, Laplacian)
-  - Wave mode analysis (longitudinal vs transverse)
-  - Phase calculations
-  - Instantaneous field values
-
-### 2. A: Amplitude Envelope
-
-- **What it is**: The **maximum displacement** at each location (envelope)
-  - For sinusoidal wave: ψ(x,t) = A(x) sin(kx - ωt)
-  - A is the peak: |ψ|max = A
-  - Always positive: A ≥ 0
-  - Slowly varying (envelope of high-frequency oscillation)
-  - **Tracked as running maximum** of |ψ| over time
-
-- **In code**: `self.amplitude_am[i,j,k]`
-- **Used for**:
-  - **Energy density**: u = ρ(fA)² (EWT, no ½ factor, frequency-centric)
-  - **Force calculation**: F = -2ρVfA×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
-  - Energy gradients
-  - Pressure-like field that drives particle motion
-
-### Why Two Fields Are Needed
-
-**The High-Frequency Problem**:
-
-- Energy waves oscillate at ~10²⁵ Hz (from EWT)
-- Particles have mass/inertia - cannot respond to every oscillation
-- Particles respond to **time-averaged** force = force from **envelope** (A)
-
-**Analogy** (Speaker Diaphragm):
-
-- **ψ**: Diaphragm position oscillating at audio frequency
-- **A**: "Volume" setting - controls maximum displacement
-- You feel air pressure from **A** (volume), not individual oscillations (ψ)
-
-### Implementation Strategy
-
-**Wave Equation** propagates ψ (displacement):
-
-```python
-# High-frequency oscillation (updated every timestep)
-∂²ψ/∂t² = c²∇²ψ
-self.displacement_am[i,j,k]  # Stores current ψ
-```
-
-**Amplitude Tracking** extracts envelope A from ψ:
-
-```python
-# Track maximum |ψ| over time (envelope extraction)
-@ti.kernel
-def track_amplitude_envelope(self):
-    for i, j, k in self.displacement_am:
-        disp_mag = ti.abs(self.displacement_am[i,j,k])
-        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
-```
-
-**Force Calculation** uses A (not ψ):
-
-```python
-# Particles respond to amplitude gradient (envelope)
-F = -∇A  # Not -∇ψ !
-F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
-```
-
-### Summary Table
-
-| Property | ψ (Displacement) | A (Amplitude) |
-|----------|------------------|---------------|
-| **Field name** | `displacement_am[i,j,k]` | `amplitude_am[i,j,k]` |
-| **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
-| **Frequency** | High (~10²⁵ Hz) | Slowly varying |
-| **Sign** | ± (positive/negative) | + (always positive) |
-| **Propagation** | Wave equation (PDE) | Tracked from ψ |
-| **Used for** | Wave dynamics, phase, mode | Forces, energy, MAP |
-| **Formula** | ∂²ψ/∂t² = c²∇²ψ | A = max(\|ψ\|) over time |
-
-**Critical Point**: Forces use **amplitude gradient** (∇A), not displacement gradient (∇ψ)! This is because MAP = "Minimum **Amplitude** Principle" - particles move toward regions of lower amplitude envelope, not lower instantaneous displacement.
-
 ## Table of Contents
 
-1. [Notation Clarification: ψ vs A](#notation-clarification-ψ-vs-a)
 1. [Questions](#questions)
    - [Part 1: Force Calculation in Newtons](#part-1-force-calculation-in-newtons)
    - [Part 2: Wave Amplitude Propagation](#part-2-wave-amplitude-propagation)
@@ -111,33 +18,6 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 ---
 
 ## Questions
-
-### Part 1: Force Calculation in Newtons
-
-**Context**: Understanding force calculation in LEVEL-1 wave-field simulation.
-
-**Known**:
-
-- Each voxel stores wave displacement ψ in attometers
-- Each voxel tracks amplitude envelope A (max|ψ|) in attometers
-- Force follows MAP (Minimum Amplitude Principle): `F = -∇A`
-- Amplitude gradient can be calculated from neighboring voxels using finite differences
-
-**Question**:
-
-Can we compute force in **Newtons** (kg⋅m/s²) from the amplitude gradient?
-
-**Requirements**:
-
-- Need force in Newtons at each voxel to calculate particle acceleration
-- Given particle mass (calculated from standing wave radius), find acceleration: `a = F/m`
-- With acceleration, we can integrate motion: velocity update → position update
-- Particles initially are single wave centers (fundamental particles like neutrino), later becoming standalone particles (like electron)
-- Particle mass likely comes from standing waves reflected around particle radius (related to wavelength λ)
-
-**Resources**: EWT research papers at `/research_requirements/scientific_source/`
-
----
 
 ### Part 2: Wave Amplitude Propagation
 
@@ -220,6 +100,33 @@ All generated from the fundamental energy wave (EWT).
 ---
 
 ## Complete Answers
+
+### Question 1: Force Calculation in Newtons
+
+**Context**: Understanding force calculation in LEVEL-1 wave-field simulation.
+
+**Known**:
+
+- Each voxel stores wave displacement ψ in attometers
+- Each voxel tracks amplitude envelope A (max|ψ|) in attometers
+- Force follows MAP (Minimum Amplitude Principle): `F = -∇A`
+- Amplitude gradient can be calculated from neighboring voxels using finite differences
+
+**Question**:
+
+Can we compute force in **Newtons** (kg⋅m/s²) from the amplitude gradient?
+
+**Requirements**:
+
+- Need force in Newtons at each voxel to calculate particle acceleration
+- Given particle mass (calculated from standing wave radius), find acceleration: `a = F/m`
+- With acceleration, we can integrate motion: velocity update → position update
+- Particles initially are single wave centers (fundamental particles like neutrino), later becoming standalone particles (like electron)
+- Particle mass likely comes from standing waves reflected around particle radius (related to wavelength λ)
+
+**Resources**: EWT research papers at `/research_requirements/scientific_source/`
+
+---
 
 ### Answer 1: Force in Newtons from Amplitude Gradient
 
