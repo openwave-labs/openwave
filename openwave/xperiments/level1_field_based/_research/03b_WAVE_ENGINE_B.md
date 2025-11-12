@@ -550,6 +550,9 @@ Where:
 
 #### Boundary Reflection
 
+Boundary walls emulate all matter in the universe reflecting the energy waves.
+So, total energy is conserved inside that volume domain.
+
 Boundary handling (Dirichlet boundary conditions):
 
 1. Propagation loop: ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1))
@@ -571,6 +574,11 @@ The boundary behavior is NOT in the Laplacian itself - it's implemented through:
 
 1. Keeping boundaries fixed at zero (never updated)
 2. Interior points "see" zero at boundaries when computing Laplacian
+
+#### Wave Superposition
+
+Wave superposition after reflection.
+Superposition principle.
 
 #### Time Evolution Implementation
 
