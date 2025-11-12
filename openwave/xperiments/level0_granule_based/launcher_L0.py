@@ -33,7 +33,7 @@ class XperimentManager:
         self.available_xperiments = self._discover_xperiments()
         self.xperiment_display_names = {}  # Cache display names from meta
         self.current_xperiment = None
-        self.current_parameters = None
+        self.current_xparameters = None
 
     def _discover_xperiments(self):
         """Discover all available xperiment parameters in /_xparameters directory."""
@@ -63,14 +63,14 @@ class XperimentManager:
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
             self.current_xperiment = xperiment_name
-            self.current_parameters = parameters_module.XPARAMETERS
+            self.current_xparameters = parameters_module.XPARAMETERS
 
             # Cache display name from meta
             self.xperiment_display_names[xperiment_name] = parameters_module.XPARAMETERS["meta"][
                 "name"
             ]
 
-            return self.current_parameters
+            return self.current_xparameters
 
         except Exception as e:
             print(f"Error loading xperiment '{xperiment_name}': {e}")
@@ -144,7 +144,7 @@ class SimulationState:
         self.frame = 0
         self.peak_amplitude = 0.0
 
-    def apply_parameters(self, params):
+    def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
         # Meta
         self.X_NAME = params["meta"]["name"]
@@ -209,7 +209,7 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER L0", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -288,9 +288,9 @@ def color_menu(
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
-def xperiment_specs(state):
-    """Display xperiment specifications overlay."""
-    with render.gui.sub_window("LEVEL-0: Granule-Based Medium", 0.82, 0.00, 0.18, 0.10) as sub:
+def level_specs(state):
+    """Display OpenWave level specifications overlay."""
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.00, 0.18, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
@@ -452,7 +452,7 @@ def main():
     if not params:
         return
 
-    state.apply_parameters(params)
+    state.apply_xparameters(params)
     state.initialize_lattice()
     initialize_xperiment(state)
 
@@ -505,7 +505,7 @@ def main():
             state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
         )
         data_dashboard(state)
-        xperiment_specs(state)
+        level_specs(state)
         render.show_scene()
 
         # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
