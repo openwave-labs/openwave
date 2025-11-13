@@ -12,16 +12,7 @@
    - [Electric Field](#electric-field)
    - [Magnetic Field](#magnetic-field)
    - [Electromagnetic Waves](#electromagnetic-waves)
-1. [The Electron's Special Role](#the-electrons-special-role)
-   - [Wave Transformation](#wave-transformation)
-   - [EM Wave Generation](#em-wave-generation)
-1. [Measurable vs Point Properties](#measurable-vs-point-properties)
-   - [Point Properties](#point-properties)
-   - [Derived Properties](#derived-properties)
-   - [Momentum Transfer](#momentum-transfer)
-1. [Near-Field vs Far-Field](#near-field-vs-far-field)
-   - [Behavior Differences](#behavior-differences)
-   - [Wave Formation Zones](#wave-formation-zones)
+1. [Momentum Transfer](#momentum-transfer)
 1. [Particle Motion from Forces](#particle-motion-from-forces)
    - [Minimum Amplitude Principle (MAP)](#minimum-amplitude-principle-map)
    - [Force-Driven Motion](#force-driven-motion)
@@ -114,6 +105,339 @@ T = 2pi / ω (period)
 U = 1/2 * k * x**2
 ```
 
+## Force Calculation in Newtons
+
+**Context**: Understanding force calculation in LEVEL-1 wave-field simulation.
+
+**Known**:
+
+- Each voxel stores wave displacement ψ in attometers
+- Each voxel tracks amplitude envelope A (max|ψ|) in attometers
+- Force follows MAP (Minimum Amplitude Principle): `F = -∇A`
+- Amplitude gradient can be calculated from neighboring voxels using finite differences
+
+**Question**:
+
+Can we compute force in **Newtons** (kg⋅m/s²) from the amplitude gradient?
+
+**Requirements**:
+
+- Need force in Newtons at each voxel to calculate particle acceleration
+- Given particle mass (calculated from standing wave radius), find acceleration: `a = F/m`
+- With acceleration, we can integrate motion: velocity update → position update
+- Particles initially are single wave centers (fundamental particles like neutrino), later becoming standalone particles (like electron)
+- Particle mass likely comes from standing waves reflected around particle radius (related to wavelength λ)
+
+**Resources**: EWT research papers at `/research_requirements/scientific_source/`
+
+### Force in Newtons from Amplitude/Frequency Gradients
+
+**Key Formula from EWT (Frequency-Based)**:
+
+```text
+Energy density: u = ρ(fA)²        [J/m³]  (EWT, no ½ factor)
+Force density:  f = -∇u           [N/m³]
+Force on voxel: F = f × dx³       [N]
+Final formula:  F = -2ρVfA×[f∇A + A∇f]  (full form with frequency gradients)
+Monochromatic:  F = -2ρVf²×A∇A           (when ∇f = 0)
+```
+
+Where:
+
+- `ρ` = medium density (3.860×10²² kg/m³ from EWT)
+- `f` = frequency (Hz, where f = c/λ)
+- `A` = wave amplitude (meters)
+- `V = dx³` = voxel volume (cubic meters)
+- Note: c = 2.998×10⁸ m/s embedded in f via f = c/λ
+
+#### Physics Derivation
+
+**Energy in wave field (EWT formulation - Frequency-Based)**:
+
+```text
+Total energy: E = ∫ u dV
+where u = ρ(fA)² is energy density (from EWT)
+```
+
+**Note**: EWT energy equation `E = ρV(fA)²` does **not** include the ½ factor found in classical wave mechanics.
+
+**Elegance of Frequency Formulation**:
+
+- **E = ρV(fA)²** is cleaner than E = ρVc²(A/λ)²
+- Aligns with **Planck's E = hf** (energy proportional to frequency!)
+- **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing
+- Human-intuitive: frequency used in radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
+
+**Physical Meaning of EWT Formula**:
+
+In oscillating wave systems, energy alternates between kinetic (medium motion) and potential (compression):
+
+```text
+Classical time-averaged: ⟨E⟩ = ½ρV(fA)²   (average over cycle)
+
+EWT total/peak energy:   E = ρV(fA)²      (total energy capacity)
+                         E = 2 × ⟨E⟩classical
+```
+
+**Why use total instead of average?**
+
+- Frequency f represents **oscillation rate** (temporal character)
+- Amplitude A represents **peak displacement** (maximum pressure)
+- Forces respond to **total energy gradients** (peak pressure differences)
+- `E_EWT = max(KE + PE)` = total energy that sloshes between kinetic and potential
+- This is the "energy budget" that creates pressure gradients driving particle motion
+
+Analogy: Sound pressure - objects respond to peak amplitude (loudness) at a given frequency (pitch), not time-averaged sound.
+
+**Force from total energy gradient**:
+
+```text
+F = -∇E
+  = -∇[ρV(fA)²]
+  = -ρV × ∇(A²f²)
+  = -ρV × [f²∇(A²) + A²∇(f²)]
+  = -ρV × [f² × 2A∇A + A² × 2f∇f]
+  = -2ρV × [f²A × ∇A + A²f × ∇f]
+  = -2ρVfA × [f∇A + A∇f]
+```
+
+Where `V = dx³` is voxel volume.
+
+**Implementation Note**: The factor of 2 comes from chain rule (∇(A²f²) = 2A∇A×f² + 2A²f∇f) and remains in the final force formula.
+
+**EWT vs Classical Comparison**:
+
+```text
+Classical wave mechanics:
+  u = ½ρ(fA)²  → F = -ρVfA × [f∇A + A∇f]
+
+EWT (used in this simulation):
+  u = ρ(fA)²   → F = -2ρVfA × [f∇A + A∇f]
+
+The EWT force constant is 2× classical due to using total energy (no ½ factor).
+Use EWT formulation for consistency with energywavetheory.com
+
+Wavelength relation (when needed for spatial design):
+  λ = c/f  (c = 2.998×10⁸ m/s constant)
+```
+
+#### Implementation
+
+```python
+@ti.kernel
+def compute_force_field_newtons(self):
+    """
+    Compute force in Newtons from amplitude gradient (EWT formulation).
+
+    Physics (Frequency-Based):
+    - Energy density: u = ρ(fA)² (EWT, no ½ factor)
+    - Force: F = -∇E = -∇(u×V) = -2ρVfA × [f∇A + A∇f]
+    - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
+    where V = dx³ (voxel volume)
+
+    Note: Factor of 2 from chain rule remains in final formula.
+    This differs from classical wave mechanics by factor of 2.
+
+    MAP Principle: Force points toward lower amplitude (negative gradient)
+    """
+    # Physical constants from EWT
+    ρ = ti.f32(constants.MEDIUM_DENSITY)  # 3.860e22 kg/m³
+    f = ti.f32(constants.EWAVE_FREQUENCY) # 1.050e25 Hz
+    dx_m = self.dx_am * constants.ATTOMETER  # voxel size in meters
+    V = dx_m**3  # voxel volume in m³
+
+    # Force scaling factor (EWT frequency-based formulation with factor of 2)
+    # F = -2ρVf² × A × ∇A  (monochromatic, ∇f = 0)
+    # Dimensional analysis: 2 × (kg/m³)(m³)(Hz²) = 2 × (kg)(1/s²) = kg⋅m/s² when multiplied by A∇A
+    force_scale = 2.0 * ρ * V * f**2
+
+    for i, j, k in self.amplitude_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Local amplitude in meters
+            A_m = self.amplitude_am[i,j,k] * constants.ATTOMETER
+
+            # Amplitude gradient (dimensionless: am/am)
+            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_vector = ti.Vector([grad_x, grad_y, grad_z])
+
+            # Force in Newtons (MAP: toward lower amplitude)
+            # F = -force_scale × A × ∇A
+            self.force[i,j,k] = -force_scale * A_m * grad_vector  # N = kg⋅m/s²
+```
+
+### Force Direction Vector
+
+**Understanding Force Direction**:
+
+The force is a **vector** quantity with both magnitude and direction, derived from the complete energy gradient:
+
+```text
+Complete force (dual-term):
+F = -∇E = -2ρVfA × [f∇A + A∇f]
+F = -2ρVfA × [(f∂A/∂x + A∂f/∂x, f∂A/∂y + A∂f/∂y, f∂A/∂z + A∂f/∂z)]
+
+Monochromatic simplification (∇f ≈ 0):
+F = -2ρVf² × A∇A
+F = -2ρVf²A × (∂A/∂x, ∂A/∂y, ∂A/∂z)
+```
+
+**Two Force Terms**:
+
+1. **Amplitude gradient term** (primary, always present):
+   - `F₁ = -2ρVfA × f∇A = -2ρVf² × A∇A`
+   - Points toward **lower amplitude** (MAP: Minimum Amplitude Principle)
+   - Dominant force in most scenarios
+
+2. **Frequency gradient term** (secondary, when ∇f ≠ 0):
+   - `F₂ = -2ρVfA × A∇f = -2ρVA²f × ∇f`
+   - Points toward **lower frequency** (due to negative sign)
+   - Present when multiple frequencies overlap
+
+**When to Use Each Form**:
+
+- **Monochromatic (single frequency)**: Use `F = -2ρVf² × A∇A` (∇f = 0)
+  - Single wave source throughout field
+  - Frequency uniform or slowly varying
+  - Initial OpenWave implementation
+
+- **Multi-frequency (multiple sources)**: Use `F = -2ρVfA × [f∇A + A∇f]`
+  - Multiple particles with different frequencies
+  - Wave interference from different sources
+  - Advanced particle interactions
+
+**Direction Meaning**:
+
+- **Each component**:
+  - `F_x = -2ρVfA × (f∂A/∂x + A∂f/∂x)`: Force component in x-direction
+  - `F_y = -2ρVfA × (f∂A/∂y + A∂f/∂y)`: Force component in y-direction
+  - `F_z = -2ρVfA × (f∂A/∂z + A∂f/∂z)`: Force component in z-direction
+- **Magnitude**: `|F| = √(F_x² + F_y² + F_z²)` [Newtons]
+- **Direction**: `F_hat = F / |F|` (unit vector)
+
+**Physical Interpretation**:
+
+```python
+# Example: Force vector at a voxel
+F = [-2.5e-30, 1.0e-30, 0.0]  # Newtons
+
+# This means:
+# - Force pulls particle in -x direction (2.5e-30 N)
+# - Force pushes particle in +y direction (1.0e-30 N)
+# - No force in z direction
+
+# Magnitude
+|F| = sqrt(2.5² + 1.0²) × 1e-30 = 2.69e-30 N
+
+# Direction (unit vector)
+F_hat = [-0.928, 0.371, 0.0]
+# Pointing mostly in -x direction, slightly in +y
+```
+
+**Why This Matters for Particle Motion**:
+
+When a particle at position `(x, y, z)` experiences this force:
+
+1. **Interpolate force** from nearby voxels to particle position
+2. **Vector components** determine motion in 3D space
+3. **Acceleration direction**: `a = F/m` (same direction as force)
+4. **Velocity change**: Particle accelerates along force direction
+5. **Position update**: Particle moves toward lower amplitude (MAP)
+
+**Computing Force Direction (if needed separately)**:
+
+```python
+@ti.func
+def get_force_direction(i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+    """Get unit vector in direction of force at voxel [i,j,k]."""
+    F = self.force[i,j,k]
+    F_mag = F.norm()
+
+    if F_mag > 1e-40:  # Avoid division by zero
+        return F / F_mag  # Normalized direction
+    else:
+        return ti.Vector([0.0, 0.0, 0.0])  # No preferred direction
+```
+
+**Key Point**:
+
+- The gradient operator `∇A` points toward maximum amplitude increase
+- The negative sign in `-f∇A` reverses this to point toward amplitude **decrease** (MAP principle)
+- The gradient operator `∇f` points toward maximum frequency increase
+- The negative sign in `-A∇f` reverses this to point toward frequency **decrease**
+- In multi-frequency scenarios, both gradient terms contribute to the net force direction
+
+### Dimensional Analysis Verification (Frequency-Based)
+
+```text
+ρ:          [kg/m³]
+f:          [Hz] = [1/s]
+f²:         [1/s²]
+V = dx³:    [m³]
+A:          [m]
+∇A:         [dimensionless] = [m/m] after gradient divided by dx
+
+force_scale = (kg/m³) × (m³) × (1/s²) = kg/s²
+F = force_scale × A × ∇A
+F = (kg/s²) × (m) × (dimensionless) = kg⋅m/s² = N  ✓✓
+```
+
+**This is correct!** Note how f² naturally provides the 1/s² dimension without needing explicit c².
+
+**Relation to wavelength-based form**:
+
+```text
+f = c/λ  →  f² = c²/λ²
+
+force_scale (frequency) = 2ρVf² = 2ρV(c²/λ²) = force_scale (wavelength)  ✓
+```
+
+### Particle Mass from Standing Waves
+
+**From EWT Papers**:
+
+- Particle mass comes from **trapped energy** in standing waves
+- For electron: `E_electron = (μ₀c²/4π) × (e_e²/r_e)`
+- Mass-energy relation: `m = E/c²`
+
+**In Simulation**:
+
+- Particle standing wave radius: `r = n × λ/2` (nodes at half-wavelengths)
+- Energy trapped: `E = ∫ u dV` over standing wave volume
+- Particle mass: `m = E/c²`
+
+**Standing wave formation**:
+
+1. Wave center reflects incoming waves
+2. Reflected waves interfere with incoming waves
+3. Constructive interference creates standing wave pattern
+4. Energy trapped in standing wave = particle mass
+5. Radius of first node determines particle size
+
+### Particle Acceleration and Motion
+
+```python
+# For particle at position pos_am (in attometers)
+# 1. Interpolate force from grid to particle position
+F_particle = interpolate_force(self.force, pos_am)  # Newtons
+
+# 2. Newton's second law: F = ma
+a = F_particle / particle_mass  # m/s²
+
+# 3. Integrate motion using Velocity Verlet method
+v_new = v_old + a * dt  # m/s
+pos_new = pos_old + v_new * dt  # meters (or attometers)
+```
+
+**This IS the origin of all forces!**
+
+- Electric force: Different wave reflection patterns (charge types)
+- Magnetic force: Moving wave patterns (velocity-dependent)
+- Gravitational force: Amplitude shading from trapped energy (mass)
+- All emerge from wave amplitude gradients!
+
 ## Force Field Types
 
 ### Electric Field
@@ -203,97 +527,7 @@ U = 1/2 * k * x**2
 - Both propagate at c, but different properties
 - EM waves interact differently with matter
 
-## The Electron's Special Role
-
-### Wave Transformation
-
-**Electron as Transformer**:
-
-- Electron has unique wave center configuration
-- Acts as special reflector with transformation properties
-- Incoming energy waves → reflected as EM waves
-- Like a wavelength/frequency converter
-
-**Why Electron is Special**:
-
-- Specific standing wave pattern (two-center structure?)
-- Resonance properties different from other particles
-- Can oscillate at different frequencies
-- Each oscillation frequency → EM wave of that frequency
-
-### EM Wave Generation
-
-**Oscillating Electron**:
-
-1. Electron oscillates (driven by external wave or force)
-2. Oscillation modulates wave reflection pattern
-3. Reflected waves have EM wave character
-4. EM waves propagate outward at speed c
-
-**Frequency Relationship**:
-
-- Electron oscillation frequency = EM wave frequency
-- Higher frequency oscillation → higher frequency EM wave
-- Energy of EM wave ∝ frequency (E = hf)
-
-**Applications**:
-
-- Accelerating electrons → EM radiation (synchrotron, antenna)
-- Electron transitions in atoms → photons (specific frequencies)
-- All light/radio/X-rays from electron oscillations
-
-## Measurable vs Point Properties
-
-### Point Properties
-
-**Stored at Each Voxel**:
-
-- Displacement (ψ): Instantaneous oscillating value at [i,j,k]
-- Amplitude (A): Envelope, running maximum of |ψ| at [i,j,k]
-- Density: Local compression/rarefaction
-- Speed: Oscillation velocity at point
-- Direction: Wave propagation direction at point
-- Phase: Position in wave cycle
-
-**Direct Access**:
-
-```python
-psi = displacement_am[i, j, k]  # Instantaneous displacement
-A = amplitude_am[i, j, k]        # Envelope (max|ψ|)
-dir = wave_direction[i, j, k]
-```
-
-### Derived Properties
-
-**Computed from Field**:
-
-- **Frequency f**: PRIMARY property, measured from temporal oscillations
-  - Measured directly: f = 1/dt (where dt is time between peaks)
-  - If stored: propagates with wave
-  - Aligns with Planck E = hf (energy proportional to frequency)
-
-- **Wavelength λ**: DERIVED from frequency
-  - Computed from frequency: λ = c/f
-  - Can also be measured spatially: `λ = distance(amplitude_max[n], amplitude_max[n+1])`
-  - Not typically stored (derived when needed)
-
-- **Energy**: Integral of energy density (frequency-based)
-  - Energy density: u = ρ(fA)² (EWT, frequency-centric, no ½ factor)
-  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(fA)²[i,j,k] * dx³`
-
-**Measurement Algorithms**:
-
-```python
-@ti.kernel
-def measure_wavelength() -> ti.f32:
-    """Measure wavelength from spatial pattern."""
-    # Find two successive amplitude maxima
-    max_positions = find_amplitude_maxima()
-    wavelength = distance(max_positions[0], max_positions[1])
-    return wavelength
-```
-
-### Momentum Transfer
+## Momentum Transfer
 
 **Momentum in Wave Field**:
 
@@ -307,54 +541,6 @@ def measure_wavelength() -> ti.f32:
 - Wave reflects from particle → momentum transfer
 - Particle gains/loses momentum from wave
 - Net momentum conserved (particle + field)
-
-## Near-Field vs Far-Field
-
-### Behavior Differences
-
-**Near-Field** (r < few λ):
-
-- Complex interference patterns
-- Standing waves dominate
-- Strong amplitude gradients (strong forces)
-- Multiple wavelength components
-- Non-spherical patterns
-
-**Far-Field** (r >> λ):
-
-- Simpler traveling waves
-- Spherical wave fronts
-- Weak amplitude gradients (weak forces)
-- Single wavelength dominant
-- 1/r amplitude falloff
-
-**Transition Region** (r ≈ λ):
-
-- Mixed behavior
-- Depends on source geometry
-- Important for particle interactions
-
-### Wave Formation Zones
-
-**Formation Region**:
-
-- Occurs in near-field around particles
-- Standing waves "lock in" particle structure
-- Determines particle properties (mass, charge, etc.)
-- Where particle identity is established
-
-**Stable Patterns**:
-
-- Standing wave nodes define particle structure
-- Node positions at r = nλ/2
-- Specific patterns = specific particles
-- Changes in pattern = particle transformation
-
-**Examples**:
-
-- Neutrino: Simple spherical standing wave
-- Electron: 10-center pattern with specific node structure
-- Proton: Complex multi-center pattern
 
 ## Particle Motion from Forces
 
@@ -394,7 +580,7 @@ Force points toward decreasing energy density (downhill on energy landscape).
 
 **Force Calculation** (frequency-based):
 
-Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
+Force computed from amplitude gradient in field (see [`02_WAVE_ENGINE.md` - Force Calculation](./02_WAVE_ENGINE.md#force-calculation))
 
 ```python
 # Full form with frequency gradients
@@ -623,6 +809,6 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 
 **Related Documentation**:
 
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation creating these fields
+- [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave propagation creating these fields
 - [`05_MATTER.md`](./05_MATTER.md) - How particles respond to emergent forces
-- [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - Properties that create fields
+- [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Properties that create fields

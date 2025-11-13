@@ -5,6 +5,7 @@
 1. [Summary](#summary)
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
+   - [Displacement (ψ)](#displacement-ψ)
    - [Amplitude (A)](#amplitude-a)
    - [Frequency (f)](#frequency-f)
    - [Wavelength (λ)](#wavelength-λ)
@@ -21,6 +22,7 @@
    - [Initialization Comparison: LEVEL-0 vs LEVEL-1](#initialization-comparison-level-0-vs-level-1)
    - [Field Categories](#field-categories)
 1. [Property Relationships](#property-relationships)
+1. [Notation Clarification: ψ vs A](#notation-clarification-ψ-vs-a)
 1. [LEVEL-0 vs LEVEL-1 Properties](#level-0-vs-level-1-properties)
 
 ## SUMMARY
@@ -46,6 +48,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 ### Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
+- WAVE-SPEED (c): constant by medium property, has direction of propagation
 - WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
 
 ### Wave Form
@@ -53,38 +56,33 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - WAVE-MODE: longitudinal, transverse (polarization)
 - WAVE-TYPE: standing, traveling
 
-### Wave Energy
-
-- WAVE-SPEED (c): constant, has direction of propagation
-- WAVE-LENGTH (λ): changes when moving particle (doppler)
-- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
-- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
-
 ### Wave Rhythm
 
 - FREQUENCY (f): c / λ (can change)
-- TIME: the wave's frequency, rhythm
+- PERIOD (T): 1/f
+  - TIME =  the wave's frequency, rhythm
+
+### Wave Size
+
+- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
+- WAVE-LENGTH (λ): c / f (changes when moving particle, doppler)
+
+### Wave Energy
+
+- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
 
 ### Wave Interaction
 
-- INTERFERENCE: amplitude combinations (resonance, superposition) [sources diffs: phase, motion, freq]
 - REFLECTION: changes direction of propagation (velocity vector)
+- INTERFERENCE: amplitude/λ combinations (resonance, superposition) [sources diffs: phase, motion, freq]
 
-### Notation
+### Other Notation
 
-- ρ (rho) = medium density
-- c = wave speed (speed of light)
-- λ (lambda) = wavelength
-- ψ (psi) = instantaneous wave displacement
-- A = wave amplitude (envelope, max|ψ|)
-- f = frequency (c / λ)
+- ψ (psi) = displacement
+- φ (phi) = phase shift
 - ω (omega) = angular frequency (2πf)
 - ωt = temporal oscillation (controls rhythm, time-varying component)
-- φ (phi) = spatial phase shift (controls phase shift, wave relationship, interference, position-dependent component)
-- k = wave number (2π/λ)
-- t = time
-- dx = spatial step (meters), dx_am = scaled (attometers, 10⁻¹⁸ m)
-- dt = time step (seconds), dt_rs = scaled (rontoseconds, 10⁻²⁷ s)
+- k = angular wave number (2π/λ)
 
 ## Scalar Properties (Magnitude)
 
@@ -102,16 +100,17 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 **Storage**: Typically derived from medium properties, not stored per-voxel
 
-### Amplitude (A)
-
-**Maximum Displacement/Disturbance**:
-
-**IMPORTANT DISTINCTION**: ψ (psi) vs A (amplitude)
+### Displacement (ψ)
 
 - **ψ (displacement)**: Instantaneous wave displacement at high frequency (~10²⁵ Hz)
   - What propagates via wave equation: ∂²ψ/∂t² = c²∇²ψ
   - Oscillates rapidly between positive and negative
   - Used for wave propagation mechanics
+
+### Amplitude (A)
+
+**Maximum Displacement/Disturbance**:
+
 - **A (amplitude)**: Envelope of |ψ| (slowly varying maximum)
   - A = max|ψ| over time (running maximum)
   - Used for energy density: u = ρ(fA)² (EWT, no ½ factor, frequency-based)
@@ -603,7 +602,10 @@ class WaveField:
         self.domain_size_m = [nx * self.dx_m, ny * self.dx_m, nz * self.dx_m]  # Can differ per axis
 
         # SCALAR FIELDS (values in attometers where applicable)
-        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (instantaneous ψ)
+        # Wave equation fields (leap-frog scheme requires three time levels)
+        self.displacement_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
+        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t, instantaneous)
+        self.displacement_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
         self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (envelope A = max|ψ|)
         self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
 
@@ -717,6 +719,93 @@ class WaveField:
                 ) / (self.dx_am * self.dx_am)
 
                 output[i, j, k] = laplacian
+
+    @ti.kernel
+    def propagate_wave_field(self, dt_rs: ti.f32):
+        """
+        Propagate wave field using leap-frog scheme (PDE-based).
+
+        Wave equation: ∂²ψ/∂t² = c²∇²ψ
+        Leap-frog: ψ_new = 2ψ - ψ_old + (c*dt/dx)²∇²ψ
+
+        Args:
+            dt_rs: Timestep in rontoseconds (scaled units)
+        """
+        c = ti.f32(constants.EWAVE_SPEED)
+        dt = dt_rs * constants.RONTOSECOND  # Convert to seconds
+        cfl_factor = (c * dt / (self.dx_am * constants.ATTOMETER))**2
+
+        for i, j, k in self.displacement_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                # Compute Laplacian (6-connectivity)
+                laplacian = (
+                    self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
+                    self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
+                    self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
+                    6.0 * self.displacement_am[i, j, k]
+                )
+
+                # Leap-frog update
+                self.displacement_new_am[i, j, k] = (
+                    2.0 * self.displacement_am[i, j, k]
+                    - self.displacement_old_am[i, j, k]
+                    + cfl_factor * laplacian
+                )
+
+        # Swap time levels for next iteration
+        self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
+            self.displacement_am, self.displacement_new_am, self.displacement_old_am
+
+    @ti.kernel
+    def compute_wave_direction(self):
+        """
+        Compute wave propagation direction from energy flux.
+
+        Energy flux: S = -c² × ψ × ∇ψ
+        Direction: normalized S
+        """
+        c = ti.f32(constants.EWAVE_SPEED)
+
+        for i, j, k in self.displacement_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                psi = self.displacement_am[i, j, k]
+
+                # Amplitude gradient
+                grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+                grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+                grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+                grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+                # Energy flux vector
+                S = -c**2 * psi * grad_psi
+                S_mag = S.norm()
+
+                if S_mag > 1e-12:
+                    self.wave_direction[i,j,k] = S / S_mag
+                else:
+                    self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
+
+    def update_timestep(self, dt_rs: ti.f32):
+        """
+        Complete wave field update for one timestep.
+
+        Args:
+            dt_rs: Timestep in rontoseconds
+        """
+        # 1. Propagate wave displacement
+        self.propagate_wave_field(dt_rs)
+
+        # 2. Track amplitude envelope
+        self.track_amplitude_envelope()
+
+        # 3. Compute wave direction
+        self.compute_wave_direction()
+
+        # 4. Compute force field
+        self.compute_force_field_newtons()
+
+        # 5. Apply boundary conditions (handled by not updating boundaries in propagate)
 ```
 
 ### Initialization Comparison: LEVEL-0 vs LEVEL-1
@@ -835,6 +924,170 @@ F = -2ρVf² × A∇A                # Monochromatic (∇f = 0, single frequency
 density ∝ amplitude             # For compression waves
 ```
 
+### Point Properties
+
+**Stored at Each Voxel**:
+
+- Displacement (ψ): Instantaneous oscillating value at [i,j,k]
+- Amplitude (A): Envelope, running maximum of |ψ| at [i,j,k]
+- Density: Local compression/rarefaction
+- Speed: Oscillation velocity at point
+- Direction: Wave propagation direction at point
+- Phase: Position in wave cycle
+
+**Direct Access**:
+
+```python
+psi = displacement_am[i, j, k]  # Instantaneous displacement
+A = amplitude_am[i, j, k]        # Envelope (max|ψ|)
+dir = wave_direction[i, j, k]
+```
+
+### Derived Properties
+
+**Computed from Field**:
+
+- **Frequency f**: PRIMARY property, measured from temporal oscillations
+  - Measured directly: f = 1/dt (where dt is time between peaks)
+  - If stored: propagates with wave
+  - Aligns with Planck E = hf (energy proportional to frequency)
+
+- **Wavelength λ**: DERIVED from frequency
+  - Computed from frequency: λ = c/f
+  - Can also be measured spatially: `λ = distance(amplitude_max[n], amplitude_max[n+1])`
+  - Not typically stored (derived when needed)
+
+- **Energy**: Integral of energy density (frequency-based)
+  - Energy density: u = ρ(fA)² (EWT, frequency-centric, no ½ factor)
+  - Total energy: `E_total = Σ u[i,j,k] * dx³ = Σ ρ(fA)²[i,j,k] * dx³`
+
+**Measurement Algorithms**:
+
+```python
+@ti.kernel
+def measure_wavelength() -> ti.f32:
+    """Measure wavelength from spatial pattern."""
+    # Find two successive amplitude maxima
+    max_positions = find_amplitude_maxima()
+    wavelength = distance(max_positions[0], max_positions[1])
+    return wavelength
+```
+
+## Notation Clarification: ψ vs A
+
+**Two Distinct Physical Quantities - Both Needed!**
+
+The Physics Distinction. In wave physics, these symbols typically mean:
+
+- ψ (psi): The wave field itself (displacement from equilibrium, instantaneous displacement at position x)
+- A: Amplitude envelope (maximum of |ψ|)
+
+For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
+
+- ψ varies between -A and +A
+- A is the constant amplitude (maximum displacement)
+
+| Computation            | Uses                          |
+|------------------------|-------------------------------|
+| Wave propagation (PDE) | ψ (displacement_am)           |
+| Energy density         | A² (amplitude_am²)            |
+| Force calculation, MAP | ∇A (gradient of amplitude_am) |
+| Wave mode (long/trans) | ∇ψ (displacement direction)   |
+| Phase                  | From ψ field                  |
+
+- granule displacement (from rest, sine wave, localized)
+- granule amplitude = granule max displacement (constant, localized)
+- universe peak amplitude = max from all granule amplitude (constant)
+- universe avg amplitude = avg from all granule amplitude (constant)
+
+### 1. ψ (psi): Instantaneous Displacement
+
+- **What it is**: The actual wave displacement at each instant in time
+  - Oscillates rapidly at wave frequency (~10²⁵ Hz for energy waves)
+  - Can be positive or negative
+  - Varies: ψ(x,y,z,t)
+  - **Propagates via wave equation**: ∂²ψ/∂t² = c²∇²ψ
+
+- **In code**: `self.displacement_am[i,j,k]`
+- **Used for**:
+  - Wave propagation (PDEs, Laplacian)
+  - Wave mode analysis (longitudinal vs transverse)
+  - Phase calculations
+  - Instantaneous field values
+
+### 2. A: Amplitude Envelope
+
+- **What it is**: The **maximum displacement** at each location (envelope)
+  - For sinusoidal wave: ψ(x,t) = A(x) sin(kx - ωt)
+  - A is the peak: |ψ|max = A
+  - Always positive: A ≥ 0
+  - Slowly varying (envelope of high-frequency oscillation)
+  - **Tracked as running maximum** of |ψ| over time
+
+- **In code**: `self.amplitude_am[i,j,k]`
+- **Used for**:
+  - **Energy density**: u = ρ(fA)² (EWT, no ½ factor, frequency-centric)
+  - **Force calculation**: F = -2ρVfA×[f∇A + A∇f] or F = -2ρVf²×A∇A (MAP: Minimum **Amplitude** Principle)
+  - Energy gradients
+  - Pressure-like field that drives particle motion
+
+### Why Two Fields Are Needed
+
+**The High-Frequency Problem**:
+
+- Energy waves oscillate at ~10²⁵ Hz (from EWT)
+- Particles have mass/inertia - cannot respond to every oscillation
+- Particles respond to **time-averaged** force = force from **envelope** (A)
+
+**Analogy** (Speaker Diaphragm):
+
+- **ψ**: Diaphragm position oscillating at audio frequency
+- **A**: "Volume" setting - controls maximum displacement
+- You feel air pressure from **A** (volume), not individual oscillations (ψ)
+
+### Implementation Strategy
+
+**Wave Equation** propagates ψ (displacement):
+
+```python
+# High-frequency oscillation (updated every timestep)
+∂²ψ/∂t² = c²∇²ψ
+self.displacement_am[i,j,k]  # Stores current ψ
+```
+
+**Amplitude Tracking** extracts envelope A from ψ:
+
+```python
+# Track maximum |ψ| over time (envelope extraction)
+@ti.kernel
+def track_amplitude_envelope(self):
+    for i, j, k in self.displacement_am:
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+```
+
+**Force Calculation** uses A (not ψ):
+
+```python
+# Particles respond to amplitude gradient (envelope)
+F = -∇A  # Not -∇ψ !
+F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
+```
+
+### Summary Table
+
+| Property | ψ (Displacement) | A (Amplitude) |
+|----------|------------------|---------------|
+| **Field name** | `displacement_am[i,j,k]` | `amplitude_am[i,j,k]` |
+| **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
+| **Frequency** | High (~10²⁵ Hz) | Slowly varying |
+| **Sign** | ± (positive/negative) | + (always positive) |
+| **Propagation** | Wave equation (PDE) | Tracked from ψ |
+| **Used for** | Wave dynamics, phase, mode | Forces, energy, MAP |
+| **Formula** | ∂²ψ/∂t² = c²∇²ψ | A = max(\|ψ\|) over time |
+
+**Critical Point**: Forces use **amplitude gradient** (∇A), not displacement gradient (∇ψ)! This is because MAP = "Minimum **Amplitude** Principle" - particles move toward regions of lower amplitude envelope, not lower instantaneous displacement.
+
 ## LEVEL-0 vs LEVEL-1 Properties
 
 | Property | LEVEL-0 (Granule) | LEVEL-1 (Field) |
@@ -849,9 +1102,3 @@ density ∝ amplitude             # For compression waves
 | **Forces** | Inter-granule forces | Computed from gradients |
 
 **Key Difference**: LEVEL-1 stores properties directly at fixed grid locations, while LEVEL-0 computes from moving particles.
-
----
-
-**Status**: Properties defined, ready for wave engine implementation
-
-**Next Steps**: Implement wave propagation using these field properties

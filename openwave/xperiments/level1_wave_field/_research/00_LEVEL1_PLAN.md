@@ -1,275 +1,590 @@
-# PLAN FOR LEVEL-1 SIMULATION ARCHITECTURE
+# LEVEL-1 WAVE-FIELD SIMULATION PLAN
 
 ## Overview
 
-This document provides a high-level overview of LEVEL-1 wave-field simulation architecture. For detailed technical specifications, see the linked documentation files.
+LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (EWT) at the wavelength scale, from fundamental particles to molecules. Unlike LEVEL-0's granule-based medium, LEVEL-1 uses efficient PDE-based wave propagation on 3D grids to simulate hundreds of particles with interactive performance.
+
+**Core Innovation**: Waves are primary - particles and forces emerge from wave interference patterns.
+
+## Quick Reference
+
+| Aspect | LEVEL-0 (Granule-Based) | LEVEL-1 (Wave-Field) |
+|--------|-------------------------|----------------------|
+| **Scale** | Planck-scale to λ | λ-scale to molecules |
+| **Medium** | 1M granules (particles) | 1B voxels (grid) |
+| **Wave Engine** | Phase-shifted oscillations | PDE wave equation |
+| **Particles** | N/A (made of granules) | Hundreds (wave centers) |
+| **Resolution** | ~100³ granule grid | ~1000³ voxel grid (10× better) |
+| **Use Case** | Educational, visualization | Scientific research, engineering |
+| **Performance** | Rendering bottleneck | Field visualization (slices only) |
+| **Timestep** | Variable (elapsed time) | Fixed (CFL-limited) |
+| **Units** | Attometers (spatial only) | Attometers + Rontoseconds |
 
 ## Table of Contents
 
-1. [OPENWAVE Levels Comparison](#openwave-levels-comparison)
-1. [LEVEL-0 Limitations](#level-0-limitations)
-1. [LEVEL-1 Wave-Field Approach](#level-1-wave-field-approach)
-1. [Main Questions for LEVEL-1](#main-questions-for-level-1)
-1. [Core Architecture Components](#core-architecture-components)
-1. [Validation Status](#validation-status)
+1. [Architecture Components](#architecture-components)
+   - [1. Wave Field (Grid Medium)](#1-wave-field-grid-medium)
+   - [2. Energy Charging](#2-energy-charging)
+   - [3. Wave Engine (Propagation)](#3-wave-engine-propagation)
+   - [4. Boundary Conditions](#4-boundary-conditions)
+   - [5. Particles (Wave Centers)](#5-particles-wave-centers)
+   - [6. Forces (Emergent)](#6-forces-emergent)
+   - [7. Visualization](#7-visualization)
+1. [Energy Evolution Sequence](#energy-evolution-sequence)
+   - [Phase 1: Center-Concentrated Pulse Injection](#phase-1-center-concentrated-pulse-injection)
+   - [Phase 2: Outward Propagation](#phase-2-outward-propagation)
+   - [Phase 3: Boundary Reflections](#phase-3-boundary-reflections)
+   - [Phase 4: Energy Dilution (Quasi-Equilibrium)](#phase-4-energy-dilution-quasi-equilibrium)
+   - [Phase 5: Wave Center Insertion](#phase-5-wave-center-insertion)
+   - [Phase 6: Standing Wave Emergence](#phase-6-standing-wave-emergence)
+   - [Phase 7: Particle Formation](#phase-7-particle-formation)
+1. [Implementation Details](#implementation-details)
+   - [Initialization Strategy](#initialization-strategy)
+   - [Timestep Strategy](#timestep-strategy)
+   - [Numerical Precision](#numerical-precision)
+1. [Physics Equations](#physics-equations)
+   - [Energy Density (EWT - Frequency-Centric)](#energy-density-ewt---frequency-centric)
+   - [Wave Propagation](#wave-propagation)
+   - [Force Calculation](#force-calculation)
+   - [Particle Motion](#particle-motion)
+   - [Amplitude Envelope Tracking](#amplitude-envelope-tracking)
 1. [Detailed Documentation](#detailed-documentation)
+1. [Current Status & Next Steps](#current-status--next-steps)
+   - [Validation Requirements](#validation-requirements)
+   - [Known Challenges](#known-challenges)
+   - [Implementation Roadmap](#implementation-roadmap)
+   - [Next Immediate Actions](#next-immediate-actions)
+1. [Key Design Decisions Summary](#key-design-decisions-summary)
 
-## OPENWAVE Levels Comparison
+## Architecture Components
 
-| OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
-|----------|---------------------|---------------|------------------|
-| SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED MEDIUM | WAVE-FIELD MEDIUM | ADVANCED COMPUTING PLATFORMS |
-| system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| wave-medium | granule-base lattice | wave-field grid | to be developed |
-| wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
-| USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
-| | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
-| DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
-| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD)|
-| | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
+### 1. Wave Field (Grid Medium)
 
-## LEVEL-0 Limitations
+**Purpose**: Store and propagate wave properties through 3D space
 
-### Max Particle Count
+**Implementation**:
 
-- **MAX GRANULE COUNT** = 1e6 (GPU computational performance limit)
-- **MAX UNIVERSE SIZE** = 1e-15 m (wave resolution constraint)
-  - Only up to neutrino scale simulations (5e-17 m)
-  - Cannot simulate: electron (5e-15 m), nuclei (1e-14 m), H atom (1e-10 m)
+- **Cell-centered cubic grid**: Voxel `[i,j,k]` = center at `(i+0.5)*dx`
+- **Shape**: `(nx, ny, nz)` - asymmetric universes supported
+- **Resolution**: 1 billion voxels (~1000³) - 10× better than LEVEL-0
+- **Voxel size**: `dx = wavelength / points_per_wavelength` (typically 40 points/λ)
+- **Units**: Attometer scaling for spatial (f32 precision)
 
-### Computational Expense
+**Key Fields**:
 
-**Granule-Based Medium**:
+- `displacement_am[i,j,k]`: Instantaneous ψ (high-frequency oscillation)
+- `amplitude_am[i,j,k]`: Envelope A = max|ψ| (slowly varying)
+- `force[i,j,k]`: Force vector from amplitude gradient (Newtons)
+- `wave_direction[i,j,k]`: Energy flux direction (unit vector)
 
-- Particles that change coordinates (indexed granules)
-- Must find coordinates then compute state
-- Must count granules in region to compute density
-- Expensive neighbor searches
+**See**: [`01a_WAVE_FIELD_grid.md`](./01a_WAVE_FIELD_grid.md), [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md)
 
-**Wave-Field Medium** (LEVEL-1 solution):
+### 2. Energy Charging
 
-- Indexed coordinates that change values
-- Direct access to state at coordinate
-- Density directly stored at coordinate
-- Fixed neighbor topology (efficient)
+**Purpose**: Initialize wave field with correct total energy
 
-### Momentum Transfer Limitations
+**Method**: Spherical Gaussian pulse at universe center
 
-**LEVEL-0 Approach**:
+```python
+# Phase 1: Concentrated pulse (single injection)
+E_total = equations.energy_wave_equation(volume)  # EWT equation
+charge_spherical_gaussian(center, E_total, width=3λ)
+```
 
-- No true wave source
-- Continuous wave source with propagation by phase shift
-- Reflection by another "source"
-- Cannot model: energy Charged once, conserved propagation
+**Energy Equation** (EWT, frequency-centric):
 
-**LEVEL-1 Solution**: True wave propagation with energy conservation
+```text
+E = ρV(fA)²    (no ½ factor - total energy, not time-averaged)
+```
 
-## LEVEL-1 Wave-Field Approach
+**See**: [`02a_WAVE_ENGINE_charge.md`](./02a_WAVE_ENGINE_charge.md)
 
-### Wave-Field Medium
+### 3. Wave Engine (Propagation)
 
-**Architecture**:
+**Purpose**: Evolve wave field using PDE physics
 
-- 3D vector field (grid/matrix/array)
-- Indexed by coordinates `[i,j,k]`
-- Stores scalar and vector properties per voxel
-- Wave propagation through field updates
+**Core Equation**:
 
-**Advantages**:
+```text
+∂²ψ/∂t² = c²∇²ψ    (Classical 3D wave equation)
+```
 
-- Scales to larger simulations (λ-scale to molecules)
-- More efficient computation
-- Direct physics implementation (PDEs, wave equations)
-- True energy conservation
-- Simulates hundreds of particles (not millions of granules)
+**Numerical Method**:
 
-**For detailed grid architecture**, see [`01_WAVE_FIELD.md`](./01_WAVE_FIELD.md)
+- **Leap-frog scheme**: `ψ_new = 2ψ - ψ_old + (cdt/dx)²∇²ψ`
+- **Stability**: CFL condition `dt ≤ dx/(c√3)` for 3D
+- **Timestep**: Fixed (not elapsed time!) - typically ~2e-27 s
+- **Scaling**: Rontosecond (10⁻²⁷ s) for temporal precision
 
-### Analytical vs Visualization
+**Laplacian Operator** (6-connectivity):
 
-**LEVEL-0**: Visualization tool (educational, illustrative)
+```python
+∇²ψ[i,j,k] = (
+    ψ[i+1,j,k] + ψ[i-1,j,k] +
+    ψ[i,j+1,k] + ψ[i,j-1,k] +
+    ψ[i,j,k+1] + ψ[i,j,k-1] -
+    6 × ψ[i,j,k]
+) / dx²
+```
 
-**LEVEL-1**: Analytical tool (scientific research, engineering)
+**See**: [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md), [`02b_WAVE_ENGINE_propagate.md`](./02b_WAVE_ENGINE_propagate.md)
 
-- Numerical analysis capabilities
-- Quantitative predictions
-- Parameter exploration
-- Physics validation
+### 4. Boundary Conditions
 
-## Main Questions for LEVEL-1
+**Universe Walls**: Fixed boundaries at grid edges
 
-### Energy Charging
+- **Dirichlet**: `ψ = 0` at all boundaries (never updated)
+- **Effect**: Waves reflect back into domain (phase inversion)
+- **Energy**: Total energy conserved (no absorption at walls)
 
-**Question**: How to Charge initial energy into field?
+**Wave Centers** (Particles): Reflective voxels inside domain
 
-**Approaches**:
+- **Behavior**: `ψ = 0` always at wave center position
+- **Effect**: Create standing wave patterns via interference
+- **Formation**: Insert after energy dilution (Phase 5)
 
-- Point source initialization
-- Plane wave Charge
-- Multiple source superposition
-- Pulse vs continuous sources
+**See**: [`02c_WAVE_ENGINE_interact.md`](./02c_WAVE_ENGINE_interact.md)
 
-**Status**: To be implemented and tested
+### 5. Particles (Wave Centers)
+
+**What They Are**: Reflective points that create standing waves
+
+**Count**: Hundreds to thousands (not millions like LEVEL-0 granules)
+
+- 1 neutrino = 1 wave center
+- 1 electron = 10 wave centers ("lock" together)
+- 1 proton = complex multi-center structure
+
+**Properties**:
+
+- Position, velocity, mass (computed from trapped energy)
+- Wave reflection creates standing wave pattern
+- Standing wave radius: r = nλ/2 (nodes at half-wavelengths)
+- Mass = E/c² where E = trapped standing wave energy
+
+**See**: [`03_FUNDAMENTAL_PARTICLE.md`](./03_FUNDAMENTAL_PARTICLE.md), [`05_MATTER.md`](./05_MATTER.md)
+
+### 6. Forces (Emergent)
+
+**Fundamental Principle**: All forces from amplitude gradients
+
+**Force Formula** (EWT frequency-centric):
+
+```text
+Energy density: u = ρ(fA)²
+Force: F = -∇E = -2ρVfA × [f∇A + A∇f]    (dual-term)
+Monochromatic: F = -2ρVf² × A∇A          (∇f = 0)
+
+Units: [N] = [kg⋅m/s²]
+```
+
+**MAP (Minimum Amplitude Principle)**: Particles move toward lower amplitude
+
+**Emergent Force Types**:
+
+- **Gravity**: Amplitude shading from trapped energy (mass)
+- **Electric**: Different wave reflection patterns (charge types)
+- **Magnetic**: Moving wave patterns (velocity-dependent)
+- **Strong**: Near-field standing wave coupling
+
+**See**: [`04_FORCE_MOTION.md`](./04_FORCE_MOTION.md)
+
+### 7. Visualization
+
+**Primary Methods**:
+
+1. **FLUX Detector planes**: 2D slices through 3D field (Taichi meshes)
+1. **Wall painting**: Universe boundaries show wave properties
+1. **Particle spray**: Tiny particles at wave nodes/antinodes
+1. **Vector fields**: Force arrows (Taichi lines)
+1. **Streamlines**: Energy flow paths
+
+**NOT rendering all voxels**: Only field slices, isosurfaces, sample points
+
+**See**: [`07_VISUALIZATION.md`](./07_VISUALIZATION.md)
+
+## Energy Evolution Sequence
+
+LEVEL-1 follows a 7-phase natural evolution from pulse to particle:
+
+### Phase 1: Center-Concentrated Pulse Injection
+
+- Single Gaussian pulse at universe center
+- Total energy = `equations.energy_wave_equation(volume)`
+  - `E = ρV(fA)²`
+- Width = 3× wavelength
+- Implementation: `charge_spherical_gaussian()`
+
+### Phase 2: Outward Propagation
+
+- Wave equation `∂²ψ/∂t² = c²∇²ψ` governs evolution
+- Spherical wave fronts expand at speed c
+- 1/r amplitude falloff emerges naturally (no manual scaling)
+- Energy conserved by wave equation physics
+
+### Phase 3: Boundary Reflections
+
+- Waves reach universe walls (ψ = 0 boundaries)
+- Reflect back into domain (phase inversion)
+- Create interference patterns
+- Total energy remains constant
+
+### Phase 4: Energy Dilution (Quasi-Equilibrium)
+
+- Multiple reflections distribute energy throughout field
+- Reaches stable distributed state after ~10,000 timesteps
+- Energy density relatively uniform
+- System ready for wave center insertion
+
+### Phase 5: Wave Center Insertion
+
+- Insert reflective voxels at specific positions
+- `ψ = 0` always at wave centers (never changes)
+- Function like internal boundary walls
+- Create local reflection sites
+
+### Phase 6: Standing Wave Emergence
+
+- Reflected waves (OUT) interfere with incoming waves (IN)
+- Constructive/destructive interference → nodes and antinodes
+- Pattern: Φ = Φ₀ e^(iωt) sin(kr)/r (Wolff's solution)
+- Steady-state standing wave forms around center
+
+### Phase 7: Particle Formation
+
+- Standing wave boundary defines particle extent
+- Energy trapped within pattern
+- **Particle mass = total trapped energy / c²**
+- Fundamental particle successfully formed
+
+## Implementation Details
+
+### Initialization Strategy
+
+**Mirrors LEVEL-0** `BCCLattice` approach:
+
+```python
+# User specifies desired universe size (can be asymmetric)
+init_universe_size = [250e-18, 250e-18, 125e-18]  # meters
+
+# Compute from TARGET_VOXELS = 1e9 (config constant)
+volume = init_universe_size[0] * [1] * [2]
+dx = (volume / TARGET_VOXELS)**(1/3)  # Cubic voxel size
+
+# Grid dimensions (integer voxel counts, can differ per axis)
+nx = int(init_universe_size[0] / dx)  # ~1260
+ny = int(init_universe_size[1] / dx)  # ~1260
+nz = int(init_universe_size[2] / dx)  # ~630
+
+# Result: ~1B voxels, 10× better resolution than LEVEL-0 per dimension
+```
+
+**Why 1000× more voxels?**
+
+- LEVEL-0: Every granule rendered → 1M limit
+- LEVEL-1: Only slices rendered → 1B tractable
+- Result: 10× better spatial resolution in each dimension
+
+### Timestep Strategy
+
+**CRITICAL**: Must use fixed timesteps (not elapsed time)
+
+**Why?**
+
+```text
+CFL requirement: dt ≤ dx/(c√3) ≈ 2.4e-27 s
+Frame time: ~0.001 - 0.1 s
+Violation: 10²⁴× over limit → INSTANT NUMERICAL EXPLOSION!
+```
+
+**Solution**: Hybrid accumulator
+
+```python
+dt_physics = 2.0e-27  # Fixed (respects CFL)
+dt_physics_rs = 2.0   # Rontoseconds (scaled)
+
+# Decouple physics from rendering
+while accumulated_time >= dt_physics:
+    update_physics(dt_physics_rs)  # Fixed timestep
+    accumulated_time -= dt_physics
+
+render_frame()  # Variable rate
+```
+
+### Numerical Precision
+
+**Dual Scaling Strategy**:
+
+- **Spatial**: ATTOMETER = 10⁻¹⁸ m (field suffix: `_am`)
+- **Temporal**: RONTOSECOND = 10⁻²⁷ s (field suffix: `_rs`)
+
+**Why both?**
+
+- Maintain 6-7 significant digits in f32 calculations
+- Prevent catastrophic cancellation in derivatives
+- Values in optimal f32 range (1-100)
+
+**Example**:
+
+```python
+# Physical values (SI units)
+dx = 1.25e-18  # meters
+dt = 2.4e-27   # seconds
+
+# Scaled values (optimal for f32)
+dx_am = 1.25   # attometers
+dt_rs = 2.4    # rontoseconds
+```
+
+## Physics Equations
+
+### Energy Density (EWT - Frequency-Centric)
+
+```text
+u = ρ(fA)²    [J/m³]
+
+where:
+ρ = 3.860×10²² kg/m³ (medium density)
+f = c/λ (frequency, Hz)
+A = amplitude envelope (meters)
+
+Note: No ½ factor - total energy capacity, not time-averaged
+```
 
 ### Wave Propagation
 
-**Questions**:
+```text
+∂²ψ/∂t² = c²∇²ψ
 
-- How to propagate amplitude, frequency (c/λ), and phase (φ)?
-- How to transfer momentum and energy?
-- Wave propagation direction vs amplitude direction?
+where:
+ψ = displacement field (meters, scaled to attometers)
+c = 2.998×10⁸ m/s (speed of light)
+∇² = Laplacian operator (measures neighbor deviation)
+```
 
-**Approach**: PDE-based wave engine (see [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md))
+### Force Calculation
 
-### Grid-Particle Interaction
+```text
+Full form (dual-term):
+F = -∇E = -2ρVfA × [f∇A + A∇f]    [N]
 
-**Questions**:
+Monochromatic (single frequency):
+F = -2ρVf² × A∇A                   [N]
 
-- How does grid interact with particles?
-- How do wave centers reflect waves?
-- How does MAP (Minimum Amplitude Principle) work?
+where:
+V = dx³ (voxel volume, m³)
+f∇A = amplitude gradient term (primary)
+A∇f = frequency gradient term (secondary, for multi-frequency)
+```
 
-**Approach**: Hybrid field-particle system (see [`05_MATTER.md`](./05_MATTER.md))
+**Why frequency-centric?**
 
-## Core Architecture Components
+- **Elegance**: E = ρV(fA)² simpler than E = ρVc²(A/λ)²
+- **Planck alignment**: E = hf (energy ∝ frequency)
+- **Human intuition**: Radio (98.7 FM), audio (440 Hz), WiFi (2.4 GHz)
+- **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing
+- **Direct measurement**: f = 1/dt from timing peaks
 
-### 1. Wave Field (Grid/Medium)
+### Particle Motion
 
-**Purpose**: Store and propagate wave properties
+```text
+Newton's 2nd Law:
+F = ma
+a = F/m
 
-**Details**: See [`01_WAVE_FIELD.md`](./01_WAVE_FIELD.md)
+Velocity Verlet Integration:
+v_new = v_old + a × dt
+x_new = x_old + v × dt
 
-**Key Features**:
+where:
+m = E_trapped / c² (mass from standing wave energy)
+```
 
-- Cell-centered grid
-- Configurable neighbor connectivity (6/18/26)
-- SI units (meters) throughout
+### Amplitude Envelope Tracking
 
-### 2. Wave Properties
+```text
+Two distinct fields needed:
 
-**Purpose**: Define what is stored at each voxel
+ψ(t) = instantaneous displacement (fast oscillation ~10²⁵ Hz)
+A(t) = amplitude envelope = max|ψ| (slow variation)
 
-**Details**: See [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md)
+Wave equation propagates ψ:
+∂²ψ/∂t² = c²∇²ψ
 
-**Key Properties**:
+Envelope tracked from ψ:
+A[i,j,k] = max_over_time(|ψ[i,j,k]|)
 
-- Scalar: amplitude, density, energy, phase, frequency
-- Vector: wave direction, amplitude direction, velocity, force
+Forces use A (not ψ):
+F = -2ρVf² × A∇A    (MAP: particles respond to envelope)
+```
 
-### 3. Wave Engine
+## Detailed Documentation
 
-**Purpose**: Propagate waves through field
+### Core Architecture
 
-**Details**: See [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md)
+1. **[01a_WAVE_FIELD_grid.md](./01a_WAVE_FIELD_grid.md)** - Grid architecture, cell-centered design, index-to-position mapping
+1. **[01b_WAVE_FIELD_properties.md](./01b_WAVE_FIELD_properties.md)** - Scalar/vector properties, field storage, WaveField class
 
-**Key Features**:
+### Wave Engine
 
-- PDE-based propagation
-- Huygens wavelets
-- Interference and reflection
-- Energy conservation
-- Standing and traveling waves
+1. **[02_WAVE_ENGINE.md](./02_WAVE_ENGINE.md)** - Overview, wave mechanics, energy evolution phases
+1. **[02a_WAVE_ENGINE_charge.md](./02a_WAVE_ENGINE_charge.md)** - Initial energy charging methods
+1. **[02b_WAVE_ENGINE_propagate.md](./02b_WAVE_ENGINE_propagate.md)** - PDE propagation, Laplacian, CFL stability
+1. **[02c_WAVE_ENGINE_interact.md](./02c_WAVE_ENGINE_interact.md)** - Boundary reflections, superposition
 
-### 4. Particles (Wave Centers)
+### Particles, Forces & Visualization
 
-**Purpose**: Simulate fundamental particles as wave reflection centers
+1. **[03_FUNDAMENTAL_PARTICLE.md](./03_FUNDAMENTAL_PARTICLE.md)** - Wave centers, reflection behavior, mass accumulation
+1. **[04_FORCE_MOTION.md](./04_FORCE_MOTION.md)** - Force calculation, MAP principle, emergent fields
+1. **[05_MATTER.md](./05_MATTER.md)** - Composite particles, electron formation, binding
+1. **[06_PHOTON_HEAT.md](./06_PHOTON_HEAT.md)** - (placeholder for future content)
+1. **[07_VISUALIZATION.md](./07_VISUALIZATION.md)** - Detector planes, wall painting, particle spray, vector fields
+1. **[08_NUMERICAL_ANALYSIS.md](./08_NUMERICAL_ANALYSIS.md)** - (placeholder for data sampling, plotting)
 
-**Details**: See [`05_MATTER.md`](./05_MATTER.md)
+### Supporting Material
 
-**Key Features**:
+Located in `support_material/`:
 
-- Hundreds (not millions) of particles
-- MAP (Minimum Amplitude Principle)
-- Mass from trapped wave energy
-- Complex structures (electron formation)
+- **[L1field_QFT.md](./support_material/L1field_QFT.md)** - Connections to QFT and lattice QCD
+- **[phase_shift.md](./support_material/phase_shift.md)** - Phase shift wave mechanics
+- **[wave_exponential.md](./support_material/wave_exponential.md)** - Exponential wave solutions
+- **[wave_spherical.md](./support_material/wave_spherical.md)** - Spherical wave solutions
+- **[wave_vs_heat_equation.md](./support_material/wave_vs_heat_equation.md)** - Wave vs heat equation comparison
+- **[taichi_sparse.md](./support_material/taichi_sparse.md)** - Why sparse data structures not used
+- **[taichi_autodiff.md](./support_material/taichi_autodiff.md)** - Why autodiff not used
 
-### 5. Visualization
+### Reference
 
-**Purpose**: Make wave fields and particles visible
+1. **[09_OTHER_METHODS.md](./09_OTHER_METHODS.md)** - Evaluation of alternative numerical methods
 
-**Details**: See [`04_VISUALIZATION.md`](./04_VISUALIZATION.md)
+## Current Status & Next Steps
 
-**Key Systems**:
+### Validation Requirements
 
-- Flux detector planes
-- Universe boundary walls
-- 3D wave visualization (particle spray, streamlines, wave fronts)
-- Wave center and shell rendering
-- Reference infrastructure
-
-### 6. Emergent Fields
-
-**Purpose**: All forces emerge from wave interactions
-
-**Details**: See [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md)
-
-**Key Concepts**:
-
-- Gravity, EM, all forces from waves
-- Electric and magnetic fields as wave derivations
-- Electron's special role in EM wave generation
-- Near-field vs far-field behavior
-
-## Validation Status
-
-### Current Status
-
-**Not Yet Validated**: LEVEL-1 wave propagation physics needs validation
+**NOT YET VALIDATED**: Wave propagation physics needs experimental verification
 
 **Success Criteria**:
 
 - Wave speed ≈ c (within 5-10% tolerance)
 - Wavelength ≈ λ (within 5-10% tolerance)
-- Using real physics parameters AND medium natural resonant frequency
+- Energy conservation (< 1% drift over 1M timesteps)
+- Standing wave formation at correct radii
+- MAP force behavior (particles → amplitude minimum)
 
-**Validation Requirements**:
+**Test Cases**:
 
-- Wave interference (constructive, destructive)
-- Wave reflection (particles, boundaries)
-- MAP (minimum amplitude principle)
-- Energy conservation
+1. Single point source → spherical wave propagation
+1. Plane wave → reflection from boundaries
+1. Two sources → interference patterns
+1. Wave center → standing wave formation
+1. Multiple particles → force-driven motion
 
 ### Known Challenges
 
 **High Energy Density**:
 
-- Energy contained in energy waves is huge
+- Energy waves carry enormous energy
 - High forces and momentum from wave interactions
-- Integration methods can fail (numerical stability)
-- Not just computational feasibility—mathematical challenge
+- Numerical stability critical (CFL condition)
+- Careful parameter tuning required
 
 **Approach**:
 
-- Start simple (1D, then 2D, then 3D)
-- Carefully tune numerical parameters
-- Use stable integration schemes (Verlet, leapfrog)
+- Start simple
 - Validate at each step
+- Use stable integration (Verlet/leapfrog)
+- Monitor energy conservation continuously
 
-## Detailed Documentation
+### Implementation Roadmap
 
-For implementation details, see:
+#### Phase A: Core Wave Engine (Current Priority)
 
-1. **[01_WAVE_FIELD.md](./01_WAVE_FIELD.md)** - Cell-centered grid architecture with position mapping
-2. **[02_WAVE_PROPERTIES.md](./02_WAVE_PROPERTIES.md)** - Scalar/vector properties and energy oscillation physics
-3. **[03_WAVE_ENGINE.md](./03_WAVE_ENGINE.md)** - Energy injection, propagation, and wave mechanics
-4. **[04_VISUALIZATION.md](./04_VISUALIZATION.md)** - Taichi rendering methods for waves and particles
-5. **[05_MATTER.md](./05_MATTER.md)** - Particle structure and wave centers
-6. **[06_FORCE_MOTION.md](./06_FORCE_MOTION.md)** - MAP principle and particle dynamics
-7. **[07_PHOTON_HEAT.md](./07_PHOTON_HEAT.md)** - Light and thermal behavior
-8. **[08_NUMERICAL_ANALYSIS.md](./08_NUMERICAL_ANALYSIS.md)** - Computational methods
+1. ✅ Grid architecture designed
+1. ✅ Wave properties defined
+1. ✅ Force calculation specified
+1. ⬜ Implement wave equation solver
+1. ⬜ Verify energy conservation
+1. ⬜ Test boundary reflections
 
-### Supporting Research Documentation
+#### Phase B: Energy Charging
 
-- **[support_material/L1field_QFT.md](./support_material/L1field_QFT.md)** - Connections to QFT and lattice QCD
-- **[support_material/phase_shift.md](./support_material/phase_shift.md)** - Phase shift wave mechanics
-- **[support_material/wave_exponential.md](./support_material/wave_exponential.md)** - Exponential wave solutions
-- **[support_material/wave_spherical.md](./support_material/wave_spherical.md)** - Spherical wave solutions
+1. ⬜ Implement Gaussian pulse injection
+1. ⬜ Verify total energy matches EWT equation
+1. ⬜ Test propagation and dilution
+1. ⬜ Measure wave speed and wavelength
+
+#### Phase C: Wave Centers
+
+1. ⬜ Implement reflective voxels
+1. ⬜ Test standing wave formation
+1. ⬜ Measure particle mass from trapped energy
+1. ⬜ Verify MAP force behavior
+
+#### Phase D: Particle Dynamics
+
+1. ⬜ Implement force interpolation
+1. ⬜ Test particle motion (Newton's laws)
+1. ⬜ Verify multi-particle interactions
+1. ⬜ Test particle formation ("lock" events)
+
+#### Phase E: Visualization
+
+1. ⬜ Detector plane rendering
+1. ⬜ Wall painting
+1. ⬜ Particle spray for standing waves
+1. ⬜ Vector field display
+
+#### Phase F: Scientific Analysis
+
+1. ⬜ Data sampling and export
+1. ⬜ Plot generation (seaborn)
+1. ⬜ Offline video rendering
+1. ⬜ Quantitative measurements
+
+### Next Immediate Actions
+
+1. **Implement basic wave equation solver** (02b_WAVE_ENGINE_propagate.md)
+   - Leap-frog scheme
+   - 6-connectivity Laplacian
+   - CFL stability check
+   - Energy monitoring
+
+1. **Create minimal test case**
+   - Small grid (50³)
+   - Single Gaussian pulse
+   - Verify propagation
+   - Check energy conservation
+
+1. **Validate against analytical solution**
+   - Compare to Wolff's spherical wave
+   - Measure wave speed
+   - Verify 1/r amplitude falloff
+
+## Key Design Decisions Summary
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| **Grid type** | Cell-centered cubic | Industry standard, optimal for PDEs |
+| **Array indexing** | 3D `[nx,ny,nz]` | Natural for grid operations, not 1D |
+| **Asymmetric support** | Yes (nx≠ny≠nz) | Memory efficiency, follows LEVEL-0 design |
+| **Voxel size** | Cubic (same dx all axes) | Preserves wave physics, isotropic |
+| **Spatial scaling** | Attometers (10⁻¹⁸ m) | f32 precision, prevents cancellation |
+| **Temporal scaling** | Rontoseconds (10⁻²⁷ s) | f32 precision, CFL timesteps |
+| **Timestep strategy** | Fixed (not elapsed) | Numerical stability, CFL requirement |
+| **Wave equation** | PDE (not Huygens) | 10× faster, naturally conserves energy |
+| **Connectivity** | 6 face neighbors | Simplest, sufficient for isotropy |
+| **Boundary conditions** | Dirichlet (ψ=0) | Reflective walls, energy conservation |
+| **Energy formulation** | Frequency-centric E=ρV(fA)² | Elegant, aligns with Planck E=hf |
+| **Force formula** | Dual-term F=-2ρVfA[f∇A+A∇f] | Complete, handles multi-frequency |
+| **Primary property** | Frequency f (not λ) | Direct measurement, human-intuitive |
+| **Sparse grids** | No | Only 0.5% of simulation sparse |
+| **Autodiff** | No | Forward physics, Metal incompatible |
+| **Target voxels** | 1×10⁹ | 1000× more than LEVEL-0 granules |
 
 ---
 
-**Status**: Architecture documented, ready for phased implementation
+**Document Version**: 2.0 (Post-Reorganization)
 
-**Next Steps**: Begin with simple wave propagation tests (1D), validate, then extend to 3D
+**Last Updated**: 2025-11-12
 
-**Last Updated**: 2025-10-31
+**Status**: Architecture complete, implementation in progress
