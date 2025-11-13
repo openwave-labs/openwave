@@ -92,7 +92,7 @@ def charge_uniform_energy(self):
 ## Implementation - Option 2: Spherical Gaussian Wave Pulse (Recommended)
 
 ```text
-ψ(x) = e^(-x²)  (Gaussian bump)
+ψ(r) = A·e^(-r²)   [Gaussian bump]
 ```
 
 ```python
@@ -161,6 +161,11 @@ def charge_spherical_gaussian(
 ```
 
 ## Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)
+
+```text
+ψ(r,t) = A·e^(iωt)·sin(kr)/r   [Wolff's bump]
+ψ(r,t) = A·e^i(ωt±kr)/r       [DeBroglie Wave]
+```
 
 ```python
 @ti.kernel

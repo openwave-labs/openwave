@@ -51,13 +51,14 @@ EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY
 # ================================================================
 # Neutrino particle (seed particle)
 # ================================================================
+NEUTRINO_K = 1  # neutrino wave center count (dimensionless)
 NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 
 # ================================================================
 # Electron particle
 # ================================================================
-ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_K = 10  # electron wave center count (dimensionless)
+ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
 ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
 ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor (gλ, dimensionless)
@@ -69,8 +70,8 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
 # ================================================================
 #  Proton particle
 # ================================================================
-PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_K = 44  # proton wave center count (dimensionless)
+PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (gp, dimensionless)
 PROTON_MASS = 1.67262192369e-27  # kg, proton mass from CODATA
 

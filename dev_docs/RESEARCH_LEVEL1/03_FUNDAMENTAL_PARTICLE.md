@@ -1,4 +1,4 @@
-# MATTER (Wave Centers, Particles & Anti-particles)
+# FUNDAMENTAL PARTICLE (Wave Centers, Particles & Anti-particles)
 
 ## Table of Contents
 

@@ -28,7 +28,7 @@
 1. [Lattice Type: Cubic vs Orthorhombic](#lattice-type-cubic-vs-orthorhombic)
    - [Cubic Lattice (Recommended)](#cubic-lattice-recommended-for-initial-implementation)
    - [Orthorhombic Lattice (Future)](#orthorhombic-lattice-future-extension)
-1. [Voxel Neighbor Connectivity](#voxel-neighbor-connectivity)
+1. [Voxel Neighbor Connectivity (STENCIL)](#voxel-neighbor-connectivity-stencil)
    - [3D Neighbor Classification](#3d-neighbor-classification)
    - [Configurable Connectivity Parameter](#configurable-connectivity-parameter)
    - [Distance-Based Weighting](#distance-based-weighting)
@@ -457,7 +457,7 @@ class OrthorhombicFieldMedium:
 
 **Recommendation**: Start with cubic for simplicity, extend to orthorhombic if needed.
 
-## Voxel Neighbor Connectivity
+## Voxel Neighbor Connectivity (STENCIL)
 
 ### 3D Neighbor Classification
 

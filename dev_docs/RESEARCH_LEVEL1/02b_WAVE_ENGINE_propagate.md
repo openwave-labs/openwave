@@ -33,8 +33,8 @@ Where:
 
 - `ψ` = wave displacement field (scalar)
 - `c` = wave propagation speed (speed of light, 2.998×10⁸ m/s)
-- `∇²ψ` = Laplacian operator (second-order spatial derivative)
-- `∂²ψ/∂t²` = second-order time derivative (acceleration of displacement)
+- `∇²ψ` = Laplacian operator (second-order spatial derivative, laplacian of psi)
+- `∂²ψ/∂t²` = second-order time derivative (acceleration of displacement, psi double-prime)
 
 **Physical Interpretation**:
 
@@ -66,44 +66,188 @@ Where:
 ## Time Evolution Implementation
 
 ```python
+@ti.func
+def compute_laplacian_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
+    """
+    Compute Laplacian ∇²ψ at voxel [i,j,k] (6-connectivity).
+    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
+
+    Discrete Laplacian (second derivative in space):
+    ∇²ψ[i,j,k] = (ψ[i±1] + ψ[i,j±1] + ψ[i,j,k±1] - 6ψ[i,j,k]) / dx²
+
+    Args:
+        i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
+
+    Returns:
+        Laplacian in units [1/am] = [am/am²]
+    """
+    # 6-connectivity stencil (face neighbors only)
+    laplacian_am = (
+        self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
+        self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
+        self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
+        6.0 * self.displacement_am[i, j, k]
+    ) / (self.dx_am * self.dx_am)
+
+    return laplacian_am
+
 @ti.kernel
-def propagate_wave_field(dt: ti.f32):
+def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
     """
-    Propagate wave displacement using wave equation.
+    Propagate wave displacement using wave equation (PDE Solver).
 
-    Second-order in time (requires storing two previous timesteps):
-    ψ_new = 2ψ_current - ψ_old + (c×dt/dx)² × ∇²ψ
+    Wave Equation: ∂²ψ/∂t² = c²∇²ψ
 
-    This is a centered finite difference scheme, second-order accurate.
+    Discrete Form (Leap-Frog/Verlet):
+    ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+    where ∇²ψ = (neighbors_sum - 6·center) / dx²
+
+    Args:
+        dt: Timestep in seconds (with SLOW_MO factor applied)
+            Typical: dt ~ 1/60 s (60 FPS, screen refresh rate)
+        freq_boost: Frequency multiplier (applied after SLOW_MO)
+            Used to boost wave speed for faster visualization/testing
+            Default: 1.0 (no boost)
+            Example: 2.0 (doubles effective wave speed)
+
+    CFL Stability: dt ≤ dx/(c√3) for 3D 6-connectivity
+        Without SLOW_MO: dt_max ~ 2.4e-27 s ✓ stable
+        With SLOW_MO: dt ~ 0.016 s → VIOLATES CFL! → UNSTABLE!
+        **Solution**: Apply SLOW_MO to effective c (wave speed):
+        c_slowed = (c / SLOW_MO) * freq_boost
+        This slows wave propagation to human-visible speeds while maintaining
+        numerical stability.
     """
-    # Speed of light and CFL factor
-    c = ti.f32(constants.EWAVE_SPEED)
-    cfl_factor = (c * dt / self.dx_am)**2
+    # Speed of light (apply SLOW_MO factor, then freq_boost for human-visible waves)
+    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLOW_MO) * freq_boost  # m/s
+
+    # Convert c to attometers/second for consistent units
+    c_am = c_slowed / constants.ATTOMETER  # am/s
 
     # CFL stability condition: cfl_factor ≤ 1/3 for 3D (6-connectivity)
-    # If violated, solution becomes unstable
+    # cfl_factor = (c_am·dt/dx_am)² [dimensionless]
+    # Units: [(am/s)·s / am]² = dimensionless ✓
+    cfl_factor = (c_am * dt / dx_am)**2
 
-    # Update all interior voxels
+    # Update all interior voxels (boundaries stay at ψ=0)
     for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Compute Laplacian (6-connectivity)
-            laplacian = (
-                self.displacement_am[i+1,j,k] + self.displacement_am[i-1,j,k] +
-                self.displacement_am[i,j+1,k] + self.displacement_am[i,j-1,k] +
-                self.displacement_am[i,j,k+1] + self.displacement_am[i,j,k-1] -
-                6.0 * self.displacement_am[i,j,k]
-            ) / (self.dx_am * self.dx_am)
+            # Compute Laplacian (returns [1/am])
+            laplacian_am = self.compute_laplacian_am(i, j, k)
 
-            # Wave equation update (leap-frog scheme)
-            self.displacement_new[i,j,k] = (
-                2.0 * self.displacement_am[i,j,k]  # Current displacement
-                - self.displacement_old[i,j,k]      # Previous displacement
-                + cfl_factor * laplacian          # Wave propagation term
+            # Leap-frog update
+            # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+            # Units check:
+            # ψ: [am]
+            # (c_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
+            # Result: [am] = [am] - [am] + [am] ✓
+            self.displacement_new_am[i, j, k] = (
+                2.0 * self.displacement_am[i, j, k]
+                - self.displacement_old_am[i, j, k]
+                + (c_am * dt)**2 * laplacian_am
             )
 
-    # Swap timesteps for next iteration
-    # old ← current ← new
-    self.displacement_old, self.displacement_am = self.displacement_am, self.displacement_new
+    # Swap time levels for next iteration
+    # Python tuple swap: (old, current, new) ← (current, new, old)
+    self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
+        self.displacement_am, self.displacement_new_am, self.displacement_old_am
+
+
+@ti.kernel
+def track_amplitude_envelope(self):
+    """
+    Track amplitude envelope by computing running maximum of |ψ|.
+
+    Amplitude A is the envelope of the high-frequency displacement oscillation.
+    Uses ti.atomic_max for thread-safe updates in parallel execution.
+    """
+    for i, j, k in self.displacement_am:
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+
+
+@ti.kernel
+def compute_wave_direction(self):
+    """
+    Compute wave propagation direction from energy flux.
+
+    Energy flux: S = -c² × ψ × ∇ψ
+    Direction: normalized S
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+
+    for i, j, k in self.displacement_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            psi = self.displacement_am[i, j, k]
+
+            # Amplitude gradient
+            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+            # Energy flux vector
+            S = -c**2 * psi * grad_psi
+            S_mag = S.norm()
+
+            if S_mag > 1e-12:
+                self.wave_direction[i,j,k] = S / S_mag
+            else:
+                self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
+
+def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
+    """
+    Complete wave field update for one timestep.
+
+    Args:
+        dt: Timestep in seconds (with SLOW_MO factor applied)
+        freq_boost: Frequency multiplier (applied after SLOW_MO)
+    """
+    # 1. Propagate wave displacement
+    self.propagate_wave(dt, freq_boost)
+
+    # 2. Track amplitude envelope
+    self.track_amplitude_envelope()
+
+    # 3. Compute wave direction
+    self.compute_wave_direction()
+
+    # 4. Apply boundary conditions (handled by not updating boundaries in propagate)
+```
+
+**Summary of Merged Implementation**:
+
+- ✅ **Single `propagate_wave(dt, freq_boost)` function**
+- ✅ **Encapsulated `compute_laplacian_am()`** as `@ti.func` returning full laplacian [1/am]
+- ✅ **Correct dimensional analysis**: All units in attometers (consistent throughout)
+- ✅ **SLOW_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
+- ✅ **freq_boost parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
+- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLOW_MO) × freq_boost
+- ✅ **No rontosecond conversion needed**: dt already slowed by SLOW_MO
+- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
+- ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
+
+**Key Formula**:
+
+```python
+ψ_new = 2ψ - ψ_old + (c_am·dt)² · ∇²ψ
+```
+
+Where:
+
+- `c_slowed = (EWAVE_SPEED / SLOW_MO) × freq_boost` (m/s, slowed + boosted)
+- `c_am = c_slowed / ATTOMETER` (wave speed in am/s)
+- `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
+- `freq_boost` ~ 1.0 (default, no boost) or higher for faster visualization
+- `∇²ψ` in [1/am] units (from `compute_laplacian_am()`)
+- `dx_am` in [am] units (standard voxel size)
+- Result in [am] units ✓
+
+**Dimensional Analysis**:
+
+```text
+(c_am·dt)²·∇²ψ = [(am/s)·s]² · [1/am] = [am²]·[1/am] = [am] ✓
 ```
 
 **Storage Requirements**:
@@ -230,6 +374,106 @@ def main_loop():
 | **Use case** | Interactive particle systems | Scientific wave simulation |
 
 **Recommendation**: LEVEL-1 **MUST** use fixed timesteps for numerical stability. The hybrid accumulator approach allows real-time rendering while maintaining stable physics.
+
+## Why Leap-Frog instead of Euler Integration Method
+
+why the wave equation uses the leap-frog scheme instead of regular Euler integration.
+
+Wave Equation gives ψ acceleration directly
+
+- Given: ∂²ψ/∂t² = c²∇²ψ
+
+The acceleration of ψ is:
+
+- ψ_acceleration = c² · ∇²ψ
+
+So yes, the wave equation directly gives us the second derivative (acceleration) of displacement!
+
+### Why Leap-Frog instead of Euler?
+
+### Option 1: Euler Method (velocity-position split)
+
+You could do it like particle motion:
+
+```python
+# Split into velocity and position
+ψ_velocity[i,j,k] += ψ_acceleration * dt  # vel += a·dt
+ψ[i,j,k] += ψ_velocity[i,j,k] * dt        # pos += vel·dt
+```
+
+Problems:
+
+- ✗ Need to store velocity field (extra memory: 100³ voxels × f32)
+- ✗ First-order accurate (error ∝ dt)
+- ✗ Energy drift: Euler doesn't conserve energy in oscillating systems
+- ✗ Waves gradually lose or gain energy over time (numerical artifact)
+
+### Option 2: Leap-Frog (Verlet) - Direct from acceleration
+
+```python
+# Update displacement directly from acceleration (no velocity storage)
+ψ_new = 2ψ - ψ_old + (c·dt)² · ∇²ψ
+```
+
+Advantages:
+
+- ✓ No velocity field needed (saves memory)
+- ✓ Second-order accurate (error ∝ dt²) - 100× more accurate!
+- ✓ Energy conserving (symplectic integrator)
+- ✓ Perfect for oscillating systems (waves, springs, orbits)
+- ✓ One equation instead of two
+
+### How Leap-Frog Works
+
+The leap-frog derives from Taylor expansion of ψ(t):
+
+- Forward:  ψ(t+dt) = ψ(t) + ψ'·dt + ½ψ''·dt² + ...
+- Backward: ψ(t-dt) = ψ(t) - ψ'·dt + ½ψ''·dt² + ...
+
+- Add them: ψ(t+dt) + ψ(t-dt) = 2ψ(t) + ψ''·dt² + O(dt⁴)
+- Rearrange: ψ(t+dt) = 2ψ(t) - ψ(t-dt) + ψ''·dt²
+
+Since ψ'' = c²∇²ψ:
+
+- ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+
+Key insight: The velocity terms ψ'·dt cancel out when you add forward and backward! This is why we don't need to store velocity.
+
+Comparison Table
+
+| Aspect    | Euler (vel+pos)                   | Leap-Frog (direct)         |
+|-----------|-----------------------------------|----------------------------|
+| Equations | 2 (vel, pos)                      | 1 (pos only)               |
+| Memory    | 4 fields (ψ, ψ_old, vel, vel_old) | 3 fields (ψ, ψ_old, ψ_new) |
+| Accuracy  | O(dt) first-order                 | O(dt²) second-order        |
+| Energy    | Drifts over time                  | Conserved (symplectic)     |
+| Best for  | Damped systems                    | Oscillating systems        |
+| Speed     | Slower (2 updates)                | Faster (1 update)          |
+
+### Why This Matters for Waves
+
+Waves are oscillatory - they cycle energy between kinetic (∂ψ/∂t)² and potential (∇ψ)². Energy conservation is critical!
+
+With Euler:
+
+- E(t=0) = 100
+- E(t=1000 steps) = 95  ❌ Lost 5% energy (numerical damping)
+
+With Leap-Frog:
+
+- E(t=0) = 100
+- E(t=1000 steps) = 100.001  ✓ Nearly perfect conservation
+
+### Bottom Line
+
+The leap-frog scheme:
+
+1. Uses the wave equation's acceleration directly: ψ'' = c²∇²ψ
+2. Skips velocity storage by using ψ_old instead
+3. Is 100× more accurate than Euler (second-order vs first-order)
+4. Conserves energy for oscillating systems
+
+That's why wave equations, springs, and orbital mechanics all use leap-frog/Verlet instead of Euler! 🎯
 
 ## Alternative: Huygens Wavelets
 

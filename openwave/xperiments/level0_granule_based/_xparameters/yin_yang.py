@@ -43,7 +43,7 @@ XPARAMETERS = {
         "description": "12 sources in golden ratio pattern with progressive phase offsets",
     },
     "camera": {
-        "initial_position": [1.25, 0.70, 1.65],  # [x, y, z] in normalized coordinates
+        "initial_position": [1.43, 0.74, 1.41],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [
@@ -68,11 +68,11 @@ XPARAMETERS = {
         "block_slice": False,  # Block-slicing toggle
         "show_sources": True,  # Toggle to show/hide wave source markers
         "radius_factor": 2.0,  # Granule radius scaling factor
-        "freq_boost": 0.1,  # Frequency boost multiplier
-        "amp_boost": 5.0,  # Amplitude boost multiplier
+        "freq_boost": 0.5,  # Frequency boost multiplier
+        "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
         "granule_type": True,  # Granule type color
-        "ironbow": False,  # Ironbow color scheme toggle
+        "ironbow": True,  # Ironbow color scheme toggle
         "blueprint": False,  # Blueprint color scheme toggle
         "var_displacement": True,  # Displacement vs amplitude toggle
     },
