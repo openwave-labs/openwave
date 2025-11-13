@@ -97,6 +97,29 @@ def particle_energy(K):
 
 
 # ================================================================
+# Particle Rest Mass (longitudinal wave)
+# ================================================================
+def particle_rest_mass(K):
+    """
+    Calculate the rest mass of a particle based on its wave center count.
+    Particle mass is energy without consideration of wave speed (c),
+    found naturally as c2 in the Longitudinal Energy Equation
+
+    m(K) = (4πρK⁵A⁶/3λ³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+    or
+    m(K) = E_l(K) / c²
+
+    Args:
+        K (int): Particle wave center count (dimensionless)
+
+    Returns:
+        float: Particle rest mass in kilograms
+    """
+    rest_mass = particle_energy(K) / (constants.EWAVE_SPEED**2)
+    return rest_mass
+
+
+# ================================================================
 # Photon Energy (transverse wave)
 # ================================================================
 def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL):
@@ -655,6 +678,12 @@ if __name__ == "__main__":
     print(f"NEUTRINO (K=1): {particle_energy(1):.2e} J")
     print(f"ELECTRON (K=10): {particle_energy(10):.2e} J")
     print(f"PROTON (K=44): {particle_energy(44):.2e} J")
+
+    print("\n_______________________________")
+    print("PARTICLE REST MASS")
+    print(f"NEUTRINO (K=1): {particle_rest_mass(1):.2e} kg")
+    print(f"ELECTRON (K=10): {particle_rest_mass(10):.2e} kg")
+    print(f"PROTON (K=44): {particle_rest_mass(44):.2e} kg")
 
     print("\n_______________________________")
     print("PHOTON ENERGY")
