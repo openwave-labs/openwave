@@ -67,11 +67,35 @@ Where:
 
 ```python
 @ti.kernel
-def propagate_wave_field(dt: ti.f32):
+def compute_laplacian(self, output: ti.template()):  # type: ignore
     """
-    Propagate wave displacement using wave equation.
+    Compute Laplacian operator for wave equation (6-connectivity).
 
-    Second-order in time (requires storing two previous timesteps):
+    Laplacian: ∇²A = (∂²A/∂x² + ∂²A/∂y² + ∂²A/∂z²)
+    Used in wave equation: ∂²A/∂t² = c²∇²A
+    """
+    for i, j, k in self.displacement_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # 6-connectivity stencil (face neighbors only)
+            laplacian = (
+                self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
+                self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
+                self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
+                6.0 * self.displacement_am[i, j, k]
+            ) / (self.dx_am * self.dx_am)
+
+            output[i, j, k] = laplacian
+
+@ti.kernel
+def propagate_wave(dt: ti.f32):
+    """
+    Propagate wave displacement using wave equation (PDE Solver).
+
+    Wave equation:
+    ∂²ψ/∂t² = c²∇²ψ
+    
+    Second-order in time (requires storing two previous timesteps)
+    Leap-Frog Numerical Method:
     ψ_new = 2ψ_current - ψ_old + (c×dt/dx)² × ∇²ψ
 
     This is a centered finite difference scheme, second-order accurate.
@@ -104,6 +128,110 @@ def propagate_wave_field(dt: ti.f32):
     # Swap timesteps for next iteration
     # old ← current ← new
     self.displacement_old, self.displacement_am = self.displacement_am, self.displacement_new
+
+@ti.kernel
+def propagate_wave_rs(self, dt_rs: ti.f32):
+    """
+Propagate wave displacement using wave equation (PDE Solver).
+
+    Wave equation:
+    ∂²ψ/∂t² = c²∇²ψ
+    
+    Second-order in time (requires storing two previous timesteps)
+    Leap-Frog Numerical Method:
+    ψ_new = 2ψ_current - ψ_old + (c×dt/dx)² × ∇²ψ
+
+    This is a centered finite difference scheme, second-order accurate.
+    
+    Args:
+        dt_rs: Timestep in rontoseconds (scaled units)
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+    dt = dt_rs * constants.RONTOSECOND  # Convert to seconds
+    cfl_factor = (c * dt / (self.dx_am * constants.ATTOMETER))**2
+
+    for i, j, k in self.displacement_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Compute Laplacian (6-connectivity)
+            laplacian = (
+                self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
+                self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
+                self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
+                6.0 * self.displacement_am[i, j, k]
+            )
+
+            # Leap-frog update
+            self.displacement_new_am[i, j, k] = (
+                2.0 * self.displacement_am[i, j, k]
+                - self.displacement_old_am[i, j, k]
+                + cfl_factor * laplacian
+            )
+
+    # Swap time levels for next iteration
+    self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
+        self.displacement_am, self.displacement_new_am, self.displacement_old_am
+
+
+@ti.kernel
+def track_amplitude_envelope(self):
+    """
+    Track amplitude envelope by computing running maximum of |ψ|.
+
+    Amplitude A is the envelope of the high-frequency displacement oscillation.
+    Uses ti.atomic_max for thread-safe updates in parallel execution.
+    """
+    for i, j, k in self.displacement_am:
+        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+
+
+@ti.kernel
+def compute_wave_direction(self):
+    """
+    Compute wave propagation direction from energy flux.
+
+    Energy flux: S = -c² × ψ × ∇ψ
+    Direction: normalized S
+    """
+    c = ti.f32(constants.EWAVE_SPEED)
+
+    for i, j, k in self.displacement_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            psi = self.displacement_am[i, j, k]
+
+            # Amplitude gradient
+            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+            grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+            # Energy flux vector
+            S = -c**2 * psi * grad_psi
+            S_mag = S.norm()
+
+            if S_mag > 1e-12:
+                self.wave_direction[i,j,k] = S / S_mag
+            else:
+                self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
+
+def update_timestep(self, dt_rs: ti.f32):
+    """
+    Complete wave field update for one timestep.
+
+    Args:
+        dt_rs: Timestep in rontoseconds
+    """
+    # 1. Propagate wave displacement
+    self.propagate_wave_field(dt_rs)
+
+    # 2. Track amplitude envelope
+    self.track_amplitude_envelope()
+
+    # 3. Compute wave direction
+    self.compute_wave_direction()
+
+    # 4. Apply boundary conditions (handled by not updating boundaries in propagate)
 ```
 
 **Storage Requirements**:

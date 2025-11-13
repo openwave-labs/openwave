@@ -266,6 +266,42 @@ def compute_force_field_newtons(self):
             # Force in Newtons (MAP: toward lower amplitude)
             # F = -force_scale × A × ∇A
             self.force[i,j,k] = -force_scale * A_m * grad_vector  # N = kg⋅m/s²
+
+@ti.kernel
+    def compute_force_field_newtons(self):
+        """
+        Compute force from amplitude gradient (EWT frequency-based formulation).
+
+        Physics (Frequency-Based):
+        - Energy density: u = ρ(fA)² (EWT, no ½ factor)
+        - Force: F = -∇E = -∇(u×V) = -2ρVfA × [f∇A + A∇f]
+        - Monochromatic: F = -2ρVf² × A∇A (when ∇f = 0)
+
+        Force follows MAP (Minimum Amplitude Principle): particles move toward
+        regions of lower amplitude (envelope, not instantaneous ψ).
+        """
+        ρ = ti.f32(constants.MEDIUM_DENSITY)  # 3.860e22 kg/m³
+        f = ti.f32(constants.EWAVE_FREQUENCY) # 1.050e25 Hz
+        dx_m = self.dx_am * constants.ATTOMETER
+        V = dx_m**3
+
+        # Force scaling factor (EWT frequency-based formulation)
+        # F = -2ρVf² × A × ∇A  (monochromatic, ∇f = 0)
+        force_scale = 2.0 * ρ * V * f**2
+
+        for i, j, k in self.amplitude_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                A_m = self.amplitude_am[i,j,k] * constants.ATTOMETER
+
+                # Gradient in attometer space (better precision)
+                grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
+                grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
+                grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+                grad_vector = ti.Vector([grad_x, grad_y, grad_z])
+
+                # Force in Newtons (frequency-based formulation)
+                self.force[i,j,k] = -force_scale * A_m * grad_vector
 ```
 
 ### Force Direction Vector
