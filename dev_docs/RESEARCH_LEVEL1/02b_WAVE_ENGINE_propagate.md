@@ -33,8 +33,8 @@ Where:
 
 - `ψ` = wave displacement field (scalar)
 - `c` = wave propagation speed (speed of light, 2.998×10⁸ m/s)
-- `∇²ψ` = Laplacian operator (second-order spatial derivative)
-- `∂²ψ/∂t²` = second-order time derivative (acceleration of displacement)
+- `∇²ψ` = Laplacian operator (second-order spatial derivative, laplacian of psi)
+- `∂²ψ/∂t²` = second-order time derivative (acceleration of displacement, psi double-prime)
 
 **Physical Interpretation**:
 

@@ -14,7 +14,7 @@
    - [Phase (φ)](#phase-φ)
 1. [Vector Properties (Direction + Magnitude)](#vector-properties-direction--magnitude)
    - [Wave Propagation Direction](#wave-propagation-direction)
-   - [Amplitude Direction (Wave Mode)](#amplitude-direction-wave-mode)
+   - [Displacement Direction (Wave Mode)](#displacement-direction-wave-mode)
    - [Velocity (Granules/Particles Only)](#velocity-granulesparticles-only)
    - [Force](#force)
 1. [Field Storage in Taichi](#field-storage-in-taichi)
@@ -443,7 +443,7 @@ def design_wave_pattern(frequency):
 - Points toward energy flow direction
 - Orthogonal to wavefronts (for isotropic media)
 
-### Amplitude Direction (Wave Mode)
+### Displacement Direction (Wave Mode)
 
 **Direction of Displacement/Oscillation**:
 
