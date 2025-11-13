@@ -51,19 +51,21 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - WAVE-SPEED (c): constant by medium property, has direction of propagation
 - WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
 
-### Wave Form
+### Wave Character
 
 - WAVE-MODE: longitudinal, transverse (polarization)
 - WAVE-TYPE: standing, traveling
 
 ### Wave Rhythm
 
-- FREQUENCY (f): c / λ (can change)
-- PERIOD (T): 1/f
+- WAVE-FREQUENCY (f): c / λ (can change)
   - TIME =  the wave's frequency, rhythm
+- WAVE-PERIOD (T): 1/f
+- WAVE-PHASE:
 
 ### Wave Size
 
+- WAVE-DISPLACEMENT: propagated individual motion
 - WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
 - WAVE-LENGTH (λ): c / f (changes when moving particle, doppler)
 
@@ -947,3 +949,424 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 | **Forces** | Inter-granule forces | Computed from gradients |
 
 **Key Difference**: LEVEL-1 stores properties directly at fixed grid locations, while LEVEL-0 computes from moving particles.
+
+## Wave Terminology
+
+This section documents the standardized terminology used throughout OpenWave for describing wave properties, with particular attention to how OpenWave extends standard physics terminology.
+
+### Standard Physics Terminology
+
+#### 1. Wave Mode (Polarization)
+
+**Definition**: Relationship between displacement direction and wave propagation direction.
+
+**Standard Physics Usage**:
+
+- **Longitudinal wave**: Displacement parallel to propagation (compression/rarefaction)
+  - Examples: Sound waves, seismic P-waves
+  - Pattern: Compression → rarefaction → compression
+  - Medium particles oscillate along direction of wave travel
+
+- **Transverse wave**: Displacement perpendicular to propagation
+  - Examples: Light, EM waves, water surface waves, guitar strings
+  - Pattern: Peaks and troughs perpendicular to motion
+  - Medium particles oscillate perpendicular to direction of wave travel
+
+**Physics Literature**: "Wave mode" primarily refers to polarization (longitudinal/transverse), though it can also refer to standing wave patterns (fundamental mode, 2nd mode, etc.). In OpenWave, "wave mode" always means polarization.
+
+#### 2. Wave Type (Energy Transport)
+
+**Definition**: Whether wave energy moves through space.
+
+**Standard Physics Usage**:
+
+- **Traveling wave**: Pattern moves through space, transports energy
+  - Mathematical form: `ψ(x,t) = A sin(kx - ωt)` (pattern moves at velocity c)
+  - Net energy flux present: `<S> ≠ 0`
+  - Nodes and antinodes move with wave
+
+- **Standing wave**: Pattern stationary in space, no net energy transport
+  - Mathematical form: `ψ(x,t) = A sin(kx) cos(ωt)` (spatial pattern fixed)
+  - No net energy flux on average: `<S> = 0`
+  - Nodes (zero displacement) and antinodes (max displacement) remain fixed
+  - Formed by interference of two identical waves traveling in opposite directions
+
+**Physics Literature**: Also called "stationary wave" for standing waves.
+
+#### 3. Other Standard Wave Classifications
+
+**Wave Classification by Medium**:
+
+- **Mechanical waves**: Require medium (sound, water waves, seismic)
+- **Electromagnetic waves**: No medium required (light, radio, X-rays)
+- **Matter waves**: Quantum mechanical (de Broglie waves)
+
+**Wave Form/Shape** (Signal Processing):
+
+- Describes temporal/spatial profile of the wave
+- Examples: sine, square, triangle, sawtooth
+- Used primarily in electronics, acoustics, signal processing
+- Not a primary classification in wave physics
+
+**Wave Pattern**:
+
+- General term for spatial distribution
+- Examples: "interference pattern," "standing wave pattern," "diffraction pattern"
+- Too vague for precise technical use - prefer specific terms
+
+**Wave State**:
+
+- Not standard physics terminology
+- Could mean: instantaneous configuration, superposition state, quantum state
+- Avoid unless clearly defined in context
+
+### OpenWave-Specific Terminology
+
+OpenWave extends standard physics terminology with continuous measurements and specific physical interpretations.
+
+#### 1. Wave Mode (OpenWave Extension)
+
+**OpenWave Implementation**: Continuous scalar field `wave_mode[i,j,k]` ranging `[0, 1]`
+
+```python
+wave_mode[i,j,k] = continuous value [0, 1]
+
+# Values:
+1.0  # Pure longitudinal (displacement ∥ propagation)
+0.8  # Mostly longitudinal (80% longitudinal, 20% transverse)
+0.5  # Mixed (equal longitudinal and transverse components)
+0.2  # Mostly transverse (20% longitudinal, 80% transverse)
+0.0  # Pure transverse (displacement ⊥ propagation)
+```
+
+**Measurement Method**:
+
+```python
+# Compute wave_mode from field data
+wave_mode = |k̂ · û|
+
+where:
+k̂ = wave propagation direction (from energy flux S)
+û = displacement direction (from gradient ∇ψ)
+· = dot product
+```
+
+**Physical Interpretation**:
+
+- Measures how aligned displacement is with propagation
+- Handles mixed/intermediate polarization states
+- Reflects realistic wave superposition (not just binary states)
+
+**Standard vs OpenWave**:
+
+- **Standard Physics**: Binary choice (longitudinal OR transverse)
+- **OpenWave**: Continuous spectrum allowing mixed states
+
+#### 2. Wave Type (OpenWave Extension)
+
+**OpenWave Implementation**: Continuous scalar field `wave_type[i,j,k]` ranging `[0, 1]`
+
+```python
+wave_type[i,j,k] = continuous value [0, 1]
+
+# Values:
+0.0  # Pure standing (nodes completely fixed)
+0.3  # Mostly standing (weak energy flux)
+0.5  # Quasi-standing (intermediate)
+0.7  # Mostly traveling (strong energy flux)
+1.0  # Pure traveling (free wave propagation)
+```
+
+**Measurement Method**:
+
+```python
+# Energy-based detection
+# Standing waves: E_kinetic and E_potential oscillate 90° out of phase
+# Traveling waves: E_kinetic = E_potential at all times
+
+wave_type = f(E_kinetic / E_potential ratio, energy_flux)
+```
+
+**Physical Interpretation**:
+
+- Measures degree of energy transport vs oscillation
+- Accounts for partial standing wave behavior
+- Near particle boundaries: gradual transition from traveling to standing
+
+**Standard vs OpenWave**:
+
+- **Standard Physics**: Binary distinction (standing OR traveling)
+- **OpenWave**: Continuous spectrum for transitional states
+
+#### 3. Wave Classification (4-Category System)
+
+**Unique Feature**: Combined mode + type creates 4 fundamental physics categories
+
+| Class | Mode | Type | wave_mode | wave_type | Physical Meaning |
+|-------|------|------|-----------|-----------|------------------|
+| **1** | Longitudinal | Traveling | > 0.7 | > 0.7 | **Gravitational radiation** (expanding gravity waves) |
+| **2** | Longitudinal | Standing | > 0.7 | < 0.3 | **Particle mass** (trapped energy in standing pattern) |
+| **3** | Transverse | Traveling | < 0.3 | > 0.7 | **EM radiation** (light, photons from accelerating charges) |
+| **4** | Transverse | Standing | < 0.3 | < 0.3 | **Electron orbitals** (orbital structure, hypothesized) |
+| **0** | Mixed | Mixed | intermediate | intermediate | **Transitional/mixed** (boundary regions) |
+
+**Implementation Pattern**:
+
+```python
+# Classify wave based on mode and type
+mode = wave_mode[i,j,k]   # 0=transverse, 1=longitudinal
+wtype = wave_type[i,j,k]  # 0=standing, 1=traveling
+
+if mode > 0.7 and wtype > 0.7:
+    wave_class = 1  # Longitudinal traveling (gravity waves)
+elif mode > 0.7 and wtype < 0.3:
+    wave_class = 2  # Longitudinal standing (particle mass)
+elif mode < 0.3 and wtype > 0.7:
+    wave_class = 3  # Transverse traveling (EM radiation)
+elif mode < 0.3 and wtype < 0.3:
+    wave_class = 4  # Transverse standing (electron orbitals)
+else:
+    wave_class = 0  # Mixed/transitional
+```
+
+**Physical Context**:
+
+This classification system reflects fundamental EWT physics:
+
+1. **Gravitational radiation**: Longitudinal traveling waves expanding from particle motion
+2. **Particle mass**: Longitudinal standing waves trapped around wave centers (reflective voxels)
+3. **EM radiation**: Transverse traveling waves from accelerating charges
+4. **Electron orbitals**: Transverse standing waves in orbital configurations
+
+**Standard vs OpenWave**:
+
+- **Standard Physics**: No equivalent combined classification system
+- **OpenWave**: Unique physics model linking wave character to physical phenomena
+
+#### 4. Wave Component Decomposition (Mixed States)
+
+**OpenWave Feature**: A single voxel can carry BOTH longitudinal and transverse components simultaneously.
+
+**Component Fields**:
+
+```python
+# Longitudinal component (parallel to propagation)
+u_longitudinal = (u · k̂) k̂          # Projection onto propagation direction
+longitudinal_amplitude[i,j,k]        # Magnitude
+longitudinal_fraction[i,j,k]         # Energy fraction [0,1]
+
+# Transverse component (perpendicular to propagation)
+u_transverse = u - u_longitudinal    # Perpendicular projection
+transverse_amplitude[i,j,k]          # Magnitude
+transverse_fraction[i,j,k]           # Energy fraction [0,1]
+```
+
+**When This Occurs**:
+
+- Wave interference (multiple sources with different propagation directions)
+- Near particle boundaries (incident + reflected wave mixing)
+- Spherical waves (radial propagation with tangential oscillations)
+- EM wave generation from electrons (energy transformation)
+
+**Physical Interpretation**:
+
+- Total displacement = longitudinal + transverse components
+- Energy distribution: `E_long + E_trans = E_total`
+- Allows realistic modeling of complex wave superposition
+
+#### 5.Wave Character
+
+**Term Definition**: "Wave character" describes the fundamental nature of a wave through its mode (polarization) and type (energy transport).
+
+**Usage in OpenWave**:
+
+```text
+### Wave Character
+
+- WAVE-MODE: longitudinal, transverse (polarization)
+- WAVE-TYPE: standing, traveling (energy transport)
+```
+
+**Why "Character"**:
+
+- ✓ Concise (shorter than "characteristics")
+- ✓ Descriptive (captures "essential nature/quality")
+- ✓ Physics-appropriate (common in wave physics literature)
+- ✓ Singular form (groups mode+type as aspects of overall wave character)
+- ✓ Distinct from "Classification" (avoids confusion with 4-category system)
+
+**Example Usage**: "What's the character of this wave?" → "It's longitudinal and traveling (gravitational radiation)"
+
+**Alternative Terms Considered**:
+
+- **Wave Classes**: Could confuse with 4-category classification system
+- **Wave Characteristics**: Too verbose
+- **Wave Profile**: Conflicts with standard usage (spatial/temporal shape)
+- **Wave Categories**: Implies discrete bins (OpenWave uses continuous [0,1])
+- **Wave Properties**: Too broad (already used for top-level section)
+
+### Wave Profiling (Diagnostic Tool)
+
+**Definition**: Comprehensive diagnostic function that measures all wave properties at a point or region.
+
+**Purpose**: Analysis and measurement tool (NOT a property category)
+
+**Conceptual Function**:
+
+```python
+def wave_profiling(field, position):
+    """
+    Comprehensive wave diagnostics tool.
+
+    Measures all wave properties at specified location:
+
+    Wave Character:
+    - mode: longitudinal/transverse fraction [0,1]
+    - type: standing/traveling fraction [0,1]
+    - classification: category (1-4 or 0 for mixed)
+
+    Wave Rhythm:
+    - frequency (f): measured in Hz (PRIMARY property)
+    - period (T): 1/f in seconds
+
+    Wave Size:
+    - amplitude (A): envelope magnitude in meters
+    - wavelength (λ): c/f in meters (DERIVED from frequency)
+
+    Wave Energy:
+    - energy_density (u): ρ(fA)² in J/m³
+    - energy_flux (S): Poynting-like vector in W/m²
+
+    Wave Direction:
+    - propagation_direction (k̂): unit vector
+    - displacement_direction (û): unit vector
+
+    Wave Phase:
+    - phase (φ): position in wave cycle (radians)
+
+    Returns:
+        WaveProfile: dataclass containing all measured properties
+    """
+    pass
+```
+
+**Why "Wave Profiling"**:
+
+- ✓ "Profiling" implies measurement/analysis (performance profiling analogy)
+- ✓ Diagnostic connotation (gathering detailed information)
+- ✓ Returns comprehensive "profile" of wave properties
+- ✓ Distinct from "wave character" (which is just mode+type)
+
+**Not Confused With**:
+
+- **Wave profile** (standard physics): Spatial/temporal shape (Gaussian profile, exponential profile)
+- **Wave character**: Categorical description (mode+type only)
+
+**Usage Pattern**:
+
+```python
+# Diagnostic analysis at detector position
+profile = wave_profiling(field, detector_position)
+
+print(f"Wave Character: {profile.mode_name} + {profile.type_name}")
+print(f"Classification: Class {profile.classification} ({profile.physics_meaning})")
+print(f"Frequency: {profile.frequency:.3e} Hz")
+print(f"Wavelength: {profile.wavelength:.3e} m")
+print(f"Amplitude: {profile.amplitude:.3e} m")
+print(f"Energy Density: {profile.energy_density:.3e} J/m³")
+print(f"Propagation: {profile.propagation_direction}")
+```
+
+### Terminology Hierarchy (Complete)
+
+```text
+Wave Properties (Top-Level Category)
+├── Wave Medium
+│   ├── Density (ρ)
+│   ├── Wave speed (c)
+│   └── Wave sources
+├── Wave Character ← Fundamental nature
+│   ├── Wave mode (longitudinal/transverse)
+│   └── Wave type (standing/traveling)
+├── Wave Classification ← 4-category system (derived from character)
+│   ├── Class 1: Longitudinal + Traveling → Gravitational radiation
+│   ├── Class 2: Longitudinal + Standing → Particle mass
+│   ├── Class 3: Transverse + Traveling → EM radiation
+│   └── Class 4: Transverse + Standing → Electron orbitals
+├── Wave Rhythm
+│   ├── Wave Frequency (f) - PRIMARY property
+│   └── Wave Period (T)
+│   └── Wave Phase (φ)
+├── Wave Size
+│   ├── Wave Displacement (ψ)
+│   ├── Wave Amplitude (A)
+│   └── Wave Length (λ) - DERIVED from frequency
+├── Wave Energy
+│   ├── Energy density (u)
+│   └── Total energy (E)
+└── Wave Interaction
+    ├── Reflection
+    └── Interference
+
+Wave Profiling ← Diagnostic tool (measures all above properties)
+└── Returns: WaveProfile dataclass with comprehensive wave information
+```
+
+### Terminology Best Practices
+
+**Use "Wave Character" when**:
+
+- Describing fundamental wave nature (mode + type)
+- Categorizing wave properties
+- Organizing documentation sections
+
+**Use "Wave Classification" when**:
+
+- Referring to 4-category physics system
+- Discussing physical phenomena (gravity, mass, EM, orbitals)
+- Computing wave_class from mode+type
+
+**Use "Wave Profiling" when**:
+
+- Implementing diagnostic/measurement functions
+- Comprehensive wave analysis at a point
+- Returning multiple wave properties simultaneously
+
+**Avoid**:
+
+- "Wave profile" for character/classification (conflicts with shape/distribution)
+- "Wave state" (not standard, ambiguous)
+- "Wave pattern" without qualifier (too vague - use "interference pattern," "standing wave pattern," etc.)
+- "Wave classes" in contexts where it could confuse with classification system
+
+### Comparison: Standard Physics vs OpenWave
+
+| Term | Standard Physics | OpenWave Extension | Key Difference |
+|------|-----------------|---------------|----------------|
+| **Wave Mode** | Binary (longitudinal OR transverse) | Continuous [0,1] (allows mixed) | OpenWave handles superposition |
+| **Wave Type** | Binary (standing OR traveling) | Continuous [0,1] (allows quasi-standing) | OpenWave handles transitions |
+| **Wave Classification** | By medium (mechanical, EM, etc.) | 4 physics categories (mode+type) | OpenWave-specific system |
+| **Wave Character** | Not standard term | Mode + Type grouped | OpenWave organizational term |
+| **Wave Profiling** | Not specific term | Diagnostic tool | OpenWave measurement function |
+| **Component Decomposition** | Sometimes used | Standard feature in OpenWave | Mixed polarization states |
+
+### Summary
+
+**Key Terminology Decisions**:
+
+1. **"Wave Character"** = Wave mode + wave type (fundamental nature)
+2. **"Wave Classification"** = 4-category physics system (derived from character)
+3. **"Wave Profiling"** = Diagnostic measurement tool (analyzes all properties)
+
+**OpenWave Innovation**:
+
+- Continuous wave_mode and wave_type fields [0,1] instead of binary
+- Physically realistic for complex wave superposition
+- 4-category classification linking wave character to physical phenomena
+
+**Reserved Terms**:
+
+- **"Wave profile"**: Spatial/temporal shape (Gaussian, exponential, etc.)
+- **"Wave pattern"**: General spatial distribution (use with qualifier)
+- **"Frequency (f)"**: PRIMARY measured property (not wavelength)
+- **"Wavelength (λ)"**: DERIVED from frequency (λ = c/f)
