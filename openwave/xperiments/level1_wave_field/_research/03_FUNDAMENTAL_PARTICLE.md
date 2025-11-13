@@ -132,7 +132,7 @@ def apply_wave_center_reflection(xc: ti.f32, yc: ti.f32, zc: ti.f32):
 - Determines particle structure (size, shape)
 - Different particles have different near-field patterns
 
-**For particle motion dynamics**, see [`06_FORCE_MOTION.md` - Particle Motion from Forces](./06_FORCE_MOTION.md#particle-motion-from-forces)
+**For particle motion dynamics**, see [`04_FORCE_MOTION.md` - Particle Motion from Forces](./04_FORCE_MOTION.md#particle-motion-from-forces)
 
 ### Near-Field vs Far-Field
 
@@ -310,6 +310,6 @@ def apply_particle_boundaries():
 
 **Related Documentation**:
 
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation and reflection at wave centers
-- [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md) - Particle motion dynamics and force calculations
-- [`04_VISUALIZATION.md`](./04_VISUALIZATION.md) - Visualizing particles and wave centers
+- [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave propagation and reflection at wave centers
+- [`04_FORCE_MOTION.md`](./04_FORCE_MOTION.md) - Particle motion dynamics and force calculations
+- [`07_VISUALIZATION.md`](./07_VISUALIZATION.md) - Visualizing particles and wave centers

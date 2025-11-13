@@ -18,6 +18,16 @@
 1. [Wave Mode: Longitudinal vs Transverse](#wave-mode-longitudinal-vs-transverse)
 1. [Wave Decomposition: Separating Longitudinal and Transverse Components](#wave-decomposition-separating-longitudinal-and-transverse-components)
 1. [Wave Type: Standing vs Traveling](#wave-type-standing-vs-traveling)
+   - [Fundamental Concept](#fundamental-concept)
+   - [Wave Patterns](#wave-patterns)
+   - [Mathematical Definition](#mathematical-definition)
+   - [Better Method - Energy Flux Analysis](#better-method---energy-flux-analysis)
+   - [Implementation](#implementation)
+   - [Alternative Method - Node Motion Detection](#alternative-method---node-motion-detection)
+   - [Physical Interpretation](#physical-interpretation)
+   - [Storage](#storage)
+   - [Combined Analysis](#combined-analysis)
+   - [Summary Table](#summary-table)
 1. [Wavelength and Frequency Variation in the Medium](#wavelength-and-frequency-variation-in-the-medium)
 1. [Wave Direction Computation](#wave-direction-computation)
 1. [The Complete Picture](#the-complete-picture)
@@ -506,6 +516,46 @@ Wave type is determined by whether the wave **moves through space**:
 - **Standing wave**: Energy stationary, nodes fixed (wave velocity = 0)
 - **Quasi-standing**: Slow-moving pattern (wave velocity ≈ 0)
 
+### Wave Patterns
+
+**Standing Wave Pattern**:
+
+```text
+ψ(x,t) = A sin(kx) cos(ωt)
+
+where:
+- Spatial pattern sin(kx) is fixed in space
+- Temporal oscillation cos(ωt) varies in time
+- Nodes at: x = nλ/2 (n = 0, 1, 2, ...)
+- Antinodes at: x = (n + 1/2)λ/2
+```
+
+**Characteristics**:
+
+- Nodes: Points of zero amplitude (destructive interference)
+- Antinodes: Points of maximum amplitude (constructive interference)
+- Fixed spatial pattern, oscillates in time
+- Forms around wave centers (particles) and between reflecting boundaries
+- Requires two waves with same frequency traveling in opposite directions
+
+**Traveling Wave Pattern**:
+
+```text
+ψ(x,t) = A sin(kx - ωt)
+
+where:
+- Pattern moves through space at velocity v = ω/k = c
+- Both spatial and temporal variations coupled
+- Wavelength λ and frequency f related by: c = fλ
+```
+
+**Characteristics**:
+
+- Moves through space at constant speed c
+- Carries energy from source to distant regions
+- Natural result of wave equation propagation
+- No fixed nodes (nodes move with wave)
+
 ### Mathematical Definition
 
 ```text
@@ -689,48 +739,6 @@ def analyze_wave_characteristics(self):
 | **Energy flux** | Along k̂ direction | Perpendicular components | <S> = 0 | <S> ≠ 0 |
 | **EWT example** | Gravity waves | EM waves (from electron) | Particle interior | Propagating radiation |
 | **Field storage** | `wave_mode[i,j,k]` | `wave_mode[i,j,k]` | `wave_type[i,j,k]` | `wave_type[i,j,k]` |
-
-## CLAUDE REVIEW: old content
-
-### Standing Waves
-
-**Standing Waves**: Form from interference of counter-propagating waves.
-
-**Characteristics**:
-
-- Nodes: Points of zero amplitude (destructive interference)
-- Antinodes: Points of maximum amplitude (constructive interference)
-- Fixed spatial pattern, oscillates in time
-- Forms around wave centers (particles)
-
-**Condition**:
-
-- Two waves with same frequency traveling in opposite directions
-- Typical near reflecting boundaries or between wave centers
-
-**Pattern**:
-
-```text
-ψ(x,t) = A sin(kx) cos(ωt)
-```
-
-Nodes at: `x = nλ/2` (n = 0, 1, 2, ...)
-
-### Traveling Waves
-
-**Traveling Waves**: Propagate through medium with constant speed.
-
-**Characteristics**:
-
-- Move through space: `ψ(x,t) = A sin(kx - ωt)`
-- Carry energy from source to distant regions
-- Wavelength λ and frequency f related by: `c = fλ`
-
-**Implementation**:
-
-- Natural result of wave equation propagation
-- Source Charges energy with specific frequency
-- Wave propagates outward at speed c
 
 ## Wavelength and Frequency Variation in the Medium
 
@@ -1451,7 +1459,7 @@ for step in range(simulation_steps):
     # 1. Update wave field
     wave_field.update_timestep(dt)
 
-    # 2. Update particles (see 05_MATTER.md)
+    # 2. Update particles (see 03_FUNDAMENTAL_PARTICLE.md and 05_MATTER.md)
     particles.update_positions(wave_field.force, dt)
 
     # 3. Apply particle reflections to field
@@ -1466,8 +1474,11 @@ for step in range(simulation_steps):
 
 **Related Documentation**:
 
-- [`01_WAVE_FIELD.md`](./01_WAVE_FIELD.md) - Field architecture and indexing
-- [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - WaveField class definition
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Complete wave engine details
-- [`05_MATTER.md`](./05_MATTER.md) - Particle dynamics and interactions
-- [`06_FORCE_MOTION.md`](./06_FORCE_MOTION.md) - Force types and motion equations
+- [`01a_WAVE_FIELD_grid.md`](./01a_WAVE_FIELD_grid.md) - Field architecture and indexing
+- [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - WaveField class definition
+- [`02a_WAVE_ENGINE_charge.md`](./02a_WAVE_ENGINE_charge.md) - Energy charging methods
+- [`02b_WAVE_ENGINE_propagate.md`](./02b_WAVE_ENGINE_propagate.md) - Wave propagation details
+- [`02c_WAVE_ENGINE_interact.md`](./02c_WAVE_ENGINE_interact.md) - Wave interactions and boundaries
+- [`03_FUNDAMENTAL_PARTICLE.md`](./03_FUNDAMENTAL_PARTICLE.md) - Wave centers and particles
+- [`04_FORCE_MOTION.md`](./04_FORCE_MOTION.md) - Force types and motion equations
+- [`05_MATTER.md`](./05_MATTER.md) - Composite particles and interactions

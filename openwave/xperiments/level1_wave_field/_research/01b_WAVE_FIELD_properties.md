@@ -602,7 +602,10 @@ class WaveField:
         self.domain_size_m = [nx * self.dx_m, ny * self.dx_m, nz * self.dx_m]  # Can differ per axis
 
         # SCALAR FIELDS (values in attometers where applicable)
-        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (instantaneous ψ)
+        # Wave equation fields (leap-frog scheme requires three time levels)
+        self.displacement_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
+        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t, instantaneous)
+        self.displacement_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
         self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (envelope A = max|ψ|)
         self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
 
@@ -716,60 +719,93 @@ class WaveField:
                 ) / (self.dx_am * self.dx_am)
 
                 output[i, j, k] = laplacian
-```
-
-### CLAUDE REVIEW: old content WaveField Class Methods
-
-```python
-@ti.data_oriented
-class WaveField:
-    """Complete wave field with force calculation."""
-
-    def __init__(self, nx, ny, nz, wavelength_m, points_per_wavelength=40):
-        # ... initialization with attometer scaling ...
-
-        # Three amplitude fields for wave equation (leap-frog)
-        self.amplitude_old = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-        self.amplitude_new = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-
-        # Wave direction (computed from energy flux)
-        self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
-
-        # Force field (in Newtons)
-        self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 
     @ti.kernel
-    def propagate_wave_field(self, dt: ti.f32):
-        """PDE-based wave propagation."""
-        # See Answer 2
-        pass
+    def propagate_wave_field(self, dt_rs: ti.f32):
+        """
+        Propagate wave field using leap-frog scheme (PDE-based).
+
+        Wave equation: ∂²ψ/∂t² = c²∇²ψ
+        Leap-frog: ψ_new = 2ψ - ψ_old + (c*dt/dx)²∇²ψ
+
+        Args:
+            dt_rs: Timestep in rontoseconds (scaled units)
+        """
+        c = ti.f32(constants.EWAVE_SPEED)
+        dt = dt_rs * constants.RONTOSECOND  # Convert to seconds
+        cfl_factor = (c * dt / (self.dx_am * constants.ATTOMETER))**2
+
+        for i, j, k in self.displacement_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                # Compute Laplacian (6-connectivity)
+                laplacian = (
+                    self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
+                    self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
+                    self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
+                    6.0 * self.displacement_am[i, j, k]
+                )
+
+                # Leap-frog update
+                self.displacement_new_am[i, j, k] = (
+                    2.0 * self.displacement_am[i, j, k]
+                    - self.displacement_old_am[i, j, k]
+                    + cfl_factor * laplacian
+                )
+
+        # Swap time levels for next iteration
+        self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
+            self.displacement_am, self.displacement_new_am, self.displacement_old_am
 
     @ti.kernel
     def compute_wave_direction(self):
-        """Compute direction from energy flux."""
-        # See Answer 4
-        pass
+        """
+        Compute wave propagation direction from energy flux.
 
-    @ti.kernel
-    def compute_force_field_newtons(self):
-        """Compute force in Newtons from amplitude gradient (EWT)."""
-        # See Answer 1
-        pass
+        Energy flux: S = -c² × ψ × ∇ψ
+        Direction: normalized S
+        """
+        c = ti.f32(constants.EWAVE_SPEED)
 
-    def update_timestep(self, dt):
-        """Complete wave field update for one timestep."""
-        # 1. Propagate wave amplitude
-        self.propagate_wave_field(dt)
+        for i, j, k in self.displacement_am:
+            if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+                psi = self.displacement_am[i, j, k]
 
-        # 2. Compute wave direction
+                # Amplitude gradient
+                grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
+                grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
+                grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+
+                grad_psi = ti.Vector([grad_x, grad_y, grad_z])
+
+                # Energy flux vector
+                S = -c**2 * psi * grad_psi
+                S_mag = S.norm()
+
+                if S_mag > 1e-12:
+                    self.wave_direction[i,j,k] = S / S_mag
+                else:
+                    self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
+
+    def update_timestep(self, dt_rs: ti.f32):
+        """
+        Complete wave field update for one timestep.
+
+        Args:
+            dt_rs: Timestep in rontoseconds
+        """
+        # 1. Propagate wave displacement
+        self.propagate_wave_field(dt_rs)
+
+        # 2. Track amplitude envelope
+        self.track_amplitude_envelope()
+
+        # 3. Compute wave direction
         self.compute_wave_direction()
 
-        # 3. Compute force field
+        # 4. Compute force field
         self.compute_force_field_newtons()
 
-        # 4. Apply boundary conditions
-        self.apply_boundary_conditions()
+        # 5. Apply boundary conditions (handled by not updating boundaries in propagate)
 ```
 
 ### Initialization Comparison: LEVEL-0 vs LEVEL-1

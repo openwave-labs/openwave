@@ -1,5 +1,11 @@
 # Wave Interaction (Reflection & Superposition)
 
+## Table of Contents
+
+1. [Boundary Reflection](#boundary-reflection)
+   - [Detailed Reflection](#detailed-reflection)
+1. [Wave Superposition](#wave-superposition)
+
 ## Boundary Reflection
 
 Boundary walls emulate all matter in the universe reflecting the energy waves.

@@ -1,5 +1,22 @@
 # The Classical Wave Equation
 
+## Table of Contents
+
+1. [The Classical Wave Equation](#the-classical-wave-equation)
+1. [Laplacian Operator (How Voxels Share Displacement)](#laplacian-operator-how-voxels-share-displacement)
+1. [Time Evolution Implementation](#time-evolution-implementation)
+   - [Timestep Strategy: Fixed vs Elapsed Time](#timestep-strategy-fixed-vs-elapsed-time)
+1. [Alternative: Huygens Wavelets](#alternative-huygens-wavelets)
+1. [Choosing Between PDE and Huygens](#choosing-between-pde-and-huygens)
+   - [Should We Choose One or Use Both?](#should-we-choose-one-or-use-both)
+   - [Comparison Table](#comparison-table)
+   - [Performance Analysis](#performance-analysis)
+   - [Pros & Cons Summary](#pros--cons-summary)
+   - [Recommended](#recommended)
+1. [Key Physics Principles](#key-physics-principles)
+   - [Energy Conservation](#energy-conservation)
+   - [Amplitude Dilution](#amplitude-dilution)
+
 LEVEL-1 uses **PDEs (Partial Differential Equations)** to propagate waves through the field.
 
 **3D Wave Equation** (fundamental):
@@ -363,106 +380,6 @@ For 100³ = 1M voxels:
 - Complex geometries with curved boundaries
 - Directional wave sources with specific emission patterns
 - Adaptive mesh refinement (not relevant for LEVEL-1)
-
-## CLAUDE REVIEW: Old Propagation Mechanics
-
-Each voxel propagates its wave properties to neighboring voxels through a weighted coupling scheme:
-
-**Core Mechanism**:
-
-- Each voxel shares amplitude/energy with neighbors
-- Direction vector determines weighted distribution
-- Maintains equilibrium by exchanging excess amplitude while receiving from neighbors
-- Governed by wave equation PDEs
-
-**Time Evolution**:
-
-```python
-# Simplified wave equation update (2nd order in time)
-# ∂²ψ/∂t² = c² ∇²ψ
-
-amplitude_new[i,j,k] = (
-    2 * displacement[i,j,k]
-    - amplitude_old[i,j,k]
-    + (c * dt / dx)² * laplacian[i,j,k]
-)
-```
-
-### Neighbor Connectivity
-
-Voxel `[i,j,k]` couples to neighbors based on distance and connectivity mode.
-
-**For detailed neighbor classification and weighting**, see [`01_WAVE_FIELD.md` - Voxel Neighbor Connectivity](./01_WAVE_FIELD.md#voxel-neighbor-connectivity)
-
-**Summary**:
-
-- **6-connectivity**: Face neighbors only (distance = dx)
-- **18-connectivity**: Face + edge neighbors
-- **26-connectivity**: All neighbors (maximum accuracy)
-
-**Distance-Based Coupling Weights**:
-
-- Face: `w = 1.0`
-- Edge: `w ≈ 0.707` (1/√2)
-- Corner: `w ≈ 0.577` (1/√3)
-
-### PDEs and Wave Equations
-
-The wave engine solves partial differential equations that govern wave behavior:
-
-**Classical Wave Equation** (scalar field):
-
-```test
-∂²ψ/∂t² = c² ∇²ψ
-```
-
-Where:
-
-- `ψ` = wave amplitude field
-- `c` = wave propagation speed
-- `∇²` = Laplacian operator (spatial derivatives)
-
-**Laplacian in 3D** (6-connectivity):
-
-```python
-laplacian[i,j,k] = (
-    displacement[i+1,j,k] + displacement[i-1,j,k] +
-    displacement[i,j+1,k] + displacement[i,j-1,k] +
-    displacement[i,j,k+1] + displacement[i,j,k-1] -
-    6.0 * displacement[i,j,k]
-) / (dx * dx)
-```
-
-**Extended for Vector Fields** (for transverse waves):
-
-- Separate equations for each component of amplitude direction
-- Coupling between components for polarization effects
-
-### Huygens Wavelets
-
-Huygens' principle: Each point on a wavefront acts as a source of secondary wavelets.
-
-**Implementation**:
-
-- Each voxel with non-zero amplitude emits wavelets to neighbors
-- Wavelets propagate spherically from each voxel
-- Superposition of all wavelets determines new wavefront
-- Direction vector determines wavelet weighting to neighbors
-
-**Wavelet Contribution**:
-
-```python
-# From voxel [i,j,k] to neighbor [i+di, j+dj, k+dk]
-distance = sqrt(di² + dj² + dk²) * dx
-weight = 1.0 / distance  # Inverse distance weighting
-wavelet_contribution = displacement[i,j,k] * weight * directional_factor
-```
-
-**Directional Factor**:
-
-- Determined by propagation direction vector
-- Anisotropic propagation for non-isotropic waves
-- For isotropic waves: uniform in all directions
 
 ## Key Physics Principles
 

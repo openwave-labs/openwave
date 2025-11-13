@@ -1,5 +1,17 @@
 # Initial Energy Charging
 
+## Table of Contents
+
+1. [Match EWT Energy Equation](#match-ewt-energy-equation)
+1. [Charge Energy Wave](#charge-energy-wave)
+1. [Implementation - Option 1: Uniform Energy Density (Simplest)](#implementation---option-1-uniform-energy-density-simplest)
+1. [Implementation - Option 2: Spherical Gaussian Wave Pulse (Recommended)](#implementation---option-2-spherical-gaussian-wave-pulse-recommended)
+1. [Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)](#implementation---option-3-wolffs-spherical-wave-for-future-particle-implementation)
+1. [Usage Example (Implementing Phase 1: Center-Concentrated Pulse)](#usage-example-implementing-phase-1-center-concentrated-pulse)
+1. [Advanced Technique: Multiple Pulses for Precision](#advanced-technique-multiple-pulses-for-precision)
+1. [Recommendation](#recommendation)
+1. [Wave Evolution](#wave-evolution)
+
 ## Match EWT Energy Equation
 
 **Context**: When initializing the wave field, we need to charge it with the correct amount of energy as specified by the EWT energy wave equation from `equations.py`.
@@ -292,15 +304,44 @@ However, single pulse is usually sufficient and simpler.
 
 ## Wave Evolution
 
-**Steady-State Characteristics**:
+After initial energy charge, the wave field requires a **stabilization period** before reaching steady-state dynamics.
 
-```text
-After stabilization, the field exhibits:
-- Waves coming from all directions (not just sources)
-- Complex interference patterns throughout domain
-- Energy density distributed (not localized)
-- Dynamic equilibrium (total energy constant)
-```
+**Stabilization Process**:
+
+1. **Initial State** (t = 0):
+   - Energy concentrated at charge points/regions
+   - Clear propagation direction from sources
+   - No interference patterns yet
+
+2. **Early Propagation** (t = 0 to t_stab):
+   - Waves propagate outward from sources at speed c
+   - First reflections from boundaries
+   - Initial interference patterns begin to form
+
+3. **Stabilization Time Calculation**:
+
+   ```python
+   # Time for wave to cross domain and reflect back
+   domain_size = max(nx*dx, ny*dx, nz*dx)
+   t_stabilization = 2 * domain_size / c  # Round trip time
+
+   # Run simulation without particle updates during stabilization
+   for step in range(int(t_stabilization / dt)):
+       propagate_wave_field(dt)  # No particle forces yet
+   ```
+
+4. **Steady-State** (t > t_stab):
+   - Waves coming from all directions (not just sources)
+   - Complex interference patterns throughout domain
+   - Energy density distributed (not localized)
+   - Dynamic equilibrium (total energy constant)
+
+**Why Stabilization is Needed**:
+
+- Prevents artificial transients from affecting particle motion
+- Allows interference patterns to form naturally
+- Ensures energy distribution reaches quasi-equilibrium
+- Provides realistic initial conditions for particle dynamics
 
 **Visual Description**:
 
@@ -325,139 +366,3 @@ def verify_energy_conservation() -> ti.f32:
 # Should match E_total_Charged (within numerical tolerance)
 assert abs(verify_energy_conservation() - E_total_Charge) < tolerance
 ```
-
-## CLAUDE REVIEW: Old Content for Energy Wave Initial Charge
-
-### Initial Energy Requirement
-
-Before wave propagation, reflection, interference, and all subsequent dynamics can occur, **energy must be charged** into the simulation domain. This initial energy establishes the wave field that will then evolve according to the wave equations.
-
-**Energy Equation Constraint**:
-
-- Total energy charged must match the **energy equation value** defined in `equations.py`
-- Energy density must be appropriate for the simulation domain volume
-- Energy is conserved throughout simulation after initial charge
-
-**Formula**:
-
-```python
-# From equations.py
-E_total = energy_density * volume
-volume = nx * ny * nz * dx³
-
-# Example:
-energy_density = <from EWT equations>  # Energy per cubic meter
-E_total_required = energy_density * (nx * ny * nz * dx**3)
-```
-
-**Critical Requirement**: The amount of energy charged determines:
-
-- Wave amplitude levels
-- Force magnitudes (F = -∇A)
-- Particle dynamics
-- Realistic physics behavior
-
-### Charging Methods
-
-**1. Point Source Charge**:
-
-```python
-@ti.kernel
-def charge_point_source(pos_x: ti.i32, pos_y: ti.i32, pos_z: ti.i32,
-                        energy: ti.f32, frequency: ti.f32):
-    """Charge energy at a single point with specific frequency."""
-    # Initialize amplitude at source point
-    omega = 2.0 * pi * frequency
-    displacement[pos_x, pos_y, pos_z] = compute_amplitude_from_energy(energy)
-
-    # Set initial phase
-    phase[pos_x, pos_y, pos_z] = 0.0
-
-    # Set propagation direction (outward from source)
-    wave_direction[pos_x, pos_y, pos_z] = ti.Vector([0.0, 0.0, 0.0])  # Will be set by propagation
-```
-
-**2. Plane Wave Charge**:
-
-```python
-@ti.kernel
-def charge_plane_wave(direction: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
-    """Charge uniform plane wave across domain."""
-    k = 2.0 * pi / wavelength  # Wave number
-
-    for i, j, k_idx in amplitude:
-        pos = get_position(i, j, k_idx)
-
-        # Plane wave: A * sin(k·r)
-        phase_val = k * direction.dot(pos)
-        displacement[i, j, k_idx] = A_0 * ti.sin(phase_val)
-        wave_direction[i, j, k_idx] = direction.normalized()
-```
-
-**3. Spherical Wave Charge**:
-
-```python
-@ti.kernel
-def charge_spherical_wave(center: ti.math.vec3, energy: ti.f32, wavelength: ti.f32):
-    """Charge spherical wave from center point."""
-    k = 2.0 * pi / wavelength
-
-    for i, j, k_idx in amplitude:
-        pos = get_position(i, j, k_idx)
-        r_vec = pos - center
-        r = r_vec.norm()
-
-        if r > 0:
-            # Spherical wave: (A/r) * sin(kr - ωt)
-            displacement[i, j, k_idx] = (A_0 / r) * ti.sin(k * r)
-            wave_direction[i, j, k_idx] = r_vec.normalized()  # Radial
-```
-
-**4. Multiple Source Charge**:
-
-```python
-# Charge energy from multiple points
-for source in source_positions:
-    charge_point_source(source.x, source.y, source.z,
-                       E_total / num_sources, frequency)
-```
-
-### Stabilization Phase
-
-After initial energy Charge, the wave field requires a **stabilization period** before reaching steady-state dynamics.
-
-**Stabilization Process**:
-
-1. **Initial State** (t = 0):
-   - Energy concentrated at Charge points/regions
-   - Clear propagation path/direction from sources
-   - No interference patterns yet
-
-2. **Early Propagation** (t = 0 to t_stab):
-   - Waves propagate outward from sources at speed c
-   - First reflections from boundaries
-   - Initial interference patterns begin to form
-
-3. **Stabilization Time**:
-
-   ```python
-   # Time for wave to cross domain and reflect back
-   domain_size = max(nx*dx, ny*dx, nz*dx)
-   t_stabilization = 2 * domain_size / c  # Round trip time
-
-   # Run simulation without particle updates during stabilization
-   for step in range(int(t_stabilization / dt)):
-       propagate_wave_field(dt)  # No particle forces yet
-   ```
-
-4. **Quasi-Equilibrium** (t > t_stab):
-   - Wave energy distributed throughout domain
-   - Interference patterns established
-   - Ready for particle dynamics
-
-**Why Stabilization is Needed**:
-
-- Prevents artificial transients from affecting particle motion
-- Allows interference patterns to form naturally
-- Ensures energy distribution reaches quasi-equilibrium
-- Provides realistic initial conditions for particle dynamics

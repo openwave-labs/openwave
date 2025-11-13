@@ -1,5 +1,15 @@
 # MATTER (composite particles)
 
+## Table of Contents
+
+1. [Composite Particles](#composite-particles)
+1. [Complex Structures](#complex-structures)
+   - [Electron Formation](#electron-formation)
+   - [Particle Binding](#particle-binding)
+1. [The Electron's Special Role](#the-electrons-special-role)
+   - [Wave Transformation](#wave-transformation)
+   - [EM Wave Generation](#em-wave-generation)
+
 ## COMPOSITE PARTICLES
 
 - particle stability / decay / annihilation

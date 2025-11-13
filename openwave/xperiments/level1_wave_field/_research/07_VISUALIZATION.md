@@ -692,6 +692,6 @@ render_scale_bar(corner='bottom_right')
 
 **Related Documentation**:
 
-- [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - Properties to visualize
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave field to visualize
+- [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Properties to visualize
+- [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave field to visualize
 - [`05_MATTER.md`](./05_MATTER.md) - Particles to visualize

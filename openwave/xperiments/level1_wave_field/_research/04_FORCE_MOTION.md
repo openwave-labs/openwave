@@ -580,7 +580,7 @@ Force points toward decreasing energy density (downhill on energy landscape).
 
 **Force Calculation** (frequency-based):
 
-Force computed from amplitude gradient in field (see [`03_WAVE_ENGINE.md` - Force Calculation](./03_WAVE_ENGINE.md#force-calculation))
+Force computed from amplitude gradient in field (see [`02_WAVE_ENGINE.md` - Force Calculation](./02_WAVE_ENGINE.md#force-calculation))
 
 ```python
 # Full form with frequency gradients
@@ -809,6 +809,6 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
 
 **Related Documentation**:
 
-- [`03_WAVE_ENGINE.md`](./03_WAVE_ENGINE.md) - Wave propagation creating these fields
+- [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave propagation creating these fields
 - [`05_MATTER.md`](./05_MATTER.md) - How particles respond to emergent forces
-- [`02_WAVE_PROPERTIES.md`](./02_WAVE_PROPERTIES.md) - Properties that create fields
+- [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Properties that create fields
