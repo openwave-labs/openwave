@@ -87,8 +87,6 @@ The Medium Question
 A Common Misconception
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Question:** "Does EWT propose a luminiferous aether?"
-
 **Answer:** No. The "medium" in OpenWave is a computational construct, not a physical substance.
 
 Computational Perspective
