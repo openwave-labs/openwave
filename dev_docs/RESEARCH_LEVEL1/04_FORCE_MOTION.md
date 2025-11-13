@@ -462,7 +462,7 @@ F_particle = interpolate_force(self.force, pos_am)  # Newtons
 # 2. Newton's second law: F = ma
 a = F_particle / particle_mass  # m/s²
 
-# 3. Integrate motion using Velocity Verlet method
+# 3. Integrate motion using Euler method
 v_new = v_old + a * dt  # m/s
 pos_new = pos_old + v_new * dt  # meters (or attometers)
 ```
@@ -667,11 +667,34 @@ a = F / m
 
 ### Position Updates
 
-**Integration Scheme**:
+**Integration Schemes - Two Options**:
+
+LEVEL-1 supports two integration methods for particle motion, depending on accuracy needs:
+
+#### Option 1: Euler Integration (First-Order)
+
+- Simple, fast, less memory
+- Good for: Rough prototyping, non-critical motion
+- Accuracy: O(dt) - errors accumulate linearly
+
+#### Option 2: Velocity Verlet (Second-Order)
+
+- More accurate, energy-conserving
+- Good for: Final simulations, long-term stability
+- Accuracy: O(dt²) - 100× better than Euler
+
+**Recommendation**: Start with **Euler** for prototyping, switch to **Velocity Verlet** for production.
+
+---
+
+### Implementation Examples
+
+#### Method 1: Euler Integration (Simple & Fast)
 
 ```python
 @ti.kernel
-def update_particle_positions(dt: ti.f32):
+def update_particle_positions_euler(dt: ti.f32):
+    """Update particle positions using first-order Euler integration."""
     for p in particles:
         # Get force at particle position
         F = get_force_at_position(particles.pos[p])
@@ -679,7 +702,7 @@ def update_particle_positions(dt: ti.f32):
         # Acceleration from force
         a = F / particles.mass[p]
 
-        # Velocity Verlet integration
+        # Euler integration: v += a·dt, pos += v·dt
         particles.vel[p] += a * dt
         particles.pos[p] += particles.vel[p] * dt
 ```
@@ -705,9 +728,51 @@ def apply_particle_boundaries():
             # Similar for y, z
 ```
 
+#### Method 2: Velocity Verlet Integration (Accurate & Stable)
+
+```python
+@ti.kernel
+def update_particle_positions_verlet(dt: ti.f32):
+    """Update particle positions using second-order Velocity Verlet integration."""
+    for p in range(max_particles):
+        if particles.active[p]:
+            # Get interpolated force at particle position
+            F = interpolate_force(particles.pos[p])
+
+            # Newton's second law
+            a = F / particles.mass[p]
+
+            # Velocity Verlet: First half-step
+            particles.vel[p] += 0.5 * a * dt
+
+            # Update position
+            particles.pos[p] += particles.vel[p] * dt
+
+            # Apply boundary conditions
+            apply_boundary_reflections(p)
+
+            # Recompute force at NEW position (key difference from Euler!)
+            F_new = interpolate_force(particles.pos[p])
+            a_new = F_new / particles.mass[p]
+
+            # Velocity Verlet: Second half-step
+            particles.vel[p] += 0.5 * a_new * dt
+```
+
+**Comparison Table**:
+
+| Aspect | Euler | Velocity Verlet |
+|--------|-------|-----------------|
+| **Accuracy** | O(dt) first-order | O(dt²) second-order |
+| **Force evaluations** | 1 per step | 2 per step (old + new pos) |
+| **Energy conservation** | Drifts over time | Nearly perfect |
+| **Speed** | ~2× faster | ~2× slower |
+| **Memory** | vel, pos | vel, pos (same) |
+| **Best for** | Prototyping, short runs | Production, long simulations |
+
 ### Particle Dynamics Algorithm
 
-**Complete Update Cycle**:
+**Complete Update Cycle** (using chosen integration method):
 
 ```python
 @ti.kernel
@@ -717,30 +782,12 @@ def particle_dynamics_step(dt: ti.f32):
     # 1. Compute force field from wave amplitude (frequency-based)
     compute_force_field()  # F = -2ρVf² × A∇A (monochromatic)
 
-    # 2. Update each particle
-    for p in range(max_particles):
-        if particles.active[p]:
-            # Get interpolated force at particle position
-            F = interpolate_force(particles.pos[p])
+    # 2. Update each particle (choose integration method)
+    # Option A: Use Euler integration
+    update_particle_positions_euler(dt)
 
-            # Newton's second law
-            a = F / particles.mass[p]
-
-            # Velocity Verlet integration (half-step)
-            particles.vel[p] += 0.5 * a * dt
-
-            # Update position
-            particles.pos[p] += particles.vel[p] * dt
-
-            # Apply boundary conditions
-            apply_boundary_reflections(p)
-
-            # Recompute force at new position
-            F_new = interpolate_force(particles.pos[p])
-            a_new = F_new / particles.mass[p]
-
-            # Velocity Verlet (second half-step)
-            particles.vel[p] += 0.5 * a_new * dt
+    # Option B: Use Velocity Verlet integration (recommended for production)
+    # update_particle_positions_verlet(dt)
 
     # 3. Apply wave reflections at new particle positions
     for p in range(max_particles):

@@ -375,6 +375,106 @@ def main_loop():
 
 **Recommendation**: LEVEL-1 **MUST** use fixed timesteps for numerical stability. The hybrid accumulator approach allows real-time rendering while maintaining stable physics.
 
+## Why Leap-Frog instead of Euler Integration Method
+
+why the wave equation uses the leap-frog scheme instead of regular Euler integration.
+
+Wave Equation gives ψ acceleration directly
+
+- Given: ∂²ψ/∂t² = c²∇²ψ
+
+The acceleration of ψ is:
+
+- ψ_acceleration = c² · ∇²ψ
+
+So yes, the wave equation directly gives us the second derivative (acceleration) of displacement!
+
+### Why Leap-Frog instead of Euler?
+
+### Option 1: Euler Method (velocity-position split)
+
+You could do it like particle motion:
+
+```python
+# Split into velocity and position
+ψ_velocity[i,j,k] += ψ_acceleration * dt  # vel += a·dt
+ψ[i,j,k] += ψ_velocity[i,j,k] * dt        # pos += vel·dt
+```
+
+Problems:
+
+- ✗ Need to store velocity field (extra memory: 100³ voxels × f32)
+- ✗ First-order accurate (error ∝ dt)
+- ✗ Energy drift: Euler doesn't conserve energy in oscillating systems
+- ✗ Waves gradually lose or gain energy over time (numerical artifact)
+
+### Option 2: Leap-Frog (Verlet) - Direct from acceleration
+
+```python
+# Update displacement directly from acceleration (no velocity storage)
+ψ_new = 2ψ - ψ_old + (c·dt)² · ∇²ψ
+```
+
+Advantages:
+
+- ✓ No velocity field needed (saves memory)
+- ✓ Second-order accurate (error ∝ dt²) - 100× more accurate!
+- ✓ Energy conserving (symplectic integrator)
+- ✓ Perfect for oscillating systems (waves, springs, orbits)
+- ✓ One equation instead of two
+
+### How Leap-Frog Works
+
+The leap-frog derives from Taylor expansion of ψ(t):
+
+- Forward:  ψ(t+dt) = ψ(t) + ψ'·dt + ½ψ''·dt² + ...
+- Backward: ψ(t-dt) = ψ(t) - ψ'·dt + ½ψ''·dt² + ...
+
+- Add them: ψ(t+dt) + ψ(t-dt) = 2ψ(t) + ψ''·dt² + O(dt⁴)
+- Rearrange: ψ(t+dt) = 2ψ(t) - ψ(t-dt) + ψ''·dt²
+
+Since ψ'' = c²∇²ψ:
+
+- ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+
+Key insight: The velocity terms ψ'·dt cancel out when you add forward and backward! This is why we don't need to store velocity.
+
+Comparison Table
+
+| Aspect    | Euler (vel+pos)                   | Leap-Frog (direct)         |
+|-----------|-----------------------------------|----------------------------|
+| Equations | 2 (vel, pos)                      | 1 (pos only)               |
+| Memory    | 4 fields (ψ, ψ_old, vel, vel_old) | 3 fields (ψ, ψ_old, ψ_new) |
+| Accuracy  | O(dt) first-order                 | O(dt²) second-order        |
+| Energy    | Drifts over time                  | Conserved (symplectic)     |
+| Best for  | Damped systems                    | Oscillating systems        |
+| Speed     | Slower (2 updates)                | Faster (1 update)          |
+
+### Why This Matters for Waves
+
+Waves are oscillatory - they cycle energy between kinetic (∂ψ/∂t)² and potential (∇ψ)². Energy conservation is critical!
+
+With Euler:
+
+- E(t=0) = 100
+- E(t=1000 steps) = 95  ❌ Lost 5% energy (numerical damping)
+
+With Leap-Frog:
+
+- E(t=0) = 100
+- E(t=1000 steps) = 100.001  ✓ Nearly perfect conservation
+
+### Bottom Line
+
+The leap-frog scheme:
+
+1. Uses the wave equation's acceleration directly: ψ'' = c²∇²ψ
+2. Skips velocity storage by using ψ_old instead
+3. Is 100× more accurate than Euler (second-order vs first-order)
+4. Conserves energy for oscillating systems
+
+That's why wave equations, springs, and orbital mechanics all use leap-frog/Verlet instead of Euler! 🎯
+
 ## Alternative: Huygens Wavelets
 
 **Huygens' Principle**: Every point on a wavefront acts as a source of secondary wavelets.
