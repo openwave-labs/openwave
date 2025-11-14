@@ -165,7 +165,6 @@ class WaveField:
 
             if idx < corner_count:
                 # Corner granule: decode 3D position from linear index (asymmetric)
-                grid_dim_x = self.grid_size[0] + 1
                 grid_dim_y = self.grid_size[1] + 1
                 grid_dim_z = self.grid_size[2] + 1
 
@@ -390,7 +389,6 @@ class BCCLattice:
 
             if idx < corner_count:
                 # Corner granule: decode 3D position from linear index (asymmetric)
-                grid_dim_x = self.grid_size[0] + 1
                 grid_dim_y = self.grid_size[1] + 1
                 grid_dim_z = self.grid_size[2] + 1
 
