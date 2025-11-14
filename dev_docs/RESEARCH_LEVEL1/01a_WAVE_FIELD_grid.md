@@ -397,13 +397,19 @@ dx_am = wavelength_am / points_per_wavelength  # voxel edge length in attometers
 ### Usage Example
 
 ```python
+SPACETIME
+- Medium = WAVE FIELD (the grid - not physical substrate, just information carrier)
+- Unit = VOXEL (unit of volume, cell-centered grid point, industry standard)
+- Stencil = Neighbors connectivity pattern used in computation (derivations & gradients)
+
+# use descriptive var names, better for code maintenance
 WaveField (=Grid + Properties, 3D array)
 WaveField.universe_size [list]
 WaveField.grid_size [list] (= nx, ny, nz) # compute integers
 
-Voxel (=Cell, volume element)
+Voxel[i,j,k] (=Cell, volume element)
 WaveField.voxel_volume
-WaveField.voxel_edge (= dx) # use descriptive var names, better for code maintenance
+WaveField.voxel_edge (= dx)
 
 compute & store once:
 - actual adjusted universe dimensions & voxel count
