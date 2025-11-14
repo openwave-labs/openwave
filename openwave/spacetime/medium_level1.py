@@ -213,6 +213,135 @@ class WaveField:
 
 
 @ti.data_oriented
+class PROPOSEDWaveField:
+    """
+    Wave field simulation using cell-centered grid with attometer scaling.
+
+    This class implements LEVEL-1 wave-field propagation with:
+    - Cell-centered cubic grid
+    - Attometer scaling for numerical precision (f32 fields)
+    - Computed positions from indices (memory efficient)
+    - Wave properties stored at each voxel
+    - Asymmetric universe support (nx ≠ ny ≠ nz allowed)
+
+    Initialization Strategy (mirrors LEVEL-0 BCCLattice):
+    1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
+    2. Compute universe volume and target voxel count from config.TARGET_VOXELS
+    3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)
+    4. Compute grid dimensions: nx = int(x_size / dx), ny = int(y_size / dx), nz = int(z_size / dx)
+    5. Recalculate actual universe size to fit integer voxel counts
+
+    Alternative: User can specify points_per_wavelength instead, which determines dx from wavelength.
+    """
+
+    def __init__(self, init_universe_size):
+        """
+        Initialize WaveField from universe size with automatic voxel sizing
+        and asymmetric universe support.
+
+        Args:
+            init_universe_size: List [x, y, z] in meters (can be asymmetric)
+
+        Design:
+            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
+            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
+
+        Returns:
+            WaveField instance with optimally sized voxels for target_voxels
+        """
+
+        if wavelength is None:
+            wavelength = constants.EWAVE_LENGTH
+        if target_voxels is None:
+            target_voxels = config.TARGET_VOXELS
+
+        # Compute universe volume
+        init_volume = init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
+
+        # Calculate cubic voxel size from target voxel count
+        # voxel_volume = universe_volume / target_voxels
+        # dx³ = voxel_volume → dx = voxel_volume^(1/3)
+        voxel_volume = init_volume / target_voxels
+        dx = voxel_volume ** (1 / 3)  # Cubic voxel edge
+
+        # Calculate grid dimensions (integer voxel counts per axis)
+        nx = int(init_universe_size[0] / dx)
+        ny = int(init_universe_size[1] / dx)
+        nz = int(init_universe_size[2] / dx)
+
+        # Compute points per wavelength (for consistency)
+        points_per_wavelength = wavelength / dx
+
+        # Grid dimensions (asymmetric support: nx ≠ ny ≠ nz allowed)
+        self.nx, self.ny, self.nz = nx, ny, nz
+
+        # ATTOMETER SCALING (critical for f32 precision)
+        self.wavelength_am = wavelength_m / constants.ATTOMETER
+        self.dx_am = self.wavelength_am / points_per_wavelength  # Cubic voxel size in am
+
+        # Physical sizes in meters (for external reporting, asymmetric)
+        self.dx_m = self.dx_am * constants.ATTOMETER
+        self.domain_size_m = [
+            nx * self.dx_m,
+            ny * self.dx_m,
+            nz * self.dx_m,
+        ]  # Can differ per axis
+
+        # SCALAR FIELDS (values in attometers where applicable)
+        # Wave equation fields (leap-frog scheme requires three time levels)
+        self.displacement_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
+        self.displacement_am = ti.field(
+            dtype=ti.f32, shape=(nx, ny, nz)
+        )  # am (ψ at t, instantaneous)
+        self.displacement_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (envelope A = max|ψ|)
+        self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
+
+        # SCALAR FIELDS (no attometer scaling needed)
+        self.density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
+        self.energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # J
+
+        # VECTOR FIELDS (directions normalized, magnitudes may need scaling)
+        self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # unit vector
+        self.amplitude_direction = ti.Vector.field(
+            3, dtype=ti.f32, shape=(nx, ny, nz)
+        )  # unit vector
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # am/s
+        self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # N
+
+        # Compute actual universe size (rounded to integer voxel counts)
+        self.actual_universe_size = [nx * self.dx_m, ny * self.dx_m, nz * self.dx_m]
+        self.actual_voxel_count = nx * ny * nz
+
+    @ti.func
+    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+        """Get physical position of voxel center in attometers."""
+        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
+
+    @ti.func
+    def get_position_m(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+        """Get physical position of voxel center in meters (for external use)."""
+        pos_am = self.get_position_am(i, j, k)
+        return pos_am * ti.f32(constants.ATTOMETER)
+
+    @ti.func
+    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:
+        """
+        Get voxel index from position in attometers.
+
+        Inverse mapping: position → index
+        Used for particle-field interactions.
+        """
+        return ti.Vector(
+            [
+                ti.i32((pos_am[0] / self.dx_am) - 0.5),
+                ti.i32((pos_am[1] / self.dx_am) - 0.5),
+                ti.i32((pos_am[2] / self.dx_am) - 0.5),
+            ]
+        )
+
+
+@ti.data_oriented
 class BCCLattice:
     """
     Body-Centered Cubic (BCC) lattice for spacetime simulation.

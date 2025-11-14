@@ -73,12 +73,12 @@ This section documents the Standardized Physics Terminology, these are best prac
 - WAVE-FREQUENCY (f): `c/λ` (can change locally)
   - Defines TIME =  the wave frequency, rhythm
 - WAVE-PERIOD (T): `1/f`
-- WAVE-PHASE (φ): position in wave cycle (radians), phase shift
+- WAVE-PHASE (φ): position in wave cycle (0 to 2π radians), interference patterns
 
 ### Wave Size
 
-- WAVE-DISPLACEMENT (ψ): `ψ̈ = c²Δψ` ,propagated motion
-- WAVE-AMPLITUDE (A): `max|ψ|`, displacement envelop (falloff at 1/r, near/far fields)
+- WAVE-DISPLACEMENT (ψ): `ψ̈ = c²Δψ`, propagated instantaneous oscillating scalar value
+- WAVE-AMPLITUDE (A): `running max|ψ|`, displacement envelop (falloff at 1/r, near/far fields)
 - WAVE-LENGTH (λ): `c/f` (changes when moving particle, doppler)
 
 ### Wave Energy

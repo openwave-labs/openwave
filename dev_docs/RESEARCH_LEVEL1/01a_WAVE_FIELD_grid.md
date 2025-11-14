@@ -408,7 +408,7 @@ WaveField.universe_size [list]
 WaveField.grid_size [list] (= nx, ny, nz) # compute integers
 
 Voxel[i,j,k] (=Cell, volume element)
-WaveField.voxel_volume
+WaveField.voxel_volume (from TARGET_VOXELS resolution settings)
 WaveField.voxel_edge (= dx)
 
 compute & store once:
