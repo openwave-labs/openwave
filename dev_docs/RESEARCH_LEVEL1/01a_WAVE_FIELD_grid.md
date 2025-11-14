@@ -417,9 +417,9 @@ compute & store once:
 - total energy
 
 field arrays (wave properties)
-- SCALAR MEASURED: displacement, amplitude, frequency
-- SCALAR COMPUTED: wavelength, period, phase, ...
-- VECTOR MEASURED: wave_direction, wave_mode, wave_type
+- MEASURED SCALAR FIELD: displacement, amplitude, frequency
+- DERIVED SCALAR FIELD: wavelength, period, phase, energy, momentum
+- DERIVED VECTOR FIELD: energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
 _am = attometer version
 _rs = rontosecond version

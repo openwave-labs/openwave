@@ -3,6 +3,7 @@
 ## Table of Contents
 
 1. [Summary](#summary)
+1. [WAVE PROPERTIES Terminology & Notation](#wave-properties-terminology-and-notation)
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
    - [Displacement (ψ)](#displacement-ψ)
@@ -45,62 +46,63 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - Variable/field suffix `_am` → use `constants.ATTOMETER` to convert
 - Variable/field suffix `_rs` → use `constants.RONTOSECOND` to convert
 
-## WAVE PROPERTIES Terminology & Notation
+## WAVE PROPERTIES Terminology and Notation
 
 This section documents the Standardized Physics Terminology, these are best practices researched from Scientific Literature.
 
-### Wave Profiling
+```python
+# WAVE PROPERTIES Terminology & Notation
+
+# Wave Profiling
 
 - Diagnostic tool (measures wave properties per voxel, comprehensive wave data)
 
-### Wave Medium
+# Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
 - WAVE-SPEED (c): constant by medium property, √medium elasticity/density
 - WAVE-SOURCE: defines amplitude and frequency (rhythm, vibration), charges energy
 
-### Wave Character
+# Wave Character & Direction
 
 - WAVE-MODE: longitudinal / transverse (polarization, fraction [0,1])
 - WAVE-TYPE: standing / traveling (fraction [0,1])
-- WAVE-FORM: temporal/spacial profile (sine, square, triangle, sawtooth)
+- WAVE-FORM: temporal / spacial profile (sine, square, triangle, sawtooth)
+- WAVE-DIRECTION (k̂): unit vector
+- DISPLACEMENT-DIRECTION (û): unit vector
 
-### Wave Rhythm
+# Wave Rhythm
 
 - WAVE-FREQUENCY (f): c / λ (can change locally)
-  - Defines TIME =  the wave's frequency, rhythm
+  - Defines TIME =  the wave frequency, rhythm
 - WAVE-PERIOD (T): 1/f
 - WAVE-PHASE (φ): position in wave cycle (radians), phase shift
 
-### Wave Size
+# Wave Size
 
-- WAVE-DISPLACEMENT (ψ): propagated individual motion
-- WAVE-AMPLITUDE (A): displacement envelop, max|ψ|, falloff at 1/r, near/far fields
+- WAVE-DISPLACEMENT (ψ): ψ̈ = c²Δψ ,propagated motion
+- WAVE-AMPLITUDE (A): max|ψ|, displacement envelop (falloff at 1/r, near/far fields)
 - WAVE-LENGTH (λ): c / f (changes when moving particle, doppler)
 
-### Wave Direction
+# Wave Energy
 
-- PROPAGATION (k̂): unit vector
-- DISPLACEMENT (û): unit vector
-
-### Wave Energy
-
-- WAVE-ENERGY (E): conserved property (unmanifested <> manifested states)
-- ENERGY-DENSITY (u): constant,  ρ(fA)² in J/m³
+- WAVE-ENERGY (E): ρV(fA)², conserved property
+- ENERGY-DENSITY (u): ρ(fA)², constant, in J/m³
 - ENERGY-FLUX (S): Poynting-like vector in W/m²
-- MOMENTUM-DENSITY (p) = ρ × ψ × ∇ψ
+- MOMENTUM-DENSITY (p): ρ × ψ × ∇ψ
 
-### Wave Interaction
+# Wave Interaction
 
 - REFLECTION: changes direction of propagation (velocity vector)
-- SUPERPOSITION: amplitude/λ combinations (interference)
+- SUPERPOSITION: fA combinations (interference)
 - RESONANCE: harmonics, coherence, influence, polarization [phase, motion, frequency]
 
-### Additional Notation
+# Additional Notation
 
 - ω (omega) = angular frequency (2πf)
 - ωt = temporal oscillation (controls rhythm, time-varying component)
 - k = angular wave number (2π/λ)
+```
 
 ## Scalar Properties (Magnitude)
 

@@ -26,7 +26,7 @@ LEVEL-1 uses **PDEs (Partial Differential Equations)** to propagate waves throug
 
 or simplified as:
 
-ψ" = c²Δψ
+ψ̈ = c²Δψ
 ```
 
 Where:
