@@ -17,46 +17,50 @@ from openwave.common import config, constants, equations
 @ti.data_oriented
 class WaveField:
     """
-    Body-Centered Cubic (BCC) lattice for spacetime simulation.
-    BCC topology: cubic unit cells with an additional granule at the center.
-    More efficient packing than simple cubic (68% vs 52% space filling).
+    Wave field simulation using cell-centered grid with attometer scaling.
 
-    Performance Design: 1D Arrays with 3D Vectors
-    - Memory: Contiguous layout, perfect cache line utilization (64-byte alignment)
-    - Compute: Single loop parallelization, no index arithmetic (vs i*dim²+j*dim+k)
-    - GPU: Direct thread mapping (thread_i→granule_i), coalesced memory access
-    - BCC Lattice: Uniform treatment of corner+center granules in single array
-    Benefits:
-    - Simpler updates: One kernel updates all granules
-    - Cleaner code: No need to manage multiple arrays
-    - Movement-Ready: Velocity field ready for dynamics,
-    granules can move freely without grid remapping constraints
+    This class implements LEVEL-1 wave-field propagation with:
+    - Cell-centered cubic grid
+    - Attometer scaling for numerical precision (f32 fields)
+    - Computed positions from indices (memory efficient)
+    - Wave properties stored at each voxel
+    - Asymmetric universe support (nx ≠ ny ≠ nz allowed)
 
-    This is why high-performance physics engines (molecular dynamics, N-body simulations)
-    universally use 1D arrays for granule data, regardless of spatial dimensionality.
+    Initialization Strategy (mirrors LEVEL-0 BCCLattice):
+    1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
+    2. Compute universe volume and target voxel count from config.TARGET_VOXELS
+    3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)
+    4. Compute grid dimensions: nx = int(x_size / dx), ny = int(y_size / dx), nz = int(z_size / dx)
+    5. Recalculate actual universe size to fit integer voxel counts
+    6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size):
         """
-        Initialize BCC lattice and compute scaled-up unit-cell spacing.
-        Universe size and target granules are used to define
-        scaled-up unit-cell properties and scale factor.
+        Initialize WaveField from universe size with automatic voxel sizing
+        and asymmetric universe support.
 
         Args:
-            init_universe_size: Requested simulation domain size [x, y, z] in meters (can be asymmetric)
-                Will be rounded to fit integer number of cubic unit-cells.
-            theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
+            init_universe_size: simulation domain size [x, y, z], m (can be asymmetric)
+                Will be rounded to fit integer number of voxels.
+
+        Design:
+            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
+            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
+
+        Returns:
+            WaveField instance with optimally sized voxels for target_voxels
         """
         # Compute initial lattice properties (before rounding and lattice symmetry)
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
+        target_voxels = config.TARGET_VOXELS
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
+        unit_cell_volume = init_universe_volume / (target_voxels / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
@@ -214,42 +218,7 @@ class WaveField:
 
 @ti.data_oriented
 class PROPOSEDWaveField:
-    """
-    Wave field simulation using cell-centered grid with attometer scaling.
-
-    This class implements LEVEL-1 wave-field propagation with:
-    - Cell-centered cubic grid
-    - Attometer scaling for numerical precision (f32 fields)
-    - Computed positions from indices (memory efficient)
-    - Wave properties stored at each voxel
-    - Asymmetric universe support (nx ≠ ny ≠ nz allowed)
-
-    Initialization Strategy (mirrors LEVEL-0 BCCLattice):
-    1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
-    2. Compute universe volume and target voxel count from config.TARGET_VOXELS
-    3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)
-    4. Compute grid dimensions: nx = int(x_size / dx), ny = int(y_size / dx), nz = int(z_size / dx)
-    5. Recalculate actual universe size to fit integer voxel counts
-
-    Alternative: User can specify points_per_wavelength instead, which determines dx from wavelength.
-    """
-
     def __init__(self, init_universe_size):
-        """
-        Initialize WaveField from universe size with automatic voxel sizing
-        and asymmetric universe support.
-
-        Args:
-            init_universe_size: List [x, y, z] in meters (can be asymmetric)
-
-        Design:
-            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
-            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
-
-        Returns:
-            WaveField instance with optimally sized voxels for target_voxels
-        """
-
         if wavelength is None:
             wavelength = constants.EWAVE_LENGTH
         if target_voxels is None:
