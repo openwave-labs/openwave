@@ -58,7 +58,9 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
+            module_path = (
+                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
+            )
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -83,7 +85,9 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.level0_granule_based._xparameters.{xperiment_name}"
+            module_path = (
+                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
+            )
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["name"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -302,7 +306,7 @@ def data_dashboard(state):
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- eWAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Granule Count: {state.lattice.total_granules:,} particles")
+        sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 

@@ -68,7 +68,7 @@ def data_dashboard():
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.50, 0.19, 0.50) as sub:
         sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
-        sub.text(f"Granule Count: {lattice.total_granules:,} particles")
+        sub.text(f"Granule Count: {lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
 
         sub.text("")
@@ -127,7 +127,7 @@ def controls():
 @ti.kernel
 def normalize_lattice(enable_slice: ti.i32):  # type: ignore
     """Normalize lattice positions to 0-1 range for GGUI rendering."""
-    for i in range(lattice.total_granules):
+    for i in range(lattice.granule_count):
         # Normalize to 0-1 range (positions are in attometers, scale them back)
         if enable_slice == 1 and lattice.front_octant[i] == 1:
             # Block-slicing enabled: hide front octant granules by moving to origin
@@ -181,7 +181,7 @@ def render_xperiment(lattice):
 
     # Initialize normalized position (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.granule_count)
     normalize_granule()
 
     # Print diagnostics header if enabled

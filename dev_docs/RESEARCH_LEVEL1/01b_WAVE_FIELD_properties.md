@@ -1,8 +1,9 @@
-# WAVE PROPERTIES
+# WAVE-FIELD PROPERTIES
 
 ## Table of Contents
 
 1. [Summary](#summary)
+1. [WAVE PROPERTIES Terminology & Notation](#wave-properties-terminology-and-notation)
 1. [Scalar Properties (Magnitude)](#scalar-properties-magnitude)
    - [Speed (c)](#speed-c)
    - [Displacement (ψ)](#displacement-ψ)
@@ -45,43 +46,56 @@ Wave field attributes represent physical quantities and wave disturbances stored
 - Variable/field suffix `_am` → use `constants.ATTOMETER` to convert
 - Variable/field suffix `_rs` → use `constants.RONTOSECOND` to convert
 
+## WAVE PROPERTIES Terminology and Notation
+
+This section documents the Standardized Physics Terminology, these are best practices researched from Scientific Literature.
+
+### Wave Profiling
+
+- Diagnostic tool (measures wave properties per voxel, comprehensive wave data)
+
 ### Wave Medium
 
 - MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
-- WAVE-SPEED (c): constant by medium property, has direction of propagation
-- WAVE-SOURCE: defines frequency, rhythm, vibration and charges energy
+- WAVE-SPEED (c): constant by medium property, √medium elasticity/density
+- WAVE-SOURCE: defines amplitude and frequency (rhythm, vibration), charges energy
 
-### Wave Character
+### Wave Character & Direction
 
-- WAVE-MODE: longitudinal, transverse (polarization)
-- WAVE-TYPE: standing, traveling
+- WAVE-MODE: longitudinal / transverse (polarization, fraction [0,1])
+- WAVE-TYPE: standing / traveling (fraction [0,1])
+- WAVE-FORM: temporal / spacial profile (sine, square, triangle, sawtooth)
+- WAVE-DIRECTION (k̂): unit vector
+- DISPLACEMENT-DIRECTION (û): unit vector
 
 ### Wave Rhythm
 
-- WAVE-FREQUENCY (f): c / λ (can change)
-  - TIME =  the wave's frequency, rhythm
-- WAVE-PERIOD (T): 1/f
-- WAVE-PHASE:
+- WAVE-FREQUENCY (f): `c/λ` (can change locally)
+  - Defines TIME =  the wave frequency, rhythm
+- WAVE-PERIOD (T): `1/f`
+- WAVE-PHASE (φ): position in wave cycle (0 to 2π radians), interference patterns
 
 ### Wave Size
 
-- WAVE-DISPLACEMENT: propagated individual motion
-- WAVE-AMP (A): falloff at 1/r, near/far fields (max = color, min = black, zero = white-lines)
-- WAVE-LENGTH (λ): c / f (changes when moving particle, doppler)
+- WAVE-DISPLACEMENT (ψ): `ψ̈ = c²Δψ`, propagated instantaneous oscillating scalar value
+- WAVE-AMPLITUDE (A): `running max|ψ|`, displacement envelop (falloff at 1/r, near/far fields)
+- WAVE-LENGTH (λ): `c/f` (changes when moving particle, doppler)
 
 ### Wave Energy
 
-- WAVE-ENERGY (E): constant, conserved property (unmanifested <> manifested states)
+- WAVE-ENERGY (E): `ρV(fA)²`, conserved property
+- ENERGY-DENSITY (u): `ρ(fA)²`, constant, in J/m³
+- ENERGY-FLUX (S): Poynting-like vector in W/m²
+- MOMENTUM-DENSITY (p): `ρ × ψ × ∇ψ`
 
 ### Wave Interaction
 
 - REFLECTION: changes direction of propagation (velocity vector)
-- INTERFERENCE: amplitude/λ combinations (resonance, superposition) [sources diffs: phase, motion, freq]
+- SUPERPOSITION: fA combinations (interference)
+- RESONANCE: harmonics, coherence, influence, polarization [phase, motion, frequency]
 
-### Other Notation
+### Additional Notation
 
-- ψ (psi) = displacement
-- φ (phi) = phase shift
 - ω (omega) = angular frequency (2πf)
 - ωt = temporal oscillation (controls rhythm, time-varying component)
 - k = angular wave number (2π/λ)
@@ -505,7 +519,7 @@ def design_wave_pattern(frequency):
 
 ```python
 import taichi as ti
-from openwave.common import constants
+from openwave.common import config, constants
 
 @ti.data_oriented
 class WaveField:
@@ -529,33 +543,24 @@ class WaveField:
     Alternative: User can specify points_per_wavelength instead, which determines dx from wavelength.
     """
 
-    @classmethod
-    def from_universe_size(cls, init_universe_size, wavelength_m=None, target_voxels=None):
+    def __init__(self, init_universe_size):
         """
-        Initialize WaveField from universe size with automatic voxel sizing.
-
-        This mirrors LEVEL-0's BCCLattice initialization strategy.
+        Initialize WaveField from universe size with automatic voxel sizing
+        and asymmetric universe support.
 
         Args:
             init_universe_size: List [x, y, z] in meters (can be asymmetric)
-            wavelength_m: Optional wavelength in meters (default: constants.EWAVE_LENGTH)
-            target_voxels: Optional target voxel count (default: config.TARGET_VOXELS = 1e9)
+
+        Design:
+            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
+            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
 
         Returns:
             WaveField instance with optimally sized voxels for target_voxels
-
-        Example:
-            # Asymmetric universe: 250×250×125 attometers
-            wave_field = WaveField.from_universe_size(
-                init_universe_size=[250e-18, 250e-18, 125e-18],
-                target_voxels=1e9
-            )
-            # Result: ~1000×1000×500 grid with dx ≈ 0.25 am
         """
-        from openwave.common import constants, config
 
-        if wavelength_m is None:
-            wavelength_m = constants.EWAVE_LENGTH
+        if wavelength is None:
+            wavelength = constants.EWAVE_LENGTH
         if target_voxels is None:
             target_voxels = config.TARGET_VOXELS
 
@@ -574,24 +579,8 @@ class WaveField:
         nz = int(init_universe_size[2] / dx)
 
         # Compute points per wavelength (for consistency)
-        points_per_wavelength = wavelength_m / dx
+        points_per_wavelength = wavelength / dx
 
-        return cls(nx, ny, nz, wavelength_m, points_per_wavelength)
-
-    def __init__(self, nx, ny, nz, wavelength_m, points_per_wavelength=40):
-        """
-        Initialize wave field grid with asymmetric universe support.
-
-        Args:
-            nx, ny, nz: Grid dimensions (number of voxels per axis, can differ for asymmetric universes)
-            wavelength_m: Wavelength in meters (e.g., 2.854096501e-17 for energy wave)
-            points_per_wavelength: Sampling rate (voxels per wavelength, default: 40)
-
-        Design:
-            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
-            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
-            - Follows LEVEL-0 BCCLattice/SCLattice design philosophy
-        """
         # Grid dimensions (asymmetric support: nx ≠ ny ≠ nz allowed)
         self.nx, self.ny, self.nz = nx, ny, nz
 
@@ -662,7 +651,7 @@ class WaveField:
 | **Config constant** | `TARGET_GRANULES = 1e6` | `TARGET_VOXELS = 1e9` |
 | **Target count** | 1 million granules | 1 billion voxels (1000× more!) |
 | **Performance rationale** | Every granule rendered as Taichi particle | Only field slices/surfaces rendered |
-| **Initialization** | `BCCLattice(init_universe_size)` | `WaveField.from_universe_size(init_universe_size)` |
+| **Initialization** | `BCCLattice(init_universe_size)` | `WaveField(init_universe_size)` |
 | **Unit cell/voxel** | `unit_cell_edge` from cube root | `dx` from cube root |
 | **Grid dimensions** | `grid_size = [nx, ny, nz]` (asymmetric) | `self.nx, self.ny, self.nz` (asymmetric) |
 | **Cubic constraint** | Unit cell edge same for all axes | Voxel size same for all axes |
@@ -703,9 +692,8 @@ lattice = BCCLattice(
 # Result: ~86×86×43 granule grid, TARGET_GRANULES = 1e6
 
 # LEVEL-1: Field-based (1B voxels)
-wave_field = WaveField.from_universe_size(
-    init_universe_size=[250e-18, 250e-18, 125e-18],
-    target_voxels=config.TARGET_VOXELS  # 1e9
+wave_field = WaveField(
+    init_universe_size=[250e-18, 250e-18, 125e-18]
 )
 # Result: ~1260×1260×630 voxel grid, TARGET_VOXELS = 1e9
 # Spatial resolution: ~15× better per dimension!
@@ -1275,41 +1263,6 @@ print(f"Wavelength: {profile.wavelength:.3e} m")
 print(f"Amplitude: {profile.amplitude:.3e} m")
 print(f"Energy Density: {profile.energy_density:.3e} J/m³")
 print(f"Propagation: {profile.propagation_direction}")
-```
-
-### Terminology Hierarchy (Complete)
-
-```text
-Wave Properties (Top-Level Category)
-├── Wave Medium
-│   ├── Density (ρ)
-│   ├── Wave speed (c)
-│   └── Wave sources
-├── Wave Character ← Fundamental nature
-│   ├── Wave mode (longitudinal/transverse)
-│   └── Wave type (standing/traveling)
-├── Wave Classification ← 4-category system (derived from character)
-│   ├── Class 1: Longitudinal + Traveling → Gravitational radiation
-│   ├── Class 2: Longitudinal + Standing → Particle mass
-│   ├── Class 3: Transverse + Traveling → EM radiation
-│   └── Class 4: Transverse + Standing → Electron orbitals
-├── Wave Rhythm
-│   ├── Wave Frequency (f) - PRIMARY property
-│   └── Wave Period (T)
-│   └── Wave Phase (φ)
-├── Wave Size
-│   ├── Wave Displacement (ψ)
-│   ├── Wave Amplitude (A)
-│   └── Wave Length (λ) - DERIVED from frequency
-├── Wave Energy
-│   ├── Energy density (u)
-│   └── Total energy (E)
-└── Wave Interaction
-    ├── Reflection
-    └── Interference
-
-Wave Profiling ← Diagnostic tool (measures all above properties)
-└── Returns: WaveProfile dataclass with comprehensive wave information
 ```
 
 ### Terminology Best Practices

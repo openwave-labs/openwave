@@ -392,7 +392,7 @@ Newton's 2nd Law:
 F = ma
 a = F/m
 
-Velocity Verlet Integration:
+Euler Integration:
 v_new = v_old + a × dt
 x_new = x_old + v × dt
 

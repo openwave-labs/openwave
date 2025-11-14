@@ -24,6 +24,10 @@ To develop OpenWave, an open-source computer simulator with objectives described
 
 ## Project Architecture
 
+### Level1 Design & Plan
+
+- Refer to `/dev_docs/RESEARCH_LEVEL1/*.md` files for the new LEVEL1 implementation plan, critical build information is detailed in those files.
+
 ### Modules Structure and Objects Map
 
 - Refer to `README.md` file for the Modules Structure, Objects Map and System Architecture.

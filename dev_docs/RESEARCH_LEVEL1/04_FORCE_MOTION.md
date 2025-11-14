@@ -84,7 +84,7 @@ Derivatives
 v = dx/dt
 a = dv/dt = d2x/dt2
 F = dp/dt (force is diff of momentum)
-F = -dU/dt (force is diff of potential)
+F = -dU/dx (force is diff of potential)
 
 Work / Energy
 W = F * d

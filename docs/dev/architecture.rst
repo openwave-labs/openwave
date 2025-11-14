@@ -307,7 +307,7 @@ Smoke Test Example
        print("SMOKE TEST: Module Name")
        ti.init(arch=ti.gpu)
        lattice = BCCLattice([1e-17, 1e-17, 1e-17])
-       print(f"Granules: {lattice.total_granules}")
+       print(f"Granules: {lattice.granule_count}")
        print("SMOKE TEST PASSED")
 
 Future Architecture

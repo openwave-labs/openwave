@@ -73,7 +73,7 @@ def data_dashboard():
     with render.gui.sub_window("DATA-DASHBOARD", 0.00, 0.55, 0.19, 0.45) as sub:
         sub.text("--- WAVE-MEDIUM ---")
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
-        sub.text(f"Granule Count: {lattice.total_granules:,} particles")
+        sub.text(f"Granule Count: {lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
@@ -128,9 +128,9 @@ def controls():
 
 @ti.kernel
 def normalize_lattice(enable_slice: ti.i32):  # type: ignore
-    """Normalize lattice position to 0-1 range for GGUI rendering."""
-    for i in range(lattice.total_granules):
-        # Normalize to 0-1 range (position are in attometers, scale them back)
+    """Normalize lattice positions to 0-1 range for GGUI rendering."""
+    for i in range(lattice.granule_count):
+        # Normalize to 0-1 range (positions are in attometers, scale them back)
         if enable_slice == 1 and lattice.front_octant[i] == 1:
             # Block-slicing enabled: hide front octant granules by moving to origin
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])
@@ -158,7 +158,7 @@ def normalize_neighbors_links():
     max_connections = 0
 
     # Count total connections for line buffer
-    for i in range(lattice.total_granules):
+    for i in range(lattice.granule_count):
         max_connections += neighbors.links_count[i]
     if max_connections > 0:
         # Allocate line endpoint buffer (2 points per line)
@@ -174,7 +174,7 @@ def normalize_neighbors_links():
         line_counter[None] = 0
 
         # Build lines with atomic indexing to ensure correct ordering
-        for i in range(lattice.total_granules):
+        for i in range(lattice.granule_count):
             num_links = neighbors.links_count[i]
             if num_links > 0:
                 # Normalized position (scale back from attometers)
@@ -233,7 +233,7 @@ def render_xperiment(lattice, granule, neighbors):
 
     # Initialize normalized position (0-1 range for GGUI) & block-slicing
     # block-slicing: hide front 1/8th of the lattice for see-through effect
-    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
+    normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.granule_count)
     normalize_granule()
     if lattice.target_granules <= 1e3:
         normalize_neighbors_links()  # Skip neighbors for very high resolutions to save memory

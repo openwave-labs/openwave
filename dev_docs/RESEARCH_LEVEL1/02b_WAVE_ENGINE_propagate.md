@@ -26,7 +26,7 @@ LEVEL-1 uses **PDEs (Partial Differential Equations)** to propagate waves throug
 
 or simplified as:
 
-ψ" = c²Δψ
+ψ̈ = c²Δψ
 ```
 
 Where:
@@ -165,7 +165,6 @@ def track_amplitude_envelope(self):
         disp_mag = ti.abs(self.displacement_am[i,j,k])
         ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
 
-
 @ti.kernel
 def compute_wave_direction(self):
     """
@@ -178,9 +177,10 @@ def compute_wave_direction(self):
 
     for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            psi = self.displacement_am[i, j, k]
+            # Current displacement
+            psi = self.displacement_am[i,j,k]
 
-            # Amplitude gradient
+            # Displacement gradient
             grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
             grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
             grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
@@ -189,9 +189,10 @@ def compute_wave_direction(self):
 
             # Energy flux vector
             S = -c**2 * psi * grad_psi
-            S_mag = S.norm()
 
-            if S_mag > 1e-12:
+            # Normalize to get direction
+            S_mag = S.norm()
+            if S_mag > 1e-12:  # Avoid division by zero
                 self.wave_direction[i,j,k] = S / S_mag
             else:
                 self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])

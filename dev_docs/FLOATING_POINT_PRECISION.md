@@ -491,8 +491,8 @@ Best of both worlds:
 
 ```python
 # Large fields: f32 (memory efficient, fast I/O)
-self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
 # Constants: f64 (no memory cost, better precision)
 wavelength_am = ti.f64(constants.EWAVE_LENGTH / constants.ATTOMETER)
@@ -629,8 +629,8 @@ Minimal changes needed:
 
 ```python
 # medium_level0.py - change all field definitions
-self.position_am = ti.Vector.field(3, dtype=ti.f64, shape=self.total_granules)
-self.velocity_am = ti.Vector.field(3, dtype=ti.f64, shape=self.total_granules)
+self.position_am = ti.Vector.field(3, dtype=ti.f64, shape=self.granule_count)
+self.velocity_am = ti.Vector.field(3, dtype=ti.f64, shape=self.granule_count)
 # ... etc for all vector/scalar fields
 
 # wave_engine_level0.py - update constants

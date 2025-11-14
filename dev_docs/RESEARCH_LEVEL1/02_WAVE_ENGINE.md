@@ -14,6 +14,7 @@
    - [Phase 7: Particle Formation (Mass = Trapped Energy)](#phase-7-particle-formation-mass--trapped-energy)
    - [Visual Summary](#visual-summary)
    - [Why This Sequence?](#why-this-sequence)
+1. [Wave Direction Computation](#wave-direction-computation)
 1. [Energy and Momentum Conservation](#energy-and-momentum-conservation)
 1. [Wave Mode: Longitudinal vs Transverse](#wave-mode-longitudinal-vs-transverse)
 1. [Wave Decomposition: Separating Longitudinal and Transverse Components](#wave-decomposition-separating-longitudinal-and-transverse-components)
@@ -29,7 +30,6 @@
    - [Combined Analysis](#combined-analysis)
    - [Summary Table](#summary-table)
 1. [Wavelength and Frequency Variation in the Medium](#wavelength-and-frequency-variation-in-the-medium)
-1. [Wave Direction Computation](#wave-direction-computation)
 1. [The Complete Picture](#the-complete-picture)
 1. [Implementation Summary](#implementation-summary)
 
@@ -152,6 +152,132 @@ Time 5:    [ ░ ◉ ░ ◉ ░ ]  ← Standing waves (◉) formed = particles!
 4. **Clean Particle Formation**: Wave centers create particles in equilibrium field
 5. **Physical Realism**: Mimics natural wave behavior and particle emergence
 
+## Wave Direction Computation
+
+### The Challenge
+
+The wave equation `∂²ψ/∂t² = c²∇²ψ` only evolves the **scalar amplitude** `ψ`. It doesn't directly compute wave direction.
+
+**But we need direction for**:
+
+- Momentum transfer: `p = ρψ × direction`
+- Force calculations: Direction of energy flow
+- Particle-wave interactions: Reflection angle
+- Visualization: Wave propagation arrows
+
+### Solution 1: Compute Direction from Phase Gradient
+
+### Wave Direction = Gradient of Phase
+
+In wave physics, the wave propagation direction is the gradient of the phase field:
+
+```text
+wave_direction = ∇φ / |∇φ|
+```
+
+Where `φ` is the wave phase at each voxel.
+
+### Computing Phase from Amplitude
+
+For a traveling wave:
+
+```text
+ψ(x,t) = A(x) cos(kx - ωt + φ₀)
+```
+
+The phase at position x and time t is:
+
+```text
+φ(x,t) = arctan(ψ_imaginary / ψ_real)
+```
+
+But for a real-valued field (which we have), we need the **analytic signal** approach.
+
+### Solution 2 (better approach): Energy Flux Method
+
+**Better approach**: Compute wave direction from **energy flux** (Poynting-like vector for waves).
+
+**Energy flux density** (energy flow direction):
+
+```text
+S = -c² × ψ × ∇ψ
+```
+
+Where:
+
+- `ψ` = current displacement
+- `∇ψ` = spatial gradient of displacement
+- Direction of S = direction of energy flow = wave direction
+
+### Solution 3 (alternative): Velocity-Based Direction
+
+For waves, the **time derivative** of amplitude gives wave velocity:
+
+```text
+v_wave = ∂ψ/∂t
+```
+
+Direction of velocity = direction of wave propagation.
+
+**Implementation**:
+
+```python
+@ti.kernel
+def compute_wave_direction_velocity(self):
+    """
+    Compute wave direction from temporal derivative.
+
+    Wave velocity: v = ∂ψ/∂t ≈ (ψ_current - ψ_old) / dt
+    Direction: gradient of velocity field
+    """
+    for i, j, k in self.displacement_am:
+        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
+            # Time derivative (wave velocity)
+            v_wave = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
+
+            # Gradient of velocity gives acceleration direction
+            # (This is less direct, energy flux method is better)
+            # ...
+```
+
+**This method is less reliable** - use energy flux method instead.
+
+### Storage and Update Frequency
+
+**Storage**:
+
+```python
+# In WaveField class __init__
+self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
+```
+
+**Update Frequency**:
+
+- Compute wave direction **every timestep** after amplitude update
+- Or compute **only when needed** (for force calculations, visualization)
+- Trade-off: Computation cost vs storage access
+
+**Recommended**: Compute every timestep for consistency.
+
+### Summary: Wave Direction Pipeline
+
+```text
+1. Initialize amplitude field (initial conditions)
+   ↓
+2. Propagate amplitude using wave equation
+   amplitude_new = 2×amplitude - amplitude_old + cfl_factor×Laplacian
+   ↓
+3. Compute wave direction from energy flux
+   S = -c² × ψ × ∇ψ
+   wave_direction = S / |S|
+   ↓
+4. Use direction for:
+   - Momentum calculations: p = ρψ × direction
+   - Particle reflections: Incident and reflected angles
+   - Visualization: Arrow fields
+   - Force directionality: Energy flow patterns
+```
+
 ## Energy and Momentum Conservation
 
 **Energy Density at Each Voxel**:
@@ -179,13 +305,13 @@ def compute_total_energy() -> ti.f32:
 
     for i, j, k in self.displacement_am:
         # Velocity (time derivative of amplitude)
-        v = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
+        v = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
 
         # Kinetic energy density
         E_k = 0.5 * ρ * v**2
 
         # Potential energy density
-        E_p = 0.5 * ρ * c**2 * (self.displacement_am[i,j,k] / λ)**2
+        E_p = 0.5 * ρ * (self.frequency * self.displacement_am[i,j,k])**2
 
         # Add to total
         total_energy += (E_k + E_p) * dx**3
@@ -200,7 +326,7 @@ def compute_total_energy() -> ti.f32:
 p[i,j,k] = ρ × ψ[i,j,k] × wave_direction[i,j,k]
 ```
 
-Where `wave_direction` is determined by the gradient of phase (see Answer 4).
+Where `wave_direction` is determined by the energy flux.
 
 ## Wave Mode: Longitudinal vs Transverse
 
@@ -601,24 +727,23 @@ def compute_wave_type(self):
     - Pure standing wave: E_k and E_p oscillate 90° out of phase, <E_k> = <E_p>
     - Pure traveling wave: E_k = E_p at all times (in phase)
     """
-    c = ti.f32(constants.EWAVE_SPEED)
     ρ = ti.f32(constants.MEDIUM_DENSITY)
-    λ_m = self.wavelength_am * constants.ATTOMETER
-
+    f = self.frequency
+    
     for i, j, k in self.displacement_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Current displacement
             psi = self.displacement_am[i,j,k] * constants.ATTOMETER  # meters
 
             # Velocity (time derivative approximation)
-            v_wave = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
-            v_wave_m = v_wave * constants.ATTOMETER  # m/s
+            v_wave_am = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
+            v_wave = v_wave_am * constants.ATTOMETER  # m/s
 
             # Kinetic energy density
-            E_k = 0.5 * ρ * v_wave_m**2
+            E_k = 0.5 * ρ * v_wave**2
 
             # Potential energy density
-            E_p = 0.5 * ρ * c**2 * (psi / λ_m)**2
+            E_p = 0.5 * ρ * (f * psi)**2
 
             # Total energy
             E_total = E_k + E_p
@@ -654,7 +779,7 @@ def compute_wave_type_node_motion(self, dt: ti.f32):
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Check if current voxel is near a node (zero crossing)
             psi_now = self.displacement_am[i,j,k]
-            psi_old = self.amplitude_old[i,j,k]
+            psi_old = self.displacement_old_am[i,j,k]
 
             # Zero crossing detection
             if psi_now * psi_old < 0:  # Sign change (crossed zero)
@@ -736,7 +861,7 @@ def analyze_wave_characteristics(self):
 |----------|--------------|------------|----------|-----------|
 | **Definition** | Displacement ∥ propagation | Displacement ⊥ propagation | Nodes fixed | Nodes moving |
 | **Measurement** | k̂ · û ≈ 1 | k̂ · û ≈ 0 | E_k ≠ E_p (alternating) | E_k = E_p (in phase) |
-| **Energy flux** | Along k̂ direction | Perpendicular components | <S> = 0 | <S> ≠ 0 |
+| **Energy flux** | Along k̂ direction | Perpendicular components | S = 0 | S ≠ 0 |
 | **EWT example** | Gravity waves | EM waves (from electron) | Particle interior | Propagating radiation |
 | **Field storage** | `wave_mode[i,j,k]` | `wave_mode[i,j,k]` | `wave_type[i,j,k]` | `wave_type[i,j,k]` |
 
@@ -1189,168 +1314,6 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 6. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
 7. For **single source**, f is constant; for **multiple sources**, measures dominant frequency
 8. **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing in E = ρV(fA)²
-
-## Wave Direction Computation
-
-### The Challenge
-
-The wave equation `∂²ψ/∂t² = c²∇²ψ` only evolves the **scalar amplitude** `ψ`. It doesn't directly compute wave direction.
-
-**But we need direction for**:
-
-- Momentum transfer: `p = ρψ × direction`
-- Force calculations: Direction of energy flow
-- Particle-wave interactions: Reflection angle
-- Visualization: Wave propagation arrows
-
-### Solution: Compute Direction from Phase Gradient
-
-### Wave Direction = Gradient of Phase
-
-In wave physics, the wave propagation direction is the gradient of the phase field:
-
-```text
-wave_direction = ∇φ / |∇φ|
-```
-
-Where `φ` is the wave phase at each voxel.
-
-### Computing Phase from Amplitude
-
-For a traveling wave:
-
-```text
-ψ(x,t) = A(x) cos(kx - ωt + φ₀)
-```
-
-The phase at position x and time t is:
-
-```text
-φ(x,t) = arctan(ψ_imaginary / ψ_real)
-```
-
-But for a real-valued field (which we have), we need the **analytic signal** approach.
-
-### Practical Implementation: Energy Flux Method
-
-**Better approach**: Compute wave direction from **energy flux** (Poynting-like vector for waves).
-
-**Energy flux density** (energy flow direction):
-
-```text
-S = -c² × ψ × ∇ψ
-```
-
-Where:
-
-- `ψ` = current amplitude
-- `∇ψ` = spatial gradient of amplitude
-- Direction of S = direction of energy flow = wave direction
-
-**Implementation**:
-
-```python
-@ti.kernel
-def compute_wave_direction(self):
-    """
-    Compute wave propagation direction from energy flux.
-
-    Energy flux: S = -c² × ψ × ∇ψ
-    Direction: normalized S
-    """
-    c = ti.f32(constants.EWAVE_SPEED)
-
-    for i, j, k in self.displacement_am:
-        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Current displacement
-            psi = self.displacement_am[i,j,k]
-
-            # Amplitude gradient
-            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
-
-            grad_psi = ti.Vector([grad_x, grad_y, grad_z])
-
-            # Energy flux vector
-            S = -c**2 * psi * grad_psi
-
-            # Normalize to get direction
-            S_mag = S.norm()
-            if S_mag > 1e-12:  # Avoid division by zero
-                self.wave_direction[i,j,k] = S / S_mag
-            else:
-                self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
-```
-
-### Alternative: Velocity-Based Direction
-
-For waves, the **time derivative** of amplitude gives wave velocity:
-
-```text
-v_wave = ∂ψ/∂t
-```
-
-Direction of velocity = direction of wave propagation.
-
-**Implementation**:
-
-```python
-@ti.kernel
-def compute_wave_direction_velocity(self):
-    """
-    Compute wave direction from temporal derivative.
-
-    Wave velocity: v = ∂ψ/∂t ≈ (ψ_current - ψ_old) / dt
-    Direction: gradient of velocity field
-    """
-    for i, j, k in self.displacement_am:
-        if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-            # Time derivative (wave velocity)
-            v_wave = (self.displacement_am[i,j,k] - self.amplitude_old[i,j,k]) / dt
-
-            # Gradient of velocity gives acceleration direction
-            # (This is less direct, energy flux method is better)
-            # ...
-```
-
-**This method is less reliable** - use energy flux method instead.
-
-### Storage and Update Frequency
-
-**Storage**:
-
-```python
-# In WaveField class __init__
-self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
-```
-
-**Update Frequency**:
-
-- Compute wave direction **every timestep** after amplitude update
-- Or compute **only when needed** (for force calculations, visualization)
-- Trade-off: Computation cost vs storage access
-
-**Recommended**: Compute every timestep for consistency.
-
-### Summary: Wave Direction Pipeline
-
-```text
-1. Initialize amplitude field (initial conditions)
-   ↓
-2. Propagate amplitude using wave equation
-   amplitude_new = 2×amplitude - amplitude_old + cfl_factor×Laplacian
-   ↓
-3. Compute wave direction from energy flux
-   S = -c² × ψ × ∇ψ
-   wave_direction = S / |S|
-   ↓
-4. Use direction for:
-   - Momentum calculations: p = ρψ × direction
-   - Particle reflections: Incident and reflected angles
-   - Visualization: Arrow fields
-   - Force directionality: Energy flow patterns
-```
 
 ## The Complete Picture
 

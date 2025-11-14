@@ -19,7 +19,7 @@ Use ``@ti.kernel`` for GPU parallelization:
 
    @ti.kernel
    def update_wave():
-       for i in range(total_granules):
+       for i in range(granule_count):
            # Runs in parallel on GPU
            velocity[i] = calculate_velocity(i)
 
@@ -314,8 +314,8 @@ For large simulations:
 
    # Process in batches
    batch_size = 1000000
-   for start in range(0, total_granules, batch_size):
-       end = min(start + batch_size, total_granules)
+   for start in range(0, granule_count, batch_size):
+       end = min(start + batch_size, granule_count)
        process_batch(start, end)
 
 Adaptive Resolution

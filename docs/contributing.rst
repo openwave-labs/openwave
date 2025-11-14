@@ -257,7 +257,7 @@ Use this template for new xperiments:
        @ti.kernel
        def update(self, time: float):
            """Update simulation state."""
-           for i in range(self.lattice.total_granules):
+           for i in range(self.lattice.granule_count):
                # Update logic here
                pass
 

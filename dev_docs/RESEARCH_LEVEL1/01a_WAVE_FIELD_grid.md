@@ -92,9 +92,9 @@ pos_z = (k + 0.5) * dx_am
 
 ```python
 # LEVEL-0: 1D array of granules with 3D position vectors
-self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.displacement_am = ti.field(dtype=ti.f32, shape=self.total_granules)
+self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+self.displacement_am = ti.field(dtype=ti.f32, shape=self.granule_count)
 
 # Access granule 12345
 pos = self.position_am[12345]  # Returns [x, y, z] in attometers
@@ -120,7 +120,7 @@ def find_granule_at_position(target_pos: ti.math.vec3) -> ti.i32:
     closest_idx = -1
     min_dist = 1e10
 
-    for i in range(self.total_granules):  # O(N) search
+    for i in range(self.granule_count):  # O(N) search
         dist = (self.position_am[i] - target_pos).norm()
         if dist < min_dist:
             min_dist = dist
@@ -388,23 +388,54 @@ dx_am = wavelength_am / points_per_wavelength  # voxel edge length in attometers
 
 ### Standard Terms
 
-- **Voxel**: Volume element, cubic region `[i*dx to (i+1)*dx]³`
-- **Grid point / Lattice site**: Center of voxel at `[i,j,k]`
-- **Cell**: Synonym for voxel in FVM context
 - **Field**: 3D array storing physical quantities
+- **Voxel**: Volume element, cubic region `[i*dx to (i+1)*dx]³`
+- **Cell**: Synonym for voxel in FVM context
+- **Grid point / Lattice site**: Center of voxel at `[i,j,k]`
 - **Stencil**: Pattern of neighbors used in computation
+
+### Usage Example
+
+```python
+SPACETIME
+- Medium = WAVE FIELD (the grid - not physical substrate, just information carrier)
+- Unit = VOXEL (unit of volume, cell-centered grid point, industry standard)
+- Stencil = Neighbors connectivity pattern used in computation (derivations & gradients)
+
+# use descriptive var names, better for code maintenance
+WaveField (=Grid + Properties, 3D array)
+WaveField.universe_size [list]
+WaveField.grid_size [list] (= nx, ny, nz) # compute integers
+
+Voxel[i,j,k] (=Cell, volume element)
+WaveField.voxel_volume (from TARGET_VOXELS resolution settings)
+WaveField.voxel_edge (= dx)
+
+compute & store once:
+- actual adjusted universe dimensions & voxel count
+- resolutions
+- total energy
+
+field arrays (wave properties)
+- MEASURED SCALAR FIELD: displacement, amplitude, frequency
+- DERIVED SCALAR FIELD: wavelength, period, phase, energy, momentum
+- DERIVED VECTOR FIELD: energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
+
+_am = attometer version
+_rs = rontosecond version
+```
 
 ### Naming Conventions
 
 ```python
 # Recommended variable names
 nx, ny, nz              # Grid dimensions (number of voxels)
+dx, dy, dz              # Voxel edge lengths (meters, for external reporting)
 dx_am, dy_am, dz_am     # Voxel edge lengths (attometers)
-dx_m, dy_m, dz_m        # Voxel edge lengths (meters, for external reporting)
 i, j, k                 # Grid indices (integers)
 pos_am, position_am     # Physical coordinates (attometers)
 pos_m, position_m       # Physical coordinates (meters, for external use)
-displacement_am[i,j,k]     # Amplitude field in attometers
+displacement_am[i,j,k]  # Displacement field in attometers
 phase[i,j,k]            # Phase field in radians
 ```
 
@@ -429,7 +460,7 @@ class CubicFieldMedium:
         self.dx_am = self.wavelength_am / points_per_wavelength  # Single edge length (am)
 
         # Meters for external reporting
-        self.dx_m = self.dx_am * constants.ATTOMETER
+        self.dx = self.dx_am * constants.ATTOMETER
 ```
 
 ### Orthorhombic Lattice (Future Extension)
@@ -443,16 +474,16 @@ class CubicFieldMedium:
 from openwave.common import constants
 
 class OrthorhombicFieldMedium:
-    def __init__(self, nx, ny, nz, dx_m, dy_m, dz_m):
+    def __init__(self, nx, ny, nz, dx, dy, dz):
         self.nx, self.ny, self.nz = nx, ny, nz
 
         # Attometer scaling for precision
-        self.dx_am = dx_m / constants.ATTOMETER
-        self.dy_am = dy_m / constants.ATTOMETER
-        self.dz_am = dz_m / constants.ATTOMETER
+        self.dx_am = dx / constants.ATTOMETER
+        self.dy_am = dy / constants.ATTOMETER
+        self.dz_am = dz / constants.ATTOMETER
 
         # Meters for external reporting
-        self.dx_m, self.dy_m, self.dz_m = dx_m, dy_m, dz_m
+        self.dx, self.dy, self.dz = dx, dy, dz
 ```
 
 **Recommendation**: Start with cubic for simplicity, extend to orthorhombic if needed.
