@@ -51,36 +51,36 @@ class WaveField:
         Returns:
             WaveField instance with optimally sized voxels for target_voxels
         """
-        # Compute initial lattice properties (before rounding and lattice symmetry)
+        # Compute initial grid properties (before rounding and grid symmetry)
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
         target_voxels = config.TARGET_VOXELS
 
-        # Calculate unit cell properties
-        # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
-        # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (target_voxels / 2)  # BCC = 2 /unit-cell
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
-        self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
+        # Calculate cubic voxel size from target voxel count
+        # CRITICAL: voxels must remain cubic (same edge length on all axes)
+        # This preserves crystal structure. Only the NUMBER of voxels varies per axis.
+        voxel_volume = init_universe_volume / target_voxels  # cubic voxels
+        self.voxel_edge = voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
+        self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
 
-        # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
+        # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # int() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
-        # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
+        # 2. voxel_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to fit only complete voxels (actual universe size recalculated below)
         self.grid_size = [
-            int(init_universe_size[0] / self.unit_cell_edge),
-            int(init_universe_size[1] / self.unit_cell_edge),
-            int(init_universe_size[2] / self.unit_cell_edge),
-        ]
+            int(init_universe_size[0] / self.voxel_edge),
+            int(init_universe_size[1] / self.voxel_edge),
+            int(init_universe_size[2] / self.voxel_edge),
+        ]  # same as (nx, ny, nz)
 
-        # Recompute actual universe dimensions to fit integer number of cubic unit cells
+        # Recompute actual universe dimensions to fit integer number of cubic voxels
         self.universe_size = [
-            self.grid_size[0] * self.unit_cell_edge,
-            self.grid_size[1] * self.unit_cell_edge,
-            self.grid_size[2] * self.unit_cell_edge,
+            self.grid_size[0] * self.voxel_edge,
+            self.grid_size[1] * self.voxel_edge,
+            self.grid_size[2] * self.voxel_edge,
         ]
         self.universe_size_am = [
             self.universe_size[0] / constants.ATTOMETER,
@@ -88,11 +88,12 @@ class WaveField:
             self.universe_size[2] / constants.ATTOMETER,
         ]
         self.max_universe_edge = max(
-            self.grid_size[0] * self.unit_cell_edge,
-            self.grid_size[1] * self.unit_cell_edge,
-            self.grid_size[2] * self.unit_cell_edge,
+            self.grid_size[0] * self.voxel_edge,
+            self.grid_size[1] * self.voxel_edge,
+            self.grid_size[2] * self.voxel_edge,
         )
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
+
         self.max_grid_size = max(
             self.grid_size[0],
             self.grid_size[1],
@@ -102,45 +103,47 @@ class WaveField:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Total granules: corners + centers (asymmetric grid)
-        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
-        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
-        self.total_granules = corner_count + center_count
-
-        # Scale factor based on cubic unit cell edge
-        self.scale_factor = self.unit_cell_edge / (
-            2 * ti.math.e * constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length, increases computability
+        # Compute total voxels (asymmetric grid)
+        self.voxel_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
 
         # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
+        # voxels per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.voxel_edge)
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
-        # Compute lattice total energy from energy-wave equation
+        # Compute grid total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
-        # Initialize position and velocity 1D arrays
-        # 1D array design: Better memory locality, simpler kernels, ready for dynamics
-        # position, velocity in attometers for f32 precision
+        # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # granule amplitude
-        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        # Wave equation fields (leap-frog scheme requires three time levels)
+        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t+dt)
+        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t)
+        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t-dt)
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, envelope A = max|ψ|
+        self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, wave rhythm
 
-        # Populate the lattice & index granule types
-        self.populate_latticeBCC()  # initialize position and velocity
-        self.normalize_to_screen(0)  # initial normalization for rendering
+        # DERIVED SCALAR FIELDS
+        # wavelength, period, phase, energy, momentum
+
+        # DERIVED VECTOR FIELDS (directions normalized to unit vectors)
+        # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
+
+        # Grid Visualization Fields
+        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.voxel_count)  # for rendering
+
+        # Populate the grid wire_frame with taichi lines positions
+        self.populate_wire_frame()  # initialize grid lines position
+        self.normalize_to_screen(0)  # normalize wire-frame for rendering
+
+        # Test Grid Visualization
+        from openwave._io import render
+
+        render.scene.lines(self.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
 
     @ti.kernel
     def populate_latticeBCC(self):
@@ -215,86 +218,19 @@ class WaveField:
                 # Normal rendering: normalize to 0-1 range
                 self.position_screen[i] = self.position_am[i] / self.max_universe_edge_am
 
-
-@ti.data_oriented
-class PROPOSEDWaveField:
-    def __init__(self, init_universe_size):
-        if wavelength is None:
-            wavelength = constants.EWAVE_LENGTH
-        if target_voxels is None:
-            target_voxels = config.TARGET_VOXELS
-
-        # Compute universe volume
-        init_volume = init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
-
-        # Calculate cubic voxel size from target voxel count
-        # voxel_volume = universe_volume / target_voxels
-        # dx³ = voxel_volume → dx = voxel_volume^(1/3)
-        voxel_volume = init_volume / target_voxels
-        dx = voxel_volume ** (1 / 3)  # Cubic voxel edge
-
-        # Calculate grid dimensions (integer voxel counts per axis)
-        nx = int(init_universe_size[0] / dx)
-        ny = int(init_universe_size[1] / dx)
-        nz = int(init_universe_size[2] / dx)
-
-        # Compute points per wavelength (for consistency)
-        points_per_wavelength = wavelength / dx
-
-        # Grid dimensions (asymmetric support: nx ≠ ny ≠ nz allowed)
-        self.nx, self.ny, self.nz = nx, ny, nz
-
-        # ATTOMETER SCALING (critical for f32 precision)
-        self.wavelength_am = wavelength_m / constants.ATTOMETER
-        self.dx_am = self.wavelength_am / points_per_wavelength  # Cubic voxel size in am
-
-        # Physical sizes in meters (for external reporting, asymmetric)
-        self.dx_m = self.dx_am * constants.ATTOMETER
-        self.domain_size_m = [
-            nx * self.dx_m,
-            ny * self.dx_m,
-            nz * self.dx_m,
-        ]  # Can differ per axis
-
-        # SCALAR FIELDS (values in attometers where applicable)
-        # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
-        self.displacement_am = ti.field(
-            dtype=ti.f32, shape=(nx, ny, nz)
-        )  # am (ψ at t, instantaneous)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (envelope A = max|ψ|)
-        self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
-
-        # SCALAR FIELDS (no attometer scaling needed)
-        self.density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
-        self.energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # J
-
-        # VECTOR FIELDS (directions normalized, magnitudes may need scaling)
-        self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # unit vector
-        self.amplitude_direction = ti.Vector.field(
-            3, dtype=ti.f32, shape=(nx, ny, nz)
-        )  # unit vector
-        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # am/s
-        self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # N
-
-        # Compute actual universe size (rounded to integer voxel counts)
-        self.actual_universe_size = [nx * self.dx_m, ny * self.dx_m, nz * self.dx_m]
-        self.actual_voxel_count = nx * ny * nz
-
     @ti.func
-    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
-        """Get physical position of voxel center in attometers."""
-        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
-
-    @ti.func
-    def get_position_m(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:
+    def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
         """Get physical position of voxel center in meters (for external use)."""
         pos_am = self.get_position_am(i, j, k)
         return pos_am * ti.f32(constants.ATTOMETER)
 
     @ti.func
-    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:
+    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
+        """Get physical position of voxel center in attometers."""
+        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
+
+    @ti.func
+    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
         """
         Get voxel index from position in attometers.
 
@@ -347,12 +283,12 @@ class BCCLattice:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
+        target_granules = config.TARGET_GRANULES
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
+        unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 

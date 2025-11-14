@@ -369,7 +369,7 @@ def compute_propagation(state):
 
 def render_elements(state):
     """Render granules and wave sources with appropriate coloring."""
-    radius_render = 0.002 * state.radius_factor
+    radius_render = 0.0001 * state.radius_factor
 
     # Render granules with color scheme
     if state.granule_type:
@@ -388,7 +388,7 @@ def render_elements(state):
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
-            color=config.COLOR_MEDIUM[1],
+            color=config.WHITE[1],
         )
 
 
