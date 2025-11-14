@@ -397,20 +397,22 @@ dx_am = wavelength_am / points_per_wavelength  # voxel edge length in attometers
 ### Usage Example
 
 ```python
-WaveField (=Grid, 3D array), Voxel (=Cell, volume element)
-WaveField.init_universe_size [list]
+WaveField (=Grid + Properties, 3D array)
+WaveField.universe_size [list]
+WaveField.grid_size [list] (= nx, ny, nz) # compute integers
+
+Voxel (=Cell, volume element)
 WaveField.voxel_volume
 WaveField.voxel_edge (= dx) # use descriptive var names, better for code maintenance
-WaveField.grid_size [list] (= nx, ny, nz) # compute integers
 
 compute & store once:
 - actual adjusted universe dimensions & voxel count
 - resolutions
 - total energy
 
-init field arrays
+field arrays (wave properties)
 - SCALAR MEASURED: displacement, amplitude, frequency
-- SCALAR COMPUTED: wavelength, period, phase, 
+- SCALAR COMPUTED: wavelength, period, phase, ...
 - VECTOR MEASURED: wave_direction, wave_mode, wave_type
 
 _am = attometer version
@@ -427,7 +429,7 @@ dx_am, dy_am, dz_am     # Voxel edge lengths (attometers)
 i, j, k                 # Grid indices (integers)
 pos_am, position_am     # Physical coordinates (attometers)
 pos_m, position_m       # Physical coordinates (meters, for external use)
-displacement_am[i,j,k]     # Amplitude field in attometers
+displacement_am[i,j,k]  # Displacement field in attometers
 phase[i,j,k]            # Phase field in radians
 ```
 
