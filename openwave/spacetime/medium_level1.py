@@ -145,8 +145,9 @@ class WaveField:
         # render.scene.lines(self.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
 
     @ti.kernel
-    def populate_latticeBCC(self):
-        """Populate BCC lattice positions in a 1D array with asymmetric grid support.
+    def populate_wire_frame(self):
+        """
+        Populate cubic grid wire-frame positions in a 1D array with asymmetric grid support.
         Kernel is properly optimized for Taichi's parallel execution:
         1. Single outermost loop - for idx in range() allows full GPU parallelization
         2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
@@ -154,8 +155,6 @@ class WaveField:
         4. Efficient branching - Simple if/else to determine corner vs center granules
         This structure ensures maximum parallelization on GPU, as each thread independently
         computes one granule's position without synchronization overhead.
-
-        Asymmetric grid: Different grid sizes for x, y, z dimensions.
         """
         # Parallelize over all granules using single outermost loop
         for idx in range(self.granule_count):
