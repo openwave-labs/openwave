@@ -1,5 +1,5 @@
 """
-XPERIMENT: [WIP] Gravity Attenuation by Proton Vibration (contact us to join xperiment)
+XPERIMENT: [WIP] Gravity Attenuation by Proton Vibration (contact us to join)
 """
 
 import sys

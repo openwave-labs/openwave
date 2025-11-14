@@ -1,7 +1,7 @@
 """
-L1 XPERIMENT LAUNCHER
+L0 XPERIMENT LAUNCHER
 
-Unified launcher for Level-1 wave-field xperiments featuring:
+Unified launcher for Level-0 granule-based xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /_xparameters directory
@@ -17,8 +17,8 @@ from pathlib import Path
 from openwave.common import config, constants
 from openwave._io import render, video
 
-import openwave.spacetime.medium_level1 as medium
-import openwave.spacetime.wave_engine_level1 as ewave
+import openwave.spacetime.medium_level0 as medium
+import openwave.spacetime.wave_engine_level0 as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # ================================================================
@@ -58,7 +58,9 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.level1_wave_field._xparameters.{xperiment_name}"
+            module_path = (
+                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
+            )
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -83,7 +85,9 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.level1_wave_field._xparameters.{xperiment_name}"
+            module_path = (
+                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
+            )
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["name"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -103,6 +107,7 @@ class SimulationState:
 
     def __init__(self):
         self.lattice = None
+        self.granule = None
         self.elapsed_t = 0.0
         self.last_time = time.time()
         self.frame = 0
@@ -113,11 +118,15 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TICK_SPACING = 0.25
+        self.NUM_SOURCES = 1
+        self.SOURCES_POSITION = []
+        self.SOURCES_PHASE_DEG = []
         self.COLOR_THEME = "OCEAN"
 
         # UI control variables
         self.show_axis = False
-        self.flux_detector = False
+        self.block_slice = False
+        self.show_sources = False
         self.radius_factor = 0.5
         self.freq_boost = 10.0
         self.amp_boost = 1.0
@@ -153,10 +162,17 @@ class SimulationState:
         self.TICK_SPACING = universe["tick_spacing"]
         self.COLOR_THEME = universe["color_theme"]
 
+        # Wave sources
+        sources = params["wave_sources"]
+        self.NUM_SOURCES = sources["count"]
+        self.SOURCES_POSITION = sources["positions"]
+        self.SOURCES_PHASE_DEG = sources["phase_offsets_deg"]
+
         # UI defaults
         ui = params["ui_defaults"]
         self.show_axis = ui["show_axis"]
-        self.flux_detector = ui["flux_detector"]
+        self.block_slice = ui["block_slice"]
+        self.show_sources = ui["show_sources"]
         self.radius_factor = ui["radius_factor"]
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
@@ -172,9 +188,12 @@ class SimulationState:
         self.EXPORT_VIDEO = diag["export_video"]
         self.VIDEO_FRAMES = diag["video_frames"]
 
-    def initialize_grid(self):
-        """Initialize or reinitialize the wave field grid."""
+    def initialize_lattice(self):
+        """Initialize or reinitialize the lattice and granule objects."""
         self.lattice = medium.BCCLattice(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
+        self.granule = medium.BCCGranule(
+            self.lattice.unit_cell_edge, self.lattice.max_universe_edge
+        )
 
 
 # ================================================================
@@ -194,7 +213,7 @@ def xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER L1", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER L0", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -214,7 +233,8 @@ def controls(state):
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
-        state.flux_detector = sub.checkbox("Flux Detector", state.flux_detector)
+        state.block_slice = sub.checkbox("Block Slice", state.block_slice)
+        state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
         state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
         state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
         state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
@@ -274,8 +294,9 @@ def color_menu(
 
 def level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=config.DARK_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
+    render.canvas.triangles(level_bar_vertices, color=config.WHITE[1])
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
+        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
 
@@ -293,6 +314,8 @@ def data_dashboard(state):
         sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {state.lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
+        sub.text(f"Granule Radius: {state.granule.radius * state.radius_factor:.2e} m")
+        sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
         sub.text(f"EWave: {state.lattice.ewave_res:.0f} granules/ewave (>10)")
@@ -323,53 +346,56 @@ def data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize xperiment and diagnostics (called once after grid init).
+    """Initialize wave sources and diagnostics (called once after lattice init).
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    ewave.build_source_vectors(
+        state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
+    )
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
 
-def compute_propagation(state):
-    """Compute wave propagation, reflection and superposition and update visualization data.
+def compute_motion(state):
+    """Compute lattice motion from wave superposition and update visualization data.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # # Apply wave propagation
-    # ewave.propagate_wave(
-    #     state.lattice.position_am,
-    #     state.lattice.equilibrium_am,
-    #     state.lattice.amplitude_am,
-    #     state.lattice.velocity_am,
-    #     state.lattice.granule_var_color,
-    #     state.freq_boost,
-    #     state.amp_boost,
-    #     state.ironbow,
-    #     state.var_displacement,
-    #     state.NUM_SOURCES,
-    #     state.elapsed_t,
-    # )
+    # Apply wave oscillations from all sources (creates interference patterns)
+    ewave.oscillate_granules(
+        state.lattice.position_am,
+        state.lattice.equilibrium_am,
+        state.lattice.amplitude_am,
+        state.lattice.velocity_am,
+        state.lattice.granule_var_color,
+        state.freq_boost,
+        state.amp_boost,
+        state.ironbow,
+        state.var_displacement,
+        state.NUM_SOURCES,
+        state.elapsed_t,
+    )
 
-    # # Update normalized positions for rendering with optional flux detector
-    # state.lattice.normalize_to_screen(1 if state.flux_detector else 0)
+    # Update normalized positions for rendering with optional block-slicing
+    state.lattice.normalize_to_screen(1 if state.block_slice else 0)
 
-    # # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # # Update data sampling every 30 frames
-    # if state.frame % 30 == 0:
-    #     state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-    #     ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
+    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
+    # Update data sampling every 30 frames
+    if state.frame % 30 == 0:
+        state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
+        ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
 
-    # if state.WAVE_DIAGNOSTICS:
-    #     diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
+    if state.WAVE_DIAGNOSTICS:
+        diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
 
 
 def render_elements(state):
     """Render granules and wave sources with appropriate coloring."""
-    radius_render = 0.0001 * state.radius_factor
+    radius_render = state.granule.radius_screen * state.radius_factor
 
     # Render granules with color scheme
     if state.granule_type:
@@ -388,7 +414,15 @@ def render_elements(state):
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
-            color=config.WHITE[1],
+            color=config.COLOR_MEDIUM[1],
+        )
+
+    # Render wave sources
+    if state.show_sources:
+        render.scene.particles(
+            centers=ewave.sources_pos_field,
+            radius=state.granule.radius_screen * 2,
+            color=config.COLOR_SOURCE[1],
         )
 
 
@@ -415,7 +449,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment (from CLI arg or default)
-    default_xperiment = selected_xperiment_arg or "energy_wave"
+    default_xperiment = selected_xperiment_arg or "spacetime_vibration"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
@@ -425,7 +459,7 @@ def main():
         return
 
     state.apply_xparameters(params)
-    state.initialize_grid()
+    state.initialize_lattice()
     initialize_xperiment(state)
 
     # Initialize GGUI rendering
@@ -463,7 +497,7 @@ def main():
             state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
             state.last_time = current_time
 
-            compute_propagation(state)
+            compute_motion(state)
             state.frame += 1
         else:
             # Prevent time jump on resume

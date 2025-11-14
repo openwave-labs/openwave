@@ -1,5 +1,5 @@
 """
-XPERIMENT: [WIP] Thermodynamics 2.0: Heat as eWave Energy (contact us to join xperiment)
+XPERIMENT: [WIP] Thermodynamics 2.0: Heat as eWave Energy (contact us to join)
 """
 
 import sys
