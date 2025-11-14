@@ -92,7 +92,7 @@ class BCCLattice:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
             int(init_universe_size[0] / self.unit_cell_edge),
             int(init_universe_size[1] / self.unit_cell_edge),
@@ -116,6 +116,7 @@ class BCCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         )
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
+
         self.max_grid_size = max(
             self.grid_size[0],
             self.grid_size[1],
@@ -588,7 +589,7 @@ class SCLattice:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
             int(init_universe_size[0] / self.unit_cell_edge),
             int(init_universe_size[1] / self.unit_cell_edge),
@@ -612,6 +613,7 @@ class SCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         )
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
+
         self.max_grid_size = max(
             self.grid_size[0],
             self.grid_size[1],
