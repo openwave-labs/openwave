@@ -128,9 +128,9 @@ def controls():
 
 @ti.kernel
 def normalize_lattice(enable_slice: ti.i32):  # type: ignore
-    """Normalize lattice position to 0-1 range for GGUI rendering."""
+    """Normalize lattice positions to 0-1 range for GGUI rendering."""
     for i in range(lattice.granule_count):
-        # Normalize to 0-1 range (position are in attometers, scale them back)
+        # Normalize to 0-1 range (positions are in attometers, scale them back)
         if enable_slice == 1 and lattice.front_octant[i] == 1:
             # Block-slicing enabled: hide front octant granules by moving to origin
             normalized_position[i] = ti.Vector([0.0, 0.0, 0.0])

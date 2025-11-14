@@ -92,7 +92,7 @@ class BCCLattice:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
             int(init_universe_size[0] / self.unit_cell_edge),
             int(init_universe_size[1] / self.unit_cell_edge),
@@ -589,7 +589,7 @@ class SCLattice:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
         self.grid_size = [
             int(init_universe_size[0] / self.unit_cell_edge),
             int(init_universe_size[1] / self.unit_cell_edge),
@@ -970,8 +970,6 @@ if __name__ == "__main__":
     print("\n================================================================")
     print("SMOKE TEST: WAVE-MEDIUM MODULE")
     print("================================================================")
-
-    import time
 
     ti.init(arch=ti.gpu)
 
