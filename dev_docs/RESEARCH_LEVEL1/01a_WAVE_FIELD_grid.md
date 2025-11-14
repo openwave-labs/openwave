@@ -402,6 +402,7 @@ WaveField.init_universe_size [list]
 WaveField.voxel_volume
 WaveField.voxel_edge (= dx) # use descriptive var names, better for code maintenance
 WaveField.grid_size [list] (= nx, ny, nz) # compute integers
+
 compute & store once:
 - actual adjusted universe dimensions & voxel count
 - resolutions

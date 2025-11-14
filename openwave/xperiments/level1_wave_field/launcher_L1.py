@@ -174,7 +174,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.lattice = medium.WaveField(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
+        self.lattice = medium.BCCLattice(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
 
 
 # ================================================================
