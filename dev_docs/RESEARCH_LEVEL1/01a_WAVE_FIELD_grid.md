@@ -388,19 +388,41 @@ dx_am = wavelength_am / points_per_wavelength  # voxel edge length in attometers
 
 ### Standard Terms
 
-- **Voxel**: Volume element, cubic region `[i*dx to (i+1)*dx]³`
-- **Grid point / Lattice site**: Center of voxel at `[i,j,k]`
-- **Cell**: Synonym for voxel in FVM context
 - **Field**: 3D array storing physical quantities
+- **Voxel**: Volume element, cubic region `[i*dx to (i+1)*dx]³`
+- **Cell**: Synonym for voxel in FVM context
+- **Grid point / Lattice site**: Center of voxel at `[i,j,k]`
 - **Stencil**: Pattern of neighbors used in computation
+
+### Usage Example
+
+```python
+WaveField (=Grid, 3D array), Voxel (=Cell, volume element)
+WaveField.init_universe_size [list]
+WaveField.voxel_volume
+WaveField.voxel_edge (= dx) # use descriptive var names, better for code maintenance
+WaveField.grid_size [list] (= nx, ny, nz) # compute integers
+compute & store once:
+- actual adjusted universe dimensions & voxel count
+- resolutions
+- total energy
+
+init field arrays
+- SCALAR MEASURED: displacement, amplitude, frequency
+- SCALAR COMPUTED: wavelength, period, phase, 
+- VECTOR MEASURED: wave_direction, wave_mode, wave_type
+
+_am = attometer version
+_rs = rontosecond version
+```
 
 ### Naming Conventions
 
 ```python
 # Recommended variable names
 nx, ny, nz              # Grid dimensions (number of voxels)
+dx, dy, dz              # Voxel edge lengths (meters, for external reporting)
 dx_am, dy_am, dz_am     # Voxel edge lengths (attometers)
-dx_m, dy_m, dz_m        # Voxel edge lengths (meters, for external reporting)
 i, j, k                 # Grid indices (integers)
 pos_am, position_am     # Physical coordinates (attometers)
 pos_m, position_m       # Physical coordinates (meters, for external use)
@@ -429,7 +451,7 @@ class CubicFieldMedium:
         self.dx_am = self.wavelength_am / points_per_wavelength  # Single edge length (am)
 
         # Meters for external reporting
-        self.dx_m = self.dx_am * constants.ATTOMETER
+        self.dx = self.dx_am * constants.ATTOMETER
 ```
 
 ### Orthorhombic Lattice (Future Extension)
@@ -443,16 +465,16 @@ class CubicFieldMedium:
 from openwave.common import constants
 
 class OrthorhombicFieldMedium:
-    def __init__(self, nx, ny, nz, dx_m, dy_m, dz_m):
+    def __init__(self, nx, ny, nz, dx, dy, dz):
         self.nx, self.ny, self.nz = nx, ny, nz
 
         # Attometer scaling for precision
-        self.dx_am = dx_m / constants.ATTOMETER
-        self.dy_am = dy_m / constants.ATTOMETER
-        self.dz_am = dz_m / constants.ATTOMETER
+        self.dx_am = dx / constants.ATTOMETER
+        self.dy_am = dy / constants.ATTOMETER
+        self.dz_am = dz / constants.ATTOMETER
 
         # Meters for external reporting
-        self.dx_m, self.dy_m, self.dz_m = dx_m, dy_m, dz_m
+        self.dx, self.dy, self.dz = dx, dy, dz
 ```
 
 **Recommendation**: Start with cubic for simplicity, extend to orthorhombic if needed.

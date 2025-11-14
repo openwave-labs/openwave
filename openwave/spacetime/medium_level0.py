@@ -125,6 +125,13 @@ class BCCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
+        # Total granules: corners + centers (asymmetric grid)
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
+        self.total_granules = corner_count + center_count
+
         # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
@@ -135,13 +142,6 @@ class BCCLattice:
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
-
-        # Total granules: corners + centers (asymmetric grid)
-        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
-        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
-        self.total_granules = corner_count + center_count
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
