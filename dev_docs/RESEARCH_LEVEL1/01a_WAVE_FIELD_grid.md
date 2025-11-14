@@ -92,9 +92,9 @@ pos_z = (k + 0.5) * dx_am
 
 ```python
 # LEVEL-0: 1D array of granules with 3D position vectors
-self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-self.displacement_am = ti.field(dtype=ti.f32, shape=self.total_granules)
+self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+self.displacement_am = ti.field(dtype=ti.f32, shape=self.granule_count)
 
 # Access granule 12345
 pos = self.position_am[12345]  # Returns [x, y, z] in attometers
@@ -120,7 +120,7 @@ def find_granule_at_position(target_pos: ti.math.vec3) -> ti.i32:
     closest_idx = -1
     min_dist = 1e10
 
-    for i in range(self.total_granules):  # O(N) search
+    for i in range(self.granule_count):  # O(N) search
         dist = (self.position_am[i] - target_pos).norm()
         if dist < min_dist:
             min_dist = dist

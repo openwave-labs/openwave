@@ -131,7 +131,7 @@ class BCCLattice:
         # Centers: grid_size[0] * grid_size[1] * grid_size[2]
         corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
         center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
-        self.total_granules = corner_count + center_count
+        self.granule_count = corner_count + center_count
 
         # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
@@ -154,15 +154,15 @@ class BCCLattice:
         # position, velocity in attometers for f32 precision
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # granule amplitude
-        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # granule amplitude
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
         # Populate the lattice & index granule types
         self.populate_latticeBCC()  # initialize position and velocity
@@ -185,7 +185,7 @@ class BCCLattice:
         Asymmetric grid: Different grid sizes for x, y, z dimensions.
         """
         # Parallelize over all granules using single outermost loop
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             # Determine if this is a corner or center granule
             corner_count = (
                 (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
@@ -245,7 +245,7 @@ class BCCLattice:
         """
         corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
 
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             if idx < corner_count:
                 # Corner granule: decode 3D grid position (asymmetric)
                 grid_dim_y = self.grid_size[1] + 1
@@ -285,7 +285,7 @@ class BCCLattice:
 
         Asymmetric grid: Uses different thresholds for x, y, z dimensions.
         """
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
             # 0 = not in front octant, 1 = in front octant
             self.front_octant[i] = (
@@ -301,7 +301,7 @@ class BCCLattice:
     @ti.kernel
     def normalize_to_screen(self, enable_slice: ti.i32):  # type: ignore
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             # Normalize to 0-1 range (positions are in attometers, scale them back)
             if enable_slice == 1 and self.front_octant[i] == 1:
                 # Block-slicing enabled: hide front octant granules by moving to origin
@@ -355,7 +355,7 @@ class BCCLattice:
             ]
         )
 
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             granule_type = self.granule_type[i]
             if 0 <= granule_type <= 3:
                 self.granule_type_color[i] = ti.Vector(
@@ -459,7 +459,7 @@ class BCCLattice:
         field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             pos = self.position_am[idx]
 
             # Check if granule is on one of the exposed planes and mark field circles
@@ -636,7 +636,7 @@ class SCLattice:
 
         # Total granules: corners only (no centers for SC) - asymmetric grid
         # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        self.total_granules = (
+        self.granule_count = (
             (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
         )
 
@@ -650,15 +650,15 @@ class SCLattice:
         # position, velocity in attometers for f32 precision
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.total_granules)  # granule amplitude
-        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # granule amplitude
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.granule_type_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
         # Populate the lattice & index granule types
         self.populate_latticeSC()  # initialize position and velocity
@@ -681,7 +681,7 @@ class SCLattice:
         Asymmetric grid: Different grid sizes for x, y, z dimensions.
         """
         # Parallelize over all granules using single outermost loop
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             # SC lattice: only corner granules (asymmetric)
             grid_dim_y = self.grid_size[1] + 1
             grid_dim_z = self.grid_size[2] + 1
@@ -717,7 +717,7 @@ class SCLattice:
         Simple Cubic: All granules are corners, so classification is based on grid position only.
         Asymmetric grid: Works with different grid sizes for x, y, z dimensions.
         """
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             # SC lattice: all granules are corner granules (asymmetric)
             grid_dim_y = self.grid_size[1] + 1
             grid_dim_z = self.grid_size[2] + 1
@@ -753,7 +753,7 @@ class SCLattice:
 
         Asymmetric grid: Uses different thresholds for x, y, z dimensions.
         """
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
             # 0 = not in front octant, 1 = in front octant
             self.front_octant[i] = (
@@ -769,7 +769,7 @@ class SCLattice:
     @ti.kernel
     def normalize_to_screen(self, enable_slice: ti.i32):  # type: ignore
         """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             # Normalize to 0-1 range (positions are in attometers, scale them back)
             if enable_slice == 1 and self.front_octant[i] == 1:
                 # Block-slicing enabled: hide front octant granules by moving to origin
@@ -823,7 +823,7 @@ class SCLattice:
             ]
         )
 
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             granule_type = self.granule_type[i]
             if 0 <= granule_type <= 3:
                 self.granule_type_color[i] = ti.Vector(
@@ -910,7 +910,7 @@ class SCLattice:
         field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             pos = self.position_am[idx]
 
             # Check if granule is on one of the exposed planes and mark field circles
@@ -998,7 +998,7 @@ if __name__ == "__main__":
         f"  Grid size: {lattice.grid_size[0]} x {lattice.grid_size[1]} x {lattice.grid_size[2]} unit cells"
     )
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m (cubic - same for all axes)")
-    print(f"  Granule count: {lattice.total_granules:,}")
+    print(f"  Granule count: {lattice.granule_count:,}")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
     print(f"  Total energy: {lattice.energy:.2e} J")
 

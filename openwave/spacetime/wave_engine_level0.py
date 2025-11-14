@@ -24,7 +24,7 @@ frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave fr
 # Energy-Wave Source Data (Global Fields)
 # ================================================================
 # These fields are initialized once by build_source_vectors() and used by oscillate_granules()
-# Shape: (total_granules, num_sources) for parallel access
+# Shape: (granule_count, num_sources) for parallel access
 sources_direction = None  # Direction vectors from each granule to each wave source
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
@@ -68,9 +68,9 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
     sources_direction = ti.Vector.field(
-        3, dtype=ti.f32, shape=(lattice.total_granules, num_sources)
+        3, dtype=ti.f32, shape=(lattice.granule_count, num_sources)
     )
-    sources_distance_am = ti.field(dtype=ti.f32, shape=(lattice.total_granules, num_sources))
+    sources_distance_am = ti.field(dtype=ti.f32, shape=(lattice.granule_count, num_sources))
     sources_phase_shift = ti.field(dtype=ti.f32, shape=num_sources)
 
     # Convert Python lists to Taichi fields for kernel access
@@ -93,7 +93,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
         Parallelized over all granules (outermost loop). Inner loop over sources
         is sequential but short (num_sources).
         """
-        for granule_idx in range(lattice.total_granules):
+        for granule_idx in range(lattice.granule_count):
             # Loop through all wave sources
             for source_idx in range(num_active):
                 # Convert normalized source position to attometers

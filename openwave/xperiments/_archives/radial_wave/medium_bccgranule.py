@@ -107,23 +107,23 @@ class BCCLattice:
         # Corners: (grid_size + 1)^3, Centers: grid_size^3
         corner_count = (self.grid_size + 1) ** 3
         center_count = self.grid_size**3
-        self.total_granules = corner_count + center_count
+        self.granule_count = corner_count + center_count
 
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # position, velocity in attometers for f32 precision
         # This scales 1e-17 m values to ~10 am, well within f32 range
-        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)  # rest
-        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.granule_type = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.center_direction = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
-        self.center_distance_am = ti.field(dtype=ti.f32, shape=self.total_granules)
+        self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
+        self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.center_direction = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
+        self.center_distance_am = ti.field(dtype=ti.f32, shape=self.granule_count)
         self.vertex_index = ti.field(dtype=ti.i32, shape=8)  # indices of 8 corner vertices
         self.vertex_equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=8)  # rest position
         self.vertex_center_direction = ti.Vector.field(3, dtype=ti.f32, shape=8)
-        self.front_octant = ti.field(dtype=ti.i32, shape=self.total_granules)
-        self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.total_granules)
+        self.front_octant = ti.field(dtype=ti.i32, shape=self.granule_count)
+        self.granule_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
         # Populate the lattice & index granule types
         self.populate_lattice()  # initialize position and velocity
@@ -146,7 +146,7 @@ class BCCLattice:
         computes one granule's position without synchronization overhead.
         """
         # Parallelize over all granules using single outermost loop
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             # Determine if this is a corner or center granule
             corner_count = (self.grid_size + 1) ** 3
 
@@ -201,7 +201,7 @@ class BCCLattice:
         corner_count = (self.grid_size + 1) ** 3
         half_grid = self.grid_size // 2
 
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             if idx < corner_count:
                 # Corner granule: decode 3D grid position
                 grid_dim = self.grid_size + 1
@@ -258,7 +258,7 @@ class BCCLattice:
         lattice_center = ti.Vector([0.5, 0.5, 0.5])
 
         # Process all granules in the lattice
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             # Special case: Central granule should have zero distance and no direction
             if self.granule_type[idx] == 4:
                 # Central granule: zero distance, arbitrary direction (won't be used)
@@ -320,7 +320,7 @@ class BCCLattice:
         Front octant = granules where x, y, z > universe_edge/2
         Used for rendering: 0 = render, 1 = skip (for see-through effect)
         """
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             # Mark if granule is in the front 1/8th block, > halfway on all axes
             # 0 = not in front octant, 1 = in front octant
             self.front_octant[i] = (
@@ -382,7 +382,7 @@ class BCCLattice:
             ]
         )
 
-        for i in range(self.total_granules):
+        for i in range(self.granule_count):
             granule_type = self.granule_type[i]
             if 0 <= granule_type <= 4:
                 self.granule_color[i] = ti.Vector(
@@ -473,7 +473,7 @@ class BCCLattice:
         field_color = ti.Vector(config.COLOR_FIELD[1])
 
         # Process all granules in parallel
-        for idx in range(self.total_granules):
+        for idx in range(self.granule_count):
             if self.granule_type[idx] != 4:
                 pos = self.position_am[idx]
 
@@ -566,13 +566,13 @@ class BCCNeighbors:
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)
         # Max 8 neighbors for BCC structure
-        self.links = ti.field(dtype=ti.i32, shape=(lattice.total_granules, 8))
+        self.links = ti.field(dtype=ti.i32, shape=(lattice.granule_count, 8))
 
         # Number of active links per granule (for optimization)
-        self.links_count = ti.field(dtype=ti.i32, shape=lattice.total_granules)
+        self.links_count = ti.field(dtype=ti.i32, shape=lattice.granule_count)
 
         # Build the connectivity graph using appropriate method based on lattice size
-        if lattice.total_granules < 1000:
+        if lattice.granule_count < 1000:
             # For small lattices, use simple distance-based search
             self.build_links_simple()
         else:
@@ -588,13 +588,13 @@ class BCCNeighbors:
         would be more efficient."""
 
         # Initialize all links
-        for i in range(self.lattice.total_granules):
+        for i in range(self.lattice.granule_count):
             for j in ti.static(range(8)):
                 self.links[i, j] = -1
             self.links_count[i] = 0
 
         # For each granule, find and connect to nearest neighbors
-        for i in range(self.lattice.total_granules):
+        for i in range(self.lattice.granule_count):
             pos_i = self.lattice.position_am[i]
             granule_type = self.lattice.granule_type[i]
             neighbor_count = 0
@@ -609,7 +609,7 @@ class BCCNeighbors:
                 max_neighbors = 4
 
             # Search through all granules (simplified for small lattices)
-            for j in range(self.lattice.total_granules):
+            for j in range(self.lattice.granule_count):
                 if i != j and neighbor_count < max_neighbors:
                     pos_j = self.lattice.position_am[j]
 
@@ -644,13 +644,13 @@ class BCCNeighbors:
         grid_size = self.lattice.grid_size
 
         # Initialize all links
-        for i in range(self.lattice.total_granules):
+        for i in range(self.lattice.granule_count):
             for j in ti.static(range(8)):
                 self.links[i, j] = -1
             self.links_count[i] = 0
 
         # Process each granule
-        for idx in range(self.lattice.total_granules):
+        for idx in range(self.lattice.granule_count):
             granule_type = self.lattice.granule_type[idx]
             neighbor_count = 0
 
@@ -750,7 +750,7 @@ if __name__ == "__main__":
 
     print(f"\nLattice Statistics:")
     print(f"  Universe edge: {UNIVERSE_EDGE:.1e} m")
-    print(f"  Granule count: {lattice.total_granules:,}")
+    print(f"  Granule count: {lattice.granule_count:,}")
     print(f"  Grid size: {lattice.grid_size}x{lattice.grid_size}x{lattice.grid_size}")
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
@@ -771,15 +771,15 @@ if __name__ == "__main__":
     print(f"Neighbor Statistics:")
     print(f"  Rest length: {neighbors.rest_length:.2e} m")
     print(
-        f"  Build method: {'distance-based' if lattice.total_granules < 1000 else 'structured BCC'}"
+        f"  Build method: {'distance-based' if lattice.granule_count < 1000 else 'structured BCC'}"
     )
     print(f"  Build time: {neighbor_time:.3f} seconds")
 
     # Sample connections (avoiding slice notation)
     print(f"\nSample Connections:")
-    sample_indices = [0, 1, lattice.total_granules // 2, lattice.total_granules - 1]
+    sample_indices = [0, 1, lattice.granule_count // 2, lattice.granule_count - 1]
     for idx in sample_indices:
-        if idx < lattice.total_granules:
+        if idx < lattice.granule_count:
             count = neighbors.links_count[idx]
             granule_type = lattice.granule_type[idx]
             type_names = {0: "VERTEX", 1: "EDGE", 2: "FACE", 3: "CORE", 4: "CENTER"}
@@ -797,13 +797,13 @@ if __name__ == "__main__":
     # Overall statistics - with progress for large lattices
     print(f"\nComputing connection statistics...")
 
-    if lattice.total_granules > 10000:
+    if lattice.granule_count > 10000:
         # For large lattices, sample instead of checking all
-        print(f"  (Sampling 1000 granules from {lattice.total_granules:,} total)")
+        print(f"  (Sampling 1000 granules from {lattice.granule_count:,} total)")
         sample_size = 1000
         import random
 
-        sample_indices = random.sample(range(lattice.total_granules), sample_size)
+        sample_indices = random.sample(range(lattice.granule_count), sample_size)
 
         total_connections = 0
         max_connections = 0
@@ -817,7 +817,7 @@ if __name__ == "__main__":
 
         # Estimate total connections
         avg_per_granule = total_connections / sample_size
-        estimated_total = int(avg_per_granule * lattice.total_granules)
+        estimated_total = int(avg_per_granule * lattice.granule_count)
 
         print(f"\nConnection Summary (estimated from sample):")
         print(f"  Est. total connections: ~{estimated_total:,}")
@@ -829,7 +829,7 @@ if __name__ == "__main__":
         max_connections = 0
         min_connections = 1000
 
-        for i in range(lattice.total_granules):
+        for i in range(lattice.granule_count):
             count = neighbors.links_count[i]
             total_connections += count
             max_connections = max(max_connections, count)
@@ -837,7 +837,7 @@ if __name__ == "__main__":
 
         print(f"\nConnection Summary:")
         print(f"  Total connections: {total_connections:,}")
-        print(f"  Average per granule: {total_connections/lattice.total_granules:.2f}")
+        print(f"  Average per granule: {total_connections/lattice.granule_count:.2f}")
         print(f"  Min/Max connections: {min_connections}/{max_connections}")
 
     print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")

@@ -144,7 +144,7 @@ Mark GPU functions with ``@ti.kernel``:
 
    @ti.kernel
    def update_positions(dt: float):
-       for i in range(total_granules):
+       for i in range(granule_count):
            position[i] += velocity[i] * dt
 
 Type Annotations

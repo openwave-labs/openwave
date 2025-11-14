@@ -47,7 +47,7 @@ The lattice represents the wave medium:
    lattice = BCCLattice(UNIVERSE_SIZE, theme="OCEAN")
 
    # Print lattice properties
-   print(f"Total granules: {lattice.total_granules:,}")
+   print(f"Total granules: {lattice.granule_count:,}")
    print(f"Grid size: {lattice.grid_size}")
    print(f"Unit cell edge: {lattice.unit_cell_edge:.2e} m")
 

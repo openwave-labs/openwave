@@ -243,7 +243,7 @@ Example: Custom Wave Pattern
            """Update wave positions."""
            omega = 2 * np.pi * constants.EWAVE_FREQUENCY
 
-           for i in range(self.lattice.total_granules):
+           for i in range(self.lattice.granule_count):
                # Sum contributions from all sources
                displacement = ti.Vector([0.0, 0.0, 0.0])
 

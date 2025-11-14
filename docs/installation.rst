@@ -150,7 +150,7 @@ Run a quick smoke test:
    ]
 
    lattice = BCCLattice(UNIVERSE_SIZE)
-   print(f"Lattice created with {lattice.total_granules:,} granules")
+   print(f"Lattice created with {lattice.granule_count:,} granules")
    print("Installation successful!")
 
 GPU Configuration

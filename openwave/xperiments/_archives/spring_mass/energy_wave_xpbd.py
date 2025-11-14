@@ -305,9 +305,9 @@ def propagate_ewave(
     """
     # Allocate temporary fields for XPBD (if not already created)
     if not hasattr(lattice, "prev_position_am"):
-        lattice.prev_position_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-        lattice.position_delta_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.total_granules)
-        lattice.constraint_count = ti.field(dtype=ti.i32, shape=lattice.total_granules)
+        lattice.prev_position_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.granule_count)
+        lattice.position_delta_am = ti.Vector.field(3, dtype=ti.f32, shape=lattice.granule_count)
+        lattice.constraint_count = ti.field(dtype=ti.i32, shape=lattice.granule_count)
 
     # Substep timestep (Small Steps strategy)
     dt_sub = dt / substeps
@@ -573,7 +573,7 @@ def measure_wave_speed(
     """
     # Allocate displacement field if needed
     if not hasattr(lattice, "displacement_mag_am"):
-        lattice.displacement_mag_am = ti.field(dtype=ti.f32, shape=lattice.total_granules)
+        lattice.displacement_mag_am = ti.field(dtype=ti.f32, shape=lattice.granule_count)
 
     # Measure displacements
     measure_wave_displacement(
@@ -597,7 +597,7 @@ def measure_wave_speed(
 
     # Check each granule
     position_np = lattice.position_am.to_numpy()
-    for i in range(lattice.total_granules):
+    for i in range(lattice.granule_count):
         if displacements[i] > threshold:
             # Find minimum distance to any vertex
             pos = position_np[i]
@@ -685,7 +685,7 @@ def measure_wavelength(
     """
     # Get all displacements
     if not hasattr(lattice, "displacement_mag_am"):
-        lattice.displacement_mag_am = ti.field(dtype=ti.f32, shape=lattice.total_granules)
+        lattice.displacement_mag_am = ti.field(dtype=ti.f32, shape=lattice.granule_count)
 
     measure_wave_displacement(
         lattice.position_am,
@@ -701,7 +701,7 @@ def measure_wavelength(
     # Find local maxima using BCC neighbor links (O(N) - FAST!)
     # A granule is a local max if its displacement is higher than all its BCC neighbors
     peak_indices = []
-    for i in range(lattice.total_granules):
+    for i in range(lattice.granule_count):
         if lattice.granule_type[i] == 0:  # Skip vertices (they're driven)
             continue
 
