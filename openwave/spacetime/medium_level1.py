@@ -137,13 +137,12 @@ class WaveField:
         self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.voxel_count)  # for rendering
 
         # Populate the grid wire_frame with taichi lines positions
-        self.populate_wire_frame()  # initialize grid lines position
-        self.normalize_to_screen(0)  # normalize wire-frame for rendering
+        # self.populate_wire_frame()  # initialize grid lines position
+        # self.normalize_to_screen(0)  # normalize wire-frame for rendering
 
         # Test Grid Visualization
-        from openwave._io import render
-
-        render.scene.lines(self.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
+        # from openwave._io import render
+        # render.scene.lines(self.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
 
     @ti.kernel
     def populate_latticeBCC(self):
@@ -463,30 +462,27 @@ if __name__ == "__main__":
         1e-16,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    lattice = BCCLattice(UNIVERSE_SIZE)
-    start_time = time.time()
-    lattice_time = time.time() - start_time
+    wave_field = WaveField(UNIVERSE_SIZE)
 
-    print(f"\nLattice Statistics:")
+    print(f"\nGrid Statistics:")
     print(
         f"  Requested universe: [{UNIVERSE_SIZE[0]:.1e}, {UNIVERSE_SIZE[1]:.1e}, {UNIVERSE_SIZE[2]:.1e}] m"
     )
     print(
-        f"  Actual universe: [{lattice.universe_size[0]:.1e}, {lattice.universe_size[1]:.1e}, {lattice.universe_size[2]:.1e}] m"
+        f"  Actual universe: [{wave_field.universe_size[0]:.1e}, {wave_field.universe_size[1]:.1e}, {wave_field.universe_size[2]:.1e}] m"
     )
     print(
-        f"  Grid size: {lattice.grid_size[0]}x{lattice.grid_size[1]}x{lattice.grid_size[2]} unit cells"
+        f"  Grid size: {wave_field.grid_size[0]} x {wave_field.grid_size[1]} x {wave_field.grid_size[2]} voxels"
     )
-    print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m (cubic - same for all axes)")
-    print(f"  Granule count: {lattice.total_granules:,}")
-    print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
-    print(f"  Creation time: {lattice_time:.3f} seconds")
+    print(f"  Voxel edge: {wave_field.voxel_edge:.2e} m (cubic - same for all axes)")
+    print(f"  Voxel count: {wave_field.voxel_count:,}")
+    print(f"  Total energy: {wave_field.energy:.2e} J")
 
     # Resolutions
-    print(f"\nLattice Linear Resolutions:")
-    print(f"  Energy-wave resolution: {lattice.ewave_res:.2f} granules per wavelength")
+    print(f"\nGrid Linear Resolutions:")
+    print(f"  Energy-wave resolution: {wave_field.ewave_res:.2f} voxels per wavelength")
     print(
-        f"  Max universe resolution: {lattice.max_uni_res:.2f} ewavelengths per max universe edge"
+        f"  Max universe resolution: {wave_field.max_uni_res:.2f} ewavelengths per max universe edge"
     )
 
     print("\n================================================================")

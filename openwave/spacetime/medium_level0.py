@@ -986,8 +986,6 @@ if __name__ == "__main__":
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
     lattice = BCCLattice(UNIVERSE_SIZE)
-    start_time = time.time()
-    lattice_time = time.time() - start_time
 
     print(f"\nLattice Statistics:")
     print(
@@ -997,12 +995,12 @@ if __name__ == "__main__":
         f"  Actual universe: [{lattice.universe_size[0]:.1e}, {lattice.universe_size[1]:.1e}, {lattice.universe_size[2]:.1e}] m"
     )
     print(
-        f"  Grid size: {lattice.grid_size[0]}x{lattice.grid_size[1]}x{lattice.grid_size[2]} unit cells"
+        f"  Grid size: {lattice.grid_size[0]} x {lattice.grid_size[1]} x {lattice.grid_size[2]} unit cells"
     )
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m (cubic - same for all axes)")
     print(f"  Granule count: {lattice.total_granules:,}")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
-    print(f"  Creation time: {lattice_time:.3f} seconds")
+    print(f"  Total energy: {lattice.energy:.2e} J")
 
     # Resolutions
     print(f"\nLattice Linear Resolutions:")
