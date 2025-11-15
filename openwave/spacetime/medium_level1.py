@@ -69,7 +69,7 @@ class WaveField:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. voxel_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds to fit only complete voxels (actual universe size recalculated below)
+        # 4. Rounds down to fit only complete voxels (actual universe size recalculated below)
         self.grid_size = [
             int(init_universe_size[0] / self.voxel_edge),
             int(init_universe_size[1] / self.voxel_edge),
@@ -172,6 +172,7 @@ class WaveField:
         """
         # Calculate number of edges per direction
         nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        dx_am = self.voxel_edge_am
         x_edges = nx * (ny + 1) * (nz + 1)
         y_edges = (nx + 1) * ny * (nz + 1)
         z_edges = (nx + 1) * (ny + 1) * nz
@@ -189,11 +190,9 @@ class WaveField:
                 k = temp % (nz + 1)
 
                 # Start vertex at (i, j, k), End vertex at (i+1, j, k)
-                self.wire_frame[vertex_idx] = ti.Vector(
-                    [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
-                )
+                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [(i + 1) * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
+                    [(i + 1) * dx_am, j * dx_am, k * dx_am]
                 )
 
             elif edge_idx < x_edges + y_edges:
@@ -205,11 +204,9 @@ class WaveField:
                 k = temp % (nz + 1)
 
                 # Start vertex at (i, j, k), End vertex at (i, j+1, k)
-                self.wire_frame[vertex_idx] = ti.Vector(
-                    [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
-                )
+                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [i * self.voxel_edge_am, (j + 1) * self.voxel_edge_am, k * self.voxel_edge_am]
+                    [i * dx_am, (j + 1) * dx_am, k * dx_am]
                 )
 
             else:
@@ -221,11 +218,9 @@ class WaveField:
                 k = temp % nz
 
                 # Start vertex at (i, j, k), End vertex at (i, j, k+1)
-                self.wire_frame[vertex_idx] = ti.Vector(
-                    [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
-                )
+                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [i * self.voxel_edge_am, j * self.voxel_edge_am, (k + 1) * self.voxel_edge_am]
+                    [i * dx_am, j * dx_am, (k + 1) * dx_am]
                 )
 
     @ti.kernel
@@ -241,32 +236,32 @@ class WaveField:
             # Normalize each vertex position to 0-1 range
             self.wire_frame[i] = self.wire_frame[i] / self.max_universe_edge_am
 
-    # @ti.func
-    # def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-    #     """Get physical position of voxel center in meters (for external use)."""
-    #     pos_am = self.get_position_am(i, j, k)
-    #     return pos_am * ti.f32(constants.ATTOMETER)
+    @ti.func
+    def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
+        """Get physical position of voxel center in meters (for external use)."""
+        pos_am = self.get_position_am(i, j, k)
+        return pos_am * ti.f32(constants.ATTOMETER)
 
-    # @ti.func
-    # def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-    #     """Get physical position of voxel center in attometers."""
-    #     return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
+    @ti.func
+    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
+        """Get physical position of voxel center in attometers."""
+        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
 
-    # @ti.func
-    # def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
-    #     """
-    #     Get voxel index from position in attometers.
+    @ti.func
+    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
+        """
+        Get voxel index from position in attometers.
 
-    #     Inverse mapping: position → index
-    #     Used for particle-field interactions.
-    #     """
-    #     return ti.Vector(
-    #         [
-    #             ti.i32((pos_am[0] / self.dx_am) - 0.5),
-    #             ti.i32((pos_am[1] / self.dx_am) - 0.5),
-    #             ti.i32((pos_am[2] / self.dx_am) - 0.5),
-    #         ]
-    #     )
+        Inverse mapping: position → index
+        Used for particle-field interactions.
+        """
+        return ti.Vector(
+            [
+                ti.i32((pos_am[0] / self.dx_am) - 0.5),
+                ti.i32((pos_am[1] / self.dx_am) - 0.5),
+                ti.i32((pos_am[2] / self.dx_am) - 0.5),
+            ]
+        )
 
 
 if __name__ == "__main__":
