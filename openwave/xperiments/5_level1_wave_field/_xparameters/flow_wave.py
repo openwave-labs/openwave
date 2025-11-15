@@ -7,7 +7,7 @@ This XPERIMENT showcases:
 
 XPARAMETERS = {
     "meta": {
-        "name": "Flow Wave",
+        "name": "[WIP] Flow Wave",
         "description": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
