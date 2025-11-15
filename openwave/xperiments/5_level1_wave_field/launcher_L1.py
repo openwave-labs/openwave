@@ -281,7 +281,7 @@ def level_specs(state, level_bar_vertices):
         sub.text("Propagation: Radial from Source")
         if sub.button("Open Wave Equations Help"):
             webbrowser.open(
-                "https://github.com/openwave-labs/openwave/blob/main/openwave/WAVE_EQUATIONS.md"
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/spacetime/WAVE_EQUATIONS.md"
             )
 
 
