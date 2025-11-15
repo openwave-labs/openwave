@@ -290,24 +290,24 @@ def data_dashboard(state):
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- eWAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- Wave-Field Grid ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- WAVE-FIELD GRID ---", color=config.LIGHT_BLUE[1])
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Voxels per Max Edge: {state.wave_field.max_grid_size:,}")
         sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"EWave: {state.wave_field.ewave_res:.0f} voxels/ewave (>10)")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/ewave (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} ewaves/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text("\n--- WAVE-PROFILING ---", color=config.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
         sub.text(

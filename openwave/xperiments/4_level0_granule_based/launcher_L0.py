@@ -318,15 +318,15 @@ def data_dashboard(state):
         sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"EWave: {state.lattice.ewave_res:.0f} granules/ewave (>10)")
+        sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/ewave (>10)")
         if state.lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.lattice.max_uni_res:.1f} ewaves/universe-edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
