@@ -22,7 +22,7 @@ from openwave.common import config, constants
 from openwave._io import render
 
 import openwave.xperiments._archives.radial_wave.medium_bccgranule as medium
-import openwave.xperiments._archives.radial_wave.energy_wave_radial as ewave
+import openwave.xperiments._archives.radial_wave.wave_engine_radial as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)

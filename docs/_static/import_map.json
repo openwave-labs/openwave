@@ -58,7 +58,7 @@
     "openwave.common",
     "openwave.common"
   ],
-  "openwave.xperiments._archives.radial_wave.energy_wave_radial": [
+  "openwave.xperiments._archives.radial_wave.wave_engine_radial": [
     "taichi",
     "openwave.common"
   ],
@@ -79,7 +79,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
-    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
   ],
   "openwave.xperiments._archives.radial_wave.radial_spherical": [
@@ -89,7 +89,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
-    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
   ],
   "openwave.xperiments._archives.radial_wave.radial_wave": [
@@ -99,14 +99,14 @@
     "openwave.common",
     "openwave._io",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
-    "openwave.xperiments._archives.radial_wave.energy_wave_radial",
+    "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
   ],
-  "openwave.xperiments._archives.spring_mass.energy_wave_spring_euler": [
+  "openwave.xperiments._archives.spring_mass.wave_engine_spring_euler": [
     "taichi",
     "openwave.common"
   ],
-  "openwave.xperiments._archives.spring_mass.energy_wave_spring_leap": [
+  "openwave.xperiments._archives.spring_mass.wave_engine_spring_leap": [
     "taichi",
     "openwave.common"
   ],
@@ -132,7 +132,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.xperiments._archives.spring_mass.medium_bccgranule",
-    "openwave.xperiments._archives.spring_mass.energy_wave_spring_euler"
+    "openwave.xperiments._archives.spring_mass.wave_engine_spring_euler"
   ],
   "openwave.xperiments._archives.spring_mass.spring_leap": [
     "taichi",
@@ -141,7 +141,7 @@
     "openwave.common",
     "openwave._io",
     "openwave.xperiments._archives.spring_mass.medium_bccgranule",
-    "openwave.xperiments._archives.spring_mass.energy_wave_spring_leap"
+    "openwave.xperiments._archives.spring_mass.wave_engine_spring_leap"
   ],
   "openwave.xperiments._archives.spring_mass.xpbd": [
     "taichi",

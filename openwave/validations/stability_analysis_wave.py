@@ -1,0 +1,95 @@
+"""
+Stability Analysis for Wave Equation Simulation.
+"""
+
+import numpy as np
+import taichi as ti
+
+from openwave.common import config, constants
+
+import openwave.spacetime.medium_level1 as medium
+
+ti.init(arch=ti.gpu)
+
+UNIVERSE_SIZE = [
+    6e-15,
+    6e-15,
+    6e-15,
+]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
+
+wave_field = medium.WaveField(UNIVERSE_SIZE)
+
+
+# ================================================================
+# Stability Analysis - Wave Equation CFL Condition
+# ================================================================
+
+print("\n" + "=" * 64)
+print("STABILITY ANALYSIS - WAVE EQUATION")
+print("=" * 64)
+
+# Wave propagation parameters
+c = constants.EWAVE_SPEED  # m/s, speed of light
+dx = wave_field.voxel_edge  # m, voxel edge length
+ewave_freq = constants.EWAVE_FREQUENCY  # Hz
+
+# CFL (Courant-Friedrichs-Lewy) stability condition for 3D wave equation
+# For 6-connectivity (face neighbors only): dt ≤ dx / (c√3)
+dt_critical = dx / (c * np.sqrt(3))  # Maximum stable timestep
+
+# Frame timestep (typical screen refresh rates)
+dt_frame_60fps = 1 / 60  # 60 FPS
+dt_frame_30fps = 1 / 30  # 30 FPS
+
+print(f"\nVoxel edge (dx): {dx:.2e} m")
+print(f"Wave speed (c): {c:.2e} m/s")
+print(f"Energy-wave frequency: {ewave_freq:.2e} Hz")
+
+# SLOW_MO mitigation
+c_slowed = c / config.SLOW_MO  # Wave speed after SLOW_MO
+freq_slowed = ewave_freq / config.SLOW_MO  # Frequency after SLOW_MO
+dt_critical_slowed = dx / (c_slowed * np.sqrt(3))  # CFL with slowed wave speed
+
+print(f"\nCFL Stability (WITHOUT SLOW_MO):")
+print(f"  Critical timestep: {dt_critical:.2e} s")
+print(f"  Frame timestep (60 FPS): {dt_frame_60fps:.2e} s")
+print(f"  Frame timestep (30 FPS): {dt_frame_30fps:.2e} s")
+print(f"  Violation ratio (60 FPS): {dt_frame_60fps / dt_critical:.2e}×")
+print(f"  Violation ratio (30 FPS): {dt_frame_30fps / dt_critical:.2e}×")
+
+print(f"\nCFL Stability (WITH SLOW_MO = {config.SLOW_MO:.2e}):")
+print(f"  Slowed wave speed: {c_slowed:.2e} m/s")
+print(f"  Slowed frequency: {freq_slowed:.2e} Hz")
+print(f"  Critical timestep (slowed): {dt_critical_slowed:.2e} s")
+print(f"  Frame timestep (60 FPS): {dt_frame_60fps:.2e} s")
+print(f"  Frame timestep (30 FPS): {dt_frame_30fps:.2e} s")
+
+# Check stability with SLOW_MO
+if dt_frame_60fps <= dt_critical_slowed:
+    print(f"\n✓ STABLE at 60 FPS (dt={dt_frame_60fps:.2e} s ≤ dt_crit={dt_critical_slowed:.2e} s)")
+    safety_margin_60 = dt_critical_slowed / dt_frame_60fps
+    print(f"  Safety margin: {safety_margin_60:.2f}× (CFL factor = {1/safety_margin_60:.3f})")
+else:
+    violation_60 = dt_frame_60fps / dt_critical_slowed
+    print(f"\n❌ UNSTABLE at 60 FPS!")
+    print(f"  Violation: {violation_60:.2e}× over critical timestep")
+    print(f"  Need SLOW_MO ≥ {config.SLOW_MO * violation_60:.2e} for stability")
+
+if dt_frame_30fps <= dt_critical_slowed:
+    print(f"\n✓ STABLE at 30 FPS (dt={dt_frame_30fps:.2e} s ≤ dt_crit={dt_critical_slowed:.2e} s)")
+    safety_margin_30 = dt_critical_slowed / dt_frame_30fps
+    print(f"  Safety margin: {safety_margin_30:.2f}× (CFL factor = {1/safety_margin_30:.3f})")
+else:
+    violation_30 = dt_frame_30fps / dt_critical_slowed
+    print(f"\n❌ UNSTABLE at 30 FPS!")
+    print(f"  Violation: {violation_30:.2e}× over critical timestep")
+    print(f"  Need SLOW_MO ≥ {config.SLOW_MO * violation_30:.2e} for stability")
+
+# Summary and recommendations
+print(f"\nMitigation Strategy:")
+print(f"  1. Apply SLOW_MO to wave speed: c_slowed = c / SLOW_MO")
+print(f"  2. Use freq_boost parameter for visualization control")
+print(f"  3. Monitor CFL factor: (c·dt/dx)² should be ≤ 1/3 for 3D")
+print(f"  4. Use fixed timestep strategy (not elapsed time)")
+
+print("=" * 64)
