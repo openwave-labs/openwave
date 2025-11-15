@@ -452,7 +452,7 @@ This means:
 
 ### Third-Party Software
 
-OpenWave uses several open-source libraries. See [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES) for full attribution and license information for:
+OpenWave uses several open-source libraries. See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES) for full attribution and license information for:
 
 - **Taichi Lang** (Apache 2.0) - GPU-accelerated computing and rendering
 - **NumPy** (BSD-3) - Numerical computing

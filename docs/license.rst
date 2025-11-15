@@ -48,7 +48,7 @@ Third-Party Licenses
 --------------------
 
 OpenWave uses several open-source libraries with compatible licenses.
-See `THIRD-PARTY-NOTICES <https://github.com/openwave-labs/openwave/blob/main/THIRD-PARTY-NOTICES>`_
+See `THIRD_PARTY_NOTICES <https://github.com/openwave-labs/openwave/blob/main/THIRD_PARTY_NOTICES>`_
 for details.
 
 **Dependencies:**

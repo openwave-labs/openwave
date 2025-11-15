@@ -210,7 +210,7 @@ See :doc:`license` for details.
 
 **Dependency Licenses:**
 
-See `THIRD-PARTY-NOTICES <https://github.com/openwave-labs/openwave/blob/main/THIRD-PARTY-NOTICES>`_
+See `THIRD_PARTY_NOTICES <https://github.com/openwave-labs/openwave/blob/main/THIRD_PARTY_NOTICES>`_
 for third-party software licenses.
 
 Contact
