@@ -7,6 +7,7 @@ Unified launcher for Level-1 wave-field xperiments featuring:
 - Xperiment-specific parameters in /_xparameters directory
 """
 
+import webbrowser
 import taichi as ti
 import time
 import importlib
@@ -278,6 +279,10 @@ def level_specs(state, level_bar_vertices):
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
+        if sub.button("Open Wave Equations Help"):
+            webbrowser.open(
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/WAVE_EQUATIONS.md"
+            )
 
 
 def data_dashboard(state):

@@ -1,7 +1,7 @@
 
 # WAVE EQUATIONS & TERMINOLOGY
 
-OpenWave uses wave equations & terminology based on standardized physics terminology, these are best practices researched from scientific literature.
+OpenWave uses wave equations & terminology based on standardized physics terminology, these are best practices used in scientific literature.
 
 ## Wave Medium
 
