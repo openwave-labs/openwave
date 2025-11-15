@@ -135,107 +135,106 @@ class WaveField:
         # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
         # Grid Visualization Fields
-        # Wire-frame: unique edges of voxel grid for rendering
-        # Each voxel edge connects two grid vertices, stored as vertex pairs for scene.lines()
-        # Total edges = nx×(ny+1)×(nz+1) + (nx+1)×ny×(nz+1) + (nx+1)×(ny+1)×nz
-        # Each edge needs 2 vertices for rendering
-        self.edge_count = (
-            self.grid_size[0] * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)  # X-edges
-            + (self.grid_size[0] + 1) * self.grid_size[1] * (self.grid_size[2] + 1)  # Y-edges
-            + (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * self.grid_size[2]  # Z-edges
+        # Wire-frame: optimized grid lines for rendering
+        # Instead of drawing individual voxel edges, draw continuous lines face-to-face
+        # Each line spans the entire grid dimension (e.g., from x=0 to x=1 in normalized coords)
+        # This reduces vertex count by ~1000x for large grids
+        #
+        # Line count per direction:
+        # - X-direction (parallel to X): (ny+1) × (nz+1) lines
+        # - Y-direction (parallel to Y): (nx+1) × (nz+1) lines
+        # - Z-direction (parallel to Z): (nx+1) × (ny+1) lines
+        # Total vertices = 2 × (sum of lines)
+        self.line_count = (
+            (self.grid_size[1] + 1) * (self.grid_size[2] + 1)  # X-parallel lines
+            + (self.grid_size[0] + 1) * (self.grid_size[2] + 1)  # Y-parallel lines
+            + (self.grid_size[0] + 1) * (self.grid_size[1] + 1)  # Z-parallel lines
         )
-        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.edge_count * 2)
+        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.line_count * 2)
 
-        # Populate the grid wire_frame with taichi lines positions
-        self.populate_wire_frame()  # initialize grid lines position
-        self.normalize_wire_frame()  # normalize wire-frame for rendering
+        # Populate the grid wire_frame with normalized positions (ready for rendering)
+        self.populate_wire_frame()  # initialize grid lines (already normalized)
 
     @ti.kernel
     def populate_wire_frame(self):
         """
-        Create a wave field wire-frame for GGUI rendering and visualization.
-        Stores all unique voxel edges as vertex pairs for scene.lines() rendering.
+        Create optimized wire-frame for GGUI rendering and visualization.
 
-        The wire-frame visualizes the 3D grid structure by drawing edges of all voxels.
-        Each edge is shared between neighboring voxels and stored only once.
+        Draws continuous lines across the entire grid face-to-face instead of individual
+        voxel edges. This reduces vertex count by ~1000x for large grids while maintaining
+        the same visual grid structure.
 
-        For a 2×2×2 voxel grid:
-        - 27 unique vertices (3×3×3 grid points)
-        - 54 unique edges (18 per axis direction)
-        - 108 line vertices for rendering (54 edges × 2 vertices)
+        For a 2×2×2 voxel grid (3×3×3 grid points):
+        - 9 lines parallel to X-axis (one per (j,k) pair on YZ plane)
+        - 9 lines parallel to Y-axis (one per (i,k) pair on XZ plane)
+        - 9 lines parallel to Z-axis (one per (i,j) pair on XY plane)
+        - Total: 27 lines × 2 vertices = 54 vertices (vs 108 in non-optimized version)
 
-        Edge calculation:
-        - X-direction: nx × (ny+1) × (nz+1) edges
-        - Y-direction: (nx+1) × ny × (nz+1) edges
-        - Z-direction: (nx+1) × (ny+1) × nz edges
+        Line calculation:
+        - X-direction: (ny+1) × (nz+1) lines
+        - Y-direction: (nx+1) × (nz+1) lines
+        - Z-direction: (nx+1) × (ny+1) lines
 
-        Positions stored in attometers, normalized later for rendering.
+        Positions stored directly in normalized coordinates (0-1 range) ready for rendering.
+        Uses max_grid_size for uniform normalization across asymmetric grids.
         """
-        # Calculate number of edges per direction
+        # Grid dimensions and normalization factor
         nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
-        dx_am = self.voxel_edge_am
-        x_edges = nx * (ny + 1) * (nz + 1)
-        y_edges = (nx + 1) * ny * (nz + 1)
-        # z_edges = (nx + 1) * (ny + 1) * nz  # implicit, computed as remainder
+        max_dim = ti.cast(self.max_grid_size, ti.f32)
 
-        # Parallelize over all edges using single outermost loop
-        for edge_idx in range(self.edge_count):
-            vertex_idx = edge_idx * 2  # Each edge has 2 vertices
+        # Calculate line counts per direction
+        x_lines = (ny + 1) * (nz + 1)
+        y_lines = (nx + 1) * (nz + 1)
+        # z_lines = (nx + 1) * (ny + 1)  # implicit, computed as remainder
 
-            if edge_idx < x_edges:
-                # X-direction edge: decode 3D position from linear index
-                temp = edge_idx
-                i = temp // ((ny + 1) * (nz + 1))
-                temp = temp % ((ny + 1) * (nz + 1))
+        # Parallelize over all lines using single outermost loop
+        for line_idx in range(self.line_count):
+            vertex_idx = line_idx * 2  # Each line has 2 vertices
+
+            if line_idx < x_lines:
+                # X-parallel lines: decode (j, k) position
+                temp = line_idx
                 j = temp // (nz + 1)
                 k = temp % (nz + 1)
 
-                # Start vertex at (i, j, k), End vertex at (i+1, j, k)
-                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
+                # Line from x=0 to x=nx (normalized to 0 to nx/max)
+                y_norm = ti.cast(j, ti.f32) / max_dim
+                z_norm = ti.cast(k, ti.f32) / max_dim
+
+                self.wire_frame[vertex_idx] = ti.Vector([0.0, y_norm, z_norm])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [(i + 1) * dx_am, j * dx_am, k * dx_am]
+                    [ti.cast(nx, ti.f32) / max_dim, y_norm, z_norm]
                 )
 
-            elif edge_idx < x_edges + y_edges:
-                # Y-direction edge: decode 3D position
-                temp = edge_idx - x_edges
-                i = temp // (ny * (nz + 1))
-                temp = temp % (ny * (nz + 1))
-                j = temp // (nz + 1)
+            elif line_idx < x_lines + y_lines:
+                # Y-parallel lines: decode (i, k) position
+                temp = line_idx - x_lines
+                i = temp // (nz + 1)
                 k = temp % (nz + 1)
 
-                # Start vertex at (i, j, k), End vertex at (i, j+1, k)
-                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
+                # Line from y=0 to y=ny (normalized to 0 to ny/max)
+                x_norm = ti.cast(i, ti.f32) / max_dim
+                z_norm = ti.cast(k, ti.f32) / max_dim
+
+                self.wire_frame[vertex_idx] = ti.Vector([x_norm, 0.0, z_norm])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [i * dx_am, (j + 1) * dx_am, k * dx_am]
+                    [x_norm, ti.cast(ny, ti.f32) / max_dim, z_norm]
                 )
 
             else:
-                # Z-direction edge: decode 3D position
-                temp = edge_idx - x_edges - y_edges
-                i = temp // ((ny + 1) * nz)
-                temp = temp % ((ny + 1) * nz)
-                j = temp // nz
-                k = temp % nz
+                # Z-parallel lines: decode (i, j) position
+                temp = line_idx - x_lines - y_lines
+                i = temp // (ny + 1)
+                j = temp % (ny + 1)
 
-                # Start vertex at (i, j, k), End vertex at (i, j, k+1)
-                self.wire_frame[vertex_idx] = ti.Vector([i * dx_am, j * dx_am, k * dx_am])
+                # Line from z=0 to z=nz (normalized to 0 to nz/max)
+                x_norm = ti.cast(i, ti.f32) / max_dim
+                y_norm = ti.cast(j, ti.f32) / max_dim
+
+                self.wire_frame[vertex_idx] = ti.Vector([x_norm, y_norm, 0.0])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [i * dx_am, j * dx_am, (k + 1) * dx_am]
+                    [x_norm, y_norm, ti.cast(nz, ti.f32) / max_dim]
                 )
-
-    @ti.kernel
-    def normalize_wire_frame(self):
-        """
-        Normalize wire-frame vertex positions to 0-1 range for GGUI rendering.
-
-        Converts positions from attometers to normalized coordinates by dividing
-        by the maximum universe edge dimension. This ensures the wire-frame fits
-        within the rendering viewport regardless of actual physical scale.
-        """
-        for i in range(self.edge_count * 2):
-            # Normalize each vertex position to 0-1 range
-            self.wire_frame[i] = self.wire_frame[i] / self.max_universe_edge_am
 
     @ti.func
     def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
@@ -277,9 +276,9 @@ if __name__ == "__main__":
     # ================================================================
 
     UNIVERSE_SIZE = [
-        1e-16,
-        1e-16,
-        1e-16,
+        6e-15,
+        6e-15,
+        6e-15,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
     wave_field = WaveField(UNIVERSE_SIZE)
@@ -300,10 +299,11 @@ if __name__ == "__main__":
 
     # Resolutions
     print(f"\nGrid Linear Resolutions:")
-    print(f"  Energy-wave resolution: {wave_field.ewave_res:.2f} voxels per wavelength")
-    print(
-        f"  Max universe resolution: {wave_field.max_uni_res:.2f} ewavelengths per max universe edge"
-    )
+    print(f"  Energy-wave resolution: {wave_field.ewave_res:.2f} voxels per lambda")
+    if wave_field.ewave_res < 10:
+        print(f"  *** WARNING: Undersampling! ***")
+
+    print(f"  Max universe resolution: {wave_field.max_uni_res:.2f} lambda per max universe edge")
 
     print("\n================================================================")
     print("END SMOKE TEST: WAVE-MEDIUM MODULE")

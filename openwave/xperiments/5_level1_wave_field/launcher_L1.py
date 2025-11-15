@@ -295,16 +295,16 @@ def data_dashboard(state):
 
         sub.text("\n--- WAVE-FIELD GRID ---", color=config.LIGHT_BLUE[1])
         sub.text(
-            f"Grid Size: {state.wave_field.grid_size[0]:,} x {state.wave_field.grid_size[1]:,} x {state.wave_field.grid_size[2]:,} voxels"
+            f"Grid Size: {state.wave_field.grid_size[0]:,}x{state.wave_field.grid_size[1]:,}x{state.wave_field.grid_size[2]:,} voxels"
         )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/ewave (>10)")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} ewaves/universe-edge")
+        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
         sub.text("\n--- WAVE-PROFILING ---", color=config.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
@@ -378,7 +378,7 @@ def compute_propagation(state):
 def render_elements(state):
     """Render spacetime elements with appropriate coloring."""
     # Test Grid Visualization
-    render.scene.lines(state.wave_field.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
+    render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
 
 
 # ================================================================

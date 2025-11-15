@@ -17,7 +17,7 @@ from openwave.common import constants
 # Resolution & Magnification Settings
 # ================================================================
 TARGET_GRANULES = 1e6  # target particle count, wave granularity (impacts performance)
-TARGET_VOXELS = 1e9  # target voxel count, wave granularity (impacts performance)
+TARGET_VOXELS = 1e6  # target voxel count, wave granularity (impacts performance)
 SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # ================================================================
