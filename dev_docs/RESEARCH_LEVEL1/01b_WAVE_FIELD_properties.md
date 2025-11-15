@@ -48,57 +48,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 ## WAVE PROPERTIES Terminology and Notation
 
-This section documents the Standardized Physics Terminology, these are best practices researched from Scientific Literature.
-
-### Wave Profiling
-
-- Diagnostic tool (measures wave properties per voxel, comprehensive wave data)
-
-### Wave Medium
-
-- MEDIUM-DENSITY (ρ): propagates momentum, carries energy, defines wave-speed
-- WAVE-SPEED (c): constant by medium property, √medium elasticity/density
-- WAVE-SOURCE: defines amplitude and frequency (rhythm, vibration), charges energy
-
-### Wave Character & Direction
-
-- WAVE-MODE: longitudinal / transverse (polarization, fraction [0,1])
-- WAVE-TYPE: standing / traveling (fraction [0,1])
-- WAVE-FORM: temporal / spacial profile (sine, square, triangle, sawtooth)
-- WAVE-DIRECTION (k̂): unit vector
-- DISPLACEMENT-DIRECTION (û): unit vector
-
-### Wave Rhythm
-
-- WAVE-FREQUENCY (f): `c/λ` (can change locally)
-  - Defines TIME =  the wave frequency, rhythm
-- WAVE-PERIOD (T): `1/f`
-- WAVE-PHASE (φ): position in wave cycle (0 to 2π radians), interference patterns
-
-### Wave Size
-
-- WAVE-DISPLACEMENT (ψ): `ψ̈ = c²Δψ`, propagated instantaneous oscillating scalar value
-- WAVE-AMPLITUDE (A): `running max|ψ|`, displacement envelop (falloff at 1/r, near/far fields)
-- WAVE-LENGTH (λ): `c/f` (changes when moving particle, doppler)
-
-### Wave Energy
-
-- WAVE-ENERGY (E): `ρV(fA)²`, conserved property
-- ENERGY-DENSITY (u): `ρ(fA)²`, constant, in J/m³
-- ENERGY-FLUX (S): Poynting-like vector in W/m²
-- MOMENTUM-DENSITY (p): `ρ × ψ × ∇ψ`
-
-### Wave Interaction
-
-- REFLECTION: changes direction of propagation (velocity vector)
-- SUPERPOSITION: fA combinations (interference)
-- RESONANCE: harmonics, coherence, influence, polarization [phase, motion, frequency]
-
-### Additional Notation
-
-- ω (omega) = angular frequency (2πf)
-- ωt = temporal oscillation (controls rhythm, time-varying component)
-- k = angular wave number (2π/λ)
+- Refer to [`WAVE_EQUATIONS.md`](../../WAVE_EQUATIONS.md)
 
 ## Scalar Properties (Magnitude)
 

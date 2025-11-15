@@ -85,7 +85,7 @@ def charge_wave(amplitude: ti.f32, x: ti.f32, y: ti.f32):  # type: ignore
     """
     for i, j in ti.ndrange((1, shape[0] - 1), (1, shape[1] - 1)):
         r2 = (i - x) ** 2 + (j - y) ** 2
-        displacement[i, j] = displacement[i, j] + amplitude * ti.exp(-0.02 * r2)
+        displacement[i, j] += amplitude * ti.exp(-0.02 * r2)
 
 
 @ti.func
@@ -132,7 +132,7 @@ def propagate():
         ∇²ψ = laplacian(i, j) (spatial curvature)
         γ = damping coefficient (energy dissipation)
 
-    Integration scheme (velocity Verlet):
+    Integration scheme (Euler Integration):
         1. Compute acceleration from spatial curvature and damping
         2. Update velocity: v(t+dt) = v(t) + a(t)*dt
         3. Update displacement: ψ(t+dt) = ψ(t) + v(t+dt)*dt
@@ -152,8 +152,8 @@ def propagate():
     """
     for i, j in ti.ndrange((1, shape[0] - 1), (1, shape[1] - 1)):
         acceleration = wave_speed * laplacian(i, j) - damping * velocity[i, j]
-        velocity[i, j] = velocity[i, j] + acceleration * dt
-        displacement[i, j] = displacement[i, j] + velocity[i, j] * dt
+        velocity[i, j] += acceleration * dt
+        displacement[i, j] += velocity[i, j] * dt
 
 
 @ti.func
