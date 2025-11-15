@@ -274,7 +274,7 @@ def color_menu(
 
 def level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=config.DARK_BLUE[1])
+    render.canvas.triangles(level_bar_vertices, color=config.LIGHT_BLUE[1])
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
