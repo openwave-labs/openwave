@@ -137,110 +137,52 @@ class WaveField:
         self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.voxel_count)  # for rendering
 
         # Populate the grid wire_frame with taichi lines positions
-        # self.populate_wire_frame()  # initialize grid lines position
-        # self.normalize_to_screen(0)  # normalize wire-frame for rendering
-
-        # Test Grid Visualization
-        # from openwave._io import render
-        # render.scene.lines(self.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
+        self.populate_wire_frame()  # initialize grid lines position
+        self.normalize_wire_frame()  # normalize wire-frame for rendering
 
     @ti.kernel
     def populate_wire_frame(self):
         """
-        Populate cubic grid wire-frame positions in a 1D array with asymmetric grid support.
-        Kernel is properly optimized for Taichi's parallel execution:
-        1. Single outermost loop - for idx in range() allows full GPU parallelization
-        2. Index decoding - Converts linear index to 3D coordinates using integer division/modulo
-        3. No nested loops - All granules computed in parallel across GPU threads
-        4. Efficient branching - Simple if/else to determine corner vs center granules
-        This structure ensures maximum parallelization on GPU, as each thread independently
-        computes one granule's position without synchronization overhead.
+        Create a wave field wire-frame for GGUI rendering and visualization.
+        Uses a 1D array with 3D vectors for memory efficiency and GPU performance.
+        Each line segment is defined by its outermost voxel points.
+
+        eg. For a 3x3x3 grid, lines are drawn along the 8 edges of the cube formed by
+        the 8 corner voxels, plus 8 lines along half the edges of each face, plus 4 lines
+        along the center of the cube, totaling 12 + 12 + 4 = 28 lines.
         """
-        # Parallelize over all granules using single outermost loop
-        for idx in range(self.granule_count):
-            # Determine if this is a corner or center granule
-            corner_count = (
-                (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-            )
-
-            if idx < corner_count:
-                # Corner granule: decode 3D position from linear index (asymmetric)
-                grid_dim_y = self.grid_size[1] + 1
-                grid_dim_z = self.grid_size[2] + 1
-
-                i = idx // (grid_dim_y * grid_dim_z)
-                j = (idx % (grid_dim_y * grid_dim_z)) // grid_dim_z
-                k = idx % grid_dim_z
-
-                # Store positions in attometers (cubic unit cells)
-                self.position_am[idx] = ti.Vector(
-                    [
-                        i * self.unit_cell_edge_am,
-                        j * self.unit_cell_edge_am,
-                        k * self.unit_cell_edge_am,
-                    ]
-                )
-            else:
-                # Center granule: decode position with offset (asymmetric grid)
-                center_idx = idx - corner_count
-                i = center_idx // (self.grid_size[1] * self.grid_size[2])
-                j = (center_idx % (self.grid_size[1] * self.grid_size[2])) // self.grid_size[2]
-                k = center_idx % self.grid_size[2]
-
-                # Store positions in attometers (cubic unit cells with offset)
-                offset = self.unit_cell_edge_am / 2
-                self.position_am[idx] = ti.Vector(
-                    [
-                        i * self.unit_cell_edge_am + offset,
-                        j * self.unit_cell_edge_am + offset,
-                        k * self.unit_cell_edge_am + offset,
-                    ]
-                )
-
-            self.equilibrium_am[idx] = self.position_am[idx]  # set equilibrium position
-
-            # Initialize velocity to zero for all granules
-            self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
+        # Parallelize over all voxels using single outermost loop
 
     @ti.kernel
-    def normalize_to_screen(self, enable_slice: ti.i32):  # type: ignore
-        """Normalize lattice positions to 0-1 range for GGUI rendering."""
-        for i in range(self.granule_count):
-            # Normalize to 0-1 range (positions are in attometers, scale them back)
-            if enable_slice == 1:
-                # Block-slicing enabled: hide front octant granules by moving to origin
-                # hide front 1/8th of the lattice for see-through effect
-                self.position_screen[i] = ti.Vector([0.0, 0.0, 0.0])
-            else:
-                # Normal rendering: normalize to 0-1 range
-                self.position_screen[i] = self.position_am[i] / self.max_universe_edge_am
+    def normalize_wire_frame(self):
+        """Normalize wire-frame lines positions to 0-1 range for GGUI rendering."""
 
-    @ti.func
-    def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-        """Get physical position of voxel center in meters (for external use)."""
-        pos_am = self.get_position_am(i, j, k)
-        return pos_am * ti.f32(constants.ATTOMETER)
+    # @ti.func
+    # def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
+    #     """Get physical position of voxel center in meters (for external use)."""
+    #     pos_am = self.get_position_am(i, j, k)
+    #     return pos_am * ti.f32(constants.ATTOMETER)
 
-    @ti.func
-    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-        """Get physical position of voxel center in attometers."""
-        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
+    # @ti.func
+    # def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
+    #     """Get physical position of voxel center in attometers."""
+    #     return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
 
-    @ti.func
-    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
-        """
-        Get voxel index from position in attometers.
+    # @ti.func
+    # def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
+    #     """
+    #     Get voxel index from position in attometers.
 
-        Inverse mapping: position → index
-        Used for particle-field interactions.
-        """
-        return ti.Vector(
-            [
-                ti.i32((pos_am[0] / self.dx_am) - 0.5),
-                ti.i32((pos_am[1] / self.dx_am) - 0.5),
-                ti.i32((pos_am[2] / self.dx_am) - 0.5),
-            ]
-        )
+    #     Inverse mapping: position → index
+    #     Used for particle-field interactions.
+    #     """
+    #     return ti.Vector(
+    #         [
+    #             ti.i32((pos_am[0] / self.dx_am) - 0.5),
+    #             ti.i32((pos_am[1] / self.dx_am) - 0.5),
+    #             ti.i32((pos_am[2] / self.dx_am) - 0.5),
+    #         ]
+    #     )
 
 
 @ti.data_oriented
