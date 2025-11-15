@@ -134,7 +134,16 @@ class WaveField:
         # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
         # Grid Visualization Fields
-        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.voxel_count)  # for rendering
+        # Wire-frame: unique edges of voxel grid for rendering
+        # Each voxel edge connects two grid vertices, stored as vertex pairs for scene.lines()
+        # Total edges = nx×(ny+1)×(nz+1) + (nx+1)×ny×(nz+1) + (nx+1)×(ny+1)×nz
+        # Each edge needs 2 vertices for rendering
+        self.edge_count = (
+            self.grid_size[0] * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)  # X-edges
+            + (self.grid_size[0] + 1) * self.grid_size[1] * (self.grid_size[2] + 1)  # Y-edges
+            + (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * self.grid_size[2]  # Z-edges
+        )
+        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.edge_count * 2)
 
         # Populate the grid wire_frame with taichi lines positions
         self.populate_wire_frame()  # initialize grid lines position
@@ -144,18 +153,100 @@ class WaveField:
     def populate_wire_frame(self):
         """
         Create a wave field wire-frame for GGUI rendering and visualization.
-        Uses a 1D array with 3D vectors for memory efficiency and GPU performance.
-        Each line segment is defined by its outermost voxel points.
+        Stores all unique voxel edges as vertex pairs for scene.lines() rendering.
 
-        eg. For a 3x3x3 grid, lines are drawn along the 8 edges of the cube formed by
-        the 8 corner voxels, plus 8 lines along half the edges of each face, plus 4 lines
-        along the center of the cube, totaling 12 + 12 + 4 = 28 lines.
+        The wire-frame visualizes the 3D grid structure by drawing edges of all voxels.
+        Each edge is shared between neighboring voxels and stored only once.
+
+        For a 2×2×2 voxel grid:
+        - 27 unique vertices (3×3×3 grid points)
+        - 54 unique edges (18 per axis direction)
+        - 108 line vertices for rendering (54 edges × 2 vertices)
+
+        Edge calculation:
+        - X-direction: nx × (ny+1) × (nz+1) edges
+        - Y-direction: (nx+1) × ny × (nz+1) edges
+        - Z-direction: (nx+1) × (ny+1) × nz edges
+
+        Positions stored in attometers, normalized later for rendering.
         """
-        # Parallelize over all voxels using single outermost loop
+        # Calculate number of edges per direction
+        nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        x_edges = nx * (ny + 1) * (nz + 1)
+        y_edges = (nx + 1) * ny * (nz + 1)
+        # z_edges = (nx + 1) * (ny + 1) * nz  # computed implicitly
+
+        vertex_idx = 0
+
+        # X-direction edges (parallel to X-axis)
+        for i in range(nx):
+            for j in range(ny + 1):
+                for k in range(nz + 1):
+                    # Start vertex at (i, j, k)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
+                    )
+                    vertex_idx += 1
+                    # End vertex at (i+1, j, k)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [
+                            (i + 1) * self.voxel_edge_am,
+                            j * self.voxel_edge_am,
+                            k * self.voxel_edge_am,
+                        ]
+                    )
+                    vertex_idx += 1
+
+        # Y-direction edges (parallel to Y-axis)
+        for i in range(nx + 1):
+            for j in range(ny):
+                for k in range(nz + 1):
+                    # Start vertex at (i, j, k)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
+                    )
+                    vertex_idx += 1
+                    # End vertex at (i, j+1, k)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [
+                            i * self.voxel_edge_am,
+                            (j + 1) * self.voxel_edge_am,
+                            k * self.voxel_edge_am,
+                        ]
+                    )
+                    vertex_idx += 1
+
+        # Z-direction edges (parallel to Z-axis)
+        for i in range(nx + 1):
+            for j in range(ny + 1):
+                for k in range(nz):
+                    # Start vertex at (i, j, k)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [i * self.voxel_edge_am, j * self.voxel_edge_am, k * self.voxel_edge_am]
+                    )
+                    vertex_idx += 1
+                    # End vertex at (i, j, k+1)
+                    self.wire_frame[vertex_idx] = ti.Vector(
+                        [
+                            i * self.voxel_edge_am,
+                            j * self.voxel_edge_am,
+                            (k + 1) * self.voxel_edge_am,
+                        ]
+                    )
+                    vertex_idx += 1
 
     @ti.kernel
     def normalize_wire_frame(self):
-        """Normalize wire-frame lines positions to 0-1 range for GGUI rendering."""
+        """
+        Normalize wire-frame vertex positions to 0-1 range for GGUI rendering.
+
+        Converts positions from attometers to normalized coordinates by dividing
+        by the maximum universe edge dimension. This ensures the wire-frame fits
+        within the rendering viewport regardless of actual physical scale.
+        """
+        for i in range(self.edge_count * 2):
+            # Normalize each vertex position to 0-1 range
+            self.wire_frame[i] = self.wire_frame[i] / self.max_universe_edge_am
 
     # @ti.func
     # def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore

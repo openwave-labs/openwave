@@ -104,6 +104,7 @@ class SimulationState:
 
     def __init__(self):
         self.lattice = None
+        self.wave_field = None
         self.elapsed_t = 0.0
         self.last_time = time.time()
         self.frame = 0
@@ -176,6 +177,7 @@ class SimulationState:
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
         self.lattice = medium.BCCLattice(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
+        self.wave_field = medium.WaveField(self.UNIVERSE_SIZE)
 
 
 # ================================================================
@@ -373,28 +375,9 @@ def compute_propagation(state):
 
 
 def render_elements(state):
-    """Render granules and wave sources with appropriate coloring."""
-    radius_render = 0.0001 * state.radius_factor
-
-    # Render granules with color scheme
-    if state.granule_type:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_type_color,
-        )
-    elif state.ironbow or state.blueprint:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_var_color,
-        )
-    else:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            color=config.WHITE[1],
-        )
+    """Render spacetime elements with appropriate coloring."""
+    # Test Grid Visualization
+    render.scene.lines(state.wave_field.wire_frame, width=1.0, color=config.COLOR_MEDIUM[1])
 
 
 # ================================================================

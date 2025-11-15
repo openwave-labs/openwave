@@ -19,7 +19,7 @@ XPARAMETERS = {
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
     "ui_defaults": {
-        "show_axis": False,  # Toggle to show/hide axis lines
+        "show_axis": True,  # Toggle to show/hide axis lines
         "flux_detector": False,  # Flux detector toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier
