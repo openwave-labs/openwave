@@ -88,15 +88,16 @@ class BCCLattice:
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
-        # int() is required because:
+        # round() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 5. Actual universe size recalculated below to fit integer unit cell count
         self.grid_size = [
-            int(init_universe_size[0] / self.unit_cell_edge),
-            int(init_universe_size[1] / self.unit_cell_edge),
-            int(init_universe_size[2] / self.unit_cell_edge),
+            round(init_universe_size[0] / self.unit_cell_edge),
+            round(init_universe_size[1] / self.unit_cell_edge),
+            round(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
@@ -584,15 +585,16 @@ class SCLattice:
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
-        # int() is required because:
+        # round() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 5. Actual universe size recalculated below to fit integer unit cell count
         self.grid_size = [
-            int(init_universe_size[0] / self.unit_cell_edge),
-            int(init_universe_size[1] / self.unit_cell_edge),
-            int(init_universe_size[2] / self.unit_cell_edge),
+            round(init_universe_size[0] / self.unit_cell_edge),
+            round(init_universe_size[1] / self.unit_cell_edge),
+            round(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells

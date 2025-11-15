@@ -65,15 +65,16 @@ class WaveField:
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
-        # int() is required because:
+        # round() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. voxel_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete voxels (actual universe size recalculated below)
+        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 5. Actual universe size recalculated below to fit integer voxel count
         self.grid_size = [
-            int(init_universe_size[0] / self.voxel_edge),
-            int(init_universe_size[1] / self.voxel_edge),
-            int(init_universe_size[2] / self.voxel_edge),
+            round(init_universe_size[0] / self.voxel_edge),
+            round(init_universe_size[1] / self.voxel_edge),
+            round(init_universe_size[2] / self.voxel_edge),
         ]  # same as (nx, ny, nz)
 
         # Compute total voxels (asymmetric grid)
@@ -175,7 +176,7 @@ class WaveField:
         dx_am = self.voxel_edge_am
         x_edges = nx * (ny + 1) * (nz + 1)
         y_edges = (nx + 1) * ny * (nz + 1)
-        z_edges = (nx + 1) * (ny + 1) * nz
+        # z_edges = (nx + 1) * (ny + 1) * nz  # implicit, computed as remainder
 
         # Parallelize over all edges using single outermost loop
         for edge_idx in range(self.edge_count):
