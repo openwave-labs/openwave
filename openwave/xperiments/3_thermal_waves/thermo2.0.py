@@ -7,8 +7,9 @@ import sys
 print("Work in Progress XPERIMENT")
 print("- Heat as eWave Energy")
 print("- Thermodynamics 2.0")
-print("\nWanna join the Thermal Waves Xperiment?")
-print("- Contact us at www.openwavelabs.com")
+
+print("\nWanna join the Thermal Waves Xperiment? Contact us at:")
+print("  https://www.openwavelabs.com")
 
 try:
     input("\nPress ENTER to return...")
