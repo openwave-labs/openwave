@@ -5,9 +5,11 @@ This XPERIMENT showcases:
 -
 """
 
+from openwave.common import config
+
 XPARAMETERS = {
     "meta": {
-        "name": "Energy Wave",
+        "name": "[WIP] Energy Wave",
         "description": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -15,11 +17,13 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "target_voxels": config.TARGET_VOXELS,  # Simulation voxel count (impacts performance)
+        "show_grid": False,  # Toggle to show/hide the voxel grid
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
     "ui_defaults": {
-        "show_axis": False,  # Toggle to show/hide axis lines
+        "show_axis": True,  # Toggle to show/hide axis lines
         "flux_detector": False,  # Flux detector toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier

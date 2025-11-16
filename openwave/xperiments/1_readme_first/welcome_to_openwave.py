@@ -2,10 +2,7 @@
 XPERIMENT: WELCOME to OpenWave
 """
 
-import os
-import sys
 import webbrowser
-from pathlib import Path
 
 
 def main():

@@ -7,6 +7,7 @@ Unified launcher for Level-1 wave-field xperiments featuring:
 - Xperiment-specific parameters in /_xparameters directory
 """
 
+import webbrowser
 import taichi as ti
 import time
 import importlib
@@ -102,7 +103,7 @@ class SimulationState:
     """Manages the state of the simulation."""
 
     def __init__(self):
-        self.lattice = None
+        self.wave_field = None
         self.elapsed_t = 0.0
         self.last_time = time.time()
         self.frame = 0
@@ -112,6 +113,8 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
+        self.TARGET_VOXELS = config.TARGET_VOXELS
+        self.SHOW_GRID = False
         self.TICK_SPACING = 0.25
         self.COLOR_THEME = "OCEAN"
 
@@ -150,6 +153,8 @@ class SimulationState:
         # Universe
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["size"])
+        self.TARGET_VOXELS = universe["target_voxels"]
+        self.SHOW_GRID = universe["show_grid"]
         self.TICK_SPACING = universe["tick_spacing"]
         self.COLOR_THEME = universe["color_theme"]
 
@@ -174,7 +179,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.lattice = medium.BCCLattice(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
+        self.wave_field = medium.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
 
 
 # ================================================================
@@ -278,35 +283,42 @@ def level_specs(state, level_bar_vertices):
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
+        if sub.button("Open Wave Equations Help"):
+            webbrowser.open(
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/spacetime/WAVE_EQUATIONS.md"
+            )
 
 
 def data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- eWAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
+        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- Scaling-Up (for computation) ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
-        sub.text(f"Unit-Cells per Max Edge: {state.lattice.max_grid_size:,}")
-        sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
+        sub.text("\n--- WAVE-FIELD GRID ---", color=config.LIGHT_BLUE[1])
+        sub.text(
+            f"Grid Size: {state.wave_field.grid_size[0]:,}x{state.wave_field.grid_size[1]:,}x{state.wave_field.grid_size[2]:,} voxels"
+        )
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
+        sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"EWave: {state.lattice.ewave_res:.0f} granules/ewave (>10)")
-        if state.lattice.ewave_res < 10:
+        sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/lambda (>10)")
+        if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} ewaves/universe-edge")
+        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text("\n--- WAVE-PROFILING ---", color=config.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
-        sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
+        sub.text(
+            f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
+        )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
         slowed_mo = config.SLOW_MO / state.freq_boost
@@ -368,28 +380,10 @@ def compute_propagation(state):
 
 
 def render_elements(state):
-    """Render granules and wave sources with appropriate coloring."""
-    radius_render = 0.0001 * state.radius_factor
-
-    # Render granules with color scheme
-    if state.granule_type:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_type_color,
-        )
-    elif state.ironbow or state.blueprint:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_var_color,
-        )
-    else:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            color=config.WHITE[1],
-        )
+    """Render spacetime elements with appropriate coloring."""
+    # Grid Visualization
+    if state.SHOW_GRID:
+        render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
 
 
 # ================================================================

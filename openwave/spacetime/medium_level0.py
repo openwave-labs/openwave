@@ -63,7 +63,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -78,25 +78,25 @@ class BCCLattice:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
+        unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
-        # int() is required because:
+        # round() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 5. Actual universe size recalculated below to fit integer unit cell count
         self.grid_size = [
-            int(init_universe_size[0] / self.unit_cell_edge),
-            int(init_universe_size[1] / self.unit_cell_edge),
-            int(init_universe_size[2] / self.unit_cell_edge),
+            round(init_universe_size[0] / self.unit_cell_edge),
+            round(init_universe_size[1] / self.unit_cell_edge),
+            round(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
@@ -559,7 +559,7 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -574,25 +574,25 @@ class SCLattice:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / self.target_granules  # SC = 1 /unit-cell
+        unit_cell_volume = init_universe_volume / target_granules  # SC = 1 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
-        # int() is required because:
+        # round() is required because:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. unit_cell_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds down to fit only complete unit cells (actual universe size recalculated below)
+        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 5. Actual universe size recalculated below to fit integer unit cell count
         self.grid_size = [
-            int(init_universe_size[0] / self.unit_cell_edge),
-            int(init_universe_size[1] / self.unit_cell_edge),
-            int(init_universe_size[2] / self.unit_cell_edge),
+            round(init_universe_size[0] / self.unit_cell_edge),
+            round(init_universe_size[1] / self.unit_cell_edge),
+            round(init_universe_size[2] / self.unit_cell_edge),
         ]
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells

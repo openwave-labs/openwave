@@ -203,7 +203,7 @@ The simulator architecture comprises five primary computational modules:
 - `energy_wave_springeuler.py`: Provides force-based spring-mass dynamics using semi-implicit Euler integration
 - `energy_wave_springleap.py`: Implements symplectic Leapfrog (Velocity Verlet) integration
 - `energy_wave_xpbd.py`: Contains the XPBD constraint-based solver implementation
-- `energy_wave_radial.py`: Implements phase-synchronized harmonic oscillation methodology
+- `wave_engine_radial.py`: Implements phase-synchronized harmonic oscillation methodology
 
 ![OpenWave Demo 2](images/demo2.gif)
 ![OpenWave Demo 3](images/demo3.gif)

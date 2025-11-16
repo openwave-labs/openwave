@@ -11,6 +11,8 @@ This XPERIMENT showcases:
 - Thin Z dimension for 2.5D visualization
 """
 
+from openwave.common import config
+
 # Generate 2 sources in a linear pattern
 Z_POSITION = 0.07  # Z-axis position for all sources
 
@@ -24,6 +26,7 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [5e-16, 5e-16, 0.1e-16],  # m, simulation domain [x, y, z]
+        "target_granules": config.TARGET_GRANULES,  # Simulation particle count (impacts performance)
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },

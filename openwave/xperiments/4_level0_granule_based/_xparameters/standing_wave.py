@@ -14,7 +14,7 @@ This XPERIMENT showcases:
 
 import numpy as np
 
-from openwave.common import constants
+from openwave.common import config, constants
 
 # Generate 64 sources in a circular pattern
 NUM_SOURCES = 64  # Number of wave sources for this xperiment
@@ -52,6 +52,7 @@ XPARAMETERS = {
             UNIVERSE_EDGE,
             UNIVERSE_EDGE / 20,
         ],  # m, simulation domain [x, y, z]
+        "target_granules": config.TARGET_GRANULES,  # Simulation particle count (impacts performance)
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
