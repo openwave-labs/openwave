@@ -35,7 +35,7 @@ class WaveField:
     6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size):
+    def __init__(self, init_universe_size, target_voxels=config.TARGET_VOXELS):
         """
         Initialize WaveField from universe size with automatic voxel sizing
         and asymmetric universe support.
@@ -55,7 +55,6 @@ class WaveField:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        target_voxels = config.TARGET_VOXELS
 
         # Calculate cubic voxel size from target voxel count
         # CRITICAL: voxels must remain cubic (same edge length on all axes)

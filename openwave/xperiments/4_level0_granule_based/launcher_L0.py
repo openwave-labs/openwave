@@ -117,6 +117,7 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
+        self.TARGET_GRANULES = config.TARGET_GRANULES
         self.TICK_SPACING = 0.25
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
@@ -159,6 +160,7 @@ class SimulationState:
         # Universe
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["size"])
+        self.TARGET_GRANULES = universe["target_granules"]
         self.TICK_SPACING = universe["tick_spacing"]
         self.COLOR_THEME = universe["color_theme"]
 
@@ -190,7 +192,9 @@ class SimulationState:
 
     def initialize_lattice(self):
         """Initialize or reinitialize the lattice and granule objects."""
-        self.lattice = medium.BCCLattice(self.UNIVERSE_SIZE, theme=self.COLOR_THEME)
+        self.lattice = medium.BCCLattice(
+            self.UNIVERSE_SIZE, self.TARGET_GRANULES, self.COLOR_THEME
+        )
         self.granule = medium.BCCGranule(
             self.lattice.unit_cell_edge, self.lattice.max_universe_edge
         )

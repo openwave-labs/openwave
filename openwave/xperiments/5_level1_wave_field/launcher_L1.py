@@ -113,6 +113,8 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
+        self.TARGET_VOXELS = config.TARGET_VOXELS
+        self.SHOW_GRID = False
         self.TICK_SPACING = 0.25
         self.COLOR_THEME = "OCEAN"
 
@@ -151,6 +153,8 @@ class SimulationState:
         # Universe
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["size"])
+        self.TARGET_VOXELS = universe["target_voxels"]
+        self.SHOW_GRID = universe["show_grid"]
         self.TICK_SPACING = universe["tick_spacing"]
         self.COLOR_THEME = universe["color_theme"]
 
@@ -175,7 +179,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.wave_field = medium.WaveField(self.UNIVERSE_SIZE)
+        self.wave_field = medium.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
 
 
 # ================================================================
@@ -377,8 +381,9 @@ def compute_propagation(state):
 
 def render_elements(state):
     """Render spacetime elements with appropriate coloring."""
-    # Test Grid Visualization
-    render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
+    # Grid Visualization
+    if state.SHOW_GRID:
+        render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
 
 
 # ================================================================

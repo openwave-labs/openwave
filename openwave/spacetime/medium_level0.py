@@ -63,7 +63,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -78,12 +78,11 @@ class BCCLattice:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (self.target_granules / 2)  # BCC = 2 /unit-cell
+        unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
@@ -560,7 +559,7 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -575,12 +574,11 @@ class SCLattice:
         init_universe_volume = (
             init_universe_size[0] * init_universe_size[1] * init_universe_size[2]
         )
-        self.target_granules = config.TARGET_GRANULES
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / self.target_granules  # SC = 1 /unit-cell
+        unit_cell_volume = init_universe_volume / target_granules  # SC = 1 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 

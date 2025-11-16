@@ -5,6 +5,8 @@ This XPERIMENT showcases:
 -
 """
 
+from openwave.common import config
+
 XPARAMETERS = {
     "meta": {
         "name": "[WIP] Energy Wave",
@@ -15,6 +17,8 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "target_voxels": config.TARGET_VOXELS,  # Simulation voxel count (impacts performance)
+        "show_grid": False,  # Toggle to show/hide the voxel grid
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
