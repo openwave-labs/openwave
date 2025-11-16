@@ -301,7 +301,7 @@ def data_dashboard(state):
         sub.text(
             f"Grid Size: {state.wave_field.grid_size[0]:,}x{state.wave_field.grid_size[1]:,}x{state.wave_field.grid_size[2]:,} voxels"
         )
-        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
         sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
