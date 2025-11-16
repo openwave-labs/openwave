@@ -1,5 +1,5 @@
 
-# WAVE EQUATIONS & TERMINOLOGY
+# WAVE EQUATIONS & TERMINOLOGY GUIDE
 
 OpenWave uses wave equations & terminology based on standardized physics terminology, these are best practices used in scientific literature.
 
@@ -48,7 +48,7 @@ density)
 
 ## Wave Interaction
 
-- REFLECTION: changes direction of propagation (`ψ = 0` at boundary)
+- REFLECTION: changes direction of propagation (`ψ = 0` Dirichlet boundary conditions)
 - SUPERPOSITION: amplitude modulation/combination (constructive / destructive interference)
 - RESONANCE: harmonics, coherence, influence on [phase, motion, frequency]
 

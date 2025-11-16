@@ -283,9 +283,9 @@ def level_specs(state, level_bar_vertices):
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
-        if sub.button("Open Wave Equations Help"):
+        if sub.button("Open Wave Equations Guide"):
             webbrowser.open(
-                "https://github.com/openwave-labs/openwave/blob/main/openwave/spacetime/WAVE_EQUATIONS.md"
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/wave_guide.md"
             )
 
 
