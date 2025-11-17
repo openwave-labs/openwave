@@ -3,13 +3,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Flux Detector Films/Planes](#flux-detector-filmsplanes)
+1. [Plane Slice Films/Planes](#flux-detector-filmsplanes)
    - [Purpose and Concept](#purpose-and-concept)
    - [Implementation](#implementation)
    - [Properties and Interactions](#properties-and-interactions)
 1. [Universe Boundaries](#universe-boundaries)
    - [Outer Walls](#outer-walls)
-   - [Wall as Flux Detectors](#wall-as-flux-detectors)
+   - [Wall as Plane Slices](#wall-as-flux-detectors)
    - [User Interaction](#user-interaction)
 1. [3D Wave Visualization Techniques](#3d-wave-visualization-techniques)
    - [Particle Spray Method](#particle-spray-method)
@@ -46,7 +46,7 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 **Primary Rendering Technologies**:
 
 1. **WAVE VIEWING**:
-   - **Taichi Meshes**: Flux detector films/planes display wave properties
+   - **Taichi Meshes**: plane_slice films/planes display wave properties
    - **Color Gradients**: Defined in `config.py` for energy wave visualization
    - **Wave Properties**: Render wave fronts, amplitude, energy density
 
@@ -63,11 +63,11 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
    - **Streamlines**: Follow flow/energy propagation paths
    - **Polylines**: Smooth curves showing wave dynamics
 
-## Flux Detector Films/Planes
+## Plane Slice Films/Planes
 
 ### Purpose and Concept
 
-**Flux Detector Films** are 2D sensor planes that:
+**Plane Slice Films** are 2D sensor planes that:
 
 - React to wave parameters passing through them
 - Convert wave properties into visible colors
@@ -198,7 +198,7 @@ for face in ['x_min', 'x_max', 'y_min', 'y_max', 'z_min', 'z_max']:
 - Hard boundary condition (phase inversion)
 - Creates standing wave patterns near walls
 
-### Wall as Flux Detectors
+### Wall as Plane Slices
 
 **Dual Purpose**:
 

@@ -24,7 +24,7 @@ XPARAMETERS = {
     },
     "ui_defaults": {
         "show_axis": True,  # Toggle to show/hide axis lines
-        "flux_detector": False,  # Flux detector toggle
+        "plane_slice": False,  # Plane Slice toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier
