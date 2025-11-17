@@ -3,13 +3,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Plane Slice Films/Planes](#flux-detector-filmsplanes)
+1. [Plane Slice Films](#plane-slice-films)
    - [Purpose and Concept](#purpose-and-concept)
    - [Implementation](#implementation)
    - [Properties and Interactions](#properties-and-interactions)
 1. [Universe Boundaries](#universe-boundaries)
    - [Outer Walls](#outer-walls)
-   - [Wall as Plane Slices](#wall-as-flux-detectors)
+   - [Wall as Plane Slices](#wall-as-plane-slices)
    - [User Interaction](#user-interaction)
 1. [3D Wave Visualization Techniques](#3d-wave-visualization-techniques)
    - [Particle Spray Method](#particle-spray-method)
@@ -63,7 +63,7 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
    - **Streamlines**: Follow flow/energy propagation paths
    - **Polylines**: Smooth curves showing wave dynamics
 
-## Plane Slice Films/Planes
+## Plane Slice Films
 
 ### Purpose and Concept
 
@@ -131,6 +131,7 @@ def sample_field_on_detector():
 
 **Detection Properties**:
 
+- **Displacement**: Wave Fronts
 - **Amplitude**: Intensity/brightness
 - **Frequency**: Color hue (if multi-frequency)
 - **Energy**: Overall brightness
