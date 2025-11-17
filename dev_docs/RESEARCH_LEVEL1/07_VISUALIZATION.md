@@ -46,7 +46,7 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 **Primary Rendering Technologies**:
 
 1. **WAVE VIEWING**:
-   - **Taichi Meshes**: plane_slice films/planes display wave properties
+   - **Taichi Meshes**: Plane-slice films/planes display wave properties
    - **Color Gradients**: Defined in `config.py` for energy wave visualization
    - **Wave Properties**: Render wave fronts, amplitude, energy density
 
