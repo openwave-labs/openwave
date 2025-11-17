@@ -13,7 +13,7 @@ import random
 
 import taichi as ti
 
-from openwave.common import config, constants, equations
+from openwave.common import config, constants, equations, helper
 
 
 class BCCGranule:
@@ -146,7 +146,7 @@ class BCCLattice:
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * constants.J2KWH  # in KWh
+        self.energy_kWh = self.energy * helper.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Initialize position and velocity 1D arrays
@@ -641,7 +641,7 @@ class SCLattice:
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * constants.J2KWH  # in KWh
+        self.energy_kWh = self.energy * helper.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Initialize position and velocity 1D arrays

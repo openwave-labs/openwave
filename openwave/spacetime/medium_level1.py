@@ -11,7 +11,7 @@ Modeled as a fluid-like medium that allows energy to transfer from one point to 
 
 import taichi as ti
 
-from openwave.common import config, constants, equations
+from openwave.common import config, constants, equations, helper
 
 
 @ti.data_oriented
@@ -64,16 +64,16 @@ class WaveField:
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
-        # round() is required because:
+        # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
         # 1. User-specified universe size is arbitrary (any float value)
         # 2. voxel_edge comes from cube root, rarely divides evenly into universe size
         # 3. Ensures integer count needed for array indexing and loop bounds
-        # 4. Rounds to nearest integer (>=0.5 rounds up, <0.5 rounds down)
+        # 4. Rounds to nearest odd integer for symmetric grid with central voxel
         # 5. Actual universe size recalculated below to fit integer voxel count
         self.grid_size = [
-            round(init_universe_size[0] / self.voxel_edge),
-            round(init_universe_size[1] / self.voxel_edge),
-            round(init_universe_size[2] / self.voxel_edge),
+            helper.round_to_nearest_odd(init_universe_size[0] / self.voxel_edge),
+            helper.round_to_nearest_odd(init_universe_size[1] / self.voxel_edge),
+            helper.round_to_nearest_odd(init_universe_size[2] / self.voxel_edge),
         ]  # same as (nx, ny, nz)
 
         # Compute total voxels (asymmetric grid)
@@ -114,7 +114,7 @@ class WaveField:
 
         # Compute grid total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * constants.J2KWH  # in KWh
+        self.energy_kWh = self.energy * helper.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
