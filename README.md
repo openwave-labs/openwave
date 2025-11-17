@@ -378,14 +378,14 @@ kanban
   [IN PROGRESS]
     [**SPACETIME MODULE**
       - medium_level1.py
-      - ewave_level1.py]@{ priority: 'Very High', assigned: 'xrodz' }
+      - wave_level1.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
       - medium_level0.py
-      - ewave_level0.py]
+      - wave_level0.py]
     [**XPERIMENTS L0**
       - spacetm_vibration.py
       - spherical_wave.py
@@ -397,6 +397,7 @@ kanban
       - yin_yang.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
+      - stability.py
       - derivations.py]
     [**COMMON MODULE**
       - config.py
