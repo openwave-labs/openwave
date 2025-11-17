@@ -120,7 +120,7 @@ class SimulationState:
 
         # UI control variables
         self.show_axis = False
-        self.plane_slice = False
+        self.flux_screens = False
         self.radius_factor = 0.5
         self.freq_boost = 10.0
         self.amp_boost = 1.0
@@ -161,7 +161,7 @@ class SimulationState:
         # UI defaults
         ui = params["ui_defaults"]
         self.show_axis = ui["show_axis"]
-        self.plane_slice = ui["plane_slice"]
+        self.flux_screens = ui["flux_screens"]
         self.radius_factor = ui["radius_factor"]
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
@@ -219,7 +219,7 @@ def controls(state):
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
-        state.plane_slice = sub.checkbox("Plane Slice", state.plane_slice)
+        state.flux_screens = sub.checkbox("Flux Screens", state.flux_screens)
         state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
         state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
         state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
@@ -366,8 +366,8 @@ def compute_propagation(state):
     #     state.elapsed_t,
     # )
 
-    # # Update normalized positions for rendering with optional plane_slice
-    # state.lattice.normalize_to_screen(1 if state.plane_slice else 0)
+    # # Update normalized positions for rendering with optional flux_screens
+    # state.lattice.normalize_to_screen(1 if state.flux_screens else 0)
 
     # # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # # Update data sampling every 30 frames
