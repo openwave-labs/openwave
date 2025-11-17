@@ -1,4 +1,4 @@
-# PLANE-SLICE VISUALIZATION
+# FLUX FILM VISUALIZATION
 
 ## Table of Contents
 
@@ -32,7 +32,7 @@
 
 ## Overview
 
-**Plane-Slices** are 2D cross-sectional visualization planes that provide real-time views of wave propagation through the universe simulation domain. They function as detector films that react to wave properties and convert them into visible color gradients.
+**Flux Films** are 2D cross-sectional detector surfaces that provide real-time views of wave propagation through the universe simulation domain. They function as photographic films that react to wave flux and convert wave properties into visible color gradients.
 
 **Purpose**:
 
@@ -44,7 +44,7 @@
 
 **Key Features**:
 
-- Three orthogonal planes (XY, XZ, YZ)
+- Three orthogonal films (XY, XZ, YZ)
 - Intersect at center of universe domain
 - Mesh resolution matches simulation resolution
 - Dynamic color mapping of wave properties
@@ -54,10 +54,10 @@
 
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py`
   - Location: `launcher_L1.py:222` (CONTROLS window)
-  - Variable: `state.plane_slice` (Boolean)
-  - Control: Single checkbox for all three planes
-  - Default: `False` (planes hidden)
-  - Configuration: Via xparameters `ui_defaults["plane_slice"]`
+  - Variable: `state.flux_films` (Boolean)
+  - Control: Single checkbox "Flux Films" for all three films
+  - Default: `False` (films hidden)
+  - Configuration: Via xparameters `ui_defaults["flux_films"]`
 
 - 🔄 **In Progress**: Core mesh rendering and wave property visualization
   - Mesh generation functions (to be implemented)
@@ -69,15 +69,18 @@
 
 ### Naming Convention
 
-The feature is called **"plane-slice"** with alternative conceptual names:
+The feature is called **"Flux Films"** (plural):
 
-- **Plane-Slice**: Primary term - 2D mesh providing wave visualization
-- **Flux Detector**: Energy wave sensing surface
-- **Flux Sensor**: Active detection plane
-- **Flux Viewing Film**: Photographic plate analogy
-- **Flux Sensing Screen**: Digital sensor analogy
+- **Flux Films**: Primary term - three 2D detector films visualizing wave flux
+- **Flux Film**: Singular - referring to the system/feature or an individual film
+- **Alternative names considered**: Flux Screens, Flux Sensors, Flux Detectors, Plane Slice
 
-**Flux** represents the energy wave field, while **detector/sensor/film** represents the reacting substance that captures wave properties and converts them to visual information.
+**Flux** represents the energy wave field passing through the films, while **film** represents the detector surface that captures wave properties and converts them to visual information (like photographic film, X-ray film, or nuclear emulsion).
+
+**Singular vs Plural Usage**:
+
+- **Plural "Flux Films"**: When referring to the three detector surfaces (UI label, multiple objects)
+- **Singular "Flux Film"**: When referring to the feature/system or a specific individual film
 
 ### Inspiration
 
@@ -93,11 +96,18 @@ Based on digital image sensor technology:
 Similar to LEVEL-0's `block_slice` feature but adapted for voxel-based wave fields:
 
 - LEVEL-0: Sliced granule lattice to show interior structure
-- LEVEL-1: Sliced wave field to show wave properties
+- LEVEL-1: Flux films showing wave field properties
+
+### Reserved Terminology
+
+**"Field Sensor"** is reserved for future point measurement features:
+
+- **Flux Films**: 2D surface detectors (current feature - plural for three films)
+- **Field Sensor**: Point probe measuring specific voxel properties (future feature)
 
 ## Physical Analogy
 
-**Plane-Slices act like**:
+**Flux films act like**:
 
 1. **Photographic Film**: Detecting light (energy waves)
 2. **Detector Screens**: In particle physics experiments (bubble chambers, cloud chambers)
@@ -109,24 +119,24 @@ Similar to LEVEL-0's `block_slice` feature but adapted for voxel-based wave fiel
 
 ### Initial Configuration
 
-Three orthogonal plane-slices intersecting at the universe center:
+Three orthogonal flux films intersecting at the universe center:
 
 ```python
-# Universe domain: [0, 1] in normalized screen coordinates
+# Universe domain: [0, 1] in normalized coordinates
 # Real universe: [0, universe_size] in meters (attometers)
 
 # Center position (real coordinates)
 center_pos = universe_size * 0.5  # Center of domain
 
-# Plane positions
-plane_xy_z = center_pos  # XY plane at z = 0.5
-plane_xz_y = center_pos  # XZ plane at y = 0.5
-plane_yz_x = center_pos  # YZ plane at x = 0.5
+# Flux film positions
+film_xy_z = center_pos  # XY film at z = 0.5
+film_xz_y = center_pos  # XZ film at y = 0.5
+film_yz_x = center_pos  # YZ film at x = 0.5
 ```
 
 ### Intersection Design
 
-All three planes intersect at the central voxel:
+All three flux films intersect at the central voxel:
 
 ```text
         Y
@@ -139,12 +149,12 @@ All three planes intersect at the central voxel:
 
     [0.5, 0.5, 0.5] - Intersection point
 
-    XY Plane: spans (0→1, 0→1, 0.5)
-    XZ Plane: spans (0→1, 0.5, 0→1)
-    YZ Plane: spans (0.5, 0→1, 0→1)
+    XY Film: spans (0→1, 0→1, 0.5)
+    XZ Film: spans (0→1, 0.5, 0→1)
+    YZ Film: spans (0.5, 0→1, 0→1)
 ```
 
-**Visual Result**: Three mutually perpendicular rectangles forming a 3D cross at the universe center.
+**Visual Result**: Three mutually perpendicular flux films forming a 3D cross at the universe center.
 
 ### Universe Coordinate System
 
@@ -174,31 +184,31 @@ real_pos = normalized_pos * universe_size
 
 ### Taichi Mesh Rendering
 
-Each plane-slice is rendered as a **Taichi mesh**:
+Each flux film is rendered as a **Taichi mesh**:
 
 ```python
 import taichi as ti
 
-# Mesh for XY plane
+# Mesh for XY film
 mesh_resolution_x = target_voxels_x
 mesh_resolution_y = target_voxels_y
 
 # Vertex positions (3D coordinates)
-plane_xy_vertices = ti.Vector.field(
+film_xy_vertices = ti.Vector.field(
     n=3,
     dtype=ti.f32,
     shape=(mesh_resolution_x, mesh_resolution_y)
 )
 
 # Vertex colors (RGB)
-plane_xy_colors = ti.Vector.field(
+film_xy_colors = ti.Vector.field(
     n=3,
     dtype=ti.f32,
     shape=(mesh_resolution_x, mesh_resolution_y)
 )
 
 # Indices for triangulation (two triangles per quad)
-plane_xy_indices = ti.field(
+film_xy_indices = ti.field(
     dtype=ti.i32,
     shape=(mesh_resolution_x-1, mesh_resolution_y-1, 6)
 )
@@ -210,12 +220,12 @@ plane_xy_indices = ti.field(
 
 ```python
 # If simulation has target_voxels = 64³
-# XY plane mesh: 64 × 64 vertices
-# XZ plane mesh: 64 × 64 vertices
-# YZ plane mesh: 64 × 64 vertices
+# XY film mesh: 64 × 64 vertices
+# XZ film mesh: 64 × 64 vertices
+# YZ film mesh: 64 × 64 vertices
 
 # Each quad (voxel face) = 2 triangles
-# Total triangles per plane: (64-1) × (64-1) × 2 = 7,938 triangles
+# Total triangles per film: (64-1) × (64-1) × 2 = 7,938 triangles
 ```
 
 **Benefits**:
@@ -231,8 +241,8 @@ plane_xy_indices = ti.field(
 
 ```python
 @ti.kernel
-def create_plane_xy_mesh():
-    """Create XY plane mesh at z = center_z."""
+def create_film_xy_mesh():
+    """Create XY flux film mesh at z = center_z."""
     for i, j in ti.ndrange(mesh_resolution_x, mesh_resolution_y):
         # Real universe coordinates
         x = (i / mesh_resolution_x) * universe_size
@@ -240,7 +250,7 @@ def create_plane_xy_mesh():
         z = center_z  # Fixed at 0.5 * universe_size
 
         # Store vertex position (real coordinates)
-        plane_xy_vertices[i, j] = ti.Vector([x, y, z])
+        film_xy_vertices[i, j] = ti.Vector([x, y, z])
 
         # Map to voxel index for property lookup
         voxel_i = i  # Direct mapping
@@ -251,25 +261,25 @@ def create_plane_xy_mesh():
         property_value = wave_field[voxel_i, voxel_j, voxel_k]
 
         # Convert to color
-        plane_xy_colors[i, j] = property_to_color(property_value)
+        film_xy_colors[i, j] = property_to_color(property_value)
 ```
 
 **Rendering** (normalized coordinates):
 
 ```python
 @ti.kernel
-def normalize_plane_vertices():
+def normalize_film_vertices():
     """Convert real coordinates to normalized [0,1] for rendering."""
-    for i, j in plane_xy_vertices:
-        real_pos = plane_xy_vertices[i, j]
-        plane_xy_vertices[i, j] = real_pos / universe_size
+    for i, j in film_xy_vertices:
+        real_pos = film_xy_vertices[i, j]
+        film_xy_vertices[i, j] = real_pos / universe_size
 ```
 
 ## Wave Property Visualization
 
 ### Property Sampling
 
-Plane-slices can visualize any voxel-based property:
+Flux films can visualize any voxel-based property:
 
 **Wave Field Properties**:
 
@@ -498,18 +508,18 @@ blueprint4 = [
 
 **L1 Launcher UI Implementation**:
 
-The plane-slice feature is implemented in `launcher_L1.py` with a **single toggle for all three planes**:
+The Flux Film system is implemented in `launcher_L1.py` with a **single toggle for all three films**:
 
 ```python
 # SimulationState class (launcher_L1.py:123)
-self.plane_slice = False  # Single toggle for all plane-slices
+self.flux_films = False  # Single toggle for all flux films
 
 # Apply from xparameters (launcher_L1.py:164)
-self.plane_slice = ui["plane_slice"]
+self.flux_films = ui["flux_films"]
 
 # UI Control (launcher_L1.py:222)
 with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
-    state.plane_slice = sub.checkbox("Plane Slice", state.plane_slice)
+    state.flux_films = sub.checkbox("Flux Films", state.flux_films)
 ```
 
 **Configuration in Xparameters**:
@@ -517,25 +527,25 @@ with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
 ```python
 # From _xparameters/energy_wave.py:27
 "ui_defaults": {
-    "plane_slice": False,  # Plane Slice toggle (all three planes)
+    "flux_films": False,  # Flux Films toggle (all three films)
     # ... other UI defaults
 }
 ```
 
 **Current Implementation**:
 
-- **Single toggle controls all three planes** (XY, XZ, YZ)
-- Default state: `False` (planes hidden)
+- **Single toggle controls all three films** (XY, XZ, YZ)
+- Default state: `False` (films hidden)
 - Toggleable via checkbox in CONTROLS window
 - Simple on/off functionality for initial implementation
 
 **Future Enhancements** (optional):
 
 ```python
-# Individual plane toggles (if needed)
-state.show_plane_xy = True   # XY plane at z=0.5
-state.show_plane_xz = True   # XZ plane at y=0.5
-state.show_plane_yz = True   # YZ plane at x=0.5
+# Individual film toggles (if needed)
+state.show_film_xy = True   # XY film at z=0.5
+state.show_film_xz = True   # XZ film at y=0.5
+state.show_film_yz = True   # YZ film at x=0.5
 
 # Property selection (future)
 state.property_mode = 0  # 0=displacement, 1=amplitude, 2=energy
@@ -549,15 +559,15 @@ state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 **Orbiting Camera**:
 
 - User can orbit camera around universe cube
-- View plane-slices from any angle
-- See both sides of each plane (two-sided rendering)
+- View flux films from any angle
+- See both sides of each film (two-sided rendering)
 - Zoom in/out for detail inspection
 
 **Benefits of Two-Sided Rendering**:
 
 - Front face shows wave properties from one side
 - Back face shows wave properties from other side
-- Useful when camera is behind a plane
+- Useful when camera is behind a film
 - No occlusion issues
 
 ## Implementation Details
@@ -577,16 +587,16 @@ state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 
 ```python
 @ti.kernel
-def update_plane_slice(plane_id: ti.i32):
-    """Update plane-slice vertices and colors.
+def update_flux_film(film_id: ti.i32):
+    """Update flux film vertices and colors.
 
     Args:
-        plane_id: 0=XY, 1=XZ, 2=YZ
+        film_id: 0=XY, 1=XZ, 2=YZ
     """
     # 1. Sample wave properties at voxel centers (real coords)
-    for i, j in plane_vertices[plane_id]:
+    for i, j in film_vertices[film_id]:
         # Get real position
-        pos_real = get_plane_vertex_position(plane_id, i, j)
+        pos_real = get_film_vertex_position(film_id, i, j)
 
         # Map to voxel indices
         voxel_idx = position_to_voxel_index(pos_real)
@@ -595,11 +605,11 @@ def update_plane_slice(plane_id: ti.i32):
         prop_value = wave_field[voxel_idx]
 
         # Convert to color
-        plane_colors[plane_id][i, j] = property_to_color(prop_value)
+        film_colors[film_id][i, j] = property_to_color(prop_value)
 
     # 2. Normalize positions for rendering
-    for i, j in plane_vertices[plane_id]:
-        plane_vertices[plane_id][i, j] /= universe_size
+    for i, j in film_vertices[film_id]:
+        film_vertices[film_id][i, j] /= universe_size
 ```
 
 ### Two-Sided Rendering
@@ -609,9 +619,9 @@ def update_plane_slice(plane_id: ti.i32):
 ```python
 # When rendering with GGUI
 scene.mesh(
-    vertices=plane_xy_vertices,
-    colors=plane_xy_colors,
-    indices=plane_xy_indices,
+    vertices=film_xy_vertices,
+    colors=film_xy_colors,
+    indices=film_xy_indices,
     two_sided=True  # Enable two-sided rendering
 )
 ```
@@ -621,7 +631,7 @@ scene.mesh(
 - Both front and back faces are rendered
 - No backface culling
 - Visible from all viewing angles
-- Essential for cross-sectional planes
+- Essential for cross-sectional flux films
 
 ### Performance Considerations
 
@@ -630,17 +640,17 @@ scene.mesh(
 - Mesh resolution = simulation resolution (no extra overhead)
 - Direct voxel-to-vertex mapping (no interpolation)
 - GPU-accelerated mesh rendering (Taichi)
-- Only visible planes are rendered (toggle control)
+- Only visible films are rendered (toggle control)
 
 **Memory**:
 
 ```python
-# Per plane (64³ simulation):
+# Per film (64³ simulation):
 # Vertices: 64 × 64 × 3 floats = 49,152 bytes ≈ 48 KB
 # Colors: 64 × 64 × 3 floats = 49,152 bytes ≈ 48 KB
 # Indices: 63 × 63 × 6 ints = 95,256 bytes ≈ 93 KB
-# Total per plane: ~189 KB
-# Total for 3 planes: ~567 KB (negligible)
+# Total per film: ~189 KB
+# Total for 3 films: ~567 KB (negligible)
 ```
 
 **Update Frequency**:
@@ -653,14 +663,14 @@ scene.mesh(
 
 ### Dynamic Positioning
 
-- **User-Controlled Plane Position**: Slider to move planes along their normal axis
-- **Scanning Animation**: Automatically sweep planes through domain
-- **Multiple Slices**: More than 3 planes for detailed analysis
+- **User-Controlled Film Position**: Slider to move films along their normal axis
+- **Scanning Animation**: Automatically sweep films through domain
+- **Multiple Films**: More than 3 films for detailed analysis
 
 ### Advanced Properties
 
-- **Vector Field Visualization**: Display force arrows on planes
-- **Streamline Overlay**: Show energy flow paths on planes
+- **Vector Field Visualization**: Display force arrows on films
+- **Streamline Overlay**: Show energy flow paths on films
 - **Phase Visualization**: Cyclic colormap for wave phase
 
 ### Universe Wall Visualization
@@ -668,30 +678,40 @@ scene.mesh(
 **Same Technology**:
 
 - Universe boundary walls can also react to wave properties
-- Six wall faces (±X, ±Y, ±Z) as plane-slices
+- Six wall faces (±X, ±Y, ±Z) as flux films
 - Shows wave reflections at boundaries
 - User can observe from outside cube
 
 **Future Implementation**:
 
 ```python
-# Six wall faces as detector planes
-wall_planes = [
-    "x_min", "x_max",  # YZ planes at x=0 and x=1
-    "y_min", "y_max",  # XZ planes at y=0 and y=1
-    "z_min", "z_max",  # XY planes at z=0 and z=1
+# Six wall faces as flux films
+wall_films = [
+    "x_min", "x_max",  # YZ films at x=0 and x=1
+    "y_min", "y_max",  # XZ films at y=0 and y=1
+    "z_min", "z_max",  # XY films at z=0 and z=1
 ]
 
 # Render wave properties on walls
-for wall in wall_planes:
-    render_wall_as_detector(wall)
+for wall in wall_films:
+    render_wall_as_flux_film(wall)
 ```
 
 ### Interactive Selection
 
-- **Click to Place Plane**: User clicks to position planes
-- **Drag to Orient**: Custom plane orientations (not just orthogonal)
+- **Click to Place Film**: User clicks to position films
+- **Drag to Orient**: Custom film orientations (not just orthogonal)
 - **Region of Interest**: Zoom and clip to specific regions
+
+### Field Sensors (Future Feature)
+
+**Point Measurement Devices**:
+
+- Place individual field sensors at specific voxel locations
+- Read scalar values (amplitude, displacement, energy)
+- Display values in real-time
+- Track sensor readings over time (graphs/plots)
+- Different visualization from 2D flux films
 
 ---
 
@@ -700,15 +720,15 @@ for wall in wall_planes:
 **Implementation Status**:
 
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py` (line 222)
-  - Single checkbox controls all three planes
+  - Single checkbox "Flux Films" controls all three films
   - Integrated with xparameters system
-  - Default: `plane_slice = False`
+  - Default: `flux_films = False`
 
 - ⏳ **Remaining Tasks**:
   1. Implement `get_redshift_color()` function in `config.py`
-  2. Create plane-slice mesh generation functions in new module
+  2. Create flux film mesh generation functions in `config.py`
   3. Implement property sampling and color mapping kernels
-  4. Wire up `state.plane_slice` toggle to mesh rendering
+  4. Wire up `state.flux_films` toggle to mesh rendering
   5. Test with wave propagation simulations
 
 **Integration Points**:
@@ -721,28 +741,28 @@ def render_elements(state):
     if state.SHOW_GRID:
         render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
 
-    # TODO: Add plane-slice rendering here
-    # if state.plane_slice:
-    #     config.render_plane_slices(state.wave_field, render.scene)
+    # Flux Films Visualization
+    if state.flux_films:
+        config.render_flux_films(state.wave_field, render.scene)
 ```
 
 **Module Structure**:
 
-All plane-slice functionality will be implemented in existing modules (no new files):
+All flux film functionality will be implemented in existing modules (no new files):
 
 ```text
 openwave/
 └── common/
-    └── config.py  (ADD plane-slice functions)
-        ├── get_redshift_color()          # NEW: Redshift gradient for signed values
-        ├── create_plane_slice_meshes()   # NEW: Initialize 3 plane meshes
-        ├── update_plane_slice_colors()   # NEW: Sample wave properties and apply colors
-        └── render_plane_slices()         # NEW: Render meshes to scene
+    └── config.py  (ADD flux film functions)
+        ├── get_redshift_color()         # NEW: Redshift gradient for signed values
+        ├── create_flux_film_meshes()    # NEW: Initialize 3 film meshes
+        ├── update_flux_film_colors()    # NEW: Sample wave properties and apply colors
+        └── render_flux_films()          # NEW: Render meshes to scene
 ```
 
 **Rationale**:
 
-- Keep plane-slice rendering functions with other color/rendering utilities
+- Keep flux film rendering functions with other color/rendering utilities
 - Similar to existing `get_ironbow_color()` and `ironbow_palette()` functions
 - Avoids creating new module for visualization helpers
 - Maintains consistency with project's current structure
