@@ -11,7 +11,7 @@ Each source generates spherical longitudinal waves that superpose at each granul
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, helper
+from openwave.common import config, constants, equations, utils
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -328,5 +328,5 @@ def update_lattice_energy(lattice):
     lattice.energy = equations.energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
-    lattice.energy_kWh = lattice.energy * helper.J2KWH  # in KWh
+    lattice.energy_kWh = lattice.energy * utils.J2KWH  # in KWh
     lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use
