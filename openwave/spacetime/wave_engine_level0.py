@@ -328,5 +328,5 @@ def update_lattice_energy(lattice):
     lattice.energy = equations.energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
-    lattice.energy_kWh = equations.J_to_kWh(lattice.energy)  # in KWh
+    lattice.energy_kWh = lattice.energy * constants.J2KWH  # in KWh
     lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use

@@ -636,42 +636,15 @@ def magnetic_out_wave_energy(
     return energy
 
 
-# ================================================================
-# Conversion constants
-# ================================================================
-EV2J = 1.602176634e-19  # J, per electron-volt, eV
-KWH2J = 3.6e6  # J, per kilowatt-hour, kWh
-CAL2J = 4.184  # J, per thermochemical calorie, cal
-
-
-# ================================================================
-# Unit converters
-# ================================================================
-def J_to_eV(energy_J: float) -> float:
-    """Convert joules to electron-volts."""
-    return energy_J / EV2J
-
-
-def eV_to_J(energy_eV: float) -> float:
-    """Convert electron-volts to joules."""
-    return energy_eV * EV2J
-
-
-def J_to_kWh(energy_J: float) -> float:
-    """Convert joules to kilowatt-hours."""
-    return energy_J / KWH2J
-
-
-def kWh_to_J(energy_kWh: float) -> float:
-    """Convert kilowatt-hours to joules."""
-    return energy_kWh * KWH2J
-
-
 if __name__ == "__main__":
+    print("\n================================================================")
+    print("SMOKE TEST: EQUATIONS MODULE")
+    print("================================================================")
+
     print("\n_______________________________")
     print("ENERGY WAVE EQUATION")
     print(f"1 cm³ of vacuum: {energy_wave_equation(1e-6):.2e} J")
-    print(f"1 cm³ of vacuum: {J_to_kWh(energy_wave_equation(1e-6)):.2e} kWh")
+    print(f"1 cm³ of vacuum: {energy_wave_equation(1e-6) * constants.J2KWH:.2e} kWh")
 
     print("\n_______________________________")
     print("PARTICLE ENERGY")
@@ -701,7 +674,7 @@ if __name__ == "__main__":
 
     print(f"\nExample 1: Electron transition n=2 to n=1 (emission)")
     print(f"  r0={r0:.2e} m, r={r:.2e} m")
-    print(f"  Photon Energy: {abs(photon_E):.2e} J ({abs(J_to_eV(photon_E)):.2f} eV)")
+    print(f"  Photon Energy: {abs(photon_E):.2e} J ({abs(photon_E * constants.J2EV):.2f} eV)")
     print(f"  Photon Frequency: {abs(photon_f):.2e} Hz")
     print(f"  Photon Wavelength: {abs(photon_lambda):.2e} m")
 
@@ -715,7 +688,7 @@ if __name__ == "__main__":
 
     print(f"\nExample 2: Electron transition n=1 to n=2 (absorption)")
     print(f"  r0={r0:.2e} m, r={r:.2e} m")
-    print(f"  Photon Energy: {photon_E2:.2e} J ({J_to_eV(photon_E2):.2f} eV)")
+    print(f"  Photon Energy: {photon_E2:.2e} J ({photon_E2 * constants.J2EV:.2f} eV)")
     print(f"  Photon Frequency: {photon_f2:.2e} Hz")
     print(f"  Photon Wavelength: {photon_lambda2:.2e} m")
 
@@ -748,7 +721,7 @@ if __name__ == "__main__":
     # Lyman alpha (n=2→1): 121.6 nm, 10.2 eV
     print(f"\nComparison with Hydrogen Lyman Series:")
     print(f"  Lyman alpha (n=2→1): 121.6 nm, 10.2 eV (observed)")
-    print(f"  Our calculation: {wavelength_nm:.1f} nm, {abs(J_to_eV(photon_E)):.1f} eV")
+    print(f"  Our calculation: {wavelength_nm:.1f} nm, {abs(photon_E * constants.J2EV):.1f} eV")
 
     #   The calculation above gives us 182.3 nm,
     #   which is in the ultraviolet spectrum.

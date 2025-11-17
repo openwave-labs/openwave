@@ -114,7 +114,7 @@ class WaveField:
 
         # Compute grid total energy from energy-wave equation
         self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = equations.J_to_kWh(self.energy)  # in KWh
+        self.energy_kWh = self.energy * constants.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
