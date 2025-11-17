@@ -59,9 +59,11 @@ class WaveField:
         # Calculate cubic voxel size from target voxel count
         # CRITICAL: voxels must remain cubic (same edge length on all axes)
         # This preserves crystal structure. Only the NUMBER of voxels varies per axis.
-        voxel_volume = init_universe_volume / target_voxels  # cubic voxels
-        self.voxel_edge = voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
+        self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
+        self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
+        self.dx = self.voxel_edge
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
+        self.dx_am = self.voxel_edge_am
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
@@ -71,44 +73,26 @@ class WaveField:
         # 4. Rounds to nearest odd integer for symmetric grid with central voxel
         # 5. Actual universe size recalculated below to fit integer voxel count
         self.grid_size = [
-            utils.round_to_nearest_odd(init_universe_size[0] / self.voxel_edge),
-            utils.round_to_nearest_odd(init_universe_size[1] / self.voxel_edge),
-            utils.round_to_nearest_odd(init_universe_size[2] / self.voxel_edge),
+            utils.round_to_nearest_odd(init_universe_size[0] / self.dx),
+            utils.round_to_nearest_odd(init_universe_size[1] / self.dx),
+            utils.round_to_nearest_odd(init_universe_size[2] / self.dx),
         ]  # same as (nx, ny, nz)
+        self.nx, self.ny, self.nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        self.max_grid_size = max(self.nx, self.ny, self.nz)
 
         # Compute total voxels (asymmetric grid)
-        self.voxel_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
+        self.voxel_count = self.nx * self.ny * self.nz
 
         # Recompute actual universe dimensions to fit integer number of cubic voxels
-        self.universe_size = [
-            self.grid_size[0] * self.voxel_edge,
-            self.grid_size[1] * self.voxel_edge,
-            self.grid_size[2] * self.voxel_edge,
-        ]
-        self.universe_size_am = [
-            self.universe_size[0] / constants.ATTOMETER,
-            self.universe_size[1] / constants.ATTOMETER,
-            self.universe_size[2] / constants.ATTOMETER,
-        ]
-        self.max_universe_edge = max(
-            self.grid_size[0] * self.voxel_edge,
-            self.grid_size[1] * self.voxel_edge,
-            self.grid_size[2] * self.voxel_edge,
-        )
+        self.universe_size = [self.nx * self.dx, self.ny * self.dx, self.nz * self.dx]
+        self.universe_size_am = [size / constants.ATTOMETER for size in self.universe_size]
+        self.max_universe_edge = max(self.nx * self.dx, self.ny * self.dx, self.nz * self.dx)
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
-
-        self.max_grid_size = max(
-            self.grid_size[0],
-            self.grid_size[1],
-            self.grid_size[2],
-        )
-        self.universe_volume = (
-            self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
-        )
+        self.universe_volume = self.voxel_count * self.voxel_volume
 
         # Compute energy-wave linear resolution, sampling rate
         # voxels per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.voxel_edge)
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.dx)  # in voxels / λ
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
@@ -133,7 +117,9 @@ class WaveField:
         # DERIVED VECTOR FIELDS (directions normalized to unit vectors)
         # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
-        # Grid Visualization Fields
+        # ================================================================
+        # Wire-frame Visualization: data structures & initialization
+        # ================================================================
         # Wire-frame: optimized grid lines for rendering
         # Instead of drawing individual voxel edges, draw continuous lines face-to-face
         # Each line spans the entire grid dimension (e.g., from x=0 to x=1 in normalized coords)
@@ -153,6 +139,39 @@ class WaveField:
 
         # Populate the grid wire_frame with normalized positions (ready for rendering)
         self.populate_wire_frame()  # initialize grid lines (already normalized)
+
+        # ================================================================
+        # Flux Films: data structures & initialization
+        # ================================================================
+        # Three orthogonal films intersecting at universe center
+        # Each film mesh has resolution matching simulation voxel grid
+        # Vertices positioned at voxel centers for direct property sampling
+        #
+        # XY Film (at z = center): spans (0→1, 0→1, 0.5)
+        # - Vertices: nx × ny grid points
+        # - Indices: (nx-1) × (ny-1) quads × 6 vertices (2 triangles each)
+        # nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+
+        self.film_xy_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
+        self.film_xy_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
+        self.film_xy_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.ny - 1, 6))
+
+        # XZ Film (at y = center): spans (0→1, 0.5, 0→1)
+        # - Vertices: nx × nz grid points
+        # - Indices: (nx-1) × (nz-1) quads × 6 vertices (2 triangles each)
+        self.film_xz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
+        self.film_xz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
+        self.film_xz_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.nz - 1, 6))
+
+        # YZ Film (at x = center): spans (0.5, 0→1, 0→1)
+        # - Vertices: ny × nz grid points
+        # - Indices: (ny-1) × (nz-1) quads × 6 vertices (2 triangles each)
+        self.film_yz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
+        self.film_yz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
+        self.film_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
+
+        # Initialize flux film meshes (vertices, indices, colors)
+        self.create_flux_film_meshes()
 
     @ti.kernel
     def populate_wire_frame(self):
@@ -178,13 +197,12 @@ class WaveField:
         Uses max_grid_size for uniform normalization across asymmetric grids.
         """
         # Grid dimensions and normalization factor
-        nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
         max_dim = ti.cast(self.max_grid_size, ti.f32)
 
         # Calculate line counts per direction
-        x_lines = (ny + 1) * (nz + 1)
-        y_lines = (nx + 1) * (nz + 1)
-        # z_lines = (nx + 1) * (ny + 1)  # implicit, computed as remainder
+        x_lines = (self.ny + 1) * (self.nz + 1)
+        y_lines = (self.nx + 1) * (self.nz + 1)
+        # z_lines = (self.nx + 1) * (self.ny + 1)  # implicit, computed as remainder
 
         # Parallelize over all lines using single outermost loop
         for line_idx in range(self.line_count):
@@ -193,8 +211,8 @@ class WaveField:
             if line_idx < x_lines:
                 # X-parallel lines: decode (j, k) position
                 temp = line_idx
-                j = temp // (nz + 1)
-                k = temp % (nz + 1)
+                j = temp // (self.nz + 1)
+                k = temp % (self.nz + 1)
 
                 # Line from x=0 to x=nx (normalized to 0 to nx/max)
                 y_norm = ti.cast(j, ti.f32) / max_dim
@@ -202,14 +220,14 @@ class WaveField:
 
                 self.wire_frame[vertex_idx] = ti.Vector([0.0, y_norm, z_norm])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [ti.cast(nx, ti.f32) / max_dim, y_norm, z_norm]
+                    [ti.cast(self.nx, ti.f32) / max_dim, y_norm, z_norm]
                 )
 
             elif line_idx < x_lines + y_lines:
                 # Y-parallel lines: decode (i, k) position
                 temp = line_idx - x_lines
-                i = temp // (nz + 1)
-                k = temp % (nz + 1)
+                i = temp // (self.nz + 1)
+                k = temp % (self.nz + 1)
 
                 # Line from y=0 to y=ny (normalized to 0 to ny/max)
                 x_norm = ti.cast(i, ti.f32) / max_dim
@@ -217,14 +235,14 @@ class WaveField:
 
                 self.wire_frame[vertex_idx] = ti.Vector([x_norm, 0.0, z_norm])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [x_norm, ti.cast(ny, ti.f32) / max_dim, z_norm]
+                    [x_norm, ti.cast(self.ny, ti.f32) / max_dim, z_norm]
                 )
 
             else:
                 # Z-parallel lines: decode (i, j) position
                 temp = line_idx - x_lines - y_lines
-                i = temp // (ny + 1)
-                j = temp % (ny + 1)
+                i = temp // (self.ny + 1)
+                j = temp % (self.ny + 1)
 
                 # Line from z=0 to z=nz (normalized to 0 to nz/max)
                 x_norm = ti.cast(i, ti.f32) / max_dim
@@ -232,8 +250,116 @@ class WaveField:
 
                 self.wire_frame[vertex_idx] = ti.Vector([x_norm, y_norm, 0.0])
                 self.wire_frame[vertex_idx + 1] = ti.Vector(
-                    [x_norm, y_norm, ti.cast(nz, ti.f32) / max_dim]
+                    [x_norm, y_norm, ti.cast(self.nz, ti.f32) / max_dim]
                 )
+
+    @ti.kernel
+    def create_flux_film_meshes(self):
+        """
+        Initialize flux film meshes for all three orthogonal films.
+
+        Creates vertex positions and triangle indices for XY, XZ, and YZ flux films
+        positioned at the universe center. Each film is a 2D mesh that samples wave
+        properties from the voxel grid.
+
+        Coordinate system:
+        - Positions stored in normalized coordinates [0, 1] for rendering
+        - Each vertex corresponds to a voxel center for direct property sampling
+        - Films intersect at [0.5, 0.5, 0.5] (universe center)
+
+        Mesh structure:
+        - Vertices: Grid of 3D positions matching voxel resolution
+        - Indices: Triangle pairs forming quads (2 triangles × 3 vertices = 6 indices)
+        - Colors: Initialized to black, updated by update_flux_film_colors()
+        """
+        nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        max_dim = ti.cast(self.max_grid_size, ti.f32)
+
+        # Center position in normalized coordinates
+        center_x = ti.cast(nx, ti.f32) / (2.0 * max_dim)
+        center_y = ti.cast(ny, ti.f32) / (2.0 * max_dim)
+        center_z = ti.cast(nz, ti.f32) / (2.0 * max_dim)
+
+        # ================================================================
+        # XY Film (at z = center): spans (0→1, 0→1, 0.5)
+        # ================================================================
+        for i, j in ti.ndrange(nx, ny):
+            # Normalized coordinates for rendering
+            x_norm = (ti.cast(i, ti.f32) + 0.5) / max_dim
+            y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
+
+            # Vertex position
+            self.film_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
+
+            # Initialize color to black (will be updated by update_flux_film_colors)
+            self.film_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
+
+        # Triangle indices for XY film
+        for i, j in ti.ndrange(nx - 1, ny - 1):
+            # Each quad = 2 triangles
+            # Triangle 1: (i,j) → (i+1,j) → (i,j+1)
+            self.film_xy_indices[i, j, 0] = i * ny + j
+            self.film_xy_indices[i, j, 1] = (i + 1) * ny + j
+            self.film_xy_indices[i, j, 2] = i * ny + (j + 1)
+
+            # Triangle 2: (i+1,j) → (i+1,j+1) → (i,j+1)
+            self.film_xy_indices[i, j, 3] = (i + 1) * ny + j
+            self.film_xy_indices[i, j, 4] = (i + 1) * ny + (j + 1)
+            self.film_xy_indices[i, j, 5] = i * ny + (j + 1)
+
+        # ================================================================
+        # XZ Film (at y = center): spans (0→1, 0.5, 0→1)
+        # ================================================================
+        for i, k in ti.ndrange(nx, nz):
+            # Normalized coordinates for rendering
+            x_norm = (ti.cast(i, ti.f32) + 0.5) / max_dim
+            z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
+
+            # Vertex position
+            self.film_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
+
+            # Initialize color to black
+            self.film_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
+
+        # Triangle indices for XZ film
+        for i, k in ti.ndrange(nx - 1, nz - 1):
+            # Each quad = 2 triangles
+            # Triangle 1: (i,k) → (i+1,k) → (i,k+1)
+            self.film_xz_indices[i, k, 0] = i * nz + k
+            self.film_xz_indices[i, k, 1] = (i + 1) * nz + k
+            self.film_xz_indices[i, k, 2] = i * nz + (k + 1)
+
+            # Triangle 2: (i+1,k) → (i+1,k+1) → (i,k+1)
+            self.film_xz_indices[i, k, 3] = (i + 1) * nz + k
+            self.film_xz_indices[i, k, 4] = (i + 1) * nz + (k + 1)
+            self.film_xz_indices[i, k, 5] = i * nz + (k + 1)
+
+        # ================================================================
+        # YZ Film (at x = center): spans (0.5, 0→1, 0→1)
+        # ================================================================
+        for j, k in ti.ndrange(ny, nz):
+            # Normalized coordinates for rendering
+            y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
+            z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
+
+            # Vertex position
+            self.film_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
+
+            # Initialize color to black
+            self.film_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
+
+        # Triangle indices for YZ film
+        for j, k in ti.ndrange(ny - 1, nz - 1):
+            # Each quad = 2 triangles
+            # Triangle 1: (j,k) → (j+1,k) → (j,k+1)
+            self.film_yz_indices[j, k, 0] = j * nz + k
+            self.film_yz_indices[j, k, 1] = (j + 1) * nz + k
+            self.film_yz_indices[j, k, 2] = j * nz + (k + 1)
+
+            # Triangle 2: (j+1,k) → (j+1,k+1) → (j,k+1)
+            self.film_yz_indices[j, k, 3] = (j + 1) * nz + k
+            self.film_yz_indices[j, k, 4] = (j + 1) * nz + (k + 1)
+            self.film_yz_indices[j, k, 5] = j * nz + (k + 1)
 
     @ti.func
     def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
@@ -289,10 +415,8 @@ if __name__ == "__main__":
     print(
         f"  Actual universe: [{wave_field.universe_size[0]:.1e}, {wave_field.universe_size[1]:.1e}, {wave_field.universe_size[2]:.1e}] m"
     )
-    print(
-        f"  Grid size: {wave_field.grid_size[0]} x {wave_field.grid_size[1]} x {wave_field.grid_size[2]} voxels"
-    )
-    print(f"  Voxel edge: {wave_field.voxel_edge:.2e} m (cubic - same for all axes)")
+    print(f"  Grid size: {wave_field.nx} x {wave_field.ny} x {wave_field.nz} voxels")
+    print(f"  Voxel edge: {wave_field.dx:.2e} m (cubic - same for all axes)")
     print(f"  Voxel count: {wave_field.voxel_count:,}")
     print(f"  Total energy: {wave_field.energy:.2e} J")
 

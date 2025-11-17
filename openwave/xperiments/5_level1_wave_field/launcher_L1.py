@@ -16,7 +16,7 @@ import os
 from pathlib import Path
 
 from openwave.common import config, constants
-from openwave._io import render, video
+from openwave._io import render, video, flux_film
 
 import openwave.spacetime.medium_level1 as medium
 import openwave.spacetime.wave_engine_level1 as ewave
@@ -344,6 +344,10 @@ def initialize_xperiment(state):
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
+    # Initialize test displacement pattern for flux films (temporary until wave propagation)
+    if state.flux_films:
+        ewave.create_test_displacement_pattern(state.wave_field)
+
 
 def compute_propagation(state):
     """Compute wave propagation, reflection and superposition and update visualization data.
@@ -384,6 +388,13 @@ def render_elements(state):
     # Grid Visualization
     if state.SHOW_GRID:
         render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
+
+    # Flux Films Visualization
+    if state.flux_films:
+        # Update flux film colors from current wave displacement
+        ewave.update_flux_film_colors(state.wave_field)
+        # Render the three flux films
+        flux_film.render_flux_films(render.scene, state.wave_field)
 
 
 # ================================================================
