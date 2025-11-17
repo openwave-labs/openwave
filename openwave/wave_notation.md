@@ -1,7 +1,7 @@
 
 # WAVE NOTATION GUIDE
 
-OpenWave uses wave equations & terminology based on standardized physics terminology, these are best practices used in scientific literature.
+OpenWave uses wave equations & terminology based on standardized physics notation, these are best practices used in scientific literature.
 
 ## Wave Medium
 

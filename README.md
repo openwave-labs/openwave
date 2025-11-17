@@ -320,6 +320,7 @@ class `COMMON
     config.py ✓
     constants.py ✓
     equations.py ✓
+    utils.py ✓
   }
 `COMMON
   MODULE` <--> `VALIDATIONS
@@ -402,7 +403,8 @@ kanban
     [**COMMON MODULE**
       - config.py
       - constants.py
-      - equations.py]
+      - equations.py
+      - utils.py]
     [**I/O MODULE**
       - cli.py
       - render.py

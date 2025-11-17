@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: The Grid Wave
+XPERIMENT PARAMETERS: Wave Field Grid of Voxels
 
 This XPERIMENT showcases:
 -

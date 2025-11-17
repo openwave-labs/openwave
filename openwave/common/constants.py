@@ -131,18 +131,6 @@ IMPEDANCE_VACUUM = 376.730313412  # Ω, Z_0, characteristic impedance of vacuum,
 # and Poynting vector: S = (1/μ_0) * E × B = E^2 / Z_0
 
 # ================================================================
-# Energy Conversion Constants
-# ================================================================
-# For energy-frequency relation: E = h * f
-# Example: 1 eV photon → f = E/h ≈ 2.417989 × 10^14 Hz
-EV2J = 1.602176634e-19  # J, 1 eV in joules (exact, same as elementary charge)
-J2EV = 1 / EV2J  # eV, 1 J in electronvolts
-KWH2J = 3.6e6  # J, per kilowatt-hour, kWh
-J2KWH = 1 / KWH2J  # kWh, per joule
-CAL2J = 4.184  # J, per thermochemical calorie, cal
-J2CAL = 1 / CAL2J  # cal, per joule
-
-# ================================================================
 # Additional constants
 # ================================================================
 
