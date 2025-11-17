@@ -1,5 +1,5 @@
 
-# WAVE EQUATIONS & TERMINOLOGY GUIDE
+# WAVE NOTATION GUIDE
 
 OpenWave uses wave equations & terminology based on standardized physics terminology, these are best practices used in scientific literature.
 
