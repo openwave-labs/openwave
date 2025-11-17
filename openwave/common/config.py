@@ -310,6 +310,136 @@ def blueprint_palette(x, y, width, height):
 
 
 # ================================================================
+# Redshift Gradient Palette
+# ================================================================
+# Simplified redshift gradient palette (5-color)
+# Maps signed values: red (negative) → gray (zero) → blue (positive)
+redshift5 = [
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (maximum negative)
+    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (negative)
+    ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
+    ["#4169E1", (0.255, 0.41, 0.88)],  # blue (positive)
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (maximum positive)
+]
+
+
+@ti.func
+def get_redshift_color(value, min_value, max_value):
+    """Maps a signed numerical value to a REDSHIFT gradient color.
+
+    REDSHIFT gradient: dark red → red-orange → gray → blue → dark blue
+    Used for displacement visualization where negative = red, zero = gray, positive = blue.
+
+    Optimized for maximum performance with millions of voxels.
+    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+
+    Args:
+        value: The signed displacement value to visualize (can be negative or positive)
+        min_value: Minimum displacement in range (typically negative)
+        max_value: Maximum displacement in range (typically positive)
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_redshift_color(displacement=-50, min_value=-100, max_value=100)
+        # Returns red-ish color since -50 is in the negative range
+    """
+
+    # Compute normalized scale range
+    scale = max_value - min_value
+
+    # Normalize to [0.0 - 1.0] where 0.5 represents zero displacement
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
+
+    # Compute color as REDSHIFT gradient for visualization
+    # redshift5 gradient with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+
+    if norm_color < 0.25:  # dark red to red-orange
+        blend = norm_color / 0.25
+        r = 0.545 * (1.0 - blend) + 1.0 * blend  # #8B0000 to #FF6347
+        g = 0.0 * (1.0 - blend) + 0.39 * blend
+        b = 0.0 * (1.0 - blend) + 0.28 * blend
+    elif norm_color < 0.5:  # red-orange to gray
+        blend = (norm_color - 0.25) / 0.25
+        r = 1.0 * (1.0 - blend) + 0.11 * blend  # #FF6347 to #1C1C1C
+        g = 0.39 * (1.0 - blend) + 0.11 * blend
+        b = 0.28 * (1.0 - blend) + 0.11 * blend
+    elif norm_color < 0.75:  # gray to blue
+        blend = (norm_color - 0.5) / 0.25
+        r = 0.11 * (1.0 - blend) + 0.255 * blend  # #1C1C1C to #4169E1
+        g = 0.11 * (1.0 - blend) + 0.41 * blend
+        b = 0.11 * (1.0 - blend) + 0.88 * blend
+    else:  # blue to dark blue
+        blend = (norm_color - 0.75) / 0.25
+        r = 0.255 * (1.0 - blend) + 0.0 * blend  # #4169E1 to #00008B
+        g = 0.41 * (1.0 - blend) + 0.0 * blend
+        b = 0.88 * (1.0 - blend) + 0.545 * blend
+
+    redshift_color = ti.Vector([r, g, b])
+
+    return redshift_color
+
+
+def redshift_palette(x, y, width, height):
+    """Generate redshift palette indicator as horizontal gradient using triangles.
+
+    Creates a horizontal color bar from all 5 redshift colors (dark red -> dark blue).
+    Each color band is made of 2 triangles forming a rectangle.
+    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
+
+    Returns:
+        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
+    """
+    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
+    num_bands = len(redshift5) - 1  # 4 color transitions
+    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
+
+    # Create Taichi fields for triangle vertices and colors
+    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
+    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
+
+    # Position parameters (screen coordinates)
+    x_left = x
+    x_right = x + width
+    y_top = 1 - y
+    y_bottom = 1 - (y + height)
+    band_width = (x_right - x_left) / num_bands
+
+    # Generate triangles for each color band
+    for i in range(num_bands):
+        # Calculate X positions for this band
+        x_start = x_left + (i * band_width)
+        x_end = x_left + ((i + 1) * band_width)
+
+        # Get colors from redshift5 (index 1 is the RGB tuple)
+        color_left = ti.Vector(redshift5[i][1])  # Negative color (left)
+        color_right = ti.Vector(redshift5[i + 1][1])  # Positive color (right)
+
+        # Vertex indices for this band's two triangles
+        v_idx = i * 6
+
+        # First triangle (bottom-left, bottom-right, top-left)
+        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
+        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
+        palette_colors[v_idx + 0] = color_left
+        palette_colors[v_idx + 1] = color_right
+        palette_colors[v_idx + 2] = color_left
+
+        # Second triangle (top-left, bottom-right, top-right)
+        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
+        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
+        palette_colors[v_idx + 3] = color_left
+        palette_colors[v_idx + 4] = color_right
+        palette_colors[v_idx + 5] = color_right
+
+    return palette_vertices, palette_colors
+
+
+# ================================================================
 # Level Bar Geometry - visual indicator for xperiment Level
 # ================================================================
 
