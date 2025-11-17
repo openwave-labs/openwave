@@ -50,6 +50,21 @@
 - Dynamic color mapping of wave properties
 - Two-sided rendering for full visibility
 
+**Current Implementation Status** (as of 2025-11-17):
+
+- ✅ **UI Toggle**: Implemented in `launcher_L1.py`
+  - Location: `launcher_L1.py:222` (CONTROLS window)
+  - Variable: `state.plane_slice` (Boolean)
+  - Control: Single checkbox for all three planes
+  - Default: `False` (planes hidden)
+  - Configuration: Via xparameters `ui_defaults["plane_slice"]`
+
+- 🔄 **In Progress**: Core mesh rendering and wave property visualization
+  - Mesh generation functions (to be implemented)
+  - Property sampling kernels (to be implemented)
+  - Color gradient mapping (redshift gradient needed)
+  - Integration with render loop (to be wired up)
+
 ## Concept and Terminology
 
 ### Naming Convention
@@ -481,34 +496,52 @@ blueprint4 = [
 
 ### Toggle Controls
 
-**L1 Launcher UI** (to be implemented):
+**L1 Launcher UI Implementation**:
+
+The plane-slice feature is implemented in `launcher_L1.py` with a **single toggle for all three planes**:
 
 ```python
-# Toggle switches in UI window
-show_plane_xy = True   # XY plane at z=0.5
-show_plane_xz = True   # XZ plane at y=0.5
-show_plane_yz = True   # YZ plane at x=0.5
+# SimulationState class (launcher_L1.py:123)
+self.plane_slice = False  # Single toggle for all plane-slices
 
-# Property selection
-property_mode = 0  # 0=displacement, 1=amplitude, 2=energy, etc.
+# Apply from xparameters (launcher_L1.py:164)
+self.plane_slice = ui["plane_slice"]
 
-# Color gradient selection
-gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
+# UI Control (launcher_L1.py:222)
+with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
+    state.plane_slice = sub.checkbox("Plane Slice", state.plane_slice)
 ```
 
-**UI Example**:
+**Configuration in Xparameters**:
 
 ```python
-with gui.sub_window("PLANE-SLICES", x, y, width, height) as sub:
-    state.show_plane_xy = sub.checkbox("XY Plane", state.show_plane_xy)
-    state.show_plane_xz = sub.checkbox("XZ Plane", state.show_plane_xz)
-    state.show_plane_yz = sub.checkbox("YZ Plane", state.show_plane_yz)
+# From _xparameters/energy_wave.py:27
+"ui_defaults": {
+    "plane_slice": False,  # Plane Slice toggle (all three planes)
+    # ... other UI defaults
+}
+```
 
-    state.property_mode = sub.slider_int("Property", state.property_mode, 0, 2)
-    # 0=displacement, 1=amplitude, 2=energy
+**Current Implementation**:
 
-    state.gradient_mode = sub.slider_int("Gradient", state.gradient_mode, 0, 2)
-    # 0=ironbow, 1=redshift, 2=blueprint
+- **Single toggle controls all three planes** (XY, XZ, YZ)
+- Default state: `False` (planes hidden)
+- Toggleable via checkbox in CONTROLS window
+- Simple on/off functionality for initial implementation
+
+**Future Enhancements** (optional):
+
+```python
+# Individual plane toggles (if needed)
+state.show_plane_xy = True   # XY plane at z=0.5
+state.show_plane_xz = True   # XZ plane at y=0.5
+state.show_plane_yz = True   # YZ plane at x=0.5
+
+# Property selection (future)
+state.property_mode = 0  # 0=displacement, 1=amplitude, 2=energy
+
+# Color gradient selection (future)
+state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 ```
 
 ### Camera Interaction
@@ -662,18 +695,61 @@ for wall in wall_planes:
 
 ---
 
-**Status**: Documented and ready for implementation
+**Status**: Documented with UI toggle implemented
 
-**Next Steps**:
+**Implementation Status**:
 
-1. Implement redshift gradient in `config.py`
-2. Create plane-slice mesh generation functions
-3. Add UI toggles to L1 launcher
-4. Implement property sampling and color mapping
-5. Test with wave propagation simulations
+- ✅ **UI Toggle**: Implemented in `launcher_L1.py` (line 222)
+  - Single checkbox controls all three planes
+  - Integrated with xparameters system
+  - Default: `plane_slice = False`
+
+- ⏳ **Remaining Tasks**:
+  1. Implement `get_redshift_color()` function in `config.py`
+  2. Create plane-slice mesh generation functions in new module
+  3. Implement property sampling and color mapping kernels
+  4. Wire up `state.plane_slice` toggle to mesh rendering
+  5. Test with wave propagation simulations
+
+**Integration Points**:
+
+```python
+# launcher_L1.py - render_elements() function (line 382)
+def render_elements(state):
+    """Render spacetime elements with appropriate coloring."""
+    # Grid Visualization
+    if state.SHOW_GRID:
+        render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
+
+    # TODO: Add plane-slice rendering here
+    # if state.plane_slice:
+    #     config.render_plane_slices(state.wave_field, render.scene)
+```
+
+**Module Structure**:
+
+All plane-slice functionality will be implemented in existing modules (no new files):
+
+```text
+openwave/
+└── common/
+    └── config.py  (ADD plane-slice functions)
+        ├── get_redshift_color()          # NEW: Redshift gradient for signed values
+        ├── create_plane_slice_meshes()   # NEW: Initialize 3 plane meshes
+        ├── update_plane_slice_colors()   # NEW: Sample wave properties and apply colors
+        └── render_plane_slices()         # NEW: Render meshes to scene
+```
+
+**Rationale**:
+
+- Keep plane-slice rendering functions with other color/rendering utilities
+- Similar to existing `get_ironbow_color()` and `ironbow_palette()` functions
+- Avoids creating new module for visualization helpers
+- Maintains consistency with project's current structure
 
 **Related Documentation**:
 
 - [`07_VISUALIZATION.md`](./07_VISUALIZATION.md) - Complete visualization systems overview
 - [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Wave properties to visualize
 - [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave field data structure
+- `launcher_L1.py:222` - Plane-slice UI toggle implementation
