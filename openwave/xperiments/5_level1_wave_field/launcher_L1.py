@@ -345,8 +345,8 @@ def initialize_xperiment(state):
         diagnostics.print_initial_parameters()
 
     # Initialize test displacement pattern for flux films (temporary until wave propagation)
-    if state.flux_films:
-        ewave.create_test_displacement_pattern(state.wave_field)
+    # Always create pattern regardless of toggle state (toggle just controls rendering)
+    ewave.create_test_displacement_pattern(state.wave_field)
 
 
 def compute_propagation(state):

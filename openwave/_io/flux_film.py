@@ -105,10 +105,9 @@ def render_flux_films(scene, wave_field):
 
     # ================================================================
     # Update only colors (vertices are static, don't change per frame)
+    # Single kernel call for all three films to reduce launch overhead
     # ================================================================
-    flatten_xy_colors(wave_field, _xy_colors_flat)
-    flatten_xz_colors(wave_field, _xz_colors_flat)
-    flatten_yz_colors(wave_field, _yz_colors_flat)
+    flatten_all_colors(wave_field, _xy_colors_flat, _xz_colors_flat, _yz_colors_flat)
 
     # ================================================================
     # Render all three films
@@ -138,6 +137,30 @@ def render_flux_films(scene, wave_field):
 # ================================================================
 # Helper Functions - Flatten 2D mesh data to 1D arrays for rendering
 # ================================================================
+
+
+@ti.kernel
+def flatten_all_colors(
+    wave_field: ti.template(),  # type: ignore
+    xy_colors_flat: ti.template(),  # type: ignore
+    xz_colors_flat: ti.template(),  # type: ignore
+    yz_colors_flat: ti.template(),  # type: ignore
+):
+    """Flatten all three film colors in a single kernel (called every frame)."""
+    # XY Film
+    for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
+        idx = i * wave_field.ny + j
+        xy_colors_flat[idx] = wave_field.film_xy_colors[i, j]
+
+    # XZ Film
+    for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
+        idx = i * wave_field.nz + k
+        xz_colors_flat[idx] = wave_field.film_xz_colors[i, k]
+
+    # YZ Film
+    for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
+        idx = j * wave_field.nz + k
+        yz_colors_flat[idx] = wave_field.film_yz_colors[j, k]
 
 
 @ti.kernel
