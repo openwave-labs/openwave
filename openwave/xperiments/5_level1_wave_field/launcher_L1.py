@@ -232,7 +232,7 @@ def controls(state):
 
 
 def color_menu(
-    state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
+    state, rs_palette_vertices, rs_palette_colors, bp_palette_vertices, bp_palette_colors
 ):
     """Render color selection menu."""
     tracker = "displacement" if state.var_displacement else "amplitude"
@@ -267,7 +267,7 @@ def color_menu(
             state.var_displacement = False
         if state.ironbow:  # Display ironbow gradient palette
             # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
-            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
+            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.blueprint:  # Display blueprint gradient palette
@@ -412,6 +412,7 @@ def main():
 
     # Initialize color palettes for gradient rendering and level indicator (after ti.init)
     ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
+    rs_palette_vertices, rs_palette_colors = config.redshift_palette(0.00, 0.63, 0.079, 0.01)
     bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
     level_bar_vertices = config.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
@@ -479,7 +480,7 @@ def main():
 
         # Render additional UI elements and scene
         color_menu(
-            state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
+            state, rs_palette_vertices, rs_palette_colors, bp_palette_vertices, bp_palette_colors
         )
         data_dashboard(state)
         level_specs(state, level_bar_vertices)

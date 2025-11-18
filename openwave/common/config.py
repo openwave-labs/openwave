@@ -318,8 +318,8 @@ redshift5 = [
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (maximum negative)
     ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (negative)
     ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
-    ["#4169E1", (0.255, 0.41, 0.88)],  # blue (positive)
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (maximum positive)
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive) - hill base
+    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive) - hill peak in sunlight
 ]
 
 
@@ -366,16 +366,16 @@ def get_redshift_color(value, min_value, max_value):
         r = 1.0 * (1.0 - blend) + 0.11 * blend  # #FF6347 to #1C1C1C
         g = 0.39 * (1.0 - blend) + 0.11 * blend
         b = 0.28 * (1.0 - blend) + 0.11 * blend
-    elif norm_color < 0.75:  # gray to blue
+    elif norm_color < 0.75:  # gray to dark blue
         blend = (norm_color - 0.5) / 0.25
-        r = 0.11 * (1.0 - blend) + 0.255 * blend  # #1C1C1C to #4169E1
-        g = 0.11 * (1.0 - blend) + 0.41 * blend
-        b = 0.11 * (1.0 - blend) + 0.88 * blend
-    else:  # blue to dark blue
+        r = 0.11 * (1.0 - blend) + 0.00 * blend  # #1C1C1C to #00008B
+        g = 0.11 * (1.0 - blend) + 0.00 * blend
+        b = 0.11 * (1.0 - blend) + 0.545 * blend
+    else:  # dark blue to bright blue
         blend = (norm_color - 0.75) / 0.25
-        r = 0.255 * (1.0 - blend) + 0.0 * blend  # #4169E1 to #00008B
-        g = 0.41 * (1.0 - blend) + 0.0 * blend
-        b = 0.88 * (1.0 - blend) + 0.545 * blend
+        r = 0.00 * (1.0 - blend) + 0.255 * blend  # #00008B to #4169E1
+        g = 0.00 * (1.0 - blend) + 0.41 * blend
+        b = 0.545 * (1.0 - blend) + 0.88 * blend
 
     redshift_color = ti.Vector([r, g, b])
 
