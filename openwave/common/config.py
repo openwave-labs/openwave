@@ -11,15 +11,6 @@ Includes commented thermal imaging palette definitions for future use.
 
 import taichi as ti
 
-from openwave.common import constants
-
-# ================================================================
-# Resolution & Magnification Settings
-# ================================================================
-TARGET_GRANULES = 1e6  # target particle count, wave granularity (impacts performance)
-TARGET_VOXELS = 1e8  # target voxel count, wave granularity (impacts performance)
-SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
-
 # ================================================================
 # Color Definitions: [0] = hex RGBA, [1] = (R,G,B) float tuple
 # ================================================================

@@ -74,7 +74,7 @@ class BCCLattice:
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # Set universe properties (simulation domain)
-        self.target_granules = config.TARGET_GRANULES
+        self.target_granules = 1e6
         self.universe_edge = universe_edge
         self.universe_edge_am = universe_edge / constants.ATTOMETER  # in attometers
         universe_volume = universe_edge**3

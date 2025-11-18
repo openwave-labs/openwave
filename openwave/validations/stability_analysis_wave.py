@@ -17,7 +17,7 @@ UNIVERSE_SIZE = [
     6e-15,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-wave_field = medium.WaveField(UNIVERSE_SIZE)
+wave_field = medium.WaveField(UNIVERSE_SIZE, target_voxels=1e9)
 
 
 # ================================================================
@@ -46,8 +46,8 @@ print(f"Wave speed (c): {c:.2e} m/s")
 print(f"Energy-wave frequency: {ewave_freq:.2e} Hz")
 
 # SLOW_MO mitigation
-c_slowed = c / config.SLOW_MO  # Wave speed after SLOW_MO
-freq_slowed = ewave_freq / config.SLOW_MO  # Frequency after SLOW_MO
+c_slowed = c / constants.EWAVE_FREQUENCY  # Wave speed after SLOW_MO to 1Hz
+freq_slowed = ewave_freq / constants.EWAVE_FREQUENCY  # Frequency after SLOW_MO to 1Hz
 dt_critical_slowed = dx / (c_slowed * np.sqrt(3))  # CFL with slowed wave speed
 
 print(f"\nCFL Stability (WITHOUT SLOW_MO):")
@@ -57,7 +57,7 @@ print(f"  Frame timestep (30 FPS): {dt_frame_30fps:.2e} s")
 print(f"  Violation ratio (60 FPS): {dt_frame_60fps / dt_critical:.2e}×")
 print(f"  Violation ratio (30 FPS): {dt_frame_30fps / dt_critical:.2e}×")
 
-print(f"\nCFL Stability (WITH SLOW_MO = {config.SLOW_MO:.2e}):")
+print(f"\nCFL Stability (WITH SLOW_MO = {constants.EWAVE_FREQUENCY:.2e}):")
 print(f"  Slowed wave speed: {c_slowed:.2e} m/s")
 print(f"  Slowed frequency: {freq_slowed:.2e} Hz")
 print(f"  Critical timestep (slowed): {dt_critical_slowed:.2e} s")
@@ -73,7 +73,7 @@ else:
     violation_60 = dt_frame_60fps / dt_critical_slowed
     print(f"\n❌ UNSTABLE at 60 FPS!")
     print(f"  Violation: {violation_60:.2e}× over critical timestep")
-    print(f"  Need SLOW_MO ≥ {config.SLOW_MO * violation_60:.2e} for stability")
+    print(f"  Need SLOW_MO ≥ {constants.EWAVE_FREQUENCY * violation_60:.2e} for stability")
 
 if dt_frame_30fps <= dt_critical_slowed:
     print(f"\n✓ STABLE at 30 FPS (dt={dt_frame_30fps:.2e} s ≤ dt_crit={dt_critical_slowed:.2e} s)")
@@ -83,7 +83,7 @@ else:
     violation_30 = dt_frame_30fps / dt_critical_slowed
     print(f"\n❌ UNSTABLE at 30 FPS!")
     print(f"  Violation: {violation_30:.2e}× over critical timestep")
-    print(f"  Need SLOW_MO ≥ {config.SLOW_MO * violation_30:.2e} for stability")
+    print(f"  Need SLOW_MO ≥ {constants.EWAVE_FREQUENCY * violation_30:.2e} for stability")
 
 # Summary and recommendations
 print(f"\nMitigation Strategy:")

@@ -117,7 +117,7 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
-        self.TARGET_GRANULES = config.TARGET_GRANULES
+        self.TARGET_GRANULES = 1e6
         self.TICK_SPACING = 0.25
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
@@ -336,7 +336,7 @@ def data_dashboard(state):
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
-        slowed_mo = config.SLOW_MO / state.freq_boost
+        slowed_mo = constants.EWAVE_FREQUENCY / state.freq_boost
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")

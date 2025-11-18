@@ -28,14 +28,14 @@ class WaveField:
 
     Initialization Strategy (mirrors LEVEL-0 BCCLattice):
     1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
-    2. Compute universe volume and target voxel count from config.TARGET_VOXELS
+    2. Compute universe volume and target voxel count
     3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)
     4. Compute grid dimensions: nx = int(x_size / dx), ny = int(y_size / dx), nz = int(z_size / dx)
     5. Recalculate actual universe size to fit integer voxel counts
     6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size, target_voxels=config.TARGET_VOXELS):
+    def __init__(self, init_universe_size, target_voxels):
         """
         Initialize WaveField from universe size with automatic voxel sizing
         and asymmetric universe support.
@@ -43,6 +43,7 @@ class WaveField:
         Args:
             init_universe_size: simulation domain size [x, y, z], m (can be asymmetric)
                 Will be rounded to fit integer number of voxels.
+            target_voxels: desired total voxel count (impacts performance)
 
         Design:
             - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
@@ -406,7 +407,7 @@ if __name__ == "__main__":
         6e-15,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    wave_field = WaveField(UNIVERSE_SIZE)
+    wave_field = WaveField(UNIVERSE_SIZE, target_voxels=1e9)
 
     print(f"\nGrid Statistics:")
     print(

@@ -196,7 +196,7 @@ def oscillate_granules(
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute temporal parameters (same for all wave sources)
-    f_slowed = frequency / config.SLOW_MO * freq_boost  # slowed frequency (Hz)
+    f_slowed = frequency / constants.EWAVE_FREQUENCY * freq_boost  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Wave number k = 2π/λ (spatial phase variation)

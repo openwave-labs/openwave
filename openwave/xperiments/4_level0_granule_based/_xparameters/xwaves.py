@@ -24,7 +24,7 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_granules": config.TARGET_GRANULES,  # Simulation particle count (impacts performance)
+        "target_granules": 1e6,  # Simulation particle count (impacts performance)
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "DESERT",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },

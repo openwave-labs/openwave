@@ -63,7 +63,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -559,7 +559,7 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -982,7 +982,7 @@ if __name__ == "__main__":
         1e-16,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    lattice = BCCLattice(UNIVERSE_SIZE)
+    lattice = BCCLattice(UNIVERSE_SIZE, target_granules=1e6)
 
     print(f"\nLattice Statistics:")
     print(

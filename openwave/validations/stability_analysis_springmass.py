@@ -10,7 +10,7 @@ EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY
 
 # Current simulation parameters
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
-TARGET_GRANULES = config.TARGET_GRANULES  # target granule count
+TARGET_GRANULES = 1e6  # target granule count
 SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
