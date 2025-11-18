@@ -58,7 +58,7 @@ FOREST = {
 # Ironbow Gradient Palette
 # ================================================================
 # Simplified thermal imaging palette (5-color)
-ironbow5 = [
+ironbow = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.54)],  # dark blue
     ["#91009C", (0.57, 0.0, 0.61)],  # magenta
@@ -68,7 +68,7 @@ ironbow5 = [
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-ironbow_colors = [color[1] for color in ironbow5]
+ironbow_colors = [color[1] for color in ironbow]
 IRONBOW_0 = ti.Vector([ironbow_colors[0][0], ironbow_colors[0][1], ironbow_colors[0][2]])
 IRONBOW_1 = ti.Vector([ironbow_colors[1][0], ironbow_colors[1][1], ironbow_colors[1][2]])
 IRONBOW_2 = ti.Vector([ironbow_colors[2][0], ironbow_colors[2][1], ironbow_colors[2][2]])
@@ -145,7 +145,7 @@ def ironbow_palette(x, y, width, height):
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
     """
     # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(ironbow5) - 1  # 4 color transitions
+    num_bands = len(ironbow) - 1  # 4 color transitions
     num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
 
     # Create Taichi fields for triangle vertices and colors
@@ -194,29 +194,30 @@ def ironbow_palette(x, y, width, height):
 # ================================================================
 # Blueprint Gradient Palette
 # ================================================================
-# Simplified blueprint imaging palette (4-color)
-blueprint4 = [
+# Simplified blueprint imaging palette (5-color)
+blueprint = [
     ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
     ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
-    ["#607DBD", (0.6, 0.68, 0.87)],  # blue
+    ["#607DBD", (0.376, 0.490, 0.741)],  # blue
     ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
     ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
 ]
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-blueprint_colors = [color[1] for color in blueprint4]
+blueprint_colors = [color[1] for color in blueprint]
 BLUEPRINT_0 = ti.Vector([blueprint_colors[0][0], blueprint_colors[0][1], blueprint_colors[0][2]])
 BLUEPRINT_1 = ti.Vector([blueprint_colors[1][0], blueprint_colors[1][1], blueprint_colors[1][2]])
 BLUEPRINT_2 = ti.Vector([blueprint_colors[2][0], blueprint_colors[2][1], blueprint_colors[2][2]])
 BLUEPRINT_3 = ti.Vector([blueprint_colors[3][0], blueprint_colors[3][1], blueprint_colors[3][2]])
+BLUEPRINT_4 = ti.Vector([blueprint_colors[4][0], blueprint_colors[4][1], blueprint_colors[4][2]])
 
 
 @ti.func
 def get_blueprint_color(value, min_value, max_value):
     """Maps a numerical value to a BLUEPRINT color gradient.
 
-    BLUEPRINT gradient: dark blue → medium blue → light blue → extra-light blue
+    BLUEPRINT gradient: dark blue → medium blue → blue → light blue → extra-light blue
     Used for blueprint-style visualization where low = dark, high = light.
 
     Optimized for maximum performance with millions of voxels.
@@ -232,7 +233,7 @@ def get_blueprint_color(value, min_value, max_value):
 
     Example:
         color = get_blueprint_color(value=50, min_value=0, max_value=100)
-        # Returns medium blue since 50/100 = 0.5 is in the middle range
+        # Returns blue since 50/100 = 0.5 is in the middle range
     """
 
     # Compute normalized scale range with saturation headroom
@@ -244,21 +245,26 @@ def get_blueprint_color(value, min_value, max_value):
     # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
-    if norm_color < 0.33:
-        blend = norm_color / 0.33
+    if norm_color < 0.25:
+        blend = norm_color / 0.25
         r = BLUEPRINT_0[0] * (1.0 - blend) + BLUEPRINT_1[0] * blend
         g = BLUEPRINT_0[1] * (1.0 - blend) + BLUEPRINT_1[1] * blend
         b = BLUEPRINT_0[2] * (1.0 - blend) + BLUEPRINT_1[2] * blend
-    elif norm_color < 0.66:
-        blend = (norm_color - 0.33) / 0.33
+    elif norm_color < 0.5:
+        blend = (norm_color - 0.25) / 0.25
         r = BLUEPRINT_1[0] * (1.0 - blend) + BLUEPRINT_2[0] * blend
         g = BLUEPRINT_1[1] * (1.0 - blend) + BLUEPRINT_2[1] * blend
         b = BLUEPRINT_1[2] * (1.0 - blend) + BLUEPRINT_2[2] * blend
-    else:
-        blend = (norm_color - 0.66) / 0.34
+    elif norm_color < 0.75:
+        blend = (norm_color - 0.5) / 0.25
         r = BLUEPRINT_2[0] * (1.0 - blend) + BLUEPRINT_3[0] * blend
         g = BLUEPRINT_2[1] * (1.0 - blend) + BLUEPRINT_3[1] * blend
         b = BLUEPRINT_2[2] * (1.0 - blend) + BLUEPRINT_3[2] * blend
+    else:
+        blend = (norm_color - 0.75) / 0.25
+        r = BLUEPRINT_3[0] * (1.0 - blend) + BLUEPRINT_4[0] * blend
+        g = BLUEPRINT_3[1] * (1.0 - blend) + BLUEPRINT_4[1] * blend
+        b = BLUEPRINT_3[2] * (1.0 - blend) + BLUEPRINT_4[2] * blend
 
     blueprint_color = ti.Vector([r, g, b])
 
@@ -268,15 +274,15 @@ def get_blueprint_color(value, min_value, max_value):
 def blueprint_palette(x, y, width, height):
     """Generate blueprint palette indicator as horizontal gradient using triangles.
 
-    Creates a horizontal color bar from all 4 blueprint colors (dark blue -> extra-light blue).
+    Creates a horizontal color bar from all 5 blueprint colors (dark blue -> extra-light blue).
     Each color band is made of 2 triangles forming a rectangle.
     Canvas coordinates: (0,0) at bottom-left, X increases to the right.
 
     Returns:
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
     """
-    # Calculate number of vertices needed: 3 color bands × 2 triangles × 3 vertices = 18
-    num_bands = len(blueprint4) - 1  # 3 color transitions
+    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
+    num_bands = len(blueprint) - 1  # 4 color transitions
     num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
 
     # Create Taichi fields for triangle vertices and colors
@@ -327,7 +333,7 @@ def blueprint_palette(x, y, width, height):
 # ================================================================
 # Simplified redshift gradient palette (5-color)
 # Maps signed values: red (negative) → gray (zero) → blue (positive)
-redshift5 = [
+redshift = [
     ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (maximum negative)
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (negative)
     ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
@@ -337,7 +343,7 @@ redshift5 = [
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-redshift_colors = [color[1] for color in redshift5]
+redshift_colors = [color[1] for color in redshift]
 REDSHIFT_0 = ti.Vector([redshift_colors[0][0], redshift_colors[0][1], redshift_colors[0][2]])
 REDSHIFT_1 = ti.Vector([redshift_colors[1][0], redshift_colors[1][1], redshift_colors[1][2]])
 REDSHIFT_2 = ti.Vector([redshift_colors[2][0], redshift_colors[2][1], redshift_colors[2][2]])
@@ -414,7 +420,7 @@ def redshift_palette(x, y, width, height):
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
     """
     # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(redshift5) - 1  # 4 color transitions
+    num_bands = len(redshift) - 1  # 4 color transitions
     num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
 
     # Create Taichi fields for triangle vertices and colors
@@ -466,7 +472,7 @@ def redshift_palette(x, y, width, height):
 # Perceptually uniform colormap for scientific visualization
 # Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
 # Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
-viridis5 = [
+viridis = [
     ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
     ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
     ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
@@ -476,7 +482,7 @@ viridis5 = [
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-viridis_colors = [color[1] for color in viridis5]
+viridis_colors = [color[1] for color in viridis]
 VIRIDIS_0 = ti.Vector([viridis_colors[0][0], viridis_colors[0][1], viridis_colors[0][2]])
 VIRIDIS_1 = ti.Vector([viridis_colors[1][0], viridis_colors[1][1], viridis_colors[1][2]])
 VIRIDIS_2 = ti.Vector([viridis_colors[2][0], viridis_colors[2][1], viridis_colors[2][2]])
@@ -556,7 +562,7 @@ def viridis_palette(x, y, width, height):
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
     """
     # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(viridis5) - 1  # 4 color transitions
+    num_bands = len(viridis) - 1  # 4 color transitions
     num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
 
     # Create Taichi fields for triangle vertices and colors
