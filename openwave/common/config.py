@@ -440,6 +440,140 @@ def redshift_palette(x, y, width, height):
 
 
 # ================================================================
+# Viridis Gradient Palette
+# ================================================================
+# Perceptually uniform colormap for scientific visualization
+# Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
+# Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
+viridis5 = [
+    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
+    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
+    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
+    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
+    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
+]
+
+
+@ti.func
+def get_viridis_color(value, min_value, max_value):
+    """Maps a signed numerical value to a VIRIDIS gradient color.
+
+    VIRIDIS gradient: dark purple → blue-green → green → yellow-green → bright yellow
+    Used for displacement visualization with perceptually uniform color transitions.
+
+    Valley (negative): dark purple (shadowed depth) → green (neutral)
+    Hill (positive): green (neutral) → bright yellow (illuminated peak)
+
+    Optimized for maximum performance with millions of voxels.
+    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+
+    Args:
+        value: The signed displacement value to visualize (can be negative or positive)
+        min_value: Minimum displacement in range (typically negative)
+        max_value: Maximum displacement in range (typically positive)
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_viridis_color(value=-50, min_value=-100, max_value=100)
+        # Returns purple-ish color since -50 is in the negative range
+    """
+
+    # Compute normalized scale range
+    scale = max_value - min_value
+
+    # Normalize to [0.0 - 1.0] where 0.5 represents zero displacement
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
+
+    # Compute color as VIRIDIS gradient for visualization
+    # viridis5 gradient with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+
+    if norm_color < 0.25:  # dark purple to blue-green (valley depth to slope)
+        blend = norm_color / 0.25
+        r = 0.267 * (1.0 - blend) + 0.192 * blend  # #440154 to #31688E
+        g = 0.004 * (1.0 - blend) + 0.408 * blend
+        b = 0.329 * (1.0 - blend) + 0.557 * blend
+    elif norm_color < 0.5:  # blue-green to green (valley slope to neutral)
+        blend = (norm_color - 0.25) / 0.25
+        r = 0.192 * (1.0 - blend) + 0.208 * blend  # #31688E to #35B779
+        g = 0.408 * (1.0 - blend) + 0.718 * blend
+        b = 0.557 * (1.0 - blend) + 0.475 * blend
+    elif norm_color < 0.75:  # green to yellow-green (neutral to hill slope)
+        blend = (norm_color - 0.5) / 0.25
+        r = 0.208 * (1.0 - blend) + 0.741 * blend  # #35B779 to #BDD93A
+        g = 0.718 * (1.0 - blend) + 0.851 * blend
+        b = 0.475 * (1.0 - blend) + 0.227 * blend
+    else:  # yellow-green to bright yellow (hill slope to peak highlight)
+        blend = (norm_color - 0.75) / 0.25
+        r = 0.741 * (1.0 - blend) + 0.992 * blend  # #BDD93A to #FDE724
+        g = 0.851 * (1.0 - blend) + 0.906 * blend
+        b = 0.227 * (1.0 - blend) + 0.143 * blend
+
+    viridis_color = ti.Vector([r, g, b])
+
+    return viridis_color
+
+
+def viridis_palette(x, y, width, height):
+    """Generate viridis palette indicator as horizontal gradient using triangles.
+
+    Creates a horizontal color bar from all 5 viridis colors (dark purple -> bright yellow).
+    Each color band is made of 2 triangles forming a rectangle.
+    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
+
+    Returns:
+        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
+    """
+    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
+    num_bands = len(viridis5) - 1  # 4 color transitions
+    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
+
+    # Create Taichi fields for triangle vertices and colors
+    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
+    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
+
+    # Position parameters (screen coordinates)
+    x_left = x
+    x_right = x + width
+    y_top = 1 - y
+    y_bottom = 1 - (y + height)
+    band_width = (x_right - x_left) / num_bands
+
+    # Generate triangles for each color band
+    for i in range(num_bands):
+        # Calculate X positions for this band
+        x_start = x_left + (i * band_width)
+        x_end = x_left + ((i + 1) * band_width)
+
+        # Get colors from viridis5 (index 1 is the RGB tuple)
+        color_left = ti.Vector(viridis5[i][1])  # Negative color (left)
+        color_right = ti.Vector(viridis5[i + 1][1])  # Positive color (right)
+
+        # Vertex indices for this band's two triangles
+        v_idx = i * 6
+
+        # First triangle (bottom-left, bottom-right, top-left)
+        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
+        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
+        palette_colors[v_idx + 0] = color_left
+        palette_colors[v_idx + 1] = color_right
+        palette_colors[v_idx + 2] = color_left
+
+        # Second triangle (top-left, bottom-right, top-right)
+        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
+        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
+        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
+        palette_colors[v_idx + 3] = color_left
+        palette_colors[v_idx + 4] = color_right
+        palette_colors[v_idx + 5] = color_right
+
+    return palette_vertices, palette_colors
+
+
+# ================================================================
 # Level Bar Geometry - visual indicator for xperiment Level
 # ================================================================
 
