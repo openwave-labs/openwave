@@ -50,7 +50,10 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
 
 
 @ti.kernel
-def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
+def update_flux_film_colors(
+    wave_field: ti.template(),  # type: ignore
+    color_palette: ti.i32,  # type: ignore
+):
     """
     Update flux film colors by sampling wave properties from voxel grid.
 
@@ -67,6 +70,7 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
 
     Args:
         wave_field: WaveField instance containing flux film fields and displacement data
+        color_palette: Integer code for color palette selection
     """
 
     # Get center indices for each film
@@ -87,9 +91,19 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         # Sample scalar displacement at this voxel
         disp_value = wave_field.displacement_am[i, j, center_k]
 
-        # Map displacement to color using redshift gradient
-        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
-        wave_field.film_xy_colors[i, j] = color
+        # Map displacement to color using selected gradient
+        if color_palette == 2:  # blueprint
+            wave_field.film_xy_colors[i, j] = colormap.get_blueprint_color(
+                disp_value, min_disp, max_disp
+            )
+        elif color_palette == 3:  # redshift
+            wave_field.film_xy_colors[i, j] = colormap.get_redshift_color(
+                disp_value, min_disp, max_disp
+            )
+        else:  # default to ironbow (palette 1)
+            wave_field.film_xy_colors[i, j] = colormap.get_ironbow_color(
+                disp_value, min_disp, max_disp
+            )
 
     # ================================================================
     # XZ Film: Sample at y = center_j
@@ -98,9 +112,19 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         # Sample scalar displacement at this voxel
         disp_value = wave_field.displacement_am[i, center_j, k]
 
-        # Map to color
-        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
-        wave_field.film_xz_colors[i, k] = color
+        # Map displacement to color using selected gradient
+        if color_palette == 2:  # blueprint
+            wave_field.film_xz_colors[i, k] = colormap.get_blueprint_color(
+                disp_value, min_disp, max_disp
+            )
+        elif color_palette == 3:  # redshift
+            wave_field.film_xz_colors[i, k] = colormap.get_redshift_color(
+                disp_value, min_disp, max_disp
+            )
+        else:  # default to ironbow (palette 1)
+            wave_field.film_xz_colors[i, k] = colormap.get_ironbow_color(
+                disp_value, min_disp, max_disp
+            )
 
     # ================================================================
     # YZ Film: Sample at x = center_i
@@ -109,6 +133,16 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         # Sample scalar displacement at this voxel
         disp_value = wave_field.displacement_am[center_i, j, k]
 
-        # Map to color
-        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
-        wave_field.film_yz_colors[j, k] = color
+        # Map displacement to color using selected gradient
+        if color_palette == 2:  # blueprint
+            wave_field.film_yz_colors[j, k] = colormap.get_blueprint_color(
+                disp_value, min_disp, max_disp
+            )
+        elif color_palette == 3:  # redshift
+            wave_field.film_yz_colors[j, k] = colormap.get_redshift_color(
+                disp_value, min_disp, max_disp
+            )
+        else:  # default to ironbow (palette 1)
+            wave_field.film_yz_colors[j, k] = colormap.get_ironbow_color(
+                disp_value, min_disp, max_disp
+            )

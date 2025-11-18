@@ -132,9 +132,7 @@ class SimulationState:
         self.freq_boost = 10.0
         self.amp_boost = 1.0
         self.paused = False
-        self.granule_type = True
-        self.ironbow = False
-        self.blueprint = False
+        self.color_palette = 0
         self.var_displacement = True
 
         # Diagnostics & video export toggles
@@ -179,9 +177,7 @@ class SimulationState:
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
         self.paused = ui["paused"]
-        self.granule_type = ui["granule_type"]
-        self.ironbow = ui["ironbow"]
-        self.blueprint = ui["blueprint"]
+        self.color_palette = ui["color_palette"]
         self.var_displacement = ui["var_displacement"]
 
         # Diagnostics
@@ -254,40 +250,34 @@ def color_menu(state):
     """Render color selection menu."""
     tracker = "displacement" if state.var_displacement else "amplitude"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
+        if sub.checkbox(
+            "Displacement (ironbow)", state.color_palette == 1 and state.var_displacement
+        ):
+            state.color_palette = 1
             state.var_displacement = True
-        if sub.checkbox("Amplitude (ironbow)", state.ironbow and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox("Amplitude (blueprint)", state.blueprint and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = True
-            state.var_displacement = False
-        if sub.checkbox("Granule Type Color", state.granule_type):
-            state.granule_type = True
-            state.ironbow = False
-            state.blueprint = False
+        if sub.checkbox(
+            "Amplitude (ironbow)", state.color_palette == 1 and not state.var_displacement
+        ):
+            state.color_palette = 1
             state.var_displacement = False
         if sub.checkbox(
-            "Medium Default Color",
-            not (state.granule_type or state.ironbow or state.blueprint),
+            "Amplitude (blueprint)",
+            state.color_palette == 2 and not state.var_displacement,
         ):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = False
+            state.color_palette = 2
             state.var_displacement = False
-        if state.ironbow:  # Display ironbow gradient palette
+        if sub.checkbox("Granule Type Color", state.color_palette == 0):
+            state.color_palette = 0
+            state.var_displacement = False
+        if sub.checkbox("Medium Default Color", state.color_palette == 99):
+            state.color_palette = 99
+            state.var_displacement = False
+        if state.color_palette == 1:  # Display ironbow gradient palette
             # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.blueprint:  # Display blueprint gradient palette
+        if state.color_palette == 2:  # Display blueprint gradient palette
             # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
@@ -390,7 +380,7 @@ def compute_motion(state):
         state.lattice.granule_var_color,
         state.freq_boost,
         state.amp_boost,
-        state.ironbow,
+        state.color_palette,
         state.var_displacement,
         state.NUM_SOURCES,
         state.elapsed_t,
@@ -414,13 +404,13 @@ def render_elements(state):
     radius_render = state.granule.radius_screen * state.radius_factor
 
     # Render granules with color scheme
-    if state.granule_type:
+    if state.color_palette == 0:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.ironbow or state.blueprint:
+    elif state.color_palette == 1 or state.color_palette == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,

@@ -126,9 +126,7 @@ class SimulationState:
         self.freq_boost = 10.0
         self.amp_boost = 1.0
         self.paused = False
-        self.granule_type = True
-        self.ironbow = False
-        self.blueprint = False
+        self.color_palette = 1  # Color palette index
         self.var_displacement = True
 
         # Diagnostics & video export toggles
@@ -168,9 +166,7 @@ class SimulationState:
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
         self.paused = ui["paused"]
-        self.granule_type = ui["granule_type"]
-        self.ironbow = ui["ironbow"]
-        self.blueprint = ui["blueprint"]
+        self.color_palette = ui["color_palette"]
         self.var_displacement = ui["var_displacement"]
 
         # Diagnostics
@@ -237,42 +233,37 @@ def color_menu(state):
     """Render color selection menu."""
     tracker = "displacement" if state.var_displacement else "amplitude"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
+        if sub.checkbox(
+            "Displacement (blueprint)", state.color_palette == 2 and state.var_displacement
+        ):
+            state.color_palette = 2
             state.var_displacement = True
-        if sub.checkbox("Amplitude (ironbow)", state.ironbow and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox("Amplitude (blueprint)", state.blueprint and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = True
-            state.var_displacement = False
-        if sub.checkbox("Granule Type Color", state.granule_type):
-            state.granule_type = True
-            state.ironbow = False
-            state.blueprint = False
+        if sub.checkbox(
+            "Displacement (redshift)", state.color_palette == 3 and state.var_displacement
+        ):
+            state.color_palette = 3
+            state.var_displacement = True
+
+        if sub.checkbox(
+            "Amplitude (ironbow)", state.color_palette == 1 and not state.var_displacement
+        ):
+            state.color_palette = 1
             state.var_displacement = False
         if sub.checkbox(
-            "Medium Default Color",
-            not (state.granule_type or state.ironbow or state.blueprint),
+            "Amplitude (blueprint)", state.color_palette == 2 and not state.var_displacement
         ):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = False
+            state.color_palette = 2
             state.var_displacement = False
-        if state.ironbow:  # Display ironbow gradient palette
-            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
+        if state.color_palette == 1:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.blueprint:  # Display blueprint gradient palette
-            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
+        if state.color_palette == 2:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
+            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.peak_amplitude:.0e}m")
+        if state.color_palette == 3:  # Display redshift gradient palette
+            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
@@ -352,6 +343,9 @@ def initialize_xperiment(state):
     bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
+    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
+        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+    )
     level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize test displacement pattern for flux films (temporary until wave propagation)
@@ -405,7 +399,7 @@ def render_elements(state):
     # Flux Films Visualization
     if state.flux_films:
         # Update flux film colors from current wave displacement
-        ewave.update_flux_film_colors(state.wave_field)
+        ewave.update_flux_film_colors(state.wave_field, state.color_palette)
         # Render the three flux films
         flux_film.render_flux_films(render.scene, state.wave_field)
 

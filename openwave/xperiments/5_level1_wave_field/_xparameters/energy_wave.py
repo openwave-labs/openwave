@@ -30,9 +30,7 @@ XPARAMETERS = {
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
-        "granule_type": False,  # Granule type color
-        "ironbow": True,  # Ironbow color scheme toggle
-        "blueprint": False,  # Blueprint color scheme toggle
+        "color_palette": 2,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
         "var_displacement": True,  # Displacement vs amplitude toggle
     },
     "diagnostics": {

@@ -68,6 +68,7 @@ FOREST = {
 # Ironbow Gradient: PALETTE [used in get_ironbow_color()]
 # ================================================================
 # Simplified thermal imaging palette (5-color)
+# "color_palette" = 1
 ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.541)],  # dark blue
@@ -80,6 +81,7 @@ ironbow_palette = [
 # Blueprint Gradient: PALETTE [used in get_blueprint_color()]
 # ================================================================
 # Simplified blueprint imaging palette (5-color)
+# "color_palette" = 2
 blueprint_palette = [
     ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
     ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
@@ -92,6 +94,7 @@ blueprint_palette = [
 # Redshift Gradient: PALETTE [used in get_redshift_color()]
 # ================================================================
 # Simplified redshift gradient palette (5-color)
+# "color_palette" = 3
 redshift_palette = [
     ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
@@ -104,6 +107,7 @@ redshift_palette = [
 # Viridis Gradient: PALETTE [used in get_viridis_color()]
 # ================================================================
 # Perceptually uniform colormap for scientific visualization
+# "color_palette" = 4
 viridis_palette = [
     ["#440154", (0.267, 0.004, 0.329)],  # dark purple
     ["#31688E", (0.192, 0.408, 0.557)],  # blue-green
