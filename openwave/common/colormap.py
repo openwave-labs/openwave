@@ -67,7 +67,7 @@ ironbow5 = [
 ]
 
 # Taichi-compatible constants for use inside @ti.func
-# Extract RGB tuples for easier access
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
 ironbow_colors = [color[1] for color in ironbow5]
 IRONBOW_0 = ti.Vector([ironbow_colors[0][0], ironbow_colors[0][1], ironbow_colors[0][2]])
 IRONBOW_1 = ti.Vector([ironbow_colors[1][0], ironbow_colors[1][1], ironbow_colors[1][2]])
@@ -84,7 +84,7 @@ def get_ironbow_color(value, min_value, max_value):
     Used for thermal visualization where cold = black/blue, hot = yellow/white.
 
     Optimized for maximum performance with millions of particles.
-    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
 
     Args:
         value: The displacement magnitude to visualize
@@ -198,12 +198,13 @@ def ironbow_palette(x, y, width, height):
 blueprint4 = [
     ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
     ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
+    ["#607DBD", (0.6, 0.68, 0.87)],  # blue
     ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
     ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
 ]
 
 # Taichi-compatible constants for use inside @ti.func
-# Extract RGB tuples for easier access
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
 blueprint_colors = [color[1] for color in blueprint4]
 BLUEPRINT_0 = ti.Vector([blueprint_colors[0][0], blueprint_colors[0][1], blueprint_colors[0][2]])
 BLUEPRINT_1 = ti.Vector([blueprint_colors[1][0], blueprint_colors[1][1], blueprint_colors[1][2]])
@@ -218,10 +219,20 @@ def get_blueprint_color(value, min_value, max_value):
     BLUEPRINT gradient: dark blue → medium blue → light blue → extra-light blue
     Used for blueprint-style visualization where low = dark, high = light.
 
+    Optimized for maximum performance with millions of voxels.
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
+
     Args:
         value: The displacement magnitude to visualize
         min_value: Minimum displacement in range
         max_value: Maximum displacement observed
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_blueprint_color(value=50, min_value=0, max_value=100)
+        # Returns medium blue since 50/100 = 0.5 is in the middle range
     """
 
     # Compute normalized scale range with saturation headroom
@@ -325,7 +336,7 @@ redshift5 = [
 ]
 
 # Taichi-compatible constants for use inside @ti.func
-# Extract RGB tuples for easier access
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
 redshift_colors = [color[1] for color in redshift5]
 REDSHIFT_0 = ti.Vector([redshift_colors[0][0], redshift_colors[0][1], redshift_colors[0][2]])
 REDSHIFT_1 = ti.Vector([redshift_colors[1][0], redshift_colors[1][1], redshift_colors[1][2]])
@@ -338,11 +349,11 @@ REDSHIFT_4 = ti.Vector([redshift_colors[4][0], redshift_colors[4][1], redshift_c
 def get_redshift_color(value, min_value, max_value):
     """Maps a signed numerical value to a REDSHIFT gradient color.
 
-    REDSHIFT gradient: dark red → red-orange → gray → blue → dark blue
+    REDSHIFT gradient: red-orange → dark red → gray → dark blue → bright blue
     Used for displacement visualization where negative = red, zero = gray, positive = blue.
 
     Optimized for maximum performance with millions of voxels.
-    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
 
     Args:
         value: The signed displacement value to visualize (can be negative or positive)
@@ -395,7 +406,7 @@ def get_redshift_color(value, min_value, max_value):
 def redshift_palette(x, y, width, height):
     """Generate redshift palette indicator as horizontal gradient using triangles.
 
-    Creates a horizontal color bar from all 5 redshift colors (dark red -> dark blue).
+    Creates a horizontal color bar from all 5 redshift colors (red-orange -> bright blue).
     Each color band is made of 2 triangles forming a rectangle.
     Canvas coordinates: (0,0) at bottom-left, X increases to the right.
 
@@ -456,15 +467,15 @@ def redshift_palette(x, y, width, height):
 # Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
 # Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
 viridis5 = [
-    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative)
-    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative)
-    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero)
-    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive)
-    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive)
+    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
+    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
+    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
+    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
+    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
 ]
 
 # Taichi-compatible constants for use inside @ti.func
-# Extract RGB tuples for easier access
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
 viridis_colors = [color[1] for color in viridis5]
 VIRIDIS_0 = ti.Vector([viridis_colors[0][0], viridis_colors[0][1], viridis_colors[0][2]])
 VIRIDIS_1 = ti.Vector([viridis_colors[1][0], viridis_colors[1][1], viridis_colors[1][2]])
@@ -484,7 +495,7 @@ def get_viridis_color(value, min_value, max_value):
     Hill (positive): green (neutral) → bright yellow (illuminated peak)
 
     Optimized for maximum performance with millions of voxels.
-    Uses hardcoded if-elif branches for fastest execution (no matrix lookups).
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
 
     Args:
         value: The signed displacement value to visualize (can be negative or positive)
