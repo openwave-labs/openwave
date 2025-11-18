@@ -202,6 +202,14 @@ blueprint4 = [
     ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
 ]
 
+# Taichi-compatible constants for use inside @ti.func
+# Extract RGB tuples for easier access
+blueprint_colors = [color[1] for color in blueprint4]
+BLUEPRINT_0 = ti.Vector([blueprint_colors[0][0], blueprint_colors[0][1], blueprint_colors[0][2]])
+BLUEPRINT_1 = ti.Vector([blueprint_colors[1][0], blueprint_colors[1][1], blueprint_colors[1][2]])
+BLUEPRINT_2 = ti.Vector([blueprint_colors[2][0], blueprint_colors[2][1], blueprint_colors[2][2]])
+BLUEPRINT_3 = ti.Vector([blueprint_colors[3][0], blueprint_colors[3][1], blueprint_colors[3][2]])
+
 
 @ti.func
 def get_blueprint_color(value, min_value, max_value):
@@ -225,21 +233,21 @@ def get_blueprint_color(value, min_value, max_value):
     # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
-    if norm_color < 0.33:  # dark blue to medium blue
+    if norm_color < 0.33:
         blend = norm_color / 0.33
-        r = 0.1 * (1.0 - blend) + 0.25 * blend  # #192C64 to #405CB1
-        g = 0.17 * (1.0 - blend) + 0.36 * blend
-        b = 0.39 * (1.0 - blend) + 0.69 * blend
-    elif norm_color < 0.66:  # medium blue to light blue
+        r = BLUEPRINT_0[0] * (1.0 - blend) + BLUEPRINT_1[0] * blend
+        g = BLUEPRINT_0[1] * (1.0 - blend) + BLUEPRINT_1[1] * blend
+        b = BLUEPRINT_0[2] * (1.0 - blend) + BLUEPRINT_1[2] * blend
+    elif norm_color < 0.66:
         blend = (norm_color - 0.33) / 0.33
-        r = 0.25 * (1.0 - blend) + 0.6 * blend  # #405CB1 to #98AEDD
-        g = 0.36 * (1.0 - blend) + 0.68 * blend
-        b = 0.69 * (1.0 - blend) + 0.87 * blend
-    else:  # light blue to extra-light blue
+        r = BLUEPRINT_1[0] * (1.0 - blend) + BLUEPRINT_2[0] * blend
+        g = BLUEPRINT_1[1] * (1.0 - blend) + BLUEPRINT_2[1] * blend
+        b = BLUEPRINT_1[2] * (1.0 - blend) + BLUEPRINT_2[2] * blend
+    else:
         blend = (norm_color - 0.66) / 0.34
-        r = 0.6 * (1.0 - blend) + 0.9 * blend  # #98AEDD to #E4EAF6
-        g = 0.68 * (1.0 - blend) + 0.94 * blend
-        b = 0.87 * (1.0 - blend) + 0.98 * blend
+        r = BLUEPRINT_2[0] * (1.0 - blend) + BLUEPRINT_3[0] * blend
+        g = BLUEPRINT_2[1] * (1.0 - blend) + BLUEPRINT_3[1] * blend
+        b = BLUEPRINT_2[2] * (1.0 - blend) + BLUEPRINT_3[2] * blend
 
     blueprint_color = ti.Vector([r, g, b])
 
@@ -277,9 +285,9 @@ def blueprint_palette(x, y, width, height):
         x_start = x_left + (i * band_width)
         x_end = x_left + ((i + 1) * band_width)
 
-        # Get colors from blueprint4 (index 1 is the RGB tuple)
-        color_left = ti.Vector(blueprint4[i][1])  # Dark color (left)
-        color_right = ti.Vector(blueprint4[i + 1][1])  # Light color (right)
+        # Get colors from blueprint_colors
+        color_left = ti.Vector(blueprint_colors[i])
+        color_right = ti.Vector(blueprint_colors[i + 1])
 
         # Vertex indices for this band's two triangles
         v_idx = i * 6
@@ -309,12 +317,21 @@ def blueprint_palette(x, y, width, height):
 # Simplified redshift gradient palette (5-color)
 # Maps signed values: red (negative) → gray (zero) → blue (positive)
 redshift5 = [
-    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (maximum negative)
-    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (negative)
+    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (maximum negative)
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (negative)
     ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive) - hill base
-    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive) - hill peak in sunlight
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive)
+    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive)
 ]
+
+# Taichi-compatible constants for use inside @ti.func
+# Extract RGB tuples for easier access
+redshift_colors = [color[1] for color in redshift5]
+REDSHIFT_0 = ti.Vector([redshift_colors[0][0], redshift_colors[0][1], redshift_colors[0][2]])
+REDSHIFT_1 = ti.Vector([redshift_colors[1][0], redshift_colors[1][1], redshift_colors[1][2]])
+REDSHIFT_2 = ti.Vector([redshift_colors[2][0], redshift_colors[2][1], redshift_colors[2][2]])
+REDSHIFT_3 = ti.Vector([redshift_colors[3][0], redshift_colors[3][1], redshift_colors[3][2]])
+REDSHIFT_4 = ti.Vector([redshift_colors[4][0], redshift_colors[4][1], redshift_colors[4][2]])
 
 
 @ti.func
@@ -349,26 +366,26 @@ def get_redshift_color(value, min_value, max_value):
     # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
-    if norm_color < 0.25:  # dark red to red-orange
+    if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = 0.545 * (1.0 - blend) + 1.0 * blend  # #8B0000 to #FF6347
-        g = 0.0 * (1.0 - blend) + 0.39 * blend
-        b = 0.0 * (1.0 - blend) + 0.28 * blend
-    elif norm_color < 0.5:  # red-orange to gray
+        r = REDSHIFT_0[0] * (1.0 - blend) + REDSHIFT_1[0] * blend
+        g = REDSHIFT_0[1] * (1.0 - blend) + REDSHIFT_1[1] * blend
+        b = REDSHIFT_0[2] * (1.0 - blend) + REDSHIFT_1[2] * blend
+    elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = 1.0 * (1.0 - blend) + 0.11 * blend  # #FF6347 to #1C1C1C
-        g = 0.39 * (1.0 - blend) + 0.11 * blend
-        b = 0.28 * (1.0 - blend) + 0.11 * blend
-    elif norm_color < 0.75:  # gray to dark blue
+        r = REDSHIFT_1[0] * (1.0 - blend) + REDSHIFT_2[0] * blend
+        g = REDSHIFT_1[1] * (1.0 - blend) + REDSHIFT_2[1] * blend
+        b = REDSHIFT_1[2] * (1.0 - blend) + REDSHIFT_2[2] * blend
+    elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = 0.11 * (1.0 - blend) + 0.00 * blend  # #1C1C1C to #00008B
-        g = 0.11 * (1.0 - blend) + 0.00 * blend
-        b = 0.11 * (1.0 - blend) + 0.545 * blend
-    else:  # dark blue to bright blue
+        r = REDSHIFT_2[0] * (1.0 - blend) + REDSHIFT_3[0] * blend
+        g = REDSHIFT_2[1] * (1.0 - blend) + REDSHIFT_3[1] * blend
+        b = REDSHIFT_2[2] * (1.0 - blend) + REDSHIFT_3[2] * blend
+    else:
         blend = (norm_color - 0.75) / 0.25
-        r = 0.00 * (1.0 - blend) + 0.255 * blend  # #00008B to #4169E1
-        g = 0.00 * (1.0 - blend) + 0.41 * blend
-        b = 0.545 * (1.0 - blend) + 0.88 * blend
+        r = REDSHIFT_3[0] * (1.0 - blend) + REDSHIFT_4[0] * blend
+        g = REDSHIFT_3[1] * (1.0 - blend) + REDSHIFT_4[1] * blend
+        b = REDSHIFT_3[2] * (1.0 - blend) + REDSHIFT_4[2] * blend
 
     redshift_color = ti.Vector([r, g, b])
 
@@ -406,9 +423,9 @@ def redshift_palette(x, y, width, height):
         x_start = x_left + (i * band_width)
         x_end = x_left + ((i + 1) * band_width)
 
-        # Get colors from redshift5 (index 1 is the RGB tuple)
-        color_left = ti.Vector(redshift5[i][1])  # Negative color (left)
-        color_right = ti.Vector(redshift5[i + 1][1])  # Positive color (right)
+        # Get colors from redshift_colors
+        color_left = ti.Vector(redshift_colors[i])
+        color_right = ti.Vector(redshift_colors[i + 1])
 
         # Vertex indices for this band's two triangles
         v_idx = i * 6
@@ -439,12 +456,21 @@ def redshift_palette(x, y, width, height):
 # Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
 # Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
 viridis5 = [
-    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
-    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
-    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
-    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
-    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
+    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative)
+    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative)
+    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero)
+    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive)
+    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive)
 ]
+
+# Taichi-compatible constants for use inside @ti.func
+# Extract RGB tuples for easier access
+viridis_colors = [color[1] for color in viridis5]
+VIRIDIS_0 = ti.Vector([viridis_colors[0][0], viridis_colors[0][1], viridis_colors[0][2]])
+VIRIDIS_1 = ti.Vector([viridis_colors[1][0], viridis_colors[1][1], viridis_colors[1][2]])
+VIRIDIS_2 = ti.Vector([viridis_colors[2][0], viridis_colors[2][1], viridis_colors[2][2]])
+VIRIDIS_3 = ti.Vector([viridis_colors[3][0], viridis_colors[3][1], viridis_colors[3][2]])
+VIRIDIS_4 = ti.Vector([viridis_colors[4][0], viridis_colors[4][1], viridis_colors[4][2]])
 
 
 @ti.func
@@ -482,26 +508,26 @@ def get_viridis_color(value, min_value, max_value):
     # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
-    if norm_color < 0.25:  # dark purple to blue-green (valley depth to slope)
+    if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = 0.267 * (1.0 - blend) + 0.192 * blend  # #440154 to #31688E
-        g = 0.004 * (1.0 - blend) + 0.408 * blend
-        b = 0.329 * (1.0 - blend) + 0.557 * blend
-    elif norm_color < 0.5:  # blue-green to green (valley slope to neutral)
+        r = VIRIDIS_0[0] * (1.0 - blend) + VIRIDIS_1[0] * blend
+        g = VIRIDIS_0[1] * (1.0 - blend) + VIRIDIS_1[1] * blend
+        b = VIRIDIS_0[2] * (1.0 - blend) + VIRIDIS_1[2] * blend
+    elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = 0.192 * (1.0 - blend) + 0.208 * blend  # #31688E to #35B779
-        g = 0.408 * (1.0 - blend) + 0.718 * blend
-        b = 0.557 * (1.0 - blend) + 0.475 * blend
-    elif norm_color < 0.75:  # green to yellow-green (neutral to hill slope)
+        r = VIRIDIS_1[0] * (1.0 - blend) + VIRIDIS_2[0] * blend
+        g = VIRIDIS_1[1] * (1.0 - blend) + VIRIDIS_2[1] * blend
+        b = VIRIDIS_1[2] * (1.0 - blend) + VIRIDIS_2[2] * blend
+    elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = 0.208 * (1.0 - blend) + 0.741 * blend  # #35B779 to #BDD93A
-        g = 0.718 * (1.0 - blend) + 0.851 * blend
-        b = 0.475 * (1.0 - blend) + 0.227 * blend
-    else:  # yellow-green to bright yellow (hill slope to peak highlight)
+        r = VIRIDIS_2[0] * (1.0 - blend) + VIRIDIS_3[0] * blend
+        g = VIRIDIS_2[1] * (1.0 - blend) + VIRIDIS_3[1] * blend
+        b = VIRIDIS_2[2] * (1.0 - blend) + VIRIDIS_3[2] * blend
+    else:
         blend = (norm_color - 0.75) / 0.25
-        r = 0.741 * (1.0 - blend) + 0.992 * blend  # #BDD93A to #FDE724
-        g = 0.851 * (1.0 - blend) + 0.906 * blend
-        b = 0.227 * (1.0 - blend) + 0.143 * blend
+        r = VIRIDIS_3[0] * (1.0 - blend) + VIRIDIS_4[0] * blend
+        g = VIRIDIS_3[1] * (1.0 - blend) + VIRIDIS_4[1] * blend
+        b = VIRIDIS_3[2] * (1.0 - blend) + VIRIDIS_4[2] * blend
 
     viridis_color = ti.Vector([r, g, b])
 
@@ -539,9 +565,9 @@ def viridis_palette(x, y, width, height):
         x_start = x_left + (i * band_width)
         x_end = x_left + ((i + 1) * band_width)
 
-        # Get colors from viridis5 (index 1 is the RGB tuple)
-        color_left = ti.Vector(viridis5[i][1])  # Negative color (left)
-        color_right = ti.Vector(viridis5[i + 1][1])  # Positive color (right)
+        # Get colors from viridis_colors
+        color_left = ti.Vector(viridis_colors[i])
+        color_right = ti.Vector(viridis_colors[i + 1])
 
         # Vertex indices for this band's two triangles
         v_idx = i * 6
