@@ -55,7 +55,7 @@ FOREST = {
 }
 
 # ================================================================
-# Ironbow Thermal Imaging Palette
+# Ironbow Gradient Palette
 # ================================================================
 # Simplified thermal imaging palette (5-color)
 ironbow5 = [
@@ -65,6 +65,15 @@ ironbow5 = [
     ["#E64616", (0.90, 0.27, 0.09)],  # red-orange
     ["#FFFFF6", (1.0, 1.0, 0.96)],  # yellow-white
 ]
+
+# Taichi-compatible constants for use inside @ti.func
+# Extract RGB tuples for easier access
+ironbow_colors = [color[1] for color in ironbow5]
+IRONBOW_0 = ti.Vector([ironbow_colors[0][0], ironbow_colors[0][1], ironbow_colors[0][2]])
+IRONBOW_1 = ti.Vector([ironbow_colors[1][0], ironbow_colors[1][1], ironbow_colors[1][2]])
+IRONBOW_2 = ti.Vector([ironbow_colors[2][0], ironbow_colors[2][1], ironbow_colors[2][2]])
+IRONBOW_3 = ti.Vector([ironbow_colors[3][0], ironbow_colors[3][1], ironbow_colors[3][2]])
+IRONBOW_4 = ti.Vector([ironbow_colors[4][0], ironbow_colors[4][1], ironbow_colors[4][2]])
 
 
 @ti.func
@@ -99,26 +108,26 @@ def get_ironbow_color(value, min_value, max_value):
     # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
-    if norm_color < 0.25:  # black to dark blue
+    if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = 0.0 * (1.0 - blend) + 0.125 * blend  # #000000 to #20008A
-        g = 0.0 * (1.0 - blend) + 0.0 * blend
-        b = 0.0 * (1.0 - blend) + 0.54 * blend
-    elif norm_color < 0.5:  # dark blue to magenta
+        r = IRONBOW_0[0] * (1.0 - blend) + IRONBOW_1[0] * blend
+        g = IRONBOW_0[1] * (1.0 - blend) + IRONBOW_1[1] * blend
+        b = IRONBOW_0[2] * (1.0 - blend) + IRONBOW_1[2] * blend
+    elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = 0.125 * (1.0 - blend) + 0.57 * blend  # #20008A to #91009C
-        g = 0.0 * (1.0 - blend) + 0.0 * blend
-        b = 0.54 * (1.0 - blend) + 0.61 * blend
-    elif norm_color < 0.75:  # magenta to red-orange
+        r = IRONBOW_1[0] * (1.0 - blend) + IRONBOW_2[0] * blend
+        g = IRONBOW_1[1] * (1.0 - blend) + IRONBOW_2[1] * blend
+        b = IRONBOW_1[2] * (1.0 - blend) + IRONBOW_2[2] * blend
+    elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = 0.57 * (1.0 - blend) + 0.90 * blend  # #91009C to #E64616
-        g = 0.0 * (1.0 - blend) + 0.27 * blend
-        b = 0.61 * (1.0 - blend) + 0.09 * blend
-    else:  # red-orange to yellow-white
+        r = IRONBOW_2[0] * (1.0 - blend) + IRONBOW_3[0] * blend
+        g = IRONBOW_2[1] * (1.0 - blend) + IRONBOW_3[1] * blend
+        b = IRONBOW_2[2] * (1.0 - blend) + IRONBOW_3[2] * blend
+    else:
         blend = (norm_color - 0.75) / 0.25
-        r = 0.90 * (1.0 - blend) + 1.0 * blend  # #E64616 to #FFFFF6
-        g = 0.27 * (1.0 - blend) + 1.0 * blend
-        b = 0.09 * (1.0 - blend) + 0.96 * blend
+        r = IRONBOW_3[0] * (1.0 - blend) + IRONBOW_4[0] * blend
+        g = IRONBOW_3[1] * (1.0 - blend) + IRONBOW_4[1] * blend
+        b = IRONBOW_3[2] * (1.0 - blend) + IRONBOW_4[2] * blend
 
     ironbow_color = ti.Vector([r, g, b])
 
@@ -156,9 +165,9 @@ def ironbow_palette(x, y, width, height):
         x_start = x_left + (i * band_width)
         x_end = x_left + ((i + 1) * band_width)
 
-        # Get colors from ironbow5 (index 1 is the RGB tuple)
-        color_left = ti.Vector(ironbow5[i][1])  # Cold color (left)
-        color_right = ti.Vector(ironbow5[i + 1][1])  # Hot color (right)
+        # Get colors from ironbow_colors
+        color_left = ti.Vector(ironbow_colors[i])
+        color_right = ti.Vector(ironbow_colors[i + 1])
 
         # Vertex indices for this band's two triangles
         v_idx = i * 6
@@ -183,7 +192,7 @@ def ironbow_palette(x, y, width, height):
 
 
 # ================================================================
-# Blueprint Imaging Palette
+# Blueprint Gradient Palette
 # ================================================================
 # Simplified blueprint imaging palette (4-color)
 blueprint4 = [
