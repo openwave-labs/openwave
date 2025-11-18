@@ -25,7 +25,7 @@ XPARAMETERS = {
     },
     "ui_defaults": {
         "show_axis": True,  # Toggle to show/hide axis lines
-        "flux_films": False,  # Flux Films toggle
+        "flux_mesh": False,  # Flux Mesh toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier

@@ -3,13 +3,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Flux Films](#flux-films)
+1. [Flux Mesh](#flux-films)
    - [Purpose and Concept](#purpose-and-concept)
    - [Implementation](#implementation)
    - [Properties and Interactions](#properties-and-interactions)
 1. [Universe Boundaries](#universe-boundaries)
    - [Outer Walls](#outer-walls)
-   - [Wall as Flux Film](#wall-as-flux-film)
+   - [Wall as Flux Mesh](#wall-as-flux-film)
    - [User Interaction](#user-interaction)
 1. [3D Wave Visualization Techniques](#3d-wave-visualization-techniques)
    - [Particle Spray Method](#particle-spray-method)
@@ -46,7 +46,7 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 **Primary Rendering Technologies**:
 
 1. **WAVE VIEWING**:
-   - **Taichi Meshes**: Flux films display wave properties
+   - **Taichi Meshes**: Flux Mesh display wave properties
    - **Color Gradients**: Defined in `config.py` for energy wave visualization
    - **Wave Properties**: Render wave fronts, amplitude, energy density
 
@@ -63,11 +63,11 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
    - **Streamlines**: Follow flow/energy propagation paths
    - **Polylines**: Smooth curves showing wave dynamics
 
-## Flux Films
+## Flux Mesh
 
 ### Purpose and Concept
 
-**Flux Films** are 2D detector surfaces that:
+**Flux Mesh** are 2D detector surfaces that:
 
 - React to wave flux passing through them
 - Convert wave properties into visible colors
@@ -81,20 +81,20 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 - Like detector screens in particle physics experiments
 - Like ultrasound imaging planes in medical imaging
 
-**Note**: For detailed documentation, see [`11_flux_films.md`](./11_flux_films.md)
+**Note**: For detailed documentation, see [`11_flux_mesh.md`](./11_flux_mesh.md)
 
 ### Implementation
 
 **Geometry**:
 
 ```python
-# Flux film as 2D mesh
-flux_film = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
+# Flux Mesh as 2D mesh
+flux_mesh = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
 film_color = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
 
 @ti.kernel
-def create_flux_film(position: ti.math.vec3, normal: ti.math.vec3):
-    """Create flux film at position with given normal."""
+def create_flux_mesh(position: ti.math.vec3, normal: ti.math.vec3):
+    """Create flux mesh at position with given normal."""
     for i, j in ti.ndrange(res_x, res_y):
         # Position on film
         u = (i / res_x - 0.5) * film_width
@@ -104,7 +104,7 @@ def create_flux_film(position: ti.math.vec3, normal: ti.math.vec3):
         tangent1, tangent2 = compute_tangents(normal)
 
         # Point on film
-        flux_film[i, j] = position + u * tangent1 + v * tangent2
+        flux_mesh[i, j] = position + u * tangent1 + v * tangent2
 ```
 
 **Positioning**:
@@ -119,9 +119,9 @@ def create_flux_film(position: ti.math.vec3, normal: ti.math.vec3):
 ```python
 @ti.kernel
 def sample_field_on_film():
-    """Sample wave field values onto flux film."""
-    for i, j in flux_film:
-        pos = flux_film[i, j]
+    """Sample wave field values onto flux mesh."""
+    for i, j in flux_mesh:
+        pos = flux_mesh[i, j]
 
         # Sample amplitude at this position (interpolate from grid)
         amp = sample_amplitude_field(pos)
@@ -169,7 +169,7 @@ def amplitude_to_color(amp: ti.f32) -> ti.math.vec3:
 
 **Rendering with Taichi Meshes**:
 
-- Use **Taichi mesh rendering** for flux films
+- Use **Taichi mesh rendering** for flux mesh
 - Define **energy wave color gradient** in `config.py`
 - Apply color gradient to display wave properties:
   - **Wave fronts**: Surfaces of constant phase
@@ -202,12 +202,12 @@ for face in ['x_min', 'x_max', 'y_min', 'y_max', 'z_min', 'z_max']:
 - Hard boundary condition (phase inversion)
 - Creates standing wave patterns near walls
 
-### Wall as Flux Film
+### Wall as Flux Mesh
 
 **Dual Purpose**:
 
 1. Physical boundary (wave reflection)
-2. Visualization surface (flux film)
+2. Visualization surface (flux mesh)
 
 **Painting Wave Properties**:
 
@@ -230,7 +230,7 @@ def render_wall_face(wall_id: ti.i32):
 
 - See wave reflections at boundaries
 - Visualize energy distribution on walls
-- No need for internal flux films
+- No need for internal flux mesh
 - User can observe from outside
 
 ### User Interaction
@@ -504,7 +504,7 @@ def render_standing_wave_shells(particle_id: ti.i32):
 2. **Particles only**: No wave field, just centers
 3. **Shells only**: Standing wave patterns only
 4. **Everything combined**: Full visualization
-5. **Flux films only**: 2D slice view
+5. **Flux Mesh only**: 2D slice view
 
 **User Interface**:
 
@@ -513,7 +513,7 @@ def render_standing_wave_shells(particle_id: ti.i32):
 show_wave_field = True
 show_particles = True
 show_shells = False
-show_flux_films = False
+show_flux_mesh = False
 
 @ti.kernel
 def render_scene():
@@ -523,8 +523,8 @@ def render_scene():
         render_wave_centers()
     if show_shells:
         render_standing_wave_shells()
-    if show_flux_films:
-        render_flux_films()
+    if show_flux_mesh:
+        render_flux_mesh()
 ```
 
 ## Electron Visualization
@@ -692,11 +692,11 @@ render_scale_bar(corner='bottom_right')
 
 **Status**: Visualization systems defined
 
-**Next Steps**: Implement basic flux films and wave field rendering
+**Next Steps**: Implement basic flux mesh and wave field rendering
 
 **Related Documentation**:
 
-- [`11_flux_films.md`](./11_flux_films.md) - Detailed flux film implementation
+- [`11_flux_mesh.md`](./11_flux_mesh.md) - Detailed flux mesh implementation
 - [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Properties to visualize
 - [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave field to visualize
 - [`05_MATTER.md`](./05_MATTER.md) - Particles to visualize

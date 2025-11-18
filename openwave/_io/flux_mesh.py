@@ -1,9 +1,9 @@
 """
-Flux Film Rendering Module
+Flux Mesh Rendering Module
 
-Provides rendering functions for flux film visualization in LEVEL-1 wave field simulations.
+Provides rendering functions for flux mesh visualization in LEVEL-1 wave field simulations.
 
-Flux films are 2D cross-sectional detector surfaces that visualize wave properties
+Flux Mesh is a 2D cross-sectional detector surface used to visualize wave properties
 through color gradients. This module handles mesh rendering for three orthogonal
 films (XY, XZ, YZ) intersecting at the universe center.
 
@@ -15,7 +15,7 @@ import taichi as ti
 # ================================================================
 # Module-level flattened fields (initialized once, reused every frame)
 # ================================================================
-_flux_film_fields_initialized = False
+_flux_mesh_fields_initialized = False
 _xy_vertices_flat = None
 _xy_colors_flat = None
 _xy_indices_flat = None
@@ -27,22 +27,22 @@ _yz_colors_flat = None
 _yz_indices_flat = None
 
 
-def initialize_flux_film_fields(wave_field):
+def initialize_flux_mesh_fields(wave_field):
     """
-    Initialize flattened Taichi fields for flux film rendering.
+    Initialize flattened Taichi fields for flux mesh rendering.
 
     This should be called once after the wave_field is created. The fields are reused
     every frame to avoid expensive field allocations.
 
     Args:
-        wave_field: WaveField instance containing flux film mesh data
+        wave_field: WaveField instance containing flux mesh data
     """
-    global _flux_film_fields_initialized
+    global _flux_mesh_fields_initialized
     global _xy_vertices_flat, _xy_colors_flat, _xy_indices_flat
     global _xz_vertices_flat, _xz_colors_flat, _xz_indices_flat
     global _yz_vertices_flat, _yz_colors_flat, _yz_indices_flat
 
-    if _flux_film_fields_initialized:
+    if _flux_mesh_fields_initialized:
         return  # Already initialized
 
     # XY Film flattened fields
@@ -74,34 +74,34 @@ def initialize_flux_film_fields(wave_field):
     flatten_yz_vertices(wave_field, _yz_vertices_flat)
     flatten_yz_indices(wave_field, _yz_indices_flat)
 
-    _flux_film_fields_initialized = True
+    _flux_mesh_fields_initialized = True
 
 
-def render_flux_films(scene, wave_field):
+def render_flux_mesh(scene, wave_field):
     """
-    Render all three flux film meshes to the scene with two-sided rendering.
+    Render all three flux mesh to the scene with two-sided rendering.
 
-    Displays XY, XZ, and YZ flux films as colored meshes visualizing wave
+    Displays XY, XZ, and YZ flux mesh as colored meshes visualizing wave
     displacement through the universe domain. Uses two-sided rendering to
     ensure visibility from all camera angles.
 
     Args:
         scene: Taichi GGUI scene object
-        wave_field: WaveField instance containing flux film mesh data
+        wave_field: WaveField instance containing flux mesh data
 
     Usage:
-        from openwave._io.flux_film import render_flux_films, initialize_flux_film_fields
+        from openwave._io.flux_mesh import render_flux_mesh, initialize_flux_mesh_fields
 
         # Initialize once after wave_field creation
-        initialize_flux_film_fields(wave_field)
+        initialize_flux_mesh_fields(wave_field)
 
         # Render every frame
-        if state.flux_films:
-            render_flux_films(scene, wave_field)
+        if state.flux_mesh:
+            render_flux_mesh(scene, wave_field)
     """
     # Ensure fields are initialized
-    if not _flux_film_fields_initialized:
-        initialize_flux_film_fields(wave_field)
+    if not _flux_mesh_fields_initialized:
+        initialize_flux_mesh_fields(wave_field)
 
     # ================================================================
     # Update only colors (vertices are static, don't change per frame)

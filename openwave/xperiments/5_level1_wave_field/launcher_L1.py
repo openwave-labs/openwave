@@ -18,7 +18,7 @@ import numpy as np
 import taichi as ti
 
 from openwave.common import colormap, constants
-from openwave._io import render, video, flux_film
+from openwave._io import flux_mesh, render, video
 
 import openwave.spacetime.medium_level1 as medium
 import openwave.spacetime.wave_engine_level1 as ewave
@@ -123,7 +123,7 @@ class SimulationState:
 
         # UI control variables
         self.show_axis = False
-        self.flux_films = False
+        self.flux_mesh = False
         self.radius_factor = 0.5
         self.freq_boost = 10.0
         self.amp_boost = 1.0
@@ -163,7 +163,7 @@ class SimulationState:
         # UI defaults
         ui = params["ui_defaults"]
         self.show_axis = ui["show_axis"]
-        self.flux_films = ui["flux_films"]
+        self.flux_mesh = ui["flux_mesh"]
         self.radius_factor = ui["radius_factor"]
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
@@ -219,7 +219,7 @@ def controls(state):
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
-        state.flux_films = sub.checkbox("Flux Films", state.flux_films)
+        state.flux_mesh = sub.checkbox("Flux Mesh", state.flux_mesh)
         state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
         state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
         state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
@@ -343,7 +343,7 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Initialize test displacement pattern for flux films (temporary until wave propagation)
+    # Initialize test displacement pattern for flux mesh (temporary until wave propagation)
     # Always create pattern regardless of toggle state (toggle just controls rendering)
     ewave.create_test_displacement_pattern(state.wave_field)
 
@@ -372,8 +372,8 @@ def compute_propagation(state):
     #     state.elapsed_t,
     # )
 
-    # # Update normalized positions for rendering with optional flux_films
-    # state.lattice.normalize_to_screen(1 if state.flux_films else 0)
+    # # Update normalized positions for rendering with optional flux_mesh
+    # state.lattice.normalize_to_screen(1 if state.flux_mesh else 0)
 
     # # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # # Update data sampling every 30 frames
@@ -391,12 +391,12 @@ def render_elements(state):
     if state.SHOW_GRID:
         render.scene.lines(state.wave_field.wire_frame, width=1, color=colormap.COLOR_MEDIUM[1])
 
-    # Flux Films Visualization
-    if state.flux_films:
-        # Update flux film colors from current wave displacement
-        ewave.update_flux_film_colors(state.wave_field, state.color_palette)
-        # Render the three flux films
-        flux_film.render_flux_films(render.scene, state.wave_field)
+    # Flux Mesh Visualization
+    if state.flux_mesh:
+        # Update flux mesh colors from current wave displacement
+        ewave.update_flux_mesh_colors(state.wave_field, state.color_palette)
+        # Render the three flux mesh
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field)
 
     # Particle Testing
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)

@@ -1,4 +1,4 @@
-# FLUX FILM VISUALIZATION
+# FLUX MESH VISUALIZATION
 
 ## Table of Contents
 
@@ -32,7 +32,7 @@
 
 ## Overview
 
-**Flux Films** are 2D cross-sectional detector surfaces that provide real-time views of wave propagation through the universe simulation domain. They function as photographic films that react to wave flux and convert wave properties into visible color gradients.
+**Flux Mesh** are 2D cross-sectional detector surfaces that provide real-time views of wave propagation through the universe simulation domain. They function as photographic films that react to wave flux and convert wave properties into visible color gradients.
 
 **Purpose**:
 
@@ -54,10 +54,10 @@
 
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py`
   - Location: `launcher_L1.py:222` (CONTROLS window)
-  - Variable: `state.flux_films` (Boolean)
-  - Control: Single checkbox "Flux Films" for all three films
+  - Variable: `state.flux_mesh` (Boolean)
+  - Control: Single checkbox "Flux Mesh" for all three films
   - Default: `False` (films hidden)
-  - Configuration: Via xparameters `ui_defaults["flux_films"]`
+  - Configuration: Via xparameters `ui_defaults["flux_mesh"]`
 
 - 🔄 **In Progress**: Core mesh rendering and wave property visualization
   - Mesh generation functions (to be implemented)
@@ -69,18 +69,18 @@
 
 ### Naming Convention
 
-The feature is called **"Flux Films"** (plural):
+The feature is called **"Flux Mesh"** (plural):
 
-- **Flux Films**: Primary term - three 2D detector films visualizing wave flux
-- **Flux Film**: Singular - referring to the system/feature or an individual film
+- **Flux Mesh**: Primary term - three 2D detector films visualizing wave flux
+- **Flux Mesh**: Singular - referring to the system/feature or an individual film
 - **Alternative names considered**: Flux Screens, Flux Sensors, Flux Detectors, Plane Slice
 
 **Flux** represents the energy wave field passing through the films, while **film** represents the detector surface that captures wave properties and converts them to visual information (like photographic film, X-ray film, or nuclear emulsion).
 
 **Singular vs Plural Usage**:
 
-- **Plural "Flux Films"**: When referring to the three detector surfaces (UI label, multiple objects)
-- **Singular "Flux Film"**: When referring to the feature/system or a specific individual film
+- **Plural "Flux Mesh"**: When referring to the three detector surfaces (UI label, multiple objects)
+- **Singular "Flux Mesh"**: When referring to the feature/system or a specific individual film
 
 ### Inspiration
 
@@ -96,18 +96,18 @@ Based on digital image sensor technology:
 Similar to LEVEL-0's `block_slice` feature but adapted for voxel-based wave fields:
 
 - LEVEL-0: Sliced granule lattice to show interior structure
-- LEVEL-1: Flux films showing wave field properties
+- LEVEL-1: Flux Mesh showing wave field properties
 
 ### Reserved Terminology
 
 **"Field Sensor"** is reserved for future point measurement features:
 
-- **Flux Films**: 2D surface detectors (current feature - plural for three films)
+- **Flux Mesh**: 2D surface detectors (current feature - plural for three films)
 - **Field Sensor**: Point probe measuring specific voxel properties (future feature)
 
 ## Physical Analogy
 
-**Flux films act like**:
+**Flux Mesh act like**:
 
 1. **Photographic Film**: Detecting light (energy waves)
 2. **Detector Screens**: In particle physics experiments (bubble chambers, cloud chambers)
@@ -119,7 +119,7 @@ Similar to LEVEL-0's `block_slice` feature but adapted for voxel-based wave fiel
 
 ### Initial Configuration
 
-Three orthogonal flux films intersecting at the universe center:
+Three orthogonal flux mesh intersecting at the universe center:
 
 ```python
 # Universe domain: [0, 1] in normalized coordinates
@@ -128,7 +128,7 @@ Three orthogonal flux films intersecting at the universe center:
 # Center position (real coordinates)
 center_pos = universe_size * 0.5  # Center of domain
 
-# Flux film positions
+# Flux Mesh positions
 film_xy_z = center_pos  # XY film at z = 0.5
 film_xz_y = center_pos  # XZ film at y = 0.5
 film_yz_x = center_pos  # YZ film at x = 0.5
@@ -136,7 +136,7 @@ film_yz_x = center_pos  # YZ film at x = 0.5
 
 ### Intersection Design
 
-All three flux films intersect at the central voxel:
+All three flux mesh intersect at the central voxel:
 
 ```text
         Y
@@ -154,7 +154,7 @@ All three flux films intersect at the central voxel:
     YZ Film: spans (0.5, 0→1, 0→1)
 ```
 
-**Visual Result**: Three mutually perpendicular flux films forming a 3D cross at the universe center.
+**Visual Result**: Three mutually perpendicular flux mesh forming a 3D cross at the universe center.
 
 ### Universe Coordinate System
 
@@ -184,7 +184,7 @@ real_pos = normalized_pos * universe_size
 
 ### Taichi Mesh Rendering
 
-Each flux film is rendered as a **Taichi mesh**:
+Each flux mesh is rendered as a **Taichi mesh**:
 
 ```python
 import taichi as ti
@@ -242,7 +242,7 @@ film_xy_indices = ti.field(
 ```python
 @ti.kernel
 def create_film_xy_mesh():
-    """Create XY flux film mesh at z = center_z."""
+    """Create XY flux mesh at z = center_z."""
     for i, j in ti.ndrange(mesh_resolution_x, mesh_resolution_y):
         # Real universe coordinates
         x = (i / mesh_resolution_x) * universe_size
@@ -279,7 +279,7 @@ def normalize_film_vertices():
 
 ### Property Sampling
 
-Flux films can visualize any voxel-based property:
+Flux Mesh can visualize any voxel-based property:
 
 **Wave Field Properties**:
 
@@ -508,18 +508,18 @@ blueprint4 = [
 
 **L1 Launcher UI Implementation**:
 
-The Flux Film system is implemented in `launcher_L1.py` with a **single toggle for all three films**:
+The Flux Mesh system is implemented in `launcher_L1.py` with a **single toggle for all three films**:
 
 ```python
 # SimulationState class (launcher_L1.py:123)
-self.flux_films = False  # Single toggle for all flux films
+self.flux_mesh = False  # Single toggle for all flux mesh
 
 # Apply from xparameters (launcher_L1.py:164)
-self.flux_films = ui["flux_films"]
+self.flux_mesh = ui["flux_mesh"]
 
 # UI Control (launcher_L1.py:222)
 with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
-    state.flux_films = sub.checkbox("Flux Films", state.flux_films)
+    state.flux_mesh = sub.checkbox("Flux Mesh", state.flux_mesh)
 ```
 
 **Configuration in Xparameters**:
@@ -527,7 +527,7 @@ with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
 ```python
 # From _xparameters/energy_wave.py:27
 "ui_defaults": {
-    "flux_films": False,  # Flux Films toggle (all three films)
+    "flux_mesh": False,  # Flux Mesh toggle (all three films)
     # ... other UI defaults
 }
 ```
@@ -559,7 +559,7 @@ state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 **Orbiting Camera**:
 
 - User can orbit camera around universe cube
-- View flux films from any angle
+- View flux mesh from any angle
 - See both sides of each film (two-sided rendering)
 - Zoom in/out for detail inspection
 
@@ -587,8 +587,8 @@ state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 
 ```python
 @ti.kernel
-def update_flux_film(film_id: ti.i32):
-    """Update flux film vertices and colors.
+def update_flux_mesh(film_id: ti.i32):
+    """Update flux mesh vertices and colors.
 
     Args:
         film_id: 0=XY, 1=XZ, 2=YZ
@@ -631,7 +631,7 @@ scene.mesh(
 - Both front and back faces are rendered
 - No backface culling
 - Visible from all viewing angles
-- Essential for cross-sectional flux films
+- Essential for cross-sectional flux mesh
 
 ### Performance Considerations
 
@@ -678,14 +678,14 @@ scene.mesh(
 **Same Technology**:
 
 - Universe boundary walls can also react to wave properties
-- Six wall faces (±X, ±Y, ±Z) as flux films
+- Six wall faces (±X, ±Y, ±Z) as flux mesh
 - Shows wave reflections at boundaries
 - User can observe from outside cube
 
 **Future Implementation**:
 
 ```python
-# Six wall faces as flux films
+# Six wall faces as flux mesh
 wall_films = [
     "x_min", "x_max",  # YZ films at x=0 and x=1
     "y_min", "y_max",  # XZ films at y=0 and y=1
@@ -694,7 +694,7 @@ wall_films = [
 
 # Render wave properties on walls
 for wall in wall_films:
-    render_wall_as_flux_film(wall)
+    render_wall_as_flux_mesh(wall)
 ```
 
 ### Interactive Selection
@@ -711,7 +711,7 @@ for wall in wall_films:
 - Read scalar values (amplitude, displacement, energy)
 - Display values in real-time
 - Track sensor readings over time (graphs/plots)
-- Different visualization from 2D flux films
+- Different visualization from 2D flux mesh
 
 ---
 
@@ -720,15 +720,15 @@ for wall in wall_films:
 **Implementation Status**:
 
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py` (line 222)
-  - Single checkbox "Flux Films" controls all three films
+  - Single checkbox "Flux Mesh" controls all three films
   - Integrated with xparameters system
-  - Default: `flux_films = False`
+  - Default: `flux_mesh = False`
 
 - ⏳ **Remaining Tasks**:
   1. Implement `get_redshift_color()` function in `config.py`
-  2. Create flux film mesh generation functions in `config.py`
+  2. Create flux mesh generation functions in `config.py`
   3. Implement property sampling and color mapping kernels
-  4. Wire up `state.flux_films` toggle to mesh rendering
+  4. Wire up `state.flux_mesh` toggle to mesh rendering
   5. Test with wave propagation simulations
 
 **Integration Points**:
@@ -741,28 +741,28 @@ def render_elements(state):
     if state.SHOW_GRID:
         render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
 
-    # Flux Films Visualization
-    if state.flux_films:
-        config.render_flux_films(state.wave_field, render.scene)
+    # Flux Mesh Visualization
+    if state.flux_mesh:
+        config.render_flux_mesh(state.wave_field, render.scene)
 ```
 
 **Module Structure**:
 
-All flux film functionality will be implemented in existing modules (no new files):
+All flux mesh functionality will be implemented in existing modules (no new files):
 
 ```text
 openwave/
 └── common/
-    └── config.py  (ADD flux film functions)
+    └── config.py  (ADD flux mesh functions)
         ├── get_redshift_color()         # NEW: Redshift gradient for signed values
-        ├── create_flux_film_meshes()    # NEW: Initialize 3 film meshes
-        ├── update_flux_film_colors()    # NEW: Sample wave properties and apply colors
-        └── render_flux_films()          # NEW: Render meshes to scene
+        ├── create_flux_mesh()    # NEW: Initialize 3 film meshes
+        ├── update_flux_mesh_colors()    # NEW: Sample wave properties and apply colors
+        └── render_flux_mesh()          # NEW: Render meshes to scene
 ```
 
 **Rationale**:
 
-- Keep flux film rendering functions with other color/rendering utilities
+- Keep flux mesh rendering functions with other color/rendering utilities
 - Similar to existing `get_ironbow_color()` and `ironbow_palette()` functions
 - Avoids creating new module for visualization helpers
 - Maintains consistency with project's current structure
