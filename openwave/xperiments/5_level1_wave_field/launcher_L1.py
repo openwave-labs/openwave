@@ -233,9 +233,7 @@ def controls(state):
                 state.paused = True
 
 
-def color_menu(
-    state, rs_palette_vertices, rs_palette_colors, bp_palette_vertices, bp_palette_colors
-):
+def color_menu(state):
     """Render color selection menu."""
     tracker = "displacement" if state.var_displacement else "amplitude"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
@@ -342,13 +340,29 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    global ib_palette_vertices, ib_palette_colors
+    global rs_palette_vertices, rs_palette_colors
+    global bp_palette_vertices, bp_palette_colors
+    global level_bar_vertices
 
-    if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters()
+    # Initialize palette scales for gradient rendering and level indicator (after ti.init)
+    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
+        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    )
+    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
+        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+    )
+    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
+        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+    )
+    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize test displacement pattern for flux films (temporary until wave propagation)
     # Always create pattern regardless of toggle state (toggle just controls rendering)
     ewave.create_test_displacement_pattern(state.wave_field)
+
+    if state.WAVE_DIAGNOSTICS:
+        diagnostics.print_initial_parameters()
 
 
 def compute_propagation(state):
@@ -411,18 +425,6 @@ def main():
 
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
-
-    # Initialize palette scales for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
-    )
-    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
-        colormap.redshift, 0.00, 0.63, 0.079, 0.01
-    )
-    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
-        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
-    )
-    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -487,9 +489,7 @@ def main():
         render_elements(state)
 
         # Render additional UI elements and scene
-        color_menu(
-            state, rs_palette_vertices, rs_palette_colors, bp_palette_vertices, bp_palette_colors
-        )
+        color_menu(state)
         data_dashboard(state)
         level_specs(state, level_bar_vertices)
         render.show_scene()
