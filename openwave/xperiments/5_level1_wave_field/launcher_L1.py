@@ -349,9 +349,6 @@ def initialize_xperiment(state):
     ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
-    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
-        colormap.redshift, 0.00, 0.63, 0.079, 0.01
-    )
     bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
