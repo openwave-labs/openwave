@@ -412,10 +412,16 @@ def main():
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
-    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = colormap.ironbow_palette(0.00, 0.63, 0.079, 0.01)
-    rs_palette_vertices, rs_palette_colors = colormap.redshift_palette(0.00, 0.63, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = colormap.blueprint_palette(0.00, 0.63, 0.079, 0.01)
+    # Initialize palette scales for gradient rendering and level indicator (after ti.init)
+    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
+        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    )
+    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
+        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+    )
+    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
+        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+    )
     level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state

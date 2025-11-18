@@ -55,10 +55,20 @@ FOREST = {
 }
 
 # ================================================================
-# Ironbow Gradient Palette
+# GRADIENT COLOR PALETTES
+# ================================================================
+# NOTE: Color getter functions (get_*_color) are intentionally kept separate
+# rather than consolidated into a single generic function. These functions are
+# called millions of times per frame in tight simulation loops, and any
+# branching or indirection would add measurable overhead. The current approach
+# allows Taichi's JIT compiler to optimally inline and vectorize each function.
+# Performance-critical code > DRY principle in this case.
+
+# ================================================================
+# Ironbow Gradient: Palette [used in get_ironbow_color()]
 # ================================================================
 # Simplified thermal imaging palette (5-color)
-ironbow = [
+ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.54)],  # dark blue
     ["#91009C", (0.57, 0.0, 0.61)],  # magenta
@@ -66,14 +76,58 @@ ironbow = [
     ["#FFFFF6", (1.0, 1.0, 0.96)],  # yellow-white
 ]
 
+# ================================================================
+# Blueprint Gradient: Palette [used in get_blueprint_color()]
+# ================================================================
+# Simplified blueprint imaging palette (5-color)
+blueprint_palette = [
+    ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
+    ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
+    ["#607DBD", (0.376, 0.490, 0.741)],  # blue
+    ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
+    ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
+]
+
+# ================================================================
+# Redshift Gradient: Palette [used in get_redshift_color()]
+# ================================================================
+# Simplified redshift gradient palette (5-color)
+# Maps signed values: red (negative) → gray (zero) → blue (positive)
+redshift_palette = [
+    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (maximum negative)
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (negative)
+    ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive)
+    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive)
+]
+
+# ================================================================
+# Viridis Gradient: Palette [used in get_viridis_color()]
+# ================================================================
+# Perceptually uniform colormap for scientific visualization
+# Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
+# Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
+viridis_palette = [
+    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
+    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
+    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
+    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
+    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
+]
+
+
+# ================================================================
+# Ironbow Gradient: Function
+# ================================================================
+
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-ironbow_colors = [color[1] for color in ironbow]
-IRONBOW_0 = ti.Vector([ironbow_colors[0][0], ironbow_colors[0][1], ironbow_colors[0][2]])
-IRONBOW_1 = ti.Vector([ironbow_colors[1][0], ironbow_colors[1][1], ironbow_colors[1][2]])
-IRONBOW_2 = ti.Vector([ironbow_colors[2][0], ironbow_colors[2][1], ironbow_colors[2][2]])
-IRONBOW_3 = ti.Vector([ironbow_colors[3][0], ironbow_colors[3][1], ironbow_colors[3][2]])
-IRONBOW_4 = ti.Vector([ironbow_colors[4][0], ironbow_colors[4][1], ironbow_colors[4][2]])
+ironbow = [color[1] for color in ironbow_palette]
+IRONBOW_0 = ti.Vector([ironbow[0][0], ironbow[0][1], ironbow[0][2]])
+IRONBOW_1 = ti.Vector([ironbow[1][0], ironbow[1][1], ironbow[1][2]])
+IRONBOW_2 = ti.Vector([ironbow[2][0], ironbow[2][1], ironbow[2][2]])
+IRONBOW_3 = ti.Vector([ironbow[3][0], ironbow[3][1], ironbow[3][2]])
+IRONBOW_4 = ti.Vector([ironbow[4][0], ironbow[4][1], ironbow[4][2]])
 
 
 @ti.func
@@ -134,83 +188,18 @@ def get_ironbow_color(value, min_value, max_value):
     return ironbow_color
 
 
-def ironbow_palette(x, y, width, height):
-    """Generate ironbow palette indicator as horizontal gradient using triangles.
-
-    Creates a horizontal color bar from all 5 ironbow colors (black -> yellow-white).
-    Each color band is made of 2 triangles forming a rectangle.
-    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
-
-    Returns:
-        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
-    """
-    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(ironbow) - 1  # 4 color transitions
-    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
-
-    # Create Taichi fields for triangle vertices and colors
-    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
-    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
-
-    # Position parameters (screen coordinates)
-    x_left = x
-    x_right = x + width
-    y_top = 1 - y
-    y_bottom = 1 - (y + height)
-    band_width = (x_right - x_left) / num_bands
-
-    # Generate triangles for each color band
-    for i in range(num_bands):
-        # Calculate X positions for this band
-        x_start = x_left + (i * band_width)
-        x_end = x_left + ((i + 1) * band_width)
-
-        # Get colors from ironbow_colors
-        color_left = ti.Vector(ironbow_colors[i])
-        color_right = ti.Vector(ironbow_colors[i + 1])
-
-        # Vertex indices for this band's two triangles
-        v_idx = i * 6
-
-        # First triangle (bottom-left, bottom-right, top-left)
-        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
-        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
-        palette_colors[v_idx + 0] = color_left
-        palette_colors[v_idx + 1] = color_right
-        palette_colors[v_idx + 2] = color_left
-
-        # Second triangle (top-left, bottom-right, top-right)
-        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
-        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
-        palette_colors[v_idx + 3] = color_left
-        palette_colors[v_idx + 4] = color_right
-        palette_colors[v_idx + 5] = color_right
-
-    return palette_vertices, palette_colors
-
-
 # ================================================================
-# Blueprint Gradient Palette
+# Blueprint Gradient: Function
 # ================================================================
-# Simplified blueprint imaging palette (5-color)
-blueprint = [
-    ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
-    ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
-    ["#607DBD", (0.376, 0.490, 0.741)],  # blue
-    ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
-    ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
-]
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-blueprint_colors = [color[1] for color in blueprint]
-BLUEPRINT_0 = ti.Vector([blueprint_colors[0][0], blueprint_colors[0][1], blueprint_colors[0][2]])
-BLUEPRINT_1 = ti.Vector([blueprint_colors[1][0], blueprint_colors[1][1], blueprint_colors[1][2]])
-BLUEPRINT_2 = ti.Vector([blueprint_colors[2][0], blueprint_colors[2][1], blueprint_colors[2][2]])
-BLUEPRINT_3 = ti.Vector([blueprint_colors[3][0], blueprint_colors[3][1], blueprint_colors[3][2]])
-BLUEPRINT_4 = ti.Vector([blueprint_colors[4][0], blueprint_colors[4][1], blueprint_colors[4][2]])
+blueprint = [color[1] for color in blueprint_palette]
+BLUEPRINT_0 = ti.Vector([blueprint[0][0], blueprint[0][1], blueprint[0][2]])
+BLUEPRINT_1 = ti.Vector([blueprint[1][0], blueprint[1][1], blueprint[1][2]])
+BLUEPRINT_2 = ti.Vector([blueprint[2][0], blueprint[2][1], blueprint[2][2]])
+BLUEPRINT_3 = ti.Vector([blueprint[3][0], blueprint[3][1], blueprint[3][2]])
+BLUEPRINT_4 = ti.Vector([blueprint[4][0], blueprint[4][1], blueprint[4][2]])
 
 
 @ti.func
@@ -271,84 +260,18 @@ def get_blueprint_color(value, min_value, max_value):
     return blueprint_color
 
 
-def blueprint_palette(x, y, width, height):
-    """Generate blueprint palette indicator as horizontal gradient using triangles.
-
-    Creates a horizontal color bar from all 5 blueprint colors (dark blue -> extra-light blue).
-    Each color band is made of 2 triangles forming a rectangle.
-    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
-
-    Returns:
-        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
-    """
-    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(blueprint) - 1  # 4 color transitions
-    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
-
-    # Create Taichi fields for triangle vertices and colors
-    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
-    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
-
-    # Position parameters (screen coordinates)
-    x_left = x
-    x_right = x + width
-    y_top = 1 - y
-    y_bottom = 1 - (y + height)
-    band_width = (x_right - x_left) / num_bands
-
-    # Generate triangles for each color band
-    for i in range(num_bands):
-        # Calculate X positions for this band
-        x_start = x_left + (i * band_width)
-        x_end = x_left + ((i + 1) * band_width)
-
-        # Get colors from blueprint_colors
-        color_left = ti.Vector(blueprint_colors[i])
-        color_right = ti.Vector(blueprint_colors[i + 1])
-
-        # Vertex indices for this band's two triangles
-        v_idx = i * 6
-
-        # First triangle (bottom-left, bottom-right, top-left)
-        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
-        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
-        palette_colors[v_idx + 0] = color_left
-        palette_colors[v_idx + 1] = color_right
-        palette_colors[v_idx + 2] = color_left
-
-        # Second triangle (top-left, bottom-right, top-right)
-        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
-        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
-        palette_colors[v_idx + 3] = color_left
-        palette_colors[v_idx + 4] = color_right
-        palette_colors[v_idx + 5] = color_right
-
-    return palette_vertices, palette_colors
-
-
 # ================================================================
-# Redshift Gradient Palette
+# Redshift Gradient: Function
 # ================================================================
-# Simplified redshift gradient palette (5-color)
-# Maps signed values: red (negative) → gray (zero) → blue (positive)
-redshift = [
-    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (maximum negative)
-    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (negative)
-    ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive)
-    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive)
-]
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-redshift_colors = [color[1] for color in redshift]
-REDSHIFT_0 = ti.Vector([redshift_colors[0][0], redshift_colors[0][1], redshift_colors[0][2]])
-REDSHIFT_1 = ti.Vector([redshift_colors[1][0], redshift_colors[1][1], redshift_colors[1][2]])
-REDSHIFT_2 = ti.Vector([redshift_colors[2][0], redshift_colors[2][1], redshift_colors[2][2]])
-REDSHIFT_3 = ti.Vector([redshift_colors[3][0], redshift_colors[3][1], redshift_colors[3][2]])
-REDSHIFT_4 = ti.Vector([redshift_colors[4][0], redshift_colors[4][1], redshift_colors[4][2]])
+redshift = [color[1] for color in redshift_palette]
+REDSHIFT_0 = ti.Vector([redshift[0][0], redshift[0][1], redshift[0][2]])
+REDSHIFT_1 = ti.Vector([redshift[1][0], redshift[1][1], redshift[1][2]])
+REDSHIFT_2 = ti.Vector([redshift[2][0], redshift[2][1], redshift[2][2]])
+REDSHIFT_3 = ti.Vector([redshift[3][0], redshift[3][1], redshift[3][2]])
+REDSHIFT_4 = ti.Vector([redshift[4][0], redshift[4][1], redshift[4][2]])
 
 
 @ti.func
@@ -409,85 +332,18 @@ def get_redshift_color(value, min_value, max_value):
     return redshift_color
 
 
-def redshift_palette(x, y, width, height):
-    """Generate redshift palette indicator as horizontal gradient using triangles.
-
-    Creates a horizontal color bar from all 5 redshift colors (red-orange -> bright blue).
-    Each color band is made of 2 triangles forming a rectangle.
-    Canvas coordinates: (0,0) at bottom-left, X increases to the right.
-
-    Returns:
-        tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
-    """
-    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(redshift) - 1  # 4 color transitions
-    num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
-
-    # Create Taichi fields for triangle vertices and colors
-    palette_vertices = ti.Vector.field(2, dtype=ti.f32, shape=num_vertices)
-    palette_colors = ti.Vector.field(3, dtype=ti.f32, shape=num_vertices)
-
-    # Position parameters (screen coordinates)
-    x_left = x
-    x_right = x + width
-    y_top = 1 - y
-    y_bottom = 1 - (y + height)
-    band_width = (x_right - x_left) / num_bands
-
-    # Generate triangles for each color band
-    for i in range(num_bands):
-        # Calculate X positions for this band
-        x_start = x_left + (i * band_width)
-        x_end = x_left + ((i + 1) * band_width)
-
-        # Get colors from redshift_colors
-        color_left = ti.Vector(redshift_colors[i])
-        color_right = ti.Vector(redshift_colors[i + 1])
-
-        # Vertex indices for this band's two triangles
-        v_idx = i * 6
-
-        # First triangle (bottom-left, bottom-right, top-left)
-        palette_vertices[v_idx + 0] = ti.Vector([x_start, y_bottom])
-        palette_vertices[v_idx + 1] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 2] = ti.Vector([x_start, y_top])
-        palette_colors[v_idx + 0] = color_left
-        palette_colors[v_idx + 1] = color_right
-        palette_colors[v_idx + 2] = color_left
-
-        # Second triangle (top-left, bottom-right, top-right)
-        palette_vertices[v_idx + 3] = ti.Vector([x_start, y_top])
-        palette_vertices[v_idx + 4] = ti.Vector([x_end, y_bottom])
-        palette_vertices[v_idx + 5] = ti.Vector([x_end, y_top])
-        palette_colors[v_idx + 3] = color_left
-        palette_colors[v_idx + 4] = color_right
-        palette_colors[v_idx + 5] = color_right
-
-    return palette_vertices, palette_colors
-
-
 # ================================================================
-# Viridis Gradient Palette
+# Viridis Gradient: Function
 # ================================================================
-# Perceptually uniform colormap for scientific visualization
-# Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
-# Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
-viridis = [
-    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
-    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
-    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
-    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
-    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
-]
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-viridis_colors = [color[1] for color in viridis]
-VIRIDIS_0 = ti.Vector([viridis_colors[0][0], viridis_colors[0][1], viridis_colors[0][2]])
-VIRIDIS_1 = ti.Vector([viridis_colors[1][0], viridis_colors[1][1], viridis_colors[1][2]])
-VIRIDIS_2 = ti.Vector([viridis_colors[2][0], viridis_colors[2][1], viridis_colors[2][2]])
-VIRIDIS_3 = ti.Vector([viridis_colors[3][0], viridis_colors[3][1], viridis_colors[3][2]])
-VIRIDIS_4 = ti.Vector([viridis_colors[4][0], viridis_colors[4][1], viridis_colors[4][2]])
+viridis = [color[1] for color in viridis_palette]
+VIRIDIS_0 = ti.Vector([viridis[0][0], viridis[0][1], viridis[0][2]])
+VIRIDIS_1 = ti.Vector([viridis[1][0], viridis[1][1], viridis[1][2]])
+VIRIDIS_2 = ti.Vector([viridis[2][0], viridis[2][1], viridis[2][2]])
+VIRIDIS_3 = ti.Vector([viridis[3][0], viridis[3][1], viridis[3][2]])
+VIRIDIS_4 = ti.Vector([viridis[4][0], viridis[4][1], viridis[4][2]])
 
 
 @ti.func
@@ -551,18 +407,37 @@ def get_viridis_color(value, min_value, max_value):
     return viridis_color
 
 
-def viridis_palette(x, y, width, height):
-    """Generate viridis palette indicator as horizontal gradient using triangles.
+# ================================================================
+# Generic Palette Scale Function
+# ================================================================
 
-    Creates a horizontal color bar from all 5 viridis colors (dark purple -> bright yellow).
+
+def palette_scale(color_palette, x, y, width, height):
+    """Generate palette scale indicator with geometry and colors as horizontal gradient.
+
+    Generic function for creating palette display. Works with any color palette
+    (ironbow, blueprint, redshift, viridis, etc.).
+
+    Creates a horizontal color bar with gradient transitions between colors.
     Each color band is made of 2 triangles forming a rectangle.
     Canvas coordinates: (0,0) at bottom-left, X increases to the right.
 
+    Args:
+        color_palette: List of RGB tuples extracted from palette definition
+        x: Left edge x-coordinate (normalized 0-1)
+        y: Top edge y-coordinate (normalized 0-1)
+        width: Width of palette bar (normalized 0-1)
+        height: Height of palette bar (normalized 0-1)
+
     Returns:
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
+
+    Example:
+        vertices, colors = palette_scale(ironbow, 0.02, 0.02, 0.15, 0.02)
+        canvas.triangles(vertices, per_vertex_color=colors)
     """
-    # Calculate number of vertices needed: 4 color bands × 2 triangles × 3 vertices = 24
-    num_bands = len(viridis) - 1  # 4 color transitions
+    # Calculate number of vertices needed
+    num_bands = len(color_palette) - 1  # N colors = N-1 transitions
     num_vertices = num_bands * 6  # Each band = 2 triangles × 3 vertices
 
     # Create Taichi fields for triangle vertices and colors
@@ -582,9 +457,9 @@ def viridis_palette(x, y, width, height):
         x_start = x_left + (i * band_width)
         x_end = x_left + ((i + 1) * band_width)
 
-        # Get colors from viridis_colors
-        color_left = ti.Vector(viridis_colors[i])
-        color_right = ti.Vector(viridis_colors[i + 1])
+        # Get colors for this transition
+        color_left = ti.Vector(color_palette[i])
+        color_right = ti.Vector(color_palette[i + 1])
 
         # Vertex indices for this band's two triangles
         v_idx = i * 6
