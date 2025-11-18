@@ -249,7 +249,7 @@ def controls(state):
 def color_menu(state):
     """Render color selection menu."""
     tracker = "amplitude" if state.var_amp else "displacement"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
         if sub.checkbox("Displacement (ironbow)", state.color_palette == 1 and not state.var_amp):
             state.color_palette = 1
             state.var_amp = False
