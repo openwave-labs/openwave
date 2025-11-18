@@ -6,7 +6,7 @@ import taichi as ti
 import numpy as np
 import pyautogui
 
-from openwave.common import config
+from openwave.common import colormap
 
 
 def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0, 2.0, 1.5]):
@@ -80,7 +80,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
-    canvas.set_background_color(config.COLOR_SPACE[1])
+    canvas.set_background_color(colormap.COLOR_SPACE[1])
 
     # Initialize axis field only once (tick_spacing is constant per session)
     tick_width = 0.01
@@ -212,7 +212,7 @@ def cam_instructions():
         sub.text("Orbit: RMB or Shift+LMB")
         sub.text("Pan: Arrow keys")
         sub.text("Zoom: Q/Z keys")
-        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=config.LIGHT_BLUE[1])
+        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=colormap.LIGHT_BLUE[1])
 
 
 def init_scene(show_axis=True):
@@ -224,7 +224,7 @@ def init_scene(show_axis=True):
     cam_instructions()  # Overlay camera movement instructions
     if show_axis:
         # Render the pre-populated axis field (very fast, no data transfer)
-        scene.lines(axis_field, color=config.COLOR_INFRA[1], width=2)
+        scene.lines(axis_field, color=colormap.COLOR_INFRA[1], width=2)
 
 
 def show_scene():

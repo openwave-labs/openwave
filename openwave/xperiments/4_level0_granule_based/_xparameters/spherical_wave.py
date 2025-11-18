@@ -11,8 +11,6 @@ This XPERIMENT showcases:
 - Radial wave patterns
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "3D Spherical Wave",

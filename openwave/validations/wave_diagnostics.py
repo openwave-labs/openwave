@@ -10,7 +10,7 @@ This module simply confirms the simulation is running with correct parameters.
 This provides zero-overhead diagnostics that can be toggled on/off per experiment.
 """
 
-from openwave.common import config, constants
+from openwave.common import constants
 
 
 # ================================================================

@@ -14,7 +14,7 @@ This XPERIMENT showcases:
 
 import numpy as np
 
-from openwave.common import config, constants
+from openwave.common import constants
 
 # Generate 64 sources in a circular pattern
 NUM_SOURCES = 64  # Number of wave sources for this xperiment

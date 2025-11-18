@@ -13,7 +13,7 @@ This XPERIMENT showcases:
 
 import numpy as np
 
-from openwave.common import config, constants
+from openwave.common import constants
 
 # Generate 12 sources in a golden ratio pattern for spiral Yin-Yang effect
 NUM_SOURCES = 12  # Number of wave sources for this xperiment

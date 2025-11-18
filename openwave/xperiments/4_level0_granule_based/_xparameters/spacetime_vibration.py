@@ -11,8 +11,6 @@ This XPERIMENT showcases:
 - Phase control between sources (constructive/destructive interference)
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "Spacetime Vibration",

@@ -13,7 +13,7 @@ import random
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 
 class BCCGranule:
@@ -340,14 +340,14 @@ class BCCLattice:
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Get theme configuration from config module
-        theme_config = getattr(config, theme, config.OCEAN)
+        theme_config = getattr(colormap, theme, colormap.OCEAN)
 
         # Extract color values from theme
         color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
         color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
         color_face = ti.Vector(theme_config["COLOR_FACE"][1])
-        color_core = ti.Vector(config.COLOR_MEDIUM[1])
-        color_center = ti.Vector(config.BLACK[1])
+        color_core = ti.Vector(colormap.COLOR_MEDIUM[1])
+        color_center = ti.Vector(colormap.BLACK[1])
 
         # Call GPU kernel with theme colors
         self._apply_granule_colorsBCC(
@@ -436,7 +436,7 @@ class BCCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = ti.Vector(config.COLOR_PROBE[1])
+        probe_color = ti.Vector(colormap.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
@@ -470,7 +470,7 @@ class BCCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELD[1])
+        field_color = ti.Vector(colormap.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.granule_count):

@@ -8,7 +8,7 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import colormap
 
 
 @ti.kernel
@@ -88,7 +88,7 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         disp_value = wave_field.displacement_am[i, j, center_k]
 
         # Map displacement to color using redshift gradient
-        color = config.get_redshift_color(disp_value, min_disp, max_disp)
+        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
         wave_field.film_xy_colors[i, j] = color
 
     # ================================================================
@@ -99,7 +99,7 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         disp_value = wave_field.displacement_am[i, center_j, k]
 
         # Map to color
-        color = config.get_redshift_color(disp_value, min_disp, max_disp)
+        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
         wave_field.film_xz_colors[i, k] = color
 
     # ================================================================
@@ -110,5 +110,5 @@ def update_flux_film_colors(wave_field: ti.template()):  # type: ignore
         disp_value = wave_field.displacement_am[center_i, j, k]
 
         # Map to color
-        color = config.get_redshift_color(disp_value, min_disp, max_disp)
+        color = colormap.get_redshift_color(disp_value, min_disp, max_disp)
         wave_field.film_yz_colors[j, k] = color

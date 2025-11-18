@@ -13,8 +13,6 @@ This XPERIMENT showcases:
 
 import numpy as np
 
-from openwave.common import config
-
 # Calculate equilateral triangle positions for symmetric interference pattern
 EQUILATERAL = np.sqrt(3) / 6  # Height factor for equilateral triangle geometry
 Z_POSITION = 0.05  # Z-axis position for all sources

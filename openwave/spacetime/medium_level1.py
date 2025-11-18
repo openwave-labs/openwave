@@ -11,7 +11,7 @@ Modeled as a fluid-like medium that allows energy to transfer from one point to 
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import constants, equations, utils
 
 
 @ti.data_oriented

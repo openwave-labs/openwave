@@ -10,8 +10,6 @@ This XPERIMENT showcases:
 - Wave diagnostics enabled for speed and wavelength measurements
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "Wave Pulse",

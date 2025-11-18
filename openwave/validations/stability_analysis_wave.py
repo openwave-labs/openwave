@@ -5,7 +5,7 @@ Stability Analysis for Wave Equation Simulation.
 import numpy as np
 import taichi as ti
 
-from openwave.common import config, constants
+from openwave.common import constants
 
 import openwave.spacetime.medium_level1 as medium
 

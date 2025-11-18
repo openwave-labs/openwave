@@ -317,7 +317,7 @@ class `XPERIMENTS MODULE
 
 class `COMMON
   MODULE`{
-    config.py ✓
+    colormap.py ✓
     constants.py ✓
     equations.py ✓
     utils.py ✓
@@ -402,7 +402,7 @@ kanban
       - derivations.py
       - stability.py]
     [**COMMON MODULE**
-      - config.py
+      - colormap.py
       - constants.py
       - equations.py
       - utils.py]

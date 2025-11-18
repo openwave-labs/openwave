@@ -11,7 +11,7 @@ Each source generates spherical longitudinal waves that superpose at each granul
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -283,13 +283,13 @@ def oscillate_granules(
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map displacement/amplitude to gradient color
         if ironbow:
-            granule_var_color[granule_idx] = config.get_ironbow_color(
+            granule_var_color[granule_idx] = colormap.get_ironbow_color(
                 displacement_am if var_displacement else amplitude_am[granule_idx],
                 0.0,
                 peak_amplitude_am[None],
             )
         else:
-            granule_var_color[granule_idx] = config.get_blueprint_color(
+            granule_var_color[granule_idx] = colormap.get_blueprint_color(
                 displacement_am if var_displacement else amplitude_am[granule_idx],
                 0.0,
                 peak_amplitude_am[None],

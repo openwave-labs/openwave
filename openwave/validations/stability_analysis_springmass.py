@@ -1,6 +1,6 @@
 import numpy as np
 
-from openwave.common import config, constants, equations
+from openwave.common import constants, equations
 
 import openwave.spacetime.medium_level0 as medium
 

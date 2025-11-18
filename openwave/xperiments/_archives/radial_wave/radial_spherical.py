@@ -18,7 +18,7 @@ This XPERIMENT showcases:
 import taichi as ti
 import time
 
-from openwave.common import config, constants
+from openwave.common import colormap, constants
 from openwave._io import render
 
 import openwave.xperiments._archives.radial_wave.medium_bccgranule as medium
@@ -245,7 +245,7 @@ def render_xperiment(lattice):
             render.scene.particles(
                 normalized_position,
                 radius=normalized_radius * radius_factor,
-                color=config.COLOR_MEDIUM[1],
+                color=colormap.COLOR_MEDIUM[1],
             )
 
         # Render the scene to canvas

@@ -8,7 +8,7 @@ import taichi as ti
 import numpy as np
 import pyautogui
 
-from openwave.common import config
+from openwave.common import colormap
 
 
 def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0, 2.0, 1.5]):
@@ -72,7 +72,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
-    canvas.set_background_color(config.COLOR_SPACE[1])
+    canvas.set_background_color(colormap.COLOR_SPACE[1])
 
     # Initialize axis field only once (tick_spacing is constant per session)
     # Use particles instead of lines for better performance (scene.particles() is much faster than scene.lines())
@@ -239,7 +239,7 @@ def init_scene(show_axis=True):
     cam_instructions()  # Overlay camera instructions
     if show_axis:
         # Render axis as particles instead of lines (much faster, uses same efficient path as granules)
-        scene.particles(axis_field, radius=0.001, color=config.COLOR_INFRA[1])
+        scene.particles(axis_field, radius=0.001, color=colormap.COLOR_INFRA[1])
 
 
 def show_scene():

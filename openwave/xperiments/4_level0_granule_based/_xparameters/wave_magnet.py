@@ -11,8 +11,6 @@ This XPERIMENT showcases:
 - Thin Z dimension for 2.5D visualization
 """
 
-from openwave.common import config
-
 # Generate 2 sources in a linear pattern
 Z_POSITION = 0.07  # Z-axis position for all sources
 

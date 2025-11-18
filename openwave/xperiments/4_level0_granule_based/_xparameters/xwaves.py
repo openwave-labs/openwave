@@ -12,8 +12,6 @@ This XPERIMENT showcases:
 - DESERT color theme for different visual experience
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "Crossing Waves",

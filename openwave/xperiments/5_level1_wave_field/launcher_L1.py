@@ -15,7 +15,7 @@ import sys
 import os
 from pathlib import Path
 
-from openwave.common import config, constants
+from openwave.common import colormap, constants
 from openwave._io import render, video, flux_film
 
 import openwave.spacetime.medium_level1 as medium
@@ -202,7 +202,7 @@ def xperiment_launcher(xperiment_mgr, state):
     selected_xperiment = None
 
     with render.gui.sub_window("XPERIMENT LAUNCHER L1", 0.00, 0.00, 0.13, 0.33) as sub:
-        sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
+        sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
             is_current = xp_name == xperiment_mgr.current_xperiment
@@ -281,7 +281,7 @@ def color_menu(
 
 def level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=config.LIGHT_BLUE[1])
+    render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
@@ -294,35 +294,35 @@ def level_specs(state, level_bar_vertices):
 def data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
-        sub.text("--- eWAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
+        sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- WAVE-FIELD GRID ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- WAVE-FIELD GRID ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
             f"Grid Size: {state.wave_field.grid_size[0]:,}x{state.wave_field.grid_size[1]:,}x{state.wave_field.grid_size[2]:,} voxels"
         )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
         sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
-        sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- WAVE-PROFILING ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- WAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
-        sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
             f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
         )
 
-        sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         slowed_mo = state.SLOW_MO / state.freq_boost
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
@@ -389,7 +389,7 @@ def render_elements(state):
     """Render spacetime elements with appropriate coloring."""
     # Grid Visualization
     if state.SHOW_GRID:
-        render.scene.lines(state.wave_field.wire_frame, width=1, color=config.COLOR_MEDIUM[1])
+        render.scene.lines(state.wave_field.wire_frame, width=1, color=colormap.COLOR_MEDIUM[1])
 
     # Flux Films Visualization
     if state.flux_films:
@@ -413,10 +413,10 @@ def main():
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
 
     # Initialize color palettes for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
-    rs_palette_vertices, rs_palette_colors = config.redshift_palette(0.00, 0.63, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
-    level_bar_vertices = config.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    ib_palette_vertices, ib_palette_colors = colormap.ironbow_palette(0.00, 0.63, 0.079, 0.01)
+    rs_palette_vertices, rs_palette_colors = colormap.redshift_palette(0.00, 0.63, 0.079, 0.01)
+    bp_palette_vertices, bp_palette_colors = colormap.blueprint_palette(0.00, 0.63, 0.079, 0.01)
+    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()

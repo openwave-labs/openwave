@@ -1,12 +1,9 @@
 """
-Configuration settings for the OpenWave project.
+Color settings for the OpenWave project.
 
-This module provides global configuration parameters for OpenWave simulations:
+This module provides global color parameters for OpenWave simulations:
 
-- Resolution & Magnification Settings
 - Color Schemes (RGBA hex)
-
-Includes commented thermal imaging palette definitions for future use.
 """
 
 import taichi as ti
