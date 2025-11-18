@@ -11,7 +11,7 @@ Each source generates spherical longitudinal waves that superpose at each granul
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -124,8 +124,8 @@ def oscillate_granules(
     granule_var_color: ti.template(),  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
-    ironbow: ti.i32,  # type: ignore
-    var_displacement: ti.i32,  # type: ignore
+    color_palette: ti.i32,  # type: ignore
+    var_amp: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
 ):
@@ -188,15 +188,15 @@ def oscillate_granules(
         amplitude_am: Amplitude field for all granules (modified in-place, in attometers)
         velocity_am: Velocity field for all granules (modified in-place, in attometers/second)
         granule_var_color: Color field for displacement/amplitude visualization
-        ironbow: Ironbow coloring toggle
-        var_displacement: Displacement vs amplitude toggle
+        color_palette: Coloring palette selection
+        var_amp: Displacement vs amplitude toggle
         num_sources: Number of wave sources
         elapsed_t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute temporal parameters (same for all wave sources)
-    f_slowed = frequency / config.SLOW_MO * freq_boost  # slowed frequency (Hz)
+    f_slowed = frequency / constants.EWAVE_FREQUENCY * freq_boost  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Wave number k = 2π/λ (spatial phase variation)
@@ -282,15 +282,15 @@ def oscillate_granules(
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map displacement/amplitude to gradient color
-        if ironbow:
-            granule_var_color[granule_idx] = config.get_ironbow_color(
-                displacement_am if var_displacement else amplitude_am[granule_idx],
+        if color_palette == 1:  # ironbow
+            granule_var_color[granule_idx] = colormap.get_ironbow_color(
+                amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )
-        else:
-            granule_var_color[granule_idx] = config.get_blueprint_color(
-                displacement_am if var_displacement else amplitude_am[granule_idx],
+        elif color_palette == 2:  # blueprint
+            granule_var_color[granule_idx] = colormap.get_blueprint_color(
+                amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )

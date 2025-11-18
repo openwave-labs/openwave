@@ -13,7 +13,7 @@ import random
 
 import taichi as ti
 
-from openwave.common import config, constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 
 class BCCGranule:
@@ -63,7 +63,7 @@ class BCCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules, theme="OCEAN"):
         """
         Initialize BCC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -317,13 +317,13 @@ class BCCLattice:
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Get theme configuration from config module
-        theme_config = getattr(config, theme, config.OCEAN)
+        theme_config = getattr(colormap, theme, colormap.OCEAN)
 
         # Extract color values from theme
         color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
         color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
         color_face = ti.Vector(theme_config["COLOR_FACE"][1])
-        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+        color_core = ti.Vector(colormap.COLOR_MEDIUM[1])
 
         # Call GPU kernel with theme colors
         self._apply_granule_type_colorsBCC(color_vertex, color_edge, color_face, color_core)
@@ -415,7 +415,7 @@ class BCCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = ti.Vector(config.COLOR_PROBE[1])
+        probe_color = ti.Vector(colormap.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
@@ -455,7 +455,7 @@ class BCCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELD[1])
+        field_color = ti.Vector(colormap.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.granule_count):
@@ -559,7 +559,7 @@ class SCLattice:
     universally use 1D arrays for granule data, regardless of spatial dimensionality.
     """
 
-    def __init__(self, init_universe_size, target_granules=config.TARGET_GRANULES, theme="OCEAN"):
+    def __init__(self, init_universe_size, target_granules, theme="OCEAN"):
         """
         Initialize SC lattice and compute scaled-up unit-cell spacing.
         Universe size and target granules are used to define
@@ -785,13 +785,13 @@ class SCLattice:
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Get theme configuration from config module
-        theme_config = getattr(config, theme, config.OCEAN)
+        theme_config = getattr(colormap, theme, colormap.OCEAN)
 
         # Extract color values from theme
         color_vertex = ti.Vector(theme_config["COLOR_VERTEX"][1])
         color_edge = ti.Vector(theme_config["COLOR_EDGE"][1])
         color_face = ti.Vector(theme_config["COLOR_FACE"][1])
-        color_core = ti.Vector(config.COLOR_MEDIUM[1])
+        color_core = ti.Vector(colormap.COLOR_MEDIUM[1])
 
         # Call GPU kernel with theme colors
         self._apply_granule_type_colorsSC(color_vertex, color_edge, color_face, color_core)
@@ -865,7 +865,7 @@ class SCLattice:
                         xy_plane.append(idx)
 
         # Select and mark random probes
-        probe_color = ti.Vector(config.COLOR_PROBE[1])
+        probe_color = ti.Vector(colormap.COLOR_PROBE[1])
         for plane in [yz_plane, xz_plane, xy_plane]:
             if len(plane) >= num_probes:
                 for idx in random.sample(plane, num_probes):
@@ -906,7 +906,7 @@ class SCLattice:
         center_pos = self.position_am[center_idx]
 
         # Colors
-        field_color = ti.Vector(config.COLOR_FIELD[1])
+        field_color = ti.Vector(colormap.COLOR_FIELD[1])
 
         # Process all granules in parallel
         for idx in range(self.granule_count):
@@ -982,7 +982,7 @@ if __name__ == "__main__":
         1e-16,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    lattice = BCCLattice(UNIVERSE_SIZE)
+    lattice = BCCLattice(UNIVERSE_SIZE, target_granules=1e6)
 
     print(f"\nLattice Statistics:")
     print(

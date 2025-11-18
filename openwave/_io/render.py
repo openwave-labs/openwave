@@ -6,7 +6,7 @@ import taichi as ti
 import numpy as np
 import pyautogui
 
-from openwave.common import config
+from openwave.common import colormap
 
 
 def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0, 2.0, 1.5]):
@@ -80,7 +80,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
 
     mouse_sensitivity = 0.5
     last_mouse_pos = None
-    canvas.set_background_color(config.COLOR_SPACE[1])
+    canvas.set_background_color(colormap.COLOR_SPACE[1])
 
     # Initialize axis field only once (tick_spacing is constant per session)
     tick_width = 0.01
@@ -125,7 +125,7 @@ def populate_axis_field(
 def scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-    scene.point_light(pos=(0.5, 0.5, 1.5), color=(1.0, 1.0, 1.0))  # White light from above center
+    scene.point_light(pos=(1.0, 1.0, 1.0), color=(1.0, 1.0, 1.0))  # White light from above center
     scene.point_light(pos=(1.2, 1.2, 1.2), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
 
 
@@ -208,11 +208,11 @@ def handle_camera():
 def cam_instructions():
     """Overlay camera movement instructions."""
     global cam_x, cam_y, cam_z
-    with gui.sub_window("CAMERA MOVEMENT", 0.00, 0.88, 0.13, 0.12) as sub:
+    with gui.sub_window("CAMERA MOVEMENT", 0.00, 0.88, 0.14, 0.12) as sub:
         sub.text("Orbit: RMB or Shift+LMB")
         sub.text("Pan: Arrow keys")
         sub.text("Zoom: Q/Z keys")
-        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=config.LIGHT_BLUE[1])
+        sub.text("Cam Pos: %.2f, %.2f, %.2f" % (cam_x, cam_y, cam_z), color=colormap.LIGHT_BLUE[1])
 
 
 def init_scene(show_axis=True):
@@ -224,7 +224,7 @@ def init_scene(show_axis=True):
     cam_instructions()  # Overlay camera movement instructions
     if show_axis:
         # Render the pre-populated axis field (very fast, no data transfer)
-        scene.lines(axis_field, color=config.COLOR_INFRA[1], width=2)
+        scene.lines(axis_field, color=colormap.COLOR_INFRA[1], width=2)
 
 
 def show_scene():

@@ -5,7 +5,7 @@ This XPERIMENT showcases:
 -
 """
 
-from openwave.common import config
+from openwave.common import constants
 
 XPARAMETERS = {
     "meta": {
@@ -17,22 +17,21 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_voxels": config.TARGET_VOXELS,  # Simulation voxel count (impacts performance)
+        "target_voxels": 1e5,  # Simulation voxel count (impacts performance)
+        "slow_mo": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
         "show_grid": False,  # Toggle to show/hide the voxel grid
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
     "ui_defaults": {
         "show_axis": False,  # Toggle to show/hide axis lines
-        "flux_detector": False,  # Flux detector toggle
+        "flux_films": True,  # Flux Films toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
-        "granule_type": False,  # Granule type color
-        "ironbow": False,  # Ironbow color scheme toggle
-        "blueprint": False,  # Blueprint color scheme toggle
-        "var_displacement": True,  # Displacement vs amplitude toggle
+        "color_palette": 3,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
+        "var_amp": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
         "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)

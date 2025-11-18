@@ -11,8 +11,6 @@ This XPERIMENT showcases:
 - Phase control between sources (constructive/destructive interference)
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "Spacetime Vibration",
@@ -23,7 +21,7 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_granules": config.TARGET_GRANULES,  # Simulation particle count (impacts performance)
+        "target_granules": 1e6,  # Simulation particle count (impacts performance)
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
@@ -54,10 +52,8 @@ XPARAMETERS = {
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
-        "granule_type": True,  # Granule type color
-        "ironbow": False,  # Ironbow color scheme toggle
-        "blueprint": False,  # Blueprint color scheme toggle
-        "var_displacement": True,  # Displacement vs amplitude toggle
+        "color_palette": 0,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
+        "var_amp": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
         "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)

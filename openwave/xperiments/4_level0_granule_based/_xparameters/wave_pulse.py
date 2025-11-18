@@ -10,8 +10,6 @@ This XPERIMENT showcases:
 - Wave diagnostics enabled for speed and wavelength measurements
 """
 
-from openwave.common import config
-
 XPARAMETERS = {
     "meta": {
         "name": "Wave Pulse",
@@ -22,7 +20,7 @@ XPARAMETERS = {
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_granules": config.TARGET_GRANULES,  # Simulation particle count (impacts performance)
+        "target_granules": 1e6,  # Simulation particle count (impacts performance)
         "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
         "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
     },
@@ -42,10 +40,8 @@ XPARAMETERS = {
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 5.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
-        "granule_type": False,  # Granule type color
-        "ironbow": False,  # Ironbow color scheme toggle
-        "blueprint": False,  # Blueprint color scheme toggle
-        "var_displacement": True,  # Displacement vs amplitude toggle
+        "color_palette": 99,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
+        "var_amp": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
         "wave_diagnostics": True,  # Toggle wave diagnostics (speed & wavelength measurements)

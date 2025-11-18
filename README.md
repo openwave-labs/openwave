@@ -317,7 +317,7 @@ class `XPERIMENTS MODULE
 
 class `COMMON
   MODULE`{
-    config.py ✓
+    colormap.py ✓
     constants.py ✓
     equations.py ✓
     utils.py ✓
@@ -331,6 +331,7 @@ class `VALIDATIONS
   MODULE`{
     wave_diagnostics.py ✓
     derivations.py ✓
+    stability.py ✓
   }
 `VALIDATIONS
   MODULE` <--> `I/O
@@ -398,10 +399,10 @@ kanban
       - yin_yang.py]
     [**VALIDATIONS MODULE**
       - wave_diagnostics.py
-      - stability.py
-      - derivations.py]
+      - derivations.py
+      - stability.py]
     [**COMMON MODULE**
-      - config.py
+      - colormap.py
       - constants.py
       - equations.py
       - utils.py]

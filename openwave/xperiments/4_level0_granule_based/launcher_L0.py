@@ -14,7 +14,7 @@ import sys
 import os
 from pathlib import Path
 
-from openwave.common import config, constants
+from openwave.common import colormap, constants
 from openwave._io import render, video
 
 import openwave.spacetime.medium_level0 as medium
@@ -117,7 +117,7 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
-        self.TARGET_GRANULES = config.TARGET_GRANULES
+        self.TARGET_GRANULES = 1e6
         self.TICK_SPACING = 0.25
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
@@ -132,10 +132,8 @@ class SimulationState:
         self.freq_boost = 10.0
         self.amp_boost = 1.0
         self.paused = False
-        self.granule_type = True
-        self.ironbow = False
-        self.blueprint = False
-        self.var_displacement = True
+        self.color_palette = 0
+        self.var_amp = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
@@ -179,10 +177,8 @@ class SimulationState:
         self.freq_boost = ui["freq_boost"]
         self.amp_boost = ui["amp_boost"]
         self.paused = ui["paused"]
-        self.granule_type = ui["granule_type"]
-        self.ironbow = ui["ironbow"]
-        self.blueprint = ui["blueprint"]
-        self.var_displacement = ui["var_displacement"]
+        self.color_palette = ui["color_palette"]
+        self.var_amp = ui["var_amp"]
 
         # Diagnostics
         diag = params["diagnostics"]
@@ -218,7 +214,7 @@ def xperiment_launcher(xperiment_mgr, state):
     selected_xperiment = None
 
     with render.gui.sub_window("XPERIMENT LAUNCHER L0", 0.00, 0.00, 0.13, 0.33) as sub:
-        sub.text("(needs window reload)", color=config.LIGHT_BLUE[1])
+        sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
             is_current = xp_name == xperiment_mgr.current_xperiment
@@ -250,47 +246,32 @@ def controls(state):
                 state.paused = True
 
 
-def color_menu(
-    state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
-):
+def color_menu(state):
     """Render color selection menu."""
-    tracker = "displacement" if state.var_displacement else "amplitude"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.ironbow and state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = True
-        if sub.checkbox("Amplitude (ironbow)", state.ironbow and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = True
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox("Amplitude (blueprint)", state.blueprint and not state.var_displacement):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = True
-            state.var_displacement = False
-        if sub.checkbox("Granule Type Color", state.granule_type):
-            state.granule_type = True
-            state.ironbow = False
-            state.blueprint = False
-            state.var_displacement = False
-        if sub.checkbox(
-            "Medium Default Color",
-            not (state.granule_type or state.ironbow or state.blueprint),
-        ):
-            state.granule_type = False
-            state.ironbow = False
-            state.blueprint = False
-            state.var_displacement = False
-        if state.ironbow:  # Display ironbow gradient palette
-            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+    tracker = "amplitude" if state.var_amp else "displacement"
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
+        if sub.checkbox("Displacement (ironbow)", state.color_palette == 1 and not state.var_amp):
+            state.color_palette = 1
+            state.var_amp = False
+        if sub.checkbox("Amplitude (ironbow)", state.color_palette == 1 and state.var_amp):
+            state.color_palette = 1
+            state.var_amp = True
+        if sub.checkbox("Amplitude (blueprint)", state.color_palette == 2 and state.var_amp):
+            state.color_palette = 2
+            state.var_amp = True
+        if sub.checkbox("Granule Type Color", state.color_palette == 0):
+            state.color_palette = 0
+            state.var_amp = True
+        if sub.checkbox("Medium Default Color", state.color_palette == 99):
+            state.color_palette = 99
+            state.var_amp = True
+        if state.color_palette == 1:  # Display ironbow gradient palette
+            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.blueprint:  # Display blueprint gradient palette
-            # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
+        if state.color_palette == 2:  # Display blueprint gradient palette
+            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
@@ -298,7 +279,7 @@ def color_menu(
 
 def level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=config.WHITE[1])
+    render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
     with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
@@ -308,35 +289,35 @@ def level_specs(state, level_bar_vertices):
 def data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
-        sub.text("--- eWAVE-MEDIUM ---", color=config.LIGHT_BLUE[1])
+        sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- Scaling-Up (for computation) ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- Scaling-Up (for computation) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {state.lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
         sub.text(f"Granule Radius: {state.granule.radius * state.radius_factor:.2e} m")
         sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
 
-        sub.text("\n--- Sim Resolution (linear) ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
         if state.lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
-        sub.text("\n--- Sim Universe Wave Energy ---", color=config.LIGHT_BLUE[1])
+        sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
 
-        sub.text("\n--- TIME MICROSCOPE ---", color=config.LIGHT_BLUE[1])
-        slowed_mo = config.SLOW_MO / state.freq_boost
+        sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
+        slowed_mo = constants.EWAVE_FREQUENCY / state.freq_boost
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
@@ -355,6 +336,20 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    global ib_palette_vertices, ib_palette_colors
+    global bp_palette_vertices, bp_palette_colors
+    global level_bar_vertices
+
+    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
+    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
+        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    )
+    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
+        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+    )
+    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+
+    # Initialize wave sources
     ewave.build_source_vectors(
         state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
     )
@@ -378,8 +373,8 @@ def compute_motion(state):
         state.lattice.granule_var_color,
         state.freq_boost,
         state.amp_boost,
-        state.ironbow,
-        state.var_displacement,
+        state.color_palette,
+        state.var_amp,
         state.NUM_SOURCES,
         state.elapsed_t,
     )
@@ -402,13 +397,13 @@ def render_elements(state):
     radius_render = state.granule.radius_screen * state.radius_factor
 
     # Render granules with color scheme
-    if state.granule_type:
+    if state.color_palette == 0:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.ironbow or state.blueprint:
+    elif state.color_palette == 1 or state.color_palette == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
@@ -418,7 +413,7 @@ def render_elements(state):
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
-            color=config.COLOR_MEDIUM[1],
+            color=colormap.COLOR_MEDIUM[1],
         )
 
     # Render wave sources
@@ -426,7 +421,7 @@ def render_elements(state):
         render.scene.particles(
             centers=ewave.sources_pos_field,
             radius=state.granule.radius_screen * 2,
-            color=config.COLOR_SOURCE[1],
+            color=colormap.COLOR_SOURCE[1],
         )
 
 
@@ -442,11 +437,6 @@ def main():
 
     # Initialize Taichi
     ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
-
-    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = config.ironbow_palette(0.00, 0.63, 0.079, 0.01)
-    bp_palette_vertices, bp_palette_colors = config.blueprint_palette(0.00, 0.63, 0.079, 0.01)
-    level_bar_vertices = config.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -511,9 +501,7 @@ def main():
         render_elements(state)
 
         # Render additional UI elements and scene
-        color_menu(
-            state, ib_palette_vertices, ib_palette_colors, bp_palette_vertices, bp_palette_colors
-        )
+        color_menu(state)
         data_dashboard(state)
         level_specs(state, level_bar_vertices)
         render.show_scene()

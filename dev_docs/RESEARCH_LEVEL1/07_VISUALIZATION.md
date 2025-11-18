@@ -3,13 +3,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Flux Detector Films/Planes](#flux-detector-filmsplanes)
+1. [Flux Films](#flux-films)
    - [Purpose and Concept](#purpose-and-concept)
    - [Implementation](#implementation)
    - [Properties and Interactions](#properties-and-interactions)
 1. [Universe Boundaries](#universe-boundaries)
    - [Outer Walls](#outer-walls)
-   - [Wall as Flux Detectors](#wall-as-flux-detectors)
+   - [Wall as Flux Film](#wall-as-flux-film)
    - [User Interaction](#user-interaction)
 1. [3D Wave Visualization Techniques](#3d-wave-visualization-techniques)
    - [Particle Spray Method](#particle-spray-method)
@@ -46,7 +46,7 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
 **Primary Rendering Technologies**:
 
 1. **WAVE VIEWING**:
-   - **Taichi Meshes**: Flux detector films/planes display wave properties
+   - **Taichi Meshes**: Flux films display wave properties
    - **Color Gradients**: Defined in `config.py` for energy wave visualization
    - **Wave Properties**: Render wave fronts, amplitude, energy density
 
@@ -63,74 +63,78 @@ LEVEL-1 visualization systems convert wave field data into observable visual rep
    - **Streamlines**: Follow flow/energy propagation paths
    - **Polylines**: Smooth curves showing wave dynamics
 
-## Flux Detector Films/Planes
+## Flux Films
 
 ### Purpose and Concept
 
-**Flux Detector Films** are 2D sensor planes that:
+**Flux Films** are 2D detector surfaces that:
 
-- React to wave parameters passing through them
+- React to wave flux passing through them
 - Convert wave properties into visible colors
-- Act like camera sensors or photographic plates
+- Act like photographic film or detector plates
 - Provide 2D "slices" through 3D wave field
 
 **Physical Analogy**:
 
 - Like photographic film detecting light
+- Like X-ray film or nuclear emulsion
 - Like detector screens in particle physics experiments
 - Like ultrasound imaging planes in medical imaging
+
+**Note**: For detailed documentation, see [`11_flux_films.md`](./11_flux_films.md)
 
 ### Implementation
 
 **Geometry**:
 
 ```python
-# Detector plane as 2D mesh
-detector_plane = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
-detector_color = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
+# Flux film as 2D mesh
+flux_film = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
+film_color = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
 
 @ti.kernel
-def create_detector_plane(position: ti.math.vec3, normal: ti.math.vec3):
-    """Create detector plane at position with given normal."""
+def create_flux_film(position: ti.math.vec3, normal: ti.math.vec3):
+    """Create flux film at position with given normal."""
     for i, j in ti.ndrange(res_x, res_y):
-        # Position on plane
-        u = (i / res_x - 0.5) * plane_width
-        v = (j / res_y - 0.5) * plane_height
+        # Position on film
+        u = (i / res_x - 0.5) * film_width
+        v = (j / res_y - 0.5) * film_height
 
         # Tangent vectors
         tangent1, tangent2 = compute_tangents(normal)
 
-        # Point on plane
-        detector_plane[i, j] = position + u * tangent1 + v * tangent2
+        # Point on film
+        flux_film[i, j] = position + u * tangent1 + v * tangent2
 ```
 
 **Positioning**:
 
 - Can be placed anywhere in 3D space
 - Can be oriented in any direction
-- Multiple planes can show different slices
-- Can animate plane position for scanning
+- Multiple films can show different slices
+- Can animate film position for scanning
 
 **Sampling Wave Field**:
 
 ```python
 @ti.kernel
-def sample_field_on_detector():
-    """Sample wave field values onto detector plane."""
-    for i, j in detector_plane:
-        pos = detector_plane[i, j]
+def sample_field_on_film():
+    """Sample wave field values onto flux film."""
+    for i, j in flux_film:
+        pos = flux_film[i, j]
 
         # Sample amplitude at this position (interpolate from grid)
         amp = sample_amplitude_field(pos)
 
         # Convert to color (colormap)
-        detector_color[i, j] = amplitude_to_color(amp)
+        film_color[i, j] = amplitude_to_color(amp)
 ```
 
 ### Properties and Interactions
 
 **Detection Properties**:
 
+- **Displacement**: Wave Fronts
 - **Amplitude**: Intensity/brightness
 - **Frequency**: Color hue (if multi-frequency)
 - **Energy**: Overall brightness
@@ -165,7 +169,7 @@ def amplitude_to_color(amp: ti.f32) -> ti.math.vec3:
 
 **Rendering with Taichi Meshes**:
 
-- Use **Taichi mesh rendering** for detector planes
+- Use **Taichi mesh rendering** for flux films
 - Define **energy wave color gradient** in `config.py`
 - Apply color gradient to display wave properties:
   - **Wave fronts**: Surfaces of constant phase
@@ -198,12 +202,12 @@ for face in ['x_min', 'x_max', 'y_min', 'y_max', 'z_min', 'z_max']:
 - Hard boundary condition (phase inversion)
 - Creates standing wave patterns near walls
 
-### Wall as Flux Detectors
+### Wall as Flux Film
 
 **Dual Purpose**:
 
 1. Physical boundary (wave reflection)
-2. Visualization surface (flux detection)
+2. Visualization surface (flux film)
 
 **Painting Wave Properties**:
 
@@ -226,7 +230,7 @@ def render_wall_face(wall_id: ti.i32):
 
 - See wave reflections at boundaries
 - Visualize energy distribution on walls
-- No need for internal detector planes
+- No need for internal flux films
 - User can observe from outside
 
 ### User Interaction
@@ -500,7 +504,7 @@ def render_standing_wave_shells(particle_id: ti.i32):
 2. **Particles only**: No wave field, just centers
 3. **Shells only**: Standing wave patterns only
 4. **Everything combined**: Full visualization
-5. **Detector plate only**: 2D slice view
+5. **Flux films only**: 2D slice view
 
 **User Interface**:
 
@@ -509,7 +513,7 @@ def render_standing_wave_shells(particle_id: ti.i32):
 show_wave_field = True
 show_particles = True
 show_shells = False
-show_detector = False
+show_flux_films = False
 
 @ti.kernel
 def render_scene():
@@ -519,8 +523,8 @@ def render_scene():
         render_wave_centers()
     if show_shells:
         render_standing_wave_shells()
-    if show_detector:
-        render_detector_plane()
+    if show_flux_films:
+        render_flux_films()
 ```
 
 ## Electron Visualization
@@ -688,10 +692,11 @@ render_scale_bar(corner='bottom_right')
 
 **Status**: Visualization systems defined
 
-**Next Steps**: Implement basic detector plane and wave field rendering
+**Next Steps**: Implement basic flux films and wave field rendering
 
 **Related Documentation**:
 
+- [`11_flux_films.md`](./11_flux_films.md) - Detailed flux film implementation
 - [`01b_WAVE_FIELD_properties.md`](./01b_WAVE_FIELD_properties.md) - Properties to visualize
 - [`02_WAVE_ENGINE.md`](./02_WAVE_ENGINE.md) - Wave field to visualize
 - [`05_MATTER.md`](./05_MATTER.md) - Particles to visualize

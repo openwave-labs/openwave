@@ -112,7 +112,7 @@ XPARAMETERS = {
         "granule_type": False,
         "ironbow": True,
         "blueprint": False,
-        "var_displacement": True,
+        "var_amp": False,
     },
     "diagnostics": {
         "wave_diagnostics": False,  # Enable wave speed/wavelength measurements

@@ -8,7 +8,7 @@ Tweak universe size and other parameters to explore different scales.
 import taichi as ti
 import time
 
-from openwave.common import config, constants, equations
+from openwave.common import colormap, constants, equations
 from openwave._io import render
 
 import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium
@@ -298,12 +298,12 @@ def render_xperiment(lattice, granule, neighbors):
             render.scene.particles(
                 normalized_position,
                 radius=normalized_radius * radius_factor,
-                color=config.COLOR_MEDIUM[1],
+                color=colormap.COLOR_MEDIUM[1],
             )
 
         # Render spring links if enabled and available
         if show_links and link_line is not None:
-            render.scene.lines(link_line, width=5, color=config.COLOR_INFRA[1])
+            render.scene.lines(link_line, width=5, color=colormap.COLOR_INFRA[1])
 
         # Render the scene to canvas
         render.show_scene()
