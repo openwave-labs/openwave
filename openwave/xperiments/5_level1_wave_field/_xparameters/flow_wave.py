@@ -13,7 +13,7 @@ XPARAMETERS = {
         "description": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "initial_position": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
+        "initial_position": [1.50, 1.50, 1.11],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]

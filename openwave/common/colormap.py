@@ -14,9 +14,10 @@ import taichi as ti
 BLACK = ["#000000", (0.0, 0.0, 0.0)]
 WHITE = ["#FFFFFF", (1.0, 1.0, 1.0)]
 LIGHT_BLUE = ["#1A99E6", (0.1, 0.6, 0.9)]
+BLUE = ["#4E6BC1", (0.306, 0.42, 0.757)]
+DARK_BLUE = ["#192C64", (0.1, 0.17, 0.39)]
 MAGENTA = ["#FF00EE", (1.0, 0.0, 0.93)]
 CYAN = ["#00FFFF", (0.0, 1.0, 1.0)]
-DARK_BLUE = ["#192C64", (0.1, 0.17, 0.39)]
 ORANGE = ["#FF7B00", (1.0, 0.5, 0.0)]
 GREEN = ["#028800", (0.0, 0.53, 0.0)]
 YELLOW = ["#FFEA00", (1.0, 0.92, 0.0)]
@@ -32,6 +33,8 @@ COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 COLOR_FIELD = CYAN  # fields, field lines
 COLOR_PROBE = RED  # probes, sensors
 COLOR_SOURCE = ORANGE  # wave source
+COLOR_PARTICLE = BLUE  # particles, matter
+COLOR_ANTI = PURPLE  # antiparticles, antimatter
 
 # ================================================================
 # Color Themes
@@ -523,8 +526,6 @@ def level_bar_geometry(x, y, width, height):
 # ================================================================
 # FUTURE COLOR PALETTES
 # COLOR_EWAVE = ORANGE  # energy-wave, wave functions
-# COLOR_MATTER = DARK_BLUE  # matter, particles
-# COLOR_ANTIMATTER = MAGENTA  # antimatter, antiparticles
 # COLOR_MOTION = GREEN  # motion, velocity vectors
 # COLOR_PHOTON = YELLOW  # photons
 # COLOR_HEAT = RED  # heat, thermal energy

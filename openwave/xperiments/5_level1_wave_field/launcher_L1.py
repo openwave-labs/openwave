@@ -8,12 +8,14 @@ Unified launcher for Level-1 wave-field xperiments featuring:
 """
 
 import webbrowser
-import taichi as ti
 import time
 import importlib
 import sys
 import os
 from pathlib import Path
+
+import numpy as np
+import taichi as ti
 
 from openwave.common import colormap, constants
 from openwave._io import render, video, flux_film
@@ -395,6 +397,12 @@ def render_elements(state):
         ewave.update_flux_film_colors(state.wave_field, state.color_palette)
         # Render the three flux films
         flux_film.render_flux_films(render.scene, state.wave_field)
+
+    # Particle Testing
+    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    render.scene.particles(position1, radius=0.02, color=colormap.COLOR_PARTICLE[1])
+    position2 = np.array([[0.5, 0.75, 0.5]], dtype=np.float32)
+    render.scene.particles(position2, radius=0.02, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================

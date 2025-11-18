@@ -7,12 +7,13 @@ Unified launcher for Level-0 granule-based xperiments featuring:
 - Xperiment-specific parameters in /_xparameters directory
 """
 
-import taichi as ti
 import time
 import importlib
 import sys
 import os
 from pathlib import Path
+
+import taichi as ti
 
 from openwave.common import colormap, constants
 from openwave._io import render, video

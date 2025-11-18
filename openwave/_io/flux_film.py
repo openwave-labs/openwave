@@ -117,6 +117,7 @@ def render_flux_films(scene, wave_field):
         indices=_xy_indices_flat,
         per_vertex_color=_xy_colors_flat,
         two_sided=True,
+        show_wireframe=True,
     )
 
     scene.mesh(
@@ -124,6 +125,7 @@ def render_flux_films(scene, wave_field):
         indices=_xz_indices_flat,
         per_vertex_color=_xz_colors_flat,
         two_sided=True,
+        show_wireframe=True,
     )
 
     scene.mesh(
@@ -131,6 +133,7 @@ def render_flux_films(scene, wave_field):
         indices=_yz_indices_flat,
         per_vertex_color=_yz_colors_flat,
         two_sided=True,
+        show_wireframe=True,
     )
 
 

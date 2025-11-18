@@ -13,7 +13,7 @@ XPARAMETERS = {
         "description": "Wave Field Grid of Voxels",
     },
     "camera": {
-        "initial_position": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
+        "initial_position": [2.50, 1.50, 1.50],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
