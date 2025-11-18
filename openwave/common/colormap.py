@@ -70,10 +70,10 @@ FOREST = {
 # Simplified thermal imaging palette (5-color)
 ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
-    ["#20008A", (0.125, 0.0, 0.54)],  # dark blue
-    ["#91009C", (0.57, 0.0, 0.61)],  # magenta
-    ["#E64616", (0.90, 0.27, 0.09)],  # red-orange
-    ["#FFFFF6", (1.0, 1.0, 0.96)],  # yellow-white
+    ["#20008A", (0.125, 0.0, 0.541)],  # dark blue
+    ["#91009C", (0.569, 0.0, 0.612)],  # magenta
+    ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
+    ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
 ]
 
 # ================================================================
@@ -81,38 +81,35 @@ ironbow_palette = [
 # ================================================================
 # Simplified blueprint imaging palette (5-color)
 blueprint_palette = [
-    ["#192C64", (0.1, 0.17, 0.39)],  # dark blue
-    ["#405CB1", (0.25, 0.36, 0.69)],  # medium blue
+    ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
+    ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
     ["#607DBD", (0.376, 0.490, 0.741)],  # blue
-    ["#98AEDD", (0.6, 0.68, 0.87)],  # light blue
-    ["#E4EAF6", (0.9, 0.94, 0.98)],  # extra-light blue
+    ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
+    ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
 ]
 
 # ================================================================
 # Redshift Gradient: PALETTE [used in get_redshift_color()]
 # ================================================================
 # Simplified redshift gradient palette (5-color)
-# Maps signed values: red (negative) → gray (zero) → blue (positive)
 redshift_palette = [
-    ["#FF6347", (1.0, 0.39, 0.28)],  # red-orange (maximum negative)
-    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red (negative)
-    ["#1C1C1C", (0.11, 0.11, 0.11)],  # dark gray (zero)
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue (positive)
-    ["#4169E1", (0.255, 0.41, 0.88)],  # bright blue (maximum positive)
+    ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
+    ["#1C1C1C", (0.110, 0.110, 0.110)],  # dark gray
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
+    ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
 ]
 
 # ================================================================
 # Viridis Gradient: PALETTE [used in get_viridis_color()]
 # ================================================================
 # Perceptually uniform colormap for scientific visualization
-# Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
-# Valley: dark purple (shadow) → Neutral: green → Hill: yellow (highlight)
 viridis_palette = [
-    ["#440154", (0.267, 0.004, 0.329)],  # dark purple (maximum negative) - valley depth in shadow
-    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green (negative) - valley slope
-    ["#35B779", (0.208, 0.718, 0.475)],  # green (zero) - neutral flat surface
-    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green (positive) - hill slope
-    ["#FDE724", (0.992, 0.906, 0.143)],  # bright yellow (maximum positive) - hill peak in light
+    ["#440154", (0.267, 0.004, 0.329)],  # dark purple
+    ["#31688E", (0.192, 0.408, 0.557)],  # blue-green
+    ["#35B779", (0.208, 0.718, 0.475)],  # green
+    ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green
+    ["#FDE724", (0.992, 0.906, 0.141)],  # bright yellow
 ]
 
 
