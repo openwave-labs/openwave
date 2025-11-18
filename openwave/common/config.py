@@ -80,7 +80,7 @@ ironbow5 = [
 
 
 @ti.func
-def get_ironbow_color(value, min_value, max_value, saturation=1.0):
+def get_ironbow_color(value, min_value, max_value):
     """Maps a numerical value to an IRONBOW thermal camera gradient color.
 
     IRONBOW gradient: black → dark blue → magenta → red-orange → yellow-white
@@ -91,28 +91,24 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 
     Args:
         value: The displacement magnitude to visualize
-        min_value: Minimum displacement in range (typically 0.0)
+        min_value: Minimum displacement in range
         max_value: Maximum displacement observed (from exponential moving average tracker)
-        saturation: Headroom factor to prevent color saturation (e.g., 3.0 = use only 1/3 of range)
-                   Higher values = darker colors, lower values = brighter colors
 
     Returns:
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
 
     Example:
-        color = get_ironbow_color(displacement=50, min_value=0, max_value=100, saturation=3.0)
-        # Returns blue-ish color since 50/(100*3) = 0.167 is in the low range
+        color = get_ironbow_color(displacement=50, min_value=0, max_value=100)
+        # Returns blue-ish color since 50/100 = 0.5 is in the low range
     """
 
     # Compute normalized scale range with saturation headroom
-    # saturation > 1 leaves headroom (prevents saturation at max displacement)
-    scale = (max_value - min_value) * saturation
+    scale = max_value - min_value
 
     # Normalize color by scale range [0.0 - 1.0]
-    norm_color = ti.math.clamp(value / scale, 0.0, 1.0)
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
 
-    # Compute color as IRONBOW gradient for visualization
-    # ironbow5 gradient with key colors (interpolated)
+    # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
     if norm_color < 0.25:  # black to dark blue
@@ -219,18 +215,19 @@ def get_blueprint_color(value, min_value, max_value):
 
     Args:
         value: The displacement magnitude to visualize
-        min_value: Minimum displacement in range (typically 0.0)
+        min_value: Minimum displacement in range
         max_value: Maximum displacement observed
     """
-    # Compute normalized scale range
+
+    # Compute normalized scale range with saturation headroom
     scale = max_value - min_value
 
     # Normalize color by scale range [0.0 - 1.0]
-    norm_color = ti.math.clamp(value / scale, 0.0, 1.0)
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
 
-    # Compute color as BLUEPRINT gradient for visualization
-    # blueprint4 gradient with key colors (interpolated)
+    # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
+
     if norm_color < 0.33:  # dark blue to medium blue
         blend = norm_color / 0.33
         r = 0.1 * (1.0 - blend) + 0.25 * blend  # #192C64 to #405CB1
@@ -335,8 +332,8 @@ def get_redshift_color(value, min_value, max_value):
 
     Args:
         value: The signed displacement value to visualize (can be negative or positive)
-        min_value: Minimum displacement in range (typically negative)
-        max_value: Maximum displacement in range (typically positive)
+        min_value: Minimum displacement in range
+        max_value: Maximum displacement in range
 
     Returns:
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
@@ -346,14 +343,13 @@ def get_redshift_color(value, min_value, max_value):
         # Returns red-ish color since -50 is in the negative range
     """
 
-    # Compute normalized scale range
+    # Compute normalized scale range with saturation headroom
     scale = max_value - min_value
 
-    # Normalize to [0.0 - 1.0] where 0.5 represents zero displacement
+    # Normalize color by scale range [0.0 - 1.0]
     norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
 
-    # Compute color as REDSHIFT gradient for visualization
-    # redshift5 gradient with key colors (interpolated)
+    # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
     if norm_color < 0.25:  # dark red to red-orange
@@ -469,8 +465,8 @@ def get_viridis_color(value, min_value, max_value):
 
     Args:
         value: The signed displacement value to visualize (can be negative or positive)
-        min_value: Minimum displacement in range (typically negative)
-        max_value: Maximum displacement in range (typically positive)
+        min_value: Minimum displacement in range
+        max_value: Maximum displacement in range
 
     Returns:
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
@@ -480,14 +476,13 @@ def get_viridis_color(value, min_value, max_value):
         # Returns purple-ish color since -50 is in the negative range
     """
 
-    # Compute normalized scale range
+    # Compute normalized scale range with saturation headroom
     scale = max_value - min_value
 
-    # Normalize to [0.0 - 1.0] where 0.5 represents zero displacement
+    # Normalize color by scale range [0.0 - 1.0]
     norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
 
-    # Compute color as VIRIDIS gradient for visualization
-    # viridis5 gradient with key colors (interpolated)
+    # Compute color as gradient for visualization with key colors (interpolated)
     r, g, b = 0.0, 0.0, 0.0
 
     if norm_color < 0.25:  # dark purple to blue-green (valley depth to slope)
