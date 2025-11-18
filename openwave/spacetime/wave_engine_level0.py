@@ -125,7 +125,7 @@ def oscillate_granules(
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
     color_palette: ti.i32,  # type: ignore
-    var_displacement: ti.i32,  # type: ignore
+    var_amp: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
 ):
@@ -189,7 +189,7 @@ def oscillate_granules(
         velocity_am: Velocity field for all granules (modified in-place, in attometers/second)
         granule_var_color: Color field for displacement/amplitude visualization
         color_palette: Coloring palette selection
-        var_displacement: Displacement vs amplitude toggle
+        var_amp: Displacement vs amplitude toggle
         num_sources: Number of wave sources
         elapsed_t: Current simulation time (accumulated, seconds)
         freq_boost: Frequency multiplier (applied after slow_mo)
@@ -284,13 +284,13 @@ def oscillate_granules(
         # Map displacement/amplitude to gradient color
         if color_palette == 1:  # ironbow
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
-                displacement_am if var_displacement else amplitude_am[granule_idx],
+                amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )
         elif color_palette == 2:  # blueprint
             granule_var_color[granule_idx] = colormap.get_blueprint_color(
-                displacement_am if var_displacement else amplitude_am[granule_idx],
+                amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )

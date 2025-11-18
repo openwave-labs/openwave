@@ -31,7 +31,7 @@ XPARAMETERS = {
         "amp_boost": 1.0,  # Amplitude boost multiplier
         "paused": False,  # Pause/Start simulation toggle
         "color_palette": 3,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
-        "var_displacement": True,  # Displacement vs amplitude toggle
+        "var_amp": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
         "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)

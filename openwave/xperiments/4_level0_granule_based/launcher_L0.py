@@ -133,7 +133,7 @@ class SimulationState:
         self.amp_boost = 1.0
         self.paused = False
         self.color_palette = 0
-        self.var_displacement = True
+        self.var_amp = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
@@ -178,7 +178,7 @@ class SimulationState:
         self.amp_boost = ui["amp_boost"]
         self.paused = ui["paused"]
         self.color_palette = ui["color_palette"]
-        self.var_displacement = ui["var_displacement"]
+        self.var_amp = ui["var_amp"]
 
         # Diagnostics
         diag = params["diagnostics"]
@@ -248,30 +248,23 @@ def controls(state):
 
 def color_menu(state):
     """Render color selection menu."""
-    tracker = "displacement" if state.var_displacement else "amplitude"
+    tracker = "amplitude" if state.var_amp else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.13, 0.17) as sub:
-        if sub.checkbox(
-            "Displacement (ironbow)", state.color_palette == 1 and state.var_displacement
-        ):
+        if sub.checkbox("Displacement (ironbow)", state.color_palette == 1 and not state.var_amp):
             state.color_palette = 1
-            state.var_displacement = True
-        if sub.checkbox(
-            "Amplitude (ironbow)", state.color_palette == 1 and not state.var_displacement
-        ):
+            state.var_amp = False
+        if sub.checkbox("Amplitude (ironbow)", state.color_palette == 1 and state.var_amp):
             state.color_palette = 1
-            state.var_displacement = False
-        if sub.checkbox(
-            "Amplitude (blueprint)",
-            state.color_palette == 2 and not state.var_displacement,
-        ):
+            state.var_amp = True
+        if sub.checkbox("Amplitude (blueprint)", state.color_palette == 2 and state.var_amp):
             state.color_palette = 2
-            state.var_displacement = False
+            state.var_amp = True
         if sub.checkbox("Granule Type Color", state.color_palette == 0):
             state.color_palette = 0
-            state.var_displacement = False
+            state.var_amp = True
         if sub.checkbox("Medium Default Color", state.color_palette == 99):
             state.color_palette = 99
-            state.var_displacement = False
+            state.var_amp = True
         if state.color_palette == 1:  # Display ironbow gradient palette
             # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
@@ -381,7 +374,7 @@ def compute_motion(state):
         state.freq_boost,
         state.amp_boost,
         state.color_palette,
-        state.var_displacement,
+        state.var_amp,
         state.NUM_SOURCES,
         state.elapsed_t,
     )
