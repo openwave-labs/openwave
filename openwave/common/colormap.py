@@ -65,7 +65,7 @@ FOREST = {
 # Performance-critical code > DRY principle in this case.
 
 # ================================================================
-# Ironbow Gradient: Palette [used in get_ironbow_color()]
+# Ironbow Gradient: PALETTE [used in get_ironbow_color()]
 # ================================================================
 # Simplified thermal imaging palette (5-color)
 ironbow_palette = [
@@ -77,7 +77,7 @@ ironbow_palette = [
 ]
 
 # ================================================================
-# Blueprint Gradient: Palette [used in get_blueprint_color()]
+# Blueprint Gradient: PALETTE [used in get_blueprint_color()]
 # ================================================================
 # Simplified blueprint imaging palette (5-color)
 blueprint_palette = [
@@ -89,7 +89,7 @@ blueprint_palette = [
 ]
 
 # ================================================================
-# Redshift Gradient: Palette [used in get_redshift_color()]
+# Redshift Gradient: PALETTE [used in get_redshift_color()]
 # ================================================================
 # Simplified redshift gradient palette (5-color)
 # Maps signed values: red (negative) → gray (zero) → blue (positive)
@@ -102,7 +102,7 @@ redshift_palette = [
 ]
 
 # ================================================================
-# Viridis Gradient: Palette [used in get_viridis_color()]
+# Viridis Gradient: PALETTE [used in get_viridis_color()]
 # ================================================================
 # Perceptually uniform colormap for scientific visualization
 # Maps signed values: dark purple (negative) → green (zero) → yellow (positive)
@@ -117,7 +117,7 @@ viridis_palette = [
 
 
 # ================================================================
-# Ironbow Gradient: Function
+# Ironbow Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
@@ -189,7 +189,7 @@ def get_ironbow_color(value, min_value, max_value):
 
 
 # ================================================================
-# Blueprint Gradient: Function
+# Blueprint Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
@@ -261,7 +261,7 @@ def get_blueprint_color(value, min_value, max_value):
 
 
 # ================================================================
-# Redshift Gradient: Function
+# Redshift Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
@@ -333,7 +333,7 @@ def get_redshift_color(value, min_value, max_value):
 
 
 # ================================================================
-# Viridis Gradient: Function
+# Viridis Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
@@ -528,14 +528,3 @@ def level_bar_geometry(x, y, width, height):
 # COLOR_PHOTON = YELLOW  # photons
 # COLOR_HEAT = RED  # heat, thermal energy
 # COLOR_ENERGY = PURPLE  # energy, energy packets
-
-# Thermal imaging palette (7-color)
-# ironbow7 = [
-#     "#000000ff",  # black
-#     "#20008aff",  # dark blue
-#     "#cc0077ff",  # magenta
-#     "#ff0000ff",  # red
-#     "#ff7b00ff",  # orange
-#     "#ffcc00ff",  # yellow
-#     "#FFFFFF",  # white
-# ]

@@ -283,12 +283,12 @@ def color_menu(state):
             state.blueprint = False
             state.var_displacement = False
         if state.ironbow:  # Display ironbow gradient palette
-            # ironbow5: black -> dark blue -> magenta -> red-orange -> yellow-white
+            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.blueprint:  # Display blueprint gradient palette
-            # blueprint4: dark blue -> medium blue -> light blue -> extra-light blue
+            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")

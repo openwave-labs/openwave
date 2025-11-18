@@ -386,7 +386,7 @@ def get_ironbow_color(value, min_value, max_value, saturation=1.0):
 **Color Stops**:
 
 ```python
-ironbow5 = [
+ironbow = [
     ["#000000", (0.0, 0.0, 0.0)],        # black (zero amplitude)
     ["#20008A", (0.125, 0.0, 0.54)],     # dark blue (low)
     ["#91009C", (0.57, 0.0, 0.61)],      # magenta (medium)
@@ -414,7 +414,7 @@ ironbow5 = [
 # Redshift Doppler-Inspired Palette
 # ================================================================
 # 5-color gradient for signed wave displacement
-redshift5 = [
+redshift = [
     ["#8B0000", (0.545, 0.0, 0.0)],     # dark red (maximum negative)
     ["#FF6347", (1.0, 0.39, 0.28)],     # red-orange (negative)
     ["#1C1C1C", (0.11, 0.11, 0.11)],    # dark gray (zero)
