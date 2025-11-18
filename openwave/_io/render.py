@@ -2,9 +2,10 @@
 Rendering engine for OPENWAVE using Taichi GGUI.
 """
 
-import taichi as ti
-import numpy as np
 import pyautogui
+
+import numpy as np
+import taichi as ti
 
 from openwave.common import colormap
 

@@ -14,7 +14,7 @@ from openwave.common import colormap
 @ti.kernel
 def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
     """
-    Create a simple static displacement pattern for testing flux films.
+    Create a simple static displacement pattern for testing flux mesh.
 
     Generates a radial wave pattern emanating from the universe center.
     This is temporary test code until wave propagation is implemented.
@@ -50,12 +50,12 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
 
 
 @ti.kernel
-def update_flux_film_colors(
+def update_flux_mesh_colors(
     wave_field: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore
 ):
     """
-    Update flux film colors by sampling wave properties from voxel grid.
+    Update flux mesh colors by sampling wave properties from voxel grid.
 
     Samples wave displacement at each film vertex position and maps it to a color
     using the redshift gradient (red=negative, gray=zero, blue=positive).
@@ -69,7 +69,7 @@ def update_flux_film_colors(
     - Maps signed displacement values to red-gray-blue gradient
 
     Args:
-        wave_field: WaveField instance containing flux film fields and displacement data
+        wave_field: WaveField instance containing flux mesh fields and displacement data
         color_palette: Integer code for color palette selection
     """
 

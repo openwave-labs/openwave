@@ -142,7 +142,7 @@ class WaveField:
         self.populate_wire_frame()  # initialize grid lines (already normalized)
 
         # ================================================================
-        # Flux Films: data structures & initialization
+        # Flux Mesh: data structures & initialization
         # ================================================================
         # Three orthogonal films intersecting at universe center
         # Each film mesh has resolution matching simulation voxel grid
@@ -171,8 +171,8 @@ class WaveField:
         self.film_yz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
         self.film_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
 
-        # Initialize flux film meshes (vertices, indices, colors)
-        self.create_flux_film_meshes()
+        # Initialize flux mesh (vertices, indices, colors)
+        self.create_flux_mesh()
 
     @ti.kernel
     def populate_wire_frame(self):
@@ -255,11 +255,11 @@ class WaveField:
                 )
 
     @ti.kernel
-    def create_flux_film_meshes(self):
+    def create_flux_mesh(self):
         """
-        Initialize flux film meshes for all three orthogonal films.
+        Initialize flux mesh for all three orthogonal films.
 
-        Creates vertex positions and triangle indices for XY, XZ, and YZ flux films
+        Creates vertex positions and triangle indices for XY, XZ, and YZ flux mesh
         positioned at the universe center. Each film is a 2D mesh that samples wave
         properties from the voxel grid.
 
@@ -271,7 +271,7 @@ class WaveField:
         Mesh structure:
         - Vertices: Grid of 3D positions matching voxel resolution
         - Indices: Triangle pairs forming quads (2 triangles × 3 vertices = 6 indices)
-        - Colors: Initialized to black, updated by update_flux_film_colors()
+        - Colors: Initialized to black, updated by update_flux_mesh_colors()
         """
         nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
         max_dim = ti.cast(self.max_grid_size, ti.f32)
@@ -292,7 +292,7 @@ class WaveField:
             # Vertex position
             self.film_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
 
-            # Initialize color to black (will be updated by update_flux_film_colors)
+            # Initialize color to black (will be updated by update_flux_mesh_colors)
             self.film_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
 
         # Triangle indices for XY film

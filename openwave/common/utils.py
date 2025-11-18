@@ -1,3 +1,24 @@
+"""Common utility functions and unit conversion constants for OpenWave.
+
+This module provides:
+- Energy unit conversion constants (eV, J, kWh, cal)
+- Mathematical utility functions (rounding operations)
+
+Unit Conversion Constants:
+    Energy conversions between joules (J), electronvolts (eV),
+    kilowatt-hours (kWh), and calories (cal).
+
+Functions:
+    round_to_nearest_odd: Convert float to nearest odd integer.
+
+Examples:
+    >>> from openwave.common import utils
+    >>> energy_j = 1.0 * utils.EV2J  # Convert 1 eV to joules
+    >>> energy_ev = energy_j * utils.J2EV  # Convert back to eV
+    >>> utils.round_to_nearest_odd(4.7)  # Returns 5
+    5
+"""
+
 # ================================================================
 # Unit Conversion - ENERGY
 # ================================================================

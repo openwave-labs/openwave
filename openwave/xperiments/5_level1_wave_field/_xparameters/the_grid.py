@@ -13,7 +13,7 @@ XPARAMETERS = {
         "description": "Wave Field Grid of Voxels",
     },
     "camera": {
-        "initial_position": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
+        "initial_position": [2.50, 1.50, 1.50],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
@@ -25,7 +25,7 @@ XPARAMETERS = {
     },
     "ui_defaults": {
         "show_axis": True,  # Toggle to show/hide axis lines
-        "flux_films": False,  # Flux Films toggle
+        "flux_mesh": False,  # Flux Mesh toggle
         "radius_factor": 1.0,  # Granule radius scaling factor
         "freq_boost": 10.0,  # Frequency boost multiplier
         "amp_boost": 1.0,  # Amplitude boost multiplier
