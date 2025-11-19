@@ -8,7 +8,14 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 
 import taichi as ti
 
-from openwave.common import colormap
+from openwave.common import colormap, constants, equations, utils
+
+# ================================================================
+# Energy-Wave Oscillation Parameters
+# ================================================================
+base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
+frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
 @ti.kernel
@@ -27,6 +34,10 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
     center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
     center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
+
+    # Wave number k = 2π/λ (spatial phase variation)
+    wave_number = 2.0 * ti.math.pi / (wavelength_am / wave_field.dx_am)  # radians per grid index
+
     # Create radial displacement pattern
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         # Distance from center
@@ -37,16 +48,15 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
 
         # Simple sinusoidal radial pattern
         # Amplitude decreases with distance, oscillates radially
-        max_r = ti.sqrt(center_x * center_x + center_y * center_y + center_z * center_z)
-        normalized_r = r / max_r
 
         # Displacement magnitude (in attometers for scalar field)
+        # displacement from center source: A(r)·cos(ωt - kr), where ωt=0 at t=0
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        amplitude = 1000.0 * ti.cos(normalized_r * 10.0 * ti.math.pi)
+        disp = base_amplitude_am * ti.sin(-wave_number * r)
 
-        # Apply scalar displacement (amplitude in attometers)
-        wave_field.displacement_am[i, j, k] = amplitude
+        # Apply scalar displacement (in attometers)
+        wave_field.displacement_am[i, j, k] = disp
 
 
 @ti.kernel
@@ -81,7 +91,7 @@ def update_flux_mesh_colors(
     # Displacement range for color scaling (in attometers)
     # TODO: In future, use exponential moving average tracker like LEVEL-0 ironbow
     # For now, use fixed range based on test pattern amplitude
-    peak_amplitude_am = 1000.0  # 1000 attometers (positive displacement/expansion)
+    peak_amplitude_am = base_amplitude_am  # attometers (positive displacement/expansion)
 
     # ================================================================
     # XY Plane: Sample at z = center_k

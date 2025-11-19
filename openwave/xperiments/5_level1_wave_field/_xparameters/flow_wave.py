@@ -7,6 +7,8 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
+UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+
 XPARAMETERS = {
     "meta": {
         "X_NAME": "[WIP] Flow Wave",
@@ -16,7 +18,7 @@ XPARAMETERS = {
         "INITIAL_POSITION": [1.50, 1.50, 1.11],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": 1e5,  # Simulation voxel count (impacts performance)
         "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
