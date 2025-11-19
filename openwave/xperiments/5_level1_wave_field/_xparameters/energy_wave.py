@@ -9,33 +9,35 @@ from openwave.common import constants
 
 XPARAMETERS = {
     "meta": {
-        "name": "[WIP] Energy Wave",
-        "description": "Energy Wave Charging, Propagation and Interaction",
+        "X_NAME": "[WIP] Energy Wave",
+        "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "initial_position": [1.50, 1.50, 1.11],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.50, 1.50, 1.11],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_voxels": 1e6,  # Simulation voxel count (impacts performance)
-        "slow_mo": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
-        "show_grid": False,  # Toggle to show/hide the voxel grid
-        "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
-        "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
+        "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
-        "show_axis": True,  # Toggle to show/hide axis lines
-        "flux_mesh": True,  # Flux Mesh toggle
-        "radius_factor": 1.0,  # Granule radius scaling factor
-        "freq_boost": 10.0,  # Frequency boost multiplier
-        "amp_boost": 1.0,  # Amplitude boost multiplier
-        "paused": False,  # Pause/Start simulation toggle
-        "color_palette": 2,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
-        "var_amp": False,  # Displacement vs amplitude toggle
+        "SHOW_AXIS": True,  # Toggle to show/hide axis lines
+        "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
+        "SHOW_GRID": False,  # Toggle to show/hide the voxel grid
+        "SHOW_FLUX_MESH": True,  # Flux Mesh toggle
+        "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
+        "FREQ_BOOST": 10.0,  # Frequency boost multiplier
+        "AMP_BOOST": 1.0,  # Amplitude boost multiplier
+        "PAUSED": False,  # Pause/Start simulation toggle
+    },
+    "color_defaults": {
+        "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "COLOR_PALETTE": 2,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
+        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
-        "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)
-        "export_video": False,  # Toggle frame image export to video directory
-        "video_frames": 24,  # Target frame number to stop recording and finalize video export
+        "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
+        "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
+        "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
 }
