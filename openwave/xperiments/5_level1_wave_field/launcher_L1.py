@@ -122,7 +122,7 @@ class SimulationState:
         self.SHOW_AXIS = False
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
-        self.SHOW_FLUX_MESH = False
+        self.FLUX_MESH_OPTION = 0
         self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
@@ -164,7 +164,7 @@ class SimulationState:
         self.SHOW_AXIS = ui["SHOW_AXIS"]
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
-        self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
+        self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
         self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
@@ -225,7 +225,7 @@ def controls(state):
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
-        state.SHOW_FLUX_MESH = sub.checkbox("Flux Mesh", state.SHOW_FLUX_MESH)
+        state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
@@ -378,8 +378,8 @@ def compute_propagation(state):
     #     state.elapsed_t,
     # )
 
-    # # Update normalized positions for rendering with optional SHOW_FLUX_MESH
-    # state.lattice.normalize_to_screen(1 if state.SHOW_FLUX_MESH else 0)
+    # # Update normalized positions for rendering with optional FLUX_MESH_OPTION
+    # state.lattice.normalize_to_screen(1 if state.FLUX_MESH_OPTION else 0)
 
     # # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # # Update data sampling every 30 frames
@@ -398,11 +398,11 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     # Flux Mesh Visualization
-    if state.SHOW_FLUX_MESH:
+    if state.FLUX_MESH_OPTION > 0:
         # Update flux mesh colors from current wave displacement
         ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-        # Render the three flux mesh
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field)
+        # Render flux mesh
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # Particle Testing
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)

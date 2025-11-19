@@ -86,6 +86,7 @@ def update_flux_mesh_colors(
     # ================================================================
     # XY Plane: Sample at z = center_k
     # ================================================================
+    # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample scalar displacement at this voxel
         disp_value = wave_field.displacement_am[i, j, center_k]

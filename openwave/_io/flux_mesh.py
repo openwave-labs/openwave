@@ -77,7 +77,7 @@ def initialize_flux_mesh_fields(wave_field):
     _flux_mesh_fields_initialized = True
 
 
-def render_flux_mesh(scene, wave_field):
+def render_flux_mesh(scene, wave_field, flux_mesh_option):
     """
     Render all three flux mesh to the scene with two-sided rendering.
 
@@ -110,31 +110,34 @@ def render_flux_mesh(scene, wave_field):
     flatten_all_colors(wave_field, _xy_colors_flat, _xz_colors_flat, _yz_colors_flat)
 
     # ================================================================
-    # Render all three planes
+    # Render flux mesh planes
     # ================================================================
-    scene.mesh(
-        _xy_vertices_flat,
-        indices=_xy_indices_flat,
-        per_vertex_color=_xy_colors_flat,
-        two_sided=True,
-        show_wireframe=True,
-    )
+    if flux_mesh_option in (1, 2, 3):
+        scene.mesh(
+            _xy_vertices_flat,
+            indices=_xy_indices_flat,
+            per_vertex_color=_xy_colors_flat,
+            two_sided=True,
+            show_wireframe=True,
+        )
 
-    scene.mesh(
-        _xz_vertices_flat,
-        indices=_xz_indices_flat,
-        per_vertex_color=_xz_colors_flat,
-        two_sided=True,
-        show_wireframe=True,
-    )
+    if flux_mesh_option in (2, 3):
+        scene.mesh(
+            _xz_vertices_flat,
+            indices=_xz_indices_flat,
+            per_vertex_color=_xz_colors_flat,
+            two_sided=True,
+            show_wireframe=True,
+        )
 
-    scene.mesh(
-        _yz_vertices_flat,
-        indices=_yz_indices_flat,
-        per_vertex_color=_yz_colors_flat,
-        two_sided=True,
-        show_wireframe=True,
-    )
+    if flux_mesh_option == 3:
+        scene.mesh(
+            _yz_vertices_flat,
+            indices=_yz_indices_flat,
+            per_vertex_color=_yz_colors_flat,
+            two_sided=True,
+            show_wireframe=True,
+        )
 
 
 # ================================================================
@@ -225,6 +228,7 @@ def flatten_all_colors(
     yz_colors_flat: ti.template(),  # type: ignore
 ):
     """Flatten all three Plane colors in a single kernel (called every frame)."""
+    # Always flatten all planes (conditionals cause GPU branch divergence)
     # XY Plane
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         idx = i * wave_field.ny + j
