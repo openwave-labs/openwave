@@ -17,7 +17,7 @@ XPARAMETERS = {
     },
     "universe": {
         "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e7,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 1e8,  # Simulation voxel count (impacts performance)
         "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
