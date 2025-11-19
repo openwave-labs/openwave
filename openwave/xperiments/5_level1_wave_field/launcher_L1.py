@@ -296,7 +296,7 @@ def data_dashboard(state):
         sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.wave_field.ewave_res:.0f} voxels/lambda (>10)")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
@@ -351,6 +351,7 @@ def initialize_xperiment(state):
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: Replace with actual wave initialization logic
     ewave.create_test_displacement_pattern(state.wave_field)
+    ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
@@ -377,14 +378,14 @@ def render_elements(state):
         ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
-    # Test particles for visual reference
+    # TODO: remove test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.02, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array(
-        [[0.5, (int(0.75 * state.wave_field.ny) + 0.5) / state.wave_field.max_grid_size, 0.5]],
-        dtype=np.float32,
+    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    y_pos = 0.5 + (
+        (round(constants.EWAVE_LENGTH / state.wave_field.dx)) / state.wave_field.max_grid_size
     )
-    render.scene.particles(position2, radius=0.02, color=colormap.COLOR_ANTI[1])
+    position2 = np.array([[0.5, y_pos, 0.5]], dtype=np.float32)
+    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
@@ -448,6 +449,7 @@ def main():
 
         if not state.PAUSED:
             # Update elapsed time and run simulation step
+            # TODO: upgrade to fixed timestep
             current_time = time.time()
             state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
             state.last_time = current_time

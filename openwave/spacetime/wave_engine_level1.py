@@ -8,7 +8,14 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 
 import taichi as ti
 
-from openwave.common import colormap
+from openwave.common import colormap, constants, equations, utils
+
+# ================================================================
+# Energy-Wave Oscillation Parameters
+# ================================================================
+base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
+frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
 @ti.kernel
@@ -27,6 +34,10 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
     center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
     center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
+
+    # Wave number k = 2π/λ (spatial phase variation)
+    wave_number = 2.0 * ti.math.pi / (wavelength_am / wave_field.dx_am)  # radians per grid index
+
     # Create radial displacement pattern
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         # Distance from center
@@ -37,16 +48,20 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
 
         # Simple sinusoidal radial pattern
         # Amplitude decreases with distance, oscillates radially
-        max_r = ti.sqrt(center_x * center_x + center_y * center_y + center_z * center_z)
-        normalized_r = r / max_r
+        r_safe_am = ti.max(
+            r, wavelength_am / wave_field.dx_am
+        )  # minimum 1 wavelength_am from source
+        amplitude_falloff = (wavelength_am / wave_field.dx_am) / r_safe_am
+        amplitude_am_at_r = base_amplitude_am * amplitude_falloff
 
         # Displacement magnitude (in attometers for scalar field)
+        # displacement from center source: A(r)·cos(ωt - kr), where ωt=0 at t=0
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        amplitude = 1000.0 * ti.cos(normalized_r * 10.0 * ti.math.pi)
+        disp = amplitude_am_at_r * ti.cos(-wave_number * r)
 
-        # Apply scalar displacement (amplitude in attometers)
-        wave_field.displacement_am[i, j, k] = amplitude
+        # Apply scalar displacement (in attometers)
+        wave_field.displacement_am[i, j, k] = disp
 
 
 @ti.kernel
@@ -81,7 +96,7 @@ def update_flux_mesh_colors(
     # Displacement range for color scaling (in attometers)
     # TODO: In future, use exponential moving average tracker like LEVEL-0 ironbow
     # For now, use fixed range based on test pattern amplitude
-    peak_amplitude_am = 1000.0  # 1000 attometers (positive displacement/expansion)
+    peak_amplitude_am = base_amplitude_am  # attometers (positive displacement/expansion)
 
     # ================================================================
     # XY Plane: Sample at z = center_k
@@ -146,3 +161,73 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 disp_value, -peak_amplitude_am, peak_amplitude_am
             )
+
+
+# TODO: migrate to numerical analysis module
+def plot_displacement_profile(wave_field):
+    """
+    Plot the displacement profile along the x-axis through the center of the wave field.
+
+    Args:
+        wave_field: WaveField instance containing displacement data
+    """
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Get center indices
+    center_j = wave_field.ny // 2
+    center_k = wave_field.nz // 2
+
+    # Extract displacement along x-axis at center (y, z)
+    nx = wave_field.nx
+    x_indices = np.arange(nx)
+    displacements = np.zeros(nx)
+
+    for i in range(nx):
+        displacements[i] = wave_field.displacement_am[i, center_j, center_k]
+
+    # Calculate distance from center in grid indices
+    center_x = nx / 2.0
+    distances = x_indices - center_x
+
+    # Create the plot
+    plt.figure(figsize=(12, 6))
+
+    # Plot 1: Displacement vs position
+    # plt.subplot(1, 2, 1)
+    # plt.plot(x_indices, displacements, "b-", linewidth=2)
+    # plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
+    # plt.axvline(x=center_x, color="r", linestyle="--", alpha=0.3, label="Center")
+    # plt.xlabel("Grid Index (i)")
+    # plt.ylabel("Displacement (attometers)")
+    # plt.title("Displacement Profile Along X-axis")
+    # plt.grid(True, alpha=0.3)
+    # plt.legend()
+
+    # Plot 2: Displacement vs distance from center
+    plt.subplot(1, 2, 2)
+    plt.plot(distances, displacements, "g-", linewidth=2)
+    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
+    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3, label="Center")
+    plt.xlabel("Distance from Center (grid indices)")
+    plt.ylabel("Displacement (attometers)")
+    plt.title("Radial Displacement Profile")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    plt.tight_layout()
+
+    # Save to research directory
+    from pathlib import Path
+
+    save_path = (
+        Path(__file__).parent.parent
+        / "xperiments"
+        / "5_level1_wave_field"
+        / "_research"
+        / "displacement_profile.png"
+    )
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    print(f"Plot saved to: {save_path}")
+    # plt.show()

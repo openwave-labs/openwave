@@ -93,7 +93,7 @@ class WaveField:
 
         # Compute energy-wave linear resolution, sampling rate
         # voxels per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.dx)  # in voxels / λ
+        self.ewave_res = constants.EWAVE_LENGTH / self.dx  # in voxels / λ
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
