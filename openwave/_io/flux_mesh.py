@@ -166,6 +166,11 @@ def flatten_all_colors(
         yz_colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
 
 
+# ================================================================
+# Flatten XY Plane
+# ================================================================
+
+
 @ti.kernel
 def flatten_xy_vertices(
     wave_field: ti.template(),  # type: ignore
@@ -197,6 +202,11 @@ def flatten_xy_indices(wave_field: ti.template(), indices_flat: ti.template()): 
             indices_flat[base_idx + k] = wave_field.fluxmesh_xy_indices[i, j, k]
 
 
+# ================================================================
+# Flatten XZ Plane
+# ================================================================
+
+
 @ti.kernel
 def flatten_xz_vertices(
     wave_field: ti.template(),  # type: ignore
@@ -226,6 +236,11 @@ def flatten_xz_indices(wave_field: ti.template(), indices_flat: ti.template()): 
         base_idx = (i * (wave_field.nz - 1) + k) * 6
         for m in ti.static(range(6)):
             indices_flat[base_idx + m] = wave_field.fluxmesh_xz_indices[i, k, m]
+
+
+# ================================================================
+# Flatten YZ Plane
+# ================================================================
 
 
 @ti.kernel

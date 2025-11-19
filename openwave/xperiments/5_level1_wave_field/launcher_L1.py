@@ -407,7 +407,10 @@ def render_elements(state):
     # Particle Testing
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
     render.scene.particles(position1, radius=0.02, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array([[0.5, 0.75, 0.5]], dtype=np.float32)
+    position2 = np.array(
+        [[0.5, (int(0.75 * state.wave_field.ny) + 0.5) / state.wave_field.max_grid_size, 0.5]],
+        dtype=np.float32,
+    )
     render.scene.particles(position2, radius=0.02, color=colormap.COLOR_ANTI[1])
 
 

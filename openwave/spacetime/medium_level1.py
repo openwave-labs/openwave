@@ -62,8 +62,8 @@ class WaveField:
         # This preserves crystal structure. Only the NUMBER of voxels varies per axis.
         self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
         self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
-        self.dx = self.voxel_edge
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
+        self.dx = self.voxel_edge
         self.dx_am = self.voxel_edge_am
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
