@@ -44,7 +44,7 @@
 
 **Key Features**:
 
-- Three orthogonal films (XY, XZ, YZ)
+- Three orthogonal planes (XY, XZ, YZ)
 - Intersect at center of universe domain
 - Mesh resolution matches simulation resolution
 - Dynamic color mapping of wave properties
@@ -55,8 +55,8 @@
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py`
   - Location: `launcher_L1.py:222` (CONTROLS window)
   - Variable: `state.flux_mesh` (Boolean)
-  - Control: Single checkbox "Flux Mesh" for all three films
-  - Default: `False` (films hidden)
+  - Control: Single checkbox "Flux Mesh" for all three planes
+  - Default: `False` (flux mesh hidden)
   - Configuration: Via xparameters `ui_defaults["flux_mesh"]`
 
 - 🔄 **In Progress**: Core mesh rendering and wave property visualization
@@ -71,16 +71,11 @@
 
 The feature is called **"Flux Mesh"** (plural):
 
-- **Flux Mesh**: Primary term - three 2D detector films visualizing wave flux
-- **Flux Mesh**: Singular - referring to the system/feature or an individual film
+- **Flux Mesh**: Primary term - three 2D detector planes visualizing wave flux
+- **Flux Mesh**: Singular - referring to the system/feature or an individual plane
 - **Alternative names considered**: Flux Screens, Flux Sensors, Flux Detectors, Plane Slice
 
-**Flux** represents the energy wave field passing through the films, while **film** represents the detector surface that captures wave properties and converts them to visual information (like photographic film, X-ray film, or nuclear emulsion).
-
-**Singular vs Plural Usage**:
-
-- **Plural "Flux Mesh"**: When referring to the three detector surfaces (UI label, multiple objects)
-- **Singular "Flux Mesh"**: When referring to the feature/system or a specific individual film
+**Flux** represents the energy wave field passing through the mesh, while **Mesh** represents the detector surface that captures wave properties and converts them to visual information (like photographic film, X-ray film, or nuclear emulsion).
 
 ### Inspiration
 
@@ -102,7 +97,7 @@ Similar to LEVEL-0's `block_slice` feature but adapted for voxel-based wave fiel
 
 **"Field Sensor"** is reserved for future point measurement features:
 
-- **Flux Mesh**: 2D surface detectors (current feature - plural for three films)
+- **Flux Mesh**: 2D surface detectors (current feature)
 - **Field Sensor**: Point probe measuring specific voxel properties (future feature)
 
 ## Physical Analogy
@@ -129,9 +124,9 @@ Three orthogonal flux mesh intersecting at the universe center:
 center_pos = universe_size * 0.5  # Center of domain
 
 # Flux Mesh positions
-film_xy_z = center_pos  # XY film at z = 0.5
-film_xz_y = center_pos  # XZ film at y = 0.5
-film_yz_x = center_pos  # YZ film at x = 0.5
+film_xy_z = center_pos  # XY plane at z = 0.5
+film_xz_y = center_pos  # XZ plane at y = 0.5
+film_yz_x = center_pos  # YZ plane at x = 0.5
 ```
 
 ### Intersection Design
@@ -149,9 +144,9 @@ All three flux mesh intersect at the central voxel:
 
     [0.5, 0.5, 0.5] - Intersection point
 
-    XY Film: spans (0→1, 0→1, 0.5)
-    XZ Film: spans (0→1, 0.5, 0→1)
-    YZ Film: spans (0.5, 0→1, 0→1)
+    XY Plane: spans (0→1, 0→1, 0.5)
+    XZ Plane: spans (0→1, 0.5, 0→1)
+    YZ Plane: spans (0.5, 0→1, 0→1)
 ```
 
 **Visual Result**: Three mutually perpendicular flux mesh forming a 3D cross at the universe center.
@@ -189,7 +184,7 @@ Each flux mesh is rendered as a **Taichi mesh**:
 ```python
 import taichi as ti
 
-# Mesh for XY film
+# Mesh for XY plane
 mesh_resolution_x = target_voxels_x
 mesh_resolution_y = target_voxels_y
 
@@ -220,12 +215,12 @@ film_xy_indices = ti.field(
 
 ```python
 # If simulation has target_voxels = 64³
-# XY film mesh: 64 × 64 vertices
-# XZ film mesh: 64 × 64 vertices
-# YZ film mesh: 64 × 64 vertices
+# XY plane mesh: 64 × 64 vertices
+# XZ plane mesh: 64 × 64 vertices
+# YZ plane mesh: 64 × 64 vertices
 
 # Each quad (voxel face) = 2 triangles
-# Total triangles per film: (64-1) × (64-1) × 2 = 7,938 triangles
+# Total triangles per plane: (64-1) × (64-1) × 2 = 7,938 triangles
 ```
 
 **Benefits**:
@@ -508,7 +503,7 @@ blueprint4 = [
 
 **L1 Launcher UI Implementation**:
 
-The Flux Mesh system is implemented in `launcher_L1.py` with a **single toggle for all three films**:
+The Flux Mesh system is implemented in `launcher_L1.py` with a **single toggle for all three planes**:
 
 ```python
 # SimulationState class (launcher_L1.py:123)
@@ -527,25 +522,25 @@ with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
 ```python
 # From _xparameters/energy_wave.py:27
 "ui_defaults": {
-    "flux_mesh": False,  # Flux Mesh toggle (all three films)
+    "flux_mesh": False,  # Flux Mesh toggle (all three planes)
     # ... other UI defaults
 }
 ```
 
 **Current Implementation**:
 
-- **Single toggle controls all three films** (XY, XZ, YZ)
-- Default state: `False` (films hidden)
+- **Single toggle controls all three planes** (XY, XZ, YZ)
+- Default state: `False` (flux mesh hidden)
 - Toggleable via checkbox in CONTROLS window
 - Simple on/off functionality for initial implementation
 
 **Future Enhancements** (optional):
 
 ```python
-# Individual film toggles (if needed)
-state.show_film_xy = True   # XY film at z=0.5
-state.show_film_xz = True   # XZ film at y=0.5
-state.show_film_yz = True   # YZ film at x=0.5
+# Individual plane toggles (if needed)
+state.show_film_xy = True   # XY plane at z=0.5
+state.show_film_xz = True   # XZ plane at y=0.5
+state.show_film_yz = True   # YZ plane at x=0.5
 
 # Property selection (future)
 state.property_mode = 0  # 0=displacement, 1=amplitude, 2=energy
@@ -560,14 +555,14 @@ state.gradient_mode = 0  # 0=ironbow, 1=redshift, 2=blueprint
 
 - User can orbit camera around universe cube
 - View flux mesh from any angle
-- See both sides of each film (two-sided rendering)
+- See both sides of each plane (two-sided rendering)
 - Zoom in/out for detail inspection
 
 **Benefits of Two-Sided Rendering**:
 
 - Front face shows wave properties from one side
 - Back face shows wave properties from other side
-- Useful when camera is behind a film
+- Useful when camera is behind a plane
 - No occlusion issues
 
 ## Implementation Details
@@ -640,17 +635,17 @@ scene.mesh(
 - Mesh resolution = simulation resolution (no extra overhead)
 - Direct voxel-to-vertex mapping (no interpolation)
 - GPU-accelerated mesh rendering (Taichi)
-- Only visible films are rendered (toggle control)
+- Only visible meshes are rendered (toggle control)
 
 **Memory**:
 
 ```python
-# Per film (64³ simulation):
+# Per plane (64³ simulation):
 # Vertices: 64 × 64 × 3 floats = 49,152 bytes ≈ 48 KB
 # Colors: 64 × 64 × 3 floats = 49,152 bytes ≈ 48 KB
 # Indices: 63 × 63 × 6 ints = 95,256 bytes ≈ 93 KB
-# Total per film: ~189 KB
-# Total for 3 films: ~567 KB (negligible)
+# Total per plane: ~189 KB
+# Total for 3 planes: ~567 KB (negligible)
 ```
 
 **Update Frequency**:
@@ -663,14 +658,14 @@ scene.mesh(
 
 ### Dynamic Positioning
 
-- **User-Controlled Film Position**: Slider to move films along their normal axis
-- **Scanning Animation**: Automatically sweep films through domain
-- **Multiple Films**: More than 3 films for detailed analysis
+- **User-Controlled plane Position**: Slider to move meshes along their normal axis
+- **Scanning Animation**: Automatically sweep mesh through domain
+- **Multiple Meshes**: More than 3 planes for detailed analysis
 
 ### Advanced Properties
 
-- **Vector Field Visualization**: Display force arrows on films
-- **Streamline Overlay**: Show energy flow paths on films
+- **Vector Field Visualization**: Display force arrows on mesh
+- **Streamline Overlay**: Show energy flow paths on mesh
 - **Phase Visualization**: Cyclic colormap for wave phase
 
 ### Universe Wall Visualization
@@ -687,9 +682,9 @@ scene.mesh(
 ```python
 # Six wall faces as flux mesh
 wall_films = [
-    "x_min", "x_max",  # YZ films at x=0 and x=1
-    "y_min", "y_max",  # XZ films at y=0 and y=1
-    "z_min", "z_max",  # XY films at z=0 and z=1
+    "x_min", "x_max",  # YZ planes at x=0 and x=1
+    "y_min", "y_max",  # XZ planes at y=0 and y=1
+    "z_min", "z_max",  # XY planes at z=0 and z=1
 ]
 
 # Render wave properties on walls
@@ -699,8 +694,8 @@ for wall in wall_films:
 
 ### Interactive Selection
 
-- **Click to Place Film**: User clicks to position films
-- **Drag to Orient**: Custom film orientations (not just orthogonal)
+- **Click to Place Flux Mesh**: User clicks to position mesh
+- **Drag to Orient**: Custom plane orientations (not just orthogonal)
 - **Region of Interest**: Zoom and clip to specific regions
 
 ### Field Sensors (Future Feature)
@@ -720,7 +715,7 @@ for wall in wall_films:
 **Implementation Status**:
 
 - ✅ **UI Toggle**: Implemented in `launcher_L1.py` (line 222)
-  - Single checkbox "Flux Mesh" controls all three films
+  - Single checkbox "Flux Mesh" controls all three planes
   - Integrated with xparameters system
   - Default: `flux_mesh = False`
 
@@ -755,7 +750,7 @@ openwave/
 └── common/
     └── config.py  (ADD flux mesh functions)
         ├── get_redshift_color()         # NEW: Redshift gradient for signed values
-        ├── create_flux_mesh()    # NEW: Initialize 3 film meshes
+        ├── create_flux_mesh()          # NEW: Initialize 3 flux meshes
         ├── update_flux_mesh_colors()    # NEW: Sample wave properties and apply colors
         └── render_flux_mesh()          # NEW: Render meshes to scene
 ```

@@ -122,7 +122,7 @@ class SimulationState:
         self.SHOW_AXIS = False
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
-        self.SHOW_FLUX_MESH = False
+        self.FLUX_MESH_OPTION = 0
         self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
@@ -164,7 +164,7 @@ class SimulationState:
         self.SHOW_AXIS = ui["SHOW_AXIS"]
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
-        self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
+        self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
         self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
@@ -197,7 +197,7 @@ def xperiment_launcher(xperiment_mgr, state):
 
     Args:
         xperiment_mgr: XperimentManager instance
-        state: SimulationState instance (unused but kept for consistency)
+        state: SimulationState instance
 
     Returns:
         str or None: Selected xperiment name or None
@@ -221,11 +221,10 @@ def xperiment_launcher(xperiment_mgr, state):
 
 def controls(state):
     """Render the controls UI overlay."""
-    # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
-        state.SHOW_FLUX_MESH = sub.checkbox("Flux Mesh", state.SHOW_FLUX_MESH)
+        state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
@@ -327,7 +326,7 @@ def data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize xperiment and diagnostics (called once after grid init).
+    """Initialize color palettes, test patterns and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -337,7 +336,7 @@ def initialize_xperiment(state):
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
-    # Initialize palette scales for gradient rendering and level indicator (after ti.init)
+    # Initialize color palette scales for gradient rendering and level indicator
     ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
@@ -349,8 +348,8 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Initialize test displacement pattern for flux mesh (temporary until wave propagation)
-    # Always create pattern regardless of toggle state (toggle just controls rendering)
+    # Initialize test displacement pattern for flux mesh visualization
+    # TODO: Replace with actual wave initialization logic
     ewave.create_test_displacement_pattern(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
@@ -358,56 +357,33 @@ def initialize_xperiment(state):
 
 
 def compute_propagation(state):
-    """Compute wave propagation, reflection and superposition and update visualization data.
+    """Compute wave propagation, reflection and superposition
+    and update visualization data (placeholder for future implementation).
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # # Apply wave propagation
-    # ewave.propagate_wave(
-    #     state.lattice.position_am,
-    #     state.lattice.equilibrium_am,
-    #     state.lattice.amplitude_am,
-    #     state.lattice.velocity_am,
-    #     state.lattice.granule_var_color,
-    #     state.FREQ_BOOST,
-    #     state.AMP_BOOST,
-    #     state.ironbow,
-    #     state.VAR_AMP,
-    #     state.NUM_SOURCES,
-    #     state.elapsed_t,
-    # )
-
-    # # Update normalized positions for rendering with optional SHOW_FLUX_MESH
-    # state.lattice.normalize_to_screen(1 if state.SHOW_FLUX_MESH else 0)
-
-    # # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # # Update data sampling every 30 frames
-    # if state.frame % 30 == 0:
-    #     state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-    #     ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
-
-    # if state.WAVE_DIAGNOSTICS:
-    #     diagnostics.print_WAVE_DIAGNOSTICS(state.elapsed_t, state.frame, print_interval=100)
+    # TODO: Implement wave propagation / normalization logic
+    # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
+    pass
 
 
 def render_elements(state):
-    """Render spacetime elements with appropriate coloring."""
-    # Grid Visualization
+    """Render grid, flux mesh and test particles."""
     if state.SHOW_GRID:
-        render.scene.lines(state.wave_field.wire_frame, width=1, color=colormap.COLOR_MEDIUM[1])
+        render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
-    # Flux Mesh Visualization
-    if state.SHOW_FLUX_MESH:
-        # Update flux mesh colors from current wave displacement
+    if state.FLUX_MESH_OPTION > 0:
         ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-        # Render the three flux mesh
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field)
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
-    # Particle Testing
+    # Test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
     render.scene.particles(position1, radius=0.02, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array([[0.5, 0.75, 0.5]], dtype=np.float32)
+    position2 = np.array(
+        [[0.5, (int(0.75 * state.wave_field.ny) + 0.5) / state.wave_field.max_grid_size, 0.5]],
+        dtype=np.float32,
+    )
     render.scene.particles(position2, radius=0.02, color=colormap.COLOR_ANTI[1])
 
 
@@ -418,7 +394,6 @@ def render_elements(state):
 
 def main():
     """Main entry point for xperiment launcher."""
-    # Parse command-line argument for xperiment selection
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
@@ -428,7 +403,7 @@ def main():
     xperiment_mgr = XperimentManager()
     state = SimulationState()
 
-    # Load xperiment (from CLI arg or default)
+    # Load xperiment from CLI argument or default
     default_xperiment = selected_xperiment_arg or "energy_wave"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")

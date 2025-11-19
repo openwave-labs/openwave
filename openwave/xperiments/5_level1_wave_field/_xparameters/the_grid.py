@@ -16,15 +16,15 @@ XPARAMETERS = {
         "INITIAL_POSITION": [2.50, 1.50, 1.50],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "SIZE": [1e-16, 1e-16, 5e-17],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e2,  # Simulation voxel count (impacts performance)
+        "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "TARGET_VOXELS": 1e3,  # Simulation voxel count (impacts performance)
         "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": True,  # Toggle to show/hide the voxel grid
-        "SHOW_FLUX_MESH": False,  # Flux Mesh toggle
+        "FLUX_MESH_OPTION": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
         "FREQ_BOOST": 10.0,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier

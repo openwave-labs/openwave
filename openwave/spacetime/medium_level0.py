@@ -149,6 +149,9 @@ class BCCLattice:
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
+        # ================================================================
+        # DATA STRUCTURES & INITIALIZATION
+        # ================================================================
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # position, velocity in attometers for f32 precision
