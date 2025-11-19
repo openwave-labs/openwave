@@ -395,7 +395,7 @@ def render_elements(state):
     """Render spacetime elements with appropriate coloring."""
     # Grid Visualization
     if state.SHOW_GRID:
-        render.scene.lines(state.wave_field.wire_frame, width=1, color=colormap.COLOR_MEDIUM[1])
+        render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     # Flux Mesh Visualization
     if state.SHOW_FLUX_MESH:

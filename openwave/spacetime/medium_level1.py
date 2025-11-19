@@ -119,9 +119,9 @@ class WaveField:
         # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
         # ================================================================
-        # Wire-frame Visualization: data structures & initialization
+        # Grid Visualization: data structures & initialization
         # ================================================================
-        # Wire-frame: optimized grid lines for rendering
+        # Grid: optimized grid lines for rendering
         # Instead of drawing individual voxel edges, draw continuous lines face-to-face
         # Each line spans the entire grid dimension (e.g., from x=0 to x=1 in normalized coords)
         # This reduces vertex count by ~1000x for large grids
@@ -132,14 +132,14 @@ class WaveField:
         # - Z-direction (parallel to Z): (nx+1) × (ny+1) lines
         # Total vertices = 2 × (sum of lines)
         self.line_count = (
-            (self.grid_size[1] + 1) * (self.grid_size[2] + 1)  # X-parallel lines
-            + (self.grid_size[0] + 1) * (self.grid_size[2] + 1)  # Y-parallel lines
-            + (self.grid_size[0] + 1) * (self.grid_size[1] + 1)  # Z-parallel lines
+            (self.ny + 1) * (self.nz + 1)  # X-parallel lines
+            + (self.nx + 1) * (self.nz + 1)  # Y-parallel lines
+            + (self.nx + 1) * (self.ny + 1)  # Z-parallel lines
         )
-        self.wire_frame = ti.Vector.field(3, dtype=ti.f32, shape=self.line_count * 2)
+        self.grid_lines = ti.Vector.field(3, dtype=ti.f32, shape=self.line_count * 2)
 
-        # Populate the grid wire_frame with normalized positions (ready for rendering)
-        self.populate_wire_frame()  # initialize grid lines (already normalized)
+        # Populate the grid with normalized positions (ready for rendering)
+        self.populate_grid_lines()  # initialize grid lines (already normalized)
 
         # ================================================================
         # Flux Mesh: data structures & initialization
@@ -175,9 +175,9 @@ class WaveField:
         self.create_flux_mesh()
 
     @ti.kernel
-    def populate_wire_frame(self):
+    def populate_grid_lines(self):
         """
-        Create optimized wire-frame for GGUI rendering and visualization.
+        Create optimized grid lines for GGUI rendering and visualization.
 
         Draws continuous lines across the entire grid face-to-face instead of individual
         voxel edges. This reduces vertex count by ~1000x for large grids while maintaining
@@ -219,8 +219,8 @@ class WaveField:
                 y_norm = ti.cast(j, ti.f32) / max_dim
                 z_norm = ti.cast(k, ti.f32) / max_dim
 
-                self.wire_frame[vertex_idx] = ti.Vector([0.0, y_norm, z_norm])
-                self.wire_frame[vertex_idx + 1] = ti.Vector(
+                self.grid_lines[vertex_idx] = ti.Vector([0.0, y_norm, z_norm])
+                self.grid_lines[vertex_idx + 1] = ti.Vector(
                     [ti.cast(self.nx, ti.f32) / max_dim, y_norm, z_norm]
                 )
 
@@ -234,8 +234,8 @@ class WaveField:
                 x_norm = ti.cast(i, ti.f32) / max_dim
                 z_norm = ti.cast(k, ti.f32) / max_dim
 
-                self.wire_frame[vertex_idx] = ti.Vector([x_norm, 0.0, z_norm])
-                self.wire_frame[vertex_idx + 1] = ti.Vector(
+                self.grid_lines[vertex_idx] = ti.Vector([x_norm, 0.0, z_norm])
+                self.grid_lines[vertex_idx + 1] = ti.Vector(
                     [x_norm, ti.cast(self.ny, ti.f32) / max_dim, z_norm]
                 )
 
@@ -249,8 +249,8 @@ class WaveField:
                 x_norm = ti.cast(i, ti.f32) / max_dim
                 y_norm = ti.cast(j, ti.f32) / max_dim
 
-                self.wire_frame[vertex_idx] = ti.Vector([x_norm, y_norm, 0.0])
-                self.wire_frame[vertex_idx + 1] = ti.Vector(
+                self.grid_lines[vertex_idx] = ti.Vector([x_norm, y_norm, 0.0])
+                self.grid_lines[vertex_idx + 1] = ti.Vector(
                     [x_norm, y_norm, ti.cast(self.nz, ti.f32) / max_dim]
                 )
 
