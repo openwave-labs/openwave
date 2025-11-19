@@ -12,40 +12,42 @@ This XPERIMENT showcases:
 
 XPARAMETERS = {
     "meta": {
-        "name": "Wave Pulse",
-        "description": "Single source radiation with wave diagnostics",
+        "X_NAME": "Wave Pulse",
+        "DESCRIPTION": "Single source radiation with wave diagnostics",
     },
     "camera": {
-        "initial_position": [1.35, 0.91, 0.68],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.35, 0.91, 0.68],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_granules": 1e6,  # Simulation particle count (impacts performance)
-        "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
-        "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "TARGET_GRANULES": 1e6,  # Simulation particle count (impacts performance)
     },
     "wave_sources": {
-        "count": 1,  # Number of wave sources for this xperiment
+        "COUNT": 1,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Single source at center for pure spherical wave pulse radiation
-        "positions": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
+        "POSITIONS": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
         # Phase offset in degrees (0° = in phase with base frequency)
-        "phase_offsets_deg": [0],
+        "PHASE_OFFSETS_DEG": [0],
     },
     "ui_defaults": {
-        "show_axis": True,  # Toggle to show/hide axis lines
-        "block_slice": False,  # Block-slicing toggle
-        "show_sources": False,  # Toggle to show/hide wave source markers
-        "radius_factor": 0.1,  # Granule radius scaling factor
-        "freq_boost": 10.0,  # Frequency boost multiplier
-        "amp_boost": 5.0,  # Amplitude boost multiplier
-        "paused": False,  # Pause/Start simulation toggle
-        "color_palette": 99,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
-        "var_amp": False,  # Displacement vs amplitude toggle
+        "SHOW_AXIS": True,  # Toggle to show/hide axis lines
+        "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
+        "BLOCK_SLICE": False,  # Block-slicing toggle
+        "SHOW_SOURCES": False,  # Toggle to show/hide wave source markers
+        "RADIUS_FACTOR": 0.1,  # Granule radius scaling factor
+        "FREQ_BOOST": 10.0,  # Frequency boost multiplier
+        "AMP_BOOST": 5.0,  # Amplitude boost multiplier
+        "PAUSED": False,  # Pause/Start simulation toggle
+    },
+    "color_defaults": {
+        "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "COLOR_PALETTE": 99,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
+        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
-        "wave_diagnostics": True,  # Toggle wave diagnostics (speed & wavelength measurements)
-        "export_video": False,  # Toggle frame image export to video directory
-        "video_frames": 24,  # Target frame number to stop recording and finalize video export
+        "WAVE_DIAGNOSTICS": True,  # Toggle wave diagnostics (speed & wavelength measurements)
+        "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
+        "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
 }

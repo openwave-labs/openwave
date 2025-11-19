@@ -14,23 +14,21 @@ This XPERIMENT showcases:
 
 XPARAMETERS = {
     "meta": {
-        "name": "Crossing Waves",
-        "description": "Crossing Waves Harmonic Oscillations with 9 sources",
+        "X_NAME": "Crossing Waves",
+        "DESCRIPTION": "Crossing Waves Harmonic Oscillations with 9 sources",
     },
     "camera": {
-        "initial_position": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [2.00, 1.50, 1.75],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "target_granules": 1e6,  # Simulation particle count (impacts performance)
-        "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
-        "color_theme": "DESERT",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
+        "TARGET_GRANULES": 1e6,  # Simulation particle count (impacts performance)
     },
     "wave_sources": {
-        "count": 9,  # Number of wave sources for this xperiment
+        "COUNT": 9,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
-        "positions": [
+        "POSITIONS": [
             [0.5, 0.5, 0.5],  # Wave Source 0 - Center
             [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
             [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner
@@ -43,22 +41,26 @@ XPARAMETERS = {
         ],
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Center source at 180° creates crossing wave patterns with corner sources at 0°
-        "phase_offsets_deg": [180, 0, 0, 0, 0, 0, 0, 0, 0],
+        "PHASE_OFFSETS_DEG": [180, 0, 0, 0, 0, 0, 0, 0, 0],
     },
     "ui_defaults": {
-        "show_axis": False,  # Toggle to show/hide axis lines
-        "block_slice": False,  # Block-slicing toggle
-        "show_sources": True,  # Toggle to show/hide wave source markers
-        "radius_factor": 1.0,  # Granule radius scaling factor
-        "freq_boost": 1.0,  # Frequency boost multiplier
-        "amp_boost": 5.0,  # Amplitude boost multiplier
-        "paused": False,  # Pause/Start simulation toggle
-        "color_palette": 0,  # Color palette list: default (0), granule-type (0), ironbow (1), blueprint (2)
-        "var_amp": False,  # Displacement vs amplitude toggle
+        "SHOW_AXIS": False,  # Toggle to show/hide axis lines
+        "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
+        "BLOCK_SLICE": False,  # Block-slicing toggle
+        "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
+        "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
+        "FREQ_BOOST": 1.0,  # Frequency boost multiplier
+        "AMP_BOOST": 5.0,  # Amplitude boost multiplier
+        "PAUSED": False,  # Pause/Start simulation toggle
+    },
+    "color_defaults": {
+        "COLOR_THEME": "DESERT",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "COLOR_PALETTE": 0,  # Color palette list: default (0), granule-type (0), ironbow (1), blueprint (2)
+        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
-        "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)
-        "export_video": False,  # Toggle frame image export to video directory
-        "video_frames": 24,  # Target frame number to stop recording and finalize video export
+        "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
+        "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
+        "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
 }

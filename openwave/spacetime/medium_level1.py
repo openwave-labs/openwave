@@ -407,7 +407,7 @@ if __name__ == "__main__":
         6e-15,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    wave_field = WaveField(UNIVERSE_SIZE, target_voxels=1e8)
+    wave_field = WaveField(UNIVERSE_SIZE, target_voxels=1e9)
 
     print(f"\nGrid Statistics:")
     print(

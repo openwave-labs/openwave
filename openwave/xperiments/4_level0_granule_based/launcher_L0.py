@@ -70,7 +70,7 @@ class XperimentManager:
 
             # Cache display name from meta
             self.xperiment_display_names[xperiment_name] = parameters_module.XPARAMETERS["meta"][
-                "name"
+                "X_NAME"
             ]
 
             return self.current_xparameters
@@ -90,7 +90,7 @@ class XperimentManager:
                 f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
             )
             parameters_module = importlib.import_module(module_path)
-            display_name = parameters_module.XPARAMETERS["meta"]["name"]
+            display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
             return display_name
         except:
@@ -119,22 +119,24 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_GRANULES = 1e6
-        self.TICK_SPACING = 0.25
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
         self.SOURCES_PHASE_DEG = []
-        self.COLOR_THEME = "OCEAN"
 
         # UI control variables
-        self.show_axis = False
-        self.block_slice = False
-        self.show_sources = False
-        self.radius_factor = 0.5
-        self.freq_boost = 10.0
-        self.amp_boost = 1.0
-        self.paused = False
-        self.color_palette = 0
-        self.var_amp = False
+        self.SHOW_AXIS = False
+        self.TICK_SPACING = 0.25
+        self.BLOCK_SLICE = False
+        self.SHOW_SOURCES = False
+        self.RADIUS_FACTOR = 0.5
+        self.FREQ_BOOST = 10.0
+        self.AMP_BOOST = 1.0
+        self.PAUSED = False
+
+        # Color control variables
+        self.COLOR_THEME = "OCEAN"
+        self.COLOR_PALETTE = 0
+        self.VAR_AMP = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
@@ -151,41 +153,44 @@ class SimulationState:
     def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
         # Meta
-        self.X_NAME = params["meta"]["name"]
+        self.X_NAME = params["meta"]["X_NAME"]
 
         # Camera
-        self.CAM_INIT = params["camera"]["initial_position"]
+        self.CAM_INIT = params["camera"]["INITIAL_POSITION"]
 
         # Universe
         universe = params["universe"]
-        self.UNIVERSE_SIZE = list(universe["size"])
-        self.TARGET_GRANULES = universe["target_granules"]
-        self.TICK_SPACING = universe["tick_spacing"]
-        self.COLOR_THEME = universe["color_theme"]
+        self.UNIVERSE_SIZE = list(universe["SIZE"])
+        self.TARGET_GRANULES = universe["TARGET_GRANULES"]
 
         # Wave sources
         sources = params["wave_sources"]
-        self.NUM_SOURCES = sources["count"]
-        self.SOURCES_POSITION = sources["positions"]
-        self.SOURCES_PHASE_DEG = sources["phase_offsets_deg"]
+        self.NUM_SOURCES = sources["COUNT"]
+        self.SOURCES_POSITION = sources["POSITIONS"]
+        self.SOURCES_PHASE_DEG = sources["PHASE_OFFSETS_DEG"]
 
         # UI defaults
         ui = params["ui_defaults"]
-        self.show_axis = ui["show_axis"]
-        self.block_slice = ui["block_slice"]
-        self.show_sources = ui["show_sources"]
-        self.radius_factor = ui["radius_factor"]
-        self.freq_boost = ui["freq_boost"]
-        self.amp_boost = ui["amp_boost"]
-        self.paused = ui["paused"]
-        self.color_palette = ui["color_palette"]
-        self.var_amp = ui["var_amp"]
+        self.SHOW_AXIS = ui["SHOW_AXIS"]
+        self.TICK_SPACING = ui["TICK_SPACING"]
+        self.BLOCK_SLICE = ui["BLOCK_SLICE"]
+        self.SHOW_SOURCES = ui["SHOW_SOURCES"]
+        self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
+        self.FREQ_BOOST = ui["FREQ_BOOST"]
+        self.AMP_BOOST = ui["AMP_BOOST"]
+        self.PAUSED = ui["PAUSED"]
+
+        # Color defaults
+        color = params["color_defaults"]
+        self.COLOR_THEME = color["COLOR_THEME"]
+        self.COLOR_PALETTE = color["COLOR_PALETTE"]
+        self.VAR_AMP = color["VAR_AMP"]
 
         # Diagnostics
         diag = params["diagnostics"]
-        self.WAVE_DIAGNOSTICS = diag["wave_diagnostics"]
-        self.EXPORT_VIDEO = diag["export_video"]
-        self.VIDEO_FRAMES = diag["video_frames"]
+        self.WAVE_DIAGNOSTICS = diag["WAVE_DIAGNOSTICS"]
+        self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
+        self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
     def initialize_lattice(self):
         """Initialize or reinitialize the lattice and granule objects."""
@@ -233,45 +238,45 @@ def controls(state):
     """Render the controls UI overlay."""
     # Create overlay windows for controls
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
-        state.show_axis = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.show_axis)
-        state.block_slice = sub.checkbox("Block Slice", state.block_slice)
-        state.show_sources = sub.checkbox("Show Wave Sources", state.show_sources)
-        state.radius_factor = sub.slider_float("Granule", state.radius_factor, 0.1, 2.0)
-        state.freq_boost = sub.slider_float("f Boost", state.freq_boost, 0.1, 10.0)
-        state.amp_boost = sub.slider_float("Amp Boost", state.amp_boost, 0.1, 5.0)
-        if state.paused:
+        state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
+        state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
+        state.SHOW_SOURCES = sub.checkbox("Show Wave Sources", state.SHOW_SOURCES)
+        state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
+        state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
+        state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
+        if state.PAUSED:
             if sub.button("Continue"):
-                state.paused = False
+                state.PAUSED = False
         else:
             if sub.button("Pause"):
-                state.paused = True
+                state.PAUSED = True
 
 
 def color_menu(state):
     """Render color selection menu."""
-    tracker = "amplitude" if state.var_amp else "displacement"
+    tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.color_palette == 1 and not state.var_amp):
-            state.color_palette = 1
-            state.var_amp = False
-        if sub.checkbox("Amplitude (ironbow)", state.color_palette == 1 and state.var_amp):
-            state.color_palette = 1
-            state.var_amp = True
-        if sub.checkbox("Amplitude (blueprint)", state.color_palette == 2 and state.var_amp):
-            state.color_palette = 2
-            state.var_amp = True
-        if sub.checkbox("Granule Type Color", state.color_palette == 0):
-            state.color_palette = 0
-            state.var_amp = True
-        if sub.checkbox("Medium Default Color", state.color_palette == 99):
-            state.color_palette = 99
-            state.var_amp = True
-        if state.color_palette == 1:  # Display ironbow gradient palette
+        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
+            state.COLOR_PALETTE = 1
+            state.VAR_AMP = False
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
+            state.COLOR_PALETTE = 1
+            state.VAR_AMP = True
+        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+            state.COLOR_PALETTE = 2
+            state.VAR_AMP = True
+        if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
+            state.COLOR_PALETTE = 0
+            state.VAR_AMP = True
+        if sub.checkbox("Medium Default Color", state.COLOR_PALETTE == 99):
+            state.COLOR_PALETTE = 99
+            state.VAR_AMP = True
+        if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
             # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.color_palette == 2:  # Display blueprint gradient palette
+        if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
             # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
@@ -300,7 +305,7 @@ def data_dashboard(state):
         sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
         sub.text(f"Unit-Cells per Max Edge: {state.lattice.max_grid_size:,}")
         sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
-        sub.text(f"Granule Radius: {state.granule.radius * state.radius_factor:.2e} m")
+        sub.text(f"Granule Radius: {state.granule.radius * state.RADIUS_FACTOR:.2e} m")
         sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
@@ -318,7 +323,7 @@ def data_dashboard(state):
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        slowed_mo = constants.EWAVE_FREQUENCY / state.freq_boost
+        slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
@@ -372,16 +377,16 @@ def compute_motion(state):
         state.lattice.amplitude_am,
         state.lattice.velocity_am,
         state.lattice.granule_var_color,
-        state.freq_boost,
-        state.amp_boost,
-        state.color_palette,
-        state.var_amp,
+        state.FREQ_BOOST,
+        state.AMP_BOOST,
+        state.COLOR_PALETTE,
+        state.VAR_AMP,
         state.NUM_SOURCES,
         state.elapsed_t,
     )
 
     # Update normalized positions for rendering with optional block-slicing
-    state.lattice.normalize_to_screen(1 if state.block_slice else 0)
+    state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Update data sampling every 30 frames
@@ -395,16 +400,16 @@ def compute_motion(state):
 
 def render_elements(state):
     """Render granules and wave sources with appropriate coloring."""
-    radius_render = state.granule.radius_screen * state.radius_factor
+    radius_render = state.granule.radius_screen * state.RADIUS_FACTOR
 
     # Render granules with color scheme
-    if state.color_palette == 0:
+    if state.COLOR_PALETTE == 0:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.color_palette == 1 or state.color_palette == 2:
+    elif state.COLOR_PALETTE == 1 or state.COLOR_PALETTE == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
@@ -418,7 +423,7 @@ def render_elements(state):
         )
 
     # Render wave sources
-    if state.show_sources:
+    if state.SHOW_SOURCES:
         render.scene.particles(
             centers=ewave.sources_pos_field,
             radius=state.granule.radius_screen * 2,
@@ -462,7 +467,7 @@ def main():
 
     # Main rendering loop
     while render.window.running:
-        render.init_scene(state.show_axis)  # Initialize scene with lighting and camera
+        render.init_scene(state.SHOW_AXIS)  # Initialize scene with lighting and camera
 
         # Handle ESC key for window close
         if render.window.is_pressed(ti.ui.ESCAPE):
@@ -486,7 +491,7 @@ def main():
             # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
-        if not state.paused:
+        if not state.PAUSED:
             # Update elapsed time and run simulation step
             current_time = time.time()
             state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt

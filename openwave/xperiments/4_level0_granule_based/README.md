@@ -80,44 +80,49 @@ Brief description of what this xperiment demonstrates.
 
 XPARAMETERS = {
     "meta": {
-        "name": "My Custom Wave",
-        "description": "Custom wave interference pattern",
+        "X_NAME": "Standing Wave",
+        "DESCRIPTION": "64 sources in circular pattern creating standing wave patterns",
     },
     "camera": {
-        "initial_position": [2.0, 1.5, 1.75],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.33, 0.67, 1.52],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
-        "tick_spacing": 0.25,  # Axis tick marks spacing
-        "color_theme": "OCEAN",  # OCEAN, DESERT, or FOREST
+        "SIZE": [
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE / 20,
+        ],  # m, simulation domain [x, y, z]
+        "TARGET_GRANULES": 1e6,  # Simulation particle count (impacts performance)
     },
     "wave_sources": {
-        "count": 4,  # Number of wave sources
-        "positions": [
-            [0.25, 0.25, 0.5],  # Source positions in normalized coords (0-1)
-            [0.75, 0.25, 0.5],
-            [0.25, 0.75, 0.5],
-            [0.75, 0.75, 0.5],
-        ],
-        "phase_offsets_deg": [0, 90, 180, 270],  # Phase offsets in degrees
+        "COUNT": NUM_SOURCES,  # Number of wave sources for this xperiment
+        # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
+        # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
+        "POSITIONS": SOURCES_POSITION,
+        # Phase offsets for each source (integer degrees, converted to radians internally)
+        # Allows creating constructive/destructive interference patterns
+        # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
+        "PHASE_OFFSETS_DEG": SOURCES_PHASE_DEG,
     },
     "ui_defaults": {
-        "show_axis": True,
-        "block_slice": False,
-        "show_sources": True,
-        "radius_factor": 0.5,
-        "freq_boost": 1.0,
-        "amp_boost": 1.0,
-        "paused": False,
-        "granule_type": False,
-        "ironbow": True,
-        "blueprint": False,
-        "var_amp": False,
+        "SHOW_AXIS": False,  # Toggle to show/hide axis lines
+        "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
+        "BLOCK_SLICE": False,  # Block-slicing toggle
+        "SHOW_SOURCES": False,  # Toggle to show/hide wave source markers
+        "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
+        "FREQ_BOOST": 0.5,  # Frequency boost multiplier
+        "AMP_BOOST": 0.1,  # Amplitude boost multiplier
+        "PAUSED": False,  # Pause/Start simulation toggle
+    },
+    "color_defaults": {
+        "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "COLOR_PALETTE": 1,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
+        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
-        "wave_diagnostics": False,  # Enable wave speed/wavelength measurements
-        "export_video": False,  # Export frames for video
-        "video_frames": 24,  # Number of frames to capture
+        "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
+        "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
+        "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
 }
 ```
