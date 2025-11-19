@@ -153,17 +153,17 @@ def flatten_all_colors(
     # XY Plane
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         idx = i * wave_field.ny + j
-        xy_colors_flat[idx] = wave_field.film_xy_colors[i, j]
+        xy_colors_flat[idx] = wave_field.fluxmesh_xy_colors[i, j]
 
     # XZ Plane
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         idx = i * wave_field.nz + k
-        xz_colors_flat[idx] = wave_field.film_xz_colors[i, k]
+        xz_colors_flat[idx] = wave_field.fluxmesh_xz_colors[i, k]
 
     # YZ Plane
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         idx = j * wave_field.nz + k
-        yz_colors_flat[idx] = wave_field.film_yz_colors[j, k]
+        yz_colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
 
 
 @ti.kernel
@@ -174,7 +174,7 @@ def flatten_xy_vertices(
     """Flatten XY Plane vertices to 1D array (called once during init)."""
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         idx = i * wave_field.ny + j
-        vertices_flat[idx] = wave_field.film_xy_vertices[i, j]
+        vertices_flat[idx] = wave_field.fluxmesh_xy_vertices[i, j]
 
 
 @ti.kernel
@@ -185,7 +185,7 @@ def flatten_xy_colors(
     """Flatten XY Plane colors to 1D array (called every frame)."""
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         idx = i * wave_field.ny + j
-        colors_flat[idx] = wave_field.film_xy_colors[i, j]
+        colors_flat[idx] = wave_field.fluxmesh_xy_colors[i, j]
 
 
 @ti.kernel
@@ -194,7 +194,7 @@ def flatten_xy_indices(wave_field: ti.template(), indices_flat: ti.template()): 
     for i, j in ti.ndrange(wave_field.nx - 1, wave_field.ny - 1):
         base_idx = (i * (wave_field.ny - 1) + j) * 6
         for k in ti.static(range(6)):
-            indices_flat[base_idx + k] = wave_field.film_xy_indices[i, j, k]
+            indices_flat[base_idx + k] = wave_field.fluxmesh_xy_indices[i, j, k]
 
 
 @ti.kernel
@@ -205,7 +205,7 @@ def flatten_xz_vertices(
     """Flatten XZ Plane vertices to 1D array (called once during init)."""
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         idx = i * wave_field.nz + k
-        vertices_flat[idx] = wave_field.film_xz_vertices[i, k]
+        vertices_flat[idx] = wave_field.fluxmesh_xz_vertices[i, k]
 
 
 @ti.kernel
@@ -216,7 +216,7 @@ def flatten_xz_colors(
     """Flatten XZ Plane colors to 1D array (called every frame)."""
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         idx = i * wave_field.nz + k
-        colors_flat[idx] = wave_field.film_xz_colors[i, k]
+        colors_flat[idx] = wave_field.fluxmesh_xz_colors[i, k]
 
 
 @ti.kernel
@@ -225,7 +225,7 @@ def flatten_xz_indices(wave_field: ti.template(), indices_flat: ti.template()): 
     for i, k in ti.ndrange(wave_field.nx - 1, wave_field.nz - 1):
         base_idx = (i * (wave_field.nz - 1) + k) * 6
         for m in ti.static(range(6)):
-            indices_flat[base_idx + m] = wave_field.film_xz_indices[i, k, m]
+            indices_flat[base_idx + m] = wave_field.fluxmesh_xz_indices[i, k, m]
 
 
 @ti.kernel
@@ -236,7 +236,7 @@ def flatten_yz_vertices(
     """Flatten YZ Plane vertices to 1D array (called once during init)."""
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         idx = j * wave_field.nz + k
-        vertices_flat[idx] = wave_field.film_yz_vertices[j, k]
+        vertices_flat[idx] = wave_field.fluxmesh_yz_vertices[j, k]
 
 
 @ti.kernel
@@ -247,7 +247,7 @@ def flatten_yz_colors(
     """Flatten YZ Plane colors to 1D array (called every frame)."""
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         idx = j * wave_field.nz + k
-        colors_flat[idx] = wave_field.film_yz_colors[j, k]
+        colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
 
 
 @ti.kernel
@@ -256,4 +256,4 @@ def flatten_yz_indices(wave_field: ti.template(), indices_flat: ti.template()): 
     for j, k in ti.ndrange(wave_field.ny - 1, wave_field.nz - 1):
         base_idx = (j * (wave_field.nz - 1) + k) * 6
         for m in ti.static(range(6)):
-            indices_flat[base_idx + m] = wave_field.film_yz_indices[j, k, m]
+            indices_flat[base_idx + m] = wave_field.fluxmesh_yz_indices[j, k, m]

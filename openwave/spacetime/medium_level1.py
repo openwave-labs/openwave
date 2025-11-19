@@ -252,7 +252,7 @@ class WaveField:
     @ti.kernel
     def create_flux_mesh(self):
         """
-        Initialize flux mesh for all three orthogonal planes.
+        Initialize normalized flux mesh for all three orthogonal planes.
 
         Creates vertex positions and triangle indices for XY, XZ, and YZ flux mesh
         positioned at the universe center. Each plane is a 2D mesh that samples wave
@@ -268,18 +268,17 @@ class WaveField:
         - Indices: Triangle pairs forming quads (2 triangles × 3 vertices = 6 indices)
         - Colors: Initialized to black, updated by update_flux_mesh_colors()
         """
-        nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
         max_dim = ti.cast(self.max_grid_size, ti.f32)
 
         # Center position in normalized coordinates
-        center_x = ti.cast(nx, ti.f32) / (2.0 * max_dim)
-        center_y = ti.cast(ny, ti.f32) / (2.0 * max_dim)
-        center_z = ti.cast(nz, ti.f32) / (2.0 * max_dim)
+        center_x = ti.cast(self.nx, ti.f32) / (2.0 * max_dim)
+        center_y = ti.cast(self.ny, ti.f32) / (2.0 * max_dim)
+        center_z = ti.cast(self.nz, ti.f32) / (2.0 * max_dim)
 
         # ================================================================
         # XY Plane (at z = center): spans (0→1, 0→1, 0.5)
         # ================================================================
-        for i, j in ti.ndrange(nx, ny):
+        for i, j in ti.ndrange(self.nx, self.ny):
             # Normalized coordinates for rendering
             x_norm = (ti.cast(i, ti.f32) + 0.5) / max_dim
             y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
@@ -291,22 +290,22 @@ class WaveField:
             self.fluxmesh_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
 
         # Triangle indices for XY plane
-        for i, j in ti.ndrange(nx - 1, ny - 1):
+        for i, j in ti.ndrange(self.nx - 1, self.ny - 1):
             # Each quad = 2 triangles
             # Triangle 1: (i,j) → (i+1,j) → (i,j+1)
-            self.fluxmesh_xy_indices[i, j, 0] = i * ny + j
-            self.fluxmesh_xy_indices[i, j, 1] = (i + 1) * ny + j
-            self.fluxmesh_xy_indices[i, j, 2] = i * ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 0] = i * self.ny + j
+            self.fluxmesh_xy_indices[i, j, 1] = (i + 1) * self.ny + j
+            self.fluxmesh_xy_indices[i, j, 2] = i * self.ny + (j + 1)
 
             # Triangle 2: (i+1,j) → (i+1,j+1) → (i,j+1)
-            self.fluxmesh_xy_indices[i, j, 3] = (i + 1) * ny + j
-            self.fluxmesh_xy_indices[i, j, 4] = (i + 1) * ny + (j + 1)
-            self.fluxmesh_xy_indices[i, j, 5] = i * ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 3] = (i + 1) * self.ny + j
+            self.fluxmesh_xy_indices[i, j, 4] = (i + 1) * self.ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 5] = i * self.ny + (j + 1)
 
         # ================================================================
         # XZ Plane (at y = center): spans (0→1, 0.5, 0→1)
         # ================================================================
-        for i, k in ti.ndrange(nx, nz):
+        for i, k in ti.ndrange(self.nx, self.nz):
             # Normalized coordinates for rendering
             x_norm = (ti.cast(i, ti.f32) + 0.5) / max_dim
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
@@ -318,22 +317,22 @@ class WaveField:
             self.fluxmesh_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
 
         # Triangle indices for XZ plane
-        for i, k in ti.ndrange(nx - 1, nz - 1):
+        for i, k in ti.ndrange(self.nx - 1, self.nz - 1):
             # Each quad = 2 triangles
             # Triangle 1: (i,k) → (i+1,k) → (i,k+1)
-            self.fluxmesh_xz_indices[i, k, 0] = i * nz + k
-            self.fluxmesh_xz_indices[i, k, 1] = (i + 1) * nz + k
-            self.fluxmesh_xz_indices[i, k, 2] = i * nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 0] = i * self.nz + k
+            self.fluxmesh_xz_indices[i, k, 1] = (i + 1) * self.nz + k
+            self.fluxmesh_xz_indices[i, k, 2] = i * self.nz + (k + 1)
 
             # Triangle 2: (i+1,k) → (i+1,k+1) → (i,k+1)
-            self.fluxmesh_xz_indices[i, k, 3] = (i + 1) * nz + k
-            self.fluxmesh_xz_indices[i, k, 4] = (i + 1) * nz + (k + 1)
-            self.fluxmesh_xz_indices[i, k, 5] = i * nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 3] = (i + 1) * self.nz + k
+            self.fluxmesh_xz_indices[i, k, 4] = (i + 1) * self.nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 5] = i * self.nz + (k + 1)
 
         # ================================================================
         # YZ Plane (at x = center): spans (0.5, 0→1, 0→1)
         # ================================================================
-        for j, k in ti.ndrange(ny, nz):
+        for j, k in ti.ndrange(self.ny, self.nz):
             # Normalized coordinates for rendering
             y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
@@ -345,17 +344,17 @@ class WaveField:
             self.fluxmesh_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
 
         # Triangle indices for YZ plane
-        for j, k in ti.ndrange(ny - 1, nz - 1):
+        for j, k in ti.ndrange(self.ny - 1, self.nz - 1):
             # Each quad = 2 triangles
             # Triangle 1: (j,k) → (j+1,k) → (j,k+1)
-            self.fluxmesh_yz_indices[j, k, 0] = j * nz + k
-            self.fluxmesh_yz_indices[j, k, 1] = (j + 1) * nz + k
-            self.fluxmesh_yz_indices[j, k, 2] = j * nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 0] = j * self.nz + k
+            self.fluxmesh_yz_indices[j, k, 1] = (j + 1) * self.nz + k
+            self.fluxmesh_yz_indices[j, k, 2] = j * self.nz + (k + 1)
 
             # Triangle 2: (j+1,k) → (j+1,k+1) → (j,k+1)
-            self.fluxmesh_yz_indices[j, k, 3] = (j + 1) * nz + k
-            self.fluxmesh_yz_indices[j, k, 4] = (j + 1) * nz + (k + 1)
-            self.fluxmesh_yz_indices[j, k, 5] = j * nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 3] = (j + 1) * self.nz + k
+            self.fluxmesh_yz_indices[j, k, 4] = (j + 1) * self.nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 5] = j * self.nz + (k + 1)
 
     @ti.func
     def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
