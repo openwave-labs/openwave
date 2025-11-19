@@ -3,13 +3,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Flux Mesh](#flux-films)
+1. [Flux Mesh](#flux-mesh)
    - [Purpose and Concept](#purpose-and-concept)
    - [Implementation](#implementation)
    - [Properties and Interactions](#properties-and-interactions)
 1. [Universe Boundaries](#universe-boundaries)
    - [Outer Walls](#outer-walls)
-   - [Wall as Flux Mesh](#wall-as-flux-film)
+   - [Wall as Flux Mesh](#wall-as-flux-mesh)
    - [User Interaction](#user-interaction)
 1. [3D Wave Visualization Techniques](#3d-wave-visualization-techniques)
    - [Particle Spray Method](#particle-spray-method)
@@ -96,14 +96,14 @@ film_color = ti.Vector.field(3, dtype=ti.f32, shape=(res_x, res_y))
 def create_flux_mesh(position: ti.math.vec3, normal: ti.math.vec3):
     """Create flux mesh at position with given normal."""
     for i, j in ti.ndrange(res_x, res_y):
-        # Position on film
-        u = (i / res_x - 0.5) * film_width
-        v = (j / res_y - 0.5) * film_height
+        # Position on mesh
+        u = (i / res_x - 0.5) * mesh_width
+        v = (j / res_y - 0.5) * mesh_height
 
         # Tangent vectors
         tangent1, tangent2 = compute_tangents(normal)
 
-        # Point on film
+        # Point on mesh
         flux_mesh[i, j] = position + u * tangent1 + v * tangent2
 ```
 
@@ -111,8 +111,8 @@ def create_flux_mesh(position: ti.math.vec3, normal: ti.math.vec3):
 
 - Can be placed anywhere in 3D space
 - Can be oriented in any direction
-- Multiple films can show different slices
-- Can animate film position for scanning
+- Multiple mesh can show different slices
+- Can animate mesh position for scanning
 
 **Sampling Wave Field**:
 

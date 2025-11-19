@@ -122,10 +122,8 @@ class WaveField:
         # Grid Visualization: data structures & initialization
         # ================================================================
         # Grid: optimized grid lines for rendering
-        # Instead of drawing individual voxel edges, draw continuous lines face-to-face
         # Each line spans the entire grid dimension (e.g., from x=0 to x=1 in normalized coords)
-        # This reduces vertex count by ~1000x for large grids
-        #
+
         # Line count per direction:
         # - X-direction (parallel to X): (ny+1) × (nz+1) lines
         # - Y-direction (parallel to Y): (nx+1) × (nz+1) lines
@@ -144,32 +142,31 @@ class WaveField:
         # ================================================================
         # Flux Mesh: data structures & initialization
         # ================================================================
-        # Three orthogonal films intersecting at universe center
-        # Each film mesh has resolution matching simulation voxel grid
+        # Three orthogonal meshes intersecting at universe center
+        # Each flux mesh has resolution matching simulation voxel grid
         # Vertices positioned at voxel centers for direct property sampling
-        #
-        # XY Film (at z = center): spans (0→1, 0→1, 0.5)
+
+        # XY Flux Mesh (at z = center): spans (0→1, 0→1, 0.5)
         # - Vertices: nx × ny grid points
         # - Indices: (nx-1) × (ny-1) quads × 6 vertices (2 triangles each)
         # nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        self.fluxmesh_xy_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
+        self.fluxmesh_xy_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
+        self.fluxmesh_xy_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.ny - 1, 6))
 
-        self.film_xy_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
-        self.film_xy_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
-        self.film_xy_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.ny - 1, 6))
-
-        # XZ Film (at y = center): spans (0→1, 0.5, 0→1)
+        # XZ Flux Mesh (at y = center): spans (0→1, 0.5, 0→1)
         # - Vertices: nx × nz grid points
         # - Indices: (nx-1) × (nz-1) quads × 6 vertices (2 triangles each)
-        self.film_xz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
-        self.film_xz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
-        self.film_xz_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.nz - 1, 6))
+        self.fluxmesh_xz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
+        self.fluxmesh_xz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
+        self.fluxmesh_xz_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.nz - 1, 6))
 
-        # YZ Film (at x = center): spans (0.5, 0→1, 0→1)
+        # YZ Flux Mesh (at x = center): spans (0.5, 0→1, 0→1)
         # - Vertices: ny × nz grid points
         # - Indices: (ny-1) × (nz-1) quads × 6 vertices (2 triangles each)
-        self.film_yz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
-        self.film_yz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
-        self.film_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
+        self.fluxmesh_yz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
+        self.fluxmesh_yz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
+        self.fluxmesh_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
 
         # Initialize flux mesh (vertices, indices, colors)
         self.create_flux_mesh()
@@ -179,9 +176,7 @@ class WaveField:
         """
         Create optimized grid lines for GGUI rendering and visualization.
 
-        Draws continuous lines across the entire grid face-to-face instead of individual
-        voxel edges. This reduces vertex count by ~1000x for large grids while maintaining
-        the same visual grid structure.
+        Draws continuous lines across the entire grid face-to-face.
 
         For a 2×2×2 voxel grid (3×3×3 grid points):
         - 9 lines parallel to X-axis (one per (j,k) pair on YZ plane)
@@ -257,16 +252,16 @@ class WaveField:
     @ti.kernel
     def create_flux_mesh(self):
         """
-        Initialize flux mesh for all three orthogonal films.
+        Initialize flux mesh for all three orthogonal planes.
 
         Creates vertex positions and triangle indices for XY, XZ, and YZ flux mesh
-        positioned at the universe center. Each film is a 2D mesh that samples wave
+        positioned at the universe center. Each plane is a 2D mesh that samples wave
         properties from the voxel grid.
 
         Coordinate system:
         - Positions stored in normalized coordinates [0, 1] for rendering
         - Each vertex corresponds to a voxel center for direct property sampling
-        - Films intersect at [0.5, 0.5, 0.5] (universe center)
+        - Meshes intersect at [0.5, 0.5, 0.5] (universe center)
 
         Mesh structure:
         - Vertices: Grid of 3D positions matching voxel resolution
@@ -282,7 +277,7 @@ class WaveField:
         center_z = ti.cast(nz, ti.f32) / (2.0 * max_dim)
 
         # ================================================================
-        # XY Film (at z = center): spans (0→1, 0→1, 0.5)
+        # XY Plane (at z = center): spans (0→1, 0→1, 0.5)
         # ================================================================
         for i, j in ti.ndrange(nx, ny):
             # Normalized coordinates for rendering
@@ -290,26 +285,26 @@ class WaveField:
             y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.film_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
+            self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
 
             # Initialize color to black (will be updated by update_flux_mesh_colors)
-            self.film_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
 
-        # Triangle indices for XY film
+        # Triangle indices for XY plane
         for i, j in ti.ndrange(nx - 1, ny - 1):
             # Each quad = 2 triangles
             # Triangle 1: (i,j) → (i+1,j) → (i,j+1)
-            self.film_xy_indices[i, j, 0] = i * ny + j
-            self.film_xy_indices[i, j, 1] = (i + 1) * ny + j
-            self.film_xy_indices[i, j, 2] = i * ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 0] = i * ny + j
+            self.fluxmesh_xy_indices[i, j, 1] = (i + 1) * ny + j
+            self.fluxmesh_xy_indices[i, j, 2] = i * ny + (j + 1)
 
             # Triangle 2: (i+1,j) → (i+1,j+1) → (i,j+1)
-            self.film_xy_indices[i, j, 3] = (i + 1) * ny + j
-            self.film_xy_indices[i, j, 4] = (i + 1) * ny + (j + 1)
-            self.film_xy_indices[i, j, 5] = i * ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 3] = (i + 1) * ny + j
+            self.fluxmesh_xy_indices[i, j, 4] = (i + 1) * ny + (j + 1)
+            self.fluxmesh_xy_indices[i, j, 5] = i * ny + (j + 1)
 
         # ================================================================
-        # XZ Film (at y = center): spans (0→1, 0.5, 0→1)
+        # XZ Plane (at y = center): spans (0→1, 0.5, 0→1)
         # ================================================================
         for i, k in ti.ndrange(nx, nz):
             # Normalized coordinates for rendering
@@ -317,26 +312,26 @@ class WaveField:
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.film_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
+            self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
 
             # Initialize color to black
-            self.film_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
 
-        # Triangle indices for XZ film
+        # Triangle indices for XZ plane
         for i, k in ti.ndrange(nx - 1, nz - 1):
             # Each quad = 2 triangles
             # Triangle 1: (i,k) → (i+1,k) → (i,k+1)
-            self.film_xz_indices[i, k, 0] = i * nz + k
-            self.film_xz_indices[i, k, 1] = (i + 1) * nz + k
-            self.film_xz_indices[i, k, 2] = i * nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 0] = i * nz + k
+            self.fluxmesh_xz_indices[i, k, 1] = (i + 1) * nz + k
+            self.fluxmesh_xz_indices[i, k, 2] = i * nz + (k + 1)
 
             # Triangle 2: (i+1,k) → (i+1,k+1) → (i,k+1)
-            self.film_xz_indices[i, k, 3] = (i + 1) * nz + k
-            self.film_xz_indices[i, k, 4] = (i + 1) * nz + (k + 1)
-            self.film_xz_indices[i, k, 5] = i * nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 3] = (i + 1) * nz + k
+            self.fluxmesh_xz_indices[i, k, 4] = (i + 1) * nz + (k + 1)
+            self.fluxmesh_xz_indices[i, k, 5] = i * nz + (k + 1)
 
         # ================================================================
-        # YZ Film (at x = center): spans (0.5, 0→1, 0→1)
+        # YZ Plane (at x = center): spans (0.5, 0→1, 0→1)
         # ================================================================
         for j, k in ti.ndrange(ny, nz):
             # Normalized coordinates for rendering
@@ -344,23 +339,23 @@ class WaveField:
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.film_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
+            self.fluxmesh_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
 
             # Initialize color to black
-            self.film_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
 
-        # Triangle indices for YZ film
+        # Triangle indices for YZ plane
         for j, k in ti.ndrange(ny - 1, nz - 1):
             # Each quad = 2 triangles
             # Triangle 1: (j,k) → (j+1,k) → (j,k+1)
-            self.film_yz_indices[j, k, 0] = j * nz + k
-            self.film_yz_indices[j, k, 1] = (j + 1) * nz + k
-            self.film_yz_indices[j, k, 2] = j * nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 0] = j * nz + k
+            self.fluxmesh_yz_indices[j, k, 1] = (j + 1) * nz + k
+            self.fluxmesh_yz_indices[j, k, 2] = j * nz + (k + 1)
 
             # Triangle 2: (j+1,k) → (j+1,k+1) → (j,k+1)
-            self.film_yz_indices[j, k, 3] = (j + 1) * nz + k
-            self.film_yz_indices[j, k, 4] = (j + 1) * nz + (k + 1)
-            self.film_yz_indices[j, k, 5] = j * nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 3] = (j + 1) * nz + k
+            self.fluxmesh_yz_indices[j, k, 4] = (j + 1) * nz + (k + 1)
+            self.fluxmesh_yz_indices[j, k, 5] = j * nz + (k + 1)
 
     @ti.func
     def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore

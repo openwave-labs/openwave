@@ -57,7 +57,7 @@ def update_flux_mesh_colors(
     """
     Update flux mesh colors by sampling wave properties from voxel grid.
 
-    Samples wave displacement at each film vertex position and maps it to a color
+    Samples wave displacement at each Plane vertex position and maps it to a color
     using the redshift gradient (red=negative, gray=zero, blue=positive).
 
     This function should be called every frame after wave propagation to update
@@ -73,7 +73,7 @@ def update_flux_mesh_colors(
         color_palette: Integer code for color palette selection
     """
 
-    # Get center indices for each film
+    # Get center indices for each Plane
     center_i = wave_field.nx // 2
     center_j = wave_field.ny // 2
     center_k = wave_field.nz // 2
@@ -85,7 +85,7 @@ def update_flux_mesh_colors(
     max_disp = 1000.0  # +1000 attometers (positive displacement/expansion)
 
     # ================================================================
-    # XY Film: Sample at z = center_k
+    # XY Plane: Sample at z = center_k
     # ================================================================
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample scalar displacement at this voxel
@@ -93,20 +93,20 @@ def update_flux_mesh_colors(
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
-            wave_field.film_xy_colors[i, j] = colormap.get_blueprint_color(
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 disp_value, min_disp, max_disp
             )
         elif color_palette == 3:  # redshift
-            wave_field.film_xy_colors[i, j] = colormap.get_redshift_color(
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
                 disp_value, min_disp, max_disp
             )
         else:  # default to ironbow (palette 1)
-            wave_field.film_xy_colors[i, j] = colormap.get_ironbow_color(
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 disp_value, min_disp, max_disp
             )
 
     # ================================================================
-    # XZ Film: Sample at y = center_j
+    # XZ Plane: Sample at y = center_j
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample scalar displacement at this voxel
@@ -114,20 +114,20 @@ def update_flux_mesh_colors(
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
-            wave_field.film_xz_colors[i, k] = colormap.get_blueprint_color(
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 disp_value, min_disp, max_disp
             )
         elif color_palette == 3:  # redshift
-            wave_field.film_xz_colors[i, k] = colormap.get_redshift_color(
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
                 disp_value, min_disp, max_disp
             )
         else:  # default to ironbow (palette 1)
-            wave_field.film_xz_colors[i, k] = colormap.get_ironbow_color(
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 disp_value, min_disp, max_disp
             )
 
     # ================================================================
-    # YZ Film: Sample at x = center_i
+    # YZ Plane: Sample at x = center_i
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample scalar displacement at this voxel
@@ -135,14 +135,14 @@ def update_flux_mesh_colors(
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
-            wave_field.film_yz_colors[j, k] = colormap.get_blueprint_color(
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 disp_value, min_disp, max_disp
             )
         elif color_palette == 3:  # redshift
-            wave_field.film_yz_colors[j, k] = colormap.get_redshift_color(
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
                 disp_value, min_disp, max_disp
             )
         else:  # default to ironbow (palette 1)
-            wave_field.film_yz_colors[j, k] = colormap.get_ironbow_color(
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 disp_value, min_disp, max_disp
             )
