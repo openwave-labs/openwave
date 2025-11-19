@@ -81,8 +81,7 @@ def update_flux_mesh_colors(
     # Displacement range for color scaling (in attometers)
     # TODO: In future, use exponential moving average tracker like LEVEL-0 ironbow
     # For now, use fixed range based on test pattern amplitude
-    min_disp = -1000.0  # -1000 attometers (negative displacement/compression)
-    max_disp = 1000.0  # +1000 attometers (positive displacement/expansion)
+    peak_amplitude_am = 1000.0  # 1000 attometers (positive displacement/expansion)
 
     # ================================================================
     # XY Plane: Sample at z = center_k
@@ -94,15 +93,15 @@ def update_flux_mesh_colors(
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
 
     # ================================================================
@@ -115,15 +114,15 @@ def update_flux_mesh_colors(
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
 
     # ================================================================
@@ -136,13 +135,13 @@ def update_flux_mesh_colors(
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                disp_value, min_disp, max_disp
+                disp_value, -peak_amplitude_am, peak_amplitude_am
             )

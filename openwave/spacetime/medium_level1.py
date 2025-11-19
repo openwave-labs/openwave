@@ -102,6 +102,9 @@ class WaveField:
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
+        # ================================================================
+        # DATA STRUCTURES & INITIALIZATION
+        # ================================================================
         # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
@@ -198,7 +201,7 @@ class WaveField:
         # Calculate line counts per direction
         x_lines = (self.ny + 1) * (self.nz + 1)
         y_lines = (self.nx + 1) * (self.nz + 1)
-        # z_lines = (self.nx + 1) * (self.ny + 1)  # implicit, computed as remainder
+        # z_lines = (self.nx + 1) * (self.ny + 1)  # implicit, noted as reminder
 
         # Parallelize over all lines using single outermost loop
         for line_idx in range(self.line_count):
@@ -355,33 +358,6 @@ class WaveField:
             self.fluxmesh_yz_indices[j, k, 3] = (j + 1) * self.nz + k
             self.fluxmesh_yz_indices[j, k, 4] = (j + 1) * self.nz + (k + 1)
             self.fluxmesh_yz_indices[j, k, 5] = j * self.nz + (k + 1)
-
-    @ti.func
-    def get_position(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-        """Get physical position of voxel center in meters (for external use)."""
-        pos_am = self.get_position_am(i, j, k)
-        return pos_am * ti.f32(constants.ATTOMETER)
-
-    @ti.func
-    def get_position_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.math.vec3:  # type: ignore
-        """Get physical position of voxel center in attometers."""
-        return ti.Vector([(i + 0.5) * self.dx_am, (j + 0.5) * self.dx_am, (k + 0.5) * self.dx_am])
-
-    @ti.func
-    def get_voxel_index(self, pos_am: ti.math.vec3) -> ti.math.ivec3:  # type: ignore
-        """
-        Get voxel index from position in attometers.
-
-        Inverse mapping: position → index
-        Used for particle-field interactions.
-        """
-        return ti.Vector(
-            [
-                ti.i32((pos_am[0] / self.dx_am) - 0.5),
-                ti.i32((pos_am[1] / self.dx_am) - 0.5),
-                ti.i32((pos_am[2] / self.dx_am) - 0.5),
-            ]
-        )
 
 
 if __name__ == "__main__":
