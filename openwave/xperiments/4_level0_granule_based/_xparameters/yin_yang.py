@@ -39,45 +39,47 @@ SOURCES_PHASE_DEG = [i * 30 for i in range(NUM_SOURCES)]
 
 XPARAMETERS = {
     "meta": {
-        "name": "Golden-Ratio Spiral",
-        "description": "12 sources in golden ratio pattern with progressive phase offsets",
+        "X_NAME": "Golden-Ratio Spiral",
+        "DESCRIPTION": "12 sources in golden ratio pattern with progressive phase offsets",
     },
     "camera": {
-        "initial_position": [1.43, 0.74, 1.41],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.43, 0.74, 1.41],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "size": [
+        "SIZE": [
             UNIVERSE_EDGE,
             UNIVERSE_EDGE,
             UNIVERSE_EDGE / 6,
         ],  # m, simulation domain [x, y, z]
-        "target_granules": 1e6,  # Simulation particle count (impacts performance)
-        "tick_spacing": 0.25,  # Axis tick marks spacing for position reference
-        "color_theme": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "TARGET_GRANULES": 1e6,  # Simulation particle count (impacts performance)
     },
     "wave_sources": {
-        "count": NUM_SOURCES,  # Number of wave sources for this xperiment
+        "COUNT": NUM_SOURCES,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Arranged in golden ratio spiral for Yin-Yang pattern
-        "positions": SOURCES_POSITION,
+        "POSITIONS": SOURCES_POSITION,
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Progressive 30° increments create spiral wave interference pattern
-        "phase_offsets_deg": SOURCES_PHASE_DEG,
+        "PHASE_OFFSETS_DEG": SOURCES_PHASE_DEG,
     },
     "ui_defaults": {
-        "show_axis": False,  # Toggle to show/hide axis lines
-        "block_slice": False,  # Block-slicing toggle
-        "show_sources": True,  # Toggle to show/hide wave source markers
-        "radius_factor": 2.0,  # Granule radius scaling factor
-        "freq_boost": 0.5,  # Frequency boost multiplier
-        "amp_boost": 1.0,  # Amplitude boost multiplier
-        "paused": False,  # Pause/Start simulation toggle
-        "color_palette": 1,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
-        "var_amp": False,  # Displacement vs amplitude toggle
+        "SHOW_AXIS": False,  # Toggle to show/hide axis lines
+        "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
+        "BLOCK_SLICE": False,  # Block-slicing toggle
+        "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
+        "RADIUS_FACTOR": 2.0,  # Granule radius scaling factor
+        "FREQ_BOOST": 0.5,  # Frequency boost multiplier
+        "AMP_BOOST": 1.0,  # Amplitude boost multiplier
+        "PAUSED": False,  # Pause/Start simulation toggle
+    },
+    "color_defaults": {
+        "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
+        "COLOR_PALETTE": 1,  # Color palette list: default (99), granule-type (0), ironbow (1), blueprint (2)
+        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
-        "wave_diagnostics": False,  # Toggle wave diagnostics (speed & wavelength measurements)
-        "export_video": False,  # Toggle frame image export to video directory
-        "video_frames": 24,  # Target frame number to stop recording and finalize video export
+        "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
+        "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
+        "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
 }
