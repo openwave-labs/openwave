@@ -138,7 +138,82 @@ def render_flux_mesh(scene, wave_field):
 
 
 # ================================================================
-# Helper Functions - Flatten 2D mesh data to 1D arrays for rendering
+# Flatten XY Plane (flatten 2D mesh data to 1D arrays for rendering)
+# ================================================================
+
+
+@ti.kernel
+def flatten_xy_vertices(
+    wave_field: ti.template(),  # type: ignore
+    vertices_flat: ti.template(),  # type: ignore
+):
+    """Flatten XY Plane vertices to 1D array (called once during init)."""
+    for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
+        idx = i * wave_field.ny + j
+        vertices_flat[idx] = wave_field.fluxmesh_xy_vertices[i, j]
+
+
+@ti.kernel
+def flatten_xy_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
+    """Flatten XY Plane triangle indices to 1D array for rendering."""
+    for i, j in ti.ndrange(wave_field.nx - 1, wave_field.ny - 1):
+        base_idx = (i * (wave_field.ny - 1) + j) * 6
+        for k in ti.static(range(6)):
+            indices_flat[base_idx + k] = wave_field.fluxmesh_xy_indices[i, j, k]
+
+
+# ================================================================
+# Flatten XZ Plane (flatten 2D mesh data to 1D arrays for rendering)
+# ================================================================
+
+
+@ti.kernel
+def flatten_xz_vertices(
+    wave_field: ti.template(),  # type: ignore
+    vertices_flat: ti.template(),  # type: ignore
+):
+    """Flatten XZ Plane vertices to 1D array (called once during init)."""
+    for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
+        idx = i * wave_field.nz + k
+        vertices_flat[idx] = wave_field.fluxmesh_xz_vertices[i, k]
+
+
+@ti.kernel
+def flatten_xz_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
+    """Flatten XZ Plane triangle indices to 1D array for rendering."""
+    for i, k in ti.ndrange(wave_field.nx - 1, wave_field.nz - 1):
+        base_idx = (i * (wave_field.nz - 1) + k) * 6
+        for m in ti.static(range(6)):
+            indices_flat[base_idx + m] = wave_field.fluxmesh_xz_indices[i, k, m]
+
+
+# ================================================================
+# Flatten YZ Plane (flatten 2D mesh data to 1D arrays for rendering)
+# ================================================================
+
+
+@ti.kernel
+def flatten_yz_vertices(
+    wave_field: ti.template(),  # type: ignore
+    vertices_flat: ti.template(),  # type: ignore
+):
+    """Flatten YZ Plane vertices to 1D array (called once during init)."""
+    for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
+        idx = j * wave_field.nz + k
+        vertices_flat[idx] = wave_field.fluxmesh_yz_vertices[j, k]
+
+
+@ti.kernel
+def flatten_yz_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
+    """Flatten YZ Plane triangle indices to 1D array for rendering."""
+    for j, k in ti.ndrange(wave_field.ny - 1, wave_field.nz - 1):
+        base_idx = (j * (wave_field.nz - 1) + k) * 6
+        for m in ti.static(range(6)):
+            indices_flat[base_idx + m] = wave_field.fluxmesh_yz_indices[j, k, m]
+
+
+# ================================================================
+# Flatten Colors (flatten 2D mesh data to 1D arrays for rendering)
 # ================================================================
 
 
@@ -164,111 +239,3 @@ def flatten_all_colors(
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         idx = j * wave_field.nz + k
         yz_colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
-
-
-# ================================================================
-# Flatten XY Plane
-# ================================================================
-
-
-@ti.kernel
-def flatten_xy_vertices(
-    wave_field: ti.template(),  # type: ignore
-    vertices_flat: ti.template(),  # type: ignore
-):
-    """Flatten XY Plane vertices to 1D array (called once during init)."""
-    for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
-        idx = i * wave_field.ny + j
-        vertices_flat[idx] = wave_field.fluxmesh_xy_vertices[i, j]
-
-
-@ti.kernel
-def flatten_xy_colors(
-    wave_field: ti.template(),  # type: ignore
-    colors_flat: ti.template(),  # type: ignore
-):
-    """Flatten XY Plane colors to 1D array (called every frame)."""
-    for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
-        idx = i * wave_field.ny + j
-        colors_flat[idx] = wave_field.fluxmesh_xy_colors[i, j]
-
-
-@ti.kernel
-def flatten_xy_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
-    """Flatten XY Plane triangle indices to 1D array for rendering."""
-    for i, j in ti.ndrange(wave_field.nx - 1, wave_field.ny - 1):
-        base_idx = (i * (wave_field.ny - 1) + j) * 6
-        for k in ti.static(range(6)):
-            indices_flat[base_idx + k] = wave_field.fluxmesh_xy_indices[i, j, k]
-
-
-# ================================================================
-# Flatten XZ Plane
-# ================================================================
-
-
-@ti.kernel
-def flatten_xz_vertices(
-    wave_field: ti.template(),  # type: ignore
-    vertices_flat: ti.template(),  # type: ignore
-):
-    """Flatten XZ Plane vertices to 1D array (called once during init)."""
-    for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
-        idx = i * wave_field.nz + k
-        vertices_flat[idx] = wave_field.fluxmesh_xz_vertices[i, k]
-
-
-@ti.kernel
-def flatten_xz_colors(
-    wave_field: ti.template(),  # type: ignore
-    colors_flat: ti.template(),  # type: ignore
-):
-    """Flatten XZ Plane colors to 1D array (called every frame)."""
-    for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
-        idx = i * wave_field.nz + k
-        colors_flat[idx] = wave_field.fluxmesh_xz_colors[i, k]
-
-
-@ti.kernel
-def flatten_xz_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
-    """Flatten XZ Plane triangle indices to 1D array for rendering."""
-    for i, k in ti.ndrange(wave_field.nx - 1, wave_field.nz - 1):
-        base_idx = (i * (wave_field.nz - 1) + k) * 6
-        for m in ti.static(range(6)):
-            indices_flat[base_idx + m] = wave_field.fluxmesh_xz_indices[i, k, m]
-
-
-# ================================================================
-# Flatten YZ Plane
-# ================================================================
-
-
-@ti.kernel
-def flatten_yz_vertices(
-    wave_field: ti.template(),  # type: ignore
-    vertices_flat: ti.template(),  # type: ignore
-):
-    """Flatten YZ Plane vertices to 1D array (called once during init)."""
-    for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
-        idx = j * wave_field.nz + k
-        vertices_flat[idx] = wave_field.fluxmesh_yz_vertices[j, k]
-
-
-@ti.kernel
-def flatten_yz_colors(
-    wave_field: ti.template(),  # type: ignore
-    colors_flat: ti.template(),  # type: ignore
-):
-    """Flatten YZ Plane colors to 1D array (called every frame)."""
-    for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
-        idx = j * wave_field.nz + k
-        colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
-
-
-@ti.kernel
-def flatten_yz_indices(wave_field: ti.template(), indices_flat: ti.template()):  # type: ignore
-    """Flatten YZ Plane triangle indices to 1D array for rendering."""
-    for j, k in ti.ndrange(wave_field.ny - 1, wave_field.nz - 1):
-        base_idx = (j * (wave_field.nz - 1) + k) * 6
-        for m in ti.static(range(6)):
-            indices_flat[base_idx + m] = wave_field.fluxmesh_yz_indices[j, k, m]
