@@ -16,15 +16,15 @@ import openwave.common.constants as constants
 
 
 # ================================================================
-# Derivations Wave Constants
+# SPACETIME DENSITY DERIVATIONS
 # ================================================================
 
 
-def density_derivation_wave():
+def derive_density_wave():
     """
     Wave Constant - Density Derivation
     Density is set to the well-measured Planck constant and using wavelength
-    calculated from wavelength_derivation.
+    calculated from derive_wavelength.
 
     ρ = {h} * (9λl^3) / (32π * K^11e * A^7l * c * Oe) * gλ^-1
 
@@ -51,7 +51,7 @@ def density_derivation_wave():
     return calculated_density
 
 
-def density_derivation_hydrogen():
+def derive_density_hydrogen():
     """
     Wave Constant - Density Derivation (Hydrogen-based)
     Based on Eq. 1.1 from "Relationship of the Speed of Light to Aether Density"
@@ -72,7 +72,7 @@ def density_derivation_hydrogen():
     return calculated_density
 
 
-def density_derivation_electron():
+def derive_density_electron():
     """
     Wave Constant - Density Derivation (Electron-based)
     Based on Eq. 1.2 from "Relationship of the Speed of Light to Aether Density"
@@ -97,7 +97,7 @@ def density_derivation_electron():
     return calculated_density
 
 
-def density_derivation_planck():
+def derive_density_planck():
     """
     Wave Constant - Density Derivation (Planck/Photon-based)
     Based on Eq. 1.3 from "Relationship of the Speed of Light to Aether Density"
@@ -122,7 +122,12 @@ def density_derivation_planck():
     return calculated_density
 
 
-def wavelength_derivation():
+# ================================================================
+# ENERGY-WAVE PROPERTIES DERIVATIONS
+# ================================================================
+
+
+def derive_wavelength():
     """
     Wave Constant - Wavelength Derivation
     Wavelength (longitudinal) is set to the well-measured classical electron radius.
@@ -139,11 +144,11 @@ def wavelength_derivation():
     )
 
 
-def amplitude_derivation():
+def derive_amplitude():
     """
     Wave Constant - Amplitude Derivation
     Amplitude (longitudinal) is set to the well-measured fine structure constant
-    and using wavelength calculated from wavelength_derivation.
+    and using wavelength calculated from derive_wavelength.
 
     Al = {αe^-1} * (3πλl) / (4K^4e)
 
@@ -166,17 +171,17 @@ if __name__ == "__main__":
     print("WAVE CONSTANTS DERIVATIONS")
 
     print("\nSPACETIME DENSITY")
-    print(f"Derived Wave: {density_derivation_wave():.9e} kg/m³")
-    print(f"Derived Hydrogen: {density_derivation_hydrogen():.9e} kg/m³")
-    print(f"Derived Electron: {density_derivation_electron():.9e} kg/m³")
-    print(f"Derived Planck: {density_derivation_planck():.9e} kg/m³")
+    print(f"Derived Wave: {derive_density_wave():.9e} kg/m³")
+    print(f"Derived Hydrogen: {derive_density_hydrogen():.9e} kg/m³")
+    print(f"Derived Electron: {derive_density_electron():.9e} kg/m³")
+    print(f"Derived Planck: {derive_density_planck():.9e} kg/m³")
     print(f"Stored : {constants.MEDIUM_DENSITY:.9e} kg/m³")
 
     print("\nENERGY-WAVE LENGTH")
-    print(f"Derived: {wavelength_derivation():.9e} m")
+    print(f"Derived: {derive_wavelength():.9e} m")
     print(f"Stored : {constants.EWAVE_LENGTH:.9e} m")
 
     print("\nENERGY-WAVE AMPLITUDE")
-    print(f"Derived: {amplitude_derivation():.9e} m")
+    print(f"Derived: {derive_amplitude():.9e} m")
     print(f"Stored : {constants.EWAVE_AMPLITUDE:.9e} m")
     print("_______________________________")

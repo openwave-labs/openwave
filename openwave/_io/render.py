@@ -33,7 +33,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     width, height = pyautogui.size()
     # width, height = 1470, 884  # uncomment to test on min supported resolution
 
-    window = ti.ui.Window(title, (width, height), vsync=True)
+    window = ti.ui.Window(title, (width, height), vsync=True, fps_limit=60)
     camera = ti.ui.Camera()  # Camera object for 3D view control
     canvas = window.get_canvas()  # Canvas for rendering the scene
     gui = window.get_gui()  # GUI manager for overlay UI elements
@@ -123,7 +123,7 @@ def populate_axis_field(
         axis_field[idx_base + 5] = ti.Vector([0.0, 0.0, offset])
 
 
-def scene_lighting():
+def setup_scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
     scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
     scene.point_light(pos=(1.0, 1.0, 1.0), color=(1.0, 1.0, 1.0))  # White light from above center
@@ -206,8 +206,8 @@ def handle_camera():
     scene.set_camera(camera)
 
 
-def cam_instructions():
-    """Overlay camera movement instructions."""
+def display_cam_instructions():
+    """Display camera movement instructions."""
     global cam_x, cam_y, cam_z
     with gui.sub_window("CAMERA MOVEMENT", 0.00, 0.88, 0.14, 0.12) as sub:
         sub.text("Orbit: RMB or Shift+LMB")
@@ -220,9 +220,9 @@ def init_scene(show_axis=True):
     """Initialize the 3D scene with lighting and camera controls."""
     global axis_field
 
-    scene_lighting()  # Lighting must be set each frame in GGUI
+    setup_scene_lighting()  # Lighting must be set each frame in GGUI
     handle_camera()  # Handle camera input and update position
-    cam_instructions()  # Overlay camera movement instructions
+    display_cam_instructions()  # Display camera movement instructions
     if show_axis:
         # Render the pre-populated axis field (very fast, no data transfer)
         scene.lines(axis_field, color=colormap.COLOR_INFRA[1], width=2)

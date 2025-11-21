@@ -40,7 +40,7 @@ from openwave.common import constants, utils
 # ================================================================
 # ENERGY WAVE EQUATION
 # ================================================================
-def energy_wave_equation(
+def compute_energy_wave_equation(
     volume,
     density=constants.MEDIUM_DENSITY,
     speed=constants.EWAVE_SPEED,
@@ -67,7 +67,7 @@ def energy_wave_equation(
 # ================================================================
 # Particle Energy (longitudinal wave)
 # ================================================================
-def particle_energy(K):
+def compute_particle_energy(K):
     """
     Longitudinal Energy Equation (Particles):
     Used to calculate the rest energy of particles.
@@ -99,7 +99,7 @@ def particle_energy(K):
 # ================================================================
 # Particle Rest Mass (longitudinal wave)
 # ================================================================
-def particle_rest_mass(K):
+def compute_particle_rest_mass(K):
     """
     Calculate the rest mass of a particle based on its wave center count.
     Particle mass is energy without consideration of wave speed (c),
@@ -115,14 +115,16 @@ def particle_rest_mass(K):
     Returns:
         float: Particle rest mass in kilograms
     """
-    rest_mass = particle_energy(K) / (constants.EWAVE_SPEED**2)
+    rest_mass = compute_particle_energy(K) / (constants.EWAVE_SPEED**2)
     return rest_mass
 
 
 # ================================================================
 # Photon Energy (transverse wave)
 # ================================================================
-def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL):
+def compute_photon_energy(
+    delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_OUTER_SHELL
+):
     """
     Transverse Energy Equation (Photons):
     Used to calculate the energy of photons emitted or absorbed by particles.
@@ -156,7 +158,7 @@ def photon_energy(delta, r, r0, Ke=constants.ELECTRON_K, Oe=constants.ELECTRON_O
     return coefficient * distance_term
 
 
-def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
+def compute_photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
     """
     Photon Frequency:
     Calculates the frequency of a photon based on amplitude changes at different distances.
@@ -183,7 +185,7 @@ def photon_frequency(delta, r, r0, Ke=constants.ELECTRON_K):
     return coefficient * distance_term
 
 
-def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
+def compute_photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
     """
     Photon Wavelength:
     Calculates the wavelength of a photon based on amplitude changes at different distances.
@@ -215,7 +217,7 @@ def photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
 # ================================================================
 # SPRING-MASS SYSTEMS
 # ================================================================
-def natural_frequency(stiffness, mass):
+def compute_natural_frequency(stiffness, mass):
     """
     Natural Frequency of Oscillation:
     Calculates the natural frequency of a spring-mass system.
@@ -232,7 +234,7 @@ def natural_frequency(stiffness, mass):
     return np.sqrt(stiffness / mass) / (2 * np.pi)
 
 
-def stiffness_from_frequency(frequency, mass):
+def compute_stiffness_from_frequency(frequency, mass):
     """
     Stiffness from Frequency and Mass:
     Calculates the spring stiffness required for a given natural frequency and mass.
@@ -252,7 +254,7 @@ def stiffness_from_frequency(frequency, mass):
 # ================================================================
 # Force Equations
 # ================================================================
-def electric_force(
+def compute_electric_force(
     Q1,
     Q2,
     r,
@@ -293,7 +295,7 @@ def electric_force(
     return coefficient * (Q1 * Q2) / (r**2)
 
 
-def magnetic_force(
+def compute_magnetic_force(
     Q1,
     Q2,
     r,
@@ -335,7 +337,7 @@ def magnetic_force(
     return coefficient * (Q1 * Q2 * (v**2)) / (r**2)
 
 
-def gravitational_force(
+def compute_gravitational_force(
     Q1,
     Q2,
     r,
@@ -377,7 +379,7 @@ def gravitational_force(
     return coefficient * amplitude_factor * g_factor * (Q1 * Q2) / (r**2)
 
 
-def strong_force(
+def compute_strong_force(
     Q1,
     Q2,
     r,
@@ -417,7 +419,7 @@ def strong_force(
     return coefficient * (Q1 * Q2) / (r**2)
 
 
-def orbital_force(Q, r, Ke=constants.ELECTRON_K, glambda=constants.ELECTRON_ORBITAL_G):
+def compute_orbital_force(Q, r, Ke=constants.ELECTRON_K, glambda=constants.ELECTRON_ORBITAL_G):
     """
     Orbital Force:
     Force keeping electrons in orbit around atomic nuclei.
@@ -453,7 +455,7 @@ def orbital_force(Q, r, Ke=constants.ELECTRON_K, glambda=constants.ELECTRON_ORBI
 # ================================================================
 # Wave Energy at Relativistic Speeds
 # ================================================================
-def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
+def compute_longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     """
     Longitudinal In-Wave Energy - Complete Form
     Calculates the in-wave energy for particles at relativistic speeds.
@@ -503,7 +505,7 @@ def longitudinal_in_wave_energy(K, v, wavelength=None, amplitude=None):
     return energy
 
 
-def longitudinal_out_wave_energy(
+def compute_longitudinal_out_wave_energy(
     K,
     v,
     wavelength=None,
@@ -572,7 +574,7 @@ def longitudinal_out_wave_energy(
     return energy
 
 
-def magnetic_out_wave_energy(
+def compute_magnetic_out_wave_energy(
     K,
     v,
     wavelength=None,
@@ -643,20 +645,20 @@ if __name__ == "__main__":
 
     print("\n_______________________________")
     print("ENERGY WAVE EQUATION")
-    print(f"1 cm³ of vacuum: {energy_wave_equation(1e-6):.2e} J")
-    print(f"1 cm³ of vacuum: {energy_wave_equation(1e-6) * utils.J2KWH:.2e} kWh")
+    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6):.2e} J")
+    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6) * utils.J2KWH:.2e} kWh")
 
     print("\n_______________________________")
     print("PARTICLE ENERGY")
-    print(f"NEUTRINO (K=1): {particle_energy(1):.2e} J")
-    print(f"ELECTRON (K=10): {particle_energy(10):.2e} J")
-    print(f"PROTON (K=44): {particle_energy(44):.2e} J")
+    print(f"NEUTRINO (K=1): {compute_particle_energy(1):.2e} J")
+    print(f"ELECTRON (K=10): {compute_particle_energy(10):.2e} J")
+    print(f"PROTON (K=44): {compute_particle_energy(44):.2e} J")
 
     print("\n_______________________________")
     print("PARTICLE REST MASS")
-    print(f"NEUTRINO (K=1): {particle_rest_mass(1):.2e} kg")
-    print(f"ELECTRON (K=10): {particle_rest_mass(10):.2e} kg")
-    print(f"PROTON (K=44): {particle_rest_mass(44):.2e} kg")
+    print(f"NEUTRINO (K=1): {compute_particle_rest_mass(1):.2e} kg")
+    print(f"ELECTRON (K=10): {compute_particle_rest_mass(10):.2e} kg")
+    print(f"PROTON (K=44): {compute_particle_rest_mass(44):.2e} kg")
 
     print("\n_______________________________")
     print("PHOTON ENERGY")
@@ -668,9 +670,9 @@ if __name__ == "__main__":
     r0 = 2 * constants.BOHR_RADIUS  # Initial distance (n=2)
     r = constants.BOHR_RADIUS  # Final distance (n=1)
 
-    photon_E = photon_energy(delta, r, r0)
-    photon_f = photon_frequency(delta, r, r0)
-    photon_lambda = photon_wavelength(delta, r, r0)
+    photon_E = compute_photon_energy(delta, r, r0)
+    photon_f = compute_photon_frequency(delta, r, r0)
+    photon_lambda = compute_photon_wavelength(delta, r, r0)
 
     print(f"\nExample 1: Electron transition n=2 to n=1 (emission)")
     print(f"  r0={r0:.2e} m, r={r:.2e} m")
@@ -682,9 +684,9 @@ if __name__ == "__main__":
     r0 = constants.BOHR_RADIUS  # Initial distance (n=1)
     r = 2 * constants.BOHR_RADIUS  # Final distance (n=2)
 
-    photon_E2 = photon_energy(delta, r, r0)
-    photon_f2 = photon_frequency(delta, r, r0)
-    photon_lambda2 = photon_wavelength(delta, r, r0)
+    photon_E2 = compute_photon_energy(delta, r, r0)
+    photon_f2 = compute_photon_frequency(delta, r, r0)
+    photon_lambda2 = compute_photon_wavelength(delta, r, r0)
 
     print(f"\nExample 2: Electron transition n=1 to n=2 (absorption)")
     print(f"  r0={r0:.2e} m, r={r:.2e} m")
@@ -765,22 +767,22 @@ if __name__ == "__main__":
 
     print(f"\nForces between two electrons at Bohr radius ({r_atomic:.2e} m):")
 
-    F_e = electric_force(Q1, Q2, r_atomic)
+    F_e = compute_electric_force(Q1, Q2, r_atomic)
     print(f"  Electric Force: {F_e:.2e} N")
 
-    F_m = magnetic_force(Q1, Q2, r_atomic, v_electron)
+    F_m = compute_magnetic_force(Q1, Q2, r_atomic, v_electron)
     print(f"  Magnetic Force (v={v_electron:.2e} m/s): {F_m:.2e} N")
 
-    F_g = gravitational_force(Q1, Q2, r_atomic)
+    F_g = compute_gravitational_force(Q1, Q2, r_atomic)
     print(f"  Gravitational Force: {F_g:.2e} N")
 
     # Strong force at nuclear scale
     r_nuclear = 1e-15  # Nuclear scale distance (1 fm)
-    F_s = strong_force(Q1, Q2, r_nuclear)
+    F_s = compute_strong_force(Q1, Q2, r_nuclear)
     print(f"\n  Strong Force (at {r_nuclear:.2e} m): {F_s:.2e} N")
 
     # Orbital force for electron in hydrogen
-    F_o = orbital_force(Q1, r_atomic)
+    F_o = compute_orbital_force(Q1, r_atomic)
     print(f"\n  Orbital Force (electron in H atom): {F_o:.2e} N")
 
     # Force ratios
@@ -868,15 +870,15 @@ if __name__ == "__main__":
     )
     print("-" * 75)
 
-    rest_energy = particle_energy(K_electron)
+    rest_energy = compute_particle_energy(K_electron)
 
     for velocity in velocities:
         v_fraction = velocity / c
         gamma = 1 / np.sqrt(1 - (velocity / c) ** 2) if velocity < c else float("inf")
 
-        E_in = longitudinal_in_wave_energy(K_electron, velocity)
-        E_out = longitudinal_out_wave_energy(K_electron, velocity)
-        E_mag = magnetic_out_wave_energy(K_electron, velocity)
+        E_in = compute_longitudinal_in_wave_energy(K_electron, velocity)
+        E_out = compute_longitudinal_out_wave_energy(K_electron, velocity)
+        E_mag = compute_magnetic_out_wave_energy(K_electron, velocity)
 
         print(f"{v_fraction:<15.2f} {E_in:<15.2e} {E_out:<15.2e} {E_mag:<15.2e} {gamma:<15.2f}")
 
@@ -888,7 +890,7 @@ if __name__ == "__main__":
     v_90 = 0.9 * c
     gamma_90 = 1 / np.sqrt(1 - 0.9**2)
     classical_E_90 = rest_energy * gamma_90
-    ewt_E_90 = longitudinal_in_wave_energy(K_electron, v_90)
+    ewt_E_90 = compute_longitudinal_in_wave_energy(K_electron, v_90)
 
     print(f"\nAt 0.9c:")
     print(f"  Classical E = γmc² = {classical_E_90:.2e} J (γ = {gamma_90:.2f})")

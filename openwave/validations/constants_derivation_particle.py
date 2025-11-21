@@ -16,11 +16,11 @@ import openwave.common.constants as constants
 
 
 # ================================================================
-# Derivations Particle Constants
+# Particle Constants Derivations
 # ================================================================
 
 
-def electron_outer_shell_derivation():
+def derive_electron_outer_shell():
     """
     Particle Constant - Electron Outer Shell Multiplier Derivation
     Electron outer shell multiplier is a constant for readability replacing the summation
@@ -37,7 +37,7 @@ def electron_outer_shell_derivation():
     return outer_shell
 
 
-def electron_orbital_g_derivation():
+def derive_electron_orbital_g():
     """
     Particle Constant - Electron Orbital G-Factor Derivation
     Electron orbital g-factor is set to the well-measured classical electron radius.
@@ -53,7 +53,7 @@ def electron_orbital_g_derivation():
     return constants.ELECTRON_RADIUS * (1 / (constants.ELECTRON_K**2 * constants.EWAVE_LENGTH))
 
 
-def electron_spin_g_derivation():
+def derive_electron_spin_g():
     """
     Particle Constant - Electron Spin G-Factor Derivation
     Electron spin g-factor is set to the Planck charge.
@@ -70,7 +70,7 @@ def electron_spin_g_derivation():
     return (2 * constants.EWAVE_AMPLITUDE) / constants.PLANCK_CHARGE
 
 
-def proton_orbital_g_derivation():
+def derive_proton_orbital_g():
     """
     Particle Constant - Proton Orbital G-Factor Derivation
     Proton orbital g-factor is set to proton's mass.
@@ -117,18 +117,18 @@ if __name__ == "__main__":
     print("PARTICLE CONSTANTS DERIVATIONS")
 
     print("\nELECTRON OUTER SHELL MULTIPLIER")
-    print(f"Derived: {electron_outer_shell_derivation():.9f}")
+    print(f"Derived: {derive_electron_outer_shell():.9f}")
     print(f"Stored : {constants.ELECTRON_OUTER_SHELL:.9f}")
 
     print("\nELECTRON ORBITAL G-FACTOR (gλ)")
-    print(f"Derived: {electron_orbital_g_derivation():.10f}")
+    print(f"Derived: {derive_electron_orbital_g():.10f}")
     print(f"Stored : {constants.ELECTRON_ORBITAL_G:.10f}")
 
     print("\nELECTRON SPIN G-FACTOR (gA)")
-    print(f"Derived: {electron_spin_g_derivation():.10f}")
+    print(f"Derived: {derive_electron_spin_g():.10f}")
     print(f"Stored : {constants.ELECTRON_SPIN_G:.10f}")
 
     print("\nPROTON ORBITAL G-FACTOR (gp)")
-    print(f"Derived: {proton_orbital_g_derivation():.10f}")
+    print(f"Derived: {derive_proton_orbital_g():.10f}")
     print(f"Stored : {constants.PROTON_ORBITAL_G:.10f}")
     print("_______________________________")

@@ -30,7 +30,7 @@ E = ρV(fA)²    # Since f = c/λ
 
 **Critical Requirements**:
 
-1. **Match Total Energy**: Initial field energy must equal `energy_wave_equation(volume)` from equations.py
+1. **Match Total Energy**: Initial field energy must equal `compute_energy_wave_equation(volume)` from equations.py
 2. **Correct Wave Characteristics**: Use proper frequency, amplitude, wavelength from constants
 3. **Simple Initial Condition**: DON'T try to create particle standing waves yet - those emerge automatically later
 4. **Energy Conservation**: Wave equation will maintain total energy during propagation
@@ -58,7 +58,7 @@ def charge_uniform_energy(self):
     Initialize field with uniform energy density matching EWT equation.
 
     This is the simplest initial condition - just charge the field uniformly
-    with the correct total energy from equations.energy_wave_equation().
+    with the correct total energy from equations.compute_energy_wave_equation().
 
     Wave propagation will then naturally evolve this initial state.
     Standing waves will emerge when wave centers (reflective voxels) are added.
@@ -85,7 +85,7 @@ def charge_uniform_energy(self):
     for i, j, k in self.displacement_old:
         self.displacement_old[i, j, k] = self.displacement_am[i, j, k]
 
-    # Verify total energy matches equations.energy_wave_equation()
+    # Verify total energy matches equations.compute_energy_wave_equation()
     # E_total = ρV(fA)² where V = nx × ny × nz × dx³
 ```
 
@@ -108,7 +108,7 @@ def charge_spherical_gaussian(
 
     IMPLEMENTS PHASE 1 OF ENERGY EVOLUTION SEQUENCE:
     - Single smooth pulse concentrated at universe center
-    - Total energy exactly matches equations.energy_wave_equation(volume)
+    - Total energy exactly matches equations.compute_energy_wave_equation(volume)
     - Will propagate outward, reflect off boundaries, and dilute (Phases 2-4)
     - After stabilization, wave centers can be inserted (Phase 5)
 
@@ -117,7 +117,7 @@ def charge_spherical_gaussian(
 
     Args:
         center: Pulse center position in meters (typically universe center)
-        total_energy: Total energy from equations.energy_wave_equation(volume)
+        total_energy: Total energy from equations.compute_energy_wave_equation(volume)
         width_factor: Pulse width = width_factor × wavelength (default: 3.0)
                      Smaller width = more concentrated pulse
                      Larger width = smoother, more spread out
@@ -222,7 +222,7 @@ universe_volume = wave_field.actual_universe_size[0] * \
                   wave_field.actual_universe_size[2]
 
 # Get correct total energy from EWT equation (Phase 1)
-total_energy = equations.energy_wave_equation(
+total_energy = equations.compute_energy_wave_equation(
     volume=universe_volume,
     density=constants.MEDIUM_DENSITY,
     speed=constants.EWAVE_SPEED,

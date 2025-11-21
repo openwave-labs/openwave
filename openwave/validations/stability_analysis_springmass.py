@@ -21,7 +21,7 @@ unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 granule = medium.BCCGranule(unit_cell_edge, UNIVERSE_EDGE)
 
 # Spring-mass system natural frequency
-frequency = equations.natural_frequency(STIFFNESS, granule.mass)  # Hz
+frequency = equations.compute_natural_frequency(STIFFNESS, granule.mass)  # Hz
 omega = 2 * np.pi * frequency  # rad/s
 period = 1 / frequency
 
@@ -48,7 +48,7 @@ print(f"Natural frequency: {frequency:.2e} Hz (period: {period:.2e} s)")
 print(f"Energy-Wave frequency: {EWAVE_FREQUENCY:.2e} Hz")
 print(f"Energy-Wave slowed: {EWAVE_FREQUENCY / SLOW_MO:.2e} Hz")
 print(
-    f"Stiffness to match: {equations.stiffness_from_frequency(EWAVE_FREQUENCY, granule.mass):.2e} N/m"
+    f"Stiffness to match: {equations.compute_stiffness_from_frequency(EWAVE_FREQUENCY, granule.mass):.2e} N/m"
 )
 
 print(f"\nCritical timestep (stability limit): {dt_critical:.2e} s")

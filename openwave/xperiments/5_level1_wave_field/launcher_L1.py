@@ -8,7 +8,6 @@ Unified launcher for Level-1 wave-field xperiments featuring:
 """
 
 import webbrowser
-import time
 import importlib
 import sys
 import os
@@ -106,8 +105,8 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
+        self.dt_frame = 1.0 / 60.0  # s, Default frame duration for 60 FPS
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -126,6 +125,7 @@ class SimulationState:
         self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
+        self.PROPAGATING = False
         self.PAUSED = False
 
         # Color control variables
@@ -141,7 +141,6 @@ class SimulationState:
     def reset(self):
         """Reset simulation state for a new xperiment."""
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -168,6 +167,7 @@ class SimulationState:
         self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
+        self.PROPAGATING = ui["PROPAGATING"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -192,7 +192,7 @@ class SimulationState:
 # ================================================================
 
 
-def xperiment_launcher(xperiment_mgr, state):
+def display_xperiment_launcher(xperiment_mgr, state):
     """Display xperiment launcher UI with selectable xperiments.
 
     Args:
@@ -219,15 +219,17 @@ def xperiment_launcher(xperiment_mgr, state):
     return selected_xperiment
 
 
-def controls(state):
-    """Render the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
+def display_controls(state):
+    """Display the controls UI overlay."""
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.24) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
+        if sub.button("Propagate Wave"):
+            state.PROPAGATING = True
         if state.PAUSED:
             if sub.button("Continue"):
                 state.PAUSED = False
@@ -236,8 +238,8 @@ def controls(state):
                 state.PAUSED = True
 
 
-def color_menu(state):
-    """Render color selection menu."""
+def display_color_menu(state):
+    """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
         if sub.checkbox(
@@ -268,7 +270,7 @@ def color_menu(state):
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
-def level_specs(state, level_bar_vertices):
+def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
     with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
@@ -280,7 +282,7 @@ def level_specs(state, level_bar_vertices):
             )
 
 
-def data_dashboard(state):
+def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
@@ -293,7 +295,7 @@ def data_dashboard(state):
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
         )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
-        sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
+        sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
@@ -337,34 +339,35 @@ def initialize_xperiment(state):
     global level_bar_vertices
 
     # Initialize color palette scales for gradient rendering and level indicator
-    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
+    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
-    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
+    bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
-    rs_palette_vertices, rs_palette_colors = colormap.palette_scale(
+    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
         colormap.redshift, 0.00, 0.63, 0.079, 0.01
     )
-    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize test displacement pattern for flux mesh visualization
-    # TODO: Replace with actual wave initialization logic
-    ewave.create_test_displacement_pattern(state.wave_field)
+    # TODO: remove amplitude falloff post propagation implementation
+    # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
 
-def compute_propagation(state):
+def compute_wave_motion(state):
     """Compute wave propagation, reflection and superposition
     and update visualization data (placeholder for future implementation).
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # TODO: Implement wave propagation / normalization logic
+    # TODO: Implement wave propagation, reflection and superposition + normalization logic
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
     pass
 
@@ -375,8 +378,15 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        if state.PROPAGATING:
+            pass
+        # TODO: remove alternating update once feature implemented
+        if state.frame % 1 == 0:
+            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        # else:
+        #     ewave.update_flux_mesh_colors_old(state.wave_field, state.COLOR_PALETTE)
+        #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
@@ -430,9 +440,9 @@ def main():
             render.window.running = False
             break
 
-        # Render UI overlays
-        new_xperiment = xperiment_launcher(xperiment_mgr, state)
-        controls(state)
+        # Display UI overlays
+        new_xperiment = display_xperiment_launcher(xperiment_mgr, state)
+        display_controls(state)
 
         # Handle xperiment switching via process replacement
         if new_xperiment:
@@ -448,30 +458,23 @@ def main():
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
-            # Update elapsed time and run simulation step
-            # TODO: upgrade to fixed timestep
-            current_time = time.time()
-            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
-            state.last_time = current_time
-
-            compute_propagation(state)
+            # Run simulation step and update time
+            compute_wave_motion(state)
+            state.elapsed_t += state.dt_frame  # Elapsed time accumulation
             state.frame += 1
-        else:
-            # Prevent time jump on resume
-            state.last_time = time.time()
 
         # Render scene elements
         render_elements(state)
 
-        # Render additional UI elements and scene
-        color_menu(state)
-        data_dashboard(state)
-        level_specs(state, level_bar_vertices)
+        # Display additional UI elements and scene
+        display_color_menu(state)
+        display_data_dashboard(state)
+        display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
         # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
-            video.export(state.frame, state.VIDEO_FRAMES)
+            video.export_frame(state.frame, state.VIDEO_FRAMES)
 
 
 # ================================================================

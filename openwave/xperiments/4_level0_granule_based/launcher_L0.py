@@ -207,7 +207,7 @@ class SimulationState:
 # ================================================================
 
 
-def xperiment_launcher(xperiment_mgr, state):
+def display_xperiment_launcher(xperiment_mgr, state):
     """Display xperiment launcher UI with selectable xperiments.
 
     Args:
@@ -234,8 +234,8 @@ def xperiment_launcher(xperiment_mgr, state):
     return selected_xperiment
 
 
-def controls(state):
-    """Render the controls UI overlay."""
+def display_controls(state):
+    """Display the controls UI overlay."""
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
@@ -251,8 +251,8 @@ def controls(state):
                 state.PAUSED = True
 
 
-def color_menu(state):
-    """Render color selection menu."""
+def display_color_menu(state):
+    """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
         if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
@@ -282,7 +282,7 @@ def color_menu(state):
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
-def level_specs(state, level_bar_vertices):
+def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
     with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
@@ -291,7 +291,7 @@ def level_specs(state, level_bar_vertices):
         sub.text("Propagation: Radial from Source")
 
 
-def data_dashboard(state):
+def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
@@ -346,13 +346,13 @@ def initialize_xperiment(state):
     global level_bar_vertices
 
     # Initialize color palettes for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = colormap.palette_scale(
+    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
-    bp_palette_vertices, bp_palette_colors = colormap.palette_scale(
+    bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
-    level_bar_vertices = colormap.level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize wave sources
     ewave.build_source_vectors(
@@ -363,7 +363,7 @@ def initialize_xperiment(state):
         diagnostics.print_initial_parameters()
 
 
-def compute_motion(state):
+def compute_wave_motion(state):
     """Compute lattice motion from wave superposition and update visualization data.
 
     Args:
@@ -473,9 +473,9 @@ def main():
             render.window.running = False
             break
 
-        # Render UI overlays
-        new_xperiment = xperiment_launcher(xperiment_mgr, state)
-        controls(state)
+        # Display UI overlays
+        new_xperiment = display_xperiment_launcher(xperiment_mgr, state)
+        display_controls(state)
 
         # Handle xperiment switching via process replacement
         if new_xperiment:
@@ -496,7 +496,7 @@ def main():
             state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
             state.last_time = current_time
 
-            compute_motion(state)
+            compute_wave_motion(state)
             state.frame += 1
         else:
             # Prevent time jump on resume
@@ -505,15 +505,15 @@ def main():
         # Render scene elements
         render_elements(state)
 
-        # Render additional UI elements and scene
-        color_menu(state)
-        data_dashboard(state)
-        level_specs(state, level_bar_vertices)
+        # Display additional UI elements and scene
+        display_color_menu(state)
+        display_data_dashboard(state)
+        display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
         # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
-            video.export(state.frame, state.VIDEO_FRAMES)
+            video.export_frame(state.frame, state.VIDEO_FRAMES)
 
 
 # ================================================================

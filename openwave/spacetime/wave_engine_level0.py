@@ -17,8 +17,8 @@ from openwave.common import colormap, constants, equations, utils
 # Energy-Wave Oscillation Parameters
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
-wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 
 # ================================================================
 # Energy-Wave Source Data (Global Fields)
@@ -195,12 +195,12 @@ def oscillate_granules(
         freq_boost: Frequency multiplier (applied after slow_mo)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
-    # Compute temporal parameters (same for all wave sources)
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
     f_slowed = frequency / constants.EWAVE_FREQUENCY * freq_boost  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
-    # Wave number k = 2π/λ (spatial phase variation)
-    k = 2.0 * ti.math.pi / wavelength_am  # wave number (radians per attometer)
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wave_number = 2.0 * ti.math.pi / wavelength_am  # radians per attometer
 
     # Reference radius for amplitude normalization (one wavelength)
     # Prevents singularity at r=0 and provides physically meaningful normalization
@@ -223,7 +223,7 @@ def oscillate_granules(
 
             # Spatial phase: φ = -k·r (negative for outward propagation)
             # Creates spherical wave fronts expanding from source
-            spatial_phase = -k * r_am
+            spatial_phase = -wave_number * r_am
 
             # Total phase: includes spatial phase and source's initial offset
             total_phase = spatial_phase + phase_offset
@@ -231,7 +231,7 @@ def oscillate_granules(
             # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
             # Use r_safe to prevent singularity (division by zero) at r → 0
             # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
-            r_safe_am = ti.max(r_am, r_reference_am)  # minimum 1 wavelength_am from source
+            r_safe_am = ti.max(r_am, r_reference_am)  # minimum 1 λ from source
             amplitude_falloff = r_reference_am / r_safe_am
 
             # Total amplitude at granule distance from source
@@ -325,7 +325,7 @@ def update_lattice_energy(lattice):
     Args:
         lattice: Lattice instance with universe_volume and energy fields
     """
-    lattice.energy = equations.energy_wave_equation(
+    lattice.energy = equations.compute_energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
     lattice.energy_kWh = lattice.energy * utils.J2KWH  # in KWh

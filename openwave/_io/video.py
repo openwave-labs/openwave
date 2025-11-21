@@ -45,7 +45,7 @@ def finalize_video():
     print("")
 
 
-def export(current_frame, final_frame):
+def export_frame(current_frame, final_frame):
     """Capture current frame and finalize video when reaching the final frame.
 
     Called during the simulation loop to record each frame. When the current

@@ -11,7 +11,7 @@ Modeled as a fluid-like medium that allows energy to transfer from one point to 
 
 import taichi as ti
 
-from openwave.common import constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 
 @ti.data_oriented
@@ -63,8 +63,10 @@ class WaveField:
         self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
         self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
-        self.dx = self.voxel_edge
-        self.dx_am = self.voxel_edge_am
+        self.dx, self.dx_am = (
+            self.voxel_edge,
+            self.voxel_edge_am,
+        )  # additional alias for simplicity
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
@@ -78,7 +80,11 @@ class WaveField:
             utils.round_to_nearest_odd(init_universe_size[1] / self.dx),
             utils.round_to_nearest_odd(init_universe_size[2] / self.dx),
         ]  # same as (nx, ny, nz)
-        self.nx, self.ny, self.nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        self.nx, self.ny, self.nz = (
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )  # additional alias for simplicity
         self.max_grid_size = max(self.nx, self.ny, self.nz)
 
         # Compute total voxels (asymmetric grid)
@@ -98,21 +104,30 @@ class WaveField:
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute grid total energy from energy-wave equation
-        self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
+        self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # ================================================================
         # DATA STRUCTURES & INITIALIZATION
         # ================================================================
-        # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
+        # TRACKED FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t+dt)
-        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t)
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t-dt)
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, envelope A = max|ψ|
+        # 2  polarities tracked: longitudinal & transverse
+        self.displacement_new_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t+dt (2 polarities: longitudinal & transverse)
+        self.displacement_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t (2 polarities: longitudinal & transverse)
+        self.displacement_old_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t-dt (2 polarities: longitudinal & transverse)
+        self.amplitude_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, envelope [Al, At] = [max|ψl|, max|ψt|] (2 polarities: longitudinal & transverse)
         self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, wave rhythm
 
         # DERIVED SCALAR FIELDS
@@ -290,7 +305,7 @@ class WaveField:
             self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
 
             # Initialize color to black (will be updated by update_flux_mesh_colors)
-            self.fluxmesh_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xy_colors[i, j] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XY plane
         for i, j in ti.ndrange(self.nx - 1, self.ny - 1):
@@ -317,7 +332,7 @@ class WaveField:
             self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
 
             # Initialize color to black
-            self.fluxmesh_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xz_colors[i, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XZ plane
         for i, k in ti.ndrange(self.nx - 1, self.nz - 1):
@@ -344,7 +359,7 @@ class WaveField:
             self.fluxmesh_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
 
             # Initialize color to black
-            self.fluxmesh_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_yz_colors[j, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for YZ plane
         for j, k in ti.ndrange(self.ny - 1, self.nz - 1):
@@ -377,7 +392,9 @@ if __name__ == "__main__":
         6e-15,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-    wave_field = WaveField(UNIVERSE_SIZE, target_voxels=1e9)
+    wave_field = WaveField(
+        UNIVERSE_SIZE, target_voxels=6e8
+    )  # 600M voxels (~24GB), 1B voxels (~40GB)
 
     print(f"\nGrid Statistics:")
     print(

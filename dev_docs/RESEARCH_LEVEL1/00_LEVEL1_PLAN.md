@@ -87,7 +87,7 @@ LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (
 
 ```python
 # Phase 1: Concentrated pulse (single injection)
-E_total = equations.energy_wave_equation(volume)  # EWT equation
+E_total = equations.compute_energy_wave_equation(volume)  # EWT equation
 charge_spherical_gaussian(center, E_total, width=3λ)
 ```
 
@@ -210,7 +210,7 @@ LEVEL-1 follows a 7-phase natural evolution from pulse to particle:
 ### Phase 1: Center-Concentrated Pulse Injection
 
 - Single Gaussian pulse at universe center
-- Total energy = `equations.energy_wave_equation(volume)`
+- Total energy = `equations.compute_energy_wave_equation(volume)`
   - `E = ρV(fA)²`
 - Width = 3× wavelength
 - Implementation: `charge_spherical_gaussian()`

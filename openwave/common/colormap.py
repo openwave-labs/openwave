@@ -23,12 +23,15 @@ GREEN = ["#028800", (0.0, 0.53, 0.0)]
 YELLOW = ["#FFEA00", (1.0, 0.92, 0.0)]
 RED = ["#FF0000", (1.0, 0.0, 0.0)]
 PURPLE = ["#8B00FF", (0.55, 0.0, 0.85)]
+LIGHT_GRAY = ["#7A7A7A", (0.478, 0.478, 0.478)]
+DARK_GRAY = ["#262626", (0.149, 0.149, 0.149)]
 
 # ================================================================
 # Color Settings
 # ================================================================
 COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grid, links
+COLOR_FLUXMESH = DARK_GRAY  # flux mesh grid
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 COLOR_FIELD = CYAN  # fields, field lines
 COLOR_PROBE = RED  # probes, sensors
@@ -416,7 +419,7 @@ def get_viridis_color(value, min_value, max_value):
 # ================================================================
 
 
-def palette_scale(color_palette, x, y, width, height):
+def get_palette_scale(color_palette, x, y, width, height):
     """Generate palette scale indicator with geometry and colors as horizontal gradient.
 
     Generic function for creating palette display. Works with any color palette
@@ -437,7 +440,7 @@ def palette_scale(color_palette, x, y, width, height):
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
 
     Example:
-        vertices, colors = palette_scale(ironbow, 0.02, 0.02, 0.15, 0.02)
+        vertices, colors = get_palette_scale(ironbow, 0.02, 0.02, 0.15, 0.02)
         canvas.triangles(vertices, per_vertex_color=colors)
     """
     # Calculate number of vertices needed
@@ -492,7 +495,7 @@ def palette_scale(color_palette, x, y, width, height):
 # ================================================================
 
 
-def level_bar_geometry(x, y, width, height):
+def get_level_bar_geometry(x, y, width, height):
     """Generate level bar geometry as two triangles forming a rectangle.
 
     Creates a horizontal bar at specified screen coordinates.
