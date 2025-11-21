@@ -30,7 +30,7 @@ XPARAMETERS = {
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
         "FREQ_BOOST": 10.0,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier
-        "CHARGED": False,  # Wave charge toggle
+        "PROPAGATING": False,  # Wave propagation toggle
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
