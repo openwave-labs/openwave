@@ -23,12 +23,15 @@ GREEN = ["#028800", (0.0, 0.53, 0.0)]
 YELLOW = ["#FFEA00", (1.0, 0.92, 0.0)]
 RED = ["#FF0000", (1.0, 0.0, 0.0)]
 PURPLE = ["#8B00FF", (0.55, 0.0, 0.85)]
+LIGHT_GRAY = ["#7A7A7A", (0.478, 0.478, 0.478)]
+DARK_GRAY = ["#262626", (0.149, 0.149, 0.149)]
 
 # ================================================================
 # Color Settings
 # ================================================================
 COLOR_SPACE = BLACK  # background, void, emptiness
 COLOR_INFRA = WHITE  # wire-framing, grid, links
+COLOR_FLUXMESH = DARK_GRAY  # flux mesh grid
 COLOR_MEDIUM = LIGHT_BLUE  # medium, granules
 COLOR_FIELD = CYAN  # fields, field lines
 COLOR_PROBE = RED  # probes, sensors

@@ -126,6 +126,7 @@ class SimulationState:
         self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
+        self.CHARGED = False
         self.PAUSED = False
 
         # Color control variables
@@ -168,6 +169,7 @@ class SimulationState:
         self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
+        self.CHARGED = ui["CHARGED"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -221,13 +223,15 @@ def xperiment_launcher(xperiment_mgr, state):
 
 def controls(state):
     """Render the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.24) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
+        if sub.button("Initiate Wave Charge"):
+            state.CHARGED = True
         if state.PAUSED:
             if sub.button("Continue"):
                 state.PAUSED = False
@@ -375,7 +379,8 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+        if state.CHARGED:
+            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference

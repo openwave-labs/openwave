@@ -11,7 +11,7 @@ Modeled as a fluid-like medium that allows energy to transfer from one point to 
 
 import taichi as ti
 
-from openwave.common import constants, equations, utils
+from openwave.common import colormap, constants, equations, utils
 
 
 @ti.data_oriented
@@ -290,7 +290,7 @@ class WaveField:
             self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
 
             # Initialize color to black (will be updated by update_flux_mesh_colors)
-            self.fluxmesh_xy_colors[i, j] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xy_colors[i, j] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XY plane
         for i, j in ti.ndrange(self.nx - 1, self.ny - 1):
@@ -317,7 +317,7 @@ class WaveField:
             self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
 
             # Initialize color to black
-            self.fluxmesh_xz_colors[i, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_xz_colors[i, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XZ plane
         for i, k in ti.ndrange(self.nx - 1, self.nz - 1):
@@ -344,7 +344,7 @@ class WaveField:
             self.fluxmesh_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
 
             # Initialize color to black
-            self.fluxmesh_yz_colors[j, k] = ti.Vector([0.0, 0.0, 0.0])
+            self.fluxmesh_yz_colors[j, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for YZ plane
         for j, k in ti.ndrange(self.ny - 1, self.nz - 1):
