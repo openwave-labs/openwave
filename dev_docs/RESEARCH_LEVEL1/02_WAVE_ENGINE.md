@@ -76,7 +76,7 @@ The complete energy evolution follows seven distinct phases:
 
 - Energy concentrated at universe center
 - Single pulse (or a few pulses for precision)
-- Total energy exactly matches `equations.energy_wave_equation(volume)`
+- Total energy exactly matches `equations.compute_energy_wave_equation(volume)`
 - Uses proper wave characteristics (f, A, λ from constants)
 - Implementation: **Option 2 (Spherical Gaussian)** recommended
 

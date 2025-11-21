@@ -43,7 +43,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
    - **Problem:** Wave speed ≈ c/13 ≈ 23,000 km/s (NOT speed of light!)
 
 2. **Match SPEED OF LIGHT** (current approach):
-   - Use `k = (2π × natural_frequency)² × m` where `natural_frequency = c/(2L)`
+   - Use `k = (2π × compute_natural_frequency)² × m` where `compute_natural_frequency = c/(2L)`
    - Result: Wave speed = c ✓ (speed of light preserved!)
    - **Tradeoff:** Wavelength = 2L (lattice discretization), frequency = c/(2L) (higher than quantum)
 
@@ -61,7 +61,7 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 **Frequency "discrepancy" explained:**
 
 - **EWAVE_FREQUENCY** (1.05e25 Hz): Target quantum value from EWT theory
-- **natural_frequency** (varies with resolution): What the discrete lattice supports for c propagation
+- **compute_natural_frequency** (varies with resolution): What the discrete lattice supports for c propagation
 - Not a bug - reflects difference between subatomic scale and computational sampling
 
 **Test results (UNIVERSE_EDGE = 1e-16):**
@@ -77,12 +77,12 @@ Success criteria: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance
 
 ```python
 # Natural frequency based on LATTICE spacing (scaled-up not planck scale)
-natural_frequency = c / (2 * rest_length)
+compute_natural_frequency = c / (2 * rest_length)
                   = c / (2 * 1.1 am)
                   ≈ 1.36e26 Hz
 
 #### Lattice natural stiffness property derived from this frequency
-k = (2π × natural_frequency)² × m
+k = (2π × compute_natural_frequency)² × m
 ```
 
 Result:

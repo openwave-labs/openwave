@@ -69,7 +69,7 @@ class BCCLattice:
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
-        self.energy = equations.energy_wave_equation(universe_edge**3)  # in Joules
+        self.energy = equations.compute_energy_wave_equation(universe_edge**3)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
@@ -561,7 +561,7 @@ class BCCNeighbors:
         # Natural frequency for wave propagation at speed of light
         # For wave speed c in lattice with spacing L: f_n = c / (2L)
         # where λ_lattice ≈ 2L (minimum resolvable wavelength in discrete lattice)
-        self.natural_frequency = constants.EWAVE_SPEED / (2 * self.rest_length)  # Hz
+        self.compute_natural_frequency = constants.EWAVE_SPEED / (2 * self.rest_length)  # Hz
 
         # Connection topology: [granule_idx] -> [8 possible neighbors]
         # Value -1 indicates no connection (for boundary granules)

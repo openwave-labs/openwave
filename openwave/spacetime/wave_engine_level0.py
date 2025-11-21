@@ -325,7 +325,7 @@ def update_lattice_energy(lattice):
     Args:
         lattice: Lattice instance with universe_volume and energy fields
     """
-    lattice.energy = equations.energy_wave_equation(
+    lattice.energy = equations.compute_energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
     lattice.energy_kWh = lattice.energy * utils.J2KWH  # in KWh

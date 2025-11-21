@@ -104,7 +104,7 @@ class WaveField:
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute grid total energy from energy-wave equation
-        self.energy = equations.energy_wave_equation(self.universe_volume)  # in Joules
+        self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 

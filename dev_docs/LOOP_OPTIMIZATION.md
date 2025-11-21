@@ -99,14 +99,14 @@ def compute_interactions_tiled():
 def sum_energy() -> ti.f32:
     total = 0.0
     for i in range(n_particles):
-        total += particle_energy[i]
+        total += compute_particle_energy[i]
     return total
 
 # Parallel reduction with atomic operations
 @ti.kernel
 def parallel_sum():
     for i in range(n_particles):
-        ti.atomic_add(total_energy[None], particle_energy[i])
+        ti.atomic_add(total_energy[None], compute_particle_energy[i])
 ```
 
 ## Memory Access Patterns

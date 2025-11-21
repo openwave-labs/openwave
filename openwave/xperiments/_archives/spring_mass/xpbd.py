@@ -42,7 +42,9 @@ neighbors = medium.BCCNeighbors(lattice)  # Create neighbor links between granul
 #   λ_lattice ≈ 2L (minimum resolvable wavelength)
 #   f_n = c / (2L)
 # For 79x79x79 grid (1M particles): k ≈ 2.66e21 N/m
-STIFFNESS = equations.stiffness_from_frequency(neighbors.natural_frequency, granule.mass)
+STIFFNESS = equations.compute_stiffness_from_frequency(
+    neighbors.compute_natural_frequency, granule.mass
+)
 
 
 # ================================================================
@@ -69,7 +71,7 @@ def data_dashboard():
         sub.text(f"Sim Universe Size: {lattice.universe_edge:.1e} m (edge)")
         sub.text(f"Granule Count: {lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
-        sub.text(f"Natural frequency: {neighbors.natural_frequency:.1e} Hz")
+        sub.text(f"Natural frequency: {neighbors.compute_natural_frequency:.1e} Hz")
         sub.text(f"Spring Stiffness: {STIFFNESS:.1e} N/m")
 
         sub.text("")
