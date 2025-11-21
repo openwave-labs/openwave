@@ -28,7 +28,7 @@ XPARAMETERS = {
         "SHOW_GRID": True,  # Toggle to show/hide the voxel grid
         "FLUX_MESH_OPTION": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
-        "FREQ_BOOST": 10.0,  # Frequency boost multiplier
+        "FREQ_BOOST": 1.0,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier
         "PROPAGATING": False,  # Wave propagation toggle
         "PAUSED": False,  # Pause/Start simulation toggle

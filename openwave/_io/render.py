@@ -33,7 +33,7 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0,
     width, height = pyautogui.size()
     # width, height = 1470, 884  # uncomment to test on min supported resolution
 
-    window = ti.ui.Window(title, (width, height), vsync=True)
+    window = ti.ui.Window(title, (width, height), vsync=True, fps_limit=60)
     camera = ti.ui.Camera()  # Camera object for 3D view control
     canvas = window.get_canvas()  # Canvas for rendering the scene
     gui = window.get_gui()  # GUI manager for overlay UI elements

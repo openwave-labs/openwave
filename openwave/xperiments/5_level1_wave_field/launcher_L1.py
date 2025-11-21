@@ -8,7 +8,6 @@ Unified launcher for Level-1 wave-field xperiments featuring:
 """
 
 import webbrowser
-import time
 import importlib
 import sys
 import os
@@ -106,8 +105,8 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
+        self.dt_frame = 1.0 / 60.0  # s, Default frame duration for 60 FPS
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -142,7 +141,6 @@ class SimulationState:
     def reset(self):
         """Reset simulation state for a new xperiment."""
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -353,8 +351,9 @@ def initialize_xperiment(state):
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize test displacement pattern for flux mesh visualization
-    # TODO: Replace with actual wave initialization logic
-    ewave.initiate_charge(state.wave_field)
+    # TODO: remove amplitude falloff post propagation implementation
+    # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
@@ -381,8 +380,13 @@ def render_elements(state):
     if state.FLUX_MESH_OPTION > 0:
         if state.PROPAGATING:
             pass
-        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        # TODO: remove alternating update once feature implemented
+        if state.frame % 1 == 0:
+            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        # else:
+        #     ewave.update_flux_mesh_colors_old(state.wave_field, state.COLOR_PALETTE)
+        #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
@@ -454,17 +458,10 @@ def main():
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
-            # Update elapsed time and run simulation step
-            # TODO: upgrade to fixed timestep
-            current_time = time.time()
-            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
-            state.last_time = current_time
-
+            # Run simulation step and update time
             compute_wave_motion(state)
+            state.elapsed_t += state.dt_frame  # Elapsed time accumulation
             state.frame += 1
-        else:
-            # Prevent time jump on resume
-            state.last_time = time.time()
 
         # Render scene elements
         render_elements(state)
