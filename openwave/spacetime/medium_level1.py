@@ -63,8 +63,10 @@ class WaveField:
         self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
         self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
-        self.dx = self.voxel_edge
-        self.dx_am = self.voxel_edge_am
+        self.dx, self.dx_am = (
+            self.voxel_edge,
+            self.voxel_edge_am,
+        )  # additional alias for simplicity
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
@@ -78,7 +80,11 @@ class WaveField:
             utils.round_to_nearest_odd(init_universe_size[1] / self.dx),
             utils.round_to_nearest_odd(init_universe_size[2] / self.dx),
         ]  # same as (nx, ny, nz)
-        self.nx, self.ny, self.nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        self.nx, self.ny, self.nz = (
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )  # additional alias for simplicity
         self.max_grid_size = max(self.nx, self.ny, self.nz)
 
         # Compute total voxels (asymmetric grid)

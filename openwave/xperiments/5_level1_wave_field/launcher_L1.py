@@ -297,7 +297,7 @@ def data_dashboard(state):
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
         )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
-        sub.text(f"Voxel Edge: {state.wave_field.voxel_edge:.2e} m")
+        sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
