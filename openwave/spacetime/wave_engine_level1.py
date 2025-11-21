@@ -19,9 +19,10 @@ frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave fr
 
 
 @ti.kernel
-def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
+def initiate_charge(wave_field: ti.template()):  # type: ignore
     """
     Create a simple static displacement pattern for testing flux mesh.
+    Define wave character in the wave field.
 
     Generates a radial wave pattern emanating from the universe center.
     This is temporary test code until wave propagation is implemented.

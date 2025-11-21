@@ -354,7 +354,7 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: Replace with actual wave initialization logic
-    ewave.create_test_displacement_pattern(state.wave_field)
+    ewave.initiate_charge(state.wave_field)
     ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
