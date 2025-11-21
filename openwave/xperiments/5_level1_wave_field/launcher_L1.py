@@ -221,7 +221,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.24) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.25) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
@@ -352,6 +352,7 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove amplitude falloff post propagation implementation
+    # TODO: review FPS after wave propagation (dt_frame, render init_UI)
     # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     ewave.plot_displacement_profile(state.wave_field)
