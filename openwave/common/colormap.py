@@ -419,7 +419,7 @@ def get_viridis_color(value, min_value, max_value):
 # ================================================================
 
 
-def palette_scale(color_palette, x, y, width, height):
+def get_palette_scale(color_palette, x, y, width, height):
     """Generate palette scale indicator with geometry and colors as horizontal gradient.
 
     Generic function for creating palette display. Works with any color palette
@@ -440,7 +440,7 @@ def palette_scale(color_palette, x, y, width, height):
         tuple: (vertices_field, colors_field) for rendering with canvas.triangles()
 
     Example:
-        vertices, colors = palette_scale(ironbow, 0.02, 0.02, 0.15, 0.02)
+        vertices, colors = get_palette_scale(ironbow, 0.02, 0.02, 0.15, 0.02)
         canvas.triangles(vertices, per_vertex_color=colors)
     """
     # Calculate number of vertices needed
@@ -495,7 +495,7 @@ def palette_scale(color_palette, x, y, width, height):
 # ================================================================
 
 
-def level_bar_geometry(x, y, width, height):
+def get_level_bar_geometry(x, y, width, height):
     """Generate level bar geometry as two triangles forming a rectangle.
 
     Creates a horizontal bar at specified screen coordinates.
