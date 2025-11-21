@@ -12,11 +12,11 @@ density)
 
 ## Wave Character (WIP equation derivations)
 
-- WAVE-MODE: `cos(θ) = k̂·û`, longitudinal / transverse (polarization, fraction [0,1])
+- WAVE-MODE: `cos(θ) = k̂·û`, longitudinal / transverse polarity (fraction [0,1])
 - WAVE-TYPE: standing / traveling (fraction [0,1])
 - WAVE-FORM: temporal / spatial profile (sine, square, triangle, sawtooth)
 - WAVE-DIRECTION: `k̂ = S / |S|`, unit vector (from energy flux)
-- DISPLACEMENT-DIRECTION: `û = ∇ψ / |∇ψ|`, unit vector (from displacement gradient)
+- DISPLACEMENT-DIRECTION: `û = ∇ψt / ∇ψl`, unit vector (from displacement gradient)
 
 ## Wave Rhythm
 
@@ -28,8 +28,8 @@ density)
 
 ## Wave Size
 
-- WAVE-DISPLACEMENT: `ψ [m]`, harmonic oscillation
-- WAVE-AMPLITUDE: `A = max|ψ| [m]`, displacement envelope (running maximum, falloff at 1/r, near/far fields, force/pressure/density)
+- WAVE-DISPLACEMENT: `ψl & ψt [m]`, harmonic oscillation in 2 polarities
+- WAVE-AMPLITUDE: `Al & At = max|ψ| [m]`, displacement envelope (running RMS, falloff at 1/r, near/far fields, force/pressure/density)
 - WAVE-LENGTH: `λ = c/f [m]`, spatial period (changes when moving particle, doppler, wave fronts distance)
   - spatial frequency: `ξ = 1/λ [1/m]`
   - angular wave number: `k = 2π/λ [rad/m]`

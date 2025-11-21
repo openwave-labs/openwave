@@ -60,8 +60,9 @@ def create_test_displacement_pattern(wave_field: ti.template()):  # type: ignore
         # Signed value: positive = expansion, negative = compression
         disp = amplitude_am_at_r * ti.cos(-wave_number * r)
 
-        # Apply scalar displacement (in attometers)
-        wave_field.displacement_am[i, j, k] = disp
+        # Apply both longitudinal and transverse displacement (in attometers)
+        wave_field.displacement_am[i, j, k][0] = disp
+        wave_field.displacement_am[i, j, k][1] = 0.0
 
 
 @ti.kernel
@@ -103,8 +104,8 @@ def update_flux_mesh_colors(
     # ================================================================
     # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
-        # Sample scalar displacement at this voxel
-        disp_value = wave_field.displacement_am[i, j, center_k]
+        # Sample longitudinal displacement at this voxel
+        disp_value = wave_field.displacement_am[i, j, center_k][0]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -124,8 +125,8 @@ def update_flux_mesh_colors(
     # XZ Plane: Sample at y = center_j
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
-        # Sample scalar displacement at this voxel
-        disp_value = wave_field.displacement_am[i, center_j, k]
+        # Sample longitudinal displacement at this voxel
+        disp_value = wave_field.displacement_am[i, center_j, k][0]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -145,8 +146,8 @@ def update_flux_mesh_colors(
     # YZ Plane: Sample at x = center_i
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
-        # Sample scalar displacement at this voxel
-        disp_value = wave_field.displacement_am[center_i, j, k]
+        # Sample longitudinal displacement at this voxel
+        disp_value = wave_field.displacement_am[center_i, j, k][0]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -181,37 +182,56 @@ def plot_displacement_profile(wave_field):
     # Extract displacement along x-axis at center (y, z)
     nx = wave_field.nx
     x_indices = np.arange(nx)
-    displacements = np.zeros(nx)
+    displacements_L = np.zeros(nx)
+    displacements_T = np.zeros(nx)
 
+    # Sample longitudinal displacement values
     for i in range(nx):
-        displacements[i] = wave_field.displacement_am[i, center_j, center_k]
+        displacements_L[i] = wave_field.displacement_am[i, center_j, center_k][0]
+        displacements_T[i] = wave_field.displacement_am[i, center_j, center_k][1]
 
     # Calculate distance from center in grid indices
     center_x = nx / 2.0
     distances = x_indices - center_x
 
     # Create the plot
-    plt.figure(figsize=(12, 6))
+    plt.style.use("seaborn-v0_8")
+    fig = plt.figure(figsize=(12, 6), facecolor=colormap.WHITE[1])
+    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
-    # Plot 1: Displacement vs position
-    # plt.subplot(1, 2, 1)
-    # plt.plot(x_indices, displacements, "b-", linewidth=2)
-    # plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
-    # plt.axvline(x=center_x, color="r", linestyle="--", alpha=0.3, label="Center")
-    # plt.xlabel("Grid Index (i)")
-    # plt.ylabel("Displacement (attometers)")
-    # plt.title("Displacement Profile Along X-axis")
-    # plt.grid(True, alpha=0.3)
-    # plt.legend()
-
-    # Plot 2: Displacement vs distance from center
-    plt.subplot(1, 2, 2)
-    plt.plot(distances, displacements, "g-", linewidth=2)
+    # Plot 1: Longitudinal Displacement vs distance from center
+    plt.subplot(1, 2, 1)
+    plt.plot(
+        distances,
+        displacements_L,
+        color=colormap.viridis_palette[0][1],
+        linewidth=4,
+        label="LONGITUDINAL",
+    )
     plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
-    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3, label="Center")
-    plt.xlabel("Distance from Center (grid indices)")
-    plt.ylabel("Displacement (attometers)")
-    plt.title("Radial Displacement Profile")
+    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
+    plt.ylim(-1.5, 1.5)
+    plt.xlabel("Distance from Center (grid indices)", family="Monospace")
+    plt.ylabel("Displacement (attometers)", family="Monospace")
+    plt.title("LONGITUDINAL Displacement Profile", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    # Plot 2: Transverse Displacement vs distance from center
+    plt.subplot(1, 2, 2)
+    plt.plot(
+        distances,
+        displacements_T,
+        color=colormap.viridis_palette[4][1],
+        linewidth=4,
+        label="TRANSVERSE",
+    )
+    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
+    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
+    plt.ylim(-1.5, 1.5)
+    plt.xlabel("Distance from Center (grid indices)", family="Monospace")
+    plt.ylabel("Displacement (attometers)", family="Monospace")
+    plt.title("TRANSVERSE Displacement Profile", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 

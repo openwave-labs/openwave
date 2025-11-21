@@ -111,14 +111,23 @@ class WaveField:
         # ================================================================
         # DATA STRUCTURES & INITIALIZATION
         # ================================================================
-        # MEASURED SCALAR FIELDS (values in attometers for f32 precision)
+        # TRACKED FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # This scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t+dt)
-        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t)
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am (ψ at t-dt)
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, envelope A = max|ψ|
+        # 2  polarities tracked: longitudinal & transverse
+        self.displacement_new_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t+dt (2 polarities: longitudinal & transverse)
+        self.displacement_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t (2 polarities: longitudinal & transverse)
+        self.displacement_old_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, [ψl,ψt] at t-dt (2 polarities: longitudinal & transverse)
+        self.amplitude_am = ti.Vector.field(
+            2, dtype=ti.f32, shape=self.grid_size
+        )  # am, envelope [Al, At] = [max|ψl|, max|ψt|] (2 polarities: longitudinal & transverse)
         self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, wave rhythm
 
         # DERIVED SCALAR FIELDS
