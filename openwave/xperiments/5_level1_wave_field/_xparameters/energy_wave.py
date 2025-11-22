@@ -25,7 +25,7 @@ XPARAMETERS = {
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
-        "SHOW_GRID": False,  # Toggle to show/hide the voxel grid
+        "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_OPTION": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
         "FREQ_BOOST": 1.0,  # Frequency boost multiplier

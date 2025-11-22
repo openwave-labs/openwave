@@ -1,11 +1,9 @@
 """
-WAVE-MEDIUM
-
-LEVEL-0: GRANULE-BASED MEDIUM
+LEVEL-0: GRANULE-BASED METHOD
 
 Objects Engine @spacetime module.
 
-WAVE-MEDIUM propagates Wave Motion (ENERGY-WAVE).
+GRANULES propagate Wave Motion (ENERGY-WAVE).
 Modeled as a fluid-like medium that allows energy to transfer from one point to the next.
 """
 
@@ -729,7 +727,7 @@ class BCCNeighbors:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     import time
@@ -843,7 +841,7 @@ if __name__ == "__main__":
     print(f"  Total build time: {lattice_time + neighbor_time:.3f} seconds")
 
     print("\n================================================================")
-    print("END SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("END SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     # Properly exit

@@ -15,18 +15,18 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary computational approaches: a wave-field method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ### Two Computational Approaches
 
-#### Level-1: Wave-Field Medium (Research Oriented)
+#### Level-1: Field-Based Method (Research Oriented)
 
 - 3D vector field using partial differential equations (PDEs)
 - Similar methodology to lattice QCD (quantum chromodynamics)
 - Scalable for matter formation and force simulations
-- Indexed by spatial coordinates with field properties at each point
+- Indexed by spatial coordinates with field properties at each voxel
 
-#### Level-0: Granule-Based Medium (Education Oriented)
+#### Level-0: Granule-Based Method (Education Oriented)
 
 - Discrete particle visualization with phase-shifted oscillations
 - Intuitive for understanding wave mechanics
@@ -36,16 +36,16 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 OpenWave aims to:
 
-- Model matter and energy phenomena through wave field dynamics
+- Model matter, force unification and energy phenomena through wave-field dynamics
 - Simulate particle emergence from standing wave patterns in fields
 - Validate wave-field mechanics against known physics
-- Provide computational and visualization tools for wave-based models
+- Provide computational and visualization tools for wave-dynamics models
 
 **Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.
 
 ## Core Scope
 
-OpenWave provides computational and visualization tools to explore, demonstrate, and validate EWT predictions through three main functions:
+OpenWave provides computational and visualization tools to explore, demonstrate, and validate predictions through three main functions:
 
 ### Numerical Validation
 
@@ -61,49 +61,49 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 
 ### Exploratory Simulations
 
-- Models experimental wave field configurations for parametric studies
+- Models experimental wave-field configurations for parametric studies
 - Supports hypothesis testing and comparative analysis against theoretical predictions
 
-## Explore Wave Field Dynamics with 3D Visualization
+## Explore Wave-Field Dynamics with 3D Visualization
 
 ![demo1 clip](images/demo1.gif)
 ![demo2a clip](images/demo2a.gif)
 ![demo3 clip](images/demo3.gif)
 
-## Relationship to Mainstream Physics
+## Scientific Background
 
-OpenWave implements Energy Wave Theory (EWT), a deterministic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory (QFT). Key points:
+OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"), a proposed deterministic subatomic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory (QFT). Key points:
 
 ### Computational Approach
 
 - **QFT Standard Method:** Lattice gauge theory - discretizes spacetime into a grid with quantum field values at each point
-- **OpenWave Level-1:** Lattice wave mechanics - discretizes spacetime into a grid with classical wave field values at each point
+- **OpenWave Level-1:** Lattice wave-field mechanics - discretizes spacetime into a grid with classical wave-field values at each voxel
 - **OpenWave Level-0:** Granule-based particles - educational visualization of wave mechanics
-- **Both QFT and OpenWave:** Produce predictions about particle behavior, forces, and interactions from field dynamics
+- **Both QFT and OpenWave:** Produce predictions about particle behavior, forces and interactions from field dynamics
 
 ### Scientific Context
 
 - Quantum field theory is the experimentally validated standard framework
 - Lattice QCD is the standard computational method for QFT (Nobel Prize 2004, 2008)
 - OpenWave Level-1 uses similar lattice methodology but with different field equations
-- Research question: Can classical wave field dynamics reproduce quantum-like phenomena?
+- Research question: Can classical wave-field dynamics reproduce quantum-like phenomena?
 - EWT provides testable predictions that can be validated against experimental data
 
 ### Goal: Computational Utility
 
 OpenWave serves two distinct purposes depending on implementation level:
 
-**At Level-1 for Research:**
+**At LEVEL-1 for Research:**
 
 Research questions to investigate:
 
-- 🔬 Can wave dynamics reproduce experimentally observed particle properties?
+- 🔬 Can wave-field dynamics reproduce experimentally observed particle properties?
 - 🔬 Can standing wave patterns model matter formation (electrons, nuclei, atoms, molecules)?
-- 🔬 Can fundamental forces (electric, magnetic, gravitational, nuclear) emerge from field gradients?
+- 🔬 Can fundamental forces (electric, magnetic, gravitational, nuclear) emerge from wave-field gradients?
 - 🔬 Can computational predictions be validated against experimental data?
 - 🔬 Can this approach provide computationally efficient alternatives for specific simulations?
 
-**At Level-0 for Education:**
+**At LEVEL-0 for Education:**
 
 Current capabilities (Released):
 
@@ -111,33 +111,31 @@ Current capabilities (Released):
 - ✅ Demonstrates wave interference, standing waves, propagation
 - ✅ Helps students understand wave-field thinking
 
-## Scientific Source
+## Theoretical Source
 
 OpenWave is a programmatic computing and rendering package based on the [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") mathematical framework.
 
 Prior to using and contributing to OpenWave, it is recommended to study and familiarize yourself with this approach to subatomic physics from the following resources:
 
-### ENERGY WAVE THEORY (EWT)
-
-**EWT Resources:**
+### EWT Resources
 
 - Main Entry Point: [EWT Website](https://energywavetheory.com)
 - Research Papers: [Publications](https://www.researchgate.net/profile/Jeff-Yee-3)
 - Explainer Videos: [Video Channel](https://www.youtube.com/@EnergyWaveTheory)
 - Literature: [eBooks](https://www.amazon.com/gp/product/B078RYP7XD)
 
-### Theoretical Background
+### Pioneers and Origins
 
-The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model designed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that draws conceptual inspiration from historical work on wave interpretations of quantum mechanics:
+The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") is a deterministic quantum mechanics model proposed by [Jeff Yee](https://www.youtube.com/@EnergyWaveTheory) that draws conceptual inspiration from historical work on wave interpretations of quantum mechanics:
 
-**Historical Inspiration (established physics):**
+**Historical Inspiration:**
 
 - [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) - EPR paradox, determinism debates
 - [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) - Pilot wave theory foundations
 - [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure of matter explorations
 - Gabriel LaFreniere - Standing wave visualizations
 
-**Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave field dynamics.
+**Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave-field dynamics.
 
 ## Installation Instructions
 
@@ -226,13 +224,13 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    WAVE-MEDIUM [Objects]
-    medium_level0.py ✓
-    *WIP*: medium_level1.py
+    DATA-GRID [Objects]
+    L0_granule_based.py ✓
+    *WIP*: L1_field_based.py
     ---
     ENERGY-WAVE [Physics Engines]
-    wave_engine_level0.py ✓
-    *WIP*: wave_engine_level1.py}
+    L0_wave_engine.py ✓
+    *WIP*: L1_wave_engine.py}
 `SPACETIME MODULE
   (ENERGY SOURCE)` --> `MATTER MODULE
   (PARTICLE ENERGY)`
@@ -300,7 +298,7 @@ class `HEAT MODULE
 
 class `XPERIMENTS MODULE
   (VIRTUAL LAB)`{
-    L0: GRANULE-BASED Medium
+    L0: GRANULE-BASED Method
     - spacetime_vibration.py✓
     - spherical_wave.py ✓
     - standing_wave.py ✓
@@ -310,7 +308,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    L1: WAVE-FIELD Medium
+    L1: FIELD-BASED Method
     - *WIP*: flow_wave.py
 }
 
@@ -380,15 +378,15 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - medium_level1.py
-      - wave_level1.py]@{ priority: 'Very High', assigned: 'xrodz' }
+      - L1_field_based.py
+      - L1_wave_engine.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - medium_level0.py
-      - wave_level0.py]
+      - L0_granule_based.py
+      - L0_wave_engine.py]
     [**XPERIMENTS L0**
       - spacetm_vibration.py
       - spherical_wave.py
