@@ -1,11 +1,9 @@
 """
-WAVE-MEDIUM
-
-LEVEL-0: GRANULE-BASED MEDIUM
+LEVEL-0: GRANULE-BASED Data-Grid Method
 
 Object Classes @spacetime module.
 
-WAVE-MEDIUM propagates Wave Motion (ENERGY-WAVE).
+GRANULES propagate Wave Motion (ENERGY-WAVE).
 Modeled as a fluid-like medium that allows energy to transfer from one point to the next.
 """
 
@@ -970,7 +968,7 @@ class SCLattice:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     ti.init(arch=ti.gpu)
@@ -1016,7 +1014,7 @@ if __name__ == "__main__":
     print(f"  Mass: {granule.mass:.2e} kg")
 
     print("\n================================================================")
-    print("END SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("END SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     # Properly exit

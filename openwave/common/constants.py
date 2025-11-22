@@ -34,7 +34,7 @@ ATTOMETER = 1e-18  # m, attometer length scale
 RONTOSECOND = 1e-27  # s, rontosecond time scale
 
 # ================================================================
-# WAVE-MEDIUM
+# WAVE-FIELD MEDIUM CONSTANTS
 # ================================================================
 MEDIUM_DENSITY = 3.859764604e22  # kg / m^3, wave-medium density (ρ)
 EWAVE_SPEED = 299792458  # m / s, speed of light (c), c² = elasticity / density of medium

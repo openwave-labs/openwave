@@ -1,12 +1,10 @@
 """
-WAVE-MEDIUM
-
-LEVEL-1: WAVE-FIELD MEDIUM
+LEVEL-1: WAVE-FIELD Data-Grid Method
 
 Object Classes @spacetime module.
 
-WAVE-MEDIUM propagates Wave Motion (ENERGY-WAVE).
-Modeled as a fluid-like medium that allows energy to transfer from one point to the next.
+WAVE-FIELD propagates Wave Motion (ENERGY-WAVE).
+Modeled as a wave-field that allows energy to transfer from one point to the next.
 """
 
 import taichi as ti
@@ -377,7 +375,7 @@ class WaveField:
 
 if __name__ == "__main__":
     print("\n================================================================")
-    print("SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     ti.init(arch=ti.gpu)
@@ -417,7 +415,7 @@ if __name__ == "__main__":
     print(f"  Max universe resolution: {wave_field.max_uni_res:.2f} lambda per max universe edge")
 
     print("\n================================================================")
-    print("END SMOKE TEST: WAVE-MEDIUM MODULE")
+    print("END SMOKE TEST: DATA-GRID MODULE")
     print("================================================================")
 
     # Properly exit

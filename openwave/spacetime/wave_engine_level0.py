@@ -1,7 +1,7 @@
 """
 ENERGY-WAVE ENGINE
 
-LEVEL-0: ON GRANULE-BASED MEDIUM
+LEVEL-0: ON GRANULE-BASED METHOD
 
 Wave Physics Engine @spacetime module. Wave dynamics and motion.
 

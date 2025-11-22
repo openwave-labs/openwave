@@ -273,7 +273,7 @@ def display_color_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: WAVE-FIELD MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
+    with render.gui.sub_window("LEVEL-1: WAVE-FIELD METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
         if sub.button("Wave Notation Guide"):
@@ -285,12 +285,12 @@ def display_level_specs(state, level_bar_vertices):
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
-        sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- WAVE-FIELD GRID ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- WAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
         )

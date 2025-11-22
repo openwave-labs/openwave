@@ -267,7 +267,7 @@ def display_color_menu(state):
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
             state.VAR_AMP = True
-        if sub.checkbox("Medium Default Color", state.COLOR_PALETTE == 99):
+        if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
             state.VAR_AMP = True
         if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
@@ -285,7 +285,7 @@ def display_color_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("LEVEL-0: GRANULE-BASED MEDIUM", 0.82, 0.01, 0.18, 0.10) as sub:
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
@@ -294,7 +294,7 @@ def display_level_specs(state, level_bar_vertices):
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
-        sub.text("--- eWAVE-MEDIUM ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")

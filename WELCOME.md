@@ -1,8 +1,8 @@
 # WELCOME TO OPENWAVE
 
-## OpenWave
+## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave field dynamics. The project implements the mathematical framework of [Energy Wave Theory (EWT)](https://energywavetheory.com) through two complementary approaches: **Level-1 wave-field simulations** (research-grade lattice field theory) and **Level-0 granule-based visualizations** (educational wave mechanics demonstrations).
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a wave-field method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
@@ -10,40 +10,40 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 OpenWave provides two complementary ways to explore wave mechanics:
 
-### Level-1: Wave-Field Medium (Research Oriented)
+### LEVEL-1: Wave-Field Method (Research Oriented)
 
 **Status:** Work in Progress (WIP)
 
-- **Methodology:** Lattice field theory - similar to lattice QCD computational methods (Nobel Prize 2004, 2008)
+- **Methodology:** Lattice wave-field theory - similar to lattice QCD computational methods (Nobel Prize 2004, 2008)
 - **Implementation:** 3D vector field grid with PDE-based wave propagation equations
 - **Scale:** Wavelength-scale to molecules
 - **Purpose:** Research simulations for matter formation, force modeling, numerical validation
 - **Use Case:** Scientific research, advanced simulations, subatomic engineering
 
-### Level-0: Granule-Based Medium (Education Oriented)
+### LEVEL-0: Granule-Based Method (Education Oriented)
 
 **Status:** Released and Available
 
 - **Methodology:** Particle-based visualization with phase-shifted oscillations
-- **Implementation:** Discrete granules representing wave medium
+- **Implementation:** Discrete granules representing wave simulation
 - **Scale:** Planck-scale to wavelength
 - **Purpose:** Educational visualization, understanding wave formation
 - **Use Case:** Learning, illustration, animation, introduction to wave concepts
 
-**Key Insight:** Level-1 uses the same computational approach as quantum field theory (lattice discretization), while Level-0 provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
+**Key Insight:** LEVEL-1 uses the same computational approach as quantum field theory (lattice discretization), while LEVEL-0 provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
 
 ## Xperiments
 
-OpenWave Xperiments is a collection of interactive physics simulations that brings wave field dynamics to life through real-time visualization and computation.
+OpenWave Xperiments is a collection of interactive physics simulations that brings wave-field dynamics to life through real-time visualization and computation.
 
-**Currently Available: Level-0 Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in Level-1 research simulations.
+**Currently Available: LEVEL-0 Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in LEVEL-1 research simulations.
 
 Each Xperiment is fully customizable (via user controls and Python scripting), enabling you to adjust parameters such as universe size, wave source configurations, and visualization settings to investigate wave behavior at different scales.
 
 **Recommended:**
 
-- **Follow the Level-0 demo sequence below if you are new to OpenWave**
-- **Level-1 research tools** are under development for matter formation simulations
+- **Follow the LEVEL-0 demo sequence below if you are new to OpenWave**
+- **LEVEL-1 research tools** are under development for matter formation simulations
 
 ## XPERIMENTS LEVEL-0 DEMO (start here)
 
@@ -61,13 +61,13 @@ Each Xperiment is fully customizable (via user controls and Python scripting), e
 
 <div align = "center">
 
-  ![Medium vibration visualization](images/medium_vibes.gif)
+  ![Spacetime vibration visualization](images/spacetime_vibes.gif)
 
 </div>
 
 ### 2. Spherical Wave
 
-This xperiment demonstrates in a 3D view how a spherical longitudinal wave propagates through the granular medium. In EWT's framework, longitudinal waves are the primary mode for modeling ENERGY WAVE propagation.
+This xperiment demonstrates in a 3D view how a spherical longitudinal wave propagates through the granular simulation. In EWT's framework, longitudinal waves are the primary mode for modeling ENERGY WAVE propagation.
 
 **Educational value:** Helps visualize how waves spread through a medium and how energy transfers from one location to another.
 
@@ -150,16 +150,16 @@ To launch the Xperiments Selector Menu:
   </table>
 </div>
 
-## SCIENTIFIC SOURCE
+## Scientific Background
 
-For more details on the theoretical framework, mathematical derivations, and research papers, refer to: [Energy Wave Theory (EWT)](https://energywavetheory.com).
+OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"), a proposed deterministic subatomic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory (QFT). For more details on the theoretical framework, mathematical derivations, and research papers, refer to: [EWT Main Entry Point](https://energywavetheory.com).
 
 **Context:** EWT is a deterministic wave mechanics framework that provides an alternative mathematical formalism to quantum field theory for describing physical observations.
 
 **OpenWave's Computational Implementation:**
 
-- **Level-1** uses lattice field theory methodology (similar to lattice QCD) with EWT's field equations
-- **Level-0** provides particle-based visualizations for intuitive understanding
+- **LEVEL-1** uses lattice wave-field theory methodology (similar to lattice QCD) with EWT's field equations
+- **LEVEL-0** provides particle-based visualizations for intuitive understanding
 - Both are computational frameworks for investigating EWT's mathematical predictions against experimentally observed physics
 
 ## OPENWAVE LEVELS
@@ -167,9 +167,9 @@ For more details on the theoretical framework, mathematical derivations, and res
 | OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
 |----------|---------------------|---------------|------------------|
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED MEDIUM | WAVE-FIELD MEDIUM | ADVANCED COMPUTING PLATFORMS |
+| LOGIC | GRANULE-BASED METHOD | WAVE-FIELD METHOD | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| wave-medium | granule-base lattice | wave-field grid | to be developed |
+| data-grid | granule-based lattice | wave-field grid | to be developed |
 | wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
