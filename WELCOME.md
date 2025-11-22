@@ -2,7 +2,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a wave-field method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
@@ -10,7 +10,7 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 OpenWave provides two complementary ways to explore wave mechanics:
 
-### LEVEL-1: Wave-Field Method (Research Oriented)
+### LEVEL-1: Field-Based Method (Research Oriented)
 
 **Status:** Work in Progress (WIP)
 
@@ -167,9 +167,9 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 | OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
 |----------|---------------------|---------------|------------------|
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED METHOD | WAVE-FIELD METHOD | ADVANCED COMPUTING PLATFORMS |
+| LOGIC | GRANULE-BASED METHOD | FIELD-BASED METHOD | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| data-grid | granule-based lattice | wave-field grid | to be developed |
+| data-grid | granule-based lattice | field-based grid | to be developed |
 | wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |

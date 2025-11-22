@@ -1,25 +1,26 @@
 """
-L0 XPERIMENT LAUNCHER
+[WIP] L1 XPERIMENT LAUNCHER
 
-Unified launcher for Level-0 granule-based xperiments featuring:
+Unified launcher for Level-1 wave-field xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /_xparameters directory
 """
 
-import time
+import webbrowser
 import importlib
 import sys
 import os
 from pathlib import Path
 
+import numpy as np
 import taichi as ti
 
 from openwave.common import colormap, constants
-from openwave._io import render, video
+from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.medium_level0 as medium
-import openwave.spacetime.wave_engine_level0 as ewave
+import openwave.spacetime.L1_field_based as data_grid
+import openwave.spacetime.L1_wave_engine as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
 # ================================================================
@@ -59,9 +60,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = (
-                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
-            )
+            module_path = f"openwave.xperiments.5_level1_wave_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,9 +85,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = (
-                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
-            )
+            module_path = f"openwave.xperiments.5_level1_wave_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -107,10 +104,9 @@ class SimulationState:
     """Manages the state of the simulation."""
 
     def __init__(self):
-        self.lattice = None
-        self.granule = None
+        self.wave_field = None
+        self.dt_frame = 1.0 / 60.0  # s, Default frame duration for 60 FPS
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -118,24 +114,23 @@ class SimulationState:
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
-        self.TARGET_GRANULES = 1e6
-        self.NUM_SOURCES = 1
-        self.SOURCES_POSITION = []
-        self.SOURCES_PHASE_DEG = []
+        self.TARGET_VOXELS = 1e8
+        self.SLOW_MO = None
 
         # UI control variables
         self.SHOW_AXIS = False
         self.TICK_SPACING = 0.25
-        self.BLOCK_SLICE = False
-        self.SHOW_SOURCES = False
+        self.SHOW_GRID = False
+        self.FLUX_MESH_OPTION = 0
         self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
+        self.PROPAGATING = False
         self.PAUSED = False
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
-        self.COLOR_PALETTE = 0
+        self.COLOR_PALETTE = 1  # Color palette index
         self.VAR_AMP = False
 
         # Diagnostics & video export toggles
@@ -146,7 +141,6 @@ class SimulationState:
     def reset(self):
         """Reset simulation state for a new xperiment."""
         self.elapsed_t = 0.0
-        self.last_time = time.time()
         self.frame = 0
         self.peak_amplitude = 0.0
 
@@ -161,23 +155,19 @@ class SimulationState:
         # Universe
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
-        self.TARGET_GRANULES = universe["TARGET_GRANULES"]
-
-        # Wave sources
-        sources = params["wave_sources"]
-        self.NUM_SOURCES = sources["COUNT"]
-        self.SOURCES_POSITION = sources["POSITIONS"]
-        self.SOURCES_PHASE_DEG = sources["PHASE_OFFSETS_DEG"]
+        self.TARGET_VOXELS = universe["TARGET_VOXELS"]
+        self.SLOW_MO = universe["SLOW_MO"]
 
         # UI defaults
         ui = params["ui_defaults"]
         self.SHOW_AXIS = ui["SHOW_AXIS"]
         self.TICK_SPACING = ui["TICK_SPACING"]
-        self.BLOCK_SLICE = ui["BLOCK_SLICE"]
-        self.SHOW_SOURCES = ui["SHOW_SOURCES"]
+        self.SHOW_GRID = ui["SHOW_GRID"]
+        self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
         self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
+        self.PROPAGATING = ui["PROPAGATING"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -192,14 +182,9 @@ class SimulationState:
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
-    def initialize_lattice(self):
-        """Initialize or reinitialize the lattice and granule objects."""
-        self.lattice = medium.BCCLattice(
-            self.UNIVERSE_SIZE, self.TARGET_GRANULES, self.COLOR_THEME
-        )
-        self.granule = medium.BCCGranule(
-            self.lattice.unit_cell_edge, self.lattice.max_universe_edge
-        )
+    def initialize_grid(self):
+        """Initialize or reinitialize the wave field grid."""
+        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
 
 
 # ================================================================
@@ -212,14 +197,14 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
     Args:
         xperiment_mgr: XperimentManager instance
-        state: SimulationState instance (unused but kept for consistency)
+        state: SimulationState instance
 
     Returns:
         str or None: Selected xperiment name or None
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER L0", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.13, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -236,13 +221,15 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.25) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
-        state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
-        state.SHOW_SOURCES = sub.checkbox("Show Wave Sources", state.SHOW_SOURCES)
+        state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
+        state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
+        if sub.button("Propagate Wave"):
+            state.PROPAGATING = True
         if state.PAUSED:
             if sub.button("Continue"):
                 state.PAUSED = False
@@ -255,8 +242,13 @@ def display_color_menu(state):
     """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
-            state.COLOR_PALETTE = 1
+        if sub.checkbox(
+            "Displacement (blueprint)", state.COLOR_PALETTE == 2 and not state.VAR_AMP
+        ):
+            state.COLOR_PALETTE = 2
+            state.VAR_AMP = False
+        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 3 and not state.VAR_AMP):
+            state.COLOR_PALETTE = 3
             state.VAR_AMP = False
         if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
             state.COLOR_PALETTE = 1
@@ -264,65 +256,65 @@ def display_color_menu(state):
         if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
             state.COLOR_PALETTE = 2
             state.VAR_AMP = True
-        if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
-            state.COLOR_PALETTE = 0
-            state.VAR_AMP = True
-        if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
-            state.COLOR_PALETTE = 99
-            state.VAR_AMP = True
         if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
-            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
-            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
+            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.peak_amplitude:.0e}m")
+        if state.COLOR_PALETTE == 3:  # Display redshift gradient palette
+            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("LEVEL-0: GRANULE-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
-        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
+    render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
+    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
+        if sub.button("Wave Notation Guide"):
+            webbrowser.open(
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/wave_notation.md"
+            )
 
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
+        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- Scaling-Up (for computation) ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
-        sub.text(f"Unit-Cells per Max Edge: {state.lattice.max_grid_size:,}")
-        sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
-        sub.text(f"Granule Radius: {state.granule.radius * state.RADIUS_FACTOR:.2e} m")
-        sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
+        sub.text("\n--- WAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(
+            f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
+        )
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
+        sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
-        if state.lattice.ewave_res < 10:
+        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
+        if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/universe-edge")
+        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- WAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
+        sub.text(
+            f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
+        )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST
+        slowed_mo = state.SLOW_MO / state.FREQ_BOOST
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
@@ -336,98 +328,75 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize wave sources and diagnostics (called once after lattice init).
+    """Initialize color palettes, test patterns and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
     global ib_palette_vertices, ib_palette_colors
+    global rs_palette_vertices, rs_palette_colors
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
-    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
+    # Initialize color palette scales for gradient rendering and level indicator
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
     bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
+    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
+        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+    )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Initialize wave sources
-    ewave.build_source_vectors(
-        state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
-    )
+    # Initialize test displacement pattern for flux mesh visualization
+    # TODO: remove amplitude falloff post propagation implementation
+    # TODO: review FPS after wave propagation (dt_frame, render init_UI)
+    # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
 
 def compute_wave_motion(state):
-    """Compute lattice motion from wave superposition and update visualization data.
+    """Compute wave propagation, reflection and superposition
+    and update visualization data (placeholder for future implementation).
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # Apply wave oscillations from all sources (creates interference patterns)
-    ewave.oscillate_granules(
-        state.lattice.position_am,
-        state.lattice.equilibrium_am,
-        state.lattice.amplitude_am,
-        state.lattice.velocity_am,
-        state.lattice.granule_var_color,
-        state.FREQ_BOOST,
-        state.AMP_BOOST,
-        state.COLOR_PALETTE,
-        state.VAR_AMP,
-        state.NUM_SOURCES,
-        state.elapsed_t,
-    )
-
-    # Update normalized positions for rendering with optional block-slicing
-    state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
-
-    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # Update data sampling every 30 frames
-    if state.frame % 30 == 0:
-        state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-        ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
-
-    if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
+    # TODO: Implement wave propagation, reflection and superposition + normalization logic
+    # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
+    pass
 
 
 def render_elements(state):
-    """Render granules and wave sources with appropriate coloring."""
-    radius_render = state.granule.radius_screen * state.RADIUS_FACTOR
+    """Render grid, flux mesh and test particles."""
+    if state.SHOW_GRID:
+        render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
-    # Render granules with color scheme
-    if state.COLOR_PALETTE == 0:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_type_color,
-        )
-    elif state.COLOR_PALETTE == 1 or state.COLOR_PALETTE == 2:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            per_vertex_color=state.lattice.granule_var_color,
-        )
-    else:
-        render.scene.particles(
-            state.lattice.position_screen,
-            radius=radius_render,
-            color=colormap.COLOR_MEDIUM[1],
-        )
+    if state.FLUX_MESH_OPTION > 0:
+        if state.PROPAGATING:
+            pass
+        # TODO: remove alternating update once feature implemented
+        if state.frame % 1 == 0:
+            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        # else:
+        #     ewave.update_flux_mesh_colors_old(state.wave_field, state.COLOR_PALETTE)
+        #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
-    # Render wave sources
-    if state.SHOW_SOURCES:
-        render.scene.particles(
-            centers=ewave.sources_pos_field,
-            radius=state.granule.radius_screen * 2,
-            color=colormap.COLOR_SOURCE[1],
-        )
+    # TODO: remove test particles for visual reference
+    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    y_pos = 0.5 + (
+        (round(constants.EWAVE_LENGTH / state.wave_field.dx)) / state.wave_field.max_grid_size
+    )
+    position2 = np.array([[0.5, y_pos, 0.5]], dtype=np.float32)
+    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
@@ -437,7 +406,6 @@ def render_elements(state):
 
 def main():
     """Main entry point for xperiment launcher."""
-    # Parse command-line argument for xperiment selection
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
@@ -447,8 +415,8 @@ def main():
     xperiment_mgr = XperimentManager()
     state = SimulationState()
 
-    # Load xperiment (from CLI arg or default)
-    default_xperiment = selected_xperiment_arg or "spacetime_vibration"
+    # Load xperiment from CLI argument or default
+    default_xperiment = selected_xperiment_arg or "energy_wave"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
@@ -458,7 +426,7 @@ def main():
         return
 
     state.apply_xparameters(params)
-    state.initialize_lattice()
+    state.initialize_grid()
     initialize_xperiment(state)
 
     # Initialize GGUI rendering
@@ -491,16 +459,10 @@ def main():
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
-            # Update elapsed time and run simulation step
-            current_time = time.time()
-            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
-            state.last_time = current_time
-
+            # Run simulation step and update time
             compute_wave_motion(state)
+            state.elapsed_t += state.dt_frame  # Elapsed time accumulation
             state.frame += 1
-        else:
-            # Prevent time jump on resume
-            state.last_time = time.time()
 
         # Render scene elements
         render_elements(state)

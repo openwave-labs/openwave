@@ -15,11 +15,11 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a wave-field method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
+OpenWave is an open-source computational physics toolkit for modeling matter and energy phenomena using wave-field dynamics. The project implements a proposed mathematical framework through two complementary computational approaches: a field-based method (similar to lattice gauge theory) for research simulations, and a granule-based method for educational visualization.
 
 ### Two Computational Approaches
 
-#### Level-1: Wave-Field Method (Research Oriented)
+#### Level-1: Field-Based Method (Research Oriented)
 
 - 3D vector field using partial differential equations (PDEs)
 - Similar methodology to lattice QCD (quantum chromodynamics)
@@ -39,7 +39,7 @@ OpenWave aims to:
 - Model matter, force unification and energy phenomena through wave-field dynamics
 - Simulate particle emergence from standing wave patterns in fields
 - Validate wave-field mechanics against known physics
-- Provide computational and visualization tools for wave-based models
+- Provide computational and visualization tools for wave-dynamics models
 
 **Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.
 
@@ -226,7 +226,7 @@ class `SPACETIME MODULE
   (ENERGY SOURCE)`{
     DATA-GRID [Objects]
     L0_granule_based.py ✓
-    *WIP*: L1_wave_field.py
+    *WIP*: L1_field_based.py
     ---
     ENERGY-WAVE [Physics Engines]
     L0_wave_engine.py ✓
@@ -308,7 +308,7 @@ class `XPERIMENTS MODULE
     - xwaves.py ✓
     - yin_yang.py ✓
     ---
-    L1: WAVE-FIELD Method
+    L1: FIELD-BASED Method
     - *WIP*: flow_wave.py
 }
 
@@ -378,7 +378,7 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - L1_wave_field.py
+      - L1_field_based.py
       - L1_wave_engine.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }

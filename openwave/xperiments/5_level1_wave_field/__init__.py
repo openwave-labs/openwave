@@ -1,5 +1,5 @@
 """
-5/ LEVEL-1: Wave-Field Method (analytical tools)
+5/ LEVEL-1: Field-Based Method (analytical tools)
 
-Experiments exploring wave dynamics using wave-field method simulation.
+Experiments exploring wave dynamics using field-based method simulation.
 """

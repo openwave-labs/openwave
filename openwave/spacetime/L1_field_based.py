@@ -1,5 +1,5 @@
 """
-LEVEL-1: WAVE-FIELD Data-Grid Method
+LEVEL-1: FIELD-BASED Data-Grid Method
 
 Object Classes @spacetime module.
 

@@ -7,7 +7,7 @@ import taichi as ti
 
 from openwave.common import constants
 
-import openwave.spacetime.medium_level1 as medium
+import openwave.spacetime.L1_field_based as data_grid
 
 ti.init(arch=ti.gpu)
 
@@ -17,7 +17,7 @@ UNIVERSE_SIZE = [
     6e-15,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-wave_field = medium.WaveField(UNIVERSE_SIZE, target_voxels=1e8)
+wave_field = data_grid.WaveField(UNIVERSE_SIZE, target_voxels=1e8)
 
 
 # ================================================================
