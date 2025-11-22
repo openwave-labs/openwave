@@ -122,7 +122,6 @@ class SimulationState:
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.FLUX_MESH_OPTION = 0
-        self.RADIUS_FACTOR = 0.5
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
         self.PROPAGATING = False
@@ -164,7 +163,6 @@ class SimulationState:
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
-        self.RADIUS_FACTOR = ui["RADIUS_FACTOR"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
         self.PROPAGATING = ui["PROPAGATING"]
@@ -221,11 +219,10 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.25) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.23) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
-        state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
         if sub.button("Propagate Wave"):
