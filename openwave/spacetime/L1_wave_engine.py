@@ -240,7 +240,7 @@ def update_flux_mesh_colors(
 
 
 @ti.kernel
-def update_flux_mesh_colors_old(
+def update_flux_mesh_colors_tminus1(
     wave_field: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore
 ):
@@ -369,8 +369,8 @@ def plot_displacement_profile(wave_field):
     distances = x_indices - center_x
 
     # Create the plot
-    plt.style.use("seaborn-v0_8")
-    fig = plt.figure(figsize=(12, 6), facecolor=colormap.WHITE[1])
+    plt.style.use("dark_background")
+    fig = plt.figure(figsize=(12, 6))
     fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
     # Plot 1: Longitudinal Displacement vs distance from center

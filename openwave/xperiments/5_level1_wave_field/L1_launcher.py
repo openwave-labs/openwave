@@ -219,16 +219,13 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.23) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.18) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
-        state.SHOW_GRID = sub.checkbox(f"Grid", state.SHOW_GRID)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
-        if sub.button("Propagate Wave"):
-            state.PROPAGATING = True
         if state.PAUSED:
-            if sub.button("Continue"):
+            if sub.button("Propagate Wave"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):
@@ -352,6 +349,7 @@ def initialize_xperiment(state):
     # TODO: review FPS after wave propagation (dt_frame, render init_UI)
     # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    # TODO: code toggle to plot initial displacement profile
     ewave.plot_displacement_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
@@ -383,7 +381,7 @@ def render_elements(state):
             ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
             flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
         # else:
-        #     ewave.update_flux_mesh_colors_old(state.wave_field, state.COLOR_PALETTE)
+        #     ewave.update_flux_mesh_colors_tminus1(state.wave_field, state.COLOR_PALETTE)
         #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
