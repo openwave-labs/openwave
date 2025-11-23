@@ -2,7 +2,7 @@ import numpy as np
 
 from openwave.common import constants, equations
 
-import openwave.spacetime.L0_granule_based as data_grid
+import openwave.spacetime.L0_granule_grid as data_grid
 
 
 # From constants

@@ -224,9 +224,9 @@ classDiagram
   
 class `SPACETIME MODULE
   (ENERGY SOURCE)`{
-    DATA-GRID [Objects]
-    L0_granule_based.py ✓
-    *WIP*: L1_field_based.py
+    DATA-GRID [Object Classes]
+    L0_granule_grid.py ✓
+    *WIP*: L1_field_grid.py
     ---
     ENERGY-WAVE [Physics Engines]
     L0_wave_engine.py ✓
@@ -378,14 +378,14 @@ kanban
     
   [IN PROGRESS]
     [**SPACETIME MODULE**
-      - L1_field_based.py
+      - L1_field_grid.py
       - L1_wave_engine.py]@{ priority: 'Very High', assigned: 'xrodz' }
     [**XPERIMENTS L1**
       - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
     
   [RELEASED]
     [**SPACETIME MODULE**
-      - L0_granule_based.py
+      - L0_granule_grid.py
       - L0_wave_engine.py]
     [**XPERIMENTS L0**
       - spacetm_vibration.py
