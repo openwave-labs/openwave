@@ -148,7 +148,7 @@ class BCCLattice:
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # ================================================================
-        # DATA STRUCTURES & INITIALIZATION
+        # DATA STRUCTURE & INITIALIZATION
         # ================================================================
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
@@ -623,6 +623,12 @@ class SCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
+        # Total granules: corners only (no centers for SC) - asymmetric grid
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        self.granule_count = (
+            (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        )
+
         # Scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
@@ -634,17 +640,14 @@ class SCLattice:
         # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
-        # Total granules: corners only (no centers for SC) - asymmetric grid
-        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        self.granule_count = (
-            (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-        )
-
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
+        # ================================================================
+        # DATA STRUCTURE & INITIALIZATION
+        # ================================================================
         # Initialize position and velocity 1D arrays
         # 1D array design: Better memory locality, simpler kernels, ready for dynamics
         # position, velocity in attometers for f32 precision

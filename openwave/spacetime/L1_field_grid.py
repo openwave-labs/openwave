@@ -107,25 +107,21 @@ class WaveField:
         self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
 
         # ================================================================
-        # DATA STRUCTURES & INITIALIZATION
+        # DATA STRUCTURE & INITIALIZATION
         # ================================================================
-        # TRACKED FIELDS (values in attometers for f32 precision)
+        # PROPAGATED FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
-        # This scales 1e-17 m values to ~10 am, well within f32 range
+        # Scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
+        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
+        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
+        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
+
+        # TRACKED FIELDS
         # 2  polarities tracked: longitudinal & transverse
-        self.displacement_new_am = ti.Vector.field(
-            2, dtype=ti.f32, shape=self.grid_size
-        )  # am, [ψl,ψt] at t+dt (2 polarities: longitudinal & transverse)
-        self.displacement_am = ti.Vector.field(
-            2, dtype=ti.f32, shape=self.grid_size
-        )  # am, [ψl,ψt] at t (2 polarities: longitudinal & transverse)
-        self.displacement_old_am = ti.Vector.field(
-            2, dtype=ti.f32, shape=self.grid_size
-        )  # am, [ψl,ψt] at t-dt (2 polarities: longitudinal & transverse)
-        self.amplitude_am = ti.Vector.field(
-            2, dtype=ti.f32, shape=self.grid_size
-        )  # am, envelope [Al, At] = [max|ψl|, max|ψt|] (2 polarities: longitudinal & transverse)
+        # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
+        # Frequency is the local wave rhythm in Hz
+        self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=self.grid_size)  # am, [Al,At]
         self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, wave rhythm
 
         # DERIVED SCALAR FIELDS
@@ -391,7 +387,7 @@ if __name__ == "__main__":
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
     wave_field = WaveField(
-        UNIVERSE_SIZE, target_voxels=6e8
+        UNIVERSE_SIZE, target_voxels=1e9
     )  # 600M voxels (~24GB), 1B voxels (~40GB)
 
     print(f"\nGrid Statistics:")
