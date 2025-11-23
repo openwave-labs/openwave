@@ -130,10 +130,11 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 
 **Historical Inspiration:**
 
-- [Albert Einstein](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox) - EPR paradox, determinism debates
-- [Louis de Broglie](https://en.wikipedia.org/wiki/Pilot_wave_theory) - Pilot wave theory foundations
-- [Dr. Milo Wolff](https://www.amazon.com/dp/0962778710) - Wave structure of matter explorations
-- Gabriel LaFreniere - Standing wave visualizations
+- Albert Einstein - [EPR Paradox, Determinism Debates](https://en.wikipedia.org/wiki/Einstein%E2%80%93Podolsky%E2%80%93Rosen_paradox)
+- Louis de Broglie - [Pilot Wave Theory Foundations](https://en.wikipedia.org/wiki/Pilot_wave_theory)
+- David Bohm - [Bohmian Mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory)
+- Milo Wolff - [Wave Structure of Matter](https://www.amazon.com/dp/0962778710) & [Schroedinger's Universe](https://www.amazon.com/Schroedingers-Universe-Origin-Natural-Laws-ebook/dp/B001MIZV3A)
+- Gabriel LaFreniere - [Matter is Made of Waves](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
 
 **Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave-field dynamics.
 
@@ -211,206 +212,11 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
 
 ## System Architecture
 
-### Modular Design
+### Modular Design & Development Roadmap
 
 This diagram illustrates the architecture of the OpenWave system, broken down into the following system modules:
 
-- ✓ = module already released
-- *WIP* = work in progress
-
-```mermaid
-classDiagram
-  direction LR
-  
-class `SPACETIME MODULE
-  (ENERGY SOURCE)`{
-    DATA-GRID [Objects]
-    L0_granule_based.py ✓
-    *WIP*: L1_field_based.py
-    ---
-    ENERGY-WAVE [Physics Engines]
-    L0_wave_engine.py ✓
-    *WIP*: L1_wave_engine.py}
-`SPACETIME MODULE
-  (ENERGY SOURCE)` --> `MATTER MODULE
-  (PARTICLE ENERGY)`
-`SPACETIME MODULE
-  (ENERGY SOURCE)` --> `MOTION MODULE
-  (KINETIC ENERGY)`
-`SPACETIME MODULE
-  (ENERGY SOURCE)` --> `PHOTON MODULE
-  (PHOTON ENERGY)`
-`SPACETIME MODULE
-  (ENERGY SOURCE)` --> `HEAT MODULE
-  (THERMAL ENERGY)`
-
-
-class `MATTER MODULE
-  (PARTICLE ENERGY)`{
-    *WIP*: fundamental_particle.py
-    *WIP*: standalone_particle.py
-    *WIP*: composite_particle.py
-    *WIP*: atom.py
-    *WIP*: molecule.py}
-`MATTER MODULE
-  (PARTICLE ENERGY)` <--> `FORCE
-  MODULE`
-`MATTER MODULE
-  (PARTICLE ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL LAB)`
-
-
-class `FORCE
-  MODULE`{
-    *WIP*: electric.py
-    *WIP*: magnetic.py
-    *WIP*: gravitational.py
-    *WIP*: strong.py
-    *WIP*: orbital.py}
-
-
-class `MOTION MODULE
-  (KINETIC ENERGY)`{    
-    ---WIP*}
-`MOTION MODULE
-  (KINETIC ENERGY)` <-- `FORCE
-  MODULE`
-`MOTION MODULE
-  (KINETIC ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL LAB)`
-
-
-class `PHOTON MODULE
-  (PHOTON ENERGY)`{
-    ---WIP*}
-`PHOTON MODULE
-  (PHOTON ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL LAB)`
-
-
-class `HEAT MODULE
-  (THERMAL ENERGY)`{
-    ---WIP*}
-`HEAT MODULE
-  (THERMAL ENERGY)` --> `XPERIMENTS MODULE
-  (VIRTUAL LAB)`
-
-
-class `XPERIMENTS MODULE
-  (VIRTUAL LAB)`{
-    L0: GRANULE-BASED Method
-    - spacetime_vibration.py✓
-    - spherical_wave.py ✓
-    - standing_wave.py ✓
-    - wave_interference.py ✓
-    - wave_magnet.py ✓
-    - wave_pulse.py ✓
-    - xwaves.py ✓
-    - yin_yang.py ✓
-    ---
-    L1: FIELD-BASED Method
-    - *WIP*: flow_wave.py
-}
-
-
-class `COMMON
-  MODULE`{
-    colormap.py ✓
-    constants.py ✓
-    equations.py ✓
-    utils.py ✓
-  }
-`COMMON
-  MODULE` <--> `VALIDATIONS
-  MODULE`
-
-
-class `VALIDATIONS
-  MODULE`{
-    wave_diagnostics.py ✓
-    derivations.py ✓
-    stability.py ✓
-  }
-`VALIDATIONS
-  MODULE` <--> `I/O
-  MODULE`
-
-
-class `I/O
-  MODULE`{
-    cli.py ✓
-    flux_mesh.py ✓
-    render.py ✓
-    video.py ✓
-  }
-```
-
-### DEVELOPMENT ROADMAP
-
-```mermaid
-kanban
-  [BACKLOG]
-    [**MATTER MODULE**
-      - stdalone_particle.py
-      - comp_particle.py
-      - atom.py
-      - molecule.py]
-    
-    [**FORCE MODULE**
-      - electric.py
-      - magnetic.py
-      - gravitational.py
-      - strong.py
-      - orbital.py]
-    
-    [**MOTION MODULE**
-      - motion.py]
-    
-    [**PHOTON MODULE**
-      - light.py]
-    
-    [**HEAT MODULE**
-      - heat.py]
-
-  [NEXT]
-    [**MATTER MODULE**
-      - fundam_particle.py]@{ priority: 'High', assigned: 'xrodz' }
-    
-  [IN PROGRESS]
-    [**SPACETIME MODULE**
-      - L1_field_based.py
-      - L1_wave_engine.py]@{ priority: 'Very High', assigned: 'xrodz' }
-    [**XPERIMENTS L1**
-      - flow_wave.py]@{ priority: 'Very High', assigned: 'xrodz' }
-    
-  [RELEASED]
-    [**SPACETIME MODULE**
-      - L0_granule_based.py
-      - L0_wave_engine.py]
-    [**XPERIMENTS L0**
-      - spacetm_vibration.py
-      - spherical_wave.py
-      - standing_wave.py
-      - wave_interference.py
-      - wave_magnet.py
-      - wave_pulse.py
-      - xwaves.py
-      - yin_yang.py]
-    [**VALIDATIONS MODULE**
-      - wave_diagnostics.py
-      - derivations.py
-      - stability.py]
-    [**COMMON MODULE**
-      - colormap.py
-      - constants.py
-      - equations.py
-      - utils.py]
-    [**I/O MODULE**
-      - cli.py
-      - flux_mesh.py
-      - render.py
-      - video.py]
-```
+![ROADMAP](images/roadmap.png)
 
 ### Scalability & Performance
 

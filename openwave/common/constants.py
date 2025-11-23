@@ -15,12 +15,12 @@ import numpy as np
 # OpenWave engines use scaled units to maintain f32 precision:
 # Spatial:  ATTOMETER = 1e-18 m
 #   - Wavelength: ~28.5 am (vs 2.85e-17 m)
-#   - Grid spacing: ~1.25 am (vs 1.25e-18 m)
+#   - Amplitude: ~0.9 am (vs 9.2e-19 m)
 #   - Naming: variables/fields with suffix '_am'
 #
 # Temporal: RONTOSECOND = 1e-27 s
-#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
 #   - Period: ~95.2 rs (vs 9.52e-26 s)
+#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
 #   - Naming: variables/fields with suffix '_rs'
 #
 # Benefits:
@@ -34,34 +34,33 @@ ATTOMETER = 1e-18  # m, attometer length scale
 RONTOSECOND = 1e-27  # s, rontosecond time scale
 
 # ================================================================
-# WAVE-FIELD MEDIUM CONSTANTS
+# WAVE-FIELD MEDIUM [EWT Constants]
 # ================================================================
 MEDIUM_DENSITY = 3.859764604e22  # kg / m^3, wave-medium density (ρ)
 EWAVE_SPEED = 299792458  # m / s, speed of light (c), c² = elasticity / density of medium
 
 # ================================================================
-# ENERGY-WAVE
+# ENERGY-WAVE RHYTHM & SIZE [EWT Constants]
 # ================================================================
 EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (A, equilibrium-to-peak)
-
 EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length (λ = EWAVE_SPEED / EWAVE_FREQUENCY)
 EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY)
 
 # ================================================================
-# Neutrino particle (seed particle)
+# NEUTRINO Particle (seed particle)
 # ================================================================
 NEUTRINO_K = 1  # neutrino wave center count (dimensionless)
-NEUTRINO_RADIUS = EWAVE_LENGTH  # m, neutrino radius = 1 λ
+NEUTRINO_RADIUS = EWAVE_LENGTH  # 2.85e-17m, neutrino radius = 1 λ
 NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 
 # ================================================================
-# Electron particle
+# ELECTRON Particle
 # ================================================================
 ELECTRON_K = 10  # electron wave center count (dimensionless)
 ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
-ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_MASS = 9.1093837139e-31  # kg, electron mass from CODATA
+ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
 ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
 ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor (gλ, dimensionless)
 ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
@@ -70,18 +69,18 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
 # a relation of Earth’s outward velocity and spin velocity against a rest frame for the universe.
 
 # ================================================================
-#  Proton & Neutron particle
+#  PROTON & NEUTRON Particle
 # ================================================================
 PROTON_K = 44  # proton wave center count (dimensionless)
 PROTON_RADIUS = 8.414e-16  # m, proton radius
-PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_MASS = 1.67262192595e-27  # kg, proton mass from CODATA
+PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
 PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (gp, dimensionless)
 
 NEUTRON_MASS = 1.67492749804e-27  # kg, neutron mass from CODATA 2022
 
 # ================================================================
-# Classical constants
+# Classical Constants
 # ================================================================
 PLANCK_LENGTH = 1.616255e-35  # m, Planck length
 PLANCK_TIME = 5.391247e-44  # s, Planck time
@@ -131,9 +130,11 @@ IMPEDANCE_VACUUM = 376.730313412  # Ω, Z_0, characteristic impedance of vacuum,
 # and Poynting vector: S = (1/μ_0) * E × B = E^2 / Z_0
 
 # ================================================================
-# Additional constants
+# Additional Constants
 # ================================================================
 
+PI = np.pi  # π = 3.1415926535... (dimensionless)
+EULER_NUMBER = np.e  # e = 2.7182818284... (dimensionless)
 GOLDEN_RATIO = 1.6180339887  # φ = (1+sqrt(5))/2 (dimensionless)
 
 # DELTA : amplitude factor (dimensionless) — user-supplied per system/transition

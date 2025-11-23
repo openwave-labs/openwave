@@ -7,7 +7,7 @@ import taichi as ti
 
 from openwave.common import constants
 
-import openwave.spacetime.L1_field_based as data_grid
+import openwave.spacetime.L1_field_grid as data_grid
 
 ti.init(arch=ti.gpu)
 

@@ -18,7 +18,7 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.L0_granule_based as data_grid
+import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
 import openwave.validations.wave_diagnostics as diagnostics
 
