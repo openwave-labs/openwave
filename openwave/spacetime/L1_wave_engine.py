@@ -68,10 +68,8 @@ def initiate_charge(
         disp_old = base_amplitude_am * ti.cos(omega * -dt_frame - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
-        wave_field.displacement_am[i, j, k][0] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k][0] = disp_old  # at time t=-1
-        wave_field.displacement_am[i, j, k][1] = 0.0  # no transverse component
-        wave_field.displacement_old_am[i, j, k][1] = 0.0  # no transverse component
+        wave_field.displacement_am[i, j, k] = disp  # at time t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
 
 # TODO: remove amplitude falloff post propagation implementation
@@ -134,10 +132,8 @@ def initiate_falloff(
         disp_old = amplitude_am_at_r * ti.cos(omega * -dt_frame - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
-        wave_field.displacement_am[i, j, k][0] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k][0] = disp_old  # at time t=-1
-        wave_field.displacement_am[i, j, k][1] = 0.0  # no transverse component
-        wave_field.displacement_old_am[i, j, k][1] = 0.0  # no transverse component
+        wave_field.displacement_am[i, j, k] = disp  # at time t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
 
 @ti.kernel
@@ -180,7 +176,7 @@ def update_flux_mesh_colors(
     # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, j, center_k][0]
+        disp_value = wave_field.displacement_am[i, j, center_k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -201,7 +197,7 @@ def update_flux_mesh_colors(
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, center_j, k][0]
+        disp_value = wave_field.displacement_am[i, center_j, k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -222,7 +218,7 @@ def update_flux_mesh_colors(
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[center_i, j, k][0]
+        disp_value = wave_field.displacement_am[center_i, j, k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -361,8 +357,8 @@ def plot_displacement_profile(wave_field):
 
     # Sample longitudinal displacement values
     for i in range(nx):
-        displacements_L[i] = wave_field.displacement_am[i, center_j, center_k][0]
-        displacements_T[i] = wave_field.displacement_am[i, center_j, center_k][1]
+        displacements_L[i] = wave_field.displacement_am[i, center_j, center_k]
+        displacements_T[i] = 0.0
 
     # Calculate distance from center in grid indices
     center_x = nx / 2.0
@@ -370,7 +366,7 @@ def plot_displacement_profile(wave_field):
 
     # Create the plot
     plt.style.use("dark_background")
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 6), facecolor=colormap.DARK_GRAY[1])
     fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
     # Plot 1: Longitudinal Displacement vs distance from center
