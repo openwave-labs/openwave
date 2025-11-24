@@ -139,6 +139,94 @@ def charge_oscillator():
     pass  # Placeholder for future oscillator charge implementation
 
 
+@ti.func
+def compute_laplacian_am(
+    wave_field: ti.template(),  # type: ignore
+    i: ti.i32,  # type: ignore
+    j: ti.i32,  # type: ignore
+    k: ti.i32,  # type: ignore
+):
+    """
+    Compute Laplacian ∇²ψ at voxel [i,j,k] (6-connectivity).
+    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
+
+    Discrete Laplacian (second derivative in space):
+    ∇²ψ[i,j,k] = (ψ[i±1] + ψ[i,j±1] + ψ[i,j,k±1] - 6ψ[i,j,k]) / dx²
+
+    Args:
+        i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
+
+    Returns:
+        Laplacian in units [1/am] = [am/am²]
+    """
+    # 6-connectivity stencil (face neighbors only)
+    laplacian_am = (
+        wave_field.displacement_am[i + 1, j, k]
+        + wave_field.displacement_am[i - 1, j, k]
+        + wave_field.displacement_am[i, j + 1, k]
+        + wave_field.displacement_am[i, j - 1, k]
+        + wave_field.displacement_am[i, j, k + 1]
+        + wave_field.displacement_am[i, j, k - 1]
+        - 6.0 * wave_field.displacement_am[i, j, k]
+    ) / (wave_field.dx_am * wave_field.dx_am)
+
+    return laplacian_am
+
+
+@ti.kernel
+def propagate_wave(
+    wave_field: ti.template(),  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
+    dt_safe: ti.f32,  # type: ignore
+):
+    """
+    Propagate wave displacement using wave equation (PDE Solver).
+    Wave Equation: ∂²ψ/∂t² = c²∇²ψ
+    Includes wave propagation, reflection at boundaries, superposition
+
+    Discrete Form (Leap-Frog/Verlet):
+        ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+        where ∇²ψ = (neighbors_sum - 6·center) / dx²
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        dt_safe: Time step size (s)
+
+    CFL Stability:
+        Condition: dt ≤ dx / (c·√3) for 3D 6-connectivity
+
+        Problem: Real wave speed c = 3×10⁸ m/s requires dt_max ~ 1.2e-26 s,
+        but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
+
+        Solution: Slow wave speed instead of shrinking timestep.
+            c_slowed = (c / SLO_MO) × freq_boost
+            With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
+    """
+    # Convert c to attometers/second for consistent units
+    c_am = c_slowed / constants.ATTOMETER  # am/s
+
+    # Update all interior voxels (boundaries stay at ψ=0)
+    for i, j, k in wave_field.displacement_am:
+        if 0 < i < wave_field.nx - 1 and 0 < j < wave_field.ny - 1 and 0 < k < wave_field.nz - 1:
+            # Compute Laplacian (returns [1/am])
+            laplacian_am = compute_laplacian_am(wave_field, i, j, k)
+
+            # Leap-frog update
+            # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+            wave_field.displacement_new_am[i, j, k] = (
+                2.0 * wave_field.displacement_am[i, j, k]
+                - wave_field.displacement_old_am[i, j, k]
+                + (c_am * dt_safe) ** 2 * laplacian_am
+            )
+
+    # Swap time levels for next iteration
+    # Python tuple swap: (old, current, new) ← (current, new, old)
+    wave_field.displacement_old_am = wave_field.displacement_am
+    wave_field.displacement_am = wave_field.displacement_new_am
+    wave_field.displacement_new_am = wave_field.displacement_old_am
+
+
 @ti.kernel
 def update_flux_mesh_colors(
     wave_field: ti.template(),  # type: ignore

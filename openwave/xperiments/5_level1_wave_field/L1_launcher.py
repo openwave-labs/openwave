@@ -367,15 +367,14 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute wave propagation, reflection and superposition
-    and update visualization data (placeholder for future implementation).
+    """Compute wave propagation, reflection and superposition and update visualization.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # TODO: Implement wave propagation, reflection and superposition + normalization logic
+
+    ewave.propagate_wave(state.wave_field, state.c_slowed, state.dt_safe)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    pass
 
 
 def render_elements(state):
