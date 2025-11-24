@@ -17,7 +17,6 @@ import numpy as np
 #   - Wavelength: ~28.5 am (vs 2.85e-17 m)
 #   - Amplitude: ~0.9 am (vs 9.2e-19 m)
 #   - Naming: variables/fields with suffix '_am'
-#
 # Benefits:
 #   - Solution for floating-point precision
 #   - Prevents catastrophic cancellation in derivatives/gradients

@@ -105,6 +105,8 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
+        self.c_slowed = 0.0
+        self.dt_safe = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
         self.peak_amplitude = 0.0
@@ -137,6 +139,8 @@ class SimulationState:
 
     def reset(self):
         """Reset simulation state for a new xperiment."""
+        self.c_slowed = 0.0
+        self.dt_safe = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
         self.peak_amplitude = 0.0
@@ -179,7 +183,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.SLO_MO)
+        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
 
 
 # ================================================================
@@ -306,11 +310,10 @@ def display_data_dashboard(state):
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         slowed_mo = state.SLO_MO / state.FREQ_BOOST
-        dt_safe = state.wave_field.dt_safe
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Sim Elapsed Time: {state.elapsed_t / slowed_mo:.2e}s")
         sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"dt_safe: {dt_safe:.3f}s ({1/dt_safe:.0f} FPS)")
+        sub.text(f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)")
 
 
 # ================================================================
@@ -343,7 +346,7 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove amplitude falloff post propagation implementation
-    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST)
+    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_displacement_profile(state.wave_field)
 
@@ -446,10 +449,19 @@ def main():
             # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
+        # Calculate maximum safe timestep from CFL condition with safety margin.
+        # CFL Condition: dt ≤ dx / (c × √3)
+        # With SLO_MO applied: dt_critical = dx / (c_slowed × √3)
+        # FREQ_BOOST affects perceived speed
+        # We use 80% of critical value for safety margin
+        state.c_slowed = constants.EWAVE_SPEED / state.SLO_MO * state.FREQ_BOOST  # m/s
+        dt_critical = state.wave_field.dx / (state.c_slowed * (3**0.5))  # seconds
+        state.dt_safe = 0.8 * dt_critical
+
         if not state.PAUSED:
             # Run simulation step and update time
             compute_wave_motion(state)
-            state.elapsed_t += state.wave_field.dt_safe  # Elapsed time accumulation
+            state.elapsed_t += state.dt_safe  # Elapsed time accumulation
             state.frame += 1
 
         # Render scene elements

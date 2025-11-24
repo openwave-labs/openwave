@@ -23,6 +23,7 @@ def charge_full(
     wave_field: ti.template(),  # type: ignore
     slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
+    dt_safe: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave pattern centered in the wave field.
@@ -63,7 +64,7 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -wave_field.dt_safe - wave_number * r_grid)
+        disp_old = base_amplitude_am * ti.cos(omega * -dt_safe - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -76,6 +77,7 @@ def charge_falloff(
     wave_field: ti.template(),  # type: ignore
     slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
+    dt_safe: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave with 1/r amplitude falloff.
@@ -125,7 +127,7 @@ def charge_falloff(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -wave_field.dt_safe - wave_number * r_grid)
+        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_safe - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -135,11 +137,6 @@ def charge_falloff(
 @ti.kernel
 def charge_oscillator():
     pass  # Placeholder for future oscillator charge implementation
-
-
-@ti.kernel
-def propagate_wave():
-    pass  # Placeholder for wave propagation, reflection, superposition, envelope
 
 
 @ti.kernel
