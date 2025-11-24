@@ -19,7 +19,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 
 
 @ti.kernel
-def initiate_charge(
+def charge_full(
     wave_field: ti.template(),  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
@@ -74,7 +74,7 @@ def initiate_charge(
 
 # TODO: remove amplitude falloff post propagation implementation
 @ti.kernel
-def initiate_falloff(
+def charge_falloff(
     wave_field: ti.template(),  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
@@ -134,6 +134,16 @@ def initiate_falloff(
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
+
+
+@ti.kernel
+def charge_oscillator():
+    pass  # Placeholder for future oscillator charge implementation
+
+
+@ti.kernel
+def propagate_wave():
+    pass  # Placeholder for wave propagation, reflection, superposition, envelope
 
 
 @ti.kernel
@@ -235,6 +245,7 @@ def update_flux_mesh_colors(
             )
 
 
+# TODO: remove alternating update once feature implemented
 @ti.kernel
 def update_flux_mesh_colors_tminus1(
     wave_field: ti.template(),  # type: ignore

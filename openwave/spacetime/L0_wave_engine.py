@@ -267,7 +267,7 @@ def oscillate_granules(
         velocity_am[granule_idx] = total_velocity_am
 
         # ================================================================
-        # DISPLACEMENT TRACKING - NUMERICAL ANALYSIS
+        # ENVELOPE TRACKING - NUMERICAL ANALYSIS
         # ================================================================
         # Compute displacement magnitude
         displacement_am = total_displacement_am.norm()

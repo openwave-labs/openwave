@@ -346,7 +346,7 @@ def initialize_xperiment(state):
     # TODO: remove amplitude falloff post propagation implementation
     # TODO: review FPS after wave propagation (dt_frame, render init_UI)
     # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
-    ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.charge_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_displacement_profile(state.wave_field)
 
