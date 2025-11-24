@@ -51,8 +51,11 @@ def charge_full(
     wavelength_grid = wavelength_am / wave_field.dx_am
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
-    # Create radial sinusoidal displacement pattern
-    for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
         # Distance from center (in grid indices)
         dx = ti.cast(i, ti.f32) - center_x
         dy = ti.cast(j, ti.f32) - center_y
@@ -109,8 +112,11 @@ def charge_falloff(
     wavelength_grid = wavelength_am / wave_field.dx_am
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
-    # Create radial sinusoidal displacement pattern
-    for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
         # Distance from center (in grid indices)
         dx = ti.cast(i, ti.f32) - center_x
         dy = ti.cast(j, ti.f32) - center_y
@@ -206,19 +212,21 @@ def propagate_wave(
     # Convert c to attometers/second for consistent units
     c_am = c_slowed / constants.ATTOMETER  # am/s
 
-    # Update all interior voxels (boundaries stay at ψ=0)
-    for i, j, k in wave_field.displacement_am:
-        if 0 < i < wave_field.nx - 1 and 0 < j < wave_field.ny - 1 and 0 < k < wave_field.nz - 1:
-            # Compute Laplacian (returns [1/am])
-            laplacian_am = compute_laplacian_am(wave_field, i, j, k)
+    # Update all interior voxels only (boundaries stay at ψ=0)
+    # Direct range specification avoids conditional branching on GPU
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Compute Laplacian (returns [1/am])
+        laplacian_am = compute_laplacian_am(wave_field, i, j, k)
 
-            # Leap-frog update
-            # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-            wave_field.displacement_new_am[i, j, k] = (
-                2.0 * wave_field.displacement_am[i, j, k]
-                - wave_field.displacement_old_am[i, j, k]
-                + (c_am * dt_safe) ** 2 * laplacian_am
-            )
+        # Leap-frog update
+        # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+        wave_field.displacement_new_am[i, j, k] = (
+            2.0 * wave_field.displacement_am[i, j, k]
+            - wave_field.displacement_old_am[i, j, k]
+            + (c_am * dt_safe) ** 2 * laplacian_am
+        )
 
     # Swap time levels for next iteration
     # Python tuple swap: (old, current, new) ← (current, new, old)
