@@ -116,6 +116,14 @@ E = ρV(fA)²    (no ½ factor - total energy, not time-averaged)
 - **Timestep**: Fixed (not elapsed time!) - typically ~2e-27 s
 - **Scaling**: Rontosecond (10⁻²⁷ s) for temporal precision
 
+```python
+# Temporal: RONTOSECOND = 1e-27 s
+#   - Period: ~95.2 rs (vs 9.52e-26 s)
+#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
+#   - Naming: variables/fields with suffix '_rs'
+# RONTOSECOND = 1e-27  # s, rontosecond time scale
+```
+
 **Laplacian Operator** (6-connectivity):
 
 ```python
@@ -292,48 +300,50 @@ nz = int(init_universe_size[2] / dx)  # ~630
 **Why?**
 
 ```text
-CFL requirement: dt ≤ dx/(c√3) ≈ 2.4e-27 s
-Frame time: ~0.001 - 0.1 s
+CFL requirement: dt ≤ dx/(c√3) ≈ 1.2e-26 s (for dx = 6 am, 1B voxels)
+Frame time: ~0.016 s (60 FPS)
 Violation: 10²⁴× over limit → INSTANT NUMERICAL EXPLOSION!
 ```
 
-**Solution**: Hybrid accumulator
+**Solution**: Apply SLOW_MO to wave speed (not timestep)
 
 ```python
-dt_physics = 2.0e-27  # Fixed (respects CFL)
-dt_physics_rs = 2.0   # Rontoseconds (scaled)
+# Slow the wave speed by SLOW_MO factor
+c_slowed = c / SLOW_MO  # SLOW_MO = 1.05×10²⁵
 
-# Decouple physics from rendering
-while accumulated_time >= dt_physics:
-    update_physics(dt_physics_rs)  # Fixed timestep
-    accumulated_time -= dt_physics
+# New CFL critical timestep
+dt_critical = dx / (c_slowed * √3) ≈ 0.121 s
 
-render_frame()  # Variable rate
+# Frame timestep (fixed)
+dt_frame = 1/60  # 0.0167 s
+
+# Check: 0.0167 s < 0.121 s → STABLE! ✓
 ```
 
 ### Numerical Precision
 
-**Dual Scaling Strategy**:
+**Spatial Scaling Only**:
 
 - **Spatial**: ATTOMETER = 10⁻¹⁸ m (field suffix: `_am`)
-- **Temporal**: RONTOSECOND = 10⁻²⁷ s (field suffix: `_rs`)
 
-**Why both?**
+**Why attometer scaling?**
 
 - Maintain 6-7 significant digits in f32 calculations
-- Prevent catastrophic cancellation in derivatives
+- Prevent catastrophic cancellation in spatial derivatives
 - Values in optimal f32 range (1-100)
 
-**Example**:
+**No temporal scaling needed**: With SLOW_MO, timesteps are ~0.016 s (milliseconds), already in good f32 range.
+
+**Example** (6 fm³ universe, 1B voxels):
 
 ```python
 # Physical values (SI units)
-dx = 1.25e-18  # meters
-dt = 2.4e-27   # seconds
+dx = 6e-18 m      # voxel edge
+dt = 0.0167 s     # frame time (60 FPS)
 
-# Scaled values (optimal for f32)
-dx_am = 1.25   # attometers
-dt_rs = 2.4    # rontoseconds
+# Scaled spatial values only
+dx_am = 6         # attometers (for precision)
+dt = 0.0167       # seconds (no scaling needed)
 ```
 
 ## Physics Equations

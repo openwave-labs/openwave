@@ -33,7 +33,7 @@ class WaveField:
     6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size, target_voxels):
+    def __init__(self, init_universe_size, target_voxels, slow_mo=constants.EWAVE_FREQUENCY):
         """
         Initialize WaveField from universe size with automatic voxel sizing
         and asymmetric universe support.
@@ -65,6 +65,15 @@ class WaveField:
             self.voxel_edge,
             self.voxel_edge_am,
         )  # additional alias for simplicity
+
+        # Calculate maximum safe timestep from CFL condition with safety margin.
+        # CFL Condition: dt ≤ dx / (c × √3)
+        # With SLOW_MO applied:
+        # dt_critical = dx / (c_slowed × √3)
+        # We use 80% of critical value for safety margin.
+        c_slowed = constants.EWAVE_SPEED / slow_mo  # m/s
+        self.dt_critical = self.dx / (c_slowed * (3**0.5))  # seconds
+        self.dt_safe = 0.8 * self.dt_critical
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
@@ -122,7 +131,7 @@ class WaveField:
         # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
         # Frequency is the local wave rhythm in Hz
         self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=self.grid_size)  # am, [Al,At]
-        self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, wave rhythm
+        self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, fundamental rhythm
 
         # DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum

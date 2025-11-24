@@ -941,25 +941,26 @@ The most direct way to measure frequency is to **time the oscillations directly*
 
 ```python
 # In WaveField class __init__, add:
-self.last_peak_time_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Time of last peak (rontoseconds)
-self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # f (Hz) - PRIMARY measured property
-self.period_rs = ti.field(dtype=ti.f32, shape=(nx, ny, nz))          # T (rontoseconds) - derived from f
-self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # λ (attometers) - derived from f
+self.last_peak_time = ti.field(dtype=ti.f32, shape=(nx, ny, nz))    # Time of last peak (seconds)
+self.frequency_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))   # f (Hz) - PRIMARY measured property
+self.period = ti.field(dtype=ti.f32, shape=(nx, ny, nz))            # T (seconds) - derived from f
+self.wavelength_local = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # λ (attometers) - derived from f
 
 @ti.kernel
-def measure_frequency(self, current_time_rs: ti.f32):
+def measure_frequency(self, current_time: ti.f32):
     """
     Measure frequency by timing peaks (when |ψ| = A).
 
     Measurement hierarchy:
-    1. Measure dt between peaks (timing measurement)
+    1. Measure dt between peaks (timing measurement, in seconds)
     2. Compute f = 1/dt (PRIMARY property)
     3. Derive T = dt (period, same as measured dt)
-    4. Derive λ = c/f (wavelength from frequency)
+    4. Derive λ = c_slowed/f (wavelength from frequency, using slowed wave speed)
 
     Note: Frequency-centric approach - f is measured, λ is computed.
+    With SLOW_MO: Wave frequencies are slowed by SLOW_MO factor.
     """
-    c = ti.f32(constants.EWAVE_SPEED)  # m/s
+    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLOW_MO)  # m/s, slowed wave speed
 
     for i, j, k in self.displacement_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
@@ -970,41 +971,38 @@ def measure_frequency(self, current_time_rs: ti.f32):
         if amp > 1e-12 and disp_mag >= amp * 0.99:
             # This is a peak!
 
-            if self.last_peak_time_rs[i,j,k] > 0:  # Not the first peak
-                # Measure time between peaks (dt)
-                dt_rs = current_time_rs - self.last_peak_time_rs[i,j,k]
+            if self.last_peak_time[i,j,k] > 0:  # Not the first peak
+                # Measure time between peaks (dt, in seconds)
+                dt = current_time - self.last_peak_time[i,j,k]
 
-                if dt_rs > 0:
-                    # Convert dt to seconds
-                    dt_seconds = dt_rs * constants.RONTOSECOND
-
+                if dt > 0:
                     # PRIMARY: Compute frequency f = 1/dt
-                    self.frequency_local[i,j,k] = 1.0 / dt_seconds  # Hz
+                    self.frequency_local[i,j,k] = 1.0 / dt  # Hz
 
                     # DERIVED: Store period (same as dt, different name)
-                    self.period_rs[i,j,k] = dt_rs  # rontoseconds
+                    self.period[i,j,k] = dt  # seconds
 
-                    # DERIVED: Compute wavelength λ = c/f
+                    # DERIVED: Compute wavelength λ = c_slowed/f
                     f_Hz = self.frequency_local[i,j,k]
-                    wavelength_m = c / f_Hz  # meters
+                    wavelength_m = c_slowed / f_Hz  # meters (using slowed wave speed)
                     self.wavelength_local[i,j,k] = wavelength_m / constants.ATTOMETER  # attometers
 
             # Update last peak time for next measurement
-            self.last_peak_time_rs[i,j,k] = current_time_rs
+            self.last_peak_time[i,j,k] = current_time
 
 # Usage in main simulation loop:
-def update_timestep(self, dt_rs: ti.f32):
+def update_timestep(self, dt: ti.f32):
     """Complete wave field update for one timestep."""
-    self.current_time_rs += dt_rs
+    self.current_time += dt  # Accumulate time in seconds
 
     # 1. Propagate wave displacement
-    self.propagate_wave_field(dt_rs)
+    self.propagate_wave_field(dt)
 
     # 2. Track amplitude envelope
     self.track_amplitude_envelope()
 
     # 3. Measure frequency from peaks (f = 1/dt, then derive T and λ)
-    self.measure_frequency(self.current_time_rs)
+    self.measure_frequency(self.current_time)
 
     # 4. Compute wave direction
     self.compute_wave_direction()
@@ -1031,7 +1029,7 @@ This approach mirrors `wave_engine_level0.py`'s amplitude tracking:
 amplitude_am[granule_idx] = max(|ψ|)
 
 # LEVEL-1 extends this to track period:
-period_rs[i,j,k] = time between peaks when |ψ| = amplitude_am[i,j,k]
+period[i,j,k] = time between peaks when |ψ| = amplitude_am[i,j,k]  # seconds
 ```
 
 **Why This Works Better Than Spatial Methods**:
@@ -1298,8 +1296,8 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 | **ρ** (medium density) | ✓ Yes (uniform medium) | From EWT constants | N/A (property of medium) |
 | **c** (wave speed) | ✓ Yes (constant everywhere) | From medium properties | N/A (property of medium) |
 | **ψ** (displacement) | ✗ No (varies spatially/temporally) | Wave equation evolution | ✓ Yes (via PDE) |
-| **A** (amplitude) | ✗ No (varies spatially/temporally) | **Tracked max**(\|ψ\|) | ✓ Yes (via PDE) |
-| **f** (frequency) | ✗ No (varies spatially) | **PRIMARY: Measured** f = 1/dt | ✗ No (derived property) |
+| **A** (amplitude) | ✗ No (varies spatially/temporally) | **Tracked max**(\|ψ\|) | ✓ Yes (via envelop) |
+| **f** (frequency) | ✗ No (varies spatially) | **Fundamental: Measured** f = 1/dt | ✗ No (derived property) |
 | **T** (period) | ✗ No (varies spatially) | **Derived** T = dt = 1/f | ✗ No (derived property) |
 | **λ** (wavelength) | ✗ No (varies spatially) | **Derived** λ = c/f | ✗ No (derived property) |
 | **E** (energy) | ✗ No (varies spatially) | E = ρV(fA)² | ✓ Yes (via wave energy) |
@@ -1323,22 +1321,29 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 ┌─────────────────────────────────────────────────────────┐
 │ 1. WAVE FIELD (grid of voxels)                          │
 │    ├─ Initial energy charge (point/plane/spherical)     │
-│    ├─ Stabilization period (waves propagate/reflect)    │
-│    └─ Quasi-steady state (omni-directional field)       │
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
 │ 2. WAVE PROPAGATION (PDE evolution)                     │
 │    ├─ Wave equation: ∂²ψ/∂t² = c²∇²ψ                    │
 │    ├─ Laplacian couples neighboring voxels              │
-│    ├─ Interference: constructive/destructive            │
 │    ├─ Reflection: boundaries + wave centers             │
-│    ├─ Standing waves form around particles              │
-│    └─ Direction from energy flux: S = -c²ψ∇ψ            │
+│    ├─ Interference: constructive/destructive            │
+│    ├─ Direction from energy flux: S = -c²ψ∇ψ            │
+│    ├─ Stabilization period (waves propagate/reflect)    │
+│    └─ Quasi-steady state (omni-directional field)       │
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│ 3. FORCE GENERATION (amplitude gradients)               │
+│ 3. PARTICLE-FIELD INTERACTION (feedback loop)           │
+│    ├─ Particles act as wave reflectors                  │
+│    ├─ Standing waves form around particles              │
+│    ├─ Trapped energy = particle mass: m = E/c²          │
+│    ├─ Standing wave radius: r = n×λ/2                   │
+└─────────────────────────────────────────────────────────┘
+                         ↓
+┌─────────────────────────────────────────────────────────┐
+│ 4. FORCE GENERATION (amplitude gradients)               │
 │    ├─ Force field from energy gradient: F = -∇E [N]     │
 │    ├─── Monochromatic: F = -2ρVf²×A×∇A (∇f≈0)           │
 │    ├─── Full: F = -2ρVAf×[f∇A + A∇f]                    │
@@ -1349,21 +1354,12 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│ 4. PARTICLE MOTION (Newton's laws)                      │
+│ 5. PARTICLE MOTION (Newton's laws)                      │
 │    ├─ Interpolate force at particle position            │
 │    ├─ Acceleration: a = F/m                             │
 │    ├─ Update velocity: v_new = v_old + a×dt             │
 │    ├─ Update position: x_new = x_old + v×dt             │
 │    └─ Particles move toward amplitude minimum (MAP)     │
-└─────────────────────────────────────────────────────────┘
-                         ↓
-┌─────────────────────────────────────────────────────────┐
-│ 5. PARTICLE-FIELD INTERACTION (feedback loop)           │
-│    ├─ Particles act as wave reflectors                  │
-│    ├─ Create standing wave patterns                     │
-│    ├─ Trapped energy = particle mass: m = E/c²          │
-│    ├─ Standing wave radius: r = n×λ/2                   │
-│    └─ Force between particles from wave overlap         │
 └─────────────────────────────────────────────────────────┘
 ```
 

@@ -61,19 +61,22 @@ dt_critical_slowed = dx/(c_slowed√3)  # Now feasible!
 **Example output** (for 6 fm³ universe, 1B voxels):
 
 ```python
+# Grid parameters (from WaveField):
+dx = 6 am = 6e-18 m  # Voxel edge for 1B voxels in 6 fm³
+
 # Without SLOW_MO:
-dt_critical = dx / (c * √3) ≈ 2.4e-27 s  # Rontosecond scale!
+dt_critical = dx / (c * √3) ≈ 1.2e-26 s  # Rontosecond range!
 dt_frame = 1/60 ≈ 0.016 s
 Violation: ~10²⁴× 💥 UNSTABLE!
 
-# With SLOW_MO = 10²⁵:
-c_slowed = c / 10²⁵ = 3 × 10⁻¹⁷ m/s
-dt_critical_slowed = dx / (c_slowed * √3) ≈ 0.024 s
+# With SLOW_MO = EWAVE_FREQUENCY = 1.05×10²⁵:
+c_slowed = c / 1.05×10²⁵ = 2.85 × 10⁻¹⁷ m/s
+dt_critical_slowed = dx / (c_slowed * √3) ≈ 0.121 s
 dt_frame = 1/60 ≈ 0.016 s
 ✓ STABLE! (dt_frame < dt_critical_slowed)
 ```
 
-**Safety Factor**: CFL factor = (c_slowed·dt / dx)² ≈ 0.33 (within 1/3 limit for 3D 6-connectivity)
+**Safety Factor**: CFL factor = (c_slowed·dt / dx)² ≈ 0.14 (well within 1/3 limit for 3D 6-connectivity)
 
 **Key Parameters Tested**:
 
@@ -111,11 +114,11 @@ Your spring-mass system failed because:
 Your wave equation system succeeds because:
 
 1. You need c = 3×10⁸ m/s for realistic wave speed
-2. CFL demands dt < dx/(c√3) ≈ 2.4×10⁻²⁷ s
-3. Apply SLOW_MO: c_slowed = c/10²⁵ = 3×10⁻¹⁷ m/s
-4. New CFL: dt < dx/(c_slowed√3) ≈ 0.024 s
+2. CFL demands dt < dx/(c√3) ≈ 1.2×10⁻²⁶ s (for dx = 6 am)
+3. Apply SLOW_MO: c_slowed = c/1.05×10²⁵ = 2.85×10⁻¹⁷ m/s
+4. New CFL: dt < dx/(c_slowed√3) ≈ 0.121 s
 5. Visualization needs dt ≈ 0.016 s
-6. 0.016 < 0.024 → ✓ STABLE!
+6. 0.016 < 0.121 → ✓ STABLE!
 
 **From spring-mass experiments final report**:
 
@@ -219,12 +222,12 @@ The wave equation approach eliminates the substep requirement entirely:
 ```python
 # Wave Equation Solution (LEVEL-1):
 dt_frame = 1/60  # 0.0167s per frame (60 FPS)
-dt_critical_slowed = dx / (c_slowed * √3) ≈ 0.024 s
+dt_critical_slowed = dx / (c_slowed * √3) ≈ 0.121 s  # For dx = 6 am, 1B voxels
 
 # Required substeps per frame:
 N_substeps = dt_frame / dt_critical_slowed
-           = 0.0167 / 0.024
-           ≈ 0.7 substeps  # Less than 1!
+           = 0.0167 / 0.121
+           ≈ 0.14 substeps  # Much less than 1!
 
 # What you use:
 N_substeps = 1  # Single timestep per frame! ✓ STABLE

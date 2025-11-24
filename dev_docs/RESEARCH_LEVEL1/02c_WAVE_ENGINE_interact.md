@@ -65,17 +65,22 @@ The boundary behavior is NOT in the Laplacian itself - it's implemented through:
 **Types**:
 
 - **Constructive**: Waves in phase → amplitude increases
-  - `Δφ = 0, 2π, 4π, ...`
-  - `A_total = A₁ + A₂`
+- **Destructive**: Waves out of phase → amplitude decreases/cancels
 
-- **Destructive**: Waves out of phase → amplitude decreases
-  - `Δφ = π, 3π, 5π, ...`
-  - `A_total = A₁ - A₂` (can cancel completely)
+**Why No Explicit Implementation is Needed**:
 
-**Implementation**:
+The PDE solver (wave equation + Laplacian) handles superposition **automatically**:
 
-```python
-# Multiple waves naturally interfere by summing contributions
-for source in wave_sources:
-    displacement[i,j,k] += source.contribution(i, j, k, t)
-```
+1. **Single ψ field**: The displacement field `ψ[i,j,k]` represents the *total* displacement at each voxel - already the sum of all wave contributions
+2. **Charging phase**: Multiple wave centers inject energy into the same ψ field (additive)
+3. **Propagation phase**: The wave equation evolves the combined field:
+
+   ```text
+   ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+   ```
+
+4. **Interference emerges**: Constructive/destructive patterns arise naturally from the field dynamics
+
+**No phase tracking required** - the wave's phase information is encoded in the displacement value and its time history (ψ, ψ_old). When two wavefronts meet, their displacements simply add in the shared ψ field, and the Laplacian propagates the result.
+
+This is fundamentally different from ray-tracing or analytical approaches where you'd explicitly sum contributions from each source.

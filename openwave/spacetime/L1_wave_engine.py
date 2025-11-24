@@ -23,7 +23,6 @@ def charge_full(
     wave_field: ti.template(),  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
-    dt_frame: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave pattern centered in the wave field.
@@ -36,7 +35,6 @@ def charge_full(
         wave_field: WaveField instance containing displacement arrays and grid info
         slow_mo: Slow-motion factor to reduce effective frequency (higher = slower)
         freq_boost: Frequency multiplier applied after slow-mo division
-        dt_frame: Time step between frames (seconds), used to compute t=-1 state
     """
 
     # Find center position (in grid indices)
@@ -65,7 +63,7 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -dt_frame - wave_number * r_grid)
+        disp_old = base_amplitude_am * ti.cos(omega * -wave_field.dt_safe - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -78,7 +76,6 @@ def charge_falloff(
     wave_field: ti.template(),  # type: ignore
     slow_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
-    dt_frame: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave with 1/r amplitude falloff.
@@ -95,7 +92,6 @@ def charge_falloff(
         wave_field: WaveField instance containing displacement arrays and grid info
         slow_mo: Slow-motion factor to reduce effective frequency (higher = slower)
         freq_boost: Frequency multiplier applied after slow-mo division
-        dt_frame: Time step between frames (seconds), used to compute t=-1 state
     """
 
     # Find center position (in grid indices)
@@ -129,7 +125,7 @@ def charge_falloff(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_frame - wave_number * r_grid)
+        disp_old = amplitude_am_at_r * ti.cos(omega * -wave_field.dt_safe - wave_number * r_grid)
 
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0

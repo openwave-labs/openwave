@@ -105,7 +105,6 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
-        self.dt_frame = 1.0 / 60.0  # s, Default frame duration for 60 FPS
         self.elapsed_t = 0.0
         self.frame = 0
         self.peak_amplitude = 0.0
@@ -180,7 +179,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
+        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.SLOW_MO)
 
 
 # ================================================================
@@ -307,11 +306,11 @@ def display_data_dashboard(state):
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         slowed_mo = state.SLOW_MO / state.FREQ_BOOST
-        fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
+        dt_safe = state.wave_field.dt_safe
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
+        sub.text(f"Sim Elapsed Time: {state.elapsed_t / slowed_mo:.2e}s")
         sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"Sim Time (slow-mo): {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"dt_safe: {dt_safe:.3f}s ({1/dt_safe:.0f} FPS)")
 
 
 # ================================================================
@@ -344,7 +343,7 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove amplitude falloff post propagation implementation
-    ewave.charge_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
+    ewave.charge_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_displacement_profile(state.wave_field)
 
@@ -361,7 +360,6 @@ def compute_wave_motion(state):
     """
     # TODO: Implement wave propagation, reflection and superposition + normalization logic
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    # TODO: review FPS after wave propagation (dt_frame, render init_UI fps_limit)
     pass
 
 
@@ -451,7 +449,7 @@ def main():
         if not state.PAUSED:
             # Run simulation step and update time
             compute_wave_motion(state)
-            state.elapsed_t += state.dt_frame  # Elapsed time accumulation
+            state.elapsed_t += state.wave_field.dt_safe  # Elapsed time accumulation
             state.frame += 1
 
         # Render scene elements

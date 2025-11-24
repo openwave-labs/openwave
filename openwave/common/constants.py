@@ -18,11 +18,6 @@ import numpy as np
 #   - Amplitude: ~0.9 am (vs 9.2e-19 m)
 #   - Naming: variables/fields with suffix '_am'
 #
-# Temporal: RONTOSECOND = 1e-27 s
-#   - Period: ~95.2 rs (vs 9.52e-26 s)
-#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
-#   - Naming: variables/fields with suffix '_rs'
-#
 # Benefits:
 #   - Solution for floating-point precision
 #   - Prevents catastrophic cancellation in derivatives/gradients
@@ -31,7 +26,6 @@ import numpy as np
 #   - Reduces memory usage (f32 vs f64)
 #   - Improves computational performance (f32 vs f64)
 ATTOMETER = 1e-18  # m, attometer length scale
-RONTOSECOND = 1e-27  # s, rontosecond time scale
 
 # ================================================================
 # WAVE-FIELD MEDIUM [EWT Constants]
