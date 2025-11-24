@@ -33,7 +33,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 2,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
+        "COLOR_PALETTE": 3,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
         "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
