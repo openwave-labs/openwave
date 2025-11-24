@@ -124,7 +124,7 @@ class SimulationState:
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.FLUX_MESH_OPTION = 0
-        self.FREQ_BOOST = 10.0
+        self.FREQ_BOOST = 1.0
         self.AMP_BOOST = 1.0
         self.PAUSED = False
 
@@ -326,6 +326,7 @@ def display_data_dashboard(state):
         sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.slowed:.2e}s")
         sub.text(f"(1 real second = {state.slowed / (60*60*24*365):.0e}y of sim time)")
         sub.text(f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)")
+        sub.text(f"c_slowed: {state.c_slowed:.2e} m/s")
 
 
 # ================================================================
@@ -392,13 +393,13 @@ def render_elements(state):
             flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
-    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    y_pos = 0.5 + (
-        (round(constants.EWAVE_LENGTH / state.wave_field.dx)) / state.wave_field.max_grid_size
-    )
-    position2 = np.array([[0.5, y_pos, 0.5]], dtype=np.float32)
-    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    # y_pos = 0.5 + (
+    #     (round(constants.EWAVE_LENGTH / state.wave_field.dx)) / state.wave_field.max_grid_size
+    # )
+    # position2 = np.array([[0.5, y_pos, 0.5]], dtype=np.float32)
+    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================

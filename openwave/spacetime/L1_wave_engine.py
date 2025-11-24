@@ -229,10 +229,11 @@ def propagate_wave(
         )
 
     # Swap time levels for next iteration
-    # Python tuple swap: (old, current, new) ← (current, new, old)
-    wave_field.displacement_old_am = wave_field.displacement_am
-    wave_field.displacement_am = wave_field.displacement_new_am
-    wave_field.displacement_new_am = wave_field.displacement_old_am
+    # Copy data: old ← current, current ← new
+    # Note: Must copy field data, not reassign field references in Taichi
+    for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
+        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
+        wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
 
 
 @ti.kernel
