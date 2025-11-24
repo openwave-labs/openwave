@@ -29,7 +29,7 @@ XPARAMETERS = {
         "FLUX_MESH_OPTION": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "FREQ_BOOST": 1.0,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier
-        "PAUSED": False,  # Pause/Start simulation toggle
+        "PAUSED": True,  # Pause/Start simulation toggle
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
