@@ -121,7 +121,7 @@ def charge_falloff(
 
         # Amplitude decreases with distance, oscillates radially
         r_safe_am = ti.max(r_grid, wavelength_grid)  # minimum 1 λ from source
-        amplitude_falloff = wavelength_grid / r_safe_am
+        amplitude_falloff = wavelength_grid / r_safe_am  # Avoids singularity at r=0
         amplitude_am_at_r = base_amplitude_am * amplitude_falloff
 
         # Simple sinusoidal radial pattern
