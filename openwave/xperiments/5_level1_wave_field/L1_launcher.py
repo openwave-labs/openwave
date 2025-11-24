@@ -358,10 +358,12 @@ def initialize_xperiment(state):
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Initialize test displacement pattern for flux mesh visualization
-    # TODO: remove amplitude falloff post propagation implementation
-    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    # TODO: remove multiple charge post-propagation implementation
+    # ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    # ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
     # TODO: code toggle to plot initial displacement profile
-    ewave.plot_displacement_profile(state.wave_field)
+    ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()

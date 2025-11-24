@@ -74,7 +74,6 @@ def charge_full(
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
 
-# TODO: remove amplitude falloff post propagation implementation
 @ti.kernel
 def charge_falloff(
     wave_field: ti.template(),  # type: ignore
@@ -88,10 +87,6 @@ def charge_falloff(
     Similar to initiate_charge() but includes realistic amplitude decay with
     distance (λ/r falloff). Creates a radial sinusoidal displacement pattern
     where amplitude decreases inversely with distance from the source.
-
-    Note:
-        Temporary function for testing amplitude falloff visualization before
-        wave propagation is implemented. See TODO marker.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -141,8 +136,59 @@ def charge_falloff(
 
 
 @ti.kernel
-def charge_oscillator():
-    pass  # Placeholder for future oscillator charge implementation
+def charge_1lambda(
+    wave_field: ti.template(),  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
+    freq_boost: ti.f32,  # type: ignore
+    dt_safe: ti.f32,  # type: ignore
+):
+    """
+    Initialize a spherical outgoing wave within 1 wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 wavelength
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
+        freq_boost: Frequency multiplier applied after slow-mo division
+    """
+
+    # Find center position (in grid indices)
+    center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
+    center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
+    center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    f_slowed = frequency / slo_mo * freq_boost  # slowed frequency (1Hz * boost)
+    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = wavelength_am / wave_field.dx_am
+    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        dx = ti.cast(i, ti.f32) - center_x
+        dy = ti.cast(j, ti.f32) - center_y
+        dz = ti.cast(k, ti.f32) - center_z
+        r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
+
+        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
+        amplitude_am_at_r = base_amplitude_am if r_grid < wavelength_grid else 0.0
+
+        # Simple sinusoidal radial pattern
+        # Outward displacement from center source: A(r)·cos(ωt - kr)
+        # Creates rings of positive/negative displacement
+        # Signed value: positive = expansion, negative = compression
+        disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_safe - wave_number * r_grid)
+
+        # Apply both longitudinal and transverse displacement (in attometers)
+        wave_field.displacement_am[i, j, k] = disp  # at time t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
 
 @ti.func
@@ -436,7 +482,7 @@ def update_flux_mesh_colors_tminus1(
 
 
 # TODO: migrate to numerical analysis module
-def plot_displacement_profile(wave_field):
+def plot_charge_profile(wave_field):
     """
     Plot the displacement profile along the x-axis through the center of the wave field.
 
@@ -484,7 +530,7 @@ def plot_displacement_profile(wave_field):
     plt.ylim(-1.5, 1.5)
     plt.xlabel("Distance from Center (grid indices)", family="Monospace")
     plt.ylabel("Displacement (attometers)", family="Monospace")
-    plt.title("LONGITUDINAL Displacement Profile", family="Monospace")
+    plt.title("INITIAL CHARGE PROFILE", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 
@@ -502,7 +548,7 @@ def plot_displacement_profile(wave_field):
     plt.ylim(-1.5, 1.5)
     plt.xlabel("Distance from Center (grid indices)", family="Monospace")
     plt.ylabel("Displacement (attometers)", family="Monospace")
-    plt.title("TRANSVERSE Displacement Profile", family="Monospace")
+    plt.title("INITIAL CHARGE PROFILE", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 
