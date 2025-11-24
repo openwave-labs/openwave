@@ -359,9 +359,9 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove multiple charge post-propagation implementation
-    # ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
-    # ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
     ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    # ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    # ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 
