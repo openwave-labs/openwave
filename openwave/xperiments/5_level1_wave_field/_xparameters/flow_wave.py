@@ -19,7 +19,7 @@ XPARAMETERS = {
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e5,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
         "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
@@ -29,8 +29,7 @@ XPARAMETERS = {
         "FLUX_MESH_OPTION": 3,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "FREQ_BOOST": 1.0,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier
-        "PROPAGATING": False,  # Wave propagation toggle
-        "PAUSED": True,  # Pause/Start simulation toggle
+        "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)

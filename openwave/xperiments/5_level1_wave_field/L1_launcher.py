@@ -124,7 +124,6 @@ class SimulationState:
         self.FLUX_MESH_OPTION = 0
         self.FREQ_BOOST = 10.0
         self.AMP_BOOST = 1.0
-        self.PROPAGATING = False
         self.PAUSED = False
 
         # Color control variables
@@ -165,7 +164,6 @@ class SimulationState:
         self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
         self.FREQ_BOOST = ui["FREQ_BOOST"]
         self.AMP_BOOST = ui["AMP_BOOST"]
-        self.PROPAGATING = ui["PROPAGATING"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -374,15 +372,13 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        if state.PROPAGATING:
-            pass
         # TODO: remove alternating update once feature implemented
         if state.frame % 1 == 0:
             ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
             flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
-        # else:
-        #     ewave.update_flux_mesh_colors_tminus1(state.wave_field, state.COLOR_PALETTE)
-        #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        else:
+            ewave.update_flux_mesh_colors_tminus1(state.wave_field, state.COLOR_PALETTE)
+            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)

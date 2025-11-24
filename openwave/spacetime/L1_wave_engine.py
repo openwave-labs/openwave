@@ -275,7 +275,7 @@ def update_flux_mesh_colors_tminus1(
     # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[i, j, center_k][0]
+        disp_value = wave_field.displacement_old_am[i, j, center_k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -296,7 +296,7 @@ def update_flux_mesh_colors_tminus1(
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[i, center_j, k][0]
+        disp_value = wave_field.displacement_old_am[i, center_j, k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
@@ -317,7 +317,7 @@ def update_flux_mesh_colors_tminus1(
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[center_i, j, k][0]
+        disp_value = wave_field.displacement_old_am[center_i, j, k]
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
