@@ -33,7 +33,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLO_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # Note: This is a scaled value for computational feasibility
 # Real physical stiffness causes timestep requirements beyond computational feasibility
@@ -264,7 +264,7 @@ def render_xperiment(lattice, granule, neighbors):
                 t,
                 dt_real,
                 substeps=100,  # 30-100 recommended (Small Steps strategy)
-                slow_mo=SLOW_MO / freq_boost,
+                slo_mo=SLO_MO / freq_boost,
             )
 
             # Update normalized position for rendering (must happen after position updates)

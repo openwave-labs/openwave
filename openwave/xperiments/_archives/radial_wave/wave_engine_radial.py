@@ -34,7 +34,7 @@ def oscillate_granules_tocenter(
     center_direction: ti.template(),  # type: ignore
     center_distance: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
@@ -82,11 +82,11 @@ def oscillate_granules_tocenter(
         center_direction: Normalized direction vectors from all granules toward wave source
         center_distance: Distance from each granule to wave source (in attometers)
         t: Current simulation time (accumulated)
-        slow_mo: Slow motion factor (divides frequency for visualization)
+        slo_mo: Slow motion factor (divides frequency for visualization)
         freq_boost: Frequency multiplier
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slow_mo * freq_boost
+    f_slowed = frequency / slo_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     # Wave number k = 2π/λ (for spatial phase variation)

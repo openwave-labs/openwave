@@ -173,7 +173,7 @@ Updated the following files to document this phenomenon:
 To better observe this phenomenon in `radial_wave.py`:
 
 1. **Adjust camera angle**: View from diagonal (not axis-aligned) to see BCC structure
-2. **Slow motion**: Use high `SLOW_MO` value (e.g., 1e25) to see detailed wave motion
+2. **Slow motion**: Use high `SLO_MO` value (e.g., 1e25) to see detailed wave motion
 3. **Amplitude boost**: Increase `amp_boost` to make oscillations more visible
 4. **Block slicing**: Enable front octant removal to see interior wave structure
 5. **Probe particles**: Watch the colored probe granules on slice planes

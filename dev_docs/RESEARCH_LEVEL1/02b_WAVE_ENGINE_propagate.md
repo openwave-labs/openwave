@@ -114,11 +114,11 @@ def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
         but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
 
         Solution: Slow wave speed instead of shrinking timestep.
-            c_slowed = (c / SLOW_MO) × freq_boost
-            With SLOW_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
+            c_slowed = (c / SLO_MO) × freq_boost
+            With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
     """
-    # Speed of light (apply SLOW_MO factor, then freq_boost for human-visible waves)
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLOW_MO) * freq_boost  # m/s
+    # Speed of light (apply SLO_MO factor, then freq_boost for human-visible waves)
+    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * freq_boost  # m/s
 
     # Convert c to attometers/second for consistent units
     c_am = c_slowed / constants.ATTOMETER  # am/s
@@ -206,8 +206,8 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
     Complete wave field update for one timestep.
 
     Args:
-        dt: Timestep in seconds (with SLOW_MO factor applied)
-        freq_boost: Frequency multiplier (applied after SLOW_MO)
+        dt: Timestep in seconds (with SLO_MO factor applied)
+        freq_boost: Frequency multiplier (applied after SLO_MO)
     """
     # 1. Propagate wave displacement
     self.propagate_wave(dt, freq_boost)
@@ -226,10 +226,10 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
 - ✅ **Single `propagate_wave(dt, freq_boost)` function**
 - ✅ **Encapsulated `compute_laplacian_am()`** as `@ti.func` returning full laplacian [1/am]
 - ✅ **Correct dimensional analysis**: All units in attometers (consistent throughout)
-- ✅ **SLOW_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
+- ✅ **SLO_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
 - ✅ **freq_boost parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
-- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLOW_MO) × freq_boost
-- ✅ **No rontosecond conversion needed**: dt already slowed by SLOW_MO
+- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLO_MO) × freq_boost
+- ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
 - ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
 
@@ -241,7 +241,7 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
 
 Where:
 
-- `c_slowed = (EWAVE_SPEED / SLOW_MO) × freq_boost` (m/s, slowed + boosted)
+- `c_slowed = (EWAVE_SPEED / SLO_MO) × freq_boost` (m/s, slowed + boosted)
 - `c_am = c_slowed / ATTOMETER` (wave speed in am/s)
 - `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
 - `freq_boost` ~ 1.0 (default, no boost) or higher for faster visualization
@@ -271,7 +271,7 @@ c = 2.998e8 m/s
 dt_max = 6e-18 / (2.998e8 × √3) ≈ 1.2e-26 s
 ```
 
-**This is extremely small!** However, LEVEL-1 doesn't use these tiny timesteps - instead, it slows the wave speed (see SLOW_MO approach below).
+**This is extremely small!** However, LEVEL-1 doesn't use these tiny timesteps - instead, it slows the wave speed (see SLO_MO approach below).
 
 ## Timestep Strategy: Fixed vs Elapsed Time
 
@@ -282,7 +282,7 @@ dt_max = 6e-18 / (2.998e8 × √3) ≈ 1.2e-26 s
 - ✓ Physics accuracy: Consistent time sampling at regular intervals
 - ✓ Smooth animations: Constant dt → no jitter in offline renders
 - ✓ Reproducible: Same dt sequence → identical results every run
-- ✓ CFL safe: With SLOW_MO, dt=0.0167s < dt_critical=0.121s ✓
+- ✓ CFL safe: With SLO_MO, dt=0.0167s < dt_critical=0.121s ✓
 - ✓ Offline rendering: Perfect for hours-long background simulations
 - ✓ Data collection: Regular time intervals for analysis
 

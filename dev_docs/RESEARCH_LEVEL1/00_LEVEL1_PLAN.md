@@ -305,11 +305,11 @@ Frame time: ~0.016 s (60 FPS)
 Violation: 10²⁴× over limit → INSTANT NUMERICAL EXPLOSION!
 ```
 
-**Solution**: Apply SLOW_MO to wave speed (not timestep)
+**Solution**: Apply SLO_MO to wave speed (not timestep)
 
 ```python
-# Slow the wave speed by SLOW_MO factor
-c_slowed = c / SLOW_MO  # SLOW_MO = 1.05×10²⁵
+# Slow the wave speed by SLO_MO factor
+c_slowed = c / SLO_MO  # SLO_MO = 1.05×10²⁵
 
 # New CFL critical timestep
 dt_critical = dx / (c_slowed * √3) ≈ 0.121 s
@@ -332,7 +332,7 @@ dt_frame = 1/60  # 0.0167 s
 - Prevent catastrophic cancellation in spatial derivatives
 - Values in optimal f32 range (1-100)
 
-**No temporal scaling needed**: With SLOW_MO, timesteps are ~0.016 s (milliseconds), already in good f32 range.
+**No temporal scaling needed**: With SLO_MO, timesteps are ~0.016 s (milliseconds), already in good f32 range.
 
 **Example** (6 fm³ universe, 1B voxels):
 

@@ -192,7 +192,7 @@ def oscillate_granules(
         var_amp: Displacement vs amplitude toggle
         num_sources: Number of wave sources
         elapsed_t: Current simulation time (accumulated, seconds)
-        freq_boost: Frequency multiplier (applied after slow_mo)
+        freq_boost: Frequency multiplier (applied after slowed frequency)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation

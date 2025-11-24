@@ -40,7 +40,7 @@ def oscillate_vertex(
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
 ):
@@ -57,11 +57,11 @@ def oscillate_vertex(
         vertex_equilibrium: Equilibrium position of 8 vertices
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
-        slow_mo: Slow motion factor
+        slo_mo: Slow motion factor
         freq_boost: Frequency multiplier
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slow_mo * freq_boost
+    f_slowed = frequency / slo_mo * freq_boost
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
 
     for v in range(8):
@@ -265,7 +265,7 @@ def propagate_ewave(
     substeps: int = 100,
     damping: float = 0.999,
     omega: float = 1.5,
-    slow_mo: float = 1.0,
+    slo_mo: float = 1.0,
     freq_boost: float = 1.0,
     amp_boost: float = 1.0,
 ):
@@ -298,7 +298,7 @@ def propagate_ewave(
         t: Current simulation time
         dt: Frame timestep (real-time from clock)
         substeps: Number of substeps (100 recommended)
-        slow_mo: Slow motion factor for time microscope
+        slo_mo: Slow motion factor for time microscope
         damping: Velocity damping per substep (0.999 recommended)
         omega: SOR parameter for faster convergence (1.5 recommended)
         amp_boost: Multiplier for oscillation amplitude (1.0 = physical, >1 = visible)
@@ -320,7 +320,7 @@ def propagate_ewave(
         lattice.vertex_equilibrium_am,
         lattice.vertex_center_direction,
         t,
-        slow_mo,
+        slo_mo,
         freq_boost,
         amp_boost,
     )
@@ -400,7 +400,7 @@ def probe_wave_diagnostics(
     neighbors,
     t: float,
     current_time: float,
-    slow_mo: float,
+    slo_mo: float,
 ):
     """Probe wave diagnostics and print measurements.
 
@@ -412,7 +412,7 @@ def probe_wave_diagnostics(
         neighbors: Neighbors instance (for expected wavelength)
         t: Simulation time
         current_time: Wallclock time
-        slow_mo: Slow motion factor
+        slo_mo: Slow motion factor
     """
     global _diagnostic_state
 
@@ -427,7 +427,7 @@ def probe_wave_diagnostics(
     _diagnostic_state["measurement_count"] += 1
 
     # Measure wave speed (track wavefront propagation)
-    wave_data = measure_wave_speed(lattice, threshold_fraction=0.1, slow_mo=slow_mo)
+    wave_data = measure_wave_speed(lattice, threshold_fraction=0.1, slo_mo=slo_mo)
 
     if _diagnostic_state["first_measurement"] is None and wave_data["max_distance_am"] > 0:
         _diagnostic_state["first_measurement"] = {
@@ -446,9 +446,9 @@ def probe_wave_diagnostics(
         )
         distance_traveled_m = distance_traveled_am * constants.ATTOMETER
 
-        # Convert simulation time to real time (account for SLOW_MO)
-        # SLOW_MO slows down time, so to get real time: divide by SLOW_MO
-        dt_real = dt_sim / slow_mo
+        # Convert simulation time to real time (account for SLO_MO)
+        # SLO_MO slows down time, so to get real time: divide by SLO_MO
+        dt_real = dt_sim / slo_mo
         wave_speed = distance_traveled_m / dt_real if dt_real > 0 else 0
 
         # Calculate error vs speed of light
@@ -556,7 +556,7 @@ def measure_wave_displacement(
 def measure_wave_speed(
     lattice,
     threshold_fraction: float = 0.1,
-    slow_mo: float = 1.0,
+    slo_mo: float = 1.0,
 ) -> dict:
     """Measure wave propagation speed from vertex to interior.
 
@@ -566,7 +566,7 @@ def measure_wave_speed(
     Args:
         lattice: Lattice instance
         threshold_fraction: Fraction of amplitude to detect wavefront (0.1 = 10%)
-        slow_mo: Slow motion factor (to convert simulation time to real time)
+        slo_mo: Slow motion factor (to convert simulation time to real time)
 
     Returns:
         dict with 'max_distance_am', 'amplitude_am', 'threshold_am'

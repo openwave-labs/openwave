@@ -33,7 +33,7 @@ class WaveField:
     6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size, target_voxels, slow_mo=constants.EWAVE_FREQUENCY):
+    def __init__(self, init_universe_size, target_voxels, slo_mo=constants.EWAVE_FREQUENCY):
         """
         Initialize WaveField from universe size with automatic voxel sizing
         and asymmetric universe support.
@@ -68,10 +68,10 @@ class WaveField:
 
         # Calculate maximum safe timestep from CFL condition with safety margin.
         # CFL Condition: dt ≤ dx / (c × √3)
-        # With SLOW_MO applied:
+        # With SLO_MO applied:
         # dt_critical = dx / (c_slowed × √3)
         # We use 80% of critical value for safety margin.
-        c_slowed = constants.EWAVE_SPEED / slow_mo  # m/s
+        c_slowed = constants.EWAVE_SPEED / slo_mo  # m/s
         self.dt_critical = self.dx / (c_slowed * (3**0.5))  # seconds
         self.dt_safe = 0.8 * self.dt_critical
 

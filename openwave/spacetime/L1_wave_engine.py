@@ -21,7 +21,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 @ti.kernel
 def charge_full(
     wave_field: ti.template(),  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
 ):
     """
@@ -33,7 +33,7 @@ def charge_full(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slow_mo: Slow-motion factor to reduce effective frequency (higher = slower)
+        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
         freq_boost: Frequency multiplier applied after slow-mo division
     """
 
@@ -43,7 +43,7 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / slow_mo * freq_boost  # slowed frequency (1Hz * boost)
+    f_slowed = frequency / slo_mo * freq_boost  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -74,7 +74,7 @@ def charge_full(
 @ti.kernel
 def charge_falloff(
     wave_field: ti.template(),  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
 ):
     """
@@ -90,7 +90,7 @@ def charge_falloff(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slow_mo: Slow-motion factor to reduce effective frequency (higher = slower)
+        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
         freq_boost: Frequency multiplier applied after slow-mo division
     """
 
@@ -100,7 +100,7 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / slow_mo * freq_boost  # slowed frequency (1Hz * boost)
+    f_slowed = frequency / slo_mo * freq_boost  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation

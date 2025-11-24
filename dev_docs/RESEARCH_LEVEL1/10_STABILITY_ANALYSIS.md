@@ -44,8 +44,8 @@ dt_critical = 2/ω_n = 2/√(k/m)
 
 # Wave Equation CFL (LEVEL-1):
 dt_critical = dx/(c√3)
-# Solution: Apply SLOW_MO to c directly!
-c_slowed = c / SLOW_MO
+# Solution: Apply SLO_MO to c directly!
+c_slowed = c / SLO_MO
 dt_critical_slowed = dx/(c_slowed√3)  # Now feasible!
 ```
 
@@ -64,12 +64,12 @@ dt_critical_slowed = dx/(c_slowed√3)  # Now feasible!
 # Grid parameters (from WaveField):
 dx = 6 am = 6e-18 m  # Voxel edge for 1B voxels in 6 fm³
 
-# Without SLOW_MO:
+# Without SLO_MO:
 dt_critical = dx / (c * √3) ≈ 1.2e-26 s  # Rontosecond range!
 dt_frame = 1/60 ≈ 0.016 s
 Violation: ~10²⁴× 💥 UNSTABLE!
 
-# With SLOW_MO = EWAVE_FREQUENCY = 1.05×10²⁵:
+# With SLO_MO = EWAVE_FREQUENCY = 1.05×10²⁵:
 c_slowed = c / 1.05×10²⁵ = 2.85 × 10⁻¹⁷ m/s
 dt_critical_slowed = dx / (c_slowed * √3) ≈ 0.121 s
 dt_frame = 1/60 ≈ 0.016 s
@@ -82,7 +82,7 @@ dt_frame = 1/60 ≈ 0.016 s
 
 - Voxel edge: dx from `WaveField.voxel_edge`
 - Wave speed: c = `constants.EWAVE_SPEED` = 2.998×10⁸ m/s
-- SLOW_MO factor: `config.SLOW_MO` (configurable, typically ~10²⁵)
+- SLO_MO factor: `config.SLO_MO` (configurable, typically ~10²⁵)
 - Frame rates: 60 FPS (dt = 0.0167s) and 30 FPS (dt = 0.0333s)
 
 ## Direct Comparison
@@ -93,7 +93,7 @@ dt_frame = 1/60 ≈ 0.016 s
 | Stiffness           | k ≈ 5.56×10⁴⁴ N/m (FIXED!)                | No springs - pure wave         |
 | CFL condition       | dt < 2/√(k/m)                             | dt < dx/(c√3)                  |
 | Critical dt         | ~7×10⁻¹⁸ s (INFLEXIBLE)                   | ~2.4×10⁻²⁷ s (raw)             |
-| SLOW_MO mitigation  | ❌ Can't reduce k without breaking physics | ✅ Can reduce c directly        |
+| SLO_MO mitigation  | ❌ Can't reduce k without breaking physics | ✅ Can reduce c directly        |
 | Numerical stability | ❌ Explodes (NaN at 0.4s)                  | ✅ Stable with c_slowed         |
 | Wave speed fidelity | ❌ XPBD: ~12.5% of c                       | ✅ Exact by construction        |
 | Computational cost  | 8-neighbor springs per granule            | 6-neighbor Laplacian per voxel |
@@ -115,7 +115,7 @@ Your wave equation system succeeds because:
 
 1. You need c = 3×10⁸ m/s for realistic wave speed
 2. CFL demands dt < dx/(c√3) ≈ 1.2×10⁻²⁶ s (for dx = 6 am)
-3. Apply SLOW_MO: c_slowed = c/1.05×10²⁵ = 2.85×10⁻¹⁷ m/s
+3. Apply SLO_MO: c_slowed = c/1.05×10²⁵ = 2.85×10⁻¹⁷ m/s
 4. New CFL: dt < dx/(c_slowed√3) ≈ 0.121 s
 5. Visualization needs dt ≈ 0.016 s
 6. 0.016 < 0.121 → ✓ STABLE!
@@ -145,7 +145,7 @@ python openwave/validations/stability_analysis_wave.py
 
 1. CFL condition satisfaction for 60 FPS and 30 FPS
 2. Safety margins (how much headroom exists)
-3. Required SLOW_MO values if unstable
+3. Required SLO_MO values if unstable
 4. Recommended mitigation strategies
 
 **Expected Output**:
@@ -159,17 +159,17 @@ python openwave/validations/stability_analysis_wave.py
 
 **Critical Implementation Details** (see `02b_WAVE_ENGINE_propagate.md`):
 
-1. **Apply SLOW_MO to wave speed**, not timestep:
+1. **Apply SLO_MO to wave speed**, not timestep:
 
    ```python
-   c_slowed = constants.EWAVE_SPEED / config.SLOW_MO * freq_boost
+   c_slowed = constants.EWAVE_SPEED / config.SLO_MO * freq_boost
    ```
 
 2. **Use fixed timestep strategy**, not elapsed time:
 
    ```python
    dt_physics = 1/60  # Fixed (e.g., 60 FPS)
-   c_slowed = c / SLOW_MO  # Slow wave speed instead
+   c_slowed = c / SLO_MO  # Slow wave speed instead
    ```
 
 3. **Monitor CFL factor** during simulation:
@@ -233,7 +233,7 @@ N_substeps = dt_frame / dt_critical_slowed
 N_substeps = 1  # Single timestep per frame! ✓ STABLE
 ```
 
-**Key Insight**: By applying SLOW_MO to wave speed (not timestep), the critical timestep becomes **LARGER** than the frame timestep. No substeps needed!
+**Key Insight**: By applying SLO_MO to wave speed (not timestep), the critical timestep becomes **LARGER** than the frame timestep. No substeps needed!
 
 ### Comparison Table
 

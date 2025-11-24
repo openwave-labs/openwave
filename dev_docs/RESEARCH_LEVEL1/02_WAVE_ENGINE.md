@@ -958,9 +958,9 @@ def measure_frequency(self, current_time: ti.f32):
     4. Derive λ = c_slowed/f (wavelength from frequency, using slowed wave speed)
 
     Note: Frequency-centric approach - f is measured, λ is computed.
-    With SLOW_MO: Wave frequencies are slowed by SLOW_MO factor.
+    With SLO_MO: Wave frequencies are slowed by SLO_MO factor.
     """
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLOW_MO)  # m/s, slowed wave speed
+    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO)  # m/s, slowed wave speed
 
     for i, j, k in self.displacement_am:
         # Check if displacement is at a peak (|ψ| ≈ A)

@@ -48,11 +48,7 @@ def print_wave_diagnostics(
 
 
 def print_initial_parameters():
-    """Print expected wave parameters at startup.
-
-    Args:
-        slow_mo: Slow-motion factor (optional, for display purposes)
-    """
+    """Print expected wave parameters at startup."""
     print("\n" + "=" * 70)
     print("WAVE DIAGNOSTICS ENABLED")
     print("=" * 70)

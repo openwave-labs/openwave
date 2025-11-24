@@ -114,7 +114,7 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
-        self.SLOW_MO = None
+        self.SLO_MO = None
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -153,7 +153,7 @@ class SimulationState:
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
-        self.SLOW_MO = universe["SLOW_MO"]
+        self.SLO_MO = universe["SLO_MO"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -179,7 +179,7 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
-        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.SLOW_MO)
+        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.SLO_MO)
 
 
 # ================================================================
@@ -305,7 +305,7 @@ def display_data_dashboard(state):
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        slowed_mo = state.SLOW_MO / state.FREQ_BOOST
+        slowed_mo = state.SLO_MO / state.FREQ_BOOST
         dt_safe = state.wave_field.dt_safe
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Sim Elapsed Time: {state.elapsed_t / slowed_mo:.2e}s")
@@ -343,7 +343,7 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove amplitude falloff post propagation implementation
-    ewave.charge_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST)
+    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_displacement_profile(state.wave_field)
 
