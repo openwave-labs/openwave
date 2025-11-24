@@ -105,6 +105,7 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
+        self.slowed = 0.0
         self.c_slowed = 0.0
         self.dt_safe = 0.0
         self.elapsed_t = 0.0
@@ -139,6 +140,7 @@ class SimulationState:
 
     def reset(self):
         """Reset simulation state for a new xperiment."""
+        self.slowed = 0.0
         self.c_slowed = 0.0
         self.dt_safe = 0.0
         self.elapsed_t = 0.0
@@ -184,6 +186,17 @@ class SimulationState:
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
         self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
+
+    def compute_timestep(self):
+        # Compute maximum safe timestep from CFL condition with safety margin.
+        # CFL Condition: dt ≤ dx / (c × √3)
+        # With SLO_MO applied: dt_critical = dx / (c_slowed × √3)
+        # FREQ_BOOST affects perceived speed
+        # We use 80% of critical value for safety margin
+        self.slowed = self.SLO_MO / self.FREQ_BOOST
+        self.c_slowed = constants.EWAVE_SPEED / self.slowed  # m/s
+        dt_critical = self.wave_field.dx / (self.c_slowed * (3**0.5))  # seconds
+        self.dt_safe = 0.8 * dt_critical
 
 
 # ================================================================
@@ -309,10 +322,9 @@ def display_data_dashboard(state):
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        slowed_mo = state.SLO_MO / state.FREQ_BOOST
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Sim Elapsed Time: {state.elapsed_t / slowed_mo:.2e}s")
-        sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
+        sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.slowed:.2e}s")
+        sub.text(f"(1 real second = {state.slowed / (60*60*24*365):.0e}y of sim time)")
         sub.text(f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)")
 
 
@@ -418,6 +430,7 @@ def main():
 
     state.apply_xparameters(params)
     state.initialize_grid()
+    state.compute_timestep()
     initialize_xperiment(state)
 
     # Initialize GGUI rendering
@@ -449,17 +462,9 @@ def main():
             # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
-        # Calculate maximum safe timestep from CFL condition with safety margin.
-        # CFL Condition: dt ≤ dx / (c × √3)
-        # With SLO_MO applied: dt_critical = dx / (c_slowed × √3)
-        # FREQ_BOOST affects perceived speed
-        # We use 80% of critical value for safety margin
-        state.c_slowed = constants.EWAVE_SPEED / state.SLO_MO * state.FREQ_BOOST  # m/s
-        dt_critical = state.wave_field.dx / (state.c_slowed * (3**0.5))  # seconds
-        state.dt_safe = 0.8 * dt_critical
-
         if not state.PAUSED:
             # Run simulation step and update time
+            state.compute_timestep()
             compute_wave_motion(state)
             state.elapsed_t += state.dt_safe  # Elapsed time accumulation
             state.frame += 1
