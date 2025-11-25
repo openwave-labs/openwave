@@ -365,14 +365,14 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Initialize test displacement pattern for flux mesh visualization
-    # TODO: remove multiple charge post-propagation implementation
+    # Static CHARGER Methods available for testing
+    # Charge initial wave pattern
     # ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
     # ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
     # ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
     # ewave.charge_full(state.wave_field, state.c_slowed, state.dt)
     # TODO: code toggle to plot initial displacement profile
-    ewave.plot_charge_profile(state.wave_field)
+    # ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
@@ -384,6 +384,7 @@ def compute_wave_motion(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
     ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
 
