@@ -15,6 +15,7 @@ from openwave.common import colormap, constants, equations, utils
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 base_wavelength = constants.EWAVE_LENGTH  # in meters
+base_frequency = constants.EWAVE_FREQUENCY  # in Hz
 rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
@@ -209,20 +210,20 @@ def charge_gaussian(
     center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    # Compute frequency
     f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
 
     # Gaussian width in grid units (σ = 1 wavelength)
-    g_width_grid = base_wavelength / wave_field.dx  # in grid indices
-
-    # Gaussian volume for amplitude calculation
-    g_volume = (4.0 / 3.0) * ti.math.pi * (base_wavelength**3)  # m³
+    sigma = base_wavelength  # Gaussian width in meters
+    sigma_grid = sigma / wave_field.dx  # in grid indices
 
     # Calculate amplitude to match desired universe total energy
-    # E = ∫ ρ(fA)² dV for Gaussian: E ≈ ρ(fA)² × (π^(3/2) × σ³)
+    # E = ∫ ρ(fA)² × G² dV where G = exp(-r²/(2σ²))
+    # For squared Gaussian: ∫ exp(-r²/σ²) dV = (πσ²)^(3/2) = π^(3/2) × σ³
     # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
-    A_required = ti.sqrt(wave_field.energy / (rho * f_slowed * f_slowed * g_volume))
-    A_am = A_required / constants.ATTOMETER
+    g_squared_volume = ti.pow(ti.math.pi, 1.5) * (sigma**3)  # m³
+    A_required = ti.sqrt(wave_field.energy / (rho * base_frequency**2 * g_squared_volume))
+    A_am = A_required / constants.ATTOMETER  # convert to attometers
 
     # Apply Gaussian wave packet (interior points only)
     for i, j, k in ti.ndrange(
@@ -235,7 +236,7 @@ def charge_gaussian(
         r_squared = dx * dx + dy * dy + dz * dz
 
         # Gaussian envelope: exp(-r²/(2σ²))
-        gaussian = ti.exp(-r_squared / (2.0 * g_width_grid * g_width_grid))
+        gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
         # Initial displacement with Gaussian envelope
         wave_field.displacement_am[i, j, k] = A_am * gaussian
