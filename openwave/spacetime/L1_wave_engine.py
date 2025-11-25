@@ -69,7 +69,7 @@ def charge_full(
         disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
         disp_old = base_amplitude_am * ti.cos(omega * -dt - wave_number * r_grid)
 
-        # Apply both longitudinal and transverse displacement (in attometers)
+        # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
@@ -129,7 +129,7 @@ def charge_falloff(
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
         disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
 
-        # Apply both longitudinal and transverse displacement (in attometers)
+        # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
@@ -184,7 +184,7 @@ def charge_1lambda(
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
         disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
 
-        # Apply both longitudinal and transverse displacement (in attometers)
+        # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
@@ -248,6 +248,36 @@ def charge_gaussian(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
+
+
+@ti.kernel
+def charge_oscillator(
+    wave_field: ti.template(),  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
+    elapsed_t: ti.f32,  # type: ignore
+):
+    """
+    Initialize a harmonic oscillating source at the center of the wave field
+    Creates a radial sinusoidal displacement pattern emanating from the grid center
+    using the harmonic motion equation: A·cos(ωt)
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        elapsed_t: Elapsed simulation time (s)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
+    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
+
+    # Find center position (in grid indices)
+    cx = wave_field.nx // 2
+    cy = wave_field.ny // 2
+    cz = wave_field.nz // 2
+
+    # Apply oscillating displacement at center voxel only
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    wave_field.displacement_am[cx, cy, cz] = 200 * base_amplitude_am * ti.cos(omega * elapsed_t)
 
 
 @ti.func
