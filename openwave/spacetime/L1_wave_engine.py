@@ -14,15 +14,13 @@ from openwave.common import colormap, constants, equations, utils
 # Energy-Wave Oscillation Parameters
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
-frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
-wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
+wavelength = constants.EWAVE_LENGTH  # in meters
 
 
 @ti.kernel
 def charge_full(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    sim_speed: ti.f32,  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -44,11 +42,11 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / slo_mo * sim_speed  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength_am / wave_field.dx_am
+    wavelength_grid = wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -77,8 +75,7 @@ def charge_full(
 @ti.kernel
 def charge_falloff(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    sim_speed: ti.f32,  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -100,11 +97,11 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / slo_mo * sim_speed  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength_am / wave_field.dx_am
+    wavelength_grid = wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -138,8 +135,7 @@ def charge_falloff(
 @ti.kernel
 def charge_1lambda(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    sim_speed: ti.f32,  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -158,11 +154,11 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / slo_mo * sim_speed  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength_am / wave_field.dx_am
+    wavelength_grid = wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
