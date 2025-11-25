@@ -377,106 +377,6 @@ def update_flux_mesh_colors(
             )
 
 
-# TODO: remove alternating update once feature implemented
-@ti.kernel
-def update_flux_mesh_colors_tminus1(
-    wave_field: ti.template(),  # type: ignore
-    color_palette: ti.i32,  # type: ignore
-):
-    """
-    Update flux mesh colors by sampling wave properties from voxel grid.
-
-    Samples wave displacement at each Plane vertex position and maps it to a color
-    using the redshift gradient (red=negative, gray=zero, blue=positive).
-
-    This function should be called every frame after wave propagation to update
-    the visualization based on current wave field state.
-
-    Color mapping:
-    - Uses get_redshift_color() from config module
-    - Samples displacement at voxel centers corresponding to vertex positions
-    - Maps signed displacement values to red-gray-blue gradient
-
-    Args:
-        wave_field: WaveField instance containing flux mesh fields and displacement data
-        color_palette: Integer code for color palette selection
-    """
-
-    # Get center indices for each Plane
-    center_i = wave_field.nx // 2
-    center_j = wave_field.ny // 2
-    center_k = wave_field.nz // 2
-
-    # Displacement range for color scaling (in attometers)
-    # TODO: In future, use exponential moving average tracker like LEVEL-0 ironbow
-    # For now, use fixed range based on test pattern amplitude
-    peak_amplitude_am = base_amplitude_am  # attometers (positive displacement/expansion)
-
-    # ================================================================
-    # XY Plane: Sample at z = center_k
-    # ================================================================
-    # Always update all planes (conditionals cause GPU branch divergence)
-    for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
-        # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[i, j, center_k]
-
-        # Map displacement to color using selected gradient
-        if color_palette == 2:  # blueprint
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-
-    # ================================================================
-    # XZ Plane: Sample at y = center_j
-    # ================================================================
-    for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
-        # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[i, center_j, k]
-
-        # Map displacement to color using selected gradient
-        if color_palette == 2:  # blueprint
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-
-    # ================================================================
-    # YZ Plane: Sample at x = center_i
-    # ================================================================
-    for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
-        # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_old_am[center_i, j, k]
-
-        # Map displacement to color using selected gradient
-        if color_palette == 2:  # blueprint
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
-            )
-
-
 # TODO: migrate to numerical analysis module
 def plot_charge_profile(wave_field):
     """
@@ -501,6 +401,7 @@ def plot_charge_profile(wave_field):
     # Sample longitudinal displacement values
     for i in range(nx):
         displacements_L[i] = wave_field.displacement_am[i, center_j, center_k]
+        # displacements_L[i] = wave_field.displacement_old_am[i, center_j, center_k]
         displacements_T[i] = 0.0
 
     # Calculate distance from center in grid indices

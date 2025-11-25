@@ -394,13 +394,8 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        # TODO: remove alternating update once feature implemented
-        if state.frame % 1 == 0:
-            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
-        else:
-            ewave.update_flux_mesh_colors_tminus1(state.wave_field, state.COLOR_PALETTE)
-            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
     # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
