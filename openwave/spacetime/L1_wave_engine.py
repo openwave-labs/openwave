@@ -14,7 +14,8 @@ from openwave.common import colormap, constants, equations, utils
 # Energy-Wave Oscillation Parameters
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
-wavelength = constants.EWAVE_LENGTH  # in meters
+base_wavelength = constants.EWAVE_LENGTH  # in meters
+rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
 @ti.kernel
@@ -32,8 +33,8 @@ def charge_full(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
-        sim_speed: Simulation speed applied after slow-mo division
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        dt: Time step size (s)
     """
 
     # Find center position (in grid indices)
@@ -42,11 +43,11 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength / wave_field.dx
+    wavelength_grid = base_wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -87,8 +88,8 @@ def charge_falloff(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
-        sim_speed: Simulation speed applied after slow-mo division
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        dt: Time step size (s)
     """
 
     # Find center position (in grid indices)
@@ -97,11 +98,11 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength / wave_field.dx
+    wavelength_grid = base_wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -139,13 +140,13 @@ def charge_1lambda(
     dt: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave within 1 wavelength.
-    Similar to initiate_charge() but limits the wave to within 1 wavelength
+    Initialize a spherical outgoing wave within 1 base_wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 base_wavelength
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor to reduce effective frequency (higher = slower)
-        sim_speed: Simulation speed applied after slow-mo division
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        dt: Time step size (s)
     """
 
     # Find center position (in grid indices)
@@ -154,11 +155,11 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = c_slowed / wavelength  # slowed frequency (1Hz * boost)
+    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = wavelength / wave_field.dx
+    wavelength_grid = base_wavelength / wave_field.dx
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -185,6 +186,58 @@ def charge_1lambda(
         # Apply both longitudinal and transverse displacement (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
+
+
+@ti.kernel
+def charge_gaussian(
+    wave_field: ti.template(),  # type: ignore
+    c_slowed: ti.f32,  # type: ignore
+    dt: ti.f32,  # type: ignore
+):
+    """
+    Initialize a spherical outgoing wave within a Gaussian envelope.
+    Similar to initiate_charge() but limits the wave to a Gaussian profile
+
+    Args:
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        c_slowed: Effective wave speed after slow-motion factor (m/s)
+        dt: Time step size (s)
+    """
+
+    # Find center position (in grid indices)
+    center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
+    center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
+    center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
+
+    # Gaussian Bubble
+    g_width = base_wavelength  # in meters
+    g_volume = (4 / 3) * ti.math.pi * (g_width**3)  # m³
+
+    # Calculate amplitude to match desired universe total energy
+    # E = ∫ ρ(fA)² dV for Gaussian: E ≈ ρ(fA)² × (π^(3/2) × σ³)
+    # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
+    A_required = ti.sqrt(wave_field.energy / (rho * f_slowed * f_slowed * g_volume))
+    A_am = A_required / constants.ATTOMETER
+
+    # Apply Gaussian wave packet
+    for i, j, k in wave_field.displacement_am:
+        pos_am = self.get_position_am(i, j, k)
+        r_vec = pos_am - center_am
+        r_squared = r_vec.dot(r_vec)
+
+        # Gaussian envelope: exp(-r²/(2σ²))
+        gaussian = ti.exp(-r_squared / (2.0 * g_width * g_width))
+
+        # Initial displacement with Gaussian envelope
+        wave_field.displacement_am[i, j, k] = A_am * gaussian
+
+    # Initialize old displacement (same as current for stationary start)
+    for i, j, k in wave_field.displacement_old_am:
+        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
 
 
 @ti.func
