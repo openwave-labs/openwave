@@ -162,7 +162,7 @@ python openwave/validations/stability_analysis_wave.py
 1. **Apply SLO_MO to wave speed**, not timestep:
 
    ```python
-   c_slowed = constants.EWAVE_SPEED / config.SLO_MO * freq_boost
+   c_slowed = constants.EWAVE_SPEED / config.SLO_MO * SIM_SPEED
    ```
 
 2. **Use fixed timestep strategy**, not elapsed time:
@@ -265,7 +265,7 @@ def update_frame(dt_frame):
 ```python
 # Simple single-step per frame
 def update_frame(dt_frame):
-    propagate_wave(dt_frame, freq_boost)  # Just once! ✓
+    propagate_wave(dt_frame, SIM_SPEED)  # Just once! ✓
     track_amplitude_envelope()
     compute_wave_direction()
 ```

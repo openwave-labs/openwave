@@ -89,7 +89,7 @@ else:
 # Summary and recommendations
 print(f"\nMitigation Strategy:")
 print(f"  1. Apply SLO_MO to wave speed: c_slowed = c / SLO_MO")
-print(f"  2. Use freq_boost parameter for visualization control")
+print(f"  2. Use SIM_SPEED parameter for visualization control")
 print(f"  3. Monitor CFL factor: (c·dt/dx)² should be ≤ 1/3 for 3D")
 print(f"  4. Use fixed timestep strategy (not elapsed time)")
 

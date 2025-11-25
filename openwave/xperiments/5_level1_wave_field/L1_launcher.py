@@ -105,9 +105,7 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
-        self.slowed = 0.0
         self.c_slowed = 0.0
-        self.dt_critical = 0.0
         self.dt = 0.0
         self.cfl_factor = 0.0
         self.elapsed_t = 0.0
@@ -126,7 +124,7 @@ class SimulationState:
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.FLUX_MESH_OPTION = 0
-        self.FREQ_BOOST = 1.0
+        self.SIM_SPEED = 1.0
         self.AMP_BOOST = 1.0
         self.PAUSED = False
 
@@ -139,17 +137,6 @@ class SimulationState:
         self.WAVE_DIAGNOSTICS = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
-
-    def reset(self):
-        """Reset simulation state for a new xperiment."""
-        self.slowed = 0.0
-        self.c_slowed = 0.0
-        self.dt_critical = 0.0
-        self.cfl_factor = 0.0
-        self.dt = 0.0
-        self.elapsed_t = 0.0
-        self.frame = 0
-        self.peak_amplitude = 0.0
 
     def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
@@ -171,7 +158,7 @@ class SimulationState:
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
-        self.FREQ_BOOST = ui["FREQ_BOOST"]
+        self.SIM_SPEED = ui["SIM_SPEED"]
         self.AMP_BOOST = ui["AMP_BOOST"]
         self.PAUSED = ui["PAUSED"]
 
@@ -195,13 +182,23 @@ class SimulationState:
         # Compute maximum safe timestep from CFL condition with safety margin.
         # CFL Condition: dt ≤ dx / (c × √3)
         # With SLO_MO applied: dt_critical = dx / (c_slowed × √3)
-        # FREQ_BOOST affects perceived speed
-        # We use 80% of critical value for safety margin
-        self.slowed = self.SLO_MO / self.FREQ_BOOST
-        self.c_slowed = constants.EWAVE_SPEED / self.slowed  # m/s
-        self.dt_critical = self.wave_field.dx / (self.c_slowed * (3**0.5))  # seconds
-        self.dt = 0.8 * self.dt_critical
-        self.cfl_factor = (self.c_slowed * self.dt / self.wave_field.dx) ** 2
+        # SIM_SPEED affects perceived speed
+        self.c_slowed = constants.EWAVE_SPEED / self.SLO_MO * self.SIM_SPEED  # m/s
+        self.dt = self.wave_field.dx / (constants.EWAVE_SPEED / self.SLO_MO * (3**0.5))  # s
+        self.cfl_factor = round((self.c_slowed * self.dt / self.wave_field.dx) ** 2, 7)
+
+    def reset_sim(self):
+        """Reset simulation state."""
+        self.wave_field = None
+        self.c_slowed = 0.0
+        self.dt = 0.0
+        self.cfl_factor = 0.0
+        self.elapsed_t = 0.0
+        self.frame = 0
+        self.peak_amplitude = 0.0
+        self.initialize_grid()
+        self.compute_timestep()
+        initialize_xperiment(self)
 
 
 # ================================================================
@@ -238,10 +235,10 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.18) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.20) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
-        state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
+        state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
@@ -249,6 +246,8 @@ def display_controls(state):
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
+        if sub.button("Reset Sim"):
+            state.reset_sim()
 
 
 def display_color_menu(state):
@@ -326,19 +325,18 @@ def display_data_dashboard(state):
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.slowed:.2e}s")
-        sub.text(f"(1 real second = {state.slowed / (60*60*24*365):.0e}y of sim time)")
+        sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.SLO_MO:.2e}s")
+        sub.text(f"(1 real second = {state.SLO_MO / (60*60*24*365):.0e}y of sim time)")
 
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"dt_critical: {state.dt_critical:.3f}s ({1/state.dt_critical:.0f} FPS)")
-        sub.text(
-            f"dt: {state.dt:.3f}s ({1/state.dt:.0f} FPS)",
-            color=(1.0, 0.0, 0.0) if state.cfl_factor > (1 / 3) else (1.0, 1.0, 1.0),
-        )
         sub.text(f"c_slowed: {state.c_slowed:.2e} m/s")
         sub.text(
+            f"dt: {state.dt:.3f}s ({1/state.dt:.0f} FPS)",
+            color=(1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0),
+        )
+        sub.text(
             f"CFL Factor: {state.cfl_factor:.3f} (target < 1/3)",
-            color=(1.0, 0.0, 0.0) if state.cfl_factor > (1 / 3) else (1.0, 1.0, 1.0),
+            color=((1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0)),
         )
 
 
@@ -372,9 +370,9 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove multiple charge post-propagation implementation
-    ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
-    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
-    ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
+    ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.SIM_SPEED, state.dt)
+    # ewave.charge_falloff(state.wave_field, state.SLO_MO, state.SIM_SPEED, state.dt)
+    # ewave.charge_full(state.wave_field, state.SLO_MO, state.SIM_SPEED, state.dt)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 

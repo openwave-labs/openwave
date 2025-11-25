@@ -93,7 +93,7 @@ def compute_laplacian_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
 
 ```python
 @ti.kernel
-def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
+def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
     """
     Propagate wave displacement using wave equation (PDE Solver).
 
@@ -105,7 +105,7 @@ def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
 
     Args:
         dt: Timestep in seconds. Typical: ~1/60 s (60 FPS frame time)
-        freq_boost: Wave speed multiplier for visualization. Default: 1.0
+        SIM_SPEED: Wave speed multiplier for visualization. Default: 1.0
 
     CFL Stability:
         Condition: dt ≤ dx / (c·√3) for 3D 6-connectivity
@@ -114,11 +114,11 @@ def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
         but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
 
         Solution: Slow wave speed instead of shrinking timestep.
-            c_slowed = (c / SLO_MO) × freq_boost
+            c_slowed = (c / SLO_MO) × SIM_SPEED
             With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
     """
-    # Speed of light (apply SLO_MO factor, then freq_boost for human-visible waves)
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * freq_boost  # m/s
+    # Speed of light (apply SLO_MO factor, then SIM_SPEED for human-visible waves)
+    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * SIM_SPEED  # m/s
 
     # Convert c to attometers/second for consistent units
     c_am = c_slowed / constants.ATTOMETER  # am/s
@@ -201,16 +201,16 @@ def compute_wave_direction(self):
 ```
 
 ```python
-def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
+def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
     """
     Complete wave field update for one timestep.
 
     Args:
         dt: Timestep in seconds (with SLO_MO factor applied)
-        freq_boost: Frequency multiplier (applied after SLO_MO)
+        SIM_SPEED: Frequency multiplier (applied after SLO_MO)
     """
     # 1. Propagate wave displacement
-    self.propagate_wave(dt, freq_boost)
+    self.propagate_wave(dt, SIM_SPEED)
 
     # 2. Track amplitude envelope
     self.track_amplitude_envelope()
@@ -223,12 +223,12 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
 
 **Summary of Merged Implementation**:
 
-- ✅ **Single `propagate_wave(dt, freq_boost)` function**
+- ✅ **Single `propagate_wave(dt, SIM_SPEED)` function**
 - ✅ **Encapsulated `compute_laplacian_am()`** as `@ti.func` returning full laplacian [1/am]
 - ✅ **Correct dimensional analysis**: All units in attometers (consistent throughout)
 - ✅ **SLO_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
-- ✅ **freq_boost parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
-- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLO_MO) × freq_boost
+- ✅ **SIM_SPEED parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
+- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLO_MO) × SIM_SPEED
 - ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
 - ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
@@ -241,10 +241,10 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
 
 Where:
 
-- `c_slowed = (EWAVE_SPEED / SLO_MO) × freq_boost` (m/s, slowed + boosted)
+- `c_slowed = (EWAVE_SPEED / SLO_MO) × SIM_SPEED` (m/s, slowed + boosted)
 - `c_am = c_slowed / ATTOMETER` (wave speed in am/s)
 - `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
-- `freq_boost` ~ 1.0 (default, no boost) or higher for faster visualization
+- `SIM_SPEED` ~ 1.0 (default, no boost) or higher for faster visualization
 - `∇²ψ` in [1/am] units (from `compute_laplacian_am()`)
 - `dx_am` in [am] units (standard voxel size)
 - Result in [am] units ✓
