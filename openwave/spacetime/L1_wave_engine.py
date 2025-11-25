@@ -196,9 +196,8 @@ def charge_gaussian(
 ):
     """
     Initialize a spherical outgoing wave within a Gaussian envelope.
-    Similar to initiate_charge() but limits the wave to a Gaussian profile
+    Similar to initiate_charge() but limits the wave to a Gaussian profile.
 
-    Args:
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
         c_slowed: Effective wave speed after slow-motion factor (m/s)
@@ -213,9 +212,11 @@ def charge_gaussian(
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
 
-    # Gaussian Bubble
-    g_width = base_wavelength  # in meters
-    g_volume = (4 / 3) * ti.math.pi * (g_width**3)  # m³
+    # Gaussian width in grid units (σ = 1 wavelength)
+    g_width_grid = base_wavelength / wave_field.dx  # in grid indices
+
+    # Gaussian volume for amplitude calculation
+    g_volume = (4.0 / 3.0) * ti.math.pi * (base_wavelength**3)  # m³
 
     # Calculate amplitude to match desired universe total energy
     # E = ∫ ρ(fA)² dV for Gaussian: E ≈ ρ(fA)² × (π^(3/2) × σ³)
@@ -223,20 +224,26 @@ def charge_gaussian(
     A_required = ti.sqrt(wave_field.energy / (rho * f_slowed * f_slowed * g_volume))
     A_am = A_required / constants.ATTOMETER
 
-    # Apply Gaussian wave packet
-    for i, j, k in wave_field.displacement_am:
-        pos_am = self.get_position_am(i, j, k)
-        r_vec = pos_am - center_am
-        r_squared = r_vec.dot(r_vec)
+    # Apply Gaussian wave packet (interior points only)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        dx = ti.cast(i, ti.f32) - center_x
+        dy = ti.cast(j, ti.f32) - center_y
+        dz = ti.cast(k, ti.f32) - center_z
+        r_squared = dx * dx + dy * dy + dz * dz
 
         # Gaussian envelope: exp(-r²/(2σ²))
-        gaussian = ti.exp(-r_squared / (2.0 * g_width * g_width))
+        gaussian = ti.exp(-r_squared / (2.0 * g_width_grid * g_width_grid))
 
         # Initial displacement with Gaussian envelope
         wave_field.displacement_am[i, j, k] = A_am * gaussian
 
     # Initialize old displacement (same as current for stationary start)
-    for i, j, k in wave_field.displacement_old_am:
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
 
 
