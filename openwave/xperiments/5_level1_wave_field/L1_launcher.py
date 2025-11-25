@@ -328,7 +328,7 @@ def display_data_dashboard(state):
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"c_slowed: {state.c_slowed:.2e} m/s")
         sub.text(
-            f"dt: {state.dt:.3f}s ({1/state.dt:.0f} FPS)",
+            f"dt: {state.dt:.3f}s (needs {1/state.dt:.0f} FPS)",
             color=(1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0),
         )
         sub.text(

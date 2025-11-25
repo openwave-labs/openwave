@@ -210,20 +210,19 @@ def charge_gaussian(
     center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
-    # Compute frequency
-    f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
-
-    # Gaussian width in grid units (σ = 1 wavelength)
-    sigma = base_wavelength  # Gaussian width in meters
+    # Gaussian width in grid units (σ = λ/2)
+    sigma = base_wavelength / 2  # Gaussian width in meters
     sigma_grid = sigma / wave_field.dx  # in grid indices
 
     # Calculate amplitude to match desired universe total energy
     # E = ∫ ρ(fA)² × G² dV where G = exp(-r²/(2σ²))
     # For squared Gaussian: ∫ exp(-r²/σ²) dV = (πσ²)^(3/2) = π^(3/2) × σ³
     # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
-    g_squared_volume = ti.pow(ti.math.pi, 1.5) * (sigma**3)  # m³
-    A_required = ti.sqrt(wave_field.energy / (rho * base_frequency**2 * g_squared_volume))
-    A_am = A_required / constants.ATTOMETER  # convert to attometers
+    #            = √E / (√ρ × f × π^(3/4) × σ^(3/2))  [restructured to avoid f32 overflow]
+    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32 range)
+    g_squared_volume_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # √(π^(3/2) × σ³)
+    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_squared_volume_sqrt)
+    A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
 
     # Apply Gaussian wave packet (interior points only)
     for i, j, k in ti.ndrange(
