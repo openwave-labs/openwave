@@ -107,7 +107,9 @@ class SimulationState:
         self.wave_field = None
         self.slowed = 0.0
         self.c_slowed = 0.0
+        self.dt_critical = 0.0
         self.dt_safe = 0.0
+        self.cfl_factor = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
         self.peak_amplitude = 0.0
@@ -142,6 +144,8 @@ class SimulationState:
         """Reset simulation state for a new xperiment."""
         self.slowed = 0.0
         self.c_slowed = 0.0
+        self.dt_critical = 0.0
+        self.cfl_factor = 0.0
         self.dt_safe = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
@@ -195,8 +199,9 @@ class SimulationState:
         # We use 80% of critical value for safety margin
         self.slowed = self.SLO_MO / self.FREQ_BOOST
         self.c_slowed = constants.EWAVE_SPEED / self.slowed  # m/s
-        dt_critical = self.wave_field.dx / (self.c_slowed * (3**0.5))  # seconds
-        self.dt_safe = 0.8 * dt_critical
+        self.dt_critical = self.wave_field.dx / (self.c_slowed * (3**0.5))  # seconds
+        self.dt_safe = 0.8 * self.dt_critical
+        self.cfl_factor = (self.c_slowed * self.dt_safe / self.wave_field.dx) ** 2
 
 
 # ================================================================
@@ -315,8 +320,6 @@ def display_data_dashboard(state):
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
-
-        sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
             f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
         )
@@ -325,8 +328,18 @@ def display_data_dashboard(state):
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.slowed:.2e}s")
         sub.text(f"(1 real second = {state.slowed / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)")
+
+        sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"dt_critical: {state.dt_critical:.3f}s ({1/state.dt_critical:.0f} FPS)")
+        sub.text(
+            f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)",
+            color=(1.0, 0.0, 0.0) if state.cfl_factor > (1 / 3) else (1.0, 1.0, 1.0),
+        )
         sub.text(f"c_slowed: {state.c_slowed:.2e} m/s")
+        sub.text(
+            f"CFL Factor: {state.cfl_factor:.3f} (target < 1/3)",
+            color=(1.0, 0.0, 0.0) if state.cfl_factor > (1 / 3) else (1.0, 1.0, 1.0),
+        )
 
 
 # ================================================================
