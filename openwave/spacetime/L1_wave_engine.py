@@ -192,55 +192,58 @@ def charge_1lambda(
 @ti.kernel
 def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
-    c_slowed: ti.f32,  # type: ignore
-    dt: ti.f32,  # type: ignore
+    c_slowed: ti.f32,  # type: ignore  # unused, kept for API consistency
+    dt: ti.f32,  # type: ignore  # unused, kept for API consistency
 ):
     """
-    Initialize a spherical outgoing wave within a Gaussian envelope.
-    Similar to initiate_charge() but limits the wave to a Gaussian profile.
+    Initialize a stationary Gaussian wave packet centered in the wave field.
+
+    Creates a spherical displacement pattern with Gaussian envelope, normalized
+    to contain the total energy of the universe. The wave starts at rest
+    (zero initial velocity) by setting displacement_old = displacement.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slowed: Effective wave speed after slow-motion factor (m/s)
-        dt: Time step size (s)
+        c_slowed: Unused (kept for API consistency with other charge functions)
+        dt: Unused (kept for API consistency with other charge functions)
     """
 
-    # Find center position (in grid indices)
+    # Grid center position (in grid indices)
     center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
     center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
-    # Gaussian width in grid units (σ = λ/2)
-    sigma = base_wavelength / 2  # Gaussian width in meters
+    # Gaussian width: σ = λ/2 (half wavelength)
+    sigma = base_wavelength / 2  # in meters
     sigma_grid = sigma / wave_field.dx  # in grid indices
 
-    # Calculate amplitude to match desired universe total energy
-    # E = ∫ ρ(fA)² × G² dV where G = exp(-r²/(2σ²))
-    # For squared Gaussian: ∫ exp(-r²/σ²) dV = (πσ²)^(3/2) = π^(3/2) × σ³
-    # Solve for A: A = √(E / (ρf² × π^(3/2) × σ³))
-    #            = √E / (√ρ × f × π^(3/4) × σ^(3/2))  [restructured to avoid f32 overflow]
-    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32 range)
-    g_squared_volume_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # √(π^(3/2) × σ³)
-    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_squared_volume_sqrt)
+    # Calculate amplitude to match total universe energy
+    # Energy integral: E = ∫ ρ(fA)² × G² dV, where G = exp(-r²/(2σ²))
+    # Squared Gaussian integral: ∫ exp(-r²/σ²) dV = π^(3/2) × σ³
+    # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
+    # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
+    #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
+    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
+    g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
+    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
 
-    # Apply Gaussian wave packet (interior points only)
+    # Apply Gaussian displacement (interior points only, boundaries stay at ψ=0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        # Distance from center (in grid indices)
+        # Squared distance from center (in grid indices)
         dx = ti.cast(i, ti.f32) - center_x
         dy = ti.cast(j, ti.f32) - center_y
         dz = ti.cast(k, ti.f32) - center_z
         r_squared = dx * dx + dy * dy + dz * dz
 
-        # Gaussian envelope: exp(-r²/(2σ²))
+        # Gaussian envelope: G(r) = exp(-r²/(2σ²))
         gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
-        # Initial displacement with Gaussian envelope
         wave_field.displacement_am[i, j, k] = A_am * gaussian
 
-    # Initialize old displacement (same as current for stationary start)
+    # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
