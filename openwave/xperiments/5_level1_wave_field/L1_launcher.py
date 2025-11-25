@@ -125,7 +125,6 @@ class SimulationState:
         self.SHOW_GRID = False
         self.FLUX_MESH_OPTION = 0
         self.SIM_SPEED = 1.0
-        self.AMP_BOOST = 1.0
         self.PAUSED = False
 
         # Color control variables
@@ -159,7 +158,6 @@ class SimulationState:
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
         self.SIM_SPEED = ui["SIM_SPEED"]
-        self.AMP_BOOST = ui["AMP_BOOST"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -235,11 +233,10 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.20) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.17) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
-        state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
                 state.PAUSED = False
