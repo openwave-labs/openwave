@@ -239,7 +239,7 @@ def display_controls(state):
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
         if state.PAUSED:
-            if sub.button("Propagate Wave"):
+            if sub.button("Propagate eWave"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):
@@ -298,7 +298,7 @@ def display_data_dashboard(state):
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- WAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- eWAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
         )
@@ -311,7 +311,7 @@ def display_data_dashboard(state):
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- WAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- eWAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
@@ -376,7 +376,7 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
 
-    ewave.propagate_wave(state.wave_field, state.c_slowed, state.dt_safe)
+    ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt_safe)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
 
 

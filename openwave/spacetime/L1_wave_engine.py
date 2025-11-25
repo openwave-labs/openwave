@@ -226,7 +226,7 @@ def compute_laplacian_am(
 
 
 @ti.kernel
-def propagate_wave(
+def propagate_ewave(
     wave_field: ti.template(),  # type: ignore
     c_slowed: ti.f32,  # type: ignore
     dt_safe: ti.f32,  # type: ignore
