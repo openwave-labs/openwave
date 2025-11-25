@@ -108,7 +108,7 @@ class SimulationState:
         self.slowed = 0.0
         self.c_slowed = 0.0
         self.dt_critical = 0.0
-        self.dt_safe = 0.0
+        self.dt = 0.0
         self.cfl_factor = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
@@ -146,7 +146,7 @@ class SimulationState:
         self.c_slowed = 0.0
         self.dt_critical = 0.0
         self.cfl_factor = 0.0
-        self.dt_safe = 0.0
+        self.dt = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
         self.peak_amplitude = 0.0
@@ -200,8 +200,8 @@ class SimulationState:
         self.slowed = self.SLO_MO / self.FREQ_BOOST
         self.c_slowed = constants.EWAVE_SPEED / self.slowed  # m/s
         self.dt_critical = self.wave_field.dx / (self.c_slowed * (3**0.5))  # seconds
-        self.dt_safe = 0.8 * self.dt_critical
-        self.cfl_factor = (self.c_slowed * self.dt_safe / self.wave_field.dx) ** 2
+        self.dt = 0.8 * self.dt_critical
+        self.cfl_factor = (self.c_slowed * self.dt / self.wave_field.dx) ** 2
 
 
 # ================================================================
@@ -332,7 +332,7 @@ def display_data_dashboard(state):
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"dt_critical: {state.dt_critical:.3f}s ({1/state.dt_critical:.0f} FPS)")
         sub.text(
-            f"dt_safe: {state.dt_safe:.3f}s ({1/state.dt_safe:.0f} FPS)",
+            f"dt: {state.dt:.3f}s ({1/state.dt:.0f} FPS)",
             color=(1.0, 0.0, 0.0) if state.cfl_factor > (1 / 3) else (1.0, 1.0, 1.0),
         )
         sub.text(f"c_slowed: {state.c_slowed:.2e} m/s")
@@ -372,9 +372,9 @@ def initialize_xperiment(state):
 
     # Initialize test displacement pattern for flux mesh visualization
     # TODO: remove multiple charge post-propagation implementation
-    ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
-    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
-    ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt_safe)
+    ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
+    ewave.charge_falloff(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
+    ewave.charge_full(state.wave_field, state.SLO_MO, state.FREQ_BOOST, state.dt)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 
@@ -389,7 +389,7 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
 
-    ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt_safe)
+    ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
 
 
@@ -481,7 +481,7 @@ def main():
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
-            state.elapsed_t += state.dt_safe  # Elapsed time accumulation
+            state.elapsed_t += state.dt  # Elapsed time accumulation
             state.frame += 1
 
         # Render scene elements
