@@ -279,7 +279,7 @@ def compute_laplacian_am(
         + wave_field.displacement_am[i, j, k + 1]
         + wave_field.displacement_am[i, j, k - 1]
         - 6.0 * wave_field.displacement_am[i, j, k]
-    ) / (wave_field.dx_am * wave_field.dx_am)
+    ) / wave_field.dx_am**2
 
     return laplacian_am
 
@@ -294,6 +294,7 @@ def propagate_ewave(
     Propagate wave displacement using wave equation (PDE Solver).
     Wave Equation: ∂²ψ/∂t² = c²∇²ψ
     Includes wave propagation, reflection at boundaries, superposition
+    of wavefronts, and energy conservation.
 
     Discrete Form (Leap-Frog/Verlet):
         ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
@@ -313,6 +314,8 @@ def propagate_ewave(
         Solution: Slow wave speed instead of shrinking timestep.
             c_slowed = (c / SLO_MO) × sim_speed
             With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
+
+    Known issue: Metal GPU backend is unstable for grids >720³. Use CPU for larger grids.
     """
     # Convert c to attometers/second for consistent units
     c_am = c_slowed / constants.ATTOMETER  # am/s
@@ -333,9 +336,7 @@ def propagate_ewave(
             + (c_am * dt) ** 2 * laplacian_am
         )
 
-    # Swap time levels for next iteration
-    # Copy data: old ← current, current ← new
-    # Note: Must copy field data, not reassign field references in Taichi
+    # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
         wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
