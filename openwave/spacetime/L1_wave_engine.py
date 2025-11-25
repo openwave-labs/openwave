@@ -521,7 +521,7 @@ def plot_charge_profile(wave_field):
     save_path = (
         Path(__file__).parent.parent
         / "xperiments"
-        / "5_level1_wave_field"
+        / "5_level1_field_based"
         / "_research"
         / "displacement_profile.png"
     )
