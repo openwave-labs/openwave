@@ -385,12 +385,12 @@ def propagate_ewave(
         # Track amplitude envelope using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
+        # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
+        # This captures peaks quickly but smooths out the decay
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = wave_field.amplitude_am[i, j, k][0]
 
-        # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
-        # This captures peaks quickly but smooths out the decay
         alpha = 0.3 if disp_mag > current_amp else 0.02
         wave_field.amplitude_am[i, j, k][0] = alpha * disp_mag + (1.0 - alpha) * current_amp
 
