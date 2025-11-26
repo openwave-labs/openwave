@@ -8,7 +8,7 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 
 import taichi as ti
 
-from openwave.common import colormap, constants, equations, utils
+from openwave.common import colormap, constants
 
 # ================================================================
 # Energy-Wave Oscillation Parameters
@@ -257,9 +257,13 @@ def charge_oscillator(
     elapsed_t: ti.f32,  # type: ignore
 ):
     """
-    Initialize a harmonic oscillating source at the center of the wave field
-    Creates a radial sinusoidal displacement pattern emanating from the grid center
-    using the harmonic motion equation: A·cos(ωt)
+    Apply harmonic oscillation to a spherical volume at the grid center.
+
+    Creates a uniform displacement within a spherical region using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillator acts as a coherent wave source, with all voxels inside
+    the sphere oscillating in phase.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -270,14 +274,27 @@ def charge_oscillator(
     f_slowed = c_slowed / base_wavelength  # slowed frequency (1Hz * boost)
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
+    # Define center oscillator radius
+    radius = int(0.02 * wave_field.max_grid_size)  # fraction of max grid size
+
     # Find center position (in grid indices)
     cx = wave_field.nx // 2
     cy = wave_field.ny // 2
     cz = wave_field.nz // 2
 
-    # Apply oscillating displacement at center voxel only
+    # Apply oscillating displacement at center radius only
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
-    wave_field.displacement_am[cx, cy, cz] = 200 * base_amplitude_am * ti.cos(omega * elapsed_t)
+    for i, j, k in ti.ndrange(
+        (cx - radius, cx + radius + 1),
+        (cy - radius, cy + radius + 1),
+        (cz - radius, cz + radius + 1),
+    ):
+        # Compute distance squared inline (Taichi kernels need direct computation)
+        dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
+        if dist_sq <= radius * radius:
+            wave_field.displacement_am[i, j, k] = (
+                base_amplitude_am * ti.cos(omega * elapsed_t) / radius * 10
+            )
 
 
 @ti.func
