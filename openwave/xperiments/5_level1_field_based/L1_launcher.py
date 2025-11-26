@@ -110,7 +110,7 @@ class SimulationState:
         self.cfl_factor = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
-        self.peak_amplitude = 0.0
+        self.avg_amplitude = 0.0
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -193,7 +193,7 @@ class SimulationState:
         self.cfl_factor = 0.0
         self.elapsed_t = 0.0
         self.frame = 0
-        self.peak_amplitude = 0.0
+        self.avg_amplitude = 0.0
         self.initialize_grid()
         self.compute_timestep()
         initialize_xperiment(self)
@@ -250,33 +250,27 @@ def display_controls(state):
 def display_color_menu(state):
     """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox(
-            "Displacement (blueprint)", state.COLOR_PALETTE == 2 and not state.VAR_AMP
-        ):
-            state.COLOR_PALETTE = 2
-            state.VAR_AMP = False
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.75, 0.14, 0.12) as sub:
         if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 3 and not state.VAR_AMP):
             state.COLOR_PALETTE = 3
             state.VAR_AMP = False
         if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
             state.COLOR_PALETTE = 1
             state.VAR_AMP = True
-        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+        if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-            state.VAR_AMP = True
         if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
+            with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.avg_amplitude:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
+            with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"??? Hz")
         if state.COLOR_PALETTE == 3:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
+            with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"{-state.avg_amplitude:.0e}  {state.avg_amplitude:.0e}m")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -355,24 +349,24 @@ def initialize_xperiment(state):
 
     # Initialize color palette scales for gradient rendering and level indicator
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+        colormap.ironbow, 0.00, 0.68, 0.079, 0.01
     )
     bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
-        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+        colormap.blueprint, 0.00, 0.68, 0.079, 0.01
     )
     rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
-        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+        colormap.redshift, 0.00, 0.68, 0.079, 0.01
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    # ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
-    # ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
-    # ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
+    ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
     # ewave.charge_full(state.wave_field, state.c_slowed, state.dt)
+    # ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
+    # ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
     # TODO: code toggle to plot initial displacement profile
-    # ewave.plot_charge_profile(state.wave_field)
+    ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
@@ -386,10 +380,11 @@ def compute_wave_motion(state):
     """
     # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
-    ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
+    # ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
 
     ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
+    state.avg_amplitude = state.wave_field.avg_amplitude_am[None] * constants.ATTOMETER
 
 
 def render_elements(state):
@@ -398,7 +393,7 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
+        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE, state.VAR_AMP)
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference

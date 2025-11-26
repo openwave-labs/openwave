@@ -20,17 +20,14 @@ rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
 @ti.kernel
-def charge_full(
+def charge_1lambda(
     wave_field: ti.template(),  # type: ignore
     c_slowed: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave pattern centered in the wave field.
-
-    Creates a radial sinusoidal displacement pattern emanating from the grid center
-    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
-    timestep displacements for time-stepping propagation.
+    Initialize a spherical outgoing wave within 1 base_wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 base_wavelength
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -62,12 +59,15 @@ def charge_full(
         dz = ti.cast(k, ti.f32) - center_z
         r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
 
+        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
+        amplitude_am_at_r = base_amplitude_am if r_grid < wavelength_grid else 0.0
+
         # Simple sinusoidal radial pattern
         # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -dt - wave_number * r_grid)
+        disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -135,14 +135,17 @@ def charge_falloff(
 
 
 @ti.kernel
-def charge_1lambda(
+def charge_full(
     wave_field: ti.template(),  # type: ignore
     c_slowed: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave within 1 base_wavelength.
-    Similar to initiate_charge() but limits the wave to within 1 base_wavelength
+    Initialize a spherical outgoing wave pattern centered in the wave field.
+
+    Creates a radial sinusoidal displacement pattern emanating from the grid center
+    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
+    timestep displacements for time-stepping propagation.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -174,15 +177,12 @@ def charge_1lambda(
         dz = ti.cast(k, ti.f32) - center_z
         r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
 
-        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
-        amplitude_am_at_r = base_amplitude_am if r_grid < wavelength_grid else 0.0
-
         # Simple sinusoidal radial pattern
         # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
+        disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
+        disp_old = base_amplitude_am * ti.cos(omega * -dt - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -275,26 +275,24 @@ def charge_oscillator(
     omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
 
     # Define center oscillator radius
-    radius = int(0.02 * wave_field.max_grid_size)  # fraction of max grid size
+    source_radius = int(0.05 * wave_field.max_grid_size)  # fraction of max grid size
 
     # Find center position (in grid indices)
     cx = wave_field.nx // 2
     cy = wave_field.ny // 2
     cz = wave_field.nz // 2
 
-    # Apply oscillating displacement at center radius only
+    # Apply oscillating displacement at center source_radius only
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j, k in ti.ndrange(
-        (cx - radius, cx + radius + 1),
-        (cy - radius, cy + radius + 1),
-        (cz - radius, cz + radius + 1),
+        (cx - source_radius, cx + source_radius + 1),
+        (cy - source_radius, cy + source_radius + 1),
+        (cz - source_radius, cz + source_radius + 1),
     ):
         # Compute distance squared inline (Taichi kernels need direct computation)
         dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
-        if dist_sq <= radius * radius:
-            wave_field.displacement_am[i, j, k] = (
-                base_amplitude_am * ti.cos(omega * elapsed_t) / radius * 10
-            )
+        if dist_sq <= source_radius**2:
+            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(omega * elapsed_t)
 
 
 @ti.func
@@ -383,6 +381,24 @@ def propagate_ewave(
             + (c_am * dt) ** 2 * laplacian_am
         )
 
+        # WAVE TRACKERS: compute tracked properties during propagation (A & f)
+        # Track amplitude envelope using exponential moving average (EMA)
+        # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
+        # α controls adaptation speed: higher = faster response, lower = smoother
+        # TODO: 2 polarities tracked: longitudinal & transverse
+        disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
+        current_amp = wave_field.amplitude_am[i, j, k][0]
+
+        # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
+        # This captures peaks quickly but smooths out the decay
+        alpha = 0.3 if disp_mag > current_amp else 0.02
+        wave_field.amplitude_am[i, j, k][0] = alpha * disp_mag + (1.0 - alpha) * current_amp
+
+        # Track avg amplitude across all voxels
+        # TODO: compute this as avg from total voxels for energy conservation
+        # Here we use a simple max envelope for visualization scaling
+        wave_field.avg_amplitude_am[None] = base_amplitude_am * 2
+
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
@@ -393,6 +409,7 @@ def propagate_ewave(
 def update_flux_mesh_colors(
     wave_field: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore
+    var_amp: ti.i32,  # type: ignore
 ):
     """
     Update flux mesh colors by sampling wave properties from voxel grid.
@@ -418,11 +435,6 @@ def update_flux_mesh_colors(
     center_j = wave_field.ny // 2
     center_k = wave_field.nz // 2
 
-    # Displacement range for color scaling (in attometers)
-    # TODO: In future, use exponential moving average tracker like LEVEL-0 ironbow
-    # For now, use fixed range based on test pattern amplitude
-    peak_amplitude_am = base_amplitude_am  # attometers (positive displacement/expansion)
-
     # ================================================================
     # XY Plane: Sample at z = center_k
     # ================================================================
@@ -430,19 +442,21 @@ def update_flux_mesh_colors(
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, j, center_k]
+        amp_value = wave_field.amplitude_am[i, j, center_k][0]
+        value = amp_value if var_amp else disp_value
 
-        # Map displacement to color using selected gradient
+        # Map displacement/ amplitude to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 
     # ================================================================
@@ -451,19 +465,21 @@ def update_flux_mesh_colors(
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, center_j, k]
+        amp_value = wave_field.amplitude_am[i, center_j, k][0]
+        value = amp_value if var_amp else disp_value
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 
     # ================================================================
@@ -472,19 +488,21 @@ def update_flux_mesh_colors(
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[center_i, j, k]
+        amp_value = wave_field.amplitude_am[center_i, j, k][0]
+        value = amp_value if var_amp else disp_value
 
         # Map displacement to color using selected gradient
         if color_palette == 2:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         elif color_palette == 3:  # redshift
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
         else:  # default to ironbow (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                disp_value, -peak_amplitude_am, peak_amplitude_am
+                value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 
 
