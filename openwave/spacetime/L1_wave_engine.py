@@ -446,16 +446,16 @@ def update_flux_mesh_colors(
         value = amp_value if var_amp else disp_value
 
         # Map displacement/ amplitude to color using selected gradient
-        if color_palette == 2:  # blueprint
+        if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
+        elif color_palette == 2:  # ironbow
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
+        else:  # default to redshift (palette 1)
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 
@@ -468,17 +468,17 @@ def update_flux_mesh_colors(
         amp_value = wave_field.amplitude_am[i, center_j, k][0]
         value = amp_value if var_amp else disp_value
 
-        # Map displacement to color using selected gradient
-        if color_palette == 2:  # blueprint
+        # Map displacement/ amplitude to color using selected gradient
+        if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
+        elif color_palette == 2:  # ironbow
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
+        else:  # default to redshift (palette 1)
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 
@@ -491,17 +491,17 @@ def update_flux_mesh_colors(
         amp_value = wave_field.amplitude_am[center_i, j, k][0]
         value = amp_value if var_amp else disp_value
 
-        # Map displacement to color using selected gradient
-        if color_palette == 2:  # blueprint
+        # Map displacement/ amplitude to color using selected gradient
+        if color_palette == 3:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        elif color_palette == 3:  # redshift
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
+        elif color_palette == 2:  # ironbow
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
-        else:  # default to ironbow (palette 1)
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
+        else:  # default to redshift (palette 1)
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
                 value, -wave_field.avg_amplitude_am[None], wave_field.avg_amplitude_am[None]
             )
 

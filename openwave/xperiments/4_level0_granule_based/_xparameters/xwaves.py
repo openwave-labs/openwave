@@ -55,7 +55,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "DESERT",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 0,  # Color palette list: default (0), granule-type (0), ironbow (1), blueprint (2)
+        "COLOR_PALETTE": 0,  # Color palette list: default (99), granule-type (0), redshift (1), ironbow (2), blueprint (3), viridis (4)
         "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {

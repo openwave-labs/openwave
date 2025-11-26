@@ -71,10 +71,23 @@ FOREST = {
 # Performance-critical code > DRY principle in this case.
 
 # ================================================================
+# Redshift Gradient: PALETTE [used in get_redshift_color()]
+# ================================================================
+# Simplified redshift gradient palette (5-color)
+# "color_palette" = 1
+redshift_palette = [
+    ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
+    ["#1C1C1C", (0.110, 0.110, 0.110)],  # dark gray
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
+    ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
+]
+
+# ================================================================
 # Ironbow Gradient: PALETTE [used in get_ironbow_color()]
 # ================================================================
 # Simplified thermal imaging palette (5-color)
-# "color_palette" = 1
+# "color_palette" = 2
 ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.541)],  # dark blue
@@ -87,26 +100,13 @@ ironbow_palette = [
 # Blueprint Gradient: PALETTE [used in get_blueprint_color()]
 # ================================================================
 # Simplified blueprint imaging palette (5-color)
-# "color_palette" = 2
+# "color_palette" = 3
 blueprint_palette = [
     ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
     ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
     ["#607DBD", (0.376, 0.490, 0.741)],  # blue
     ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
     ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
-]
-
-# ================================================================
-# Redshift Gradient: PALETTE [used in get_redshift_color()]
-# ================================================================
-# Simplified redshift gradient palette (5-color)
-# "color_palette" = 3
-redshift_palette = [
-    ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
-    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
-    ["#1C1C1C", (0.110, 0.110, 0.110)],  # dark gray
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
-    ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
 ]
 
 # ================================================================
@@ -121,6 +121,78 @@ viridis_palette = [
     ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green
     ["#FDE724", (0.992, 0.906, 0.141)],  # bright yellow
 ]
+
+
+# ================================================================
+# Redshift Gradient: FUNCTION
+# ================================================================
+
+# Taichi-compatible constants for use inside @ti.func
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
+redshift = [color[1] for color in redshift_palette]
+REDSHIFT_0 = ti.Vector([redshift[0][0], redshift[0][1], redshift[0][2]])
+REDSHIFT_1 = ti.Vector([redshift[1][0], redshift[1][1], redshift[1][2]])
+REDSHIFT_2 = ti.Vector([redshift[2][0], redshift[2][1], redshift[2][2]])
+REDSHIFT_3 = ti.Vector([redshift[3][0], redshift[3][1], redshift[3][2]])
+REDSHIFT_4 = ti.Vector([redshift[4][0], redshift[4][1], redshift[4][2]])
+
+
+@ti.func
+def get_redshift_color(value, min_value, max_value):
+    """Maps a signed numerical value to a REDSHIFT gradient color.
+
+    REDSHIFT gradient: red-orange → dark red → gray → dark blue → bright blue
+    Used for displacement visualization where negative = red, zero = gray, positive = blue.
+
+    Optimized for maximum performance with millions of voxels.
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
+
+    Args:
+        value: The signed displacement value to visualize (can be negative or positive)
+        min_value: Minimum displacement in range
+        max_value: Maximum displacement in range
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_redshift_color(displacement=-50, min_value=-100, max_value=100)
+        # Returns red-ish color since -50 is in the negative range
+    """
+
+    # Compute normalized scale range with saturation headroom
+    scale = max_value - min_value
+
+    # Normalize color by scale range [0.0 - 1.0]
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
+
+    # Compute color as gradient for visualization with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+
+    if norm_color < 0.25:
+        blend = norm_color / 0.25
+        r = REDSHIFT_0[0] * (1.0 - blend) + REDSHIFT_1[0] * blend
+        g = REDSHIFT_0[1] * (1.0 - blend) + REDSHIFT_1[1] * blend
+        b = REDSHIFT_0[2] * (1.0 - blend) + REDSHIFT_1[2] * blend
+    elif norm_color < 0.5:
+        blend = (norm_color - 0.25) / 0.25
+        r = REDSHIFT_1[0] * (1.0 - blend) + REDSHIFT_2[0] * blend
+        g = REDSHIFT_1[1] * (1.0 - blend) + REDSHIFT_2[1] * blend
+        b = REDSHIFT_1[2] * (1.0 - blend) + REDSHIFT_2[2] * blend
+    elif norm_color < 0.75:
+        blend = (norm_color - 0.5) / 0.25
+        r = REDSHIFT_2[0] * (1.0 - blend) + REDSHIFT_3[0] * blend
+        g = REDSHIFT_2[1] * (1.0 - blend) + REDSHIFT_3[1] * blend
+        b = REDSHIFT_2[2] * (1.0 - blend) + REDSHIFT_3[2] * blend
+    else:
+        blend = (norm_color - 0.75) / 0.25
+        r = REDSHIFT_3[0] * (1.0 - blend) + REDSHIFT_4[0] * blend
+        g = REDSHIFT_3[1] * (1.0 - blend) + REDSHIFT_4[1] * blend
+        b = REDSHIFT_3[2] * (1.0 - blend) + REDSHIFT_4[2] * blend
+
+    redshift_color = ti.Vector([r, g, b])
+
+    return redshift_color
 
 
 # ================================================================
@@ -265,78 +337,6 @@ def get_blueprint_color(value, min_value, max_value):
     blueprint_color = ti.Vector([r, g, b])
 
     return blueprint_color
-
-
-# ================================================================
-# Redshift Gradient: FUNCTION
-# ================================================================
-
-# Taichi-compatible constants for use inside @ti.func
-# Extracts RGB tuples from palette for use in both Python and Taichi scopes
-redshift = [color[1] for color in redshift_palette]
-REDSHIFT_0 = ti.Vector([redshift[0][0], redshift[0][1], redshift[0][2]])
-REDSHIFT_1 = ti.Vector([redshift[1][0], redshift[1][1], redshift[1][2]])
-REDSHIFT_2 = ti.Vector([redshift[2][0], redshift[2][1], redshift[2][2]])
-REDSHIFT_3 = ti.Vector([redshift[3][0], redshift[3][1], redshift[3][2]])
-REDSHIFT_4 = ti.Vector([redshift[4][0], redshift[4][1], redshift[4][2]])
-
-
-@ti.func
-def get_redshift_color(value, min_value, max_value):
-    """Maps a signed numerical value to a REDSHIFT gradient color.
-
-    REDSHIFT gradient: red-orange → dark red → gray → dark blue → bright blue
-    Used for displacement visualization where negative = red, zero = gray, positive = blue.
-
-    Optimized for maximum performance with millions of voxels.
-    Uses palette-derived constants for maintainability with if-elif branches for performance.
-
-    Args:
-        value: The signed displacement value to visualize (can be negative or positive)
-        min_value: Minimum displacement in range
-        max_value: Maximum displacement in range
-
-    Returns:
-        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
-
-    Example:
-        color = get_redshift_color(displacement=-50, min_value=-100, max_value=100)
-        # Returns red-ish color since -50 is in the negative range
-    """
-
-    # Compute normalized scale range with saturation headroom
-    scale = max_value - min_value
-
-    # Normalize color by scale range [0.0 - 1.0]
-    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
-
-    # Compute color as gradient for visualization with key colors (interpolated)
-    r, g, b = 0.0, 0.0, 0.0
-
-    if norm_color < 0.25:
-        blend = norm_color / 0.25
-        r = REDSHIFT_0[0] * (1.0 - blend) + REDSHIFT_1[0] * blend
-        g = REDSHIFT_0[1] * (1.0 - blend) + REDSHIFT_1[1] * blend
-        b = REDSHIFT_0[2] * (1.0 - blend) + REDSHIFT_1[2] * blend
-    elif norm_color < 0.5:
-        blend = (norm_color - 0.25) / 0.25
-        r = REDSHIFT_1[0] * (1.0 - blend) + REDSHIFT_2[0] * blend
-        g = REDSHIFT_1[1] * (1.0 - blend) + REDSHIFT_2[1] * blend
-        b = REDSHIFT_1[2] * (1.0 - blend) + REDSHIFT_2[2] * blend
-    elif norm_color < 0.75:
-        blend = (norm_color - 0.5) / 0.25
-        r = REDSHIFT_2[0] * (1.0 - blend) + REDSHIFT_3[0] * blend
-        g = REDSHIFT_2[1] * (1.0 - blend) + REDSHIFT_3[1] * blend
-        b = REDSHIFT_2[2] * (1.0 - blend) + REDSHIFT_3[2] * blend
-    else:
-        blend = (norm_color - 0.75) / 0.25
-        r = REDSHIFT_3[0] * (1.0 - blend) + REDSHIFT_4[0] * blend
-        g = REDSHIFT_3[1] * (1.0 - blend) + REDSHIFT_4[1] * blend
-        b = REDSHIFT_3[2] * (1.0 - blend) + REDSHIFT_4[2] * blend
-
-    redshift_color = ti.Vector([r, g, b])
-
-    return redshift_color
 
 
 # ================================================================

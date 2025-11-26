@@ -282,13 +282,13 @@ def oscillate_granules(
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map displacement/amplitude to gradient color
-        if color_palette == 1:  # ironbow
+        if color_palette == 2:  # ironbow
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
                 amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )
-        elif color_palette == 2:  # blueprint
+        elif color_palette == 3:  # blueprint
             granule_var_color[granule_idx] = colormap.get_blueprint_color(
                 amplitude_am[granule_idx] if var_amp else displacement_am,
                 0.0,

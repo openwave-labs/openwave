@@ -255,14 +255,14 @@ def display_color_menu(state):
     """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
-            state.COLOR_PALETTE = 1
-            state.VAR_AMP = False
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
-            state.COLOR_PALETTE = 1
-            state.VAR_AMP = True
-        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 2 and not state.VAR_AMP):
             state.COLOR_PALETTE = 2
+            state.VAR_AMP = False
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+            state.COLOR_PALETTE = 2
+            state.VAR_AMP = True
+        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 3 and state.VAR_AMP):
+            state.COLOR_PALETTE = 3
             state.VAR_AMP = True
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
@@ -270,12 +270,12 @@ def display_color_menu(state):
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
             state.VAR_AMP = True
-        if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
+        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
+        if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
@@ -408,7 +408,7 @@ def render_elements(state):
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 1 or state.COLOR_PALETTE == 2:
+    elif state.COLOR_PALETTE == 2 or state.COLOR_PALETTE == 3:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
