@@ -87,6 +87,8 @@ class WaveField:
 
         # Compute total voxels (asymmetric grid)
         self.voxel_count = self.nx * self.ny * self.nz
+        # Compute boundary voxel count, sum of all voxels on the six faces of the cuboid
+        self.boundary_voxel_count = 2 * (self.nx * self.ny + self.nx * self.nz + self.ny * self.nz)
 
         # Recompute actual universe dimensions to fit integer number of cubic voxels
         self.universe_size = [self.nx * self.dx, self.ny * self.dx, self.nz * self.dx]
@@ -122,7 +124,10 @@ class WaveField:
         # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
         # Frequency is the local wave rhythm in Hz
         self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=self.grid_size)  # am, [Al,At]
-        self.frequency = ti.field(dtype=ti.f32, shape=self.grid_size)  # Hz, fundamental rhythm
+        self.avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # avg amplitude all voxels
+        self.last_crossing = ti.field(dtype=ti.f32, shape=self.grid_size)  # Time of last crossing
+        self.freq_slowed = ti.field(dtype=ti.f32, shape=self.grid_size)  # slowed Hz, rhythm
+        self.avg_freq_slowed = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum

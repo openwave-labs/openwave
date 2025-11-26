@@ -86,8 +86,8 @@ def oscillate_granules_tocenter(
         freq_boost: Frequency multiplier
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
+    freq_slowed = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency
 
     # Wave number k = 2π/λ (for spatial phase variation)
     # Using energy wavelength to determine how phase changes with distance

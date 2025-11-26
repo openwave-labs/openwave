@@ -565,8 +565,8 @@ def oscillate_granules(
     positions, velocities, equilibrium, directions,
     radial_distances, t, slo_mo, freq_boost, amp_boost
 ):
-    f_slowed = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed
+    freq_slowed = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * freq_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
     # Reference radius for amplitude normalization (one wavelength from wave source)
@@ -906,8 +906,8 @@ def solve_distance_constraints(position, neighbors, masses,
 def oscillate_granules(position, velocity, equilibrium, direction,
                        radial_distance, t, slo_mo, freq_boost, amp_boost):
     """Phase-synchronized harmonic oscillation (ewave_radial.py)"""
-    f_slowed = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed
+    freq_slowed = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * freq_slowed
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
     # Reference radius for amplitude normalization (one wavelength from wave source)

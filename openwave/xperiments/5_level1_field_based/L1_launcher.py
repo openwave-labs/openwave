@@ -111,6 +111,7 @@ class SimulationState:
         self.elapsed_t = 0.0
         self.frame = 0
         self.avg_amplitude = 0.0
+        self.avg_frequency = 0.0
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -194,6 +195,7 @@ class SimulationState:
         self.elapsed_t = 0.0
         self.frame = 0
         self.avg_amplitude = 0.0
+        self.avg_frequency = 0.0
         self.initialize_grid()
         self.compute_timestep()
         initialize_xperiment(self)
@@ -270,7 +272,7 @@ def display_color_menu(state):
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"??? Hz")
+                sub.text(f"0       {state.avg_frequency:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -361,8 +363,8 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    # ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
-    # ewave.charge_full(state.wave_field, state.c_slowed, state.dt)
+    ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
+    ewave.charge_full(state.wave_field, state.c_slowed, state.dt)
     # NO: ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
     # NO: ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
     # TODO: code toggle to plot initial displacement profile
@@ -380,11 +382,12 @@ def compute_wave_motion(state):
     """
     # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
-    ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
+    # ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
 
-    ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt)
+    ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt, state.elapsed_t)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
     state.avg_amplitude = state.wave_field.avg_amplitude_am[None] * constants.ATTOMETER
+    state.avg_frequency = state.wave_field.avg_freq_slowed[None] * state.SLO_MO
 
 
 def render_elements(state):

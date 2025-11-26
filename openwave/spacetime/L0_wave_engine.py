@@ -17,7 +17,7 @@ from openwave.common import colormap, constants, equations, utils
 # Energy-Wave Oscillation Parameters
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
-frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
+base_frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 
 # ================================================================
@@ -196,8 +196,10 @@ def oscillate_granules(
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    f_slowed = frequency / constants.EWAVE_FREQUENCY * freq_boost  # slowed frequency (1Hz * boost)
-    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency (rad/s)
+    freq_slowed = (
+        base_frequency / constants.EWAVE_FREQUENCY * freq_boost
+    )  # slowed frequency (1Hz * boost)
+    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wave_number = 2.0 * ti.math.pi / wavelength_am  # radians per attometer

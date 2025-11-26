@@ -61,8 +61,8 @@ def oscillate_vertex(
         freq_boost: Frequency multiplier
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
-    f_slowed = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
+    freq_slowed = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]
