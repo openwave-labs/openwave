@@ -17,7 +17,7 @@ UNIVERSE_SIZE = [
     6e-15,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-wave_field = data_grid.WaveField(UNIVERSE_SIZE, target_voxels=1e9)
+wave_field = data_grid.WaveField(UNIVERSE_SIZE, target_voxels=3.5e8)
 
 
 # ================================================================

@@ -84,7 +84,7 @@ PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Pl
 
 FINE_STRUCTURE = 7.2973525643e-3  # fine-structure constant, alpha
 ELECTRIC_CONSTANT = 8.8541878188e-12  # F/m, vacuum permittivity, epsilon_0
-MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 2π.10-7, mu_0
+MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 4π.10-7, mu_0
 GRAVITATIONAL_CONSTANT = 6.67430e-11  # m^3/kg/s^2, G, Newtonian constant of gravitation
 
 BOHR_RADIUS = 5.29177210544e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
@@ -93,8 +93,8 @@ HYDROGEN_LYMAN_ALPHA = 2.4660677e15  # Hz, Hydrogen Lyman-alpha frequency
 
 ELEMENTARY_CHARGE = 1.602176634e-19  # m, The elementary charge from CODATA values
 COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
-AVOGADRO_NUMBER = 6.02214076e23  # 1/mol, N_A, Avogadro's number
 BOHR_MAGNETON = 9.2740100657e-24  # J/T, μ_B, Bohr magneton (~ 5.788 e-5 eV/T)
+AVOGADRO_NUMBER = 6.02214076e23  # 1/mol, N_A, Avogadro's number
 
 # ================================================================
 # De Broglie / Matter Wave Constants

@@ -28,6 +28,7 @@ density)
   - spatial frequency: `ξ = 1/λ [1/m]`
   - angular wave number: `k = 2π/λ [rad/m]`
   - kr = spatial phase
+- WAVE-STEEPNESS: `ξ = 2*A/λ`, wave height to wavelength ratio, stable when < 1/7
 
 ## Wave Energy
 

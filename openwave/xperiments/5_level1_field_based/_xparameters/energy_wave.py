@@ -7,7 +7,7 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
-UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
@@ -23,7 +23,7 @@ XPARAMETERS = {
         "SLO_MO": constants.EWAVE_FREQUENCY,  # SLO_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
-        "SHOW_AXIS": True,  # Toggle to show/hide axis lines
+        "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_OPTION": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz

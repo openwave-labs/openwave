@@ -7,7 +7,7 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
-UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+UNIVERSE_EDGE = 2e-16  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
