@@ -307,9 +307,9 @@ def display_data_dashboard(state):
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
         sub.text("\n--- eWAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"Avg Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"Avg Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"Avg Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
         sub.text(
             f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
         )
@@ -361,10 +361,10 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
+    # ewave.charge_gaussian(state.wave_field, state.c_slowed, state.dt)
     # ewave.charge_full(state.wave_field, state.c_slowed, state.dt)
-    # ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
-    # ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
+    # NO: ewave.charge_falloff(state.wave_field, state.c_slowed, state.dt)
+    # NO: ewave.charge_1lambda(state.wave_field, state.c_slowed, state.dt)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 
@@ -380,7 +380,7 @@ def compute_wave_motion(state):
     """
     # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
-    # ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
+    ewave.charge_oscillator(state.wave_field, state.c_slowed, state.elapsed_t)
 
     ewave.propagate_ewave(state.wave_field, state.c_slowed, state.dt)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS

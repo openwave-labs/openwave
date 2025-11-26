@@ -314,8 +314,8 @@ def display_data_dashboard(state):
         sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/universe-edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
