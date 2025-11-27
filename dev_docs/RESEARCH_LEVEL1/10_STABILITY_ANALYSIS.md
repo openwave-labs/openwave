@@ -175,14 +175,14 @@ python openwave/validations/stability_analysis_wave.py
 3. **Monitor CFL factor** during simulation:
 
    ```python
-   cfl_factor = (c_am * dt / dx_am)**2  # Should be ≤ 1/3 for 3D
+   cfl_factor = (c_slo_am * dt / dx_am)**2  # Should be ≤ 1/3 for 3D
    ```
 
 4. **Use attometer scaling** for numerical precision:
 
    ```python
    dx_am = voxel_edge / constants.ATTOMETER  # [am]
-   c_am = c_slo / constants.ATTOMETER     # [am/s]
+   c_slo_am = c_slo / constants.ATTOMETER     # [am/s]
    ```
 
 ## No Substeps Required

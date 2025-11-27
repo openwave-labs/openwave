@@ -41,7 +41,7 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz * boost)
+    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -99,7 +99,7 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz * boost)
+    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -159,7 +159,7 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz * boost)
+    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -271,7 +271,7 @@ def charge_oscillator(
         elapsed_t: Elapsed simulation time (s)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz * boost)
+    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Define center oscillator radius
@@ -333,7 +333,7 @@ def compute_laplacian_am(
 def propagate_ewave(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore
+    c_slo_am: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
 ):
@@ -364,8 +364,6 @@ def propagate_ewave(
 
     Known issue: Metal GPU backend is unstable for grids >720³. Use CPU for larger grids.
     """
-    # Convert c to attometers/second for consistent units
-    c_am = c_slo / constants.ATTOMETER  # am/s
 
     # Update all interior voxels only (boundaries stay at ψ=0)
     # Direct range specification avoids conditional branching on GPU
@@ -380,7 +378,7 @@ def propagate_ewave(
         wave_field.displacement_new_am[i, j, k] = (
             2.0 * wave_field.displacement_am[i, j, k]
             - wave_field.displacement_old_am[i, j, k]
-            + (c_am * dt) ** 2 * laplacian_am
+            + (c_slo_am * dt) ** 2 * laplacian_am
         )
 
         # WAVE TRACKERS: compute tracked properties during propagation (A & f)
@@ -411,7 +409,7 @@ def propagate_ewave(
         # TODO: compute this as avg from total voxels for energy monitoring
         # Here we use a simple max envelope for visualization scaling
         trackers.avg_amplitude_am[None] = 2 * base_amplitude_am
-        trackers.avg_frequency_slo[None] = 2 * base_frequency / constants.EWAVE_FREQUENCY
+        trackers.avg_frequency_slo[None] = 2 * base_frequency / 1e25  # in frame Hz
 
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):

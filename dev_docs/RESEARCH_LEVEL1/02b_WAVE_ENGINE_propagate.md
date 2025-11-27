@@ -121,12 +121,12 @@ def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
     c_slo = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * SIM_SPEED  # m/s
 
     # Convert c to attometers/second for consistent units
-    c_am = c_slo / constants.ATTOMETER  # am/s
+    c_slo_am = c_slo / constants.ATTOMETER  # am/s
 
     # CFL stability condition: cfl_factor ≤ 1/3 for 3D (6-connectivity)
-    # cfl_factor = (c_am·dt/dx_am)² [dimensionless]
+    # cfl_factor = (c_slo_am·dt/dx_am)² [dimensionless]
     # Units: [(am/s)·s / am]² = dimensionless ✓
-    cfl_factor = (c_am * dt / dx_am)**2
+    cfl_factor = (c_slo_am * dt / dx_am)**2
 
     # Update all interior voxels (boundaries stay at ψ=0)
     for i, j, k in self.displacement_am:
@@ -138,12 +138,12 @@ def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
             # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
             # Units check:
             # ψ: [am]
-            # (c_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
+            # (c_slo_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
             # Result: [am] = [am] - [am] + [am] ✓
             self.displacement_new_am[i, j, k] = (
                 2.0 * self.displacement_am[i, j, k]
                 - self.displacement_old_am[i, j, k]
-                + (c_am * dt)**2 * laplacian_am
+                + (c_slo_am * dt)**2 * laplacian_am
             )
 
     # Swap time levels for next iteration
@@ -230,19 +230,19 @@ def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
 - ✅ **SIM_SPEED parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
 - ✅ **CFL stability maintained** with effective wave speed c_slo = (c / SLO_MO) × SIM_SPEED
 - ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
-- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
+- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_slo_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
 
 **Key Formula**:
 
 ```python
-ψ_new = 2ψ - ψ_old + (c_am·dt)² · ∇²ψ
+ψ_new = 2ψ - ψ_old + (c_slo_am·dt)² · ∇²ψ
 ```
 
 Where:
 
 - `c_slo = (EWAVE_SPEED / SLO_MO) × SIM_SPEED` (m/s, slowed + boosted)
-- `c_am = c_slo / ATTOMETER` (wave speed in am/s)
+- `c_slo_am = c_slo / ATTOMETER` (wave speed in am/s)
 - `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
 - `SIM_SPEED` ~ 1.0 (default, no boost) or higher for faster visualization
 - `∇²ψ` in [1/am] units (from `compute_laplacian_am()`)
@@ -252,7 +252,7 @@ Where:
 **Dimensional Analysis**:
 
 ```text
-(c_am·dt)²·∇²ψ = [(am/s)·s]² · [1/am] = [am²]·[1/am] = [am] ✓
+(c_slo_am·dt)²·∇²ψ = [(am/s)·s]² · [1/am] = [am²]·[1/am] = [am] ✓
 ```
 
 **Storage Requirements**:

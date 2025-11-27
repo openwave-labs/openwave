@@ -185,7 +185,8 @@ class SimulationState:
         # With SLO_MO applied: dt_critical = dx / (c_slo × √3)
         # SIM_SPEED affects perceived speed
         self.c_slo = constants.EWAVE_SPEED / self.SLO_MO * self.SIM_SPEED  # m/s
-        self.dt = self.wave_field.dx / (constants.EWAVE_SPEED / self.SLO_MO * (3**0.5))  # s
+        self.c_slo_am = self.c_slo / constants.ATTOMETER  # am/s
+        self.dt = self.wave_field.dx / (self.c_slo / self.SIM_SPEED * (3**0.5))  # s
         self.cfl_factor = round((self.c_slo * self.dt / self.wave_field.dx) ** 2, 7)
 
     def reset_sim(self):
@@ -378,7 +379,7 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute wave propagation, reflection and superposition and update visualization.
+    """Compute wave propagation, reflection, superposition and update visualization.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -387,10 +388,12 @@ def compute_wave_motion(state):
     # TODO: stop charging when total energy stabilizes
     # ewave.charge_oscillator(state.wave_field, state.c_slo, state.elapsed_t)
 
-    ewave.propagate_ewave(state.wave_field, state.trackers, state.c_slo, state.dt, state.elapsed_t)
+    ewave.propagate_ewave(
+        state.wave_field, state.trackers, state.c_slo_am, state.dt, state.elapsed_t
+    )
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    state.avg_amplitude = state.trackers.avg_amplitude_am[None] * constants.ATTOMETER
-    state.avg_frequency = state.trackers.avg_frequency_slo[None] * state.SLO_MO
+    state.avg_amplitude = state.trackers.avg_amplitude_am[None] * constants.ATTOMETER  # in m
+    state.avg_frequency = state.trackers.avg_frequency_slo[None] * state.SLO_MO  # in Hz
 
 
 def render_elements(state):
