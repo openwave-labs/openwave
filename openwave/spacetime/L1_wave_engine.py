@@ -389,34 +389,55 @@ def propagate_ewave(
 
 
 @ti.kernel
-def compute_avg_trackers(
-    wave_field: ti.template(),  # type: ignore
+def _copy_center_slice(
     trackers: ti.template(),  # type: ignore
+    slice_amp: ti.template(),  # type: ignore
+    slice_freq: ti.template(),  # type: ignore
+    mid_z: ti.i32,  # type: ignore
+):
+    """Copy center XY slice to 2D buffer (parallel, no atomics)."""
+    for i, j in slice_amp:
+        slice_amp[i, j] = trackers.amplitudeL_am[i, j, mid_z]
+        slice_freq[i, j] = trackers.frequency_rHz[i, j, mid_z]
+
+
+# Cached slice buffers (initialized on first call)
+_slice_amp = None
+_slice_freq = None
+
+
+def compute_avg_trackers(
+    wave_field,
+    trackers,
 ):
     """
-    Compute average amplitude and frequency across all voxels.
+    Estimate average amplitude and frequency by sampling center slice.
 
-    Separate kernel to avoid mixing atomic operations with other parallel loops.
-    Must be called after propagate_ewave() to get updated values.
+    Samples only the center XY slice to avoid full 3D GPU->CPU transfer.
+    Provides a representative estimate without the performance penalty.
 
     Args:
         wave_field: WaveField instance containing grid dimensions
         trackers: WaveTrackers instance with per-voxel and average fields
     """
-    # Reset average trackers
-    trackers.avg_amplitudeL_am[None] = 0.0
-    trackers.avg_frequency_rHz[None] = 0.0
+    global _slice_amp, _slice_freq
 
-    # Accumulate across all interior voxels
-    for i, j, k in ti.ndrange(
-        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
-    ):
-        ti.atomic_add(trackers.avg_amplitudeL_am[None], trackers.amplitudeL_am[i, j, k])
-        ti.atomic_add(trackers.avg_frequency_rHz[None], trackers.frequency_rHz[i, j, k])
+    # Initialize slice buffers once
+    if _slice_amp is None:
+        _slice_amp = ti.field(dtype=ti.f32, shape=(wave_field.nx, wave_field.ny))
+        _slice_freq = ti.field(dtype=ti.f32, shape=(wave_field.nx, wave_field.ny))
 
-    # Finalize averages
-    trackers.avg_amplitudeL_am[None] /= wave_field.active_voxels
-    trackers.avg_frequency_rHz[None] /= wave_field.active_voxels
+    # Copy center slice to 2D buffer (fast parallel kernel)
+    mid_z = wave_field.nz // 2
+    _copy_center_slice(trackers, _slice_amp, _slice_freq, mid_z)
+
+    # Transfer only 2D slice to numpy (much smaller than 3D)
+    amp_slice = _slice_amp.to_numpy()[1:-1, 1:-1]
+    freq_slice = _slice_freq.to_numpy()[1:-1, 1:-1]
+
+    # Compute average from sampled slice
+    trackers.avg_amplitudeL_am[None] = float(amp_slice.mean())
+    trackers.avg_frequency_rHz[None] = float(freq_slice.mean())
 
 
 @ti.kernel
@@ -464,11 +485,11 @@ def update_flux_mesh_colors(
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_rHz[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
@@ -488,11 +509,11 @@ def update_flux_mesh_colors(
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_rHz[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
@@ -512,11 +533,11 @@ def update_flux_mesh_colors(
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_rHz[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(

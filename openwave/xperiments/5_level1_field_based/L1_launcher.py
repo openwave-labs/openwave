@@ -114,6 +114,9 @@ class SimulationState:
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
+        self.avg_wavelength = 0.0
+        self.avg_energy = 0.0
+        self.charge_level = 0.0
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -200,6 +203,9 @@ class SimulationState:
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
+        self.avg_wavelength = 0.0
+        self.avg_energy = 0.0
+        self.charge_level = 0.0
         self.initialize_grid()
         self.compute_timestep()
         initialize_xperiment(self)
@@ -272,11 +278,11 @@ def display_color_menu(state):
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_amplitude:.0e}m")
+                sub.text(f"0       {state.avg_amplitude * 2:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_frequency:.0e}Hz")
+                sub.text(f"0       {state.avg_frequency * 2:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -296,7 +302,7 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.39, 0.18, 0.61) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
@@ -316,18 +322,17 @@ def display_data_dashboard(state):
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
         sub.text("\n--- eWAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Avg Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-        sub.text(f"Avg Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"Avg Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
-        sub.text(
-            f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
-        )
+        sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
+        sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
+        sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
+        sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
+        sub.text(f"Charge Level: {state.charge_level:.2%}")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Frames Rendered: {state.frame}")
         sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
         sub.text(f"Clock Time: {clock_time:.2f} s")
-        sub.text(f"(1s sim time takes {sim_time_years:.0e} y)")
+        sub.text(f"(1s sim time takes {sim_time_years:.0e}y)")
 
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"c_amrs: {state.c_amrs:.3f} am/rs")
@@ -395,10 +400,20 @@ def compute_wave_motion(state):
     ewave.propagate_ewave(
         state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
     )
-    ewave.compute_avg_trackers(state.wave_field, state.trackers)
-    # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
-    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND  # in Hz
+
+    # IN-FRAME DATA SAMPLING & DIAGNOSTICS
+    # Compute averages every 30 frames to avoid GPU->CPU transfer overhead
+    if state.frame % 30 == 0:
+        ewave.compute_avg_trackers(state.wave_field, state.trackers)
+        state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
+        state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
+        state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents /0
+        state.avg_energy = (
+            constants.MEDIUM_DENSITY
+            * state.wave_field.universe_volume
+            * (state.avg_frequency * state.avg_amplitude) ** 2
+        )
+        state.charge_level = state.avg_energy / state.wave_field.energy
 
 
 def render_elements(state):
