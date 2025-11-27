@@ -400,6 +400,7 @@ def compute_wave_motion(state):
     ewave.propagate_ewave(
         state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
     )
+    ewave.compute_avg_trackers(state.wave_field, state.trackers)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
     state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND  # in Hz

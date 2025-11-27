@@ -89,6 +89,7 @@ class WaveField:
         self.voxel_count = self.nx * self.ny * self.nz
         # Compute boundary voxel count, sum of all voxels on the six faces of the cuboid
         self.boundary_voxel_count = 2 * (self.nx * self.ny + self.nx * self.nz + self.ny * self.nz)
+        self.active_voxels = self.voxel_count - self.boundary_voxel_count
 
         # Recompute actual universe dimensions to fit integer number of cubic voxels
         self.universe_size = [self.nx * self.dx, self.ny * self.dx, self.nz * self.dx]

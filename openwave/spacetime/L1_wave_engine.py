@@ -382,16 +382,41 @@ def propagate_ewave(
                 trackers.frequency_rHz[i, j, k] = 1.0 / period_rs  # in rHz
             trackers.last_crossing[i, j, k] = elapsed_t_rs
 
-        # Track avg amplitude/frequency across all voxels
-        # TODO: compute this as avg from total voxels for energy monitoring
-        # Here we use a simple max envelope for visualization scaling
-        trackers.avg_amplitudeL_am[None] = 2 * base_amplitude_am  # in am
-        trackers.avg_frequency_rHz[None] = 2 * base_frequency_rHz  # in rHz
-
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
         wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
+
+
+@ti.kernel
+def compute_avg_trackers(
+    wave_field: ti.template(),  # type: ignore
+    trackers: ti.template(),  # type: ignore
+):
+    """
+    Compute average amplitude and frequency across all voxels.
+
+    Separate kernel to avoid mixing atomic operations with other parallel loops.
+    Must be called after propagate_ewave() to get updated values.
+
+    Args:
+        wave_field: WaveField instance containing grid dimensions
+        trackers: WaveTrackers instance with per-voxel and average fields
+    """
+    # Reset average trackers
+    trackers.avg_amplitudeL_am[None] = 0.0
+    trackers.avg_frequency_rHz[None] = 0.0
+
+    # Accumulate across all interior voxels
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        ti.atomic_add(trackers.avg_amplitudeL_am[None], trackers.amplitudeL_am[i, j, k])
+        ti.atomic_add(trackers.avg_frequency_rHz[None], trackers.frequency_rHz[i, j, k])
+
+    # Finalize averages
+    trackers.avg_amplitudeL_am[None] /= wave_field.active_voxels
+    trackers.avg_frequency_rHz[None] /= wave_field.active_voxels
 
 
 @ti.kernel
