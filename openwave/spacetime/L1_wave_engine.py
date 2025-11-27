@@ -366,9 +366,9 @@ def propagate_ewave(
         # This captures peaks quickly but smooths out the decay
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
-        current_amp = trackers.amplitude_am[i, j, k][0]
+        current_amp = trackers.amplitude_long_am[i, j, k]
         alpha = 0.3 if disp_mag > current_amp else 0.02
-        trackers.amplitude_am[i, j, k][0] = alpha * disp_mag + (1.0 - alpha) * current_amp
+        trackers.amplitude_long_am[i, j, k] = alpha * disp_mag + (1.0 - alpha) * current_amp
 
         # Track FREQUENCY via zero-crossing detection
         # Detect positive-going zero crossing (negative → positive transition)
@@ -385,7 +385,7 @@ def propagate_ewave(
         # Track avg amplitude/frequency across all voxels
         # TODO: compute this as avg from total voxels for energy monitoring
         # Here we use a simple max envelope for visualization scaling
-        trackers.avg_amplitude_am[None] = 2 * base_amplitude_am
+        trackers.avg_amplitude_long_am[None] = 2 * base_amplitude_am  # in am
         trackers.avg_frequency_rHz[None] = 2 * base_frequency_rHz  # in rHz
 
     # Swap time levels: old ← current, current ← new
@@ -432,7 +432,7 @@ def update_flux_mesh_colors(
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, j, center_k]
-        amp_value = trackers.amplitude_am[i, j, center_k][0]
+        amp_value = trackers.amplitude_long_am[i, j, center_k]
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, j, center_k]
 
@@ -443,11 +443,11 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
 
     # ================================================================
@@ -456,7 +456,7 @@ def update_flux_mesh_colors(
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, center_j, k]
-        amp_value = trackers.amplitude_am[i, center_j, k][0]
+        amp_value = trackers.amplitude_long_am[i, center_j, k]
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, center_j, k]
 
@@ -467,11 +467,11 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
 
     # ================================================================
@@ -480,7 +480,7 @@ def update_flux_mesh_colors(
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[center_i, j, k]
-        amp_value = trackers.amplitude_am[center_i, j, k][0]
+        amp_value = trackers.amplitude_long_am[center_i, j, k]
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[center_i, j, k]
 
@@ -491,11 +491,11 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitude_am[None], trackers.avg_amplitude_am[None]
+                value, -trackers.avg_amplitude_long_am[None], trackers.avg_amplitude_long_am[None]
             )
 
 

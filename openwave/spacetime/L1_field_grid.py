@@ -111,7 +111,7 @@ class WaveField:
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
         # ================================================================
-        # PROPAGATED FIELDS (values in attometers for f32 precision)
+        # PROPAGATED SCALAR FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # Scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
@@ -374,10 +374,12 @@ class Trackers:
     def __init__(self, grid_size):
         # TRACKED FIELDS
         # 2  polarities tracked: longitudinal & transverse
-        # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
+        # Amplitude is the envelope A = max|ψ|
         # Frequency is the local wave rhythm in rHz
-        self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=grid_size)  # am, [Al,At]
-        self.avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # avg amplitude all voxels
+        self.amplitude_long_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
+        self.avg_amplitude_long_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
+        self.amplitude_trans_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
+        self.avg_amplitude_trans_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # Time of last crossing
         self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, rhythm
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
