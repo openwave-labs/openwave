@@ -294,12 +294,7 @@ def display_level_specs(state, level_bar_vertices):
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
     clock_time = time.time() - state.clock_start_time
-    if state.elapsed_t_rs > 0:
-        sim_time_years = (
-            clock_time / state.elapsed_t_rs * constants.RONTOSECOND * 60 * 60 * 24 * 365
-        )
-    else:
-        sim_time_years = 0.0  # Prevent division by zero
+    sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
