@@ -22,7 +22,7 @@ rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 @ti.kernel
 def charge_1lambda(
     wave_field: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -31,7 +31,7 @@ def charge_1lambda(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Effective wave speed after slow-motion factor (m/s)
+        slo_mo: Slow-motion factor (dimensionless)
         dt: Time step size (s)
     """
 
@@ -41,7 +41,7 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
+    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -77,7 +77,7 @@ def charge_1lambda(
 @ti.kernel
 def charge_falloff(
     wave_field: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -89,7 +89,7 @@ def charge_falloff(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Effective wave speed after slow-motion factor (m/s)
+        slo_mo: Slow-motion factor (dimensionless)
         dt: Time step size (s)
     """
 
@@ -99,7 +99,7 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
+    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -137,7 +137,7 @@ def charge_falloff(
 @ti.kernel
 def charge_full(
     wave_field: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     dt: ti.f32,  # type: ignore
 ):
     """
@@ -149,7 +149,7 @@ def charge_full(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Effective wave speed after slow-motion factor (m/s)
+        slo_mo: Slow-motion factor (dimensionless)
         dt: Time step size (s)
     """
 
@@ -159,7 +159,7 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
+    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -192,7 +192,7 @@ def charge_full(
 @ti.kernel
 def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore  # unused, kept for API consistency
+    slo_mo: ti.f32,  # type: ignore  # unused, kept for API consistency
     dt: ti.f32,  # type: ignore  # unused, kept for API consistency
 ):
     """
@@ -204,7 +204,7 @@ def charge_gaussian(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Unused (kept for API consistency with other charge functions)
+        slo_mo: Unused (kept for API consistency with other charge functions)
         dt: Unused (kept for API consistency with other charge functions)
     """
 
@@ -253,7 +253,7 @@ def charge_gaussian(
 @ti.kernel
 def charge_oscillator(
     wave_field: ti.template(),  # type: ignore
-    c_slo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     elapsed_t: ti.f32,  # type: ignore
 ):
     """
@@ -267,11 +267,11 @@ def charge_oscillator(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Effective wave speed after slow-motion factor (m/s)
+        slo_mo: Slow-motion factor (dimensionless)
         elapsed_t: Elapsed simulation time (s)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = c_slo / base_wavelength  # slowed frequency (1Hz)
+    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
     omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
 
     # Define center oscillator radius
@@ -349,7 +349,7 @@ def propagate_ewave(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo: Effective wave speed after slow-motion factor (m/s)
+        c_slo_am: Effective wave speed after slow-motion factor (am/s)
         dt: Time step size (s)
 
     CFL Stability:

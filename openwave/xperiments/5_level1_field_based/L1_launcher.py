@@ -367,10 +367,10 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    ewave.charge_gaussian(state.wave_field, state.c_slo, state.dt)
-    ewave.charge_full(state.wave_field, state.c_slo, state.dt)
-    # NO: ewave.charge_falloff(state.wave_field, state.c_slo, state.dt)
-    # NO: ewave.charge_1lambda(state.wave_field, state.c_slo, state.dt)
+    ewave.charge_gaussian(state.wave_field, state.SLO_MO, state.dt)
+    ewave.charge_full(state.wave_field, state.SLO_MO, state.dt)
+    # NO: ewave.charge_falloff(state.wave_field, state.SLO_MO, state.dt)
+    # NO: ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.dt)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 
@@ -386,7 +386,7 @@ def compute_wave_motion(state):
     """
     # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
-    # ewave.charge_oscillator(state.wave_field, state.c_slo, state.elapsed_t)
+    # ewave.charge_oscillator(state.wave_field, state.SLO_MO, state.elapsed_t)
 
     ewave.propagate_ewave(
         state.wave_field, state.trackers, state.c_slo_am, state.dt, state.elapsed_t
