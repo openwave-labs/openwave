@@ -401,7 +401,7 @@ def compute_wave_motion(state):
         state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
     )
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    state.avg_amplitude = state.trackers.avg_amplitude_long_am[None] * constants.ATTOMETER  # in m
+    state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND  # in Hz
 
 

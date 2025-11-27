@@ -376,10 +376,10 @@ class Trackers:
         # 2  polarities tracked: longitudinal & transverse
         # Amplitude is the envelope A = max|ψ|
         # Frequency is the local wave rhythm in rHz
-        self.amplitude_long_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
-        self.avg_amplitude_long_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
-        # self.amplitude_trans_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
-        # self.avg_amplitude_trans_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
+        self.amplitudeL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
+        self.avg_amplitudeL_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
+        # self.amplitudeT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
+        # self.avg_amplitudeT_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # Time of last crossing
         self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, rhythm
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
