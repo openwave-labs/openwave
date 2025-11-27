@@ -105,6 +105,7 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
+        self.trackers = None
         self.c_slo = 0.0
         self.dt = 0.0
         self.cfl_factor = 0.0
@@ -176,6 +177,7 @@ class SimulationState:
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
         self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
+        self.trackers = data_grid.Trackers(self.wave_field.grid_size)
 
     def compute_timestep(self):
         # Compute maximum safe timestep from CFL condition with safety margin.
@@ -189,6 +191,7 @@ class SimulationState:
     def reset_sim(self):
         """Reset simulation state."""
         self.wave_field = None
+        self.trackers = None
         self.c_slo = 0.0
         self.dt = 0.0
         self.cfl_factor = 0.0
@@ -384,10 +387,10 @@ def compute_wave_motion(state):
     # TODO: stop charging when total energy stabilizes
     # ewave.charge_oscillator(state.wave_field, state.c_slo, state.elapsed_t)
 
-    ewave.propagate_ewave(state.wave_field, state.c_slo, state.dt, state.elapsed_t)
+    ewave.propagate_ewave(state.wave_field, state.trackers, state.c_slo, state.dt, state.elapsed_t)
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    state.avg_amplitude = state.wave_field.avg_amplitude_am[None] * constants.ATTOMETER
-    state.avg_frequency = state.wave_field.avg_frequency_slo[None] * state.SLO_MO
+    state.avg_amplitude = state.trackers.avg_amplitude_am[None] * constants.ATTOMETER
+    state.avg_frequency = state.trackers.avg_frequency_slo[None] * state.SLO_MO
 
 
 def render_elements(state):
@@ -396,7 +399,9 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE, state.VAR_AMP)
+        ewave.update_flux_mesh_colors(
+            state.wave_field, state.trackers, state.COLOR_PALETTE, state.VAR_AMP
+        )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference

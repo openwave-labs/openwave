@@ -119,16 +119,6 @@ class WaveField:
         self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
         self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
 
-        # TRACKED FIELDS
-        # 2  polarities tracked: longitudinal & transverse
-        # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
-        # Frequency is the local wave rhythm in Hz
-        self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=self.grid_size)  # am, [Al,At]
-        self.avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # avg amplitude all voxels
-        self.last_crossing = ti.field(dtype=ti.f32, shape=self.grid_size)  # Time of last crossing
-        self.frequency_slo = ti.field(dtype=ti.f32, shape=self.grid_size)  # slowed Hz, rhythm
-        self.avg_frequency_slo = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
-
         # DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum
 
@@ -372,6 +362,25 @@ class WaveField:
             self.fluxmesh_yz_indices[j, k, 3] = (j + 1) * self.nz + k
             self.fluxmesh_yz_indices[j, k, 4] = (j + 1) * self.nz + (k + 1)
             self.fluxmesh_yz_indices[j, k, 5] = j * self.nz + (k + 1)
+
+
+@ti.data_oriented
+class Trackers:
+    """
+    LEVEL-1 Wave Field Trackers
+    Data structures for tracking wave properties at each voxel.
+    """
+
+    def __init__(self, grid_size):
+        # TRACKED FIELDS
+        # 2  polarities tracked: longitudinal & transverse
+        # Amplitude is the envelope [Al, At] = [max|ψl|, max|ψt|]
+        # Frequency is the local wave rhythm in Hz
+        self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=grid_size)  # am, [Al,At]
+        self.avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # avg amplitude all voxels
+        self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # Time of last crossing
+        self.frequency_slo = ti.field(dtype=ti.f32, shape=grid_size)  # slowed Hz, rhythm
+        self.avg_frequency_slo = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
 
 if __name__ == "__main__":
