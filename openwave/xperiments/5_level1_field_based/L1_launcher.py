@@ -11,9 +11,9 @@ import webbrowser
 import importlib
 import sys
 import os
+import time
 from pathlib import Path
 
-import numpy as np
 import taichi as ti
 
 from openwave.common import colormap, constants
@@ -110,6 +110,7 @@ class SimulationState:
         self.dt_rs = 0.0
         self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
+        self.clock_start_time = time.time()
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
@@ -195,6 +196,7 @@ class SimulationState:
         self.dt_rs = 0.0
         self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
+        self.clock_start_time = time.time()
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
@@ -291,6 +293,14 @@ def display_level_specs(state, level_bar_vertices):
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
+    clock_time = time.time() - state.clock_start_time
+    if state.elapsed_t_rs > 0:
+        sim_time_years = (
+            clock_time / state.elapsed_t_rs * constants.RONTOSECOND * 60 * 60 * 24 * 365
+        )
+    else:
+        sim_time_years = 0.0  # Prevent division by zero
+
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
@@ -320,8 +330,9 @@ def display_data_dashboard(state):
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Sim Elapsed Time: {state.elapsed_t_rs:.2e} rs")
-        sub.text(f"(to render 1s takes {1 / (constants.RONTOSECOND*60*60*24*365):.0e} y)")
+        sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
+        sub.text(f"Clock Time: {clock_time:.2f} s")
+        sub.text(f"(1s sim time takes {sim_time_years:.0e} y)")
 
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"c_amrs: {state.c_amrs:.3f} am/rs")
