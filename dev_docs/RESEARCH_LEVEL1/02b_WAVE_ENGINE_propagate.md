@@ -114,14 +114,14 @@ def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
         but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
 
         Solution: Slow wave speed instead of shrinking timestep.
-            c_slowed = (c / SLO_MO) × SIM_SPEED
+            c_slo = (c / SLO_MO) × SIM_SPEED
             With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
     """
     # Speed of light (apply SLO_MO factor, then SIM_SPEED for human-visible waves)
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * SIM_SPEED  # m/s
+    c_slo = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * SIM_SPEED  # m/s
 
     # Convert c to attometers/second for consistent units
-    c_am = c_slowed / constants.ATTOMETER  # am/s
+    c_am = c_slo / constants.ATTOMETER  # am/s
 
     # CFL stability condition: cfl_factor ≤ 1/3 for 3D (6-connectivity)
     # cfl_factor = (c_am·dt/dx_am)² [dimensionless]
@@ -228,7 +228,7 @@ def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
 - ✅ **Correct dimensional analysis**: All units in attometers (consistent throughout)
 - ✅ **SLO_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
 - ✅ **SIM_SPEED parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
-- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLO_MO) × SIM_SPEED
+- ✅ **CFL stability maintained** with effective wave speed c_slo = (c / SLO_MO) × SIM_SPEED
 - ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
 - ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
@@ -241,8 +241,8 @@ def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
 
 Where:
 
-- `c_slowed = (EWAVE_SPEED / SLO_MO) × SIM_SPEED` (m/s, slowed + boosted)
-- `c_am = c_slowed / ATTOMETER` (wave speed in am/s)
+- `c_slo = (EWAVE_SPEED / SLO_MO) × SIM_SPEED` (m/s, slowed + boosted)
+- `c_am = c_slo / ATTOMETER` (wave speed in am/s)
 - `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
 - `SIM_SPEED` ~ 1.0 (default, no boost) or higher for faster visualization
 - `∇²ψ` in [1/am] units (from `compute_laplacian_am()`)

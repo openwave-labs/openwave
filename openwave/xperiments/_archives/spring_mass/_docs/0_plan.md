@@ -55,15 +55,15 @@ Vertices should oscillate in the direction found at BCCLattice.vertex_directions
 **Position equation**:
 
 ```python
-displacement(t) = AMPLITUDE * cos(2π * freq_slowed * t)
-where freq_slowed = FREQUENCY / SLO_MO
+displacement(t) = AMPLITUDE * cos(2π * frequency_slo * t)
+where frequency_slo = FREQUENCY / SLO_MO
 new_position = equilibrium_pos + displacement * direction_vector
 ```
 
 **Velocity equation** (derivative of position):
 
 ```python
-velocity(t) = -AMPLITUDE * (2π * freq_slowed) * sin(2π * freq_slowed * t) * direction_vector
+velocity(t) = -AMPLITUDE * (2π * frequency_slo) * sin(2π * frequency_slo * t) * direction_vector
 ```
 
 Note: For Phase 1, we can either:
@@ -105,8 +105,8 @@ def oscillate_vertex(
     slo_mo: ti.f32
 ):
     """Update 8 vertex positions and velocities using harmonic oscillation."""
-    freq_slowed = frequency / slo_mo
-    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency
+    frequency_slo = frequency / slo_mo
+    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]
@@ -184,8 +184,8 @@ while window.running:
 - **Direction sign**: `vertex_directions` points FROM vertex TO center (inward)
   - Positive displacement moves INWARD (correct)
   - Negative displacement moves OUTWARD (correct)
-- **Numerical precision**: With SLO_MO, ensure `freq_slowed` doesn't underflow to zero
-  - `freq_slowed = (3e8 / 2.85e-17) / 1e25 ≈ 1.05e0` (safe, no underflow)
+- **Numerical precision**: With SLO_MO, ensure `frequency_slo` doesn't underflow to zero
+  - `frequency_slo = (3e8 / 2.85e-17) / 1e25 ≈ 1.05e0` (safe, no underflow)
 - **Performance**: Monitor FPS with uncapped frame rate
 - **Coordinate system**: Ensure `vertex_directions` normalized vectors are correct
 - **Spring system interaction**: Later, vertex forced motion may need to override spring forces

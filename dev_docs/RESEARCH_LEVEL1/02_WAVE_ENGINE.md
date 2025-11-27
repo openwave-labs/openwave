@@ -955,12 +955,12 @@ def measure_frequency(self, current_time: ti.f32):
     1. Measure dt between peaks (timing measurement, in seconds)
     2. Compute f = 1/dt (PRIMARY property)
     3. Derive T = dt (period, same as measured dt)
-    4. Derive λ = c_slowed/f (wavelength from frequency, using slowed wave speed)
+    4. Derive λ = c_slo/f (wavelength from frequency, using slowed wave speed)
 
     Note: Frequency-centric approach - f is measured, λ is computed.
     With SLO_MO: Wave frequencies are slowed by SLO_MO factor.
     """
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLO_MO)  # m/s, slowed wave speed
+    c_slo = ti.f32(constants.EWAVE_SPEED / config.SLO_MO)  # m/s, slowed wave speed
 
     for i, j, k in self.displacement_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
@@ -982,9 +982,9 @@ def measure_frequency(self, current_time: ti.f32):
                     # DERIVED: Store period (same as dt, different name)
                     self.period[i,j,k] = dt  # seconds
 
-                    # DERIVED: Compute wavelength λ = c_slowed/f
+                    # DERIVED: Compute wavelength λ = c_slo/f
                     f_Hz = self.frequency_local[i,j,k]
-                    wavelength_m = c_slowed / f_Hz  # meters (using slowed wave speed)
+                    wavelength_m = c_slo / f_Hz  # meters (using slowed wave speed)
                     self.wavelength_local[i,j,k] = wavelength_m / constants.ATTOMETER  # attometers
 
             # Update last peak time for next measurement

@@ -46,8 +46,8 @@ def oscillate_vertex(
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
     """
-    freq_slowed = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency
+    frequency_slo = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]

@@ -126,8 +126,8 @@ class WaveField:
         self.amplitude_am = ti.Vector.field(2, dtype=ti.f32, shape=self.grid_size)  # am, [Al,At]
         self.avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # avg amplitude all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=self.grid_size)  # Time of last crossing
-        self.freq_slowed = ti.field(dtype=ti.f32, shape=self.grid_size)  # slowed Hz, rhythm
-        self.avg_freq_slowed = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
+        self.frequency_slo = ti.field(dtype=ti.f32, shape=self.grid_size)  # slowed Hz, rhythm
+        self.avg_frequency_slo = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum

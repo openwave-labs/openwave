@@ -196,10 +196,8 @@ def oscillate_granules(
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    freq_slowed = (
-        base_frequency / constants.EWAVE_FREQUENCY * freq_boost
-    )  # slowed frequency (1Hz * boost)
-    omega = 2.0 * ti.math.pi * freq_slowed  # angular frequency (rad/s)
+    frequency_slo = base_frequency / 1e25 * freq_boost  # slowed frequency (1Hz * boost)
+    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wave_number = 2.0 * ti.math.pi / wavelength_am  # radians per attometer

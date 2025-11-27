@@ -309,10 +309,10 @@ Violation: 10²⁴× over limit → INSTANT NUMERICAL EXPLOSION!
 
 ```python
 # Slow the wave speed by SLO_MO factor
-c_slowed = c / SLO_MO  # SLO_MO = 1.05×10²⁵
+c_slo = c / SLO_MO  # SLO_MO = 1.05×10²⁵
 
 # New CFL critical timestep
-dt_critical = dx / (c_slowed * √3) ≈ 0.121 s
+dt_critical = dx / (c_slo * √3) ≈ 0.121 s
 
 # Frame timestep (fixed)
 dt_frame = 1/60  # 0.0167 s

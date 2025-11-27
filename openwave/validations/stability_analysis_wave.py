@@ -47,9 +47,9 @@ print(f"Wave speed (c): {c:.2e} m/s")
 print(f"Energy-wave frequency: {ewave_freq:.2e} Hz")
 
 # SLO_MO mitigation
-c_slowed = c / constants.EWAVE_FREQUENCY  # Wave speed after SLO_MO to 1Hz
-freq_slowed = ewave_freq / constants.EWAVE_FREQUENCY  # Frequency after SLO_MO to 1Hz
-dt_critical_slowed = dx / (c_slowed * np.sqrt(3))  # CFL with slowed wave speed
+c_slo = c / constants.EWAVE_FREQUENCY  # Wave speed after SLO_MO to 1Hz
+frequency_slo = ewave_freq / constants.EWAVE_FREQUENCY  # Frequency after SLO_MO to 1Hz
+dt_critical_slowed = dx / (c_slo * np.sqrt(3))  # CFL with slowed wave speed
 
 print(f"\nCFL Stability (WITHOUT SLO_MO):")
 print(f"  Critical timestep: {dt_critical:.2e} s")
@@ -59,8 +59,8 @@ print(f"  Violation ratio (60 FPS): {dt_frame_60fps / dt_critical:.2e}×")
 print(f"  Violation ratio (30 FPS): {dt_frame_30fps / dt_critical:.2e}×")
 
 print(f"\nCFL Stability (WITH SLO_MO = {constants.EWAVE_FREQUENCY:.2e}):")
-print(f"  Slowed wave speed: {c_slowed:.2e} m/s")
-print(f"  Slowed frequency: {freq_slowed:.2e} Hz")
+print(f"  Slowed wave speed: {c_slo:.2e} m/s")
+print(f"  Slowed frequency: {frequency_slo:.2e} Hz")
 print(f"  Critical timestep (slowed): {dt_critical_slowed:.3f} s")
 print(f"  Frame timestep (60 FPS): {dt_frame_60fps:.3f} s")
 print(f"  Frame timestep (30 FPS): {dt_frame_30fps:.3f} s")
@@ -88,7 +88,7 @@ else:
 
 # Summary and recommendations
 print(f"\nMitigation Strategy:")
-print(f"  1. Apply SLO_MO to wave speed: c_slowed = c / SLO_MO")
+print(f"  1. Apply SLO_MO to wave speed: c_slo = c / SLO_MO")
 print(f"  2. Use SIM_SPEED parameter for visualization control")
 print(f"  3. Monitor CFL factor: (c·dt/dx)² should be ≤ 1/3 for 3D")
 print(f"  4. Use fixed timestep strategy (not elapsed time)")
