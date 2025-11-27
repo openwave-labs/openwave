@@ -7,7 +7,7 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
-UNIVERSE_EDGE = 2e-15  # m, universe edge length in meters
+UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
@@ -19,8 +19,7 @@ XPARAMETERS = {
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 3.5e8,  # Simulation voxel count (impacts performance)
-        "SLO_MO": 1e25,  # SLO_MO factor to reduce wave speed / frequency for visibility
+        "TARGET_VOXELS": 3e8,  # Simulation voxel count (impacts performance)
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines

@@ -16,14 +16,14 @@ from openwave.common import colormap, constants
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 base_wavelength = constants.EWAVE_LENGTH  # in meters
 base_frequency = constants.EWAVE_FREQUENCY  # in Hz
+base_frequency_rHz = base_frequency * constants.RONTOSECOND  # in rHz (1e-27 Hz)
 rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
 @ti.kernel
 def charge_1lambda(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    dt: ti.f32,  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave within 1 base_wavelength.
@@ -31,8 +31,7 @@ def charge_1lambda(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor (dimensionless)
-        dt: Time step size (s)
+        dt_rs: Time step size (rs)
     """
 
     # Find center position (in grid indices)
@@ -41,8 +40,7 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
-    omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
+    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
@@ -67,7 +65,7 @@ def charge_1lambda(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
+        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -77,8 +75,7 @@ def charge_1lambda(
 @ti.kernel
 def charge_falloff(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    dt: ti.f32,  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave with 1/r amplitude falloff.
@@ -89,8 +86,7 @@ def charge_falloff(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor (dimensionless)
-        dt: Time step size (s)
+        dt_rs: Time step size (rs)
     """
 
     # Find center position (in grid indices)
@@ -99,8 +95,7 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
-    omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
+    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
@@ -127,7 +122,7 @@ def charge_falloff(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt - wave_number * r_grid)
+        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -137,8 +132,7 @@ def charge_falloff(
 @ti.kernel
 def charge_full(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    dt: ti.f32,  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave pattern centered in the wave field.
@@ -149,8 +143,7 @@ def charge_full(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor (dimensionless)
-        dt: Time step size (s)
+        dt_rs: Time step size (rs)
     """
 
     # Find center position (in grid indices)
@@ -159,8 +152,7 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
-    omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
+    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
@@ -182,7 +174,7 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -dt - wave_number * r_grid)
+        disp_old = base_amplitude_am * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at time t=0
@@ -192,8 +184,6 @@ def charge_full(
 @ti.kernel
 def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore  # unused, kept for API consistency
-    dt: ti.f32,  # type: ignore  # unused, kept for API consistency
 ):
     """
     Initialize a stationary Gaussian wave packet centered in the wave field.
@@ -204,8 +194,6 @@ def charge_gaussian(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Unused (kept for API consistency with other charge functions)
-        dt: Unused (kept for API consistency with other charge functions)
     """
 
     # Grid center position (in grid indices)
@@ -253,8 +241,7 @@ def charge_gaussian(
 @ti.kernel
 def charge_oscillator(
     wave_field: ti.template(),  # type: ignore
-    slo_mo: ti.f32,  # type: ignore
-    elapsed_t: ti.f32,  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
 ):
     """
     Apply harmonic oscillation to a spherical volume at the grid center.
@@ -267,12 +254,10 @@ def charge_oscillator(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        slo_mo: Slow-motion factor (dimensionless)
-        elapsed_t: Elapsed simulation time (s)
+        elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    base_frequency_slo = base_frequency / slo_mo  # slowed frequency (1Hz)
-    omega = 2.0 * ti.math.pi * base_frequency_slo  # angular frequency (rad/s)
+    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Define center oscillator radius
     source_radius = int(0.05 * wave_field.max_grid_size)  # fraction of max grid size
@@ -292,7 +277,7 @@ def charge_oscillator(
         # Compute distance squared inline (Taichi kernels need direct computation)
         dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
         if dist_sq <= source_radius**2:
-            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(omega * elapsed_t)
+            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(omega * elapsed_t_rs)
 
 
 @ti.func
@@ -333,9 +318,9 @@ def compute_laplacian_am(
 def propagate_ewave(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
-    c_slo_am: ti.f32,  # type: ignore
-    dt: ti.f32,  # type: ignore
-    elapsed_t: ti.f32,  # type: ignore
+    c_amrs: ti.f32,  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
 ):
     """
     Propagate wave displacement using wave equation (PDE Solver).
@@ -349,18 +334,10 @@ def propagate_ewave(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        c_slo_am: Effective wave speed after slow-motion factor (am/s)
-        dt: Time step size (s)
-
-    CFL Stability:
-        Condition: dt ≤ dx / (c·√3) for 3D 6-connectivity
-
-        Problem: Real wave speed c = 3×10⁸ m/s requires dt_max ~ 1.2e-26 s,
-        but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
-
-        Solution: Slow wave speed instead of shrinking timestep.
-            c_slo = (c / SLO_MO) × sim_speed
-            With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
+        trackers: WaveTrackers instance for tracking wave properties
+        c_amrs: Effective wave speed after slow-motion factor (am/rs)
+        dt_rs: Time step size (rs)
+        elapsed_t_rs: Elapsed simulation time (rs)
 
     Known issue: Metal GPU backend is unstable for grids >720³. Use CPU for larger grids.
     """
@@ -378,7 +355,7 @@ def propagate_ewave(
         wave_field.displacement_new_am[i, j, k] = (
             2.0 * wave_field.displacement_am[i, j, k]
             - wave_field.displacement_old_am[i, j, k]
-            + (c_slo_am * dt) ** 2 * laplacian_am
+            + (c_amrs * dt_rs) ** 2 * laplacian_am
         )
 
         # WAVE TRACKERS: compute tracked properties during propagation (A & f)
@@ -395,21 +372,21 @@ def propagate_ewave(
 
         # Track FREQUENCY via zero-crossing detection
         # Detect positive-going zero crossing (negative → positive transition)
-        # One full period = time between consecutive positive zero crossings
+        # One full period_rs = time between consecutive positive zero crossings
         # More robust than peak detection since it doesn't depend on amplitude envelope
         prev_disp = wave_field.displacement_old_am[i, j, k]
         curr_disp = wave_field.displacement_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
-            period = elapsed_t - trackers.last_crossing[i, j, k]
-            if period > dt * 2:  # Noise filter: ignore if too soon
-                trackers.frequency_slo[i, j, k] = 1.0 / period  # in frame Hz
-            trackers.last_crossing[i, j, k] = elapsed_t
+            period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
+            if period_rs > dt_rs * 2:  # Noise filter: ignore if too soon
+                trackers.frequency_rHz[i, j, k] = 1.0 / period_rs  # in rHz
+            trackers.last_crossing[i, j, k] = elapsed_t_rs
 
         # Track avg amplitude/frequency across all voxels
         # TODO: compute this as avg from total voxels for energy monitoring
         # Here we use a simple max envelope for visualization scaling
         trackers.avg_amplitude_am[None] = 2 * base_amplitude_am
-        trackers.avg_frequency_slo[None] = 2 * base_frequency / 1e25  # in frame Hz
+        trackers.avg_frequency_rHz[None] = 2 * base_frequency_rHz  # in rHz
 
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
@@ -457,12 +434,12 @@ def update_flux_mesh_colors(
         disp_value = wave_field.displacement_am[i, j, center_k]
         amp_value = trackers.amplitude_am[i, j, center_k][0]
         value = amp_value if var_amp else disp_value
-        freq_value = trackers.frequency_slo[i, j, center_k]
+        freq_value = trackers.frequency_rHz[i, j, center_k]
 
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_slo[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None]
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
@@ -481,12 +458,12 @@ def update_flux_mesh_colors(
         disp_value = wave_field.displacement_am[i, center_j, k]
         amp_value = trackers.amplitude_am[i, center_j, k][0]
         value = amp_value if var_amp else disp_value
-        freq_value = trackers.frequency_slo[i, center_j, k]
+        freq_value = trackers.frequency_rHz[i, center_j, k]
 
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_slo[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None]
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
@@ -505,12 +482,12 @@ def update_flux_mesh_colors(
         disp_value = wave_field.displacement_am[center_i, j, k]
         amp_value = trackers.amplitude_am[center_i, j, k][0]
         value = amp_value if var_amp else disp_value
-        freq_value = trackers.frequency_slo[center_i, j, k]
+        freq_value = trackers.frequency_rHz[center_i, j, k]
 
         # Map displacement/ amplitude to color using selected gradient
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.avg_frequency_slo[None]
+                freq_value, 0.0, trackers.avg_frequency_rHz[None]
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(

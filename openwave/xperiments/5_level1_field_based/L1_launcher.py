@@ -106,10 +106,10 @@ class SimulationState:
     def __init__(self):
         self.wave_field = None
         self.trackers = None
-        self.c_slo = 0.0
-        self.dt = 0.0
+        self.c_amrs = 0.0
+        self.dt_rs = 0.0
         self.cfl_factor = 0.0
-        self.elapsed_t = 0.0
+        self.elapsed_t_rs = 0.0
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
@@ -119,7 +119,6 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
-        self.SLO_MO = None
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -151,7 +150,6 @@ class SimulationState:
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
-        self.SLO_MO = universe["SLO_MO"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -182,21 +180,21 @@ class SimulationState:
     def compute_timestep(self):
         # Compute maximum safe timestep from CFL condition with safety margin.
         # CFL Condition: dt ≤ dx / (c × √3)
-        # With SLO_MO applied: dt_critical = dx / (c_slo × √3)
         # SIM_SPEED affects perceived speed
-        self.c_slo = constants.EWAVE_SPEED / self.SLO_MO * self.SIM_SPEED  # m/s
-        self.c_slo_am = self.c_slo / constants.ATTOMETER  # am/s
-        self.dt = self.wave_field.dx / (self.c_slo / self.SIM_SPEED * (3**0.5))  # s
-        self.cfl_factor = round((self.c_slo * self.dt / self.wave_field.dx) ** 2, 7)
+        self.c_amrs = (
+            constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND * self.SIM_SPEED
+        )  # am/rs
+        self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
+        self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
 
     def reset_sim(self):
         """Reset simulation state."""
         self.wave_field = None
         self.trackers = None
-        self.c_slo = 0.0
-        self.dt = 0.0
+        self.c_amrs = 0.0
+        self.dt_rs = 0.0
         self.cfl_factor = 0.0
-        self.elapsed_t = 0.0
+        self.elapsed_t_rs = 0.0
         self.frame = 0
         self.avg_amplitude = 0.0
         self.avg_frequency = 0.0
@@ -322,13 +320,13 @@ def display_data_dashboard(state):
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Sim Elapsed Time: {state.elapsed_t / state.SLO_MO:.2e}s")
-        sub.text(f"(1 real second = {state.SLO_MO / (60*60*24*365):.0e}y of sim time)")
+        sub.text(f"Sim Elapsed Time: {state.elapsed_t_rs:.2e} rs")
+        sub.text(f"(to render 1s takes {1 / (constants.RONTOSECOND*60*60*24*365):.0e} y)")
 
         sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"c_slo: {state.c_slo:.2e} m/s")
+        sub.text(f"c_amrs: {state.c_amrs:.3f} am/rs")
         sub.text(
-            f"dt: {state.dt:.3f}s (needs {1/state.dt:.0f} FPS)",
+            f"dt_rs: {state.dt_rs:.3f} rs",
             color=(1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0),
         )
         sub.text(
@@ -367,10 +365,10 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    ewave.charge_gaussian(state.wave_field, state.SLO_MO, state.dt)
-    ewave.charge_full(state.wave_field, state.SLO_MO, state.dt)
-    # NO: ewave.charge_falloff(state.wave_field, state.SLO_MO, state.dt)
-    # NO: ewave.charge_1lambda(state.wave_field, state.SLO_MO, state.dt)
+    ewave.charge_gaussian(state.wave_field)
+    ewave.charge_full(state.wave_field, state.dt_rs)
+    # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial displacement profile
     ewave.plot_charge_profile(state.wave_field)
 
@@ -386,14 +384,14 @@ def compute_wave_motion(state):
     """
     # Dynamic CHARGER Method
     # TODO: stop charging when total energy stabilizes
-    # ewave.charge_oscillator(state.wave_field, state.SLO_MO, state.elapsed_t)
+    # ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
-        state.wave_field, state.trackers, state.c_slo_am, state.dt, state.elapsed_t
+        state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
     )
     # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
     state.avg_amplitude = state.trackers.avg_amplitude_am[None] * constants.ATTOMETER  # in m
-    state.avg_frequency = state.trackers.avg_frequency_slo[None] * state.SLO_MO  # in Hz
+    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND  # in Hz
 
 
 def render_elements(state):
@@ -481,7 +479,7 @@ def main():
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
-            state.elapsed_t += state.dt  # Elapsed time accumulation
+            state.elapsed_t_rs += state.dt_rs  # Elapsed time accumulation, in rs
             state.frame += 1
 
         # Render scene elements

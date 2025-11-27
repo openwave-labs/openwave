@@ -20,7 +20,6 @@ XPARAMETERS = {
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": 1e3,  # Simulation voxel count (impacts performance)
-        "SLO_MO": 1e25,  # SLO_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
