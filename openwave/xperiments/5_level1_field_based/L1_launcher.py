@@ -323,13 +323,13 @@ def display_data_dashboard(state):
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
 
-        sub.text("\n--- eWAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- eWAVE-SAMPLING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
         sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
-            f"Charge Level: {state.charge_level:.2%}",
+            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charge_level < 0.8 else ""}",
             color=(
                 colormap.RED[1]
                 if state.charge_level < 0.5
@@ -414,10 +414,10 @@ def compute_wave_motion(state):
         state.elapsed_t_rs,
     )
 
-    # IN-FRAME DATA SAMPLING & DIAGNOSTICS
+    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Compute averages with frame skip to avoid GPU->CPU transfer overhead
     if state.frame % 60 == 0:
-        ewave.compute_avg_trackers(state.wave_field, state.trackers)
+        ewave.sample_avg_trackers(state.wave_field, state.trackers)
         state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
         state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
         state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents /0

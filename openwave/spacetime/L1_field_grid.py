@@ -87,9 +87,6 @@ class WaveField:
 
         # Compute total voxels (asymmetric grid)
         self.voxel_count = self.nx * self.ny * self.nz
-        # Compute boundary voxel count, sum of all voxels on the six faces of the cuboid
-        self.boundary_voxel_count = 2 * (self.nx * self.ny + self.nx * self.nz + self.ny * self.nz)
-        self.active_voxels = self.voxel_count - self.boundary_voxel_count
 
         # Recompute actual universe dimensions to fit integer number of cubic voxels
         self.universe_size = [self.nx * self.dx, self.ny * self.dx, self.nz * self.dx]
@@ -120,10 +117,10 @@ class WaveField:
         self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
         self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
 
-        # DERIVED SCALAR FIELDS
+        # TODO: Implement DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum
 
-        # DERIVED VECTOR FIELDS (directions normalized to unit vectors)
+        # TODO: Implement DERIVED VECTOR FIELDS (directions normalized to unit vectors)
         # energy_flux, wave_direction, displacement_direction, wave_mode, wave_type
 
         # ================================================================

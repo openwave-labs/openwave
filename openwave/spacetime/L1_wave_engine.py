@@ -363,7 +363,8 @@ def propagate_ewave(
             + (c_amrs * dt_rs) ** 2 * laplacian_am
         )
 
-        # WAVE TRACKERS: compute tracked properties during propagation (A & f)
+        # WAVE TRACKERS ============================================
+        # Compute tracked properties during propagation (Amplitude & Frequency)
         # Track AMPLITUDE envelope using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
@@ -394,56 +395,104 @@ def propagate_ewave(
 
 
 @ti.kernel
-def _copy_center_slice(
+def _copy_slice_xy(
     trackers: ti.template(),  # type: ignore
     slice_amp: ti.template(),  # type: ignore
     slice_freq: ti.template(),  # type: ignore
     mid_z: ti.i32,  # type: ignore
 ):
-    """Copy center XY slice to 2D buffer (parallel, no atomics)."""
+    """Copy center XY slice (fixed z) to 2D buffer."""
     for i, j in slice_amp:
         slice_amp[i, j] = trackers.amplitudeL_am[i, j, mid_z]
         slice_freq[i, j] = trackers.frequency_rHz[i, j, mid_z]
 
 
+@ti.kernel
+def _copy_slice_xz(
+    trackers: ti.template(),  # type: ignore
+    slice_amp: ti.template(),  # type: ignore
+    slice_freq: ti.template(),  # type: ignore
+    mid_y: ti.i32,  # type: ignore
+):
+    """Copy center XZ slice (fixed y) to 2D buffer."""
+    for i, k in slice_amp:
+        slice_amp[i, k] = trackers.amplitudeL_am[i, mid_y, k]
+        slice_freq[i, k] = trackers.frequency_rHz[i, mid_y, k]
+
+
+@ti.kernel
+def _copy_slice_yz(
+    trackers: ti.template(),  # type: ignore
+    slice_amp: ti.template(),  # type: ignore
+    slice_freq: ti.template(),  # type: ignore
+    mid_x: ti.i32,  # type: ignore
+):
+    """Copy center YZ slice (fixed x) to 2D buffer."""
+    for j, k in slice_amp:
+        slice_amp[j, k] = trackers.amplitudeL_am[mid_x, j, k]
+        slice_freq[j, k] = trackers.frequency_rHz[mid_x, j, k]
+
+
 # Cached slice buffers (initialized on first call)
-_slice_amp = None
-_slice_freq = None
+_slice_xy_amp = None
+_slice_xy_freq = None
+_slice_xz_amp = None
+_slice_xz_freq = None
+_slice_yz_amp = None
+_slice_yz_freq = None
 
 
-def compute_avg_trackers(
+def sample_avg_trackers(
     wave_field,
     trackers,
 ):
     """
-    Estimate average amplitude and frequency by sampling center slice.
+    Estimate average amplitude and frequency by sampling 3 orthogonal planes.
 
-    Samples only the center XY slice to avoid full 3D GPU->CPU transfer.
+    Samples XY, XZ, and YZ center slices to avoid full 3D GPU->CPU transfer.
     Provides a representative estimate without the performance penalty.
 
     Args:
         wave_field: WaveField instance containing grid dimensions
         trackers: WaveTrackers instance with per-voxel and average fields
     """
-    global _slice_amp, _slice_freq
+    global _slice_xy_amp, _slice_xy_freq
+    global _slice_xz_amp, _slice_xz_freq
+    global _slice_yz_amp, _slice_yz_freq
+
+    nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # Initialize slice buffers once
-    if _slice_amp is None:
-        _slice_amp = ti.field(dtype=ti.f32, shape=(wave_field.nx, wave_field.ny))
-        _slice_freq = ti.field(dtype=ti.f32, shape=(wave_field.nx, wave_field.ny))
+    if _slice_xy_amp is None:
+        _slice_xy_amp = ti.field(dtype=ti.f32, shape=(nx, ny))
+        _slice_xy_freq = ti.field(dtype=ti.f32, shape=(nx, ny))
+        _slice_xz_amp = ti.field(dtype=ti.f32, shape=(nx, nz))
+        _slice_xz_freq = ti.field(dtype=ti.f32, shape=(nx, nz))
+        _slice_yz_amp = ti.field(dtype=ti.f32, shape=(ny, nz))
+        _slice_yz_freq = ti.field(dtype=ti.f32, shape=(ny, nz))
 
-    # Copy center slice to 2D buffer (fast parallel kernel)
-    mid_z = wave_field.nz // 2
-    _copy_center_slice(trackers, _slice_amp, _slice_freq, mid_z)
+    # Copy 3 center slices to 2D buffers (parallel kernels)
+    mid_x, mid_y, mid_z = nx // 2, ny // 2, nz // 2
+    _copy_slice_xy(trackers, _slice_xy_amp, _slice_xy_freq, mid_z)
+    _copy_slice_xz(trackers, _slice_xz_amp, _slice_xz_freq, mid_y)
+    _copy_slice_yz(trackers, _slice_yz_amp, _slice_yz_freq, mid_x)
 
-    # Transfer only 2D slice to numpy (much smaller than 3D)
+    # Transfer 2D slices to numpy
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
-    amp_slice = _slice_amp.to_numpy()[1:-1, 1:-1]
-    freq_slice = _slice_freq.to_numpy()[1:-1, 1:-1]
+    xy_amp = _slice_xy_amp.to_numpy()[1:-1, 1:-1]
+    xy_freq = _slice_xy_freq.to_numpy()[1:-1, 1:-1]
+    xz_amp = _slice_xz_amp.to_numpy()[1:-1, 1:-1]
+    xz_freq = _slice_xz_freq.to_numpy()[1:-1, 1:-1]
+    yz_amp = _slice_yz_amp.to_numpy()[1:-1, 1:-1]
+    yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
-    # Compute average from sampled slice
-    trackers.avg_amplitudeL_am[None] = float(amp_slice.mean())
-    trackers.avg_frequency_rHz[None] = float(freq_slice.mean())
+    # Compute combined average from all 3 planes
+    total_amp = xy_amp.sum() + xz_amp.sum() + yz_amp.sum()
+    total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
+    n_samples = xy_amp.size + xz_amp.size + yz_amp.size
+
+    trackers.avg_amplitudeL_am[None] = float(total_amp) / n_samples
+    trackers.avg_frequency_rHz[None] = float(total_freq) / n_samples
 
 
 @ti.kernel
