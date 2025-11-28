@@ -398,9 +398,9 @@ if __name__ == "__main__":
     # ================================================================
 
     UNIVERSE_SIZE = [
-        6e-15,
-        6e-15,
-        6e-15,
+        2e-15,
+        2e-15,
+        2e-15,
     ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
     wave_field = WaveField(
