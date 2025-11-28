@@ -78,7 +78,7 @@ FOREST = {
 redshift_palette = [
     ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
-    ["#1C1C1C", (0.110, 0.110, 0.110)],  # dark gray
+    ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
     ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
 ]
@@ -229,7 +229,7 @@ def get_ironbow_color(value, min_value, max_value):
 
     Example:
         color = get_ironbow_color(displacement=50, min_value=0, max_value=100)
-        # Returns blue-ish color since 50/100 = 0.5 is in the low range
+        # Returns red-ish color since 50/100 = 0.5 is in the mid range
     """
 
     # Compute normalized scale range with saturation headroom

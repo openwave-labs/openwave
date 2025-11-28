@@ -1,5 +1,5 @@
 """
-[WIP] L1 XPERIMENT LAUNCHER
+L1 XPERIMENT LAUNCHER
 
 Unified launcher for Level-1 wave-field xperiments featuring:
 - UI-based xperiment selection and switching

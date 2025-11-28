@@ -254,15 +254,12 @@ def display_controls(state):
 def display_color_menu(state):
     """Display color selection menu."""
     tracker = "amplitude" if state.VAR_AMP else "displacement"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 2 and not state.VAR_AMP):
-            state.COLOR_PALETTE = 2
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.73, 0.14, 0.14) as sub:
+        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
+            state.COLOR_PALETTE = 1
             state.VAR_AMP = False
         if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
             state.COLOR_PALETTE = 2
-            state.VAR_AMP = True
-        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 3 and state.VAR_AMP):
-            state.COLOR_PALETTE = 3
             state.VAR_AMP = True
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
@@ -270,13 +267,13 @@ def display_color_menu(state):
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
             state.VAR_AMP = True
+        if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
+            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
+            with render.gui.sub_window(tracker, 0.00, 0.67, 0.08, 0.06) as sub:
+                sub.text(f"{-state.peak_amplitude:.0e}  {state.peak_amplitude:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
-            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+            with render.gui.sub_window(tracker, 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
@@ -339,16 +336,16 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    global rs_palette_vertices, rs_palette_colors
     global ib_palette_vertices, ib_palette_colors
-    global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
     # Initialize color palettes for gradient rendering and level indicator
-    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
+        colormap.redshift, 0.00, 0.66, 0.079, 0.01
     )
-    bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
-        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
+        colormap.ironbow, 0.00, 0.66, 0.079, 0.01
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
@@ -406,7 +403,7 @@ def render_elements(state):
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 2 or state.COLOR_PALETTE == 3:
+    elif state.COLOR_PALETTE == 1 or state.COLOR_PALETTE == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,

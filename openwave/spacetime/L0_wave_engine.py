@@ -34,6 +34,9 @@ peak_amplitude_am = None  # max displacement across all granules
 avg_amplitude_am = None  # RMS amplitude (peak × 0.707)
 last_amp_boost = None  # for detecting amp_boost changes
 
+# Center of sources for signed radial displacement
+sources_center_am = None  # geometric center of all wave sources (attometers)
+
 
 # ================================================================
 # Energy-Wave Source Kernel (energy charge, harmonic oscillation, rhythm)
@@ -59,7 +62,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
-    global peak_amplitude_am, avg_amplitude_am, last_amp_boost
+    global peak_amplitude_am, avg_amplitude_am, last_amp_boost, sources_center_am
 
     # Convert phase from degrees to radians
     sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
@@ -79,6 +82,21 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     peak_amplitude_am = ti.field(dtype=ti.f32, shape=())  # max displacement
     avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # RMS amplitude
     last_amp_boost = ti.field(dtype=ti.f32, shape=())  # for change detection
+
+    # Compute geometric center of all sources (for signed radial displacement)
+    sources_center_am = ti.Vector.field(3, dtype=ti.f32, shape=())
+    center_sum = [0.0, 0.0, 0.0]
+    for i in range(num_sources):
+        for j in range(3):
+            center_sum[j] += sources_position[i][j]
+    # Convert normalized center to attometers
+    sources_center_am[None] = ti.Vector(
+        [
+            center_sum[0] / num_sources * lattice.max_universe_edge_am,
+            center_sum[1] / num_sources * lattice.max_universe_edge_am,
+            center_sum[2] / num_sources * lattice.max_universe_edge_am,
+        ]
+    )
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -261,25 +279,34 @@ def oscillate_granules(
         velocity_am[granule_idx] = total_velocity_am
 
         # WAVE AMPLITUDE TRACKERS ============================================
-        displacement_am = total_displacement_am.norm()
+        # Signed radial displacement: positive = outward from sources center, negative = inward
+        radial_from_center = equilibrium_am[granule_idx] - sources_center_am[None]
+        radial_norm = radial_from_center.norm()
+        # Initialize before conditional (Taichi scope requirement)
+        displacement_am = 0.0
+        if radial_norm > 1e-10:
+            # Project displacement onto radial direction (dot product / magnitude)
+            displacement_am = total_displacement_am.dot(radial_from_center) / radial_norm
+        else:
+            # At center, use magnitude (sign undefined)
+            displacement_am = total_displacement_am.norm()
 
-        # Track per-granule amplitude (atomic for thread safety)
-        ti.atomic_max(amplitude_am[granule_idx], displacement_am)
-
-        # Track global peak amplitude for energy calculation
-        ti.atomic_max(peak_amplitude_am[None], displacement_am)
+        # Track per-granule peak amplitude & global peak amplitude
+        displacement_amp_am = total_displacement_am.norm()
+        ti.atomic_max(amplitude_am[granule_idx], displacement_amp_am)
+        ti.atomic_max(peak_amplitude_am[None], displacement_amp_am)
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map value to color using selected gradient
-        if color_palette == 2:  # ironbow
-            granule_var_color[granule_idx] = colormap.get_ironbow_color(
+        if color_palette == 1:  # redshift (signed: red=inward, gray=zero, blue=outward)
+            granule_var_color[granule_idx] = colormap.get_redshift_color(
                 amplitude_am[granule_idx] if var_amp else displacement_am,
-                0.0,
+                -peak_amplitude_am[None],  # symmetric range for signed values
                 peak_amplitude_am[None],
             )
-        elif color_palette == 3:  # blueprint
-            granule_var_color[granule_idx] = colormap.get_blueprint_color(
-                amplitude_am[granule_idx] if var_amp else displacement_am,
+        elif color_palette == 2:  # ironbow (magnitude only: thermal scale)
+            granule_var_color[granule_idx] = colormap.get_ironbow_color(
+                amplitude_am[granule_idx] if var_amp else displacement_amp_am,
                 0.0,
                 peak_amplitude_am[None],
             )
