@@ -35,20 +35,16 @@ class WaveField:
 
     def __init__(self, init_universe_size, target_voxels):
         """
-        Initialize WaveField from universe size with automatic voxel sizing
-        and asymmetric universe support.
+        Initialize WaveField from universe size with automatic voxel sizing.
 
         Args:
-            init_universe_size: simulation domain size [x, y, z], m (can be asymmetric)
-                Will be rounded to fit integer number of voxels.
-            target_voxels: desired total voxel count (impacts performance)
+            init_universe_size: Simulation domain size [x, y, z] in meters.
+                Can be asymmetric. Will be adjusted to fit integer voxel counts.
+            target_voxels: Desired total voxel count (impacts memory and performance).
 
-        Design:
-            - Voxel size (dx) is CUBIC (same for all axes) - preserves wave physics
-            - Grid counts (nx, ny, nz) can differ - allows asymmetric domain shapes
-
-        Returns:
-            WaveField instance with optimally sized voxels for target_voxels
+        Note:
+            Voxel size (dx) is cubic (same for all axes) to preserve wave physics.
+            Grid counts (nx, ny, nz) can differ for asymmetric domain shapes.
         """
         # Compute initial grid properties (before rounding and grid symmetry)
         init_universe_volume = (
@@ -57,7 +53,7 @@ class WaveField:
 
         # Calculate cubic voxel size from target voxel count
         # CRITICAL: voxels must remain cubic (same edge length on all axes)
-        # This preserves crystal structure. Only the NUMBER of voxels varies per axis.
+        # This preserves wave physics isotropy. Only the NUMBER of voxels varies per axis.
         self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
         self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
@@ -95,16 +91,16 @@ class WaveField:
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
         self.universe_volume = self.voxel_count * self.voxel_volume
 
-        # Compute energy-wave linear resolution, sampling rate
-        # voxels per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
+        # Compute energy-wave spatial resolution
+        # Voxels per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = constants.EWAVE_LENGTH / self.dx  # in voxels / λ
-        # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
+        # Compute universe extent in wavelengths (how many λ fit in max edge)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute grid total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -151,24 +147,23 @@ class WaveField:
         # Each flux mesh has resolution matching simulation voxel grid
         # Vertices positioned at voxel centers for direct property sampling
 
-        # XY Flux Mesh (at z = center): spans (0→1, 0→1, 0.5)
+        # XY Flux Mesh (at z = center): spans x and y dimensions
         # - Vertices: nx × ny grid points
-        # - Indices: (nx-1) × (ny-1) quads × 6 vertices (2 triangles each)
-        # nx, ny, nz = self.grid_size[0], self.grid_size[1], self.grid_size[2]
+        # - Indices: (nx-1) × (ny-1) quads × 6 indices (2 triangles each)
         self.fluxmesh_xy_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
         self.fluxmesh_xy_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.ny))
         self.fluxmesh_xy_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.ny - 1, 6))
 
-        # XZ Flux Mesh (at y = center): spans (0→1, 0.5, 0→1)
+        # XZ Flux Mesh (at y = center): spans x and z dimensions
         # - Vertices: nx × nz grid points
-        # - Indices: (nx-1) × (nz-1) quads × 6 vertices (2 triangles each)
+        # - Indices: (nx-1) × (nz-1) quads × 6 indices (2 triangles each)
         self.fluxmesh_xz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
         self.fluxmesh_xz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.nx, self.nz))
         self.fluxmesh_xz_indices = ti.field(dtype=ti.i32, shape=(self.nx - 1, self.nz - 1, 6))
 
-        # YZ Flux Mesh (at x = center): spans (0.5, 0→1, 0→1)
+        # YZ Flux Mesh (at x = center): spans y and z dimensions
         # - Vertices: ny × nz grid points
-        # - Indices: (ny-1) × (nz-1) quads × 6 vertices (2 triangles each)
+        # - Indices: (ny-1) × (nz-1) quads × 6 indices (2 triangles each)
         self.fluxmesh_yz_vertices = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
         self.fluxmesh_yz_colors = ti.Vector.field(n=3, dtype=ti.f32, shape=(self.ny, self.nz))
         self.fluxmesh_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
@@ -365,25 +360,33 @@ class WaveField:
 @ti.data_oriented
 class Trackers:
     """
-    LEVEL-1 Wave Field Trackers
-    Data structures for tracking wave properties at each voxel.
+    Wave property trackers for each voxel.
+
+    Tracks amplitude envelope and frequency at each grid point using
+    per-voxel fields and grid-wide averages for visualization scaling.
     """
 
     def __init__(self, grid_size):
+        """
+        Initialize tracker fields for wave property monitoring.
+
+        Args:
+            grid_size: Grid dimensions [nx, ny, nz] matching WaveField.
+        """
         # TRACKED FIELDS
-        # 2  polarities tracked: longitudinal & transverse
-        # Amplitude is the envelope A = max|ψ|
-        # Frequency is the local wave rhythm in rHz
+        # TODO: 2 polarities to track: longitudinal & transverse
+        # Amplitude envelope tracks A via EMA of |ψ|
+        # Frequency tracks local oscillation rate via zero-crossing detection
         self.amplitudeL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
         self.avg_amplitudeL_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
         # self.amplitudeT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
         # self.avg_amplitudeT_am = ti.field(dtype=ti.f32, shape=())  # avg all voxels
-        self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # Time of last crossing
-        self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, rhythm
+        self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # rs, last zero crossing
+        self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
-        # Assign default values
-        # baseline*0.5 to allow starting wave peaks to rise without saturation
+        # Assign default values for visualization scaling
+        # 0.5× baseline to allow wave peaks to rise without color saturation
         self.avg_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
         self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 

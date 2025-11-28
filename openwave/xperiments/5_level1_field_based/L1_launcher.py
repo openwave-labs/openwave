@@ -183,9 +183,11 @@ class SimulationState:
         self.trackers = data_grid.Trackers(self.wave_field.grid_size)
 
     def compute_timestep(self):
-        # Compute maximum safe timestep from CFL condition with safety margin.
-        # CFL Condition: dt ≤ dx / (c × √3)
-        # SIM_SPEED affects perceived speed
+        """Compute timestep from CFL stability condition.
+
+        CFL Condition: dt ≤ dx / (c × √3) for 3D wave equation.
+        SIM_SPEED scales wave velocity for visualization control.
+        """
         self.c_amrs = (
             constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND * self.SIM_SPEED
         )  # am/rs
@@ -272,7 +274,7 @@ def display_color_menu(state):
             state.VAR_AMP = True
         if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
-        # avg*2 as min/max_values allows peak visualization without saturation
+        # Display gradient palette with 2× average range for headroom (allows peak visualization)
         if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
@@ -361,7 +363,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, test patterns and diagnostics.
+    """Initialize color palettes, wave charger and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -383,8 +385,8 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Static CHARGER Methods available for testing
-    # Charge initial wave pattern
+    # Static charger methods (one-time initialization patterns)
+    # Uncomment to test different initial wave configurations:
     # ewave.charge_full(state.wave_field, state.dt_rs)
     # ewave.charge_gaussian(state.wave_field)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
@@ -397,12 +399,12 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute wave propagation, reflection, superposition and update visualization.
+    """Compute wave propagation, reflection, superposition and update tracker averages.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # Dynamic CHARGER Method
+    # Dynamic charger (oscillating source at grid center)
     if state.charge_level < 0.8:
         ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
 
@@ -415,12 +417,12 @@ def compute_wave_motion(state):
     )
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # Compute averages with frame skip to avoid GPU->CPU transfer overhead
+    # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
         state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
         state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
-        state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents /0
+        state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
         state.avg_energy = (
             constants.MEDIUM_DENSITY
             * state.wave_field.universe_volume
@@ -457,7 +459,7 @@ def main():
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
-    ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+    ti.init(arch=ti.gpu, log_level=ti.WARN)  # GPU preferred, suppress info logs
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -504,14 +506,14 @@ def main():
             sys.stderr.flush()
             render.window.running = False
 
-            # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
+            # os.execv replaces current process (macOS may show harmless warning)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
-            state.elapsed_t_rs += state.dt_rs  # Elapsed time accumulation, in rs
+            state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
             state.frame += 1
 
         # Render scene elements
@@ -523,7 +525,7 @@ def main():
         display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
-        # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
+        # Capture frame for video export (stops after VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
             video.export_frame(state.frame, state.VIDEO_FRAMES)
 

@@ -16,7 +16,7 @@ from openwave.common import colormap, constants
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 base_wavelength = constants.EWAVE_LENGTH  # in meters
 base_frequency = constants.EWAVE_FREQUENCY  # in Hz
-base_frequency_rHz = base_frequency * constants.RONTOSECOND  # in rHz (1e-27 Hz)
+base_frequency_rHz = base_frequency * constants.RONTOSECOND  # in rHz (cycles per rontosecond)
 rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
@@ -68,8 +68,8 @@ def charge_1lambda(
         disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
+        wave_field.displacement_am[i, j, k] = disp  # at t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 @ti.kernel
@@ -112,9 +112,9 @@ def charge_falloff(
         dz = ti.cast(k, ti.f32) - center_z
         r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
 
-        # Amplitude decreases with distance, oscillates radially
-        r_safe_am = ti.max(r_grid, wavelength_grid)  # minimum 1 λ from source
-        amplitude_falloff = wavelength_grid / r_safe_am  # Avoids singularity at r=0
+        # Amplitude decreases with distance (1/r falloff)
+        r_safe_am = ti.max(r_grid, wavelength_grid)  # clamp to minimum 1λ to avoid singularity
+        amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
         amplitude_am_at_r = base_amplitude_am * amplitude_falloff
 
         # Simple sinusoidal radial pattern
@@ -125,8 +125,8 @@ def charge_falloff(
         disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
+        wave_field.displacement_am[i, j, k] = disp  # at t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 @ti.kernel
@@ -235,8 +235,8 @@ def charge_full(
         disp_old = base_amplitude_am * ti.cos(omega * -dt_rs - wave_number * r_grid)
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
+        wave_field.displacement_am[i, j, k] = disp  # at t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 @ti.kernel
@@ -260,22 +260,22 @@ def charge_oscillator(
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
-    # Define center oscillator radius
-    source_radius = int(0.05 * wave_field.max_grid_size)  # fraction of max grid size
+    # Define oscillator sphere radius (5% of max grid dimension)
+    source_radius = int(0.05 * wave_field.max_grid_size)
 
     # Find center position (in grid indices)
     cx = wave_field.nx // 2
     cy = wave_field.ny // 2
     cz = wave_field.nz // 2
 
-    # Apply oscillating displacement at center source_radius only
+    # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j, k in ti.ndrange(
         (cx - source_radius, cx + source_radius + 1),
         (cy - source_radius, cy + source_radius + 1),
         (cz - source_radius, cz + source_radius + 1),
     ):
-        # Compute distance squared inline (Taichi kernels need direct computation)
+        # Check if voxel is within spherical source region
         dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
         if dist_sq <= source_radius**2:
             wave_field.displacement_am[i, j, k] = (
@@ -295,13 +295,14 @@ def compute_laplacian_am(
     ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
 
     Discrete Laplacian (second derivative in space):
-    ∇²ψ[i,j,k] = (ψ[i±1] + ψ[i,j±1] + ψ[i,j,k±1] - 6ψ[i,j,k]) / dx²
+    ∇²ψ[i,j,k] = (ψ[i±1] + ψ[j±1] + ψ[k±1] - 6ψ[i,j,k]) / dx²
 
     Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
         i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
 
     Returns:
-        Laplacian in units [1/am] = [am/am²]
+        Laplacian in units [1/am]
     """
     # 6-connectivity stencil (face neighbors only)
     laplacian_am = (
@@ -329,7 +330,7 @@ def propagate_ewave(
     Propagate wave displacement using wave equation (PDE Solver).
     Wave Equation: ∂²ψ/∂t² = c²∇²ψ
     Includes wave propagation, reflection at boundaries, superposition
-    of wavefronts, and energy conservation.
+    of wavefronts, and energy conservation (leap-frog).
     Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
 
     Discrete Form (Leap-Frog/Verlet):
@@ -343,7 +344,7 @@ def propagate_ewave(
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
 
-    Known issue: Metal GPU backend is unstable for grids >720³.
+    Note: Metal GPU backend may be unstable for grids >720³.
     """
 
     # Update all interior voxels only
@@ -352,7 +353,7 @@ def propagate_ewave(
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        # Compute Laplacian (returns [1/am])
+        # Compute spatial Laplacian ∇²ψ
         laplacian_am = compute_laplacian_am(wave_field, i, j, k)
 
         # Leap-frog update
@@ -378,13 +379,13 @@ def propagate_ewave(
 
         # Track FREQUENCY via zero-crossing detection
         # Detect positive-going zero crossing (negative → positive transition)
-        # One full period_rs = time between consecutive positive zero crossings
-        # More robust than peak detection since it doesn't depend on amplitude envelope
+        # Period = time between consecutive positive zero crossings
+        # More robust than peak detection since it's amplitude-independent
         prev_disp = wave_field.displacement_old_am[i, j, k]
         curr_disp = wave_field.displacement_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
             period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
-            if period_rs > dt_rs * 2:  # Noise filter: ignore if too soon
+            if period_rs > dt_rs * 2:  # Filter out spurious crossings
                 trackers.frequency_rHz[i, j, k] = 1.0 / period_rs  # in rHz
             trackers.last_crossing[i, j, k] = elapsed_t_rs
 
@@ -477,8 +478,7 @@ def sample_avg_trackers(
     _copy_slice_xz(trackers, _slice_xz_amp, _slice_xz_freq, mid_y)
     _copy_slice_yz(trackers, _slice_yz_amp, _slice_yz_freq, mid_x)
 
-    # Transfer 2D slices to numpy
-    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    # Transfer 2D slices to numpy, excluding boundary voxels (always zero)
     xy_amp = _slice_xy_amp.to_numpy()[1:-1, 1:-1]
     xy_freq = _slice_xy_freq.to_numpy()[1:-1, 1:-1]
     xz_amp = _slice_xz_amp.to_numpy()[1:-1, 1:-1]
@@ -505,20 +505,19 @@ def update_flux_mesh_colors(
     """
     Update flux mesh colors by sampling wave properties from voxel grid.
 
-    Samples wave displacement at each Plane vertex position and maps it to a color
-    using the redshift gradient (red=negative, gray=zero, blue=positive).
+    Samples wave displacement at each plane vertex position and maps it to a color.
+    Should be called every frame after wave propagation to update visualization.
 
-    This function should be called every frame after wave propagation to update
-    the visualization based on current wave field state.
-
-    Color mapping:
-    - Uses get_redshift_color() from config module
-    - Samples displacement at voxel centers corresponding to vertex positions
-    - Maps signed displacement values to red-gray-blue gradient
+    Color palettes:
+        1 (redshift): red=negative, gray=zero, blue=positive displacement
+        2 (ironbow): black-red-yellow-white heat map for amplitude
+        3 (blueprint): blue gradient for frequency visualization
 
     Args:
         wave_field: WaveField instance containing flux mesh fields and displacement data
-        color_palette: Integer code for color palette selection
+        trackers: WaveTrackers instance with amplitude/frequency data for color scaling
+        color_palette: Color palette selection (1=redshift, 2=ironbow, 3=blueprint)
+        var_amp: If true, color by amplitude; if false, color by displacement
     """
 
     # Get center indices for each Plane
@@ -537,8 +536,8 @@ def update_flux_mesh_colors(
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, j, center_k]
 
-        # Map displacement/ amplitude to color using selected gradient
-        # avg*2 as min/max_values allows peak visualization without saturation
+        # Map value to color using selected gradient
+        # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -562,8 +561,8 @@ def update_flux_mesh_colors(
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, center_j, k]
 
-        # Map displacement/ amplitude to color using selected gradient
-        # avg*2 as min/max_values allows peak visualization without saturation
+        # Map value to color using selected gradient
+        # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -587,8 +586,8 @@ def update_flux_mesh_colors(
         value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[center_i, j, k]
 
-        # Map displacement/ amplitude to color using selected gradient
-        # avg*2 as min/max_values allows peak visualization without saturation
+        # Map value to color using selected gradient
+        # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -603,7 +602,7 @@ def update_flux_mesh_colors(
             )
 
 
-# TODO: migrate to numerical analysis module
+# TODO: Move to dedicated numerical analysis/plotting module
 def plot_charge_profile(wave_field):
     """
     Plot the displacement profile along the x-axis through the center of the wave field.
