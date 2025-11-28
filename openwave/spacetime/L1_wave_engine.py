@@ -366,7 +366,7 @@ def propagate_ewave(
 
         # WAVE TRACKERS ============================================
         # Compute tracked properties during propagation (Amplitude & Frequency)
-        # Track AMPLITUDE envelope using exponential moving average (EMA)
+        # AMPLITUDE tracking envelope, using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
         # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
@@ -377,7 +377,7 @@ def propagate_ewave(
         alpha = 0.3 if disp_mag > current_amp else 0.02
         trackers.amplitudeL_am[i, j, k] = alpha * disp_mag + (1.0 - alpha) * current_amp
 
-        # Track FREQUENCY via zero-crossing detection
+        # FREQUENCY tracking, via zero-crossing detection
         # Detect positive-going zero crossing (negative → positive transition)
         # Period = time between consecutive positive zero crossings
         # More robust than peak detection since it's amplitude-independent

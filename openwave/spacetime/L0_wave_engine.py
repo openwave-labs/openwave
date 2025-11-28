@@ -16,9 +16,9 @@ from openwave.common import colormap, constants, equations, utils
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
-base_frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
-wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
+base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # in am
+base_frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # in Hz
+wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in am
 
 # ================================================================
 # Energy-Wave Source Data (Global Fields)
@@ -29,10 +29,10 @@ sources_direction = None  # Direction vectors from each granule to each wave sou
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
 sources_phase_shift = None  # Phase offset for each wave source (radians)
 
-# Adaptive displacement tracking for numerical analysis
-peak_amplitude_am = None  # Peak amplitude (maximum displacement from all granules)
-avg_amplitude_am = None  # RMS amplitude for energy calculation (peak * 0.707)
-last_amp_boost = None  # Track last amp_boost value for reset
+# Displacement tracking for energy calculation
+peak_amplitude_am = None  # max displacement across all granules
+avg_amplitude_am = None  # RMS amplitude (peak × 0.707)
+last_amp_boost = None  # for detecting amp_boost changes
 
 
 # ================================================================
@@ -61,8 +61,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
     global peak_amplitude_am, avg_amplitude_am, last_amp_boost
 
-    # Convert phase from degrees to radians for physics calculations
-    # Conversion: radians = degrees × π/180
+    # Convert phase from degrees to radians
     sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
 
     # Allocate Taichi fields for all granules and all wave sources
@@ -76,10 +75,10 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
-    # Initialize displacement tracking fields for numerical analysis
-    peak_amplitude_am = ti.field(dtype=ti.f32, shape=())  # peak amplitude (max displacement)
+    # Initialize displacement tracking fields
+    peak_amplitude_am = ti.field(dtype=ti.f32, shape=())  # max displacement
     avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # RMS amplitude
-    last_amp_boost = ti.field(dtype=ti.f32, shape=())  # Track last amp_boost value
+    last_amp_boost = ti.field(dtype=ti.f32, shape=())  # for change detection
 
     # Copy source data to Taichi fields
     for i in range(num_sources):
@@ -102,8 +101,8 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
                 # Vector from source to granule (for outward propagation)
                 dir_vec = lattice.position_am[granule_idx] - source_pos_am
 
-                # Distance from source to granule
-                dist = dir_vec.norm() + 1e-10  # Add epsilon to avoid division by zero
+                # Distance from source to granule (with epsilon for numerical stability)
+                dist = dir_vec.norm() + 1e-10
 
                 # Store normalized direction vector (outward from source)
                 sources_direction[granule_idx, source_idx] = dir_vec / dist
@@ -202,9 +201,9 @@ def oscillate_granules(
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wave_number = 2.0 * ti.math.pi / wavelength_am  # radians per attometer
 
-    # Reference radius for amplitude normalization (one wavelength)
-    # Prevents singularity at r=0 and provides physically meaningful normalization
-    r_reference_am = wavelength_am  # attometers
+    # Reference radius for amplitude normalization (r₀ = 1λ)
+    # Prevents singularity at r=0 and sets 1/r falloff reference point
+    r_reference_am = wavelength_am
 
     # Process all granules in parallel (outermost loop = GPU parallelization)
     for granule_idx in range(position_am.shape[0]):
@@ -212,7 +211,7 @@ def oscillate_granules(
         total_displacement_am = ti.Vector([0.0, 0.0, 0.0])  # sum of displacements from all sources
         total_velocity_am = ti.Vector([0.0, 0.0, 0.0])  # sum of velocities from all sources
 
-        # Sum contributions from all sources (superposition principle)
+        # Sum contributions from all sources (wave superposition)
         for source_idx in range(num_sources):
             # Get precomputed direction and distance for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
@@ -229,20 +228,15 @@ def oscillate_granules(
             total_phase = spatial_phase + phase_offset
 
             # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
-            # Use r_safe to prevent singularity (division by zero) at r → 0
-            # Enforces r_min = 1λ based on EWT neutrino boundary and EM near-field physics
-            r_safe_am = ti.max(r_am, r_reference_am)  # minimum 1 λ from source
+            # Clamp to r_min = 1λ to avoid singularity at r → 0
+            r_safe_am = ti.max(r_am, r_reference_am)
             amplitude_falloff = r_reference_am / r_safe_am
 
-            # Total amplitude at granule distance from source
-            # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
+            # Total amplitude at this distance (with visualization scaling)
             amplitude_am_at_r = base_amplitude_am * amplitude_falloff * amp_boost
 
-            # Step 2: Cap amplitude to distance from source (A ≤ r)
-            # Prevents non-physical behavior: granules crossing through wave source
-            # When A > r, displacement could exceed distance to source, placing granule
-            # on opposite side of source (physically impossible for longitudinal waves)
-            # This constraint ensures: |x - x_eq| ≤ |x_eq - x_source|
+            # Cap amplitude to distance from source (A ≤ r)
+            # Prevents granules crossing through wave source
             amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
 
             # MAIN EQUATION OF MOTION
@@ -266,22 +260,17 @@ def oscillate_granules(
         position_am[granule_idx] = equilibrium_am[granule_idx] + total_displacement_am
         velocity_am[granule_idx] = total_velocity_am
 
-        # ================================================================
-        # ENVELOPE TRACKING - NUMERICAL ANALYSIS
-        # ================================================================
-        # Compute displacement magnitude
+        # WAVE AMPLITUDE TRACKERS ============================================
         displacement_am = total_displacement_am.norm()
 
-        # Track granule amplitude for analysis (max displacement per granule)
-        # Thread-safe atomic max for parallel GPU execution
+        # Track per-granule amplitude (atomic for thread safety)
         ti.atomic_max(amplitude_am[granule_idx], displacement_am)
 
-        # Track peak amplitude across all granules (thread-safe atomic max)
-        # Used for numerical analysis and energy calculation
+        # Track global peak amplitude for energy calculation
         ti.atomic_max(peak_amplitude_am[None], displacement_am)
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
-        # Map displacement/amplitude to gradient color
+        # Map value to color using selected gradient
         if color_palette == 2:  # ironbow
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
                 amplitude_am[granule_idx] if var_amp else displacement_am,
@@ -295,7 +284,7 @@ def oscillate_granules(
                 peak_amplitude_am[None],
             )
 
-    # Reset amplitude trackers if amplitude boost changed
+    # Reset amplitude trackers when amp_boost changes
     # Prevents stale high values when amp_boost is reduced
     if last_amp_boost[None] != amp_boost:
         peak_amplitude_am[None] = 0.0
@@ -303,15 +292,12 @@ def oscillate_granules(
             amplitude_am[i] = 0.0
         last_amp_boost[None] = amp_boost
 
-    # Convert peak amplitude to RMS amplitude for energy calculation
-    # RMS amplitude = peak / √2 ≈ peak * 0.707
-    # This is the standard conversion for sinusoidal oscillations
-    # Energy equation uses amplitude, and RMS gives the effective energy content
+    # Convert peak to RMS amplitude: RMS = peak / √2 ≈ peak × 0.707
     avg_amplitude_am[None] = peak_amplitude_am[None] * 0.707
 
 
 def update_lattice_energy(lattice):
-    """Update lattice energy based on RMS amplitude from max displacement.
+    """Update lattice energy based on RMS amplitude.
 
     Must be called after oscillate_granules() to compute energy from wave amplitude.
     Cannot be done inside the kernel as lattice.energy is not a Taichi field.
@@ -328,5 +314,5 @@ def update_lattice_energy(lattice):
     lattice.energy = equations.compute_energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
-    lattice.energy_kWh = lattice.energy * utils.J2KWH  # in KWh
-    lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # global energy use
+    lattice.energy_kWh = lattice.energy * utils.J2KWH
+    lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # years of global energy use

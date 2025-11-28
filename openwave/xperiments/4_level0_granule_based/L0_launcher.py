@@ -212,7 +212,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
     Args:
         xperiment_mgr: XperimentManager instance
-        state: SimulationState instance (unused but kept for consistency)
+        state: SimulationState instance
 
     Returns:
         str or None: Selected xperiment name or None
@@ -271,12 +271,10 @@ def display_color_menu(state):
             state.COLOR_PALETTE = 99
             state.VAR_AMP = True
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
-            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
-            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
@@ -336,7 +334,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize wave sources and diagnostics (called once after lattice init).
+    """Initialize color palettes, wave sources and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -345,7 +343,7 @@ def initialize_xperiment(state):
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
-    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
+    # Initialize color palettes for gradient rendering and level indicator
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
@@ -364,12 +362,12 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute lattice motion from wave superposition and update visualization data.
+    """Compute granule oscillations from wave superposition.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # Apply wave oscillations from all sources (creates interference patterns)
+    # Apply wave oscillations from all sources
     ewave.oscillate_granules(
         state.lattice.position_am,
         state.lattice.equilibrium_am,
@@ -384,14 +382,14 @@ def compute_wave_motion(state):
         state.elapsed_t,
     )
 
-    # Update normalized positions for rendering with optional block-slicing
+    # Update normalized positions for rendering (with optional block-slicing)
     state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # Update data sampling every 30 frames
+    # Sample peak amplitude periodically (every 30 frames)
     if state.frame % 30 == 0:
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-        ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
+        ewave.update_lattice_energy(state.lattice)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
@@ -441,7 +439,7 @@ def main():
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
-    ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+    ti.init(arch=ti.gpu, log_level=ti.WARN)  # GPU preferred, suppress info logs
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -487,13 +485,13 @@ def main():
             sys.stderr.flush()
             render.window.running = False
 
-            # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
+            # os.execv replaces current process (macOS may show harmless warning)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
             # Update elapsed time and run simulation step
             current_time = time.time()
-            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
+            state.elapsed_t += current_time - state.last_time  # Real-time delta accumulation
             state.last_time = current_time
 
             compute_wave_motion(state)
@@ -511,7 +509,7 @@ def main():
         display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
-        # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
+        # Capture frame for video export (stops after VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
             video.export_frame(state.frame, state.VIDEO_FRAMES)
 
