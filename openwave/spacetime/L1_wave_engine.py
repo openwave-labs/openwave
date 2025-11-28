@@ -130,58 +130,6 @@ def charge_falloff(
 
 
 @ti.kernel
-def charge_full(
-    wave_field: ti.template(),  # type: ignore
-    dt_rs: ti.f32,  # type: ignore
-):
-    """
-    Initialize a spherical outgoing wave pattern centered in the wave field.
-
-    Creates a radial sinusoidal displacement pattern emanating from the grid center
-    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
-    timestep displacements for time-stepping propagation.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        dt_rs: Time step size (rs)
-    """
-
-    # Find center position (in grid indices)
-    center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
-    center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
-    center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
-
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
-
-    # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
-    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
-
-    # Create radial sinusoidal displacement pattern (interior points only)
-    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
-    for i, j, k in ti.ndrange(
-        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
-    ):
-        # Distance from center (in grid indices)
-        dx = ti.cast(i, ti.f32) - center_x
-        dy = ti.cast(j, ti.f32) - center_y
-        dz = ti.cast(k, ti.f32) - center_z
-        r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
-
-        # Simple sinusoidal radial pattern
-        # Outward displacement from center source: A(r)·cos(ωt - kr)
-        # Creates rings of positive/negative displacement
-        # Signed value: positive = expansion, negative = compression
-        disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -dt_rs - wave_number * r_grid)
-
-        # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at time t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
-
-
-@ti.kernel
 def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
 ):
@@ -236,6 +184,58 @@ def charge_gaussian(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
+
+
+@ti.kernel
+def charge_full(
+    wave_field: ti.template(),  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
+):
+    """
+    Initialize a spherical outgoing wave pattern centered in the wave field.
+
+    Creates a radial sinusoidal displacement pattern emanating from the grid center
+    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
+    timestep displacements for time-stepping propagation.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs)
+    """
+
+    # Find center position (in grid indices)
+    center_x = ti.cast(wave_field.nx, ti.f32) / 2.0
+    center_y = ti.cast(wave_field.ny, ti.f32) / 2.0
+    center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength / wave_field.dx
+    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        dx = ti.cast(i, ti.f32) - center_x
+        dy = ti.cast(j, ti.f32) - center_y
+        dz = ti.cast(k, ti.f32) - center_z
+        r_grid = ti.sqrt(dx * dx + dy * dy + dz * dz)  # in grid indices
+
+        # Simple sinusoidal radial pattern
+        # Outward displacement from center source: A(r)·cos(ωt - kr)
+        # Creates rings of positive/negative displacement
+        # Signed value: positive = expansion, negative = compression
+        disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
+        disp_old = base_amplitude_am * ti.cos(omega * -dt_rs - wave_number * r_grid)
+
+        # Apply both displacements (in attometers)
+        wave_field.displacement_am[i, j, k] = disp  # at time t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at time t=-1
 
 
 @ti.kernel

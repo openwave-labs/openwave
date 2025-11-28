@@ -385,8 +385,8 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    # ewave.charge_gaussian(state.wave_field)
     # ewave.charge_full(state.wave_field, state.dt_rs)
+    # ewave.charge_gaussian(state.wave_field)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial displacement profile
@@ -407,7 +407,11 @@ def compute_wave_motion(state):
         ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
-        state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
+        state.wave_field,
+        state.trackers,
+        state.c_amrs,
+        state.dt_rs,
+        state.elapsed_t_rs,
     )
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS
