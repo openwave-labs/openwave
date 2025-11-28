@@ -118,6 +118,7 @@ class SimulationState:
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.avg_energy = 0.0
         self.charge_level = 0.0
+        self.charging = True
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -207,6 +208,7 @@ class SimulationState:
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.avg_energy = 0.0
         self.charge_level = 0.0
+        self.charging = True
         self.initialize_grid()
         self.compute_timestep()
         initialize_xperiment(self)
@@ -309,16 +311,16 @@ def display_data_dashboard(state):
 
         sub.text("\n--- eWAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
-            f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
+            f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz}"
         )
-        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
+        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/edge")
 
         sub.text("\n--- eWAVE-SAMPLING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
@@ -326,7 +328,7 @@ def display_data_dashboard(state):
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
-            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charge_level < 0.8 else ""}",
+            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else ""}",
             color=(
                 colormap.RED[1]
                 if state.charge_level < 0.5
@@ -400,7 +402,7 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
     # Dynamic charger (oscillating source at grid center)
-    if state.charge_level < 0.8:
+    if state.charging:
         ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
@@ -424,6 +426,7 @@ def compute_wave_motion(state):
             * (state.avg_frequency * state.avg_amplitude) ** 2
         )
         state.charge_level = state.avg_energy / state.wave_field.energy
+        state.charging = state.charge_level < 0.8  # stop charging at 80%, energy stabilization
 
 
 def render_elements(state):

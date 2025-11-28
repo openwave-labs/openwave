@@ -284,7 +284,7 @@ def display_data_dashboard(state):
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
+        sub.text(f"Granule Count: {state.lattice.granule_count:,}")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
@@ -299,7 +299,7 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
         if state.lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/universe-edge")
+        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
@@ -313,9 +313,9 @@ def display_data_dashboard(state):
         slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
-        sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"Sim Time (slow-mo): {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"Sim Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
+        sub.text(f"Clock Time: {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"(1s sim time takes {slowed_mo / (60*60*24*365):.0e}y)")
 
 
 # ================================================================
