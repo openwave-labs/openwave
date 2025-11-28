@@ -43,7 +43,6 @@ XPARAMETERS = {
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
         "COLOR_PALETTE": 99,  # Color palette list: default (99), granule-type (0), redshift (1), ironbow (2), blueprint (3), viridis (4)
-        "VAR_AMP": False,  # Displacement vs amplitude toggle
     },
     "diagnostics": {
         "WAVE_DIAGNOSTICS": True,  # Toggle wave diagnostics (speed & wavelength measurements)

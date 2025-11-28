@@ -500,7 +500,6 @@ def update_flux_mesh_colors(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore
-    var_amp: ti.i32,  # type: ignore
 ):
     """
     Update flux mesh colors by sampling wave properties from voxel grid.
@@ -517,7 +516,6 @@ def update_flux_mesh_colors(
         wave_field: WaveField instance containing flux mesh fields and displacement data
         trackers: WaveTrackers instance with amplitude/frequency data for color scaling
         color_palette: Color palette selection (1=redshift, 2=ironbow, 3=blueprint)
-        var_amp: If true, color by amplitude; if false, color by displacement
     """
 
     # Get center indices for each Plane
@@ -533,7 +531,6 @@ def update_flux_mesh_colors(
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, j, center_k]
         amp_value = trackers.amplitudeL_am[i, j, center_k]
-        value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, j, center_k]
 
         # Map value to color using selected gradient
@@ -544,11 +541,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
+                disp_value,
+                -trackers.avg_amplitudeL_am[None] * 2,
+                trackers.avg_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -558,7 +557,6 @@ def update_flux_mesh_colors(
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[i, center_j, k]
         amp_value = trackers.amplitudeL_am[i, center_j, k]
-        value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[i, center_j, k]
 
         # Map value to color using selected gradient
@@ -569,11 +567,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
+                disp_value,
+                -trackers.avg_amplitudeL_am[None] * 2,
+                trackers.avg_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -583,7 +583,6 @@ def update_flux_mesh_colors(
         # Sample longitudinal displacement at this voxel
         disp_value = wave_field.displacement_am[center_i, j, k]
         amp_value = trackers.amplitudeL_am[center_i, j, k]
-        value = amp_value if var_amp else disp_value
         freq_value = trackers.frequency_rHz[center_i, j, k]
 
         # Map value to color using selected gradient
@@ -594,11 +593,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
+                disp_value,
+                -trackers.avg_amplitudeL_am[None] * 2,
+                trackers.avg_amplitudeL_am[None] * 2,
             )
 
 

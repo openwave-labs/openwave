@@ -136,7 +136,6 @@ class SimulationState:
         # Color control variables
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 1  # Color palette index
-        self.VAR_AMP = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
@@ -169,7 +168,6 @@ class SimulationState:
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
-        self.VAR_AMP = color["VAR_AMP"]
 
         # Diagnostics
         diag = params["diagnostics"]
@@ -264,24 +262,21 @@ def display_controls(state):
 
 def display_color_menu(state):
     """Display color selection menu."""
-    tracker = "amplitude" if state.VAR_AMP else "displacement"
     with render.gui.sub_window("COLOR MENU", 0.00, 0.75, 0.14, 0.12) as sub:
-        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
+        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-            state.VAR_AMP = False
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-            state.VAR_AMP = True
         if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
         if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
+            with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
                 sub.text(f"{-state.avg_amplitude * 2:.0e}  {state.avg_amplitude * 2:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
+            with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.avg_amplitude * 2:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
@@ -437,9 +432,7 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        ewave.update_flux_mesh_colors(
-            state.wave_field, state.trackers, state.COLOR_PALETTE, state.VAR_AMP
-        )
+        ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
