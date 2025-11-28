@@ -485,6 +485,7 @@ def update_flux_mesh_colors(
         freq_value = trackers.frequency_rHz[i, j, center_k]
 
         # Map displacement/ amplitude to color using selected gradient
+        # avg*2 as min/max_values allows peak visualization without saturation
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -495,7 +496,7 @@ def update_flux_mesh_colors(
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
             )
 
     # ================================================================
@@ -509,6 +510,7 @@ def update_flux_mesh_colors(
         freq_value = trackers.frequency_rHz[i, center_j, k]
 
         # Map displacement/ amplitude to color using selected gradient
+        # avg*2 as min/max_values allows peak visualization without saturation
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -519,7 +521,7 @@ def update_flux_mesh_colors(
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
             )
 
     # ================================================================
@@ -533,6 +535,7 @@ def update_flux_mesh_colors(
         freq_value = trackers.frequency_rHz[center_i, j, k]
 
         # Map displacement/ amplitude to color using selected gradient
+        # avg*2 as min/max_values allows peak visualization without saturation
         if color_palette == 3:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_frequency_rHz[None] * 2
@@ -543,7 +546,7 @@ def update_flux_mesh_colors(
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
-                value, -trackers.avg_amplitudeL_am[None], trackers.avg_amplitudeL_am[None]
+                value, -trackers.avg_amplitudeL_am[None] * 2, trackers.avg_amplitudeL_am[None] * 2
             )
 
 

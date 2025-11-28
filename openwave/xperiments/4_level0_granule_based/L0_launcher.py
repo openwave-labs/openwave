@@ -111,8 +111,8 @@ class SimulationState:
         self.granule = None
         self.elapsed_t = 0.0
         self.last_time = time.time()
-        self.frame = 0
-        self.peak_amplitude = 0.0
+        self.frame = 1
+        self.peak_amplitude = constants.EWAVE_AMPLITUDE
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -147,8 +147,8 @@ class SimulationState:
         """Reset simulation state for a new xperiment."""
         self.elapsed_t = 0.0
         self.last_time = time.time()
-        self.frame = 0
-        self.peak_amplitude = 0.0
+        self.frame = 1
+        self.peak_amplitude = constants.EWAVE_AMPLITUDE
 
     def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""

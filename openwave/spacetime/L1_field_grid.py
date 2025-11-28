@@ -385,6 +385,11 @@ class Trackers:
         self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, rhythm
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
+        # Assign default values
+        # baseline*0.5 to allow starting wave peaks to rise without saturation
+        self.avg_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
+        self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
+
 
 if __name__ == "__main__":
     print("\n================================================================")

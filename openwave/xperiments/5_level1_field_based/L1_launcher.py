@@ -112,10 +112,10 @@ class SimulationState:
         self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
-        self.frame = 0
-        self.avg_amplitude = 0.0
-        self.avg_frequency = 0.0
-        self.avg_wavelength = 0.0
+        self.frame = 1
+        self.avg_amplitude = constants.EWAVE_AMPLITUDE
+        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.avg_wavelength = constants.EWAVE_LENGTH
         self.avg_energy = 0.0
         self.charge_level = 0.0
 
@@ -192,8 +192,8 @@ class SimulationState:
         self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
         self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
 
-    def reset_sim(self):
-        """Reset simulation state."""
+    def restart_sim(self):
+        """Restart simulation state."""
         self.wave_field = None
         self.trackers = None
         self.c_amrs = 0.0
@@ -201,10 +201,10 @@ class SimulationState:
         self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
-        self.frame = 0
-        self.avg_amplitude = 0.0
-        self.avg_frequency = 0.0
-        self.avg_wavelength = 0.0
+        self.frame = 1
+        self.avg_amplitude = constants.EWAVE_AMPLITUDE
+        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.avg_wavelength = constants.EWAVE_LENGTH
         self.avg_energy = 0.0
         self.charge_level = 0.0
         self.initialize_grid()
@@ -256,8 +256,8 @@ def display_controls(state):
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
-        if sub.button("Reset Sim"):
-            state.reset_sim()
+        if sub.button("Restart Sim"):
+            state.restart_sim()
 
 
 def display_color_menu(state):
@@ -272,10 +272,11 @@ def display_color_menu(state):
             state.VAR_AMP = True
         if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
+        # avg*2 as min/max_values allows peak visualization without saturation
         if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"{-state.avg_amplitude:.0e}  {state.avg_amplitude:.0e}m")
+                sub.text(f"{-state.avg_amplitude * 2:.0e}  {state.avg_amplitude * 2:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window(tracker, 0.00, 0.69, 0.08, 0.06) as sub:
@@ -329,7 +330,11 @@ def display_data_dashboard(state):
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
             f"Charge Level: {state.charge_level:.2%}",
-            color=colormap.ORANGE[1] if state.charge_level < 1.0 else colormap.GREEN[1],
+            color=(
+                colormap.RED[1]
+                if state.charge_level < 0.5
+                else colormap.ORANGE[1] if state.charge_level < 1.0 else colormap.GREEN[1]
+            ),
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
@@ -406,7 +411,7 @@ def compute_wave_motion(state):
     )
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    # Compute averages every 30 frames to avoid GPU->CPU transfer overhead
+    # Compute averages with frame skip to avoid GPU->CPU transfer overhead
     if state.frame % 60 == 0:
         ewave.compute_avg_trackers(state.wave_field, state.trackers)
         state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
