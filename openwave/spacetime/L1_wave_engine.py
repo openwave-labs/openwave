@@ -164,7 +164,8 @@ def charge_gaussian(
     A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
 
-    # Apply Gaussian displacement (interior points only, boundaries stay at ψ=0)
+    # Apply Gaussian displacement (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
@@ -329,6 +330,7 @@ def propagate_ewave(
     Wave Equation: ∂²ψ/∂t² = c²∇²ψ
     Includes wave propagation, reflection at boundaries, superposition
     of wavefronts, and energy conservation.
+    Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
 
     Discrete Form (Leap-Frog/Verlet):
         ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
@@ -341,10 +343,11 @@ def propagate_ewave(
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
 
-    Known issue: Metal GPU backend is unstable for grids >720³. Use CPU for larger grids.
+    Known issue: Metal GPU backend is unstable for grids >720³.
     """
 
-    # Update all interior voxels only (boundaries stay at ψ=0)
+    # Update all interior voxels only
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
     # Direct range specification avoids conditional branching on GPU
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
@@ -434,6 +437,7 @@ def compute_avg_trackers(
     _copy_center_slice(trackers, _slice_amp, _slice_freq, mid_z)
 
     # Transfer only 2D slice to numpy (much smaller than 3D)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
     amp_slice = _slice_amp.to_numpy()[1:-1, 1:-1]
     freq_slice = _slice_freq.to_numpy()[1:-1, 1:-1]
 
