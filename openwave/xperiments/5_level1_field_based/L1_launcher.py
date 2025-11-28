@@ -326,7 +326,10 @@ def display_data_dashboard(state):
         sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
-        sub.text(f"Charge Level: {state.charge_level:.2%}")
+        sub.text(
+            f"Charge Level: {state.charge_level:.2%}",
+            color=colormap.ORANGE[1] if state.charge_level < 1.0 else colormap.GREEN[1],
+        )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Frames Rendered: {state.frame}")
@@ -376,12 +379,12 @@ def initialize_xperiment(state):
 
     # Static CHARGER Methods available for testing
     # Charge initial wave pattern
-    ewave.charge_gaussian(state.wave_field)
-    ewave.charge_full(state.wave_field, state.dt_rs)
+    # ewave.charge_gaussian(state.wave_field)
+    # ewave.charge_full(state.wave_field, state.dt_rs)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial displacement profile
-    ewave.plot_charge_profile(state.wave_field)
+    # ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
@@ -394,8 +397,8 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
     # Dynamic CHARGER Method
-    # TODO: stop charging when total energy stabilizes
-    # ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
+    if state.charge_level < 0.8:
+        ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
         state.wave_field, state.trackers, state.c_amrs, state.dt_rs, state.elapsed_t_rs
@@ -403,7 +406,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS
     # Compute averages every 30 frames to avoid GPU->CPU transfer overhead
-    if state.frame % 30 == 0:
+    if state.frame % 60 == 0:
         ewave.compute_avg_trackers(state.wave_field, state.trackers)
         state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
         state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND

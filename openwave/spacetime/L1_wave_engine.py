@@ -277,7 +277,9 @@ def charge_oscillator(
         # Compute distance squared inline (Taichi kernels need direct computation)
         dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
         if dist_sq <= source_radius**2:
-            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(omega * elapsed_t_rs)
+            wave_field.displacement_am[i, j, k] = (
+                5 * base_amplitude_am * ti.cos(omega * elapsed_t_rs)
+            )
 
 
 @ti.func
