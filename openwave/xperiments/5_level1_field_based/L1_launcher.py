@@ -426,7 +426,7 @@ def compute_wave_motion(state):
             * (state.avg_frequency * state.avg_amplitude) ** 2
         )
         state.charge_level = state.avg_energy / state.wave_field.energy
-        state.charging = state.charge_level < 0.8  # stop charging at 80%, energy stabilization
+        state.charging = state.charge_level < 0.5  # stop charging at 80%, energy stabilization
 
 
 def render_elements(state):
@@ -439,10 +439,10 @@ def render_elements(state):
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
-    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
+    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================

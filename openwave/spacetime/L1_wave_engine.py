@@ -260,8 +260,12 @@ def charge_oscillator(
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength / wave_field.dx
+    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
     # Define oscillator sphere radius (5% of max grid dimension)
-    source_radius = int(0.05 * wave_field.max_grid_size)
+    source_radius = int(0.33 * wave_field.max_grid_size)
 
     # Find center position (in grid indices)
     cx = wave_field.nx // 2
@@ -276,10 +280,10 @@ def charge_oscillator(
         (cz - source_radius, cz + source_radius + 1),
     ):
         # Check if voxel is within spherical source region
-        dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
-        if dist_sq <= source_radius**2:
-            wave_field.displacement_am[i, j, k] = (
-                5 * base_amplitude_am * ti.cos(omega * elapsed_t_rs)
+        r_grid = ti.sqrt((i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2)
+        if r_grid <= source_radius:
+            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(
+                omega * elapsed_t_rs - wave_number * r_grid
             )
 
 
