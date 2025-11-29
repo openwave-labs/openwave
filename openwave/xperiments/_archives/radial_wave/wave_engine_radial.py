@@ -87,7 +87,7 @@ def oscillate_granules_tocenter(
         amp_boost: Multiplier for oscillation amplitude (for visibility in scaled lattices)
     """
     frequency_slo = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency
+    omega_slo = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     # Wave number k = 2π/λ (for spatial phase variation)
     # Using energy wavelength to determine how phase changes with distance
@@ -125,9 +125,9 @@ def oscillate_granules_tocenter(
         amplitude_at_r = ti.min(amplitude_uncapped, r)
 
         # Position: x(t) = x_eq + A(r)·cos(ωt + φ)·direction
-        displacement = amplitude_at_r * ti.cos(omega * t + phase)
+        displacement = amplitude_at_r * ti.cos(omega_slo * t + phase)
         position[idx] = equilibrium[idx] + displacement * direction
 
         # Velocity: v(t) = -A(r)·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_at_r * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_at_r * omega_slo * ti.sin(omega_slo * t + phase)
         velocity[idx] = velocity_magnitude * direction

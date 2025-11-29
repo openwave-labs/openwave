@@ -47,7 +47,7 @@ def oscillate_vertex(
         t: Current simulation time (accumulated)
     """
     frequency_slo = frequency / slo_mo * freq_boost
-    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency
+    omega_slo = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]
@@ -58,11 +58,11 @@ def oscillate_vertex(
         phase = float(v) * ti.math.pi / 4.0
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-        displacement = amplitude_am * ti.cos(omega * t + phase)
+        displacement = amplitude_am * ti.cos(omega_slo * t + phase)
         position[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * omega_slo * ti.sin(omega_slo * t + phase)
         velocity[idx] = velocity_magnitude * direction
 
 

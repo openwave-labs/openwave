@@ -40,11 +40,11 @@ def charge_1lambda(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
-    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -64,8 +64,8 @@ def charge_1lambda(
         # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
+        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -95,11 +95,11 @@ def charge_falloff(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
-    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -121,8 +121,8 @@ def charge_falloff(
         # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = amplitude_am_at_r * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega * -dt_rs - wave_number * r_grid)
+        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -210,11 +210,11 @@ def charge_full(
     center_z = ti.cast(wave_field.nz, ti.f32) / 2.0
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
-    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -231,8 +231,8 @@ def charge_full(
         # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = base_amplitude_am * ti.cos(omega * 0 - wave_number * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega * -dt_rs - wave_number * r_grid)
+        disp = base_amplitude_am * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = base_amplitude_am * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -240,7 +240,7 @@ def charge_full(
 
 
 @ti.kernel
-def charge_oscillator(
+def charge_energy(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
 ):
@@ -258,33 +258,73 @@ def charge_oscillator(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength / wave_field.dx
-    wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
-
-    # Define oscillator sphere radius (5% of max grid dimension)
-    source_radius = int(0.3 * wave_field.max_grid_size)
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Find center position (in grid indices)
-    cx = wave_field.nx // 2
-    cy = wave_field.ny // 2
-    cz = wave_field.nz // 2
+    cx_grid = wave_field.nx // 2
+    cy_grid = wave_field.ny // 2
+    cz_grid = wave_field.nz // 2
+
+    # Define oscillator sphere radius
+    charge_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
 
     # Apply oscillating displacement within source sphere
-    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
     for i, j, k in ti.ndrange(
-        (cx - source_radius, cx + source_radius + 1),
-        (cy - source_radius, cy + source_radius + 1),
-        (cz - source_radius, cz + source_radius + 1),
+        (cx_grid - charge_radius_grid, cx_grid + charge_radius_grid + 1),
+        (cy_grid - charge_radius_grid, cy_grid + charge_radius_grid + 1),
+        (cz_grid - charge_radius_grid, cz_grid + charge_radius_grid + 1),
     ):
         # Check if voxel is within spherical source region
-        r_grid = ti.sqrt((i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2)
-        if r_grid <= source_radius:
-            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(
-                omega * elapsed_t_rs - wave_number * r_grid
+        r_grid = ti.sqrt((i - cx_grid) ** 2 + (j - cy_grid) ** 2 + (k - cz_grid) ** 2)
+        if r_grid <= charge_radius_grid:
+            wave_field.displacement_am[i, j, k] = (
+                base_amplitude_am
+                * (wave_field.max_grid_size / 500) ** 0.5
+                * ti.cos(omega_rs * elapsed_t_rs - k_grid * r_grid)
             )
+
+
+@ti.kernel
+def damp_energy(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within a spherical volume at the grid center.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Find center position (in grid indices)
+    cx_grid = wave_field.nx // 2
+    cy_grid = wave_field.ny // 2
+    cz_grid = wave_field.nz // 2
+
+    # Define damp sphere radius
+    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
+
+    # Apply damping displacement within sphere
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (cx_grid - damp_radius_grid, cx_grid + damp_radius_grid + 1),
+        (cy_grid - damp_radius_grid, cy_grid + damp_radius_grid + 1),
+        (cz_grid - damp_radius_grid, cz_grid + damp_radius_grid + 1),
+    ):
+        # Check if voxel is within spherical drain region
+        r_grid = ti.sqrt((i - cx_grid) ** 2 + (j - cy_grid) ** 2 + (k - cz_grid) ** 2)
+        if r_grid <= damp_radius_grid:
+            wave_field.displacement_am[i, j, k] *= decay_factor
 
 
 @ti.func
@@ -369,12 +409,10 @@ def propagate_ewave(
         )
 
         # WAVE TRACKERS ============================================
-        # Compute tracked properties during propagation (Amplitude & Frequency)
         # AMPLITUDE tracking envelope, using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
         # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
-        # This captures peaks quickly but smooths out the decay
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = trackers.amplitudeL_am[i, j, k]

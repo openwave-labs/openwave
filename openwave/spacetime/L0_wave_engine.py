@@ -212,10 +212,10 @@ def oscillate_granules(
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     frequency_slo = base_frequency / 1e25 * freq_boost  # slowed frequency (1Hz * boost)
-    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency (rad/s)
+    omega_slo = 2.0 * ti.math.pi * frequency_slo  # angular frequency (rad/s)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wave_number = 2.0 * ti.math.pi / wavelength_am  # radians per attometer
+    k_am = 2.0 * ti.math.pi / wavelength_am  # radians per attometer
 
     # Reference radius for amplitude normalization (r₀ = 1λ)
     # Prevents singularity at r=0 and sets 1/r falloff reference point
@@ -238,7 +238,7 @@ def oscillate_granules(
 
             # Spatial phase: φ = -k·r (negative for outward propagation)
             # Creates spherical wave fronts expanding from source
-            spatial_phase = -wave_number * r_am
+            spatial_phase = -k_am * r_am
 
             # Total phase: includes spatial phase and source's initial offset
             total_phase = spatial_phase + phase_offset
@@ -258,13 +258,13 @@ def oscillate_granules(
             # MAIN EQUATION OF MOTION
             # Wave displacement from this source: A(r)·cos(ωt + φ)·direction
             source_displacement_am_magnitude = amplitude_am_at_r_cap * ti.cos(
-                omega * elapsed_t + total_phase
+                omega_slo * elapsed_t + total_phase
             )
             source_displacement_am = source_displacement_am_magnitude * direction
 
             # Wave velocity from this source: -A(r)·ω·sin(ωt + φ)·direction
             velocity_am_magnitude = (
-                -amplitude_am_at_r_cap * omega * ti.sin(omega * elapsed_t + total_phase)
+                -amplitude_am_at_r_cap * omega_slo * ti.sin(omega_slo * elapsed_t + total_phase)
             )
             source_velocity_am = velocity_am_magnitude * direction
 

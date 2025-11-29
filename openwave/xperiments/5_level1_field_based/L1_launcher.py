@@ -119,6 +119,7 @@ class SimulationState:
         self.avg_energy = 0.0
         self.charge_level = 0.0
         self.charging = True
+        self.damping = False
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -209,6 +210,7 @@ class SimulationState:
         self.avg_energy = 0.0
         self.charge_level = 0.0
         self.charging = True
+        self.damping = False
         self.initialize_grid()
         self.compute_timestep()
         initialize_xperiment(self)
@@ -328,11 +330,11 @@ def display_data_dashboard(state):
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
-            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else ""}",
+            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(stable)"}",
             color=(
-                colormap.RED[1]
-                if state.charge_level < 0.5
-                else colormap.ORANGE[1] if state.charge_level < 1.0 else colormap.GREEN[1]
+                colormap.ORANGE[1]
+                if state.charging
+                else colormap.RED[1] if state.damping else colormap.GREEN[1]
             ),
         )
 
@@ -382,13 +384,13 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Static charger methods (one-time initialization patterns)
-    # Uncomment to test different initial wave configurations:
+    # STATIC CHARGER methods (one-time initialization pattern)
+    # Uncomment to test different initial wave configurations
     # ewave.charge_full(state.wave_field, state.dt_rs)
     # ewave.charge_gaussian(state.wave_field)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
-    # TODO: code toggle to plot initial displacement profile
+    # TODO: code toggle to plot initial charging pattern
     # ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
@@ -401,9 +403,10 @@ def compute_wave_motion(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # Dynamic charger (oscillating source at grid center)
+    # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
+    # Charger runs BEFORE propagation to inject energy into displacement_am
     if state.charging:
-        ewave.charge_oscillator(state.wave_field, state.elapsed_t_rs)
+        ewave.charge_energy(state.wave_field, state.elapsed_t_rs)  # energy injection
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -412,6 +415,10 @@ def compute_wave_motion(state):
         state.dt_rs,
         state.elapsed_t_rs,
     )
+
+    # DYNAMIC DAMPING runs AFTER propagation to damp displacement values
+    if state.damping:
+        ewave.damp_energy(state.wave_field, 0.99)  # energy absorption
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
@@ -426,7 +433,8 @@ def compute_wave_motion(state):
             * (state.avg_frequency * state.avg_amplitude) ** 2
         )
         state.charge_level = state.avg_energy / state.wave_field.energy
-        state.charging = state.charge_level < 0.5  # stop charging at 80%, energy stabilization
+        state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
+        state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
 
 
 def render_elements(state):
