@@ -386,7 +386,7 @@ def initialize_xperiment(state):
 
     # STATIC CHARGER methods (one-time initialization pattern)
     # Uncomment to test different initial wave configurations
-    ewave.charge_full(state.wave_field, state.dt_rs)
+    # ewave.charge_full(state.wave_field, state.dt_rs)
     # ewave.charge_gaussian(state.wave_field)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
@@ -406,7 +406,7 @@ def compute_wave_motion(state):
     # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
     # Charger runs BEFORE propagation to inject energy into displacement_am
     if state.charging:
-        ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)  # energy injection
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
 
     ewave.propagate_ewave(
         state.wave_field,

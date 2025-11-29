@@ -259,7 +259,7 @@ def charge_oscillator_sphere(
     center_z = wave_field.nz // 2
 
     # Define oscillator sphere radius
-    charge_radius_grid = int(0.05 * wave_field.max_grid_size)  # in grid indices
+    charge_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
 
     # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
