@@ -387,9 +387,9 @@ def initialize_xperiment(state):
     # STATIC CHARGER methods (one-time initialization pattern)
     # Uncomment to test different initial wave configurations
     # ewave.charge_full(state.wave_field, state.dt_rs)
-    # ewave.charge_gaussian(state.wave_field)
-    # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
-    # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
+    ewave.charge_gaussian(state.wave_field)
+    # TODO: remove too-light: ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # TODO: remove too-light: ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial charging pattern
     # ewave.plot_charge_profile(state.wave_field)
 
@@ -405,8 +405,9 @@ def compute_wave_motion(state):
     """
     # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
     # Charger runs BEFORE propagation to inject energy into displacement_am
-    if state.charging:
-        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+    # if state.charging:
+    #     ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+    # TODO: remove too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -422,19 +423,19 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0:
+    if state.frame % 60 == 0 and state.frame > 300:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
-        state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
-        state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
-        state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
-        state.avg_energy = (
-            constants.MEDIUM_DENSITY
-            * state.wave_field.universe_volume
-            * (state.avg_frequency * state.avg_amplitude) ** 2
-        )
-        state.charge_level = state.avg_energy / state.wave_field.energy
-        state.charging = state.charge_level < 0.9  # stop charging, seeks energy stabilization
-        state.damping = state.charge_level > 1.1  # start damping, seeks energy stabilization
+    state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
+    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
+    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
+    state.avg_energy = (
+        constants.MEDIUM_DENSITY
+        * state.wave_field.universe_volume
+        * (state.avg_frequency * state.avg_amplitude) ** 2
+    )
+    state.charge_level = state.avg_energy / state.wave_field.energy
+    state.charging = state.charge_level < 0.9  # stop charging, seeks energy stabilization
+    state.damping = state.charge_level > 1.1  # start damping, seeks energy stabilization
 
 
 def render_elements(state):
@@ -470,7 +471,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "energy_wave"
+    default_xperiment = selected_xperiment_arg or "our_queen"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return

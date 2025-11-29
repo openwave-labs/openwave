@@ -483,7 +483,7 @@ def propagate_ewave(
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = trackers.amplitudeL_am[i, j, k]
-        alpha = 0.3 if disp_mag > current_amp else 0.02
+        alpha = 0.1 if disp_mag > current_amp else 0.1
         trackers.amplitudeL_am[i, j, k] = alpha * disp_mag + (1.0 - alpha) * current_amp
 
         # FREQUENCY tracking, via zero-crossing detection

@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Energy Wave
+XPERIMENT PARAMETERS: Our Queen's Energy Wave
 
 This XPERIMENT showcases:
 -
@@ -11,7 +11,7 @@ UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "[WIP] Energy Wave",
+        "X_NAME": "[WIP] Our Queen",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -31,7 +31,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 1,  # Color palette list: redshift (1), ironbow (2), blueprint (3), viridis (4)
+        "COLOR_PALETTE": 2,  # Color palette list: redshift (1), ironbow (2), blueprint (3), viridis (4)
     },
     "diagnostics": {
         "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
