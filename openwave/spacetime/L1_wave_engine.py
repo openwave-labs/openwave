@@ -229,7 +229,7 @@ def charge_full(
 
 
 @ti.kernel
-def charge_oscillator(
+def charge_oscillator_sphere(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
 ):
@@ -282,14 +282,13 @@ def charge_oscillator_falloff(
     elapsed_t_rs: ti.f32,  # type: ignore
 ):
     """
-    Apply harmonic oscillation to a spherical volume at the grid center
-    with 1/r amplitude falloff.
+    Apply harmonic oscillation with 1/r amplitude falloff.
 
     Similar to charge_oscillator() but includes realistic amplitude decay with
     distance (λ/r falloff). Creates a radial sinusoidal displacement pattern
     where amplitude decreases inversely with distance from the source.
 
-    Creates a uniform displacement within a spherical region using:
+    Creates a uniform displacement using:
         ψ(t) = A(r)·cos(ωt-kr), where A(r) = A·(λ/r)
 
     The oscillator acts as a coherent wave source, with all voxels inside

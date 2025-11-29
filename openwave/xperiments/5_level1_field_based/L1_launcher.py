@@ -418,7 +418,7 @@ def compute_wave_motion(state):
 
     # DYNAMIC DAMPING runs AFTER propagation to damp displacement values
     if state.damping:
-        ewave.damp_energy_sphere(state.wave_field, 0.99)  # energy absorption
+        ewave.damp_energy_full(state.wave_field, 0.99)  # energy absorption
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
