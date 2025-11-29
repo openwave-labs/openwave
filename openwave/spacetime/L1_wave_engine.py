@@ -265,7 +265,7 @@ def charge_oscillator(
     wave_number = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Define oscillator sphere radius (5% of max grid dimension)
-    source_radius = int(0.33 * wave_field.max_grid_size)
+    source_radius = int(0.3 * wave_field.max_grid_size)
 
     # Find center position (in grid indices)
     cx = wave_field.nx // 2
