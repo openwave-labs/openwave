@@ -330,7 +330,7 @@ def charge_oscillator_falloff(
 
 
 @ti.kernel
-def damp_energy_sphere(
+def damp_load_sphere(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
@@ -368,7 +368,7 @@ def damp_energy_sphere(
 
 
 @ti.kernel
-def damp_energy_full(
+def damp_load_full(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
@@ -475,7 +475,7 @@ def propagate_ewave(
             + (c_amrs * dt_rs) ** 2 * laplacian_am
         )
 
-        # WAVE TRACKERS ============================================
+        # WAVE-TRACKERS ============================================
         # AMPLITUDE tracking envelope, using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
