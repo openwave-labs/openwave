@@ -4,4 +4,4 @@ OpenWave is an open-source computational physics toolkit for modeling matter and
 
 """
 
-__version__ = "0.3.1"
+__version__ = "0.4.0"
