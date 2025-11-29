@@ -330,7 +330,7 @@ def display_data_dashboard(state):
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
         sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
-            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(stable)"}",
+            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
             color=(
                 colormap.ORANGE[1]
                 if state.charging
@@ -386,7 +386,7 @@ def initialize_xperiment(state):
 
     # STATIC CHARGER methods (one-time initialization pattern)
     # Uncomment to test different initial wave configurations
-    # ewave.charge_full(state.wave_field, state.dt_rs)
+    ewave.charge_full(state.wave_field, state.dt_rs)
     # ewave.charge_gaussian(state.wave_field)
     # NO: ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NO: ewave.charge_1lambda(state.wave_field, state.dt_rs)
@@ -406,7 +406,7 @@ def compute_wave_motion(state):
     # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
     # Charger runs BEFORE propagation to inject energy into displacement_am
     if state.charging:
-        ewave.charge_energy(state.wave_field, state.elapsed_t_rs)  # energy injection
+        ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)  # energy injection
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -418,7 +418,7 @@ def compute_wave_motion(state):
 
     # DYNAMIC DAMPING runs AFTER propagation to damp displacement values
     if state.damping:
-        ewave.damp_energy(state.wave_field, 0.99)  # energy absorption
+        ewave.damp_energy_sphere(state.wave_field, 0.99)  # energy absorption
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
@@ -433,8 +433,8 @@ def compute_wave_motion(state):
             * (state.avg_frequency * state.avg_amplitude) ** 2
         )
         state.charge_level = state.avg_energy / state.wave_field.energy
-        state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
-        state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
+        state.charging = state.charge_level < 0.9  # stop charging, seeks energy stabilization
+        state.damping = state.charge_level > 1.1  # start damping, seeks energy stabilization
 
 
 def render_elements(state):
