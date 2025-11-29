@@ -29,7 +29,7 @@ Also check `/research_requirements/original_requirements/1. Simulating a Fundame
 
 - `AMPLITUDE` - how far vertices move from equilibrium (units already declared as well)
 - `FREQUENCY` - base frequency of oscillation (Hz)
-- `SLOW_MO` FACTOR - slow-down multiplier for human-visible motion
+- `SLO_MO` FACTOR - slow-down multiplier for human-visible motion
 - `TARGET_FPS` (optional) - e.g., 60 or 30 to match screen refresh rate, lets skip that for now, if need we implement it later
 
 ### 2. Data Storage Needs
@@ -55,15 +55,15 @@ Vertices should oscillate in the direction found at BCCLattice.vertex_directions
 **Position equation**:
 
 ```python
-displacement(t) = AMPLITUDE * cos(2π * f_slowed * t)
-where f_slowed = FREQUENCY / SLOW_MO
+displacement(t) = AMPLITUDE * cos(2π * frequency_slo * t)
+where frequency_slo = FREQUENCY / SLO_MO
 new_position = equilibrium_pos + displacement * direction_vector
 ```
 
 **Velocity equation** (derivative of position):
 
 ```python
-velocity(t) = -AMPLITUDE * (2π * f_slowed) * sin(2π * f_slowed * t) * direction_vector
+velocity(t) = -AMPLITUDE * (2π * frequency_slo) * sin(2π * frequency_slo * t) * direction_vector
 ```
 
 Note: For Phase 1, we can either:
@@ -102,11 +102,11 @@ def oscillate_vertex(
     t: ti.f32,
     amplitude: ti.f32,
     frequency: ti.f32,
-    slow_mo: ti.f32
+    slo_mo: ti.f32
 ):
     """Update 8 vertex positions and velocities using harmonic oscillation."""
-    f_slowed = frequency / slow_mo
-    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
+    frequency_slo = frequency / slo_mo
+    omega = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]
@@ -133,7 +133,7 @@ while window.running:
         lattice.vertex_index,
         lattice.vertex_equilibrium,
         lattice.vertex_directions,
-        t, AMPLITUDE, FREQUENCY, SLOW_MO
+        t, AMPLITUDE, FREQUENCY, SLO_MO
     )
     # ... rest of render loop
 ```
@@ -158,7 +158,7 @@ while window.running:
 - [ ] Initialize time: `t = 0.0` before while loop
 - [ ] Add time accumulation: `t += DT` at start of while loop
 - [ ] Call oscillation update before rendering
-- [ ] Verify constants are properly defined (already done - AMPLITUDE, FREQUENCY, SLOW_MO)
+- [ ] Verify constants are properly defined (already done - AMPLITUDE, FREQUENCY, SLO_MO)
 
 #### Step 4: Debugging & Validation
 
@@ -166,7 +166,7 @@ while window.running:
 - [ ] Print first few frames of vertex positions to verify oscillation
 - [ ] Check that vertices move along correct direction vectors
 - [ ] Verify amplitude matches expected displacement
-- [ ] Confirm frequency produces visible oscillation with SLOW_MO factor
+- [ ] Confirm frequency produces visible oscillation with SLO_MO factor
 
 #### Step 5: Visual Validation
 
@@ -184,8 +184,8 @@ while window.running:
 - **Direction sign**: `vertex_directions` points FROM vertex TO center (inward)
   - Positive displacement moves INWARD (correct)
   - Negative displacement moves OUTWARD (correct)
-- **Numerical precision**: With SLOW_MO, ensure `f_slowed` doesn't underflow to zero
-  - `f_slowed = (3e8 / 2.85e-17) / 1e25 ≈ 1.05e0` (safe, no underflow)
+- **Numerical precision**: With SLO_MO, ensure `frequency_slo` doesn't underflow to zero
+  - `frequency_slo = (3e8 / 2.85e-17) / 1e25 ≈ 1.05e0` (safe, no underflow)
 - **Performance**: Monitor FPS with uncapped frame rate
 - **Coordinate system**: Ensure `vertex_directions` normalized vectors are correct
 - **Spring system interaction**: Later, vertex forced motion may need to override spring forces

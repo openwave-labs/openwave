@@ -29,7 +29,7 @@ def oscillate_vertex(
     vertex_equilibrium: ti.template(),  # type: ignore
     vertex_center_direction: ti.template(),  # type: ignore
     t: ti.f32,  # type: ignore
-    slow_mo: ti.f32,  # type: ignore
+    slo_mo: ti.f32,  # type: ignore
     freq_boost: ti.f32,  # type: ignore
 ):
     """Injects energy into 8 vertices using harmonic oscillation (wave source, rhythm).
@@ -46,8 +46,8 @@ def oscillate_vertex(
         vertex_center_direction: Normalized direction vectors from vertices to center
         t: Current simulation time (accumulated)
     """
-    f_slowed = frequency / slow_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed  # angular frequency
+    frequency_slo = frequency / slo_mo * freq_boost
+    omega_slo = 2.0 * ti.math.pi * frequency_slo  # angular frequency
 
     for v in range(8):
         idx = vertex_index[v]
@@ -58,11 +58,11 @@ def oscillate_vertex(
         phase = float(v) * ti.math.pi / 4.0
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
-        displacement = amplitude_am * ti.cos(omega * t + phase)
+        displacement = amplitude_am * ti.cos(omega_slo * t + phase)
         position[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_am * omega * ti.sin(omega * t + phase)
+        velocity_magnitude = -amplitude_am * omega_slo * ti.sin(omega_slo * t + phase)
         velocity[idx] = velocity_magnitude * direction
 
 
@@ -173,7 +173,7 @@ def propagate_ewave(
     t: float,
     dt: float,
     substeps: int,
-    slow_mo: float = 1.0,
+    slo_mo: float = 1.0,
     freq_boost: float = 1.0,
     damping: float = 0.99,
 ):
@@ -197,7 +197,7 @@ def propagate_ewave(
         t: Current simulation time
         dt: Frame timestep
         substeps: Number of substeps per frame (30-100 recommended)
-        slow_mo: Slow motion factor for visualization
+        slo_mo: Slow motion factor for visualization
         damping: Velocity damping per substep (0.999 = 0.1% energy loss/step)
     """
 
@@ -213,7 +213,7 @@ def propagate_ewave(
         lattice.vertex_equilibrium_am,  # in am
         lattice.vertex_center_direction,
         t,
-        slow_mo,
+        slo_mo,
         freq_boost,
     )
 

@@ -11,7 +11,7 @@ EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY
 # Current simulation parameters
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 TARGET_GRANULES = 1e6  # target granule count
-SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLO_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 STIFFNESS = 1e-13  # N/m (already reduced!)
 
 # Calculate granule properties (simplified BCC lattice estimate)
@@ -46,7 +46,7 @@ print(f"Granule mass: {granule.mass:.2e} kg")
 print(f"\nCurrent Spring stiffness: {STIFFNESS:.2e} N/m")
 print(f"Natural frequency: {frequency:.2e} Hz (period: {period:.2e} s)")
 print(f"Energy-Wave frequency: {EWAVE_FREQUENCY:.2e} Hz")
-print(f"Energy-Wave slowed: {EWAVE_FREQUENCY / SLOW_MO:.2e} Hz")
+print(f"Energy-Wave slowed: {EWAVE_FREQUENCY / SLO_MO:.2e} Hz")
 print(
     f"Stiffness to match: {equations.compute_stiffness_from_frequency(EWAVE_FREQUENCY, granule.mass):.2e} N/m"
 )

@@ -123,13 +123,13 @@ if frame % print_interval != 0:
 
 ## API Reference
 
-### `print_initial_parameters(slow_mo=1.0)`
+### `print_initial_parameters(slo_mo=1.0)`
 
 Prints expected wave parameters at simulation startup.
 
 **Parameters:**
 
-- `slow_mo` (float): Slow-motion factor for display purposes (default: 1.0)
+- `slo_mo` (float): Slow-motion factor for display purposes (default: 1.0)
   - Shows effective frequency when slow-motion is applied
   - Reminds user that c and λ remain exact regardless of slow-mo
 
@@ -140,7 +140,7 @@ Prints expected wave parameters at simulation startup.
 diagnostics.print_initial_parameters()
 
 # With slow-motion (e.g., 1e25x slower for visualization)
-diagnostics.print_initial_parameters(slow_mo=1e25)
+diagnostics.print_initial_parameters(slo_mo=1e25)
 ```
 
 ### `print_wave_diagnostics(t, frame, print_interval=100)`

@@ -77,9 +77,9 @@ Ratio: v_wave/c ≈ 2e-24
 - It's like having a lattice made of wet noodles instead of springs
 - **The waves would take billions of years to cross one granule spacing!** 🐌
 
-#### Option 2: Don't Slow Down Vertices (Remove SLOW_MO from Physics)
+#### Option 2: Don't Slow Down Vertices (Remove SLO_MO from Physics)
 
-Keep SLOW_MO = 1 for physics, use it only for rendering:
+Keep SLO_MO = 1 for physics, use it only for rendering:
 
 ```python
 # Physics runs at full speed

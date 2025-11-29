@@ -112,7 +112,7 @@ Wave Speed Measurement (every 1 second)
 
 - Tracks wavefront position (granules with displacement > 10% of amplitude)
 - Measures distance traveled from first detection
-- Calculates: v = distance / time × SLOW_MO
+- Calculates: v = distance / time × SLO_MO
 - Prints:
   - WAVE SPEED MEASUREMENT #X
   - Wave speed: X.XXXe+08 m/s
@@ -134,7 +134,7 @@ Wavelength Measurement (every 5 seconds)
 
 Key Features:
 
-- Accounts for SLOW_MO: Converts simulation time to real physics time
+- Accounts for SLO_MO: Converts simulation time to real physics time
 - Non-intrusive: Measurements don't affect simulation
 - Automatic: Prints to console every interval
 - Validates physics: Compares to theoretical expectations

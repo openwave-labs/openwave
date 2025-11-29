@@ -13,25 +13,24 @@ import numpy as np
 # Scaled SI Units for Numerical Precision
 # ================================================================
 # OpenWave engines use scaled units to maintain f32 precision:
-# Spatial:  ATTOMETER = 1e-18 m
+# Spatial:  ATTOMETER = 1e-18 m (var suffix '_am')
 #   - Wavelength: ~28.5 am (vs 2.85e-17 m)
-#   - Amplitude: ~0.9 am (vs 9.2e-19 m)
-#   - Naming: variables/fields with suffix '_am'
+#   - Amplitude: ~0.92 am (vs 9.2e-19 m)
 #
-# Temporal: RONTOSECOND = 1e-27 s
+# Temporal: RONTOSECOND = 1e-27 s (var suffix '_rs, _amrs, _rHz')
+#   - Frequency: ~0.01 rHz (vs 1.05e25 Hz)
+#   - Wave Speed: ~0.3 am/rs (vs 2.99e8 m/s)
+#   - Timestep: ~4.15 rs (vs 4.15e-27 s)
 #   - Period: ~95.2 rs (vs 9.52e-26 s)
-#   - Timestep: ~2.4 rs (vs 2.4e-27 s)
-#   - Naming: variables/fields with suffix '_rs'
 #
 # Benefits:
 #   - Solution for floating-point precision
 #   - Prevents catastrophic cancellation in derivatives/gradients
 #   - Maintains 6-7 significant digits with f32
 #   - Scaled values near 1.0 (optimal for floating point)
-#   - Reduces memory usage (f32 vs f64)
-#   - Improves computational performance (f32 vs f64)
-ATTOMETER = 1e-18  # m, attometer length scale
-RONTOSECOND = 1e-27  # s, rontosecond time scale
+#   - Improves memory usage & computational performance (f32 vs f64)
+ATTOMETER = 1e-18  # m/am, attometer length scale
+RONTOSECOND = 1e-27  # s/rs, rontosecond time scale
 
 # ================================================================
 # WAVE-FIELD MEDIUM [EWT Constants]
@@ -91,7 +90,7 @@ PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Pl
 
 FINE_STRUCTURE = 7.2973525643e-3  # fine-structure constant, alpha
 ELECTRIC_CONSTANT = 8.8541878188e-12  # F/m, vacuum permittivity, epsilon_0
-MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 2π.10-7, mu_0
+MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 4π.10-7, mu_0
 GRAVITATIONAL_CONSTANT = 6.67430e-11  # m^3/kg/s^2, G, Newtonian constant of gravitation
 
 BOHR_RADIUS = 5.29177210544e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
@@ -100,8 +99,8 @@ HYDROGEN_LYMAN_ALPHA = 2.4660677e15  # Hz, Hydrogen Lyman-alpha frequency
 
 ELEMENTARY_CHARGE = 1.602176634e-19  # m, The elementary charge from CODATA values
 COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
-AVOGADRO_NUMBER = 6.02214076e23  # 1/mol, N_A, Avogadro's number
 BOHR_MAGNETON = 9.2740100657e-24  # J/T, μ_B, Bohr magneton (~ 5.788 e-5 eV/T)
+AVOGADRO_NUMBER = 6.02214076e23  # 1/mol, N_A, Avogadro's number
 
 # ================================================================
 # De Broglie / Matter Wave Constants

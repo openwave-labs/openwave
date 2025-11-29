@@ -7,7 +7,7 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
-UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+UNIVERSE_EDGE = 1e-16  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
@@ -20,22 +20,18 @@ XPARAMETERS = {
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": 1e3,  # Simulation voxel count (impacts performance)
-        "SLOW_MO": constants.EWAVE_FREQUENCY,  # SLOW_MO factor to reduce wave speed / frequency for visibility
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": True,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_OPTION": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "FREQ_BOOST": 1.0,  # Frequency boost multiplier
-        "AMP_BOOST": 1.0,  # Amplitude boost multiplier
-        "PROPAGATING": False,  # Wave propagation toggle
+        "SIM_SPEED": 1.0,  # Frequency boost multiplier
         "PAUSED": True,  # Pause/Start simulation toggle
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 3,  # Color palette list: ironbow (1), blueprint (2), redshift (3), viridis (4)
-        "VAR_AMP": False,  # Displacement vs amplitude toggle
+        "COLOR_PALETTE": 1,  # Color palette list: redshift (1), ironbow (2), blueprint (3), viridis (4)
     },
     "diagnostics": {
         "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)

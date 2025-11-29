@@ -35,7 +35,7 @@ ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
 UNIVERSE_EDGE = 4 * constants.EWAVE_LENGTH  # m, simulation domain, edge length of cubic universe
 
 # slow-motion (divides frequency for human-visible motion, time microscope)
-SLOW_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
+SLO_MO = constants.EWAVE_FREQUENCY  # slows frequency down to 1Hz for human visibility
 
 # Choose color theme for rendering (OCEAN, DESERT, FOREST)
 COLOR_THEME = "DESERT"
@@ -212,7 +212,7 @@ def render_xperiment(lattice):
                 lattice.center_direction,  # Direction vectors to center for all granules
                 lattice.center_distance_am,  # Radial distance from each granule to center
                 t,
-                SLOW_MO,  # Slow-motion factor for visibility
+                SLO_MO,  # Slow-motion factor for visibility
                 freq_boost,  # Frequency visibility boost (will be applied over the slow-motion factor)
                 amp_boost,  # Amplitude visibility boost for scaled lattices
             )

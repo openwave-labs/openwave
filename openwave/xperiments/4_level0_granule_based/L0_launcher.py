@@ -111,8 +111,8 @@ class SimulationState:
         self.granule = None
         self.elapsed_t = 0.0
         self.last_time = time.time()
-        self.frame = 0
-        self.peak_amplitude = 0.0
+        self.frame = 1
+        self.peak_amplitude = constants.EWAVE_AMPLITUDE
 
         # Current xperiment parameters
         self.X_NAME = ""
@@ -136,7 +136,6 @@ class SimulationState:
         # Color control variables
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 0
-        self.VAR_AMP = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
@@ -147,8 +146,8 @@ class SimulationState:
         """Reset simulation state for a new xperiment."""
         self.elapsed_t = 0.0
         self.last_time = time.time()
-        self.frame = 0
-        self.peak_amplitude = 0.0
+        self.frame = 1
+        self.peak_amplitude = constants.EWAVE_AMPLITUDE
 
     def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
@@ -184,7 +183,6 @@ class SimulationState:
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
-        self.VAR_AMP = color["VAR_AMP"]
 
         # Diagnostics
         diag = params["diagnostics"]
@@ -212,7 +210,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
     Args:
         xperiment_mgr: XperimentManager instance
-        state: SimulationState instance (unused but kept for consistency)
+        state: SimulationState instance
 
     Returns:
         str or None: Selected xperiment name or None
@@ -253,32 +251,22 @@ def display_controls(state):
 
 def display_color_menu(state):
     """Display color selection menu."""
-    tracker = "amplitude" if state.VAR_AMP else "displacement"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (ironbow)", state.COLOR_PALETTE == 1 and not state.VAR_AMP):
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.73, 0.14, 0.14) as sub:
+        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-            state.VAR_AMP = False
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
-            state.COLOR_PALETTE = 1
-            state.VAR_AMP = True
-        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-            state.VAR_AMP = True
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
-            state.VAR_AMP = True
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
-            state.VAR_AMP = True
-        if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
-            # ironbow: black -> dark blue -> magenta -> red-orange -> yellow-white
+        if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
+            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
+            with render.gui.sub_window("displacement", 0.00, 0.67, 0.08, 0.06) as sub:
+                sub.text(f"{-state.peak_amplitude:.0e}  {state.peak_amplitude:.0e}m")
+        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
-            # blueprint: dark blue -> medium blue -> blue -> light blue -> extra-light blue
-            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
+            with render.gui.sub_window("amplitude", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
 
 
@@ -296,7 +284,7 @@ def display_data_dashboard(state):
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
-        sub.text(f"Granule Count: {state.lattice.granule_count:,} particles")
+        sub.text(f"Granule Count: {state.lattice.granule_count:,}")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
@@ -311,11 +299,11 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
         if state.lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/universe-edge")
+        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
 
         sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
@@ -325,9 +313,9 @@ def display_data_dashboard(state):
         slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
-        sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"Sim Time (slow-mo): {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"Sim Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
+        sub.text(f"Clock Time: {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"(1s sim time takes {slowed_mo / (60*60*24*365):.0e}y)")
 
 
 # ================================================================
@@ -336,21 +324,21 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize wave sources and diagnostics (called once after lattice init).
+    """Initialize color palettes, wave sources and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    global rs_palette_vertices, rs_palette_colors
     global ib_palette_vertices, ib_palette_colors
-    global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
-    # Initialize color palettes for gradient rendering and level indicator (after ti.init)
-    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    # Initialize color palettes for gradient rendering and level indicator
+    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
+        colormap.redshift, 0.00, 0.66, 0.079, 0.01
     )
-    bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
-        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
+        colormap.ironbow, 0.00, 0.66, 0.079, 0.01
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
@@ -364,12 +352,12 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute lattice motion from wave superposition and update visualization data.
+    """Compute granule oscillations from wave superposition.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # Apply wave oscillations from all sources (creates interference patterns)
+    # Apply wave oscillations from all sources
     ewave.oscillate_granules(
         state.lattice.position_am,
         state.lattice.equilibrium_am,
@@ -379,19 +367,18 @@ def compute_wave_motion(state):
         state.FREQ_BOOST,
         state.AMP_BOOST,
         state.COLOR_PALETTE,
-        state.VAR_AMP,
         state.NUM_SOURCES,
         state.elapsed_t,
     )
 
-    # Update normalized positions for rendering with optional block-slicing
+    # Update normalized positions for rendering (with optional block-slicing)
     state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
-    # Update data sampling every 30 frames
+    # Sample peak amplitude periodically (every 30 frames)
     if state.frame % 30 == 0:
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
-        ewave.update_lattice_energy(state.lattice)  # Update energy based on updated wave amplitude
+        ewave.update_lattice_energy(state.lattice)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
@@ -441,7 +428,7 @@ def main():
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
-    ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+    ti.init(arch=ti.gpu, log_level=ti.WARN)  # GPU preferred, suppress info logs
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
@@ -487,13 +474,13 @@ def main():
             sys.stderr.flush()
             render.window.running = False
 
-            # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
+            # os.execv replaces current process (macOS may show harmless warning)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
             # Update elapsed time and run simulation step
             current_time = time.time()
-            state.elapsed_t += current_time - state.last_time  # Elapsed time instead of fixed dt
+            state.elapsed_t += current_time - state.last_time  # Real-time delta accumulation
             state.last_time = current_time
 
             compute_wave_motion(state)
@@ -511,7 +498,7 @@ def main():
         display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
-        # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
+        # Capture frame for video export (stops after VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
             video.export_frame(state.frame, state.VIDEO_FRAMES)
 

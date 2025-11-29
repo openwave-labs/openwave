@@ -1,5 +1,5 @@
 """
-[WIP] L1 XPERIMENT LAUNCHER
+L1 XPERIMENT LAUNCHER
 
 Unified launcher for Level-1 wave-field xperiments featuring:
 - UI-based xperiment selection and switching
@@ -11,10 +11,11 @@ import webbrowser
 import importlib
 import sys
 import os
+import time
 from pathlib import Path
 
-import numpy as np
 import taichi as ti
+import numpy as np
 
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
@@ -60,7 +61,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.5_level1_wave_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.5_level1_field_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -85,7 +86,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.5_level1_wave_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.5_level1_field_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -105,43 +106,43 @@ class SimulationState:
 
     def __init__(self):
         self.wave_field = None
-        self.dt_frame = 1.0 / 60.0  # s, Default frame duration for 60 FPS
-        self.elapsed_t = 0.0
-        self.frame = 0
-        self.peak_amplitude = 0.0
+        self.trackers = None
+        self.c_amrs = 0.0
+        self.dt_rs = 0.0
+        self.cfl_factor = 0.0
+        self.elapsed_t_rs = 0.0
+        self.clock_start_time = time.time()
+        self.frame = 1
+        self.avg_amplitude = constants.EWAVE_AMPLITUDE
+        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.avg_wavelength = constants.EWAVE_LENGTH
+        self.avg_energy = 0.0
+        self.charge_level = 0.0
+        self.charging = True
+        self.damping = False
 
         # Current xperiment parameters
         self.X_NAME = ""
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
-        self.SLOW_MO = None
 
         # UI control variables
         self.SHOW_AXIS = False
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.FLUX_MESH_OPTION = 0
-        self.FREQ_BOOST = 10.0
-        self.AMP_BOOST = 1.0
-        self.PROPAGATING = False
+        self.SIM_SPEED = 1.0
         self.PAUSED = False
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 1  # Color palette index
-        self.VAR_AMP = False
 
         # Diagnostics & video export toggles
         self.WAVE_DIAGNOSTICS = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
-
-    def reset(self):
-        """Reset simulation state for a new xperiment."""
-        self.elapsed_t = 0.0
-        self.frame = 0
-        self.peak_amplitude = 0.0
 
     def apply_xparameters(self, params):
         """Apply parameters from xperiment parameter dictionary."""
@@ -155,7 +156,6 @@ class SimulationState:
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
-        self.SLOW_MO = universe["SLOW_MO"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -163,16 +163,13 @@ class SimulationState:
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
-        self.FREQ_BOOST = ui["FREQ_BOOST"]
-        self.AMP_BOOST = ui["AMP_BOOST"]
-        self.PROPAGATING = ui["PROPAGATING"]
+        self.SIM_SPEED = ui["SIM_SPEED"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
-        self.VAR_AMP = color["VAR_AMP"]
 
         # Diagnostics
         diag = params["diagnostics"]
@@ -183,6 +180,40 @@ class SimulationState:
     def initialize_grid(self):
         """Initialize or reinitialize the wave field grid."""
         self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
+        self.trackers = data_grid.Trackers(self.wave_field.grid_size)
+
+    def compute_timestep(self):
+        """Compute timestep from CFL stability condition.
+
+        CFL Condition: dt ≤ dx / (c × √3) for 3D wave equation.
+        SIM_SPEED scales wave velocity for visualization control.
+        """
+        self.c_amrs = (
+            constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND * self.SIM_SPEED
+        )  # am/rs
+        self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
+        self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
+
+    def restart_sim(self):
+        """Restart simulation state."""
+        self.wave_field = None
+        self.trackers = None
+        self.c_amrs = 0.0
+        self.dt_rs = 0.0
+        self.cfl_factor = 0.0
+        self.elapsed_t_rs = 0.0
+        self.clock_start_time = time.time()
+        self.frame = 1
+        self.avg_amplitude = constants.EWAVE_AMPLITUDE
+        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.avg_wavelength = constants.EWAVE_LENGTH
+        self.avg_energy = 0.0
+        self.charge_level = 0.0
+        self.charging = True
+        self.damping = False
+        self.initialize_grid()
+        self.compute_timestep()
+        initialize_xperiment(self)
 
 
 # ================================================================
@@ -219,49 +250,42 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.18) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.17) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
-        state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
-        state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
+        state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
-            if sub.button("Propagate Wave"):
+            if sub.button("Propagate eWave"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
+        if sub.button("Restart Sim"):
+            state.restart_sim()
 
 
 def display_color_menu(state):
     """Display color selection menu."""
-    tracker = "amplitude" if state.VAR_AMP else "displacement"
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox(
-            "Displacement (blueprint)", state.COLOR_PALETTE == 2 and not state.VAR_AMP
-        ):
-            state.COLOR_PALETTE = 2
-            state.VAR_AMP = False
-        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 3 and not state.VAR_AMP):
-            state.COLOR_PALETTE = 3
-            state.VAR_AMP = False
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 1 and state.VAR_AMP):
+    with render.gui.sub_window("COLOR MENU", 0.00, 0.75, 0.14, 0.12) as sub:
+        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-            state.VAR_AMP = True
-        if sub.checkbox("Amplitude (blueprint)", state.COLOR_PALETTE == 2 and state.VAR_AMP):
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-            state.VAR_AMP = True
-        if state.COLOR_PALETTE == 1:  # Display ironbow gradient palette
-            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 2:  # Display blueprint gradient palette
-            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 3:  # Display redshift gradient palette
+        if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
+            state.COLOR_PALETTE = 3
+        # Display gradient palette with 2× average range for headroom (allows peak visualization)
+        if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
-            with render.gui.sub_window(tracker, 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.peak_amplitude:.0e}m")
+            with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"{-state.avg_amplitude * 2:.0e}  {state.avg_amplitude * 2:.0e}m")
+        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
+            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
+            with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.avg_amplitude * 2:.0e}m")
+        if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
+            render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
+            with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.avg_frequency * 2:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -278,42 +302,58 @@ def display_level_specs(state, level_bar_vertices):
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
+    clock_time = time.time() - state.clock_start_time
+    sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
+
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.39, 0.18, 0.61) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- WAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- eWAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
-            f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz} voxels"
+            f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz}"
         )
-        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,} voxels")
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
         sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/universe-edge")
+        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/edge")
 
-        sub.text("\n--- WAVE-PROFILING ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
-
-        sub.text("\n--- Sim Universe Wave Energy ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- eWAVE-SAMPLING ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
+        sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
+        sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
+        sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
         sub.text(
-            f"Energy: {state.wave_field.energy:.1e} J ({state.wave_field.energy_kWh:.1e} KWh)"
+            f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
+            color=(
+                colormap.ORANGE[1]
+                if state.charging
+                else colormap.RED[1] if state.damping else colormap.GREEN[1]
+            ),
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        slowed_mo = state.SLOW_MO / state.FREQ_BOOST
-        fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
         sub.text(f"Frames Rendered: {state.frame}")
-        sub.text(f"Real Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
-        sub.text(f"(1 real second = {slowed_mo / (60*60*24*365):.0e}y of sim time)")
-        sub.text(f"Sim Time (slow-mo): {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
+        sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
+        sub.text(f"Clock Time: {clock_time:.2f} s")
+        sub.text(f"(1s sim time takes {sim_time_years:.0e}y)")
+
+        sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"c_amrs: {state.c_amrs:.3f} am/rs")
+        sub.text(
+            f"dt_rs: {state.dt_rs:.3f} rs",
+            color=(1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0),
+        )
+        sub.text(
+            f"CFL Factor: {state.cfl_factor:.3f} (target < 1/3)",
+            color=((1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0)),
+        )
 
 
 # ================================================================
@@ -322,7 +362,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, test patterns and diagnostics.
+    """Initialize color palettes, wave charger and diagnostics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -334,38 +374,69 @@ def initialize_xperiment(state):
 
     # Initialize color palette scales for gradient rendering and level indicator
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+        colormap.ironbow, 0.00, 0.68, 0.079, 0.01
     )
     bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
-        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
+        colormap.blueprint, 0.00, 0.68, 0.079, 0.01
     )
     rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
-        colormap.redshift, 0.00, 0.63, 0.079, 0.01
+        colormap.redshift, 0.00, 0.68, 0.079, 0.01
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # Initialize test displacement pattern for flux mesh visualization
-    # TODO: remove amplitude falloff post propagation implementation
-    # TODO: review FPS after wave propagation (dt_frame, render init_UI)
-    # ewave.initiate_charge(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
-    ewave.initiate_falloff(state.wave_field, state.SLOW_MO, state.FREQ_BOOST, state.dt_frame)
-    # TODO: code toggle to plot initial displacement profile
-    ewave.plot_displacement_profile(state.wave_field)
+    # STATIC CHARGER methods (one-time initialization pattern)
+    # Uncomment to test different initial wave configurations
+    # ewave.charge_full(state.wave_field, state.dt_rs)
+    ewave.charge_gaussian(state.wave_field)
+    # TODO: remove too-light: ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # TODO: remove too-light: ewave.charge_1lambda(state.wave_field, state.dt_rs)
+    # TODO: code toggle to plot initial charging pattern
+    # ewave.plot_charge_profile(state.wave_field)
 
     if state.WAVE_DIAGNOSTICS:
         diagnostics.print_initial_parameters()
 
 
 def compute_wave_motion(state):
-    """Compute wave propagation, reflection and superposition
-    and update visualization data (placeholder for future implementation).
+    """Compute wave propagation, reflection, superposition and update tracker averages.
 
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # TODO: Implement wave propagation, reflection and superposition + normalization logic
-    # TODO: Implement IN-FRAME DATA SAMPLING & DIAGNOSTICS
-    pass
+    # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
+    # Charger runs BEFORE propagation to inject energy into displacement_am
+    # if state.charging:
+    #     ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+    # TODO: remove too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+
+    ewave.propagate_ewave(
+        state.wave_field,
+        state.trackers,
+        state.c_amrs,
+        state.dt_rs,
+        state.elapsed_t_rs,
+    )
+
+    # DYNAMIC DAMPING runs AFTER propagation to reduce displacement values
+    if state.damping:
+        ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
+        # TODO: remove too-light: ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
+
+    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
+    # Frame skip reduces GPU->CPU transfer overhead
+    if state.frame % 60 == 0 and state.frame > 300:
+        ewave.sample_avg_trackers(state.wave_field, state.trackers)
+    state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
+    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
+    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
+    state.avg_energy = (
+        constants.MEDIUM_DENSITY
+        * state.wave_field.universe_volume
+        * (state.avg_frequency * state.avg_amplitude) ** 2
+    )
+    state.charge_level = state.avg_energy / state.wave_field.energy
+    state.charging = state.charge_level < 0.9  # stop charging, seeks energy stabilization
+    state.damping = state.charge_level > 1.1  # start damping, seeks energy stabilization
 
 
 def render_elements(state):
@@ -374,24 +445,14 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.FLUX_MESH_OPTION > 0:
-        if state.PROPAGATING:
-            pass
-        # TODO: remove alternating update once feature implemented
-        if state.frame % 1 == 0:
-            ewave.update_flux_mesh_colors(state.wave_field, state.COLOR_PALETTE)
-            flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
-        # else:
-        #     ewave.update_flux_mesh_colors_tminus1(state.wave_field, state.COLOR_PALETTE)
-        #     flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
 
     # TODO: remove test particles for visual reference
-    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    y_pos = 0.5 + (
-        (round(constants.EWAVE_LENGTH / state.wave_field.dx)) / state.wave_field.max_grid_size
-    )
-    position2 = np.array([[0.5, y_pos, 0.5]], dtype=np.float32)
-    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
+    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
@@ -404,14 +465,14 @@ def main():
     selected_xperiment_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Initialize Taichi
-    ti.init(arch=ti.gpu, log_level=ti.WARN)  # Use GPU if available, suppress info logs
+    ti.init(arch=ti.gpu, log_level=ti.WARN)  # GPU preferred, suppress info logs
 
     # Initialize xperiment manager and state
     xperiment_mgr = XperimentManager()
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "energy_wave"
+    default_xperiment = selected_xperiment_arg or "our_queen"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
@@ -422,6 +483,7 @@ def main():
 
     state.apply_xparameters(params)
     state.initialize_grid()
+    state.compute_timestep()
     initialize_xperiment(state)
 
     # Initialize GGUI rendering
@@ -450,13 +512,14 @@ def main():
             sys.stderr.flush()
             render.window.running = False
 
-            # os.execv replaces current process (macOS shows harmless warning, Cmd+Q broken)
+            # os.execv replaces current process (macOS may show harmless warning)
             os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
 
         if not state.PAUSED:
             # Run simulation step and update time
+            state.compute_timestep()
             compute_wave_motion(state)
-            state.elapsed_t += state.dt_frame  # Elapsed time accumulation
+            state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
             state.frame += 1
 
         # Render scene elements
@@ -468,7 +531,7 @@ def main():
         display_level_specs(state, level_bar_vertices)
         render.show_scene()
 
-        # Capture frame for video export (finalizes and stops at set VIDEO_FRAMES)
+        # Capture frame for video export (stops after VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
             video.export_frame(state.frame, state.VIDEO_FRAMES)
 

@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-1. [The Classical Wave Equation](#the-classical-wave-equation)
 1. [Laplacian Operator (How Voxels Share Displacement)](#laplacian-operator-how-voxels-share-displacement)
 1. [Time Evolution Implementation](#time-evolution-implementation)
-   - [Timestep Strategy: Fixed vs Elapsed Time](#timestep-strategy-fixed-vs-elapsed-time)
+1. [Timestep Strategy: Fixed vs Elapsed Time](#timestep-strategy-fixed-vs-elapsed-time)
+1. [Why Leap-Frog instead of Euler Integration Method](#why-leap-frog-instead-of-euler-integration-method)
 1. [Alternative: Huygens Wavelets](#alternative-huygens-wavelets)
 1. [Choosing Between PDE and Huygens](#choosing-between-pde-and-huygens)
    - [Should We Choose One or Use Both?](#should-we-choose-one-or-use-both)
@@ -89,44 +89,44 @@ def compute_laplacian_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
     ) / (self.dx_am * self.dx_am)
 
     return laplacian_am
+```
 
+```python
 @ti.kernel
-def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
+def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
     """
     Propagate wave displacement using wave equation (PDE Solver).
 
     Wave Equation: ∂²ψ/∂t² = c²∇²ψ
 
     Discrete Form (Leap-Frog/Verlet):
-    ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-    where ∇²ψ = (neighbors_sum - 6·center) / dx²
+        ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+        where ∇²ψ = (neighbors_sum - 6·center) / dx²
 
     Args:
-        dt: Timestep in seconds (with SLOW_MO factor applied)
-            Typical: dt ~ 1/60 s (60 FPS, screen refresh rate)
-        freq_boost: Frequency multiplier (applied after SLOW_MO)
-            Used to boost wave speed for faster visualization/testing
-            Default: 1.0 (no boost)
-            Example: 2.0 (doubles effective wave speed)
+        dt: Timestep in seconds. Typical: ~1/60 s (60 FPS frame time)
+        SIM_SPEED: Wave speed multiplier for visualization. Default: 1.0
 
-    CFL Stability: dt ≤ dx/(c√3) for 3D 6-connectivity
-        Without SLOW_MO: dt_max ~ 2.4e-27 s ✓ stable
-        With SLOW_MO: dt ~ 0.016 s → VIOLATES CFL! → UNSTABLE!
-        **Solution**: Apply SLOW_MO to effective c (wave speed):
-        c_slowed = (c / SLOW_MO) * freq_boost
-        This slows wave propagation to human-visible speeds while maintaining
-        numerical stability.
+    CFL Stability:
+        Condition: dt ≤ dx / (c·√3) for 3D 6-connectivity
+
+        Problem: Real wave speed c = 3×10⁸ m/s requires dt_max ~ 1.2e-26 s,
+        but frame time dt ~ 0.016 s violates CFL by ~10²⁴×.
+
+        Solution: Slow wave speed instead of shrinking timestep.
+            c_slo = (c / SLO_MO) × SIM_SPEED
+            With SLO_MO = 1.05×10²⁵: dt_critical ≈ 0.121 s > dt_frame ✓ STABLE
     """
-    # Speed of light (apply SLOW_MO factor, then freq_boost for human-visible waves)
-    c_slowed = ti.f32(constants.EWAVE_SPEED / config.SLOW_MO) * freq_boost  # m/s
+    # Speed of light (apply SLO_MO factor, then SIM_SPEED for human-visible waves)
+    c_slo = ti.f32(constants.EWAVE_SPEED / config.SLO_MO) * SIM_SPEED  # m/s
 
     # Convert c to attometers/second for consistent units
-    c_am = c_slowed / constants.ATTOMETER  # am/s
+    c_slo_am = c_slo / constants.ATTOMETER  # am/s
 
     # CFL stability condition: cfl_factor ≤ 1/3 for 3D (6-connectivity)
-    # cfl_factor = (c_am·dt/dx_am)² [dimensionless]
+    # cfl_factor = (c_slo_am·dt/dx_am)² [dimensionless]
     # Units: [(am/s)·s / am]² = dimensionless ✓
-    cfl_factor = (c_am * dt / dx_am)**2
+    cfl_factor = (c_slo_am * dt / dx_am)**2
 
     # Update all interior voxels (boundaries stay at ψ=0)
     for i, j, k in self.displacement_am:
@@ -138,20 +138,21 @@ def propagate_wave(self, dt: ti.f32, freq_boost: ti.f32):
             # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
             # Units check:
             # ψ: [am]
-            # (c_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
+            # (c_slo_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
             # Result: [am] = [am] - [am] + [am] ✓
             self.displacement_new_am[i, j, k] = (
                 2.0 * self.displacement_am[i, j, k]
                 - self.displacement_old_am[i, j, k]
-                + (c_am * dt)**2 * laplacian_am
+                + (c_slo_am * dt)**2 * laplacian_am
             )
 
     # Swap time levels for next iteration
     # Python tuple swap: (old, current, new) ← (current, new, old)
     self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
         self.displacement_am, self.displacement_new_am, self.displacement_old_am
+```
 
-
+```python
 @ti.kernel
 def track_amplitude_envelope(self):
     """
@@ -163,7 +164,9 @@ def track_amplitude_envelope(self):
     for i, j, k in self.displacement_am:
         disp_mag = ti.abs(self.displacement_am[i,j,k])
         ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+```
 
+```python
 @ti.kernel
 def compute_wave_direction(self):
     """
@@ -195,17 +198,19 @@ def compute_wave_direction(self):
                 self.wave_direction[i,j,k] = S / S_mag
             else:
                 self.wave_direction[i,j,k] = ti.Vector([0.0, 0.0, 0.0])
+```
 
-def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
+```python
+def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
     """
     Complete wave field update for one timestep.
 
     Args:
-        dt: Timestep in seconds (with SLOW_MO factor applied)
-        freq_boost: Frequency multiplier (applied after SLOW_MO)
+        dt: Timestep in seconds (with SLO_MO factor applied)
+        SIM_SPEED: Frequency multiplier (applied after SLO_MO)
     """
     # 1. Propagate wave displacement
-    self.propagate_wave(dt, freq_boost)
+    self.propagate_wave(dt, SIM_SPEED)
 
     # 2. Track amplitude envelope
     self.track_amplitude_envelope()
@@ -218,28 +223,28 @@ def update_timestep(self, dt: ti.f32, freq_boost: ti.f32):
 
 **Summary of Merged Implementation**:
 
-- ✅ **Single `propagate_wave(dt, freq_boost)` function**
+- ✅ **Single `propagate_wave(dt, SIM_SPEED)` function**
 - ✅ **Encapsulated `compute_laplacian_am()`** as `@ti.func` returning full laplacian [1/am]
 - ✅ **Correct dimensional analysis**: All units in attometers (consistent throughout)
-- ✅ **SLOW_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
-- ✅ **freq_boost parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
-- ✅ **CFL stability maintained** with effective wave speed c_slowed = (c / SLOW_MO) × freq_boost
-- ✅ **No rontosecond conversion needed**: dt already slowed by SLOW_MO
-- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_am [am/s], dt [s]
+- ✅ **SLO_MO factor** applied to wave speed `c` (slows simulation ~10²⁵× for human visibility)
+- ✅ **SIM_SPEED parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
+- ✅ **CFL stability maintained** with effective wave speed c_slo = (c / SLO_MO) × SIM_SPEED
+- ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
+- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_slo_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
 
 **Key Formula**:
 
 ```python
-ψ_new = 2ψ - ψ_old + (c_am·dt)² · ∇²ψ
+ψ_new = 2ψ - ψ_old + (c_slo_am·dt)² · ∇²ψ
 ```
 
 Where:
 
-- `c_slowed = (EWAVE_SPEED / SLOW_MO) × freq_boost` (m/s, slowed + boosted)
-- `c_am = c_slowed / ATTOMETER` (wave speed in am/s)
+- `c_slo = (EWAVE_SPEED / SLO_MO) × SIM_SPEED` (m/s, slowed + boosted)
+- `c_slo_am = c_slo / ATTOMETER` (wave speed in am/s)
 - `dt` ~ 1/60 s (0.016 seconds for 60 FPS)
-- `freq_boost` ~ 1.0 (default, no boost) or higher for faster visualization
+- `SIM_SPEED` ~ 1.0 (default, no boost) or higher for faster visualization
 - `∇²ψ` in [1/am] units (from `compute_laplacian_am()`)
 - `dx_am` in [am] units (standard voxel size)
 - Result in [am] units ✓
@@ -247,7 +252,7 @@ Where:
 **Dimensional Analysis**:
 
 ```text
-(c_am·dt)²·∇²ψ = [(am/s)·s]² · [1/am] = [am²]·[1/am] = [am] ✓
+(c_slo_am·dt)²·∇²ψ = [(am/s)·s]² · [1/am] = [am²]·[1/am] = [am] ✓
 ```
 
 **Storage Requirements**:
@@ -260,41 +265,26 @@ Where:
 ```text
 dt ≤ dx / (c√3)  for 3D, 6-connectivity
 
-Example:
-dx = 1.25 am = 1.25e-18 m
+Example (6 fm³ universe, 1B voxels):
+dx = 6 am = 6e-18 m
 c = 2.998e8 m/s
-dt_max = 1.25e-18 / (2.998e8 × √3) ≈ 2.4e-27 s
+dt_max = 6e-18 / (2.998e8 × √3) ≈ 1.2e-26 s
 ```
 
-**This is extremely small!** Timesteps are ~10⁻²⁷ seconds (rontosecond scale).
+**This is extremely small!** However, LEVEL-1 doesn't use these tiny timesteps - instead, it slows the wave speed (see SLO_MO approach below).
 
-**Rontosecond Scaling Solution**:
-
-Just as spatial scales use attometer (10⁻¹⁸ m) scaling for numerical precision, **temporal scales use rontosecond (10⁻²⁷ s) scaling**:
-
-```python
-# Scaling constants
-ATTOMETER = 1e-18     # m, attometer length scale
-RONTOSECOND = 1e-27   # s, rontosecond time scale
-
-# Convert timestep to rontoseconds
-dt_rs = dt / constants.RONTOSECOND
-
-# Example:
-dt = 2.4e-27  # Physical timestep in seconds (SI)
-dt_rs = 2.4e-27 / 1e-27 = 2.4  # Scaled to rontoseconds
-```
-
-**Benefits**:
-
-- Maintains numerical precision with f32 (6-7 significant digits)
-- Prevents catastrophic cancellation in time derivatives
-- dt_rs values ~1.0 (optimal range for f32 precision)
-- Naming convention: `_am` for spatial (attometers), `_rs` for temporal (rontoseconds)
-
-### Timestep Strategy: Fixed vs Elapsed Time
+## Timestep Strategy: Fixed vs Elapsed Time
 
 **CRITICAL DECISION**: LEVEL-1 must use **fixed timesteps** (unlike LEVEL-0's elapsed time approach).
+
+### Benefits of FIXED DT
+
+- ✓ Physics accuracy: Consistent time sampling at regular intervals
+- ✓ Smooth animations: Constant dt → no jitter in offline renders
+- ✓ Reproducible: Same dt sequence → identical results every run
+- ✓ CFL safe: With SLO_MO, dt=0.0167s < dt_critical=0.121s ✓
+- ✓ Offline rendering: Perfect for hours-long background simulations
+- ✓ Data collection: Regular time intervals for analysis
 
 **Why LEVEL-0 Uses Elapsed Time**:
 
@@ -311,8 +301,8 @@ update_particles(elapsed_t)  # Particles can handle variable dt
 **Why LEVEL-1 CANNOT Use Elapsed Time**:
 
 ```python
-# Wave equation CFL requirement
-dt_max = dx / (c√3) ≈ 2.4e-27 s  # MUST NOT EXCEED!
+# Wave equation CFL requirement (for dx = 6 am, 1B voxels)
+dt_max = dx / (c√3) ≈ 1.2e-26 s  # MUST NOT EXCEED!
 
 # But elapsed time is typically:
 elapsed_t ≈ 0.001 to 0.1 s  # Frame time (milliseconds)
@@ -327,8 +317,8 @@ elapsed_t ≈ 0.001 to 0.1 s  # Frame time (milliseconds)
 
 ```python
 # Fixed physics timestep (respects CFL)
-dt_physics = 2.0e-27  # seconds (or 2.0 in rontoseconds)
-dt_physics_rs = 2.0   # rontoseconds (scaled)
+dt_physics = 1.0e-26  # seconds (or 10 in rontoseconds)
+dt_physics_rs = 10    # rontoseconds (scaled)
 
 # Hybrid approach: decouple physics from rendering
 accumulated_time = 0.0

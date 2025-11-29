@@ -48,11 +48,7 @@ def print_wave_diagnostics(
 
 
 def print_initial_parameters():
-    """Print expected wave parameters at startup.
-
-    Args:
-        slow_mo: Slow-motion factor (optional, for display purposes)
-    """
+    """Print expected wave parameters at startup."""
     print("\n" + "=" * 70)
     print("WAVE DIAGNOSTICS ENABLED")
     print("=" * 70)
@@ -61,11 +57,11 @@ def print_initial_parameters():
     print(f"Expected Frequency (f):       {constants.EWAVE_FREQUENCY:.6e} Hz")
     print(f"Expected Amplitude (A):         {constants.EWAVE_AMPLITUDE:.6e} m")
 
-    f_slowed = constants.EWAVE_FREQUENCY / constants.EWAVE_FREQUENCY
+    frequency_slo = constants.EWAVE_FREQUENCY / constants.EWAVE_FREQUENCY
     print()
     print(f"Simulation Parameters:")
     print(f"  Slow-motion factor:           {constants.EWAVE_FREQUENCY:.2e}")
-    print(f"  Effective frequency:          {f_slowed:.2e} Hz")
+    print(f"  Effective frequency:          {frequency_slo:.2e} Hz")
     print(f"  (Wave speed and wavelength remain c and λ by construction)")
 
     print()

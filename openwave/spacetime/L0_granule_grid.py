@@ -33,10 +33,10 @@ class BCCGranule:
         self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
         self.radius_screen = max(
             self.radius / max_universe_edge, 0.0001
-        )  # Ensure minimum 0.01% of screen radius for visibility
+        )  # minimum screen radius for visibility
         self.mass = (
             constants.MEDIUM_DENSITY * unit_cell_edge**3 / 2
-        )  # mass = medium density * scaled unit cell volume / 2 granules per BCC unit-cell
+        )  # BCC: 2 granules per unit cell
 
 
 @ti.data_oriented
@@ -79,7 +79,7 @@ class BCCLattice:
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
-        # This preserves crystal structure. Only the NUMBER of cells varies per axis.
+        # This preserves lattice isotropy. Only the NUMBER of cells varies per axis.
         unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
@@ -136,16 +136,16 @@ class BCCLattice:
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
-        # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
+        # Compute energy-wave spatial resolution
+        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
-        # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
+        # Compute universe extent in wavelengths (how many λ fit in max edge)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -157,8 +157,8 @@ class BCCLattice:
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # granule amplitude
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest pos
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # wave amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.granule_count)
@@ -166,11 +166,11 @@ class BCCLattice:
         self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
         # Populate the lattice & index granule types
-        self.populate_latticeBCC()  # initialize position and velocity
-        self.build_granule_typeBCC()  # classifies granules
-        self.find_front_octantBCC()  # for block-slicing visualization
-        self.set_granule_type_colorBCC(theme)  # colors based on granule_type
-        self.set_sliced_plane_objectsBCC()  # set near/far-fields & random probes on sliced planes
+        self.populate_latticeBCC()  # initialize positions
+        self.build_granule_typeBCC()  # classify by lattice position
+        self.find_front_octantBCC()  # mark front octant for slicing
+        self.set_granule_type_colorBCC(theme)  # apply type-based colors
+        self.set_sliced_plane_objectsBCC()  # mark probes on sliced planes
 
     @ti.kernel
     def populate_latticeBCC(self):
@@ -226,9 +226,9 @@ class BCCLattice:
                     ]
                 )
 
-            self.equilibrium_am[idx] = self.position_am[idx]  # set equilibrium position
+            self.equilibrium_am[idx] = self.position_am[idx]  # store rest position
 
-            # Initialize velocity to zero for all granules
+            # Initialize velocity to zero
             self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
@@ -366,7 +366,7 @@ class BCCLattice:
                     ]
                 )
             else:
-                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
+                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # fallback color
 
     def set_sliced_plane_objectsBCC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.
@@ -534,8 +534,8 @@ class SCGranule:
         self.radius = unit_cell_edge / (2 * ti.math.e)  # radius = unit cell edge / 2e
         self.radius_screen = max(
             self.radius / max_universe_edge, 0.0001
-        )  # Ensure minimum 0.01% of screen radius for visibility
-        self.mass = constants.MEDIUM_DENSITY * unit_cell_edge**3  # medium density * cell volume
+        )  # minimum screen radius for visibility
+        self.mass = constants.MEDIUM_DENSITY * unit_cell_edge**3  # SC: 1 granule per unit cell
 
 
 @ti.data_oriented
@@ -578,7 +578,7 @@ class SCLattice:
 
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
-        # This preserves crystal structure. Only the NUMBER of cells varies per axis.
+        # This preserves lattice isotropy. Only the NUMBER of cells varies per axis.
         unit_cell_volume = init_universe_volume / target_granules  # SC = 1 /unit-cell
         self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
@@ -634,16 +634,16 @@ class SCLattice:
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, increases computability
 
-        # Compute energy-wave linear resolution, sampling rate
-        # granules per wavelength, should be >10 for Nyquist (same for all axes with cubic cells)
+        # Compute energy-wave spatial resolution
+        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
-        # Compute universe linear resolution, ewavelengths per universe edge (per axis - can differ)
+        # Compute universe extent in wavelengths (how many λ fit in max edge)
         self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
         self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
+        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -655,8 +655,8 @@ class SCLattice:
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
-        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # granule amplitude
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest pos
+        self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # wave amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
         self.front_octant = ti.field(dtype=ti.i32, shape=self.granule_count)
@@ -664,11 +664,11 @@ class SCLattice:
         self.granule_var_color = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 
         # Populate the lattice & index granule types
-        self.populate_latticeSC()  # initialize position and velocity
-        self.build_granule_typeSC()  # classifies granules
-        self.find_front_octantSC()  # for block-slicing visualization
-        self.set_granule_type_colorSC(theme)  # colors based on granule_type
-        self.set_sliced_plane_objectsSC()  # set near/far-fields & random probes on sliced planes
+        self.populate_latticeSC()  # initialize positions
+        self.build_granule_typeSC()  # classify by lattice position
+        self.find_front_octantSC()  # mark front octant for slicing
+        self.set_granule_type_colorSC(theme)  # apply type-based colors
+        self.set_sliced_plane_objectsSC()  # mark probes on sliced planes
 
     @ti.kernel
     def populate_latticeSC(self):
@@ -702,9 +702,9 @@ class SCLattice:
                 ]
             )
 
-            self.equilibrium_am[idx] = self.position_am[idx]  # set equilibrium position
+            self.equilibrium_am[idx] = self.position_am[idx]  # store rest position
 
-            # Initialize velocity to zero for all granules
+            # Initialize velocity to zero
             self.velocity_am[idx] = ti.Vector([0.0, 0.0, 0.0])
 
     @ti.kernel
@@ -837,7 +837,7 @@ class SCLattice:
                     ]
                 )
             else:
-                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # Light Blue for undefined
+                self.granule_type_color[i] = ti.Vector([0.1, 0.6, 0.9])  # fallback color
 
     def set_sliced_plane_objectsSC(self, num_circles=0, num_probes=3):
         """Select random granules from each of the 3 planes exposed by the front octant slice.

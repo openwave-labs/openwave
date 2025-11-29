@@ -563,10 +563,10 @@ Keeping phase as a separate, first-class parameter makes the code more flexible 
 @ti.kernel
 def oscillate_granules(
     positions, velocities, equilibrium, directions,
-    radial_distances, t, slow_mo, freq_boost, amp_boost
+    radial_distances, t, slo_mo, freq_boost, amp_boost
 ):
-    f_slowed = frequency / slow_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed
+    frequency_slo = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * frequency_slo
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
     # Reference radius for amplitude normalization (one wavelength from wave source)
@@ -904,10 +904,10 @@ def solve_distance_constraints(position, neighbors, masses,
 ```python
 @ti.kernel
 def oscillate_granules(position, velocity, equilibrium, direction,
-                       radial_distance, t, slow_mo, freq_boost, amp_boost):
+                       radial_distance, t, slo_mo, freq_boost, amp_boost):
     """Phase-synchronized harmonic oscillation (ewave_radial.py)"""
-    f_slowed = frequency / slow_mo * freq_boost
-    omega = 2.0 * ti.math.pi * f_slowed
+    frequency_slo = frequency / slo_mo * freq_boost
+    omega = 2.0 * ti.math.pi * frequency_slo
     k = 2.0 * ti.math.pi / wavelength_am  # Wave number
 
     # Reference radius for amplitude normalization (one wavelength from wave source)

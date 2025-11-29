@@ -11,15 +11,6 @@ OpenWave uses equations & terminology based on standardized physics notation fro
 - WAVE-SPEED: `c = 3e8 [m/s]`, constant defined by medium property, √(medium elasticity/
 density)
 
-## Wave Rhythm
-
-- WAVE-FREQUENCY: `f = c/λ [Hz]`, temporal oscillation [EWT Constant]
-  - Defines TIME = the wave frequency, rhythm
-  - angular frequency: `ω = 2πf [rad/s]`
-  - ωt = temporal phase (controls rhythm, time-varying component)
-- WAVE-PERIOD: `T = 1/f [s]`, time for one complete cycle [EWT Constant]
-- WAVE-PHASE: `φ [radians]`, 0 to 2π, position in wave cycle, interference patterns
-
 ## Wave Size
 
 - WAVE-DISPLACEMENT: `ψl & ψt [m]`, harmonic oscillation in 2 polarities
@@ -28,6 +19,16 @@ density)
   - spatial frequency: `ξ = 1/λ [1/m]`
   - angular wave number: `k = 2π/λ [rad/m]`
   - kr = spatial phase
+- WAVE-STEEPNESS: `ξ = 2*A/λ`, wave height to wavelength ratio, stable when < 1/7
+
+## Wave Rhythm
+
+- WAVE-FREQUENCY: `f = c/λ [Hz]`, temporal oscillation [EWT Constant]
+  - Defines TIME = the wave frequency, rhythm
+  - angular frequency: `ω = 2πf [rad/s]`
+  - ωt = temporal phase (controls rhythm, time-varying component)
+- WAVE-PERIOD: `T = 1/f [s]`, time for one complete cycle [EWT Constant]
+- WAVE-PHASE: `φ [radians]`, 0 to 2π, position in wave cycle, interference patterns
 
 ## Wave Energy
 
