@@ -217,7 +217,7 @@ def simulate_physics(t: ti.f32):  # type: ignore
     """Simulate wave oscillation and dynamic per-vertex coloring."""
     for i in range(num_granules):
         # Wave oscillation in Z direction
-        offset = ti.sin(t * 5.0 + equilibrium[i][0] * 10.0) * 0.02
+        offset = ti.cos(t * 5.0 + equilibrium[i][0] * 10.0) * 0.02
         granule_positions[i] = equilibrium[i] + ti.Vector([0.0, 0.0, offset])
         # Dynamic color based on displacement (ironbow effect)
         displacement = ti.abs(offset)
