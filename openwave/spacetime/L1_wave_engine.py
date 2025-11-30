@@ -455,7 +455,9 @@ def propagate_ewave(
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
 
-    Note: Metal GPU backend may be unstable for grids >720³.
+    Note: On M4 Max 48GB, wave propagation becomes incorrect above ~350M voxels.
+        Cause unknown - may be GPU saturation, thermal throttling, or backend limits.
+        Needs testing on other hardware to isolate the issue.
     """
 
     # Update all interior voxels only

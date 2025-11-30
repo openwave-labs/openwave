@@ -5,7 +5,7 @@ ti.init(arch=ti.metal)
 
 
 @ti.kernel
-def benchmark_kernel(field: ti.template()):
+def benchmark_kernel(field: ti.template()):  # type: ignore
     for i, j in ti.ndrange(10000, 10000):
         field[i, j] = ti.sqrt(ti.cast(i * j, ti.f32))
 
