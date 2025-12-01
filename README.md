@@ -23,7 +23,7 @@ The project implements a proposed mathematical framework through two complementa
 
 #### Level-1: Field-Based Method (Research Oriented)
 
-- 3D vector field using partial differential equations (PDEs)
+- 3D wave-field using partial differential equations (PDEs)
 - Similar methodology to lattice QCD (quantum chromodynamics)
 - Scalable for matter formation and force simulations
 - Indexed by spatial coordinates with field properties at each voxel

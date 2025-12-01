@@ -105,6 +105,7 @@ Now that you're introduced to the basic concepts of wave phenomena in this compu
 - Stable wave structures
 - Resonance phenomena
 - How changing parameters affects outcomes
+- Experiment the LEVEL-1 with more advanced wave equations and numerical analysis
 
 To launch the Xperiments Selector Menu:
 
