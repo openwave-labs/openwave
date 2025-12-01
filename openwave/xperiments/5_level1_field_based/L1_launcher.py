@@ -307,28 +307,28 @@ def display_data_dashboard(state):
 
     with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.39, 0.18, 0.61) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
-        sub.text("\n--- eWAVE-FIELD ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
+        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz}"
         )
-        sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
-        sub.text("\n--- Sim Resolution (linear) ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- SIMULATION RESOLUTION ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/edge")
 
-        sub.text("\n--- eWAVE-SAMPLING ---", color=colormap.LIGHT_BLUE[1])
+        sub.text("\n--- DATA SAMPLING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
         sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
         sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
-        sub.text(f"Avg Energy: {state.avg_energy:.1e} J")
+        sub.text(f"Total Energy: {state.avg_energy:.1e} J")
         sub.text(
             f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
             color=(
