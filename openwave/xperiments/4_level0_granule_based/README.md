@@ -22,7 +22,7 @@ Or use the OpenWave CLI menu to select from available xperiments.
 4. **Wave Interference** - 3 sources in triangular arrangement
 5. **Wave Pulse** - Single source with wave diagnostics enabled
 6. **Crossing Waves** - 9 sources with desert color theme
-7. **Yin-Yang Spiral Wave** - 12 sources in golden ratio spiral pattern
+7. **Spiral Wave** - 12 sources in golden ratio spiral pattern
 
 ## Keyboard Controls
 

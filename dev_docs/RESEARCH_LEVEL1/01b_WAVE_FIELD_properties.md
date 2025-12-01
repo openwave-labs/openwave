@@ -48,7 +48,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 ## WAVE PROPERTIES Terminology and Notation
 
-- Refer to [`wave_notation.md`](../../openwave/wave_notation.md)
+- Refer to [`wave_notation.md`](../../openwave/common/wave_notation.md)
 
 ## Scalar Properties (Magnitude)
 
