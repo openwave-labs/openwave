@@ -329,71 +329,6 @@ def charge_oscillator_falloff(
         )
 
 
-@ti.kernel
-def damp_load_sphere(
-    wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
-):
-    """
-    Gradually absorb wave energy within a spherical volume at the grid center.
-
-    Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
-    causing gradual decay toward zero.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
-    """
-
-    # Find center position (in grid indices)
-    center_x = wave_field.nx // 2
-    center_y = wave_field.ny // 2
-    center_z = wave_field.nz // 2
-
-    # Define damp sphere radius
-    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
-
-    # Apply damping displacement within sphere
-    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
-    for i, j, k in ti.ndrange(
-        (center_x - damp_radius_grid, center_x + damp_radius_grid + 1),
-        (center_y - damp_radius_grid, center_y + damp_radius_grid + 1),
-        (center_z - damp_radius_grid, center_z + damp_radius_grid + 1),
-    ):
-        # Check if voxel is within spherical drain region
-        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
-        if r_grid <= damp_radius_grid:
-            wave_field.displacement_am[i, j, k] *= decay_factor
-
-
-@ti.kernel
-def damp_load_full(
-    wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
-):
-    """
-    Gradually absorb wave energy within the entire grid volume.
-
-    Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
-    causing gradual decay toward zero.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
-    """
-
-    # Apply damping displacement within entire grid
-    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
-    for i, j, k in ti.ndrange(
-        (0, wave_field.nx),
-        (0, wave_field.ny),
-        (0, wave_field.nz),
-    ):
-        wave_field.displacement_am[i, j, k] *= decay_factor
-
-
 @ti.func
 def compute_laplacian_am(
     wave_field: ti.template(),  # type: ignore
@@ -510,6 +445,71 @@ def propagate_ewave(
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
         wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
+
+
+@ti.kernel
+def damp_load_sphere(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within a spherical volume at the grid center.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Define damp sphere radius
+    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
+
+    # Apply damping displacement within sphere
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (center_x - damp_radius_grid, center_x + damp_radius_grid + 1),
+        (center_y - damp_radius_grid, center_y + damp_radius_grid + 1),
+        (center_z - damp_radius_grid, center_z + damp_radius_grid + 1),
+    ):
+        # Check if voxel is within spherical drain region
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+        if r_grid <= damp_radius_grid:
+            wave_field.displacement_am[i, j, k] *= decay_factor
+
+
+@ti.kernel
+def damp_load_full(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within the entire grid volume.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Apply damping displacement within entire grid
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (0, wave_field.nx),
+        (0, wave_field.ny),
+        (0, wave_field.nz),
+    ):
+        wave_field.displacement_am[i, j, k] *= decay_factor
 
 
 @ti.kernel
