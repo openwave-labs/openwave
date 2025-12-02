@@ -407,7 +407,10 @@ def compute_wave_motion(state):
     # Charger runs BEFORE propagation to inject energy into displacement_am
     if state.charging and state.frame > 300:
         ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
-    # TODO: too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+        # TODO: too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+        # TODO: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs)
+        # TODO: ewave.charge_oscillator_wall_even(state.wave_field, state.elapsed_t_rs)
+        # TODO: ewave.charge_oscillator_wall_quart(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
         state.wave_field,

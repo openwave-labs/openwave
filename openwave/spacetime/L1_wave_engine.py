@@ -329,6 +329,138 @@ def charge_oscillator_falloff(
         )
 
 
+@ti.kernel
+def charge_oscillator_wall(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to all voxels at boundary walls.
+
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with all voxels on
+    the wall oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx), (wave_field.ny)):
+        wave_field.displacement_am[i, j, 0] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[i, j, wave_field.nz - 1] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for i, k in ti.ndrange((wave_field.nx), (wave_field.nz)):
+        wave_field.displacement_am[i, 0, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[i, wave_field.ny - 1, k] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for j, k in ti.ndrange((wave_field.ny), (wave_field.nz)):
+        wave_field.displacement_am[0, j, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[wave_field.nx - 1, j, k] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+
+
+@ti.kernel
+def charge_oscillator_wall_even(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to boundary walls skipping every other voxel.
+
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with half voxels on
+    the wall oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx // 2), (wave_field.ny // 2)):
+        wave_field.displacement_am[i * 2, j * 2, 0] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[i * 2, j * 2, wave_field.nz - 1] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for i, k in ti.ndrange((wave_field.nx // 2), (wave_field.nz // 2)):
+        wave_field.displacement_am[i * 2, 0, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[i * 2, wave_field.ny - 1, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for j, k in ti.ndrange((wave_field.ny // 2), (wave_field.nz // 2)):
+        wave_field.displacement_am[0, j * 2, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[wave_field.nx - 1, j * 2, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+
+
+@ti.kernel
+def charge_oscillator_wall_quart(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to boundary walls skipping every 4 voxel.
+
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with a quart voxels on
+    the wall oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx // 4), (wave_field.ny // 4)):
+        wave_field.displacement_am[i * 4, j * 4, 0] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i * 4, j * 4, wave_field.nz - 1] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+    for i, k in ti.ndrange((wave_field.nx // 4), (wave_field.nz // 4)):
+        wave_field.displacement_am[i * 4, 0, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i * 4, wave_field.ny - 1, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+    for j, k in ti.ndrange((wave_field.ny // 4), (wave_field.nz // 4)):
+        wave_field.displacement_am[0, j * 4, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[wave_field.nx - 1, j * 4, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+
+
 @ti.func
 def compute_laplacian_am(
     wave_field: ti.template(),  # type: ignore
