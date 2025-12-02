@@ -384,12 +384,12 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
 
-    # STATIC CHARGER methods (one-time initialization pattern)
+    # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
-    # ewave.charge_full(state.wave_field, state.dt_rs)
-    ewave.charge_gaussian(state.wave_field)
-    # TODO: remove too-light: ewave.charge_falloff(state.wave_field, state.dt_rs)
-    # TODO: remove too-light: ewave.charge_1lambda(state.wave_field, state.dt_rs)
+    ewave.charge_full(state.wave_field, state.dt_rs)
+    # TODO: beautiful but inaccurate: ewave.charge_gaussian(state.wave_field)
+    # TODO: too-light: ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # TODO: too-light: ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial charging pattern
     # ewave.plot_charge_profile(state.wave_field)
 
@@ -403,11 +403,11 @@ def compute_wave_motion(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    # DYNAMIC CHARGER methods (oscillating source pattern during simulation)
+    # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
     # Charger runs BEFORE propagation to inject energy into displacement_am
-    # if state.charging:
-    #     ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
-    # TODO: remove too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+    if state.charging and state.frame > 300:
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+    # TODO: too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -420,7 +420,7 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING runs AFTER propagation to reduce displacement values
     if state.damping:
         ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
-        # TODO: remove too-light: ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
+        # TODO: too-light: ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
@@ -435,8 +435,8 @@ def compute_wave_motion(state):
         * (state.avg_frequency * state.avg_amplitude) ** 2
     )
     state.charge_level = state.avg_energy / state.wave_field.energy
-    state.charging = state.charge_level < 0.9  # stop charging, seeks energy stabilization
-    state.damping = state.charge_level > 1.1  # start damping, seeks energy stabilization
+    state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
+    state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
 
 
 def render_elements(state):
