@@ -469,7 +469,7 @@ def propagate_ewave(
         # Compute spatial Laplacian ∇²ψ
         laplacian_am = compute_laplacian_am(wave_field, i, j, k)
 
-        # Leap-frog update
+        # Leap-Frog update
         # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
         wave_field.displacement_new_am[i, j, k] = (
             2.0 * wave_field.displacement_am[i, j, k]
@@ -481,23 +481,29 @@ def propagate_ewave(
         # AMPLITUDE tracking envelope, using exponential moving average (EMA)
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
-        # Asymmetric EMA: fast attack (α=0.3) when rising, slow decay (α=0.02) when falling
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = trackers.amplitudeL_am[i, j, k]
-        alpha = 0.1 if disp_mag > current_amp else 0.1
-        trackers.amplitudeL_am[i, j, k] = alpha * disp_mag + (1.0 - alpha) * current_amp
+        alpha_amp = 0.01  # EMA smoothing factor for amplitude
+        trackers.amplitudeL_am[i, j, k] = alpha_amp * disp_mag + (1.0 - alpha_amp) * current_amp
 
-        # FREQUENCY tracking, via zero-crossing detection
+        # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
         # Period = time between consecutive positive zero crossings
         # More robust than peak detection since it's amplitude-independent
+        # EMA smoothing: f_new = α * f_measured + (1 - α) * f_old
+        # α controls adaptation speed: higher = faster response, lower = smoother
         prev_disp = wave_field.displacement_old_am[i, j, k]
         curr_disp = wave_field.displacement_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
             period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
             if period_rs > dt_rs * 2:  # Filter out spurious crossings
-                trackers.frequency_rHz[i, j, k] = 1.0 / period_rs  # in rHz
+                measured_freq = 1.0 / period_rs  # in rHz
+                current_freq = trackers.frequency_rHz[i, j, k]
+                alpha_freq = 0.1  # EMA smoothing factor for frequency
+                trackers.frequency_rHz[i, j, k] = (
+                    alpha_freq * measured_freq + (1.0 - alpha_freq) * current_freq
+                )
             trackers.last_crossing[i, j, k] = elapsed_t_rs
 
     # Swap time levels: old ← current, current ← new
