@@ -330,68 +330,135 @@ def charge_oscillator_falloff(
 
 
 @ti.kernel
-def damp_load_sphere(
+def charge_oscillator_wall(
     wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
 ):
     """
-    Gradually absorb wave energy within a spherical volume at the grid center.
+    Apply harmonic oscillation to all voxels at boundary walls.
 
-    Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
-    causing gradual decay toward zero.
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with all voxels on
+    the wall oscillating in phase.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+        elapsed_t_rs: Elapsed simulation time (rs)
     """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
-    # Find center position (in grid indices)
-    center_x = wave_field.nx // 2
-    center_y = wave_field.ny // 2
-    center_z = wave_field.nz // 2
-
-    # Define damp sphere radius
-    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
-
-    # Apply damping displacement within sphere
-    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
-    for i, j, k in ti.ndrange(
-        (center_x - damp_radius_grid, center_x + damp_radius_grid + 1),
-        (center_y - damp_radius_grid, center_y + damp_radius_grid + 1),
-        (center_z - damp_radius_grid, center_z + damp_radius_grid + 1),
-    ):
-        # Check if voxel is within spherical drain region
-        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
-        if r_grid <= damp_radius_grid:
-            wave_field.displacement_am[i, j, k] *= decay_factor
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx), (wave_field.ny)):
+        wave_field.displacement_am[i, j, 0] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[i, j, wave_field.nz - 1] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for i, k in ti.ndrange((wave_field.nx), (wave_field.nz)):
+        wave_field.displacement_am[i, 0, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[i, wave_field.ny - 1, k] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for j, k in ti.ndrange((wave_field.ny), (wave_field.nz)):
+        wave_field.displacement_am[0, j, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[wave_field.nx - 1, j, k] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
 
 
 @ti.kernel
-def damp_load_full(
+def charge_oscillator_wall_even(
     wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
 ):
     """
-    Gradually absorb wave energy within the entire grid volume.
+    Apply harmonic oscillation to boundary walls skipping every other voxel.
 
-    Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
-    causing gradual decay toward zero.
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with half voxels on
+    the wall oscillating in phase.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+        elapsed_t_rs: Elapsed simulation time (rs)
     """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
-    # Apply damping displacement within entire grid
-    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
-    for i, j, k in ti.ndrange(
-        (0, wave_field.nx),
-        (0, wave_field.ny),
-        (0, wave_field.nz),
-    ):
-        wave_field.displacement_am[i, j, k] *= decay_factor
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx // 2), (wave_field.ny // 2)):
+        wave_field.displacement_am[i * 2, j * 2, 0] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[i * 2, j * 2, wave_field.nz - 1] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for i, k in ti.ndrange((wave_field.nx // 2), (wave_field.nz // 2)):
+        wave_field.displacement_am[i * 2, 0, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[i * 2, wave_field.ny - 1, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+    for j, k in ti.ndrange((wave_field.ny // 2), (wave_field.nz // 2)):
+        wave_field.displacement_am[0, j * 2, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+        wave_field.displacement_am[wave_field.nx - 1, j * 2, k * 2] = base_amplitude_am * ti.cos(
+            omega_rs * elapsed_t_rs
+        )
+
+
+@ti.kernel
+def charge_oscillator_wall_quart(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to boundary walls skipping every 4 voxel.
+
+    Creates a uniform displacement on 2D planes using:
+        ψ(t) = A·cos(ωt)
+
+    The oscillators act as coherent wave sources, with a quart voxels on
+    the wall oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+
+    # Apply oscillating displacement on 6 boundary planes
+    # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
+    for i, j in ti.ndrange((wave_field.nx // 4), (wave_field.ny // 4)):
+        wave_field.displacement_am[i * 4, j * 4, 0] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i * 4, j * 4, wave_field.nz - 1] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+    for i, k in ti.ndrange((wave_field.nx // 4), (wave_field.nz // 4)):
+        wave_field.displacement_am[i * 4, 0, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i * 4, wave_field.ny - 1, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+    for j, k in ti.ndrange((wave_field.ny // 4), (wave_field.nz // 4)):
+        wave_field.displacement_am[0, j * 4, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[wave_field.nx - 1, j * 4, k * 4] = (
+            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+        )
 
 
 @ti.func
@@ -510,6 +577,71 @@ def propagate_ewave(
     for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
         wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
+
+
+@ti.kernel
+def damp_load_sphere(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within a spherical volume at the grid center.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Define damp sphere radius
+    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
+
+    # Apply damping displacement within sphere
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (center_x - damp_radius_grid, center_x + damp_radius_grid + 1),
+        (center_y - damp_radius_grid, center_y + damp_radius_grid + 1),
+        (center_z - damp_radius_grid, center_z + damp_radius_grid + 1),
+    ):
+        # Check if voxel is within spherical drain region
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+        if r_grid <= damp_radius_grid:
+            wave_field.displacement_am[i, j, k] *= decay_factor
+
+
+@ti.kernel
+def damp_load_full(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within the entire grid volume.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Apply damping displacement within entire grid
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (0, wave_field.nx),
+        (0, wave_field.ny),
+        (0, wave_field.nz),
+    ):
+        wave_field.displacement_am[i, j, k] *= decay_factor
 
 
 @ti.kernel

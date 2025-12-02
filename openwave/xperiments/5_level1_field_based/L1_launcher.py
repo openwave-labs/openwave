@@ -387,9 +387,9 @@ def initialize_xperiment(state):
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
     ewave.charge_full(state.wave_field, state.dt_rs)
-    # TODO: beautiful but inaccurate: ewave.charge_gaussian(state.wave_field)
-    # TODO: too-light: ewave.charge_falloff(state.wave_field, state.dt_rs)
-    # TODO: too-light: ewave.charge_1lambda(state.wave_field, state.dt_rs)
+    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
+    # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
     # TODO: code toggle to plot initial charging pattern
     # ewave.plot_charge_profile(state.wave_field)
 
@@ -407,7 +407,10 @@ def compute_wave_motion(state):
     # Charger runs BEFORE propagation to inject energy into displacement_am
     if state.charging and state.frame > 300:
         ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
-    # TODO: too-light: ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+        # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs)
+        # NOTE: ewave.charge_oscillator_wall_even(state.wave_field, state.elapsed_t_rs)
+        # NOTE: ewave.charge_oscillator_wall_quart(state.wave_field, state.elapsed_t_rs)
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -420,7 +423,7 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING runs AFTER propagation to reduce displacement values
     if state.damping:
         ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
-        # TODO: too-light: ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
+        # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
 
     # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
