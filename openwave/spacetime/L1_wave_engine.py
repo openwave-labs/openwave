@@ -220,8 +220,8 @@ def charge_full(
         # Outward displacement from center source: A·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = base_amplitude_am * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
-        disp_old = base_amplitude_am * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+        disp = base_amplitude_am * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0
+        disp_old = base_amplitude_am * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)  # t-dt
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -259,7 +259,7 @@ def charge_oscillator_sphere(
     center_z = wave_field.nz // 2
 
     # Define oscillator sphere radius
-    charge_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
+    charge_radius_grid = int(0.2 * wave_field.max_grid_size)  # in grid indices
 
     # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
