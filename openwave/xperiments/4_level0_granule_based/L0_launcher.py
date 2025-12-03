@@ -281,14 +281,14 @@ def display_level_specs(state, level_bar_vertices):
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.42, 0.18, 0.58) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.44, 0.18, 0.56) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
-            f"Universe: {state.lattice.max_universe_edge:.1e} m ({state.lattice.max_universe_edge_lambda:.1f} lambdas)"
+            f"Universe: {state.lattice.max_universe_edge:.1e} m ({state.lattice.max_universe_edge_lambda:.1f} waves)"
         )
         sub.text(f"Granule Count: {state.lattice.granule_count:,}")
         sub.text(
@@ -296,20 +296,18 @@ def display_data_dashboard(state):
         )
         sub.text(f"Unit-Cell Edge: {state.lattice.unit_cell_edge:.2e} m")
 
-        sub.text("\n--- SCALING-UP ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Factor: {state.lattice.scale_factor:.1e} x Planck Scale")
+        sub.text("\n--- RESOLUTION (scaled-up) ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"Scale-up Factor: {state.lattice.scale_factor:.1e}x")
+        sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/wave (>10)")
+        if state.lattice.ewave_res < 10:
+            sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Granule Radius: {state.granule.radius * state.RADIUS_FACTOR:.2e} m")
         sub.text(f"Granule Mass: {state.granule.mass:.2e} kg")
 
-        sub.text("\n--- SIMULATION RESOLUTION ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
-        if state.lattice.ewave_res < 10:
-            sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
-        sub.text(f"eWAVE Frequency (f): {constants.EWAVE_FREQUENCY:.1e} Hz")
-        sub.text(f"eWAVE Wavelength (lambda): {constants.EWAVE_LENGTH:.1e} m")
+        sub.text(f"eWAVE Amplitude: {constants.EWAVE_AMPLITUDE:.1e} m")
+        sub.text(f"eWAVE Frequency: {constants.EWAVE_FREQUENCY:.1e} Hz")
+        sub.text(f"eWAVE Wavelength: {constants.EWAVE_LENGTH:.1e} m")
         sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])

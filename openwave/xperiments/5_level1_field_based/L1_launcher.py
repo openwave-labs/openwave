@@ -305,14 +305,14 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.39, 0.18, 0.61) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.31, 0.18, 0.70) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
         sub.text(
-            f"Universe: {state.wave_field.max_universe_edge:.1e} m ({state.wave_field.max_universe_edge_lambda:.0f} lambdas)"
+            f"Universe: {state.wave_field.max_universe_edge:.1e} m ({state.wave_field.max_universe_edge_lambda:.0f} waves)"
         )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(
@@ -320,16 +320,19 @@ def display_data_dashboard(state):
         )
         sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
-        sub.text("\n--- SIMULATION RESOLUTION ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
+        sub.text("\n--- RESOLUTION (scaled-up) ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"Scale-up Factor: {state.wave_field.scale_factor:.1f}x")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Scale-up Factor: {state.wave_field.scale_factor:.1f}")
+        sub.text(f"Scaled-up Amplitude: {state.avg_amplitude:.1e} m")
+        sub.text(f"Scaled-up Frequency: {state.avg_frequency:.1e} Hz")
+        sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
-        sub.text("\n--- DATA SAMPLING ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
-        sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
-        sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
+        sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"eWAVE Amplitude: {state.avg_amplitude/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
+        sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
         sub.text(f"Total Energy: {state.avg_energy:.1e} J")
         sub.text(
             f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
