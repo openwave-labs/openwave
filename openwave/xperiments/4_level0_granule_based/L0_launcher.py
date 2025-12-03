@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
-import openwave.validations.wave_diagnostics as diagnostics
+import _analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -137,8 +137,8 @@ class SimulationState:
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 0
 
-        # Diagnostics & video export toggles
-        self.WAVE_DIAGNOSTICS = False
+        # Data Analytics & video export toggles
+        self.ANALYTICS = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
 
@@ -184,9 +184,9 @@ class SimulationState:
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
 
-        # Diagnostics
-        diag = params["diagnostics"]
-        self.WAVE_DIAGNOSTICS = diag["WAVE_DIAGNOSTICS"]
+        # Data Analytics & video export toggles
+        diag = params["analytics"]
+        self.ANALYTICS = diag["ANALYTICS"]
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
@@ -325,7 +325,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, wave sources and diagnostics.
+    """Initialize color palettes, wave sources and analytics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -348,8 +348,8 @@ def initialize_xperiment(state):
         state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
     )
 
-    if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters()
+    if state.ANALYTICS:
+        analytics.print_initial_parameters()
 
 
 def compute_wave_motion(state):
@@ -375,14 +375,14 @@ def compute_wave_motion(state):
     # Update normalized positions for rendering (with optional block-slicing)
     state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
 
-    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
+    # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Sample peak amplitude periodically (every 30 frames)
     if state.frame % 30 == 0:
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
         ewave.update_lattice_energy(state.lattice)
 
-    if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
+    if state.ANALYTICS:
+        analytics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
 
 
 def render_elements(state):
