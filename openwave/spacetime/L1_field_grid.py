@@ -89,7 +89,7 @@ class WaveField:
         self.universe_volume = self.voxel_count * self.voxel_volume
 
         # Compute scale factor
-        min_sampling = 12  # minimum voxels per wavelength for adequate sampling
+        min_sampling = 12  # voxels per wavelength for adequate sampling (stable ~12)
         self.scale_factor = max(
             min_sampling / (constants.EWAVE_LENGTH / self.dx), 1
         )  # linear scale factor, for computation tractability

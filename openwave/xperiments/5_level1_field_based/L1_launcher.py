@@ -325,7 +325,7 @@ def display_data_dashboard(state):
 
         sub.text("\n--- RESOLUTION (scaled-up) ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Scale-up Factor: {state.wave_field.scale_factor:.1f}x")
-        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (>10)")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (~12)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Scaled-up Amplitude: {state.avg_amplitude:.1e} m")
