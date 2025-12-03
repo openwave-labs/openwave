@@ -88,7 +88,8 @@ class WaveField:
         self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = self.voxel_count * self.voxel_volume
 
-        # Compute scale factor
+        # Compute SCALE FACTOR
+        # Will be applied to wave amplitude & wavelength, preserving wave steepness
         min_sampling = 12  # voxels per wavelength for adequate sampling (stable ~12)
         self.scale_factor = max(
             min_sampling / (constants.EWAVE_LENGTH / self.dx), 1

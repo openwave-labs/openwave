@@ -131,7 +131,7 @@ class BCCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Compute scale factor based on cubic unit cell edge
+        # Compute SCALE FACTOR based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, for computation tractability
@@ -627,7 +627,7 @@ class SCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Compute scale factor based on cubic unit cell edge
+        # Compute SCALE FACTOR based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
         )  # linear scale factor from Planck length, for computation tractability
