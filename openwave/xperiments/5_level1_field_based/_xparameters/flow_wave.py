@@ -34,7 +34,7 @@ XPARAMETERS = {
         "COLOR_PALETTE": 1,  # Color palette list: redshift (1), ironbow (2), blueprint (3), viridis (4)
     },
     "analytics": {
-        "ANALYTICS": True,  # Toggle data analytics
+        "ANALYTICS": False,  # Toggle data analytics
         "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
         "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },

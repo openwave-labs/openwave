@@ -6,8 +6,22 @@ This provides zero-overhead analytics that can be toggled on/off per experiment.
 
 import matplotlib.pyplot as plt
 import numpy as np
+import csv
+from pathlib import Path
 
 from openwave.common import colormap
+
+
+# ================================================================
+# Module-level Constants (computed once at import)
+# ================================================================
+
+_MODULE_DIR = Path(__file__).parent
+DATA_DIR = _MODULE_DIR / "_data"
+PLOT_DIR = _MODULE_DIR / "_plots"
+
+# Module-level state
+_log_initialized = False
 
 
 # ================================================================
@@ -85,11 +99,9 @@ def plot_static_charge_profile(wave_field):
 
     plt.tight_layout()
 
-    # Save to research directory
-    from pathlib import Path
-
-    save_path = Path(__file__).parent / "_plots" / "charge_profile.png"
-    save_path.parent.mkdir(parents=True, exist_ok=True)
+    # Save to directory
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    save_path = PLOT_DIR / "charge_profile.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\n" + "=" * 64)
     print("DATA ANALYTICS ENABLED")
@@ -98,18 +110,21 @@ def plot_static_charge_profile(wave_field):
     # plt.show()
 
 
-def log_charge_level(frame, charge_level):
-    """
-    Record charge level at the current frame.
+def log_charge_level(frame: int, charge_level: float) -> None:
+    """Record charge level at the current frame."""
+    global _log_initialized
 
-    Args:
-        frame: Current simulation frame
-        charge_level: Current charge level
-    """
-    from pathlib import Path
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    log_path = DATA_DIR / "charge_level.csv"
 
-    log_path = Path(__file__).parent / "_data" / "charge_level.txt"
-    log_path.parent.mkdir(parents=True, exist_ok=True)
+    # Write header on first call
+    if not _log_initialized:
+        with open(log_path, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["frame", "charge_level"])
+        _log_initialized = True
 
-    with open(log_path, "a") as log_file:
-        log_file.write(f"{frame}\t{charge_level:.6f}\n")
+    # Append charge level data
+    with open(log_path, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow([frame, f"{charge_level:.6f}"])
