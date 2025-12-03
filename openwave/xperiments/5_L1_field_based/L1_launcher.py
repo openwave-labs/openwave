@@ -402,7 +402,7 @@ def initialize_xperiment(state):
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
     ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
-    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
+    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian_bump(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
@@ -436,8 +436,8 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
     # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_load_full(state.wave_field, 0.99)  # best overall
-        # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)
+        ewave.dump_load_full(state.wave_field, 0.99)  # best overall
+        # NOTE: (too-light) ewave.dump_load_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead

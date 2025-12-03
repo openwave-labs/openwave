@@ -29,7 +29,7 @@ def charge_full(
     Initialize a spherical outgoing wave pattern centered in the wave field.
 
     Creates a radial sinusoidal displacement pattern emanating from the grid center
-    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
+    using the wave motion: A·cos(ωt - kr). Sets up both current and previous
     timestep displacements for time-stepping propagation.
 
     Args:
@@ -78,7 +78,7 @@ def charge_full(
 
 
 @ti.kernel
-def charge_gaussian(
+def charge_gaussian_bump(
     wave_field: ti.template(),  # type: ignore
 ):
     """
@@ -614,7 +614,7 @@ def propagate_ewave(
 
 
 @ti.kernel
-def damp_load_full(
+def dump_load_full(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
@@ -641,7 +641,7 @@ def damp_load_full(
 
 
 @ti.kernel
-def damp_load_sphere(
+def dump_load_sphere(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
