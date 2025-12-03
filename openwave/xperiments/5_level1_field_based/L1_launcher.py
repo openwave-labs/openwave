@@ -277,15 +277,17 @@ def display_color_menu(state):
         if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"{-state.avg_amplitude * 2:.0e}  {state.avg_amplitude * 2:.0e}m")
+                sub.text(
+                    f"{-state.avg_amplitude*2/state.wave_field.scale_factor:.0e}  {state.avg_amplitude*2/state.wave_field.scale_factor:.0e}m"
+                )
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_amplitude * 2:.0e}m")
+                sub.text(f"0       {state.avg_amplitude*2/state.wave_field.scale_factor:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_frequency * 2:.0e}Hz")
+                sub.text(f"0       {state.avg_frequency*2*state.wave_field.scale_factor:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
