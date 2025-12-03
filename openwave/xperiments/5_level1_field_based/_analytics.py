@@ -128,3 +128,61 @@ def log_charge_level(frame: int, charge_level: float) -> None:
     with open(log_path, "a", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([frame, f"{charge_level:.6f}"])
+
+
+def plot_charge_log():
+    """Plot the logged charge level over time."""
+    log_path = DATA_DIR / "charge_level.csv"
+    if not log_path.exists():
+        print("Charge log file does not exist.")
+        return
+
+    frames = []
+    charge_levels = []
+
+    # Read logged data
+    with open(log_path, "r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            frames.append(int(row["frame"]))
+            charge_levels.append(float(row["charge_level"]))
+
+    # Create the plot
+    plt.style.use("dark_background")
+    fig = plt.figure(figsize=(10, 6), facecolor=colormap.DARK_GRAY[1])
+    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
+
+    plt.plot(
+        frames,
+        [cl * 100 for cl in charge_levels],
+        color=colormap.viridis_palette[2][1],
+        linewidth=3,
+        label="CHARGE LEVEL",
+    )
+    plt.axhline(y=120, color=colormap.RED[1], linestyle="--", alpha=0.5, label="MAX CHARGE LEVEL")
+    plt.axhline(
+        y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
+    )
+    plt.axhline(
+        y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
+    )
+
+    plt.xlabel("Frame", family="Monospace")
+    plt.ylabel("Charge Level (%)", family="Monospace")
+    plt.title("ENERGY CHARGING & STABILIZATION", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    plt.tight_layout()
+
+    # Save to directory
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    save_path = PLOT_DIR / "charge_levels.png"
+    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    print("\nCharge level plot saved to:", save_path)
+    print(f"")
+    # plt.show()
+
+
+if __name__ == "__main__":
+    plot_charge_log()
