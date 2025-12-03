@@ -233,7 +233,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -277,23 +277,26 @@ def display_color_menu(state):
         if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"{-state.avg_amplitude * 2:.0e}  {state.avg_amplitude * 2:.0e}m")
+                sub.text(
+                    f"{-state.avg_amplitude*2/state.wave_field.scale_factor:.0e}  {state.avg_amplitude*2/state.wave_field.scale_factor:.0e}m"
+                )
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_amplitude * 2:.0e}m")
+                sub.text(f"0       {state.avg_amplitude*2/state.wave_field.scale_factor:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_frequency * 2:.0e}Hz")
+                sub.text(f"0       {state.avg_frequency*2*state.wave_field.scale_factor:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
-        sub.text("Coupling: Phase Sync")
-        sub.text("Propagation: Radial from Source")
+    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
+        sub.text("Coupling: Laplacian Operator")
+        sub.text("Propagation: Wave Equation (PDE)")
+        sub.text("Boundary: Dirichlet Condition")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(
                 "https://github.com/openwave-labs/openwave/blob/main/openwave/common/wave_notation.md"
@@ -305,30 +308,42 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.39, 0.18, 0.61) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.33, 0.16, 0.67) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
+        sub.text(
+            f"Universe: {state.wave_field.max_universe_edge:.1e} m ({state.wave_field.max_universe_edge_lambda:.0f} waves)"
+        )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz}"
         )
         sub.text(f"Voxel Edge: {state.wave_field.dx:.2e} m")
 
-        sub.text("\n--- SIMULATION RESOLUTION ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
+        sub.text("\n--- RESOLUTION (scaled-up) ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"Scale-up Factor: {state.wave_field.scale_factor:.1f}x")
+        sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (~12)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/edge")
+        sub.text(f"Scaled-up Amplitude: {state.avg_amplitude:.1e} m")
+        sub.text(f"Scaled-up Frequency: {state.avg_frequency:.1e} Hz")
+        sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
-        sub.text("\n--- DATA SAMPLING ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")
-        sub.text(f"Avg Frequency (f): {state.avg_frequency:.1e} Hz")
-        sub.text(f"Avg Wavelength (lambda): {state.avg_wavelength:.1e} m")
-        sub.text(f"Total Energy: {state.avg_energy:.1e} J")
+        sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
+        sub.text(f"eWAVE Amplitude: {state.avg_amplitude/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
+        sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
+        sub.text(
+            f"TOTAL ENERGY: {state.avg_energy:.1e} J",
+            color=(
+                colormap.ORANGE[1]
+                if state.charging
+                else colormap.RED[1] if state.damping else colormap.GREEN[1]
+            ),
+        )
         sub.text(
             f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
             color=(
@@ -382,7 +397,7 @@ def initialize_xperiment(state):
     rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
         colormap.redshift, 0.00, 0.68, 0.079, 0.01
     )
-    level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations

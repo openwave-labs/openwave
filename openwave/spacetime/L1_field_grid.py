@@ -57,10 +57,8 @@ class WaveField:
         self.voxel_volume = init_universe_volume / target_voxels  # cubic voxels
         self.voxel_edge = self.voxel_volume ** (1 / 3)  # same as dx, dx³ = voxel volume
         self.voxel_edge_am = self.voxel_edge / constants.ATTOMETER  # in attometers
-        self.dx, self.dx_am = (
-            self.voxel_edge,
-            self.voxel_edge_am,
-        )  # additional alias for simplicity
+        self.dx = self.voxel_edge  # additional alias for simplicity
+        self.dx_am = self.voxel_edge_am  # additional alias for simplicity
 
         # Calculate grid dimensions (number of complete voxels per dimension) - asymmetric
         # Uses nearest odd integer to ensure grid symmetry with unique central voxel:
@@ -74,11 +72,9 @@ class WaveField:
             utils.round_to_nearest_odd(init_universe_size[1] / self.dx),
             utils.round_to_nearest_odd(init_universe_size[2] / self.dx),
         ]  # same as (nx, ny, nz)
-        self.nx, self.ny, self.nz = (
-            self.grid_size[0],
-            self.grid_size[1],
-            self.grid_size[2],
-        )  # additional alias for simplicity
+        self.nx = self.grid_size[0]  # additional alias for simplicity
+        self.ny = self.grid_size[1]  # additional alias for simplicity
+        self.nz = self.grid_size[2]  # additional alias for simplicity
         self.max_grid_size = max(self.nx, self.ny, self.nz)
 
         # Compute total voxels (asymmetric grid)
@@ -89,13 +85,19 @@ class WaveField:
         self.universe_size_am = [size / constants.ATTOMETER for size in self.universe_size]
         self.max_universe_edge = max(self.nx * self.dx, self.ny * self.dx, self.nz * self.dx)
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
+        self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = self.voxel_count * self.voxel_volume
 
-        # Compute energy-wave spatial resolution
+        # Compute SCALE FACTOR
+        # Will be applied to wave amplitude & wavelength, preserving wave steepness
+        min_sampling = 12  # voxels per wavelength for adequate sampling (stable ~12)
+        self.scale_factor = max(
+            min_sampling / (constants.EWAVE_LENGTH / self.dx), 1
+        )  # linear scale factor, for computation tractability
+
+        # Compute simulation resolution
         # Voxels per wavelength, should be >10 for adequate sampling (same for all axes)
-        self.ewave_res = constants.EWAVE_LENGTH / self.dx  # in voxels / λ
-        # Compute universe extent in wavelengths (how many λ fit in max edge)
-        self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
+        self.ewave_res = constants.EWAVE_LENGTH / self.dx * self.scale_factor  # voxels / λ
 
         # Compute grid total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
@@ -430,7 +432,9 @@ if __name__ == "__main__":
     if wave_field.ewave_res < 10:
         print(f"  *** WARNING: Undersampling! ***")
 
-    print(f"  Max universe resolution: {wave_field.max_uni_res:.2f} lambda per max universe edge")
+    print(
+        f"  Max universe resolution: {wave_field.max_universe_edge_lambda:.2f} lambda per max universe edge"
+    )
 
     print("\n================================================================")
     print("END SMOKE TEST: DATA-GRID MODULE")

@@ -80,8 +80,8 @@ class BCCLattice:
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves lattice isotropy. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
+        self.unit_cell_volume = init_universe_volume / (target_granules / 2)  # BCC = 2 /unit-cell
+        self.unit_cell_edge = self.unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
@@ -96,6 +96,18 @@ class BCCLattice:
             round(init_universe_size[1] / self.unit_cell_edge),
             round(init_universe_size[2] / self.unit_cell_edge),
         ]
+        self.max_grid_size = max(
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )
+
+        # Total granules: corners + centers (asymmetric grid)
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
+        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
+        self.granule_count = corner_count + center_count
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
         self.universe_size = [
@@ -114,33 +126,19 @@ class BCCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         )
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
-
-        self.max_grid_size = max(
-            self.grid_size[0],
-            self.grid_size[1],
-            self.grid_size[2],
-        )
+        self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = (
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Total granules: corners + centers (asymmetric grid)
-        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        # Centers: grid_size[0] * grid_size[1] * grid_size[2]
-        corner_count = (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-        center_count = self.grid_size[0] * self.grid_size[1] * self.grid_size[2]
-        self.granule_count = corner_count + center_count
-
-        # Scale factor based on cubic unit cell edge
+        # Compute SCALE FACTOR based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length, increases computability
+        )  # linear scale factor from Planck length, for computation tractability
 
-        # Compute energy-wave spatial resolution
+        # Compute simulation resolution
         # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
-        # Compute universe extent in wavelengths (how many λ fit in max edge)
-        self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
@@ -157,7 +155,7 @@ class BCCLattice:
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest pos
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
         self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # wave amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
@@ -579,8 +577,8 @@ class SCLattice:
         # Calculate unit cell properties
         # CRITICAL: Unit cell must remain cubic (same edge length on all axes)
         # This preserves lattice isotropy. Only the NUMBER of cells varies per axis.
-        unit_cell_volume = init_universe_volume / target_granules  # SC = 1 /unit-cell
-        self.unit_cell_edge = unit_cell_volume ** (1 / 3)  # a^3 = volume
+        self.unit_cell_volume = init_universe_volume / target_granules  # SC = 1 /unit-cell
+        self.unit_cell_edge = self.unit_cell_volume ** (1 / 3)  # a^3 = volume
         self.unit_cell_edge_am = self.unit_cell_edge / constants.ATTOMETER
 
         # Calculate grid dimensions (number of complete unit cells per dimension) - asymmetric
@@ -595,6 +593,17 @@ class SCLattice:
             round(init_universe_size[1] / self.unit_cell_edge),
             round(init_universe_size[2] / self.unit_cell_edge),
         ]
+        self.max_grid_size = max(
+            self.grid_size[0],
+            self.grid_size[1],
+            self.grid_size[2],
+        )
+
+        # Total granules: corners only (no centers for SC) - asymmetric grid
+        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
+        self.granule_count = (
+            (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
+        )
 
         # Recompute actual universe dimensions to fit integer number of cubic unit cells
         self.universe_size = [
@@ -613,32 +622,19 @@ class SCLattice:
             self.grid_size[2] * self.unit_cell_edge,
         )
         self.max_universe_edge_am = self.max_universe_edge / constants.ATTOMETER
-
-        self.max_grid_size = max(
-            self.grid_size[0],
-            self.grid_size[1],
-            self.grid_size[2],
-        )
+        self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = (
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Total granules: corners only (no centers for SC) - asymmetric grid
-        # Corners: (grid_size[0] + 1) * (grid_size[1] + 1) * (grid_size[2] + 1)
-        self.granule_count = (
-            (self.grid_size[0] + 1) * (self.grid_size[1] + 1) * (self.grid_size[2] + 1)
-        )
-
-        # Scale factor based on cubic unit cell edge
+        # Compute SCALE FACTOR based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length, increases computability
+        )  # linear scale factor from Planck length, for computation tractability
 
-        # Compute energy-wave spatial resolution
+        # Compute simulation resolution
         # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
-        # Compute universe extent in wavelengths (how many λ fit in max edge)
-        self.max_uni_res = self.max_universe_edge / constants.EWAVE_LENGTH
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
@@ -655,7 +651,7 @@ class SCLattice:
         # This scales 1e-17 m values to ~10 am, well within f32 range
         self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.position_screen = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
-        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest pos
+        self.equilibrium_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)  # rest
         self.amplitude_am = ti.field(dtype=ti.f32, shape=self.granule_count)  # wave amplitude
         self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
         self.granule_type = ti.field(dtype=ti.i32, shape=self.granule_count)
@@ -1007,7 +1003,7 @@ if __name__ == "__main__":
     print(f"\nLattice Linear Resolutions:")
     print(f"  Energy-wave resolution: {lattice.ewave_res:.2f} granules per wavelength")
     print(
-        f"  Max universe resolution: {lattice.max_uni_res:.2f} ewavelengths per max universe edge"
+        f"  Max universe resolution: {lattice.max_universe_edge_lambda:.2f} ewavelengths per max universe edge"
     )
 
     # Create granule

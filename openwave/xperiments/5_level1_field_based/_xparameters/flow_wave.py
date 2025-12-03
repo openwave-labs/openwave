@@ -11,7 +11,7 @@ UNIVERSE_EDGE = 2e-16  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "[WIP] Flow Wave",
+        "X_NAME": "Flow Wave",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -26,7 +26,7 @@ XPARAMETERS = {
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_OPTION": 3,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "SIM_SPEED": 0.5,  # Frequency boost multiplier
+        "SIM_SPEED": 1,  # Frequency boost multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
