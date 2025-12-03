@@ -22,7 +22,7 @@ from openwave._io import flux_mesh, render, video
 
 import openwave.spacetime.L1_field_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
-import openwave.validations.wave_diagnostics as diagnostics
+import _analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -139,8 +139,8 @@ class SimulationState:
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 1  # Color palette index
 
-        # Diagnostics & video export toggles
-        self.WAVE_DIAGNOSTICS = False
+        # Data Analytics & video export toggles
+        self.ANALYTICS = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
 
@@ -171,9 +171,9 @@ class SimulationState:
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
 
-        # Diagnostics
-        diag = params["diagnostics"]
-        self.WAVE_DIAGNOSTICS = diag["WAVE_DIAGNOSTICS"]
+        # Data Analytics & video export toggles
+        diag = params["analytics"]
+        self.ANALYTICS = diag["ANALYTICS"]
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
@@ -377,7 +377,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, wave charger and diagnostics.
+    """Initialize color palettes, wave charger and analytics.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -405,11 +405,9 @@ def initialize_xperiment(state):
     # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
-    # TODO: code toggle to plot initial charging pattern
-    # ewave.plot_charge_profile(state.wave_field)
 
-    if state.WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters()
+    if state.ANALYTICS:
+        analytics.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
@@ -440,7 +438,7 @@ def compute_wave_motion(state):
         ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
         # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
 
-    # IN-FRAME DATA SAMPLING & DIAGNOSTICS ==================================
+    # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0 and state.frame > 300:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)

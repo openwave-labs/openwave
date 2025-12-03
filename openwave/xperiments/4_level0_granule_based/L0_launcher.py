@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
-import L0_analytics as analytics
+import _analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -137,7 +137,7 @@ class SimulationState:
         self.COLOR_THEME = "OCEAN"
         self.COLOR_PALETTE = 0
 
-        # Analytics & video export toggles
+        # Data Analytics & video export toggles
         self.ANALYTICS = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
@@ -184,7 +184,7 @@ class SimulationState:
         self.COLOR_THEME = color["COLOR_THEME"]
         self.COLOR_PALETTE = color["COLOR_PALETTE"]
 
-        # Analytics & video export toggles
+        # Data Analytics & video export toggles
         diag = params["analytics"]
         self.ANALYTICS = diag["ANALYTICS"]
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
