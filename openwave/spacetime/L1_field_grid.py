@@ -88,11 +88,14 @@ class WaveField:
         self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = self.voxel_count * self.voxel_volume
 
-        # Compute simulation resolution
-        self.ewave_res = constants.EWAVE_LENGTH / self.dx  # in voxels / λ, min12 adequate sampling
-
         # Compute scale factor based on cubic unit cell edge
-        self.scale_factor = max(12 / self.ewave_res, 1)  # linear scale factor, for computability
+        self.scale_factor = max(
+            12 / (constants.EWAVE_LENGTH / self.dx), 1
+        )  # linear scale factor, for computation tractability
+
+        # Compute simulation resolution
+        # Voxels per wavelength, should be >10 for adequate sampling (same for all axes)
+        self.ewave_res = constants.EWAVE_LENGTH / self.dx * self.scale_factor  # voxels / λ
 
         # Compute grid total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules

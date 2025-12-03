@@ -131,14 +131,14 @@ class BCCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Compute simulation resolution
-        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
-
         # Compute scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length, increases computability
+        )  # linear scale factor from Planck length, for computation tractability
+
+        # Compute simulation resolution
+        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
@@ -627,14 +627,14 @@ class SCLattice:
             self.universe_size[0] * self.universe_size[1] * self.universe_size[2]
         )
 
-        # Compute simulation resolution
-        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
-        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
-
         # Compute scale factor based on cubic unit cell edge
         self.scale_factor = self.unit_cell_edge / (
             2 * ti.math.e * constants.PLANCK_LENGTH
-        )  # linear scale factor from Planck length, increases computability
+        )  # linear scale factor from Planck length, for computation tractability
+
+        # Compute simulation resolution
+        # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
+        self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
 
         # Compute lattice total energy from energy-wave equation
         self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
