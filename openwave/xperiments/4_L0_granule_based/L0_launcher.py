@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
-import _analytics as analytics
+import _L0_analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -59,9 +59,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = (
-                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
-            )
+            module_path = f"openwave.xperiments.4_L0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,9 +84,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = (
-                f"openwave.xperiments.4_level0_granule_based._xparameters.{xperiment_name}"
-            )
+            module_path = f"openwave.xperiments.4_L0_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name

@@ -22,7 +22,7 @@ from openwave._io import flux_mesh, render, video
 
 import openwave.spacetime.L1_field_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
-import _analytics as analytics
+import _L1_analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -61,7 +61,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.5_level1_field_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.5_L1_field_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,7 +86,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.5_level1_field_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.5_L1_field_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -401,8 +401,8 @@ def initialize_xperiment(state):
 
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
-    ewave.charge_full(state.wave_field, state.dt_rs)
-    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
+    ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
+    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian_bump(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
@@ -417,9 +417,9 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
     # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
-    # Charger runs BEFORE propagation to inject energy into displacement_am
+    # Runs BEFORE propagation to inject energy into displacement until stabilization
     if state.charging and state.frame > 300:
-        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # best overall
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
         # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs)
         # NOTE: ewave.charge_oscillator_wall_even(state.wave_field, state.elapsed_t_rs)
@@ -433,10 +433,11 @@ def compute_wave_motion(state):
         state.elapsed_t_rs,
     )
 
-    # DYNAMIC DAMPING runs AFTER propagation to reduce displacement values
+    # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
+    # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
-        # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
+        ewave.dump_load_full(state.wave_field, 0.99)  # best overall
+        # NOTE: (too-light) ewave.dump_load_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead

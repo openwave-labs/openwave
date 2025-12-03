@@ -21,13 +21,16 @@ rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
 @ti.kernel
-def charge_1lambda(
+def charge_full(
     wave_field: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave within 1 wavelength.
-    Similar to initiate_charge() but limits the wave to within 1 wavelength
+    Initialize a spherical outgoing wave pattern centered in the wave field.
+
+    Creates a radial sinusoidal displacement pattern emanating from the grid center
+    using the wave motion: A·cos(ωt - kr). Sets up both current and previous
+    timestep displacements for time-stepping propagation.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -56,21 +59,80 @@ def charge_1lambda(
         # Distance from center (in grid indices)
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
 
-        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
-        amplitude_am_at_r = (
-            base_amplitude_am * wave_field.scale_factor if r_grid < wavelength_grid else 0.0
-        )
-
         # Simple sinusoidal radial pattern
-        # Outward displacement from center source: A(r)·cos(ωt - kr)
+        # Outward displacement from center source: A·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
-        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+        disp = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
+        )  # t0
+        disp_old = (
+            base_amplitude_am
+            * wave_field.scale_factor
+            * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+        )  # t-dt
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
         wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+
+
+@ti.kernel
+def charge_gaussian_bump(
+    wave_field: ti.template(),  # type: ignore
+):
+    """
+    Initialize a stationary Gaussian wave packet centered in the wave field.
+
+    Creates a spherical displacement pattern with Gaussian envelope, normalized
+    to contain the total energy of the universe. The wave starts at rest
+    (zero initial velocity) by setting displacement_old = displacement.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Gaussian width: σ = λ/2 (half wavelength)
+    sigma = base_wavelength * wave_field.scale_factor / 2  # in meters
+    sigma_grid = sigma / wave_field.dx  # in grid indices
+
+    # Calculate amplitude to match total universe energy
+    # Energy integral: E = ∫ ρ(fA)² × G² dV, where G = exp(-r²/(2σ²))
+    # Squared Gaussian integral: ∫ exp(-r²/σ²) dV = π^(3/2) × σ³
+    # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
+    # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
+    #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
+    sqrt_rho_times_f = ti.f32(
+        rho**0.5 * base_frequency / wave_field.scale_factor
+    )  # ~6.53e36 (within f32)
+    g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
+    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
+    A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
+
+    # Apply Gaussian displacement (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+
+        # Squared Distance from center (in grid indices)
+        r_squared = (i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2
+
+        # Gaussian envelope: G(r) = exp(-r²/(2σ²))
+        gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
+
+        wave_field.displacement_am[i, j, k] = A_am * gaussian
+
+    # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
 
 
 @ti.kernel
@@ -130,74 +192,13 @@ def charge_falloff(
 
 
 @ti.kernel
-def charge_gaussian(
-    wave_field: ti.template(),  # type: ignore
-):
-    """
-    Initialize a stationary Gaussian wave packet centered in the wave field.
-
-    Creates a spherical displacement pattern with Gaussian envelope, normalized
-    to contain the total energy of the universe. The wave starts at rest
-    (zero initial velocity) by setting displacement_old = displacement.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-
-    # Find center position (in grid indices)
-    center_x = wave_field.nx // 2
-    center_y = wave_field.ny // 2
-    center_z = wave_field.nz // 2
-
-    # Gaussian width: σ = λ/2 (half wavelength)
-    sigma = base_wavelength * wave_field.scale_factor / 2  # in meters
-    sigma_grid = sigma / wave_field.dx  # in grid indices
-
-    # Calculate amplitude to match total universe energy
-    # Energy integral: E = ∫ ρ(fA)² × G² dV, where G = exp(-r²/(2σ²))
-    # Squared Gaussian integral: ∫ exp(-r²/σ²) dV = π^(3/2) × σ³
-    # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
-    # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
-    #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
-    sqrt_rho_times_f = ti.f32(
-        rho**0.5 * base_frequency / wave_field.scale_factor
-    )  # ~6.53e36 (within f32)
-    g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
-    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
-    A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
-
-    # Apply Gaussian displacement (interior points only)
-    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
-    for i, j, k in ti.ndrange(
-        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
-    ):
-
-        # Squared Distance from center (in grid indices)
-        r_squared = (i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2
-
-        # Gaussian envelope: G(r) = exp(-r²/(2σ²))
-        gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
-
-        wave_field.displacement_am[i, j, k] = A_am * gaussian
-
-    # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
-    for i, j, k in ti.ndrange(
-        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
-    ):
-        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
-
-
-@ti.kernel
-def charge_full(
+def charge_1lambda(
     wave_field: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave pattern centered in the wave field.
-
-    Creates a radial sinusoidal displacement pattern emanating from the grid center
-    using the wave equation: A·cos(ωt - kr). Sets up both current and previous
-    timestep displacements for time-stepping propagation.
+    Initialize a spherical outgoing wave within 1 wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 wavelength
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -226,18 +227,17 @@ def charge_full(
         # Distance from center (in grid indices)
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
 
+        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
+        amplitude_am_at_r = (
+            base_amplitude_am * wave_field.scale_factor if r_grid < wavelength_grid else 0.0
+        )
+
         # Simple sinusoidal radial pattern
-        # Outward displacement from center source: A·cos(ωt - kr)
+        # Outward displacement from center source: A(r)·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = (
-            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
-        )  # t0
-        disp_old = (
-            base_amplitude_am
-            * wave_field.scale_factor
-            * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
-        )  # t-dt
+        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -614,7 +614,34 @@ def propagate_ewave(
 
 
 @ti.kernel
-def damp_load_sphere(
+def dump_load_full(
+    wave_field: ti.template(),  # type: ignore
+    decay_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within the entire grid volume.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by decay_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Apply damping displacement within entire grid
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (0, wave_field.nx),
+        (0, wave_field.ny),
+        (0, wave_field.nz),
+    ):
+        wave_field.displacement_am[i, j, k] *= decay_factor
+
+
+@ti.kernel
+def dump_load_sphere(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
@@ -649,33 +676,6 @@ def damp_load_sphere(
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
         if r_grid <= damp_radius_grid:
             wave_field.displacement_am[i, j, k] *= decay_factor
-
-
-@ti.kernel
-def damp_load_full(
-    wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
-):
-    """
-    Gradually absorb wave energy within the entire grid volume.
-
-    Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
-    causing gradual decay toward zero.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
-    """
-
-    # Apply damping displacement within entire grid
-    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
-    for i, j, k in ti.ndrange(
-        (0, wave_field.nx),
-        (0, wave_field.ny),
-        (0, wave_field.nz),
-    ):
-        wave_field.displacement_am[i, j, k] *= decay_factor
 
 
 @ti.kernel
