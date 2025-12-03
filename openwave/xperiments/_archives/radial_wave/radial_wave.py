@@ -23,7 +23,6 @@ from openwave._io import render
 
 import openwave.xperiments._archives.radial_wave.medium_bccgranule as medium
 import openwave.xperiments._archives.radial_wave.wave_engine_radial as ewave
-import openwave.validations.wave_diagnostics as diagnostics
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU
@@ -43,8 +42,6 @@ COLOR_THEME = "DESERT"
 # Instantiate the lattice and granule objects (chose BCC or SC Lattice type)
 lattice = medium.BCCLattice(UNIVERSE_EDGE, theme=COLOR_THEME)
 granule = medium.BCCGranule(lattice.unit_cell_edge)
-
-WAVE_DIAGNOSTICS = True  # Toggle wave diagnostics (speed & wavelength measurements)
 
 # ================================================================
 # Xperiment UI and overlay windows
@@ -184,10 +181,6 @@ def render_xperiment(lattice):
     normalized_position = ti.Vector.field(3, dtype=ti.f32, shape=lattice.granule_count)
     normalize_granule()
 
-    # Print diagnostics header if enabled
-    if WAVE_DIAGNOSTICS:
-        diagnostics.print_initial_parameters()
-
     while render.window.running:
         # Render UI overlay windows
         render.init_scene(show_axis)  # Initialize scene with lighting and camera
@@ -220,14 +213,6 @@ def render_xperiment(lattice):
             # Update normalized positions for rendering (must happen after position updates)
             # with optional block-slicing (see-through effect)
             normalize_lattice(1 if block_slice else 0)
-
-            # Wave diagnostics (minimal footprint)
-            if WAVE_DIAGNOSTICS:
-                diagnostics.print_wave_diagnostics(
-                    t,
-                    frame,
-                    print_interval=100,  # Print every 100 frames
-                )
 
             frame += 1  # Increment frame counter
         else:

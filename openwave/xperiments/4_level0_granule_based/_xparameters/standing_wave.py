@@ -78,8 +78,8 @@ XPARAMETERS = {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
         "COLOR_PALETTE": 1,  # Color palette list: default (99), granule-type (0), redshift (1), ironbow (2), blueprint (3), viridis (4)
     },
-    "diagnostics": {
-        "WAVE_DIAGNOSTICS": False,  # Toggle wave diagnostics (speed & wavelength measurements)
+    "analytics": {
+        "ANALYTICS": False,  # Toggle analytics (speed & wavelength measurements)
         "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
         "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
