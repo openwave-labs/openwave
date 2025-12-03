@@ -217,7 +217,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (L0)", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (L0)", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -234,7 +234,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.15, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.22) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
         state.SHOW_SOURCES = sub.checkbox("Show Wave Sources", state.SHOW_SOURCES)
@@ -273,15 +273,15 @@ def display_color_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("LEVEL-0: GRANULE-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
-        sub.text(f"Wave Source: {state.NUM_SOURCES} Harmonic Oscillators")
+    with render.gui.sub_window("LEVEL-0: GRANULE-BASED METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
+        sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
 
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.44, 0.18, 0.56) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.44, 0.16, 0.56) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
@@ -341,7 +341,7 @@ def initialize_xperiment(state):
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.66, 0.079, 0.01
     )
-    level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
     # Initialize wave sources
     ewave.build_source_vectors(

@@ -233,7 +233,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.13, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -293,9 +293,10 @@ def display_color_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.82, 0.01, 0.18, 0.10) as sub:
-        sub.text("Coupling: Phase Sync")
-        sub.text("Propagation: Radial from Source")
+    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
+        sub.text("Coupling: Laplacian Operator")
+        sub.text("Propagation: Wave Equation (PDE)")
+        sub.text("Boundary: Dirichlet Condition")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(
                 "https://github.com/openwave-labs/openwave/blob/main/openwave/common/wave_notation.md"
@@ -307,7 +308,7 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.33, 0.18, 0.67) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.33, 0.16, 0.67) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
@@ -396,7 +397,7 @@ def initialize_xperiment(state):
     rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
         colormap.redshift, 0.00, 0.68, 0.079, 0.01
     )
-    level_bar_vertices = colormap.get_level_bar_geometry(0.82, 0.00, 0.179, 0.01)
+    level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
