@@ -220,4 +220,4 @@ This is **numerical scaling for computational tractability**, not physical simil
 - Energy Wave Equation: `openwave/common/equations.py`
 - Scale Factor Implementation: `openwave/spacetime/L1_field_grid.py`
 - Wave Engine Scaling: `openwave/spacetime/L1_wave_engine.py`
-- Launcher Display: `openwave/xperiments/5_level1_field_based/L1_launcher.py`
+- Launcher Display: `openwave/xperiments/5_L1_field_based/L1_launcher.py`
