@@ -4,6 +4,9 @@ DATA ANALYTICS
 This provides zero-overhead analytics that can be toggled on/off per experiment.
 """
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 from openwave.common import colormap
 
 
@@ -19,8 +22,6 @@ def plot_static_charge_profile(wave_field):
     Args:
         wave_field: WaveField instance containing displacement data
     """
-    import matplotlib.pyplot as plt
-    import numpy as np
 
     # Get center indices
     center_j = wave_field.ny // 2
