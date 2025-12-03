@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Max Resolution
+XPERIMENT PARAMETERS: Electron Resolution
 
 This XPERIMENT showcases:
 -
@@ -7,11 +7,11 @@ This XPERIMENT showcases:
 
 from openwave.common import constants
 
-UNIVERSE_EDGE = 2e-15  # m, universe edge length in meters
+UNIVERSE_EDGE = 6e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "[WIP] Max Resolution",
+        "X_NAME": "[WIP] The Electron",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
