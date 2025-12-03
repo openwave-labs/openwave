@@ -311,7 +311,9 @@ def display_data_dashboard(state):
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.wave_field.max_universe_edge:.1e} m (max edge)")
+        sub.text(
+            f"Universe: {state.wave_field.max_universe_edge:.1e} m ({state.wave_field.max_universe_edge_lambda:.0f} lambdas)"
+        )
         sub.text(f"Voxel Count: {state.wave_field.voxel_count:,}")
         sub.text(
             f"Grid Size: {state.wave_field.nx} x {state.wave_field.ny} x {state.wave_field.nz}"
@@ -322,7 +324,7 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/lambda (>10)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.wave_field.max_uni_res:.1f} lambda/edge")
+        sub.text(f"Scale-up Factor: {state.wave_field.scale_factor:.1f}")
 
         sub.text("\n--- DATA SAMPLING ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Avg Amplitude (A): {state.avg_amplitude:.1e} m")

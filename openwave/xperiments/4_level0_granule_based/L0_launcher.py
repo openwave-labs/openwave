@@ -281,13 +281,15 @@ def display_level_specs(state, level_bar_vertices):
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.41, 0.18, 0.59) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.82, 0.42, 0.18, 0.58) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
 
         sub.text("\n--- SIMULATION DOMAIN ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Universe Size: {state.lattice.max_universe_edge:.1e} m (max edge)")
+        sub.text(
+            f"Universe: {state.lattice.max_universe_edge:.1e} m ({state.lattice.max_universe_edge_lambda:.1f} lambdas)"
+        )
         sub.text(f"Granule Count: {state.lattice.granule_count:,}")
         sub.text(
             f"Grid Size: {state.lattice.grid_size[0]} x {state.lattice.grid_size[1]} x {state.lattice.grid_size[2]}"
@@ -303,7 +305,6 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.lattice.ewave_res:.0f} granules/lambda (>10)")
         if state.lattice.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Universe: {state.lattice.max_uni_res:.1f} lambda/edge")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"eWAVE Amplitude (A): {constants.EWAVE_AMPLITUDE:.1e} m")
