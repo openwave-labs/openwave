@@ -22,7 +22,7 @@ from openwave._io import flux_mesh, render, video
 
 import openwave.spacetime.L1_field_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
-import _analytics as analytics
+import _L1_analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT

@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
-import _analytics as analytics
+import _L0_analytics as analytics
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
