@@ -454,6 +454,9 @@ def compute_wave_motion(state):
     state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
     state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
 
+    if state.ANALYTICS:
+        analytics.log_charge_level(state.frame, state.charge_level)
+
 
 def render_elements(state):
     """Render grid, flux mesh and test particles."""

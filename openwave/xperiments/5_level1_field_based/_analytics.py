@@ -95,3 +95,20 @@ def plot_static_charge_profile(wave_field):
     print("=" * 64)
     print(f"\nPlot saved to: {save_path}")
     # plt.show()
+
+
+def log_charge_level(frame, charge_level):
+    """
+    Record charge level at the current frame.
+
+    Args:
+        frame: Current simulation frame
+        charge_level: Current charge level
+    """
+    from pathlib import Path
+
+    log_path = Path(__file__).parent / "_data" / "charge_level.txt"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(log_path, "a") as log_file:
+        log_file.write(f"{frame}\t{charge_level:.6f}\n")
