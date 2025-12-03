@@ -11,7 +11,7 @@ UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "[WIP] Our Queen",
+        "X_NAME": "Our Queen",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {

@@ -88,9 +88,10 @@ class WaveField:
         self.max_universe_edge_lambda = self.max_universe_edge / constants.EWAVE_LENGTH  # λ / edge
         self.universe_volume = self.voxel_count * self.voxel_volume
 
-        # Compute scale factor based on cubic unit cell edge
+        # Compute scale factor
+        min_sampling = 12  # minimum voxels per wavelength for adequate sampling
         self.scale_factor = max(
-            12 / (constants.EWAVE_LENGTH / self.dx), 1
+            min_sampling / (constants.EWAVE_LENGTH / self.dx), 1
         )  # linear scale factor, for computation tractability
 
         # Compute simulation resolution

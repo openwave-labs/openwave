@@ -335,7 +335,14 @@ def display_data_dashboard(state):
         sub.text(f"eWAVE Amplitude: {state.avg_amplitude/state.wave_field.scale_factor:.1e} m")
         sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
         sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
-        sub.text(f"Total Energy: {state.avg_energy:.1e} J")
+        sub.text(
+            f"TOTAL ENERGY: {state.avg_energy:.1e} J",
+            color=(
+                colormap.ORANGE[1]
+                if state.charging
+                else colormap.RED[1] if state.damping else colormap.GREEN[1]
+            ),
+        )
         sub.text(
             f"Charge Level: {state.charge_level:.0%} {"...CHARGING..." if state.charging else "...DAMPING..." if state.damping else "(target)"}",
             color=(

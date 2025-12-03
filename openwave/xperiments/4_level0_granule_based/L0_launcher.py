@@ -308,7 +308,7 @@ def display_data_dashboard(state):
         sub.text(f"eWAVE Amplitude: {constants.EWAVE_AMPLITUDE:.1e} m")
         sub.text(f"eWAVE Frequency: {constants.EWAVE_FREQUENCY:.1e} Hz")
         sub.text(f"eWAVE Wavelength: {constants.EWAVE_LENGTH:.1e} m")
-        sub.text(f"Energy: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
+        sub.text(f"ENERGY: {state.lattice.energy:.1e} J ({state.lattice.energy_kWh:.1e} KWh)")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST

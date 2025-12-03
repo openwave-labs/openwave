@@ -16,7 +16,7 @@ from openwave.common import colormap, constants
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 base_wavelength = constants.EWAVE_LENGTH  # in meters
 base_frequency = constants.EWAVE_FREQUENCY  # in Hz
-base_frequency_rHz = base_frequency * constants.RONTOSECOND  # in rHz (cycles per rontosecond)
+base_frequency_rHz = constants.EWAVE_FREQUENCY * constants.RONTOSECOND  # in rHz (1/rontosecond)
 rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
@@ -26,8 +26,8 @@ def charge_1lambda(
     dt_rs: ti.f32,  # type: ignore
 ):
     """
-    Initialize a spherical outgoing wave within 1 base_wavelength.
-    Similar to initiate_charge() but limits the wave to within 1 base_wavelength
+    Initialize a spherical outgoing wave within 1 wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 wavelength
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -40,10 +40,12 @@ def charge_1lambda(
     center_z = wave_field.nz // 2
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -55,7 +57,9 @@ def charge_1lambda(
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
 
         # Amplitude = base if r < λ, 0 otherwise, oscillates radially
-        amplitude_am_at_r = base_amplitude_am if r_grid < wavelength_grid else 0.0
+        amplitude_am_at_r = (
+            base_amplitude_am * wave_field.scale_factor if r_grid < wavelength_grid else 0.0
+        )
 
         # Simple sinusoidal radial pattern
         # Outward displacement from center source: A(r)·cos(ωt - kr)
@@ -92,10 +96,12 @@ def charge_falloff(
     center_z = wave_field.nz // 2
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -109,7 +115,7 @@ def charge_falloff(
         # Amplitude decreases with distance (1/r falloff)
         r_safe_am = ti.max(r_grid, wavelength_grid)  # clamp to minimum 1λ to avoid singularity
         amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
-        amplitude_am_at_r = base_amplitude_am * amplitude_falloff
+        amplitude_am_at_r = base_amplitude_am * wave_field.scale_factor * amplitude_falloff
 
         # Simple sinusoidal radial pattern
         # Outward displacement from center source: A(r)·cos(ωt - kr)
@@ -144,7 +150,7 @@ def charge_gaussian(
     center_z = wave_field.nz // 2
 
     # Gaussian width: σ = λ/2 (half wavelength)
-    sigma = base_wavelength / 2  # in meters
+    sigma = base_wavelength * wave_field.scale_factor / 2  # in meters
     sigma_grid = sigma / wave_field.dx  # in grid indices
 
     # Calculate amplitude to match total universe energy
@@ -153,7 +159,9 @@ def charge_gaussian(
     # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
     # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
     #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
-    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
+    sqrt_rho_times_f = ti.f32(
+        rho**0.5 * base_frequency / wave_field.scale_factor
+    )  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
@@ -202,10 +210,12 @@ def charge_full(
     center_z = wave_field.nz // 2
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Create radial sinusoidal displacement pattern (interior points only)
@@ -220,8 +230,14 @@ def charge_full(
         # Outward displacement from center source: A·cos(ωt - kr)
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
-        disp = base_amplitude_am * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0
-        disp_old = base_amplitude_am * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)  # t-dt
+        disp = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
+        )  # t0
+        disp_old = (
+            base_amplitude_am
+            * wave_field.scale_factor
+            * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+        )  # t-dt
 
         # Apply both displacements (in attometers)
         wave_field.displacement_am[i, j, k] = disp  # at t=0
@@ -247,10 +263,12 @@ def charge_oscillator_sphere(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Find center position (in grid indices)
@@ -271,8 +289,10 @@ def charge_oscillator_sphere(
         # Check if voxel is within spherical source region
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
         if r_grid <= charge_radius_grid:
-            wave_field.displacement_am[i, j, k] = base_amplitude_am * ti.cos(
-                omega_rs * elapsed_t_rs - k_grid * r_grid
+            wave_field.displacement_am[i, j, k] = (
+                base_amplitude_am
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs - k_grid * r_grid)
             )
 
 
@@ -299,10 +319,12 @@ def charge_oscillator_falloff(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength / wave_field.dx
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
 
     # Find center position (in grid indices)
@@ -322,7 +344,7 @@ def charge_oscillator_falloff(
         # Amplitude decreases with distance (1/r falloff)
         r_safe_am = ti.max(r_grid, wavelength_grid)  # clamp to minimum 1λ to avoid singularity
         amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
-        amplitude_am_at_r = base_amplitude_am * amplitude_falloff
+        amplitude_am_at_r = base_amplitude_am * wave_field.scale_factor * amplitude_falloff
 
         wave_field.displacement_am[i, j, k] = amplitude_am_at_r * ti.cos(
             omega_rs * elapsed_t_rs - k_grid * r_grid
@@ -348,24 +370,32 @@ def charge_oscillator_wall(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Apply oscillating displacement on 6 boundary planes
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j in ti.ndrange((wave_field.nx), (wave_field.ny)):
-        wave_field.displacement_am[i, j, 0] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
-        wave_field.displacement_am[i, j, wave_field.nz - 1] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i, j, 0] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i, j, wave_field.nz - 1] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for i, k in ti.ndrange((wave_field.nx), (wave_field.nz)):
-        wave_field.displacement_am[i, 0, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
-        wave_field.displacement_am[i, wave_field.ny - 1, k] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i, 0, k] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[i, wave_field.ny - 1, k] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for j, k in ti.ndrange((wave_field.ny), (wave_field.nz)):
-        wave_field.displacement_am[0, j, k] = base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
-        wave_field.displacement_am[wave_field.nx - 1, j, k] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[0, j, k] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+        )
+        wave_field.displacement_am[wave_field.nx - 1, j, k] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
 
 
@@ -388,30 +418,32 @@ def charge_oscillator_wall_even(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Apply oscillating displacement on 6 boundary planes
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j in ti.ndrange((wave_field.nx // 2), (wave_field.ny // 2)):
-        wave_field.displacement_am[i * 2, j * 2, 0] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i * 2, j * 2, 0] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-        wave_field.displacement_am[i * 2, j * 2, wave_field.nz - 1] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i * 2, j * 2, wave_field.nz - 1] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for i, k in ti.ndrange((wave_field.nx // 2), (wave_field.nz // 2)):
-        wave_field.displacement_am[i * 2, 0, k * 2] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i * 2, 0, k * 2] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-        wave_field.displacement_am[i * 2, wave_field.ny - 1, k * 2] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[i * 2, wave_field.ny - 1, k * 2] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for j, k in ti.ndrange((wave_field.ny // 2), (wave_field.nz // 2)):
-        wave_field.displacement_am[0, j * 2, k * 2] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[0, j * 2, k * 2] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-        wave_field.displacement_am[wave_field.nx - 1, j * 2, k * 2] = base_amplitude_am * ti.cos(
-            omega_rs * elapsed_t_rs
+        wave_field.displacement_am[wave_field.nx - 1, j * 2, k * 2] = (
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
 
 
@@ -434,30 +466,32 @@ def charge_oscillator_wall_quart(
         elapsed_t_rs: Elapsed simulation time (rs)
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz  # angular frequency (rad/rs)
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
 
     # Apply oscillating displacement on 6 boundary planes
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j in ti.ndrange((wave_field.nx // 4), (wave_field.ny // 4)):
         wave_field.displacement_am[i * 4, j * 4, 0] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[i * 4, j * 4, wave_field.nz - 1] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for i, k in ti.ndrange((wave_field.nx // 4), (wave_field.nz // 4)):
         wave_field.displacement_am[i * 4, 0, k * 4] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[i * 4, wave_field.ny - 1, k * 4] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
     for j, k in ti.ndrange((wave_field.ny // 4), (wave_field.nz // 4)):
         wave_field.displacement_am[0, j * 4, k * 4] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[wave_field.nx - 1, j * 4, k * 4] = (
-            4 * base_amplitude_am * ti.cos(omega_rs * elapsed_t_rs)
+            4 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
 
 
