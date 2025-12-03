@@ -401,7 +401,7 @@ def initialize_xperiment(state):
 
     # STATIC CHARGING methods (one-time init pattern) ==================================
     # Uncomment to test different initial wave configurations
-    ewave.charge_full(state.wave_field, state.dt_rs)
+    ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
     # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
@@ -417,9 +417,9 @@ def compute_wave_motion(state):
         state: SimulationState instance with xperiment parameters
     """
     # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
-    # Charger runs BEFORE propagation to inject energy into displacement_am
+    # Runs BEFORE propagation to inject energy into displacement until stabilization
     if state.charging and state.frame > 300:
-        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # energy injection
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # best overall
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
         # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs)
         # NOTE: ewave.charge_oscillator_wall_even(state.wave_field, state.elapsed_t_rs)
@@ -433,10 +433,11 @@ def compute_wave_motion(state):
         state.elapsed_t_rs,
     )
 
-    # DYNAMIC DAMPING runs AFTER propagation to reduce displacement values
+    # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
+    # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_load_full(state.wave_field, 0.99)  # energy absorption
-        # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)  # energy absorption
+        ewave.damp_load_full(state.wave_field, 0.99)  # best overall
+        # NOTE: (too-light) ewave.damp_load_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
