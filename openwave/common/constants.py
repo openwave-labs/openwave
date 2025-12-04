@@ -41,8 +41,8 @@ EWAVE_SPEED = 299792458  # m / s, speed of light (c), c² = elasticity / density
 # ================================================================
 # ENERGY-WAVE RHYTHM & SIZE [EWT Constants]
 # ================================================================
-EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (A, equilibrium-to-peak)
+EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length (λ = EWAVE_SPEED / EWAVE_FREQUENCY)
 EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY)
 
@@ -50,16 +50,17 @@ EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY
 # NEUTRINO Particle (seed particle)
 # ================================================================
 NEUTRINO_K = 1  # neutrino wave center count (dimensionless)
-NEUTRINO_RADIUS = EWAVE_LENGTH  # 2.85e-17m, neutrino radius = 1 λ
-NEUTRINO_ENERGY = 3.8280e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
+NEUTRINO_RADIUS = 2.854096501e-17  # m, neutrino radius = 1 λ
+NEUTRINO_ENERGY = 3.827997e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
+NEUTRINO_MASS = 4.259222e-36  # kg, neutrino "seed" mass used by EWT (~ 0.38 meV/c²)
 
 # ================================================================
 # ELECTRON Particle
 # ================================================================
 ELECTRON_K = 10  # electron wave center count (dimensionless)
 ELECTRON_RADIUS = 2.8179403262e-15  # m, electron classical radius
-ELECTRON_MASS = 9.1093837139e-31  # kg, electron mass from CODATA
-ELECTRON_ENERGY = 8.1871e-14  # J, electron rest energy (~ 0.511 MeV)
+ELECTRON_ENERGY = 8.187106e-14  # J, electron rest energy (~ 0.511 MeV)
+ELECTRON_MASS = 9.109384e-31  # kg, electron mass from CODATA
 ELECTRON_OUTER_SHELL = 2.138743820  # electron outer shell multiplier
 ELECTRON_ORBITAL_G = 0.9873318320  # electron orbital g-factor (gλ, dimensionless)
 ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
@@ -72,8 +73,8 @@ ELECTRON_SPIN_G = 0.9826905018  # electron spin g-factor (gA, dimensionless)
 # ================================================================
 PROTON_K = 44  # proton wave center count (dimensionless)
 PROTON_RADIUS = 8.414e-16  # m, proton radius
-PROTON_MASS = 1.67262192595e-27  # kg, proton mass from CODATA
-PROTON_ENERGY = 1.5033e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
+PROTON_ENERGY = 1.479951e-10  # J, CODATA proton rest energy (~ 938.272 MeV)
+PROTON_MASS = 1.646668e-27  # kg, proton mass from CODATA
 PROTON_ORBITAL_G = 0.9898125300  # proton orbital g-factor (gp, dimensionless)
 
 NEUTRON_MASS = 1.67492749804e-27  # kg, neutron mass from CODATA 2022
@@ -94,8 +95,8 @@ MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 4π.10-7, mu_
 GRAVITATIONAL_CONSTANT = 6.67430e-11  # m^3/kg/s^2, G, Newtonian constant of gravitation
 
 BOHR_RADIUS = 5.29177210544e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
-HYDROGEN_LINE = 1.420405751e9  # Hz, Hydrogen 21cm line frequency, spin-flip transition
-HYDROGEN_LYMAN_ALPHA = 2.4660677e15  # Hz, Hydrogen Lyman-alpha frequency
+H_LINE_FREQUENCY = 1.420405751768e9  # Hz, 21cm Hydrogen line (spin-flip) frequency
+H_LYMAN_ALPHA_FREQUENCY = 2.4660677e15  # Hz, 121nm Hydrogen Lyman-alpha frequency
 
 ELEMENTARY_CHARGE = 1.602176634e-19  # m, The elementary charge from CODATA values
 COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k

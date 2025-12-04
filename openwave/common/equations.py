@@ -72,7 +72,8 @@ def compute_particle_energy(K):
     Longitudinal Energy Equation (Particles):
     Used to calculate the rest energy of particles.
 
-    E_l(K) = (4πρK⁵A⁶c²/3λ³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+    E_l(K) = (ρ4/3πK⁵A⁶c²/λ³) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
+    E_l(K) = (ρ4/3πK⁵(A⁴/λ)(c/λ·A)²) * Σ(n=1 to K)[n³-(n-1)³]/n⁴
 
     Args:
         K (int): Particle wave center count (dimensionless)
@@ -85,13 +86,13 @@ def compute_particle_energy(K):
     summation = np.sum((n_values**3 - (n_values - 1) ** 3) / n_values**4)
     # Calculate the energy
     coefficient = (
-        4
+        constants.MEDIUM_DENSITY
+        * (4 / 3)
         * np.pi
-        * constants.MEDIUM_DENSITY
         * (K**5)
         * (constants.EWAVE_AMPLITUDE**6)
         * (constants.EWAVE_SPEED**2)
-    ) / (3 * (constants.EWAVE_LENGTH**3))
+    ) / (constants.EWAVE_LENGTH**3)
     energy = coefficient * summation
     return energy
 
@@ -645,20 +646,38 @@ if __name__ == "__main__":
 
     print("\n_______________________________")
     print("ENERGY WAVE EQUATION")
-    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6):.2e} J")
-    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6) * utils.J2KWH:.2e} kWh")
+    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6):.6e} J")
+    print(f"1 cm³ of vacuum: {compute_energy_wave_equation(1e-6) * utils.J2KWH:.6e} kWh")
 
     print("\n_______________________________")
     print("PARTICLE ENERGY")
-    print(f"NEUTRINO (K=1): {compute_particle_energy(1):.2e} J")
-    print(f"ELECTRON (K=10): {compute_particle_energy(10):.2e} J")
-    print(f"PROTON (K=44): {compute_particle_energy(44):.2e} J")
+    print(
+        f"NEUTRINO (eWAVE): {compute_energy_wave_equation(4/3*np.pi*(constants.NEUTRINO_RADIUS**3)):.6e} J"
+    )
+    print(f"...(Longitudinal, K=1): {compute_particle_energy(1):.6e} J")
+    print(
+        f"...(Difference): {compute_energy_wave_equation(4/3*np.pi*(constants.NEUTRINO_RADIUS**3)) - compute_particle_energy(1):.6e} J"
+    )
+    print(
+        f"\nELECTRON (eWAVE): {compute_energy_wave_equation(4/3*np.pi*(constants.ELECTRON_RADIUS**3)):.6e} J"
+    )
+    print(f"...(Longitudinal,K=10): {compute_particle_energy(10):.6e} J")
+    print(
+        f"...(Difference): {compute_energy_wave_equation(4/3*np.pi*(constants.ELECTRON_RADIUS**3)) - compute_particle_energy(1):.6e} J"
+    )
+    print(
+        f"\nPROTON (eWAVE): {compute_energy_wave_equation(4/3*np.pi*(constants.PROTON_RADIUS**3)):.6e} J"
+    )
+    print(f"...(Longitudinal,K=44): {compute_particle_energy(44):.6e} J")
+    print(
+        f"...(Difference): {compute_energy_wave_equation(4/3*np.pi*(constants.PROTON_RADIUS**3)) - compute_particle_energy(1):.6e} J"
+    )
 
     print("\n_______________________________")
     print("PARTICLE REST MASS")
-    print(f"NEUTRINO (K=1): {compute_particle_rest_mass(1):.2e} kg")
-    print(f"ELECTRON (K=10): {compute_particle_rest_mass(10):.2e} kg")
-    print(f"PROTON (K=44): {compute_particle_rest_mass(44):.2e} kg")
+    print(f"NEUTRINO (K=1): {compute_particle_rest_mass(1):.6e} kg")
+    print(f"ELECTRON (K=10): {compute_particle_rest_mass(10):.6e} kg")
+    print(f"PROTON (K=44): {compute_particle_rest_mass(44):.6e} kg")
 
     print("\n_______________________________")
     print("PHOTON ENERGY")
@@ -720,9 +739,10 @@ if __name__ == "__main__":
     print(f"  Spectrum region: {spectrum_region}")
 
     # Compare with known Lyman series (n→1 transitions in hydrogen)
-    # Lyman alpha (n=2→1): 121.6 nm, 10.2 eV
     print(f"\nComparison with Hydrogen Lyman Series:")
-    print(f"  Lyman alpha (n=2→1): 121.6 nm, 10.2 eV (observed)")
+    print(
+        f"  Lyman alpha (n=2→1): {constants.EWAVE_SPEED/constants.H_LYMAN_ALPHA_FREQUENCY*1e9:.1f} nm, 10.2 eV (observed)"
+    )
     print(f"  Our calculation: {wavelength_nm:.1f} nm, {abs(photon_E * utils.J2EV):.1f} eV")
 
     #   The calculation above gives us 182.3 nm,
@@ -755,6 +775,10 @@ if __name__ == "__main__":
     #   exact values would need fine-tuning through the amplitude
     #   factor δ, which is expected in the theory as it represents
     #   system-specific wave amplitude variations.
+
+    # Compute Hydrogen Line Frequencies
+    print(f"\nHydrogen Line (spin-flip) Frequency: {constants.H_LINE_FREQUENCY:.3e} Hz")
+    print(f"Hydrogen x Pi: {(constants.H_LINE_FREQUENCY * np.pi):.4e} Hz")
 
     print("\n_______________________________")
     print("FORCE EQUATIONS")

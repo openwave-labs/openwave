@@ -110,8 +110,8 @@ def plot_static_charge_profile(wave_field):
     # plt.show()
 
 
-def log_charge_level(frame: int, charge_level: float) -> None:
-    """Record charge level at the current frame."""
+def log_charge_level(timestep: int, charge_level: float) -> None:
+    """Record charge level at the current timestep."""
     global _log_initialized
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -121,13 +121,13 @@ def log_charge_level(frame: int, charge_level: float) -> None:
     if not _log_initialized:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["frame", "charge_level"])
+            writer.writerow(["timestep", "charge_level"])
         _log_initialized = True
 
     # Append charge level data
     with open(log_path, "a", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([frame, f"{charge_level:.6f}"])
+        writer.writerow([timestep, f"{charge_level:.6f}"])
 
 
 def plot_charge_log():
@@ -137,14 +137,14 @@ def plot_charge_log():
         print("Charge log file does not exist.")
         return
 
-    frames = []
+    timesteps = []
     charge_levels = []
 
     # Read logged data
     with open(log_path, "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            frames.append(int(row["frame"]))
+            timesteps.append(int(row["timestep"]))
             charge_levels.append(float(row["charge_level"]))
 
     # Create the plot
@@ -153,7 +153,7 @@ def plot_charge_log():
     fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
     plt.plot(
-        frames,
+        timesteps,
         [cl * 100 for cl in charge_levels],
         color=colormap.viridis_palette[2][1],
         linewidth=3,
@@ -167,7 +167,7 @@ def plot_charge_log():
         y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
     )
 
-    plt.xlabel("Frame", family="Monospace")
+    plt.xlabel("Timestep", family="Monospace")
     plt.ylabel("Charge Level (%)", family="Monospace")
     plt.title("ENERGY CHARGING & STABILIZATION", family="Monospace")
     plt.grid(True, alpha=0.3)
