@@ -22,7 +22,7 @@ from openwave._io import flux_mesh, render, video
 
 import openwave.spacetime.L1_field_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
-import _L1_analytics as analytics
+import _L1_instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -140,7 +140,7 @@ class SimulationState:
         self.COLOR_PALETTE = 1  # Color palette index
 
         # Data Analytics & video export toggles
-        self.ANALYTICS = False
+        self.INSTRUMENTATION = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
 
@@ -173,7 +173,7 @@ class SimulationState:
 
         # Data Analytics & video export toggles
         diag = params["analytics"]
-        self.ANALYTICS = diag["ANALYTICS"]
+        self.INSTRUMENTATION = diag["INSTRUMENTATION"]
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
@@ -377,7 +377,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, wave charger and analytics.
+    """Initialize color palettes, wave charger and instrumentation.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -406,8 +406,8 @@ def initialize_xperiment(state):
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
-    if state.ANALYTICS:
-        analytics.plot_static_charge_profile(state.wave_field)
+    if state.INSTRUMENTATION:
+        instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
@@ -455,8 +455,8 @@ def compute_wave_motion(state):
     state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
     state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
 
-    if state.ANALYTICS:
-        analytics.log_charge_level(state.frame, state.charge_level)
+    if state.INSTRUMENTATION:
+        instrument.log_charge_level(state.frame, state.charge_level)
 
 
 def render_elements(state):

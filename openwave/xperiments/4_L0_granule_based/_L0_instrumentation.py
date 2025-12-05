@@ -1,21 +1,21 @@
 """
-DATA ANALYTICS
+XPERIMENT INSTRUMENTATION (data collection)
 
-This provides zero-overhead analytics that can be toggled on/off per experiment.
+This provides zero-overhead data collection that can be toggled on/off per xperiment.
 """
 
 from openwave.common import constants
 
 
 # ================================================================
-# Analytics Functions (Zero-Overhead)
+# Instrumentation Functions (Zero-Overhead)
 # ================================================================
 
 
 def print_initial_parameters():
     """Print expected wave parameters at startup."""
     print("\n" + "=" * 64)
-    print("DATA ANALYTICS ENABLED")
+    print("INSTRUMENTATION ENABLED")
     print("=" * 64)
     print(f"Expected Wave Speed (c):        {constants.EWAVE_SPEED:.6e} m/s")
     print(f"Expected Wavelength (λ):      {constants.EWAVE_LENGTH:.6e} m")
@@ -61,7 +61,7 @@ def print_wave_diagnostics(
         return
 
     # For PSHO, just print confirmation that wave is running correctly
-    print(f"\n=== WAVE ANALYTICS (Frame {frame}, t={t:.3f}s) ===")
+    print(f"\n=== WAVE DIAGNOSTICS (Frame {frame}, t={t:.3f}s) ===")
     print(f"✓ PSHO Running - Wave parameters guaranteed correct by construction:")
     print(f"  Wave Speed:    c = {constants.EWAVE_SPEED:.6e} m/s")
     print(f"  Wavelength:    λ = {constants.EWAVE_LENGTH:.6e} m")

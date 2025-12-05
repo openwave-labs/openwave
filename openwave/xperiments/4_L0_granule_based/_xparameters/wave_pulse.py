@@ -45,7 +45,7 @@ XPARAMETERS = {
         "COLOR_PALETTE": 99,  # Color palette list: default (99), granule-type (0), redshift (1), ironbow (2), blueprint (3), viridis (4)
     },
     "analytics": {
-        "ANALYTICS": True,  # Toggle data analytics (speed & wavelength measurements)
+        "INSTRUMENTATION": True,  # Toggle data collection (speed & wavelength measurements)
         "EXPORT_VIDEO": False,  # Toggle frame image export to video directory
         "VIDEO_FRAMES": 24,  # Target frame number to stop recording and finalize video export
     },
