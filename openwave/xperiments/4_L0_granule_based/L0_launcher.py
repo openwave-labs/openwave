@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.L0_granule_grid as data_grid
 import openwave.spacetime.L0_wave_engine as ewave
-import _L0_analytics as analytics
+import _L0_instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -134,7 +134,7 @@ class SimulationState:
         self.COLOR_PALETTE = 0
 
         # Data Analytics & video export toggles
-        self.ANALYTICS = False
+        self.INSTRUMENTATION = False
         self.EXPORT_VIDEO = False
         self.VIDEO_FRAMES = 24
 
@@ -182,7 +182,7 @@ class SimulationState:
 
         # Data Analytics & video export toggles
         diag = params["analytics"]
-        self.ANALYTICS = diag["ANALYTICS"]
+        self.INSTRUMENTATION = diag["INSTRUMENTATION"]
         self.EXPORT_VIDEO = diag["EXPORT_VIDEO"]
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
@@ -321,7 +321,7 @@ def display_data_dashboard(state):
 
 
 def initialize_xperiment(state):
-    """Initialize color palettes, wave sources and analytics.
+    """Initialize color palettes, wave sources and instrumentation.
 
     Args:
         state: SimulationState instance with xperiment parameters
@@ -344,8 +344,8 @@ def initialize_xperiment(state):
         state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
     )
 
-    if state.ANALYTICS:
-        analytics.print_initial_parameters()
+    if state.INSTRUMENTATION:
+        instrument.print_initial_parameters()
 
 
 def compute_wave_motion(state):
@@ -371,14 +371,14 @@ def compute_wave_motion(state):
     # Update normalized positions for rendering (with optional block-slicing)
     state.lattice.normalize_to_screen(1 if state.BLOCK_SLICE else 0)
 
-    # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
+    # IN-FRAME DATA SAMPLING & INSTRUMENTATION ==================================
     # Sample peak amplitude periodically (every 30 frames)
     if state.frame % 30 == 0:
         state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
         ewave.update_lattice_energy(state.lattice)
 
-    if state.ANALYTICS:
-        analytics.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
+    if state.INSTRUMENTATION:
+        instrument.print_wave_diagnostics(state.elapsed_t, state.frame, print_interval=100)
 
 
 def render_elements(state):

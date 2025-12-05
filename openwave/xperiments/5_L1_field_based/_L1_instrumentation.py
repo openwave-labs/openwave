@@ -1,7 +1,7 @@
 """
-DATA ANALYTICS
+XPERIMENT INSTRUMENTATION (data collection)
 
-This provides zero-overhead analytics that can be toggled on/off per experiment.
+This provides zero-overhead data collection that can be toggled on/off per xperiment.
 """
 
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ _log_initialized = False
 
 
 # ================================================================
-# Analytics Functions (Zero-Overhead)
+# Instrumentation Functions (Zero-Overhead)
 # ================================================================
 
 
@@ -104,7 +104,7 @@ def plot_static_charge_profile(wave_field):
     save_path = PLOT_DIR / "charge_profile.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\n" + "=" * 64)
-    print("DATA ANALYTICS ENABLED")
+    print("INSTRUMENTATION ENABLED")
     print("=" * 64)
     print(f"\nPlot saved to: {save_path}")
     # plt.show()
