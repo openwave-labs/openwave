@@ -363,6 +363,7 @@ class WaveField:
 class Trackers:
     """
     Wave property trackers for each voxel.
+    Use separate class to avoid overloading WaveField class.
 
     Tracks amplitude envelope and frequency at each grid point using
     per-voxel fields and grid-wide averages for visualization scaling.
@@ -391,6 +392,37 @@ class Trackers:
         # 0.5× baseline to allow wave peaks to rise without color saturation
         self.avg_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
         self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
+
+
+@ti.data_oriented
+class WaveCenter:
+    """
+    Wave center object representing a localized wave reflector.
+
+    Attributes:
+        position_am: Position in attometers [x, y, z].
+        k: Wave center count (dimensionless).
+        radius_am: Radius in attometers.
+        energy: Energy in Joules.
+        mass: Mass in kilograms.
+    """
+
+    def __init__(self, position_am, k=0, radius_am=0, energy=0, mass=0):
+        """
+        Initialize WaveCenter with specified properties.
+
+        Args:
+            position_am: Position in attometers [x, y, z].
+            k: Wave center count (dimensionless).
+            radius_am: Radius in attometers.
+            energy: Energy in Joules.
+            mass: Mass in kilograms.
+        """
+        self.position_am = ti.Vector(position_am)  # am, position
+        self.k = k  # dimensionless, wave center count
+        self.radius_am = radius_am  # am, radius
+        self.energy = energy  # J, energy
+        self.mass = mass  # kg, mass
 
 
 if __name__ == "__main__":
