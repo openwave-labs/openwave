@@ -40,7 +40,7 @@ density)
 
 - CHARGING: `ψ(r,t) = A·cos(ωt-kr) [m]`, spherical wave from source, defines wave form, amplitude and frequency (rhythm, vibration), charges energy (initiates harmonic oscillation)
 - PROPAGATION: `ψ̈ = c²∇²ψ [m/s²]`, classical wave equation (propagates oscillation)
-- REFLECTION: `ψ = 0`, Dirichlet boundary conditions (changes direction of propagation)
+- REFLECTION: `ψ = 0`, Dirichlet boundary conditions (hard/fixed changes phase & direction of propagation)
 - SUPERPOSITION: amplitude modulation/combination (adds constructive / destructive interference)
 - RESONANCE: energy exchange, harmonics, coherence (influence frequency, amplitude, phase, motion)
 
