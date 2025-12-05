@@ -1,32 +1,30 @@
 """
-XPERIMENT PARAMETERS: Flow Wave
+XPERIMENT PARAMETERS
 
 This XPERIMENT showcases:
 -
 """
 
-from openwave.common import constants
-
-UNIVERSE_EDGE = 1e-16  # m, universe edge length in meters
+UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "Flow Wave",
+        "X_NAME": "035 waves, 100M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.02, 1.02, 0.57],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [0.50, 0.84, 1.80],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 1e8,  # Simulation voxel count (impacts performance)
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_OPTION": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "SIM_SPEED": 1,  # Frequency boost multiplier
+        "SIM_SPEED": 1.0,  # Frequency boost multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {

@@ -1,25 +1,23 @@
 """
-XPERIMENT PARAMETERS: Electron Resolution
+XPERIMENT PARAMETERS
 
 This XPERIMENT showcases:
 -
 """
 
-from openwave.common import constants
-
-UNIVERSE_EDGE = 6e-15  # m, universe edge length in meters
+UNIVERSE_EDGE = 2e-16  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "[WIP] The Electron",
+        "X_NAME": "007 waves, 1M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.50, 1.50, 1.11],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 3.5e8,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines

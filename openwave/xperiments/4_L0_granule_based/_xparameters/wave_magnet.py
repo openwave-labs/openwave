@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Wave Sourced Magnetic Field-Like Interference
+XPERIMENT PARAMETERS
 
 Demonstrates wave interference from 2 sources in a linear arrangement.
 Each source generates spherical longitudinal waves that superpose at each granule,

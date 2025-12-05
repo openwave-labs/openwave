@@ -10,7 +10,7 @@ The missing ingredient in our wave center experiments may be the **conversion of
 
 ### The Problem We Faced
 
-In `12_WAVE_CENTER.md`, we documented 12 experiments trying to create emergent standing waves around a wave center. All failed in an isotropic wave field because:
+In `12_WAVE_CENTER.md`, we documented 12 experiments trying to create emergent standing waves around a wave center. All failed in an isotropic (omnidirectional) wave field because:
 
 - Reflections from all directions cancel out
 - No net change to field structure
@@ -272,7 +272,7 @@ All potentially connected through spin/L-T conversion:
 
 **Why this might solve our WC standing wave issue**:
 
-In an isotropic longitudinal field:
+In an isotropic (omnidirectional) longitudinal field:
 
 - Reflections cancel (as we observed)
 - No net structure change

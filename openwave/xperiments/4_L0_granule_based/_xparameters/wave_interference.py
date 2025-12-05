@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Wave Interference
+XPERIMENT PARAMETERS
 
 Demonstrates wave interference from three sources arranged in an equilateral triangle.
 Each source generates spherical longitudinal waves that superpose at each granule,

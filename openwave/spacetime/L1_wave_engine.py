@@ -277,7 +277,7 @@ def charge_oscillator_sphere(
     center_z = wave_field.nz // 2
 
     # Define oscillator sphere radius
-    charge_radius_grid = int(0.2 * wave_field.max_grid_size)  # in grid indices
+    charge_radius_grid = int(0.2 * wave_field.min_grid_size)  # in grid indices
 
     # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
@@ -562,17 +562,8 @@ def propagate_ewave(
     """
 
     # Update all interior voxels only
-    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    # Skip boundaries to enforce Dirichlet boundary condition (ψ=0 at edges)
     # Direct range specification avoids conditional branching on GPU
-
-    # TEST: Wave center as LENS — amplifies/focuses waves rather than blocking
-    # WC is a point-like region where wave amplitude is amplified
-    # This creates a phase singularity that surrounding waves conform to
-    cx, cy, cz = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
-    wc_radius = 8  # small radius (point-like, much smaller than λ)
-    wc_radius_sq = wc_radius * wc_radius
-    amplification = 10.0  # how much the WC amplifies local wave amplitude
-
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
@@ -621,10 +612,30 @@ def propagate_ewave(
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
         wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
 
-    # TEST: Wave center as LENS — clamp-based amplification
-    # Allow normal wave propagation but CLAMP the minimum amplitude at WC
-    # If |ψ| < threshold, boost it to threshold (preserving sign)
-    # This creates an amplitude floor, not ceiling — no runaway growth
+    # TODO: Testing Wave Center Interaction with Energy Waves
+    # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
+    # Standing Waves should form around WCs as visual artifacts of interaction
+    # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
+    # interact_wc_lens(wave_field)
+    interact_wc_newmann(wave_field)
+
+
+@ti.func
+def interact_wc_lens(wave_field: ti.template()):  # type: ignore
+    """
+    TEST: Wave center as LENS - clamp-based amplification
+    Amplifies/focuses waves rather than blocking
+    Allow normal wave propagation but CLAMP the minimum amplitude at WC
+    WC is a point-like region where wave amplitude is amplified
+    This creates a phase singularity that surrounding waves conform to
+    If |ψ| < threshold, boost it to threshold (preserving sign)
+    This creates an amplitude floor, not ceiling — no runaway growth
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    cx, cy, cz = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    amplification = 10.0  # how much the WC amplifies local wave amplitude
 
     # Reference amplitude from wave field (the base amplitude used for charging)
     ref_amplitude = base_amplitude_am * wave_field.scale_factor
@@ -647,106 +658,21 @@ def propagate_ewave(
         wave_field.displacement_old_am[cx, cy, cz] = phase_sign_old * min_amplitude
 
 
-@ti.kernel
-def propagate_ewave_newmann(
-    wave_field: ti.template(),  # type: ignore
-    trackers: ti.template(),  # type: ignore
-    c_amrs: ti.f32,  # type: ignore
-    dt_rs: ti.f32,  # type: ignore
-    elapsed_t_rs: ti.f32,  # type: ignore
-):
+@ti.func
+def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
     """
-    Propagate wave displacement using wave equation (PDE Solver).
-    Wave Equation: ∂²ψ/∂t² = c²∇²ψ
-    Includes wave propagation, reflection at boundaries, superposition
-    of wavefronts, and energy conservation (leap-frog).
-    Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
-
-    Discrete Form (Leap-Frog/Verlet):
-        ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-        where ∇²ψ = (neighbors_sum - 6·center) / dx²
+    TEST: Neumann boundary condition on wave center sphere surface
+    ∂ψ/∂n = 0 → copy outer values to inner surface (zero gradient)
+    This reflects waves WITHOUT phase inversion (free-end reflection)
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        trackers: WaveTrackers instance for tracking wave properties
-        c_amrs: Effective wave speed after slow-motion factor (am/rs)
-        dt_rs: Time step size (rs)
-        elapsed_t_rs: Elapsed simulation time (rs)
-
-    Note: On M4 Max 48GB, wave propagation becomes incorrect above ~350M voxels.
-        Cause unknown - may be GPU saturation, thermal throttling, or backend limits.
-        Needs testing on other hardware to isolate the issue.
     """
-
-    # Update all interior voxels only
-    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
-    # Direct range specification avoids conditional branching on GPU
-
-    # TEST: Spherical wave center (skip voxels inside sphere like boundary)
-    # Wave centers act as spherical reflective boundaries
-    # For visible scattering with λ ≈ 30·dx, radius should be ≈ λ/4 to λ/2
     cx, cy, cz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    wc_radius_sq = 8 * 8  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-
-    for i, j, k in ti.ndrange(
-        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
-    ):
-        # TEST: Skip voxels inside wave center sphere
-        # Neumann BC is applied in the swap phase to create reflection
-        dist_sq = (i - cx) ** 2 + (j - cy) ** 2 + (k - cz) ** 2
-        if dist_sq <= wc_radius_sq:
-            continue
-
-        # Compute spatial Laplacian ∇²ψ
-        laplacian_am = compute_laplacian_am(wave_field, i, j, k)
-
-        # Leap-Frog update
-        # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-        wave_field.displacement_new_am[i, j, k] = (
-            2.0 * wave_field.displacement_am[i, j, k]
-            - wave_field.displacement_old_am[i, j, k]
-            + (c_amrs * dt_rs) ** 2 * laplacian_am
-        )
-
-        # WAVE-TRACKERS ============================================
-        # AMPLITUDE tracking envelope, using exponential moving average (EMA)
-        # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
-        # α controls adaptation speed: higher = faster response, lower = smoother
-        # TODO: 2 polarities tracked: longitudinal & transverse
-        disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
-        current_amp = trackers.amplitudeL_am[i, j, k]
-        alpha_amp = 0.01  # EMA smoothing factor for amplitude
-        trackers.amplitudeL_am[i, j, k] = alpha_amp * disp_mag + (1.0 - alpha_amp) * current_amp
-
-        # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
-        # Detect positive-going zero crossing (negative → positive transition)
-        # Period = time between consecutive positive zero crossings
-        # More robust than peak detection since it's amplitude-independent
-        # EMA smoothing: f_new = α * f_measured + (1 - α) * f_old
-        # α controls adaptation speed: higher = faster response, lower = smoother
-        prev_disp = wave_field.displacement_old_am[i, j, k]
-        curr_disp = wave_field.displacement_am[i, j, k]
-        if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
-            period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
-            if period_rs > dt_rs * 2:  # Filter out spurious crossings
-                measured_freq = 1.0 / period_rs  # in rHz
-                current_freq = trackers.frequency_rHz[i, j, k]
-                alpha_freq = 0.1  # EMA smoothing factor for frequency
-                trackers.frequency_rHz[i, j, k] = (
-                    alpha_freq * measured_freq + (1.0 - alpha_freq) * current_freq
-                )
-            trackers.last_crossing[i, j, k] = elapsed_t_rs
-
-    # Swap time levels: old ← current, current ← new
-    for i, j, k in ti.ndrange(wave_field.nx, wave_field.ny, wave_field.nz):
-        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
-        wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
-
-    # TEST: Neumann boundary condition on wave center sphere surface
-    # ∂ψ/∂n = 0 → copy outer values to inner surface (zero gradient)
-    # This reflects waves WITHOUT phase inversion (free-end reflection)
     wc_radius = 8  # radius in voxels
+    wc_radius_sq = wc_radius * wc_radius  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     wc_radius_inner_sq = (wc_radius - 1) ** 2
+
     for i, j, k in ti.ndrange(
         (cx - wc_radius - 1, cx + wc_radius + 2),
         (cy - wc_radius - 1, cy + wc_radius + 2),
@@ -816,7 +742,7 @@ def dump_load_sphere(
     center_z = wave_field.nz // 2
 
     # Define damp sphere radius
-    damp_radius_grid = int(0.3 * wave_field.max_grid_size)  # in grid indices
+    damp_radius_grid = int(0.3 * wave_field.min_grid_size)  # in grid indices
 
     # Apply damping displacement within sphere
     # NOTE: Must be called AFTER propagate_ewave to damp the propagated values

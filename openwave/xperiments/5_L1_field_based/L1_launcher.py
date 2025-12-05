@@ -354,7 +354,7 @@ def display_data_dashboard(state):
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Frames Rendered: {state.frame}")
+        sub.text(f"Timesteps (frames): {state.frame}")
         sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
         sub.text(f"Clock Time: {clock_time:.2f} s")
         sub.text(f"(1s sim time takes {sim_time_years:.0e}y)")
@@ -492,7 +492,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "our_queen"
+    default_xperiment = selected_xperiment_arg or "the_queen"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return

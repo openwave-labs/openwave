@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Yin-Yang Effect from Golden-Ratio Spiral Wave
+XPERIMENT PARAMETERS
 
 Demonstrates spiral wave patterns from multiple sources arranged in a golden ratio radius.
 12 sources generate spherical longitudinal waves that superpose at each granule,

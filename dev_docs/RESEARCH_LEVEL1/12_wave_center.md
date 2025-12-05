@@ -3,7 +3,7 @@
 ## Goals
 
 1. **Make standing waves emerge** from energy waves bouncing in a simulation domain
-1. **Isotropic wave field**: Waves have stable, diluted energy coming from all directions
+1. **Isotropic wave field**: Waves have stable, diluted energy coming from all directions (omnidirectional)
 1. **Wave center model**: Develop logic/script to make wave-center effects create standing wave patterns around the WC
    - High amplitude at r = 0, λ, 2λ, etc. (antinodes)
    - Zero amplitude at r = λ/4, 3λ/4, etc. (nodes)
@@ -33,7 +33,7 @@ Where:
 
 - λ ≈ 30·dx (wavelength in grid units)
 - Wave field charged from central oscillator, then stabilizes
-- After ~2000 timesteps, energy is stable and isotropic
+- After ~2000 timesteps, energy is stable and isotropic (omnidirectional)
 - Universe walls use Dirichlet BC (working correctly)
 
 ## Experiments Performed
@@ -149,9 +149,9 @@ Where:
 - Net effect: cancellation in far field
 - WC becomes "invisible" to isotropic background
 
-### The Isotropic Field Problem
+### The Isotropic (omnidirectional) Field Problem
 
-In a uniform isotropic wave field:
+In a uniform isotropic (omnidirectional) wave field:
 
 - Every point already has waves passing through from all directions
 - A reflector at any point reflects what's there back where it came from

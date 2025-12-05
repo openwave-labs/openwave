@@ -1,21 +1,19 @@
 """
-XPERIMENT PARAMETERS: Our Queen's Energy Wave
+XPERIMENT PARAMETERS
 
 This XPERIMENT showcases:
 -
 """
 
-from openwave.common import constants
-
 UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "Our Queen",
+        "X_NAME": "The Queen",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [0.50, 0.84, 1.80],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
