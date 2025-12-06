@@ -100,10 +100,10 @@ class WaveField:
         # Voxels per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = constants.EWAVE_LENGTH / self.dx * self.scale_factor  # voxels / λ
 
-        # Compute grid total energy from energy-wave equation
-        self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
+        # Compute grid nominal energy from energy-wave equation
+        self.nominal_energy = equations.compute_energy_wave_equation(self.universe_volume)  # J
+        self.nominal_energy_kWh = self.nominal_energy * utils.J2KWH  # KWh
+        self.nominal_energy_years = self.nominal_energy_kWh / (183230 * 1e9)  # years
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -426,7 +426,7 @@ if __name__ == "__main__":
     print(f"  Grid size: {wave_field.nx} x {wave_field.ny} x {wave_field.nz} voxels")
     print(f"  Voxel edge: {wave_field.dx:.2e} m (cubic - same for all axes)")
     print(f"  Voxel count: {wave_field.voxel_count:,}")
-    print(f"  Total energy: {wave_field.energy:.2e} J")
+    print(f"  Total energy: {wave_field.nominal_energy:.2e} J")
 
     # Resolutions
     print(f"\nGrid Linear Resolutions:")

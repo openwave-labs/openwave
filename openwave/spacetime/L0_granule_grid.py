@@ -140,10 +140,10 @@ class BCCLattice:
         # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge * 2)
 
-        # Compute lattice total energy from energy-wave equation
-        self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
+        # Compute lattice nominal energy from energy-wave equation
+        self.nominal_energy = equations.compute_energy_wave_equation(self.universe_volume)  # J
+        self.nominal_energy_kWh = self.nominal_energy * utils.J2KWH  # KWh
+        self.nominal_energy_years = self.nominal_energy_kWh / (183230 * 1e9)  # years
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -636,10 +636,10 @@ class SCLattice:
         # Granules per wavelength, should be >10 for adequate sampling (same for all axes)
         self.ewave_res = ti.math.round(constants.EWAVE_LENGTH / self.unit_cell_edge)
 
-        # Compute lattice total energy from energy-wave equation
-        self.energy = equations.compute_energy_wave_equation(self.universe_volume)  # in Joules
-        self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # years of global energy use
+        # Compute lattice nominal energy from energy-wave equation
+        self.nominal_energy = equations.compute_energy_wave_equation(self.universe_volume)  # J
+        self.nominal_energy_kWh = self.nominal_energy * utils.J2KWH  # KWh
+        self.nominal_energy_years = self.nominal_energy_kWh / (183230 * 1e9)  # years
 
         # ================================================================
         # DATA STRUCTURE & INITIALIZATION
@@ -997,7 +997,7 @@ if __name__ == "__main__":
     print(f"  Unit cell edge: {lattice.unit_cell_edge:.2e} m (cubic - same for all axes)")
     print(f"  Granule count: {lattice.granule_count:,}")
     print(f"  Scale factor: {lattice.scale_factor:.2e} x Planck Length")
-    print(f"  Total energy: {lattice.energy:.2e} J")
+    print(f"  Total energy: {lattice.nominal_energy:.2e} J")
 
     # Resolutions
     print(f"\nLattice Linear Resolutions:")

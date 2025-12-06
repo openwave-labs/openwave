@@ -115,7 +115,7 @@ def charge_gaussian_bump(
         rho**0.5 * base_frequency / wave_field.scale_factor
     )  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
-    A_required = ti.sqrt(wave_field.energy) / (sqrt_rho_times_f * g_vol_sqrt)
+    A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
 
     # Apply Gaussian displacement (interior points only)

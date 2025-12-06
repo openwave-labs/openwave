@@ -94,8 +94,8 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Universe Lattice Wave Energy ---")
-        sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
-        sub.text(f"{lattice.energy_years:,.1e} Years of global energy use")
+        sub.text(f"Energy: {lattice.nominal_energy:.1e} J ({lattice.nominal_energy_kWh:.1e} KWh)")
+        sub.text(f"{lattice.nominal_energy_years:,.1e} Years of global energy use")
 
 
 def controls():

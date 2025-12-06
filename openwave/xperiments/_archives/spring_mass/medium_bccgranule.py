@@ -69,9 +69,9 @@ class BCCLattice:
             theme: Color theme name from config.py (OCEAN, DESERT, FOREST, etc.)
         """
         # Compute lattice total energy from energy-wave equation
-        self.energy = equations.compute_energy_wave_equation(universe_edge**3)  # in Joules
-        self.energy_kWh = self.energy * utils.J2KWH  # in KWh
-        self.energy_years = self.energy_kWh / (183230 * 1e9)  # global energy use
+        self.nominal_energy = equations.compute_energy_wave_equation(universe_edge**3)  # in Joules
+        self.nominal_energy_kWh = self.nominal_energy * utils.J2KWH  # in KWh
+        self.nominal_energy_years = self.nominal_energy_kWh / (183230 * 1e9)  # global energy use
 
         # Set universe properties (simulation domain)
         self.target_granules = 1e6
