@@ -580,13 +580,26 @@ def propagate_ewave(
 
         # WAVE-TRACKERS ============================================
         # AMPLITUDE tracking envelope, using exponential moving average (EMA)
+        # Peak-Tracking EMA (peak-hold with asymmetric attack/decay):
+        #   - update when the new value > the current amp, otherwise decay slowly
         # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
         # α controls adaptation speed: higher = faster response, lower = smoother
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = trackers.amplitudeL_am[i, j, k]
-        alpha_amp = 0.01  # EMA smoothing factor for amplitude
-        trackers.amplitudeL_am[i, j, k] = alpha_amp * disp_mag + (1.0 - alpha_amp) * current_amp
+
+        if disp_mag > current_amp:
+            # Fast attack: quickly capture new peaks
+            alpha_attack = 0.3
+            trackers.amplitudeL_am[i, j, k] = (
+                alpha_attack * disp_mag + (1.0 - alpha_attack) * current_amp
+            )
+        else:
+            # Slow decay: gradually release
+            alpha_decay = 0.001
+            trackers.amplitudeL_am[i, j, k] = (
+                alpha_decay * disp_mag + (1.0 - alpha_decay) * current_amp
+            )
 
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
