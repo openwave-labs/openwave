@@ -457,6 +457,12 @@ def compute_wave_motion(state):
 
     if state.INSTRUMENTATION:
         instrument.log_charge_level(state.frame, state.charge_level)
+        cx, cy, cz = (
+            state.wave_field.nx * 5 // 6,
+            state.wave_field.ny * 5 // 6,
+            state.wave_field.nz // 2,
+        )
+        instrument.log_displacement(state.frame, state.wave_field.displacement_am[cx, cy, cz])
 
 
 def render_elements(state):

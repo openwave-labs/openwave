@@ -21,7 +21,8 @@ DATA_DIR = _MODULE_DIR / "_data"
 PLOT_DIR = _MODULE_DIR / "_plots"
 
 # Module-level state
-_log_initialized = False
+_log_charge_level_initialized = False
+_log_displacement_initialized = False
 
 
 # ================================================================
@@ -107,22 +108,21 @@ def plot_static_charge_profile(wave_field):
     print("INSTRUMENTATION ENABLED")
     print("=" * 64)
     print("\nPlot charge_profile saved to:\n", save_path, "\n")
-    # plt.show()
 
 
 def log_charge_level(timestep: int, charge_level: float) -> None:
     """Record charge level at the current timestep."""
-    global _log_initialized
+    global _log_charge_level_initialized
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     log_path = DATA_DIR / "charge_levels.csv"
 
     # Write header on first call
-    if not _log_initialized:
+    if not _log_charge_level_initialized:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(["timestep", "charge_level"])
-        _log_initialized = True
+        _log_charge_level_initialized = True
 
     # Append charge level data
     with open(log_path, "a", newline="") as f:
@@ -180,9 +180,81 @@ def plot_charge_log():
     save_path = PLOT_DIR / "charge_levels.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
-    # plt.show()
+
+
+def log_displacement(timestep: int, displacement_am: float) -> None:
+    """Record displacement at the current timestep and voxel."""
+    global _log_displacement_initialized
+
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    log_path = DATA_DIR / "displacements.csv"
+
+    # Write header on first call
+    if not _log_displacement_initialized:
+        with open(log_path, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["timestep", "displacement_am"])
+        _log_displacement_initialized = True
+
+    # Append displacement data
+    with open(log_path, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow([timestep, f"{displacement_am:.6f}"])
+
+
+def plot_displacement_log():
+    """Plot the logged displacement over time."""
+    log_path = DATA_DIR / "displacements.csv"
+    if not log_path.exists():
+        print("Displacement log file does not exist.")
+        return
+
+    timesteps = []
+    displacements = []
+
+    # Read logged data
+    with open(log_path, "r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            timesteps.append(int(row["timestep"]))
+            displacements.append(float(row["displacement_am"]))
+
+    # Create the plot
+    plt.style.use("dark_background")
+    fig = plt.figure(figsize=(10, 6), facecolor=colormap.DARK_GRAY[1])
+    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
+
+    plt.plot(
+        timesteps,
+        displacements,
+        color=colormap.viridis_palette[2][1],
+        linewidth=3,
+        label="DISPLACEMENT (am)",
+    )
+    # plt.axhline(y=120, color=colormap.RED[1], linestyle="--", alpha=0.5, label="MAX CHARGE LEVEL")
+    # plt.axhline(
+    #     y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
+    # )
+    # plt.axhline(
+    #     y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
+    # )
+
+    plt.xlabel("Timestep", family="Monospace")
+    plt.ylabel("Displacement (am)", family="Monospace")
+    plt.title("DISPLACEMENT OVER TIME", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    plt.tight_layout()
+
+    # Save to directory
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    save_path = PLOT_DIR / "displacements.png"
+    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    print("\nPlot displacements saved to:\n", save_path, "\n")
 
 
 def generate_plots():
     """Generate all instrumentation plots."""
     plot_charge_log()
+    plot_displacement_log()
