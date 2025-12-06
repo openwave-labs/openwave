@@ -632,7 +632,7 @@ def propagate_ewave(
 
 
 @ti.kernel
-def dump_load_full(
+def damp_full(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
@@ -659,7 +659,7 @@ def dump_load_full(
 
 
 @ti.kernel
-def dump_load_sphere(
+def damp_sphere(
     wave_field: ti.template(),  # type: ignore
     decay_factor: ti.f32,  # type: ignore
 ):
