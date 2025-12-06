@@ -116,7 +116,7 @@ class SimulationState:
         self.avg_amplitude = constants.EWAVE_AMPLITUDE
         self.avg_frequency = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
-        self.avg_energy = 0.0
+        self.total_energy = 0.0
         self.charge_level = 0.0
         self.charging = True
         self.damping = False
@@ -207,7 +207,7 @@ class SimulationState:
         self.avg_amplitude = constants.EWAVE_AMPLITUDE
         self.avg_frequency = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
-        self.avg_energy = 0.0
+        self.total_energy = 0.0
         self.charge_level = 0.0
         self.charging = True
         self.damping = False
@@ -337,7 +337,7 @@ def display_data_dashboard(state):
         sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
         sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
         sub.text(
-            f"TOTAL ENERGY: {state.avg_energy:.1e} J",
+            f"TOTAL ENERGY: {state.total_energy:.1e} J",
             color=(
                 colormap.ORANGE[1]
                 if state.charging
@@ -446,12 +446,12 @@ def compute_wave_motion(state):
     state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
     state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
-    state.avg_energy = (
+    state.total_energy = (
         constants.MEDIUM_DENSITY
         * state.wave_field.universe_volume
         * (state.avg_frequency * state.avg_amplitude) ** 2
     )
-    state.charge_level = state.avg_energy / state.wave_field.energy
+    state.charge_level = state.total_energy / state.wave_field.nominal_energy
     state.charging = state.charge_level < 0.80  # stop charging, seeks energy stabilization
     state.damping = state.charge_level > 1.20  # start damping, seeks energy stabilization
 

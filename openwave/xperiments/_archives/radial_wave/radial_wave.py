@@ -92,7 +92,7 @@ def data_dashboard():
 
         sub.text("")
         sub.text("--- Sim Universe Wave Energy ---")
-        sub.text(f"Energy: {lattice.energy:.1e} J ({lattice.energy_kWh:.1e} KWh)")
+        sub.text(f"Energy: {lattice.nominal_energy:.1e} J ({lattice.nominal_energy_kWh:.1e} KWh)")
 
 
 def controls():

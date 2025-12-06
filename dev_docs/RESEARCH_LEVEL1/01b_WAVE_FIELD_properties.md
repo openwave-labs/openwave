@@ -552,7 +552,7 @@ class WaveField:
 
         # SCALAR FIELDS (no attometer scaling needed)
         self.density = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # kg/m³
-        self.energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # J
+        self.nominal_energy = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # J
 
         # VECTOR FIELDS (directions normalized, magnitudes may need scaling)
         self.wave_direction = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))  # unit vector

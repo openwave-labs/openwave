@@ -325,7 +325,7 @@ def update_lattice_energy(lattice):
     """Update lattice energy based on RMS amplitude.
 
     Must be called after oscillate_granules() to compute energy from wave amplitude.
-    Cannot be done inside the kernel as lattice.energy is not a Taichi field.
+    Cannot be done inside the kernel as lattice.nominal_energy is not a Taichi field.
 
     Uses RMS amplitude (peak * 0.707) which represents the effective energy content
     of sinusoidal oscillations. The peak is tracked across all granules, and the
@@ -336,8 +336,8 @@ def update_lattice_energy(lattice):
     Args:
         lattice: Lattice instance with universe_volume and energy fields
     """
-    lattice.energy = equations.compute_energy_wave_equation(
+    lattice.nominal_energy = equations.compute_energy_wave_equation(
         volume=lattice.universe_volume, amplitude=avg_amplitude_am[None] * constants.ATTOMETER
     )
-    lattice.energy_kWh = lattice.energy * utils.J2KWH
-    lattice.energy_years = lattice.energy_kWh / (183230 * 1e9)  # years of global energy use
+    lattice.nominal_energy_kWh = lattice.nominal_energy * utils.J2KWH
+    lattice.nominal_energy_years = lattice.nominal_energy_kWh / (183230 * 1e9)  # years
