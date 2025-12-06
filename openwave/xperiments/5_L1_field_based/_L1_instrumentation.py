@@ -183,5 +183,6 @@ def plot_charge_log():
     # plt.show()
 
 
-if __name__ == "__main__":
+def generate_plots():
+    """Generate all instrumentation plots."""
     plot_charge_log()

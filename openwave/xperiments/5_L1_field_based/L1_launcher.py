@@ -436,12 +436,12 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
     # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.dump_load_full(state.wave_field, 0.995)  # best overall
-        # NOTE: (too-light) ewave.dump_load_sphere(state.wave_field, 0.99)
+        ewave.damp_full(state.wave_field, 0.995)  # best overall
+        # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 and state.frame > 300:  # hold off initial transient
+    if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
@@ -554,6 +554,9 @@ def main():
         # Capture frame for video export (stops after VIDEO_FRAMES)
         if state.EXPORT_VIDEO:
             video.export_frame(state.frame, state.VIDEO_FRAMES)
+
+    if state.INSTRUMENTATION:
+        instrument.generate_plots()
 
 
 # ================================================================
