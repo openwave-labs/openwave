@@ -106,7 +106,7 @@ def plot_static_charge_profile(wave_field):
     print("\n" + "=" * 64)
     print("INSTRUMENTATION ENABLED")
     print("=" * 64)
-    print(f"\nPlot saved to: {save_path}")
+    print("\nPlot charge_profile saved to:\n", save_path, "\n")
     # plt.show()
 
 
@@ -164,7 +164,7 @@ def plot_charge_log():
         y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
     )
     plt.axhline(
-        y=90, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
+        y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
     )
 
     plt.xlabel("Timestep", family="Monospace")
@@ -179,8 +179,7 @@ def plot_charge_log():
     PLOT_DIR.mkdir(parents=True, exist_ok=True)
     save_path = PLOT_DIR / "charge_levels.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    print("\nCharge level plot saved to:", save_path)
-    print(f"")
+    print("\nPlot charge_levels saved to:\n", save_path, "\n")
     # plt.show()
 
 
