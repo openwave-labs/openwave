@@ -64,10 +64,14 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = (
-            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
+            base_amplitude_am
+            / 2
+            * wave_field.scale_factor
+            * ti.cos(omega_rs * 0 - k_grid * r_grid)
         )  # t0
         disp_old = (
             base_amplitude_am
+            / 2
             * wave_field.scale_factor
             * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
         )  # t-dt
@@ -276,8 +280,10 @@ def charge_oscillator_sphere(
     center_y = wave_field.ny // 2
     center_z = wave_field.nz // 2
 
-    # Define oscillator sphere radius
-    charge_radius_grid = int(0.2 * wave_field.min_grid_size)  # in grid indices
+    # Define oscillator sphere radius (as fraction of total volume)
+    charge_radius_grid = int(
+        ((0.01 * wave_field.voxel_count) * (3 / 4) / ti.math.pi) ** (1 / 3)
+    )  # in grid indices
 
     # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
@@ -587,7 +593,6 @@ def propagate_ewave(
         # TODO: 2 polarities tracked: longitudinal & transverse
         disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
         current_amp = trackers.amplitudeL_am[i, j, k]
-
         if disp_mag > current_amp:
             # Fast attack: quickly capture new peaks
             alpha_attack = 0.3
