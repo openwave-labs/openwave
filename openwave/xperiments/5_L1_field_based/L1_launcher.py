@@ -329,7 +329,7 @@ def display_data_dashboard(state):
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
         sub.text(f"Scaled-up Amplitude: {state.avg_amplitude:.1e} m")
-        sub.text(f"Scaled-up Frequency: {state.avg_frequency:.1e} Hz")
+        sub.text(f"Scaled-dn Frequency: {state.avg_frequency:.1e} Hz")
         sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
