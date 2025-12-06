@@ -115,7 +115,7 @@ def log_charge_level(timestep: int, charge_level: float) -> None:
     global _log_initialized
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    log_path = DATA_DIR / "charge_level.csv"
+    log_path = DATA_DIR / "charge_levels.csv"
 
     # Write header on first call
     if not _log_initialized:
@@ -132,7 +132,7 @@ def log_charge_level(timestep: int, charge_level: float) -> None:
 
 def plot_charge_log():
     """Plot the logged charge level over time."""
-    log_path = DATA_DIR / "charge_level.csv"
+    log_path = DATA_DIR / "charge_levels.csv"
     if not log_path.exists():
         print("Charge log file does not exist.")
         return
@@ -164,7 +164,7 @@ def plot_charge_log():
         y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
     )
     plt.axhline(
-        y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
+        y=90, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
     )
 
     plt.xlabel("Timestep", family="Monospace")

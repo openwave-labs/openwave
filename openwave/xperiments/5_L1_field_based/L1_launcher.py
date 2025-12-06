@@ -399,9 +399,9 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
-    # STATIC CHARGING methods (one-time init pattern) ==================================
+    # STATIC CHARGING methods (one-time pulse initialization pattern) ==================================
     # Uncomment to test different initial wave configurations
-    ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
+    # NOTE: (too-strong) ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
     # NOTE: (beautiful but inaccurate) ewave.charge_gaussian_bump(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
@@ -418,7 +418,7 @@ def compute_wave_motion(state):
     """
     # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
     # Runs BEFORE propagation to inject energy into displacement until stabilization
-    if state.charging and state.frame > 300:
+    if state.charging:
         ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # best overall
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
         # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs)
@@ -441,7 +441,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 and state.frame > 300:
+    if state.frame % 60 == 0:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
@@ -452,8 +452,8 @@ def compute_wave_motion(state):
         * (state.avg_frequency * state.avg_amplitude) ** 2
     )
     state.charge_level = state.avg_energy / state.wave_field.energy
-    state.charging = state.charge_level < 0.8  # stop charging, seeks energy stabilization
-    state.damping = state.charge_level > 1.2  # start damping, seeks energy stabilization
+    state.charging = state.charge_level < 0.90  # stop charging, seeks energy stabilization
+    state.damping = state.charge_level > 1.20  # start damping, seeks energy stabilization
 
     if state.INSTRUMENTATION:
         instrument.log_charge_level(state.frame, state.charge_level)
