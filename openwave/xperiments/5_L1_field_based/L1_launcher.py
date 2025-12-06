@@ -441,7 +441,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0:
+    if state.frame % 60 == 0 and state.frame > 300:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.avg_amplitude = state.trackers.avg_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
@@ -452,7 +452,7 @@ def compute_wave_motion(state):
         * (state.avg_frequency * state.avg_amplitude) ** 2
     )
     state.charge_level = state.avg_energy / state.wave_field.energy
-    state.charging = state.charge_level < 0.90  # stop charging, seeks energy stabilization
+    state.charging = state.charge_level < 0.80  # stop charging, seeks energy stabilization
     state.damping = state.charge_level > 1.20  # start damping, seeks energy stabilization
 
     if state.INSTRUMENTATION:
