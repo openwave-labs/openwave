@@ -823,8 +823,10 @@ def damp_sphere(
     center_y = wave_field.ny // 2
     center_z = wave_field.nz // 2
 
-    # Define damp sphere radius
-    damp_radius_grid = int(0.3 * wave_field.min_grid_size)  # in grid indices
+    # Define damp sphere radius (as fraction of total volume)
+    damp_radius_grid = int(
+        ((0.01 * wave_field.voxel_count) * (3 / 4) / ti.math.pi) ** (1 / 3)
+    )  # in grid indices
 
     # Apply damping displacement within sphere
     # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
