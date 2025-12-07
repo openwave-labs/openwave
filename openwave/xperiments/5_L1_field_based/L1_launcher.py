@@ -435,7 +435,7 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
     # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_full(state.wave_field, 0.995)  # best overall
+        ewave.damp_full(state.wave_field, 0.999)  # best overall
         # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
