@@ -684,6 +684,26 @@ def damp_sphere(
             wave_field.displacement_am[i, j, k] *= decay_factor
 
 
+# ================================================================
+# 3-PLANE SAMPLING FOR AVERAGE TRACKERS
+# ================================================================
+# PERFORMANCE NOTE: Full GPU reduction (atomic_add over all voxels) causes
+# severe performance issues due to atomic contention with millions of voxels.
+# The 3-plane sampling is a deliberate compromise:
+# - Samples ~3N² voxels instead of N³ (e.g., 3% for 100³ grid)
+# - Assumes isotropic field distribution (valid for most wave scenarios)
+# - Acceptable accuracy vs massive performance gain
+# ================================================================
+
+# Cached slice buffers (initialized on first call)
+_slice_xy_amp = None
+_slice_xy_freq = None
+_slice_xz_amp = None
+_slice_xz_freq = None
+_slice_yz_amp = None
+_slice_yz_freq = None
+
+
 @ti.kernel
 def _copy_slice_xy(
     trackers: ti.template(),  # type: ignore
@@ -723,24 +743,18 @@ def _copy_slice_yz(
         slice_freq[j, k] = trackers.frequency_rHz[mid_x, j, k]
 
 
-# Cached slice buffers (initialized on first call)
-_slice_xy_amp = None
-_slice_xy_freq = None
-_slice_xz_amp = None
-_slice_xz_freq = None
-_slice_yz_amp = None
-_slice_yz_freq = None
-
-
 def sample_avg_trackers(
     wave_field,
     trackers,
 ):
     """
-    Estimate average amplitude and frequency by sampling 3 orthogonal planes.
+    Estimate RMS amplitude and average frequency by sampling 3 orthogonal planes.
 
-    Samples XY, XZ, and YZ center slices to avoid full 3D GPU->CPU transfer.
-    Provides a representative estimate without the performance penalty.
+    Samples XY, XZ, and YZ center slices to avoid full 3D reduction.
+    This is a deliberate performance compromise - full GPU reduction with
+    atomic operations causes severe contention with millions of voxels.
+
+    For isotropic fields, center-plane sampling provides representative estimates.
 
     Args:
         wave_field: WaveField instance containing grid dimensions
@@ -767,7 +781,8 @@ def sample_avg_trackers(
     _copy_slice_xz(trackers, _slice_xz_amp, _slice_xz_freq, mid_y)
     _copy_slice_yz(trackers, _slice_yz_amp, _slice_yz_freq, mid_x)
 
-    # Transfer 2D slices to numpy, excluding boundary voxels (always zero)
+    # Transfer 2D slices to CPU for numpy operations
+    # Exclude boundary voxels (always zero due to Dirichlet BC)
     xy_amp = _slice_xy_amp.to_numpy()[1:-1, 1:-1]
     xy_freq = _slice_xy_freq.to_numpy()[1:-1, 1:-1]
     xz_amp = _slice_xz_amp.to_numpy()[1:-1, 1:-1]
@@ -775,16 +790,14 @@ def sample_avg_trackers(
     yz_amp = _slice_yz_amp.to_numpy()[1:-1, 1:-1]
     yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
-    # Compute combined averages from all 3 planes
-    # amplitudeL_am already contains per-voxel RMS values, so we average them
-    # For energy: E = ρ × V × f² × ⟨A_rms²⟩, need RMS of the per-voxel RMS values
-    # This is √(⟨(A_rms_i)²⟩) to properly weight by energy contribution
+    # Compute RMS amplitude: √(⟨A²⟩) for correct energy weighting
+    # amplitudeL_am contains per-voxel RMS values, square them for energy
     total_amp_squared = (xy_amp**2).sum() + (xz_amp**2).sum() + (yz_amp**2).sum()
     total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
     n_samples = xy_amp.size + xz_amp.size + yz_amp.size
 
     trackers.rms_amplitudeL_am[None] = float(np.sqrt(total_amp_squared / n_samples))
-    trackers.avg_frequency_rHz[None] = float(total_freq) / n_samples
+    trackers.avg_frequency_rHz[None] = float(total_freq / n_samples)
 
 
 @ti.kernel
