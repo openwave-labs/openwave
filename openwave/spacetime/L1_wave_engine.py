@@ -65,14 +65,10 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = (
-            base_amplitude_am
-            / 2
-            * wave_field.scale_factor
-            * ti.cos(omega_rs * 0 - k_grid * r_grid)
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
         )  # t0
         disp_old = (
             base_amplitude_am
-            / 2
             * wave_field.scale_factor
             * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
         )  # t-dt
@@ -584,26 +580,19 @@ def propagate_ewave(
         )
 
         # WAVE-TRACKERS ============================================
-        # AMPLITUDE tracking envelope, using exponential moving average (EMA)
-        # Peak-Tracking EMA (peak-hold with asymmetric attack/decay):
-        #   - update when the new value > the current amp, otherwise decay slowly
-        # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
+        # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
+        # Running RMS: tracks √⟨ψ²⟩ - the energy-equivalent amplitude
+        # Used for: energy calculation, force gradients, visualization scaling
+        # Physics: particles respond to time-averaged energy density, not
+        # instantaneous displacement (inertia acts as low-pass filter at ~10²⁵ Hz)
+        # EMA on ψ²: rms² = α * ψ² + (1 - α) * rms²_old, then rms = √(rms²)
         # α controls adaptation speed: higher = faster response, lower = smoother
         # TODO: 2 polarities tracked: longitudinal & transverse
-        disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
-        current_amp = trackers.amplitudeL_am[i, j, k]
-        if disp_mag > current_amp:
-            # Fast attack: quickly capture new peaks
-            alpha_attack = 0.3
-            trackers.amplitudeL_am[i, j, k] = (
-                alpha_attack * disp_mag + (1.0 - alpha_attack) * current_amp
-            )
-        else:
-            # Slow decay: gradually release
-            alpha_decay = 0.001
-            trackers.amplitudeL_am[i, j, k] = (
-                alpha_decay * disp_mag + (1.0 - alpha_decay) * current_amp
-            )
+        disp_squared = wave_field.displacement_am[i, j, k] ** 2
+        current_rms_squared = trackers.amplitudeL_am[i, j, k] ** 2
+        alpha_rms = 0.01  # EMA smoothing factor for RMS tracking
+        new_rms_squared = alpha_rms * disp_squared + (1.0 - alpha_rms) * current_rms_squared
+        trackers.amplitudeL_am[i, j, k] = ti.sqrt(new_rms_squared)
 
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
@@ -787,7 +776,9 @@ def sample_avg_trackers(
     yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
     # Compute combined averages from all 3 planes
-    # RMS amplitude: √(⟨A²⟩) = √(Σ(A_i²) / N) - correct for energy calculations
+    # amplitudeL_am already contains per-voxel RMS values, so we average them
+    # For energy: E = ρ × V × f² × ⟨A_rms²⟩, need RMS of the per-voxel RMS values
+    # This is √(⟨(A_rms_i)²⟩) to properly weight by energy contribution
     total_amp_squared = (xy_amp**2).sum() + (xz_amp**2).sum() + (yz_amp**2).sum()
     total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
     n_samples = xy_amp.size + xz_amp.size + yz_amp.size
