@@ -7,6 +7,7 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 """
 
 import taichi as ti
+import numpy as np
 
 from openwave.common import colormap, constants
 
@@ -64,14 +65,10 @@ def charge_full(
         # Creates rings of positive/negative displacement
         # Signed value: positive = expansion, negative = compression
         disp = (
-            base_amplitude_am
-            / 2
-            * wave_field.scale_factor
-            * ti.cos(omega_rs * 0 - k_grid * r_grid)
+            base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * 0 - k_grid * r_grid)
         )  # t0
         disp_old = (
             base_amplitude_am
-            / 2
             * wave_field.scale_factor
             * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
         )  # t-dt
@@ -111,9 +108,7 @@ def charge_gaussian_bump(
     # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
     # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
     #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
-    sqrt_rho_times_f = ti.f32(
-        rho**0.5 * base_frequency / wave_field.scale_factor
-    )  # ~6.53e36 (within f32)
+    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
@@ -585,26 +580,19 @@ def propagate_ewave(
         )
 
         # WAVE-TRACKERS ============================================
-        # AMPLITUDE tracking envelope, using exponential moving average (EMA)
-        # Peak-Tracking EMA (peak-hold with asymmetric attack/decay):
-        #   - update when the new value > the current amp, otherwise decay slowly
-        # EMA formula: A_new = α * |ψ| + (1 - α) * A_old
+        # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
+        # Running RMS: tracks √⟨ψ²⟩ - the energy-equivalent amplitude
+        # Used for: energy calculation, force gradients, visualization scaling
+        # Physics: particles respond to time-averaged energy density, not
+        # instantaneous displacement (inertia acts as low-pass filter at ~10²⁵ Hz)
+        # EMA on ψ²: rms² = α * ψ² + (1 - α) * rms²_old, then rms = √(rms²)
         # α controls adaptation speed: higher = faster response, lower = smoother
         # TODO: 2 polarities tracked: longitudinal & transverse
-        disp_mag = ti.abs(wave_field.displacement_am[i, j, k])
-        current_amp = trackers.amplitudeL_am[i, j, k]
-        if disp_mag > current_amp:
-            # Fast attack: quickly capture new peaks
-            alpha_attack = 0.3
-            trackers.amplitudeL_am[i, j, k] = (
-                alpha_attack * disp_mag + (1.0 - alpha_attack) * current_amp
-            )
-        else:
-            # Slow decay: gradually release
-            alpha_decay = 0.001
-            trackers.amplitudeL_am[i, j, k] = (
-                alpha_decay * disp_mag + (1.0 - alpha_decay) * current_amp
-            )
+        disp_squared = wave_field.displacement_am[i, j, k] ** 2
+        current_rms_squared = trackers.amplitudeL_am[i, j, k] ** 2
+        alpha_rms = 0.01  # EMA smoothing factor for RMS tracking
+        new_rms_squared = alpha_rms * disp_squared + (1.0 - alpha_rms) * current_rms_squared
+        trackers.amplitudeL_am[i, j, k] = ti.sqrt(new_rms_squared)
 
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
@@ -851,6 +839,26 @@ def damp_sphere(
             wave_field.displacement_am[i, j, k] *= decay_factor
 
 
+# ================================================================
+# 3-PLANE SAMPLING FOR AVERAGE TRACKERS
+# ================================================================
+# PERFORMANCE NOTE: Full GPU reduction (atomic_add over all voxels) causes
+# severe performance issues due to atomic contention with millions of voxels.
+# The 3-plane sampling is a deliberate compromise:
+# - Samples ~3N² voxels instead of N³ (e.g., 3% for 100³ grid)
+# - Assumes isotropic field distribution (valid for most wave scenarios)
+# - Acceptable accuracy vs massive performance gain
+# ================================================================
+
+# Cached slice buffers (initialized on first call)
+_slice_xy_amp = None
+_slice_xy_freq = None
+_slice_xz_amp = None
+_slice_xz_freq = None
+_slice_yz_amp = None
+_slice_yz_freq = None
+
+
 @ti.kernel
 def _copy_slice_xy(
     trackers: ti.template(),  # type: ignore
@@ -890,24 +898,18 @@ def _copy_slice_yz(
         slice_freq[j, k] = trackers.frequency_rHz[mid_x, j, k]
 
 
-# Cached slice buffers (initialized on first call)
-_slice_xy_amp = None
-_slice_xy_freq = None
-_slice_xz_amp = None
-_slice_xz_freq = None
-_slice_yz_amp = None
-_slice_yz_freq = None
-
-
 def sample_avg_trackers(
     wave_field,
     trackers,
 ):
     """
-    Estimate average amplitude and frequency by sampling 3 orthogonal planes.
+    Estimate RMS amplitude and average frequency by sampling 3 orthogonal planes.
 
-    Samples XY, XZ, and YZ center slices to avoid full 3D GPU->CPU transfer.
-    Provides a representative estimate without the performance penalty.
+    Samples XY, XZ, and YZ center slices to avoid full 3D reduction.
+    This is a deliberate performance compromise - full GPU reduction with
+    atomic operations causes severe contention with millions of voxels.
+
+    For isotropic fields, center-plane sampling provides representative estimates.
 
     Args:
         wave_field: WaveField instance containing grid dimensions
@@ -934,7 +936,8 @@ def sample_avg_trackers(
     _copy_slice_xz(trackers, _slice_xz_amp, _slice_xz_freq, mid_y)
     _copy_slice_yz(trackers, _slice_yz_amp, _slice_yz_freq, mid_x)
 
-    # Transfer 2D slices to numpy, excluding boundary voxels (always zero)
+    # Transfer 2D slices to CPU for numpy operations
+    # Exclude boundary voxels (always zero due to Dirichlet BC)
     xy_amp = _slice_xy_amp.to_numpy()[1:-1, 1:-1]
     xy_freq = _slice_xy_freq.to_numpy()[1:-1, 1:-1]
     xz_amp = _slice_xz_amp.to_numpy()[1:-1, 1:-1]
@@ -942,13 +945,14 @@ def sample_avg_trackers(
     yz_amp = _slice_yz_amp.to_numpy()[1:-1, 1:-1]
     yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
-    # Compute combined average from all 3 planes
-    total_amp = xy_amp.sum() + xz_amp.sum() + yz_amp.sum()
+    # Compute RMS amplitude: √(⟨A²⟩) for correct energy weighting
+    # amplitudeL_am contains per-voxel RMS values, square them for energy
+    total_amp_squared = (xy_amp**2).sum() + (xz_amp**2).sum() + (yz_amp**2).sum()
     total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
     n_samples = xy_amp.size + xz_amp.size + yz_amp.size
 
-    trackers.avg_amplitudeL_am[None] = float(total_amp) / n_samples
-    trackers.avg_frequency_rHz[None] = float(total_freq) / n_samples
+    trackers.rms_amplitudeL_am[None] = float(np.sqrt(total_amp_squared / n_samples))
+    trackers.avg_frequency_rHz[None] = float(total_freq / n_samples)
 
 
 @ti.kernel
@@ -997,13 +1001,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -1023,13 +1027,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -1049,11 +1053,11 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )

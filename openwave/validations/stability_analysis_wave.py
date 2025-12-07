@@ -2,8 +2,8 @@
 Stability Analysis for Wave Equation Simulation.
 """
 
-import numpy as np
 import taichi as ti
+import numpy as np
 
 from openwave.common import constants
 
