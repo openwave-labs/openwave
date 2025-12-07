@@ -182,9 +182,18 @@ def plot_charge_log():
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
 
 
-def log_displacement(timestep: int, displacement_am: float) -> None:
-    """Record displacement at the current timestep and voxel."""
+def log_displacement(timestep: int, wave_field) -> None:
+    """Record displacement at probe voxel for the current timestep.
+
+    Args:
+        timestep: Current simulation timestep
+        wave_field: WaveField instance
+    """
     global _log_displacement_initialized
+
+    # Probe position
+    cx, cy, cz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
+    displacement_am = wave_field.displacement_am[cx, cy, cz]
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     log_path = DATA_DIR / "displacements.csv"
