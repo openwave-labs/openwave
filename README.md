@@ -58,7 +58,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ### Visual Demonstration
 
 - Illustrates complex, often invisible phenomena for better comprehension
-- Represents graphically wave equations and analyses
+- Represents graphically wave equations and analysis
 - Automates animation export for online video publishing
 
 ### Exploratory Simulations
