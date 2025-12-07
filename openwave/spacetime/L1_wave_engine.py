@@ -7,6 +7,7 @@ Wave Physics Engine @spacetime module. Wave dynamics and motion.
 """
 
 import taichi as ti
+import numpy as np
 
 from openwave.common import colormap, constants
 
@@ -111,9 +112,7 @@ def charge_gaussian_bump(
     # Solving for A: A = √(E / (ρf² × π^(3/2) × σ³))
     # Restructured to avoid f32 overflow (ρf² ~ 10^72 exceeds f32 max ~ 10^38):
     #   A = √E / (√ρ × f × π^(3/4) × σ^(3/2))
-    sqrt_rho_times_f = ti.f32(
-        rho**0.5 * base_frequency / wave_field.scale_factor
-    )  # ~6.53e36 (within f32)
+    sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
     A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
@@ -787,12 +786,13 @@ def sample_avg_trackers(
     yz_amp = _slice_yz_amp.to_numpy()[1:-1, 1:-1]
     yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
-    # Compute combined average from all 3 planes
-    total_amp = xy_amp.sum() + xz_amp.sum() + yz_amp.sum()
+    # Compute combined averages from all 3 planes
+    # RMS amplitude: √(⟨A²⟩) = √(Σ(A_i²) / N) - correct for energy calculations
+    total_amp_squared = (xy_amp**2).sum() + (xz_amp**2).sum() + (yz_amp**2).sum()
     total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
     n_samples = xy_amp.size + xz_amp.size + yz_amp.size
 
-    trackers.avg_amplitudeL_am[None] = float(total_amp) / n_samples
+    trackers.rms_amplitudeL_am[None] = float(np.sqrt(total_amp_squared / n_samples))
     trackers.avg_frequency_rHz[None] = float(total_freq) / n_samples
 
 
@@ -842,13 +842,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -868,13 +868,13 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )
 
     # ================================================================
@@ -894,11 +894,11 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 2:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                amp_value, 0, trackers.avg_amplitudeL_am[None] * 2
+                amp_value, 0, trackers.rms_amplitudeL_am[None] * 2
             )
         else:  # default to redshift (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
                 disp_value,
-                -trackers.avg_amplitudeL_am[None] * 2,
-                trackers.avg_amplitudeL_am[None] * 2,
+                -trackers.rms_amplitudeL_am[None] * 2,
+                trackers.rms_amplitudeL_am[None] * 2,
             )

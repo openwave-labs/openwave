@@ -4,8 +4,8 @@ XPERIMENT INSTRUMENTATION (data collection)
 This provides zero-overhead data collection that can be toggled on/off per xperiment.
 """
 
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 import csv
 from pathlib import Path
 
