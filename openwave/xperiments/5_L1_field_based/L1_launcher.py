@@ -456,7 +456,7 @@ def compute_wave_motion(state):
 
     if state.INSTRUMENTATION:
         instrument.log_charge_level(state.frame, state.charge_level)
-        instrument.log_displacement(state.frame, state.wave_field)
+        instrument.log_probe_values(state.frame, state.wave_field, state.trackers)
 
 
 def render_elements(state):

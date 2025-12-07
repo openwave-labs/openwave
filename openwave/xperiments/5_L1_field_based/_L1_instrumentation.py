@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import csv
 from pathlib import Path
 
-from openwave.common import colormap
+from openwave.common import colormap, constants
 
 
 # ================================================================
@@ -22,7 +22,7 @@ PLOT_DIR = _MODULE_DIR / "_plots"
 
 # Module-level state
 _log_charge_level_initialized = False
-_log_displacement_initialized = False
+_log_probe_initialized = False
 
 
 # ================================================================
@@ -134,7 +134,7 @@ def plot_charge_log():
     """Plot the logged charge level over time."""
     log_path = DATA_DIR / "charge_levels.csv"
     if not log_path.exists():
-        print("Charge log file does not exist.")
+        print("\nCharge log file does not exist.\n")
         return
 
     timesteps = []
@@ -182,44 +182,51 @@ def plot_charge_log():
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
 
 
-def log_displacement(timestep: int, wave_field) -> None:
-    """Record displacement at probe voxel for the current timestep.
+def log_probe_values(timestep: int, wave_field, trackers) -> None:
+    """Record displacement, amplitude, and frequency at probe voxel for the current timestep.
 
     Args:
         timestep: Current simulation timestep
         wave_field: WaveField instance
+        trackers: Trackers instance
     """
-    global _log_displacement_initialized
+    global _log_probe_initialized
 
     # Probe position
-    cx, cy, cz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    displacement_am = wave_field.displacement_am[cx, cy, cz]
+    px, py, pz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
+    displacement_am = wave_field.displacement_am[px, py, pz]
+    amplitude_am = trackers.amplitudeL_am[px, py, pz]
+    frequency_rHz = trackers.frequency_rHz[px, py, pz]
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    log_path = DATA_DIR / "displacements.csv"
+    log_path = DATA_DIR / "probe_values.csv"
 
     # Write header on first call
-    if not _log_displacement_initialized:
+    if not _log_probe_initialized:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["timestep", "displacement_am"])
-        _log_displacement_initialized = True
+            writer.writerow(["timestep", "displacement_am", "amplitude_am", "frequency_rHz"])
+        _log_probe_initialized = True
 
-    # Append displacement data
+    # Append probe data
     with open(log_path, "a", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([timestep, f"{displacement_am:.6f}"])
+        writer.writerow(
+            [timestep, f"{displacement_am:.6f}", f"{amplitude_am:.6f}", f"{frequency_rHz:.6f}"]
+        )
 
 
-def plot_displacement_log():
-    """Plot the logged displacement over time."""
-    log_path = DATA_DIR / "displacements.csv"
+def plot_probe_log():
+    """Plot the logged displacement, amplitude, and frequency over time."""
+    log_path = DATA_DIR / "probe_values.csv"
     if not log_path.exists():
-        print("Displacement log file does not exist.")
+        print("\nProbe values log file does not exist.\n")
         return
 
     timesteps = []
     displacements = []
+    amplitudes = []
+    frequencies = []
 
     # Read logged data
     with open(log_path, "r") as f:
@@ -227,30 +234,64 @@ def plot_displacement_log():
         for row in reader:
             timesteps.append(int(row["timestep"]))
             displacements.append(float(row["displacement_am"]))
+            amplitudes.append(float(row["amplitude_am"]))
+            frequencies.append(float(row["frequency_rHz"]))
 
-    # Create the plot
+    # Create the plot with 2 subplots (stacked vertically)
     plt.style.use("dark_background")
-    fig = plt.figure(figsize=(10, 6), facecolor=colormap.DARK_GRAY[1])
+    fig = plt.figure(figsize=(10, 8), facecolor=colormap.DARK_GRAY[1])
     fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
+    # Plot 1: Displacement and Amplitude (top)
+    plt.subplot(2, 1, 1)
     plt.plot(
         timesteps,
         displacements,
-        color=colormap.viridis_palette[2][1],
-        linewidth=3,
+        color=colormap.ironbow_palette[2][1],
+        linewidth=2,
         label="DISPLACEMENT (am)",
     )
-    # plt.axhline(y=120, color=colormap.RED[1], linestyle="--", alpha=0.5, label="MAX CHARGE LEVEL")
-    # plt.axhline(
-    #     y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
-    # )
-    # plt.axhline(
-    #     y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
-    # )
-
+    plt.plot(
+        timesteps,
+        amplitudes,
+        color=colormap.ironbow_palette[3][1],
+        linewidth=2,
+        label="RMS AMPLITUDE (am)",
+    )
+    plt.axhline(
+        y=constants.EWAVE_AMPLITUDE / constants.ATTOMETER,
+        color=colormap.ironbow_palette[4][1],
+        linestyle="--",
+        alpha=0.5,
+        label="eWAVE AMPLITUDE (am)",
+    )
+    plt.axhline(y=0, color="w", linestyle="--", alpha=0.3)
     plt.xlabel("Timestep", family="Monospace")
-    plt.ylabel("Displacement (am)", family="Monospace")
-    plt.title("DISPLACEMENT OVER TIME", family="Monospace")
+    plt.ylabel("Displacement / RMS Amplitude (am)", family="Monospace")
+    plt.title("DISPLACEMENT & AMPLITUDE OVER TIME", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    # Plot 2: Frequency (bottom)
+    plt.subplot(2, 1, 2)
+    plt.plot(
+        timesteps,
+        frequencies,
+        color=colormap.blueprint_palette[2][1],
+        linewidth=2,
+        label="FREQUENCY (rHz)",
+    )
+    plt.axhline(
+        y=constants.EWAVE_FREQUENCY * constants.RONTOSECOND,
+        color=colormap.blueprint_palette[1][1],
+        linestyle="--",
+        alpha=0.5,
+        label="eWAVE FREQUENCY (rHz)",
+    )
+    plt.axhline(y=0, color="w", linestyle="--", alpha=0.3)
+    plt.xlabel("Timestep", family="Monospace")
+    plt.ylabel("Frequency (rHz)", family="Monospace")
+    plt.title("FREQUENCY OVER TIME", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 
@@ -258,12 +299,12 @@ def plot_displacement_log():
 
     # Save to directory
     PLOT_DIR.mkdir(parents=True, exist_ok=True)
-    save_path = PLOT_DIR / "displacements.png"
+    save_path = PLOT_DIR / "probe_values.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    print("\nPlot displacements saved to:\n", save_path, "\n")
+    print("\nPlot probe values saved to:\n", save_path, "\n")
 
 
 def generate_plots():
     """Generate all instrumentation plots."""
     plot_charge_log()
-    plot_displacement_log()
+    plot_probe_log()
