@@ -136,7 +136,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 - Louis de Broglie - [Pilot Wave Theory Foundations](https://en.wikipedia.org/wiki/Pilot_wave_theory)
 - David Bohm - [Bohmian Mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory)
 - Milo Wolff - [Wave Structure of Matter](https://www.amazon.com/dp/0962778710) & [Schroedinger's Universe](https://www.amazon.com/Schroedingers-Universe-Origin-Natural-Laws-ebook/dp/B001MIZV3A)
-- Gabriel LaFreniere - [Matter is Made of Waves](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
+- Gabriel LaFreniere - [Matter is Made of Waves](https://github.com/openwave-labs/lafreniere)
 
 **Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave-field dynamics.
 
