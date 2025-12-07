@@ -212,6 +212,37 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
   </table>
 </div>
 
+### Instrumentation inside Xperiments
+
+Xperiments allow the installation of instruments and probes to collect real-time data for numerical analysis.
+
+<div align = "center" style="text-align: center">
+  <table>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/analytics01.png" width="300px" alt="analytics"></a>
+          <br>Energy Charging
+        </div>
+      </td>
+      <td rowspan="2" style="text-align: center; vertical-align: middle">
+        <div align = "center">
+          <a><img src="images/analytics03.png" width="400px" alt="analytics"></a>
+          <br> Probe Analysis
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+        <div align = "center">
+          <a><img src="images/analytics02.png" width="300px" alt="analytics"></a>
+          <br>Charge Profile
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
 ## System Architecture
 
 ### Modular Design & Development Roadmap
