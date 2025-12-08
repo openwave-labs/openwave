@@ -88,7 +88,7 @@ def charge_full(
 
 
 @ti.kernel
-def charge_gaussian_bump(
+def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
 ):
     """
