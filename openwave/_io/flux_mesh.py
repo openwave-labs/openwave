@@ -77,7 +77,7 @@ def initialize_flux_mesh_fields(wave_field):
     _flux_mesh_fields_initialized = True
 
 
-def render_flux_mesh(scene, wave_field, flux_mesh_option):
+def render_flux_mesh(scene, wave_field, flux_mesh_show):
     """
     Render all three flux mesh to the scene with two-sided rendering.
 
@@ -112,7 +112,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_option):
     # ================================================================
     # Render flux mesh planes
     # ================================================================
-    if flux_mesh_option in (1, 2, 3):
+    if flux_mesh_show in (1, 2, 3):
         scene.mesh(
             _xy_vertices_flat,
             indices=_xy_indices_flat,
@@ -121,7 +121,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_option):
             show_wireframe=True,
         )
 
-    if flux_mesh_option in (2, 3):
+    if flux_mesh_show in (2, 3):
         scene.mesh(
             _xz_vertices_flat,
             indices=_xz_indices_flat,
@@ -130,7 +130,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_option):
             show_wireframe=True,
         )
 
-    if flux_mesh_option == 3:
+    if flux_mesh_show == 3:
         scene.mesh(
             _yz_vertices_flat,
             indices=_yz_indices_flat,

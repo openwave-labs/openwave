@@ -125,9 +125,9 @@ def populate_axis_field(
 
 def setup_scene_lighting():
     """Set up scene lighting - must be called every frame in GGUI."""
-    scene.ambient_light((0.1, 0.1, 0.15))  # Slight blue ambient
-    scene.point_light(pos=(1.0, 1.0, 1.0), color=(1.0, 1.0, 1.0))  # White light from above center
-    scene.point_light(pos=(1.2, 1.2, 1.2), color=(0.5, 0.5, 0.5))  # Dimmed white light from corner
+    scene.ambient_light((0.1, 0.1, 0.1))  # Slight blue ambient
+    scene.point_light(pos=(1.1, 1.1, 1.1), color=(1.0, 1.0, 1.0))  # White light
+    scene.point_light(pos=(0.5, 1.1, 0.5), color=(0.5, 0.5, 0.5))  # Dimmed white light
 
 
 def handle_camera():

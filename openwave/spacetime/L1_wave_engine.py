@@ -823,20 +823,15 @@ def update_flux_mesh_colors(
         color_palette: Color palette selection (1=redshift, 2=ironbow, 3=blueprint)
     """
 
-    # Get center indices for each Plane
-    center_i = wave_field.nx // 2
-    center_j = wave_field.ny // 2
-    center_k = wave_field.nz // 2
-
     # ================================================================
-    # XY Plane: Sample at z = center_k
+    # XY Plane: Sample at z = fm_plane_z_idx
     # ================================================================
     # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, j, center_k]
-        amp_value = trackers.amplitudeL_am[i, j, center_k]
-        freq_value = trackers.frequency_rHz[i, j, center_k]
+        disp_value = wave_field.displacement_am[i, j, wave_field.fm_plane_z_idx]
+        amp_value = trackers.amplitudeL_am[i, j, wave_field.fm_plane_z_idx]
+        freq_value = trackers.frequency_rHz[i, j, wave_field.fm_plane_z_idx]
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
@@ -856,13 +851,13 @@ def update_flux_mesh_colors(
             )
 
     # ================================================================
-    # XZ Plane: Sample at y = center_j
+    # XZ Plane: Sample at y = fm_plane_y_idx
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, center_j, k]
-        amp_value = trackers.amplitudeL_am[i, center_j, k]
-        freq_value = trackers.frequency_rHz[i, center_j, k]
+        disp_value = wave_field.displacement_am[i, wave_field.fm_plane_y_idx, k]
+        amp_value = trackers.amplitudeL_am[i, wave_field.fm_plane_y_idx, k]
+        freq_value = trackers.frequency_rHz[i, wave_field.fm_plane_y_idx, k]
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
@@ -882,13 +877,13 @@ def update_flux_mesh_colors(
             )
 
     # ================================================================
-    # YZ Plane: Sample at x = center_i
+    # YZ Plane: Sample at x = fm_plane_x_idx
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[center_i, j, k]
-        amp_value = trackers.amplitudeL_am[center_i, j, k]
-        freq_value = trackers.frequency_rHz[center_i, j, k]
+        disp_value = wave_field.displacement_am[wave_field.fm_plane_x_idx, j, k]
+        amp_value = trackers.amplitudeL_am[wave_field.fm_plane_x_idx, j, k]
+        freq_value = trackers.frequency_rHz[wave_field.fm_plane_x_idx, j, k]
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)

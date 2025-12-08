@@ -33,7 +33,7 @@ class WaveField:
     6. Initialize scalar and vector fields with attometer scaling for f32 precision
     """
 
-    def __init__(self, init_universe_size, target_voxels):
+    def __init__(self, init_universe_size, target_voxels, flux_mesh_planes=[0.5, 0.5, 0.5]):
         """
         Initialize WaveField from universe size with automatic voxel sizing.
 
@@ -171,6 +171,10 @@ class WaveField:
         self.fluxmesh_yz_indices = ti.field(dtype=ti.i32, shape=(self.ny - 1, self.nz - 1, 6))
 
         # Initialize flux mesh (vertices, indices, colors)
+        self.flux_mesh_planes = flux_mesh_planes  # positions in normalized coords
+        self.fm_plane_x_idx = int(flux_mesh_planes[0] * self.nx)  # x index of flux mesh plane
+        self.fm_plane_y_idx = int(flux_mesh_planes[1] * self.ny)  # y index of flux mesh plane
+        self.fm_plane_z_idx = int(flux_mesh_planes[2] * self.nz)  # z index of flux mesh plane
         self.create_flux_mesh()
 
     @ti.kernel
@@ -257,25 +261,25 @@ class WaveField:
         Initialize normalized flux mesh for all three orthogonal planes.
 
         Creates vertex positions and triangle indices for XY, XZ, and YZ flux mesh
-        positioned at the universe center. Each plane is a 2D mesh that samples wave
+        positioned at the xperiment parameter. Each plane is a 2D mesh that samples wave
         properties from the voxel grid.
 
         Coordinate system:
         - Positions stored in normalized coordinates [0, 1] for rendering
         - Each vertex corresponds to a voxel center for direct property sampling
-        - Meshes intersect at [0.5, 0.5, 0.5] (universe center)
+        - Meshes intersect at xperiment parameter
 
         Mesh structure:
         - Vertices: Grid of 3D positions matching voxel resolution
         - Indices: Triangle pairs forming quads (2 triangles × 3 vertices = 6 indices)
-        - Colors: Initialized to black, updated by update_flux_mesh_colors()
+        - Colors: Initialized to colormap.COLOR_FLUXMESH, updated by update_flux_mesh_colors()
         """
-        max_dim = ti.cast(self.max_grid_size, ti.f32)
 
-        # Center position in normalized coordinates
-        center_x = ti.cast(self.nx, ti.f32) / (2.0 * max_dim)
-        center_y = ti.cast(self.ny, ti.f32) / (2.0 * max_dim)
-        center_z = ti.cast(self.nz, ti.f32) / (2.0 * max_dim)
+        # Planes position in normalized coordinates
+        max_dim = ti.cast(self.max_grid_size, ti.f32)
+        fm_plane_x = self.flux_mesh_planes[0]  # x position in normalized coords
+        fm_plane_y = self.flux_mesh_planes[1]  # y position in normalized coords
+        fm_plane_z = self.flux_mesh_planes[2]  # z position in normalized coords
 
         # ================================================================
         # XY Plane (at z = center): spans (0→1, 0→1, 0.5)
@@ -286,9 +290,9 @@ class WaveField:
             y_norm = (ti.cast(j, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, center_z])
+            self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, fm_plane_z])
 
-            # Initialize color to black (will be updated by update_flux_mesh_colors)
+            # Initialize color (will be changed by update_flux_mesh_colors)
             self.fluxmesh_xy_colors[i, j] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XY plane
@@ -313,9 +317,9 @@ class WaveField:
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, center_y, z_norm])
+            self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, fm_plane_y, z_norm])
 
-            # Initialize color to black
+            # Initialize color (will be changed by update_flux_mesh_colors)
             self.fluxmesh_xz_colors[i, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XZ plane
@@ -340,9 +344,9 @@ class WaveField:
             z_norm = (ti.cast(k, ti.f32) + 0.5) / max_dim
 
             # Vertex position
-            self.fluxmesh_yz_vertices[j, k] = ti.Vector([center_x, y_norm, z_norm])
+            self.fluxmesh_yz_vertices[j, k] = ti.Vector([fm_plane_x, y_norm, z_norm])
 
-            # Initialize color to black
+            # Initialize color (will be changed by update_flux_mesh_colors)
             self.fluxmesh_yz_colors[j, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for YZ plane
