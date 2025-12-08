@@ -401,7 +401,7 @@ def initialize_xperiment(state):
     # STATIC CHARGING methods (one-time pulse pattern) ==================================
     # Uncomment to test different initial wave configurations
     ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
-    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian_bump(state.wave_field)
+    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
