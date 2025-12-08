@@ -424,7 +424,7 @@ def compute_wave_motion(state):
     if state.charging and state.frame > 300:  # hold off initial transient
         ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # best overall
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
-        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 2)
+        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 10, 100)
 
     ewave.propagate_ewave(
         state.wave_field,

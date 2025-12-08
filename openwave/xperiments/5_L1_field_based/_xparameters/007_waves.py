@@ -24,7 +24,7 @@ XPARAMETERS = {
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "FLUX_MESH_SHOW": 3,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # Normalized positions of flux mesh planes [x, y, z]
+        "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # Normalized positions [x, y, z]
         "SIM_SPEED": 1.0,  # Frequency boost multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },

@@ -370,10 +370,11 @@ def charge_oscillator_falloff(
 def charge_oscillator_wall(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
-    skip: ti.i32,  # type: ignore
+    sources: ti.i32,  # type: ignore
+    boost: ti.i32,  # type: ignore
 ):
     """
-    Apply harmonic oscillation to boundary walls skipping every 4 voxel.
+    Apply harmonic oscillation to boundary walls from source voxels.
 
     Creates a uniform displacement on 2D planes using:
         ψ(t) = A·cos(ωt)
@@ -384,35 +385,47 @@ def charge_oscillator_wall(
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
         elapsed_t_rs: Elapsed simulation time (rs)
+        sources: Active wall charging sources [0-1]
+        boost: Oscillation amplitude multiplier
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
         2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
+    sources_x = min(wave_field.nx, int(sources * wave_field.nx / wave_field.max_grid_size))
+    sources_y = min(wave_field.ny, int(sources * wave_field.ny / wave_field.max_grid_size))
+    sources_z = min(wave_field.nz, int(sources * wave_field.nz / wave_field.max_grid_size))
+    skip_x = wave_field.nx / sources_x
+    skip_y = wave_field.ny / sources_y
+    skip_z = wave_field.nz / sources_z
+    offset_x = skip_x / 2
+    offset_y = skip_y / 2
+    offset_z = skip_z / 2
+
     # Apply oscillating displacement on 6 boundary planes
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
-    for i, j in ti.ndrange((wave_field.nx // skip), (wave_field.ny // skip)):
-        wave_field.displacement_am[i * skip, j * skip, 0] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+    for i, j in ti.ndrange(sources_x, sources_y):
+        wave_field.displacement_am[int(i * skip_x + offset_x), int(j * skip_y + offset_y), 0] = (
+            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-        wave_field.displacement_am[i * skip, j * skip, wave_field.nz - 1] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[
+            int(i * skip_x + offset_x), int(j * skip_y + offset_y), wave_field.nz - 1
+        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
+    for i, k in ti.ndrange(sources_x, sources_z):
+        wave_field.displacement_am[int(i * skip_x + offset_x), 0, int(k * skip_z + offset_z)] = (
+            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-    for i, k in ti.ndrange((wave_field.nx // skip), (wave_field.nz // skip)):
-        wave_field.displacement_am[i * skip, 0, k * skip] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+        wave_field.displacement_am[
+            int(i * skip_x + offset_x), wave_field.ny - 1, int(k * skip_z + offset_z)
+        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
+    for j, k in ti.ndrange(sources_y, sources_z):
+        wave_field.displacement_am[0, int(j * skip_y + offset_y), int(k * skip_z + offset_z)] = (
+            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
-        wave_field.displacement_am[i * skip, wave_field.ny - 1, k * skip] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
-        )
-    for j, k in ti.ndrange((wave_field.ny // skip), (wave_field.nz // skip)):
-        wave_field.displacement_am[0, j * skip, k * skip] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
-        )
-        wave_field.displacement_am[wave_field.nx - 1, j * skip, k * skip] = (
-            skip * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
-        )
+        wave_field.displacement_am[
+            wave_field.nx - 1, int(j * skip_y + offset_y), int(k * skip_z + offset_z)
+        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
 
 
 # ================================================================
