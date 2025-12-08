@@ -125,6 +125,9 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
+        self.STATIC_BOOST = 1.0
+        self.DYNAMIC_BOOST = 1.0
+        self.DAMPING_FACTOR = 1.0
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -156,6 +159,12 @@ class SimulationState:
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
+
+        # Charging
+        charging = params["charging"]
+        self.STATIC_BOOST = charging["STATIC_BOOST"]
+        self.DYNAMIC_BOOST = charging["DYNAMIC_BOOST"]
+        self.DAMPING_FACTOR = charging["DAMPING_FACTOR"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -404,7 +413,7 @@ def initialize_xperiment(state):
 
     # STATIC CHARGING methods (one-time pulse pattern) ==================================
     # Uncomment to test different initial wave configurations
-    ewave.charge_full(state.wave_field, state.dt_rs)  # best overall
+    ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
     # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
@@ -421,10 +430,10 @@ def compute_wave_motion(state):
     """
     # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
     # Runs BEFORE propagation to inject energy into displacement until stabilization
-    if state.charging and state.frame > 300:  # hold off initial transient
-        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs)  # best overall
+    if state.charging and state.frame > 1000:  # hold off initial transient
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, state.DYNAMIC_BOOST)
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
-        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 10, 100)
+        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 3, 100)
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -437,12 +446,12 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
     # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_full(state.wave_field, 0.999)  # best overall
+        ewave.damp_full(state.wave_field, state.DAMPING_FACTOR)
         # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
+    if state.frame % 60 == 0 and state.frame >= 120:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_amplitude = state.trackers.rms_amplitudeL_am[None] * constants.ATTOMETER  # in m
     state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND

@@ -19,6 +19,11 @@ XPARAMETERS = {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": 1e8,  # Simulation voxel count (impacts performance)
     },
+    "charging": {
+        "STATIC_BOOST": 0.8,  # One-Time charger amplitude boost multiplier
+        "DYNAMIC_BOOST": 1.0,  # Dynamic charger amplitude boost multiplier
+        "DAMPING_FACTOR": 0.999,  # Dynamic damping factor per frame (0.0-1.0)
+    },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference

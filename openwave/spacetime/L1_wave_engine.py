@@ -30,6 +30,7 @@ rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 def charge_full(
     wave_field: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
+    boost: ti.f32,  # type: ignore
 ):
     """
     Initialize a spherical outgoing wave pattern centered in the wave field.
@@ -41,6 +42,7 @@ def charge_full(
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
         dt_rs: Time step size (rs)
+        boost: Oscillation amplitude multiplier
     """
 
     # Find center position (in grid indices)
@@ -71,13 +73,13 @@ def charge_full(
         # Signed value: positive = expansion, negative = compression
         disp = (
             base_amplitude_am
-            * 0.80
+            * boost
             * wave_field.scale_factor
             * ti.cos(omega_rs * 0 - k_grid * r_grid)
         )  # t0
         disp_old = (
             base_amplitude_am
-            * 0.80
+            * boost
             * wave_field.scale_factor
             * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
         )  # t-dt
@@ -261,6 +263,7 @@ def charge_1lambda(
 def charge_oscillator_sphere(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
+    boost: ti.f32,  # type: ignore
 ):
     """
     Apply harmonic oscillation to a spherical volume at the grid center.
@@ -274,6 +277,7 @@ def charge_oscillator_sphere(
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
         elapsed_t_rs: Elapsed simulation time (rs)
+        boost: Oscillation amplitude multiplier
     """
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
@@ -306,6 +310,7 @@ def charge_oscillator_sphere(
         if r_grid <= charge_radius_grid:
             wave_field.displacement_am[i, j, k] = (
                 base_amplitude_am
+                * boost
                 * wave_field.scale_factor
                 * ti.cos(omega_rs * elapsed_t_rs - k_grid * r_grid)
             )
@@ -371,7 +376,7 @@ def charge_oscillator_wall(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
     sources: ti.i32,  # type: ignore
-    boost: ti.i32,  # type: ignore
+    boost: ti.f32,  # type: ignore
 ):
     """
     Apply harmonic oscillation to boundary walls from source voxels.
@@ -407,25 +412,25 @@ def charge_oscillator_wall(
     # Harmonic motion: A·cos(ωt), positive = expansion, negative = compression
     for i, j in ti.ndrange(sources_x, sources_y):
         wave_field.displacement_am[int(i * skip_x + offset_x), int(j * skip_y + offset_y), 0] = (
-            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+            base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[
             int(i * skip_x + offset_x), int(j * skip_y + offset_y), wave_field.nz - 1
-        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
+        ] = (base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
     for i, k in ti.ndrange(sources_x, sources_z):
         wave_field.displacement_am[int(i * skip_x + offset_x), 0, int(k * skip_z + offset_z)] = (
-            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+            base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[
             int(i * skip_x + offset_x), wave_field.ny - 1, int(k * skip_z + offset_z)
-        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
+        ] = (base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
     for j, k in ti.ndrange(sources_y, sources_z):
         wave_field.displacement_am[0, int(j * skip_y + offset_y), int(k * skip_z + offset_z)] = (
-            boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+            base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
         )
         wave_field.displacement_am[
             wave_field.nx - 1, int(j * skip_y + offset_y), int(k * skip_z + offset_z)
-        ] = (boost * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
+        ] = (base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs))
 
 
 # ================================================================
@@ -436,18 +441,18 @@ def charge_oscillator_wall(
 @ti.kernel
 def damp_full(
     wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
+    damping_factor: ti.f32,  # type: ignore
 ):
     """
     Gradually absorb wave energy within the entire grid volume.
 
     Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
+    absorption. Each frame, displacement is multiplied by damping_factor,
     causing gradual decay toward zero.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+        damping_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
     """
 
     # Apply damping displacement within entire grid
@@ -457,24 +462,24 @@ def damp_full(
         (0, wave_field.ny),
         (0, wave_field.nz),
     ):
-        wave_field.displacement_am[i, j, k] *= decay_factor
+        wave_field.displacement_am[i, j, k] *= damping_factor
 
 
 @ti.kernel
 def damp_sphere(
     wave_field: ti.template(),  # type: ignore
-    decay_factor: ti.f32,  # type: ignore
+    damping_factor: ti.f32,  # type: ignore
 ):
     """
     Gradually absorb wave energy within a spherical volume at the grid center.
 
     Applies exponential damping to displacement values, simulating energy
-    absorption. Each frame, displacement is multiplied by decay_factor,
+    absorption. Each frame, displacement is multiplied by damping_factor,
     causing gradual decay toward zero.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
-        decay_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+        damping_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
     """
 
     # Find center position (in grid indices)
@@ -497,7 +502,7 @@ def damp_sphere(
         # Check if voxel is within spherical drain region
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
         if r_grid <= damp_radius_grid:
-            wave_field.displacement_am[i, j, k] *= decay_factor
+            wave_field.displacement_am[i, j, k] *= damping_factor
 
 
 # ================================================================
