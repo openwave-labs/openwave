@@ -130,7 +130,8 @@ class SimulationState:
         self.SHOW_AXIS = False
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
-        self.FLUX_MESH_OPTION = 0
+        self.FLUX_MESH_SHOW = 0
+        self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
         self.SIM_SPEED = 1.0
         self.PAUSED = False
 
@@ -161,7 +162,8 @@ class SimulationState:
         self.SHOW_AXIS = ui["SHOW_AXIS"]
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
-        self.FLUX_MESH_OPTION = ui["FLUX_MESH_OPTION"]
+        self.FLUX_MESH_SHOW = ui["FLUX_MESH_SHOW"]
+        self.FLUX_MESH_PLANES = ui["FLUX_MESH_PLANES"]
         self.SIM_SPEED = ui["SIM_SPEED"]
         self.PAUSED = ui["PAUSED"]
 
@@ -177,8 +179,10 @@ class SimulationState:
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
     def initialize_grid(self):
-        """Initialize or reinitialize the wave field grid."""
-        self.wave_field = data_grid.WaveField(self.UNIVERSE_SIZE, self.TARGET_VOXELS)
+        """Initialize or reinitialize the wave-field grid."""
+        self.wave_field = data_grid.WaveField(
+            self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.FLUX_MESH_PLANES
+        )
         self.trackers = data_grid.Trackers(self.wave_field.grid_size)
 
     def compute_timestep(self):
@@ -251,7 +255,7 @@ def display_controls(state):
     """Display the controls UI overlay."""
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.17) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
-        state.FLUX_MESH_OPTION = sub.slider_int("Flux Mesh", state.FLUX_MESH_OPTION, 0, 3)
+        state.FLUX_MESH_SHOW = sub.slider_int("Flux Mesh", state.FLUX_MESH_SHOW, 0, 3)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
@@ -462,9 +466,9 @@ def render_elements(state):
     if state.SHOW_GRID:
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
-    if state.FLUX_MESH_OPTION > 0:
+    if state.FLUX_MESH_SHOW > 0:
         ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_OPTION)
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_SHOW)
 
     # TODO: remove test particles for visual reference
     # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)

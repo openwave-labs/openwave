@@ -277,29 +277,19 @@ def oscillate_granules(
         velocity_am[granule_idx] = total_velocity_am
 
         # WAVE AMPLITUDE TRACKERS ============================================
-        # Signed radial displacement: positive = outward from sources center, negative = inward
-        radial_from_center = equilibrium_am[granule_idx] - sources_center_am[None]
-        radial_norm = radial_from_center.norm()
         # Initialize before conditional (Taichi scope requirement)
-        displacement_am = 0.0
-        if radial_norm > 1e-10:
-            # Project displacement onto radial direction (dot product / magnitude)
-            displacement_am = total_displacement_am.dot(radial_from_center) / radial_norm
-        else:
-            # At center, use magnitude (sign undefined)
-            displacement_am = total_displacement_am.norm()
+        displacement_am = total_displacement_am.norm()
 
         # Track per-granule peak amplitude & global peak amplitude
-        displacement_amp_am = total_displacement_am.norm()
-        ti.atomic_max(amplitude_am[granule_idx], displacement_amp_am)
-        ti.atomic_max(peak_amplitude_am[None], displacement_amp_am)
+        ti.atomic_max(amplitude_am[granule_idx], displacement_am)
+        ti.atomic_max(peak_amplitude_am[None], displacement_am)
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map value to color using selected gradient
-        if color_palette == 1:  # redshift (signed: red=inward, gray=zero, blue=outward)
-            granule_var_color[granule_idx] = colormap.get_redshift_color(
+        if color_palette == 5:  # orange (magnitude only)
+            granule_var_color[granule_idx] = colormap.get_orange_color(
                 displacement_am,
-                -peak_amplitude_am[None],  # symmetric range for signed values
+                0.0,
                 peak_amplitude_am[None],
             )
         elif color_palette == 2:  # ironbow (magnitude only: thermal scale)
