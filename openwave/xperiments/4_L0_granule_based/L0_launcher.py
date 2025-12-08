@@ -248,18 +248,18 @@ def display_controls(state):
 def display_color_menu(state):
     """Display color selection menu."""
     with render.gui.sub_window("COLOR MENU", 0.00, 0.73, 0.14, 0.14) as sub:
-        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1):
-            state.COLOR_PALETTE = 1
+        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 5):
+            state.COLOR_PALETTE = 5
         if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
-        if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
-            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
+        if state.COLOR_PALETTE == 5:  # Display orange gradient palette
+            render.canvas.triangles(og_palette_vertices, per_vertex_color=og_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.67, 0.08, 0.06) as sub:
-                sub.text(f"{-state.peak_amplitude:.0e}  {state.peak_amplitude:.0e}m")
+                sub.text(f"0       {state.peak_amplitude:.0e}m")
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.67, 0.08, 0.06) as sub:
@@ -328,13 +328,13 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    global rs_palette_vertices, rs_palette_colors
+    global og_palette_vertices, og_palette_colors
     global ib_palette_vertices, ib_palette_colors
     global level_bar_vertices
 
     # Initialize color palettes for gradient rendering and level indicator
-    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
-        colormap.redshift, 0.00, 0.66, 0.079, 0.01
+    og_palette_vertices, og_palette_colors = colormap.get_palette_scale(
+        colormap.orange, 0.00, 0.66, 0.079, 0.01
     )
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
         colormap.ironbow, 0.00, 0.66, 0.079, 0.01
@@ -394,7 +394,7 @@ def render_elements(state):
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 1 or state.COLOR_PALETTE == 2:
+    elif state.COLOR_PALETTE == 5 or state.COLOR_PALETTE == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
