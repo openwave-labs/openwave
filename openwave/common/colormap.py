@@ -129,11 +129,12 @@ viridis_palette = [
 # "color_palette" = 5
 orange_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
-    ["#3F0F00", (0.247, 0.059, 0.0)],  # dark red-orange
-    ["#801E00", (0.502, 0.118, 0.0)],  # red-orange
-    ["#BF2D00", (0.749, 0.176, 0.0)],  # bright red-orange
-    ["#FF3C00", (1.0, 0.235, 0.0)],  # bright orange
+    ["#74120F", (0.451, 0.071, 0.059)],  # dark red-orange
+    ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
+    ["#FF7B00", (1.0, 0.5, 0.0)],  # bright orange
+    ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
 ]
+
 
 # ================================================================
 # Redshift Gradient: FUNCTION
