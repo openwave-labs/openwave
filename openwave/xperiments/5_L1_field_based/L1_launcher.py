@@ -412,9 +412,9 @@ def initialize_xperiment(state):
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
     # STATIC CHARGING methods (one-time pulse pattern) ==================================
-    # Uncomment to test different initial wave configurations
+    # Uncomment to test different initial wave functions
     ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    # NOTE: (beautiful but inaccurate) ewave.charge_gaussian(state.wave_field)
+    # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 

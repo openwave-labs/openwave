@@ -192,8 +192,10 @@ def log_probe_values(timestep: int, wave_field, trackers) -> None:
     """
     global _log_probe_initialized
 
-    # Probe position
+    # Define probe position
     px, py, pz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
+
+    # Capture probe values
     displacement_am = wave_field.displacement_am[px, py, pz]
     amplitude_am = trackers.amplitudeL_am[px, py, pz]
     frequency_rHz = trackers.frequency_rHz[px, py, pz]
