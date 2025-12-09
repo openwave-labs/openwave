@@ -212,9 +212,24 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
   </table>
 </div>
 
-### Instrumentation inside Xperiments
+## Instrumentation Framework
 
-Xperiments allow the installation of instruments and probes to collect real-time data for numerical analysis.
+Xperiments support configurable instrumentation and probe integration for real-time data acquisition and numerical analysis. The framework provides zero-overhead data collection that can be toggled on or off per simulation.
+
+**Capabilities:**
+
+- **Energy Monitoring:** Track charge levels and energy stabilization throughout simulation runtime
+- **Field Probes:** Sample displacement, amplitude, and frequency at specified voxel coordinates
+- **Profile Analysis:** Generate cross-sectional displacement profiles along field axes
+- **Data Export:** Output time-series data to CSV format for external processing
+- **Automated Visualization:** Generate publication-ready plots for charge profiles, energy levels, and probe time-series analysis
+
+```python
+# Enable instrumentation in xperiment parameters
+"analytics": {
+    "INSTRUMENTATION": True,  # Toggle data acquisition
+}
+```
 
 <div align = "center" style="text-align: center">
   <table>
