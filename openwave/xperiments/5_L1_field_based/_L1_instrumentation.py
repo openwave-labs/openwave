@@ -169,7 +169,7 @@ def plot_charge_log():
 
     plt.xlabel("Timestep", family="Monospace")
     plt.ylabel("Charge Level (%)", family="Monospace")
-    plt.title("ENERGY CHARGING & STABILIZATION", family="Monospace")
+    plt.title("ENERGY CHARGING & STABILITY", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 
