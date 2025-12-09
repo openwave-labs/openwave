@@ -263,6 +263,7 @@ def charge_1lambda(
 def charge_oscillator_sphere(
     wave_field: ti.template(),  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
+    radius: ti.f32,  # type: ignore
     boost: ti.f32,  # type: ignore
 ):
     """
@@ -293,10 +294,8 @@ def charge_oscillator_sphere(
     center_y = wave_field.ny // 2
     center_z = wave_field.nz // 2
 
-    # Define oscillator sphere radius (as fraction of total volume)
-    charge_radius_grid = int(
-        ((0.02 * wave_field.voxel_count) * (3 / 4) / ti.math.pi) ** (1 / 3)
-    )  # in grid indices
+    # Define oscillator sphere radius (a fraction of min edge voxels)
+    charge_radius_grid = int(radius * wave_field.min_grid_size)  # in grid indices
 
     # Apply oscillating displacement within source sphere
     # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
@@ -636,7 +635,7 @@ def propagate_ewave(
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
-    interact_wc_lens(wave_field)
+    # interact_wc_lens(wave_field)
     # interact_wc_newmann(wave_field)
     # interact_wc_dirichlet(wave_field)
     # interact_wc_signal(wave_field)
