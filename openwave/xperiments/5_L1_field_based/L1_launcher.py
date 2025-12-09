@@ -413,13 +413,12 @@ def initialize_xperiment(state):
 
     # STATIC CHARGING methods (one-time pulse pattern) ==================================
     # Uncomment to test different initial wave functions
-    ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
+    # NOTE: ewave.charge_full(state.wave_field, state.dt_rs, 0.80)
     # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
-
-    if state.INSTRUMENTATION:
-        instrument.plot_static_charge_profile(state.wave_field)
+    # if state.INSTRUMENTATION:
+    #     instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
@@ -430,10 +429,10 @@ def compute_wave_motion(state):
     """
     # DYNAMIC CHARGING methods (oscillator during simulation) ==================================
     # Runs BEFORE propagation to inject energy into displacement until stabilization
-    if state.charging and state.frame > 1000:  # hold off initial transient
-        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, state.DYNAMIC_BOOST)
+    if state.charging and state.frame > 500:  # hold off initial transient
+        ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, 0.10, 3.0)
         # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
-        # NOTE: ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 3, 100)
+        ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 7, 100)
 
     ewave.propagate_ewave(
         state.wave_field,
@@ -446,7 +445,7 @@ def compute_wave_motion(state):
     # DYNAMIC DAMPING methods (energy sink during simulation) ==================================
     # Runs AFTER propagation to reduce energy in displacement values until stabilization
     if state.damping:
-        ewave.damp_full(state.wave_field, state.DAMPING_FACTOR)
+        ewave.damp_full(state.wave_field, 0.999)
         # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
@@ -503,7 +502,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "the_queen"
+    default_xperiment = selected_xperiment_arg or "035_waves"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
