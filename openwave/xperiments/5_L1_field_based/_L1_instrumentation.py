@@ -104,9 +104,6 @@ def plot_static_charge_profile(wave_field):
     PLOT_DIR.mkdir(parents=True, exist_ok=True)
     save_path = PLOT_DIR / "charge_profile.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    print("\n" + "=" * 64)
-    print("INSTRUMENTATION ENABLED")
-    print("=" * 64)
     print("\nPlot charge_profile saved to:\n", save_path, "\n")
 
 
