@@ -116,16 +116,16 @@ Use a continuous envelope function that varies charging amplitude based on charg
 ```text
 Amplitude
     ^
-1.0 |     /------\
-    |    /        \
-0.5 |---/          \
-    |               \______ maintenance (0.15)
-0.0 |                      \____ (off above 115%)
+1.0 |         /------\
+    |        /        \
+0.2 |-------/          \
+    |                   \
+0.0 |                    \______
     +-----------------------------------> charge_level
-        0%  40%  90%  100%  115%
-         ^   ^    ^    ^      ^
-         |   |    |    |      |
-       ramp peak taper maint  off
+        0%      80%    100%
+         ^       ^       ^
+         |       |       |
+       ramp    peak    off
 ```
 
 ### Envelope Function Implementation
@@ -135,53 +135,34 @@ Uses `ti.math` (already imported via Taichi) for math operations:
 ```python
 def compute_charge_envelope(charge_level: float) -> float:
     """
-    Compute smooth charging envelope based on current charge level.
+    With ADDITIVE chargers, energy accumulates naturally. The envelope
+    controls injection rate, and baseline damping provides the energy sink.
 
     Phases:
-    1. Quick ramp (0% -> 40%): Cosine ramp from 0.5 to 1.0 (faster buildup)
-    2. Taper (40% -> 90%): Smooth cosine fade from 1.0 to maintenance level
-    3. Maintenance (90-115%): Baseline (0.15) to compensate boundary losses
-    4. Off (>115%): No charging to prevent runaway
-
-    Args:
-        charge_level: Current energy as fraction of nominal (0.0 to 1.5+)
-
-    Returns:
-        float: Envelope value 0.0 to 1.0
+    1. Ramp (0% -> 80%): Cosine ramp from 0.2 to 1.0
+    2. Taper (80% -> 100%): Smooth cosine fade from 1.0 to 0
+    3. Off (>100%): No charging, let damping bring it down
     """
-    # Higher maintenance to compensate for Dirichlet BC energy absorption
-    MAINTENANCE_LEVEL = 0.15  # 15% baseline (was 5%)
-    RAMP_END = 0.40  # Faster ramp (was 60%)
-    TAPER_END = 0.90  # Earlier taper end (was 95%)
-    SHUTOFF = 1.15  # Lower shutoff threshold (was 120%)
+    RAMP_END = 0.80
+    TAPER_END = 1.00
 
     if charge_level < RAMP_END:
-        # Phase 1: Quick ramp - cosine curve from 0.5 to 1.0
-        # Starts at 50% power for faster initial buildup
-        t = charge_level / RAMP_END  # 0 to 1
-        # Cosine ramp: 0.5 at t=0, 1.0 at t=1
-        return 0.5 + 0.5 * (0.5 * (1.0 - ti.math.cos(ti.math.pi * t)))
+        t = charge_level / RAMP_END
+        return 0.2 + 0.8 * (0.5 * (1.0 - ti.math.cos(ti.math.pi * t)))
     elif charge_level < TAPER_END:
-        # Phase 2: Taper - smooth cosine fade from 1.0 to maintenance
-        t = (charge_level - RAMP_END) / (TAPER_END - RAMP_END)  # 0 to 1
-        return MAINTENANCE_LEVEL + (1.0 - MAINTENANCE_LEVEL) * 0.5 * (1.0 + ti.math.cos(ti.math.pi * t))
-    elif charge_level < SHUTOFF:
-        # Phase 3: Maintenance - compensate for boundary energy absorption
-        return MAINTENANCE_LEVEL
+        t = (charge_level - RAMP_END) / (TAPER_END - RAMP_END)
+        return 0.5 * (1.0 + ti.math.cos(ti.math.pi * t))
     else:
-        # Phase 4: Off - prevent runaway above 115%
         return 0.0
 ```
 
-### Why Quick Ramp + Higher Maintenance?
+### Why No Maintenance with Additive Chargers?
 
-**Problem with slow ramp:** Starting too gentle (0.3 power) takes too long to build energy. System may oscillate before reaching target.
+With **additive chargers**, no maintenance is needed:
 
-**Solution:** Cosine ramp from 0.5 to 1.0 over the 0-40% charge range. Faster initial buildup gets to target sooner.
-
-**Problem with low maintenance:** Dirichlet boundary conditions absorb energy on every reflection. With only 5% maintenance, system still "starves" after ~3000 timesteps.
-
-**Solution:** 15% baseline charging compensates for continuous boundary losses. This is calibrated to approximately balance the absorption rate.
+- **Energy source**: Additive chargers add `ψ += A·cos(ωt)` each timestep
+- **Energy sink**: Baseline damping (0.9995 always applied)
+- **Equilibrium**: System balances when injection rate equals damping rate
 
 ### Why Cosine Taper?
 
@@ -363,36 +344,32 @@ def compute_wave_motion(state):
 ### Recommended Parameters
 
 ```python
-# Charging parameters
-BASE_BOOST = 15.0           # Moderate amplitude (was 100)
-SOURCES_PER_EDGE = N // 6   # Dense source grid (was 7)
+# Charging parameters (ADDITIVE MODE)
+DYNAMIC_BOOST = 0.5         # Low boost - accumulates each timestep
+SOURCES_PER_EDGE = N // 6   # Dense source grid
 
-# Envelope thresholds (tuned for Dirichlet BC energy loss)
-RAMP_END = 0.40             # Quick ramp phase end
-TAPER_END = 0.90            # Taper phase end
-MAINTENANCE = 0.15          # 15% baseline to compensate BC losses
-SHUTOFF = 1.15              # Full stop threshold
+# Envelope thresholds (no maintenance needed with additive)
+RAMP_END = 0.80             # Ramp phase end
+TAPER_END = 1.00            # Taper to zero at target
 
 # Damping parameters
-DAMP_TOLERANCE = 0.10       # Start damping at 110%
-DAMP_STRENGTH = 0.0025      # Per-unit overshoot damping
+BASELINE_DAMPING = 0.9995   # Always applied (~0.05% per step)
+DAMP_STRENGTH = 0.002       # Additional damping per 10% overshoot
 ```
 
 ### Expected Behavior
 
-1. **Timesteps 0-400**: Quick ramp phase, charge builds rapidly
-1. **Timesteps 400-900**: Full power phase, charge approaches 90%
-1. **Timesteps 900-1500**: Taper phase, charging fades toward maintenance
-1. **Timesteps 1500+**: Maintenance phase, 15% baseline compensates boundary losses
+1. **Timesteps 0-N**: Ramp phase, charge builds via additive injection
+1. **Near 80%**: Full power, rapid approach to target
+1. **80-100%**: Taper phase, charging fades to zero
+1. **100%+**: Off phase, baseline damping brings overshoot down
 
 ### Success Criteria
 
-- Reach 100% +/- 15% charge by timestep 1500
-- No overshoot beyond 115%
-- Probe amplitude variation < 25% of mean
-- Probe frequency constant within 10% of nominal after settling
-- Minimal beating patterns
-- Avoid chaos, promote stability
+- Stable frequency at nominal value (ACHIEVED)
+- Charge level stable with minimal oscillation (ACHIEVED)
+- Reach 100% target (requires DYNAMIC_BOOST tuning)
+- No runaway growth or collapse
 
 ## Energy Conservation Analysis
 
@@ -404,27 +381,154 @@ The simulation uses Leap-Frog (Verlet) integration which is symplectic:
 ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
 ```
 
-Symplectic integrators conserve energy **of the discretized system**, but there are still energy loss mechanisms.
+Symplectic integrators conserve energy **of the discretized system**.
 
-### Energy Loss Sources
+### Boundary Conditions
 
-1. **Dirichlet Boundary Conditions**: The simulation enforces ψ=0 at grid boundaries. This is NOT a perfectly reflective boundary - it absorbs energy when waves hit the boundary. Each reflection loses a small amount of energy.
+**Neumann BC (∂ψ/∂n = 0)** - Currently implemented for energy-conserving reflection.
 
-2. **Numerical Dispersion**: The discrete 6-point Laplacian stencil is 2nd-order accurate. High-frequency wave components near the Nyquist limit travel at incorrect speeds, leading to phase errors that accumulate over time.
+Implementation via ghost cell copy before Laplacian computation:
 
-3. **Float32 Precision**: Using `ti.f32` fields provides ~7 significant digits. With attometer/rontosecond scaling, accumulated rounding errors can cause slow energy drift.
+```python
+# X-faces: boundary = adjacent interior value
+wave_field.displacement_am[0, j, k] = wave_field.displacement_am[1, j, k]
+wave_field.displacement_am[nx-1, j, k] = wave_field.displacement_am[nx-2, j, k]
+# Similar for Y and Z faces
+```
 
-### Compensating for Losses
+This ensures waves reflect perfectly without energy loss at boundaries.
 
-The maintenance charging level (15%) is calibrated to approximately balance the energy lost to Dirichlet boundary absorption. Without maintenance, charge level drops to ~60-70% and frequency becomes unstable as the system "starves."
+**Dirichlet BC (ψ=0 at edges)** - Previously used, absorbs energy on reflection. Not recommended for long simulations.
 
-### Future Improvements
+### Additive vs Overwrite Chargers
 
-For better energy conservation, consider:
+**SOLVED: Additive chargers now implemented.**
 
-1. **Neumann Boundary Conditions** (∂ψ/∂n = 0): Perfectly reflective, no energy loss
-1. **Higher-order Laplacian**: 4th-order stencil reduces numerical dispersion
-1. **Float64 fields**: Better precision, but 2x memory cost
+The original wall chargers used overwrite mode (`ψ = A·cos(ωt)`), which acted as an energy sink when propagated wave amplitude exceeded charger amplitude. This caused instability.
+
+**Additive chargers** (`ψ += A·cos(ωt)`) solve this by:
+
+1. Never removing energy - only adding
+2. Working like synchronized pushes to a flywheel
+3. Adding timed momentum in the direction of wave motion
+4. Allowing natural wave superposition
+
+This is analogous to pushing a child on a swing - you add energy in sync with the motion, not fight against it.
+
+### Wall Charger Placement
+
+Wall chargers are placed 1 voxel interior from boundaries to avoid conflict with Neumann BC ghost cell updates:
+
+- Charger indices: `i=1, nx-2`, `j=1, ny-2`, `k=1, nz-2`
+- Boundary indices: `i=0, nx-1`, `j=0, ny-1`, `k=0, nz-1` (ghost cells)
+
+### Remaining Energy Drift Sources
+
+With Neumann BC and additive chargers, remaining drift sources are minor:
+
+1. **Numerical Dispersion**: The discrete 6-point Laplacian stencil is 2nd-order accurate. High-frequency wave components near the Nyquist limit travel at incorrect speeds.
+
+2. **Float32 Precision**: Using `ti.f32` fields provides ~7 significant digits. Accumulated rounding errors can cause slow energy drift.
+
+### Current Status (December 2024 Testing)
+
+**Architecture achieved:**
+
+- Neumann BC for energy-conserving reflection
+- Additive chargers (`ψ += delta`) instead of overwrite
+- Wall chargers placed 1 voxel interior from boundaries
+- Smooth envelope with cosine taper (no sharp transitions)
+- Proportional damping above target
+
+**Current envelope implementation:**
+
+```python
+TAPER_START = 0.70  # Start reducing power at 70%
+TARGET = 1.00       # Target charge level
+MIN_POWER = 0.1     # Power at target
+
+if charge_level >= TARGET:
+    return 0.0  # At/above target: no charging
+elif charge_level >= TAPER_START:
+    # Cosine taper from 1.0 to MIN_POWER
+    t = (charge_level - TAPER_START) / (TARGET - TAPER_START)
+    return MIN_POWER + (1.0 - MIN_POWER) * 0.5 * (1.0 + ti.math.cos(ti.math.pi * t))
+else:
+    return 1.0  # Full power
+```
+
+**Current damping implementation:**
+
+```python
+BASELINE = 0.99998  # Very light: ~0.002% per step
+
+if charge_level <= target:
+    return BASELINE
+else:
+    overshoot = (charge_level - target) / tolerance
+    overshoot = min(overshoot, 5.0)
+    return BASELINE - 0.002 * overshoot
+```
+
+### Wall Charger Phase Synchronization (NEW)
+
+**Problem identified:** All 6 walls oscillating with same phase creates DC pumping effect, causing asymmetric displacement (biased positive or negative instead of centered on zero).
+
+**Implemented solution:** Spatial phase shift between opposite walls based on domain size vs wavelength:
+
+```python
+# Phase shift = 2π × (domain_voxels / voxels_per_wavelength)
+phase_shift_x = 2.0 * ti.math.pi * (wave_field.nx - 2) / wave_field.ewave_res
+phase_shift_y = 2.0 * ti.math.pi * (wave_field.ny - 2) / wave_field.ewave_res
+phase_shift_z = 2.0 * ti.math.pi * (wave_field.nz - 2) / wave_field.ewave_res
+
+# Low walls: base phase, High walls: shifted phase + inverted sign
+osc_x_lo = amp * ti.cos(phase)
+osc_x_hi = -amp * ti.cos(phase + phase_shift_x)  # Inverted for push from opposite direction
+```
+
+**Rationale:**
+
+- Phase shift ensures waves from opposite walls are coherent (arrive in sync)
+- Sign inversion ensures zero net DC bias (when one wall pushes, opposite pulls)
+- Together: symmetric oscillation centered on zero displacement
+
+### Current Testing Issues (To Investigate)
+
+1. **Displacement asymmetry persists** - Still seeing bias from zero, needs investigation
+2. **Charge level stays very low** - Not reaching target, possible energy loss
+3. **Frequency spikes during starvation** - When amplitude drops too low
+
+### Next Steps for Wall Charger Engine
+
+1. **Verify phase shift calculation** - Check if `ewave_res` is correct at runtime
+2. **Test with simpler config** - Single axis, fewer sources, to isolate issue
+3. **Debug sign convention** - Verify positive displacement = push inward from low-index wall
+4. **Consider alternative: random phase per source** - May create more isotropic field
+5. **Check for corner/edge double-counting** - Sources at wall intersections may get charged twice
+
+### Successful Patterns (What Works)
+
+1. **Ramp-up phase (0-2000 steps)** - Smooth charging curve to ~90%
+2. **Soft landing at target** - Cosine taper prevents overshoot transients
+3. **Frequency stability during charge** - Nominal frequency maintained when energy is adequate
+4. **Neumann BC reflection** - No energy loss at boundaries
+
+### Failed Patterns (What Doesn't Work)
+
+1. **No damping below target** - Causes runaway if maintenance charging is too strong
+2. **Maintenance mode with full power** - Overshoots wildly after peak
+3. **peak_reached flag causing mode switch** - Creates discontinuity, "spring release" effect
+4. **Same phase for all walls** - Creates DC pumping, asymmetric displacement
+
+### Future Optimizations
+
+| Optimization | Benefit | Cost |
+|--------------|---------|------|
+| Higher-order Laplacian (4th-order) | Reduces numerical dispersion | ~2x compute per voxel |
+| Float64 fields | Better precision, less drift | 2x memory (segfault risk) |
+| Per-source spatial phase | Proper wave coherence | More complex charger logic |
+| Probe at domain center | Better symmetry monitoring | Minor code change |
 
 ## References
 

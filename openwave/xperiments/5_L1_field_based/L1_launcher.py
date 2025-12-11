@@ -353,7 +353,7 @@ def display_data_dashboard(state):
             color=(
                 colormap.ORANGE[1]
                 if state.charging
-                else colormap.RED[1] if state.damping else colormap.GREEN[1]
+                else colormap.LIGHT_BLUE[1] if state.damping else colormap.GREEN[1]
             ),
         )
         sub.text(
@@ -361,7 +361,7 @@ def display_data_dashboard(state):
             color=(
                 colormap.ORANGE[1]
                 if state.charging
-                else colormap.RED[1] if state.damping else colormap.GREEN[1]
+                else colormap.LIGHT_BLUE[1] if state.damping else colormap.GREEN[1]
             ),
         )
 
@@ -417,8 +417,12 @@ def initialize_xperiment(state):
     # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
-    # if state.INSTRUMENTATION:
-    #     instrument.plot_static_charge_profile(state.wave_field)
+
+    if state.INSTRUMENTATION:
+        print("\n" + "=" * 64)
+        print("INSTRUMENTATION ENABLED")
+        print("=" * 64)
+        # instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
@@ -465,8 +469,9 @@ def compute_wave_motion(state):
     state.damping = state.charge_level > 1.20  # start damping, seeks energy stabilization
 
     if state.INSTRUMENTATION:
-        instrument.log_charge_level(state.frame, state.charge_level)
-        instrument.log_probe_values(state.frame, state.wave_field, state.trackers)
+        instrument.log_timestep_data(
+            state.frame, state.charge_level, state.wave_field, state.trackers
+        )
 
 
 def render_elements(state):
