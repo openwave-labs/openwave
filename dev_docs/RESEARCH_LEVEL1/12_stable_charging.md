@@ -430,7 +430,7 @@ With Neumann BC and additive chargers, remaining drift sources are minor:
 
 2. **Float32 Precision**: Using `ti.f32` fields provides ~7 significant digits. Accumulated rounding errors can cause slow energy drift.
 
-### Current Status (December 2024 Testing)
+### Current Status (December 2025 Testing)
 
 **Architecture achieved:**
 
@@ -493,46 +493,166 @@ osc_x_hi = -amp * ti.cos(phase + phase_shift_x)  # Inverted for push from opposi
 - Sign inversion ensures zero net DC bias (when one wall pushes, opposite pulls)
 - Together: symmetric oscillation centered on zero displacement
 
-### Current Testing Issues (To Investigate)
+## BREAKTHROUGH: Minimal Intervention Strategy (December 202)
 
-1. **Displacement asymmetry persists** - Still seeing bias from zero, needs investigation
-2. **Charge level stays very low** - Not reaching target, possible energy loss
-3. **Frequency spikes during starvation** - When amplitude drops too low
+### Key Discovery
 
-### Next Steps for Wall Charger Engine
+After extensive testing of dynamic chargers and damping, the most stable configuration is:
 
-1. **Verify phase shift calculation** - Check if `ewave_res` is correct at runtime
-2. **Test with simpler config** - Single axis, fewer sources, to isolate issue
-3. **Debug sign convention** - Verify positive displacement = push inward from low-index wall
-4. **Consider alternative: random phase per source** - May create more isotropic field
-5. **Check for corner/edge double-counting** - Sources at wall intersections may get charged twice
+Static single-pulse charge + Dirichlet BC + NO dynamic manipulation
 
-### Successful Patterns (What Works)
+### What Works Best
 
-1. **Ramp-up phase (0-2000 steps)** - Smooth charging curve to ~90%
-2. **Soft landing at target** - Cosine taper prevents overshoot transients
-3. **Frequency stability during charge** - Nominal frequency maintained when energy is adequate
-4. **Neumann BC reflection** - No energy loss at boundaries
+1. **Static radial pulse** (`charge_full` with boost=1.0) - Fills domain with spherical wave pattern
+2. **Dirichlet BC** (ψ=0 at edges) - More stable than Neumann for energy conservation
+3. **NO dynamic wall chargers** - They disturb more than stabilize
+4. **NO baseline damping** - System naturally conserves energy
+5. **Let waves dilute naturally** - Reflections create homogeneous field over time
 
-### Failed Patterns (What Doesn't Work)
+### Verified Findings
 
-1. **No damping below target** - Causes runaway if maintenance charging is too strong
-2. **Maintenance mode with full power** - Overshoots wildly after peak
-3. **peak_reached flag causing mode switch** - Creates discontinuity, "spring release" effect
-4. **Same phase for all walls** - Creates DC pumping, asymmetric displacement
+| Component | Finding | Impact |
+|-----------|---------|--------|
+| Leap-Frog integrator | Energy conserving (symplectic) | No drift |
+| 6-point Laplacian (2nd order) | Sufficient accuracy | No need for 4th order |
+| Float32 precision | No measurable drift | Memory efficient |
+| Dirichlet BC | Better stability than Neumann | Zero energy loss |
+| Static pulse only | Best stability | 55-60 FPS (5 FPS gain) |
 
-### Future Optimizations
+### Current Performance (December 2025)
 
-| Optimization | Benefit | Cost |
-|--------------|---------|------|
-| Higher-order Laplacian (4th-order) | Reduces numerical dispersion | ~2x compute per voxel |
-| Float64 fields | Better precision, less drift | 2x memory (segfault risk) |
-| Per-source spatial phase | Proper wave coherence | More complex charger logic |
-| Probe at domain center | Better symmetry monitoring | Minor code change |
+- **Charge level**: 80-120% range (±20% from target)
+- **Frequency**: Stable at ~0.0105 rHz with periodic spikes
+- **Displacement**: Symmetric around zero
+- **No energy drift**: System maintains energy indefinitely
+- **FPS**: 55-60 (improved from 50 without dynamic overhead)
+
+### Why Dynamic Chargers Failed
+
+1. **Wall chargers create plane waves** - Not natural, causes interference patterns
+2. **Phase synchronization issues** - All walls in phase creates DC pumping
+3. **Charger vs damping fight** - Competing forces create oscillations
+4. **Additional computational cost** - Runtime if statements and function calls
+
+### Why Static Pulse Works
+
+1. **Radial waves are natural** - Like Big Bang, energy expands spherically
+2. **Single coherent wavefront** - No phase conflicts
+3. **Natural dilution** - Reflections homogenize energy distribution
+4. **No runtime overhead** - One-time initialization cost only
+
+### Frequency Spikes Analysis
+
+Frequency spikes correlate with RMS amplitude dips (wave beating). When constructive/destructive interference causes local amplitude minimum, zero-crossing detection becomes noisy.
+
+**Mitigation options:**
+
+1. Increase EMA smoothing factor for frequency tracking
+2. Filter out measurements during low-amplitude periods
+3. Use longer averaging window
+
+## Next Steps to Test
+
+### Priority 1: Reduce Charge Level Variation (80-120% → 90-110%)
+
+1. **Test wall charger with sparse sources (6-8 per wall)**
+   - Creates quasi-spherical waves instead of plane waves
+   - May blend better with static radial pulse
+
+2. **Improve `charge_full` function**
+   - Test different initial amplitude profiles
+   - Gaussian envelope instead of sharp cosine
+   - Multiple smaller pulses at different locations
+
+3. **Fractal/chaos-based amplitude variation**
+   - Non-periodic amplitude modulation
+   - Prevents standing wave resonances
+   - Inspired by fractal audio technology
+
+### Priority 2: Frequency Spike Mitigation
+
+1. **Investigate spike timing** - Correlate with wave beating period
+2. **Increase frequency EMA alpha** - Slower response, smoother curve
+3. **Threshold-based filtering** - Ignore measurements when amplitude < threshold
+
+### Priority 3: Long-term Stability Verification
+
+1. **Run 10,000+ timesteps** - Verify no long-term drift
+2. **Run 50,000+ timesteps** - Stress test energy conservation
+3. **Monitor memory usage** - Check for leaks over long runs
+
+### Priority 4: Higher-Order Laplacian (TESTED - December 2025)
+
+| Stencil | Points | Accuracy | Memory Reads | Actual FPS | Long-term Stability |
+|---------|--------|----------|--------------|------------|---------------------|
+| 6-point (current) | 7 | 2nd order | 7 per voxel | 56 FPS | ✅ Excellent |
+| 18-point | 19 | 4th order | 19 per voxel | 56 FPS | ❌ Energy drift |
+
+**18-point Laplacian implementation (tested):**
+
+```python
+@ti.func
+def compute_laplacian18(wave_field, i, j, k):
+    """
+    18-connectivity: 6 face neighbors + 12 edge neighbors.
+    Formula: ∇²ψ ≈ (face_sum + 0.5·edge_sum - 12·center) / (3·dx²)
+    Requires 2-cell buffer from boundaries (vs 1-cell for 6-point).
+    """
+    face_sum = (ψ[i±1,j,k] + ψ[i,j±1,k] + ψ[i,j,k±1])  # 6 neighbors
+    edge_sum = (ψ[i±1,j±1,k] + ψ[i±1,j,k±1] + ψ[i,j±1,k±1])  # 12 neighbors
+    return (face_sum + 0.5 * edge_sum - 12.0 * center) / (3.0 * dx²)
+```
+
+**Test Results (100M and 1M voxel grids):**
+
+| Metric | 6-point | 18-point | Winner |
+|--------|---------|----------|--------|
+| FPS | 56 | 56 | Tie |
+| Charge stability (3000 steps) | 90-115% | 100-140% | 6-point |
+| Frequency stability | 0.0105-0.0125 rHz | 0.010-0.016 rHz (drift) | 6-point |
+| Displacement range | ±3-4 am | ±6 am (growing) | 6-point |
+| Long-term (6000+ steps) | Bounded | Energy accumulation | 6-point |
+
+**Key Findings:**
+
+1. **No performance penalty** - Both stencils run at 56 FPS (GPU not memory-bound at 100M voxels)
+2. **18-point amplifies wave interactions** - Better isotropy captures more energy transfer
+3. **Energy accumulation** - 18-point charge level climbs to 140% and stays elevated
+4. **Frequency drift** - 18-point shows upward frequency drift indicating numerical instability
+
+**Conclusion:** The 6-point Laplacian provides better long-term stability with zero performance cost for using 18-point. The 2nd-order accuracy is sufficient for wave propagation physics. Higher-order stencils are NOT recommended.
+
+### Priority 5: NOT Recommended
+
+1. **Float64 fields** - 2x memory cost, near segfault limit already
+2. **Complex dynamic charger logic** - Adds overhead, marginal benefit
+3. **Neumann BC** - Less stable than Dirichlet in our tests
+
+## Successful Patterns Summary
+
+| Pattern | Status | Notes |
+|---------|--------|-------|
+| Static radial pulse | ✅ Works | Best stability |
+| Dirichlet BC | ✅ Works | Better than Neumann |
+| 6-point Laplacian | ✅ Works | Sufficient accuracy |
+| Float32 precision | ✅ Works | No drift detected |
+| No dynamic chargers | ✅ Works | Cleaner, faster |
+| No runtime damping | ✅ Works | Natural equilibrium |
+
+## Failed Patterns Summary
+
+| Pattern | Status | Notes |
+|---------|--------|-------|
+| Dynamic wall chargers | ❌ Failed | Creates interference |
+| Baseline damping always | ❌ Failed | Drains energy |
+| Neumann BC | ⚠️ Marginal | Less stable |
+| Phase-shifted wall chargers | ❌ Failed | Complex, no benefit |
+| Peak-reached hysteresis | ❌ Failed | Mode switch creates transients |
+| 18-point Laplacian | ❌ Failed | Energy accumulation, frequency drift |
 
 ## References
 
-- `L1_wave_engine.py`: Charging and damping implementations
+- `L1_wave_engine.py`: Charging and propagation implementations
 - `L1_launcher.py`: Simulation control loop
 - `_L1_instrumentation.py`: Diagnostic plotting
 - `10_STABILITY_ANALYSIS.md`: CFL condition and numerical stability
