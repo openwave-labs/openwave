@@ -20,7 +20,7 @@ XPARAMETERS = {
         "TARGET_VOXELS": 1e3,  # Simulation voxel count (impacts performance)
     },
     "charging": {
-        "STATIC_BOOST": 0.8,  # One-Time charger amplitude boost multiplier
+        "STATIC_BOOST": 0.80,  # One-Time charger amplitude boost multiplier
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
