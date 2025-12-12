@@ -58,7 +58,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ### Visual Demonstration
 
 - Illustrates complex, often invisible phenomena for better comprehension
-- Represents graphically wave equations and analyses
+- Represents graphically wave equations and analysis
 - Automates animation export for online video publishing
 
 ### Exploratory Simulations
@@ -136,7 +136,7 @@ The [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory"
 - Louis de Broglie - [Pilot Wave Theory Foundations](https://en.wikipedia.org/wiki/Pilot_wave_theory)
 - David Bohm - [Bohmian Mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory)
 - Milo Wolff - [Wave Structure of Matter](https://www.amazon.com/dp/0962778710) & [Schroedinger's Universe](https://www.amazon.com/Schroedingers-Universe-Origin-Natural-Laws-ebook/dp/B001MIZV3A)
-- Gabriel LaFreniere - [Matter is Made of Waves](http://www.rhythmodynamics.com/Gabriel_LaFreniere/matter.htm)
+- Gabriel LaFreniere - [Matter is Made of Waves](https://github.com/openwave-labs/lafreniere)
 
 **Theoretical Classification:** EWT is a deterministic wave mechanics framework that provides mechanistic explanations for quantum phenomena through classical wave-field dynamics.
 
@@ -212,9 +212,24 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
   </table>
 </div>
 
-### Instrumentation inside Xperiments
+## Instrumentation Framework
 
-Xperiments allow the installation of instruments and probes to collect real-time data for numerical analysis.
+Xperiments support configurable instrumentation and probe integration for real-time data acquisition and numerical analysis. The framework provides zero-overhead data collection that can be toggled on or off per simulation.
+
+**Capabilities:**
+
+- **Energy Monitoring:** Track charge levels and energy stabilization throughout simulation runtime
+- **Field Probes:** Sample displacement, amplitude, and frequency at specified voxel coordinates
+- **Profile Analysis:** Generate cross-sectional displacement profiles along field axes
+- **Data Export:** Output time-series data to CSV format for external processing
+- **Automated Visualization:** Generate publication-ready plots for charge profiles, energy levels, and probe time-series analysis
+
+```python
+# Enable instrumentation in xperiment parameters
+"analytics": {
+    "INSTRUMENTATION": True,  # Toggle data acquisition
+}
+```
 
 <div align = "center" style="text-align: center">
   <table>

@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Wave Pulse
+XPERIMENT PARAMETERS
 
 Demonstrates radiation from a single wave source.
 A single source generates spherical longitudinal waves that propagate radially outward.

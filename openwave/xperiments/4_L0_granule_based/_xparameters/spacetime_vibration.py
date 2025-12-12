@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Spacetime Vibration
+XPERIMENT PARAMETERS
 
 Demonstrates wave interference from multiple sources in the lattice.
 Each source generates spherical longitudinal waves that superpose at each granule,

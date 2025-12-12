@@ -311,7 +311,7 @@ def display_data_dashboard(state):
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
         slowed_mo = constants.EWAVE_FREQUENCY / state.FREQ_BOOST
         fps = 0 if state.elapsed_t == 0 else state.frame / state.elapsed_t
-        sub.text(f"Frames Rendered: {state.frame}")
+        sub.text(f"Timesteps (frames): {state.frame}")
         sub.text(f"Sim Time: {state.elapsed_t / slowed_mo:.2e}s ({fps * slowed_mo:.0e} FPS)")
         sub.text(f"Clock Time: {state.elapsed_t:.2f}s ({fps:.0f} FPS)")
         sub.text(f"(1s sim time takes {slowed_mo / (60*60*24*365):.0e}y)")

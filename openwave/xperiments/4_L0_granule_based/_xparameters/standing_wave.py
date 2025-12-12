@@ -1,5 +1,5 @@
 """
-XPERIMENT PARAMETERS: Standing Wave
+XPERIMENT PARAMETERS
 
 Demonstrates standing wave patterns from multiple sources arranged in a circle.
 64 sources generate spherical longitudinal waves that superpose at each granule,

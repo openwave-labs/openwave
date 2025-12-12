@@ -126,6 +126,8 @@ class SimulationState:
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
         self.STATIC_BOOST = 1.0
+        self.DYNAMIC_BOOST = 1.0
+        self.DAMPING_FACTOR = 1.0
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -161,6 +163,8 @@ class SimulationState:
         # Charging
         charging = params["charging"]
         self.STATIC_BOOST = charging["STATIC_BOOST"]
+        self.DYNAMIC_BOOST = charging["DYNAMIC_BOOST"]
+        self.DAMPING_FACTOR = charging["DAMPING_FACTOR"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -407,22 +411,53 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
-    # STATIC CHARGING methods (single radial pulse pattern) ==================================
+    # STATIC CHARGING methods (single radial pulse pattern, fast charge) ==================================
+    # Provides initial energy source, dynamic chargers do maintenance around 100%
     ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
     # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
+    # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
         print("INSTRUMENTATION ENABLED")
         print("=" * 64)
-        instrument.plot_static_charge_profile(state.wave_field)
+        # instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
     """Compute wave propagation, reflection, superposition and update tracker averages.
+
+    HYBRID CHARGING STRATEGY:
+    - Phase 1 (initialization): Static radial pulse fills domain with coherent waves
+    - Phase 2 (runtime): Dynamic chargers + damping for maintenance only
+
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
+    Dynamic chargers only compensate for numerical drift, not primary energy source.
     """
 
+    # DYNAMIC MAINTENANCE CHARGING ==================================
+    # Soft landing: ramp up to target, then maintain with minimal intervention
+    # Static pulse provides ~90% energy, dynamic chargers do the final 10%
+    # envelope = ewave.compute_charge_envelope(state.charge_level)
+    # if envelope > 0.001:  # Small threshold to avoid zero-amplitude calls
+    #     # Wall charging - isotropic energy injection from all 6 boundaries
+    #     spacing = max(int(state.wave_field.ewave_res // 2), 1)
+    #     sources = max(state.wave_field.min_grid_size // spacing, 10)
+    #     effective_boost = state.DYNAMIC_BOOST * envelope
+    #     ewave.charge_oscillator_wall(
+    #         state.wave_field, state.elapsed_t_rs, sources, effective_boost
+    #     )
+    # state.charging = envelope > 0.001  # Track charging state for UI display
+
+    # DYNAMIC MAINTENANCE CHARGING (oscillator during simulation) =============================
+    # Runs BEFORE propagation to inject energy to maintain stabilization
+    # if state.charging and state.frame > 2000:  # hold off initial transient
+    #     # ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, 0.10, 3.0)
+    #     # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+    #     ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 6, 10)
+
+    # WAVE PROPAGATION =======================================
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,
@@ -430,6 +465,19 @@ def compute_wave_motion(state):
         state.dt_rs,
         state.elapsed_t_rs,
     )
+
+    # PROPORTIONAL DAMPING ==================================
+    # Only damp above target to catch overshoots, preserve natural equilibrium below
+    # damping_factor = ewave.compute_damping_factor(state.charge_level)
+    # if damping_factor < 1.0:  # Only apply if damping is active
+    #     ewave.damp_full(state.wave_field, damping_factor)
+    # state.damping = damping_factor < 0.9999  # Track damping state for UI display
+
+    # DYNAMIC DAMPING methods (energy sink during simulation) =============================
+    # Runs AFTER propagation to reduce energy to maintain stabilization
+    # if state.damping:
+    #     ewave.damp_full(state.wave_field, 0.9999)
+    #     # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
@@ -486,7 +534,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "the_queen"
+    default_xperiment = selected_xperiment_arg or "035_waves"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return

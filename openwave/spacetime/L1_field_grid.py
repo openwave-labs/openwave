@@ -76,6 +76,7 @@ class WaveField:
         self.ny = self.grid_size[1]  # additional alias for simplicity
         self.nz = self.grid_size[2]  # additional alias for simplicity
         self.max_grid_size = max(self.nx, self.ny, self.nz)
+        self.min_grid_size = min(self.nx, self.ny, self.nz)
 
         # Compute total voxels (asymmetric grid)
         self.voxel_count = self.nx * self.ny * self.nz
@@ -367,6 +368,7 @@ class WaveField:
 class Trackers:
     """
     Wave property trackers for each voxel.
+    Use separate class to avoid overloading WaveField class.
 
     Tracks amplitude envelope and frequency at each grid point using
     per-voxel fields and grid-wide averages for visualization scaling.
@@ -392,7 +394,7 @@ class Trackers:
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling
-        # 0.5× baseline to allow wave peaks to rise without color saturation
+        # baseline to allow wave peaks to rise without color saturation
         self.rms_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
         self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 
