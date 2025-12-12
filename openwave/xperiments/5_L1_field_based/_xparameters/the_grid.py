@@ -26,8 +26,9 @@ XPARAMETERS = {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": True,  # Toggle to show/hide the voxel data-grid
+        "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "FLUX_MESH_SHOW": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "FLUX_MESH_PLANES": [0.0, 0.0, 0.0],  # Normalized positions of flux mesh planes [x, y, z]
+        "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SIM_SPEED": 1.0,  # Frequency boost multiplier
         "PAUSED": True,  # Pause/Start simulation toggle
     },
