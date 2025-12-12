@@ -123,9 +123,9 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     px, py, pz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
 
     # Capture probe values
-    displacement_am = wave_field.displacement_am[px, py, pz]
-    amplitude_am = trackers.amplitudeL_am[px, py, pz]
-    frequency_rHz = trackers.frequency_rHz[px, py, pz]
+    displacement_am = wave_field.displacement_am[px, py, pz] / wave_field.scale_factor
+    amplitude_am = trackers.amplitudeL_am[px, py, pz] / wave_field.scale_factor
+    frequency_rHz = trackers.frequency_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
     _timestep_buffer.append([timestep, charge_level, displacement_am, amplitude_am, frequency_rHz])

@@ -394,7 +394,7 @@ class Trackers:
         self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling
-        # 0.5× baseline to allow wave peaks to rise without color saturation
+        # baseline to allow wave peaks to rise without color saturation
         self.rms_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
         self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 
