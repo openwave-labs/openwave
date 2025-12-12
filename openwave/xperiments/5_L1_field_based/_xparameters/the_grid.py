@@ -21,8 +21,6 @@ XPARAMETERS = {
     },
     "charging": {
         "STATIC_BOOST": 0.8,  # One-Time charger amplitude boost multiplier
-        "DYNAMIC_BOOST": 1.0,  # Dynamic charger amplitude boost multiplier
-        "DAMPING_FACTOR": 0.999,  # Dynamic damping factor per frame (0.0-1.0)
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines

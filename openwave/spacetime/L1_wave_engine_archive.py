@@ -22,7 +22,7 @@ rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
 
 
 # ================================================================
-# STATIC CHARGING methods (single radial pulse pattern)
+# STATIC CHARGING methods (one-time pulse pattern)
 # ================================================================
 
 
@@ -145,6 +145,409 @@ def charge_gaussian(
         wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
 
 
+@ti.kernel
+def charge_falloff(
+    wave_field: ti.template(),  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
+):
+    """
+    Initialize a spherical outgoing wave with 1/r amplitude falloff.
+
+    Similar to initiate_charge() but includes realistic amplitude decay with
+    distance (λ/r falloff). Creates a radial sinusoidal displacement pattern
+    where amplitude decreases inversely with distance from the source.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs)
+    """
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+
+        # Amplitude decreases with distance (1/r falloff)
+        r_safe_am = ti.max(r_grid, wavelength_grid)  # clamp to minimum 1λ to avoid singularity
+        amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
+        amplitude_am_at_r = base_amplitude_am * wave_field.scale_factor * amplitude_falloff
+
+        # Simple sinusoidal radial pattern
+        # Outward displacement from center source: A(r)·cos(ωt - kr)
+        # Creates rings of positive/negative displacement
+        # Signed value: positive = expansion, negative = compression
+        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+
+        # Apply both displacements (in attometers)
+        wave_field.displacement_am[i, j, k] = disp  # at t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+
+
+@ti.kernel
+def charge_1lambda(
+    wave_field: ti.template(),  # type: ignore
+    dt_rs: ti.f32,  # type: ignore
+):
+    """
+    Initialize a spherical outgoing wave within 1 wavelength.
+    Similar to initiate_charge() but limits the wave to within 1 wavelength
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs)
+    """
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Create radial sinusoidal displacement pattern (interior points only)
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+
+        # Amplitude = base if r < λ, 0 otherwise, oscillates radially
+        amplitude_am_at_r = (
+            base_amplitude_am * wave_field.scale_factor if r_grid < wavelength_grid else 0.0
+        )
+
+        # Simple sinusoidal radial pattern
+        # Outward displacement from center source: A(r)·cos(ωt - kr)
+        # Creates rings of positive/negative displacement
+        # Signed value: positive = expansion, negative = compression
+        disp = amplitude_am_at_r * ti.cos(omega_rs * 0 - k_grid * r_grid)  # t0 initial condition
+        disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
+
+        # Apply both displacements (in attometers)
+        wave_field.displacement_am[i, j, k] = disp  # at t=0
+        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+
+
+# ================================================================
+# CHARGING CONTROL (smooth envelope for stability)
+# ================================================================
+
+
+def compute_charge_envelope(charge_level: float) -> float:
+    """
+    Compute smooth charging envelope based on current charge level.
+
+    HYBRID STRATEGY: Static pulse provides energy at initialization.
+    Dynamic chargers do the top-off from 70% to 100% with very soft landing.
+
+    Envelope curve:
+    - Full power (0-70%): Strong charging to reach target zone
+    - Soft taper (70-100%): Smooth S-curve for very gentle landing
+    - Off (100%+): No charging, let natural equilibrium hold
+
+    Args:
+        charge_level: Current energy as fraction of nominal (0.0 to 1.5+)
+
+    Returns:
+        float: Envelope value 0.0 to 1.0
+    """
+    TAPER_START = 0.70  # Start soft landing at 70%
+    TARGET = 1.00  # Target charge level
+
+    if charge_level >= TARGET:
+        return 0.0  # At/above target: no charging
+    elif charge_level >= TAPER_START:
+        # SOFT LANDING (70-100%): Smoothstep S-curve for very gentle approach
+        # Slower decay near target than cosine
+        t = (charge_level - TAPER_START) / (TARGET - TAPER_START)  # 0 at 70%, 1 at 100%
+        # Smoothstep: 3t² - 2t³ gives S-curve, invert for decay
+        smooth = t * t * (3.0 - 2.0 * t)  # 0→1 S-curve
+        return 1.0 - smooth  # 1.0 at 70%, 0.0 at 100%
+    else:
+        # FULL POWER (0-70%): Keep charging strong
+        return 1.0
+
+
+def compute_damping_factor(
+    charge_level: float, target: float = 1.0, tolerance: float = 0.10
+) -> float:
+    """
+    Compute proportional damping factor based on charge level.
+
+    HYBRID STRATEGY: Light baseline damping always to balance charger injection.
+    Stronger proportional damping above target to correct overshoots quickly.
+
+    Args:
+        charge_level: Current energy as fraction of nominal
+        target: Target charge level (default 1.0 = 100%)
+        tolerance: Overshoot tolerance before max damping (default 0.10 = 10%)
+
+    Returns:
+        float: Damping factor 0.98 to 0.9999
+    """
+    BASELINE = 0.99998  # Ultra light: ~0.002% per step, minimal drain
+
+    if charge_level <= target:
+        return BASELINE  # Light baseline damping
+    else:
+        # Above target: stronger proportional damping
+        overshoot = (charge_level - target) / tolerance
+        overshoot = min(overshoot, 5.0)
+        # Damping strength: BASELINE at target, 0.98 at target + 5*tolerance
+        return BASELINE - 0.004 * overshoot
+
+
+# ================================================================
+# DYNAMIC CHARGING methods (oscillator during simulation)
+# ================================================================
+
+
+@ti.kernel
+def charge_oscillator_sphere(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+    radius: ti.f32,  # type: ignore
+    boost: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to a spherical volume at the grid center.
+
+    Creates a uniform displacement within a spherical region using:
+        ψ(t) = A·cos(ωt-kr)
+
+    The oscillator acts as a coherent wave source, with all voxels inside
+    the sphere oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+        boost: Oscillation amplitude multiplier
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Define oscillator sphere radius (a fraction of min edge voxels)
+    charge_radius_grid = int(radius * wave_field.min_grid_size)  # in grid indices
+
+    # Apply oscillating displacement within source sphere
+    # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
+    for i, j, k in ti.ndrange(
+        (center_x - charge_radius_grid, center_x + charge_radius_grid + 1),
+        (center_y - charge_radius_grid, center_y + charge_radius_grid + 1),
+        (center_z - charge_radius_grid, center_z + charge_radius_grid + 1),
+    ):
+        # Check if voxel is within spherical source region
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+        if r_grid <= charge_radius_grid:
+            wave_field.displacement_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs - k_grid * r_grid)
+            )
+
+
+@ti.kernel
+def charge_oscillator_falloff(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation with 1/r amplitude falloff.
+
+    Similar to charge_oscillator() but includes realistic amplitude decay with
+    distance (λ/r falloff). Creates a radial sinusoidal displacement pattern
+    where amplitude decreases inversely with distance from the source.
+
+    Creates a uniform displacement using:
+        ψ(t) = A(r)·cos(ωt-kr), where A(r) = A·(λ/r)
+
+    The oscillator acts as a coherent wave source, with all voxels inside
+    the sphere oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Apply oscillating displacement
+    # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
+    # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
+    for i, j, k in ti.ndrange(
+        (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
+    ):
+        # Distance from center (in grid indices)
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+
+        # Amplitude decreases with distance (1/r falloff)
+        r_safe_am = ti.max(r_grid, wavelength_grid)  # clamp to minimum 1λ to avoid singularity
+        amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
+        amplitude_am_at_r = base_amplitude_am * wave_field.scale_factor * amplitude_falloff
+
+        wave_field.displacement_am[i, j, k] = amplitude_am_at_r * ti.cos(
+            omega_rs * elapsed_t_rs - k_grid * r_grid
+        )
+
+
+@ti.kernel
+def charge_oscillator_wall(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+    sources: ti.i32,  # type: ignore
+    boost: ti.f32,  # type: ignore
+):
+    """
+    Apply additive harmonic oscillation near boundary walls from source voxels.
+
+    ADDITIVE MODE: Adds oscillation to existing displacement rather than
+    overwriting. This prevents energy loss when propagated wave amplitude
+    exceeds charger amplitude, and allows natural wave superposition.
+
+    Formula: ψ_new = ψ_old + A·cos(ωt) * boost
+
+    Sources are placed 1 voxel interior from walls to avoid conflict with
+    Neumann BC ghost cell updates.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+        sources: Number of source points per edge
+        boost: Oscillation amplitude multiplier (envelope-controlled)
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Source grid calculation (interior, excluding boundary ghost cells)
+    # Range is [1, n-2] to stay 1 voxel away from boundaries
+    interior_nx = wave_field.nx - 2
+    interior_ny = wave_field.ny - 2
+    interior_nz = wave_field.nz - 2
+    sources_x = min(interior_nx, int(sources * interior_nx / wave_field.max_grid_size))
+    sources_y = min(interior_ny, int(sources * interior_ny / wave_field.max_grid_size))
+    sources_z = min(interior_nz, int(sources * interior_nz / wave_field.max_grid_size))
+    sources_x = max(sources_x, 1)
+    sources_y = max(sources_y, 1)
+    sources_z = max(sources_z, 1)
+    skip_x = interior_nx / sources_x
+    skip_y = interior_ny / sources_y
+    skip_z = interior_nz / sources_z
+    offset_x = skip_x / 2 + 1  # +1 to start at index 1, not 0
+    offset_y = skip_y / 2 + 1
+    offset_z = skip_z / 2 + 1
+
+    # Oscillation delta for this timestep (ADDITIVE, not absolute)
+    osc_delta = (
+        base_amplitude_am * boost * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+    )
+
+    # ADD oscillating displacement on 6 near-boundary planes (1 voxel interior)
+    # Harmonic motion: ψ += A·cos(ωt), positive = expansion, negative = compression
+    # Z-faces: k=1 and k=nz-2
+    for i, j in ti.ndrange(sources_x, sources_y):
+        idx_x = int(i * skip_x + offset_x)
+        idx_y = int(j * skip_y + offset_y)
+        wave_field.displacement_am[idx_x, idx_y, 1] += osc_delta
+        wave_field.displacement_am[idx_x, idx_y, wave_field.nz - 2] += osc_delta
+
+    # Y-faces: j=1 and j=ny-2
+    for i, k in ti.ndrange(sources_x, sources_z):
+        idx_x = int(i * skip_x + offset_x)
+        idx_z = int(k * skip_z + offset_z)
+        wave_field.displacement_am[idx_x, 1, idx_z] += osc_delta
+        wave_field.displacement_am[idx_x, wave_field.ny - 2, idx_z] += osc_delta
+
+    # X-faces: i=1 and i=nx-2
+    for j, k in ti.ndrange(sources_y, sources_z):
+        idx_y = int(j * skip_y + offset_y)
+        idx_z = int(k * skip_z + offset_z)
+        wave_field.displacement_am[1, idx_y, idx_z] += osc_delta
+        wave_field.displacement_am[wave_field.nx - 2, idx_y, idx_z] += osc_delta
+
+
+# ================================================================
+# DYNAMIC DAMPING methods (energy sink during simulation)
+# ================================================================
+
+
+@ti.kernel
+def damp_full(
+    wave_field: ti.template(),  # type: ignore
+    damping_factor: ti.f32,  # type: ignore
+):
+    """
+    Gradually absorb wave energy within the entire grid volume.
+
+    Applies exponential damping to displacement values, simulating energy
+    absorption. Each frame, displacement is multiplied by damping_factor,
+    causing gradual decay toward zero.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        damping_factor: Damping multiplier per frame (e.g., 0.95 = 5% absorption per frame)
+    """
+
+    # Apply damping displacement within entire grid
+    # NOTE: Must be called AFTER propagate_ewave to damp the propagated values
+    for i, j, k in ti.ndrange(
+        (0, wave_field.nx),
+        (0, wave_field.ny),
+        (0, wave_field.nz),
+    ):
+        wave_field.displacement_am[i, j, k] *= damping_factor
+
+
 # ================================================================
 # WAVE PROPAGATION ENGINE
 # ================================================================
@@ -188,6 +591,68 @@ def compute_laplacian6(
     return laplacian6_am
 
 
+@ti.func
+def compute_laplacian18(
+    wave_field: ti.template(),  # type: ignore
+    i: ti.i32,  # type: ignore
+    j: ti.i32,  # type: ignore
+    k: ti.i32,  # type: ignore
+):
+    """
+    Compute Laplacian ∇²ψ at voxel [i,j,k]
+    Using 18-connectivity stencil, 4th-order finite difference.
+    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
+
+    18-point stencil: 6 face neighbors + 12 edge neighbors.
+    Weights derived from Taylor expansion for isotropic Laplacian:
+    - Face neighbors (distance=dx): weight = 1
+    - Edge neighbors (distance=√2·dx): weight = 0.5
+    - Center: weight = -12 (ensures sum=0 for constant fields)
+
+    Formula: ∇²ψ ≈ (face_sum + 0.5·edge_sum - 12·center) / (3·dx²)
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        i, j, k: Voxel indices (must be interior: 1 < i,j,k < n-2)
+
+    Returns:
+        Laplacian in units [1/am]
+    """
+    # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
+    face_sum = (
+        wave_field.displacement_am[i + 1, j, k]
+        + wave_field.displacement_am[i - 1, j, k]
+        + wave_field.displacement_am[i, j + 1, k]
+        + wave_field.displacement_am[i, j - 1, k]
+        + wave_field.displacement_am[i, j, k + 1]
+        + wave_field.displacement_am[i, j, k - 1]
+    )
+
+    # Edge neighbors (12 total): diagonal pairs in each plane
+    edge_sum = (
+        # XY plane edges (4)
+        wave_field.displacement_am[i + 1, j + 1, k]
+        + wave_field.displacement_am[i + 1, j - 1, k]
+        + wave_field.displacement_am[i - 1, j + 1, k]
+        + wave_field.displacement_am[i - 1, j - 1, k]
+        # XZ plane edges (4)
+        + wave_field.displacement_am[i + 1, j, k + 1]
+        + wave_field.displacement_am[i + 1, j, k - 1]
+        + wave_field.displacement_am[i - 1, j, k + 1]
+        + wave_field.displacement_am[i - 1, j, k - 1]
+        # YZ plane edges (4)
+        + wave_field.displacement_am[i, j + 1, k + 1]
+        + wave_field.displacement_am[i, j + 1, k - 1]
+        + wave_field.displacement_am[i, j - 1, k + 1]
+        + wave_field.displacement_am[i, j - 1, k - 1]
+    )
+
+    center = wave_field.displacement_am[i, j, k]
+    laplacian18_am = (face_sum + 0.5 * edge_sum - 12.0 * center) / (3.0 * wave_field.dx_am**2)
+
+    return laplacian18_am
+
+
 @ti.kernel
 def propagate_wave(
     wave_field: ti.template(),  # type: ignore
@@ -199,17 +664,18 @@ def propagate_wave(
     """
     Propagate wave displacement using wave equation (PDE Solver).
     Wave Equation: ∂²ψ/∂t² = c²∇²ψ
-
     Includes wave propagation, reflection at boundaries, superposition
     of wavefronts, and energy conservation (leap-frog).
+
+    Boundary Conditions Options:
+    - Dirichlet BC (ψ = 0) at edges for fixed boundaries.
+    Implemented by skipping boundary voxels in update loop.
+    - Neumann BC (∂ψ/∂n = 0) for energy-conserving reflection.
+    Implemented via ghost cell copy: boundary = adjacent interior value.
 
     Discrete Form (Leap-Frog/Verlet):
         ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
         where ∇²ψ = (neighbors_sum - 6·center) / dx²
-
-    Boundary Conditions:
-    - Dirichlet BC (ψ = 0) at edges for fixed boundaries.
-    Implemented by skipping boundary voxels in update loop.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
@@ -226,13 +692,37 @@ def propagate_wave(
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # ================================================================
+    # NEUMANN BC: Apply ghost cell copy BEFORE Laplacian computation
+    # ∂ψ/∂n = 0 means boundary = adjacent interior value
+    # This ensures waves reflect perfectly without energy loss
+    # ================================================================
+
+    # # X-faces (i=0 and i=nx-1)
+    # for j, k in ti.ndrange(ny, nz):
+    #     wave_field.displacement_am[0, j, k] = wave_field.displacement_am[1, j, k]
+    #     wave_field.displacement_am[nx - 1, j, k] = wave_field.displacement_am[nx - 2, j, k]
+
+    # # Y-faces (j=0 and j=ny-1)
+    # for i, k in ti.ndrange(nx, nz):
+    #     wave_field.displacement_am[i, 0, k] = wave_field.displacement_am[i, 1, k]
+    #     wave_field.displacement_am[i, ny - 1, k] = wave_field.displacement_am[i, ny - 2, k]
+
+    # # Z-faces (k=0 and k=nz-1)
+    # for i, j in ti.ndrange(nx, ny):
+    #     wave_field.displacement_am[i, j, 0] = wave_field.displacement_am[i, j, 1]
+    #     wave_field.displacement_am[i, j, nz - 1] = wave_field.displacement_am[i, j, nz - 2]
+
+    # ================================================================
     # WAVE PROPAGATION: Update voxels using Leap-Frog
     # ================================================================
     # Update interior voxels only (Dirichlet BC: ψ=0 at edges)
     # 6-point Laplacian: needs 1-cell buffer → range (1, n-1)
+    # 18-point Laplacian: needs 2-cell buffer → range (2, n-2)
     for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1)):  # 6-pt
+        # for i, j, k in ti.ndrange((2, nx - 2), (2, ny - 2), (2, nz - 2)):  # 18-pt
         # Compute spatial Laplacian ∇²ψ (toggle between 6-pt and 18-pt)
         laplacian_am = compute_laplacian6(wave_field, i, j, k)
+        # laplacian_am = compute_laplacian18(wave_field, i, j, k)  # 3x memory access
 
         # Leap-Frog update
         # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ

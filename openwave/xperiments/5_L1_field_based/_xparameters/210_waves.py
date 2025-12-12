@@ -20,9 +20,7 @@ XPARAMETERS = {
         "TARGET_VOXELS": 3.5e8,  # Simulation voxel count (impacts performance)
     },
     "charging": {
-        "STATIC_BOOST": 0.9,  # One-Time charger amplitude boost multiplier
-        "DYNAMIC_BOOST": 2.0,  # Dynamic charger amplitude boost multiplier
-        "DAMPING_FACTOR": 0.999,  # Dynamic damping factor per frame (0.0-1.0)
+        "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
