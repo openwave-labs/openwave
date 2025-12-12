@@ -139,9 +139,11 @@ class WaveField:
             + (self.nx + 1) * (self.ny + 1)  # Z-parallel lines
         )
         self.grid_lines = ti.Vector.field(3, dtype=ti.f32, shape=self.line_count * 2)
+        self.edge_lines = ti.Vector.field(3, dtype=ti.f32, shape=24)  # 12 edges, 2 vertices each
 
-        # Populate the grid with normalized positions (ready for rendering)
+        # Populate the grid and edge lines with normalized positions (ready for rendering)
         self.populate_grid_lines()  # initialize grid lines (already normalized)
+        self.populate_edge_lines()  # initialize edge lines (already normalized)
 
         # ================================================================
         # Flux Mesh: data structures & initialization
@@ -182,7 +184,6 @@ class WaveField:
     def populate_grid_lines(self):
         """
         Create optimized grid lines for GGUI rendering and visualization.
-
         Draws continuous lines across the entire grid face-to-face.
 
         For a 2×2×2 voxel grid (3×3×3 grid points):
@@ -256,6 +257,54 @@ class WaveField:
                     [x_norm, y_norm, ti.cast(self.nz, ti.f32) / max_dim]
                 )
 
+    def populate_edge_lines(self):
+        """
+        Populate bounding box edge lines for GGUI wireframe rendering.
+
+        Creates the 12 edges of the grid bounding box, each defined by 2 vertices.
+        Total: 12 edges × 2 vertices = 24 vertices stored in self.edge_lines.
+
+        Edge layout:
+        - Edges 0-3: X-parallel (4 edges at YZ face corners)
+        - Edges 4-7: Y-parallel (4 edges at XZ face corners)
+        - Edges 8-11: Z-parallel (4 edges at XY face corners)
+
+        Coordinates normalized by max_grid_size for uniform rendering of
+        asymmetric grids (nx ≠ ny ≠ nz supported).
+
+        Note: CPU assignment used instead of GPU kernel - for 24 fixed values,
+        kernel launch overhead exceeds computation time.
+        """
+        # Normalized extents for asymmetric grid
+        max_dim = float(self.max_grid_size)
+        x_max = self.nx / max_dim
+        y_max = self.ny / max_dim
+        z_max = self.nz / max_dim
+
+        # Define 12 edges as (start, end) vertex pairs
+        edges = [
+            # X-parallel edges (at 4 YZ corners)
+            ([0, 0, 0], [x_max, 0, 0]),
+            ([0, y_max, 0], [x_max, y_max, 0]),
+            ([0, 0, z_max], [x_max, 0, z_max]),
+            ([0, y_max, z_max], [x_max, y_max, z_max]),
+            # Y-parallel edges (at 4 XZ corners)
+            ([0, 0, 0], [0, y_max, 0]),
+            ([x_max, 0, 0], [x_max, y_max, 0]),
+            ([0, 0, z_max], [0, y_max, z_max]),
+            ([x_max, 0, z_max], [x_max, y_max, z_max]),
+            # Z-parallel edges (at 4 XY corners)
+            ([0, 0, 0], [0, 0, z_max]),
+            ([x_max, 0, 0], [x_max, 0, z_max]),
+            ([0, y_max, 0], [0, y_max, z_max]),
+            ([x_max, y_max, 0], [x_max, y_max, z_max]),
+        ]
+
+        # Populate field directly (no kernel needed for 24 values)
+        for i, (start, end) in enumerate(edges):
+            self.edge_lines[i * 2] = start
+            self.edge_lines[i * 2 + 1] = end
+
     @ti.kernel
     def create_flux_mesh(self):
         """
@@ -278,9 +327,9 @@ class WaveField:
 
         # Planes position in normalized coordinates
         max_dim = ti.cast(self.max_grid_size, ti.f32)
-        fm_plane_x = self.flux_mesh_planes[0]  # x position in normalized coords
-        fm_plane_y = self.flux_mesh_planes[1]  # y position in normalized coords
-        fm_plane_z = self.flux_mesh_planes[2]  # z position in normalized coords
+        fm_plane_x = self.flux_mesh_planes[0] * (self.nx / max_dim)  # x position normalized
+        fm_plane_y = self.flux_mesh_planes[1] * (self.ny / max_dim)  # y position normalized
+        fm_plane_z = self.flux_mesh_planes[2] * (self.nz / max_dim)  # z position normalized
 
         # ================================================================
         # XY Plane (at z = center): spans (0→1, 0→1, 0.5)
