@@ -77,9 +77,9 @@ def initialize_flux_mesh_fields(wave_field):
     _flux_mesh_fields_initialized = True
 
 
-def render_flux_mesh(scene, wave_field, flux_mesh_show):
+def render_flux_mesh(scene, wave_field, show_flux_mesh):
     """
-    Render all three flux mesh to the scene with two-sided rendering.
+    Render flux mesh planes to the scene with two-sided rendering.
 
     Displays XY, XZ, and YZ flux mesh as colored meshes visualizing wave
     displacement through the universe domain. Uses two-sided rendering to
@@ -112,7 +112,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_show):
     # ================================================================
     # Render flux mesh planes
     # ================================================================
-    if flux_mesh_show in (1, 2, 3):
+    if show_flux_mesh in (1, 2, 3):
         scene.mesh(
             _xy_vertices_flat,
             indices=_xy_indices_flat,
@@ -121,7 +121,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_show):
             show_wireframe=True,
         )
 
-    if flux_mesh_show in (2, 3):
+    if show_flux_mesh in (2, 3):
         scene.mesh(
             _xz_vertices_flat,
             indices=_xz_indices_flat,
@@ -130,7 +130,7 @@ def render_flux_mesh(scene, wave_field, flux_mesh_show):
             show_wireframe=True,
         )
 
-    if flux_mesh_show == 3:
+    if show_flux_mesh == 3:
         scene.mesh(
             _yz_vertices_flat,
             indices=_yz_indices_flat,
