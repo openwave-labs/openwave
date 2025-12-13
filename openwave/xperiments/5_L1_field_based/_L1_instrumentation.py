@@ -235,6 +235,7 @@ def plot_charge_log():
     save_path = PLOT_DIR / "charge_levels.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
+    plt.show()
 
 
 def plot_probe_log():
@@ -308,6 +309,7 @@ def plot_probe_log():
     save_path = PLOT_DIR / "probe_values.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\nPlot probe values saved to:\n", save_path, "\n")
+    plt.show()
 
 
 def generate_plots():
