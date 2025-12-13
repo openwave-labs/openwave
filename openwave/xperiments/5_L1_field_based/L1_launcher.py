@@ -20,7 +20,7 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.L1_field_grid as data_grid
+import openwave.spacetime.L1_field_data_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
 import _L1_instrumentation as instrument
 
