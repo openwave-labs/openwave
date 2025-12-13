@@ -133,7 +133,7 @@ class SimulationState:
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.SHOW_EDGES = False
-        self.FLUX_MESH_SHOW = 0
+        self.SHOW_FLUX_MESH = 0
         self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
         self.SIM_SPEED = 1.0
         self.PAUSED = False
@@ -170,7 +170,7 @@ class SimulationState:
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.SHOW_EDGES = ui["SHOW_EDGES"]
-        self.FLUX_MESH_SHOW = ui["FLUX_MESH_SHOW"]
+        self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
         self.FLUX_MESH_PLANES = ui["FLUX_MESH_PLANES"]
         self.SIM_SPEED = ui["SIM_SPEED"]
         self.PAUSED = ui["PAUSED"]
@@ -264,7 +264,7 @@ def display_controls(state):
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.20) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
-        state.FLUX_MESH_SHOW = sub.slider_int("Flux Mesh", state.FLUX_MESH_SHOW, 0, 3)
+        state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
@@ -465,9 +465,9 @@ def render_elements(state):
     if state.SHOW_EDGES:
         render.scene.lines(state.wave_field.edge_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
-    if state.FLUX_MESH_SHOW > 0:
+    if state.SHOW_FLUX_MESH > 0:
         ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
-        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.FLUX_MESH_SHOW)
+        flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
