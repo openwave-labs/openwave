@@ -29,7 +29,7 @@ XPARAMETERS = {
         "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "SHOW_FLUX_MESH": 3,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
-        "SIM_SPEED": 1.0,  # Frequency boost multiplier
+        "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
