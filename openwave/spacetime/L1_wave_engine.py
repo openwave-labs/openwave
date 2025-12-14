@@ -285,7 +285,8 @@ def propagate_wave(
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
-    interact_wc_lens(wave_field)
+    interact_wc_pulse(wave_field, elapsed_t_rs)
+    # interact_wc_lens(wave_field)
     # interact_wc_drain(wave_field)
     # interact_wc_clamp(wave_field)
     # interact_wc_newmann(wave_field)
@@ -296,6 +297,36 @@ def propagate_wave(
 # ================================================================
 # WAVE CENTER INTERACTIONS
 # ================================================================
+
+
+@ti.func
+def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+    """
+    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 8  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        0.25 * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.displacement_am[i, j, k] = (
+                base_amplitude_am * 4 * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+            )
 
 
 @ti.func
