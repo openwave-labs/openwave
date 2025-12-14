@@ -313,7 +313,7 @@ def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
-        0.25 * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+        0.5 * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
     for i, j, k in ti.ndrange(
@@ -325,7 +325,7 @@ def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
             wave_field.displacement_am[i, j, k] = (
-                base_amplitude_am * 4 * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+                base_amplitude_am * 2 * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
             )
 
 
