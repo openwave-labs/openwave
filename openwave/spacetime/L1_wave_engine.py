@@ -285,7 +285,9 @@ def propagate_wave(
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
-    # interact_wc_lens(wave_field)
+    interact_wc_lens(wave_field)
+    # interact_wc_drain(wave_field)
+    # interact_wc_clamp(wave_field)
     # interact_wc_newmann(wave_field)
     # interact_wc_dirichlet(wave_field)
     # interact_wc_signal(wave_field)
@@ -299,7 +301,60 @@ def propagate_wave(
 @ti.func
 def interact_wc_lens(wave_field: ti.template()):  # type: ignore
     """
-    TEST: Wave center as LENS - clamp-based amplification
+    TEST: Wave center as LENS - amplitude increase
+    Absorbs wave energy at the wave center (WC) sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 1  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    l = 1.349  # lens amplification factor
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.displacement_old_am[i, j, k] = l * wave_field.displacement_old_am[i, j, k]
+            wave_field.displacement_am[i, j, k] = l * wave_field.displacement_am[i, j, k]
+            wave_field.displacement_new_am[i, j, k] = l * wave_field.displacement_new_am[i, j, k]
+
+
+@ti.func
+def interact_wc_drain(wave_field: ti.template()):  # type: ignore
+    """
+    TEST: Wave center as DRAIN - amplitude reduction
+    Absorbs wave energy at the wave center (WC) sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 16  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.displacement_old_am[i, j, k] = 0.5 * wave_field.displacement_old_am[i, j, k]
+            wave_field.displacement_am[i, j, k] = 0.5 * wave_field.displacement_am[i, j, k]
+            wave_field.displacement_new_am[i, j, k] = 0.5 * wave_field.displacement_new_am[i, j, k]
+
+
+@ti.func
+def interact_wc_clamp(wave_field: ti.template()):  # type: ignore
+    """
+    TEST: Wave center as clamp-based amplification
     Amplifies/focuses waves rather than blocking
     Allow normal wave propagation but CLAMP the minimum amplitude at WC
     WC is a point-like region where wave amplitude is amplified
@@ -311,7 +366,6 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    wc2x, wc2y, wc2z = wave_field.nx * 19 // 24, wave_field.ny * 19 // 24, wave_field.nz // 2
     amplification = 10.0  # how much the WC amplifies local wave amplitude
 
     # Reference amplitude from wave field (the base amplitude used for charging)
@@ -328,17 +382,6 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
     if ti.abs(current_val) < min_amplitude:
         phase_sign = 1.0 if current_val >= 0.0 else -1.0
         wave_field.displacement_am[wc1x, wc1y, wc1z] = phase_sign * min_amplitude
-
-    # If amplitude is below minimum, boost it (preserve sign/phase)
-    current_val_old = wave_field.displacement_old_am[wc2x, wc2y, wc2z]
-    if ti.abs(current_val_old) < min_amplitude:
-        phase_sign_old = 1.0 if current_val_old >= 0.0 else -1.0
-        wave_field.displacement_old_am[wc2x, wc2y, wc2z] = phase_sign_old * min_amplitude
-
-    current_val = wave_field.displacement_am[wc2x, wc2y, wc2z]
-    if ti.abs(current_val) < min_amplitude:
-        phase_sign = 1.0 if current_val >= 0.0 else -1.0
-        wave_field.displacement_am[wc2x, wc2y, wc2z] = phase_sign * min_amplitude
 
 
 @ti.func
@@ -386,7 +429,6 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    wc2x, wc2y, wc2z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
     wc_radius = 16  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
@@ -396,18 +438,6 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
         (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
     ):
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = 0.0
-            wave_field.displacement_am[i, j, k] = 0.0
-            wave_field.displacement_new_am[i, j, k] = 0.0
-
-    for i, j, k in ti.ndrange(
-        (wc2x - wc_radius - 1, wc2x + wc_radius + 2),
-        (wc2y - wc_radius - 1, wc2y + wc_radius + 2),
-        (wc2z - wc_radius - 1, wc2z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
             wave_field.displacement_old_am[i, j, k] = 0.0
