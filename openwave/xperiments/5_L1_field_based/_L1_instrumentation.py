@@ -123,11 +123,11 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
 
     # Capture probe values
     psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor
-    amplitudeL_am = trackers.amplitudeL_am[px, py, pz] / wave_field.scale_factor
-    frequency_rHz = trackers.frequency_rHz[px, py, pz] * wave_field.scale_factor
+    ampL_am = trackers.ampL_am[px, py, pz] / wave_field.scale_factor
+    freq_rHz = trackers.freq_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
-    _timestep_buffer.append([timestep, charge_level, psiL_am, amplitudeL_am, frequency_rHz])
+    _timestep_buffer.append([timestep, charge_level, psiL_am, ampL_am, freq_rHz])
 
     # Flush buffer periodically
     if len(_timestep_buffer) >= _BUFFER_FLUSH_INTERVAL:
@@ -148,9 +148,7 @@ def _flush_timestep_buffer() -> None:
     if not _timestep_log_initialized:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(
-                ["timestep", "charge_level", "psiL_am", "amplitudeL_am", "frequency_rHz"]
-            )
+            writer.writerow(["timestep", "charge_level", "psiL_am", "ampL_am", "freq_rHz"])
         _timestep_log_initialized = True
 
     # Append all buffered rows at once
@@ -189,8 +187,8 @@ def _read_timestep_data():
             data["timesteps"].append(int(row["timestep"]))
             data["charge_levels"].append(float(row["charge_level"]))
             data["displacements"].append(float(row["psiL_am"]))
-            data["amplitudes"].append(float(row["amplitudeL_am"]))
-            data["frequencies"].append(float(row["frequency_rHz"]))
+            data["amplitudes"].append(float(row["ampL_am"]))
+            data["frequencies"].append(float(row["freq_rHz"]))
 
     return data
 

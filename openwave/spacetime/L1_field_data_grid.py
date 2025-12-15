@@ -439,18 +439,18 @@ class Trackers:
         # 2 polarities to track: longitudinal & transverse
         # Amplitude envelope tracks A via EMA of |ψ| and RMS calculation
         # Frequency tracks local oscillation rate via zero-crossing detection
-        self.amplitudeL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
-        self.rms_amplitudeL_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
-        self.amplitudeT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
-        self.rms_amplitudeT_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
+        self.rms_ampL_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
+        self.rms_ampT_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # rs, last zero crossing
-        self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
-        self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
+        self.freq_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
+        self.avg_freq_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling
         # baseline to allow wave peaks to rise without color saturation
-        self.rms_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
-        self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
+        self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
+        self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 
 
 if __name__ == "__main__":

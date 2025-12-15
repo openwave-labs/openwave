@@ -1,4 +1,4 @@
-timestep,charge_level,psiL_am,amplitudeL_am,frequency_rHz
+timestep,charge_level,psiL_am,ampL_am,freq_rHz
 485,0.165233,-0.255000,0.593808,0.006766
 486,0.165233,0.063341,0.592596,0.006766
 487,0.165233,0.351763,0.591129,0.006975
