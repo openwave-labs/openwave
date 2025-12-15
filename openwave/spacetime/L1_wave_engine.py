@@ -151,14 +151,14 @@ def charge_gaussian(
 
 
 @ti.func
-def compute_laplacian6(
+def compute_laplacianL(
     wave_field: ti.template(),  # type: ignore
     i: ti.i32,  # type: ignore
     j: ti.i32,  # type: ignore
     k: ti.i32,  # type: ignore
 ):
     """
-    Compute Laplacian ∇²ψ at voxel [i,j,k]
+    Compute LONGITUDINAL Laplacian ∇²ψ at voxel [i,j,k]
     Using 6-connectivity stencil, 2nd-order finite difference.
     ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
 
@@ -183,9 +183,46 @@ def compute_laplacian6(
     )
 
     center = wave_field.psiL_am[i, j, k]
-    laplacian6_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
+    laplacianL_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
 
-    return laplacian6_am
+    return laplacianL_am
+
+
+@ti.func
+def compute_laplacianT(
+    wave_field: ti.template(),  # type: ignore
+    i: ti.i32,  # type: ignore
+    j: ti.i32,  # type: ignore
+    k: ti.i32,  # type: ignore
+):
+    """
+    Compute TRANSVERSE Laplacian ∇²ψ at voxel [i,j,k]
+    Using 6-connectivity stencil, 2nd-order finite difference.
+    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
+
+    Discrete Laplacian (second derivative in space):
+    Formula: ∇²ψ ≈ (face_sum - 6·center) / dx²
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
+
+    Returns:
+        Laplacian in units [1/am]
+    """
+    # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
+    face_sum = (
+        wave_field.psiT_am[i + 1, j, k]
+        + wave_field.psiT_am[i - 1, j, k]
+        + wave_field.psiT_am[i, j + 1, k]
+        + wave_field.psiT_am[i, j - 1, k]
+        + wave_field.psiT_am[i, j, k + 1]
+        + wave_field.psiT_am[i, j, k - 1]
+    )
+
+    center = wave_field.psiT_am[i, j, k]
+    laplacianT_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
+    return laplacianT_am
 
 
 @ti.kernel
@@ -232,14 +269,21 @@ def propagate_wave(
     # 6-point Laplacian: needs 1-cell buffer → range (1, n-1)
     for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1)):  # 6-pt
         # Compute spatial Laplacian ∇²ψ (toggle between 6-pt and 18-pt)
-        laplacian_am = compute_laplacian6(wave_field, i, j, k)
+        laplacianL_am = compute_laplacianL(wave_field, i, j, k)
+        laplacianT_am = compute_laplacianT(wave_field, i, j, k)
 
         # Leap-Frog update
         # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
         wave_field.psiL_new_am[i, j, k] = (
             2.0 * wave_field.psiL_am[i, j, k]
             - wave_field.psiL_old_am[i, j, k]
-            + (c_amrs * dt_rs) ** 2 * laplacian_am
+            + (c_amrs * dt_rs) ** 2 * laplacianL_am
+        )
+
+        wave_field.psiT_new_am[i, j, k] = (
+            2.0 * wave_field.psiT_am[i, j, k]
+            - wave_field.psiT_old_am[i, j, k]
+            + (c_amrs * dt_rs) ** 2 * laplacianT_am
         )
 
         # WAVE-TRACKERS ============================================
@@ -250,12 +294,24 @@ def propagate_wave(
         # instantaneous displacement (inertia acts as low-pass filter at ~10²⁵ Hz)
         # EMA on ψ²: rms² = α * ψ² + (1 - α) * rms²_old, then rms = √(rms²)
         # α controls adaptation speed: higher = faster response, lower = smoother
-        # TODO: 2 polarities tracked: longitudinal & transverse
-        disp_squared = wave_field.psiL_am[i, j, k] ** 2
-        current_rms_squared = trackers.ampL_am[i, j, k] ** 2
-        alpha_rms = 0.005  # EMA smoothing factor for RMS tracking
-        new_rms_squared = alpha_rms * disp_squared + (1.0 - alpha_rms) * current_rms_squared
-        trackers.ampL_am[i, j, k] = ti.sqrt(new_rms_squared)
+        # 2 polarities tracked: longitudinal & transverse
+        # Longitudinal RMS amplitude
+        disp_squared_L = wave_field.psiL_am[i, j, k] ** 2
+        current_rms_squared_L = trackers.ampL_am[i, j, k] ** 2
+        alpha_rms_L = 0.005  # EMA smoothing factor for RMS tracking
+        new_rms_squared_L = (
+            alpha_rms_L * disp_squared_L + (1.0 - alpha_rms_L) * current_rms_squared_L
+        )
+        trackers.ampL_am[i, j, k] = ti.sqrt(new_rms_squared_L)
+
+        # Transverse RMS amplitude
+        disp_squared_T = wave_field.psiT_am[i, j, k] ** 2
+        current_rms_squared_T = trackers.ampT_am[i, j, k] ** 2
+        alpha_rms_T = 0.005  # EMA smoothing factor for RMS tracking
+        new_rms_squared_T = (
+            alpha_rms_T * disp_squared_T + (1.0 - alpha_rms_T) * current_rms_squared_T
+        )
+        trackers.ampT_am[i, j, k] = ti.sqrt(new_rms_squared_T)
 
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
@@ -279,7 +335,9 @@ def propagate_wave(
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(nx, ny, nz):
         wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
+        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
         wave_field.psiL_am[i, j, k] = wave_field.psiL_new_am[i, j, k]
+        wave_field.psiT_am[i, j, k] = wave_field.psiT_new_am[i, j, k]
 
     # TODO: Testing Wave Center Interaction with Energy Waves
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
@@ -538,10 +596,13 @@ def interact_wc_signal(wave_field: ti.template()):  # type: ignore
 
 # Cached slice buffers (initialized on first call)
 _slice_xy_ampL = None
+_slice_xy_ampT = None
 _slice_xy_freq = None
 _slice_xz_ampL = None
+_slice_xz_ampT = None
 _slice_xz_freq = None
 _slice_yz_ampL = None
+_slice_yz_ampT = None
 _slice_yz_freq = None
 
 
@@ -549,12 +610,14 @@ _slice_yz_freq = None
 def _copy_slice_xy(
     trackers: ti.template(),  # type: ignore
     slice_ampL: ti.template(),  # type: ignore
+    slice_ampT: ti.template(),  # type: ignore
     slice_freq: ti.template(),  # type: ignore
     mid_z: ti.i32,  # type: ignore
 ):
     """Copy center XY slice (fixed z) to 2D buffer."""
     for i, j in slice_ampL:
         slice_ampL[i, j] = trackers.ampL_am[i, j, mid_z]
+        slice_ampT[i, j] = trackers.ampT_am[i, j, mid_z]
         slice_freq[i, j] = trackers.freq_rHz[i, j, mid_z]
 
 
@@ -562,12 +625,14 @@ def _copy_slice_xy(
 def _copy_slice_xz(
     trackers: ti.template(),  # type: ignore
     slice_ampL: ti.template(),  # type: ignore
+    slice_ampT: ti.template(),  # type: ignore
     slice_freq: ti.template(),  # type: ignore
     mid_y: ti.i32,  # type: ignore
 ):
     """Copy center XZ slice (fixed y) to 2D buffer."""
     for i, k in slice_ampL:
         slice_ampL[i, k] = trackers.ampL_am[i, mid_y, k]
+        slice_ampT[i, k] = trackers.ampT_am[i, mid_y, k]
         slice_freq[i, k] = trackers.freq_rHz[i, mid_y, k]
 
 
@@ -575,12 +640,14 @@ def _copy_slice_xz(
 def _copy_slice_yz(
     trackers: ti.template(),  # type: ignore
     slice_ampL: ti.template(),  # type: ignore
+    slice_ampT: ti.template(),  # type: ignore
     slice_freq: ti.template(),  # type: ignore
     mid_x: ti.i32,  # type: ignore
 ):
     """Copy center YZ slice (fixed x) to 2D buffer."""
     for j, k in slice_ampL:
         slice_ampL[j, k] = trackers.ampL_am[mid_x, j, k]
+        slice_ampT[j, k] = trackers.ampT_am[mid_x, j, k]
         slice_freq[j, k] = trackers.freq_rHz[mid_x, j, k]
 
 
@@ -601,43 +668,51 @@ def sample_avg_trackers(
         wave_field: WaveField instance containing grid dimensions
         trackers: WaveTrackers instance with per-voxel and average fields
     """
-    global _slice_xy_ampL, _slice_xy_freq
-    global _slice_xz_ampL, _slice_xz_freq
-    global _slice_yz_ampL, _slice_yz_freq
+    global _slice_xy_ampL, _slice_xy_ampT, _slice_xy_freq
+    global _slice_xz_ampL, _slice_xz_ampT, _slice_xz_freq
+    global _slice_yz_ampL, _slice_yz_ampT, _slice_yz_freq
 
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # Initialize slice buffers once
     if _slice_xy_ampL is None:
         _slice_xy_ampL = ti.field(dtype=ti.f32, shape=(nx, ny))
+        _slice_xy_ampT = ti.field(dtype=ti.f32, shape=(nx, ny))
         _slice_xy_freq = ti.field(dtype=ti.f32, shape=(nx, ny))
         _slice_xz_ampL = ti.field(dtype=ti.f32, shape=(nx, nz))
+        _slice_xz_ampT = ti.field(dtype=ti.f32, shape=(nx, nz))
         _slice_xz_freq = ti.field(dtype=ti.f32, shape=(nx, nz))
         _slice_yz_ampL = ti.field(dtype=ti.f32, shape=(ny, nz))
+        _slice_yz_ampT = ti.field(dtype=ti.f32, shape=(ny, nz))
         _slice_yz_freq = ti.field(dtype=ti.f32, shape=(ny, nz))
 
     # Copy 3 center slices to 2D buffers (parallel kernels)
     mid_x, mid_y, mid_z = nx // 2, ny // 2, nz // 2
-    _copy_slice_xy(trackers, _slice_xy_ampL, _slice_xy_freq, mid_z)
-    _copy_slice_xz(trackers, _slice_xz_ampL, _slice_xz_freq, mid_y)
-    _copy_slice_yz(trackers, _slice_yz_ampL, _slice_yz_freq, mid_x)
+    _copy_slice_xy(trackers, _slice_xy_ampL, _slice_xy_ampT, _slice_xy_freq, mid_z)
+    _copy_slice_xz(trackers, _slice_xz_ampL, _slice_xz_ampT, _slice_xz_freq, mid_y)
+    _copy_slice_yz(trackers, _slice_yz_ampL, _slice_yz_ampT, _slice_yz_freq, mid_x)
 
     # Transfer 2D slices to CPU for numpy operations
     # Exclude boundary voxels
     xy_ampL = _slice_xy_ampL.to_numpy()[1:-1, 1:-1]
+    xy_ampT = _slice_xy_ampT.to_numpy()[1:-1, 1:-1]
     xy_freq = _slice_xy_freq.to_numpy()[1:-1, 1:-1]
     xz_ampL = _slice_xz_ampL.to_numpy()[1:-1, 1:-1]
+    xz_ampT = _slice_xz_ampT.to_numpy()[1:-1, 1:-1]
     xz_freq = _slice_xz_freq.to_numpy()[1:-1, 1:-1]
     yz_ampL = _slice_yz_ampL.to_numpy()[1:-1, 1:-1]
+    yz_ampT = _slice_yz_ampT.to_numpy()[1:-1, 1:-1]
     yz_freq = _slice_yz_freq.to_numpy()[1:-1, 1:-1]
 
     # Compute RMS amplitude: √(⟨A²⟩) for correct energy weighting
     # ampL_am contains per-voxel RMS values, square them for energy
     total_ampL_squared = (xy_ampL**2).sum() + (xz_ampL**2).sum() + (yz_ampL**2).sum()
+    total_ampT_squared = (xy_ampT**2).sum() + (xz_ampT**2).sum() + (yz_ampT**2).sum()
     total_freq = xy_freq.sum() + xz_freq.sum() + yz_freq.sum()
     n_samples = xy_ampL.size + xz_ampL.size + yz_ampL.size
 
     trackers.rms_ampL_am[None] = float(np.sqrt(total_ampL_squared / n_samples))
+    trackers.rms_ampT_am[None] = float(np.sqrt(total_ampT_squared / n_samples))
     trackers.avg_freq_rHz[None] = float(total_freq / n_samples)
 
 
