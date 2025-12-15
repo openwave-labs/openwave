@@ -8,6 +8,7 @@ Energy Equations:
 - Energy wave equation (fundamental EWT equation)
 - Particle energy (longitudinal waves)
 - Photon energy, frequency and wavelength (transverse waves)
+- Fine Structure Constant (longitudinal and transverse wave interactions)
 
 Frequency Equations:
 - Natural frequency of oscillation (spring-mass systems)
@@ -213,6 +214,45 @@ def compute_photon_wavelength(delta, r, r0, Ke=constants.ELECTRON_K):
         return float("inf")
 
     return coefficient * (1 / distance_term)
+
+
+# ================================================================
+# Fine Structure Constant
+# ================================================================
+def compute_fine_structure_constant_classical():
+    """
+    Fine Structure Constant:
+    A dimensionless constant characterizing the strength of electromagnetic interactions.
+
+    α = e² / (4πε₀ħc)
+
+    Returns:
+        float: Fine structure constant α (dimensionless)
+    """
+    e = constants.ELEMENTARY_CHARGE
+    epsilon_0 = constants.ELECTRIC_CONSTANT
+    hbar = constants.PLANCK_CONSTANT_REDUCED
+    c = constants.EWAVE_SPEED
+
+    alpha = (e**2) / (4 * np.pi * epsilon_0 * hbar * c)
+    return alpha
+
+
+def compute_fine_structure_constant_ewt(K):
+    """
+    Fine Structure Constant (EWT Formulation):
+    Derived from energy wave parameters.
+
+    α = 3/4 ·π · λ / (K⁴A)
+
+    Returns:
+        float: Fine structure constant α (dimensionless)
+    """
+    wavelength = constants.EWAVE_LENGTH
+    amplitude = constants.EWAVE_AMPLITUDE
+
+    alpha = (3 / 4) * np.pi * wavelength / (K**4 * amplitude)
+    return alpha
 
 
 # ================================================================
@@ -678,6 +718,15 @@ if __name__ == "__main__":
     print(f"NEUTRINO (K=1): {compute_particle_rest_mass(1):.6e} kg")
     print(f"ELECTRON (K=10): {compute_particle_rest_mass(10):.6e} kg")
     print(f"PROTON (K=44): {compute_particle_rest_mass(44):.6e} kg")
+
+    print("\n_______________________________")
+    print("FINE STRUCTURE CONSTANT")
+    alpha_classical = compute_fine_structure_constant_classical()
+    alpha_ewt10 = compute_fine_structure_constant_ewt(constants.ELECTRON_K)
+    alpha_ewt1 = compute_fine_structure_constant_ewt(constants.NEUTRINO_K)
+    print(f"Classical: {alpha_classical:.6e}")
+    print(f"EWT Formulation (K={constants.ELECTRON_K}): {alpha_ewt10:.6e}")
+    print(f"EWT Formulation (K={constants.NEUTRINO_K}): {alpha_ewt1:.6e}")
 
     print("\n_______________________________")
     print("PHOTON ENERGY")
