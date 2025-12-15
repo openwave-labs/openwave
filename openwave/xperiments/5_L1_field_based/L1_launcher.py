@@ -113,8 +113,8 @@ class SimulationState:
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
-        self.rms_amplitude = constants.EWAVE_AMPLITUDE
-        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
         self.charge_level = 0.0
@@ -215,8 +215,8 @@ class SimulationState:
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
-        self.rms_amplitude = constants.EWAVE_AMPLITUDE
-        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
         self.charge_level = 0.0
@@ -291,16 +291,16 @@ def display_color_menu(state):
             render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
                 sub.text(
-                    f"{-state.rms_amplitude*2/state.wave_field.scale_factor:.0e}  {state.rms_amplitude*2/state.wave_field.scale_factor:.0e}m"
+                    f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
                 )
         if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.rms_amplitude*2/state.wave_field.scale_factor:.0e}m")
+                sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
         if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_frequency*2*state.wave_field.scale_factor:.0e}Hz")
+                sub.text(f"0       {state.avg_freq*2*state.wave_field.scale_factor:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -341,13 +341,13 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (~12)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Scaled-up Amplitude: {state.rms_amplitude:.1e} m")
-        sub.text(f"Scaled-dn Frequency: {state.avg_frequency:.1e} Hz")
+        sub.text(f"Scaled-up Amplitude: {state.rms_ampL:.1e} m")
+        sub.text(f"Scaled-dn Frequency: {state.avg_freq:.1e} Hz")
         sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Amplitude: {state.rms_amplitude/state.wave_field.scale_factor:.1e} m")
-        sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
+        sub.text(f"eWAVE Amplitude: {state.rms_ampL/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"eWAVE Frequency: {state.avg_freq*state.wave_field.scale_factor:.1e} Hz")
         sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
         sub.text(
             f"TOTAL ENERGY: {state.total_energy:.1e} J",
@@ -440,13 +440,13 @@ def compute_wave_motion(state):
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
-    state.rms_amplitude = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
-    state.avg_frequency = state.trackers.avg_freq_rHz[None] / constants.RONTOSECOND
-    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
+    state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
+    state.avg_freq = state.trackers.avg_freq_rHz[None] / constants.RONTOSECOND
+    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_freq or 1)  # prevents 0 div
     state.total_energy = (
         constants.MEDIUM_DENSITY
         * state.wave_field.universe_volume
-        * (state.avg_frequency * state.rms_amplitude) ** 2
+        * (state.avg_freq * state.rms_ampL) ** 2
     )
     state.charge_level = state.total_energy / state.wave_field.nominal_energy
     state.charging = state.charge_level < 0.80  # stop charging, seeks energy stabilization
