@@ -285,10 +285,10 @@ def propagate_wave(
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
-    interact_wc_pulse(wave_field, elapsed_t_rs)
-    # interact_wc_lens(wave_field)
+    # interact_wc_pulse(wave_field, elapsed_t_rs)
+    interact_wc_lens(wave_field)
     # interact_wc_drain(wave_field)
-    # interact_wc_clamp(wave_field)
+    # interact_wc_amp(wave_field)
     # interact_wc_newmann(wave_field)
     # interact_wc_dirichlet(wave_field)
     # interact_wc_signal(wave_field)
@@ -325,7 +325,7 @@ def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
             wave_field.displacement_am[i, j, k] = (
-                base_amplitude_am * 2 * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+                2 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
             )
 
 
@@ -341,7 +341,7 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
     wc_radius = 1  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    l = 1.349  # lens amplification factor
+    l = 2  # lens amplification factor
 
     for i, j, k in ti.ndrange(
         (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
@@ -351,9 +351,7 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = l * wave_field.displacement_old_am[i, j, k]
             wave_field.displacement_am[i, j, k] = l * wave_field.displacement_am[i, j, k]
-            wave_field.displacement_new_am[i, j, k] = l * wave_field.displacement_new_am[i, j, k]
 
 
 @ti.func
@@ -366,7 +364,7 @@ def interact_wc_drain(wave_field: ti.template()):  # type: ignore
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 16  # radius in voxels
+    wc_radius = 1  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
     for i, j, k in ti.ndrange(
@@ -377,17 +375,15 @@ def interact_wc_drain(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = 0.5 * wave_field.displacement_old_am[i, j, k]
             wave_field.displacement_am[i, j, k] = 0.5 * wave_field.displacement_am[i, j, k]
-            wave_field.displacement_new_am[i, j, k] = 0.5 * wave_field.displacement_new_am[i, j, k]
 
 
 @ti.func
-def interact_wc_clamp(wave_field: ti.template()):  # type: ignore
+def interact_wc_amp(wave_field: ti.template()):  # type: ignore
     """
-    TEST: Wave center as clamp-based amplification
+    TEST: Wave center as amplification
     Amplifies/focuses waves rather than blocking
-    Allow normal wave propagation but CLAMP the minimum amplitude at WC
+    Allow normal wave propagation but clamp the minimum amplitude at WC
     WC is a point-like region where wave amplitude is amplified
     This creates a phase singularity that surrounding waves conform to
     If |ψ| < threshold, boost it to threshold (preserving sign)
@@ -396,19 +392,14 @@ def interact_wc_clamp(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    amplification = 10.0  # how much the WC amplifies local wave amplitude
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    amplification = 2.0  # how much the WC amplifies local wave amplitude
 
     # Reference amplitude from wave field (the base amplitude used for charging)
     ref_amplitude = base_amplitude_am * wave_field.scale_factor
     min_amplitude = ref_amplitude * amplification
 
     # If amplitude is below minimum, boost it (preserve sign/phase)
-    current_val_old = wave_field.displacement_old_am[wc1x, wc1y, wc1z]
-    if ti.abs(current_val_old) < min_amplitude:
-        phase_sign_old = 1.0 if current_val_old >= 0.0 else -1.0
-        wave_field.displacement_old_am[wc1x, wc1y, wc1z] = phase_sign_old * min_amplitude
-
     current_val = wave_field.displacement_am[wc1x, wc1y, wc1z]
     if ti.abs(current_val) < min_amplitude:
         phase_sign = 1.0 if current_val >= 0.0 else -1.0
@@ -425,8 +416,8 @@ def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    wc_radius = 16  # radius in voxels
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 8  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     wc_radius_inner_sq = (wc_radius - 1) ** 2
 
@@ -444,9 +435,7 @@ def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
             dk = ti.cast(ti.math.sign(wc1z - k), ti.i32)
             # Copy from the voxel just outside the sphere (Neumann: ∂ψ/∂n = 0)
             outer_val = wave_field.displacement_am[i - di, j - dj, k - dk]
-            wave_field.displacement_old_am[i, j, k] = outer_val
             wave_field.displacement_am[i, j, k] = outer_val
-            wave_field.displacement_new_am[i, j, k] = outer_val
 
 
 @ti.func
@@ -459,8 +448,8 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
-    wc_radius = 16  # radius in voxels
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 8  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
     for i, j, k in ti.ndrange(
@@ -486,7 +475,7 @@ def interact_wc_signal(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
     wc_radius = 1  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
@@ -498,9 +487,7 @@ def interact_wc_signal(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = -wave_field.displacement_old_am[i, j, k]
             wave_field.displacement_am[i, j, k] = -wave_field.displacement_am[i, j, k]
-            wave_field.displacement_new_am[i, j, k] = -wave_field.displacement_new_am[i, j, k]
 
 
 # ================================================================

@@ -51,7 +51,6 @@ def plot_static_charge_profile(wave_field):
     # Sample longitudinal displacement values
     for i in range(wave_field.nx):
         displacements_L[i] = wave_field.displacement_am[i, center_j, center_k]
-        # displacements_L[i] = wave_field.displacement_old_am[i, center_j, center_k]
         displacements_T[i] = 0.0
 
     # Calculate distance from center in grid indices
@@ -120,7 +119,7 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     global _timestep_buffer, _timestep_log_initialized
 
     # Define probe position
-    px, py, pz = wave_field.nx * 5 // 6, wave_field.ny * 5 // 6, wave_field.nz // 2
+    px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
 
     # Capture probe values
     displacement_am = wave_field.displacement_am[px, py, pz] / wave_field.scale_factor
@@ -235,7 +234,6 @@ def plot_charge_log():
     save_path = PLOT_DIR / "charge_levels.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
-    plt.show()
 
 
 def plot_probe_log():
@@ -309,7 +307,6 @@ def plot_probe_log():
     save_path = PLOT_DIR / "probe_values.png"
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     print("\nPlot probe values saved to:\n", save_path, "\n")
-    plt.show()
 
 
 def generate_plots():
@@ -318,3 +315,4 @@ def generate_plots():
     _flush_timestep_buffer()
     plot_charge_log()
     plot_probe_log()
+    plt.show()
