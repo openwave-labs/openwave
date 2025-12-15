@@ -286,8 +286,9 @@ def propagate_wave(
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
 
-    # interact_wc_pulse(wave_field, elapsed_t_rs) # forces amp, but no standing wave formation
-    # interact_wc_lens(wave_field) # amplify waves at WC, but no standing wave formation
+    # interact_wc_swap(wave_field)
+    # interact_wc_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    # interact_wc_lens(wave_field)  # amplify waves at WC, but no standing wave formation
 
     # interact_wc_min(wave_field) # no interaction on isotropic waves
     # interact_wc_drain(wave_field) # no interaction on isotropic waves
@@ -302,6 +303,35 @@ def propagate_wave(
 
 
 @ti.func
+def interact_wc_swap(wave_field: ti.template()):  # type: ignore
+    """
+    TEST: Wave center swaps neighbor displacements.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+
+    # Swap displacement at X axis
+    left = wave_field.displacement_am[wc1x + 1, wc1y, wc1z]
+    right = wave_field.displacement_am[wc1x - 1, wc1y, wc1z]
+    wave_field.displacement_am[wc1x + 1, wc1y, wc1z] = right
+    wave_field.displacement_am[wc1x - 1, wc1y, wc1z] = left
+
+    # Swap displacement at Y axis
+    front = wave_field.displacement_am[wc1x, wc1y + 1, wc1z]
+    back = wave_field.displacement_am[wc1x, wc1y - 1, wc1z]
+    wave_field.displacement_am[wc1x, wc1y + 1, wc1z] = back
+    wave_field.displacement_am[wc1x, wc1y - 1, wc1z] = front
+
+    # Swap displacement at Z axis
+    top = wave_field.displacement_am[wc1x, wc1y, wc1z + 1]
+    bottom = wave_field.displacement_am[wc1x, wc1y, wc1z - 1]
+    wave_field.displacement_am[wc1x, wc1y, wc1z + 1] = bottom
+    wave_field.displacement_am[wc1x, wc1y, wc1z - 1] = top
+
+
+@ti.func
 def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
@@ -310,12 +340,13 @@ def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 1  # radius in voxels
+    wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 2.0  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
-        0.5 * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
     for i, j, k in ti.ndrange(
@@ -327,7 +358,10 @@ def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
             wave_field.displacement_am[i, j, k] = (
-                2 * base_amplitude_am * wave_field.scale_factor * ti.cos(omega_rs * elapsed_t_rs)
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
             )
 
 
