@@ -43,7 +43,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 99,  # Color palette list: default (99), granule-type (0), redshift (1), ironbow (2), blueprint (3), viridis (4), orange (5)
+        "COLOR_PALETTE": 99,  # default (99), granule-type (0), ironbow (2), orange (5)
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data collection (speed & wavelength measurements)
