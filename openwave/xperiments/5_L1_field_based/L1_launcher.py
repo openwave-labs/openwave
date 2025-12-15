@@ -440,8 +440,8 @@ def compute_wave_motion(state):
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
-    state.rms_amplitude = state.trackers.rms_amplitudeL_am[None] * constants.ATTOMETER  # in m
-    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
+    state.rms_amplitude = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
+    state.avg_frequency = state.trackers.avg_freq_rHz[None] / constants.RONTOSECOND
     state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
     state.total_energy = (
         constants.MEDIUM_DENSITY
