@@ -50,7 +50,7 @@ def plot_static_charge_profile(wave_field):
 
     # Sample longitudinal displacement values
     for i in range(wave_field.nx):
-        displacements_L[i] = wave_field.displacement_am[i, center_j, center_k]
+        displacements_L[i] = wave_field.psiL_am[i, center_j, center_k]
         displacements_T[i] = 0.0
 
     # Calculate distance from center in grid indices
@@ -122,12 +122,12 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
 
     # Capture probe values
-    displacement_am = wave_field.displacement_am[px, py, pz] / wave_field.scale_factor
-    amplitude_am = trackers.amplitudeL_am[px, py, pz] / wave_field.scale_factor
+    psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor
+    amplitudeL_am = trackers.amplitudeL_am[px, py, pz] / wave_field.scale_factor
     frequency_rHz = trackers.frequency_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
-    _timestep_buffer.append([timestep, charge_level, displacement_am, amplitude_am, frequency_rHz])
+    _timestep_buffer.append([timestep, charge_level, psiL_am, amplitudeL_am, frequency_rHz])
 
     # Flush buffer periodically
     if len(_timestep_buffer) >= _BUFFER_FLUSH_INTERVAL:
@@ -149,7 +149,7 @@ def _flush_timestep_buffer() -> None:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(
-                ["timestep", "charge_level", "displacement_am", "amplitude_am", "frequency_rHz"]
+                ["timestep", "charge_level", "psiL_am", "amplitudeL_am", "frequency_rHz"]
             )
         _timestep_log_initialized = True
 
@@ -188,8 +188,8 @@ def _read_timestep_data():
         for row in reader:
             data["timesteps"].append(int(row["timestep"]))
             data["charge_levels"].append(float(row["charge_level"]))
-            data["displacements"].append(float(row["displacement_am"]))
-            data["amplitudes"].append(float(row["amplitude_am"]))
+            data["displacements"].append(float(row["psiL_am"]))
+            data["amplitudes"].append(float(row["amplitudeL_am"]))
             data["frequencies"].append(float(row["frequency_rHz"]))
 
     return data

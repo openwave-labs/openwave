@@ -86,7 +86,7 @@ Wave field attributes represent physical quantities and wave disturbances stored
 
 **Field-based** (LEVEL-1):
 
-- Store BOTH fields: `displacement_am` (ψ) and `amplitude_am` (A)
+- Store BOTH fields: `psiL_am` (ψ) and `amplitude_am` (A)
 - Amplitude proportional to density: `A ∝ ρ`
 - Amplitude proportional to pressure: `A ∝ P`
 - Represents energy density at that location
@@ -544,9 +544,9 @@ class WaveField:
 
         # SCALAR FIELDS (values in attometers where applicable)
         # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
-        self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t, instantaneous)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
+        self.psiL_old_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t-dt)
+        self.psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t, instantaneous)
+        self.psiL_new_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (ψ at t+dt)
         self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # am (envelope A = max|ψ|)
         self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # radians (no scaling)
 
@@ -656,7 +656,7 @@ wave_field = WaveField(
 **Scalar fields with attometer scaling:**
 
 ```python
-displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers (instantaneous ψ)
+psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers (instantaneous ψ)
 amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers (envelope A)
 ```
 
@@ -723,7 +723,7 @@ density ∝ amplitude             # For compression waves
 **Direct Access**:
 
 ```python
-psi = displacement_am[i, j, k]  # Instantaneous displacement
+psi = psiL_am[i, j, k]  # Instantaneous displacement
 A = amplitude_am[i, j, k]        # Envelope (max|ψ|)
 dir = wave_direction[i, j, k]
 ```
@@ -774,7 +774,7 @@ For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
 
 | Computation            | Uses                          |
 |------------------------|-------------------------------|
-| Wave propagation (PDE) | ψ (displacement_am)           |
+| Wave propagation (PDE) | ψ (psiL_am)           |
 | Energy density         | A² (amplitude_am²)            |
 | Force calculation, MAP | ∇A (gradient of amplitude_am) |
 | Wave mode (long/trans) | ∇ψ (displacement direction)   |
@@ -793,7 +793,7 @@ For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
   - Varies: ψ(x,y,z,t)
   - **Propagates via wave equation**: ∂²ψ/∂t² = c²∇²ψ
 
-- **In code**: `self.displacement_am[i,j,k]`
+- **In code**: `self.psiL_am[i,j,k]`
 - **Used for**:
   - Wave propagation (PDEs, Laplacian)
   - Wave mode analysis (longitudinal vs transverse)
@@ -837,7 +837,7 @@ For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
 ```python
 # High-frequency oscillation (updated every timestep)
 ∂²ψ/∂t² = c²∇²ψ
-self.displacement_am[i,j,k]  # Stores current ψ
+self.psiL_am[i,j,k]  # Stores current ψ
 ```
 
 **Amplitude Tracking** extracts envelope A from ψ:
@@ -846,8 +846,8 @@ self.displacement_am[i,j,k]  # Stores current ψ
 # Track maximum |ψ| over time (envelope extraction)
 @ti.kernel
 def track_amplitude_envelope(self):
-    for i, j, k in self.displacement_am:
-        disp_mag = ti.abs(self.displacement_am[i,j,k])
+    for i, j, k in self.psiL_am:
+        disp_mag = ti.abs(self.psiL_am[i,j,k])
         ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
 ```
 
@@ -863,7 +863,7 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 
 | Property | ψ (Displacement) | A (Amplitude) |
 |----------|------------------|---------------|
-| **Field name** | `displacement_am[i,j,k]` | `amplitude_am[i,j,k]` |
+| **Field name** | `psiL_am[i,j,k]` | `amplitude_am[i,j,k]` |
 | **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
 | **Frequency** | High (~10²⁵ Hz) | Slowly varying |
 | **Sign** | ± (positive/negative) | + (always positive) |

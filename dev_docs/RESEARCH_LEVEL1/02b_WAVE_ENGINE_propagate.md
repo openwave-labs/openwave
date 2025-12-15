@@ -82,10 +82,10 @@ def compute_laplacian_am(self, i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
     """
     # 6-connectivity stencil (face neighbors only)
     laplacian_am = (
-        self.displacement_am[i+1, j, k] + self.displacement_am[i-1, j, k] +
-        self.displacement_am[i, j+1, k] + self.displacement_am[i, j-1, k] +
-        self.displacement_am[i, j, k+1] + self.displacement_am[i, j, k-1] -
-        6.0 * self.displacement_am[i, j, k]
+        self.psiL_am[i+1, j, k] + self.psiL_am[i-1, j, k] +
+        self.psiL_am[i, j+1, k] + self.psiL_am[i, j-1, k] +
+        self.psiL_am[i, j, k+1] + self.psiL_am[i, j, k-1] -
+        6.0 * self.psiL_am[i, j, k]
     ) / (self.dx_am * self.dx_am)
 
     return laplacian_am
@@ -129,7 +129,7 @@ def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
     cfl_factor = (c_slo_am * dt / dx_am)**2
 
     # Update all interior voxels (boundaries stay at ψ=0)
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Compute Laplacian (returns [1/am])
             laplacian_am = self.compute_laplacian_am(i, j, k)
@@ -140,16 +140,16 @@ def propagate_wave(self, dt: ti.f32, SIM_SPEED: ti.f32):
             # ψ: [am]
             # (c_slo_am·dt)²·∇²ψ: [am²]·[1/am] = [am] ✓
             # Result: [am] = [am] - [am] + [am] ✓
-            self.displacement_new_am[i, j, k] = (
-                2.0 * self.displacement_am[i, j, k]
-                - self.displacement_old_am[i, j, k]
+            self.psiL_new_am[i, j, k] = (
+                2.0 * self.psiL_am[i, j, k]
+                - self.psiL_old_am[i, j, k]
                 + (c_slo_am * dt)**2 * laplacian_am
             )
 
     # Swap time levels for next iteration
     # Python tuple swap: (old, current, new) ← (current, new, old)
-    self.displacement_old_am, self.displacement_am, self.displacement_new_am = \
-        self.displacement_am, self.displacement_new_am, self.displacement_old_am
+    self.psiL_old_am, self.psiL_am, self.psiL_new_am = \
+        self.psiL_am, self.psiL_new_am, self.psiL_old_am
 ```
 
 ```python
@@ -161,8 +161,8 @@ def track_amplitude_envelope(self):
     Amplitude A is the envelope of the high-frequency displacement oscillation.
     Uses ti.atomic_max for thread-safe updates in parallel execution.
     """
-    for i, j, k in self.displacement_am:
-        disp_mag = ti.abs(self.displacement_am[i,j,k])
+    for i, j, k in self.psiL_am:
+        disp_mag = ti.abs(self.psiL_am[i,j,k])
         ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
 ```
 
@@ -177,15 +177,15 @@ def compute_wave_direction(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Current displacement
-            psi = self.displacement_am[i,j,k]
+            psi = self.psiL_am[i,j,k]
 
             # Displacement gradient
-            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.psiL_am[i+1,j,k] - self.psiL_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.psiL_am[i,j+1,k] - self.psiL_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.psiL_am[i,j,k+1] - self.psiL_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -230,7 +230,7 @@ def update_timestep(self, dt: ti.f32, SIM_SPEED: ti.f32):
 - ✅ **SIM_SPEED parameter**: Optional frequency multiplier (like LEVEL-0's `oscillate_granules()`)
 - ✅ **CFL stability maintained** with effective wave speed c_slo = (c / SLO_MO) × SIM_SPEED
 - ✅ **No rontosecond conversion needed**: dt already slowed by SLO_MO
-- ✅ **Consistent units**: displacement_am [am], dx_am [am], c_slo_am [am/s], dt [s]
+- ✅ **Consistent units**: psiL_am [am], dx_am [am], c_slo_am [am/s], dt [s]
 - ✅ **60 FPS timestep**: dt ~ 0.016s (60Hz screen refresh rate)
 
 **Key Formula**:
@@ -257,7 +257,7 @@ Where:
 
 **Storage Requirements**:
 
-- Three displacement fields: `displacement_old`, `displacement_am` (current), `displacement_new`
+- Three displacement fields: `displacement_old`, `psiL_am` (current), `displacement_new`
 - Needed for second-order time integration
 
 **Stability Condition** (CFL - Courant-Friedrichs-Lewy):
@@ -484,8 +484,8 @@ def propagate_huygens(dt: ti.f32):
     c = ti.f32(constants.EWAVE_SPEED)
     propagation_distance = c * dt
 
-    for i, j, k in self.displacement_am:
-        if ti.abs(self.displacement_am[i,j,k]) > threshold:
+    for i, j, k in self.psiL_am:
+        if ti.abs(self.psiL_am[i,j,k]) > threshold:
             # This voxel emits wavelets to neighbors
             for di in range(-1, 2):
                 for dj in range(-1, 2):
@@ -502,7 +502,7 @@ def propagate_huygens(dt: ti.f32):
                             distance = ti.sqrt(ti.f32(di*di + dj*dj + dk*dk)) * self.dx_am
 
                             # Wavelet contribution (inverse distance weighting)
-                            contribution = self.displacement_am[i,j,k] / distance
+                            contribution = self.psiL_am[i,j,k] / distance
 
                             # Add to neighbor (superposition)
                             # Note: This is simplified, full implementation needs proper weighting

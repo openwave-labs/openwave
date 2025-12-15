@@ -112,9 +112,9 @@ class WaveField:
         # This avoids catastrophic cancellation in difference calculations
         # Scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
-        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
+        self.psiL_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
+        self.psiL_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
+        self.psiL_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
 
         # TODO: Implement DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum

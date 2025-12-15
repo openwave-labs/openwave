@@ -85,8 +85,8 @@ def charge_full(
         )  # t-dt
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+        wave_field.psiL_am[i, j, k] = disp  # at t=0
+        wave_field.psiL_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 @ti.kernel
@@ -136,13 +136,13 @@ def charge_gaussian(
         # Gaussian envelope: G(r) = exp(-r²/(2σ²))
         gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
-        wave_field.displacement_am[i, j, k] = A_am * gaussian
+        wave_field.psiL_am[i, j, k] = A_am * gaussian
 
     # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
+        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
 
 
 @ti.kernel
@@ -197,8 +197,8 @@ def charge_falloff(
         disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+        wave_field.psiL_am[i, j, k] = disp  # at t=0
+        wave_field.psiL_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 @ti.kernel
@@ -250,8 +250,8 @@ def charge_1lambda(
         disp_old = amplitude_am_at_r * ti.cos(omega_rs * -dt_rs - k_grid * r_grid)
 
         # Apply both displacements (in attometers)
-        wave_field.displacement_am[i, j, k] = disp  # at t=0
-        wave_field.displacement_old_am[i, j, k] = disp_old  # at t=-dt
+        wave_field.psiL_am[i, j, k] = disp  # at t=0
+        wave_field.psiL_old_am[i, j, k] = disp_old  # at t=-dt
 
 
 # ================================================================
@@ -376,7 +376,7 @@ def charge_oscillator_sphere(
         # Check if voxel is within spherical source region
         r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
         if r_grid <= charge_radius_grid:
-            wave_field.displacement_am[i, j, k] = (
+            wave_field.psiL_am[i, j, k] = (
                 base_amplitude_am
                 * boost
                 * wave_field.scale_factor
@@ -434,7 +434,7 @@ def charge_oscillator_falloff(
         amplitude_falloff = wavelength_grid / r_safe_am  # λ/r falloff factor
         amplitude_am_at_r = base_amplitude_am * wave_field.scale_factor * amplitude_falloff
 
-        wave_field.displacement_am[i, j, k] = amplitude_am_at_r * ti.cos(
+        wave_field.psiL_am[i, j, k] = amplitude_am_at_r * ti.cos(
             omega_rs * elapsed_t_rs - k_grid * r_grid
         )
 
@@ -498,22 +498,22 @@ def charge_oscillator_wall(
     for i, j in ti.ndrange(sources_x, sources_y):
         idx_x = int(i * skip_x + offset_x)
         idx_y = int(j * skip_y + offset_y)
-        wave_field.displacement_am[idx_x, idx_y, 1] += osc_delta
-        wave_field.displacement_am[idx_x, idx_y, wave_field.nz - 2] += osc_delta
+        wave_field.psiL_am[idx_x, idx_y, 1] += osc_delta
+        wave_field.psiL_am[idx_x, idx_y, wave_field.nz - 2] += osc_delta
 
     # Y-faces: j=1 and j=ny-2
     for i, k in ti.ndrange(sources_x, sources_z):
         idx_x = int(i * skip_x + offset_x)
         idx_z = int(k * skip_z + offset_z)
-        wave_field.displacement_am[idx_x, 1, idx_z] += osc_delta
-        wave_field.displacement_am[idx_x, wave_field.ny - 2, idx_z] += osc_delta
+        wave_field.psiL_am[idx_x, 1, idx_z] += osc_delta
+        wave_field.psiL_am[idx_x, wave_field.ny - 2, idx_z] += osc_delta
 
     # X-faces: i=1 and i=nx-2
     for j, k in ti.ndrange(sources_y, sources_z):
         idx_y = int(j * skip_y + offset_y)
         idx_z = int(k * skip_z + offset_z)
-        wave_field.displacement_am[1, idx_y, idx_z] += osc_delta
-        wave_field.displacement_am[wave_field.nx - 2, idx_y, idx_z] += osc_delta
+        wave_field.psiL_am[1, idx_y, idx_z] += osc_delta
+        wave_field.psiL_am[wave_field.nx - 2, idx_y, idx_z] += osc_delta
 
 
 # ================================================================
@@ -545,7 +545,7 @@ def damp_full(
         (0, wave_field.ny),
         (0, wave_field.nz),
     ):
-        wave_field.displacement_am[i, j, k] *= damping_factor
+        wave_field.psiL_am[i, j, k] *= damping_factor
 
 
 # ================================================================
@@ -577,15 +577,15 @@ def compute_laplacian6(
     """
     # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
     face_sum = (
-        wave_field.displacement_am[i + 1, j, k]
-        + wave_field.displacement_am[i - 1, j, k]
-        + wave_field.displacement_am[i, j + 1, k]
-        + wave_field.displacement_am[i, j - 1, k]
-        + wave_field.displacement_am[i, j, k + 1]
-        + wave_field.displacement_am[i, j, k - 1]
+        wave_field.psiL_am[i + 1, j, k]
+        + wave_field.psiL_am[i - 1, j, k]
+        + wave_field.psiL_am[i, j + 1, k]
+        + wave_field.psiL_am[i, j - 1, k]
+        + wave_field.psiL_am[i, j, k + 1]
+        + wave_field.psiL_am[i, j, k - 1]
     )
 
-    center = wave_field.displacement_am[i, j, k]
+    center = wave_field.psiL_am[i, j, k]
     laplacian6_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
 
     return laplacian6_am
@@ -620,34 +620,34 @@ def compute_laplacian18(
     """
     # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
     face_sum = (
-        wave_field.displacement_am[i + 1, j, k]
-        + wave_field.displacement_am[i - 1, j, k]
-        + wave_field.displacement_am[i, j + 1, k]
-        + wave_field.displacement_am[i, j - 1, k]
-        + wave_field.displacement_am[i, j, k + 1]
-        + wave_field.displacement_am[i, j, k - 1]
+        wave_field.psiL_am[i + 1, j, k]
+        + wave_field.psiL_am[i - 1, j, k]
+        + wave_field.psiL_am[i, j + 1, k]
+        + wave_field.psiL_am[i, j - 1, k]
+        + wave_field.psiL_am[i, j, k + 1]
+        + wave_field.psiL_am[i, j, k - 1]
     )
 
     # Edge neighbors (12 total): diagonal pairs in each plane
     edge_sum = (
         # XY plane edges (4)
-        wave_field.displacement_am[i + 1, j + 1, k]
-        + wave_field.displacement_am[i + 1, j - 1, k]
-        + wave_field.displacement_am[i - 1, j + 1, k]
-        + wave_field.displacement_am[i - 1, j - 1, k]
+        wave_field.psiL_am[i + 1, j + 1, k]
+        + wave_field.psiL_am[i + 1, j - 1, k]
+        + wave_field.psiL_am[i - 1, j + 1, k]
+        + wave_field.psiL_am[i - 1, j - 1, k]
         # XZ plane edges (4)
-        + wave_field.displacement_am[i + 1, j, k + 1]
-        + wave_field.displacement_am[i + 1, j, k - 1]
-        + wave_field.displacement_am[i - 1, j, k + 1]
-        + wave_field.displacement_am[i - 1, j, k - 1]
+        + wave_field.psiL_am[i + 1, j, k + 1]
+        + wave_field.psiL_am[i + 1, j, k - 1]
+        + wave_field.psiL_am[i - 1, j, k + 1]
+        + wave_field.psiL_am[i - 1, j, k - 1]
         # YZ plane edges (4)
-        + wave_field.displacement_am[i, j + 1, k + 1]
-        + wave_field.displacement_am[i, j + 1, k - 1]
-        + wave_field.displacement_am[i, j - 1, k + 1]
-        + wave_field.displacement_am[i, j - 1, k - 1]
+        + wave_field.psiL_am[i, j + 1, k + 1]
+        + wave_field.psiL_am[i, j + 1, k - 1]
+        + wave_field.psiL_am[i, j - 1, k + 1]
+        + wave_field.psiL_am[i, j - 1, k - 1]
     )
 
-    center = wave_field.displacement_am[i, j, k]
+    center = wave_field.psiL_am[i, j, k]
     laplacian18_am = (face_sum + 0.5 * edge_sum - 12.0 * center) / (3.0 * wave_field.dx_am**2)
 
     return laplacian18_am
@@ -699,18 +699,18 @@ def propagate_wave(
 
     # # X-faces (i=0 and i=nx-1)
     # for j, k in ti.ndrange(ny, nz):
-    #     wave_field.displacement_am[0, j, k] = wave_field.displacement_am[1, j, k]
-    #     wave_field.displacement_am[nx - 1, j, k] = wave_field.displacement_am[nx - 2, j, k]
+    #     wave_field.psiL_am[0, j, k] = wave_field.psiL_am[1, j, k]
+    #     wave_field.psiL_am[nx - 1, j, k] = wave_field.psiL_am[nx - 2, j, k]
 
     # # Y-faces (j=0 and j=ny-1)
     # for i, k in ti.ndrange(nx, nz):
-    #     wave_field.displacement_am[i, 0, k] = wave_field.displacement_am[i, 1, k]
-    #     wave_field.displacement_am[i, ny - 1, k] = wave_field.displacement_am[i, ny - 2, k]
+    #     wave_field.psiL_am[i, 0, k] = wave_field.psiL_am[i, 1, k]
+    #     wave_field.psiL_am[i, ny - 1, k] = wave_field.psiL_am[i, ny - 2, k]
 
     # # Z-faces (k=0 and k=nz-1)
     # for i, j in ti.ndrange(nx, ny):
-    #     wave_field.displacement_am[i, j, 0] = wave_field.displacement_am[i, j, 1]
-    #     wave_field.displacement_am[i, j, nz - 1] = wave_field.displacement_am[i, j, nz - 2]
+    #     wave_field.psiL_am[i, j, 0] = wave_field.psiL_am[i, j, 1]
+    #     wave_field.psiL_am[i, j, nz - 1] = wave_field.psiL_am[i, j, nz - 2]
 
     # ================================================================
     # WAVE PROPAGATION: Update voxels using Leap-Frog
@@ -726,9 +726,9 @@ def propagate_wave(
 
         # Leap-Frog update
         # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-        wave_field.displacement_new_am[i, j, k] = (
-            2.0 * wave_field.displacement_am[i, j, k]
-            - wave_field.displacement_old_am[i, j, k]
+        wave_field.psiL_new_am[i, j, k] = (
+            2.0 * wave_field.psiL_am[i, j, k]
+            - wave_field.psiL_old_am[i, j, k]
             + (c_amrs * dt_rs) ** 2 * laplacian_am
         )
 
@@ -741,7 +741,7 @@ def propagate_wave(
         # EMA on ψ²: rms² = α * ψ² + (1 - α) * rms²_old, then rms = √(rms²)
         # α controls adaptation speed: higher = faster response, lower = smoother
         # TODO: 2 polarities tracked: longitudinal & transverse
-        disp_squared = wave_field.displacement_am[i, j, k] ** 2
+        disp_squared = wave_field.psiL_am[i, j, k] ** 2
         current_rms_squared = trackers.amplitudeL_am[i, j, k] ** 2
         alpha_rms = 0.005  # EMA smoothing factor for RMS tracking
         new_rms_squared = alpha_rms * disp_squared + (1.0 - alpha_rms) * current_rms_squared
@@ -753,8 +753,8 @@ def propagate_wave(
         # More robust than peak detection since it's amplitude-independent
         # EMA smoothing: f_new = α * f_measured + (1 - α) * f_old
         # α controls adaptation speed: higher = faster response, lower = smoother
-        prev_disp = wave_field.displacement_old_am[i, j, k]
-        curr_disp = wave_field.displacement_am[i, j, k]
+        prev_disp = wave_field.psiL_old_am[i, j, k]
+        curr_disp = wave_field.psiL_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
             period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
             if period_rs > dt_rs * 2:  # Filter out spurious crossings
@@ -768,8 +768,8 @@ def propagate_wave(
 
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(nx, ny, nz):
-        wave_field.displacement_old_am[i, j, k] = wave_field.displacement_am[i, j, k]
-        wave_field.displacement_am[i, j, k] = wave_field.displacement_new_am[i, j, k]
+        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
+        wave_field.psiL_am[i, j, k] = wave_field.psiL_new_am[i, j, k]
 
     # TODO: Testing Wave Center Interaction with Energy Waves
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
@@ -809,26 +809,26 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
     min_amplitude = ref_amplitude * amplification
 
     # If amplitude is below minimum, boost it (preserve sign/phase)
-    current_val_old = wave_field.displacement_old_am[wc1x, wc1y, wc1z]
+    current_val_old = wave_field.psiL_old_am[wc1x, wc1y, wc1z]
     if ti.abs(current_val_old) < min_amplitude:
         phase_sign_old = 1.0 if current_val_old >= 0.0 else -1.0
-        wave_field.displacement_old_am[wc1x, wc1y, wc1z] = phase_sign_old * min_amplitude
+        wave_field.psiL_old_am[wc1x, wc1y, wc1z] = phase_sign_old * min_amplitude
 
-    current_val = wave_field.displacement_am[wc1x, wc1y, wc1z]
+    current_val = wave_field.psiL_am[wc1x, wc1y, wc1z]
     if ti.abs(current_val) < min_amplitude:
         phase_sign = 1.0 if current_val >= 0.0 else -1.0
-        wave_field.displacement_am[wc1x, wc1y, wc1z] = phase_sign * min_amplitude
+        wave_field.psiL_am[wc1x, wc1y, wc1z] = phase_sign * min_amplitude
 
     # If amplitude is below minimum, boost it (preserve sign/phase)
-    current_val_old = wave_field.displacement_old_am[wc2x, wc2y, wc2z]
+    current_val_old = wave_field.psiL_old_am[wc2x, wc2y, wc2z]
     if ti.abs(current_val_old) < min_amplitude:
         phase_sign_old = 1.0 if current_val_old >= 0.0 else -1.0
-        wave_field.displacement_old_am[wc2x, wc2y, wc2z] = phase_sign_old * min_amplitude
+        wave_field.psiL_old_am[wc2x, wc2y, wc2z] = phase_sign_old * min_amplitude
 
-    current_val = wave_field.displacement_am[wc2x, wc2y, wc2z]
+    current_val = wave_field.psiL_am[wc2x, wc2y, wc2z]
     if ti.abs(current_val) < min_amplitude:
         phase_sign = 1.0 if current_val >= 0.0 else -1.0
-        wave_field.displacement_am[wc2x, wc2y, wc2z] = phase_sign * min_amplitude
+        wave_field.psiL_am[wc2x, wc2y, wc2z] = phase_sign * min_amplitude
 
 
 @ti.func
@@ -859,10 +859,10 @@ def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
             dj = ti.cast(ti.math.sign(wc1y - j), ti.i32)
             dk = ti.cast(ti.math.sign(wc1z - k), ti.i32)
             # Copy from the voxel just outside the sphere (Neumann: ∂ψ/∂n = 0)
-            outer_val = wave_field.displacement_am[i - di, j - dj, k - dk]
-            wave_field.displacement_old_am[i, j, k] = outer_val
-            wave_field.displacement_am[i, j, k] = outer_val
-            wave_field.displacement_new_am[i, j, k] = outer_val
+            outer_val = wave_field.psiL_am[i - di, j - dj, k - dk]
+            wave_field.psiL_old_am[i, j, k] = outer_val
+            wave_field.psiL_am[i, j, k] = outer_val
+            wave_field.psiL_new_am[i, j, k] = outer_val
 
 
 @ti.func
@@ -888,9 +888,9 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = 0.0
-            wave_field.displacement_am[i, j, k] = 0.0
-            wave_field.displacement_new_am[i, j, k] = 0.0
+            wave_field.psiL_old_am[i, j, k] = 0.0
+            wave_field.psiL_am[i, j, k] = 0.0
+            wave_field.psiL_new_am[i, j, k] = 0.0
 
     for i, j, k in ti.ndrange(
         (wc2x - wc_radius - 1, wc2x + wc_radius + 2),
@@ -900,9 +900,9 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = 0.0
-            wave_field.displacement_am[i, j, k] = 0.0
-            wave_field.displacement_new_am[i, j, k] = 0.0
+            wave_field.psiL_old_am[i, j, k] = 0.0
+            wave_field.psiL_am[i, j, k] = 0.0
+            wave_field.psiL_new_am[i, j, k] = 0.0
 
 
 @ti.func
@@ -927,9 +927,9 @@ def interact_wc_signal(wave_field: ti.template()):  # type: ignore
         dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
-            wave_field.displacement_old_am[i, j, k] = -wave_field.displacement_old_am[i, j, k]
-            wave_field.displacement_am[i, j, k] = -wave_field.displacement_am[i, j, k]
-            wave_field.displacement_new_am[i, j, k] = -wave_field.displacement_new_am[i, j, k]
+            wave_field.psiL_old_am[i, j, k] = -wave_field.psiL_old_am[i, j, k]
+            wave_field.psiL_am[i, j, k] = -wave_field.psiL_am[i, j, k]
+            wave_field.psiL_new_am[i, j, k] = -wave_field.psiL_new_am[i, j, k]
 
 
 # ================================================================
@@ -1082,7 +1082,7 @@ def update_flux_mesh_colors(
     # Always update all planes (conditionals cause GPU branch divergence)
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, j, wave_field.fm_plane_z_idx]
+        disp_value = wave_field.psiL_am[i, j, wave_field.fm_plane_z_idx]
         amp_value = trackers.amplitudeL_am[i, j, wave_field.fm_plane_z_idx]
         freq_value = trackers.frequency_rHz[i, j, wave_field.fm_plane_z_idx]
 
@@ -1108,7 +1108,7 @@ def update_flux_mesh_colors(
     # ================================================================
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[i, wave_field.fm_plane_y_idx, k]
+        disp_value = wave_field.psiL_am[i, wave_field.fm_plane_y_idx, k]
         amp_value = trackers.amplitudeL_am[i, wave_field.fm_plane_y_idx, k]
         freq_value = trackers.frequency_rHz[i, wave_field.fm_plane_y_idx, k]
 
@@ -1134,7 +1134,7 @@ def update_flux_mesh_colors(
     # ================================================================
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
-        disp_value = wave_field.displacement_am[wave_field.fm_plane_x_idx, j, k]
+        disp_value = wave_field.psiL_am[wave_field.fm_plane_x_idx, j, k]
         amp_value = trackers.amplitudeL_am[wave_field.fm_plane_x_idx, j, k]
         freq_value = trackers.frequency_rHz[wave_field.fm_plane_x_idx, j, k]
 

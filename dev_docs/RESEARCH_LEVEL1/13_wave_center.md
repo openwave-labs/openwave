@@ -250,7 +250,7 @@ min_amplitude = ref_amplitude * amplification
 # Only boost if below minimum (preserve phase)
 if ti.abs(current_val) < min_amplitude:
     phase_sign = 1.0 if current_val >= 0.0 else -1.0
-    wave_field.displacement_am[cx, cy, cz] = phase_sign * min_amplitude
+    wave_field.psiL_am[cx, cy, cz] = phase_sign * min_amplitude
 ```
 
 **Pros**:

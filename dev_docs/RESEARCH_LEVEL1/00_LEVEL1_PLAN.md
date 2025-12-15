@@ -72,7 +72,7 @@ LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (
 
 **Key Fields**:
 
-- `displacement_am[i,j,k]`: Instantaneous ψ (high-frequency oscillation)
+- `psiL_am[i,j,k]`: Instantaneous ψ (high-frequency oscillation)
 - `amplitude_am[i,j,k]`: Envelope A = max|ψ| (slowly varying)
 - `force[i,j,k]`: Force vector from amplitude gradient (Newtons)
 - `wave_direction[i,j,k]`: Energy flux direction (unit vector)
