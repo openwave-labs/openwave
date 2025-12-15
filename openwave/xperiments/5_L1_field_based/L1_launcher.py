@@ -20,7 +20,7 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.L1_field_grid as data_grid
+import openwave.spacetime.L1_field_data_grid as data_grid
 import openwave.spacetime.L1_wave_engine as ewave
 import _L1_instrumentation as instrument
 
@@ -420,7 +420,7 @@ def initialize_xperiment(state):
         print("\n" + "=" * 64)
         print("INSTRUMENTATION ENABLED")
         print("=" * 64)
-        instrument.plot_static_charge_profile(state.wave_field)
+        # instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
@@ -471,10 +471,10 @@ def render_elements(state):
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
-    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
+    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
