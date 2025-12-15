@@ -471,10 +471,10 @@ def render_elements(state):
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
-    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
+    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
