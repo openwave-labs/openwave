@@ -136,13 +136,13 @@ def charge_gaussian(
         # Gaussian envelope: G(r) = exp(-r²/(2σ²))
         gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
-        wave_field.psiL_am[i, j, k] = A_am * gaussian
+        wave_field.psiT_am[i, j, k] = A_am * gaussian
 
     # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
+        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
 
 
 # ================================================================
@@ -747,7 +747,9 @@ def update_flux_mesh_colors(
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, j, wave_field.fm_plane_z_idx]
+        psiT_value = wave_field.psiT_am[i, j, wave_field.fm_plane_z_idx]
         ampL_value = trackers.ampL_am[i, j, wave_field.fm_plane_z_idx]
+        ampT_value = trackers.ampT_am[i, j, wave_field.fm_plane_z_idx]
         freq_value = trackers.freq_rHz[i, j, wave_field.fm_plane_z_idx]
 
         # Map value to color using selected gradient
@@ -756,9 +758,19 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
+        elif color_palette == 4:  # viridis
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
+            )
+        elif color_palette == 2:  # yellowgreen
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_yellowgreen_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
@@ -773,7 +785,9 @@ def update_flux_mesh_colors(
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, wave_field.fm_plane_y_idx, k]
+        psiT_value = wave_field.psiT_am[i, wave_field.fm_plane_y_idx, k]
         ampL_value = trackers.ampL_am[i, wave_field.fm_plane_y_idx, k]
+        ampT_value = trackers.ampT_am[i, wave_field.fm_plane_y_idx, k]
         freq_value = trackers.freq_rHz[i, wave_field.fm_plane_y_idx, k]
 
         # Map value to color using selected gradient
@@ -782,9 +796,19 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
+        elif color_palette == 4:  # viridis
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
+            )
+        elif color_palette == 2:  # yellowgreen
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_yellowgreen_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
@@ -799,7 +823,9 @@ def update_flux_mesh_colors(
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[wave_field.fm_plane_x_idx, j, k]
+        psiT_value = wave_field.psiT_am[wave_field.fm_plane_x_idx, j, k]
         ampL_value = trackers.ampL_am[wave_field.fm_plane_x_idx, j, k]
+        ampT_value = trackers.ampT_am[wave_field.fm_plane_x_idx, j, k]
         freq_value = trackers.freq_rHz[wave_field.fm_plane_x_idx, j, k]
 
         # Map value to color using selected gradient
@@ -808,9 +834,19 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
+        elif color_palette == 4:  # viridis
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
+            )
+        elif color_palette == 2:  # yellowgreen
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_yellowgreen_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(

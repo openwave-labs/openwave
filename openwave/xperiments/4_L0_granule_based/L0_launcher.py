@@ -245,9 +245,9 @@ def display_controls(state):
                 state.PAUSED = True
 
 
-def display_color_menu(state):
-    """Display color selection menu."""
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.73, 0.14, 0.14) as sub:
+def display_wave_menu(state):
+    """Display wave properties selection menu."""
+    with render.gui.sub_window("WAVE MENU", 0.00, 0.73, 0.14, 0.14) as sub:
         if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 6):
             state.COLOR_PALETTE = 6
         if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 3):
@@ -492,7 +492,7 @@ def main():
         render_elements(state)
 
         # Display additional UI elements and scene
-        display_color_menu(state)
+        display_wave_menu(state)
         display_data_dashboard(state)
         display_level_specs(state, level_bar_vertices)
         render.show_scene()
