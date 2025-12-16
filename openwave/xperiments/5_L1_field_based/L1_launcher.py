@@ -114,6 +114,7 @@ class SimulationState:
         self.clock_start_time = time.time()
         self.frame = 1
         self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.rms_ampT = 0.0
         self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
@@ -216,6 +217,7 @@ class SimulationState:
         self.clock_start_time = time.time()
         self.frame = 1
         self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.rms_ampT = 0.0
         self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
@@ -321,7 +323,7 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.33, 0.16, 0.67) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.37, 0.16, 0.63) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
@@ -341,14 +343,12 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (~12)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Scaled-up Amplitude: {state.rms_ampL:.1e} m")
-        sub.text(f"Scaled-dn Frequency: {state.avg_freq:.1e} Hz")
-        sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Amplitude: {state.rms_ampL/state.wave_field.scale_factor:.1e} m")
-        sub.text(f"eWAVE Frequency: {state.avg_freq*state.wave_field.scale_factor:.1e} Hz")
-        sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Amp Longitudinal: {state.rms_ampL/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Amp Transverse: {state.rms_ampT/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Frequency: {state.avg_freq*state.wave_field.scale_factor:.1e} Hz")
+        sub.text(f"Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
         sub.text(
             f"TOTAL ENERGY: {state.total_energy:.1e} J",
             color=(
@@ -441,12 +441,14 @@ def compute_wave_motion(state):
     if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
+    state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m
     state.avg_freq = state.trackers.avg_freq_rHz[None] / constants.RONTOSECOND
     state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_freq or 1)  # prevents 0 div
     state.total_energy = (
         constants.MEDIUM_DENSITY
         * state.wave_field.universe_volume
-        * (state.avg_freq * state.rms_ampL) ** 2
+        * state.avg_freq**2
+        * (state.rms_ampL**2 + state.rms_ampT**2)
     )
     state.charge_level = state.total_energy / state.wave_field.nominal_energy
     state.charging = state.charge_level < 0.80  # stop charging, seeks energy stabilization
