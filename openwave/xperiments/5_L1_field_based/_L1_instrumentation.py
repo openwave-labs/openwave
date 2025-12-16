@@ -315,13 +315,6 @@ def plot_probe_values():
         linewidth=2,
         label="RMS AMPLITUDE (am)",
     )
-    plt.axhline(
-        y=constants.EWAVE_AMPLITUDE / constants.ATTOMETER,
-        color=colormap.viridis_palette[4][1],
-        linestyle="--",
-        alpha=0.5,
-        label="eWAVE AMPLITUDE (am)",
-    )
     plt.axhline(y=0, color="w", linestyle="--", alpha=0.3)
     plt.xlabel("Timestep", family="Monospace")
     plt.ylabel("Displacement / Amplitude (am)", family="Monospace")
