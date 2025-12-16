@@ -73,67 +73,68 @@ FOREST = {
 # ================================================================
 # Redblue Gradient: PALETTE [used in get_redblue_color()]
 # ================================================================
-# Simplified redblue gradient palette (5-color)
-# "color_palette" = 1
 redblue_palette = [
     ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
     ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
-]
+]  # "color_palette" = 1
+
+# ================================================================
+# Yellowgreen Gradient: PALETTE [used in get_yellowgreen_color()]
+# ================================================================
+yellowgreen_palette = [
+    ["#FFFF00", (1.0, 1.0, 0.0)],  # yellow
+    ["#C79B17", (0.78, 0.61, 0.09)],  # dark yellow
+    ["#000000", (0.0, 0.0, 0.0)],  # black
+    ["#1E7A1E", (0.118, 0.478, 0.118)],  # dark green
+    ["#35B779", (0.208, 0.718, 0.475)],  # green
+]  # "color_palette" = 2
 
 # ================================================================
 # Ironbow Gradient: PALETTE [used in get_ironbow_color()]
 # ================================================================
-# Simplified thermal imaging palette (5-color)
-# "color_palette" = 3
 ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.541)],  # dark blue
     ["#91009C", (0.569, 0.0, 0.612)],  # magenta
     ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
     ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
-]
+]  # "color_palette" = 3
 
 # ================================================================
 # Viridis Gradient: PALETTE [used in get_viridis_color()]
 # ================================================================
-# Perceptually uniform colormap for scientific visualization
-# "color_palette" = 4
 viridis_palette = [
     ["#440154", (0.267, 0.004, 0.329)],  # dark purple
     ["#31688E", (0.192, 0.408, 0.557)],  # blue-green
     ["#35B779", (0.208, 0.718, 0.475)],  # green
     ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green
     ["#FDE724", (0.992, 0.906, 0.141)],  # bright yellow
-]
+]  # "color_palette" = 4
 
 # ================================================================
 # Blueprint Gradient: PALETTE [used in get_blueprint_color()]
 # ================================================================
-# Simplified blueprint imaging palette (5-color)
-# "color_palette" = 5
 blueprint_palette = [
     ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
     ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
     ["#607DBD", (0.376, 0.490, 0.741)],  # blue
     ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
     ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
-]
+]  # "color_palette" = 5
 
 # ================================================================
 # Orange Gradient: PALETTE [used in get_orange_color()]
 # ================================================================
-# Simplified orange gradient palette (5-color)
-# "color_palette" = 6
 orange_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#74120F", (0.451, 0.071, 0.059)],  # dark red-orange
     ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
     ["#FF7B00", (1.0, 0.5, 0.0)],  # bright orange
     ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
-]
+]  # "color_palette" = 6
 
 
 # ================================================================
@@ -206,6 +207,77 @@ def get_redblue_color(value, min_value, max_value):
     redblue_color = ti.Vector([r, g, b])
 
     return redblue_color
+
+
+# ================================================================
+# Yellowgreen Gradient: FUNCTION
+# ================================================================
+
+# Taichi-compatible constants for use inside @ti.func
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
+yellowgreen = [color[1] for color in yellowgreen_palette]
+YELLOWGREEN_0 = ti.Vector([yellowgreen[0][0], yellowgreen[0][1], yellowgreen[0][2]])
+YELLOWGREEN_1 = ti.Vector([yellowgreen[1][0], yellowgreen[1][1], yellowgreen[1][2]])
+YELLOWGREEN_2 = ti.Vector([yellowgreen[2][0], yellowgreen[2][1], yellowgreen[2][2]])
+YELLOWGREEN_3 = ti.Vector([yellowgreen[3][0], yellowgreen[3][1], yellowgreen[3][2]])
+YELLOWGREEN_4 = ti.Vector([yellowgreen[4][0], yellowgreen[4][1], yellowgreen[4][2]])
+
+
+@ti.func
+def get_yellowgreen_color(value, min_value, max_value):
+    """Maps a signed numerical value to a YELLOWGREEN gradient color.
+
+    YELLOWGREEN gradient: yellow → dark yellow → black → dark green → green
+    Used for displacement visualization where negative = yellow, zero = black, positive = green.
+
+    Optimized for maximum performance with millions of voxels.
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
+
+    Args:
+        value: The signed displacement value to visualize (can be negative or positive)
+        min_value: Minimum displacement in range
+        max_value: Maximum displacement in range
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_yellowgreen_color(value=50, min_value=0, max_value=100)
+        # Returns green-ish color since 50/100 = 0.5 is in the positive range
+    """
+
+    # Compute normalized scale range with saturation headroom
+    scale = max_value - min_value
+
+    # Normalize color by scale range [0.0 - 1.0]
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
+
+    # Compute color as gradient for visualization with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+
+    if norm_color < 0.25:
+        blend = norm_color / 0.25
+        r = YELLOWGREEN_0[0] * (1.0 - blend) + YELLOWGREEN_1[0] * blend
+        g = YELLOWGREEN_0[1] * (1.0 - blend) + YELLOWGREEN_1[1] * blend
+        b = YELLOWGREEN_0[2] * (1.0 - blend) + YELLOWGREEN_1[2] * blend
+    elif norm_color < 0.5:
+        blend = (norm_color - 0.25) / 0.25
+        r = YELLOWGREEN_1[0] * (1.0 - blend) + YELLOWGREEN_2[0] * blend
+        g = YELLOWGREEN_1[1] * (1.0 - blend) + YELLOWGREEN_2[1] * blend
+        b = YELLOWGREEN_1[2] * (1.0 - blend) + YELLOWGREEN_2[2] * blend
+    elif norm_color < 0.75:
+        blend = (norm_color - 0.5) / 0.25
+        r = YELLOWGREEN_2[0] * (1.0 - blend) + YELLOWGREEN_3[0] * blend
+        g = YELLOWGREEN_2[1] * (1.0 - blend) + YELLOWGREEN_3[1] * blend
+        b = YELLOWGREEN_2[2] * (1.0 - blend) + YELLOWGREEN_3[2] * blend
+    else:
+        blend = (norm_color - 0.75) / 0.25
+        r = YELLOWGREEN_3[0] * (1.0 - blend) + YELLOWGREEN_4[0] * blend
+        g = YELLOWGREEN_3[1] * (1.0 - blend) + YELLOWGREEN_4[1] * blend
+        b = YELLOWGREEN_3[2] * (1.0 - blend) + YELLOWGREEN_4[2] * blend
+
+    yellowgreen_color = ti.Vector([r, g, b])
+    return yellowgreen_color
 
 
 # ================================================================
