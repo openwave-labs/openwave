@@ -281,16 +281,16 @@ def display_controls(state):
 
 def display_wave_menu(state):
     """Display wave properties selection menu."""
-    with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.14, 0.17) as sub:
-        if sub.checkbox("Displacement (Longitud)", state.COLOR_PALETTE == 1):
+    with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.15, 0.17) as sub:
+        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-        if sub.checkbox("Displacement (Transver)", state.COLOR_PALETTE == 2):
+        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-        if sub.checkbox("Amplitude (Longitud)", state.COLOR_PALETTE == 3):
+        if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
-        if sub.checkbox("Amplitude (Transver)", state.COLOR_PALETTE == 4):
+        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 4):
             state.COLOR_PALETTE = 4
-        if sub.checkbox("Frequency (L & T)", state.COLOR_PALETTE == 5):
+        if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 5):
             state.COLOR_PALETTE = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
         if state.COLOR_PALETTE == 1:  # Display redblue gradient palette

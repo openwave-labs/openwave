@@ -17,7 +17,7 @@ XPARAMETERS = {
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 5e7,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 2.5e7,  # Simulation voxel count (impacts performance)
     },
     "charging": {
         "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
