@@ -98,7 +98,7 @@ ENERGY WAVE (fundamental) = PURE LONGITUDINAL
 
 - `ampL_am` decreases at WC (longitudinal component reduced)
 - `ampT_am` increases at WC (transverse component created)
-- Total energy preserved: `E ∝ amplitudeL² + amplitudeT²`
+- Total energy preserved: `E ∝ ampL² + ampT²`
 
 ### Electromagnetism Duality
 

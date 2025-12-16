@@ -296,22 +296,18 @@ def propagate_wave(
         # α controls adaptation speed: higher = faster response, lower = smoother
         # 2 polarities tracked: longitudinal & transverse
         # Longitudinal RMS amplitude
-        disp_squared_L = wave_field.psiL_am[i, j, k] ** 2
-        current_rms_squared_L = trackers.ampL_am[i, j, k] ** 2
+        disp2_L = wave_field.psiL_am[i, j, k] ** 2
+        current_rms2_L = trackers.ampL_am[i, j, k] ** 2
         alpha_rms_L = 0.005  # EMA smoothing factor for RMS tracking
-        new_rms_squared_L = (
-            alpha_rms_L * disp_squared_L + (1.0 - alpha_rms_L) * current_rms_squared_L
-        )
-        trackers.ampL_am[i, j, k] = ti.sqrt(new_rms_squared_L)
+        new_rms2_L = alpha_rms_L * disp2_L + (1.0 - alpha_rms_L) * current_rms2_L
+        trackers.ampL_am[i, j, k] = ti.sqrt(new_rms2_L)
 
         # Transverse RMS amplitude
-        disp_squared_T = wave_field.psiT_am[i, j, k] ** 2
-        current_rms_squared_T = trackers.ampT_am[i, j, k] ** 2
+        disp2_T = wave_field.psiT_am[i, j, k] ** 2
+        current_rms2_T = trackers.ampT_am[i, j, k] ** 2
         alpha_rms_T = 0.005  # EMA smoothing factor for RMS tracking
-        new_rms_squared_T = (
-            alpha_rms_T * disp_squared_T + (1.0 - alpha_rms_T) * current_rms_squared_T
-        )
-        trackers.ampT_am[i, j, k] = ti.sqrt(new_rms_squared_T)
+        new_rms2_T = alpha_rms_T * disp2_T + (1.0 - alpha_rms_T) * current_rms2_T
+        trackers.ampT_am[i, j, k] = ti.sqrt(new_rms2_T)
 
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
@@ -335,8 +331,8 @@ def propagate_wave(
     # Swap time levels: old ← current, current ← new
     for i, j, k in ti.ndrange(nx, ny, nz):
         wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
-        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
         wave_field.psiL_am[i, j, k] = wave_field.psiL_new_am[i, j, k]
+        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
         wave_field.psiT_am[i, j, k] = wave_field.psiT_new_am[i, j, k]
 
     # TODO: Testing Wave Center Interaction with Energy Waves
