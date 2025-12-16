@@ -5,11 +5,11 @@ This XPERIMENT showcases:
 -
 """
 
-UNIVERSE_EDGE = 5.7e-15  # m, universe edge length in meters
+UNIVERSE_EDGE = 4.5e-14  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "200 waves, 175M voxels",
+        "X_NAME": "1500 waves, 175M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
