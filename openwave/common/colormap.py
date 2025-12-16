@@ -71,11 +71,11 @@ FOREST = {
 # Performance-critical code > DRY principle in this case.
 
 # ================================================================
-# Redshift Gradient: PALETTE [used in get_redshift_color()]
+# Redblue Gradient: PALETTE [used in get_redblue_color()]
 # ================================================================
-# Simplified redshift gradient palette (5-color)
+# Simplified redblue gradient palette (5-color)
 # "color_palette" = 1
-redshift_palette = [
+redblue_palette = [
     ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
     ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
     ["#000000", (0.0, 0.0, 0.0)],  # black
@@ -137,24 +137,24 @@ orange_palette = [
 
 
 # ================================================================
-# Redshift Gradient: FUNCTION
+# Redblue Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-redshift = [color[1] for color in redshift_palette]
-REDSHIFT_0 = ti.Vector([redshift[0][0], redshift[0][1], redshift[0][2]])
-REDSHIFT_1 = ti.Vector([redshift[1][0], redshift[1][1], redshift[1][2]])
-REDSHIFT_2 = ti.Vector([redshift[2][0], redshift[2][1], redshift[2][2]])
-REDSHIFT_3 = ti.Vector([redshift[3][0], redshift[3][1], redshift[3][2]])
-REDSHIFT_4 = ti.Vector([redshift[4][0], redshift[4][1], redshift[4][2]])
+redblue = [color[1] for color in redblue_palette]
+REDBLUE_0 = ti.Vector([redblue[0][0], redblue[0][1], redblue[0][2]])
+REDBLUE_1 = ti.Vector([redblue[1][0], redblue[1][1], redblue[1][2]])
+REDBLUE_2 = ti.Vector([redblue[2][0], redblue[2][1], redblue[2][2]])
+REDBLUE_3 = ti.Vector([redblue[3][0], redblue[3][1], redblue[3][2]])
+REDBLUE_4 = ti.Vector([redblue[4][0], redblue[4][1], redblue[4][2]])
 
 
 @ti.func
-def get_redshift_color(value, min_value, max_value):
-    """Maps a signed numerical value to a REDSHIFT gradient color.
+def get_redblue_color(value, min_value, max_value):
+    """Maps a signed numerical value to a REDBLUE gradient color.
 
-    REDSHIFT gradient: red-orange → dark red → gray → dark blue → bright blue
+    REDBLUE gradient: red-orange → dark red → gray → dark blue → bright blue
     Used for displacement visualization where negative = red, zero = gray, positive = blue.
 
     Optimized for maximum performance with millions of voxels.
@@ -169,7 +169,7 @@ def get_redshift_color(value, min_value, max_value):
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
 
     Example:
-        color = get_redshift_color(value=-50, min_value=-100, max_value=100)
+        color = get_redblue_color(value=-50, min_value=-100, max_value=100)
         # Returns red-ish color since -50 is in the negative range
     """
 
@@ -184,28 +184,28 @@ def get_redshift_color(value, min_value, max_value):
 
     if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = REDSHIFT_0[0] * (1.0 - blend) + REDSHIFT_1[0] * blend
-        g = REDSHIFT_0[1] * (1.0 - blend) + REDSHIFT_1[1] * blend
-        b = REDSHIFT_0[2] * (1.0 - blend) + REDSHIFT_1[2] * blend
+        r = REDBLUE_0[0] * (1.0 - blend) + REDBLUE_1[0] * blend
+        g = REDBLUE_0[1] * (1.0 - blend) + REDBLUE_1[1] * blend
+        b = REDBLUE_0[2] * (1.0 - blend) + REDBLUE_1[2] * blend
     elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = REDSHIFT_1[0] * (1.0 - blend) + REDSHIFT_2[0] * blend
-        g = REDSHIFT_1[1] * (1.0 - blend) + REDSHIFT_2[1] * blend
-        b = REDSHIFT_1[2] * (1.0 - blend) + REDSHIFT_2[2] * blend
+        r = REDBLUE_1[0] * (1.0 - blend) + REDBLUE_2[0] * blend
+        g = REDBLUE_1[1] * (1.0 - blend) + REDBLUE_2[1] * blend
+        b = REDBLUE_1[2] * (1.0 - blend) + REDBLUE_2[2] * blend
     elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = REDSHIFT_2[0] * (1.0 - blend) + REDSHIFT_3[0] * blend
-        g = REDSHIFT_2[1] * (1.0 - blend) + REDSHIFT_3[1] * blend
-        b = REDSHIFT_2[2] * (1.0 - blend) + REDSHIFT_3[2] * blend
+        r = REDBLUE_2[0] * (1.0 - blend) + REDBLUE_3[0] * blend
+        g = REDBLUE_2[1] * (1.0 - blend) + REDBLUE_3[1] * blend
+        b = REDBLUE_2[2] * (1.0 - blend) + REDBLUE_3[2] * blend
     else:
         blend = (norm_color - 0.75) / 0.25
-        r = REDSHIFT_3[0] * (1.0 - blend) + REDSHIFT_4[0] * blend
-        g = REDSHIFT_3[1] * (1.0 - blend) + REDSHIFT_4[1] * blend
-        b = REDSHIFT_3[2] * (1.0 - blend) + REDSHIFT_4[2] * blend
+        r = REDBLUE_3[0] * (1.0 - blend) + REDBLUE_4[0] * blend
+        g = REDBLUE_3[1] * (1.0 - blend) + REDBLUE_4[1] * blend
+        b = REDBLUE_3[2] * (1.0 - blend) + REDBLUE_4[2] * blend
 
-    redshift_color = ti.Vector([r, g, b])
+    redblue_color = ti.Vector([r, g, b])
 
-    return redshift_color
+    return redblue_color
 
 
 # ================================================================
@@ -508,7 +508,7 @@ def get_palette_scale(color_palette, x, y, width, height):
     """Generate palette scale indicator with geometry and colors as horizontal gradient.
 
     Generic function for creating palette display. Works with any color palette
-    (ironbow, blueprint, redshift, viridis, etc.).
+    (ironbow, blueprint, redblue, viridis, etc.).
 
     Creates a horizontal color bar with gradient transitions between colors.
     Each color band is made of 2 triangles forming a rectangle.

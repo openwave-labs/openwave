@@ -730,14 +730,14 @@ def update_flux_mesh_colors(
     Should be called every frame after wave propagation to update visualization.
 
     Color palettes:
-        1 (redshift): red=negative, gray=zero, blue=positive displacement
+        1 (redblue): red=negative, gray=zero, blue=positive displacement
         2 (ironbow): black-red-yellow-white heat map for amplitude
         3 (blueprint): blue gradient for frequency visualization
 
     Args:
         wave_field: WaveField instance containing flux mesh fields and displacement data
         trackers: WaveTrackers instance with amplitude/frequency data for color scaling
-        color_palette: Color palette selection (1=redshift, 2=ironbow, 3=blueprint)
+        color_palette: Color palette selection (1=redblue, 2=ironbow, 3=blueprint)
     """
 
     # ================================================================
@@ -760,8 +760,8 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-        else:  # default to redshift (palette 1)
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redshift_color(
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
@@ -786,8 +786,8 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-        else:  # default to redshift (palette 1)
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redshift_color(
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
@@ -812,8 +812,8 @@ def update_flux_mesh_colors(
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-        else:  # default to redshift (palette 1)
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redshift_color(
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
