@@ -112,9 +112,14 @@ class WaveField:
         # This avoids catastrophic cancellation in difference calculations
         # Scales 1e-17 m values to ~10 am, well within f32 range
         # Wave equation fields (leap-frog scheme requires three time levels)
-        self.displacement_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
-        self.displacement_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
-        self.displacement_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
+        # Longitudinal wave scalar field (ψl)
+        self.psiL_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
+        self.psiL_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
+        self.psiL_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
+        # Transverse wave scalar field (ψt)
+        self.psiT_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t+dt
+        self.psiT_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t
+        self.psiT_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t-dt
 
         # TODO: Implement DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum
@@ -431,21 +436,22 @@ class Trackers:
             grid_size: Grid dimensions [nx, ny, nz] matching WaveField.
         """
         # TRACKED FIELDS
-        # TODO: 2 polarities to track: longitudinal & transverse
+        # 2 polarities to track: longitudinal & transverse
         # Amplitude envelope tracks A via EMA of |ψ| and RMS calculation
         # Frequency tracks local oscillation rate via zero-crossing detection
-        self.amplitudeL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
-        self.rms_amplitudeL_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
-        # self.amplitudeT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
-        # self.rms_amplitudeT_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
+        self.rms_ampL_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
+        self.rms_ampT_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # rs, last zero crossing
-        self.frequency_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
-        self.avg_frequency_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
+        self.freq_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
+        self.avg_freq_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling
         # baseline to allow wave peaks to rise without color saturation
-        self.rms_amplitudeL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
-        self.avg_frequency_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
+        self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
+        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
+        self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 
 
 if __name__ == "__main__":

@@ -73,17 +73,17 @@ def charge_uniform_energy(self):
     import random
     base_displacement = A / 2.0  # Half amplitude to start
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         # Small random perturbation (±10%) to break symmetry
         perturbation = 1.0 + 0.1 * (random.random() - 0.5)
         displacement = base_displacement * perturbation
 
-        self.displacement_am[i, j, k] = displacement / constants.ATTOMETER
-        self.amplitude_am[i, j, k] = ti.abs(self.displacement_am[i, j, k])
+        self.psiL_am[i, j, k] = displacement / constants.ATTOMETER
+        self.amplitude_am[i, j, k] = ti.abs(self.psiL_am[i, j, k])
 
     # Initialize old displacement (same as current for stationary start)
     for i, j, k in self.displacement_old:
-        self.displacement_old[i, j, k] = self.displacement_am[i, j, k]
+        self.displacement_old[i, j, k] = self.psiL_am[i, j, k]
 
     # Verify total energy matches equations.compute_energy_wave_equation()
     # E_total = ρV(fA)² where V = nx × ny × nz × dx³
@@ -141,7 +141,7 @@ def charge_spherical_gaussian(
     A_am = A_required / constants.ATTOMETER
 
     # Apply Gaussian wave packet
-    for i, j, k_idx in self.displacement_am:
+    for i, j, k_idx in self.psiL_am:
         pos_am = self.get_position_am(i, j, k_idx)
         r_vec = pos_am - center_am
         r_squared = r_vec.dot(r_vec)
@@ -152,12 +152,12 @@ def charge_spherical_gaussian(
         # Initial displacement with Gaussian envelope
         displacement = A_am * gaussian
 
-        self.displacement_am[i, j, k_idx] = displacement
+        self.psiL_am[i, j, k_idx] = displacement
         self.amplitude_am[i, j, k_idx] = ti.abs(displacement)
 
     # Initialize old displacement (same as current for stationary start)
     for i, j, k_idx in self.displacement_old:
-        self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
+        self.displacement_old[i, j, k_idx] = self.psiL_am[i, j, k_idx]
 ```
 
 ## Implementation - Option 3: Wolff's Spherical Wave (For Future Particle Implementation)
@@ -189,7 +189,7 @@ def charge_wolff_spherical_wave(
     amplitude_am = amplitude / constants.ATTOMETER
     k = 2.0 * ti.math.pi * frequency / constants.EWAVE_SPEED
 
-    for i, j, k_idx in self.displacement_am:
+    for i, j, k_idx in self.psiL_am:
         pos_am = self.get_position_am(i, j, k_idx)
         r_vec = pos_am - center_am
         r = r_vec.norm()
@@ -203,11 +203,11 @@ def charge_wolff_spherical_wave(
 
         wave_displacement = amplitude_am * ti.cos(initial_phase) * spatial_factor
 
-        self.displacement_am[i, j, k_idx] = wave_displacement
+        self.psiL_am[i, j, k_idx] = wave_displacement
         self.amplitude_am[i, j, k_idx] = ti.abs(wave_displacement)
 
     for i, j, k_idx in self.displacement_old:
-        self.displacement_old[i, j, k_idx] = self.displacement_am[i, j, k_idx]
+        self.displacement_old[i, j, k_idx] = self.psiL_am[i, j, k_idx]
 ```
 
 ## Usage Example (Implementing Phase 1: Center-Concentrated Pulse)

@@ -506,8 +506,8 @@ Implementation via ghost cell copy before Laplacian computation:
 
 ```python
 # X-faces: boundary = adjacent interior value
-wave_field.displacement_am[0, j, k] = wave_field.displacement_am[1, j, k]
-wave_field.displacement_am[nx-1, j, k] = wave_field.displacement_am[nx-2, j, k]
+wave_field.psiL_am[0, j, k] = wave_field.psiL_am[1, j, k]
+wave_field.psiL_am[nx-1, j, k] = wave_field.psiL_am[nx-2, j, k]
 # Similar for Y and Z faces
 ```
 

@@ -50,8 +50,8 @@ def plot_static_charge_profile(wave_field):
 
     # Sample longitudinal displacement values
     for i in range(wave_field.nx):
-        displacements_L[i] = wave_field.displacement_am[i, center_j, center_k]
-        displacements_T[i] = 0.0
+        displacements_L[i] = wave_field.psiL_am[i, center_j, center_k]
+        displacements_T[i] = wave_field.psiT_am[i, center_j, center_k]
 
     # Calculate distance from center in grid indices
     center_x = wave_field.nx // 2
@@ -122,12 +122,14 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
 
     # Capture probe values
-    displacement_am = wave_field.displacement_am[px, py, pz] / wave_field.scale_factor
-    amplitude_am = trackers.amplitudeL_am[px, py, pz] / wave_field.scale_factor
-    frequency_rHz = trackers.frequency_rHz[px, py, pz] * wave_field.scale_factor
+    psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor
+    psiT_am = wave_field.psiT_am[px, py, pz] / wave_field.scale_factor
+    ampL_am = trackers.ampL_am[px, py, pz] / wave_field.scale_factor
+    ampT_am = trackers.ampT_am[px, py, pz] / wave_field.scale_factor
+    freq_rHz = trackers.freq_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
-    _timestep_buffer.append([timestep, charge_level, displacement_am, amplitude_am, frequency_rHz])
+    _timestep_buffer.append([timestep, charge_level, psiL_am, psiT_am, ampL_am, ampT_am, freq_rHz])
 
     # Flush buffer periodically
     if len(_timestep_buffer) >= _BUFFER_FLUSH_INTERVAL:
@@ -149,7 +151,15 @@ def _flush_timestep_buffer() -> None:
         with open(log_path, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(
-                ["timestep", "charge_level", "displacement_am", "amplitude_am", "frequency_rHz"]
+                [
+                    "timestep",
+                    "charge_level",
+                    "psiL_am",
+                    "psiT_am",
+                    "ampL_am",
+                    "ampT_am",
+                    "freq_rHz",
+                ]
             )
         _timestep_log_initialized = True
 
@@ -158,7 +168,15 @@ def _flush_timestep_buffer() -> None:
         writer = csv.writer(f)
         for row in _timestep_buffer:
             writer.writerow(
-                [row[0], f"{row[1]:.6f}", f"{row[2]:.6f}", f"{row[3]:.6f}", f"{row[4]:.6f}"]
+                [
+                    row[0],
+                    f"{row[1]:.6f}",
+                    f"{row[2]:.6f}",
+                    f"{row[3]:.6f}",
+                    f"{row[4]:.6f}",
+                    f"{row[5]:.6f}",
+                    f"{row[6]:.6f}",
+                ]
             )
 
     _timestep_buffer = []
@@ -178,8 +196,10 @@ def _read_timestep_data():
     data = {
         "timesteps": [],
         "charge_levels": [],
-        "displacements": [],
-        "amplitudes": [],
+        "displacements_L": [],
+        "displacements_T": [],
+        "amplitudes_L": [],
+        "amplitudes_T": [],
         "frequencies": [],
     }
 
@@ -188,15 +208,17 @@ def _read_timestep_data():
         for row in reader:
             data["timesteps"].append(int(row["timestep"]))
             data["charge_levels"].append(float(row["charge_level"]))
-            data["displacements"].append(float(row["displacement_am"]))
-            data["amplitudes"].append(float(row["amplitude_am"]))
-            data["frequencies"].append(float(row["frequency_rHz"]))
+            data["displacements_L"].append(float(row["psiL_am"]))
+            data["displacements_T"].append(float(row["psiT_am"]))
+            data["amplitudes_L"].append(float(row["ampL_am"]))
+            data["amplitudes_T"].append(float(row["ampT_am"]))
+            data["frequencies"].append(float(row["freq_rHz"]))
 
     return data
 
 
-def plot_charge_log():
-    """Plot the logged charge level over time."""
+def plot_charge_levels():
+    """Plot the logged charge levels over time."""
     data = _read_timestep_data()
     if data is None:
         return
@@ -236,29 +258,29 @@ def plot_charge_log():
     print("\nPlot charge_levels saved to:\n", save_path, "\n")
 
 
-def plot_probe_log():
+def plot_probe_values():
     """Plot the logged displacement, amplitude, and frequency over time."""
     data = _read_timestep_data()
     if data is None:
         return
 
-    # Create the plot with 2 subplots (stacked vertically)
+    # Create the plot with 3 subplots (stacked vertically)
     plt.style.use("dark_background")
-    fig = plt.figure(figsize=(10, 8), facecolor=colormap.DARK_GRAY[1])
+    fig = plt.figure(figsize=(9, 9), facecolor=colormap.DARK_GRAY[1])
     fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
 
-    # Plot 1: Displacement and Amplitude (top)
-    plt.subplot(2, 1, 1)
+    # Plot 1: Longitudinal Displacement and Amplitude (top)
+    plt.subplot(3, 1, 1)
     plt.plot(
         data["timesteps"],
-        data["displacements"],
+        data["displacements_L"],
         color=colormap.ironbow_palette[2][1],
         linewidth=2,
         label="DISPLACEMENT (am)",
     )
     plt.plot(
         data["timesteps"],
-        data["amplitudes"],
+        data["amplitudes_L"],
         color=colormap.ironbow_palette[3][1],
         linewidth=2,
         label="RMS AMPLITUDE (am)",
@@ -272,13 +294,43 @@ def plot_probe_log():
     )
     plt.axhline(y=0, color="w", linestyle="--", alpha=0.3)
     plt.xlabel("Timestep", family="Monospace")
-    plt.ylabel("Displacement / RMS Amplitude (am)", family="Monospace")
-    plt.title("DISPLACEMENT & AMPLITUDE OVER TIME", family="Monospace")
+    plt.ylabel("Displacement / Amplitude (am)", family="Monospace")
+    plt.title("(LONGITUDINAL) DISPLACEMENT & AMPLITUDE OVER TIME", family="Monospace")
     plt.grid(True, alpha=0.3)
     plt.legend()
 
-    # Plot 2: Frequency (bottom)
-    plt.subplot(2, 1, 2)
+    # Plot 2: Transverse Displacement and Amplitude (middle)
+    plt.subplot(3, 1, 2)
+    plt.plot(
+        data["timesteps"],
+        data["displacements_T"],
+        color=colormap.viridis_palette[2][1],
+        linewidth=2,
+        label="DISPLACEMENT (am)",
+    )
+    plt.plot(
+        data["timesteps"],
+        data["amplitudes_T"],
+        color=colormap.viridis_palette[3][1],
+        linewidth=2,
+        label="RMS AMPLITUDE (am)",
+    )
+    plt.axhline(
+        y=constants.EWAVE_AMPLITUDE / constants.ATTOMETER,
+        color=colormap.viridis_palette[4][1],
+        linestyle="--",
+        alpha=0.5,
+        label="eWAVE AMPLITUDE (am)",
+    )
+    plt.axhline(y=0, color="w", linestyle="--", alpha=0.3)
+    plt.xlabel("Timestep", family="Monospace")
+    plt.ylabel("Displacement / Amplitude (am)", family="Monospace")
+    plt.title("(TRANSVERSE) DISPLACEMENT & AMPLITUDE OVER TIME", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    # Plot 3: Frequency (bottom)
+    plt.subplot(3, 1, 3)
     plt.plot(
         data["timesteps"],
         data["frequencies"],
@@ -313,6 +365,12 @@ def generate_plots():
     """Generate all instrumentation plots."""
     # Flush any remaining buffered data before plotting
     _flush_timestep_buffer()
-    plot_charge_log()
-    plot_probe_log()
+    plot_charge_levels()
+    plot_probe_values()
+    plt.show()
+
+
+if __name__ == "__main__":
+    plot_charge_levels()
+    plot_probe_values()
     plt.show()

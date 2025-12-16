@@ -230,10 +230,10 @@ def compute_wave_direction_velocity(self):
     Wave velocity: v = ∂ψ/∂t ≈ (ψ_current - ψ_old) / dt
     Direction: gradient of velocity field
     """
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Time derivative (wave velocity)
-            v_wave = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
+            v_wave = (self.psiL_am[i,j,k] - self.psiL_old_am[i,j,k]) / dt
 
             # Gradient of velocity gives acceleration direction
             # (This is less direct, energy flux method is better)
@@ -303,15 +303,15 @@ def compute_total_energy() -> ti.f32:
     """Verify energy conservation in wave field."""
     total_energy = 0.0
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         # Velocity (time derivative of amplitude)
-        v = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
+        v = (self.psiL_am[i,j,k] - self.psiL_old_am[i,j,k]) / dt
 
         # Kinetic energy density
         E_k = 0.5 * ρ * v**2
 
         # Potential energy density
-        E_p = 0.5 * ρ * (self.frequency * self.displacement_am[i,j,k])**2
+        E_p = 0.5 * ρ * (self.frequency * self.psiL_am[i,j,k])**2
 
         # Add to total
         total_energy += (E_k + E_p) * dx**3
@@ -365,14 +365,14 @@ def compute_wave_mode(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # 1. Compute wave propagation direction (energy flux)
-            psi = self.displacement_am[i,j,k]
+            psi = self.psiL_am[i,j,k]
 
-            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.psiL_am[i+1,j,k] - self.psiL_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.psiL_am[i,j+1,k] - self.psiL_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.psiL_am[i,j,k+1] - self.psiL_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -469,14 +469,14 @@ def compute_wave_components(self):
     """
     c = ti.f32(constants.EWAVE_SPEED)
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # 1. Compute wave propagation direction (energy flux)
-            psi = self.displacement_am[i,j,k]
+            psi = self.psiL_am[i,j,k]
 
-            grad_x = (self.displacement_am[i+1,j,k] - self.displacement_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.displacement_am[i,j+1,k] - self.displacement_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.displacement_am[i,j,k+1] - self.displacement_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.psiL_am[i+1,j,k] - self.psiL_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.psiL_am[i,j+1,k] - self.psiL_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.psiL_am[i,j,k+1] - self.psiL_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_psi = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -730,13 +730,13 @@ def compute_wave_type(self):
     ρ = ti.f32(constants.MEDIUM_DENSITY)
     f = self.frequency
     
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Current displacement
-            psi = self.displacement_am[i,j,k] * constants.ATTOMETER  # meters
+            psi = self.psiL_am[i,j,k] * constants.ATTOMETER  # meters
 
             # Velocity (time derivative approximation)
-            v_wave_am = (self.displacement_am[i,j,k] - self.displacement_old_am[i,j,k]) / dt
+            v_wave_am = (self.psiL_am[i,j,k] - self.psiL_old_am[i,j,k]) / dt
             v_wave = v_wave_am * constants.ATTOMETER  # m/s
 
             # Kinetic energy density
@@ -775,11 +775,11 @@ def compute_wave_type_node_motion(self, dt: ti.f32):
     Standing wave: Nodes (ψ=0) remain at fixed spatial locations
     Traveling wave: Nodes move with wave velocity
     """
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Check if current voxel is near a node (zero crossing)
-            psi_now = self.displacement_am[i,j,k]
-            psi_old = self.displacement_old_am[i,j,k]
+            psi_now = self.psiL_am[i,j,k]
+            psi_old = self.psiL_old_am[i,j,k]
 
             # Zero crossing detection
             if psi_now * psi_old < 0:  # Sign change (crossed zero)
@@ -962,9 +962,9 @@ def measure_frequency(self, current_time: ti.f32):
     """
     c_slo = ti.f32(constants.EWAVE_SPEED / config.SLO_MO)  # m/s, slowed wave speed
 
-    for i, j, k in self.displacement_am:
+    for i, j, k in self.psiL_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
-        disp_mag = ti.abs(self.displacement_am[i,j,k])
+        disp_mag = ti.abs(self.psiL_am[i,j,k])
         amp = self.amplitude_am[i,j,k]
 
         # Peak detection: current displacement within 1% of amplitude

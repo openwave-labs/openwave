@@ -5,19 +5,19 @@ This XPERIMENT showcases:
 -
 """
 
-UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
+UNIVERSE_EDGE = 6e-15  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "035 waves, 100M voxels",
+        "X_NAME": "210 waves, 350M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [0.50, 0.84, 1.80],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e8,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 3.5e8,  # Simulation voxel count (impacts performance)
     },
     "charging": {
         "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
@@ -34,7 +34,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 1,  # Color palette list: redshift (1), ironbow (2), blueprint (3), viridis (4), orange (5)
+        "COLOR_PALETTE": 1,  # redblue (1), ironbow (3), blueprint (5), viridis (4)
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics

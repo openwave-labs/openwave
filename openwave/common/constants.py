@@ -89,18 +89,20 @@ PLANCK_CHARGE = 1.875459e-18  # m, Planck charge
 PLANCK_CONSTANT = 6.62607015e-34  # J·s, h = Planck constant
 PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * np.pi)  # J·s, ħ = reduced Planck constant
 
-FINE_STRUCTURE = 7.2973525643e-3  # fine-structure constant, alpha
+ELEMENTARY_CHARGE = 1.602176634e-19  # m, The elementary charge from CODATA values
 ELECTRIC_CONSTANT = 8.8541878188e-12  # F/m, vacuum permittivity, epsilon_0
+COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
+
+FINE_STRUCTURE = 7.2973525643e-3  # fine-structure constant, alpha
 MAGNETIC_CONSTANT = 1.25663706127e-6  # kg/m, vacuum permeability, 4π.10-7, mu_0
+BOHR_MAGNETON = 9.2740100657e-24  # J/T, μ_B, Bohr magneton (~ 5.788 e-5 eV/T)
+
 GRAVITATIONAL_CONSTANT = 6.67430e-11  # m^3/kg/s^2, G, Newtonian constant of gravitation
 
 BOHR_RADIUS = 5.29177210544e-11  # m, rₕ = Hydrogen 1s radius (Bohr Radius)
 H_LINE_FREQUENCY = 1.420405751768e9  # Hz, 21cm Hydrogen line (spin-flip) frequency
 H_LYMAN_ALPHA_FREQUENCY = 2.4660677e15  # Hz, 121nm Hydrogen Lyman-alpha frequency
 
-ELEMENTARY_CHARGE = 1.602176634e-19  # m, The elementary charge from CODATA values
-COULOMB_CONSTANT = 8.9875517923e9  # N·m^2/C^2 (N when charge C is distance), k
-BOHR_MAGNETON = 9.2740100657e-24  # J/T, μ_B, Bohr magneton (~ 5.788 e-5 eV/T)
 AVOGADRO_NUMBER = 6.02214076e23  # 1/mol, N_A, Avogadro's number
 
 # ================================================================

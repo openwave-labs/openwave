@@ -113,8 +113,9 @@ class SimulationState:
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
-        self.rms_amplitude = constants.EWAVE_AMPLITUDE
-        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.rms_ampT = 0.0
+        self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
         self.charge_level = 0.0
@@ -215,8 +216,9 @@ class SimulationState:
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
-        self.rms_amplitude = constants.EWAVE_AMPLITUDE
-        self.avg_frequency = constants.EWAVE_FREQUENCY
+        self.rms_ampL = constants.EWAVE_AMPLITUDE
+        self.rms_ampT = 0.0
+        self.avg_freq = constants.EWAVE_FREQUENCY
         self.avg_wavelength = constants.EWAVE_LENGTH
         self.total_energy = 0.0
         self.charge_level = 0.0
@@ -277,30 +279,44 @@ def display_controls(state):
             state.restart_sim()
 
 
-def display_color_menu(state):
-    """Display color selection menu."""
-    with render.gui.sub_window("COLOR MENU", 0.00, 0.75, 0.14, 0.12) as sub:
-        if sub.checkbox("Displacement (redshift)", state.COLOR_PALETTE == 1):
+def display_wave_menu(state):
+    """Display wave properties selection menu."""
+    with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.14, 0.17) as sub:
+        if sub.checkbox("Displacement (Longitud)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
+        if sub.checkbox("Displacement (Transver)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-        if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
+        if sub.checkbox("Amplitude (Longitud)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
+        if sub.checkbox("Amplitude (Transver)", state.COLOR_PALETTE == 4):
+            state.COLOR_PALETTE = 4
+        if sub.checkbox("Frequency (L & T)", state.COLOR_PALETTE == 5):
+            state.COLOR_PALETTE = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.COLOR_PALETTE == 1:  # Display redshift gradient palette
-            render.canvas.triangles(rs_palette_vertices, per_vertex_color=rs_palette_colors)
-            with render.gui.sub_window("displacement", 0.00, 0.69, 0.08, 0.06) as sub:
+        if state.COLOR_PALETTE == 1:  # Display redblue gradient palette
+            render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
+            with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
-                    f"{-state.rms_amplitude*2/state.wave_field.scale_factor:.0e}  {state.rms_amplitude*2/state.wave_field.scale_factor:.0e}m"
+                    f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
+        if state.COLOR_PALETTE == 2:  # Display yellowgreen gradient palette
+            render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
+            with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(
+                    f"{-state.rms_ampT*2/state.wave_field.scale_factor:.0e}  {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m"
+                )
+        if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.rms_amplitude*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
+            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
+        if state.COLOR_PALETTE == 4:  # Display viridis gradient palette
+            render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
+            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m")
+        if state.COLOR_PALETTE == 5:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
-            with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.avg_frequency*2*state.wave_field.scale_factor:.0e}Hz")
+            with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.avg_freq*2*state.wave_field.scale_factor:.0e}Hz")
 
 
 def display_level_specs(state, level_bar_vertices):
@@ -321,7 +337,7 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.33, 0.16, 0.67) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.37, 0.16, 0.63) as sub:
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
@@ -341,14 +357,12 @@ def display_data_dashboard(state):
         sub.text(f"eWave: {state.wave_field.ewave_res:.1f} voxels/wave (~12)")
         if state.wave_field.ewave_res < 10:
             sub.text(f"*** WARNING: Undersampling! ***", color=(1.0, 0.0, 0.0))
-        sub.text(f"Scaled-up Amplitude: {state.rms_amplitude:.1e} m")
-        sub.text(f"Scaled-dn Frequency: {state.avg_frequency:.1e} Hz")
-        sub.text(f"Scaled-up Wavelength: {state.avg_wavelength:.1e} m")
 
         sub.text("\n--- ENERGY-WAVE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"eWAVE Amplitude: {state.rms_amplitude/state.wave_field.scale_factor:.1e} m")
-        sub.text(f"eWAVE Frequency: {state.avg_frequency*state.wave_field.scale_factor:.1e} Hz")
-        sub.text(f"eWAVE Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Amp Longitudinal: {state.rms_ampL/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Amp Transverse: {state.rms_ampT/state.wave_field.scale_factor:.1e} m")
+        sub.text(f"Frequency: {state.avg_freq*state.wave_field.scale_factor:.1e} Hz")
+        sub.text(f"Wavelength: {state.avg_wavelength/state.wave_field.scale_factor:.1e} m")
         sub.text(
             f"TOTAL ENERGY: {state.total_energy:.1e} J",
             color=(
@@ -395,20 +409,28 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
+    global rb_palette_vertices, rb_palette_colors
+    global yg_palette_vertices, yg_palette_colors
     global ib_palette_vertices, ib_palette_colors
-    global rs_palette_vertices, rs_palette_colors
+    global vr_palette_vertices, vr_palette_colors
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
     # Initialize color palette scales for gradient rendering and level indicator
+    rb_palette_vertices, rb_palette_colors = colormap.get_palette_scale(
+        colormap.redblue, 0.00, 0.63, 0.079, 0.01
+    )
+    yg_palette_vertices, yg_palette_colors = colormap.get_palette_scale(
+        colormap.yellowgreen, 0.00, 0.63, 0.079, 0.01
+    )
     ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.68, 0.079, 0.01
+        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    )
+    vr_palette_vertices, vr_palette_colors = colormap.get_palette_scale(
+        colormap.viridis, 0.00, 0.63, 0.079, 0.01
     )
     bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
-        colormap.blueprint, 0.00, 0.68, 0.079, 0.01
-    )
-    rs_palette_vertices, rs_palette_colors = colormap.get_palette_scale(
-        colormap.redshift, 0.00, 0.68, 0.079, 0.01
+        colormap.blueprint, 0.00, 0.63, 0.079, 0.01
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
@@ -440,13 +462,15 @@ def compute_wave_motion(state):
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
-    state.rms_amplitude = state.trackers.rms_amplitudeL_am[None] * constants.ATTOMETER  # in m
-    state.avg_frequency = state.trackers.avg_frequency_rHz[None] / constants.RONTOSECOND
-    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_frequency or 1)  # prevents 0 div
+    state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
+    state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m
+    state.avg_freq = state.trackers.avg_freq_rHz[None] / constants.RONTOSECOND
+    state.avg_wavelength = constants.EWAVE_SPEED / (state.avg_freq or 1)  # prevents 0 div
     state.total_energy = (
         constants.MEDIUM_DENSITY
         * state.wave_field.universe_volume
-        * (state.avg_frequency * state.rms_amplitude) ** 2
+        * state.avg_freq**2
+        * (state.rms_ampL**2 + state.rms_ampT**2)
     )
     state.charge_level = state.total_energy / state.wave_field.nominal_energy
     state.charging = state.charge_level < 0.80  # stop charging, seeks energy stabilization
@@ -471,6 +495,9 @@ def render_elements(state):
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
+    # position0 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # radius_electron = constants.ELECTRON_RADIUS / state.wave_field.max_universe_edge
+    # render.scene.particles(position0, radius=radius_electron, color=colormap.COLOR_PARTICLE[1])
     position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
     render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
     position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
@@ -548,7 +575,7 @@ def main():
         render_elements(state)
 
         # Display additional UI elements and scene
-        display_color_menu(state)
+        display_wave_menu(state)
         display_data_dashboard(state)
         display_level_specs(state, level_bar_vertices)
         render.show_scene()

@@ -94,11 +94,11 @@ pos_z = (k + 0.5) * dx_am
 # LEVEL-0: 1D array of granules with 3D position vectors
 self.position_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
 self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=self.granule_count)
-self.displacement_am = ti.field(dtype=ti.f32, shape=self.granule_count)
+self.psiL_am = ti.field(dtype=ti.f32, shape=self.granule_count)
 
 # Access granule 12345
 pos = self.position_am[12345]  # Returns [x, y, z] in attometers
-amp = self.displacement_am[12345]  # Scalar amplitude
+amp = self.psiL_am[12345]  # Scalar amplitude
 ```
 
 **Why 1D is optimal for LEVEL-0:**
@@ -137,12 +137,12 @@ This is acceptable in LEVEL-0 because **spatial queries are rare** - you mainly 
 
 ```python
 # LEVEL-1: 3D grid of field values
-self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 self.velocity_am = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 self.phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 
 # Access voxel [100, 200, 300]
-amp = self.displacement_am[100, 200, 300]  # Direct O(1) access!
+amp = self.psiL_am[100, 200, 300]  # Direct O(1) access!
 vel = self.velocity_am[100, 200, 300]   # 3D vector at this voxel
 ```
 
@@ -152,7 +152,7 @@ vel = self.velocity_am[100, 200, 300]   # 3D vector at this voxel
 - ✅ **Spatial queries**: Constantly need "what's at (x,y,z)?" - O(1) lookup
 - ✅ **Neighbor access**: Natural 6/18/26-connectivity via index offsets
 - ✅ **Grid algorithms**: Laplacian, gradients, stencils are trivial
-- ✅ **Readable code**: `displacement_am[i, j, k]` has clear spatial meaning
+- ✅ **Readable code**: `psiL_am[i, j, k]` has clear spatial meaning
 
 **Spatial lookup solution:**
 
@@ -168,7 +168,7 @@ def get_amplitude_at_position(pos_am: ti.math.vec3) -> ti.f32:
     k = ti.i32((pos_am[2] / self.dx_am) - 0.5)
 
     # Direct O(1) lookup - no searching!
-    return self.displacement_am[i, j, k]
+    return self.psiL_am[i, j, k]
 ```
 
 ### Why 3D Arrays for LEVEL-1?
@@ -221,17 +221,17 @@ The 3D version is **cleaner, more readable, and less error-prone**.
 
 **Memory Layout**: Taichi stores 3D arrays as 1D in memory (row-major order)
 
-- `displacement_am[i, j, k]` is compiled to efficient 1D index calculation
+- `psiL_am[i, j, k]` is compiled to efficient 1D index calculation
 - **You get clean syntax + compiler optimization**
 - No performance penalty vs explicit 1D indexing
 
 **Cache Locality**: 3D loops maintain good cache performance
 
 ```python
-for i, j, k in displacement_am:
+for i, j, k in psiL_am:
     # Taichi ensures k varies fastest (innermost loop)
     # = Sequential memory access pattern
-    value = displacement_am[i, j, k]
+    value = psiL_am[i, j, k]
 ```
 
 **Summary Table**:
@@ -244,7 +244,7 @@ for i, j, k in displacement_am:
 | **Spatial lookup** | O(N) search required | O(1) index calculation |
 | **Neighbor access** | Complex (requires search) | Trivial (`[i±1, j±1, k±1]`) |
 | **Gradient/Laplacian** | N/A (particle-based) | Essential (field operators) |
-| **Code readability** | `position_am[i]` | `displacement_am[i, j, k]` |
+| **Code readability** | `position_am[i]` | `psiL_am[i, j, k]` |
 | **Best practice** | 1D ✓ (particle engines) | 3D ✓ (field solvers) |
 | **Use case** | Moving particles, N-body | Fixed grid, PDEs, wave equations |
 
@@ -261,7 +261,7 @@ LEVEL-1 uses **scaled SI units** for both spatial and temporal values to maintai
 |--------|------------------------|----------------------|
 | **Position Storage** | Stored in vector fields `pos_am[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx_am` |
 | **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx_am` (shared) |
-| **Field Values** | displacement_am, velocity_am per granule | displacement_am per voxel |
+| **Field Values** | psiL_am, velocity_am per granule | psiL_am per voxel |
 | **Attometer Benefit** | Prevents catastrophic cancellation in distance calculations | Prevents precision loss in displacement gradients and wave calculations |
 | **Code Complexity** | Conversion for positions and field values | Conversion for field values only (positions computed) |
 
@@ -284,7 +284,7 @@ pos_x_am = (i + 0.5) * dx_am  # Computed on-the-fly in attometers
 ```python
 # Critical: Amplitude, wavelength, and voxel size need attometer scaling
 wavelength_am = 28.54096501  # attometers (vs 2.854e-17 m)
-displacement_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
+psiL_am[i,j,k] = 0.9215  # attometers (vs 9.215e-19 m)
 
 # F32 precision preserved:
 # - Amplitude gradients: ∇A computed with 6-7 significant digits
@@ -339,7 +339,7 @@ import taichi as ti
 from openwave.common import constants
 
 # Scalar fields with attometer scaling
-displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
+psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Attometers
 phase = ti.field(dtype=ti.f32, shape=(nx, ny, nz))  # Radians (no scaling)
 
 # Scalar fields without attometer scaling
@@ -435,7 +435,7 @@ dx_am, dy_am, dz_am     # Voxel edge lengths (attometers)
 i, j, k                 # Grid indices (integers)
 pos_am, position_am     # Physical coordinates (attometers)
 pos_m, position_m       # Physical coordinates (meters, for external use)
-displacement_am[i,j,k]  # Displacement field in attometers
+psiL_am[i,j,k]  # Displacement field in attometers
 phase[i,j,k]            # Phase field in radians
 ```
 
@@ -549,7 +549,7 @@ nz = int(init_universe_size[2] / dx)  # Number of voxels in z
 universe_size = [nx * dx, ny * dx, nz * dx]  # meters
 
 # Taichi field declaration (asymmetric shape)
-self.displacement_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 ```
