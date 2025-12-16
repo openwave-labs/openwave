@@ -1088,11 +1088,11 @@ def update_flux_mesh_colors(
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if color_palette == 3:  # blueprint
+        if color_palette == 5:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-        elif color_palette == 2:  # ironbow
+        elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 amp_value, 0, trackers.rms_ampL_am[None] * 2
             )
@@ -1114,11 +1114,11 @@ def update_flux_mesh_colors(
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if color_palette == 3:  # blueprint
+        if color_palette == 5:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-        elif color_palette == 2:  # ironbow
+        elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 amp_value, 0, trackers.rms_ampL_am[None] * 2
             )
@@ -1140,11 +1140,11 @@ def update_flux_mesh_colors(
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if color_palette == 3:  # blueprint
+        if color_palette == 5:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-        elif color_palette == 2:  # ironbow
+        elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 amp_value, 0, trackers.rms_ampL_am[None] * 2
             )

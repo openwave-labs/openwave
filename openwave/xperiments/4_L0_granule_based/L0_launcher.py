@@ -248,19 +248,19 @@ def display_controls(state):
 def display_color_menu(state):
     """Display color selection menu."""
     with render.gui.sub_window("COLOR MENU", 0.00, 0.73, 0.14, 0.14) as sub:
-        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 5):
-            state.COLOR_PALETTE = 5
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
-            state.COLOR_PALETTE = 2
+        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 6):
+            state.COLOR_PALETTE = 6
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 3):
+            state.COLOR_PALETTE = 3
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
             state.COLOR_PALETTE = 99
-        if state.COLOR_PALETTE == 5:  # Display orange gradient palette
+        if state.COLOR_PALETTE == 6:  # Display orange gradient palette
             render.canvas.triangles(og_palette_vertices, per_vertex_color=og_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
+        if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
@@ -394,7 +394,7 @@ def render_elements(state):
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 5 or state.COLOR_PALETTE == 2:
+    elif state.COLOR_PALETTE == 6 or state.COLOR_PALETTE == 3:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,

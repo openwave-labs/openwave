@@ -87,26 +87,13 @@ redblue_palette = [
 # Ironbow Gradient: PALETTE [used in get_ironbow_color()]
 # ================================================================
 # Simplified thermal imaging palette (5-color)
-# "color_palette" = 2
+# "color_palette" = 3
 ironbow_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#20008A", (0.125, 0.0, 0.541)],  # dark blue
     ["#91009C", (0.569, 0.0, 0.612)],  # magenta
     ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
     ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
-]
-
-# ================================================================
-# Blueprint Gradient: PALETTE [used in get_blueprint_color()]
-# ================================================================
-# Simplified blueprint imaging palette (5-color)
-# "color_palette" = 3
-blueprint_palette = [
-    ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
-    ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
-    ["#607DBD", (0.376, 0.490, 0.741)],  # blue
-    ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
-    ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
 ]
 
 # ================================================================
@@ -123,10 +110,23 @@ viridis_palette = [
 ]
 
 # ================================================================
+# Blueprint Gradient: PALETTE [used in get_blueprint_color()]
+# ================================================================
+# Simplified blueprint imaging palette (5-color)
+# "color_palette" = 5
+blueprint_palette = [
+    ["#192C64", (0.098, 0.173, 0.392)],  # dark blue
+    ["#405CB1", (0.251, 0.361, 0.694)],  # medium blue
+    ["#607DBD", (0.376, 0.490, 0.741)],  # blue
+    ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
+    ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
+]
+
+# ================================================================
 # Orange Gradient: PALETTE [used in get_orange_color()]
 # ================================================================
 # Simplified orange gradient palette (5-color)
-# "color_palette" = 5
+# "color_palette" = 6
 orange_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#74120F", (0.451, 0.071, 0.059)],  # dark red-orange
@@ -281,78 +281,6 @@ def get_ironbow_color(value, min_value, max_value):
 
 
 # ================================================================
-# Blueprint Gradient: FUNCTION
-# ================================================================
-
-# Taichi-compatible constants for use inside @ti.func
-# Extracts RGB tuples from palette for use in both Python and Taichi scopes
-blueprint = [color[1] for color in blueprint_palette]
-BLUEPRINT_0 = ti.Vector([blueprint[0][0], blueprint[0][1], blueprint[0][2]])
-BLUEPRINT_1 = ti.Vector([blueprint[1][0], blueprint[1][1], blueprint[1][2]])
-BLUEPRINT_2 = ti.Vector([blueprint[2][0], blueprint[2][1], blueprint[2][2]])
-BLUEPRINT_3 = ti.Vector([blueprint[3][0], blueprint[3][1], blueprint[3][2]])
-BLUEPRINT_4 = ti.Vector([blueprint[4][0], blueprint[4][1], blueprint[4][2]])
-
-
-@ti.func
-def get_blueprint_color(value, min_value, max_value):
-    """Maps a numerical value to a BLUEPRINT color gradient.
-
-    BLUEPRINT gradient: dark blue → medium blue → blue → light blue → extra-light blue
-    Used for blueprint-style visualization where low = dark, high = light.
-
-    Optimized for maximum performance with millions of voxels.
-    Uses palette-derived constants for maintainability with if-elif branches for performance.
-
-    Args:
-        value: The displacement magnitude to visualize
-        min_value: Minimum displacement in range
-        max_value: Maximum displacement observed
-
-    Returns:
-        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
-
-    Example:
-        color = get_blueprint_color(value=50, min_value=0, max_value=100)
-        # Returns blue since 50/100 = 0.5 is in the middle range
-    """
-
-    # Compute normalized scale range with saturation headroom
-    scale = max_value - min_value
-
-    # Normalize color by scale range [0.0 - 1.0]
-    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
-
-    # Compute color as gradient for visualization with key colors (interpolated)
-    r, g, b = 0.0, 0.0, 0.0
-
-    if norm_color < 0.25:
-        blend = norm_color / 0.25
-        r = BLUEPRINT_0[0] * (1.0 - blend) + BLUEPRINT_1[0] * blend
-        g = BLUEPRINT_0[1] * (1.0 - blend) + BLUEPRINT_1[1] * blend
-        b = BLUEPRINT_0[2] * (1.0 - blend) + BLUEPRINT_1[2] * blend
-    elif norm_color < 0.5:
-        blend = (norm_color - 0.25) / 0.25
-        r = BLUEPRINT_1[0] * (1.0 - blend) + BLUEPRINT_2[0] * blend
-        g = BLUEPRINT_1[1] * (1.0 - blend) + BLUEPRINT_2[1] * blend
-        b = BLUEPRINT_1[2] * (1.0 - blend) + BLUEPRINT_2[2] * blend
-    elif norm_color < 0.75:
-        blend = (norm_color - 0.5) / 0.25
-        r = BLUEPRINT_2[0] * (1.0 - blend) + BLUEPRINT_3[0] * blend
-        g = BLUEPRINT_2[1] * (1.0 - blend) + BLUEPRINT_3[1] * blend
-        b = BLUEPRINT_2[2] * (1.0 - blend) + BLUEPRINT_3[2] * blend
-    else:
-        blend = (norm_color - 0.75) / 0.25
-        r = BLUEPRINT_3[0] * (1.0 - blend) + BLUEPRINT_4[0] * blend
-        g = BLUEPRINT_3[1] * (1.0 - blend) + BLUEPRINT_4[1] * blend
-        b = BLUEPRINT_3[2] * (1.0 - blend) + BLUEPRINT_4[2] * blend
-
-    blueprint_color = ti.Vector([r, g, b])
-
-    return blueprint_color
-
-
-# ================================================================
 # Viridis Gradient: FUNCTION
 # ================================================================
 
@@ -425,6 +353,78 @@ def get_viridis_color(value, min_value, max_value):
     viridis_color = ti.Vector([r, g, b])
 
     return viridis_color
+
+
+# ================================================================
+# Blueprint Gradient: FUNCTION
+# ================================================================
+
+# Taichi-compatible constants for use inside @ti.func
+# Extracts RGB tuples from palette for use in both Python and Taichi scopes
+blueprint = [color[1] for color in blueprint_palette]
+BLUEPRINT_0 = ti.Vector([blueprint[0][0], blueprint[0][1], blueprint[0][2]])
+BLUEPRINT_1 = ti.Vector([blueprint[1][0], blueprint[1][1], blueprint[1][2]])
+BLUEPRINT_2 = ti.Vector([blueprint[2][0], blueprint[2][1], blueprint[2][2]])
+BLUEPRINT_3 = ti.Vector([blueprint[3][0], blueprint[3][1], blueprint[3][2]])
+BLUEPRINT_4 = ti.Vector([blueprint[4][0], blueprint[4][1], blueprint[4][2]])
+
+
+@ti.func
+def get_blueprint_color(value, min_value, max_value):
+    """Maps a numerical value to a BLUEPRINT color gradient.
+
+    BLUEPRINT gradient: dark blue → medium blue → blue → light blue → extra-light blue
+    Used for blueprint-style visualization where low = dark, high = light.
+
+    Optimized for maximum performance with millions of voxels.
+    Uses palette-derived constants for maintainability with if-elif branches for performance.
+
+    Args:
+        value: The displacement magnitude to visualize
+        min_value: Minimum displacement in range
+        max_value: Maximum displacement observed
+
+    Returns:
+        ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
+
+    Example:
+        color = get_blueprint_color(value=50, min_value=0, max_value=100)
+        # Returns blue since 50/100 = 0.5 is in the middle range
+    """
+
+    # Compute normalized scale range with saturation headroom
+    scale = max_value - min_value
+
+    # Normalize color by scale range [0.0 - 1.0]
+    norm_color = ti.math.clamp((value - min_value) / scale, 0.0, 1.0)
+
+    # Compute color as gradient for visualization with key colors (interpolated)
+    r, g, b = 0.0, 0.0, 0.0
+
+    if norm_color < 0.25:
+        blend = norm_color / 0.25
+        r = BLUEPRINT_0[0] * (1.0 - blend) + BLUEPRINT_1[0] * blend
+        g = BLUEPRINT_0[1] * (1.0 - blend) + BLUEPRINT_1[1] * blend
+        b = BLUEPRINT_0[2] * (1.0 - blend) + BLUEPRINT_1[2] * blend
+    elif norm_color < 0.5:
+        blend = (norm_color - 0.25) / 0.25
+        r = BLUEPRINT_1[0] * (1.0 - blend) + BLUEPRINT_2[0] * blend
+        g = BLUEPRINT_1[1] * (1.0 - blend) + BLUEPRINT_2[1] * blend
+        b = BLUEPRINT_1[2] * (1.0 - blend) + BLUEPRINT_2[2] * blend
+    elif norm_color < 0.75:
+        blend = (norm_color - 0.5) / 0.25
+        r = BLUEPRINT_2[0] * (1.0 - blend) + BLUEPRINT_3[0] * blend
+        g = BLUEPRINT_2[1] * (1.0 - blend) + BLUEPRINT_3[1] * blend
+        b = BLUEPRINT_2[2] * (1.0 - blend) + BLUEPRINT_3[2] * blend
+    else:
+        blend = (norm_color - 0.75) / 0.25
+        r = BLUEPRINT_3[0] * (1.0 - blend) + BLUEPRINT_4[0] * blend
+        g = BLUEPRINT_3[1] * (1.0 - blend) + BLUEPRINT_4[1] * blend
+        b = BLUEPRINT_3[2] * (1.0 - blend) + BLUEPRINT_4[2] * blend
+
+    blueprint_color = ti.Vector([r, g, b])
+
+    return blueprint_color
 
 
 # ================================================================

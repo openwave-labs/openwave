@@ -284,10 +284,10 @@ def display_color_menu(state):
     with render.gui.sub_window("COLOR MENU", 0.00, 0.75, 0.14, 0.12) as sub:
         if sub.checkbox("Displacement (redblue)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 2):
-            state.COLOR_PALETTE = 2
-        if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 3):
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
+        if sub.checkbox("Frequency (blueprint)", state.COLOR_PALETTE == 5):
+            state.COLOR_PALETTE = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
         if state.COLOR_PALETTE == 1:  # Display redblue gradient palette
             render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
@@ -295,11 +295,11 @@ def display_color_menu(state):
                 sub.text(
                     f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 2:  # Display ironbow gradient palette
+        if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.69, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 3:  # Display blueprint gradient palette
+        if state.COLOR_PALETTE == 5:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.69, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.avg_freq*2*state.wave_field.scale_factor:.0e}Hz")
