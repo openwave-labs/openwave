@@ -136,13 +136,13 @@ def charge_gaussian(
         # Gaussian envelope: G(r) = exp(-r²/(2σ²))
         gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
-        wave_field.psiT_am[i, j, k] = A_am * gaussian
+        wave_field.psiL_am[i, j, k] = A_am * gaussian
 
     # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
+        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
 
 
 # ================================================================
