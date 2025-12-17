@@ -44,6 +44,7 @@ This document records the implementation journey of **Wave Center (WC) spin inte
    - [Connection to Current Implementation](#connection-to-current-implementation)
    - [Possible Implementation Directions](#possible-implementation-directions)
    - [The In-Wave to Out-Wave Transformation](#the-in-wave-to-out-wave-transformation)
+   - [psiL Reflection Hypothesis (New Insight)](#psil-reflection-hypothesis-new-insight)
 1. [References](#references)
 1. [Pathways to Explore for psiL Standing Waves](#pathways-to-explore-for-psil-standing-waves)
    - [Current Approach: Phase Shift at WC](#current-approach-phase-shift-at-wc)
@@ -392,6 +393,57 @@ Wolff describes the wave center as where **in-waves become out-waves**:
 - Out-waves: diverging spherical waves with shifted phase
 
 This transformation might be the mechanism that creates standing waves (Goal 1) while also producing the transverse component (Goal 2).
+
+### psiL Reflection Hypothesis (New Insight)
+
+**Key idea**: psiL might reflect from WC spin, not just pass through.
+
+**The reflection model**:
+
+1. **Reduced magnitude**: Reflected psiL has lower amplitude (energy transferred to psiT)
+2. **Negative velocity**: Reflected wave travels back toward source (opposite direction)
+3. **720° phase lag**: The reflection occurs with a 720° delay
+
+**Why 720° lag?**
+
+- A spherical rotation in 3D space requires 720° to return to initial state
+- This IS the spin-½ property of particles (electrons, etc.)
+- Each "particle" in the wave (oscillating element) must complete 720° before being "thrown back"
+
+**Spiral wave emergence**:
+
+The combination of:
+
+- Continuous incoming waves
+- 720° lag per reflection
+- Negative velocity (direction reversal)
+- One-by-one reflection as WC spins
+
+...could create a **spiral wave pattern** emanating from the WC:
+
+```text
+Incoming wave → WC → 720° spin delay → reflected wave (negative v, reduced amp)
+                 ↓
+            Next wavefront arrives
+                 ↓
+            720° spin delay
+                 ↓
+            Next reflection...
+
+The staggered reflections with phase lag create spiral structure
+```
+
+**Connection to psiT**:
+
+- psiT is already propagating correctly from WC spin (ACHIEVED)
+- psiT represents the transverse component created during this reflection/transformation
+- psiL spiral + psiT radial = complete electromagnetic field structure?
+
+**Food for thought**:
+
+- Is the spiral the "standing wave" we're looking for?
+- Does the 720° lag naturally create the radial phase sync?
+- Could visualizing this spiral reveal the electric field structure?
 
 ## References
 
