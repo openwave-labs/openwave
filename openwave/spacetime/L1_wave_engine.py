@@ -263,7 +263,7 @@ def propagate_wave(
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # ================================================================
-    # WAVE PROPAGATION: Update voxels using Leap-Frog
+    # WAVE PROPAGATION: Update voxels using Leap-Frog Method
     # ================================================================
     # Update interior voxels only (Dirichlet BC: ψ=0 at edges)
     # 6-point Laplacian: needs 1-cell buffer → range (1, n-1)
@@ -274,17 +274,57 @@ def propagate_wave(
 
         # Leap-Frog update
         # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
+        # Propagate Longitudinal Wave Component
         wave_field.psiL_new_am[i, j, k] = (
             2.0 * wave_field.psiL_am[i, j, k]
             - wave_field.psiL_old_am[i, j, k]
             + (c_amrs * dt_rs) ** 2 * laplacianL_am
         )
 
+        # Propagate Transverse Wave Component
         wave_field.psiT_new_am[i, j, k] = (
             2.0 * wave_field.psiT_am[i, j, k]
             - wave_field.psiT_old_am[i, j, k]
             + (c_amrs * dt_rs) ** 2 * laplacianT_am
         )
+
+        # TRANSVERSE-WAVE ABSORBING LAYER ============================================
+        # Reflection is inherent at wave equation boundaries:
+        # - Wave equation ∂²ψ/∂t² = c²∇²ψ is bidirectional by nature
+        # - Any impedance discontinuity (Z₁ ≠ Z₂) causes reflection: R = (Z₁-Z₂)/(Z₁+Z₂)
+        # - Sharp boundaries (Dirichlet, Neumann) are extreme impedance mismatches
+        # The solution = gradual impedance matching:
+        # - Quadratic damping profile creates smooth impedance transition
+        # - Wave "doesn't notice" it's being absorbed until it's too late
+        # - No sharp discontinuity = minimal reflection
+        # Energy conservation:
+        # - Damped psiT energy → psiL (not lost, just converted)
+        # - Physically meaningful: transverse component absorbed at "infinity" returns to longitudinal
+        # This is essentially a simplified PML (Perfectly Matched Layer) the standard technique
+        # in computational electromagnetics and acoustics for simulating infinite domains.
+
+        # Calculate distance to nearest boundary for absorbing layer
+        dist_x = ti.min(i, nx - 1 - i)
+        dist_y = ti.min(j, ny - 1 - j)
+        dist_z = ti.min(k, nz - 1 - k)
+        dist_to_boundary = ti.min(dist_x, ti.min(dist_y, dist_z))
+
+        # Absorbing layer: gentle damping applied AFTER wave equation
+        # Small damping with quadratic profile for gradual impedance change
+        absorbing_width = nx // 10  # fraction of grid on each side
+        if dist_to_boundary < absorbing_width:
+            normalized_dist = (absorbing_width - dist_to_boundary) / absorbing_width
+            damping = 0.10 * normalized_dist * normalized_dist  # Max 10% at boundary
+
+            psiT_before = wave_field.psiT_new_am[i, j, k]
+            psiT_after = psiT_before * (1.0 - damping)
+
+            # Transfer damped energy to psiL (branchless)
+            energy_diff = ti.max(0.0, psiT_before**2 - psiT_after**2)
+            psiL = wave_field.psiL_new_am[i, j, k]
+            psiL_sign = ti.select(psiL >= 0.0, 1.0, -1.0)
+            wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL**2 + energy_diff)
+            wave_field.psiT_new_am[i, j, k] = psiT_after
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
@@ -340,8 +380,10 @@ def propagate_wave(
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
 
+    # interact_wc_pulse1(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    # interact_wc_pulse2(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+
     # interact_wc_swap(wave_field)
-    # interact_wc_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
     # interact_wc_lens(wave_field)  # amplify waves at WC, but no standing wave formation
 
     # interact_wc_min(wave_field) # no interaction on isotropic waves
@@ -354,6 +396,74 @@ def propagate_wave(
 # ================================================================
 # WAVE CENTER INTERACTIONS
 # ================================================================
+
+
+@ti.func
+def interact_wc_pulse1(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+    """
+    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = 1  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 9.0  # amplitude boost factor
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+            )
+
+
+@ti.func
+def interact_wc_pulse2(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+    """
+    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc_radius = 1  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 9.0  # amplitude boost factor
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+            )
 
 
 @ti.func
@@ -383,40 +493,6 @@ def interact_wc_swap(wave_field: ti.template()):  # type: ignore
     bottom = wave_field.psiL_am[wc1x, wc1y, wc1z - 1]
     wave_field.psiL_am[wc1x, wc1y, wc1z + 1] = bottom
     wave_field.psiL_am[wc1x, wc1y, wc1z - 1] = top
-
-
-@ti.func
-def interact_wc_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
-    """
-    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 0  # radius in voxels
-    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 2.0  # amplitude boost factor
-
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = (
-        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-    )  # angular frequency (rad/rs)
-
-    for i, j, k in ti.ndrange(
-        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
-        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
-        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if dist_sq <= wc_radius_sq:
-            wave_field.psiL_am[i, j, k] = (
-                base_amplitude_am
-                * boost
-                * wave_field.scale_factor
-                * ti.cos(omega_rs * elapsed_t_rs)
-            )
 
 
 @ti.func
