@@ -296,14 +296,14 @@ def propagate_wave(
         # α controls adaptation speed: higher = faster response, lower = smoother
         # 2 polarities tracked: longitudinal & transverse
         # Longitudinal RMS amplitude
-        disp2_L = wave_field.psiL_am[i, j, k] ** 2
+        disp2_L = wave_field.psiL_new_am[i, j, k] ** 2
         current_rms2_L = trackers.ampL_am[i, j, k] ** 2
         alpha_rms_L = 0.005  # EMA smoothing factor for RMS tracking
         new_rms2_L = alpha_rms_L * disp2_L + (1.0 - alpha_rms_L) * current_rms2_L
         trackers.ampL_am[i, j, k] = ti.sqrt(new_rms2_L)
 
         # Transverse RMS amplitude
-        disp2_T = wave_field.psiT_am[i, j, k] ** 2
+        disp2_T = wave_field.psiT_new_am[i, j, k] ** 2
         current_rms2_T = trackers.ampT_am[i, j, k] ** 2
         alpha_rms_T = 0.005  # EMA smoothing factor for RMS tracking
         new_rms2_T = alpha_rms_T * disp2_T + (1.0 - alpha_rms_T) * current_rms2_T
@@ -315,8 +315,8 @@ def propagate_wave(
         # More robust than peak detection since it's amplitude-independent
         # EMA smoothing: f_new = α * f_measured + (1 - α) * f_old
         # α controls adaptation speed: higher = faster response, lower = smoother
-        prev_disp = wave_field.psiL_old_am[i, j, k]
-        curr_disp = wave_field.psiL_am[i, j, k]
+        prev_disp = wave_field.psiL_am[i, j, k]
+        curr_disp = wave_field.psiL_new_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
             period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
             if period_rs > dt_rs * 2:  # Filter out spurious crossings
