@@ -67,7 +67,7 @@ def plot_static_charge_profile(wave_field):
     plt.plot(
         distances,
         displacements_L,
-        color=colormap.viridis_palette[0][1],
+        color=colormap.viridis_palette[2][1],
         linewidth=4,
         label="LONGITUDINAL",
     )
@@ -85,7 +85,7 @@ def plot_static_charge_profile(wave_field):
     plt.plot(
         distances,
         displacements_T,
-        color=colormap.viridis_palette[4][1],
+        color=colormap.ironbow_palette[2][1],
         linewidth=4,
         label="TRANSVERSE",
     )
@@ -274,20 +274,20 @@ def plot_probe_values():
     plt.plot(
         data["timesteps"],
         data["displacements_L"],
-        color=colormap.ironbow_palette[2][1],
+        color=colormap.viridis_palette[2][1],
         linewidth=2,
         label="DISPLACEMENT (am)",
     )
     plt.plot(
         data["timesteps"],
         data["amplitudes_L"],
-        color=colormap.ironbow_palette[3][1],
+        color=colormap.viridis_palette[3][1],
         linewidth=2,
         label="RMS AMPLITUDE (am)",
     )
     plt.axhline(
         y=constants.EWAVE_AMPLITUDE / constants.ATTOMETER,
-        color=colormap.ironbow_palette[4][1],
+        color=colormap.viridis_palette[4][1],
         linestyle="--",
         alpha=0.5,
         label="eWAVE AMPLITUDE (am)",
@@ -304,20 +304,20 @@ def plot_probe_values():
     plt.plot(
         data["timesteps"],
         data["displacements_T"],
-        color=colormap.viridis_palette[2][1],
+        color=colormap.ironbow_palette[2][1],
         linewidth=2,
         label="DISPLACEMENT (am)",
     )
     plt.plot(
         data["timesteps"],
         data["amplitudes_T"],
-        color=colormap.viridis_palette[3][1],
+        color=colormap.ironbow_palette[3][1],
         linewidth=2,
         label="RMS AMPLITUDE (am)",
     )
     plt.axhline(
         y=constants.EWAVE_AMPLITUDE / constants.ATTOMETER,
-        color=colormap.viridis_palette[4][1],
+        color=colormap.ironbow_palette[4][1],
         linestyle="--",
         alpha=0.5,
         label="eWAVE AMPLITUDE (am)",
