@@ -282,14 +282,14 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.15, 0.17) as sub:
-        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 1):
-            state.COLOR_PALETTE = 1
-        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 2):
+        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 2):
             state.COLOR_PALETTE = 2
-        if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 3):
-            state.COLOR_PALETTE = 3
-        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 4):
+        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 1):
+            state.COLOR_PALETTE = 1
+        if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 4):
             state.COLOR_PALETTE = 4
+        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 3):
+            state.COLOR_PALETTE = 3
         if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 5):
             state.COLOR_PALETTE = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
@@ -297,22 +297,22 @@ def display_wave_menu(state):
             render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
-                    f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
+                    f"{-state.rms_ampT*2/state.wave_field.scale_factor:.0e}  {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m"
                 )
         if state.COLOR_PALETTE == 2:  # Display yellowgreen gradient palette
             render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
-                    f"{-state.rms_ampT*2/state.wave_field.scale_factor:.0e}  {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m"
+                    f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
                 )
         if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
+                sub.text(f"0       {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m")
         if state.COLOR_PALETTE == 4:  # Display viridis gradient palette
             render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m")
+                sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
         if state.COLOR_PALETTE == 5:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
@@ -436,7 +436,7 @@ def initialize_xperiment(state):
 
     # STATIC CHARGING methods (single radial pulse pattern) ==================================
     ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
+    ewave.charge_gaussian(state.wave_field)  # NOTE: (beautiful but unstable)
 
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
@@ -521,7 +521,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "the_queen"
+    default_xperiment = selected_xperiment_arg or "the_king"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return

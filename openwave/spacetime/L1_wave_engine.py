@@ -122,7 +122,8 @@ def charge_gaussian(
     sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
-    A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
+    # A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
+    A_am = base_amplitude_am / 200
 
     # Apply Gaussian displacement (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -760,23 +761,23 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
-                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+                ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                ampL_value, 0, trackers.rms_ampL_am[None] * 2
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_yellowgreen_color(
-                psiT_value,
-                -trackers.rms_ampT_am[None] * 2,
-                trackers.rms_ampT_am[None] * 2,
-            )
-        else:  # default to redblue (palette 1)
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
+            )
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )
 
     # ================================================================
@@ -798,23 +799,23 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
-                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+                ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                ampL_value, 0, trackers.rms_ampL_am[None] * 2
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_yellowgreen_color(
-                psiT_value,
-                -trackers.rms_ampT_am[None] * 2,
-                trackers.rms_ampT_am[None] * 2,
-            )
-        else:  # default to redblue (palette 1)
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
+            )
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )
 
     # ================================================================
@@ -836,21 +837,21 @@ def update_flux_mesh_colors(
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
-                ampT_value, 0, trackers.rms_ampT_am[None] * 2
+                ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                ampL_value, 0, trackers.rms_ampL_am[None] * 2
+                ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_yellowgreen_color(
-                psiT_value,
-                -trackers.rms_ampT_am[None] * 2,
-                trackers.rms_ampT_am[None] * 2,
-            )
-        else:  # default to redblue (palette 1)
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(
                 psiL_value,
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
+            )
+        else:  # default to redblue (palette 1)
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(
+                psiT_value,
+                -trackers.rms_ampT_am[None] * 2,
+                trackers.rms_ampT_am[None] * 2,
             )

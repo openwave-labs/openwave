@@ -450,7 +450,7 @@ class Trackers:
         # Assign default values for visualization scaling
         # baseline to allow wave peaks to rise without color saturation
         self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
-        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
+        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.00005
         self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
 
 
