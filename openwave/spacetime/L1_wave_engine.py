@@ -232,6 +232,7 @@ def propagate_wave(
     c_amrs: ti.f32,  # type: ignore
     dt_rs: ti.f32,  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
+    sim_speed: ti.f32,  # type: ignore
 ):
     """
     Propagate wave displacement using wave equation (PDE Solver).
@@ -380,9 +381,10 @@ def propagate_wave(
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
 
-    interact_wc_pulseL1(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc_pulseT1(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc_pulseT2(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc1_pulseL(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc2_pulseL(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc1_pulseT(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc2_pulseT(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
 
     # interact_wc_swap(wave_field)
     # interact_wc_lens(wave_field)  # amplify waves at WC, but no standing wave formation
@@ -400,7 +402,7 @@ def propagate_wave(
 
 
 @ti.func
-def interact_wc_pulseL1(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+def interact_wc1_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
 
@@ -408,9 +410,9 @@ def interact_wc_pulseL1(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 1  # radius in voxels
+    wc_radius = 8  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 9.0  # amplitude boost factor
+    boost = 1.0  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
@@ -434,7 +436,41 @@ def interact_wc_pulseL1(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
 
 
 @ti.func
-def interact_wc_pulseT1(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+def interact_wc2_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+    """
+    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc_radius = 8  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 1.0  # amplitude boost factor
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    for i, j, k in ti.ndrange(
+        (wc2x - wc_radius - 1, wc2x + wc_radius + 2),
+        (wc2y - wc_radius - 1, wc2y + wc_radius + 2),
+        (wc2z - wc_radius - 1, wc2z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+            )
+
+
+@ti.func
+def interact_wc1_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
 
@@ -468,7 +504,7 @@ def interact_wc_pulseT1(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
 
 
 @ti.func
-def interact_wc_pulseT2(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+def interact_wc2_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
 
