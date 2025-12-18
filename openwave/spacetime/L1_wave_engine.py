@@ -314,17 +314,17 @@ def propagate_wave(
         absorbing_width = nx // 10  # fraction of grid on each side
         if dist_to_boundary < absorbing_width:
             normalized_dist = (absorbing_width - dist_to_boundary) / absorbing_width
-            damping = 0.10 * normalized_dist * normalized_dist  # Max 10% at boundary
+            damping = 0.10 * normalized_dist**2  # Max 10% at boundary
 
             psiT_before = wave_field.psiT_new_am[i, j, k]
             psiT_after = psiT_before * (1.0 - damping)
+            wave_field.psiT_new_am[i, j, k] = psiT_after
 
             # Transfer damped energy to psiL (branchless)
             energy_diff = ti.max(0.0, psiT_before**2 - psiT_after**2)
-            psiL = wave_field.psiL_new_am[i, j, k]
-            psiL_sign = ti.select(psiL >= 0.0, 1.0, -1.0)
-            wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL**2 + energy_diff)
-            wave_field.psiT_new_am[i, j, k] = psiT_after
+            psiL_before = wave_field.psiL_new_am[i, j, k]
+            psiL_sign = ti.select(psiL_before >= 0.0, 1.0, -1.0)
+            wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL_before**2 + energy_diff)
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
