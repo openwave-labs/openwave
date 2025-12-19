@@ -34,6 +34,7 @@ from openwave.common import constants
 # Energy-wave constants (EWT specifications)
 A0 = constants.EWAVE_AMPLITUDE  # m, energy-wave amplitude (A, equilibrium-to-peak)
 wavelength = constants.EWAVE_LENGTH  # m, energy-wave length (λ)
+k = 2 * np.pi / wavelength  # wave number (k = 2π/λ)
 r_reference = wavelength  # Reference radius = 1λ
 
 # Convert to attometers for plotting
@@ -43,6 +44,33 @@ wavelength_am = wavelength / constants.ATTOMETER  # attometers
 # ================================================================
 # Amplitude Functions
 # ================================================================
+
+
+def amplitude_1_over_lafreniere(r, A0_val=A0, r_ref=r_reference):
+    """
+    Far-field amplitude falloff: A(r) = A₀ · (λ/r)
+
+    Energy conservation for spherical waves requires A ∝ 1/r
+    Valid in far-field region (r > 2λ from wave source)
+
+    Args:
+        r: Distance from wave source (meters)
+        A0_val: Base amplitude A₀ (meters)
+        r_ref: Reference radius (meters), typically 1λ
+
+    Returns:
+        Amplitude at distance r (meters)
+    """
+    # Prevent division by zero
+    # r_safe = np.maximum(r, r_ref)
+    # amp_falloff = A0_val * (r_ref / r_safe)
+
+    # amp_falloff = A0_val * np.sin(k * r) / r
+    amp_falloff_lafreniere = (
+        A0_val * wavelength / ((k * r + (np.pi / 2) * (1 - k * r / np.pi) ** 2) / k)
+    )
+
+    return amp_falloff_lafreniere
 
 
 def amplitude_1_over_r(r, A0_val=A0, r_ref=r_reference):
@@ -61,8 +89,35 @@ def amplitude_1_over_r(r, A0_val=A0, r_ref=r_reference):
         Amplitude at distance r (meters)
     """
     # Prevent division by zero
+    # r_safe = np.maximum(r, r_ref)
+    # amp_falloff = A0_val * (r_ref / r_safe)
+
+    # amp_falloff = A0_val * np.sin(k * r) / r
+    amp_falloff = A0_val * wavelength / r
+
+    return amp_falloff
+
+
+def amplitude_1_over_original(r, A0_val=A0, r_ref=r_reference):
+    """
+    Far-field amplitude falloff: A(r) = A₀ · (λ/r)
+
+    Energy conservation for spherical waves requires A ∝ 1/r
+    Valid in far-field region (r > 2λ from wave source)
+
+    Args:
+        r: Distance from wave source (meters)
+        A0_val: Base amplitude A₀ (meters)
+        r_ref: Reference radius (meters), typically 1λ
+
+    Returns:
+        Amplitude at distance r (meters)
+    """
+    # Prevent division by zero
     r_safe = np.maximum(r, r_ref)
-    return A0_val * (r_ref / r_safe)
+    amp_falloff = A0_val * (r_ref / r_safe)
+
+    return amp_falloff
 
 
 def amplitude_with_cap(r, A0_val=A0, r_ref=r_reference):
@@ -103,7 +158,8 @@ r_max = r_max_lambda * wavelength
 r = np.linspace(0.01 * wavelength, r_max, 1000)
 
 # Calculate amplitudes
-A_uncapped = amplitude_1_over_r(r)
+A_uncapped = amplitude_1_over_original(r)
+A_lafreniere = amplitude_1_over_lafreniere(r)
 A_capped = amplitude_with_cap(r)
 
 # Create figure
@@ -115,6 +171,7 @@ fig, ax = plt.subplots(figsize=(12, 8))
 
 # Convert to attometers for y-axis
 A_uncapped_am = A_uncapped / constants.ATTOMETER
+A_lafreniere_am = A_lafreniere / constants.ATTOMETER
 A_capped_am = A_capped / constants.ATTOMETER
 r_am = r / constants.ATTOMETER
 
@@ -127,6 +184,11 @@ ax.plot(r / wavelength, A_capped_am, "r-", linewidth=3, label="A(r) with cap (A 
 # 1/r amplitude (without cap) - plot last so it's visible on top
 ax.plot(
     r / wavelength, A_uncapped_am, "b--", linewidth=2.5, alpha=0.8, label="1/r falloff (uncapped)"
+)
+
+# 1/lafreniere amplitude (without cap) - plot last so it's visible on top
+ax.plot(
+    r / wavelength, A_lafreniere_am, "g--", linewidth=2.5, alpha=0.8, label="1/lafreniere falloff"
 )
 
 # ================================================================
@@ -248,7 +310,7 @@ ax.set_title(
 
 # Set axis limits
 ax.set_xlim(0, r_max / wavelength)
-ax.set_ylim(0, 2.0)  # 2 attometers max
+ax.set_ylim(0, 6.0)  # 6 attometers max
 
 # Set x-axis tick marks at 1λ spacing
 ax.set_xticks(np.arange(0, r_max / wavelength + 1, 1.0))
@@ -278,8 +340,8 @@ physics_text = (
 
 props = dict(boxstyle="round", facecolor="wheat", alpha=0.8)
 ax.text(
-    0.98,
-    0.45,
+    0.99,
+    0.65,
     physics_text,
     transform=ax.transAxes,
     fontsize=9,
