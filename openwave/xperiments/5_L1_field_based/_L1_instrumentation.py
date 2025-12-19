@@ -107,6 +107,93 @@ def plot_static_charge_profile(wave_field):
     print("\nPlot charge_profile saved to:\n", save_path, "\n")
 
 
+def plot_probe_wave_profile(wave_field):
+    """
+    Plot the displacement profile along the x-axis through the probe position.
+
+    Args:
+        wave_field: WaveField instance containing displacement data
+
+    To use this plot install this snippet in the main loop (L1_launcher.py or other place)
+        # Compute angular frequency (ω = 2πf) for temporal phase variation
+        base_frequency_rHz = (
+            constants.EWAVE_FREQUENCY * constants.RONTOSECOND
+        )  # in rHz (1/rontosecond)
+        omega_rs = (
+            2.0 * ti.math.pi * base_frequency_rHz / state.wave_field.scale_factor
+        )  # angular frequency (rad/rs)
+        omega_frame = omega_rs * state.dt_rs  # rad / frame
+        frame_360 = round(2 * ti.math.pi / omega_frame)  # frames per full rotation (360°)
+        if state.frame == frame_360 * 30:
+            instrument.plot_probe_wave_profile(state.wave_field)
+    """
+
+    # Define probe position
+    px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+
+    # Extract displacement along x-axis at center (y, z)
+    x_indices = np.arange(wave_field.nx)
+    displacements_L = np.zeros(wave_field.nx)
+    displacements_T = np.zeros(wave_field.nx)
+
+    # Sample longitudinal displacement values
+    for i in range(wave_field.nx):
+        displacements_L[i] = wave_field.psiL_am[i, py, pz]
+        displacements_T[i] = wave_field.psiT_am[i, py, pz]
+
+    # Calculate distance from center in grid indices
+    distances = x_indices - px
+
+    # Create the plot
+    plt.style.use("dark_background")
+    fig = plt.figure(figsize=(12, 6), facecolor=colormap.DARK_GRAY[1])
+    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
+
+    # Plot 1: Longitudinal Displacement vs distance from center
+    plt.subplot(1, 2, 1)
+    plt.plot(
+        distances,
+        displacements_L,
+        color=colormap.viridis_palette[2][1],
+        linewidth=4,
+        label="LONGITUDINAL",
+    )
+    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
+    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
+    plt.ylim(-1.0, 6.0)
+    plt.xlabel("Distance from Wave-Center (grid indices)", family="Monospace")
+    plt.ylabel("Displacement (attometers)", family="Monospace")
+    plt.title("WAVE PROFILE", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    # Plot 2: Transverse Displacement vs distance from center
+    plt.subplot(1, 2, 2)
+    plt.plot(
+        distances,
+        displacements_T,
+        color=colormap.ironbow_palette[2][1],
+        linewidth=4,
+        label="TRANSVERSE",
+    )
+    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
+    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
+    plt.ylim(-1.0, 6.0)
+    plt.xlabel("Distance from Wave-Center (grid indices)", family="Monospace")
+    plt.ylabel("Displacement (attometers)", family="Monospace")
+    plt.title("WAVE PROFILE", family="Monospace")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    plt.tight_layout()
+
+    # Save to directory
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    save_path = PLOT_DIR / "wave_profile.png"
+    plt.savefig(save_path, dpi=150, bbox_inches="tight")
+    print("\nPlot wave_profile saved to:\n", save_path, "\n")
+
+
 def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) -> None:
     """Record all timestep data to a buffer, flush periodically to reduce I/O overhead.
 
