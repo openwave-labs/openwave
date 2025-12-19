@@ -9,7 +9,7 @@ UNIVERSE_EDGE = 2e-16  # m, universe edge length in meters
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "7 waves, 1M voxels",
+        "X_NAME": "7 waves, 25M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -17,7 +17,7 @@ XPARAMETERS = {
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 2.5e7,  # Simulation voxel count (impacts performance)
     },
     "charging": {
         "STATIC_BOOST": 0.80,  # One-Time charger amplitude boost multiplier

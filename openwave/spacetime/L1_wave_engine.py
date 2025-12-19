@@ -255,16 +255,12 @@ def propagate_wave(
         c_amrs: Effective wave speed after slow-motion factor (am/rs)
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
-
-    Note: On M4 Max 48GB, wave propagation becomes incorrect above ~350M voxels.
-        Cause unknown - may be GPU saturation, thermal throttling, or backend limits.
-        Needs testing on other hardware to isolate the issue.
     """
     # Grid dimensions for boundary handling
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # ================================================================
-    # WAVE PROPAGATION: Update voxels using Leap-Frog Method
+    # WAVE PROPAGATION: Update voxels using Laplace & Leap-Frog Methods
     # ================================================================
     # Update interior voxels only (Dirichlet BC: ψ=0 at edges)
     # 6-point Laplacian: needs 1-cell buffer → range (1, n-1)
@@ -289,7 +285,7 @@ def propagate_wave(
             + (c_amrs * dt_rs) ** 2 * laplacianT_am
         )
 
-        # TRANSVERSE-WAVE ABSORBING LAYER ============================================
+        # WAVE ABSORBING LAYER ============================================
         # Reflection is inherent at wave equation boundaries:
         # - Wave equation ∂²ψ/∂t² = c²∇²ψ is bidirectional by nature
         # - Any impedance discontinuity (Z₁ ≠ Z₂) causes reflection: R = (Z₁-Z₂)/(Z₁+Z₂)
@@ -320,12 +316,13 @@ def propagate_wave(
             psiT_before = wave_field.psiT_new_am[i, j, k]
             psiT_after = psiT_before * (1.0 - damping)
             wave_field.psiT_new_am[i, j, k] = psiT_after
+            wave_field.psiL_new_am[i, j, k] = wave_field.psiL_new_am[i, j, k] * (1.0 - damping)
 
-            # Transfer damped energy to psiL (branchless)
-            energy_diff = ti.max(0.0, psiT_before**2 - psiT_after**2)
-            psiL_before = wave_field.psiL_new_am[i, j, k]
-            psiL_sign = ti.select(psiL_before >= 0.0, 1.0, -1.0)
-            wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL_before**2 + energy_diff)
+            # Transfer damped psiT energy to psiL (branchless)
+            # energy_diff = ti.max(0.0, psiT_before**2 - psiT_after**2)
+            # psiL_before = wave_field.psiL_new_am[i, j, k]
+            # psiL_sign = ti.select(psiL_before >= 0.0, 1.0, -1.0)
+            # wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL_before**2 + energy_diff)
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
@@ -381,10 +378,15 @@ def propagate_wave(
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
 
-    interact_wc1_pulseL(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc2_pulseL(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc1_pulseT(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc2_pulseT(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc1_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    interact_wc2_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+
+    # wc1_standing(wave_field, elapsed_t_rs, sim_speed)
+    # wc2_standing(wave_field, elapsed_t_rs, sim_speed)
+
+    # interact_wc_spinUP(wave_field, dt_rs)  # never worked correctly
+    # interact_wc_spinUP2(wave_field, dt_rs)  # never worked correctly
+    # interact_wc_spinDOWN(wave_field, dt_rs)  # never worked correctly
 
     # interact_wc_swap(wave_field)
     # interact_wc_lens(wave_field)  # amplify waves at WC, but no standing wave formation
@@ -402,7 +404,7 @@ def propagate_wave(
 
 
 @ti.func
-def interact_wc1_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+def interact_wc1_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
 
@@ -410,13 +412,13 @@ def interact_wc1_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 8  # radius in voxels
+    wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 1.0  # amplitude boost factor
+    boost = 2 * ti.math.pi  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
-        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
     for i, j, k in ti.ndrange(
@@ -433,68 +435,6 @@ def interact_wc1_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
                 * wave_field.scale_factor
                 * ti.cos(omega_rs * elapsed_t_rs)
             )
-
-
-@ti.func
-def interact_wc2_pulseL(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
-    """
-    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
-    wc_radius = 8  # radius in voxels
-    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 1.0  # amplitude boost factor
-
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = (
-        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-    )  # angular frequency (rad/rs)
-
-    for i, j, k in ti.ndrange(
-        (wc2x - wc_radius - 1, wc2x + wc_radius + 2),
-        (wc2y - wc_radius - 1, wc2y + wc_radius + 2),
-        (wc2z - wc_radius - 1, wc2z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if dist_sq <= wc_radius_sq:
-            wave_field.psiL_am[i, j, k] = (
-                base_amplitude_am
-                * boost
-                * wave_field.scale_factor
-                * ti.cos(omega_rs * elapsed_t_rs)
-            )
-
-
-@ti.func
-def interact_wc1_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
-    """
-    TEST: Wave center as PULSE - injects oscillation at WC sphere surface
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 1  # radius in voxels
-    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 1.0  # amplitude boost factor
-
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = (
-        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-    )  # angular frequency (rad/rs)
-
-    for i, j, k in ti.ndrange(
-        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
-        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
-        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if dist_sq <= wc_radius_sq:
             wave_field.psiT_am[i, j, k] = (
                 base_amplitude_am
                 * boost
@@ -504,7 +444,7 @@ def interact_wc1_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
 
 
 @ti.func
-def interact_wc2_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
+def interact_wc2_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     """
     TEST: Wave center as PULSE - injects oscillation at WC sphere surface
 
@@ -512,13 +452,13 @@ def interact_wc2_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
         wave_field: WaveField instance containing displacement arrays and grid info
     """
     wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
-    wc_radius = 1  # radius in voxels
+    wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 1.0  # amplitude boost factor
+    boost = 2 * ti.math.pi  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
-        (1 / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
     for i, j, k in ti.ndrange(
@@ -529,12 +469,409 @@ def interact_wc2_pulseT(wave_field: ti.template(), elapsed_t_rs):  # type: ignor
         dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+            )
             wave_field.psiT_am[i, j, k] = (
                 base_amplitude_am
                 * boost
                 * wave_field.scale_factor
                 * ti.cos(omega_rs * elapsed_t_rs + ti.math.pi)  # 180° phase shift
             )
+
+
+@ti.func
+def wc1_standing(wave_field: ti.template(), elapsed_t_rs, sim_speed: ti.f32):  # type: ignore
+    """
+    TEST: Wave center as STANDING WAVE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed time in reduced seconds
+        sim_speed: Simulation speed factor
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc_radius = int(wave_field.ewave_res * 1)  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 1.0  # amplitude boost factor
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        (1 * sim_speed / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx  # voxels / λ
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    for i, j, k in ti.ndrange(
+        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
+        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
+        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
+        r_grid = ti.sqrt(dist_sq)  # Distance from wave-center (in grid indices)
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq and dist_sq > 0:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * ti.sin(k_grid * r_grid)
+                / r_grid
+            )
+            wave_field.psiT_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * ti.sin(k_grid * r_grid)
+                / r_grid
+            )
+
+        elif dist_sq == 0:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * 1
+            )  # Avoids singularity at the wave-center
+            wave_field.psiT_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * 1
+            )  # Avoids singularity at the wave-center
+
+
+@ti.func
+def wc2_standing(wave_field: ti.template(), elapsed_t_rs, sim_speed: ti.f32):  # type: ignore
+    """
+    TEST: Wave center as STANDING WAVE - injects oscillation at WC sphere surface
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+    """
+    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc_radius = int(wave_field.ewave_res * 1)  # radius in voxels
+    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
+    boost = 1.0  # amplitude boost factor
+
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        (1 * sim_speed / boost) * 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx  # voxels / λ
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    for i, j, k in ti.ndrange(
+        (wc2x - wc_radius - 1, wc2x + wc_radius + 2),
+        (wc2y - wc_radius - 1, wc2y + wc_radius + 2),
+        (wc2z - wc_radius - 1, wc2z + wc_radius + 2),
+    ):
+        dist_sq = (i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2
+        r_grid = ti.sqrt(dist_sq)  # Distance from wave-center (in grid indices)
+        # Only process voxels on inner surface of sphere (r = radius-1)
+        if dist_sq <= wc_radius_sq and dist_sq > 0:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * ti.sin(k_grid * r_grid)
+                / r_grid
+            )
+            wave_field.psiT_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs + ti.math.pi)
+                * ti.sin(k_grid * r_grid)
+                / r_grid
+            )
+        elif dist_sq == 0:
+            wave_field.psiL_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs)
+                * 1
+            )  # Avoids singularity at the wave-center
+            wave_field.psiT_am[i, j, k] = (
+                base_amplitude_am
+                * boost
+                * wave_field.scale_factor
+                * ti.cos(omega_rs * elapsed_t_rs + ti.math.pi)
+                * 1
+            )  # Avoids singularity at the wave-center
+
+
+@ti.func
+def interact_wc_spinUP(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignore
+    """
+    Wave center spin-UP interaction: phase-shifts psiL by +90° and creates psiT.
+
+    WAVE CENTER SPIN MECHANISM:
+    1. Incoming longitudinal wave psiL contacts wave center
+    2. WC spin creates transverse component: psiT = α × psiL (fine structure ratio)
+    3. Outgoing psiL is PHASE-SHIFTED by +90° (counterclockwise/leading)
+
+    PHASE SHIFT VIA VELOCITY:
+    For sinusoidal wave psiL = A·cos(ωt):
+        - Velocity: ∂psiL/∂t = -A·ω·sin(ωt)
+        - Normalized: velocity/ω = -A·sin(ωt) = A·cos(ωt + 90°)  ← +90° shifted!
+
+    So (psiL - psiL_old)/(ω·dt) gives the +90° phase-shifted wave.
+    This creates a DISTURBANCE in the longitudinal wave from the spin interaction.
+
+    ENERGY CONSERVATION:
+        psiT = α × psiL          (transverse component created)
+        psiL_out² + psiT² = psiL_in²  (total energy conserved)
+        psiL_out = ±√(psiL² - psiT²)  with sign from phase-shifted wave
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs) for velocity calculation
+    """
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
+
+    # Angular frequency (scaled for simulation)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+
+    # Current and previous longitudinal displacement at WC
+    psiL = wave_field.psiL_am[wc1x, wc1y, wc1z]
+    psiL_old = wave_field.psiL_old_am[wc1x, wc1y, wc1z]
+
+    # ================================================================
+    # STEP 1: Compute phase-shifted psiL (+90° leading)
+    # ================================================================
+    # Velocity via finite difference
+    delta_psiL = psiL - psiL_old
+
+    # Phase-shifted psiL: -velocity/ω = -delta_psiL / (ω·dt)
+    # delta_psiL ≈ -ω·dt·sin(ωt) for cos input, so:
+    # psiL_shifted = -(-ω·dt·sin)/(ω·dt) = +sin(ωt)
+    # This gives +90° shift: cos → sin
+    psiL_shifted = -delta_psiL / (omega_rs * dt_rs)
+
+    # ================================================================
+    # STEP 2: Create transverse component (90° from psiL_out)
+    # ================================================================
+    # We've tried:
+    #   psiT = alpha * psiL → gives 180°
+    #   psiT = alpha * psiL_shifted → gives 0°
+    # For 90°, try negating one: psiT = -alpha * psiL
+    psiT = -alpha * psiL  # NEGATED to flip 180° → hopefully 90°
+
+    # Safety clamp: ensure psiT² < psiL² to prevent NaN from sqrt
+    max_psiT = 0.99 * ti.abs(psiL)
+    psiT = ti.math.clamp(psiT, -max_psiT, max_psiT)
+
+    # ================================================================
+    # STEP 3: Output psiL as actual phase-shifted wave
+    # ================================================================
+    # Energy available for psiL_out after psiT extraction
+    psiL_energy = psiL**2 - psiT**2
+
+    # Scale psiL_shifted to have correct energy while preserving its phase
+    psiL_shifted_sq = psiL_shifted**2
+
+    # Initialize psiL_out (required for Taichi scoping)
+    psiL_out = 0.0
+
+    # Avoid division by zero: if psiL_shifted is tiny, fall back to original
+    if psiL_shifted_sq > 1e-20:
+        scaling = ti.sqrt(psiL_energy / psiL_shifted_sq)
+        psiL_out = psiL_shifted * scaling
+    else:
+        # At zero crossing of shifted wave, preserve sign of original
+        phase_sign = 1.0 if psiL >= 0.0 else -1.0
+        psiL_out = phase_sign * ti.sqrt(psiL_energy)
+
+    wave_field.psiL_am[wc1x, wc1y, wc1z] = psiL_out
+    wave_field.psiT_am[wc1x, wc1y, wc1z] = psiT
+
+
+@ti.func
+def interact_wc_spinUP2(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignore
+    """
+    Wave center spin-UP interaction: phase-shifts psiL by +90° and creates psiT.
+
+    WAVE CENTER SPIN MECHANISM:
+    1. Incoming longitudinal wave psiL contacts wave center
+    2. WC spin creates transverse component: psiT = α × psiL (fine structure ratio)
+    3. Outgoing psiL is PHASE-SHIFTED by +90° (counterclockwise/leading)
+
+    PHASE SHIFT VIA VELOCITY:
+    For sinusoidal wave psiL = A·cos(ωt):
+        - Velocity: ∂psiL/∂t = -A·ω·sin(ωt)
+        - Normalized: velocity/ω = -A·sin(ωt) = A·cos(ωt + 90°)  ← +90° shifted!
+
+    So (psiL - psiL_old)/(ω·dt) gives the +90° phase-shifted wave.
+    This creates a DISTURBANCE in the longitudinal wave from the spin interaction.
+
+    ENERGY CONSERVATION:
+        psiT = α × psiL          (transverse component created)
+        psiL_out² + psiT² = psiL_in²  (total energy conserved)
+        psiL_out = ±√(psiL² - psiT²)  with sign from phase-shifted wave
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs) for velocity calculation
+    """
+    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
+
+    # Angular frequency (scaled for simulation)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+
+    # Current and previous longitudinal displacement at WC
+    psiL = wave_field.psiL_am[wc2x, wc2y, wc2z]
+    psiL_old = wave_field.psiL_old_am[wc2x, wc2y, wc2z]
+
+    # ================================================================
+    # STEP 1: Compute phase-shifted psiL (+90° leading)
+    # ================================================================
+    # Velocity via finite difference
+    delta_psiL = psiL - psiL_old
+
+    # Phase-shifted psiL: -velocity/ω = -delta_psiL / (ω·dt)
+    # delta_psiL ≈ -ω·dt·sin(ωt) for cos input, so:
+    # psiL_shifted = -(-ω·dt·sin)/(ω·dt) = +sin(ωt)
+    # This gives +90° shift: cos → sin
+    psiL_shifted = -delta_psiL / (omega_rs * dt_rs)
+
+    # ================================================================
+    # STEP 2: Create transverse component (90° from psiL_out)
+    # ================================================================
+    # We've tried:
+    #   psiT = alpha * psiL → gives 180°
+    #   psiT = alpha * psiL_shifted → gives 0°
+    # For 90°, try negating one: psiT = -alpha * psiL
+    psiT = -alpha * psiL  # NEGATED to flip 180° → hopefully 90°
+
+    # Safety clamp: ensure psiT² < psiL² to prevent NaN from sqrt
+    max_psiT = 0.99 * ti.abs(psiL)
+    psiT = ti.math.clamp(psiT, -max_psiT, max_psiT)
+
+    # ================================================================
+    # STEP 3: Output psiL as actual phase-shifted wave
+    # ================================================================
+    # Energy available for psiL_out after psiT extraction
+    psiL_energy = psiL**2 - psiT**2
+
+    # Scale psiL_shifted to have correct energy while preserving its phase
+    psiL_shifted_sq = psiL_shifted**2
+
+    # Initialize psiL_out (required for Taichi scoping)
+    psiL_out = 0.0
+
+    # Avoid division by zero: if psiL_shifted is tiny, fall back to original
+    if psiL_shifted_sq > 1e-20:
+        scaling = ti.sqrt(psiL_energy / psiL_shifted_sq)
+        psiL_out = psiL_shifted * scaling
+    else:
+        # At zero crossing of shifted wave, preserve sign of original
+        phase_sign = 1.0 if psiL >= 0.0 else -1.0
+        psiL_out = phase_sign * ti.sqrt(psiL_energy)
+
+    wave_field.psiL_am[wc2x, wc2y, wc2z] = psiL_out
+    wave_field.psiT_am[wc2x, wc2y, wc2z] = psiT
+
+
+@ti.func
+def interact_wc_spinDOWN(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignore
+    """
+    Wave center spin-DOWN interaction: phase-shifts psiL by -90° and creates psiT.
+
+    WAVE CENTER SPIN MECHANISM (opposite direction):
+    1. Incoming longitudinal wave psiL contacts wave center
+    2. WC spin creates transverse component: psiT = α × psiL (fine structure ratio)
+    3. Outgoing psiL is PHASE-SHIFTED by -90° (clockwise/lagging)
+
+    PHASE SHIFT VIA NEGATIVE VELOCITY:
+    For sinusoidal wave psiL = A·cos(ωt):
+        - Velocity: ∂psiL/∂t = -A·ω·sin(ωt)
+        - Negative normalized: -velocity/ω = A·sin(ωt) = A·cos(ωt - 90°)  ← -90° shifted!
+
+    So -(psiL - psiL_old)/(ω·dt) gives the -90° phase-shifted wave.
+    This creates a DISTURBANCE in the longitudinal wave (opposite to spinUP).
+
+    ENERGY CONSERVATION:
+        psiT = α × psiL          (transverse component created)
+        psiL_out² + psiT² = psiL_in²  (total energy conserved)
+        psiL_out = ±√(psiL² - psiT²)  with sign from phase-shifted wave
+
+    COMPARISON:
+        spinUP:   psiL phase +90° (leading),  counterclockwise
+        spinDOWN: psiL phase -90° (lagging),  clockwise
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        dt_rs: Time step size (rs) for velocity calculation
+    """
+    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
+
+    # Angular frequency (scaled for simulation)
+    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+
+    # Current and previous longitudinal displacement at WC
+    psiL = wave_field.psiL_am[wc2x, wc2y, wc2z]
+    psiL_old = wave_field.psiL_old_am[wc2x, wc2y, wc2z]
+
+    # ================================================================
+    # STEP 1: Compute phase-shifted psiL (-90° lagging)
+    # ================================================================
+    # Velocity via finite difference
+    delta_psiL = psiL - psiL_old
+
+    # Phase-shifted psiL: -velocity/ω = -delta_psiL / (ω·dt)
+    # Transforms A·cos(ωt) → A·sin(ωt) = A·cos(ωt - 90°)
+    psiL_shifted = -delta_psiL / (omega_rs * dt_rs)
+
+    # ================================================================
+    # STEP 2: Create transverse component (90° from psiL_out)
+    # ================================================================
+    # Negated to achieve 90° phase relationship
+    psiT = -alpha * psiL  # NEGATED
+
+    # Safety clamp: ensure psiT² < psiL² to prevent NaN from sqrt
+    max_psiT = 0.99 * ti.abs(psiL)
+    psiT = ti.math.clamp(psiT, -max_psiT, max_psiT)
+
+    # ================================================================
+    # STEP 3: Output psiL as actual phase-shifted wave
+    # ================================================================
+    # Energy available for psiL_out after psiT extraction
+    psiL_energy = psiL**2 - psiT**2
+
+    # Scale psiL_shifted to have correct energy while preserving its phase
+    psiL_shifted_sq = psiL_shifted**2
+
+    # Initialize psiL_out (required for Taichi scoping)
+    psiL_out = 0.0
+
+    # Avoid division by zero: if psiL_shifted is tiny, fall back to original
+    if psiL_shifted_sq > 1e-20:
+        scaling = ti.sqrt(psiL_energy / psiL_shifted_sq)
+        psiL_out = psiL_shifted * scaling
+    else:
+        # At zero crossing of shifted wave, preserve sign of original
+        phase_sign = 1.0 if psiL >= 0.0 else -1.0
+        psiL_out = phase_sign * ti.sqrt(psiL_energy)
+
+    wave_field.psiL_am[wc2x, wc2y, wc2z] = psiL_out
+    wave_field.psiT_am[wc2x, wc2y, wc2z] = psiT
 
 
 @ti.func

@@ -435,8 +435,9 @@ def initialize_xperiment(state):
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
     # STATIC CHARGING methods (single radial pulse pattern) ==================================
-    ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    ewave.charge_gaussian(state.wave_field)  # NOTE: (beautiful but unstable)
+    # TODO: review need and archive
+    # ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
+    # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
 
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
@@ -456,11 +457,12 @@ def compute_wave_motion(state):
         state.c_amrs,
         state.dt_rs,
         state.elapsed_t_rs,
+        state.SIM_SPEED,
     )
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
+    if state.frame % 60 == 0 and state.frame >= 0:  # TODO: hold off initial transient @300?
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
     state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m
@@ -495,13 +497,13 @@ def render_elements(state):
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
-    # position0 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # position0 = np.array([[0.5, 0.5, 0.125]], dtype=np.float32)
     # radius_electron = constants.ELECTRON_RADIUS / state.wave_field.max_universe_edge
     # render.scene.particles(position0, radius=radius_electron, color=colormap.COLOR_PARTICLE[1])
-    position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
+    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
+    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
+    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================
