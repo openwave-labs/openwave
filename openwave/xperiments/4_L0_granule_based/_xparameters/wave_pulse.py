@@ -29,6 +29,8 @@ XPARAMETERS = {
         "POSITIONS": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
         # Phase offset in degrees (0° = in phase with base frequency)
         "PHASE_OFFSETS_DEG": [0],
+        "IN_WAVE_TOGGLE": 1,  # 1 = enable in_wave, 0 = disable in_wave
+        "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines

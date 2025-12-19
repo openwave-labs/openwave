@@ -41,6 +41,8 @@ XPARAMETERS = {
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # All sources in phase (0°) to create symmetric interference
         "PHASE_OFFSETS_DEG": [0, 0, 0],
+        "IN_WAVE_TOGGLE": 0,  # 1 = enable in_wave, 0 = disable in_wave
+        "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
@@ -48,7 +50,7 @@ XPARAMETERS = {
         "BLOCK_SLICE": False,  # Block-slicing toggle
         "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
-        "FREQ_BOOST": 1.0,  # Frequency boost multiplier
+        "FREQ_BOOST": 0.5,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
