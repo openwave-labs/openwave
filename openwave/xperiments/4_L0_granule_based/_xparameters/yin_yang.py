@@ -20,7 +20,7 @@ NUM_SOURCES = 12  # Number of wave sources for this xperiment
 Z_POSITION = 0.0  # Z-axis position for all sources (flat plane)
 
 # Calculate source positions in a golden ratio pattern
-UNIVERSE_EDGE = 12 * constants.EWAVE_LENGTH  # m, universe edge length in meters
+UNIVERSE_EDGE = 8 * constants.EWAVE_LENGTH  # m, universe edge length in meters
 GOLDEN_RADIUS = constants.EWAVE_LENGTH / constants.GOLDEN_RATIO  # m, r = λ / φ, for spiral effect
 NORMALIZED_RADIUS = GOLDEN_RADIUS / UNIVERSE_EDGE  # normalized radius
 
@@ -61,6 +61,8 @@ XPARAMETERS = {
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Progressive 30° increments create spiral wave interference pattern
         "PHASE_OFFSETS_DEG": SOURCES_PHASE_DEG,
+        "IN_WAVE_TOGGLE": 0,  # 1 = enable in_wave, 0 = disable in_wave
+        "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
@@ -68,8 +70,8 @@ XPARAMETERS = {
         "BLOCK_SLICE": False,  # Block-slicing toggle
         "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
         "RADIUS_FACTOR": 2.0,  # Granule radius scaling factor
-        "FREQ_BOOST": 0.5,  # Frequency boost multiplier
-        "AMP_BOOST": 1.0,  # Amplitude boost multiplier
+        "FREQ_BOOST": 0.25,  # Frequency boost multiplier
+        "AMP_BOOST": 0.1,  # Amplitude boost multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {

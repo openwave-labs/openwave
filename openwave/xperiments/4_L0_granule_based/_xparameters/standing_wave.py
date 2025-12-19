@@ -17,12 +17,12 @@ import numpy as np
 from openwave.common import constants
 
 # Generate 64 sources in a circular pattern
-NUM_SOURCES = 64  # Number of wave sources for this xperiment
+NUM_SOURCES = 1  # Number of wave sources for this xperiment, legacy = 64
 Z_POSITION = 0.05  # Z-axis position for all sources (thin slice)
 
 # Calculate source positions in a circle around center
 UNIVERSE_EDGE = 6 * constants.EWAVE_LENGTH  # m, universe edge length in meters
-SOURCES_RADIUS = 2 * constants.EWAVE_LENGTH  # m, r = n * λ, interference radius
+SOURCES_RADIUS = 1 * constants.EWAVE_LENGTH  # m, r = n * λ, interference radius, legacy = 2
 NORMALIZED_RADIUS = SOURCES_RADIUS / UNIVERSE_EDGE  # normalized radius
 
 # Positions relative to universe center (0.5, 0.5, Z_POSITION)
@@ -63,6 +63,8 @@ XPARAMETERS = {
         # Allows creating constructive/destructive interference patterns
         # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset
         "PHASE_OFFSETS_DEG": SOURCES_PHASE_DEG,
+        "IN_WAVE_TOGGLE": 1,  # 1 = enable in_wave, 0 = disable in_wave
+        "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
@@ -71,7 +73,7 @@ XPARAMETERS = {
         "SHOW_SOURCES": False,  # Toggle to show/hide wave source markers
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
         "FREQ_BOOST": 0.5,  # Frequency boost multiplier
-        "AMP_BOOST": 0.1,  # Amplitude boost multiplier
+        "AMP_BOOST": 1.0,  # Amplitude boost multiplier, legacy = 0.1
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {

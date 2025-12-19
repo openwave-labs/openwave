@@ -17,7 +17,7 @@ XPARAMETERS = {
         "DESCRIPTION": "Single source spherical wave demonstrating radial propagation",
     },
     "camera": {
-        "INITIAL_POSITION": [0.97, 2.06, 0.82],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.00, 1.92, 1.20],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [1e-16, 1e-16, 1e-16],  # m, simulation domain [x, y, z]
@@ -30,6 +30,8 @@ XPARAMETERS = {
         "POSITIONS": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
         # Phase offset in degrees (0° = in phase with base frequency)
         "PHASE_OFFSETS_DEG": [0],
+        "IN_WAVE_TOGGLE": 0,  # 1 = enable in_wave, 0 = disable in_wave
+        "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
     "ui_defaults": {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
@@ -43,7 +45,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 99,  # default (99), granule-type (0), ironbow (3), orange (6)
+        "COLOR_PALETTE": 6,  # default (99), granule-type (0), ironbow (3), orange (6)
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data collection (speed & wavelength measurements)
