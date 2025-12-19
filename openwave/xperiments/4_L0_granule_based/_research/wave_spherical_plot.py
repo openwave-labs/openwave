@@ -20,12 +20,10 @@ Notation (from 00_wave_properties.md):
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
-import matplotlib.patches as mpatches
 from pathlib import Path
 
 # Import actual OpenWave constants
-from openwave.common import constants
+from openwave.common import colormap, constants
 
 # ================================================================
 # Energy Wave Parameters (from constants.py)
@@ -46,7 +44,7 @@ wavelength_am = wavelength / constants.ATTOMETER  # attometers
 # ================================================================
 
 
-def amplitude_1_over_lafreniere(r, A0_val=A0, r_ref=r_reference):
+def sine_stand_wolff(r, A0_val=A0):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -61,11 +59,28 @@ def amplitude_1_over_lafreniere(r, A0_val=A0, r_ref=r_reference):
     Returns:
         Amplitude at distance r (meters)
     """
-    # Prevent division by zero
-    # r_safe = np.maximum(r, r_ref)
-    # amp_falloff = A0_val * (r_ref / r_safe)
 
-    # amp_falloff = A0_val * np.sin(k * r) / r
+    amp_lafrenierewolff = A0_val * np.cos(np.pi * 0) * np.sin(k * r - np.pi * 0) / r * wavelength
+
+    return amp_lafrenierewolff
+
+
+def amplitude_1_over_lafreniere(r, A0_val=A0):
+    """
+    Far-field amplitude falloff: A(r) = A₀ · (λ/r)
+
+    Energy conservation for spherical waves requires A ∝ 1/r
+    Valid in far-field region (r > 2λ from wave source)
+
+    Args:
+        r: Distance from wave source (meters)
+        A0_val: Base amplitude A₀ (meters)
+        r_ref: Reference radius (meters), typically 1λ
+
+    Returns:
+        Amplitude at distance r (meters)
+    """
+
     amp_falloff_lafreniere = (
         A0_val * wavelength / ((k * r + (np.pi / 2) * (1 - k * r / np.pi) ** 2) / k)
     )
@@ -73,7 +88,7 @@ def amplitude_1_over_lafreniere(r, A0_val=A0, r_ref=r_reference):
     return amp_falloff_lafreniere
 
 
-def amplitude_1_over_r(r, A0_val=A0, r_ref=r_reference):
+def amplitude_1_over_r(r, A0_val=A0):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -88,11 +103,7 @@ def amplitude_1_over_r(r, A0_val=A0, r_ref=r_reference):
     Returns:
         Amplitude at distance r (meters)
     """
-    # Prevent division by zero
-    # r_safe = np.maximum(r, r_ref)
-    # amp_falloff = A0_val * (r_ref / r_safe)
 
-    # amp_falloff = A0_val * np.sin(k * r) / r
     amp_falloff = A0_val * wavelength / r
 
     return amp_falloff
@@ -114,13 +125,13 @@ def amplitude_1_over_original(r, A0_val=A0, r_ref=r_reference):
         Amplitude at distance r (meters)
     """
     # Prevent division by zero
-    r_safe = np.maximum(r, r_ref)
+    r_safe = np.maximum(r, r_ref / (2 * np.pi))
     amp_falloff = A0_val * (r_ref / r_safe)
 
     return amp_falloff
 
 
-def amplitude_with_cap(r, A0_val=A0, r_ref=r_reference):
+def amplitude_with_cap(r, A0_val=A0):
     """
     Amplitude with physical cap: A(r) ≤ r
 
@@ -140,7 +151,7 @@ def amplitude_with_cap(r, A0_val=A0, r_ref=r_reference):
         Capped amplitude at distance r (meters)
     """
     # Calculate 1/r amplitude
-    A_uncapped = amplitude_1_over_r(r, A0_val, r_ref)
+    A_uncapped = amplitude_1_over_r(r, A0_val)
 
     # Apply cap: A ≤ r
     A_capped = np.minimum(A_uncapped, r)
@@ -160,6 +171,7 @@ r = np.linspace(0.01 * wavelength, r_max, 1000)
 # Calculate amplitudes
 A_uncapped = amplitude_1_over_original(r)
 A_lafreniere = amplitude_1_over_lafreniere(r)
+stand_wolff = sine_stand_wolff(r)
 A_capped = amplitude_with_cap(r)
 
 # Create figure
@@ -172,6 +184,7 @@ fig, ax = plt.subplots(figsize=(12, 8))
 # Convert to attometers for y-axis
 A_uncapped_am = A_uncapped / constants.ATTOMETER
 A_lafreniere_am = A_lafreniere / constants.ATTOMETER
+stand_wolff_am = stand_wolff / constants.ATTOMETER
 A_capped_am = A_capped / constants.ATTOMETER
 r_am = r / constants.ATTOMETER
 
@@ -181,15 +194,27 @@ ax.plot(r / wavelength, r_am, "k:", linewidth=1.5, alpha=0.5, label="A = r (cap 
 # Capped amplitude (actual implementation)
 ax.plot(r / wavelength, A_capped_am, "r-", linewidth=3, label="A(r) with cap (A ≤ r)")
 
-# 1/r amplitude (without cap) - plot last so it's visible on top
+# 1/r amplitude (without cap)
 ax.plot(
     r / wavelength, A_uncapped_am, "b--", linewidth=2.5, alpha=0.8, label="1/r falloff (uncapped)"
 )
 
-# 1/lafreniere amplitude (without cap) - plot last so it's visible on top
+# 1/lafreniere amplitude (without cap)
 ax.plot(
     r / wavelength, A_lafreniere_am, "g--", linewidth=2.5, alpha=0.8, label="1/lafreniere falloff"
 )
+
+# Sine stand_wolff (without cap)
+ax.plot(
+    r / wavelength,
+    stand_wolff_am,
+    "orange",
+    linewidth=2.5,
+    alpha=0.8,
+    label="stand_wolff sine",
+)
+
+plt.axhline(y=0, color=colormap.BLACK[1], linestyle="-", alpha=1)
 
 # ================================================================
 # Mark Near-Field / Far-Field Regions
@@ -236,7 +261,7 @@ ax.plot(2.0, A_at_2lambda_am, "go", markersize=10, label=f"A(2λ) = {A_at_2lambd
 # Annotate regions (adjusted for 2 am y-axis scale)
 ax.text(
     0.5,
-    1.7,
+    5.5,
     "Near\nField",
     ha="center",
     va="center",
@@ -246,7 +271,7 @@ ax.text(
 )
 ax.text(
     1.5,
-    1.7,
+    5.5,
     "Transition\nZone",
     ha="center",
     va="center",
@@ -257,8 +282,8 @@ ax.text(
 # Far field label position: centered between 2λ and r_max
 far_field_center = (2.0 + r_max_lambda) / 2
 ax.text(
-    far_field_center,
-    1.7,
+    3.0,
+    5.5,
     "Far Field\n(Fully Formed Waves)",
     ha="center",
     va="center",
@@ -310,7 +335,7 @@ ax.set_title(
 
 # Set axis limits
 ax.set_xlim(0, r_max / wavelength)
-ax.set_ylim(0, 6.0)  # 6 attometers max
+ax.set_ylim(-1.5, 6.0)  # 6 attometers max
 
 # Set x-axis tick marks at 1λ spacing
 ax.set_xticks(np.arange(0, r_max / wavelength + 1, 1.0))
@@ -341,7 +366,7 @@ physics_text = (
 props = dict(boxstyle="round", facecolor="wheat", alpha=0.8)
 ax.text(
     0.99,
-    0.65,
+    0.60,
     physics_text,
     transform=ax.transAxes,
     fontsize=9,
@@ -362,8 +387,8 @@ script_dir = Path(__file__).parent
 output_path = script_dir / "images" / "wave_amplitude_vs_radius.png"
 
 plt.savefig(output_path, dpi=150, bbox_inches="tight")
-print(f"✓ Plot saved: {output_path}")
+print(f"\n✓ Plot saved: {output_path}")
 print(f"✓ Using A₀ = {A0:.3e} m")
-print(f"✓ Using λ = {wavelength:.3e} m")
+print(f"✓ Using λ = {wavelength:.3e} m\n")
 
 plt.show()
