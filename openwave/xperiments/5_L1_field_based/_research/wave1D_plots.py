@@ -102,6 +102,46 @@ def compute_wave_fullamp(
     return psi_am
 
 
+def compute_wave_flat(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
+    """Fundamental Flat Wave - uniform oscillation throughout space (in attometers).
+
+    ψ(t) = A·cos(ωt) - Spatially uniform pure temporal harmonic oscillation.
+
+    Models a background oscillation, the fundamental energy source of spacetime.
+    No spatial dependence - every point in space oscillates in phase with
+    constant amplitude. Represents the superposition of energy waves reflected
+    from all matter in the universe, creating a uniform flat wave field.
+
+    Args:
+        radius_am: Radial distance array (used only for output shape, not computation)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+    """
+    psi_am = base_amplitude_am * np.cos(omega_rs * t_rs)  # temporal term only (rad)
+    return np.full_like(radius_am, psi_am)  # uniform value at every spatial point
+
+
+def compute_wave_standing(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
+    """Fundamental Standing Wave - uniform oscillation throughout space (in attometers).
+
+    ψ(t) = A·cos(ωt)cos(kr) - Spatially uniform pure temporal harmonic oscillation.
+
+    Models a background oscillation, the fundamental energy source of spacetime.
+    No spatial dependence - every point in space oscillates in phase with
+    constant amplitude. Represents the superposition of energy waves reflected
+    from all matter in the universe, creating a uniform wave field.
+
+    Args:
+        radius_am: Radial distance array (used only for output shape, not computation)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+    """
+    psi_am = (
+        base_amplitude_am
+        * np.cos(omega_rs * t_rs)  # temporal and spatial terms (rad)
+        * np.cos(k_am * x_am)  # spatial term, φ = k·r (rad)
+    )
+    return psi_am
+
+
 def compute_wave_ampfalloff(
     radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
@@ -176,8 +216,8 @@ def compute_wave_LaFreniere(
             - np.sin(omega_rs * t_rs + source_phase)
         )  # both terms share source phase (same oscillator)
         / (k_am * radius_am)
-        * 2
-        * np.pi  # TODO: test remove 2π factor
+        # * 2
+        # * np.pi  # TODO: test remove 2π factor
     )
     return psi_am
 
@@ -190,9 +230,9 @@ def compute_wave_LaFreniere(
 # - func: string or list of strings (for sum)
 # - direction: +1 incoming, -1 outgoing (or list for each func)
 # - source: 1 = wc1, 2 = wc2 (or list for each func)
-PLOT_CONFIGS = [
+PLOT_CONFIGS = [  # 1 WC: flat + ampfalloff
     {
-        "func": "fullamp",
+        "func": "flat",  # sum of both sources
         "direction": 1,
         "source": 1,  # WC1
         "ylim": (-1.5, 1.5),
@@ -210,7 +250,7 @@ PLOT_CONFIGS = [
         "label": "Psi Out (am)",
     },
     {
-        "func": ["fullamp", "ampfalloff"],  # sum of both sources
+        "func": ["flat", "ampfalloff"],  # sum of both sources
         "direction": [1, -1],
         "source": [1, 1],  # WC1 + WC1
         "ylim": (-3.5, 7.5),
@@ -220,9 +260,9 @@ PLOT_CONFIGS = [
     },
 ]
 
-PLOT_CONFIGS2 = [
+PLOT_CONFIGS2 = [  # 2 WC: flat + ampfalloff
     {
-        "func": ["fullamp", "fullamp"],  # sum of both sources
+        "func": ["flat", "flat"],  # sum of both sources
         "direction": [1, 1],
         "source": [1, 2],  # WC1 + WC2
         "ylim": (-1.5, 1.5),
@@ -240,7 +280,7 @@ PLOT_CONFIGS2 = [
         "label": "Psi Out (am)",
     },
     {
-        "func": ["fullamp", "ampfalloff", "fullamp", "ampfalloff"],  # sum of both sources
+        "func": ["flat", "ampfalloff", "flat", "ampfalloff"],  # sum of both sources
         "direction": [1, -1, 1, -1],
         "source": [1, 1, 2, 2],  # WC1 + WC2
         "ylim": (-3.5, 7.5),
@@ -250,7 +290,7 @@ PLOT_CONFIGS2 = [
     },
 ]
 
-PLOT_CONFIGS3 = [
+PLOT_CONFIGS3 = [  # 2 WC: fullamp + ampfalloff
     {
         "func": ["fullamp", "fullamp"],  # sum of both sources
         "direction": [-1, -1],
@@ -280,7 +320,26 @@ PLOT_CONFIGS3 = [
     },
 ]
 
-PLOT_CONFIGS4 = [
+PLOT_CONFIGS4 = [  # 1 WC: wolff & lafreniere
+    {
+        "func": ["wolff"],  # sum of both sources
+        "source": [1],  # WC1
+        "ylim": (-1.5, 6.5),
+        "height_ratio": 1,
+        "title": "WOLFF STANDING WAVE",
+        "label": "Psi Wolff",
+    },
+    {
+        "func": ["lafreniere"],  # sum of both sources
+        "source": [1],  # WC1
+        "ylim": (-0.5, 1.5),
+        "height_ratio": 1,
+        "title": "LAFRENIERE STANDING WAVE",
+        "label": "Psi LaFreniere",
+    },
+]
+
+PLOT_CONFIGS5 = [  # 2 WC: wolff & lafreniere
     {
         "func": ["wolff", "wolff"],  # sum of both sources
         "source": [1, 2],  # WC1 + WC2
@@ -302,6 +361,8 @@ PLOT_CONFIGS4 = [
 # Function registry - maps string names to actual functions
 WAVE_FUNCTIONS = {
     "fullamp": compute_wave_fullamp,
+    "flat": compute_wave_flat,
+    "standing": compute_wave_standing,
     "ampfalloff": compute_wave_ampfalloff,
     "wolff": compute_wave_Wolff,
     "lafreniere": compute_wave_LaFreniere,
@@ -309,7 +370,7 @@ WAVE_FUNCTIONS = {
 
 
 def compute_plot_value(config: dict, t_rs: float) -> np.ndarray:
-    """Compute wave value for a plot config (handles single func or sum of funcs).
+    """Compute wave value for a plot config (handles single func or sum of func).
 
     Args:
         config: Plot configuration dict with func, direction, source
@@ -398,6 +459,7 @@ def plot_waves(start_paused: bool = False, start_frame: int = 0, save_gif: bool 
     # Initialize line objects for each plot (wave + envelope)
     lines = []
     envelope_lines = []
+    rms_texts = []  # RMS display text objects
     envelopes = [np.zeros_like(x_am) for _ in PLOT_CONFIGS]  # track peak per x
 
     for ax, cfg in zip(axes, PLOT_CONFIGS):
@@ -479,7 +541,26 @@ def plot_waves(start_paused: bool = False, start_frame: int = 0, save_gif: bool 
         )
         ax.set_xlabel("X (am)", family="Monospace")
         ax.set_ylabel("Displacement (am)", family="Monospace")
-        ax.set_title(cfg["title"], family="Monospace")
+        ax.set_title(cfg["title"], family="Monospace", loc="left")
+        # RMS text (positioned after title, in envelope color)
+        rms_text = ax.text(
+            0.5,
+            1.02,
+            "",
+            transform=ax.transAxes,
+            fontsize=10,
+            family="Monospace",
+            color=colormap.viridis_palette[4][1],
+            verticalalignment="bottom",
+            horizontalalignment="center",
+            animated=True,
+            bbox=dict(
+                facecolor=colormap.DARK_GRAY[1],
+                edgecolor="none",
+                pad=2,
+            ),
+        )
+        rms_texts.append(rms_text)
         ax.grid(True, alpha=0.3)
         ax.legend(loc="upper right")
 
@@ -490,7 +571,9 @@ def plot_waves(start_paused: bool = False, start_frame: int = 0, save_gif: bool 
         t_rs = (frame / ANIMATION_FRAMES) * PERIOD_RS
 
         # Compute and update each plot from config
-        for i, (line, env_line, cfg) in enumerate(zip(lines, envelope_lines, PLOT_CONFIGS)):
+        for i, (line, env_line, rms_text, cfg) in enumerate(
+            zip(lines, envelope_lines, rms_texts, PLOT_CONFIGS)
+        ):
             psi = compute_plot_value(cfg, t_rs)
             line.set_data(x_am, psi)
 
@@ -498,11 +581,16 @@ def plot_waves(start_paused: bool = False, start_frame: int = 0, save_gif: bool 
             envelopes[i] = np.maximum(envelopes[i], np.abs(psi))
             env_line.set_data(x_am, envelopes[i])
 
+            # Calculate and display RMS amplitude from envelope
+            # RMS = sqrt(mean(envelope^2))
+            rms_am = np.sqrt(np.mean(envelopes[i] ** 2))
+            rms_text.set_text(f"(RMS Amplitude = {rms_am:.2f}am)")
+
         # Update time display with pause indicator
         pause_str = " [PAUSED]" if state["paused"] else ""
         time_text.set_text(f"t = {t_rs:.4f} rs  (frame {frame}/{ANIMATION_FRAMES}){pause_str}")
 
-        return tuple(lines) + tuple(envelope_lines) + (time_text,)
+        return tuple(lines) + tuple(envelope_lines) + tuple(rms_texts) + (time_text,)
 
     def init():
         """Initialize animation."""
