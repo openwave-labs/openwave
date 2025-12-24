@@ -27,7 +27,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in am
 # Shape: (granule_count, num_sources) for parallel access
 sources_direction = None  # Direction vectors from each granule to each wave source
 sources_distance_am = None  # Distances from each granule to each wave source (attometers)
-sources_phase_shift = None  # Phase offset for each wave source (radians)
+sources_phase_offset = None  # Phase offset for each wave source (radians)
 
 # Displacement tracking for energy calculation
 peak_amplitude_am = None  # max displacement across all granules
@@ -52,7 +52,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     relationship between every granule and every wave source, storing:
     - Direction vectors (normalized): which way waves propagate from each source
     - Distances (attometers): affects phase and amplitude of waves from each source
-    - Phase offsets (radians): initial phase shift for each source
+    - Phase offsets (radians): initial phase for each source
 
     This function handles arbitrary source positions that may change between xperiments.
 
@@ -63,7 +63,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
         num_sources: Number of wave sources
         lattice: BCCLattice instance with granule positions and universe parameters
     """
-    global sources_direction, sources_distance_am, sources_phase_shift, sources_pos_field
+    global sources_direction, sources_distance_am, sources_phase_offset, sources_pos_field
     global peak_amplitude_am, avg_amplitude_am, sources_center_am
     global last_amp_boost, last_in_wave_toggle, last_out_wave_toggle
 
@@ -76,7 +76,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
         3, dtype=ti.f32, shape=(lattice.granule_count, num_sources)
     )
     sources_distance_am = ti.field(dtype=ti.f32, shape=(lattice.granule_count, num_sources))
-    sources_phase_shift = ti.field(dtype=ti.f32, shape=num_sources)
+    sources_phase_offset = ti.field(dtype=ti.f32, shape=num_sources)
 
     # Convert Python lists to Taichi fields for kernel access
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
@@ -106,7 +106,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     # Copy source data to Taichi fields
     for i in range(num_sources):
         sources_pos_field[i] = ti.Vector(sources_position[i])
-        sources_phase_shift[i] = sources_phase_rad[i]
+        sources_phase_offset[i] = sources_phase_rad[i]
 
     @ti.kernel
     def compute_vectors(num_active: ti.i32):  # type: ignore
@@ -162,16 +162,16 @@ def oscillate_granules(
     - Each wave source generates spherical longitudinal waves
     - Waves propagate radially outward from each wave source
     - At each granule, displacement = sum of displacements from all wave sources
-    - Phase determined by distance from each wave source (creates wave fronts)
+    - Spacial phase determined by distance from each wave source (creates wave fronts)
     - Amplitude decreases as 1/r for energy conservation (spherical waves)
 
     Wave Superposition Principle:
         x_total(t) = Σ[x_i(t)] for all wave sources i
-        x_i(t) = x_eq + A_i(r_i)·cos(ωt + φ_i + φ_source_i)·dir_i
+        x_i(t) = x_eq + A_i(r_i)·cos(ωt + kr_i + φ_source_i)·dir_i
 
     Where for each wave source i:
         - r_i: distance from wave source i to granule
-        - φ_i = -k·r_i: spatial phase (wave propagation)
+        - k·r_i: spatial term (wave propagation)
         - φ_source_i: initial phase offset of wave source i
         - dir_i: direction from wave source i to granule (outward propagation)
         - A_i(r_i) = A₀·(r₀/r_i): amplitude falloff with distance
@@ -238,28 +238,20 @@ def oscillate_granules(
 
         # Sum contributions from all sources (wave superposition)
         for source_idx in range(num_sources):
-            # Get precomputed direction and distance for this granule-source pair
+            # Get precomputed direction, distance and phase for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
-            r_am = sources_distance_am[granule_idx, source_idx]  # distance in attometers
+            r_am = sources_distance_am[granule_idx, source_idx]
+            source_phase = sources_phase_offset[source_idx]
 
-            # Get source phase offset
-            source_phase = sources_phase_shift[source_idx]
+            # Spatial term: φ = k·r, creates spherical wave fronts
+            spatial_term = k_am * r_am
 
-            # Spatial phase: φ = k·r
-            # Creates spherical wave fronts
-            spatial_phase = k_am * r_am
-
-            # Total phase: includes spatial phase and source's initial offset
-            total_phase = spatial_phase + source_phase
-
-            # Amplitude falloff for spherical wave: A(r) = A₀·(r₀/r)
-            # Clamp to r_min = 1λ to avoid singularity at r = 0
+            # Amplitude falloff for spherical wave: A(r) = A₀/r
+            # Clamp to r_min to avoid singularity at r = 0
             r_safe_am = ti.max(r_am, r_reference_am)
             amplitude_falloff = r_reference_am / r_safe_am
-
             # Total amplitude at this distance (with visualization scaling)
-            amplitude_am_at_r = base_amplitude_am * amplitude_falloff * amp_boost
-
+            amplitude_am_at_r = base_amplitude_am * amp_boost * amplitude_falloff
             # Cap amplitude to distance from source (A ≤ r)
             # Prevents granules crossing through wave source
             amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
@@ -268,14 +260,17 @@ def oscillate_granules(
             # IN & OUT Wave displacement from this source
             # A·cos(ωt + φ)·direction, positive for inward propagation, full amp
             # A(r)·cos(ωt - φ)·direction, negative for outward propagation, amp falloff
-            # Experiment in/out wave toggles
             in_wave_psi = (
-                in_wave_toggle * base_amplitude_am * ti.cos(omega_slo * elapsed_t + total_phase)
+                in_wave_toggle
+                * base_amplitude_am
+                * amp_boost
+                / num_sources  # incoming wave do not superpose, split per WC for energy conservation
+                * ti.cos(omega_slo * elapsed_t + (spatial_term + source_phase))
             )
             out_wave_psi = (
                 out_wave_toggle
                 * amplitude_am_at_r_cap
-                * ti.cos(omega_slo * elapsed_t - total_phase)
+                * ti.cos(omega_slo * elapsed_t - (spatial_term + source_phase))
             )
             source_displacement_am = (in_wave_psi + out_wave_psi) * direction
 
@@ -284,19 +279,27 @@ def oscillate_granules(
                 in_wave_toggle
                 * -base_amplitude_am
                 * omega_slo
-                * ti.sin(omega_slo * elapsed_t + total_phase)
-            )
+                * ti.sin(omega_slo * elapsed_t + (spatial_term + 0))
+            ) / num_sources  # incoming wave do not superpose, gets split per WC
             out_wave_vel = (
                 out_wave_toggle
                 * -amplitude_am_at_r_cap
                 * omega_slo
-                * ti.sin(omega_slo * elapsed_t - total_phase)
+                * ti.sin(omega_slo * elapsed_t - (spatial_term + source_phase))
             )
             source_velocity_am = (in_wave_vel + out_wave_vel) * direction
 
             # Accumulate this source's contribution (wave superposition)
             total_displacement_am += source_displacement_am
             total_velocity_am += source_velocity_am
+
+        # Rounding to prevent floating-point precision error (rounding boundaries)
+        # Critical for opposing phase sources that should cancel / annihilate
+        # Also critical at peak amplitudes (in wave has same amplitude in space)
+        # eg. (+1.250001) + (-1.249999) = 0.000002 (not a perfect cancel)
+        precision = 1e4  # rounding precision to ensure cancellation cases
+        total_displacement_am = ti.round(total_displacement_am * precision) / precision
+        total_velocity_am = ti.round(total_velocity_am * precision) / precision
 
         # Apply superposed wave to granule position and velocity
         position_am[granule_idx] = equilibrium_am[granule_idx] + total_displacement_am
@@ -306,7 +309,7 @@ def oscillate_granules(
         # Initialize before conditional (Taichi scope requirement)
         displacement_am = total_displacement_am.norm()
 
-        # Track per-granule peak amplitude & global peak amplitude
+        # Track per-granule PEAK Amplitude & global PEAK Amplitude
         ti.atomic_max(amplitude_am[granule_idx], displacement_am)
         ti.atomic_max(peak_amplitude_am[None], displacement_am)
 
