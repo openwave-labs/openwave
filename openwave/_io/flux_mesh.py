@@ -27,7 +27,8 @@ _yz_colors_flat = None
 _yz_indices_flat = None
 
 
-def initialize_flux_mesh_fields(wave_field):
+# test: @ti.kernel
+def initialize_flux_mesh_fields(wave_field: ti.template()):  # type: ignore
     """
     Initialize flattened Taichi fields for flux mesh rendering.
 
@@ -42,8 +43,8 @@ def initialize_flux_mesh_fields(wave_field):
     global _xz_vertices_flat, _xz_colors_flat, _xz_indices_flat
     global _yz_vertices_flat, _yz_colors_flat, _yz_indices_flat
 
-    if _flux_mesh_fields_initialized:
-        return  # Already initialized
+    # if _flux_mesh_fields_initialized:
+    #     return  # Already initialized
 
     # XY Plane flattened fields
     xy_vertex_count = wave_field.nx * wave_field.ny
@@ -74,7 +75,7 @@ def initialize_flux_mesh_fields(wave_field):
     flatten_yz_vertices(wave_field, _yz_vertices_flat)
     flatten_yz_indices(wave_field, _yz_indices_flat)
 
-    _flux_mesh_fields_initialized = True
+    # _flux_mesh_fields_initialized = True
 
 
 def render_flux_mesh(scene, wave_field, show_flux_mesh):
@@ -100,8 +101,8 @@ def render_flux_mesh(scene, wave_field, show_flux_mesh):
             render_flux_mesh(scene, wave_field)
     """
     # Ensure fields are initialized
-    if not _flux_mesh_fields_initialized:
-        initialize_flux_mesh_fields(wave_field)
+    # if not _flux_mesh_fields_initialized:
+    initialize_flux_mesh_fields(wave_field)
 
     # ================================================================
     # Update only colors (vertices are static, don't change per frame)

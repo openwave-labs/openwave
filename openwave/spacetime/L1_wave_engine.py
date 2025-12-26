@@ -773,12 +773,22 @@ def update_flux_mesh_colors(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
+            warp = (
+                psiL_value / trackers.rms_ampL_am[None] / wave_field.max_grid_size
+                + wave_field.flux_mesh_planes[2]
+            )
+            wave_field.fluxmesh_xy_vertices[i, j][2] = warp
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
                 psiT_value,
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
             )
+            warp = (
+                psiT_value / trackers.rms_ampT_am[None] / wave_field.max_grid_size
+                + wave_field.flux_mesh_planes[2]
+            )
+            wave_field.fluxmesh_xy_vertices[i, j][2] = warp
 
     # ================================================================
     # XZ Plane: Sample at y = fm_plane_y_idx

@@ -13,11 +13,11 @@ XPARAMETERS = {
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.17, 1.59, 0.81],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.07, 1.42, 0.76],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
-        "TARGET_VOXELS": 2.5e7,  # Simulation voxel count (impacts performance)
+        "TARGET_VOXELS": 1e6,  # Simulation voxel count (impacts performance)
     },
     "charging": {
         "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
@@ -27,7 +27,7 @@ XPARAMETERS = {
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "SHOW_EDGES": True,  # Toggle to show/hide universe edges
-        "SHOW_FLUX_MESH": 3,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
+        "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
