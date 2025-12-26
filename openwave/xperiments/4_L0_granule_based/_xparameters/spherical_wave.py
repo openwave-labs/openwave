@@ -37,7 +37,7 @@ XPARAMETERS = {
         "SHOW_AXIS": True,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "BLOCK_SLICE": True,  # Block-slicing toggle
-        "SHOW_SOURCES": False,  # Toggle to show/hide wave source markers
+        "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
         "RADIUS_FACTOR": 0.4,  # Granule radius scaling factor
         "FREQ_BOOST": 0.5,  # Frequency boost multiplier
         "AMP_BOOST": 5.0,  # Amplitude boost multiplier

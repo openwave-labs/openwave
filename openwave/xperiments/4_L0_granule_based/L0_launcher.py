@@ -237,7 +237,7 @@ def display_controls(state):
     with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.27) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
-        state.SHOW_SOURCES = sub.checkbox("Show Wave Sources", state.SHOW_SOURCES)
+        state.SHOW_SOURCES = sub.checkbox("Show Wave Centers (sources)", state.SHOW_SOURCES)
         state.IN_WAVE_TOGGLE = sub.checkbox("Incoming Wave (Full Amp)", state.IN_WAVE_TOGGLE)
         state.OUT_WAVE_TOGGLE = sub.checkbox("Outgoing Wave (Amp Falloff)", state.OUT_WAVE_TOGGLE)
         state.RADIUS_FACTOR = sub.slider_float("Granule", state.RADIUS_FACTOR, 0.1, 2.0)
@@ -419,7 +419,7 @@ def render_elements(state):
     if state.SHOW_SOURCES:
         render.scene.particles(
             centers=ewave.sources_pos_field,
-            radius=state.granule.radius_screen * 2,
+            radius=state.granule.radius_screen * 5,
             color=colormap.COLOR_SOURCE[1],
         )
 
