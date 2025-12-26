@@ -50,7 +50,7 @@ XPARAMETERS = {
         "SIZE": [
             UNIVERSE_EDGE,
             UNIVERSE_EDGE,
-            UNIVERSE_EDGE / 20,
+            UNIVERSE_EDGE * Z_POSITION,
         ],  # m, simulation domain [x, y, z]
         "TARGET_GRANULES": 1e6,  # Simulation particle count (impacts performance)
     },
@@ -70,7 +70,7 @@ XPARAMETERS = {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "BLOCK_SLICE": False,  # Block-slicing toggle
-        "SHOW_SOURCES": False,  # Toggle to show/hide wave source markers
+        "SHOW_SOURCES": True,  # Toggle to show/hide wave source markers
         "RADIUS_FACTOR": 1.0,  # Granule radius scaling factor
         "FREQ_BOOST": 0.5,  # Frequency boost multiplier
         "AMP_BOOST": 1.0,  # Amplitude boost multiplier, legacy = 0.1
