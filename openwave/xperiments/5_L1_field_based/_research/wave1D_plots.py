@@ -52,7 +52,7 @@ x_am = np.linspace(-1.5 * wc_spacing, +1.5 * wc_spacing, 1000)
 
 wc1_x_am = -wc_spacing / 2  # am, center of wave source 1
 wc2_x_am = +wc_spacing / 2  # am, center of wave source 2
-wc1_phase_rad = -np.pi / 2  # radians, phase offset for source 1
+wc1_phase_rad = np.pi / 2  # radians, phase offset for source 1
 wc2_phase_rad = np.pi / 2  # radians, phase offset for source 2
 
 

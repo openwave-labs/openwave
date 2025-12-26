@@ -256,7 +256,7 @@ def oscillate_granules(
             # Prevents granules crossing through wave source
             amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
 
-            # MAIN EQUATION OF MOTION ========================================
+            # MAIN WAVE FUNCTION ========================================
             # IN & OUT Wave displacement from this source
             # A·cos(ωt + φ)·direction, positive for inward propagation, full amp
             # A(r)·cos(ωt - φ)·direction, negative for outward propagation, amp falloff
