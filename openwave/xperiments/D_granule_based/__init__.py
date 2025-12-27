@@ -1,5 +1,5 @@
 """
-D/ Granule Method (educational tools)
+D/ GRANULE-BASED METHOD (educational tools)
 
-Experiments exploring wave dynamics using granule method simulation.
+Experiments exploring wave dynamics using granule-based method simulation.
 """

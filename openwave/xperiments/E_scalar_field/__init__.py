@@ -1,5 +1,5 @@
 """
-E/ Scalar-Field Method (analytical tools)
+E/ SCALAR-FIELD METHOD (analytical tools)
 
 Experiments exploring wave dynamics using scalar-field method simulation.
 """

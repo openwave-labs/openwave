@@ -1,5 +1,5 @@
 """
-LAUNCHER
+Launcher
 
 Unified launcher for granule based xperiments featuring:
 - UI-based xperiment selection and switching
@@ -18,7 +18,7 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.D_granule_data as data_grid
+import openwave.spacetime.D_granule_based_data as data_grid
 import openwave.spacetime.D_wave_engine as ewave
 import openwave.xperiments.D_granule_based._instrumentation as instrument
 

@@ -1,4 +1,4 @@
 """
-C/ THERMAL WAVES EXPERIMENT
+C/ THERMAL-WAVES EXPERIMENT
 ==============================
 """
