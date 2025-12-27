@@ -234,7 +234,7 @@ The experiment UI includes `freq_boost` and `amp_boost` sliders:
 ## Comparison: PSHO vs XPBD
 
 | Aspect | PSHO | XPBD |
-|--------|------|------|
+| -------- | ------ | ------ |
 | Wave Speed | Exact by construction | Requires empirical measurement |
 | Wavelength | Exact by construction | Requires empirical measurement |
 | Dispersion | Zero (analytical) | Possible numerical artifact |
