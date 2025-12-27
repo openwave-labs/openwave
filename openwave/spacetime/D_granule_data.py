@@ -1,5 +1,5 @@
 """
-GRANULE-LATTICE Data-Grid Method
+GRANULE Method Data-Grid
 
 Object Classes @spacetime module.
 

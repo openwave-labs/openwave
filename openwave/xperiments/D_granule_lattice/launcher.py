@@ -1,7 +1,7 @@
 """
 LAUNCHER
 
-Unified launcher for granule-lattice based xperiments featuring:
+Unified launcher for granule based xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /_xparameters directory
@@ -275,7 +275,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("GRANULE-LATTICE METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
+    with render.gui.sub_window("GRANULE METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")

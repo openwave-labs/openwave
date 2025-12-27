@@ -17,7 +17,7 @@
 
 OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-LATTICE method for educational visualization.
+The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE method for educational visualization.
 
 ### Computational Approaches
 
@@ -28,7 +28,7 @@ The project implements a proposed mathematical framework through various complem
 - Scalable for matter formation and force simulations
 - Indexed by spatial coordinates with field properties at each voxel
 
-#### Granule-Lattice Method (Education Oriented)
+#### Granule Method (Education Oriented)
 
 - Discrete particle visualization with phase-shifted oscillations
 - Intuitive for understanding wave mechanics

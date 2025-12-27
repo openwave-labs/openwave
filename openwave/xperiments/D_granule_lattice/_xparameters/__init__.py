@@ -1,1 +1,1 @@
-"""Xperiment parameters files for granule-lattice simulations."""
+"""Xperiment parameters files for granule simulations."""

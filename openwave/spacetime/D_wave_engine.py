@@ -1,7 +1,7 @@
 """
 ENERGY-WAVE ENGINE
 
-ON GRANULE-LATTICE METHOD
+ON GRANULE METHOD
 
 Wave Physics Engine @spacetime module. Wave dynamics and motion.
 

@@ -1,5 +1,5 @@
 """
-D/ Granule-Lattice Method (educational tools)
+D/ Granule Method (educational tools)
 
-Experiments exploring wave dynamics using granule-lattice method simulation.
+Experiments exploring wave dynamics using granule method simulation.
 """

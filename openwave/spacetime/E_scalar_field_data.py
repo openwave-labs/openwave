@@ -1,5 +1,5 @@
 """
-SCALAR-FIELD Data-Grid Method
+SCALAR-FIELD Method Data-Grid
 
 Object Classes @spacetime module.
 
@@ -24,7 +24,7 @@ class WaveField:
     - Wave properties stored at each voxel
     - Asymmetric universe support (nx ≠ ny ≠ nz allowed)
 
-    Initialization Strategy (mirrors GRANULE-LATTICE):
+    Initialization Strategy (mirrors GRANULE Method):
     1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
     2. Compute universe volume and target voxel count
     3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)

@@ -1,4 +1,4 @@
-# Granule-Lattice Xperiments
+# Granule Xperiments
 
 ## Overview
 
