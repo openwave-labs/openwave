@@ -719,13 +719,14 @@ def sample_avg_trackers(
 
 
 @ti.kernel
-def update_flux_mesh_colors(
+def update_flux_mesh_values(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore
+    warp_mesh: ti.i32,  # type: ignore
 ):
     """
-    Update flux mesh colors by sampling wave properties from voxel grid.
+    Update flux mesh colors and vertices by sampling wave properties from voxel grid.
 
     Samples wave displacement at each plane vertex position and maps it to a color.
     Should be called every frame after wave propagation to update visualization.
@@ -753,19 +754,31 @@ def update_flux_mesh_colors(
         ampT_value = trackers.ampT_am[i, j, wave_field.fm_plane_z_idx]
         freq_value = trackers.freq_rHz[i, j, wave_field.fm_plane_z_idx]
 
-        # Map value to color using selected gradient
+        # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 5:  # blueprint
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
+            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[2]
+            wave_field.fluxmesh_xy_vertices[i, j][2] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[2]
+            )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
+            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[2]
+            wave_field.fluxmesh_xy_vertices[i, j][2] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[2]
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
+            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[2]
+            wave_field.fluxmesh_xy_vertices[i, j][2] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[2]
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_yellowgreen_color(
@@ -773,22 +786,20 @@ def update_flux_mesh_colors(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
-            warp = (
-                psiL_value / trackers.rms_ampL_am[None] / wave_field.max_grid_size
-                + wave_field.flux_mesh_planes[2]
+            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[2]
+            wave_field.fluxmesh_xy_vertices[i, j][2] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[2]
             )
-            wave_field.fluxmesh_xy_vertices[i, j][2] = warp
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
                 psiT_value,
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
             )
-            warp = (
-                psiT_value / trackers.rms_ampT_am[None] / wave_field.max_grid_size
-                + wave_field.flux_mesh_planes[2]
+            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[2]
+            wave_field.fluxmesh_xy_vertices[i, j][2] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[2]
             )
-            wave_field.fluxmesh_xy_vertices[i, j][2] = warp
 
     # ================================================================
     # XZ Plane: Sample at y = fm_plane_y_idx
@@ -801,19 +812,31 @@ def update_flux_mesh_colors(
         ampT_value = trackers.ampT_am[i, wave_field.fm_plane_y_idx, k]
         freq_value = trackers.freq_rHz[i, wave_field.fm_plane_y_idx, k]
 
-        # Map value to color using selected gradient
+        # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 5:  # blueprint
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
+            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[1]
+            wave_field.fluxmesh_xz_vertices[i, k][1] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[1]
+            )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
+            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[1]
+            wave_field.fluxmesh_xz_vertices[i, k][1] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[1]
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
+            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[1]
+            wave_field.fluxmesh_xz_vertices[i, k][1] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[1]
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_yellowgreen_color(
@@ -821,11 +844,19 @@ def update_flux_mesh_colors(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
+            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[1]
+            wave_field.fluxmesh_xz_vertices[i, k][1] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[1]
+            )
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
                 psiT_value,
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
+            )
+            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[1]
+            wave_field.fluxmesh_xz_vertices[i, k][1] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[1]
             )
 
     # ================================================================
@@ -841,17 +872,31 @@ def update_flux_mesh_colors(
 
         # Map value to color using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
+        # Map value to color/vertex using selected gradient
+        # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 5:  # blueprint
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
+            )
+            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[0]
+            wave_field.fluxmesh_yz_vertices[j, k][0] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[0]
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
+            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[0]
+            wave_field.fluxmesh_yz_vertices[j, k][0] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[0]
+            )
         elif color_palette == 3:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
+            )
+            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[0]
+            wave_field.fluxmesh_yz_vertices[j, k][0] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[0]
             )
         elif color_palette == 2:  # yellowgreen
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_yellowgreen_color(
@@ -859,9 +904,17 @@ def update_flux_mesh_colors(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
+            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[0]
+            wave_field.fluxmesh_yz_vertices[j, k][0] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[0]
+            )
         else:  # default to redblue (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(
                 psiT_value,
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
+            )
+            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[0]
+            wave_field.fluxmesh_yz_vertices[j, k][0] = (
+                warp if warp_mesh else wave_field.flux_mesh_planes[0]
             )

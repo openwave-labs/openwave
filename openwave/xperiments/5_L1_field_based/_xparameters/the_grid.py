@@ -27,8 +27,9 @@ XPARAMETERS = {
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": True,  # Toggle to show/hide the voxel data-grid
         "SHOW_EDGES": False,  # Toggle to show/hide universe edges
-        "SHOW_FLUX_MESH": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
+        "SHOW_FLUX_MESH": 0,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
+        "WARP_MESH": False,  # Toggle to enable/disable warp mesh effect
         "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": True,  # Pause/Start simulation toggle
     },
