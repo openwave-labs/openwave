@@ -134,8 +134,9 @@ class SimulationState:
         self.TICK_SPACING = 0.25
         self.SHOW_GRID = False
         self.SHOW_EDGES = False
-        self.SHOW_FLUX_MESH = 0
         self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
+        self.SHOW_FLUX_MESH = 0
+        self.WARP_MESH = False
         self.SIM_SPEED = 1.0
         self.PAUSED = False
 
@@ -171,8 +172,9 @@ class SimulationState:
         self.TICK_SPACING = ui["TICK_SPACING"]
         self.SHOW_GRID = ui["SHOW_GRID"]
         self.SHOW_EDGES = ui["SHOW_EDGES"]
-        self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
         self.FLUX_MESH_PLANES = ui["FLUX_MESH_PLANES"]
+        self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
+        self.WARP_MESH = ui["WARP_MESH"]
         self.SIM_SPEED = ui["SIM_SPEED"]
         self.PAUSED = ui["PAUSED"]
 
@@ -263,11 +265,12 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.22) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.25) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
+        state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
@@ -460,7 +463,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 and state.frame >= 300:  # hold off initial transient
+    if state.frame % 60 == 0 or state.frame == 1:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
     state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m
@@ -491,7 +494,12 @@ def render_elements(state):
         render.scene.lines(state.wave_field.edge_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.SHOW_FLUX_MESH > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
+        ewave.update_flux_mesh_values(
+            state.wave_field,
+            state.trackers,
+            state.COLOR_PALETTE,
+            state.WARP_MESH,
+        )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference

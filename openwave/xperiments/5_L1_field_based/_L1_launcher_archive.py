@@ -507,7 +507,7 @@ def render_elements(state):
         render.scene.lines(state.wave_field.grid_lines, width=1, color=colormap.COLOR_MEDIUM[1])
 
     if state.SHOW_FLUX_MESH > 0:
-        ewave.update_flux_mesh_colors(state.wave_field, state.trackers, state.COLOR_PALETTE)
+        ewave.update_flux_mesh_values(state.wave_field, state.trackers, state.COLOR_PALETTE)
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
     # TODO: remove test particles for visual reference
