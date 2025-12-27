@@ -1,7 +1,7 @@
 """
-L1 XPERIMENT LAUNCHER
+LAUNCHER
 
-Unified launcher for Level-1 wave-field xperiments featuring:
+Unified launcher for wave-field xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /_xparameters directory
@@ -305,7 +305,7 @@ def display_color_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
+    with render.gui.sub_window("SCALAR-FIELD METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
         sub.text("Coupling: Laplacian Operator")
         sub.text("Propagation: Wave Equation (PDE)")
         sub.text("Boundary: Dirichlet Condition")

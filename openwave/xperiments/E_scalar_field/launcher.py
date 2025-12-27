@@ -1,7 +1,7 @@
 """
 LAUNCHER
 
-Unified launcher for Level-1 wave-field xperiments featuring:
+Unified launcher for wave-field xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /_xparameters directory

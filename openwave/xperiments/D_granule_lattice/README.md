@@ -1,4 +1,4 @@
-# Level 0 Granule-Based Xperiments
+# Granule-Lattice Xperiments
 
 ## Overview
 

@@ -4,15 +4,15 @@
 
 OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through two complementary approaches: a FIELD-based method (similar to lattice gauge theory) for research simulations, and a GRANULE-based method for educational visualization.
+The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-LATTICE method for educational visualization.
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
-## Two Computational Approaches
+## Computational Approaches
 
-OpenWave provides two complementary ways to explore wave mechanics:
+OpenWave provides complementary ways to explore wave mechanics:
 
-### LEVEL-1: Field-Based Method (Research Oriented)
+### Scalar and Vector-Field Methods (Research Oriented)
 
 **Status:** Work in Progress (WIP)
 
@@ -22,7 +22,7 @@ OpenWave provides two complementary ways to explore wave mechanics:
 - **Purpose:** Research simulations for matter formation, force modeling, numerical validation
 - **Use Case:** Scientific research, advanced simulations, subatomic engineering
 
-### LEVEL-0: Granule-Based Method (Education Oriented)
+### Granule-Lattice Method (Education Oriented)
 
 **Status:** Released and Available
 
@@ -32,22 +32,22 @@ OpenWave provides two complementary ways to explore wave mechanics:
 - **Purpose:** Educational visualization, understanding wave formation
 - **Use Case:** Learning, illustration, animation, introduction to wave concepts
 
-**Key Insight:** LEVEL-1 uses the same computational approach as quantum field theory (lattice discretization), while LEVEL-0 provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
+**Key Insight:** WAVE-FIELD methods uses the same computational approach as quantum field theory (lattice discretization), while GRANULE-LATTICE method provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
 
 ## Xperiments
 
 OpenWave Xperiments is a collection of interactive physics simulations that brings wave-field dynamics to life through real-time visualization and computation.
 
-**Currently Available: LEVEL-0 Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in LEVEL-1 research simulations.
+**Currently Available: GRANULE-LATTICE method Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in WAVE-FIELD research simulations.
 
 Each Xperiment is fully customizable (via user controls and Python scripting), enabling you to adjust parameters such as universe size, wave source configurations, and visualization settings to investigate wave behavior at different scales.
 
 **Recommended:**
 
-- **Follow the LEVEL-0 demo sequence below if you are new to OpenWave**
-- **LEVEL-1 research tools** are under development for matter formation simulations
+- **Follow the GRANULE-LATTICE demo sequence below if you are new to OpenWave**
+- **WAVE-FIELD research tools** are under development for matter formation simulations
 
-## XPERIMENTS LEVEL-0 DEMO (start here)
+## XPERIMENTS GRANULE-LATTICE DEMO (start here)
 
 ### 1. Spacetime Vibration
 
@@ -105,7 +105,7 @@ Now that you're introduced to the basic concepts of wave phenomena in this compu
 - Stable wave structures
 - Resonance phenomena
 - How changing parameters affects outcomes
-- Experiment the LEVEL-1 with more advanced wave equations and numerical analysis
+- Experiment the WAVE-FIELD methods with more advanced wave equations and numerical analysis
 
 To launch the Xperiments Selector Menu:
 
@@ -161,14 +161,14 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 
 **OpenWave's Computational Implementation:**
 
-- **LEVEL-1** uses lattice wave-field theory methodology (similar to lattice QCD) with EWT's field equations
-- **LEVEL-0** provides particle-based visualizations for intuitive understanding
+- **WAVE-FIELD Methods** uses lattice wave-field theory methodology (similar to lattice QCD) with EWT's field equations
+- **GRANULE-LATTICE Method** provides particle-based visualizations for intuitive understanding
 - Both are computational frameworks for investigating EWT's mathematical predictions against experimentally observed physics
 
 ## OPENWAVE LEVELS
 
-| OPENWAVE | LEVEL-0 (shipped) | LEVEL-1 (WIP) | LEVEL-2 (future) |
-|----------|---------------------|---------------|------------------|
+| OPENWAVE | GRANULE-LATTICE (shipped) | WAVE-FIELD (WIP) | (future) |
+| ---------- | --------------------- | --------------- | ------------------ |
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
 | LOGIC | GRANULE-BASED METHOD | FIELD-BASED METHOD | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
@@ -177,7 +177,7 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
 | DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
-| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD)|
+| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD) |
 | | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
 
 ## Getting Help and Contributing

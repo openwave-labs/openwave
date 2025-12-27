@@ -1,6 +1,6 @@
 # Scale Factor: Computational Tractability for Wave Simulation
 
-This document explains the scale factor implementation in OpenWave LEVEL-1, its physical justification, and why it correctly preserves wave physics while enabling computational tractability.
+This document explains the scale factor implementation in OpenWave, its physical justification, and why it correctly preserves wave physics while enabling computational tractability.
 
 ## The Problem: Computational Resolution Limits
 
@@ -187,7 +187,7 @@ A⁶/λ² → (A×S)⁶/(λ×S)² = A⁶×S⁶/(λ²×S²) = (A⁶/λ²) × S⁴
 1. **Work in scaled units**: Keep all calculations in scaled space, forces scale consistently
 1. **Convert for reporting**: Divide computed forces by S⁴ when displaying physical values
 
-Since LEVEL-1 focuses on field propagation (no particle forces yet), this is documented for future implementation.
+Since OpenWave focuses on field propagation (no particle forces yet), this is documented for future implementation.
 
 ## Validation Checklist
 
@@ -204,7 +204,7 @@ Since LEVEL-1 focuses on field propagation (no particle forces yet), this is doc
 
 ## Summary
 
-The scale factor implementation in OpenWave LEVEL-1 is **physically sound** because it:
+The scale factor implementation in OpenWave is **physically sound** because it:
 
 1. Preserves wave steepness (A/λ ratio)
 1. Preserves energy density (fA product)
