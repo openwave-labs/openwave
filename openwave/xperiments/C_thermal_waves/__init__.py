@@ -1,4 +1,4 @@
 """
-2/ ANTI-GRAVITY EXPERIMENT
+C/ THERMAL WAVES EXPERIMENT
 ==============================
 """

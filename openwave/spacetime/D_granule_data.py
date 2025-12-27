@@ -1,5 +1,5 @@
 """
-LEVEL-0: GRANULE-BASED Data-Grid Method
+GRANULE-LATTICE Data-Grid Method
 
 Object Classes @spacetime module.
 

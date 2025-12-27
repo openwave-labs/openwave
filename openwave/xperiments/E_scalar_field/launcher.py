@@ -1,5 +1,5 @@
 """
-L1 XPERIMENT LAUNCHER
+LAUNCHER
 
 Unified launcher for Level-1 wave-field xperiments featuring:
 - UI-based xperiment selection and switching
@@ -20,9 +20,9 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.L1_field_data_grid as data_grid
-import openwave.spacetime.L1_wave_engine as ewave
-import _L1_instrumentation as instrument
+import openwave.spacetime.E_scalar_field_data as data_grid
+import openwave.spacetime.E_wave_engine as ewave
+import openwave.xperiments.E_scalar_field._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -61,7 +61,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.5_L1_field_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,7 +86,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.5_L1_field_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -248,7 +248,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (L1)", 0.00, 0.00, 0.14, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -325,7 +325,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("LEVEL-1: FIELD-BASED METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
+    with render.gui.sub_window("SCALAR-FIELD METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
         sub.text("Coupling: Laplacian Operator")
         sub.text("Propagation: Wave Equation (PDE)")
         sub.text("Boundary: Dirichlet Condition")

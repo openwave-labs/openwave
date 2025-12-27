@@ -1,7 +1,7 @@
 """
 WAVE-MEDIUM
 
-LEVEL-0: GRANULE-BASED MEDIUM
+GRANULE-BASED MEDIUM
 
 Objects Engine @spacetime module.
 

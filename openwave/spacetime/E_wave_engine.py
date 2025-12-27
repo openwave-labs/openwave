@@ -1,7 +1,7 @@
 """
 ENERGY-WAVE ENGINE
 
-LEVEL-1: ON FIELD-BASED METHOD
+ON SCALAR-FIELD METHOD
 
 Wave Physics Engine @spacetime module. Wave dynamics and motion.
 """

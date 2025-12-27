@@ -213,11 +213,3 @@ The scale factor implementation in OpenWave LEVEL-1 is **physically sound** beca
 1. Enables adequate spatial sampling for accurate wave propagation
 
 This is **numerical scaling for computational tractability**, not physical similitude scaling (like Froude). The physics remains unchanged; only the numerical representation is adjusted to fit within computational constraints.
-
-## References
-
-- EWT Constants: `openwave/common/constants.py`
-- Energy Wave Equation: `openwave/common/equations.py`
-- Scale Factor Implementation: `openwave/spacetime/L1_field_grid.py`
-- Wave Engine Scaling: `openwave/spacetime/L1_wave_engine.py`
-- Launcher Display: `openwave/xperiments/5_L1_field_based/L1_launcher.py`

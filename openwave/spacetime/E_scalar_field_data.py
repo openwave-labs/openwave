@@ -1,9 +1,9 @@
 """
-LEVEL-1: FIELD-BASED Data-Grid Method
+SCALAR-FIELD Data-Grid Method
 
 Object Classes @spacetime module.
 
-WAVE-FIELD propagates Wave Motion (ENERGY-WAVE).
+SCALAR-FIELD propagates Wave Motion (ENERGY-WAVE).
 Modeled as a wave-field that allows energy to transfer from one point to the next.
 """
 
@@ -17,14 +17,14 @@ class WaveField:
     """
     Wave field simulation using cell-centered grid with attometer scaling.
 
-    This class implements LEVEL-1 wave-field propagation with:
+    This class implements SCALAR-FIELD propagation with:
     - Cell-centered cubic grid
     - Attometer scaling for numerical precision (f32 fields)
     - Computed positions from indices (memory efficient)
     - Wave properties stored at each voxel
     - Asymmetric universe support (nx ≠ ny ≠ nz allowed)
 
-    Initialization Strategy (mirrors LEVEL-0 BCCLattice):
+    Initialization Strategy (mirrors GRANULE-LATTICE):
     1. User specifies init_universe_size [x, y, z] in meters (can be asymmetric)
     2. Compute universe volume and target voxel count
     3. Calculate cubic voxel size: dx = (volume / target_voxels)^(1/3)
