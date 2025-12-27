@@ -60,9 +60,9 @@ def sine_stand_wolff(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    amp_lafrenierewolff = A0_val * np.cos(np.pi * 0) * np.sin(k * r - np.pi * 0) / r * wavelength
+    amp_stand_wolff = A0_val * np.sin(k * r) / r * wavelength
 
-    return amp_lafrenierewolff
+    return amp_stand_wolff
 
 
 def amplitude_1_over_lafreniere(r, A0_val=A0):
