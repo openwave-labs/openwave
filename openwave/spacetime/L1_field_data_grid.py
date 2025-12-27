@@ -327,7 +327,7 @@ class WaveField:
         Mesh structure:
         - Vertices: Grid of 3D positions matching voxel resolution
         - Indices: Triangle pairs forming quads (2 triangles × 3 vertices = 6 indices)
-        - Colors: Initialized to colormap.COLOR_FLUXMESH, updated by update_flux_mesh_colors()
+        - Colors: Initialized to colormap.COLOR_FLUXMESH, updated by update_flux_mesh_values()
         """
 
         # Planes position in normalized coordinates
@@ -347,7 +347,7 @@ class WaveField:
             # Vertex position
             self.fluxmesh_xy_vertices[i, j] = ti.Vector([x_norm, y_norm, fm_plane_z])
 
-            # Initialize color (will be changed by update_flux_mesh_colors)
+            # Initialize color (will be changed by update_flux_mesh_values)
             self.fluxmesh_xy_colors[i, j] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XY plane
@@ -374,7 +374,7 @@ class WaveField:
             # Vertex position
             self.fluxmesh_xz_vertices[i, k] = ti.Vector([x_norm, fm_plane_y, z_norm])
 
-            # Initialize color (will be changed by update_flux_mesh_colors)
+            # Initialize color (will be changed by update_flux_mesh_values)
             self.fluxmesh_xz_colors[i, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for XZ plane
@@ -401,7 +401,7 @@ class WaveField:
             # Vertex position
             self.fluxmesh_yz_vertices[j, k] = ti.Vector([fm_plane_x, y_norm, z_norm])
 
-            # Initialize color (will be changed by update_flux_mesh_colors)
+            # Initialize color (will be changed by update_flux_mesh_values)
             self.fluxmesh_yz_colors[j, k] = ti.Vector(colormap.COLOR_FLUXMESH[1])
 
         # Triangle indices for YZ plane

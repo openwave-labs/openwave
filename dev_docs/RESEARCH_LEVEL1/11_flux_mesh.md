@@ -751,7 +751,7 @@ openwave/
     └── config.py  (ADD flux mesh functions)
         ├── get_redblue_color()         # NEW: Redblue gradient for signed values
         ├── create_flux_mesh()          # NEW: Initialize 3 flux meshes
-        ├── update_flux_mesh_colors()    # NEW: Sample wave properties and apply colors
+        ├── update_flux_mesh_values()    # NEW: Sample wave properties and apply colors
         └── render_flux_mesh()          # NEW: Render meshes to scene
 ```
 

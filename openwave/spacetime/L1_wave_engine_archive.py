@@ -1054,7 +1054,7 @@ def sample_avg_trackers(
 
 
 @ti.kernel
-def update_flux_mesh_colors(
+def update_flux_mesh_values(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
     color_palette: ti.i32,  # type: ignore

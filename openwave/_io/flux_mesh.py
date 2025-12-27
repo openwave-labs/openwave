@@ -27,7 +27,7 @@ _yz_colors_flat = None
 _yz_indices_flat = None
 
 
-def initialize_flux_mesh_fields(wave_field):
+def initialize_flux_mesh_fields(wave_field: ti.template()):  # type: ignore
     """
     Initialize flattened Taichi fields for flux mesh rendering.
 
@@ -66,12 +66,9 @@ def initialize_flux_mesh_fields(wave_field):
     yz_triangle_count = (wave_field.ny - 1) * (wave_field.nz - 1) * 2
     _yz_indices_flat = ti.field(dtype=ti.i32, shape=yz_triangle_count * 3)
 
-    # Flatten vertices and indices once (they don't change per frame)
-    flatten_xy_vertices(wave_field, _xy_vertices_flat)
+    # Flatten indices once (they never change)
     flatten_xy_indices(wave_field, _xy_indices_flat)
-    flatten_xz_vertices(wave_field, _xz_vertices_flat)
     flatten_xz_indices(wave_field, _xz_indices_flat)
-    flatten_yz_vertices(wave_field, _yz_vertices_flat)
     flatten_yz_indices(wave_field, _yz_indices_flat)
 
     _flux_mesh_fields_initialized = True
@@ -99,15 +96,22 @@ def render_flux_mesh(scene, wave_field, show_flux_mesh):
         if state.flux_mesh:
             render_flux_mesh(scene, wave_field)
     """
-    # Ensure fields are initialized
-    if not _flux_mesh_fields_initialized:
-        initialize_flux_mesh_fields(wave_field)
+    # Ensure fields are initialized (returns early if already done)
+    initialize_flux_mesh_fields(wave_field)
 
     # ================================================================
-    # Update only colors (vertices are static, don't change per frame)
+    # Update vertices and colors every frame (vertices change with warping)
     # Single kernel call for all three planes to reduce launch overhead
     # ================================================================
-    flatten_all_colors(wave_field, _xy_colors_flat, _xz_colors_flat, _yz_colors_flat)
+    flatten_all_vertices_and_colors(
+        wave_field,
+        _xy_vertices_flat,
+        _xy_colors_flat,
+        _xz_vertices_flat,
+        _xz_colors_flat,
+        _yz_vertices_flat,
+        _yz_colors_flat,
+    )
 
     # ================================================================
     # Render flux mesh planes
@@ -216,30 +220,39 @@ def flatten_yz_indices(wave_field: ti.template(), indices_flat: ti.template()): 
 
 
 # ================================================================
-# Flatten Colors (flatten 2D mesh data to 1D arrays for rendering)
+# Flatten Vertices and Colors (combined for single kernel launch)
 # ================================================================
 
 
 @ti.kernel
-def flatten_all_colors(
+def flatten_all_vertices_and_colors(
     wave_field: ti.template(),  # type: ignore
+    xy_vertices_flat: ti.template(),  # type: ignore
     xy_colors_flat: ti.template(),  # type: ignore
+    xz_vertices_flat: ti.template(),  # type: ignore
     xz_colors_flat: ti.template(),  # type: ignore
+    yz_vertices_flat: ti.template(),  # type: ignore
     yz_colors_flat: ti.template(),  # type: ignore
 ):
-    """Flatten all three Plane colors in a single kernel (called every frame)."""
-    # Always flatten all planes (conditionals cause GPU branch divergence)
+    """Flatten all vertices and colors in a single kernel (called every frame).
+
+    Vertices must be flattened every frame since warping modifies Z coordinates.
+    Combining with colors reduces kernel launch overhead.
+    """
     # XY Plane
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         idx = i * wave_field.ny + j
+        xy_vertices_flat[idx] = wave_field.fluxmesh_xy_vertices[i, j]
         xy_colors_flat[idx] = wave_field.fluxmesh_xy_colors[i, j]
 
     # XZ Plane
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         idx = i * wave_field.nz + k
+        xz_vertices_flat[idx] = wave_field.fluxmesh_xz_vertices[i, k]
         xz_colors_flat[idx] = wave_field.fluxmesh_xz_colors[i, k]
 
     # YZ Plane
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         idx = j * wave_field.nz + k
+        yz_vertices_flat[idx] = wave_field.fluxmesh_yz_vertices[j, k]
         yz_colors_flat[idx] = wave_field.fluxmesh_yz_colors[j, k]
