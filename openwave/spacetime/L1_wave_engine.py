@@ -870,8 +870,6 @@ def update_flux_mesh_values(
         ampT_value = trackers.ampT_am[wave_field.fm_plane_x_idx, j, k]
         freq_value = trackers.freq_rHz[wave_field.fm_plane_x_idx, j, k]
 
-        # Map value to color using selected gradient
-        # Scale range to 2× average for headroom without saturation (allows peak visualization)
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
         if color_palette == 5:  # blueprint
