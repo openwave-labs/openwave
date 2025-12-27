@@ -1,5 +1,5 @@
 """
-LEVEL-0: GRANULE-BASED METHOD
+GRANULE-BASED METHOD
 
 Objects Engine @spacetime module.
 

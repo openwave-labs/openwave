@@ -147,7 +147,7 @@ Fundamental particles can form composite structures
 **It's essentially lattice field theory with different field equations:**
 
 | Aspect | Lattice QCD | OpenWave L1 |
-|--------|-------------|-------------|
+| -------- | ------------- | ------------- |
 | **Discretization** | 4D spacetime lattice | 3D spatial grid + time evolution |
 | **Field Type** | Quantum fields (fermions, bosons) | Classical wave fields |
 | **Field Properties** | Complex-valued field operators | Real-valued amplitude/density/frequency |

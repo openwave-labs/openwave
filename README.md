@@ -17,18 +17,18 @@
 
 OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through two complementary approaches: a FIELD-based method (similar to lattice gauge theory) for research simulations, and a GRANULE-based method for educational visualization.
+The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE method for educational visualization.
 
-### Two Computational Approaches
+### Computational Approaches
 
-#### Level-1: Field-Based Method (Research Oriented)
+#### Scalar and Vector Field Methods (Research Oriented)
 
-- 3D wave-field using partial differential equations (PDEs)
+- 3D wave-field using partial differential equations (PDEs) and other wave functions
 - Similar methodology to lattice QCD (quantum chromodynamics)
 - Scalable for matter formation and force simulations
 - Indexed by spatial coordinates with field properties at each voxel
 
-#### Level-0: Granule-Based Method (Education Oriented)
+#### Granule Method (Education Oriented)
 
 - Discrete particle visualization with phase-shifted oscillations
 - Intuitive for understanding wave mechanics
@@ -79,15 +79,15 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 ### Computational Approach
 
 - **QFT Standard Method:** Lattice gauge theory - discretizes spacetime into a grid with quantum field values at each point
-- **OpenWave Level-1:** Lattice wave-field mechanics - discretizes spacetime into a grid with classical wave-field values at each voxel
-- **OpenWave Level-0:** Granule-based particles - educational visualization of wave mechanics
+- **OpenWave Wave-Field Mechanics** - discretizes spacetime into a grid with classical wave-field values at each voxel
+- **OpenWave Granule-Based** - educational visualization of wave mechanics
 - **Both QFT and OpenWave:** Produce predictions about particle behavior, forces and interactions from field dynamics
 
 ### Scientific Context
 
 - Quantum field theory is the experimentally validated standard framework
 - Lattice QCD is the standard computational method for QFT (Nobel Prize 2004, 2008)
-- OpenWave Level-1 uses similar lattice methodology but with different field equations
+- OpenWave uses similar lattice methodology but with different field equations
 - Research question: Can classical wave-field dynamics reproduce quantum-like phenomena?
 - EWT provides testable predictions that can be validated against experimental data
 
@@ -95,7 +95,7 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 
 OpenWave serves two distinct purposes depending on implementation level:
 
-**At LEVEL-1 for Research:**
+**At Research Levels:**
 
 Research questions to investigate:
 
@@ -105,7 +105,7 @@ Research questions to investigate:
 - 🔬 Can computational predictions be validated against experimental data?
 - 🔬 Can this approach provide computationally efficient alternatives for specific simulations?
 
-**At LEVEL-0 for Education:**
+**At Education Levels:**
 
 Current capabilities (Released):
 

@@ -65,7 +65,7 @@ In LEVEL-1, **particles are wave centers** that reflect waves back into the medi
 **Comparison to LEVEL-0**:
 
 | System | LEVEL-0 | LEVEL-1 |
-|--------|---------|---------|
+| -------- | --------- | --------- |
 | **Granules** | ~1 million | N/A (grid-based) |
 | **Particles** | N/A | Hundreds-thousands |
 | **What particles represent** | Medium granules | Fundamental particles |

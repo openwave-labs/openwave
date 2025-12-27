@@ -1,7 +1,7 @@
 """
 Flux Mesh Rendering Module
 
-Provides rendering functions for flux mesh visualization in LEVEL-1 wave field simulations.
+Provides rendering functions for flux mesh visualization in wave field simulations.
 
 Flux Mesh is a 2D cross-sectional detector surface used to visualize wave properties
 through color gradients. This module handles mesh rendering for three orthogonal

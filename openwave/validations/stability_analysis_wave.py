@@ -7,7 +7,7 @@ import numpy as np
 
 from openwave.common import constants
 
-import openwave.spacetime.L1_field_data_grid as data_grid
+import openwave.spacetime.E_scalar_field_data as data_grid
 
 ti.init(arch=ti.gpu)
 
