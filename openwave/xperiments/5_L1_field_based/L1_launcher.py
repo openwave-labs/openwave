@@ -454,6 +454,10 @@ def compute_wave_motion(state):
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
     """
 
+    # DYNAMIC MAINTENANCE CHARGING (oscillator during simulation) =============================
+    # Runs BEFORE propagation to inject energy to maintain stabilization
+    ewave.oscillate_spherical_standing(state.wave_field, state.elapsed_t_rs, 0.5, 1)
+
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,

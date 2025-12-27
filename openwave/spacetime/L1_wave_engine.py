@@ -16,9 +16,10 @@ from openwave.common import colormap, constants
 # ================================================================
 base_amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 base_wavelength = constants.EWAVE_LENGTH  # in meters
+base_wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 base_frequency = constants.EWAVE_FREQUENCY  # in Hz
 base_frequency_rHz = constants.EWAVE_FREQUENCY * constants.RONTOSECOND  # in rHz (1/rontosecond)
-rho = constants.MEDIUM_DENSITY  # medium density (kg/m³)
+rho = constants.MEDIUM_DENSITY  # medium density for Gaussian energy calc (kg/m³)
 
 
 # ================================================================
@@ -122,7 +123,8 @@ def charge_gaussian(
     sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
-    A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
+    # A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
+    A_am = base_amplitude_am / 200
 
     # Apply Gaussian displacement (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -136,13 +138,71 @@ def charge_gaussian(
         # Gaussian envelope: G(r) = exp(-r²/(2σ²))
         gaussian = ti.exp(-r_squared / (2.0 * sigma_grid * sigma_grid))
 
-        wave_field.psiL_am[i, j, k] = A_am * gaussian
+        wave_field.psiT_am[i, j, k] = A_am * gaussian
 
     # Set old displacement equal to current (zero initial velocity: ∂ψ/∂t = 0)
     for i, j, k in ti.ndrange(
         (1, wave_field.nx - 1), (1, wave_field.ny - 1), (1, wave_field.nz - 1)
     ):
-        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
+        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
+
+
+# ================================================================
+# DYNAMIC CHARGING methods (oscillator during simulation)
+# ================================================================
+
+
+@ti.kernel
+def oscillate_spherical_standing(
+    wave_field: ti.template(),  # type: ignore
+    elapsed_t_rs: ti.f32,  # type: ignore
+    radius: ti.f32,  # type: ignore
+    boost: ti.f32,  # type: ignore
+):
+    """
+    Apply harmonic oscillation to a spherical volume at the grid center.
+
+    Creates a uniform displacement within a spherical region using:
+        ψ(t) = A·cos(ωt-kr)
+
+    The oscillator acts as a coherent wave source, with all voxels inside
+    the sphere oscillating in phase.
+
+    Args:
+        wave_field: WaveField instance containing displacement arrays and grid info
+        elapsed_t_rs: Elapsed simulation time (rs)
+        boost: Oscillation amplitude multiplier
+    """
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
+    )  # angular frequency (rad/rs)
+
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Find center position (in grid indices)
+    center_x = wave_field.nx // 2
+    center_y = wave_field.ny // 2
+    center_z = wave_field.nz // 2
+
+    # Define oscillator sphere radius (a fraction of min edge voxels)
+    charge_radius_grid = int(radius * wave_field.min_grid_size)  # in grid indices
+
+    # Apply oscillating displacement within source sphere
+    # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
+    nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
+    for i, j, k in ti.ndrange(nx, ny, nz):
+        # Check if voxel is within spherical source region
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+        wave_field.psiL_am[i, j, k] = (
+            base_amplitude_am
+            * boost
+            * wave_field.scale_factor
+            * ti.cos(omega_rs * elapsed_t_rs)
+            * ti.cos(k_grid * r_grid)
+        )
 
 
 # ================================================================
@@ -326,7 +386,7 @@ def propagate_wave(
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
-        # Running RMS: tracks √⟨ψ²⟩ - the energy-equivalent amplitude
+        # Running RMS: tracks √⟨ψ²⟩ - the energy-equivalent amplitude (Energy ∝ ψ²)
         # Used for: energy calculation, force gradients, visualization scaling
         # Physics: particles respond to time-averaged energy density, not
         # instantaneous displacement (inertia acts as low-pass filter at ~10²⁵ Hz)
@@ -378,8 +438,8 @@ def propagate_wave(
     # Standing Waves should form around WCs as visual artifacts of interaction
     # Energy Waves are Isotropic (omnidirectional) so reflection gets canceled out
 
-    interact_wc1_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
-    interact_wc2_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    # interact_wc1_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
+    # interact_wc2_pulse(wave_field, elapsed_t_rs)  # forces amp, but no standing wave formation
 
     # wc1_standing(wave_field, elapsed_t_rs, sim_speed)
     # wc2_standing(wave_field, elapsed_t_rs, sim_speed)
@@ -414,7 +474,7 @@ def interact_wc1_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
     wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 2 * ti.math.pi  # amplitude boost factor
+    boost = 1  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
@@ -454,7 +514,7 @@ def interact_wc2_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
     wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    boost = 2 * ti.math.pi  # amplitude boost factor
+    boost = 1  # amplitude boost factor
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
@@ -1269,7 +1329,7 @@ def update_flux_mesh_values(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
-            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[2]
+            warp = psiL_value / trackers.rms_ampL_am[None] / 1000 + wave_field.flux_mesh_planes[2]
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
                 warp if warp_mesh else wave_field.flux_mesh_planes[2]
             )
