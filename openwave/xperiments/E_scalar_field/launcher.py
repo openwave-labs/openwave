@@ -437,10 +437,12 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
-    # STATIC CHARGING methods (single radial pulse pattern) ==================================
-    # TODO: review need and archive
-    # ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
+    # STATIC CHARGING methods (single radial pulse pattern, fast charge) ==================================
+    # Provides initial energy source, dynamic chargers do maintenance around 100%
+    ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
+    ewave.charge_gaussian(state.wave_field)
+    # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
+    # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
@@ -454,10 +456,28 @@ def compute_wave_motion(state):
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
     """
 
+    # DYNAMIC MAINTENANCE CHARGING ==================================
+    # Soft landing: ramp up to target, then maintain with minimal intervention
+    # Static pulse provides ~90% energy, dynamic chargers do the final 10%
+    # envelope = ewave.compute_charge_envelope(state.charge_level)
+    # if envelope > 0.001:  # Small threshold to avoid zero-amplitude calls
+    #     # Wall charging - isotropic energy injection from all 6 boundaries
+    #     spacing = max(int(state.wave_field.ewave_res // 2), 1)
+    #     sources = max(state.wave_field.min_grid_size // spacing, 10)
+    #     effective_boost = state.DYNAMIC_BOOST * envelope
+    #     ewave.charge_oscillator_wall(
+    #         state.wave_field, state.elapsed_t_rs, sources, effective_boost
+    #     )
+    # state.charging = envelope > 0.001  # Track charging state for UI display
+
     # DYNAMIC MAINTENANCE CHARGING (oscillator during simulation) =============================
     # Runs BEFORE propagation to inject energy to maintain stabilization
-    ewave.oscillate_spherical_standing(state.wave_field, state.elapsed_t_rs, 0.5, 1)
+    # if state.charging and state.frame > 2000:  # hold off initial transient
+    #     # ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, 0.10, 3.0)
+    #     # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
+    #     ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 6, 10)
 
+    # WAVE PROPAGATION =======================================
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,
@@ -466,6 +486,19 @@ def compute_wave_motion(state):
         state.elapsed_t_rs,
         state.SIM_SPEED,
     )
+
+    # PROPORTIONAL DAMPING ==================================
+    # Only damp above target to catch overshoots, preserve natural equilibrium below
+    # damping_factor = ewave.compute_damping_factor(state.charge_level)
+    # if damping_factor < 1.0:  # Only apply if damping is active
+    #     ewave.damp_full(state.wave_field, damping_factor)
+    # state.damping = damping_factor < 0.9999  # Track damping state for UI display
+
+    # DYNAMIC DAMPING methods (energy sink during simulation) =============================
+    # Runs AFTER propagation to reduce energy to maintain stabilization
+    # if state.damping:
+    #     ewave.damp_full(state.wave_field, 0.9999)
+    #     # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead

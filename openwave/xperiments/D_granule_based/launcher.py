@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.D_granule_data as data_grid
 import openwave.spacetime.D_wave_engine as ewave
-import openwave.xperiments.D_granule_lattice._instrumentation as instrument
+import openwave.xperiments.D_granule_based._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -59,7 +59,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.D_granule_lattice._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.D_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -84,7 +84,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.D_granule_lattice._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.D_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -275,7 +275,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("GRANULE METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
+    with render.gui.sub_window("GRANULE-BASED METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")

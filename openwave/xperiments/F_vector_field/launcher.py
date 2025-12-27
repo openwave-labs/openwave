@@ -324,7 +324,7 @@ def display_wave_menu(state):
 
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
+    render.canvas.triangles(level_bar_vertices, color=colormap.DARK_BLUE[1])
     with render.gui.sub_window("VECTOR-FIELD METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
         sub.text("Coupling: Laplacian Operator")
         sub.text("Propagation: Wave Equation (PDE)")
@@ -437,11 +437,6 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
-    # STATIC CHARGING methods (single radial pulse pattern) ==================================
-    # TODO: review need and archive
-    # ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    # NOTE: (beautiful but unstable) ewave.charge_gaussian(state.wave_field)
-
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
         print("INSTRUMENTATION ENABLED")
@@ -454,7 +449,7 @@ def compute_wave_motion(state):
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
     """
 
-    # DYNAMIC MAINTENANCE CHARGING (oscillator during simulation) =============================
+    # DYNAMIC CHARGING (oscillator during simulation) =============================
     # Runs BEFORE propagation to inject energy to maintain stabilization
     ewave.oscillate_spherical_standing(state.wave_field, state.elapsed_t_rs, 0.5, 1)
 
@@ -535,7 +530,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "the_king"
+    default_xperiment = selected_xperiment_arg or "0035_waves"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
