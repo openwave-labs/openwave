@@ -217,7 +217,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (D)", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -275,7 +275,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("GRANULE-BASED METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
+    with render.gui.sub_window("GRANULE-BASED METHOD (D)", 0.84, 0.01, 0.16, 0.10) as sub:
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
