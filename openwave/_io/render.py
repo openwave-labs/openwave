@@ -10,7 +10,7 @@ import numpy as np
 from openwave.common import colormap
 
 
-def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[2.0, 2.0, 1.5]):
+def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[1.0, 1.0, 1.0]):
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center

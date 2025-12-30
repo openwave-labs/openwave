@@ -23,10 +23,10 @@ base_wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attomete
 base_frequency = constants.EWAVE_FREQUENCY  # in Hz
 base_frequency_rHz = constants.EWAVE_FREQUENCY * constants.RONTOSECOND  # in rHz (1/rontosecond)
 
-# Compute angular frequency (ω = 2πf) for temporal term variation
+# Compute angular frequency (ω = 2πf) for temporal phase variation
 omega_rs = 2.0 * np.pi * base_frequency_rHz  # angular frequency (rad/rs)
 
-# Compute angular wave number (k = 2π/λ) for spatial term variation
+# Compute angular wave number (k = 2π/λ) for spatial phase variation
 k_am = 2.0 * np.pi / base_wavelength_am  # radians / am
 
 _MODULE_DIR = Path(__file__).parent
@@ -72,7 +72,7 @@ def compute_radius_am(x_am: np.ndarray = x_am, source: int = 1) -> np.ndarray:
     return radius_am
 
 
-def get_source_phase(source: int = 1) -> float:
+def get_source_offset(source: int = 1) -> float:
     """Get phase offset for a wave source."""
     if source == 1:
         return wc1_phase_rad
@@ -96,7 +96,7 @@ def compute_wave_flat(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
         radius_am: Radial distance array (used only for output shape, not computation)
         t_rs: Time in rontoseconds (default 0.0 for static plot)
     """
-    psi_am = base_amplitude_am * np.cos(omega_rs * t_rs)  # temporal term only (rad)
+    psi_am = base_amplitude_am * np.cos(omega_rs * t_rs)  # temporal phase only (rad)
     return np.full_like(radius_am, psi_am)  # uniform value at every spatial point
 
 
@@ -116,8 +116,8 @@ def compute_wave_standing(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarra
     """
     psi_am = (
         base_amplitude_am
-        * np.cos(omega_rs * t_rs)  # temporal and spatial terms (rad)
-        * np.sin(k_am * x_am)  # spatial term, φ = k·r (rad)
+        * np.cos(omega_rs * t_rs)  # temporal phases (rad)
+        * np.sin(k_am * x_am)  # spatial phase, φ = k·r (rad)
     )
     return psi_am
 
@@ -135,11 +135,11 @@ def compute_wave_fullamp(
         direction: +1 for incoming wave, -1 for outgoing wave
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
-    source_phase = get_source_phase(source)
+    source_offset = get_source_offset(source)
     psi_am = base_amplitude_am * np.cos(  # full amplitude (am)  # oscillator cosine function
-        omega_rs * t_rs  # temporal term (rad)
-        + direction * k_am * radius_am  # spatial term, spherical wave fronts, φ = ±kr (rad)
-        + source_phase  # direction only affects the spatial term, not the source phase, (rad)
+        omega_rs * t_rs  # temporal phase (rad)
+        + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+        + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
     )
     return psi_am
 
@@ -157,7 +157,7 @@ def compute_wave_ampfalloff(
         direction: +1 for incoming wave, -1 for outgoing wave
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
-    source_phase = get_source_phase(source)
+    source_offset = get_source_offset(source)
     # λ as reference radius → amplitude = A₀ at r = λ
     # Clamp r to avoid singularity at r = 0 (min r = λ / 2π)
     r_safe_am = np.maximum(radius_am, base_wavelength_am / (2 * np.pi))
@@ -165,9 +165,9 @@ def compute_wave_ampfalloff(
     psi_am = (
         amplitude_at_r_am  # amplitude falloff for spherical wave: A(r) = A₀ · (λ / r) (am)
         * np.cos(  # oscillator cosine function
-            omega_rs * t_rs  # temporal term (rad)
-            + direction * k_am * radius_am  # spatial term, spherical wave fronts, φ = ±kr (rad)
-            + source_phase  # direction only affects the spatial term, not the source phase, (rad)
+            omega_rs * t_rs  # temporal phase (rad)
+            + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+            + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
         )
     )
     return psi_am
@@ -185,11 +185,11 @@ def compute_wave_Wolff(radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1
         t_rs: Time in rontoseconds (default 0.0 for static plot)
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
-    source_phase = get_source_phase(source)
+    source_offset = get_source_offset(source)
     psi_am = (
         base_amplitude_am  # full amplitude (am)
-        * np.cos(omega_rs * t_rs + source_phase)  # temporal term with source offset (rad)
-        * np.sin(k_am * radius_am)  # spatial term, φ = k·r (rad)
+        * np.cos(omega_rs * t_rs + source_offset)  # temporal phase with source offset (rad)
+        * np.sin(k_am * radius_am)  # spatial phase, φ = k·r (rad)
         / radius_am  # amplitude falloff for spherical wave: A(r) = A₀/r (am)
         * base_wavelength_am  # normalize by wavelength to maintain units (am)
     )
@@ -210,13 +210,13 @@ def compute_wave_LaFreniere(
         t_rs: Time in rontoseconds (default 0.0 for static plot)
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
-    source_phase = get_source_phase(source)
+    source_offset = get_source_offset(source)
     psi_am = (
         base_amplitude_am  # full amplitude (am)
         * (
-            np.sin(omega_rs * t_rs + source_phase - k_am * radius_am)
-            - np.sin(omega_rs * t_rs + source_phase)
-        )  # both terms share source phase (same oscillator)
+            np.sin(omega_rs * t_rs + source_offset - k_am * radius_am)
+            - np.sin(omega_rs * t_rs + source_offset)
+        )  # both terms share source offset (same oscillator)
         / (k_am * radius_am)
         * np.pi  # * 2 TODO: test remove 2π factor
     )

@@ -171,7 +171,7 @@ def oscillate_granules(
 
     Where for each wave source i:
         - r_i: distance from wave source i to granule
-        - k·r_i: spatial term (wave propagation)
+        - k·r_i: spatial phase (wave propagation)
         - φ_source_i: initial phase offset of wave source i
         - dir_i: direction from wave source i to granule (outward propagation)
         - A_i(r_i) = A₀·(r₀/r_i): amplitude falloff with distance
@@ -183,7 +183,7 @@ def oscillate_granules(
 
     Interference Patterns:
         - Constructive: waves from different sources arrive in phase (bright fringes)
-        - Destructive: waves arrive out of phase (dark fringes/nodes)
+        - Destructive: waves arrive π out of phase (dark fringes/nodes)
         - Complex patterns emerge from phase relationships between sources
 
     Energy Conservation (per source):
@@ -238,13 +238,18 @@ def oscillate_granules(
 
         # Sum contributions from all sources (wave superposition)
         for source_idx in range(num_sources):
-            # Get precomputed direction, distance and phase for this granule-source pair
+            # Get precomputed direction and distance for this granule-source pair
             direction = sources_direction[granule_idx, source_idx]
             r_am = sources_distance_am[granule_idx, source_idx]
-            source_phase = sources_phase_offset[source_idx]
 
-            # Spatial term: φ = k·r, creates spherical wave fronts
-            spatial_term = k_am * r_am
+            # Temporal phase: φ = ω·t, oscillatory in time
+            temporal_phase = omega_slo * elapsed_t
+
+            # Spatial phase: φ = k·r, creates spherical wave fronts
+            spatial_phase = k_am * r_am
+
+            # Source phase offset: initial phase of this wave source
+            source_offset = sources_phase_offset[source_idx]
 
             # Amplitude falloff for spherical wave: A(r) = A₀/r
             # Clamp to r_min to avoid singularity at r = 0
@@ -265,12 +270,12 @@ def oscillate_granules(
                 * base_amplitude_am
                 * amp_boost
                 / num_sources  # incoming wave do not superpose, split per WC for energy conservation
-                * ti.cos(omega_slo * elapsed_t + (spatial_term + source_phase))
+                * ti.cos(temporal_phase + spatial_phase + source_offset)
             )
             out_wave_psi = (
                 out_wave_toggle
                 * amplitude_am_at_r_cap
-                * ti.cos(omega_slo * elapsed_t - (spatial_term + source_phase))
+                * ti.cos(temporal_phase - spatial_phase - source_offset)
             )
             source_displacement_am = (in_wave_psi + out_wave_psi) * direction
 
@@ -279,13 +284,13 @@ def oscillate_granules(
                 in_wave_toggle
                 * -base_amplitude_am
                 * omega_slo
-                * ti.sin(omega_slo * elapsed_t + (spatial_term + 0))
+                * ti.sin(temporal_phase + spatial_phase + source_offset)
             ) / num_sources  # incoming wave do not superpose, gets split per WC
             out_wave_vel = (
                 out_wave_toggle
                 * -amplitude_am_at_r_cap
                 * omega_slo
-                * ti.sin(omega_slo * elapsed_t - (spatial_term + source_phase))
+                * ti.sin(temporal_phase - spatial_phase - source_offset)
             )
             source_velocity_am = (in_wave_vel + out_wave_vel) * direction
 
