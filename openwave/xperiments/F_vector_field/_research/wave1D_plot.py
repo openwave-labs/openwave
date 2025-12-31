@@ -52,7 +52,7 @@ x_am = np.linspace(-1.5 * wc_spacing, +1.5 * wc_spacing, 1000)
 
 wc1_x_am = -wc_spacing / 2  # am, center of wave source 1
 wc2_x_am = +wc_spacing / 2  # am, center of wave source 2
-wc1_phase_rad = np.pi / 2  # radians, phase offset for source 1
+wc1_phase_rad = -np.pi / 2  # radians, phase offset for source 1
 wc2_phase_rad = np.pi / 2  # radians, phase offset for source 2
 
 
@@ -211,14 +211,91 @@ def compute_wave_LaFreniere(
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
     source_offset = get_source_offset(source)
+    kr = k_am * radius_am
+    # When kr < π, apply smooth transition to avoid singularity at r=0
+    kr = np.where(
+        kr < np.pi,
+        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
+        kr,
+    )
     psi_am = (
         base_amplitude_am  # full amplitude (am)
         * (
-            np.sin(omega_rs * t_rs + source_offset - k_am * radius_am)
-            - np.sin(omega_rs * t_rs + source_offset)
+            np.sin(omega_rs * t_rs - kr + source_offset) - np.sin(omega_rs * t_rs + source_offset)
         )  # both terms share source offset (same oscillator)
-        / (k_am * radius_am)
-        * np.pi  # * 2 TODO: test remove 2π factor
+        / kr
+    )
+    return psi_am
+
+
+def compute_wave_LaFreniere2(
+    radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1
+) -> np.ndarray:
+    """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
+
+    ψ(r,t) = A·sin(-ωt + kr + φ₀) / kr - Standing wave.
+
+    Standing wave converging around wave center from all directions.
+
+    When kr < π, a smooth transition is applied to avoid the singularity at r=0:
+        kr' = kr + (π/2)·(1 - kr/π)²
+
+    Args:
+        radius_am: Radial distance from wave source (attometers)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+        source: Wave source (1 = wc1, 2 = wc2) for phase offset
+    """
+    source_offset = get_source_offset(source)
+    kr = k_am * radius_am
+    # When kr < π, apply smooth transition to avoid singularity at r=0
+    kr = np.where(
+        kr < np.pi,
+        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
+        kr,
+    )
+    psi_am = (
+        base_amplitude_am  # full amplitude (am)
+        * (
+            np.sin(-omega_rs * t_rs + kr + source_offset)
+        )  # both terms share source offset (same oscillator)
+        / kr
+    )
+    return psi_am
+
+
+def compute_wave_LF(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+    """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
+
+    ψ(r,t) = A·sin(-ωt + kr + φ₀) / kr - Standing wave.
+
+    Standing wave converging around wave center from all directions.
+
+    When kr < π, a smooth transition is applied to avoid the singularity at r=0:
+        kr' = kr + (π/2)·(1 - kr/π)²
+
+    Args:
+        radius_am: Radial distance from wave source (attometers)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+        source: Wave source (1 = wc1, 2 = wc2) for phase offset
+    """
+    source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
+    kr = k_am * radius_am
+    # When kr < π, apply smooth transition to avoid singularity at r=0
+    kr = np.where(
+        kr < np.pi,
+        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
+        kr,
+    )
+    psi_am = (
+        base_amplitude_am  # full amplitude (am)
+        * (
+            np.cos(ot + source_offset) * np.sin(kr)
+            + direction * np.sin(ot + source_offset) * (1 - np.cos(kr))
+        )  # both terms share source offset (same oscillator)
+        / kr
     )
     return psi_am
 
@@ -285,7 +362,7 @@ PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
     },
 ]
 
-PLOT_CONFIGS = [  # 2 WC: standing + ampfalloff
+PLOT_CONFIGS0 = [  # 2 WC: standing + ampfalloff
     {
         "func": ["standing", "standing"],  # sum of both sources
         "direction": [1, 1],
@@ -395,12 +472,65 @@ PLOT_CONFIGS0 = [  # 2 WC: wolff & lafreniere
     {
         "func": ["lafreniere", "lafreniere"],  # sum of both sources
         "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 6.5),
+        "ylim": (-0.5, 1.5),
         "height_ratio": 1,
         "label": "LAFRENIERE STANDING WAVE",
     },
 ]
 
+PLOT_CONFIGS0 = [  # 1 WC: LFa + LFb
+    {
+        "func": "LF",  # sum of both sources
+        "direction": 1,
+        "source": 1,  # WC1
+        "ylim": (-1.0, 1.0),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": "LF",
+        "direction": -1,
+        "source": 1,  # WC1
+        "ylim": (-1.0, 1.0),
+        "height_ratio": 1,
+        "label": "OUTGOING Psi (am)",
+    },
+    {
+        "func": ["LF", "LF"],  # sum of both sources
+        "direction": [1, -1],
+        "source": [1, 1],  # WC1 + WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
+
+PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+    {
+        "func": ["LF", "LF"],  # sum of both sources
+        "direction": [1, 1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-1.0, 1.0),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": ["LF", "LF"],
+        "direction": [-1, -1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-1.0, 1.0),
+        "height_ratio": 1,
+        "label": "OUTGOING Psi (am)",
+    },
+    {
+        "func": ["LF", "LF", "LF", "LF"],  # sum of both sources
+        "direction": [1, -1, 1, -1],
+        "source": [1, 1, 2, 2],  # WC1 + WC1 + WC2 + WC2
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
 # Function registry - maps string names to actual functions
 WAVE_FUNCTIONS = {
     "flat": compute_wave_flat,
@@ -409,6 +539,7 @@ WAVE_FUNCTIONS = {
     "ampfalloff": compute_wave_ampfalloff,
     "wolff": compute_wave_Wolff,
     "lafreniere": compute_wave_LaFreniere,
+    "LF": compute_wave_LF,
 }
 
 
@@ -436,7 +567,7 @@ def compute_plot_value(config: dict, t_rs: float) -> np.ndarray:
             func = WAVE_FUNCTIONS[func_name]
             radius_am = compute_radius_am(x_am, source=source)
             # Check if function accepts direction/source parameters
-            if func_name in ("fullamp", "ampfalloff"):
+            if func_name in ("fullamp", "ampfalloff", "LF"):
                 result += func(radius_am, t_rs, direction=direction, source=source)
             elif func_name in ("wolff", "lafreniere"):
                 result += func(radius_am, t_rs, source=source)
@@ -448,7 +579,7 @@ def compute_plot_value(config: dict, t_rs: float) -> np.ndarray:
         source = source_spec if not isinstance(source_spec, list) else source_spec[0]
         radius_am = compute_radius_am(x_am, source=source)
         func = WAVE_FUNCTIONS[func_spec]
-        if func_spec in ("fullamp", "ampfalloff"):
+        if func_spec in ("fullamp", "ampfalloff", "LF"):
             return func(radius_am, t_rs, direction=direction_spec, source=source)
         elif func_spec in ("wolff", "lafreniere"):
             return func(radius_am, t_rs, source=source)
