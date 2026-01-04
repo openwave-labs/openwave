@@ -82,7 +82,7 @@ def sine_stand_lafreniere(r, A0_val=A0):
     amp_stand_lafreniere = A0_val * np.sin(k * r) / (k * r)  # * λ for x axis in λ units
     # amp_stand_lafreniere = A0_val * (1 - np.cos(k * r)) / (k * r)  # * λ for x axis in λ units
 
-    return amp_stand_lafreniere * 2 * np.pi  # Adjusted for proper scaling
+    return amp_stand_lafreniere  # * 2 * np.pi  # Adjusted for proper scaling
 
 
 def amplitude_1_over_lafreniere(r, A0_val=A0):
@@ -144,7 +144,7 @@ def amplitude_1_over_original(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
     # Prevent division by zero
-    r_safe = np.maximum(r, r_reference / (2 * np.pi))
+    r_safe = np.maximum(np.abs(r), r_reference / (2 * np.pi))
     amp_falloff = A0_val / r_safe * wavelength  # * λ for x axis in λ units
 
     return amp_falloff
@@ -172,7 +172,7 @@ def amplitude_with_cap(r, A0_val=A0):
     A_uncapped = amplitude_1_over_r(r, A0_val)
 
     # Apply cap: A ≤ r
-    A_capped = np.minimum(A_uncapped, r)
+    A_capped = np.minimum(np.abs(A_uncapped), np.abs(r))
 
     return A_capped
 
@@ -253,27 +253,16 @@ plt.axhline(y=0, color=colormap.BLACK[1], linestyle="-", alpha=1)
 
 # Near-field region (r < λ from wave source)
 # Source region where waves are forming
-ax.axvspan(0, 1.0, alpha=0.15, color="red", label="Near field (r < λ)")
+ax.axvspan(-1.0, 1.0, alpha=0.15, color="red")
 
 # Transition zone (λ < r < 2λ)
 # Wave fronts organizing into spherical geometry
-ax.axvspan(1.0, 2.0, alpha=0.15, color="yellow")
+ax.axvspan(-2.0, 2.0, alpha=0.15, color="yellow")
 
 # Far-field region (r > 2λ)
 # Fully formed spherical waves, clean 1/r falloff
-ax.axvspan(2.0, r_max / wavelength, alpha=0.1, color="green", label="Far field (r > 2λ)")
+ax.axvspan(-r_max / wavelength, r_max / wavelength, alpha=0.1, color="green")
 
-# ================================================================
-# Mark Key Boundaries
-# ================================================================
-
-# EWT neutrino boundary at r = 1λ
-ax.axvline(1.0, color="purple", linestyle="--", linewidth=2, label="EWT boundary (r = 1λ)")
-
-# Far-field transition at r = 2λ
-ax.axvline(
-    2.0, color="green", linestyle="--", linewidth=1.5, alpha=0.7, label="Far-field start (r = 2λ)"
-)
 
 # ================================================================
 # Annotations
@@ -313,7 +302,7 @@ ax.text(
 # Far field label position: centered between 2λ and r_max
 far_field_center = (2.0 + r_max_lambda) / 2
 ax.text(
-    3.0,
+    2.8,
     5.5,
     "Far Field\n(Fully Formed Waves)",
     ha="center",
