@@ -241,7 +241,7 @@ def apply_wave_center_spin(cx: ti.i32, cy: ti.i32, cz: ti.i32,
 All potentially connected through spin/L-T conversion:
 
 | Quantity | Possible Relation |
-|----------|-------------------|
+| -------- | ----------------- |
 | **Spin** | Rate/amount of L→T conversion |
 | **Angular momentum** | Integrated transverse component |
 | **Magnetic moment** | Spatial distribution of T component |
@@ -395,7 +395,7 @@ From *"The Geometric Identity of Gravity"* (Smoliński, November 2025):
 The paper establishes a clear hierarchy of entities:
 
 | Scale | Entity | Key Parameters |
-|-------|--------|----------------|
+| ----- | ------ | -------------- |
 | **Micro** | Elastic Medium Constituent (EMC) | Elastic constant (k), radius r_EMC ~ Planck length |
 | **Meso** | Wave Center (WC) / Neutrino Soliton | Geometric count (Nν), Magnetic correction (εM), Gravitational deficit (εG) |
 | **Macro** | Particles / Black Holes | Total gravitational deficit (ΣεG) |

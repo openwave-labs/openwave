@@ -762,7 +762,7 @@ def update_particle_positions_verlet(dt: ti.f32):
 **Comparison Table**:
 
 | Aspect | Euler | Velocity Verlet |
-|--------|-------|-----------------|
+| ------ | ----- | --------------- |
 | **Accuracy** | O(dt) first-order | O(dt²) second-order |
 | **Force evaluations** | 1 per step | 2 per step (old + new pos) |
 | **Energy conservation** | Drifts over time | Nearly perfect |

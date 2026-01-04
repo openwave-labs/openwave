@@ -10,7 +10,12 @@ import numpy as np
 from openwave.common import colormap
 
 
-def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[1.0, 1.0, 1.0]):
+def init_UI(
+    universe_size=[1.0, 1.0, 1.0],
+    tick_spacing=0.25,
+    cam_init_pos=[1.0, 1.0, 1.0],
+    cam_look_center=[0.5, 0.5, 0.5],
+):
     """Initialize and open the GGUI window with 3D scene."""
     global window, camera, canvas, gui, scene
     global orbit_theta, orbit_phi, orbit_radius, last_mouse_pos, orbit_center
@@ -44,9 +49,9 @@ def init_UI(universe_size=[1.0, 1.0, 1.0], tick_spacing=0.25, cam_init_pos=[1.0,
     # Compute orbit center proportional to asymmetric universe (normalized by max dimension)
     max_dim = max(universe_size[0], universe_size[1], universe_size[2])
     orbit_center = [
-        0.5 * (universe_size[0] / max_dim),  # X center
-        0.5 * (universe_size[1] / max_dim),  # Y center
-        0.5 * (universe_size[2] / max_dim),  # Z center
+        cam_look_center[0] * (universe_size[0] / max_dim),  # X center
+        cam_look_center[1] * (universe_size[1] / max_dim),  # Y center
+        cam_look_center[2] * (universe_size[2] / max_dim),  # Z center
     ]
 
     # Calculate initial angles from the desired initial position

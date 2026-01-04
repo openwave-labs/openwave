@@ -47,16 +47,16 @@ def compute_motion_trail():
     """Compute motion trail of granules."""
     for i in range(num_trails):
         t = elapsed_time - i * dt * 6  # Trail time offset
-        trails[i][0] = 0.5 + amplitude * np.cos(omega * t)
-        trails[i][1] = 0.5 + amplitude * np.cos(omega * t + np.pi / 3)
-        trails[i][2] = 0.5 + amplitude * np.cos(omega * t + np.pi / 3 * 2)
+        trails[i][0] = amplitude * np.cos(omega * t)
+        trails[i][1] = amplitude * np.cos(omega * t + np.pi / 3)
+        trails[i][2] = amplitude / 2 * np.cos(omega * t + np.pi / 3 * 2)
 
 
 def main():
     global elapsed_time, frame
 
     # Initialize GGUI rendering
-    render.init_UI()
+    render.init_UI(cam_init_pos=[0.3, 0.3, 0.3], cam_look_center=[0.0, 0.0, 0.0])
 
     # Main rendering loop
     while render.window.running:

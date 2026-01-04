@@ -225,7 +225,7 @@ def interact_wc_spinUP(wave_field, dt_rs):
 Achieving exactly **90° phase difference** between psiL and psiT has proven difficult. Various configurations produce different results:
 
 | Configuration | psiT Formula | Result |
-|---------------|--------------|--------|
+| ------------- | ------------ | ------ |
 | 1 | `psiT = alpha * psiL` | 180° (anti-phase) |
 | 2 | `psiT = alpha * psiL_shifted` | 0° (in-phase) |
 | 3 | `psiT = -alpha * psiL` | 0° (in-phase) |

@@ -362,21 +362,21 @@ PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
     },
 ]
 
-PLOT_CONFIGS0 = [  # 2 WC: standing + ampfalloff
+PLOT_CONFIGS = [  # 2 WC: standing + ampfalloff
     {
-        "func": ["standing", "standing"],  # sum of both sources
-        "direction": [1, 1],
-        "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 1.5),
+        "func": ["standing", "ampfalloff"],  # sum of both sources
+        "direction": [1, -1],
+        "source": [1, 1],  # WC1 + WC2
+        "ylim": (-3.5, 7.5),
         "height_ratio": 1,
         "label": "INCOMING Psi (am)",
     },
     {
-        "func": ["ampfalloff", "ampfalloff"],  # sum of both sources
-        "direction": [-1, -1],
-        "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 2,
+        "func": ["standing", "ampfalloff"],  # sum of both sources
+        "direction": [1, -1],
+        "source": [2, 2],  # WC1 + WC2
+        "ylim": (-3.5, 7.5),
+        "height_ratio": 1,
         "label": "OUTGOING Psi (am)",
     },
     {
@@ -384,7 +384,7 @@ PLOT_CONFIGS0 = [  # 2 WC: standing + ampfalloff
         "direction": [1, -1, 1, -1],
         "source": [1, 1, 2, 2],  # WC1 + WC2
         "ylim": (-3.5, 7.5),
-        "height_ratio": 2,
+        "height_ratio": 1,
         "label": "TOTAL Psi (am)",
     },
 ]
@@ -505,19 +505,19 @@ PLOT_CONFIGS0 = [  # 1 WC: LFa + LFb
     },
 ]
 
-PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+PLOT_CONFIGS0 = [  # 2 WC: LFa + LFb
     {
         "func": ["LF", "LF"],  # sum of both sources
-        "direction": [1, 1],
-        "source": [1, 2],  # WC1 + WC2
+        "direction": [1, -1],
+        "source": [1, 1],  # WC1 + WC2
         "ylim": (-1.0, 1.0),
         "height_ratio": 1,
         "label": "INCOMING Psi (am)",
     },
     {
         "func": ["LF", "LF"],
-        "direction": [-1, -1],
-        "source": [1, 2],  # WC1 + WC2
+        "direction": [-1, 1],
+        "source": [2, 2],  # WC1 + WC2
         "ylim": (-1.0, 1.0),
         "height_ratio": 1,
         "label": "OUTGOING Psi (am)",
