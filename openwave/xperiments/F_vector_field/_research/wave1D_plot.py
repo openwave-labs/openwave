@@ -46,14 +46,14 @@ PERIOD_RS = 2 * np.pi / omega_rs  # one full wave period in rontoseconds
 # Displacement Functions
 # ================================================================
 
-wc_spacing = 4 * base_wavelength_am  # am, spacing between wave centers
+wc_spacing = 3.5 * base_wavelength_am  # am, spacing between wave centers
 
 x_am = np.linspace(-1.5 * wc_spacing, +1.5 * wc_spacing, 1000)
 
 wc1_x_am = -wc_spacing / 2  # am, center of wave source 1
 wc2_x_am = +wc_spacing / 2  # am, center of wave source 2
-wc1_phase_rad = -np.pi / 2  # radians, phase offset for source 1
-wc2_phase_rad = np.pi / 2  # radians, phase offset for source 2
+wc1_phase_rad = 0  # radians, phase offset for source 1
+wc2_phase_rad = np.pi  # radians, phase offset for source 2
 
 
 def compute_radius_am(x_am: np.ndarray = x_am, source: int = 1) -> np.ndarray:
@@ -96,7 +96,7 @@ def compute_wave_flat(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
         radius_am: Radial distance array (used only for output shape, not computation)
         t_rs: Time in rontoseconds (default 0.0 for static plot)
     """
-    psi_am = base_amplitude_am * np.cos(omega_rs * t_rs)  # temporal phase only (rad)
+    psi_am = base_amplitude_am / 1 * np.cos(omega_rs * t_rs)  # temporal phase only (rad)
     return np.full_like(radius_am, psi_am)  # uniform value at every spatial point
 
 
@@ -136,10 +136,14 @@ def compute_wave_fullamp(
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
     source_offset = get_source_offset(source)
-    psi_am = base_amplitude_am * np.cos(  # full amplitude (am)  # oscillator cosine function
-        omega_rs * t_rs  # temporal phase (rad)
-        + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
-        + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
+    psi_am = (
+        base_amplitude_am
+        / 1
+        * np.cos(  # full amplitude (am)  # oscillator cosine function
+            source_offset  # direction only affects the spatial phase, not the source offset, (rad)
+            + omega_rs * t_rs  # temporal phase (rad)
+            + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+        )
     )
     return psi_am
 
@@ -157,17 +161,21 @@ def compute_wave_ampfalloff(
         direction: +1 for incoming wave, -1 for outgoing wave
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
+    phase_shift = np.pi
     source_offset = get_source_offset(source)
     # λ as reference radius → amplitude = A₀ at r = λ
-    # Clamp r to avoid singularity at r = 0 (min r = λ / 2π)
-    r_safe_am = np.maximum(radius_am, base_wavelength_am / (2 * np.pi))
-    amplitude_at_r_am = base_amplitude_am * base_wavelength_am / r_safe_am
+    # Clamp r to avoid singularity at r = 0 (min r = λ)
+    r_reference_am = base_wavelength_am
+    r_safe_am = np.maximum(radius_am, r_reference_am)
+    amplitude_falloff = r_reference_am / r_safe_am
+    amplitude_at_r_am = base_amplitude_am * amplitude_falloff
     psi_am = (
         amplitude_at_r_am  # amplitude falloff for spherical wave: A(r) = A₀ · (λ / r) (am)
         * np.cos(  # oscillator cosine function
-            omega_rs * t_rs  # temporal phase (rad)
-            + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+            phase_shift
             + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
+            + omega_rs * t_rs  # temporal phase (rad)
+            + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
         )
     )
     return psi_am
@@ -362,35 +370,7 @@ PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
     },
 ]
 
-PLOT_CONFIGS = [  # 2 WC: standing + ampfalloff
-    {
-        "func": ["standing", "ampfalloff"],  # sum of both sources
-        "direction": [1, -1],
-        "source": [1, 1],  # WC1 + WC2
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 1,
-        "label": "INCOMING Psi (am)",
-    },
-    {
-        "func": ["standing", "ampfalloff"],  # sum of both sources
-        "direction": [1, -1],
-        "source": [2, 2],  # WC1 + WC2
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 1,
-        "label": "OUTGOING Psi (am)",
-    },
-    {
-        "func": ["standing", "ampfalloff", "standing", "ampfalloff"],  # sum of both sources
-        "direction": [1, -1, 1, -1],
-        "source": [1, 1, 2, 2],  # WC1 + WC2
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 1,
-        "label": "TOTAL Psi (am)",
-    },
-]
-
-
-PLOT_CONFIGS0 = [  # 1 WC: fullamp + ampfalloff
+PLOT_CONFIGS = [  # 1 WC: fullamp + ampfalloff
     {
         "func": ["fullamp"],  # sum of both sources
         "direction": [1],
@@ -403,21 +383,21 @@ PLOT_CONFIGS0 = [  # 1 WC: fullamp + ampfalloff
         "func": ["ampfalloff"],  # sum of both sources
         "direction": [-1],
         "source": [1],  # WC1
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 2,
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
         "label": "OUTGOING Psi (am)",
     },
     {
         "func": ["fullamp", "ampfalloff"],  # sum of both sources
         "direction": [1, -1],
         "source": [1, 1],  # WC1
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 2,
+        "ylim": (-2.5, 2.5),
+        "height_ratio": 1,
         "label": "TOTAL Psi (am)",
     },
 ]
 
-PLOT_CONFIG0 = [  # 2 WC: fullamp + ampfalloff
+PLOT_CONFIGS0 = [  # 2 WC: fullamp + ampfalloff
     {
         "func": ["fullamp", "fullamp"],  # sum of both sources
         "direction": [1, 1],
@@ -430,16 +410,43 @@ PLOT_CONFIG0 = [  # 2 WC: fullamp + ampfalloff
         "func": ["ampfalloff", "ampfalloff"],  # sum of both sources
         "direction": [-1, -1],
         "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 2,
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
         "label": "OUTGOING Psi (am)",
     },
     {
         "func": ["fullamp", "ampfalloff", "fullamp", "ampfalloff"],  # sum of both sources
         "direction": [1, -1, 1, -1],
         "source": [1, 1, 2, 2],  # WC1 + WC2
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 2,
+        "ylim": (-2.5, 2.5),
+        "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
+
+PLOT_CONFIGS0 = [  # 2 WC: fullamp + ampfalloff
+    {
+        "func": ["fullamp"],  # sum of both sources
+        "direction": [1],
+        "source": [1],  # WC1 + WC2
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": ["fullamp"],  # sum of both sources
+        "direction": [1],
+        "source": [2],  # WC1 + WC2
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": ["fullamp", "ampfalloff", "fullamp", "ampfalloff"],  # sum of both sources
+        "direction": [1, -1, 1, -1],
+        "source": [1, 1, 2, 2],  # WC1 + WC2
+        "ylim": (-2.5, 2.5),
+        "height_ratio": 1,
         "label": "TOTAL Psi (am)",
     },
 ]

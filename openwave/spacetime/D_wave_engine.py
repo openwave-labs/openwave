@@ -242,14 +242,17 @@ def oscillate_granules(
             direction = sources_direction[granule_idx, source_idx]
             r_am = sources_distance_am[granule_idx, source_idx]
 
+            # Phase shift between in/out waves (reflection at wave-center)
+            phase_shift = ti.math.pi
+
+            # Source phase offset: initial phase of this wave-center
+            source_offset = sources_phase_offset[source_idx]
+
             # Temporal phase: φ = ω·t, oscillatory in time
             temporal_phase = omega_slo * elapsed_t
 
             # Spatial phase: φ = k·r, creates spherical wave fronts
             spatial_phase = k_am * r_am
-
-            # Source phase offset: initial phase of this wave source
-            source_offset = sources_phase_offset[source_idx]
 
             # Amplitude falloff for spherical wave: A(r) = A₀/r
             # Clamp to r_min to avoid singularity at r = 0
@@ -270,12 +273,12 @@ def oscillate_granules(
                 * base_amplitude_am
                 * amp_boost
                 / num_sources  # incoming wave do not superpose, split per WC for energy conservation
-                * ti.cos(temporal_phase + spatial_phase + source_offset)
+                * ti.cos(source_offset + temporal_phase + spatial_phase)
             )
             out_wave_psi = (
                 out_wave_toggle
                 * amplitude_am_at_r_cap
-                * ti.cos(temporal_phase - spatial_phase - source_offset)
+                * ti.cos(phase_shift + source_offset + temporal_phase - spatial_phase)
             )
             source_displacement_am = (in_wave_psi + out_wave_psi) * direction
 
@@ -284,13 +287,13 @@ def oscillate_granules(
                 in_wave_toggle
                 * -base_amplitude_am
                 * omega_slo
-                * ti.sin(temporal_phase + spatial_phase + source_offset)
+                * ti.sin(source_offset + temporal_phase + spatial_phase)
             ) / num_sources  # incoming wave do not superpose, gets split per WC
             out_wave_vel = (
                 out_wave_toggle
                 * -amplitude_am_at_r_cap
                 * omega_slo
-                * ti.sin(temporal_phase - spatial_phase - source_offset)
+                * ti.sin(phase_shift + source_offset + temporal_phase - spatial_phase)
             )
             source_velocity_am = (in_wave_vel + out_wave_vel) * direction
 
@@ -298,7 +301,7 @@ def oscillate_granules(
             total_displacement_am += source_displacement_am
             total_velocity_am += source_velocity_am
 
-        # Rounding to prevent floating-point precision error (rounding boundaries)
+        # Rounding to prevent floating-point precision error (at rounding boundaries)
         # Critical for opposing phase sources that should cancel / annihilate
         # Also critical at peak amplitudes (in wave has same amplitude in space)
         # eg. (+1.250001) + (-1.249999) = 0.000002 (not a perfect cancel)

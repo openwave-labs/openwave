@@ -33,7 +33,6 @@ from openwave.common import colormap, constants
 A0 = constants.EWAVE_AMPLITUDE  # m, energy-wave amplitude (A, equilibrium-to-peak)
 wavelength = constants.EWAVE_LENGTH  # m, energy-wave length (λ)
 k = 2 * np.pi / wavelength  # wave number (k = 2π/λ)
-r_reference = wavelength  # Reference radius = 1λ
 
 # Convert to attometers for plotting
 A0_am = A0 / constants.ATTOMETER  # attometers
@@ -59,9 +58,9 @@ def sine_stand_wolff(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    amp_stand_wolff = A0_val * np.sin(k * r) / r * wavelength  # * λ for x axis in λ units
+    sine = A0_val * np.sin(k * r) / r * wavelength  # * λ for x axis in λ units
 
-    return amp_stand_wolff
+    return sine
 
 
 def sine_stand_lafreniere(r, A0_val=A0):
@@ -79,13 +78,13 @@ def sine_stand_lafreniere(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    amp_stand_lafreniere = A0_val * np.sin(k * r) / (k * r)  # * λ for x axis in λ units
-    # amp_stand_lafreniere = A0_val * (1 - np.cos(k * r)) / (k * r)  # * λ for x axis in λ units
+    sine = A0_val * np.sin(k * r) / (k * r)  # * λ for x axis in λ units
+    # sine = A0_val * (1 - np.cos(k * r)) / (k * r)  # * λ for x axis in λ units
 
-    return amp_stand_lafreniere  # * 2 * np.pi  # Adjusted for proper scaling
+    return sine  # * 2 * np.pi  # Adjusted for proper scaling
 
 
-def amplitude_1_over_lafreniere(r, A0_val=A0):
+def amp_1_over_lafreniere(r, A0_val=A0):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -100,16 +99,16 @@ def amplitude_1_over_lafreniere(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    amp_falloff_lafreniere = (
+    amp = (
         A0_val
         / ((k * r + (np.pi / 2) * (1 - k * r / np.pi) ** 2) / k)
         * wavelength  # * λ for x axis in λ units
     )
 
-    return amp_falloff_lafreniere
+    return amp
 
 
-def amplitude_1_over_r(r, A0_val=A0):
+def amp_1_over_r(r, A0_val=A0):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -124,12 +123,12 @@ def amplitude_1_over_r(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    amp_falloff = A0_val / r * wavelength  # * λ for x axis in λ units
+    amp = A0_val / r * wavelength  # * λ for x axis in λ units
 
-    return amp_falloff
+    return amp
 
 
-def amplitude_1_over_original(r, A0_val=A0):
+def amp_with_safe(r, A0_val=A0):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -144,13 +143,15 @@ def amplitude_1_over_original(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
     # Prevent division by zero
-    r_safe = np.maximum(np.abs(r), r_reference / (2 * np.pi))
-    amp_falloff = A0_val / r_safe * wavelength  # * λ for x axis in λ units
+    r_reference = wavelength  # Reference radius = 1λ for near-field handling
+    r_safe = np.maximum(np.abs(r), r_reference)  # in meters
+    amp_falloff = r_reference / r_safe  # * λ for x axis in λ units
+    amp = A0_val * amp_falloff
 
-    return amp_falloff
+    return amp
 
 
-def amplitude_with_cap(r, A0_val=A0):
+def amp_with_cap(r, A0_val=A0):
     """
     Amplitude with physical cap: A(r) ≤ r
 
@@ -169,12 +170,12 @@ def amplitude_with_cap(r, A0_val=A0):
         Capped amplitude at distance r (meters)
     """
     # Calculate 1/r amplitude
-    A_uncapped = amplitude_1_over_r(r, A0_val)
+    A_uncapped = amp_1_over_r(r, A0_val)
 
     # Apply cap: A ≤ r
-    A_capped = np.minimum(np.abs(A_uncapped), np.abs(r))
+    amp = np.minimum(np.abs(A_uncapped), np.abs(r))
 
-    return A_capped
+    return amp
 
 
 # ================================================================
@@ -186,13 +187,6 @@ r_max_lambda = 5  # Maximum distance in wavelengths (adjustable)
 r_max = r_max_lambda * wavelength
 r = np.linspace(-r_max, r_max, 1000)
 
-# Calculate amplitudes
-stand_wolff = sine_stand_wolff(r)
-stand_lafreniere = sine_stand_lafreniere(r)
-A_lafreniere = amplitude_1_over_lafreniere(r)
-A_uncapped = amplitude_1_over_original(r)
-A_capped = amplitude_with_cap(r)
-
 # Create figure
 fig, ax = plt.subplots(figsize=(16, 9))
 
@@ -201,48 +195,55 @@ fig, ax = plt.subplots(figsize=(16, 9))
 # ================================================================
 
 # Convert to attometers for y-axis
-stand_wolff_am = stand_wolff / constants.ATTOMETER
-stand_lafreniere_am = stand_lafreniere / constants.ATTOMETER
-A_lafreniere_am = A_lafreniere / constants.ATTOMETER
-A_uncapped_am = A_uncapped / constants.ATTOMETER
-A_capped_am = A_capped / constants.ATTOMETER
+sine_stand_wolff_am = sine_stand_wolff(r) / constants.ATTOMETER
+sine_stand_lafreniere_am = sine_stand_lafreniere(r) / constants.ATTOMETER
+amp_1_over_lafreniere_am = amp_1_over_lafreniere(r) / constants.ATTOMETER
+amp_with_safe_am = amp_with_safe(r) / constants.ATTOMETER
+amp_capped_am = amp_with_cap(r) / constants.ATTOMETER
 r_am = r / constants.ATTOMETER
 
-# Sine stand_wolff (without cap)
+# Sine sine_stand_wolff
 ax.plot(
     r / wavelength,
-    stand_wolff_am,
+    sine_stand_wolff_am,
     "orange",
     linewidth=2.5,
     alpha=0.8,
-    label="stand_wolff sine",
+    label="sine: stand_wolff",
 )
 
-# Sine stand_lafreniere (without cap)
+# Sine sine_stand_lafreniere
 ax.plot(
     r / wavelength,
-    stand_lafreniere_am,
+    sine_stand_lafreniere_am,
     "cyan",
     linewidth=2.5,
     alpha=0.8,
-    label="stand_lafreniere sine",
+    label="sine: stand_lafreniere",
 )
 
 # 1/lafreniere amplitude (without cap)
 ax.plot(
-    r / wavelength, A_lafreniere_am, "g--", linewidth=2.5, alpha=0.8, label="1/lafreniere falloff"
+    r / wavelength,
+    amp_1_over_lafreniere_am,
+    "g--",
+    linewidth=2.5,
+    alpha=0.8,
+    label="amp: 1/lafreniere",
 )
 
 # 1/r amplitude (without cap)
 ax.plot(
-    r / wavelength, A_uncapped_am, "b-", linewidth=2.5, alpha=0.8, label="1/r falloff (uncapped)"
+    r / wavelength,
+    amp_with_safe_am,
+    "b-",
+    linewidth=2.5,
+    alpha=0.8,
+    label="amp: safe at r_reference",
 )
 
-# A = r line (the cap boundary) - plot first so it's in background
-ax.plot(r / wavelength, r_am, "k:", linewidth=1.5, alpha=0.5, label="A = r (cap limit)")
-
 # Capped amplitude (actual implementation)
-ax.plot(r / wavelength, A_capped_am, "r--", linewidth=3, label="A(r) with cap (A ≤ r)")
+ax.plot(r / wavelength, amp_capped_am, "r--", linewidth=3, label="amp: capped at A ≤ r")
 
 
 plt.axhline(y=0, color=colormap.BLACK[1], linestyle="-", alpha=1)
@@ -269,12 +270,12 @@ ax.axvspan(-r_max / wavelength, r_max / wavelength, alpha=0.1, color="green")
 # ================================================================
 
 # Amplitude at r = 1λ
-A_at_1lambda = amplitude_with_cap(wavelength)
+A_at_1lambda = amp_with_cap(wavelength)
 A_at_1lambda_am = A_at_1lambda / constants.ATTOMETER
 ax.plot(1.0, A_at_1lambda_am, "ro", markersize=10, label=f"A(1λ) = {A_at_1lambda/A0:.1f}A₀")
 
 # Amplitude at r = 2λ
-A_at_2lambda = amplitude_with_cap(2 * wavelength)
+A_at_2lambda = amp_with_cap(2 * wavelength)
 A_at_2lambda_am = A_at_2lambda / constants.ATTOMETER
 ax.plot(2.0, A_at_2lambda_am, "go", markersize=10, label=f"A(2λ) = {A_at_2lambda/A0:.1f}A₀")
 
@@ -358,7 +359,7 @@ ax.set_xlim(-r_max / wavelength, r_max / wavelength)
 ax.set_ylim(-1.5, 6.0)  # 6 attometers max
 
 # Set x-axis tick marks at 1λ spacing
-ax.set_xticks(np.arange(0, r_max / wavelength + 1, 1.0))
+ax.set_xticks(np.arange(-r_max / wavelength, r_max / wavelength + 1, 1.0))
 
 # Grid
 ax.grid(True, alpha=0.3, linestyle="--")
@@ -386,7 +387,7 @@ physics_text = (
 props = dict(boxstyle="round", facecolor="wheat", alpha=0.8)
 ax.text(
     0.99,
-    0.58,
+    0.78,
     physics_text,
     transform=ax.transAxes,
     fontsize=9,
@@ -404,7 +405,7 @@ plt.tight_layout()
 
 # Use relative path from script location
 script_dir = Path(__file__).parent
-output_path = script_dir / "images" / "wave_amplitude_vs_radius.png"
+output_path = script_dir / "plots" / "wave_amplitude_vs_radius.png"
 
 plt.savefig(output_path, dpi=150, bbox_inches="tight")
 print(f"\n✓ Plot saved: {output_path}")

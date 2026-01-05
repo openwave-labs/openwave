@@ -31,7 +31,7 @@ XPARAMETERS = {
         ],
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # All sources in phase (0°) to create symmetric interference
-        "PHASE_OFFSETS_DEG": [90, 90],
+        "PHASE_OFFSETS_DEG": [0, 0],
         "IN_WAVE_TOGGLE": 1,  # 1 = enable in_wave, 0 = disable in_wave
         "OUT_WAVE_TOGGLE": 1,  # 1 = enable out_wave, 0 = disable out_wave
     },
