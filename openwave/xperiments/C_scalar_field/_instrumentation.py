@@ -17,8 +17,8 @@ from openwave.common import colormap, constants
 # ================================================================
 
 _MODULE_DIR = Path(__file__).parent
-DATA_DIR = _MODULE_DIR / "_data"
-PLOT_DIR = _MODULE_DIR / "_plots"
+DATA_DIR = _MODULE_DIR / "data"
+PLOT_DIR = _MODULE_DIR / "plots"
 
 # Module-level state
 _timestep_buffer = []

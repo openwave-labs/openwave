@@ -9,7 +9,7 @@ Interactive wave propagation simulations demonstrating interference patterns fro
 Run the launcher from command line:
 
 ```bash
-python launcher_L0.py
+python B_launcher.py
 ```
 
 Or use the OpenWave CLI menu to select from available xperiments.

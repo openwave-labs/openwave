@@ -4,7 +4,7 @@ Launcher
 Unified launcher for wave-field xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
-- Xperiment-specific parameters in /_xparameters directory
+- Xperiment-specific parameters in /xparameters directory
 """
 
 import webbrowser
@@ -20,9 +20,9 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.E_scalar_field_data as data_grid
-import openwave.spacetime.E_wave_engine as ewave
-import openwave.xperiments.E_scalar_field._instrumentation as instrument
+import openwave.spacetime.D_vector_field_data as data_grid
+import openwave.spacetime.D_wave_engine as ewave
+import openwave.xperiments.D_vector_field._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -39,8 +39,8 @@ class XperimentManager:
         self.current_xparameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in /_xparameters directory."""
-        parameters_dir = Path(__file__).parent / "_xparameters"
+        """Discover all available xperiment parameters in /xparameters directory."""
+        parameters_dir = Path(__file__).parent / "xparameters"
 
         if not parameters_dir.exists():
             return []
@@ -61,7 +61,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.D_vector_field.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,7 +86,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.D_vector_field.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -248,7 +248,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (E)", 0.00, 0.00, 0.14, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER (F)", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -324,8 +324,8 @@ def display_wave_menu(state):
 
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
-    render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("SCALAR-FIELD METHOD (E)", 0.84, 0.01, 0.16, 0.12) as sub:
+    render.canvas.triangles(level_bar_vertices, color=colormap.DARK_BLUE[1])
+    with render.gui.sub_window("VECTOR-FIELD METHOD (F)", 0.84, 0.01, 0.16, 0.12) as sub:
         sub.text("Coupling: Laplacian Operator")
         sub.text("Propagation: Wave Equation (PDE)")
         sub.text("Boundary: Dirichlet Condition")
@@ -437,13 +437,6 @@ def initialize_xperiment(state):
     )
     level_bar_vertices = colormap.get_level_bar_geometry(0.84, 0.00, 0.159, 0.01)
 
-    # STATIC CHARGING methods (single radial pulse pattern, fast charge) ==================================
-    # Provides initial energy source, dynamic chargers do maintenance around 100%
-    ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    ewave.charge_gaussian(state.wave_field)
-    # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
-    # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
-
     if state.INSTRUMENTATION:
         print("\n" + "=" * 64)
         print("INSTRUMENTATION ENABLED")
@@ -456,28 +449,10 @@ def compute_wave_motion(state):
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
     """
 
-    # DYNAMIC MAINTENANCE CHARGING ==================================
-    # Soft landing: ramp up to target, then maintain with minimal intervention
-    # Static pulse provides ~90% energy, dynamic chargers do the final 10%
-    # envelope = ewave.compute_charge_envelope(state.charge_level)
-    # if envelope > 0.001:  # Small threshold to avoid zero-amplitude calls
-    #     # Wall charging - isotropic energy injection from all 6 boundaries
-    #     spacing = max(int(state.wave_field.ewave_res // 2), 1)
-    #     sources = max(state.wave_field.min_grid_size // spacing, 10)
-    #     effective_boost = state.DYNAMIC_BOOST * envelope
-    #     ewave.charge_oscillator_wall(
-    #         state.wave_field, state.elapsed_t_rs, sources, effective_boost
-    #     )
-    # state.charging = envelope > 0.001  # Track charging state for UI display
-
-    # DYNAMIC MAINTENANCE CHARGING (oscillator during simulation) =============================
+    # DYNAMIC CHARGING (oscillator during simulation) =============================
     # Runs BEFORE propagation to inject energy to maintain stabilization
-    # if state.charging and state.frame > 2000:  # hold off initial transient
-    #     # ewave.charge_oscillator_sphere(state.wave_field, state.elapsed_t_rs, 0.10, 3.0)
-    #     # NOTE: (too-light) ewave.charge_oscillator_falloff(state.wave_field, state.elapsed_t_rs)
-    #     ewave.charge_oscillator_wall(state.wave_field, state.elapsed_t_rs, 6, 10)
+    ewave.oscillate_spherical_standing(state.wave_field, state.elapsed_t_rs, 0.5, 1)
 
-    # WAVE PROPAGATION =======================================
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,
@@ -486,19 +461,6 @@ def compute_wave_motion(state):
         state.elapsed_t_rs,
         state.SIM_SPEED,
     )
-
-    # PROPORTIONAL DAMPING ==================================
-    # Only damp above target to catch overshoots, preserve natural equilibrium below
-    # damping_factor = ewave.compute_damping_factor(state.charge_level)
-    # if damping_factor < 1.0:  # Only apply if damping is active
-    #     ewave.damp_full(state.wave_field, damping_factor)
-    # state.damping = damping_factor < 0.9999  # Track damping state for UI display
-
-    # DYNAMIC DAMPING methods (energy sink during simulation) =============================
-    # Runs AFTER propagation to reduce energy to maintain stabilization
-    # if state.damping:
-    #     ewave.damp_full(state.wave_field, 0.9999)
-    #     # NOTE: (too-light) ewave.damp_sphere(state.wave_field, 0.99)
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
@@ -568,7 +530,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "the_king"
+    default_xperiment = selected_xperiment_arg or "0035_waves"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
