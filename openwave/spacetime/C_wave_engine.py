@@ -103,6 +103,7 @@ def charge_gaussian(
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
+        boost: Amplitude boost multiplier
     """
 
     # Find center position (in grid indices)
@@ -123,8 +124,7 @@ def charge_gaussian(
     sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
-    # A_am = A_required / ti.f32(constants.ATTOMETER)  # convert to attometers
-    A_am = base_amplitude_am / 200
+    A_am = A_required * 0.1 / ti.f32(constants.ATTOMETER)  # convert to attometers
 
     # Apply Gaussian displacement (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)

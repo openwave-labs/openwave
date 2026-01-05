@@ -448,7 +448,7 @@ def initialize_xperiment(state):
         print("\n" + "=" * 64)
         print("INSTRUMENTATION ENABLED")
         print("=" * 64)
-        # instrument.plot_static_charge_profile(state.wave_field)
+        instrument.plot_static_charge_profile(state.wave_field)
 
 
 def compute_wave_motion(state):
