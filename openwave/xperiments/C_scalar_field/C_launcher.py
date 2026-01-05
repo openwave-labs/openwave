@@ -20,9 +20,9 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.B_scalar_field_data as data_grid
-import openwave.spacetime.B_wave_engine as ewave
-import openwave.xperiments.E_scalar_field._instrumentation as instrument
+import openwave.spacetime.C_scalar_field_data as data_grid
+import openwave.spacetime.C_wave_engine as ewave
+import openwave.xperiments.C_scalar_field._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -61,7 +61,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.C_scalar_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -86,7 +86,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.E_scalar_field._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.C_scalar_field._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name

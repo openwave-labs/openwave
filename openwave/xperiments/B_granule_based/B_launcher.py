@@ -18,9 +18,9 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.A_granule_based_data as data_grid
-import openwave.spacetime.A_wave_engine as ewave
-import openwave.xperiments.D_granule_based._instrumentation as instrument
+import openwave.spacetime.B_granule_based_data as data_grid
+import openwave.spacetime.B_wave_engine as ewave
+import openwave.xperiments.B_granule_based._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -59,7 +59,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.D_granule_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -84,7 +84,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.D_granule_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_based._xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
