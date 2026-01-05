@@ -22,8 +22,8 @@ except (ImportError, NotImplementedError):
 
 def get_experiments_list():
     """
-    Get a list of available Xperiment files from the xperiments directory.
-    Recursively searches subdirectories, excluding _docs folders.
+    Get a list of available Xperiment launchers from the xperiments directory.
+    Each collection has exactly one *launcher.py file.
 
     Returns:
         list: List of tuples containing (display_name, file_path)
@@ -37,112 +37,55 @@ def get_experiments_list():
         print(f"Error: Xperiments directory not found at {xperiments_dir}")
         sys.exit(1)
 
-    # Dictionary to organize experiments by collection
-    experiments_by_collection = {}
-
-    # Recursively find all Python files, excluding _docs directories
-    for file_path in xperiments_dir.rglob("*.py"):
-        # Skip files in directories that start with underscore (like _docs)
-        if any(part.startswith("_") for part in file_path.parts):
-            continue
-
-        # Skip __init__.py and similar files
-        if file_path.name.startswith("__"):
-            continue
-
-        # Determine collection (subdirectory name or "root" if directly in xperiments)
-        relative_path = file_path.relative_to(xperiments_dir)
-        if len(relative_path.parts) > 1:
-            collection = relative_path.parts[0]
-        else:
-            collection = "root"
-
-        # Read the first few lines to get the description
-        description = ""
-        try:
-            with open(file_path, "r") as f:
-                lines = f.readlines()
-                # Look for description in docstring
-                if len(lines) > 1 and '"""' in lines[0]:
-                    for line in lines[1:6]:
-                        if '"""' in line:
-                            break
-                        if line.strip() and not line.strip().startswith("XPERIMENT:"):
-                            description = line.strip()
-                            break
-                        elif line.strip().startswith("XPERIMENT:"):
-                            description = line.strip().replace("XPERIMENT:", "").strip()
-                            break
-        except Exception:
-            pass
-
-        # Create display name from docstring description or fallback to formatted filename
-        if description:
-            display_name = f"{description}"
-        else:
-            display_name = file_path.stem.replace("_", " ").title()  # Fallback to file name
-
-        # Add to collection
-        if collection not in experiments_by_collection:
-            experiments_by_collection[collection] = []
-
-        experiments_by_collection[collection].append((display_name, str(file_path), collection))
-
-    # Build flat list with tree structure display
     experiments = []
-    sorted_collection = sorted(experiments_by_collection.keys())
 
-    for collection_idx, collection in enumerate(sorted_collection):
-        # Sort experiments within each collection
-        collection_experiments = sorted(experiments_by_collection[collection], key=lambda x: x[0])
+    # Find all *launcher.py files in collection subdirectories
+    for launcher_path in xperiments_dir.rglob("*launcher.py"):
+        # Skip files in directories that start with underscore
+        if any(part.startswith("_") for part in launcher_path.parts):
+            continue
 
-        for idx, (display_name, file_path, _) in enumerate(collection_experiments):
-            # Format with tree structure
-            if collection == "root":
-                formatted_name = display_name
-            else:
-                # Add collection header for first item in collection
-                if idx == 0:
-                    # Add blank line separator before collection (except for first collection)
-                    if collection_idx > 0:
-                        experiments.append(("", None))  # Blank line separator
+        # Get collection directory
+        collection_dir = launcher_path.parent
+        collection_name = collection_dir.name
 
-                    # Format collection name as header
-                    # Check if __init__.py exists in collection folder
-                    collection_init_path = xperiments_dir / collection / "__init__.py"
-                    collection_display = None
+        # Skip if directly in xperiments root (no collection)
+        if collection_dir == xperiments_dir:
+            continue
 
-                    if collection_init_path.exists():
-                        try:
-                            with open(collection_init_path, "r") as f:
-                                lines = f.readlines()
-                                # Look for docstring (use only first line)
-                                if len(lines) > 0 and '"""' in lines[0]:
-                                    for line in lines[1:]:
-                                        if '"""' in line:
-                                            break
-                                        stripped = line.strip()
-                                        if stripped:
-                                            collection_display = stripped
-                                            break
-                        except Exception:
-                            pass
+        # Get display name from collection's __init__.py docstring
+        display_name = None
+        init_path = collection_dir / "__init__.py"
 
-                    # Fall back to formatted collection name if no docstring found
-                    if not collection_display:
-                        collection_display = (
-                            collection.replace("__", ": ")
-                            .replace("_", " ")
-                            .replace("-", " ")
-                            .title()
-                        )
+        if init_path.exists():
+            try:
+                with open(init_path, "r") as f:
+                    lines = f.readlines()
+                    # Look for first non-empty line in docstring
+                    if len(lines) > 0 and '"""' in lines[0]:
+                        for line in lines[1:]:
+                            if '"""' in line:
+                                break
+                            stripped = line.strip()
+                            if stripped:
+                                display_name = stripped
+                                break
+            except Exception:
+                pass
 
-                    experiments.append((f"{collection_display}", None))  # collection header
+        # Fallback to formatted collection name
+        if not display_name:
+            display_name = (
+                collection_name.replace("__", ": ")
+                .replace("_", " ")
+                .replace("-", " ")
+                .title()
+            )
 
-                # Indent all items under collection
-                formatted_name = f"  → {display_name}"
+        experiments.append((display_name, str(launcher_path)))
 
-            experiments.append((formatted_name, file_path))
+    # Sort by display name (which starts with A/, B/, C/ etc.)
+    experiments.sort(key=lambda x: x[0])
 
     return experiments
 
@@ -171,26 +114,13 @@ def show_menu_simple(experiments):
 
     print("\n" + "=" * 64)
     print(f"OPENWAVE (v{pkg_version}) - Available XPERIMENTS")
-    print("=" * 64)
+    print("=" * 64 + "\n")
 
-    # Create numbered list of selectable experiments only
-    selectable_experiments = []
-    display_idx = 1
+    # Display numbered list of experiments
+    for idx, (display_name, _) in enumerate(experiments, 1):
+        print(f"{idx}. {display_name}")
 
-    for display_name, file_path in experiments:
-        if file_path is None:
-            # Collection header or blank line
-            if display_name.strip():
-                # Show collection header (not numbered)
-                print(f"\n{display_name}")
-            # Skip blank lines (empty display_name) entirely
-        else:
-            # Selectable experiment - add with number
-            print(f"{display_idx}. {display_name}")
-            selectable_experiments.append((display_name, file_path))
-            display_idx += 1
-
-    print(f"\n{len(selectable_experiments) + 1}. EXIT")
+    print(f"\n{len(experiments) + 1}. EXIT")
     print("=" * 64)
 
     while True:
@@ -198,15 +128,15 @@ def show_menu_simple(experiments):
             choice = input("\nSelect an Xperiment (enter number): ").strip()
             choice_num = int(choice)
 
-            if choice_num == len(selectable_experiments) + 1:
+            if choice_num == len(experiments) + 1:
                 print("Exiting...")
                 sys.exit(0)
 
-            if 1 <= choice_num <= len(selectable_experiments):
-                return selectable_experiments[choice_num - 1][1]
+            if 1 <= choice_num <= len(experiments):
+                return experiments[choice_num - 1][1]
             else:
                 print(
-                    f"Invalid choice. Please enter a number between 1 and {len(selectable_experiments) + 1}"
+                    f"Invalid choice. Please enter a number between 1 and {len(experiments) + 1}"
                 )
         except ValueError:
             print("Invalid input. Please enter a number.")
@@ -241,36 +171,11 @@ def show_menu_interactive(experiments):
 
         pkg_version = version("OPENWAVE")
 
-    # Build menu - use None for blank lines (will be skipped)
-    # Keep collection headers visible but they won't be skipped (no way to skip non-empty text)
-    menu_options = []
-    file_path_map = {}  # Maps menu index to file path
-    menu_idx = 0
-
-    for display_name, file_path in experiments:
-        if file_path is None:
-            # Collection header or blank line
-            if display_name.strip():
-                # Collection header - keep it visible
-                # Don't add separator - the blank line from previous group or
-                # the header itself provides visual separation
-                menu_options.append(display_name)
-                menu_idx += 1
-            else:
-                # Explicit blank line between collections - keep it
-                menu_options.append(None)  # WILL be skipped
-                menu_idx += 1
-        else:
-            # This is a selectable experiment
-            menu_options.append(display_name)
-            file_path_map[menu_idx] = file_path
-            menu_idx += 1
-
-    # Add separator and EXIT
-    menu_options.append(None)  # Blank line - WILL be skipped
-    menu_idx += 1
+    # Build menu options - all entries are selectable experiments
+    menu_options = [display_name for display_name, _ in experiments]
+    menu_options.append(None)  # Blank line separator
     menu_options.append("─── EXIT ───")
-    exit_idx = menu_idx
+    exit_idx = len(experiments) + 1
 
     # Build title with proper formatting
     title_lines = [
@@ -291,19 +196,13 @@ def show_menu_interactive(experiments):
         skip_empty_entries=True,
     )
 
-    while True:
-        choice_idx = terminal_menu.show()
+    choice_idx = terminal_menu.show()
 
-        if choice_idx is None or choice_idx == exit_idx:
-            print("Exiting...")
-            sys.exit(0)
+    if choice_idx is None or choice_idx == exit_idx:
+        print("Exiting...")
+        sys.exit(0)
 
-        # Check if valid experiment selected (not a collection header)
-        if choice_idx in file_path_map:
-            return file_path_map[choice_idx]
-
-        # If collection header was selected, ignore and continue loop
-        # (blank lines are automatically skipped by skip_empty_entries=True)
+    return experiments[choice_idx][1]
 
 
 def run_experiment(file_path):
