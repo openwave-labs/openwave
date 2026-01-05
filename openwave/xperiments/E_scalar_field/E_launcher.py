@@ -20,8 +20,8 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.E_scalar_field_data as data_grid
-import openwave.spacetime.E_wave_engine as ewave
+import openwave.spacetime.B_scalar_field_data as data_grid
+import openwave.spacetime.B_wave_engine as ewave
 import openwave.xperiments.E_scalar_field._instrumentation as instrument
 
 # ================================================================

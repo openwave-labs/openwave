@@ -18,8 +18,8 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.D_granule_based_data as data_grid
-import openwave.spacetime.D_wave_engine as ewave
+import openwave.spacetime.A_granule_based_data as data_grid
+import openwave.spacetime.A_wave_engine as ewave
 import openwave.xperiments.D_granule_based._instrumentation as instrument
 
 # ================================================================
