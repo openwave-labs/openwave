@@ -4,7 +4,7 @@ Launcher
 Unified launcher for granule based xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
-- Xperiment-specific parameters in /_xparameters directory
+- Xperiment-specific parameters in /xparameters directory
 """
 
 import time
@@ -37,8 +37,8 @@ class XperimentManager:
         self.current_xparameters = None
 
     def _discover_xperiments(self):
-        """Discover all available xperiment parameters in /_xparameters directory."""
-        parameters_dir = Path(__file__).parent / "_xparameters"
+        """Discover all available xperiment parameters in /xparameters directory."""
+        parameters_dir = Path(__file__).parent / "xparameters"
 
         if not parameters_dir.exists():
             return []
@@ -59,7 +59,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.B_granule_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_based.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -84,7 +84,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.B_granule_based._xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_based.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
