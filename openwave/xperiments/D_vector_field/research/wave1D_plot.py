@@ -343,6 +343,33 @@ PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
     },
 ]
 
+PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
+    {
+        "func": "standing",  # sum of both sources
+        "direction": 1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": "ampfalloff",
+        "direction": -1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 6.5),
+        "height_ratio": 2,
+        "label": "OUTGOING Psi (am)",
+    },
+    {
+        "func": ["flat", "ampfalloff"],  # sum of both sources
+        "direction": [1, -1],
+        "source": [1, 1],  # WC1 + WC1
+        "ylim": (-3.5, 7.5),
+        "height_ratio": 2,
+        "label": "TOTAL Psi (am)",
+    },
+]
+
 PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
     {
         "func": ["flat", "flat"],  # sum of both sources

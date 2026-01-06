@@ -98,6 +98,7 @@ def propagate_wave(
 
         # Apply spherical wave oscillating displacements
         # Standing Wave: A·cos(ωt)·cos(kr)
+        prev_disp = wave_field.psiL_am[i, j, k]
         wave_field.psiL_am[i, j, k] = (
             base_amplitude_am
             * boost
@@ -105,6 +106,7 @@ def propagate_wave(
             * ti.cos(temporal_phase)
             * ti.cos(spatial_phase)
         )
+        curr_disp = wave_field.psiL_am[i, j, k]
 
         # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
         wave_field.psiT_am[i, j, k] = (
@@ -144,8 +146,6 @@ def propagate_wave(
         # More robust than peak detection since it's amplitude-independent
         # EMA smoothing: f_new = α * f_measured + (1 - α) * f_old
         # α controls adaptation speed: higher = faster response, lower = smoother
-        prev_disp = wave_field.psiL_am[i, j, k]
-        curr_disp = wave_field.psiL_new_am[i, j, k]
         if prev_disp < 0.0 and curr_disp >= 0.0:  # Zero crossing detected
             period_rs = elapsed_t_rs - trackers.last_crossing[i, j, k]
             if period_rs > dt_rs * 2:  # Filter out spurious crossings
@@ -177,8 +177,6 @@ def propagate_wave(
 
     # interact_wc_min(wave_field) # no interaction on isotropic waves
     # interact_wc_drain(wave_field) # no interaction on isotropic waves
-    # interact_wc_newmann(wave_field) # no interaction on isotropic waves
-    # interact_wc_dirichlet(wave_field) # no interaction on isotropic waves
     # interact_wc_signal(wave_field) # just invert oscillation, no wave interaction
 
 
@@ -762,65 +760,6 @@ def interact_wc_drain(wave_field: ti.template()):  # type: ignore
         # Only process voxels on inner surface of sphere (r = radius-1)
         if dist_sq <= wc_radius_sq:
             wave_field.psiL_am[i, j, k] = 0.5 * wave_field.psiL_am[i, j, k]
-
-
-@ti.func
-def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
-    """
-    TEST: Neumann boundary condition on wave center sphere surface
-    ∂ψ/∂n = 0 → copy outer values to inner surface (zero gradient)
-    This reflects waves WITHOUT phase inversion (soft/free-end reflection)
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 1  # radius in voxels
-    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-    wc_radius_inner_sq = (wc_radius - 1) ** 2
-
-    for i, j, k in ti.ndrange(
-        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
-        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
-        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if wc_radius_inner_sq <= dist_sq <= wc_radius_sq:
-            # Find direction toward center and copy from outer neighbor
-            di = ti.cast(ti.math.sign(wc1x - i), ti.i32)
-            dj = ti.cast(ti.math.sign(wc1y - j), ti.i32)
-            dk = ti.cast(ti.math.sign(wc1z - k), ti.i32)
-            # Copy from the voxel just outside the sphere (Neumann: ∂ψ/∂n = 0)
-            outer_val = wave_field.psiL_am[i - di, j - dj, k - dk]
-            wave_field.psiL_am[i, j, k] = outer_val
-
-
-@ti.func
-def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
-    """
-    TEST: Dirichlet boundary condition on wave center sphere surface
-    ψ = 0 →
-    This reflects waves WITH phase inversion (hard/fixed-end reflection)
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-    """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    wc_radius = 8  # radius in voxels
-    wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
-
-    for i, j, k in ti.ndrange(
-        (wc1x - wc_radius - 1, wc1x + wc_radius + 2),
-        (wc1y - wc_radius - 1, wc1y + wc_radius + 2),
-        (wc1z - wc_radius - 1, wc1z + wc_radius + 2),
-    ):
-        dist_sq = (i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2
-        # Only process voxels on inner surface of sphere (r = radius-1)
-        if dist_sq <= wc_radius_sq:
-            wave_field.psiL_old_am[i, j, k] = 0.0
-            wave_field.psiL_am[i, j, k] = 0.0
-            wave_field.psiL_new_am[i, j, k] = 0.0
 
 
 @ti.func

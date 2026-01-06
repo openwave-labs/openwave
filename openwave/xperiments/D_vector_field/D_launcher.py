@@ -454,7 +454,7 @@ def compute_wave_motion(state):
         state.trackers,
         state.dt_rs,
         state.elapsed_t_rs,
-        1.0,
+        2.0,
         state.SIM_SPEED,
     )
 
