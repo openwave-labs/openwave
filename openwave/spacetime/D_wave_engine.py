@@ -23,150 +23,17 @@ rho = constants.MEDIUM_DENSITY  # medium density for Gaussian energy calc (kg/m�
 
 
 # ================================================================
-# DYNAMIC CHARGING methods (oscillator during simulation)
-# ================================================================
-
-
-@ti.kernel
-def oscillate_spherical_standing(
-    wave_field: ti.template(),  # type: ignore
-    elapsed_t_rs: ti.f32,  # type: ignore
-    radius: ti.f32,  # type: ignore
-    boost: ti.f32,  # type: ignore
-):
-    """
-    Apply harmonic oscillation to a spherical volume at the grid center.
-
-    Creates a uniform displacement within a spherical region using:
-        ψ(t) = A·cos(ωt-kr)
-
-    The oscillator acts as a coherent wave source, with all voxels inside
-    the sphere oscillating in phase.
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        elapsed_t_rs: Elapsed simulation time (rs)
-        boost: Oscillation amplitude multiplier
-    """
-    # Compute angular frequency (ω = 2πf) for temporal phase variation
-    omega_rs = (
-        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-    )  # angular frequency (rad/rs)
-
-    # Compute angular wave number (k = 2π/λ) for spatial phase variation
-    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
-    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
-
-    # Find center position (in grid indices)
-    center_x = wave_field.nx // 2
-    center_y = wave_field.ny // 2
-    center_z = wave_field.nz // 2
-
-    # Define oscillator sphere radius (a fraction of min edge voxels)
-    charge_radius_grid = int(radius * wave_field.min_grid_size)  # in grid indices
-
-    # Apply oscillating displacement within source sphere
-    # Harmonic motion: A·cos(ωt-kr), positive = expansion, negative = compression
-    nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
-    for i, j, k in ti.ndrange(nx, ny, nz):
-        # Check if voxel is within spherical source region
-        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
-        wave_field.psiL_am[i, j, k] = (
-            base_amplitude_am
-            * boost
-            * wave_field.scale_factor
-            * ti.cos(omega_rs * elapsed_t_rs)
-            * ti.cos(k_grid * r_grid)
-        )
-
-
-# ================================================================
 # WAVE PROPAGATION ENGINE
 # ================================================================
-
-
-@ti.func
-def compute_laplacianL(
-    wave_field: ti.template(),  # type: ignore
-    i: ti.i32,  # type: ignore
-    j: ti.i32,  # type: ignore
-    k: ti.i32,  # type: ignore
-):
-    """
-    Compute LONGITUDINAL Laplacian ∇²ψ at voxel [i,j,k]
-    Using 6-connectivity stencil, 2nd-order finite difference.
-    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
-
-    Discrete Laplacian (second derivative in space):
-    Formula: ∇²ψ ≈ (face_sum - 6·center) / dx²
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
-
-    Returns:
-        Laplacian in units [1/am]
-    """
-    # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
-    face_sum = (
-        wave_field.psiL_am[i + 1, j, k]
-        + wave_field.psiL_am[i - 1, j, k]
-        + wave_field.psiL_am[i, j + 1, k]
-        + wave_field.psiL_am[i, j - 1, k]
-        + wave_field.psiL_am[i, j, k + 1]
-        + wave_field.psiL_am[i, j, k - 1]
-    )
-
-    center = wave_field.psiL_am[i, j, k]
-    laplacianL_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
-
-    return laplacianL_am
-
-
-@ti.func
-def compute_laplacianT(
-    wave_field: ti.template(),  # type: ignore
-    i: ti.i32,  # type: ignore
-    j: ti.i32,  # type: ignore
-    k: ti.i32,  # type: ignore
-):
-    """
-    Compute TRANSVERSE Laplacian ∇²ψ at voxel [i,j,k]
-    Using 6-connectivity stencil, 2nd-order finite difference.
-    ∇²ψ = (∂²ψ/∂x² + ∂²ψ/∂y² + ∂²ψ/∂z²)
-
-    Discrete Laplacian (second derivative in space):
-    Formula: ∇²ψ ≈ (face_sum - 6·center) / dx²
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        i, j, k: Voxel indices (must be interior: 0 < i,j,k < n-1)
-
-    Returns:
-        Laplacian in units [1/am]
-    """
-    # Face neighbors (6 total): ψ[i±1] + ψ[j±1] + ψ[k±1]
-    face_sum = (
-        wave_field.psiT_am[i + 1, j, k]
-        + wave_field.psiT_am[i - 1, j, k]
-        + wave_field.psiT_am[i, j + 1, k]
-        + wave_field.psiT_am[i, j - 1, k]
-        + wave_field.psiT_am[i, j, k + 1]
-        + wave_field.psiT_am[i, j, k - 1]
-    )
-
-    center = wave_field.psiT_am[i, j, k]
-    laplacianT_am = (face_sum - 6.0 * center) / (wave_field.dx_am**2)
-    return laplacianT_am
 
 
 @ti.kernel
 def propagate_wave(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
-    c_amrs: ti.f32,  # type: ignore
     dt_rs: ti.f32,  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
+    boost: ti.f32,  # type: ignore
     sim_speed: ti.f32,  # type: ignore
 ):
     """
@@ -194,70 +61,58 @@ def propagate_wave(
     # Grid dimensions for boundary handling
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
-    # ================================================================
-    # WAVE PROPAGATION: Update voxels using Laplace & Leap-Frog Methods
-    # ================================================================
-    # Update interior voxels only (Dirichlet BC: ψ=0 at edges)
-    # 6-point Laplacian: needs 1-cell buffer → range (1, n-1)
-    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1)):  # 6-pt
-        # Compute spatial Laplacian ∇²ψ (toggle between 6-pt and 18-pt)
-        laplacianL_am = compute_laplacianL(wave_field, i, j, k)
-        laplacianT_am = compute_laplacianT(wave_field, i, j, k)
+    # Compute angular frequency (ω = 2πf) for temporal phase variation
+    omega_rs = (
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor * sim_speed
+    )  # angular frequency (rad/rs)
 
-        # Leap-Frog update
-        # Standard form: ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-        # Propagate Longitudinal Wave Component
-        wave_field.psiL_new_am[i, j, k] = (
-            2.0 * wave_field.psiL_am[i, j, k]
-            - wave_field.psiL_old_am[i, j, k]
-            + (c_amrs * dt_rs) ** 2 * laplacianL_am
+    # Compute angular wave number (k = 2π/λ) for spatial phase variation
+    wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
+    k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+
+    # Temporal phase: φ = ω·t, oscillatory in time
+    temporal_phase = omega_rs * elapsed_t_rs
+
+    # Find source position (in grid indices)
+    center_x = wave_field.nx * 2 // 3
+    center_y = wave_field.ny * 2 // 3
+    center_z = wave_field.nz // 2
+
+    # ================================================================
+    # WAVE PROPAGATION: Update voxels using wave functions
+    # ================================================================
+    # Update all voxels
+    for i, j, k in ti.ndrange(nx, ny, nz):
+        # Compute radial distance from wave source
+        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+
+        # Spatial phase: φ = k·r, creates spherical wave fronts
+        spatial_phase = k_grid * r_grid
+
+        # Amplitude falloff for spherical wave: A(r) = A₀/r
+        # Clamp to r_min to avoid singularity at r = 0
+        r_safe_am = ti.max(r_grid, wavelength_grid)
+        amplitude_falloff = wavelength_grid / r_safe_am
+        # Total amplitude at this distance (with visualization scaling)
+        amplitude_am_at_r = base_amplitude_am * amplitude_falloff
+
+        # Apply spherical wave oscillating displacements
+        # Standing Wave: A·cos(ωt)·cos(kr)
+        wave_field.psiL_am[i, j, k] = (
+            base_amplitude_am
+            * boost
+            * wave_field.scale_factor
+            * ti.cos(temporal_phase)
+            * ti.cos(spatial_phase)
         )
 
-        # Propagate Transverse Wave Component
-        wave_field.psiT_new_am[i, j, k] = (
-            2.0 * wave_field.psiT_am[i, j, k]
-            - wave_field.psiT_old_am[i, j, k]
-            + (c_amrs * dt_rs) ** 2 * laplacianT_am
+        # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
+        wave_field.psiT_am[i, j, k] = (
+            amplitude_am_at_r
+            * boost
+            * wave_field.scale_factor
+            * ti.cos(temporal_phase - spatial_phase)
         )
-
-        # WAVE ABSORBING LAYER ============================================
-        # Reflection is inherent at wave equation boundaries:
-        # - Wave equation ∂²ψ/∂t² = c²∇²ψ is bidirectional by nature
-        # - Any impedance discontinuity (Z₁ ≠ Z₂) causes reflection: R = (Z₁-Z₂)/(Z₁+Z₂)
-        # - Sharp boundaries (Dirichlet, Neumann) are extreme impedance mismatches
-        # The solution = gradual impedance matching:
-        # - Quadratic damping profile creates smooth impedance transition
-        # - Wave "doesn't notice" it's being absorbed until it's too late
-        # - No sharp discontinuity = minimal reflection
-        # Energy conservation:
-        # - Damped psiT energy → psiL (not lost, just converted)
-        # - Physically meaningful: transverse component absorbed at "infinity" returns to longitudinal
-        # This is essentially a simplified PML (Perfectly Matched Layer) the standard technique
-        # in computational electromagnetics and acoustics for simulating infinite domains.
-
-        # Calculate distance to nearest boundary for absorbing layer
-        dist_x = ti.min(i, nx - 1 - i)
-        dist_y = ti.min(j, ny - 1 - j)
-        dist_z = ti.min(k, nz - 1 - k)
-        dist_to_boundary = ti.min(dist_x, ti.min(dist_y, dist_z))
-
-        # Absorbing layer: gentle damping applied AFTER wave equation
-        # Small damping with quadratic profile for gradual impedance change
-        absorbing_width = nx // 10  # fraction of grid on each side
-        if dist_to_boundary < absorbing_width:
-            normalized_dist = (absorbing_width - dist_to_boundary) / absorbing_width
-            damping = 0.10 * normalized_dist**2  # Max 10% at boundary
-
-            psiT_before = wave_field.psiT_new_am[i, j, k]
-            psiT_after = psiT_before * (1.0 - damping)
-            wave_field.psiT_new_am[i, j, k] = psiT_after
-            wave_field.psiL_new_am[i, j, k] = wave_field.psiL_new_am[i, j, k] * (1.0 - damping)
-
-            # Transfer damped psiT energy to psiL (branchless)
-            # energy_diff = ti.max(0.0, psiT_before**2 - psiT_after**2)
-            # psiL_before = wave_field.psiL_new_am[i, j, k]
-            # psiL_sign = ti.select(psiL_before >= 0.0, 1.0, -1.0)
-            # wave_field.psiL_new_am[i, j, k] = psiL_sign * ti.sqrt(psiL_before**2 + energy_diff)
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
@@ -269,19 +124,20 @@ def propagate_wave(
         # α controls adaptation speed: higher = faster response, lower = smoother
         # 2 polarities tracked: longitudinal & transverse
         # Longitudinal RMS amplitude
-        disp2_L = wave_field.psiL_new_am[i, j, k] ** 2
+        disp2_L = wave_field.psiL_am[i, j, k] ** 2
         current_rms2_L = trackers.ampL_am[i, j, k] ** 2
         alpha_rms_L = 0.005  # EMA smoothing factor for RMS tracking
         new_rms2_L = alpha_rms_L * disp2_L + (1.0 - alpha_rms_L) * current_rms2_L
         trackers.ampL_am[i, j, k] = ti.sqrt(new_rms2_L)
 
         # Transverse RMS amplitude
-        disp2_T = wave_field.psiT_new_am[i, j, k] ** 2
+        disp2_T = wave_field.psiT_am[i, j, k] ** 2
         current_rms2_T = trackers.ampT_am[i, j, k] ** 2
         alpha_rms_T = 0.005  # EMA smoothing factor for RMS tracking
         new_rms2_T = alpha_rms_T * disp2_T + (1.0 - alpha_rms_T) * current_rms2_T
         trackers.ampT_am[i, j, k] = ti.sqrt(new_rms2_T)
 
+        # TODO: review new frequency tracking method
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
         # Detect positive-going zero crossing (negative → positive transition)
         # Period = time between consecutive positive zero crossings
@@ -300,13 +156,6 @@ def propagate_wave(
                     alpha_freq * measured_freq + (1.0 - alpha_freq) * current_freq
                 )
             trackers.last_crossing[i, j, k] = elapsed_t_rs
-
-    # Swap time levels: old ← current, current ← new
-    for i, j, k in ti.ndrange(nx, ny, nz):
-        wave_field.psiL_old_am[i, j, k] = wave_field.psiL_am[i, j, k]
-        wave_field.psiL_am[i, j, k] = wave_field.psiL_new_am[i, j, k]
-        wave_field.psiT_old_am[i, j, k] = wave_field.psiT_am[i, j, k]
-        wave_field.psiT_am[i, j, k] = wave_field.psiT_new_am[i, j, k]
 
     # TODO: Testing Wave Center Interaction with Energy Waves
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through

@@ -194,7 +194,7 @@ class SimulationState:
         self.wave_field = medium.WaveField(
             self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.FLUX_MESH_PLANES
         )
-        self.trackers = medium.Trackers(self.wave_field.grid_size)
+        self.trackers = medium.Trackers(self.wave_field.grid_size, self.wave_field.scale_factor)
 
     def compute_timestep(self):
         """Compute timestep from CFL stability condition.
@@ -271,7 +271,7 @@ def display_controls(state):
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
-        state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
+        state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.1, 1.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
                 state.PAUSED = False
@@ -449,22 +449,18 @@ def compute_wave_motion(state):
     The static pulse creates a natural equilibrium via Dirichlet BC reflections.
     """
 
-    # DYNAMIC CHARGING (oscillator during simulation) =============================
-    # Runs BEFORE propagation to inject energy to maintain stabilization
-    ewave.oscillate_spherical_standing(state.wave_field, state.elapsed_t_rs, 0.5, 1)
-
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,
-        state.c_amrs,
         state.dt_rs,
         state.elapsed_t_rs,
+        1.0,
         state.SIM_SPEED,
     )
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 or state.frame == 1:
+    if state.frame % 60 == 0:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
     state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m

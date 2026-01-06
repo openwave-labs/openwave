@@ -194,7 +194,7 @@ class SimulationState:
         self.wave_field = medium.WaveField(
             self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.FLUX_MESH_PLANES
         )
-        self.trackers = medium.Trackers(self.wave_field.grid_size)
+        self.trackers = medium.Trackers(self.wave_field.grid_size, self.wave_field.scale_factor)
 
     def compute_timestep(self):
         """Compute timestep from CFL stability condition.
@@ -502,7 +502,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0 or state.frame == 1:
+    if state.frame % 60 == 0:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
     state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m

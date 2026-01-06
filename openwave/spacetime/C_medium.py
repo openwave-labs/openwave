@@ -428,7 +428,7 @@ class Trackers:
     per-voxel fields and grid-wide averages for visualization scaling.
     """
 
-    def __init__(self, grid_size):
+    def __init__(self, grid_size, scale_factor):
         """
         Initialize tracker fields for wave property monitoring.
 
@@ -449,9 +449,9 @@ class Trackers:
 
         # Assign default values for visualization scaling
         # baseline to allow wave peaks to rise without color saturation
-        self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
-        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * 0.5
-        self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * 0.5
+        self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
+        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
+        self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * scale_factor
 
 
 if __name__ == "__main__":
