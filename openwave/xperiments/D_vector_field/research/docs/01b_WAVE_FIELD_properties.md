@@ -310,7 +310,7 @@ def design_wave_pattern(frequency):
 #### Summary: Why Frequency is Primary
 
 | Aspect | Frequency (f) | Wavelength (λ) |
-|--------|---------------|----------------|
+| ------ | ------------- | -------------- |
 | **Energy formula** | E = ρV(fA)² ✓ Elegant | E = ρVc²(A/λ)² (complex) |
 | **Measurement** | Direct: f = 1/dt ✓ | Indirect: λ = c/f |
 | **Information** | Embeds c: f = c/λ ✓ | Spatial only |
@@ -597,7 +597,7 @@ class WaveField:
 ### Initialization Comparison: LEVEL-0 vs LEVEL-1
 
 | Aspect | LEVEL-0 (BCCLattice) | LEVEL-1 (WaveField) |
-|--------|---------------------|-------------------|
+| ------ | -------------------- | ------------------- |
 | **Config constant** | `TARGET_GRANULES = 1e6` | `TARGET_VOXELS = 1e9` |
 | **Target count** | 1 million granules | 1 billion voxels (1000× more!) |
 | **Performance rationale** | Every granule rendered as Taichi particle | Only field slices/surfaces rendered |
@@ -774,7 +774,7 @@ For a sinusoidal wave: ψ(x,t) = A sin(kx - ωt)
 
 | Computation            | Uses                          |
 |------------------------|-------------------------------|
-| Wave propagation (PDE) | ψ (psiL_am)           |
+| Wave propagation (PDE) | ψ (psiL_am)                   |
 | Energy density         | A² (amplitude_am²)            |
 | Force calculation, MAP | ∇A (gradient of amplitude_am) |
 | Wave mode (long/trans) | ∇ψ (displacement direction)   |
@@ -862,7 +862,7 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 ### Summary Table
 
 | Property | ψ (Displacement) | A (Amplitude) |
-|----------|------------------|---------------|
+| -------- | ---------------- | ------------- |
 | **Field name** | `psiL_am[i,j,k]` | `amplitude_am[i,j,k]` |
 | **Physics** | Instantaneous oscillation | Envelope (max \|ψ\|) |
 | **Frequency** | High (~10²⁵ Hz) | Slowly varying |
@@ -876,7 +876,7 @@ F = -(∂A/∂x, ∂A/∂y, ∂A/∂z)
 ## LEVEL-0 vs LEVEL-1 Properties
 
 | Property | LEVEL-0 (Granule) | LEVEL-1 (Field) |
-|----------|-------------------|-----------------|
+| -------- | ----------------- | --------------- |
 | **Position** | Per-granule vector | Computed from index: `(i+0.5)*dx` |
 | **Velocity** | Per-granule oscillation | Optional momentum density |
 | **Displacement** | From equilibrium | Amplitude at voxel |
@@ -1041,7 +1041,7 @@ wave_type = f(E_kinetic / E_potential ratio, energy_flux)
 **Unique Feature**: Combined mode + type creates 4 fundamental physics categories
 
 | Class | Mode | Type | wave_mode | wave_type | Physical Meaning |
-|-------|------|------|-----------|-----------|------------------|
+| ----- | ---- | ---- | --------- | --------- | ---------------- |
 | **1** | Longitudinal | Traveling | > 0.7 | > 0.7 | **Gravitational radiation** (expanding gravity waves) |
 | **2** | Longitudinal | Standing | > 0.7 | < 0.3 | **Particle mass** (trapped energy in standing pattern) |
 | **3** | Transverse | Traveling | < 0.3 | > 0.7 | **EM radiation** (light, photons from accelerating charges) |
@@ -1245,7 +1245,7 @@ print(f"Propagation: {profile.propagation_direction}")
 ### Comparison: Standard Physics vs OpenWave
 
 | Term | Standard Physics | OpenWave Extension | Key Difference |
-|------|-----------------|---------------|----------------|
+| ---- | ---------------- | ------------------ | -------------- |
 | **Wave Mode** | Binary (longitudinal OR transverse) | Continuous [0,1] (allows mixed) | OpenWave handles superposition |
 | **Wave Type** | Binary (standing OR traveling) | Continuous [0,1] (allows quasi-standing) | OpenWave handles transitions |
 | **Wave Classification** | By medium (mechanical, EM, etc.) | 4 physics categories (mode+type) | OpenWave-specific system |
