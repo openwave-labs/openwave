@@ -466,7 +466,6 @@ def probe_wave_diagnostics(
 
     # Measure wavelength (less frequent - every 5 measurements)
     # DISABLED: Still has O(peaks²) complexity in peak-to-peak distance calculation
-    # TODO: Fix peak-to-peak distance to use spatial hashing or k-d tree
     if False and _diagnostic_state["measurement_count"] % 5 == 0:
         wavelength_data = measure_wavelength(lattice, neighbors, num_samples=100)
 

@@ -142,39 +142,39 @@ while window.running:
 
 #### Step 1: Modify medium.py
 
-- [ ] Add field: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
-- [ ] In `build_vertex_index()`: Store equilibrium positions after computing index
+- Add field: `self.vertex_equilibrium = ti.Vector.field(3, dtype=ti.f32, shape=8)`
+- In `build_vertex_index()`: Store equilibrium positions after computing index
   - `self.vertex_equilibrium[v] = self.positions[self.vertex_index[v]]`
 
 #### Step 2: Create energy_wave.py functions
 
-- [ ] Import taichi and necessary modules
-- [ ] Implement `oscillate_vertex()` kernel (see signature above)
-- [ ] Test with simple parameters first
+- Import taichi and necessary modules
+- Implement `oscillate_vertex()` kernel (see signature above)
+- Test with simple parameters first
 
 #### Step 3: Modify ewave.py
 
-- [ ] Import energy_wave module: `import openwave.spacetime.energy_wave as ewave`
-- [ ] Initialize time: `t = 0.0` before while loop
-- [ ] Add time accumulation: `t += DT` at start of while loop
-- [ ] Call oscillation update before rendering
-- [ ] Verify constants are properly defined (already done - AMPLITUDE, FREQUENCY, SLO_MO)
+- Import energy_wave module: `import openwave.spacetime.energy_wave as ewave`
+- Initialize time: `t = 0.0` before while loop
+- Add time accumulation: `t += DT` at start of while loop
+- Call oscillation update before rendering
+- Verify constants are properly defined (already done - AMPLITUDE, FREQUENCY, SLO_MO)
 
 #### Step 4: Debugging & Validation
 
-- [ ] Print initial equilibrium positions to verify storage
-- [ ] Print first few frames of vertex positions to verify oscillation
-- [ ] Check that vertices move along correct direction vectors
-- [ ] Verify amplitude matches expected displacement
-- [ ] Confirm frequency produces visible oscillation with SLO_MO factor
+- Print initial equilibrium positions to verify storage
+- Print first few frames of vertex positions to verify oscillation
+- Check that vertices move along correct direction vectors
+- Verify amplitude matches expected displacement
+- Confirm frequency produces visible oscillation with SLO_MO factor
 
 #### Step 5: Visual Validation
 
-- [ ] Verify vertex granules (white spheres) oscillate visibly
-- [ ] Check that motion is radial (toward/away from center)
-- [ ] Confirm all 8 vertices oscillate in phase (synchronously)
-- [ ] Measure oscillation period visually (should match expected frequency)
-- [ ] Ensure no vertices "escape" the lattice bounds or behave erratically
+- Verify vertex granules (white spheres) oscillate visibly
+- Check that motion is radial (toward/away from center)
+- Confirm all 8 vertices oscillate in phase (synchronously)
+- Measure oscillation period visually (should match expected frequency)
+- Ensure no vertices "escape" the lattice bounds or behave erratically
 
 #### Potential Issues to Watch
 
@@ -277,22 +277,22 @@ Use `energy_wave.py` for all wave dynamics functions:
 
 #### Step 1: Leapfrog Integration Research & Setup
 
-- [ ] Study Leapfrog algorithm (velocity Verlet variant)
-- [ ] Implement basic Leapfrog kernel for single particle test
-- [ ] Compare energy conservation: Leapfrog vs Euler
-- [ ] Determine optimal substep count for stability
+- Study Leapfrog algorithm (velocity Verlet variant)
+- Implement basic Leapfrog kernel for single particle test
+- Compare energy conservation: Leapfrog vs Euler
+- Determine optimal substep count for stability
 
 #### Step 2: Spring Force Computation Kernel
 
-- [ ] Implement `compute_spring_forces()` kernel in energy_wave.py
-- [ ] For each granule: iterate through Spring.links to find neighbors
-- [ ] Calculate displacement vector: `d = pos[neighbor] - pos[current]`
-- [ ] Calculate distance: `dist = |d|`
-- [ ] Calculate spring extension: `x = dist - rest_length`
-- [ ] Calculate spring force magnitude: `F_mag = -k * x`
-- [ ] Calculate force direction: `F_vec = F_mag * (d / dist)` (unit vector)
-- [ ] Accumulate forces from all 8 neighbors into resultant force
-- [ ] Return force field (or acceleration field = F/mass)
+- Implement `compute_spring_forces()` kernel in energy_wave.py
+- For each granule: iterate through Spring.links to find neighbors
+- Calculate displacement vector: `d = pos[neighbor] - pos[current]`
+- Calculate distance: `dist = |d|`
+- Calculate spring extension: `x = dist - rest_length`
+- Calculate spring force magnitude: `F_mag = -k * x`
+- Calculate force direction: `F_vec = F_mag * (d / dist)` (unit vector)
+- Accumulate forces from all 8 neighbors into resultant force
+- Return force field (or acceleration field = F/mass)
 
 #### Step 3: Vertex Exclusion Strategy
 
@@ -312,35 +312,35 @@ Two approaches to handle vertices (wave makers) vs propagating granules:
 
 #### Step 4: Leapfrog Integration Kernel
 
-- [ ] Implement `integrate_motion()` in energy_wave.py
-- [ ] Half-step velocity update: `v(t+dt/2) = v(t) + a(t) * dt/2`
-- [ ] Position update: `x(t+dt) = x(t) + v(t+dt/2) * dt`
-- [ ] Force recompute at new positions
-- [ ] Final half-step velocity: `v(t+dt) = v(t+dt/2) + a(t+dt) * dt/2`
-- [ ] Exclude vertices from integration (keep their prescribed motion)
+- Implement `integrate_motion()` in energy_wave.py
+- Half-step velocity update: `v(t+dt/2) = v(t) + a(t) * dt/2`
+- Position update: `x(t+dt) = x(t) + v(t+dt/2) * dt`
+- Force recompute at new positions
+- Final half-step velocity: `v(t+dt) = v(t+dt/2) + a(t+dt) * dt/2`
+- Exclude vertices from integration (keep their prescribed motion)
 
 #### Step 5: Main Propagation Orchestrator
 
-- [ ] Create `propagate_ewave()` function
-- [ ] Call `oscillate_vertex()` first (boundary condition)
-- [ ] Loop substeps:
+- Create `propagate_ewave()` function
+- Call `oscillate_vertex()` first (boundary condition)
+- Loop substeps:
   - Compute spring forces on non-vertex granules
   - Integrate motion using Leapfrog
   - Accumulate substep time
-- [ ] Update rendering positions after all substeps
+- Update rendering positions after all substeps
 
 #### Step 6: Validation & Tuning
 
-- [ ] Verify wave propagates from vertices
-- [ ] Check energy conservation (should be stable over time)
-- [ ] Tune substep count for stability vs performance
-- [ ] **Measure wave speed**: Compare emergent propagation velocity to expected `c = EWAVE_SPEED`
-- [ ] **Measure wavelength**: Track spatial period of oscillation, compare to `λ = EWAVE_LENGTH`
+- Verify wave propagates from vertices
+- Check energy conservation (should be stable over time)
+- Tune substep count for stability vs performance
+- **Measure wave speed**: Compare emergent propagation velocity to expected `c = EWAVE_SPEED`
+- **Measure wavelength**: Track spatial period of oscillation, compare to `λ = EWAVE_LENGTH`
   - Method: Sample positions along radial line from vertex, measure distance between peaks
   - Expected: λ ≈ 2.854e-17 m (from constants)
   - Validates both spring constant k and lattice discretization
-- [ ] Visualize wave patterns (should see spherical/radial propagation)
-- [ ] **Success criteria**: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance)
+- Visualize wave patterns (should see spherical/radial propagation)
+- **Success criteria**: Wave speed ≈ c AND wavelength ≈ λ (within 5-10% tolerance)
 
 ### Integration Method Review (TODO - Before Phase 2 Implementation)
 
@@ -356,20 +356,20 @@ The Leapfrog integrator occupies a sweet spot for our needs:
 
 **Evaluation Checklist**:
 
-- [ ] **Leapfrog Method (Primary Candidate)**
+- **Leapfrog Method (Primary Candidate)**
   - Second-order symplectic integrator for Newton's equations of motion
   - Energy-conserving (essential for our undamped wave propagation)
   - Minimal performance cost vs Euler
   - Well-suited for oscillatory spring-mass systems
   - May significantly reduce need for multiple substeps
 
-- [ ] **Runge-Kutta 4 (RK4) - Secondary Option**
+- **Runge-Kutta 4 (RK4) - Secondary Option**
   - Fourth-order accuracy (very high precision)
   - NOT symplectic (may drift in energy over long simulations)
   - 4x computational cost per step (expensive for large lattice)
   - Consider only if Leapfrog accuracy insufficient
 
-- [ ] **Explicit Euler (Baseline)**
+- **Explicit Euler (Baseline)**
   - First-order accuracy (lowest)
   - Requires many substeps for stability
   - Simple but energy-drifting

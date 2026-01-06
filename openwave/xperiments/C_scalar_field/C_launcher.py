@@ -522,6 +522,8 @@ def compute_wave_motion(state):
         instrument.log_timestep_data(
             state.frame, state.charge_level, state.wave_field, state.trackers
         )
+        if state.frame == 500:
+            instrument.plot_probe_wave_profile(state.wave_field)
 
 
 def render_elements(state):
@@ -540,15 +542,6 @@ def render_elements(state):
             state.WARP_MESH,
         )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
-
-    # TODO: remove test particles for visual reference
-    # position0 = np.array([[0.5, 0.5, 0.125]], dtype=np.float32)
-    # radius_electron = constants.ELECTRON_RADIUS / state.wave_field.max_universe_edge
-    # render.scene.particles(position0, radius=radius_electron, color=colormap.COLOR_PARTICLE[1])
-    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
 
 
 # ================================================================

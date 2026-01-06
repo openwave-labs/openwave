@@ -571,29 +571,29 @@ v += a·dt = -(k/m)(x - L₀)·dt  (spring-mass!)
 
 **Step 1: XPBD Constraint Kernel** (Pending)
 
-- [ ] Create `solve_distance_constraint_xpbd()` kernel
-- [ ] Implement position corrections per Eq 4-7
-- [ ] Handle vertex exclusion (boundary conditions)
-- [ ] Use Jacobi iteration (parallel-safe for GPU)
+- Create `solve_distance_constraint_xpbd()` kernel
+- Implement position corrections per Eq 4-7
+- Handle vertex exclusion (boundary conditions)
+- Use Jacobi iteration (parallel-safe for GPU)
 
 **Step 2: Velocity Update** (Pending)
 
-- [ ] Compute velocities from position changes: `v = (x_new - x_old) / dt`
-- [ ] Store previous positions for velocity calculation
+- Compute velocities from position changes: `v = (x_new - x_old) / dt`
+- Store previous positions for velocity calculation
 
 **Step 3: Small Steps Integration** (Pending)
 
-- [ ] Split frame into substeps (start with 30-100)
-- [ ] Single XPBD iteration per substep
-- [ ] Update vertex boundary conditions per frame
+- Split frame into substeps (start with 30-100)
+- Single XPBD iteration per substep
+- Update vertex boundary conditions per frame
 
 **Step 4: Validation** (Pending)
 
-- [ ] Test with realistic stiffness (no reduction needed!)
-- [ ] Verify no NaN/Inf explosions
-- [ ] Check wave propagation from vertices
-- [ ] Measure wave speed vs expected c
-- [ ] Measure wavelength vs expected λ
+- Test with realistic stiffness (no reduction needed!)
+- Verify no NaN/Inf explosions
+- Check wave propagation from vertices
+- Measure wave speed vs expected c
+- Measure wavelength vs expected λ
 
 ### Key Implementation Notes
 
@@ -1033,28 +1033,28 @@ for particle in particles:  # Parallel
 
 ### Phase 1: Basic XPBD Distance Constraints
 
-- [x] Read both papers
-- [ ] Implement particle-centric Jacobi solver
-- [ ] Add constraint averaging
-- [ ] Test with realistic stiffness (k = 1e7 N/m, no reduction!)
+- Read both papers
+- Implement particle-centric Jacobi solver
+- Add constraint averaging
+- Test with realistic stiffness (k = 1e7 N/m, no reduction!)
 
 ### Phase 2: Optimization
 
-- [ ] Add SOR parameter (ω = 1.5)
-- [ ] Add velocity damping (0.999 per substep)
-- [ ] Verify no explosions with extreme stiffness
+- Add SOR parameter (ω = 1.5)
+- Add velocity damping (0.999 per substep)
+- Verify no explosions with extreme stiffness
 
 ### Phase 3: Validation
 
-- [ ] Measure wave speed vs theoretical
-- [ ] Measure wavelength vs driving frequency
-- [ ] Compare energy conservation vs force-based
+- Measure wave speed vs theoretical
+- Measure wavelength vs driving frequency
+- Compare energy conservation vs force-based
 
 ### Phase 4: Advanced Features (Future)
 
-- [ ] Particle sleeping for large lattices
-- [ ] Spatial hash reordering for performance
-- [ ] Pre-stabilization for contact constraints
+- Particle sleeping for large lattices
+- Spatial hash reordering for performance
+- Pre-stabilization for contact constraints
 
 ---
 

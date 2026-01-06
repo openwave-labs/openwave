@@ -484,6 +484,8 @@ def compute_wave_motion(state):
         instrument.log_timestep_data(
             state.frame, state.charge_level, state.wave_field, state.trackers
         )
+        if state.frame == 500:
+            instrument.plot_probe_wave_profile(state.wave_field)
 
 
 def render_elements(state):

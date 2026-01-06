@@ -31,15 +31,15 @@ frame = 1  # frame counter
 def compute_temporal_motion():
     """Compute temporal motion of granules."""
     # Compute harmonic motion for granule1
-    position[0][0] = 0.5 + amplitude * np.cos(omega * elapsed_time)
-    position[0][1] = 0.5 + amplitude * np.cos(omega * elapsed_time + np.pi / 3)
-    position[0][2] = 0.5 + amplitude * np.cos(omega * elapsed_time + np.pi / 3 * 2)
+    position[0][0] = amplitude * np.cos(omega * elapsed_time)
+    position[0][1] = amplitude * np.cos(omega * elapsed_time + np.pi / 3)
+    position[0][2] = amplitude * np.cos(omega * elapsed_time + np.pi / 3 * 2)
     color[0] = colormap.COLOR_PARTICLE[1]
 
     # Compute harmonic motion for granule2
-    position[1][0] = 0.5 + amplitude * np.cos(omega * elapsed_time)
-    position[1][1] = 0.7 + amplitude * np.cos(omega * elapsed_time + np.pi / 2)  # Phase shift
-    position[1][2] = 0.5 + amplitude * np.cos(omega * elapsed_time + np.pi / 2)
+    position[1][0] = amplitude * np.cos(omega * elapsed_time)
+    position[1][1] = amplitude * np.cos(omega * elapsed_time + np.pi / 2)  # Phase shift
+    position[1][2] = amplitude * np.cos(omega * elapsed_time + np.pi / 2)
     color[1] = colormap.COLOR_ANTI[1]
 
 

@@ -113,19 +113,6 @@ def plot_probe_wave_profile(wave_field):
 
     Args:
         wave_field: WaveField instance containing displacement data
-
-    To use this plot install this snippet in the main loop (L1_launcher.py or other place)
-        # Compute angular frequency (ω = 2πf) for temporal phase variation
-        base_frequency_rHz = (
-            constants.EWAVE_FREQUENCY * constants.RONTOSECOND
-        )  # in rHz (1/rontosecond)
-        omega_rs = (
-            2.0 * ti.math.pi * base_frequency_rHz / state.wave_field.scale_factor
-        )  # angular frequency (rad/rs)
-        omega_frame = omega_rs * state.dt_rs  # rad / frame
-        frame_360 = round(2 * ti.math.pi / omega_frame)  # frames per full rotation (360°)
-        if state.frame == frame_360 * 30:
-            instrument.plot_probe_wave_profile(state.wave_field)
     """
 
     # Define probe position
