@@ -2,13 +2,13 @@
 
 ## Overview
 
-LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (EWT) at the wavelength scale, from fundamental particles to molecules. Unlike LEVEL-0's granule-based medium, LEVEL-1 uses efficient PDE-based wave propagation on 3D grids to simulate hundreds of particles with interactive performance.
+LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (EWT) at the wavelength scale, from fundamental particles to molecules. Unlike LEVEL-0's granule-motion medium, LEVEL-1 uses efficient PDE-based wave propagation on 3D grids to simulate hundreds of particles with interactive performance.
 
 **Core Innovation**: Waves are primary - particles and forces emerge from wave interference patterns.
 
 ## Quick Reference
 
-| Aspect | LEVEL-0 (Granule-Based) | LEVEL-1 (Wave-Field) |
+| Aspect | LEVEL-0 (Granule-Motion) | LEVEL-1 (Wave-Field) |
 |--------|-------------------------|----------------------|
 | **Scale** | Planck-scale to λ | λ-scale to molecules |
 | **Medium** | 1M granules (particles) | 1B voxels (grid) |

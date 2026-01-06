@@ -635,7 +635,7 @@ class WaveField:
 ```python
 from openwave.common import config
 
-# LEVEL-0: Granule-based (1M granules)
+# LEVEL-0: Granule-Motion (1M granules)
 lattice = BCCLattice(
     init_universe_size=[250e-18, 250e-18, 125e-18]
 )

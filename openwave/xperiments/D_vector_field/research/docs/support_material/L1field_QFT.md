@@ -2,11 +2,11 @@
 
 ## Executive Summary
 
-**CRITICAL INSIGHT:** OpenWave's Level-1 wave-field approach is fundamentally MORE aligned with quantum field theory (QFT) than Level-0's granule-based approach. This dramatically improves the project's scientific positioning.
+**CRITICAL INSIGHT:** OpenWave's Level-1 wave-field approach is fundamentally MORE aligned with quantum field theory (QFT) than Level-0's granule-motion approach. This dramatically improves the project's scientific positioning.
 
 ## Level-0 vs Level-1 Comparison
 
-### Level-0: Granule-Based Medium
+### Level-0: Granule-Motion Medium
 
 **Computational Model:**
 
@@ -213,7 +213,7 @@ Fundamental particles can form composite structures
 
 ## Quantum Field Theory Alignment Score
 
-### Level-0 (Granule-Based): 2/10
+### Level-0 (Granule-Motion): 2/10
 
 - Particle-centric (opposite of QFT)
 - Mechanistic (not field-theoretic)
@@ -252,7 +252,7 @@ Fundamental particles can form composite structures
 
 2. **Position Level-0 as educational tool:**
    - "Level-0 provides intuitive visualization"
-   - "Granule-based model for understanding wave formation"
+   - "Granule-Motion model for understanding wave formation"
    - "Educational introduction before wave-field research tools"
 
 3. **Frame as computational physics research:**
@@ -334,7 +334,7 @@ Add section highlighting Level-1:
 ```markdown
 ## Two Complementary Approaches
 
-### Level-0: Granule-Based Medium (Educational)
+### Level-0: Granule-Motion Medium (Educational)
 - **Purpose:** Intuitive visualization of wave mechanics
 - **Method:** Particle-based simulation with phase-shifted oscillations
 - **Strength:** Highly visual, easy to understand wave formation

@@ -45,7 +45,7 @@ Spacetime Module
 
 **Components:**
 
-- ``medium_level0.py`` - Granule-based lattice (released)
+- ``medium_level0.py`` - Granule-Motion lattice (released)
 - ``medium_level1.py`` - Field-based PDE solver (WIP)
 - ``energy_wave_level0.py`` - Wave physics for granules
 - ``energy_wave_level1.py`` - Wave physics for fields (WIP)
@@ -169,7 +169,7 @@ Scientific Rigor
 Computational Levels
 --------------------
 
-Level-0: Granule-Based
+Level-0: Granule-Motion
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Status:** Released

@@ -1,7 +1,7 @@
 """
 Launcher
 
-Unified launcher for granule based xperiments featuring:
+Unified launcher for granule motion xperiments featuring:
 - UI-based xperiment selection and switching
 - Single source of truth for rendering and UI code
 - Xperiment-specific parameters in /xparameters directory
@@ -20,7 +20,7 @@ from openwave._io import render, video
 
 import openwave.spacetime.B_medium as medium
 import openwave.spacetime.B_wave_engine as ewave
-import openwave.xperiments.B_granule_based._instrumentation as instrument
+import openwave.xperiments.B_granule_motion._instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -59,7 +59,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.B_granule_based.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_motion.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -84,7 +84,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.B_granule_based.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.B_granule_motion.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -275,7 +275,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("GRANULE-BASED METHOD (D)", 0.84, 0.01, 0.16, 0.10) as sub:
+    with render.gui.sub_window("GRANULE-MOTION METHOD (D)", 0.84, 0.01, 0.16, 0.10) as sub:
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")

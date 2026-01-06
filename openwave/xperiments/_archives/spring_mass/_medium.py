@@ -1,7 +1,7 @@
 """
 WAVE-MEDIUM
 
-GRANULE-BASED MEDIUM
+GRANULE-MOTION MEDIUM
 
 Objects Engine @spacetime module.
 

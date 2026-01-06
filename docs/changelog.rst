@@ -22,7 +22,7 @@ Version 0.3.0 (Current)
 
 **Status:**
 
-- Level-0 (Granule-based): Stable
+- Level-0 (Granule-Motion): Stable
 - Level-1 (Field-based): In development
 
 Version 0.2.0

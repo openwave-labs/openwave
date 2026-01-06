@@ -4,7 +4,7 @@
 
 OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-BASED method for educational visualization.
+The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-MOTION method for educational visualization.
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
@@ -22,7 +22,7 @@ OpenWave provides complementary ways to explore wave mechanics:
 - **Purpose:** Research simulations for matter formation, force modeling, numerical validation
 - **Use Case:** Scientific research, advanced simulations, subatomic engineering
 
-### Granule-Based Method (Education Oriented)
+### Granule-Motion Method (Education Oriented)
 
 **Status:** Released and Available
 
@@ -32,22 +32,22 @@ OpenWave provides complementary ways to explore wave mechanics:
 - **Purpose:** Educational visualization, understanding wave formation
 - **Use Case:** Learning, illustration, animation, introduction to wave concepts
 
-**Key Insight:** WAVE-FIELD methods uses the same computational approach as quantum field theory (lattice discretization), while GRANULE-BASED method provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
+**Key Insight:** WAVE-FIELD methods uses the same computational approach as quantum field theory (lattice discretization), while GRANULE-MOTION method provides intuitive visuals. Both are computational tools for investigating wave dynamics models of physical phenomena.
 
 ## Xperiments
 
 OpenWave Xperiments is a collection of interactive physics simulations that brings wave-field dynamics to life through real-time visualization and computation.
 
-**Currently Available: GRANULE-BASED method Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in WAVE-FIELD research simulations.
+**Currently Available: GRANULE-MOTION method Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in WAVE-FIELD research simulations.
 
 Each Xperiment is fully customizable (via user controls and Python scripting), enabling you to adjust parameters such as universe size, wave source configurations, and visualization settings to investigate wave behavior at different scales.
 
 **Recommended:**
 
-- **Follow the GRANULE-BASED demo sequence below if you are new to OpenWave**
+- **Follow the GRANULE-MOTION demo sequence below if you are new to OpenWave**
 - **WAVE-FIELD research tools** are under development for matter formation simulations
 
-## XPERIMENTS GRANULE-BASED DEMO (start here)
+## XPERIMENTS GRANULE-MOTION DEMO (start here)
 
 ### 1. Spacetime Vibration
 
@@ -162,17 +162,17 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 **OpenWave's Computational Implementation:**
 
 - **WAVE-FIELD Methods** uses lattice wave-field theory methodology (similar to lattice QCD) with EWT's field equations
-- **GRANULE-BASED Method** provides particle-based visualizations for intuitive understanding
+- **GRANULE-MOTION Method** provides particle-based visualizations for intuitive understanding
 - Both are computational frameworks for investigating EWT's mathematical predictions against experimentally observed physics
 
-## OPENWAVE LEVELS
+## OPENWAVE METHODS
 
-| OPENWAVE | GRANULE-BASED (shipped) | WAVE-FIELD (WIP) | (future release) |
+| OPENWAVE | GRANULE-MOTION (shipped) | WAVE-FIELD (WIP) | (future release) |
 | ---------- | --------------------- | --------------- | ------------------ |
 | SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-BASED METHOD | FIELD-BASED METHOD | ADVANCED COMPUTING PLATFORMS |
+| LOGIC | GRANULE-MOTION METHOD | FIELD-BASED METHOD | ADVANCED COMPUTING PLATFORMS |
 | system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| data-grid | granule-based lattice | field-based grid | to be developed |
+| data-grid | granule-motion lattice | field-based grid | to be developed |
 | wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
 | USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
 | | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |

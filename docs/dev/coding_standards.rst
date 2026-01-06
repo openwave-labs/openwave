@@ -83,7 +83,7 @@ All modules should have docstrings:
    """
    Module: openwave.spacetime.medium_level0
 
-   Implements granule-based wave medium using BCC and SC lattices.
+   Implements granule-motion wave medium using BCC and SC lattices.
    """
 
 Naming Conventions

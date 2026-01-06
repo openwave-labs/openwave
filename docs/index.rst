@@ -16,7 +16,7 @@ using wave field dynamics. The project implements the mathematical framework of
 `Energy Wave Theory (EWT) <https://energywavetheory.com>`_ through two complementary computational approaches:
 
 - **Level-1:** Field-based method (similar to lattice gauge theory) for research simulations
-- **Level-0:** Granule-based method for educational visualization
+- **Level-0:** Granule-Motion method for educational visualization
 
 .. note::
    OpenWave is currently in active development (v0.3.0). The API may change in future releases.
@@ -55,7 +55,7 @@ Key Features
 
 ✅ **Computational Approaches**
    - Field-based medium (PDE-based, scalable for research)
-   - Granule-based medium (intuitive for education)
+   - Granule-Motion medium (intuitive for education)
 
 ✅ **GPU-Accelerated**
    - Taichi-powered parallel processing

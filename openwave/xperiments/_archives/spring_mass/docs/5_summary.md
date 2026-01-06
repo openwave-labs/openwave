@@ -5,7 +5,7 @@
 ![alt text](images/demo2.gif)
 ![alt text](images/demo3.gif)
 
-## GRANULE-BASED MEDIUM WAVE DYNAMICS
+## GRANULE-MOTION MEDIUM WAVE DYNAMICS
 
 Limitations:
 

@@ -257,7 +257,7 @@ LEVEL-1 uses **scaled SI units** for both spatial and temporal values to maintai
 
 ### LEVEL-0 vs LEVEL-1 Comparison
 
-| Aspect | LEVEL-0 (Granule-Based) | LEVEL-1 (Wave-Field) |
+| Aspect | LEVEL-0 (Granule-Motion) | LEVEL-1 (Wave-Field) |
 |--------|------------------------|----------------------|
 | **Position Storage** | Stored in vector fields `pos_am[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx_am` |
 | **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx_am` (shared) |

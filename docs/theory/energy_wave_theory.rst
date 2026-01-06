@@ -79,7 +79,7 @@ Computational Implementation
 
 OpenWave implements EWT through two approaches:
 
-Level-0: Granule-Based
+Level-0: Granule-Motion
 ~~~~~~~~~~~~~~~~~~~~~~
 
 - Discrete particles represent medium

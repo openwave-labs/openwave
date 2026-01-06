@@ -9,18 +9,18 @@ Overview
 Two Levels of Implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. **Level-0:** Granule-based medium (educational)
+1. **Level-0:** Granule-Motion medium (educational)
 2. **Level-1:** Field-based medium (research) [WIP]
 
 Both approaches model wave dynamics but with different computational strategies.
 
-Level-0: Granule-Based Medium
+Level-0: Granule-Motion Medium
 ------------------------------
 
 Description
 ~~~~~~~~~~~
 
-The granule-based approach represents the wave medium as discrete particles (granules) that oscillate
+The granule-motion approach represents the wave medium as discrete particles (granules) that oscillate
 harmonically. This creates an intuitive, visually comprehensible model of wave mechanics.
 
 Key Features
