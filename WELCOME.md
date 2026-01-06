@@ -167,18 +167,7 @@ OpenWave implements [Energy Wave Theory (EWT)](https://energywavetheory.com "Ene
 
 ## OPENWAVE METHODS
 
-| OPENWAVE | GRANULE-MOTION (shipped) | WAVE-FIELD (WIP) | (future release) |
-| ---------- | --------------------- | --------------- | ------------------ |
-| SCALE | planck-scale to λ | λ-scale to molecules | molecules to human-scale |
-| LOGIC | GRANULE-MOTION METHOD | FIELD-BASED METHOD | ADVANCED COMPUTING PLATFORMS |
-| system requirements | runs on personal computers | runs on personal computers | computing-clusters <br> quantum-computing |
-| data-grid | granule-motion lattice | field-based grid | to be developed |
-| wave-engine | phase shifted harmonic oscillations | vector field wave propagation | to be developed |
-| USE-CASE | EDUCATIONAL, ILLUSTRATION | ADVANCED SIMULATIONS | LARGE-SCALE SIMULATIONS |
-| | Learning <br> Visualization, Animation <br> Welcome to OpenWave | Numerical Analysis <br> Scientific Research <br> Subatomic Engineering | large simulation domain <br> large quantities of matter (atoms/molecules) |
-| DESCRIPTION | granules INTO waves <br> waves modeled as granules <br> how waves are made <br> wave formation <br> spacetime & wave phenomena <br> universe foundation <br> energy source | waves INTO matter <br> matter modeled as waves <br> how waves make matter <br> wave interaction <br> matter, forces, EM & heat <br> material universe <br> energy effects | TBD |
-| PLATFORM | OPENWAVE Platform <br> (from v0.1.0+) | OPENWAVE Platform <br> (from v0.2.0+) | OPENWAVE Platform <br> (vTBD) |
-| | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code | GPU optimization <br> Xperiments module <br> CLI, Rendering engine <br> Common & I/O modules <br> Open-Source code |
+![methods](images/methods.png)
 
 ## Getting Help and Contributing
 
