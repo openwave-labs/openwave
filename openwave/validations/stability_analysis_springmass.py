@@ -2,7 +2,7 @@ import numpy as np
 
 from openwave.common import constants, equations
 
-import openwave.spacetime.B_granule_based_data as data_grid
+import openwave.spacetime.B_medium as medium
 
 
 # From constants
@@ -18,7 +18,7 @@ STIFFNESS = 1e-13  # N/m (already reduced!)
 granules_per_edge = TARGET_GRANULES ** (1 / 3) * 0.8  # 80% fill factor
 unit_cell_edge = UNIVERSE_EDGE / granules_per_edge
 # unit_cell_edge = 2 * np.e * constants.PLANCK_LENGTH  # ~5.4e-35 m, override to Planck scale
-granule = data_grid.BCCGranule(unit_cell_edge, UNIVERSE_EDGE)
+granule = medium.BCCGranule(unit_cell_edge, UNIVERSE_EDGE)
 
 # Spring-mass system natural frequency
 frequency = equations.compute_natural_frequency(STIFFNESS, granule.mass)  # Hz

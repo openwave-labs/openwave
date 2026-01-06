@@ -20,8 +20,8 @@ import time
 from openwave.common import colormap, constants
 from openwave._io import render
 
-import openwave.xperiments._archives.spring_mass.medium_bccgranule as medium
-import openwave.xperiments._archives.spring_mass.wave_engine_spring_euler as ewave
+import openwave.xperiments._archives.spring_mass._medium as medium
+import openwave.xperiments._archives.spring_mass._wave_engine_euler as ewave
 
 # Define the architecture to be used by Taichi (GPU vs CPU)
 ti.init(arch=ti.gpu)  # Use GPU if available, else fallback to CPU

@@ -7,7 +7,7 @@ import numpy as np
 
 from openwave.common import constants
 
-import openwave.spacetime.C_scalar_field_data as data_grid
+import openwave.spacetime.C_medium as medium
 
 ti.init(arch=ti.gpu)
 
@@ -17,7 +17,7 @@ UNIVERSE_SIZE = [
     6e-15,
 ]  # m, simulation domain [x, y, z] dimensions (can be asymmetric)
 
-wave_field = data_grid.WaveField(UNIVERSE_SIZE, target_voxels=3.5e8)
+wave_field = medium.WaveField(UNIVERSE_SIZE, target_voxels=3.5e8)
 
 
 # ================================================================

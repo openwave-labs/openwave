@@ -18,7 +18,7 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.B_granule_based_data as data_grid
+import openwave.spacetime.B_medium as medium
 import openwave.spacetime.B_wave_engine as ewave
 import openwave.xperiments.B_granule_based._instrumentation as instrument
 
@@ -192,10 +192,10 @@ class SimulationState:
 
     def initialize_lattice(self):
         """Initialize or reinitialize the lattice and granule objects."""
-        self.lattice = data_grid.BCCLattice(
+        self.lattice = medium.BCCLattice(
             self.UNIVERSE_SIZE, self.TARGET_GRANULES, self.COLOR_THEME
         )
-        self.granule = data_grid.BCCGranule(
+        self.granule = medium.BCCGranule(
             self.lattice.unit_cell_edge, self.lattice.max_universe_edge
         )
 

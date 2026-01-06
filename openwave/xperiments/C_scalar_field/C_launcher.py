@@ -20,7 +20,7 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.C_scalar_field_data as data_grid
+import openwave.spacetime.C_medium as medium
 import openwave.spacetime.C_wave_engine as ewave
 import openwave.xperiments.C_scalar_field._instrumentation as instrument
 
@@ -191,10 +191,10 @@ class SimulationState:
 
     def initialize_grid(self):
         """Initialize or reinitialize the wave-field grid."""
-        self.wave_field = data_grid.WaveField(
+        self.wave_field = medium.WaveField(
             self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.FLUX_MESH_PLANES
         )
-        self.trackers = data_grid.Trackers(self.wave_field.grid_size)
+        self.trackers = medium.Trackers(self.wave_field.grid_size)
 
     def compute_timestep(self):
         """Compute timestep from CFL stability condition.
