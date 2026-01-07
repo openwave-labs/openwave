@@ -242,8 +242,8 @@ def oscillate_granules(
             direction = sources_direction[granule_idx, source_idx]
             r_am = sources_distance_am[granule_idx, source_idx]
 
-            # Phase shift between in/out waves (reflection at wave-center)
-            phase_shift = ti.math.pi
+            # Phase shift between in/out waves (at wave-center)
+            phase_shift = ti.math.pi / 2
 
             # Source phase offset: initial phase of this wave-center
             source_offset = sources_phase_offset[source_idx]
@@ -259,10 +259,10 @@ def oscillate_granules(
             r_safe_am = ti.max(r_am, r_reference_am)
             amplitude_falloff = r_reference_am / r_safe_am
             # Total amplitude at this distance (with visualization scaling)
-            amplitude_am_at_r = base_amplitude_am * amp_boost * amplitude_falloff
+            amplitude_at_r_am = base_amplitude_am * amp_boost * amplitude_falloff
             # Cap amplitude to distance from source (A ≤ r)
             # Prevents granules crossing through wave source
-            amplitude_am_at_r_cap = ti.min(amplitude_am_at_r, r_am)
+            amplitude_at_r_cap_am = ti.min(amplitude_at_r_am, r_am)
 
             # MAIN WAVE FUNCTION ========================================
             # IN & OUT Wave displacement from this source
@@ -277,7 +277,7 @@ def oscillate_granules(
             )
             out_wave_psi = (
                 out_wave_toggle
-                * amplitude_am_at_r_cap
+                * amplitude_at_r_cap_am
                 * ti.cos(temporal_phase - spatial_phase + source_offset + phase_shift)
             )
             source_displacement_am = (in_wave_psi + out_wave_psi) * direction
@@ -291,7 +291,7 @@ def oscillate_granules(
             ) / num_sources  # incoming wave do not superpose, gets split per WC
             out_wave_vel = (
                 out_wave_toggle
-                * -amplitude_am_at_r_cap
+                * -amplitude_at_r_cap_am
                 * omega_slo
                 * ti.sin(temporal_phase - spatial_phase + source_offset + phase_shift)
             )

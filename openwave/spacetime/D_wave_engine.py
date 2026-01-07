@@ -94,7 +94,7 @@ def propagate_wave(
         r_safe_am = ti.max(r_grid, wavelength_grid)
         amplitude_falloff = wavelength_grid / r_safe_am
         # Total amplitude at this distance (with visualization scaling)
-        amplitude_am_at_r = base_amplitude_am * amplitude_falloff
+        amplitude_at_r_am = base_amplitude_am * amplitude_falloff
 
         # Apply spherical wave oscillating displacements
         # Standing Wave: A·cos(ωt)·cos(kr)
@@ -104,13 +104,13 @@ def propagate_wave(
             * boost
             * wave_field.scale_factor
             * ti.cos(temporal_phase)
-            * ti.cos(spatial_phase)
+            * ti.sin(spatial_phase)
         )
         curr_disp = wave_field.psiL_am[i, j, k]
 
         # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
-        wave_field.psiT_am[i, j, k] = (
-            amplitude_am_at_r
+        wave_field.psiL_am[i, j, k] += (
+            amplitude_at_r_am
             * boost
             * wave_field.scale_factor
             * ti.cos(temporal_phase - spatial_phase)

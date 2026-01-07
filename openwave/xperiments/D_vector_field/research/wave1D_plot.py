@@ -165,7 +165,7 @@ def compute_wave_ampfalloff(
         direction: +1 for incoming wave, -1 for outgoing wave
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
-    phase_shift = np.pi
+    phase_shift = np.pi  # phase shift between in/out waves (at wave-center)
     source_offset = get_source_offset(source)
     # λ as reference radius → amplitude = A₀ at r = λ
     # Clamp r to avoid singularity at r = 0 (min r = λ)
@@ -190,7 +190,7 @@ def compute_wave_Wolff(
 ) -> np.ndarray:
     """Milo Wolff Standing Longitudinal Wave Displacement (in attometers).
 
-    ψ(r,t) = A·cos(ωt + φ₀)·sin(kr)/r - Standing wave around wave center.
+    ψ(r,t) = A·exp(iωt)·sin(kr)/r - Standing wave around wave center.
 
     Standing wave converging around wave center from all directions.
 
@@ -200,13 +200,146 @@ def compute_wave_Wolff(
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
     source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
+    kr = k_am * radius_am
     psi_am = (
         base_amplitude_am  # full amplitude (am)
-        * np.cos(omega_rs * t_rs + source_offset)  # temporal phase with source offset (rad)
-        * np.sin(k_am * radius_am)  # spatial phase, φ = k·r (rad)
+        * np.cos(ot)
+        * np.sin(kr)  # spatial phase, φ = k·r (rad)
         / radius_am  # amplitude falloff for spherical wave: A(r) = A₀/r (am)
-        * base_wavelength_am  # normalize by wavelength to maintain units (am)
     )
+    return psi_am
+
+
+def compute_wave_LaFreniere(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+    """Spherical standing wave with traveling wave component (LaFreniere form).
+
+    ψ(r,t) = A·[sin(ωt - kr) - sin(ωt)] / kr
+    note: inverted direction from Lafreniere (originally +kr) for outgoing wave
+
+    Expanded form:
+    ψ(r,t) = A·[-cos(ωt)·sin(kr) - sin(ωt)·(1 - cos(kr))] / kr
+            = A·[-cos(ωt)·Phase(kr) - sin(ωt)·Quadrature(kr)]
+
+    This captures:
+    - Standing wave structure near center (Wolff-like)
+    - Outgoing traveling waves far from center
+    - Finite amplitude at r=0
+    - The π/2 phase shift at reflection (quadrature term)
+
+    Components:
+    - Phase:      sin(kr)/kr     (standing, amplitude envelope, sine cardinal function)
+    - Quadrature: (1-cos(kr))/kr (traveling, energy flow)
+
+    The key insight: LaFreniere's equation naturally includes both the standing wave (Wolff)
+      AND the traveling wave component through the quadrature term.
+      It's the more complete model for a radiating particle.
+
+    Key Comparison
+
+    | Aspect          | Wolff             | LaFreniere                            |
+    |-----------------|-------------------|---------------------------------------|
+    | Equation        | cos(ωt)·sin(kr)/r | [sin(t+x) - sin(t)]/x                 |
+    | Expanded        | cos(ωt)·sin(kr)/r | [cos(t)·sin(x) - sin(t)·(1-cos(x))]/x |
+    | Normalization   | 1/r               | 1/kr (or 1/x)                         |
+    | Wave type       | Pure standing     | Partially standing                    |
+    | Quadrature term | None              | Yes: -sin(t)·(1-cos(x))/x             |
+    | At r→0          | sin(kr)/r → k     | [sin(t+x)-sin(t)]/x → cos(t)          |
+
+    The Physical Difference
+
+    Wolff's Pure Standing Wave:
+    - All points oscillate simultaneously (in-phase or anti-phase)
+    - No net energy flow
+    - Requires perfectly balanced IN/OUT waves
+    - Mathematical idealization
+
+    LaFreniere's Partially Standing Wave:
+    - Near center: standing wave behavior
+    - Far from center: transitions to traveling wave
+    - Energy CAN flow outward (radiation)
+    - The quadrature term (1-cos(kr))/kr represents this traveling component
+
+    From LaFreniere's sa_phaseshift.html:
+    "Standing waves progressively transform to traveling waves. Far away, just outgoing spherical waves remain."
+
+    Which is "Correct"?
+
+    Both are valid solutions to the wave equation. The question is which better models physical reality:
+
+    | If you need...                      | Use...                               |
+    |-------------------------------------|--------------------------------------|
+    | Pure resonance (idealized particle) | Wolff: cos(ωt)·sin(kr)/r             |
+    | Radiating particle (realistic)      | LaFreniere: [sin(t+kr) - sin(t)]/kr  |
+    | Energy flow analysis                | LaFreniere (has traveling component) |
+    | Standing wave nodes only            | Wolff (simpler)                      |
+    """
+
+    ot_rs = omega_rs * t_rs
+    kr_am = k_am * radius_am
+
+    # Core smoothing for kr < π (avoids singularity at r=0)
+    # If kr < pi Then kr = kr + (pi/2)*(1 - kr/pi)^2
+    kr_safe = np.where(
+        kr_am < np.pi,
+        kr_am + (np.pi / 2) * (1 - kr_am / np.pi) ** 2,
+        kr_am,
+    )
+
+    # LaFreniere canonical form: [sin(ωt - kr) - sin(ωt)] / kr
+    # = [-cos(ωt)·sin(kr) - sin(ωt)·(1-cos(kr))] / kr
+    psi_am = (
+        base_amplitude_am
+        * (np.sin(ot_rs - kr_safe) - np.sin(ot_rs))  # canonical form
+        # * (-np.cos(ot_rs) * np.sin(kr_safe) - np.sin(ot_rs) * (1 - np.cos(kr_safe))) # expanded form
+        / kr_safe
+    )
+    return psi_am
+
+
+def compute_wave_LaFreniereWolff(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+    """LaFreniere wave with Wolff's 1/r normalization.
+
+    Combines:
+      - LaFreniere's quadrature phase shift at particle core
+      - Wolff's physical 1/r amplitude falloff (energy conservation)
+
+    Uses expanded form with analytical limits at r=0 for numerical stability.
+    """
+    ot = omega_rs * t_rs
+    kr = k_am * radius_am
+
+    # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
+
+    # Phase term: sin(kr)/r → k as r→0
+    phase_term = np.where(radius_am < 1e-10, k_am, np.sin(kr) / radius_am)  # analytical limit
+
+    # Quadrature term: (1-cos(kr))/r → 0 as r→0
+    quadrature_term = np.where(
+        radius_am < 1e-10, 0.0, (1 - np.cos(kr)) / radius_am  # analytical limit
+    )
+
+    psi_am = base_amplitude_am * (-np.cos(ot) * phase_term - np.sin(ot) * quadrature_term)
+
+    return psi_am
+
+
+def compute_wave_LaFreniereWolff_old(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+
+    ot_rs = omega_rs * t_rs
+    kr_am = k_am * radius_am
+
+    # LaFreniere & Wolff combination: [sin(ωt - kr) - sin(ωt)] / radius
+    psi_am = (
+        base_amplitude_am * (np.sin(ot_rs - kr_am) - np.sin(ot_rs)) / radius_am
+    )  # canonical form
+
     return psi_am
 
 
@@ -249,36 +382,6 @@ def compute_wave_LaFreniere2(
 ) -> np.ndarray:
     """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
 
-    ψ(r,t) = A·sin(-ωt + kr + φ₀) / kr - Standing wave.
-
-    Standing wave converging around wave center from all directions.
-
-    When kr < π, a smooth transition is applied to avoid the singularity at r=0:
-        kr' = kr + (π/2)·(1 - kr/π)²
-
-    Args:
-        radius_am: Radial distance from wave source (attometers)
-        t_rs: Time in rontoseconds (default 0.0 for static plot)
-        source: Wave source (1 = wc1, 2 = wc2) for phase offset
-    """
-    source_offset = get_source_offset(source)
-    ot = omega_rs * t_rs
-    kr = k_am * radius_am
-    # When kr < π, apply smooth transition to avoid singularity at r=0
-    kr = np.where(
-        kr < np.pi,
-        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
-        kr,
-    )
-    psi_am = base_amplitude_am * (np.sin(-ot + kr + source_offset)) / kr
-    return psi_am
-
-
-def compute_wave_LaFreniere3(
-    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
-) -> np.ndarray:
-    """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
-
     ψ(r,t) = A·[cos(ωt + φ₀)·sin(kr) + direction·sin(ωt + φ₀)·(1 - cos(kr))] / (kr) - Standing wave.
 
     Standing wave converging around wave center from all directions.
@@ -304,10 +407,40 @@ def compute_wave_LaFreniere3(
         base_amplitude_am  # full amplitude (am)
         * (
             np.cos(ot + source_offset) * np.sin(kr)
-            + direction * np.sin(ot + source_offset) * (1 - np.cos(kr))
+            - direction * np.sin(ot + source_offset) * (1 - np.cos(kr))
         )  # both terms share source offset (same oscillator)
         / kr
     )
+    return psi_am
+
+
+def compute_wave_LaFreniere3(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+    """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
+
+    ψ(r,t) = A·sin(-ωt + kr + φ₀) / kr - Standing wave.
+
+    Standing wave converging around wave center from all directions.
+
+    When kr < π, a smooth transition is applied to avoid the singularity at r=0:
+        kr' = kr + (π/2)·(1 - kr/π)²
+
+    Args:
+        radius_am: Radial distance from wave source (attometers)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+        source: Wave source (1 = wc1, 2 = wc2) for phase offset
+    """
+    source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
+    kr = k_am * radius_am
+    # When kr < π, apply smooth transition to avoid singularity at r=0
+    kr = np.where(
+        kr < np.pi,
+        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
+        kr,
+    )
+    psi_am = base_amplitude_am * (np.sin(-ot + kr + source_offset)) / kr
     return psi_am
 
 
@@ -443,47 +576,40 @@ PLOT_CONFIGS = [  # 1 WC: fullamp + ampfalloff
     },
 ]
 
-PLOT_CONFIGS = [  # 1 WC: wolff & lafreniere
+PLOT_CONFIGS0 = [  # 1 WC: wolff & lafreniere
     {
-        "func": ["wolff"],  # sum of both sources
-        "source": [1],  # WC1
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 1,
-        "label": "WOLFF STANDING WAVE",
-    },
-    {
-        "func": ["lafreniere1"],  # sum of both sources
-        "source": [1],  # WC1
-        "ylim": (-0.5, 1.5),
-        "height_ratio": 1,
-        "label": "LAFRENIERE STANDING WAVE",
-    },
-]
-
-PLOT_CONFIGS = [  # 1 WC: LFa + LFb
-    {
-        "func": "lafreniere1",
+        "func": "lafreniere",
         "direction": -1,
         "source": 1,  # WC1
         "ylim": (-1.5, 1.5),
         "height_ratio": 1,
-        "label": "-lafreniere1",
+        "label": "lafreniere",
     },
     {
-        "func": "lafreniere2",
-        "direction": 1,
+        "func": ["wolff"],  # sum of both sources
+        "source": [1],  # WC1
+        "ylim": (-0.25, 0.25),
+        "height_ratio": 1,
+        "label": "WOLFF STANDING WAVE",
+    },
+]
+
+PLOT_CONFIGS = [  # 1 WC: lafreniere-wolff
+    {
+        "func": "lafreniere",
+        "direction": -1,
         "source": 1,  # WC1
         "ylim": (-1.5, 1.5),
         "height_ratio": 1,
-        "label": "lafreniere2",
+        "label": "lafreniere",
     },
     {
-        "func": "lafreniere3",  # sum of both sources
-        "direction": 1,
+        "func": "lafreniere-wolff",
+        "direction": -1,
         "source": 1,  # WC1
-        "ylim": (-1.5, 1.5),
+        "ylim": (-0.25, 0.25),
         "height_ratio": 1,
-        "label": "lafreniere3",
+        "label": "lafreniere-wolff",
     },
 ]
 
@@ -627,6 +753,8 @@ WAVE_FUNCTIONS = {
     "fullamp": compute_wave_fullamp,
     "ampfalloff": compute_wave_ampfalloff,
     "wolff": compute_wave_Wolff,
+    "lafreniere": compute_wave_LaFreniere,
+    "lafreniere-wolff": compute_wave_LaFreniereWolff,
     "lafreniere1": compute_wave_LaFreniere1,
     "lafreniere2": compute_wave_LaFreniere2,
     "lafreniere3": compute_wave_LaFreniere3,
