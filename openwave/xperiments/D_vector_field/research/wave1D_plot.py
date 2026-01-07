@@ -82,7 +82,9 @@ def get_source_offset(source: int = 1) -> float:
         raise ValueError(f"Invalid source: {source}. Use 1 or 2.")
 
 
-def compute_wave_flat(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
+def compute_wave_flat(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
     """Fundamental Flat Wave - uniform oscillation throughout space (in attometers).
 
     ψ(t) = A·cos(ωt) - Spatially uniform pure temporal harmonic oscillation.
@@ -100,7 +102,9 @@ def compute_wave_flat(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
     return np.full_like(radius_am, psi_am)  # uniform value at every spatial point
 
 
-def compute_wave_standing(radius_am: np.ndarray, t_rs: float = 0.0) -> np.ndarray:
+def compute_wave_standing(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
     """Fundamental Standing Wave - uniform oscillation throughout space (in attometers).
 
     ψ(t) = A·cos(ωt)cos(kr) - Spatially uniform pure temporal harmonic oscillation.
@@ -140,9 +144,9 @@ def compute_wave_fullamp(
         base_amplitude_am
         / 1
         * np.cos(  # full amplitude (am)  # oscillator cosine function
-            source_offset  # direction only affects the spatial phase, not the source offset, (rad)
-            + omega_rs * t_rs  # temporal phase (rad)
+            omega_rs * t_rs  # temporal phase (rad)
             + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+            + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
         )
     )
     return psi_am
@@ -172,16 +176,18 @@ def compute_wave_ampfalloff(
     psi_am = (
         amplitude_at_r_am  # amplitude falloff for spherical wave: A(r) = A₀ · (λ / r) (am)
         * np.cos(  # oscillator cosine function
-            phase_shift
-            + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
-            + omega_rs * t_rs  # temporal phase (rad)
+            omega_rs * t_rs  # temporal phase (rad)
             + direction * k_am * radius_am  # spatial phase, spherical wave fronts, φ = ±kr (rad)
+            + source_offset  # direction only affects the spatial phase, not the source offset, (rad)
+            + phase_shift
         )
     )
     return psi_am
 
 
-def compute_wave_Wolff(radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1) -> np.ndarray:
+def compute_wave_Wolff(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
     """Milo Wolff Standing Longitudinal Wave Displacement (in attometers).
 
     ψ(r,t) = A·cos(ωt + φ₀)·sin(kr)/r - Standing wave around wave center.
@@ -204,8 +210,8 @@ def compute_wave_Wolff(radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1
     return psi_am
 
 
-def compute_wave_LaFreniere(
-    radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1
+def compute_wave_LaFreniere1(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
     """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
 
@@ -219,6 +225,7 @@ def compute_wave_LaFreniere(
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
     source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
     kr = k_am * radius_am
     # When kr < π, apply smooth transition to avoid singularity at r=0
     kr = np.where(
@@ -229,15 +236,16 @@ def compute_wave_LaFreniere(
     psi_am = (
         base_amplitude_am  # full amplitude (am)
         * (
-            np.sin(omega_rs * t_rs - kr + source_offset) - np.sin(omega_rs * t_rs + source_offset)
-        )  # both terms share source offset (same oscillator)
+            np.sin(ot + direction * kr + source_offset)  # both terms share source offset
+            - np.sin(ot + source_offset)  # both terms share source offset
+        )
         / kr
     )
     return psi_am
 
 
 def compute_wave_LaFreniere2(
-    radius_am: np.ndarray, t_rs: float = 0.0, source: int = 1
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
     """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
 
@@ -254,6 +262,7 @@ def compute_wave_LaFreniere2(
         source: Wave source (1 = wc1, 2 = wc2) for phase offset
     """
     source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
     kr = k_am * radius_am
     # When kr < π, apply smooth transition to avoid singularity at r=0
     kr = np.where(
@@ -261,22 +270,16 @@ def compute_wave_LaFreniere2(
         kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
         kr,
     )
-    psi_am = (
-        base_amplitude_am  # full amplitude (am)
-        * (
-            np.sin(-omega_rs * t_rs + kr + source_offset)
-        )  # both terms share source offset (same oscillator)
-        / kr
-    )
+    psi_am = base_amplitude_am * (np.sin(-ot + kr + source_offset)) / kr
     return psi_am
 
 
-def compute_wave_LF(
+def compute_wave_LaFreniere3(
     radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
     """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
 
-    ψ(r,t) = A·sin(-ωt + kr + φ₀) / kr - Standing wave.
+    ψ(r,t) = A·[cos(ωt + φ₀)·sin(kr) + direction·sin(ωt + φ₀)·(1 - cos(kr))] / (kr) - Standing wave.
 
     Standing wave converging around wave center from all directions.
 
@@ -308,6 +311,44 @@ def compute_wave_LF(
     return psi_am
 
 
+def compute_wave_LF3(
+    radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
+) -> np.ndarray:
+    """Gabriel LaFreniere Standing Longitudinal Wave Displacement (in attometers).
+
+    ψ(r,t) = A·[cos(ωt + φ₀)·sin(kr) + direction·sin(ωt + φ₀)·(1 - cos(kr))] / (kr) - Standing wave.
+
+    Standing wave converging around wave center from all directions.
+
+    When kr < π, a smooth transition is applied to avoid the singularity at r=0:
+        kr' = kr + (π/2)·(1 - kr/π)²
+
+    Args:
+        radius_am: Radial distance from wave source (attometers)
+        t_rs: Time in rontoseconds (default 0.0 for static plot)
+        source: Wave source (1 = wc1, 2 = wc2) for phase offset
+    """
+    source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs
+    kr = k_am * radius_am
+    # When kr < π, apply smooth transition to avoid singularity at r=0
+    kr = np.where(
+        kr < np.pi,
+        kr + (np.pi / 2) * (1 - kr / np.pi) ** 2,
+        kr,
+    )
+    psi_am = (
+        base_amplitude_am
+        + base_amplitude_am  # full amplitude (am)
+        * (
+            np.cos(ot + source_offset) * np.sin(kr)
+            + direction * np.sin(ot + source_offset) * (1 - np.cos(kr))
+        )  # both terms share source offset (same oscillator)
+        / kr
+    )
+    return psi_am
+
+
 # ================================================================
 # Plot Configuration
 # ================================================================
@@ -316,7 +357,12 @@ def compute_wave_LF(
 # - func: string or list of strings (for sum)
 # - direction: +1 incoming, -1 outgoing (or list for each func)
 # - source: 1 = wc1, 2 = wc2 (or list for each func)
-PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
+
+# ===============================================================
+# 1 Wave Center Plot Configurations
+# ===============================================================
+
+PLOT_CONFIGS = [  # 1 WC: flat + ampfalloff
     {
         "func": "flat",  # sum of both sources
         "direction": 1,
@@ -329,7 +375,7 @@ PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
         "func": "ampfalloff",
         "direction": -1,
         "source": 1,  # WC1
-        "ylim": (-1.5, 6.5),
+        "ylim": (-1.5, 1.5),
         "height_ratio": 2,
         "label": "OUTGOING Psi (am)",
     },
@@ -337,13 +383,13 @@ PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
         "func": ["flat", "ampfalloff"],  # sum of both sources
         "direction": [1, -1],
         "source": [1, 1],  # WC1 + WC1
-        "ylim": (-3.5, 7.5),
+        "ylim": (-2.5, 2.5),
         "height_ratio": 2,
         "label": "TOTAL Psi (am)",
     },
 ]
 
-PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
+PLOT_CONFIGS = [  # 1 WC: flat + ampfalloff
     {
         "func": "standing",  # sum of both sources
         "direction": 1,
@@ -356,42 +402,15 @@ PLOT_CONFIGS0 = [  # 1 WC: flat + ampfalloff
         "func": "ampfalloff",
         "direction": -1,
         "source": 1,  # WC1
-        "ylim": (-1.5, 6.5),
+        "ylim": (-1.5, 1.5),
         "height_ratio": 2,
         "label": "OUTGOING Psi (am)",
     },
     {
-        "func": ["flat", "ampfalloff"],  # sum of both sources
+        "func": ["standing", "ampfalloff"],  # sum of both sources
         "direction": [1, -1],
         "source": [1, 1],  # WC1 + WC1
-        "ylim": (-3.5, 7.5),
-        "height_ratio": 2,
-        "label": "TOTAL Psi (am)",
-    },
-]
-
-PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
-    {
-        "func": ["flat", "flat"],  # sum of both sources
-        "direction": [1, 1],
-        "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 1.5),
-        "height_ratio": 1,
-        "label": "INCOMING Psi (am)",
-    },
-    {
-        "func": ["ampfalloff", "ampfalloff"],  # sum of both sources
-        "direction": [-1, -1],
-        "source": [1, 2],  # WC1 + WC2
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 2,
-        "label": "OUTGOING Psi (am)",
-    },
-    {
-        "func": ["flat", "ampfalloff", "flat", "ampfalloff"],  # sum of both sources
-        "direction": [1, -1, 1, -1],
-        "source": [1, 1, 2, 2],  # WC1 + WC2
-        "ylim": (-3.5, 7.5),
+        "ylim": (-2.5, 2.5),
         "height_ratio": 2,
         "label": "TOTAL Psi (am)",
     },
@@ -420,6 +439,81 @@ PLOT_CONFIGS = [  # 1 WC: fullamp + ampfalloff
         "source": [1, 1],  # WC1
         "ylim": (-2.5, 2.5),
         "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
+
+PLOT_CONFIGS = [  # 1 WC: wolff & lafreniere
+    {
+        "func": ["wolff"],  # sum of both sources
+        "source": [1],  # WC1
+        "ylim": (-1.5, 6.5),
+        "height_ratio": 1,
+        "label": "WOLFF STANDING WAVE",
+    },
+    {
+        "func": ["lafreniere1"],  # sum of both sources
+        "source": [1],  # WC1
+        "ylim": (-0.5, 1.5),
+        "height_ratio": 1,
+        "label": "LAFRENIERE STANDING WAVE",
+    },
+]
+
+PLOT_CONFIGS = [  # 1 WC: LFa + LFb
+    {
+        "func": "lafreniere1",
+        "direction": -1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "-lafreniere1",
+    },
+    {
+        "func": "lafreniere2",
+        "direction": 1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "lafreniere2",
+    },
+    {
+        "func": "lafreniere3",  # sum of both sources
+        "direction": 1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "lafreniere3",
+    },
+]
+
+# ===============================================================
+# 2 Wave Centers Plot Configurations
+# ===============================================================
+
+PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
+    {
+        "func": ["flat", "flat"],  # sum of both sources
+        "direction": [1, 1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "INCOMING Psi (am)",
+    },
+    {
+        "func": ["ampfalloff", "ampfalloff"],  # sum of both sources
+        "direction": [-1, -1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-1.5, 6.5),
+        "height_ratio": 2,
+        "label": "OUTGOING Psi (am)",
+    },
+    {
+        "func": ["flat", "ampfalloff", "flat", "ampfalloff"],  # sum of both sources
+        "direction": [1, -1, 1, -1],
+        "source": [1, 1, 2, 2],  # WC1 + WC2
+        "ylim": (-3.5, 7.5),
+        "height_ratio": 2,
         "label": "TOTAL Psi (am)",
     },
 ]
@@ -455,7 +549,7 @@ PLOT_CONFIGS0 = [  # 2 WC: fullamp + ampfalloff
     {
         "func": ["fullamp"],  # sum of both sources
         "direction": [1],
-        "source": [1],  # WC1 + WC2
+        "source": [1],  # WC1
         "ylim": (-1.5, 1.5),
         "height_ratio": 1,
         "label": "INCOMING Psi (am)",
@@ -463,7 +557,7 @@ PLOT_CONFIGS0 = [  # 2 WC: fullamp + ampfalloff
     {
         "func": ["fullamp"],  # sum of both sources
         "direction": [1],
-        "source": [2],  # WC1 + WC2
+        "source": [2],  # WC2
         "ylim": (-1.5, 1.5),
         "height_ratio": 1,
         "label": "INCOMING Psi (am)",
@@ -475,23 +569,6 @@ PLOT_CONFIGS0 = [  # 2 WC: fullamp + ampfalloff
         "ylim": (-2.5, 2.5),
         "height_ratio": 1,
         "label": "TOTAL Psi (am)",
-    },
-]
-
-PLOT_CONFIGS0 = [  # 1 WC: wolff & lafreniere
-    {
-        "func": ["wolff"],  # sum of both sources
-        "source": [1],  # WC1
-        "ylim": (-1.5, 6.5),
-        "height_ratio": 1,
-        "label": "WOLFF STANDING WAVE",
-    },
-    {
-        "func": ["lafreniere"],  # sum of both sources
-        "source": [1],  # WC1
-        "ylim": (-0.5, 1.5),
-        "height_ratio": 1,
-        "label": "LAFRENIERE STANDING WAVE",
     },
 ]
 
@@ -512,55 +589,33 @@ PLOT_CONFIGS0 = [  # 2 WC: wolff & lafreniere
     },
 ]
 
-PLOT_CONFIGS0 = [  # 1 WC: LFa + LFb
-    {
-        "func": "LF",  # sum of both sources
-        "direction": 1,
-        "source": 1,  # WC1
-        "ylim": (-1.0, 1.0),
-        "height_ratio": 1,
-        "label": "INCOMING Psi (am)",
-    },
-    {
-        "func": "LF",
-        "direction": -1,
-        "source": 1,  # WC1
-        "ylim": (-1.0, 1.0),
-        "height_ratio": 1,
-        "label": "OUTGOING Psi (am)",
-    },
-    {
-        "func": ["LF", "LF"],  # sum of both sources
-        "direction": [1, -1],
-        "source": [1, 1],  # WC1 + WC1
-        "ylim": (-1.5, 1.5),
-        "height_ratio": 1,
-        "label": "TOTAL Psi (am)",
-    },
-]
-
 PLOT_CONFIGS0 = [  # 2 WC: LFa + LFb
     {
-        "func": ["LF", "LF"],  # sum of both sources
+        "func": ["lafreniere3", "lafreniere3"],  # sum of both sources
         "direction": [1, -1],
         "source": [1, 1],  # WC1 + WC2
-        "ylim": (-1.0, 1.0),
+        "ylim": (-1.5, 1.5),
         "height_ratio": 1,
         "label": "INCOMING Psi (am)",
     },
     {
-        "func": ["LF", "LF"],
+        "func": ["lafreniere3", "lafreniere3"],
         "direction": [-1, 1],
         "source": [2, 2],  # WC1 + WC2
-        "ylim": (-1.0, 1.0),
+        "ylim": (-1.5, 1.5),
         "height_ratio": 1,
         "label": "OUTGOING Psi (am)",
     },
     {
-        "func": ["LF", "LF", "LF", "LF"],  # sum of both sources
+        "func": [
+            "lafreniere3",
+            "lafreniere3",
+            "lafreniere3",
+            "lafreniere3",
+        ],  # sum of both sources
         "direction": [1, -1, 1, -1],
         "source": [1, 1, 2, 2],  # WC1 + WC1 + WC2 + WC2
-        "ylim": (-1.5, 1.5),
+        "ylim": (-2.5, 2.5),
         "height_ratio": 1,
         "label": "TOTAL Psi (am)",
     },
@@ -572,8 +627,10 @@ WAVE_FUNCTIONS = {
     "fullamp": compute_wave_fullamp,
     "ampfalloff": compute_wave_ampfalloff,
     "wolff": compute_wave_Wolff,
-    "lafreniere": compute_wave_LaFreniere,
-    "LF": compute_wave_LF,
+    "lafreniere1": compute_wave_LaFreniere1,
+    "lafreniere2": compute_wave_LaFreniere2,
+    "lafreniere3": compute_wave_LaFreniere3,
+    "LF3": compute_wave_LF3,
 }
 
 
@@ -600,25 +657,14 @@ def compute_plot_value(config: dict, t_rs: float) -> np.ndarray:
         for func_name, direction, source in zip(func_spec, directions, sources):
             func = WAVE_FUNCTIONS[func_name]
             radius_am = compute_radius_am(x_am, source=source)
-            # Check if function accepts direction/source parameters
-            if func_name in ("fullamp", "ampfalloff", "LF"):
-                result += func(radius_am, t_rs, direction=direction, source=source)
-            elif func_name in ("wolff", "lafreniere"):
-                result += func(radius_am, t_rs, source=source)
-            else:
-                result += func(radius_am, t_rs)
+            result += func(radius_am, t_rs, direction=direction, source=source)
         return result
     else:
         # Single function
         source = source_spec if not isinstance(source_spec, list) else source_spec[0]
-        radius_am = compute_radius_am(x_am, source=source)
         func = WAVE_FUNCTIONS[func_spec]
-        if func_spec in ("fullamp", "ampfalloff", "LF"):
-            return func(radius_am, t_rs, direction=direction_spec, source=source)
-        elif func_spec in ("wolff", "lafreniere"):
-            return func(radius_am, t_rs, source=source)
-        else:
-            return func(radius_am, t_rs)
+        radius_am = compute_radius_am(x_am, source=source)
+        return func(radius_am, t_rs, direction=direction_spec, source=source)
 
 
 # ================================================================
@@ -775,6 +821,18 @@ def plot_waves(start_paused: bool = False, start_frame: int = 0, save_gif: bool 
             )
             ax.axvline(
                 x=wc1_x_am - base_wavelength_am,
+                color="yellow",
+                linestyle="--",
+                alpha=0.3,
+            )
+            ax.axvline(
+                x=wc1_x_am + 2 * base_wavelength_am,
+                color="yellow",
+                linestyle="--",
+                alpha=0.3,
+            )
+            ax.axvline(
+                x=wc1_x_am - 2 * base_wavelength_am,
                 color="yellow",
                 linestyle="--",
                 alpha=0.3,

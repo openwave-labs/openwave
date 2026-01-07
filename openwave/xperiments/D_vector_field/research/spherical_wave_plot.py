@@ -78,8 +78,8 @@ def sine_stand_lafreniere(r, A0_val=A0):
         Amplitude at distance r (meters)
     """
 
-    sine = A0_val * np.sin(k * r) / (k * r)  # * λ for x axis in λ units
-    # sine = A0_val * (1 - np.cos(k * r)) / (k * r)  # * λ for x axis in λ units
+    sine = A0_val * np.sin(k * r) / (k * r)  # for x axis in λ units
+    # sine = A0_val * (1 - np.cos(k * r)) / (k * r)  # quadrature version
 
     return sine  # * 2 * np.pi  # Adjusted for proper scaling
 

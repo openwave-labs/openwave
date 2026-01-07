@@ -266,34 +266,34 @@ def oscillate_granules(
 
             # MAIN WAVE FUNCTION ========================================
             # IN & OUT Wave displacement from this source
-            # A·cos(ωt + φ)·direction, positive for inward propagation, full amp
-            # A(r)·cos(ωt - φ)·direction, negative for outward propagation, amp falloff
+            # A·cos(ωt ± kr + φ)·direction, positive for inward propagation, full amp
+            # A(r)·cos(ωt ± kr + φ)·direction, negative for outward propagation, amp falloff
             in_wave_psi = (
                 in_wave_toggle
                 * base_amplitude_am
                 * amp_boost
                 / num_sources  # incoming wave do not superpose, split per WC for energy conservation
-                * ti.cos(source_offset + temporal_phase + spatial_phase)
+                * ti.cos(temporal_phase + spatial_phase + source_offset)
             )
             out_wave_psi = (
                 out_wave_toggle
                 * amplitude_am_at_r_cap
-                * ti.cos(phase_shift + source_offset + temporal_phase - spatial_phase)
+                * ti.cos(temporal_phase - spatial_phase + source_offset + phase_shift)
             )
             source_displacement_am = (in_wave_psi + out_wave_psi) * direction
 
-            # Wave velocity from this source: -A(r)·ω·sin(ωt +/- φ)·direction
+            # Wave velocity from this source: -A(r)·ω·sin(ωt ± kr + φ)·direction
             in_wave_vel = (
                 in_wave_toggle
                 * -base_amplitude_am
                 * omega_slo
-                * ti.sin(source_offset + temporal_phase + spatial_phase)
+                * ti.sin(temporal_phase + spatial_phase + source_offset)
             ) / num_sources  # incoming wave do not superpose, gets split per WC
             out_wave_vel = (
                 out_wave_toggle
                 * -amplitude_am_at_r_cap
                 * omega_slo
-                * ti.sin(phase_shift + source_offset + temporal_phase - spatial_phase)
+                * ti.sin(temporal_phase - spatial_phase + source_offset + phase_shift)
             )
             source_velocity_am = (in_wave_vel + out_wave_vel) * direction
 
