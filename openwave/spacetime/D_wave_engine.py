@@ -73,48 +73,76 @@ def propagate_wave(
     # Temporal phase: φ = ω·t, oscillatory in time
     temporal_phase = omega_rs * elapsed_t_rs
 
-    # Find source position (in grid indices)
-    center_x = wave_field.nx * 2 // 3
-    center_y = wave_field.ny * 2 // 3
-    center_z = wave_field.nz // 2
+    # Source position (in grid indices)
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
 
     # ================================================================
     # WAVE PROPAGATION: Update voxels using wave functions
     # ================================================================
     # Update all voxels
     for i, j, k in ti.ndrange(nx, ny, nz):
-        # Compute radial distance from wave source
-        r_grid = ti.sqrt((i - center_x) ** 2 + (j - center_y) ** 2 + (k - center_z) ** 2)
+        prev_disp = wave_field.psiL_am[i, j, k]
 
-        # Spatial phase: φ = k·r, creates spherical wave fronts
+        # Compute radial distance from wave source (in grid indices)
+        r_grid = ti.sqrt((i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2)
+
+        # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
         spatial_phase = k_grid * r_grid
 
-        # Amplitude falloff for spherical wave: A(r) = A₀/r
-        # Clamp to r_min to avoid singularity at r = 0
-        r_safe_am = ti.max(r_grid, wavelength_grid)
-        amplitude_falloff = wavelength_grid / r_safe_am
-        # Total amplitude at this distance (with visualization scaling)
-        amplitude_at_r_am = base_amplitude_am * amplitude_falloff
+        # Combined and Adjusted LaFreniere-Wolff wave-equation form:
+        # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
+        # Phase term: sin(kr)/r → k as r→0 (physical units)
+        phase_term = ti.select(
+            r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+            k_grid,  # analytical limit
+            ti.sin(spatial_phase) / r_grid,
+        )
 
-        # Apply spherical wave oscillating displacements
-        # Standing Wave: A·cos(ωt)·cos(kr)
-        prev_disp = wave_field.psiL_am[i, j, k]
+        # Quadrature term: (1-cos(kr))/r → 0 as r→0
+        quadrature_term = ti.select(
+            r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+            0.0,  # analytical limit
+            (1 - ti.cos(spatial_phase)) / r_grid,
+        )
+
         wave_field.psiL_am[i, j, k] = (
             base_amplitude_am
             * boost
             * wave_field.scale_factor
-            * ti.cos(temporal_phase)
-            * ti.sin(spatial_phase)
+            * (
+                -ti.cos(temporal_phase) * phase_term  # oscillator phase
+                - ti.sin(temporal_phase) * quadrature_term  # oscillator quadrature
+            )
         )
         curr_disp = wave_field.psiL_am[i, j, k]
 
-        # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
-        wave_field.psiL_am[i, j, k] += (
-            amplitude_at_r_am
-            * boost
-            * wave_field.scale_factor
-            * ti.cos(temporal_phase - spatial_phase)
-        )
+        # # Amplitude falloff for spherical wave: A(r) = A₀/r
+        # # Clamp to r_min to avoid singularity at r = 0
+        # r_safe_am = ti.max(r_grid, wavelength_grid)
+        # amplitude_falloff = wavelength_grid / r_safe_am
+        # # Total amplitude at this distance (with visualization scaling)
+        # amplitude_at_r_am = base_amplitude_am * amplitude_falloff
+
+        # # Apply spherical wave oscillating displacements
+        # # Standing Wave: A·cos(ωt)·cos(kr)
+        # prev_disp = wave_field.psiL_am[i, j, k]
+        # wave_field.psiL_am[i, j, k] = (
+        #     base_amplitude_am
+        #     * boost
+        #     * wave_field.scale_factor
+        #     * ti.cos(temporal_phase)
+        #     * ti.sin(spatial_phase)
+        # )
+        # curr_disp = wave_field.psiL_am[i, j, k]
+
+        # # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
+        # wave_field.psiL_am[i, j, k] += (
+        #     amplitude_at_r_am
+        #     * boost
+        #     * wave_field.scale_factor
+        #     * ti.cos(temporal_phase - spatial_phase)
+        # )
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)

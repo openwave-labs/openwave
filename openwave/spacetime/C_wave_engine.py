@@ -784,7 +784,7 @@ def interact_wc1_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     boost = 1  # amplitude boost factor
@@ -824,7 +824,7 @@ def interact_wc2_pulse(wave_field: ti.template(), elapsed_t_rs):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
     wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     boost = 1  # amplitude boost factor
@@ -866,7 +866,7 @@ def wc1_standing(wave_field: ti.template(), elapsed_t_rs, sim_speed: ti.f32):  #
         elapsed_t_rs: Elapsed time in reduced seconds
         sim_speed: Simulation speed factor
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = int(wave_field.ewave_res * 1)  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     boost = 1.0  # amplitude boost factor
@@ -931,7 +931,7 @@ def wc2_standing(wave_field: ti.template(), elapsed_t_rs, sim_speed: ti.f32):  #
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
     wc_radius = int(wave_field.ewave_res * 1)  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     boost = 1.0  # amplitude boost factor
@@ -1014,7 +1014,7 @@ def interact_wc_spinUP(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignor
         wave_field: WaveField instance containing displacement arrays and grid info
         dt_rs: Time step size (rs) for velocity calculation
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
 
     # Angular frequency (scaled for simulation)
@@ -1101,7 +1101,7 @@ def interact_wc_spinUP2(wave_field: ti.template(), dt_rs: ti.f32):  # type: igno
         wave_field: WaveField instance containing displacement arrays and grid info
         dt_rs: Time step size (rs) for velocity calculation
     """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
     alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
 
     # Angular frequency (scaled for simulation)
@@ -1192,7 +1192,7 @@ def interact_wc_spinDOWN(wave_field: ti.template(), dt_rs: ti.f32):  # type: ign
         wave_field: WaveField instance containing displacement arrays and grid info
         dt_rs: Time step size (rs) for velocity calculation
     """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
     alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
 
     # Angular frequency (scaled for simulation)
@@ -1255,7 +1255,7 @@ def interact_wc_swap(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
 
     # Swap displacement at X axis
     left = wave_field.psiL_am[wc1x + 1, wc1y, wc1z]
@@ -1285,7 +1285,7 @@ def interact_wc_lens(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 1  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     l = 2  # lens amplification factor
@@ -1315,7 +1315,7 @@ def interact_wc_min(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     amplification = 2.0  # how much the WC amplifies local wave amplitude
 
     # Reference amplitude from wave field (the base amplitude used for charging)
@@ -1338,7 +1338,7 @@ def interact_wc_drain(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 8  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
@@ -1363,7 +1363,7 @@ def interact_wc_newmann(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 1  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
     wc_radius_inner_sq = (wc_radius - 1) ** 2
@@ -1395,7 +1395,7 @@ def interact_wc_dirichlet(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 8  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
@@ -1421,7 +1421,7 @@ def interact_wc_signal(wave_field: ti.template()):  # type: ignore
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
     """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
     wc_radius = 0  # radius in voxels
     wc_radius_sq = wc_radius**2  # radius² = 8² voxels (≈ λ/4 for λ=30dx)
 
