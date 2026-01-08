@@ -40,12 +40,3 @@ class WaveCenter:
                 int(sources_position[i][2] * grid_size[2]),
             ]
             self.offset[i] = sources_offset_rad[i]
-
-        # TODO: remove debug prints
-        print("Position grid shape:", self.position_grid.shape)
-        print(
-            "Position grid data:",
-            [self.position_grid[i] for i in range(self.num_sources)],
-        )
-        print("Phase offset shape:", self.offset.shape)
-        print("Phase offset data:", [self.offset[i] for i in range(self.num_sources)])
