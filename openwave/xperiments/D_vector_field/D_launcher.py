@@ -458,6 +458,24 @@ def compute_wave_motion(state):
         state.SIM_SPEED,
     )
 
+    # TODO: DEVELOP FUNDAMENTAL FORCE (FORCE & MOTION)
+    # get WC position, select neighboring voxels with influence radius
+    # compute energy per selected voxel (J)
+    # compute force (N) = - ∇E (J/m) from energy gradient vector around WC (energy curvature)
+    # compute acceleration (m/s²) = F / m (from WC mass)
+    # integrate acceleration to velocity and position (Verlet or simpler Euler integration?)
+
+    # Compute scalar Energy values per neighboring voxel (J)
+    # Compute the gradient descent of energy (∇E) around a particle and get a Force vector (F=-∇E) (N)
+    # With Force vector and particle mass in hands, it's easy to compute the Acceleration vector
+    # Report forces in original unscaled units by dividing by S⁴
+    # Then integrate new velocity and new position vectors = PARTICLE MOTION
+    # render particle @position (convert [ijk] >> [xyz_screen])
+    # REPEAT
+
+    # VISUALIZATION
+    # ring_lines, spray_particles, etc
+
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0:
