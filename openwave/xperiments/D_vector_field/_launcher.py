@@ -20,9 +20,9 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.D_medium as medium
-import openwave.spacetime.D_wave_engine as ewave
-import openwave.xperiments.D_vector_field._instrumentation as instrument
+import openwave.xperiments.D_vector_field.spacetime_medium as medium
+import openwave.xperiments.D_vector_field.spacetime_ewave as ewave
+import openwave.xperiments.D_vector_field.instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
