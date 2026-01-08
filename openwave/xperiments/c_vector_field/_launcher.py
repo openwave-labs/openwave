@@ -23,6 +23,7 @@ from openwave._io import flux_mesh, render, video
 import openwave.xperiments.c_vector_field.spacetime_medium as medium
 import openwave.xperiments.c_vector_field.spacetime_ewave as ewave
 import openwave.xperiments.c_vector_field.particle as particle
+import openwave.xperiments.c_vector_field.force_motion as force_motion
 import openwave.xperiments.c_vector_field.instrumentation as instrument
 
 # ================================================================
@@ -475,21 +476,6 @@ def compute_wave_motion(state):
         state.SIM_SPEED,
     )
 
-    # TODO: DEVELOP FUNDAMENTAL FORCE (FORCE & MOTION)
-    # get WC position, select neighboring voxels with influence radius
-    # compute energy per selected voxel (J)
-    # compute force (N) = - ∇E (J/m) from energy gradient vector around WC (energy curvature)
-    # compute acceleration (m/s²) = F / m (from WC mass)
-    # integrate acceleration to velocity and position (Verlet or simpler Euler integration?)
-
-    # Compute scalar Energy values per neighboring voxel (J)
-    # Compute the gradient descent of energy (∇E) around a particle and get a Force vector (F=-∇E) (N)
-    # With Force vector and particle mass in hands, it's easy to compute the Acceleration vector
-    # Report forces in original unscaled units by dividing by S⁴
-    # Then integrate new velocity and new position vectors = PARTICLE MOTION
-    # render particle @position (convert [ijk] >> [xyz_screen])
-    # REPEAT
-
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0:
@@ -514,6 +500,23 @@ def compute_wave_motion(state):
         )
         if state.frame == 500:
             instrument.plot_probe_wave_profile(state.wave_field)
+
+
+def compute_force_motion(state):
+    # TODO: FUNDAMENTAL FORCE
+    # get WC position, select neighboring voxels with influence radius
+    # compute scalar Energy values per neighboring voxel (J)
+    # compute force (N) = - ∇E (J/m) from energy gradient descent vector around WC (energy curvature)
+    # report forces in original unscaled units by dividing by S⁴ (consider scale_factor)
+    # update docstring
+
+    # TODO: PARTICLE MOTION
+    # compute acceleration (m/s²) = F / m (from WC mass: now attribute, later computed)
+    # integrate acceleration to velocity and position (Verlet or simpler Euler integration?)
+    # render particle @position (convert [ijk] >> [xyz_screen])
+
+    force_motion.compute_force_vector(state.wave_field, state.wave_center)
+    force_motion.compute_particle_motion(state.wave_field, state.wave_center)
 
 
 def render_elements(state):
@@ -626,6 +629,7 @@ def main():
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
+            compute_force_motion(state)
             state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
             state.frame += 1
 
