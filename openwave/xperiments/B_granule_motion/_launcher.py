@@ -18,9 +18,9 @@ import taichi as ti
 from openwave.common import colormap, constants
 from openwave._io import render, video
 
-import openwave.spacetime.B_medium as medium
-import openwave.spacetime.B_wave_engine as ewave
-import openwave.xperiments.B_granule_motion._instrumentation as instrument
+import openwave.xperiments.B_granule_motion.spacetime_medium as medium
+import openwave.xperiments.B_granule_motion.spacetime_ewave as ewave
+import openwave.xperiments.B_granule_motion.instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT

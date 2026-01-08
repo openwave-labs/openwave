@@ -23,7 +23,7 @@ except (ImportError, NotImplementedError):
 def get_experiments_list():
     """
     Get a list of available Xperiment launchers from the xperiments directory.
-    Each collection has exactly one *launcher.py file.
+    Each collection has exactly one _launcher.py file.
 
     Returns:
         list: List of tuples containing (display_name, file_path)
@@ -39,10 +39,10 @@ def get_experiments_list():
 
     experiments = []
 
-    # Find all *launcher.py files in collection subdirectories
-    for launcher_path in xperiments_dir.rglob("*launcher.py"):
+    # Find all _launcher.py files in collection subdirectories
+    for launcher_path in xperiments_dir.rglob("_launcher.py"):
         # Skip files in directories that start with underscore
-        if any(part.startswith("_") for part in launcher_path.parts):
+        if any(part.startswith("_") for part in launcher_path.parent.parts):
             continue
 
         # Get collection directory

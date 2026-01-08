@@ -2,7 +2,7 @@ import numpy as np
 
 from openwave.common import constants, equations
 
-import openwave.spacetime.B_medium as medium
+import openwave.xperiments.B_granule_motion.spacetime_medium as medium
 
 
 # From constants
