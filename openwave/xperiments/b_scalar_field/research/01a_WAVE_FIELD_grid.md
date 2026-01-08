@@ -237,7 +237,7 @@ for i, j, k in psiL_am:
 **Summary Table**:
 
 | Aspect | LEVEL-0 (1D Arrays) | LEVEL-1 (3D Arrays) |
-|--------|---------------------|---------------------|
+| ------ | ------------------- | ------------------- |
 | **Medium object** | Granule (moves) | Voxel (fixed) |
 | **Position** | Stored explicitly | Computed from index |
 | **Access pattern** | Iterate all particles | Spatial queries by position |
@@ -258,7 +258,7 @@ LEVEL-1 uses **scaled SI units** for both spatial and temporal values to maintai
 ### LEVEL-0 vs LEVEL-1 Comparison
 
 | Aspect | LEVEL-0 (Granule-Motion) | LEVEL-1 (Wave-Field) |
-|--------|------------------------|----------------------|
+| ------ | ------------------------ | -------------------- |
 | **Position Storage** | Stored in vector fields `pos_am[i] = [x, y, z]` | Computed from indices: `(i+0.5)*dx_am` |
 | **Memory Usage** | 3 floats per granule × millions | 1 scalar `dx_am` (shared) |
 | **Field Values** | psiL_am, velocity_am per granule | psiL_am per voxel |

@@ -9,7 +9,7 @@ LEVEL-1 is a wave-field based physics simulator that models Energy Wave Theory (
 ## Quick Reference
 
 | Aspect | LEVEL-0 (Granule-Motion) | LEVEL-1 (Wave-Field) |
-|--------|-------------------------|----------------------|
+| ------ | ------------------------ | -------------------- |
 | **Scale** | Planck-scale to λ | λ-scale to molecules |
 | **Medium** | 1M granules (particles) | 1B voxels (grid) |
 | **Wave Engine** | Phase-shifted oscillations | PDE wave equation |
@@ -573,7 +573,7 @@ Located in `support_material/`:
 ## Key Design Decisions Summary
 
 | Decision | Choice | Rationale |
-|----------|--------|-----------|
+| -------- | ------ | --------- |
 | **Grid type** | Cell-centered cubic | Industry standard, optimal for PDEs |
 | **Array indexing** | 3D `[nx,ny,nz]` | Natural for grid operations, not 1D |
 | **Asymmetric support** | Yes (nx≠ny≠nz) | Memory efficiency, follows LEVEL-0 design |
