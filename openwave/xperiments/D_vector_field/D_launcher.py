@@ -454,7 +454,7 @@ def compute_wave_motion(state):
         state.trackers,
         state.dt_rs,
         state.elapsed_t_rs,
-        2.0,
+        1.0,  # TODO: review boost application and xparameter
         state.SIM_SPEED,
     )
 

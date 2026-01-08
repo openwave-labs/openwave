@@ -109,7 +109,7 @@ def propagate_wave(
         curr_disp = wave_field.psiL_am[i, j, k]
 
         # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
-        wave_field.psiL_am[i, j, k] += (
+        wave_field.psiT_am[i, j, k] = (
             amplitude_at_r_am
             * boost
             * wave_field.scale_factor
