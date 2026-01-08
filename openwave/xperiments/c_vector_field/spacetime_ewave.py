@@ -162,16 +162,22 @@ def propagate_wave(
         # Longitudinal RMS amplitude
         disp2_L = wave_field.psiL_am[i, j, k] ** 2
         current_rms2_L = trackers.ampL_am[i, j, k] ** 2
-        alpha_rms_L = 0.005  # EMA smoothing factor for RMS tracking
+        alpha_rms_L = 0.05  # EMA smoothing factor for RMS tracking
         new_rms2_L = alpha_rms_L * disp2_L + (1.0 - alpha_rms_L) * current_rms2_L
-        trackers.ampL_am[i, j, k] = ti.sqrt(new_rms2_L)
+        new_ampL = ti.sqrt(new_rms2_L)
+        # Unconditional decay clears trails from moving sources
+        # Active regions counteract decay via EMA update from strong displacement
+        # Stale regions (waves propagated away) decay to zero over time
+        decay_factor = ti.cast(0.99, ti.f32)  # ~100 frames to ~37%, ~230 to ~10%
+        trackers.ampL_am[i, j, k] = new_ampL * decay_factor
 
         # Transverse RMS amplitude
         disp2_T = wave_field.psiT_am[i, j, k] ** 2
         current_rms2_T = trackers.ampT_am[i, j, k] ** 2
-        alpha_rms_T = 0.005  # EMA smoothing factor for RMS tracking
+        alpha_rms_T = 0.05  # EMA smoothing factor for RMS tracking
         new_rms2_T = alpha_rms_T * disp2_T + (1.0 - alpha_rms_T) * current_rms2_T
-        trackers.ampT_am[i, j, k] = ti.sqrt(new_rms2_T)
+        new_ampT = ti.sqrt(new_rms2_T)
+        trackers.ampT_am[i, j, k] = new_ampT * decay_factor
 
         # TODO: review new frequency tracking method
         # FREQUENCY tracking, via zero-crossing detection with EMA smoothing
@@ -185,11 +191,14 @@ def propagate_wave(
             if period_rs > dt_rs * 2:  # Filter out spurious crossings
                 measured_freq = 1.0 / period_rs  # in rHz
                 current_freq = trackers.freq_rHz[i, j, k]
-                alpha_freq = 0.05  # EMA smoothing factor for frequency
+                alpha_freq = 0.5  # EMA smoothing factor for frequency
                 trackers.freq_rHz[i, j, k] = (
                     alpha_freq * measured_freq + (1.0 - alpha_freq) * current_freq
                 )
             trackers.last_crossing[i, j, k] = elapsed_t_rs
+
+        # Unconditional frequency decay (counteracted by zero-crossing updates in active regions)
+        trackers.freq_rHz[i, j, k] *= decay_factor
 
     # TODO: Testing Wave Center Interaction with Energy Waves
     # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
