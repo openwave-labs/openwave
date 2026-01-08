@@ -69,13 +69,15 @@ def propagate_wave(
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
+    r_grid = 0.0  # initialize radial distance in grid indices
 
     # Temporal phase: φ = ω·t, oscillatory in time
     temporal_phase = omega_rs * elapsed_t_rs
+    source_offset = 0.0  # initialize phase offset for multiple wave centers
 
     # Source position (in grid indices)
-    wc1x, wc1y, wc1z = wave_field.nx * 2 // 3, wave_field.ny * 2 // 3, wave_field.nz // 2
-    wc2x, wc2y, wc2z = wave_field.nx * 3 // 4, wave_field.ny * 3 // 4, wave_field.nz // 2
+    wc1x, wc1y, wc1z = wave_field.nx * 4 // 8, wave_field.ny * 4 // 8, wave_field.nz // 2
+    wc2x, wc2y, wc2z = wave_field.nx * 6 // 8, wave_field.ny * 6 // 8, wave_field.nz // 2
 
     # ================================================================
     # WAVE PROPAGATION: Update voxels using wave functions
@@ -83,38 +85,45 @@ def propagate_wave(
     # Update all voxels
     for i, j, k in ti.ndrange(nx, ny, nz):
         prev_disp = wave_field.psiL_am[i, j, k]
+        wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
 
-        # Compute radial distance from wave source (in grid indices)
-        r_grid = ti.sqrt((i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2)
+        for wc in ti.ndrange(2):  # loop over wave centers
+            # Compute radial distance from wave source (in grid indices)
+            if wc == 0:
+                r_grid = ti.sqrt((i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2)
+                source_offset = 0.0  # no phase offset for WC1
+            else:
+                r_grid = ti.sqrt((i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2)
+                source_offset = ti.math.pi  # phase offset for WC2
 
-        # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
-        spatial_phase = k_grid * r_grid
+            # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
+            spatial_phase = k_grid * r_grid
 
-        # Combined and Adjusted LaFreniere-Wolff wave-equation form:
-        # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
-        # Phase term: sin(kr)/r → k as r→0 (physical units)
-        phase_term = ti.select(
-            r_grid < 0.5,  # threshold in grid units (catches center voxel only)
-            k_grid,  # analytical limit
-            ti.sin(spatial_phase) / r_grid,
-        )
-
-        # Quadrature term: (1-cos(kr))/r → 0 as r→0
-        quadrature_term = ti.select(
-            r_grid < 0.5,  # threshold in grid units (catches center voxel only)
-            0.0,  # analytical limit
-            (1 - ti.cos(spatial_phase)) / r_grid,
-        )
-
-        wave_field.psiL_am[i, j, k] = (
-            base_amplitude_am
-            * boost
-            * wave_field.scale_factor
-            * (
-                -ti.cos(temporal_phase) * phase_term  # oscillator phase
-                - ti.sin(temporal_phase) * quadrature_term  # oscillator quadrature
+            # Combined and Adjusted LaFreniere-Wolff wave-equation form:
+            # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
+            # Phase term: sin(kr)/r → k as r→0 (physical units)
+            phase_term = ti.select(
+                r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+                k_grid,  # analytical limit
+                ti.sin(spatial_phase) / r_grid,
             )
-        )
+
+            # Quadrature term: (1-cos(kr))/r → 0 as r→0
+            quadrature_term = ti.select(
+                r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+                0.0,  # analytical limit
+                (1 - ti.cos(spatial_phase)) / r_grid,
+            )
+
+            oscillator = (
+                -ti.cos(temporal_phase + source_offset) * phase_term
+                - ti.sin(temporal_phase + source_offset) * quadrature_term
+            )
+
+            wave_field.psiL_am[i, j, k] += (
+                base_amplitude_am * boost * wave_field.scale_factor * oscillator
+            )
+
         curr_disp = wave_field.psiL_am[i, j, k]
 
         # # Amplitude falloff for spherical wave: A(r) = A₀/r
