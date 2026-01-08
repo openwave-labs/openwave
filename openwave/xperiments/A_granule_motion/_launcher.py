@@ -117,7 +117,7 @@ class SimulationState:
         self.TARGET_GRANULES = 1e6
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
-        self.SOURCES_PHASE_DEG = []
+        self.SOURCES_OFFSET_DEG = []
         self.IN_WAVE_TOGGLE = 1
         self.OUT_WAVE_TOGGLE = 1
 
@@ -164,7 +164,7 @@ class SimulationState:
         sources = params["wave_sources"]
         self.NUM_SOURCES = sources["COUNT"]
         self.SOURCES_POSITION = sources["POSITION"]
-        self.SOURCES_PHASE_DEG = sources["PHASE_OFFSETS_DEG"]
+        self.SOURCES_OFFSET_DEG = sources["PHASE_OFFSETS_DEG"]
         self.IN_WAVE_TOGGLE = sources["IN_WAVE_TOGGLE"]
         self.OUT_WAVE_TOGGLE = sources["OUT_WAVE_TOGGLE"]
 
@@ -349,7 +349,7 @@ def initialize_xperiment(state):
 
     # Initialize wave sources
     ewave.build_source_vectors(
-        state.SOURCES_POSITION, state.SOURCES_PHASE_DEG, state.NUM_SOURCES, state.lattice
+        state.SOURCES_POSITION, state.SOURCES_OFFSET_DEG, state.NUM_SOURCES, state.lattice
     )
 
     if state.INSTRUMENTATION:

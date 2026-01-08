@@ -45,7 +45,7 @@ sources_center_am = None  # geometric center of all wave sources (attometers)
 # ================================================================
 
 
-def build_source_vectors(sources_position, sources_phase_deg, num_sources, lattice):
+def build_source_vectors(sources_position, sources_offset_deg, num_sources, lattice):
     """Precompute distance & direction vectors from all granules to multiple wave sources.
 
     This function is called once during initialization. It computes the geometric
@@ -59,7 +59,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     Args:
         sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source.
             Uses Z-up coordinate system: X=horizontal, Y=depth, Z=vertical.
-        sources_phase_deg: List of phase offsets (degrees) for each wave source
+        sources_offset_deg: List of phase offsets (degrees) for each wave source
         num_sources: Number of wave sources
         lattice: BCCLattice instance with granule positions and universe parameters
     """
@@ -68,7 +68,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     global last_amp_boost, last_in_wave_toggle, last_out_wave_toggle
 
     # Convert phase from degrees to radians
-    sources_phase_rad = [deg * ti.math.pi / 180 for deg in sources_phase_deg]
+    sources_offset_rad = [deg * ti.math.pi / 180 for deg in sources_offset_deg]
 
     # Allocate Taichi fields for all granules and all wave sources
     # Shape: (granules, sources) allows parallel access in oscillate_granules kernel
@@ -106,7 +106,7 @@ def build_source_vectors(sources_position, sources_phase_deg, num_sources, latti
     # Copy source data to Taichi fields
     for i in range(num_sources):
         sources_pos_field[i] = ti.Vector(sources_position[i])
-        sources_phase_offset[i] = sources_phase_rad[i]
+        sources_phase_offset[i] = sources_offset_rad[i]
 
     @ti.kernel
     def compute_vectors(num_active: ti.i32):  # type: ignore
