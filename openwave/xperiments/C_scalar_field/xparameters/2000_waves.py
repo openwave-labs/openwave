@@ -5,8 +5,8 @@ This XPERIMENT showcases:
 -
 """
 
-UNIVERSE_EDGE = 5.7e-14  # m, universe edge length in meters
-TARGET_VOXELS = 175_000_000  # Target voxel count
+UNIVERSE_EDGE = 5.8e-14  # m, universe edge length in meters
+TARGET_VOXELS = 150_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
@@ -14,14 +14,10 @@ XPARAMETERS = {
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [0.27, 1.62, 0.90],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "SIZE": [
-            UNIVERSE_EDGE,
-            UNIVERSE_EDGE,
-            UNIVERSE_EDGE / 4,
-        ],  # m, simulation domain [x, y, z]
+        "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
     "charging": {

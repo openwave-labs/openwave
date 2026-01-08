@@ -6,7 +6,7 @@ This XPERIMENT showcases:
 """
 
 UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
-TARGET_VOXELS = 100_000_000  # Target voxel count
+TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {

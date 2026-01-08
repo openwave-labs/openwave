@@ -5,19 +5,23 @@ This XPERIMENT showcases:
 -
 """
 
-UNIVERSE_EDGE = 6e-15  # m, universe edge length in meters
-TARGET_VOXELS = 200_000_000  # Target voxel count
+UNIVERSE_EDGE = 1e-14  # m, universe edge length in meters
+TARGET_VOXELS = 175_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"Stress Test: {TARGET_VOXELS/1e6:.0f}M voxels",
+        "X_NAME": f"Max Test: {TARGET_VOXELS/1e6:.0f}M voxels",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
         "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
     },
     "universe": {
-        "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
+        "SIZE": [
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE,
+            UNIVERSE_EDGE / 4,
+        ],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
     "charging": {
@@ -30,7 +34,7 @@ XPARAMETERS = {
         "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "WARP_MESH": False,  # Toggle to enable/disable warp mesh effect
+        "WARP_MESH": True,  # Toggle to enable/disable warp mesh effect
         "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
