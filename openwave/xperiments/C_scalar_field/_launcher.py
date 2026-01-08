@@ -20,9 +20,9 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave._io import flux_mesh, render, video
 
-import openwave.spacetime.C_medium as medium
-import openwave.spacetime.C_wave_engine as ewave
-import openwave.xperiments.C_scalar_field._instrumentation as instrument
+import openwave.xperiments.C_scalar_field.spacetime_medium as medium
+import openwave.xperiments.C_scalar_field.spacetime_ewave as ewave
+import openwave.xperiments.C_scalar_field.instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -248,7 +248,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER (E)", 0.00, 0.00, 0.14, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.33) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -325,7 +325,7 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.LIGHT_BLUE[1])
-    with render.gui.sub_window("SCALAR-FIELD METHOD (E)", 0.84, 0.01, 0.16, 0.12) as sub:
+    with render.gui.sub_window("SCALAR-FIELD METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
         sub.text("Coupling: Laplacian Operator")
         sub.text("Propagation: Wave Equation (PDE)")
         sub.text("Boundary: Dirichlet Condition")
