@@ -24,9 +24,6 @@ XPARAMETERS = {
         ],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
-    "charging": {
-        "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
-    },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference

@@ -127,7 +127,6 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
-        self.STATIC_BOOST = 1.0
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -161,10 +160,6 @@ class SimulationState:
         universe = params["universe"]
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
-
-        # Charging
-        charging = params["charging"]
-        self.STATIC_BOOST = charging["STATIC_BOOST"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -454,7 +449,7 @@ def compute_wave_motion(state):
         state.trackers,
         state.dt_rs,
         state.elapsed_t_rs,
-        1.0,  # TODO: review boost application and xparameter
+        1.0,  # TODO: review boost application
         state.SIM_SPEED,
     )
 
