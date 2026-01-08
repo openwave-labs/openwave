@@ -45,7 +45,7 @@ sources_center_am = None  # geometric center of all wave sources (attometers)
 # ================================================================
 
 
-def build_source_vectors(sources_position, sources_offset_deg, num_sources, lattice):
+def build_source_vectors(num_sources, sources_position, sources_offset_deg, lattice):
     """Precompute distance & direction vectors from all granules to multiple wave sources.
 
     This function is called once during initialization. It computes the geometric
@@ -57,10 +57,10 @@ def build_source_vectors(sources_position, sources_offset_deg, num_sources, latt
     This function handles arbitrary source positions that may change between xperiments.
 
     Args:
+        num_sources: Number of wave sources
         sources_position: List of [x,y,z] coordinates (normalized 0-1) for each wave source.
             Uses Z-up coordinate system: X=horizontal, Y=depth, Z=vertical.
         sources_offset_deg: List of phase offsets (degrees) for each wave source
-        num_sources: Number of wave sources
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_offset, sources_pos_field

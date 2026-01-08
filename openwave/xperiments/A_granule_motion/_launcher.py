@@ -349,7 +349,7 @@ def initialize_xperiment(state):
 
     # Initialize wave sources
     ewave.build_source_vectors(
-        state.SOURCES_POSITION, state.SOURCES_OFFSET_DEG, state.NUM_SOURCES, state.lattice
+        state.NUM_SOURCES, state.SOURCES_POSITION, state.SOURCES_OFFSET_DEG, state.lattice
     )
 
     if state.INSTRUMENTATION:
