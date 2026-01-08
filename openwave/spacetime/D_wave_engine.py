@@ -87,7 +87,7 @@ def propagate_wave(
         prev_disp = wave_field.psiL_am[i, j, k]
         wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
 
-        for wc in ti.ndrange(2):  # loop over wave centers
+        for wc in ti.ndrange(2):  # loop over wave centers (wave superposition principle)
             # Compute radial distance from wave source (in grid indices)
             if wc == 0:
                 r_grid = ti.sqrt((i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2)
@@ -99,7 +99,7 @@ def propagate_wave(
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid
 
-            # Combined and Adjusted LaFreniere-Wolff wave-equation form:
+            # Combined and Adjusted Wolff-LaFreniere wave-equation form:
             # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
             # Phase term: sin(kr)/r → k as r→0 (physical units)
             phase_term = ti.select(

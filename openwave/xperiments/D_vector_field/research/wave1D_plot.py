@@ -299,7 +299,7 @@ def compute_wave_LaFreniere(
     return psi_am
 
 
-def compute_wave_LaFreniereWolff(
+def compute_wave_WolffLaFreniere(
     radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
     """LaFreniere wave with Wolff's 1/r normalization.
@@ -328,7 +328,7 @@ def compute_wave_LaFreniereWolff(
     return psi_am
 
 
-def compute_wave_LaFreniereWolff_old(
+def compute_wave_WolffLaFreniere_old(
     radius_am: np.ndarray, t_rs: float = 0.0, direction: int = 1, source: int = 1
 ) -> np.ndarray:
 
@@ -594,7 +594,7 @@ PLOT_CONFIGS0 = [  # 1 WC: wolff & lafreniere
     },
 ]
 
-PLOT_CONFIGS = [  # 1 WC: lafreniere-wolff
+PLOT_CONFIGS = [  # 1 WC: wolff-lafreniere
     {
         "func": "lafreniere",
         "direction": -1,
@@ -604,12 +604,12 @@ PLOT_CONFIGS = [  # 1 WC: lafreniere-wolff
         "label": "lafreniere",
     },
     {
-        "func": "lafreniere-wolff",
+        "func": "wolff-lafreniere",
         "direction": -1,
         "source": 1,  # WC1
         "ylim": (-0.25, 0.25),
         "height_ratio": 1,
-        "label": "lafreniere-wolff",
+        "label": "wolff-lafreniere",
     },
 ]
 
@@ -754,7 +754,7 @@ WAVE_FUNCTIONS = {
     "ampfalloff": compute_wave_ampfalloff,
     "wolff": compute_wave_Wolff,
     "lafreniere": compute_wave_LaFreniere,
-    "lafreniere-wolff": compute_wave_LaFreniereWolff,
+    "wolff-lafreniere": compute_wave_WolffLaFreniere,
     "lafreniere1": compute_wave_LaFreniere1,
     "lafreniere2": compute_wave_LaFreniere2,
     "lafreniere3": compute_wave_LaFreniere3,
