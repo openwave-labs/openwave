@@ -58,7 +58,7 @@ XPARAMETERS = {
         "COUNT": NUM_SOURCES,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
-        "POSITIONS": SOURCES_POSITION,
+        "POSITION": SOURCES_POSITION,
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Allows creating constructive/destructive interference patterns
         # Common patterns: 0° = in phase, 180° = opposite phase, 90° = quarter-cycle offset

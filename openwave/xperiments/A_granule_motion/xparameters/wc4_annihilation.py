@@ -15,7 +15,7 @@ XPARAMETERS = {
         "DESCRIPTION": "2 sources in linear pattern demonstrating wave superposition",
     },
     "camera": {
-        "INITIAL_POSITION": [0.44, 0.94, 1.22],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [0.46, 0.76, 0.75],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [5e-16, 5e-16, 5e-16 * Z_POSITION],  # m, simulation domain [x, y, z]
@@ -25,7 +25,7 @@ XPARAMETERS = {
         "COUNT": 2,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Arranged in equilateral triangle for symmetric interference pattern
-        "POSITIONS": [
+        "POSITION": [
             [0.5, 0.50, Z_POSITION],  # left
             [0.5, 0.50, Z_POSITION],  # right
         ],
@@ -47,7 +47,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 3,  # default (99), granule-type (0), ironbow (3), orange (6)
+        "COLOR_PALETTE": 0,  # default (99), granule-type (0), ironbow (3), orange (6)
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data collection (speed & wavelength measurements)

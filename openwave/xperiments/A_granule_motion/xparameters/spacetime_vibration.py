@@ -27,7 +27,7 @@ XPARAMETERS = {
         "COUNT": 9,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Each row represents [x, y, z] coordinates for one source (Z-up coordinate system)
-        "POSITIONS": [
+        "POSITION": [
             [0.5, 0.5, 0.5],  # Wave Source 0 - Center
             [0.0, 1.0, 1.0],  # Wave Source 1 - Back-top-left corner
             [1.0, 0.0, 1.0],  # Wave Source 2 - Front-top-right corner

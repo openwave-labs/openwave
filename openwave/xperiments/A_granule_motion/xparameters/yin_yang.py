@@ -57,7 +57,7 @@ XPARAMETERS = {
         "COUNT": NUM_SOURCES,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Arranged in golden ratio spiral for Yin-Yang pattern
-        "POSITIONS": SOURCES_POSITION,
+        "POSITION": SOURCES_POSITION,
         # Phase offsets for each source (integer degrees, converted to radians internally)
         # Progressive 30° increments create spiral wave interference pattern
         "PHASE_OFFSETS_DEG": SOURCES_PHASE_DEG,

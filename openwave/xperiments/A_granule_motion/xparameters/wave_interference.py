@@ -35,7 +35,7 @@ XPARAMETERS = {
         "COUNT": 3,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Arranged in equilateral triangle for symmetric interference pattern
-        "POSITIONS": [
+        "POSITION": [
             [CENTER, CENTER - HEIGHT / 2, Z_POSITION],  # center
             [CENTER - BASE / 2, CENTER + HEIGHT / 2, Z_POSITION],  # right
             [CENTER + BASE / 2, CENTER + HEIGHT / 2, Z_POSITION],  # left

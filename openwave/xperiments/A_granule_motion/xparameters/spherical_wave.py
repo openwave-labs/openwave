@@ -27,7 +27,7 @@ XPARAMETERS = {
         "COUNT": 1,  # Number of wave sources for this xperiment
         # Wave Source positions: normalized coordinates (0-1 range, relative to max universe edge)
         # Single source at center for pure spherical wave propagation
-        "POSITIONS": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
+        "POSITION": [[0.5, 0.5, 0.5]],  # Wave Source position - Center
         # Phase offset in degrees (0° = in phase with base frequency)
         "PHASE_OFFSETS_DEG": [0],
         "IN_WAVE_TOGGLE": 0,  # 1 = enable in_wave, 0 = disable in_wave

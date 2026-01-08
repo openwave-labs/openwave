@@ -163,7 +163,7 @@ class SimulationState:
         # Wave sources
         sources = params["wave_sources"]
         self.NUM_SOURCES = sources["COUNT"]
-        self.SOURCES_POSITION = sources["POSITIONS"]
+        self.SOURCES_POSITION = sources["POSITION"]
         self.SOURCES_PHASE_DEG = sources["PHASE_OFFSETS_DEG"]
         self.IN_WAVE_TOGGLE = sources["IN_WAVE_TOGGLE"]
         self.OUT_WAVE_TOGGLE = sources["OUT_WAVE_TOGGLE"]
