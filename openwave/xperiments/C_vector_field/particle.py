@@ -25,6 +25,7 @@ class WaveCenter:
 
         # Initialize Taichi fields for kernel access, converted from Python lists
         self.position_grid = ti.Vector.field(3, dtype=ti.i32, shape=num_sources)  # grid indices
+        # TODO: review velocity units
         self.velocity_gridrs = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)  # indices/rs
         self.offset = ti.field(dtype=ti.f32, shape=num_sources)
 
@@ -40,6 +41,7 @@ class WaveCenter:
             ]
             self.offset[i] = sources_offset_rad[i]
 
+        # TODO: remove debug prints
         print("Position grid shape:", self.position_grid.shape)
         print(
             "Position grid data:",

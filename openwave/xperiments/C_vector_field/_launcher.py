@@ -140,6 +140,7 @@ class SimulationState:
         self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
         self.SHOW_FLUX_MESH = 0
         self.WARP_MESH = False
+        self.PARTICLE_SHELL = False
         self.SIM_SPEED = 1.0
         self.PAUSED = False
 
@@ -180,6 +181,7 @@ class SimulationState:
         self.FLUX_MESH_PLANES = ui["FLUX_MESH_PLANES"]
         self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
         self.WARP_MESH = ui["WARP_MESH"]
+        self.PARTICLE_SHELL = ui["PARTICLE_SHELL"]
         self.SIM_SPEED = ui["SIM_SPEED"]
         self.PAUSED = ui["PAUSED"]
 
@@ -278,12 +280,13 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.25) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.27) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
+        state.PARTICLE_SHELL = sub.checkbox("Particle Shell", state.PARTICLE_SHELL)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.1, 1.0)
         if state.PAUSED:
             if sub.button("Propagate eWave"):
@@ -487,9 +490,6 @@ def compute_wave_motion(state):
     # render particle @position (convert [ijk] >> [xyz_screen])
     # REPEAT
 
-    # VISUALIZATION
-    # ring_lines, spray_particles, etc
-
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
     if state.frame % 60 == 0:
@@ -533,14 +533,33 @@ def render_elements(state):
         )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
 
-    # TODO: remove test particles for visual reference
-    # position0 = np.array([[0.5, 0.5, 0.125]], dtype=np.float32)
-    # radius_electron = constants.ELECTRON_RADIUS / state.wave_field.max_universe_edge
-    # render.scene.particles(position0, radius=radius_electron, color=colormap.COLOR_PARTICLE[1])
-    # position1 = np.array([[0.5, 0.5, 0.5]], dtype=np.float32)
-    # render.scene.particles(position1, radius=0.01, color=colormap.COLOR_PARTICLE[1])
-    # position2 = np.array([[0.5, 0.7, 0.5]], dtype=np.float32)
-    # render.scene.particles(position2, radius=0.01, color=colormap.COLOR_ANTI[1])
+    if state.PARTICLE_SHELL:
+        # Convert wave-centers positions from [ijk] to [screen_normalization]
+        for wc_idx in range(state.wave_center.num_sources):
+            wc_pos_screen = ti.Vector(
+                [
+                    state.wave_center.position_grid[wc_idx][0] / state.wave_field.nx,
+                    state.wave_center.position_grid[wc_idx][1] / state.wave_field.ny,
+                    state.wave_center.position_grid[wc_idx][2] / state.wave_field.nz,
+                ],
+                dt=ti.f32,
+            )
+            position = np.array(
+                [[wc_pos_screen[0], wc_pos_screen[1], wc_pos_screen[2]]], dtype=np.float32
+            )
+            radius = (
+                constants.EWAVE_LENGTH
+                / state.wave_field.max_universe_edge
+                * state.wave_field.scale_factor
+                * 0.66  # adjusted for taichi particle rendering perspective projection
+            )
+            color = (
+                colormap.COLOR_PARTICLE[1]
+                if state.SOURCES_OFFSET_DEG[wc_idx] == 0
+                else colormap.COLOR_ANTI[1]
+            )
+            # Render particle shell at wave-center position
+            render.scene.particles(position, radius, color=color)
 
 
 # ================================================================

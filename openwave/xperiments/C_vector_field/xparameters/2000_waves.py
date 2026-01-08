@@ -38,6 +38,7 @@ XPARAMETERS = {
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "WARP_MESH": True,  # Toggle to enable/disable warp mesh effect
+        "PARTICLE_SHELL": False,  # Toggle to enable/disable particle shell rendering
         "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },

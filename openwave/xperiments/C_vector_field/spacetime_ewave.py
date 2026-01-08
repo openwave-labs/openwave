@@ -83,17 +83,16 @@ def propagate_wave(
         wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
 
         # loop over wave-centers (wave superposition principle)
-        for wc in ti.ndrange(wave_center.num_sources):
+        for wc_idx in ti.ndrange(wave_center.num_sources):
             # Compute radial distance from wave source (in grid indices)
             r_grid = ti.sqrt(
-                (i - wave_center.position_grid[wc][0]) ** 2
-                + (j - wave_center.position_grid[wc][1]) ** 2
-                + (k - wave_center.position_grid[wc][2]) ** 2
+                (i - wave_center.position_grid[wc_idx][0]) ** 2
+                + (j - wave_center.position_grid[wc_idx][1]) ** 2
+                + (k - wave_center.position_grid[wc_idx][2]) ** 2
             )
 
             # Cache source-specific phase offset
-            source_offset = wave_center.offset[wc]
-
+            source_offset = wave_center.offset[wc_idx]
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid
 
