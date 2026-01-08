@@ -9,6 +9,7 @@ import argparse
 import os
 import sys
 import subprocess
+import webbrowser
 from pathlib import Path
 
 # Conditional import for simple_term_menu (not available on Windows)
@@ -18,6 +19,10 @@ try:
     HAS_INTERACTIVE_MENU = True
 except (ImportError, NotImplementedError):
     HAS_INTERACTIVE_MENU = False
+
+# Hardcoded welcome entry
+WELCOME_URL = "https://github.com/openwave-labs/openwave/blob/main/WELCOME.md"
+WELCOME_ENTRY = ("README FIRST: WELCOME TO OPENWAVE XPERIMENTS", WELCOME_URL)
 
 
 def get_experiments_list():
@@ -76,16 +81,16 @@ def get_experiments_list():
         # Fallback to formatted collection name
         if not display_name:
             display_name = (
-                collection_name.replace("__", ": ")
-                .replace("_", " ")
-                .replace("-", " ")
-                .title()
+                collection_name.replace("__", ": ").replace("_", " ").replace("-", " ").title()
             )
 
         experiments.append((display_name, str(launcher_path)))
 
     # Sort by display name (which starts with A/, B/, C/ etc.)
     experiments.sort(key=lambda x: x[0])
+
+    # Insert hardcoded welcome entry at the beginning
+    experiments.insert(0, WELCOME_ENTRY)
 
     return experiments
 
@@ -99,7 +104,7 @@ def show_menu_simple(experiments):
         experiments: List of tuples containing (display_name, file_path)
 
     Returns:
-        str: Path to the selected xperiment file
+        tuple: (display_name, file_path) of the selected xperiment
     """
     # Get version from source (works with editable installs)
     try:
@@ -133,7 +138,7 @@ def show_menu_simple(experiments):
                 sys.exit(0)
 
             if 1 <= choice_num <= len(experiments):
-                return experiments[choice_num - 1][1]
+                return experiments[choice_num - 1]
             else:
                 print(
                     f"Invalid choice. Please enter a number between 1 and {len(experiments) + 1}"
@@ -154,7 +159,7 @@ def show_menu_interactive(experiments):
         experiments: List of tuples containing (display_name, file_path)
 
     Returns:
-        str: Path to the selected xperiment file
+        tuple: (display_name, file_path) of the selected xperiment
     """
     if not HAS_INTERACTIVE_MENU:
         # Fallback to simple menu if interactive menu not available
@@ -202,21 +207,32 @@ def show_menu_interactive(experiments):
         print("Exiting...")
         sys.exit(0)
 
-    return experiments[choice_idx][1]
+    return experiments[choice_idx]
 
 
-def run_experiment(file_path):
+def run_experiment(display_name, file_path):
     """
-    Run the selected Xperiment file.
+    Run the selected Xperiment file or open a URL.
 
     Args:
-        file_path: Path to the xperiment Python file
+        display_name: Display name of the xperiment
+        file_path: Path to the xperiment Python file, or a URL
 
     Returns:
         int: The return code from the experiment process
     """
+    # Handle welcome URL specially
+    if file_path == WELCOME_URL:
+        print(f"\n{'=' * 64}")
+        print("Opening welcome in your default browser...")
+        print(f"{'=' * 64}\n")
+        webbrowser.open(WELCOME_URL)
+        print("Done!")
+        return 0
+
     print(f"\n{'=' * 64}")
-    print(f"Running XPERIMENT: {Path(file_path).stem}")
+    print(f"Running XPERIMENT:")
+    print(f"{display_name}")
     print(f"{'=' * 64}\n")
 
     try:
@@ -249,10 +265,10 @@ def main():
         sys.exit(1)
 
     # Show interactive menu and get user selection
-    selected_file = show_menu_interactive(experiments)
+    display_name, file_path = show_menu_interactive(experiments)
 
     # Run the selected xperiment
-    returncode = run_experiment(selected_file)
+    returncode = run_experiment(display_name, file_path)
 
     # Exit after xperiment closes
     print(f"\n{'=' * 64}")
