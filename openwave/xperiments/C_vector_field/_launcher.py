@@ -22,6 +22,7 @@ from openwave._io import flux_mesh, render, video
 
 import openwave.xperiments.C_vector_field.spacetime_medium as medium
 import openwave.xperiments.C_vector_field.spacetime_ewave as ewave
+import openwave.xperiments.C_vector_field.particle as particle
 import openwave.xperiments.C_vector_field.instrumentation as instrument
 
 # ================================================================
@@ -127,6 +128,9 @@ class SimulationState:
         self.CAM_INIT = [2.00, 1.50, 1.75]
         self.UNIVERSE_SIZE = []
         self.TARGET_VOXELS = 1e8
+        self.NUM_SOURCES = 1
+        self.SOURCES_POSITION = []
+        self.SOURCES_OFFSET_DEG = []
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -161,6 +165,12 @@ class SimulationState:
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
 
+        # Wave sources
+        sources = params["wave_centers"]
+        self.NUM_SOURCES = sources["COUNT"]
+        self.SOURCES_POSITION = sources["POSITION"]
+        self.SOURCES_OFFSET_DEG = sources["PHASE_OFFSETS_DEG"]
+
         # UI defaults
         ui = params["ui_defaults"]
         self.SHOW_AXIS = ui["SHOW_AXIS"]
@@ -185,11 +195,19 @@ class SimulationState:
         self.VIDEO_FRAMES = diag["VIDEO_FRAMES"]
 
     def initialize_grid(self):
-        """Initialize or reinitialize the wave-field grid."""
+        """Initialize or reinitialize the wave-field grid and wave-centers."""
         self.wave_field = medium.WaveField(
             self.UNIVERSE_SIZE, self.TARGET_VOXELS, self.FLUX_MESH_PLANES
         )
         self.trackers = medium.Trackers(self.wave_field.grid_size, self.wave_field.scale_factor)
+
+        # Initialize wave-centers
+        self.wave_center = particle.WaveCenter(
+            self.wave_field.grid_size,
+            self.NUM_SOURCES,
+            self.SOURCES_POSITION,
+            self.SOURCES_OFFSET_DEG,
+        )
 
     def compute_timestep(self):
         """Compute timestep from CFL stability condition.
@@ -447,6 +465,7 @@ def compute_wave_motion(state):
     ewave.propagate_wave(
         state.wave_field,
         state.trackers,
+        state.wave_center,
         state.dt_rs,
         state.elapsed_t_rs,
         1.0,  # TODO: review boost application

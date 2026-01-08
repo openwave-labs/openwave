@@ -31,6 +31,7 @@ rho = constants.MEDIUM_DENSITY  # medium density for Gaussian energy calc (kg/m�
 def propagate_wave(
     wave_field: ti.template(),  # type: ignore
     trackers: ti.template(),  # type: ignore
+    wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
     boost: ti.f32,  # type: ignore
@@ -69,15 +70,9 @@ def propagate_wave(
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
     wavelength_grid = base_wavelength * wave_field.scale_factor / wave_field.dx
     k_grid = 2.0 * ti.math.pi / wavelength_grid  # radians per grid index
-    r_grid = 0.0  # initialize radial distance in grid indices
 
     # Temporal phase: φ = ω·t, oscillatory in time
     temporal_phase = omega_rs * elapsed_t_rs
-    source_offset = 0.0  # initialize phase offset for multiple wave centers
-
-    # Source position (in grid indices)
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 8, wave_field.ny * 4 // 8, wave_field.nz // 2
-    wc2x, wc2y, wc2z = wave_field.nx * 6 // 8, wave_field.ny * 6 // 8, wave_field.nz // 2
 
     # ================================================================
     # WAVE PROPAGATION: Update voxels using wave functions
@@ -87,14 +82,17 @@ def propagate_wave(
         prev_disp = wave_field.psiL_am[i, j, k]
         wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
 
-        for wc in ti.ndrange(2):  # loop over wave centers (wave superposition principle)
+        # loop over wave-centers (wave superposition principle)
+        for wc in ti.ndrange(wave_center.num_sources):
             # Compute radial distance from wave source (in grid indices)
-            if wc == 0:
-                r_grid = ti.sqrt((i - wc1x) ** 2 + (j - wc1y) ** 2 + (k - wc1z) ** 2)
-                source_offset = 0.0  # no phase offset for WC1
-            else:
-                r_grid = ti.sqrt((i - wc2x) ** 2 + (j - wc2y) ** 2 + (k - wc2z) ** 2)
-                source_offset = ti.math.pi  # phase offset for WC2
+            r_grid = ti.sqrt(
+                (i - wave_center.position_grid[wc][0]) ** 2
+                + (j - wave_center.position_grid[wc][1]) ** 2
+                + (k - wave_center.position_grid[wc][2]) ** 2
+            )
+
+            # Cache source-specific phase offset
+            source_offset = wave_center.offset[wc]
 
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid

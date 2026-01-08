@@ -20,8 +20,15 @@ XPARAMETERS = {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
-    "charging": {
-        "STATIC_BOOST": 1.00,  # One-Time charger amplitude boost multiplier
+    "wave_centers": {
+        "COUNT": 2,  # Number of wave-centers for this xperiment
+        # Wave-Center positions: normalized coordinates (0-1 range, relative to max universe edge)
+        "POSITION": [
+            [0.25, 0.50, 0.50],
+            [0.75, 0.50, 0.50],
+        ],
+        # Phase offsets for each wave-center (integer degrees, converted to radians internally)
+        "PHASE_OFFSETS_DEG": [0, 180],
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines

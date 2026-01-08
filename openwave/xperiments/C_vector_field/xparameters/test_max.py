@@ -24,6 +24,15 @@ XPARAMETERS = {
         ],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
+    "wave_centers": {
+        "COUNT": 1,  # Number of wave-centers for this xperiment
+        # Wave-Center positions: normalized coordinates (0-1 range, relative to max universe edge)
+        "POSITION": [
+            [0.50, 0.50, 0.50],
+        ],
+        # Phase offsets for each wave-center (integer degrees, converted to radians internally)
+        "PHASE_OFFSETS_DEG": [0],
+    },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
