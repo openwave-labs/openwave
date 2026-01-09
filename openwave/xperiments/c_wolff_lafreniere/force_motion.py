@@ -436,59 +436,76 @@ def detect_annihilation(
 
     This ensures annihilation is permanent - no wave reappearance from micro-motion.
 
+    Checks all pairs of WCs - only annihilates pairs with opposite phases (~180° apart).
+
     Args:
         wave_center: WaveCenter instance with position/velocity fields
         annihilation_threshold: Distance in grid units to trigger annihilation (typically 1.0)
     """
-    # Only check for 2 WC case (particle-antiparticle annihilation)
-    # Use ti.static for compile-time check (avoids runtime return issue)
-    if ti.static(wave_center.num_sources == 2):
-        # Calculate distance between WCs (in grid units)
-        dx = wave_center.position_float[0][0] - wave_center.position_float[1][0]
-        dy = wave_center.position_float[0][1] - wave_center.position_float[1][1]
-        dz = wave_center.position_float[0][2] - wave_center.position_float[1][2]
-        distance = ti.sqrt(dx * dx + dy * dy + dz * dz)
+    # Phase threshold for opposite phases: |phase_diff - π| < tolerance
+    # Using ~10° tolerance (0.17 rad) for numerical stability
+    phase_tolerance = ti.cast(0.17, ti.f32)
+    pi = ti.cast(3.14159265359, ti.f32)
 
-        # Check if WCs are within annihilation threshold
-        if distance < annihilation_threshold:
-            # Snap both WCs to their midpoint (exact same position)
-            mid_x = (wave_center.position_float[0][0] + wave_center.position_float[1][0]) / 2.0
-            mid_y = (wave_center.position_float[0][1] + wave_center.position_float[1][1]) / 2.0
-            mid_z = (wave_center.position_float[0][2] + wave_center.position_float[1][2]) / 2.0
+    # Check all pairs (i, j) where i < j
+    for i in range(wave_center.num_sources):
+        for j in range(i + 1, wave_center.num_sources):
+            # Skip if either WC is already inactive
+            if wave_center.active[i] == 0 or wave_center.active[j] == 0:
+                continue
 
-            # Round to exact grid position (integer) to ensure perfect alignment
-            # This is critical - floating point midpoints can still cause drift
-            mid_x_int = ti.round(mid_x)
-            mid_y_int = ti.round(mid_y)
-            mid_z_int = ti.round(mid_z)
+            # Check if phases are opposite (differ by ~π)
+            phase_diff = ti.abs(wave_center.offset[i] - wave_center.offset[j])
+            # Normalize to [0, 2π] range and check if near π
+            phase_diff_normalized = ti.abs(phase_diff - pi)
+            if phase_diff_normalized > phase_tolerance:
+                continue  # Not opposite phases, skip
 
-            # Set both WCs to exact same position
-            wave_center.position_float[0][0] = mid_x_int
-            wave_center.position_float[0][1] = mid_y_int
-            wave_center.position_float[0][2] = mid_z_int
-            wave_center.position_float[1][0] = mid_x_int
-            wave_center.position_float[1][1] = mid_y_int
-            wave_center.position_float[1][2] = mid_z_int
+            # Calculate distance between WCs (in grid units)
+            dx = wave_center.position_float[i][0] - wave_center.position_float[j][0]
+            dy = wave_center.position_float[i][1] - wave_center.position_float[j][1]
+            dz = wave_center.position_float[i][2] - wave_center.position_float[j][2]
+            distance = ti.sqrt(dx * dx + dy * dy + dz * dz)
 
-            # Zero velocities to prevent separation (complete annihilation = frozen)
-            wave_center.velocity_amrs[0][0] = 0.0
-            wave_center.velocity_amrs[0][1] = 0.0
-            wave_center.velocity_amrs[0][2] = 0.0
-            wave_center.velocity_amrs[1][0] = 0.0
-            wave_center.velocity_amrs[1][1] = 0.0
-            wave_center.velocity_amrs[1][2] = 0.0
+            # Check if WCs are within annihilation threshold
+            if distance < annihilation_threshold:
+                # Snap both WCs to their midpoint (exact same position)
+                mid_x = (wave_center.position_float[i][0] + wave_center.position_float[j][0]) / 2.0
+                mid_y = (wave_center.position_float[i][1] + wave_center.position_float[j][1]) / 2.0
+                mid_z = (wave_center.position_float[i][2] + wave_center.position_float[j][2]) / 2.0
 
-            # Sync integer grid positions
-            wave_center.position_grid[0][0] = ti.cast(mid_x_int, ti.i32)
-            wave_center.position_grid[0][1] = ti.cast(mid_y_int, ti.i32)
-            wave_center.position_grid[0][2] = ti.cast(mid_z_int, ti.i32)
-            wave_center.position_grid[1][0] = ti.cast(mid_x_int, ti.i32)
-            wave_center.position_grid[1][1] = ti.cast(mid_y_int, ti.i32)
-            wave_center.position_grid[1][2] = ti.cast(mid_z_int, ti.i32)
+                # Round to exact grid position (integer) to ensure perfect alignment
+                mid_x_int = ti.round(mid_x)
+                mid_y_int = ti.round(mid_y)
+                mid_z_int = ti.round(mid_z)
 
-            # Mark both WCs as inactive (annihilated)
-            wave_center.active[0] = 0
-            wave_center.active[1] = 0
+                # Set both WCs to exact same position
+                wave_center.position_float[i][0] = mid_x_int
+                wave_center.position_float[i][1] = mid_y_int
+                wave_center.position_float[i][2] = mid_z_int
+                wave_center.position_float[j][0] = mid_x_int
+                wave_center.position_float[j][1] = mid_y_int
+                wave_center.position_float[j][2] = mid_z_int
+
+                # Zero velocities to prevent separation
+                wave_center.velocity_amrs[i][0] = 0.0
+                wave_center.velocity_amrs[i][1] = 0.0
+                wave_center.velocity_amrs[i][2] = 0.0
+                wave_center.velocity_amrs[j][0] = 0.0
+                wave_center.velocity_amrs[j][1] = 0.0
+                wave_center.velocity_amrs[j][2] = 0.0
+
+                # Sync integer grid positions
+                wave_center.position_grid[i][0] = ti.cast(mid_x_int, ti.i32)
+                wave_center.position_grid[i][1] = ti.cast(mid_y_int, ti.i32)
+                wave_center.position_grid[i][2] = ti.cast(mid_z_int, ti.i32)
+                wave_center.position_grid[j][0] = ti.cast(mid_x_int, ti.i32)
+                wave_center.position_grid[j][1] = ti.cast(mid_y_int, ti.i32)
+                wave_center.position_grid[j][2] = ti.cast(mid_z_int, ti.i32)
+
+                # Mark both WCs as inactive (annihilated)
+                wave_center.active[i] = 0
+                wave_center.active[j] = 0
 
 
 # ================================================================
