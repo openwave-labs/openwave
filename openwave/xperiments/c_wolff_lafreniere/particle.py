@@ -71,6 +71,12 @@ class WaveCenter:
         # Phase offset in radians (charge analog: 0 = electron, pi = positron)
         self.offset = ti.field(dtype=ti.f32, shape=num_sources)
 
+        # ================================================================
+        # Activity state
+        # ================================================================
+        # Per-WC flag (1 = active, 0 = inactive/annihilated)
+        self.active = ti.field(dtype=ti.i32, shape=num_sources)
+
         # Convert phase from degrees to radians
         sources_offset_rad = [deg * ti.math.pi / 180 for deg in sources_offset_deg]
 
@@ -92,3 +98,6 @@ class WaveCenter:
 
             # Set phase offset (charge)
             self.offset[i] = sources_offset_rad[i]
+
+            # Initialize activity state (active)
+            self.active[i] = 1

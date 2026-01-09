@@ -131,6 +131,13 @@ def propagate_wave(
 
             wave_field.psiL_am[i, j, k] += base_amplitude_am * wave_field.scale_factor * oscillator
 
+        # Precision rounding to ensure wave cancellation
+        # Critical for opposing phase sources (180°) that should annihilate
+        # Floating-point: (+1.250001) + (-1.249999) = 0.000002 (imperfect cancel)
+        # With rounding: (+1.2500) + (-1.2500) = 0.0 (perfect cancel)
+        precision = ti.cast(1e4, ti.f32)  # round to 4 decimal places
+        wave_field.psiL_am[i, j, k] = ti.round(wave_field.psiL_am[i, j, k] * precision) / precision
+
         curr_disp = wave_field.psiL_am[i, j, k]
 
         # WAVE-TRACKERS ============================================

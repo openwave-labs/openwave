@@ -417,6 +417,81 @@ def integrate_motion_euler(
 
 
 # ================================================================
+# PHASE 5: Annihilation Detection
+# ================================================================
+
+
+@ti.kernel
+def detect_annihilation(
+    wave_center: ti.template(),  # type: ignore
+    annihilation_threshold: ti.f32,  # type: ignore  # Distance threshold in grid units
+):
+    """
+    Detect and handle particle annihilation when WCs converge to same position.
+
+    When two wave centers with opposite phase (180°) attract and meet:
+    1. Their waves should cancel perfectly (handled by wave precision rounding)
+    2. Snap both WCs to exact same position (prevent drift/oscillation)
+    3. Zero velocities to prevent separation
+
+    This ensures annihilation is permanent - no wave reappearance from micro-motion.
+
+    Args:
+        wave_center: WaveCenter instance with position/velocity fields
+        annihilation_threshold: Distance in grid units to trigger annihilation (typically 1.0)
+    """
+    # Only check for 2 WC case (particle-antiparticle annihilation)
+    # Use ti.static for compile-time check (avoids runtime return issue)
+    if ti.static(wave_center.num_sources == 2):
+        # Calculate distance between WCs (in grid units)
+        dx = wave_center.position_float[0][0] - wave_center.position_float[1][0]
+        dy = wave_center.position_float[0][1] - wave_center.position_float[1][1]
+        dz = wave_center.position_float[0][2] - wave_center.position_float[1][2]
+        distance = ti.sqrt(dx * dx + dy * dy + dz * dz)
+
+        # Check if WCs are within annihilation threshold
+        if distance < annihilation_threshold:
+            # Snap both WCs to their midpoint (exact same position)
+            mid_x = (wave_center.position_float[0][0] + wave_center.position_float[1][0]) / 2.0
+            mid_y = (wave_center.position_float[0][1] + wave_center.position_float[1][1]) / 2.0
+            mid_z = (wave_center.position_float[0][2] + wave_center.position_float[1][2]) / 2.0
+
+            # Round to exact grid position (integer) to ensure perfect alignment
+            # This is critical - floating point midpoints can still cause drift
+            mid_x_int = ti.round(mid_x)
+            mid_y_int = ti.round(mid_y)
+            mid_z_int = ti.round(mid_z)
+
+            # Set both WCs to exact same position
+            wave_center.position_float[0][0] = mid_x_int
+            wave_center.position_float[0][1] = mid_y_int
+            wave_center.position_float[0][2] = mid_z_int
+            wave_center.position_float[1][0] = mid_x_int
+            wave_center.position_float[1][1] = mid_y_int
+            wave_center.position_float[1][2] = mid_z_int
+
+            # Zero velocities to prevent separation (complete annihilation = frozen)
+            wave_center.velocity_amrs[0][0] = 0.0
+            wave_center.velocity_amrs[0][1] = 0.0
+            wave_center.velocity_amrs[0][2] = 0.0
+            wave_center.velocity_amrs[1][0] = 0.0
+            wave_center.velocity_amrs[1][1] = 0.0
+            wave_center.velocity_amrs[1][2] = 0.0
+
+            # Sync integer grid positions
+            wave_center.position_grid[0][0] = ti.cast(mid_x_int, ti.i32)
+            wave_center.position_grid[0][1] = ti.cast(mid_y_int, ti.i32)
+            wave_center.position_grid[0][2] = ti.cast(mid_z_int, ti.i32)
+            wave_center.position_grid[1][0] = ti.cast(mid_x_int, ti.i32)
+            wave_center.position_grid[1][1] = ti.cast(mid_y_int, ti.i32)
+            wave_center.position_grid[1][2] = ti.cast(mid_z_int, ti.i32)
+
+            # Mark both WCs as inactive (annihilated)
+            wave_center.active[0] = 0
+            wave_center.active[1] = 0
+
+
+# ================================================================
 # DEBUG: Force Analysis
 # ================================================================
 

@@ -519,6 +519,10 @@ def compute_force_motion(state):
             state.dt_rs,
             state.SIM_SPEED,
         )
+        # Detect and handle particle annihilation (opposite phase WCs meeting)
+        # Threshold: 1.0 grid unit = WCs must be in same or adjacent voxel
+        force_motion.detect_annihilation(state.wave_center, 1.0)
+
         # # DEBUG: Check velocity and position AFTER motion integration
         # if state.frame % 100 == 0:
         #     vel = state.wave_center.velocity_amrs.to_numpy()
@@ -552,6 +556,10 @@ def render_elements(state):
         # Normalize by max_grid_size to respect asymmetric universes (like flux_mesh does)
         max_dim = float(state.wave_field.max_grid_size)
         for wc_idx in range(state.wave_center.num_sources):
+            # Skip rendering inactive (annihilated) WCs
+            if state.wave_center.active[wc_idx] == 0:
+                continue
+
             wc_pos_screen = ti.Vector(
                 [
                     state.wave_center.position_float[wc_idx][0] / max_dim,
