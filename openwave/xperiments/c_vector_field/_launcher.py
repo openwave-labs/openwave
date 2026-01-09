@@ -18,7 +18,7 @@ import taichi as ti
 import numpy as np
 
 from openwave.common import colormap, constants
-from openwave._io import flux_mesh, render, video
+from openwave.i_o import flux_mesh, render, video
 
 import openwave.xperiments.c_vector_field.spacetime_medium as medium
 import openwave.xperiments.c_vector_field.spacetime_ewave as ewave

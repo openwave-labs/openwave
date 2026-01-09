@@ -19,7 +19,7 @@ import taichi as ti
 import time
 
 from openwave.common import colormap, constants
-from openwave._io import render
+from openwave.i_o import render
 
 import openwave.xperiments._archives.radial_wave.spacetime_medium as medium
 import openwave.xperiments._archives.radial_wave.spacetime_ewave as ewave

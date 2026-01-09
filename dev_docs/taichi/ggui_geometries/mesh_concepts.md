@@ -282,7 +282,7 @@ See `test_mesh.py` for a complete working example:
 
 - `lines_vs_particles.md` - Investigation of GGUI rendering performance
 - `test_mesh.py` - Mesh performance test script
-- `/openwave/_io/render.py` - Production rendering engine
+- `/openwave/i_o/render.py` - Production rendering engine
 
 ## Environment
 

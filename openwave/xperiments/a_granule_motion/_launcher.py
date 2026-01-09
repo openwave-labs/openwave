@@ -16,7 +16,7 @@ from pathlib import Path
 import taichi as ti
 
 from openwave.common import colormap, constants
-from openwave._io import render, video
+from openwave.i_o import render, video
 
 import openwave.xperiments.a_granule_motion.spacetime_medium as medium
 import openwave.xperiments.a_granule_motion.spacetime_ewave as ewave

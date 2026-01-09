@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 [project.scripts]
-openwave = "openwave._io.cli:cli_main"
+openwave = "openwave.i_o.cli:cli_main"
 
 [project.urls]
 Homepage = "https://github.com/openwave-labs/openwave"

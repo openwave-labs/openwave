@@ -29,12 +29,15 @@ def get_experiments_list():
     """
     Get a list of available Xperiment launchers from the xperiments directory.
     Each collection has exactly one _launcher.py file.
+    Collections are subdirectories under xperiments/.
+    Collections can be Xperiment methods or groups.
+
 
     Returns:
         list: List of tuples containing (display_name, file_path)
     """
     # Get the xperiments directory path
-    # Navigate from _io module to parent package, then to xperiments
+    # Navigate from i_o module to parent package, then to xperiments
     package_dir = Path(__file__).parent.parent
     xperiments_dir = package_dir / "xperiments"
 

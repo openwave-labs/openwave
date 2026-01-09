@@ -87,7 +87,7 @@ def render_flux_mesh(scene, wave_field, show_flux_mesh):
         wave_field: WaveField instance containing flux mesh data
 
     Usage:
-        from openwave._io.flux_mesh import render_flux_mesh, initialize_flux_mesh_fields
+        from openwave.i_o.flux_mesh import render_flux_mesh, initialize_flux_mesh_fields
 
         # Initialize once after wave_field creation
         initialize_flux_mesh_fields(wave_field)

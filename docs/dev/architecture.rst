@@ -20,7 +20,7 @@ OpenWave is organized into modular components:
    ├── xperiments/       # Virtual lab experiments
    ├── common/           # Shared utilities
    ├── validations/      # Diagnostics and analysis
-   └── _io/              # CLI and rendering
+   └── i_o/              # CLI and rendering
 
 Module Relationships
 --------------------

@@ -6,10 +6,10 @@ from pathlib import Path
 
 import taichi as ti
 
-from openwave._io import render
+from openwave.i_o import render
 
 # Get the video_export directory path
-# Navigate from _io module to parent package, then to video_export
+# Navigate from i_o module to parent package, then to video_export
 package_dir = Path(__file__).parent.parent
 export_dir = package_dir / "video_export"
 

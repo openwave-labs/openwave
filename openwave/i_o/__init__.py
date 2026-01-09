@@ -7,6 +7,6 @@ This module provides interfaces for:
 - Video Management
 """
 
-from openwave._io.cli import cli_main
+from openwave.i_o.cli import cli_main
 
 __all__ = ["cli_main"]

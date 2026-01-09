@@ -280,7 +280,7 @@ Checklist
 Adding to CLI
 ~~~~~~~~~~~~~
 
-Edit ``openwave/_io/cli.py`` to add your xperiment to the menu:
+Edit ``openwave/i_o/cli.py`` to add your xperiment to the menu:
 
 .. code-block:: python
 

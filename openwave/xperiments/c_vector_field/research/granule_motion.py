@@ -2,7 +2,7 @@ import taichi as ti
 import numpy as np
 
 from openwave.common import colormap, constants
-from openwave._io import render
+from openwave.i_o import render
 
 
 # Initialize Taichi

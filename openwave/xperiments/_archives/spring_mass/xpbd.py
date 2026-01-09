@@ -9,7 +9,7 @@ import taichi as ti
 import time
 
 from openwave.common import colormap, constants, equations
-from openwave._io import render
+from openwave.i_o import render
 
 import openwave.xperiments._archives.spring_mass.spacetime_medium as medium
 import openwave.xperiments._archives.spring_mass.spacetime_ewave_xpbd as ewave

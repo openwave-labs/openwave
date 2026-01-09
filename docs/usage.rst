@@ -140,7 +140,7 @@ Control visualization parameters:
 
 .. code-block:: python
 
-   from openwave._io.render import RenderConfig
+   from openwave.i_o.render import RenderConfig
 
    config = RenderConfig(
        window_size=(1920, 1080),
@@ -186,7 +186,7 @@ Export Visualization
 
 .. code-block:: python
 
-   from openwave._io.render import export_frame
+   from openwave.i_o.render import export_frame
 
    # Export current frame as image
    export_frame('output.png')

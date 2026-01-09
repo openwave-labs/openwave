@@ -21,6 +21,13 @@ Conversion factors:
 - c = 0.3 am/rs                  (speed of light)
 
 See research/02_force_motion.md for detailed documentation.
+
+This package contains the fundamental components:
+- electric: Electric force calculations and representations
+- magnetic: Magnetic force calculations and representations
+- gravitational: Gravitational force calculations and representations
+- strong: Strong force calculations and representations
+- orbital: Orbital force calculations and representations
 """
 
 import taichi as ti
