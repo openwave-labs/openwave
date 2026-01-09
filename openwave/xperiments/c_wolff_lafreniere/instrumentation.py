@@ -105,12 +105,11 @@ def plot_probe_wave_profile(wave_field):
     print("\nPlot wave_profile saved to:\n", save_path, "\n")
 
 
-def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) -> None:
+def log_timestep_data(timestep: int, wave_field, trackers) -> None:
     """Record all timestep data to a buffer, flush periodically to reduce I/O overhead.
 
     Args:
         timestep: Current simulation timestep
-        charge_level: Current charge level (0.0 to 1.0+)
         wave_field: WaveField instance
         trackers: Trackers instance
     """
@@ -127,7 +126,7 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     freq_rHz = trackers.freq_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
-    _timestep_buffer.append([timestep, charge_level, psiL_am, psiT_am, ampL_am, ampT_am, freq_rHz])
+    _timestep_buffer.append([timestep, psiL_am, psiT_am, ampL_am, ampT_am, freq_rHz])
 
     # Flush buffer periodically
     if len(_timestep_buffer) >= _BUFFER_FLUSH_INTERVAL:
@@ -151,7 +150,6 @@ def _flush_timestep_buffer() -> None:
             writer.writerow(
                 [
                     "timestep",
-                    "charge_level",
                     "psiL_am",
                     "psiT_am",
                     "ampL_am",
@@ -173,7 +171,6 @@ def _flush_timestep_buffer() -> None:
                     f"{row[3]:.6f}",
                     f"{row[4]:.6f}",
                     f"{row[5]:.6f}",
-                    f"{row[6]:.6f}",
                 ]
             )
 
@@ -193,7 +190,6 @@ def _read_timestep_data():
 
     data = {
         "timesteps": [],
-        "charge_levels": [],
         "displacements_L": [],
         "displacements_T": [],
         "amplitudes_L": [],
@@ -205,7 +201,6 @@ def _read_timestep_data():
         reader = csv.DictReader(f)
         for row in reader:
             data["timesteps"].append(int(row["timestep"]))
-            data["charge_levels"].append(float(row["charge_level"]))
             data["displacements_L"].append(float(row["psiL_am"]))
             data["displacements_T"].append(float(row["psiT_am"]))
             data["amplitudes_L"].append(float(row["ampL_am"]))
@@ -213,47 +208,6 @@ def _read_timestep_data():
             data["frequencies"].append(float(row["freq_rHz"]))
 
     return data
-
-
-def plot_charge_levels():
-    """Plot the logged charge levels over time."""
-    data = _read_timestep_data()
-    if data is None:
-        return
-
-    # Create the plot
-    plt.style.use("dark_background")
-    fig = plt.figure(figsize=(10, 6), facecolor=colormap.DARK_GRAY[1])
-    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
-
-    plt.plot(
-        data["timesteps"],
-        [cl * 100 for cl in data["charge_levels"]],
-        color=colormap.viridis_palette[2][1],
-        linewidth=3,
-        label="CHARGE LEVEL",
-    )
-    plt.axhline(y=120, color=colormap.RED[1], linestyle="--", alpha=0.5, label="MAX CHARGE LEVEL")
-    plt.axhline(
-        y=100, color=colormap.GREEN[1], linestyle="--", alpha=0.5, label="OPTIMAL CHARGE LEVEL"
-    )
-    plt.axhline(
-        y=80, color=colormap.ORANGE[1], linestyle="--", alpha=0.5, label="MIN CHARGE LEVEL"
-    )
-
-    plt.xlabel("Timestep", family="Monospace")
-    plt.ylabel("Charge Level (%)", family="Monospace")
-    plt.title("ENERGY CHARGING & STABILITY", family="Monospace")
-    plt.grid(True, alpha=0.3)
-    plt.legend()
-
-    plt.tight_layout()
-
-    # Save to directory
-    PLOT_DIR.mkdir(parents=True, exist_ok=True)
-    save_path = PLOT_DIR / "charge_levels.png"
-    plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    print("\nPlot charge_levels saved to:\n", save_path, "\n")
 
 
 def plot_probe_values():
@@ -363,12 +317,10 @@ def generate_plots():
     """Generate all instrumentation plots."""
     # Flush any remaining buffered data before plotting
     _flush_timestep_buffer()
-    plot_charge_levels()
     plot_probe_values()
     plt.show()
 
 
 if __name__ == "__main__":
-    plot_charge_levels()
     plot_probe_values()
     plt.show()
