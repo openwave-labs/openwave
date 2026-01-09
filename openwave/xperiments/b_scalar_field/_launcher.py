@@ -1,5 +1,5 @@
 """
-Launcher
+Xperiment Launcher
 
 Unified launcher for wave-field xperiments featuring:
 - UI-based xperiment selection and switching

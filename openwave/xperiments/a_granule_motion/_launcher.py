@@ -1,5 +1,5 @@
 """
-Launcher
+Xperiment Launcher
 
 Unified launcher for granule motion xperiments featuring:
 - UI-based xperiment selection and switching

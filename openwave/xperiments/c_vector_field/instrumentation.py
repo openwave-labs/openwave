@@ -31,82 +31,6 @@ _BUFFER_FLUSH_INTERVAL = 100  # Flush every N timesteps
 # ================================================================
 
 
-def plot_static_charge_profile(wave_field):
-    """
-    Plot the displacement profile along the x-axis through the center of the wave field.
-
-    Args:
-        wave_field: WaveField instance containing displacement data
-    """
-
-    # Get center indices
-    center_j = wave_field.ny // 2
-    center_k = wave_field.nz // 2
-
-    # Extract displacement along x-axis at center (y, z)
-    x_indices = np.arange(wave_field.nx)
-    displacements_L = np.zeros(wave_field.nx)
-    displacements_T = np.zeros(wave_field.nx)
-
-    # Sample longitudinal displacement values
-    for i in range(wave_field.nx):
-        displacements_L[i] = wave_field.psiL_am[i, center_j, center_k]
-        displacements_T[i] = wave_field.psiT_am[i, center_j, center_k]
-
-    # Calculate distance from center in grid indices
-    center_x = wave_field.nx // 2
-    distances = x_indices - center_x
-
-    # Create the plot
-    plt.style.use("dark_background")
-    fig = plt.figure(figsize=(12, 6), facecolor=colormap.DARK_GRAY[1])
-    fig.suptitle("OPENWAVE Analytics", fontsize=20, family="Monospace")
-
-    # Plot 1: Longitudinal Displacement vs distance from center
-    plt.subplot(1, 2, 1)
-    plt.plot(
-        distances,
-        displacements_L,
-        color=colormap.viridis_palette[2][1],
-        linewidth=4,
-        label="LONGITUDINAL",
-    )
-    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
-    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
-    plt.ylim(-1.5, 1.5)
-    plt.xlabel("Distance from Center (grid indices)", family="Monospace")
-    plt.ylabel("Displacement (attometers)", family="Monospace")
-    plt.title("INITIAL CHARGE PROFILE", family="Monospace")
-    plt.grid(True, alpha=0.3)
-    plt.legend()
-
-    # Plot 2: Transverse Displacement vs distance from center
-    plt.subplot(1, 2, 2)
-    plt.plot(
-        distances,
-        displacements_T,
-        color=colormap.ironbow_palette[2][1],
-        linewidth=4,
-        label="TRANSVERSE",
-    )
-    plt.axhline(y=0, color="k", linestyle="--", alpha=0.3)
-    plt.axvline(x=0, color="r", linestyle="--", alpha=0.3)
-    plt.ylim(-1.5, 1.5)
-    plt.xlabel("Distance from Center (grid indices)", family="Monospace")
-    plt.ylabel("Displacement (attometers)", family="Monospace")
-    plt.title("INITIAL CHARGE PROFILE", family="Monospace")
-    plt.grid(True, alpha=0.3)
-    plt.legend()
-
-    plt.tight_layout()
-
-    # Save to directory
-    PLOT_DIR.mkdir(parents=True, exist_ok=True)
-    save_path = PLOT_DIR / "charge_profile.png"
-    plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    print("\nPlot charge_profile saved to:\n", save_path, "\n")
-
-
 def plot_probe_wave_profile(wave_field):
     """
     Plot the displacement profile along the x-axis through the probe position.
@@ -116,7 +40,7 @@ def plot_probe_wave_profile(wave_field):
     """
 
     # Define probe position
-    px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    px, py, pz = wave_field.nx // 2, wave_field.ny // 2, wave_field.nz // 2
 
     # Extract displacement along x-axis at center (y, z)
     x_indices = np.arange(wave_field.nx)
@@ -193,7 +117,7 @@ def log_timestep_data(timestep: int, charge_level: float, wave_field, trackers) 
     global _timestep_buffer, _timestep_log_initialized
 
     # Define probe position
-    px, py, pz = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
+    px, py, pz = wave_field.nx * 1 // 3, wave_field.ny // 2, wave_field.nz // 2
 
     # Capture probe values
     psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor
