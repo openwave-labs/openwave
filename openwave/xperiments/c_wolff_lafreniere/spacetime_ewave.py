@@ -38,26 +38,40 @@ def propagate_wave(
     sim_speed: ti.f32,  # type: ignore
 ):
     """
-    Propagate wave displacement using wave equation (PDE Solver).
-    Wave Equation: ∂²ψ/∂t² = c²∇²ψ
+    Compute wave displacement using Wolff-LaFreniere analytical wave equation.
 
-    Includes wave propagation, reflection at boundaries & superposition of wavefronts.
-    Energy conservation from leap-frog method.
+    Wolff-LaFreniere Combined Form:
+        ψ(r,t) = A · [sin(ωt - kr) - sin(ωt)] / r
 
-    Discrete Form (Leap-Frog/Verlet):
-        ψ_new = 2ψ - ψ_old + (c·dt)²·∇²ψ
-        where ∇²ψ = (neighbors_sum - 6·center) / dx²
+    Expanded Form (used in implementation):
+        ψ(r,t) = A · [-cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r]
+               = A · [-cos(ωt)·Phase(r) - sin(ωt)·Quadrature(r)]
 
-    Boundary Conditions:
-    - Dirichlet BC (ψ = 0) at edges for fixed boundaries.
-    Implemented by skipping boundary voxels in update loop.
+    Components:
+        Phase:      sin(kr)/r  → k as r→0  (standing wave envelope)
+        Quadrature: (1-cos(kr))/r → 0 as r→0  (traveling wave component)
+
+    Physical Properties:
+        - Near center: standing wave behavior (finite amplitude at r=0)
+        - Far from center: transitions to traveling wave
+        - 1/r amplitude falloff (energy conserving, from Wolff)
+        - Electron core diameter = λ (full wavelength, from LaFreniere)
+        - Superposition of multiple wave centers supported
+
+    Wave Trackers Updated:
+        - ampL_am: RMS amplitude via EMA on ψ² (for energy/force gradients)
+        - freq_rHz: Frequency via zero-crossing detection with EMA smoothing
+
+    See research/01_wolff_lafreniere.md for full derivation and theory.
 
     Args:
         wave_field: WaveField instance containing displacement arrays and grid info
         trackers: WaveTrackers instance for tracking wave properties
-        c_amrs: Effective wave speed after slow-motion factor (am/rs)
+        wave_center: WaveCenter instance with source positions and phase offsets
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
+        boost: Amplitude boost factor for visualization
+        sim_speed: Simulation speed multiplier for temporal phase
     """
     # Grid dimensions for boundary handling
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
