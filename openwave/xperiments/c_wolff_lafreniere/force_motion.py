@@ -32,6 +32,8 @@ This package contains the fundamental components:
 
 import taichi as ti
 
+import numpy as np
+
 from openwave.common import constants
 
 # ================================================================
@@ -42,6 +44,10 @@ EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY  # Hz
 ELECTRON_MASS = constants.ELECTRON_MASS  # kg
 ATTOMETER = constants.ATTOMETER  # m/am = 1e-18
 RONTOSECOND = constants.RONTOSECOND  # s/rs = 1e-27
+
+# Coulomb force constants (for comparison with simulated force)
+COULOMB_CONSTANT = constants.COULOMB_CONSTANT  # N·m²/C², k = 8.99e9
+ELEMENTARY_CHARGE = constants.ELEMENTARY_CHARGE  # C, e = 1.60e-19
 
 # Unit conversion factors
 # From m/s² to am/rs²: a_amrs2 = a_ms2 / ATTOMETER * RONTOSECOND²
@@ -55,7 +61,7 @@ ACCEL_MS2_TO_AMRS2 = 1.0 / ATTOMETER * RONTOSECOND * RONTOSECOND  # = 1e-36
 
 
 @ti.kernel
-def compute_particle_motion_smoke(
+def smoketest_particle_motion(
     wave_field: ti.template(),  # type: ignore
     wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
@@ -370,6 +376,7 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     Debug function to analyze force calculation values.
 
     Prints amplitude, gradient, and force values for each wave center.
+    Includes Coulomb force comparison for model calibration.
     Call periodically (e.g., every 100 frames) to monitor force evolution.
     """
     if frame % 100 != 0:
@@ -378,6 +385,43 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     print(f"\n{'='*60}")
     print(f"FORCE ANALYSIS - Frame {frame}")
     print(f"{'='*60}")
+
+    # ================================================================
+    # COULOMB FORCE COMPARISON
+    # ================================================================
+    # For two-particle systems, calculate expected Coulomb force
+    # F_coulomb = k * e² / r²  where k = 8.99e9 N·m²/C², e = 1.60e-19 C
+    #
+    # This is the BENCHMARK: our wave-based force should match Coulomb
+    # force once properly calibrated.
+    # ================================================================
+    positions_grid = wave_center.position_grid.to_numpy()
+    dx_m = wave_field.dx  # voxel size in meters
+
+    if wave_center.num_sources == 2:
+        # Calculate separation distance in meters
+        pos0 = positions_grid[0] * dx_m
+        pos1 = positions_grid[1] * dx_m
+        separation = np.linalg.norm(pos1 - pos0)
+
+        if separation > 0:
+            # Coulomb force magnitude: F = k * e² / r²
+            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
+
+            # Direction vector (from 0 to 1)
+            direction = (pos1 - pos0) / separation
+
+            print(f"\n{'─'*60}")
+            print("COULOMB FORCE BENCHMARK (Target for calibration)")
+            print(f"{'─'*60}")
+            print(f"  Separation: {separation:.3e} m ({separation/ATTOMETER:.3f} am)")
+            print(f"  k (Coulomb constant): {COULOMB_CONSTANT:.3e} N·m²/C²")
+            print(f"  e (elementary charge): {ELEMENTARY_CHARGE:.3e} C")
+            print(f"  F_coulomb = k·e²/r² = {F_coulomb:.3e} N")
+            print(
+                f"  Direction (WC0→WC1): [{direction[0]:.3f}, {direction[1]:.3f}, {direction[2]:.3f}]"
+            )
+            print(f"{'─'*60}")
 
     # Get numpy arrays from taichi fields
     ampL = trackers.ampL_am.to_numpy()
@@ -467,41 +511,54 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         # Expected acceleration (using actual mass from wave_center, not ELECTRON_MASS)
         masses = wave_center.mass.to_numpy()
         m = masses[wc]
-        FORCE_MULTIPLIER = 1e4  # Must match value in integrate_motion_euler
+        FORCE_MULTIPLIER = 2000  # Must match value in integrate_motion_euler
         a_ms2 = F[0] / m if m > 0 else 0
         a_amrs2 = a_ms2 * ACCEL_MS2_TO_AMRS2 * FORCE_MULTIPLIER
         print(f"  Mass: {m:.3e} kg")
-        print(f"  Acceleration: {a_ms2:.3e} m/s² (with 1e4 multiplier: {a_amrs2:.3e} am/rs²)")
+        print(f"  Acceleration: {a_ms2:.3e} m/s² (with 2000x multiplier: {a_amrs2:.3e} am/rs²)")
 
         # Velocity
         v = velocities[wc]
         print(f"  Velocity: [{v[0]:.3e}, {v[1]:.3e}, {v[2]:.3e}] am/rs")
 
+    # ================================================================
+    # FINAL COMPARISON SUMMARY (for 2-particle systems)
+    # ================================================================
+    if wave_center.num_sources == 2:
+        pos0 = positions_grid[0] * dx_m
+        pos1 = positions_grid[1] * dx_m
+        separation = np.linalg.norm(pos1 - pos0)
+
+        if separation > 0:
+            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
+
+            # Get simulated force magnitudes
+            forces = wave_center.force.to_numpy()
+            F_sim_0 = np.linalg.norm(forces[0])
+            F_sim_1 = np.linalg.norm(forces[1])
+            F_sim_avg = (F_sim_0 + F_sim_1) / 2
+
+            # Calculate calibration ratio
+            ratio = F_sim_avg / F_coulomb if F_coulomb > 0 else 0
+
+            print(f"\n{'─'*60}")
+            print("CALIBRATION SUMMARY")
+            print(f"{'─'*60}")
+            print(f"  Coulomb F (expected):   {F_coulomb:.3e} N")
+            print(f"  Simulated F (WC0):      {F_sim_0:.3e} N")
+            print(f"  Simulated F (WC1):      {F_sim_1:.3e} N")
+            print(f"  Simulated F (average):  {F_sim_avg:.3e} N")
+            print(f"  Ratio (sim/coulomb):    {ratio:.3e}")
+            if ratio > 0:
+                print(f"  Scale needed:           {1/ratio:.3e}x")
+            print(f"{'─'*60}")
+
+            # Direction check
+            direction = (pos1 - pos0) / separation
+            F0_dir = forces[0] / F_sim_0 if F_sim_0 > 0 else np.zeros(3)
+            dot_product = np.dot(F0_dir, direction)
+            force_type = "ATTRACTION" if dot_product > 0 else "REPULSION"
+            print(f"  Force direction: {force_type} (dot={dot_product:.3f})")
+            print(f"{'─'*60}")
+
     print(f"{'='*60}\n")
-
-
-# ================================================================
-# PUBLIC API
-# ================================================================
-
-
-def compute_particle_motion(
-    wave_field,
-    wave_center,
-    dt_rs: float,
-    use_smoke_test: bool = True,
-):
-    """
-    Compute particle motion - public API function.
-
-    Args:
-        wave_field: WaveField instance
-        wave_center: WaveCenter instance
-        dt_rs: Time step in rontoseconds
-        use_smoke_test: If True, use hardcoded force (Phase 1).
-                        If False, use computed force (Phase 3+).
-    """
-    if use_smoke_test:
-        compute_particle_motion_smoke(wave_field, wave_center, dt_rs)
-    else:
-        integrate_motion_euler(wave_field, wave_center, dt_rs)

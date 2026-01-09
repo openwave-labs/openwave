@@ -134,8 +134,7 @@ When two wave centers interact:
 force_motion.py
 |-- compute_energy_field()      # E = rho*V*(f*A)^2 per voxel
 |-- compute_force_vector()      # F = -grad(E) around each WC
-|-- compute_particle_motion()   # Euler/Verlet integration
-+-- interpolate_force()         # Trilinear force at WC position
+|-- integrate_motion_euler()   # Euler/Verlet integration
 ```
 
 ---
@@ -233,11 +232,11 @@ Implement particle motion with **hardcoded arbitrary force** to:
 
 ### Phase 1 Status: COMPLETE ✓
 
-### Implementation: `compute_particle_motion_smoke()`
+### Implementation: `smoketest_particle_motion()`
 
 ```python
 @ti.kernel
-def compute_particle_motion_smoke(
+def smoketest_particle_motion(
     wave_field: ti.template(),
     wave_center: ti.template(),
     dt_rs: ti.f32,
@@ -723,53 +722,24 @@ def compute_force_motion(state):
     USE_SMOKE_TEST = True
 
     if USE_SMOKE_TEST:
-        # Phase 1: Smoke test with hardcoded force
-        force_motion.compute_particle_motion(
+        # PHASE 1: Smoke test with hardcoded force
+        force_motion.smoketest_particle_motion(
             state.wave_field,
             state.wave_center,
             state.dt_rs,
-            use_smoke_test=True,
         )
     else:
-        # Phase 3: Compute force from energy gradient
+        # PHASE 3+: Compute force from energy gradient, then integrate motion
         force_motion.compute_force_vector(
             state.wave_field,
             state.trackers,
             state.wave_center,
         )
-
-        # Phase 4: Integrate motion with computed force
-        force_motion.compute_particle_motion(
+        force_motion.integrate_motion_euler(
             state.wave_field,
             state.wave_center,
             state.dt_rs,
-            use_smoke_test=False,
         )
-```
-
-### Public API
-
-```python
-def compute_particle_motion(
-    wave_field,
-    wave_center,
-    dt_rs: float,
-    use_smoke_test: bool = True,
-):
-    """
-    Compute particle motion - public API function.
-
-    Args:
-        wave_field: WaveField instance
-        wave_center: WaveCenter instance
-        dt_rs: Time step in rontoseconds
-        use_smoke_test: If True, use hardcoded force (Phase 1).
-                        If False, use computed force (Phase 3+).
-    """
-    if use_smoke_test:
-        compute_particle_motion_smoke(wave_field, wave_center, dt_rs)
-    else:
-        integrate_motion_euler(wave_field, wave_center, dt_rs)
 ```
 
 ---
