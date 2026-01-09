@@ -786,6 +786,7 @@ The goal is to adjust OpenWave's force calculation so that **ratio → 1.0**:
 - OpenWave can be used to **predict** behaviors not yet observed
 
 The validation chain:
+
 ```text
 OpenWave → matches → EWT predictions → matches → Coulomb law → matches → Observations
 ```
