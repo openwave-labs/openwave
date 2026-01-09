@@ -90,7 +90,7 @@ Work / Energy
 W = F * d
 
 OSCILLATING MOTION
-HARMONIC OSCLLIATOR (equation of motion)
+HARMONIC OSCILLATOR (equation of motion)
 Fs = -k * x = m * a (Hooke's + Newton's)
 m * dx/dt = -k * x (differential equation)
 
@@ -827,7 +827,7 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
     F111 = force[i+1, j+1, k+1]
 
     # Interpolate
-    F_interp = (
+    F_interpolate = (
         F000 * (1-fx) * (1-fy) * (1-fz) +
         F100 * fx     * (1-fy) * (1-fz) +
         F010 * (1-fx) * fy     * (1-fz) +
@@ -838,7 +838,7 @@ def interpolate_force(pos: ti.math.vec3) -> ti.math.vec3:
         F111 * fx     * fy     * fz
     )
 
-    return F_interp
+    return F_interpolate
 ```
 
 ## Implementation Strategy
