@@ -205,7 +205,7 @@ def compute_force_vector(
     # Physical constants
     rho = ti.cast(MEDIUM_DENSITY, ti.f32)
     f = ti.cast(EWAVE_FREQUENCY, ti.f32)
-    dx_m = wave_field.dx  # voxel size in meters
+    dx = wave_field.dx  # voxel size in meters
 
     # Force scale factor: 2 * rho * V * f^2 where V = dx³
     # CRITICAL: Interleave large/small values to avoid f32 under/overflow!
@@ -225,7 +225,7 @@ def compute_force_vector(
     #     *f = 4e-11 * 1e+25 = 4e+14 ✓
     #     *dx = 4e+14 * 2e-18 = 8e-4 ✓
     #     *f = 8e-4 * 1e+25 = 8e+21 ✓
-    force_scale = 2.0 * rho * dx_m * dx_m * f * dx_m * f  # Safe for all dx
+    force_scale = 2.0 * rho * dx * dx * f * dx * f  # Safe for all dx
 
     # Scale factor correction: Force scales as S⁴ with universe scaling
     # F_real = F_scaled / S⁴
@@ -275,7 +275,7 @@ def compute_force_vector(
             # Central difference gradient with larger sampling radius:
             # grad(A) = (A[+R] - A[-R]) / (2*R*dx)
             # This averages the gradient over a larger region, capturing interference patterns
-            sample_dist = 2.0 * sample_radius * dx_m
+            sample_dist = 2.0 * sample_radius * dx
 
             # X gradient
             A_xp = trackers.ampL_am[i + sample_radius, j, k] * ATTOMETER
@@ -542,12 +542,12 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     # If simulated force matches EWT force, OpenWave is validated!
     # ================================================================
     positions_grid = wave_center.position_grid.to_numpy()
-    dx_m = wave_field.dx  # voxel size in meters
+    dx = wave_field.dx  # voxel size in meters
 
     if wave_center.num_sources == 2:
         # Calculate separation distance in meters
-        pos0 = positions_grid[0] * dx_m
-        pos1 = positions_grid[1] * dx_m
+        pos0 = positions_grid[0] * dx
+        pos1 = positions_grid[1] * dx
         separation = np.linalg.norm(pos1 - pos0)
 
         if separation > 0:
@@ -584,12 +584,12 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     forces = wave_center.force.to_numpy()
     velocities = wave_center.velocity_amrs.to_numpy()
 
-    dx_m = wave_field.dx
+    dx = wave_field.dx
     dx_am = wave_field.dx / ATTOMETER
 
-    print(f"Voxel size: {dx_m:.3e} m ({dx_am:.3f} am)")
+    print(f"Voxel size: {dx:.3e} m ({dx_am:.3f} am)")
     # Compute force_scale same way as kernel (avoid overflow)
-    rhoV = MEDIUM_DENSITY * dx_m**3
+    rhoV = MEDIUM_DENSITY * dx**3
     force_scale = 2.0 * rhoV * EWAVE_FREQUENCY * EWAVE_FREQUENCY
     # Scale factor correction
     S = wave_field.scale_factor
@@ -650,7 +650,7 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         print(f"  Amplitude x±{sample_radius}: [{A_xm:.3e}, {A_xp:.3e}] m")
 
         # Gradients with larger sampling distance
-        sample_dist = 2.0 * sample_radius * dx_m
+        sample_dist = 2.0 * sample_radius * dx
         dA_dx = (A_xp - A_xm) / sample_dist
         dA_dy = (A_yp - A_ym) / sample_dist
         dA_dz = (A_zp - A_zm) / sample_dist
@@ -680,8 +680,8 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     # VALIDATION SUMMARY: Simulated vs EWT Prediction
     # ================================================================
     if wave_center.num_sources == 2:
-        pos0 = positions_grid[0] * dx_m
-        pos1 = positions_grid[1] * dx_m
+        pos0 = positions_grid[0] * dx
+        pos1 = positions_grid[1] * dx
         separation = np.linalg.norm(pos1 - pos0)
 
         if separation > 0:
