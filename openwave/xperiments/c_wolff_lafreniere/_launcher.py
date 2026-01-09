@@ -346,7 +346,7 @@ def display_level_specs(state, level_bar_vertices):
         sub.text("Medium: Indexed Voxel Grid")
         sub.text("Data-Structure: Scalar Field")
         sub.text("Coupling: Phase Sync")
-        sub.text("Propagation: W-L Equation")
+        sub.text("Propagation: Analytical Function")
         sub.text("Boundary: Open (Non-Reflective)")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(
@@ -520,13 +520,13 @@ def compute_force_motion(state):
     # TODO: Configuration: Set to False after smoke test passes to use energy gradient force
     USE_SMOKE_TEST = False
 
-    # DEBUG: Check velocity at START of frame (before any force computation)
-    if state.frame % 100 == 0:
-        vel = state.wave_center.velocity_amrs.to_numpy()
-        pos_f = state.wave_center.position_float.to_numpy()
-        print(f"\n--- START of frame {state.frame} (before force computation) ---")
-        for wc in range(state.wave_center.num_sources):
-            print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}")
+    # # DEBUG: Check velocity at START of frame (before any force computation)
+    # if state.frame % 100 == 0:
+    #     vel = state.wave_center.velocity_amrs.to_numpy()
+    #     pos_f = state.wave_center.position_float.to_numpy()
+    #     print(f"\n--- START of frame {state.frame} (before force computation) ---")
+    #     for wc in range(state.wave_center.num_sources):
+    #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}")
 
     if USE_SMOKE_TEST:
         # PHASE 1: Smoke test with hardcoded force
@@ -542,26 +542,26 @@ def compute_force_motion(state):
             state.trackers,
             state.wave_center,
         )
-        # DEBUG: Print force analysis every 100 frames
-        force_motion.debug_force_analysis(
-            state.wave_field,
-            state.trackers,
-            state.wave_center,
-            state.frame,
-        )
+        # # DEBUG: Print force analysis every 100 frames
+        # force_motion.debug_force_analysis(
+        #     state.wave_field,
+        #     state.trackers,
+        #     state.wave_center,
+        #     state.frame,
+        # )
         force_motion.integrate_motion_euler(
             state.wave_field,
             state.wave_center,
             state.dt_rs,
         )
-        # DEBUG: Check velocity and position AFTER motion integration
-        if state.frame % 100 == 0:
-            vel = state.wave_center.velocity_amrs.to_numpy()
-            pos_f = state.wave_center.position_float.to_numpy()
-            pos_g = state.wave_center.position_grid.to_numpy()
-            print(f"\n--- AFTER integrate_motion_euler (frame {state.frame}) ---")
-            for wc in range(state.wave_center.num_sources):
-                print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}, pos_grid={pos_g[wc]}")
+        # # DEBUG: Check velocity and position AFTER motion integration
+        # if state.frame % 100 == 0:
+        #     vel = state.wave_center.velocity_amrs.to_numpy()
+        #     pos_f = state.wave_center.position_float.to_numpy()
+        #     pos_g = state.wave_center.position_grid.to_numpy()
+        #     print(f"\n--- AFTER integrate_motion_euler (frame {state.frame}) ---")
+        #     for wc in range(state.wave_center.num_sources):
+        #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}, pos_grid={pos_g[wc]}")
 
 
 def render_elements(state):

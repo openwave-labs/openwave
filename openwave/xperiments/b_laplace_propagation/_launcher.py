@@ -329,7 +329,7 @@ def display_level_specs(state, level_bar_vertices):
         sub.text("Medium: Indexed Voxel Grid")
         sub.text("Data-Structure: Scalar Field")
         sub.text("Coupling: Laplacian Operator")
-        sub.text("Propagation: Wave Equation (PDE)")
+        sub.text("Propagation: PDE Solver")
         sub.text("Boundary: Dirichlet Condition")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(

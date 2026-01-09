@@ -281,7 +281,7 @@ def display_level_specs(state, level_bar_vertices):
         sub.text("Data-Structure: Vector Field")
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
-        sub.text("Propagation: Radial from Source")
+        sub.text("Propagation: Analytical Function")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(
                 "https://github.com/openwave-labs/openwave/blob/main/openwave/common/wave_notation.md"
