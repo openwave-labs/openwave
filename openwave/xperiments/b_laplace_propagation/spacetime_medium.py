@@ -1,9 +1,9 @@
 """
-SCALAR-FIELD Method Medium Data-Grid
+LAPLACE-PROPAGATION Method Medium Data-Grid
 
 Object Classes @spacetime module.
 
-SCALAR-FIELD propagates Wave Motion (ENERGY-WAVE).
+LAPLACE-PROPAGATION propagates Wave Motion (ENERGY-WAVE).
 Modeled as a wave-field that allows energy to transfer from one point to the next.
 """
 
@@ -17,7 +17,7 @@ class WaveField:
     """
     Wave field simulation using cell-centered grid with attometer scaling.
 
-    This class implements SCALAR-FIELD propagation with:
+    This class implements LAPLACE-PROPAGATION propagation with:
     - Cell-centered cubic grid
     - Attometer scaling for numerical precision (f32 fields)
     - Computed positions from indices (memory efficient)
@@ -111,10 +111,15 @@ class WaveField:
         # PROPAGATED SCALAR FIELDS (values in attometers for f32 precision)
         # This avoids catastrophic cancellation in difference calculations
         # Scales 1e-17 m values to ~10 am, well within f32 range
+        # Wave equation fields (leap-frog scheme requires three time levels)
         # Longitudinal wave scalar field (ψl)
+        self.psiL_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t+dt
         self.psiL_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t
+        self.psiL_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψl at t-dt
         # Transverse wave scalar field (ψt)
+        self.psiT_new_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t+dt
         self.psiT_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t
+        self.psiT_old_am = ti.field(dtype=ti.f32, shape=self.grid_size)  # am, ψt at t-dt
 
         # TODO: Implement DERIVED SCALAR FIELDS
         # wavelength, period, phase, energy, momentum

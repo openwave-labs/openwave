@@ -7,6 +7,7 @@ Unified launcher for granule motion xperiments featuring:
 - Xperiment-specific parameters in /xparameters directory
 """
 
+import webbrowser
 import time
 import importlib
 import sys
@@ -275,10 +276,16 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.WHITE[1])
-    with render.gui.sub_window("GRANULE-MOTION METHOD", 0.84, 0.01, 0.16, 0.10) as sub:
+    with render.gui.sub_window("GRANULE-MOTION METHOD", 0.84, 0.01, 0.16, 0.16) as sub:
+        sub.text("Medium: Granule-Based Lattice")
+        sub.text("Data-Structure: Vector Field")
         sub.text(f"Source: {state.NUM_SOURCES} Harmonic Oscillators")
         sub.text("Coupling: Phase Sync")
         sub.text("Propagation: Radial from Source")
+        if sub.button("Wave Notation Guide"):
+            webbrowser.open(
+                "https://github.com/openwave-labs/openwave/blob/main/openwave/common/wave_notation.md"
+            )
 
 
 def display_data_dashboard(state):

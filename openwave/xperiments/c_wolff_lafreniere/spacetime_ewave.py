@@ -1,7 +1,7 @@
 """
 ENERGY-WAVE ENGINE
 
-ON SCALAR-FIELD METHOD
+ON WOLFF-LAFRENIERE METHOD
 
 Wave Physics Engine @spacetime module. Wave dynamics and motion.
 """
@@ -96,7 +96,7 @@ def propagate_wave(
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid
 
-            # Combined and Adjusted Wolff-LaFreniere wave-equation form:
+            # Combined and Adjusted Wolff-LaFreniere combined wave-equation form:
             # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
             # Phase term: sin(kr)/r → k as r→0 (physical units)
             phase_term = ti.select(
@@ -122,33 +122,6 @@ def propagate_wave(
             )
 
         curr_disp = wave_field.psiL_am[i, j, k]
-
-        # # Amplitude falloff for spherical wave: A(r) = A₀/r
-        # # Clamp to r_min to avoid singularity at r = 0
-        # r_safe_am = ti.max(r_grid, wavelength_grid)
-        # amplitude_falloff = wavelength_grid / r_safe_am
-        # # Total amplitude at this distance (with visualization scaling)
-        # amplitude_at_r_am = base_amplitude_am * amplitude_falloff
-
-        # # Apply spherical wave oscillating displacements
-        # # Standing Wave: A·cos(ωt)·cos(kr)
-        # prev_disp = wave_field.psiL_am[i, j, k]
-        # wave_field.psiL_am[i, j, k] = (
-        #     base_amplitude_am
-        #     * boost
-        #     * wave_field.scale_factor
-        #     * ti.cos(temporal_phase)
-        #     * ti.sin(spatial_phase)
-        # )
-        # curr_disp = wave_field.psiL_am[i, j, k]
-
-        # # Traveling Wave: A(r)·cos(ωt-kr), positive = expansion, negative = compression
-        # wave_field.psiL_am[i, j, k] += (
-        #     amplitude_at_r_am
-        #     * boost
-        #     * wave_field.scale_factor
-        #     * ti.cos(temporal_phase - spatial_phase)
-        # )
 
         # WAVE-TRACKERS ============================================
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)

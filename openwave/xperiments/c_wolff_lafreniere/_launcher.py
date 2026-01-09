@@ -20,11 +20,11 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave.i_o import flux_mesh, render, video
 
-import openwave.xperiments.c_vector_field.spacetime_medium as medium
-import openwave.xperiments.c_vector_field.spacetime_ewave as ewave
-import openwave.xperiments.c_vector_field.particle as particle
-import openwave.xperiments.c_vector_field.force_motion as force_motion
-import openwave.xperiments.c_vector_field.instrumentation as instrument
+import openwave.xperiments.c_wolff_lafreniere.spacetime_medium as medium
+import openwave.xperiments.c_wolff_lafreniere.spacetime_ewave as ewave
+import openwave.xperiments.c_wolff_lafreniere.particle as particle
+import openwave.xperiments.c_wolff_lafreniere.force_motion as force_motion
+import openwave.xperiments.c_wolff_lafreniere.instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -63,7 +63,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.c_vector_field.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.c_wolff_lafreniere.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -88,7 +88,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.c_vector_field.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.c_wolff_lafreniere.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name
@@ -342,10 +342,12 @@ def display_wave_menu(state):
 def display_level_specs(state, level_bar_vertices):
     """Display OpenWave level specifications overlay."""
     render.canvas.triangles(level_bar_vertices, color=colormap.DARK_BLUE[1])
-    with render.gui.sub_window("VECTOR-FIELD METHOD", 0.84, 0.01, 0.16, 0.12) as sub:
-        sub.text("Coupling: Laplacian Operator")
-        sub.text("Propagation: Wave Equation (PDE)")
-        sub.text("Boundary: Dirichlet Condition")
+    with render.gui.sub_window("WOLFF-LAFRENIERE METHOD", 0.84, 0.01, 0.16, 0.16) as sub:
+        sub.text("Medium: Indexed Voxel Grid")
+        sub.text("Data-Structure: Scalar Field")
+        sub.text("Coupling: Phase Sync")
+        sub.text("Propagation: W-L Equation")
+        sub.text("Boundary: Open (Non-Reflective)")
         if sub.button("Wave Notation Guide"):
             webbrowser.open(
                 "https://github.com/openwave-labs/openwave/blob/main/openwave/common/wave_notation.md"

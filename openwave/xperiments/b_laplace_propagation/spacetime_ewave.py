@@ -1,7 +1,7 @@
 """
 ENERGY-WAVE ENGINE
 
-ON SCALAR-FIELD METHOD
+ON LAPLACE-PROPAGATION METHOD
 
 Wave Physics Engine @spacetime module. Wave dynamics and motion.
 """
