@@ -1,4 +1,4 @@
-# LaFreniere-Wolff Combined Wave Equation
+# Wolff-LaFreniere Combined Wave Equation
 
 ## Research Documentation
 
@@ -36,7 +36,7 @@ To find the best equation that represents the standing + traveling waves emitted
 
 ## The Combined Equation
 
-### Final LaFreniere-Wolff Canonical Form
+### Final Wolff-LaFreniere Canonical Form
 
 ```text
 ψ(r,t) = A · [sin(ωt - kr) - sin(ωt)] / r
@@ -402,18 +402,18 @@ Both are valid solutions to the wave equation. The choice depends on what you're
 | Approach | Normalization | Best For |
 | -------- | ------------- | -------- |
 | **LaFreniere original** | 1/kr with smoothing | Mathematical analysis, normalized sinc behavior |
-| **LaFreniere-Wolff** | 1/r with analytical limits | Physical simulations, energy conservation |
+| **Wolff-LaFreniere** | 1/r with analytical limits | Physical simulations, energy conservation |
 
 **Philosophical perspective:**
 
 > Both are valid solutions to the wave equation. The question is which better models physical reality.
 
 - If you need **pure resonance** (idealized particle): Use Wolff's `cos(ωt)·sin(kr)/r`
-- If you need **radiating particle** (realistic): Use LaFreniere-Wolff's `[sin(ωt-kr) - sin(ωt)]/r`
+- If you need **radiating particle** (realistic): Use Wolff-LaFreniere's `[sin(ωt-kr) - sin(ωt)]/r`
 - If you need **energy flow analysis**: Use LaFreniere (has traveling component)
 - If you need **standing wave nodes only**: Use Wolff (simpler)
 
-For OpenWave's physical simulations, **we use the LaFreniere-Wolff combined form with 1/r normalization** because energy conservation is a priority.
+For OpenWave's physical simulations, **we use the Wolff-LaFreniere combined form with 1/r normalization** because energy conservation is a priority.
 
 ### Summary Table
 
@@ -468,7 +468,7 @@ The quadrature term `(1-cos(kr))/r` represents a π/2 phase shift. This phase sh
 
 ### 3. Force Unification Model (OpenWave Xperiment)
 
-**Goal:** Implement a LaFreniere-Wolff simulation in OpenWave to model unified forces from wave mechanics.
+**Goal:** Implement a Wolff-LaFreniere simulation in OpenWave to model unified forces from wave mechanics.
 
 **Proposed force origins from wave interactions:**
 

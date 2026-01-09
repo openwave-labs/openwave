@@ -41,17 +41,60 @@ from openwave.common import constants
 # ================================================================
 MEDIUM_DENSITY = constants.MEDIUM_DENSITY  # kg/m^3
 EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY  # Hz
+EWAVE_AMPLITUDE = constants.EWAVE_AMPLITUDE  # m
+EWAVE_SPEED = constants.EWAVE_SPEED  # m/s (c)
+EWAVE_LENGTH = constants.EWAVE_LENGTH  # m (λ)
 ELECTRON_MASS = constants.ELECTRON_MASS  # kg
 ATTOMETER = constants.ATTOMETER  # m/am = 1e-18
 RONTOSECOND = constants.RONTOSECOND  # s/rs = 1e-27
 
-# Coulomb force constants (for comparison with simulated force)
+# Coulomb force constants (for reference)
 COULOMB_CONSTANT = constants.COULOMB_CONSTANT  # N·m²/C², k = 8.99e9
 ELEMENTARY_CHARGE = constants.ELEMENTARY_CHARGE  # C, e = 1.60e-19
+
+# EWT particle constants
+NEUTRINO_K = constants.NEUTRINO_K  # K=1 for neutrino
+ELECTRON_K = constants.ELECTRON_K  # K=10 for electron
+ELECTRON_OUTER_SHELL = constants.ELECTRON_OUTER_SHELL  # Oe for electron
+ELECTRON_ORBITAL_G = constants.ELECTRON_ORBITAL_G  # gλ for electron
 
 # Unit conversion factors
 # From m/s² to am/rs²: a_amrs2 = a_ms2 / ATTOMETER * RONTOSECOND²
 # = a_ms2 * (1/1e-18) * (1e-27)² = a_ms2 * 1e18 * 1e-54 = a_ms2 * 1e-36
+
+
+def compute_ewt_electric_force(r: float, K: int = 1, Oe: float = 1.0, glambda: float = 1.0) -> float:
+    """
+    Compute EWT electric force between two particles.
+
+    F_e = (4πρ K^7 A^6 c² Oe / 3λ²) × gλ × (Q1×Q2 / r²)
+
+    For like particles (Q1=Q2=1), this becomes:
+    F_e = (4πρ K^7 A^6 c² Oe gλ / 3λ²) / r²
+
+    Args:
+        r: Distance between particles in meters
+        K: Wave center count (1 for neutrino, 10 for electron)
+        Oe: Outer shell multiplier (1.0 for K=1, ~2.14 for electron)
+        glambda: Orbital g-factor (1.0 for K=1, ~0.99 for electron)
+
+    Returns:
+        Force in Newtons
+    """
+    coefficient = (
+        4.0
+        * np.pi
+        * MEDIUM_DENSITY
+        * (K**7)
+        * (EWAVE_AMPLITUDE**6)
+        * (EWAVE_SPEED**2)
+        * Oe
+        * glambda
+    ) / (3.0 * (EWAVE_LENGTH**2))
+
+    return coefficient / (r**2)
+
+
 ACCEL_MS2_TO_AMRS2 = 1.0 / ATTOMETER * RONTOSECOND * RONTOSECOND  # = 1e-36
 
 
@@ -387,13 +430,17 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     print(f"{'='*60}")
 
     # ================================================================
-    # COULOMB FORCE COMPARISON
+    # EWT FORCE COMPARISON (Primary validation)
     # ================================================================
-    # For two-particle systems, calculate expected Coulomb force
-    # F_coulomb = k * e² / r²  where k = 8.99e9 N·m²/C², e = 1.60e-19 C
+    # EWT Electric Force: F_e = (4πρ K^7 A^6 c² Oe / 3λ²) × gλ × (1/r²)
     #
-    # This is the BENCHMARK: our wave-based force should match Coulomb
-    # force once properly calibrated.
+    # This is the CORRECT comparison for OpenWave validation:
+    # - Derived from wave physics (same as our simulation)
+    # - Uses K (wave center count) as parameter
+    # - For K=1: Oe=1.0, gλ=1.0 (no outer shell complexity)
+    # - For K=10 (electron): Oe=2.14, gλ=0.99
+    #
+    # If simulated force matches EWT force, OpenWave is validated!
     # ================================================================
     positions_grid = wave_center.position_grid.to_numpy()
     dx_m = wave_field.dx  # voxel size in meters
@@ -405,19 +452,28 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         separation = np.linalg.norm(pos1 - pos0)
 
         if separation > 0:
-            # Coulomb force magnitude: F = k * e² / r²
+            # EWT force for K=1 (fundamental particle)
+            F_ewt_k1 = compute_ewt_electric_force(separation, K=1, Oe=1.0, glambda=1.0)
+
+            # EWT force for K=10 (electron) - should match Coulomb
+            F_ewt_k10 = compute_ewt_electric_force(
+                separation, K=10, Oe=ELECTRON_OUTER_SHELL, glambda=ELECTRON_ORBITAL_G
+            )
+
+            # Coulomb force for reference
             F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
 
             # Direction vector (from 0 to 1)
             direction = (pos1 - pos0) / separation
 
             print(f"\n{'─'*60}")
-            print("COULOMB FORCE BENCHMARK (Target for calibration)")
+            print("EWT FORCE PREDICTIONS (Target for validation)")
             print(f"{'─'*60}")
             print(f"  Separation: {separation:.3e} m ({separation/ATTOMETER:.3f} am)")
-            print(f"  k (Coulomb constant): {COULOMB_CONSTANT:.3e} N·m²/C²")
-            print(f"  e (elementary charge): {ELEMENTARY_CHARGE:.3e} C")
-            print(f"  F_coulomb = k·e²/r² = {F_coulomb:.3e} N")
+            print(f"  F_ewt (K=1):  {F_ewt_k1:.3e} N  ← TARGET for simulation")
+            print(f"  F_ewt (K=10): {F_ewt_k10:.3e} N  (electron)")
+            print(f"  F_coulomb:    {F_coulomb:.3e} N  (reference)")
+            print(f"  EWT K=10 / Coulomb ratio: {F_ewt_k10/F_coulomb:.6f}")
             print(
                 f"  Direction (WC0→WC1): [{direction[0]:.3f}, {direction[1]:.3f}, {direction[2]:.3f}]"
             )
@@ -522,7 +578,7 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         print(f"  Velocity: [{v[0]:.3e}, {v[1]:.3e}, {v[2]:.3e}] am/rs")
 
     # ================================================================
-    # FINAL COMPARISON SUMMARY (for 2-particle systems)
+    # VALIDATION SUMMARY: Simulated vs EWT Prediction
     # ================================================================
     if wave_center.num_sources == 2:
         pos0 = positions_grid[0] * dx_m
@@ -530,7 +586,8 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         separation = np.linalg.norm(pos1 - pos0)
 
         if separation > 0:
-            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
+            # EWT predicted force for K=1
+            F_ewt_k1 = compute_ewt_electric_force(separation, K=1, Oe=1.0, glambda=1.0)
 
             # Get simulated force magnitudes
             forces = wave_center.force.to_numpy()
@@ -538,19 +595,33 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
             F_sim_1 = np.linalg.norm(forces[1])
             F_sim_avg = (F_sim_0 + F_sim_1) / 2
 
-            # Calculate calibration ratio
-            ratio = F_sim_avg / F_coulomb if F_coulomb > 0 else 0
+            # Calculate ratio to EWT K=1 prediction (THIS IS THE KEY METRIC)
+            ratio_ewt = F_sim_avg / F_ewt_k1 if F_ewt_k1 > 0 else 0
+
+            # Also show Coulomb comparison for reference
+            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
+            ratio_coulomb = F_sim_avg / F_coulomb if F_coulomb > 0 else 0
 
             print(f"\n{'─'*60}")
-            print("CALIBRATION SUMMARY")
+            print("VALIDATION: Simulated vs EWT Prediction")
             print(f"{'─'*60}")
-            print(f"  Coulomb F (expected):   {F_coulomb:.3e} N")
+            print(f"  EWT F (K=1 target):     {F_ewt_k1:.3e} N")
             print(f"  Simulated F (WC0):      {F_sim_0:.3e} N")
             print(f"  Simulated F (WC1):      {F_sim_1:.3e} N")
             print(f"  Simulated F (average):  {F_sim_avg:.3e} N")
-            print(f"  Ratio (sim/coulomb):    {ratio:.3e}")
-            if ratio > 0:
-                print(f"  Scale needed:           {1/ratio:.3e}x")
+            print(f"{'─'*60}")
+            print(f"  RATIO (sim/EWT K=1):    {ratio_ewt:.6f}")
+            if ratio_ewt > 0:
+                print(f"  Scale needed:           {1/ratio_ewt:.3e}x")
+            print(f"{'─'*60}")
+            if ratio_ewt > 0.9 and ratio_ewt < 1.1:
+                print("  ✓ VALIDATED: Within 10% of EWT prediction!")
+            elif ratio_ewt > 0.5 and ratio_ewt < 2.0:
+                print("  ~ CLOSE: Within 2x of EWT prediction")
+            else:
+                print("  ✗ Calibration needed")
+            print(f"{'─'*60}")
+            print(f"  (Coulomb ref: {F_coulomb:.3e} N, ratio: {ratio_coulomb:.3e})")
             print(f"{'─'*60}")
 
             # Direction check

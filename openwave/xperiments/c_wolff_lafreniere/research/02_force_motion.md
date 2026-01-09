@@ -15,6 +15,7 @@ This document captures the implementation plan for the Force & Motion module in 
 1. [Phase 1: Motion Smoke Test](#phase-1-motion-smoke-test)
 1. [Phase 2: Energy Calculation](#phase-2-energy-calculation)
 1. [Phase 3: Force from Energy Gradient](#phase-3-force-from-energy-gradient)
+1. [EWT Force Validation](#ewt-force-validation)
 1. [Phase 4: Integration and Validation](#phase-4-integration-and-validation)
 1. [Future Extensions](#future-extensions)
 
@@ -614,6 +615,198 @@ sample_radius = ti.max(min_dim * pct // 100, 1)
 2. **Force Calibration**: Current force multiplier is arbitrary. Future work should calibrate to match Coulomb force at known distances.
 
 3. **Annihilation Physics**: Particles "annihilate" by stopping when touching, but true annihilation would convert mass to energy (photon emission).
+
+---
+
+## EWT Force Validation
+
+### The Ultimate Goal
+
+**OpenWave's validity as a physics simulator depends on matching EWT predictions.** The proper comparison is the **EWT electric force equation** - derived from the same wave physics that OpenWave simulates.
+
+If OpenWave's simulated forces match EWT's theoretical predictions, this validates:
+
+1. OpenWave correctly implements wave-based force emergence
+2. The numerical simulation matches analytical EWT equations
+3. OpenWave can be used as a **numerical model for EWT predictions**
+4. The "charge as phase" model produces correct force magnitudes
+
+### EWT Electric Force Equation
+
+From `equations.py`, the EWT electric force:
+
+```text
+F_e = (4πρ K^7 A^6 c² Oe / 3λ²) × gλ × (Q₁×Q₂ / r²)
+```
+
+For two like particles (Q₁=Q₂=1):
+
+```text
+F_e = (4πρ K^7 A^6 c² Oe gλ / 3λ²) / r²
+```
+
+Where:
+
+| Constant | Symbol | Value | Notes |
+| -------- | ------ | ----- | ----- |
+| Medium density | ρ | 3.86e+22 kg/m³ | Aether density |
+| Wave amplitude | A | 9.22e-19 m | Fundamental amplitude |
+| Wave speed | c | 2.998e+8 m/s | Speed of light |
+| Wavelength | λ | 2.854e-17 m | Compton wavelength |
+| Wave center count | K | 1 or 10 | Particle type |
+| Outer shell | Oe | 1.0 (K=1), 2.14 (K=10) | Shell multiplier |
+| Orbital g-factor | gλ | 1.0 (K=1), 0.99 (K=10) | Orbital correction |
+
+### K-Factor: Particle Type Determines Constants
+
+| Particle | K | Oe | gλ | Mass |
+| -------- | - | -- | -- | ---- |
+| Fundamental (neutrino) | 1 | 1.0 | 1.0 | 4.26e-36 kg |
+| Electron | 10 | 2.1387 | 0.9873 | 9.11e-31 kg |
+
+**Current simulation uses K=1** with Oe=1.0 and gλ=1.0.
+
+### Why EWT Force (Not Coulomb) is the Right Comparison
+
+**Coulomb's law** uses elementary charge (e) which is an **observed property of electrons (K=10)**:
+
+```text
+F_coulomb = k·e²/r²   (only valid for electrons)
+```
+
+**EWT force** is derived from wave physics and uses K as a parameter:
+
+```text
+F_ewt = f(K, ρ, A, c, λ, Oe, gλ) / r²   (valid for any K)
+```
+
+For K=10 with correct Oe and gλ, EWT force **equals** Coulomb force (this is how EWT was calibrated). But for K=1, only EWT gives the correct prediction.
+
+### Validation Hierarchy
+
+1. **Primary**: Simulated force vs EWT K=1 prediction
+   - Ratio should be 1.0 when calibrated
+   - This validates OpenWave implements EWT correctly
+
+2. **Secondary**: EWT K=10 vs Coulomb force
+   - Ratio should be ~1.0 (EWT calibration check)
+   - Confirms EWT constants are correct
+
+3. **Future**: K=10 simulation vs Coulomb
+   - When electron simulations work, should match Coulomb
+   - Full validation of EWT + OpenWave + observations
+
+### Implementation: `debug_force_analysis()`
+
+Added EWT force comparison to the debug output in `force_motion.py`:
+
+```python
+def compute_ewt_electric_force(r, K=1, Oe=1.0, glambda=1.0):
+    """
+    F_e = (4πρ K^7 A^6 c² Oe / 3λ²) × gλ / r²
+    """
+    coefficient = (
+        4.0 * np.pi * MEDIUM_DENSITY * (K**7) * (EWAVE_AMPLITUDE**6)
+        * (EWAVE_SPEED**2) * Oe * glambda
+    ) / (3.0 * (EWAVE_LENGTH**2))
+    return coefficient / (r**2)
+
+# In debug output:
+F_ewt_k1 = compute_ewt_electric_force(separation, K=1, Oe=1.0, glambda=1.0)
+ratio_ewt = F_sim_avg / F_ewt_k1  # THIS IS THE KEY METRIC
+```
+
+### Debug Output Format
+
+The debug function produces two comparison sections:
+
+**EWT FORCE PREDICTIONS** (at start):
+
+```text
+────────────────────────────────────────────────────────────
+EWT FORCE PREDICTIONS (Target for validation)
+────────────────────────────────────────────────────────────
+  Separation: 1.000e-16 m (100.000 am)
+  F_ewt (K=1):  X.XXXe-XX N  ← TARGET for simulation
+  F_ewt (K=10): X.XXXe-XX N  (electron)
+  F_coulomb:    X.XXXe-XX N  (reference)
+  EWT K=10 / Coulomb ratio: 1.XXXXXX
+  Direction (WC0→WC1): [1.000, 0.000, 0.000]
+────────────────────────────────────────────────────────────
+```
+
+**VALIDATION SUMMARY** (at end):
+
+```text
+────────────────────────────────────────────────────────────
+VALIDATION: Simulated vs EWT Prediction
+────────────────────────────────────────────────────────────
+  EWT F (K=1 target):     X.XXXe-XX N
+  Simulated F (WC0):      X.XXXe-XX N
+  Simulated F (WC1):      X.XXXe-XX N
+  Simulated F (average):  X.XXXe-XX N
+────────────────────────────────────────────────────────────
+  RATIO (sim/EWT K=1):    X.XXXXXX
+  Scale needed:           X.XXXe+XX x
+────────────────────────────────────────────────────────────
+  ✓ VALIDATED: Within 10% of EWT prediction!
+  (or: ✗ Calibration needed)
+────────────────────────────────────────────────────────────
+  Force direction: ATTRACTION (dot=0.XXX)
+────────────────────────────────────────────────────────────
+```
+
+### Validation Metrics
+
+| Metric | Description | Target |
+| ------ | ----------- | ------ |
+| **Ratio (sim/EWT K=1)** | How close simulated force is to EWT prediction | 1.0 |
+| **Scale needed** | Multiplier to make forces match (1/ratio) | 1.0 |
+| **Force direction** | ATTRACTION vs REPULSION | Correct for phase config |
+
+### Calibration Strategy
+
+The goal is to adjust OpenWave's force calculation so that **ratio → 1.0**:
+
+1. **Wave Amplitude Calibration**: The base_amplitude_am affects force magnitude via A·grad(A)
+
+2. **Frequency Calibration**: The wave frequency f appears as f² in force equation
+
+3. **Medium Density**: rho affects force scale directly
+
+4. **Force Multiplier Removal**: Once calibrated, FORCE_MULTIPLIER should become 1.0
+
+### Why This Matters for OpenWave
+
+**If successful**, this validation proves that:
+
+- OpenWave correctly implements EWT physics
+- Force magnitudes **emerge** from wave interference (not hardcoded)
+- The numerical simulation matches analytical theory
+- OpenWave can be used to **predict** behaviors not yet observed
+
+The validation chain:
+```text
+OpenWave → matches → EWT predictions → matches → Coulomb law → matches → Observations
+```
+
+### Current Status
+
+- ✓ Debug output implemented with EWT force comparison
+- ✓ Attraction/repulsion direction matches expected behavior
+- ⧗ Force magnitude calibration in progress
+- ⧗ Scale factor dependency needs resolution before calibration
+
+### Future Work: From Validation to Prediction
+
+Once EWT force matching is achieved:
+
+1. **Test at multiple distances**: Verify 1/r² relationship holds
+2. **Multi-particle systems**: Validate superposition principle
+3. **K=10 simulation**: Validate electron-level forces match Coulomb
+4. **Dynamic interactions**: Verify energy conservation during motion
+5. **Extend to magnetic forces**: psiT component for moving charges
+6. **Predict new phenomena**: Use validated model for unexplored scenarios
 
 ---
 
