@@ -912,7 +912,6 @@ Standing wave node locking at nuclear distances.
 def compute_force_motion(state):
     """Compute forces and update particle motion."""
 
-    # TODO: Configuration - set to False after smoke test passes
     USE_SMOKE_TEST = True
 
     if USE_SMOKE_TEST:
