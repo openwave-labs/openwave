@@ -1,5 +1,5 @@
 """
-C/ VECTOR-FIELD METHOD (analytical tools)
+C/ VECTOR-FIELD Method (analytical tools)
 
 Experiments exploring wave dynamics using vector-field method simulation.
 """
