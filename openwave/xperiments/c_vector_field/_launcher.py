@@ -478,7 +478,7 @@ def compute_wave_motion(state):
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
     # Frame skip reduces GPU->CPU transfer overhead
-    if state.frame % 60 == 0:
+    if state.frame % 60 == 0 or state.frame == 10:
         ewave.sample_avg_trackers(state.wave_field, state.trackers)
     state.rms_ampL = state.trackers.rms_ampL_am[None] * constants.ATTOMETER  # in m
     state.rms_ampT = state.trackers.rms_ampT_am[None] * constants.ATTOMETER  # in m
@@ -503,20 +503,66 @@ def compute_wave_motion(state):
 
 
 def compute_force_motion(state):
-    # TODO: FUNDAMENTAL FORCE
-    # get WC position, select neighboring voxels with influence radius
-    # compute scalar Energy values per neighboring voxel (J)
-    # compute force (N) = - ∇E (J/m) from energy gradient descent vector around WC (energy curvature)
-    # report forces in original unscaled units by dividing by S⁴ (consider scale_factor)
-    # update docstring
+    """
+    Compute forces and update particle motion.
 
-    # TODO: PARTICLE MOTION
-    # compute acceleration (m/s²) = F / m (from WC mass: now attribute, later computed)
-    # integrate acceleration to velocity and position (Verlet or simpler Euler integration?)
-    # render particle @position (convert [ijk] >> [xyz_screen])
+    Physics:
+    - Force = -grad(E) where E = rho * V * (f * A)^2
+    - Motion: Euler integration of F = m * a
 
-    force_motion.compute_force_vector(state.wave_field, state.wave_center)
-    force_motion.compute_particle_motion(state.wave_field, state.wave_center)
+    Phases:
+    - Phase 1 (SMOKE_TEST=True): Hardcoded force for testing motion integration
+    - Phase 3+ (SMOKE_TEST=False): Force computed from energy gradient
+
+    See research/02_force_motion.md for detailed documentation.
+    """
+    # TODO: Configuration: Set to False after smoke test passes to use energy gradient force
+    USE_SMOKE_TEST = False
+
+    # # DEBUG: Check velocity at START of frame (before any force computation)
+    # if state.frame % 100 == 0:
+    #     vel = state.wave_center.velocity_amrs.to_numpy()
+    #     pos_f = state.wave_center.position_float.to_numpy()
+    #     print(f"\n--- START of frame {state.frame} (before force computation) ---")
+    #     for wc in range(state.wave_center.num_sources):
+    #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}")
+
+    if USE_SMOKE_TEST:
+        # PHASE 1: Smoke test with hardcoded force
+        force_motion.compute_particle_motion(
+            state.wave_field,
+            state.wave_center,
+            state.dt_rs,
+            use_smoke_test=True,
+        )
+    else:
+        # PHASE 3+: Compute force from energy gradient, then integrate motion
+        force_motion.compute_force_vector(
+            state.wave_field,
+            state.trackers,
+            state.wave_center,
+        )
+        # DEBUG: Print force analysis every 100 frames
+        # force_motion.debug_force_analysis(
+        #     state.wave_field,
+        #     state.trackers,
+        #     state.wave_center,
+        #     state.frame,
+        # )
+        force_motion.compute_particle_motion(
+            state.wave_field,
+            state.wave_center,
+            state.dt_rs,
+            use_smoke_test=False,
+        )
+        # # DEBUG: Check velocity and position AFTER motion integration
+        # if state.frame % 100 == 0:
+        #     vel = state.wave_center.velocity_amrs.to_numpy()
+        #     pos_f = state.wave_center.position_float.to_numpy()
+        #     pos_g = state.wave_center.position_grid.to_numpy()
+        #     print(f"\n--- AFTER integrate_motion_euler (frame {state.frame}) ---")
+        #     for wc in range(state.wave_center.num_sources):
+        #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}, pos_grid={pos_g[wc]}")
 
 
 def render_elements(state):
@@ -538,12 +584,15 @@ def render_elements(state):
 
     if state.PARTICLE_SHELL:
         # Convert wave-centers positions from [ijk] to [screen_normalization]
+        # Use position_float for smooth rendering (position_grid is integer, causes jumpy motion)
+        # Normalize by max_grid_size to respect asymmetric universes (like flux_mesh does)
+        max_dim = float(state.wave_field.max_grid_size)
         for wc_idx in range(state.wave_center.num_sources):
             wc_pos_screen = ti.Vector(
                 [
-                    state.wave_center.position_grid[wc_idx][0] / state.wave_field.nx,
-                    state.wave_center.position_grid[wc_idx][1] / state.wave_field.ny,
-                    state.wave_center.position_grid[wc_idx][2] / state.wave_field.nz,
+                    state.wave_center.position_float[wc_idx][0] / max_dim,
+                    state.wave_center.position_float[wc_idx][1] / max_dim,
+                    state.wave_center.position_float[wc_idx][2] / max_dim,
                 ],
                 dt=ti.f32,
             )
@@ -582,7 +631,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "0035_waves"
+    default_xperiment = selected_xperiment_arg or "0035a_waves"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return

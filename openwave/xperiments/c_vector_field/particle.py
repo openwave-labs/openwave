@@ -49,6 +49,11 @@ class WaveCenter:
         # Force in Newtons (SI) - kept in SI for physics accuracy
         self.force = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
+        # DEBUG: Intermediate values for force calculation inspection
+        self.debug_A_center = ti.field(dtype=ti.f32, shape=num_sources)
+        self.debug_dA_dx = ti.field(dtype=ti.f32, shape=num_sources)
+        self.debug_force_scale = ti.field(dtype=ti.f32, shape=num_sources)
+
         # Mass in kilograms (SI) - initialized to electron mass
         self.mass = ti.field(dtype=ti.f32, shape=num_sources)
 
