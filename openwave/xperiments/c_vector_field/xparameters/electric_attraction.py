@@ -10,7 +10,7 @@ TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"Repulsion, {TARGET_VOXELS/1e6:.0f}M voxels",
+        "X_NAME": f"Electrostatic Attraction",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -28,7 +28,7 @@ XPARAMETERS = {
             [0.75, 0.50, 0.50],
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
-        "PHASE_OFFSETS_DEG": [0, 0],
+        "PHASE_OFFSETS_DEG": [0, 180],
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines

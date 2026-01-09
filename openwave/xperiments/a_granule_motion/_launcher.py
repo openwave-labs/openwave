@@ -244,7 +244,7 @@ def display_controls(state):
         state.FREQ_BOOST = sub.slider_float("f Boost", state.FREQ_BOOST, 0.1, 10.0)
         state.AMP_BOOST = sub.slider_float("Amp Boost", state.AMP_BOOST, 0.1, 5.0)
         if state.PAUSED:
-            if sub.button("Continue"):
+            if sub.button(">> PROPAGATE EWAVE >>"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):

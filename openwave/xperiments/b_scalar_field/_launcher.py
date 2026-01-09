@@ -273,12 +273,12 @@ def display_controls(state):
         state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
-            if sub.button("Propagate eWave"):
+            if sub.button(">> PROPAGATE EWAVE >>"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
-        if sub.button("Restart Sim"):
+        if sub.button("Restart Simulation"):
             state.restart_sim()
 
 

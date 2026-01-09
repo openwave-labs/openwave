@@ -290,12 +290,12 @@ def display_controls(state):
         state.PARTICLE_SHELL = sub.checkbox("Particle Shell", state.PARTICLE_SHELL)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.1, 1.0)
         if state.PAUSED:
-            if sub.button("Propagate eWave"):
+            if sub.button(">> PROPAGATE EWAVE >>"):
                 state.PAUSED = False
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
-        if sub.button("Restart Sim"):
+        if sub.button("Restart Simulation"):
             state.restart_sim()
 
 
@@ -631,7 +631,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "0035a_waves"
+    default_xperiment = selected_xperiment_arg or "electric_attraction"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
