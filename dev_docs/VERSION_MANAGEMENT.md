@@ -70,8 +70,8 @@ OpenWave follows [Semantic Versioning (SemVer)](https://semver.org/):
 
 The following files display the version to users:
 
-- `openwave/_io/cli.py`: CLI menu headers (lines 159-164, 223-229)
-- `openwave/_io/render.py`: Window title (lines 20-29)
+- `openwave/i_o/cli.py`: CLI menu headers (lines 159-164, 223-229)
+- `openwave/i_o/render.py`: Window title (lines 20-29)
 
 All files use the same pattern:
 

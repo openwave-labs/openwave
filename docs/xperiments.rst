@@ -347,7 +347,7 @@ To contribute new xperiments:
 
 1. Create your experiment in ``openwave/xperiments/``
 2. Follow the naming convention: ``my_experiment.py``
-3. Add to the CLI menu in ``openwave/_io/cli.py``
+3. Add to the CLI menu in ``openwave/i_o/cli.py``
 4. Document in this page
 5. Submit a pull request
 

@@ -1,8 +1,8 @@
 {
-  "openwave._io.__init__": [
-    "openwave._io.cli"
+  "openwave.i_o.__init__": [
+    "openwave.i_o.cli"
   ],
-  "openwave._io.cli": [
+  "openwave.i_o.cli": [
     "argparse",
     "os",
     "sys",
@@ -11,7 +11,7 @@
     "importlib.metadata",
     "simple_term_menu"
   ],
-  "openwave._io.render": [
+  "openwave.i_o.render": [
     "importlib.metadata",
     "taichi",
     "numpy",
@@ -77,7 +77,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
     "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
@@ -87,7 +87,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
     "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
@@ -97,7 +97,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.radial_wave.medium_bccgranule",
     "openwave.xperiments._archives.radial_wave.wave_engine_radial",
     "openwave.validations.wave_diagnostics"
@@ -130,7 +130,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.spring_mass.medium_bccgranule",
     "openwave.xperiments._archives.spring_mass.wave_engine_spring_euler"
   ],
@@ -139,7 +139,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.spring_mass.medium_bccgranule",
     "openwave.xperiments._archives.spring_mass.wave_engine_spring_leap"
   ],
@@ -149,7 +149,7 @@
     "openwave.common",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.xperiments._archives.spring_mass.medium_bccgranule",
     "openwave.xperiments._archives.spring_mass.energy_wave_xpbd"
   ],
@@ -164,7 +164,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -174,7 +174,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -184,7 +184,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -194,7 +194,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -204,7 +204,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -214,7 +214,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"
@@ -224,7 +224,7 @@
     "time",
     "openwave.common",
     "openwave.common",
-    "openwave._io",
+    "openwave.i_o",
     "openwave.spacetime.medium_level0",
     "openwave.spacetime.energy_wave_level0",
     "openwave.validations.wave_diagnostics"

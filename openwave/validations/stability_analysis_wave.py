@@ -7,7 +7,7 @@ import numpy as np
 
 from openwave.common import constants
 
-import openwave.spacetime.C_medium as medium
+import openwave.xperiments.C_scalar_field.spacetime_medium as medium
 
 ti.init(arch=ti.gpu)
 
