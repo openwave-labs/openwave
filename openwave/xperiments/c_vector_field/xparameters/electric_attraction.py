@@ -44,7 +44,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 2,  # redblue (1), yellowgreen (2), ironbow (3), viridis (4), blueprint (5)
+        "COLOR_PALETTE": 1,  # yellowgreen (1), redblue (2), viridis (4), ironbow (5), blueprint (6)
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics

@@ -285,38 +285,38 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.15, 0.17) as sub:
-        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 2):
-            state.COLOR_PALETTE = 2
-        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 1):
+        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 1):
             state.COLOR_PALETTE = 1
+        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 2):
+            state.COLOR_PALETTE = 2
         if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 4):
             state.COLOR_PALETTE = 4
-        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 3):
-            state.COLOR_PALETTE = 3
-        if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 5):
+        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 5):
             state.COLOR_PALETTE = 5
+        if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 6):
+            state.COLOR_PALETTE = 6
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.COLOR_PALETTE == 1:  # Display redblue gradient palette
-            render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
-            with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(
-                    f"{-state.rms_ampT*2/state.wave_field.scale_factor:.0e}  {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m"
-                )
-        if state.COLOR_PALETTE == 2:  # Display yellowgreen gradient palette
+        if state.COLOR_PALETTE == 1:  # Display yellowgreen gradient palette
             render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.rms_ampL*2/state.wave_field.scale_factor:.0e}  {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
-            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m")
+        if state.COLOR_PALETTE == 2:  # Display redblue gradient palette
+            render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
+            with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(
+                    f"{-state.rms_ampT*2/state.wave_field.scale_factor:.0e}  {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m"
+                )
         if state.COLOR_PALETTE == 4:  # Display viridis gradient palette
             render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.rms_ampL*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 5:  # Display blueprint gradient palette
+        if state.COLOR_PALETTE == 5:  # Display ironbow gradient palette
+            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
+            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.rms_ampT*2/state.wave_field.scale_factor:.0e}m")
+        if state.COLOR_PALETTE == 6:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.avg_freq*2*state.wave_field.scale_factor:.0e}Hz")
@@ -412,25 +412,25 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    global rb_palette_vertices, rb_palette_colors
     global yg_palette_vertices, yg_palette_colors
-    global ib_palette_vertices, ib_palette_colors
+    global rb_palette_vertices, rb_palette_colors
     global vr_palette_vertices, vr_palette_colors
+    global ib_palette_vertices, ib_palette_colors
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
     # Initialize color palette scales for gradient rendering and level indicator
-    rb_palette_vertices, rb_palette_colors = colormap.get_palette_scale(
-        colormap.redblue, 0.00, 0.63, 0.079, 0.01
-    )
     yg_palette_vertices, yg_palette_colors = colormap.get_palette_scale(
         colormap.yellowgreen, 0.00, 0.63, 0.079, 0.01
     )
-    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
-        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
+    rb_palette_vertices, rb_palette_colors = colormap.get_palette_scale(
+        colormap.redblue, 0.00, 0.63, 0.079, 0.01
     )
     vr_palette_vertices, vr_palette_colors = colormap.get_palette_scale(
         colormap.viridis, 0.00, 0.63, 0.079, 0.01
+    )
+    ib_palette_vertices, ib_palette_colors = colormap.get_palette_scale(
+        colormap.ironbow, 0.00, 0.63, 0.079, 0.01
     )
     bp_palette_vertices, bp_palette_colors = colormap.get_palette_scale(
         colormap.blueprint, 0.00, 0.63, 0.079, 0.01

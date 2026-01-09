@@ -254,10 +254,10 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.73, 0.14, 0.14) as sub:
-        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 6):
-            state.COLOR_PALETTE = 6
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 3):
+        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 3):
             state.COLOR_PALETTE = 3
+        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 5):
+            state.COLOR_PALETTE = 5
         if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
             state.COLOR_PALETTE = 0
         if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
@@ -402,7 +402,7 @@ def render_elements(state):
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 6 or state.COLOR_PALETTE == 3:
+    elif state.COLOR_PALETTE == 3 or state.COLOR_PALETTE == 5:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,

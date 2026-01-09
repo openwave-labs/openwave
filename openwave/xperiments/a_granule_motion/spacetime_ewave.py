@@ -323,13 +323,13 @@ def oscillate_granules(
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map value to color using selected gradient
-        if color_palette == 6:  # orange (magnitude only)
+        if color_palette == 3:  # orange (magnitude only)
             granule_var_color[granule_idx] = colormap.get_orange_color(
                 displacement_am,
                 0.0,
                 peak_amplitude_am[None],
             )
-        elif color_palette == 3:  # ironbow (magnitude only: thermal scale)
+        elif color_palette == 5:  # ironbow (magnitude only: thermal scale)
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
                 amplitude_am[granule_idx],
                 0.0,
