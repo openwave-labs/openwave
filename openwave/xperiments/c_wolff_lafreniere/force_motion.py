@@ -63,7 +63,9 @@ ELECTRON_ORBITAL_G = constants.ELECTRON_ORBITAL_G  # gλ for electron
 # = a_ms2 * (1/1e-18) * (1e-27)² = a_ms2 * 1e18 * 1e-54 = a_ms2 * 1e-36
 
 
-def compute_ewt_electric_force(r: float, K: int = 1, Oe: float = 1.0, glambda: float = 1.0) -> float:
+def compute_ewt_electric_force(
+    r: float, K: int = 1, Oe: float = 1.0, glambda: float = 1.0
+) -> float:
     """
     Compute EWT electric force between two particles.
 
@@ -316,6 +318,7 @@ def integrate_motion_euler(
     wave_field: ti.template(),  # type: ignore
     wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
+    sim_speed: ti.f32,  # type: ignore
 ):
     """
     Integrate particle motion using Euler method.
@@ -327,6 +330,7 @@ def integrate_motion_euler(
         wave_field: WaveField instance (for dx voxel size)
         wave_center: WaveCenter instance with force/velocity/position fields
         dt_rs: Time step in rontoseconds
+        sim_speed: Simulation speed multiplier for particle motion
     """
     # Force multiplier for visualization (physically unrealistic but useful for testing)
     # Real forces are tiny at quantum scale - this boosts them for visible motion
@@ -362,10 +366,13 @@ def integrate_motion_euler(
         # velocity clamp to prevent superluminal speeds
         # TODO: Replace with proper relativistic treatment
         c_amrs = ti.cast(0.3, ti.f32)
-        v_mag = ti.sqrt(
-            wave_center.velocity_amrs[wc][0] ** 2
-            + wave_center.velocity_amrs[wc][1] ** 2
-            + wave_center.velocity_amrs[wc][2] ** 2
+        v_mag = (
+            ti.sqrt(
+                wave_center.velocity_amrs[wc][0] ** 2
+                + wave_center.velocity_amrs[wc][1] ** 2
+                + wave_center.velocity_amrs[wc][2] ** 2
+            )
+            / sim_speed  # Scale velocity by sim speed for consistent motion
         )
         if v_mag > c_amrs:
             scale = c_amrs / v_mag

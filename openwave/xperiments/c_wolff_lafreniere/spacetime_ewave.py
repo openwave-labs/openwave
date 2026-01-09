@@ -34,7 +34,6 @@ def propagate_wave(
     wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
-    boost: ti.f32,  # type: ignore
     sim_speed: ti.f32,  # type: ignore
 ):
     """
@@ -70,7 +69,6 @@ def propagate_wave(
         wave_center: WaveCenter instance with source positions and phase offsets
         dt_rs: Time step size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
-        boost: Amplitude boost factor for visualization
         sim_speed: Simulation speed multiplier for temporal phase
     """
     # Grid dimensions for boundary handling
@@ -131,9 +129,7 @@ def propagate_wave(
                 - ti.sin(temporal_phase + source_offset) * quadrature_term
             )
 
-            wave_field.psiL_am[i, j, k] += (
-                base_amplitude_am * boost * wave_field.scale_factor * oscillator
-            )
+            wave_field.psiL_am[i, j, k] += base_amplitude_am * wave_field.scale_factor * oscillator
 
         curr_disp = wave_field.psiL_am[i, j, k]
 

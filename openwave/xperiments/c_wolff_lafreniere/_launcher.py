@@ -449,7 +449,6 @@ def compute_wave_motion(state):
         state.wave_center,
         state.dt_rs,
         state.elapsed_t_rs,
-        1.0,  # TODO: review boost application
         state.SIM_SPEED,
     )
 
@@ -482,7 +481,7 @@ def compute_force_motion(state):
 
     See research/02_force_motion.md for detailed documentation.
     """
-    # TODO: Configuration: Set to False after smoke test passes to use energy gradient force
+    # TODO: Remove after smoke test passes to always use energy gradient force
     USE_SMOKE_TEST = False
 
     # # DEBUG: Check velocity at START of frame (before any force computation)
@@ -518,6 +517,7 @@ def compute_force_motion(state):
             state.wave_field,
             state.wave_center,
             state.dt_rs,
+            state.SIM_SPEED,
         )
         # # DEBUG: Check velocity and position AFTER motion integration
         # if state.frame % 100 == 0:
