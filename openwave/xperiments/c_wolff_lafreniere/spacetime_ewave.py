@@ -94,7 +94,7 @@ def propagate_wave(
         prev_disp = wave_field.psiL_am[i, j, k]
         wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
 
-        # loop over wave-centers (wave superposition principle)
+        # loop over wave-centers (wave superposition principle causing interference)
         for wc_idx in ti.ndrange(wave_center.num_sources):
             # Compute radial distance from wave source (in grid indices)
             r_grid = ti.sqrt(
@@ -108,7 +108,7 @@ def propagate_wave(
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid
 
-            # Combined and Adjusted Wolff-LaFreniere combined wave-equation form:
+            # Combined and Adjusted Wolff-LaFreniere wave-equation form:
             # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
             # Phase term: sin(kr)/r → k as r→0 (physical units)
             phase_term = ti.select(

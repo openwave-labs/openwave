@@ -493,7 +493,7 @@ def compute_force_motion(state):
     #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}")
 
     if USE_SMOKE_TEST:
-        # PHASE 1: Smoke test with hardcoded force
+        # PHASE 1: Smoke test with hardcoded force, debugging system integration
         force_motion.smoketest_particle_motion(
             state.wave_field,
             state.wave_center,
@@ -519,6 +519,7 @@ def compute_force_motion(state):
             state.dt_rs,
             state.SIM_SPEED,
         )
+        # Annihilation naturally occurs from wave physics, this is only a safety check
         # Detect and handle particle annihilation (opposite phase WCs meeting)
         # Threshold: 1.0 grid unit = WCs must be in same or adjacent voxel
         force_motion.detect_annihilation(state.wave_center, 1.0)

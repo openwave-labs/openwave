@@ -112,7 +112,8 @@ def smoketest_particle_motion(
     dt_rs: ti.f32,  # type: ignore
 ):
     """
-    SMOKE TEST: Apply hardcoded force to verify motion integration.
+    SMOKE TEST: Apply hardcoded force to debug motion integration.
+    Removed when validations passed. Replaced with force from energy gradients.
 
     Applies a constant force in +x direction to all wave centers.
     Used to verify that:
@@ -140,7 +141,7 @@ def smoketest_particle_motion(
     target_frames = ti.cast(100.0, ti.f32)  # Move 1 grid cell in n frames
     a_smoke = 2.0 * dx_am / (target_frames * target_frames * dt_rs * dt_rs)
 
-    for wc in range(wave_center.num_sources):
+    for wc_idx in range(wave_center.num_sources):
         # Apply computed acceleration in +x direction
         # NOTE: NOT physically realistic - purely for testing motion integration.
         a_x = a_smoke
@@ -150,17 +151,17 @@ def smoketest_particle_motion(
         # ================================================================
         # Update velocity: v_new = v_old + a * dt (in am/rs)
         # ================================================================
-        wave_center.velocity_amrs[wc][0] += a_x * dt_rs
-        wave_center.velocity_amrs[wc][1] += a_y * dt_rs
-        wave_center.velocity_amrs[wc][2] += a_z * dt_rs
+        wave_center.velocity_amrs[wc_idx][0] += a_x * dt_rs
+        wave_center.velocity_amrs[wc_idx][1] += a_y * dt_rs
+        wave_center.velocity_amrs[wc_idx][2] += a_z * dt_rs
 
         # ================================================================
         # Update position: x_new = x_old + v * dt
         # ================================================================
         # Position change in attometers
-        dx_am_step = wave_center.velocity_amrs[wc][0] * dt_rs
-        dy_am_step = wave_center.velocity_amrs[wc][1] * dt_rs
-        dz_am_step = wave_center.velocity_amrs[wc][2] * dt_rs
+        dx_am_step = wave_center.velocity_amrs[wc_idx][0] * dt_rs
+        dy_am_step = wave_center.velocity_amrs[wc_idx][1] * dt_rs
+        dz_am_step = wave_center.velocity_amrs[wc_idx][2] * dt_rs
 
         # Convert attometers to grid index change: di = dx_am / voxel_size_am
         di = dx_am_step / dx_am
@@ -168,14 +169,20 @@ def smoketest_particle_motion(
         dk = dz_am_step / dx_am
 
         # Update float position (smooth motion)
-        wave_center.position_float[wc][0] += di
-        wave_center.position_float[wc][1] += dj
-        wave_center.position_float[wc][2] += dk
+        wave_center.position_float[wc_idx][0] += di
+        wave_center.position_float[wc_idx][1] += dj
+        wave_center.position_float[wc_idx][2] += dk
 
         # Update integer grid position for wave generation
-        wave_center.position_grid[wc][0] = ti.cast(wave_center.position_float[wc][0], ti.i32)
-        wave_center.position_grid[wc][1] = ti.cast(wave_center.position_float[wc][1], ti.i32)
-        wave_center.position_grid[wc][2] = ti.cast(wave_center.position_float[wc][2], ti.i32)
+        wave_center.position_grid[wc_idx][0] = ti.cast(
+            wave_center.position_float[wc_idx][0], ti.i32
+        )
+        wave_center.position_grid[wc_idx][1] = ti.cast(
+            wave_center.position_float[wc_idx][1], ti.i32
+        )
+        wave_center.position_grid[wc_idx][2] = ti.cast(
+            wave_center.position_float[wc_idx][2], ti.i32
+        )
 
 
 # ================================================================
@@ -234,11 +241,11 @@ def compute_force_vector(
     S4 = S * S * S * S  # S⁴
     force_scale = force_scale / S4
 
-    for wc in range(wave_center.num_sources):
+    for wc_idx in range(wave_center.num_sources):
         # Get wave center grid position
-        i = wave_center.position_grid[wc][0]
-        j = wave_center.position_grid[wc][1]
-        k = wave_center.position_grid[wc][2]
+        i = wave_center.position_grid[wc_idx][0]
+        j = wave_center.position_grid[wc_idx][1]
+        k = wave_center.position_grid[wc_idx][2]
 
         # Initialize force to zero
         F_x = ti.cast(0.0, ti.f32)
@@ -293,9 +300,9 @@ def compute_force_vector(
             dA_dz = (A_zp - A_zm) / sample_dist
 
             # DEBUG: Store intermediate values
-            wave_center.debug_A_center[wc] = A_center
-            wave_center.debug_dA_dx[wc] = dA_dx
-            wave_center.debug_force_scale[wc] = force_scale
+            wave_center.debug_A_center[wc_idx] = A_center
+            wave_center.debug_dA_dx[wc_idx] = dA_dx
+            wave_center.debug_force_scale[wc_idx] = force_scale
 
             # Force: F = -2 * rho * V * f^2 * A * grad(A)
             F_x = -force_scale * A_center * dA_dx
@@ -303,9 +310,9 @@ def compute_force_vector(
             F_z = -force_scale * A_center * dA_dz
 
         # Store computed force (in Newtons)
-        wave_center.force[wc][0] = F_x
-        wave_center.force[wc][1] = F_y
-        wave_center.force[wc][2] = F_z
+        wave_center.force[wc_idx][0] = F_x
+        wave_center.force[wc_idx][1] = F_y
+        wave_center.force[wc_idx][2] = F_z
 
 
 # ================================================================
@@ -344,12 +351,12 @@ def integrate_motion_euler(
     # Voxel size in attometers for position conversion
     dx_am = wave_field.dx / ATTOMETER
 
-    for wc in range(wave_center.num_sources):
+    for wc_idx in range(wave_center.num_sources):
         # Get force (Newtons) and mass (kg)
-        F_x = wave_center.force[wc][0]
-        F_y = wave_center.force[wc][1]
-        F_z = wave_center.force[wc][2]
-        m = wave_center.mass[wc]
+        F_x = wave_center.force[wc_idx][0]
+        F_y = wave_center.force[wc_idx][1]
+        F_z = wave_center.force[wc_idx][2]
+        m = wave_center.mass[wc_idx]
 
         # Acceleration in m/s², then convert to am/rs²
         # Apply force multiplier for visualization
@@ -358,9 +365,9 @@ def integrate_motion_euler(
         a_z = (F_z / m) * accel_conv * FORCE_MULTIPLIER
 
         # Update velocity (am/rs)
-        wave_center.velocity_amrs[wc][0] += a_x * dt_rs
-        wave_center.velocity_amrs[wc][1] += a_y * dt_rs
-        wave_center.velocity_amrs[wc][2] += a_z * dt_rs
+        wave_center.velocity_amrs[wc_idx][0] += a_x * dt_rs
+        wave_center.velocity_amrs[wc_idx][1] += a_y * dt_rs
+        wave_center.velocity_amrs[wc_idx][2] += a_z * dt_rs
 
         # Clamp velocity to speed of light (c = 0.3 am/rs)
         # velocity clamp to prevent superluminal speeds
@@ -368,31 +375,31 @@ def integrate_motion_euler(
         c_amrs = ti.cast(0.3, ti.f32)
         v_mag = (
             ti.sqrt(
-                wave_center.velocity_amrs[wc][0] ** 2
-                + wave_center.velocity_amrs[wc][1] ** 2
-                + wave_center.velocity_amrs[wc][2] ** 2
+                wave_center.velocity_amrs[wc_idx][0] ** 2
+                + wave_center.velocity_amrs[wc_idx][1] ** 2
+                + wave_center.velocity_amrs[wc_idx][2] ** 2
             )
             / sim_speed  # Scale velocity by sim speed for consistent motion
         )
         if v_mag > c_amrs:
             scale = c_amrs / v_mag
-            wave_center.velocity_amrs[wc][0] *= scale
-            wave_center.velocity_amrs[wc][1] *= scale
-            wave_center.velocity_amrs[wc][2] *= scale
+            wave_center.velocity_amrs[wc_idx][0] *= scale
+            wave_center.velocity_amrs[wc_idx][1] *= scale
+            wave_center.velocity_amrs[wc_idx][2] *= scale
 
         # Position change in attometers
-        dx_am_step = wave_center.velocity_amrs[wc][0] * dt_rs
-        dy_am_step = wave_center.velocity_amrs[wc][1] * dt_rs
-        dz_am_step = wave_center.velocity_amrs[wc][2] * dt_rs
+        dx_am_step = wave_center.velocity_amrs[wc_idx][0] * dt_rs
+        dy_am_step = wave_center.velocity_amrs[wc_idx][1] * dt_rs
+        dz_am_step = wave_center.velocity_amrs[wc_idx][2] * dt_rs
 
         # Convert to grid index change
         di = dx_am_step / dx_am
         dj = dy_am_step / dx_am
         dk = dz_am_step / dx_am
 
-        wave_center.position_float[wc][0] += di
-        wave_center.position_float[wc][1] += dj
-        wave_center.position_float[wc][2] += dk
+        wave_center.position_float[wc_idx][0] += di
+        wave_center.position_float[wc_idx][1] += dj
+        wave_center.position_float[wc_idx][2] += dk
 
         # Clamp position to grid boundaries (with margin for gradient sampling)
         # margin = ti.cast(2, ti.f32)  # Keep 2 voxels from edge
@@ -400,20 +407,26 @@ def integrate_motion_euler(
         # ny_f = ti.cast(wave_field.ny, ti.f32)
         # nz_f = ti.cast(wave_field.nz, ti.f32)
 
-        # wave_center.position_float[wc][0] = ti.max(
-        #     margin, ti.min(nx_f - margin, wave_center.position_float[wc][0])
+        # wave_center.position_float[wc_idx][0] = ti.max(
+        #     margin, ti.min(nx_f - margin, wave_center.position_float[wc_idx][0])
         # )
-        # wave_center.position_float[wc][1] = ti.max(
-        #     margin, ti.min(ny_f - margin, wave_center.position_float[wc][1])
+        # wave_center.position_float[wc_idx][1] = ti.max(
+        #     margin, ti.min(ny_f - margin, wave_center.position_float[wc_idx][1])
         # )
-        # wave_center.position_float[wc][2] = ti.max(
-        #     margin, ti.min(nz_f - margin, wave_center.position_float[wc][2])
+        # wave_center.position_float[wc_idx][2] = ti.max(
+        #     margin, ti.min(nz_f - margin, wave_center.position_float[wc_idx][2])
         # )
 
         # Sync integer position for wave generation
-        wave_center.position_grid[wc][0] = ti.cast(wave_center.position_float[wc][0], ti.i32)
-        wave_center.position_grid[wc][1] = ti.cast(wave_center.position_float[wc][1], ti.i32)
-        wave_center.position_grid[wc][2] = ti.cast(wave_center.position_float[wc][2], ti.i32)
+        wave_center.position_grid[wc_idx][0] = ti.cast(
+            wave_center.position_float[wc_idx][0], ti.i32
+        )
+        wave_center.position_grid[wc_idx][1] = ti.cast(
+            wave_center.position_float[wc_idx][1], ti.i32
+        )
+        wave_center.position_grid[wc_idx][2] = ti.cast(
+            wave_center.position_float[wc_idx][2], ti.i32
+        )
 
 
 # ================================================================
@@ -427,6 +440,7 @@ def detect_annihilation(
     annihilation_threshold: ti.f32,  # type: ignore  # Distance threshold in grid units
 ):
     """
+    Annihilation naturally occurs from wave physics, this is only a safety check.
     Detect and handle particle annihilation when WCs converge to same position.
 
     When two wave centers with opposite phase (180°) attract and meet:
@@ -611,15 +625,17 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
     kernel_dA_dx = wave_center.debug_dA_dx.to_numpy()
     kernel_force_scale = wave_center.debug_force_scale.to_numpy()
 
-    for wc in range(wave_center.num_sources):
-        i, j, k = positions[wc]
-        print(f"\n--- Wave Center {wc} at grid [{i}, {j}, {k}] ---")
+    for wc_idx in range(wave_center.num_sources):
+        i, j, k = positions[wc_idx]
+        print(f"\n--- Wave Center {wc_idx} at grid [{i}, {j}, {k}] ---")
         print(f"  KERNEL DEBUG VALUES:")
-        print(f"    A_center (kernel): {kernel_A_center[wc]:.3e}")
-        print(f"    dA_dx (kernel): {kernel_dA_dx[wc]:.3e}")
-        print(f"    force_scale (kernel): {kernel_force_scale[wc]:.3e}")
-        if kernel_force_scale[wc] != 0:
-            expected_Fx = -kernel_force_scale[wc] * kernel_A_center[wc] * kernel_dA_dx[wc]
+        print(f"    A_center (kernel): {kernel_A_center[wc_idx]:.3e}")
+        print(f"    dA_dx (kernel): {kernel_dA_dx[wc_idx]:.3e}")
+        print(f"    force_scale (kernel): {kernel_force_scale[wc_idx]:.3e}")
+        if kernel_force_scale[wc_idx] != 0:
+            expected_Fx = (
+                -kernel_force_scale[wc_idx] * kernel_A_center[wc_idx] * kernel_dA_dx[wc_idx]
+            )
             print(f"    Expected F_x: {expected_Fx:.3e}")
 
         # Sampling radius (must match kernel logic)
@@ -660,12 +676,12 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         print(f"  Gradient dA/dz: {dA_dz:.3e}")
 
         # Force
-        F = forces[wc]
+        F = forces[wc_idx]
         print(f"  Force: [{F[0]:.3e}, {F[1]:.3e}, {F[2]:.3e}] N")
 
         # Expected acceleration (using actual mass from wave_center, not ELECTRON_MASS)
         masses = wave_center.mass.to_numpy()
-        m = masses[wc]
+        m = masses[wc_idx]
         FORCE_MULTIPLIER = 2000  # Must match value in integrate_motion_euler
         a_ms2 = F[0] / m if m > 0 else 0
         a_amrs2 = a_ms2 * ACCEL_MS2_TO_AMRS2 * FORCE_MULTIPLIER
@@ -673,7 +689,7 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         print(f"  Acceleration: {a_ms2:.3e} m/s² (with 2000x multiplier: {a_amrs2:.3e} am/rs²)")
 
         # Velocity
-        v = velocities[wc]
+        v = velocities[wc_idx]
         print(f"  Velocity: [{v[0]:.3e}, {v[1]:.3e}, {v[2]:.3e}] am/rs")
 
     # ================================================================
