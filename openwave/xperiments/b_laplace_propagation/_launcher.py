@@ -136,7 +136,7 @@ class SimulationState:
         self.SHOW_EDGES = False
         self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
         self.SHOW_FLUX_MESH = 0
-        self.WARP_MESH = False
+        self.WARP_MESH = 30
         self.SIM_SPEED = 1.0
         self.PAUSED = False
 
@@ -270,7 +270,7 @@ def display_controls(state):
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
-        state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
+        state.WARP_MESH = sub.slider_int("Warp Mesh", state.WARP_MESH, 0, 30)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         if state.PAUSED:
             if sub.button(">> PROPAGATE EWAVE >>"):
@@ -442,7 +442,7 @@ def initialize_xperiment(state):
     # STATIC CHARGING methods (single radial pulse pattern, fast charge) ==================================
     # Provides initial energy source, dynamic chargers do maintenance around 100%
     ewave.charge_full(state.wave_field, state.dt_rs, state.STATIC_BOOST)
-    ewave.charge_gaussian(state.wave_field)
+    ewave.charge_gaussian(state.wave_field, state.STATIC_BOOST)
     # NOTE: (too-light) ewave.charge_falloff(state.wave_field, state.dt_rs)
     # NOTE: (too-light) ewave.charge_1lambda(state.wave_field, state.dt_rs)
 

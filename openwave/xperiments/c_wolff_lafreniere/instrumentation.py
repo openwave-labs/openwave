@@ -116,7 +116,7 @@ def log_timestep_data(timestep: int, wave_field, trackers) -> None:
     global _timestep_buffer, _timestep_log_initialized
 
     # Define probe position
-    px, py, pz = wave_field.nx * 1 // 3, wave_field.ny // 2, wave_field.nz // 2
+    px, py, pz = wave_field.nx // 2, wave_field.ny // 2, wave_field.nz // 2
 
     # Capture probe values
     psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor

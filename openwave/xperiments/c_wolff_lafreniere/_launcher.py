@@ -137,7 +137,7 @@ class SimulationState:
         self.SHOW_EDGES = False
         self.FLUX_MESH_PLANES = [0.5, 0.5, 0.5]
         self.SHOW_FLUX_MESH = 0
-        self.WARP_MESH = False
+        self.WARP_MESH = 300
         self.PARTICLE_SHELL = False
         self.SIM_SPEED = 1.0
         self.PAUSED = False
@@ -280,7 +280,7 @@ def display_controls(state):
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
-        state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
+        state.WARP_MESH = sub.slider_int("Warp Mesh", state.WARP_MESH, 0, 500)
         state.PARTICLE_SHELL = sub.checkbox("Particle Shell", state.PARTICLE_SHELL)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
         state.APPLY_FORCE = sub.checkbox("Apply Force", state.APPLY_FORCE)
