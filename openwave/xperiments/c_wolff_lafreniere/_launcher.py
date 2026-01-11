@@ -128,6 +128,7 @@ class SimulationState:
         self.NUM_SOURCES = 1
         self.SOURCES_POSITION = []
         self.SOURCES_OFFSET_DEG = []
+        self.APPLY_FORCE = True
 
         # UI control variables
         self.SHOW_AXIS = False
@@ -163,11 +164,12 @@ class SimulationState:
         self.UNIVERSE_SIZE = list(universe["SIZE"])
         self.TARGET_VOXELS = universe["TARGET_VOXELS"]
 
-        # Wave sources
+        # Wave Centers
         sources = params["wave_centers"]
         self.NUM_SOURCES = sources["COUNT"]
         self.SOURCES_POSITION = sources["POSITION"]
         self.SOURCES_OFFSET_DEG = sources["PHASE_OFFSETS_DEG"]
+        self.APPLY_FORCE = sources["APPLY_FORCE"]
 
         # UI defaults
         ui = params["ui_defaults"]
@@ -256,7 +258,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.33) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.32) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -273,7 +275,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.34, 0.16, 0.27) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.33, 0.16, 0.30) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
@@ -281,6 +283,7 @@ def display_controls(state):
         state.WARP_MESH = sub.checkbox("Warp Mesh", state.WARP_MESH)
         state.PARTICLE_SHELL = sub.checkbox("Particle Shell", state.PARTICLE_SHELL)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
+        state.APPLY_FORCE = sub.checkbox("Apply Force", state.APPLY_FORCE)
         if state.PAUSED:
             if sub.button(">> PROPAGATE EWAVE >>"):
                 state.PAUSED = False
@@ -439,9 +442,7 @@ def initialize_xperiment(state):
 
 
 def compute_wave_motion(state):
-    """Compute wave propagation, reflection, superposition and update tracker averages.
-    The static pulse creates a natural equilibrium via Dirichlet BC reflections.
-    """
+    """Compute wave propagation, reflection, superposition and update tracker averages."""
 
     ewave.propagate_wave(
         state.wave_field,
@@ -651,7 +652,8 @@ def main():
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
-            compute_force_motion(state)
+            if state.APPLY_FORCE:
+                compute_force_motion(state)
             state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
             state.frame += 1
 
