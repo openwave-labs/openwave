@@ -93,6 +93,7 @@ def charge_full(
 @ti.kernel
 def charge_gaussian(
     wave_field: ti.template(),  # type: ignore
+    boost: ti.f32,  # type: ignore
 ):
     """
     Initialize a stationary Gaussian wave packet centered in the wave field.
@@ -124,7 +125,7 @@ def charge_gaussian(
     sqrt_rho_times_f = ti.f32(rho**0.5 * base_frequency)  # ~6.53e36 (within f32)
     g_vol_sqrt = ti.pow(ti.math.pi, 0.75) * ti.pow(sigma, 1.5)  # π^(3/4) × σ^(3/2)
     A_required = ti.sqrt(wave_field.nominal_energy) / (sqrt_rho_times_f * g_vol_sqrt)
-    A_am = A_required * 0.1 / ti.f32(constants.ATTOMETER)  # convert to attometers
+    A_am = A_required * boost / ti.f32(constants.ATTOMETER)  # convert to attometers
 
     # Apply Gaussian displacement (interior points only)
     # Skip boundaries to enforce Dirichlet boundary conditions (ψ=0 at edges)
@@ -1636,6 +1637,7 @@ def update_flux_mesh_values(
         ampL_value = trackers.ampL_am[i, j, wave_field.fm_plane_z_idx]
         ampT_value = trackers.ampT_am[i, j, wave_field.fm_plane_z_idx]
         freq_value = trackers.freq_rHz[i, j, wave_field.fm_plane_z_idx]
+        univ_edge_z = wave_field.universe_size_am[2]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
@@ -1643,37 +1645,26 @@ def update_flux_mesh_values(
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[
-                2
-            ] * (wave_field.nz / wave_field.max_grid_size)
-            wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
+            wave_field.fluxmesh_xy_vertices[i, j][2] = freq_value / trackers.avg_freq_rHz[
+                None
+            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[2] * (
+                wave_field.nz / wave_field.max_grid_size
             )
         elif color_palette == 5:  # ironbow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
-            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                2
-            ] * (wave_field.nz / wave_field.max_grid_size)
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
+                ampT_value / univ_edge_z * warp_mesh
+                + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                2
-            ] * (wave_field.nz / wave_field.max_grid_size)
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
+                ampL_value / univ_edge_z * warp_mesh
+                + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
         elif color_palette == 2:  # redblue
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_redblue_color(
@@ -1681,13 +1672,9 @@ def update_flux_mesh_values(
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
             )
-            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                2
-            ] * (wave_field.nz / wave_field.max_grid_size)
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
+                psiT_value / univ_edge_z * warp_mesh
+                + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
         else:  # default to yellowgreen (palette 1)
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_yellowgreen_color(
@@ -1695,13 +1682,9 @@ def update_flux_mesh_values(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
-            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                2
-            ] * (wave_field.nz / wave_field.max_grid_size)
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
+                psiL_value / univ_edge_z * warp_mesh
+                + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
 
     # ================================================================
@@ -1714,6 +1697,7 @@ def update_flux_mesh_values(
         ampL_value = trackers.ampL_am[i, wave_field.fm_plane_y_idx, k]
         ampT_value = trackers.ampT_am[i, wave_field.fm_plane_y_idx, k]
         freq_value = trackers.freq_rHz[i, wave_field.fm_plane_y_idx, k]
+        univ_edge_y = wave_field.universe_size_am[1]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
@@ -1721,37 +1705,26 @@ def update_flux_mesh_values(
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[
-                1
-            ] * (wave_field.ny / wave_field.max_grid_size)
-            wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
+            wave_field.fluxmesh_xz_vertices[i, k][1] = freq_value / trackers.avg_freq_rHz[
+                None
+            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[1] * (
+                wave_field.ny / wave_field.max_grid_size
             )
         elif color_palette == 5:  # ironbow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
-            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                1
-            ] * (wave_field.ny / wave_field.max_grid_size)
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
+                ampT_value / univ_edge_y * warp_mesh
+                + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                1
-            ] * (wave_field.ny / wave_field.max_grid_size)
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
+                ampL_value / univ_edge_y * warp_mesh
+                + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
         elif color_palette == 2:  # redblue
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_redblue_color(
@@ -1759,13 +1732,9 @@ def update_flux_mesh_values(
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
             )
-            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                1
-            ] * (wave_field.ny / wave_field.max_grid_size)
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
+                psiT_value / univ_edge_y * warp_mesh
+                + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
         else:  # default to yellowgreen (palette 1)
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_yellowgreen_color(
@@ -1773,13 +1742,9 @@ def update_flux_mesh_values(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
-            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                1
-            ] * (wave_field.ny / wave_field.max_grid_size)
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
+                psiL_value / univ_edge_y * warp_mesh
+                + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
 
     # ================================================================
@@ -1792,6 +1757,7 @@ def update_flux_mesh_values(
         ampL_value = trackers.ampL_am[wave_field.fm_plane_x_idx, j, k]
         ampT_value = trackers.ampT_am[wave_field.fm_plane_x_idx, j, k]
         freq_value = trackers.freq_rHz[wave_field.fm_plane_x_idx, j, k]
+        univ_edge_x = wave_field.universe_size_am[0]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
@@ -1799,37 +1765,26 @@ def update_flux_mesh_values(
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
                 freq_value, 0.0, trackers.avg_freq_rHz[None] * 2
             )
-            warp = freq_value / trackers.avg_freq_rHz[None] / 100 + wave_field.flux_mesh_planes[
-                0
-            ] * (wave_field.nx / wave_field.max_grid_size)
-            wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
+            wave_field.fluxmesh_yz_vertices[j, k][0] = freq_value / trackers.avg_freq_rHz[
+                None
+            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[0] * (
+                wave_field.nx / wave_field.max_grid_size
             )
         elif color_palette == 5:  # ironbow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
                 ampT_value, 0, trackers.rms_ampT_am[None] * 2
             )
-            warp = ampT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                0
-            ] * (wave_field.nx / wave_field.max_grid_size)
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
+                ampT_value / univ_edge_x * warp_mesh
+                + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
         elif color_palette == 4:  # viridis
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
                 ampL_value, 0, trackers.rms_ampL_am[None] * 2
             )
-            warp = ampL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                0
-            ] * (wave_field.nx / wave_field.max_grid_size)
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
+                ampL_value / univ_edge_x * warp_mesh
+                + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
         elif color_palette == 2:  # redblue
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_redblue_color(
@@ -1837,13 +1792,9 @@ def update_flux_mesh_values(
                 -trackers.rms_ampT_am[None] * 2,
                 trackers.rms_ampT_am[None] * 2,
             )
-            warp = psiT_value / trackers.rms_ampT_am[None] / 100 + wave_field.flux_mesh_planes[
-                0
-            ] * (wave_field.nx / wave_field.max_grid_size)
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
+                psiT_value / univ_edge_x * warp_mesh
+                + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
         else:  # default to yellowgreen (palette 1)
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_yellowgreen_color(
@@ -1851,11 +1802,7 @@ def update_flux_mesh_values(
                 -trackers.rms_ampL_am[None] * 2,
                 trackers.rms_ampL_am[None] * 2,
             )
-            warp = psiL_value / trackers.rms_ampL_am[None] / 100 + wave_field.flux_mesh_planes[
-                0
-            ] * (wave_field.nx / wave_field.max_grid_size)
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                warp
-                if warp_mesh
-                else wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
+                psiL_value / univ_edge_x * warp_mesh
+                + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
