@@ -81,7 +81,7 @@ def sine_stand_lafreniere(r_am, A0_am=A0_am):
 
     sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am)
     # sine = A0_am * (1 - np.cos(k_am * r_am)) / (k_am * r_am)  # quadrature version
-    return sine  # * 2 * np.pi  # Adjusted for proper scaling
+    return sine
 
 
 def sine_lafreniere_near(r_am, A0_am=A0_am):

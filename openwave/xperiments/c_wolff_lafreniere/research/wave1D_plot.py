@@ -46,7 +46,7 @@ PERIOD_RS = 2 * np.pi / omega_rs  # one full wave period in rontoseconds
 # Displacement Functions
 # ================================================================
 
-wc_spacing = 3.5 * base_wavelength_am  # am, spacing between wave centers
+wc_spacing = 4 * base_wavelength_am  # am, spacing between wave centers
 
 x_am = np.linspace(-1.5 * wc_spacing, +1.5 * wc_spacing, 1000)
 
@@ -310,7 +310,8 @@ def compute_wave_WolffLaFreniere(
 
     Uses expanded form with analytical limits at r=0 for numerical stability.
     """
-    ot = omega_rs * t_rs
+    source_offset = get_source_offset(source)
+    ot = omega_rs * t_rs + source_offset
     kr = k_am * radius_am
 
     # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
@@ -616,6 +617,32 @@ PLOT_CONFIGS = [  # 1 WC: wolff-lafreniere
 # ===============================================================
 # 2 Wave Centers Plot Configurations
 # ===============================================================
+PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+    {
+        "func": "wolff-lafreniere",
+        "direction": -1,
+        "source": 1,  # WC1
+        "ylim": (-0.25, 0.25),
+        "height_ratio": 1,
+        "label": "wolff-lafreniere",
+    },
+    {
+        "func": "wolff-lafreniere",
+        "direction": -1,
+        "source": 2,  # WC2
+        "ylim": (-0.25, 0.25),
+        "height_ratio": 1,
+        "label": "wolff-lafreniere",
+    },
+    {
+        "func": ["wolff-lafreniere", "wolff-lafreniere"],  # sum of both sources
+        "direction": [-1, -1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-0.25, 0.25),
+        "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
 
 PLOT_CONFIGS0 = [  # 2 WC: flat + ampfalloff
     {
@@ -715,37 +742,6 @@ PLOT_CONFIGS0 = [  # 2 WC: wolff & lafreniere
     },
 ]
 
-PLOT_CONFIGS0 = [  # 2 WC: LFa + LFb
-    {
-        "func": ["lafreniere3", "lafreniere3"],  # sum of both sources
-        "direction": [1, -1],
-        "source": [1, 1],  # WC1 + WC2
-        "ylim": (-1.5, 1.5),
-        "height_ratio": 1,
-        "label": "INCOMING Psi (am)",
-    },
-    {
-        "func": ["lafreniere3", "lafreniere3"],
-        "direction": [-1, 1],
-        "source": [2, 2],  # WC1 + WC2
-        "ylim": (-1.5, 1.5),
-        "height_ratio": 1,
-        "label": "OUTGOING Psi (am)",
-    },
-    {
-        "func": [
-            "lafreniere3",
-            "lafreniere3",
-            "lafreniere3",
-            "lafreniere3",
-        ],  # sum of both sources
-        "direction": [1, -1, 1, -1],
-        "source": [1, 1, 2, 2],  # WC1 + WC1 + WC2 + WC2
-        "ylim": (-2.5, 2.5),
-        "height_ratio": 1,
-        "label": "TOTAL Psi (am)",
-    },
-]
 # Function registry - maps string names to actual functions
 WAVE_FUNCTIONS = {
     "flat": compute_wave_flat,

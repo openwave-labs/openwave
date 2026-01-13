@@ -105,11 +105,17 @@ def propagate_wave(
 
             # Cache source-specific phase offset
             source_offset = wave_center.offset[wc_idx]
+
             # Spatial phase: φ = k·r, creates spherical wave fronts, dimensionless, in radians
             spatial_phase = k_grid * r_grid
 
-            # Combined and Adjusted Wolff-LaFreniere wave-equation form:
-            # Expanded form: -cos(ωt)·sin(kr)/r - sin(ωt)·(1-cos(kr))/r
+            # ================================================================
+            # Combined and Adjusted WOLFF-LAFRENIERE canonical form:
+            #   ψ(r,t) = A · [sin(ωt - kr) - sin(ωt)] / r
+            # Expanded form:
+            #   ψ(r,t) = A · [-cos(ωt) · sin(kr)/r - sin(ωt) · (1 - cos(kr))/r]
+            #   ψ(r,t) = A · [-cos(ωt) · Phase(r) - sin(ωt) · Quadrature(r)]
+            # ================================================================
             # Phase term: sin(kr)/r → k as r→0 (physical units)
             phase_term = ti.select(
                 r_grid < 0.5,  # threshold in grid units (catches center voxel only)
