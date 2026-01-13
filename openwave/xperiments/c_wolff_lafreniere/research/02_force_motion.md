@@ -71,7 +71,10 @@ Where:
 **Fundamental Principle**: Force is the negative gradient of energy.
 
 ```text
-F = -grad(E)
+# Gradient Descent
+F = -∇(E)
+
+# from energy curvature/disturbance caused by wave-centers in spacetime (energy wave).
 ```
 
 **Full derivation**:
@@ -98,6 +101,23 @@ Particles (wave centers) move to minimize amplitude:
 - Wave centers seek regions of **lower amplitude**
 - This creates attraction/repulsion based on interference patterns
 
+Force points toward decreasing energy (downhill on energy landscape). Particles move toward regions of lower amplitude (MAP: Minimum Amplitude Principle).
+
+### Wave Derivations
+
+**How Fields Emerge**:
+
+1. **Particle** = wave center that reflects waves
+2. **Reflection** creates standing wave pattern around particle
+3. **Standing waves** create amplitude gradients
+4. **Gradients** = forces experienced by other particles
+
+**Composition**:
+
+- Multiple particles → multiple overlapping wave patterns
+- Superposition creates complex force fields
+- Force on particle A from particle B = effect of B's reflected waves on A
+
 ### Charge as Phase Offset
 
 In EWT/OpenWave, **electrostatic charge** is modeled as the **phase offset** of a wave center:
@@ -119,14 +139,14 @@ When two wave centers interact:
 ### Architecture Overview
 
 ```text
-+-------------------------------------------------------------+
-|                    SIMULATION LOOP                          |
-+-------------------------------------------------------------+
-|  1. propagate_wave()      -> Updates psiL_am, tracks ampL_am|
-|  2. compute_force()       -> F = -grad(E) from amplitude    |
-|  3. compute_motion()      -> a = F/m, integrate v and pos   |
-|  4. render()              -> Visualize particles + waves    |
-+-------------------------------------------------------------+
++--------------------------------------------------------------+
+|                    SIMULATION LOOP                           |
++--------------------------------------------------------------+
+|  1. propagate_wave()      -> Updates psiL_am, tracks ampL_am |
+|  2. compute_force()       -> F = -∇(E) from amplitude        |
+|  3. compute_motion()      -> a = F/m, integrate v and pos    |
+|  4. render()              -> Visualize particles + waves     |
++--------------------------------------------------------------+
 ```
 
 ### Module Structure
@@ -134,7 +154,7 @@ When two wave centers interact:
 ```text
 force_motion.py
 |-- compute_energy_field()      # E = rho*V*(f*A)^2 per voxel
-|-- compute_force_vector()      # F = -grad(E) around each WC
+|-- compute_force_vector()      # F = -∇(E) around each WC
 |-- integrate_motion_euler()   # Euler/Verlet integration
 ```
 
