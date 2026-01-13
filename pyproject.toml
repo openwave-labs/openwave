@@ -10,7 +10,7 @@ name = "OPENWAVE"
 # - MAJOR: Breaking changes (incompatible API changes)
 # - MINOR: New features (backward-compatible)
 # - PATCH: Bug fixes (backward-compatible)
-version = "0.7.0"  # 0.x = pre-release (API still evolving)
+version = "0.7.1"  # 0.x = pre-release (API still evolving)
 
 requires-python = ">=3.12"
 
