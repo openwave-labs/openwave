@@ -10,7 +10,7 @@ TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"  - Attraction Test 3",
+        "X_NAME": f"  /Attraction Test 3",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {

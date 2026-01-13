@@ -10,7 +10,7 @@ TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"  /Attraction Test 2",
+        "X_NAME": f"  /Repulsion Test 2",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -28,7 +28,7 @@ XPARAMETERS = {
             [0.75, 0.50, 0.50],
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
-        "PHASE_OFFSETS_DEG": [0, 180],
+        "PHASE_OFFSETS_DEG": [0, 0],
         "APPLY_FORCE": True,  # Toggle to apply force at wave-centers each iteration
     },
     "ui_defaults": {
