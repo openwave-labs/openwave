@@ -31,20 +31,29 @@ import numpy as np
 #   - Improves memory usage & computational performance (f32 vs f64)
 ATTOMETER = 1e-18  # m/am, attometer length scale
 RONTOSECOND = 1e-27  # s/rs, rontosecond time scale
+QUECTOGRAM = 1e-33  # kg/qg, quectogram mass scale
 
 # ================================================================
 # WAVE-FIELD MEDIUM [EWT Constants]
 # ================================================================
 MEDIUM_DENSITY = 3.859764604e22  # kg / m^3, wave-medium density (ρ)
-EWAVE_SPEED = 299792458  # m / s, speed of light (c), c² = elasticity / density of medium
+EWAVE_SPEED = 2.99792458e8  # m / s, speed of light (c), c² = elasticity / density of medium
+
+MEDIUM_DENSITY_QGAM = 38.59764604  # qg / am^3, wave-medium density (ρ) in quectogram units
+EWAVE_SPEED_AMRS = 0.299792458  # am / rs, speed of light (c) in attometer/rontosecond units
 
 # ================================================================
 # ENERGY-WAVE RHYTHM & SIZE [EWT Constants]
 # ================================================================
 EWAVE_AMPLITUDE = 9.215405708e-19  # m, energy-wave amplitude (A, equilibrium-to-peak)
-EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_LENGTH = 2.854096501e-17  # m, energy-wave length (λ = EWAVE_SPEED / EWAVE_FREQUENCY)
+EWAVE_FREQUENCY = 1.050393558e25  # Hz, energy-wave frequency (f = EWAVE_SPEED / EWAVE_LENGTH)
 EWAVE_PERIOD = 9.520241169e-26  # s, energy-wave period (T = 1 / EWAVE_FREQUENCY)
+
+EWAVE_AMPLITUDE_AM = 0.9215405708  # am, energy-wave amplitude in attometer units
+EWAVE_LENGTH_AM = 28.54096501  # am, energy-wave length in attometer units
+EWAVE_FREQUENCY_RHZ = 0.01050393558  # rHz, energy-wave frequency in rontosecond units
+EWAVE_PERIOD_RS = 95.20241169  # rs, energy-wave period in rontosecond units
 
 # ================================================================
 # NEUTRINO Particle (seed particle)

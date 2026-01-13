@@ -37,14 +37,19 @@ import numpy as np
 from openwave.common import constants
 
 # ================================================================
-# Physical Constants (cached for kernel access)
+# Physical Constants (cached for kernel access, float precision)
 # ================================================================
-MEDIUM_DENSITY = constants.MEDIUM_DENSITY  # kg/m^3
-EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY  # Hz
-EWAVE_AMPLITUDE = constants.EWAVE_AMPLITUDE  # m
-EWAVE_SPEED = constants.EWAVE_SPEED  # m/s (c)
-EWAVE_LENGTH = constants.EWAVE_LENGTH  # m (λ)
-ELECTRON_MASS = constants.ELECTRON_MASS  # kg
+MEDIUM_DENSITY = constants.MEDIUM_DENSITY  # 3.85e22 kg/m^3
+MEDIUM_DENSITY_QGAM = constants.MEDIUM_DENSITY_QGAM  # 38.5 qg/am^3
+EWAVE_FREQUENCY = constants.EWAVE_FREQUENCY  # 1.05e25 Hz
+EWAVE_FREQUENCY_RHZ = constants.EWAVE_FREQUENCY_RHZ  # 0.0105 rHz
+EWAVE_AMPLITUDE = constants.EWAVE_AMPLITUDE  # 9.21e-19 m
+EWAVE_AMPLITUDE_AM = constants.EWAVE_AMPLITUDE_AM  # 0.92 am
+EWAVE_SPEED = constants.EWAVE_SPEED  # 3.00e8 m/s (c)
+EWAVE_SPEED_AMRS = constants.EWAVE_SPEED_AMRS  # 0.3 am/rs (c)
+EWAVE_LENGTH = constants.EWAVE_LENGTH  # 2.85e-17 m (λ)
+EWAVE_LENGTH_AM = constants.EWAVE_LENGTH_AM  # 28.5 am (λ)
+
 ATTOMETER = constants.ATTOMETER  # m/am = 1e-18
 RONTOSECOND = constants.RONTOSECOND  # s/rs = 1e-27
 
@@ -199,7 +204,7 @@ def compute_force_vector(
     """
     Compute force on each wave center from energy gradient.
 
-    F = -grad(E) = -2 * rho * V * f^2 * A * grad(A)   (monochromatic)
+    F = -∇(E) = -2 * rho * V * f^2 * A * grad(A)   (monochromatic)
 
     Uses central finite differences for gradient calculation.
     Samples amplitude field around wave center position.
@@ -210,36 +215,20 @@ def compute_force_vector(
         wave_center: WaveCenter instance to store computed forces
     """
     # Physical constants
-    rho = ti.cast(MEDIUM_DENSITY, ti.f32)
-    f = ti.cast(EWAVE_FREQUENCY, ti.f32)
-    dx = wave_field.dx  # voxel size in meters
+    rho_qgam = ti.cast(MEDIUM_DENSITY_QGAM, ti.f32)  # in qg/am³
+    f_rHz = ti.cast(EWAVE_FREQUENCY_RHZ, ti.f32)  # in rHz
+    dx_am = wave_field.dx_am  # voxel size in attometers
 
     # Force scale factor: 2 * rho * V * f^2 where V = dx³
-    # CRITICAL: Interleave large/small values to avoid f32 under/overflow!
-    #
-    # Problem 1: V = dx³ can underflow (f32 min ~1.2e-38)
-    # Problem 2: f*f ≈ 1.5e+40 OVERFLOWS (f32 max ~3.4e+38)
-    # Problem 3: Order matters! rho*dx*f*dx*f overflows for large dx
-    #
-    # Solution: Compute as rho*dx*dx*f*dx*f (group dx² early):
-    #   For dx=1e-16 (large voxels):
-    #     rho*dx*dx = 1e+25 * 1e-32 = 1e-7 ✓
-    #     *f = 1e-7 * 1e+25 = 1e+18 ✓
-    #     *dx = 1e+18 * 1e-16 = 1e+2 ✓
-    #     *f = 1e+2 * 1e+25 = 1e+27 ✓
-    #   For dx=2e-18 (small voxels):
-    #     rho*dx*dx = 1e+25 * 4e-36 = 4e-11 ✓
-    #     *f = 4e-11 * 1e+25 = 4e+14 ✓
-    #     *dx = 4e+14 * 2e-18 = 8e-4 ✓
-    #     *f = 8e-4 * 1e+25 = 8e+21 ✓
-    force_scale = 2.0 * rho * dx * dx * f * dx * f  # Safe for all dx
+    # CRITICAL: Scaled SI units for f32 precision
+    force_scale_qgrs = 2.0 * rho_qgam * dx_am**3 * f_rHz**2  # in qg/rs²
 
     # Scale factor correction: Force scales as S⁴ with universe scaling
     # F_real = F_scaled / S⁴
     # This converts forces back to physically correct units
     S = wave_field.scale_factor
-    S4 = S * S * S * S  # S⁴
-    force_scale = force_scale / S4
+    S4 = S * S * S * S  # S⁴, dimensionless
+    force_scale_qgrs = force_scale_qgrs / S4
 
     for wc_idx in range(wave_center.num_sources):
         # Get wave center grid position
@@ -267,7 +256,6 @@ def compute_force_vector(
         sample_radius = 1  # ti.max(min_dim * 1 // 100, 10)  # At least 10, ~15% of grid
 
         # Boundary check (need neighbors for gradient at sample_radius distance)
-
         if (
             i > sample_radius
             and i < nx - sample_radius
@@ -277,37 +265,37 @@ def compute_force_vector(
             and k < nz - sample_radius
         ):
             # Sample amplitude at center (convert am to meters)
-            A_center = trackers.ampL_am[i, j, k] * ATTOMETER
+            A_center_am = trackers.ampL_am[i, j, k]
 
             # Central difference gradient with larger sampling radius:
             # grad(A) = (A[+R] - A[-R]) / (2*R*dx)
             # This averages the gradient over a larger region, capturing interference patterns
-            sample_dist = 2.0 * sample_radius * dx
+            sample_dist_am = 2.0 * sample_radius * dx_am
 
-            # X gradient
-            A_xp = trackers.ampL_am[i + sample_radius, j, k] * ATTOMETER
-            A_xm = trackers.ampL_am[i - sample_radius, j, k] * ATTOMETER
-            dA_dx = (A_xp - A_xm) / sample_dist
+            # X gradient, dimensionless
+            A_xp_am = trackers.ampL_am[i + sample_radius, j, k]
+            A_xm_am = trackers.ampL_am[i - sample_radius, j, k]
+            dA_dx = (A_xp_am - A_xm_am) / sample_dist_am
 
-            # Y gradient
-            A_yp = trackers.ampL_am[i, j + sample_radius, k] * ATTOMETER
-            A_ym = trackers.ampL_am[i, j - sample_radius, k] * ATTOMETER
-            dA_dy = (A_yp - A_ym) / sample_dist
+            # Y gradient, dimensionless
+            A_yp_am = trackers.ampL_am[i, j + sample_radius, k]
+            A_ym_am = trackers.ampL_am[i, j - sample_radius, k]
+            dA_dy = (A_yp_am - A_ym_am) / sample_dist_am
 
-            # Z gradient
-            A_zp = trackers.ampL_am[i, j, k + sample_radius] * ATTOMETER
-            A_zm = trackers.ampL_am[i, j, k - sample_radius] * ATTOMETER
-            dA_dz = (A_zp - A_zm) / sample_dist
+            # Z gradient, dimensionless
+            A_zp_am = trackers.ampL_am[i, j, k + sample_radius]
+            A_zm_am = trackers.ampL_am[i, j, k - sample_radius]
+            dA_dz = (A_zp_am - A_zm_am) / sample_dist_am
 
             # DEBUG: Store intermediate values
-            wave_center.debug_A_center[wc_idx] = A_center
+            wave_center.debug_A_center[wc_idx] = A_center_am * ATTOMETER
             wave_center.debug_dA_dx[wc_idx] = dA_dx
-            wave_center.debug_force_scale[wc_idx] = force_scale
+            wave_center.debug_force_scale[wc_idx] = force_scale_qgrs * 1e21  # qg/rs² to kg/s²
 
-            # Force: F = -2 * rho * V * f^2 * A * grad(A)
-            F_x = -force_scale * A_center * dA_dx
-            F_y = -force_scale * A_center * dA_dy
-            F_z = -force_scale * A_center * dA_dz
+            # Force: F = -2 * rho * V * f^2 * A * grad(A), in N, converted from qg/rs² * am
+            F_x = -force_scale_qgrs * A_center_am * dA_dx * 1000  # qg·am/rs² to N (kg·m/s²)
+            F_y = -force_scale_qgrs * A_center_am * dA_dy * 1000  # qg·am/rs² to N (kg·m/s²)
+            F_z = -force_scale_qgrs * A_center_am * dA_dz * 1000  # qg·am/rs² to N (kg·m/s²)
 
         # Store computed force (in Newtons)
         wave_center.force[wc_idx][0] = F_x
