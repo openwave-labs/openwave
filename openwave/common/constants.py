@@ -63,6 +63,8 @@ NEUTRINO_RADIUS = 2.854096501e-17  # m, neutrino radius = 1 λ
 NEUTRINO_ENERGY = 3.827997e-19  # J, neutrino "seed" energy used by EWT (~ 2.39 eV)
 NEUTRINO_MASS = 4.259222e-36  # kg, neutrino "seed" mass used by EWT (~ 0.38 meV/c²)
 
+NEUTRINO_MASS_QG = 4.259222e-3  # qg, f32 friendly
+
 # ================================================================
 # ELECTRON Particle
 # ================================================================
