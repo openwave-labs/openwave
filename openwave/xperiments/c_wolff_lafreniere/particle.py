@@ -62,8 +62,8 @@ class WaveCenter:
         self.debug_dA_dx = ti.field(dtype=ti.f32, shape=num_sources)
         self.debug_force_scale = ti.field(dtype=ti.f32, shape=num_sources)
 
-        # Mass in kilograms (SI) - initialized to electron mass
-        self.mass = ti.field(dtype=ti.f32, shape=num_sources)
+        # Mass in quectogram (qg) - initialized to neutrino mass, f32 friendly
+        self.mass_qg = ti.field(dtype=ti.f32, shape=num_sources)
 
         # ================================================================
         # Wave properties
@@ -94,7 +94,7 @@ class WaveCenter:
             # Initialize motion fields (at rest, no force)
             self.velocity_amrs[i] = [0.0, 0.0, 0.0]
             self.force[i] = [0.0, 0.0, 0.0]  # Newtons
-            self.mass[i] = constants.NEUTRINO_MASS  # Default to neutrino mass, kg
+            self.mass_qg[i] = constants.NEUTRINO_MASS_QG  # Default to neutrino mass, qg
 
             # Set phase offset (charge)
             self.offset[i] = sources_offset_rad[i]

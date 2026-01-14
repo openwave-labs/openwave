@@ -10,7 +10,7 @@ Physics Foundation:
 
 Units:
 - Force: Newtons (SI)
-- Mass: kg (SI)
+- Mass: qg (quectograms, 1 qg = 1e-33 kg, for f32 precision on GPU)
 - Velocity: am/rs (OpenWave scaled units for f32 precision)
 - Position: grid indices (float)
 - Time: rontoseconds (rs)
@@ -18,6 +18,7 @@ Units:
 Conversion factors:
 - v_amrs = v_ms * 1e-9           (m/s to am/rs)
 - a_amrs2 = a_ms2 * 1e-36        (m/s² to am/rs²)
+- a_amrs2 = (F/m_qg) * 1e-3      (N/qg to am/rs², for GPU f32 precision)
 - c = 0.3 am/rs                  (speed of light)
 
 See research/02_force_motion.md for detailed documentation.
@@ -52,6 +53,7 @@ EWAVE_LENGTH_AM = constants.EWAVE_LENGTH_AM  # 28.5 am (λ)
 
 ATTOMETER = constants.ATTOMETER  # m/am = 1e-18
 RONTOSECOND = constants.RONTOSECOND  # s/rs = 1e-27
+QUECTOGRAM = constants.QUECTOGRAM  # kg/qg = 1e-33, for GPU f32 precision
 
 # Coulomb force constants (for reference)
 COULOMB_CONSTANT = constants.COULOMB_CONSTANT  # N·m²/C², k = 8.99e9
@@ -100,9 +102,6 @@ def compute_ewt_electric_force(
     ) / (3.0 * (EWAVE_LENGTH**2))
 
     return coefficient / (r**2)
-
-
-ACCEL_MS2_TO_AMRS2 = 1.0 / ATTOMETER * RONTOSECOND * RONTOSECOND  # = 1e-36
 
 
 # ================================================================
@@ -331,28 +330,31 @@ def integrate_motion_euler(
     # Real forces are tiny at quantum scale - this boosts them for visible motion
     # Too high = oscillation (velocity flips every frame), too low = no visible motion
     # TODO: Make configurable via xparameters or UI
-    FORCE_MULTIPLIER = ti.cast(2000, ti.f32)  # Reduced to allow gradual velocity buildup
+    FORCE_MULTIPLIER = ti.cast(1, ti.f32)  # Reduced to allow gradual velocity buildup
 
-    # Conversion factor: m/s² to am/rs²
-    accel_conv = ti.cast(ACCEL_MS2_TO_AMRS2, ti.f32)
+    # Conversion factor: (N / qg) to am/rs²
+    # Using quectograms (qg) instead of kg for f32 precision on GPU
+    # Division by small kg values (e.g., 4.26e-36) underflows on GPU f32
+    # With qg: m_qg = 4.26e-3 (f32-friendly), conversion factor = 1e-3
+    accel_conv_qg = ti.cast(1e-3, ti.f32)  # (F_N / m_qg) * 1e-3 -> am/rs²
 
     # Voxel size in attometers for position conversion
-    dx_am = wave_field.dx / ATTOMETER
+    dx_am = wave_field.dx / ti.cast(ATTOMETER, ti.f32)
 
     for wc_idx in range(wave_center.num_sources):
-        # Get force (Newtons) and mass (kg)
+        # Get force (Newtons) and mass (qg - quectograms for GPU precision)
         F_x = wave_center.force[wc_idx][0]
         F_y = wave_center.force[wc_idx][1]
         F_z = wave_center.force[wc_idx][2]
-        m = wave_center.mass[wc_idx]
+        m_qg = wave_center.mass_qg[wc_idx]  # mass in quectograms
 
-        # Acceleration in m/s², then convert to am/rs²
+        # Acceleration: a = F/m, then convert (N/qg) to am/rs²
         # Apply force multiplier for visualization
-        a_x_amrs = (F_x / m) * accel_conv * FORCE_MULTIPLIER
-        a_y_amrs = (F_y / m) * accel_conv * FORCE_MULTIPLIER
-        a_z_amrs = (F_z / m) * accel_conv * FORCE_MULTIPLIER
+        a_x_amrs = (F_x / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
+        a_y_amrs = (F_y / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
+        a_z_amrs = (F_z / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
 
-        # Update velocity (am/rs)
+        # Update velocity: v_new = v_old + a * dt (in am/rs)
         wave_center.velocity_amrs[wc_idx][0] += a_x_amrs * dt_rs
         wave_center.velocity_amrs[wc_idx][1] += a_y_amrs * dt_rs
         wave_center.velocity_amrs[wc_idx][2] += a_z_amrs * dt_rs
@@ -667,18 +669,20 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
         F = forces[wc_idx]
         print(f"  Force: [{F[0]:.3e}, {F[1]:.3e}, {F[2]:.3e}] N")
 
-        # Expected acceleration (using actual mass from wave_center, not ELECTRON_MASS)
-        masses = wave_center.mass.to_numpy()
-        m = masses[wc_idx]
-        FORCE_MULTIPLIER = 2000  # Must match value in integrate_motion_euler
-        a_ms2 = F[0] / m if m > 0 else 0
-        a_amrs2 = a_ms2 * ACCEL_MS2_TO_AMRS2 * FORCE_MULTIPLIER
-        print(f"  Mass: {m:.3e} kg")
-        print(f"  Acceleration: {a_ms2:.3e} m/s² (with 2000x multiplier: {a_amrs2:.3e} am/rs²)")
+        # Expected acceleration (using actual mass from wave_center in qg)
+        masses = wave_center.mass_qg.to_numpy()
+        m_qg = masses[wc_idx]  # mass in quectograms
+        m_kg = m_qg * QUECTOGRAM  # convert to kg for display
+        FORCE_MULTIPLIER = 1  # Must match value in integrate_motion_euler
+        # Acceleration using qg conversion: (F/m_qg) * 1e-3 -> am/rs²
+        a_amrs2 = (F[0] / m_qg) * 1e-3 * FORCE_MULTIPLIER if m_qg > 0 else 0
+        a_ms2 = F[0] / m_kg if m_kg > 0 else 0  # for display
+        print(f"  Mass: {m_qg:.3e} qg ({m_kg:.3e} kg)")
+        print(f"  Acceleration: {a_ms2:.3e} m/s² ({a_amrs2:.3e} am/rs²)")
 
         # Velocity
         v = velocities[wc_idx]
-        print(f"  Velocity: [{v[0]:.3e}, {v[1]:.3e}, {v[2]:.3e}] am/rs")
+        print(f"  Velocity: [{v[0]:.6e}, {v[1]:.6e}, {v[2]:.6e}] am/rs")
 
     # ================================================================
     # VALIDATION SUMMARY: Simulated vs EWT Prediction
