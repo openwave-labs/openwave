@@ -516,12 +516,17 @@ def compute_force_motion(state):
         #     state.wave_center,
         #     state.frame,
         # )
-        force_motion.integrate_motion_euler(
-            state.wave_field,
-            state.wave_center,
-            state.dt_rs,
-            state.SIM_SPEED,
-        )
+        if state.APPLY_FORCE:
+            force_motion.integrate_motion_euler(
+                state.wave_field,
+                state.wave_center,
+                state.dt_rs,
+                state.SIM_SPEED,
+            )
+        else:
+            # Zero-out velocities if not applying force
+            for wc_idx in range(state.wave_center.num_sources):
+                state.wave_center.velocity_amrs[wc_idx] = ti.Vector([0.0, 0.0, 0.0], dt=ti.f32)
         # Annihilation naturally occurs from wave physics, this is only a safety check
         # Detect and handle particle annihilation (opposite phase WCs meeting)
         # Threshold: 1.0 grid unit = WCs must be in same or adjacent voxel
@@ -654,8 +659,7 @@ def main():
             # Run simulation step and update time
             state.compute_timestep()
             compute_wave_motion(state)
-            if state.APPLY_FORCE:
-                compute_force_motion(state)
+            compute_force_motion(state)
             state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
             state.frame += 1
 
