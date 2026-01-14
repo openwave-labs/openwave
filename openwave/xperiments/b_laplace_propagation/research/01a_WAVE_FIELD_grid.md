@@ -181,12 +181,12 @@ def get_amplitude_at_position(pos_am: ti.math.vec3) -> ti.f32:
 # With 3D arrays (clean and efficient):
 @ti.kernel
 def compute_gradient_3D():
-    for i, j, k in self.amplitude_am:  # Taichi auto-generates 3D loop
+    for i, j, k in self.amp_local_peak_am:  # Taichi auto-generates 3D loop
         if 0 < i < nx-1 and 0 < j < ny-1 and 0 < k < nz-1:
             # Neighbor access is trivial and readable
-            grad_x = (amplitude_am[i+1, j, k] - amplitude_am[i-1, j, k]) / (2.0 * dx_am)
-            grad_y = (amplitude_am[i, j+1, k] - amplitude_am[i, j-1, k]) / (2.0 * dx_am)
-            grad_z = (amplitude_am[i, j, k+1] - amplitude_am[i, j, k-1]) / (2.0 * dx_am)
+            grad_x = (amp_local_peak_am[i+1, j, k] - amp_local_peak_am[i-1, j, k]) / (2.0 * dx_am)
+            grad_y = (amp_local_peak_am[i, j+1, k] - amp_local_peak_am[i, j-1, k]) / (2.0 * dx_am)
+            grad_z = (amp_local_peak_am[i, j, k+1] - amp_local_peak_am[i, j, k-1]) / (2.0 * dx_am)
 
             force[i, j, k] = -ti.Vector([grad_x, grad_y, grad_z])
 
@@ -208,9 +208,9 @@ def compute_gradient_1D():
             idx_zp = i * (ny * nz) + j * nz + (k+1)  # k+1
             idx_zm = i * (ny * nz) + j * nz + (k-1)  # k-1
 
-            grad_x = (amplitude_am[idx_xp] - amplitude_am[idx_xm]) / (2.0 * dx_am)
-            grad_y = (amplitude_am[idx_yp] - amplitude_am[idx_ym]) / (2.0 * dx_am)
-            grad_z = (amplitude_am[idx_zp] - amplitude_am[idx_zm]) / (2.0 * dx_am)
+            grad_x = (amp_local_peak_am[idx_xp] - amp_local_peak_am[idx_xm]) / (2.0 * dx_am)
+            grad_y = (amp_local_peak_am[idx_yp] - amp_local_peak_am[idx_ym]) / (2.0 * dx_am)
+            grad_z = (amp_local_peak_am[idx_zp] - amp_local_peak_am[idx_zm]) / (2.0 * dx_am)
 
             force[idx] = ti.Vector([grad_x, grad_y, grad_z])
 ```
@@ -550,7 +550,7 @@ universe_size = [nx * dx, ny * dx, nz * dx]  # meters
 
 # Taichi field declaration (asymmetric shape)
 self.psiL_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
-self.amplitude_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
+self.amp_local_peak_am = ti.field(dtype=ti.f32, shape=(nx, ny, nz))
 self.force = ti.Vector.field(3, dtype=ti.f32, shape=(nx, ny, nz))
 ```
 

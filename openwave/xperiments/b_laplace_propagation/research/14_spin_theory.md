@@ -96,8 +96,8 @@ ENERGY WAVE (fundamental) = PURE LONGITUDINAL
 
 ### Conservation of Energy
 
-- `ampL_am` decreases at WC (longitudinal component reduced)
-- `ampT_am` increases at WC (transverse component created)
+- `ampL_local_rms_am` decreases at WC (longitudinal component reduced)
+- `ampT_local_rms_am` increases at WC (transverse component created)
 - Total energy preserved: `E ∝ ampL² + ampT²`
 
 ### Electromagnetism Duality
@@ -148,8 +148,8 @@ This would explain:
 # Already stored in L1_field_grid.py:
 psiL_am      # current longitudinal displacement
 psiL_old_am  # previous timestep displacement
-ampL_am        # envelope tracker for L
-ampT_am        # envelope tracker for T (to be added)
+ampL_local_rms_am        # envelope tracker for L
+ampT_local_rms_am        # envelope tracker for T (to be added)
 ```
 
 **The Math (Euler's Formula)**:
@@ -184,8 +184,8 @@ def compute_dispT(i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
     """Compute transverse displacement from longitudinal + velocity."""
     dispL = psiL_am[i, j, k]
     dispL_old = psiL_old_am[i, j, k]
-    ampL = ampL_am[i, j, k]
-    ampT = ampT_am[i, j, k]
+    ampL = ampL_local_rms_am[i, j, k]
+    ampT = ampT_local_rms_am[i, j, k]
 
     # Avoid division by zero
     if ampL < 1e-10:
@@ -212,13 +212,13 @@ def compute_dispT(i: ti.i32, j: ti.i32, k: ti.i32) -> ti.f32:
 def apply_wave_center_spin(cx: ti.i32, cy: ti.i32, cz: ti.i32,
                            conversion_factor: ti.f32):
     # Only modify the ENVELOPES, not the displacement field
-    amp_L = ampL_am[cx, cy, cz]
-    amp_T = ampT_am[cx, cy, cz]
+    amp_L = ampL_local_rms_am[cx, cy, cz]
+    amp_T = ampT_local_rms_am[cx, cy, cz]
 
     # Transfer some longitudinal amplitude to transverse
     delta = amp_L * conversion_factor
-    ampL_am[cx, cy, cz] = amp_L - delta
-    ampT_am[cx, cy, cz] = amp_T + delta
+    ampL_local_rms_am[cx, cy, cz] = amp_L - delta
+    ampT_local_rms_am[cx, cy, cz] = amp_T + delta
 
     # Total energy preserved: E ∝ amp_L² + amp_T²
 ```
@@ -227,12 +227,12 @@ def apply_wave_center_spin(cx: ti.i32, cy: ti.i32, cz: ti.i32,
 
 1. The PDE propagates `psiL_am` (longitudinal) — unchanged, no extra cost
 1. We already store `psiL_old_am` — velocity is free!
-1. Amplitude trackers (`ampL_am`, `ampT_am`) update periodically
+1. Amplitude trackers (`ampL_local_rms_am`, `ampT_local_rms_am`) update periodically
 1. At WC, we modify the **envelope ratio**, not the displacement
 1. When we need dispT (for visualization or physics), compute on-demand from:
    - `psiL_am` (current)
    - `psiL_old_am` (previous) → gives velocity sign
-   - `ampL_am`, `ampT_am` (envelopes)
+   - `ampL_local_rms_am`, `ampT_local_rms_am` (envelopes)
 
 **Cost**: Only computed when needed (visualization, WC physics), NOT every voxel every timestep!
 
@@ -252,7 +252,7 @@ All potentially connected through spin/L-T conversion:
 
 ### Phase 1: Add Transverse Tracking
 
-1. Add `ampT_am` tracker to wave field
+1. Add `ampT_local_rms_am` tracker to wave field
 1. Modify WC to convert L→T (small percentage per frame)
 1. Observe if standing waves emerge with different L/T patterns
 

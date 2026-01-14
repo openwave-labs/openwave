@@ -1,4 +1,4 @@
-timestep,psiL_am,psiT_am,ampL_am,ampT_am,freq_rHz
+timestep,psiL_am,psiT_am,ampL_local_rms_am,ampT_local_rms_am,freq_local_cross_rHz
 81,0.353373,0.000000,0.073060,0.000000,0.003866
 82,0.400175,0.000000,0.077396,0.000000,0.003827
 83,0.388056,0.000000,0.081114,0.000000,0.003789

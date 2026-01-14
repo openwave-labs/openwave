@@ -16,7 +16,7 @@ from openwave.common import constants
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+amp_local_peak_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER  # in attometers
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
@@ -115,7 +115,7 @@ def oscillate_granules_tocenter(
 
         # Total amplitude at distance r from wave source
         # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-        amplitude_uncapped = amplitude_am * amplitude_falloff * amp_boost
+        amplitude_uncapped = amp_local_peak_am * amplitude_falloff * amp_boost
 
         # Step 2: Cap amplitude to distance from source (A ≤ r)
         # Prevents non-physical behavior: granules crossing through wave source

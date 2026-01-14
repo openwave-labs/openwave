@@ -30,7 +30,7 @@ sources_distance_am = None  # Distances from each granule to each wave source (a
 sources_phase_offset = None  # Phase offset for each wave source (radians)
 
 # Displacement tracking for energy calculation
-peak_amplitude_am = None  # max displacement across all granules
+amp_global_peak_am = None  # max displacement across all granules
 avg_amplitude_am = None  # RMS amplitude (peak × 0.707)
 last_amp_boost = None  # for detecting amp_boost changes
 last_in_wave_toggle = None  # for detecting in_wave toggle changes
@@ -64,7 +64,7 @@ def build_source_vectors(num_sources, sources_position, sources_offset_deg, latt
         lattice: BCCLattice instance with granule positions and universe parameters
     """
     global sources_direction, sources_distance_am, sources_phase_offset, sources_pos_field
-    global peak_amplitude_am, avg_amplitude_am, sources_center_am
+    global amp_global_peak_am, avg_amplitude_am, sources_center_am
     global last_amp_boost, last_in_wave_toggle, last_out_wave_toggle
 
     # Convert phase from degrees to radians
@@ -82,7 +82,7 @@ def build_source_vectors(num_sources, sources_position, sources_offset_deg, latt
     sources_pos_field = ti.Vector.field(3, dtype=ti.f32, shape=num_sources)
 
     # Initialize displacement tracking fields
-    peak_amplitude_am = ti.field(dtype=ti.f32, shape=())  # max displacement
+    amp_global_peak_am = ti.field(dtype=ti.f32, shape=())  # max displacement
     avg_amplitude_am = ti.field(dtype=ti.f32, shape=())  # RMS amplitude
     last_amp_boost = ti.field(dtype=ti.f32, shape=())  # for change detection
     last_in_wave_toggle = ti.field(dtype=ti.i32, shape=())  # detects in_wave toggle changes
@@ -141,7 +141,7 @@ def build_source_vectors(num_sources, sources_position, sources_offset_deg, latt
 def oscillate_granules(
     position_am: ti.template(),  # type: ignore
     equilibrium_am: ti.template(),  # type: ignore
-    amplitude_am: ti.template(),  # type: ignore
+    amp_local_peak_am: ti.template(),  # type: ignore
     velocity_am: ti.template(),  # type: ignore
     granule_var_color: ti.template(),  # type: ignore
     freq_boost: ti.f32,  # type: ignore
@@ -208,7 +208,7 @@ def oscillate_granules(
     Args:
         position_am: Position field for all granules (modified in-place, in attometers)
         equilibrium_am: Equilibrium (rest) positions for all granules (in attometers)
-        amplitude_am: Amplitude field for all granules (modified in-place, in attometers)
+        amp_local_peak_am: Amplitude field for all granules (modified in-place, in attometers)
         velocity_am: Velocity field for all granules (modified in-place, in attometers/second)
         granule_var_color: Color field for displacement/amplitude visualization
         freq_boost: Frequency multiplier (applied after slowed frequency)
@@ -317,9 +317,9 @@ def oscillate_granules(
         # Initialize before conditional (Taichi scope requirement)
         displacement_am = total_displacement_am.norm()
 
-        # Track per-granule PEAK Amplitude & global PEAK Amplitude
-        ti.atomic_max(amplitude_am[granule_idx], displacement_am)
-        ti.atomic_max(peak_amplitude_am[None], displacement_am)
+        # Track local PEAK Amplitude & global PEAK Amplitude
+        ti.atomic_max(amp_local_peak_am[granule_idx], displacement_am)
+        ti.atomic_max(amp_global_peak_am[None], displacement_am)
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map value to color using selected gradient
@@ -327,13 +327,13 @@ def oscillate_granules(
             granule_var_color[granule_idx] = colormap.get_orange_color(
                 displacement_am,
                 0.0,
-                peak_amplitude_am[None],
+                amp_global_peak_am[None],
             )
         elif color_palette == 5:  # ironbow (magnitude only: thermal scale)
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
-                amplitude_am[granule_idx],
+                amp_local_peak_am[granule_idx],
                 0.0,
-                peak_amplitude_am[None],
+                amp_global_peak_am[None],
             )
 
     # Reset amplitude trackers when amp_boost changes
@@ -343,14 +343,14 @@ def oscillate_granules(
         or last_in_wave_toggle[None] != in_wave_toggle
         or last_out_wave_toggle[None] != out_wave_toggle
     ):
-        peak_amplitude_am[None] = 0.0
-        for i in range(amplitude_am.shape[0]):
-            amplitude_am[i] = 0.0
+        for i in range(amp_local_peak_am.shape[0]):
+            amp_local_peak_am[i] = 0.0
+        amp_global_peak_am[None] = 0.0
         last_amp_boost[None] = amp_boost
         last_in_wave_toggle[None] = in_wave_toggle
         last_out_wave_toggle[None] = out_wave_toggle
     # Convert peak to RMS amplitude: RMS = peak / √2 ≈ peak × 0.707
-    avg_amplitude_am[None] = peak_amplitude_am[None] * 0.707
+    avg_amplitude_am[None] = amp_global_peak_am[None] * 0.707
 
 
 def update_lattice_energy(lattice):

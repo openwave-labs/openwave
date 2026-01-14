@@ -373,7 +373,7 @@ def compute_wave_motion(state):
     ewave.oscillate_granules(
         state.lattice.position_am,
         state.lattice.equilibrium_am,
-        state.lattice.amplitude_am,
+        state.lattice.amp_local_peak_am,
         state.lattice.velocity_am,
         state.lattice.granule_var_color,
         state.FREQ_BOOST,
@@ -391,7 +391,7 @@ def compute_wave_motion(state):
     # IN-FRAME DATA SAMPLING & INSTRUMENTATION ==================================
     # Sample peak amplitude periodically (every 30 frames)
     if state.frame % 30 == 0:
-        state.peak_amplitude = ewave.peak_amplitude_am[None] * constants.ATTOMETER
+        state.peak_amplitude = ewave.amp_global_peak_am[None] * constants.ATTOMETER
         ewave.update_lattice_energy(state.lattice)
 
     if state.INSTRUMENTATION:

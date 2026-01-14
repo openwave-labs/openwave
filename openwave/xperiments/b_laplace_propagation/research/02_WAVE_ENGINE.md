@@ -931,7 +931,7 @@ The most direct way to measure frequency is to **time the oscillations directly*
 
 **Advantages**:
 
-- **Simple implementation**: Reuses existing amplitude tracking (`amplitude_am`)
+- **Simple implementation**: Reuses existing amplitude tracking (`amp_local_peak_am`)
 - **Physical intuition**: Each voxel times its own oscillations
 - **Works per voxel**: Independent measurement at each location
 - **Handles superposition**: Measures dominant/beating frequency automatically
@@ -965,7 +965,7 @@ def measure_frequency(self, current_time: ti.f32):
     for i, j, k in self.psiL_am:
         # Check if displacement is at a peak (|ψ| ≈ A)
         disp_mag = ti.abs(self.psiL_am[i,j,k])
-        amp = self.amplitude_am[i,j,k]
+        amp = self.amp_local_peak_am[i,j,k]
 
         # Peak detection: current displacement within 1% of amplitude
         if amp > 1e-12 and disp_mag >= amp * 0.99:
@@ -1026,10 +1026,10 @@ This approach mirrors `wave_engine_level0.py`'s amplitude tracking:
 
 ```python
 # LEVEL-0 tracks amplitude per granule:
-amplitude_am[granule_idx] = max(|ψ|)
+amp_local_peak_am[granule_idx] = max(|ψ|)
 
 # LEVEL-1 extends this to track period:
-period[i,j,k] = time between peaks when |ψ| = amplitude_am[i,j,k]  # seconds
+period[i,j,k] = time between peaks when |ψ| = amp_local_peak_am[i,j,k]  # seconds
 ```
 
 **Why This Works Better Than Spatial Methods**:
@@ -1097,7 +1097,7 @@ Two terms:
      ```python
      # Compute amplitude gradient force (primary term)
      # F_amplitude = -2ρVf² × A × ∇A
-     grad_A = compute_gradient(amplitude_am)
+     grad_A = compute_gradient(amp_local_peak_am)
      force_scale = 2.0 * ρ * V * frequency_local**2
      F_amplitude = -force_scale * A * grad_A
 
@@ -1309,7 +1309,7 @@ wavelength_am = constants.EWAVE_LENGTH / constants.ATTOMETER
 3. **f = 1/dt is PRIMARY** - frequency computed first (human-intuitive, Planck E=hf)
 4. **T = dt and λ = c/f are DERIVED** - period and wavelength computed from frequency
 5. **Simple and robust**: Direct temporal measurement, not sensitive to spatial gradients
-6. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amplitude_am` approach
+6. **Reuses amplitude tracking**: Same infrastructure as LEVEL-0's `amp_local_peak_am` approach
 7. For **single source**, f is constant; for **multiple sources**, measures dominant frequency
 8. **Spacetime coupling**: f (temporal) × A (spatial) = natural pairing in E = ρV(fA)²
 

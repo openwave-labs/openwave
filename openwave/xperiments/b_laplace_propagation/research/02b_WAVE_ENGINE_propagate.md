@@ -163,7 +163,7 @@ def track_amplitude_envelope(self):
     """
     for i, j, k in self.psiL_am:
         disp_mag = ti.abs(self.psiL_am[i,j,k])
-        ti.atomic_max(self.amplitude_am[i,j,k], disp_mag)
+        ti.atomic_max(self.amp_local_peak_am[i,j,k], disp_mag)
 ```
 
 ```python

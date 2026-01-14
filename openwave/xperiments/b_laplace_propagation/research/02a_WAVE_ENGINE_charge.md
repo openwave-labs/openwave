@@ -79,7 +79,7 @@ def charge_uniform_energy(self):
         displacement = base_displacement * perturbation
 
         self.psiL_am[i, j, k] = displacement / constants.ATTOMETER
-        self.amplitude_am[i, j, k] = ti.abs(self.psiL_am[i, j, k])
+        self.amp_local_peak_am[i, j, k] = ti.abs(self.psiL_am[i, j, k])
 
     # Initialize old displacement (same as current for stationary start)
     for i, j, k in self.displacement_old:
@@ -153,7 +153,7 @@ def charge_spherical_gaussian(
         displacement = A_am * gaussian
 
         self.psiL_am[i, j, k_idx] = displacement
-        self.amplitude_am[i, j, k_idx] = ti.abs(displacement)
+        self.amp_local_peak_am[i, j, k_idx] = ti.abs(displacement)
 
     # Initialize old displacement (same as current for stationary start)
     for i, j, k_idx in self.displacement_old:
@@ -186,7 +186,7 @@ def charge_wolff_spherical_wave(
     For now, use simpler Gaussian (Option 2) for initial charging.
     """
     center_am = center / constants.ATTOMETER
-    amplitude_am = amplitude / constants.ATTOMETER
+    amp_local_peak_am = amplitude / constants.ATTOMETER
     k = 2.0 * ti.math.pi * frequency / constants.EWAVE_SPEED
 
     for i, j, k_idx in self.psiL_am:
@@ -201,10 +201,10 @@ def charge_wolff_spherical_wave(
             kr = k * r * constants.ATTOMETER
             spatial_factor = ti.sin(kr) / (r * constants.ATTOMETER)
 
-        wave_displacement = amplitude_am * ti.cos(initial_phase) * spatial_factor
+        wave_displacement = amp_local_peak_am * ti.cos(initial_phase) * spatial_factor
 
         self.psiL_am[i, j, k_idx] = wave_displacement
-        self.amplitude_am[i, j, k_idx] = ti.abs(wave_displacement)
+        self.amp_local_peak_am[i, j, k_idx] = ti.abs(wave_displacement)
 
     for i, j, k_idx in self.displacement_old:
         self.displacement_old[i, j, k_idx] = self.psiL_am[i, j, k_idx]

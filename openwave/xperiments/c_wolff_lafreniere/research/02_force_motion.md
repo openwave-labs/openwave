@@ -139,14 +139,14 @@ When two wave centers interact:
 ### Architecture Overview
 
 ```text
-+--------------------------------------------------------------+
-|                    SIMULATION LOOP                           |
-+--------------------------------------------------------------+
-|  1. propagate_wave()      -> Updates psiL_am, tracks ampL_am |
-|  2. compute_force()       -> F = -∇(E) from amplitude        |
-|  3. compute_motion()      -> a = F/m, integrate v and pos    |
-|  4. render()              -> Visualize particles + waves     |
-+--------------------------------------------------------------+
++------------------------------------------------------------------------+
+|                    SIMULATION LOOP                                     |
++------------------------------------------------------------------------+
+|  1. propagate_wave()      -> Updates psiL_am, tracks ampL_local_rms_am |
+|  2. compute_force()       -> F = -∇(E) from amplitude                  |
+|  3. compute_motion()      -> a = F/m, integrate v and pos              |
+|  4. render()              -> Visualize particles + waves               |
++------------------------------------------------------------------------+
 ```
 
 ### Module Structure
@@ -175,7 +175,7 @@ wave_field.nx, ny, nz        # Grid dimensions
 From `spacetime_ewave.py` (Trackers):
 
 ```python
-trackers.ampL_am[i,j,k]      # RMS amplitude per voxel (am)
+trackers.ampL_local_rms_am[i,j,k]      # RMS amplitude per voxel (am)
 ```
 
 From `particle.py`:
@@ -367,7 +367,7 @@ max_dim = float(state.wave_field.max_grid_size)
 # In spacetime_ewave.py tracker updates:
 alpha_rms_L = 0.05  # Higher alpha for faster EMA response
 decay_factor = ti.cast(0.99, ti.f32)  # Unconditional decay
-trackers.ampL_am[i, j, k] = new_ampL * decay_factor
+trackers.ampL_local_rms_am[i, j, k] = new_ampL * decay_factor
 ```
 
 | Parameter | Old Value | New Value | Effect |
@@ -395,7 +395,7 @@ Compute energy per voxel from tracked amplitude.
 ```python
 @ti.func
 def compute_voxel_energy(
-    amplitude_am: ti.f32,
+    amp_local_peak_am: ti.f32,
     voxel_volume: ti.f32,
 ) -> ti.f32:
     """
@@ -404,14 +404,14 @@ def compute_voxel_energy(
     E = rho * V * (f * A)^2
 
     Args:
-        amplitude_am: RMS amplitude in attometers
+        amp_local_peak_am: RMS amplitude in attometers
         voxel_volume: Voxel volume in m^3
 
     Returns:
         Energy in Joules
     """
     # Convert amplitude from attometers to meters
-    A_m = amplitude_am * ATTOMETER
+    A_m = amp_local_peak_am * ATTOMETER
 
     # EWT energy equation
     E = MEDIUM_DENSITY * voxel_volume * (EWAVE_FREQUENCY * A_m) ** 2
@@ -496,22 +496,22 @@ def compute_force_vector(
         nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
         if i > 0 and i < nx - 1 and j > 0 and j < ny - 1 and k > 0 and k < nz - 1:
             # Sample amplitude at center (convert to meters)
-            A_center = trackers.ampL_am[i, j, k] * ATTOMETER
+            A_center = trackers.ampL_local_rms_am[i, j, k] * ATTOMETER
 
             # Central difference gradient: grad(A) = (A+ - A-) / (2*dx)
             # X gradient
-            A_xp = trackers.ampL_am[i+1, j, k] * ATTOMETER
-            A_xm = trackers.ampL_am[i-1, j, k] * ATTOMETER
+            A_xp = trackers.ampL_local_rms_am[i+1, j, k] * ATTOMETER
+            A_xm = trackers.ampL_local_rms_am[i-1, j, k] * ATTOMETER
             dA_dx = (A_xp - A_xm) / (2.0 * dx_m)
 
             # Y gradient
-            A_yp = trackers.ampL_am[i, j+1, k] * ATTOMETER
-            A_ym = trackers.ampL_am[i, j-1, k] * ATTOMETER
+            A_yp = trackers.ampL_local_rms_am[i, j+1, k] * ATTOMETER
+            A_ym = trackers.ampL_local_rms_am[i, j-1, k] * ATTOMETER
             dA_dy = (A_yp - A_ym) / (2.0 * dx_m)
 
             # Z gradient
-            A_zp = trackers.ampL_am[i, j, k+1] * ATTOMETER
-            A_zm = trackers.ampL_am[i, j, k-1] * ATTOMETER
+            A_zp = trackers.ampL_local_rms_am[i, j, k+1] * ATTOMETER
+            A_zm = trackers.ampL_local_rms_am[i, j, k-1] * ATTOMETER
             dA_dz = (A_zp - A_zm) / (2.0 * dx_m)
 
             # Force: F = -2 * rho * V * f^2 * A * grad(A)

@@ -230,7 +230,7 @@ With attometers (f32):
 position_am: Vector(3) × f32 = 12 bytes
 velocity_am: Vector(3) × f32 = 12 bytes
 equilibrium_am: Vector(3) × f32 = 12 bytes
-amplitude_am: f32 = 4 bytes
+amp_local_peak_am: f32 = 4 bytes
 granule_type: i32 = 4 bytes
 front_octant: i32 = 4 bytes
 granule_type_color: Vector(3) × f32 = 12 bytes

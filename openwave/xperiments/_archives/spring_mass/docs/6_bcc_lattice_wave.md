@@ -50,7 +50,7 @@ for idx in range(positions.shape[0]):
     phase = -k * r  # Phase depends only on distance from center
 
     # Pure radial oscillation per granule
-    displacement = amplitude_am * amp_boost * ti.cos(omega * t + phase)
+    displacement = amp_local_peak_am * amp_boost * ti.cos(omega * t + phase)
     positions[idx] = equilibrium[idx] + displacement * direction
 ```
 

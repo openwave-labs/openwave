@@ -251,15 +251,15 @@ def compute_force_field_newtons(self):
     # Dimensional analysis: 2 × (kg/m³)(m³)(Hz²) = 2 × (kg)(1/s²) = kg⋅m/s² when multiplied by A∇A
     force_scale = 2.0 * ρ * V * f**2
 
-    for i, j, k in self.amplitude_am:
+    for i, j, k in self.amp_local_peak_am:
         if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
             # Local amplitude in meters
-            A_m = self.amplitude_am[i,j,k] * constants.ATTOMETER
+            A_m = self.amp_local_peak_am[i,j,k] * constants.ATTOMETER
 
             # Amplitude gradient (dimensionless: am/am)
-            grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-            grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-            grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+            grad_x = (self.amp_local_peak_am[i+1,j,k] - self.amp_local_peak_am[i-1,j,k]) / (2.0 * self.dx_am)
+            grad_y = (self.amp_local_peak_am[i,j+1,k] - self.amp_local_peak_am[i,j-1,k]) / (2.0 * self.dx_am)
+            grad_z = (self.amp_local_peak_am[i,j,k+1] - self.amp_local_peak_am[i,j,k-1]) / (2.0 * self.dx_am)
 
             grad_vector = ti.Vector([grad_x, grad_y, grad_z])
 
@@ -289,14 +289,14 @@ def compute_force_field_newtons(self):
         # F = -2ρVf² × A × ∇A  (monochromatic, ∇f = 0)
         force_scale = 2.0 * ρ * V * f**2
 
-        for i, j, k in self.amplitude_am:
+        for i, j, k in self.amp_local_peak_am:
             if 0 < i < self.nx-1 and 0 < j < self.ny-1 and 0 < k < self.nz-1:
-                A_m = self.amplitude_am[i,j,k] * constants.ATTOMETER
+                A_m = self.amp_local_peak_am[i,j,k] * constants.ATTOMETER
 
                 # Gradient in attometer space (better precision)
-                grad_x = (self.amplitude_am[i+1,j,k] - self.amplitude_am[i-1,j,k]) / (2.0 * self.dx_am)
-                grad_y = (self.amplitude_am[i,j+1,k] - self.amplitude_am[i,j-1,k]) / (2.0 * self.dx_am)
-                grad_z = (self.amplitude_am[i,j,k+1] - self.amplitude_am[i,j,k-1]) / (2.0 * self.dx_am)
+                grad_x = (self.amp_local_peak_am[i+1,j,k] - self.amp_local_peak_am[i-1,j,k]) / (2.0 * self.dx_am)
+                grad_y = (self.amp_local_peak_am[i,j+1,k] - self.amp_local_peak_am[i,j-1,k]) / (2.0 * self.dx_am)
+                grad_z = (self.amp_local_peak_am[i,j,k+1] - self.amp_local_peak_am[i,j,k-1]) / (2.0 * self.dx_am)
 
                 grad_vector = ti.Vector([grad_x, grad_y, grad_z])
 

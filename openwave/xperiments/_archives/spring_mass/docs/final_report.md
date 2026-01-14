@@ -583,7 +583,7 @@ def oscillate_granules(
         amplitude_falloff = r_reference / r_safe
 
         # Total amplitude at distance r from wave source
-        amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+        amplitude_at_r = amp_local_peak_am * amplitude_falloff * amp_boost
 
         # Direct position calculation (no integration!)
         displacement = amplitude_at_r * ti.cos(omega * t + phase)
@@ -924,7 +924,7 @@ def oscillate_granules(position, velocity, equilibrium, direction,
         amplitude_falloff = r_reference / r_safe
 
         # Total amplitude at distance r from wave source
-        amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+        amplitude_at_r = amp_local_peak_am * amplitude_falloff * amp_boost
 
         # Direct analytical solution (no integration!)
         displacement = amplitude_at_r * ti.cos(omega * t + phase)

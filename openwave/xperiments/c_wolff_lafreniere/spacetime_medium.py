@@ -435,19 +435,25 @@ class Trackers:
         # 2 polarities to track: longitudinal & transverse
         # Amplitude envelope tracks A via EMA of |ψ| and RMS calculation
         # Frequency tracks local oscillation rate via zero-crossing detection
-        self.ampL_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
-        self.rms_ampL_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
-        self.ampT_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
-        self.rms_ampT_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampL_local_rms_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
+        self.ampL_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampT_local_rms_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
+        self.ampT_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # rs, last zero crossing
-        self.freq_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
-        self.avg_freq_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
+        self.freq_local_cross_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
+        self.freq_global_avg_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling
         # baseline to allow wave peaks to rise without color saturation
-        self.rms_ampL_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
-        self.rms_ampT_am[None] = constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
-        self.avg_freq_rHz[None] = constants.EWAVE_FREQUENCY * constants.RONTOSECOND * scale_factor
+        self.ampL_global_rms_am[None] = (
+            constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
+        )
+        self.ampT_global_rms_am[None] = (
+            constants.EWAVE_AMPLITUDE / constants.ATTOMETER * scale_factor
+        )
+        self.freq_global_avg_rHz[None] = (
+            constants.EWAVE_FREQUENCY * constants.RONTOSECOND * scale_factor
+        )
 
 
 if __name__ == "__main__":

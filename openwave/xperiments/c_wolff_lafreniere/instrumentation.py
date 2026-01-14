@@ -121,12 +121,14 @@ def log_timestep_data(timestep: int, wave_field, trackers) -> None:
     # Capture probe values
     psiL_am = wave_field.psiL_am[px, py, pz] / wave_field.scale_factor
     psiT_am = wave_field.psiT_am[px, py, pz] / wave_field.scale_factor
-    ampL_am = trackers.ampL_am[px, py, pz] / wave_field.scale_factor
-    ampT_am = trackers.ampT_am[px, py, pz] / wave_field.scale_factor
-    freq_rHz = trackers.freq_rHz[px, py, pz] * wave_field.scale_factor
+    ampL_local_rms_am = trackers.ampL_local_rms_am[px, py, pz] / wave_field.scale_factor
+    ampT_local_rms_am = trackers.ampT_local_rms_am[px, py, pz] / wave_field.scale_factor
+    freq_local_cross_rHz = trackers.freq_local_cross_rHz[px, py, pz] * wave_field.scale_factor
 
     # Add to buffer
-    _timestep_buffer.append([timestep, psiL_am, psiT_am, ampL_am, ampT_am, freq_rHz])
+    _timestep_buffer.append(
+        [timestep, psiL_am, psiT_am, ampL_local_rms_am, ampT_local_rms_am, freq_local_cross_rHz]
+    )
 
     # Flush buffer periodically
     if len(_timestep_buffer) >= _BUFFER_FLUSH_INTERVAL:
@@ -152,9 +154,9 @@ def _flush_timestep_buffer() -> None:
                     "timestep",
                     "psiL_am",
                     "psiT_am",
-                    "ampL_am",
-                    "ampT_am",
-                    "freq_rHz",
+                    "ampL_local_rms_am",
+                    "ampT_local_rms_am",
+                    "freq_local_cross_rHz",
                 ]
             )
         _timestep_log_initialized = True
@@ -203,9 +205,9 @@ def _read_timestep_data():
             data["timesteps"].append(int(row["timestep"]))
             data["displacements_L"].append(float(row["psiL_am"]))
             data["displacements_T"].append(float(row["psiT_am"]))
-            data["amplitudes_L"].append(float(row["ampL_am"]))
-            data["amplitudes_T"].append(float(row["ampT_am"]))
-            data["frequencies"].append(float(row["freq_rHz"]))
+            data["amplitudes_L"].append(float(row["ampL_local_rms_am"]))
+            data["amplitudes_T"].append(float(row["ampT_local_rms_am"]))
+            data["frequencies"].append(float(row["freq_local_cross_rHz"]))
 
     return data
 

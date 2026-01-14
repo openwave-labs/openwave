@@ -147,7 +147,7 @@ amplitude_scaled = base_amplitude_am * wave_field.scale_factor
 # Convert scaled values back to physical units for display
 sub.text(f"eWAVE Amplitude: {avg_amplitude/scale_factor:.1e} m")
 sub.text(f"eWAVE Frequency: {avg_frequency*scale_factor:.1e} Hz")
-sub.text(f"eWAVE Wavelength: {avg_wavelength/scale_factor:.1e} m")
+sub.text(f"eWAVE Wavelength: {wavelength_global_avg/scale_factor:.1e} m")
 ```
 
 ## CFL Stability Condition

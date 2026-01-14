@@ -55,9 +55,9 @@ Based on analysis of `L1_field_grid.py` and `L1_wave_engine.py`, OpenWave requir
 | `psiL_new_am` | f32 | 4 | Wave displacement at t+dt |
 | `psiL_am` | f32 | 4 | Wave displacement at t |
 | `psiL_old_am` | f32 | 4 | Wave displacement at t-dt |
-| `ampL_am` | f32 | 4 | Longitudinal amplitude tracker |
+| `ampL_local_rms_am` | f32 | 4 | Longitudinal amplitude tracker |
 | `last_crossing` | f32 | 4 | Zero-crossing detection |
-| `freq_rHz` | f32 | 4 | Local frequency tracker |
+| `freq_local_cross_rHz` | f32 | 4 | Local frequency tracker |
 | **Total** | | **24 bytes/voxel** | |
 
 ### Memory Requirements by Voxel Count

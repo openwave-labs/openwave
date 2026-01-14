@@ -243,7 +243,7 @@ for source_idx in range(num_sources):
 
     # Total amplitude at granule distance from source
     # Step 1: Apply energy conservation (1/r falloff) and visualization scaling
-    amplitude_at_r = amplitude_am * amplitude_falloff * amp_boost
+    amplitude_at_r = amp_local_peak_am * amplitude_falloff * amp_boost
 
     # CONSTRAINT 2: Physical Cap (A ≤ r)
     # Step 2: Cap amplitude to distance from source (A ≤ r)
@@ -273,7 +273,7 @@ for source_idx in range(num_sources):
    - Valid for far-field region (r > λ)
    - Clamped to constant amplitude for r < λ (source region)
 
-4. **amplitude_at_r = amplitude_am × amplitude_falloff × amp_boost** (energy_wave_level0.py:222):
+4. **amplitude_at_r = amp_local_peak_am × amplitude_falloff × amp_boost** (energy_wave_level0.py:222):
    - Amplitude after singularity prevention and energy conservation
    - Includes visualization scaling (amp_boost)
 

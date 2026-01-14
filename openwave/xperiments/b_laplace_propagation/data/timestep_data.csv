@@ -1,4 +1,4 @@
-timestep,charge_level,psiL_am,psiT_am,ampL_am,ampT_am,freq_rHz
+timestep,charge_level,psiL_am,psiT_am,ampL_local_rms_am,ampT_local_rms_am,freq_local_cross_rHz
 1,0.000000,-0.130560,0.000000,0.009232,0.000000,0.000000
 2,0.000000,-0.387365,0.000000,0.028897,0.000000,0.000000
 3,0.000000,-0.605136,0.000000,0.051593,0.000000,0.000000

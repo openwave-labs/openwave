@@ -23,7 +23,7 @@ from openwave.common import constants
 # ================================================================
 # Energy-Wave Oscillation Parameters
 # ================================================================
-amplitude_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
+amp_local_peak_am = constants.EWAVE_AMPLITUDE / constants.ATTOMETER  # am, oscillation amplitude
 frequency = constants.EWAVE_SPEED / constants.EWAVE_LENGTH  # Hz, energy-wave frequency
 
 
@@ -74,11 +74,13 @@ def oscillate_vertex(
 
         # Position: x(t) = x_eq + A·cos(ωt + φ)·direction
         # Apply amp_boost for visibility in scaled-up lattices
-        displacement = amplitude_am * amp_boost * ti.cos(omega_slo * t + phase)
+        displacement = amp_local_peak_am * amp_boost * ti.cos(omega_slo * t + phase)
         position[idx] = vertex_equilibrium[v] + displacement * direction
 
         # Velocity: v(t) = -A·ω·sin(ωt + φ)·direction (derivative of position)
-        velocity_magnitude = -amplitude_am * amp_boost * omega_slo * ti.sin(omega_slo * t + phase)
+        velocity_magnitude = (
+            -amp_local_peak_am * amp_boost * omega_slo * ti.sin(omega_slo * t + phase)
+        )
         velocity[idx] = velocity_magnitude * direction
 
 
@@ -568,7 +570,7 @@ def measure_wave_speed(
         slo_mo: Slow motion factor (to convert simulation time to real time)
 
     Returns:
-        dict with 'max_distance_am', 'amplitude_am', 'threshold_am'
+        dict with 'max_distance_am', 'amp_local_peak_am', 'threshold_am'
     """
     # Allocate displacement field if needed
     if not hasattr(lattice, "displacement_mag_am"):
@@ -608,7 +610,7 @@ def measure_wave_speed(
 
     return {
         "max_distance_am": max_distance,
-        "amplitude_am": max_displacement,
+        "amp_local_peak_am": max_displacement,
         "threshold_am": threshold,
     }
 
