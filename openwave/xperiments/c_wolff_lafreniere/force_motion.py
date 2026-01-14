@@ -348,14 +348,14 @@ def integrate_motion_euler(
 
         # Acceleration in m/s², then convert to am/rs²
         # Apply force multiplier for visualization
-        a_x = (F_x / m) * accel_conv * FORCE_MULTIPLIER
-        a_y = (F_y / m) * accel_conv * FORCE_MULTIPLIER
-        a_z = (F_z / m) * accel_conv * FORCE_MULTIPLIER
+        a_x_amrs = (F_x / m) * accel_conv * FORCE_MULTIPLIER
+        a_y_amrs = (F_y / m) * accel_conv * FORCE_MULTIPLIER
+        a_z_amrs = (F_z / m) * accel_conv * FORCE_MULTIPLIER
 
         # Update velocity (am/rs)
-        wave_center.velocity_amrs[wc_idx][0] += a_x * dt_rs
-        wave_center.velocity_amrs[wc_idx][1] += a_y * dt_rs
-        wave_center.velocity_amrs[wc_idx][2] += a_z * dt_rs
+        wave_center.velocity_amrs[wc_idx][0] += a_x_amrs * dt_rs
+        wave_center.velocity_amrs[wc_idx][1] += a_y_amrs * dt_rs
+        wave_center.velocity_amrs[wc_idx][2] += a_z_amrs * dt_rs
 
         # Clamp velocity to speed of light (c = 0.3 am/rs)
         # velocity clamp to prevent superluminal speeds
