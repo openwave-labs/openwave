@@ -118,10 +118,11 @@ def compute_wave_standing(
         radius_am: Radial distance array (used only for output shape, not computation)
         t_rs: Time in rontoseconds (default 0.0 for static plot)
     """
+    source_offset = get_source_offset(source)
     psi_am = (
         base_amplitude_am
-        * np.cos(omega_rs * t_rs)  # temporal phases (rad)
-        * np.sin(k_am * x_am)  # spatial phase, φ = k·r (rad)
+        * np.cos(omega_rs * t_rs + source_offset)  # temporal phases (rad)
+        * np.cos(k_am * radius_am)  # spatial phase, φ = k·r (rad)
     )
     return psi_am
 
@@ -204,7 +205,7 @@ def compute_wave_Wolff(
     kr = k_am * radius_am
     psi_am = (
         base_amplitude_am  # full amplitude (am)
-        * np.cos(ot)
+        * np.cos(ot + source_offset)
         * np.sin(kr)  # spatial phase, φ = k·r (rad)
         / radius_am  # amplitude falloff for spherical wave: A(r) = A₀/r (am)
     )
@@ -639,6 +640,33 @@ PLOT_CONFIGS = [  # 2 WC: LFa + LFb
         "direction": [-1, -1],
         "source": [1, 2],  # WC1 + WC2
         "ylim": (-0.25, 0.25),
+        "height_ratio": 1,
+        "label": "TOTAL Psi (am)",
+    },
+]
+
+PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+    {
+        "func": "standing",
+        "direction": -1,
+        "source": 1,  # WC1
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "standing",
+    },
+    {
+        "func": "standing",
+        "direction": -1,
+        "source": 2,  # WC2
+        "ylim": (-1.5, 1.5),
+        "height_ratio": 1,
+        "label": "standing",
+    },
+    {
+        "func": ["standing", "standing"],  # sum of both sources
+        "direction": [-1, -1],
+        "source": [1, 2],  # WC1 + WC2
+        "ylim": (-1.5, 1.5),
         "height_ratio": 1,
         "label": "TOTAL Psi (am)",
     },
