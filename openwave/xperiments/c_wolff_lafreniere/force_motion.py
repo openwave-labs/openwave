@@ -211,7 +211,7 @@ def compute_force_vector(
 
     Args:
         wave_field: WaveField instance containing grid info
-        trackers: Trackers instance with ampL_local_rms_am field
+        trackers: Trackers instance with amplitude fields
         wave_center: WaveCenter instance to store computed forces
     """
     # Physical constants
