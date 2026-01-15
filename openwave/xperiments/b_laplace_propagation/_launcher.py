@@ -208,8 +208,8 @@ class SimulationState:
         self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
         self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
 
-    def restart_sim(self):
-        """Restart simulation state."""
+    def reset_sim(self):
+        """Reset simulation state."""
         self.wave_field = None
         self.trackers = None
         self.c_amrs = 0.0
@@ -248,7 +248,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.31) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.32) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -265,10 +265,9 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.32, 0.16, 0.25) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.33, 0.16, 0.27) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
-        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.WARP_MESH = sub.slider_int("Warp Mesh", state.WARP_MESH, 0, 30)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
@@ -278,8 +277,8 @@ def display_controls(state):
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
-        if sub.button("Restart Simulation"):
-            state.restart_sim()
+        if sub.button("Reset Simulation"):
+            state.reset_sim()
 
 
 def display_wave_menu(state):
@@ -342,7 +341,8 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.37, 0.16, 0.63) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.34, 0.16, 0.66) as sub:
+        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")

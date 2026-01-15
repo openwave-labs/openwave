@@ -29,7 +29,7 @@ XPARAMETERS = {
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
         "PHASE_OFFSETS_DEG": [0, 180],
-        "APPLY_FORCE": True,  # Toggle to apply force at wave-centers each iteration
+        "APPLY_MOTION": True,  # Toggle to apply motion at wave-centers, from force at each iteration
     },
     "ui_defaults": {
         "SHOW_AXIS": False,  # Toggle to show/hide axis lines

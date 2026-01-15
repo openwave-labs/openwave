@@ -218,7 +218,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.31) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.32) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -235,7 +235,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.32, 0.16, 0.27) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.33, 0.16, 0.27) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.BLOCK_SLICE = sub.checkbox("Block Slice", state.BLOCK_SLICE)
         state.SHOW_SOURCES = sub.checkbox("Show Wave Centers (sources)", state.SHOW_SOURCES)
@@ -290,7 +290,8 @@ def display_level_specs(state, level_bar_vertices):
 
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.44, 0.16, 0.56) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.43, 0.16, 0.57) as sub:
+        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
