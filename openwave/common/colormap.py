@@ -71,25 +71,25 @@ FOREST = {
 # Performance-critical code > DRY principle in this case.
 
 # ================================================================
-# Yellowgreen Gradient: PALETTE [used in get_yellowgreen_color()]
+# Greenyellow Gradient: PALETTE [used in get_greenyellow_color()]
 # ================================================================
-yellowgreen_palette = [
-    ["#FFFF00", (1.0, 1.0, 0.0)],  # yellow
-    ["#C79B17", (0.78, 0.61, 0.09)],  # dark yellow
-    ["#000000", (0.0, 0.0, 0.0)],  # black
-    ["#1E7A1E", (0.118, 0.478, 0.118)],  # dark green
+greenyellow_palette = [
     ["#35B779", (0.208, 0.718, 0.475)],  # green
+    ["#1E7A1E", (0.118, 0.478, 0.118)],  # dark green
+    ["#000000", (0.0, 0.0, 0.0)],  # black
+    ["#C79B17", (0.78, 0.61, 0.09)],  # dark yellow
+    ["#FFFF00", (1.0, 1.0, 0.0)],  # yellow
 ]
 
 # ================================================================
-# Redblue Gradient: PALETTE [used in get_redblue_color()]
+# Bluered Gradient: PALETTE [used in get_bluered_color()]
 # ================================================================
-redblue_palette = [
-    ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
-    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
-    ["#000000", (0.0, 0.0, 0.0)],  # black
-    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
+bluered_palette = [
     ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
+    ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
+    ["#000000", (0.0, 0.0, 0.0)],  # black
+    ["#8B0000", (0.545, 0.0, 0.0)],  # dark red
+    ["#FF6347", (1.0, 0.388, 0.278)],  # red-orange
 ]
 
 # ================================================================
@@ -138,24 +138,24 @@ blueprint_palette = [
 
 
 # ================================================================
-# Yellowgreen Gradient: FUNCTION
+# Greenyellow Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-yellowgreen = [color[1] for color in yellowgreen_palette]
-YELLOWGREEN_0 = ti.Vector([yellowgreen[0][0], yellowgreen[0][1], yellowgreen[0][2]])
-YELLOWGREEN_1 = ti.Vector([yellowgreen[1][0], yellowgreen[1][1], yellowgreen[1][2]])
-YELLOWGREEN_2 = ti.Vector([yellowgreen[2][0], yellowgreen[2][1], yellowgreen[2][2]])
-YELLOWGREEN_3 = ti.Vector([yellowgreen[3][0], yellowgreen[3][1], yellowgreen[3][2]])
-YELLOWGREEN_4 = ti.Vector([yellowgreen[4][0], yellowgreen[4][1], yellowgreen[4][2]])
+greenyellow = [color[1] for color in greenyellow_palette]
+GREENYELLOW_0 = ti.Vector([greenyellow[0][0], greenyellow[0][1], greenyellow[0][2]])
+GREENYELLOW_1 = ti.Vector([greenyellow[1][0], greenyellow[1][1], greenyellow[1][2]])
+GREENYELLOW_2 = ti.Vector([greenyellow[2][0], greenyellow[2][1], greenyellow[2][2]])
+GREENYELLOW_3 = ti.Vector([greenyellow[3][0], greenyellow[3][1], greenyellow[3][2]])
+GREENYELLOW_4 = ti.Vector([greenyellow[4][0], greenyellow[4][1], greenyellow[4][2]])
 
 
 @ti.func
-def get_yellowgreen_color(value, min_value, max_value):
-    """Maps a signed numerical value to a YELLOWGREEN gradient color.
+def get_greenyellow_color(value, min_value, max_value):
+    """Maps a signed numerical value to a GREENYELLOW gradient color.
 
-    YELLOWGREEN gradient: yellow → dark yellow → black → dark green → green
+    GREENYELLOW gradient: yellow → dark yellow → black → dark green → green
     Used for displacement visualization where negative = yellow, zero = black, positive = green.
 
     Optimized for maximum performance with millions of voxels.
@@ -170,7 +170,7 @@ def get_yellowgreen_color(value, min_value, max_value):
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
 
     Example:
-        color = get_yellowgreen_color(value=50, min_value=0, max_value=100)
+        color = get_greenyellow_color(value=50, min_value=0, max_value=100)
         # Returns green-ish color since 50/100 = 0.5 is in the positive range
     """
 
@@ -185,48 +185,48 @@ def get_yellowgreen_color(value, min_value, max_value):
 
     if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = YELLOWGREEN_0[0] * (1.0 - blend) + YELLOWGREEN_1[0] * blend
-        g = YELLOWGREEN_0[1] * (1.0 - blend) + YELLOWGREEN_1[1] * blend
-        b = YELLOWGREEN_0[2] * (1.0 - blend) + YELLOWGREEN_1[2] * blend
+        r = GREENYELLOW_0[0] * (1.0 - blend) + GREENYELLOW_1[0] * blend
+        g = GREENYELLOW_0[1] * (1.0 - blend) + GREENYELLOW_1[1] * blend
+        b = GREENYELLOW_0[2] * (1.0 - blend) + GREENYELLOW_1[2] * blend
     elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = YELLOWGREEN_1[0] * (1.0 - blend) + YELLOWGREEN_2[0] * blend
-        g = YELLOWGREEN_1[1] * (1.0 - blend) + YELLOWGREEN_2[1] * blend
-        b = YELLOWGREEN_1[2] * (1.0 - blend) + YELLOWGREEN_2[2] * blend
+        r = GREENYELLOW_1[0] * (1.0 - blend) + GREENYELLOW_2[0] * blend
+        g = GREENYELLOW_1[1] * (1.0 - blend) + GREENYELLOW_2[1] * blend
+        b = GREENYELLOW_1[2] * (1.0 - blend) + GREENYELLOW_2[2] * blend
     elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = YELLOWGREEN_2[0] * (1.0 - blend) + YELLOWGREEN_3[0] * blend
-        g = YELLOWGREEN_2[1] * (1.0 - blend) + YELLOWGREEN_3[1] * blend
-        b = YELLOWGREEN_2[2] * (1.0 - blend) + YELLOWGREEN_3[2] * blend
+        r = GREENYELLOW_2[0] * (1.0 - blend) + GREENYELLOW_3[0] * blend
+        g = GREENYELLOW_2[1] * (1.0 - blend) + GREENYELLOW_3[1] * blend
+        b = GREENYELLOW_2[2] * (1.0 - blend) + GREENYELLOW_3[2] * blend
     else:
         blend = (norm_color - 0.75) / 0.25
-        r = YELLOWGREEN_3[0] * (1.0 - blend) + YELLOWGREEN_4[0] * blend
-        g = YELLOWGREEN_3[1] * (1.0 - blend) + YELLOWGREEN_4[1] * blend
-        b = YELLOWGREEN_3[2] * (1.0 - blend) + YELLOWGREEN_4[2] * blend
+        r = GREENYELLOW_3[0] * (1.0 - blend) + GREENYELLOW_4[0] * blend
+        g = GREENYELLOW_3[1] * (1.0 - blend) + GREENYELLOW_4[1] * blend
+        b = GREENYELLOW_3[2] * (1.0 - blend) + GREENYELLOW_4[2] * blend
 
-    yellowgreen_color = ti.Vector([r, g, b])
-    return yellowgreen_color
+    greenyellow_color = ti.Vector([r, g, b])
+    return greenyellow_color
 
 
 # ================================================================
-# Redblue Gradient: FUNCTION
+# Bluered Gradient: FUNCTION
 # ================================================================
 
 # Taichi-compatible constants for use inside @ti.func
 # Extracts RGB tuples from palette for use in both Python and Taichi scopes
-redblue = [color[1] for color in redblue_palette]
-REDBLUE_0 = ti.Vector([redblue[0][0], redblue[0][1], redblue[0][2]])
-REDBLUE_1 = ti.Vector([redblue[1][0], redblue[1][1], redblue[1][2]])
-REDBLUE_2 = ti.Vector([redblue[2][0], redblue[2][1], redblue[2][2]])
-REDBLUE_3 = ti.Vector([redblue[3][0], redblue[3][1], redblue[3][2]])
-REDBLUE_4 = ti.Vector([redblue[4][0], redblue[4][1], redblue[4][2]])
+bluered = [color[1] for color in bluered_palette]
+BLUERED_0 = ti.Vector([bluered[0][0], bluered[0][1], bluered[0][2]])
+BLUERED_1 = ti.Vector([bluered[1][0], bluered[1][1], bluered[1][2]])
+BLUERED_2 = ti.Vector([bluered[2][0], bluered[2][1], bluered[2][2]])
+BLUERED_3 = ti.Vector([bluered[3][0], bluered[3][1], bluered[3][2]])
+BLUERED_4 = ti.Vector([bluered[4][0], bluered[4][1], bluered[4][2]])
 
 
 @ti.func
-def get_redblue_color(value, min_value, max_value):
-    """Maps a signed numerical value to a REDBLUE gradient color.
+def get_bluered_color(value, min_value, max_value):
+    """Maps a signed numerical value to a BLUERED gradient color.
 
-    REDBLUE gradient: red-orange → dark red → gray → dark blue → bright blue
+    BLUERED gradient: red-orange → dark red → gray → dark blue → bright blue
     Used for displacement visualization where negative = red, zero = gray, positive = blue.
 
     Optimized for maximum performance with millions of voxels.
@@ -241,7 +241,7 @@ def get_redblue_color(value, min_value, max_value):
         ti.Vector([r, g, b]): RGB color in range [0.0, 1.0] for each component
 
     Example:
-        color = get_redblue_color(value=-50, min_value=-100, max_value=100)
+        color = get_bluered_color(value=-50, min_value=-100, max_value=100)
         # Returns red-ish color since -50 is in the negative range
     """
 
@@ -256,28 +256,28 @@ def get_redblue_color(value, min_value, max_value):
 
     if norm_color < 0.25:
         blend = norm_color / 0.25
-        r = REDBLUE_0[0] * (1.0 - blend) + REDBLUE_1[0] * blend
-        g = REDBLUE_0[1] * (1.0 - blend) + REDBLUE_1[1] * blend
-        b = REDBLUE_0[2] * (1.0 - blend) + REDBLUE_1[2] * blend
+        r = BLUERED_0[0] * (1.0 - blend) + BLUERED_1[0] * blend
+        g = BLUERED_0[1] * (1.0 - blend) + BLUERED_1[1] * blend
+        b = BLUERED_0[2] * (1.0 - blend) + BLUERED_1[2] * blend
     elif norm_color < 0.5:
         blend = (norm_color - 0.25) / 0.25
-        r = REDBLUE_1[0] * (1.0 - blend) + REDBLUE_2[0] * blend
-        g = REDBLUE_1[1] * (1.0 - blend) + REDBLUE_2[1] * blend
-        b = REDBLUE_1[2] * (1.0 - blend) + REDBLUE_2[2] * blend
+        r = BLUERED_1[0] * (1.0 - blend) + BLUERED_2[0] * blend
+        g = BLUERED_1[1] * (1.0 - blend) + BLUERED_2[1] * blend
+        b = BLUERED_1[2] * (1.0 - blend) + BLUERED_2[2] * blend
     elif norm_color < 0.75:
         blend = (norm_color - 0.5) / 0.25
-        r = REDBLUE_2[0] * (1.0 - blend) + REDBLUE_3[0] * blend
-        g = REDBLUE_2[1] * (1.0 - blend) + REDBLUE_3[1] * blend
-        b = REDBLUE_2[2] * (1.0 - blend) + REDBLUE_3[2] * blend
+        r = BLUERED_2[0] * (1.0 - blend) + BLUERED_3[0] * blend
+        g = BLUERED_2[1] * (1.0 - blend) + BLUERED_3[1] * blend
+        b = BLUERED_2[2] * (1.0 - blend) + BLUERED_3[2] * blend
     else:
         blend = (norm_color - 0.75) / 0.25
-        r = REDBLUE_3[0] * (1.0 - blend) + REDBLUE_4[0] * blend
-        g = REDBLUE_3[1] * (1.0 - blend) + REDBLUE_4[1] * blend
-        b = REDBLUE_3[2] * (1.0 - blend) + REDBLUE_4[2] * blend
+        r = BLUERED_3[0] * (1.0 - blend) + BLUERED_4[0] * blend
+        g = BLUERED_3[1] * (1.0 - blend) + BLUERED_4[1] * blend
+        b = BLUERED_3[2] * (1.0 - blend) + BLUERED_4[2] * blend
 
-    redblue_color = ti.Vector([r, g, b])
+    bluered_color = ti.Vector([r, g, b])
 
-    return redblue_color
+    return bluered_color
 
 
 # ================================================================
@@ -580,7 +580,7 @@ def get_palette_scale(color_palette, x, y, width, height):
     """Generate palette scale indicator with geometry and colors as horizontal gradient.
 
     Generic function for creating palette display. Works with any color palette
-    (ironbow, blueprint, redblue, viridis, etc.).
+    (ironbow, blueprint, bluered, viridis, etc.).
 
     Creates a horizontal color bar with gradient transitions between colors.
     Each color band is made of 2 triangles forming a rectangle.
