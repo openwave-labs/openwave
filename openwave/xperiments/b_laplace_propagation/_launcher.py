@@ -295,14 +295,14 @@ def display_wave_menu(state):
         if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
             state.WAVE_MENU = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.WAVE_MENU == 1:  # Display yellowgreen gradient palette
-            render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
+        if state.WAVE_MENU == 1:  # Display greenyellow gradient palette
+            render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 2:  # Display redblue gradient palette
-            render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
+        if state.WAVE_MENU == 2:  # Display bluered gradient palette
+            render.canvas.triangles(br_palette_vertices, per_vertex_color=br_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
@@ -414,19 +414,19 @@ def initialize_xperiment(state):
     Args:
         state: SimulationState instance with xperiment parameters
     """
-    global yg_palette_vertices, yg_palette_colors
-    global rb_palette_vertices, rb_palette_colors
+    global gy_palette_vertices, gy_palette_colors
+    global br_palette_vertices, br_palette_colors
     global vr_palette_vertices, vr_palette_colors
     global ib_palette_vertices, ib_palette_colors
     global bp_palette_vertices, bp_palette_colors
     global level_bar_vertices
 
     # Initialize color palette scales for gradient rendering and level indicator
-    yg_palette_vertices, yg_palette_colors = colormap.get_palette_scale(
-        colormap.yellowgreen, 0.00, 0.63, 0.079, 0.01
+    gy_palette_vertices, gy_palette_colors = colormap.get_palette_scale(
+        colormap.greenyellow, 0.00, 0.63, 0.079, 0.01
     )
-    rb_palette_vertices, rb_palette_colors = colormap.get_palette_scale(
-        colormap.redblue, 0.00, 0.63, 0.079, 0.01
+    br_palette_vertices, br_palette_colors = colormap.get_palette_scale(
+        colormap.bluered, 0.00, 0.63, 0.079, 0.01
     )
     vr_palette_vertices, vr_palette_colors = colormap.get_palette_scale(
         colormap.viridis, 0.00, 0.63, 0.079, 0.01

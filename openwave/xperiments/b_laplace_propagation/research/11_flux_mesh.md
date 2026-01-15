@@ -19,7 +19,7 @@
    - [Supported Properties](#supported-properties)
 1. [Color Palettes](#color-palettes)
    - [Amplitude Visualization (Ironbow)](#amplitude-visualization-ironbow)
-   - [Displacement Visualization (Redblue)](#displacement-visualization-redblue)
+   - [Displacement Visualization (Bluered)](#displacement-visualization-bluered)
    - [Blueprint Palette](#blueprint-palette)
 1. [User Interface Controls](#user-interface-controls)
    - [Toggle Controls](#toggle-controls)
@@ -62,7 +62,7 @@
 - 🔄 **In Progress**: Core mesh rendering and wave property visualization
   - Mesh generation functions (to be implemented)
   - Property sampling kernels (to be implemented)
-  - Color gradient mapping (redblue gradient needed)
+  - Color gradient mapping (bluered gradient needed)
   - Integration with render loop (to be wired up)
 
 ## Concept and Terminology
@@ -314,7 +314,7 @@ def property_to_color(value: ti.f32,
         value: Property value to visualize
         min_val: Minimum expected value
         max_val: Maximum expected value
-        gradient_type: 0=ironbow, 1=redblue, 2=blueprint
+        gradient_type: 0=ironbow, 1=bluered, 2=blueprint
 
     Returns:
         RGB color vector [0,1]³
@@ -327,8 +327,8 @@ def property_to_color(value: ti.f32,
 
     if gradient_type == 0:  # Ironbow
         color = ironbow_gradient(norm_value)
-    elif gradient_type == 1:  # Redblue
-        color = redblue_gradient(norm_value)
+    elif gradient_type == 1:  # Bluered
+        color = bluered_gradient(norm_value)
     elif gradient_type == 2:  # Blueprint
         color = blueprint_gradient(norm_value)
 
@@ -341,7 +341,7 @@ def property_to_color(value: ti.f32,
 
 1. **Displacement** (primary)
    - Signed value (positive/negative)
-   - Use redblue gradient (red=positive, blue=negative)
+   - Use bluered gradient (red=positive, blue=negative)
    - Shows wave fronts and interference
 
 2. **Amplitude** (primary)
@@ -397,7 +397,7 @@ ironbow = [
 - **Orange/Yellow**: High amplitude
 - **White**: Maximum amplitude (saturation)
 
-### Displacement Visualization (Redblue)
+### Displacement Visualization (Bluered)
 
 **Use Case**: Visualizing signed properties (displacement, velocity)
 
@@ -406,10 +406,10 @@ ironbow = [
 **New Gradient Definition** (to be added to `config.py`):
 
 ```python
-# Redblue Doppler-Inspired Palette
+# Bluered Doppler-Inspired Palette
 # ================================================================
 # 5-color gradient for signed wave displacement
-redblue = [
+bluered = [
     ["#8B0000", (0.545, 0.0, 0.0)],     # dark red (maximum negative)
     ["#FF6347", (1.0, 0.39, 0.28)],     # red-orange (negative)
     ["#1C1C1C", (0.11, 0.11, 0.11)],    # dark gray (zero)
@@ -418,11 +418,11 @@ redblue = [
 ]
 
 @ti.func
-def get_redblue_color(value, min_value, max_value, saturation=1.0):
-    """Maps signed value to redblue gradient (red-blue).
+def get_bluered_color(value, min_value, max_value, saturation=1.0):
+    """Maps signed value to bluered gradient (red-blue).
 
     Gradient: dark red → red → gray → blue → dark blue
-    Red = negative displacement (redblue)
+    Red = negative displacement (bluered)
     Blue = positive displacement (blueshift)
     Gray = zero displacement
 
@@ -473,7 +473,7 @@ def get_redblue_color(value, min_value, max_value, saturation=1.0):
 
 **Physical Interpretation**:
 
-- **Red**: Wave compressed (moving away, redblue)
+- **Red**: Wave compressed (moving away, bluered)
 - **Blue**: Wave expanded (moving toward, blueshift)
 - **Gray**: Equilibrium position (no displacement)
 
@@ -546,7 +546,7 @@ state.show_film_yz = True   # YZ plane at x=0.5
 state.property_mode = 0  # 0=displacement, 1=amplitude, 2=energy
 
 # Color gradient selection (future)
-state.gradient_mode = 0  # 0=ironbow, 1=redblue, 2=blueprint
+state.gradient_mode = 0  # 0=ironbow, 1=bluered, 2=blueprint
 ```
 
 ### Camera Interaction
@@ -720,7 +720,7 @@ for wall in wall_films:
   - Default: `flux_mesh = False`
 
 - ⏳ **Remaining Tasks**:
-  1. Implement `get_redblue_color()` function in `config.py`
+  1. Implement `get_bluered_color()` function in `config.py`
   2. Create flux mesh generation functions in `config.py`
   3. Implement property sampling and color mapping kernels
   4. Wire up `state.flux_mesh` toggle to mesh rendering
@@ -749,7 +749,7 @@ All flux mesh functionality will be implemented in existing modules (no new file
 openwave/
 └── common/
     └── config.py  (ADD flux mesh functions)
-        ├── get_redblue_color()         # NEW: Redblue gradient for signed values
+        ├── get_bluered_color()         # NEW: Bluered gradient for signed values
         ├── create_flux_mesh()          # NEW: Initialize 3 flux meshes
         ├── update_flux_mesh_values()    # NEW: Sample wave properties and apply colors
         └── render_flux_mesh()          # NEW: Render meshes to scene
