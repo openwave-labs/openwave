@@ -50,7 +50,7 @@ Where:
 
 **Approach**: Invert displacement at single voxel after propagation
 
-**Result**: Red-to-blue hue under redblue color, tiny black sphere (1 voxel radius).
+**Result**: Red-to-blue hue under bluered color, tiny black sphere (1 voxel radius).
 
 **Issue**: Same size problem. Also, inverting after propagation creates discontinuities.
 
