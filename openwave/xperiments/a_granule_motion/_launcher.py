@@ -134,7 +134,7 @@ class SimulationState:
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
-        self.COLOR_PALETTE = 0
+        self.WAVE_MENU = 0
 
         # Data Analytics & video export toggles
         self.INSTRUMENTATION = False
@@ -183,7 +183,7 @@ class SimulationState:
         # Color defaults
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
-        self.COLOR_PALETTE = color["COLOR_PALETTE"]
+        self.WAVE_MENU = color["WAVE_MENU"]
 
         # Data Analytics & video export toggles
         diag = params["analytics"]
@@ -255,19 +255,19 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.73, 0.14, 0.14) as sub:
-        if sub.checkbox("Displacement (orange)", state.COLOR_PALETTE == 3):
-            state.COLOR_PALETTE = 3
-        if sub.checkbox("Amplitude (ironbow)", state.COLOR_PALETTE == 5):
-            state.COLOR_PALETTE = 5
-        if sub.checkbox("Granule Type Color", state.COLOR_PALETTE == 0):
-            state.COLOR_PALETTE = 0
-        if sub.checkbox("Default Color", state.COLOR_PALETTE == 99):
-            state.COLOR_PALETTE = 99
-        if state.COLOR_PALETTE == 6:  # Display orange gradient palette
+        if sub.checkbox("Displacement (orange)", state.WAVE_MENU == 3):
+            state.WAVE_MENU = 3
+        if sub.checkbox("Amplitude (ironbow)", state.WAVE_MENU == 5):
+            state.WAVE_MENU = 5
+        if sub.checkbox("Granule Type Color", state.WAVE_MENU == 0):
+            state.WAVE_MENU = 0
+        if sub.checkbox("Default Color", state.WAVE_MENU == 99):
+            state.WAVE_MENU = 99
+        if state.WAVE_MENU == 6:  # Display orange gradient palette
             render.canvas.triangles(og_palette_vertices, per_vertex_color=og_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.COLOR_PALETTE == 3:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 3:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
@@ -379,7 +379,7 @@ def compute_wave_motion(state):
         state.lattice.granule_var_color,
         state.FREQ_BOOST,
         state.AMP_BOOST,
-        state.COLOR_PALETTE,
+        state.WAVE_MENU,
         state.NUM_SOURCES,
         state.IN_WAVE_TOGGLE,
         state.OUT_WAVE_TOGGLE,
@@ -404,13 +404,13 @@ def render_elements(state):
     radius_render = state.granule.radius_screen * state.RADIUS_FACTOR
 
     # Render granules with color scheme
-    if state.COLOR_PALETTE == 0:
+    if state.WAVE_MENU == 0:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.COLOR_PALETTE == 3 or state.COLOR_PALETTE == 5:
+    elif state.WAVE_MENU == 3 or state.WAVE_MENU == 5:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
