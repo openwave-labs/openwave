@@ -255,19 +255,19 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.73, 0.14, 0.14) as sub:
-        if sub.checkbox("Displacement (orange)", state.WAVE_MENU == 3):
+        if sub.checkbox("Displacement (orange)", state.WAVE_MENU == 1):
+            state.WAVE_MENU = 1
+        if sub.checkbox("Amplitude (ironbow)", state.WAVE_MENU == 2):
+            state.WAVE_MENU = 2
+        if sub.checkbox("Granule Type Color", state.WAVE_MENU == 3):
             state.WAVE_MENU = 3
-        if sub.checkbox("Amplitude (ironbow)", state.WAVE_MENU == 5):
-            state.WAVE_MENU = 5
-        if sub.checkbox("Granule Type Color", state.WAVE_MENU == 0):
-            state.WAVE_MENU = 0
-        if sub.checkbox("Default Color", state.WAVE_MENU == 99):
-            state.WAVE_MENU = 99
-        if state.WAVE_MENU == 6:  # Display orange gradient palette
+        if sub.checkbox("Default Color", state.WAVE_MENU == 4):
+            state.WAVE_MENU = 4
+        if state.WAVE_MENU == 1:  # Display orange gradient palette
             render.canvas.triangles(og_palette_vertices, per_vertex_color=og_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
-        if state.WAVE_MENU == 3:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 2:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.67, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.peak_amplitude:.0e}m")
@@ -404,13 +404,13 @@ def render_elements(state):
     radius_render = state.granule.radius_screen * state.RADIUS_FACTOR
 
     # Render granules with color scheme
-    if state.WAVE_MENU == 0:
+    if state.WAVE_MENU == 3:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,
             per_vertex_color=state.lattice.granule_type_color,
         )
-    elif state.WAVE_MENU == 3 or state.WAVE_MENU == 5:
+    elif state.WAVE_MENU == 1 or state.WAVE_MENU == 2:
         render.scene.particles(
             state.lattice.position_screen,
             radius=radius_render,

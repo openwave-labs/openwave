@@ -58,7 +58,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "WAVE_MENU": 3,  # Check _launcher.py display_wave_menu() for wave_menu indexing
+        "WAVE_MENU": 1,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data collection (speed & wavelength measurements)
