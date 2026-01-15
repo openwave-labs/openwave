@@ -431,16 +431,25 @@ class Trackers:
         Args:
             grid_size: Grid dimensions [nx, ny, nz] matching WaveField.
         """
-        # TRACKED FIELDS
+        # TRACKED FIELDS ==================================================
         # 2 polarities to track: longitudinal & transverse
-        # Amplitude envelope tracks A via EMA of |ψ| and RMS calculation
+        # LOCAL FIELDS per voxel
+        # Amplitude tracks A via EMA of |ψ| and RMS calculation
         # Frequency tracks local oscillation rate via zero-crossing detection
         self.ampL_local_rms_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal amp
-        self.ampL_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        # self.ampL_local_peak_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, longitudinal peak
         self.ampT_local_rms_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, transverse amp
-        self.ampT_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
         self.last_crossing = ti.field(dtype=ti.f32, shape=grid_size)  # rs, last zero crossing
         self.freq_local_cross_rHz = ti.field(dtype=ti.f32, shape=grid_size)  # rHz, local frequency
+
+        # ENVELOPE FIELD for force calculation (smooth 1/r, no oscillations)
+        # Tracks signed amplitude envelope: sum of (charge_sign * A₀/r) from each source
+        # This gives smooth 1/r² force law matching EWT predictions
+        self.ampL_local_envelope_am = ti.field(dtype=ti.f32, shape=grid_size)  # am, signed
+
+        # GLOBAL AVERAGES for visualization scaling & energy calculations
+        self.ampL_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
+        self.ampT_global_rms_am = ti.field(dtype=ti.f32, shape=())  # RMS all voxels
         self.freq_global_avg_rHz = ti.field(dtype=ti.f32, shape=())  # avg frequency all voxels
 
         # Assign default values for visualization scaling

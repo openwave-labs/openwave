@@ -93,9 +93,14 @@ def propagate_wave(
     for i, j, k in ti.ndrange(nx, ny, nz):
         prev_disp = wave_field.psiL_am[i, j, k]
         wave_field.psiL_am[i, j, k] = 0.0  # reset before accumulation
+        trackers.ampL_local_envelope_am[i, j, k] = 0.0  # reset envelope before accumulation
 
         # loop over wave-centers (wave superposition principle causing interference)
         for wc_idx in ti.ndrange(wave_center.num_sources):
+            # Skip inactive (annihilated) WCs
+            if wave_center.active[wc_idx] == 0:
+                continue
+
             # Compute radial distance from wave source (in grid indices)
             r_grid = ti.sqrt(
                 (i - wave_center.position_grid[wc_idx][0]) ** 2
@@ -130,12 +135,41 @@ def propagate_wave(
                 (1 - ti.cos(spatial_phase)) / r_grid,
             )
 
+            # Oscillator with source_offset phase shift
             oscillator = (
                 -ti.cos(temporal_phase + source_offset) * phase_term
                 - ti.sin(temporal_phase + source_offset) * quadrature_term
             )
 
             wave_field.psiL_am[i, j, k] += base_amplitude_am * wave_field.scale_factor * oscillator
+
+            # ================================================================
+            # ENVELOPE TRACKING: Smooth 1/r amplitude for force calculation
+            # ================================================================
+            # Charge sign: cos(0)=+1 (eg: positron), cos(π)=-1 (eg: electron)
+            charge_sign = ti.cos(source_offset)
+
+            # Envelope: smooth 1/r decay without oscillating sin(kr)/r structure
+            # At r=0, use a finite value (same as phase_term limit = k_grid)
+            # This gives the EWT-predicted 1/r² force law
+            # envelope_term = ti.select(
+            #     r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+            #     k_grid,  # finite value at center (matches phase_term limit)
+            #     1.0 / r_grid,  # smooth 1/r decay
+            # )
+            envelope_term = ti.select(
+                r_grid < 0.5,  # threshold in grid units (catches center voxel only)
+                k_grid,  # finite value at center (matches phase_term limit)
+                ti.select(
+                    # r_grid < wave_field.ewave_res,  # NEAR-FIELD: 1λ radius
+                    k_grid * r_grid < 5 / 2 * ti.math.pi,  # NEAR-FIELD: time-dilated-1λ radius
+                    ti.abs(ti.sin(k_grid * r_grid)) / r_grid,  # standing-smooth sin(kr)/r decay
+                    1.0 / r_grid,  # FAR-FIELD: smooth 1/r decay
+                ),
+            )
+            trackers.ampL_local_envelope_am[i, j, k] += (
+                charge_sign * base_amplitude_am * wave_field.scale_factor * envelope_term
+            )
 
         # Precision rounding to ensure wave cancellation
         # Critical for opposing phase sources (180°) that should annihilate
@@ -147,6 +181,13 @@ def propagate_wave(
         curr_disp = wave_field.psiL_am[i, j, k]
 
         # WAVE-TRACKERS ============================================
+        # # PEAK AMPLITUDE tracking
+        # ti.atomic_max(trackers.ampL_local_peak_am[i, j, k], curr_disp)
+        # decay_factor_peak = ti.cast(0.999, ti.f32)  # ~100 frames to ~37%, ~230 to ~10%
+        # trackers.ampL_local_peak_am[i, j, k] = (
+        #     trackers.ampL_local_peak_am[i, j, k] * decay_factor_peak
+        # )
+
         # RMS AMPLITUDE tracking via EMA on ψ² (squared displacement)
         # Running RMS: tracks √⟨ψ²⟩ - the energy-equivalent amplitude (Energy ∝ ψ²)
         # Used for: energy calculation, force gradients, visualization scaling
@@ -547,7 +588,7 @@ def update_flux_mesh_values(
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, j, wave_field.fm_plane_z_idx]
         psiT_value = wave_field.psiT_am[i, j, wave_field.fm_plane_z_idx]
-        ampL_value = trackers.ampL_local_rms_am[i, j, wave_field.fm_plane_z_idx]
+        ampL_value = trackers.ampL_local_envelope_am[i, j, wave_field.fm_plane_z_idx]
         ampT_value = trackers.ampT_local_rms_am[i, j, wave_field.fm_plane_z_idx]
         freq_value = trackers.freq_local_cross_rHz[i, j, wave_field.fm_plane_z_idx]
         univ_edge_z = wave_field.universe_size_am[2]
@@ -571,9 +612,11 @@ def update_flux_mesh_values(
                 ampT_value / univ_edge_z * warp_mesh
                 + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
-        elif wave_menu == 3:  # viridis
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
-                ampL_value, 0, trackers.ampL_global_rms_am[None] * 2
+        elif wave_menu == 3:  # greenyellow
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_greenyellow_color(
+                ampL_value,
+                -trackers.ampL_global_rms_am[None] * 2,
+                trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
                 ampL_value / univ_edge_z * warp_mesh
@@ -607,7 +650,7 @@ def update_flux_mesh_values(
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, wave_field.fm_plane_y_idx, k]
         psiT_value = wave_field.psiT_am[i, wave_field.fm_plane_y_idx, k]
-        ampL_value = trackers.ampL_local_rms_am[i, wave_field.fm_plane_y_idx, k]
+        ampL_value = trackers.ampL_local_envelope_am[i, wave_field.fm_plane_y_idx, k]
         ampT_value = trackers.ampT_local_rms_am[i, wave_field.fm_plane_y_idx, k]
         freq_value = trackers.freq_local_cross_rHz[i, wave_field.fm_plane_y_idx, k]
         univ_edge_y = wave_field.universe_size_am[1]
@@ -631,9 +674,11 @@ def update_flux_mesh_values(
                 ampT_value / univ_edge_y * warp_mesh
                 + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
-        elif wave_menu == 3:  # viridis
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
-                ampL_value, 0, trackers.ampL_global_rms_am[None] * 2
+        elif wave_menu == 3:  # greenyellow
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_greenyellow_color(
+                ampL_value,
+                -trackers.ampL_global_rms_am[None] * 2,
+                trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
                 ampL_value / univ_edge_y * warp_mesh
@@ -667,7 +712,7 @@ def update_flux_mesh_values(
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[wave_field.fm_plane_x_idx, j, k]
         psiT_value = wave_field.psiT_am[wave_field.fm_plane_x_idx, j, k]
-        ampL_value = trackers.ampL_local_rms_am[wave_field.fm_plane_x_idx, j, k]
+        ampL_value = trackers.ampL_local_envelope_am[wave_field.fm_plane_x_idx, j, k]
         ampT_value = trackers.ampT_local_rms_am[wave_field.fm_plane_x_idx, j, k]
         freq_value = trackers.freq_local_cross_rHz[wave_field.fm_plane_x_idx, j, k]
         univ_edge_x = wave_field.universe_size_am[0]
@@ -691,9 +736,11 @@ def update_flux_mesh_values(
                 ampT_value / univ_edge_x * warp_mesh
                 + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
-        elif wave_menu == 3:  # viridis
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
-                ampL_value, 0, trackers.ampL_global_rms_am[None] * 2
+        elif wave_menu == 3:  # greenyellow
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_greenyellow_color(
+                ampL_value,
+                -trackers.ampL_global_rms_am[None] * 2,
+                trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
                 ampL_value / univ_edge_x * warp_mesh

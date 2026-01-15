@@ -295,27 +295,27 @@ def display_wave_menu(state):
         if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
             state.WAVE_MENU = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.WAVE_MENU == 1:  # Display greenyellow gradient palette
+        if state.WAVE_MENU == 1:  # Displacement (Longitudinal) on greenyellow gradient
             render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 2:  # Display bluered gradient palette
+        if state.WAVE_MENU == 2:  # Displacement (Transverse) on bluered gradient
             render.canvas.triangles(br_palette_vertices, per_vertex_color=br_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 3:  # Display viridis gradient palette
+        if state.WAVE_MENU == 3:  # Amplitude (Longitudinal) on viridis gradient
             render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.WAVE_MENU == 4:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 4:  # Amplitude (Transverse) on ironbow gradient
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.WAVE_MENU == 5:  # Display blueprint gradient palette
+        if state.WAVE_MENU == 5:  # Frequency (L&T) on blueprint gradient
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.freq_global_avg*2*state.wave_field.scale_factor:.0e}Hz")

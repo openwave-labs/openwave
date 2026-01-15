@@ -300,34 +300,34 @@ def display_wave_menu(state):
             state.WAVE_MENU = 1
         if sub.checkbox("Displacement (Transverse)", state.WAVE_MENU == 2):
             state.WAVE_MENU = 2
-        if sub.checkbox("Amplitude (Longitudinal)", state.WAVE_MENU == 3):
+        if sub.checkbox("Envelope (Longitudinal)", state.WAVE_MENU == 3):
             state.WAVE_MENU = 3
         if sub.checkbox("Amplitude (Transverse)", state.WAVE_MENU == 4):
             state.WAVE_MENU = 4
         if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
             state.WAVE_MENU = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.WAVE_MENU == 1:  # Display greenyellow gradient palette
+        if state.WAVE_MENU == 1:  # Displacement (Longitudinal) on greenyellow gradient
             render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 2:  # Display bluered gradient palette
+        if state.WAVE_MENU == 2:  # Displacement (Transverse) on bluered gradient
             render.canvas.triangles(br_palette_vertices, per_vertex_color=br_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 3:  # Display viridis gradient palette
-            render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
-            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+        if state.WAVE_MENU == 3:  # Envelope (Longitudinal) on greenyellow gradient
+            render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
+            with render.gui.sub_window("envelope", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.WAVE_MENU == 4:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 4:  # Amplitude (Transverse) on ironbow gradient
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.WAVE_MENU == 5:  # Display blueprint gradient palette
+        if state.WAVE_MENU == 5:  # Frequency (L&T) on blueprint gradient
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.freq_global_avg*2*state.wave_field.scale_factor:.0e}Hz")
@@ -528,9 +528,9 @@ def compute_force_motion(state):
             for wc_idx in range(state.wave_center.num_sources):
                 state.wave_center.velocity_amrs[wc_idx] = ti.Vector([0.0, 0.0, 0.0], dt=ti.f32)
 
-        # Annihilation naturally occurs from wave physics, this is only a safety check
+        # Annihilation naturally occurs from wave physics, but needs numerical precision check
         # Detect and handle particle annihilation (opposite phase WCs meeting)
-        # Threshold: 1.0 grid unit = WCs must be in same or adjacent voxel
+        # Threshold: WCs can be at grid diagonal positions
         force_motion.detect_annihilation(state.wave_center, 1.0)
 
         # # DEBUG: Check velocity and position AFTER motion integration
@@ -566,7 +566,7 @@ def render_elements(state):
         # Normalize by max_grid_size to respect asymmetric universes (like flux_mesh does)
         max_dim = float(state.wave_field.max_grid_size)
         for wc_idx in range(state.wave_center.num_sources):
-            # Skip rendering inactive (annihilated) WCs
+            # Skip inactive (annihilated) WCs
             if state.wave_center.active[wc_idx] == 0:
                 continue
 
@@ -589,7 +589,7 @@ def render_elements(state):
             )
             color = (
                 colormap.COLOR_PARTICLE[1]
-                if state.SOURCES_OFFSET_DEG[wc_idx] == 0
+                if state.SOURCES_OFFSET_DEG[wc_idx] == 180
                 else colormap.COLOR_ANTI[1]
             )
             # Render particle shell at wave-center position
