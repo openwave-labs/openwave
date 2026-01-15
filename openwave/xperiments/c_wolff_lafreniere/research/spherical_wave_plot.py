@@ -59,7 +59,7 @@ def sine_stand_wolff(r_am, A0_am=A0_am):
         Amplitude at distance r (attometers)
     """
 
-    sine = A0_am * np.sin(k_am * r_am) / r_am
+    sine = A0_am * np.abs(np.sin(k_am * r_am) / r_am)
 
     return sine
 

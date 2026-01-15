@@ -300,7 +300,7 @@ def display_wave_menu(state):
             state.WAVE_MENU = 1
         if sub.checkbox("Displacement (Transverse)", state.WAVE_MENU == 2):
             state.WAVE_MENU = 2
-        if sub.checkbox("Amplitude (Longitudinal)", state.WAVE_MENU == 3):
+        if sub.checkbox("Envelope (Longitudinal)", state.WAVE_MENU == 3):
             state.WAVE_MENU = 3
         if sub.checkbox("Amplitude (Transverse)", state.WAVE_MENU == 4):
             state.WAVE_MENU = 4
@@ -319,9 +319,9 @@ def display_wave_menu(state):
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 3:  # Amplitude (Longitudinal) on viridis gradient
-            render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
-            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+        if state.WAVE_MENU == 3:  # Envelope (Longitudinal) on greenyellow gradient
+            render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
+            with render.gui.sub_window("envelope", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
         if state.WAVE_MENU == 4:  # Amplitude (Transverse) on ironbow gradient
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
@@ -528,9 +528,9 @@ def compute_force_motion(state):
             for wc_idx in range(state.wave_center.num_sources):
                 state.wave_center.velocity_amrs[wc_idx] = ti.Vector([0.0, 0.0, 0.0], dt=ti.f32)
 
-        # Annihilation naturally occurs from wave physics, this is only a safety check
+        # Annihilation naturally occurs from wave physics, but needs numerical precision check
         # Detect and handle particle annihilation (opposite phase WCs meeting)
-        # Threshold: 1.0 grid unit = WCs must be in same or adjacent voxel
+        # Threshold: WCs can be at grid diagonal positions
         force_motion.detect_annihilation(state.wave_center, 1.0)
 
         # # DEBUG: Check velocity and position AFTER motion integration
@@ -566,7 +566,7 @@ def render_elements(state):
         # Normalize by max_grid_size to respect asymmetric universes (like flux_mesh does)
         max_dim = float(state.wave_field.max_grid_size)
         for wc_idx in range(state.wave_center.num_sources):
-            # Skip rendering inactive (annihilated) WCs
+            # Skip inactive (annihilated) WCs
             if state.wave_center.active[wc_idx] == 0:
                 continue
 

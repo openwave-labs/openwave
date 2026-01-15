@@ -230,6 +230,10 @@ def compute_force_vector(
     force_scale_qgrs = force_scale_qgrs / S4
 
     for wc_idx in range(wave_center.num_sources):
+        # Skip inactive (annihilated) WCs
+        if wave_center.active[wc_idx] == 0:
+            continue
+
         # Get wave center grid position
         i = wave_center.position_grid[wc_idx][0]
         j = wave_center.position_grid[wc_idx][1]
@@ -263,27 +267,32 @@ def compute_force_vector(
             and k > sample_radius
             and k < nz - sample_radius
         ):
-            # Sample amplitude at center (convert am to meters)
-            A_center_am = trackers.ampL_local_rms_am[i, j, k]
+            # ================================================================
+            # Use ENVELOPE field for force calculation (smooth 1/r, no oscillations)
+            # Envelope = sum of (charge_sign * A₀/r) from each source
+            # Gives EWT-predicted 1/r² force law independent of initial separation
+            # ================================================================
+            # Sample envelope at center
+            A_center_am = trackers.ampL_local_envelope_am[i, j, k]
 
             # Central difference gradient with larger sampling radius:
             # grad(A) = (A[+R] - A[-R]) / (2*R*dx)
-            # This averages the gradient over a larger region, capturing interference patterns
+            # This averages the gradient over a larger region
             sample_dist_am = 2.0 * sample_radius * dx_am
 
-            # X gradient, dimensionless
-            A_xp_am = trackers.ampL_local_rms_am[i + sample_radius, j, k]
-            A_xm_am = trackers.ampL_local_rms_am[i - sample_radius, j, k]
+            # X gradient from envelope field
+            A_xp_am = trackers.ampL_local_envelope_am[i + sample_radius, j, k]
+            A_xm_am = trackers.ampL_local_envelope_am[i - sample_radius, j, k]
             dA_dx = (A_xp_am - A_xm_am) / sample_dist_am
 
-            # Y gradient, dimensionless
-            A_yp_am = trackers.ampL_local_rms_am[i, j + sample_radius, k]
-            A_ym_am = trackers.ampL_local_rms_am[i, j - sample_radius, k]
+            # Y gradient from envelope field
+            A_yp_am = trackers.ampL_local_envelope_am[i, j + sample_radius, k]
+            A_ym_am = trackers.ampL_local_envelope_am[i, j - sample_radius, k]
             dA_dy = (A_yp_am - A_ym_am) / sample_dist_am
 
-            # Z gradient, dimensionless
-            A_zp_am = trackers.ampL_local_rms_am[i, j, k + sample_radius]
-            A_zm_am = trackers.ampL_local_rms_am[i, j, k - sample_radius]
+            # Z gradient from envelope field
+            A_zp_am = trackers.ampL_local_envelope_am[i, j, k + sample_radius]
+            A_zm_am = trackers.ampL_local_envelope_am[i, j, k - sample_radius]
             dA_dz = (A_zp_am - A_zm_am) / sample_dist_am
 
             # DEBUG: Store intermediate values
@@ -342,6 +351,10 @@ def integrate_motion_euler(
     dx_am = wave_field.dx / ti.cast(ATTOMETER, ti.f32)
 
     for wc_idx in range(wave_center.num_sources):
+        # Skip inactive (annihilated) WCs
+        if wave_center.active[wc_idx] == 0:
+            continue
+
         # Get force (Newtons) and mass (qg - quectograms for GPU precision)
         F_x = wave_center.force[wc_idx][0]
         F_y = wave_center.force[wc_idx][1]
@@ -361,7 +374,6 @@ def integrate_motion_euler(
 
         # Clamp velocity to speed of light (c = 0.3 am/rs)
         # velocity clamp to prevent superluminal speeds
-        # TODO: Replace with proper relativistic treatment
         c_amrs = ti.cast(0.3, ti.f32)
         v_mag = (
             ti.sqrt(
@@ -391,7 +403,7 @@ def integrate_motion_euler(
         wave_center.position_float[wc_idx][1] += dj
         wave_center.position_float[wc_idx][2] += dk
 
-        # Clamp position to grid boundaries (with margin for gradient sampling)
+        # # Clamp position to grid boundaries (with margin for gradient sampling)
         # margin = ti.cast(2, ti.f32)  # Keep 2 voxels from edge
         # nx_f = ti.cast(wave_field.nx, ti.f32)
         # ny_f = ti.cast(wave_field.ny, ti.f32)
@@ -430,7 +442,7 @@ def detect_annihilation(
     annihilation_threshold: ti.f32,  # type: ignore  # Distance threshold in grid units
 ):
     """
-    Annihilation naturally occurs from wave physics, this is only a safety check.
+    Annihilation naturally occurs from wave physics, but needs numerical precision check.
     Detect and handle particle annihilation when WCs converge to same position.
 
     When two wave centers with opposite phase (180°) attract and meet:
@@ -439,12 +451,13 @@ def detect_annihilation(
     3. Zero velocities to prevent separation
 
     This ensures annihilation is permanent - no wave reappearance from micro-motion.
+    Numerical precision limits may cause slight separation otherwise.
 
     Checks all pairs of WCs - only annihilates pairs with opposite phases (~180° apart).
 
     Args:
         wave_center: WaveCenter instance with position/velocity fields
-        annihilation_threshold: Distance in grid units to trigger annihilation (typically 1.0)
+        annihilation_threshold: Distance in grid units to trigger annihilation
     """
     # Phase threshold for opposite phases: |phase_diff - π| < tolerance
     # Using ~10° tolerance (0.17 rad) for numerical stability
@@ -583,7 +596,8 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
             print(f"{'─'*60}")
 
     # Get numpy arrays from taichi fields
-    ampL = trackers.ampL_local_rms_am.to_numpy()
+    # Using envelope field (smooth 1/r) for force calculation instead of RMS
+    envelope = trackers.ampL_local_envelope_am.to_numpy()
     positions = wave_center.position_grid.to_numpy()
     forces = wave_center.force.to_numpy()
     velocities = wave_center.velocity_amrs.to_numpy()
@@ -643,16 +657,16 @@ def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
             print(f"  WARNING: Near z boundary!")
             continue
 
-        # Amplitude values at sampling radius distance
-        A_center = ampL[i, j, k] * ATTOMETER
-        A_xp = ampL[i + sample_radius, j, k] * ATTOMETER
-        A_xm = ampL[i - sample_radius, j, k] * ATTOMETER
-        A_yp = ampL[i, j + sample_radius, k] * ATTOMETER
-        A_ym = ampL[i, j - sample_radius, k] * ATTOMETER
-        A_zp = ampL[i, j, k + sample_radius] * ATTOMETER
-        A_zm = ampL[i, j, k - sample_radius] * ATTOMETER
+        # Envelope values at sampling radius distance (smooth 1/r field)
+        A_center = envelope[i, j, k] * ATTOMETER
+        A_xp = envelope[i + sample_radius, j, k] * ATTOMETER
+        A_xm = envelope[i - sample_radius, j, k] * ATTOMETER
+        A_yp = envelope[i, j + sample_radius, k] * ATTOMETER
+        A_ym = envelope[i, j - sample_radius, k] * ATTOMETER
+        A_zp = envelope[i, j, k + sample_radius] * ATTOMETER
+        A_zm = envelope[i, j, k - sample_radius] * ATTOMETER
 
-        print(f"  Amplitude at center: {A_center:.3e} m ({ampL[i,j,k]:.3f} am)")
+        print(f"  Envelope at center: {A_center:.3e} m ({envelope[i,j,k]:.3f} am)")
         print(f"  Amplitude x±{sample_radius}: [{A_xm:.3e}, {A_xp:.3e}] m")
 
         # Gradients with larger sampling distance

@@ -14,7 +14,7 @@ XPARAMETERS = {
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.19, 1.38, 0.97],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [1.42, 1.26, 0.70],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
@@ -25,7 +25,7 @@ XPARAMETERS = {
         # Wave-Center positions: normalized coordinates (0-1 range, relative to max universe edge)
         "POSITION": [
             [0.25, 0.75, 0.75],
-            [0.75, 0.25, 0.50],
+            [0.75, 0.25, 0.35],
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
         "PHASE_OFFSETS_DEG": [0, 180],
