@@ -146,7 +146,7 @@ def oscillate_granules(
     granule_var_color: ti.template(),  # type: ignore
     freq_boost: ti.f32,  # type: ignore
     amp_boost: ti.f32,  # type: ignore
-    color_palette: ti.i32,  # type: ignore
+    wave_menu: ti.i32,  # type: ignore
     num_sources: ti.i32,  # type: ignore
     in_wave_toggle: ti.i32,  # type: ignore
     out_wave_toggle: ti.i32,  # type: ignore
@@ -213,7 +213,7 @@ def oscillate_granules(
         granule_var_color: Color field for displacement/amplitude visualization
         freq_boost: Frequency multiplier (applied after slowed frequency)
         amp_boost: Amplitude multiplier (for visibility in scaled lattices)
-        color_palette: Coloring palette selection
+        wave_menu: Selected Wave displayed with color palette
         num_sources: Number of wave sources
         in_wave_toggle: Toggle for in_wave (1 = enable, 0 = disable)
         out_wave_toggle: Toggle for out_wave (1 = enable, 0 = disable)
@@ -323,13 +323,13 @@ def oscillate_granules(
 
         # COLOR CONVERSION OF DISPLACEMENT/AMPLITUDE VALUES
         # Map value to color using selected gradient
-        if color_palette == 3:  # orange (magnitude only)
+        if wave_menu == 1:  # orange (magnitude only)
             granule_var_color[granule_idx] = colormap.get_orange_color(
                 displacement_am,
                 0.0,
                 amp_global_peak_am[None],
             )
-        elif color_palette == 5:  # ironbow (magnitude only: thermal scale)
+        elif wave_menu == 2:  # ironbow (magnitude only: thermal scale)
             granule_var_color[granule_idx] = colormap.get_ironbow_color(
                 amp_local_peak_am[granule_idx],
                 0.0,

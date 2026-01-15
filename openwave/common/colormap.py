@@ -79,7 +79,7 @@ yellowgreen_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#1E7A1E", (0.118, 0.478, 0.118)],  # dark green
     ["#35B779", (0.208, 0.718, 0.475)],  # green
-]  # "color_palette" = 1
+]
 
 # ================================================================
 # Redblue Gradient: PALETTE [used in get_redblue_color()]
@@ -90,7 +90,7 @@ redblue_palette = [
     ["#000000", (0.0, 0.0, 0.0)],  # black
     ["#00008B", (0.0, 0.0, 0.545)],  # dark blue
     ["#4169E1", (0.255, 0.412, 0.882)],  # bright blue
-]  # "color_palette" = 2
+]
 
 # ================================================================
 # Orange Gradient: PALETTE [used in get_orange_color()]
@@ -101,7 +101,7 @@ orange_palette = [
     ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
     ["#FF7B00", (1.0, 0.5, 0.0)],  # bright orange
     ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
-]  # "color_palette" = 3
+]
 
 # ================================================================
 # Viridis Gradient: PALETTE [used in get_viridis_color()]
@@ -112,7 +112,7 @@ viridis_palette = [
     ["#35B779", (0.208, 0.718, 0.475)],  # green
     ["#BDD93A", (0.741, 0.851, 0.227)],  # yellow-green
     ["#FDE724", (0.992, 0.906, 0.141)],  # bright yellow
-]  # "color_palette" = 4
+]
 
 # ================================================================
 # Ironbow Gradient: PALETTE [used in get_ironbow_color()]
@@ -123,7 +123,7 @@ ironbow_palette = [
     ["#91009C", (0.569, 0.0, 0.612)],  # magenta
     ["#E64616", (0.902, 0.275, 0.086)],  # red-orange
     ["#FFFFF6", (1.0, 1.0, 0.965)],  # yellow-white
-]  # "color_palette" = 5
+]
 
 # ================================================================
 # Blueprint Gradient: PALETTE [used in get_blueprint_color()]
@@ -134,7 +134,7 @@ blueprint_palette = [
     ["#607DBD", (0.376, 0.490, 0.741)],  # blue
     ["#98AEDD", (0.596, 0.682, 0.867)],  # light blue
     ["#E4EAF6", (0.894, 0.918, 0.965)],  # extra-light blue
-]  # "color_palette" = 6
+]
 
 
 # ================================================================

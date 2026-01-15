@@ -142,7 +142,7 @@ class SimulationState:
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
-        self.COLOR_PALETTE = 1  # Color palette index
+        self.WAVE_MENU = 1
 
         # Data Analytics & video export toggles
         self.INSTRUMENTATION = False
@@ -181,7 +181,7 @@ class SimulationState:
         # Color defaults
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
-        self.COLOR_PALETTE = color["COLOR_PALETTE"]
+        self.WAVE_MENU = color["WAVE_MENU"]
 
         # Data Analytics & video export toggles
         diag = params["analytics"]
@@ -208,8 +208,8 @@ class SimulationState:
         self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
         self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
 
-    def restart_sim(self):
-        """Restart simulation state."""
+    def reset_sim(self):
+        """Reset simulation state."""
         self.wave_field = None
         self.trackers = None
         self.c_amrs = 0.0
@@ -248,7 +248,7 @@ def display_xperiment_launcher(xperiment_mgr, state):
     """
     selected_xperiment = None
 
-    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.31) as sub:
+    with render.gui.sub_window("XPERIMENT LAUNCHER", 0.00, 0.00, 0.14, 0.32) as sub:
         sub.text("(needs window reload)", color=colormap.LIGHT_BLUE[1])
         for xp_name in xperiment_mgr.available_xperiments:
             display_name = xperiment_mgr.get_xperiment_display_name(xp_name)
@@ -265,10 +265,9 @@ def display_xperiment_launcher(xperiment_mgr, state):
 
 def display_controls(state):
     """Display the controls UI overlay."""
-    with render.gui.sub_window("CONTROLS", 0.00, 0.32, 0.16, 0.25) as sub:
+    with render.gui.sub_window("CONTROLS", 0.00, 0.33, 0.16, 0.27) as sub:
         state.SHOW_AXIS = sub.checkbox(f"Axis (ticks: {state.TICK_SPACING})", state.SHOW_AXIS)
         state.SHOW_EDGES = sub.checkbox("Sim Universe Edges", state.SHOW_EDGES)
-        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.WARP_MESH = sub.slider_int("Warp Mesh", state.WARP_MESH, 0, 30)
         state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
@@ -278,45 +277,45 @@ def display_controls(state):
         else:
             if sub.button("Pause"):
                 state.PAUSED = True
-        if sub.button("Restart Simulation"):
-            state.restart_sim()
+        if sub.button("Reset Simulation"):
+            state.reset_sim()
 
 
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.15, 0.17) as sub:
-        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 1):
-            state.COLOR_PALETTE = 1
-        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 2):
-            state.COLOR_PALETTE = 2
-        if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 4):
-            state.COLOR_PALETTE = 4
-        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 5):
-            state.COLOR_PALETTE = 5
-        if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 6):
-            state.COLOR_PALETTE = 6
+        if sub.checkbox("Displacement (Longitudinal)", state.WAVE_MENU == 1):
+            state.WAVE_MENU = 1
+        if sub.checkbox("Displacement (Transverse)", state.WAVE_MENU == 2):
+            state.WAVE_MENU = 2
+        if sub.checkbox("Amplitude (Longitudinal)", state.WAVE_MENU == 3):
+            state.WAVE_MENU = 3
+        if sub.checkbox("Amplitude (Transverse)", state.WAVE_MENU == 4):
+            state.WAVE_MENU = 4
+        if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
+            state.WAVE_MENU = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.COLOR_PALETTE == 1:  # Display yellowgreen gradient palette
+        if state.WAVE_MENU == 1:  # Display yellowgreen gradient palette
             render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 2:  # Display redblue gradient palette
+        if state.WAVE_MENU == 2:  # Display redblue gradient palette
             render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 4:  # Display viridis gradient palette
+        if state.WAVE_MENU == 3:  # Display viridis gradient palette
             render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 5:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 4:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 6:  # Display blueprint gradient palette
+        if state.WAVE_MENU == 5:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.freq_global_avg*2*state.wave_field.scale_factor:.0e}Hz")
@@ -342,7 +341,8 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.37, 0.16, 0.63) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.34, 0.16, 0.66) as sub:
+        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
@@ -542,7 +542,7 @@ def render_elements(state):
         ewave.update_flux_mesh_values(
             state.wave_field,
             state.trackers,
-            state.COLOR_PALETTE,
+            state.WAVE_MENU,
             state.WARP_MESH,
         )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)
