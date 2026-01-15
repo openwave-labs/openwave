@@ -322,7 +322,9 @@ def display_wave_menu(state):
         if state.WAVE_MENU == 3:  # Envelope (Longitudinal) on greenyellow gradient
             render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
             with render.gui.sub_window("envelope", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
+                sub.text(
+                    f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
+                )
         if state.WAVE_MENU == 4:  # Amplitude (Transverse) on ironbow gradient
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
