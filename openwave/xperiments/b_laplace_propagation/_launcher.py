@@ -142,7 +142,7 @@ class SimulationState:
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
-        self.COLOR_PALETTE = 1  # Color palette index
+        self.WAVE_MENU = 1
 
         # Data Analytics & video export toggles
         self.INSTRUMENTATION = False
@@ -181,7 +181,7 @@ class SimulationState:
         # Color defaults
         color = params["color_defaults"]
         self.COLOR_THEME = color["COLOR_THEME"]
-        self.COLOR_PALETTE = color["COLOR_PALETTE"]
+        self.WAVE_MENU = color["WAVE_MENU"]
 
         # Data Analytics & video export toggles
         diag = params["analytics"]
@@ -284,38 +284,38 @@ def display_controls(state):
 def display_wave_menu(state):
     """Display wave properties selection menu."""
     with render.gui.sub_window("WAVE MENU", 0.00, 0.70, 0.15, 0.17) as sub:
-        if sub.checkbox("Displacement (Longitudinal)", state.COLOR_PALETTE == 1):
-            state.COLOR_PALETTE = 1
-        if sub.checkbox("Displacement (Transverse)", state.COLOR_PALETTE == 2):
-            state.COLOR_PALETTE = 2
-        if sub.checkbox("Amplitude (Longitudinal)", state.COLOR_PALETTE == 4):
-            state.COLOR_PALETTE = 4
-        if sub.checkbox("Amplitude (Transverse)", state.COLOR_PALETTE == 5):
-            state.COLOR_PALETTE = 5
-        if sub.checkbox("Frequency (L&T)", state.COLOR_PALETTE == 6):
-            state.COLOR_PALETTE = 6
+        if sub.checkbox("Displacement (Longitudinal)", state.WAVE_MENU == 1):
+            state.WAVE_MENU = 1
+        if sub.checkbox("Displacement (Transverse)", state.WAVE_MENU == 2):
+            state.WAVE_MENU = 2
+        if sub.checkbox("Amplitude (Longitudinal)", state.WAVE_MENU == 3):
+            state.WAVE_MENU = 3
+        if sub.checkbox("Amplitude (Transverse)", state.WAVE_MENU == 4):
+            state.WAVE_MENU = 4
+        if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
+            state.WAVE_MENU = 5
         # Display gradient palette with 2× average range for headroom (allows peak visualization)
-        if state.COLOR_PALETTE == 1:  # Display yellowgreen gradient palette
+        if state.WAVE_MENU == 1:  # Display yellowgreen gradient palette
             render.canvas.triangles(yg_palette_vertices, per_vertex_color=yg_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 2:  # Display redblue gradient palette
+        if state.WAVE_MENU == 2:  # Display redblue gradient palette
             render.canvas.triangles(rb_palette_vertices, per_vertex_color=rb_palette_colors)
             with render.gui.sub_window("displacement", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.COLOR_PALETTE == 4:  # Display viridis gradient palette
+        if state.WAVE_MENU == 3:  # Display viridis gradient palette
             render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 5:  # Display ironbow gradient palette
+        if state.WAVE_MENU == 4:  # Display ironbow gradient palette
             render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
             with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m")
-        if state.COLOR_PALETTE == 6:  # Display blueprint gradient palette
+        if state.WAVE_MENU == 5:  # Display blueprint gradient palette
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(f"0       {state.freq_global_avg*2*state.wave_field.scale_factor:.0e}Hz")
@@ -542,7 +542,7 @@ def render_elements(state):
         ewave.update_flux_mesh_values(
             state.wave_field,
             state.trackers,
-            state.COLOR_PALETTE,
+            state.WAVE_MENU,
             state.WARP_MESH,
         )
         flux_mesh.render_flux_mesh(render.scene, state.wave_field, state.SHOW_FLUX_MESH)

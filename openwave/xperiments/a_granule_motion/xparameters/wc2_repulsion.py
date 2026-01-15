@@ -11,7 +11,7 @@ Z_POSITION = 0.07  # Z-axis position for all sources
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": "Particle: Repulsion",
+        "X_NAME": "Repulsion Force",
         "DESCRIPTION": "2 sources in linear pattern demonstrating wave superposition",
     },
     "camera": {
@@ -47,7 +47,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "COLOR_PALETTE": 5,  # default (99), granule-type (0), orange (3), ironbow (5)
+        "WAVE_MENU": 2,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data collection (speed & wavelength measurements)
