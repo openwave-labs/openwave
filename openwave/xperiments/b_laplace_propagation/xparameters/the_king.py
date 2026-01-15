@@ -35,7 +35,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "WAVE_MENU": 2,  # yellowgreen (1), redblue (2), viridis (4), ironbow (5), blueprint (6)
+        "WAVE_MENU": 2,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics

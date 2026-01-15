@@ -142,7 +142,7 @@ class SimulationState:
 
         # Color control variables
         self.COLOR_THEME = "OCEAN"
-        self.WAVE_MENU = 1  # Color palette index
+        self.WAVE_MENU = 1
 
         # Data Analytics & video export toggles
         self.INSTRUMENTATION = False
