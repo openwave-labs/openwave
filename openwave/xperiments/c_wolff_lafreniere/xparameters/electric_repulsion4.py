@@ -5,30 +5,32 @@ This XPERIMENT showcases:
 -
 """
 
-UNIVERSE_EDGE = 5.8e-14  # m, universe edge length in meters
-TARGET_VOXELS = 50_000_000  # Target voxel count (impacts performance)
+UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
+TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"2000 waves, {TARGET_VOXELS/1e6:.0f}M voxels",
+        "X_NAME": f"  /NO-Charge Test",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.40, 1.40, 1.20],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [0.27, 1.62, 0.90],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
         "TARGET_VOXELS": TARGET_VOXELS,  # Simulation voxel count (impacts performance)
     },
     "wave_centers": {
-        "COUNT": 2,  # Number of wave-centers for this xperiment
+        "COUNT": 4,  # Number of wave-centers for this xperiment
         # Wave-Center positions: normalized coordinates (0-1 range, relative to max universe edge)
         "POSITION": [
-            [0.25, 0.50, 0.50],
-            [0.75, 0.50, 0.50],
+            [0.57, 0.75, 0.50],
+            [0.60, 0.75, 0.50],
+            [0.57, 0.25, 0.50],
+            [0.60, 0.25, 0.50],
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
-        "PHASE_OFFSETS_DEG": [0, 0],
+        "PHASE_OFFSETS_DEG": [180, 180, 180, 180],
         "APPLY_MOTION": True,  # Toggle to apply motion at wave-centers, from force at each iteration
     },
     "ui_defaults": {
@@ -38,14 +40,14 @@ XPARAMETERS = {
         "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
-        "WARP_MESH": 300,  # Visual warp mesh effect intensity
-        "PARTICLE_SHELL": False,  # Toggle to enable/disable particle shell rendering
+        "WARP_MESH": 500,  # Visual warp mesh effect intensity
+        "PARTICLE_SHELL": True,  # Toggle to enable/disable particle shell rendering
         "SIM_SPEED": 1.0,  # Simulation speed multiplier
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "WAVE_MENU": 1,  # Check _launcher.py display_wave_menu() for wave_menu indexing
+        "WAVE_MENU": 3,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics

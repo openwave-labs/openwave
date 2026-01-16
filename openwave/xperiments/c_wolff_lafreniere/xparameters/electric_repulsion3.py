@@ -10,11 +10,11 @@ TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"  /Angled Attraction",
+        "X_NAME": f"  /Lock Test",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
-        "INITIAL_POSITION": [1.42, 1.26, 0.70],  # [x, y, z] in normalized coordinates
+        "INITIAL_POSITION": [0.27, 1.62, 0.90],  # [x, y, z] in normalized coordinates
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],  # m, simulation domain [x, y, z]
@@ -24,18 +24,18 @@ XPARAMETERS = {
         "COUNT": 2,  # Number of wave-centers for this xperiment
         # Wave-Center positions: normalized coordinates (0-1 range, relative to max universe edge)
         "POSITION": [
-            [0.25, 0.75, 0.75],
-            [0.75, 0.25, 0.35],
+            [0.57, 0.50, 0.50],
+            [0.60, 0.50, 0.50],
         ],
         # Phase offsets for each wave-center (integer degrees, converted to radians internally)
-        "PHASE_OFFSETS_DEG": [0, 180],
+        "PHASE_OFFSETS_DEG": [180, 180],
         "APPLY_MOTION": True,  # Toggle to apply motion at wave-centers, from force at each iteration
     },
     "ui_defaults": {
-        "SHOW_AXIS": True,  # Toggle to show/hide axis lines
+        "SHOW_AXIS": False,  # Toggle to show/hide axis lines
         "TICK_SPACING": 0.25,  # Axis tick marks spacing for position reference
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
-        "SHOW_EDGES": True,  # Toggle to show/hide universe edges
+        "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "WARP_MESH": 500,  # Visual warp mesh effect intensity
@@ -45,7 +45,7 @@ XPARAMETERS = {
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "WAVE_MENU": 1,  # Check _launcher.py display_wave_menu() for wave_menu indexing
+        "WAVE_MENU": 3,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics
