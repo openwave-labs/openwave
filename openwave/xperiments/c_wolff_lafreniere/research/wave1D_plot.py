@@ -645,7 +645,7 @@ PLOT_CONFIGS = [  # 2 WC: LFa + LFb
     },
 ]
 
-PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+PLOT_CONFIGS0 = [  # 2 WC: LFa + LFb
     {
         "func": "standing",
         "direction": -1,

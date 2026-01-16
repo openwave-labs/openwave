@@ -39,9 +39,58 @@ A0_am = A0 / constants.ATTOMETER  # attometers
 wavelength_am = wavelength / constants.ATTOMETER  # attometers
 k_am = 2 * np.pi / wavelength_am  # wave number in attometers
 
+golden_ratio = (1 + np.sqrt(5)) / 2  # ~1.6180339887
+
 # ================================================================
 # Amplitude Functions
 # ================================================================
+
+# def envelope_lorentzian(r_am, A0_am=A0_am, wavelength_am=wavelength_am):
+#     """
+#     Unified near-to-far field envelope using Lorentzian blending.
+#     Symmetric about r=0.
+#     """
+#     # Wave number
+#     k_am = 2 * np.pi / wavelength_am
+
+#     # Use absolute r for symmetric envelope
+#     r_abs = np.abs(r_am)
+#     kr_abs = k_am * r_abs  # unsigned for symmetric oscillation
+
+#     # Golden ratio offset (near-field bias)
+#     golden_ratio = (1 + np.sqrt(5)) / 2
+#     envelope_offset = 1 / (wavelength_am * golden_ratio)
+
+#     # Lorentzian weight: smooth transition at ~1.5λ
+#     w = 1 / (1 + (kr_abs / (3 * np.pi)) ** 2)
+
+#     # Unified envelope (symmetric)
+#     envelope = (
+#         A0_am * (w * np.sin(kr_abs) / (2 * np.pi**2) + (1 - w)) / r_abs + w * envelope_offset
+#     )
+
+#     return envelope
+
+
+def exponential_smooth(r_am, A0_am=A0_am):
+    """
+    Far-field amplitude falloff: A(r) = A₀ · (λ/r)
+
+    Energy conservation for spherical waves requires A ∝ 1/r
+    Valid in far-field region (r > 2λ from wave source)
+
+    Args:
+        r_am: Distance from wave source (attometers)
+        A0_am: Base amplitude A₀ (attometers)
+
+    Returns:
+        Amplitude at distance r (attometers)
+    """
+
+    # amp = A0_am * k_am / np.sqrt((k_am * r_am) ** 2 + 1)
+    amp = A0_am * k_am / np.sqrt((k_am * r_am) ** 2 + (2 * np.pi) ** 2)
+
+    return amp
 
 
 def sine_stand_wolff(r_am, A0_am=A0_am):
@@ -59,12 +108,14 @@ def sine_stand_wolff(r_am, A0_am=A0_am):
         Amplitude at distance r (attometers)
     """
 
-    sine = A0_am * np.abs(np.sin(k_am * r_am) / r_am)
+    sine = A0_am * (np.sin(k_am * r_am) / (r_am * 2 * np.pi**2)) + 1 / (
+        wavelength_am * golden_ratio
+    )
 
     return sine
 
 
-def sine_stand_lafreniere(r_am, A0_am=A0_am):
+def sine_stand_wl(r_am, A0_am=A0_am):
     """
     Far-field amplitude falloff: A(r) = A₀ · (λ/r)
 
@@ -79,7 +130,9 @@ def sine_stand_lafreniere(r_am, A0_am=A0_am):
         Amplitude at distance r (attometers)
     """
 
-    sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am)
+    sine = A0_am * np.sin(k_am * r_am) / r_am  # wolff original
+    # sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am)  # lafreniere original
+    # sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am * 2 * np.pi)  # lafreniere damped
     # sine = A0_am * (1 - np.cos(k_am * r_am)) / (k_am * r_am)  # quadrature version
     return sine
 
@@ -181,8 +234,8 @@ def amp_with_cap(r_am, A0_am=A0_am):
 # Distance range: 0 to r_max from wave source
 r_max_lambda = 5  # Maximum distance in wavelengths (adjustable)
 r_max_am = 120  # in attometers
-y_max_am = 1.0  # in attometers
-y_min_am = -0.25  # in attometers
+y_max_am = k_am  # in attometers
+y_min_am = -0.05  # in attometers
 r_am = np.linspace(-r_max_am, r_max_am, 1000)
 
 # Create figure
@@ -191,6 +244,16 @@ fig, ax = plt.subplots(figsize=(16, 9))
 # ================================================================
 # Plot Amplitude Curves
 # ================================================================
+# exponential_smooth
+ax.plot(
+    r_am,
+    exponential_smooth(r_am),
+    "green",
+    linewidth=2.5,
+    alpha=0.8,
+    label="exponential_smooth",
+)
+
 # Sine sine_stand_wolff
 ax.plot(
     r_am,
@@ -198,38 +261,38 @@ ax.plot(
     "orange",
     linewidth=2.5,
     alpha=0.8,
-    label="sine: stand_wolff",
+    label="sine: wolff adjusted",
 )
 
 # Sine sine_stand_lafreniere
 ax.plot(
     r_am,
-    sine_stand_lafreniere(r_am),
+    sine_stand_wl(r_am),
     "cyan",
     linewidth=2.5,
     alpha=0.8,
-    label="sine: stand_lafreniere",
+    label="sine: stand_wl",
 )
 
-# 1/lafreniere amplitude (without cap)
-ax.plot(
-    r_am,
-    sine_lafreniere_near(r_am),
-    "g--",
-    linewidth=2.5,
-    alpha=0.8,
-    label="sine: lafreniere_near",
-)
+# # 1/lafreniere amplitude (without cap)
+# ax.plot(
+#     r_am,
+#     sine_lafreniere_near(r_am),
+#     "g--",
+#     linewidth=2.5,
+#     alpha=0.8,
+#     label="sine: lafreniere_near",
+# )
 
-# 1/r amplitude (without cap)
-ax.plot(
-    r_am,
-    amp_with_safe(r_am),
-    "b-",
-    linewidth=2.5,
-    alpha=0.8,
-    label="amp: safe at r_reference",
-)
+# # 1/r amplitude (without cap)
+# ax.plot(
+#     r_am,
+#     amp_with_safe(r_am),
+#     "b-",
+#     linewidth=2.5,
+#     alpha=0.8,
+#     label="amp: safe at r_reference",
+# )
 
 # Capped amplitude (actual implementation)
 ax.plot(r_am, amp_with_cap(r_am), "r--", linewidth=3, label="amp: capped at A ≤ r")
@@ -257,24 +320,24 @@ ax.axvspan(-r_max_am, r_max_am, alpha=0.1, color="green")
 # Annotations
 # ================================================================
 
-# Amplitude at r = 1λ
-A_at_1lambda_am = amp_with_cap(wavelength_am)
+# Amplitude at r = 1.5λ
+A_at_1lambda_am = amp_1_over_r(1.5 * wavelength_am)
 ax.plot(
-    1 * wavelength_am,
+    1.5 * wavelength_am,
     A_at_1lambda_am,
     "ro",
     markersize=10,
-    label=f"A(1λ) = {A_at_1lambda_am/A0_am:.1f}A₀",
+    label=f"A(1.5λ) = {A_at_1lambda_am/A0_am:.3f}A₀",
 )
 
 # Amplitude at r = 2λ
-A_at_2lambda_am = amp_with_cap(2 * wavelength_am)
+A_at_2lambda_am = amp_1_over_r(2 * wavelength_am)
 ax.plot(
     2.0 * wavelength_am,
     A_at_2lambda_am,
     "go",
     markersize=10,
-    label=f"A(2λ) = {A_at_2lambda_am/A0_am:.1f}A₀",
+    label=f"A(2λ) = {A_at_2lambda_am/A0_am:.3f}A₀",
 )
 # Annotate regions (adjusted for 2 am y-axis scale)
 ax.text(
