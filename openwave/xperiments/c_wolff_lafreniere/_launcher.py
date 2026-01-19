@@ -109,9 +109,6 @@ class SimulationState:
     def __init__(self):
         self.wave_field = None
         self.trackers = None
-        self.c_amrs = 0.0
-        self.dt_rs = 0.0
-        self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
@@ -139,7 +136,7 @@ class SimulationState:
         self.SHOW_FLUX_MESH = 0
         self.WARP_MESH = 300
         self.PARTICLE_SHELL = False
-        self.SIM_SPEED = 1.0
+        self.TIMESTEP = 0.0
         self.PAUSED = False
 
         # Color control variables
@@ -181,7 +178,7 @@ class SimulationState:
         self.SHOW_FLUX_MESH = ui["SHOW_FLUX_MESH"]
         self.WARP_MESH = ui["WARP_MESH"]
         self.PARTICLE_SHELL = ui["PARTICLE_SHELL"]
-        self.SIM_SPEED = ui["SIM_SPEED"]
+        self.TIMESTEP = ui["TIMESTEP"]
         self.PAUSED = ui["PAUSED"]
 
         # Color defaults
@@ -210,25 +207,10 @@ class SimulationState:
             self.SOURCES_OFFSET_DEG,
         )
 
-    def compute_timestep(self):
-        """Compute timestep from CFL stability condition.
-
-        CFL Condition: dt ≤ dx / (c × √3) for 3D wave equation.
-        SIM_SPEED scales wave velocity for visualization control.
-        """
-        self.c_amrs = (
-            constants.EWAVE_SPEED / constants.ATTOMETER * constants.RONTOSECOND * self.SIM_SPEED
-        )  # am/rs
-        self.dt_rs = self.wave_field.dx_am / (self.c_amrs / self.SIM_SPEED * (3**0.5))  # rs
-        self.cfl_factor = round((self.c_amrs * self.dt_rs / self.wave_field.dx_am) ** 2, 7)
-
     def reset_sim(self):
         """Reset simulation state."""
         self.wave_field = None
         self.trackers = None
-        self.c_amrs = 0.0
-        self.dt_rs = 0.0
-        self.cfl_factor = 0.0
         self.elapsed_t_rs = 0.0
         self.clock_start_time = time.time()
         self.frame = 1
@@ -237,7 +219,6 @@ class SimulationState:
         self.freq_global_avg = constants.EWAVE_FREQUENCY
         self.wavelength_global_avg = constants.EWAVE_LENGTH
         self.initialize_grid()
-        self.compute_timestep()
         initialize_xperiment(self)
 
 
@@ -281,7 +262,7 @@ def display_controls(state):
         state.SHOW_FLUX_MESH = sub.slider_int("Flux Mesh", state.SHOW_FLUX_MESH, 0, 3)
         state.WARP_MESH = sub.slider_int("Warp Mesh", state.WARP_MESH, 0, 500)
         state.PARTICLE_SHELL = sub.checkbox("Particle Shell", state.PARTICLE_SHELL)
-        state.SIM_SPEED = sub.slider_float("Speed", state.SIM_SPEED, 0.5, 1.0)
+        state.TIMESTEP = sub.slider_float("Timestep", state.TIMESTEP, 0.1, 30.0)
         state.APPLY_MOTION = sub.checkbox("Apply Motion", state.APPLY_MOTION)
         if state.PAUSED:
             if sub.button(">> PROPAGATE EWAVE >>"):
@@ -300,9 +281,9 @@ def display_wave_menu(state):
             state.WAVE_MENU = 1
         if sub.checkbox("Displacement (Transverse)", state.WAVE_MENU == 2):
             state.WAVE_MENU = 2
-        if sub.checkbox("Envelope (Longitudinal)", state.WAVE_MENU == 3):
+        if sub.checkbox("Amplitude (Longitudinal)", state.WAVE_MENU == 3):
             state.WAVE_MENU = 3
-        if sub.checkbox("Amplitude (Transverse)", state.WAVE_MENU == 4):
+        if sub.checkbox("Envelope (Longitudinal)", state.WAVE_MENU == 4):
             state.WAVE_MENU = 4
         if sub.checkbox("Frequency (L&T)", state.WAVE_MENU == 5):
             state.WAVE_MENU = 5
@@ -319,16 +300,16 @@ def display_wave_menu(state):
                 sub.text(
                     f"{-state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 3:  # Envelope (Longitudinal) on greenyellow gradient
+        if state.WAVE_MENU == 3:  # Amplitude (Longitudinal) on viridis gradient
+            render.canvas.triangles(vr_palette_vertices, per_vertex_color=vr_palette_colors)
+            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
+                sub.text(f"0       {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m")
+        if state.WAVE_MENU == 4:  # Envelope (Longitudinal) on greenyellow gradient
             render.canvas.triangles(gy_palette_vertices, per_vertex_color=gy_palette_colors)
             with render.gui.sub_window("envelope", 0.00, 0.64, 0.08, 0.06) as sub:
                 sub.text(
                     f"{-state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}  {state.ampL_global_rms*2/state.wave_field.scale_factor:.0e}m"
                 )
-        if state.WAVE_MENU == 4:  # Amplitude (Transverse) on ironbow gradient
-            render.canvas.triangles(ib_palette_vertices, per_vertex_color=ib_palette_colors)
-            with render.gui.sub_window("amplitude", 0.00, 0.64, 0.08, 0.06) as sub:
-                sub.text(f"0       {state.ampT_global_rms*2/state.wave_field.scale_factor:.0e}m")
         if state.WAVE_MENU == 5:  # Frequency (L&T) on blueprint gradient
             render.canvas.triangles(bp_palette_vertices, per_vertex_color=bp_palette_colors)
             with render.gui.sub_window("frequency", 0.00, 0.64, 0.08, 0.06) as sub:
@@ -355,7 +336,7 @@ def display_data_dashboard(state):
     clock_time = time.time() - state.clock_start_time
     sim_time_years = clock_time / (state.elapsed_t_rs * constants.RONTOSECOND or 1) / 31_536_000
 
-    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.38, 0.16, 0.62) as sub:
+    with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.45, 0.16, 0.55) as sub:
         state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
@@ -384,21 +365,11 @@ def display_data_dashboard(state):
         sub.text(f"Wavelength: {state.wavelength_global_avg/state.wave_field.scale_factor:.1e} m")
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Timesteps (frames): {state.frame}")
-        sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
+        sub.text(f"Timestep: {state.TIMESTEP:.2f} rs")
+        sub.text(f"Sim Steps (frames): {state.frame:,}")
+        sub.text(f"Sim Time: {state.elapsed_t_rs:,.0f} rs")
         sub.text(f"Clock Time: {clock_time:.2f} s")
         sub.text(f"(1s sim time takes {sim_time_years:.0e}y)")
-
-        sub.text("\n--- TIMESTEP ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"c_amrs: {state.c_amrs:.3f} am/rs")
-        sub.text(
-            f"dt_rs: {state.dt_rs:.3f} rs",
-            color=(1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0),
-        )
-        sub.text(
-            f"CFL Factor: {state.cfl_factor:.3f} (target < 1/3)",
-            color=((1.0, 1.0, 1.0) if state.cfl_factor <= (1 / 3) else (1.0, 0.0, 0.0)),
-        )
 
 
 # ================================================================
@@ -450,9 +421,8 @@ def compute_wave_motion(state):
         state.wave_field,
         state.trackers,
         state.wave_center,
-        state.dt_rs,
+        state.TIMESTEP,
         state.elapsed_t_rs,
-        state.SIM_SPEED,
     )
 
     # IN-FRAME DATA SAMPLING & ANALYTICS ==================================
@@ -486,63 +456,35 @@ def compute_force_motion(state):
 
     See research/02_force_motion.md for detailed documentation.
     """
-    # TODO: Remove after smoke test passes to always use energy gradient force
-    USE_SMOKE_TEST = False
 
-    # # DEBUG: Check velocity at START of frame (before any force computation)
-    # if state.frame % 100 == 0:
-    #     vel = state.wave_center.velocity_amrs.to_numpy()
-    #     pos_f = state.wave_center.position_float.to_numpy()
-    #     print(f"\n--- START of frame {state.frame} (before force computation) ---")
-    #     for wc in range(state.wave_center.num_sources):
-    #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}")
-
-    if USE_SMOKE_TEST:
-        # PHASE 1: Smoke test with hardcoded force, debugging system integration
-        force_motion.smoketest_particle_motion(
+    # Compute force from energy gradient, then integrate motion
+    force_motion.compute_force_vector(
+        state.wave_field,
+        state.trackers,
+        state.wave_center,
+    )
+    # DEBUG: Print force analysis every 100 frames
+    force_motion.debug_force_analysis(
+        state.wave_field,
+        state.trackers,
+        state.wave_center,
+        state.frame,
+    )
+    if state.APPLY_MOTION:
+        force_motion.integrate_motion_euler(
             state.wave_field,
             state.wave_center,
-            state.dt_rs,
+            state.TIMESTEP,
         )
     else:
-        # PHASE 3+: Compute force from energy gradient, then integrate motion
-        force_motion.compute_force_vector(
-            state.wave_field,
-            state.trackers,
-            state.wave_center,
-        )
-        # # DEBUG: Print force analysis every 100 frames
-        # force_motion.debug_force_analysis(
-        #     state.wave_field,
-        #     state.trackers,
-        #     state.wave_center,
-        #     state.frame,
-        # )
-        if state.APPLY_MOTION:
-            force_motion.integrate_motion_euler(
-                state.wave_field,
-                state.wave_center,
-                state.dt_rs,
-                state.SIM_SPEED,
-            )
-        else:
-            # Zero-out velocities if not integrating force to motion
-            for wc_idx in range(state.wave_center.num_sources):
-                state.wave_center.velocity_amrs[wc_idx] = ti.Vector([0.0, 0.0, 0.0], dt=ti.f32)
+        # Zero-out velocities if not integrating force to motion
+        for wc_idx in range(state.wave_center.num_sources):
+            state.wave_center.velocity_amrs[wc_idx] = ti.Vector([0.0, 0.0, 0.0], dt=ti.f32)
 
-        # Annihilation naturally occurs from wave physics, but needs numerical precision check
-        # Detect and handle particle annihilation (opposite phase WCs meeting)
-        # Threshold: WCs can be at grid diagonal positions
-        force_motion.detect_annihilation(state.wave_center, 1.0)
-
-        # # DEBUG: Check velocity and position AFTER motion integration
-        # if state.frame % 100 == 0:
-        #     vel = state.wave_center.velocity_amrs.to_numpy()
-        #     pos_f = state.wave_center.position_float.to_numpy()
-        #     pos_g = state.wave_center.position_grid.to_numpy()
-        #     print(f"\n--- AFTER integrate_motion_euler (frame {state.frame}) ---")
-        #     for wc in range(state.wave_center.num_sources):
-        #         print(f"WC{wc}: vel={vel[wc]}, pos_float={pos_f[wc]}, pos_grid={pos_g[wc]}")
+    # Annihilation naturally occurs from wave physics, but needs numerical precision check
+    # Detect and handle particle annihilation (opposite phase WCs meeting)
+    # Threshold: WCs can be at grid diagonal positions and TIMESTEP may cause larger jumps
+    force_motion.detect_annihilation(state.wave_center, 5.0)
 
 
 def render_elements(state):
@@ -587,7 +529,7 @@ def render_elements(state):
                 constants.EWAVE_LENGTH
                 / state.wave_field.max_universe_edge
                 * state.wave_field.scale_factor
-                * 0.66  # adjusted for taichi particle rendering perspective projection
+                * 0.75  # adjusted for taichi particle rendering perspective projection
             )
             color = (
                 colormap.COLOR_PARTICLE[1]
@@ -626,7 +568,6 @@ def main():
 
     state.apply_xparameters(params)
     state.initialize_grid()
-    state.compute_timestep()
     initialize_xperiment(state)
 
     # Initialize GGUI rendering
@@ -660,10 +601,9 @@ def main():
 
         if not state.PAUSED:
             # Run simulation step and update time
-            state.compute_timestep()
             compute_wave_motion(state)
             compute_force_motion(state)
-            state.elapsed_t_rs += state.dt_rs  # Accumulate simulation time
+            state.elapsed_t_rs += state.TIMESTEP  # Accumulate simulation time
             state.frame += 1
 
         # Render scene elements

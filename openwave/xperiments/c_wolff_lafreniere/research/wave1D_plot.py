@@ -578,7 +578,7 @@ PLOT_CONFIGS = [  # 1 WC: fullamp + ampfalloff
     },
 ]
 
-PLOT_CONFIGS0 = [  # 1 WC: wolff & lafreniere
+PLOT_CONFIGS = [  # 1 WC: wolff & lafreniere
     {
         "func": "lafreniere",
         "direction": -1,
@@ -596,7 +596,7 @@ PLOT_CONFIGS0 = [  # 1 WC: wolff & lafreniere
     },
 ]
 
-PLOT_CONFIGS = [  # 1 WC: wolff-lafreniere
+PLOT_CONFIGS0 = [  # 1 WC: wolff-lafreniere
     {
         "func": "lafreniere",
         "direction": -1,
@@ -618,7 +618,7 @@ PLOT_CONFIGS = [  # 1 WC: wolff-lafreniere
 # ===============================================================
 # 2 Wave Centers Plot Configurations
 # ===============================================================
-PLOT_CONFIGS = [  # 2 WC: LFa + LFb
+PLOT_CONFIGS0 = [  # 2 WC: LFa + LFb
     {
         "func": "wolff-lafreniere",
         "direction": -1,

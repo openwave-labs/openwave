@@ -131,9 +131,41 @@ def sine_stand_wl(r_am, A0_am=A0_am):
     """
 
     sine = A0_am * np.sin(k_am * r_am) / r_am  # wolff original
-    # sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am)  # lafreniere original
-    # sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am * 2 * np.pi)  # lafreniere damped
-    # sine = A0_am * (1 - np.cos(k_am * r_am)) / (k_am * r_am)  # quadrature version
+    sine = A0_am * (-np.sin(k_am * r_am) - (1 - np.cos(k_am * r_am))) / r_am  # wolff + quadrature
+    sine = A0_am * np.abs(np.sin(k_am * r_am / 2)) / np.abs(r_am)
+    sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am)  # lafreniere original
+    sine = A0_am * np.sin(k_am * r_am) / (k_am * r_am * 2 * np.pi)  # lafreniere damped
+    sine = A0_am * (1 - np.cos(k_am * r_am)) / (k_am * r_am)  # quadrature version
+
+    sine = A0_am * np.sin(k_am * r_am) / (r_am * 2)  # wolff damped
+    sine = A0_am * np.abs(np.sin(k_am * r_am) / (r_am * 2)) + 1 / (
+        wavelength_am * golden_ratio
+    )  # abs wolff damped + offset
+
+    return sine
+
+
+def final_stand(r_am, A0_am=A0_am):
+    """
+    Far-field amplitude falloff: A(r) = A₀ · (λ/r)
+
+    Energy conservation for spherical waves requires A ∝ 1/r
+    Valid in far-field region (r > 2λ from wave source)
+
+    Args:
+        r_am: Distance from wave source (attometers)
+        A0_am: Base amplitude A₀ (attometers)
+
+    Returns:
+        Amplitude at distance r (attometers)
+    """
+
+    sine = A0_am * (
+        k_am
+        / np.sqrt((k_am * r_am) ** 2 + 48)  # damped smoothed 1/r envelope
+        # + np.sin(k_am * r_am) / (r_am * 5)  # damped wolff standing wave
+    )
+
     return sine
 
 
@@ -244,25 +276,25 @@ fig, ax = plt.subplots(figsize=(16, 9))
 # ================================================================
 # Plot Amplitude Curves
 # ================================================================
-# exponential_smooth
+# Final stand function
 ax.plot(
     r_am,
-    exponential_smooth(r_am),
+    final_stand(r_am),
     "green",
     linewidth=2.5,
     alpha=0.8,
-    label="exponential_smooth",
+    label="final_stand",
 )
 
-# Sine sine_stand_wolff
-ax.plot(
-    r_am,
-    sine_stand_wolff(r_am),
-    "orange",
-    linewidth=2.5,
-    alpha=0.8,
-    label="sine: wolff adjusted",
-)
+# # Sine sine_stand_wolff
+# ax.plot(
+#     r_am,
+#     sine_stand_wolff(r_am),
+#     "orange",
+#     linewidth=2.5,
+#     alpha=0.8,
+#     label="sine: wolff adjusted",
+# )
 
 # Sine sine_stand_lafreniere
 ax.plot(

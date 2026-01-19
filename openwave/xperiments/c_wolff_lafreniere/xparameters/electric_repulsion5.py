@@ -9,7 +9,7 @@ import numpy as np
 
 UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
-LOCK_SPACING = 0.03  # center-to-center separation between adjacent elements
+LOCK_SPACING = 0.02  # center-to-center separation between adjacent elements
 
 
 def tetrahedral_10(center=(0.5, 0.5, 0.5)):
@@ -63,7 +63,7 @@ XPARAMETERS = {
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "WARP_MESH": 500,  # Visual warp mesh effect intensity
         "PARTICLE_SHELL": True,  # Toggle to enable/disable particle shell rendering
-        "SIM_SPEED": 1.0,  # Simulation speed multiplier
+        "TIMESTEP": 5.0,  # Simulation timestep in rontoseconds (10-27s)
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {

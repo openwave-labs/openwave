@@ -386,8 +386,8 @@ def display_data_dashboard(state):
         )
 
         sub.text("\n--- TIME MICROSCOPE ---", color=colormap.LIGHT_BLUE[1])
-        sub.text(f"Timesteps (frames): {state.frame}")
-        sub.text(f"Simulation Time: {state.elapsed_t_rs:.2e} rs")
+        sub.text(f"Sim Steps (frames): {state.frame:,}")
+        sub.text(f"Sim Time: {state.elapsed_t_rs:,.0f} rs")
         sub.text(f"Clock Time: {clock_time:.2f} s")
         sub.text(f"(1s sim time takes {sim_time_years:.0e}y)")
 
