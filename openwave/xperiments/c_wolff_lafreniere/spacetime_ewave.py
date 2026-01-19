@@ -34,7 +34,6 @@ def propagate_wave(
     wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
     elapsed_t_rs: ti.f32,  # type: ignore
-    sim_speed: ti.f32,  # type: ignore
 ):
     """
     Compute wave displacement using Wolff-LaFreniere analytical wave equation.
@@ -67,16 +66,15 @@ def propagate_wave(
         wave_field: WaveField instance containing displacement arrays and grid info
         trackers: WaveTrackers instance for tracking wave properties
         wave_center: WaveCenter instance with source positions and phase offsets
-        dt_rs: Time step size (rs)
+        dt_rs: Timestep size (rs)
         elapsed_t_rs: Elapsed simulation time (rs)
-        sim_speed: Simulation speed multiplier for temporal phase
     """
     # Grid dimensions for boundary handling
     nx, ny, nz = wave_field.nx, wave_field.ny, wave_field.nz
 
     # Compute angular frequency (ω = 2πf) for temporal phase variation
     omega_rs = (
-        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor * sim_speed
+        2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
     )  # angular frequency (rad/rs)
 
     # Compute angular wave number (k = 2π/λ) for spatial phase variation
@@ -144,32 +142,174 @@ def propagate_wave(
             wave_field.psiL_am[i, j, k] += base_amplitude_am * wave_field.scale_factor * oscillator
 
             # ================================================================
-            # ENVELOPE TRACKING: Smooth 1/r amplitude for force calculation
+            # ANALYTICAL SIGNED AMPLITUDE ENVELOPE
+            # TODO: Refine envelope model for force calculations
+            # TODO: Archive previous envelope models in research/
+            # Particles don't respond to 10²⁵ Hz oscillation frequencies.
+            # Particle's mass (inertia) acts as a low-pass filter, averaging out the rapid
+            # oscillations and responding only to the time-averaged energy-density (envelope).
+            # This envelope drives the force calculations, computed directly from wave functions.
+            # Applies superposition principle for multiple wave-centers, with signed charge sign.
+            # Avoids computationally expensive real-time tracking methods (RMS, zero-crossing).
+            # Also avoids instability from real-time EMS calculations of moving wave-centers.
             # ================================================================
             # Charge sign: cos(0)=+1 (eg: positron), cos(π)=-1 (eg: electron)
             charge_sign = ti.cos(source_offset)
 
-            # Envelope: smooth 1/r decay without oscillating sin(kr)/r structure
-            # At r=0, use a finite value (same as phase_term limit = k_grid)
-            # This gives the EWT-predicted 1/r² force law
-            # envelope_term = ti.select(
-            #     r_grid < 0.5,  # threshold in grid units (catches center voxel only)
-            #     k_grid,  # finite value at center (matches phase_term limit)
-            #     1.0 / r_grid,  # smooth 1/r decay
-            # )
-            envelope_term = ti.select(
-                r_grid < 0.5,  # threshold in grid units (catches center voxel only)
-                k_grid,  # finite value at center (matches phase_term limit)
-                ti.select(
-                    # r_grid < wave_field.ewave_res,  # NEAR-FIELD: 1λ radius
-                    k_grid * r_grid < 5 / 2 * ti.math.pi,  # NEAR-FIELD: time-dilated-1λ radius
-                    ti.abs(ti.sin(k_grid * r_grid)) / r_grid,  # standing-smooth sin(kr)/r decay
-                    1.0 / r_grid,  # FAR-FIELD: smooth 1/r decay
-                ),
-            )
-            trackers.ampL_local_envelope_am[i, j, k] += (
-                charge_sign * base_amplitude_am * wave_field.scale_factor * envelope_term
-            )
+            # TODO: Investigate why these constants work well for envelope
+            golden_ratio = (1 + ti.sqrt(5)) / 2  # ~1.6180339887
+            weight_factor = 2.0 * ti.math.pi**2  # ~19.7392088, decay, damping
+            offset_factor = 1 / (wavelength_grid * golden_ratio)
+
+            # # SPIKED 1/r ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid * 2
+            #     )  # finite value at center, k_grid / constant + offset
+            # else:  # FAR-FIELD: smooth 1/r decay
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #     )  # spiked 1/r decay
+
+            # # SMOOTHED 1/r ==================================
+            # trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #     base_amplitude_am
+            #     * wave_field.scale_factor
+            #     * k_grid
+            #     / ti.sqrt((k_grid * r_grid) ** 2 + 1)
+            # )  # smoothed 1/r decay
+
+            # DAMPED SMOOTHED 1/r ==================================
+            trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+                base_amplitude_am
+                * wave_field.scale_factor
+                * k_grid
+                / ti.sqrt((k_grid * r_grid) ** 2 + (2 * ti.math.pi) ** 2)
+            )  # smoothed 1/r decay
+
+            # # WOLFF-ORIGINAL ENVELOPE ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid
+            #     )  # finite value at center, k_grid
+            # else:
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * ti.sin(k_grid * r_grid) / r_grid
+            #     )  # standing-smooth sin(kr)/r decay
+
+            # # WOLFF ONLY AT NEAR-FIELD ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid
+            #     )  # finite value at center, k_grid
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.25λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_amq
+            #             * wave_field.scale_factor
+            #             * ti.sin(k_grid * r_grid)
+            #             / r_grid
+            #         )  # standing-smooth sin(kr)/r decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
+
+            # # ABS WOLFF ONLY NEAR-FIELD ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid
+            #     )  # finite value at center, k_grid
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.25λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am
+            #             * wave_field.scale_factor
+            #             * ti.abs(ti.sin(k_grid * r_grid))
+            #             / r_grid
+            #         )  # standing-smooth sin(kr)/r decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
+
+            # # DAMPED+OFFSET WOLFF NEAR-FIELD ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid / (2 * ti.math.pi)
+            #         + 1 / (wavelength_grid * golden_ratio)
+            #     )  # finite value at center, k_grid / constant + offset
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.25λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am
+            #             * wave_field.scale_factor
+            #             * ti.sin(k_grid * r_grid)
+            #             / (r_grid * 2 * ti.math.pi)
+            #             + 1 / (wavelength_grid * golden_ratio)
+            #         )  # standing-smooth sin(kr)/(r·constant) + offset decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
+
+            # # ABS DAMPED+OFFSET WOLFF NEAR-FIELD ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid / (2)
+            #         + 1 / (wavelength_grid * golden_ratio)
+            #     )  # finite value at center, k_grid / constant + offset
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.5λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am
+            #             * wave_field.scale_factor
+            #             * ti.abs(ti.sin(k_grid * r_grid))
+            #             / (r_grid * 2)
+            #             + 1 / (wavelength_grid * golden_ratio)
+            #         )  # standing-smooth sin(kr)/(r·constant) + offset decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
+
+            # # DAMPED + WOLFF ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * (k_grid / (2 * ti.math.pi))
+            #     )  # finite value at center, k_grid / constant
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.25λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am
+            #             * wave_field.scale_factor
+            #             * (
+            #                 k_grid / ti.sqrt((k_grid * r_grid) ** 2 + (48))
+            #                 + ti.sin(k_grid * r_grid) / (r_grid * 4)
+            #             )
+            #         )  # smoothed 1/r decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
+
+            # # FLAT NEAR-FIELD ==================================
+            # if r_grid < 0.5:  # CENTER VOXEL only, avoids singularity
+            #     trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #         base_amplitude_am * wave_field.scale_factor * k_grid / (2 * ti.math.pi * 1.25)
+            #     )  # finite value at center, k_grid
+            # else:
+            #     if r_grid <= (2.5 * ti.math.pi / k_grid):  # NEAR-FIELD: time-dilated-1.25λ
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am
+            #             * wave_field.scale_factor
+            #             * k_grid
+            #             / (2 * ti.math.pi * 1.25)
+            #         )  # standing-smooth sin(kr)/r decay
+            #     else:  # FAR-FIELD: smooth 1/r decay
+            #         trackers.ampL_local_envelope_am[i, j, k] += charge_sign * (
+            #             base_amplitude_am * wave_field.scale_factor * 1.0 / r_grid
+            #         )  # smooth 1/r decay
 
         # Precision rounding to ensure wave cancellation
         # Critical for opposing phase sources (180°) that should annihilate
@@ -236,191 +376,6 @@ def propagate_wave(
 
         # Unconditional frequency decay (counteracted by zero-crossing updates in active regions)
         trackers.freq_local_cross_rHz[i, j, k] *= decay_factor
-
-    # TODO: Testing Wave Center Interaction with Energy Waves
-    # WCs modify Energy Wave character (amplitude/phase/lambda/mode) as they pass through
-    # Standing Waves should form around WCs as visual artifacts of interaction
-
-    # interact_wc_spinUP(wave_field, dt_rs)  # never worked correctly
-    # interact_wc_spinDOWN(wave_field, dt_rs)  # never worked correctly
-
-
-# ================================================================
-# WAVE CENTER INTERACTIONS
-# ================================================================
-
-
-@ti.func
-def interact_wc_spinUP(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignore
-    """
-    Wave center spin-UP interaction: phase-shifts psiL by +90° and creates psiT.
-
-    WAVE CENTER SPIN MECHANISM:
-    1. Incoming longitudinal wave psiL contacts wave center
-    2. WC spin creates transverse component: psiT = α × psiL (fine structure ratio)
-    3. Outgoing psiL is PHASE-SHIFTED by +90° (counterclockwise/leading)
-
-    PHASE SHIFT VIA VELOCITY:
-    For sinusoidal wave psiL = A·cos(ωt):
-        - Velocity: ∂psiL/∂t = -A·ω·sin(ωt)
-        - Normalized: velocity/ω = -A·sin(ωt) = A·cos(ωt + 90°)  ← +90° shifted!
-
-    So (psiL - psiL_old)/(ω·dt) gives the +90° phase-shifted wave.
-    This creates a DISTURBANCE in the longitudinal wave from the spin interaction.
-
-    ENERGY CONSERVATION:
-        psiT = α × psiL          (transverse component created)
-        psiL_out² + psiT² = psiL_in²  (total energy conserved)
-        psiL_out = ±√(psiL² - psiT²)  with sign from phase-shifted wave
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        dt_rs: Time step size (rs) for velocity calculation
-    """
-    wc1x, wc1y, wc1z = wave_field.nx * 4 // 6, wave_field.ny * 4 // 6, wave_field.nz // 2
-    alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
-
-    # Angular frequency (scaled for simulation)
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-
-    # Current and previous longitudinal displacement at WC
-    psiL = wave_field.psiL_am[wc1x, wc1y, wc1z]
-    psiL_old = wave_field.psiL_old_am[wc1x, wc1y, wc1z]
-
-    # ================================================================
-    # STEP 1: Compute phase-shifted psiL (+90° leading)
-    # ================================================================
-    # Velocity via finite difference
-    delta_psiL = psiL - psiL_old
-
-    # Phase-shifted psiL: -velocity/ω = -delta_psiL / (ω·dt)
-    # delta_psiL ≈ -ω·dt·sin(ωt) for cos input, so:
-    # psiL_shifted = -(-ω·dt·sin)/(ω·dt) = +sin(ωt)
-    # This gives +90° shift: cos → sin
-    psiL_shifted = -delta_psiL / (omega_rs * dt_rs)
-
-    # ================================================================
-    # STEP 2: Create transverse component (90° from psiL_out)
-    # ================================================================
-    # We've tried:
-    #   psiT = alpha * psiL → gives 180°
-    #   psiT = alpha * psiL_shifted → gives 0°
-    # For 90°, try negating one: psiT = -alpha * psiL
-    psiT = -alpha * psiL  # NEGATED to flip 180° → hopefully 90°
-
-    # Safety clamp: ensure psiT² < psiL² to prevent NaN from sqrt
-    max_psiT = 0.99 * ti.abs(psiL)
-    psiT = ti.math.clamp(psiT, -max_psiT, max_psiT)
-
-    # ================================================================
-    # STEP 3: Output psiL as actual phase-shifted wave
-    # ================================================================
-    # Energy available for psiL_out after psiT extraction
-    psiL_energy = psiL**2 - psiT**2
-
-    # Scale psiL_shifted to have correct energy while preserving its phase
-    psiL_shifted_sq = psiL_shifted**2
-
-    # Initialize psiL_out (required for Taichi scoping)
-    psiL_out = 0.0
-
-    # Avoid division by zero: if psiL_shifted is tiny, fall back to original
-    if psiL_shifted_sq > 1e-20:
-        scaling = ti.sqrt(psiL_energy / psiL_shifted_sq)
-        psiL_out = psiL_shifted * scaling
-    else:
-        # At zero crossing of shifted wave, preserve sign of original
-        phase_sign = 1.0 if psiL >= 0.0 else -1.0
-        psiL_out = phase_sign * ti.sqrt(psiL_energy)
-
-    wave_field.psiL_am[wc1x, wc1y, wc1z] = psiL_out
-    wave_field.psiT_am[wc1x, wc1y, wc1z] = psiT
-
-
-@ti.func
-def interact_wc_spinDOWN(wave_field: ti.template(), dt_rs: ti.f32):  # type: ignore
-    """
-    Wave center spin-DOWN interaction: phase-shifts psiL by -90° and creates psiT.
-
-    WAVE CENTER SPIN MECHANISM (opposite direction):
-    1. Incoming longitudinal wave psiL contacts wave center
-    2. WC spin creates transverse component: psiT = α × psiL (fine structure ratio)
-    3. Outgoing psiL is PHASE-SHIFTED by -90° (clockwise/lagging)
-
-    PHASE SHIFT VIA NEGATIVE VELOCITY:
-    For sinusoidal wave psiL = A·cos(ωt):
-        - Velocity: ∂psiL/∂t = -A·ω·sin(ωt)
-        - Negative normalized: -velocity/ω = A·sin(ωt) = A·cos(ωt - 90°)  ← -90° shifted!
-
-    So -(psiL - psiL_old)/(ω·dt) gives the -90° phase-shifted wave.
-    This creates a DISTURBANCE in the longitudinal wave (opposite to spinUP).
-
-    ENERGY CONSERVATION:
-        psiT = α × psiL          (transverse component created)
-        psiL_out² + psiT² = psiL_in²  (total energy conserved)
-        psiL_out = ±√(psiL² - psiT²)  with sign from phase-shifted wave
-
-    COMPARISON:
-        spinUP:   psiL phase +90° (leading),  counterclockwise
-        spinDOWN: psiL phase -90° (lagging),  clockwise
-
-    Args:
-        wave_field: WaveField instance containing displacement arrays and grid info
-        dt_rs: Time step size (rs) for velocity calculation
-    """
-    wc2x, wc2y, wc2z = wave_field.nx * 9 // 12, wave_field.ny * 9 // 12, wave_field.nz // 2
-    alpha = constants.FINE_STRUCTURE  # L→T conversion ratio
-
-    # Angular frequency (scaled for simulation)
-    omega_rs = 2.0 * ti.math.pi * base_frequency_rHz / wave_field.scale_factor
-
-    # Current and previous longitudinal displacement at WC
-    psiL = wave_field.psiL_am[wc2x, wc2y, wc2z]
-    psiL_old = wave_field.psiL_old_am[wc2x, wc2y, wc2z]
-
-    # ================================================================
-    # STEP 1: Compute phase-shifted psiL (-90° lagging)
-    # ================================================================
-    # Velocity via finite difference
-    delta_psiL = psiL - psiL_old
-
-    # Phase-shifted psiL: -velocity/ω = -delta_psiL / (ω·dt)
-    # Transforms A·cos(ωt) → A·sin(ωt) = A·cos(ωt - 90°)
-    psiL_shifted = -delta_psiL / (omega_rs * dt_rs)
-
-    # ================================================================
-    # STEP 2: Create transverse component (90° from psiL_out)
-    # ================================================================
-    # Negated to achieve 90° phase relationship
-    psiT = -alpha * psiL  # NEGATED
-
-    # Safety clamp: ensure psiT² < psiL² to prevent NaN from sqrt
-    max_psiT = 0.99 * ti.abs(psiL)
-    psiT = ti.math.clamp(psiT, -max_psiT, max_psiT)
-
-    # ================================================================
-    # STEP 3: Output psiL as actual phase-shifted wave
-    # ================================================================
-    # Energy available for psiL_out after psiT extraction
-    psiL_energy = psiL**2 - psiT**2
-
-    # Scale psiL_shifted to have correct energy while preserving its phase
-    psiL_shifted_sq = psiL_shifted**2
-
-    # Initialize psiL_out (required for Taichi scoping)
-    psiL_out = 0.0
-
-    # Avoid division by zero: if psiL_shifted is tiny, fall back to original
-    if psiL_shifted_sq > 1e-20:
-        scaling = ti.sqrt(psiL_energy / psiL_shifted_sq)
-        psiL_out = psiL_shifted * scaling
-    else:
-        # At zero crossing of shifted wave, preserve sign of original
-        phase_sign = 1.0 if psiL >= 0.0 else -1.0
-        psiL_out = phase_sign * ti.sqrt(psiL_energy)
-
-    wave_field.psiL_am[wc2x, wc2y, wc2z] = psiL_out
-    wave_field.psiT_am[wc2x, wc2y, wc2z] = psiT
 
 
 # ================================================================
@@ -587,49 +542,28 @@ def update_flux_mesh_values(
     for i, j in ti.ndrange(wave_field.nx, wave_field.ny):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, j, wave_field.fm_plane_z_idx]
-        psiT_value = wave_field.psiT_am[i, j, wave_field.fm_plane_z_idx]
-        ampL_value = trackers.ampL_local_envelope_am[i, j, wave_field.fm_plane_z_idx]
-        ampT_value = trackers.ampT_local_rms_am[i, j, wave_field.fm_plane_z_idx]
-        freq_value = trackers.freq_local_cross_rHz[i, j, wave_field.fm_plane_z_idx]
+        ampLr_value = trackers.ampL_local_rms_am[i, j, wave_field.fm_plane_z_idx]
+        ampLe_value = trackers.ampL_local_envelope_am[i, j, wave_field.fm_plane_z_idx]
         univ_edge_z = wave_field.universe_size_am[2]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if wave_menu == 5:  # blueprint
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.freq_global_avg_rHz[None] * 2
-            )
-            wave_field.fluxmesh_xy_vertices[i, j][2] = freq_value / trackers.freq_global_avg_rHz[
-                None
-            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[2] * (
-                wave_field.nz / wave_field.max_grid_size
-            )
-        elif wave_menu == 4:  # ironbow
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_ironbow_color(
-                ampT_value, 0, trackers.ampT_global_rms_am[None] * 2
-            )
-            wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                ampT_value / univ_edge_z * warp_mesh
-                + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
-            )
-        elif wave_menu == 3:  # greenyellow
+        if wave_menu == 4:  # greenyellow
             wave_field.fluxmesh_xy_colors[i, j] = colormap.get_greenyellow_color(
-                ampL_value,
+                ampLe_value,
                 -trackers.ampL_global_rms_am[None] * 2,
                 trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                ampL_value / univ_edge_z * warp_mesh
+                ampLe_value / univ_edge_z * warp_mesh
                 + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
-        elif wave_menu == 2:  # bluered
-            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_bluered_color(
-                psiT_value,
-                -trackers.ampT_global_rms_am[None] * 2,
-                trackers.ampT_global_rms_am[None] * 2,
+        elif wave_menu == 3:  # viridis
+            wave_field.fluxmesh_xy_colors[i, j] = colormap.get_viridis_color(
+                ampLr_value, 0, trackers.ampL_global_rms_am[None] * 2
             )
             wave_field.fluxmesh_xy_vertices[i, j][2] = (
-                psiT_value / univ_edge_z * warp_mesh
+                ampLr_value / univ_edge_z * warp_mesh
                 + wave_field.flux_mesh_planes[2] * (wave_field.nz / wave_field.max_grid_size)
             )
         else:  # default to greenyellow (wave_menu == 1)
@@ -649,49 +583,28 @@ def update_flux_mesh_values(
     for i, k in ti.ndrange(wave_field.nx, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[i, wave_field.fm_plane_y_idx, k]
-        psiT_value = wave_field.psiT_am[i, wave_field.fm_plane_y_idx, k]
-        ampL_value = trackers.ampL_local_envelope_am[i, wave_field.fm_plane_y_idx, k]
-        ampT_value = trackers.ampT_local_rms_am[i, wave_field.fm_plane_y_idx, k]
-        freq_value = trackers.freq_local_cross_rHz[i, wave_field.fm_plane_y_idx, k]
+        ampLr_value = trackers.ampL_local_rms_am[i, wave_field.fm_plane_y_idx, k]
+        ampLe_value = trackers.ampL_local_envelope_am[i, wave_field.fm_plane_y_idx, k]
         univ_edge_y = wave_field.universe_size_am[1]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if wave_menu == 5:  # blueprint
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.freq_global_avg_rHz[None] * 2
-            )
-            wave_field.fluxmesh_xz_vertices[i, k][1] = freq_value / trackers.freq_global_avg_rHz[
-                None
-            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[1] * (
-                wave_field.ny / wave_field.max_grid_size
-            )
-        elif wave_menu == 4:  # ironbow
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_ironbow_color(
-                ampT_value, 0, trackers.ampT_global_rms_am[None] * 2
-            )
-            wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                ampT_value / univ_edge_y * warp_mesh
-                + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
-            )
-        elif wave_menu == 3:  # greenyellow
+        if wave_menu == 4:  # greenyellow
             wave_field.fluxmesh_xz_colors[i, k] = colormap.get_greenyellow_color(
-                ampL_value,
+                ampLe_value,
                 -trackers.ampL_global_rms_am[None] * 2,
                 trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                ampL_value / univ_edge_y * warp_mesh
+                ampLe_value / univ_edge_y * warp_mesh
                 + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
-        elif wave_menu == 2:  # bluered
-            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_bluered_color(
-                psiT_value,
-                -trackers.ampT_global_rms_am[None] * 2,
-                trackers.ampT_global_rms_am[None] * 2,
+        elif wave_menu == 3:  # viridis
+            wave_field.fluxmesh_xz_colors[i, k] = colormap.get_viridis_color(
+                ampLr_value, 0, trackers.ampL_global_rms_am[None] * 2
             )
             wave_field.fluxmesh_xz_vertices[i, k][1] = (
-                psiT_value / univ_edge_y * warp_mesh
+                ampLr_value / univ_edge_y * warp_mesh
                 + wave_field.flux_mesh_planes[1] * (wave_field.ny / wave_field.max_grid_size)
             )
         else:  # default to greenyellow (wave_menu == 1)
@@ -711,49 +624,28 @@ def update_flux_mesh_values(
     for j, k in ti.ndrange(wave_field.ny, wave_field.nz):
         # Sample longitudinal displacement at this voxel
         psiL_value = wave_field.psiL_am[wave_field.fm_plane_x_idx, j, k]
-        psiT_value = wave_field.psiT_am[wave_field.fm_plane_x_idx, j, k]
-        ampL_value = trackers.ampL_local_envelope_am[wave_field.fm_plane_x_idx, j, k]
-        ampT_value = trackers.ampT_local_rms_am[wave_field.fm_plane_x_idx, j, k]
-        freq_value = trackers.freq_local_cross_rHz[wave_field.fm_plane_x_idx, j, k]
+        ampLr_value = trackers.ampL_local_rms_am[wave_field.fm_plane_x_idx, j, k]
+        ampLe_value = trackers.ampL_local_envelope_am[wave_field.fm_plane_x_idx, j, k]
         univ_edge_x = wave_field.universe_size_am[0]
 
         # Map value to color/vertex using selected gradient
         # Scale range to 2× average for headroom without saturation (allows peak visualization)
-        if wave_menu == 5:  # blueprint
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_blueprint_color(
-                freq_value, 0.0, trackers.freq_global_avg_rHz[None] * 2
-            )
-            wave_field.fluxmesh_yz_vertices[j, k][0] = freq_value / trackers.freq_global_avg_rHz[
-                None
-            ] / 3000 * warp_mesh + wave_field.flux_mesh_planes[0] * (
-                wave_field.nx / wave_field.max_grid_size
-            )
-        elif wave_menu == 4:  # ironbow
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_ironbow_color(
-                ampT_value, 0, trackers.ampT_global_rms_am[None] * 2
-            )
-            wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                ampT_value / univ_edge_x * warp_mesh
-                + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
-            )
-        elif wave_menu == 3:  # greenyellow
+        if wave_menu == 4:  # greenyellow
             wave_field.fluxmesh_yz_colors[j, k] = colormap.get_greenyellow_color(
-                ampL_value,
+                ampLe_value,
                 -trackers.ampL_global_rms_am[None] * 2,
                 trackers.ampL_global_rms_am[None] * 2,
             )
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                ampL_value / univ_edge_x * warp_mesh
+                ampLe_value / univ_edge_x * warp_mesh
                 + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
-        elif wave_menu == 2:  # bluered
-            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_bluered_color(
-                psiT_value,
-                -trackers.ampT_global_rms_am[None] * 2,
-                trackers.ampT_global_rms_am[None] * 2,
+        elif wave_menu == 3:  # viridis
+            wave_field.fluxmesh_yz_colors[j, k] = colormap.get_viridis_color(
+                ampLr_value, 0, trackers.ampL_global_rms_am[None] * 2
             )
             wave_field.fluxmesh_yz_vertices[j, k][0] = (
-                psiT_value / univ_edge_x * warp_mesh
+                ampLr_value / univ_edge_x * warp_mesh
                 + wave_field.flux_mesh_planes[0] * (wave_field.nx / wave_field.max_grid_size)
             )
         else:  # default to greenyellow (wave_menu == 1)

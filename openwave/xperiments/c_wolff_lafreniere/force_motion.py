@@ -69,6 +69,16 @@ ELECTRON_ORBITAL_G = constants.ELECTRON_ORBITAL_G  # gλ for electron
 # From m/s² to am/rs²: a_amrs2 = a_ms2 / ATTOMETER * RONTOSECOND²
 # = a_ms2 * (1/1e-18) * (1e-27)² = a_ms2 * 1e18 * 1e-54 = a_ms2 * 1e-36
 
+# Gradient sampling radius in voxels
+# Must be large enough to sample beyond own wave into interference region
+# Using ~15% of smallest grid dimension - compromise between:
+#   - Reaching interference region (needs large radius)
+#   - Staying within bounds for particles at 25%/75% positions (limits radius)
+# TODO: Smarter approach - sample toward other particles, or clamp to bounds
+# min_dim = ti.min(nx, ti.min(ny, nz))
+# sample_radius = ti.max(min_dim * 15 // 100, 10)  # At least 10, ~15% of grid
+GRADIENT_SAMPLE_RADIUS = 1  # voxels, for gradient sampling in force calculation
+
 
 def compute_ewt_electric_force(
     r: float, K: int = 1, Oe: float = 1.0, glambda: float = 1.0
@@ -105,92 +115,7 @@ def compute_ewt_electric_force(
 
 
 # ================================================================
-# PHASE 1: SMOKE TEST - Hardcoded Force Motion
-# ================================================================
-
-
-@ti.kernel
-def smoketest_particle_motion(
-    wave_field: ti.template(),  # type: ignore
-    wave_center: ti.template(),  # type: ignore
-    dt_rs: ti.f32,  # type: ignore
-):
-    """
-    SMOKE TEST: Apply hardcoded force to debug motion integration.
-    Removed when validations passed. Replaced with force from energy gradients.
-
-    Applies a constant force in +x direction to all wave centers.
-    Used to verify that:
-    1. Position updates work correctly
-    2. Unit conversions are correct
-    3. Visualization shows particle motion
-
-    Args:
-        wave_field: WaveField instance (for dx voxel size)
-        wave_center: WaveCenter instance with position/velocity fields
-        dt_rs: Time step in rontoseconds
-    """
-    # Voxel size in attometers for position conversion
-    dx_am = wave_field.dx / ATTOMETER
-
-    # ================================================================
-    # SMOKE TEST: Compute acceleration for consistent visible motion
-    # ================================================================
-    # Target: move 1 grid cell after ~500 frames
-    # Kinematic: x = 0.5 * a * (N * dt)²
-    # Solving for a: a = 2 * x / (N * dt)²
-    # Where x = dx_am (1 grid cell in attometers)
-    #
-    # a_amrs = 2 * dx_am / (N² * dt_rs²)
-    target_frames = ti.cast(100.0, ti.f32)  # Move 1 grid cell in n frames
-    a_smoke = 2.0 * dx_am / (target_frames * target_frames * dt_rs * dt_rs)
-
-    for wc_idx in range(wave_center.num_sources):
-        # Apply computed acceleration in +x direction
-        # NOTE: NOT physically realistic - purely for testing motion integration.
-        a_x = a_smoke
-        a_y = ti.cast(0.0, ti.f32)
-        a_z = ti.cast(0.0, ti.f32)
-
-        # ================================================================
-        # Update velocity: v_new = v_old + a * dt (in am/rs)
-        # ================================================================
-        wave_center.velocity_amrs[wc_idx][0] += a_x * dt_rs
-        wave_center.velocity_amrs[wc_idx][1] += a_y * dt_rs
-        wave_center.velocity_amrs[wc_idx][2] += a_z * dt_rs
-
-        # ================================================================
-        # Update position: x_new = x_old + v * dt
-        # ================================================================
-        # Position change in attometers
-        dx_am_step = wave_center.velocity_amrs[wc_idx][0] * dt_rs
-        dy_am_step = wave_center.velocity_amrs[wc_idx][1] * dt_rs
-        dz_am_step = wave_center.velocity_amrs[wc_idx][2] * dt_rs
-
-        # Convert attometers to grid index change: di = dx_am / voxel_size_am
-        di = dx_am_step / dx_am
-        dj = dy_am_step / dx_am
-        dk = dz_am_step / dx_am
-
-        # Update float position (smooth motion)
-        wave_center.position_float[wc_idx][0] += di
-        wave_center.position_float[wc_idx][1] += dj
-        wave_center.position_float[wc_idx][2] += dk
-
-        # Update integer grid position for wave generation
-        wave_center.position_grid[wc_idx][0] = ti.cast(
-            wave_center.position_float[wc_idx][0], ti.i32
-        )
-        wave_center.position_grid[wc_idx][1] = ti.cast(
-            wave_center.position_float[wc_idx][1], ti.i32
-        )
-        wave_center.position_grid[wc_idx][2] = ti.cast(
-            wave_center.position_float[wc_idx][2], ti.i32
-        )
-
-
-# ================================================================
-# PHASE 3: Force from Energy Gradient
+# Force from Energy Gradient
 # ================================================================
 
 
@@ -249,14 +174,8 @@ def compute_force_vector(
         ny = wave_field.ny
         nz = wave_field.nz
 
-        # Gradient sampling radius in voxels
-        # Must be large enough to sample beyond own wave into interference region
-        # Using ~15% of smallest grid dimension - compromise between:
-        #   - Reaching interference region (needs large radius)
-        #   - Staying within bounds for particles at 25%/75% positions (limits radius)
-        # TODO: Smarter approach - sample toward other particles, or clamp to bounds
-        min_dim = ti.min(nx, ti.min(ny, nz))
-        sample_radius = 1  # ti.max(min_dim * 1 // 100, 10)  # At least 10, ~15% of grid
+        # Gradient sampling radius (uses module constant GRADIENT_SAMPLE_RADIUS)
+        sample_radius = GRADIENT_SAMPLE_RADIUS
 
         # Boundary check (need neighbors for gradient at sample_radius distance)
         if (
@@ -270,7 +189,7 @@ def compute_force_vector(
             # ================================================================
             # Use ENVELOPE field for force calculation (smooth 1/r, no oscillations)
             # Envelope = sum of (charge_sign * A₀/r) from each source
-            # Gives EWT-predicted 1/r² force law independent of initial separation
+            # Gives EWT-predicted 1/r² force law
             # ================================================================
             # Sample envelope at center
             A_center_am = trackers.ampL_local_envelope_am[i, j, k]
@@ -295,11 +214,6 @@ def compute_force_vector(
             A_zm_am = trackers.ampL_local_envelope_am[i, j, k - sample_radius]
             dA_dz = (A_zp_am - A_zm_am) / sample_dist_am
 
-            # DEBUG: Store intermediate values
-            wave_center.debug_A_center[wc_idx] = A_center_am * ATTOMETER
-            wave_center.debug_dA_dx[wc_idx] = dA_dx
-            wave_center.debug_force_scale[wc_idx] = force_scale_qgrs * 1e21  # qg/rs² to kg/s²
-
             # Force: F = -2 * rho * V * f^2 * A * grad(A), in N, converted from qg/rs² * am
             F_x = -force_scale_qgrs * A_center_am * dA_dx * 1000  # qg·am/rs² to N (kg·m/s²)
             F_y = -force_scale_qgrs * A_center_am * dA_dy * 1000  # qg·am/rs² to N (kg·m/s²)
@@ -312,7 +226,7 @@ def compute_force_vector(
 
 
 # ================================================================
-# PHASE 4: Motion Integration (Euler)
+# Motion Integration (Euler)
 # ================================================================
 
 
@@ -321,7 +235,6 @@ def integrate_motion_euler(
     wave_field: ti.template(),  # type: ignore
     wave_center: ti.template(),  # type: ignore
     dt_rs: ti.f32,  # type: ignore
-    sim_speed: ti.f32,  # type: ignore
 ):
     """
     Integrate particle motion using Euler method.
@@ -332,15 +245,8 @@ def integrate_motion_euler(
     Args:
         wave_field: WaveField instance (for dx voxel size)
         wave_center: WaveCenter instance with force/velocity/position fields
-        dt_rs: Time step in rontoseconds
-        sim_speed: Simulation speed multiplier for particle motion
+        dt_rs: Timestep in rontoseconds
     """
-    # Force multiplier for visualization (physically unrealistic but useful for testing)
-    # Real forces are tiny at quantum scale - this boosts them for visible motion
-    # Too high = oscillation (velocity flips every frame), too low = no visible motion
-    # TODO: Make configurable via xparameters or UI
-    FORCE_MULTIPLIER = ti.cast(1, ti.f32)  # Reduced to allow gradual velocity buildup
-
     # Conversion factor: (N / qg) to am/rs²
     # Using quectograms (qg) instead of kg for f32 precision on GPU
     # Division by small kg values (e.g., 4.26e-36) underflows on GPU f32
@@ -362,32 +268,14 @@ def integrate_motion_euler(
         m_qg = wave_center.mass_qg[wc_idx]  # mass in quectograms
 
         # Acceleration: a = F/m, then convert (N/qg) to am/rs²
-        # Apply force multiplier for visualization
-        a_x_amrs = (F_x / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
-        a_y_amrs = (F_y / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
-        a_z_amrs = (F_z / m_qg) * accel_conv_qg * FORCE_MULTIPLIER
+        a_x_amrs = (F_x / m_qg) * accel_conv_qg
+        a_y_amrs = (F_y / m_qg) * accel_conv_qg
+        a_z_amrs = (F_z / m_qg) * accel_conv_qg
 
         # Update velocity: v_new = v_old + a * dt (in am/rs)
         wave_center.velocity_amrs[wc_idx][0] += a_x_amrs * dt_rs
         wave_center.velocity_amrs[wc_idx][1] += a_y_amrs * dt_rs
         wave_center.velocity_amrs[wc_idx][2] += a_z_amrs * dt_rs
-
-        # Clamp velocity to speed of light (c = 0.3 am/rs)
-        # velocity clamp to prevent superluminal speeds
-        c_amrs = ti.cast(0.3, ti.f32)
-        v_mag = (
-            ti.sqrt(
-                wave_center.velocity_amrs[wc_idx][0] ** 2
-                + wave_center.velocity_amrs[wc_idx][1] ** 2
-                + wave_center.velocity_amrs[wc_idx][2] ** 2
-            )
-            / sim_speed  # Scale velocity by sim speed for consistent motion
-        )
-        if v_mag > c_amrs:
-            scale = c_amrs / v_mag
-            wave_center.velocity_amrs[wc_idx][0] *= scale
-            wave_center.velocity_amrs[wc_idx][1] *= scale
-            wave_center.velocity_amrs[wc_idx][2] *= scale
 
         # Position change in attometers
         dx_am_step = wave_center.velocity_amrs[wc_idx][0] * dt_rs
@@ -432,7 +320,7 @@ def integrate_motion_euler(
 
 
 # ================================================================
-# PHASE 5: Annihilation Detection
+# Annihilation Detection
 # ================================================================
 
 
@@ -523,234 +411,3 @@ def detect_annihilation(
                 # Mark both WCs as inactive (annihilated)
                 wave_center.active[i] = 0
                 wave_center.active[j] = 0
-
-
-# ================================================================
-# DEBUG: Force Analysis
-# ================================================================
-
-
-def debug_force_analysis(wave_field, trackers, wave_center, frame: int = 0):
-    """
-    Debug function to analyze force calculation values.
-
-    Prints amplitude, gradient, and force values for each wave center.
-    Includes Coulomb force comparison for model calibration.
-    Call periodically (e.g., every 100 frames) to monitor force evolution.
-    """
-    if frame % 100 != 0:
-        return
-
-    print(f"\n{'='*60}")
-    print(f"FORCE ANALYSIS - Frame {frame}")
-    print(f"{'='*60}")
-
-    # ================================================================
-    # EWT FORCE COMPARISON (Primary validation)
-    # ================================================================
-    # EWT Electric Force: F_e = (4πρ K^7 A^6 c² Oe / 3λ²) × gλ × (1/r²)
-    #
-    # This is the CORRECT comparison for OpenWave validation:
-    # - Derived from wave physics (same as our simulation)
-    # - Uses K (wave center count) as parameter
-    # - For K=1: Oe=1.0, gλ=1.0 (no outer shell complexity)
-    # - For K=10 (electron): Oe=2.14, gλ=0.99
-    #
-    # If simulated force matches EWT force, OpenWave is validated!
-    # ================================================================
-    positions_grid = wave_center.position_grid.to_numpy()
-    dx = wave_field.dx  # voxel size in meters
-
-    if wave_center.num_sources == 2:
-        # Calculate separation distance in meters
-        pos0 = positions_grid[0] * dx
-        pos1 = positions_grid[1] * dx
-        separation = np.linalg.norm(pos1 - pos0)
-
-        if separation > 0:
-            # EWT force for K=1 (fundamental particle)
-            F_ewt_k1 = compute_ewt_electric_force(separation, K=1, Oe=1.0, glambda=1.0)
-
-            # EWT force for K=10 (electron) - should match Coulomb
-            F_ewt_k10 = compute_ewt_electric_force(
-                separation, K=10, Oe=ELECTRON_OUTER_SHELL, glambda=ELECTRON_ORBITAL_G
-            )
-
-            # Coulomb force for reference
-            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
-
-            # Direction vector (from 0 to 1)
-            direction = (pos1 - pos0) / separation
-
-            print(f"\n{'─'*60}")
-            print("EWT FORCE PREDICTIONS (Target for validation)")
-            print(f"{'─'*60}")
-            print(f"  Separation: {separation:.3e} m ({separation/ATTOMETER:.3f} am)")
-            print(f"  F_ewt (K=1):  {F_ewt_k1:.3e} N  ← TARGET for simulation")
-            print(f"  F_ewt (K=10): {F_ewt_k10:.3e} N  (electron)")
-            print(f"  F_coulomb:    {F_coulomb:.3e} N  (reference)")
-            print(f"  EWT K=10 / Coulomb ratio: {F_ewt_k10/F_coulomb:.6f}")
-            print(
-                f"  Direction (WC0→WC1): [{direction[0]:.3f}, {direction[1]:.3f}, {direction[2]:.3f}]"
-            )
-            print(f"{'─'*60}")
-
-    # Get numpy arrays from taichi fields
-    # Using envelope field (smooth 1/r) for force calculation instead of RMS
-    envelope = trackers.ampL_local_envelope_am.to_numpy()
-    positions = wave_center.position_grid.to_numpy()
-    forces = wave_center.force.to_numpy()
-    velocities = wave_center.velocity_amrs.to_numpy()
-
-    dx = wave_field.dx
-    dx_am = wave_field.dx / ATTOMETER
-
-    print(f"Voxel size: {dx:.3e} m ({dx_am:.3f} am)")
-    # Compute force_scale same way as kernel (avoid overflow)
-    rhoV = MEDIUM_DENSITY * dx**3
-    force_scale = 2.0 * rhoV * EWAVE_FREQUENCY * EWAVE_FREQUENCY
-    # Scale factor correction
-    S = wave_field.scale_factor
-    S4 = S * S * S * S
-    force_scale_corrected = force_scale / S4
-
-    print(f"Force scale (raw): 2*rho*V*f² = {force_scale:.3e}")
-    print(f"  (rho*V = {rhoV:.3e}, f = {EWAVE_FREQUENCY:.3e})")
-    print(f"Scale factor: {S:.1f}x (S⁴ = {S4:.3e})")
-    print(f"Force scale (corrected): {force_scale_corrected:.3e}")
-
-    # Show sampling radius
-    min_dim = min(wave_field.nx, wave_field.ny, wave_field.nz)
-    sample_radius = max(min_dim * 15 // 100, 10)
-    print(f"Gradient sampling radius: {sample_radius} voxels (~15% of min grid dim {min_dim})")
-
-    # Read kernel debug values
-    kernel_A_center = wave_center.debug_A_center.to_numpy()
-    kernel_dA_dx = wave_center.debug_dA_dx.to_numpy()
-    kernel_force_scale = wave_center.debug_force_scale.to_numpy()
-
-    for wc_idx in range(wave_center.num_sources):
-        i, j, k = positions[wc_idx]
-        print(f"\n--- Wave Center {wc_idx} at grid [{i}, {j}, {k}] ---")
-        print(f"  KERNEL DEBUG VALUES:")
-        print(f"    A_center (kernel): {kernel_A_center[wc_idx]:.3e}")
-        print(f"    dA_dx (kernel): {kernel_dA_dx[wc_idx]:.3e}")
-        print(f"    force_scale (kernel): {kernel_force_scale[wc_idx]:.3e}")
-        if kernel_force_scale[wc_idx] != 0:
-            expected_Fx = (
-                -kernel_force_scale[wc_idx] * kernel_A_center[wc_idx] * kernel_dA_dx[wc_idx]
-            )
-            print(f"    Expected F_x: {expected_Fx:.3e}")
-
-        # Sampling radius (must match kernel logic)
-        min_dim = min(wave_field.nx, wave_field.ny, wave_field.nz)
-        sample_radius = max(min_dim * 15 // 100, 10)
-
-        # Boundary check
-        if i <= sample_radius or i >= wave_field.nx - sample_radius:
-            print(f"  WARNING: Near x boundary!")
-            continue
-        if j <= sample_radius or j >= wave_field.ny - sample_radius:
-            print(f"  WARNING: Near y boundary!")
-            continue
-        if k <= sample_radius or k >= wave_field.nz - sample_radius:
-            print(f"  WARNING: Near z boundary!")
-            continue
-
-        # Envelope values at sampling radius distance (smooth 1/r field)
-        A_center = envelope[i, j, k] * ATTOMETER
-        A_xp = envelope[i + sample_radius, j, k] * ATTOMETER
-        A_xm = envelope[i - sample_radius, j, k] * ATTOMETER
-        A_yp = envelope[i, j + sample_radius, k] * ATTOMETER
-        A_ym = envelope[i, j - sample_radius, k] * ATTOMETER
-        A_zp = envelope[i, j, k + sample_radius] * ATTOMETER
-        A_zm = envelope[i, j, k - sample_radius] * ATTOMETER
-
-        print(f"  Envelope at center: {A_center:.3e} m ({envelope[i,j,k]:.3f} am)")
-        print(f"  Amplitude x±{sample_radius}: [{A_xm:.3e}, {A_xp:.3e}] m")
-
-        # Gradients with larger sampling distance
-        sample_dist = 2.0 * sample_radius * dx
-        dA_dx = (A_xp - A_xm) / sample_dist
-        dA_dy = (A_yp - A_ym) / sample_dist
-        dA_dz = (A_zp - A_zm) / sample_dist
-
-        print(f"  Gradient dA/dx: {dA_dx:.3e}")
-        print(f"  Gradient dA/dy: {dA_dy:.3e}")
-        print(f"  Gradient dA/dz: {dA_dz:.3e}")
-
-        # Force
-        F = forces[wc_idx]
-        print(f"  Force: [{F[0]:.3e}, {F[1]:.3e}, {F[2]:.3e}] N")
-
-        # Expected acceleration (using actual mass from wave_center in qg)
-        masses = wave_center.mass_qg.to_numpy()
-        m_qg = masses[wc_idx]  # mass in quectograms
-        m_kg = m_qg * QUECTOGRAM  # convert to kg for display
-        FORCE_MULTIPLIER = 1  # Must match value in integrate_motion_euler
-        # Acceleration using qg conversion: (F/m_qg) * 1e-3 -> am/rs²
-        a_amrs2 = (F[0] / m_qg) * 1e-3 * FORCE_MULTIPLIER if m_qg > 0 else 0
-        a_ms2 = F[0] / m_kg if m_kg > 0 else 0  # for display
-        print(f"  Mass: {m_qg:.3e} qg ({m_kg:.3e} kg)")
-        print(f"  Acceleration: {a_ms2:.3e} m/s² ({a_amrs2:.3e} am/rs²)")
-
-        # Velocity
-        v = velocities[wc_idx]
-        print(f"  Velocity: [{v[0]:.6e}, {v[1]:.6e}, {v[2]:.6e}] am/rs")
-
-    # ================================================================
-    # VALIDATION SUMMARY: Simulated vs EWT Prediction
-    # ================================================================
-    if wave_center.num_sources == 2:
-        pos0 = positions_grid[0] * dx
-        pos1 = positions_grid[1] * dx
-        separation = np.linalg.norm(pos1 - pos0)
-
-        if separation > 0:
-            # EWT predicted force for K=1
-            F_ewt_k1 = compute_ewt_electric_force(separation, K=1, Oe=1.0, glambda=1.0)
-
-            # Get simulated force magnitudes
-            forces = wave_center.force.to_numpy()
-            F_sim_0 = np.linalg.norm(forces[0])
-            F_sim_1 = np.linalg.norm(forces[1])
-            F_sim_avg = (F_sim_0 + F_sim_1) / 2
-
-            # Calculate ratio to EWT K=1 prediction (THIS IS THE KEY METRIC)
-            ratio_ewt = F_sim_avg / F_ewt_k1 if F_ewt_k1 > 0 else 0
-
-            # Also show Coulomb comparison for reference
-            F_coulomb = COULOMB_CONSTANT * ELEMENTARY_CHARGE**2 / separation**2
-            ratio_coulomb = F_sim_avg / F_coulomb if F_coulomb > 0 else 0
-
-            print(f"\n{'─'*60}")
-            print("VALIDATION: Simulated vs EWT Prediction")
-            print(f"{'─'*60}")
-            print(f"  EWT F (K=1 target):     {F_ewt_k1:.3e} N")
-            print(f"  Simulated F (WC0):      {F_sim_0:.3e} N")
-            print(f"  Simulated F (WC1):      {F_sim_1:.3e} N")
-            print(f"  Simulated F (average):  {F_sim_avg:.3e} N")
-            print(f"{'─'*60}")
-            print(f"  RATIO (sim/EWT K=1):    {ratio_ewt:.6f}")
-            if ratio_ewt > 0:
-                print(f"  Scale needed:           {1/ratio_ewt:.3e}x")
-            print(f"{'─'*60}")
-            if ratio_ewt > 0.9 and ratio_ewt < 1.1:
-                print("  ✓ VALIDATED: Within 10% of EWT prediction!")
-            elif ratio_ewt > 0.5 and ratio_ewt < 2.0:
-                print("  ~ CLOSE: Within 2x of EWT prediction")
-            else:
-                print("  ✗ Calibration needed")
-            print(f"{'─'*60}")
-            print(f"  (Coulomb ref: {F_coulomb:.3e} N, ratio: {ratio_coulomb:.3e})")
-            print(f"{'─'*60}")
-
-            # Direction check
-            direction = (pos1 - pos0) / separation
-            F0_dir = forces[0] / F_sim_0 if F_sim_0 > 0 else np.zeros(3)
-            dot_product = np.dot(F0_dir, direction)
-            force_type = "ATTRACTION" if dot_product > 0 else "REPULSION"
-            print(f"  Force direction: {force_type} (dot={dot_product:.3f})")
-            print(f"{'─'*60}")
-
-    print(f"{'='*60}\n")

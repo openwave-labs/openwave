@@ -10,7 +10,7 @@ TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"  /Attraction Test 3",
+        "X_NAME": f"  /Angled Attraction",
         "DESCRIPTION": "Energy Wave Charging, Propagation and Interaction",
     },
     "camera": {
@@ -40,12 +40,12 @@ XPARAMETERS = {
         "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "WARP_MESH": 500,  # Visual warp mesh effect intensity
         "PARTICLE_SHELL": True,  # Toggle to enable/disable particle shell rendering
-        "SIM_SPEED": 1.0,  # Simulation speed multiplier
+        "TIMESTEP": 5.0,  # Simulation timestep in rontoseconds (10-27s)
         "PAUSED": False,  # Pause/Start simulation toggle
     },
     "color_defaults": {
         "COLOR_THEME": "OCEAN",  # Choose color theme for rendering (OCEAN, DESERT, FOREST)
-        "WAVE_MENU": 1,  # Check _launcher.py display_wave_menu() for wave_menu indexing
+        "WAVE_MENU": 3,  # Check _launcher.py display_wave_menu() for wave_menu indexing
     },
     "analytics": {
         "INSTRUMENTATION": False,  # Toggle data acquisition and analytics
