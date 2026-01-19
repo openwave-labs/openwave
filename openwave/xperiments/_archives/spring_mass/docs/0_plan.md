@@ -19,9 +19,7 @@ Implement harmonic oscillation for the 8 lattice vertices to inject energy into 
 
 ## Reference Materials
 
-Review papers at `/research_requirements/scientific_source` for more info on the harmonic motion of spacetime granules, mechanics and geometry.
-
-Also check `/research_requirements/original_requirements/1. Simulating a Fundamental Particle - EWT.pdf` that contain more info for this project
+Review papers at `/scientific_source` for more info on the harmonic motion of spacetime granules, mechanics and geometry.
 
 ## PHASE 1: Vertex Harmonic Oscillation (Current Phase)
 

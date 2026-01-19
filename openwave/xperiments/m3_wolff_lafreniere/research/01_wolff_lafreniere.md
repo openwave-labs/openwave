@@ -537,7 +537,7 @@ Longitudinal wave (electric) → Phase shift (π/2) → Transverse wave (magneti
 
 ### Energy Wave Theory (EWT)
 
-- Research papers in `/research_requirements/scientific_source/`
+- Research papers in `/scientific_source`
 - Constants and Equations references
 
 ### Additional

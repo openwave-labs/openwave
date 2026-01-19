@@ -378,9 +378,9 @@ The launcher maintains:
 
 ## Additional Resources
 
-- **Physics Background**: See `/research_requirements/` for Energy Wave Theory papers
-- **Code Documentation**: See `launcher_L0.py` docstrings for implementation details
-- **Legacy Files**: See `_legacy/` for original standalone xperiment files
+- **Physics Background**: See `/scientific_source` for Energy Wave Theory papers
+- **Code Documentation**: See `_launcher.py` docstrings for implementation details
+- **Legacy Files**: See `_archives/` for original standalone xperiment files
 
 ---
 

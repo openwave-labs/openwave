@@ -277,7 +277,7 @@ if ti.abs(current_val) < min_amplitude:
 
 - [PSU Standing Wave Ratio Demo](https://www.acs.psu.edu/drussell/Demos/SWR/SWR.html)
 - [PSU Reflection Demo](https://www.acs.psu.edu/drussell/Demos/reflect/reflect.html)
-- EWT Papers in `/research_requirements/scientific_source/`
+- EWT Papers in `/scientific_source`
 - `03_FUNDAMENTAL_PARTICLE.md` - Wave center architecture
 
 ---

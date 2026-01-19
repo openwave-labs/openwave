@@ -1149,7 +1149,7 @@ def compute_force_motion(state):
 ### Energy Wave Theory
 
 - EWT equations: <https://energywavetheory.com/equations/>
-- Research papers: `/research_requirements/scientific_source/`
+- Research papers: `/scientific_source`
 
 ### Previous Documentation
 
