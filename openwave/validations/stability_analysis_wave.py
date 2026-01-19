@@ -7,7 +7,7 @@ import numpy as np
 
 from openwave.common import constants
 
-import openwave.xperiments.b_laplace_propagation.spacetime_medium as medium
+import openwave.xperiments.m2_laplace_propagation.spacetime_medium as medium
 
 ti.init(arch=ti.gpu)
 
