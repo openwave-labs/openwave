@@ -562,4 +562,4 @@ The missing ingredient in our simulation may be:
 - Milo Wolff, *Schrodinger's Universe and the Origin of the Natural Laws*
 - Dirac (1926) - Spin calculation
 - Smoliński, Ł. (2025) - *The Geometric Identity of Gravity: Derivation of G via the Universal Volume Deficit*
-- EWT Papers in `/research_requirements/scientific_source/`
+- EWT Papers in `/scientific_source`

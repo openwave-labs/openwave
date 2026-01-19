@@ -335,7 +335,7 @@ The 8-way connectivity for interior granules creates the diagonal coupling that 
 
 ### Energy Wave Theory (EWT) Constants
 
-From `/research_requirements/scientific_source/06. Constants and Equations - Waves.pdf`:
+From `/scientific_source06. Constants and Equations - Waves.pdf`:
 
 - **Energy Wave Speed**: c = 2.997925×10⁸ m/s (speed of light)
 - **Energy Wavelength**: λ = 2.854097×10⁻¹⁷ m (Planck scale)
@@ -373,7 +373,7 @@ If OpenWave adds plane waves, standing waves, or interference patterns:
 
 1. `/dev_docs/final_report.md` - Detailed PSHO vs XPBD comparison
 2. `/spacetime/ewave_radial.py` - PSHO implementation
-3. `/research_requirements/scientific_source/` - EWT theoretical foundation
+3. `/scientific_source` - EWT theoretical foundation
 
 ## Version History
 

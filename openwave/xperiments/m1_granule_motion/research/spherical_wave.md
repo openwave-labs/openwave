@@ -128,8 +128,6 @@ In the near-field regions (r < 2λ from wave source), wave structure is still de
 
 ### Neutrino Standing Wave Boundary
 
-According to EWT Phase 1 simulation requirements (research_requirements/original_requirements/1. Simulating a Fundamental Particle - EWT.pdf, page 19):
-
 The neutrino standing wave structure has a boundary at **r = 1λ** (one wavelength from the wave source).
 
 This specification provides physical justification for using 1λ as the minimum safe radius in amplitude falloff calculations, as it represents the fundamental particle boundary in EWT.

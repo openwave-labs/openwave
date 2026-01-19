@@ -128,7 +128,7 @@ Can we compute force in **Newtons** (kg⋅m/s²) from the amplitude gradient?
 - Particles initially are single wave centers (fundamental particles like neutrino), later becoming standalone particles (like electron)
 - Particle mass likely comes from standing waves reflected around particle radius (related to wavelength λ)
 
-**Resources**: EWT research papers at `/research_requirements/scientific_source/`
+**Resources**: EWT research papers at `/scientific_source`
 
 ### Force in Newtons from Amplitude/Frequency Gradients
 
