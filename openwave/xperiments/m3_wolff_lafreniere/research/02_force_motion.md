@@ -1154,7 +1154,7 @@ def compute_force_motion(state):
 ### Previous Documentation
 
 - [01_wolff_lafreniere.md](./01_wolff_lafreniere.md) - Wave equation foundations
-- [04_FORCE_MOTION.md](/openwave/xperiments/b_laplace_propagation/research/04_FORCE_MOTION.md) - Earlier research
+- [04_FORCE_MOTION.md](/openwave/xperiments/m2_laplace_propagation/research/04_FORCE_MOTION.md) - Earlier research
 
 ### Key Physics
 
