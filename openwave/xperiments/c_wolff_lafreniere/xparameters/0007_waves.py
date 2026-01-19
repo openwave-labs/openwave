@@ -36,7 +36,7 @@ XPARAMETERS = {
         "SHOW_GRID": False,  # Toggle to show/hide the voxel data-grid
         "SHOW_EDGES": False,  # Toggle to show/hide universe edges
         "FLUX_MESH_PLANES": [0.5, 0.5, 0.5],  # [x, y, z] positions relative to universe size
-        "SHOW_FLUX_MESH": 1,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
+        "SHOW_FLUX_MESH": 2,  # Flux Mesh toggle, 0: none, 1: xy, 2: xy+xz, 3: xy+xz+yz
         "WARP_MESH": 500,  # Visual warp mesh effect intensity
         "PARTICLE_SHELL": False,  # Toggle to enable/disable particle shell rendering
         "TIMESTEP": 5.0,  # Simulation timestep in rontoseconds (10-27s)
