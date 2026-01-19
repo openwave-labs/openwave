@@ -299,7 +299,7 @@ This diagram illustrates the architecture of the OpenWave system, broken down in
 
 > ***"There is a way to break the laws of physics: Challenge the models used to create them."***
 >
-> *Unknown Author, 11/11/25*
+> *OpenWave Team, 11/11/25*
 
 ## License and Attribution
 
