@@ -291,7 +291,7 @@ def display_level_specs(state, level_bar_vertices):
 def display_data_dashboard(state):
     """Display simulation data dashboard."""
     with render.gui.sub_window("DATA-DASHBOARD", 0.84, 0.43, 0.16, 0.57) as sub:
-        state.INSTRUMENTATION = sub.checkbox("Instrumentation", state.INSTRUMENTATION)
+        state.INSTRUMENTATION = sub.checkbox("Instrumentation ON/OFF", state.INSTRUMENTATION)
         sub.text("--- SPACETIME ---", color=colormap.LIGHT_BLUE[1])
         sub.text(f"Medium Density: {constants.MEDIUM_DENSITY:.1e} kg/m³")
         sub.text(f"eWAVE Speed (c): {constants.EWAVE_SPEED:.1e} m/s")
