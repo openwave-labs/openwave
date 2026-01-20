@@ -2,9 +2,11 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
+OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave-mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-MOTION method for educational visualization.
+Here we explore if forces, matter and energy can be derived from wave-dynamics, using wave-equations as the basis model.
+
+The platform implements a proposed mathematical framework through various complementary approaches: SCALAR-FIELD methods (similar to lattice gauge theory), VECTOR-FIELD methods, both for research simulations, and a GRANULE-MOTION method for educational visualization.
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 
@@ -14,8 +16,6 @@ OpenWave provides complementary ways to explore wave mechanics:
 
 ### Scalar and Vector-Field Methods (Research Oriented)
 
-**Status:** Work in Progress (WIP)
-
 - **Methodology:** Lattice wave-field theory - similar to lattice QCD computational methods (Nobel Prize 2004, 2008)
 - **Implementation:** 3D vector field grid with PDE-based wave propagation equations
 - **Scale:** Wavelength-scale to molecules
@@ -23,8 +23,6 @@ OpenWave provides complementary ways to explore wave mechanics:
 - **Use Case:** Scientific research, advanced simulations, subatomic engineering
 
 ### Granule-Motion Method (Education Oriented)
-
-**Status:** Released and Available
 
 - **Methodology:** Particle-based visualization with phase-shifted oscillations
 - **Implementation:** Discrete granules representing wave simulation
@@ -38,14 +36,14 @@ OpenWave provides complementary ways to explore wave mechanics:
 
 OpenWave Xperiments is a collection of interactive physics simulations that brings wave-field dynamics to life through real-time visualization and computation.
 
-**Currently Available: GRANULE-MOTION method Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in WAVE-FIELD research simulations.
+**GRANULE-MOTION method Demos** showcase wave mechanics fundamentals through intuitive visualizations. These xperiments demonstrate how waves propagate, interfere, and create standing patterns - the foundational concepts that will be scaled up in WAVE-FIELD research simulations.
 
 Each Xperiment is fully customizable (via user controls and Python scripting), enabling you to adjust parameters such as universe size, wave source configurations, and visualization settings to investigate wave behavior at different scales.
 
 **Recommended:**
 
 - **Follow the GRANULE-MOTION demo sequence below if you are new to OpenWave**
-- **WAVE-FIELD research tools** are under development for matter formation simulations
+- **WAVE-FIELD research tools** are also available for matter formation simulations
 
 ## XPERIMENTS GRANULE-MOTION DEMO (start here)
 
@@ -83,7 +81,6 @@ This xperiment demonstrates in a 3D view how a spherical longitudinal wave propa
 
 This xperiment demonstrates standing wave patterns that emerge from inward and outward wave interactions. In EWT's model, standing waves are proposed as the mechanism that gives matter its structure, from fundamental particles to atoms and molecules.
 
-- Play with the granule size control and see the emergence of crystal-like structures
 - **Observation:** Notice how stable patterns form when waves interfere constructively
 
 **Research question:** Can standing wave patterns account for particle properties like mass, charge, and spin? OpenWave helps explore this computationally.
@@ -131,22 +128,22 @@ To launch the Xperiments Selector Menu:
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
-          <br> Wave Interference Xperiment
+          <a><img src="images/x_amplitude.png" height="200px" alt="xperiment"></a>
+          <br> Wave Amplitude Envelope
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
+          <a><img src="images/x_attraction.png" height="200px" alt="xperiment"></a>
+          <br> Particle Attraction Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Spring-Mass Xperiment
+          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
+          <br> Wave Interference Xperiment
         </div>
       </td>
     </tr>
