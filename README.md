@@ -15,9 +15,7 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave-mechanics for modeling matter and energy phenomena using wave-field dynamics.
-
-Here we explore if forces, matter and energy can be derived from wave-dynamics, using wave-equations as the basis model.
+OpenWave is an open-source subatomic wave simulator for exploring fundamental physics through classical wave mechanics. The platform lets you model matter and energy phenomena using wave-dynamics, investigating whether forces and particles can emerge from wave-equations.
 
 The platform implements a proposed mathematical framework through various complementary approaches: SCALAR-FIELD methods (similar to lattice gauge theory), VECTOR-FIELD methods, both for research simulations, and a GRANULE-MOTION method for educational visualization.
 
