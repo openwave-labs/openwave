@@ -11,7 +11,7 @@ THIRD_PARTY_NOTICES export-ignore
 /docs export-ignore
 /dev_docs export-ignore
 /images export-ignore
-/research_requirements export-ignore
+/scientific_source export-ignore
 
 # Exclude test directory
 /tests export-ignore

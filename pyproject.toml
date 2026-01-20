@@ -14,7 +14,7 @@ version = "0.8.0"  # 0.x = pre-release (API still evolving)
 
 requires-python = ">=3.12"
 
-description = "Simulates matter and energy formation using Energy Wave Theory"
+description = "Simulates matter and energy formation using Wave-Dynamics principles."
 readme = "README.md"
 keywords = [
   "Energy Wave Theory", "Subatomic Simulation", "Quantum Mechanics",
