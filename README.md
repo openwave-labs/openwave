@@ -15,9 +15,11 @@
 
 ## What is OpenWave?
 
-OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave mechanics for modeling matter and energy phenomena using wave-field dynamics.
+OpenWave is an open-source subatomic wave simulator that supports exploration of fundamental physics theories. It's built as a computational physics toolkit applying classical wave-mechanics for modeling matter and energy phenomena using wave-field dynamics.
 
-The project implements a proposed mathematical framework through various complementary approaches: the SCALAR-FIELD method (similar to lattice gauge theory), the VECTOR-FIELD method, both for research simulations, and the GRANULE-MOTION method for educational visualization.
+Here we explore if forces, matter and energy can be derived from wave-dynamics, using wave-equations as the basis model.
+
+The platform implements a proposed mathematical framework through various complementary approaches: SCALAR-FIELD methods (similar to lattice gauge theory), VECTOR-FIELD methods, both for research simulations, and a GRANULE-MOTION method for educational visualization.
 
 ### Computational Approaches
 
@@ -38,9 +40,9 @@ The project implements a proposed mathematical framework through various complem
 
 OpenWave aims to:
 
-- Model matter, force unification and energy phenomena through wave-field dynamics
+- Model matter, force unification and energy phenomena through wave-dynamics
 - Simulate particle emergence from standing wave patterns in fields
-- Validate wave-field mechanics against known physics
+- Validate wave-mechanics against known physics
 - Provide computational and visualization tools for wave-dynamics models
 
 **Scientific Status:** OpenWave is a research tool for computational exploration using lattice field theory methodology to investigate alternative field equations and their predictions.
@@ -69,7 +71,7 @@ OpenWave provides computational and visualization tools to explore, demonstrate,
 ## Explore Wave-Field Dynamics with 3D Visualization
 
 ![demo1 clip](images/demo1.gif)
-![demo2a clip](images/demo2a.gif)
+![demo2 clip](images/demo2.gif)
 ![demo3 clip](images/demo3.gif)
 
 ## Scientific Background
@@ -190,22 +192,22 @@ XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simu
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
-          <br> Wave Interference Xperiment
+          <a><img src="images/x_amplitude.png" height="200px" alt="xperiment"></a>
+          <br> Wave Amplitude Envelope
         </div>
       </td>
     </tr>
     <tr>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_waves.png" height="200px" alt="xperiment"></a>
-          <br>X-Waves Xperiment
+          <a><img src="images/x_attraction.png" height="200px" alt="xperiment"></a>
+          <br> Particle Attraction Xperiment
         </div>
       </td>
       <td style="text-align: center">
         <div align = "center">
-          <a><img src="images/x_euler.png" height="200px" alt="xperiment"></a>
-          <br>Spring-Mass Xperiment
+          <a><img src="images/x_interference.png" height="200px" alt="xperiment"></a>
+          <br> Wave Interference Xperiment
         </div>
       </td>
     </tr>
