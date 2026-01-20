@@ -74,7 +74,7 @@ ELECTRON_ORBITAL_G = constants.ELECTRON_ORBITAL_G  # gλ for electron
 # Using ~15% of smallest grid dimension - compromise between:
 #   - Reaching interference region (needs large radius)
 #   - Staying within bounds for particles at 25%/75% positions (limits radius)
-# TODO: Smarter approach - sample toward other particles, or clamp to bounds
+# TODO: Test other approach - sample toward other particles, or clamp to bounds
 # min_dim = ti.min(nx, ti.min(ny, nz))
 # sample_radius = ti.max(min_dim * 15 // 100, 10)  # At least 10, ~15% of grid
 GRADIENT_SAMPLE_RADIUS = 1  # voxels, for gradient sampling in force calculation
