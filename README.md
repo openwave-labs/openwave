@@ -312,3 +312,4 @@ All dependencies use licenses compatible with Apache 2.0.
 ### Trademark
 
 "OpenWave" is a trademark of OpenWave Labs. See [TRADEMARK](TRADEMARK) for usage guidelines.
+
