@@ -20,11 +20,11 @@ import numpy as np
 from openwave.common import colormap, constants
 from openwave.i_o import flux_mesh, render, video
 
-import openwave.xperiments.m4_vector_wave.medium as medium
-import openwave.xperiments.m4_vector_wave.particle as particle
-import openwave.xperiments.m4_vector_wave.wave_engine as ewave
-import openwave.xperiments.m4_vector_wave.force_motion as force_motion
-import openwave.xperiments.m4_vector_wave.instrumentation as instrument
+import openwave.xperiments.m4_ewt.medium as medium
+import openwave.xperiments.m4_ewt.particle as particle
+import openwave.xperiments.m4_ewt.wave_engine as ewave
+import openwave.xperiments.m4_ewt.force_motion as force_motion
+import openwave.xperiments.m4_ewt.instrumentation as instrument
 
 # ================================================================
 # XPERIMENT PARAMETERS MANAGEMENT
@@ -63,7 +63,7 @@ class XperimentManager:
             dict: Parameters dictionary or None if loading fails
         """
         try:
-            module_path = f"openwave.xperiments.m4_vector_wave.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.m4_ewt.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             importlib.reload(parameters_module)  # Reload for fresh parameters
 
@@ -88,7 +88,7 @@ class XperimentManager:
 
         # Fallback: try to load just for the name
         try:
-            module_path = f"openwave.xperiments.m4_vector_wave.xparameters.{xperiment_name}"
+            module_path = f"openwave.xperiments.m4_ewt.xparameters.{xperiment_name}"
             parameters_module = importlib.import_module(module_path)
             display_name = parameters_module.XPARAMETERS["meta"]["X_NAME"]
             self.xperiment_display_names[xperiment_name] = display_name

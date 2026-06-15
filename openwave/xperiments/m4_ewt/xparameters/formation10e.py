@@ -19,7 +19,7 @@ Each K places WCs at λ/2 spacing in the simplest possible geometry:
 """
 
 from openwave.common import constants
-from openwave.xperiments.m4_vector_wave.xparameters.formation02 import generate_K_positions
+from openwave.xperiments.m4_ewt.xparameters.formation02 import generate_K_positions
 
 UNIVERSE_EDGE = 1e-15  # m, universe edge length in meters
 TARGET_VOXELS = 100_000_000  # Target voxel count (impacts performance)
@@ -33,7 +33,7 @@ LOCK_SPACING = EWAVE_LENGTH / UNIVERSE_EDGE
 # ════════════════════════════════════════════════════════════════════════════
 # SELECT K VALUE HERE
 # ════════════════════════════════════════════════════════════════════════════
-K = 3
+K = 10
 # K = 2    # Line — EXPECT: STABLE
 # K = 3    # Triangle — EXPECT: unstable
 # K = 4    # Tetrahedron (4) — EXPECT: unstable
@@ -55,11 +55,11 @@ PHASES = [180] * K  # all same phase (electron-like)
 
 XPARAMETERS = {
     "meta": {
-        "X_NAME": f"  /Particle (K={K})",
+        "X_NAME": f"  /Electron (K={K})",
         "DESCRIPTION": f"K={K} stability test — {'STABLE' if K == 10 else 'expect UNSTABLE'}",
     },
     "camera": {
-        "INITIAL_POSITION": [0.36, 1.20, 0.75],
+        "INITIAL_POSITION": [0.94, 0.91, 0.69],
     },
     "universe": {
         "SIZE": [UNIVERSE_EDGE, UNIVERSE_EDGE, UNIVERSE_EDGE],

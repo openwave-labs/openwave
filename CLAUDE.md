@@ -42,7 +42,7 @@ OpenWave investigates, in one integrated simulator, four primary domains: **matt
 | `openwave/xperiments/m1_granule_motion/` | Educational granule-motion model |
 | `openwave/xperiments/m2_free_wave/` | Free-wave propagation |
 | `openwave/xperiments/m3_wolff_lafreniere/` | Wolff-LaFreniere / EWT scalar model |
-| `openwave/xperiments/m4_vector_wave/` | Vector-wave model |
+| `openwave/xperiments/m4_ewt/` | M4 EWT model (vector-field substrate, in development) |
 | `openwave/xperiments/m5_liquid_crystal/` | **Active** — Duda LCB topological-defect model |
 | `openwave/xperiments/m6_ouroboros/` | Werbos chaoiton Lagrangian |
 | `openwave/xperiments/x1_anti_gravity/` | Speculative — gravity modulation xperiments |

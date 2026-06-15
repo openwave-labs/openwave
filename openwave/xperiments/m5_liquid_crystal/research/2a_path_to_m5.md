@@ -13,7 +13,7 @@ Implementation plan for **M5 / LIQUID-CRYSTAL MODEL** (directory `openwave/xperi
 **Production code references**:
 
 - `openwave/xperiments/m2_free_wave/wave_engine.py` — existing PDE-stepping engine (free-wave, scalar)
-- `openwave/xperiments/m4_vector_wave/wave_engine.py` — existing analytical-superposition engine (vector, WPSW)
+- `openwave/xperiments/m4_ewt/wave_engine.py` — existing analytical-superposition engine (vector, WPSW)
 
 ---
 
@@ -21,7 +21,7 @@ Implementation plan for **M5 / LIQUID-CRYSTAL MODEL** (directory `openwave/xperi
 
 M4's architecture is **analytical superposition**:
 
-- Each voxel evaluates the closed-form Weighted Partial Standing Wave directly (`m4_vector_wave/wave_engine.py:197–211`)
+- Each voxel evaluates the closed-form Weighted Partial Standing Wave directly (`m4_ewt/wave_engine.py:197–211`)
 - Total field = linear sum over active WCs (`wave_engine.py:209`, `+= oscillator * direction`)
 - Each WC is a query parameter (position + phase offset) that every voxel reads each frame
 - Energy is postulated: `E = ρ·V·(f·A)²` from EMA on RMS amplitude (`wave_engine.py:287–293`)
