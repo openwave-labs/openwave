@@ -541,7 +541,7 @@ def main():
     state = SimulationState()
 
     # Load xperiment from CLI argument or default
-    default_xperiment = selected_xperiment_arg or "annihilation1"
+    default_xperiment = selected_xperiment_arg or "formation10e_golden_angle_positions"
     if default_xperiment not in xperiment_mgr.available_xperiments:
         print(f"Error: Xperiment '{default_xperiment}' not found!")
         return
@@ -581,7 +581,9 @@ def main():
             render.window.running = False
 
             # os.execv replaces current process (macOS may show harmless warning)
-            os.execv(sys.executable, [sys.executable, __file__, new_xperiment])
+            import subprocess
+            subprocess.run([sys.executable, __file__, new_xperiment])
+            sys.exit()
 
         if not state.PAUSED:
             # Run simulation step and update time
