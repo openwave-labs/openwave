@@ -50,8 +50,8 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     build_frame, matmul, commf, central, RC, RHOC, DELTA,
 )
 
-PLANE = (1, 2)
-A_BOOST = 1
+PLANE = (2, 3)                        # (δ,0) clock plane — eigen-axes 2,3 (index-0)
+A_BOOST = 2                           # boost axis a ∈ {1,2,3} (index-0); was 1 (index-3)
 R_W = 3.5                              # the 2b-1 ground dressing width
 T_STAR = 1.0 + DELTA * DELTA           # the well minimum t* = 1+δ² (production)
 B_GRID = np.linspace(0.0, 0.4, 17)
@@ -75,11 +75,11 @@ def static_energies(fr, O4, b, psi=0.0):
     act = (r > 2 * RC) & (rho > RHOC) & interior
     Mi = [central(M, ax, h) for ax in range(3)]
     A = 0.0
-    for i, j in ((0, 1), (0, 2), (1, 2)):
+    for i, j in ((0, 1), (0, 2), (1, 2)):    # spatial GRADIENT (∂_x,∂_y,∂_z) pairs — NOT matrix indices, stay {0,1,2}
         pos, neg = split_pn(commf(Mi[i], Mi[j]))
         A += float((pos - neg)[act].sum())
     A *= 2.0 * h**3
-    Msp = M[..., :3, :3]
+    Msp = M[..., 1:4, 1:4]                    # spatial MATRIX block (axes 1,2,3, index-0); was [...,:3,:3]
     t = np.einsum("...ab,...ba->...", Msp, Msp)            # Tr(M_sp²)
     U = float(((t - T_STAR) ** 2)[act].sum()) * h**3
     return A, U
@@ -96,8 +96,8 @@ def main():
     fr = build_frame()
     O3 = fr["O"]
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3               # spatial frame in matrix axes 1,2,3 (index-0)
+    O4[..., 0, 0] = 1.0                  # time/g axis = index 0
 
     A = np.zeros(len(B_GRID))
     U = np.zeros(len(B_GRID))

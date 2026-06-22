@@ -55,20 +55,20 @@ OMEGAS = np.linspace(0.0, 2.0, 21)
 
 def kinetic(Md, M0, h):
     """T density + its EM(rotation,+) / GEM(boost,−) split, mirroring u_sectors for F0=[Md,∂iM]."""
-    Mi = [central(M0, ax, h) for ax in range(3)]
+    Mi = [central(M0, ax, h) for ax in range(3)]   # ∂_x,∂_y,∂_z GRADIENT axes — NOT matrix indices (index-0 de-conflation: stay {0,1,2})
     T = 0.0; T_em = 0.0; T_gem = 0.0
-    for i in range(3):
+    for i in range(3):                             # μν spatial GRADIENT loop over Mi — stays {0,1,2}
         F0 = np_commf(Md, Mi[i])
         T = T + 2.0 * np.einsum("...ab,...ab->...", F0, tw(F0))
-        T_em = T_em + 4.0 * sum(F0[..., a, b] ** 2 for a, b in SP_PAIRS)
+        T_em = T_em + 4.0 * sum(F0[..., a, b] ** 2 for a, b in SP_PAIRS)   # SP/TM = MATRIX-eigen pairs {1,2,3}/{0,..} imported from 2a (index-0), indexing F0
         T_gem = T_gem - 4.0 * sum(F0[..., a, b] ** 2 for a, b in TM_PAIRS)
     return T, T_em, T_gem
 
 
 def u_density(M0, h):
     u = 0.0
-    Mi = [central(M0, ax, h) for ax in range(3)]
-    for i in range(3):
+    Mi = [central(M0, ax, h) for ax in range(3)]   # ∂_x,∂_y,∂_z GRADIENT axes — NOT matrix indices (stay {0,1,2})
+    for i in range(3):                             # μν spatial GRADIENT pairs over Mi — stay {0,1,2}
         for j in range(i + 1, 3):
             F = np_commf(Mi[i], Mi[j])
             u = u + 2.0 * np.einsum("...ab,...ab->...", F, tw(F))

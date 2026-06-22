@@ -8,10 +8,10 @@ EID-B  3-way sector split. The 2q split partitions lab-frame index pairs
   (spatial vs time-mixing) and cannot separate tilt from twist. Here F is
   conjugated into the analytic hedgehog frame O4 (orthogonal, block-diag,
   commutes with eta, so the signed contraction is preserved) and the spatial
-  block splits by eigen-axis pairs (0=major/1, 1=minor/delta, 2=zero, 3=time):
-    TILT  (EM) = pairs (0,1), (0,2)   - they move the major axis
-    TWIST (QM) = pair  (1,2)          - rotation about the major axis (Duda's Gamma^1)
-    BOOST (GEM)= pairs (a,3)          - eta-negative time-mixing
+  block splits by eigen-axis pairs (1=major/1, 2=minor/delta, 3=zero, 0=time):
+    TILT  (EM) = pairs (1,2), (1,3)   - they move the major axis
+    TWIST (QM) = pair  (2,3)          - rotation about the major axis (Duda's Gamma^1)
+    BOOST (GEM)= pairs (0,a)          - eta-negative time-mixing
   Gates: TILT+TWIST+GEM = H_quad to machine precision; the 2q gate (16.7379
   at delta=0.3, g=8, b=0.13) keeps passing; TWIST ~ delta^2 at b=0.
 
@@ -25,9 +25,9 @@ EID-C  the 3x3 fixed-clock electron. Seed at b=0: M = conj(O4, D4) =
        B_k = 1/2 eps_kij F_ij; time part E_i = n.(d_t n x d_i n) with
        d_t n = omega * dn/dphi (analytic clock); j = curl B - omega dE/dphi;
        mu = 1/2 sum_vox r x j h^3.
-  BOTH clock planes are scanned: twist (1,2) (the validated PLANE: the
+  BOTH clock planes are scanned: twist (2,3) (the validated PLANE: the
   director does NOT move, so the abelian current may vanish by symmetry)
-  and tilt (0,1) (the director precesses: a real circulating current).
+  and tilt (1,2) (the director precesses: a real circulating current).
   A zero is reported as a finding, not hidden.
 
 OMEGA CONVENTION (G-EID-3, stated once): omega = omega_clock = 1 in lattice
@@ -45,7 +45,7 @@ RESULTS (2026-06-10, EID COMPLETE at the static-seed level):
   | 0.00 | 10.82    | 1.39         |  0.00       |
   The SECTOR MAP note below was CORRECTED BY THE FIRST RUN: tilt x tilt
   curvature points ALONG the major generator (Faber R = Gamma x Gamma), so
-  EM = component pair (1,2). With the right labels the measurement lands
+  EM = component pair (2,3). With the right labels the measurement lands
   exactly on Duda's hierarchy: EM dominant, QM small (delta-weighted over a
   ~0.2 geometric floor from the regularized disclination frame), GEM small
   and negative. EM(delta->0) -> the 2q delta-flat hedgehog floor (~19).
@@ -112,22 +112,22 @@ BETA = 1.558
 OMEGA = 1.0                       # lattice clock rate (see OMEGA CONVENTION)
 # SECTOR MAP (corrected by the first run, 2026-06-10): curvature components
 # label by the GENERATOR axis, not by the moved axes. R = Gamma x Gamma of two
-# TILTS points ALONG the major axis, whose generator acts in plane (1,2):
-#   EM  (tilt-tilt, Duda R^1)      = component pair (1,2)
-#   QM  (tilt-twist, Duda R^2,R^3) = component pairs (0,1), (0,2)  [delta weight]
-#   GEM (boosts)                   = pairs (a,3), eta-negative
+# TILTS points ALONG the major axis, whose generator acts in plane (2,3):
+#   EM  (tilt-tilt, Duda R^1)      = component pair (2,3)
+#   QM  (tilt-twist, Duda R^2,R^3) = component pairs (1,2), (1,3)  [delta weight]
+#   GEM (boosts)                   = pairs (0,a), eta-negative
 # First-run magnitudes with these labels: EM 16.3 dominant, QM 2.2 small,
 # GEM -9.4 at clock dressing / -0.06 at physical boost = Duda's hierarchy.
-EM_PAIR = [(1, 2)]
-QM_PAIRS = [(0, 1), (0, 2)]
-GEM_PAIRS = [(0, 3), (1, 3), (2, 3)]
+EM_PAIR = [(2, 3)]
+QM_PAIRS = [(1, 2), (1, 3)]
+GEM_PAIRS = [(0, 1), (0, 2), (0, 3)]
 
 
 def D4_of(delta=DELTA, g=G_TIME):
-    return np.diag([1.0, delta, 0.0, g])
+    return np.diag([g, 1.0, delta, 0.0])
 
 
-def grid_and_seed(n, delta=DELTA, g=G_TIME, b=B_STAR, plane=(1, 2), phi=0.0):
+def grid_and_seed(n, delta=DELTA, g=G_TIME, b=B_STAR, plane=(2, 3), phi=0.0):
     """Grid + pinned-clock seed W(phi) = O4 . boost . rot4(plane, phi)."""
     gr = build_grid_n(n, L)
     w = np.exp(-((gr["r"] / 3.5) ** 2))
@@ -210,7 +210,7 @@ def run_eid_b():
 def director_of(W):
     """n = the major (eigenvalue-1) axis in space frame = first column of W's
     spatial block (exact at b=0; at b=0 W is orthogonal block-diag)."""
-    return W[..., :3, 0]
+    return W[..., 1:4, 1]
 
 
 def J_of(gr, M, Mth, act):
@@ -262,7 +262,7 @@ def mu_of(gr, EB_now, EB_next, dphi2, act):
     return mu, jmax, float(np.abs(E0[act]).max())
 
 
-def run_eid_c(n=24, phis=(0.0,), planes=((1, 2), (0, 1)), bs=(0.0, B_STAR)):
+def run_eid_c(n=24, phis=(0.0,), planes=((2, 3), (1, 2)), bs=(0.0, B_STAR)):
     print("\n" + "=" * 78)
     print(f"EID-C: the fixed-clock electron  [{n}³, ω={OMEGA}]")
     print("=" * 78)
@@ -271,7 +271,7 @@ def run_eid_c(n=24, phis=(0.0,), planes=((1, 2), (0, 1)), bs=(0.0, B_STAR)):
     print("  | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     out = {}
     for plane in planes:
-        tag = "twist" if plane == (1, 2) else "tilt"
+        tag = "twist" if plane == (2, 3) else "tilt"
         for b in bs:
             for phi in phis:
                 gr, W, M, Mth, act = grid_and_seed(n, b=b, plane=plane, phi=phi)

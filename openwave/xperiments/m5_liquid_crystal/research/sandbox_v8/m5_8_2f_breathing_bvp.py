@@ -12,7 +12,7 @@ space (exploratory, curvature-penalized), with the M5.8.2d quartic
 V_u = u + β·u² in the potential.
 
 ANSATZ (2a/2b conventions): M(x,t) = W D₄ Wᵀ, W = O_hh(x)·B(b(r))·R_(δ,0)(Θ),
-boost axis a=1, clock plane (1,2), D₄ = diag(1, δ, 0, 8). Θ cyclic ⇒
+boost axis a=2, clock plane (2,3), D₄ = diag(8, 1, δ, 0). Θ cyclic ⇒
 p_Θ = 2K_ΘΘ·Θ̇ conserved. Steady states (ḃ=0) = critical points of
 
     H_eq[b(r)] = V[b] + β·Q[b] + p_Θ²/(4·K_ΘΘ[b]) ,  Q = h³Σ u² ,  u = 2v
@@ -124,8 +124,8 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     RC, RHOC, build_frame, central, commf, matmul,
 )
 
-PLANE = (1, 2)                            # the article's (δ,0) clock (2a/2b)
-A_BOOST = 1                               # boost axis (2a article-combo)
+PLANE = (2, 3)                            # the article's (δ,0) clock (2a/2b), index-0
+A_BOOST = 2                               # boost axis (2a article-combo), index-0 (was 1)
 PHASES = (0.0, np.pi / 8, np.pi / 4, 3 * np.pi / 8)
 # θ-mesh refined near 0 (the GEM dip lives at θ ≲ 0.2 — a uniform Δθ=0.1 mesh
 # missed it: 97% V error at b=0.13, overshooting q-channels gave NEGATIVE Q);
@@ -151,16 +151,20 @@ NCH = 14
 
 def sigma4(a):
     S = np.zeros((4, 4))
-    S[a, 3] = S[3, a] = 1.0
+    S[a, 0] = S[0, a] = 1.0           # boost generator: spatial eigen-axis a (∈{1,2,3}) ↔ time (index 0)
     return S
 
 
 def psgn(F, G):
-    """Signed pair-sum ⟨F,G⟩ = Σ_sp F·G − Σ_tm F·G (the ℋ matrix-block split)."""
-    out = (F[..., 0, 1] * G[..., 0, 1] + F[..., 0, 2] * G[..., 0, 2]
-           + F[..., 1, 2] * G[..., 1, 2])
-    out -= (F[..., 0, 3] * G[..., 0, 3] + F[..., 1, 3] * G[..., 1, 3]
-            + F[..., 2, 3] * G[..., 2, 3])
+    """Signed pair-sum ⟨F,G⟩ = Σ_sp F·G − Σ_tm F·G (the ℋ matrix-block split).
+
+    index-0: spatial-eigen MATRIX pairs (1,2),(1,3),(2,3) → +; time-mixing
+    MATRIX pairs (0,1),(0,2),(0,3) (time axis 0) → −.
+    """
+    out = (F[..., 1, 2] * G[..., 1, 2] + F[..., 1, 3] * G[..., 1, 3]
+           + F[..., 2, 3] * G[..., 2, 3])
+    out -= (F[..., 0, 1] * G[..., 0, 1] + F[..., 0, 2] * G[..., 0, 2]
+            + F[..., 0, 3] * G[..., 0, 3])
     return out
 
 
@@ -169,8 +173,8 @@ def build_bg():
     fr = build_frame()
     O3, h, r, rho = fr["O"], fr["h"], fr["r"], fr["rho"]
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3                # spatial-eigen block = axes 1,2,3 (index-0)
+    O4[..., 0, 0] = 1.0                   # time axis = index 0
     interior = np.zeros(r.shape, bool)
     interior[2:-2, 2:-2, 2:-2] = True
     active = (r > 2 * RC) & (rho > RHOC) & interior
@@ -217,8 +221,8 @@ def tabulate(bg, verbose=True):
         S, Gd = clock_mats(psi)
         for it, th in enumerate(TH_MESH):
             Bc = np.eye(4)
-            Bc[A_BOOST, A_BOOST] = Bc[3, 3] = np.cosh(th)
-            Bc[A_BOOST, 3] = Bc[3, A_BOOST] = np.sinh(th)
+            Bc[A_BOOST, A_BOOST] = Bc[0, 0] = np.cosh(th)   # time axis = index 0
+            Bc[A_BOOST, 0] = Bc[0, A_BOOST] = np.sinh(th)
             W = np.einsum("...ac,cb->...ab", O4, Bc)
             M = conj(W, S)
             Y = Bc @ S @ Bc.T
@@ -232,7 +236,7 @@ def tabulate(bg, verbose=True):
             v0 = np.zeros(rr2.shape)
             v1 = np.zeros(rr2.shape)
             v2 = np.zeros(rr2.shape)
-            for i, j in ((0, 1), (0, 2), (1, 2)):
+            for i, j in ((0, 1), (0, 2), (1, 2)):   # GRADIENT pairs (∂_x,∂_y,∂_z) — stay {0,1,2} (index-0 de-conflation; matrix-eigen pairs live in psgn)
                 P = commf(Aa[i], Aa[j])
                 Qm = (xh_a[j][..., None, None] * Cm[i]
                       - xh_a[i][..., None, None] * Cm[j])
@@ -464,7 +468,7 @@ def direct_eval(bg, theta_of_r, phases=PHASES):
         MT = conj(W, Gd)
         Mi = [central(M, k, h) for k in range(3)]
         v = np.zeros(M.shape[:-2])
-        for i, j in ((0, 1), (0, 2), (1, 2)):
+        for i, j in ((0, 1), (0, 2), (1, 2)):   # GRADIENT pairs (∂_x,∂_y,∂_z) — stay {0,1,2} (index-0 de-conflation; matrix-eigen pairs live in psgn)
             F = commf(Mi[i], Mi[j])
             v += psgn(F, F)
         kd = sum(psgn(commf(MT, Mi[k]), commf(MT, Mi[k])) for k in range(3))

@@ -122,8 +122,8 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     central, commf, matmul,
 )
 
-PLANE = (1, 2)
-A_BOOST = 1
+PLANE = (2, 3)                            # the (δ,0) clock plane (2a/2f), index-0 (was (1,2))
+A_BOOST = 2                               # boost axis (2f article-combo), index-0 (was 1)
 # EXACT phase averaging (an upgrade over 2b/C1's 4-pt secular convention,
 # REQUIRED here): the twisted field shifts each voxel's local phase by ψ(r),
 # so a half-period sample set is not shift-invariant (measured: 7-21% t-canary
@@ -162,8 +162,8 @@ def tabulate2(bg, verbose=True):
         S, Gd = clock_mats(psi)
         for it, th in enumerate(TH_MESH):
             Bc = np.eye(4)
-            Bc[A_BOOST, A_BOOST] = Bc[3, 3] = np.cosh(th)
-            Bc[A_BOOST, 3] = Bc[3, A_BOOST] = np.sinh(th)
+            Bc[A_BOOST, A_BOOST] = Bc[0, 0] = np.cosh(th)   # time axis = index 0
+            Bc[A_BOOST, 0] = Bc[0, A_BOOST] = np.sinh(th)
             W = np.einsum("...ac,cb->...ab", O4, Bc)
             M = conj(W, S)
             Y = Bc @ S @ Bc.T
@@ -175,7 +175,7 @@ def tabulate2(bg, verbose=True):
             T1 = commf(MT, Mb)[act]
             Aa = [A[k][act] for k in range(3)]
             v = [np.zeros(rr2.shape) for _ in range(6)]
-            for i, j in ((0, 1), (0, 2), (1, 2)):
+            for i, j in ((0, 1), (0, 2), (1, 2)):   # GRADIENT pairs (∂_x,∂_y,∂_z) — stay {0,1,2} (index-0 de-conflation; matrix-eigen pairs live in psgn)
                 P = commf(Aa[i], Aa[j])
                 Qb = (xh_a[j][..., None, None] * Cm[i]
                       - xh_a[i][..., None, None] * Cm[j])
@@ -382,7 +382,7 @@ def direct_eval_twisted(bg, theta_fn, psi_fn, phases=PHASES9):
         MT = conj(W, GD)
         Mi = [central(M, k, h) for k in range(3)]
         v = np.zeros(M.shape[:-2])
-        for i, j in ((0, 1), (0, 2), (1, 2)):
+        for i, j in ((0, 1), (0, 2), (1, 2)):   # GRADIENT pairs (∂_x,∂_y,∂_z) — stay {0,1,2} (index-0 de-conflation; matrix-eigen pairs live in psgn)
             F = commf(Mi[i], Mi[j])
             v += psgn(F, F)
         kd = sum(psgn(commf(MT, Mi[k]), commf(MT, Mi[k])) for k in range(3))

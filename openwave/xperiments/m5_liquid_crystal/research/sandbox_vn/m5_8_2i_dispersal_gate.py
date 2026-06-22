@@ -182,7 +182,7 @@ def run_gate(d2, tag, M0, Mth, act, h, dt, steps, beta, geo, R, u0, n0):
             for i_ in range(3):
                 F0 = np_commf(Md, Mi[i_])
                 T = T + 2.0 * np.einsum("...ab,...ab->...", F0, tw(F0))
-            _, vt = np.linalg.eigh(M[..., :3, :3][actb])
+            _, vt = np.linalg.eigh(M[..., 1:4, 1:4][actb])
             al = float(np.abs(np.einsum("...i,...i->...",
                                         vt[..., -1], n0)).mean())
             hp["t"].append(n_ + 1)
@@ -223,7 +223,7 @@ def run_main():
     beta = 3.0 / (2.0 * abs(umin0))
     print(f"  seed u_min = {umin0:+.4f}  →  anchored β = {beta:.4f}"
           f"   (24³ reference: u_min −0.963, β 1.558)")
-    _, v0 = np.linalg.eigh(M0[..., :3, :3])
+    _, v0 = np.linalg.eigh(M0[..., 1:4, 1:4])
     rng = np.random.default_rng(7)
     R = rng.standard_normal(M0.shape)
     R = 0.5 * (R + np.swapaxes(R, -1, -2)) * act_std[..., None, None]

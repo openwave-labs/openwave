@@ -107,7 +107,7 @@ def probe_state(Mpost, M0, Mth, act, core, rhat):
     the reference takes T,U from the rhs() call of the same iteration.)"""
     dM = Mpost - M0
     s = float(np.einsum("...ab,...ab->...", dM, Mth)[core].mean())
-    _, evec = np.linalg.eigh(Mpost[..., :3, :3][core])
+    _, evec = np.linalg.eigh(Mpost[..., 1:4, 1:4][core])
     ndir = evec[..., -1]
     align = float(np.abs(np.einsum("...i,...i->...", ndir, rhat[core])).mean())
     eloc = np.einsum("...ab,...ab->...", dM, dM)
@@ -140,9 +140,9 @@ def run_ref():
         if n == 0:
             sharps["force0"] = force.copy()
         P = P + DT * force
-        for a_ in range(3):
-            P[..., a_, 3] -= P[..., a_, 3][act].mean() * act
-            P[..., 3, a_] = P[..., a_, 3]
+        for a_ in (1, 2, 3):                 # spatial eigen-axes (index-0); time = matrix axis 0
+            P[..., a_, 0] -= P[..., a_, 0][act].mean() * act
+            P[..., 0, a_] = P[..., a_, 0]
         Amat = build_A_matrix(Mi)
         cdot, keep, Pc_proj = solve_constrained(Amat, to_coeff(P))
         P = from_coeff(Pc_proj)
@@ -214,11 +214,11 @@ def build_sim(ti, fp, n, with_diag):
 
     @ti.func
     def twm(A):
-        """η A η — flips the (α,3)/(3,α) components (Minkowski only)."""
+        """η A η — flips the (α,0)/(0,α) components (Minkowski only; index-0, time = matrix axis 0, spatial-eigen axes {1,2,3})."""
         B = A
-        for a_ in ti.static(range(3)):
-            B[a_, 3] = -B[a_, 3]
-            B[3, a_] = -B[3, a_]
+        for a_ in ti.static((1, 2, 3)):
+            B[a_, 0] = -B[a_, 0]
+            B[0, a_] = -B[0, a_]
         return B
 
     @ti.func
@@ -283,46 +283,48 @@ def build_sim(ti, fp, n, with_diag):
         for i, j, k in Pf:
             if actf[i, j, k] == 1:
                 p = Pf[i, j, k]
-                red[0] += p[0, 3]
-                red[1] += p[1, 3]
-                red[2] += p[2, 3]
+                red[0] += p[1, 0]
+                red[1] += p[2, 0]
+                red[2] += p[3, 0]
 
     @ti.kernel
     def k_clamp_sum_planes():
-        """Production-style 3-mid-plane sampling of the (α,3) momentum mean —
+        """Production-style 3-mid-plane sampling of the (α,0) momentum mean
+        (index-0: time = matrix axis 0, spatial-eigen axes {1,2,3}) —
         the full-grid atomic reduction stalls on Metal (the known gotcha;
         production's sample_v03_drift uses exactly this pattern)."""
         for j, k in ti.ndrange(n, n):
             if actf[n // 2, j, k] == 1:
                 p = Pf[n // 2, j, k]
-                red[0] += p[0, 3]
-                red[1] += p[1, 3]
-                red[2] += p[2, 3]
+                red[0] += p[1, 0]
+                red[1] += p[2, 0]
+                red[2] += p[3, 0]
         for i, k in ti.ndrange(n, n):
             if actf[i, n // 2, k] == 1:
                 p = Pf[i, n // 2, k]
-                red[0] += p[0, 3]
-                red[1] += p[1, 3]
-                red[2] += p[2, 3]
+                red[0] += p[1, 0]
+                red[1] += p[2, 0]
+                red[2] += p[3, 0]
         for i, j in ti.ndrange(n, n):
             if actf[i, j, n // 2] == 1:
                 p = Pf[i, j, n // 2]
-                red[0] += p[0, 3]
-                red[1] += p[1, 3]
-                red[2] += p[2, 3]
+                red[0] += p[1, 0]
+                red[1] += p[2, 0]
+                red[2] += p[3, 0]
 
     @ti.kernel
     def k_clamp_apply(m0: fp, m1: fp, m2: fp):
-        """Guard (a): subtract the act-mean of the (α,3) momentum (act only),
+        """Guard (a): subtract the act-mean of the (α,0) momentum (act only;
+        index-0: time = matrix axis 0, spatial-eigen axes {1,2,3}),
         then restore P symmetry everywhere — the exact 2c-1 order."""
         for i, j, k in Pf:
             if actf[i, j, k] == 1:
-                Pf[i, j, k][0, 3] -= m0
-                Pf[i, j, k][1, 3] -= m1
-                Pf[i, j, k][2, 3] -= m2
-            Pf[i, j, k][3, 0] = Pf[i, j, k][0, 3]
-            Pf[i, j, k][3, 1] = Pf[i, j, k][1, 3]
-            Pf[i, j, k][3, 2] = Pf[i, j, k][2, 3]
+                Pf[i, j, k][1, 0] -= m0
+                Pf[i, j, k][2, 0] -= m1
+                Pf[i, j, k][3, 0] -= m2
+            Pf[i, j, k][0, 1] = Pf[i, j, k][1, 0]
+            Pf[i, j, k][0, 2] = Pf[i, j, k][2, 0]
+            Pf[i, j, k][0, 3] = Pf[i, j, k][3, 0]
 
     @ti.kernel
     def k_solve(inv2h: fp, diag: ti.i32):
@@ -696,8 +698,8 @@ def build_grid_n(n, box):
     eTheta = np.cross(ePhi, rhat)
     O3 = np.stack([rhat, eTheta, ePhi], axis=-1)
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3   # index-0: spatial block in axes {1,2,3}, time = axis 0
+    O4[..., 0, 0] = 1.0
     return dict(h=h, r=r, rho=rho, rhat=rhat, O4=O4)
 
 

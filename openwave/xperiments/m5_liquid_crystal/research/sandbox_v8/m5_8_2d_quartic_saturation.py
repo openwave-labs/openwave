@@ -174,9 +174,9 @@ red = ti.field(ti.f32, shape=3)
 @ti.func
 def twm(A):
     B = A
-    for a_ in ti.static(range(3)):
-        B[a_, 3] = -B[a_, 3]
-        B[3, a_] = -B[3, a_]
+    for a_ in ti.static(range(1, 4)):     # spatial-eigen MATRIX axes {1,2,3}; time = index 0 (Duda / index-0)
+        B[a_, 0] = -B[a_, 0]
+        B[0, a_] = -B[0, a_]
     return B
 
 
@@ -256,21 +256,21 @@ def k_clamp_sum():
     for i, j, k in Pf:
         if actf[i, j, k] == 1:
             p = Pf[i, j, k]
-            red[0] += p[0, 3]
-            red[1] += p[1, 3]
-            red[2] += p[2, 3]
+            red[0] += p[1, 0]
+            red[1] += p[2, 0]
+            red[2] += p[3, 0]
 
 
 @ti.kernel
 def k_clamp_apply(m0: ti.f32, m1: ti.f32, m2: ti.f32):
     for i, j, k in Pf:
         if actf[i, j, k] == 1:
-            Pf[i, j, k][0, 3] -= m0
-            Pf[i, j, k][1, 3] -= m1
-            Pf[i, j, k][2, 3] -= m2
-        Pf[i, j, k][3, 0] = Pf[i, j, k][0, 3]
-        Pf[i, j, k][3, 1] = Pf[i, j, k][1, 3]
-        Pf[i, j, k][3, 2] = Pf[i, j, k][2, 3]
+            Pf[i, j, k][1, 0] -= m0
+            Pf[i, j, k][2, 0] -= m1
+            Pf[i, j, k][3, 0] -= m2
+        Pf[i, j, k][0, 1] = Pf[i, j, k][1, 0]
+        Pf[i, j, k][0, 2] = Pf[i, j, k][2, 0]
+        Pf[i, j, k][0, 3] = Pf[i, j, k][3, 0]
 
 
 @ti.kernel
@@ -386,7 +386,7 @@ def run_beta(tag, beta, seed, dt, steps):
     for i_ in range(3):
         P0 += np_commf(tw(np_commf(Md0, Mi[i_])), Mi[i_])
     Pf.from_numpy((4.0 * P0).astype(np.float32))
-    _, v0 = np.linalg.eigh(M0[..., :3, :3][act > 0.5])
+    _, v0 = np.linalg.eigh(M0[..., 1:4, 1:4][act > 0.5])
     n0 = v0[..., -1]
     Hs, aligns, ss = [], [], []
     t0 = time.time()
@@ -411,7 +411,7 @@ def run_beta(tag, beta, seed, dt, steps):
                 T = T + 2.0 * np.einsum("...ab,...ab->...", F0, tw(F0))
             actb = act > 0.5
             H = float((T + u + beta * u * u)[actb].sum()) * h**3
-            _, vt = np.linalg.eigh(M[..., :3, :3][actb])
+            _, vt = np.linalg.eigh(M[..., 1:4, 1:4][actb])
             al = float(np.abs(np.einsum("...i,...i->...", vt[..., -1], n0)).mean())
             s = float(np.einsum("...ab,...ab->...", M - M0, Mth)[core].mean())
             Hs.append(H)

@@ -3,7 +3,7 @@ M5.8.1 — headless CPU smoke test of the production 4x4 promotion (no GUI).
 
 Builds a small TensorField, seeds vacuum + biaxial hedgehog, runs eigen_decompose and a
 few evolve_M steps, and checks the 4x4 substrate behaves: M is 4x4, the director comes
-from the spatial sub-block, g (time axis, index 3) stays constant, dynamics are finite.
+from the spatial sub-block, g (time axis, index 0) stays constant, dynamics are finite.
 
 Catches compile errors + shape/index bugs before the on-screen GUI test (which is the
 GUI-only part the user runs). Run from the openwave repo root:
@@ -38,14 +38,14 @@ print(f"grid {tf.nx}x{tf.ny}x{tf.nz}")
 def report(tag, ok):
     print(f"  [{'PASS ✓' if ok else 'FAIL ✗'}] {tag}")
 
-# --- (1) vacuum seed: M = diag(δ,δ,1,g), director = ẑ ------------------------
+# --- (1) vacuum seed: M = diag(g,δ,δ,1), director = ẑ ------------------------
 print("\n(1) seed_vacuum_M")
 seeds.seed_vacuum_M(tf, tf.lc_delta)
 M = tf.M_am.to_numpy()
 report(f"M is 4x4 (shape {M.shape[-2:]})", M.shape[-2:] == (4, 4))
 mc = M[c, c, c]
-report(f"M[3,3] == g ({mc[3,3]:.3f})", abs(mc[3, 3] - medium.LC_G) < 1e-4)
-report(f"time off-diagonals 0 (max {np.abs(mc[3,:3]).max():.1e})", np.abs(mc[3, :3]).max() < 1e-6)
+report(f"M[0,0] == g ({mc[0,0]:.3f})", abs(mc[0, 0] - medium.LC_G) < 1e-4)
+report(f"time off-diagonals 0 (max {np.abs(mc[0,1:4]).max():.1e})", np.abs(mc[0, 1:4]).max() < 1e-6)
 ev = np.sort(np.linalg.eigvalsh(mc))[::-1]
 report(f"spectrum {np.round(ev,3)} ~ [g,1,δ,δ]", np.allclose(ev, [medium.LC_G, 1, medium.LC_DELTA, medium.LC_DELTA], atol=1e-3))
 pde.eigen_decompose(tf)
@@ -57,8 +57,8 @@ print("\n(2) seed_biaxial_hedgehog_M + eigen_decompose")
 seeds.seed_biaxial_hedgehog_M(tf, c, c, c, 0.06 * N, 3.0, 0.30)
 pde.eigen_decompose(tf)
 M = tf.M_am.to_numpy()
-report("M[...,3,3] all == g", np.allclose(M[..., 3, 3], medium.LC_G, atol=1e-4))
-report("time off-diagonals all 0", np.abs(M[..., 3, :3]).max() < 1e-6)
+report("M[...,0,0] all == g", np.allclose(M[..., 0, 0], medium.LC_G, atol=1e-4))
+report("time off-diagonals all 0", np.abs(M[..., 0, 1:4]).max() < 1e-6)
 ev = tf.eigenvalues.to_numpy()
 report("eigenvalues finite (no NaN)", np.all(np.isfinite(ev)))
 dn = tf.director_nhat.to_numpy()
@@ -66,22 +66,22 @@ norms = np.linalg.norm(dn, axis=-1)
 report(f"director ~unit (mean |n|={norms.mean():.3f})", abs(norms.mean() - 1) < 0.05)
 # off-core voxel: principal eigenvalue ~1, spectrum from the SPATIAL block (not g)
 ic = c + N // 4
-sp_ev = np.sort(np.linalg.eigvalsh(M[ic, c, c][:3, :3]))[::-1]
+sp_ev = np.sort(np.linalg.eigvalsh(M[ic, c, c][1:4, 1:4]))[::-1]
 report(f"spatial sub-block spectrum {np.round(sp_ev,3)} ~ [1,δ,0]", abs(sp_ev[0] - 1) < 0.05)
 
 # --- (3) evolve a few steps (V off): g constant, finite, stable --------------
 print("\n(3) evolve_M x5 (V off)")
 M0 = tf.M_am.to_numpy().copy()
-g0 = M0[..., 3, 3].copy()
+g0 = M0[..., 0, 0].copy()
 for _ in range(5):
     pde.compute_curvature_flux(tf)
     pde.evolve_M(tf, 1.0, 0.05 * tf.dx_am, 0.0, 0.0, 0.0)   # c=1.0, a=b=c=0 → V off
     tf.swap_matrix_buffers()
 M5 = tf.M_am.to_numpy()
 report("no NaN/inf after 5 steps", np.all(np.isfinite(M5)))
-report(f"g constant (max drift {np.abs(M5[...,3,3]-g0).max():.1e})", np.abs(M5[..., 3, 3] - g0).max() < 1e-5)
-report("time off-diagonals stay 0", np.abs(M5[..., 3, :3]).max() < 1e-6)
-spatial_moved = np.abs(M5[..., :3, :3] - M0[..., :3, :3]).max()
+report(f"g constant (max drift {np.abs(M5[...,0,0]-g0).max():.1e})", np.abs(M5[..., 0, 0] - g0).max() < 1e-5)
+report("time off-diagonals stay 0", np.abs(M5[..., 0, 1:4]).max() < 1e-6)
+spatial_moved = np.abs(M5[..., 1:4, 1:4] - M0[..., 1:4, 1:4]).max()
 report(f"spatial block evolved (max Δ {spatial_moved:.2e} > 0)", spatial_moved > 0)
 
 # --- (4) THE GUI-EXPLOSION REGRESSION: V_M must act on the spatial block only, so g
@@ -96,15 +96,15 @@ def eval_dVM(m: ti.types.matrix(4, 4, ti.f32), a: ti.f32, b: ti.f32, c: ti.f32):
 
 def dVM_of(g):
     M = np.zeros((4, 4), np.float32)
-    M[:3, :3] = np.diag([1.0, 0.30, 0.0])  # spatial diag(1,δ,0)
-    M[3, 3] = g
+    M[1:4, 1:4] = np.diag([1.0, 0.30, 0.0])  # spatial diag(1,δ,0)
+    M[0, 0] = g
     eval_dVM(ti.Matrix(M.tolist()), 1.0, 0.0, 1.0)
     return _res.to_numpy()
 
 d8, d100 = dVM_of(8.0), dVM_of(100.0)
-report("dV_M time row/col == 0 (g decoupled)", np.abs(d8[3, :]).max() < 1e-5 and np.abs(d8[:, 3]).max() < 1e-5)
-report(f"dV_M spatial g-INDEPENDENT (Δ g=8 vs g=100 = {np.abs(d8[:3,:3]-d100[:3,:3]).max():.1e})",
-       np.abs(d8[:3, :3] - d100[:3, :3]).max() < 1e-4)
+report("dV_M time row/col == 0 (g decoupled)", np.abs(d8[0, :]).max() < 1e-5 and np.abs(d8[:, 0]).max() < 1e-5)
+report(f"dV_M spatial g-INDEPENDENT (Δ g=8 vs g=100 = {np.abs(d8[1:4,1:4]-d100[1:4,1:4]).max():.1e})",
+       np.abs(d8[1:4, 1:4] - d100[1:4, 1:4]).max() < 1e-4)
 
 # (b) production-faithful V-on evolve (c_amrs≈0.3, dt_rs CFL-bound, ldg_c=c²/dx⁴)
 print("\n    production-faithful V-on evolve (real c_amrs / dt_rs / ldg):")
@@ -114,16 +114,16 @@ ldg_c = 1.0 * c_amrs**2 / tf.dx_am**4
 ldg_a = -2.0 * ldg_c * (1.0 + 0.30**2)
 seeds.seed_biaxial_hedgehog_M(tf, c, c, c, 0.06 * N, 3.0, 0.30)
 pde.eigen_decompose(tf)
-g0 = tf.M_am.to_numpy()[..., 3, 3].copy()
+g0 = tf.M_am.to_numpy()[..., 0, 0].copy()
 for _ in range(30):
     pde.compute_curvature_flux(tf)
     pde.evolve_M(tf, c_amrs, dt_rs, ldg_a, 0.0, ldg_c)
     tf.swap_matrix_buffers()
 Mv = tf.M_am.to_numpy()
-amax = np.abs(Mv[..., :3, :3]).max()
+amax = np.abs(Mv[..., 1:4, 1:4]).max()
 report("no NaN/inf after 30 V-on steps", np.all(np.isfinite(Mv)))
 report(f"spatial block BOUNDED (max|M_sp|={amax:.2f}, not exploding)", np.isfinite(amax) and amax < 10.0)
-report(f"g still constant (drift {np.abs(Mv[...,3,3]-g0).max():.1e})", np.abs(Mv[..., 3, 3] - g0).max() < 1e-3)
+report(f"g still constant (drift {np.abs(Mv[...,0,0]-g0).max():.1e})", np.abs(Mv[..., 0, 0] - g0).max() < 1e-3)
 
 # --- (5) observables path: the M-substrate kernels the GUI compute_field_observables
 #         calls (update_trackers_M + compute_energyH_density_M). The ψ-retire (M5.8
@@ -158,8 +158,8 @@ print("\n(6) M5.8.2c 4D port (seed_dressed_hedgehog_M + stable_mask + flux_4d + 
 
 def np_tw(A):
     B = A.copy()
-    B[..., 3, :3] *= -1.0
-    B[..., :3, 3] *= -1.0
+    B[..., 0, 1:4] *= -1.0
+    B[..., 1:4, 0] *= -1.0
     return B
 
 
@@ -209,7 +209,7 @@ scale = np.abs(Gx_np[inner]).max() + 1e-30
 rel = np.abs(Gx_ti[inner] - Gx_np[inner]).max() / scale
 report(f"flux_4d f32 kernel matches f64 numpy mirror (rel {rel:.2e} < 1e-3)", rel < 1e-3)
 
-# (6c) b=0 identity: no (α,3) components ⇒ flux_4d ≡ flux_3d EXACTLY
+# (6c) b=0 identity: no (α,0) components ⇒ flux_4d ≡ flux_3d EXACTLY
 seeds.seed_dressed_hedgehog_M(tf, c, c, c, 0.06 * N, 3.0, 0.30, 0.0, RW_VOX, 0.0)
 pde.compute_stable_mask(tf)
 pde.compute_curvature_flux_4d(tf)

@@ -10,7 +10,7 @@ family (the 1D toy's cap was βR⁴ — a velocity QUARTIC — and 4D has none).
 clock selection must come from configuration space at conserved p_Θ, not from an
 ω-quartic. 2b promotes the dressing amplitude b and width r_w to shape DoF:
 
-    O(x,t) = O_hh(x) · B(x; b, r_w) · R(Θ) ,   clock plane (δ,0), boost axis a=1
+    O(x,t) = O_hh(x) · B(x; b, r_w) · R(Θ) ,   clock plane (δ,0), boost axis a=2
     L = K_bb(b) ḃ² + 2K_bΘ(b) ḃΘ̇ + K_ΘΘ(b) Θ̇² − V(b)      (phase-averaged CC)
 
 Θ cyclic ⇒ p_Θ conserved exactly. Steady clock (ḃ=0):
@@ -82,18 +82,20 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     matmul, commf, central,
 )
 
-PLANE = (1, 2)                    # the article's (δ,0) clock — mild breathing (2a)
-A_BOOST = 1                       # boost axis (2a article-combo)
+PLANE = (2, 3)                    # the article's (δ,0) clock — mild breathing (2a); eigen-axes 2,3 (index-0)
+A_BOOST = 2                       # boost axis (2a article-combo); spatial-eigen axis ∈ {1,2,3} (index-0)
 B_MESH = np.linspace(0.0, 1.4, 15)
 RW_MESH = np.array([1.5, 2.0, 2.5, 3.0, 3.5])
 PHASES = (0.0, np.pi / 8, np.pi / 4, 3 * np.pi / 8)
+GRAD_PAIRS = [(0, 1), (0, 2), (1, 2)]  # spatial GRADIENT (∂_x,∂_y,∂_z) pairs — NOT matrix indices (index-0 de-conflation); stays {0,1,2}
 PTH_SCAN = np.array([0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0])
 ONSET_GUARD = 0.02                # exclude |K_ΘΘ| < guard·|K_ΘΘ(0.6,2.5)| near onsets
 
 
 def sigma4(a):
+    # ∂B/∂θ generator: mixes spatial-eigen axis a (∈{1,2,3}) with time (index 0, index-0 convention)
     S = np.zeros((4, 4))
-    S[a, 3] = S[3, a] = 1.0
+    S[a, 0] = S[0, a] = 1.0
     return S
 
 
@@ -137,7 +139,7 @@ def cc_eval(bg, b, rw, psi):
             sp, tm = signed_sums(F, Gm, act)
             out[key + "_sp"] += sp
             out[key + "_tm"] += tm
-    for i, j in ((0, 1), (0, 2), (1, 2)):
+    for i, j in GRAD_PAIRS:                              # spatial GRADIENT pairs (∂_i,∂_j), i,j ∈ {0,1,2}
         sp, tm = signed_sums(commf(Mi[i], Mi[j]), commf(Mi[i], Mi[j]), act)
         out["V_sp"] += sp
         out["V_tm"] += tm

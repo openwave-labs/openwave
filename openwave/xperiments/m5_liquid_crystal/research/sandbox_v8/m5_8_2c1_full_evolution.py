@@ -4,10 +4,10 @@ NO frozen background. The first run in the program where the defect, the boost
 dressing, and the clock evolve TOGETHER — the production update mirrored in
 f64 numpy with the constrained integrator the port will use.
 
-THE LAGRANGIAN (5a §10b/§10d, time = matrix index 3, η = diag(1,1,1,−1)):
+THE LAGRANGIAN (5a §10b/§10d, time = matrix index 0, η = diag(−1,1,1,1)):
 
     ℒ = T − U − V ,   ⟨A,B⟩_s ≡ Tr(Aᵀ η B η)  (the signed block inner — for
-                       antisymmetric A: spatial pairs +, (α,3) pairs −)
+                       antisymmetric A: spatial pairs +, (0,α) pairs −)
     T = 2 Σ_i ⟨F_0i, F_0i⟩_s ,  F_0i = [Ṁ, M_i]     (the signed kinetic)
     U = 2 Σ_(i<j) ⟨F_ij, F_ij⟩_s ,  F_ij = [M_i, M_j]
     KEY IDENTITY: the signed flux is the PRODUCTION flux with F → ηFη — the
@@ -19,7 +19,7 @@ THE CONSTRAINED INTEGRATOR (the 2b/2b-2 lessons, production-implementable):
     operator on the 10-dim space of symmetric 4×4 matrices: eigendecompose,
     KEEP only the positive-inertia eigendirections (λ > ε·max|λ|) — the ghost
     directions are FROZEN (the constraint surface; the spectral generalization
-    of 2b-2's Q-PD mask). Guards: (a) the volume-mean of the (α,3) velocity
+    of 2b-2's Q-PD mask). Guards: (a) the volume-mean of the (0,α) velocity
     components clamped to 0 (no free GLOBAL dressing mode — the 2b-1 runaway
     channel); (b) bounded-energy monitor. Sign conventions pinned at runtime by
     gradient + conservation checks (C1) — not trusted from algebra alone.
@@ -27,7 +27,7 @@ THE CONSTRAINED INTEGRATOR (the 2b/2b-2 lessons, production-implementable):
 RUNS (V = 0, Dirichlet boundary at the seed, N³ grid):
     R1  Minkowski, dressed b* = 0.13      — the 4D recipe, free (no kick)
     R2  Minkowski, undressed b = 0        — ≡ the 3D M5.7 system (control:
-        at b=0 the (α,3) sector is exactly inert — the dispersal benchmark)
+        at b=0 the (0,α) sector is exactly inert — the dispersal benchmark)
     R3  Euclidean (η→1), dressed b* = 0.13 — the signature isolation twin
 
 GATES (first answers to the 2c physics gates — sandbox level, coarse grid;
@@ -68,22 +68,22 @@ N = int(os.environ.get("M58_N", "24"))   # spike grid; M58_N env overrides (the 
 L = 6.0
 B_STAR = 0.13
 R_W = float(os.environ.get("M58_RW", "3.5"))   # dressing width; M58_RW env overrides (N-6a ZBW family — the knob that ACTUALLY enters seed_M)
-PLANE = (1, 2)
-A_BOOST = 1
+PLANE = (2, 3)             # (δ,0) clock plane — eigen-plane MATRIX pair (index-0)
+A_BOOST = 2                # boost axis a ∈ {1,2,3} (index-0); the (δ,0)-clock article pairing
 DT = 0.002
 STEPS = 900
 EPS_EIG = 0.05              # positive-inertia keep threshold (× max|λ| per voxel)
 VCAP = 5.0                  # per-voxel ‖Ṁ‖_F safety cap (backstop; engagements logged)
-ETA = np.diag([1.0, 1.0, 1.0, -1.0])
+ETA = np.diag([-1.0, 1.0, 1.0, 1.0])      # Minkowski, time = index 0 (Duda / index-0)
 
 
 def tw(A, euclid=False):
-    """η A η — flips the (α,3)/(3,α) components. Euclid flag: identity."""
+    """η A η — flips the (0,α)/(α,0) components. Euclid flag: identity."""
     if euclid:
         return A
     B = A.copy()
-    B[..., 3, :3] *= -1.0
-    B[..., :3, 3] *= -1.0
+    B[..., 0, 1:4] *= -1.0
+    B[..., 1:4, 0] *= -1.0
     return B
 
 
@@ -115,8 +115,8 @@ def build_grid():
     eTheta = np.cross(ePhi, rhat)
     O3 = np.stack([rhat, eTheta, ePhi], axis=-1)
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3
+    O4[..., 0, 0] = 1.0
     return dict(h=h, r=r, rho=rho, rhat=rhat, O4=O4)
 
 
@@ -242,10 +242,10 @@ def run(g, b, euclid, steps, label, kick=0.0):
         Md_est = Md
         force, Mi, T, U = rhs(M, Md_est, h, euclid)
         P = P + DT * force
-        # guard (a): clamp the global mean of the (α,3) momentum components
-        for a_ in range(3):
-            P[..., a_, 3] -= P[..., a_, 3][act].mean() * act
-            P[..., 3, a_] = P[..., a_, 3]
+        # guard (a): clamp the global mean of the (0,α) momentum components
+        for a_ in (1, 2, 3):                 # spatial eigen-axes (index-0); time = index 0
+            P[..., a_, 0] -= P[..., a_, 0][act].mean() * act
+            P[..., 0, a_] = P[..., a_, 0]
         Amat = build_A_matrix(Mi, euclid)
         cdot, keep, Pc_proj = solve_constrained(Amat, to_coeff(P))
         P = from_coeff(Pc_proj)                            # no frozen-direction P
@@ -262,7 +262,7 @@ def run(g, b, euclid, steps, label, kick=0.0):
             # clock overlap + defect-survival probes
             dM = M - M0
             ssig.append(float(np.einsum("...ab,...ab->...", dM, Mth)[core].mean()))
-            Msp = M[..., :3, :3]
+            Msp = M[..., 1:4, 1:4]
             sub = core
             ev, evec = np.linalg.eigh(Msp[sub])
             ndir = evec[..., -1]
@@ -288,7 +288,7 @@ def main():
     print("M5.8.2c-1 — FULL nonlinear 4D evolution (no frozen background), N="
           f"{N}³ dt={DT}")
     print("  constrained integrator: per-voxel positive-inertia spectral projection")
-    print("  + global-(α,3)-momentum clamp + bounded-energy monitor.  V=0.")
+    print("  + global-(0,α)-momentum clamp + bounded-energy monitor.  V=0.")
     print("=" * 78)
     g = build_grid()
     h = g["h"]

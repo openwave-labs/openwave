@@ -30,8 +30,8 @@ To end the confusion permanently, the storage was flipped to index-0 so storage 
 
 | Flipped (index-0 now) | Frozen (still index-3, historical record) |
 | --- | --- |
-| `medium.py`, `engine1_seeds.py`, `engine2_pde.py`, `engine3_observables.py` | `sandbox_v1` .. `sandbox_v8`, `sandbox_vn` |
-| `sandbox_v9` (#200, active), `sandbox_v10` (neutrino) | (see `FROZEN_SANDBOXES.md`) |
+| `medium.py`, `engine1_seeds.py`, `engine2_pde.py`, `engine3_observables.py` | `sandbox_v1`..`sandbox_v5` (pre-4×4, 3×3), `sandbox_v7` (3×3 self-contained), the 3×3 files of `sandbox_v6` |
+| `sandbox_v9` (#200), `sandbox_v10` (neutrino), **`sandbox_v8` + `sandbox_vn` + `sandbox_v6/m5_6_5c_prod_scale`** (2026-06-22 second-wave flip, see [`01_sandbox_v8_vn_flip.md`](01_sandbox_v8_vn_flip.md)) | (see `FROZEN_SANDBOXES.md`) |
 
 **Proof:** `_convention_refactor/golden_master.py` froze 66 convention-invariant physical outputs
 (seeder spectra, energies, stable-mask count, the 4D gradient flow, the constrained clock

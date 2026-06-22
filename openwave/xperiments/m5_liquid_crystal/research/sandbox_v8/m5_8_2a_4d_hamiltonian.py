@@ -3,10 +3,10 @@ M5.8.2a — 4D Minkowski Hamiltonian: the negative-energy clock fuel on the
 hedgehog (the 3+1D variational anchor, the twin of M5.8.0a's 1D quadrature).
 
 Implements the EXACT complete-model Hamiltonian from 5a §10d (Wolfram-article
-Eq.42 form), with time = MATRIX INDEX 3 (the production M5.8.1 convention):
+Eq.42 form), with time = MATRIX INDEX 0 (the Duda / index-0 convention):
 
-    ℋ = 2 Σ_{0≤μ<ν≤3} [ Σ_{spatial α<β} (F_μναβ)²  −  Σ_{α=0..2} (F_μνα3)² ]
-    F_μναβ = [∂_μ M, ∂_ν M]_αβ ,   M = O D O^T ,   D = diag(1, δ, 0, g)
+    ℋ = 2 Σ_{0≤μ<ν≤3} [ Σ_{spatial α<β} (F_μναβ)²  −  Σ_{α=1..3} (F_μν0α)² ]
+    F_μναβ = [∂_μ M, ∂_ν M]_αβ ,   M = O D O^T ,   D = diag(g, 1, δ, 0)
 
 Ansatz family (rigid, two knobs — the 3+1D analog of the toy's (w, ω)):
 
@@ -21,7 +21,7 @@ Ansatz family (rigid, two knobs — the 3+1D analog of the toy's (w, ω)):
 Under ANY rigid sweep, E(ω,b) = A(b) + ω²·C(b) is EXACTLY quadratic in ω
 (∂₀M ∝ ω, ∂_iM ω-independent) — so the decisive object is the SIGN of C(b):
 
-    C(b) = C_pos(b) − C_neg(b) ;  C_neg = the (α,3) time-mixing block = THE FUEL
+    C(b) = C_pos(b) − C_neg(b) ;  C_neg = the (0,α) time-mixing block = THE FUEL
 
 The finite-ω* CAP is the profile response (the toy's βR⁴ analog, which the
 article says the positive 3D curvature supplies) — that is M5.8.2b's job, not
@@ -61,10 +61,11 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
 )
 
 G_TIME = float(os.environ.get("M58_G", "8.0"))   # time-axis eigenvalue; M58_G env overrides (Duda δ-calibration 2026-06-08)
-D4 = np.diag([1.0, DELTA, 0.0, G_TIME])   # D = diag(1, δ, 0, g), time = index 3
+D4 = np.diag([G_TIME, 1.0, DELTA, 0.0])   # D = diag(g, 1, δ, 0), time = index 0 (Duda / index-0 convention)
 R_W = 2.5                                 # boost-dressing radial width  w(r)=exp(−(r/R_W)²)
-SP_PAIRS = [(0, 1), (0, 2), (1, 2)]       # spatial matrix-index pairs  → POSITIVE in ℋ
-TM_PAIRS = [(0, 3), (1, 3), (2, 3)]       # time-mixing matrix pairs    → NEGATIVE in ℋ
+SP_PAIRS = [(1, 2), (1, 3), (2, 3)]       # spatial-eigen MATRIX-index pairs (axes 1,2,3) → POSITIVE in ℋ
+TM_PAIRS = [(0, 1), (0, 2), (0, 3)]       # time-mixing MATRIX pairs (time axis 0)        → NEGATIVE in ℋ
+GRAD_PAIRS = [(0, 1), (0, 2), (1, 2)]     # spatial GRADIENT (∂_x,∂_y,∂_z) axis pairs — NOT matrix indices (index-0 de-conflation)
 B_SCAN = np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2])
 OMEGA_SCAN = np.array([0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4])
 
@@ -90,21 +91,21 @@ def gen4(plane):
 
 
 def pl_s(plane):
-    """Eigen-plane label by eigenvalue: index 0↔'1', 1↔'δ', 2↔'0'."""
-    names = {0: "1", 1: "δ", 2: "0"}
+    """Eigen-plane label by eigenvalue (index-0): index 1↔'1', 2↔'δ', 3↔'0'."""
+    names = {1: "1", 2: "δ", 3: "0"}
     return f"({names[plane[0]]},{names[plane[1]]})-plane"
 
 
 def boost_field(theta, a):
-    """exp(θ·B_a) per voxel — B_a = E_{a3}+E_{3a} mixes spatial eigen-axis a with time."""
+    """exp(θ·B_a) per voxel — B_a = E_{a0}+E_{0a} mixes spatial eigen-axis a (∈{1,2,3}) with time (index 0)."""
     B = np.zeros(theta.shape + (4, 4))
     for i in range(4):
         B[..., i, i] = 1.0
     ch, sh = np.cosh(theta), np.sinh(theta)
     B[..., a, a] = ch
-    B[..., 3, 3] = ch
-    B[..., a, 3] = sh
-    B[..., 3, a] = sh
+    B[..., 0, 0] = ch
+    B[..., a, 0] = sh
+    B[..., 0, a] = sh
     return B
 
 
@@ -119,8 +120,8 @@ def build_bg():
     fr = build_frame()
     O3, h, r, rho = fr["O"], fr["h"], fr["r"], fr["rho"]
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3
+    O4[..., 0, 0] = 1.0
     interior = np.zeros(r.shape, bool)
     interior[2:-2, 2:-2, 2:-2] = True
     active = (r > 2 * RC) & (rho > RHOC) & interior     # off point core + disclination
@@ -147,7 +148,7 @@ def blocks(bg, b, a_boost, plane, psi=0.0, vacuum=False):
     Md1 = conj(W, Gd)                       # ∂₀M at unit ω
     Mi = [central(M, ax, h) for ax in range(3)]
     out = dict(A_pos=0.0, A_neg=0.0, C_pos=0.0, C_neg=0.0)
-    for i, j in SP_PAIRS:                   # μν spatial pairs (i,j)
+    for i, j in GRAD_PAIRS:                  # μν spatial GRADIENT pairs (∂_i,∂_j), i,j ∈ {0,1,2}
         p, n = split_pn(commf(Mi[i], Mi[j]))
         out["A_pos"] += float(p[act].sum())
         out["A_neg"] += float(n[act].sum())
@@ -188,16 +189,16 @@ def fuel_profile(bg, b, a_boost, plane, nbins=10):
 def main():
     print("=" * 76)
     print("M5.8.2a — 4D Minkowski Hamiltonian: clock fuel on the hedgehog (anchor)")
-    print(f"  grid {N}³  D=diag(1, {DELTA}, 0, {G_TIME})  time=index 3  dressing R_w={R_W}")
+    print(f"  grid {N}³  D=diag({G_TIME}, 1, {DELTA}, 0)  time=index 0  dressing R_w={R_W}")
     print("  ℋ = 2Σ_(μ<ν)[Σ_(sp α<β) F² − Σ_α F²_(α3)]   (5a §10d, V=0)")
     print("=" * 76)
     bg = build_bg()
     print(f"  active voxels (off core + disclination): {100 * bg['active'].mean():.1f}%")
 
     # --- G7: apolar doubling — M(ψ) period is π, not 2π --------------------------
-    M0 = conj(bg["O4"], rot4((1, 2), 0.0) @ D4 @ rot4((1, 2), 0.0).T)
-    Mh = conj(bg["O4"], rot4((1, 2), np.pi / 2) @ D4 @ rot4((1, 2), np.pi / 2).T)
-    Mp = conj(bg["O4"], rot4((1, 2), np.pi) @ D4 @ rot4((1, 2), np.pi).T)
+    M0 = conj(bg["O4"], rot4((2, 3), 0.0) @ D4 @ rot4((2, 3), 0.0).T)
+    Mh = conj(bg["O4"], rot4((2, 3), np.pi / 2) @ D4 @ rot4((2, 3), np.pi / 2).T)
+    Mp = conj(bg["O4"], rot4((2, 3), np.pi) @ D4 @ rot4((2, 3), np.pi).T)
     d_half = np.abs(Mh - M0).max()
     d_full = np.abs(Mp - M0).max()
     print("\n[G7] apolar doubling — clock period of M")
@@ -206,7 +207,7 @@ def main():
     print(f"    → M-period = π ⇒ ω_M = 2·ω_clock (the 2mc²/ℏ doubling): {g7}")
 
     # --- G1: bare clock (b=0) — the time axis inert ⇒ the M5.7 functional null ---
-    bl0 = blocks(bg, 0.0, 0, (1, 2))
+    bl0 = blocks(bg, 0.0, 1, (2, 3))
     print("\n[G1] bare clock, b=0 (time axis inert — the M5.8.1 production state)")
     print(f"    C_pos={bl0['C_pos']:.4e}   C_neg={bl0['C_neg']:.4e}  (exact 0 expected)")
     g1 = bl0["C_neg"] == 0.0 and bl0["C_pos"] > 0
@@ -214,17 +215,17 @@ def main():
     print(f"      time axis: {g1}   (the M5.7 free-defect null, in functional form)")
 
     # vacuum control: dressing without the hedgehog
-    blv = blocks(bg, 0.6, 0, (1, 2), vacuum=True)
+    blv = blocks(bg, 0.6, 1, (2, 3), vacuum=True)
     print("\n[--] vacuum control (dressing, NO hedgehog): "
           f"C={blv['C_pos'] - blv['C_neg']:+.3e}  A={blv['A_pos'] - blv['A_neg']:+.3e}")
 
     # --- G2: discovery matrix — clock plane × boost axis, b=0.6 ------------------
     print("\n[G2] discovery matrix — C(b=0.6) = C_pos − C_neg  (FUEL ⇔ C < 0)")
-    print("      clock plane ↓ \\ boost axis a →      a=0           a=1           a=2")
+    print("      clock plane ↓ \\ boost axis a →      a=1           a=2           a=3")
     best = None
-    for plane in [(0, 1), (0, 2), (1, 2)]:
+    for plane in [(1, 2), (1, 3), (2, 3)]:
         row = []
-        for a in range(3):
+        for a in (1, 2, 3):
             bl = blocks(bg, 0.6, a, plane)
             cval = bl["C_pos"] - bl["C_neg"]
             row.append(cval)
@@ -239,7 +240,7 @@ def main():
     # --- phase-dependence of the orbit (rigid-sweep honesty check) ----------------
     print()
     for pl, ax, lbl in [(plane, a, f"best combo ({pl_s(plane)}, a={a})"),
-                        ((1, 2), 1, "article clock ((δ,0)-plane, a=1)")]:
+                        ((2, 3), 2, "article clock ((δ,0)-plane, a=2)")]:
         es = np.array([E_of(blocks(bg, 0.6, ax, pl, psi=p), 1.0)
                        for p in (0.0, np.pi / 8, np.pi / 4, 3 * np.pi / 8)])
         spread = (es.max() - es.min()) / abs(es.mean())
@@ -267,7 +268,7 @@ def main():
         return bls_, A0_, fuel
 
     bls, A0, g2 = scan(plane, a, f"strongest fuel ({pl_s(plane)}, a={a})")
-    bls_art, A0_art, g2_art = scan((1, 2), 1, "article (δ,0) clock, a=1")
+    bls_art, A0_art, g2_art = scan((2, 3), 2, "article (δ,0) clock, a=2")
     print(f"    → G2 FUEL (∃b: C<0): strongest combo {g2}, article clock {g2_art}")
 
     # the two distinct Minkowski (α,3)-block effects, separated:

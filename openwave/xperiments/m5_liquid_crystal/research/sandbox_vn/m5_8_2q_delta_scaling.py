@@ -1,7 +1,7 @@
 """
 M5.8.2q — DUDA CALIBRATION (2026-06-08): the δ-scaling of the rest energy.
 
-Jarek Duda's 2026-06-08 reply: the QED Lagrangian maps onto our D = diag(1, δ, 0, g):
+Jarek Duda's 2026-06-08 reply: the QED Lagrangian maps onto our D = diag(g, 1, δ, 0):
 the quantum-phase (Dirac-kinetic) term ~ δ² ↔ ℏc ("tiny"), the mass term ↔ g
 (gravity), so the PHYSICAL hierarchy is δ ~ ℏ ≪ 1 ≪ g ~ 1/δ — he suggests δ ~ 10⁻¹⁰
 and g·δ ≈ 1, while we ran at δ = 0.3, g = 8. His barb: the clock came out
@@ -57,7 +57,7 @@ def seed_M(delta, g_time, b_star=B_STAR):
     r, rho, h, O4 = grid["r"], grid["rho"], grid["h"], grid["O4"]
     w = np.exp(-((r / R_W) ** 2))
     W = matmul(O4, boost_field(b_star * w, A_BOOST))
-    D4 = np.diag([1.0, delta, 0.0, g_time])
+    D4 = np.diag([g_time, 1.0, delta, 0.0])   # D = diag(g, 1, δ, 0), time = index 0 (Duda / index-0 convention)
     M0 = conj(W, D4)
     inter = np.zeros(r.shape, bool)
     inter[2:-2, 2:-2, 2:-2] = True
@@ -69,12 +69,12 @@ def u_sectors(M, h):
     """Quadratic energy density split by Duda's question: EM = +spatial-block
     curvature (curvature of ROTATIONS, η-positive), GEM = −time-mixing curvature
     (curvature of BOOSTS, η-negative = the clock fuel). u_EM + u_GEM ≡ u_density."""
-    Mi = [central(M, ax, h) for ax in range(3)]
+    Mi = [central(M, ax, h) for ax in range(3)]   # ∂_x,∂_y,∂_z GRADIENT axes — NOT matrix indices (index-0 de-conflation: stay {0,1,2})
     uEM, uGEM = 0.0, 0.0
-    for i in range(3):
+    for i in range(3):                             # μν spatial GRADIENT pairs over Mi — stay {0,1,2}
         for j in range(i + 1, 3):
             F = np_commf(Mi[i], Mi[j])
-            sp = sum(F[..., a, b] ** 2 for a, b in SP_PAIRS)
+            sp = sum(F[..., a, b] ** 2 for a, b in SP_PAIRS)   # SP/TM = MATRIX-eigen pairs {1,2,3}/{0,..} imported from 2a (index-0)
             tm = sum(F[..., a, b] ** 2 for a, b in TM_PAIRS)
             uEM = uEM + 4.0 * sp                  # 2 (η-contraction) × 2 (ordered pairs)
             uGEM = uGEM - 4.0 * tm                # NEGATIVE — Minkowski boost block
@@ -93,8 +93,8 @@ def sectors_of(delta, g_time, b_star):
 def u_density(M, h):
     """Signed-quartic energy density u = Σ_{i<j} 2·F:tw(F), F = [∂_iM, ∂_jM]."""
     u = 0.0
-    Mi = [central(M, ax, h) for ax in range(3)]
-    for i in range(3):
+    Mi = [central(M, ax, h) for ax in range(3)]   # ∂_x,∂_y,∂_z GRADIENT axes — NOT matrix indices (stay {0,1,2})
+    for i in range(3):                             # μν spatial GRADIENT pairs over Mi — stay {0,1,2}
         for j in range(i + 1, 3):
             F = np_commf(Mi[i], Mi[j])
             u = u + 2.0 * np.einsum("...ab,...ab->...", F, tw(F))
