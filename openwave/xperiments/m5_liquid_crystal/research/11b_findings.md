@@ -15,13 +15,13 @@ _Headline scorecard + figure pending P3-P5._
 
 | Phase | Result | Gate | Status |
 | --- | --- | --- | --- |
-| P0 infrastructure (engine + minimizer validation) | , | engine `V_M`/curvature vs analytic; monotone descent | 🚧 pending |
-| P1 regularized core (`q=1/2`, size `ξ`, biaxial melt) | , | vs known LdG disclination core | 🚧 pending |
-| P2 loop + collapse (`E(R)`, `dE/dL>0`, Derrick) | , | reproduces the shrink; `τ(R)` quantified | 🚧 pending |
-| P3 stabilization (B: clock-breather / A: Hopfion) | , | stationary loop at finite radius | 🚧 pending |
-| P4 stability proof (Hessian / real-time evolution) | , | no collapse over >> one clock period | 🚧 pending |
-| P5 masses from loop-length-density | , | reproduce mass ratios + `Δm²` hierarchy | 🚧 pending |
-| P6 mixing re-derived on real loops | , | PMNS from stable solutions (vs `10e`) | 🚧 pending |
+| P0 infrastructure (`V_M` ON, scales, energy MINIMIZER) | , | monotone descent to `\|δE/δM\|→0`; `V_M` vs analytic LdG | 🚧 pending |
+| P1 reproduce FABER's electron (regularized hedgehog) | , | `∫½\|E\|² = 511 keV` at Faber core; running `α(d)`; Coulomb `E(d)` | 🚧 pending |
+| P2 the vortex LOOP (seeder + relax under full functional) | , | `δE/δM→0` at finite `R`; no collapse (Skyrme evades Derrick) | 🚧 pending |
+| P3 stability + the clock (Hessian / evolution + M5.8 dressing) | , | no collapse mode; loop persists; clock lowers energy, `ω` measured | 🚧 pending |
+| P4 mass from the loop (field energy / loop-length density) | , | mass spectrum + `Δm²` hierarchy; the 6.2 pm scale | 🚧 pending |
+| P5 parameter search (Higgs `A,B,C`/`Λ`, `g,δ`) , Duda's assignment | , | parameters reproducing masses + Faber electron | 🚧 pending |
+| P6 mixing re-derived on real relaxed loops | , | PMNS from stable solutions (vs `10e`) | 🚧 pending |
 
 ## 2. The rounds (canonical implementation + result) , to fill per phase
 

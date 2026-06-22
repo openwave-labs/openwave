@@ -1,167 +1,184 @@
 # M5.11 , the regularized, stable, stationary topological vortex loop (the real simulation)
 
-> **Purpose.** Build the simulation Dr. Jarek Duda expects for a neutrino: a CLOSED topological vortex loop in
-> the Landau-de Gennes substrate, REGULARIZED by the full potential, RELAXED to a STATIONARY solution, proven
-> STABLE, with its MASS read off from the loop , and only then the mixing recomputed on the real (relaxed)
-> loops. This is the dynamical counterpart to the symmetry/overlap result of
-> [`10e_findings_N4c.md`](10e_findings_N4c.md), and it directly answers Duda's 2026-06-22 critique (below).
-> Findings as we execute: [`11b_findings.md`](11b_findings.md). Code + per-phase findings + checkpoints:
-> `sandbox_v11/`. Convention: index-0 (`D = diag(g, 1, δ, 0)`, `eta = diag(-1,1,1,1)`),
-> [`_convention_refactor/CONVENTION.md`](_convention_refactor/CONVENTION.md).
+> **Purpose.** Build the simulation Dr. Jarek Duda expects: particles as REGULARIZED topological defects of the
+> Landau-de Gennes tensor field, relaxed to STATIONARY energy-minimizing configurations, with MASS read off as
+> the regularized field energy. First reproduce FABER's electron (the regularized hedgehog → 511 keV) to prove
+> the machinery, then the new piece , the neutrino as a regularized chiral vortex LOOP/KNOT, mass = loop-length
+> density , then re-derive the mixing on the real relaxed loops. This grounds the symmetry/overlap result of
+> [`10e_findings_N4c.md`](10e_findings_N4c.md) in real dynamics and directly answers Duda's 2026-06-22 critique.
+> Findings as we execute: [`11b_findings.md`](11b_findings.md). Code + checkpoints: `sandbox_v11/`.
+> Convention: index-0 (`D = diag(g, 1, δ, 0)`, `η = diag(-1,1,1,1)`).
 
 ## 0. The challenge (Duda, 2026-06-22, verbatim)
 
 > "I am trying to read these Python files, but they look very far from simulations I was expecting. E.g. for
 > neutrinos require topological vortex loop configurations, with main problem being regularization requiring
-> potential ... But I don't see anything like this there , for me the code is much too simple ... while these
-> results look great, personally I am very far from trusting them."
+> potential ... the code is much too simple ... while these results look great, personally I am very far from
+> trusting them."
 
-He is right. The [`sandbox_v10`](sandbox_v10/) code computes flavour mixing from SEEDED loop ansatze via
-symmetry + energy-overlap matrices (a Gram matrix of unrelaxed configurations); it never regularizes, relaxes,
-or stabilizes a loop. The mixing angles turned out to be symmetry-determined (μτ + magic), substrate-independent
-(N4b/N4c), so the code is genuinely simple , because the mixing does not need the dynamics. The HARD physics
-he names , a regularized, stable, stationary loop under the full potential, and the mass that follows , is
-exactly what M5.11 must do. **Goal: a simulation a working physicist trusts. No cut corners.**
+He is right. [`sandbox_v10`](sandbox_v10/) computes mixing from SEEDED loop ansatze via symmetry + overlap; it
+never regularizes, relaxes, or stabilizes a loop. M5.11 does the real thing , and it is grounded in Duda's OWN
+theory (his slides [`theory/liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf), the
+[`4a`](4a_convo_2026.05.12.md)/[`4c`](4c_convo_2026.06.08.md)/[`4d`](4d_convo_2026.06.11.md) exchanges, his
+[`9a`](9a_lepton_mass_planning.md) review). **Goal: a simulation a working physicist trusts. No cut corners.**
 
-## 1. The order parameter and the full energy functional
+## 1. Duda's theory (what we are simulating, in his own terms)
 
-The substrate order parameter is the symmetric tensor field `M(x)` (index-0: `M = O D O^T`,
-`D = diag(g, 1, δ, 0)`; the spatial nematic block is `M[1:4,1:4]`, the time/g axis is index 0). For the loop
-problem the relevant sector is the spatial nematic block `Q(x)` (a real symmetric traceless-ish 3x3), with the
-g/time axis carried along for the boost/clock sector (Phase 3B).
-
-The energy functional we relax under (the "full potential" Duda means) is the standard Landau-de Gennes free
-energy , elastic (Frank) + bulk (Landau) , plus, where Derrick requires it (§2), a higher-order term:
+Particles are non-perturbative field configurations of a real symmetric tensor field `M(x) = O D O^T`,
+`D = diag(g, 1, δ, 0)` (the preferred biaxial "shape": `g ≫ 1 ≫ δ > 0`; index-0, time/g axis = 0). The director
+tilts → EM, the second-axis twists → quantum phase (Klein-Gordon), the time-axis boosts → GEM gravity. The
+Lagrangian (Duda's slides, his Mathematica on p.19 of [`liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf)):
 
 ```text
-E[Q] = INT_V  [  f_elastic  +  f_bulk  ( +  f_stab ) ]  dV
+ℒ = − F_μναβ F^μναβ − V_Higgs(M) ,        F_μναβ = [∂_μ M, ∂_ν M]_αβ   (matrix commutator of gradients)
 
-  f_elastic = (L1/2) (∂_k Q_ij)(∂_k Q_ij)  [ + L2 (∂_j Q_ij)(∂_k Q_ik) + L3 Q_kl (∂_k Q_ij)(∂_l Q_ij) ]
-  f_bulk    = (A/2) Tr(Q^2)  −  (B/3) Tr(Q^3)  +  (C/4) (Tr Q^2)^2          (A = a0 (T − T*))
-  f_stab    = (κ/4) (Faddeev-Skyrme term)  OR  the dynamical clock charge (§3)   ← the Derrick-evading term
+  Duda's exact Hamiltonian (his Mathematica, regularized 2-charge calc):
+    H = Σ_{i<j} ‖[∂_i M, ∂_j M]‖²_F   +   V_Higgs(M)
+
+  V_Higgs = the Landau-de Gennes form  (A/2)Tr(M²) − (B/3)Tr(M³) + (C/4)(Tr M²)²
+            OR the eigenvalue-pinning  Σ_i (λ_i − Λ_i)²  ,  Λ = (g, 1, δ, 0)   (Duda: "tough choice!")
 ```
 
-**Regularization (Duda's "main problem").** The bulk potential is what regularizes the core. At a disclination
-the director cannot wind smoothly through a point, so the gradient energy would diverge; the bulk term lets `Q`
-**melt** at the core (drop toward the isotropic/uniaxial-to-biaxial state), trading gradient energy for bulk
-energy and setting a finite core size, the nematic coherence length `ξ = sqrt(L/|A|)`. The core is biaxial (the
-Schopohl-Sluckin / Lyuksyutov ring-disclination structure), not a true singularity. This is the regularized
-core M5.11 must produce and validate against the known LdG disclination solution.
+This is **Faber's quantized-EM model** (`ℒ = −(αℏc/16π) R_μν R^μν`, `R_μν = Γ_μ × Γ_ν`,
+`Γ_i = (∂_i n) × n`) extended from the uniaxial director `n` to the biaxial tensor `M` and to 4D
+(teleparallelism). It is M5's production functional already (`engine2_pde.V_M` + the signed commutator
+curvature). The scales are Duda's: `g ~ 10^{10}`, `δ ~ 10^{-10}`, `g·δ ≈ 1` (NOT `δ = 0.3`, which he flagged);
+the N1 graded-precision method carries the `10^{20}` range.
 
-The defect: a `q = 1/2` disclination LINE (director winds by `π` around the core) bent into a CLOSED LOOP. Three
-neutrino flavours = the same regularized loop at three SO(3) orientations (the [#199](https://github.com/openwave-labs/openwave/issues/199)
-structure), but now REAL relaxed solutions, not seeds.
+### Regularization (Duda's "main problem")
 
-## 2. The central obstruction: Derrick's theorem (why the bare loop collapses)
+The Higgs potential lets the order parameter MELT at the defect core (for a hedgehog `n(0) = 0`, via
+`V = (‖n‖² − 1)²`; for the tensor, the eigenvalues deform from `(g,1,δ,0)`), trading divergent gradient energy
+for finite bulk energy and setting the core size. Faber's specific core potential is `Λ = q0⁶/r0⁴` (`q0` = the
+SU(2) scalar part `cos α`); the soliton rest energy is `E0 = (α_f ℏc/r0)(π/4)`, which set to `m_e c² = 0.511 MeV`
+fixes the core radius `r0 = 2.2132 fm` (the classical electron radius × π/4). The recent high-precision lattice
+paper **Faber & Golubich 2026** ([`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf),
+arXiv:2604.12021) extracts the two-soliton dipole energy `E(d) = 2 m_e c² − α_sol ℏc/d` with
+`α_sol ℏc = 1.4387(8) MeV·fm` (vs the Coulomb `1.43996`), the inverse fine-structure constant
+`α_sol⁻¹ = 137.1(1)`, and the QED running of `α(d)`, via conjugate-gradient energy minimization on a cylindrical
+lattice. **Reproducing those numbers is the canonical validation** , it answers "too simple" directly, and it is
+Faber's own work (Duda's collaborator). Note: Faber's solitons are NOT Skyrmions (the Skyrme model is
+short-range; these reproduce long-range Coulomb via Gauss's law) , the 4th-order curvature is Skyrme-LIKE but
+the physics is QED.
 
-For `E = INT (|∇Q|^2 + V(Q))` in 3D, under the scaling `x → λx`: the gradient energy scales as `λ^(3−2) = λ`,
-the bulk energy as `λ^3`. `dE/dλ|_{λ=1} = E_grad + 3 E_bulk = 0` needs `E_grad = −3 E_bulk` , impossible for
-`E_grad, E_bulk ≥ 0`. So **no stable static finite-size soliton exists from elastic + potential alone**; a free
-disclination loop has positive line tension and collapses (precisely our measured `dE/dL = +6.74 > 0`,
-[`sandbox_v10/n2_closed_loop.py`](sandbox_v10/n2_closed_loop.py)). This is not a bug , it is a theorem, and it
-is the crux Duda is pointing at. A stable stationary loop REQUIRES a Derrick-evading mechanism:
+### The objects (Duda's defect classification, his slide 10: `r = s + d + 1`)
 
-| Route | Mechanism | Evades Derrick by | Particle picture |
+| Particle | Defect | Stabilized by | Mass |
 | --- | --- | --- | --- |
-| **A , static Hopfion** | add a Faddeev-Skyrme `(∂n × ∂n)^2` term (`f_stab`) | the 4th-order term scales as `λ^(−1)` , outward pressure balances collapse | a knotted/linked field with a Hopf charge `Q_H ∈ ℤ`; Vakulenko-Kapitanskii bound `E ≥ c\|Q_H\|^{3/4}` |
-| **B , dynamical breather** | a conserved internal rotation/oscillation `Q = Q(x; ωt)` (the clock) | the `ω^2` kinetic term acts as outward pressure (Q-ball mechanism) | the loop CANNOT sit static, so it OSCILLATES (Zitterbewegung, `ω = 2mc²/ℏ`) , a time-crystal breather |
+| electron | regularized **hedgehog** (`s=2`, point) | Higgs-regularized Skyrme curvature (Faber) | `∫ ½\|E\|² = 511 keV` |
+| neutrino | regularized **vortex LOOP / chiral knot** (`s=1`, line/loop) | same functional + the chiral nematic vortex-knot structure | **mass/length density × loop length** (Duda 2026-06-21) |
+| nuclei | **linked vortex knots** (Borromean / Efimov halo) | linking number | sum of loop energies |
 
-**Route B is our M5.8 result.** The whole [`sandbox_v8`](sandbox_v8/) + [`sandbox_vn`](sandbox_vn/) body (now
-index-0) is the demonstration, at the energy level, that the boost-dressed oscillating defect (the negative-energy
-`(0,α)` clock fuel) beats the static one , "a defect that can't relax → oscillates" (the M5 course, lesson 7).
-M5.11 makes this rigorous in full 3D for a CLOSED LOOP. So we are not guessing the stabilization , we have a
-physically-grounded candidate (B), and we will also test (A) as the static control.
+The neutrino is specifically the chiral nematic vortex knot family (Duda's Abrikosov-vortex / QCD-flux-tube /
+Smalyukh "fusion and fission of particle-like chiral nematic vortex knots" slides). Mass scales ~linearly with
+loop length (a density), which is why flavour oscillation conserves energy , the loop changes length.
 
-## 3. The two stabilization routes (both built, honestly compared)
+## 2. Derrick's theorem , RESOLVED by the functional itself (the key physics)
 
-| | Route A (static Hopfion) | Route B (clock-breather) , the M5.8 route |
-| --- | --- | --- |
-| Add to functional | Faddeev-Skyrme `f_stab` | boost-dressing + the clock charge `ω` (M5.8.2a machinery, already index-0) |
-| Stationary means | `δE/δQ = 0` (true static minimum at finite size) | stationary in the co-rotating/oscillating frame; `E(ω) = A + ω² C` minimized at finite `ω*` with the cap |
-| Stability proof | Hessian `≥ 0`; survives perturbation | survives real-time Minkowski evolution over many clock periods without collapse/dispersal |
-| Mass | `E[Hopfion]` | the dressed oscillating loop energy `E(ω*, b*)` |
-| Risk | the Faddeev term may not be "the M5 potential" Duda means | the breather may be only metastable / hard to make truly stationary in 3D |
+Earlier we feared a static loop must collapse (Derrick). That is WRONG for this functional. Under `x → λx`:
+the plain-gradient energy scales as `λ`, the **commutator-curvature `‖[∂M,∂M]‖²` (FOUR derivatives) scales as
+`λ^{-1}`**, the potential as `λ³`. So `E(λ) = λ E_grad + λ^{-1} E_curv + λ³ E_pot` has an interior minimum:
+the 4th-order curvature term (the Skyrme term, which IS Duda's `F²` curvature) provides the outward pressure
+that balances collapse. **Static, finite-size, stable regularized solitons EXIST** , Faber's electron is the
+proof of existence. So the target is to FIND the stable regularized loop by energy minimization, not merely to
+show collapse.
 
-We build the regularized core + the loop + the collapse demonstration FIRST (route-independent), then test B
-(our bet) and A (the control), and report which yields a genuine stable stationary loop.
-
-## 4. The phased plan (each phase gated against a known result; no phase advances on an unvalidated prior)
-
-| Phase | What | Validation gate (how we KNOW it is right) |
-| --- | --- | --- |
-| **P0 , infrastructure** | reuse the index-0 engine (`medium`/`engine2_pde` `V_M`, curvature, the 4D gradient flow) + the N1 graded-precision method + FIRE/L-BFGS minimizer. | the engine's `V_M`/curvature reproduce the analytic LdG free energy on a uniform + a single hedgehog (vs `n0`/`n1`); minimizer descends monotonically. |
-| **P1 , regularized core** | the `q = 1/2` straight-disclination core: 2D radial relaxation under elastic + bulk → the biaxial melted core, size `ξ`. | matches the known LdG disclination core (biaxial ring, `ξ = sqrt(L/\|A\|)`, the Schopohl-Sluckin profile); core energy per length finite. |
-| **P2 , the loop + the collapse** | seed a closed loop radius `R`, relax under the FULL functional (no `f_stab`); measure `E(R)`, the line tension, the shrink. | reproduces `dE/dL > 0` (Derrick); quantifies `τ(R)` and the collapse trajectory under gradient flow. This is the PROBLEM, rigorously stated. |
-| **P3 , stabilization (the crux)** | Route B: boost-dress + clock, find the stationary oscillating loop (M5.8 mechanism in 3D). Route A: add the Faddeev-Skyrme term, relax to a static Hopfion. | a loop of FINITE radius that is stationary: `δE/δQ = 0` (A) or a stationary breather `∂E/∂ω = 0` at finite `ω*` (B). |
-| **P4 , stability proof** | Hessian spectrum (route A) and/or real-time Minkowski evolution (route B) over many periods. | no negative collapse mode (A); the loop persists, does not shrink to 0 or disperse, over >> one clock period (B). THE proof Duda wants. |
-| **P5 , masses from the loop** | `E[stable loop] = mass`. Vary the stabilizing charge (Hopf number `Q_H` / twist / `ω`-family) → a mass spectrum. | reproduce the lepton/neutrino mass RATIOS and the `Δm²` hierarchy , the N4c near-term tension (spectrum was ~6x too compressed); honest pass/fail vs data. |
-| **P6 , close the loop with mixing** | recompute the PMNS overlap on the REAL relaxed stable loops at 3 SO(3) orientations (not seeds). | the mixing of [`10e`](10e_findings_N4c.md) re-derived from stable solutions; report whether the angles hold and whether the substrate now does work. |
-
-P0-P2 are standard LdG numerics (tractable, days). **P3 is the research crux** , the honest unknown. P4-P6
-follow only if P3 yields a stable loop.
-
-## 5. Numerics and precision
-
-| Item | Choice |
+| Layer | Role |
 | --- | --- |
-| Functional + fields | the index-0 M5 engine (`engine2_pde.V_M`, signed curvature) + the LdG elastic; the N1 graded-`δ` method for the `g/δ ~ 1e20` range where the boost sector enters (P3B). |
-| Relaxation | accelerated gradient flow (FIRE) / L-BFGS to a stationary point; Newton polish near the solution; `\|δE/δQ\|` to tolerance. |
-| Real-time (P4B) | the M5.8 constrained 4D Minkowski integrator (`sandbox_v8` constrained path), now index-0, over many clock periods. |
-| Hardware | Taichi/Metal GPU for the 3D relax + evolution (the heavy phases); numpy f64 + the N1 method where precision dominates; full machine, multi-hour runs as needed. |
-| Grids | core (P1) on a fine 2D mesh; loop (P2-P4) on `48³–96³` (resolution-converged: every reported number checked vs a finer grid). |
-| Determinism | no `Date.now`/random; seeds + params logged; every artifact regenerable. |
+| Skyrme-like curvature `‖[∂M,∂M]‖²` + Higgs `V` | the STATIC stabilizer (Derrick-evading) + core regularization. Gives the regularized hedgehog/loop and its rest mass. |
+| the de Broglie CLOCK (Zitterbewegung) | an ADDITIONAL dynamical energy-LOWERING (Duda: "oscillation reduces energy; the minima are the preferred frequencies"). Our M5.8 result (the `(0,α)` negative-energy boost fuel). It does NOT prevent collapse; it lowers the mass and gives the resting oscillation = neutrino flavour oscillation (loop-length change). |
 
-## 6. Validation philosophy (the trust-rebuilder)
+The earlier `dE/dL = +6.74 > 0` ([`n2_closed_loop.py`](sandbox_v10/n2_closed_loop.py)) was a SEEDED, V-off,
+unrelaxed loop , exactly the regime where Derrick bites. With the full Skyrme + Higgs functional and energy
+minimization, a stationary loop should exist. M5.11 demonstrates it.
 
-- Every phase is gated against an ANALYTIC or KNOWN result (the disclination core profile, the Derrick scaling,
-  the Vakulenko-Kapitanskii bound, the M5.8 energy gates). A phase does not advance on an unvalidated prior.
-- Resolution convergence on every reported number (coarse vs fine grid).
-- Honest failure: if P3 yields no stable loop, we report that plainly (a real negative result), not a dressed-up
-  partial. If the masses stay in tension (P5), we say so.
-- No symmetry shortcuts standing in for dynamics: the loops in P3-P6 are RELAXED solutions, not seeds.
+## 3. The phased plan (each phase gated against a KNOWN result; reproduce Faber first)
 
-## 7. Do we ask Duda first, or figure it out ourselves?
+| Phase | What | Validation gate |
+| --- | --- | --- |
+| **P0 , infrastructure** | turn the Higgs/LdG potential ON in the index-0 engine (`V_M`, the hardest numerical step); the right scales (`g~1e10, δ~1e-10`) via the N1 graded method; add a true energy MINIMIZER (FIRE / L-BFGS to `\|δE/δM\| → 0`). | minimizer descends monotonically to a stationary point; `V_M` reproduces the analytic LdG free energy. |
+| **P1 , reproduce FABER's electron** | the regularized uniaxial hedgehog under Higgs `V = (‖n‖²−1)²`: melt the core (`n(0)=0`), minimize, integrate the field energy. | **`∫ ½\|E\|² = 511 keV` at the Faber core radius; running coupling `α(d)` curve; Coulomb `E(d) ≈ const + C/d`.** Match [`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf). THE trust-rebuilder. |
+| **P2 , the vortex LOOP** | build a closed-disclination LOOP seeder (the engine lacks one); relax under the FULL Skyrme + Higgs functional → the stationary regularized loop of finite radius. | `δE/δM → 0` at finite `R`; the loop does NOT collapse (Derrick evaded by the curvature term); core regularized. |
+| **P3 , stability + the clock** | prove stable (Hessian `≥ 0` / real-time Minkowski evolution over many periods); add the M5.8 clock dressing (the `(0,α)` boost fuel) → the oscillating loop lowers energy. | no collapse mode; the loop persists; the clock lowers the energy (the de Broglie oscillation), `ω` measured. |
+| **P4 , mass from the loop** | mass = regularized loop field energy; the mass/length density; vary loop size/knot → the 3 neutrino masses. | the spectrum + `Δm²` hierarchy (the N4c spectrum was ~6× too compressed); the 6.2 pm loop scale; honest pass/fail vs data. |
+| **P5 , the parameter search (Duda's assignment)** | find the Higgs coefficients `(A,B,C)` / `Λ` and `g, δ` that give physical lepton + neutrino masses , the work Duda explicitly handed us ("you should start here, finding these parameters/details for agreements"). | the parameters that reproduce the masses + Faber's electron simultaneously; reported as the deliverable. |
+| **P6 , mixing on real loops** | recompute the PMNS overlap on the RELAXED stable loops at 3 SO(3) orientations (not seeds). | the [`10e`](10e_findings_N4c.md) mixing re-derived from real solutions; whether the substrate now does work. |
 
-**Recommendation: figure it out ourselves , then ask one sharp, competence-demonstrating question if P3 stays
-open.** Reasoning:
+P0-P1 are tractable and decisive (reproducing Faber is the credibility gate). P2-P3 are the research core
+(stable vortex loop + clock). P4-P5 are the mass + parameter search Duda assigned. P6 closes back to mixing.
 
-- P0-P2 (regularized core + loop + collapse) are standard LdG numerics. Asking how to do them would reinforce
-  the "can't do serious simulation" impression. DOING them , showing a real regularized disclination core that
-  matches the known solution , flips that impression immediately. Show, don't ask.
-- The ONE genuinely-open physics fork is the §2 Derrick choice: static-Hopfion (Skyrme term) vs dynamical-breather
-  (the clock). We already have a grounded answer (Route B, our M5.8 result), and we will build BOTH. So we can
-  proceed without him.
-- IF, after P1-P3, the route remains genuinely ambiguous, the reserved question for Duda is sharp and PROVES we
-  understand the problem: *"Derrick's theorem forbids a stable static loop from elastic + LdG bulk alone; we get
-  the regularized core and confirm the collapse. Do you stabilize via a Faddeev-Skyrme term (static Hopfion) or
-  via the internal Zitterbewegung oscillation (dynamical breather)? Our M5.8 work points to the latter."* That
-  question, backed by working code, rebuilds trust far better than asking up front.
+## 4. Infrastructure: reuse vs build
 
-So: no question before we start. We build P0-P2, and the answer to "what stabilizes it" is the experiment.
+**Reuse (the index-0 engine already implements Duda's functional):** `engine2_pde.V_M` (the LdG `a Tr M² − b Tr
+M³ + c (Tr M²)²` + `dV_M`), the signed commutator curvature `compute_curvature_flux(_4d)`, `signed_dot4`
+(`η = diag(-1,1,1,1)`), the seeders (`seed_hedgehog_M`, `seed_biaxial_hedgehog_M`, `seed_dressed_hedgehog_M`
+with the clock), the 4D Minkowski + constrained integrators, `compute_winding_number`, `compute_energyH_density_M`,
+the N1 graded-precision method. The M5.8 clock machinery (`sandbox_v8`/`vn`, now index-0) is P3's clock layer.
 
-## 8. Honest risks / unknowns
+**Build (the gaps the engine-inventory flagged):**
 
-| Risk | Honest status |
+| Add | For |
 | --- | --- |
-| P3 may not yield a truly STABLE loop (only metastable / long-lived) | likely outcome for the breather; we will state metastable-vs-stable precisely (lifetime in clock periods). |
-| "The full potential" Duda means may include a term we are not assuming (e.g. a chiral/Lifshitz or a Faddeev term) | we test both the plain LdG (Route B) and LdG + Skyrme (Route A); the reserved question pins his intent. |
-| The masses (P5) may stay in tension with `Δm²` | the N4c spectrum was ~6x too compressed; the stable-loop family may or may not fix it. Reported honestly either way. |
-| Cost: P3-P4 are multi-hour GPU research runs | accepted; full machine, run for the time it needs. |
+| `seed_vortex_loop_M(center, R, axis, twist/chirality, ...)` , a closed-disclination LOOP | P2 (engine has only point/line defects) |
+| a true energy MINIMIZER (`relax_to_equilibrium`: FIRE/L-BFGS, `‖∇E‖ < tol`, line search) | P0-P2 (engine has dissipative relax + leapfrog, no stationary-state solver) |
+| the eigenvalue-pinning Higgs variant `Σ(λ_i − Λ_i)²` (alongside the a/b/c LdG) | P0/P5 (Duda's alternative potential) |
+| Hessian / stability tool (2nd variation, mode spectrum) | P3 |
+| Faber validation harness (`∫½\|E\|²`, running coupling) | P1 |
+| loop diagnostics (radius, length, linking/Hopf charge) | P2-P4 |
 
-## 9. Deliverables and structure
+## 5. Do we ask Duda first? , NO, he already assigned the parameter search
+
+Figure it out ourselves. His theory (slides + exchanges) answers every STRUCTURAL question: the functional, the
+Higgs regularization, the scales, the defect classification, mass-as-field-energy/loop-length. The one genuinely
+open piece , the exact potential coefficients , **Duda explicitly handed to us**:
+
+> "finding the exact ones turned out surprisingly difficult, even worse for details of potential , you should
+> start here, finding these parameters/details for agreements." (Duda, 2026-06-21)
+>
+> "There are required serious simulations ... we need the details: parameters, potential, minimizing energy
+> configurations." (Duda, 2026-06-20)
+
+So we do not ask before starting; we DELIVER what he asked , parameters, potential, energy-minimized
+configurations, starting from Faber's electron. The reserved question (only if P2-P3 genuinely stalls) is sharp
+and shows competence: whether the neutrino loop is a plain disclination loop or a specific chiral knot
+(Hopf/linking number), since his slides show both. Backed by a working Faber-electron reproduction, that question
+rebuilds trust; asking up front would not.
+
+## 6. Honest risks / unknowns
+
+| Risk | Status |
+| --- | --- |
+| The parameter search is genuinely hard (Duda: "surprisingly difficult") | accepted; it IS the assigned work; report what we find, including partial. |
+| Turning `V_M` ON without destabilizing the leapfrog (the engine's hardest step) | known M5 roadblock; the minimizer route (relax, not evolve) sidesteps the leapfrog instability for the static phases. |
+| A stable vortex LOOP (vs the hedgehog) may need the chiral/knot structure | we build the plain loop first, then add chirality/linking if it collapses. |
+| The masses (P4) may stay in tension with `Δm²` | the N4c spectrum was ~6× too compressed; reported honestly. |
+| Cost: P2-P3 energy minimization + evolution are multi-hour GPU research runs | accepted; full machine, run for the time it needs. |
+
+## 7. Deliverables
 
 | Artifact | Where |
 | --- | --- |
 | This plan | `11a_vortex_loop.md` |
-| Findings (filled per phase) | [`11b_findings.md`](11b_findings.md) (mirrors the `10b`/`10e` structure: headline, phases, tables, figures, caveats, artifacts) |
-| Code (one script per phase) + per-phase findings + checkpoints | `sandbox_v11/` (`v11_p0_*`, `v11_p1_core`, `v11_p2_loop`, `v11_p3a_hopfion`, `v11_p3b_breather`, `v11_p4_stability`, `v11_p5_mass`, `v11_p6_mixing`) |
-| Figures | core profile, `E(R)` collapse, the stationary loop, the stability evolution, the mass family, the re-derived mixing |
+| Findings (filled per phase, mirrors `10e`) | [`11b_findings.md`](11b_findings.md) |
+| Code (one script per phase) + checkpoints | `sandbox_v11/` (`v11_p0_minimizer`, `v11_p1_faber_electron`, `v11_p2_loop`, `v11_p3_stability_clock`, `v11_p4_mass`, `v11_p5_params`, `v11_p6_mixing`) |
+| Figures | the regularized core, the Faber 511 keV field-energy curve, the stationary loop, the stability evolution, the mass family, the re-derived mixing |
+
+## 8. Theory sources reviewed (2026-06-22)
+
+[`theory/liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf) (READ IN FULL , the functional,
+Faber regularization, the vortex-knot neutrino, the clock) · [`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf)
+(READ IN FULL , Faber & Golubich 2026 / arXiv:2604.12021, the exact P1 target: `r0=2.2132 fm`,
+`α_sol ℏc=1.4387 MeV·fm`, `α⁻¹=137.1`, CG minimizer) · [`theory/time_crystal_toy_model.pdf`](theory/time_crystal_toy_model.pdf)
+(READ IN FULL , Duda arXiv:2501.04036, the P3 clock: `−αR²` curvature + `+βR⁴` saturation → finite `ω=√(70α/(96β−35α²))`,
+the time crystal; the model "combines Skyrme + Landau-de Gennes") · [`theory/liquid_crystal_model.pdf`](theory/liquid_crystal_model.pdf) + the Wolfram time-crystal writeup (the broader-model + online-discussion versions of the above; covered by proxy) ·
+the [`4a`](4a_convo_2026.05.12.md)/[`4c`](4c_convo_2026.06.08.md)/[`4d`](4d_convo_2026.06.11.md)
+Duda exchanges + [`9a`](9a_lepton_mass_planning.md) review · the M5 framework
+([`1a_lagrangian_framework.md`](1a_lagrangian_framework.md), [`5a_lagrangian_evolution.md`](5a_lagrangian_evolution.md),
+[`99_summary_report.md`](99_summary_report.md)) · the index-0 engine (`engine2_pde.py` `V_M` + curvature).
 
 ## Cross-refs
 
-[`10e_findings_N4c.md`](10e_findings_N4c.md) (the symmetry/overlap result this makes dynamical) ·
-[`10a_neutrino_oscillations.md`](10a_neutrino_oscillations.md) (master plan) ·
-[`sandbox_v8`](sandbox_v8/) + [`sandbox_vn`](sandbox_vn/) (the M5.8 clock-breather machinery, index-0) ·
-[#199](https://github.com/openwave-labs/openwave/issues/199) (the SO(3) loop structure) ·
-[#236](https://github.com/openwave-labs/openwave/issues/236) (HELD). M5 course lesson 7 (the de Broglie
-clock-engine, "can't relax → oscillates").
+[`10e_findings_N4c.md`](10e_findings_N4c.md) (the symmetry result this makes dynamical) ·
+[`9a_lepton_mass_planning.md`](9a_lepton_mass_planning.md) (the lepton-mass program, #200) ·
+[`sandbox_v8`](sandbox_v8/)/[`sandbox_vn`](sandbox_vn/) (the M5.8 clock machinery) ·
+[#199](https://github.com/openwave-labs/openwave/issues/199) · [#236](https://github.com/openwave-labs/openwave/issues/236) (HELD).
