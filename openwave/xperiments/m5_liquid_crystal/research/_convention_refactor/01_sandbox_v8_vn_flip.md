@@ -84,9 +84,13 @@ numbers reproduced; only relabeled plane/axis identifiers and sub-1e-25 reorder 
 
 ### Data-regen notes (caches, NOT code)
 
-- Stale index-3 **raw-M seed variants** `_m5_8_2cb_ref_{N48,RC1.1,RC1.4,RW2.5,RW4.5}.npz` were DELETED (git-ignored;
-  auto-regenerate index-0 on demand via `M58_RW=.. / M58_N=.. python m5_8_2cb_taichi_constrained.py ref`). The
-  primary `_m5_8_2cb_ref.npz` was regenerated index-0 (g at diag idx 0).
+- Stale index-3 **raw-M seed variants** `_m5_8_2cb_ref_{N48,RC1.1,RC1.4,RW2.5,RW4.5}.npz` were DELETED (git-ignored).
+  The primary `_m5_8_2cb_ref.npz` and the two RW variants `_RW2.5`/`_RW4.5` were REGENERATED index-0 (verified g at
+  diag idx 0) via `[M58_RW=2.5/4.5] CB_STEPS=900 python m5_8_2cb_taichi_constrained.py ref`. End-to-end confirmed:
+  `2m run` knob gate PASSES (H_static 10.50/16.74/29.17 over R_W 2.5/3.5/4.5, spread 177.8%, ZBW law reproduced).
+  The `N48`/`RC1.1`/`RC1.4` variants stay deleted (regenerate on demand via `M58_N=48` / `M58_RC=..`).
+- `_m5_8_2g_settled.npz` was REGENERATED index-0 (via `python m5_8_2g_spontaneity.py settle`, S4+S5; verified g at
+  idx 0, the un-sittable-minimum settle physics intact). `2h run` now finds it and runs clean (was FileNotFound).
 - Stale index-3 **saved traces** that store DERIVED SCALARS (`data/_m5_8_2h_dense.npz`, `_m5_8_2o_*.npz`,
   `_m5_8_2i_gate_N*.npz`) are relabel-INVARIANT (scalar invariants unchanged), so `analyze` modes still read them
   correctly; regenerate only if a fresh full run is wanted (expensive 48000-step evolutions, NOT done here).
