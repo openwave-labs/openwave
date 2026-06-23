@@ -85,11 +85,12 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_vn.m5_8_2h_omega_att
 BETA = 1.558
 PROBE = 200
 
-# 4×4 embeddings of the spatial rotation generators (time axis inert)
+# 4×4 embeddings of the spatial rotation generators (time = matrix index 0, inert;
+# spatial-eigen matrix axes {1,2,3} under the index-0 convention)
 G4 = np.zeros((3, 4, 4))
-G4[0, 1, 2], G4[0, 2, 1] = -1.0, 1.0          # G_x: rotation about x
-G4[1, 2, 0], G4[1, 0, 2] = -1.0, 1.0          # G_y
-G4[2, 0, 1], G4[2, 1, 0] = -1.0, 1.0          # G_z
+G4[0, 2, 3], G4[0, 3, 2] = -1.0, 1.0          # G_x: rotation about x (mixes eigen-axes 2,3)
+G4[1, 3, 1], G4[1, 1, 3] = -1.0, 1.0          # G_y (mixes eigen-axes 3,1)
+G4[2, 1, 2], G4[2, 2, 1] = -1.0, 1.0          # G_z (mixes eigen-axes 1,2)
 
 
 def J_measure(P, M, h, XYZ, actb):

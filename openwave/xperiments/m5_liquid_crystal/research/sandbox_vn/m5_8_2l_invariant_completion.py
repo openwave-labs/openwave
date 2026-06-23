@@ -123,9 +123,9 @@ def a4_main():
         for i, j, k in d2.Pf:
             m = d2.Mf[i, j, k]
             mt = m
-            for r_ in ti.static(range(3)):             # tw = ηmη: flip (3,α)
-                mt[3, r_] = -mt[3, r_]                 # and (α,3); [3,3] stays
-                mt[r_, 3] = -mt[r_, 3]
+            for r_ in ti.static(range(1, 4)):          # tw = ηmη: flip (0,α)
+                mt[0, r_] = -mt[0, r_]                 # and (α,0); [0,0] stays
+                mt[r_, 0] = -mt[r_, 0]
             s2 = (m * mt).sum()
             d2.Pf[i, j, k] += dt * (-4.0 * beta_a * (s2 - c0) * mt)
 

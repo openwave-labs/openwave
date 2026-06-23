@@ -16,7 +16,7 @@ isolate which delta is the pump:
     (d) V-off + no-clamp:  the bare constrained kernel at production scale
 
 Probes every 250 steps: max|M|, max‖Ṁ‖, mean|M − M_seed| (act), and the
-(α,3) coherent-drift magnitude. 6000-step horizon (~90 s/variant on Metal).
+(0,α) coherent-drift magnitude. 6000-step horizon (~90 s/variant on Metal).
 
 USAGE:  python m5_8_2cb2_signed_gui_repro.py
 """
@@ -81,7 +81,7 @@ def run_variant(tag, ldg_k, clamp_on, steps=STEPS):
     # reference: align(t) = mean |⟨n̂(t), n̂(0)⟩| over act. THE glyph-scramble
     # metric ("bounded" alone gates amplitude only — GUI chaos is ORIENTATION;
     # this probe sees it, max|M| does not).
-    _, v0 = np.linalg.eigh(M_seed[..., :3, :3][actb])
+    _, v0 = np.linalg.eigh(M_seed[..., 1:4, 1:4][actb])
     n0 = v0[..., -1]
     print(f"\n[{tag}] N={tf.nx} dt_eff={dt_eff:.4f} cc4d={cc4d:.2e} "
           f"clamp={'plane' if clamp_on else 'OFF'}")
@@ -102,11 +102,11 @@ def run_variant(tag, ldg_k, clamp_on, steps=STEPS):
             mx = float(np.abs(M).max())
             vmax = float(np.sqrt(np.einsum("...ab,...ab->...", Md, Md)).max())
             dM = float(np.abs(M - M_seed).max(axis=(-1, -2))[actb].mean())
-            d03 = float(np.abs(M[..., :3, 3][actb]).mean())
-            _, vt = np.linalg.eigh(M[..., :3, :3][actb])
+            d03 = float(np.abs(M[..., 1:4, 0][actb]).mean())
+            _, vt = np.linalg.eigh(M[..., 1:4, 1:4][actb])
             align = float(np.abs(np.einsum("...i,...i->...", vt[..., -1], n0)).mean())
             print(f"   step {n_ + 1:5d} [{time.time() - t0:4.0f}s] max|M|={mx:10.3e} "
-                  f"max‖Ṁ‖={vmax:8.3f} ⟨|ΔM|⟩={dM:9.3e} ⟨|M_a3|⟩={d03:9.3e} "
+                  f"max‖Ṁ‖={vmax:8.3f} ⟨|ΔM|⟩={dM:9.3e} ⟨|M_a0|⟩={d03:9.3e} "
                   f"align={align:.3f}")
             if not np.isfinite(mx) or mx > 1e4:
                 print(f"   → EXPLODED by step {n_ + 1}")

@@ -1,0 +1,61 @@
+{
+  "phase": "P1b-charge-quantization",
+  "ok": true,
+  "rows": [
+    {
+      "R_over_r0": 5.0,
+      "E_ext_dimless": 0.10239600477706334,
+      "coulomb_dimless": 0.1,
+      "charge2_in_e2": 1.0239600477706334,
+      "alpha_sol_inv": 133.82943932466395,
+      "alpha_sol_hbar_c_MeVfm": 1.4744661667549395
+    },
+    {
+      "R_over_r0": 10.0,
+      "E_ext_dimless": 0.05032447427030862,
+      "coulomb_dimless": 0.05,
+      "charge2_in_e2": 1.0064894854061723,
+      "alpha_sol_inv": 136.15243981281995,
+      "alpha_sol_hbar_c_MeVfm": 1.4493091763267834
+    },
+    {
+      "R_over_r0": 20.0,
+      "E_ext_dimless": 0.025041386528964482,
+      "coulomb_dimless": 0.025,
+      "charge2_in_e2": 1.0016554611585793,
+      "alpha_sol_inv": 136.80951624373446,
+      "alpha_sol_hbar_c_MeVfm": 1.4423483527889245
+    },
+    {
+      "R_over_r0": 40.0,
+      "E_ext_dimless": 0.012505199552990343,
+      "coulomb_dimless": 0.0125,
+      "charge2_in_e2": 1.0004159642392274,
+      "alpha_sol_inv": 136.9790207098603,
+      "alpha_sol_hbar_c_MeVfm": 1.4405635211684327
+    },
+    {
+      "R_over_r0": 80.0,
+      "E_ext_dimless": 0.006250650767086752,
+      "coulomb_dimless": 0.00625,
+      "charge2_in_e2": 1.0001041227338803,
+      "alpha_sol_inv": 137.02173200666246,
+      "alpha_sol_hbar_c_MeVfm": 1.4401144804563215
+    },
+    {
+      "R_over_r0": 160.0,
+      "E_ext_dimless": 0.0031250813716569015,
+      "coulomb_dimless": 0.003125,
+      "charge2_in_e2": 1.0000260389302085,
+      "alpha_sol_inv": 137.03243090609533,
+      "alpha_sol_hbar_c_MeVfm": 1.440002042547307
+    }
+  ],
+  "charge2_at_160r0": 1.0000260389302085,
+  "alpha_sol_inv_at_160r0": 137.03243090609533,
+  "alpha_sol_hbar_c_at_160r0": 1.440002042547307,
+  "faber_target_alpha_sol_inv": "137.1(1)",
+  "faber_target_alpha_sol_hbar_c": "1.4387(8)",
+  "coulomb_hbar_c": 1.4399645474109544,
+  "converging_to_unit_charge": true
+}

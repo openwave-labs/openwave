@@ -26,7 +26,7 @@ them.
 | [4](#lesson-4--building-a-particle-the-biaxial-hedgehog--topology) | [Building a particle: the biaxial hedgehog & topology](#lesson-4--building-a-particle-the-biaxial-hedgehog--topology) | `O=[r̂ \| e_Θ \| e_Φ]` (the three vectors), eigenvalue melt, disclination; *+ winding number = quantized charge, Derrick's theorem → no static soliton* |
 | [5](#lesson-5--energy-mass--the-ground-state) | [Energy, mass & the ground state](#lesson-5--energy-mass--the-ground-state) | *the action principle (ℒ=T−U → EOM); the energy Hamiltonian vs the Frank elastic energy; mass = stored field energy above vacuum (E=mc²); F = −∇E; the ground state* |
 | [6](#lesson-6--dynamics-how-the-field-actually-moves) | [Dynamics: how the field actually moves](#lesson-6--dynamics-how-the-field-actually-moves) | *the leapfrog `evolve_M`; faithful (`4Σ‖[M_μ,Ṁ]‖²`) vs simple (`½‖Ṁ‖²`) kinetic; `V(M)` confines amplitude not orientation (the M5.7 root cause); energy conservation as the validation* |
-| [7](#lesson-7--the-de-broglie-clock-engine--spin-½-zitterbewegung) | [The de Broglie clock-engine & spin-½ (Zitterbewegung)](#lesson-7--the-de-broglie-clock-engine--spin-½-zitterbewegung) | *why a topological defect can't relax → oscillates (knotted-rubber-band); the spinning-arrow visual; spinning vs oscillating; ω=2mc²/ℏ; the **engine** (Minkowski negative-energy self-propulsion — depth here); **spin-½** (SO(3) double-cover, 2ω doubling, L=ℏ/2); de Broglie λ; time-crystal* |
+| [7](#lesson-7--the-de-broglie-clock-engine--spin-12-zitterbewegung) | [The de Broglie clock-engine & spin-1/2 (Zitterbewegung)](#lesson-7--the-de-broglie-clock-engine--spin-12-zitterbewegung) | *why a topological defect can't relax → oscillates (knotted-rubber-band); the spinning-arrow visual; spinning vs oscillating; ω=2mc²/ℏ; the **engine** (Minkowski negative-energy self-propulsion — depth here); **spin-1/2** (SO(3) double-cover, 2ω doubling, L=ℏ/2); de Broglie λ; time-crystal* |
 | [8](#lesson-8--force-emergence-coulomb-maxwell-magnetism-gravity) | [Force emergence: Coulomb, Maxwell, magnetism, gravity](#lesson-8--force-emergence-coulomb-maxwell-magnetism-gravity) | Coulomb (static topology, 1/d) ↔ Maxwell (dynamic tilts); electric (`∇·n̂`) / magnetic (`∇×n̂`) / gravitational (boosts); *EM orthogonality E⊥B in the tensor field*; magnetic moment; *magnetism as a dynamical correction to Coulomb (Feynman) vs* permanent-magnet static B with no moving charge |
 | [9](#lesson-9--seeing-it-the-visualization-map) | [Seeing it: the visualization map](#lesson-9--seeing-it-the-visualization-map) | glyphs (direction=`n̂`, size, color), `flux_mesh`, `warp_mesh` scalar vs vector, granule positions, WAVE_MENU channels; *+ apolar `n̂≡−n̂` gauge sign-flip caveat* |
 | [10](#lesson-10--handedness-chirality--composite-particles) | [Handedness, chirality & composite particles](#lesson-10--handedness-chirality--composite-particles) | the finale: **handedness/chirality** (traversal sign CW/CCW = ±; matter/antimatter; neutrino helicity; biaxial `π₁=Q₈` quaternion classes) + **composite particles** (15a); *seeds in L2 (ellipse handedness) + L4 (topology charge sign)* |
@@ -1170,21 +1170,21 @@ spatially* (the energy moves around) while the **total stays conserved** — tha
 
 ---
 
-## LESSON 7 — The de Broglie clock-engine & spin-½ (Zitterbewegung)
+## LESSON 7 — The de Broglie clock-engine & spin-1/2 (Zitterbewegung)
 
 > **Covers:** *where the time-crystal / Zitterbewegung enters; how oscillation can be "propelled by
 > mass"; whether the clock is a **spin** (ω only) or an **oscillation** (A & ω); the rotational
 > axis (yaw/pitch/roll); `ω = 2mc²/ℏ`; **the engine — the Minkowski negative-energy self-propulsion
-> mechanism (depth here)**; **spin-½** (SO(3) double-cover, the `2ω` doubling, `L=ℏ/2`); the de
+> mechanism (depth here)**; **spin-1/2** (SO(3) double-cover, the `2ω` doubling, `L=ℏ/2`); the de
 > Broglie wavelength λ; the bridge to 4D / teleparallelism (structure set up in L3)*.
-> *(Merges old L7 + the old spin-½ deep-dive: spin-½ is a property of this clock.)*
+> *(Merges old L7 + the old spin-1/2 deep-dive: spin-1/2 is a property of this clock.)*
 
 ### L7 The one-sentence version
 
 A topological defect **can't fully relax** (topology forbids unwinding, L4) and **can't sit static**
 (Derrick, L4) — so it does the only thing left: it **oscillates**. The oscillation is a **spin** of the
 director frame at `ω = 2mc²/ℏ`, and in 4D the Minkowski sign makes that spin the **ground state** — a
-**self-propelling clock-engine**, a **time-crystal**. Spin-½ is a property *of* this clock.
+**self-propelling clock-engine**, a **time-crystal**. Spin-1/2 is a property *of* this clock.
 
 ### Why it can't sit still — the knotted rubber band
 
@@ -1284,14 +1284,14 @@ The clock isn't just a *measurement* — it's an **engine** that propels its own
   particle. What CAN be modulated is the *excess* above ground state (`(A,ω)`) and, speculatively, the
   rate/scale (time/gravity) — but the spin itself *is* the rest energy, not free energy.
 
-### Spin-½ — a property of this clock
+### Spin-1/2 — a property of this clock
 
-Spin-½ is a property *of this clock* (it was the old L11 deep-dive). Three threads:
+Spin-1/2 is a property *of this clock* (it was the old L11 deep-dive). Three threads:
 
 | Thread | One-line | Anchor |
 | --- | --- | --- |
 | **The `2ω` apolar doubling** | the clock's observable cycles at `2ω` because the order parameter is apolar (`n̂⊗n̂`, a 180° turn looks identical) → the origin of `ω_Zitt = 2mc²/ℏ` | the "radius/what-spins" note above |
-| **The SO(3) double-cover** | a 2π rotation does **not** restore the state (you need 4π) — the topological signature of spin-½; `O∈SO(3)` lifts to `SU(2)` | `5a §10` |
+| **The SO(3) double-cover** | a 2π rotation does **not** restore the state (you need 4π) — the topological signature of spin-1/2; `O∈SO(3)` lifts to `SU(2)` | `5a §10` |
 | **Spin = the clock's angular momentum** | `L = ℏ/2` is the conserved angular momentum of the self-propelled rotation (the engine's "flywheel") | M5.8 |
 
 Full concreteness needs the 4D clock (M5.8, structure in L3). Tie-in: Duda's slide gyroscope / `L=ℏ/2`
@@ -1345,7 +1345,7 @@ that certifies the engine — `0b §Validation logic`.)
 ### Lesson map — so the clock threads don't blur
 
 **L3** sets up the *structure* (the 4th axis exists; the clock = a rotation into time; the hand = the
-δ-axis). **L7 (here)** is the *mechanism* (the negative-energy engine, spin-½, `ω=2mc²/ℏ`). Mental
+δ-axis). **L7 (here)** is the *mechanism* (the negative-energy engine, spin-1/2, `ω=2mc²/ℏ`). Mental
 model: **see the hand** (δ cross-bar, today) **→ the motor** (4D Minkowski sign, M5.8) **→ the full
 why** (this lesson). Term glossary (hand/motor/dial = `clock_twist` / clock-engine / de Broglie clock)
 is in `L3 Q&A` #9.
@@ -1379,7 +1379,7 @@ outcome + a falsifiable **test**, in M5's least-developed sector.
 | 3 | why is it an *engine*, not just a clock? | the Minkowski `(−+++)` sign makes the spinning state **lower-energy than static** (M5.8.0a) → spinning is the ground state, self-sustaining. | above |
 | 4 | is it perpetual motion? | **no** — the spin *is* the rest energy (`ℏω=mc²`); only the *excess* `(A,ω)` is modulable, not free energy. | above |
 | 5 | what's a time-crystal? | matter whose *ground state* is periodic in **time** (Wilczek). The particle is a *genuine* (equilibrium) one, allowed by the negative-energy sign (⚠️ hypothesis; lab DTCs are *driven*). | above |
-| 6 | why spin-½? | the order parameter is apolar + `SO(3)` double-covers `SU(2)` (2π ≠ identity, need 4π); `L=ℏ/2`. | above |
+| 6 | why spin-1/2? | the order parameter is apolar + `SO(3)` double-covers `SU(2)` (2π ≠ identity, need 4π); `L=ℏ/2`. | above |
 | 7 | can we see the clock? | only its **shadow** — the δ cross-bar sweep (today an incoherent wobble; coherent @ M5.8). | above |
 | 8 | 1D vs 3D? | the mechanism is validated in **1D** (M5.8.0a); the **3D** self-sustaining clock is the prize — *not* yet done, *not* claimable as "first". | above |
 
@@ -1980,7 +1980,7 @@ The original questions this curriculum organizes:
 | Elliptical motion / 6-phasor ellipse → `M=O·D·Oᵀ` ellipsoid bridge | L2 |
 | "Knotted rubber band" analogy (topology + energy → oscillation) | L7 (seed) |
 | "Spinning arrow through a point" visual (rotational, not translational) | L7 (seed) |
-| Spinning (ω) vs oscillating (A & ω); spin-½; de Broglie λ | L7 |
+| Spinning (ω) vs oscillating (A & ω); spin-1/2; de Broglie λ | L7 |
 | The 4th dimension: gravity (`g`) + the time axis; the two "times" | L3 |
 | 4D & teleparallelism | L3 |
 | Handedness / chirality; matter-antimatter; composite particles | L10 |

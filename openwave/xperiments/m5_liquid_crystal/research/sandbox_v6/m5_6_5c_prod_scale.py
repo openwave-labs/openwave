@@ -55,8 +55,8 @@ def amp_dev_after(ldg_c, n_steps):
         if step % 40 == 0:
             M = tf.M_am.to_numpy()
             # M5.8.1: spatial 3×3 block only — V_M pins the SPATIAL Tr(M²); the
-            # constant-g time axis (index 3) is decoupled and excluded.
-            Msp = M[..., :3, :3]
+            # constant-g time axis (index 0) is decoupled and excluded.
+            Msp = M[..., 1:4, 1:4]
             s2 = np.einsum("...ab,...ab->...", Msp, Msp)   # Tr(M_sp²)=‖M_sp‖_F²
             # interior, off the disclination z-axis + point core
             xs = np.arange(nn) - c

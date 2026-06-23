@@ -132,7 +132,7 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     central, commf, matmul,
 )
 
-A_BOOST = 1
+A_BOOST = 2                               # boost axis (2a/2f article-combo), index-0 (was 1)
 PHASES4 = (0.0, np.pi / 8, np.pi / 4, 3 * np.pi / 8)   # the 2b cache convention
 KIN_NPZ = HERE / "_m5_8_2f3_kin.npz"
 TRAJ_NPZ = HERE / "_m5_8_2f3_traj.npz"
@@ -157,8 +157,8 @@ def tabulate_kin(bg, phases=PHASES9, verbose=True):
         S, Gd = clock_mats(psi)
         for it, th in enumerate(TH_MESH):
             Bc = np.eye(4)
-            Bc[A_BOOST, A_BOOST] = Bc[3, 3] = np.cosh(th)
-            Bc[A_BOOST, 3] = Bc[3, A_BOOST] = np.sinh(th)
+            Bc[A_BOOST, A_BOOST] = Bc[0, 0] = np.cosh(th)   # time axis = index 0
+            Bc[A_BOOST, 0] = Bc[0, A_BOOST] = np.sinh(th)
             W = np.einsum("...ac,cb->...ab", O4, Bc)
             M = conj(W, S)
             Y = Bc @ S @ Bc.T

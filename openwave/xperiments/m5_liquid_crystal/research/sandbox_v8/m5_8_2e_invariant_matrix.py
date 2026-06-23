@@ -222,7 +222,7 @@ def run_gen(tag, beta_s, beta_e, euclid, seed, dt, steps, s_every=0):
     for i_ in range(3):
         P0 += d2.np_commf(tw_eff(d2.np_commf(Md0, Mi[i_])), Mi[i_])
     Pf.from_numpy((4.0 * P0).astype(np.float32))
-    _, v0 = np.linalg.eigh(M0[..., :3, :3][actb])
+    _, v0 = np.linalg.eigh(M0[..., 1:4, 1:4][actb])
     n0 = v0[..., -1]
     Hs, aligns, ss, s_dense = [], [], [], []
     t0 = time.time()
@@ -257,7 +257,7 @@ def run_gen(tag, beta_s, beta_e, euclid, seed, dt, steps, s_every=0):
                     u_e = u_e + 2.0 * np.einsum("...ab,...ab->...", F, F)
                     u_s = u_s + 2.0 * np.einsum("...ab,...ab->...", F, tw_eff(F))
             H = float((T + u_s + beta_s * u_s * u_s + beta_e * u_e * u_e)[actb].sum()) * h**3
-            _, vt = np.linalg.eigh(M[..., :3, :3][actb])
+            _, vt = np.linalg.eigh(M[..., 1:4, 1:4][actb])
             al = float(np.abs(np.einsum("...i,...i->...", vt[..., -1], n0)).mean())
             s = float(np.einsum("...ab,...ab->...", M - M0, Mth)[core].mean())
             Hs.append(H)
@@ -365,9 +365,9 @@ def mode_f64(beta=1.558, steps=3000):
         force = (sum(central(dU[ax], ax, h) for ax in range(3))
                  - sum(central(dT[ax], ax, h) for ax in range(3)))
         P = P + DT * force
-        for a_ in range(3):
-            P[..., a_, 3] -= P[..., a_, 3][actb].mean() * actb
-            P[..., 3, a_] = P[..., a_, 3]
+        for a_ in range(1, 4):                       # spatial-eigen boost axes {1,2,3} (index-0)
+            P[..., a_, 0] -= P[..., a_, 0][actb].mean() * actb
+            P[..., 0, a_] = P[..., a_, 0]
         Amat = build_A_matrix(Mi)
         cdot, keep, Pc_proj = solve_constrained(Amat, to_coeff(P))
         P = from_coeff(Pc_proj)

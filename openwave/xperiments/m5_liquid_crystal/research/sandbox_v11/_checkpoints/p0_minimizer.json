@@ -1,0 +1,40 @@
+{
+  "phase": "P0",
+  "all_ok": true,
+  "wall_s": 5.5,
+  "gates": [
+    {
+      "gate": "gradcheck",
+      "ok": true,
+      "max_rel_err": 1.4359098484123419e-07,
+      "n_checks": 25
+    },
+    {
+      "gate": "vm_ldg",
+      "ok": true,
+      "indep_match": 3.552713678800501e-15,
+      "g_decoupled": 0.0,
+      "hand_ref": 4.800000000000001,
+      "hand_ref_expected": 4.800000000000001
+    },
+    {
+      "gate": "phi4",
+      "ok": true,
+      "E_final": 0.9425827613328832,
+      "E_analytic": 0.9428090415820635,
+      "rel_err": 0.00024000644796591015,
+      "profile_max_err": 0.00010149274387849516,
+      "monotone": true,
+      "n_energy_samples": 5
+    },
+    {
+      "gate": "hedgehog",
+      "ok": true,
+      "g0": 17.645168832682554,
+      "gf": 0.00010945532170647347,
+      "E0": 65.78675862177101,
+      "Ef": -12.422663102639099,
+      "descent_decades": 5.207388936366432
+    }
+  ]
+}

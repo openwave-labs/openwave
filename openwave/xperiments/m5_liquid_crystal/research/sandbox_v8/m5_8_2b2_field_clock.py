@@ -1,6 +1,6 @@
 """
 M5.8.2b-2 — the field-level core-localized clock: m5_6_2b's action-derived twist
-evolution extended to 4D with the Minkowski (α,3) block signs, on the
+evolution extended to 4D with the Minkowski (0,α) block signs, on the
 boost-dressed hedgehog (the 2b ground region).
 
 2b ruled out the GLOBAL rigid clock (ghost saddle-only — the net global inertia
@@ -8,13 +8,13 @@ crosses zero at the window edges, a mode-choice artifact). The physical clock is
 the CORE-LOCALIZED twist field ψ(x,t) — m5_6_2b's massive mode — whose LOCAL
 inertia K(x) need not cross zero where the evolution lives. Same kernel as
 m5_6_2b, with every Frobenius inner product replaced by the SIGNED block inner
-(spatial matrix pairs positive, (α,3) pairs negative — the §10d ℋ rule):
+(spatial matrix pairs positive, (0,α) pairs negative — the §10d ℋ rule):
 
-    M_bg = W D₄ Wᵀ ,  W = O_hh·B(b·w(r)) ,  D₄ = diag(1, δ, 0, g) ,  time = idx 3
+    M_bg = W D₄ Wᵀ ,  W = O_hh·B(b·w(r)) ,  D₄ = diag(g, 1, δ, 0) ,  time = idx 0
     M_ψ = W [G_(δ,0), D₄] Wᵀ ,  P_μ = [M_μ, M_ψ] ,  K(x) = 4 Σ_μ ⟨P_μ, P_μ⟩_s
     F̃_μν = C_μν − ψ_μP_ν + ψ_νP_μ ,  U = 16 Σ ⟨F̃,F̃⟩_s
     EOM:  2K ψ_tt = Σ_μ ∂_μ J_μ ,  J_μ = −32 Σ_ν ⟨F̃_μν, P_ν⟩_s
-    ⟨A,B⟩_s = 2[Σ_(sp pairs) A·B − Σ_((α,3) pairs) A·B]   (Euclid flag: all +)
+    ⟨A,B⟩_s = 2[Σ_(sp pairs) A·B − Σ_((0,α) pairs) A·B]   (Euclid flag: all +)
 
 GATES (roadmap M5.8.2 remaining-tasks spec):
   F1  the signed GHOST MAPS first — BOTH faces: the inertia map (K<0) and the
@@ -25,7 +25,7 @@ GATES (roadmap M5.8.2 remaining-tasks spec):
       region (K>0 ∧ Q PD) exists at the 2b ground dressing.
   F2  SOURCED: |force(ψ=0)| > 0 on the dressed background (the m5_6_2b analog);
       b=0 control: signed ≡ Euclidean EXACTLY (no time-mixing components);
-      the (α,3) block's contribution to the source measured (Mink vs Euclid).
+      the (0,α) block's contribution to the source measured (Mink vs Euclid).
   F3  BOUNDED + conservative on the STABLE region: full-H drift < 2%, no
       blow-up. (F3-control: the K-only mask blow-up DOCUMENTED — the linear
       propulsion signature, with its growth rate; saturation = 2c's job.)
@@ -55,8 +55,8 @@ from openwave.xperiments.m5_liquid_crystal.research.sandbox_v6.m5_6_2a_biaxial_h
     build_frame, matmul, commf, central, RC, RHOC, L, N,
 )
 
-PLANE = (1, 2)              # the (δ,0) clock plane (low-breathing — the 2b CC seed)
-A_BOOST = 1                 # boost axis (2a/2b article combo)
+PLANE = (2, 3)              # the (δ,0) clock plane (low-breathing — the 2b CC seed)
+A_BOOST = 2                 # boost axis (2a/2b article combo)
 B_STAR = 0.13               # the 2b dressed ground state
 R_W = 3.5                   # the 2b ground dressing width
 DT = 0.012
@@ -90,8 +90,8 @@ def build_bg4(b, rw, euclid=False):
     fr = build_frame()
     O3, h, r, rho = fr["O"], fr["h"], fr["r"], fr["rho"]
     O4 = np.zeros(O3.shape[:-2] + (4, 4))
-    O4[..., :3, :3] = O3
-    O4[..., 3, 3] = 1.0
+    O4[..., 1:4, 1:4] = O3
+    O4[..., 0, 0] = 1.0
     w = np.exp(-((r / rw) ** 2))
     W = matmul(O4, boost_field(b * w, A_BOOST))
     G = gen4(PLANE)
@@ -100,8 +100,8 @@ def build_bg4(b, rw, euclid=False):
     Mmu = [central(Mbg, ax, h) for ax in range(3)]
     P = [commf(Mmu[ax], Mpsi) for ax in range(3)]
     K = 4.0 * sum(sfrob2(P[ax], euclid) for ax in range(3))
-    pairs = [(0, 1), (0, 2), (1, 2)]
-    C = {p: commf(Mmu[p[0]], Mmu[p[1]]) for p in pairs}
+    GRAD_PAIRS = [(0, 1), (0, 2), (1, 2)]   # spatial GRADIENT (∂_x,∂_y,∂_z) axis pairs — NOT matrix indices (index-0 de-conflation)
+    C = {p: commf(Mmu[p[0]], Mmu[p[1]]) for p in GRAD_PAIRS}
     # gradient-stiffness form Q (3×3 per voxel) from the signed P-inners
     pij = np.zeros(r.shape + (3, 3))
     for i in range(3):
@@ -120,7 +120,7 @@ def build_bg4(b, rw, euclid=False):
     geom = (r > 2 * RC) & (rho > RHOC) & interior
     kpos = K > 1e-6 * np.abs(K).max()
     qpos = minQ > 1e-6 * np.abs(minQ).max()
-    return dict(h=h, K=K, P=P, C=C, pairs=pairs, r=r, geom=geom,
+    return dict(h=h, K=K, P=P, C=C, pairs=GRAD_PAIRS, r=r, geom=geom,
                 X=fr["X"], Y=fr["Y"], euclid=euclid, minQ=minQ,
                 stable=geom & kpos & qpos, kpos=kpos)
 
@@ -203,7 +203,7 @@ def seed_field(bg):
 def main():
     print("=" * 78)
     print("M5.8.2b-2 — field-level core-localized clock (4D signed kernel, dressed bg)")
-    print(f"  grid {N}³  D=diag(1,δ,0,g)  clock plane (δ,0)  b*={B_STAR}  r_w={R_W}"
+    print(f"  grid {N}³  D=diag(g,1,δ,0)  clock plane (δ,0)  b*={B_STAR}  r_w={R_W}"
           f"  dt={DT}")
     print("=" * 78)
 
@@ -248,7 +248,7 @@ def main():
     print(f"    undressed b=0:  max|force| = {src0:.3e}   (m5_6_2b's drive, 4D-embedded)")
     print(f"    dressed Mink:   max|force| = {srcM:.3e}   (× {srcM / src0:.2f} vs"
           f" undressed)")
-    print(f"    dressed Euclid: max|force| = {srcE:.3e}   ((α,3)-block share:"
+    print(f"    dressed Euclid: max|force| = {srcE:.3e}   ((0,α)-block share:"
           f" {100 * abs(srcM - srcE) / srcE:.1f}%)")
     print(f"    b=0 identity (signed ≡ Euclid, no time-mixing): max diff = {ident:.2e}")
     f2 = srcM > 0 and ident < 1e-12
@@ -263,7 +263,7 @@ def main():
     print(f"    max|ψ|core after 300 steps = {ampsx[-1]:.3e}  → growth rate λ ≈"
           f" {lam:.1f}/t")
     print("    → exponential — the LINEAR-LEVEL propulsion signature: energy pours")
-    print("      from the (α,3) sector without bound in a linearized frozen")
+    print("      from the (0,α) sector without bound in a linearized frozen")
     print("      background; saturation = compact orbit + backreaction = 2c's")
     print("      constrained nonlinear job. (Euclidean twin needs no such cut.)")
 

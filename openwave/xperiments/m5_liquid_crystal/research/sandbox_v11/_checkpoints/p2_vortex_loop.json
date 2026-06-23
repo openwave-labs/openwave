@@ -1,0 +1,49 @@
+{
+  "phase": "P2-vortex-loop",
+  "verdict": "dissolved_curvature_combed_out",
+  "N": 40,
+  "R0_seed_vox": 12.0,
+  "R_init": 12.0,
+  "R_final": 14.0,
+  "iters_run": 750,
+  "E_init": -44494.69759478384,
+  "E_final": -44555.88846694288,
+  "Ecurv_init": 12.635699856289978,
+  "Ecurv_final": 0.6732728120004854,
+  "curv_retention": 0.05328338118646701,
+  "gnorm_final": 0.009536439010625928,
+  "ldg": {
+    "a": -1.18,
+    "b": 0.0,
+    "c": 0.5,
+    "vac_Tr2": 1.18
+  },
+  "track": {
+    "iter": [
+      250,
+      500,
+      750
+    ],
+    "R": [
+      11.0,
+      14.0,
+      14.0
+    ],
+    "E": [
+      -44555.57534135108,
+      -44555.76945320057,
+      -44555.88846694288
+    ],
+    "Ecurv": [
+      0.986395925455601,
+      0.7922861908501184,
+      0.6732728120004854
+    ],
+    "gnorm": [
+      0.017883340435378252,
+      0.011867235123794406,
+      0.009536439010625928
+    ]
+  },
+  "note": "plain +1/2 disclination ring, uniaxial seed, amplitude-only V_M; FORK if collapsed -> the chiral/knot structure (Duda) is the next choice, flagged not assumed"
+}

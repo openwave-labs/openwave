@@ -46,7 +46,7 @@ def main():
           " max|W(φ+π)−W(φ)| | verdict |")
     print("  | --- | --- | --- | --- | --- |")
     ok_all = True
-    for plane, tag in (((1, 2), "twist"), ((0, 1), "tilt")):
+    for plane, tag in (((2, 3), "twist"), ((1, 2), "tilt")):
         _, W0, M0, _, act = grid_and_seed(n, b=0.0, plane=plane, phi=0.3)
         _, Wpi, Mpi, _, _ = grid_and_seed(n, b=0.0, plane=plane, phi=0.3 + np.pi)
         _, _, Mh, _, _ = grid_and_seed(n, b=0.0, plane=plane,
