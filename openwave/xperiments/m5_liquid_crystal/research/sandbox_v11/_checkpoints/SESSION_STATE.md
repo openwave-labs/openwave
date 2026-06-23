@@ -1,24 +1,46 @@
-# M5.11 session state (resume here)
+# M5.11 session state (run 2 complete , Taichi AD)
 
-Go: 2026-06-22 20:43 EDT. Plan: [`11a_vortex_loop.md`](../../11a_vortex_loop.md). Findings: [`11b_findings.md`](../../11b_findings.md).
+Run 1 go: 2026-06-22 20:43 EDT (P0-P2). Run 2 go: 2026-06-22 21:54 EDT (Taichi-AD, P1b+P2).
+Plan: [`11a_vortex_loop.md`](../../11a_vortex_loop.md). Findings: [`11b_findings.md`](../../11b_findings.md).
 
-## Done + validated (all gates PASS)
+## Done + validated
 
 | Phase | Script | Result |
 | --- | --- | --- |
-| P0 minimizer + V_M/LdG | `v11_p0_minimizer.py` | gradcheck 1.4e-7 · V_M=engine to 3.5e-15 · φ⁴ 0.024% · 3D hedgehog −5.2 decades |
-| P1a Faber electron | `v11_p1_faber_electron.py` | generic seed → arctan to 5e-6 · I=π/4 to 6e-6 · 511.00 keV at r0=2.2132 fm |
-| P1b-foundation 3D SU(2) Γ/R | `v11_p1b_lattice.py` | O(a²) → −0.016% of exact; the loop+dipole machinery validated |
+| P0 minimizer + V_M/LdG | `v11_p0_minimizer.py` | all gates pass |
+| P1a Faber electron | `v11_p1_faber_electron.py` | 511.00 keV at r0=2.2132 fm, I=π/4 to 6e-6 |
+| P1b machinery + α⁻¹ | `v11_p1b_lattice.py`, `v11_p1b_dipole.py` | 3D+axisym Γ/R validated; charge→1e, 1/α_sol→137.03 |
+| AD engine (run 2) | `v11_ad_energy.py` | Taichi reverse-mode AD == P0 (E 4e-16, grad 1.8e-13) |
+| P2 run1 plain ring | `v11_p2_vortex_loop.py` | dissolves (curvature combs out) |
+| P2 run2 Hopfion | `v11_p2_hopfion.py` | smooth knot EXPANDS (curvature 65→0.10); AD-FIRE monotone |
 
-## Next (the remaining P1 piece, then P2+)
+## The sharpened conclusion (run 2)
 
-1. **P1b-dipole** , the non-circular fine-structure result `α_sol ℏc≈1.4387 MeV·fm`, `α⁻¹≈137`, running `α(d)`.
-   Needs the AXISYMMETRIC 2D (ρ,z) two-soliton lattice (Faber's actual method: Eq. 11-25, cylindrical, two
-   hedgehogs at separation d∈[200,280] fm, minimize, fit `E(d)=2m_ec²−α_sol ℏc/d`). Big careful build , do it
-   fresh, no cut corners. The 3D Γ/R machinery (P1b-foundation) is the kernel; the new work is the
-   axisymmetric reduction + the φ-winding handling + H_out exterior + the two-center seed.
-2. **P2** the vortex LOOP seeder + relax (reuses the validated minimizer + 3D Γ/R).
+The M5 functional = 4th-order curvature + potential, NO 2nd-order Frank term.
+Derrick: E(λ)=λ⁻¹ E_curv + λ³ E_pot. A SINGULAR core forces a melt (E_pot>0 → λ³ → stable,
+the electron). A SMOOTH knot (Hopfion) keeps amplitude at vacuum (E_pot≈0) → expands.
+=> the stable NEUTRINO is a KNOTTED/LINKED **singular** disclination (singular core for the
+melt/λ³, knotting for protection). A smooth Hopfion is the wrong object.
+
+## Two open items (both AD-unblocked, for an attended run)
+
+1. **The heliknoton (THE neutrino, P2) , DIRECTION RESOLVED.** The Smalyukh 2020 thesis
+   (`theory/liquid_crystal_defects/2020 Topological Solitons in Chiral Condensed Matters PhD.pdf`,
+   Duda's own referenced lit) shows the stabilizer is the CHIRAL term, not a Skyrme term:
+   add `F_chiral = ∫ 2 q0 L ε_ikl Q_ij ∂_k Q_lj` (q0=2π/p) to the functional + a HELICAL far-field
+   background, seed an elementary heliknoton (Hopf Q=1), relax with the AD engine. Our Hopfion
+   expanded only because the far-field was uniform and there was no chiral term. Full build spec
+   (8 steps + biaxial/window caveats) in `11b_findings.md` § "P2 fork RESOLVED". Concrete change:
+   one more differentiable Taichi loop in `v11_ad_energy.py` for the chiral term. Diagnostics:
+   Hopf index Q=(1/64π²)∫b·A, chirality tensor C_ij=n_k ε_ljk ∂_i n_l, singular vortex lines = χ
+   singularities. Caveat (thesis p.132): biaxial-material singular knots are hard → smooth
+   heliknoton first.
+2. **Running α(d) (P1b refinement).** Build a differentiable Faber-axisym (ρ,z) two-soliton
+   kernel (the M5-tensor AD kernel is the template), minimize at each d, fit α_sol(d). The
+   charge route already gave the asymptote (α⁻¹→137); this is the short-d QED-running curve.
+
+P3-P6 depend on a stable loop existing (item 1).
 
 ## Resume ping
 
-`SABER Resume: Task M5.11` armed, fires 2026-06-23T05:05:00Z (01:05 EDT, reset+5). Disarm at true FINISH.
+Not armed this run (no reset time supplied). Lossless via these checkpoints.
