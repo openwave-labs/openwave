@@ -130,3 +130,5 @@ The coverage matrix scores phenomena; this companion table scores the model-leve
 3. A maintainer reviews and merges the PR.
 
 **Is there moderation?** Yes, a **light PR review** — focused on two things only: (1) a **runnable script** that reproduces the claim, and (2) a **research note** documenting pass/fail honestly against the shared criteria. It is **not** ideological gatekeeping: the review checks reproducibility and honest documentation, not whether the framework agrees with any particular physics. See [`CONTRIBUTING.md`](CONTRIBUTING.md) (setup, PR flow, DCO) and [`SYS_ARCH.md`](SYS_ARCH.md) (repo structure).
+
+**New to this?** [`ONBOARDING_MODELS.md`](ONBOARDING_MODELS.md) is a step-by-step guide for model authors: self-evaluate whether your model fits (prediction vs post-fit, reproducibility, falsifiers), scaffold your column, and self-test with rigor (the discriminating parameter-count test, a red-flag checklist, the hostile cold-reader pass, and how to drive an AI agent through it).
