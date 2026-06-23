@@ -229,6 +229,47 @@ def heliknoton_director(X, Y, Z, R0, q0):
     return nh / np.linalg.norm(nh, axis=-1, keepdims=True)
 
 
+def disclination_loop_tensor(X, Y, Z, R, r_c):
+    """singular +1/2 disclination LOOP (ring radius R in the z=0 plane), meridional winding
+    psi/2, with a SINGULAR melted core: Msp = f(d)*(delta I + (1-delta) nn), f=tanh(d/r_c),
+    f(0)=0 so the core melts (Msp->0). The melt costs V_M>0 at the core = the lambda^3
+    stabilizer, exactly as for the Faber electron (a topologically-forced melt). Returns (M, n).
+    psi = atan2(z, rho-R) is the angle around the ring core in the meridional (rho,z) plane;
+    the director winds by pi over one loop around the core (a +1/2 disclination)."""
+    rho = np.sqrt(X ** 2 + Y ** 2)
+    rho_safe = np.where(rho < 1e-9, 1e-9, rho)
+    rhat = np.stack([X / rho_safe, Y / rho_safe, np.zeros_like(X)], axis=-1)
+    zhat = np.zeros_like(rhat); zhat[..., 2] = 1.0
+    psi = np.arctan2(Z, rho - R)
+    n = np.cos(psi / 2)[..., None] * rhat + np.sin(psi / 2)[..., None] * zhat
+    n = n / np.linalg.norm(n, axis=-1, keepdims=True)
+    d = np.sqrt((rho - R) ** 2 + Z ** 2)            # distance to the ring core
+    f = np.tanh(d / r_c)                             # melt profile (0 at core -> 1 far)
+    nn = n[..., :, None] * n[..., None, :]
+    Msp = f[..., None, None] * (DELTA * np.eye(3) + (1 - DELTA) * nn)
+    Mout = np.zeros(X.shape + (4, 4))
+    Mout[..., 1:4, 1:4] = Msp
+    Mout[..., 0, 0] = G_TIME
+    return Mout, n
+
+
+def melt_diag(M_np):
+    """diagnose the disclination core via the melt: voxels with Tr(Msp^2) well below vacuum.
+    Returns (melt_volume, melt_ring_R, min_tr2). A persistent ring at finite R = loop held;
+    melt_volume->0 = healed/dissolved; melt_ring_R->0 = collapsed to a point."""
+    Msp = M_np[..., 1:4, 1:4]
+    tr2 = np.trace(Msp @ Msp, axis1=-2, axis2=-1)
+    melted = tr2 < (VAC_TR2 - 0.3)
+    vol = int(np.sum(melted))
+    if vol == 0:
+        return vol, 0.0, float(np.min(tr2))
+    X, Y, Z = grid()
+    rho = np.sqrt(X ** 2 + Y ** 2)
+    depth = np.clip(VAC_TR2 - tr2, 0.0, None) * melted
+    ring_R = float(np.sum(rho * depth) / (np.sum(depth) + 1e-12))
+    return vol, ring_R, float(np.min(tr2))
+
+
 def tensor_from_director(nhat):
     nn = nhat[..., :, None] * nhat[..., None, :]
     Msp = DELTA * np.eye(3) + (1 - DELTA) * nn             # uniaxial, vacuum amplitude
@@ -529,6 +570,80 @@ def run_calib():
     return {"results": results, "any_stable": any_stable}
 
 
+def relax_track_melt(M0, Lc, Kf, iters, label=""):
+    """AD-FIRE relax (boundary pinned, symmetric-projected gradient) tracking the melt core."""
+    free = interior_mask()[..., None, None]
+    M_np = M0.copy(); v = np.zeros_like(M_np)
+    dt, dt_max, alpha, n_pos = 0.02, 0.2, 0.1, 0
+    track = {"iter": [], "E": [], "melt_vol": [], "ring_R": [], "min_tr2": [], "gnorm": []}
+    for it in range(iters):
+        E, g = energy_and_grad(M_np, LDG_A, LDG_B, LDG_C, C2, DX, Q0, Lc, Kf)
+        g[..., 1:4, 1:4] = 0.5 * (g[..., 1:4, 1:4] + np.swapaxes(g[..., 1:4, 1:4], -1, -2))
+        g = np.where(free, g, 0.0); Fc = -g
+        v = v + dt * Fc
+        P = float(np.sum(Fc * v)); fn = np.sqrt(np.sum(Fc * Fc)); vn = np.sqrt(np.sum(v * v))
+        if fn > 0:
+            v = (1 - alpha) * v + alpha * (vn / (fn + 1e-30)) * Fc
+        if P > 0:
+            n_pos += 1
+            if n_pos > 5:
+                dt = min(dt * 1.1, dt_max); alpha *= 0.99
+        else:
+            n_pos = 0; dt *= 0.5; alpha = 0.1; v[:] = 0.0
+        M_np = M_np + dt * v; M_np = np.where(free, M_np, M0)
+        if it % 100 == 0 or it == iters - 1:
+            vol, ring_R, mintr2 = melt_diag(M_np)
+            gn = float(np.sqrt(np.sum(g * g)))
+            track["iter"].append(it); track["E"].append(E); track["melt_vol"].append(vol)
+            track["ring_R"].append(ring_R); track["min_tr2"].append(mintr2); track["gnorm"].append(gn)
+            print(f"  {label} it {it:4d}  E={E:.1f}  melt_vol={vol}  ring_R={ring_R:.2f}  "
+                  f"min_tr2={mintr2:.3f}  |g|={gn:.4f}")
+    return M_np, track
+
+
+def run_disc():
+    print("=" * 70)
+    R_seed = N * DX / 4.0          # ring radius ~ quarter box (well inside, room to grow/shrink)
+    r_c = 2.5                      # melted-core radius
+    print(f"MODE disc : singular +1/2 disclination loop (R={R_seed}, r_c={r_c}); "
+          f"L=0 control vs chiral on (N={N})")
+    X, Y, Z = grid()
+    M0, _ = disclination_loop_tensor(X, Y, Z, R_seed, r_c)
+    v0, rR0, mt0 = melt_diag(M0)
+    print(f"  seed: melt_vol={v0}  ring_R={rR0:.2f}  min_tr2={mt0:.3f}  "
+          f"Ecurv={curvature_only(M0):.2f}")
+    results = []
+    for L in (0.0, 1.7, 5.0):
+        Kf = L / 2.0
+        print(f"\n -- L={L} (K_frank={Kf}) --")
+        Mf, track = relax_track_melt(M0, L, Kf, ITERS, label=f"L{L}")
+        vol_f, rR_f, mt_f = track["melt_vol"][-1], track["ring_R"][-1], track["min_tr2"][-1]
+        vol_keep = vol_f / max(v0, 1)
+        # held = a melt ring persists at finite R (not healed, not collapsed to a point)
+        held = vol_keep > 0.25 and rR_f > 0.4 * R_seed and np.isfinite(track["E"][-1])
+        verdict = ("HELD" if held else
+                   "DISSOLVED" if vol_keep < 0.15 else
+                   "COLLAPSED" if rR_f < 0.3 * R_seed and vol_keep > 0.15 else "PARTIAL")
+        results.append({"L": L, "K_frank": Kf, "melt_vol_seed": v0, "melt_vol_final": vol_f,
+                        "melt_vol_retained": vol_keep, "ring_R_seed": R_seed, "ring_R_final": rR_f,
+                        "min_tr2_final": mt_f, "gnorm_final": track["gnorm"][-1], "verdict": verdict})
+        print(f"  L={L}: melt_vol {v0}->{vol_f} ({vol_keep:.0%})  ring_R {R_seed:.1f}->{rR_f:.2f}  "
+              f"min_tr2={mt_f:.3f}  => {verdict}")
+    chiral_helps = (any(r["L"] > 0 and r["verdict"] == "HELD" for r in results)
+                    and results[0]["verdict"] != "HELD")
+    out = {"phase": "P2-disclination-loop", "N": N, "R_seed": R_seed, "r_c": r_c, "iters": ITERS,
+           "results": results, "chiral_helps": bool(chiral_helps),
+           "note": ("singular +1/2 disclination LOOP with a melted core (Msp->0 at the ring), the "
+                    "lambda^3 melt = the electron's stabilizer. L=0 = pure M5 control (run-1 plain "
+                    "ring dissolved); L>0 adds the validated chiral+Frank terms. held = a melt ring "
+                    "persists at finite R; dissolved = melt heals to vacuum; collapsed = R->0.")}
+    with open(os.path.join(CKPT, "p2_disclination_loop.json"), "w") as f:
+        json.dump(out, f, indent=2)
+    print(f"\n  chiral protects the loop (control L=0 does not hold): {chiral_helps}")
+    print(f"  checkpoint -> {os.path.join(CKPT, 'p2_disclination_loop.json')}")
+    return out
+
+
 def main():
     t0 = time.time()
     summary = {}
@@ -540,6 +655,8 @@ def main():
         summary["helix"] = run_helix()
     if MODE in ("sweep", "all"):
         summary["sweep"] = run_sweep()
+    if MODE in ("disc", "all"):
+        summary["disc"] = run_disc()
     print("=" * 70)
     print(f"done ({round(time.time() - t0, 1)}s)")
     return summary
