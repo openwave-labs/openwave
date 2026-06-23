@@ -1,0 +1,61 @@
+{
+  "phase": "P2-heliknoton",
+  "N": 32,
+  "pitch": 24.0,
+  "q0": 0.2617993877991494,
+  "R0": 6.0,
+  "iters": 1200,
+  "Ecurv_helix": 0.0,
+  "seed_excess_total": 26993.245765147847,
+  "L_sweep": [
+    {
+      "L": 0.0,
+      "K_frank": 0.0,
+      "retention": 0.7930482724530918,
+      "localization": 1.8047451506895058,
+      "Ecurv_final": 0.5358888954147744,
+      "excess_curv_over_helix": 0.5358888954147744,
+      "gnorm_final": 0.004096735223328164,
+      "finite": true,
+      "verdict": "PARTIAL"
+    },
+    {
+      "L": 1.7,
+      "K_frank": 0.85,
+      "retention": 1.5385438967693486,
+      "localization": 1.3914052125814171,
+      "Ecurv_final": 417.5612296209501,
+      "excess_curv_over_helix": 417.5612296209501,
+      "gnorm_final": 14.070670316816424,
+      "finite": true,
+      "verdict": "PARTIAL"
+    },
+    {
+      "L": 5.0,
+      "K_frank": 2.5,
+      "retention": 1.6433279505527636,
+      "localization": 1.3863107418992024,
+      "Ecurv_final": 985.1218086610536,
+      "excess_curv_over_helix": 985.1218086610536,
+      "gnorm_final": 12.432918115728773,
+      "finite": true,
+      "verdict": "PARTIAL"
+    },
+    {
+      "L": 12.0,
+      "K_frank": 6.0,
+      "retention": 1.9010832288641797,
+      "localization": 1.3824872755583666,
+      "Ecurv_final": 2305.0000815949033,
+      "excess_curv_over_helix": 2305.0000815949033,
+      "gnorm_final": 25.130327642438747,
+      "finite": true,
+      "verdict": "PARTIAL"
+    }
+  ],
+  "chiral_frank_stabilizes": false,
+  "retention_L0": 0.7930482724530918,
+  "retention_max": 1.9010832288641797,
+  "n_holds": 0,
+  "note": "A/B: L=0 = control (pure M5 4th-order + V_M, no chiral/Frank) -> the seeded knot combs back to the pinned-helix boundary. L>0 turns on the cholesteric free energy (Frank K=L/2 + chiral 2 q0 L eps Q dQ), ground state = the pitch-2pi/q0 helix; the box boundary pinned to that helix = the finite-cell confinement (thesis p.9) needed to beat Derrick-Hobart. retention = surviving excess |Msp - Msp_helix| over the seed; localization = peak/mean of that excess (a localized core => a real heliknoton)."
+}
