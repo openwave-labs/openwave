@@ -16,7 +16,7 @@ Answering Duda's "too simple" critique with REAL energy-minimized regularized so
 | P1b | the full 3D SU(2) `Γ/R` machinery (`O(a²)` → exact) + **`α⁻¹→137.03` from charge quantization** (`charge²→1.00003 e²`, `α_sol ℏc→1.44000 MeV·fm`) | ✅ |
 | AD engine (run 2) | Taichi reverse-mode AD gradient == P0 functional (energy 4e-16, gradient 1.8e-13) | ✅ |
 | P2 | a stable regularized vortex loop | ⚠️ plain ring dissolves (run 1), smooth Hopfion expands (run 2) → **direction resolved**: add the chiral term `q0` + a helical far-field (the Smalyukh **heliknoton** recipe); build spec'd, AD-ready |
-| P1b running `α(d)` | the quantitative two-soliton running curve | ⚠️ AD-unblocked, not yet built (needs the Faber-axisym AD kernel) |
+| P1b running `α(d)` | the quantitative two-soliton running curve | ⚠️ machinery built + validated; precise `α_sol` NOT cleanly extractable in the fast 2nd-order setup → needs Faber's high-order method. **Asymptote `α⁻¹=137` secure via the charge route** |
 
 What this establishes: the machinery does real regularized-soliton physics (the electron rest energy AND the fine-structure constant, Faber's two headline results), not "code from a training set." For the neutrino, two clean experiments pin down the structure: the plain disclination ring dissolves (run 1) and a smooth Hopfion expands (run 2), so the stable object is a **knotted/linked singular disclination** (singular core for the melt/`λ³`, knotting for protection) , Duda's chiral nematic vortex knot, now a precise, well-posed next build. _Figures: [`sandbox_v11/p1_faber_electron.png`](sandbox_v11/p1_faber_electron.png), [`sandbox_v11/p1b_charge_137.png`](sandbox_v11/p1b_charge_137.png)._
 
@@ -29,7 +29,7 @@ What this establishes: the machinery does real regularized-soliton physics (the 
 | P1b-foundation (full 3D SU(2) curvature machinery) | 3D-lattice cumulative energy `r<5r0` converges `O(a²)` (−5.24→−3.07→−1.69→−0.90%), Richardson → **−0.016%** of exact; `Γ_i=q0∂q⃗−∂q0 q⃗+q⃗×∂q⃗`, `R_ij=Γ_i×Γ_j` validated (the loop + dipole foundation) | 3D `Γ/R` reproduces the radial energy | ✅ PASS |
 | P1b axisym machinery (φ-winding `Γ`) | single soliton on the `(ρ,z)` lattice converges `O(h²)` → −0.024% of exact; the hand-derived `Γ_y=(q_ρ/ρ)(−q_z,q0,q_ρ)` winding term validated | axisym = radial energy | ✅ PASS |
 | P1b charge quantization → `α⁻¹≈137` | soliton exterior energy → unit-charge Coulomb self-energy: **charge²→1.00003 e²**, **1/α_sol→137.03**, **α_sol ℏc→1.44000 MeV·fm** (Coulomb 1.43996; Faber 1.4387(8)); approach from below mirrors Faber Fig. 2 running | `E(>R)=α_f ℏc/2R` (Gauss) | ✅ PASS |
-| P1b quantitative two-soliton running `α(d)` | , | the full `α(d)` curve (Faber Fig. 3) | ⚠️ scoped (needs autodiff for the overlap minimizer; charge route gives the asymptote) |
+| P1b' quantitative two-soliton running `α(d)` | differentiable axisym AD machinery built + validated (single soliton −3.78%, gradcheck 2e-6); two-soliton runs but `α_sol` NOT cleanly extractable (non-uniform FIRE convergence + small-difference-of-large-energies; sign was setup-dependent) | the `α(d)` curve (Faber Fig. 3) | ⚠️ needs Faber's high-order method; asymptote secure (P1b charge route) |
 | P2 the vortex LOOP (seeder + relax under full functional) | plain uniaxial `+1/2` disclination ring **dissolves** (curvature energy combs out 9.78→0.65 = 6.6% retained at N=28; 12.64→0.67 at N=40), `\|g\|→0` to a textureless state. NOT topologically protected → needs the chiral/knot structure | `δE/δM→0` at finite `R`; no collapse | ⚠️ FORK (plain loop unstable; chiral/knot next, flagged not built) |
 | P3 stability + the clock (Hessian / evolution + M5.8 dressing) | , | no collapse mode; loop persists; clock lowers energy, `ω` measured | 🚧 pending |
 | P4 mass from the loop (field energy / loop-length density) | , | mass spectrum + `Δm²` hierarchy; the 6.2 pm scale | 🚧 pending |
@@ -181,6 +181,20 @@ Duda's "**chiral** nematic vortex knot" + neutrinos being **chiral** particles b
 
 Mass then rides on the knot: higher-Hopf-charge heliknotons (`Q=2,3`, Ch 7) and the linking-graph families (Table 5.1) are candidate lepton/neutrino families, testable against the mass hierarchy once a stable `Q=1` exists. Secondary on-point papers in the same folder: _On the Defect Structure of Biaxial Nematic Droplets_ (our biaxial core/melt) and _Coulomb-like elastic interaction by symmetry breaking_ (corroborates the P1b Faber-Coulomb result).
 
+### P1b' , the quantitative running `α(d)`: machinery built, precise extraction needs Faber's high-order method ⚠️ ([`sandbox_v11/v11_p1b_running.py`](sandbox_v11/v11_p1b_running.py))
+
+Built a **differentiable Taichi version of the axisymmetric Faber energy** (the AD-engine port of the validated `v11_p1b_dipole.py` numpy energy) to attempt the two-soliton running `α(d)` (Faber Fig. 3) the quantitative way , a soliton+antisoliton pair, cores pinned at `±d/2`, projected-gradient AD-FIRE relaxation, `E₂(d)` fit to `A + B/d`, `α_sol = |B|`-derived.
+
+| Step | Result |
+| --- | --- |
+| differentiable axisym single soliton | ✅ `J(<5)=8.26` vs `4π·I=8.58` (−3.78% @ `h=0.18`, matches numpy); AD gradcheck **2e-6** |
+| two-soliton relaxation | runs, junction smooths (`J2` seed 23.9 → 14.0 @ d=10), no blow-up |
+| `α_sol` / running extraction | ❌ **not cleanly extractable** in this fast setup |
+
+**Honest outcome.** The result is **not trustworthy** and I am not reporting an `α_sol` number from it. Two compounding causes: (1) the constrained FIRE did **not converge uniformly** (`|g|` stuck at 0.3-0.6 for most `d` after 4000 iters); (2) the interaction is a **small difference of large energies** (~1 in `J2~11-14`, i.e. below the ~4% discretization noise of the 2nd-order `h=0.18` scheme). Consequently the fitted coefficient was **setup-dependent** , the hard-seed sweep gave attractive `κ≈1.5 e²` (`1/α_sol≈93`), the smooth-seed sweep flipped to repulsive `κ≈0.47` (`1/α_sol≈291`). The local running was pure noise. The only robust takeaway is qualitative: the two solitons **do interact via a `1/d` Coulomb law of order-unity charge**, consistent with P1b.
+
+**Why this is the right place to stop.** This is precisely Faber's documented hard regime , he uses **4th-order stencils + Richardson extrapolation + the `H_out` exterior + the proper singlet construction** because the interaction is a small difference of large numbers. Reproducing his `137.1(1)` is a dedicated high-order build, not a fast-tooling refinement. **The robust `α⁻¹→137.03` already stands on the charge-quantization route (P1b)** , the asymptote is secure; only the short-`d` running curve is unresolved, and it is cleanly scoped (the AD machinery is built and validated, ready for a finer-grid / higher-order / `E_int`-cancellation pass when wanted).
+
 ## 3. Summary tables , to fill
 
 ## 4. Caveats, open questions , to fill (Derrick route taken; stable-vs-metastable; mass tension; the Duda question if asked)
@@ -198,6 +212,7 @@ Mass then rides on the knot: higher-Hopf-charge heliknotons (`Q=2,3`, Ch 7) and 
 | [`sandbox_v11/v11_p2_vortex_loop.py`](sandbox_v11/v11_p2_vortex_loop.py) | P2 (run 1): `+1/2` disclination-ring seeder + relax; the dissolve-vs-stabilize diagnostic |
 | [`sandbox_v11/v11_ad_energy.py`](sandbox_v11/v11_ad_energy.py) | run 2: Taichi-AD energy + gradient for the M5 functional, validated == P0 (the gradient engine) |
 | [`sandbox_v11/v11_p2_hopfion.py`](sandbox_v11/v11_p2_hopfion.py) | P2 (run 2): Hopf-map smooth-knot seed + AD-FIRE relax; shows a smooth knot expands |
+| [`sandbox_v11/v11_p1b_running.py`](sandbox_v11/v11_p1b_running.py) | P1b': differentiable axisym two-soliton AD energy + d-sweep; single-soliton validated, but `α_sol` not cleanly extractable in the fast setup |
 | [`sandbox_v11/p1_faber_electron.png`](sandbox_v11/p1_faber_electron.png), [`sandbox_v11/p1b_charge_137.png`](sandbox_v11/p1b_charge_137.png) | P1a + P1b figures |
 | `sandbox_v11/_checkpoints/*.json` (`p0_minimizer`, `p1_faber_electron`, `p1b_lattice`, `p1b_axisym_single`, `p1b_charge`, `p2_vortex_loop`) + `SESSION_STATE.md` | per-phase result checkpoints (small JSON, regenerable) |
 
