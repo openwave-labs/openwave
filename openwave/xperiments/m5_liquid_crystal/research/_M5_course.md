@@ -805,7 +805,7 @@ motion — the spin *is* the rest energy. (The energetic *why* is L7.)
 | --- | --- |
 | `5a §10b` | the 4×4 promotion math |
 | `4a §6` | design-convo notes — the 4th axis |
-| `theory/time_crystal_toy_model.pdf` | Duda's toy-model paper |
+| `../theory/time_crystal_toy_model.pdf` | Duda's toy-model paper |
 | `4b §4.7` | gravitational-field FUTURE viz — the clock-rate render plan |
 
 ---
@@ -1388,7 +1388,7 @@ outcome + a falsifiable **test**, in M5's least-developed sector.
 | Anchor | What it is |
 | --- | --- |
 | `5a §10` | the toy model (clock math) |
-| `theory/time_crystal_toy_model.pdf` | Duda's toy-model paper |
+| `../theory/time_crystal_toy_model.pdf` | Duda's toy-model paper |
 | `1b` | Derrick / time-crystal (topological-defect notes) |
 | `4a §6` | design-convo notes — the clock |
 | `images/clock.gif` | Duda's electron-clock animation (embedded above; [Wolfram Community](https://community.wolfram.com/groups/-/m/t/3398814)) |
@@ -1540,7 +1540,7 @@ defect sits in the energy landscape the others shape, and rolls downhill.
 | `5a §5d` | EM-from-tilts math |
 | `3a` | Coulomb visual geometry |
 | `0b` M5.8 (Full-text extract) | Faber `R_μν=Γ_μ×Γ_ν` quantized EM + GEM (Gravity Probe B) |
-| `theory/…Wolfram Community.pdf` | the EM-hydro dictionary + Γ generator→force map |
+| `../theory/…Wolfram Community.pdf` | the EM-hydro dictionary + Γ generator→force map |
 | `4b §4.7` | gravity / GEM viz spec (M5.8.7) |
 
 ---
@@ -1754,7 +1754,7 @@ bind**:
 | L2 / L4 seeds | chirality (L2) + winding sign (L4) |
 | `1b` | topological-defect physics notes |
 | `15a` | composite-particles research |
-| `theory/…Wolfram Community.pdf` | kink/antikink pair-creation, neutrino vortex-loop, β-decay reconnection |
+| `../theory/…Wolfram Community.pdf` | kink/antikink pair-creation, neutrino vortex-loop, β-decay reconnection |
 
 ---
 

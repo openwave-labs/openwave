@@ -4,7 +4,7 @@ Working overview consolidating the multi-day exchange with Jarek Duda on the mod
 
 **Status** — substrate gating question CLOSED. Refactor green-lit. Many forward implications captured below.
 
-**Cross-refs (current):** [0c_roadmap.md](0c_roadmap.md), [3b_lagrangian_roadblocks.md](3b_lagrangian_roadblocks.md), [1a_lagrangian_framework.md](1a_lagrangian_framework.md), `theory/liquid_crystal_model.pdf` (Duda arxiv:2108.07896 v7), `theory/liquid_crystal_particles.pdf` (Duda slides, 51 pages).
+**Cross-refs (current):** [0c_roadmap.md](0c_roadmap.md), [3b_lagrangian_roadblocks.md](3b_lagrangian_roadblocks.md), [1a_lagrangian_framework.md](1a_lagrangian_framework.md), `../theory/liquid_crystal_model.pdf` (Duda arxiv:2108.07896 v7), `../theory/liquid_crystal_particles.pdf` (Duda slides, 51 pages).
 
 ---
 
@@ -21,7 +21,7 @@ Working overview consolidating the multi-day exchange with Jarek Duda on the mod
 9. [Topology on Close + Yee frameworks](#9-topology-on-close--yee-frameworks)
 10. [Refactor strategy — two refactors, sized differently](#10-refactor-strategy--two-refactors-sized-differently)
 11. [Slides content (51 pages) — instrumental beyond the paper](#11-slides-content-51-pages--instrumental-beyond-the-paper)
-11b. [Couder/Bush walking-droplet deck (theory/Couder.pdf)](#11b--couderbush-walking-droplet-deck-theorycouderpdf)
+11b. [Couder/Bush walking-droplet deck (../theory/Couder.pdf)](#11b--couderbush-walking-droplet-deck-theorycouderpdf)
 12. [Open questions & implications](#12-open-questions--implications)
 
 ---
@@ -502,7 +502,7 @@ The thing to do *right* in M5.4: write operator kernels (commutator, curvature, 
 
 ## 11. Slides content (51 pages) — instrumental beyond the paper
 
-Local PDF: `theory/liquid_crystal_particles.pdf`.
+Local PDF: `../theory/liquid_crystal_particles.pdf`.
 
 ### Top-level confirmations
 
@@ -592,7 +592,7 @@ His pitch: same kinetic and potential structure as standard LC/Skyrmion, plus to
 
 ---
 
-## 11b — Couder/Bush walking-droplet deck (theory/Couder.pdf)
+## 11b — Couder/Bush walking-droplet deck (../theory/Couder.pdf)
 
 Duda's **second** deck (45 slides, *"Hydrodynamical analogues of some quantum phenomena"*) — distinct from the §11 LdGS slides. This one is the walking-droplet / pilot-wave catalog (de Broglie–Bohm, Couder–Fort–Bush). Most of it confirms things we already have; the items below are what's **instrumental beyond our current docs**, mapped to M5 phases.
 
@@ -693,7 +693,7 @@ Speculative aside (low priority, noted not adopted): the deck floats electron su
 
 | Entry | Captures |
 | --- | --- |
-| `reference_duda_slides` | 51-page slides at theory/, list of ported targets |
+| `reference_duda_slides` | 51-page slides at ../theory/, list of ported targets |
 | `feedback_eigenvalue_force_map` | 1=EM, δ=QM, g=gravity, 3D leptons from axis choice |
 | `reference_kg_from_hedgehog_formula` | closed-form `2∂_tt ψ = …` from slide page 32 |
 | `project_duda_thread_2026_05_14_15` | substrate gate closed, three directions, reciprocal ask |

@@ -25,7 +25,7 @@ melt/λ³, knotting for protection). A smooth Hopfion is the wrong object.
 ## Two open items (both AD-unblocked, for an attended run)
 
 1. **The heliknoton (THE neutrino, P2) , DIRECTION RESOLVED.** The Smalyukh 2020 thesis
-   (`theory/liquid_crystal_defects/2020 Topological Solitons in Chiral Condensed Matters PhD.pdf`,
+   (`../../../theory/liquid_crystal_defects/2020 Topological Solitons in Chiral Condensed Matters PhD.pdf`,
    Duda's own referenced lit) shows the stabilizer is the CHIRAL term, not a Skyrme term:
    add `F_chiral = ∫ 2 q0 L ε_ikl Q_ij ∂_k Q_lj` (q0=2π/p) to the functional + a HELICAL far-field
    background, seed an elementary heliknoton (Hopf Q=1), relax with the AD engine. Our Hopfion

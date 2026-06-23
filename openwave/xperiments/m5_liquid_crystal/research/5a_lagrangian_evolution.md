@@ -592,7 +592,7 @@ M5.4 page-18 energy = `¼Σ‖F_μν‖²`.) This is a substantial numerical bui
 
 **Source:** Duda, *Time crystal φ⁴ kinks by curvature coupling as toy model for mechanism of
 oscillations propelled by mass, like observed for electron and neutrinos* (arXiv:2501.04036 v2,
-24 Jul 2025; local PDF `theory/time_crystal_toy_model.pdf`, 3pp). Math **read + verified by quadrature
+24 Jul 2025; local PDF `../theory/time_crystal_toy_model.pdf`, 3pp). Math **read + verified by quadrature
 2026-05-29** (the variational anchors below reproduce to 4–5 digits). This is the mathematical
 foundation for the M5.8 build plan in [`0b_M5_roadmap.md § Phase M5.8`](0b_M5_roadmap.md).
 
@@ -794,7 +794,7 @@ M5.8.0; 4-index `F_μναβ` + Minkowski-`Γ₀` ✅ M5.8.2; electron hedgehog+t
 
 ### 10d. Complete-model 4D Hamiltonian — explicit form (Wolfram-article full text, 2026-06-04)
 
-The local PDF (`theory/Time crystal ϕ⁴ kink…Wolfram Community.pdf`, 14pp — the Wolfram-Community
+The local PDF (`../theory/Time crystal ϕ⁴ kink…Wolfram Community.pdf`, 14pp — the Wolfram-Community
 writeup of arXiv:2501.04036, §"Complete model candidate") spells out the **explicit** 4D Hamiltonian
 that §10b states as Eq.42. It is the load-bearing M5.8 build target, transcribed here so the
 implementation is self-contained (the roadmap M5.8 phase keeps only a summary + a pointer to this).

@@ -18,7 +18,7 @@
 
 He is right. [`sandbox_v10`](sandbox_v10/) computes mixing from SEEDED loop ansatze via symmetry + overlap; it
 never regularizes, relaxes, or stabilizes a loop. M5.11 does the real thing , and it is grounded in Duda's OWN
-theory (his slides [`theory/liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf), the
+theory (his slides [`../theory/liquid_crystal_particles.pdf`](../theory/liquid_crystal_particles.pdf), the
 [`4a`](4a_convo_2026.05.12.md)/[`4c`](4c_convo_2026.06.08.md)/[`4d`](4d_convo_2026.06.11.md) exchanges, his
 [`9a`](9a_lepton_mass_planning.md) review). **Goal: a simulation a working physicist trusts. No cut corners.**
 
@@ -27,7 +27,7 @@ theory (his slides [`theory/liquid_crystal_particles.pdf`](theory/liquid_crystal
 Particles are non-perturbative field configurations of a real symmetric tensor field `M(x) = O D O^T`,
 `D = diag(g, 1, δ, 0)` (the preferred biaxial "shape": `g ≫ 1 ≫ δ > 0`; index-0, time/g axis = 0). The director
 tilts → EM, the second-axis twists → quantum phase (Klein-Gordon), the time-axis boosts → GEM gravity. The
-Lagrangian (Duda's slides, his Mathematica on p.19 of [`liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf)):
+Lagrangian (Duda's slides, his Mathematica on p.19 of [`liquid_crystal_particles.pdf`](../theory/liquid_crystal_particles.pdf)):
 
 ```text
 ℒ = − F_μναβ F^μναβ − V_Higgs(M) ,        F_μναβ = [∂_μ M, ∂_ν M]_αβ   (matrix commutator of gradients)
@@ -52,7 +52,7 @@ The Higgs potential lets the order parameter MELT at the defect core (for a hedg
 for finite bulk energy and setting the core size. Faber's specific core potential is `Λ = q0⁶/r0⁴` (`q0` = the
 SU(2) scalar part `cos α`); the soliton rest energy is `E0 = (α_f ℏc/r0)(π/4)`, which set to `m_e c² = 0.511 MeV`
 fixes the core radius `r0 = 2.2132 fm` (the classical electron radius × π/4). The recent high-precision lattice
-paper **Faber & Golubich 2026** ([`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf),
+paper **Faber & Golubich 2026** ([`../theory/faber_universe_2025.pdf`](../theory/faber_universe_2025.pdf),
 arXiv:2604.12021) extracts the two-soliton dipole energy `E(d) = 2 m_e c² − α_sol ℏc/d` with
 `α_sol ℏc = 1.4387(8) MeV·fm` (vs the Coulomb `1.43996`), the inverse fine-structure constant
 `α_sol⁻¹ = 137.1(1)`, and the QED running of `α(d)`, via conjugate-gradient energy minimization on a cylindrical
@@ -97,7 +97,7 @@ minimization, a stationary loop should exist. M5.11 demonstrates it.
 | Phase | What | Validation gate |
 | --- | --- | --- |
 | **P0 , infrastructure** | turn the Higgs/LdG potential ON in the index-0 engine (`V_M`, the hardest numerical step); the right scales (`g~1e10, δ~1e-10`) via the N1 graded method; add a true energy MINIMIZER (FIRE / L-BFGS to `\|δE/δM\| → 0`). | minimizer descends monotonically to a stationary point; `V_M` reproduces the analytic LdG free energy. |
-| **P1 , reproduce FABER's electron** | the regularized uniaxial hedgehog under Higgs `V = (‖n‖²−1)²`: melt the core (`n(0)=0`), minimize, integrate the field energy. | **`∫ ½\|E\|² = 511 keV` at the Faber core radius; running coupling `α(d)` curve; Coulomb `E(d) ≈ const + C/d`.** Match [`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf). THE trust-rebuilder. |
+| **P1 , reproduce FABER's electron** | the regularized uniaxial hedgehog under Higgs `V = (‖n‖²−1)²`: melt the core (`n(0)=0`), minimize, integrate the field energy. | **`∫ ½\|E\|² = 511 keV` at the Faber core radius; running coupling `α(d)` curve; Coulomb `E(d) ≈ const + C/d`.** Match [`../theory/faber_universe_2025.pdf`](../theory/faber_universe_2025.pdf). THE trust-rebuilder. |
 | **P2 , the vortex LOOP (heliknoton)** | add the **chiral term `q0`** to the functional + a **helical far-field background**, seed an elementary heliknoton (Hopf `Q=1`), relax with the Taichi-AD minimizer. (Run-1 plain disclination ring dissolved; run-2 smooth Hopfion expanded , both because the functional lacked the chiral term; the Smalyukh heliknoton recipe supplies it.) | stable localized knot at size `~p`; Hopf index `Q=1` (linked preimages); `⟨δF/δn⟩→0`. Full build spec + caveats: [`11b_findings.md`](11b_findings.md) § "P2 fork RESOLVED". |
 | **P3 , stability + the clock** | prove stable (Hessian `≥ 0` / real-time Minkowski evolution over many periods); add the M5.8 clock dressing (the `(0,α)` boost fuel) → the oscillating loop lowers energy. | no collapse mode; the loop persists; the clock lowers the energy (the de Broglie oscillation), `ω` measured. |
 | **P4 , mass from the loop** | mass = regularized loop field energy; the mass/length density; vary loop size/knot → the 3 neutrino masses. | the spectrum + `Δm²` hierarchy (the N4c spectrum was ~6× too compressed); the 6.2 pm loop scale; honest pass/fail vs data. |
@@ -150,7 +150,7 @@ rebuilds trust; asking up front would not.
 | --- | --- |
 | The parameter search is genuinely hard (Duda: "surprisingly difficult") | accepted; it IS the assigned work; report what we find, including partial. |
 | Turning `V_M` ON without destabilizing the leapfrog (the engine's hardest step) | known M5 roadblock; the minimizer route (relax, not evolve) sidesteps the leapfrog instability for the static phases. |
-| A stable vortex LOOP (vs the hedgehog) may need the chiral/knot structure | **RESOLVED (direction):** the Smalyukh **heliknoton** recipe ([`theory/liquid_crystal_defects/`](theory/liquid_crystal_defects/) 2020 Tai thesis) , a smooth Hopf knot is stabilized by the **chiral term `q0` + a helical background**, NOT a Skyrme term (our run-1 ring dissolved + run-2 Hopfion expanded, both for lack of the chiral term). Build spec'd in `11b`. Caveat: biaxial-material singular knots stay hard (thesis p.132) → smooth heliknoton first. |
+| A stable vortex LOOP (vs the hedgehog) may need the chiral/knot structure | **RESOLVED (direction):** the Smalyukh **heliknoton** recipe ([`../theory/liquid_crystal_defects/`](../theory/liquid_crystal_defects/) 2020 Tai thesis) , a smooth Hopf knot is stabilized by the **chiral term `q0` + a helical background**, NOT a Skyrme term (our run-1 ring dissolved + run-2 Hopfion expanded, both for lack of the chiral term). Build spec'd in `11b`. Caveat: biaxial-material singular knots stay hard (thesis p.132) → smooth heliknoton first. |
 | The masses (P4) may stay in tension with `Δm²` | the N4c spectrum was ~6× too compressed; reported honestly. |
 | Cost: P2-P3 energy minimization + evolution are multi-hour GPU research runs | accepted; full machine, run for the time it needs. |
 
@@ -165,12 +165,12 @@ rebuilds trust; asking up front would not.
 
 ## 8. Theory sources reviewed (2026-06-22)
 
-[`theory/liquid_crystal_particles.pdf`](theory/liquid_crystal_particles.pdf) (READ IN FULL , the functional,
-Faber regularization, the vortex-knot neutrino, the clock) · [`theory/faber_universe_2025.pdf`](theory/faber_universe_2025.pdf)
+[`../theory/liquid_crystal_particles.pdf`](../theory/liquid_crystal_particles.pdf) (READ IN FULL , the functional,
+Faber regularization, the vortex-knot neutrino, the clock) · [`../theory/faber_universe_2025.pdf`](../theory/faber_universe_2025.pdf)
 (READ IN FULL , Faber & Golubich 2026 / arXiv:2604.12021, the exact P1 target: `r0=2.2132 fm`,
-`α_sol ℏc=1.4387 MeV·fm`, `α⁻¹=137.1`, CG minimizer) · [`theory/time_crystal_toy_model.pdf`](theory/time_crystal_toy_model.pdf)
+`α_sol ℏc=1.4387 MeV·fm`, `α⁻¹=137.1`, CG minimizer) · [`../theory/time_crystal_toy_model.pdf`](../theory/time_crystal_toy_model.pdf)
 (READ IN FULL , Duda arXiv:2501.04036, the P3 clock: `−αR²` curvature + `+βR⁴` saturation → finite `ω=√(70α/(96β−35α²))`,
-the time crystal; the model "combines Skyrme + Landau-de Gennes") · [`theory/liquid_crystal_model.pdf`](theory/liquid_crystal_model.pdf) + the Wolfram time-crystal writeup (the broader-model + online-discussion versions of the above; covered by proxy) ·
+the time crystal; the model "combines Skyrme + Landau-de Gennes") · [`../theory/liquid_crystal_model.pdf`](../theory/liquid_crystal_model.pdf) + the Wolfram time-crystal writeup (the broader-model + online-discussion versions of the above; covered by proxy) ·
 the [`4a`](4a_convo_2026.05.12.md)/[`4c`](4c_convo_2026.06.08.md)/[`4d`](4d_convo_2026.06.11.md)
 Duda exchanges + [`9a`](9a_lepton_mass_planning.md) review · the M5 framework
 ([`1a_lagrangian_framework.md`](1a_lagrangian_framework.md), [`5a_lagrangian_evolution.md`](5a_lagrangian_evolution.md),

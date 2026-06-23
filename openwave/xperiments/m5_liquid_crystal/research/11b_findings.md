@@ -143,7 +143,7 @@ A clean, decisive experiment with the AD minimizer. Key physics: the M5 function
 
 AD-FIRE **monotone**, `|g|→0.006` (the AD-driven minimizer validated end-to-end). The Hopfion spreads out (curvature combs to ~0), amplitude never melts. **Conclusion (sharpened):** the stable neutrino is a **knotted / linked _singular_ disclination** , the singular core supplies the melt (`λ³`, like the electron) and the knot/linking supplies topological protection against the ring just shrinking/unwinding (which is how the plain ring dissolved in run 1). A smooth Hopfion is the wrong object. This is the precise form of the reserved Duda question (a specific knot/linking number on a singular disclination), and the well-posed next build , held for an attended run (the construction is substantial and the knot choice is genuinely Duda's call).
 
-### P2 fork RESOLVED (direction) , the heliknoton recipe ([Tai/Smalyukh 2020 thesis](<theory/liquid_crystal_defects/2020 Topological Solitons in Chiral Condensed Matters PhD.pdf>))
+### P2 fork RESOLVED (direction) , the heliknoton recipe ([Tai/Smalyukh 2020 thesis](<../theory/liquid_crystal_defects/2020 Topological Solitons in Chiral Condensed Matters PhD.pdf>))
 
 The Smalyukh-group PhD thesis (Jung-Shen Benny Tai, adv. Ivan Smalyukh, Noel Clark on the committee, Colorado 2020) , Duda's own referenced "chiral nematic vortex knot" literature, peer-reviewed (PRE/PRL/Nature-tier chapters), so **safe to use and to cite to Duda** , names the stabilization mechanism both our negatives were missing.
 
