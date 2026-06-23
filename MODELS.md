@@ -32,11 +32,11 @@ A ❌ is a result, not an embarrassment: documented negatives (with the scripts 
 
 Models:
 
-- **M5: LC** (Liquid-Crystal topological defects, Jarek Duda, with Robert Close and Manfried Faber inputs);
-- **M6: Ouroboros** (chaoiton framework, Paul Werbos);
-- **M3: EWT** (Energy Wave Theory, Jeff Yee, built on Milo Wolff and Gabriel LaFreniere pioneer work).
+- **M5: LC** (Liquid-Crystal topological defects, Jarek Duda, with Manfried Faber inputs);
+- **M6: Ouroboros** (Chaoiton framework, Paul Werbos);
+- **M4: EWT** (Energy Wave Theory, Jeff Yee, built on Milo Wolff and Gabriel LaFreniere pioneer work).
 
-**Column order:** models are sequenced by their validated + partial count (✅ + ⚠️ in the [Summary count](#summary-count) below): M5 (16), then M6 (9), then M3 (8). The order updates as validations land.
+**Column order:** models are sequenced by their validated + partial count (✅ + ⚠️ in the [Summary count](#summary-count) below): M5 (16), then M6 (9), then M4 (8). The order updates as validations land.
 
 Every file reference is an active link to the file in this repository (under `openwave/xperiments/`). Rows are grouped by domain: particles, forces, waves + quantum emergence.
 
