@@ -1,0 +1,45 @@
+{
+  "phase": "P1b-foundation",
+  "gate": "3D SU(2) curvature machinery",
+  "ok": true,
+  "R_cut": 5.0,
+  "L": 6.0,
+  "target_4pi_I_radial": 8.582858255625865,
+  "I_radial_lt_Rcut": 0.6830021586199694,
+  "rows": [
+    {
+      "a": 0.4,
+      "J_lattice": 8.133113194683602,
+      "target_4pi_I": 8.582858255625865,
+      "rel_err": -0.052400383129648606,
+      "overestimate_pct": -5.2400383129648604
+    },
+    {
+      "a": 0.3,
+      "J_lattice": 8.319227191631244,
+      "target_4pi_I": 8.582858255625865,
+      "rel_err": -0.030715998813311086,
+      "overestimate_pct": -3.0715998813311085
+    },
+    {
+      "a": 0.22,
+      "J_lattice": 8.437936750028928,
+      "target_4pi_I": 8.582858255625865,
+      "rel_err": -0.01688499346962233,
+      "overestimate_pct": -1.6884993469622331
+    },
+    {
+      "a": 0.16,
+      "J_lattice": 8.505549172956956,
+      "target_4pi_I": 8.582858255625865,
+      "rel_err": -0.009007381966052538,
+      "overestimate_pct": -0.9007381966052539
+    }
+  ],
+  "converging": true,
+  "J_richardson_extrap": 8.581464875893689,
+  "extrap_rel_err": -0.00016234448836006832,
+  "pi_squared_full": 9.869604401089358,
+  "note_full_soliton_keV": 510.9494198443961,
+  "wall_s": 0.2
+}

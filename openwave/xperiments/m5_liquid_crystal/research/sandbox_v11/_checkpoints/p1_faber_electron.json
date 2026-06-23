@@ -1,0 +1,37 @@
+{
+  "phase": "P1a",
+  "all_ok": true,
+  "wall_s": 1.5,
+  "gates": [
+    {
+      "gate": "analytic",
+      "I_analytic_profile": 0.7854028519872178,
+      "pi_4": 0.7853981633974483,
+      "rel_err": 5.969697903620899e-06,
+      "ok": true
+    },
+    {
+      "gate": "gradcheck",
+      "max_rel_err": 5.516922749479446e-09,
+      "ok": true
+    },
+    {
+      "gate": "minimize",
+      "ok": true,
+      "I_seed": 0.8803985145494828,
+      "I_fire": 0.7854028519552476,
+      "I_lbfgs": 0.7854028519665539,
+      "pi_4": 0.7853981633974483,
+      "rel_err_fire": 5.96965719789258e-06,
+      "rel_err_lbfgs": 5.969671593507142e-06,
+      "profile_max_err_vs_arctan": 5.338542618971154e-06,
+      "monotone": true,
+      "E0_at_r0_faber_MeV": 0.5110019995846256,
+      "m_e_c2_MeV": 0.51099895,
+      "E0_rel_err": 5.9678882424374785e-06,
+      "r0_for_511keV_fm": 2.2132183681610518,
+      "r0_faber_fm": 2.21320516,
+      "alpha_f_hbar_c_MeVfm": 1.4399645474109544
+    }
+  ]
+}
