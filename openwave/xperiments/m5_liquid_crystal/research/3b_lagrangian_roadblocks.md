@@ -112,7 +112,7 @@ We have not found a V(ψ) that turns the Frank-energy minimum into a full-Lagran
 
 ## Where the paper addresses our roadblock
 
-After hitting the negative results above, a closer read of Dr. Duda's framework paper (arxiv:2108.07896 v7, local `theory/liquid_crystal_model.pdf`) suggests the issue is structural, not parameter-tuning:
+After hitting the negative results above, a closer read of Dr. Duda's framework paper (arxiv:2108.07896 v7, local `../theory/liquid_crystal_model.pdf`) suggests the issue is structural, not parameter-tuning:
 
 | Paper element | Implication for our roadblock |
 | --- | --- |

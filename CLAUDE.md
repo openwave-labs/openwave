@@ -51,9 +51,9 @@ Refer to `README.md` and `SYS_ARCH.md` for the full Modules Structure and Object
 
 ### Scientific Source Material
 
-Each model directory under `openwave/xperiments/` contains a `/research` subfolder with active research notes, plus `/research/theory/` holding the foundational theorist papers for that model (e.g. `m5_liquid_crystal/research/theory/liquid_crystal_model.pdf`, `Equation-of-Everything.pdf`, `faber_universe_2025.pdf`).
+Each model directory under `openwave/xperiments/` contains a `/research` subfolder with active research notes, plus a `theory/` folder (at the model root) holding the foundational theorist papers for that model (e.g. `m5_liquid_crystal/theory/liquid_crystal_model.pdf`, `Equation-of-Everything.pdf`, `faber_universe_2025.pdf`).
 
-Note: the legacy top-level `scientific_source/` folder was retired 2026-05-18 — papers now live per-model. M1/M2/M4 have no theory/ folder.
+Note: the legacy top-level `scientific_source/` folder was retired 2026-05-18 — papers now live per-model.
 
 ## Installation & Usage
 

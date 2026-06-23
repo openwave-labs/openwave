@@ -4,7 +4,7 @@ Working record of the multi-day exchange with Jarek Duda (Manfried Faber added m
 
 **Status:** the δ/g calibration question is closed at the seed level; gravity-domination retracted (Duda was right); EM/GEM split delivered. Round 3 (2026-06-09 afternoon) converged on the forward program: Duda's `F_μν` decomposition matches our split symbol-for-number, and his 3×3 fixed-clock electron suggestion became the **ElectronID project** (μ + J extraction, roadmap "ELECTRON-ID PROJECT"). Open: the δ (quantum-phase) sector is dynamical and not yet weighed; the absolute unit calibration (Coulomb + LdG-to-rest-energy) is the real axis.
 
-**Cross-refs:** [`0b_M5_roadmap.md`](0b_M5_roadmap.md) (DUDA FOLLOW-UP + 06-09 addendum, NG-12), [`99_summary_report.md`](99_summary_report.md), `sandbox_vn/m5_8_2q_delta_scaling.py` (energy sweep + Phase D/E boost/EM-GEM split), `sandbox_vn/m5_8_2q_omega.py` (ω(δ) scaffold, deferred), `theory/faber_universe_2025.pdf`.
+**Cross-refs:** [`0b_M5_roadmap.md`](0b_M5_roadmap.md) (DUDA FOLLOW-UP + 06-09 addendum, NG-12), [`99_summary_report.md`](99_summary_report.md), `sandbox_vn/m5_8_2q_delta_scaling.py` (energy sweep + Phase D/E boost/EM-GEM split), `sandbox_vn/m5_8_2q_omega.py` (ω(δ) scaffold, deferred), `../theory/faber_universe_2025.pdf`.
 
 ---
 
