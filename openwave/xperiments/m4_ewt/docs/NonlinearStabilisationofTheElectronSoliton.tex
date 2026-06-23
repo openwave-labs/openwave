@@ -1,0 +1,372 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\geometry{margin=2.5cm}
+
+\title{\textbf{Nonlinear Stabilisation of the Electron Soliton}\\[4pt]
+	\large Documentation for the OpenWave M4 Implementation}
+\author{Łukasz Smoliński}
+\date{\today \\ \small  Version: 1.0.00}
+	
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		This document provides a self-contained technical specification for the
+		nonlinear wave equation that is proposed to stabilise the electron core
+		($K_{WC}=10$) in the vector M4 model of the OpenWave platform.  The
+		coupling coefficient is derived from the BCC lattice geometry of Energy
+		Wave Theory, three complementary forms of the nonlinear term are presented,
+		and the role of the Degraded EMC Wall as a necessary boundary condition is
+		quantified.  The 1-3-6 wave-centre arrangement is shown to be the unique
+		self-consistent candidate satisfying the topological and energetic
+		constraints of the vacuum lattice.  The stability of this configuration
+		is a postulate whose numerical verification is the immediate objective
+		of the M4 implementation described herein.
+	\end{abstract}
+	
+	%=====================================================================
+	\section{Context and Objective}
+	%=====================================================================
+	
+
+	
+The scalar M3 model of OpenWave has demonstrated that spherical
+phyllotaxis (golden-angle, $\sim 137.5^{\circ}$) resolves the
+K-selectivity problem at the tested neighbouring values: $K=10$ forms
+a stable standing wave (amplitude flat at $\sim 0.29$ after $\sim 140$
+steps under a $0.1$ perturbation), while $K=9$ and $K=11$ decay
+systematically ($-34\%$ and $-45\%$, respectively, with $K=9$
+confirmed across two independent runs).\footnote{Pull Request \#205,
+	\url{https://github.com/openwave-labs/openwave/pull/205}, merged;
+	closes/contributes to Issue \#203.}  In the vector M4 model, however,
+the same golden-angle arrangement does \emph{not} stabilise the
+electron core, indicating that the missing ingredient is not purely
+geometric but nonlinear.
+	
+	
+	%=====================================================================
+	\section{General Soliton Wave Equation}
+	%=====================================================================
+	
+	The scalar amplitude $\Psi(\mathbf{r},t)$ of the standing wave is
+	governed by
+	\begin{equation}\label{eq:soliton}
+		\Bigl( \frac{\partial^{2}}{\partial t^{2}} - c^{2}\nabla^{2} \Bigr)
+		\Psi(\mathbf{r},t) + \mathcal{F}(\Psi) = 0 ,
+	\end{equation}
+	where $c$ is the speed of light and $\mathcal{F}$ encodes the nonlinear
+	self-interaction that prevents dispersive collapse.
+	
+	%=====================================================================
+	\section{Coupling Coefficient from BCC Geometry}
+	%=====================================================================
+	
+	In EWT the magnetic deficit $\epsilon_{M}$ is the fundamental lattice
+	response parameter.  It is defined through the calibrated stiffness
+	$N_{\text{final}}$ and the geometric limit $8\pi^{4}$:
+	\begin{equation}\label{eq:epsM}
+		\epsilon_{M} = \frac{1}{N_{\text{final}}\,\pi^{3}}
+		\;\approx\; \frac{1}{8\pi^{7}}, \qquad
+		N_{\text{final}} = 778.818123 .
+	\end{equation}
+	The approximate equality reflects the $0.058\%$ lattice impedance
+	$\delta$ between $N_{\text{final}}$ and the ideal BCC packing limit
+	$8\pi^{4}$.  Physically, $\epsilon_{M}$ measures the fractional loss of
+	stiffness caused by the soliton's spin-induced magnetic torque.
+	
+	The natural coupling strength for the nonlinear term is the inverse
+	deficit,
+	\begin{equation}\label{eq:gamma}
+		\gamma \equiv \frac{1}{\epsilon_{M}}
+		= N_{\text{final}}\,\pi^{3} \approx 2.4148 \times 10^{4}.
+	\end{equation}
+	For numerical implementation two variants are available:
+	\begin{itemize}
+		\item $\gamma_{\text{geo}} = 8\pi^{7} \approx 2.4162 \times 10^{4}$
+		(ideal BCC limit);
+		\item $\gamma_{\text{final}} = N_{\text{final}}\pi^{3} \approx 2.4148
+		\times 10^{4}$ (anchored to the measured $\alpha$).
+	\end{itemize}
+	The $0.058\%$ difference may be critical for discriminating $K=10$ from
+	neighbouring configurations.  The M4 implementation should initially use
+	$\gamma_{\text{final}}$ and, if necessary, explore the geometric limit
+	as a consistency check.
+	
+	%=====================================================================
+	\section{Three Complementary Forms of $\mathcal{F}$}
+	%=====================================================================
+	
+	\subsection*{Variant A --- Pure cubic nonlinearity}
+	The simplest form compatible with NLS-type soliton equations is
+	\begin{equation}\label{eq:F_cubic}
+		\boxed{\mathcal{F}(\Psi) = \gamma\,\Psi^{3}} .
+	\end{equation}
+	A term proportional to $\Psi^{3}$ is the lowest-order odd nonlinearity
+	that preserves the sign of the restoring force; it arises from a quartic
+	potential $V(\Psi)=\tfrac{1}{4}\gamma\Psi^{4}$.
+	
+	\subsection*{Variant B --- Density-modulated nonlinearity}
+	Let $\rho(r)$ be the local EMC density inside the soliton and $\rho_{0}$
+	the statutory vacuum background.  The deficit fraction is
+	$(1-\rho(r)/\rho_{0})$, and the nonlinear term becomes
+	\begin{equation}\label{eq:F_density}
+		\boxed{\mathcal{F}(\Psi,\rho)
+			= \gamma\,\Bigl(1-\frac{\rho(r)}{\rho_{0}}\Bigr)\,\Psi^{3}} .
+	\end{equation}
+	The nonlinearity is maximal in the core where $\rho(r) \ll \rho_{0}$ and
+	vanishes in the surrounding vacuum, linking stability directly to the
+	EMC push-out mechanism.
+	
+	\subsection*{Variant C --- Explicit 1-3-6 source-driven dynamics}
+	In the native EWT model the electron consists of ten discrete, mobile
+	wave centres (WCs) arranged in a 1-3-6 configuration.  The vector wave
+	equation then takes the driven form
+	\begin{equation}\label{eq:F_source}
+		\boxed{\Bigl( \frac{\partial^{2}}{\partial t^{2}} - c^{2}\nabla^{2} \Bigr)
+			\mathbf{\Psi} + \gamma\,\|\mathbf{\Psi}\|^{2}\,\mathbf{\Psi}
+			= \mathbf{J}_{1\text{-}3\text{-}6}(\mathbf{r},t)} ,
+	\end{equation}
+	where the source operator is the sum of ten vectorial centres:
+	\begin{equation}\label{eq:J}
+		\mathbf{J}_{1\text{-}3\text{-}6}(\mathbf{r},t) =
+		\mathbf{j}_{\text{core}}(\mathbf{r} - \mathbf{r}_{0})
+		+ \sum_{i=1}^{3} \mathbf{j}_{\text{inner}}(\mathbf{r} - \mathbf{r}_{i}(t))
+		+ \sum_{j=1}^{6} \mathbf{j}_{\text{outer}}(\mathbf{r} - \mathbf{r}_{j}(t)) .
+	\end{equation}
+	Each class carries a distinct phase offset; the phase asymmetry between
+	the inner (3) and outer (6) groups forces a synchronised rotation,
+	generating the $720^{\circ}$ spin of the electron.
+	
+	%=====================================================================
+	\section{Structural Emergence of the 1-3-6 Geometry}
+	%=====================================================================
+	
+	Why the 1-3-6 partition?  Three complementary reasons are proposed
+	(pending numerical verification):
+	
+	\begin{enumerate}
+		\item The \textbf{core} (1) anchors the soliton at a single BCC lattice
+		node, providing the central phase reference.
+		\item The \textbf{inner shell} (3) forms an equilateral triangle ---
+		the minimal number of vertices that can define a plane whose
+		normal coincides with the spin axis.  It is proposed that four
+		or more centres on a single shell at this radius would introduce
+		phase frustration.
+		\item The \textbf{outer shell} (6) is proposed to complete the
+		octahedral coordination of the BCC unit cell, saturating the
+		remaining propagation axes and guaranteeing isotropic far-field
+		emission after spherical masking by the Degraded EMC Wall.
+	\end{enumerate}
+	
+	It is proposed that configurations such as 2-3-5 or 2-2-6 would
+	misalign the spin axis or leave BCC axes unmatched, producing a net
+	multipole moment that the nonlinearity cannot cancel.  The 1-3-6
+	triad is therefore the unique self-consistent candidate satisfying:
+	(a) the topological winding number $Q=10$,
+	(b) the cubic nonlinearity with coefficient $\gamma$, and
+	(c) the octahedral symmetry of the $Im\bar{3}m$ BCC lattice.
+	A rigorous proof that this configuration minimises the energy
+	functional remains a task for the M4 simulation.
+	
+	%=====================================================================
+	\section{Topological Selection Rule}
+	%=====================================================================
+	
+	On the spherical shell $S^{2}$ that encloses the soliton, the field
+	configuration is characterised by an integer winding number
+	\begin{equation}\label{eq:Q}
+		Q = \frac{1}{4\pi} \int_{S^{2}} \Psi^{*}\,\omega \in \mathbb{Z},
+	\end{equation}
+	where $\omega$ is the normalised area form on $S^{2}$.  For the electron
+	$Q = K_{WC} = 10$.
+	
+	This number is a topological invariant --- it cannot change under
+	continuous deformations of the wave field.  The configuration of
+	$Q=10$ wave centres is a natural candidate for the lowest-energy
+	stable homotopy class that can establish a fully isotropic boundary
+	condition on $S^{2}$ (analogous to the global minimum of the spherical
+	Thomson problem).  A rigorous proof that $Q=10$ yields a deeper
+	potential well than $Q=8,9,11$ requires an explicit evaluation of the
+	energy functional with $\gamma\Psi^{3}$ and the $Im\bar{3}m$ projection
+	--- the immediate objective of the M4 simulation.
+	
+	Equation~\eqref{eq:soliton} together with any of the three nonlinear
+	variants and $Q=10$ constitutes a well-posed, falsifiable model.  The
+	stability of the 1-3-6 configuration is at present a postulate, not a
+	proof.
+	
+	\begin{enumerate}
+		\item The \textbf{nonlinearity} ($\gamma$) creates a deep, narrow
+		potential well that resists dispersion.
+		\item The \textbf{topological winding number} is proposed to fix the
+		ground state at exactly ten wave centres, pending numerical
+		confirmation that $Q=10$ is energetically preferred over
+		neighbouring integers.
+		\item The \textbf{BCC stiffness constant} $N_{\text{final}}$ (or its
+		geometric limit $8\pi^{4}$) fixes the coupling without adjustable
+		parameters.
+	\end{enumerate}
+	
+	%=====================================================================
+	\section{Dimensional Weight Operator}
+	%=====================================================================
+	
+	Each factor of $\pi$ in the coupling budget corresponds to a distinct
+	geometric degree of freedom of the soliton.  Labelling these as
+	$\pi^{(1)}$ (wave amplitude), $\pi^{(2)}$ (frequency),
+	$\pi^{(3)},\pi^{(4)},\pi^{(5)}$ (3D spatial substrate),
+	$\pi^{(6)}$ (soliton radius), and $\pi^{(7)}$ (charge), the
+	coefficient \eqref{eq:gamma} can be factorised as
+	\begin{equation}\label{eq:factor}
+		\gamma = \frac{1}{\epsilon_{M}} = N_{\text{final}}\,\pi^{3}
+		\;\approx\; 8\pi^{7}
+		= 8\;\cdot\;\pi^{(1)}\pi^{(2)}\pi^{(3)}\pi^{(4)}\pi^{(5)}\pi^{(6)}\pi^{(7)} .
+	\end{equation}
+	The approximate equality with $8\pi^{7}$ reflects the geometric limit
+	$\gamma_{\text{geo}}$; the exact factorisation in terms of labelled
+	$\pi^{(k)}$ is a formal bookkeeping device valid for any numerical
+	prefactor.  The factor~8 corresponds to the eight primary propagation
+	axes of the $Im\bar{3}m$ unit cell, ensuring isotropic nonlinear
+	restoring force.
+	
+	%=====================================================================
+	\section{Degraded EMC Wall}
+	%=====================================================================
+	
+	The nonlinear stabilisation requires a boundary condition: the
+	Degraded EMC Wall, where the EMC density transitions from the deep
+	core deficit to the statutory background $\rho_{0}$.
+	
+	A natural length scale for the wall radius is provided by the
+	electron Compton wavelength $\lambda_C$.  Using the standard QED
+	relations $r_e = \alpha\lambda_C/2\pi$ and $1/\alpha \approx 137$,
+	\begin{equation}\label{eq:rwall}
+		\boxed{r_{\text{wall}} \sim \frac{\lambda_C}{2\pi}
+			= \frac{r_e}{\alpha} \approx 137\,r_e} .
+	\end{equation}
+	Because $\alpha$ is itself derivable from BCC geometry, this scale
+	introduces no new parameter.  The wall provides a broad transition
+	zone ($\sim 137\,r_e$) within which the nonlinearity can adiabatically
+	relax the EMC density, suppressing sharp gradients that would
+	otherwise destabilise the standing wave.
+	
+	\subsection*{Possible EMC Density Peak}
+	
+	Two density profiles are compatible with the integral deficit: a
+	monotonic approach to $\rho_{0}$, or a local peak
+	($\rho_{\text{wall}} > \rho_{0}$) caused by EMC accumulation.  If a
+	peak exists, it would assist stabilisation in two ways:
+	\begin{enumerate}
+		\item In Variant~B, the factor $(1-\rho/\rho_{0})$ changes sign
+		within the peak, creating a local defocusing barrier that
+		prevents the standing wave from leaking outward.
+		\item In all variants, a density peak implies a locally higher
+		elastic modulus, acting as a partial reflector that increases
+		the $Q$-factor of the soliton resonator.
+	\end{enumerate}
+	Whether the peak is indispensable or auxiliary can only be decided
+	once the full radial EMC profile is computed from the nonlinear wave
+	equation in the M4 simulation.
+	
+	%=====================================================================
+	\section{Internal Wave-Centre Dynamics (Yee Hypothesis)}
+	%=====================================================================
+	
+	An additional hypothesis, put forward in the foundational EWT
+	literature, proposes that the electron's ten wave centres are not
+	static but undergo continuous micro-motion around their nodal
+	positions.  A displaced centre experiences a restoring force toward
+	the local amplitude minimum; this perpetual shifting is the origin of
+	the $720^{\circ}$ spin and, simultaneously, a dynamic stabilisation
+	mechanism.  The 1-3-6 geometry ensures that only a fraction of
+	centres are off-node at any instant, while the remainder anchor the
+	structure.  This hypothesis should be tested in M4 once the nonlinear
+	term and the EMC Wall are in place: comparing simulations with and
+	without WC motion will reveal whether internal dynamics is essential
+	or secondary.
+	
+	%=====================================================================
+	\section{Relation Between Energetic and Topological Arguments}
+	%=====================================================================
+	
+	Two complementary conditions single out $K_{WC}=10$:
+	
+	\begin{enumerate}
+		\item \textbf{Energetic:} The $r^{5}/r^{3}$ scaling disparity creates
+		a deep potential well for intermediate wave-centre counts.  $K_{WC}$
+		cannot be too small (shallow well) or too large (volumetric
+		overload).
+		\item \textbf{Topological:} The winding number $Q$ must be an integer.
+		Only discrete values are permitted.
+	\end{enumerate}
+	
+	These are not independent post-hoc justifications; they are mutually
+	reinforcing.  The specific value $K=10$ emerges as the unique integer
+	that simultaneously satisfies both constraints under the octahedral
+	symmetry of the $Im\bar{3}m$ BCC lattice.  A rigorous proof that no
+	other integer passes both filters remains a task for the M4 simulation.
+	
+	%=====================================================================
+	\section{Summary and Implementation Recommendations}
+	%=====================================================================
+	
+	\begin{itemize}
+		\item \textbf{Wave equation:}
+		$(\partial_{t}^{2} - c^{2}\nabla^{2})\Psi + \mathcal{F}(\Psi) = 0$.
+		\item \textbf{Coupling:}
+		$\gamma = 1/\epsilon_{M} = N_{\text{final}}\pi^{3} \approx 2.41\times 10^{4}$.
+		Use $\gamma_{\text{final}}$ initially; the $0.058\%$ difference
+		from $\gamma_{\text{geo}} = 8\pi^{7}$ may be decisive.
+		\item \textbf{Three variants for $\mathcal{F}$:}
+		\begin{itemize}
+			\item[A.] $\gamma\Psi^{3}$ (pure cubic, minimal implementation).
+			\item[B.] $\gamma(1-\rho/\rho_{0})\Psi^{3}$ (density-modulated,
+			links stability to the EMC push-out deficit).
+			\item[C.] $\gamma\|\mathbf{\Psi}\|^{2}\mathbf{\Psi}$ with an
+			explicit 1-3-6 source operator (directly encodes the
+			electron's wave-centre architecture).
+		\end{itemize}
+		\item \textbf{Degraded EMC Wall:}
+		$r_{\text{wall}} \sim r_e/\alpha \approx 137\,r_e$.  A possible
+		density peak would further assist stabilisation.
+		\item \textbf{Topological selection:}
+		$Q=10$ on $S^{2}$ is proposed as the selection rule; rigorous
+		proof that $Q=10$ is energetically preferred remains an M4 task.
+		\item \textbf{1-3-6 partition:}
+		The unique self-consistent candidate; its stability is a postulate
+		pending numerical verification.
+		\item \textbf{Energetic + topological arguments:}
+		Complementary constraints that together single out $K_{WC}=10$.
+		\item \textbf{Model status:}
+		Well-posed and falsifiable; stability of the 1-3-6 configuration
+		is a postulate whose numerical verification is the immediate
+		objective of the OpenWave M4 simulation.
+	\end{itemize}
+	
+	\bigskip
+	\begin{center}
+		\rule{0.5\textwidth}{0.4pt}
+		\textit{Document prepared for the OpenWave development team.}\\[4pt]
+	\end{center}
+	
+	%=====================================================================
+	\begin{thebibliography}{9}
+		
+		\bibitem{Smolinski2025}
+		Smoliński, Ł. (2025).
+		\textit{The Geometric Identity of Gravity and Dimensional Unification
+			Resolving $\alpha$, Lepton $(g-2)_l$, Weinberg, and Cabibbo Mixing}.
+		DOI: \href{https://doi.org/10.5281/zenodo.17654657}{10.5281/zenodo.17654657}.
+		
+	\end{thebibliography}
+	
+\end{document}
