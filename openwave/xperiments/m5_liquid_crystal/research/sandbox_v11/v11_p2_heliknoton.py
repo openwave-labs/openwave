@@ -215,6 +215,25 @@ def hopf_director(X, Y, Z, R0):
     return nh / np.linalg.norm(nh, axis=-1, keepdims=True)
 
 
+def singular_hopfion_tensor(X, Y, Z, R0, r_c, melt_floor):
+    """a Hopf-charge-1 director (linked preimages = the topological PROTECTION) with a SINGULAR
+    melt along its core ring (preimage of +z at rho=R0, z=0) = the lambda^3 SIZE-FIX. Combines
+    the two ingredients each prior negative lacked: run-2's smooth Hopfion had the linking but no
+    melt (expanded); run-4's melted loop had the melt but no linking (dissolved).
+    melt_floor: amplitude at the ring core (1.0 = smooth control = run-2; 0.0 = full melt).
+    Derrick: E(lambda) = A/lambda (Hopf curvature) + B*lambda^3 (melt) => a finite-size minimum."""
+    nH = hopf_director(X, Y, Z, R0)
+    rho = np.sqrt(X ** 2 + Y ** 2)
+    d_ring = np.sqrt((rho - R0) ** 2 + Z ** 2)              # distance to the Hopf core ring
+    amp = melt_floor + (1.0 - melt_floor) * np.tanh(d_ring / r_c)   # ->melt_floor at the ring
+    nn = nH[..., :, None] * nH[..., None, :]
+    Msp = amp[..., None, None] * (DELTA * np.eye(3) + (1 - DELTA) * nn)
+    Mout = np.zeros(X.shape + (4, 4))
+    Mout[..., 1:4, 1:4] = Msp
+    Mout[..., 0, 0] = G_TIME
+    return Mout, nH
+
+
 def heliknoton_director(X, Y, Z, R0, q0):
     """Hopf knot embedded in the helix: rotate the Hopf director so its (0,0,-1) far-field
     maps onto the local helix director. Ry(pi/2): (x,y,z)->(z,y,-x); then Rz(q0 z).
@@ -575,7 +594,7 @@ def relax_track_melt(M0, Lc, Kf, iters, label=""):
     free = interior_mask()[..., None, None]
     M_np = M0.copy(); v = np.zeros_like(M_np)
     dt, dt_max, alpha, n_pos = 0.02, 0.2, 0.1, 0
-    track = {"iter": [], "E": [], "melt_vol": [], "ring_R": [], "min_tr2": [], "gnorm": []}
+    track = {"iter": [], "E": [], "Ecurv": [], "melt_vol": [], "ring_R": [], "min_tr2": [], "gnorm": []}
     for it in range(iters):
         E, g = energy_and_grad(M_np, LDG_A, LDG_B, LDG_C, C2, DX, Q0, Lc, Kf)
         g[..., 1:4, 1:4] = 0.5 * (g[..., 1:4, 1:4] + np.swapaxes(g[..., 1:4, 1:4], -1, -2))
@@ -593,12 +612,32 @@ def relax_track_melt(M0, Lc, Kf, iters, label=""):
         M_np = M_np + dt * v; M_np = np.where(free, M_np, M0)
         if it % 100 == 0 or it == iters - 1:
             vol, ring_R, mintr2 = melt_diag(M_np)
+            ec = curvature_only(M_np)
             gn = float(np.sqrt(np.sum(g * g)))
-            track["iter"].append(it); track["E"].append(E); track["melt_vol"].append(vol)
-            track["ring_R"].append(ring_R); track["min_tr2"].append(mintr2); track["gnorm"].append(gn)
-            print(f"  {label} it {it:4d}  E={E:.1f}  melt_vol={vol}  ring_R={ring_R:.2f}  "
-                  f"min_tr2={mintr2:.3f}  |g|={gn:.4f}")
+            track["iter"].append(it); track["E"].append(E); track["Ecurv"].append(ec)
+            track["melt_vol"].append(vol); track["ring_R"].append(ring_R)
+            track["min_tr2"].append(mintr2); track["gnorm"].append(gn)
+            print(f"  {label} it {it:4d}  E={E:.1f}  Ecurv={ec:.2f}  melt_vol={vol}  "
+                  f"ring_R={ring_R:.2f}  min_tr2={mintr2:.3f}  |g|={gn:.4f}")
     return M_np, track
+
+
+def director_ring_R(M_np):
+    """radius of the Hopf core ring (director ~ +z) in the z~0 slab, from the leading
+    eigenvector of Msp; works for smooth or melted fields. 0 if no off-axis core."""
+    mid = N // 2
+    Msp = M_np[:, :, mid - 1:mid + 2, 1:4, 1:4]
+    Msym = 0.5 * (Msp + np.swapaxes(Msp, -1, -2))
+    w, vecs = np.linalg.eigh(Msym)                 # ascending eigenvalues
+    nz = np.abs(vecs[..., 2, -1])                  # |n_z| of the leading eigenvector
+    X, Y, Z = grid()
+    rho = np.sqrt(X[:, :, mid - 1:mid + 2] ** 2 + Y[:, :, mid - 1:mid + 2] ** 2)
+    mask = rho > 1.5
+    if not np.any(mask):
+        return 0.0
+    nz_m = np.where(mask, nz, -1.0)
+    flat = int(np.argmax(nz_m))
+    return float(rho.ravel()[flat])
 
 
 def run_disc():
@@ -644,6 +683,63 @@ def run_disc():
     return out
 
 
+def run_shopf():
+    print("=" * 70)
+    R0 = N * DX / 5.0          # Hopf core-ring radius (~6.4 for N=32; room to grow/shrink)
+    r_c = 2.0                  # melt-ring thickness
+    print(f"MODE shopf : singular (melted-core) Hopfion (R0={R0:.1f}, r_c={r_c}); Hopf charge "
+          f"(protection) + melt (lambda^3 size). N={N}")
+    X, Y, Z = grid()
+    # A/B over melt depth: 1.0 = smooth control (run-2, should expand), 0.0 = full melt.
+    # plus one chiral run on the full melt to see if it helps or breaks the linking.
+    configs = [(1.0, 0.0), (0.5, 0.0), (0.0, 0.0), (0.0, 1.7)]   # (melt_floor, L)
+    results = []
+    for melt_floor, L in configs:
+        Kf = L / 2.0
+        M0, _ = singular_hopfion_tensor(X, Y, Z, R0, r_c, melt_floor)
+        Ec0 = curvature_only(M0)
+        v0, _, mt0 = melt_diag(M0)
+        dR0 = director_ring_R(M0)
+        print(f"\n -- melt_floor={melt_floor} L={L} -- seed: Ecurv={Ec0:.2f} melt_vol={v0} "
+              f"min_tr2={mt0:.3f} dirRing={dR0:.2f}")
+        Mf, track = relax_track_melt(M0, L, Kf, ITERS, label=f"mf{melt_floor}L{L}")
+        Ecf = track["Ecurv"][-1]
+        curv_keep = Ecf / max(Ec0, 1e-9)
+        dRf = director_ring_R(Mf)
+        vol_f, rR_f, mt_f = track["melt_vol"][-1], track["ring_R"][-1], track["min_tr2"][-1]
+        finite = bool(np.isfinite(track["E"][-1]) and np.isfinite(Ecf))
+        # a localized hold RETAINS the seed curvature at a finite ring radius. Guard against the
+        # two false positives: curvature combed to ~0 (expanded) and curvature BLOWN UP (>2.5x =
+        # the chiral blue-phase global texture, delocalized, NOT a localized knot).
+        blue_phase = finite and L > 0 and curv_keep > 2.5
+        held = finite and not blue_phase and 0.3 < curv_keep < 2.5 and 0.35 * R0 < dRf < 1.8 * R0
+        verdict = ("BLUE_PHASE" if blue_phase else
+                   "HELD" if held else
+                   "EXPANDED" if finite and (curv_keep < 0.2 or dRf > 1.8 * R0) else
+                   "COLLAPSED" if finite and dRf < 0.35 * R0 else "PARTIAL")
+        results.append({"melt_floor": melt_floor, "L": L, "Ecurv_seed": Ec0, "Ecurv_final": Ecf,
+                        "curv_retention": curv_keep, "dirRing_seed": dR0, "dirRing_final": dRf,
+                        "melt_vol_final": vol_f, "min_tr2_final": mt_f,
+                        "gnorm_final": track["gnorm"][-1], "verdict": verdict})
+        print(f"  mf={melt_floor} L={L}: Ecurv {Ec0:.1f}->{Ecf:.2f} ({curv_keep:.0%})  "
+              f"dirRing {dR0:.2f}->{dRf:.2f}  melt_vol={vol_f}  min_tr2={mt_f:.3f}  => {verdict}")
+    smooth = next(r for r in results if r["melt_floor"] == 1.0 and r["L"] == 0.0)
+    fullmelt = next(r for r in results if r["melt_floor"] == 0.0 and r["L"] == 0.0)
+    melt_stabilizes = fullmelt["verdict"] == "HELD" and smooth["verdict"] != "HELD"
+    out = {"phase": "P2-singular-hopfion", "N": N, "R0": R0, "r_c": r_c, "iters": ITERS,
+           "results": results, "melt_stabilizes_hopfion": bool(melt_stabilizes),
+           "note": ("singular Hopfion = Hopf charge 1 (linked preimages = protection) + a melted "
+                    "core ring (lambda^3 size-fix). melt_floor=1 = smooth control (run-2, expands); "
+                    "melt_floor=0 = full melt. Derrick: E=A/lambda + B lambda^3 -> finite size IF "
+                    "the melt is present. held = Hopf curvature retained at a finite director-ring "
+                    "radius; expanded = curvature combs out / ring -> box; collapsed = ring -> 0.")}
+    with open(os.path.join(CKPT, "p2_singular_hopfion.json"), "w") as f:
+        json.dump(out, f, indent=2)
+    print(f"\n  the melt stabilizes the Hopfion (smooth expands, melted holds): {melt_stabilizes}")
+    print(f"  checkpoint -> {os.path.join(CKPT, 'p2_singular_hopfion.json')}")
+    return out
+
+
 def main():
     t0 = time.time()
     summary = {}
@@ -657,6 +753,8 @@ def main():
         summary["sweep"] = run_sweep()
     if MODE in ("disc", "all"):
         summary["disc"] = run_disc()
+    if MODE in ("shopf", "all"):
+        summary["shopf"] = run_shopf()
     print("=" * 70)
     print(f"done ({round(time.time() - t0, 1)}s)")
     return summary
