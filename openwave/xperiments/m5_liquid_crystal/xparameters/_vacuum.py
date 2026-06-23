@@ -3,7 +3,7 @@ XPERIMENT PARAMETERS — Vacuum only (the medium's ground state, NO defect)
 
 Companion to _topo_biaxial1_von.py / _topo_biaxial1_voff.py, but with the particle
 REMOVED: this seeds only the uniform medium in its ground state, so you can study
-the vacuum by itself (L1 / L2 of the M5 course) before adding a topological defect.
+the vacuum by itself, before adding a topological defect.
 
 WHAT THIS SEEDS.  MODE = "vacuum" → seeds.seed_vacuum_M(wave_field, lc_delta):
 

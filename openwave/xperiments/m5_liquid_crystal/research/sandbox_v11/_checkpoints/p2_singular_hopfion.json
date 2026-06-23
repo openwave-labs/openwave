@@ -1,0 +1,63 @@
+{
+  "phase": "P2-singular-hopfion",
+  "N": 32,
+  "R0": 6.4,
+  "r_c": 2.0,
+  "iters": 1200,
+  "results": [
+    {
+      "melt_floor": 1.0,
+      "L": 0.0,
+      "Ecurv_seed": 64.0625576256461,
+      "Ecurv_final": 0.07473231543908784,
+      "curv_retention": 0.0011665521672704858,
+      "dirRing_seed": 6.363961030678928,
+      "dirRing_final": 14.577379737113251,
+      "melt_vol_final": 0,
+      "min_tr2_final": 1.1799812610857012,
+      "gnorm_final": 0.007280340937452467,
+      "verdict": "EXPANDED"
+    },
+    {
+      "melt_floor": 0.5,
+      "L": 0.0,
+      "Ecurv_seed": 55.93077252703129,
+      "Ecurv_final": 0.07301769165862128,
+      "curv_retention": 0.001305501218016109,
+      "dirRing_seed": 6.363961030678928,
+      "dirRing_final": 15.182226450688976,
+      "melt_vol_final": 0,
+      "min_tr2_final": 1.1797421876235465,
+      "gnorm_final": 0.004683871582713592,
+      "verdict": "EXPANDED"
+    },
+    {
+      "melt_floor": 0.0,
+      "L": 0.0,
+      "Ecurv_seed": 51.85668352937905,
+      "Ecurv_final": 0.0700162318784397,
+      "curv_retention": 0.0013501872297477812,
+      "dirRing_seed": 6.363961030678928,
+      "dirRing_final": 17.334935823359714,
+      "melt_vol_final": 0,
+      "min_tr2_final": 1.1794844034142482,
+      "gnorm_final": 0.001524168822553439,
+      "verdict": "EXPANDED"
+    },
+    {
+      "melt_floor": 0.0,
+      "L": 1.7,
+      "Ecurv_seed": 51.85668352937904,
+      "Ecurv_final": 460.72554703450083,
+      "curv_retention": 8.884593376926622,
+      "dirRing_seed": 6.363961030678928,
+      "dirRing_final": 9.300537618869138,
+      "melt_vol_final": 0,
+      "min_tr2_final": 1.1088465846341642,
+      "gnorm_final": 0.003632312142247421,
+      "verdict": "BLUE_PHASE"
+    }
+  ],
+  "melt_stabilizes_hopfion": false,
+  "note": "singular Hopfion = Hopf charge 1 (linked preimages = protection) + a melted core ring (lambda^3 size-fix). melt_floor=1 = smooth control (run-2, expands); melt_floor=0 = full melt. Derrick: E=A/lambda + B lambda^3 -> finite size IF the melt is present. held = Hopf curvature retained at a finite director-ring radius; expanded = curvature combs out / ring -> box; collapsed = ring -> 0."
+}

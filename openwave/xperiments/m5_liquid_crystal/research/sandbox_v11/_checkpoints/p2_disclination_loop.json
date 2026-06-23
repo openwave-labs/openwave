@@ -1,0 +1,47 @@
+{
+  "phase": "P2-disclination-loop",
+  "N": 32,
+  "R_seed": 8.0,
+  "r_c": 2.5,
+  "iters": 1200,
+  "results": [
+    {
+      "L": 0.0,
+      "K_frank": 0.0,
+      "melt_vol_seed": 1632,
+      "melt_vol_final": 0,
+      "melt_vol_retained": 0.0,
+      "ring_R_seed": 8.0,
+      "ring_R_final": 0.0,
+      "min_tr2_final": 1.1685846924176069,
+      "gnorm_final": 0.0032935771816292674,
+      "verdict": "DISSOLVED"
+    },
+    {
+      "L": 1.7,
+      "K_frank": 0.85,
+      "melt_vol_seed": 1632,
+      "melt_vol_final": 0,
+      "melt_vol_retained": 0.0,
+      "ring_R_seed": 8.0,
+      "ring_R_final": 0.0,
+      "min_tr2_final": 1.01535301656375,
+      "gnorm_final": 0.9891285765466804,
+      "verdict": "DISSOLVED"
+    },
+    {
+      "L": 5.0,
+      "K_frank": 2.5,
+      "melt_vol_seed": 1632,
+      "melt_vol_final": 0,
+      "melt_vol_retained": 0.0,
+      "ring_R_seed": 8.0,
+      "ring_R_final": 0.0,
+      "min_tr2_final": 1.0994221253092555,
+      "gnorm_final": 0.0301153673014288,
+      "verdict": "DISSOLVED"
+    }
+  ],
+  "chiral_helps": false,
+  "note": "singular +1/2 disclination LOOP with a melted core (Msp->0 at the ring), the lambda^3 melt = the electron's stabilizer. L=0 = pure M5 control (run-1 plain ring dissolved); L>0 adds the validated chiral+Frank terms. held = a melt ring persists at finite R; dissolved = melt heals to vacuum; collapsed = R->0."
+}

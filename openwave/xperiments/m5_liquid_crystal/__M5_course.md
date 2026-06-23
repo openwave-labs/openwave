@@ -68,7 +68,7 @@ eigenvalues set the exact shape, and what each axis *means* physically, is the c
 
 ### What the medium *represents* — the order-parameter / coarse-graining reading
 
-![A granule tracing a fast elliptical orbit; time-averaged, its position-cloud covariance is the ellipsoid M — the M4 6-phasor ellipse to M5 ellipsoid bridge](images/granule_ellipse_small.gif)
+![A granule tracing a fast elliptical orbit; time-averaged, its position-cloud covariance is the ellipsoid M — the M4 6-phasor ellipse to M5 ellipsoid bridge](research/images/granule_ellipse_small.gif)
 
 `M` is an **order parameter**: by definition a coarse-grained average of whatever finer degrees of
 freedom live below the voxel (a real liquid crystal's `M = ⟨n⊗n⟩` is averaged over many molecules).
@@ -223,7 +223,7 @@ three axes are *not* interchangeable — **each eigenvalue is a different piece 
 
 ### The ellipsoid axes — how the eigenvalues set the shape
 
-![Triaxial biaxial top: semi-axes a (longest, x) > b (medium, y) > c (shortest/flat, z); the director n-hat lies along the longest axis a](images/ellipsoid.png)
+![Triaxial biaxial top: semi-axes a (longest, x) > b (medium, y) > c (shortest/flat, z); the director n-hat lies along the longest axis a](research/images/ellipsoid.png)
 
 In the live **3D** substrate the biaxial vacuum spectrum is **`D = diag(1, δ, 0)`** (the M5.6
 seeder, `engine1_seeds.py:477`) — three distinct axis-lengths. (`medium.py:19`'s header writes the
@@ -1263,7 +1263,7 @@ Five things that make it click:
 | 4 | precise vs idealized? | "lock-step" is the *coherent ideal*; really `ψ = ψ(x,t)` with a profile. How coherent it stays *is* the M5.7.2 result (free 3D radiates it away → M5.8 stabilizes / a drive maintains it) |
 | 5 | engine tie-in | this is the `O(x)∈SO(3)` rotation DoF (`5a §9` / `m5_6_2b`) — the collective `clock_twist` is a coherent excitation of that rotation field, not of `M`'s raw components |
 
-![Duda's electron-clock animation — a hedgehog of biaxial ellipsoids, each spinning about its director at the de Broglie clock rate](images/clock.gif)
+![Duda's electron-clock animation, a hedgehog of biaxial ellipsoids, each spinning about its director at the de Broglie clock rate](research/images/clock.gif)
 
 **Figure — Duda's electron-clock render** (Wolfram Community, ["Time crystal ϕ⁴ kink as toy model…"](https://community.wolfram.com/groups/-/m/t/3398814)) — the literal picture of this lesson. The fanned ellipsoids are the **hedgehog** (L4 — charge = topology); each one **spinning about its director** is the `clock_twist` (the δ-axis sweeping `n̂`) — the **collective mode** ticking in lock-step. The same object carries **spin / angular momentum + magnetic dipole + de Broglie clock** (L7 → L8). The lower spiral is **neutrino oscillation "along axis 2↔3"** — the field swinging in the `δ`–`0` block (L2 axes; 3 light/stable types, left/right handed). The bottom strip is **β-decay reconnection** (neutron → W⁻ → proton + electron + neutrino; L10 / 15a). ⚠️ Duda's conceptual render — corroborates our framing, not an M5 result.
 

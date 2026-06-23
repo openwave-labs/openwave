@@ -1,9 +1,13 @@
-# M5.11 vortex-loop findings , regularized, stable, stationary loop + mass (in progress)
+# M5.11 vortex-loop findings , regularized solitons: the electron + α reproduced; the neutrino loop isolated
 
-> **Status: PENDING EXECUTION.** Skeleton to be filled phase by phase as M5.11 runs. Plan + physics:
-> [`11a_vortex_loop.md`](11a_vortex_loop.md). This document mirrors the [`10e`](10e_findings_N4c.md) structure
-> (headline, phases, tables, figures, caveats, artifacts) and is the canonical record of the dynamical
-> vortex-loop simulation that answers Duda's 2026-06-22 critique. Code: `sandbox_v11/`.
+> **Status: ⏸ PARKED 2026-06-23 (5 runs done).** P0-P1 ✅ (Faber electron 511 keV + `α⁻¹=137`),
+> the AD + chiral + Frank machinery ✅ validated, P2 (the stable neutrino loop) is the open frontier ,
+> 5 clean experiments map it onto a 2×2 whose one un-filled cell is a forced-singular knotted/linked
+> disclination line (§ "P2 SINGULAR HOPFION (run 5)" + the 2×2 map). **Resume guide + the 3-way fork:**
+> [`sandbox_v11/_checkpoints/SESSION_STATE.md`](sandbox_v11/_checkpoints/SESSION_STATE.md § "PARKED , pick up here").
+> Plan + physics: [`11a_vortex_loop.md`](11a_vortex_loop.md). This document mirrors the
+> [`10e`](10e_findings_N4c.md) structure (headline, phases, tables, figures, caveats, artifacts) and is the
+> canonical record of the simulation that answers Duda's 2026-06-22 critique. Code: `sandbox_v11/`.
 
 ## 0. Headline
 
@@ -15,7 +19,7 @@ Answering Duda's "too simple" critique with REAL energy-minimized regularized so
 | P1a | **Faber's electron reproduced**: a generic seed relaxed to Faber's `arctan` soliton, `I→π/4` (6e-6), **511.00 keV at r0=2.2132 fm**, non-circular | ✅ |
 | P1b | the full 3D SU(2) `Γ/R` machinery (`O(a²)` → exact) + **`α⁻¹→137.03` from charge quantization** (`charge²→1.00003 e²`, `α_sol ℏc→1.44000 MeV·fm`) | ✅ |
 | AD engine (run 2) | Taichi reverse-mode AD gradient == P0 functional (energy 4e-16, gradient 1.8e-13) | ✅ |
-| P2 | a stable regularized vortex loop | 🔶 plain ring dissolves (run 1), smooth Hopfion expands (run 2); **run 3** built + validated the **chiral Lifshitz + Frank terms** (AD==numpy 1e-14) and found that M5's 4th-order term vanishes for 1D textures (so chiral needs its Frank partner). Honest obstruction: the **biaxial** M5 tensor drives a blue-phase texture, no stable simple helix, no localized smooth heliknoton in the fast setup (thesis's flagged biaxial case) → refined target = **singular chiral disclination loop** |
+| P2 | a stable regularized vortex loop | 🔶 five clean negatives map the target onto a 2×2: smooth knots **expand** (run 2 Hopfion; run 5 singular Hopfion , imposed melt **heals**, not forced), singular `+1/2` loops **contract/dissolve** (runs 1, 4), the smooth chiral heliknoton → **blue-phase** in biaxial M5 (run 3; chiral+Frank built+validated to 1e-14). The one un-filled cell = a **forced-singular AND knotted/linked disclination LINE** (the melt forced by a real half-integer singularity on a knotted line) , the irreducible target, precisely isolated |
 | P1b running `α(d)` | the quantitative two-soliton running curve | ⚠️ machinery built + validated; precise `α_sol` NOT cleanly extractable in the fast 2nd-order setup → needs Faber's high-order method. **Asymptote `α⁻¹=137` secure via the charge route** |
 
 What this establishes: the machinery does real regularized-soliton physics (the electron rest energy AND the fine-structure constant, Faber's two headline results), not "code from a training set." For the neutrino, two clean experiments pin down the structure: the plain disclination ring dissolves (run 1) and a smooth Hopfion expands (run 2), so the stable object is a **knotted/linked singular disclination** (singular core for the melt/`λ³`, knotting for protection) , Duda's chiral nematic vortex knot, now a precise, well-posed next build. _Figures: [`sandbox_v11/p1_faber_electron.png`](sandbox_v11/p1_faber_electron.png), [`sandbox_v11/p1b_charge_137.png`](sandbox_v11/p1b_charge_137.png)._
@@ -32,6 +36,8 @@ What this establishes: the machinery does real regularized-soliton physics (the 
 | P1b' quantitative two-soliton running `α(d)` | differentiable axisym AD machinery built + validated (single soliton −3.78%, gradcheck 2e-6); two-soliton runs but `α_sol` NOT cleanly extractable (non-uniform FIRE convergence + small-difference-of-large-energies; sign was setup-dependent) | the `α(d)` curve (Faber Fig. 3) | ⚠️ needs Faber's high-order method; asymptote secure (P1b charge route) |
 | P2 the vortex LOOP (seeder + relax under full functional) | plain uniaxial `+1/2` disclination ring **dissolves** (curvature energy combs out 9.78→0.65 = 6.6% retained at N=28; 12.64→0.67 at N=40), `\|g\|→0` to a textureless state. NOT topologically protected → needs the chiral/knot structure | `δE/δM→0` at finite `R`; no collapse | ⚠️ FORK (plain loop unstable; chiral/knot next, flagged not built) |
 | P2 build (run 3): chiral Lifshitz + Frank terms | **chiral term built + validated** (AD==numpy 1.1e-14, gradcheck 1.4e-8, `E_chiral(helix)<0`); M5 4th-order **vanishes for 1D textures** (`Ecurv(helix)=0`) so chiral needs its **Frank partner** `K\|∇Q\|²` (also validated, 6e-16); A/B: L=0 knot combs out (reproduces run 2), L>0 drives a **blue-phase texture** (localization ~1.4, `n_holds=0`); **no stable simple helix** at any tested `q0`/`Lc`/handedness | a localized knot survives over the helix | 🔶 machinery done; biaxial-M5 obstruction (thesis p.132 flagged case) → singular-disclination route next |
+| P2 singular disclination loop (run 4): melted-core `+1/2` ring ± chiral | seed has a **genuine forced melt** (`min Tr(Msp²)=0.048`, melt 1632 voxels); under **pure M5 the melt heals** (`vol→0`, `min Tr²→1.17≈vacuum`) → DISSOLVES (reproduces run-1 with a proper seed); under **chiral (L=1.7, 5) the melt ALSO heals** + blue-phase texture → DISSOLVES (`chiral_helps=False`). An unknotted loop is **topologically unprotected** (melt not forced; combs out / contracts) | a melt ring persists at finite `R` | 🔶 needs knotting/linking |
+| P2 singular Hopfion (run 5): Hopf charge + a melt painted on its core ring | the imposed melt **heals almost instantly** (`melt_vol 904→0` by it 100, `min Tr²→vacuum`) and the Hopfion **EXPANDS** for every melt depth (`m=1.0/0.5/0.0`, `Ecurv→0.07`, ring→box). `melt_stabilizes_hopfion=False`. The Hopf director is smooth (no singularity) so the melt is **not forced** → refills. Chiral case = the run-3 blue-phase (false-positive caught + re-labeled) | melt persists, Hopf curvature retained at finite size | 🔶 isolates the rule: **the melt must be topologically forced**, not painted on → needs a singular knotted disclination LINE |
 | P3 stability + the clock (Hessian / evolution + M5.8 dressing) | , | no collapse mode; loop persists; clock lowers energy, `ω` measured | 🚧 pending |
 | P4 mass from the loop (field energy / loop-length density) | , | mass spectrum + `Δm²` hierarchy; the 6.2 pm scale | 🚧 pending |
 | P5 parameter search (Higgs `A,B,C`/`Λ`, `g,δ`) , Duda's assignment | , | parameters reproducing masses + Faber electron | 🚧 pending |
@@ -214,7 +220,56 @@ Acted on the resolved direction (the heliknoton recipe above): added the chiral 
 
 The seed force scales `∝ L` and no single `q0` cancels it: the biaxial Q-tensor's chiral response is not satisfiable by a simple helix , it prefers a modulated (blue-phase-type) structure. This is **exactly the thesis's flagged hard case**: M5 is a BIAXIAL material tensor (all three axes material), and the thesis (p.132) warns _"singular vortex knots in material fields would be hard to stabilize without specific boundary conditions or colloidal inclusions"_ , plus the parameter-window caveat (6.5.10). The smooth chirality-stabilized heliknoton is a UNIAXIAL-director / finite-cell-anchoring object; it does not transfer cleanly to the fully biaxial M5 tensor in a fast pinned-box scheme.
 
-**Refined fork (what this tells us about the neutrino).** The run-2 conclusion was "knotted **singular** disclination (melt λ³ + knotting)"; the heliknoton recipe offered a **smooth** chiral alternative. This build shows the smooth chiral heliknoton does NOT cleanly stabilize in biaxial M5 , which **points back to the singular route**, now equipped with the validated chiral term. The well-scoped next target is a **singular chiral disclination LOOP** (singular core for the melt + the chiral term for twist-protection, the χ-helical-axis vortex line the thesis describes), and/or a uniaxial-director reduction to first demonstrate the heliknoton in the model the thesis actually uses, then map back to M5. The chiral + Frank machinery is built and validated and ready for both.
+**Refined fork (what this tells us about the neutrino).** The run-2 conclusion was "knotted **singular** disclination (melt λ³ + knotting)"; the heliknoton recipe offered a **smooth** chiral alternative. This build shows the smooth chiral heliknoton does NOT cleanly stabilize in biaxial M5 , which **points back to the singular route**, now equipped with the validated chiral term. The well-scoped next target is a **singular chiral disclination LOOP** (singular core for the melt + the chiral term for twist-protection, the χ-helical-axis vortex line the thesis describes), and/or a uniaxial-director reduction to first demonstrate the heliknoton in the model the thesis actually uses, then map back to M5. The chiral + Frank machinery is built and validated and ready for both. , **tested in run 4 below.**
+
+### P2 SINGULAR DISCLINATION LOOP (run 4, 2026-06-23) , a single unknotted melted loop dissolves with OR without the chiral term: protection needs knotting/linking 🔶 ([`sandbox_v11/v11_p2_heliknoton.py`](sandbox_v11/v11_p2_heliknoton.py) mode `disc`)
+
+Built the refined target , a singular `+1/2` disclination LOOP (ring radius `R=8`, `z=0`) with a **genuine melted core**: meridional winding `ψ/2` around the ring, amplitude `Msp = f(d)·(δI+(1−δ)nn)` with `f=tanh(d/r_c)`, so `Msp→0` at the core line (seed `min Tr(Msp²)=0.048`, melt volume 1632 voxels). The melt is the same `λ³` stabilizer that fixes the Faber electron's size. Relaxed under the validated functional, control vs chiral:
+
+| Run | Result |
+| --- | --- |
+| L=0 (pure M5: 4th-order + `V_M`) | the **melt heals completely** , `melt_vol 1632→0`, `min Tr(Msp²)→1.169` (≈ vacuum), field goes textureless. The loop **DISSOLVES** (reproduces run-1, now with a proper forced-melt seed) |
+| L=1.7 (chiral + Frank) | the melt **also heals** (`melt_vol→0` by it 200), and the chiral term additionally drives the blue-phase texture. **DISSOLVES** |
+| L=5 (chiral + Frank, stronger) | same , `melt_vol→0`, **DISSOLVES** (`chiral_helps = False`) |
+
+**The lesson (sharp).** A single **unknotted** `+1/2` disclination loop is **topologically unprotected**. Unlike the electron hedgehog , where the hairy-ball theorem _forces_ a point singularity, so the core _must_ melt and the `λ³` sets a finite size , an unknotted disclination ring bounds a disk over which the director can be combed smooth (and the loop can contract and annihilate). So the melt is **not topologically forced**; it simply heals. Neither the `λ³` melt **nor** the chiral term protects it: both `L=0` and `L>0` dissolve. The chiral term cannot rescue an object that has no topological reason to exist.
+
+**The elimination is now complete , four clean negatives, one surviving candidate:**
+
+| Object tried | Run | Outcome |
+| --- | --- | --- |
+| plain `+1/2` disclination ring (pure M5) | 1 | dissolves (combs out) |
+| smooth Hopfion (uniaxial, vacuum amplitude) | 2 | expands (Derrick `λ⁻¹`) |
+| smooth chiral heliknoton (chiral + helical far-field) | 3 | biaxial M5 → blue-phase texture, no stable helix |
+| singular melted disclination loop, ± chiral | 4 | melt heals, dissolves , unknotted = unprotected |
+
+Every negative points at the **same missing ingredient: topological protection = knotting / linking.** The melt supplies the `λ³` size-fixing and the chiral term supplies twist, but **neither supplies protection**; only a non-trivial linking/knot does (a configuration that _cannot_ be combed out). The surviving neutrino candidate is therefore a **knotted or linked _singular_ disclination** , e.g. two Hopf-linked `+1/2` melted rings, or a singular trefoil, or a melted Hopf preimage (which inherits the Hopf link). , **tested in run 5 below.**
+
+### P2 SINGULAR HOPFION (run 5, 2026-06-23) , an imposed melt on a smooth knot HEALS: the melt must be topologically FORCED, not painted on 🔶 ([`sandbox_v11/v11_p2_heliknoton.py`](sandbox_v11/v11_p2_heliknoton.py) mode `shopf`)
+
+Tried the most direct "linking + melt" object: take the Hopf-charge-1 director (linked preimages = the protection that run-2's smooth Hopfion proved is real) and **melt along its core ring** (the preimage of `+ẑ` at `ρ=R0, z=0`), amplitude `Msp = [m + (1−m)·tanh(d_ring/r_c)]·(δI+(1−δ)nn)`, melt floor `m`. The hope (Derrick): `E(λ) = A/λ` (Hopf curvature) `+ B·λ³` (melt) has a finite-size minimum, so the melt should hold the Hopfion that ran-2's smooth version expanded away. A/B over the melt depth, pure M5:
+
+| Seed | Result |
+| --- | --- |
+| `m=1.0` smooth control (= run-2) | EXPANDS , `Ecurv 64→0.07`, director ring `6.4→14.6` (box edge). ✓ reproduces run-2 |
+| `m=0.5` partial melt | the **melt heals** (`melt_vol 448→0` by it 100), then EXPANDS (`Ecurv→0.07`, ring→15.2) |
+| `m=0.0` full melt (`min Tr²=0.071` at seed) | the **melt heals** (`melt_vol 904→0` by it 100, `min Tr²→1.18 = vacuum`), then EXPANDS (`Ecurv→0.07`, ring→17.3) |
+| `m=0.0` + chiral `L=1.7` | melt heals + the run-3 **blue-phase** texture (`Ecurv→461`, delocalized , a classifier false-positive flagged and re-labeled `BLUE_PHASE`, not a hold) |
+
+`melt_stabilizes_hopfion = False`. **The melt heals almost instantly (by it 100) and the Hopfion expands regardless of melt depth.**
+
+**The lesson (the sharpest one yet).** An imposed melt on a **smooth** field is not stable, because it is **not topologically forced**. The Hopf map `S³→S²` has **no singularities** , the director is smooth and well-defined on the core ring , so the amplitude simply **refills** the ring to lower `V_M`, reverting to the smooth Hopfion, which then expands. Contrast the electron hedgehog: the hairy-ball theorem **forbids** a defined director at the point, so its melt **cannot** heal , that is _why_ it is stable. A melt only stabilizes when a genuine director singularity **forces** it.
+
+**The full map (this is the real result of the arc).** Every M5.11 P2 experiment now falls into a clean 2×2:
+
+| director | unknotted | knotted / linked |
+| --- | --- | --- |
+| **smooth** (melt not forced → heals) | run-2 Hopfion: **expands** | run-5 singular Hopfion: melt heals → **expands** |
+| **forced singular** (half-integer line) | run-1/run-4 `+1/2` loop: **contracts / dissolves** | **the target , still unbuilt** |
+
+The singular-Hopfion shortcut aimed for the bottom-right but landed in the **top-right**: painting a melt onto a smooth knot does not create a forced singularity, so it heals and behaves like the smooth knot. The genuine target needs a **knotted / linked _disclination LINE_** , where the director is genuinely **singular (half-integer) along the knotted line itself** (a forced melt that cannot heal, _and_ topological protection from the knot/link). That object cannot be reached by imposing a melt on a smooth field; it requires constructing a single-valued director with a knotted/linked half-integer disclination , the irreducible hard construction, now precisely isolated as the one open piece.
+
+**Wider implication.** In the M5 nematic-tensor field with this functional, the only topologically-forced singular localized object that stabilizes is the **point hedgehog (the electron)**. Loops/knots fail in exactly two distinguishable ways , unprotected (contract) or unforced-melt (heal) , and the neutrino requires the one configuration that is **both** forced-singular **and** knotted/linked, or else a different substrate ingredient (e.g. the chiral term in the uniaxial-director reduction where Smalyukh's heliknotons are known to live). That is the decision the next build faces.
 
 ## 3. Summary tables , to fill
 
@@ -234,10 +289,10 @@ The seed force scales `∝ L` and no single `q0` cancels it: the biaxial Q-tenso
 | [`sandbox_v11/v11_ad_energy.py`](sandbox_v11/v11_ad_energy.py) | run 2: Taichi-AD energy + gradient for the M5 functional, validated == P0 (the gradient engine) |
 | [`sandbox_v11/v11_p2_hopfion.py`](sandbox_v11/v11_p2_hopfion.py) | P2 (run 2): Hopf-map smooth-knot seed + AD-FIRE relax; shows a smooth knot expands |
 | [`sandbox_v11/v11_p1b_running.py`](sandbox_v11/v11_p1b_running.py) | P1b': differentiable axisym two-soliton AD energy + d-sweep; single-soliton validated, but `α_sol` not cleanly extractable in the fast setup |
-| [`sandbox_v11/v11_p2_heliknoton.py`](sandbox_v11/v11_p2_heliknoton.py) | P2 build (run 3): chiral Lifshitz + Frank terms added to the AD functional; modes `chiral_check` (validate), `calib` (helix-stationarity scan), `helix`, `sweep` (the A/B) |
+| [`sandbox_v11/v11_p2_heliknoton.py`](sandbox_v11/v11_p2_heliknoton.py) | P2 builds (runs 3-5): chiral Lifshitz + Frank terms added to the AD functional; modes `chiral_check` (validate), `calib` (helix-stationarity scan), `helix`, `sweep` (heliknoton A/B), **`disc`** (singular melted disclination loop ± chiral, run 4), **`shopf`** (singular Hopfion = Hopf charge + painted melt, run 5) |
 | [`sandbox_v11/v11_p2_heliknoton_plot.py`](sandbox_v11/v11_p2_heliknoton_plot.py) | P2 build figure generator (reads the two checkpoint JSONs) |
 | [`sandbox_v11/p1_faber_electron.png`](sandbox_v11/p1_faber_electron.png), [`sandbox_v11/p1b_charge_137.png`](sandbox_v11/p1b_charge_137.png), [`sandbox_v11/p2_heliknoton.png`](sandbox_v11/p2_heliknoton.png) | P1a + P1b + P2-build figures |
-| `sandbox_v11/_checkpoints/*.json` (`p0_minimizer`, `p1_faber_electron`, `p1b_lattice`, `p1b_axisym_single`, `p1b_charge`, `p2_vortex_loop`, `p2_heliknoton`, `p2_helix_calib`) + `SESSION_STATE.md` | per-phase result checkpoints (small JSON, regenerable) |
+| `sandbox_v11/_checkpoints/*.json` (`p0_minimizer`, `p1_faber_electron`, `p1b_lattice`, `p1b_axisym_single`, `p1b_charge`, `p2_vortex_loop`, `p2_heliknoton`, `p2_helix_calib`, `p2_disclination_loop`, `p2_singular_hopfion`) + `SESSION_STATE.md` | per-phase result checkpoints (small JSON, regenerable) |
 
 No raw data files > 1 MB were written (all outputs are small JSON + PNGs).
 
