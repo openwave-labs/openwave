@@ -8,7 +8,7 @@ The platform implements multiple candidate mathematical frameworks through compl
 
 ### Beyond the granule demos — OpenWave for research
 
-The walkthrough below uses the GRANULE-MOTION model for an intuitive introduction to wave concepts. The research-oriented side of OpenWave goes further: scalar / vector / director-field models running on a Taichi GPU lattice, multiple candidate Lagrangians compared side-by-side on shared observables, and cause-effect experiments where you perturb the field and measure its dynamic response. If you want the research-platform framing, the M-model contributors, and the falsifiability framing, see the main [README](README.md) → "Scientific Position" and "Platform vs. model" sections.
+The walkthrough below uses the GRANULE-MOTION model for an intuitive introduction to wave concepts. The research-oriented side of OpenWave goes further: scalar / vector / director-field models running on a Taichi GPU lattice, multiple candidate Lagrangians compared side-by-side on shared observables, and cause-effect experiments where you perturb the field and measure its dynamic response. If you want the research-platform framing, the M-model contributors, and the falsifiability framing, see the main [README](README.md) → "Scientific Position" and "Platform vs. model" sections. For the hands-on path (install, run a simulation, validate a model, and open a pull request), follow the [TUTORIAL](TUTORIAL.md).
 
 ![OpenWave Logo](images/openwave-white-small.png#gh-dark-mode-only)![OpenWave Logo](images/openwave-black-small.png#gh-light-mode-only)
 

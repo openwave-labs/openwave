@@ -182,6 +182,7 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simulate various phenomena.
 
 - **Highly Recommended:**
+  - New here and want the full hands-on path (setup, running sims, validating a model, opening a PR)? Follow the [**TUTORIAL**](TUTORIAL.md).
   - Read the [**WELCOME TO OPENWAVE**](WELCOME.md) to get started.
 - Then, on your terminal run:
 
