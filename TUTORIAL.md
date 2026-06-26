@@ -2,11 +2,11 @@
 
 This is the hands-on, start-to-finish guide for a newcomer. It takes you from a clean machine to running a simulation, validating a model, scaffolding your own model, and opening a pull request.
 
-If you only read one thing first, read the next section.
+## TL;DR: If you only read one thing first, read this section: [START HERE](#0-start-here-drive-openwave-with-an-ai-agent)
 
 | You want to | Jump to |
 | --- | --- |
-| Move fast with an AI agent | [0. Start here: drive OpenWave with an AI agent](#0-start-here-drive-openwave-with-an-ai-agent) |
+| Move fast with an AI agent | [0. START HERE: drive OpenWave with an AI agent](#0-start-here-drive-openwave-with-an-ai-agent) |
 | Get the code running | [1. Set up your environment](#1-set-up-your-environment) |
 | Know the house rules | [2. Community: conduct and contributing](#2-community-conduct-and-contributing) |
 | Understand the two ways to run | [3. The two solvers: headless vs rendered](#3-the-two-solvers-headless-sandbox-vs-rendered) |
@@ -19,9 +19,11 @@ New to the project itself? Read [`WELCOME.md`](WELCOME.md) and the [`README.md`]
 
 ---
 
-## 0. Start here: drive OpenWave with an AI agent
+## 0. START HERE: drive OpenWave with an AI agent
 
-**The single biggest recommendation for a newcomer: use an AI coding agent (such as [Claude Code](https://claude.com/product/claude-code)) from day one.**
+### The single biggest recommendation for a newcomer
+
+### > Use an AI coding agent (such as [Claude Code](https://claude.com/product/claude-code)) from day one
 
 OpenWave is **AI-native by design**. The platform treats AI agents as first-class contributors, not as a bolt-on, and the whole repository is written so an agent can find its way around on its own and help you use it. There is a machine-readable orientation file ([`CLAUDE.md`](CLAUDE.md)) at the repo root and per-model research folders with roadmaps, question trackers, and findings docs. An agent pointed at the repo can read [`README.md`](README.md) → [`MODELS.md`](MODELS.md) → [`CLAUDE.md`](CLAUDE.md) → the per-model `research/` notes and orient itself in minutes.
 
@@ -32,8 +34,8 @@ What that means in practice: you can ask an agent to navigate the platform, run 
 | Orient | "Read README.md, MODELS.md, and CLAUDE.md, then summarize how this repo is laid out and how to run a model." |
 | Run | "Install OpenWave and launch the rendered xperiments selector; tell me what each collection does." |
 | Reproduce | "Open the script behind the M5 Coulomb cell in MODELS.md, run it headless, and show me the number and the plot." |
-| Validate | "Write a headless validation for <observable> on model <M>, print the script and the result, and draft the research note." |
-| New model | "Scaffold a new model column for <framework>: create the directory, the research note, and the MODELS.md column with honest 🚧 cells." |
+| Validate | "Write a headless validation for [observable] on model [Mx], print the script and the result, and draft the research note." |
+| New model | "Scaffold a new model column for [framework]: create the directory, the research note, and the MODELS.md column with honest 🚧 cells." |
 
 **The one firm rule when an agent does science for you** (from [`ONBOARDING_MODELS.md` section 6](ONBOARDING_MODELS.md#6-using-an-ai-agent-to-do-this)): the agent must **show its work, the script and the numbers, never a verdict alone.** Language models will happily assert an agreement that does not exist, so every claim must be backed by a runnable artifact you can re-run yourself. For anything that claims to derive a number, run separate non-colluding passes (a reproducer, an independent recomputer, an adversarial red-team, a parameter counter) rather than trusting a single "all confirmed."
 
