@@ -156,6 +156,8 @@ Both workflows operate on the same underlying field equations. Validation answer
 
 ## INSTALLATION INSTRUCTIONS
 
+### TL;DR: If you only read one thing first, read this section: [TUTORIAL: START HERE](TUTORIAL.md#0-start-here-drive-openwave-with-an-ai-agent)
+
 For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 
 ```bash
@@ -182,7 +184,8 @@ For development installation refer to [Contribution Guide](CONTRIBUTING.md)
 XPERIMENTS are virtual lab scripts where you can explore wave mechanics and simulate various phenomena.
 
 - **Highly Recommended:**
-  - New here and want the full hands-on path (setup, running sims, validating a model, opening a PR)? Follow the [**TUTORIAL**](TUTORIAL.md).
+  - New here and want the full hands-on path (setup, running sims, validating a model, opening a PR)?
+    - Follow the [**TUTORIAL**](TUTORIAL.md).
   - Read the [**WELCOME TO OPENWAVE**](WELCOME.md) to get started.
 - Then, on your terminal run:
 
