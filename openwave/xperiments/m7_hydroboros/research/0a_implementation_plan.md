@@ -1,4 +1,4 @@
-# M7 / HydroBoros , Implementation Plan
+# M7 / HydroBoros - Implementation Plan
 
   ![hydroboros_icon](../images/hydroboros_icon_small.jpg)
 
@@ -44,6 +44,26 @@ generalized-Maxwell equivalence, Duda's superfluid mapping): see
 [`../../m5_liquid_crystal/research/1b_topological_defect.md`](../../m5_liquid_crystal/research/1b_topological_defect.md)
 § "EM-hydrodynamics formal equivalence".
 
+### Trkalian vs Beltrami: where the charge lives (Marc, 2026-06-30)
+
+A Beltrami field `∇×w = λw` splits on whether the proportionality factor `λ` is constant. Taking the
+divergence of both sides (`∇·(∇×w) = 0`) gives `∇λ·w + λ ∇·w = 0`, so:
+
+| Case | `λ` | Divergence | Charge |
+| --- | --- | --- | --- |
+| **Trkalian** | constant | `∇·w = 0` (solenoidal, forced) | none |
+| **general Beltrami** | variable `λ(x)` | `∇·w = −(∇λ·w)/λ ≠ 0` | **yes , the charge IS the variable-λ divergence** |
+
+This is the bridge to Fleury's `charge = ∇·E`: the **electric charge is the non-constant-λ Beltrami
+divergence**. The **endorsed build approach** (Marc, 2026-06-30, "the way to build it"): use the
+**modern decomposition of Beltrami** (Sato-Yamada, § 3 #11) and **start the code on Trkalian
+(constant-λ) exact solutions, then take off the training wheels on variable-λ** , generalize S&Y to
+non-constant λ, find the charge-carrying ansatz, and evolve it. The non-constant case is exactly the
+hard part ("the math gets very hairy"), so the Trkalian start is the foothold. This maps directly
+onto the phases: M7.1-M7.3 stay in the charge-free Trkalian/neutral regime, and **M7.4 takes off the
+training wheels , the constant-λ → variable-λ transition where the charge `∇·F` first appears** (§ 6).
+Marc may bring in the **Spanish Beltrami school** (Enciso & Peralta-Salas, § 3 #6) as collaborators.
+
 ---
 
 ## 1. Fleury's toroidal model , the analytic target to reproduce first
@@ -81,6 +101,12 @@ Acknowledged limits (Fleury, § 5.2): the Heaviside mask is unphysical at the to
 analytic mask with a relaxed lattice field**, which is precisely where the PDE treatment earns its
 keep.
 
+Fleury's ansatz is a **rotating wave** in Ceperley's sense (his ref [13], § 3 #14): Ceperley's
+circularly-polarized-EM rotating mode `E_r = E₀ e^{i(κz+φ−ωt)}` at `m=1` (his Eq 15) is literally this
+torus phase, its **`J_m(κr)` Bessel envelope** is exactly the § 5.2 fix for the Heaviside mask, and
+its angular-momentum law **`L_z = m(U/ω)`** (quantized when `U/ω = ℏ`) is the structural origin of the
+spin `= ℏ/2` constraint. See [`../theory/ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md) § 4b.
+
 ---
 
 ## 2. Ouroboros (M6) , the self-confinement the blend inherits
@@ -112,18 +138,20 @@ the same Lagrangian, `m_J`, `g`, and the `H/Q` benchmark into a full 3D lattice.
 | 3 | Rañada, *Topological theory of the EM field* | Lett. Math. Phys. **18** (1989) | helicity = linking; the Hopfion construction | 🚧 fetch |
 | 4 | Rañada, *Knotted solutions of Maxwell in vacuum* | J. Phys. A **23**, L815 (1990) | knotted **divergence-free** EM (the foil Fleury breaks) | 🚧 fetch |
 | 5 | Kedia, Bialynicki-Birula, Peralta-Salas, Irvine, *Tying knots in light fields* | PRL **111**, 150404 (2013) | Bateman construction = the **seeder** for knotted initial data | 🚧 fetch |
-| 6 | Enciso & Peralta-Salas, *Knots and links in steady Euler flows* | Ann. Math. **175** (2012) | **Beltrami** fields realize any knot as a steady fluid vortex | 🚧 fetch |
+| 6 | Enciso & Peralta-Salas, *Knots and links in steady Euler flows* | Ann. Math. **175** (2012) | **Beltrami** fields realize any knot as a steady fluid vortex; the **Spanish Beltrami school** (ICMAT Madrid) Marc may enroll as collaborators | 🚧 fetch |
 | 7 | Faddeev & Niemi, *Knots and particles* | Nature **387** (1997); hep-th/9610193 | the 4th-order **Hopfion stabilizer** (Derrick-evading, parallels M5's Skyrme term) | 🚧 fetch |
 | 8 | Sutcliffe, *Knots in the Skyrme-Faddeev model* | arXiv:0705.1468 | the canonical **numerical** Hopfion relaxation recipe | 🚧 fetch |
 | 9 | Werbos, *Stable Oscillatory Chaoitons in a 2-vector-field theory* | Zenodo 20030162 | the Ouroboros Lagrangian + soliton baseline | 🚧 fetch |
 | 10 | Werbos, *Evaluating Universe Model Alternatives v5* | `theory/` `.docx` | Ouroboros / TUFT params, `H/Q = 1.6969` | ✅ present |
-| 11 | **Beltrami / ABC sources from Marc's Gemini link** | (link is Google-auth gated, cannot fetch headless) | the specific Beltrami papers + further content Marc is sharing | 🔶 **Rodrigo to fetch + paste IDs** |
+| 11 | **Sato & Yamada, *Local Representation and Construction of Beltrami Fields*** (Marc's Beltrami source) | arXiv:**1809.03136** (Physica D, 2019) | the construction recipe for the toroidal-Beltrami **seeder** (eikonal + equal-scale-factor rule); inhomogeneous + non-solenoidal `h` | ✅ in `theory/` ([`1809.03136.pdf`](../theory/1809.03136.pdf) + note [`sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md)) |
 | 12 | Duda superfluid mapping | arXiv:2108.07896 | the EM ≡ hydrodynamics equivalence already cited in M5 | 🚧 fetch |
+| 13 | Marc's **2 non-constant-λ (variable-λ) Beltrami papers** + his notebook | (in Marc's notebook, incoming) | the **variable-λ** case where the charge lives (`∇·w ≠ 0`); the target to generalize S&Y onto | 🔶 **Rodrigo to forward from Marc** |
+| 14 | Ceperley, *Rotating Waves* (Fleury's ref [13]) | Am. J. Phys. **60**, 938 (1992); DOI 10.1119/1.17020 | the **phase-vortex / rotating-wave** formalism; **circularly-polarized EM at `m=1` = Fleury's torus** (Eq 15), spin `L_z=mU/ω` + QM bridge (`U/ω=ℏ`), spherical + radiating forms, **Bessel envelope** (= Fleury's § 5.2 fix) | ✅ in `theory/` ([`PDF`](../theory/ceperley_Rotating_Waves.pdf) + note [`ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md)) |
+| 15 | Velazco & Ceperley, *Rotating Wave Fields for Microwave Applications* | IEEE Trans. MTT **41**(2), 330 (1993) | applications companion to #14: the **full cylindrical-cavity `E,H` field set** + the `ω_rot=ω/m` derivation | ✅ in `theory/` ([`PDF`](../theory/velazco_ceperley_1993_rotating_wave_fields.pdf)) |
 
-Note on #11: the share link `gemini.google.com/share/9016becf3b08` returns only a sign-in shell to a
-headless fetcher. Rodrigo will pull the arXiv IDs (and the additional material Marc is sharing) and
-we add them to this table. Until then the standard Beltrami / Euler-knot canon (#6, plus ABC flows)
-covers the force-free-field foundation.
+Note on #11: Marc shared the Sato-Yamada writeup directly (the Gemini share link is Google-auth
+gated and cannot be fetched headless). The paper + Marc's summary are now in `theory/`; the summary
+note ties each result to a specific M7 piece. More Beltrami material from Marc is expected (#13).
 
 ---
 
@@ -149,6 +177,12 @@ What any acceptable substrate must satisfy (the blend test):
 | Beltrami `∇×F = (ω/c) F` reproduces Fleury's `ω = 2c/R₀` | the force-free eigenstate = the steady vortex |
 | M6 work carries over (`m_J`, `g`, `H/Q`) | do not re-derive what M6 already validated |
 | Derrick stability via a 4th-order term | static stable soliton must exist (see § 5) |
+
+**A-primary ontology (Marc, committed 2026-06-30):** the work starts from an **"A primary"** ontology,
+the vector potential `A` is the fundamental field, with `F = dA`, the `E, B` fields and the charge
+`∇·E` all derived from it. This favors the potential-primary candidate **B** (the `A_μ` doublet, where
+`A` is literally the primary DoF) over the field-primary RS candidate **A**; the Riemann-Silberstein
+`F` reading is kept as a derived diagnostic, not the evolved DoF.
 
 The decision between A and B (and whether D enters only as a seeder) is **open**, tracked as **Q1**
 in § 9. A full question tracker (M5-style, like
@@ -193,10 +227,10 @@ forces and the remaining particle sectors, **C** groups the cells still untested
 
 | Phase | Sandbox | Build | Validation gate (the credibility anchor) |
 | --- | --- | --- | --- |
-| **M7.1 , infra** | `sandbox_v1` | RS field on a 3D periodic lattice; AD energy gradient; FIRE minimizer; Bateman/Hopf + toroidal-Beltrami **seeders** | AD == numpy grad to `1e-12`; minimizer descends monotonically |
+| **M7.1 , infra** | `sandbox_v1` | A-primary field on a 3D periodic lattice; AD energy gradient; FIRE minimizer; Bateman/Hopf + **Trkalian (constant-λ) Beltrami** seeders (S&Y exact solutions) | AD == numpy grad to `1e-12`; minimizer descends monotonically |
 | **M7.2 , reproduce Fleury on the lattice** | `sandbox_v2` | seed the paper's toroidal ansatz; integrate charge, μ, spin, energy | recover `Q_rms = e`, `R₀ ≈ 1.573 r_c`, `E₀ ≈ 0.286 E_S`, `U ≈ 0.795 m_e c²`, `ω = 2c/R₀`. **M7's "reproduce Faber" trust-builder.** |
 | **M7.3 , reproduce M6's electron in full 3D** | `sandbox_v3` | switch on the Ouroboros coupling; relax the 3D doublet | recover `H/Q = 1.6969` from the **3D** field (M6 only ever got it from a 1D radial BVP) |
-| **M7.4 , the self-linked soliton + its Coulomb field (NEW physics)** | `sandbox_v4` | relax a Beltrami self-linked vortex with the 4th-order stabilizer on; read off the far field of the divergence charge | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; charge `= ∇·F`; **Coulomb `1/r` field sourced by that charge** (Gauss's law) |
+| **M7.4 , the charged soliton (constant-λ → variable-λ) + its Coulomb field (NEW physics)** | `sandbox_v4` | turn the Trkalian seed into a **variable-λ** Beltrami knot (`∇·F ≠ 0` = the charge); relax with the 4th-order stabilizer; read off the far field | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; **charge `= ∇·F` = the variable-λ divergence**; **Coulomb `1/r`** sourced by it (Gauss's law) |
 | **M7.5 , the clock + stability** | `sandbox_v5` | Minkowski real-time evolution; add the zitter dressing | persists many periods, no collapse mode; `ω` measured vs Dirac `ω_D` |
 | **M7.6 , electron observables** | `sandbox_v6` | mass = field energy; spin `ℏ/2`; `μ_B(1 + α/2π)`; the Klein-Gordon twist sector; **two-charge Coulomb `E(d) ~ 1/d`** | the 4-observable electron (mass, charge, μ, spin) + KG + the two-body force law, from the relaxed field |
 | **M7.7 , consolidate the M7 column (MILESTONE)** | `sandbox_v7` | fold the winning recipe into a `0d_canonical.md`-style spec; **add HydroBoros (M7) to MODELS.md** | one runnable canonical script, reproducible first-try; the electron cells land as the new column |
@@ -300,12 +334,13 @@ phases feed their observables into the renderer as they land, identical to how M
 
 | ID | Question | Status |
 | --- | --- | --- |
-| **Q1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at M7.1 |
+| **Q1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , narrowed to **B** by Marc's **A-primary** commitment (`A` fundamental, `F = dA`, charge derived); RS kept as a derived diagnostic; confirm at M7.1 |
 | **Q2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at M7.1/M7.4 |
 | **Q3** | Are Fleury's divergence charge and Ouroboros's helicity/linking charge **forced equal**, or independent observables that must be reconciled? | 🚧 OPEN , the conceptual core of the blend |
-| **Q4** | Beltrami / ABC source papers + further material from Marc (Gemini link is auth-gated) | 🔶 OPEN , Rodrigo to fetch + paste arXiv IDs into § 3 |
-| **Q5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
+| **Q4** | Beltrami / ABC source papers + further material from Marc | 🔶 PARTLY IN , Sato-Yamada landed (arXiv:1809.03136 + note in `theory/`, § 3 #11); more Marc material expected (#13) |
+| **Q5** | Does a **variable-λ (divergence-ful)** Beltrami field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
 | **Q6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at M7.3 |
+| **Q7** | The **charge-carrying ansatz**: start from exact Trkalian (constant-λ) solutions (S&Y) and **generalize to variable-λ** to introduce `∇·F` = charge; what is the right `λ(x)` profile + how does it evolve? | 🔶 OPEN , **approach endorsed by Marc** (2026-06-30, "the way to build it"); the specific `λ(x)` profile is the open part; the core of M7.4 |
 
 ---
 
@@ -315,8 +350,9 @@ phases feed their observables into the renderer as they land, identical to how M
 | --- | --- |
 | 4th-order term cost on a 3D lattice (multi-hour GPU runs) | accepted; same regime as M5.11's vortex-loop relaxation |
 | Complex-field / gauge constraints (`∇·B = 0`, RS reality) | constrained integrator + projection, as M5 does for the tensor |
-| Beltrami source IDs from Marc's Gemini link unavailable headless | Rodrigo fetches (Q4); standard canon covers the gap meanwhile |
-| Does the divergence-ful field admit clean knots (Q5) | the open research question; honest pass / fail at M7.4 |
+| Variable-λ Beltrami math "gets very hairy" (Marc) | start from exact Trkalian (constant-λ) cases (S&Y), generalize incrementally (Q7); do not jump straight to the charged case |
+| Does the variable-λ (divergence-ful) field admit clean knots (Q5) | the open research question; honest pass / fail at M7.4 |
+| **Marc's AI-exchange material hallucinates** (his own warning: 2 months / 3 AIs, output not great) | treat it as **seeds only**, never as validated input; every claim re-derived in-platform (the MODELS.md reproducibility bar). A marathon-session review for extractable signal is optional, low priority |
 | Masses (M7.6) may stay in tension with data | report honestly, including partial, as M5.11 did |
 
 ---
@@ -324,7 +360,9 @@ phases feed their observables into the renderer as they land, identical to how M
 ## 11. Cross-references
 
 - Theory: [`../theory/2510.22384v2.pdf`](../theory/2510.22384v2.pdf) (Fleury torus) ·
-  [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT)
+  [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT) ·
+  [`../theory/sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md) + [`1809.03136.pdf`](../theory/1809.03136.pdf) (Sato-Yamada Beltrami construction) ·
+  [`../theory/ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md) (Ceperley rotating-wave equations) + PDFs [`AJP 1992`](../theory/ceperley_Rotating_Waves.pdf) (Fleury's ref [13]) / [`IEEE 1993`](../theory/velazco_ceperley_1993_rotating_wave_fields.pdf)
 - Rigor standard: [`../../m5_liquid_crystal/research/11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md) (M5.11 vortex-loop)
 - Ouroboros canonical spec: [`../../m6_ouroboros/research/0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) ·
   background [`../../m6_ouroboros/research/0a_background.md`](../../m6_ouroboros/research/0a_background.md)
