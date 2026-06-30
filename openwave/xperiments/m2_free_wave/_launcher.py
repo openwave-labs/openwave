@@ -323,7 +323,7 @@ def display_wave_menu(state):
 
 def display_model_specs(state, model_bar_vertices):
     """Display OpenWave model specifications overlay."""
-    render.canvas.triangles(model_bar_vertices, color=colormap.LIGHT_BLUE[1])
+    render.canvas.triangles(model_bar_vertices, color=colormap.DARK_BLUE[1])
     with render.gui.sub_window("FREE-WAVE MODEL (M2)", 0.84, 0.01, 0.16, 0.16) as sub:
         sub.text("Medium: Indexed Voxel Grid")
         sub.text("Data-Structure: Scalar Field")

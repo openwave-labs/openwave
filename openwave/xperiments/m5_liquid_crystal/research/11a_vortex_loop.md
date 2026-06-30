@@ -9,6 +9,10 @@
 > Findings as we execute: [`11b_findings.md`](11b_findings.md). Code + checkpoints: `sandbox_v11/`.
 > Convention: index-0 (`D = diag(g, 1, δ, 0)`, `η = diag(-1,1,1,1)`).
 
+| Item | Description |
+| --- | --- |
+| **M5.11 — the regularized neutrino vortex-loop** (answers Duda's 2026-06-22 "too simple" critique) , **⏸ PARKED 2026-06-23** | P0-P1 ✅: a true energy minimizer + **Faber's electron reproduced** (511.00 keV at `r₀=2.2132 fm`, `I=π/4`, non-circular) + **`α⁻¹→137.03`** from charge quantization. Machinery ✅: Taichi-AD gradient (==functional 1e-13) + the **chiral Lifshitz + Frank terms** (validated 1e-14). P2 (the stable neutrino LOOP) = the open frontier: 5 clean experiments map it onto a 2×2 whose one un-filled cell is a **forced-singular knotted/linked disclination line** (smooth knots expand, unknotted singular loops contract, a painted-on melt heals). **Resume guide + the 3-way fork** (A build it / B uniaxial reduction = recommended / C accept electron-only): the "PARKED" head of [`sandbox_v11/_checkpoints/SESSION_STATE.md`](sandbox_v11/_checkpoints/SESSION_STATE.md); record [`11a_vortex_loop.md`](11a_vortex_loop.md) (plan) + [`11b_findings.md`](11b_findings.md) (findings). |
+
 ## 0. The challenge (Duda, 2026-06-22, verbatim)
 
 > "I am trying to read these Python files, but they look very far from simulations I was expecting. E.g. for
