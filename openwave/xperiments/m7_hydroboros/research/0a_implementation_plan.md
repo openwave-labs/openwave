@@ -65,7 +65,7 @@ divergence-free Rañada/Irvine knots), and pins the four parameters with three Q
 | Spin | `(1/c) ε₀ E₀² π² R₀² r₀² (1 + r₀²/4R₀²) = ℏ/2` |
 | Faraday (fixes ω) | `ω = 2c/R₀` (monochromatic), phase velocity `v_p = 2c` |
 
-Solved numerical values (the **P1 reproduction targets**):
+Solved numerical values (the **M7.2 reproduction targets**):
 
 ```text
 E₀ ≈ 0.286 E_S  (Schwinger limit)        R₀ ≈ 1.573 r_c  ≈ 6.073e−13 m  (Compton scale)
@@ -174,36 +174,40 @@ Solve it two ways, exactly as M5.11 does:
 | Method | Use |
 | --- | --- |
 | **Reverse-mode Taichi AD** for `δE/δ(A,J)`, validated against a numpy finite-difference gradient to `~1e-13` **before trusting any run** | the gradient for relaxation |
-| **FIRE / L-BFGS** relaxation to `‖∇E‖ → 0` | the static soliton (P1-P3, P5) |
-| **Minkowski leapfrog** (constrained integrator, `∇·B = 0`) | the clock + real-time stability (P4) |
+| **FIRE / L-BFGS** relaxation to `‖∇E‖ → 0` | the static soliton (M7.2-M7.4, M7.6) |
+| **Minkowski leapfrog** (constrained integrator, `∇·B = 0`) | the clock + real-time stability (M7.5) |
 
 ---
 
-## 6. Phased sandbox progression (`sandbox_v1` → canonical), each phase gated against a KNOWN result
+## 6. Phased sandbox progression (`sandbox_v1` → `sandbox_v7`, canonical), each phase gated against a KNOWN result
 
-| Phase | Build | Validation gate (the credibility anchor) |
-| --- | --- | --- |
-| **P0 , infra** | RS field on a 3D periodic lattice; AD energy gradient; FIRE minimizer; Bateman/Hopf + toroidal-Beltrami **seeders** | AD == numpy grad to `1e-12`; minimizer descends monotonically |
-| **P1 , reproduce Fleury on the lattice** | seed the paper's toroidal ansatz; integrate charge, μ, spin, energy | recover `Q_rms = e`, `R₀ ≈ 1.573 r_c`, `E₀ ≈ 0.286 E_S`, `U ≈ 0.795 m_e c²`, `ω = 2c/R₀`. **M7's "reproduce Faber" trust-builder.** |
-| **P2 , reproduce M6's electron in full 3D** | switch on the Ouroboros coupling; relax the 3D doublet | recover `H/Q = 1.6969` from the **3D** field (M6 only ever got it from a 1D radial BVP) |
-| **P3 , the self-linked toroidal soliton (NEW physics)** | relax a Beltrami self-linked vortex with the 4th-order stabilizer on | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; charge `= ∇·F` |
-| **P4 , the clock + stability** | Minkowski real-time evolution; add the zitter dressing | persists many periods, no collapse mode; `ω` measured vs Dirac `ω_D` |
-| **P5 , observables + spectrum** | mass = field energy; spin `ℏ/2`; `μ_B(1 + α/2π)`; vary knot / linking | electron observables from the relaxed field; honest pass / fail |
-| **P6 , canonicalize** | fold the winning recipe into a `0d_canonical.md`-style spec | one runnable canonical script, reproducible first-try |
+Each phase is its own iteration `M7.N`, matching its sandbox folder `sandbox_vN`, exactly the M5
+convention (M5.11 ↔ `sandbox_v11`).
 
-P0-P2 are the decisive credibility gates (reproduce **both** parents from the same lattice code).
-P3 is the research core (the thing neither parent did). P4-P5 are the physics payoff.
+| Phase | Sandbox | Build | Validation gate (the credibility anchor) |
+| --- | --- | --- | --- |
+| **M7.1 , infra** | `sandbox_v1` | RS field on a 3D periodic lattice; AD energy gradient; FIRE minimizer; Bateman/Hopf + toroidal-Beltrami **seeders** | AD == numpy grad to `1e-12`; minimizer descends monotonically |
+| **M7.2 , reproduce Fleury on the lattice** | `sandbox_v2` | seed the paper's toroidal ansatz; integrate charge, μ, spin, energy | recover `Q_rms = e`, `R₀ ≈ 1.573 r_c`, `E₀ ≈ 0.286 E_S`, `U ≈ 0.795 m_e c²`, `ω = 2c/R₀`. **M7's "reproduce Faber" trust-builder.** |
+| **M7.3 , reproduce M6's electron in full 3D** | `sandbox_v3` | switch on the Ouroboros coupling; relax the 3D doublet | recover `H/Q = 1.6969` from the **3D** field (M6 only ever got it from a 1D radial BVP) |
+| **M7.4 , the self-linked toroidal soliton (NEW physics)** | `sandbox_v4` | relax a Beltrami self-linked vortex with the 4th-order stabilizer on | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; charge `= ∇·F` |
+| **M7.5 , the clock + stability** | `sandbox_v5` | Minkowski real-time evolution; add the zitter dressing | persists many periods, no collapse mode; `ω` measured vs Dirac `ω_D` |
+| **M7.6 , observables + spectrum** | `sandbox_v6` | mass = field energy; spin `ℏ/2`; `μ_B(1 + α/2π)`; vary knot / linking | electron observables from the relaxed field; honest pass / fail |
+| **M7.7 , canonicalize** | `sandbox_v7` | fold the winning recipe into a `0d_canonical.md`-style spec | one runnable canonical script, reproducible first-try |
 
-One script per phase in `sandbox_v1/` (`v1_p0_minimizer.py`, `v1_p1_fleury_torus.py`,
-`v1_p2_ouroboros_3d.py`, `v1_p3_linked_vortex.py`, `v1_p4_clock_stability.py`, `v1_p5_observables.py`),
-checkpoints under `sandbox_v1/_checkpoints/`, mirroring M5.11's layout.
+M7.1-M7.3 are the decisive credibility gates (reproduce **both** parents from the same lattice code).
+M7.4 is the research core (the thing neither parent did). M7.5-M7.6 are the physics payoff.
+
+One sandbox folder per phase, mirroring M5.11's layout: scripts named `vN_*.py` with checkpoints
+under `sandbox_vN/_checkpoints/` (e.g. `sandbox_v1/v1_minimizer.py`, `sandbox_v2/v2_fleury_torus.py`,
+`sandbox_v3/v3_ouroboros_3d.py`, `sandbox_v4/v4_linked_vortex.py`, `sandbox_v5/v5_clock_stability.py`,
+`sandbox_v6/v6_observables.py`, `sandbox_v7/v7_canonical.py`).
 
 ---
 
 ## 7. Path to production rendering (the M5 architecture is the template)
 
 ```text
-research/sandbox_v1..vN/   headless Taichi research scripts        (this plan, P0–P6)
+research/sandbox_v1..v7/   headless Taichi research scripts        (this plan, M7.1–M7.7)
         │  winning recipe →
 medium.py                  the (A,J) / RS substrate definition
 engine1_seeds.py           Bateman/Hopf + toroidal-Beltrami seeders
@@ -215,7 +219,7 @@ _launcher.py               registers HydroBoros for `openwave -x`
 
 Reference layout: [`../../m5_liquid_crystal/`](../../m5_liquid_crystal/) (`medium.py`,
 `engine1_seeds.py` … `_launcher.py`). Headless first (matplotlib PNG diagnostics in the sandbox);
-rendering only after P6, identical to how M5 reached `_launcher.py`. No GUI / viz work lands before
+rendering only after M7.7, identical to how M5 reached `_launcher.py`. No GUI / viz work lands before
 the physics is canonical.
 
 ---
@@ -224,12 +228,12 @@ the physics is canonical.
 
 | ID | Question | Status |
 | --- | --- | --- |
-| **HQ1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at P0 |
-| **HQ2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at P0/P3 |
+| **HQ1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at M7.1 |
+| **HQ2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at M7.1/M7.4 |
 | **HQ3** | Are Fleury's divergence charge and Ouroboros's helicity/linking charge **forced equal**, or independent observables that must be reconciled? | 🚧 OPEN , the conceptual core of the blend |
 | **HQ4** | Beltrami / ABC source papers + further material from Marc (Gemini link is auth-gated) | 🔶 OPEN , Rodrigo to fetch + paste arXiv IDs into § 3 |
-| **HQ5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , P3 answers it (the research question) |
-| **HQ6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at P2 |
+| **HQ5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
+| **HQ6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at M7.3 |
 
 ---
 
@@ -237,11 +241,11 @@ the physics is canonical.
 
 | Risk | Status / mitigation |
 | --- | --- |
-| 4th-order term cost on a 3D lattice (multi-hour GPU runs) | accepted; same regime as M5.11 P2 |
+| 4th-order term cost on a 3D lattice (multi-hour GPU runs) | accepted; same regime as M5.11's vortex-loop relaxation |
 | Complex-field / gauge constraints (`∇·B = 0`, RS reality) | constrained integrator + projection, as M5 does for the tensor |
 | Beltrami source IDs from Marc's Gemini link unavailable headless | Rodrigo fetches (HQ4); standard canon covers the gap meanwhile |
-| Does the divergence-ful field admit clean knots (HQ5) | the open research question; honest pass / fail at P3 |
-| Masses (P5) may stay in tension with data | report honestly, including partial, as M5.11 did |
+| Does the divergence-ful field admit clean knots (HQ5) | the open research question; honest pass / fail at M7.4 |
+| Masses (M7.6) may stay in tension with data | report honestly, including partial, as M5.11 did |
 
 ---
 
