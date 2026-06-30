@@ -154,7 +154,7 @@ comes later; for now the open questions live in the table below.
 
 ---
 
-## 5. The dynamics (what makes it Duda-level, not analytic)
+## 5. The dynamics (what makes it rigorous, not analytic)
 
 The energy functional blends three pieces, mirroring M5.11's `Skyrme curvature + LdG Higgs`:
 
