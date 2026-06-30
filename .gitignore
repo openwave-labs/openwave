@@ -233,10 +233,18 @@ openwave/xperiments/m5_liquid_crystal/research/sandbox_v8/_m5_8_2f3_kin.npz
 openwave/xperiments/m5_liquid_crystal/research/sandbox_v8/_m5_8_2g_settled.npz
 openwave/xperiments/m5_liquid_crystal/research/sandbox_vn/_m5_8_2o_settled.npz
 
-# M7 / HydroBoros theory corpus , third-party copyrighted papers (publisher PDFs), kept LOCAL only.
-# ~700 MB and not redistributable on a public repo. Tracked record = electron_beltrami/SOURCES.md.
+# All model theory/ folders hold third-party copyrighted papers (PDF/docx/etc.), kept LOCAL only
+# (publisher PDFs, author docs , not redistributable on a public repo; the m7 corpus alone is ~700 MB).
+# Decision 2026-06-30: untrack going forward (files remain in pre-existing history; no rewrite).
+# Our own research notes (*.md) and the per-folder SOURCES.md manifests stay tracked.
+# (`**/` matches zero or more dirs, so these cover both theory/ root and any subfolders.)
+openwave/xperiments/*/theory/**/*.pdf
+openwave/xperiments/*/theory/**/*.docx
+openwave/xperiments/*/theory/**/*.doc
+openwave/xperiments/*/theory/**/*.epub
+openwave/xperiments/*/theory/**/*.ppt
+openwave/xperiments/*/theory/**/*.pptx
+openwave/xperiments/*/theory/**/*.djvu
+# m7 electron_beltrami/ is a pure local corpus , ignore the whole folder (incl. any non-doc strays) except its manifest.
 openwave/xperiments/m7_hydroboros/theory/electron_beltrami/*
 !openwave/xperiments/m7_hydroboros/theory/electron_beltrami/SOURCES.md
-# the working-set PDFs / docx in the theory root are also third-party , ignore the binaries, keep notes (*.md)
-openwave/xperiments/m7_hydroboros/theory/*.pdf
-openwave/xperiments/m7_hydroboros/theory/*.docx
