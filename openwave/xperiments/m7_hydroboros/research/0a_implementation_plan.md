@@ -12,6 +12,9 @@
 > `research/sandbox_v1..vN/` (Taichi GPU lattice, energy minimizer, matplotlib diagnostics),
 > converges to a canonical form, then graduates into the production `medium.py` + `engine1-4` +
 > `_launcher.py` for visual rendering, exactly the path M5 followed.
+> A primary deliverable is the **HydroBoros (M7) column** of the repo-root
+> [`MODELS.md`](../../../../MODELS.md) coverage matrix, every cell backed by a runnable in-platform
+> script, the same bar M5 meets (see § 7).
 > Rigor standard: [`../../m5_liquid_crystal/research/11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md) (M5.11).
 > Theory sources: [`../theory/`](../theory/). Findings as we execute: `research/sandbox_v*/`.
 
@@ -124,7 +127,7 @@ covers the force-free-field foundation.
 
 ---
 
-## 4. Task 1 , define the substrate field (DECISION DEFERRED, see Open Questions HQ1)
+## 4. Task 1 , define the substrate field (DECISION DEFERRED, see Open Questions Q1)
 
 The medium representation, in the M5 / M6 vocabulary (`M5 = 3×3 matrix`, `M6 = double vector
 field`). Candidates under consideration:
@@ -147,8 +150,8 @@ What any acceptable substrate must satisfy (the blend test):
 | M6 work carries over (`m_J`, `g`, `H/Q`) | do not re-derive what M6 already validated |
 | Derrick stability via a 4th-order term | static stable soliton must exist (see § 5) |
 
-The decision between A and B (and whether D enters only as a seeder) is **open**, tracked as **HQ1**
-in § 8. A full question tracker (M5-style, like
+The decision between A and B (and whether D enters only as a seeder) is **open**, tracked as **Q1**
+in § 9. A full question tracker (M5-style, like
 [`../../m6_ouroboros/research/0b_question_tracker.md`](../../m6_ouroboros/research/0b_question_tracker.md))
 comes later; for now the open questions live in the table below.
 
@@ -204,7 +207,39 @@ under `sandbox_vN/_checkpoints/` (e.g. `sandbox_v1/v1_minimizer.py`, `sandbox_v2
 
 ---
 
-## 7. Path to production rendering (the M5 architecture is the template)
+## 7. Filling the MODELS.md comparison table (a primary goal, M5 prescriptions)
+
+A primary deliverable of this program is the **HydroBoros (M7)** column in the repo-root
+[`MODELS.md`](../../../../MODELS.md) coverage matrix, evaluated against the same shared criteria as
+M5 / M6 / M4. The M5 prescription governs every cell:
+
+| Rule | What it means for M7 |
+| --- | --- |
+| Every cell is **script-backed** | each filled cell links to a runnable `sandbox_vN/` script (or a research note), reproducible by anyone |
+| **Honest status icons** | ✅ validated in-platform · ⚠️ partial / caveats · ❌ tested + failed · 🔶 in progress · 🚧 planned |
+| **Negatives are results** | a divergence-ful field that refuses to hold a knot (Q5) lands as a documented ❌, not a silence |
+| **The column is earned, cell by cell** | M7 cells start 🚧, go 🔶 during a phase, settle to ✅ / ⚠️ / ❌ when the run lands |
+| **New-model governance** | M7 is a new column: open an issue first so a maintainer adds it, then a script-backed PR + DCO + light review, per [`MODELS.md`](../../../../MODELS.md) § Contributing, [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md), [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md) |
+
+Each phase fills specific cells, so the table is the running scoreboard of the program:
+
+| Phase | MODELS.md cells targeted | Backing script |
+| --- | --- | --- |
+| **M7.1** | (infrastructure, no cell) | `sandbox_v1/` |
+| **M7.2** | Charge quantization · Electron rest energy · Magnetic moment μ + spin J · EM waves (Maxwell) · de Broglie clock | `sandbox_v2/v2_fleury_torus.py` |
+| **M7.3** | Electron rest energy (`H/Q = 1.6969` in full 3D) · Particle stability | `sandbox_v3/v3_ouroboros_3d.py` |
+| **M7.4** | Particle stability (Derrick escape) · Charge quantization (helicity / linking + divergence) | `sandbox_v4/v4_linked_vortex.py` |
+| **M7.5** | de Broglie clock (Zitterbewegung) · Particle stability | `sandbox_v5/v5_clock_stability.py` |
+| **M7.6** | Magnetic moment μ + spin J · Spin-½ statistics · Lepton mass spectrum | `sandbox_v6/v6_observables.py` |
+| **M7.7** | consolidate the column + the M7 deep-dive (a `0d_canonical.md`, the "Per-model results of record" row) | `sandbox_v7/` |
+
+The column lands incrementally: the first credible cells (M7.2 charge / mass / Maxwell) are the
+trigger to open the new-column issue and add **HydroBoros (M7)** to the table. Each later phase
+upgrades its cells from 🚧 to a verified icon, exactly as M5's column grew.
+
+---
+
+## 8. Path to production rendering (the M5 architecture is the template)
 
 ```text
 research/sandbox_v1..v7/   headless Taichi research scripts        (this plan, M7.1–M7.7)
@@ -224,32 +259,32 @@ the physics is canonical.
 
 ---
 
-## 8. Open questions (simple tracker for now; full M5-style tracker comes later)
+## 9. Open questions (simple tracker for now; full M5-style tracker comes later)
 
 | ID | Question | Status |
 | --- | --- | --- |
-| **HQ1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at M7.1 |
-| **HQ2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at M7.1/M7.4 |
-| **HQ3** | Are Fleury's divergence charge and Ouroboros's helicity/linking charge **forced equal**, or independent observables that must be reconciled? | 🚧 OPEN , the conceptual core of the blend |
-| **HQ4** | Beltrami / ABC source papers + further material from Marc (Gemini link is auth-gated) | 🔶 OPEN , Rodrigo to fetch + paste arXiv IDs into § 3 |
-| **HQ5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
-| **HQ6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at M7.3 |
+| **Q1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at M7.1 |
+| **Q2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at M7.1/M7.4 |
+| **Q3** | Are Fleury's divergence charge and Ouroboros's helicity/linking charge **forced equal**, or independent observables that must be reconciled? | 🚧 OPEN , the conceptual core of the blend |
+| **Q4** | Beltrami / ABC source papers + further material from Marc (Gemini link is auth-gated) | 🔶 OPEN , Rodrigo to fetch + paste arXiv IDs into § 3 |
+| **Q5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
+| **Q6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at M7.3 |
 
 ---
 
-## 9. Risks / unknowns
+## 10. Risks / unknowns
 
 | Risk | Status / mitigation |
 | --- | --- |
 | 4th-order term cost on a 3D lattice (multi-hour GPU runs) | accepted; same regime as M5.11's vortex-loop relaxation |
 | Complex-field / gauge constraints (`∇·B = 0`, RS reality) | constrained integrator + projection, as M5 does for the tensor |
-| Beltrami source IDs from Marc's Gemini link unavailable headless | Rodrigo fetches (HQ4); standard canon covers the gap meanwhile |
-| Does the divergence-ful field admit clean knots (HQ5) | the open research question; honest pass / fail at M7.4 |
+| Beltrami source IDs from Marc's Gemini link unavailable headless | Rodrigo fetches (Q4); standard canon covers the gap meanwhile |
+| Does the divergence-ful field admit clean knots (Q5) | the open research question; honest pass / fail at M7.4 |
 | Masses (M7.6) may stay in tension with data | report honestly, including partial, as M5.11 did |
 
 ---
 
-## 10. Cross-references
+## 11. Cross-references
 
 - Theory: [`../theory/2510.22384v2.pdf`](../theory/2510.22384v2.pdf) (Fleury torus) ·
   [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT)
@@ -258,4 +293,5 @@ the physics is canonical.
   background [`../../m6_ouroboros/research/0a_background.md`](../../m6_ouroboros/research/0a_background.md)
 - EM ≡ hydrodynamics bridge (already in M5): [`../../m5_liquid_crystal/research/1b_topological_defect.md`](../../m5_liquid_crystal/research/1b_topological_defect.md) § "EM-hydrodynamics formal equivalence"
 - Production-engine template: [`../../m5_liquid_crystal/`](../../m5_liquid_crystal/) (`medium.py`, `engine1_seeds.py` … `_launcher.py`)
+- Comparison table (the M7 column goal): [`MODELS.md`](../../../../MODELS.md) · new-model flow [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md), [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md)
 - Model overview stub: [`../readme.md`](../readme.md)
