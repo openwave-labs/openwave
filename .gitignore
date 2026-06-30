@@ -232,3 +232,11 @@ openwave/xperiments/m5_liquid_crystal/research/sandbox_v8/_m5_8_2f3_kin.npz
 # settled configs (regen: m5_8_2g settle / m5_8_2o settle)
 openwave/xperiments/m5_liquid_crystal/research/sandbox_v8/_m5_8_2g_settled.npz
 openwave/xperiments/m5_liquid_crystal/research/sandbox_vn/_m5_8_2o_settled.npz
+
+# M7 / HydroBoros theory corpus , third-party copyrighted papers (publisher PDFs), kept LOCAL only.
+# ~700 MB and not redistributable on a public repo. Tracked record = electron_beltrami/SOURCES.md.
+openwave/xperiments/m7_hydroboros/theory/electron_beltrami/*
+!openwave/xperiments/m7_hydroboros/theory/electron_beltrami/SOURCES.md
+# the working-set PDFs / docx in the theory root are also third-party , ignore the binaries, keep notes (*.md)
+openwave/xperiments/m7_hydroboros/theory/*.pdf
+openwave/xperiments/m7_hydroboros/theory/*.docx

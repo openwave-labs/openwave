@@ -24,7 +24,7 @@
 
 | Model | Substrate | How it is solved today | Charge origin | Key limit |
 | --- | --- | --- | --- | --- |
-| **Fleury** (hydrodynamics school), [`2510.22384v2`](../theory/2510.22384v2.pdf) | EM field `E, B` confined to a torus | closed-form **analytic** ansatz + Heaviside mask | `ρ = ∇·E` (geometric / divergence charge) | mask unphysical at boundary; energy lands at `0.795 m_e c²`; **no dynamics, no PDE** |
+| **Fleury** (hydrodynamics school), [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) | EM field `E, B` confined to a torus | closed-form **analytic** ansatz + Heaviside mask | `ρ = ∇·E` (geometric / divergence charge) | mask unphysical at boundary; energy lands at `0.795 m_e c²`; **no dynamics, no PDE** |
 | **Werbos Ouroboros** (M6), [`0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) | **double vector field** `(A_μ, J_μ)` | **reduced 1D ODE / BVP** (cylindrical `(α,β)`; spherical `l=1`) | `Q_CS` = Chern-Simons **linking** number | never run as a full **3D** field; electron is only a radial profile (`H/Q = 1.6969`) |
 
 The honest gap both parents share: **neither has ever been evolved as a full 3D nonlinear PDE on
@@ -68,7 +68,7 @@ Marc may bring in the **Spanish Beltrami school** (Enciso & Peralta-Salas, § 3 
 
 ## 1. Fleury's toroidal model , the analytic target to reproduce first
 
-dos Santos & Fleury, *An electromagnetic model of the electron*, [`arXiv:2510.22384v2`](../theory/2510.22384v2.pdf).
+dos Santos & Fleury, *An electromagnetic model of the electron*, [arXiv:2510.22384](https://arxiv.org/abs/2510.22384).
 The electron is a rotating EM wave confined to a torus:
 
 ```text
@@ -112,8 +112,8 @@ spin `= ℏ/2` constraint. See [`../theory/ceperley_rotating_waves.md`](../theor
 ## 2. Ouroboros (M6) , the self-confinement the blend inherits
 
 Werbos's two coupled vector fields `A_μ, J_μ` on Minkowski `(−,+,+,+)`
-([`0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md),
-[`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx)):
+([`0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md), Werbos's
+*Evaluating Universe Model Alternatives v5* shared doc):
 
 ```text
 L = −¼ F_μν F^μν − ¼ G_μν G^μν + m_J² A_μ J^μ − f(J_μ J^μ)
@@ -136,22 +136,53 @@ the same Lagrangian, `m_J`, `g`, and the `H/Q` benchmark into a full 3D lattice.
 | 1 | dos Santos & Fleury, *EM model of the electron* | arXiv:**2510.22384** | toroidal ansatz + the 3 QED constraints | ✅ in `theory/` |
 | 2 | Fleury & Rousselle, *Critical Review of Zitterbewegung Electron Models* | Symmetry **17**, 360 (2025) | why point-particle zitter models fail; the design brief | 🚧 fetch |
 | 3 | Rañada, *Topological theory of the EM field* | Lett. Math. Phys. **18** (1989) | helicity = linking; the Hopfion construction | 🚧 fetch |
-| 4 | Rañada, *Knotted solutions of Maxwell in vacuum* | J. Phys. A **23**, L815 (1990) | knotted **divergence-free** EM (the foil Fleury breaks) | 🚧 fetch |
+| 4 | Rañada, *Knotted solutions of Maxwell in vacuum* | J. Phys. A **23**, L815 (1990) | knotted **divergence-free** EM (the foil Fleury breaks); **helicity = linking = Hopf index** `n = (1/𝒶)∫A·B d³r` (Eq 3), the velocity↔A / vorticity↔B hydrodynamic analogy | ✅ in `electron_beltrami/` |
 | 5 | Kedia, Bialynicki-Birula, Peralta-Salas, Irvine, *Tying knots in light fields* | PRL **111**, 150404 (2013) | Bateman construction = the **seeder** for knotted initial data | 🚧 fetch |
 | 6 | Enciso & Peralta-Salas, *Knots and links in steady Euler flows* | Ann. Math. **175** (2012) | **Beltrami** fields realize any knot as a steady fluid vortex; the **Spanish Beltrami school** (ICMAT Madrid) Marc may enroll as collaborators | 🚧 fetch |
 | 7 | Faddeev & Niemi, *Knots and particles* | Nature **387** (1997); hep-th/9610193 | the 4th-order **Hopfion stabilizer** (Derrick-evading, parallels M5's Skyrme term) | 🚧 fetch |
 | 8 | Sutcliffe, *Knots in the Skyrme-Faddeev model* | arXiv:0705.1468 | the canonical **numerical** Hopfion relaxation recipe | 🚧 fetch |
 | 9 | Werbos, *Stable Oscillatory Chaoitons in a 2-vector-field theory* | Zenodo 20030162 | the Ouroboros Lagrangian + soliton baseline | 🚧 fetch |
 | 10 | Werbos, *Evaluating Universe Model Alternatives v5* | `theory/` `.docx` | Ouroboros / TUFT params, `H/Q = 1.6969` | ✅ present |
-| 11 | **Sato & Yamada, *Local Representation and Construction of Beltrami Fields*** (Marc's Beltrami source) | arXiv:**1809.03136** (Physica D, 2019) | the construction recipe for the toroidal-Beltrami **seeder** (eikonal + equal-scale-factor rule); inhomogeneous + non-solenoidal `h` | ✅ in `theory/` ([`1809.03136.pdf`](../theory/1809.03136.pdf) + note [`sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md)) |
+| 11 | **Sato & Yamada, *Local Representation and Construction of Beltrami Fields*** (Marc's Beltrami source) | arXiv:**1809.03136** (Physica D, 2019) | the construction recipe for the toroidal-Beltrami **seeder** (eikonal + equal-scale-factor rule); inhomogeneous + non-solenoidal `h` | ✅ [arXiv:1809.03136](https://arxiv.org/abs/1809.03136) (local PDF gitignored) + note [`sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md) |
 | 12 | Duda superfluid mapping | arXiv:2108.07896 | the EM ≡ hydrodynamics equivalence already cited in M5 | 🚧 fetch |
-| 13 | Marc's **2 non-constant-λ (variable-λ) Beltrami papers** + his notebook | (in Marc's notebook, incoming) | the **variable-λ** case where the charge lives (`∇·w ≠ 0`); the target to generalize S&Y onto | 🔶 **Rodrigo to forward from Marc** |
-| 14 | Ceperley, *Rotating Waves* (Fleury's ref [13]) | Am. J. Phys. **60**, 938 (1992); DOI 10.1119/1.17020 | the **phase-vortex / rotating-wave** formalism; **circularly-polarized EM at `m=1` = Fleury's torus** (Eq 15), spin `L_z=mU/ω` + QM bridge (`U/ω=ℏ`), spherical + radiating forms, **Bessel envelope** (= Fleury's § 5.2 fix) | ✅ in `theory/` ([`PDF`](../theory/ceperley_Rotating_Waves.pdf) + note [`ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md)) |
-| 15 | Velazco & Ceperley, *Rotating Wave Fields for Microwave Applications* | IEEE Trans. MTT **41**(2), 330 (1993) | applications companion to #14: the **full cylindrical-cavity `E,H` field set** + the `ω_rot=ω/m` derivation | ✅ in `theory/` ([`PDF`](../theory/velazco_ceperley_1993_rotating_wave_fields.pdf)) |
+| 13 | Marc's **2 non-constant-λ (variable-λ) Beltrami papers** = **Kaiser** (*Force-free fields, nonconstant α*, CMP 211, 2000) + **Kravchenko** (*Beltrami fields, nonconstant proportionality factor*, J.Phys.A 36, 2003) | in the corpus (§ 3b) | the **variable-λ** case where the charge lives (`∇·w ≠ 0`); the target to generalize S&Y onto | ✅ both in `electron_beltrami/` (+ the Kravchenko & Oviedo *...on the plane* companion); the core of Q7 / M7.4 |
+| 14 | Ceperley, *Rotating Waves* (Fleury's ref [13]) | Am. J. Phys. **60**, 938 (1992); DOI 10.1119/1.17020 | the **phase-vortex / rotating-wave** formalism; **circularly-polarized EM at `m=1` = Fleury's torus** (Eq 15), spin `L_z=mU/ω` + QM bridge (`U/ω=ℏ`), spherical + radiating forms, **Bessel envelope** (= Fleury's § 5.2 fix) | ✅ [DOI 10.1119/1.17020](https://doi.org/10.1119/1.17020) (paywalled; local PDF gitignored) + note [`ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md) |
+| 15 | Velazco & Ceperley, *Rotating Wave Fields for Microwave Applications* | IEEE Trans. MTT **41**(2), 330 (1993) | applications companion to #14: the **full cylindrical-cavity `E,H` field set** + the `ω_rot=ω/m` derivation | ✅ [DOI 10.1109/22.216476](https://doi.org/10.1109/22.216476) (paywalled; local PDF gitignored) |
 
 Note on #11: Marc shared the Sato-Yamada writeup directly (the Gemini share link is Google-auth
 gated and cannot be fetched headless). The paper + Marc's summary are now in `theory/`; the summary
-note ties each result to a specific M7 piece. More Beltrami material from Marc is expected (#13).
+note ties each result to a specific M7 piece.
+
+### 3b. Marc's electron-Beltrami corpus (consolidated + complete , 2026-06-30)
+
+Marc sent his **complete consolidated library**: **48 PDFs** in
+[`../theory/electron_beltrami/`](../theory/electron_beltrami/) (year-prefixed `YEAR - Author -
+Title.pdf`). This is the **source-of-record** , a superset of the original 20-source NotebookLM list
+("HydroBoros: the Beltrami-OpenWave implementation") plus ~28 further papers. **All originals are now
+present**, including the ones we could not fetch openly (Kaiser, Dombre, Kravchenko-2003,
+Rañada-Maxwell). The earlier lossy Gemini-**ingested text** folder was **removed** (superseded by the
+full PDFs); the two originals we had that Marc's set lacked (Fleury *Zilch-Zitter*, Kravchenko & Oviedo
+*...on the plane* 2008) were folded into `electron_beltrami/`.
+
+Highlights by M7 relevance (the full 48 are in the folder):
+
+| Theme | Standout papers in `electron_beltrami/` |
+| --- | --- |
+| **Electron model (toroidal / clock)** | dos Santos *EM Model of the Electron* (FLDB Main + Appendix) + *Poloidal-Toroidal System v8e*; Fleury *Zilch-Zitter Electron*; Ceperley *Rotating Waves*; Hestenes *Zitterbewegung Structure*; **Catillon** *de Broglie particle internal clock* (the measured ZBW); **Wan** *Toroidal Vortices of Light*; Kovacs *What is Inside an Electron* |
+| **Force-free / Beltrami / Trkalian** | Sato *Local Rep. of Beltrami Fields*; Woltjer; Marsh *Force-Free Magnetic Fields*; **Kaiser** + **Kravchenko** (the variable-λ pair, both now present) + Kravchenko & Oviedo *...on the plane*; Reed *Beltrami-Trkalian*; Dombre *ABC Flows*; **Enciso** *Beltrami Fields & Knotted Vortex Structures*; Mochizuki *Zero-Poynting EH Beltrami*; Takahashi *Beltrami vortex solutions* |
+| **Knotted EM / topological / Clebsch** | Rañada *Knotted Maxwell*; Trueba *Topological EM*; Irvine *Linked & Knotted Beams*; **Arrayás** *Fibration by field lines*; Nastase *Fluid-EM Helicities*; Migdal *Clebsch Confinement*; **Wiegmann** *Chiral Anomaly in Euler Fluid & Beltrami Flow*; Yoshida *Nambu / Clebsch* |
+| **Hopfions / chiral solitons** | **Kent** *Hopfions in Magnetic Multilayers* (experimental); Hall *Fusion & Fission of Particle-Like Chiral Structures* |
+| **Ball lightning / LENR (applications)** | Rañada *Ball Lightning as Force-Free Knot*; Donoso *Riddle of Ball Lightning*; Biberian *Pd transmutation*; Lewis; Fleury *SuperColdFusion LENR*; Fomitchev *Neutron emission* |
+| **Foundations / context** | Cheng *Field & Wave EM*; Barrett *Advanced EM*; Puthoff *Vacuum ZPE*; Celani *Maxwell & Occam*; Hillion; Rapoport *Cartan-Weyl Dirac*; Barbarosie *Divergence-free fields*; Brady *Emergent QM*; Morguer *QED test* |
+
+The corpus confirms and sharpens Marc's framing: **toroidal-EM electron** + **force-free / variable-λ
+Beltrami** (where the charge lives) + **knotted-EM / Clebsch** topology, with a **ball-lightning-as-
+force-free-knot** thread and an **LENR** applications thread. New high-value finds for the build:
+**Catillon** (the measured de Broglie clock, ties to Fleury's `ω`), **Wan** *Toroidal Vortices of
+Light* (a toroidal EM structure directly adjacent to the M7 soliton), **Enciso** (the Spanish-school
+Beltrami-knot existence results, Q4 / Q6 collaborators), and **Wiegmann** (the chiral-anomaly bridge
+between Euler fluid and Beltrami flow). Provenance caveat: the **Reed** piece is a viXra non-reviewed
+essay , read critically (seeds-only discipline, § 10).
 
 ---
 
@@ -359,10 +390,13 @@ phases feed their observables into the renderer as they land, identical to how M
 
 ## 11. Cross-references
 
-- Theory: [`../theory/2510.22384v2.pdf`](../theory/2510.22384v2.pdf) (Fleury torus) ·
-  [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT) ·
-  [`../theory/sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md) + [`1809.03136.pdf`](../theory/1809.03136.pdf) (Sato-Yamada Beltrami construction) ·
-  [`../theory/ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md) (Ceperley rotating-wave equations) + PDFs [`AJP 1992`](../theory/ceperley_Rotating_Waves.pdf) (Fleury's ref [13]) / [`IEEE 1993`](../theory/velazco_ceperley_1993_rotating_wave_fields.pdf)
+- Theory (our notes are in-repo; the source PDFs are local-only / gitignored, cited by public DOI/arXiv):
+  [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) (Fleury torus) ·
+  Werbos *Evaluating Universe Model Alternatives v5* (shared doc, local only) ·
+  [`../theory/sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md) ([arXiv:1809.03136](https://arxiv.org/abs/1809.03136)) ·
+  [`../theory/ceperley_rotating_waves.md`](../theory/ceperley_rotating_waves.md) (Ceperley rotating-wave equations; [AJP DOI 10.1119/1.17020](https://doi.org/10.1119/1.17020) / [IEEE DOI 10.1109/22.216476](https://doi.org/10.1109/22.216476)) ·
+  [`../theory/feynman_maxwell_equations.md`](../theory/feynman_maxwell_equations.md) (Feynman Lectures II Ch 18, the Maxwell baseline for M7.2)
+- Source corpus (Marc's consolidated library, 48 PDFs): [`../theory/electron_beltrami/`](../theory/electron_beltrami/) (Beltrami / force-free / knotted-EM / ball-lightning / LENR canon, § 3b)
 - Rigor standard: [`../../m5_liquid_crystal/research/11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md) (M5.11 vortex-loop)
 - Ouroboros canonical spec: [`../../m6_ouroboros/research/0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) ·
   background [`../../m6_ouroboros/research/0a_background.md`](../../m6_ouroboros/research/0a_background.md)

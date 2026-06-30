@@ -2,8 +2,8 @@
 
 > **Provenance.** Shared by Marc Fleury (2026-06-30) as a HydroBoros Beltrami source.
 > Source paper: N. Sato & M. Yamada, *Local Representation and Construction of Beltrami Fields*,
-> [arXiv:1809.03136](https://arxiv.org/abs/1809.03136) (2018; Physica D, 2019). PDF saved alongside
-> this note as [`1809.03136.pdf`](1809.03136.pdf). The summary below is Marc's writeup (Gemini-assisted);
+> [arXiv:1809.03136](https://arxiv.org/abs/1809.03136) (2018; Physica D, 2019). The PDF is kept local
+> only (gitignored, not in the repo). The summary below is Marc's writeup (Gemini-assisted);
 > the paper is the primary source, this note is orientation. Relevance to the M7 build is in § 5.
 
 A Beltrami field `w` is an eigenvector of the curl operator with a (possibly space-varying)
@@ -77,5 +77,5 @@ standard geometries (cylindrical, spherical) even when `h` is **inhomogeneous** 
 
 - Implementation plan: [`../research/0a_implementation_plan.md`](../research/0a_implementation_plan.md)
   (Task 0 source table § 3, Q1 / Q4 / Q5)
-- Companion theory: [`2510.22384v2.pdf`](2510.22384v2.pdf) (Fleury torus),
-  [`Evaluating%20Universe%20Model%20Alternativesv5.docx`](Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros)
+- Companion theory: [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) (Fleury torus),
+  Werbos *Evaluating Universe Model Alternatives v5* (shared doc, local only)
