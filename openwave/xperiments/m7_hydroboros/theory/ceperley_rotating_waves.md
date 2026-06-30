@@ -1,14 +1,14 @@
 # Ceperley rotating-wave equations (the phase-vortex formalism behind Fleury's torus)
 
-> **Provenance.** Two PDFs in `theory/`, both Ceperley:
+> **Provenance.** Two Ceperley papers (both paywalled; local PDFs gitignored, not in the repo):
 > - **Primary (Fleury's ref [13]):** P. H. Ceperley, *Rotating Waves*, Am. J. Phys. **60**(10),
->   938-942 (1992), DOI 10.1119/1.17020. PDF: [`ceperley_Rotating_Waves.pdf`](ceperley_Rotating_Waves.pdf)
->   (Rodrigo sourced 2026-06-30). The pedagogical paper: cylindrical + spherical + radiating rotating
->   waves, the angular-momentum law, and the circularly-polarized-EM form.
+>   938-942 (1992), [DOI 10.1119/1.17020](https://doi.org/10.1119/1.17020). The pedagogical paper:
+>   cylindrical + spherical + radiating rotating waves, the angular-momentum law, and the
+>   circularly-polarized-EM form.
 > - **Applications companion:** J. E. Velazco & P. H. Ceperley, *A Discussion of Rotating Wave Fields
->   for Microwave Applications*, IEEE Trans. MTT **41**(2), 330-339 (1993).
->   PDF: [`velazco_ceperley_1993_rotating_wave_fields.pdf`](velazco_ceperley_1993_rotating_wave_fields.pdf).
->   Same formalism, with the full cylindrical-cavity `E,H` field set (§ 4 below).
+>   for Microwave Applications*, IEEE Trans. MTT **41**(2), 330-339 (1993),
+>   [DOI 10.1109/22.216476](https://doi.org/10.1109/22.216476). Same formalism, with the full
+>   cylindrical-cavity `E,H` field set (§ 4 below).
 >
 > §§ 1-4 below transcribe the cylindrical formalism (consistent across both papers); § 4b adds the
 > AJP-only results (angular-momentum / QM-spin bridge, circularly-polarized EM, spherical, radiating).
@@ -150,5 +150,5 @@ resonance or a confined-but-leaky one).
 ## Cross-references
 
 - Implementation plan: [`../research/0a_implementation_plan.md`](../research/0a_implementation_plan.md) (Task 0 source table § 3 #14/#15)
-- Companion theory: [`2510.22384v2.pdf`](2510.22384v2.pdf) (Fleury torus, cites this as [13]),
+- Companion theory: [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) (Fleury torus, cites this as [13]),
   [`sato_yamada_beltrami.md`](sato_yamada_beltrami.md) (Beltrami construction)
