@@ -177,33 +177,60 @@ Solve it two ways, exactly as M5.11 does:
 | Method | Use |
 | --- | --- |
 | **Reverse-mode Taichi AD** for `δE/δ(A,J)`, validated against a numpy finite-difference gradient to `~1e-13` **before trusting any run** | the gradient for relaxation |
-| **FIRE / L-BFGS** relaxation to `‖∇E‖ → 0` | the static soliton (M7.2-M7.4, M7.6) |
-| **Minkowski leapfrog** (constrained integrator, `∇·B = 0`) | the clock + real-time stability (M7.5) |
+| **FIRE / L-BFGS** relaxation to `‖∇E‖ → 0` | the static soliton (M7.2-M7.4, M7.6, and the Arc B-C coverage phases) |
+| **Minkowski leapfrog** (constrained integrator, `∇·B = 0`) | the clock + real-time dynamics (M7.5 stability, M7.11 annihilation) |
 
 ---
 
-## 6. Phased sandbox progression (`sandbox_v1` → `sandbox_v7`, canonical), each phase gated against a KNOWN result
+## 6. Phased sandbox progression (`sandbox_v1` → `sandbox_vN`), each phase gated against a KNOWN result
 
 Each phase is its own iteration `M7.N`, matching its sandbox folder `sandbox_vN`, exactly the M5
-convention (M5.11 ↔ `sandbox_v11`).
+convention (M5.11 ↔ `sandbox_v11`). **Every MODELS.md cell (§ 7) is assigned to a phase.** The
+program runs in three arcs: **A** builds the electron and earns the column, **B** expands across the
+forces and the remaining particle sectors, **C** groups the cells still untested in M5 itself.
+
+### Arc A, the electron and the M7 column (M7.1–M7.7)
 
 | Phase | Sandbox | Build | Validation gate (the credibility anchor) |
 | --- | --- | --- | --- |
 | **M7.1 , infra** | `sandbox_v1` | RS field on a 3D periodic lattice; AD energy gradient; FIRE minimizer; Bateman/Hopf + toroidal-Beltrami **seeders** | AD == numpy grad to `1e-12`; minimizer descends monotonically |
 | **M7.2 , reproduce Fleury on the lattice** | `sandbox_v2` | seed the paper's toroidal ansatz; integrate charge, μ, spin, energy | recover `Q_rms = e`, `R₀ ≈ 1.573 r_c`, `E₀ ≈ 0.286 E_S`, `U ≈ 0.795 m_e c²`, `ω = 2c/R₀`. **M7's "reproduce Faber" trust-builder.** |
 | **M7.3 , reproduce M6's electron in full 3D** | `sandbox_v3` | switch on the Ouroboros coupling; relax the 3D doublet | recover `H/Q = 1.6969` from the **3D** field (M6 only ever got it from a 1D radial BVP) |
-| **M7.4 , the self-linked toroidal soliton (NEW physics)** | `sandbox_v4` | relax a Beltrami self-linked vortex with the 4th-order stabilizer on | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; charge `= ∇·F` |
+| **M7.4 , the self-linked soliton + its Coulomb field (NEW physics)** | `sandbox_v4` | relax a Beltrami self-linked vortex with the 4th-order stabilizer on; read off the far field of the divergence charge | stable finite-size soliton; `‖∇E‖ → 0`; helicity / Hopf charge quantized; charge `= ∇·F`; **Coulomb `1/r` field sourced by that charge** (Gauss's law) |
 | **M7.5 , the clock + stability** | `sandbox_v5` | Minkowski real-time evolution; add the zitter dressing | persists many periods, no collapse mode; `ω` measured vs Dirac `ω_D` |
-| **M7.6 , observables + spectrum** | `sandbox_v6` | mass = field energy; spin `ℏ/2`; `μ_B(1 + α/2π)`; vary knot / linking | electron observables from the relaxed field; honest pass / fail |
-| **M7.7 , canonicalize** | `sandbox_v7` | fold the winning recipe into a `0d_canonical.md`-style spec | one runnable canonical script, reproducible first-try |
+| **M7.6 , electron observables** | `sandbox_v6` | mass = field energy; spin `ℏ/2`; `μ_B(1 + α/2π)`; the Klein-Gordon twist sector; **two-charge Coulomb `E(d) ~ 1/d`** | the 4-observable electron (mass, charge, μ, spin) + KG + the two-body force law, from the relaxed field |
+| **M7.7 , consolidate the M7 column (MILESTONE)** | `sandbox_v7` | fold the winning recipe into a `0d_canonical.md`-style spec; **add HydroBoros (M7) to MODELS.md** | one runnable canonical script, reproducible first-try; the electron cells land as the new column |
 
-M7.1-M7.3 are the decisive credibility gates (reproduce **both** parents from the same lattice code).
-M7.4 is the research core (the thing neither parent did). M7.5-M7.6 are the physics payoff.
+M7.1-M7.3 are the decisive credibility gates (reproduce **both** parents from the same lattice
+code). M7.4 is the research core (the thing neither parent did). **M7.7 is the milestone: the M7
+column exists in MODELS.md.** Note: **Coulomb rides with the electron**, not as a later forces phase:
+once the divergence charge `∇·F` exists (M7.4), its `1/r` field is immediate (Gauss's law), and the
+two-body `E(d) ~ 1/d` is confirmed at M7.6, exactly as M5 got Coulomb in its first `m5_1` milestone.
+
+### Arc B, forces and the remaining particle sectors (M7.8–M7.13)
+
+| Phase | Sandbox | Build | Validation gate |
+| --- | --- | --- | --- |
+| **M7.8 , magnetic force** | `sandbox_v8` | the per-defect magnetic structure carried by the electron's clock (Coulomb already landed in M7.4/M7.6) | magnetic force from the clock's `Γ₀` (pure twist is EM-silent; the M5 mechanism) |
+| **M7.9 , gravity** | `sandbox_v9` | the time-axis boost of the field (the M5 4×4 route) | a GEM coupling that vanishes at zero boost; honest pass / fail (Ouroboros stops before gravity, so this is genuinely hard for M7) |
+| **M7.10 , nuclear forces** | `sandbox_v10` | strong = the 4th-order short-range roll-off + linking tension; weak = a topology-reconnection (defect-class transition) | running-coupling onset at the core; a reconnection channel; partial, mirroring M5 |
+| **M7.11 , antimatter + annihilation** | `sandbox_v11` | seed a soliton + anti-soliton (`Q → −Q`); evolve | charge ledger `±1 → 0`; rest energy released as outgoing waves; pair → vacuum |
+| **M7.12 , the lepton + neutrino family** | `sandbox_v12` | vary knot size / linking: charged = self-linked torus, neutrino = the lighter loop | the lepton mass family (μ, τ); light neutral neutrino loops; flavour-rotation mixing |
+| **M7.13 , dark matter** | `sandbox_v13` | the **neutral** knot (helicity-only, zero net `∇·F`), inheriting M6's neutral chaoiton | a stable neutral soliton; sub-MeV mass à la M6's `m_χ = 0.460 MeV` |
+
+### Arc C, the composites still untested in M5, grouped (M7.14)
+
+Per the M5 prescription, the cells that remain 🚧 [not yet tested] in M5 itself are grouped into one
+later phase, after the column is consolidated. They depend on the electron + force primitives of
+Arcs A-B already being in place.
+
+| Phase | Sandbox | Build | Cells |
+| --- | --- | --- | --- |
+| **M7.14 , composites + atomic structure** | `sandbox_v14` | quark = fractional-charge string segment; baryon / meson = linked / twisted knots; atom = pilot-wave orbital quantization | Quarks · Baryons (p, n) · Mesons (π, K) · Orbital quantization |
 
 One sandbox folder per phase, mirroring M5.11's layout: scripts named `vN_*.py` with checkpoints
 under `sandbox_vN/_checkpoints/` (e.g. `sandbox_v1/v1_minimizer.py`, `sandbox_v2/v2_fleury_torus.py`,
-`sandbox_v3/v3_ouroboros_3d.py`, `sandbox_v4/v4_linked_vortex.py`, `sandbox_v5/v5_clock_stability.py`,
-`sandbox_v6/v6_observables.py`, `sandbox_v7/v7_canonical.py`).
+… `sandbox_v8/v8_em_forces.py`, … `sandbox_v14/v14_composites.py`).
 
 ---
 
@@ -228,21 +255,30 @@ Each phase fills specific cells, so the table is the running scoreboard of the p
 | **M7.1** | (infrastructure, no cell) | `sandbox_v1/` |
 | **M7.2** | Charge quantization · Electron rest energy · Magnetic moment μ + spin J · EM waves (Maxwell) · de Broglie clock | `sandbox_v2/v2_fleury_torus.py` |
 | **M7.3** | Electron rest energy (`H/Q = 1.6969` in full 3D) · Particle stability | `sandbox_v3/v3_ouroboros_3d.py` |
-| **M7.4** | Particle stability (Derrick escape) · Charge quantization (helicity / linking + divergence) | `sandbox_v4/v4_linked_vortex.py` |
+| **M7.4** | Particle stability (Derrick escape) · Charge quantization (helicity / linking + divergence) · Electric force (Coulomb 1/r, single-charge field) | `sandbox_v4/v4_linked_vortex.py` |
 | **M7.5** | de Broglie clock (Zitterbewegung) · Particle stability | `sandbox_v5/v5_clock_stability.py` |
-| **M7.6** | Magnetic moment μ + spin J · Spin-½ statistics · Lepton mass spectrum | `sandbox_v6/v6_observables.py` |
-| **M7.7** | consolidate the column + the M7 deep-dive (a `0d_canonical.md`, the "Per-model results of record" row) | `sandbox_v7/` |
+| **M7.6** | Magnetic moment μ + spin J · Spin-½ statistics · Quantum wave equation (Klein-Gordon) · Electric force (Coulomb, two-charge `E(d)~1/d`) | `sandbox_v6/v6_observables.py` |
+| **M7.7 (milestone)** | consolidate the column + the M7 deep-dive (a `0d_canonical.md`, the "Per-model results of record" row) | `sandbox_v7/` |
+| **M7.8** | Magnetic force | `sandbox_v8/v8_magnetic_force.py` |
+| **M7.9** | Gravity | `sandbox_v9/v9_gravity.py` |
+| **M7.10** | Strong force / confinement · Weak force | `sandbox_v10/v10_nuclear_forces.py` |
+| **M7.11** | Antimatter + annihilation | `sandbox_v11/v11_annihilation.py` |
+| **M7.12** | Neutrinos · Lepton mass spectrum (μ, τ) | `sandbox_v12/v12_lepton_neutrino.py` |
+| **M7.13** | Dark matter candidate | `sandbox_v13/v13_dark_matter.py` |
+| **M7.14** | Quarks · Baryons (p, n) · Mesons (π, K) · Orbital quantization | `sandbox_v14/v14_composites.py` |
 
-The column lands incrementally: the first credible cells (M7.2 charge / mass / Maxwell) are the
-trigger to open the new-column issue and add **HydroBoros (M7)** to the table. Each later phase
-upgrades its cells from 🚧 to a verified icon, exactly as M5's column grew.
+All 21 MODELS.md criteria are covered: Arc A (M7.1-M7.7) earns the electron cells, **including
+Coulomb** (tied to the electron's charge, M5-style), and consolidates the column at the M7.7
+milestone; Arc B (M7.8-M7.13) fills the remaining forces (magnetic, gravity, nuclear) + annihilation
+/ neutrinos / dark matter; Arc C (M7.14) groups the cells still 🚧 in M5 (quarks, baryons, mesons,
+orbital quantization). Each phase upgrades its cells from 🚧 to a verified icon, as M5's column grew.
 
 ---
 
 ## 8. Path to production rendering (the M5 architecture is the template)
 
 ```text
-research/sandbox_v1..v7/   headless Taichi research scripts        (this plan, M7.1–M7.7)
+research/sandbox_v1..vN/   headless Taichi research scripts        (this plan, M7.1–M7.14)
         │  winning recipe →
 medium.py                  the (A,J) / RS substrate definition
 engine1_seeds.py           Bateman/Hopf + toroidal-Beltrami seeders
@@ -254,8 +290,9 @@ _launcher.py               registers HydroBoros for `openwave -x`
 
 Reference layout: [`../../m5_liquid_crystal/`](../../m5_liquid_crystal/) (`medium.py`,
 `engine1_seeds.py` … `_launcher.py`). Headless first (matplotlib PNG diagnostics in the sandbox);
-rendering only after M7.7, identical to how M5 reached `_launcher.py`. No GUI / viz work lands before
-the physics is canonical.
+rendering graduates once the electron is canonical (the M7.7 milestone), and the Arc B-C coverage
+phases feed their observables into the renderer as they land, identical to how M5 reached
+`_launcher.py`. No GUI / viz work before the physics is canonical.
 
 ---
 
