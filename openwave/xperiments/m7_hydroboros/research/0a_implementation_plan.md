@@ -117,13 +117,13 @@ the same Lagrangian, `m_J`, `g`, and the `H/Q` benchmark into a full 3D lattice.
 | 8 | Sutcliffe, *Knots in the Skyrme-Faddeev model* | arXiv:0705.1468 | the canonical **numerical** Hopfion relaxation recipe | 🚧 fetch |
 | 9 | Werbos, *Stable Oscillatory Chaoitons in a 2-vector-field theory* | Zenodo 20030162 | the Ouroboros Lagrangian + soliton baseline | 🚧 fetch |
 | 10 | Werbos, *Evaluating Universe Model Alternatives v5* | `theory/` `.docx` | Ouroboros / TUFT params, `H/Q = 1.6969` | ✅ present |
-| 11 | **Beltrami / ABC sources from Marc's Gemini link** | (link is Google-auth gated, cannot fetch headless) | the specific Beltrami papers + further content Marc is sharing | 🔶 **Rodrigo to fetch + paste IDs** |
+| 11 | **Sato & Yamada, *Local Representation and Construction of Beltrami Fields*** (Marc's Beltrami source) | arXiv:**1809.03136** (Physica D, 2019) | the construction recipe for the toroidal-Beltrami **seeder** (eikonal + equal-scale-factor rule); inhomogeneous + non-solenoidal `h` | ✅ in `theory/` ([`1809.03136.pdf`](../theory/1809.03136.pdf) + note [`sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md)) |
 | 12 | Duda superfluid mapping | arXiv:2108.07896 | the EM ≡ hydrodynamics equivalence already cited in M5 | 🚧 fetch |
+| 13 | further Beltrami / ABC material from Marc | (incoming) | additional force-free-field sources Marc is sharing | 🔶 **Rodrigo to forward** |
 
-Note on #11: the share link `gemini.google.com/share/9016becf3b08` returns only a sign-in shell to a
-headless fetcher. Rodrigo will pull the arXiv IDs (and the additional material Marc is sharing) and
-we add them to this table. Until then the standard Beltrami / Euler-knot canon (#6, plus ABC flows)
-covers the force-free-field foundation.
+Note on #11: Marc shared the Sato-Yamada writeup directly (the Gemini share link is Google-auth
+gated and cannot be fetched headless). The paper + Marc's summary are now in `theory/`; the summary
+note ties each result to a specific M7 piece. More Beltrami material from Marc is expected (#13).
 
 ---
 
@@ -303,7 +303,7 @@ phases feed their observables into the renderer as they land, identical to how M
 | **Q1** | **Substrate field:** the Ouroboros doublet `(A_μ, J_μ)` read as Riemann-Silberstein (candidate B) vs single-field RS `F = E + icB` (candidate A); does Clebsch/`ψ` (D) enter only as a knot **seeder**? | 🔶 OPEN , current lean = B (reuses M6 substrate + keeps both charges); decide at M7.1 |
 | **Q2** | Exact 4th-order stabilizer form: Faddeev-Niemi `\|F×(∇×F)\|²/\|F\|²` vs a Skyrme-Faddeev variant; coefficient `κ` scale | 🚧 OPEN , settle empirically at M7.1/M7.4 |
 | **Q3** | Are Fleury's divergence charge and Ouroboros's helicity/linking charge **forced equal**, or independent observables that must be reconciled? | 🚧 OPEN , the conceptual core of the blend |
-| **Q4** | Beltrami / ABC source papers + further material from Marc (Gemini link is auth-gated) | 🔶 OPEN , Rodrigo to fetch + paste arXiv IDs into § 3 |
+| **Q4** | Beltrami / ABC source papers + further material from Marc | 🔶 PARTLY IN , Sato-Yamada landed (arXiv:1809.03136 + note in `theory/`, § 3 #11); more Marc material expected (#13) |
 | **Q5** | Does a **divergence-ful** field still admit clean, stable knots, or does non-zero `∇·F` destabilize the Hopfion? | 🚧 OPEN , M7.4 answers it (the research question) |
 | **Q6** | The `f(J·J)` potential form for M7: keep M6's `(g/4) s²`, or a form better suited to the toroidal sector? | 🚧 OPEN , revisit at M7.3 |
 
@@ -324,7 +324,8 @@ phases feed their observables into the renderer as they land, identical to how M
 ## 11. Cross-references
 
 - Theory: [`../theory/2510.22384v2.pdf`](../theory/2510.22384v2.pdf) (Fleury torus) ·
-  [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT)
+  [`../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx`](../theory/Evaluating%20Universe%20Model%20Alternativesv5.docx) (Werbos Ouroboros/TUFT) ·
+  [`../theory/sato_yamada_beltrami.md`](../theory/sato_yamada_beltrami.md) + [`1809.03136.pdf`](../theory/1809.03136.pdf) (Sato-Yamada Beltrami construction)
 - Rigor standard: [`../../m5_liquid_crystal/research/11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md) (M5.11 vortex-loop)
 - Ouroboros canonical spec: [`../../m6_ouroboros/research/0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) ·
   background [`../../m6_ouroboros/research/0a_background.md`](../../m6_ouroboros/research/0a_background.md)
