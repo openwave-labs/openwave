@@ -6,7 +6,9 @@
 > self-linked toroidal vortex, blending the **hydrodynamics school** (Marc Fleury's toroidal
 > electromagnetic electron + the Beltrami / force-free field tradition) with the **Ouroboros
 > model** (Paul Werbos's coupled two-vector-field chaoiton, M6). HydroBoros = Hydrodynamics +
-> Ouroboros, also evoking the mythological **Hydra**, the water snake.
+> Ouroboros, also evoking the mythological **Hydra**, the water snake. Both are built on **M5 (Liquid
+> Crystal, Duda) as the third source**: M7 inherits OpenWave's M5-proven lattice + energy-minimizer,
+> M5's physics primitives, and M5's development workflow (§ 9).
 >
 > The work runs headless in
 > `research/sandbox_v1..vN/` (Taichi GPU lattice, energy minimizer, matplotlib diagnostics),
@@ -20,18 +22,39 @@
 
 ---
 
-## 0. The two parents (and why the blend is non-trivial)
+## 0. The sources , two physics parents + the M5 method (and why the blend is non-trivial)
 
-| Model | Substrate | How it is solved today | Charge origin | Key limit |
+| Source | Substrate | How it is solved today | Charge origin | Role in M7 |
 | --- | --- | --- | --- | --- |
-| **Fleury** (hydrodynamics school), [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) | EM field `E, B` confined to a torus | closed-form **analytic** ansatz + Heaviside mask | `ρ = ∇·E` (geometric / divergence charge) | mask unphysical at boundary; energy lands at `0.795 m_e c²`; **no dynamics, no PDE** |
-| **Werbos Ouroboros** (M6), [`0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) | **double vector field** `(A_μ, J_μ)` | **reduced 1D ODE / BVP** (cylindrical `(α,β)`; spherical `l=1`) | `Q_CS` = Chern-Simons **linking** number | never run as a full **3D** field; electron is only a radial profile (`H/Q = 1.6969`) |
+| **Fleury** (hydrodynamics school), [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) | EM field `E, B` confined to a torus | closed-form **analytic** ansatz + Heaviside mask | `ρ = ∇·E` (geometric / divergence charge) | physics parent; limit: mask unphysical at boundary, energy `0.795 m_e c²`, **no dynamics/PDE** |
+| **Werbos Ouroboros** (M6), [`0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) | **double vector field** `(A_μ, J_μ)` | **reduced 1D ODE / BVP** (cylindrical `(α,β)`; spherical `l=1`) | `Q_CS` = Chern-Simons **linking** number | physics parent; limit: never a full **3D** field, electron only a radial profile (`H/Q = 1.6969`) |
+| **M5** (Liquid Crystal, Duda) , the **method + rigor** source | 3×3 / 4×4 tensor field `M = ODO^T` | **full 3D Taichi-AD lattice + FIRE / L-BFGS minimizer** (M5.11) | topological winding (Gauss-Bonnet integer) | M7 borrows the **method + engine + workflow + physics primitives**, not the substrate |
 
-The honest gap both parents share: **neither has ever been evolved as a full 3D nonlinear PDE on
-a lattice.** Fleury is analytic; M6 is a 1D radial reduction. That is exactly the gap M5.11 closed
-for the tensor model (Taichi-AD lattice + FIRE / L-BFGS minimizer, reproduce Faber's electron from
-the relaxed 3D field). **M7's contribution is to build the rigorous 3D PDE simulation neither
+The honest gap the two physics parents share: **neither has ever been evolved as a full 3D nonlinear
+PDE on a lattice.** Fleury is analytic; M6 is a 1D radial reduction. That is exactly the gap M5.11
+closed for the tensor model (Taichi-AD lattice + FIRE / L-BFGS minimizer, reproduce Faber's electron
+from the relaxed 3D field). **M7's contribution is to build the rigorous 3D PDE simulation neither
 parent did**, with the toroidal vortex as the soliton sector.
+
+**M5 is the third source , for its proven method, not its substrate.** M7 is built on OpenWave's
+M5-validated lattice + energy-minimizer and inherits M5's physics primitives (the **4th-order term
+that evades Derrick**, the **energy-minimizing de Broglie clock** of M5.8, **Coulomb-from-topology**,
+**particle-as-field-configuration**), and adopts M5's development **workflow** (roadmap + GitHub
+issues + question tracker + sandbox→canonical→production + AI-reviewer passes + the 11a rigor standard,
+§ 9). M5 is OpenWave's most validated model (16 MODELS.md cells), so it is the natural template for
+getting M7 to the same bar.
+
+**The wider OpenWave wave-physics library (M1-M4) , mine for insights, not a source.** HydroBoros is
+fundamentally a *wave* model (rotating waves, EM waves, Beltrami flows, knotted light), and the other
+OpenWave models carry a deep body of wave physics a coding agent should consult: **M1**
+([`m1_granule_motion`](../../m1_granule_motion/)) , granule-motion wave propagation (standing /
+traveling / spherical / energy waves); **M2** ([`m2_free_wave`](../../m2_free_wave/)) , free-wave
+dynamics; **M3** ([`m3_wolff_lafreniere`](../../m3_wolff_lafreniere/)) , Wolff-LaFreniere
+wave-structure-of-matter (standing-wave centers, interference → particles); **M4**
+([`m4_ewt`](../../m4_ewt/)) , Jeff Yee's Energy Wave Theory (wave constants + equations). These are
+**not parents** (they do not define HydroBoros's substrate), but their wave-decomposition,
+interference, and wave-center primitives bear directly on the M7 **seeders** (§ 6 M7.1) and the
+wave-propagation layer of the PDE , consult them when building those.
 
 ### The HydroBoros thesis
 
@@ -216,7 +239,7 @@ the vector potential `A` is the fundamental field, with `F = dA`, the `E, B` fie
 `F` reading is kept as a derived diagnostic, not the evolved DoF.
 
 The decision between A and B (and whether D enters only as a seeder) is **open**, tracked as **Q1**
-in § 9. A full question tracker (M5-style, like
+in § 10. A full question tracker (M5-style, like
 [`../../m6_ouroboros/research/0b_question_tracker.md`](../../m6_ouroboros/research/0b_question_tracker.md))
 comes later; for now the open questions live in the table below.
 
@@ -271,6 +294,23 @@ code). M7.4 is the research core (the thing neither parent did). **M7.7 is the m
 column exists in MODELS.md.** Note: **Coulomb rides with the electron**, not as a later forces phase:
 once the divergence charge `∇·F` exists (M7.4), its `1/r` field is immediate (Gauss's law), and the
 two-body `E(d) ~ 1/d` is confirmed at M7.6, exactly as M5 got Coulomb in its first `m5_1` milestone.
+
+**Duda's prescription (Jarek Duda, 2026-06-29 models-of-particles thread; Ouroboros #247).** Duda's
+standing demand of any particle-model framework: *specify the field configuration of each particle*
+(electron, neutrino, photon, mesons, baryons), and *does it use topological vortices?* HydroBoros
+answers head-on , the electron's field configuration **is** the self-linked toroidal Beltrami vortex
+(§ 0), a topological vortex. His two concrete tests map onto the plan exactly:
+
+| Duda's test | What it prescribes | M7 phase |
+| --- | --- | --- |
+| **Coulomb** | assume **two** charge field-configurations, read the `1/r` interaction energy `E(d)` | M7.4 (single-charge `1/r`) + M7.6 (two-charge `E(d)~1/d`), the M5 `m5_1` way |
+| **the clock** | the de Broglie frequency is the one that **minimizes the energy** | M7.5 (clock + stability), = the M5.8 energy-minimizing-clock mechanism |
+
+His deeper point , that pinning the field configurations is the **precondition to passing OpenWave's
+tests** (not assuming them = "just hallucinations") , is precisely M7's premise: M7 specifies the
+config (the toroidal Beltrami seed) **and** earns it as the energy-minimizer of the functional (§ 5),
+then reads observables off the relaxed field. That sidesteps the Werbos-vs-Duda "assume vs predict"
+tension in the thread (M7 does both: a seeded config, relaxed to the true minimum).
 
 ### Arc B, forces and the remaining particle sectors (M7.8–M7.13)
 
@@ -361,7 +401,27 @@ phases feed their observables into the renderer as they land, identical to how M
 
 ---
 
-## 9. Open questions (simple tracker for now; full M5-style tracker comes later)
+## 9. Method & workflow (inherited from M5)
+
+M7 runs the same development workflow that took M5 to 16 validated MODELS.md cells. Each element has
+an M5 precedent and a concrete M7 instance:
+
+| M5 workflow element | M7 instance |
+| --- | --- |
+| **Roadmap** ([`0b_M5_roadmap.md`](../../m5_liquid_crystal/research/0b_M5_roadmap.md)) | this plan § 6 is the seed; graduate to an `0b_M7_roadmap.md` as phases land |
+| **GitHub issues** (OpenWave Issues; e.g. Ouroboros [#247](https://github.com/openwave-labs/openwave/issues/247)) | M7 phases + open questions tracked as OpenWave issues (`theory` + a `model:hydroboros` label) so contributors can pick them up |
+| **Question tracker** ([`0b_question_tracker.md`](../../m5_liquid_crystal/research/0b_question_tracker.md)) | the § 10 open-questions table (Q1-Q7) is the seed; graduate to a full `0b_question_tracker.md`-style tracker as answers land |
+| **`sandbox_v*` → canonical → production engine** | `research/sandbox_vN/` (M7.N) → a `0d_canonical.md`-style spec (M7.7) → production `medium.py` / `engine1-4` / `_launcher.py` (§ 8) |
+| **AI-reviewer pass** | every canonical recipe + MODELS.md cell goes through an AI code-review (`/code-review`) before merge , the quality gate M5 uses |
+| **11a rigor standard** ([`11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md)) | energy-minimizer to `‖∇E‖ → 0`, AD-validated gradient (`1e-12`), each phase gated against a known result, honest pass/fail (§ 5, § 6) |
+
+The through-line: M5 proved this workflow , rigorous lattice + gated phases + script-backed cells +
+AI-review + honest negatives , converts a candidate framework into validated MODELS.md coverage. M7
+inherits it wholesale; that is why M5 is the **third source** (§ 0), not merely the rigor reference.
+
+---
+
+## 10. Open questions (simple tracker for now; full M5-style tracker comes later)
 
 | ID | Question | Status |
 | --- | --- | --- |
@@ -375,7 +435,7 @@ phases feed their observables into the renderer as they land, identical to how M
 
 ---
 
-## 10. Risks / unknowns
+## 11. Risks / unknowns
 
 | Risk | Status / mitigation |
 | --- | --- |
@@ -388,7 +448,7 @@ phases feed their observables into the renderer as they land, identical to how M
 
 ---
 
-## 11. Cross-references
+## 12. Cross-references
 
 - Theory (our notes are in-repo; the source PDFs are local-only / gitignored, cited by public DOI/arXiv):
   [arXiv:2510.22384](https://arxiv.org/abs/2510.22384) (Fleury torus) ·
@@ -398,6 +458,7 @@ phases feed their observables into the renderer as they land, identical to how M
   [`../theory/feynman_maxwell_equations.md`](../theory/feynman_maxwell_equations.md) (Feynman Lectures II Ch 18, the Maxwell baseline for M7.2)
 - Source corpus (Marc's consolidated library, 48 PDFs): [`../theory/electron_beltrami/`](../theory/electron_beltrami/) (Beltrami / force-free / knotted-EM / ball-lightning / LENR canon, § 3b)
 - Rigor standard: [`../../m5_liquid_crystal/research/11a_vortex_loop.md`](../../m5_liquid_crystal/research/11a_vortex_loop.md) (M5.11 vortex-loop)
+- Wave-physics library to mine (§ 0, not parents): [`m1_granule_motion`](../../m1_granule_motion/) · [`m2_free_wave`](../../m2_free_wave/) · [`m3_wolff_lafreniere`](../../m3_wolff_lafreniere/) · [`m4_ewt`](../../m4_ewt/)
 - Ouroboros canonical spec: [`../../m6_ouroboros/research/0d_canonical.md`](../../m6_ouroboros/research/0d_canonical.md) ·
   background [`../../m6_ouroboros/research/0a_background.md`](../../m6_ouroboros/research/0a_background.md)
 - EM ≡ hydrodynamics bridge (already in M5): [`../../m5_liquid_crystal/research/1b_topological_defect.md`](../../m5_liquid_crystal/research/1b_topological_defect.md) § "EM-hydrodynamics formal equivalence"
