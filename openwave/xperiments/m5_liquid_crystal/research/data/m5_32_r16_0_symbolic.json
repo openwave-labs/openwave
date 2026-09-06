@@ -1,0 +1,335 @@
+{
+ "rung": "R16-0 symbolic",
+ "claims": {
+  "C1": {
+   "A1 = I": {
+    "|F^G|^2_G (G = I)": 0,
+    "|F^eta|^2_G (G = I)": 8
+   },
+   "A1 = eta": {
+    "|F^G|^2_G (G = I)": 8,
+    "|F^eta|^2_G (G = I)": 0
+   },
+   "block_diagonal_jets_u_fixed": {
+    "F^I - F^eta": "Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])",
+    "coincide": true
+   },
+   "boost_jet_vs_block_jet": {
+    "F^I - F^eta nonzero": true
+   },
+   "twist_inside_boost_jet_g8_d0.3_degenerate": {
+    "chi0_psi0.000": {
+     "U_norm": 317.52,
+     "U_rebuild": 317.52,
+     "rel_diff": 0.0
+    },
+    "chi0_psi0.785": {
+     "U_norm": 293.7844,
+     "U_rebuild": 293.7844,
+     "rel_diff": 0.0
+    },
+    "chi0.5_psi0.000": {
+     "U_norm": 317.52,
+     "U_rebuild": 317.52,
+     "rel_diff": 0.0
+    },
+    "chi0.5_psi0.785": {
+     "U_norm": 293.7844,
+     "U_rebuild": 293.7844,
+     "rel_diff": 0.0
+    }
+   },
+   "twist_inside_boost_jet_coefficient_at_chi0_psi0": {
+    "U_norm/(b^2 k^2)": "8*(delta - 1)**2*(g + 1)**2",
+    "U_rebuild/(b^2 k^2)": "8*(delta - 1)**2*(g + 1)**2"
+   }
+  },
+  "C6": {
+   "(d lambda_+)^2 + (d lambda_-)^2": "2*(a*da + b*db)**2/(a**2 + b**2)",
+   "author": "2 (a da + b db)^2 / (a^2 + b^2)",
+   "matches_author": true,
+   "radial direction at the origin": "2",
+   "tangential direction at the origin": "0",
+   "rho^2 = (1/2) tr B^2": "a**2 + b**2",
+   "d rho^2": "2*a*da + 2*b*db",
+   "rho^2 smooth (polynomial)": true
+  },
+  "C5": {
+   "twist_sheet_inertia": {
+    "local G_loc = R G23 R^T": {
+     "<F_0z,F_0z>_eta": "8*omega**2*psi_z**2*s**2*(delta + s - 1)**2",
+     "at s = 0": "0"
+    },
+    "rigid G23": {
+     "<F_0z,F_0z>_eta": "-omega**2*psi_z**2*(delta + s - 1)**2*(-8*delta**2*sin(psi)**4 + delta**2*cos(4*psi) - delta**2 + 48*delta*s*sin(psi)**4 - 32*delta*s*sin(psi)**2 - 6*delta*s*cos(4*psi) + 6*delta*s + 16*delta*sin(psi)**4 - 2*delta*cos(4*psi) + 2*delta - 72*s**2*sin(psi)**4 + 96*s**2*sin(psi)**2 + 9*s**2*cos(4*psi) - 41*s**2 - 48*s*sin(psi)**4 + 32*s*sin(psi)**2 + 6*s*cos(4*psi) - 6*s - 8*sin(psi)**4 + cos(4*psi) - 1)/4",
+     "at s = 0": "-omega**2*psi_z**2*(delta - 1)**4*(-8*sin(psi)**4 + cos(4*psi) - 1)/4"
+    }
+   },
+   "author": "8 omega^2 psi'^2 s^2 (delta + s - 1)^2 (local), nonzero at s = 0 (rigid)",
+   "K_P^23 on the twist sheet": {
+    "inertia density (1/2) tr(Om_0^T eta Om_0 eta)": "4*omega**2*s**2",
+    "static density": "0"
+   },
+   "E2 static on the twist sheet (G = 1)": "2*psi_z**2*(delta + s - 1)**2",
+   "rho^2 E2 static": "2*psi_z**2*s**2*(delta + s - 1)**2",
+   "tilt_condition": {
+    "R15-H gamma_total": "2*(16*omega**2*s**2 - w)*(delta + s - 1)**2",
+    "R15-H alpha_total": "2*w*(delta + s - 1)**2",
+    "with w = c_s s^2: gamma": "-2*s**2*(c_s - 16*omega**2)*(delta + s - 1)**2",
+    "alpha": "2*c_s*s**2*(delta + s - 1)**2",
+    "hyperbolic iff": "c_s > 16*omega**2",
+    "author": "c_s > 16 omega^2, independent of s and delta"
+   },
+   "boost_sheets": {
+    "K = E_01 + E_10": {
+     "<F,F>_eta": "0",
+     "<F^eta,F^eta>_G (I_norm)": "0",
+     "<F^G,F^G>_G (I_rebuild)": "0"
+    },
+    "K = E_02 + E_20": {
+     "<F,F>_eta": "-8*b**2*omega**2*s**2*(delta + g + s)**2",
+     "<F^eta,F^eta>_G (I_norm)": "8*b**2*omega**2*s**2*(delta + g + s)**2",
+     "<F^G,F^G>_G (I_rebuild)": "8*b**2*omega**2*s**2*(delta + g + s)**2"
+    },
+    "K = E_03 + E_30": {
+     "<F,F>_eta": "-8*b**2*omega**2*s**2*(-delta - g + s)**2",
+     "<F^eta,F^eta>_G (I_norm)": "8*b**2*omega**2*s**2*(-delta - g + s)**2",
+     "<F^G,F^G>_G (I_rebuild)": "8*b**2*omega**2*s**2*(-delta - g + s)**2"
+    }
+   },
+   "boost_author": "-8 b^2 omega^2 s^2 (g - delta -+ s)^2 in the pair planes (all-eta), zero along the director"
+  },
+  "C4": {
+   "T_alpha == phi -> phi + alpha/2 on the sheet (max abs, random points)": 8.881784197001252e-16,
+   "T_2pi == id (max abs)": 4.2327252813834093e-16,
+   "s = 0 fixed pointwise (max abs)": 2.2768245622195593e-16,
+   "T_alpha == phi -> phi + alpha/2 on the sheet": true,
+   "T_2pi == id": true,
+   "s = 0 fixed pointwise": true,
+   "B in the local frame": {
+    "B_22": "s*cos(2*phi)",
+    "B_23": "s*sin(2*phi)"
+   },
+   "sheet densities": {
+    "K_P^23 static at psi = 0": "4*phi_z**2*s**2",
+    "K_P^23 max |d/dphi| (random points)": 1.2672154992010576e-15,
+    "K_P^23 phi-independent": true,
+    "E2 static at psi = 0": "2*(delta**2*psi_z**2 - 4*delta*psi_z**2*s*sin(phi)**2 + 2*delta*psi_z**2*s - 2*delta*psi_z**2 + 4*phi_z**2*s**2 + psi_z**2*s**2 + 4*psi_z**2*s*sin(phi)**2 - 2*psi_z**2*s + psi_z**2)",
+    "E2 max |d/dphi|": 18.938416127032948,
+    "E2 phi-independent": false,
+    "traces max |d/dphi|": 1.4876988529977098e-14,
+    "traces phi-independent": true
+   },
+   "point_jets_s0.15": {
+    "I1": {
+     "alpha_variation_rel": 0.5492457537439117,
+     "invariant_1e-9": false,
+     "trig_degree_in_alpha": 1,
+     "value_alpha0": 10.136558172598164,
+     "circle_average": 16.062435806103245,
+     "doubling_test_rel_err": {
+      "2": 1.856155165530077e-12,
+      "4": 1.1280256606534072e-14,
+      "8": 4.5121026426136286e-14,
+      "16": 4.865993045955874e-15,
+      "32": 1.7694520167112268e-14
+     },
+     "periodic_2pi_rel": 8.952552093408383e-14
+    },
+    "I1_h (I_norm)": {
+     "alpha_variation_rel": 0.5492457537439117,
+     "invariant_1e-9": false,
+     "trig_degree_in_alpha": 1,
+     "value_alpha0": 10.136558172598164,
+     "circle_average": 16.062435806103245,
+     "doubling_test_rel_err": {
+      "2": 1.856155165530077e-12,
+      "4": 1.1280256606534072e-14,
+      "8": 4.5121026426136286e-14,
+      "16": 4.865993045955874e-15,
+      "32": 1.7694520167112268e-14
+     },
+     "periodic_2pi_rel": 8.952552093408383e-14
+    },
+    "I_rebuild": {
+     "alpha_variation_rel": 0.5492457537439117,
+     "invariant_1e-9": false,
+     "trig_degree_in_alpha": 1,
+     "value_alpha0": 10.136558172598164,
+     "circle_average": 16.062435806103245,
+     "doubling_test_rel_err": {
+      "2": 1.856155165530077e-12,
+      "4": 1.1280256606534072e-14,
+      "8": 4.5121026426136286e-14,
+      "16": 4.865993045955874e-15,
+      "32": 1.7694520167112268e-14
+     },
+     "periodic_2pi_rel": 8.952552093408383e-14
+    },
+    "E2": {
+     "alpha_variation_rel": 0.12826379415894346,
+     "invariant_1e-9": false,
+     "trig_degree_in_alpha": 1,
+     "value_alpha0": 14.550627235369188,
+     "circle_average": 15.231344759364827,
+     "doubling_test_rel_err": {
+      "2": 9.096756436297589e-14,
+      "4": 2.2275390760677427e-14,
+      "8": 5.108178614228646e-14,
+      "16": 3.9419277890622884e-14,
+      "32": 5.9478792083484235e-15
+     },
+     "periodic_2pi_rel": 1.7114044933315482e-13
+    },
+    "K_P^23": {
+     "alpha_variation_rel": 7.43895080674411e-12,
+     "invariant_1e-9": true,
+     "trig_degree_in_alpha": 0,
+     "value_alpha0": 3.7908121128734185,
+     "circle_average": 3.7908121128861323,
+     "doubling_test_rel_err": {
+      "2": 9.055604682890539e-14,
+      "4": 3.889341209210426e-14,
+      "8": 3.5144649480817103e-16,
+      "16": 1.850951539323034e-14,
+      "32": 4.685953264108947e-15
+     },
+     "periodic_2pi_rel": 3.42191737110229e-13
+    },
+    "V4^dd": {
+     "alpha_variation_rel": 1.3663368507432844e-12,
+     "invariant_1e-9": true,
+     "trig_degree_in_alpha": 0,
+     "value_alpha0": 3.1176270254430835e-06,
+     "circle_average": 3.117627025444484e-06,
+     "doubling_test_rel_err": {
+      "2": 4.4924199298192337e-13,
+      "4": 8.544699533886599e-14,
+      "8": 3.328221599049629e-14,
+      "16": 1.0025418531014801e-13,
+      "32": 3.667836047932244e-15
+     },
+     "periodic_2pi_rel": 0.0
+    },
+    "split": {
+     "alpha_variation_rel": 2.572016673714812e-13,
+     "invariant_1e-9": true,
+     "trig_degree_in_alpha": 0,
+     "value_alpha0": 0.09000000000000458,
+     "circle_average": 0.0899999999999921,
+     "doubling_test_rel_err": {
+      "2": 1.3862368043584768e-13,
+      "4": 6.615078855058805e-14,
+      "8": 4.317533984653766e-15,
+      "16": 2.0045693500178197e-14,
+      "32": 2.42090298425229e-14
+     },
+     "periodic_2pi_rel": 0.0
+    }
+   },
+   "lattice_defect_ratio_h_over_h/2_at_alpha0.7": {
+    "E_u (4 I1)": 1.3549273478178137,
+    "V4^dd": 8.610618535643464,
+    "K_P^23": 3.883007780443639,
+    "split": 15.862702084923137,
+    "4 I1_h": 1.3549273478178137,
+    "E2 (G = h)": 1.0129174274443695
+   },
+   "lattice": {
+    "16": {
+     "h": 0.5,
+     "min_director_gap": 0.03353222698951175,
+     "base": {
+      "E_u (4 I1)": 8.554357261473868,
+      "V4^dd": 0.11962968102954004,
+      "K_P^23": 24.378733591309157,
+      "split": 0.6129565715708549,
+      "4 I1_h": 8.554357261473868,
+      "E2 (G = h)": 90.75393997344037
+     },
+     "defect_rel": {
+      "0.7000": {
+       "E_u (4 I1)": 0.0026884238303576,
+       "V4^dd": 4.779456509131461e-14,
+       "K_P^23": 0.0006482031091464689,
+       "split": 2.8980141853245665e-15,
+       "4 I1_h": 0.0026884238303576,
+       "E2 (G = h)": 0.017693949787511758
+      },
+      "2.1000": {
+       "E_u (4 I1)": 0.18872995029564715,
+       "V4^dd": 3.932611059697974e-14,
+       "K_P^23": 0.0037002462085965132,
+       "split": 2.173510638993425e-15,
+       "4 I1_h": 0.18872995029564715,
+       "E2 (G = h)": 0.12610371552102484
+      },
+      "3.1416": {
+       "E_u (4 I1)": 0.3143902627817563,
+       "V4^dd": 2.1925176704510828e-14,
+       "K_P^23": 0.004771793379234824,
+       "split": 1.811258865827854e-15,
+       "4 I1_h": 0.3143902627817563,
+       "E2 (G = h)": 0.1721189532727965
+      },
+      "6.2832": {
+       "E_u (4 I1)": 0.0,
+       "V4^dd": 6.960373556987565e-16,
+       "K_P^23": 5.829201366008639e-16,
+       "split": 9.05629432913927e-16,
+       "4 I1_h": 0.0,
+       "E2 (G = h)": 0.0
+      }
+     }
+    },
+    "32": {
+     "h": 0.25,
+     "min_director_gap": 0.025172266507176633,
+     "base": {
+      "E_u (4 I1)": 8.389154076391492,
+      "V4^dd": 0.11750975921758597,
+      "K_P^23": 24.565184327530723,
+      "split": 0.6076967178640211,
+      "4 I1_h": 8.389154076391492,
+      "E2 (G = h)": 91.01251739863866
+     },
+     "defect_rel": {
+      "0.7000": {
+       "E_u (4 I1)": 0.0019841830151907827,
+       "V4^dd": 5.550654101499221e-15,
+       "K_P^23": 0.00016693325014981319,
+       "split": 1.8269360225071698e-16,
+       "4 I1_h": 0.0019841830151907827,
+       "E2 (G = h)": 0.017468304234980227
+      },
+      "2.1000": {
+       "E_u (4 I1)": 0.18807542077107206,
+       "V4^dd": 8.385030663966908e-15,
+       "K_P^23": 0.000971136847828331,
+       "split": 1.8269360225071698e-16,
+       "4 I1_h": 0.18807542077107206,
+       "E2 (G = h)": 0.12700975584667776
+      },
+      "3.1416": {
+       "E_u (4 I1)": 0.31299388351955837,
+       "V4^dd": 8.385030663966908e-15,
+       "K_P^23": 0.0012625268353600452,
+       "split": 7.307744090028679e-16,
+       "4 I1_h": 0.31299388351955837,
+       "E2 (G = h)": 0.17415600003513082
+      },
+      "6.2832": {
+       "E_u (4 I1)": 2.1174445280474954e-16,
+       "V4^dd": 3.5429707030846093e-16,
+       "K_P^23": 0.0,
+       "split": 5.48080806752151e-16,
+       "4 I1_h": 0.0,
+       "E2 (G = h)": 0.0
+      }
+     }
+    }
+   }
+  }
+ },
+ "wall_s": 13.3
+}

@@ -1056,6 +1056,36 @@
     "(1,2) share fell 1e5 -> 3.4",
     "n48 L72 replicates it (`E_J` 98.72, six cells on the crossing at r 1.3, gap 3.6e-6)"
    ]
+  },
+  {
+   "id": "R16-0",
+   "start_utc": "2026-09-06T12:42:00Z",
+   "end_utc": "2026-09-06T13:38:00Z",
+   "hypothesis": "the author's four 2026-09-06 comments as claims C1 to C9: which survive our scripts before any instrument is built on object v4",
+   "claims": [
+    "C1: counterexample exact; completions equal on the witness jet, 24 to 46 percent apart on the witness lattice; the author's h column = I_rebuild/4, ours = I_norm",
+    "C2: Coleman reproduced (sextic min V/s^2 0.0090 at s* 0.2236); omega_c^2 = mu/(4 c_P) for U = mu rho^2; the author's 0.01117 is the value at s*; Q-ball needs J > 2.6e4, R > 69",
+    "C3: E_h >= 0 pointwise (both completions), our floor sentence retracted; I_rebuild keeps the sign flip on the hedgehog (+195/+629/+1500), I_norm does not (-183/-611/-1696)",
+    "C4: circle exact on V4^dd, split, K_P^23 (O(h^2) lattice); NOT on I1, the completions, or E2 (the v4 regulator needs the average)",
+    "C5/C6: sheet inertias, tilt condition c_s > 16 omega^2, boost-sheet law (g + delta +- s)^2, eigenvalue metric: exact",
+    "C7: oblate uniaxial center = the R15 crossing; beta^2 = 1 ring r 2.9, quadrupole (-0.16, 0.08, 0.08), axis (1,1,1): lattice-scale",
+    "C8: rotation tangent O(h^2) on axisymmetric fields; 2Y_2m builder gated; P-iv split achiral (<m> = 0.00)",
+    "C9: T2 1.7e-29 / 2.9e-2 / 630 / 0; tau = (1-delta)^2 n.curl n"
+   ],
+   "status": "CLOSED, audited 13/4/0: the author's 09-06 claims survive with two normalization notes and one definitional repair (the v4 regulator is not circle-invariant as written); the instrument build and R16-1 to R16-4 wait for the second go",
+   "artifacts": [
+    "scripts/m5_32_r16_0_symbolic.py",
+    "scripts/m5_32_r16_0_reduced.py",
+    "scripts/m5_32_r16_0_fields.py",
+    "data/m5_32_r16_0_symbolic.json",
+    "data/m5_32_r16_0_reduced.json",
+    "data/m5_32_r16_0_fields.json",
+    "plots/m5_32_r16_0_c2_coleman.png",
+    "plots/m5_32_r16_0_c7_biaxial.png",
+    "plots/m5_32_r16_0_c8_spin2.png",
+    "scripts/m5_32_r16_0_audit.py",
+    "data/m5_32_r16_0_audit.json"
+   ]
   }
  ],
  "free_rungs_used": 4,

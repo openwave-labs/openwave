@@ -345,6 +345,7 @@ How to restart: say `go M5.32, reset <time>, ping me`. The agent then (1) re-rea
 | R15-H | 2026-09-05 20:28 / 20:45 | the tilt channel on a rotating split background: no kinetic term from any curvature term, the `omega^2 k^2 theta^2` coefficient, the hyperbolicity inequality with the regulator, `K_P^23` blind to the (1,2) sheet | audited 5 / 0 / 0 ([`m5_32_r15_h_audit.json`](../data/m5_32_r15_h_audit.json)): every coefficient exact; `gamma(-4 I1) = 32 omega^2 s^2 (delta + s - 1)^2`, alpha only from the regulator, hyperbolic iff `w > 16 omega^2 s^2`, the static `K_P^23` exactly zero on any (1,2) twist sheet (a free direction, no fixed-J minimizer by the R13-W theorem); found: the regulator's `s = 0` term (the Coriolis partner dropped by the one-tilt ansatz), the (2,3) sheet not free | prediction (iv) decided at the theorem level (the sheet is free) | sympy series replaced by differentiation | none |
 | R15-M | 2026-09-05 20:26 / 21:50 | is the author's object `L_P` on the degenerate vacuum admissible on the lattice: the Hessian null count, and the uniaxial hedgehog relaxed on two boxes x mu x c_P | audited 2 / 4 / 0 ([`m5_32_r15_m_audit.json`](../data/m5_32_r15_m_audit.json)): the null counts as predicted (7 then 5, the split stiffness exactly `4 mu`); ADMISSIBLE on all eight under the calibrated rule (the pre-registered 0.8 fraction fails the certified reference); a finite-energy hedgehog with a `1/R` tail whose exterior is the seed's (the descent altered r < 14.9 only), the pair staying degenerate (max split 0.0135 at `c_P` 1), `kin_KP23 = SPLIT` an identity; the certified reference's slower decay is its z-axis line (the R9 string), invisible on the degenerate vacuum | prediction (i) holds by construction; the object admissible | the localization rule recalibrated before any end state | the descents to stationarity (not run) |
 | R15-P | 2026-09-05 21:00 / 2026-09-06 01:20 | the author's predictions (ii) tail exponent 0, (iii) a wall of width `(c_P/mu)^(1/2)`, (iv) fixed J reaches the (1,2) sheet with no minimizer | P-ii (in the M audit): TAIL_FINITE, `K_P^23 ~ r^-4.1`, L-exponent 0.08 to 0.11; P-iii audited 3 / 2 / 0 ([`m5_32_r15_p3_audit.json`](../data/m5_32_r15_p3_audit.json)): CONTINUOUS_ONSET on all nine (mu, c) points, a theorem (`V4^dd >= 0`): no coexistence wall on `L_P`; the Ising wall a Goldstone saddle (audit); the decay length `(1/2) sqrt(c/mu)` is not what the hedgehog's split shows (2.1 to 2.4 regardless of `c_P`); P-iv audited 3 / 2 / 0 ([`m5_32_r15_p4_audit.json`](../data/m5_32_r15_p4_audit.json)): CANDIDATE_REFUTED: the descent inflates the split in the innermost cells to buy inertia (`E_J` 3.7e5 to 89, the fixed-J term visible) and pins itself on the `lambda_1 = lambda_3` crossing, the branch cut of the ordered-label `P23` and of the clock (a label-free reading carries a tenth of the inertia); n48 L72 replicates it (`E_J` 98.72, six cells on the crossing at r 1.3, gap 3.6e-6) | (ii) holds; (iii) fails as a coexistence object; (iv) refuted on the object as defined (the seam of `P23`) | the P-iv verdict baseline fixed; the P-iii criterion 32 not 16; the slab check matched to the fwd/bwd stencil | what `P23` projects past the crossing (the author's call) |
+| R16-0 | 2026-09-06 12:42 / 13:38 | the author's four 2026-09-06 comments as claims C1 to C9 (the two H-adjoint completions, Coleman's condition, the pointwise floor, the local circle, the sheet inertias, the eigenvalue metric, the biaxial-ring reading, spin from chirality, the chiral pseudo-scalar): which survive our scripts before any instrument is built on object v4? | audited 13 / 4 / 0 ([`m5_32_r16_0_audit.json`](../data/m5_32_r16_0_audit.json)): every symbolic claim exact, every read reproduced to four digits; QUALIFIED: the completion ratios not converged in h and the author's-column reading an interpretation (C1c); the 2.6e4 threshold is for a localized profile, the box-filling state undercuts `omega_c J` at every J on the sextic (C2c); two body-diagonal cells of the P-iv core are prolate (C7); the l = 2 fraction and the twist `T2` are method-dependent, the symmetry statements not (C8b, C9) | C1: the completions differ 24 to 46 percent on the witness lattice (author 2 to 6) and the author's h column is `I_rebuild / 4`; C2: `omega_c^2 = mu / (4 c_P)` for `U = mu rho^2`, the Q-ball needs J above 2.6e4; C3: our floor sentence retracted, `I_rebuild` keeps the sign flip on the hedgehog; C4: the regulator `rho^2 E2` is NOT circle-invariant; C7: the ring is lattice-scale, axis on the body diagonal; C8: the P-iv split achiral | four instrument-level deviations logged in the section (trig simplify, two discontinuous test fields, the frame orientation, the Q-ball box) | the second go: the circle-averaged instrument (quartic AND regulator averaged) and R16-1 to R16-4; the post opens with the retraction and the naming |
 
 ## PAUSE RECORD 2 (2026-08-28, user decision after the R10 surface)
 
@@ -909,3 +910,143 @@ Action taken by the user: commit `62e75650` (PR #522) and the results post on th
 Findings: the author's floor witness and tilt-channel claims are exact on our stack, and the new projector object is admissible on the lattice with predictions (i) and (ii) holding; but it has no coexistence wall (the onset is continuous, a theorem) and its fixed-J descent runs to the seam of its own definition (the eigenvalue crossing where the ordered-label projector jumps), which turns the two definition questions into the decisive ones for the author.
 
 Research docs created/updated: this record (the R15 section, four RUNG LOG rows, this review), [`m5_32_convo.md`](m5_32_convo.md) (the 16:54 reply and the results post), [`findings/m5_32_candidate_ledger.md`](../findings/m5_32_candidate_ledger.md) (6.4 outcome, 6.1 rows), [`findings/m5_32_method_note.md`](../findings/m5_32_method_note.md) (section 12), [`findings/m5_32_term_catalog.md`](../findings/m5_32_term_catalog.md) (`K_P^23`, `SPLIT`), [`data/m5_32_ledger.json`](../data/m5_32_ledger.json) (seven rung entries), [`m5_roadmap.md`](../m5_roadmap.md) (row preview), the twelve R15 scripts, twelve JSON summaries and four plots under `research/`, [`data/_DATASETS.md`](../data/_DATASETS.md) regenerated.
+
+## R16-0: THE AUTHOR'S 2026-09-06 CLAIMS ON OUR STACK (2026-09-06 12:42 UTC go; the packet in [ledger § 6.5](../findings/m5_32_candidate_ledger.md))
+
+Fired by the author's four 2026-09-06 comments ([`m5_32_convo.md`](m5_32_convo.md), the 05:47 to 07:20 entries): the answers to the two R15 definitions, the Coleman diagnosis of the two failed predictions, four corrections from a second agent, the local-circle object v4 with its pre-registered R16 packet, and the spin-from-chirality item. The user's go covered R16-0 ONLY (the cheap verification of every checkable claim, one auditor); the instrument build and the lattice stages R16-1 to R16-4 wait for a second go. Resume ping armed at 16:45 UTC (reset 12:40 EDT + 5) with the watchdog at 16:40 UTC. Nothing was relaxed in this rung: symbolic jets, the reduced line, and reads on existing R15 fields and constructed textures. The scripts and report the author refers to were still not linked (the third ask unanswered), so every number below is ours and every claim is the author's text as posted.
+
+Instruments: [`m5_32_r16_0_symbolic.py`](../scripts/m5_32_r16_0_symbolic.py) (C1 symbolic, C4, C5, C6; [`m5_32_r16_0_symbolic.json`](../data/m5_32_r16_0_symbolic.json)), [`m5_32_r16_0_reduced.py`](../scripts/m5_32_r16_0_reduced.py) (C2; [`m5_32_r16_0_reduced.json`](../data/m5_32_r16_0_reduced.json)), [`m5_32_r16_0_fields.py`](../scripts/m5_32_r16_0_fields.py) (C1 lattice, C3, C7, C8, C9; [`m5_32_r16_0_fields.json`](../data/m5_32_r16_0_fields.json)); equations first in each docstring, the R15 instrument consumed read-only (the projectors, the split, `K_P^23`, `i1h_static`, the witness dressing). Audit: [`m5_32_r16_0_audit.py`](../scripts/m5_32_r16_0_audit.py), [`m5_32_r16_0_audit.json`](../data/m5_32_r16_0_audit.json): 17 claims: 13 CONFIRMED, 4 QUALIFIED, 0 REFUTED (own sympy, own jets by the analytic chain rule, own lattice fields at three resolutions, own reduced-line minimizer with a pinned-edge variant, own frame and least-squares projection).
+
+### C1: the two H-adjoint completions (`I_norm` vs `I_rebuild`)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| The author's counterexample at `G = I` | CONFIRMED exactly: `A1 = I, A2 = E01 + E10` gives `abs(F^G)^2 = 0`, `abs(F^eta)^2_G = 8`; `A1 = eta` the reverse | 0 / 8 and 8 / 0 |
+| When do the two coincide | when `u` is fixed AND the jets are block-diagonal with respect to `u` (symbolic, generic 3x3 blocks); a boost jet breaks it | exact |
+| Our registry's `I1_h` | is `I_norm` (`F^eta` with `G` only in the norm); every R15 h number is `I_norm` | code read, R15 line 476 |
+| The R15-V-a jet (twist inside a boost, `G = h(u)`) | the two completions are EQUAL on that jet at every rapidity and twist angle: `U_norm = U_rebuild = 8 (delta - 1)^2 (g + 1)^2 b^2 k^2` (the certified 4 included) | 317.52 at g 8, delta 0.3, at chi 0 and 0.5 |
+| The lattice witness (the R15-V-b profile), n64 L48 | the two completions differ by 38 / 40 / 46 percent at k 0.5 / 1 / 2 (n64 L24, h 0.375: 24 / 25 / 26 percent), NOT the author's 2 to 6 percent; both positive, `DeltaE_eta` negative as before | `DeltaE_norm = +557 / +1835 / +4002`, `DeltaE_rebuild = +770 / +2561 / +5855`, `DeltaE_eta = -515 / -1739 / -3583` |
+| The R15 "h-column 3.0-3.1 vs 4" mismatch | most likely the completion, not the pair ordering: the author's posted h column `+183 / +594 / +1549` is `DeltaE_rebuild / 4` within the known grid effects (4.2 / 4.3 / 3.8), consistent with the author's rung H and floor witness being `I_rebuild` and our column `I_norm`, both at the certified ratio 4; an interpretation until the bundle (audit), and the ratio itself is not converged in h (1.24 to 1.26 at h 0.375, stencil-dependent) | as stated |
+
+Verdict on C1: the counterexample and the naming CONFIRMED; the "2 to 6 percent" QUALIFIED (the two completions differ by a quarter to a half on the witness profile, and coincide exactly on its jet). From here every h number of ours is labeled `I_norm`.
+
+### C2: Coleman's condition on the reduced line
+
+![R16-0 C2](../plots/m5_32_r16_0_c2_coleman.png)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| `V4^dd` on the diagonal split sheet | exactly `W1 [(2 s^2)^2 + (6 delta s^2)^2 + (12 delta^2 s^2 + 2 s^4)^2] = a s^4 + O(s^6)`, `a = W1 (4 + 36 delta^2 + 144 delta^4)`; lattice gate to 1e-11 | a = 6.09e-3 |
+| `V / s^2` for `V4^dd + mu s^2` | minimized only as `s -> 0`: no interior minimum, no crossing, the continuous onset (the R15 (iii) theorem in the author's reading) | `(V / s^2)(0) = mu` |
+| The sextic v2 `mu s^2 - nu s^4 + kappa s^6` | an interior minimum `mu - nu^2 / (4 kappa) = 0.0090` at `s* = sqrt(nu / (2 kappa)) = 0.2236`, the author's numbers exactly; with `V4^dd` added 0.00929 at s 0.205 | as stated |
+| The inertia coefficient `c` of the uniform split under the (2,3) clock (`K_P^23`, our instrument) | exactly `4 c_P` per `s^2` per unit volume (`Om_0 = [[0, 2s], [2s, 0]]` on the pair block) | 4.000000 |
+| The onset frequency | with the author's v4 potential `U = mu rho^2 = mu s^2` the onset is `omega_c^2 = mu / (4 c_P) = 2.5e-3`, not the author's `mu / c_P`; the author's `omega_c = sqrt(mu / c_P)` is the R15 normalization (`mu (lambda_2 - lambda_3)^2 = 4 mu s^2`). A factor 4 in `omega_c` between the two texts, to be named in the post | 0.05 vs 0.10 |
+| The uniform-limit infimum at fixed J | `min_x [mu x + a x^2 / Vol + J^2 / (4 c x)] / (omega_c J) -> 1` from above as Vol grows (1.72, 1.15, 1.02, 1.002, 1.0002, 1.00002 for Vol 10 to 1e6): the delocalized `omega_c J`, never attained | as stated |
+| The 1D spherical fixed-J profiles (`c = 4`, box R 240, L-BFGS with the analytic gradient, gate 1e-10) | `V4^dd + mu s^2`: `E_J / (omega_c J) >= 1.0005` at every J from 200 to 3e5, the profile filling the box (no Q-ball, the R15 theorem); the sextic: `E_J / (omega_c J)` = 1.0093, 1.0001, 0.998, 0.993, 0.980 at J = 200, 5e3, 3e4, 1e5, 3e5 with a free edge (the box-filling rotating state, which undercuts `omega_c J` at every J on the sextic since `omega(s)^2 = V / (c s^2) < omega_c^2` for every s in (0, 0.3), the audit's point); a LOCALIZED profile paying its wall undercuts `omega_c J` only above J of order 2.6e4 (thin wall: `omega* = 0.0474`, `sigma = sqrt(2 c kappa) s*^4 / 4 = 1.1e-3`, radius above 69) | as stated |
+| The author's weighted Coleman condition, rational weight | `sup abs(w) = 5.545` (the author's 5.55) with the zeros at `+g` and 1 as written, so in OUR branch the timelike eigenvalue `-g` gets weight 4.74, not zero (the plateau weight makes this moot); the author's "min `U / (s^2 W)` = 0.01117" is the VALUE at `s* = 0.2236` (we get 0.011168, `W(s*) = 0.806`), while the minimum over s is `mu`, reached only as `s -> 0`: no interior minimum below mu, so the author's conclusion (no crossing with the rational weight) holds and the word "min" does not; with `W = 1` the crossing is back at 0.0090 | as stated |
+| Not checkable from the thread | the "Gaussian control 13/12 - sqrt(3)/18 = 0.987", the "reduced v3 Q-ball" numbers (no definitions posted) | listed in the JSON |
+
+Verdict on C2: Coleman's diagnosis CONFIRMED with the numbers; two QUALIFIED items (the factor 4 in `omega_c` between `mu rho^2` and `mu (lambda_2 - lambda_3)^2`; "min" is the value at the plateau); one scale statement of ours: the sextic's Q-ball lives at radii above 69 and J above 2.6e4, far outside every lattice box and J of the record.
+
+### C3: the pointwise floor of `E_h` (the correction we accept)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| `E_h >= 0` pointwise | CONFIRMED for both completions (`G` positive definite, each density a sum of squares): the minimum cell density on the dressed and twisted hedgehog is 9.4e-7 (norm and rebuild alike) | >= 0 on every cell of every field read |
+| The R15 cross terms | reproduced exactly: eta `-36 / -109 / -188`, `I_norm` `-183 / -611 / -1696` | as posted |
+| `E(seed)` (the dressed hedgehog at k 0) | `E_norm = 25921`, `E_rebuild = 26369`, `E_eta = 12601` (the author's "~1.3e4" is our eta number); the bound `DeltaE_h >= -E_h(seed)` holds trivially | as stated |
+| Our posted sentence | "`-4 I1^h` is not bounded below on that background either" is WRONG as written: the functional has the floor 0 everywhere; the negative cross terms mean the seed is not stationary along twist-inside-dressing (the author's reading). RETRACTED in the next post | |
+| The completion the author actually used | on the hedgehog background `I_rebuild` KEEPS the sign flip: cross terms `+195 / +629 / +1500` (and `+54 / +359 / +701` on the R15-M degenerate hedgehog) against `I_norm`'s `-183 / -611 / -1696` (`-53 / -298 / -861`). So R15-V5's "both forms go negative on the hedgehog" is a statement about `I_norm`; for `I_rebuild` the repair is not a vacuum-frame statement on these reads | a NEW fact, from the naming |
+
+### C4: the local circle (the symmetry claim of object v4)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| The sheet facts | `T_alpha` shifts the split angle by `alpha / 2` (weight two on `B = s (cos 2 phi, sin 2 phi)`), `T_{2 pi} = id`, `s = 0` fixed pointwise: all exact | 1e-16 |
+| Invariance on the sheet with `psi(z), phi(z)` | `K_P^23` static `= 4 phi_z^2 s^2` at psi 0 and phi-independent for all psi (1e-15); the trace targets phi-independent; `E2 = tr(A_z A_z)` NOT phi-independent | max d/dphi 19 for E2 |
+| Point jets (spatial-block jets, `n(x)` from the leading eigenvector, `T_alpha` applied pointwise) | `K_P^23`, `V4^dd`, the split invariant to 1e-11; `I1`, `I_norm`, `I_rebuild` vary by 55 percent of their value over the circle, `E2` by 13 percent; every density is a trigonometric polynomial of degree ONE in alpha, 2 pi-periodic, so the 2-sample equispaced average is already exact (1e-12) | as stated |
+| 3D lattice with a varying director (box L 8, n 16 and 32) | the `K_P^23` defect under `T_0.7` scales as `h^2` (ratio 3.88 between the two grids: a continuum invariance, the projected connection term vanishing on the pair block), `V4^dd` and the split exact; `E_u = 4 I1` and `E2` do not converge to invariance (ratios 1.35 and 1.01) | as stated |
+| Consequence for v4 | the author's regulator `c_s rho^2 E2` is NOT circle-invariant as written: `L_v4`'s exact symmetry needs the circle average on `E2` too (or a projected `E2`), not only on the quartic. A definitional item for the post; the R16 instrument will average both | |
+
+### C5: the sheet inertias and the tilt condition
+
+| Statement (the author) | Ours (sympy, exact) |
+| --- | --- |
+| `<F_0z, F_0z> = 8 omega^2 psi'^2 s^2 (delta + s - 1)^2` under the local generator, zero at s 0 | CONFIRMED verbatim (`R15-H`'s `gamma = 32 ...` is 4 x this, the certified prefactor) |
+| the rigid generator nonzero at s 0 | CONFIRMED: `-omega^2 psi_z^2 (delta - 1)^4 (cos 4 psi - 8 sin^4 psi - 1) / 4` at s 0 |
+| `K_P` sees only (2,3)-block gradients and gives exactly 0 on that sheet | CONFIRMED (static 0); its inertia density `4 c_P omega^2 s^2` (the author's "8 omega^2 s^2" is `K = dL / d omega` with `L = 4 c_P omega^2 s^2`, one convention apart) |
+| `rho^2 E2` stiffness `prop s^2 psi'^2` | CONFIRMED: `2 s^2 psi_z^2 (delta + s - 1)^2` |
+| tilt hyperbolic iff `c_s > 16 omega^2`, independent of s and delta | CONFIRMED by exact substitution `w -> c_s s^2` in R15-H's forms: `gamma = -2 s^2 (c_s - 16 omega^2)(delta + s - 1)^2`, `alpha = 2 c_s s^2 (delta + s - 1)^2` |
+| boost sheets in the pair planes: all-eta cross term `-8 b^2 omega^2 s^2 (g - delta -+ s)^2`, unbounded in b; zero along the director | CONFIRMED up to the author's sign inside the square: ours is `-8 b^2 omega^2 s^2 (g + delta +- s)^2` (the vacuum entry `g` and the pair entry add, as in the R15-V law `(g + d_a)^2`); the G-norm gives `+8 ...` for both completions; zero along the director |
+
+### C6: the eigenvalue metric
+
+`(d lambda_+)^2 + (d lambda_-)^2 = 2 (a da + b db)^2 / (a^2 + b^2)` exactly (2 radially, 0 tangentially at the origin), `rho^2 = a^2 + b^2` a polynomial: CONFIRMED.
+
+### C7: the biaxial-ring reading of the R15-P-iv end state
+
+![R16-0 C7](../plots/m5_32_r16_0_c7_biaxial.png)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| The center | OBLATE uniaxial: the spatial triple `(0.700, 0.700, -0.107)` (n32) / `(0.690, 0.690, -0.083)` (n48), `tr Q^3 < 0`, `beta^2 = 0`; the two equal upper eigenvalues ARE the R15 `lambda_1 = lambda_3` crossing (4 / 2 innermost cells within 1e-3 at r 1.30); six of the eight innermost cells are oblate, the two on the body diagonal `(+,+,+)` and `(-,-,-)` are PROLATE `(1.15, 0.16, 0.16)` (audit) | the author's reading and R15's are the same fact |
+| The biaxial region | `beta^2` reaches 1.0 in cells at r 2.49 and is zero beyond r 4.5; the `beta^2`-weighted quadrupole over the half-maximum cells has eigenvalues `(-0.163, 0.081, 0.081)` (n32) / `(-0.188, 0.094, 0.094)` (n48), the great-circle RING signature `(-1/6, 1/12, 1/12)`, axis along the body diagonal `(1, 1, 1) / sqrt(3)` on both boxes | a ring of radius 2.9 +- 0.4 |
+| Lattice-scale or physical | the structure is IDENTICAL in lattice units on n32 L48 and n48 L72 (the same h 1.5): 24 to 30 cells, 2 cells across, axis on the lattice diagonal. The topology matches the Landau-de Gennes biaxial-ring core (oblate center, biaxial ring, uniaxial outside); its size is the cell, so the identification is QUALIFIED until an h-refinement (n64 L48) shows it converging in physical units | not computed here |
+| The uniaxial control (R15-M seeds) | `beta^2 <= 0.17`, confined to the 8 innermost cells of the seed ansatz | |
+
+### C8: spin and the split's spin-weight-2 content
+
+![R16-0 C8](../plots/m5_32_r16_0_c8_spin2.png)
+
+| Question | Answer | The number |
+| --- | --- | --- |
+| `J_z = 0` on an axisymmetric configuration | CONFIRMED: the rotation tangent `[G_z, M] - (x d_y - y d_x) M` vanishes to `O(h^2)` on a smooth axisymmetric split field (relative norm 0.034 at h 0.75, 0.0089 at h 0.375, ratio 3.9); the control with the tensor rotated but not the point gives 0.76; the R15-M hedgehog 0.0085 | the two facts the author states about the poles came out of the construction: an axisymmetric transverse split must vanish on the axis (weight two: `s prop rho^2`) and the director must be continuous there |
+| The `2Y_2m` builder | orthonormality 3e-6 on the fine sphere grid; lattice recovery of each harmonic on shells 2e-4 to 1e-3; the three named patterns through the frame recovered exactly (`2Y_20` -> `P_0` 0.9996; the real `m = +-2` mix -> 0.9996 / 0.9996; the chiral `2Y_22` -> 0.9999 at m 2, `<m>` 2.000). The director is a LINE field: the frame needs an orientation (outward), the R16-1 diagnostic carries it; the chirality SIGN is convention-bound, the imbalance is not | gates passed |
+| The R15-P-iv end state | NO chirality: `P_m` symmetric in `+-m` to three digits on every shell of both boxes, `P_0` below 1e-5 of the total, `<m> = 0.00`; the split is a real `m = +-1, +-2` pattern (the lattice-diagonal ring seen from the z frame), the l = 2 sector holding 3 to 7 percent of `abs(zeta)^2` inside r 6 and 35 to 39 percent at r 6 to 12 by the quadrature projection (0.7 to 1 and 7.5 to 8.7 percent by the audit's least-squares fit: the fraction is method-dependent on these coarse shells, the symmetry is not); the audit adds that the fields keep the `x <-> y` mirrors to 1e-6 and break the axis reflections at 2e-3, the (1,1,1) anisotropy of C7, not chirality | the author's "named failure mode" on the R15 field; R16-1's field is the one the packet asks about |
+
+### C9: the chiral pseudo-scalar (filler)
+
+| Texture (40^3, L 24) | `T2 = sum tau^2 h^3` | The author |
+| --- | --- | --- |
+| hedgehog `n = r_hat` | 1.7e-29 | 2e-29 |
+| two-hedgehog pair (centers +-4 z, meridional) | 2.9e-2 | 1e-2 |
+| twist sheet `(cos kz, sin kz, 0)`, k 0.5 | 630 (the 38^3 interior cells; 735 over all 40^3 with one-sided edges, audit) | 91 |
+| bend sheet `(sin kz, 0, cos kz)` | exactly 0 | 0 |
+
+The identity `tau = (1 - delta)^2 n . (curl n)` holds (ratio 0.468 against 0.49 on the twist sheet is the central-difference attenuation of the doubled frequency `sin(2kh) / (2kh) = 0.941` over `sin(kh) / (kh) = 0.985`; 0.53 +- 0.09 on the pair). The pattern CONFIRMED (zero / small / large / exactly zero); the twist and pair magnitudes depend on the author's unspecified k and geometry. On the R15 fields: the R15-M hedgehog 4.0e-5, the P-iv end state 6.9e-2.
+
+### Verdict, deviations, and what closes
+
+| Item | Outcome |
+| --- | --- |
+| The four comments as claims | audited 17 claims: 13 CONFIRMED, 4 QUALIFIED, 0 REFUTED (own sympy, own jets by the analytic chain rule, own lattice fields at three resolutions, own reduced-line minimizer with a pinned-edge variant, own frame and least-squares projection). The four qualifications: (C1c) the completion ratios 1.38 to 1.46 are not converged in h and are stencil-specific (the central stencil on n32 gives 1.00 / 0.81 / 1.11), and the reading of the author's h column as `I_rebuild / 4` is an interpretation of numbers we cannot reproduce (the arithmetic 192 / 640 / 1464 checks); (C2c) the 2.6e4 threshold is for a LOCALIZED profile paying its wall, while a box-filling rotating state undercuts `omega_c J` at every J on the sextic because `V / s^2 < mu` for every s in (0, 0.3); (C7) six of the eight innermost cells are oblate, the two on the body diagonal `(+,+,+)` and `(-,-,-)` are PROLATE `(1.15, 0.16, 0.16)`, the same (1,1,1) anisotropy the ring axis shows (the fields keep the `x <-> y` mirrors to 1e-6 and break `x -> -x` at 2e-3); (C8b, C9) the l = 2 fraction and the twist `T2` depend on the projection method and on which cells are summed (least squares on five functions gives 0.7 to 1 percent inside r 6; all 40^3 cells with one-sided edges give `T2 = 735`), the symmetry statements survive both |
+| Accepted corrections (ours to post) | the floor sentence retracted (`E_h >= 0` pointwise, both completions); our h column named `I_norm`; the author's h column identified as `I_rebuild` at the common ratio 4 (the R15 "3.0-vs-4" mismatch closed) |
+| Corrections to the author's text (to post) | the two completions differ by 24 to 46 percent on the witness profile, not 2 to 6; `omega_c^2 = mu / (4 c_P)` for `U = mu rho^2` (the `mu / c_P` is the R15 normalization); "min `U / (s^2 W)` = 0.01117" is the value at `s*`; the boost-sheet law has `(g + delta +- s)^2`; the regulator `c_s rho^2 E2` is not circle-invariant as written |
+| New facts | `I_rebuild` keeps the sign flip on the relaxed hedgehog (`I_norm` does not); the P-iv biaxial ring is a lattice-scale object with its axis on the body diagonal; the P-iv split is achiral; the sextic's Q-ball needs J above 2.6e4 and a radius above 69 |
+| Deviations logged | (1) the C4 sheet checks first used sympy `simplify` on trig products (a false `False`); replaced by random-point numeric zero tests; (2) the C8 axisymmetric test field was built twice with a discontinuity (a director radial on the axis, then a split not vanishing there) before the smooth form (`n` along z on the axis, `s prop rho^2`), each caught by the O(h) instead of O(h^2) ratio; (3) the C8 frame first used the unoriented eigenvector (random handedness per cell, the real patterns leaking into `m = +-1`), fixed by orienting the director outward; (4) the C2 1D profiles first ran at J up to 5e3 in a box of R 80 and found no Q-ball because the thin-wall radius is 69 at the crossing: the box and J ladder were extended after the thin-wall estimate |
+| Not run | the h-refinement of the P-iv end state (n64 L48); the two-completion relaxations (no `I_rebuild` gradient exists); the instrument build and stages R16-1 to R16-4 (the second go) |
+| Closes | C1, C3, C5, C6, C9 as symbolic and read facts; C2 with two normalization qualifications; C4 with the `E2` finding |
+| Opens (for the author) | the normalization of `omega_c` (which potential); the circle average of the regulator; the definition of `n` past isolation (escape (d)); whether the ring is theirs at finer h |
+
+## TASK REVIEW (2026-09-06, R16-0; presented in the terminal at 13:40 UTC and approved by the user)
+
+Task Duration: 00:58 (from 2026-09-06 12:42 UTC to 13:40 UTC)
+Usage Cap Triggered: NO
+
+| Item | Result |
+| --- | --- |
+| C1 completions | ✅ the counterexample exact; equal on the witness jet; 24 to 46 percent apart on the witness lattice (the author: 2 to 6); the author's h column fits `I_rebuild / 4`, ours is `I_norm` (audit: an interpretation until the bundle; the ratios not converged in h) |
+| C2 Coleman | ✅ every number reproduced (the sextic crossing 0.0090 at `s* = 0.2236`); ⚠️ `omega_c^2 = mu / (4 c_P)` for the v4 potential `mu rho^2` (the author's `mu / c_P` is the R15 normalization); ⚠️ "min 0.01117" is the value at `s*`; the localized Q-ball needs J above 2.6e4 and a radius above 69 (a box-filling rotating state undercuts `omega_c J` at every J on the sextic, audit) |
+| C3 floor | ✅ `E_h >= 0` pointwise for both completions; our R15 sentence retracted; `I_rebuild` keeps the sign flip on the relaxed hedgehog (+195 / +629 / +1500), `I_norm` does not |
+| C4 local circle | ✅ exact on the potential and `K_P^23` (jets exact, lattice O(h^2)); ⚠️ NOT on `I1`, on either completion, or on the regulator `rho^2 E2`: `L_v4` as written is not circle-invariant, the average must cover `E2` |
+| C5, C6 | ✅ every sheet formula exact; the boost-sheet law reads `(g + delta +- s)^2` |
+| C7 ring | 🔶 the Landau-de Gennes topology (oblate center = the R15 crossing, a `beta^2 = 1` great-circle ring of radius 2.9, uniaxial outside) at the lattice scale, axis on the body diagonal, two core cells prolate (audit); h-refinement owed |
+| C8 spin | ✅ `J_z = 0` on axisymmetric fields (O(h^2)); the spin-2 shell diagnostic gated; the P-iv split achiral |
+| C9 | ✅ the pattern 0 / small / large / 0; the identity holds |
+| Audit | 17 claims: 13 CONFIRMED, 4 QUALIFIED, 0 REFUTED |
+| Deviations from plan | four instrument-level fixes (a sympy trig simplify false negative, two discontinuous test fields, the frame orientation of a line field, the Q-ball box size), all logged in the section |
+| Action needed | the user commits; no post yet (the user's call: the retraction, the naming, the two normalization items and the regulator repair go out either as an interim note or with the R16 results); the second go builds the circle-averaged instrument and runs R16-1 to R16-4 (the amended packet in [ledger § 6.5](../findings/m5_32_candidate_ledger.md)) |
+
+Findings: the author's four comments survive verification with nothing refuted. Object v4 needs one definitional repair before it is the exact-symmetry object it claims to be (its regulator must be circle-averaged), the biaxial-ring reading of the P-iv end state is right in topology but lives at the lattice scale, and the R15 h-column mismatch was the completion, not the pair ordering.
+
+Research docs created/updated: this record (the R16-0 section, the RUNG LOG row, this review); [`m5_32_candidate_ledger.md`](../findings/m5_32_candidate_ledger.md) § 6.5 (outcome + the amended packet); [`m5_32_method_note.md`](../findings/m5_32_method_note.md) § 13; [`m5_32_ledger.json`](../data/m5_32_ledger.json); [`m5_roadmap.md`](../m5_roadmap.md); scripts [`m5_32_r16_0_symbolic.py`](../scripts/m5_32_r16_0_symbolic.py), [`m5_32_r16_0_reduced.py`](../scripts/m5_32_r16_0_reduced.py), [`m5_32_r16_0_fields.py`](../scripts/m5_32_r16_0_fields.py), [`m5_32_r16_0_audit.py`](../scripts/m5_32_r16_0_audit.py); their JSONs and the three plots.
