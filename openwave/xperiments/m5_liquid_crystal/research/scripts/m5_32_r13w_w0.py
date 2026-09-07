@@ -76,7 +76,7 @@ AUDIT NOTES CARRIED (2026-09-02, the independent W0-W2 audit, m5_32_r13w_audit.p
     on block-diagonal fields; a boost generator over the same twist gives kin < 0.
 
 Out: ../data/m5_32_r13w_w0.json
-Run: /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r13w_w0.py
+Run: /opt/anaconda3/envs/master312/bin/python3 m5_32_r13w_w0.py
 """
 from __future__ import annotations
 

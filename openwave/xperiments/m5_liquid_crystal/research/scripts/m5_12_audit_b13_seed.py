@@ -16,7 +16,7 @@ rank-one + phase. LSMR requires a consistent adjoint pair. Test
 <A v, u> == <v, A^T u> on random vectors at the r4 endpoint, with the
 claimant's exact scaling (Dscale) replicated.
 
-Run: /opt/anaconda3/envs/openwave312/bin/python m5_12_audit_b13_seed.py
+Run: /opt/anaconda3/envs/master312/bin/python m5_12_audit_b13_seed.py
 """
 from __future__ import annotations
 

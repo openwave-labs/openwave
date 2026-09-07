@@ -21,7 +21,7 @@ CONTROL      the ORIENTATION wall (the vacuum rotated by Delta q in the (2,3) pl
 Numerical representation: FIRE dt0 0.01, dt_max 0.1, 12000 iterations or fmax < 1e-6.
 
 Out: ../data/m5_32_r13w_w1.json, ../plots/m5_32_r13w_w1.png
-Run: /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r13w_w1.py
+Run: /opt/anaconda3/envs/master312/bin/python3 m5_32_r13w_w1.py
 """
 from __future__ import annotations
 

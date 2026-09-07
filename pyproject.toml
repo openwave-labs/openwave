@@ -39,6 +39,21 @@ dependencies = [
   "pytest>=8.0,<10.0",
 ]
 
+# Formatting tools, which CONTRIBUTING.md makes a condition of a pull request rather than a
+# suggestion. This repo has no CI, so a contributor's own machine is the entire enforcement
+# surface: a tool the project gates merges on has to be installable from the project's own
+# metadata, or every contributor has to work out separately that they need it. Install with
+# `pip install -e ".[dev]"`.
+#
+# pytest deliberately stays in the runtime list above rather than moving here, so that a
+# plain `pip install -e .` leaves the `pytest` invocation in CONTRIBUTING.md runnable. With
+# no CI there is nothing else that would catch a contributor whose install silently lacks
+# the runner, and demoting it to an extra would make that failure look like a broken repo.
+[project.optional-dependencies]
+dev = [
+  "black>=24.0",
+]
+
 [project.scripts]
 openwave = "openwave.i_o.cli:cli_main"
 
@@ -82,3 +97,10 @@ norecursedirs = [
 
 [tool.black]
 line-length = 99
+
+# Pinned to the interpreter floor in `requires-python`. Without it Black 26 infers a target
+# from the source and warns on every run that a 3.12 interpreter cannot verify code it
+# formatted for a newer Python, because its safety check re-parses the output with the
+# running CPython. Naming the floor makes the formatter agree with the version contract the
+# project already publishes, and silences the warning without --fast skipping the check.
+target-version = ["py312"]

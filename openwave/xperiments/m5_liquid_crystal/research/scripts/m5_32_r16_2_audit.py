@@ -20,7 +20,7 @@ Audit routes (all second differences of the ENERGY, no producer operator):
   core  the 10x10 symmetric-block Hessian on the 8 innermost cells
 
 Run (research dir):
-  OMP_NUM_THREADS=2 /opt/anaconda3/envs/openwave312/bin/python3 \
+  OMP_NUM_THREADS=2 /opt/anaconda3/envs/master312/bin/python3 \
       scripts/m5_32_r16_2_audit.py
 Output: data/m5_32_r16_2_audit.json (relative paths only).
 """

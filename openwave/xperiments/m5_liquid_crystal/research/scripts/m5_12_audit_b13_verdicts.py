@@ -6,7 +6,7 @@ verdicts {L1..L5}. All numbers cited in the verdicts are produced by the
 b13 audit scripts (independent block-11-lib functionals) or are arithmetic
 on the claimant's own published records (marked as such).
 
-Run: /opt/anaconda3/envs/openwave312/bin/python m5_12_audit_b13_verdicts.py
+Run: /opt/anaconda3/envs/master312/bin/python m5_12_audit_b13_verdicts.py
 """
 from __future__ import annotations
 

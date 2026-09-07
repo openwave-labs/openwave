@@ -16,7 +16,7 @@ Attacks:
 
 All functionals are the INDEPENDENT block-11 audit implementations.
 
-Run: /opt/anaconda3/envs/openwave312/bin/python m5_12_audit_b13_rescale.py
+Run: /opt/anaconda3/envs/master312/bin/python m5_12_audit_b13_rescale.py
 """
 from __future__ import annotations
 

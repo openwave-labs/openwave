@@ -36,7 +36,7 @@ W0 PREDICTION (S5, S6): the shell SURVIVES (kinetic reward >> V4 cost) and the
 
 Modes:  run n L Rs J maxit      one relaxation (cached in ../checkpoints/m5_32_r13w/)
         collect                  assemble ../data/m5_32_r13w_w3.json + ../plots/m5_32_r13w_w3.png
-Run:    /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r13w_w3.py run 32 48 9 200 3000
+Run:    /opt/anaconda3/envs/master312/bin/python3 m5_32_r13w_w3.py run 32 48 9 200 3000
 """
 from __future__ import annotations
 

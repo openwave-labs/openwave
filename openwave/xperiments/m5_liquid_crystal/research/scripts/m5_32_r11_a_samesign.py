@@ -52,7 +52,7 @@ H-c  (F_abcd F^abcd)^2 = R8's Q_I1sq (class C5 in the plan's vocabulary; NOT
      box ladder; deformation ratio > 1 at the threshold.
 
 Outputs: ../data/m5_32_r11_samesign.json, ../plots/m5_32_r11_samesign.png
-Run: nice -n 10 /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r11_a_samesign.py
+Run: nice -n 10 /opt/anaconda3/envs/master312/bin/python3 m5_32_r11_a_samesign.py
 """
 from __future__ import annotations
 

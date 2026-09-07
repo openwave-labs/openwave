@@ -75,7 +75,7 @@ H12-c  Clock: the RIGID inertia of the relaxed ring is of the hedgehog's
 
 Outputs: ../data/m5_32_r12_ring.json, ../plots/m5_32_r12_ring.png,
          ../checkpoints/m5_32_r12/*.npy (local, gitignored)
-Run: nice -n 10 /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r12_a_ring.py
+Run: nice -n 10 /opt/anaconda3/envs/master312/bin/python3 m5_32_r12_a_ring.py
 """
 from __future__ import annotations
 
