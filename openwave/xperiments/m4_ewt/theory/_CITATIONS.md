@@ -49,7 +49,7 @@ m4_ewt (Energy Wave Theory) is the scientific-origin corpus for the wave-structu
 | Yee, J. | n/a | Relation of Ohms Law to Newtons Law | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relation of Relativistic Energy to Particle Wavelength | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relationship of Gravity and Magnetism (v1.1) | author doc (EWT), energywavetheory.com; n/a |
-| Yee, J. | n/a | Relationship of Mass and Charge (v2) | author doc (EWT), energywavetheory.com; n/a |
+| Yee, J.; Gardi, L. | 2019 | The Relationship of Mass and Charge (v2); the charge-as-wave-amplitude convention the M4.7 geometric engine uses | author doc (EWT), energywavetheory.com; DOI [10.13140/RG.2.2.12645.45289](https://doi.org/10.13140/RG.2.2.12645.45289) |
 | Yee, J. | n/a | Relationship of the Fine Structure Constant and Pi (v2.1) | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relationship of the Mole and Charge | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Particles of the Universe Meets Electric Universe (v2) | author doc (EWT), energywavetheory.com; n/a |

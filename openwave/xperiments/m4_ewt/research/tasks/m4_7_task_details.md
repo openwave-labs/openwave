@@ -147,6 +147,7 @@ against the archive's checksums.
 - `research/scripts/m4_7_ewt_amm_resonance_scanner.py`
 - `research/scripts/m4_7_ewt_particle_masses.py`
 - `research/findings/m4_7_enhanced_ewt_geometric_consistency.md`
+- [`research/findings/m4_7_geometric_conventions.md`](../findings/m4_7_geometric_conventions.md): the author's record of the geometric conventions and of the status of every constant (charge as amplitude, K_WC, L_mu, L_tau, O_mu, the Planck closure, the scope of the zero-free-parameter statement), answering the review questions from [PR #523](https://github.com/openwave-labs/openwave/pull/523)
 
 ## Reference
 
