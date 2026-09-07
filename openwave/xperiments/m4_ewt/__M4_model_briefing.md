@@ -93,6 +93,28 @@ record in [`research/m4_theory_canonical.md`](research/m4_theory_canonical.md), 
 scaffolded as skeletons for whoever extends the model. AI agents bootstrap on this column
 by reading [`research/m4_agent_orientation.md`](research/m4_agent_orientation.md).
 
+### Before you cite a number as evidence
+
+Four review rounds on this column have turned on the same defect, so it is worth
+stating once, for contributors and for the agents that help them write. A check,
+or an agreement quoted in a note, is evidence for a claim only if it could have
+come out differently had the claim been false. Three shapes that have appeared
+here:
+
+| Shape | The test that catches it |
+| --- | --- |
+| A PASS line whose two sides evaluate the same expression | Replace the rule under test with something wrong and confirm the line goes red |
+| A quantity offered as confirming a constant that does not enter its derivation | Follow the constant through the call graph. If it is absent, the quantity is the same number for every value of it |
+| A restatement of a number in another form (a power, a ratio, a unit change) counted as a second confirmation | Ask what the second form could have shown that the first did not |
+
+Where a quantity has no independent target to compare against, the honest label
+is *asserted* or *consistent with*, not *confirmed*. Writing "this is a
+consistency observation, not a discriminator" costs a line and is what makes
+the rest of a note credible. The reviewer-side versions are
+[`PR_REVIEW_STANDARDS.md`](../../../dev_docs/PR_REVIEW_STANDARDS.md) rows D10 to
+D13; the contributor-side self-check shapes are in
+[`CONTRIBUTING.md`](../../../CONTRIBUTING.md).
+
 ## Roadmap
 
 | Next | What lands |
