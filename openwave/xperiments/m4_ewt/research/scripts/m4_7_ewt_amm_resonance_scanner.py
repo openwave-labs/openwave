@@ -25,14 +25,14 @@ matplotlib.use("pdf")  # non-interactive backend
 import matplotlib.pyplot as plt
 
 try:
-    from ewt_emergence_engine import (
+    from m4_7_ewt_emergence_engine import (
         PI, SQRT2, SQRT3, EULER,
         compute_alpha_core,
         compute_alpha_geometric,
         derive_eps_M_from_BCC,
     )
 except ImportError:
-    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
 
 
 # =============================================================================

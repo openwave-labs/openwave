@@ -28,9 +28,16 @@ The artifact consists of four runnable Python scripts:
   - m4_7_ewt_particle_masses.py         (spherical, orbital, meson mass
                                          modes; full PDG/CODATA scan)
 
-The scripts are an unmodified copy of the package archived at
-DOI: 10.5281/zenodo.22540262. The corresponding manuscript is
+The scripts are four of the six files of the package archived at
+DOI: 10.5281/zenodo.22540262, content-identical after line-ending
+normalization except for the module rename and the import line that follows
+it (see the findings note). The corresponding manuscript is
 DOI: 10.5281/zenodo.22540635 (version 5.0.0).
+
+This artifact supersedes the v4.5.2 Scilab port merged 2026-08-25 in
+[PR #477](https://github.com/openwave-labs/openwave/pull/477) (`ec2564af`);
+the task keeps its ID. The v5.0.0 artifact was merged in
+[PR #523](https://github.com/openwave-labs/openwave/pull/523).
 
 ## Method
 
@@ -74,10 +81,10 @@ Key geometric predictions from the zero-calibration engine:
 | alpha_geom^-1 | 137.036262364 | CODATA 137.035999084 | 0.000192% |
 | a_e (full) | 1159.916228 ppm | CODATA 1159.652182 ppm | 0.022769% |
 | a_mu (full) | 1166.212608 ppm | Experiment 1165.920610 ppm | 0.025044% |
-| a_tau (full) | 1176.838130 ppm | PDG 1177.210000 ppm | 0.031589% |
-| lambda_l | 1.6166464066e-35 m | CODATA 1.6162e-35 m | 0.027621% |
+| a_tau (full) | 1176.838130 ppm | SM prediction 1177.21 ppm (no measurement at this precision) | 0.031589% |
+| lambda_l | 1.6166464066e-35 m | 1.6162e-35 m (rounded; CODATA 2018 1.616255e-35 m gives 0.024217%) | 0.027621% |
 | r_nu | 2.8179354360e-17 m | r_e/100 = 2.8179403262e-17 m | 0.000174% |
-| g_v (fixed point) | 0.9835944447 | phenomenological 0.98359223 | 2.21e-6 |
+| g_v (fixed point) | 0.9835944447 | phenomenological 0.98359223 | 0.000221% |
 
 Atomic scales (from alpha_geom and r_e = 100*r_nu):
 
@@ -120,6 +127,18 @@ metric conversion factor rather than a dynamical parameter. The
 electron mass m_e may also be derivable in the future through the
 E proportional to r^5 scaling law and the K_WC = 10 stability
 condition. The true irreducible anchors would then reduce to r_e and e.
+
+## Maintainer note (review of PR #523)
+
+Edits applied at merge, announced in the review: import path in the three
+companion modules (they raised `ImportError` in the repository after the
+rename), byte-order mark and trailing newlines, the tau reference relabeled
+as the Standard Model prediction, the `g_v` error cell in percent like the
+rest of its column, the `lambda_l` reference identified as rounded, and the
+scoping of "what enters as a number" to the engine chain, with the other
+numbers the package carries tabulated in the findings note. The scripts are
+deliberately not reformatted with `black`, so that they stay checkable
+against the archive's checksums.
 
 ## Artifacts
 

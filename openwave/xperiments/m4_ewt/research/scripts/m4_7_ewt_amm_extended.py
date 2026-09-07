@@ -15,7 +15,7 @@ basic full AMM predictions and rigidity tests.
 import math
 
 try:
-    from ewt_emergence_engine import (
+    from m4_7_ewt_emergence_engine import (
         PI, SQRT2, SQRT3, EULER,
         A_MU_EXP,
         A_TAU_EXP,
@@ -25,7 +25,7 @@ try:
         get_AMMi_K,
     )
 except ImportError:
-    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
 
 
 def compute_lepton_amms_extended(alpha_geom: float, eps_M: float) -> dict:

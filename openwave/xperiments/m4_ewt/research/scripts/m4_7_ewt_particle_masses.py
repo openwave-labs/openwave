@@ -19,9 +19,9 @@ import math
 
 # --- Import shared constants ---
 try:
-    from ewt_emergence_engine import PI, EULER, SQRT2, SQRT3
+    from m4_7_ewt_emergence_engine import PI, EULER, SQRT2, SQRT3
 except ImportError:
-    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
 
 # -----------------------------------------------------------------------------
 # 1. Fundamental wave constants (from Jeff Yee's original EWT)
