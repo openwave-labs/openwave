@@ -116,7 +116,7 @@ references to the manuscript v5.0.0.
 | BCC coordination number | 8 | BCC_GEOMETRY | crystallographic fact | Section "BCC Lattice Geometry and the Geometric Ladder" |
 | BCC packing fraction | sqrt(3)*pi/8 | BCC_GEOMETRY | geometric property of the BCC lattice | Section "BCC Lattice Geometry and the Geometric Ladder" |
 | L_p_geom | 2/sqrt(3) | BCC_GEOMETRY | ideal BCC lattice projection factor; inverse of the dimensionless nearest-neighbour distance in the BCC lattice | Section "BCC Lattice Geometry and the Geometric Ladder" |
-| K_WC | 10 | STRUCTURAL (geometric necessity) | electron wave center count from the 1-3-6 geometry; topological winding number Q=10; confirmed by the decadic resonance r_e/r_nu = 100 and (r_e/r_nu)^5 = 10^10 | Sections "Structural Emergence of the 1-3-6 Geometry", "Topological Selection Rule and the Electron Ground State", "Decadic Resonance Test" |
+| K_WC | 10 | STRUCTURAL (geometric necessity) | electron wave center count from the 1-3-6 geometry; topological winding number Q=10; consistent with the decadic resonance r_e/r_nu = 100, which does not itself vary with K_WC (see section 2.1) | Sections "Structural Emergence of the 1-3-6 Geometry", "Topological Selection Rule and the Electron Ground State", "Decadic Resonance Test" |
 | L_mu | 5 | STRUCTURAL (Fibonacci-Lucas) | F_5, the 5th Fibonacci number; 2D planar shell stability invariant | Sections "Structural Stability Invariants of the BCC Lattice", "The Geometric Stability of 3D Wave-Packing" |
 | L_tau | 34 | STRUCTURAL (Fibonacci-Lucas) | F_9, the 9th Fibonacci number; 3D volumetric shell closure invariant | Sections "Structural Stability Invariants of the BCC Lattice", "The Geometric Stability of 3D Wave-Packing" |
 | O_mu | 1/(4*pi^2) | DERIVED (double derivation) | (1) from M_mu*pi^3*epsilon_M identity, verified to 0.14%; (2) independently from the normalization of the inverse 2D Fourier transform | Section "Final Results and Experimental Correlation", subsection "Remark on the geometric origin of the muon projection operator"; Section "Dimensional Projection Operators" |
@@ -146,7 +146,7 @@ spherical boundary S^2:
 This is presented in manuscript section "Topological Selection Rule
 and the Electron Ground State".
 
-The decadic resonance test confirms this geometrically:
+The decadic resonance test is consistent with this geometry:
 
     r_e / r_nu = 100
 
@@ -157,11 +157,27 @@ neutrino (K_WC=1). See manuscript section "Decadic Resonance Test:
 r_e / r_nu ~ 100". K_WC=10 is therefore a geometric necessity, not a
 fit.
 
+Maintainer note (added at merge of PR #526), on what the decadic
+resonance does and does not establish. r_nu is derived from the g_v
+fixed point through alpha_geom and q_P, and K_WC enters none of those
+steps: `derive_neutrino_radius(alpha_geom, q_P)` takes no K_WC and no
+function it calls reads one. The ratio is therefore the same number
+for K_WC = 9, 10 or 11, and cannot discriminate between them. The
+second line is the fifth power of the first (`K_implied = ratio**5`
+in `test_decadic_resonance`), so it adds no information to it. The
+1-3-6 geometry and the winding number Q=10 above are the load-bearing
+arguments for K_WC = 10; the ratio is a consistency observation,
+measured at 100.000174 (0.000174%).
+
 This structural necessity is a prediction of the model: the same
 geometric configuration must be selected dynamically as the unique
 stable ground state against neighbouring wave-center counts
 (K_WC = 9 and K_WC = 11). Confirmation of this K-selectivity in the
-OpenWave M4 solver remains an open task for the platform.
+OpenWave M4 solver remains an open task for the platform: it is
+roadmap row [M4.1](../m4_roadmap.md) (harness merged in
+[PR #205](https://github.com/openwave-labs/openwave/pull/205),
+spec in `M4_k_selectivity_Formalization.md`), which is open and
+unowned. Today's solver finds K = 2..10 degenerate.
 
 ### 2.2 Justification for L_mu, L_tau, and L_mu^2
 
@@ -210,8 +226,8 @@ The muon projection operator has a double derivation:
    where the normalization of the inverse 2D Fourier transform is
    exactly 1/(2*pi)^2.
 
-This double convergence — one from discrete lattice geometry, one
-from continuum Fourier analysis — is the signature of a structural
+This double convergence, one from discrete lattice geometry and one
+from continuum Fourier analysis, is the signature of a structural
 mathematical relation, not a fitted parameter.
 
 The derivation is given in manuscript section "Final Results and
@@ -294,10 +310,12 @@ The independent predictions in the package are:
 - alpha_geom (from A_pi and epsilon_M)
 - G_geom (from the BCC chain)
 - a_e, a_mu, a_tau (from epsilon_M and the recursive hierarchy)
-- lambda_l (as a fixed point of the Planck closure)
 - r_nu (from the g_v fixed point)
 
 All other quantities are derived from these plus the four anchors.
+lambda_l is deliberately not in this list: by section 3 it is the
+fixed point of the Planck closure, a consistency check rather than an
+independent prediction.
 
 ### 5.1 Manuscript references
 
