@@ -63,7 +63,7 @@ D5 orbit blindness (three lines). For Q in O(1,3), Q^T eta Q = eta:
     symmetric sector point; report max relative variation of V4, det(M),
     tr((M eta)^p); Euclidean control tr(M^2) must NOT be invariant.
 
-Run: /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r6_audit.py
+Run: /opt/anaconda3/envs/master312/bin/python3 m5_32_r6_audit.py
 Out: ../data/m5_32_r6_audit.json
 """
 from __future__ import annotations

@@ -15,7 +15,7 @@ per-gap (the M5.24 selftest pattern):
   D — arm (2), the J/mu twist demo: the rod-sample eigenframe advances at
       the M5.23.1 visible rate under SET-J on the demo xparameter flow.
 
-Run:  cd openwave && /opt/anaconda3/envs/openwave312/bin/python \
+Run:  cd openwave && /opt/anaconda3/envs/master312/bin/python \
       openwave/xperiments/m5_liquid_crystal/research/scripts/m5_23_2_render_selftest.py
 """
 

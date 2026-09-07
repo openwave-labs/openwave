@@ -10,7 +10,7 @@ certified stencil helpers d1 / branches / coords are imported from
 m5_21_3_a_4d.py.
 
 Run (research dir):
-    OMP_NUM_THREADS=2 /opt/anaconda3/envs/openwave312/bin/python3 \
+    OMP_NUM_THREADS=2 /opt/anaconda3/envs/master312/bin/python3 \
         scripts/m5_32_r16_4_audit.py
 Output: data/m5_32_r16_4_audit.json (relative paths only) + a terminal table.
 """

@@ -48,7 +48,7 @@ block of F is O(m^2) and its time row O(m^3): S ~ m^4, T ~ m^6, T/S ~ m^2 in the
 regime; at m ~ 1 the expansion fails and T/S is measured, not predicted.
 
 Outputs: ../data/m5_32_r3_audit_ansatz.json
-Run: nice -n 10 /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r3_audit_ansatz.py
+Run: nice -n 10 /opt/anaconda3/envs/master312/bin/python3 m5_32_r3_audit_ansatz.py
 """
 from __future__ import annotations
 

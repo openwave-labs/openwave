@@ -76,7 +76,7 @@ The headless preview (the selftest's render of the 162-glyph shell around the bi
 
 ![](../plots/m5_23_shell_selftest.png)
 
-The hedgehog signature is exactly the expected one: every shaft radial (the topological "hedgehog" made visible in one glance), the delta bars tangent on the shell. Live look: run the launcher (`python -m openwave.xperiments.m5_liquid_crystal._launcher` in the `openwave312` env) and check `Ellipsoids (1 /angle)`.
+The hedgehog signature is exactly the expected one: every shaft radial (the topological "hedgehog" made visible in one glance), the delta bars tangent on the shell. Live look: run the launcher (`python -m openwave.xperiments.m5_liquid_crystal._launcher` in the `master312` env) and check `Ellipsoids (1 /angle)`.
 
 ## STAGE B FINDINGS (2026-07-19)
 

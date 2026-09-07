@@ -25,7 +25,7 @@ R = sum_{ij} F_ij[j, i], R_G = G_cd T^cd, K_lambda from the sorted spectrum; gra
 the registries, gated by finite differences of the OWN energies; own FIRE and own plain
 gradient descent (at most 100 steps); own localization diagnostic.
 
-Run:  /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r14_overnight_audit.py [--stage d2|b2|all]
+Run:  /opt/anaconda3/envs/master312/bin/python3 m5_32_r14_overnight_audit.py [--stage d2|b2|all]
 Out:  ../data/m5_32_r14_overnight_audit.json
 """
 import sys

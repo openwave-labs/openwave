@@ -75,7 +75,7 @@ The calibration thread (#217) found the core potential V is **rotation-invariant
 
 ## Reproduce
 
-| Output | Command (env `openwave312`) |
+| Output | Command (env `master312`) |
 | --- | --- |
 | θ₁₃ vs correction + which-plane + 2D best-fit + δ_CP vs phase | `python3 m5_11_theta13_breaking.py` |
 | Writes | `data/m5_11_theta13_summary.json`, `plots/m5_11_theta13_breaking.png` |
