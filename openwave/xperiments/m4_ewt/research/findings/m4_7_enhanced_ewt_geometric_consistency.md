@@ -1,318 +1,241 @@
-# M4.7 Enhanced EWT Geometric Consistency
+# M4.7 - Enhanced EWT Geometric Emergence Engine (Zero-Calibration)
 
-> This is an Enhanced EWT extension, authored by Łukasz Smoliński, as registered in
-> [`_CITATIONS.md`](../../theory/_CITATIONS.md) (The Geometric Identity of Gravity and
-> Dimensional Unification, v4.5.8, DOI
-> [10.5281/zenodo.22100322](https://doi.org/10.5281/zenodo.22100322); Scilab source suite,
-> DOI [10.5281/zenodo.21503571](https://doi.org/10.5281/zenodo.21503571)).
+## Summary
 
-## Purpose
+The M4.7 artifact is the zero-calibration geometric engine of the
+Enhanced EWT model, version 5.0.0. It derives the effective geometric
+stiffness N_geom directly from the BCC lattice packing fraction and the
+ideal stiffness 8*pi^4, with no fitted parameters. The gravitational
+constant emerges from the same chain as the fine-structure constant and
+the lepton anomalous magnetic moments.
 
-This artifact is a complete Python port of the Enhanced EWT
-geometric consistency suite originally written in Scilab.
+The artifact consists of four scripts (see task details), four of the six
+files of the package archived at DOI: 10.5281/zenodo.22540262
+(`ewt_robustness_plots.py` and `ewt_electroweak_bosons.py` are not ported).
+Each file is content-identical to the archived one after line-ending
+normalization (the archive ships CRLF endings, and a byte-order mark on the
+engine), except for the `ewt_*` to `m4_7_ewt_*` module rename and, in the
+three companion modules, the one import line that follows it. Verified at
+merge against the record's MD5 checksums (maintainer note below).
 
-It is not tied to a single matrix criterion. Its role is to:
+## What the scripts deliver
 
-- introduce the Enhanced EWT framework to OpenWave as a runnable
-  calculation,
-- provide a single entry point to the model's core logic,
-- serve as a shared geometric foundation for future validation
-  tasks.
+### 1. Emergence of G from BCC geometry (zero calibration)
 
-## What was computed
+The gravitational constant is not calibrated to CODATA. The derivation
+chain is:
 
-A complete Python port of the Enhanced EWT numerical suite was
-executed. The suite is a single deterministic chain in which one
-geometric parameter,
+    BCC packing fraction eta_BCC = sqrt(3)*pi/8
+    -> zeta = (1 - eta_BCC) / (eta_BCC * 8*pi^4)
+    -> N_geom = 8*pi^4 * (1 - zeta) = 778.8025179
+    -> epsilon_M = 1 / (N_geom * pi^3) = 4.141169769e-5
+    -> alpha_geom^-1 = (4*pi^3 + pi^2 + pi) - epsilon_M
+    -> q_P = e / sqrt(alpha_geom)
+    -> r_nu = q_P * S_tot  (S_tot from the g_v fixed point)
+    -> lambda_l self-consistently from the Planck condition
+    -> G_geom = (c^2*r_e/m_e) / A_pi * (1/(N_geom*A_pi))^3
+                / (10 * sqrt(N_nu_eff))
 
-\[
-\epsilon_M = \frac{1}{N_{\text{final}}\pi^3}
-\]
+The result is G_geom = 6.6775199755e-11, which differs from CODATA by
+0.048169%.
 
-with
+### 2. Zero-calibration fine-structure constant
 
-\[
-N_{\text{final}} \to 8\pi^4
-\]
+alpha_geom^-1 = 137.036262364, relative error 0.000192% vs CODATA.
+The value is computed from A_pi and epsilon_M only. No measured alpha is
+used as input.
 
-drives all physical outputs.
+### 3. Lepton anomalous magnetic moments without mass inputs
 
-The script reproduces the full Scilab suite and demonstrates that:
+The full AMM predictions are:
 
-- \(G\),
-- \(\alpha^{-1}\),
-- \(a_e\),
-- \(a_\mu\),
-- \(a_\tau\),
-- particle mass estimates,
-- Weinberg and Cabibbo mixing,
-- atomic scales,
-- the neutrino radius \(r_\nu\),
-- and the geometric fixed point \(g_v\)
+    a_e   = 1159.916228 ppm  (0.022769% vs CODATA)
+    a_mu  = 1166.212608 ppm  (0.025044% vs experiment)
+    a_tau = 1176.838130 ppm  (0.031589% vs the Standard Model prediction)
 
-are all consequences of the same BCC lattice geometry.
+The tau reference 1177.21 ppm is the Standard Model prediction, not a
+measurement: no experiment reaches this precision (the PDG bound is
+-0.052 < a_tau < 0.013). The script's `A_TAU_EXP` label is the package's
+own wording and is left as archived.
 
-## Relation to criteria
+The muon and tau AMMs are computed entirely from epsilon_M, the
+recursive nodal growth law
 
-This artifact supports several future or already existing tasks.
-It can be reused to extract isolated calculations for:
+    K_n = K_{n-1} + round(10^(n-1) * 2*pi^2)
 
-- static geometric origin of \(G\),
-- fine-structure constant derivation,
-- lepton AMM predictions,
-- local metric phenomena,
-- mass hierarchy scans.
+with K_1 = 10, K_2 = 207, K_3 = 2181, and the dimensional projection
+rules
 
-It is not itself a pass/fail validation against a single row.
+    O_e   = 1
+    O_mu  = 1/(4*pi^2)
+    O_tau = 1
 
-## Structure of the artifact
+The identity O_mu = M_mu * pi^3 * epsilon_M is satisfied to within
+0.14%. No lepton mass enters the AMM calculation.
 
-### Part I: Gravitational constant from geometry
+### 4. Self-consistent Planck length and neutrino anchor
 
-The script derives \(G_{\text{Base}}\) from the electron soliton
-parameters and then applies the dimensionless push-out attenuation:
+lambda_l is not taken from CODATA. It is obtained by combining the
+geometric hbar_geom, the geometric G_geom, and the Planck-length
+definition
 
-\[
-G_{\text{EWT}} =
-\frac{c^2 r_e}{m_e}
-\frac{1}{A_\pi}
-\left(\frac{1}{N_{\text{final}}A_\pi}\right)^3
-\frac{1}{K_{WC}\sqrt{N_{\nu,\text{eff}}}}
-\]
+    lambda_l = sqrt(hbar_geom * G_geom / c^3)
 
-It also evaluates the pure geometric lattice variant
+The solution gives lambda_l = 1.6166464e-35 m, relative error 0.0276%
+vs the CODATA Planck length. The neutrino radius r_nu = 2.8179354e-17 m
+is derived from the fixed point of g_v = 0.9835944447, not from r_e/100
+as an input.
 
-\[
-L_p^{\text{geom}} = \frac{2}{\sqrt{3}}
-\]
+### 5. Atomic scales from the same geometry
 
-which alone yields \(G\) to about \(4.78\) ppm.
+The Rydberg constant, Bohr radius, and Compton wavelength are computed
+from alpha_geom and r_e = 100*r_nu. All three are sub-ppm:
 
-This is the geometric origin of the GEM criterion.
+    R_inf    : 0.000403% error
+    a0       : 0.000211% error
+    lambda_C : 0.000019% error
 
-### Part II: Neutrino radius and the \(1:10^{10}\) hierarchy
+### 6. Geometric self-consistency of the Planck-Gravity-Metric triangle
 
-The ratio \(r_e/r_\nu \approx 100\) is verified. The implied energy
-density ratio is
+A central result of the engine is that G_geom, hbar_geom, lambda_l,
+and c do not form a hierarchy of independent constants. They are linked
+by the closed geometric condition
 
-\[
-\left(\frac{r_e}{r_\nu}\right)^5 \approx 10^{10}
-\]
+    lambda_l = sqrt(hbar_geom * G_geom / c^3)
 
-which anchors the electron-neutrino hierarchy.
+where
 
-### Part III: Electron anomalous magnetic moment
+    hbar_geom = m_e * c * r_e / alpha_geom
 
-The geometric base anomaly is computed from
+    G_geom = (G_Base / A_pi)
+             * (1 / (N_geom * A_pi))^3
+             * (1 / (K_WC * sqrt(N_nu_eff)))
 
-\[
-a_{\text{Base}} =
-\frac{\alpha}{2\pi}
-\left(1 - \epsilon_M \pi^3\right)
-\]
+and the effective density N_nu_eff itself depends on lambda_l through
+the statutory background,
 
-and compared with CODATA.
+    N_nu_eff = (1 / X_eff) * (r_nu / (2 * e * lambda_l))^3
 
-### Part IV: Fine-structure constant
+where e in the denominator is Euler's number.
 
-The inverse fine-structure constant is derived as
+This closure is not a definition imported from outside the model. It is
+an internal algebraic constraint that simultaneously fixes the
+gravitational scale, the quantum scale, and the fundamental lattice
+spacing from the same BCC geometry.
 
-\[
-\alpha^{-1} =
-\left(4\pi^3 + \pi^2 + \pi\right) - \epsilon_M
-\]
+In natural units (c = 1), the constraint reduces to the purely
+geometric statement
 
-The same modulator \(\epsilon_M\) that shapes \(G\) also shapes
-\(\alpha\).
+    lambda_l^2 = hbar_geom * G_geom
 
-### Part V: Recursive lepton hierarchy
+showing that the square of the fundamental EMC length is the product of
+the geometric quantum of action and the geometric gravitational
+coupling.
 
-The nodal growth law
+### 7. Final synthesis: zero-free-parameter in the operational sense
 
-\[
-K_n = K_{n-1} + \text{round}(10^{n-1} 2\pi^2)
-\]
+The Enhanced EWT model demonstrates that the fundamental constants are
+integrated resonances of a single BCC substrate. The geometric vacuum
+stiffness N_geom, the magnetic deficit epsilon_M, and the geometric
+core A_pi together determine the fine-structure constant, the
+gravitational constant, the lepton anomalous magnetic moments, and the
+principal atomic scales.
 
-generates the three generations:
+The model is not claimed to be absolutely parameter-free. It currently
+uses four experimental anchors:
 
-\[
-K_e = 10,\quad K_\mu = 207,\quad K_\tau = 2181
-\]
+    r_e, m_e, c, e
 
-The same \(\epsilon_M\) drives the anomalous moments of all three
-leptons. The full \(a_\mu\) prediction is compared with the measured
-value; the \(a_\tau\) prediction is compared with the Standard Model
-prediction \(a_\tau^{\text{SM}} = 1177.21 \times 10^{-6}\), since no
-measurement of \(a_\tau\) exists at that precision (the experimental
-bound is \(-0.052 < a_\tau < 0.013\)).
+These anchors are fixed by measurement and by the metric convention.
+They are not adjustable calibration parameters: if any one of them
+were changed independently while keeping the BCC geometry fixed, the
+entire set of geometric predictions would break. The model therefore
+contains no free calibration constants; it is zero-free-parameter in
+the operational sense.
 
-Crucially, the AMM predictions do not use the lepton masses as input.
-They are purely geometric.
-
-### Part VI: Mass prediction modes
-
-The script computes masses in spherical, orbital, and meson modes.
-It reproduces the electron, muon, tau, quark, and heavy boson mass
-scales.
-
-The orbital mode for \(\mu\) and \(\tau\) uses calibrated amplitude
-factors derived from the electron rest mass. This is a mass-sector
-calibration, not an AMM input, and it is kept separate from the
-geometric AMM derivation.
-
-### Part VII: Mixing angles and dimensional hierarchy
-
-The geometric ladder is made explicit:
-
-- \(\pi^6\) for volumetric bosonic coupling,
-- \(\pi^5\) for fermionic surface mixing,
-- \(C_{\text{local}} = \epsilon_M/(2\sqrt{2})\) as the common seed.
-
-This yields the Weinberg and Cabibbo angles.
-
-### Part VIII: Statutory radius and decadic resonance
-
-The neutrino radius is derived from Planck charge and Euler's number.
-The resulting \(r_e/r_\nu\) ratio is verified independently.
-
-### Part IX: Heavy boson radii
-
-Masses obtained in spherical mode are used to predict the radii of
-the Z and Higgs solitons.
-
-### Part X: Zero-parameter proof
-
-The stiffness constant is reduced to pure topology:
-
-\[
-N_{\text{geometric}} = 8\pi^4
-\]
-
-and the deficit becomes
-
-\[
-\epsilon_M = \frac{1}{8\pi^7}
-\]
-
-This gives a parameter-free derivation of \(\alpha^{-1}\).
-
-### Part XI: Unified geometric AMM identity
-
-The electron anomaly is written in the closed form:
-
-\[
-a_e = \frac{8\pi^4 - 1}{2\pi\left(8\pi^4 A_\pi - \pi^{-3}\right)}
-\]
-
-showing that \(a_e\) is a static geometric property.
-
-### Part XII: Atomic scales
-
-The Rydberg constant, Bohr radius, and Compton wavelength are derived
-by combining the geometrically derived \(\alpha\) with the geometric
-electron radius \(r_e\), using the standard atomic relations.
-
-These are therefore not independent first-principles derivations, but
-direct consequences of the geometric \(\alpha\) and \(r_\nu\)
-inherited from the earlier parts.
-
-### Part XIII: Full particle scan
-
-A large scan over baryons and mesons is performed. It identifies
-near-integer \(K\) resonances without parameter adjustment.
-
-### Part XIV: Geometric derivation of \(r_\nu\)
-
-The scaling factor \(K = r_\nu/q_P\) is decomposed into three parts:
-
-- static lattice projection,
-- dynamic wave expansion,
-- discrete lattice impedance.
-
-The resulting quadratic equation for \(g_v\) has one physical root:
-
-\[
-g_v = 0.983594444559461
-\]
-
-confirming that \(g_v\) is not fitted but fixed by geometry.
+Of these anchors, c is a metric conversion factor rather than a
+dynamical parameter. The electron mass m_e may also be derivable in
+the future through the E proportional to r^5 scaling law and the
+K_WC = 10 stability condition. The true irreducible anchors would then
+reduce to r_e and e.
 
 ## What enters as a number
 
-The chain is deterministic, but not every constant in it is geometric. The
-table lists the numeric inputs the script carries, so a reader can tell a
-prediction from a calibration (line numbers refer to the script as merged).
+The G, alpha and lepton-AMM chain of the emergence engine is
+zero-calibration in the operational sense. Its numerical inputs are:
+
+| Constant | Value | Kind |
+| --- | --- | --- |
+| pi | 3.141592653589793 | mathematical |
+| e (Euler) | 2.718281828459045 | mathematical |
+| sqrt(2) | 1.4142135623730951 | mathematical |
+| sqrt(3) | 1.7320508075688772 | mathematical |
+| BCC coordination | 8 | crystallographic |
+| BCC packing fraction | sqrt(3)*pi/8 | crystallographic |
+| c | 299792458 m/s | SI definition |
+| m_e | 9.1093837015e-31 kg | CODATA 2022 |
+| r_e | 2.8179403262e-15 m | CODATA 2022 |
+| e_charge | 1.602176634e-19 C | CODATA 2022 |
+
+No calibrated stiffness, no calibrated projection, and no measured
+alpha are used in that chain. The other numbers the package carries are
+listed in the maintainer note below.
+
+## Maintainer note (review of PR #523, 2026-09-06)
+
+Added at merge so a reader can tell a prediction from an identity and a
+geometric constant from a calibration. The author's prose above is
+unchanged; this section is the platform's reading of the artifact.
+
+### Other numbers the package carries
 
 | Constant | Value | Where | Role |
-|---|---|---|---|
-| CODATA 2022 (`c`, `m_e`, `r_e`, `G`, \(\alpha^{-1}\), \(a_e\)) | standard | lines 33-42 | targets, plus `r_e` and `m_e` as inputs to `G_Base` |
-| `N_final` | 778.818123 | line 45 | stiffness count; the geometric value is \(8\pi^4 = 779.2727\) (Part X), 0.058% away |
-| `L_p` | 1.1486801482 | line 71 | lattice projection in the unified \(G\); this value is the root of \(G_{\text{EWT}}(L_p) = G_{\text{CODATA}}\) to the digits given, so the 13-digit match in Part I is a calibration. The geometric value \(2/\sqrt{3}\) (Part I B) gives \(G\) to 4.78 ppm |
-| `r_nu_val`, `lambda_l` | \(2.81794 \times 10^{-17}\), \(1.6162 \times 10^{-35}\) | lines 49-50 | statutory neutrino radius (\(= r_e/100\)) and lattice length; enter \(N_{\nu}\) and hence \(G\) |
-| `g_v` | 0.98359223 | Parts VIII, XIV | phenomenological input to \(r_\nu\); Part XIV's quadratic returns 0.98359444 without using it, 2.2e-6 away |
-| Muon and tau orbital amplitudes | 185.68543, 3436.795 | `mass_orbital` | mass-sector calibrations. Their Part VI targets (0.09488543 and 1.75619909 GeV) are EWT reference masses, not the PDG values (0.10566 and 1.77686 GeV, used in Part XIII) |
-| EWT shell references | 248.8, 1177.21 ppm | Part V | comparison targets for the muon and tau shell terms |
+| --- | --- | --- | --- |
+| `K_WC` (= `K_1`) | 10 | engine, `main()` and `get_AMMi_K` | wave-center count of the electron; enters G through `1/(K_WC sqrt(N_nu_eff))` and `X_eff`, and the AMM ladder through `M_mu`, `M_tau` |
+| `L_mu_dim`, `L_tau_dim` | 5, 34 | engine, `compute_lepton_amms` | dimensional counts in the muon and tau shell terms; `L_mu_dim^2 = 25` ppm is added to the tau shell as the interface term |
+| `O_mu`, `O_tau` | `1/(4 pi^2)`, 1 | engine, `compute_lepton_amms` | projection operators; with `O_tau = 1` the tau "full" value equals the shell total identically |
+| Shell prefactors | `3 A_pi pi^3 / (2 L_mu^2)`, `3 A_pi pi^3 / (8 sqrt 2) + A_pi / 2` | engine, `compute_lepton_amms` | structure of the shell terms; whether these are derived or postulated in v5.0.0 is the author's to state |
+| `Q_P_INPUT`, `LAMBDA_L` | 1.87554603778e-18, 1.6162e-35 | engine, section 1.2 | reference values only; `LAMBDA_L` is a rounded Planck length (CODATA 2018: 1.616255e-35 m, which puts the derived `lambda_l` at 0.0242%) |
+| EWT shell references | 248.8, 1177.21 ppm | `m4_7_ewt_amm_extended.py`, `m4_7_ewt_amm_resonance_scanner.py` | comparison targets for the shell terms, not inputs to the engine chain |
+| `RHO_A`, `A_LONG`, `L_LONG` | 3.8598e22, 9.2154e-19, 2.8541e-17 | `m4_7_ewt_particle_masses.py` | Jeff Yee's EWT wave constants, themselves fitted to the electron; the spherical-mode masses inherit them |
+| Orbital amplitudes | 185.68543, 3436.795 | `m4_7_ewt_particle_masses.py`, `mass_orbital` | mass-sector calibrations, unchanged from the v4.5.2 port; their targets in the spherical table (0.09488543, 1.75619909 GeV) are EWT reference masses, not the PDG values used in the full scan |
 
-With the geometric values \(N = 8\pi^4\) and \(L_p = 2/\sqrt{3}\), the
-\(G\), \(\alpha\) and lepton-AMM sectors carry no fitted constant, and those
-are the numbers a validation task should quote.
+### Identities and propagated errors
 
-## Result summary
+| Quantity | What it is | Consequence |
+| --- | --- | --- |
+| `hbar_geom = m_e c r_e / alpha_geom` | the definition of the classical electron radius solved for hbar | its 0.000192% deviation is alpha's, not a second result |
+| `R_inf`, `a0`, `lambda_C` | the textbook identities `alpha^3/(4 pi r_e)`, `r_e/alpha^2`, `2 pi r_e/alpha`, evaluated at `alpha_geom` and `100 r_nu` | with the CODATA alpha and r_e they hold to 3e-10%; the quoted sub-ppm errors are the alpha and `r_nu` errors propagated |
+| `lambda_l = sqrt(hbar_geom G_geom / c^3)` | the Planck-length definition, solved for `lambda_l` as the fixed point of `G_geom(lambda_l)` | the closure holds by construction; its 0.0276% is half of G's 0.048% plus the rounded reference above. What is checkable is that the fixed point exists and is unique, which it is (an independent fixed-point iteration converges to the same value) |
+| `q_P / e` vs `1/sqrt(alpha_geom)` | the same expression on both sides (`q_P := e / sqrt(alpha_geom)`) | the printed difference is identically 0 and cannot fail |
+| `r_nu = q_P S_tot` | a charge in coulombs read as a length in meters | the identification is unit-dependent (the same formula with e in statcoulombs gives 8.4e-8); see the review thread |
 
-Values from the Python run (2026-08-25). At merge the maintainer compared the
-full Python output against the recorded Scilab output shipped with the
-[MagnetismGravity 4.5.8](https://github.com/lsmolinski/MagnetismGravity/releases/tag/4.5.8)
-release (`EWT_G_AMM_check_output.txt`, script header `Version: 4.5.2`, the DOI
-above): all 230 numeric output lines agree to every printed digit. The
-deviation column is against the reference each quantity is compared with in
-the script.
+The independent content of the chain is `alpha_geom^-1 = A_pi - 1/(N_geom pi^3)`
+with `N_geom = 8 pi^4 (1 - zeta)`, and `G_geom` from the formula above with
+the structural constants in the first table. With `zeta = 0` (`N = 8 pi^4`),
+`alpha^-1` is unchanged to the digits shown and G lands 0.674% from CODATA,
+so the packing-impedance term is what carries G from 0.67% to 0.048%. For
+comparison, the v4.5.2 port took the CODATA Planck length as an input and
+reached 4.78 ppm on G; the v5.0.0 engine derives `lambda_l` instead and
+reaches 482 ppm.
 
-| Quantity | Value | Deviation from reference |
-|---|---|---|
-| \(G_{\text{EWT, unified}}\) | \(6.674305000000013 \times 10^{-11}\) | 2e-15 of CODATA (calibrated through `L_p`, see above) |
-| \(G_{\text{EWT, geo}}\) | \(6.674336927110799 \times 10^{-11}\) | 4.78 ppm of CODATA |
-| \(\alpha^{-1}_{\text{EWT}}\) | \(137.036262365010\) | 1.9e-6 of CODATA (137.035999084) |
-| \(a_e^{\text{EWT}}\) | \(0.001159918486472\) | 2.3e-4 of CODATA (0.0011596521813) |
-| \(a_\mu^{\text{EWT}}\) | \(0.00116620603122654\) | 2.4e-4 of the measured value (0.00116592061) |
-| \(a_\tau^{\text{EWT}}\) | \(0.00117684332510945\) | 3.1e-4 of the SM prediction (0.00117721); no measurement at this precision |
-| \(r_\nu\) | \(2.817932844758866 \times 10^{-17}\) m | 2.5e-6 of \(r_e/100\) |
-| \(g_v\) predicted | \(0.983594444559461\) | 2.2e-6 of the phenomenological input |
+### Verification at merge
 
-## Model assumptions
-
-The model follows the Enhanced EWT manuscript, version 4.5.8 or later.
-The gravitational, fine-structure, and lepton AMM sectors are
-parameter-free when run with the geometric values \(N = 8\pi^4\) and
-\(L_p = 2/\sqrt{3}\) (Parts I B, X, XI); the `N_final` and `L_p` constants
-in Parts I, III, IV and V are calibrated values, see the table above.
-
-The muon and tau masses in orbital mode use calibrated amplitude
-factors; these are mass-sector inputs and do not enter the geometric
-AMM calculations.
-
-## Attribution
-
-This numerical suite incorporates foundational Energy Wave Theory
-calculations originally developed by Jeff Yee. The Enhanced EWT
-extension, geometric formalization, and the BCC lattice interpretation
-are the contribution of Łukasz Smoliński. Details are available in the
-manuscript.
-
-## Source Scilab script
-
-The Python port is based on the original Enhanced EWT Scilab script
-archived at:
-
-[DOI: 10.5281/zenodo.21503571](https://doi.org/10.5281/zenodo.21503571)
+Every value in this document and in the task document was recomputed from
+the formulas above with an independent script (no import of the contributed
+module; `lambda_l` solved by fixed-point iteration instead of the author's
+closed form) and agrees to every printed digit. All four scripts were run in
+an isolated copy of the Zenodo package (exit 0; the scanner writes its four
+PDFs beside itself, into `research/scripts/`, which is not a tracked plot
+location). The four ported files match the record's MD5 checksums after
+line-ending normalization. This artifact supersedes the v4.5.2 port merged
+in [PR #477](https://github.com/openwave-labs/openwave/pull/477)
+(`ec2564af`), whose calibration table remains readable at that commit.
 
 ## Reference
 
-Full derivation in the Enhanced EWT manuscript, version 4.5.8 or later:
-[DOI: 10.5281/zenodo.22100322](https://doi.org/10.5281/zenodo.22100322)
+Manuscript: Enhanced EWT, version 5.0.0
+DOI: 10.5281/zenodo.22540635
 
-Relevant sections:
-
-- The Geometric Identity of \(G\)
-- Geometric Equation of the Fine-Structure Constant
-- Recursive Lepton Hierarchy
-- Numerical Verification
+Source scripts:
+DOI: 10.5281/zenodo.22540262
