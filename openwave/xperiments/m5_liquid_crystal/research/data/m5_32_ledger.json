@@ -1086,6 +1086,47 @@
     "scripts/m5_32_r16_0_audit.py",
     "data/m5_32_r16_0_audit.json"
    ]
+  },
+  {
+   "id": "R16",
+   "start_utc": "2026-09-06T13:54:00Z",
+   "end_utc": "2026-09-07T01:45:00Z",
+   "hypothesis": "the author's local-circle object v4 on the lattice (ledger 6.5 as amended by R16-0): statics, the clock operator, fixed K, the principal symbol",
+   "claims": [
+    "R16-1: UNIAXIAL_RADIAL on n32 L48, n48 L72, n64 L48; the radial hedgehog Morse index 0 in the split sector; exterior r^-4",
+    "R16-2: NO_BOUND_MODE (cores' lowest doublet Omega^2 0.0448 above the empty box's 0.0256 and mu/c_P 0.01); the first run's factor 2 audit-corrected",
+    "R16-3: CANDIDATE_REFUTED (d, b) at n32 K50; NUMERICALLY_UNRESOLVED at n32 K200, n48 K50/K200, n64 K50; lattice-scale split spikes 3.5x to 6.6x above omega_c K; the frozen-a0 protocol not a descent of the true E_K (provisional verdicts)",
+    "R16-4: HYPERBOLIC in every channel on the cores to omega 0.25; the spikes flip omega-driven by the kinetic quartic's 32 omega^2 rho^2 (the author's c_s > 16 omega^2 generalized); the hedgehog exterior not degenerate"
+   ],
+   "status": "CLOSED, audited 4/3/0, 1/2/3, 4/3/0, 2/2/1: v4 at (1e-2, 1, 0.4) under our readings has no bound doublet and no fixed-K relative equilibrium on the lattice; the statics go uniaxial; next: the true fixed-K gradient",
+   "artifacts": [
+    "scripts/m5_32_r16_common.py",
+    "scripts/m5_32_r16_1_statics.py",
+    "scripts/m5_32_r16_2_operator.py",
+    "scripts/m5_32_r16_3_fixedk.py",
+    "scripts/m5_32_r16_4_symbol.py",
+    "data/m5_32_r16_common_selftest.json",
+    "data/m5_32_r16_1.json",
+    "data/m5_32_r16_2.json",
+    "data/m5_32_r16_3.json",
+    "data/m5_32_r16_4.json",
+    "data/m5_32_r16_1_audit.json",
+    "data/m5_32_r16_2_audit.json",
+    "data/m5_32_r16_3_audit.json",
+    "data/m5_32_r16_4_audit.json",
+    "plots/m5_32_r16_1_rebuild_n32_L48.png",
+    "plots/m5_32_r16_1_rebuild_n48_L72.png",
+    "plots/m5_32_r16_1_rebuild_n64_L48_analytic.png",
+    "plots/m5_32_r16_2_summary.png",
+    "plots/m5_32_r16_2_r16_1_end_n32.png",
+    "plots/m5_32_r16_2_seed_r15m_n32.png",
+    "plots/m5_32_r16_2_vacuum_control_n32.png",
+    "plots/m5_32_r16_3_rebuild_n32_L48_K50.png",
+    "plots/m5_32_r16_3_rebuild_n32_L48_K200.png",
+    "plots/m5_32_r16_3_rebuild_n48_L72_K50.png",
+    "plots/m5_32_r16_3_rebuild_n48_L72_K200.png",
+    "plots/m5_32_r16_4_symbol.png"
+   ]
   }
  ],
  "free_rungs_used": 4,
