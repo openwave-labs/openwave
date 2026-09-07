@@ -436,3 +436,116 @@ A fixed-J descent under `-4 I1^h` (no exact gradient in the registry); a label-f
 | R15-M | 6 | 2 | 4 | 0 | the tail is the seed's; the certified reference's z-axis line; the split identities; the gradient level; the mu dependence at `c_P 0` |
 | R15-P-iii | 5 | 3 | 2 | 0 | the 32-vs-16 criterion; the Ising wall a Goldstone saddle; the decay length `(1/2) sqrt(c/mu)`; the two readings of the split term |
 | R15-P-iv | 5 | 3 | 2 | 0 | the branch-cut pinning replaces the stiff-valley reading; the split sits in six cells, not a shell; the label-free inertia |
+
+## 13. Addendum (2026-09-06): R16-0, the author's 2026-09-06 claims verified on our stack
+
+The four comments of 2026-09-06 (the coordination-thread record in the task folder) answered the two R15 definitions, diagnosed the two failed R15 predictions by Coleman's condition, corrected one sentence of our post, and proposed the local-circle object v4 with a pre-registered ladder. R16-0 is the verification rung: every checkable claim through our own scripts before any instrument is built on the new object. Nothing was relaxed.
+
+### 13.1 The objects (equations; E-orientation as in § 11.1)
+
+| Object | Equation |
+| --- | --- |
+| the two H-adjoint completions | `F^eta_mn = A_m eta A_n - A_n eta A_m`, `F^G_mn = A_m G A_n - A_n G A_m`, `G = eta + 2 (eta u)(eta u)^T`; `I_norm = sum_{m<n} eta^m eta^n tr(G F^eta G F^eta^T)` (the registry's `I1_h`), `I_rebuild = sum_{m<n} eta^m eta^n tr(G F^G G F^G^T)`; static energies `E = +4 x` the read |
+| the local circle | `T_alpha M = R_n(alpha / 2) M R_n(alpha / 2)^T`, `R_n` the rotation about the local director `n` (the eigenvector of the isolated eigenvalue 1 of `N`); on the sheet `M = R12(psi) R23(phi) D_s R23^T R12^T` it is `phi -> phi + alpha / 2` |
+| the split block | `B = P23 N P23 - (1/2) tr(P23 N) P23`, `rho^2 = (1/2) tr B^2` (`= s^2` on the diagonal sheet); the eigenvalue metric `(d lambda_+)^2 + (d lambda_-)^2 = 2 (a da + b db)^2 / (a^2 + b^2)` for `B = [[a, b], [b, -a]]` |
+| the reduced line | `E_J = int 4 pi r^2 [(c / 2) s'^2 + V(s)] dr + J^2 / (4 int 4 pi r^2 c s^2 dr)`, `c` the `K_P^23` inertia of the uniform split (`4 c_P` per `s^2`); Coleman: a crossing needs an interior minimum of `V / s^2`; the sextic `V = mu s^2 - nu s^4 + kappa s^6` has it at `s*^2 = nu / (2 kappa)`, value `mu - nu^2 / (4 kappa)` |
+| the weighted condition | `C(s) = c s^2 W(s)`, `W = [w(delta + s) w(delta - s)]^2`, the rational `w = f(lambda) / f(delta)`, `f(x) = (x - g)(x - 1) / ((x - g)^2 + (x - 1)^2)` |
+| biaxiality | `beta^2 = 1 - 6 (tr Q^3)^2 / (tr Q^2)^3`, `Q` the traceless spatial triple; the `beta^2`-weighted quadrupole `Q_ij = sum beta^2 (x_i x_j / r^2 - delta_ij / 3) / sum beta^2` (a great-circle ring: `(-1/6, 1/12, 1/12)`) |
+| the spin-weight-2 content | `zeta = S_ee - S_ff + 2 i S_ef` in the oriented transverse frame, `c_m = (4 pi / N) sum zeta conj(2Y_2m)`, `P_m = abs(c_m)^2`, `<m> = sum m P_m / sum P_m`; the rotation tangent `[G_z, M] - (x d_y - y d_x) M` |
+| the chiral pseudo-scalar | `tau = eps_ijk S_il d_j S_kl`, `T2 = sum tau^2 h^3`; on a uniaxial texture `tau = (1 - delta)^2 n . (curl n)` |
+
+### 13.2 Equation-to-code map (additions)
+
+| Equation | Code |
+| --- | --- |
+| the completions on jets, the circle on the sheet and on point jets, the lattice invariance defects, the sheet inertias, the tilt substitution, the boost sheets, the eigenvalue metric | [`m5_32_r16_0_symbolic.py`](../scripts/m5_32_r16_0_symbolic.py): `c1`, `c4` (`numzero`, `jets`, `dens`, the lattice block), `c5`, `c6` |
+| the sheet `V4^dd`, the inertia coefficient, `V / s^2`, the uniform-limit ladder, the thin-wall estimate, the 1D profiles with the analytic gradient, the weighted condition | [`m5_32_r16_0_reduced.py`](../scripts/m5_32_r16_0_reduced.py): `v4dd`, `a_coef`, `main` (`EJ_grad`, `w_rational`) |
+| the completions per cell, the witness and hedgehog reads, the biaxiality and quadrupole, the tangent, the `2Y_2m` builder and shell decomposition, `tau` | [`m5_32_r16_0_fields.py`](../scripts/m5_32_r16_0_fields.py): `completions_density`, `both`, `c1`, `c3`, `spatial_triple`, `biaxiality`, `c7`, `sY2`, `shell_decomp`, `frame_zeta`, `c8`, `c9` |
+
+### 13.3 Results, each against the author's statement
+
+| Claim | The author | Ours |
+| --- | --- | --- |
+| C1 | two completions, counterexample; 2 to 6 percent apart on the witness | counterexample exact; equal on the witness JET; 24 to 46 percent apart on the witness LATTICE; the author's h column is `I_rebuild / 4`, ours `I_norm` |
+| C2 | Coleman: no crossing for `V4 + mu s^2`, the sextic crosses at 9e-3 and `s* = 0.2236`; the rational weight kills it (0.01117), the plateau restores it | all numbers reproduced; `omega_c^2 = mu / (4 c_P)` for `U = mu rho^2`; 0.01117 is the value at `s*`, the minimum is `mu`; the Q-ball needs J above 2.6e4, radius above 69 |
+| C3 | `E_h >= 0` pointwise, the cross terms mean non-stationarity | CONFIRMED for both completions; our floor sentence retracted; `I_rebuild` keeps the sign flip on the hedgehog (`+195 / +629 / +1500`), `I_norm` does not |
+| C4 | the local circle is an exact symmetry of `L_v4` (potential, projected `K_P` invariant; `I1` averaged) | potential and `K_P^23` invariant (exact on jets, `O(h^2)` on the lattice); `I1` and BOTH completions not; the regulator `E2` NOT invariant either (not averaged in v4 as written) |
+| C5 | the sheet inertias, `K_P` blind on the sheet, `rho^2 E2` stiffness, `c_s > 16 omega^2`, the boost-sheet law | all exact; the boost-sheet law reads `(g + delta +- s)^2` |
+| C6 | the eigenvalue metric discontinuous, `rho^2` smooth | exact |
+| C7 | the P-iv end state is the Landau-de Gennes biaxial-ring core | oblate uniaxial center (= the R15 crossing), a `beta^2 = 1` ring of radius 2.9 with the great-circle quadrupole signature, axis on the lattice body diagonal, identical in cell units on both boxes: lattice-scale until refined |
+| C8 | `J_z = 0` on axisymmetric configurations; report the `2Y_2m` content | tangent `O(h^2)` on a smooth axisymmetric split field; builder gates pass; the P-iv split is achiral (`<m> = 0.00`, `P_m` symmetric) |
+| C9 | `T2` = 2e-29 / 1e-2 / 91 / 0 | 1.7e-29 / 2.9e-2 / 630 / 0; the identity holds |
+
+### 13.4 Not computed
+
+The h-refinement of the P-iv end state; any relaxation under `I_rebuild` (no gradient); the circle-averaged instrument and the four lattice stages (the second go); the atomic gates, the Q-hopfion, the bend theorem beyond C9, the Longa-Trebin LP.
+
+### 13.5 The adversarial audit record
+
+| Rung | Claims | CONFIRMED | QUALIFIED | REFUTED | Applied |
+| --- | --- | --- | --- | --- | --- |
+| R16-0 | 17 | 13 | 4 | 0 | the completion ratios not converged in h, the author's-column reading an interpretation; the sextic threshold is a localized-profile statement; the two prolate body-diagonal core cells; the l = 2 fraction and the twist `T2` counting |
+
+Audit: [`m5_32_r16_0_audit.py`](../scripts/m5_32_r16_0_audit.py), [`m5_32_r16_0_audit.json`](../data/m5_32_r16_0_audit.json) (own sympy, own jets by the analytic chain rule, own lattice fields at three resolutions, own reduced-line minimizer with a pinned-edge variant, own frame and least-squares projection).
+
+## 14. Addendum (2026-09-06/07): R16-1 to R16-4, the author's object v4 on the lattice
+
+The instrument ([`m5_32_r16_common.py`](../scripts/m5_32_r16_common.py), selftest 38/38) realizes the author's local-circle object v4 under the two readings of the packet (`Pi = P23`; the director from `P_1`) with every term circle-averaged (the R16-0 amendment), and the four stages ran on it.
+
+### 14.1 The objects (equations; E-orientation as in § 11.1)
+
+| Object | Equation |
+| --- | --- |
+| the frame | `u u^T = -P_g eta`, `n n^T = P_1 eta` (the director lifted outward, `n . r_hat > 0`, then propagated step to step), `G = eta (I - 2 P_g)`, `J^a_b = eta^aa eps_abcd u^c n^d` (`J^2 = -P23`, eta-antisymmetric), `R(beta) = I + sin(beta) J + (1 - cos beta) J^2`, `T_alpha M = R(alpha / 2) M R(alpha / 2)^T`, the clock `a0 = J M + M J^T` |
+| the plateau weight | `w(N) = sum_k w(lambda_k) P_k`, `w = 1` on `abs(lambda - delta) <= 0.5`, cosine tapers to 0 at 1 and at -1; realized as `w(N) = I - (1 - w(lambda_g)) P_g - (1 - w(lambda_1)) P_1` (exact in the run's spectral domain, the director's projector multiplied by exactly 0 wherever the director sits inside the plateau: the hedgehog's isotropic center); Frechet derivative `dw = -(1 - w_1) dP_1 + w'(lambda_1) tr(P_1 dN) P_1` (+ the g piece), `dP_j = -(S_j dN P_j + P_j dN S_j)`, `S_1 = P_g / (lambda_g - lambda_1) + R_1` |
+| the plain action | `E_stat = 4 sum_{i<j} tr(G F_ij G F_ij^T) + V4^dd + mu rho^2 + c_P K_P^proj + c_s rho^2 E2`, `kin_tot = 4 sum_i tr(G F_0i G F_0i^T) + c_P kin_KP + c_s rho^2 tr(a0 G a0 G)`; `F_mn = A_m G A_n - A_n G A_m` (`I_rebuild`) or with `eta` (`I_norm`); `K_P^proj` the R15 E-density with `w(N)` for `P23`; `rho^2 = (s^2 - 4 p) / 4` |
+| the averaged action | `E_v4 = (1 / n_s) sum_k E[T_(2 pi k / n_s) M, R_k a0 R_k^T]`; the lattice density has trigonometric degree 4 in alpha (the finite difference of `R(x) M R(x)^T` carries `R(x)^T R(x + h)`), so `n_s = 8` is exact and `n_s = 4` (the descents) carries an `O(h^2)`-level defect (1e-9 on `E_stat`, 1e-6 on `kin_h`, stated); the gradient by the chain rule through `R(n(M), u(M))` (the adjoint in the module docstring), gated by complex step at 1e-15 |
+| fixed K | `E_K = E_stat + K^2 / (4 kin_tot)`, `a0` refreshed each step and frozen in the gradient (R15's protocol), the true directional derivative read at the end |
+| the clock operator (R16-2) | the doublet `delta M = a (e e^T - f f^T) + b (e f^T + f e^T)`; `H zeta = Omega^2 (2 T) zeta`, `H` the Hessian of the averaged `E_stat` in the doublet subspace (central differences of the analytic gradient), `T` the per-cell 2 x 2 inertia (`kin_tot` is pointwise quadratic in `a0`), `Omega = 2 omega` (B rotates at twice the clock rate); thresholds `Omega_c^2 = mu / c_P` (infinite box), `mu / c_P + (pi / L)^2` (the pinned box) |
+| the principal symbol (R16-4) | `sigma(Omega, k) = H_00 Omega^2 + 2 Omega H_0i k_i + H_ij k_i k_j`, `H_mu_nu = d^2 l / dA_mu dA_nu [xi, xi]` of the Lagrangian density in the jets at the background `(M, omega a0, A_i)`, circle-averaged with `xi -> R xi R^T`; hyperbolic iff `H_00 > 0` and `Q = H_0 H_0^T - H_00 H_ij` PSD (one component) or all roots of the 2 x 2 pencil real (the doublet) |
+
+### 14.2 Equation-to-code map (additions)
+
+| Equation | Code |
+| --- | --- |
+| the frame, the weight and its derivative, the plain action with every adjoint, the circle sampler and its adjoint, fixed K, FIRE, the gates | [`m5_32_r16_common.py`](../scripts/m5_32_r16_common.py): `frame`, `w_plateau`, `dw_plateau`, `W_through_w`, `W_through_G`, `quartic_pair`, `e2_cells`, `kp_cells`, `v4_cells`, `action`, `circle_adjoint`, `averaged`, `kin_a0_grad`, `energy_and_grad`, `fire_v4`, `selftest` |
+| the statics, the texture reads (biaxiality, ring quadrupole, spin-2 shells, split profile), the end-field gates, the verdict rule | [`m5_32_r16_1_statics.py`](../scripts/m5_32_r16_1_statics.py): `relax`, `texture_reads`, `exterior_read`, `instrument_gates`, `collect` |
+| the doublet basis, `T` per cell, `H` matrix-free, the Lanczos solve, the Morse index, the ten-direction core Hessian | [`m5_32_r16_2_operator.py`](../scripts/m5_32_r16_2_operator.py): `doublet_basis`, `run` |
+| the fixed-K descents, the four escapes, the stationarity read, `dE/dK = omega`, the bound | [`m5_32_r16_3_fixedk.py`](../scripts/m5_32_r16_3_fixedk.py): `escape_reads`, `stationarity`, `relax` |
+| the Lagrangian density in the jets, the channels, the symbol, the hyperbolicity tests | [`m5_32_r16_4_symbol.py`](../scripts/m5_32_r16_4_symbol.py): `lag_density`, `channels`, `symbol_at_cells`, `hyperbolicity` |
+
+### 14.3 Results, each against the author's prediction
+
+| Stage | The author's prediction | Ours |
+| --- | --- | --- |
+| R16-1 statics | the biaxial torus or the split core at Morse index 0, the radial hedgehog a transition state | `UNIAXIAL_RADIAL` on n32 L48, n48 L72 and n64 L48 (h 0.75): the seed's residual split shrinks tenfold, `beta^2` from 0.17 to 4e-4 (2.5e-8 at h 0.75); the exterior a regular `r^-4` texture; the radial hedgehog at Morse index 0 in the split sector (R16-2); descents unconverged (max_iter), the texture verdict monotone |
+| R16-2 the clock operator | a core-bound doublet below `omega_c` | `NO_BOUND_MODE`: the core's lowest doublet modes (`Omega^2` 0.0448) sit above the empty box's bottom (0.0256) and above `mu / c_P = 0.01`; every localized doublet direction raises the energy (the auditor's 24 trials); the first numbers were a factor 2 high (audit-corrected) |
+| R16-3 fixed K | a relative equilibrium with `E(K) < omega_c K`, none of the escapes | `CANDIDATE_REFUTED` at n32 K 50 (escape d: isolation lost at a six-cell split spike, plus the prolate-spike-with-tilt read of b), `NUMERICALLY_UNRESOLVED` at n32 K 200 and both n48 runs (the same lattice-scale spike, not stationary); every run 3.5x to 6.6x above the delocalized bound; the inertia the spike builds is the quartic's (82 to 97 percent), not `c_P K_P^proj`; the n64 refinement (nucleated shell, 200 it) inconclusive |
+| R16-4 the principal symbol | hyperbolic in the tilt channel iff `c_s > 16 omega^2`; the exterior degenerate | every channel `HYPERBOLIC` on the relaxed cores at every `omega` to 0.25 (the `omega` term of the symbol is `32 omega^2 rho^2`, invisible at the cores' `rho^2` 5e-5); the hedgehog exterior NOT degenerate (the quartic's inertia through the gradient tail); at the fixed-K spikes (`rho^2` 0.26 to 0.42) the channels flip at `omega* = sqrt(stiffness(0) / (8 norm([a0, xi])^2))` = 0.16 to 0.19, the author's mechanism generalized: the K 50 spike (`omega` 0.276) `NOT_HYPERBOLIC` in tilt, doublet and pair boost, the K 200 spike (0.152) in the doublet only (the audit refuted the producer's first attribution to a concave static quartic) |
+
+The figures (the run's plots, in `plots/`):
+
+![](../plots/m5_32_r16_1_rebuild_n64_L48_analytic.png)
+
+*R16-1 on n64 L48 (h 0.75) from the analytic hedgehog: the uniaxial radial end texture (the biaxiality planes zero, the half split 8e-6), the spatial triple on the x axis with the isotropic center resolved in 8 cells, the shell reads, the descent.*
+
+![](../plots/m5_32_r16_2_r16_1_end_n32.png)
+
+*R16-2 on the relaxed core: the lowest doublet mode's amplitude (a two-lobe box mode), its shell profile (the weight at r 10 to 15, nothing bound to the core), the lowest four `Omega^2` against `mu / c_P`.*
+
+![](../plots/m5_32_r16_3_rebuild_n64_L48_K50.png)
+
+*R16-3 n64 K 50 (h 0.75) from a nucleated doublet shell: `E_K` rises under the frozen-a0 protocol, `omega` climbs, no spike forms (the half split stays at the nucleated 0.05): the h-refinement of the spike left undecided by the protocol (deviation 12, the R16-3 audit's finding).*
+
+### 14.4 Not computed
+
+The 3+1 time integration of any state (`NUMERICALLY_UNRESOLVED` by design); the Dirac constraint analysis of the exterior; converged statics (every descent stopped at max_iter); the n64 fixed-K spike at a stationary state (the run from the nucleated shell did not descend under the frozen-a0 protocol); the Gaussian control of the author's comment (undefined in the thread); the `(mu, c_P, c_s)` scan; any boosted field (where the two completions differ).
+
+### 14.5 The adversarial audit record
+
+| Stage | Claims | CONFIRMED | QUALIFIED | REFUTED | Audit |
+| --- | --- | --- | --- | --- | --- |
+| R16-1 | 7 | 4 | 3 | 0 | [`m5_32_r16_1_audit.py`](../scripts/m5_32_r16_1_audit.py), [`m5_32_r16_1_audit.json`](../data/m5_32_r16_1_audit.json): own evaluator and reverse-mode gradient; the end fields are descent states, not minimizers |
+| R16-2 | 6 | 1 | 2 | 3 | [`m5_32_r16_2_audit.py`](../scripts/m5_32_r16_2_audit.py), [`m5_32_r16_2_audit.json`](../data/m5_32_r16_2_audit.json): the first doublet frequencies refuted by an exact factor 2 (corrected and re-run: `Omega^2 = lambda / 2`), `T`'s circle dependence measured; the relational verdicts confirmed by variational upper bounds |
+| R16-3 | 7 | 4 | 3 | 0 | [`m5_32_r16_3_audit.py`](../scripts/m5_32_r16_3_audit.py), [`m5_32_r16_3_audit.json`](../data/m5_32_r16_3_audit.json): every energy and read to the last digit; the frozen-a0 protocol found not to descend the true `E_K` at these states |
+| R16-4 | 5 | 2 | 2 | 1 | [`m5_32_r16_4_audit.py`](../scripts/m5_32_r16_4_audit.py), [`m5_32_r16_4_audit.json`](../data/m5_32_r16_4_audit.json): the spikes' negative stiffness is the kinetic quartic's `32 omega^2 rho^2`, the author's mechanism; the producer's static attribution refuted |

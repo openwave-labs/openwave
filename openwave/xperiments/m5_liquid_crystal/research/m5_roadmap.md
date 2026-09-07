@@ -10,7 +10,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| [M5.32](tasks/m5_32_task_details.md) | The Lagrangian hunt: an autonomous search for the corrected 4×4 action | 🔶 IN PROGRESS (12 rungs closed and audited by 2026-08-29): the hedgehog is not a protected soliton (R10), the ring is (R12), the clock obstruction is the convention (Q60). One autonomous rung ladder, audited between rungs. Method note: [`findings/m5_32_method_note.md`](findings/m5_32_method_note.md). Three-search ledger: [`findings/m5_32_candidate_ledger.md`](findings/m5_32_candidate_ledger.md). R13-W to R15 (2026-09-02 to 09-06): no fixed-J minimizer on `L_cert`; the author's projector object admissible, no coexistence wall | user "go" + reset time (the 2026-08-20 WAIT posture lifted 2026-08-27); the user's `killswitch` keyword (any case) is the only stop, no caps |
+| [M5.32](tasks/m5_32_task_details.md) | The Lagrangian hunt: an autonomous search for the corrected 4×4 action | 🔶 IN PROGRESS (12 rungs closed and audited by 2026-08-29): the hedgehog is not a protected soliton (R10), the ring is (R12), the clock obstruction is the convention (Q60). One autonomous rung ladder, audited between rungs. Method note: [`findings/m5_32_method_note.md`](findings/m5_32_method_note.md). Three-search ledger: [`findings/m5_32_candidate_ledger.md`](findings/m5_32_candidate_ledger.md). R13-W to R16 (2026-09-02 to 09-07): no fixed-J minimizer on `L_cert`; the author's v4 goes uniaxial, no bound doublet, fixed K a spike | user "go" + reset time (the 2026-08-20 WAIT posture lifted 2026-08-27); the user's `killswitch` keyword (any case) is the only stop, no caps |
 
 ## BACKLOG
 
