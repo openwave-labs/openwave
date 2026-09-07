@@ -1,0 +1,299 @@
+{
+ "rung": "R16-2",
+ "runs": {
+  "r16_1_end_n32": {
+   "label": "r16_1_end_n32",
+   "field": "checkpoints/m5_32_r16/r16_1_rebuild_n32_L48.npy",
+   "n": 32,
+   "L": 48.0,
+   "h": 1.5,
+   "completion": "rebuild",
+   "n_samples": 4,
+   "eps": 0.0001,
+   "k": 4,
+   "lift": "radial",
+   "lift_quality_min_abs_n_dot_ref": 0.9997647810195041,
+   "cells_lift_ambiguous_lt_0.2": 0,
+   "T": {
+    "min_eig_on_free": 3.396507079251046,
+    "max_eig_on_free": 4.1215973584842,
+    "read_s": 7.088286876678467,
+    "vacuum_region_T_aa_mean_r_gt_0.35L": 3.4289599532277495,
+    "expected_vacuum_T_aa_h3": 3.375,
+    "T_aa_averaged_vs_plain_max_rel": 0.012482947693267491,
+    "T_aa_averaged_vs_plain_total_rel": 0.00011726228519671987
+   },
+   "gradient_residual_doublet": 0.015327922102162906,
+   "H_symmetry_rel": 4.601278029369999e-07,
+   "Omega2_convention": "Omega^2 = lambda / 2, lambda the eigenvalue of T^(-1/2) H T^(-1/2); the first run reported lambda (audit-corrected)",
+   "modes": [
+    {
+     "Omega2": 0.04478488887946638,
+     "omega2_clock": 0.011196222219866594,
+     "T_weighted_r_rms": 16.604854491544685,
+     "T_weight_fraction_r_lt_8": 0.02662811025756866,
+     "localized": false
+    },
+    {
+     "Omega2": 0.044784889792093746,
+     "omega2_clock": 0.011196222448023437,
+     "T_weighted_r_rms": 16.604855882183525,
+     "T_weight_fraction_r_lt_8": 0.026628104411747257,
+     "localized": false
+    },
+    {
+     "Omega2": 0.04481320555207284,
+     "omega2_clock": 0.01120330138801821,
+     "T_weighted_r_rms": 16.612725301109815,
+     "T_weight_fraction_r_lt_8": 0.02639460541506634,
+     "localized": false
+    },
+    {
+     "Omega2": 0.044813208238272756,
+     "omega2_clock": 0.011203302059568189,
+     "T_weighted_r_rms": 16.612726505597365,
+     "T_weight_fraction_r_lt_8": 0.026394557757362925,
+     "localized": false
+    }
+   ],
+   "thresholds": {
+    "Omega_c2_infinite_box (mu / c_P)": 0.01,
+    "omega_c2_clock (mu / 4 c_P)": 0.0025,
+    "box_continuum_estimate_Omega2": 0.01428368246575059
+   },
+   "morse_index_doublet_sector_among_lowest_k": 0,
+   "verdict": "NO_BOUND_MODE",
+   "core_hessian_10": {
+    "eigenvalues": [
+     1.096842177930894,
+     1.2916401766508092,
+     1.2916401768632717,
+     36.23737474660058,
+     62.19769428837338,
+     62.25114893901043,
+     62.25114910997809,
+     62.86779716190886,
+     62.86779925461447,
+     165481.98662322856
+    ],
+    "n_negative": 0,
+    "lowest_vector": {
+     "00": -1.2463594947540565e-14,
+     "01": -0.5773502687907904,
+     "02": -0.5773502694415161,
+     "03": -0.5773502693365712,
+     "11": -8.730362040513924e-11,
+     "12": -2.3512596097889137e-10,
+     "13": -1.4691589922197052e-10,
+     "22": -1.369446458734496e-10,
+     "23": 2.2872682010045296e-10,
+     "33": -1.2938266735138073e-10
+    },
+    "r_max_of_core_cells": 1.299038105676658
+   },
+   "plot": "plots/m5_32_r16_2_r16_1_end_n32.png",
+   "wall_s": 3169.166114091873
+  },
+  "seed_r15m_n32": {
+   "label": "seed_r15m_n32",
+   "field": "checkpoints/m5_32_r15/m_hedgehog/relax_n32_L48_mu0.01_cP1.npy",
+   "n": 32,
+   "L": 48.0,
+   "h": 1.5,
+   "completion": "rebuild",
+   "n_samples": 4,
+   "eps": 0.0001,
+   "k": 4,
+   "lift": "radial",
+   "lift_quality_min_abs_n_dot_ref": 0.9996513187424991,
+   "cells_lift_ambiguous_lt_0.2": 0,
+   "T": {
+    "min_eig_on_free": 3.3965077638718437,
+    "max_eig_on_free": 4.080606483163341,
+    "read_s": 7.153139114379883,
+    "vacuum_region_T_aa_mean_r_gt_0.35L": 3.4290374807269464,
+    "expected_vacuum_T_aa_h3": 3.375,
+    "T_aa_averaged_vs_plain_max_rel": 0.021752383708441562,
+    "T_aa_averaged_vs_plain_total_rel": 0.00012638489261693181
+   },
+   "gradient_residual_doublet": 0.3237356966011558,
+   "H_symmetry_rel": 4.581422017507649e-07,
+   "Omega2_convention": "Omega^2 = lambda / 2, lambda the eigenvalue of T^(-1/2) H T^(-1/2); the first run reported lambda (audit-corrected)",
+   "modes": [
+    {
+     "Omega2": 0.04496815684835661,
+     "omega2_clock": 0.011242039212089152,
+     "T_weighted_r_rms": 16.654051599443992,
+     "T_weight_fraction_r_lt_8": 0.024888396915772486,
+     "localized": false
+    },
+    {
+     "Omega2": 0.04496816152364721,
+     "omega2_clock": 0.011242040380911802,
+     "T_weighted_r_rms": 16.654053850275332,
+     "T_weight_fraction_r_lt_8": 0.024888274084779678,
+     "localized": false
+    },
+    {
+     "Omega2": 0.044985491690187736,
+     "omega2_clock": 0.011246372922546934,
+     "T_weighted_r_rms": 16.659175827221084,
+     "T_weight_fraction_r_lt_8": 0.024729714566836196,
+     "localized": false
+    },
+    {
+     "Omega2": 0.04498549307606805,
+     "omega2_clock": 0.011246373269017012,
+     "T_weighted_r_rms": 16.65917761212955,
+     "T_weight_fraction_r_lt_8": 0.02472946154387349,
+     "localized": false
+    }
+   ],
+   "thresholds": {
+    "Omega_c2_infinite_box (mu / c_P)": 0.01,
+    "omega_c2_clock (mu / 4 c_P)": 0.0025,
+    "box_continuum_estimate_Omega2": 0.01428368246575059
+   },
+   "morse_index_doublet_sector_among_lowest_k": 0,
+   "verdict": "NO_BOUND_MODE",
+   "core_hessian_10": {
+    "eigenvalues": [
+     3.7989429585262133,
+     4.1490827329533,
+     4.149082732983091,
+     36.10796208701761,
+     65.44973849951077,
+     65.80827103931408,
+     65.80827136744499,
+     71.52994007449321,
+     71.52994077484568,
+     165482.52653025134
+    ],
+    "n_negative": 0,
+    "lowest_vector": {
+     "00": -1.9982896873471484e-15,
+     "01": 0.5773502691453462,
+     "02": 0.5773502691733311,
+     "03": 0.5773502692501989,
+     "11": 4.040129754245919e-12,
+     "12": -5.0713559228839985e-12,
+     "13": 2.729914853271023e-12,
+     "22": 3.002448816993132e-12,
+     "23": 3.317517169910962e-12,
+     "33": 5.357264507332561e-12
+    },
+    "r_max_of_core_cells": 1.299038105676658
+   },
+   "plot": "plots/m5_32_r16_2_seed_r15m_n32.png",
+   "wall_s": 3762.6084010601044
+  },
+  "vacuum_control_n32": {
+   "label": "vacuum_control_n32",
+   "field": "checkpoints/m5_32_r16/vac_n32_L48.npy",
+   "n": 32,
+   "L": 48.0,
+   "h": 1.5,
+   "completion": "rebuild",
+   "n_samples": 4,
+   "eps": 0.0001,
+   "k": 4,
+   "lift": "x",
+   "lift_quality_min_abs_n_dot_ref": 0.9999999999999836,
+   "cells_lift_ambiguous_lt_0.2": 0,
+   "T": {
+    "min_eig_on_free": 3.374999999999633,
+    "max_eig_on_free": 3.3749999999996425,
+    "read_s": 6.61502480506897,
+    "vacuum_region_T_aa_mean_r_gt_0.35L": 3.3749999999996376,
+    "expected_vacuum_T_aa_h3": 3.375,
+    "T_aa_averaged_vs_plain_max_rel": 5.473810705115135e-14,
+    "T_aa_averaged_vs_plain_total_rel": 5.440665854467432e-14
+   },
+   "gradient_residual_doublet": 4.968039876541804e-28,
+   "H_symmetry_rel": 8.120675548636355e-07,
+   "Omega2_convention": "Omega^2 = lambda / 2, lambda the eigenvalue of T^(-1/2) H T^(-1/2); the first run reported lambda (audit-corrected)",
+   "modes": [
+    {
+     "Omega2": 0.02563211425538971,
+     "omega2_clock": 0.006408028563847428,
+     "T_weighted_r_rms": 13.618823001752638,
+     "T_weight_fraction_r_lt_8": 0.16786817399701756,
+     "localized": false
+    },
+    {
+     "Omega2": 0.025632114255616532,
+     "omega2_clock": 0.006408028563904133,
+     "T_weighted_r_rms": 13.61882300173016,
+     "T_weight_fraction_r_lt_8": 0.16786817397182321,
+     "localized": false
+    },
+    {
+     "Omega2": 0.04120313776159719,
+     "omega2_clock": 0.010300784440399297,
+     "T_weighted_r_rms": 16.042647299220015,
+     "T_weight_fraction_r_lt_8": 0.04058779172165945,
+     "localized": false
+    },
+    {
+     "Omega2": 0.0412031377617238,
+     "omega2_clock": 0.01030078444043095,
+     "T_weighted_r_rms": 16.042648530890432,
+     "T_weight_fraction_r_lt_8": 0.04058778707590669,
+     "localized": false
+    }
+   ],
+   "thresholds": {
+    "Omega_c2_infinite_box (mu / c_P)": 0.01,
+    "omega_c2_clock (mu / 4 c_P)": 0.0025,
+    "box_continuum_estimate_Omega2": 0.01428368246575059
+   },
+   "morse_index_doublet_sector_among_lowest_k": 0,
+   "verdict": "NO_BOUND_MODE",
+   "core_hessian_10": {
+    "eigenvalues": [
+     7.458695828878547e-07,
+     7.458695888862711e-07,
+     1.0249156875757232e-05,
+     1.2013594007343333e-05,
+     1.2013607291562864e-05,
+     0.6317687122185172,
+     36.113210801920445,
+     36.2700001101087,
+     36.27000014564212,
+     165437.78919304203
+    ],
+    "n_negative": 0,
+    "lowest_vector": {
+     "00": 8.398324889792527e-37,
+     "01": 1.70365485114529e-17,
+     "02": 1.765066736797253e-17,
+     "03": 2.6665918661395357e-14,
+     "11": -1.9310120692281342e-33,
+     "12": -0.999442725024755,
+     "13": 0.03338022461116916,
+     "22": -1.1622631697691304e-18,
+     "23": -6.489491477208732e-17,
+     "33": 1.1622631697691262e-18
+    },
+    "r_max_of_core_cells": 1.299038105676658
+   },
+   "plot": "plots/m5_32_r16_2_vacuum_control_n32.png",
+   "wall_s": 2409.1647810935974
+  }
+ },
+ "verdicts": {
+  "r16_1_end_n32": "NO_BOUND_MODE",
+  "seed_r15m_n32": "NO_BOUND_MODE",
+  "vacuum_control_n32": "NO_BOUND_MODE"
+ },
+ "lowest_Omega2": {
+  "r16_1_end_n32": 0.04478488887946638,
+  "seed_r15m_n32": 0.04496815684835661,
+  "vacuum_control_n32": 0.02563211425538971
+ },
+ "morse_index": {
+  "r16_1_end_n32": 0,
+  "seed_r15m_n32": 0,
+  "vacuum_control_n32": 0
+ }
+}
