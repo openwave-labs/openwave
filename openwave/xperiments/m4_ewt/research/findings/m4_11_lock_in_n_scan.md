@@ -67,24 +67,24 @@ enter the calculation.
 
 | Sector | drift at $N_{\text{geom}}$ | drift at $-10$ | drift at $+10$ |
 |--------|-------------------------------|------------------|------------------|
-| $\alpha^{-1}$ | $3.117 \times 10^{-10}$ | $4.251 \times 10^{-9}$ | $3.527 \times 10^{-9}$ |
-| $G$ | $1.245 \times 10^{-2}$ | $1.825 \times 10^{-1}$ | $1.314 \times 10^{-1}$ |
-| $a_e$ | $1.326 \times 10^{-6}$ | $1.808 \times 10^{-5}$ | $1.500 \times 10^{-5}$ |
-| $a_\mu$ | $1.460 \times 10^{-6}$ | $1.990 \times 10^{-5}$ | $1.652 \times 10^{-5}$ |
-| $a_\tau$ | $2.272 \times 10^{-4}$ | $3.093 \times 10^{-3}$ | $2.575 \times 10^{-3}$ |
-| $\sin^2\theta_W$ | $4.720 \times 10^{-5}$ | $6.434 \times 10^{-4}$ | $5.341 \times 10^{-4}$ |
-| $\sin\theta_C$ | $9.202 \times 10^{-6}$ | $1.255 \times 10^{-4}$ | $1.041 \times 10^{-4}$ |
+| $\alpha^{-1}$ | $0$ | $3.931 \times 10^{-9}$ | $3.831 \times 10^{-9}$ |
+| $G$ | $0$ | $1.678 \times 10^{-1}$ | $1.420 \times 10^{-1}$ |
+| $a_e$ | $0$ | $1.672 \times 10^{-5}$ | $1.630 \times 10^{-5}$ |
+| $a_\mu$ | $0$ | $1.841 \times 10^{-5}$ | $1.794 \times 10^{-5}$ |
+| $a_\tau$ | $0$ | $2.860 \times 10^{-3}$ | $2.798 \times 10^{-3}$ |
+| $\sin^2\theta_W$ | $0$ | $5.950 \times 10^{-4}$ | $5.802 \times 10^{-4}$ |
+| $\sin\theta_C$ | $0$ | $1.160 \times 10^{-4}$ | $1.131 \times 10^{-4}$ |
 
-The drift at $N_{\text{geom}}$ is not exactly zero because the scan grid
-step is 2, and the nearest grid point to $N_{\text{geom}} = 778.8025$ is
-$N = 778$. The physically meaningful values are the drifts at $\pm 10$,
-which are unaffected by this discretization.
+These three columns are evaluated at $N_{\text{geom}}$ and at
+$N_{\text{geom}} \pm 10$ directly, not at the nearest point of the scan
+grid, so the zero in the first column is exact and the $\pm 10$ columns
+are at exactly $\pm 10$. The CSV keeps the uniform grid of step 2.
 
 ### Section 2: Resolution
 
 | Sector | $\beta = d\ln O / d\ln N$ | relative error | resolution | $N_{\text{opt}}$ |
 |--------|------------------------------|----------------|------------|-------------------|
-| $\alpha^{-1}$ | $+0.000000$ | $1.921 \times 10^{-6}$ | $6.353 \times 10^{+0}$ | 105.85 |
+| $\alpha^{-1}$ | $+3.024 \times 10^{-7}$ | $1.921 \times 10^{-6}$ | $6.353 \times 10^{+0}$ | 105.85 |
 | $G$ | $-12.000002$ | $4.817 \times 10^{-4}$ | $4.014 \times 10^{-5}$ | 778.83 |
 | $a_e$ | $+0.001285$ | $2.277 \times 10^{-4}$ | $1.771 \times 10^{-1}$ | 661.63 |
 | $a_\mu$ | $+0.001415$ | $2.504 \times 10^{-4}$ | $1.770 \times 10^{-1}$ | 661.69 |
@@ -116,6 +116,27 @@ $$
 This is the central quantitative result: **$G$ and $a_\tau$ independently
 locate $N$ with resolutions of 0.004% and 0.14%, and they agree to
 0.14%.**
+
+### What each sector is compared against
+
+The resolution column measures each sector against a target constant in
+`m4_7_ewt_emergence_engine.py`, and those targets are not all of the same
+kind. Two of them carry a qualification that bears on how much weight the
+corresponding leg can take.
+
+| Sector | Target | What it is |
+|--------|--------|------------|
+| $G$ | `G_CODATA` $= 6.674305 \times 10^{-11}$ | Measured. CODATA relative uncertainty $2.2 \times 10^{-5}$, so the model's $4.8 \times 10^{-4}$ residual is about 21 times the experimental uncertainty |
+| $a_\tau$ | `A_TAU_EXP` $= 1.177210 \times 10^{-3}$ | The **Standard Model prediction**, $a_\tau^{\text{SM}} = 117721(5) \times 10^{-8}$, not a measurement. The best experimental bound is $-0.052 < a_\tau < 0.013$ at 95% CL (DELPHI, Eur. Phys. J. C **35** (2004) 159), a window 55 times the value itself |
+| $\sin^2\theta_W$ | inverted from `M_W_CDFII` $= 80.4335$ GeV | The CDF II 2022 value, not the PDG average. Anchoring the same relation on `M_W_PDG` $= 80.377$ GeV gives resolution 24.9% and $N_{\text{opt}} = 1031.8$, in place of 14.5% and 910.0. The sector stays WEAK either way, so the grouping is unchanged |
+| $\alpha^{-1}$, $a_e$, $a_\mu$, $\sin\theta_C$ | CODATA and PDG values | Measured |
+
+What this means for the $a_\tau$ leg: it tests agreement with the Standard
+Model's own computed value. That is a real internal test, since the model's
+$a_\tau$ construction could have selected a different $N$ and did not, but it
+is not an experimental anchor, and no measurement of $a_\tau$ constrains $N$ at
+any level. Its residual, $3.16 \times 10^{-4}$ relative, is also about 7.4
+times the uncertainty on the SM value it is compared against.
 
 ## Interpretation
 
@@ -180,11 +201,12 @@ locate $N$ with resolutions of 0.004% and 0.14%, and they agree to
 
 ## Technical notes
 
-- The scan used a step of 2 in $N$, so the nearest grid point to
-  $N_{\text{geom}}$ is $N = 778$. This gives a small nonzero drift at
-  the reported “$N_{\text{geom}}$” row for very sensitive sectors such as
-  $G$. The drift values at $\pm 10$ are unaffected by this
-  discretization and are the physically meaningful measure.
+- The scan grid (step 2, from 500 to 1100) does not contain
+  $N_{\text{geom}} = 778.8025$, so the three reported drift columns are
+  evaluated directly at $N_{\text{geom}}$ and $N_{\text{geom}} \pm 10$
+  rather than by nearest-grid lookup. A nearest-grid lookup would report
+  $N = 778$, $N_{\text{geom}} - 10.80$ and $N_{\text{geom}} + 9.20$,
+  which for $G$ at $\beta = -12$ is a visible difference.
 - The logarithmic derivatives $\beta$ were computed by central difference
   in $\log N$ with step $10^{-6}$.
 - The separately optimal $N$ values were found by log-space scan and
@@ -200,9 +222,23 @@ locate $N$ with resolutions of 0.004% and 0.14%, and they agree to
   because it does not affect the grouping and is superseded by the direct
   resolution analysis.
 
+## Reproduction
+
+```bash
+cd openwave/xperiments/m4_ewt/research/scripts
+python3 m4_11_lock_in_n_scan.py
+```
+
+Runs in under a second and needs `m4_7_ewt_emergence_engine.py` in the same
+directory. It writes `m4_11_lock_in_n_scan.csv` and `.json` to
+`research/data/`; both are regenerated by the command above and are not
+committed.
+
 ## Artifacts
 
-- `m4_11_lock_in_n_scan.py`
+- `research/scripts/m4_11_lock_in_n_scan.py`
+- `research/tasks/m4_11_task_details.md`
+- `research/data/m4_11_lock_in_n_scan.csv`, `research/data/m4_11_lock_in_n_scan.json` (regenerated, not committed)
 
 ## Reference
 

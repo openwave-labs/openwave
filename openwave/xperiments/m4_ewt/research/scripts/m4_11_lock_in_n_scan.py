@@ -238,7 +238,7 @@ def main():
     for name, label in SECTOR_LABELS.items():
         print(f"  {label:<18} = {ref_values[name]:.12e}")
 
-    # Shift for the crossing test (kept for compatibility, not used further)
+    # Shift for the crossing test; feeds the shifted_diff column of the CSV only.
     shift_C = ref_values["sin2_W"] - ref_values["sin_C"]
     print(f"\nshift_C (sin^2W - sinC at N_geom) = {shift_C:.10f}")
 
@@ -270,11 +270,16 @@ def main():
         mix = mixing_values(N)
         shifted_diff.append(abs(mix["sin2_W"] - (mix["sin_C"] + shift_C)))
 
-    idx_ref = min(range(len(N_vals)), key=lambda i: abs(N_vals[i] - N_geom_ref))
+    def drift_exact(name, delta):
+        """
+        Drift evaluated AT N_geom + delta, not at the nearest scan-grid point.
 
-    def drift_at(drift_list, delta):
-        idx = min(range(len(N_vals)), key=lambda i: abs(N_vals[i] - (N_geom_ref + delta)))
-        return drift_list[idx]
+        The scan grid has step 2 and does not contain N_geom = 778.8025, so a
+        nearest-point lookup reports the drift at N = 778 and at N_geom - 10.80
+        and N_geom + 9.20 instead of at N_geom and N_geom +/- 10.
+        """
+        val = SECTOR_VALUE_FUNCS[name](N_geom_ref + delta)
+        return abs(val - ref_values[name]) / abs(ref_values[name])
 
     print("\n" + "=" * 78)
     print("SECTION 1: DRIFT relative to N_geom (zero at N_geom by construction)")
@@ -285,9 +290,9 @@ def main():
     print("-" * len(header))
 
     for name, label in SECTOR_LABELS.items():
-        d_at = drift[name][idx_ref]
-        d_m10 = drift_at(drift[name], -10)
-        d_p10 = drift_at(drift[name], +10)
+        d_at = drift_exact(name, 0.0)
+        d_m10 = drift_exact(name, -10.0)
+        d_p10 = drift_exact(name, +10.0)
         print(f"{label:<18} {d_at:14.6e} {d_m10:12.6e} {d_p10:12.6e}")
 
     # ------------------------------------------------------------------
@@ -322,7 +327,7 @@ def main():
         res_s = resolution[name]
         n_opt_s = N_opt[name]
         n_opt_str = f"{n_opt_s:.2f}" if n_opt_s is not None else "none"
-        print(f"{label:<18} {beta_s:12.6f} {err_s:12.6e} {res_s:14.6e} {n_opt_str:>12}")
+        print(f"{label:<18} {beta_s:12.3e} {err_s:12.6e} {res_s:14.6e} {n_opt_str:>12}")
 
     # ------------------------------------------------------------------
     # SECTION 3: GROUPING
@@ -358,7 +363,7 @@ def main():
                   f"resolution = {resolution[name]:.6e}")
 
     # Primary agreement
-    primary_members = groups["PRIMARY (resolves N, <1%)"]
+    primary_members = sorted(groups["PRIMARY (resolves N, <1%)"], key=lambda n: resolution[n])
     if len(primary_members) >= 2:
         n0 = N_opt[primary_members[0]]
         n1 = N_opt[primary_members[1]]
@@ -392,9 +397,9 @@ def main():
         "N_geom_ref": N_geom_ref,
         "drift_scan_range": [N_start, N_stop, N_step],
         "reference_values_at_N_geom": ref_values,
-        "drift_at_N_geom": {name: drift[name][idx_ref] for name in SECTOR_LABELS},
-        "drift_at_N_geom_minus10": {name: drift_at(drift[name], -10) for name in SECTOR_LABELS},
-        "drift_at_N_geom_plus10": {name: drift_at(drift[name], +10) for name in SECTOR_LABELS},
+        "drift_at_N_geom": {name: drift_exact(name, 0.0) for name in SECTOR_LABELS},
+        "drift_at_N_geom_minus10": {name: drift_exact(name, -10.0) for name in SECTOR_LABELS},
+        "drift_at_N_geom_plus10": {name: drift_exact(name, +10.0) for name in SECTOR_LABELS},
         "log_derivative_beta": beta,
         "relative_error_at_N_geom": err,
         "resolution": resolution,
