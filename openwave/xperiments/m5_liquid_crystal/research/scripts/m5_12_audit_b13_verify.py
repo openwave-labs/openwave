@@ -13,7 +13,7 @@ For every block-12 ladder endpoint state (r1,r2,r4,r8,x2,x4):
   - recompute the endpoint |F| (residual on free DOF + phase row) for the
     L3 absolute-floor table (claimant instrument residual, audited BG-gated)
 
-Run: /opt/anaconda3/envs/openwave312/bin/python m5_12_audit_b13_verify.py
+Run: /opt/anaconda3/envs/master312/bin/python m5_12_audit_b13_verify.py
 """
 from __future__ import annotations
 

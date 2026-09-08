@@ -25,7 +25,7 @@ CLI:  python3 m5_32_r13w_audit.py w012          (this audit; writes key "w012")
       python3 m5_32_r13w_audit.py w3            (W3 audit, key "w3": groups A to J of the W3 brief)
       python3 m5_32_r13w_audit.py w3_ctrl       (the same-seed-maturity L control, 28 min; key "w3_ctrl")
 Out:  ../data/m5_32_r13w_audit.json  (merged by top-level key)
-Run:  /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r13w_audit.py w012
+Run:  /opt/anaconda3/envs/master312/bin/python3 m5_32_r13w_audit.py w012
 """
 from __future__ import annotations
 

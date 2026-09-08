@@ -83,7 +83,7 @@ So the 0.28% is consistent with the projection picture, and the scale (0.28% ≪
 
 ## Reproduce
 
-| Output | Command (env `openwave312`) |
+| Output | Command (env `master312`) |
 | --- | --- |
 | PMNS SO(3) prediction + NuFIT comparison + δ_CP test + 0.28% framework | `python3 m5_11_pmns_so3.py` |
 | Writes | `data/m5_11_pmns_summary.json`, `plots/m5_11_pmns_so3.png` |

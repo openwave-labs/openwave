@@ -74,7 +74,7 @@ m = 0 vacuum and null pair per (M0, box). Every field evaluation returns the
 h^3 sums of I1, I1_h, S, T, V4, so all lambda are read from one evaluation.
 
 Out: ../data/m5_32_r3_ansatz.json, ../plots/m5_32_r3_ansatz.png
-Run: /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r3_i_ansatz.py [--smoke] [--workers N]
+Run: /opt/anaconda3/envs/master312/bin/python3 m5_32_r3_i_ansatz.py [--smoke] [--workers N]
 """
 from __future__ import annotations
 

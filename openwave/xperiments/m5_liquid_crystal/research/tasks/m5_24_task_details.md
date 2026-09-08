@@ -30,7 +30,7 @@
 
 **Research body**: audit inventory + gap table + findings live in THIS doc; scripts `../scripts/m5_24_*.py`; plots `../plots/m5_24_*.png`; checkpoint `../checkpoints/m5_24_progress.md`. Feeds [M5.23.2](m5_23_2_task_details.md) (gated on the certified 4D production physics this task delivers).
 
-**Stages**: A inventory sweep → B gap table → C port batch 1 → D smoke + regression. Preconditions: taichi via the conda env `openwave312`; canonical registry fresh-read at EXECUTE.
+**Stages**: A inventory sweep → B gap table → C port batch 1 → D smoke + regression. Preconditions: taichi via the conda env `master312`; canonical registry fresh-read at EXECUTE.
 
 ## STAGE A FINDINGS: the production physics inventory (2026-07-19)
 

@@ -16,7 +16,7 @@ Checks, with MY OWN H (block-11 audit lib, ALL pairs +):
      the denominator is pure quadrature choice
   4. the honest metric: absolute swing per rung: does 10x/rung survive?
 
-Run: /opt/anaconda3/envs/openwave312/bin/python m5_12_audit_b13_hdrift.py
+Run: /opt/anaconda3/envs/master312/bin/python m5_12_audit_b13_hdrift.py
 """
 from __future__ import annotations
 
