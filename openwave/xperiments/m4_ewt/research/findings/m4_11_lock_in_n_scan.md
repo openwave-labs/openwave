@@ -170,6 +170,14 @@ locate $N$ with resolutions of 0.004% and 0.14%, and they agree to
    while first-order quantities such as $\alpha$ remain nearly unchanged.
    This is a feature of the hierarchy, not a defect of the model.
 
+8. **Evidence quality.**  
+   No sector is classified as PRIMARY unless its prediction chain actually
+   contains $N$ and can discriminate $N$. The agreement between $G$ and
+   $a_\tau$ is therefore non-tautological: the two sectors use completely
+   different constructions, and either could have located a different
+   optimal $N$. Sectors marked as conditional or weak are reported as
+   *consistent with* $N_{\text{geom}}$, not as *confirmed*.
+
 ## Technical notes
 
 - The scan used a step of 2 in $N$, so the nearest grid point to
@@ -182,6 +190,15 @@ locate $N$ with resolutions of 0.004% and 0.14%, and they agree to
 - The separately optimal $N$ values were found by log-space scan and
   bisection, not by local extrapolation, because the functions are not pure
   power laws over the scanned range.
+- The resolution reported in Section 2 is a local measure at
+  $N_{\text{geom}}$, computed from the logarithmic derivative $\beta$ and
+  the relative error at that point. It estimates how far $N$ can move
+  before the sector's prediction changes by its own error; it is not a
+  global confidence interval.
+- A shifted-crossing check between $\sin^2\theta_W$ and $\sin\theta_C$
+  was also performed in the script; it is omitted from the main results
+  because it does not affect the grouping and is superseded by the direct
+  resolution analysis.
 
 ## Artifacts
 
