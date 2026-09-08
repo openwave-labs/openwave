@@ -1054,6 +1054,8 @@ Research docs created/updated: this record (the R16-0 section, the RUNG LOG row,
 
 ## R16: THE AUTHOR'S OBJECT v4 ON THE LATTICE (2026-09-06 13:54 UTC go; the instrument, R16-1 to R16-4)
 
+> **Data handover (2026-09-08).** The twelve R16 end-field arrays (the three R16-1 cores, the five R16-3 end states, the three R16-2 modes, the empty box; conventions, per-file status and SHA-256 in the bundled README) are published as the data pre-release [`m5_32-r16-fields`](https://github.com/openwave-labs/openwave/releases/tag/m5_32-r16-fields) on this repository, pinned to commit `390deb96`, after the Complete Picture Report 019 (§ 7.5.2) stated it could not obtain them; the arrays stay local and gitignored in the tree ([dataset policy](../data/_DATASETS.md)).
+
 The second go of the R16 packet ([ledger § 6.5](../findings/m5_32_candidate_ledger.md) as amended by R16-0): the circle-averaged instrument, then the four stages on the 16-core machine, one independent auditor per stage. Every number below is from the scripts named in the [method note § 14](../findings/m5_32_method_note.md); the heavy end fields are local checkpoints (`checkpoints/m5_32_r16/`, gitignored, kept).
 
 ### The instrument ([`m5_32_r16_common.py`](../scripts/m5_32_r16_common.py), selftest 43/43)
