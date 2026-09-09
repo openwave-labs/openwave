@@ -1,0 +1,510 @@
+{
+ "rung": "R17-3b independent audit",
+ "eps": 0.001,
+ "claims": {
+  "B1": {
+   "verdict": "CONFIRMED",
+   "own_numbers": {
+    "mode0_Rayleigh_quotient_producer_convention_ns8_over_T4": 0.03494334465251498,
+    "mode0_Rayleigh_quotient_consistent_ns4": 0.03494333514421057,
+    "rel_vs_operator_producer_convention": 2.889781926303026e-05,
+    "rel_vs_operator_consistent_ns4": 2.9169917705036903e-05,
+    "richardson_eps_half_rel_change": 0.00079712495547835,
+    "T_min_eig_on_free": 3.396506546760386,
+    "terms_sum_minus_E_stat": 0.0,
+    "mode0_weight_on_pinned_cells": 0.0,
+    "own_producer_trial_reproduction_max_rel": 1.07560612585376e-08,
+    "own_(2,0)_r9_w4.5_per_field": {
+     "v6_gW2.0_control": 0.06522798183938049,
+     "v6_gW1.35_seeded": 0.066888614393434,
+     "v6_gW1.1_seeded": 0.06759445703582365,
+     "v6_gW0.5_seeded": 0.06916740607941775
+    },
+    "own_(2,0)_r2.25_w2.25_per_field": {
+     "v6_gW2.0_control": 0.14967139503622673,
+     "v6_gW1.35_seeded": 0.21854949427214382,
+     "v6_gW1.1_seeded": 0.2499592165358042,
+     "v6_gW0.5_seeded": 0.3215194141526505
+    }
+   },
+   "producer_numbers": {
+    "operator_lowest_Omega2": 0.034944354468154665,
+    "(2,0)_r9_w4.5_per_field": {
+     "v6_gW2.0_control": 0.06522798230498318,
+     "v6_gW1.35_seeded": 0.06688861396977504,
+     "v6_gW1.1_seeded": 0.06759445776287377,
+     "v6_gW0.5_seeded": 0.0691674059937176
+    },
+    "(2,0)_r2.25_w2.25_per_field": {
+     "v6_gW2.0_control": 0.14967077445286792,
+     "v6_gW1.35_seeded": 0.21854865604133566,
+     "v6_gW1.1_seeded": 0.24995920718430015,
+     "v6_gW0.5_seeded": 0.3215190204431308
+    }
+   },
+   "note": "The Rayleigh-Ritz statement is sound WITH ONE RESTRICTION MADE EXPLICIT.  2T is positive definite on the free cells (min eig 3.397) and the five reported terms sum to E_stat to 0.0e+00 (no term is dropped from the numerator), so Q >= lambda_min of the pencil restricted to the free-supported subspace.  That restriction is not cosmetic: E_a = E_b = 0 on the 10816 pinned cells, so the operator is EXACTLY singular there and its unrestricted lowest eigenvalue is 0, not 0.034944; every 'lowest Omega^2' in the rung must be read as 'over the free cells'.  The saved mode0 reproduces the Lanczos value to 2.9e-05 relative with a CONSISTENT 4-sample numerator and to 2.9e-05 in the producer's own convention (8-sample numerator over the 4-sample inertia), so the n_samples mismatch inside the quotient is worth 0.00% here.  The eps = 1e-3 second difference moves by 8.0e-04 at eps / 2.  Both producer trials reproduce to 1.1e-08 relative.  What Q does NOT bound is the operator on any other field: a quotient computed on the g_W 1.35 field says nothing about the box."
+  },
+  "B2": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "best_own_bound_per_field (6-vector Ritz)": {
+     "v6_gW2.0_control": 0.03493820305444933,
+     "v6_gW1.35_seeded": 0.04754717349349211,
+     "v6_gW1.1_seeded": 0.048023704041601334,
+     "v6_gW0.5_seeded": 0.048890167976313716
+    },
+    "best_own_single_trial_per_field": {
+     "v6_gW2.0_control": 0.03836511309250257,
+     "v6_gW1.35_seeded": 0.06686438050535545,
+     "v6_gW1.1_seeded": 0.06757994652721036,
+     "v6_gW0.5_seeded": 0.06915270741644072
+    },
+    "box_bottom_x_lift (the producer comparator)": 0.025632114255195525,
+    "box_bottom_radial_lift (matched to the trials' gauge)": 0.03984576,
+    "empty_box_SAME_FAMILY_Ritz_min": 0.0783325650677368,
+    "family_slack_factor_on_the_empty_box": 1.9658946163340039,
+    "object_over_empty_box_same_family_Ritz": {
+     "v6_gW2.0_control": 0.44602398790639747,
+     "v6_gW1.35_seeded": 0.6069911466881811,
+     "v6_gW1.1_seeded": 0.613074575051559,
+     "v6_gW0.5_seeded": 0.6241359252570977
+    },
+    "object_over_empty_box_same_single_trial": {
+     "v6_gW2.0_control": 0.5097905782263422,
+     "v6_gW1.35_seeded": 0.5227692846967811,
+     "v6_gW1.1_seeded": 0.5282858117861319,
+     "v6_gW0.5_seeded": 0.5405792260516379
+    },
+    "producer_core_sector_min_r_s_le_4 (all widths)": {
+     "v6_gW2.0_control": 0.08263900735204872,
+     "v6_gW1.35_seeded": 0.09816958117864764,
+     "v6_gW1.1_seeded": 0.1044940384871641,
+     "v6_gW0.5_seeded": 0.11920051837700754
+    },
+    "producer_core_sector_min_r_s_le_4 (width 2.25 only)": {
+     "v6_gW2.0_control": 0.1310137081483434,
+     "v6_gW1.35_seeded": 0.18721800469866928,
+     "v6_gW1.1_seeded": 0.19969804907220576,
+     "v6_gW0.5_seeded": 0.22855911333888845
+    },
+    "lift_artefact_factor_on_one_vacuum_trial": 1.5721702877617454,
+    "object_v6_vs_v4rel_factor_on_one_vacuum_trial": 1.000002623745968,
+    "control_converged_Omega2_over_radial_lift_box": 0.876990537215369,
+    "Ritz_min_over_measured_family_slack (an estimate, not a bound)": {
+     "v6_gW2.0_control": 0.017772164776361215,
+     "v6_gW1.35_seeded": 0.024186023553062055,
+     "v6_gW1.1_seeded": 0.024428422379606407,
+     "v6_gW0.5_seeded": 0.024869170285172253
+    }
+   },
+   "producer_numbers": {
+    "best_bounds": {
+     "v6_gW0.5_seeded": 0.06914941627307816,
+     "v6_gW1.1_seeded": 0.06756648969562,
+     "v6_gW1.35_seeded": 0.06686437989706524,
+     "v6_gW2.0_control": 0.06515975384802013
+    },
+    "verdicts": {
+     "v6_gW0.5_seeded": "NO_TRIAL_BELOW_BOX (the core-localized sector bounded above the box bottom; the full spectrum's lowest mode not converged by Lanczos within the wall clock)",
+     "v6_gW1.1_seeded": "NO_TRIAL_BELOW_BOX (the core-localized sector bounded above the box bottom; the full spectrum's lowest mode not converged by Lanczos within the wall clock)",
+     "v6_gW1.35_seeded": "NO_TRIAL_BELOW_BOX (the core-localized sector bounded above the box bottom; the full spectrum's lowest mode not converged by Lanczos within the wall clock)",
+     "v6_gW2.0_control": "NO_TRIAL_BELOW_BOX (the core-localized sector bounded above the box bottom; the full spectrum's lowest mode not converged by Lanczos within the wall clock)"
+    },
+    "claimed_core_sector_floor": 0.12
+   },
+   "note": "No trial of mine goes below either box bottom, so the literal NO_TRIAL_BELOW_BOX survives; four qualifications, and the third is the one that matters.  (1) WRONG GAUGE: 0.025632 is the empty box under the 'x' director lift, while every R17-3b trial uses the 'radial' lift, whose bottom on the SAME vacuum field is 0.03984576 (r17_2op_vacuum_v4rel_radial_lift.log); my own single trial reproduces that gauge factor independently (1.57x on one vacuum trial vs 1.55x between the two Lanczos bottoms).  The object/c_s difference between the comparator (v4rel) and the trials (v6) is negligible (1.0000x).  (2) THE FAMILY IS LOOSE: the SAME six vectors on the empty box return 0.0783 against a true 0.03984576, a slack of 1.97x; the producer's single-Gaussian scan is looser still and its minimum sits at the largest r_s (9) and largest width (4.5) it tried, still falling, so the 'best bound' is a property of where the grid stopped.  A null result cannot resolve a bound state whose binding is smaller than that slack.  (3) THE COMPARISON IS MISMATCHED: the honest variational statement compares the SAME family on the object and on the box.  It does, and the object wins by about a factor two: {\"v6_gW2.0_control\": 0.446, \"v6_gW1.35_seeded\": 0.607, \"v6_gW1.1_seeded\": 0.613, \"v6_gW0.5_seeded\": 0.624} (Ritz) and {\"v6_gW2.0_control\": 0.51, \"v6_gW1.35_seeded\": 0.523, \"v6_gW1.1_seeded\": 0.528, \"v6_gW0.5_seeded\": 0.541} (the r_s 9 trial alone).  So the same trial that costs 0.128 in the empty box costs 0.065 on the object: the data are CONSISTENT with a state well below the box bottom that this family simply cannot resolve, which is the opposite of the reassurance NO_TRIAL_BELOW_BOX reads as.  (4) The sub-claim 'the core sector (r_s <= 4) is bounded at >= 0.12' is FALSE on the producer's own numbers once the width-4.5 rows are counted: {'v6_gW1.35_seeded': 0.0982, 'v6_gW1.1_seeded': 0.1045, 'v6_gW0.5_seeded': 0.1192} on the seeded fields and 0.0826 on the control; it holds only for the width-2.25 rows.  (5) WHERE THE CALIBRATION POINTS: dividing the seeded Ritz minima by the measured 1.97x family slack puts the object's true lowest doublet near 0.024-0.025, i.e. BELOW both box bottoms.  That is an estimate and not a bound, but it is the direction the calibration points, and it is the opposite of the reassurance NO_TRIAL_BELOW_BOX reads as."
+  },
+  "B3": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "gW1.35": {
+     "r_s=1.125": {
+      "Omega2_total": 0.26791829372568077,
+      "by_term": {
+       "E_h": 0.05252526780846344,
+       "V4": -0.0027576390351717953,
+       "U_v6": -0.2352795095720463,
+       "KP": 0.43501056822143686,
+       "reg": 0.018419606535285366
+      },
+      "well_V4_plus_U": -0.23803714860721809,
+      "KP": 0.43501056822143686,
+      "2T": 3.7834876813949014,
+      "E_h_l2": 0.05252526780846344,
+      "E_h_l3": 0.0996044906125994,
+      "E_h_l4": 0.13800641184090873,
+      "ratio_(3-2)/(4-2)": 0.550755647190058,
+      "producer_floor_e2_minus_(e3-e2)/3": 0.036832193540418126,
+      "connection_piece_(e3-e2)/3": 0.01569307426804532
+     },
+     "r_s=5.625": {
+      "Omega2_total": 0.17165308070723115,
+      "by_term": {
+       "E_h": 0.02478173695884375,
+       "V4": -0.0007498615125309495,
+       "U_v6": -0.013540430227915722,
+       "KP": 0.14664568977811676,
+       "reg": 0.01451594606807052
+      },
+      "well_V4_plus_U": -0.014290291740446671,
+      "KP": 0.14664568977811676,
+      "2T": 3.7730564526214097,
+      "E_h_l2": 0.02478173695884375,
+      "E_h_l3": 0.03512864055069307,
+      "E_h_l4": 0.047409398600652845,
+      "ratio_(3-2)/(4-2)": 0.45726791197599326,
+      "producer_floor_e2_minus_(e3-e2)/3": 0.021332769094893976,
+      "connection_piece_(e3-e2)/3": 0.0034489678639497735
+     }
+    },
+    "gW2.0_control": {
+     "r_s=1.125": {
+      "Omega2_total": 0.16499142869947217,
+      "by_term": {
+       "E_h": 0.05360672026311726,
+       "V4": -0.002795890392801616,
+       "U_v6": -0.34762284323876097,
+       "KP": 0.4436257133438095,
+       "reg": 0.01817772885346046
+      },
+      "well_V4_plus_U": -0.35041873363156256,
+      "KP": 0.4436257133438095,
+      "2T": 3.787842558378223,
+      "E_h_l2": 0.05360672026311726,
+      "E_h_l3": 0.10127810459402738,
+      "E_h_l4": 0.13981756541695417,
+      "ratio_(3-2)/(4-2)": 0.5529627304528106,
+      "producer_floor_e2_minus_(e3-e2)/3": 0.037716258819480555,
+      "connection_piece_(e3-e2)/3": 0.015890461443636705
+     },
+     "r_s=5.625": {
+      "Omega2_total": 0.1611653839489956,
+      "by_term": {
+       "E_h": 0.02482166067426369,
+       "V4": -0.0007476149408567561,
+       "U_v6": -0.0241186852481645,
+       "KP": 0.14670979919791685,
+       "reg": 0.014500224263665816
+      },
+      "well_V4_plus_U": -0.024866300189021258,
+      "KP": 0.14670979919791685,
+      "2T": 3.7734982831256323,
+      "E_h_l2": 0.02482166067426369,
+      "E_h_l3": 0.03519419205495289,
+      "E_h_l4": 0.04751671290115701,
+      "ratio_(3-2)/(4-2)": 0.457039326324964,
+      "producer_floor_e2_minus_(e3-e2)/3": 0.021364150214033956,
+      "connection_piece_(e3-e2)/3": 0.0034575104602297332
+     }
+    }
+   },
+   "producer_numbers": {
+    "gW1.35_(2,0)_rows_r1.125_r5.625": [
+     {
+      "E_h": 0.19873374057510773,
+      "V4": -0.010434801939185334,
+      "U_v6": -0.8901772792294094,
+      "KP": 1.6458591960422098,
+      "reg": 0.06969035498682885,
+      "total": 1.0136712104355516,
+      "2T": 3.7834876814029625,
+      "Omega2_by_term": {
+       "E_h": 0.05252659908262603,
+       "V4": -0.0027579849117721944,
+       "U_v6": -0.23527955003128778,
+       "KP": 0.43501111530827175,
+       "reg": 0.018419606684430073
+      },
+      "Omega2_total": 0.26791978613226786,
+      "r_s": 1.125
+     },
+     {
+      "E_h": 0.09350289253973187,
+      "V4": -0.002829269818427349,
+      "U_v6": -0.0510888076427074,
+      "KP": 0.553302466066441,
+      "reg": 0.054769483979122055,
+      "total": 0.6476567651241601,
+      "2T": 3.773056452621427,
+      "Omega2_by_term": {
+       "E_h": 0.024781736958843635,
+       "V4": -0.0007498615125309461,
+       "U_v6": -0.013540430227915661,
+       "KP": 0.1466456897781161,
+       "reg": 0.014515946068357806
+      },
+      "Omega2_total": 0.17165308106487093,
+      "r_s": 5.625
+     }
+    ],
+    "control_(2,0)_rows_r1.125_r5.625": [
+     {
+      "E_h": 0.20305309700319185,
+      "V4": -0.010590264942766936,
+      "U_v6": -1.3167405618046175,
+      "KP": 1.6803843196910861,
+      "reg": 0.06885437215544576,
+      "total": 0.6249609621023393,
+      "2T": 3.787842558361417,
+      "Omega2_by_term": {
+       "E_h": 0.053606530333465234,
+       "V4": -0.0027958566861206024,
+       "U_v6": -0.347622833187192,
+       "KP": 0.4436257034975613,
+       "reg": 0.018177728111601208
+      },
+      "Omega2_total": 0.16499127206931516,
+      "r_s": 1.125
+     },
+     {
+      "E_h": 0.09366449393866105,
+      "V4": -0.0028211237512731913,
+      "U_v6": -0.09101181737118132,
+      "KP": 0.5536091758351347,
+      "reg": 0.05471657145444054,
+      "total": 0.6081573001057817,
+      "2T": 3.7734982831255923,
+      "Omega2_by_term": {
+       "E_h": 0.024821660674263953,
+       "V4": -0.0007476149555675567,
+       "U_v6": -0.02411868524710077,
+       "KP": 0.14670979931560474,
+       "reg": 0.014500224287665172
+      },
+      "Omega2_total": 0.16116538407486553,
+      "r_s": 5.625
+     }
+    ],
+    "claimed_total_at_r1.125": {
+     "0.5": 0.428,
+     "1.1": 0.317,
+     "1.35": 0.268,
+     "2.0": 0.165
+    },
+    "claimed_floor_at_r1.1": 0.038,
+    "well_negative_shells": {
+     "v6_gW0.5_seeded": [
+      1.125,
+      3.375,
+      5.625
+     ],
+     "v6_gW1.1_seeded": [
+      1.125,
+      3.375,
+      5.625
+     ],
+     "v6_gW1.35_seeded": [
+      1.125,
+      3.375,
+      5.625
+     ],
+     "v6_gW2.0_control": [
+      1.125,
+      3.375,
+      5.625
+     ]
+    }
+   },
+   "note": "The totals, the negative V4 + U_v6 well on the inner shells and the K_P dominance all reproduce with my own 2Y_20.  The QUALIFIED is the FLOOR: the quantity the producer plots and calls the 'E_h connection floor' is e2 - (e3 - e2) / 3, which by its own l (l + 1) - 4 law is the l-INDEPENDENT RADIAL part of E_h, not the connection term; the connection piece E_h(l = 2) - radial = (e3 - e2) / 3 is a different number (reported here).  The docstring defines the floor as 'E_h(l = 2) - E_h(radial part)' and then reports the radial part itself: the label and the formula disagree, so 'the floor is ~0.038 and present inside the melted core' is a statement about the radial (bump-gradient) energy, which is present everywhere by construction and carries no connection information.  Worse, the extrapolation that defines either reading fails its own gate at the inner shell: the l-law ratio [E_h(3) - E_h(2)] / [E_h(4) - E_h(2)] must be 6 / 14 = 0.4286 for the l (l + 1) - 4 split to hold, and I measure 0.551 at r_s 1.125 (g_W 1.35) and 0.457 at r_s 5.625, against the rung's own 5% acceptance band; the innermost shell, which is exactly where 'the floor is present inside the melted core' is claimed, is the shell where the round-bundle law is most violated."
+  },
+  "B4": {
+   "verdict": "CONFIRMED",
+   "own_numbers": {
+    "hand_own": -1.0,
+    "hand_producer": -1.0,
+    "m=+2_conj": 0.06686438050535545,
+    "m=-2_conj": 0.06686964408325248,
+    "m=+2_unconj": 0.5070640636146412,
+    "m=-2_unconj": 0.5070693217580043,
+    "core_m=+2_conj_r2.25": 0.21159114236737162,
+    "core_m=+2_unconj_r2.25": 1.0670708823487174,
+    "unconj_over_conj_r9": 7.583470597981959,
+    "unconj_over_conj_core": 5.043079168673485,
+    "m_plus_minus_rel_gap": 7.872020733977587e-05
+   },
+   "producer_numbers": {
+    "handedness_sign": -1.0,
+    "(2,2)_r9_w4.5": 0.06686437989706524,
+    "(2,-2)_r9_w4.5": 0.06686964387970433
+   },
+   "note": "The handedness sign -1 is confirmed by an independent measurement (e, f recovered as the +-1 eigenvectors of E_a's spatial block, then sign(f . (n x e))).  m = +2 and m = -2 agree to 7.9e-05 relative.  Dropping the conjugation raises the quotient by 5.04x on a core trial and 7.58x at r_s 9, confirming the correction matters where the trial samples the texture (it washes out far from the core where the two spin weights cost nearly the same)."
+  }
+ },
+ "unclaimed_hazards": [
+  "THE VERDICT FLIPS WITH THE GAUGE (largest): the control's converged lowest doublet Omega^2 (0.034944) is ABOVE the x-lift box bottom (0.025632) but 12% BELOW the radial-lift box bottom (0.03984576) measured on the SAME vacuum field with the same code, and the control's own operator run uses the radial lift.  So R17-2's NO_BOUND_MODE and R17-3b's NO_TRIAL_BELOW_BOX rest on which vacuum control is quoted, not on a measured separation.",
+  "GAUGE MISMATCH: the box bottom 0.025632 that every R17-3b verdict is compared against was measured under the 'x' director lift; all R17-3b trials use the 'radial' lift, whose vacuum bottom on the SAME field is 0.03984576 (+55%).  The verdict string should name the radial-lift bottom.",
+  "OBJECT MISMATCH (secondary): the box bottom comes from object v4rel (mu 1e-2 on rho^2, c_s 0.4) while the trials run object v6 (mu_v6 1e-2, c_s 0.5, plus the sextic and W).  Measured on one common vacuum trial the two objects differ by the factor reported in calibration.object_v6_vs_v4rel_on_one_trial.",
+  "The doublet operator is EXACTLY singular by construction: E_a = E_b = 0 on the 10816 pinned cells, so 21632 of 65536 directions have H = 0 and 2T = I; its true lowest eigenvalue is 0.  ARPACK misses that null space only because every Krylov vector after the first lies in the range.  Every statement of the form 'the lowest Omega^2 of the doublet operator' must be read as 'restricted to the free cells'.",
+  "The trial scan is unconverged AT THE EDGE OF ITS OWN GRID: the minimum sits at the largest r_s (9) and the largest width (4.5) tried, and the quotient is still falling there, so 'the best bound' is a property of where the grid stopped, not of the field.",
+  "The seeded fields are NOT critical points (gradient_residual_doublet ~4e-3 on the control); a Hessian at a non-stationary point still gives a valid quadratic form, but 'Omega^2' has no oscillation meaning until the residual is shown to be negligible against the mode's energy scale.",
+  "The trial family is measurably loose: the same six vectors reproduce the empty box's known bottom only to the slack factor reported in calibration.vacuum_v4rel_radiallift.family_slack_factor, so a null result of the form 'nothing below the box' cannot resolve a binding energy smaller than that slack.",
+  "'the core sector (r_s <= 4) is bounded at >= 0.12' is contradicted by the producer's own width-4.5 rows on all four fields; it is true only of the width-2.25 rows."
+ ],
+ "notes": {},
+ "harmonics_gate": {
+  "gram_own": {
+   "(2, 0)|(2, 0)": 1.0000000000000018,
+   "(2, 0)|(3, 0)": 0.0,
+   "(2, 0)|(4, 0)": 8.854028621385623e-15,
+   "(2, 0)|(2, 2)": 3.812401120000657e-17,
+   "(3, 0)|(3, 0)": 1.000000000000012,
+   "(3, 0)|(4, 0)": 5.551115123125783e-17,
+   "(4, 0)|(4, 0)": 1.0000000000000462,
+   "(2, 2)|(3, 0)": 3.319749008800382e-17,
+   "(2, 2)|(4, 0)": 2.270084355681988e-17,
+   "(2, 2)|(2, 2)": 1.0000064256046237,
+   "(2, -2)|(2, 0)": 3.764336524151016e-17,
+   "(2, -2)|(3, 0)": 3.276455533613623e-17,
+   "(2, -2)|(4, 0)": 1.9634381101835046e-17,
+   "(2, -2)|(2, 2)": 3.940968155340891e-18,
+   "(2, -2)|(2, -2)": 1.0000064256046237
+  },
+  "vs_F0_sY2": {
+   "(2, 0)": {
+    "overlap_with_F0_sY2": [
+     1.0000000000000018,
+     0.0
+    ],
+    "abs": 1.0000000000000018
+   },
+   "(3, 0)": {
+    "overlap_with_F0_sY2": [
+     1.000000000000012,
+     0.0
+    ],
+    "abs": 1.000000000000012
+   },
+   "(4, 0)": {
+    "overlap_with_F0_sY2": [
+     1.000000000000046,
+     0.0
+    ],
+    "abs": 1.000000000000046
+   },
+   "(2, 2)": {
+    "overlap_with_F0_sY2": [
+     1.0000064256046237,
+     -4.1683964745019565e-20
+    ],
+    "abs": 1.0000064256046237
+   },
+   "(2, -2)": {
+    "overlap_with_F0_sY2": [
+     1.0000064256046235,
+     -1.3961309485322876e-19
+    ],
+    "abs": 1.0000064256046235
+   }
+  }
+ },
+ "runtime_s": 681.475152015686,
+ "fields": {
+  "v6_gW2.0_control": {
+   "path": "checkpoints/m5_32_r17/r17_2_v6_gW2_n32_L48_r16_1.npy",
+   "hand_producer": -1.0,
+   "hand_own": -1.0,
+   "hand_own_read": {
+    "mean_sign_f_dot_n_cross_e": -1.0,
+    "mean_f_dot_n_cross_e": -1.0000000000000007,
+    "eig_max_dev_from_pm1": 4.127809205556332e-13
+   },
+   "T_min_eig_free": 3.396506546760386,
+   "T_max_eig_free": 3.8952560272681915,
+   "Ea_max_on_pinned": 0.0,
+   "E_stat_8": 7.277788305318547,
+   "terms_sum_minus_E_stat": 0.0
+  },
+  "v6_gW1.35_seeded": {
+   "path": "checkpoints/m5_32_r17/r17_2_v6_gW1.35_n32_L48_r16_1_split0.05.npy",
+   "hand_producer": -1.0,
+   "hand_own": -1.0,
+   "hand_own_read": {
+    "mean_sign_f_dot_n_cross_e": -1.0,
+    "mean_f_dot_n_cross_e": -0.9999999999999996,
+    "eig_max_dev_from_pm1": 6.059597268404104e-13
+   },
+   "T_min_eig_free": 3.396506548166515,
+   "T_max_eig_free": 3.8945859097882556,
+   "Ea_max_on_pinned": 0.0,
+   "E_stat_8": 7.280373107644915,
+   "terms_sum_minus_E_stat": 0.0
+  },
+  "v6_gW1.1_seeded": {
+   "path": "checkpoints/m5_32_r17/r17_2_v6_gW1.1_n32_L48_r16_1_split0.05.npy",
+   "hand_producer": -1.0,
+   "hand_own": -1.0,
+   "hand_own_read": {
+    "mean_sign_f_dot_n_cross_e": -1.0,
+    "mean_f_dot_n_cross_e": -0.9999999999999998,
+    "eig_max_dev_from_pm1": 5.027089855502709e-13
+   },
+   "T_min_eig_free": 3.3965065519144715,
+   "T_max_eig_free": 3.8954826393549182,
+   "Ea_max_on_pinned": 0.0,
+   "E_stat_8": 7.288955280491316,
+   "terms_sum_minus_E_stat": 0.0
+  },
+  "v6_gW0.5_seeded": {
+   "path": "checkpoints/m5_32_r17/r17_2_v6_gW0.5_n32_L48_r16_1_split0.05.npy",
+   "hand_producer": -1.0,
+   "hand_own": -1.0,
+   "hand_own_read": {
+    "mean_sign_f_dot_n_cross_e": -1.0,
+    "mean_f_dot_n_cross_e": -1.0000000000000004,
+    "eig_max_dev_from_pm1": 5.337952302397753e-13
+   },
+   "T_min_eig_free": 3.3965065518712465,
+   "T_max_eig_free": 3.895739517475907,
+   "Ea_max_on_pinned": 0.0,
+   "E_stat_8": 7.290890929638715,
+   "terms_sum_minus_E_stat": 0.0
+  }
+ },
+ "calibration": {
+  "vacuum_v4rel_radiallift": {
+   "K": 6,
+   "single_trial_Q": [
+    0.12795054405736755,
+    0.6767785127398221,
+    0.2916607484615728,
+    0.14327551460584495,
+    0.4683925286412803,
+    0.5098271426671791
+   ],
+   "ritz_Omega2": [
+    0.0783325650677368,
+    0.14816873540540035,
+    0.30464601272934816,
+    0.45404084968510094,
+    0.5103843148064076,
+    0.7223125134790727
+   ],
+   "ritz_min": 0.0783325650677368,
+   "T_cond": 1.0000000000000009,
+   "mix_of_min": [
+    0.3815585366167453,
+    -0.028157886061633042,
+    0.07542800620472422,
+    0.3651510632961272,
+    0.10359329038410975,
+    -0.012659380902600863
+   ],
+   "true_lowest_Omega2_lanczos": 0.03984576,
+   "family_slack_factor": 1.9658946163340039
+  },
+  "vacuum_v4rel_xlift": {
+   "single_trial_2_0_r9_w4.5": 0.08138465982557598
+  },
+  "vacuum_v6_radiallift": {
+   "single_trial_2_0_r9_w4.5": 0.12795087976709163
+  },
+  "lift_artefact_on_one_trial": 1.5721702877617454,
+  "object_v6_vs_v4rel_on_one_trial": 1.000002623745968
+ },
+ "tally": {
+  "B1": "CONFIRMED",
+  "B2": "QUALIFIED",
+  "B3": "QUALIFIED",
+  "B4": "CONFIRMED"
+ }
+}
