@@ -354,12 +354,12 @@ summand occurring there, which ranks have $`\lVert\mathcal{M}^{(j)}_K(P)\rVert \
 what that implies about whether the projected cubic can depend on the direction of $`u`$ at that
 level.
 
-**17.** Write $`Q_d([u])`$ as a function of $`\widehat{r}_6([u])`$ in each sector. Are the two
+**17.** Write $`Q_d([u])`$ as a function of $`\widehat{r}_6([u])`$ in each sector. Are the
 functions' critical sets on $`\mathbb{P}(V_3)`$ the same or different? Establish the answer from
-the form of the two functions, not by enumerating the critical set.
+the form of those functions, not by enumerating the critical set.
 
 **18.** Suppose $`\mathcal{N}(u) = \beta u`$ at some ray. Normalise so that $`B(u) = 1`$ and give
-$`\beta`$ in terms of quantities already defined. Then give the difference between the two
+$`\beta`$ in terms of quantities already defined. Then give the differences between the
 sectors' values of $`\beta`$ at the same ray. Be explicit about which normalisation each
 quantity in your answer is taken with respect to, since more than one is in play.
 

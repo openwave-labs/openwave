@@ -6,7 +6,7 @@
 > firewall and packet-audit precedent
 > [`../findings/m8_5a_reproduction_protocol.md`](../findings/m8_5a_reproduction_protocol.md)
 > and [`m8_8_task_details.md`](m8_8_task_details.md).
-> Status: 🔷 PROPOSED (author-drafted 2026-09-08, revision 14, ready for registration).
+> Status: 🚧 PROPOSED (author-drafted 2026-09-08, revision 14, ready for registration).
 
 ## TASK PLANNING (2026-09-08, author-proposed; registration and go pending)
 
