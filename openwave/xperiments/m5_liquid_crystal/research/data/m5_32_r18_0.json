@@ -1,0 +1,6972 @@
+{
+ "rung": "R18-0",
+ "a_H00_conventions": {
+  "author_pattern": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   3
+  ],
+  "our_pattern_R17_0g": [
+   0,
+   0,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   6
+  ],
+  "backgrounds": {
+   "analytic_hedgehog_n32_L48": {
+    "field": "C15.seed_uniaxial",
+    "contractions": {
+     "quartic_rebuild": {
+      "axis_r6": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          -0.0,
+          2
+         ],
+         [
+          0.1666,
+          4
+         ],
+         [
+          0.3335,
+          3
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         1,
+         1,
+         2,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": true
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          -0.0,
+          2
+         ],
+         [
+          0.2662,
+          2
+         ],
+         [
+          0.2968,
+          2
+         ],
+         [
+          0.3292,
+          1
+         ],
+         [
+          0.5929,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.3334,
+          1
+         ],
+         [
+          -0.1667,
+          2
+         ],
+         [
+          -0.0,
+          2
+         ],
+         [
+          0.1666,
+          2
+         ],
+         [
+          0.3336,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         -2,
+         -1,
+         -1,
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          -0.0,
+          1
+         ],
+         [
+          0.1666,
+          2
+         ],
+         [
+          0.3336,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": -1.0841936055083793e-11,
+         "components": {
+          "11": -0.577,
+          "22": -0.577,
+          "33": -0.577
+         }
+        },
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": 0.387,
+        "13": -0.227,
+        "22": 0.387,
+        "23": -0.227,
+        "33": -0.773
+       },
+       "eigenvalues_raw": [
+        -1.0841936055083793e-11,
+        0.0,
+        0.11811676082747538,
+        0.11813572260428591,
+        0.11951916932977312,
+        0.11970417667652034,
+        0.23780141055088375,
+        0.23782093750335792,
+        0.23810446591120607,
+        0.7133648566259118
+       ]
+      },
+      "axis_r12": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          2
+         ],
+         [
+          0.1667,
+          4
+         ],
+         [
+          0.3333,
+          3
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         1,
+         1,
+         2,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": true
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          2
+         ],
+         [
+          0.3158,
+          4
+         ],
+         [
+          0.3438,
+          1
+         ],
+         [
+          0.6463,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.3333,
+          1
+         ],
+         [
+          -0.1667,
+          2
+         ],
+         [
+          -0.0,
+          2
+         ],
+         [
+          0.1667,
+          2
+         ],
+         [
+          0.3333,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         -2,
+         -1,
+         -1,
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.1667,
+          2
+         ],
+         [
+          0.3333,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        },
+        {
+         "eigenvalue": 7.167069545070241e-18,
+         "components": {
+          "11": 0.577,
+          "22": 0.577,
+          "33": 0.577
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": 0.403,
+        "13": -0.113,
+        "22": 0.403,
+        "23": -0.113,
+        "33": -0.806
+       },
+       "eigenvalues_raw": [
+        0.0,
+        7.167069545070241e-18,
+        0.02965475291825158,
+        0.02965484633570859,
+        0.029673045942988866,
+        0.02967366456391518,
+        0.059328499062203964,
+        0.05932851089939091,
+        0.059329442982816505,
+        0.17798532448875043
+       ]
+      }
+     },
+     "full_v4_rebuild": {
+      "axis_r6": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0871,
+          4
+         ],
+         [
+          0.1742,
+          1
+         ],
+         [
+          0.2553,
+          1
+         ],
+         [
+          0.9069,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0925,
+          4
+         ],
+         [
+          0.1464,
+          1
+         ],
+         [
+          0.1921,
+          1
+         ],
+         [
+          0.5204,
+          1
+         ],
+         [
+          0.5958,
+          1
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.1742,
+          1
+         ],
+         [
+          -0.0871,
+          2
+         ],
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0872,
+          2
+         ],
+         [
+          0.2553,
+          1
+         ],
+         [
+          0.9069,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0872,
+          2
+         ],
+         [
+          0.2553,
+          1
+         ],
+         [
+          0.9069,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 0,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": -0.642,
+        "13": 0.195,
+        "22": -0.642,
+        "23": 0.195,
+        "33": 0.315
+       },
+       "eigenvalues_raw": [
+        0.0,
+        0.11811217249756813,
+        0.11811676082747538,
+        0.11970417667652034,
+        0.11985736463128352,
+        0.23782093750335792,
+        0.34850946155012574,
+        1.2377662706145993,
+        1.2377766440668934,
+        1.3649037116654592
+       ]
+      },
+      "axis_r12": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0278,
+          4
+         ],
+         [
+          0.0556,
+          1
+         ],
+         [
+          0.1043,
+          1
+         ],
+         [
+          0.9954,
+          3
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0277,
+          4
+         ],
+         [
+          0.0548,
+          2
+         ],
+         [
+          0.5069,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.0556,
+          1
+         ],
+         [
+          -0.0278,
+          2
+         ],
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0278,
+          2
+         ],
+         [
+          0.1043,
+          1
+         ],
+         [
+          0.9954,
+          3
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0278,
+          2
+         ],
+         [
+          0.1043,
+          1
+         ],
+         [
+          0.9954,
+          3
+         ]
+        ],
+        "n_zero": 0,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": -0.701,
+        "13": 0.074,
+        "22": -0.701,
+        "23": 0.074,
+        "33": 0.081
+       },
+       "eigenvalues_raw": [
+        0.0,
+        0.029654668536218183,
+        0.02965484633570859,
+        0.02967366456391518,
+        0.02967425293410329,
+        0.05932851089939091,
+        0.1112321055505445,
+        1.0593282359911842,
+        1.0593284485097156,
+        1.0667533538730471
+       ]
+      }
+     }
+    }
+   },
+   "r16_1_end_n32_L48": {
+    "field": "checkpoints/m5_32_r16/r16_1_rebuild_n32_L48.npy",
+    "contractions": {
+     "quartic_rebuild": {
+      "axis_r6": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          2
+         ],
+         [
+          0.1931,
+          4
+         ],
+         [
+          0.3347,
+          3
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          2
+         ],
+         [
+          0.2735,
+          1
+         ],
+         [
+          0.311,
+          3
+         ],
+         [
+          0.3773,
+          1
+         ],
+         [
+          0.5782,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.3374,
+          1
+         ],
+         [
+          -0.1829,
+          2
+         ],
+         [
+          0.0,
+          2
+         ],
+         [
+          0.2033,
+          2
+         ],
+         [
+          0.3334,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.2033,
+          2
+         ],
+         [
+          0.3334,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5297,
+          1
+         ],
+         [
+          0.5544,
+          1
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        },
+        {
+         "eigenvalue": 1.4456104798775971e-11,
+         "components": {
+          "11": 0.577,
+          "22": 0.577,
+          "33": 0.577
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": -0.382,
+        "13": 0.251,
+        "22": -0.382,
+        "23": 0.251,
+        "33": 0.763
+       },
+       "eigenvalues_raw": [
+        0.0,
+        1.4456104798775971e-11,
+        0.08740759331604675,
+        0.09148414392700434,
+        0.09757600974766809,
+        0.10124758910433086,
+        0.16297053824240315,
+        0.16312895933664884,
+        0.16501425656544125,
+        0.4890375205209031
+       ]
+      },
+      "axis_r12": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          -0.0,
+          2
+         ],
+         [
+          0.1679,
+          4
+         ],
+         [
+          0.3335,
+          3
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         1,
+         1,
+         2,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": true
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          2
+         ],
+         [
+          0.3176,
+          4
+         ],
+         [
+          0.3459,
+          1
+         ],
+         [
+          0.6466,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.3338,
+          1
+         ],
+         [
+          -0.1672,
+          2
+         ],
+         [
+          0.0,
+          2
+         ],
+         [
+          0.1686,
+          2
+         ],
+         [
+          0.3333,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 2,
+        "integer_pattern_of_nonzero": [
+         -2,
+         -1,
+         -1,
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          -0.0,
+          1
+         ],
+         [
+          0.1686,
+          2
+         ],
+         [
+          0.3333,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2,
+         2,
+         6
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5009,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": -1.4665743439028124e-17,
+         "components": {
+          "11": 0.577,
+          "22": 0.577,
+          "33": 0.577
+         }
+        },
+        {
+         "eigenvalue": 0.0,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": 0.403,
+        "13": -0.113,
+        "22": 0.403,
+        "23": -0.113,
+        "33": -0.806
+       },
+       "eigenvalues_raw": [
+        -1.4665743439028124e-17,
+        0.0,
+        0.02822929956740501,
+        0.028326129616026454,
+        0.028459372447854743,
+        0.028562993650904336,
+        0.056377095903978096,
+        0.056378267847006475,
+        0.05645032488326975,
+        0.16913231877830104
+       ]
+      }
+     },
+     "full_v4_rebuild": {
+      "axis_r6": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0804,
+          4
+         ],
+         [
+          0.135,
+          1
+         ],
+         [
+          0.2181,
+          1
+         ],
+         [
+          0.951,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0802,
+          4
+         ],
+         [
+          0.1332,
+          2
+         ],
+         [
+          0.5237,
+          1
+         ],
+         [
+          0.5666,
+          1
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.135,
+          1
+         ],
+         [
+          -0.0732,
+          2
+         ],
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0877,
+          2
+         ],
+         [
+          0.2181,
+          1
+         ],
+         [
+          0.951,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0877,
+          2
+         ],
+         [
+          0.2181,
+          1
+         ],
+         [
+          0.951,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 0,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5297,
+          1
+         ],
+         [
+          0.5544,
+          1
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 5.856860135766695e-08,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": -0.661,
+        "12": -0.054,
+        "13": 0.201,
+        "22": -0.661,
+        "23": 0.201,
+        "33": 0.206
+       },
+       "eigenvalues_raw": [
+        5.856860135766695e-08,
+        0.0874076518846481,
+        0.09148420248649036,
+        0.10550703520380043,
+        0.10895566839457793,
+        0.16501431512147394,
+        0.2667084041557124,
+        1.1626316251186284,
+        1.1629696763842592,
+        1.2226621590653317
+       ]
+      },
+      "axis_r12": {
+       "frobenius_orthonormal (R17-0g)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0267,
+          4
+         ],
+         [
+          0.0531,
+          1
+         ],
+         [
+          0.0998,
+          1
+         ],
+         [
+          0.9958,
+          3
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0266,
+          4
+         ],
+         [
+          0.0524,
+          2
+         ],
+         [
+          0.5066,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+        "normalized_groups": [
+         [
+          -0.0531,
+          1
+         ],
+         [
+          -0.0266,
+          2
+         ],
+         [
+          0.0,
+          1
+         ],
+         [
+          0.0268,
+          2
+         ],
+         [
+          0.0998,
+          1
+         ],
+         [
+          0.9958,
+          3
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+       "spatial 6x6 block": {
+        "normalized_groups": [
+         [
+          0.0268,
+          2
+         ],
+         [
+          0.0998,
+          1
+         ],
+         [
+          0.9958,
+          3
+         ]
+        ],
+        "n_zero": 0,
+        "integer_pattern_of_nonzero": null,
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "time-row 4x4 block (0a directions)": {
+        "normalized_groups": [
+         [
+          0.0,
+          1
+         ],
+         [
+          0.5009,
+          2
+         ],
+         [
+          1.0,
+          1
+         ]
+        ],
+        "n_zero": 1,
+        "integer_pattern_of_nonzero": [
+         1,
+         1,
+         2
+        ],
+        "matches_author": false,
+        "matches_ours": false
+       },
+       "spatial-time coupling norm over H norm": 0.0,
+       "kernel": [
+        {
+         "eigenvalue": 6.057979638762756e-09,
+         "components": {
+          "00": 1.0
+         }
+        }
+       ],
+       "top_direction_components": {
+        "11": -0.701,
+        "13": 0.074,
+        "22": -0.701,
+        "23": 0.074,
+        "33": 0.077
+       },
+       "eigenvalues_raw": [
+        6.057979638762756e-09,
+        0.028229305625384653,
+        0.028326135674006096,
+        0.028471980746285867,
+        0.02857667429761044,
+        0.0564503309412494,
+        0.10606573471040019,
+        1.0563755384114,
+        1.0563772482349263,
+        1.0630682065740682
+       ]
+      }
+     }
+    }
+   }
+  },
+  "continuum_axis": {
+   "z6": {
+    "frobenius_orthonormal (R17-0g)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       2
+      ],
+      [
+       0.1667,
+       4
+      ],
+      [
+       0.3333,
+       3
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": true
+    },
+    "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       2
+      ],
+      [
+       0.3333,
+       5
+      ],
+      [
+       0.6667,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      3
+     ],
+     "matches_author": true,
+     "matches_ours": false
+    },
+    "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+     "normalized_groups": [
+      [
+       -0.3333,
+       1
+      ],
+      [
+       -0.1667,
+       2
+      ],
+      [
+       -0.0,
+       2
+      ],
+      [
+       0.1667,
+       2
+      ],
+      [
+       0.3333,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      -2,
+      -1,
+      -1,
+      1,
+      1,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+    "spatial 6x6 block": {
+     "normalized_groups": [
+      [
+       0.0,
+       1
+      ],
+      [
+       0.1667,
+       2
+      ],
+      [
+       0.3333,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 1,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "time-row 4x4 block (0a directions)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       1
+      ],
+      [
+       0.5,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 1,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      2
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "spatial-time coupling norm over H norm": 7.69758265787864e-17,
+    "kernel": [
+     {
+      "eigenvalue": -9.77219054513594e-17,
+      "components": {
+       "00": -0.077,
+       "11": -0.576,
+       "22": -0.576,
+       "33": -0.576
+      }
+     },
+     {
+      "eigenvalue": 5.773907966577089e-19,
+      "components": {
+       "00": -0.997
+      }
+     }
+    ],
+    "top_direction_components": {
+     "11": -0.408,
+     "22": -0.408,
+     "33": 0.816
+    },
+    "eigenvalues_raw": [
+     -9.77219054513594e-17,
+     5.773907966577089e-19,
+     0.1088888888888888,
+     0.10888888888888885,
+     0.10888888888888892,
+     0.10888888888888894,
+     0.21777777777777765,
+     0.21777777777777776,
+     0.21777777777777788,
+     0.6533333333333339
+    ]
+   },
+   "z12": {
+    "frobenius_orthonormal (R17-0g)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       2
+      ],
+      [
+       0.1667,
+       4
+      ],
+      [
+       0.3333,
+       3
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": true
+    },
+    "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       2
+      ],
+      [
+       0.3333,
+       5
+      ],
+      [
+       0.6667,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      3
+     ],
+     "matches_author": true,
+     "matches_ours": false
+    },
+    "eta-weighted inner product (generalized eigenvalues of G^-1 H, G = diag(eta_aa eta_bb))": {
+     "normalized_groups": [
+      [
+       -0.3333,
+       1
+      ],
+      [
+       -0.1667,
+       2
+      ],
+      [
+       0.0,
+       2
+      ],
+      [
+       0.1667,
+       2
+      ],
+      [
+       0.3333,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 2,
+     "integer_pattern_of_nonzero": [
+      -2,
+      -1,
+      -1,
+      1,
+      1,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "eta-weighted: max imaginary part (must be 0: H PSD)": 0.0,
+    "spatial 6x6 block": {
+     "normalized_groups": [
+      [
+       0.0,
+       1
+      ],
+      [
+       0.1667,
+       2
+      ],
+      [
+       0.3333,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 1,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      2,
+      2,
+      6
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "time-row 4x4 block (0a directions)": {
+     "normalized_groups": [
+      [
+       -0.0,
+       1
+      ],
+      [
+       0.5,
+       2
+      ],
+      [
+       1.0,
+       1
+      ]
+     ],
+     "n_zero": 1,
+     "integer_pattern_of_nonzero": [
+      1,
+      1,
+      2
+     ],
+     "matches_author": false,
+     "matches_ours": false
+    },
+    "spatial-time coupling norm over H norm": 1.0327804373416868e-16,
+    "kernel": [
+     {
+      "eigenvalue": -4.168977936797289e-17,
+      "components": {
+       "11": 0.577,
+       "22": 0.577,
+       "33": 0.577
+      }
+     },
+     {
+      "eigenvalue": 5.641594452949055e-20,
+      "components": {
+       "00": -0.999
+      }
+     }
+    ],
+    "top_direction_components": {
+     "11": 0.408,
+     "22": 0.408,
+     "33": -0.816
+    },
+    "eigenvalues_raw": [
+     -4.168977936797289e-17,
+     5.641594452949055e-20,
+     0.027222222222222193,
+     0.0272222222222222,
+     0.02722222222222222,
+     0.027222222222222228,
+     0.05444444444444438,
+     0.05444444444444438,
+     0.054444444444444455,
+     0.16333333333333327
+    ]
+   }
+  },
+  "lattice_cell_off_axis_note": {
+   "cell": "x = y = h/2 = 0.75, z 11.25: 5.4 degrees off the axis",
+   "coordinate_reading_groups_on_the_cell": [
+    [
+     0.0,
+     2
+    ],
+    [
+     0.3158,
+     4
+    ],
+    [
+     0.3438,
+     1
+    ],
+    [
+     0.6463,
+     2
+    ],
+    [
+     1.0,
+     1
+    ]
+   ],
+   "statement": "the coordinate-basis reading is basis-dependent and distorted off the axis (the audit: 7 percent at h 1.5, 3 percent at h 0.75, converging); the Frobenius-orthonormal reading is not"
+  },
+  "decision": {
+   "conventions_matching_author_on_the_exact_axis": [
+    "coordinate basis (E_ab + E_ba, the off-diagonal directions of norm sqrt 2)"
+   ],
+   "statement": "A BASIS CONVENTION, as pre-registered: the author's {1,1,1,1,1,2,2,3} is our H_00 read in the coordinate basis (E_ab + E_ba, the six off-diagonal directions of norm sqrt 2) on the axis; our {1,1,1,1,2,2,2,6} is the same form in the Frobenius-orthonormal basis; the characteristic speeds are basis-independent and both sides agree on them; the first version of this script decided the opposite from a lattice cell 5.4 degrees off the axis with a 2 percent clustering tolerance (the R18-0 audit's finding, corrected here)"
+  },
+  "plot": "plots/m5_32_r18_0_h00.png"
+ },
+ "b_section_177": {
+  "rows": [
+   {
+    "core": "r16_1_end_n32_L48",
+    "n": 32,
+    "L": 48,
+    "h": 1.5,
+    "r_0_profile_box_units": 3.0429921835847935,
+    "r_0_taper": 3.2691742076555053,
+    "r_0_half": 1.299038105676658,
+    "r_0_profile_sqrt_mu (mu 1e-2)": 0.3042992183584794,
+    "r_0_profile_in_cells": 2.0286614557231957,
+    "section_177_reading_in_cells (r_0 sqrt mu read as a width in box units)": 0.2028661455723196,
+    "Delta_min": 0.049814428447529924
+   },
+   {
+    "core": "r16_1_end_n48_L72",
+    "n": 48,
+    "L": 72,
+    "h": 1.5,
+    "r_0_profile_box_units": 3.1105676892353973,
+    "r_0_taper": 3.2691742076555053,
+    "r_0_half": 2.48746859276655,
+    "r_0_profile_sqrt_mu (mu 1e-2)": 0.31105676892353973,
+    "r_0_profile_in_cells": 2.073711792823598,
+    "section_177_reading_in_cells (r_0 sqrt mu read as a width in box units)": 0.20737117928235982,
+    "Delta_min": 0.05365814498463872
+   },
+   {
+    "core": "r16_1_end_n64_L48",
+    "n": 64,
+    "L": 48,
+    "h": 0.75,
+    "r_0_profile_box_units": 0.9989924222699454,
+    "r_0_taper": 0.649519052838329,
+    "r_0_half": 0.0,
+    "r_0_profile_sqrt_mu (mu 1e-2)": 0.09989924222699455,
+    "r_0_profile_in_cells": 1.3319898963599273,
+    "section_177_reading_in_cells (r_0 sqrt mu read as a width in box units)": 0.13319898963599272,
+    "Delta_min": 0.10718082536102491
+   }
+  ],
+  "statement": "section 177 reads the 0.304 as a core WIDTH of 0.304 box units and concludes the h 0.75 run resolves 0.41 cells; on the record r_0 is the radius where the shell-mean director eigenvalue crosses 0.8, 3.04 / 3.11 / 1.00 box units on the n32 L48 / n48 L72 / n64 L48 cores (mu = 1e-2, so r_0 sqrt mu = r_0 / 10), i.e. 2.0 / 2.1 / 1.3 cells: none resolved, and the fine grid shows the SMALLER core (the spread is real and points the other way); the tube solve (R18-1) is the instrument that decides it"
+ },
+ "c_spin2_zeros": {
+  "fields": {
+   "the_seed (R16-1 core + 0.05 Ea at r 2)": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.20563821300013346,
+     "zeta_rms_cells": 0.09632622063730602,
+     "zeta_max_cells": 0.09755737952781735,
+     "min_director_gap": 0.0028909920417815593,
+     "min_director_dot_rhat": 0.9999289297773791,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.0003797628016269218
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335995,
+        -0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.0003984163179217336
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0246776707783358,
+        0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00039841631751387865
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00037976280109439895
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.6818363104629636,
+      "3": 9.75001037786301e-08,
+      "4": 0.3181635920369327
+     },
+     "l2_m_power": {
+      "-2": 5.495937966169441e-07,
+      "-1": 1.0991498095437585e-06,
+      "0": 0.09275399349614313,
+      "1": 1.0991498133112327e-06,
+      "2": 5.495937971877192e-07
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -4.1518936259933783e-19,
+      -4.1413132726792624e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.23198980859695348,
+     "zeta_rms_cells": 0.09037448563944626,
+     "zeta_max_cells": 0.09755737952781735,
+     "min_director_gap": 0.0028909920417815593,
+     "min_director_dot_rhat": 0.9998255613995226,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00033443903642458835
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335995,
+        -0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00024638838121330685
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0246776707783358,
+        0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00024638838155442613
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00033443903697077964
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9012465928242639,
+      "3": 7.554139224453814e-10,
+      "4": 0.0987534064203222
+     },
+     "l2_m_power": {
+      "-2": 7.738619582317027e-07,
+      "-1": 1.5476688546008412e-06,
+      "0": 0.07993610613044011,
+      "1": 1.547668856831728e-06,
+      "2": 7.738619584201406e-07
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -4.1518936259933783e-19,
+      -4.1413132726792624e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.3161726705048336,
+     "zeta_rms_cells": 0.08037277882487683,
+     "zeta_max_cells": 0.09755737952781735,
+     "min_director_gap": 0.12319184048191778,
+     "min_director_dot_rhat": 0.9998255613995226,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.0002388358717148637
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335995,
+        -0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.0001457237082666265
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0246776707783358,
+        0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00014572370834122677
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00023883587178849191
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999998,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.8725242504528665,
+      "3": 1.6814644817057528e-08,
+      "4": 0.1274757327324887
+     },
+     "l2_m_power": {
+      "-2": 1.0369285302073436e-06,
+      "-1": 2.0737791676298015e-06,
+      "0": 0.06708910780756301,
+      "1": 2.0737791677659828e-06,
+      "2": 1.0369285301511218e-06
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -4.1518936259933783e-19,
+      -4.1413132726792624e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.3964205028300725,
+     "zeta_rms_cells": 0.044152143823481683,
+     "zeta_max_cells": 0.06444461248754844,
+     "min_director_gap": 0.42721090620188407,
+     "min_director_dot_rhat": 0.9997647810195338,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00021860204769579692
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335995,
+        -0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00011336961101524523
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0246776707783358,
+        0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00011336961102191916
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00021860204770218796
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999998,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.8542204820304367,
+      "3": 1.1308276376974408e-07,
+      "4": 0.10423785558580147,
+      "5": 0.0063331201143840945,
+      "6": 0.03520842918661399
+     },
+     "l2_m_power": {
+      "-2": 1.3956423548596177e-06,
+      "-1": 2.791221998107541e-06,
+      "0": 0.017811299398489164,
+      "1": 2.7912219981236922e-06,
+      "2": 1.3956423548526764e-06
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -4.1518936259933783e-19,
+      -4.1413132726792624e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.5454301441040452,
+     "zeta_rms_cells": 0.017193763761323165,
+     "zeta_max_cells": 0.03511442873511164,
+     "min_director_gap": 0.532418589008509,
+     "min_director_dot_rhat": 0.9998785682460913,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.04932527561613236,
+        0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 8.487181260790807e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356673,
+        -0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 9.085802083406268e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356691,
+        0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 9.085802083454058e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613253,
+        -0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 8.487181261037013e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.8747978882865007,
+      "3": 1.7834716682998294e-06,
+      "4": 0.10371814901843464,
+      "5": 0.001244735756198784,
+      "6": 0.020237443467197528
+     },
+     "l2_m_power": {
+      "-2": 1.3121003040141998e-06,
+      "-1": 2.6241391364223858e-06,
+      "0": 0.0022327092148745234,
+      "1": 2.6241391364250586e-06,
+      "2": 1.3121003040121883e-06
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.01234071493982694,
+      -0.012340714939826764,
+      0.9998476951563912
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9924038765061035,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563912,
+     "axis_dot_111": 0.5630125057621663
+    }
+   },
+   "v4rel_static_end (residual split 2e-4)": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.13273078048117767,
+     "zeta_rms_cells": 0.00023236405724655113,
+     "zeta_max_cells": 0.00032893453014354524,
+     "min_director_gap": 0.037420883091624224,
+     "min_director_dot_rhat": 0.999825546067596,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.6123993747501281,
+        0.49591123561125927,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 1.9212357871965733e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.49591123561125927,
+        0.6123993747501281,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 6.204535962589859e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 5.087911900263349e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6123724356957946,
+        0.6123724356957945,
+        0.5000000000000001
+       ],
+       "abs_fit_at_face": 1.263115002676756e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6123724356957946,
+        -0.6123724356957945,
+        -0.5000000000000002
+       ],
+       "abs_fit_at_face": 1.2631154168525427e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 5.087916164406259e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6123993747501285,
+        -0.49591123561125894,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 1.9212354215634255e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.4959112356112597,
+        -0.612399374750128,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 6.204535649745729e-07
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9981195332548846,
+      "3": 0.00098962982492476,
+      "4": 0.0008908369201907125
+     },
+     "l2_m_power": {
+      "-2": 1.1011414319961413e-07,
+      "-1": 2.202047956158408e-07,
+      "0": 1.3495635188765473e-16,
+      "1": 2.2020479519045364e-07,
+      "2": 1.10114143015511e-07
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.5751307745164717,
+      -0.5751307745164714,
+      -0.5817638562236117
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9932298589385868,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5817638562236117,
+     "axis_dot_111": 0.9999853339681428
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.1491291914098936,
+     "zeta_rms_cells": 0.00026357384704693397,
+     "zeta_max_cells": 0.00039089550169169604,
+     "min_director_gap": 0.037420883091624224,
+     "min_director_dot_rhat": 0.999825546067596,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5572077475232348,
+        0.5572077475232347,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 5.129104977640382e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6063196974695014,
+        0.565402264912733,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 6.388269346262758e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5862180894121044,
+        0.5862180894121044,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.607531535721506e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5654022649127332,
+        0.6063196974695013,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.6075253092426345e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6063196974695014,
+        -0.5654022649127329,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 6.388269241454087e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5862180894121045,
+        -0.5862180894121044,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.6075297992686084e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5654022649127334,
+        -0.6063196974695011,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.6075270176592537e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5572077475232349,
+        -0.5572077475232348,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 5.129104245125147e-07
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999998,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9996557975090566,
+      "3": 2.904053439647706e-05,
+      "4": 0.00031516195654690326
+     },
+     "l2_m_power": {
+      "-2": 1.3764567349898424e-07,
+      "-1": 2.7526242790250043e-07,
+      "0": 7.101852981393573e-17,
+      "1": 2.7526242765630146e-07,
+      "2": 1.376456733928097e-07
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.5791762917044816,
+      -0.5791762917044806,
+      -0.5736807877686784
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9986732676890137,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5736807877686784,
+     "axis_dot_111": 0.9999899330948259
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.09141137016573503,
+     "zeta_rms_cells": 0.0002871126931376688,
+     "zeta_max_cells": 0.00039089550169169604,
+     "min_director_gap": 0.21321039652844442,
+     "min_director_dot_rhat": 0.9997109078665765,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 5.998791579747267e-08
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6063196974695014,
+        0.565402264912733,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 7.317400375956759e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5862180894121044,
+        0.5862180894121044,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 5.998791579747267e-08
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5654022649127332,
+        0.6063196974695013,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 5.998784084046931e-08
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6063196974695014,
+        -0.5654022649127329,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 7.317400976375884e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5862180894121045,
+        -0.5862180894121044,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 5.998794027266904e-08
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5654022649127334,
+        -0.6063196974695011,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 5.998794580875421e-08
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 5.998794027266904e-08
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9998306316323663,
+      "3": 0.00012386489941568633,
+      "4": 4.550346821805679e-05
+     },
+     "l2_m_power": {
+      "-2": 1.736150078229304e-07,
+      "-1": 3.4718311994934987e-07,
+      "0": 3.526560785898113e-16,
+      "1": 3.471831199418945e-07,
+      "2": 1.7361500777310792e-07
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.5826882412205474,
+      -0.5826882412205475,
+      -0.5665234567841039
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9993554939897613,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5665234567841039,
+     "axis_dot_111": 0.9999128961211652
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.04175162915387906,
+     "zeta_rms_cells": 0.0003365349337907296,
+     "zeta_max_cells": 0.00047558004860065434,
+     "min_director_gap": 0.39438974913594593,
+     "min_director_dot_rhat": 0.9997109078665765,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5572077475232348,
+        0.5572077475232347,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 8.327456270104651e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6256825983719214,
+        0.5438975848471079,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.5102037444367317e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5862180894121044,
+        0.5862180894121044,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 2.6974837895724626e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5438975848471079,
+        0.6256825983719214,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 9.635794146859737e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6256825983719215,
+        -0.5438975848471077,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.5102037512492065e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5862180894121045,
+        -0.5862180894121044,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 2.697483764315457e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5438975848471082,
+        -0.6256825983719212,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 9.635794097531865e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5572077475232349,
+        -0.5572077475232348,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 8.327456271976361e-07
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9995314721845634,
+      "3": 0.00025951378142330834,
+      "4": 0.0001825082464987107,
+      "5": 1.0890908024463906e-06,
+      "6": 2.5416696712124823e-05
+     },
+     "l2_m_power": {
+      "-2": 2.397898946684847e-07,
+      "-1": 4.79528151577908e-07,
+      "0": 4.4944126029601877e-17,
+      "1": 4.795281515799093e-07,
+      "2": 2.397898946575696e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.5789953569794128,
+      -0.5789953569794128,
+      -0.5740459504190972
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9974344723122515,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5740459504190972,
+     "axis_dot_111": 0.9999918344248954
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.012091774887299504,
+     "zeta_rms_cells": 0.00035648420868188206,
+     "zeta_max_cells": 0.00047999732954208965,
+     "min_director_gap": 0.4827928486190407,
+     "min_director_dot_rhat": 0.9998585263960935,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5416752204197018,
+        0.5416752204197018,
+        0.6427876096865395
+       ],
+       "abs_fit_at_face": 1.4023326987022792e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 4.2459716595998777e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6256825983719214,
+        0.5438975848471079,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 8.90948784719988e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5438975848471079,
+        0.6256825983719214,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.1457853843627548e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6256825983719215,
+        -0.5438975848471077,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 8.909487833949269e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5438975848471082,
+        -0.6256825983719212,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.1457853856262184e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 4.2459716962538097e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.541675220419702,
+        -0.5416752204197018,
+        -0.6427876096865394
+       ],
+       "abs_fit_at_face": 1.4023327023226797e-06
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9988663378752636,
+      "3": 0.00040919311940899823,
+      "4": 0.0007085399561767853,
+      "5": 1.2088810551761394e-06,
+      "6": 1.4720168095522788e-05
+     },
+     "l2_m_power": {
+      "-2": 2.6440912534396724e-07,
+      "-1": 5.287918820417926e-07,
+      "0": 1.950008538295441e-17,
+      "1": 5.287918820390057e-07,
+      "2": 2.644091253413936e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.5718197195815513,
+      -0.5718197195815513,
+      -0.5882554008212353
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9965433823246725,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5882554008212353,
+     "axis_dot_111": 0.9999099520730815
+    }
+   },
+   "v6_gW0.5_seeded_end": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.06848144319605148,
+     "zeta_rms_cells": 0.012003593648981034,
+     "zeta_max_cells": 0.015749377465192373,
+     "min_director_gap": 0.032702733808822826,
+     "min_director_dot_rhat": 0.9997571932018089,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.12278780396897285,
+        0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 7.863267381175101e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.1710646128960291,
+        -0.17106461289602903,
+        0.9702957262759965
+       ],
+       "abs_fit_at_face": 3.400085293113453e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.17106461289602906,
+        0.17106461289602903,
+        -0.9702957262759965
+       ],
+       "abs_fit_at_face": 3.400085265494732e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897282,
+        -0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 7.863267361111155e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9968905946632431,
+      "3": 1.324154969623692e-05,
+      "4": 0.0030961637870606648
+     },
+     "l2_m_power": {
+      "-2": 4.732591639928581e-07,
+      "-1": 1.5824687373077467e-07,
+      "0": 0.001814886141026518,
+      "1": 1.5824687217055722e-07,
+      "2": 4.7325916406011925e-07
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.02467767077833603,
+      -0.02467767077833612,
+      0.9993908270190957
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9567727288213004,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9993908270190957,
+     "axis_dot_111": 0.5485032432714271
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.06699451214784262,
+     "zeta_rms_cells": 0.012010611492971578,
+     "zeta_max_cells": 0.016464008876359983,
+     "min_director_gap": 0.032702733808822826,
+     "min_director_dot_rhat": 0.9997571932018089,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.12278780396897285,
+        0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 4.010720127502259e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.1470157664651985,
+        -0.14701576646519846,
+        0.9781476007338057
+       ],
+       "abs_fit_at_face": 7.603243033806251e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.14701576646519846,
+        0.14701576646519846,
+        -0.9781476007338057
+       ],
+       "abs_fit_at_face": 7.603243061556265e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897282,
+        -0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 4.010720145321661e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9988595945858415,
+      "3": 2.006317956135145e-06,
+      "4": 0.0011383990962024243
+     },
+     "l2_m_power": {
+      "-2": 4.1252311096385446e-07,
+      "-1": 2.3353760645222569e-07,
+      "0": 0.0019157227309330872,
+      "1": 2.335376047496529e-07,
+      "2": 4.125231110152611e-07
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826952,
+      -0.012340714939826757,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9635919272833935,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.03704557164722125,
+     "zeta_rms_cells": 0.01227623090866117,
+     "zeta_max_cells": 0.016464008876359983,
+     "min_director_gap": 0.20576784952924776,
+     "min_director_dot_rhat": 0.9996953744228184,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 8.775782690774962e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 9.157440828244151e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 9.157440850041637e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 8.775782705864777e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999993,
+     "ring_S": 1.9999999999999993,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9994016967503735,
+      "3": 1.8304240762649491e-06,
+      "4": 0.0005964728255502203
+     },
+     "l2_m_power": {
+      "-2": 3.3129208553929417e-07,
+      "-1": 3.487691154799655e-07,
+      "0": 0.0018602571932417285,
+      "1": 3.4876911372626996e-07,
+      "2": 3.31292085589444e-07
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 1,
+      "n_zeros": 7,
+      "index_histogram": {
+       "-1": 3,
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.09450701573266104,
+     "zeta_rms_cells": 0.010453654867723554,
+     "zeta_max_cells": 0.015274042962917388,
+     "min_director_gap": 0.3889140312769096,
+     "min_director_dot_rhat": 0.9996953744228184,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 6.11671511170341e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 7.733383882773637e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 7.733383897249956e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 6.116715124731607e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999993,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9991043348634193,
+      "3": 1.1224795697244562e-06,
+      "4": 0.0007770982779856004,
+      "5": 0.00010995956110009185,
+      "6": 7.484817925343068e-06
+     },
+     "l2_m_power": {
+      "-2": 2.670108059906988e-07,
+      "-1": 5.192464262781116e-07,
+      "0": 0.0013414533842473798,
+      "1": 5.192464250395452e-07,
+      "2": 2.670108060276711e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.16544578206587257,
+     "zeta_rms_cells": 0.00774162084960422,
+     "zeta_max_cells": 0.01220440911236911,
+     "min_director_gap": 0.4778003726993523,
+     "min_director_dot_rhat": 0.9998473018222599,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 7.538185398189364e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 3.362451581654396e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 3.362451589525353e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 7.538185404747329e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9982410696093221,
+      "3": 2.318630212944768e-06,
+      "4": 0.0016054227119214313,
+      "5": 5.749110186941317e-05,
+      "6": 9.369794667401122e-05
+     },
+     "l2_m_power": {
+      "-2": 2.558340618757714e-07,
+      "-1": 5.616418738255538e-07,
+      "0": 0.0007326816152438215,
+      "1": 5.61641873173762e-07,
+      "2": 2.5583406189723436e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 3,
+      "n_zeros": 9,
+      "index_histogram": {
+       "-1": 3,
+       "1": 6
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    }
+   },
+   "v6_gW1.1_seeded_end": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.03068584057251382,
+     "zeta_rms_cells": 0.019064646940853868,
+     "zeta_max_cells": 0.024271639262898197,
+     "min_director_gap": 0.02813969666531646,
+     "min_director_dot_rhat": 0.9996767348333288,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.12278780396897285,
+        0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 3.0826570768469454e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.1470157664651985,
+        -0.14701576646519846,
+        0.9781476007338057
+       ],
+       "abs_fit_at_face": 4.263814392418352e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.14701576646519846,
+        0.14701576646519846,
+        -0.9781476007338057
+       ],
+       "abs_fit_at_face": 4.263814431709239e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897282,
+        -0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 3.0826569987650075e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.999784997790844,
+      "3": 4.12900928351238e-05,
+      "4": 0.0001737121163208957
+     },
+     "l2_m_power": {
+      "-2": 1.5307542911167352e-06,
+      "-1": 1.7073314901610623e-07,
+      "0": 0.004562648501142896,
+      "1": 1.7073315507789466e-07,
+      "2": 1.5307542928321982e-06
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826952,
+      -0.012340714939826757,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9635919272833935,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.046335909515939806,
+     "zeta_rms_cells": 0.01810691085598196,
+     "zeta_max_cells": 0.024271639262898197,
+     "min_director_gap": 0.02813969666531646,
+     "min_director_dot_rhat": 0.9996767348333288,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.12278780396897285,
+        0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 6.55590473882662e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.1470157664651985,
+        -0.14701576646519846,
+        0.9781476007338057
+       ],
+       "abs_fit_at_face": 0.00011766857935974362
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.14701576646519846,
+        0.14701576646519846,
+        -0.9781476007338057
+       ],
+       "abs_fit_at_face": 0.00011766858036760648
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897282,
+        -0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 6.555904674967182e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999993,
+     "ring_S": 1.9999999999999993,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9997477593961003,
+      "3": 1.2010392132404625e-05,
+      "4": 0.00024023021176732096
+     },
+     "l2_m_power": {
+      "-2": 1.1567076079929958e-06,
+      "-1": 2.609832425328528e-07,
+      "0": 0.0043020410865070614,
+      "1": 2.60983248591672e-07,
+      "2": 1.1567076092448766e-06
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826952,
+      -0.012340714939826757,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9635919272833935,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.10510284882984085,
+     "zeta_rms_cells": 0.017275788874346075,
+     "zeta_max_cells": 0.024271639262898197,
+     "min_director_gap": 0.19987202274489696,
+     "min_director_dot_rhat": 0.9996931855623407,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.00013474051823761715
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00015017476279493192
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00015017476349747232
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.0001347405180597306
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9991801161530885,
+      "3": 1.2330792030049162e-05,
+      "4": 0.0008075530548812933
+     },
+     "l2_m_power": {
+      "-2": 7.41500598715558e-07,
+      "-1": 4.084110345459667e-07,
+      "0": 0.0036514802359240645,
+      "1": 4.084110401374098e-07,
+      "2": 7.415005995031838e-07
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.13399300542695378,
+     "zeta_rms_cells": 0.012864245164671367,
+     "zeta_max_cells": 0.01982753311450615,
+     "min_director_gap": 0.38684710769885733,
+     "min_director_dot_rhat": 0.9996931855623407,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 6.611928052248817e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00010018983336240287
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0001001898337650996
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 6.61192804176727e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9989457631441534,
+      "3": 2.1101968036423907e-06,
+      "4": 0.0006559825831185449,
+      "5": 0.00038537593666780856,
+      "6": 1.0768139256629141e-05
+     },
+     "l2_m_power": {
+      "-2": 3.8900017237977664e-07,
+      "-1": 5.754186626813444e-07,
+      "0": 0.0020093780985783777,
+      "1": 5.754186657411521e-07,
+      "2": 3.890001726510849e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.19229640400531114,
+     "zeta_rms_cells": 0.008804621285185797,
+     "zeta_max_cells": 0.014226135888576125,
+     "min_director_gap": 0.47656869457115586,
+     "min_director_dot_rhat": 0.9998455427135111,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 6.8946338134433e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 6.766555797618297e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 6.766555774499584e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 6.894633809411827e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9983123578926814,
+      "3": 2.667155914735239e-06,
+      "4": 0.0014528968914656363,
+      "5": 0.00011499968653296988,
+      "6": 0.00011707837340538762
+     },
+     "l2_m_power": {
+      "-2": 3.016982936964056e-07,
+      "-1": 5.927246179247039e-07,
+      "0": 0.000938728036274001,
+      "1": 5.927246193093361e-07,
+      "2": 3.016982937972478e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 3,
+      "n_zeros": 9,
+      "index_histogram": {
+       "-1": 3,
+       "1": 6
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    }
+   },
+   "v6_gW1.35_seeded_end": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.011064712458639494,
+     "zeta_rms_cells": 0.023794639286114742,
+     "zeta_max_cells": 0.029695955846480715,
+     "min_director_gap": 0.024208580137106583,
+     "min_director_dot_rhat": 0.9993922425125661,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 8.525782662739144e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0001634995929877661
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00016349959064021022
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 8.525782951581475e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9985453121290527,
+      "3": 6.325970081603464e-05,
+      "4": 0.0013914281701312328
+     },
+     "l2_m_power": {
+      "-2": 2.676088636629803e-06,
+      "-1": 1.521007589656727e-07,
+      "0": 0.00706021211544291,
+      "1": 1.5210076917497938e-07,
+      "2": 2.6760886432147644e-06
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.07912721375980991,
+     "zeta_rms_cells": 0.02205932870617298,
+     "zeta_max_cells": 0.029695955846480715,
+     "min_director_gap": 0.024208580137106583,
+     "min_director_dot_rhat": 0.9993922425125661,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.12278780396897285,
+        0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 6.982907026689557e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.1470157664651985,
+        -0.14701576646519846,
+        0.9781476007338057
+       ],
+       "abs_fit_at_face": 7.96077273665199e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.14701576646519846,
+        0.14701576646519846,
+        -0.9781476007338057
+       ],
+       "abs_fit_at_face": 7.960773177301923e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897282,
+        -0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 6.982907224688229e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9997162334007617,
+      "3": 2.121576786990586e-05,
+      "4": 0.000262550831368499
+     },
+     "l2_m_power": {
+      "-2": 1.9028034612303745e-06,
+      "-1": 2.506694651953675e-07,
+      "0": 0.006292415760212079,
+      "1": 2.506694753731576e-07,
+      "2": 1.9028034662500798e-06
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826952,
+      -0.012340714939826757,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9635919272833935,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.138509730492959,
+     "zeta_rms_cells": 0.020316173450057436,
+     "zeta_max_cells": 0.029695955846480715,
+     "min_director_gap": 0.19592151465867408,
+     "min_director_dot_rhat": 0.9996912856357036,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.00017182468864255455
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00017554637682912346
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.00017554637886920034
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.00017182468922670807
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9990761239629335,
+      "3": 2.146732838732978e-05,
+      "4": 0.0009024087086791702
+     },
+     "l2_m_power": {
+      "-2": 1.1046971897089584e-06,
+      "-1": 4.2041438118923616e-07,
+      "0": 0.0050097717518898955,
+      "1": 4.204143902339534e-07,
+      "2": 1.1046971929149173e-06
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.15283446022731706,
+     "zeta_rms_cells": 0.014160680447231537,
+     "zeta_max_cells": 0.022385031169452375,
+     "min_director_gap": 0.3853183327116406,
+     "min_director_dot_rhat": 0.9996912856357036,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 7.132514531541375e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 9.953232164127363e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 9.953232277927147e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 7.132514574515176e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 1.9999999999999993,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9988044661270571,
+      "3": 4.004739494467739e-06,
+      "4": 0.0005785234740244528,
+      "5": 0.0006030956028085316,
+      "6": 9.910056615416741e-06
+     },
+     "l2_m_power": {
+      "-2": 4.720143147703278e-07,
+      "-1": 5.922550959154487e-07,
+      "0": 0.002418387857851203,
+      "1": 5.922551006098132e-07,
+      "2": 4.720143159106299e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.20468591679340917,
+     "zeta_rms_cells": 0.00932929864299389,
+     "zeta_max_cells": 0.015242345748924944,
+     "min_director_gap": 0.47558043980342624,
+     "min_director_dot_rhat": 0.9998438454014416,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 6.641698464676919e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 8.478537916313358e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 8.478537879686625e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 6.64169848516991e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9983725349655697,
+      "3": 3.611720322593027e-06,
+      "4": 0.001337875897509697,
+      "5": 0.00015508526103836533,
+      "6": 0.00013089215555954476
+     },
+     "l2_m_power": {
+      "-2": 3.2694039586993555e-07,
+      "-1": 5.997550499012955e-07,
+      "0": 0.0010488389281633512,
+      "1": 5.997550519442539e-07,
+      "2": 3.269403963207838e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 3,
+      "n_zeros": 9,
+      "index_histogram": {
+       "-1": 3,
+       "1": 6
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    }
+   },
+   "v6_gW2.0_seeded_escape_d": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.05126391255817756,
+     "zeta_rms_cells": 0.0863227619510882,
+     "zeta_max_cells": 0.09680016606279214,
+     "min_director_gap": 0.0008726617772315537,
+     "min_director_dot_rhat": 0.9635004044909614,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.04932527561613236,
+        0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00036731790887390185
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0005004273615916722
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0005023556281908851
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613253,
+        -0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0003725254392632221
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9228898440293135,
+      "3": 6.013891453889108e-07,
+      "4": 0.07710955458154112
+     },
+     "l2_m_power": {
+      "-2": 1.458123324464267e-06,
+      "-1": 8.277969049889525e-07,
+      "0": 0.08699605216039447,
+      "1": 7.920922975062432e-07,
+      "2": 1.4379689906945403e-06
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      2.7139120239482002e-18,
+      9.834452537470095e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9951340343707851,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.1373473534039311,
+     "zeta_rms_cells": 0.07934810227936011,
+     "zeta_max_cells": 0.09680016606279214,
+     "min_director_gap": 0.0008726617772315537,
+     "min_director_dot_rhat": 0.9635004044909614,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.04932527561613236,
+        0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0005068517556055497
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00024748787086387685
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00024620677013804915
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613253,
+        -0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0005022212043522069
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9663152763169938,
+      "3": 1.6577199166113095e-06,
+      "4": 0.03368306596308959
+     },
+     "l2_m_power": {
+      "-2": 1.4825943095661253e-06,
+      "-1": 1.0984065246892062e-06,
+      "0": 0.07193864068436082,
+      "1": 1.0765945513135174e-06,
+      "2": 1.4741510666846234e-06
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      2.7139120239482002e-18,
+      9.834452537470095e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9951340343707851,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.24033301430343165,
+     "zeta_rms_cells": 0.06678716552380387,
+     "zeta_max_cells": 0.09680016606279214,
+     "min_director_gap": 0.13704288789860308,
+     "min_director_dot_rhat": 0.9996968981585983,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.04932527561613236,
+        0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0004371764687402276
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0003051304660988306
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00030548708893965795
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613253,
+        -0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0004370445856869652
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.950710886503959,
+      "3": 3.0736930940420273e-06,
+      "4": 0.049286039802947
+     },
+     "l2_m_power": {
+      "-2": 1.4255361046884845e-06,
+      "-1": 1.4092296518885114e-06,
+      "0": 0.051336156541407475,
+      "1": 1.4038960410795937e-06,
+      "2": 1.4235902271165029e-06
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 0,
+      "n_zeros": 0,
+      "index_histogram": {},
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      2.7139120239482002e-18,
+      9.834452537470095e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9951340343707851,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.289332141763053,
+     "zeta_rms_cells": 0.03573686369542084,
+     "zeta_max_cells": 0.055393728399706355,
+     "min_director_gap": 0.42311065595334124,
+     "min_director_dot_rhat": 0.9998590938947622,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.04932527561613236,
+        0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00026131813988915643
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00033922729123052575
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0003392396080994521
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613253,
+        -0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0002613363750614073
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9336852919521443,
+      "3": 6.398283832856227e-07,
+      "4": 0.05631663078611781,
+      "5": 0.00392336768807587,
+      "6": 0.0060740697452786796
+     },
+     "l2_m_power": {
+      "-2": 1.1377335646931992e-06,
+      "-1": 2.2941227141952138e-06,
+      "0": 0.013790939198839938,
+      "1": 2.2939621835306015e-06,
+      "2": 1.1377350356343983e-06
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      2.7139120239482002e-18,
+      9.834452537470095e-19,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9951340343707851,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.44516471492341,
+     "zeta_rms_cells": 0.01631645370054796,
+     "zeta_max_cells": 0.03204612789961603,
+     "min_director_gap": 0.5214792741358569,
+     "min_director_dot_rhat": 0.9998878527270585,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356671,
+        0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 3.751165763986409e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356673,
+        -0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.0002322512208487518
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356691,
+        0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.00023225127343599615
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356692,
+        -0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 3.751220486848508e-05
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.922727967770575,
+      "3": 2.827162503179569e-06,
+      "4": 0.06820642759015226,
+      "5": 0.0010241092046969255,
+      "6": 0.008038668272072716
+     },
+     "l2_m_power": {
+      "-2": 1.0631428950971787e-06,
+      "-1": 2.2025506344097786e-06,
+      "0": 0.002432824198135284,
+      "1": 2.202547676406262e-06,
+      "2": 1.0631430103580146e-06
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -2.3343757871710873e-18,
+      -2.2959438857094164e-18,
+      1.0
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9890738003669027,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 1.0,
+     "axis_dot_111": 0.5773502691896258
+    }
+   },
+   "v6_gW2.0_unseeded_control": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.12070267111086065,
+     "zeta_rms_cells": 0.0008435105653141921,
+     "zeta_max_cells": 0.0012614216625797306,
+     "min_director_gap": 0.0373800762444757,
+     "min_director_dot_rhat": 0.9998255983618745,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.4911976443595539,
+        0.4911976443595538,
+        0.7193398003386512
+       ],
+       "abs_fit_at_face": 7.900238961626922e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 2.944817742817944e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.7094064799162224,
+        0.4967317648921541,
+        0.5000000000000001
+       ],
+       "abs_fit_at_face": 2.9048602665018886e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.496731764892154,
+        0.7094064799162224,
+        0.5000000000000001
+       ],
+       "abs_fit_at_face": 7.410788781449643e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.7094064799162226,
+        -0.4967317648921538,
+        -0.5000000000000002
+       ],
+       "abs_fit_at_face": 2.9048596985798085e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.49673176489215426,
+        -0.7094064799162223,
+        -0.5000000000000002
+       ],
+       "abs_fit_at_face": 7.410788204006918e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 2.9448182951169267e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.4911976443595541,
+        -0.49119764435955393,
+        -0.719339800338651
+       ],
+       "abs_fit_at_face": 7.900239600999969e-06
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0000000000000004,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9885932897677766,
+      "3": 0.011382566918415753,
+      "4": 2.4143313807782882e-05
+     },
+     "l2_m_power": {
+      "-2": 1.4518210200426952e-06,
+      "-1": 2.903380169455507e-06,
+      "0": 1.3367088240145524e-15,
+      "1": 2.9033801688481253e-06,
+      "2": 1.4518210199658589e-06
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": false,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.5741509271050015,
+      -0.5741509271050014,
+      -0.5836963472636562
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9764938458120657,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5836963472636562,
+     "axis_dot_111": 0.9999696278567649
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.19149778115805624,
+     "zeta_rms_cells": 0.0007607205729141662,
+     "zeta_max_cells": 0.0012614216625797306,
+     "min_director_gap": 0.0373800762444757,
+     "min_director_dot_rhat": 0.9998255983618745,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5572077475232348,
+        0.5572077475232347,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 1.2857766085631804e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6063196974695014,
+        0.565402264912733,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 2.040425274497136e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5862180894121044,
+        0.5862180894121044,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 2.43563051297441e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5654022649127332,
+        0.6063196974695013,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 2.4356272636411504e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6063196974695014,
+        -0.5654022649127329,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 2.0404255018921388e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5862180894121045,
+        -0.5862180894121044,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 2.4356344966439095e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5654022649127334,
+        -0.6063196974695011,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 2.435624070695233e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5572077475232349,
+        -0.5572077475232348,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 1.2857769898989538e-06
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9981760792315435,
+      "3": 0.001360007969890649,
+      "4": 0.00046391279856589974
+     },
+     "l2_m_power": {
+      "-2": 1.1280802274454692e-06,
+      "-1": 2.2559208368085523e-06,
+      "0": 5.922510159460009e-16,
+      "1": 2.2559208363366093e-06,
+      "2": 1.1280802275179045e-06
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.5791762917044816,
+      -0.5791762917044806,
+      -0.5736807877686784
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9986732676890137,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5736807877686784,
+     "axis_dot_111": 0.9999899330948259
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.14809775081339877,
+     "zeta_rms_cells": 0.0006266286676791934,
+     "zeta_max_cells": 0.000984626284388035,
+     "min_director_gap": 0.2128807442204544,
+     "min_director_dot_rhat": 0.9997109175559865,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5416752204197018,
+        0.5416752204197018,
+        0.6427876096865395
+       ],
+       "abs_fit_at_face": 2.2012139590772372e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 6.704115989572606e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6256825983719214,
+        0.5438975848471079,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.371981888815496e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5438975848471079,
+        0.6256825983719214,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.8028707171948268e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6256825983719215,
+        -0.5438975848471077,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.3719817608111078e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5438975848471082,
+        -0.6256825983719212,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.8028708348939791e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 6.704116542046713e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.541675220419702,
+        -0.5416752204197018,
+        -0.6427876096865394
+       ],
+       "abs_fit_at_face": 2.201213978864022e-06
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999998,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.998746145009462,
+      "3": 0.001206198848259958,
+      "4": 4.76561422780933e-05
+     },
+     "l2_m_power": {
+      "-2": 8.202968002812003e-07,
+      "-1": 1.6403713137763212e-06,
+      "0": 1.6557261029232896e-15,
+      "1": 1.640371313370885e-06,
+      "2": 8.202968003751207e-07
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.5718197195815513,
+      -0.5718197195815513,
+      -0.5882554008212353
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9965433823246725,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5882554008212353,
+     "axis_dot_111": 0.9999099520730815
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.06870016549991197,
+     "zeta_rms_cells": 0.0004760662514205606,
+     "zeta_max_cells": 0.0006589284850696553,
+     "min_director_gap": 0.3942575178573305,
+     "min_director_dot_rhat": 0.9997109175559865,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.6105728762178053,
+        0.5307629037664467,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 1.1367545234557759e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 5.416943530130137e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5307629037664467,
+        0.6105728762178053,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 4.6745624702052697e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5996605595645501,
+        0.59966055956455,
+        0.5299192642332051
+       ],
+       "abs_fit_at_face": 1.1104572540254073e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5996605595645503,
+        -0.5996605595645501,
+        -0.5299192642332048
+       ],
+       "abs_fit_at_face": 1.1104572230715226e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6105728762178054,
+        -0.5307629037664465,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 1.136754484643509e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 5.416943196323342e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.530762903766447,
+        -0.610572876217805,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 4.674562847601474e-07
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9988379514851069,
+      "3": 0.0003740221967936587,
+      "4": 8.73825053222171e-05,
+      "5": 7.026211777214888e-08,
+      "6": 0.0007005735506594082
+     },
+     "l2_m_power": {
+      "-2": 4.767535634229401e-07,
+      "-1": 9.533990426117544e-07,
+      "0": 1.082308618556708e-16,
+      "1": 9.533990424894472e-07,
+      "2": 4.7675356344221884e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.5789953383506152,
+      -0.5789953383506153,
+      -0.5740459879979244
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9974743503172683,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5740459879979244,
+     "axis_dot_111": 0.9999918346103588
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.05812784624745715,
+     "zeta_rms_cells": 0.00041487936956508887,
+     "zeta_max_cells": 0.0006179579467874841,
+     "min_director_gap": 0.4827172507769913,
+     "min_director_dot_rhat": 0.9998585297052676,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.5572077475232348,
+        0.5572077475232347,
+        0.6156614753256584
+       ],
+       "abs_fit_at_face": 9.56693438831727e-07
+      },
+      {
+       "index": -1,
+       "xyz": [
+        0.5720614028176844,
+        0.5720614028176843,
+        0.5877852522924731
+       ],
+       "abs_fit_at_face": 3.1749670388418094e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.6256825983719214,
+        0.5438975848471079,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.5979620190626164e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.5438975848471079,
+        0.6256825983719214,
+        0.5591929034707468
+       ],
+       "abs_fit_at_face": 1.0911581746574798e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.6256825983719215,
+        -0.5438975848471077,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.5979620056699092e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5438975848471082,
+        -0.6256825983719212,
+        -0.5591929034707467
+       ],
+       "abs_fit_at_face": 1.0911581880274186e-06
+      },
+      {
+       "index": -1,
+       "xyz": [
+        -0.5720614028176845,
+        -0.5720614028176843,
+        -0.587785252292473
+       ],
+       "abs_fit_at_face": 3.174967130425302e-07
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.5572077475232349,
+        -0.5572077475232348,
+        -0.6156614753256583
+       ],
+       "abs_fit_at_face": 9.566934421638761e-07
+      }
+     ],
+     "n_zeros": 8,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -1.9999999999999998,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "-1": 2,
+      "1": 6
+     },
+     "l_power_fraction": {
+      "2": 0.9989366139772392,
+      "3": 0.0004690942153133523,
+      "4": 0.0005013266333916559,
+      "5": 5.594643535633437e-07,
+      "6": 9.240570970228828e-05
+     },
+     "l2_m_power": {
+      "-2": 3.5682063176525943e-07,
+      "-1": 7.136043715325052e-07,
+      "0": 3.1516011742909255e-17,
+      "1": 7.13604371503069e-07,
+      "2": 3.5682063176593394e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 4,
+      "index_histogram": {
+       "1": 4
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.575419832560023,
+      -0.575419832560023,
+      -0.5811919068545177
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9975208561607667,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.5811919068545177,
+     "axis_dot_111": 0.9999888943244452
+    }
+   },
+   "r17_1_n32_K50_delocalized (split at r 12.8)": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.1585867712072286,
+     "zeta_rms_cells": 0.01740226953446257,
+     "zeta_max_cells": 0.02426039004439874,
+     "min_director_gap": 0.034088011198947665,
+     "min_director_dot_rhat": 0.9985727483475624,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.19490504344652942,
+        -0.19490504344652934,
+        0.9612616959383189
+       ],
+       "abs_fit_at_face": 4.7874868679237405e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.19490504344652973,
+        0.1949050434465297,
+        -0.9612616959383187
+       ],
+       "abs_fit_at_face": 4.787486988199881e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -0.9999999999999994,
+     "ring_S": 1.0000000000000002,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9681510175563797,
+      "3": 2.72175310300737e-05,
+      "4": 0.03182176491259032
+     },
+     "l2_m_power": {
+      "-2": 9.16879475118237e-08,
+      "-1": 3.6314175059950405e-06,
+      "0": 0.0036819954213572277,
+      "1": 3.631417521846209e-06,
+      "2": 9.168794810230362e-08
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.09841024344762243,
+      -0.09841024344762228,
+      0.9902680687415704
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9806308479691592,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9902680687415704,
+     "axis_dot_111": 0.4580971749668338
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.2793233065265791,
+     "zeta_rms_cells": 0.021582500349009277,
+     "zeta_max_cells": 0.03631094982966232,
+     "min_director_gap": 0.034088011198947665,
+     "min_director_dot_rhat": 0.9985727483475624,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356673,
+        -0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 4.286345265252413e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356691,
+        0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 4.286345446111029e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -1.0,
+     "ring_S": 0.9999999999999997,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9983681098345575,
+      "3": 3.8969719468184084e-05,
+      "4": 0.0015929204459743504
+     },
+     "l2_m_power": {
+      "-2": 1.7458442188619167e-07,
+      "-1": 6.1495465293137874e-06,
+      "0": 0.005747892452906621,
+      "1": 6.1495465484853906e-06,
+      "2": 1.745844218640741e-07
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.03700710955926809,
+      -0.037007109559267774,
+      0.998629534754574
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9972609476841366,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.998629534754574,
+     "axis_dot_111": 0.5338269013793175
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.21341357284053947,
+     "zeta_rms_cells": 0.028233821255124237,
+     "zeta_max_cells": 0.04427164547153764,
+     "min_director_gap": 0.12210286362200684,
+     "min_director_dot_rhat": 0.9995214260215713,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 1.335073659933746e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 1.3350736843190027e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -1.0000000000000002,
+     "ring_S": 1.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9998951602882791,
+      "3": 2.7015413525291275e-05,
+      "4": 7.782429819566366e-05
+     },
+     "l2_m_power": {
+      "-2": 2.403097969375943e-07,
+      "-1": 9.98703730748392e-06,
+      "0": 0.00933182232047441,
+      "1": 9.987037334395732e-06,
+      "2": 2.4030979696261553e-07
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.024677670778336026,
+      -0.024677670778336318,
+      0.9993908270190957
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9993908270190957,
+     "axis_dot_111": 0.548503243271427
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.14039971414370783,
+     "zeta_rms_cells": 0.04268160506921057,
+     "zeta_max_cells": 0.06698547135087612,
+     "min_director_gap": 0.35127191070878694,
+     "min_director_dot_rhat": 0.9990019448832796,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335995,
+        -0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 1.9015010206808733e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0246776707783358,
+        0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 1.9015010477153935e-05
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -1.0,
+     "ring_S": 0.9999999999999997,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9989292015674144,
+      "3": 1.495788305831338e-05,
+      "4": 1.2728784899834254e-05,
+      "5": 0.0005067068117561452,
+      "6": 0.0005364049528712438
+     },
+     "l2_m_power": {
+      "-2": 3.4901671666462386e-07,
+      "-1": 2.275366219223082e-05,
+      "0": 0.022038980063980876,
+      "1": 2.2753662173082392e-05,
+      "2": 3.4901671701526315e-07
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826875,
+      -0.012340714939826875,
+      0.9998476951563912
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9996954135095479,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563912,
+     "axis_dot_111": 0.5630125057621664
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.10942626533025773,
+     "zeta_rms_cells": 0.0562817114105228,
+     "zeta_max_cells": 0.08577155316759633,
+     "min_director_gap": 0.43624324557525773,
+     "min_director_dot_rhat": 0.9993775810211815,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 5.260864986696621e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 5.260864736554274e-06
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -1.0,
+     "ring_S": 1.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.999905225308192,
+      "3": 1.1991208942990208e-05,
+      "4": 2.4239679561735564e-05,
+      "5": 2.9656090974133848e-05,
+      "6": 2.888771232914662e-05
+     },
+     "l2_m_power": {
+      "-2": 3.353195822135843e-07,
+      "-1": 3.9098456000077796e-05,
+      "0": 0.03953693570496954,
+      "1": 3.909845599697002e-05,
+      "2": 3.353195819945851e-07
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.024677670778336026,
+      -0.024677670778336318,
+      0.9993908270190957
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9993908270190957,
+     "axis_dot_111": 0.548503243271427
+    },
+    "9": {
+     "n_cells": 704,
+     "lmax": 6,
+     "fit_residual_rel": 0.04559438839492688,
+     "zeta_rms_cells": 0.08109612459263123,
+     "zeta_max_cells": 0.11564129006745334,
+     "min_director_gap": 0.516333057859426,
+     "min_director_dot_rhat": 0.9992963938834337,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00013952451004721977
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.000139524510075471
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        1.0
+       ],
+       "pole": "north"
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0,
+        0.0,
+        -1.0
+       ],
+       "pole": "south"
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 2,
+     "ring_N": -0.9999999999999994,
+     "ring_S": 1.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9997803205248313,
+      "3": 7.608989569384311e-06,
+      "4": 0.00018690769940857656,
+      "5": 2.2494896436703312e-05,
+      "6": 2.667889753980095e-06
+     },
+     "l2_m_power": {
+      "-2": 3.994356202286108e-08,
+      "-1": 7.455209403428896e-05,
+      "0": 0.08206085717099366,
+      "1": 7.455209406709308e-05,
+      "2": 3.994356196841506e-08
+     },
+     "r": 9.0,
+     "r_range": [
+      8.042853971072706,
+      10.034316120194738
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 1404
+     },
+     "zero_cluster_axis": [
+      -0.024677670778336026,
+      -0.024677670778336318,
+      0.9993908270190957
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9987820251299122,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9993908270190957,
+     "axis_dot_111": 0.548503243271427
+    },
+    "12": {
+     "n_cells": 1232,
+     "lmax": 6,
+     "fit_residual_rel": 0.01051436971917232,
+     "zeta_rms_cells": 0.09009156882187275,
+     "zeta_max_cells": 0.12635928751061715,
+     "min_director_gap": 0.5484482278376597,
+     "min_director_dot_rhat": 0.999280013529855,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00013632323420621978
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00014599167389937792
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.0001459916737743382
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00013632323430331087
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9989016473907906,
+      "3": 8.501080645318305e-06,
+      "4": 0.001007513398774793,
+      "5": 7.764358226430557e-05,
+      "6": 4.694547525051942e-06
+     },
+     "l2_m_power": {
+      "-2": 7.489451665070559e-08,
+      "-1": 8.794139507277588e-05,
+      "0": 0.10190273633016132,
+      "1": 8.794139505664827e-05,
+      "2": 7.489451676421892e-08
+     },
+     "r": 12.0,
+     "r_range": [
+      10.894379284750462,
+      12.968712349342937
+     ],
+     "hull_count": {
+      "total_index": 4,
+      "n_zeros": 8,
+      "index_histogram": {
+       "-1": 2,
+       "1": 6
+      },
+      "count_reliable": true,
+      "n_triangles": 2460
+     },
+     "zero_cluster_axis": [
+      -0.012340714939827012,
+      -0.01234071493982728,
+      0.9998476951563913
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.997260947684137,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563913,
+     "axis_dot_111": 0.5630125057621662
+    },
+    "15": {
+     "n_cells": 1904,
+     "lmax": 6,
+     "fit_residual_rel": 0.034336887639910205,
+     "zeta_rms_cells": 0.08491921501710992,
+     "zeta_max_cells": 0.1239302702405753,
+     "min_director_gap": 0.5757989704634625,
+     "min_director_dot_rhat": 0.9994153032288747,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.02467767077833599,
+        0.024677670778335988,
+        0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00020682530052233027
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.04932527561613237,
+        -0.049325275616132355,
+        0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.000135662019725425
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.049325275616132515,
+        0.04932527561613251,
+        -0.9975640502598242
+       ],
+       "abs_fit_at_face": 0.00013566201961943278
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.024677670778335804,
+        -0.024677670778335797,
+        -0.9993908270190958
+       ],
+       "abs_fit_at_face": 0.00020682530062213946
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9947300866833025,
+      "3": 1.4891910446128841e-05,
+      "4": 0.004633196244108023,
+      "5": 0.0005471501070701421,
+      "6": 7.467505507321918e-05
+     },
+     "l2_m_power": {
+      "-2": 3.64959203727456e-07,
+      "-1": 7.594469319299846e-05,
+      "0": 0.08989063989497209,
+      "1": 7.594469319692359e-05,
+      "2": 3.6495920399757106e-07
+     },
+     "r": 15.0,
+     "r_range": [
+      13.970952007647869,
+      16.068213964221414
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 3804
+     },
+     "zero_cluster_axis": [
+      -0.012340714939827012,
+      -0.01234071493982728,
+      0.9998476951563913
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.997260947684137,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563913,
+     "axis_dot_111": 0.5630125057621662
+    }
+   },
+   "r17_3c_gW1.35_K200_escape_d (split 0.32 at r 2.5)": {
+    "1.5": {
+     "n_cells": 32,
+     "lmax": 4,
+     "fit_residual_rel": 0.09299131860978972,
+     "zeta_rms_cells": 0.4791574956182644,
+     "zeta_max_cells": 0.6409613146552331,
+     "min_director_gap": 0.02126593833579382,
+     "min_director_dot_rhat": 0.16398931327500268,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356671,
+        0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.0006874549835225177
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0011942965591195435
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0011942833418583138
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356692,
+        -0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.0006874496425795521
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0,
+     "ring_S": 1.9999999999999998,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9879029860546545,
+      "3": 0.0007837216068465796,
+      "4": 0.011313292338498853
+     },
+     "l2_m_power": {
+      "-2": 0.0014471947390845028,
+      "-1": 0.001269925745884079,
+      "0": 2.8714927137741877,
+      "1": 0.0012699223925681346,
+      "2": 0.00144719323312403
+     },
+     "r": 1.5,
+     "r_range": [
+      1.299038105676658,
+      2.48746859276655
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 60
+     },
+     "zero_cluster_axis": [
+      -0.024677670778335926,
+      -0.02467767077833594,
+      0.9993908270190958
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9806308479691597,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9993908270190958,
+     "axis_dot_111": 0.5485032432714274
+    },
+    "2.25": {
+     "n_cells": 56,
+     "lmax": 4,
+     "fit_residual_rel": 0.08270069169385548,
+     "zeta_rms_cells": 0.4558836986006963,
+     "zeta_max_cells": 0.6409613146552331,
+     "min_director_gap": 0.0007863859886403368,
+     "min_director_dot_rhat": 0.16398931327500268,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356671,
+        0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.00042306257494960044
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.0984102434476223,
+        -0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.0007947612608899765
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0984102434476225,
+        0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.0007976474219506926
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356692,
+        -0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.00042456475062275644
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9939187923039445,
+      "3": 0.0002834943298392955,
+      "4": 0.00579771336621627
+     },
+     "l2_m_power": {
+      "-2": 0.0007097028601818503,
+      "-1": 0.0007389596242559184,
+      "0": 2.792701179919554,
+      "1": 0.0007387982061749241,
+      "2": 0.0007096977865281588
+     },
+     "r": 2.25,
+     "r_range": [
+      1.299038105676658,
+      3.2691742076555053
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 2,
+      "index_histogram": {
+       "1": 2
+      },
+      "count_reliable": true,
+      "n_triangles": 108
+     },
+     "zero_cluster_axis": [
+      -0.01234071493982694,
+      -0.012340714939826783,
+      0.9998476951563914
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9851478631379982,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563914,
+     "axis_dot_111": 0.5630125057621664
+    },
+    "3": {
+     "n_cells": 80,
+     "lmax": 4,
+     "fit_residual_rel": 0.14946421330512513,
+     "zeta_rms_cells": 0.43499182451506024,
+     "zeta_max_cells": 0.6409613146552331,
+     "min_director_gap": 0.0007863859886403368,
+     "min_director_dot_rhat": 0.16398931327500268,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.07391278520356671,
+        0.0739127852035667,
+        0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.0011927819603078742
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.0984102434476223,
+        -0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.00046071327231493337
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.0984102434476225,
+        0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.0004595238888106903
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.07391278520356692,
+        -0.0739127852035669,
+        -0.9945218953682733
+       ],
+       "abs_fit_at_face": 0.001192479601118397
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9972807939293279,
+      "3": 0.00018787617258013924,
+      "4": 0.002531329898091925
+     },
+     "l2_m_power": {
+      "-2": 0.0006044016662491581,
+      "-1": 0.0005960377539780471,
+      "0": 2.279183063337076,
+      "1": 0.0005959120619241151,
+      "2": 0.0006043655027360724
+     },
+     "r": 3.0,
+     "r_range": [
+      2.48746859276655,
+      3.897114317029974
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 156
+     },
+     "zero_cluster_axis": [
+      -0.01234071493982694,
+      -0.012340714939826783,
+      0.9998476951563914
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.9851478631379982,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563914,
+     "axis_dot_111": 0.5630125057621664
+    },
+    "4.5": {
+     "n_cells": 152,
+     "lmax": 6,
+     "fit_residual_rel": 0.16964531602993796,
+     "zeta_rms_cells": 0.29344911342407987,
+     "zeta_max_cells": 0.47989931303701694,
+     "min_director_gap": 0.14971828865571613,
+     "min_director_dot_rhat": 0.9983850250124775,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.0015683094679989202
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0019204564008946763
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0019204577225899171
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.0015683093268473735
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9991527953620194,
+      "3": 2.2559395483163926e-05,
+      "4": 0.0002214138383647062,
+      "5": 0.0005973175712776723,
+      "6": 5.9138328550535734e-06
+     },
+     "l2_m_power": {
+      "-2": 0.00023190672464441529,
+      "-1": 0.00022920655539376592,
+      "0": 1.0307705276429768,
+      "1": 0.00022920646833972757,
+      "2": 0.00023190663213409427
+     },
+     "r": 4.5,
+     "r_range": [
+      3.897114317029974,
+      5.356071321407137
+     ],
+     "hull_count": {
+      "total_index": 2,
+      "n_zeros": 6,
+      "index_histogram": {
+       "-1": 2,
+       "1": 4
+      },
+      "count_reliable": true,
+      "n_triangles": 300
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    },
+    "6": {
+     "n_cells": 296,
+     "lmax": 6,
+     "fit_residual_rel": 0.21950051772160362,
+     "zeta_rms_cells": 0.1864756749706566,
+     "zeta_max_cells": 0.3128887875639591,
+     "min_director_gap": 0.3408529136152577,
+     "min_director_dot_rhat": 0.9998327222790212,
+     "zeros": [
+      {
+       "index": 1,
+       "xyz": [
+        0.09841024344762228,
+        0.09841024344762227,
+        0.9902680687415704
+       ],
+       "abs_fit_at_face": 0.001316935242613692
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.12278780396897286,
+        -0.12278780396897282,
+        0.984807753012208
+       ],
+       "abs_fit_at_face": 0.0014966109624510624
+      },
+      {
+       "index": 1,
+       "xyz": [
+        0.1227878039689728,
+        0.12278780396897278,
+        -0.984807753012208
+       ],
+       "abs_fit_at_face": 0.001496610796636043
+      },
+      {
+       "index": 1,
+       "xyz": [
+        -0.09841024344762252,
+        -0.09841024344762249,
+        -0.9902680687415703
+       ],
+       "abs_fit_at_face": 0.0013169351365460685
+      }
+     ],
+     "n_zeros": 4,
+     "total_index": 4,
+     "faces_total": 4,
+     "ring_N": -2.0000000000000004,
+     "ring_S": 2.0,
+     "index_histogram": {
+      "1": 4
+     },
+     "l_power_fraction": {
+      "2": 0.9984696601953557,
+      "3": 1.4098849423659555e-05,
+      "4": 0.0013073992524068002,
+      "5": 0.00012096432122720165,
+      "6": 8.787738158674831e-05
+     },
+     "l2_m_power": {
+      "-2": 0.0001423328235926686,
+      "-1": 0.0002268301967387398,
+      "0": 0.4162351733887703,
+      "1": 0.00022683019288366642,
+      "2": 0.00014233282306496268
+     },
+     "r": 6.0,
+     "r_range": [
+      4.9180788932265,
+      6.832825184358224
+     ],
+     "hull_count": {
+      "total_index": 3,
+      "n_zeros": 9,
+      "index_histogram": {
+       "-1": 3,
+       "1": 6
+      },
+      "count_reliable": false,
+      "n_triangles": 588
+     },
+     "zero_cluster_axis": [
+      -0.012340714939826854,
+      -0.012340714939827038,
+      0.9998476951563915
+     ],
+     "zero_cluster_axis_anisotropy (top eigenvalue of the index-weighted second moment; 1 = all zeros on one axis)": 0.975528258147577,
+     "index_within_20deg_of_axis": 4,
+     "axis_dot_z": 0.9998476951563915,
+     "axis_dot_111": 0.5630125057621665
+    }
+   }
+  },
+  "prediction": "total index 4 on every shell (Poincare-Hopf on the spin-2 bundle over the sphere, Euler number 4)",
+  "summary": {
+   "the_seed (R16-1 core + 0.05 Ea at r 2)": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.206,
+     0.232,
+     0.316,
+     0.396,
+     0.545
+    ],
+    "shells_with_residual_below_0.3": 2
+   },
+   "v4rel_static_end (residual split 2e-4)": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     8,
+     8,
+     8,
+     8,
+     8
+    ],
+    "fit_residuals": [
+     0.133,
+     0.149,
+     0.091,
+     0.042,
+     0.012
+    ],
+    "shells_with_residual_below_0.3": 5
+   },
+   "v6_gW0.5_seeded_end": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.068,
+     0.067,
+     0.037,
+     0.095,
+     0.165
+    ],
+    "shells_with_residual_below_0.3": 5
+   },
+   "v6_gW1.1_seeded_end": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.031,
+     0.046,
+     0.105,
+     0.134,
+     0.192
+    ],
+    "shells_with_residual_below_0.3": 5
+   },
+   "v6_gW1.35_seeded_end": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.011,
+     0.079,
+     0.139,
+     0.153,
+     0.205
+    ],
+    "shells_with_residual_below_0.3": 5
+   },
+   "v6_gW2.0_seeded_escape_d": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.051,
+     0.137,
+     0.24,
+     0.289,
+     0.445
+    ],
+    "shells_with_residual_below_0.3": 4
+   },
+   "v6_gW2.0_unseeded_control": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     8,
+     8,
+     8,
+     8,
+     8
+    ],
+    "fit_residuals": [
+     0.121,
+     0.191,
+     0.148,
+     0.069,
+     0.058
+    ],
+    "shells_with_residual_below_0.3": 5
+   },
+   "r17_1_n32_K50_delocalized (split at r 12.8)": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.159,
+     0.279,
+     0.213,
+     0.14,
+     0.109,
+     0.046,
+     0.011,
+     0.034
+    ],
+    "shells_with_residual_below_0.3": 8
+   },
+   "r17_3c_gW1.35_K200_escape_d (split 0.32 at r 2.5)": {
+    "totals": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "all_4": true,
+    "n_zeros": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "fit_residuals": [
+     0.093,
+     0.083,
+     0.149,
+     0.17,
+     0.22
+    ],
+    "shells_with_residual_below_0.3": 5
+   }
+  },
+  "verdict": "the total index 4 is a theorem for a generic section (unfalsifiable: it tests the counter, not the field; the producer's hull count fails it where the samples straddle a zero); the CONTENT: on the seeded fields the zeros sit as two index-2 clusters on the +-z axis (the m = 0 seed pattern, split into simple zeros 8 to 10 degrees off the poles by a 1e-3-power m = +-2 admixture), on the split-free statics as two index-2 clusters on +-(1,1,1) (the cubic residual of the lattice hedgehog); the number of SIMPLE zeros is fit-dependent (the R18-0 audit: 2 to 8 on the statics across l_max), the clusters and their axes are stable",
+  "plot": "plots/m5_32_r18_0_spin2.png"
+ },
+ "d_mode_9": {
+  "status": "closed by the author's section 138 (rev 200): the Fresnel surface v_1 = cos theta, v_2 = sqrt((1 + cos^2 theta) / 2), v_3 = 1; the 2 / sqrt 5 an artefact of the singular theta = 90 degree point; our R17 transverse speeds {1/sqrt2, 1/sqrt2, 1, 1, 1} stand; nothing run"
+ },
+ "wall_s": 4.592922210693359
+}
