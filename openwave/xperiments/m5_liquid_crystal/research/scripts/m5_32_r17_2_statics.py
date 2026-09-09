@@ -61,11 +61,12 @@ def make_cfg(obj, n, L, gW):
     return R.cfg_v6(n, L, gW=gW, completion="rebuild", n_samples=4)
 
 
-def tag_of(obj, n, L, gW, seed, seed_split=0.0):
+def tag_of(obj, n, L, gW, seed, seed_split=0.0, seed_r=2.0):
     g = f"_gW{gW:g}" if obj == "v6" else ""
     s = "" if seed == "r15" else f"_{seed}"
     sp = f"_split{seed_split:g}" if seed_split > 0 else ""
-    return f"r17_2_{obj}{g}_n{n}_L{int(L)}{s}{sp}"
+    sr = f"_r{seed_r:g}" if (seed_split > 0 and seed_r != 2.0) else ""          # R18-2 (2026-09-09): the shell-seeded runs (seed_r 5) get their own tag; every R17 tag unchanged
+    return f"r17_2_{obj}{g}_n{n}_L{int(L)}{s}{sp}{sr}"
 
 
 def reads_object(M, cfg, nref):
@@ -98,7 +99,7 @@ def reads_object(M, cfg, nref):
 
 
 def relax(obj, n, L, gW, maxit, seed, seed_split=0.0, seed_r=2.0):
-    tag = tag_of(obj, n, L, gW, seed, seed_split)
+    tag = tag_of(obj, n, L, gW, seed, seed_split, seed_r)
     cfg = make_cfg(obj, n, L, gW)
     M0, src, how = S1.seed_for(n, L, cfg, "analytic" if seed == "analytic" else "r15")
     if seed == "r16_1":

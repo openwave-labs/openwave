@@ -1,0 +1,397 @@
+{
+ "weighted action at wc = h^3 == energy_object (v4abs): energy 1e-13 and gradient 1e-12 relative": {
+  "ok": true,
+  "value": {
+   "E": 5284.960469234089,
+   "E_ref": 5284.96046923409,
+   "grad_max_dev": 9.094947017729282e-13,
+   "parts": {
+    "E_h": [
+     0.05738450906368858,
+     0.05738450906368857
+    ],
+    "V4": [
+     5284.739783877093,
+     5284.739783877093
+    ],
+    "KP": [
+     0.1599983338783633,
+     0.15999833387836332
+    ],
+    "reg": [
+     0.0010838166774745292,
+     0.0010838166774745294
+    ]
+   }
+  }
+ },
+ "weighted action gradient with random weights vs complex step (1e-10, v4abs)": {
+  "ok": true,
+  "value": {
+   "analytic": 174.64059585938074,
+   "cs": 174.6405958593815,
+   "E_sum_wc_e": 1901.2463620767487,
+   "check_sum": 1901.2463620767487
+  }
+ },
+ "weighted action at wc = h^3 == energy_object (v4rel): energy 1e-13 and gradient 1e-12 relative": {
+  "ok": true,
+  "value": {
+   "E": 2064.059877723319,
+   "E_ref": 2064.059877723319,
+   "grad_max_dev": 2.2737367544323206e-13,
+   "parts": {
+    "E_h": [
+     0.05497023630704412,
+     0.05497023630704411
+    ],
+    "V4": [
+     2063.9031877419984,
+     2063.903187741999
+    ],
+    "KP": [
+     0.1000324572478061,
+     0.10003245724780611
+    ],
+    "reg": [
+     0.000528072429190579,
+     0.0005280724291905791
+    ]
+   }
+  }
+ },
+ "weighted action gradient with random weights vs complex step (1e-10, v4rel)": {
+  "ok": true,
+  "value": {
+   "analytic": -34.19866188112135,
+   "cs": -34.19866188112249,
+   "E_sum_wc_e": 773.5966689623585,
+   "check_sum": 773.5966689623585
+  }
+ },
+ "weighted action at wc = h^3 == energy_object (v6): energy 1e-13 and gradient 1e-12 relative": {
+  "ok": true,
+  "value": {
+   "E": 3002.8126677324926,
+   "E_ref": 3002.812667732492,
+   "grad_max_dev": 4.547473508864641e-13,
+   "parts": {
+    "E_h": [
+     0.052496676203363846,
+     0.05249667620336385
+    ],
+    "V4": [
+     3002.6722508937764,
+     3002.672250893777
+    ],
+    "KP": [
+     0.0871715205559036,
+     0.0871715205559036
+    ],
+    "reg": [
+     0.0003982916554163309,
+     0.0003982916554163309
+    ]
+   }
+  }
+ },
+ "weighted action gradient with random weights vs complex step (1e-10, v6)": {
+  "ok": true,
+  "value": {
+   "analytic": 59.60117601276082,
+   "cs": 59.60117601276209,
+   "E_sum_wc_e": 1071.626242025354,
+   "check_sum": 1071.626242025354
+  }
+ },
+ "the ansatz on the 3D lattice: the N spectrum is (-m_g, lambda_23, lambda_23, lambda_1) at the profile values (1e-12), the director radial (|n . rhat| = 1 at 1e-10)": {
+  "ok": true,
+  "value": {
+   "pair_split_max": 4.440892098500626e-16,
+   "spectrum_at_center_cell": [
+    -8.007655084147576,
+    0.3008018063797248,
+    0.3008018063797249,
+    0.5669308736915543
+   ]
+  }
+ },
+ "GATE 1: the tube center line at (h/2, h/2) reproduces the 3D lattice's own ray densities (1e-10 relative, every cell)": {
+  "ok": true,
+  "value": {
+   "max_rel_dev": 0.0,
+   "n_cells": 32
+  }
+ },
+ "GATE 2 (reported): the tube quadrature 2 pi sum x^2 h e(x) on the axis vs the 3D lattice sum h^3 sum e (the angular-quadrature defect at h 1.5)": {
+  "ok": true,
+  "value": {
+   "E_tube_axis": 9263.416521271405,
+   "E_3D": 6827.45507962703,
+   "rel": 0.356789083667973
+  }
+ },
+ "the circle acts trivially on the ansatz (T_beta M == M to 1e-12: the average equals the plain action)": {
+  "ok": true,
+  "value": {
+   "max_|T_beta M - M|": 9.956480084838404e-13,
+   "E_plain": 578.4773165182088
+  }
+ },
+ "the profile gradient (weighted adjoint + the ansatz chain) vs complex step (1e-10) and Richardson central differences (1e-6)": {
+  "ok": true,
+  "value": {
+   "analytic": 735.6406287707032,
+   "cs": 735.6406287706026,
+   "richardson": 735.6406081604897,
+   "rel_cs": 1.3676902477745646e-13,
+   "rel_fd": 2.8016688113613557e-08
+  }
+ },
+ "beta = 0 is stationary (the static energy is even in the radial boost: dE / d beta = 0 at 1e-10 of |grad|)": {
+  "ok": true,
+  "value": {
+   "grad_beta_max": 0.0,
+   "grad_max": 276700.72588381066
+  }
+ },
+ "beta_stability_probe": {
+  "E(beta bump 0.05 at r 3) - E(0)": 11.065105302226584,
+  "stable_if_positive": true
+ },
+ "solve_tube: 60 L-BFGS-B iterations lower the energy of the melted seed, the gap bound respected": {
+  "ok": true,
+  "value": {
+   "E_seed": 23.017814746929595,
+   "E_60": 10.46488913126772,
+   "nit": 51,
+   "wall_s": 0.6,
+   "Delta_min": 0.10207476010781735
+  }
+ },
+ "pinning: k = 0 reproduces the free energy and gradient exactly; k = 3 gradient vs complex step (1e-10); E_pin = (k/2) sum |dM|^2 on the mask": {
+  "ok": true,
+  "value": {
+   "E_pin": 0.7476707036220123,
+   "analytic": -94.07975837257911,
+   "cs": -94.07975837257743
+  }
+ },
+ "static twist: S from the even part of E(q) quadratic (q 0.02 vs 0.04 within 2e-2) on a random split-carrying field; the odd part is the first-order torque (nonzero on a random field, reported; zero on a stationary one)": {
+  "ok": true,
+  "value": {
+   "S_even": [
+    0.021036246380390367,
+    0.021031513597336016,
+    0.021012587723134857
+   ],
+   "torque_odd": [
+    -4.492744665185455e-06,
+    -4.4907210394740105e-06,
+    -4.48264358965389e-06
+   ],
+   "quad_dev": 0.00022498229811392093
+  }
+ },
+ "a uniform twist (theta = 0.7 everywhere) leaves the 8-sample averaged energy unchanged (1e-10)": {
+  "ok": true,
+  "value": [
+   6042.4568811062545,
+   6042.456881106256
+  ]
+ },
+ "spin-2 zeros (harmonic fit), Q = xx - yy on the hedgehog: four simple zeros of total index 4 on every shell (Poincare-Hopf, Euler number 4), the fit residual under 1e-3": {
+  "ok": true,
+  "value": {
+   "3": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    },
+    "resid": 0.00019442381709344994,
+    "cells": 80
+   },
+   "4.5": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    },
+    "resid": 4.731313679498778e-05,
+    "cells": 152
+   },
+   "6": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    },
+    "resid": 4.757318968825982e-05,
+    "cells": 296
+   },
+   "9": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    },
+    "resid": 4.761559325855784e-05,
+    "cells": 704
+   }
+  }
+ },
+ "spin-2 zeros (harmonic fit), Q = zz - (xx + yy)/2 (the m = 0 pattern): two index-2 zeros at the poles, total 4, on every shell": {
+  "ok": true,
+  "value": {
+   "3": {
+    "total": 4,
+    "n": 2,
+    "hist": {
+     "2": 2
+    },
+    "rings": [
+     -4.947529504498804e-16,
+     7.067899292141149e-17
+    ]
+   },
+   "4.5": {
+    "total": 4,
+    "n": 2,
+    "hist": {
+     "2": 2
+    },
+    "rings": [
+     -3.5339496460705744e-16,
+     -2.8271597168564594e-16
+    ]
+   },
+   "6": {
+    "total": 4,
+    "n": 2,
+    "hist": {
+     "2": 2
+    },
+    "rings": [
+     2.8271597168564594e-16,
+     -4.947529504498804e-16
+    ]
+   },
+   "9": {
+    "total": 4,
+    "n": 2,
+    "hist": {
+     "2": 2
+    },
+    "rings": [
+     2.1203697876423444e-16,
+     -7.067899292141149e-17
+    ]
+   }
+  }
+ },
+ "spin-2 zeros (harmonic fit), the m = 0 pattern with its axis tilted: total 4, every zero within 20 degrees of the axis": {
+  "ok": true,
+  "value": {
+   "3": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    }
+   },
+   "4.5": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    }
+   },
+   "6": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    }
+   },
+   "9": {
+    "total": 4,
+    "n": 4,
+    "hist": {
+     "1": 4
+    }
+   }
+  }
+ },
+ "spin-2 zeros (harmonic fit), a rotated Q (generic orientation): total 4, four simple zeros on every shell; the hull count agrees where it is reliable": {
+  "ok": true,
+  "value": {
+   "3": {
+    "total": 4,
+    "n": 4,
+    "hull": {
+     "total_index": 4,
+     "n_zeros": 4,
+     "index_histogram": {
+      "1": 4
+     },
+     "count_reliable": true,
+     "n_triangles": 156
+    }
+   },
+   "4.5": {
+    "total": 4,
+    "n": 4,
+    "hull": {
+     "total_index": 4,
+     "n_zeros": 4,
+     "index_histogram": {
+      "1": 4
+     },
+     "count_reliable": true,
+     "n_triangles": 300
+    }
+   },
+   "6": {
+    "total": 4,
+    "n": 4,
+    "hull": {
+     "total_index": 4,
+     "n_zeros": 4,
+     "index_histogram": {
+      "1": 4
+     },
+     "count_reliable": true,
+     "n_triangles": 588
+    }
+   },
+   "9": {
+    "total": 4,
+    "n": 4,
+    "hull": {
+     "total_index": 4,
+     "n_zeros": 4,
+     "index_histogram": {
+      "1": 4
+     },
+     "count_reliable": true,
+     "n_triangles": 1404
+    }
+   }
+  }
+ },
+ "spin2_on_the_exact_hedgehog": {
+  "3": {
+   "zeta_max_cells": 1.9912226872710085e-16,
+   "fit_residual_rel": 0.8522206031961155,
+   "note": "zeta == 0 to roundoff: nothing to count; the amplitude floor is the number to quote"
+  },
+  "6": {
+   "zeta_max_cells": 3.3338633618741873e-16,
+   "fit_residual_rel": 0.947771459560919,
+   "note": "zeta == 0 to roundoff: nothing to count; the amplitude floor is the number to quote"
+  }
+ },
+ "n_pass": 20,
+ "n_total": 20
+}
