@@ -1127,6 +1127,36 @@
     "plots/m5_32_r16_3_rebuild_n48_L72_K200.png",
     "plots/m5_32_r16_4_symbol.png"
    ]
+  },
+  {
+   "id": "R17",
+   "start_utc": "2026-09-08T13:53:00Z",
+   "end_utc": "2026-09-09T00:10:00Z",
+   "hypothesis": "the dual-reading falsifier, the true fixed-K gradient, the director-relative weight with the operator decomposed, v6 across g_W, the c_X inertia (ledger 6.6)",
+   "claims": [
+    "R17-0a: NORMALIZATION_SUPERPOSITION (the report's pair coefficient = 8 pi A / d divided by 16 pi^2), PAIR_LAW_NOT_CERTIFIED (the record's like-charge pair rises with d)",
+    "R17-0g: RADIAL_CHARACTERISTIC on the hedgehog axis with spec {0,0,1,1,1,1,2,2,2,6}; the hunt report's fixed (3,2,5) signature impossible (H_00 PSD); transverse characteristics too",
+    "R17-0e: X_M^2 = -2 I1 - I2 + 4 I3 (IN_SPAN); X_M = d_mu J^mu (TOTAL_DERIVATIVE); l = dX/dA_0 zero on the curl-free hedgehog, a lattice residual on static cores",
+    "R17-1: the bare core a 1/split^2 singularity of E_K under the true gradient; n32 K50 NUMERICALLY_UNRESOLVED by the stop rule but stationary and delocalized; n32 K200 CANDIDATE_REFUTED (escape d); n64 K50 unresolved (300 it)",
+    "R17-2: NO_BOUND_MODE under both weights on the same core and on the relative weight's core (0.0447 vs 0.0448, the box 0.0256); the 24.3 mechanism a third of a K_P barrier mostly the projector's own; the lowest mode pure l = 2 on a box shell",
+    "R17-3: the split-free core the saddle of U_v6; no condensation to g_W 1.35, escape (d) at 2.0; no core-bound doublet at any g_W (the well negative inside the core, the connection floor present); fixed K at 1.35 CANDIDATE_REFUTED (escape d) at K 50 and 200",
+    "R17-4: no Omega^2 crossing at c_X <= 100 (the added inertia 1.6e-6 c_X, the lattice residual of l on a radial core)"
+   ],
+   "audits": {
+    "R17-0": "7/1/1",
+    "R17-2_3a_3c": "3/5/0",
+    "R17-1_4": "2/5/0",
+    "R17-3b": "2/2/0"
+   },
+   "deviations": [
+    "the nucleated-shell seeds (the bare-core singularity)",
+    "the core-seeded v6 statics (the saddle)",
+    "the 12-P-core run shape",
+    "the doublet frame's handedness",
+    "the symbol script's mirroring",
+    "the fixed-K reads' lift dependence (found by the audit, the lift now stored)"
+   ],
+   "next": "the results post on #186 after the commit; a like-charge pair on the degenerate vacuum; the n64 true-gradient branch; the seeded v6 Lanczos solves"
   }
  ],
  "free_rungs_used": 4,

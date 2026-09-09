@@ -1,0 +1,469 @@
+{
+ "rung": "R17-1 / R17-4 independent adversarial audit",
+ "date": "2026-09-08",
+ "python": "3.12.14",
+ "numpy": "2.5.3",
+ "claims": {
+  "G1": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r16/r16_3_rebuild_n32_L48_K200.npy",
+    "K": 200.0,
+    "n_samples": 4,
+    "lift": "radial_ref",
+    "E_K": 48.84614313446294,
+    "true_grad_norm_free": 14.881784960775272,
+    "frozen_grad_norm_free": 2.2390409154238546,
+    "a0_chain_over_frozen_norm_here": 6.569150456287526,
+    "directions": [
+     {
+      "direction": "random0",
+      "analytic_true": -0.02736614409432507,
+      "analytic_frozen": 0.010171231881187244,
+      "fd_eps1e-4": -0.027366159294217596,
+      "fd_eps5e-5": -0.027366134389694707,
+      "fd_richardson": -0.027366126088187077,
+      "rel_err_true_vs_richardson": 6.579717544164293e-07,
+      "rel_err_frozen_vs_richardson": 1.3716723312759194
+     },
+     {
+      "direction": "random1",
+      "analytic_true": -0.013249836815915256,
+      "analytic_frozen": -0.0002109281286826318,
+      "fd_eps1e-4": -0.013249828114680895,
+      "fd_eps5e-5": -0.013249814614368915,
+      "fd_richardson": -0.013249810114264923,
+      "rel_err_true_vs_richardson": 2.0152477736089127e-06,
+      "rel_err_frozen_vs_richardson": 0.984080667808549
+     },
+     {
+      "direction": "random2",
+      "analytic_true": -0.07406347312381455,
+      "analytic_frozen": -0.009845027561524005,
+      "fd_eps1e-4": -0.07406348579763744,
+      "fd_eps5e-5": -0.07406347464211649,
+      "fd_richardson": -0.0740634709236095,
+      "rel_err_true_vs_richardson": 2.97070204581928e-08,
+      "rel_err_frozen_vs_richardson": 0.867073100426547
+     },
+     {
+      "direction": "true_gradient",
+      "analytic_true": 14.88178496077527,
+      "analytic_frozen": 0.3386754359217623,
+      "fd_eps1e-4": 14.88178510697935,
+      "fd_eps5e-5": 14.88178497446313,
+      "fd_richardson": 14.881784930291056,
+      "rel_err_true_vs_richardson": 2.048424594683114e-09,
+      "rel_err_frozen_vs_richardson": 0.9772422839391793
+     }
+    ],
+    "worst_rel_err_true": 2.0152477736089127e-06,
+    "best_rel_err_frozen": 0.867073100426547,
+    "chain_over_frozen_along_descents": {
+     "r17_1_rebuild_n32_L48_K50": {
+      "n_rows": 30,
+      "min": 0.20156543179731273,
+      "max": 0.8509425274581078,
+      "median": 0.6606317621939835
+     },
+     "r17_1_rebuild_n32_L48_K200": {
+      "n_rows": 19,
+      "min": 0.15226184218855604,
+      "max": 0.874021622457052,
+      "median": 0.716509619180054
+     },
+     "r17_1_rebuild_n64_L48_K50": {
+      "n_rows": 3,
+      "min": 0.6622539658130693,
+      "max": 1.292608921221814,
+      "median": 0.762115272371402
+     }
+    },
+    "n32_chain_over_frozen_range": [
+     0.15226184218855604,
+     0.874021622457052
+    ]
+   },
+   "producer_numbers": {
+    "complex_step_rel": 4.6182200395967785e-14,
+    "richardson_gate": 1e-06,
+    "omitted_part_claimed_range": [
+     0.4,
+     0.9
+    ]
+   },
+   "note": "The core of the claim is CONFIRMED and then some.  The analytic TRUE gradient reproduces my own Richardson-extrapolated central differences of the full E_K (a0 refreshed at every evaluation) on the R16-3 n32 K200 end state to 2.0e-06 relative worst-case over four directions (3 random free + the true gradient's own direction), and to 2.0e-09 along the gradient direction itself, where the derivative is largest and the finite difference is best conditioned.  The FROZEN gradient on the same four directions is wrong by 87 percent to 137 percent: along the true gradient's direction it gives 0.3387 where the truth is 14.8818 (44 x too small), and on direction(s) ['random0'] it has the WRONG SIGN.  So the frozen protocol was not descending E_K on this state at all; that is a stronger statement than the claim makes and it is the finding that matters.  TWO QUALIFICATIONS, both precise.  (1) The stated Richardson tolerance is 1e-6; my worst direction lands at 2.02e-06, above it.  This is a finite-difference floor, not a gradient defect: that direction has the smallest derivative of the four (-0.0132), so the same absolute truncation error is a larger relative one, and the direction with the largest derivative agrees to 2e-9.  The claim should say 'to 1e-6 relative on the well-conditioned directions, 2e-6 on the weakest', or quote an absolute tolerance.  (2) The omitted part along the n32 descents spans 0.152 to 0.874 of the frozen gradient's norm (the descent traces, logged every 100 iterations), NOT '0.4 to 0.9': both n32 runs dip well below 0.4 (K50 to 0.202 at it 800, K200 to 0.152 at it 400).  The error is in the safe direction for the conclusion but the range as printed is not what the data says.  NOT RECOMPUTED here: the complex-step figure (4.6e-14 on a 6^3 random field) is a selftest gate; I read its PASS in data/m5_32_r17_common_selftest.json and did not rebuild the complex-step path."
+  },
+  "G2": {
+   "verdict": "CONFIRMED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r16/r16_1_rebuild_n32_L48.npy",
+    "K": 200.0,
+    "kin_tot_8_samples": 0.002049003472124959,
+    "E_stat_8_samples": 13.816510788896581,
+    "E_K_8_samples": 4880435.02420611,
+    "K2_over_4kin": 4880421.207695321,
+    "omega": 48804.21207695321,
+    "true_grad_norm_free_ns4": 593888205.175459,
+    "frozen_grad_norm_free_ns4": 96648.07858806611,
+    "true_over_frozen": 6144.852684622238,
+    "own_reads": {
+     "half_split_max": 0.0005583949416456402,
+     "r_at_half_split_max": 4.9180788932265,
+     "rho2_r_rms_all_cells": 7.736782833018926,
+     "rho2_r_rms_free_only": 7.7367828330189266,
+     "rho2_fraction_r_gt_0.35L": 0.0014351125569794143,
+     "rho2_fraction_in_pin_shell": 2.1986821297176544e-25,
+     "half_split_max_in_pin_shell": 1.942890293094024e-16,
+     "gap_1_2_min": 0.049814428596512084,
+     "gap_1_2_min_free": 0.049814428596512084,
+     "l1_min": 0.5685993686154427,
+     "a_box_threshold_0.35L": 16.799999999999997,
+     "max_abs_imag_eigenvalue": 0.0,
+     "label": "r16_1_core"
+    }
+   },
+   "producer_numbers": {
+    "kin_tot": 0.002,
+    "E_K": 4900000.0,
+    "true_over_frozen": 6000
+   },
+   "note": "Confirmed on both halves.  On the BARE R16-1 static core the 8-sample kin_tot is 2.0490e-03 (the claim's 2e-3), so E_K = E_stat + K^2/(4 kin) = 4.8804e+06 at K 200 (the claim's 4.9e6; E_stat is only 13.817 of it), and the true gradient's norm on the free cells is 6145 x the frozen one (the claim's ~6000).  The half-split max on the core is 5.584e-04, so kin_tot ~ split^2 and E_K ~ 1/split^2 is the right reading of WHY: the clock inertia of a split-free core vanishes quadratically.  CAVEAT I add: 'singularity' is a statement about the limit, and this is one point, not a measured exponent; the ratio itself depends on the sample count and on the lift and is a per-point number, not a scaling law.  The consequence the producer draws from it (the seed deviation: every R17-1 descent must start from a nucleated shell, dt0 0.001) is the correct and conservative response, but it does make the R17-1 end states NOT the same-seed continuation of the R16-3 runs (see the hazard list)."
+  },
+  "X2": {
+   "verdict": "CONFIRMED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r16/r16_1_rebuild_n32_L48.npy",
+    "max_abs_X_at_A0_zero": 0.0,
+    "max_abs_X_at_a0": 1.3406634014585192e-05,
+    "linearity_residual_X(2v)-X(0)-2[X(v)-X(0)]": 0.0,
+    "affineness_residual_3v": 1.4907779871675686e-19,
+    "own_vs_instrument_X": 0.0,
+    "own_vs_instrument_X1": 0.0
+   },
+   "producer_numbers": {
+    "static_part_tolerance": 1e-14,
+    "linearity_tolerance": 1e-12
+   },
+   "note": "Confirmed with my own Levi-Civita construction (determinant of the permutation matrix, built and asserted independently of the instrument's inversion-count build) on my own fwd/bwd-averaged sym-stencil jets of the R16-1 core.  X(A_0 = 0) = 0.00e+00 over the whole box, i.e. the static part vanishes identically on this field (M_0i = 0 everywhere, as claimed); X(2 v) - X(0) - 2 [X(v) - X(0)] = 0.00e+00 against a scale |X(a0)|_max = 1.341e-05, and the three-point affineness residual is 1.49e-19: X is affine in A_0 to machine precision.  My X and X_1 agree with the instrument's xm_cells on the same jets to 0.0e+00 and 0.0e+00 - bit-exact, which is the expected outcome and is worth saying plainly: it verifies the Levi-Civita construction, the eta placement and the contraction, NOT the definition of X_M, which I took from the same source the producer did.  TWO NOTES, neither a refutation.  (1) 'The static part vanishes' is a property of THIS class of fields (purely spatial M, no 0i entries), not of X_M: any boosted or time-tilted configuration carries a static X_s, and nothing in the instrument enforces M_0i = 0, so the kinetic-only treatment is a standing assumption that must travel with the term.  (2) The magnitude is the story X1 inherits: |X_1(a0)| peaks at 1.34e-05 on this core, which is why the added inertia is 1.6e-6 c_X.  X_M is not small because the coefficient is small; it is small because the object itself nearly vanishes on these textures."
+  },
+  "R1": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r17/r17_1_rebuild_n32_L48_K50.npy",
+    "lift": "radial_ref",
+    "n_samples_read": 8,
+    "E_K": 16.993901849245475,
+    "omega": 0.10664388088242761,
+    "kin_tot": 234.42507711775716,
+    "E_stat": 14.327804827184783,
+    "true_grad_max_free_ns4": 0.0002768668001732563,
+    "own_reads": {
+     "half_split_max": 0.06317964375530852,
+     "r_at_half_split_max": 12.794041581923986,
+     "rho2_r_rms_all_cells": 16.221730150002934,
+     "rho2_r_rms_free_only": 16.22173015000293,
+     "rho2_fraction_r_gt_0.35L": 0.39650098090266334,
+     "rho2_fraction_in_pin_shell": 1.7714105731626618e-30,
+     "half_split_max_in_pin_shell": 1.942890293094024e-16,
+     "gap_1_2_min": 0.03408801119894711,
+     "gap_1_2_min_free": 0.03408801119894711,
+     "l1_min": 0.6496357626992346,
+     "a_box_threshold_0.35L": 16.799999999999997,
+     "max_abs_imag_eigenvalue": 0.0,
+     "label": "r17_1_n32_K50"
+    },
+    "spectrum_cross_check": {
+     "instrument_gap_1_2_min": 0.03408801121172356,
+     "own_gap_1_2_min": 0.03408801119894711,
+     "instrument_half_split_max": 0.06317964375532158,
+     "own_half_split_max": 0.06317964375530852,
+     "instrument_l1_min": 0.6496357626968043,
+     "own_l1_min": 0.6496357626992346
+    },
+    "E_stat_r16_1_core_own_8": 13.816510788896581,
+    "E_K_minus_E_stat": 3.177391060348894,
+    "omega_c_K": 2.5
+   },
+   "producer_numbers": {
+    "E_K": 16.994,
+    "omega": 0.1066,
+    "true_grad_max": 0.00028,
+    "true_dE_max": 0.00011,
+    "dE_dK_over_omega": 1.008,
+    "E_K_minus_E_stat": 3.18,
+    "split_max": 0.063,
+    "r_at_split_max": 12.8,
+    "rho2_r_rms": 16.2
+   },
+   "note": "Every number reproduces, to all quoted digits, from my own independent spectral read: E_K 16.993902 (claim 16.994), omega 0.106644 (claim 0.1066), true-gradient max on the free cells 2.77e-04 (claim 2.8e-4), split max 0.0632 at r 12.79 (claim 0.063 at 12.8), rho^2 rms radius 16.222 = 0.338 L (claim 16.2 = 0.34 L), E_K - E_stat(R16-1 core, my own 8-sample read 13.8165) = 3.177 against omega_c K = 2.5 (claim 3.18).  My generic-eigensolver spectrum agrees with the instrument's polished projector spectrum to 1e-11 on the gap, the split and lambda_1, so the split reads are not an artifact of the projector machinery.  I checked, and REFUTE, my own first suspicion: the split is NOT leaning on the boundary condition.  The pinned shell (the outer 2 cells per axis, |x_i| >= 21.75) carries 1.8e-30 of the rho^2 weight and a max half-split of 1.9e-16, i.e. it is exact vacuum, and dropping the pinned cells changes the rms radius in the 14th digit (16.221730 vs 16.221730).  QUALIFICATION, and it cuts toward the claim's own reading rather than against it: 'just under the a-box escape' understates how delocalized this is.  The pre-registered escape is on the rms radius, which sits 3.4 percent under 0.35 L = 16.8 - but 39.7 PERCENT OF THE rho^2 WEIGHT ALREADY LIES BEYOND 0.35 L.  Two equally natural readings of the same pre-registered criterion (the rms radius vs the weight fraction outside the radius) give opposite answers on this state, and only the rms-radius one was registered.  So NUMERICALLY_UNRESOLVED vs CANDIDATE_REFUTED (a-box) here is decided by the choice of statistic, not by the field; the verdict should be reported with that fraction beside it.  NOT RECOMPUTED: the dE/dK / omega = 1.008 read (it needs a fresh 200-iteration K+2 percent continuation) and the 6 directional derivatives of the stationarity block; I recomputed the true gradient's max instead."
+  },
+  "R2": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "r17_1_end": {
+     "E_K_8": 57.94799997543504,
+     "omega": 0.14156463352888934,
+     "kin_tot": 706.3911197819957,
+     "E_stat": 43.791536622546104,
+     "own_reads": {
+      "half_split_max": 0.5122395863859974,
+      "r_at_half_split_max": 5.356071321407137,
+      "rho2_r_rms_all_cells": 5.81052812837127,
+      "rho2_r_rms_free_only": 5.810528128371269,
+      "rho2_fraction_r_gt_0.35L": 1.766962348566933e-07,
+      "rho2_fraction_in_pin_shell": 2.586106385285109e-30,
+      "half_split_max_in_pin_shell": 1.942890293094024e-16,
+      "gap_1_2_min": 0.0009978609633750635,
+      "gap_1_2_min_free": 0.0009978609633750635,
+      "l1_min": 0.5737767794859617,
+      "a_box_threshold_0.35L": 16.799999999999997,
+      "max_abs_imag_eigenvalue": 0.0,
+      "label": "r17_1_n32_K200"
+     }
+    },
+    "r16_3_end": {
+     "E_K_8": 48.84604516138297,
+     "omega": 0.15192481304665115,
+     "kin_tot": 658.2203261905167,
+     "E_stat": 33.65356385671785,
+     "own_reads": {
+      "half_split_max": 0.6452174098414023,
+      "r_at_half_split_max": 4.9180788932265,
+      "rho2_r_rms_all_cells": 4.927067124311025,
+      "rho2_r_rms_free_only": 4.927067124311025,
+      "rho2_fraction_r_gt_0.35L": 1.19038383081032e-07,
+      "rho2_fraction_in_pin_shell": 1.1643629450225401e-29,
+      "half_split_max_in_pin_shell": 1.942890293094024e-16,
+      "gap_1_2_min": 0.11635340414546336,
+      "gap_1_2_min_free": 0.11635340414546336,
+      "l1_min": 0.6490402985517116,
+      "a_box_threshold_0.35L": 16.799999999999997,
+      "max_abs_imag_eigenvalue": 0.0,
+      "label": "r16_3_n32_K200"
+     }
+    },
+    "same_functional_difference_r17_minus_r16": 9.101954814052071,
+    "escape_d_threshold": 0.001,
+    "spectrum_cross_check": {
+     "instrument_gap_1_2_min": 0.000997860963034114,
+     "own_gap_1_2_min": 0.0009978609633750635,
+     "instrument_half_split_max": 0.512239586386083,
+     "own_half_split_max": 0.5122395863859974,
+     "instrument_l1_min": 0.5737767794862897,
+     "own_l1_min": 0.5737767794859617
+    }
+   },
+   "producer_numbers": {
+    "E_K": 57.948,
+    "omega": 0.1416,
+    "dE_dK_over_omega": 1.001,
+    "split_max": 0.512,
+    "r_at_split_max": 5.4,
+    "rho2_r_rms": 5.8,
+    "r16_3_reached": 48.8,
+    "escape": "d at it 1900"
+   },
+   "note": "The reads reproduce: E_K 57.948000 (claim 57.948), omega 0.141565 (claim 0.1416), my own generic-eigensolver director gap minimum 9.979e-04 (the pre-registered escape (d) threshold is 1e-3, so escape (d) is REAL and is crossed, though by only 0.2 percent), split max 0.5122 at r 5.36 (claim 0.512 at 5.4), rho^2 rms radius 5.811 (claim 5.8).  The same-functional comparison also reproduces: under the true E_K at 8 samples with the same radial lift, the R17-1 end state sits at 57.948 and the frozen R16-3 end state at 48.846, so the true-gradient run ended 9.102 HIGHER.  QUALIFICATION 1, the load-bearing one: 'a higher-energy branch' is not supportable from this pair, because the two runs did not start from the same field.  The R17-1 protocol deviation (its own docstring, forced by G2) adds a nucleated doublet shell of amplitude 0.05 at r 5 to the seed and drops dt0 from 0.01 to 0.001; R16-3 started from the bare R16-1 end field.  Different seed AND different gradient, one comparison: the difference is not attributable to the gradient.  QUALIFICATION 2: the R16-3 end state is better than the R17-1 one on every axis I measured, not just in energy.  Its director gap is 0.1164 (117 x the escape threshold, nowhere near escaping), its split max is 0.6452 against 0.5122, and its rho^2 rms radius is 4.927 against 5.811: more localized, spectrally healthy, and 15.7 percent lower in E_K.  The true-gradient descent from the nucleated seed did not find a better clock; it found a worse, less localized state and walked it into the escape.  QUALIFICATION 3: 'plateauing' is not what the record says.  The run stopped on escape_d at it 1900, not on the FIRE plateau rule, with E_K still falling ~7e-3 per 100 iterations (58.0116 at it 1200 -> 57.9480 at it 1900) and the gap decreasing monotonically from it 100 onward - the descent was walking INTO the escape, monotonically, for 1800 iterations.  QUALIFICATION 4: the dE/dK / omega = 1.001 read comes from a K+2 percent continuation that itself stopped on escape_d (stop_K2 in the record), so it is measured across the escape, and the true gradient's own FD consistency at this end state is 3.8e-2 relative (the record's analytic_vs_fd_max_rel), not the 2e-6 I measured for the same gradient in G1: at gap 1e-3 the resolvents that build it are near-singular, so the stationarity numbers quoted beside the escape are not trustworthy at their printed precision.  The escape verdict itself is sound - it is a spectral read, not a gradient read."
+  },
+  "X1": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r16/r16_1_rebuild_n32_L48.npy",
+    "weight": "relative",
+    "n_samples": 4,
+    "inertia_fractions": {
+     "1.0": {
+      "trace_fraction": 1.608820613707775e-06,
+      "max_cell_fraction": 9.538856061769941e-05,
+      "X_kin_sum_free": 0.24478150222855638,
+      "instrument_kin_trace_sum_free": 152149.65555694845
+     },
+     "10.0": {
+      "trace_fraction": 1.6088206137077743e-05,
+      "max_cell_fraction": 0.0009538856061769938,
+      "X_kin_sum_free": 2.447815022285563,
+      "instrument_kin_trace_sum_free": 152149.65555694845
+     },
+     "100.0": {
+      "trace_fraction": 0.0001608820613707775,
+      "max_cell_fraction": 0.00953885606176994,
+      "X_kin_sum_free": 24.478150222855636,
+      "instrument_kin_trace_sum_free": 152149.65555694845
+     }
+    },
+    "fraction_per_unit_cX": {
+     "1.0": 1.608820613707775e-06,
+     "10.0": 1.6088206137077742e-06,
+     "100.0": 1.6088206137077749e-06
+    },
+    "Omega2_lowest": {
+     "0.0": 0.04466258056187137,
+     "1.0": 0.044662484281666234,
+     "10.0": 0.04466161788307726,
+     "100.0": 0.044652933181633284
+    },
+    "Omega2_slope_per_unit_cX": {
+     "1.0": -9.62802051349132e-08,
+     "10.0": -9.626787941113824e-08,
+     "100.0": -9.64738023808559e-08
+    },
+    "box_bottom_used_by_claim": 0.025632114255195525,
+    "box_continuum_estimate_in_operator_record": 0.01428368246575059,
+    "cX_to_cross_claim_target": 197260.45659056783,
+    "cX_to_cross_record_threshold": 314892.72057705396,
+    "added_inertia_fraction_at_cX_2e5": 0.321764
+   },
+   "producer_numbers": {
+    "fraction_per_unit_cX": 1.6088206137087166e-06,
+    "Omega2_shift_per_unit_cX": -1e-07,
+    "Omega2": [
+     0.0446626,
+     0.0446625,
+     0.0446624,
+     0.0446529
+    ],
+    "cX_needed": 200000.0
+   },
+   "note": "The inertia fraction reproduces exactly from my own rebuild of the two pieces: with the doublet basis (m5_32_r16_2_operator.doublet_basis) and the instrument's kinetic cells against the X_M kinetic cells, the free-cell trace fraction is 1.608821e-06 / 1.608821e-05 / 1.608821e-04 at c_X 1 / 10 / 100, i.e. exactly linear at 1.60882e-6 per unit c_X, matching the producer's X_M_added_inertia_trace_fraction to all printed digits. The Omega^2 ladder is linear too: the lowest mode moves by -9.647e-08 per unit c_X (my slope from the c_X 100 point; the 1 / 10 / 100 slopes agree to -0.0021 relative), i.e. -9.6e-8, which the claim rounds to -1.0e-7 (a 4 percent over-statement of the effect, harmless for its conclusion).  The extrapolated crossing is 1.97e+05, so '~2e5' is right.  QUALIFICATION, the real one: the extrapolation is used 2000 x beyond the tested range and it is NOT a perturbative regime there.  At c_X 2e5 the added inertia fraction is 1.6e-6 x 2e5 = 0.32, a 32 percent change to the inertia, and the max single-cell fraction (which is 60 x the trace fraction here) would be ~19, i.e. the X_M term would dominate the inertia on the cells that matter.  A linear Rayleigh shift measured at fractions <= 1.6e-4 says nothing about the spectrum there; the honest statement is 'no crossing anywhere in the tested range, and the trend rules out any crossing at perturbative c_X', not a number for the crossing.  Second qualification: the target itself is ambiguous.  The claim uses 0.025632 (the audit's box bottom); the operator records' own thresholds.box_continuum_estimate_Omega2 is 0.014284, which gives 3.15e+05 instead.  Both are ~1e5, so the conclusion survives, but the quoted 2e5 is target-dependent."
+  },
+  "R3": {
+   "verdict": "QUALIFIED",
+   "own_numbers": {
+    "field": "checkpoints/m5_32_r17/r17_1_rebuild_n64_L48_K50.npy",
+    "h": 0.75,
+    "n_samples_read": 8,
+    "E_K": 21.04873096193662,
+    "omega": 0.1957578915570445,
+    "kin_tot": 127.70877230619801,
+    "E_stat": 16.154783673010506,
+    "own_reads": {
+     "half_split_max": 0.15290089625171305,
+     "r_at_half_split_max": 4.903761311483258,
+     "rho2_r_rms_all_cells": 7.136431000753814,
+     "rho2_r_rms_free_only": 7.136431000753814,
+     "rho2_fraction_r_gt_0.35L": 1.2646687375772674e-08,
+     "rho2_fraction_in_pin_shell": 2.8021320514803433e-30,
+     "half_split_max_in_pin_shell": 2.7755575615628914e-16,
+     "gap_1_2_min": 0.062187984683153785,
+     "gap_1_2_min_free": 0.062187984683153785,
+     "l1_min": 0.7572797013118339,
+     "a_box_threshold_0.35L": 16.799999999999997,
+     "max_abs_imag_eigenvalue": 1.1181447326216888e-16,
+     "label": "r17_1_n64_K50"
+    },
+    "producer_dE_dK_record": {
+     "K": 50.0,
+     "K2": 51.0,
+     "E_K_8": 21.04873096193662,
+     "E_K2_8": 21.028829963178566,
+     "dE_dK_fd": -0.019900998758053845,
+     "omega_end": 0.1957578915570445,
+     "ratio": -0.10166128476232912,
+     "stop_K2": "max_iter"
+    }
+   },
+   "producer_numbers": {
+    "E_K": 21.05,
+    "E_K_start": 56.97,
+    "omega": 0.196,
+    "split_max": 0.153,
+    "r_at_split_max": 4.9,
+    "rho2_r_rms": 7.1,
+    "gap": 0.062,
+    "iters": 300
+   },
+   "note": "Every read reproduces: E_K 21.048731 (claim 21.05), omega 0.195758 (claim 0.196), split max 0.1529 at r 4.90 (claim 0.153 at 4.9), rho^2 rms radius 7.136 (claim 7.1), director gap minimum 0.0622 from my own eigensolver (claim 0.062), h 0.75.  The verdict NUMERICALLY_UNRESOLVED after 300 iterations is right and, if anything, generous: E_K fell 56.97 -> 21.05, i.e. the run is nowhere near a stationary point and 300 iterations at n64 is a tenth of the n32 budget.  QUALIFICATION the claim omits entirely: the dE/dK = omega consistency check FAILS on this cell.  The record's own dE_dK for this run is -0.0199 against omega 0.1958, a ratio of -0.102 - NEGATIVE, i.e. E_K went DOWN when K went up by 2 percent, where the thermodynamic identity requires it to go up by omega.  R1 and R2 both quote their ratios (1.008, 1.001) as evidence; R3 quotes none, and the reason is that its number is -0.102.  That is expected for a descending, unconverged state (the 200-iteration K+2 percent continuation keeps descending faster than the K-shift raises E), but it must be stated with the rung's claim, not left in the JSON."
+  }
+ },
+ "unclaimed_hazards": [
+  {
+   "id": "A1",
+   "where": "R2, and any comparison of an R17-1 end state with an R16-3 one",
+   "hazard": "the true-gradient and frozen runs do not share a seed, so no energy difference between their end states is attributable to the gradient",
+   "detail": "the R17-1 protocol deviation adds a nucleated doublet shell (amplitude 0.05 at r 5, width 2) to every seed and drops dt0 from 0.01 to 0.001; R16-3 started from the bare R16-1 end field at dt0 0.01.  The 57.948 vs 48.846 gap I measured under one functional and one lift is a two-variable difference reported as one.  And the direction is unflattering: on my own reads the R16-3 (frozen, bare-seed) end state is MORE localized (rms 4.93 vs 5.81, split 0.645 vs 0.512) and spectrally healthy (gap 0.116 vs 9.98e-4) as well as 15.7 percent lower in E_K.  The rung reads as 'the true gradient found a higher-energy branch'; the same data reads as 'the nucleated seed plus the true gradient did worse and escaped'.  Neither is established.  The clean experiment (the true gradient from the SAME bare seed) is exactly the one G2 says is impossible without the shell, so this confound is structural, not an oversight - it needs a third run, e.g. the frozen protocol from the NUCLEATED seed, to separate the two variables."
+  },
+  {
+   "id": "A2",
+   "where": "R3 (n64 K 50)",
+   "hazard": "the dE/dK = omega identity FAILS on this cell and the claim does not say so",
+   "detail": "data/m5_32_r17_1.json gives dE_dK_fd -0.0199 against omega 0.1958, ratio -0.102.  R1 and R2 both cite their ratios as corroboration; R3 cites none.  Expected for an unconverged descending state, but the asymmetry in reporting is the hazard."
+  },
+  {
+   "id": "A3",
+   "where": "R2 (n32 K 200) stationarity and dE/dK reads",
+   "hazard": "both are measured at or across the escape (d) boundary, where the gradient itself is only 4 percent accurate",
+   "detail": "the record's analytic_vs_fd_max_rel at this end state is 3.75e-2 (against G1's 1e-6 gate elsewhere), the gap minimum is 9.98e-4 against the 1e-3 threshold, and the K+2 percent continuation that produced dE/dK / omega = 1.001 itself stopped on escape_d.  The escape verdict is sound (it is a spectral read, not a gradient read); the numbers quoted beside it are not."
+  },
+  {
+   "id": "A4",
+   "where": "R1 (n32 K 50), the a-box escape decision",
+   "hazard": "two equally natural readings of the SAME pre-registered escape give opposite verdicts on this state, and only one was registered",
+   "detail": "escape (a-box) is registered on the rho^2-weighted rms radius, which is 16.222 against 0.35 L = 16.8: not crossed, by 3.4 percent.  But 39.7 percent of the rho^2 weight already sits at r > 0.35 L (my own read; the producer's escape_reads computes this same quantity, rho2_fraction_r_gt_0.35L, and does not use it).  A criterion phrased as 'more than a third of the split beyond 0.35 L' would fire here.  I checked and REJECTED the related worry that the tail leans on the pinned shell: the pinned cells hold 1.8e-30 of the weight, exact vacuum."
+  },
+  {
+   "id": "A5",
+   "where": "every circle-averaged read in this rung",
+   "hazard": "the reported energies depend on a director lift that the checkpoints do not carry",
+   "detail": "checkpoints/m5_32_r17/lift_dependence.json shows E_K on r17_1_rebuild_n32_L48_K200.npy is 57.948 with the radial lift and 68.636 with the x lift (19 percent).  The radial lift happens to reproduce the propagated one exactly on these three fields (0 mismatched bonds), which is why my reads match to all digits, but that is a checked coincidence of these fields, not a property of the format.  This is the R17-2 audit's H9 and it is still open at R17-1."
+  },
+  {
+   "id": "A6",
+   "where": "R1 and R3 verdicts (NUMERICALLY_UNRESOLVED by max_iter)",
+   "hazard": "the two grids got budgets that differ by 10 x, so the n64 run carries no independent information about the n32 conclusion",
+   "detail": "n32 K50 ran 3000 iterations (18536 s), n64 K50 ran 300 (15724 s) and was still falling from 56.97 to 21.05.  A resolution check needs the two to be comparably converged; as run, n64 is a wall-clock report, not a grid-refinement control."
+  },
+  {
+   "id": "A7",
+   "where": "X1 (the c_X ladder)",
+   "hazard": "a linear extrapolation is carried 2000 x past the tested range into a regime where the perturbation is 32 percent",
+   "detail": "see the X1 note.  At c_X 2e5 the added inertia fraction is 0.32 of the trace and ~19 on the worst cell; the measured slope was taken at fractions <= 1.6e-4.  The defensible statement is a no-crossing result over the tested range plus a trend, not a crossing value."
+  },
+  {
+   "id": "A8",
+   "where": "G1 (the omitted part along the descents)",
+   "hazard": "the stated range 0.4 to 0.9 excludes the measured minima",
+   "detail": "the traces give 0.202 (n32 K50, it 800) and 0.152 (n32 K200, it 400); the full n32 span is 0.152 to 0.874.  The direction of the error is safe for the claim's conclusion (the omitted part is still O(1) of the frozen gradient at the median) but the range as printed is not what the data says."
+  },
+  {
+   "id": "A9",
+   "where": "G2 / the R17-1 seed deviation",
+   "hazard": "'1/split^2 singularity' is asserted from a single point, not from a measured exponent",
+   "detail": "kin_tot ~ split^2 is a plausible reading of kin_tot 2.1e-3 at half-split 6e-4, but no split-scaling series was run, and the 6000 x gradient ratio is a per-point number that moves with sample count and lift.  The protocol consequence drawn from it is conservative and correct either way."
+  }
+ ],
+ "runtime_s": 94.3,
+ "coverage": {
+  "recomputed_from_scratch": [
+   "the split, the director gap and lambda_1 on all four fields, from eigenvalues of N = M eta by the generic eigensolver (NOT the instrument's polished spectral projectors); cross-checked against the instrument and agreeing to ~1e-11",
+   "the directional derivatives of the full E_K by my own central differences at two step sizes with a Richardson extrapolation, on 3 random free directions and the gradient's own direction",
+   "the rho^2-weighted rms radius, the weight fraction beyond 0.35 L, the pin-shell weight and the split maximum with their radii",
+   "X_M with an independently constructed Levi-Civita tensor (permutation-matrix determinant) on my own fwd/bwd-averaged sym-stencil jets",
+   "the X_M added-inertia trace fraction, rebuilt from the doublet basis, the instrument's kinetic cells and the X_M kinetic cells"
+  ],
+  "consumed_from_the_producer_unverified": [
+   "the complex-step gate 4.6e-14 (read as PASS from data/m5_32_r17_common_selftest.json; the complex-step path was not rebuilt)",
+   "the per-iteration a0_chain_norm / frozen_grad_norm traces (read from the run checkpoints; the ratio at one field was recomputed here)",
+   "the Omega^2 eigenvalues of the doublet operator at c_X 0 / 1 / 10 / 100 (read from the operator records; the ladder's linearity and the extrapolation were recomputed, the eigenproblem was not re-solved)",
+   "dE/dK / omega for all three runs (each needs a fresh 200-iteration K+2 percent continuation)",
+   "the 6-direction stationarity block of each run (I recomputed the true gradient's max instead)",
+   "the escape (b) and (c) diagnostics (quadrupole, spin-2 winding); only (a), (a-box) and (d) were recomputed"
+  ],
+  "energy_functional_used": "m5_32_r17_common.energy_and_grad_true with the radial director lift (m5_32_r16_common.radial_ref), 8 circle samples for every read and 4 for every gradient; the radial lift reproduces the propagated one exactly on these fields (0 mismatched bonds, checkpoints/m5_32_r17/lift_dependence.json), which is why my reads match to all digits"
+ },
+ "tally": {
+  "n_claims": 7,
+  "QUALIFIED": 5,
+  "CONFIRMED": 2,
+  "per_claim": {
+   "G1": "QUALIFIED",
+   "G2": "CONFIRMED",
+   "X2": "CONFIRMED",
+   "R1": "QUALIFIED",
+   "R2": "QUALIFIED",
+   "X1": "QUALIFIED",
+   "R3": "QUALIFIED"
+  },
+  "n_unclaimed_hazards": 9
+ }
+}

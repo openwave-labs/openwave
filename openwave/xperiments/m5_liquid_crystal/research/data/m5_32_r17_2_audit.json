@@ -1,0 +1,914 @@
+{
+ "S1": {
+  "verdict": "CONFIRMED",
+  "own_numbers": {
+   "own_w_rel_minus_P23_max": 3.261407810484229e-11,
+   "own_w_abs_minus_instrument_w_max": 9.908740494779522e-14,
+   "own_plain_KP_relative": 3.6586938647963354,
+   "own_plain_KP_absolute": 8.297896387874594,
+   "instrument_plain_KP_relative": 3.658693864796375,
+   "instrument_plain_KP_absolute": 8.297896387874614,
+   "R15_kp23_energy_grad": 3.658693864796375,
+   "rel_dev_own_vs_R15_kp23": 1.080274577136704e-14,
+   "rel_dev_own_vs_instrument_rel": 1.080274577136704e-14,
+   "own_KP_8sample_average_relative": 3.658603072833751,
+   "own_KP_8sample_average_absolute": 8.297730319230386,
+   "cells_lambda1_ge_1": 10816,
+   "cells_in_taper": 21952,
+   "max_abs_density_diff_where_l1_ge_1": 0.0,
+   "max_abs_density_diff_in_taper": 0.0927462967584551,
+   "projector_quality": {
+    "eig_max_imag": 0.0,
+    "P23_idempotence_max": 7.993605777301127e-15,
+    "P23_commutes_with_N_max": 1.6653345369377348e-16,
+    "Pg_trace_max_dev_1": 0.0,
+    "P23_trace_max_dev_2": 2.353672812205332e-14
+   }
+  },
+  "producer_numbers": {
+   "static_KP_relative_on_R16_1_core_8samples": 3.6586030728340644,
+   "static_KP_absolute_on_R16_1_core_8samples": 8.297730319230393,
+   "claim": "w(N) = P23 exactly under the relative weight; K_P^proj == R15 K_P^23; differs from absolute only where lambda_1 < 1"
+  },
+  "note": "own w(N) equals P23 to 3.3e-11; own plain K_P (relative) equals R15's kp23_energy_grad to 1.1e-14 relative; the per-cell density difference between the weights is 0.0e+00 on the 10816 cells with lambda_1 >= 1 and up to 9.275e-02 on the 21952 taper cells; own 8-sample circle averages 3.6586031 / 8.2977303 reproduce the reported 3.6586 / 8.2977."
+ },
+ "S2": {
+  "verdict": "CONFIRMED",
+  "own_numbers": {
+   "half_split_max_all": 0.0002399986647710628,
+   "half_split_max_free": 0.0002399986647710628,
+   "Delta_min_free": 0.03742088309162411,
+   "Delta_min_all": 0.03742088309162411,
+   "r_at_Delta_min_free": 1.299038105676658,
+   "l1_min_free": 0.4930039320746091,
+   "l1_max": 1.0000000000000009,
+   "lg_max": -8.0,
+   "l2_max": 0.4558519849276787,
+   "l3_min": 0.2999999999999996,
+   "r_0_profile_shellmean_l1_0.8": 3.7139855357707794,
+   "escape_d_gap_le_1e-3": false,
+   "shell_l1_mean": [
+    [
+     1.125,
+     0.4935681184687899
+    ],
+    [
+     3.375,
+     0.7797564948694851
+    ],
+    [
+     5.625,
+     0.914121775205393
+    ],
+    [
+     7.875,
+     0.9593753200966587
+    ],
+    [
+     10.125,
+     0.9809311656795832
+    ],
+    [
+     12.375,
+     0.991652721117168
+    ],
+    [
+     14.625,
+     0.9960357261098921
+    ],
+    [
+     16.875,
+     0.9978557001423757
+    ],
+    [
+     19.125,
+     0.9987413422240968
+    ],
+    [
+     21.375,
+     0.9992235803483149
+    ],
+    [
+     23.625,
+     0.9994906895839987
+    ]
+   ],
+   "projector_quality": {
+    "eig_max_imag": 0.0,
+    "P23_idempotence_max": 6.5503158452884236e-15,
+    "P23_commutes_with_N_max": 1.6653345369377348e-16,
+    "Pg_trace_max_dev_1": 0.0,
+    "P23_trace_max_dev_2": 1.9539925233402755e-14
+   },
+   "E_stat_8_own": 7.27779715876424,
+   "pinned_shell_N_spectrum_max_dev_from_(-8,0.3,0.3,1)": 8.881784197001252e-16,
+   "pinned_shell_max_dev_from_the_seed_field": 0.0,
+   "pinned_shell_max_dev_from_the_DIAGONAL_vacuum (large by design: the shell is the radial hedgehog, a rotated vacuum)": 0.6996359854394176,
+   "descent_stop": {
+    "stop": "max_iter",
+    "wall_s": 12615.0,
+    "iters": 3000
+   },
+   "fmax_at_last_logged_iter": 0.04568284370344391,
+   "E_stat_last_6_logged": [
+    7.438975677621659,
+    7.404440607476661,
+    7.372343371194188,
+    7.342412193657978,
+    7.31302897963275,
+    7.27779715876389
+   ],
+   "E_change_over_last_500_it": -0.16117851885776968
+  },
+  "producer_numbers": {
+   "E_stat_8": 7.27779715876424,
+   "half_split_max": 0.00023999867,
+   "Delta_min": 0.03742070560287508,
+   "r_0": 3.7139855357706604,
+   "verdict": "UNIAXIAL_RADIAL",
+   "converged": false,
+   "max_iter": 3000,
+   "fmax_claimed": "5e-2"
+  },
+  "note": "own eigen reads reproduce E_stat_8 7.27779716, Delta_min 0.037421, r_0 3.7140, half split max 2.400e-04; the pinned shell is the vacuum to 8.9e-16 (its N-spectrum is (-8, 0.3, 0.3, 1) everywhere on the shell; the shell carries the RADIAL hedgehog, so it is a rotated vacuum, not the diagonal one) and byte-identical to the seed field there (0.0e+00); NOT converged confirmed: stop max_iter at 3000 with fmax 4.57e-02 (the claim's 5e-2) and E_stat still falling by -1.61e-01 over the last 500 iterations."
+ },
+ "S3": {
+  "verdict": "QUALIFIED",
+  "own_numbers": {
+   "max_abs_grad_of_rho2_at_degenerate_pair": 4.742872761198735e-14,
+   "fd_directional_derivatives_at_degenerate_pair": [
+    1.63064007e-10,
+    2.9767855e-11,
+    2.85951818e-10,
+    1.64313008e-10,
+    -3.22034066e-10,
+    7.3413498e-11,
+    -2.40918396e-10,
+    -8.7846397e-11
+   ],
+   "rho2_quadratic_ratio_(2eps)/(eps)_expect_4": [
+    4.000045,
+    4.000659,
+    4.000423,
+    4.000061,
+    3.999721,
+    4.000027,
+    3.9997,
+    3.999985
+   ],
+   "control_max_abs_grad_at_split_0.05": 0.1999999999999993,
+   "E_stat_8_v4rel_end": 7.27779715876424,
+   "E_stat_8_v6_gW2_control_end": 7.277788305318547,
+   "E_stat_8_of_the_v6_control_field_read_as_v4rel": 7.277807822460184,
+   "U_v6_on_the_control_end": -1.8045258070061327e-05,
+   "energy_difference_v6control_minus_v4rel": -8.853445693013384e-06,
+   "max_abs_field_difference": 0.0003495455720732149,
+   "rms_field_difference": 4.261305543256324e-06,
+   "own_half_split_max_v6_control": 0.0006307108312898491
+  },
+  "producer_numbers": {
+   "E_stat_v4rel": 7.27779715876424,
+   "E_stat_v6_gW2_control": 7.277788305318547,
+   "claim": "d U_v6 / dM = 0 exactly on a split-free core, so the unseeded control relaxed to the SAME state"
+  },
+  "note": "the gradient statement is EXACT: d rho^2 / dM = 0 at lambda_2 = lambda_3 (max |grad| 4.7e-14, every finite-difference directional derivative < 1e-12, rho^2 quadratic in the step), while the control at split 0.05 has |grad| 2.000e-01.  The two end fields agree in ENERGY to 8.85e-06 but are NOT the same state: max |M_v6 - M_v4rel| = 3.495e-04 (both stopped at max_iter, so this is descent-path noise, not a claim of identity); the control still carries U_v6 = -1.80e-05 and half split 6.31e-04 vs 2.4e-4 on the v4rel end."
+ },
+ "S4": {
+  "verdict": "QUALIFIED",
+  "own_numbers": {
+   "rows": [
+    {
+     "gW": 0.5,
+     "own_E_stat_8": 7.290890929638715,
+     "own_E_minus_saddle": 0.01309377087447583,
+     "own_half_split_max": 0.008232004438179868,
+     "own_Delta_min_free": 0.03270273380882288,
+     "own_escape_d": false,
+     "producer_E_stat_8": 7.290890929638715,
+     "producer_half_split": 0.00823200443848212,
+     "producer_Delta_min": 0.03270273380861727,
+     "stop": "max_iter",
+     "iters": 3000,
+     "fmax_last_logged": 0.25620527133642784,
+     "fmax_last_5_logged": [
+      0.4937522896534604,
+      3.273184301106853,
+      0.04826106750169839,
+      0.04724072302319797,
+      0.25620527133642784
+     ],
+     "seed_amplitude": 0.05,
+     "E_change_over_last_100_it": -0.0342166976740117,
+     "E_change_over_last_500_it": -0.16717390935780596
+    },
+    {
+     "gW": 1.1,
+     "own_E_stat_8": 7.288955280491316,
+     "own_E_minus_saddle": 0.01115812172707642,
+     "own_half_split_max": 0.012135819631448969,
+     "own_Delta_min_free": 0.028139696665316516,
+     "own_escape_d": false,
+     "producer_E_stat_8": 7.288955280491316,
+     "producer_half_split": 0.012135819631527963,
+     "producer_Delta_min": 0.028139696670093084,
+     "stop": "max_iter",
+     "iters": 3000,
+     "fmax_last_logged": 0.25680383253712247,
+     "fmax_last_5_logged": [
+      0.49531552166216136,
+      3.2825691838964506,
+      0.048483500131100546,
+      0.04744308414124398,
+      0.25680383253712247
+     ],
+     "seed_amplitude": 0.05,
+     "E_change_over_last_100_it": -0.0343821593569551,
+     "E_change_over_last_500_it": -0.1681336005239098
+    },
+    {
+     "gW": 1.35,
+     "own_E_stat_8": 7.280373107644915,
+     "own_E_minus_saddle": 0.0025759488806755826,
+     "own_half_split_max": 0.014847977923240413,
+     "own_Delta_min_free": 0.024208580137106583,
+     "own_escape_d": false,
+     "producer_E_stat_8": 7.280373107644915,
+     "producer_half_split": 0.014847977923198422,
+     "producer_Delta_min": 0.02420858014237387,
+     "stop": "max_iter",
+     "iters": 3000,
+     "fmax_last_logged": 0.6918642889026272,
+     "fmax_last_5_logged": [
+      1.0240066795288731,
+      0.44920851668304984,
+      0.04844958368512024,
+      0.06789030810062391,
+      0.6918642889026272
+     ],
+     "seed_amplitude": 0.05,
+     "E_change_over_last_100_it": -0.035119435295268175,
+     "E_change_over_last_500_it": -0.16773288809324782
+    },
+    {
+     "gW": 2.0,
+     "own_E_stat_8": 8.851554890740937,
+     "own_E_minus_saddle": 1.5737577319766975,
+     "own_half_split_max": 0.048400083031396146,
+     "own_Delta_min_free": 0.0008726617772308876,
+     "own_escape_d": true,
+     "producer_E_stat_8": 8.851554890740937,
+     "producer_half_split": 0.04840008303129717,
+     "producer_Delta_min": 0.0008726617260967906,
+     "stop": "escape_d",
+     "iters": 400,
+     "fmax_last_logged": 0.3660967001032993,
+     "fmax_last_5_logged": [
+      0.441457530743008,
+      0.5619540937982276,
+      0.2890368588234469,
+      0.3660967001032993
+     ],
+     "seed_amplitude": 0.05,
+     "E_change_over_last_100_it": -0.08359573173775026,
+     "E_change_over_last_500_it": null
+    }
+   ],
+   "excess_monotone_decreasing_in_gW_up_to_1.35": true,
+   "split_monotone_increasing": true
+  },
+  "producer_numbers": {
+   "splits": [
+    0.0082,
+    0.0121,
+    0.0148
+   ],
+   "excess": [
+    0.013,
+    0.011,
+    0.0026
+   ],
+   "escape_d_at_2.0_split_held": 0.048
+  },
+  "note": "every number reproduces exactly: my own 8-sample energies match the producer to < 1e-9 and my own eigen reads reproduce the residual half splits 0.0082 / 0.0121 / 0.0148 (from a seed of 0.05) and the excesses above the split-free saddle +0.0131 / +0.0112 / +0.0026; the excess falls monotonically with g_W (True) while the residual split rises monotonically (True); the g_W 2.0 seeded run did stop on escape (d) at iteration 400 with the split held at 0.0484 and the gap at 8.7e-04.  QUALIFIED, not CONFIRMED, because 'no condensation up to 1.35' does not follow from these end states.  All three runs stopped at max_iter (3000), never at f_tol (1e-6): the last logged fmax are 0.26 / 0.26 / 0.69, and the energy was still falling by 0.035 per 100 iterations at the stop, an order of magnitude MORE than the +0.0026 excess that is being read as 'above the saddle' at g_W 1.35.  The three runs share a seed and an iteration budget, so the comparison is paired and the ORDERING is informative, but the sign of the gap to the saddle is not resolved by these fields.  The defensible statement is 'condensation not DEMONSTRATED up to 1.35', and the collapse of the excess from +0.0131 to +0.0026 over g_W 0.5 -> 1.35 is what approaching a threshold looks like."
+ },
+ "S6": {
+  "verdict": "CONFIRMED",
+  "own_numbers": {
+   "my_sY_orthonormality_max_err_on_gauss_grid": 3.030908857309284e-14,
+   "f_dot_(n_x_e)_mean_on_R16_1_core": -1.0,
+   "f_dot_(n_x_e)_range": [
+    -1.0000000000009823,
+    -0.9999999999992806
+   ],
+   "handedness_verdict": "f = J e = -(n x e)",
+   "l_law_at_r_12": {
+    "conjugated (the producer's choice, zeta = a - i b)": {
+     "E_h_l2": 0.020807760421348576,
+     "E_h_l3": 0.02485298878696085,
+     "E_h_l4": 0.03006445069786423,
+     "ratio_(3-2)/(4-2)": 0.43700591083565493,
+     "expected_6_over_14": 0.42857142857142855,
+     "rel_dev_from_6_14": 0.01968045861652823,
+     "E_h_l2_by_m": {
+      "0": 0.020807760421348576,
+      "2": 0.02080819825778235,
+      "-2": 0.02080819882621654
+     },
+     "m_spread_rel": 2.1069000471160218e-05
+    },
+    "unconjugated (zeta = a + i b)": {
+     "E_h_l2": 0.020807760421348576,
+     "E_h_l3": 0.02485298878696085,
+     "E_h_l4": 0.03006445069786423,
+     "ratio_(3-2)/(4-2)": 0.43700591083565493,
+     "expected_6_over_14": 0.42857142857142855,
+     "rel_dev_from_6_14": 0.01968045861652823,
+     "E_h_l2_by_m": {
+      "0": 0.020807760421348576,
+      "2": 0.055311303839289394,
+      "-2": 0.05531130454983213
+     },
+     "m_spread_rel": 0.7875701279870769
+    }
+   }
+  },
+  "producer_numbers": {
+   "handedness_f_dot_n_cross_e": -0.9999999999999815,
+   "hand_sign": -1.0,
+   "ratios_at_r_6_9_12_15": [
+    0.4855475949881622,
+    0.4422978349175176,
+    0.43699723158373827,
+    0.4360483864775842
+   ],
+   "m_independence": [
+    0.004047592156536196,
+    0.0008348906744210379,
+    3.927050204775749e-06,
+    0.00016051921169765935
+   ],
+   "shell_gram_max_err": 0.015002144306490495
+  },
+  "note": "the handedness is confirmed independently: f = J e has f . (n x e) = -1.000000 (range [-1.0000, -1.0000]) on the R16-1 core, so f = -(n x e), the opposite of frame_zeta, and the producer's conjugation of the 2Y_lm patterns is correct.  My own spin-weighted harmonics are orthonormal to 3.0e-14 on a Gauss-Legendre sphere quadrature.  My own r = 12 shell of the analytic hedgehog gives the l-law ratio 0.4370 against 6/14 = 0.42857 (producer 0.43700 at r 12) with an m-spread at l = 2 of 2.1e-05; with the OPPOSITE handedness the same shell gives 0.4370 and m-spread 7.9e-01.  Caveat the producer does not carry into the verdict: its own gate records the 2Y_lm shell Gram error at 1.5e-02 on the cubic lattice, so the patterns are only approximately orthonormal and the residual excess of the ratio over 6/14 (2 percent at r 12) is a lattice effect, not a measured deviation."
+ },
+ "S7": {
+  "verdict": "QUALIFIED",
+  "own_numbers": {
+   "rows": {
+    "v4abs_r1.125": {
+     "KP_raw": 2.372628493176876,
+     "V4_raw": -0.008001828597503646,
+     "U_raw": 0.03374999998149779,
+     "E_h_raw": 0.18290935063447478,
+     "reg_raw": 0.06529673343760331,
+     "2T": 3.8074374281183982,
+     "KP_Omega2": 0.6231562666413688,
+     "well_V4_plus_U_Omega2": 0.006762598695343146,
+     "E_h_Omega2": 0.048040014862402336,
+     "total_Omega2": 0.6951086652370452
+    },
+    "v4abs_r3.375": {
+     "KP_raw": 1.0578066529376429,
+     "V4_raw": -0.003119986267119401,
+     "U_raw": 0.033750000155405545,
+     "E_h_raw": 0.18776941040243855,
+     "reg_raw": 0.07075135251242486,
+     "2T": 3.9188877241583038,
+     "KP_Omega2": 0.26992522557273263,
+     "well_V4_plus_U_Omega2": 0.007815996794055854,
+     "E_h_Omega2": 0.047913955086010415,
+     "total_Omega2": 0.3437091145626253
+    },
+    "v4abs_r5.625": {
+     "KP_raw": 0.5774848561657109,
+     "V4_raw": -0.000919338213334342,
+     "U_raw": 0.033750000051114754,
+     "E_h_raw": 0.11941875666110491,
+     "reg_raw": 0.052508094837729356,
+     "2T": 3.845021498082817,
+     "KP_Omega2": 0.15019028019834302,
+     "well_V4_plus_U_Omega2": 0.008538485897712212,
+     "E_h_Omega2": 0.031058020539195638,
+     "total_Omega2": 0.20344291179967727
+    },
+    "v4abs_r7.875": {
+     "KP_raw": 0.4470746925733238,
+     "V4_raw": -0.0006142492270377886,
+     "U_raw": 0.03374999962445995,
+     "E_h_raw": 0.055121115565270884,
+     "reg_raw": 0.0342095235574748,
+     "2T": 3.704675704193635,
+     "KP_Omega2": 0.12067849611431365,
+     "well_V4_plus_U_Omega2": 0.00894430526264769,
+     "E_h_Omega2": 0.014878796409325287,
+     "total_Omega2": 0.15373574573579546
+    },
+    "v4abs_r10.125": {
+     "KP_raw": 0.39852396909623167,
+     "V4_raw": -0.00038579834715779526,
+     "U_raw": 0.03374999987095887,
+     "E_h_raw": 0.030256628349434322,
+     "reg_raw": 0.02310687776287362,
+     "2T": 3.6024213845198867,
+     "KP_Omega2": 0.1106266942586854,
+     "well_V4_plus_U_Omega2": 0.009261604338451843,
+     "E_h_Omega2": 0.008398969781672773,
+     "total_Omega2": 0.13470153125826304
+    },
+    "v4rel_r1.125": {
+     "KP_raw": 1.6866613394306285,
+     "V4_raw": -0.008001828597503646,
+     "U_raw": 0.03374999998149779,
+     "E_h_raw": 0.18290935063447478,
+     "reg_raw": 0.06529673343760331,
+     "2T": 3.8074374281227708,
+     "KP_Omega2": 0.4429912168674101,
+     "well_V4_plus_U_Omega2": 0.006762598695335379,
+     "E_h_Omega2": 0.048040014862347165,
+     "total_Omega2": 0.5149436154630039
+    },
+    "v4rel_r3.375": {
+     "KP_raw": 0.8599333055947511,
+     "V4_raw": -0.003119986267119401,
+     "U_raw": 0.033750000155405545,
+     "E_h_raw": 0.18776941040243855,
+     "reg_raw": 0.07075135251242486,
+     "2T": 3.9188877241588242,
+     "KP_Omega2": 0.21943300398567372,
+     "well_V4_plus_U_Omega2": 0.007815996794054815,
+     "E_h_Omega2": 0.04791395508600405,
+     "total_Omega2": 0.29321689297555664
+    },
+    "v4rel_r5.625": {
+     "KP_raw": 0.5546083350083109,
+     "V4_raw": -0.000919338213334342,
+     "U_raw": 0.033750000051114754,
+     "E_h_raw": 0.11941875666110491,
+     "reg_raw": 0.052508094837729356,
+     "2T": 3.8450214980828363,
+     "KP_Omega2": 0.14424063305883822,
+     "well_V4_plus_U_Omega2": 0.008538485897712169,
+     "E_h_Omega2": 0.031058020539195482,
+     "total_Omega2": 0.19749326466017222
+    },
+    "v4rel_r7.875": {
+     "KP_raw": 0.4460491984126236,
+     "V4_raw": -0.0006142492270377886,
+     "U_raw": 0.03374999962445995,
+     "E_h_raw": 0.055121115565270884,
+     "reg_raw": 0.0342095235574748,
+     "2T": 3.704675704193635,
+     "KP_Omega2": 0.12040168533718157,
+     "well_V4_plus_U_Omega2": 0.00894430526264769,
+     "E_h_Omega2": 0.014878796409325287,
+     "total_Omega2": 0.15345893495866336
+    },
+    "v4rel_r10.125": {
+     "KP_raw": 0.39848767208638947,
+     "V4_raw": -0.00038579834715779526,
+     "U_raw": 0.03374999987095887,
+     "E_h_raw": 0.030256628349434322,
+     "reg_raw": 0.02310687776287362,
+     "2T": 3.6024213845198867,
+     "KP_Omega2": 0.11061661853295321,
+     "well_V4_plus_U_Omega2": 0.009261604338451843,
+     "E_h_Omega2": 0.008398969781672773,
+     "total_Omega2": 0.13469145553253084
+    }
+   },
+   "weight_difference_by_shell": {
+    "r1.125": {
+     "absolute": 0.6231562666413688,
+     "relative": 0.4429912168674101,
+     "abs_minus_rel": 0.1801650497739587,
+     "rel_difference": 0.2891169669928796
+    },
+    "r3.375": {
+     "absolute": 0.26992522557273263,
+     "relative": 0.21943300398567372,
+     "abs_minus_rel": 0.050492221587058905,
+     "rel_difference": 0.18706003294032086
+    },
+    "r5.625": {
+     "absolute": 0.15019028019834302,
+     "relative": 0.14424063305883822,
+     "abs_minus_rel": 0.005949647139504799,
+     "rel_difference": 0.03961406245229469
+    },
+    "r7.875": {
+     "absolute": 0.12067849611431365,
+     "relative": 0.12040168533718157,
+     "abs_minus_rel": 0.00027681077713208324,
+     "rel_difference": 0.0022937870958374563
+    },
+    "r10.125": {
+     "absolute": 0.1106266942586854,
+     "relative": 0.11061661853295321,
+     "abs_minus_rel": 1.007572573219484e-05,
+     "rel_difference": 9.107861171946558e-05
+    }
+   },
+   "well_V4_plus_U_positive_on_every_shell_probed": true
+  },
+  "producer_numbers": {
+   "claim": "KP 0.62 / 0.27 / 0.15 (abs) vs 0.44 / 0.22 / 0.14 (rel) at r 1.1 / 3.4 / 5.6, identical from r 7.9 outward; E_h, V4, U, reg identical under both weights; V4 + U positive on every shell",
+   "producer_rows": {
+    "r1.125": {
+     "absolute_KP_Omega2": 0.6231506625774271,
+     "relative_KP_Omega2": 0.44299956869101265,
+     "abs_minus_rel": 0.18015109388641448,
+     "rel_difference": 0.28909717136593166
+    },
+    "r3.375": {
+     "absolute_KP_Omega2": 0.26992741763819655,
+     "relative_KP_Omega2": 0.2194291048266934,
+     "abs_minus_rel": 0.05049831281150316,
+     "rel_difference": 0.18708107999300524
+    },
+    "r5.625": {
+     "absolute_KP_Omega2": 0.15018957063894736,
+     "relative_KP_Omega2": 0.14424163136575338,
+     "abs_minus_rel": 0.005947939273193981,
+     "rel_difference": 0.03960287820178966
+    },
+    "r7.875": {
+     "absolute_KP_Omega2": 0.12068271881460874,
+     "relative_KP_Omega2": 0.1203948914505412,
+     "abs_minus_rel": 0.0002878273640675305,
+     "rel_difference": 0.0023849923741748385
+    },
+    "r10.125": {
+     "absolute_KP_Omega2": 0.1106229674817922,
+     "relative_KP_Omega2": 0.11062171944368655,
+     "abs_minus_rel": 1.2480381056528822e-06,
+     "rel_difference": 1.1281907673146794e-05
+    },
+    "r12.375": {
+     "absolute_KP_Omega2": 0.10566160861145221,
+     "relative_KP_Omega2": 0.1056740296233123,
+     "abs_minus_rel": -1.2421011860080933e-05,
+     "rel_difference": -0.00011755463524834214
+    },
+    "r14.625": {
+     "absolute_KP_Omega2": 0.10283335022655675,
+     "relative_KP_Omega2": 0.10283052012489942,
+     "abs_minus_rel": 2.8301016573306637e-06,
+     "rel_difference": 2.752124336214527e-05
+    },
+    "r16.875": {
+     "absolute_KP_Omega2": 0.10220577611978059,
+     "relative_KP_Omega2": 0.10220757290917393,
+     "abs_minus_rel": -1.7967893933407142e-06,
+     "rel_difference": -1.758011593433927e-05
+    },
+    "r19.125": {
+     "absolute_KP_Omega2": 0.11976250563636846,
+     "relative_KP_Omega2": 0.1197624318058991,
+     "abs_minus_rel": 7.38304693631564e-08,
+     "rel_difference": 6.164739872378136e-07
+    }
+   }
+  },
+  "note": "the core numbers reproduce: my own second differences give K_P Omega^2 0.623 / 0.270 / 0.150 (absolute) against 0.443 / 0.219 / 0.144 (relative), and E_h, V4, U, reg are weight-independent to the read precision, and V4 + U is positive on every shell probed.  The word 'identical from r 7.9 outward' is WRONG as stated: at r = 7.875 the producer's own K_P values are 0.447090 (abs) and 0.446024 (rel), a 0.24 percent difference, which my own recomputation reproduces (0.23 percent).  The weights agree to 1e-5 relative only from r = 10.125 outward.  This is expected: the taper reaches lambda_1 = 1 only asymptotically, so the K_P difference decays, it does not switch off at a radius."
+ },
+ "S8": {
+  "verdict": "QUALIFIED",
+  "own_numbers": {
+   "r17_3c_v6_gW1.35_n32_L48_K50": {
+    "own_E_K_8": 19.685873923801267,
+    "own_omega": 0.40192146683703545,
+    "own_kin_tot": 62.2012061130753,
+    "own_E_stat": 9.637837252875382,
+    "own_min_gap_l1_l2": 0.00034333796108121373,
+    "own_min_gap_free": 0.00034333796108121373,
+    "own_escape_d_gap_le_1e-3": true,
+    "own_half_split_max": 0.21181713441970823,
+    "own_E_K_4samples": 19.68438916046185,
+    "own_E_K_16samples": 19.685873926901547,
+    "circle_sample_defect_4_vs_8_rel": 7.542278006875804e-05,
+    "circle_sample_defect_8_vs_16_rel": 1.5748750380700821e-10,
+    "producer_E_K_8": 20.422310420938025,
+    "producer_omega": 0.3855903583320806,
+    "producer_stop": "escape_d",
+    "producer_iters": 200,
+    "producer_E_K2_8": 20.80465826975256,
+    "producer_K2": 51.0,
+    "own_dE_dK_from_the_two_energies": 1.118784345951294,
+    "own_dE_dK_over_omega": 2.783589427943943,
+    "producer_ratio_to_omega": 0.9915907920219523,
+    "E_K_minus_E_stat_static_seed": 12.405500816156351,
+    "omega_c_K": 2.5,
+    "stationarity_true_grad_norm_free": 6.552573714465731,
+    "K2_run_stop": "escape_d",
+    "director_lift_scan": {
+     "radial": {
+      "E_K_8": 19.685873923801267,
+      "E_stat": 9.637837252875382,
+      "omega": 0.40192146683703545,
+      "kin_tot": 62.2012061130753
+     },
+     "x": {
+      "E_K_8": 20.578715113581964,
+      "E_stat": 10.956394101059576,
+      "omega": 0.3848928405008955,
+      "kin_tot": 64.95314375675386
+     },
+     "raw_column_sign": {
+      "E_K_8": 21.87631832865722,
+      "E_stat": 12.564696918258612,
+      "omega": 0.3724648564159443,
+      "kin_tot": 67.12042644925846
+     },
+     "radial_lift_quality_min_abs_n_dot_ref": 0.8947055990048051,
+     "radial_lift_ambiguous_cells": 0,
+     "spread_E_K_over_lifts_rel": 0.10725742385201402,
+     "spread_E_stat_over_lifts_rel": 0.2714440710554884
+    },
+    "producer_lift": "the descent-propagated n_ref (info['n_ref']); NOT stored in the record"
+   },
+   "r17_3c_v6_gW1.35_n32_L48_K200": {
+    "own_E_K_8": 74.67941494647901,
+    "own_omega": 0.4500243249709293,
+    "own_kin_tot": 222.21021054019647,
+    "own_E_stat": 29.676982449386067,
+    "own_min_gap_l1_l2": 0.0007863859886400038,
+    "own_min_gap_free": 0.0007863859886400038,
+    "own_escape_d_gap_le_1e-3": true,
+    "own_half_split_max": 0.32048065732761677,
+    "own_E_K_4samples": 73.60645123736653,
+    "own_E_K_16samples": 74.67941494709898,
+    "circle_sample_defect_4_vs_8_rel": 0.01436759661121413,
+    "circle_sample_defect_8_vs_16_rel": 8.301655124771872e-12,
+    "producer_E_K_8": 75.27458167761772,
+    "producer_omega": 0.39041221530361747,
+    "producer_stop": "escape_d",
+    "producer_iters": 400,
+    "producer_E_K2_8": 76.75159891094447,
+    "producer_K2": 204.0,
+    "own_dE_dK_from_the_two_energies": 0.5180459911163631,
+    "own_dE_dK_over_omega": 1.151151087554718,
+    "producer_ratio_to_omega": 0.945806237247274,
+    "E_K_minus_E_stat_static_seed": 67.3990418388341,
+    "omega_c_K": 10.0,
+    "stationarity_true_grad_norm_free": 31.37251913303457,
+    "K2_run_stop": "escape_d",
+    "director_lift_scan": {
+     "radial": {
+      "E_K_8": 74.67941494647901,
+      "E_stat": 29.676982449386067,
+      "omega": 0.4500243249709293,
+      "kin_tot": 222.21021054019647
+     },
+     "x": {
+      "E_K_8": 75.38410357523485,
+      "E_stat": 30.134482467586814,
+      "omega": 0.45249621107648014,
+      "kin_tot": 220.9963256092285
+     },
+     "raw_column_sign": {
+      "E_K_8": 77.74709308014086,
+      "E_stat": 35.11400875783741,
+      "omega": 0.42633084322303433,
+      "kin_tot": 234.55961863797208
+     },
+     "radial_lift_quality_min_abs_n_dot_ref": 0.16398931327502314,
+     "radial_lift_ambiguous_cells": 4,
+     "spread_E_K_over_lifts_rel": 0.040753174116595486,
+     "spread_E_stat_over_lifts_rel": 0.1500558128297991
+    },
+    "producer_lift": "the descent-propagated n_ref (info['n_ref']); NOT stored in the record"
+   }
+  },
+  "producer_numbers": {
+   "K50": {
+    "E_K": 20.422310420938025,
+    "excess": 13.14193731329311,
+    "omega_c_K": 2.5,
+    "omega": 0.3855903583320806,
+    "ratio": 0.9915907920219523,
+    "stop": "escape_d at it 200"
+   },
+   "K200": {
+    "E_K": 75.27458167761772,
+    "excess": 67.9942085699728,
+    "omega_c_K": 10.0,
+    "omega": 0.39041221530361747,
+    "ratio": 0.945806237247274,
+    "stop": "escape_d at it 400"
+   }
+  },
+  "note": "the STRUCTURAL claims reproduce independently: both end states are genuinely at escape (d), my own eigendecomposition giving min (lambda_1 - lambda_2) = 3.43e-04 (K 50) and 7.86e-04 (K 200), both below the 1e-3 threshold, and E_K sits far above omega_c K under EVERY director lift I tried (the smallest excess I could produce is 12.41 against omega_c K = 2.5 at K 50 and 67.40 against 10 at K 200), so 'not below the delocalized bound' holds.  QUALIFIED, because the reported NUMBERS DO NOT REPRODUCE from the archived checkpoint.  E_K, E_stat and omega on these fields depend on the director lift n_ref, and the reads were taken with the descent-propagated lift, which the record does not store.  Reading the same .npy with the natural radial lift I get E_K 19.6859 / 74.6794 against the reported 20.4223 / 75.2746, and omega 0.4019 / 0.4500 against 0.38559 / 0.39041 (a 15 percent gap at K 200); across the three lifts I scanned, E_K spans 11 percent and E_stat spans 27 percent at K 50.  The circle average removes the RP^2 orientation cell by cell but not on the lattice, where the energy couples neighbours, so a lift is a genuine input and must travel with the field.  Two further qualifications: the Legendre ratio 0.9916 / 0.9458 recomputes trivially because both energies come from the producer's own lift, and it is read between two NON-stationary, both-escaped states (the producer's own true gradient norms on the free cells are 6.6 and 31.4, and the K + 2 percent run also stopped on escape (d)); and at K 200 the descent's own 4-sample circle average differs from the 8-sample read by 1.4 percent while the 8 -> 16 doubling is exact to 1.6e-10, so the reads are sound at 8 samples but the descent that made these fields was not."
+ },
+ "S5": {
+  "verdict": "QUALIFIED",
+  "own_numbers": {
+   "mode_rayleigh_quotients": [
+    {
+     "label": "r16_1_core_v4rel",
+     "producer_Omega2": 0.04466258056187137,
+     "own_Omega2_eps0.005": 0.04466262554633607,
+     "own_Omega2_eps0.01": 0.04466264663163163,
+     "own_2T_of_unit_mode": 3.499588749503037,
+     "rel_dev_own_vs_producer": 1.007207020640936e-06
+    },
+    {
+     "label": "r16_1_core_v4abs",
+     "producer_Omega2": 0.04478488914895394,
+     "own_Omega2_eps0.005": 0.04478510421235708,
+     "own_Omega2_eps0.01": 0.04478489313465959,
+     "own_2T_of_unit_mode": 3.498387309088394,
+     "rel_dev_own_vs_producer": 4.8021421338434945e-06
+    },
+    {
+     "label": "v4rel_end",
+     "producer_Omega2": 0.044491010910013694,
+     "own_Omega2_eps0.005": 0.044491022614898165,
+     "own_Omega2_eps0.01": 0.0444908865065909,
+     "own_2T_of_unit_mode": 3.497029863061998,
+     "rel_dev_own_vs_producer": 2.6308425526810957e-07
+    },
+    {
+     "label": "v6_gW2.0_control_end",
+     "producer_Omega2": 0.034944354468154665,
+     "own_Omega2_eps0.005": 0.03494412779700728,
+     "own_Omega2_eps0.01": 0.03494450739777483,
+     "own_2T_of_unit_mode": 3.6430216103105235,
+     "rel_dev_own_vs_producer": 6.486631412614561e-06
+    },
+    {
+     "label": "vacuum_v4rel",
+     "producer_Omega2": 0.025632114255195525,
+     "own_Omega2_eps0.005": 0.025632128881451787,
+     "own_Omega2_eps0.01": 0.025632118123167173,
+     "own_2T_of_unit_mode": 3.374999999999693,
+     "rel_dev_own_vs_producer": 5.706223105934943e-07
+    }
+   ],
+   "variational_refutation_attempt": {
+    "v6_gW2.0_control_end": {
+     "basis": [
+      "l2m0_r2_w2",
+      "l2m0_r4_w2",
+      "l2m0_r6_w2",
+      "l2m0_r9_w2",
+      "l2m0_r12_w2",
+      "l2m2_r2_w2",
+      "l2m2_r4_w2",
+      "l2m2_r6_w2"
+     ],
+     "single_trial_Omega2": {
+      "l2m0_r2_w2": 0.16741596142594561,
+      "l2m0_r4_w2": 0.18149672790425692,
+      "l2m0_r6_w2": 0.184780734226996,
+      "l2m0_r9_w2": 0.164348208304649,
+      "l2m0_r12_w2": 0.15120326049067914,
+      "l2m2_r2_w2": 0.14709849407248035,
+      "l2m2_r4_w2": 0.17986923547472078,
+      "l2m2_r6_w2": 0.18470854395843025
+     },
+     "variational_lowest_Omega2_in_the_8d_subspace": 0.07104563559315517,
+     "variational_spectrum": [
+      0.07104563559315517,
+      0.09234906893238018,
+      0.1567855283543188,
+      0.32681119731642755,
+      0.3334599743796803,
+      0.6072762692606228,
+      0.6847983482624318,
+      0.962926853281488
+     ],
+     "beats_box_bottom_0.025632": false,
+     "producer_lowest_Omega2": 0.034944354468154665
+    },
+    "v4rel_end": {
+     "basis": [
+      "l2m0_r2_w2",
+      "l2m0_r4_w2",
+      "l2m0_r6_w2",
+      "l2m0_r9_w2",
+      "l2m0_r12_w2",
+      "l2m2_r2_w2",
+      "l2m2_r4_w2",
+      "l2m2_r6_w2"
+     ],
+     "single_trial_Omega2": {
+      "l2m0_r2_w2": 0.4577277492568687,
+      "l2m0_r4_w2": 0.2780570467739309,
+      "l2m0_r6_w2": 0.20712880337738682,
+      "l2m0_r9_w2": 0.16590305732245061,
+      "l2m0_r12_w2": 0.15047418253966294,
+      "l2m2_r2_w2": 0.44436717412661375,
+      "l2m2_r4_w2": 0.27715540563416996,
+      "l2m2_r6_w2": 0.20716415137619917
+     },
+     "variational_lowest_Omega2_in_the_8d_subspace": 0.0900364124543955,
+     "variational_spectrum": [
+      0.0900364124543955,
+      0.19115335672640077,
+      0.23270578776272616,
+      0.44733644990069904,
+      0.5100770832642177,
+      0.7533332835687878,
+      0.9910587093383536,
+      1.2132254925689228
+     ],
+     "beats_box_bottom_0.025632": false,
+     "producer_lowest_Omega2": 0.044491010910013694
+    }
+   },
+   "box_bottom_used": 0.025632114255195525
+  },
+  "producer_numbers": {
+   "r16_1_core_v4rel": 0.04466258056187137,
+   "r16_1_core_v4abs": 0.04478488914895394,
+   "v4rel_end": 0.044491010910013694,
+   "v6_gW2.0_control_end": 0.034944354468154665,
+   "empty_box_x_lift": 0.025632114255195525,
+   "verdict": "NO_BOUND_MODE everywhere"
+  },
+  "note": "own energy-second-difference Rayleigh quotients on the five saved modes reproduce the producer's Lanczos values to 6.5e-06 relative (worst), so the reported Omega^2 are right; my own 8-dimensional core-localized variational subspace could NOT get below the box bottom on either core field (best bounds v6_gW2.0_control_end 0.07105, v4rel_end 0.09004), so NO_BOUND_MODE survives a genuine refutation attempt.  QUALIFIED on ONE point the producer does not state: the box bottom 0.025632 was measured on the VACUUM with the 'x' director lift, while every core operator was run with the 'radial' lift, and the producer's own note records that the radial lift raises the same vacuum bottom to 0.039846 (a lift artefact).  Against the radial-lift bottom, the v6 g_W 2.0 control's 0.034944 lies BELOW the control, and its mode is flagged localized (T-weight fraction 0.508 inside r < 8, r_rms 10.7): the verdict therefore rests on comparing two different lifts, and no same-lift box control exists for the core runs."
+ },
+ "tally": {
+  "CONFIRMED": 3,
+  "QUALIFIED": 5
+ },
+ "unclaimed_hazards": [
+  {
+   "id": "H9",
+   "where": "S8 / R17-3c (and every record that reports circle-averaged reads)",
+   "hazard": "the reported energies are not reproducible from the saved checkpoint: they depend on a director lift that is not stored",
+   "detail": "the circle-averaged E_stat, E_K, kin and omega all depend on the per-cell orientation of the director n, because on the lattice the energy couples neighbouring cells and only a SMOOTH lift makes the average orientation-blind.  The R17-3c reads used info['n_ref'], the lift propagated through the descent, and the record stores neither it nor the lift kind.  Reading r17_3c_v6_gW1.35_n32_L48_K50.npy with the natural radial lift gives E_K 19.6859, with the x lift 20.5787, with the raw column sign 21.8763, against the reported 20.4223: a spread of 11 percent in E_K and 27 percent in E_stat, far larger than the effects being reported off these fields (the 5 percent Legendre deviation, the 2.9 percent sample defect).  The radial lift is not a bad lift here: it has min |n . n_ref| = 0.895 and 0 ambiguous cells.  Fix: save n_ref (or its kind and seed) beside every end field.  NOTE the R17-2 statics do NOT have this problem in practice, because their end fields are uniaxial hedgehogs on which the radial lift is the descent lift: S2, S3, S4 and S7 all reproduced to 1e-9 with the radial lift.",
+   "severity": "HIGH"
+  },
+  {
+   "id": "H1",
+   "where": "S5 / R17-2b",
+   "hazard": "the NO_BOUND_MODE verdict compares two different director lifts",
+   "detail": "the box bottom 0.025632 was measured on the vacuum with the 'x' lift; every core operator ran with the 'radial' lift, and the producer's own note records the radial lift raising the same vacuum bottom to 0.039846.  No same-lift box control exists for the core fields.  Against the radial-lift number the v6 g_W 2.0 control's 0.034944 sits BELOW the control, and that mode is flagged localized (T-weight fraction 0.508 inside r < 8).  The verdict is not wrong, but it is not lift-controlled.",
+   "severity": "moderate"
+  },
+  {
+   "id": "H2",
+   "where": "S8 / R17-3c",
+   "hazard": "the descents ran a 4-sample circle average that is NOT converged on their own end fields",
+   "detail": "at K 200 the 4-sample E_K differs from the 8-sample read by 1.4 percent (0.01 percent at K 50), while the 8 -> 16 doubling is exact to 1.6e-10.  The instrument documents the n_s = 4 defect as O(h^2)-level on smooth fields; on these split cores it is percent level, so the descent path (and therefore the escape-(d) point reached) is instrument-limited.  The R17-2 statics report a doubling gate; the R17-3c runs report none.",
+   "severity": "moderate"
+  },
+  {
+   "id": "H3",
+   "where": "S8 / R17-3c",
+   "hazard": "the dE/dK = omega read is taken between two NON-stationary, both-escaped states",
+   "detail": "the K + 2 percent comparison run also stopped on escape (d) (stop_K2 = escape_d), and the producer's own stationarity read gives true gradient norms 6.6 (K 50) and 31.4 (K 200) on the free cells.  The Legendre identity holds only at a stationary point, so the 0.99 / 0.95 agreement is not evidence for a branch.",
+   "severity": "moderate"
+  },
+  {
+   "id": "H4",
+   "where": "S7 / the 24.3 test",
+   "hazard": "'identical from r 7.9 outward' is false at r 7.9",
+   "detail": "the producer's own K_P values at r = 7.875 are 0.447090 (absolute) and 0.446024 (relative), a 0.24 percent difference, reproduced by my own second differences.  Agreement at the 1e-5 level starts at r = 10.125.  The taper decays with radius; it does not switch off at a shell.",
+   "severity": "minor"
+  },
+  {
+   "id": "H5",
+   "where": "S4 / R17-3a",
+   "hazard": "the 'no condensation up to 1.35' bracket rests on three unconverged descents",
+   "detail": "all three seeded runs stopped at max_iter with fmax 4e-2 to 7e-2 (f_tol is 1e-6) and their energies were still falling at the last logged iteration; the excess above the split-free saddle collapses monotonically with g_W (+0.0131 -> +0.0112 -> +0.0026 over 0.5 -> 1.35), which is what approaching a threshold looks like.  The collect() rule reads 'condensed' off these end states as if they were minima.",
+   "severity": "moderate"
+  },
+  {
+   "id": "H6",
+   "where": "S5 / provenance",
+   "hazard": "the two R16-1 core operator records are not reproducible with the code in the tree",
+   "detail": "checkpoints/m5_32_r17/r17_2op_r16_1_core_v4rel.json and _v4abs.json carry neither the 'lift' nor the 'handedness' field that m5_32_r17_2_operator.run writes, so they were produced by an earlier revision of the script.  Their pattern values are consistent with the conjugated handedness, so the numbers look sound, but the record does not pin the lift they used.",
+   "severity": "minor"
+  },
+  {
+   "id": "H7",
+   "where": "S3 / R17-3a",
+   "hazard": "'relaxed to the SAME state' is an energy statement, not a field statement",
+   "detail": "the two end fields differ by max |dM| = 3.50e-04 and the v6 control carries U_v6 = -1.8e-05 and half split 6.3e-04 against 2.4e-4 on the v4rel end.  Both runs stopped at max_iter on different paths; the energies agree to 9e-6, the states do not coincide.",
+   "severity": "minor"
+  },
+  {
+   "id": "H8",
+   "where": "R17-2b coverage",
+   "hazard": "no operator record exists for any SEEDED v6 end field",
+   "detail": "the g_W 0.5 / 1.1 / 1.35 operator runs were still in their Lanczos phase when this audit ran (launched 14:27-14:28 UTC-4, logs stop after the H-symmetry line, processes alive); the only v6 operator record is the UNSEEDED g_W 2.0 control, whose field is the split-free saddle.  So the S5 statement covers the saddle and not the biaxial states the condensation question is about: the doublet spectrum of the seeded v6 cores is unmeasured at the time of this audit.",
+   "severity": "moderate"
+  }
+ ],
+ "runtime_s_by_invocation": [
+  768.1,
+  42.8,
+  2.5
+ ],
+ "runtime_s": 813.4,
+ "provenance": {
+  "script": "scripts/m5_32_r17_2_audit.py",
+  "python": "3.12.14",
+  "claims_run_this_invocation": [
+   "S2"
+  ],
+  "note": "run with no arguments for the full audit; with claim ids (e.g. 'S8') to re-run those and carry the rest over from the previous output"
+ }
+}
