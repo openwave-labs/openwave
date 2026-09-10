@@ -296,6 +296,10 @@ PAREN_OF = re.compile(r"\(of\s+(\d+)\)")
 # four buckets. Requires 🚧 so that a gate suite's "4 ✅ / 1 ❌" is not mistaken
 # for a column tally.
 TALLY = re.compile(r"\d+\s*(?:✅|⚠️|❌|🚧)(?:\s*[/,]\s*\d+\s*(?:✅|⚠️|❌|🚧)){1,3}")
+# "starts at 21 🚧": a lone per-column count. It has no total to check against, so
+# its presence is the defect: the per-column tally is owned by MODELS.md. Spans
+# already inside a TALLY match are skipped so a multi-bucket line reports once.
+LONE = re.compile(r"\d+\s*🚧")
 
 n_crit = len(crit_set)
 live_docs = [
@@ -338,6 +342,14 @@ for doc in sorted(set(live_docs)):
                     f"{rel}:{ln} tally '{m.group(0)}' sums to {total},"
                     f" the matrix has {n_crit}"
                 )
+        spans = [m.span() for m in TALLY.finditer(line)]
+        for m in LONE.finditer(line):
+            if any(a <= m.start() < b for a, b in spans):
+                continue
+            errors.append(
+                f"{rel}:{ln} states '{m.group(0)}', a per-column count that"
+                f" MODELS.md owns; drop it or mark the line {EXEMPT}"
+            )
 
 counts = sorted(n for _, n, _ in summary.values())
 models = sorted({m for _, m in summary})
