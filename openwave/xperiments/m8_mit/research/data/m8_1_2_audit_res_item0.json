@@ -1,0 +1,33 @@
+{
+ "0a_Theta_v2_coeffs_m=-3..3": [
+  "0",
+  "1",
+  "0",
+  "0",
+  "0",
+  "0",
+  "0"
+ ],
+ "0b_CG_33_3m3_60": "sqrt(231)/462",
+ "0b_CG_squared": "1/924",
+ "0b_racah_vs_sympy_mismatches_3x3": 0,
+ "0c_norm2_q1": "(1+0*s5)",
+ "0c_norm2_q2": "(1+0*s5)",
+ "0c_order": 120,
+ "0c_order_q1": 6,
+ "0c_order_q2": 10,
+ "0c_number_of_distinct_commutators": 120,
+ "0c_derived_subgroup_order": 120,
+ "0c_perfect": true,
+ "0c_element_order_histogram": {
+  "1": 1,
+  "2": 1,
+  "3": 20,
+  "4": 30,
+  "5": 24,
+  "6": 20,
+  "10": 24
+ },
+ "0c_centre_order": 2,
+ "0c_su2_map_homomorphism_checked_pairs": 900
+}
