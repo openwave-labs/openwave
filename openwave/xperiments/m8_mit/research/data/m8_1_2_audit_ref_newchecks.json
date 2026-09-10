@@ -1,0 +1,79 @@
+{
+ "item1_Weyl": {
+  "0": 0,
+  "1": 1,
+  "2": 0,
+  "3": 2,
+  "4": 1,
+  "5": 1,
+  "6": 1,
+  "7": 1,
+  "8": 0,
+  "9": 1
+ },
+ "item2_Weyl_J8": 1,
+ "item2_Weyl_J3": 4,
+ "item11_Burnside_dim_span_D3(Gamma)": 25,
+ "item13_span_rhoK_norms_singular_values": [
+  5.730314062095934,
+  5.280090232944623,
+  4.679789911831719,
+  3.003066768223002,
+  4.209689580415465e-61,
+  3.526091180424045e-61,
+  8.602248763837058e-62
+ ],
+ "item13_span_rhoK_norms_rank": 4,
+ "item13_relation_sum_K_equals_norm4": true,
+ "item13_relation_7rho0_equals_norm4": true,
+ "item8_minus_ray_rhat6": "9/35",
+ "item8_minus_ray_critical(M6 || u)": true,
+ "item8_minus_ray_F": "-2*sqrt(3)*zeta**6/5 - sqrt(78)*zeta/5",
+ "item8_minus_ray_ring_azimuths_deg": [
+  -108.0,
+  -36.0,
+  36.0,
+  108.0,
+  180.0
+ ],
+ "item9_numeric_census_bloch_point_and_rhat6": {
+  "((-0.997563, 0.0, -0.069767), np.float64(0.221483942))": 23,
+  "((0.0, -0.993808, -0.111111), np.float64(0.311688312))": 41,
+  "((0.0, 0.0, -1.0), np.float64(0.432900433))": 5,
+  "((0.0, 0.0, 1.0), np.float64(0.501082251))": 7,
+  "((0.0, 0.993808, -0.111111), np.float64(0.311688312))": 50,
+  "((0.997563, 0.0, -0.069767), np.float64(0.221483942))": 33
+ },
+ "item9_numeric_distinct_critical_rays": 6,
+ "item19_bridge_720^3*504^2*286/16!": "1296",
+ "item19_bridge_equals_1296": true,
+ "item20_V_nullity_singular_values": [
+  2.8284271247461907,
+  2.8284271247461903,
+  2.82842712474619,
+  4.673333453687125e-16
+ ],
+ "item20_max|D(V) P_mine D(V)^dag - P_solver|": {
+  "3": 6.661338147750939e-16,
+  "4": 5.551115123125783e-16
+ },
+ "item20_rotation_of_V (sigma-frame)": [
+  [
+   -0.0,
+   -0.0,
+   -1.0
+  ],
+  [
+   0.0,
+   -1.0,
+   0.0
+  ],
+  [
+   -1.0,
+   -0.0,
+   0.0
+  ]
+ ],
+ "item4_lambda_equals_p6_norm_rho6": true,
+ "item21_B_J_equals_M_J(u Theta u^dag)": true
+}
