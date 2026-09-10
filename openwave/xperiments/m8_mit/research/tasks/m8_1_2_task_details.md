@@ -6,7 +6,9 @@
 > firewall and packet-audit precedent
 > [`../findings/m8_5a_reproduction_protocol.md`](../findings/m8_5a_reproduction_protocol.md)
 > and [`m8_8_task_details.md`](m8_8_task_details.md).
-> Status: 🚧 PROPOSED (author-drafted 2026-09-08, revision 17, ready for registration).
+> Status: ✅ DONE 2026-09-10, all 21 frozen claims reproduced blind and adjudicated (go 12:18 EDT;
+> author-drafted 2026-09-08, revision 17; frozen in the
+> [go-time pre-registration](#go-time-pre-registration-2026-09-10-go-1218-edt)).
 
 ## TASK PLANNING (2026-09-08, author-proposed; registration and go pending)
 
@@ -52,8 +54,8 @@ context implements behind a firewall. This task is written to that standard.
 | --- | --- |
 | Paper (deposit) | Zenodo, [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502), deposited 2026-09-09. This is the **version** DOI (v1), not the concept DOI, so it is pinned to this text and cannot drift to a later deposit. That is right for a pin and only for a pin: anywhere the paper is cited to be *read* rather than fetched at a fixed state, the concept DOI is the better target, since a reader should land on the current version. Two DOIs, two jobs; do not read this row as a blanket preference for the version DOI. |
 | Working text | `files/framework/files/bedrock/files/surviving-ray.md` in `dmobius3/mode-identity-theory`, commit `a4cb92c25b06f81d4068915c56c88667759cc1a6`, blob SHA-256 `1bace5521f795abe4a3f22cbda06d286f9de5361a826eb74ef7faebc89cfb3d0` |
-| Typeset source | `the-surviving-ray.tex` accompanying the deposit, amsart |
-| How the two relate, checkably | The deposit was not rendered from the pinned blob; both were generated from the same working file, so neither is downstream of the other. What IS checkable, and what a designer should check rather than take on faith: their **bodies are byte-identical**, from the first word of the abstract to the `## References` heading, EXCLUDING the reference list, at the pinned commit `a4cb92c` above: 15,134 words each, by `wc -w`. The deposit and the working file differ only in the chrome each format carries, the repo copy having a banner, a glyph title and a generated abstract block, the `.tex` having amsart front matter; strip both to the body and compare. **Two corrections, 2026-09-09, with different causes.** (1) The review of [#534](https://github.com/openwave-labs/openwave/pull/534) reported it could not reproduce 15,134, having tried abstract-onward and introduction-onward, getting 15,347 and 14,992 respectively. Those two figures were CORRECT: the review's own boundaries, abstract or introduction to end of file, including the reference list, were stated and computed correctly, at the exact pinned commit, with the blob hash independently verified. What was never stated, BY THIS ROW, was the boundary behind 15,134 itself, a narrower span than either boundary the review tried; it is stated above now, with the tool. (2) Separately, an earlier version of THIS row, drafted after the review, tried to restate the review's own bracketing figures and got them wrong, as 15,367 and 15,012, by reading a later, unpinned state of `origin/main` instead of the commit actually pinned above. Both errors are now fixed: re-run at the pin, abstract-to-EOF is 15,347 and introduction-to-EOF is 14,992, by `wc -w`, matching the review's own figures exactly. Those two bracketing figures are dropped from this row rather than kept, since an end-of-file count keeps drifting as the repo copy gains citation and registry material after the reference list, while the 15,134 body count above (abstract to `## References`, taken at a named commit with a named tool) does not; that count and the blob SHA remain the checks worth relying on. |
+| Deposit contents | Zenodo holds the typeset PDF only, `the-surviving-ray.pdf`, MD5 `d2405316e20c060f53d338c1516298bc` as recorded by Zenodo. The LaTeX source is not part of the deposited record. |
+| Cross-format check | The repository source of record is the pinned Markdown blob above; the deposited source of record is the PDF. They are different formats, and no byte-identity claim is made. At the pinned commit the Markdown body is 15,134 words by `wc -w`, counted from the first word of the abstract through the line before `## References`. Every numbered statement, Lemma 2.1 through Corollary 5.6, carries the same number in the PDF as in the blob, so the one statement this document cites by number, Theorem 5.1, resolves under that number in either. **Corrected 2026-09-09:** the review of [#534](https://github.com/openwave-labs/openwave/pull/534) could not reproduce 15,134, having counted from the abstract and from the introduction to end of file, 15,347 and 14,992; those figures are correct at their boundaries, and the narrower boundary behind 15,134 had not been stated. **Corrected 2026-09-10:** earlier versions of this row said a `.tex` source accompanied the deposit and matched the repository body byte for byte. Zenodo holds only the PDF, so that comparison is withdrawn. |
 
 ## THE FIREWALL
 
@@ -326,8 +328,179 @@ guard above.
 
 ---
 
-## GO-TIME PRE-REGISTRATION
+## GO-TIME PRE-REGISTRATION (2026-09-10, go 12:18 EDT)
 
-*To be written by the designer at go, freezing the claims tables and the firewall before any
-numerics run. Nothing above this line is a substitute: the author drafted it and the author
-has read the paper.*
+Written by the designer and frozen at 12:29 EDT on the maintainer's approval, BEFORE any agent
+received a packet. Nothing in this section
+is edited after the first agent launches; anything the run forces off it goes in the
+deviations log below.
+
+### The go-time checklist, answered
+
+| Item | Decision |
+| --- | --- |
+| Deposit pin | verified at go: the Zenodo record returns `the-surviving-ray.pdf`, MD5 `d2405316e20c060f53d338c1516298bc`, 589,476 bytes, matching Sources of record. That closes the check the review of [#539](https://github.com/openwave-labs/openwave/pull/539) could not run during the outage |
+| Claims frozen | the claims tables above are frozen as written, with no value edited. One grading rule is added for A5, below |
+| Instrument | the offered handout is adopted with item 19 split and three smaller edits, delivered in two stages (below) |
+| Handout audit | maintainer-side, in three passes: the review of [#534](https://github.com/openwave-labs/openwave/pull/534) (two leaks), [#536](https://github.com/openwave-labs/openwave/pull/536) (the A5 leak proved), and a go-time pass against the frozen claims (three further edits) |
+| Group presentation | by generators, which the handout already does. "Icosahedral" stays withheld |
+| Citations sync | done in #534 |
+| Answer-key containment | the containment table below |
+
+### The instrument as run: a two-stage handout
+
+Stage 1 is the offered handout with five changes. Stage 2 releases what stage 1 withholds, and
+is sent to each agent only after that agent's stage-1 return is saved verbatim.
+
+| # | Change | Why |
+| --- | --- | --- |
+| 1 | item 19: the `L_8` normalization paragraph moves to stage 2 | the load-bearing half of the A5 leak ([#536](https://github.com/openwave-labs/openwave/pull/536)). Stage 1 asks for the exact characterization with no normalization in view |
+| 2 | item 20 moves to stage 2 | it names the first transvectant of a degree-12 form with a sextic, the operation A5's route runs through |
+| 3 | § 2.3: the sentence saying a later question couples a rank-6 multipole to the state is dropped | it announced the other half of the same route |
+| 4 | item 4: "say whether they factor in any way worth recording" becomes "describe any structure in them worth recording" | "factor" pointed at the square in A4's graded row `Λ²` |
+| 5 | item 21: "the plane" becomes "the span and its dimension", and "whether that second plane reduces to a single ray" becomes "any finer structure of that second span" | "plane" handed over the dimension of item 14's span, which is C3's content, and "a single ray" named the headline |
+
+| Packet file | SHA-256 | Bytes |
+| --- | --- | --- |
+| [`../m8_1_2/stage1_handout.md`](../m8_1_2/stage1_handout.md) | `5308d229fa76cf4b34b72d75e6aac434a2cd9554fa0ef56eb05e5717a6983de0` | 21,205 |
+| [`../m8_1_2/stage2_handout.md`](../m8_1_2/stage2_handout.md) | `5ab37072397590964c7ef73b9cec58cf668be940f56d717b2bef3b20ecc1a0f7` | 1,118 |
+
+The Jacobian criterion stays in the conventions block as a supplied input. That is the
+residual the author named: together with the Majorana dictionary it points toward binary forms
+of equal degree. It is accepted, because the alternative grades recall of a classical lemma.
+
+**A5 grading rule.** A5 is graded on the stage-1 return alone. With item 19 split, the handout
+no longer supplies the factorization, so A5 again grades what the qualification record
+originally described: finding that the covariant factors through the first transvectant, then
+the product-rule step, the equal-degree recognition, `|λ| = 1` from antiunitarity, and the
+constellation reading. Nothing released in stage 2 is credited to A5. C4a and C4b are graded on
+the stage-2 return.
+
+### Containment: where the answer key lives, and what walls it off
+
+The frozen claims live in this file, in the maintainers' working tree. The designer holds them;
+no agent is ever given a repository path.
+
+| Route to the answers | Guard |
+| --- | --- |
+| This file and every repository document | agents are given only their room directory. Solver and auditor get separate rooms, so neither can read the other's work before the ordering allows it |
+| Web search and fetch, connectors, spawning further agents | withheld by the agent definition's tool allowlist: read, write, edit and shell only |
+| The Python route ([`CLEAN_ROOM_STANDARDS.md § 3.2`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md#32-the-interpreter-is-a-second-independent-route)) | each room's interpreter runs without site processing, so the platform's editable install never loads: `import openwave` fails from inside the room, while the numerics libraries load (Python 3.12.14, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1) |
+| Instruction files on the room's ancestor path (§ 3.1) | the check was run on the room directory and found none |
+| What loads unavoidably (§ 3.3) | a canary agent, run before any packet existed, reported what a fresh agent context holds: the user-global instruction file, a project instruction file, and a memory index, none answer-bearing on a vocabulary grep. One index line pointed at the maintainers' notes on this task by name; it was neutralized for the run. Disclosed in each manifest as named loads |
+| The filesystem outside the room | NOT sandboxed. The guard is after the fact: at FINISH every agent's transcript is audited for any tool call that reads outside its room. A hit is recorded as a protocol failure, not as a note |
+
+### The label this run can earn
+
+**Blind in the roadmap's sense** ([§ CONVENTIONS](../m8_roadmap.md#conventions)): no agent sees a
+claimed value. Containment is by construction plus the after-the-fact transcript audit, the bar
+M8.1 and M8.1.1 ran at, hardened by the tool allowlist, the interpreter guard and the separate
+rooms. It is NOT the context-isolated clean room of
+[`CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md): there is no separate
+session and no operator approving each tool call. § 2 of that standard sets the trigger by the
+claim, and no claim here rests on isolation beyond what the transcript audit shows.
+
+### Roles and ordering
+
+| Step | Who | Receives | Before the next step |
+| --- | --- | --- | --- |
+| 1 | solver and auditor, in parallel, separate rooms | the stage-1 handout and a brief | each return saved verbatim to a checkpoint |
+| 2 | the same two agents, context continued | the stage-2 file | each return saved verbatim |
+| 3 | auditor | the solver's scripts and returns, copied into its room | per-claim verdicts (confirmed, partial, refuted), and a hunt for solver checks that cannot fail |
+| 4 | designer | everything | comparison against the frozen claims; X0 to X2 recorded apart from the claim verdicts, X0 as a precondition |
+| 5 | designer, only after the verdict is recorded | the author's verification package | provenance comparison, with the agreement and disagreement asymmetry stated |
+
+The auditor commits its own method and results (steps 1 and 2) before it sees the solver's
+work, as the firewall's audit-ordering row requires. Both agents have the B1 and B2 provenance
+declaration (DERIVED or RECOGNISED) in their briefs.
+
+### Definition of done (finalized)
+
+| # | Item |
+| --- | --- |
+| 1 | Solver and auditor returns for both stages, scripts and JSON copied into the repository unmodified with `m8_1_2_` prefixes, after an invisibility grep for absolute paths |
+| 2 | Adversarial audit with its own method, per-claim verdicts, and the checks-that-cannot-fail hunt |
+| 3 | Designer comparison against the frozen claims, every number stated, including any that landed elsewhere; X0 to X2 recorded separately |
+| 4 | Transcript audit of every agent, recorded with its result |
+| 5 | Method note `findings/m8_1_2_method_note.md`: equations first, equation-to-code map, audit record, consulted-material manifests, the not-computed list |
+| 6 | Author package opened for provenance comparison only after the verdict is recorded |
+| 7 | Doc sync: canonical, briefing, roadmap row; `MODELS.md` only if a cell actually moves |
+| 8 | Doc checker and roadmap linter exit 0; TASK REVIEW presented |
+
+## DEVIATIONS LOG
+
+| Date | Deviation | Disposition |
+| --- | --- | --- |
+| 2026-09-10 | The tool-restricted agent definition did not load in the session that wrote it: a definition in a new folder is picked up only at session start | The session was restarted and continued before any agent launched. The first launch attempt failed with "type not found", so no packet reached an unrestricted agent. Both room agents ran under the restricted definition |
+| 2026-09-10 | Both agents' tool harness saved one oversized command output to a file outside the room, automatically | Neither agent opened it; both recorded this in their manifests, and the solver re-ran with the output redirected into its room. The transcript audit confirms no read outside either room |
+| 2026-09-10 | The solver's stage-2 console log carried a `.log` extension, which the repository ignores | Landed byte-identical as [`../data/m8_1_2_solver_stage2_roots_output.txt`](../data/m8_1_2_solver_stage2_roots_output.txt), the M8.1.1 raw-output naming. The file content is unchanged; only its name moved |
+| 2026-09-10 | An agent's final reply and the return file it wrote were not byte-identical: the solver's reply added the absolute room path to its file list | The saved FILE is the record: each return was copied out and hashed on arrival, and every return file was verified unchanged before the next stage was sent. No landed file carries an absolute path |
+| 2026-09-10 | The transcript-audit pattern was refined twice during a trial run: the bare word "surviving" is ordinary vocabulary in item 21, and a word written into a room file reaches nothing, so tokens are scanned only in paths and shell commands | Then mutation-tested before use: a synthetic read of this file, a shell read of a notes index outside the room, and a web fetch were all flagged, and an in-room write was not. The final audit runs the refined pattern |
+| 2026-09-10 | The auditor's merged results file captured Python tracebacks from its mutation runs, and each carried the absolute path of the room | Landed with that path prefix replaced by `<room>/` in six strings, the JSON re-parsed, and nothing else changed. Scripts and return files landed byte-identical |
+
+## FINDINGS
+
+Full record with the equations, the code map and the audit:
+[`../findings/m8_1_2_method_note.md`](../findings/m8_1_2_method_note.md).
+
+| ID | Finding |
+| --- | --- |
+| F1 | **Every frozen claim reproduces blind.** All 21 claims (A1 to E1) match in both agents, computed by separate implementations that never saw a claimed value; the adversarial audit refuted no value, and 80 of its 81 exact comparisons agree, the last being a convention it proved |
+| F2 | **The item-19 split did its job.** With the `L_8` normalization withheld, both agents found on their own that the spin-8 channel factors through the first transvectant, and both proved the exact zero set in stage 1. A5 is graded on that stage-1 work alone |
+| F3 | **The group inputs were derived, not recognised.** Both agents computed B1 and B2 from the two generators by two methods each, and declared their recognition of the group as an expectation only |
+| F4 | ⚠️ **The weights `w_K` are underdetermined as the packet defined them.** The expansion has a three-dimensional family of solutions (section 5.1 of the note). The frozen values hold under the Peter-Weyl reading, and `w_6` is intrinsic as the slope of `Q_d` in `rhat_6`, so no value moves; the packet's wording is what is loose |
+| F5 | ⚠️ **Five checks in the solver cannot fail**, among them the Condon-Shortley phase, which nothing asserts, and the item-20 multiplicity line, which is written unconditionally. No number is affected, since the auditor reproduced each by its own route |
+| F6 | **Containment held on the record.** The final transcript audit found no read outside either room across 127 tool calls, with the audit's own pattern mutation-tested first |
+
+## TASK REVIEW (2026-09-10)
+
+`Task Duration: 01:23 (from 12:18 to 13:41 EDT)`
+`Usage Cap Triggered: NO`
+
+| Item | Outcome |
+| --- | --- |
+| Frozen claims A1 to E1 | ✅ all 21 reproduced by both agents, each with its own implementation |
+| Adjudication | ✅ by the maintainer, before the author's package was opened: all 21 claims ✅. C2 accepted under the Peter-Weyl reading; D5 accepted on the shape call, the antiprism's argument pair read from the reported azimuths |
+| Adversarial audit | ✅ refuted no value; 80 of 81 exact comparisons agree, the last a convention it proved |
+| The item-19 split | ✅ both agents found the transvectant route with the `L_8` normalization withheld |
+| B1 / B2 | ✅ derived from the generators by two methods each |
+| Diagnostics X0 to X2 | ✅ met or clean in both agents |
+| Containment | ✅ no read outside either room in 127 tool calls |
+| The weights `w_K` | ⚠️ underdetermined as the packet defined them; the frozen values hold under the Peter-Weyl reading |
+| Solver check quality | ⚠️ five checks that cannot fail, no number affected |
+
+**Issues**: no number moves. The `w_K` looseness is in the packet's wording, and the checks
+that cannot fail are the pattern M8.1.1 also hit, recorded in the method note § 5.3.
+
+**Deviations from plan**: six, in the deviations log above. The two agents' manifests name the
+injected instruction files they disregarded; kept verbatim at review, since that line is what
+makes each manifest honest.
+
+**Provenance comparison, after adjudication**: the author's verification package (`verify.py`,
+the second implementation, the mutation harnesses) is not in the public repository, at the pinned
+commit or on the default branch; the bedrock `scripts/` folder holds only M8.1.1's test script. The
+three-way statement is therefore not available, and none is claimed. What was checked is the
+paper itself: the pinned text re-hashed to its recorded SHA-256, and its § 5.2 defines `w_K` by
+the Peter-Weyl formula with no free constant, so finding F4 is a looseness in the packet's
+paraphrase, not in the paper.
+
+**Action needed**: commit and pull request.
+
+**Findings**: The fourth bedrock paper survives blind verification. Two agents that never saw a
+claimed value reproduced all 21 frozen claims, including the radial `M_0`, the diagonal `M_6`
+with its squared-binomial row, the single surviving ray, the twelve simple roots of the
+invariant form, and the spin-8 zero set exactly on the time-reversal-invariant rays, and the
+adversarial audit refuted no value. Both qualifications concern the instrument rather than the
+paper: the packet left the expansion weights underdetermined, and the solver carries checks
+that cannot fail.
+
+**Research docs created / updated**:
+[`m8_1_2_task_details.md`](m8_1_2_task_details.md) (this doc),
+[`../findings/m8_1_2_method_note.md`](../findings/m8_1_2_method_note.md),
+[`../m8_1_2/stage1_handout.md`](../m8_1_2/stage1_handout.md),
+[`../m8_1_2/stage2_handout.md`](../m8_1_2/stage2_handout.md),
+[`../m8_theory_canonical.md`](../m8_theory_canonical.md) (the channel-selection row),
+[`../../__M8_model_briefing.md`](../../__M8_model_briefing.md) (key inputs, the M8.1.2 row),
+[`../m8_roadmap.md`](../m8_roadmap.md) (M8.1.2 to Done).
+
+Artifacts: `scripts/m8_1_2_solver/`, `scripts/m8_1_2_audit/`, and `data/m8_1_2_*`.
