@@ -95,9 +95,10 @@ de Broglie clock is the energy-minimizing state.
 
 ## Implementation Status
 
-Nothing is validated in-platform yet: M8 is a scaffold-stage column with no OpenWave
-runs, so the [`MODELS.md`](../../../MODELS.md) column starts at 21 🚧. The table records
-honest external status and marks the in-platform work planned. The three ❌ rows are
+The in-platform verifications are the analytic results marked ✅ below; native field
+dynamics is the open problem (last row), and the live icon tally is in
+[`MODELS.md`](../../../MODELS.md). The table records honest external status and marks the
+in-platform work planned. The three ❌ rows are
 pre-registered negatives the author already owns, offered in the spirit that a
 documented negative is a result.
 
