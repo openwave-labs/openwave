@@ -66,8 +66,8 @@ T     = Reidemeister torsion of the assignment (evidence-null, § 4)
 Calibration anchors, one per sector: H₀ (edge), Λ or α (surface), m_e (mass
 normalization). Record: mass-spectrum paper
 [10.5281/zenodo.18603975](https://doi.org/10.5281/zenodo.18603975). Platform status:
-🚧 the M8.3 reproducer (every constant recomputed from its definition) is the entry
-bar; graded at the ledger weight regardless of hit rate (§ 6).
+🚧 analytic only: the M8.3 reproducer (✅ 2026-07-28) recomputes every constant from its
+definition; graded at the ledger weight regardless of hit rate (§ 6).
 
 ## 6. Known tensions + evidence grading (adopted from the author's claim ledger)
 
@@ -94,9 +94,9 @@ bar; graded at the ledger weight regardless of hit rate (§ 6).
 
 | ID | Question | Route | Status |
 | --- | --- | --- | --- |
-| OQ1 | Does ANY reasonable nonlinear field equation on S³/2I have defect or standing-wave solutions whose energies realize the McKay slot structure? | M8.4, CLOSED UNRESOLVED 2026-08-26 | 🚧 open, and NEVER TESTED on the twisted branch: M8.4 closed with no target configuration executed and no nontrivial sector spent ([closeout](findings/m8_4_closeout.md)), so OQ1's dynamical branch awaits the target-free M8.5-C chassis. The NATIVE branch closed by theorem 2026-08-18 ([kinematic close](findings/m8_4_kinematic_close.md)): single-valued quotient fields carry no nontrivial slot at any level, so the live branch runs on M8-owned twisted objects, `M4_int` first |
-| OQ2 | The R-problem: which of the two routes (coupling ≈ 5.3 Gpc vs mass ≈ 20 Gpc) is the correct determination of the master scale, and what breaks in the other? | author-side; platform can bound it once M8.1/M8.3 land | 🚧 open |
-| OQ3 | Can the Waltz exponent −1/2 be DERIVED from the embedding (or from a field dynamics) rather than empirically pinned? | M8.4 lineage, CLOSED UNRESOLVED 2026-08-26; any field-dynamics route awaits the target-free M8.5-C chassis | 🚧 open |
+| OQ1 | Does ANY reasonable nonlinear field equation on S³/2I have defect or standing-wave solutions whose energies realize the McKay slot structure? | M8.4, CLOSED UNRESOLVED 2026-08-26 | 🚧 open, and NEVER TESTED on the twisted branch: M8.4 closed with no target configuration executed and no nontrivial sector spent ([closeout](findings/m8_4_closeout.md)), and the spectral chassis that was to reopen it adjudicated `M8.5-C2-FAILED` 2026-08-31 ([#506](https://github.com/openwave-labs/openwave/issues/506)), so OQ1's dynamical branch has no authorized route and stays open ([#512](https://github.com/openwave-labs/openwave/discussions/512)). The NATIVE branch closed by theorem 2026-08-18 ([kinematic close](findings/m8_4_kinematic_close.md)): single-valued quotient fields carry no nontrivial slot at any level, so the live branch runs on M8-owned twisted objects, `M4_int` first |
+| OQ2 | The R-problem: which of the two routes (coupling ≈ 5.3 Gpc vs mass ≈ 20 Gpc) is the correct determination of the master scale, and what breaks in the other? | author-side; M8.1 and M8.3 have landed (✅), and no platform task has bounded it yet | 🚧 open |
+| OQ3 | Can the Waltz exponent −1/2 be DERIVED from the embedding (or from a field dynamics) rather than empirically pinned? | M8.4 lineage, CLOSED UNRESOLVED 2026-08-26; the M8.5-C route closed 2026-08-31 ([#506](https://github.com/openwave-labs/openwave/issues/506)), and no field-dynamics route is authorized today ([#512](https://github.com/openwave-labs/openwave/discussions/512)) | 🚧 open |
 | OQ4 | Does the McKay-distance rule map onto M5's lepton hierarchy? `1 : 5.9 : 15.1` is NOT the target (it is `Λ := m^(1/3)` from the masses); the admissible one is the measured A < C < B census, once physically parameterized | M8.6, CLOSED on the M5 side 2026-08-07: the bridge's last admissible route failed terminally ([finding 9](tasks/m8_6_task_details.md)) | ❌ closed as instrumented |
 | OQ5 | Which topological-defect sectors exist at all on S³/2I (homotopy of the target space restricted to the quotient), and does the anti-periodic double-cover condition create sectors flat space lacks? | M8.4 prerequisite analysis | 🚧 open |
 | OQ6 | Does the double-cover return supply a genuine spin-½ mechanism once a dynamical field lives on the arena (the 720-degree row most columns leave 🚧)? | downstream of OQ1 | 🚧 open |
