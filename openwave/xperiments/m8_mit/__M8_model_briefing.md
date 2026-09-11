@@ -10,7 +10,7 @@
 > does not yet carry field dynamics of its own; supplying them IS the M8 program
 > ([`research/m8_background.md`](research/m8_background.md)).
 >
-> **Status: scaffold stage, research mode first.** This column was scaffolded by the
+> **Status: research mode first.** This column was scaffolded by the
 > maintainers on 2026-07-21 from the author's onboarding proposal
 > ([discussion #312](https://github.com/openwave-labs/openwave/discussions/312));
 > the content below is adapted from the briefing the author submitted there. The
