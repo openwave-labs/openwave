@@ -71,7 +71,7 @@ guidance on what a compact-arena port must avoid.
 No existing column runs a curved compact arena, so this is new infrastructure. Two
 routes, both viable; prototype before committing.
 
-**Status 2026-08-26.** Route (a) was built and adjudicated (`M85B-ADJ-07`) and its dynamics
+**Status 2026-08-31.** Route (a) was built and adjudicated (`M85B-ADJ-07`) and its dynamics
 substrate did NOT qualify for the M8.4 observables; see
 [`findings/m8_4_closeout.md`](findings/m8_4_closeout.md). Route (b) was never built as a
 simulation backend, only as character-averaging certification machinery, so its dynamics evidence
@@ -88,9 +88,11 @@ was never gathered. It is now M8.5-C, target-free, with its qualification protoc
 Do not start here. Rendering comes after an M8 dynamics validates in-platform
 (the [`m8_roadmap.md`](m8_roadmap.md) gate), a condition the M8.4 closure did not change.
 No such dynamics exists yet: M8.4 closed unresolved on 2026-08-26 with no target
-configuration executed. The route is M8.5-C, then a fresh preregistration, then a
-validated dynamics; M8.5-C alone does not open the gate. When it does, this is the port path an AI
-agent should follow:
+configuration executed, and the route through M8.5-C closed with the C2 verdict of
+2026-08-31 ([#506](https://github.com/openwave-labs/openwave/issues/506)). Any route now
+runs through a future program under platform conditions, which nothing currently
+authorizes ([#512](https://github.com/openwave-labs/openwave/discussions/512)). If the
+gate opens, this is the port path an AI agent should follow:
 
 | Step | Pointer |
 | --- | --- |
