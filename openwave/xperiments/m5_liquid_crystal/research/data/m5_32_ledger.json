@@ -1157,6 +1157,37 @@
     "the fixed-K reads' lift dependence (found by the audit, the lift now stored)"
    ],
    "next": "the results post on #186 after the commit; a like-charge pair on the degenerate vacuum; the n64 true-gradient branch; the seeded v6 Lanczos solves"
+  },
+  {
+   "id": "R19",
+   "start_utc": "2026-09-11T21:55:00Z",
+   "end_utc": "2026-09-12T08:40:00Z",
+   "hypothesis": "the mixed bracket with the reading fixed by the author's rev-294 section 255.4: the boost sector at the connection level as the (Gamma) entrant, with (Gamma, tl), (B-u), (A), (T); the identities, the form-level certificate, the entrants with exact gradients, the static Newton read on the R3 boost-dressed pair, the clock at the form level (ledger 6.8)",
+   "claims": [
+    "R19-0a C9: the time-row map exact (dM = O (Omega D + D Omega^T + dD) O^T; the boost content of the connection is the jet's time row in the field's frame with factors lambda_i + g, never melting; the rotation factors lambda_j - lambda_i melt); (Gamma) built two ways to 1e-14, Lorentz covariant, lift-independent; ranks 8 / 9 / 10 / 11 / 12 with GG, B, Gamma, Gamma_tl (on static jets I2 - 4 I5 + I6 = 0, rank 7)",
+    "R19-0a C10: eq. (9)'s EM-GEM cross term EXACTLY zero under the replacement at the connection level and at the field level (mu nu parity); the certified F^rr . F^bb term carries the SO(1,3) sign on 66 percent of random jets; on the static sector the boost-boost pieces are non-negative and the R^eg time-row piece non-positive (the record's negative boost weight, untouched by Gamma)",
+    "R19-0a C11, C12: Gamma, Gamma_tl, Bu quartic in omega (c4 >= 0 for Gamma on every sample); the rigid-director core diverges like 1/h (a/h + b), the melted core ball bounded, the record's b* saw unresolved at the R3 h (the boost shape factor does not melt)",
+    "R19-0b certificate: every entrant keeps the certified action's minimal kinetic eigenvalue on every Lorentz channel (-16 (lambda_k + g)^2 on boost_k, its direction the diagonal jet d_k M_00 = d_k M_kk in the kernel of Q_Gamma - Q_I1), so no c makes -4[(1-c) I1 + c X] PSD: CANDIDATE_REFUTED at the form level for GG, T, Bu, Gamma, Gamma_tl; on rotation clocks Q_X = Q_I1 and D = 0 for Bu, Gamma, Gamma_tl (R19-2 the record's by identity); D > 0 on boost clocks for every object (D_Gamma = 4 (1+g)^4), the Hamiltonian unbounded below in omega with the certified sign",
+    "R19-0c entrants: exact gradients (stencil adjoint + the R2 eigenframe chain) FD-gated at 1e-12, I1 equal to the certified stack to 1e-20, the Coulomb identity exact (Bu needs the corner jet zero too)",
+    "R19-1 g 8 (n32 L48): the instrument is unbounded at this vacuum: the certified action's own dressed rows RUNAWAY (5/5, the time-row piece diving -172 -> -12588), every entrant killed (Bu 5/5, GG 3/3, Gamma_tl 3/3, Gamma pairs 4/4) except the Gamma single (bounded, its anticommutator piece 367 -> 61): CANDIDATE_REFUTED (no object) for every entrant AND the reference, no Newton read",
+    "R19-1 g 32 (n32 L48, the instrument's vacuum; this code reproduces R3's lambda = 0 rows to every digit): Gamma CANDIDATE_REFUTED (repulsive): E_int +35555 / +29144 / +14841 / +4114 at d 10 / 14 / 18 / 24, the dressing held, the dressing part +35479 / +29032 / +14700 / +3940, the fit 1/d (R2 0.91, B > 0) and ln d / d (0.986), the interaction the anticommutator overlap of the two dressings (I(X_s)(pair) - 2 I(X_s)(single) within 3 percent); Gamma_tl repulsive on two points (+12240, +3042); the certified rows +3869 / +2989 / +2987 / +2784 (the record)",
+    "R19-3 (the R18 carry-over, overnight): the pinned like pairs at d 6 and 9 on the R18-3 instrument (n48 L72, 1500 iterations): E_int -12.59 and -10.53 on the R18 line (the six-point law E_int = -18.66 + 0.935 d, rms 0.59), the string law does not bend below d 12, the split-core object at d 6 costs 1.23 more than the radial single, the ring-winding read undefined inside the melted cores",
+    "R19-1 n48 L72 (g 32): the (Gamma) sign box-independent, E_int +31381 / +9282 at d 14 / 24, the certified +3021 / +2828, the undressed rows R3's n48 record to every digit; the extensions: at 4500 and 10500 accepted steps E_int +32703 / +24317 / +12374 / +3331 and +29364 / +18622 / +9862 / +3276, monotone repulsive at every budget, the d 24 value settled, the E_int drift per quarter down to 1e2"
+   ],
+   "audits": {
+    "R19-0": "4/2/0 (34 own lines)",
+    "R19-1": "5/2/1 (23 own lines; the refutation a wording: within 3 percent, not 2)"
+   },
+   "deviations": [
+    "the C12 verdict restated to the core ball (the unrelaxed seed's axis line)",
+    "the fixed-frame (B) not relaxed on the lattice ((B-u) stands for it; the certificate covers (B) at the vacuum)",
+    "R19-2's lattice ladder and the R3.iii cross inertia not run (closed at the form level)",
+    "the R19-0 bump descent merged into R19-1's single dressed hedgehog",
+    "the R19-1 controls sized to the batch; the g 32 rows against R3's record",
+    "two checkpoint stamps estimated and corrected",
+    "R19-1 moved to g 32 (the instrument's vacuum) after the certified action ran away at g 8; (B-u) dropped from the ladder (no object)"
+   ],
+   "next": "the results post on #186 after the commit; the section-257.6 asks and the converged 3D cores queued (the d 6 / 9 pairs done as R19-3); the R20 candidates ((inc M)^2, G-02, the bounce) parked"
   }
  ],
  "free_rungs_used": 4,
