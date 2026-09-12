@@ -1,8 +1,9 @@
 # M4 / EWT, ROADMAP
 
 > The M4 program: what is running, what is queued, what is closed. The
-> [BACKLOG](#backlog) rows are the column's two standing open problems, both unowned; the
-> people extending M4 pick one up or add their own. Read
+> [BACKLOG](#backlog) opens with the column's two standing open problems, both unowned,
+> followed by tasks contributors have queued; the people extending M4 pick one up or add
+> their own. Read
 > [`## CONVENTIONS`](#conventions) first: it explains the ID scheme, how to add a task,
 > and which M8 documents to copy from. Model orientation lives in
 > [`README.md`](README.md) and [`../__M4_model_briefing.md`](../__M4_model_briefing.md).
@@ -21,6 +22,8 @@
 | --- | --- | --- | --- |
 | [M4.1](tasks/m4_1_task_details.md) | Golden-angle K-selectivity + perturbation-robust stability | Evaluate the contributor proposal that the `r⁵` vs `r³` energy-density non-linearity plus golden-angle (phyllotactic) placement with spin makes `K = 10` the unique perturbation-robust ground state, against today's flat landscape where every `K = 2..10` is degenerate. Harness merged in [PR #205](https://github.com/openwave-labs/openwave/pull/205), spec in [`M4_k_selectivity_Formalization.md`](M4_k_selectivity_Formalization.md). Was issue #201 | an owner: the column has no active author |
 | [M4.2](tasks/m4_2_task_details.md) | Emergent Coulomb force: far-field direction, sign, 1/r | Produce evidence that the electric force emerges from wave interference: two wave centers with a consistent far-field direction (same repels, opposite attracts), `~1/r` scaling, and an EMERGENT charge sign rather than an imposed `±1`. The sinc `λ/2` direction flip is the blocker; the 3D flux integral and the vector route are the open leads. Was issue #202 | an owner; shares the suspected missing physics with [M4.1](tasks/m4_1_task_details.md) |
+| M4.12 | Newton force with fully geometric G | Update M4.10 to use the self-consistent trinity `G_geom`, `hbar_geom`, `lambda_l` from the updated M4.7 chain. Replace the normalization-consistency path with an explicit amplitude derivation. Add an independent audit script. Contributed by Łukasz Smoliński | [M4.7](tasks/m4_7_task_details.md), [M4.10](tasks/m4_10_task_details.md) |
+| M4.13 | Local metric phenomena with fully geometric G | Update M4.3-M4.5 to use `r_s = 2 G_geom M / c^2` with `G_geom` and `lambda_l` from M4.7. Address the M4.9 assumptions (assumed `1/r` pair potential, axial `q = 1`). Add an independent audit script. Contributed by Łukasz Smoliński | [M4.7](tasks/m4_7_task_details.md), [M4.9](tasks/m4_9_task_details.md) |
 
 ## CONVENTIONS
 
