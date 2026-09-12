@@ -1,0 +1,506 @@
+# M8.1.2: THIRD BLIND RUN, the fourth bedrock paper (channel selection on S³/2I)
+
+> Roadmap row: [`../m8_roadmap.md`](../m8_roadmap.md) M8.1.2 (**maintainer-run**).
+> Parent template: [`m8_1_task_details.md`](m8_1_task_details.md) (the worked blind-run
+> protocol); immediate precedent [`m8_1_1_task_details.md`](m8_1_1_task_details.md);
+> firewall and packet-audit precedent
+> [`../findings/m8_5a_reproduction_protocol.md`](../findings/m8_5a_reproduction_protocol.md)
+> and [`m8_8_task_details.md`](m8_8_task_details.md).
+> Status: ✅ DONE 2026-09-10, all 21 frozen claims reproduced blind and adjudicated (go 12:18 EDT;
+> author-drafted 2026-09-08, revision 17; frozen in the
+> [go-time pre-registration](#go-time-pre-registration-2026-09-10-go-1218-edt)).
+
+## TASK PLANNING (2026-09-08, author-proposed; registration and go pending)
+
+### Scope
+
+Blind independent verification, in the M8.1 sense, of a fourth MIT bedrock paper,
+*The Surviving Ray: channel selection for a cubic self-interaction on S³/2I*. The paper
+establishes that binary-icosahedral symmetry restricts the four-dimensional family of
+equivariant cubic self-maps of spin 3 to two channels, one of them radial, so that modulo
+the radial direction the surviving interaction is a **single projective ray**; and,
+separately and with no icosahedral input, that the spin-8 cubic channel built from the same
+data closes exactly on the time-reversal-invariant rays.
+
+This is the fourth of the arena's math papers and the first added since the three verified
+under M8.1 and M8.1.1.
+
+### Why this task exists (the principled trigger, not courtesy)
+
+| Point | Statement |
+| --- | --- |
+| The rule | M8.1.1 established it: any analytic number that becomes a pre-registered target of the dynamics program gets blind-verified BEFORE the task that would use it locks its targets. |
+| Platform relevance | If a future dynamics candidate carries a cubic self-interaction on this arena, this paper constrains what that interaction can select: the leading cubic term is confined to `span{M_0, M_6}`, `M_0` is radial, and the tangential content is one ray. That is target structure of the kind M8.2 § 2 already freezes for the gap ratios. |
+| Timing, stated conditionally | **No authorized dynamics route exists in this column at drafting time**: M8.4 closed unresolved, M8.6 closed on the M5 side, and M8.5-C2 was adjudicated FAILED, closing the spectral route and the M8.4 reopening path. This task therefore claims no dependency on a successor that does not yet exist. It is prospective infrastructure: **if** a future authorized dynamics task proposes to freeze the channel-selection result as target structure, this run must complete before that task's first target-bearing lock or run, or the result cannot bear on that verdict. That is M8.2's own T-b2 timing guard applied to a new benchmark, not a new rule. |
+| Why maintainer-run BY CONSTRUCTION | The author and the author's agents have read, edited and audited this paper and hold a verification package for it. A self-run check is a reproducer, not an independent recompute. Blindness is the one thing the platform can supply that the author structurally cannot. |
+| What this task is NOT | A gate on anything running: the column's IN PROGRESS row is empty. Nor a claim that the platform owes free validation. |
+
+### Ownership and what the author is NOT doing
+
+The author proposes this task, supplies the sources and a candidate instrument, and then
+stops. The author does not run the solvers, does not audit them, does not see agent output
+before the designer does, and does not participate in the comparison to the claims. If the
+maintainers prefer to build the spec sheet from scratch rather than adopt the offered one,
+that is strictly better for independence and the author has no objection.
+
+Protocol authorship by an answer-holding author is platform-native under M8.5-A, which
+records that protocol authorship does not compromise independence but target-aware
+implementation does, provided a maintainer reviews and freezes the protocol and a fresh
+context implements behind a firewall. This task is written to that standard.
+
+### Sources of record
+
+| Item | Pin |
+| --- | --- |
+| Paper (deposit) | Zenodo, [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502), deposited 2026-09-09. This is the **version** DOI (v1), not the concept DOI, so it is pinned to this text and cannot drift to a later deposit. That is right for a pin and only for a pin: anywhere the paper is cited to be *read* rather than fetched at a fixed state, the concept DOI is the better target, since a reader should land on the current version. Two DOIs, two jobs; do not read this row as a blanket preference for the version DOI. |
+| Working text | `files/framework/files/bedrock/files/surviving-ray.md` in `dmobius3/mode-identity-theory`, commit `a4cb92c25b06f81d4068915c56c88667759cc1a6`, blob SHA-256 `1bace5521f795abe4a3f22cbda06d286f9de5361a826eb74ef7faebc89cfb3d0` |
+| Deposit contents | Zenodo holds the typeset PDF only, `the-surviving-ray.pdf`, MD5 `d2405316e20c060f53d338c1516298bc` as recorded by Zenodo. The LaTeX source is not part of the deposited record. |
+| Cross-format check | The repository source of record is the pinned Markdown blob above; the deposited source of record is the PDF. They are different formats, and no byte-identity claim is made. At the pinned commit the Markdown body is 15,134 words by `wc -w`, counted from the first word of the abstract through the line before `## References`. Every numbered statement, Lemma 2.1 through Corollary 5.6, carries the same number in the PDF as in the blob, so the one statement this document cites by number, Theorem 5.1, resolves under that number in either. **Corrected 2026-09-09:** the review of [#534](https://github.com/openwave-labs/openwave/pull/534) could not reproduce 15,134, having counted from the abstract and from the introduction to end of file, 15,347 and 14,992; those figures are correct at their boundaries, and the narrower boundary behind 15,134 had not been stated. **Corrected 2026-09-10:** earlier versions of this row said a `.tex` source accompanied the deposit and matched the repository body byte for byte. Zenodo holds only the PDF, so that comparison is withdrawn. |
+
+## THE FIREWALL
+
+### Context isolation (not merely a withheld-word list)
+
+The deposit will be **public**. Withholding a title from a prompt does not prevent an agent
+with ordinary web access from searching an equation and finding the paper, so a word list
+alone does not earn the word "blind."
+
+| Requirement | Statement |
+| --- | --- |
+| Repository access | Solver and audit contexts have NO access to the OpenWave M8 tree, the `mode-identity-theory` repository, or the deposited paper in any form. |
+| Network | No unrestricted web search. Any external reference is a generic representation-theory or computer-algebra source approved in advance by the designer. |
+| Manifest | Each agent returns a consulted-material manifest listing every source it read. An empty or unreturned manifest is a protocol failure, recorded as such. |
+| Workspace | Agents write into the session scratchpad, never into the repository. The designer copies scripts into `research/scripts/` unmodified at FINISH. |
+| Audit ordering | The auditor receives the clean construction packet FIRST and commits its own method and results before the solver's script or output is shown to it. Only then does it receive them, for refutation and comparison. M8.1.1 let the auditor see the solver's work from the start; this ordering removes a convergence pressure, since "own implementation" written while reading someone else's can drift toward it without anything being copied. |
+
+### Where the frozen claims live
+
+The claims table below is an explicit answer key. It states every constant in plain prose.
+Once this document is registered it lives in the platform repository and is linked from the
+roadmap row, so **the leak path of record is this file, not the handout**.
+
+At go time the designer must state, in the pre-registration, where the frozen claims are
+held and what prevents a solver session from reading that path. The handout is clean by
+construction; this file is not, and it is the artifact that has to be walled off. A run in
+which an agent could have read `research/tasks/m8_1_2_task_details.md` is not blind,
+whatever the handout contained.
+
+### Withheld terms: attribution, not vocabulary
+
+The distinction is between pointers to the source and the technical vocabulary the
+computation needs.
+
+| Withheld | Permitted |
+| --- | --- |
+| the author, the model, the repository, "the surviving ray", "McKay", every claimed constant, every theorem number | the technical vocabulary required to pose the problem, including "Majorana" where the handout fixes that normalization |
+
+"Icosahedral" is the interesting case. It cannot be withheld while the task stays posable
+**if the group is named**. It can be withheld if the group is instead specified by its
+generators, and the designer should prefer that: give the solver the two generating unit
+quaternions and never name it. Adopt that route or drop "icosahedral" from the withheld list;
+do not list it as withheld while naming the group.
+
+**Be exact about what the generator route buys, because it is easy to overclaim.** It removes
+the strongest search term, so an agent cannot reach the source paper by searching the group's
+name. It does NOT make B1 and B2 unavailable by lookup: order 120, perfect, and a subgroup of
+`SU(2)` identifies the group up to conjugacy through the ADE classification, so any agent that
+knows that classification can name it in one step, after which the invariant degrees and the
+branching are textbook. The packet's own X0 sanity check hands over exactly the data that
+permits this, and it is still worth having.
+
+The remaining work therefore falls to the manifest. **B1 and B2 must be reported as DERIVED or
+as RECOGNISED**, with the consulted sources listed either way. A character table that agrees is
+a different evidential object from a computation that agrees, and the designer should record
+which one the run produced rather than scoring them alike.
+
+### Designer-only material, quarantined from every agent
+
+The author holds a verification package: `verify.py` (88 exact checks), a second
+implementation on disjoint primitives, and two mutation harnesses. **None of it may reach a
+solver or an audit agent, and none of it is part of adjudication.**
+
+Following M8.1.1, which quarantined the author's own test script and did not use it as the
+check, and M8.8, which allowed author artifacts beside the result afterward: **the designer
+adjudicates against the frozen claims first and records that verdict. Only then may the
+author's package be opened, for provenance-level comparison.**
+
+State the asymmetry when reporting it. Agreement between the author's code and the agents is
+**weak** evidence, since a shared convention error survives it. Disagreement is **strong**
+evidence that something is wrong somewhere. A three-way agreement is a provenance statement
+under the roadmap's own standing rule, not a stronger verification label.
+
+### Offered instrument (adopt, modify, or discard)
+
+| File | What it is |
+| --- | --- |
+| [`../m8_1_2/conventions-and-worklist.md`](../m8_1_2/conventions-and-worklist.md) | A conventions extract plus a worklist of 22 items (0(a)-(c) and 1-21), carrying the definitions and NONE of the results. It fixes the Clebsch-Gordan phase, the time-reversal convention, the Majorana normalization and the general-spin forms, so a disagreement is traceable to content rather than to an unstated convention. This is the file a solver receives, and the only one. |
+| [`../m8_1_2/leakaudit.py`](../m8_1_2/leakaudit.py) | An author-written gate over that handout, demoted to a diagnostic below. **It must never enter the room.** Its forbidden list names nine of the claimed values outright, so beside the handout it is a partial answer key. Run it from outside and copy only the handout across. |
+
+**The leak gate is an offered diagnostic only and cannot certify the handout.** Re-running
+an author-written detector proves the handout passes the author's detector; it says nothing
+about semantic leakage. M8.5-A records that the dominant risk is semantic and mathematical
+circularity rather than an imported answer file, and M8.8 required the packet audit to be
+maintainer-side, independent and mechanical for exactly this reason. **Before the room
+opens, the designer independently audits the handout against the frozen claims and the
+forbidden-input list, manually or with a maintainer-written gate. Passing the author's
+checker is not sufficient evidence of non-leakage.**
+
+### Disclosure: the author's prior exercise, and the paper's defect history
+
+The author ran an internal two-unit exercise against the candidate worklist. It is NOT a
+verification and is not offered as one: the units were the author's and the author wrote the
+instrument.
+
+That exercise, run against the finished paper, found only a defect in the author's own
+worklist wording at item 8. **That sentence should not be read as evidence that the paper
+came through adversarial review clean.** The paper's defect history is long and is in the
+redline record. Three math-audit rounds in the drafting session alone applied seventeen
+repairs, among them a genuine proof gap in the spin-8 argument (one-dimensionality of the
+target space gives a proportionality constant, not a nonzero one), an invalid inference in
+the unequal-degree Jacobian step (degree-zero homogeneity was doing work it cannot do), a
+sign error at half-integer spin that the author's own harness was pinning in place because
+the harness encoded the same error, and a representation-theory multiplicity error in the
+`Sym³V_3` decomposition. Earlier rounds found more, including a false clause in the
+selection theorem and a notation collision running through every section.
+
+The honest summary is that this paper has been heavily corrected and the corrections are
+recorded. That is a stronger disclosure than a clean-run claim, and it is the reason a blind
+recompute is worth the maintainers' time.
+
+## CANDIDATE PRE-REGISTERED CLAIMS
+
+Frozen by the designer at go, not by the author, and grouped to follow the paper's proof
+dependency graph rather than a list of interesting numbers. Conventions: the Condon-Shortley
+phase and the time-reversal and Majorana conventions of the handout; states in
+`V_3 = Sym⁶ℂ²`; `d = dim σ`; `Λ_m = (−1)^(3+m) C(6, 3+m)`. "Blind" means computed by an
+agent that never saw the value.
+
+### Group A: the ambient spin-3 results (no group input)
+
+| ID | Claim | Pass condition | Fail condition |
+| --- | --- | --- | --- |
+| A1 | `Sym³V_3 = V_1 ⊕ 2V_3 ⊕ V_4 ⊕ V_5 ⊕ V_6 ⊕ V_7 ⊕ V_9`, dimension 84, containing NO `V_8` | blind decomposition reproduces the multiset including multiplicity 2 at spin 3, and reports no `V_8` | any multiplicity differs, or `V_8` appears |
+| A2 | `dim Hom_SU(2)(Sym²V_3 ⊗ V̄_3, V_J) = 1` at `J = 8`, `= 4` at `J = 3` | both blind weight counts match | either differs |
+| A3 | `M_0(u) = −‖u‖²u/√7` | blind evaluation returns a multiple of `u` with constant `−1/√7` | not radial, or a different constant |
+| A4 | `M_6(v_m) = c Λ_m² v_m` on the weight basis, `Λ² = (1, 36, 225, 400, 225, 36, 1)`, `c = −C(12,6)⁻¹√(7/13) = −√91/12012` | blind `M_6` diagonal on the weight basis with that row and constant | non-diagonal, different row, or different constant |
+| A5 | For `u ≠ 0`, the spin-8 channel `C(u) = 0` **if and only if** `[u]` is time-reversal invariant, equivalently the Majorana constellation is antipodally symmetric as a multiset | an EXACT argument: derive the covariant and characterize its kernel symbolically (a sampled family corroborates but cannot pass this claim) | a zero outside the set, a nonzero inside it, or no exact argument produced |
+
+### Group B: the two group inputs
+
+The paper states that Theorem 5.1 uses exactly two facts about the group. Both are graded
+here as headline claims rather than handed to the solver as conventions. **The solver
+receives the group as two generating
+unit quaternions; whether B1 and B2 are then derived or recognised is recorded, not assumed.**
+
+| ID | Claim | Pass condition | Fail condition |
+| --- | --- | --- | --- |
+| B1 (invariant-degree filter) | `dim(V_K)^Γ = (1, 0, 0, 0, 0, 0, 1)` for `K = 0..6`, so exactly two ranks carry an invariant **within the closed window `K ≤ 6`**, which is the density's whole reach | blind result from the supplied packet reproduces the row on `K = 0..6`, with DERIVED / RECOGNISED provenance stated | any entry differs on `K = 0..6`. NOT a failure: an agent that computes past the window and reports a further invariant at `K = 10` is CORRECT and agrees with this claim; the window is the claim's scope, not an assertion that no invariant exists above it |
+| B2 (multiplicity-free complementary branching) | `V_3` restricted to `Γ` is multiplicity-free with exactly two constituents, of dimensions 3 and 4, complementary in `dim V_3 = 7` | blind branching returns two constituents, each multiplicity one, dimensions 3 and 4, with the same DERIVED / RECOGNISED declaration as B1 | a repeated constituent, a different count, or different dimensions |
+
+### Group C: the selection theorem
+
+| ID | Claim | Pass condition | Fail condition |
+| --- | --- | --- | --- |
+| C1 | Building the isotypic projector `P` from the group itself: `‖R_0(P)‖² = d²/7`; `‖R_6(P)‖² = d(7−d)/7 = 12/7` in BOTH sectors; `R_K(P) = 0` for `K = 1..5` | blind projector construction reproduces all three, with `12/7` common to both sectors | any rank survives that should vanish, or the sectors differ at `K = 6` |
+| C2 | `w_0 = 7`; `w_6/w_0 = (7−d)/(13d) > 0`; `N = C(13,6)·d/(7−d) = 1287` at `d = 3`, `2288` at `d = 4` | all blind values match | any differs |
+| C3 (the interaction populates the channel) | The self-interaction is `𝓝(u) = (d/7)‖u‖²u − ((7−d)/√91) M_6(u)` (script `𝓝`, NOT the sector normalization `N` of C2; the handout must keep the two symbols apart); in particular its `M_6` coefficient `t_6` is NONZERO, which is what makes the surviving ray a ray rather than nothing | blind derivation returns both coefficients and establishes `t_6 ≠ 0` | either coefficient differs, or `t_6 ≠ 0` is assumed rather than derived |
+| C4a (right-side population) | From the raw group data and the constructed projector, `R_6(P) ≠ 0`, and the induced right coupling `V_3 → V_8` is injective on BOTH sectors. The route: `R_6(P)` read as a degree-12 binary form has twelve SIMPLE roots, and `v ↦ (I_12, f_v)_1` is therefore injective | blind agent establishes nonvanishing AND injectivity, with the simple-root fact derived rather than assumed | `R_6(P) = 0`, a repeated root, or injectivity asserted without argument |
+| C4b (left-side population) | `[ρ_6(v_3) ⊗ v_3]_(8,3) = √273/1092 ≠ 0`, so the remaining proportionality constant is nonzero | blind evaluation matches exactly | any other value, or zero |
+
+`(A3 + A4) → B1 → B2 → C1 → C3` is the chain the headline rests on. Nonradiality needs BOTH
+halves: A3 fixes that the radial direction is `M_0`, and A4 supplies the nonconstant `Λ²`
+that keeps `M_6` off it. Then B1 and B2 are the two group inputs, C1 the weight, and
+`t_6 ≠ 0` (C3) is what populates the channel. A designer trimming for cost should trim
+elsewhere. "Populated on the quotient" is earned only by C4a and C4b TOGETHER: the left
+evaluation alone establishes a proportionality constant, not a populated channel.
+
+### Group D: critical geometry and the corollaries
+
+| ID | Claim | Pass condition | Fail condition |
+| --- | --- | --- | --- |
+| D1 | `C(12,6)·‖ρ_6(u)‖² = 1, 400, 288, 463` at the unit states `v_3`, `v_0`, `(v_2+v_−2)/√2`, `(v_3+v_−3)/√2`, **and each of those four rays is a critical point** of the ray invariant on `P(V_3)` | all four blind values match AND criticality is established at each | any value differs, or a ray is not shown critical |
+| D2 | The full multipole row at `(v_2+v_−2)/√2` is `(1/7, 0, 0, 0, 6/11, 0, 24/77)`, so rank 4 is nonzero and the state is anticoherent of order exactly 3, not merely at least 3 | blind row matches entry by entry | any entry differs |
+| D3 | On `u = cos t·v_2 + sin t·v_−3`, `‖ρ_6‖² = −(125/132)sin⁴t + (10/11)sin²t + 3/77`, stationary in the interior at `sin²t = 12/25` with value `9/35` | the blind agent reproduces the WHOLE quartic and its stationary point and value | a different polynomial, even one with the same stationary point, or a different value |
+| D4 | On the chart `u = v_3 + z v_0 + v_−3`, `z = x + iy`, the top multipole is `(100\|z\|⁴ − 20x² + 148y² + 463) / (231(\|z\|²+2)²)`, whose critical set on the chart is **exactly five points**: `z = 0` at `463/924`; `z = ±√(23/10)` at `200/903`; `z = ±i√(5/2)` at `24/77` | blind agent reproduces the rational function and establishes exactly those five, by elimination rather than by sampling | a sixth point, a missing one, any value differing, or exhaustiveness not established |
+| D5 | Writing the chart's Majorana polynomial in `w = z³` as a quadratic, the two roots multiply to 1 (reciprocal radii, so heights `±h`), and their argument decides the shape: **both arguments equal** at `z = √(23/10)`, so the triangles share azimuths, a trigonal PRISM; **arguments `±π/2`** at `z = i√(5/2)`, so azimuths differ by 60°, the ANTIPRISM, which is the regular octahedron. The D3 interior ray is a pentagonal pyramid, one pole plus a ring of five | blind agent computes the two arguments and the root product at both rays, and the pyramid's constellation, matching. **Naming the shapes is required, not optional**: latitude and azimuth data alone does not discharge this claim, since the prism/antiprism call is the content | a wrong argument pair, a non-reciprocal product, or a mis-split ring |
+| D6 | Below level 6 the projected self-interaction is radial at every level `ℓ < 6`, so no projective direction is selected there | blind check reproduces radiality at each level `ℓ = 1..5` exhaustively | a nonradial level below 6 |
+| D7 | `Q_3 = 1 + (28/39)r̂_6` and `Q_4 = 1 + (21/52)r̂_6`: the two sectors' reduced quartics are the same increasing affine function of `r̂_6` up to a positive slope, hence share a critical set on `P(V_3)` with the same ordering of values | blind derivation returns both slopes, both positive, and concludes the shared critical set and ordering ALGEBRAICALLY from the affine form | a different slope, a non-positive slope, or an attempt to establish the conclusion by enumerating the critical set |
+| D8 | The two sectors' nonlinear shifts differ by `49/156` in the section normalization | blind value matches | any other value |
+
+### Group E: the scope ceiling
+
+| ID | Claim | Pass condition | Fail condition |
+| --- | --- | --- | --- |
+| E1 | The selection is INTERACTION-RELATIVE, not a universal consequence of the group. The density-type interaction lands in `span{M_0, M_6}`; a second local `Γ`-invariant quartic built from `ψψᵀ` is filtered by the same mechanism into a DIFFERENT plane `span{N_0, N_6}`, and the two planes are distinct. No claim is made that the second plane reduces to a single ray | blind agent constructs both interactions, shows both are filtered, and shows the planes differ | the planes coincide, or the second is claimed to reduce to a ray |
+
+E1 is the paper's own honest ceiling and it is stated in the abstract. Verifying it makes
+the headline stronger, not weaker: it establishes that the single surviving ray is a
+property of the chosen interaction rather than a secretly universal group result.
+
+### Diagnostics on the run (NOT claims about the paper)
+
+Recorded as diagnostics, never graded as pass or fail against the paper.
+
+| ID | What it detects |
+| --- | --- |
+| X0 (packet sanity, run BEFORE solving) | **The generator packet is load-bearing the moment B1 and B2 are derived from it.** Before any claim is attempted the agent confirms the packet itself: each supplied quaternion is a unit, `‖q_i‖ = 1`, the group they generate has order exactly 120, AND that group equals its own derived subgroup. Order alone does not pin it: cyclic `C_120` and the binary dihedral group of order 120 are also subgroups of `SU(2)`, and they fail the perfectness test (derived subgroups of order 1 and 30 respectively), so the third condition is doing real work. A wrong or corrupted packet otherwise yields a beautifully verified downstream answer to the wrong question. Not a claim about the paper; a gate on the input, and a protocol failure if it does not hold. |
+| X1 | **Affine versus projective.** Worklist item 9 asks for two critical sets on the D4 chart: that of the ray invariant `r̂_6 = ‖ρ_6‖²/‖u‖⁴`, which is what D4 states, and separately that of `‖ρ_6‖²` read on the affine slice, which the paper does not discuss. They differ, because criticality of a homogeneous function on an affine slice is not criticality of its projectivization. A solver that conflates them returns a plausible set that is not a statement about rays. |
+| X2 | **Holomorphic square versus density multipole.** `B_J = [u ⊗ u]_J` and `ρ_K = [u ⊗ Θu]_K` agree on `Fix(Θ)` and diverge over `ℂ`. An agent that builds the holomorphic square where the density is wanted returns a SELF-CONSISTENT wrong answer, which is the failure a comparison step is least able to catch. Witness, stated as the discriminating FACT rather than as a signed value: at `u = v_3` the holomorphic square vanishes identically, `B_2 = 0`, while the density multipole does not, `\|ρ_2\| = 5√21/42`, `‖ρ_2‖² = 25/84`. The sign is convention-dependent and the same magnitude appears elsewhere as `B_2` at the hexagonal state, so a diagnostic that hands over a signed value invites pattern-matching; give the magnitude and the vanishing, or state the sign in the handout's own convention explicitly. This misreading has cost real revisions in the author's own drafting, so its yield is known rather than speculated. |
+
+### Feasibility triage, stated honestly
+
+Most claims are finite evaluations. Three are not, and a designer budgeting from this
+document should know which:
+
+| Claim | Why it is not a spot check |
+| --- | --- |
+| A5 | A global "if and only if" over all nonzero `u`. Requires an exact kernel characterization; sampling corroborates but cannot pass it. The author's dry run found both units gave the forward direction cleanly and sampled the converse, because the handout was missing the classical Jacobian criterion for binary forms; that has been added to the conventions block as a supplied input, alongside the Clebsch-Gordan phase. **What A5 still grades, corrected and verified 2026-09-09:** not the discovery of the factorization, which item 19's own definition supplies once the Majorana dictionary is applied (`rho_6(u)` is exactly `F.Theta F` under the paper's conventions, proved via the classical stretched-CG closed form rather than sampled; `L_8` reaches the transvectant up to a fixed nonzero scalar, confirmed numerically with Schur's lemma guaranteeing it is the same scalar for every `u`), but the translation into binary forms, the product-rule step `(F.G, F)_1 = -F.(F, G)_1`, the equal-degree recognition that lets the supplied criterion apply, `\|lambda\| = 1` from antiunitarity, and the constellation reading. See the retraction in the qualification record and the go-time precondition from the review of [#534](https://github.com/openwave-labs/openwave/pull/534). |
+| D4 | "Exactly five" is a global critical-point claim on a two-real-dimensional chart. Requires elimination, not evaluation at candidate points. |
+| D7 | A brute-force comparison of critical sets would need a classification the paper does not have. The affine-form proof avoids enumeration entirely: two positive slopes give identical critical loci and identical ordering algebraically, on every pair of rays, whether or not the critical set is finite or ever enumerated. That is why the pass condition requires the algebraic route and fails an enumeration. |
+
+The general-spin rank-zero constant `ε_j/√(2j+1)`, valid at integer and half-integer `j`
+alike, is a general formula and is deliberately NOT in the claims table: testing several `j`
+does not verify it. If the designer wants it, require a symbolic derivation and grade that,
+or narrow it to the finitely many levels actually tested and say so.
+
+### Instrument coverage
+
+The worklist now reaches every claim: A5 through item 19 (the exact zero set, with the
+scale-free
+half separated from the normalized `L_8` evaluation that C4b grades) and E1 through item 21,
+which
+requires the solver to derive the `psi psi^T` to `B_J` bridge rather than being handed it. An
+earlier revision did not reach either, and the designer should still confirm coverage at go
+rather
+than taking this paragraph for it.
+
+### To be fixed at go time (BEFORE numerics)
+
+| Item | Note |
+| --- | --- |
+| Deposit pin | done: the version DOI is pinned in Sources of record |
+| Claims frozen | the designer freezes the tables above, edited freely, before any solver launches |
+| Answer-key containment | state where the frozen claims are held and what prevents a solver reading that path |
+| Instrument decision | adopt the offered worklist after confirming coverage, modify it, or build a fresh spec sheet |
+| Handout audit | maintainer-side independent audit of the handout, not the author's gate alone |
+| Group presentation | decide whether the group is handed over by generators (preferred) or by name |
+| Citations sync | add the paper to [`../../theory/_CITATIONS.md`](../../theory/_CITATIONS.md) |
+
+### Definition of done (skeleton, finalized at go)
+
+| # | Item |
+| --- | --- |
+| 1 | Solver runs with exact values, scripts + JSON in the repo (`m8_1_2_` prefixes) |
+| 2 | Adversarial audit with its own method, per-claim verdicts |
+| 3 | Designer comparison against the frozen claims, all numbers stated, including any that landed elsewhere; diagnostics X0, X1 and X2 recorded separately from the claim verdicts, X0 as a precondition rather than a result |
+| 4 | Method note `findings/m8_1_2_method_note.md` (equations first, eq-to-code map, audit record, consulted-material manifests) |
+| 5 | Author package opened for provenance comparison ONLY after the verdict is recorded, with the agreement/disagreement asymmetry stated |
+| 6 | Doc sync: canonical + briefing + roadmap row; MODELS.md only if a cell actually moves |
+| 7 | Doc checker exit 0; TASK REVIEW presented |
+
+### Instrument qualification, and what is frozen
+
+This packet was exercised before proposal. Three questions were repaired as a result. No
+expected value changed and no result-bearing statement was added:
+
+| change | why |
+| --- | --- |
+| Added the classical Jacobian criterion for binary forms to the conventions block | It had fallen out of the handout as collateral when a result-bearing lemma was removed. **RETRACTED and corrected, 2026-09-09.** This row previously claimed the addition "leaks nothing graded" because the solver "must still discover that the covariant factors through the first transvectant." That is false, and the review of [#534](https://github.com/openwave-labs/openwave/pull/534) was right to flag it. Under the paper's own fixed conventions (the Condon-Shortley phase, the stated `Theta`, and the Majorana dictionary), two facts hold. First, `rho_6(u)` read through that dictionary is EXACTLY the polynomial product `F . Theta F`, proved rather than sampled: it reduces to the classical stretched Clebsch-Gordan closed form `<3 m; 3 m' \| 6 M> = sqrt(C(6,3+m) C(6,3+m') / C(12,6+M))`, the standard formula for coupling two spin-3 systems to their top (spin-6) channel, verified directly against the paper's own convention at all 49 relevant `(m, m')` pairs with no mismatch; substituted into the definitions this gives the polynomial identity term by term for every `u`, and it was also spot-checked at random states with exact arithmetic throughout, agreeing exactly. Second, `L_8(u) = [rho_6(u) (x) u]_8` corresponds to the classical first transvectant `(F . Theta F, F)_1` up to a fixed nonzero scalar rather than exact equality, confirmed numerically, with multiplicity-one uniqueness of the spin-8 channel guaranteeing by Schur's lemma that the same scalar holds for every `u`. Since a nonzero scalar changes no zero set, `L_8(u) = 0` if and only if the transvectant vanishes, and the transvectant product rule with `(F, F)_1 = 0` proves `(F.G, F)_1 = -F.(F, G)_1` directly, not merely corroborates it (checked identically with arbitrary functions `f, g`, no degree or homogeneity assumed, not only at random sextic pairs). The factorization is therefore supplied by item 19's own definition, not discovered. Item 19 is the load-bearing half of this and item 20 the smaller one: a solver holding the Majorana dictionary translates `[rho_6(u) (x) u]_8` into forms unaided, so item 20 only saves the degree arithmetic, and rewording item 20 alone would leave the leak in place. What A5 still grades under the current handout: the translation into forms just described, the equal-degree recognition that lets the supplied criterion apply, `\|lambda\| = 1` from antiunitarity, and the constellation reading. Real work, but not the claim's content as this row originally described it. The designer's choice among the three options in the review should be costed against this narrower, now-verified residual. |
+| Item 20 now requires the simple-root fact, and requires a numerical-rank route to be declared as such | C4a's exact injectivity argument turns on simplicity, and the question asked only for root positions. |
+| Item 15 now requires the shapes to be named | D5 grades the prism-versus-antiprism discrimination, and the question left it optional. |
+
+One residual the designer should weigh rather than discover: the Jacobian criterion sits in a
+conventions block that already carries the Majorana dictionary, so together they point a reader
+toward binary forms of equal degree, which is the route A5 travels. The alternative is to grade
+recall of a classical lemma rather than verification of this paper, and finding that the
+covariant factors through the first transvectant remains the whole job.
+
+**What is frozen.** From the maintainer launch the packet stops moving on the author's side:
+no edit because a computed result disagrees with a frozen claim. A wrong answer is a result.
+This binds the author, not the maintainers. If the designer wants to change the packet, that
+is a design decision and theirs to make.
+
+### Scheduling
+
+Maintainer-run at maintainer pace. Not on the author's critical path and not blocking the
+column's live front, which is empty. The one ordering constraint is the conditional timing
+guard above.
+
+---
+
+## GO-TIME PRE-REGISTRATION (2026-09-10, go 12:18 EDT)
+
+Written by the designer and frozen at 12:29 EDT on the maintainer's approval, BEFORE any agent
+received a packet. Nothing in this section
+is edited after the first agent launches; anything the run forces off it goes in the
+deviations log below.
+
+### The go-time checklist, answered
+
+| Item | Decision |
+| --- | --- |
+| Deposit pin | verified at go: the Zenodo record returns `the-surviving-ray.pdf`, MD5 `d2405316e20c060f53d338c1516298bc`, 589,476 bytes, matching Sources of record. That closes the check the review of [#539](https://github.com/openwave-labs/openwave/pull/539) could not run during the outage |
+| Claims frozen | the claims tables above are frozen as written, with no value edited. One grading rule is added for A5, below |
+| Instrument | the offered handout is adopted with item 19 split and three smaller edits, delivered in two stages (below) |
+| Handout audit | maintainer-side, in three passes: the review of [#534](https://github.com/openwave-labs/openwave/pull/534) (two leaks), [#536](https://github.com/openwave-labs/openwave/pull/536) (the A5 leak proved), and a go-time pass against the frozen claims (three further edits) |
+| Group presentation | by generators, which the handout already does. "Icosahedral" stays withheld |
+| Citations sync | done in #534 |
+| Answer-key containment | the containment table below |
+
+### The instrument as run: a two-stage handout
+
+Stage 1 is the offered handout with five changes. Stage 2 releases what stage 1 withholds, and
+is sent to each agent only after that agent's stage-1 return is saved verbatim.
+
+| # | Change | Why |
+| --- | --- | --- |
+| 1 | item 19: the `L_8` normalization paragraph moves to stage 2 | the load-bearing half of the A5 leak ([#536](https://github.com/openwave-labs/openwave/pull/536)). Stage 1 asks for the exact characterization with no normalization in view |
+| 2 | item 20 moves to stage 2 | it names the first transvectant of a degree-12 form with a sextic, the operation A5's route runs through |
+| 3 | § 2.3: the sentence saying a later question couples a rank-6 multipole to the state is dropped | it announced the other half of the same route |
+| 4 | item 4: "say whether they factor in any way worth recording" becomes "describe any structure in them worth recording" | "factor" pointed at the square in A4's graded row `Λ²` |
+| 5 | item 21: "the plane" becomes "the span and its dimension", and "whether that second plane reduces to a single ray" becomes "any finer structure of that second span" | "plane" handed over the dimension of item 14's span, which is C3's content, and "a single ray" named the headline |
+
+| Packet file | SHA-256 | Bytes |
+| --- | --- | --- |
+| [`../m8_1_2/stage1_handout.md`](../m8_1_2/stage1_handout.md) | `5308d229fa76cf4b34b72d75e6aac434a2cd9554fa0ef56eb05e5717a6983de0` | 21,205 |
+| [`../m8_1_2/stage2_handout.md`](../m8_1_2/stage2_handout.md) | `5ab37072397590964c7ef73b9cec58cf668be940f56d717b2bef3b20ecc1a0f7` | 1,118 |
+
+The Jacobian criterion stays in the conventions block as a supplied input. That is the
+residual the author named: together with the Majorana dictionary it points toward binary forms
+of equal degree. It is accepted, because the alternative grades recall of a classical lemma.
+
+**A5 grading rule.** A5 is graded on the stage-1 return alone. With item 19 split, the handout
+no longer supplies the factorization, so A5 again grades what the qualification record
+originally described: finding that the covariant factors through the first transvectant, then
+the product-rule step, the equal-degree recognition, `|λ| = 1` from antiunitarity, and the
+constellation reading. Nothing released in stage 2 is credited to A5. C4a and C4b are graded on
+the stage-2 return.
+
+### Containment: where the answer key lives, and what walls it off
+
+The frozen claims live in this file, in the maintainers' working tree. The designer holds them;
+no agent is ever given a repository path.
+
+| Route to the answers | Guard |
+| --- | --- |
+| This file and every repository document | agents are given only their room directory. Solver and auditor get separate rooms, so neither can read the other's work before the ordering allows it |
+| Web search and fetch, connectors, spawning further agents | withheld by the agent definition's tool allowlist: read, write, edit and shell only |
+| The Python route ([`CLEAN_ROOM_STANDARDS.md § 3.2`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md#32-the-interpreter-is-a-second-independent-route)) | each room's interpreter runs without site processing, so the platform's editable install never loads: `import openwave` fails from inside the room, while the numerics libraries load (Python 3.12.14, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1) |
+| Instruction files on the room's ancestor path (§ 3.1) | the check was run on the room directory and found none |
+| What loads unavoidably (§ 3.3) | a canary agent, run before any packet existed, reported what a fresh agent context holds: the user-global instruction file, a project instruction file, and a memory index, none answer-bearing on a vocabulary grep. One index line pointed at the maintainers' notes on this task by name; it was neutralized for the run. Disclosed in each manifest as named loads |
+| The filesystem outside the room | NOT sandboxed. The guard is after the fact: at FINISH every agent's transcript is audited for any tool call that reads outside its room. A hit is recorded as a protocol failure, not as a note |
+
+### The label this run can earn
+
+**Blind in the roadmap's sense** ([§ CONVENTIONS](../m8_roadmap.md#conventions)): no agent sees a
+claimed value. Containment is by construction plus the after-the-fact transcript audit, the bar
+M8.1 and M8.1.1 ran at, hardened by the tool allowlist, the interpreter guard and the separate
+rooms. It is NOT the context-isolated clean room of
+[`CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md): there is no separate
+session and no operator approving each tool call. § 2 of that standard sets the trigger by the
+claim, and no claim here rests on isolation beyond what the transcript audit shows.
+
+### Roles and ordering
+
+| Step | Who | Receives | Before the next step |
+| --- | --- | --- | --- |
+| 1 | solver and auditor, in parallel, separate rooms | the stage-1 handout and a brief | each return saved verbatim to a checkpoint |
+| 2 | the same two agents, context continued | the stage-2 file | each return saved verbatim |
+| 3 | auditor | the solver's scripts and returns, copied into its room | per-claim verdicts (confirmed, partial, refuted), and a hunt for solver checks that cannot fail |
+| 4 | designer | everything | comparison against the frozen claims; X0 to X2 recorded apart from the claim verdicts, X0 as a precondition |
+| 5 | designer, only after the verdict is recorded | the author's verification package | provenance comparison, with the agreement and disagreement asymmetry stated |
+
+The auditor commits its own method and results (steps 1 and 2) before it sees the solver's
+work, as the firewall's audit-ordering row requires. Both agents have the B1 and B2 provenance
+declaration (DERIVED or RECOGNISED) in their briefs.
+
+### Definition of done (finalized)
+
+| # | Item |
+| --- | --- |
+| 1 | Solver and auditor returns for both stages, scripts and JSON copied into the repository unmodified with `m8_1_2_` prefixes, after an invisibility grep for absolute paths |
+| 2 | Adversarial audit with its own method, per-claim verdicts, and the checks-that-cannot-fail hunt |
+| 3 | Designer comparison against the frozen claims, every number stated, including any that landed elsewhere; X0 to X2 recorded separately |
+| 4 | Transcript audit of every agent, recorded with its result |
+| 5 | Method note `findings/m8_1_2_method_note.md`: equations first, equation-to-code map, audit record, consulted-material manifests, the not-computed list |
+| 6 | Author package opened for provenance comparison only after the verdict is recorded |
+| 7 | Doc sync: canonical, briefing, roadmap row; `MODELS.md` only if a cell actually moves |
+| 8 | Doc checker and roadmap linter exit 0; TASK REVIEW presented |
+
+## DEVIATIONS LOG
+
+| Date | Deviation | Disposition |
+| --- | --- | --- |
+| 2026-09-10 | The tool-restricted agent definition did not load in the session that wrote it: a definition in a new folder is picked up only at session start | The session was restarted and continued before any agent launched. The first launch attempt failed with "type not found", so no packet reached an unrestricted agent. Both room agents ran under the restricted definition |
+| 2026-09-10 | Both agents' tool harness saved one oversized command output to a file outside the room, automatically | Neither agent opened it; both recorded this in their manifests, and the solver re-ran with the output redirected into its room. The transcript audit confirms no read outside either room |
+| 2026-09-10 | The solver's stage-2 console log carried a `.log` extension, which the repository ignores | Landed byte-identical as [`../data/m8_1_2_solver_stage2_roots_output.txt`](../data/m8_1_2_solver_stage2_roots_output.txt), the M8.1.1 raw-output naming. The file content is unchanged; only its name moved |
+| 2026-09-10 | An agent's final reply and the return file it wrote were not byte-identical: the solver's reply added the absolute room path to its file list | The saved FILE is the record: each return was copied out and hashed on arrival, and every return file was verified unchanged before the next stage was sent. No landed file carries an absolute path |
+| 2026-09-10 | The transcript-audit pattern was refined twice during a trial run: the bare word "surviving" is ordinary vocabulary in item 21, and a word written into a room file reaches nothing, so tokens are scanned only in paths and shell commands | Then mutation-tested before use: a synthetic read of this file, a shell read of a notes index outside the room, and a web fetch were all flagged, and an in-room write was not. The final audit runs the refined pattern |
+| 2026-09-10 | The auditor's merged results file captured Python tracebacks from its mutation runs, and each carried the absolute path of the room | Landed with that path prefix replaced by `<room>/` in six strings, the JSON re-parsed, and nothing else changed. Scripts and return files landed byte-identical |
+
+## FINDINGS
+
+Full record with the equations, the code map and the audit:
+[`../findings/m8_1_2_method_note.md`](../findings/m8_1_2_method_note.md).
+
+| ID | Finding |
+| --- | --- |
+| F1 | **Every frozen claim reproduces blind.** All 21 claims (A1 to E1) match in both agents, computed by separate implementations that never saw a claimed value; the adversarial audit refuted no value, and 80 of its 81 exact comparisons agree, the last being a convention it proved |
+| F2 | **The item-19 split did its job.** With the `L_8` normalization withheld, both agents found on their own that the spin-8 channel factors through the first transvectant, and both proved the exact zero set in stage 1. A5 is graded on that stage-1 work alone |
+| F3 | **The group inputs were derived, not recognised.** Both agents computed B1 and B2 from the two generators by two methods each, and declared their recognition of the group as an expectation only |
+| F4 | ⚠️ **The weights `w_K` are underdetermined as the packet defined them.** The expansion has a three-dimensional family of solutions (section 5.1 of the note). The frozen values hold under the Peter-Weyl reading, and `w_6` is intrinsic as the slope of `Q_d` in `rhat_6`, so no value moves; the packet's wording is what is loose |
+| F5 | ⚠️ **Five checks in the solver cannot fail**, among them the Condon-Shortley phase, which nothing asserts, and the item-20 multiplicity line, which is written unconditionally. No number is affected, since the auditor reproduced each by its own route |
+| F6 | **Containment held on the record.** The final transcript audit found no read outside either room across 127 tool calls, with the audit's own pattern mutation-tested first |
+
+## TASK REVIEW (2026-09-10)
+
+`Task Duration: 01:23 (from 12:18 to 13:41 EDT)`
+`Usage Cap Triggered: NO`
+
+| Item | Outcome |
+| --- | --- |
+| Frozen claims A1 to E1 | ✅ all 21 reproduced by both agents, each with its own implementation |
+| Adjudication | ✅ by the maintainer, before the author's package was opened: all 21 claims ✅. C2 accepted under the Peter-Weyl reading; D5 accepted on the shape call, the antiprism's argument pair read from the reported azimuths |
+| Adversarial audit | ✅ refuted no value; 80 of 81 exact comparisons agree, the last a convention it proved |
+| The item-19 split | ✅ both agents found the transvectant route with the `L_8` normalization withheld |
+| B1 / B2 | ✅ derived from the generators by two methods each |
+| Diagnostics X0 to X2 | ✅ met or clean in both agents |
+| Containment | ✅ no read outside either room in 127 tool calls |
+| The weights `w_K` | ⚠️ underdetermined as the packet defined them; the frozen values hold under the Peter-Weyl reading |
+| Solver check quality | ⚠️ five checks that cannot fail, no number affected |
+
+**Issues**: no number moves. The `w_K` looseness is in the packet's wording, and the checks
+that cannot fail are the pattern M8.1.1 also hit, recorded in the method note § 5.3.
+
+**Deviations from plan**: six, in the deviations log above. The two agents' manifests name the
+injected instruction files they disregarded; kept verbatim at review, since that line is what
+makes each manifest honest.
+
+**Provenance comparison, after adjudication**: the author's verification package (`verify.py`,
+the second implementation, the mutation harnesses) is not in the public repository, at the pinned
+commit or on the default branch; the bedrock `scripts/` folder holds only M8.1.1's test script. The
+three-way statement is therefore not available, and none is claimed. What was checked is the
+paper itself: the pinned text re-hashed to its recorded SHA-256, and its § 5.2 defines `w_K` by
+the Peter-Weyl formula with no free constant, so finding F4 is a looseness in the packet's
+paraphrase, not in the paper.
+
+**Action needed**: commit and pull request.
+
+**Findings**: The fourth bedrock paper survives blind verification. Two agents that never saw a
+claimed value reproduced all 21 frozen claims, including the radial `M_0`, the diagonal `M_6`
+with its squared-binomial row, the single surviving ray, the twelve simple roots of the
+invariant form, and the spin-8 zero set exactly on the time-reversal-invariant rays, and the
+adversarial audit refuted no value. Both qualifications concern the instrument rather than the
+paper: the packet left the expansion weights underdetermined, and the solver carries checks
+that cannot fail.
+
+**Research docs created / updated**:
+[`m8_1_2_task_details.md`](m8_1_2_task_details.md) (this doc),
+[`../findings/m8_1_2_method_note.md`](../findings/m8_1_2_method_note.md),
+[`../m8_1_2/stage1_handout.md`](../m8_1_2/stage1_handout.md),
+[`../m8_1_2/stage2_handout.md`](../m8_1_2/stage2_handout.md),
+[`../m8_theory_canonical.md`](../m8_theory_canonical.md) (the channel-selection row),
+[`../../__M8_model_briefing.md`](../../__M8_model_briefing.md) (key inputs, the M8.1.2 row),
+[`../m8_roadmap.md`](../m8_roadmap.md) (M8.1.2 to Done).
+
+Artifacts: `scripts/m8_1_2_solver/`, `scripts/m8_1_2_audit/`, and `data/m8_1_2_*`.

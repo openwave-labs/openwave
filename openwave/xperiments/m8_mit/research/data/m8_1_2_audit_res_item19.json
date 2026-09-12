@@ -1,0 +1,154 @@
+{
+ "item19_cases": [
+  {
+   "case": "generic",
+   "TR_invariant": false,
+   "||C||^2": "[(17979356/45045+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "generic",
+   "TR_invariant": false,
+   "||C||^2": "[(9404383/45045+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "generic",
+   "TR_invariant": false,
+   "||C||^2": "[(177373453/90090+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "generic",
+   "TR_invariant": false,
+   "||C||^2": "[(22283948/45045+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "time-reversal invariant ray",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "time-reversal invariant ray",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "time-reversal invariant ray",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "time-reversal invariant ray",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "monomial e_0 (v_m, m=-3)",
+   "TR_invariant": false,
+   "||C||^2": "[(1/1092+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "monomial e_1 (v_m, m=-2)",
+   "TR_invariant": false,
+   "||C||^2": "[(2/9009+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "monomial e_2 (v_m, m=-1)",
+   "TR_invariant": false,
+   "||C||^2": "[(1/25740+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "monomial e_3 (v_m, m=0)",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "monomial e_4 (v_m, m=1)",
+   "TR_invariant": false,
+   "||C||^2": "[(1/25740+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "monomial e_5 (v_m, m=2)",
+   "TR_invariant": false,
+   "||C||^2": "[(2/9009+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "monomial e_6 (v_m, m=3)",
+   "TR_invariant": false,
+   "||C||^2": "[(1/1092+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  },
+  {
+   "case": "v3 + i v-3 (Theta u = -i u? check)",
+   "TR_invariant": true,
+   "||C||^2": "[(0+0*s5) + i(0+0*s5)]",
+   "C_zero": true,
+   "J(F^2,G)_zero": true,
+   "J(F,G)_zero": true
+  },
+  {
+   "case": "v3 + 2 v-3 (not invariant)",
+   "TR_invariant": false,
+   "||C||^2": "[(15/364+0*s5) + i(0+0*s5)]",
+   "C_zero": false,
+   "J(F^2,G)_zero": false,
+   "J(F,G)_zero": false,
+   "ratio_||C||^2/||J||^2": "[(1/1296+0*s5) + i(0+0*s5)]"
+  }
+ ],
+ "item19_ratio_set(constant => C = const * Jacobian map)": [
+  "[(1/1296+0*s5) + i(0+0*s5)]"
+ ]
+}

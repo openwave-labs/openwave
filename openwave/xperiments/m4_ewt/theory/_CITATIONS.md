@@ -25,6 +25,8 @@ m4_ewt (Energy Wave Theory) is the scientific-origin corpus for the wave-structu
 | Smoliński, Ł. | 2026 | The Geometric Identity of Gravity and Dimensional Unification Resolving α, Lepton (g−2)_l, Weinberg, and Cabibbo Mixing (v4.5.9, 2026-08-26; scripts + manuscript source at [MagnetismGravity 4.5.9](https://github.com/lsmolinski/MagnetismGravity/releases/tag/4.5.9)) | Zenodo; DOI [10.5281/zenodo.22110605](https://doi.org/10.5281/zenodo.22110605) |
 | Smoliński, Ł. | 2026 | The Geometric Identity of Gravity and Dimensional Unification Resolving α, Lepton (g−2)_l, Weinberg, and Cabibbo Mixing (v4.5.12, 2026-08-28) | Zenodo; DOI [10.5281/zenodo.22140646](https://doi.org/10.5281/zenodo.22140646) |
 | Smoliński, Ł. | 2026 | The Geometric Identity of Gravity and Dimensional Unification Resolving α, Lepton (g−2)_l, Weinberg, and Cabibbo Mixing (v4.6.1, 2026-08-28) | Zenodo; DOI [10.5281/zenodo.22144273](https://doi.org/10.5281/zenodo.22144273) |
+| Smoliński, Ł. | 2026 | The Geometric Identity of Gravity and Dimensional Unification Resolving α, Lepton (g−2)_l, Weinberg, and Cabibbo Mixing (v5.0.0, 2026-09-06; the zero-calibration manuscript behind the M4.7 v5.0.0 engine) | Zenodo; DOI [10.5281/zenodo.22540635](https://doi.org/10.5281/zenodo.22540635) |
+| Smoliński, Ł. | 2026 | Enhanced EWT emergence engine, Python package v5.0.0 (six scripts, four ported as M4.7; the Zenodo record title reads "EWT emergency engine") | Zenodo; DOI [10.5281/zenodo.22540262](https://doi.org/10.5281/zenodo.22540262) |
 | Yee, J. | n/a | The Geometry of Spacetime and the Unification of Forces (v2.3) | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | The Geometry of Particles and the Explanation of Their Creation and Decay (v2) | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | The Physics of SubAtomic Particles | author doc (EWT), energywavetheory.com; n/a |
@@ -47,7 +49,7 @@ m4_ewt (Energy Wave Theory) is the scientific-origin corpus for the wave-structu
 | Yee, J. | n/a | Relation of Ohms Law to Newtons Law | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relation of Relativistic Energy to Particle Wavelength | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relationship of Gravity and Magnetism (v1.1) | author doc (EWT), energywavetheory.com; n/a |
-| Yee, J. | n/a | Relationship of Mass and Charge (v2) | author doc (EWT), energywavetheory.com; n/a |
+| Yee, J.; Gardi, L. | 2019 | The Relationship of Mass and Charge (v2); the charge-as-wave-amplitude convention the M4.7 geometric engine uses | author doc (EWT), energywavetheory.com; DOI [10.13140/RG.2.2.12645.45289](https://doi.org/10.13140/RG.2.2.12645.45289) |
 | Yee, J. | n/a | Relationship of the Fine Structure Constant and Pi (v2.1) | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Relationship of the Mole and Charge | author doc (EWT), energywavetheory.com; n/a |
 | Yee, J. | n/a | Particles of the Universe Meets Electric Universe (v2) | author doc (EWT), energywavetheory.com; n/a |

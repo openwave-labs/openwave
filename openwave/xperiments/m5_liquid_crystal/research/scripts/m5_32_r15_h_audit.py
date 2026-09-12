@@ -7,7 +7,7 @@ theta_t -> e*tht, theta_z -> e*thz), which avoids sympy `series` on the
 projector trig products.
 
 Run:
-    /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r15_h_audit.py
+    /opt/anaconda3/envs/master312/bin/python3 m5_32_r15_h_audit.py
 Writes ../data/m5_32_r15_h_audit.json.
 """
 

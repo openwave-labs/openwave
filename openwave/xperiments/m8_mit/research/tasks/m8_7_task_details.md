@@ -1,16 +1,16 @@
 # M8.7: The 3D rendering port (LATER, gated)
 
-> Roadmap row: [`../m8_roadmap.md`](../m8_roadmap.md) § LATER. Status: 🚧 GATED: do
-> not start before field dynamics validates in-platform, with an audited method note.
-> **The gate CONDITION is unchanged by the M8.4 closure; only the routing prose is
-> repointed.** The M8.4 lineage that was to supply the dynamics CLOSED UNRESOLVED
-> 2026-08-26 with no target configuration executed
-> ([closeout](../findings/m8_4_closeout.md)). The route is now three links: M8.5-C
-> reaches `M8.5-C-QUALIFIED`, then a fresh preregistration under a new identity runs a
-> target, then that validated dynamics opens this gate. M8.5-C is target-free
-> engineering and does NOT by itself satisfy the condition. This is a scaffold-stage
-> planning aid written by the maintainers (2026-07-21); the author owns the column and
-> may amend everything here.
+> Roadmap row: [`../m8_roadmap.md`](../m8_roadmap.md) § LATER. Status: 🚧 GATED: do not
+> start before field dynamics validates in-platform, with an audited method note. **The
+> gate CONDITION is unchanged by the M8.4 closure; only the routing prose is repointed.**
+> The M8.4 lineage that was to supply the dynamics CLOSED UNRESOLVED 2026-08-26 with no
+> target configuration executed ([closeout](../findings/m8_4_closeout.md)). The route
+> through M8.5-C then closed with the C2 verdict of 2026-08-31
+> ([#506](https://github.com/openwave-labs/openwave/issues/506)): any route now runs
+> through a future program under platform conditions, which nothing currently authorizes
+> ([#512](https://github.com/openwave-labs/openwave/discussions/512)). This is a
+> scaffold-stage planning aid written by the maintainers (2026-07-21); the author owns the
+> column and may amend everything here.
 
 ## PLANNING
 

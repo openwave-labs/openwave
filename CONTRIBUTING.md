@@ -58,7 +58,7 @@ See `/dev_docs` for coding standards and development guidelines
     conda activate openwave
 
 # Install OpenWave & Dependencies for Development (-e = edit mode)
-   pip install -e .  # installs dependencies from pyproject.toml
+   pip install -e ".[dev]"  # dependencies from pyproject.toml, plus the formatter below
 
 # Activate the auto-DCO-sign-off git hook (one-time per clone)
    git config core.hooksPath .githooks
@@ -87,7 +87,7 @@ See `/dev_docs` for coding standards and development guidelines
 ## Code Style & Quality
 
 - Follow [PEP 8](https://peps.python.org/pep-0008/).
-- Use [Black](https://black.readthedocs.io/) and [isort](https://pycqa.github.io/isort/) for formatting.
+- Use [Black](https://black.readthedocs.io/) and [isort](https://pycqa.github.io/isort/) for formatting. Black is configured at `line-length = 99` in `pyproject.toml` and ships in the `dev` extra installed above, so `black .` from the repo root is already set up. isort is not yet configured or bundled; if you run it, pass `--profile black` so its import ordering does not fight the formatter.
 - Run tests before committing:
 
 ```python

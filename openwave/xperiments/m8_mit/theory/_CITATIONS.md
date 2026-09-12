@@ -12,14 +12,16 @@ gitignored-file inventory as papers are pulled down for tasks (filenames follow
 `YEAR - Author - Title`); **0 local files** held yet.
 
 Identifier policy per [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md) section 3.4
-(never fabricate): all 10 Zenodo DOIs below were machine-verified resolving on 2026-07-21.
+(never fabricate): the first 10 Zenodo DOIs below were machine-verified resolving on
+2026-07-21, and the 11th, the M8.1.2 subject paper, on 2026-09-09.
 SSRN blocks automated checks, so SSRN IDs are transcribed from the author's registry and
 marked `(author registry)`; treat them as author-attested until first use.
 
 ## Bibliography
 
 All works in this section are by Blake Shatto (independent researcher, sole author). Ordered
-by year and month ascending. **16 works**, as of the 2026-07-21 scaffold seeding.
+by year and month ascending. **17 works**: 16 at the 2026-07-21 scaffold seeding, plus the
+M8.1.2 subject paper registered when that task was proposed.
 
 | Author(s) | Year | Title | Venue / ID |
 | --- | --- | --- | --- |
@@ -39,6 +41,7 @@ by year and month ascending. **16 works**, as of the 2026-07-21 scaffold seeding
 | Shatto | 2026 Jun | Euclid DR1: A Pre-Registered Contender Showdown | Zenodo; DOI [10.5281/zenodo.20563048](https://doi.org/10.5281/zenodo.20563048) |
 | Shatto | 2026 Jun | a₀(z) Coherence-Scale SPARC Pipeline (pre-registered; documented negative of record) | Zenodo; DOI [10.5281/zenodo.20271702](https://doi.org/10.5281/zenodo.20271702) |
 | Shatto | 2026 Jul | An Affine Rho-Index Conversion and the Galois Pair on the Poincaré Homology Sphere | SSRN [7129118](https://ssrn.com/abstract=7129118) (author registry) |
+| Shatto | 2026 Sep | The Surviving Ray: channel selection for a cubic self-interaction on S³/2I | Zenodo; DOI [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502) (version DOI, v1); the M8.1.2 subject paper |
 
 Note on venues: all entries are preprints (Zenodo / SSRN), none refereed; this is recorded
 per the [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md) red-flag checklist sourcing row and

@@ -49,7 +49,7 @@ as 1/(R^3 d), whose radial integral is logarithmic, so E_int(d) should carry a (
 with coefficient 2 * 4 pi * (2/3) * (1/d) per hedgehog pair = 32 pi / 3 / d, not a pure 1/d.
 
 Outputs: ``research/data/m5_32_r0_audit_notebook.json``.
-Run: ``/opt/anaconda3/envs/openwave312/bin/python3 m5_32_r0_audit_notebook.py``
+Run: ``/opt/anaconda3/envs/master312/bin/python3 m5_32_r0_audit_notebook.py``
 """
 
 from __future__ import annotations

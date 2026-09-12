@@ -1,0 +1,16 @@
+point (sqrt(1/2 - sqrt(5)/10), 0, sqrt(sqrt(5)/10 + 1/2)): r = sqrt(5 - sqrt(5))*(-5*sqrt(sqrt(5) + 5) - sqrt(5)*sqrt(sqrt(5) + 5) + 5*sqrt(2) + 5*sqrt(10))/20  ~ (0.28407904384039284+0j);  F(r) = 0 exactly: True
+point (0, sqrt(sqrt(5)/10 + 1/2), sqrt(1/2 - sqrt(5)/10)): r = I*sqrt(sqrt(5) + 5)*(-5*sqrt(5 - sqrt(5)) - 5*sqrt(2) + sqrt(5)*sqrt(5 - sqrt(5)) + 5*sqrt(10))/20  ~ 0.5575365158350678j;  F(r) = 0 exactly: True
+point (sqrt(sqrt(5)/10 + 1/2), sqrt(1/2 - sqrt(5)/10), 0): r = sqrt(10)*(sqrt(sqrt(5) + 5) + I*sqrt(5 - sqrt(5)))/10  ~ (0.850650808352043+0.5257311121191606j);  F(r) = 0 exactly: True
+point (sqrt(1/2 - sqrt(5)/10), 0, -sqrt(sqrt(5)/10 + 1/2)): r = sqrt(5 - sqrt(5))*(sqrt(5)*sqrt(sqrt(5) + 5) + 5*sqrt(2) + 5*sqrt(sqrt(5) + 5) + 5*sqrt(10))/20  ~ (3.520147021340108+0j);  F(r) = 0 exactly: True
+point (0, sqrt(sqrt(5)/10 + 1/2), -sqrt(1/2 - sqrt(5)/10)): r = I*sqrt(sqrt(5) + 5)*(-5*sqrt(2) - sqrt(5)*sqrt(5 - sqrt(5)) + 5*sqrt(5 - sqrt(5)) + 5*sqrt(10))/20  ~ 1.7936044933348967j;  F(r) = 0 exactly: True
+point (sqrt(sqrt(5)/10 + 1/2), -sqrt(1/2 - sqrt(5)/10), 0): r = sqrt(10)*(sqrt(sqrt(5) + 5) - I*sqrt(5 - sqrt(5)))/10  ~ (0.850650808352043-0.5257311121191606j);  F(r) = 0 exactly: True
+point (-sqrt(1/2 - sqrt(5)/10), 0, sqrt(sqrt(5)/10 + 1/2)): r = -sqrt(5 - sqrt(5))*(-5*sqrt(sqrt(5) + 5) - sqrt(5)*sqrt(sqrt(5) + 5) + 5*sqrt(2) + 5*sqrt(10))/20  ~ (-0.28407904384039284+0j);  F(r) = 0 exactly: True
+point (0, -sqrt(sqrt(5)/10 + 1/2), sqrt(1/2 - sqrt(5)/10)): r = -I*sqrt(sqrt(5) + 5)*(-5*sqrt(5 - sqrt(5)) - 5*sqrt(2) + sqrt(5)*sqrt(5 - sqrt(5)) + 5*sqrt(10))/20  ~ -0.5575365158350678j;  F(r) = 0 exactly: True
+point (-sqrt(sqrt(5)/10 + 1/2), sqrt(1/2 - sqrt(5)/10), 0): r = sqrt(10)*(-sqrt(sqrt(5) + 5) + I*sqrt(5 - sqrt(5)))/10  ~ (-0.850650808352043+0.5257311121191606j);  F(r) = 0 exactly: True
+point (-sqrt(1/2 - sqrt(5)/10), 0, -sqrt(sqrt(5)/10 + 1/2)): r = -sqrt(5 - sqrt(5))*(sqrt(5)*sqrt(sqrt(5) + 5) + 5*sqrt(2) + 5*sqrt(sqrt(5) + 5) + 5*sqrt(10))/20  ~ (-3.520147021340108+0j);  F(r) = 0 exactly: True
+point (0, -sqrt(sqrt(5)/10 + 1/2), -sqrt(1/2 - sqrt(5)/10)): r = -I*sqrt(sqrt(5) + 5)*(-5*sqrt(2) - sqrt(5)*sqrt(5 - sqrt(5)) + 5*sqrt(5 - sqrt(5)) + 5*sqrt(10))/20  ~ -1.7936044933348967j;  F(r) = 0 exactly: True
+point (-sqrt(sqrt(5)/10 + 1/2), -sqrt(1/2 - sqrt(5)/10), 0): r = sqrt(10)*(-sqrt(sqrt(5) + 5) - I*sqrt(5 - sqrt(5)))/10  ~ (-0.850650808352043-0.5257311121191606j);  F(r) = 0 exactly: True
+all 12 candidates are exact roots: True ; unit norms: {1}
+pairwise dot products (exact multiset): {sqrt(5)/5: 30, -sqrt(5)/5: 30, -1: 6}
+number of neighbours at dot 1/sqrt5 per point: {5: 12}
+L_8(u) == -(1/2) C_0(u) identically: True

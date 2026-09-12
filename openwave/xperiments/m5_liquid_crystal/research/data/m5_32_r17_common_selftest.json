@@ -1,0 +1,171 @@
+{
+ "a0 adjoint: <Lam, da0[D]> analytic vs complex step (1e-10, the decisive gate) and Richardson central differences (1e-6, the FD floor on a rough random field)": {
+  "ok": true,
+  "value": {
+   "analytic": -0.04743091720464532,
+   "richardson": -0.04743091602347574,
+   "complex_step": -0.047430917204663164,
+   "rel_fd": 2.4902946808524365e-08,
+   "rel_cs": 3.762700823144694e-13
+  }
+ },
+ "true E_K gradient (a0 refreshed and differentiated): analytic vs complex step (1e-10, decisive) and Richardson central differences (1e-6)": {
+  "ok": true,
+  "value": {
+   "analytic": 225.86120348368047,
+   "richardson": 225.86119932081294,
+   "complex_step": 225.8612034836909,
+   "rel_fd": 1.843108749429047e-08,
+   "rel_cs": 4.6182200395967785e-14,
+   "frozen_protocol_directional": 333.3905222025667,
+   "chain_over_frozen_norm": 1.3708676669588076
+  }
+ },
+ "K None: identical to the static R16 gradient": {
+  "ok": true,
+  "value": [
+   4113.845421867806,
+   4113.845421867806
+  ]
+ },
+ "relative weight == absolute weight wherever lambda_1 >= 1 (every part)": {
+  "ok": true,
+  "value": {
+   "E_stat": [
+    2241.1948442527246,
+    2241.1948442527246
+   ],
+   "KP": [
+    0.08141658846238065,
+    0.08141658846238065
+   ]
+  }
+ },
+ "relative weight: w(N) = P23 exactly (K_P^proj == R15's K_P^23 with the director in the taper)": {
+  "ok": true,
+  "value": [
+   0.09963441346024265,
+   0.09963441346024265
+  ]
+ },
+ "relative vs absolute weight DIFFER with the director in the taper (the 24.3 barrier attribution is a real difference)": {
+  "ok": true,
+  "value": [
+   0.09962560942961268,
+   0.11333299347451604
+  ]
+ },
+ "relative weight: the static gradient (projector derivative) vs complex step (1e-10) and Richardson (1e-6)": {
+  "ok": true,
+  "value": {
+   "analytic": -106.75544953595434,
+   "cs": -106.7554495359562,
+   "rich": -106.75544743511028
+  }
+ },
+ "relative weight: the kinetic gradient (frozen a0) vs complex step (1e-10)": {
+  "ok": true,
+  "value": {
+   "analytic": -0.00039214754379247375,
+   "cs": -0.0003921475437926976
+  }
+ },
+ "relative weight: the true E_K gradient vs complex step (1e-10)": {
+  "ok": true,
+  "value": {
+   "analytic": -78.70376941229499,
+   "cs": -78.703769412301
+  }
+ },
+ "relative weight: the symmetry-defect gate on the averaged action (1e-10)": {
+  "ok": true,
+  "value": {
+   "worst_rel": 5.073397026939941e-13
+  }
+ },
+ "relative_weight_27_2_margin": {
+  "gap_1_2_min (sup |d w| >= 1/gap)": 0.6055881171700312,
+  "note": "the 27.2 bound is the resolvent 1 / (lambda_1 - lambda_2) of dP23; escape (d) at GAP_MIN 1e-3 is its boundary"
+ },
+ "weight mode restored to absolute after the context": {
+  "ok": true,
+  "value": "absolute"
+ },
+ "W = 0 on the vacuum (1e-12); W -> 1 at the isotropic core (0.99714 at the 1e-3 lift, the closed form on the frame's own lambda_1 to 1e-10)": {
+  "ok": true,
+  "value": [
+   2.515500335526186e-28,
+   0.9971448985315605,
+   0.9971448979591836
+  ]
+ },
+ "the reduced line: U = mu s^2 - nu s^4 + kappa s^6 on the sheet (lattice potential == closed form) and Coleman's s* = sqrt(nu / 2 kappa) = 0.1118 reproduced": {
+  "ok": true,
+  "value": {
+   "s_star_scan": 0.11202404809619239,
+   "s_star_closed": 0.11180339887498948,
+   "s_star_lattice_coarse": 0.11819639278557115,
+   "max_dev_lattice_vs_closed": 8.7061434450586e-17
+  }
+ },
+ "U_v6 gradient (rho^2 and W(lambda_1) chains) vs complex step (1e-10)": {
+  "ok": true,
+  "value": {
+   "analytic": -3.5626955072804115e-05,
+   "cs": -3.562695507275744e-05,
+   "W_range": [
+    0.00311976511780658,
+    0.008204719366802693
+   ]
+  }
+ },
+ "the full v6 fixed-K energy (relative weight + U_v6 + the true a0 chain) vs complex step (1e-10)": {
+  "ok": true,
+  "value": {
+   "analytic": 316.687781834216,
+   "cs": 316.68778183421665,
+   "parts": {
+    "E_stat": 2926.9256471873696,
+    "U_v6": 0.0006147895054388348,
+    "W_max": 0.008204719366802693,
+    "mu_eff_min": 0.0009748086965170374,
+    "E_K": 3774.8146645346746
+   }
+  }
+ },
+ "weight mode restored after v6": {
+  "ok": true,
+  "value": "absolute"
+ },
+ "X_M per cell == the symbolic arm's X_of_F on the same jets (1e-12)": {
+  "ok": true,
+  "value": 8.673617379884035e-19
+ },
+ "the linear part X_1 = X(a0) - X(0) (1e-12) and X_1(2 a0) = 2 X_1(a0)": {
+  "ok": true,
+  "value": {
+   "max_dev": 9.215718466126788e-19,
+   "static_part_max_on_this_boosted_field": 0.005692842470807584
+  }
+ },
+ "X_s = 0 on a field with M_0i = 0 (the static part vanishes on every field of this program)": {
+  "ok": true,
+  "value": 0.0
+ },
+ "kin_X(a0) == c_X h^3 X_1(a0)^2 pointwise (1 sample) and quadratic in a0 (2 a0 -> 4 x)": {
+  "ok": true,
+  "value": {
+   "sum_kin_X": 0.00025097898971395804,
+   "pointwise_max_dev": 6.776263578034403e-21
+  }
+ },
+ "kin_X circle average: the doubling 8 -> 16 (1e-11) recorded; 4 -> 8 reported": {
+  "ok": true,
+  "value": {
+   "rel_4_8": 2.817469186704322e-12,
+   "rel_8_16": 7.320003083149701e-16
+  }
+ },
+ "n_pass": 21,
+ "n_total": 21
+}

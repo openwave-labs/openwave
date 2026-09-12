@@ -30,7 +30,7 @@ CONTROLS (post-W0, logged as deviations from the packet, not pre-registered):
 Numerical representation: FIRE dt0 0.01, dt_max 0.1, 12000 iterations or fmax < 1e-6.
 
 Out: ../data/m5_32_r13w_w2.json, ../plots/m5_32_r13w_w2.png
-Run: /opt/anaconda3/envs/openwave312/bin/python3 m5_32_r13w_w2.py
+Run: /opt/anaconda3/envs/master312/bin/python3 m5_32_r13w_w2.py
 """
 from __future__ import annotations
 

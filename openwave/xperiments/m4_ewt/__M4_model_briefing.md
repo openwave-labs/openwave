@@ -93,6 +93,53 @@ record in [`research/m4_theory_canonical.md`](research/m4_theory_canonical.md), 
 scaffolded as skeletons for whoever extends the model. AI agents bootstrap on this column
 by reading [`research/m4_agent_orientation.md`](research/m4_agent_orientation.md).
 
+### Before you cite a number as evidence
+
+Review rounds on this column keep turning on the same defect, so it is worth
+stating once, for contributors and for the agents that help them write. A check,
+or an agreement quoted in a note, is evidence for a claim only if it could have
+come out differently had the claim been false. The shapes that have appeared
+here:
+
+| Shape | The test that catches it |
+| --- | --- |
+| A PASS line whose two sides evaluate the same expression | Replace the rule under test with something wrong and confirm the line goes red |
+| A quantity offered as confirming a constant that does not enter its derivation | Follow the constant through the call graph. If it is absent, the quantity is the same number for every value of it |
+| A restatement of a number in another form (a power, a ratio, a unit change) counted as a second confirmation | Ask what the second form could have shown that the first did not |
+| A target constant that is a theory prediction carrying an experimental-looking name | Trace the target to its source. `A_TAU_EXP` is the Standard Model value for `a_tau`, and the experimental bound is wider than the value itself, so no measurement of it discriminates between models at the precision a note would quote |
+| A sensitivity quoted where an accuracy is meant | Ask what the number is a distance between. A scan's resolution says how sharply an observable locates a parameter; it is not the residual against the measured value, and the two can differ by an order of magnitude |
+
+Where a quantity has no independent target to compare against, the honest label
+is *asserted* or *consistent with*, not *confirmed*. Writing "this is a
+consistency observation, not a discriminator" costs a line and is what makes
+the rest of a note credible. The reviewer-side versions are
+[`PR_REVIEW_STANDARDS.md`](../../../dev_docs/PR_REVIEW_STANDARDS.md) rows D10 to
+D13; the contributor-side self-check shapes are in
+[`CONTRIBUTING.md`](../../../CONTRIBUTING.md).
+
+### Reading the two gravity criteria
+
+The two gravity rows are worded differently and are earned differently.
+
+`Gravity: Newton limit (GEM)` credits the strength "only when it follows from the
+model's own mechanism, never fitted". That clause has two halves, and discharging
+one is not discharging the other:
+
+| Half | What discharges it |
+| --- | --- |
+| Circularity | The constant does not re-enter the chain through an input. Deriving `lambda_l` rather than setting it to the Planck length discharges this, since the Planck length carries `G` |
+| Accuracy | The derived value is compared against its target with the residual stated against the target's own uncertainty, never against a scan's resolution |
+
+A dimensional anchor is not a fitted parameter. A chain that predicts a
+dimensionless ratio and multiplies it by measured quantities is deriving, not
+fitting, and the anchor belongs in the note at the point of use rather than left
+for a reader to reconstruct.
+
+`Gravity: local metric phenomena` carries no strength clause. Its test is light
+bending, gravitational time dilation and Shapiro delay. Sourcing the amplitude
+from the model instead of from CODATA strengthens the row and does not gate it:
+the row is gated by whatever the shape derivation still assumes.
+
 ## Roadmap
 
 | Next | What lands |

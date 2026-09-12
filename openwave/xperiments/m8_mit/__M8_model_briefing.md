@@ -10,7 +10,7 @@
 > does not yet carry field dynamics of its own; supplying them IS the M8 program
 > ([`research/m8_background.md`](research/m8_background.md)).
 >
-> **Status: scaffold stage, research mode first.** This column was scaffolded by the
+> **Status: research mode first.** This column was scaffolded by the
 > maintainers on 2026-07-21 from the author's onboarding proposal
 > ([discussion #312](https://github.com/openwave-labs/openwave/discussions/312));
 > the content below is adapted from the briefing the author submitted there. The
@@ -38,7 +38,7 @@
 | Author | Blake Shatto (independent researcher, sole author) |
 | Author contact | GitHub [@dmobius3](https://github.com/dmobius3), for author-gated questions (definitions, intent, what the model does and does not claim); routing convention in [`dev_docs/CROSS_MODEL_TESTING.md`](../../../dev_docs/CROSS_MODEL_TESTING.md) § 6 |
 | Lineage | Spectral geometry on S³/2I + Möbius boundary conditions + representation theory (McKay correspondence, Kostant partition, Reidemeister torsion); Einstein's field equations kept unchanged |
-| Key inputs | Three standalone math papers: the twisted-Möbius first-positive eigenvalue, the coexact spectral gap from McKay distance, and the E8-filling Galois pair |
+| Key inputs | Standalone math papers: the twisted-Möbius first-positive eigenvalue, the coexact spectral gap from McKay distance, the E8-filling Galois pair, and channel selection for a cubic self-interaction on S³/2I |
 | Primary sources | Author repo: [github.com/dmobius3/mode-identity-theory](https://github.com/dmobius3/mode-identity-theory); framework deposit [10.5281/zenodo.18064856](https://doi.org/10.5281/zenodo.18064856); full registry in [`theory/_CITATIONS.md`](theory/_CITATIONS.md) (10 Zenodo DOIs machine-verified 2026-07-21) |
 | Author-side artifacts | `calculator.html` (recomputes couplings, the 24-entry mass spectrum, and cosmology from the postulate); `mass-null-test.py` (pre-registered torsion null test, frozen tag); `claim-ledger.md` (the framework's own freedom audit: calibration web, cycles, overclaim checks) |
 | Onboarding record | [Discussion #312](https://github.com/openwave-labs/openwave/discussions/312) (2026-07-21); maintainer evaluation against [`ONBOARDING_MODELS.md`](../../../ONBOARDING_MODELS.md) STEP 1 (self-evaluation, parameter-count test, red flags) passed on artifact verification |
@@ -95,9 +95,10 @@ de Broglie clock is the energy-minimizing state.
 
 ## Implementation Status
 
-Nothing is validated in-platform yet: M8 is a scaffold-stage column with no OpenWave
-runs, so the [`MODELS.md`](../../../MODELS.md) column starts at 21 🚧. The table records
-honest external status and marks the in-platform work planned. The three ❌ rows are
+The in-platform verifications are the analytic results marked ✅ below; native field
+dynamics is the open problem (last row), and the live icon tally is in
+[`MODELS.md`](../../../MODELS.md). The table records honest external status and marks the
+in-platform work planned. The three ❌ rows are
 pre-registered negatives the author already owns, offered in the spirit that a
 documented negative is a result.
 
@@ -122,6 +123,7 @@ Full program with gates and ownership: [`research/m8_roadmap.md`](research/m8_ro
 | M8.2 | ✅ DONE (2026-07-27): the field-dynamics pre-registration LOCKED, a modular contract (immutable core + per-family modules + signed execution appendices carrying the numerics) with targets, success ladder, four-axis outcome language and the no-search rule frozen before any run ([`research/findings/m8_2_preregistration.md`](research/findings/m8_2_preregistration.md)) |
 | M8.3 | ✅ COMPLETE (author-contributed, [#362](https://github.com/openwave-labs/openwave/pull/362)): mass-formula reproducer, every constant recomputed from its definition, assembly scripted, 23 gates with a coverage-guarded mutation registry. The reproduction FOUND A DEFECT in the published page (a dropped scalar-zeta term for half-integer bundles); corrected upstream, the null re-run as v1.1 at `p_A = 0.690`, and no MODELS.md icon moved ([`research/findings/m8_3_method_note.md`](research/findings/m8_3_method_note.md)) |
 | M8.1.1 | ✅ BOTH PAPERS VERIFY (2026-07-28): 18 pre-registered claims confirmed blind, two adversarial audits refuting nothing. The adjoint coexact gap is `4/R²` across the ADE family with exactly one exception, `36/R²`, uniqueness held over 41 connections. ⚠️ The affine conversion identity is algebraically forced, a platform-side overclaim corrected at review ([`research/findings/m8_1_1_method_note.md`](research/findings/m8_1_1_method_note.md)) |
+| M8.1.2 | ✅ ALL 21 FROZEN CLAIMS REPRODUCE (2026-09-10): the fourth bedrock paper, channel selection on S³/2I, verified blind from a two-stage packet with the group given only by its generators; the adversarial audit refuted no value. The spin-8 zero set was proved by both agents with the normalizing hint withheld. ⚠️ The expansion weights are fixed only under the Peter-Weyl reading ([`research/findings/m8_1_2_method_note.md`](research/findings/m8_1_2_method_note.md)) |
 | M8.4 | First result landed ([kinematic close](research/findings/m8_4_kinematic_close.md), 2026-08-18): native fields on S³/2I carry no nontrivial McKay slot at any level, closing OQ1's native branch by theorem; the slot survey retargets onto the M8-owned twisted object `M4_int` (three frozen connections, `σ_0` null control). **CLOSED UNRESOLVED 2026-08-26**: the preregistration was FILED 2026-08-23 naming `M4L_Erho`, nine flat bundles `E_ρ` (eight target-bearing plus the `E_R0` control), its § 2 giving `M4_int`'s eight-slot comparison a structural N/A; P1A the pre-target qualification phase ran and closed, the nonlinear pilot is BLOCKED with the one substrate built failing and the alternate never built, so no target configuration ran and no sector was spent ([closeout](research/findings/m8_4_closeout.md)) |
 | M8.5 | Quotient-manifold simulation engineering. Grid built and adjudicated. The spectral half ran M8.5-C (attempt A1 terminated without adjudication on a frozen-arm defect, #501) and then M8.5-C2, ADJUDICATED `M8.5-C2-FAILED` 2026-08-31: instrument-attributed STOP-QUAL, no gate measured red and the attribution is to the commissioned unit's conduct (#506, protocol addendum 1). The spectral route and the M8.4 reopening path are closed; nothing in M8.5 is pending |
 | M8.6 | ❌ CLOSED WITHOUT RUNNING (2026-08-07, row retired 2026-08-08): McKay-distance rule vs M5's measured lepton hierarchy. The named target proved circular (a readiness audit found it mass-derived, 2026-07-29), and the amended condition's last admissible route, M5.21.11 route (b), failed terminally, so the comparison is permanently inadmissible as instrumented ([`research/findings/m8_6_readiness_note.md`](research/findings/m8_6_readiness_note.md)) |

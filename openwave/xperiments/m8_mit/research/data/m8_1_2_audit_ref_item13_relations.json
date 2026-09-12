@@ -1,0 +1,58 @@
+{
+ "singular_values": [
+  "5.7303141",
+  "5.2800902",
+  "4.6797899",
+  "3.0030668",
+  "7.5508925e-81",
+  "5.5290646e-81",
+  "3.1900931e-81"
+ ],
+ "kernel_dim": 3,
+ "relations_c_K_(K=0..6)": [
+  [
+   "-42/11",
+   "-14/11",
+   "18/11",
+   "27/11",
+   "1",
+   "0",
+   "0"
+  ],
+  [
+   "0",
+   "1",
+   "0",
+   "-2",
+   "0",
+   "1",
+   "0"
+  ],
+  [
+   "-24/11",
+   "14/11",
+   "-7/11",
+   "6/11",
+   "0",
+   "0",
+   "1"
+  ]
+ ],
+ "relations_verified_exactly": [
+  true,
+  true,
+  true
+ ],
+ "solver_shift_relation_in_kernel": true,
+ "kernel_larger_than_solver_stated": true,
+ "witness_alternative_w_d4_same_Q": [
+  "1127/143",
+  "-147/286",
+  "147/572",
+  "-63/286",
+  "0",
+  "0",
+  "0"
+ ],
+ "witness_same_Q_identity_exact": true
+}

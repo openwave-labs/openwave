@@ -1,0 +1,604 @@
+{
+ "0a": [
+  {
+   "what": "Theta v2 = v_-2",
+   "agree": true,
+   "mine": "v_-2",
+   "solver": {
+    "coeff_of_v_-2": "1"
+   }
+  }
+ ],
+ "0b": [
+  {
+   "what": "CG",
+   "agree": true,
+   "mine": "sqrt(231)/462",
+   "solver": "sqrt(231)/462"
+  }
+ ],
+ "0c": [
+  {
+   "what": "order/perfect/norms/histogram",
+   "agree": true,
+   "mine": 120,
+   "solver": 120
+  }
+ ],
+ "1": [
+  {
+   "what": "Sym^3 V3",
+   "agree": true,
+   "mine": {
+    "9": 1,
+    "7": 1,
+    "6": 1,
+    "5": 1,
+    "4": 1,
+    "3": 2,
+    "1": 1
+   },
+   "solver": {
+    "1": 1,
+    "3": 2,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "9": 1
+   }
+  }
+ ],
+ "2": [
+  {
+   "what": "J=8,J=3",
+   "agree": true,
+   "mine": [
+    1,
+    4
+   ],
+   "solver": [
+    1,
+    4
+   ]
+  }
+ ],
+ "3": [
+  {
+   "what": "M0 constant",
+   "agree": true,
+   "mine": "-sqrt(7)/7",
+   "solver": "-sqrt(7)/7"
+  }
+ ],
+ "4": [
+  {
+   "what": "lambda_m",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "5": [
+  {
+   "what": "B2(v3)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "rho2(v3)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "6": [
+  {
+   "what": "v3: 924||rho6||^2 and critical",
+   "agree": true,
+   "mine": "1",
+   "solver": "1"
+  },
+  {
+   "what": "v0: 924||rho6||^2 and critical",
+   "agree": true,
+   "mine": "400",
+   "solver": "400"
+  },
+  {
+   "what": "(v2+v-2)/sqrt2: 924||rho6||^2 and critical",
+   "agree": true,
+   "mine": "288",
+   "solver": "288"
+  },
+  {
+   "what": "(v3+v-3)/sqrt2: 924||rho6||^2 and critical",
+   "agree": true,
+   "mine": "463",
+   "solver": "463"
+  }
+ ],
+ "7": [
+  {
+   "what": "row",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "8": [
+  {
+   "what": "polynomial in s",
+   "agree": true,
+   "mine": "-125*s**2/132 + 10*s/11 + 3/77",
+   "solver": "-125*s**2/132 + 10*s/11 + 3/77"
+  },
+  {
+   "what": "interior stationary (s, value)",
+   "agree": true,
+   "mine": [
+    "12/25",
+    "9/35"
+   ],
+   "solver": [
+    "12/25",
+    "9/35"
+   ]
+  },
+  {
+   "what": "endpoints",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "9": [
+  {
+   "what": "rhat6 critical set in chart",
+   "agree": true,
+   "mine": [
+    "(-1.5165750888103102, 0.0, 200/903)",
+    "(0.0, -1.5811388300841898, 24/77)",
+    "(0.0, 0.0, 463/924)",
+    "(0.0, 1.5811388300841898, 24/77)",
+    "(1.5165750888103102, 0.0, 200/903)"
+   ],
+   "solver": [
+    "(-1.5165750888103102, 0.0, 200/903)",
+    "(0.0, -1.5811388300841898, 24/77)",
+    "(0.0, 0.0, 463/924)",
+    "(0.0, 1.5811388300841898, 24/77)",
+    "(1.5165750888103102, 0.0, 200/903)"
+   ]
+  },
+  {
+   "what": "unnormalised critical set",
+   "agree": true,
+   "mine": [
+    "(-0.31622776601683794, 0.0, 2)",
+    "(0.0, 0.0, 463/231)",
+    "(0.31622776601683794, 0.0, 2)"
+   ],
+   "solver": [
+    "(-0.31622776601683794, 0.0, 2)",
+    "(0.0, 0.0, 463/231)",
+    "(0.31622776601683794, 0.0, 2)"
+   ]
+  },
+  {
+   "what": "[v0] value",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "10": [
+  {
+   "what": "dims K=0..6",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "extra K=7..30",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "11": [
+  {
+   "what": "dims + multiplicities + FS",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "characters class by class (matched by Re g)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "12": [
+  {
+   "what": "d=3 norms K=0..6",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=4 norms K=0..6",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "16": [
+  {
+   "what": "level 1 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 1 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 2 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 2 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 3 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 3 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 4 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 4 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 5 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 5 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 6 norms",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "level 6 ranks carried",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "13": [
+  {
+   "what": "d=3 w_K",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=3 N",
+   "agree": true,
+   "mine": "1287",
+   "solver": "1287"
+  },
+  {
+   "what": "d=4 w_K",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=4 N",
+   "agree": true,
+   "mine": "2288",
+   "solver": "2288"
+  }
+ ],
+ "14": [
+  {
+   "what": "d=3 coefficients",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=4 coefficients",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "17": [
+  {
+   "what": "d=3 slope",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=4 slope",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "18": [
+  {
+   "what": "d=3 beta at v3",
+   "agree": true,
+   "mine": "1288/1287",
+   "solver": "1288/1287"
+  },
+  {
+   "what": "d=3 beta at v0",
+   "agree": true,
+   "mine": "1687/1287",
+   "solver": "1687/1287"
+  },
+  {
+   "what": "d=3 beta at (v2+v-2)/sqrt2",
+   "agree": true,
+   "mine": "175/143",
+   "solver": "175/143"
+  },
+  {
+   "what": "d=3 beta at (v3+v-3)/sqrt2",
+   "agree": true,
+   "mine": "1750/1287",
+   "solver": "1750/1287"
+  },
+  {
+   "what": "d=4 beta at v3",
+   "agree": true,
+   "mine": "2289/2288",
+   "solver": "2289/2288"
+  },
+  {
+   "what": "d=4 beta at v0",
+   "agree": true,
+   "mine": "168/143",
+   "solver": "168/143"
+  },
+  {
+   "what": "d=4 beta at (v2+v-2)/sqrt2",
+   "agree": true,
+   "mine": "161/143",
+   "solver": "161/143"
+  },
+  {
+   "what": "d=4 beta at (v3+v-3)/sqrt2",
+   "agree": true,
+   "mine": "2751/2288",
+   "solver": "2751/2288"
+  },
+  {
+   "what": "difference coefficient",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "d=3 beta at item8 (sqrt13/5)v2+(2sqrt3/5)v-3 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "77/65",
+   "solver": "77/65"
+  },
+  {
+   "what": "d=4 beta at item8 (sqrt13/5)v2+(2sqrt3/5)v-3 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "287/260",
+   "solver": "287/260"
+  },
+  {
+   "what": "d=3 beta at item9 z=i sqrt10/2 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "175/143",
+   "solver": "175/143"
+  },
+  {
+   "what": "d=4 beta at item9 z=i sqrt10/2 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "161/143",
+   "solver": "161/143"
+  },
+  {
+   "what": "d=3 beta at item9 z=sqrt230/10 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "5831/5031",
+   "solver": "5831/5031"
+  },
+  {
+   "what": "d=4 beta at item9 z=sqrt230/10 (my slope x its rhat6)",
+   "agree": true,
+   "mine": "609/559",
+   "solver": "609/559"
+  }
+ ],
+ "19c": [
+  {
+   "what": "(L8(v3))_3",
+   "agree": true,
+   "mine": "sqrt(273)/1092",
+   "solver": "sqrt(273)/1092"
+  }
+ ],
+ "19": [
+  {
+   "what": "C(v3) norm: my ||C_iso(v3)||^2 = 1/1092 vs solver C_0(v3) = -sqrt273/546 (||C_0|| = ||Pi_8 x||)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "20": [
+  {
+   "what": "forms identical as given",
+   "agree": false,
+   "mine": "z**12 + 22*sqrt(5)*z**10/5 - 33*z**8 - 44*sqrt(5)*z**6/5 - 33*z**4 + 22*sqrt(5)*z**2/5 + 1",
+   "solver": "z**12 - 22*sqrt(5)*z**10/5 - 33*z**8 + 44*sqrt(5)*z**6/5 - 33*z**4 - 22*sqrt(5)*z**2/5 + 1"
+  },
+  {
+   "what": "my form with z -> i z equals solver's form",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "multiplicities all 1 (both)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "injectivity rank 7 (both)",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "solver's hard-coded fmon == its computed monic form",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "21": [
+  {
+   "what": "d=3 coefficients (after N_J basis conversion)",
+   "agree": true,
+   "mine": [
+    "-3*sqrt(7)/7",
+    "-4*sqrt(91)/91"
+   ],
+   "solver": [
+    "-3*sqrt(7)/7",
+    "-4*sqrt(91)/91"
+   ]
+  },
+  {
+   "what": "d=4 coefficients (after N_J basis conversion)",
+   "agree": true,
+   "mine": [
+    "-4*sqrt(7)/7",
+    "-3*sqrt(91)/91"
+   ],
+   "solver": [
+    "-4*sqrt(7)/7",
+    "-3*sqrt(91)/91"
+   ]
+  },
+  {
+   "what": "ranks N0N6=2, M0M6=2, all four=4, spans do not coincide",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "15": [
+  {
+   "what": "v3 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "v0 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "(v2+v-2)/sqrt2 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "(v3+v-3)/sqrt2 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item8 s=12/25 (+): (sqrt13/5) v2 + (2sqrt3/5) v-3 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item9 z=+i sqrt10/2 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item9 z=-i sqrt10/2 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item9 z=+sqrt230/10 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item9 z=-sqrt230/10 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  },
+  {
+   "what": "item9 z=0 point multiset",
+   "agree": true,
+   "mine": null,
+   "solver": null
+  }
+ ],
+ "_summary": {
+  "comparisons": 81,
+  "disagreements": 1
+ }
+}

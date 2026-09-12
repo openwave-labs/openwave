@@ -1,11 +1,16 @@
 # M8.5: Quotient-manifold simulation engineering
 
-> Roadmap row: [`../m8_roadmap.md`](../m8_roadmap.md). Status: 🚧 IN PARTS. Its gate
-> M8.2 closed ✅ 2026-07-27. **M8.5-A** ✅ REPRODUCED 2026-07-31; **M8.5-B** ✅ COMPLETE
-> 2026-08-17 (sealed case `M85B-ADJ-07`, GREEN at both rungs); **M8.5-C** 🚧 protocol
-> ✅ FILED 2026-08-28, frozen at merge, § "Route (b)" below. This is a scaffold-stage
-> planning aid written by the maintainers (2026-07-21, § "Independent reproduction"
-> added 2026-07-28); the author owns the column and may amend everything here.
+> Roadmap row: [`../m8_roadmap.md`](../m8_roadmap.md). Status: CLOSED 2026-08-31, row
+> retired to Done 2026-09-11. Its gate M8.2 closed ✅ 2026-07-27. **M8.5-A** ✅ REPRODUCED
+> 2026-07-31; **M8.5-B** ✅ COMPLETE 2026-08-17 (sealed case `M85B-ADJ-07`, GREEN at both
+> rungs); **M8.5-C** ❌ closed 2026-08-31: its first attempt terminated non-adjudicated
+> ([#501](https://github.com/openwave-labs/openwave/issues/501)), and the successor
+> adjudicated `M8.5-C2-FAILED`, instrument-attributed
+> ([#506](https://github.com/openwave-labs/openwave/issues/506),
+> [addendum 1](../findings/m8_5c2_protocol.md)). The PLANNING text below is preserved as
+> filed and is no longer a live work order. This is a scaffold-stage planning aid written
+> by the maintainers (2026-07-21, § "Independent reproduction" added 2026-07-28); the
+> author owns the column and may amend everything here.
 
 ## PLANNING
 

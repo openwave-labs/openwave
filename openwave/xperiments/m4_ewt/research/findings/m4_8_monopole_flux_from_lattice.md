@@ -92,7 +92,11 @@ the amplitude.
 The full geometric derivation of \(G_{\text{EWT}}\) is implemented
 in:
 
-- `m4_7_enhanced_ewt_geometric_consistency.py`
+- `m4_7_ewt_emergence_engine.py` (v5.0.0, since
+  [PR #523](https://github.com/openwave-labs/openwave/pull/523), 2026-09-06;
+  M4.8 ran on 2026-08-26 against the v4.5.2 port
+  `m4_7_enhanced_ewt_geometric_consistency.py`, readable at commit
+  `ec2564af`)
 
 M4.8 does not re-derive the gravitational identity from scratch.
 It uses the same BCC lattice parameters and the same geometric
