@@ -17,6 +17,13 @@ Usage:
     python3 dev_docs/utils/check_no_local.py --changed    # vs origin/main
     python3 dev_docs/utils/check_no_local.py FILE [FILE ...]
 
+An empty selection is not a pass. The success line states how many files were
+read, and `--require-files` turns "read nothing" into a failure, which is what
+a scripted handover wants: run the check after the commit rather than before
+and the staged set is empty, so a bare exit code reports success having opened
+nothing. The pre-commit hook leaves the flag off, because a commit of only
+binary files legitimately reads nothing.
+
 Fixes, in order of preference: a repo-relative path; an environment variable
 with a sensible default (`os.environ.get("SCRATCH", ".")`); a placeholder such
 as `<repo>/` in captured output.
@@ -50,8 +57,21 @@ SELF_EXEMPT = {
 }
 
 TEXT_SUFFIXES = {
-    ".md", ".py", ".txt", ".json", ".csv", ".toml", ".cfg", ".ini", ".yml",
-    ".yaml", ".rst", ".sh", ".gitignore", ".gitattributes", "",
+    ".md",
+    ".py",
+    ".txt",
+    ".json",
+    ".csv",
+    ".toml",
+    ".cfg",
+    ".ini",
+    ".yml",
+    ".yaml",
+    ".rst",
+    ".sh",
+    ".gitignore",
+    ".gitattributes",
+    "",
 }
 
 
@@ -78,9 +98,16 @@ def collect(mode: str, explicit: list[str]) -> list[str]:
     return []
 
 
-def scan(paths: list[str]) -> list[str]:
+def scan(paths: list[str]) -> tuple[list[str], int]:
+    """Return the hits, and how many files were actually read.
+
+    The second number is the one a caller can trust. A path is selected by git
+    and then skipped here for being a directory, a binary, or unreadable, so
+    the size of the selection says nothing about how much was checked.
+    """
     hits: list[str] = []
     seen: set[str] = set()
+    read = 0
     for rel in paths:
         if rel in seen or rel in SELF_EXEMPT:
             continue
@@ -92,6 +119,7 @@ def scan(paths: list[str]) -> list[str]:
             lines = p.read_text(errors="replace").splitlines()
         except OSError:
             continue
+        read += 1
         for n, line in enumerate(lines, 1):
             if WAIVER in line:
                 continue
@@ -99,7 +127,7 @@ def scan(paths: list[str]) -> list[str]:
                 if re.search(pat, line):
                     hits.append(f"{rel}:{n}: [{label}] {line.strip()[:110]}")
                     break
-    return hits
+    return hits, read
 
 
 def main() -> int:
@@ -108,16 +136,22 @@ def main() -> int:
     g.add_argument("--staged", action="store_true")
     g.add_argument("--tracked", action="store_true")
     g.add_argument("--changed", action="store_true")
+    ap.add_argument(
+        "--require-files",
+        action="store_true",
+        help="fail when nothing was read, instead of passing an empty selection",
+    )
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
 
-    mode = "staged" if args.staged else "tracked" if args.tracked else "changed" if args.changed else "staged"
+    mode = (
+        "staged"
+        if args.staged
+        else "tracked" if args.tracked else "changed" if args.changed else "staged"
+    )
     paths = collect(mode, args.files)
-    if not paths:
-        print("path check: nothing to scan")
-        return 0
 
-    hits = scan(paths)
+    hits, read = scan(paths)
     if hits:
         print(f"\n❌ path check failed: {len(hits)} line(s) carry a machine-local path.\n")
         for h in hits:
@@ -129,7 +163,12 @@ def main() -> int:
         )
         return 1
 
-    print(f"✅ path check clean ({len(paths)} path(s) scanned)")
+    if not read:
+        why = "nothing selected" if not paths else f"{len(paths)} selected, none readable text"
+        print(f"⚠️ path check READ NOTHING ({why}): this result checks nothing")
+        return 1 if args.require_files else 0
+
+    print(f"✅ path check clean ({read} file(s) read of {len(paths)} selected)")
     return 0
 
 

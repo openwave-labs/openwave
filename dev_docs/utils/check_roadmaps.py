@@ -43,10 +43,20 @@ RULE = re.compile(r"^\|[\s\-:|]+\|$")
 SPLIT = re.compile(r"(?<!\\)\|")  # a literal pipe in a cell is written \|
 
 
+REQUIRED = ("dev_docs/platform_roadmap.md",)
+
+
 def roadmaps():
-    found = [ROOT / "dev_docs" / "platform_roadmap.md"]
-    found += sorted((ROOT / "openwave" / "xperiments").glob("*/research/m?_roadmap.md"))
-    return [p for p in found if p.exists()]
+    """Every roadmap this repository binds, existing or not.
+
+    A required file that is absent is returned anyway, so that main() can
+    report it. Filtering the list through an existence test instead would mean
+    deleting a roadmap makes this checker pass, which is the failure mode where
+    the check reports on nothing and the exit code reads as clean.
+    """
+    found = [ROOT / r for r in REQUIRED]
+    found += sorted((ROOT / "openwave" / "xperiments").glob("*/research/m*_roadmap.md"))
+    return found
 
 
 def words(cell):
@@ -158,6 +168,16 @@ def check(path):
 
 def main():
     paths = [Path(a).resolve() for a in sys.argv[1:]] or roadmaps()
+
+    missing = [p for p in paths if not p.exists()]
+    if missing or not paths:
+        for p in missing:
+            print(f"❌ roadmap not found: {p.relative_to(ROOT) if p.is_relative_to(ROOT) else p}")
+        if not paths:
+            print("❌ no roadmap found to check")
+        print(f"\nnothing checked | {len(missing)} missing roadmap(s)")
+        return 1
+
     errors, tables = [], 0
     for p in paths:
         e, t = check(p)

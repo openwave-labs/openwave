@@ -12,8 +12,18 @@
 # Bypass:  git commit --no-verify
 # Preferred over bypassing: waive the specific line (see the script's usage).
 
-if command -v python3 >/dev/null 2>&1 && [ -f dev_docs/utils/check_no_local.py ]; then
+# A missing checker is a failure, not a skip: the script is tracked, so its
+# absence means someone deleted it, and silently passing is the same defect the
+# script itself guards against. A missing python3 is a skip, because that is a
+# property of the committer's machine rather than of the commit.
+if command -v python3 >/dev/null 2>&1; then
+    if [ ! -f dev_docs/utils/check_no_local.py ]; then
+        echo "pre-commit: dev_docs/utils/check_no_local.py is missing; refusing to pass silently" >&2
+        exit 1
+    fi
     python3 dev_docs/utils/check_no_local.py --staged || exit 1
+else
+    echo "pre-commit: python3 not found, path check SKIPPED (not run, not clean)" >&2
 fi
 
 LOCAL_HOOK="$(git rev-parse --git-dir)/hooks/pre-commit.local"
