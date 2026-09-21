@@ -1,0 +1,576 @@
+{
+ "item6": {
+  "v3": {
+   "value": "1/924",
+   "signature": [
+    0,
+    0,
+    10
+   ],
+   "index_g_pos": 0,
+   "index_g_neg": 10,
+   "kernel": 0,
+   "extremum_g_pos": "local min of E (g>0)",
+   "extremum_g_neg": "local max of E (g<0)"
+  },
+  "v2": {
+   "value": "3/77",
+   "signature": [
+    2,
+    0,
+    8
+   ],
+   "index_g_pos": 2,
+   "index_g_neg": 8,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "Wmin": {
+   "value": "200/903",
+   "signature": [
+    3,
+    0,
+    6
+   ],
+   "index_g_pos": 3,
+   "index_g_neg": 6,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "v1": {
+   "value": "75/308",
+   "signature": [
+    4,
+    2,
+    4
+   ],
+   "index_g_pos": 4,
+   "index_g_neg": 4,
+   "kernel": 2,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "Umin": {
+   "value": "75/308",
+   "signature": [
+    5,
+    0,
+    4
+   ],
+   "index_g_pos": 5,
+   "index_g_neg": 4,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "L12circle": {
+   "value": "9/35",
+   "signature": [
+    5,
+    0,
+    4
+   ],
+   "index_g_pos": 5,
+   "index_g_neg": 4,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "L23circle": {
+   "value": "9/35",
+   "signature": [
+    5,
+    0,
+    4
+   ],
+   "index_g_pos": 5,
+   "index_g_neg": 4,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "oct": {
+   "value": "24/77",
+   "signature": [
+    6,
+    0,
+    3
+   ],
+   "index_g_pos": 6,
+   "index_g_neg": 3,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "v0": {
+   "value": "100/231",
+   "signature": [
+    8,
+    0,
+    2
+   ],
+   "index_g_pos": 8,
+   "index_g_neg": 2,
+   "kernel": 0,
+   "extremum_g_pos": "",
+   "extremum_g_neg": ""
+  },
+  "hex": {
+   "value": "463/924",
+   "signature": [
+    9,
+    0,
+    0
+   ],
+   "index_g_pos": 9,
+   "index_g_neg": 0,
+   "kernel": 0,
+   "extremum_g_pos": "local max of E (g>0)",
+   "extremum_g_neg": "local min of E (g<0)"
+  }
+ },
+ "item10": {
+  "sector w6=28/39": {
+   "orbit_values_Q": {
+    "v3": "1288/1287",
+    "v2": "147/143",
+    "Wmin": "5831/5031",
+    "v1": "168/143",
+    "Umin": "168/143",
+    "L12circle": "77/65",
+    "L23circle": "77/65",
+    "oct": "175/143",
+    "v0": "1687/1287",
+    "hex": "1750/1287"
+   },
+   "charpolys_Q": {
+    "v3": "(39*lam - 112)**2*(99*lam - 140)**2*(143*lam - 28)**2*(429*lam - 56)**2*(1287*lam - 896)**2/92927308010445919222641",
+    "v2": "(117*lam - 112)**2*(143*lam - 224)**2*(143*lam - 112)**2*(429*lam - 560)**2*(1287*lam + 224)**2/1744968339307262260958481",
+    "Wmin": "(429*lam - 224)*(6149*lam + 6496)*(18447*lam - 25760)*(55341*lam - 15680)**2*(1020875427*lam**2 + 479326848*lam - 265932800)**2/155319877181670290241419432640384086463",
+    "v1": "lam**2*(117*lam + 140)**2*(143*lam - 28)**2*(184041*lam**2 - 136136*lam - 156800)**2/9481410877506980841",
+    "Umin": "(429*lam - 280)*(429*lam + 196)*(1287*lam - 1792)*(78953589*lam**3 + 83309226*lam**2 - 17237220*lam - 6517000)**2/1476511671721529605426407",
+    "L12circle": "(715*lam + 224)*(977050663875*lam**4 + 408129321600*lam**3 - 1399668990720*lam**2 - 505228967936*lam + 15735193600)**2/682559019841683434461171875",
+    "L23circle": "(165*lam + 224)*(715*lam + 224)**2*(6435*lam - 112)**2*(920205*lam**2 - 368368*lam - 878080)**2/2957755752647294882665078125",
+    "oct": "(143*lam + 224)**3*(429*lam + 224)**3*(1287*lam - 1120)**3/492170557240509868475469",
+    "v0": "(143*lam + 112)**2*(429*lam - 224)**2*(429*lam + 560)**2*(1287*lam + 1120)**2*(1287*lam + 2800)**2/1900270521505608602183785809",
+    "hex": "(39*lam + 112)*(143*lam + 140)*(429*lam + 280)**2*(429*lam + 644)*(1287*lam + 1792)**2*(1287*lam + 1876)**2/1208055004135796949894333"
+   },
+   "item5b_times_w": {
+    "Wmin in W": {
+     "H_transverse_times_w": [
+      [
+       "25760/18447",
+       "0"
+      ],
+      [
+       "0",
+       "5152/18447"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "Umin in U": {
+     "H_transverse_times_w": [
+      [
+       "224/429",
+       "0"
+      ],
+      [
+       "0",
+       "280/429"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "L12circle in L12": {
+     "H_transverse_times_w": [
+      [
+       "-224/715"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "L23circle in L23": {
+     "H_transverse_times_w": [
+      [
+       "-224/165"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "hex in L33": {
+     "H_transverse_times_w": [
+      [
+       "-112/39"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "hex in U": {
+     "H_transverse_times_w": [
+      [
+       "-280/429",
+       "0"
+      ],
+      [
+       "0",
+       "-1120/1287"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "oct in L22": {
+     "H_transverse_times_w": [
+      [
+       "-224/143"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "oct in W": {
+     "H_transverse_times_w": [
+      [
+       "-1120/3861",
+       "0"
+      ],
+      [
+       "0",
+       "1120/1287"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    }
+   }
+  },
+  "sector w6=21/52": {
+   "orbit_values_Q": {
+    "v3": "2289/2288",
+    "v2": "581/572",
+    "Wmin": "609/559",
+    "v1": "2513/2288",
+    "Umin": "2513/2288",
+    "L12circle": "287/260",
+    "L23circle": "287/260",
+    "oct": "161/143",
+    "v0": "168/143",
+    "hex": "2751/2288"
+   },
+   "charpolys_Q": {
+    "v3": "(13*lam - 21)**2*(44*lam - 35)**2*(143*lam - 56)**2*(286*lam - 21)**2*(572*lam - 63)**2/179055743540104397824",
+    "v2": "(13*lam - 7)**2*(143*lam - 126)**2*(143*lam - 105)**2*(143*lam - 63)**2*(143*lam + 14)**2/29551192049099260969",
+    "Wmin": "(143*lam - 42)*(6149*lam - 4830)*(6149*lam - 980)**2*(6149*lam + 3654)*(37810201*lam**2 + 9985976*lam - 3116400)**2/292261750940688223606043629754543",
+    "v1": "lam**2*(52*lam + 35)**2*(572*lam - 63)**2*(40898*lam**2 - 17017*lam - 11025)**2/1479799533389292544",
+    "Umin": "(143*lam - 112)*(286*lam - 105)*(572*lam + 147)*(1497193984*lam**3 + 888631744*lam**2 - 103423320*lam - 21994875)**2/52438981276129134364327936",
+    "L12circle": "(715*lam + 126)*(4020784625*lam**4 + 944743800*lam**3 - 1822485665*lam**2 - 370040748*lam + 6482700)**2/11559196935455019296875",
+    "L23circle": "(55*lam + 42)*(715*lam - 7)**2*(715*lam + 126)**2*(102245*lam**2 - 23023*lam - 30870)**2/150269560160915250859375",
+    "oct": "(143*lam - 70)**3*(143*lam + 42)**3*(143*lam + 126)**3/25004854810776297743",
+    "v0": "(143*lam - 42)**2*(143*lam + 63)**2*(143*lam + 70)**2*(143*lam + 105)**2*(143*lam + 175)**2/3575694237941010577249",
+    "hex": "(13*lam + 21)*(143*lam + 112)**2*(286*lam + 105)**2*(572*lam + 315)*(572*lam + 469)**2*(572*lam + 483)/2327724666021357171712"
+   },
+   "item5b_times_w": {
+    "Wmin in W": {
+     "H_transverse_times_w": [
+      [
+       "4830/6149",
+       "0"
+      ],
+      [
+       "0",
+       "966/6149"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "Umin in U": {
+     "H_transverse_times_w": [
+      [
+       "42/143",
+       "0"
+      ],
+      [
+       "0",
+       "105/286"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "L12circle in L12": {
+     "H_transverse_times_w": [
+      [
+       "-126/715"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "L23circle in L23": {
+     "H_transverse_times_w": [
+      [
+       "-42/55"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "hex in L33": {
+     "H_transverse_times_w": [
+      [
+       "-21/13"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "hex in U": {
+     "H_transverse_times_w": [
+      [
+       "-105/286",
+       "0"
+      ],
+      [
+       "0",
+       "-70/143"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    },
+    "oct in L22": {
+     "H_transverse_times_w": [
+      [
+       "-126/143"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0",
+      "d/dy u_hat": "0"
+     },
+     "directions": [
+      "d/dx u_hat"
+     ]
+    },
+    "oct in W": {
+     "H_transverse_times_w": [
+      [
+       "-70/429",
+       "0"
+      ],
+      [
+       "0",
+       "70/143"
+      ]
+     ],
+     "Gram_unchanged": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "null_controls_times_w": {
+      "i u": "0"
+     },
+     "directions": [
+      "d/dx u_hat",
+      "d/dy u_hat"
+     ]
+    }
+   }
+  }
+ }
+}

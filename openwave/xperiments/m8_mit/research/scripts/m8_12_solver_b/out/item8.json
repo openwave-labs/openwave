@@ -1,0 +1,25 @@
+{
+ "K_eigenvalues": {
+  "1/924": 13,
+  "13/154": 9,
+  "65/84": 5,
+  "13/7": 1
+ },
+ "min": "1/924",
+ "max_proved_upper_bound": "6/7",
+ "search_max": {
+  "best": "np.float64(0.5010822510822521)",
+  "clusters": {
+   "463/924": 400
+  },
+  "max_final_grad": "np.float64(1.1078549261676854e-07)"
+ },
+ "search_min": {
+  "best": "np.float64(0.0010822510822508763)",
+  "clusters": {
+   "1/924": 400
+  },
+  "max_final_grad": "np.float64(1.5045175894844403e-08)"
+ },
+ "level3_bound_numerical": "np.float64(0.9220471820357039)"
+}

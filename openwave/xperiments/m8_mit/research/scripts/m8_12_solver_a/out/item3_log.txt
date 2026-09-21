@@ -1,0 +1,20 @@
+PASS [item3] v3: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] v3: exact tangential gradient is zero []
+v3   rhat6 = 1/924    (= 1/924)  stabilizer SO(2)_z
+PASS [item3] v2: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] v2: exact tangential gradient is zero []
+v2   rhat6 = 3/77     (= 36/924)  stabilizer SO(2)_z
+PASS [item3] v1: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] v1: exact tangential gradient is zero []
+v1   rhat6 = 75/308   (= 225/924)  stabilizer SO(2)_z
+PASS [item3] v0: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] v0: exact tangential gradient is zero []
+v0   rhat6 = 100/231  (= 400/924)  stabilizer O(2)_z
+PASS [item3] xyz: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] xyz: exact tangential gradient is zero []
+xyz  rhat6 = 24/77    (= 288/924)  stabilizer O
+PASS [item3] cat: rhat6 from polynomial N equals rhat6 from rho_6 
+PASS [item3] cat: exact tangential gradient is zero []
+cat  rhat6 = 463/924  (= 463/924)  stabilizer D6
+PASS [item3] control u=(v3+v1-v-2)/sqrt3: tangential gradient is NOT zero (the criticality test can fail) 2*sqrt(1002)/297
+item3 fails: 0

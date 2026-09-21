@@ -1,0 +1,32 @@
+{
+  "items": {
+    "0":  {"verdict": "AGREE", "mine": {"cg_33_3m3_60": "1/sqrt(924)", "theta_squared": "identity", "rhat6_2v3+v1-3v-2": "1977/8624", "rhat6_v3+iv0+2v-1": "6329/33264"}, "artifact_defect": "solver_b/out/item0.json holds 15207/60368 and 10889/33264 (planted cg_sign output)"},
+    "1":  {"verdict": "AGREE", "note": "6 line classes, 7 plane classes, other dims 0,3,4,7; stabilizer column differs by reading (by-character vs setwise); B leaves U, W, hex, oct stabilizers undetermined"},
+    "2":  {"verdict": "AGREE"},
+    "3":  {"verdict": "AGREE", "mine": ["1/924", "3/77", "75/308", "100/231", "24/77", "463/924"]},
+    "4":  {"verdict": "AGREE", "orbits": 10},
+    "5":  {"verdict": "AGREE", "mine_precision": {"exact": "rational weighted coordinates", "mp50_max_residual": "1.6e-50", "mp80_max_residual": "1.7e-80"}, "artifact_defect": "solver_b/out/item5.json is the planted hess_no4N run (wrong charpolys, nonzero residuals)"},
+    "5b": {"verdict": "DISAGREE", "resolution": "reading: different tangent bases (A: iu,u_perp,iu_perp; B: iu,d_x uhat,d_y uhat); both sets reproduced exactly, incl. projection factors 3/8, 23/43, 5/8, 5/9"},
+    "6":  {"verdict": "AGREE"},
+    "7":  {"verdict": "AGREE", "kernel": "span_R{v-3, i v-3} at v1, exact"},
+    "8":  {"verdict": "DISAGREE", "min": {"value": "1/924", "status": "AGREE, proved by both"}, "max": {"value": "463/924", "status": "A proved (certificate), B search only; auditor built an independent exact certificate confirming the maximum"}},
+    "9":  {"verdict": "AGREE"},
+    "10": {"verdict": "AGREE", "note": "5b x w differences inherited from the basis reading; all entries of both solvers reproduced"},
+    "11": {"verdict": "AGREE", "mine": {"924rhat6": "204", "grad": "2*sqrt(1002)/297", "iu": "2*sqrt(1002)/297", "-iJx u": "sqrt((5560+416*sqrt(15))/29403)", "-iJy u": "sqrt((5560-416*sqrt(15))/29403)", "-iJz u": "4*sqrt(921)/297"}},
+    "12": {"verdict": "AGREE", "note": "different orbit/direction choices; A's and B's values re-verified exactly; auditor's own at A*: route difference exactly 0"}
+  },
+  "locus_span_v3_v-1": {"interior_critical_points": 0, "restriction": "(225 t^2 + 450 t + 1)/(924 (1+t)^2), t=|z|^2 in chart v3+z v-1", "linear_coefficient_at_v3_end": "16/33", "linear_coefficient_at_v-1_end": "0", "numerator_linear_coefficient": "450/924"},
+  "grades": {
+    "solver_a": {"1": "SOUND", "2": "SOUND", "3": "SOUND", "5": "SOUND", "7": "SOUND", "8": "SOUND", "9": "SOUND"},
+    "solver_b": {"1": "SOUND", "2": "SOUND", "3": "SOUND", "5": "SOUND", "7": "SOUND", "8": "INCOMPLETE (min SOUND; max by search only)", "9": "SOUND"}
+  },
+  "completeness_item2": {"solver_a": "elimination (radial reduction; axis case split with p1-q1 proportional to 1+t); cases exhaustive, reworked by auditor", "solver_b": "elimination (radial reduction; lex Groebner + triangular back-substitution); cases exhaustive, reworked by auditor"},
+  "two_ends_item8": {"solver_a": "argument at both ends", "solver_b": "argument for min; search for max -> INCOMPLETE"},
+  "defects": [
+    {"id": "D-B1", "solver": "solver_b", "kind": "artifact", "file": "solver_b/out/item0.json", "evidence": "wrong rhat6 values from planted run; cause: run_all.py runs plants after collect.py"},
+    {"id": "D-B2", "solver": "solver_b", "kind": "artifact", "file": "solver_b/out/item5.json", "evidence": "charpoly (77lam-152)^2... and residual 1/231 = 4N(v3) at v3, from planted hess_no4N run"}
+  ],
+  "mathematical_defects_found": 0,
+  "unchecked": ["solver_a X1 identity term-by-term (cubics not stored)", "other maximizers of rhat6", "A r_L tables, tr rho2^3, level-1 bound 11/21", "B second invariant polynomials, I3 by code, Fock argument", "B rotation words for hex/oct"],
+  "refused_actions": ["one ./py -c inline command containing '#' after a newline was denied by the permission layer; redone as a8chk.py"]
+}

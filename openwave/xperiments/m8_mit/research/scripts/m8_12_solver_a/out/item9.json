@@ -1,0 +1,4 @@
+{
+ "Z1": "class B pole v1: rhat6 = 225/924 - (224/924) t^2/(1+t)^2; no linear term in t, hence zero chart Hessian. The cancellation is the identity 2<3 1;3 -1|6 0><3 -3;3 3|6 0> + <3 1;3 3|6 4>^2 + <3 -3;3 -1|6 -4>^2 = 2<3 1;3 -1|6 0>^2, i.e. 30 + 420 = 450 (in units 1/924).",
+ "Z3": "For F*, G*, cat@F, xyz@G the map sigma = (rotation) o Theta, times the sign s0, is a real-linear isometry that preserves rhat6 (S1, S2), fixes u, and acts as eps on u_perp and -eps on i u_perp (eps = +-1); hence H_u(u_perp, i u_perp) = -H_u(u_perp, i u_perp) = 0."
+}

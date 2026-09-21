@@ -1,0 +1,45 @@
+{
+ "v3": {
+  "rhat6": "1/924",
+  "924*rhat6": "1",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "SO(2)_z",
+  "character": "R_z(t) -> e^{-3it}"
+ },
+ "v2": {
+  "rhat6": "3/77",
+  "924*rhat6": "36",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "SO(2)_z",
+  "character": "R_z(t) -> e^{-2it}"
+ },
+ "v1": {
+  "rhat6": "75/308",
+  "924*rhat6": "225",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "SO(2)_z",
+  "character": "R_z(t) -> e^{-it}"
+ },
+ "v0": {
+  "rhat6": "100/231",
+  "924*rhat6": "400",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "O(2)_z",
+  "character": "R_z(t) -> 1, every flip -> -1"
+ },
+ "xyz": {
+  "rhat6": "24/77",
+  "924*rhat6": "288",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "O",
+  "character": "A2 (sign) character of O; T acts trivially"
+ },
+ "cat": {
+  "rhat6": "463/924",
+  "924*rhat6": "463",
+  "tangential_gradient": "exactly 0",
+  "stabilizer": "D6",
+  "character": "R_z(pi/3) -> -1, R_y(pi) -> +1"
+ },
+ "control_(v3+v1-v-2)/sqrt3_grad_norm": "2*sqrt(1002)/297"
+}

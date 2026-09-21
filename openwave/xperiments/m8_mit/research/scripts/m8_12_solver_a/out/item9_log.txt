@@ -1,0 +1,22 @@
+PASS [item9] <3 m1; 3 m2|6 Q> = <3 m2; 3 m1|6 Q> for all m1, m2 
+PASS [item9] rho6(Theta u) == rho6(u) as polynomials (so rhat6(Theta u) = rhat6(u), |Theta u| = |u|) 
+PASS [item9] N(R_z(theta) u) == N(u) for symbolic theta 
+PASS [item9] N(R_y(pi) u) == N(u) 
+PASS [item9] N(R_111(2pi/3) u) == N(u) (a rotation not about a coordinate axis) 
+PASS [item9] N(e^{i phi} u) == N(u) 
+PASS [item9] 924 N(v1 + z v-3) = 225 (1+t)^2 - 224 t^2, t = |z|^2 (exact identity) 
+PASS [item9] the CG identity behind Z1: 2<1,-1><-3,3> + <1,3>^2 + <-3,-1>^2 == 2<1,-1>^2 75/154
+PASS [item9] v0: Theta u = (-1) u, so u (x) Theta u is symmetric and r_1 = r_3 = r_5 = 0 
+PASS [item9] xyz: Theta u = (1) u, so u (x) Theta u is symmetric and r_1 = r_3 = r_5 = 0 
+PASS [item9] cat: Theta u = (1) u, so u (x) Theta u is symmetric and r_1 = r_3 = r_5 = 0 
+PASS [item9] CG antisymmetry for odd L: <3 m1;3 m2|L Q> = -<3 m2;3 m1|L Q> for L = 1,3,5 
+PASS [item9] F*: <J> = 0 exactly and r_1 = 0 
+PASS [item9] G*: <J> = 0 exactly and r_1 = 0 
+PASS [item9] r_1 / |<J>|^2 is the same constant ({1/28}) at v3, v2, v1 
+PASS [item9] v2: <3 Jz^2 - J^2> = 0 and r_2 = 0 
+PASS [item9] xyz: r_1 = r_2 = r_3 = r_5 = 0 
+PASS [item9] F*: sigma = R o Theta fixes u (factor -1); sigma/s0 sends u_perp -> -1 u_perp and i u_perp -> 1 i u_perp 
+PASS [item9] G*: sigma = R o Theta fixes u (factor -1); sigma/s0 sends u_perp -> -1 u_perp and i u_perp -> 1 i u_perp 
+PASS [item9] cat@F: sigma = id o Theta fixes u (factor -1); sigma/s0 sends u_perp -> 1 u_perp and i u_perp -> -1 i u_perp 
+PASS [item9] xyz@G: sigma = id o Theta fixes u (factor -1); sigma/s0 sends u_perp -> 1 u_perp and i u_perp -> -1 i u_perp 
+item9 fails: 0

@@ -1,0 +1,162 @@
+PASS [item1] C1 has order 1 1
+PASS [item1] C2 has order 2 2
+PASS [item1] C3 has order 3 3
+PASS [item1] C4 has order 4 4
+PASS [item1] C5 has order 5 5
+PASS [item1] C6 has order 6 6
+PASS [item1] C7 has order 7 7
+PASS [item1] C8 has order 8 8
+PASS [item1] C9 has order 9 9
+PASS [item1] C10 has order 10 10
+PASS [item1] C11 has order 11 11
+PASS [item1] C12 has order 12 12
+PASS [item1] D2 has order 4 4
+PASS [item1] D3 has order 6 6
+PASS [item1] D4 has order 8 8
+PASS [item1] D5 has order 10 10
+PASS [item1] D6 has order 12 12
+PASS [item1] D7 has order 14 14
+PASS [item1] D8 has order 16 16
+PASS [item1] D9 has order 18 18
+PASS [item1] D10 has order 20 20
+PASS [item1] D11 has order 22 22
+PASS [item1] D12 has order 24 24
+PASS [item1] T has order 12 12
+PASS [item1] O has order 24 24
+PASS [item1] I has order 60 60
+PASS [item1] character-formula dimensions are integers (max residual 1.6e-15, double precision) 
+PASS [item1] number of characters equals |H/[H,H]| for every group {}
+fixed-space dimensions occurring over finite groups: [0, 1, 2, 3, 4, 7]
+  dim 0: C8('1/2',), C9('4/9',), C9('5/9',), C10('2/5',), C10('1/2',), C10('3/5',), C11('4/11',), C11('5/11',), C11('6/11',), C11('7/11',), C12('1/3',), C12('5/12',), C12('1/2',), C12('7/12',), C12('2/3',), D4('0', '0'), D5('0', '0'), D6('0', '0'), D7('0', '0'), D8('0', '0'), D8('1/2', '0'), D8('1/2', '1/2'), D9('0', '0'), D10('0', '0'), D10('1/2', '0'), D10('1/2', '1/2'), D11('0', '0'), D12('0', '0'), D12('1/2', '0'), D12('1/2', '1/2'), T('0', '1/3'), T('0', '2/3'), O('0', '0'), I('0', '0')
+  dim 1: C4('0',), C5('0',), C5('1/5',), C5('4/5',), C6('0',), C6('1/6',), C6('1/3',), C6('2/3',), C6('5/6',), C7('0',), C7('1/7',), C7('2/7',), C7('3/7',), C7('4/7',), C7('5/7',), C7('6/7',), C8('0',), C8('1/8',), C8('1/4',), C8('3/8',), C8('5/8',), C8('3/4',), C8('7/8',), C9('0',), C9('1/9',), C9('2/9',), C9('1/3',), C9('2/3',), C9('7/9',), C9('8/9',), C10('0',), C10('1/10',), C10('1/5',), C10('3/10',), C10('7/10',), C10('4/5',), C10('9/10',), C11('0',), C11('1/11',), C11('2/11',)
+  dim 2: C3('1/3',), C3('2/3',), C4('1/4',), C4('1/2',), C4('3/4',), C5('2/5',), C5('3/5',), C6('1/2',), D2('0', '1/2'), D2('1/2', '0'), D2('1/2', '1/2'), D3('0', '1/2')
+  dim 3: C2('0',), C3('0',)
+  dim 4: C2('1/2',)
+  dim 7: C1('0',)
+PASS [item1] C1 k=0 fixed space = span{v_m : m = k mod n} (dim 7) 
+PASS [item1] C2 k=0 fixed space = span{v_m : m = k mod n} (dim 3) 
+PASS [item1] C2 k=1 fixed space = span{v_m : m = k mod n} (dim 4) 
+PASS [item1] C3 k=0 fixed space = span{v_m : m = k mod n} (dim 3) 
+PASS [item1] C3 k=1 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C3 k=2 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C4 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C4 k=1 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C4 k=2 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C4 k=3 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C5 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C5 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C5 k=2 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C5 k=3 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C5 k=4 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C6 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C6 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C6 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C6 k=3 fixed space = span{v_m : m = k mod n} (dim 2) 
+PASS [item1] C6 k=4 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C6 k=5 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=4 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=5 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C7 k=6 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=4 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C8 k=5 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=6 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C8 k=7 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=4 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C9 k=5 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C9 k=6 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=7 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C9 k=8 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=4 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C10 k=5 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C10 k=6 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C10 k=7 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=8 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C10 k=9 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=4 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C11 k=5 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C11 k=6 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C11 k=7 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C11 k=8 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=9 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C11 k=10 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=0 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=1 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=2 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=3 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=4 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C12 k=5 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C12 k=6 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C12 k=7 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C12 k=8 fixed space = span{v_m : m = k mod n} (dim 0) 
+PASS [item1] C12 k=9 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=10 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] C12 k=11 fixed space = span{v_m : m = k mod n} (dim 1) 
+PASS [item1] class A = V^(C3, R_z(2pi/3) -> e^{-2pi i/3}) exactly 
+PASS [item1] class B = V^(C4, R_z(pi/2) -> e^{-i pi/2} = -i) exactly 
+PASS [item1] class C = V^(C4, R_z(pi/2) -> e^{-i pi} = -1) exactly 
+PASS [item1] class D = V^(C5, R_z(2pi/5) -> e^{-4pi i/5}) exactly 
+PASS [item1] class E = V^(C6, R_z(pi/3) -> e^{-i pi} = -1) exactly 
+PASS [item1] class F = V^(D2, R_z(pi) -> +1, R_y(pi) -> -1, R_x(pi) -> -1) exactly 
+PASS [item1] class G = V^(D3, R_z(2pi/3) -> 1, R_y(pi) -> -1) exactly 
+PASS [item1] SO(2) chi_k, k=-4: fixed dim 0 
+PASS [item1] SO(2) chi_k, k=-3: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=-2: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=-1: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=0: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=1: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=2: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=3: fixed dim 1 
+PASS [item1] SO(2) chi_k, k=4: fixed dim 0 
+PASS [item1] O(2) chi(flip)=+1: fixed dim 0 
+PASS [item1] O(2) chi(flip)=-1: fixed dim 1 
+PASS [item1] SO(3): fixed dim 0 
+PASS [item1] exhibited rotation: R_y(pi): V^(C3,k=1)={v1,v-2} -> V^(C3,k=2)={v2,v-1} 
+PASS [item1] exhibited rotation: R_y(pi): V^(C4,k=1)={v1,v-3} -> V^(C4,k=3)={v3,v-1} 
+PASS [item1] exhibited rotation: R_y(pi): V^(C5,k=2)={v2,v-3} -> V^(C5,k=3)={v3,v-2} 
+PASS [item1] exhibited rotation: R_(111)(2pi/3) maps F onto the (z:-,y:-) space 
+PASS [item1] exhibited rotation: R_(111)(-2pi/3) maps F onto the remaining D2 character space 
+PASS [item1] exhibited rotation: R_z(pi/6): [v3+v-3] -> [v3-v-3] 
+PASS [item1] exhibited rotation: R_z(pi/4): [v2+v-2] -> [v2-v-2] 
+PASS [item1] exhibited rotation: R_y(pi): [v_m] -> [v_-m] for m=3 
+PASS [item1] T trivial fixed space = [v2 - v-2] 
+PASS [item1] O sign fixed space = [v2 - v-2] 
+PASS [item1] D2 trivial fixed space = [v2 - v-2] 
+line v3   r_1..r_6 = ['9/28', '25/84', '1/6', '9/154', '1/84', '1/924']
+line v2   r_1..r_6 = ['1/7', '0', '1/6', '7/22', '4/21', '3/77']
+line v1   r_1..r_6 = ['1/28', '3/28', '1/6', '1/154', '25/84', '75/308']
+line v0   r_1..r_6 = ['0', '4/21', '0', '18/77', '0', '100/231']
+line xyz  r_1..r_6 = ['0', '0', '0', '6/11', '0', '24/77']
+line cat  r_1..r_6 = ['0', '25/84', '0', '9/154', '0', '463/924']
+PASS [item1] the six line classes have pairwise distinct (r_1..r_6) 
+PASS [item1] every 1-dim C_n/D_n fixed space (n<=12) is literally one of v_+-m, v2+-v-2, v3+-v-3 []
+1-dim fixed spaces by class: {'xyz': 3, 'cat': 3, 'v0': 18, 'v1': 16, 'v2': 14, 'v3': 12}
+PASS [item1] every 2-dim C_n/D_n fixed space (n<=12) is a listed plane or one of its exhibited rotation images []
+plane A: stabilizer C3, character R_z(2pi/3) -> e^{-2pi i/3}, range of rhat6 = [3/77, 9/35]
+plane B: stabilizer C4, character R_z(pi/2) -> e^{-i pi/2} = -i, range of rhat6 = [1/924, 75/308]
+plane C: stabilizer C4, character R_z(pi/2) -> e^{-i pi} = -1, range of rhat6 = [3/77, 24/77]
+plane D: stabilizer C5, character R_z(2pi/5) -> e^{-4pi i/5}, range of rhat6 = [1/924, 9/35]
+plane E: stabilizer C6, character R_z(pi/3) -> e^{-i pi} = -1, range of rhat6 = [1/924, 463/924]
+plane F: stabilizer D2, character R_z(pi) -> +1, R_y(pi) -> -1, R_x(pi) -> -1, range of rhat6 = [75/308, 463/924]
+plane G: stabilizer D3, character R_z(2pi/3) -> 1, R_y(pi) -> -1, range of rhat6 = [200/903, 463/924]
+PASS [item1] the seven plane classes have pairwise distinct rhat6-ranges 
+item1 fails: 0

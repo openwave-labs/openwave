@@ -1,0 +1,244 @@
+{
+ "orbits": {
+  "v3": {
+   "rhat6": "1/924",
+   "924*rhat6": "1",
+   "u": "[1, 0, 0, 0, 0, 0, 0]",
+   "stabilizer": "SO(2)",
+   "occurs_as": "line class v3; poles of B, D, E",
+   "r1..r6": [
+    "9/28",
+    "25/84",
+    "1/6",
+    "9/154",
+    "1/84",
+    "1/924"
+   ],
+   "tr(rho_2^3)": "1375/49392"
+  },
+  "v2": {
+   "rhat6": "3/77",
+   "924*rhat6": "36",
+   "u": "[0, 1, 0, 0, 0, 0, 0]",
+   "stabilizer": "SO(2)",
+   "occurs_as": "line class v2; poles of A (v-2), C, D",
+   "r1..r6": [
+    "1/7",
+    "0",
+    "1/6",
+    "7/22",
+    "4/21",
+    "3/77"
+   ],
+   "tr(rho_2^3)": "0"
+  },
+  "v1": {
+   "rhat6": "75/308",
+   "924*rhat6": "225",
+   "u": "[0, 0, 1, 0, 0, 0, 0]",
+   "stabilizer": "SO(2)",
+   "occurs_as": "line class v1; poles of A, B",
+   "r1..r6": [
+    "1/28",
+    "3/28",
+    "1/6",
+    "1/154",
+    "25/84",
+    "75/308"
+   ],
+   "tr(rho_2^3)": "-33/5488"
+  },
+  "v0": {
+   "rhat6": "100/231",
+   "924*rhat6": "400",
+   "u": "[0, 0, 0, 1, 0, 0, 0]",
+   "stabilizer": "O(2)",
+   "occurs_as": "line class v0; z=0 of F and G",
+   "r1..r6": [
+    "0",
+    "4/21",
+    "0",
+    "18/77",
+    "0",
+    "100/231"
+   ],
+   "tr(rho_2^3)": "-44/3087"
+  },
+  "xyz": {
+   "rhat6": "24/77",
+   "924*rhat6": "288",
+   "u": "[0, sqrt(2)/2, 0, 0, 0, -sqrt(2)/2, 0]",
+   "stabilizer": "O",
+   "occurs_as": "line class xyz; circle of C; omitted point of F; z=+-2/sqrt5 of G",
+   "r1..r6": [
+    "0",
+    "0",
+    "0",
+    "6/11",
+    "0",
+    "24/77"
+   ],
+   "tr(rho_2^3)": "0"
+  },
+  "cat": {
+   "rhat6": "463/924",
+   "924*rhat6": "463",
+   "u": "[sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+   "stabilizer": "D6",
+   "occurs_as": "line class cat; circle of E; z=+-sqrt(3/5) of F; omitted point of G",
+   "r1..r6": [
+    "0",
+    "25/84",
+    "0",
+    "9/154",
+    "0",
+    "463/924"
+   ],
+   "tr(rho_2^3)": "1375/49392"
+  },
+  "A*": {
+   "rhat6": "9/35",
+   "924*rhat6": "1188/5",
+   "u": "[0, 0, 2*sqrt(5)/5, 0, 0, sqrt(5)/5, 0]",
+   "stabilizer": "C3",
+   "occurs_as": "circle |z|^2=1/4 of A",
+   "r1..r6": [
+    "1/175",
+    "12/175",
+    "1/6",
+    "11/350",
+    "172/525",
+    "9/35"
+   ],
+   "tr(rho_2^3)": "-132/42875"
+  },
+  "D*": {
+   "rhat6": "9/35",
+   "924*rhat6": "1188/5",
+   "u": "[0, sqrt(13)/5, 0, 0, 0, 0, 2*sqrt(3)/5]",
+   "stabilizer": "C5",
+   "occurs_as": "circle |z|^2=12/13 of D",
+   "r1..r6": [
+    "1/175",
+    "12/175",
+    "1/6",
+    "11/350",
+    "172/525",
+    "9/35"
+   ],
+   "tr(rho_2^3)": "132/42875"
+  },
+  "F*": {
+   "rhat6": "75/308",
+   "924*rhat6": "225",
+   "u": "[0, sqrt(5)*I/4, 0, sqrt(6)/4, 0, sqrt(5)*I/4, 0]",
+   "stabilizer": "D2",
+   "occurs_as": "z=+-i sqrt(5/3) of F",
+   "r1..r6": [
+    "0",
+    "3/112",
+    "5/32",
+    "291/2464",
+    "5/16",
+    "75/308"
+   ],
+   "tr(rho_2^3)": "-33/43904"
+  },
+  "G*": {
+   "rhat6": "200/903",
+   "924*rhat6": "8800/43",
+   "u": "[sqrt(430)*I/43, 0, 0, sqrt(989)/43, 0, 0, -sqrt(430)*I/43]",
+   "stabilizer": "D3",
+   "occurs_as": "z=+-i sqrt(20/23) of G",
+   "r1..r6": [
+    "0",
+    "16/38829",
+    "920/5547",
+    "1782/12943",
+    "1840/5547",
+    "200/903"
+   ],
+   "tr(rho_2^3)": "352/245438109"
+  }
+ },
+ "same_orbit_by_rotation": [
+  {
+   "map": "R_y(pi/2) R_z(pi/2): cat -> F point z = sqrt(3/5)",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(5pi/3) R_y(arccos(1/sqrt3)) R_z(pi/4): xyz -> G point z = 2/sqrt5",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/2): F point z -> -z (z = sqrt(3/5))",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/2): F point z -> -z (z = i sqrt(5/3))",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/3): G point z -> -z (z = 2/sqrt5)",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/3): G point z -> -z (z = i sqrt(20/23))",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/4): (v2+v-2)/sqrt2 (omitted point of F) -> xyz line",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(pi/6): (v3-v-3)/sqrt2 (omitted point of G) -> cat line",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_y(pi): v1 -> v-1",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_y(pi): v2 -> v-2",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_y(pi): v3 -> v-3",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(2pi/7) moves circle point of A to z = 1/2 * e^{-2pi i (-3)/7}",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(2pi/7) moves circle point of D to z = 2*sqrt(39)/13 * e^{-2pi i (-5)/7}",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(2pi/7) moves circle point of C to z = 1 * e^{-2pi i (-4)/7}",
+   "verified_exactly": true
+  },
+  {
+   "map": "R_z(2pi/7) moves circle point of E to z = 1 * e^{-2pi i (-6)/7}",
+   "verified_exactly": true
+  }
+ ],
+ "separations": [
+  {
+   "pair": [
+    "v1",
+    "F*"
+   ],
+   "value": "75/308",
+   "separated_by": "r_1: 1/28 vs 0 (exact, rotation-invariant)"
+  },
+  {
+   "pair": [
+    "A*",
+    "D*"
+   ],
+   "value": "9/35",
+   "separated_by": "all quartic invariants r_1..r_6 agree; tr(rho_2^3): -132/42875 vs 132/42875 (exact, rotation-invariant); also stabilizers C3 vs C5 are non-isomorphic"
+  }
+ ]
+}

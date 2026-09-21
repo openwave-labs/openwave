@@ -1,0 +1,93 @@
+PASS [item5b] A*: u is a unit vector 
+PASS [item5b] A*: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] A*: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] A*: orbit-null control H_u(t3 = i u_perp) == 0 0
+PASS [item5b] A*: 50-digit matrix route agrees with exact H entries (dev 3.34e-51) 
+PASS [item5b] A*: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[-384/1375, 0], [0, 0]]
+
+A* (class A, z = 1/2)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1/3)*[i u] + (5/6)*[-i Jz u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   H_u on ['t2 = u_perp'] = [[-24/55]]   Gram = [[1]]
+PASS [item5b] D*: u is a unit vector 
+PASS [item5b] D*: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] D*: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] D*: orbit-null control H_u(t3 = i u_perp) == 0 0
+PASS [item5b] D*: 50-digit matrix route agrees with exact H entries (dev 8.02e-51) 
+PASS [item5b] D*: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[-17576/34375, 0], [0, 0]]
+
+D* (class D, z = 2*sqrt(39)/13)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(-sqrt(39)/39)*[i u] + (5*sqrt(39)/78)*[-i Jz u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   H_u on ['t2 = u_perp'] = [[-104/55]]   Gram = [[1]]
+PASS [item5b] F*: u is a unit vector 
+PASS [item5b] F*: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] F*: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] F*: 50-digit matrix route agrees with exact H entries (dev 5.35e-51) 
+PASS [item5b] F*: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[3/11, 0], [0, 45/352]]
+
+F* (class F, z = sqrt(15)*I/3)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   H_u on ['t2 = u_perp', 't3 = i u_perp'] = [[64/33, 0], [0, 10/11]]   Gram = [[1, 0], [0, 1]]
+PASS [item5b] G*: u is a unit vector 
+PASS [item5b] G*: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] G*: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] G*: 50-digit matrix route agrees with exact H entries (dev 2.67e-51) 
+PASS [item5b] G*: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[4232/20339, 0], [0, 486680/874577]]
+
+G* (class G, z = 2*sqrt(115)*I/23)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   H_u on ['t2 = u_perp', 't3 = i u_perp'] = [[8/11, 0], [0, 920/473]]   Gram = [[1, 0], [0, 1]]
+PASS [item5b] xyz: u is a unit vector 
+PASS [item5b] xyz: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] xyz: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] xyz: orbit-null control H_u(t3 = i u_perp) == 0 0
+PASS [item5b] xyz: 50-digit matrix route agrees with exact H entries (dev 5.35e-51) 
+PASS [item5b] xyz: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[-6/11, 0], [0, 0]]
+
+xyz in C (supplementary) (class C, z = 1)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1/2)*[-i Jz u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   H_u on ['t2 = u_perp'] = [[-24/11]]   Gram = [[1]]
+PASS [item5b] cat: u is a unit vector 
+PASS [item5b] cat: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] cat: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] cat: orbit-null control H_u(t3 = i u_perp) == 0 0
+PASS [item5b] cat: 50-digit matrix route agrees with exact H entries (dev 1.07e-50) 
+PASS [item5b] cat: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[-1, 0], [0, 0]]
+
+cat in E (supplementary) (class E, z = 1)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1/3)*[-i Jz u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   H_u on ['t2 = u_perp'] = [[-4]]   Gram = [[1]]
+PASS [item5b] xyz@G: u is a unit vector 
+PASS [item5b] xyz@G: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] xyz@G: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] xyz@G: 50-digit matrix route agrees with exact H entries (dev 5.35e-51) 
+PASS [item5b] xyz@G: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[1000/2673, 0], [0, -200/891]]
+
+xyz in G (supplementary) (class G, z = 2*sqrt(5)/5)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   H_u on ['t2 = u_perp', 't3 = i u_perp'] = [[40/33, 0], [0, -8/11]]   Gram = [[1, 0], [0, 1]]
+PASS [item5b] cat@F: u is a unit vector 
+PASS [item5b] cat@F: t1,t2,t3 orthonormal and orthogonal to u 
+PASS [item5b] cat@F: orbit-null control H_u(t1 = i u) == 0 0
+PASS [item5b] cat@F: 50-digit matrix route agrees with exact H entries (dev 8.02e-51) 
+PASS [item5b] cat@F: chart Hessian of item 2 == H_u on (u_perp, i u_perp) / (1+|z|^2)^2 [[-125/352, 0], [0, -25/33]]
+
+cat in F (supplementary) (class F, z = sqrt(15)/5)
+   t1 = i u {'projection_onto_N_u_is_zero': True, 'equals_O_direction': '(1)*[i u]', 'H_u_on_unit_tangent_(orbit-null control)': '0'}
+   t2 = u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   t3 = i u_perp {'projection_onto_N_u_is_zero': False, 'norm_of_projection_onto_N_u': '1'}
+   H_u on ['t2 = u_perp', 't3 = i u_perp'] = [[-10/11, 0], [0, -64/33]]   Gram = [[1, 0], [0, 1]]
+item5b fails: 0

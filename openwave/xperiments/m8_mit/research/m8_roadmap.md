@@ -17,7 +17,6 @@
 
 | TaskID | Title | Description | Owner | Gated By |
 | --- | --- | --- | --- | --- |
-| [M8.12](tasks/m8_12_task_details.md) | The reduced Morse census of the level-6 quartic | Which critical orbits of `r̂₆` have a projective stabilizer whose fixed locus has projective dimension at most one, and, at each, the signature of the second variation transverse to the phase-and-rotation orbit, which gives the reduced Morse index for both signs of `g`. Finite algebra on spin 3, sector-independent by M8.1.2's D7. No stability claim, no radius, no MODELS.md cell, M8.7's gate unchanged | author-proposed, maintainer-run | registration and go ([#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-18415036)) |
 
 ## LATER (gated)
 
@@ -78,6 +77,7 @@
 | [M8.1.2](tasks/m8_1_2_task_details.md) | Third blind run: the fourth bedrock paper | ✅ ALL 21 FROZEN CLAIMS REPRODUCE, adjudicated before the author's package opened. Two blind agents, a two-stage packet with the group given by generators, and an adversarial audit that refuted no value; both agents proved the spin-8 zero set with the normalizing hint withheld. ⚠️ The packet's `w_K` wording was loose; the paper's is not. [Method note](findings/m8_1_2_method_note.md) | 2026-09-10 |
 | [M8.10](tasks/m8_10_task_details.md) | First correction at the level-6 critical rays | ✅ ALL FROZEN CLAIMS REPRODUCE: two blind agents in separate rooms derived the 36 level norms and the eight `λ₄/g²` exactly, so the candidate rationals stand as exact results; `λ₄ < 0` argued two ways, and the `R5` negative control fired unmarked. ⚠️ Four solver checks could not fail and the block cubic's `M_K` form is not unique; no value moves. [Method note](findings/m8_10_method_note.md) | 2026-09-13 |
 | [M8.11](tasks/m8_11_task_details.md) | Local branch germs at the level-6 critical rays, and the order-`a²` tilt | ✅ ALL FROZEN VALUES REPRODUCE, and the existence theorem passes as an **audited argument**: two blind agents derived every value exactly, including the tilt at the pyramid and the prism, and an auditor graded the author's proof. Local germs for sufficiently small amplitude; no radius or stability. ⚠️ The `λ₄` lemma's sign step needs M8.10's level sets and does not stand alone. [Method note](findings/m8_11_method_note.md) | 2026-09-18 |
+| [M8.12](tasks/m8_12_task_details.md) | The reduced Morse census of the level-6 quartic | ✅ ALL FROZEN CLAIMS REPRODUCE (2026-09-21): ten critical orbits with exact values, transverse signatures and characteristic polynomials, the `v₁` kernel and both ends, blind on two agents offline plus an adversarial audit finding no mathematical defect. No stability claim, no radius, no MODELS.md cell, M8.7's gate unchanged ([method note](findings/m8_12_method_note.md)) | 2026-09-21 |
 
 ## CHANGE-LOG
 

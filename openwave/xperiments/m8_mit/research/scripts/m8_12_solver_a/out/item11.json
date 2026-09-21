@@ -1,0 +1,32 @@
+{
+ "924*rhat6": "204",
+ "rhat6": "17/77",
+ "tangential_gradient_norm": "2*sqrt(1002)/297",
+ "tangential_gradient_norm_minpoly": "29403*X**2 - 1336",
+ "||M_u d||": {
+  "i u": {
+   "minimal_polynomial": "29403*X**2 - 1336",
+   "exact": "2*sqrt(1002)/297",
+   "numeric": "0.2131608322066587741775613",
+   "squared": "1336/29403"
+  },
+  "-i Jx u": {
+   "minimal_polynomial": "864536409*X**4 - 326961360*X**2 + 28317760",
+   "exact": "sqrt(3)*sqrt(416*sqrt(15) + 5560)/297",
+   "numeric": "0.4938543877615531354103708",
+   "squared": "416*sqrt(15)/29403 + 5560/29403"
+  },
+  "-i Jy u": {
+   "minimal_polynomial": "864536409*X**4 - 326961360*X**2 + 28317760",
+   "exact": "sqrt(3)*sqrt(5560 - 416*sqrt(15))/297",
+   "numeric": "0.3664703877718992100445823",
+   "squared": "5560/29403 - 416*sqrt(15)/29403"
+  },
+  "-i Jz u": {
+   "minimal_polynomial": "29403*X**2 - 4912",
+   "exact": "4*sqrt(921)/297",
+   "numeric": "0.4087270277574011632975351",
+   "squared": "4912/29403"
+  }
+ }
+}

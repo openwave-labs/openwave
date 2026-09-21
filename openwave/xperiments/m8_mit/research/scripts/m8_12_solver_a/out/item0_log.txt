@@ -1,0 +1,21 @@
+PASS [item0] lowering construction == Racah formula on all 231 entries []
+PASS [item0] lowering construction == sympy.physics.quantum.cg (library lookup) []
+PASS [item0] CG orthonormality on sampled (L1,L2,M) []
+PASS [item0] L=6 coefficients equal sqrt(C(6,3+m1)C(6,3+m2)/C(12,6+Q)), all positive 
+PASS [item0] <3 3;3 -3|6 0>^2 == 1/924 sqrt(231)/462
+PASS [item0] Theta(Theta u) == u symbolically 
+PASS [item0] u1 = 2v3 + v1 - 3v-2 dps=50 CG route agrees with exact 3.34e-52
+PASS [item0] u1 = 2v3 + v1 - 3v-2 dps=50 Casimir route agrees with exact 6.68e-52
+PASS [item0] u1 = 2v3 + v1 - 3v-2 dps=80 CG route agrees with exact 2.64e-82
+PASS [item0] u1 = 2v3 + v1 - 3v-2 dps=80 Casimir route agrees with exact 7.91e-82
+u1 = 2v3 + v1 - 3v-2 rhat6 = 1977/8624 = 0.22924397031539888682745825603
+PASS [item0] u2 = v3 + i v0 + 2v-1 dps=50 CG route agrees with exact 0.0
+PASS [item0] u2 = v3 + i v0 + 2v-1 dps=50 Casimir route agrees with exact 6.68e-52
+PASS [item0] u2 = v3 + i v0 + 2v-1 dps=80 CG route agrees with exact 0.0
+PASS [item0] u2 = v3 + i v0 + 2v-1 dps=80 Casimir route agrees with exact 2.64e-82
+u2 = v3 + i v0 + 2v-1 rhat6 = 6329/33264 = 0.190265752765752765752765752766
+PASS [item0] u1 = 2v3 + v1 - 3v-2: sum_L r_L == 1 1
+PASS [item0] u1 = 2v3 + v1 - 3v-2: r_0 == 1/7 
+PASS [item0] u2 = v3 + i v0 + 2v-1: sum_L r_L == 1 1
+PASS [item0] u2 = v3 + i v0 + 2v-1: r_0 == 1/7 
+item0 fails: 0

@@ -1,0 +1,665 @@
+
+==================== item0.py ====================
+<3 3; 3 -3 | 6 0> = sqrt(231)/462  (= 1/sqrt(924))
+PASS CG(3,3;3,-3|6,0) equals stretched closed form sqrt(C(6,6)C(6,0)/C(12,6))
+PASS all 49 <3 m1;3 m2|6 Q> equal the stretched closed form : mismatches=0
+PASS Condon-Shortley normalisation <3 3;3 3|6 6> = +1
+PASS Racah CG: J=6 column orthonormal to J=0..6 columns (exact) : worst=0
+PASS own CG agree with sympy.physics.quantum.cg.CG on all 49 entries : mismatches=0
+PASS Theta(Theta u) = u for symbolic u (exact)
+PASS r6(2v3+v1-3v-2): exact 1977/8624 vs mpmath at 50 digits : |diff|=3.341e-52
+PASS r6(2v3+v1-3v-2): exact 1977/8624 vs mpmath at 100 digits : |diff|=0.0
+r6(2v3+v1-3v-2) = 1977/8624 ~ 0.229243970315398886827458256030
+PASS r6(v3+i v0+2v-1): exact 6329/33264 vs mpmath at 50 digits : |diff|=0.0
+PASS r6(v3+i v0+2v-1): exact 6329/33264 vs mpmath at 100 digits : |diff|=1.7859e-102
+r6(v3+i v0+2v-1) = 6329/33264 ~ 0.190265752765752765752765752766
+ITEM0 ALLPASS
+
+==================== item1.py ====================
+PASS exact D3(x, pi) equals v_m -> -v_{-m}
+PASS exact D3(x, 2 pi) = identity (SO(3) representation)
+PASS exact D3((1,1,1)/sqrt3, 2pi/3) agrees with expm to 1e-12
+PASS exact C3^3 = identity
+PASS C1 has order 1 : found 1
+PASS C1 has 1 one-dimensional characters : found 1
+PASS C2 has order 2 : found 2
+PASS C2 has 2 one-dimensional characters : found 2
+PASS C3 has order 3 : found 3
+PASS C3 has 3 one-dimensional characters : found 3
+PASS C4 has order 4 : found 4
+PASS C4 has 4 one-dimensional characters : found 4
+PASS C5 has order 5 : found 5
+PASS C5 has 5 one-dimensional characters : found 5
+PASS C6 has order 6 : found 6
+PASS C6 has 6 one-dimensional characters : found 6
+PASS C7 has order 7 : found 7
+PASS C7 has 7 one-dimensional characters : found 7
+PASS C8 has order 8 : found 8
+PASS C8 has 8 one-dimensional characters : found 8
+PASS C9 has order 9 : found 9
+PASS C9 has 9 one-dimensional characters : found 9
+PASS C10 has order 10 : found 10
+PASS C10 has 10 one-dimensional characters : found 10
+PASS C11 has order 11 : found 11
+PASS C11 has 11 one-dimensional characters : found 11
+PASS C12 has order 12 : found 12
+PASS C12 has 12 one-dimensional characters : found 12
+PASS D2 has order 4 : found 4
+PASS D2 has 4 one-dimensional characters : found 4
+PASS D3 has order 6 : found 6
+PASS D3 has 2 one-dimensional characters : found 2
+PASS D4 has order 8 : found 8
+PASS D4 has 4 one-dimensional characters : found 4
+PASS D5 has order 10 : found 10
+PASS D5 has 2 one-dimensional characters : found 2
+PASS D6 has order 12 : found 12
+PASS D6 has 4 one-dimensional characters : found 4
+PASS D7 has order 14 : found 14
+PASS D7 has 2 one-dimensional characters : found 2
+PASS D8 has order 16 : found 16
+PASS D8 has 4 one-dimensional characters : found 4
+PASS D9 has order 18 : found 18
+PASS D9 has 2 one-dimensional characters : found 2
+PASS D10 has order 20 : found 20
+PASS D10 has 4 one-dimensional characters : found 4
+PASS D11 has order 22 : found 22
+PASS D11 has 2 one-dimensional characters : found 2
+PASS D12 has order 24 : found 24
+PASS D12 has 4 one-dimensional characters : found 4
+PASS T has order 12 : found 12
+PASS T has 3 one-dimensional characters : found 3
+PASS O has order 24 : found 24
+PASS O has 2 one-dimensional characters : found 2
+PASS I has order 60 : found 60
+PASS I has 1 one-dimensional characters : found 1
+PASS exact (character formula) and numerical (rank) fixed-space dimensions agree for every (H, chi) : 118 pairs compared, 0 mismatches
+PASS rotation angles of all group elements: float64 identification (denominator <= 60, tol 1e-9) equals 40-digit identification (tol 1e-30) : 26 groups, 0 disagreements
+PASS R_x v0 = -v0, so O(2) with chi(reflection) = -1 fixes v0 and the trivial character fixes nothing
+distinct fixed subspaces of dim 1 or 2 found (before rotation classes): 23
+
+complex dimensions of fixed spaces that occur: [0, 1, 2, 3, 4, 7]
+dimensions other than 1, 2: [0, 3, 4, 7]
+  dim 0 produced by e.g. [('C8', [4], 8), ('C9', [4], 9), ('C9', [5], 9), ('C10', [4], 10)]
+  dim 3 produced by e.g. [('C2', [0], 2), ('C3', [0], 3)]
+  dim 4 produced by e.g. [('C2', [1], 2)]
+  dim 7 produced by e.g. [('C1', [0], 1)]
+
+CLASS dim 2  rep basis: (1)v2 | (1)v-1
+  invariants: ('charpoly sum_a (P J_a P)^2 = (lam - 4)*(lam - 1)', 'charpoly sum_ab (P Q_ab P)^2 = lam*(2*lam - 27)/2', 'dim Lie(setwise stabiliser) = 1')
+  member via id: ['(1)v2', '(1)v-1']  <- [('C3', [1], 3)]
+  member via Rx(pi): ['(1)v1', '(1)v-2']  <- [('C3', [2], 3)]
+
+CLASS dim 1  rep basis: (1)v0
+  invariants: ('r6=100/231', '|<J>|^2=0')
+  member via id: ['(1)v0']  <- [('C4', [0], 4), ('C5', [0], 5), ('C6', [0], 6), ('C7', [0], 7), ('C8', [0], 8), ('C9', [0], 9)]
+
+CLASS dim 2  rep basis: (1)v3 | (1)v-1
+  invariants: ('charpoly sum_a (P J_a P)^2 = (lam - 9)*(lam - 1)', 'charpoly sum_ab (P Q_ab P)^2 = (2*lam - 75)*(2*lam - 27)/4', 'dim Lie(setwise stabiliser) = 1')
+  member via id: ['(1)v3', '(1)v-1']  <- [('C4', [1], 4)]
+  member via Rx(pi): ['(1)v1', '(1)v-3']  <- [('C4', [3], 4)]
+
+CLASS dim 2  rep basis: (1)v2 | (1)v-2
+  invariants: ('charpoly sum_a (P J_a P)^2 = (lam - 4)**2', 'charpoly sum_ab (P Q_ab P)^2 = lam**2', 'dim Lie(setwise stabiliser) = 1')
+  member via id: ['(1)v2', '(1)v-2']  <- [('C4', [2], 4)]
+
+CLASS dim 1  rep basis: (1)v-1
+  invariants: ('r6=75/308', '|<J>|^2=1')
+  member via id: ['(1)v-1']  <- [('C5', [1], 5), ('C6', [1], 6), ('C7', [1], 7), ('C8', [1], 8), ('C9', [1], 9), ('C10', [1], 10)]
+  member via Rx(pi): ['(1)v1']  <- [('C5', [4], 5), ('C6', [5], 6), ('C7', [6], 7), ('C8', [7], 8), ('C9', [8], 9), ('C10', [9], 10)]
+
+CLASS dim 2  rep basis: (1)v3 | (1)v-2
+  invariants: ('charpoly sum_a (P J_a P)^2 = (lam - 9)*(lam - 4)', 'charpoly sum_ab (P Q_ab P)^2 = lam*(2*lam - 75)/2', 'dim Lie(setwise stabiliser) = 1')
+  member via id: ['(1)v3', '(1)v-2']  <- [('C5', [2], 5)]
+  member via Rx(pi): ['(1)v2', '(1)v-3']  <- [('C5', [3], 5)]
+
+CLASS dim 1  rep basis: (1)v-2
+  invariants: ('r6=3/77', '|<J>|^2=4')
+  member via id: ['(1)v-2']  <- [('C6', [2], 6), ('C7', [2], 7), ('C8', [2], 8), ('C9', [2], 9), ('C10', [2], 10), ('C11', [2], 11)]
+  member via Rx(pi): ['(1)v2']  <- [('C6', [4], 6), ('C7', [5], 7), ('C8', [6], 8), ('C9', [7], 9), ('C10', [8], 10), ('C11', [9], 11)]
+
+CLASS dim 2  rep basis: (1)v3 | (1)v-3
+  invariants: ('charpoly sum_a (P J_a P)^2 = (lam - 9)**2', 'charpoly sum_ab (P Q_ab P)^2 = (2*lam - 75)**2/4', 'dim Lie(setwise stabiliser) = 1')
+  member via id: ['(1)v3', '(1)v-3']  <- [('C6', [3], 6)]
+
+CLASS dim 1  rep basis: (1)v-3
+  invariants: ('r6=1/924', '|<J>|^2=9')
+  member via id: ['(1)v-3']  <- [('C7', [3], 7), ('C8', [3], 8), ('C9', [3], 9), ('C10', [3], 10), ('C11', [3], 11), ('C12', [3], 12)]
+  member via Rx(pi): ['(1)v3']  <- [('C7', [4], 7), ('C8', [5], 8), ('C9', [6], 9), ('C10', [7], 10), ('C11', [8], 11), ('C12', [9], 12)]
+
+CLASS dim 1  rep basis: (-1)v2 + (1)v-2
+  invariants: ('r6=24/77', '|<J>|^2=0')
+  member via id: ['(-1)v2 + (1)v-2']  <- [('D2', [0, 0], 2), ('D4', [2, 0], 4), ('T', [0, 0], 6), ('O', [6, 0], 12)]
+  member via Rz(2pi/8): ['(1)v2 + (1)v-2']  <- [('D4', [2, 2], 4)]
+
+CLASS dim 2  rep basis: (1)v0 | (1)v2 + (1)v-2
+  invariants: ('charpoly sum_a (P J_a P)^2 = lam**2', 'charpoly sum_ab (P Q_ab P)^2 = (lam - 54)*(lam - 30)', 'dim Lie(setwise stabiliser) = 0')
+  member via id: ['(1)v0', '(1)v2 + (1)v-2']  <- [('D2', [0, 1], 2)]
+  member via C3(111): ['(-1)v1 + (1)v-1', '(-1)v3 + (1)v-3']  <- [('D2', [1, 0], 2)]
+  member via C3(111)^2: ['(1)v1 + (1)v-1', '(1)v3 + (1)v-3']  <- [('D2', [1, 1], 2)]
+
+CLASS dim 1  rep basis: (-1)v3 + (1)v-3
+  invariants: ('r6=463/924', '|<J>|^2=0')
+  member via id: ['(-1)v3 + (1)v-3']  <- [('D3', [0, 0], 6), ('D6', [3, 0], 6)]
+  member via Rz(2pi/4): ['(1)v3 + (1)v-3']  <- [('D6', [3, 3], 6)]
+
+CLASS dim 2  rep basis: (1)v0 | (1)v3 + (1)v-3
+  invariants: ('charpoly sum_a (P J_a P)^2 = lam**2', 'charpoly sum_ab (P Q_ab P)^2 = (lam - 24)*(2*lam - 75)/2', 'dim Lie(setwise stabiliser) = 0')
+  member via id: ['(1)v0', '(1)v3 + (1)v-3']  <- [('D3', [0, 3], 6)]
+
+classes: dim1 = 6, dim2 = 7
+PASS dim-1 classes pairwise separated by exact rotation invariants
+PASS dim-2 classes pairwise separated by exact rotation invariants
+ITEM1 ALLPASS
+
+==================== item2.py ====================
+
+=== class L12 (fixed space of C3)
+chart u = w0 + z w1, omitted point [w1];  r6 = 3*(4*x**4 + 8*x**2*y**2 + 64*x**2 + 4*y**4 + 64*y**2 + 25)/(308*(x**2 + y**2 + 1)**2)
+PASS L12: r6 restricted depends on |z|^2 only (f(x,y) - F(x^2+y^2) = 0 exactly) : F(t) = 3*(4*t**2 + 64*t + 25)/(308*(t + 1)**2)
+F(t) = 3*(4*t**2 + 64*t + 25)/(308*(t + 1)**2) ; F'(t) = -3*(4*t - 1)/(22*(t + 1)**3)
+PASS L12: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = 0                        r6 = 75/308     ~ 0.243506493506   type on line: min
+  critical: |z| = 1/2 (circle)           r6 = 9/35       ~ 0.257142857143   type on line: max-circle
+  critical: [w1] (w' = 0)                r6 = 3/77       ~ 0.038961038961   type on line: min
+PASS L12: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class L13 (fixed space of C4)
+chart u = w0 + z w1, omitted point [w1];  r6 = (x**4 + 2*x**2*y**2 + 450*x**2 + y**4 + 450*y**2 + 225)/(924*(x**2 + y**2 + 1)**2)
+PASS L13: r6 restricted depends on |z|^2 only (f(x,y) - F(x^2+y^2) = 0 exactly) : F(t) = (t**2 + 450*t + 225)/(924*(t + 1)**2)
+F(t) = (t**2 + 450*t + 225)/(924*(t + 1)**2) ; F'(t) = -16*t/(33*(t + 1)**3)
+PASS L13: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = 0                        r6 = 75/308     ~ 0.243506493506   type on line: degenerate max (F^(2)(0) = -16/33, all lower t-derivatives zero)
+  critical: [w1] (w' = 0)                r6 = 1/924      ~ 0.001082251082   type on line: min
+PASS L13: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class L22 (fixed space of C4)
+chart u = w0 + z w1, omitted point [w1];  r6 = 3*(x**4 + 2*x**2*y**2 + 30*x**2 + y**4 + 30*y**2 + 1)/(77*(x**2 + y**2 + 1)**2)
+PASS L22: r6 restricted depends on |z|^2 only (f(x,y) - F(x^2+y^2) = 0 exactly) : F(t) = 3*(t**2 + 30*t + 1)/(77*(t + 1)**2)
+F(t) = 3*(t**2 + 30*t + 1)/(77*(t + 1)**2) ; F'(t) = -12*(t - 1)/(11*(t + 1)**3)
+PASS L22: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = 0                        r6 = 3/77       ~ 0.038961038961   type on line: min
+  critical: |z| = 1 (circle)             r6 = 24/77      ~ 0.311688311688   type on line: max-circle
+  critical: [w1] (w' = 0)                r6 = 3/77       ~ 0.038961038961   type on line: min
+PASS L22: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class L23 (fixed space of C5)
+chart u = w0 + z w1, omitted point [w1];  r6 = (x**4 + 2*x**2*y**2 + 912*x**2 + y**4 + 912*y**2 + 36)/(924*(x**2 + y**2 + 1)**2)
+PASS L23: r6 restricted depends on |z|^2 only (f(x,y) - F(x^2+y^2) = 0 exactly) : F(t) = (t**2 + 912*t + 36)/(924*(t + 1)**2)
+F(t) = (t**2 + 912*t + 36)/(924*(t + 1)**2) ; F'(t) = -5*(13*t - 12)/(66*(t + 1)**3)
+PASS L23: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = 0                        r6 = 3/77       ~ 0.038961038961   type on line: min
+  critical: |z| = 2*sqrt(39)/13 (circle) r6 = 9/35       ~ 0.257142857143   type on line: max-circle
+  critical: [w1] (w' = 0)                r6 = 1/924      ~ 0.001082251082   type on line: min
+PASS L23: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class L33 (fixed space of C6)
+chart u = w0 + z w1, omitted point [w1];  r6 = (x**4 + 2*x**2*y**2 + 1850*x**2 + y**4 + 1850*y**2 + 1)/(924*(x**2 + y**2 + 1)**2)
+PASS L33: r6 restricted depends on |z|^2 only (f(x,y) - F(x^2+y^2) = 0 exactly) : F(t) = (t**2 + 1850*t + 1)/(924*(t + 1)**2)
+F(t) = (t**2 + 1850*t + 1)/(924*(t + 1)**2) ; F'(t) = -2*(t - 1)/(t + 1)**3
+PASS L33: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = 0                        r6 = 1/924      ~ 0.001082251082   type on line: min
+  critical: |z| = 1 (circle)             r6 = 463/924    ~ 0.501082251082   type on line: max-circle
+  critical: [w1] (w' = 0)                r6 = 1/924      ~ 0.001082251082   type on line: min
+PASS L33: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class U (fixed space of D2)
+chart u = w0 + z w1, omitted point [w1];  r6 = 4*(72*x**4 + 144*x**2*y**2 + 142*x**2 + 72*y**4 + 30*y**2 + 25)/(231*(2*x**2 + 2*y**2 + 1)**2)
+lex Groebner basis: [x*(10*x**2 - 22*y**2 - 3), y*(26*x**2 - 6*y**2 + 5), x*y*(4*y**2 + 1), y*(4*y**2 + 1)*(6*y**2 - 5)]
+PASS U: Groebner basis is zero-dimensional (finitely many complex solutions)
+PASS U: univariate eliminant in y solved completely by radicals
+PASS U: gradient vanishes exactly at z = -sqrt(30)*I/6
+PASS U: gradient vanishes exactly at z = sqrt(30)*I/6
+PASS U: gradient vanishes exactly at z = -sqrt(30)/10
+PASS U: gradient vanishes exactly at z = sqrt(30)/10
+PASS U: gradient vanishes exactly at z = 0
+PASS U: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = -sqrt(30)*I/6            r6 = 75/308     ~ 0.243506493506   type on line: min
+  critical: z = sqrt(30)*I/6             r6 = 75/308     ~ 0.243506493506   type on line: min
+  critical: z = -sqrt(30)/10             r6 = 463/924    ~ 0.501082251082   type on line: max
+  critical: z = sqrt(30)/10              r6 = 463/924    ~ 0.501082251082   type on line: max
+  critical: z = 0                        r6 = 100/231    ~ 0.432900432900   type on line: saddle
+  critical: [w1] (w' = 0)                r6 = 24/77      ~ 0.311688311688   type on line: saddle
+PASS U: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+
+=== class W (fixed space of D3)
+chart u = w0 + z w1, omitted point [w1];  r6 = (463*x**4 + 926*x**2*y**2 - 20*x**2 + 463*y**4 + 148*y**2 + 100)/(231*(2*x**2 + 2*y**2 + 1)**2)
+lex Groebner basis: [x*(23*x**2 + 7*y**2 - 10), y*(31*x**2 + 15*y**2 - 6), x*y*(32*y**2 + 43), y*(5*y**2 - 2)*(32*y**2 + 43)]
+PASS W: Groebner basis is zero-dimensional (finitely many complex solutions)
+PASS W: univariate eliminant in y solved completely by radicals
+PASS W: gradient vanishes exactly at z = -sqrt(10)*I/5
+PASS W: gradient vanishes exactly at z = sqrt(10)*I/5
+PASS W: gradient vanishes exactly at z = -sqrt(230)/23
+PASS W: gradient vanishes exactly at z = sqrt(230)/23
+PASS W: gradient vanishes exactly at z = 0
+PASS W: omitted point [w1] is critical (second-chart gradient at 0 is zero)
+  critical: z = -sqrt(10)*I/5            r6 = 24/77      ~ 0.311688311688   type on line: saddle
+  critical: z = sqrt(10)*I/5             r6 = 24/77      ~ 0.311688311688   type on line: saddle
+  critical: z = -sqrt(230)/23            r6 = 200/903    ~ 0.221483942414   type on line: min
+  critical: z = sqrt(230)/23             r6 = 200/903    ~ 0.221483942414   type on line: min
+  critical: z = 0                        r6 = 100/231    ~ 0.432900432900   type on line: max
+  critical: [w1] (w' = 0)                r6 = 463/924    ~ 0.501082251082   type on line: max
+PASS W: Poincare-Hopf index sum over the critical set equals chi(P^1) = 2 : sum=2
+PASS grid-Newton solver finds no critical point outside the eliminated list (U, W)
+ITEM2 ALLPASS
+
+==================== item3.py ====================
+PASS v0: N(u/|u|) equals r6 computed from rho_6 directly
+PASS v0: tangential gradient of r6 vanishes exactly
+  v0: r6 = 100/231 ~ 0.432900432900433
+PASS v1: N(u/|u|) equals r6 computed from rho_6 directly
+PASS v1: tangential gradient of r6 vanishes exactly
+  v1: r6 = 75/308 ~ 0.243506493506494
+PASS v2: N(u/|u|) equals r6 computed from rho_6 directly
+PASS v2: tangential gradient of r6 vanishes exactly
+  v2: r6 = 3/77 ~ 0.038961038961039
+PASS v3: N(u/|u|) equals r6 computed from rho_6 directly
+PASS v3: tangential gradient of r6 vanishes exactly
+  v3: r6 = 1/924 ~ 0.001082251082251
+PASS hex v3+v-3: N(u/|u|) equals r6 computed from rho_6 directly
+PASS hex v3+v-3: tangential gradient of r6 vanishes exactly
+  hex v3+v-3: r6 = 463/924 ~ 0.501082251082251
+PASS oct v2-v-2: N(u/|u|) equals r6 computed from rho_6 directly
+PASS oct v2-v-2: tangential gradient of r6 vanishes exactly
+  oct v2-v-2: r6 = 24/77 ~ 0.311688311688312
+control (v3+v1-v-2)/sqrt3: |grad|^2 = 1336/29403
+PASS control: the gradient check fires at a non-critical point
+ITEM3 ALLPASS
+
+==================== item4.py ====================
+PASS v3: r6 = 1/924 (independent of the circle parameter alpha)
+PASS v-3: r6 = 1/924 (independent of the circle parameter alpha)
+PASS v2: r6 = 3/77 (independent of the circle parameter alpha)
+PASS v-2: r6 = 3/77 (independent of the circle parameter alpha)
+PASS v1: r6 = 75/308 (independent of the circle parameter alpha)
+PASS v-1: r6 = 75/308 (independent of the circle parameter alpha)
+PASS v0: r6 = 100/231 (independent of the circle parameter alpha)
+PASS oct: r6 = 24/77 (independent of the circle parameter alpha)
+PASS hex: r6 = 463/924 (independent of the circle parameter alpha)
+PASS L12 circle: r6 = 9/35 (independent of the circle parameter alpha)
+PASS L23 circle: r6 = 9/35 (independent of the circle parameter alpha)
+PASS L22 circle: r6 = 24/77 (independent of the circle parameter alpha)
+PASS L33 circle: r6 = 463/924 (independent of the circle parameter alpha)
+PASS U max +: r6 = 463/924 (independent of the circle parameter alpha)
+PASS U max -: r6 = 463/924 (independent of the circle parameter alpha)
+PASS U min +: r6 = 75/308 (independent of the circle parameter alpha)
+PASS U min -: r6 = 75/308 (independent of the circle parameter alpha)
+PASS W sad +: r6 = 24/77 (independent of the circle parameter alpha)
+PASS W sad -: r6 = 24/77 (independent of the circle parameter alpha)
+PASS W min +: r6 = 200/903 (independent of the circle parameter alpha)
+PASS W min -: r6 = 200/903 (independent of the circle parameter alpha)
+R1 . oct = [sqrt(2)*(1 - I)/3, 0, 0, sqrt(10)*I/3, 0, 0, sqrt(2)*(1 + I)/3]
+PASS R1 . oct lies in span{v3, v0, v-3} (3-fold axis now along z)
+PASS required phase w = e^{-3 i beta} has |w| = 1 and fixes the v-3 component too : w = sqrt(2)*(-1 - I)/2
+PASS w = e^{-3 i pi/4}, so beta = pi/4
+PASS control: proportionality test rejects [hex] -> [oct] under the hex->U rotation
+PASS rotation R_x(pi) carries [v3] onto [v-3] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_x(pi) carries [v2] onto [v-2] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_x(pi) carries [v1] onto [v-1] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_z((alpha - pi)/4) carries [oct] onto [L22 circle] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 3.33e-16
+PASS rotation R_z(alpha/6) carries [hex] onto [L33 circle] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 3.33e-16
+PASS rotation R_z(pi/2) carries [U max +] onto [U max -] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_z(pi/2) carries [U min +] onto [U min -] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_z(pi/3) carries [W sad +] onto [W sad -] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation R_z(pi/3) carries [W min +] onto [W min -] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 0.00e+00
+PASS rotation rotation by 4pi/3 about (1,1,-1)/sqrt3 carries [hex] onto [U max +] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : 3.33e-16
+PASS rotation R_z(pi/4) R1, R1 = rotation about (1,-1,0)/sqrt2 by arccos(1/sqrt3) carries [oct] onto [W sad +] (exact)
+PASS   float cross-check at alpha = 0.7: 1 - |<t,Ds>|^2/(|t|^2|s|^2) < 1e-12 : -2.22e-16
+v3          {'|<J>|^2': '9', 'I3': '45', 'r0': '1/7', 'r1': '9/28', 'r2': '25/84', 'r3': '1/6', 'r4': '9/154', 'r5': '1/84', 'r6': '1/924'}
+v2          {'|<J>|^2': '4', 'I3': '0', 'r0': '1/7', 'r1': '1/7', 'r2': '0', 'r3': '1/6', 'r4': '7/22', 'r5': '4/21', 'r6': '3/77'}
+W min +     {'|<J>|^2': '0', 'I3': '0', 'r0': '1/7', 'r1': '0', 'r2': '16/38829', 'r3': '920/5547', 'r4': '1782/12943', 'r5': '1840/5547', 'r6': '200/903'}
+v1          {'|<J>|^2': '1', 'I3': '-3', 'r0': '1/7', 'r1': '1/28', 'r2': '3/28', 'r3': '1/6', 'r4': '1/154', 'r5': '25/84', 'r6': '75/308'}
+U min +     {'|<J>|^2': '0', 'I3': '0', 'r0': '1/7', 'r1': '0', 'r2': '3/112', 'r3': '5/32', 'r4': '291/2464', 'r5': '5/16', 'r6': '75/308'}
+L12 circle  {'|<J>|^2': '4/25', 'I3': '-48/125', 'r0': '1/7', 'r1': '1/175', 'r2': '12/175', 'r3': '1/6', 'r4': '11/350', 'r5': '172/525', 'r6': '9/35'}
+L23 circle  {'|<J>|^2': '4/25', 'I3': '48/125', 'r0': '1/7', 'r1': '1/175', 'r2': '12/175', 'r3': '1/6', 'r4': '11/350', 'r5': '172/525', 'r6': '9/35'}
+oct         {'|<J>|^2': '0', 'I3': '0', 'r0': '1/7', 'r1': '0', 'r2': '0', 'r3': '0', 'r4': '6/11', 'r5': '0', 'r6': '24/77'}
+v0          {'|<J>|^2': '0', 'I3': '0', 'r0': '1/7', 'r1': '0', 'r2': '4/21', 'r3': '0', 'r4': '18/77', 'r5': '0', 'r6': '100/231'}
+hex         {'|<J>|^2': '0', 'I3': '0', 'r0': '1/7', 'r1': '0', 'r2': '25/84', 'r3': '0', 'r4': '9/154', 'r5': '0', 'r6': '463/924'}
+L12 circle C_3 (<J> = 2/5 e_z)
+L23 circle C_5 (<J> = -2/5 e_z)
+PASS [v1] and [U min +] have the same r6 : 75/308
+PASS [v1] and [U min +] separated by an exact rotation invariant : {'|<J>|^2': ('1', '0'), 'I3': ('-3', '0'), 'r1': ('1/28', '0'), 'r2': ('3/28', '3/112'), 'r3': ('1/6', '5/32'), 'r4': ('1/154', '291/2464'), 'r5': ('25/84', '5/16')}
+PASS [L12 circle] and [L23 circle] have the same r6 : 9/35
+PASS [L12 circle] and [L23 circle] separated by an exact rotation invariant : {'I3': ('-48/125', '48/125'), 'projective stabiliser': ('C_3 (<J> = 2/5 e_z)', 'C_5 (<J> = -2/5 e_z)')}
+PASS every pair of distinct orbits with equal r6 is separated by an invariant : []
+
+ORBITS (10):
+  r6 = 1/924    ~ 0.0010822511  members: ['v3', 'v-3']
+  r6 = 3/77     ~ 0.0389610390  members: ['v2', 'v-2']
+  r6 = 200/903  ~ 0.2214839424  members: ['W min +', 'W min -']
+  r6 = 75/308   ~ 0.2435064935  members: ['v1', 'v-1']
+  r6 = 75/308   ~ 0.2435064935  members: ['U min +', 'U min -']
+  r6 = 9/35     ~ 0.2571428571  members: ['L12 circle']
+  r6 = 9/35     ~ 0.2571428571  members: ['L23 circle']
+  r6 = 24/77    ~ 0.3116883117  members: ['oct', 'L22 circle', 'W sad +', 'W sad -']
+  r6 = 100/231  ~ 0.4329004329  members: ['v0']
+  r6 = 463/924  ~ 0.5010822511  members: ['hex', 'L33 circle', 'U max +', 'U max -']
+ITEM4 ALLPASS
+
+==================== item5.py ====================
+PASS v3: dim O_u + dim N_u = 13 : dim O_u = 3, dim N_u = 10
+PASS v3: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS v3: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 0.0
+PASS v3: exact signature equals numerical signature : exact (0, 0, 10), numerical (0, 0, 10)
+  v3: r6 = 1/924  dim N_u = 10  signature (n-, n0, n+) = (0, 0, 10)
+     charpoly: (lam - 4)**2*(11*lam - 3)**2*(11*lam - 2)**2*(33*lam - 65)**2*(33*lam - 32)**2/17363069361
+     eigenvalues: ['0.181818181818', '0.181818181818', '0.272727272727', '0.272727272727', '0.969696969697', '0.969696969697', '1.9696969697', '1.9696969697', '4.0', '4.0']
+PASS v2: dim O_u + dim N_u = 13 : dim O_u = 3, dim N_u = 10
+PASS v2: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS v2: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 1.0e-51
+PASS v2: exact signature equals numerical signature : exact (2, 0, 8), numerical (2, 0, 8)
+  v2: r6 = 3/77  dim N_u = 10  signature (n-, n0, n+) = (2, 0, 8)
+     charpoly: (3*lam - 4)**2*(11*lam - 24)**2*(11*lam - 20)**2*(11*lam - 12)**2*(33*lam + 8)**2/17363069361
+     eigenvalues: ['-0.242424242424', '-0.242424242424', '1.09090909091', '1.09090909091', '1.33333333333', '1.33333333333', '1.81818181818', '1.81818181818', '2.18181818182', '2.18181818182']
+PASS Wmin: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS Wmin: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS Wmin: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 2.41e-50
+PASS Wmin: exact signature equals numerical signature : exact (3, 0, 6), numerical (3, 0, 6)
+  Wmin: r6 = 200/903  dim N_u = 9  signature (n-, n0, n+) = (3, 0, 6)
+     charpoly: (11*lam - 8)*(473*lam - 920)*(473*lam + 696)*(1419*lam - 560)**2*(671187*lam**2 + 438944*lam - 339200)**2/2232373353377701794512571
+     eigenvalues: ['-1.47145877378', '-1.10948449659', '-1.10948449659', '0.394644115574', '0.394644115574', '0.455502819355', '0.455502819355', '0.727272727273', '1.94503171247']
+PASS v1: dim O_u + dim N_u = 13 : dim O_u = 3, dim N_u = 10
+PASS v1: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS v1: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 1.34e-50
+PASS v1: exact signature equals numerical signature : exact (4, 2, 4), numerical (4, 2, 4)
+  v1: r6 = 75/308  dim N_u = 10  signature (n-, n0, n+) = (4, 2, 4)
+     charpoly: lam**2*(3*lam + 5)**2*(11*lam - 3)**2*(363*lam**2 - 374*lam - 600)**2/143496441
+     eigenvalues: ['-1.66666666667', '-1.66666666667', '-0.869866046306', '-0.869866046306', '0.0', '0.0', '0.272727272727', '0.272727272727', '1.90016907661', '1.90016907661']
+PASS Umin: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS Umin: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS Umin: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 1.74e-50
+PASS Umin: exact signature equals numerical signature : exact (5, 0, 4), numerical (5, 0, 4)
+  Umin: r6 = 75/308  dim N_u = 9  signature (n-, n0, n+) = (5, 0, 4)
+     charpoly: (11*lam - 10)*(11*lam + 7)*(33*lam - 64)*(31944*lam**3 + 46948*lam**2 - 13530*lam - 7125)**2/4074533610048
+     eigenvalues: ['-1.64476382019', '-1.64476382019', '-0.636363636364', '-0.290979715513', '-0.290979715513', '0.466046566011', '0.466046566011', '0.909090909091', '1.93939393939']
+PASS L12circle: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS L12circle: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS L12circle: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 3.21e-50
+PASS L12circle: exact signature equals numerical signature : exact (5, 0, 4), numerical (5, 0, 4)
+  L12circle: r6 = 9/35  dim N_u = 9  signature (n-, n0, n+) = (5, 0, 4)
+     charpoly: (55*lam + 24)*(16471125*lam**4 + 9583200*lam**3 - 45776720*lam**2 - 23015168*lam + 998400)**2/14921387732109375
+     eigenvalues: ['-1.71518735694', '-1.71518735694', '-0.538755302941', '-0.538755302941', '-0.436363636364', '0.0401954520856', '0.0401954520856', '1.63192902597', '1.63192902597']
+PASS L23circle: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS L23circle: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS L23circle: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 5.35e-51
+PASS L23circle: exact signature equals numerical signature : exact (5, 0, 4), numerical (5, 0, 4)
+  L23circle: r6 = 9/35  dim N_u = 9  signature (n-, n0, n+) = (5, 0, 4)
+     charpoly: (55*lam + 24)**2*(55*lam + 104)*(165*lam - 4)**2*(1815*lam**2 - 1012*lam - 3360)**2/14921387732109375
+     eigenvalues: ['-1.89090909091', '-1.11008301182', '-1.11008301182', '-0.436363636364', '-0.436363636364', '0.0242424242424', '0.0242424242424', '1.6676587694', '1.6676587694']
+PASS oct: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS oct: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS oct: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 1.07e-50
+PASS oct: exact signature equals numerical signature : exact (6, 0, 3), numerical (6, 0, 3)
+  oct: r6 = 24/77  dim N_u = 9  signature (n-, n0, n+) = (6, 0, 3)
+     charpoly: (11*lam + 8)**3*(11*lam + 24)**3*(33*lam - 40)**3/63664587657
+     eigenvalues: ['-2.18181818182', '-2.18181818182', '-2.18181818182', '-0.727272727273', '-0.727272727273', '-0.727272727273', '1.21212121212', '1.21212121212', '1.21212121212']
+PASS v0: dim O_u + dim N_u = 13 : dim O_u = 3, dim N_u = 10
+PASS v0: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS v0: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 5.35e-51
+PASS v0: exact signature equals numerical signature : exact (8, 0, 2), numerical (8, 0, 2)
+  v0: r6 = 100/231  dim N_u = 10  signature (n-, n0, n+) = (8, 0, 2)
+     charpoly: (11*lam - 8)**2*(11*lam + 12)**2*(11*lam + 20)**2*(33*lam + 40)**2*(33*lam + 100)**2/2100931392681
+     eigenvalues: ['-3.0303030303', '-3.0303030303', '-1.81818181818', '-1.81818181818', '-1.21212121212', '-1.21212121212', '-1.09090909091', '-1.09090909091', '0.727272727273', '0.727272727273']
+PASS hex: dim O_u + dim N_u = 13 : dim O_u = 4, dim N_u = 9
+PASS hex: M_u annihilates the four generators of O_u exactly : residual norms ['0', '0', '0', '0']
+PASS hex: eigenvalues (mpmath eigsy, 50 digits) match exact roots of the charpoly : max diff 1.07e-50
+PASS hex: exact signature equals numerical signature : exact (9, 0, 0), numerical (9, 0, 0)
+  hex: r6 = 463/924  dim N_u = 9  signature (n-, n0, n+) = (9, 0, 0)
+     charpoly: (lam + 4)*(11*lam + 10)**2*(11*lam + 15)*(11*lam + 23)*(33*lam + 64)**2*(33*lam + 67)**2/17363069361
+     eigenvalues: ['-4.0', '-2.09090909091', '-2.0303030303', '-2.0303030303', '-1.93939393939', '-1.93939393939', '-1.36363636364', '-0.909090909091', '-0.909090909091']
+ITEM5 ALLPASS
+
+==================== item5b.py ====================
+PASS Wmin in W: chart point is the unit representative
+PASS Wmin in W: the 3 tangents are independent and lie in T_u
+
+== Wmin in W (z0 = sqrt(230)/23)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS Wmin in W: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 23/43)
+  transverse tangents: ['d/dx u_hat', 'd/dy u_hat']
+  H_u matrix (unit unprojected tangents): [[920/473, 0], [0, 184/473]]
+  Gram matrix Re<t_i, t_j>:             [[1, 0], [0, 1]]
+PASS Wmin in W: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS Umin in U: chart point is the unit representative
+PASS Umin in U: the 3 tangents are independent and lie in T_u
+
+== Umin in U (z0 = sqrt(30)*I/6)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS Umin in U: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 3/8)
+  d/dy u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  transverse tangents: ['d/dx u_hat', 'd/dy u_hat']
+  H_u matrix (unit unprojected tangents): [[8/11, 0], [0, 10/11]]
+  Gram matrix Re<t_i, t_j>:             [[1, 0], [0, 1]]
+PASS Umin in U: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS L12circle in L12: chart point is the unit representative
+PASS L12circle in L12: the 3 tangents are independent and lie in T_u
+
+== L12circle in L12 (z0 = 1/2)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS L12circle in L12: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u = 0; it is (2/3)(i u) + (2/3)(-i Jz u) ; H_u(unit t, unit t) = 0
+PASS L12circle in L12: orbit-null control H_u(d/dy u_hat) = 0
+  transverse tangents: ['d/dx u_hat']
+  H_u matrix (unit unprojected tangents): [[-24/55]]
+  Gram matrix Re<t_i, t_j>:             [[1]]
+PASS L12circle in L12: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS L23circle in L23: chart point is the unit representative
+PASS L23circle in L23: the 3 tangents are independent and lie in T_u
+
+== L23circle in L23 (z0 = 2*sqrt(39)/13)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS L23circle in L23: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u = 0; it is (sqrt(39)/15)(i u) + (sqrt(39)/30)(-i Jz u) ; H_u(unit t, unit t) = 0
+PASS L23circle in L23: orbit-null control H_u(d/dy u_hat) = 0
+  transverse tangents: ['d/dx u_hat']
+  H_u matrix (unit unprojected tangents): [[-104/55]]
+  Gram matrix Re<t_i, t_j>:             [[1]]
+PASS L23circle in L23: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS hex in L33: chart point is the unit representative
+PASS hex in L33: the 3 tangents are independent and lie in T_u
+
+== hex in L33 (z0 = 1)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS hex in L33: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u = 0; it is (1/2)(i u) + (1/6)(-i Jz u) ; H_u(unit t, unit t) = 0
+PASS hex in L33: orbit-null control H_u(d/dy u_hat) = 0
+  transverse tangents: ['d/dx u_hat']
+  H_u matrix (unit unprojected tangents): [[-4]]
+  Gram matrix Re<t_i, t_j>:             [[1]]
+PASS hex in L33: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS hex in U: chart point is the unit representative
+PASS hex in U: the 3 tangents are independent and lie in T_u
+
+== hex in U (z0 = sqrt(30)/10)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS hex in U: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 5/8)
+  transverse tangents: ['d/dx u_hat', 'd/dy u_hat']
+  H_u matrix (unit unprojected tangents): [[-10/11, 0], [0, -40/33]]
+  Gram matrix Re<t_i, t_j>:             [[1, 0], [0, 1]]
+PASS hex in U: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS oct in L22: chart point is the unit representative
+PASS oct in L22: the 3 tangents are independent and lie in T_u
+
+== oct in L22 (z0 = -1)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS oct in L22: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  d/dy u_hat  projection onto N_u = 0; it is (-1/2)(i u) + (-1/4)(-i Jz u) ; H_u(unit t, unit t) = 0
+PASS oct in L22: orbit-null control H_u(d/dy u_hat) = 0
+  transverse tangents: ['d/dx u_hat']
+  H_u matrix (unit unprojected tangents): [[-24/11]]
+  Gram matrix Re<t_i, t_j>:             [[1]]
+PASS oct in L22: H_u(t, t') = H_u(P_N t, P_N t') exactly
+PASS oct in W: chart point is the unit representative
+PASS oct in W: the 3 tangents are independent and lie in T_u
+
+== oct in W (z0 = sqrt(10)*I/5)
+  i u         projection onto N_u = 0; it is (1)(i u) ; H_u(unit t, unit t) = 0
+PASS oct in W: orbit-null control H_u(i u) = 0
+  d/dx u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 5/9)
+  d/dy u_hat  projection onto N_u nonzero (|P_N t|^2/|t|^2 = 1)
+  transverse tangents: ['d/dx u_hat', 'd/dy u_hat']
+  H_u matrix (unit unprojected tangents): [[-40/99, 0], [0, 40/33]]
+  Gram matrix Re<t_i, t_j>:             [[1, 0], [0, 1]]
+PASS oct in W: H_u(t, t') = H_u(P_N t, P_N t') exactly
+ITEM5B ALLPASS
+
+==================== item6_10.py ====================
+item 6: orbit, value, (n-, n0, n+), index g>0, index g<0, extremum
+  v3         1/924    (0, 0, 10)  0  10  local min of E (g>0) local max of E (g<0)
+  v2         3/77     (2, 0, 8)  2  8   
+  Wmin       200/903  (3, 0, 6)  3  6   
+  v1         75/308   (4, 2, 4)  4  4     [degenerate: kernel 2]
+  Umin       75/308   (5, 0, 4)  5  4   
+  L12circle  9/35     (5, 0, 4)  5  4   
+  L23circle  9/35     (5, 0, 4)  5  4   
+  oct        24/77    (6, 0, 3)  6  3   
+  v0         100/231  (8, 0, 2)  8  2   
+  hex        463/924  (9, 0, 0)  9  0  local max of E (g>0) local min of E (g<0)
+PASS exactly one orbit has n- = 0 (v3) and exactly one has n+ = 0 (hex), both with n0 = 0
+
+sector w6=28/39: Q values: {'v3': '1288/1287', 'v2': '147/143', 'Wmin': '5831/5031', 'v1': '168/143', 'Umin': '168/143', 'L12circle': '77/65', 'L23circle': '77/65', 'oct': '175/143', 'v0': '1687/1287', 'hex': '1750/1287'}
+   5b x w  Wmin in W          H = [['25760/18447', '0'], ['0', '5152/18447']]   null = {'i u': '0'}
+   5b x w  Umin in U          H = [['224/429', '0'], ['0', '280/429']]   null = {'i u': '0'}
+   5b x w  L12circle in L12   H = [['-224/715']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  L23circle in L23   H = [['-224/165']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  hex in L33         H = [['-112/39']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  hex in U           H = [['-280/429', '0'], ['0', '-1120/1287']]   null = {'i u': '0'}
+   5b x w  oct in L22         H = [['-224/143']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  oct in W           H = [['-1120/3861', '0'], ['0', '1120/1287']]   null = {'i u': '0'}
+
+sector w6=21/52: Q values: {'v3': '2289/2288', 'v2': '581/572', 'Wmin': '609/559', 'v1': '2513/2288', 'Umin': '2513/2288', 'L12circle': '287/260', 'L23circle': '287/260', 'oct': '161/143', 'v0': '168/143', 'hex': '2751/2288'}
+   5b x w  Wmin in W          H = [['4830/6149', '0'], ['0', '966/6149']]   null = {'i u': '0'}
+   5b x w  Umin in U          H = [['42/143', '0'], ['0', '105/286']]   null = {'i u': '0'}
+   5b x w  L12circle in L12   H = [['-126/715']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  L23circle in L23   H = [['-42/55']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  hex in L33         H = [['-21/13']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  hex in U           H = [['-105/286', '0'], ['0', '-70/143']]   null = {'i u': '0'}
+   5b x w  oct in L22         H = [['-126/143']]   null = {'i u': '0', 'd/dy u_hat': '0'}
+   5b x w  oct in W           H = [['-70/429', '0'], ['0', '70/143']]   null = {'i u': '0'}
+PASS ordering of orbit values is the same for r6 and both Q (w > 0)
+ITEM6_10 ALLPASS
+
+==================== item7.py ====================
+dim ker(H_u | N_u) = 2
+PASS kernel has dimension 2
+PASS kernel = span_R{v-3, i v-3} (rank test)
+PASS M_u v-3 = 0 and M_u (i v-3) = 0 exactly (full 14-vector, not only on N_u)
+PASS v-3, i v-3 lie in N_u (orthogonal to u and O_u)
+PASS r6(v1 + x v-3) = F(x^2) (item 2 restriction, recomputed)
+F(t) = 75/308 - 8*t**2/33 + O(t^3)
+PASS F(t) = 75/308 - (8/33) t^2 + O(t^3): no t term, nonzero t^2 term
+PASS these four CG equal <3 1;3 -1|6 0>, <3 -3;3 3|6 0>, <3 1;3 3|6 4>, <3 -3;3 -1|6 -4>
+B = 2<1,-1|0><-3,3|0> + <1,3|4>^2 + <-3,-1|-4>^2 = 75/154  ; 2C = 2<1,-1|0>^2 = 75/154
+PASS binomial identity 30/924 + 210/924 + 210/924 = 2 * 225/924 (so F'(0) = 0)
+ITEM7 ALLPASS
+
+==================== item8.py ====================
+PASS N(u) = <u(x)u, K u(x)u> exactly, K Hermitian on Sym^2
+PASS |u(x)u|^2 = |u|^4 in these coordinates
+exact eigenvalues of K (value: multiplicity): {1/924: 13, 13/154: 9, 65/84: 5, 13/7: 1}
+PASS lambda_min(K) = 1/924 with multiplicity 13 (the spin-6 part of Sym^2)
+PASS r6(v3) = 1/924 attains the bound
+PASS rho_6(u)_Q = (1/sqrt 924) x [Fock coordinate Q of p_u p_{Theta u}] for symbolic u, all Q : mismatches 0
+PASS |rho_0(u)|^2 = |u|^4 / 7 exactly (so r6 <= 1 - 1/7 = 6/7)
+search for local max (400 starts): best 0.5010822510822521 ; end values: {'463/924': 400}
+search for local min (400 starts): best 0.0010822510822509 ; end values: {'1/924': 400}
+PASS search: best local max equals 463/924 to 1e-12
+PASS search: no start exceeded 463/924 + 1e-12
+PASS search: best local min equals 1/924 to 1e-12 (consistent with the proof)
+numerical level-3 symmetric-extension upper bound on max r6: 0.922047182036 (not certified)
+ITEM8 ALLPASS
+
+==================== item9.py ====================
+PASS N invariant under the one-parameter group of i: grad N . (X x) = 0 identically
+PASS N invariant under the one-parameter group of -i Jx: grad N . (X x) = 0 identically
+PASS N invariant under the one-parameter group of -i Jy: grad N . (X x) = 0 identically
+PASS N invariant under the one-parameter group of -i Jz: grad N . (X x) = 0 identically
+PASS N(conj u) = N(u) identically (complex conjugation K preserves r6)
+PASS control: swapping the v3 and v2 coefficients does not preserve N (check can fail)
+PASS Wmin in W: K fixes u exactly
+PASS Wmin in W: K maps d/dx u to +-itself and d/dy u to -+itself (opposite signs)
+PASS Umin in U: K R_z(pi/2) fixes u exactly
+PASS Umin in U: K R_z(pi/2) maps d/dx u to +-itself and d/dy u to -+itself (opposite signs)
+PASS hex in U: K fixes u exactly
+PASS hex in U: K maps d/dx u to +-itself and d/dy u to -+itself (opposite signs)
+PASS oct in W: K R_z(pi/3) fixes u exactly
+PASS oct in W: K R_z(pi/3) maps d/dx u to +-itself and d/dy u to -+itself (opposite signs)
+PASS v0: Theta u = -1 u exactly
+PASS oct: Theta u = 1 u exactly
+PASS hex: Theta u = 1 u exactly
+PASS exchange symmetry <3 m1;3 m2|k Q> = (-1)^(6-k) <3 m2;3 m1|k Q> for all k, m1, m2
+PASS <3 2; 3 -2 | 2 0> = 0 exactly (the reason r2(v2) = 0)
+PASS dim V_2^O = 0 by the exact character formula (the reason r2(oct) = 0) : dim = 0
+PASS control: dim V_4^O = 1 by the same formula
+ITEM9 ALLPASS
+
+==================== item11.py ====================
+924 r6 = 204
+PASS unit representative consistent
+|tangential gradient| = 2*sqrt(1002)/297 ~ 0.21316083220665877418
+PASS gradient is tangent (Re<u, g> = 0)
+PASS identity M_u(i u) = X g holds exactly
+  |M_u (i u)|^2 = 1336/29403 ; |M_u (i u)| ~ 0.21316083220665877418 ; minimal polynomial of the norm: 29403*X**2 - 1336
+PASS identity M_u(-i Jx u) = X g holds exactly
+  |M_u (-i Jx u)|^2 = 416*sqrt(15)/29403 + 5560/29403 ; |M_u (-i Jx u)| ~ 0.49385438776155313541 ; minimal polynomial of the norm: 864536409*X**4 - 326961360*X**2 + 28317760
+PASS identity M_u(-i Jy u) = X g holds exactly
+  |M_u (-i Jy u)|^2 = 5560/29403 - 416*sqrt(15)/29403 ; |M_u (-i Jy u)| ~ 0.36647038777189921004 ; minimal polynomial of the norm: 864536409*X**4 - 326961360*X**2 + 28317760
+PASS identity M_u(-i Jz u) = X g holds exactly
+  |M_u (-i Jz u)|^2 = 4912/29403 ; |M_u (-i Jz u)| ~ 0.40872702775740116330 ; minimal polynomial of the norm: 29403*X**2 - 4912
+PASS the O_u-annihilation check of item 5 fails here (some residual nonzero)
+PASS |M_u (i u)| equals |grad| exactly
+PASS numerical directional derivative along g/|g| equals |g| (mpmath 50 digits) : diff 3.34e-52
+ITEM11 ALLPASS
+
+==================== item12.py ====================
+PASS e is a unit vector in N_u (orthogonal to u and to O_u)
+route B (matrix formula, exact): -3235507888624412674112*sqrt(230)/214255372672952966927913 - 16132199038456071240320*sqrt(2)/214255372672952966927913 - 1751368750433881796224*sqrt(115)/214255372672952966927913 + 2918483402270580866165360/9212981024936977577900259 ~ -0.1063819845987571171086808844080139939971
+route A1 (exact d^2/ds^2 at 0): -3235507888624412674112*sqrt(230)/214255372672952966927913 - 16132199038456071240320*sqrt(2)/214255372672952966927913 - 1751368750433881796224*sqrt(115)/214255372672952966927913 + 2918483402270580866165360/9212981024936977577900259
+PASS route A1 (exact derivative) equals route B exactly : difference = 0
+route A2 (mpmath.diff, 60 digits): -0.1063819845987571171086808844080139939971  |A2 - B| = 9.72e-63
+PASS route A2 agrees with route B to 1e-40
+PASS control: dropping -4N(u) I from the formula is detected by route A2 : wrong formula gives 0.779553785057943
+ITEM12 ALLPASS
+
+==================== collect.py ====================
+results.json written with sections: ['item0', 'item1', 'item11', 'item12', 'item2', 'item3', 'item4', 'item5', 'item5b', 'item6_10', 'item7', 'item8']
+
+============================================================
+SUMMARY
+  item0.py     PASS  10  FAIL   0    (1 s)
+  item1.py     PASS  61  FAIL   0    (21 s)
+  item2.py     PASS  34  FAIL   0    (2 s)
+  item3.py     PASS  13  FAIL   0    (1 s)
+  item4.py     PASS  52  FAIL   0    (13 s)
+  item5.py     PASS  40  FAIL   0    (2 s)
+  item5b.py    PASS  36  FAIL   0    (1 s)
+  item6_10.py  PASS   2  FAIL   0    (0 s)
+  item7.py     PASS   8  FAIL   0    (0 s)
+  item8.py     PASS   9  FAIL   0    (31 s)
+  item9.py     PASS  21  FAIL   0    (1 s)
+  item11.py    PASS   9  FAIL   0    (0 s)
+  item12.py    PASS   4  FAIL   0    (2 s)
+  collect.py   PASS   0  FAIL   0    (0 s)
+PLANTED DEFECTS (each must fire):
+  PLANT=cg_sign     in item0.py  (flip the sign of every CG with m1 < 0): PASS 8 FAIL 2  -> FIRED
+  PLANT=theta_sign  in item9.py  (flip the sign of the v1 component of Theta u): PASS 19 FAIL 2  -> FIRED
+  PLANT=hess_no4N   in item5.py  (drop the -4 N(u) I term of the Hessian formula): PASS 30 FAIL 10  -> FIRED
+RUN_ALL OK

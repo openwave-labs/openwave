@@ -1,0 +1,76 @@
+PASS [item5] Nt(S x) == N(x) as polynomials (a-coordinates are exact) 
+PASS [item5] Nt has rational coefficients 
+PASS [item5] v3: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] v3: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] v3: dim N_u = 13 - dim O_u 
+PASS [item5] v3: 50-digit eigenvalues match exact char-poly roots (dev 2.67e-51) 
+PASS [item5] v3: 80-digit eigenvalues match exact char-poly roots (dev 4.22e-81) 
+v3   dimO=3 dimN=10 sig=(0, 0, 10)  charpoly = (lam - 4)**2*(11*lam - 3)**2*(11*lam - 2)**2*(33*lam - 65)**2*(33*lam - 32)**2/17363069361
+      eigenvalues ~ [0.18181818, 0.18181818, 0.27272727, 0.27272727, 0.96969697, 0.96969697, 1.9696970, 1.9696970, 4.0000000, 4.0000000]
+PASS [item5] v2: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] v2: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] v2: dim N_u = 13 - dim O_u 
+PASS [item5] v2: 50-digit eigenvalues match exact char-poly roots (dev 1.07e-50) 
+PASS [item5] v2: 80-digit eigenvalues match exact char-poly roots (dev 1.69e-80) 
+v2   dimO=3 dimN=10 sig=(2, 0, 8)  charpoly = (3*lam - 4)**2*(11*lam - 24)**2*(11*lam - 20)**2*(11*lam - 12)**2*(33*lam + 8)**2/17363069361
+      eigenvalues ~ [-0.24242424, -0.24242424, 1.0909091, 1.0909091, 1.3333333, 1.3333333, 1.8181818, 1.8181818, 2.1818182, 2.1818182]
+PASS [item5] v1: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] v1: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] v1: dim N_u = 13 - dim O_u 
+PASS [item5] v1: 50-digit eigenvalues match exact char-poly roots (dev 5.35e-51) 
+PASS [item5] v1: 80-digit eigenvalues match exact char-poly roots (dev 2.11e-81) 
+v1   dimO=3 dimN=10 sig=(4, 2, 4)  charpoly = lam**2*(3*lam + 5)**2*(11*lam - 3)**2*(363*lam**2 - 374*lam - 600)**2/143496441
+      eigenvalues ~ [-1.6666667, -1.6666667, -0.86986605, -0.86986605, 0, 0, 0.27272727, 0.27272727, 1.9001691, 1.9001691]
+      kernel (c-coords): [[0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, I]]
+PASS [item5] v1: kernel equals span_R{v-3, i v-3} = tangent of class B at v1 
+PASS [item5] v0: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] v0: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] v0: dim N_u = 13 - dim O_u 
+PASS [item5] v0: 50-digit eigenvalues match exact char-poly roots (dev 5.35e-51) 
+PASS [item5] v0: 80-digit eigenvalues match exact char-poly roots (dev 8.43e-81) 
+v0   dimO=3 dimN=10 sig=(8, 0, 2)  charpoly = (11*lam - 8)**2*(11*lam + 12)**2*(11*lam + 20)**2*(33*lam + 40)**2*(33*lam + 100)**2/2100931392681
+      eigenvalues ~ [-3.0303030, -3.0303030, -1.8181818, -1.8181818, -1.2121212, -1.2121212, -1.0909091, -1.0909091, 0.72727273, 0.72727273]
+PASS [item5] xyz: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] xyz: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] xyz: dim N_u = 13 - dim O_u 
+PASS [item5] xyz: 50-digit eigenvalues match exact char-poly roots (dev 2.14e-50) 
+PASS [item5] xyz: 80-digit eigenvalues match exact char-poly roots (dev 5.27e-81) 
+xyz  dimO=4 dimN=9 sig=(6, 0, 3)  charpoly = (11*lam + 8)**3*(11*lam + 24)**3*(33*lam - 40)**3/63664587657
+      eigenvalues ~ [-2.1818182, -2.1818182, -2.1818182, -0.72727273, -0.72727273, -0.72727273, 1.2121212, 1.2121212, 1.2121212]
+PASS [item5] cat: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] cat: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] cat: dim N_u = 13 - dim O_u 
+PASS [item5] cat: 50-digit eigenvalues match exact char-poly roots (dev 3.21e-50) 
+PASS [item5] cat: 80-digit eigenvalues match exact char-poly roots (dev 1.69e-80) 
+cat  dimO=4 dimN=9 sig=(9, 0, 0)  charpoly = (lam + 4)*(11*lam + 10)**2*(11*lam + 15)*(11*lam + 23)*(33*lam + 64)**2*(33*lam + 67)**2/17363069361
+      eigenvalues ~ [-4.0000000, -2.0909091, -2.0303030, -2.0303030, -1.9393939, -1.9393939, -1.3636364, -0.90909091, -0.90909091]
+PASS [item5] A*: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] A*: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] A*: dim N_u = 13 - dim O_u 
+PASS [item5] A*: 50-digit eigenvalues match exact char-poly roots (dev 2.14e-50) 
+PASS [item5] A*: 80-digit eigenvalues match exact char-poly roots (dev 1.48e-80) 
+A*   dimO=4 dimN=9 sig=(5, 0, 4)  charpoly = (55*lam + 24)*(16471125*lam**4 + 9583200*lam**3 - 45776720*lam**2 - 23015168*lam + 998400)**2/14921387732109375
+      eigenvalues ~ [-1.7151874, -1.7151874, -0.53875530, -0.53875530, -0.43636364, 0.040195452, 0.040195452, 1.6319290, 1.6319290]
+PASS [item5] D*: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] D*: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] D*: dim N_u = 13 - dim O_u 
+PASS [item5] D*: 50-digit eigenvalues match exact char-poly roots (dev 1.6e-50) 
+PASS [item5] D*: 80-digit eigenvalues match exact char-poly roots (dev 8.43e-81) 
+D*   dimO=4 dimN=9 sig=(5, 0, 4)  charpoly = (55*lam + 24)**2*(55*lam + 104)*(165*lam - 4)**2*(1815*lam**2 - 1012*lam - 3360)**2/14921387732109375
+      eigenvalues ~ [-1.8909091, -1.1100830, -1.1100830, -0.43636364, -0.43636364, 0.024242424, 0.024242424, 1.6676588, 1.6676588]
+PASS [item5] F*: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] F*: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] F*: dim N_u = 13 - dim O_u 
+PASS [item5] F*: 50-digit eigenvalues match exact char-poly roots (dev 1.34e-50) 
+PASS [item5] F*: 80-digit eigenvalues match exact char-poly roots (dev 1.05e-80) 
+F*   dimO=4 dimN=9 sig=(5, 0, 4)  charpoly = (11*lam - 10)*(11*lam + 7)*(33*lam - 64)*(31944*lam**3 + 46948*lam**2 - 13530*lam - 7125)**2/4074533610048
+      eigenvalues ~ [-1.6447638, -1.6447638, -0.63636364, -0.29097972, -0.29097972, 0.46604657, 0.46604657, 0.90909091, 1.9393939]
+PASS [item5] G*: rhat6 from a-coordinates equals item-4 value 
+PASS [item5] G*: M_u annihilates all four generators of O_u exactly [0, 0, 0, 0]
+PASS [item5] G*: dim N_u = 13 - dim O_u 
+PASS [item5] G*: 50-digit eigenvalues match exact char-poly roots (dev 5.35e-51) 
+PASS [item5] G*: 80-digit eigenvalues match exact char-poly roots (dev 6.85e-81) 
+G*   dimO=4 dimN=9 sig=(3, 0, 6)  charpoly = (11*lam - 8)*(473*lam - 920)*(473*lam + 696)*(1419*lam - 560)**2*(671187*lam**2 + 438944*lam - 339200)**2/2232373353377701794512571
+      eigenvalues ~ [-1.4714588, -1.1094845, -1.1094845, 0.39464412, 0.39464412, 0.45550282, 0.45550282, 0.72727273, 1.9450317]
+PASS [item5] control (v3+v1-v-2)/sqrt3: M_u does NOT annihilate O_u (the check can fail) [2*sqrt(1002)/297, sqrt(416*sqrt(15)/29403 + 5560/29403), sqrt(5560/29403 - 416*sqrt(15)/29403), 4*sqrt(921)/297]
+item5 fails: 0

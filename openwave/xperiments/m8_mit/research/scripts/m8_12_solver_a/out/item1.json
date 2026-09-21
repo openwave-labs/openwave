@@ -1,0 +1,1162 @@
+{
+ "finite": {
+  "C1": {
+   "order": 1,
+   "n_characters": 1,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 7
+    }
+   ]
+  },
+  "C2": {
+   "order": 2,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 3
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 4
+    }
+   ]
+  },
+  "C3": {
+   "order": 3,
+   "n_characters": 3,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 3
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/3"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/3"
+     ],
+     "dim": 2
+    }
+   ]
+  },
+  "C4": {
+   "order": 4,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/4"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/4"
+     ],
+     "dim": 2
+    }
+   ]
+  },
+  "C5": {
+   "order": 5,
+   "n_characters": 5,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/5"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/5"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/5"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "4/5"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C6": {
+   "order": 6,
+   "n_characters": 6,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/6"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/3"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/3"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/6"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C7": {
+   "order": 7,
+   "n_characters": 7,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/7"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/7"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/7"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "4/7"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/7"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "6/7"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C8": {
+   "order": 8,
+   "n_characters": 8,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/8"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/4"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/8"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/8"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/4"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "7/8"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C9": {
+   "order": 9,
+   "n_characters": 9,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/9"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/9"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/3"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "4/9"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/9"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/3"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "7/9"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "8/9"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C10": {
+   "order": 10,
+   "n_characters": 10,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/10"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/5"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/10"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/5"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/5"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "7/10"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "4/5"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "9/10"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C11": {
+   "order": 11,
+   "n_characters": 11,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/11"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/11"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/11"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "4/11"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/11"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "6/11"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "7/11"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "8/11"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "9/11"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "10/11"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "C12": {
+   "order": 12,
+   "n_characters": 12,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/12"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/6"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/4"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/3"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/12"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "7/12"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "2/3"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "3/4"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "5/6"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "11/12"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D2": {
+   "order": 4,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 2
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 2
+    }
+   ]
+  },
+  "D3": {
+   "order": 6,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 2
+    }
+   ]
+  },
+  "D4": {
+   "order": 8,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D5": {
+   "order": 10,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D6": {
+   "order": 12,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D7": {
+   "order": 14,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D8": {
+   "order": 16,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 0
+    }
+   ]
+  },
+  "D9": {
+   "order": 18,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D10": {
+   "order": 20,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 0
+    }
+   ]
+  },
+  "D11": {
+   "order": 22,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "D12": {
+   "order": 24,
+   "n_characters": 4,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/2"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "1/2"
+     ],
+     "dim": 0
+    }
+   ]
+  },
+  "T": {
+   "order": 12,
+   "n_characters": 3,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 1
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "1/3"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "2/3"
+     ],
+     "dim": 0
+    }
+   ]
+  },
+  "O": {
+   "order": 24,
+   "n_characters": 2,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    },
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "1/2",
+      "0"
+     ],
+     "dim": 1
+    }
+   ]
+  },
+  "I": {
+   "order": 60,
+   "n_characters": 1,
+   "fixed_dims": [
+    {
+     "chi_on_generators_as_fraction_of_turn": [
+      "0",
+      "0"
+     ],
+     "dim": 0
+    }
+   ]
+  }
+ },
+ "dims_found": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  7
+ ],
+ "one_dim_fixed_spaces_by_class": {
+  "xyz": [
+   "('D2', 0, 1)",
+   "('D4', 2, 1)",
+   "('D4', 2, -1)"
+  ],
+  "cat": [
+   "('D3', 0, 1)",
+   "('D6', 3, 1)",
+   "('D6', 3, -1)"
+  ],
+  "v0": [
+   "('C4', 0)",
+   "('D4', 0, -1)",
+   "('C5', 0)",
+   "('D5', 0, -1)",
+   "('C6', 0)",
+   "('D6', 0, -1)",
+   "('C7', 0)",
+   "('D7', 0, -1)",
+   "('C8', 0)",
+   "('D8', 0, -1)",
+   "('C9', 0)",
+   "('D9', 0, -1)",
+   "('C10', 0)",
+   "('D10', 0, -1)",
+   "('C11', 0)",
+   "('D11', 0, -1)",
+   "('C12', 0)",
+   "('D12', 0, -1)"
+  ],
+  "v1": [
+   "('C5', 1)",
+   "('C5', 4)",
+   "('C6', 1)",
+   "('C6', 5)",
+   "('C7', 1)",
+   "('C7', 6)",
+   "('C8', 1)",
+   "('C8', 7)",
+   "('C9', 1)",
+   "('C9', 8)",
+   "('C10', 1)",
+   "('C10', 9)",
+   "('C11', 1)",
+   "('C11', 10)",
+   "('C12', 1)",
+   "('C12', 11)"
+  ],
+  "v2": [
+   "('C6', 2)",
+   "('C6', 4)",
+   "('C7', 2)",
+   "('C7', 5)",
+   "('C8', 2)",
+   "('C8', 6)",
+   "('C9', 2)",
+   "('C9', 7)",
+   "('C10', 2)",
+   "('C10', 8)",
+   "('C11', 2)",
+   "('C11', 9)",
+   "('C12', 2)",
+   "('C12', 10)"
+  ],
+  "v3": [
+   "('C7', 3)",
+   "('C7', 4)",
+   "('C8', 3)",
+   "('C8', 5)",
+   "('C9', 3)",
+   "('C9', 6)",
+   "('C10', 3)",
+   "('C10', 7)",
+   "('C11', 3)",
+   "('C11', 8)",
+   "('C12', 3)",
+   "('C12', 9)"
+  ]
+ },
+ "classes_dim2": {
+  "A": {
+   "H": "C3",
+   "chi": "R_z(2pi/3) -> e^{-2pi i/3}",
+   "basis": [
+    "[0, 0, 1, 0, 0, 0, 0]",
+    "[0, 0, 0, 0, 0, 1, 0]"
+   ],
+   "rhat6_range": [
+    "3/77",
+    "9/35"
+   ]
+  },
+  "B": {
+   "H": "C4",
+   "chi": "R_z(pi/2) -> e^{-i pi/2} = -i",
+   "basis": [
+    "[0, 0, 1, 0, 0, 0, 0]",
+    "[0, 0, 0, 0, 0, 0, 1]"
+   ],
+   "rhat6_range": [
+    "1/924",
+    "75/308"
+   ]
+  },
+  "C": {
+   "H": "C4",
+   "chi": "R_z(pi/2) -> e^{-i pi} = -1",
+   "basis": [
+    "[0, 1, 0, 0, 0, 0, 0]",
+    "[0, 0, 0, 0, 0, 1, 0]"
+   ],
+   "rhat6_range": [
+    "3/77",
+    "24/77"
+   ]
+  },
+  "D": {
+   "H": "C5",
+   "chi": "R_z(2pi/5) -> e^{-4pi i/5}",
+   "basis": [
+    "[0, 1, 0, 0, 0, 0, 0]",
+    "[0, 0, 0, 0, 0, 0, 1]"
+   ],
+   "rhat6_range": [
+    "1/924",
+    "9/35"
+   ]
+  },
+  "E": {
+   "H": "C6",
+   "chi": "R_z(pi/3) -> e^{-i pi} = -1",
+   "basis": [
+    "[1, 0, 0, 0, 0, 0, 0]",
+    "[0, 0, 0, 0, 0, 0, 1]"
+   ],
+   "rhat6_range": [
+    "1/924",
+    "463/924"
+   ]
+  },
+  "F": {
+   "H": "D2",
+   "chi": "R_z(pi) -> +1, R_y(pi) -> -1, R_x(pi) -> -1",
+   "basis": [
+    "[0, 0, 0, 1, 0, 0, 0]",
+    "[0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]"
+   ],
+   "rhat6_range": [
+    "75/308",
+    "463/924"
+   ]
+  },
+  "G": {
+   "H": "D3",
+   "chi": "R_z(2pi/3) -> 1, R_y(pi) -> -1",
+   "basis": [
+    "[0, 0, 0, 1, 0, 0, 0]",
+    "[sqrt(2)/2, 0, 0, 0, 0, 0, -sqrt(2)/2]"
+   ],
+   "rhat6_range": [
+    "200/903",
+    "463/924"
+   ]
+  }
+ },
+ "classes_dim1": {
+  "v3": {
+   "H": "SO(2)_z",
+   "chi": "R_z(t) -> e^{-3it}",
+   "u": "[1, 0, 0, 0, 0, 0, 0]",
+   "r1..r6": [
+    "9/28",
+    "25/84",
+    "1/6",
+    "9/154",
+    "1/84",
+    "1/924"
+   ]
+  },
+  "v2": {
+   "H": "SO(2)_z",
+   "chi": "R_z(t) -> e^{-2it}",
+   "u": "[0, 1, 0, 0, 0, 0, 0]",
+   "r1..r6": [
+    "1/7",
+    "0",
+    "1/6",
+    "7/22",
+    "4/21",
+    "3/77"
+   ]
+  },
+  "v1": {
+   "H": "SO(2)_z",
+   "chi": "R_z(t) -> e^{-it}",
+   "u": "[0, 0, 1, 0, 0, 0, 0]",
+   "r1..r6": [
+    "1/28",
+    "3/28",
+    "1/6",
+    "1/154",
+    "25/84",
+    "75/308"
+   ]
+  },
+  "v0": {
+   "H": "O(2)_z",
+   "chi": "det-type: R_z(t) -> 1, flips -> -1",
+   "u": "[0, 0, 0, 1, 0, 0, 0]",
+   "r1..r6": [
+    "0",
+    "4/21",
+    "0",
+    "18/77",
+    "0",
+    "100/231"
+   ]
+  },
+  "xyz": {
+   "H": "O (also T with trivial chi)",
+   "chi": "A2 sign character of O",
+   "u": "[0, 1, 0, 0, 0, -1, 0]",
+   "r1..r6": [
+    "0",
+    "0",
+    "0",
+    "6/11",
+    "0",
+    "24/77"
+   ]
+  },
+  "cat": {
+   "H": "D6",
+   "chi": "R_z(pi/3) -> -1, R_y(pi) -> +1",
+   "u": "[1, 0, 0, 0, 0, 0, 1]",
+   "r1..r6": [
+    "0",
+    "25/84",
+    "0",
+    "9/154",
+    "0",
+    "463/924"
+   ]
+  }
+ }
+}

@@ -1,0 +1,133 @@
+
+=== class A  (C3, R_z(2pi/3) -> e^{-2pi i/3})
+  rhat6 = (3*(4*x**4 + 8*x**2*y**2 + 64*x**2 + 4*y**4 + 64*y**2 + 25)/308)/(1+x^2+y^2)^2
+  circle-symmetric: 924*N = 36*t**2 + 576*t + 225 (t = x^2+y^2);  numerator of df/dt: -21*(4*t - 1)
+PASS [item2] A: exact zero gradient at z=0 
+PASS [item2] A: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '75/308', 'kind': 'point', 'value_check': '75/308', 'hess_det': '9/121', 'hess_trace': '6/11', 'type': 'local min', 'index': 1}
+PASS [item2] A: exact zero gradient at |z|^2=1/4 
+PASS [item2] A: value at |z|^2=1/4 re-evaluated 
+  crit: {'where': '|z|^2=1/4', 'value': '9/35', 'kind': 'circle', 'value_check': '9/35', 'd2f_dt2': '-384/1375', 'type': 'circle of maxima (Morse-Bott)', 'index': 'circle, Euler characteristic 0'}
+PASS [item2] A: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '3/77', 'kind': 'point', 'hess_det': '144/121', 'hess_trace': '24/11', 'type': 'local min', 'index': 1}
+PASS [item2] A: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '0.25', 'inf']  exact: ['0.0', '0.25', 'inf']
+PASS [item2] A: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class B  (C4, R_z(pi/2) -> -i)
+  rhat6 = ((x**4 + 2*x**2*y**2 + 450*x**2 + y**4 + 450*y**2 + 225)/924)/(1+x^2+y^2)^2
+  circle-symmetric: 924*N = t**2 + 450*t + 225 (t = x^2+y^2);  numerator of df/dt: -224*t
+PASS [item2] B: exact zero gradient at z=0 
+PASS [item2] B: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '75/308', 'kind': 'point', 'value_check': '75/308', 'leading_order': '(-8/33) |z|^4', 'hess_det': '0', 'hess_trace': '0', 'type': 'degenerate (Hessian 0); F(t)-F(0) = (-8/33) t^2, isolated local max', 'index': 1}
+PASS [item2] B: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '1/924', 'kind': 'point', 'hess_det': '1024/1089', 'hess_trace': '64/33', 'type': 'local min', 'index': 1}
+PASS [item2] B: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', 'inf']  exact: ['0.0', 'inf']
+PASS [item2] B: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class C  (C4, R_z(pi/2) -> -1)
+  rhat6 = (3*(x**4 + 2*x**2*y**2 + 30*x**2 + y**4 + 30*y**2 + 1)/77)/(1+x^2+y^2)^2
+  circle-symmetric: 924*N = 36*t**2 + 1080*t + 36 (t = x^2+y^2);  numerator of df/dt: -84*(t - 1)
+PASS [item2] C: exact zero gradient at z=0 
+PASS [item2] C: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '3/77', 'kind': 'point', 'value_check': '3/77', 'hess_det': '576/121', 'hess_trace': '48/11', 'type': 'local min', 'index': 1}
+PASS [item2] C: exact zero gradient at |z|^2=1 
+PASS [item2] C: value at |z|^2=1 re-evaluated 
+  crit: {'where': '|z|^2=1', 'value': '24/77', 'kind': 'circle', 'value_check': '24/77', 'd2f_dt2': '-3/22', 'type': 'circle of maxima (Morse-Bott)', 'index': 'circle, Euler characteristic 0'}
+PASS [item2] C: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '3/77', 'kind': 'point', 'hess_det': '576/121', 'hess_trace': '48/11', 'type': 'local min', 'index': 1}
+PASS [item2] C: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '1.0', 'inf']  exact: ['0.0', '1.0', 'inf']
+PASS [item2] C: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class D  (C5, R_z(2pi/5) -> e^{-4pi i/5})
+  rhat6 = ((x**4 + 2*x**2*y**2 + 912*x**2 + y**4 + 912*y**2 + 36)/924)/(1+x^2+y^2)^2
+  circle-symmetric: 924*N = t**2 + 912*t + 36 (t = x^2+y^2);  numerator of df/dt: -35*(13*t - 12)
+PASS [item2] D: exact zero gradient at z=0 
+PASS [item2] D: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '3/77', 'kind': 'point', 'value_check': '3/77', 'hess_det': '400/121', 'hess_trace': '40/11', 'type': 'local min', 'index': 1}
+PASS [item2] D: exact zero gradient at |z|^2=12/13 
+PASS [item2] D: value at |z|^2=12/13 re-evaluated 
+  crit: {'where': '|z|^2=12/13', 'value': '9/35', 'kind': 'circle', 'value_check': '9/35', 'd2f_dt2': '-28561/206250', 'type': 'circle of maxima (Morse-Bott)', 'index': 'circle, Euler characteristic 0'}
+PASS [item2] D: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '1/924', 'kind': 'point', 'hess_det': '4225/1089', 'hess_trace': '130/33', 'type': 'local min', 'index': 1}
+PASS [item2] D: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '0.923076923077', 'inf']  exact: ['0.0', '0.923076923077', 'inf']
+PASS [item2] D: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class E  (C6, R_z(pi/3) -> -1)
+  rhat6 = ((x**4 + 2*x**2*y**2 + 1850*x**2 + y**4 + 1850*y**2 + 1)/924)/(1+x^2+y^2)^2
+  circle-symmetric: 924*N = t**2 + 1850*t + 1 (t = x^2+y^2);  numerator of df/dt: -924*(t - 1)
+PASS [item2] E: exact zero gradient at z=0 
+PASS [item2] E: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '1/924', 'kind': 'point', 'value_check': '1/924', 'hess_det': '16', 'hess_trace': '8', 'type': 'local min', 'index': 1}
+PASS [item2] E: exact zero gradient at |z|^2=1 
+PASS [item2] E: value at |z|^2=1 re-evaluated 
+  crit: {'where': '|z|^2=1', 'value': '463/924', 'kind': 'circle', 'value_check': '463/924', 'd2f_dt2': '-1/4', 'type': 'circle of maxima (Morse-Bott)', 'index': 'circle, Euler characteristic 0'}
+PASS [item2] E: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '1/924', 'kind': 'point', 'hess_det': '16', 'hess_trace': '8', 'type': 'local min', 'index': 1}
+PASS [item2] E: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '1.0', 'inf']  exact: ['0.0', '1.0', 'inf']
+PASS [item2] E: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class F  (D2, R_z(pi) -> 1, R_y(pi) -> -1, R_x(pi) -> -1)
+  rhat6 = (4*(18*x**4 + 36*x**2*y**2 + 71*x**2 + 18*y**4 + 15*y**2 + 25)/231)/(1+x^2+y^2)^2
+  numer d/dx: -56*x*(5*x**2 - 11*y**2 - 3)
+  numer d/dy: -56*y*(13*x**2 - 3*y**2 + 5)
+PASS [item2] F: x divides numer(f_x) and y divides numer(f_y) 
+  (1+t)^3 f_x = x*p1, (1+t)^3 f_y = y*q1,  p1 - q1 = 64*(x**2 + y**2 + 1)/33
+PASS [item2] F: p1 - q1 is a nonzero constant times (1 + x^2 + y^2) 
+  on x=0: q1 = 8*(3*y**2 - 5)/33 ;  on y=0: p1 = -8*(5*x**2 - 3)/33
+  Groebner basis (lex x>y): [5*x**3 - 11*x*y**2 - 3*x, 13*x**2*y - 3*y**3 + 5*y, 2*x*y**3 + x*y, 6*y**5 - 7*y**3 - 5*y]
+PASS [item2] F: exact zero gradient at z=0 
+PASS [item2] F: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '100/231', 'kind': 'point', 'value_check': '100/231', 'hess_det': '-320/363', 'hess_trace': '-16/33', 'type': 'saddle', 'index': -1}
+PASS [item2] F: exact zero gradient at z=-sqrt(15)*I/3 
+PASS [item2] F: value at z=-sqrt(15)*I/3 re-evaluated 
+  crit: {'where': 'z=-sqrt(15)*I/3', 'value': '75/308', 'kind': 'point', 'value_check': '75/308', 'hess_det': '135/3872', 'hess_trace': '141/352', 'type': 'local min', 'index': 1}
+PASS [item2] F: exact zero gradient at z=sqrt(15)*I/3 
+PASS [item2] F: value at z=sqrt(15)*I/3 re-evaluated 
+  crit: {'where': 'z=sqrt(15)*I/3', 'value': '75/308', 'kind': 'point', 'value_check': '75/308', 'hess_det': '135/3872', 'hess_trace': '141/352', 'type': 'local min', 'index': 1}
+PASS [item2] F: exact zero gradient at z=-sqrt(15)/5 
+PASS [item2] F: value at z=-sqrt(15)/5 re-evaluated 
+  crit: {'where': 'z=-sqrt(15)/5', 'value': '463/924', 'kind': 'point', 'value_check': '463/924', 'hess_det': '3125/11616', 'hess_trace': '-1175/1056', 'type': 'local max', 'index': 1}
+PASS [item2] F: exact zero gradient at z=sqrt(15)/5 
+PASS [item2] F: value at z=sqrt(15)/5 re-evaluated 
+  crit: {'where': 'z=sqrt(15)/5', 'value': '463/924', 'kind': 'point', 'value_check': '463/924', 'hess_det': '3125/11616', 'hess_trace': '-1175/1056', 'type': 'local max', 'index': 1}
+PASS [item2] F: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '24/77', 'kind': 'point', 'hess_det': '-320/363', 'hess_trace': '16/33', 'type': 'saddle', 'index': -1}
+PASS [item2] F: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '0.6', '1.66666666667', 'inf']  exact: ['0.0', '0.6', '1.66666666667', 'inf']
+PASS [item2] F: Newton search found no |z|^2 outside the exact critical set set()
+
+=== class G  (D3, R_z(2pi/3) -> 1, R_y(pi) -> -1)
+  rhat6 = ((463*x**4 + 926*x**2*y**2 + 296*x**2 + 463*y**4 - 40*y**2 + 400)/924)/(1+x^2+y^2)^2
+  numer d/dx: 21*x*(15*x**2 + 31*y**2 - 12)
+  numer d/dy: 21*y*(7*x**2 + 23*y**2 - 20)
+PASS [item2] G: x divides numer(f_x) and y divides numer(f_y) 
+  (1+t)^3 f_x = x*p1, (1+t)^3 f_y = y*q1,  p1 - q1 = 8*(x**2 + y**2 + 1)/11
+PASS [item2] G: p1 - q1 is a nonzero constant times (1 + x^2 + y^2) 
+  on x=0: q1 = (23*y**2 - 20)/11 ;  on y=0: p1 = 3*(5*x**2 - 4)/11
+  Groebner basis (lex x>y): [15*x**3 + 31*x*y**2 - 12*x, 7*x**2*y + 23*y**3 - 20*y, 16*x*y**3 - 27*x*y, 368*y**5 - 941*y**3 + 540*y]
+PASS [item2] G: exact zero gradient at z=0 
+PASS [item2] G: value at z=0 re-evaluated 
+  crit: {'where': 'z=0', 'value': '100/231', 'kind': 'point', 'value_check': '100/231', 'hess_det': '240/121', 'hess_trace': '-32/11', 'type': 'local max', 'index': 1}
+PASS [item2] G: exact zero gradient at z=-2*sqrt(115)*I/23 
+PASS [item2] G: value at z=-2*sqrt(115)*I/23 re-evaluated 
+  crit: {'where': 'z=-2*sqrt(115)*I/23', 'value': '200/903', 'kind': 'point', 'value_check': '200/903', 'hess_det': '2059629760/17788021603', 'hess_trace': '668656/874577', 'type': 'local min', 'index': 1}
+PASS [item2] G: exact zero gradient at z=2*sqrt(115)*I/23 
+PASS [item2] G: value at z=2*sqrt(115)*I/23 re-evaluated 
+  crit: {'where': 'z=2*sqrt(115)*I/23', 'value': '200/903', 'kind': 'point', 'value_check': '200/903', 'hess_det': '2059629760/17788021603', 'hess_trace': '668656/874577', 'type': 'local min', 'index': 1}
+PASS [item2] G: exact zero gradient at z=-2*sqrt(5)/5 
+PASS [item2] G: value at z=-2*sqrt(5)/5 re-evaluated 
+  crit: {'where': 'z=-2*sqrt(5)/5', 'value': '24/77', 'kind': 'point', 'value_check': '24/77', 'hess_det': '-200000/2381643', 'hess_trace': '400/2673', 'type': 'saddle', 'index': -1}
+PASS [item2] G: exact zero gradient at z=2*sqrt(5)/5 
+PASS [item2] G: value at z=2*sqrt(5)/5 re-evaluated 
+  crit: {'where': 'z=2*sqrt(5)/5', 'value': '24/77', 'kind': 'point', 'value_check': '24/77', 'hess_det': '-200000/2381643', 'hess_trace': '400/2673', 'type': 'saddle', 'index': -1}
+PASS [item2] G: gradient at the omitted point is exactly zero (0, 0)
+  crit: {'where': 'omitted point [b]', 'value': '463/924', 'kind': 'point', 'hess_det': '345/121', 'hess_trace': '-38/11', 'type': 'local max', 'index': 1}
+PASS [item2] G: Poincare-Hopf index sum over isolated critical points == 2 sum=2
+  numerical Newton search found |z|^2 in ['0.0', '0.8', '0.869565217391', 'inf']  exact: ['0.0', '0.8', '0.869565217391', 'inf']
+PASS [item2] G: Newton search found no |z|^2 outside the exact critical set set()
+item2 fails: 0

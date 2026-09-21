@@ -1,0 +1,75 @@
+=== exact 924*r-hat-6 at each filed representative ===
+  PASS  coherent v3: 924*r6 == 1  got 1  [0.0s]
+  PASS  v2: 924*r6 == 36  got 36  [0.0s]
+  PASS  prism: 924*r6 == 8800/43  got 8800/43  [0.0s]
+  PASS  v1: 924*r6 == 225  got 225  [0.0s]
+  PASS  D2 ray: 924*r6 == 225  got 225  [0.0s]
+  PASS  C3 ray: 924*r6 == 1188/5  got 1188/5  [0.0s]
+  PASS  pyramid: 924*r6 == 1188/5  got 1188/5  [0.0s]
+  PASS  octahedron: 924*r6 == 288  got 288  [0.0s]
+  PASS  zonal v0: 924*r6 == 400  got 400  [0.0s]
+  PASS  hexagon: 924*r6 == 463  got 463  [0.0s]
+
+=== exact 924*r-hat-6 at the N1 control point ===
+  PASS  N1: 924*r6 == 204  got 204
+
+=== the transverse operator at 50 digits ===
+  PASS  coherent v3: 924*N(u) numeric == filed  1.0  [0s]
+  PASS  coherent v3: dim N_u == 10  got 10 (dim O_u 3)
+  PASS  coherent v3: signature == (0, 0, 10)  got (0, 0, 10)
+  PASS  coherent v3: M_u annihilates O_u  residual 4.67408e-42
+  PASS  coherent v3: eigenvalues are the roots of the filed spectrum  largest disagreement 5.02869e-40
+  PASS  v2: 924*N(u) numeric == filed  36.0  [0s]
+  PASS  v2: dim N_u == 10  got 10 (dim O_u 3)
+  PASS  v2: signature == (2, 0, 8)  got (2, 0, 8)
+  PASS  v2: M_u annihilates O_u  residual 3.50485e-41
+  PASS  v2: eigenvalues are the roots of the filed spectrum  largest disagreement 3.59696e-40
+  PASS  prism: 924*N(u) numeric == filed  204.65116279069767442  [0s]
+  PASS  prism: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  prism: signature == (3, 0, 6)  got (3, 0, 6)
+  PASS  prism: M_u annihilates O_u  residual 1.42646e-40
+  PASS  prism: eigenvalues are the roots of the filed spectrum  largest disagreement 3.46602e-40
+  PASS  v1: 924*N(u) numeric == filed  225.0  [0s]
+  PASS  v1: dim N_u == 10  got 10 (dim O_u 3)
+  PASS  v1: signature == (4, 2, 4)  got (4, 2, 4)
+  PASS  v1: M_u annihilates O_u  residual 1.43935e-40
+  PASS  v1: eigenvalues are the roots of the filed spectrum  largest disagreement 6.02683e-40
+  PASS  D2 ray: 924*N(u) numeric == filed  225.0  [0s]
+  PASS  D2 ray: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  D2 ray: signature == (5, 0, 4)  got (5, 0, 4)
+  PASS  D2 ray: M_u annihilates O_u  residual 3.18434e-40
+  PASS  D2 ray: eigenvalues are the roots of the filed spectrum  largest disagreement 7.39365e-40
+  PASS  C3 ray: 924*N(u) numeric == filed  237.6  [0s]
+  PASS  C3 ray: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  C3 ray: signature == (5, 0, 4)  got (5, 0, 4)
+  PASS  C3 ray: M_u annihilates O_u  residual 1.67716e-40
+  PASS  C3 ray: eigenvalues are the roots of the filed spectrum  largest disagreement 2.98871e-40
+  PASS  pyramid: 924*N(u) numeric == filed  237.6  [0s]
+  PASS  pyramid: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  pyramid: signature == (5, 0, 4)  got (5, 0, 4)
+  PASS  pyramid: M_u annihilates O_u  residual 2.33232e-40
+  PASS  pyramid: eigenvalues are the roots of the filed spectrum  largest disagreement 4.99542e-40
+  PASS  octahedron: 924*N(u) numeric == filed  288.0  [0s]
+  PASS  octahedron: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  octahedron: signature == (6, 0, 3)  got (6, 0, 3)
+  PASS  octahedron: M_u annihilates O_u  residual 1.24414e-40
+  PASS  octahedron: eigenvalues are the roots of the filed spectrum  largest disagreement 2.87218e-40
+  PASS  zonal v0: 924*N(u) numeric == filed  400.0  [0s]
+  PASS  zonal v0: dim N_u == 10  got 10 (dim O_u 3)
+  PASS  zonal v0: signature == (8, 0, 2)  got (8, 0, 2)
+  PASS  zonal v0: M_u annihilates O_u  residual 9.68911e-41
+  PASS  zonal v0: eigenvalues are the roots of the filed spectrum  largest disagreement 3.52292e-40
+  PASS  hexagon: 924*N(u) numeric == filed  463.0  [0s]
+  PASS  hexagon: dim N_u == 9  got 9 (dim O_u 4)
+  PASS  hexagon: signature == (9, 0, 0)  got (9, 0, 0)
+  PASS  hexagon: M_u annihilates O_u  residual 1.9862e-40
+  PASS  hexagon: eigenvalues are the roots of the filed spectrum  largest disagreement 5.82515e-40
+
+=== N1: the four orbit residuals, un-normalized ===
+  PASS  N1 residual at i*u  0.2131608322066587741775613 vs 0.2131608322066587741775613
+  PASS  N1 residual at -i*Jx*u  0.4938543877615531354103708 vs 0.4938543877615531354103708
+  PASS  N1 residual at -i*Jy*u  0.3664703877718992100445823 vs 0.3664703877718992100445823
+  PASS  N1 residual at -i*Jz*u  0.4087270277574011632975351 vs 0.4087270277574011632975351
+  PASS  N1: the four squares sum to 17368/29403  0.5906880250314593748937183
+
+66 passed, 0 failed

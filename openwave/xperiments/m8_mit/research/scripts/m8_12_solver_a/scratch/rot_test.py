@@ -1,0 +1,10 @@
+import sys, os, time; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+import sympy as sp, common as C
+t = time.time()
+Ry = C.rot_axis_angle([0, 1, 0], sp.Rational(1, 2))
+print(Ry)
+R111 = C.rot_axis_angle([1, 1, 1], sp.Rational(1, 3))
+print((R111 ** 3 - sp.eye(7)).applyfunc(sp.simplify) == sp.zeros(7), time.time() - t)
+U = (R111 * R111.H).applyfunc(sp.simplify)
+print(U == sp.eye(7))
+print(R111)

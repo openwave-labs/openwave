@@ -1,0 +1,3548 @@
+{
+ "conventions": "basis order v3..v-3; exact values are strings (rationals or sympy expressions); items 6 and 7 are stored inside item5 (keys item6, item7_*)",
+ "item0": {
+  "cg_33_3m3_60": "sqrt(231)/462",
+  "cg_33_3m3_60_squared": "1/924",
+  "Theta_squared": "Theta(Theta u) = u   ((-1)^(3-m)(-1)^(3+m) = +1)",
+  "points": {
+   "u1 = 2v3 + v1 - 3v-2": {
+    "rhat6": "1977/8624",
+    "N": "1977/44",
+    "norm2": "14",
+    "dps50": {
+     "cg_route": "0.22924397031539888682745825603",
+     "casimir_route": "0.22924397031539888682745825603",
+     "err_cg": "3.34e-52",
+     "err_casimir": "6.68e-52"
+    },
+    "dps80": {
+     "cg_route": "0.22924397031539888682745825603",
+     "casimir_route": "0.22924397031539888682745825603",
+     "err_cg": "2.64e-82",
+     "err_casimir": "7.91e-82"
+    }
+   },
+   "u2 = v3 + i v0 + 2v-1": {
+    "rhat6": "6329/33264",
+    "N": "6329/924",
+    "norm2": "6",
+    "dps50": {
+     "cg_route": "0.190265752765752765752765752766",
+     "casimir_route": "0.190265752765752765752765752766",
+     "err_cg": "0.0",
+     "err_casimir": "6.68e-52"
+    },
+    "dps80": {
+     "cg_route": "0.190265752765752765752765752766",
+     "casimir_route": "0.190265752765752765752765752766",
+     "err_cg": "0.0",
+     "err_casimir": "2.64e-82"
+    }
+   }
+  }
+ },
+ "item1": {
+  "finite": {
+   "C1": {
+    "order": 1,
+    "n_characters": 1,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 7
+     }
+    ]
+   },
+   "C2": {
+    "order": 2,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 3
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 4
+     }
+    ]
+   },
+   "C3": {
+    "order": 3,
+    "n_characters": 3,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 3
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/3"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/3"
+      ],
+      "dim": 2
+     }
+    ]
+   },
+   "C4": {
+    "order": 4,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/4"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/4"
+      ],
+      "dim": 2
+     }
+    ]
+   },
+   "C5": {
+    "order": 5,
+    "n_characters": 5,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/5"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/5"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/5"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "4/5"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C6": {
+    "order": 6,
+    "n_characters": 6,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/6"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/3"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/3"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/6"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C7": {
+    "order": 7,
+    "n_characters": 7,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/7"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/7"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/7"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "4/7"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/7"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "6/7"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C8": {
+    "order": 8,
+    "n_characters": 8,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/8"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/4"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/8"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/8"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/4"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "7/8"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C9": {
+    "order": 9,
+    "n_characters": 9,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/9"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/9"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/3"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "4/9"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/9"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/3"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "7/9"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "8/9"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C10": {
+    "order": 10,
+    "n_characters": 10,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/10"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/5"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/10"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/5"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/5"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "7/10"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "4/5"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "9/10"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C11": {
+    "order": 11,
+    "n_characters": 11,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/11"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/11"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/11"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "4/11"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/11"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "6/11"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "7/11"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "8/11"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "9/11"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "10/11"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "C12": {
+    "order": 12,
+    "n_characters": 12,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/12"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/6"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/4"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/3"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/12"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "7/12"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "2/3"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "3/4"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "5/6"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "11/12"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D2": {
+    "order": 4,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 2
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 2
+     }
+    ]
+   },
+   "D3": {
+    "order": 6,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 2
+     }
+    ]
+   },
+   "D4": {
+    "order": 8,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D5": {
+    "order": 10,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D6": {
+    "order": 12,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D7": {
+    "order": 14,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D8": {
+    "order": 16,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 0
+     }
+    ]
+   },
+   "D9": {
+    "order": 18,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D10": {
+    "order": 20,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 0
+     }
+    ]
+   },
+   "D11": {
+    "order": 22,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "D12": {
+    "order": 24,
+    "n_characters": 4,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/2"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "1/2"
+      ],
+      "dim": 0
+     }
+    ]
+   },
+   "T": {
+    "order": 12,
+    "n_characters": 3,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 1
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "1/3"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "2/3"
+      ],
+      "dim": 0
+     }
+    ]
+   },
+   "O": {
+    "order": 24,
+    "n_characters": 2,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     },
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "1/2",
+       "0"
+      ],
+      "dim": 1
+     }
+    ]
+   },
+   "I": {
+    "order": 60,
+    "n_characters": 1,
+    "fixed_dims": [
+     {
+      "chi_on_generators_as_fraction_of_turn": [
+       "0",
+       "0"
+      ],
+      "dim": 0
+     }
+    ]
+   }
+  },
+  "dims_found": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   7
+  ],
+  "one_dim_fixed_spaces_by_class": {
+   "xyz": [
+    "('D2', 0, 1)",
+    "('D4', 2, 1)",
+    "('D4', 2, -1)"
+   ],
+   "cat": [
+    "('D3', 0, 1)",
+    "('D6', 3, 1)",
+    "('D6', 3, -1)"
+   ],
+   "v0": [
+    "('C4', 0)",
+    "('D4', 0, -1)",
+    "('C5', 0)",
+    "('D5', 0, -1)",
+    "('C6', 0)",
+    "('D6', 0, -1)",
+    "('C7', 0)",
+    "('D7', 0, -1)",
+    "('C8', 0)",
+    "('D8', 0, -1)",
+    "('C9', 0)",
+    "('D9', 0, -1)",
+    "('C10', 0)",
+    "('D10', 0, -1)",
+    "('C11', 0)",
+    "('D11', 0, -1)",
+    "('C12', 0)",
+    "('D12', 0, -1)"
+   ],
+   "v1": [
+    "('C5', 1)",
+    "('C5', 4)",
+    "('C6', 1)",
+    "('C6', 5)",
+    "('C7', 1)",
+    "('C7', 6)",
+    "('C8', 1)",
+    "('C8', 7)",
+    "('C9', 1)",
+    "('C9', 8)",
+    "('C10', 1)",
+    "('C10', 9)",
+    "('C11', 1)",
+    "('C11', 10)",
+    "('C12', 1)",
+    "('C12', 11)"
+   ],
+   "v2": [
+    "('C6', 2)",
+    "('C6', 4)",
+    "('C7', 2)",
+    "('C7', 5)",
+    "('C8', 2)",
+    "('C8', 6)",
+    "('C9', 2)",
+    "('C9', 7)",
+    "('C10', 2)",
+    "('C10', 8)",
+    "('C11', 2)",
+    "('C11', 9)",
+    "('C12', 2)",
+    "('C12', 10)"
+   ],
+   "v3": [
+    "('C7', 3)",
+    "('C7', 4)",
+    "('C8', 3)",
+    "('C8', 5)",
+    "('C9', 3)",
+    "('C9', 6)",
+    "('C10', 3)",
+    "('C10', 7)",
+    "('C11', 3)",
+    "('C11', 8)",
+    "('C12', 3)",
+    "('C12', 9)"
+   ]
+  },
+  "classes_dim2": {
+   "A": {
+    "H": "C3",
+    "chi": "R_z(2pi/3) -> e^{-2pi i/3}",
+    "basis": [
+     "[0, 0, 1, 0, 0, 0, 0]",
+     "[0, 0, 0, 0, 0, 1, 0]"
+    ],
+    "rhat6_range": [
+     "3/77",
+     "9/35"
+    ]
+   },
+   "B": {
+    "H": "C4",
+    "chi": "R_z(pi/2) -> e^{-i pi/2} = -i",
+    "basis": [
+     "[0, 0, 1, 0, 0, 0, 0]",
+     "[0, 0, 0, 0, 0, 0, 1]"
+    ],
+    "rhat6_range": [
+     "1/924",
+     "75/308"
+    ]
+   },
+   "C": {
+    "H": "C4",
+    "chi": "R_z(pi/2) -> e^{-i pi} = -1",
+    "basis": [
+     "[0, 1, 0, 0, 0, 0, 0]",
+     "[0, 0, 0, 0, 0, 1, 0]"
+    ],
+    "rhat6_range": [
+     "3/77",
+     "24/77"
+    ]
+   },
+   "D": {
+    "H": "C5",
+    "chi": "R_z(2pi/5) -> e^{-4pi i/5}",
+    "basis": [
+     "[0, 1, 0, 0, 0, 0, 0]",
+     "[0, 0, 0, 0, 0, 0, 1]"
+    ],
+    "rhat6_range": [
+     "1/924",
+     "9/35"
+    ]
+   },
+   "E": {
+    "H": "C6",
+    "chi": "R_z(pi/3) -> e^{-i pi} = -1",
+    "basis": [
+     "[1, 0, 0, 0, 0, 0, 0]",
+     "[0, 0, 0, 0, 0, 0, 1]"
+    ],
+    "rhat6_range": [
+     "1/924",
+     "463/924"
+    ]
+   },
+   "F": {
+    "H": "D2",
+    "chi": "R_z(pi) -> +1, R_y(pi) -> -1, R_x(pi) -> -1",
+    "basis": [
+     "[0, 0, 0, 1, 0, 0, 0]",
+     "[0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]"
+    ],
+    "rhat6_range": [
+     "75/308",
+     "463/924"
+    ]
+   },
+   "G": {
+    "H": "D3",
+    "chi": "R_z(2pi/3) -> 1, R_y(pi) -> -1",
+    "basis": [
+     "[0, 0, 0, 1, 0, 0, 0]",
+     "[sqrt(2)/2, 0, 0, 0, 0, 0, -sqrt(2)/2]"
+    ],
+    "rhat6_range": [
+     "200/903",
+     "463/924"
+    ]
+   }
+  },
+  "classes_dim1": {
+   "v3": {
+    "H": "SO(2)_z",
+    "chi": "R_z(t) -> e^{-3it}",
+    "u": "[1, 0, 0, 0, 0, 0, 0]",
+    "r1..r6": [
+     "9/28",
+     "25/84",
+     "1/6",
+     "9/154",
+     "1/84",
+     "1/924"
+    ]
+   },
+   "v2": {
+    "H": "SO(2)_z",
+    "chi": "R_z(t) -> e^{-2it}",
+    "u": "[0, 1, 0, 0, 0, 0, 0]",
+    "r1..r6": [
+     "1/7",
+     "0",
+     "1/6",
+     "7/22",
+     "4/21",
+     "3/77"
+    ]
+   },
+   "v1": {
+    "H": "SO(2)_z",
+    "chi": "R_z(t) -> e^{-it}",
+    "u": "[0, 0, 1, 0, 0, 0, 0]",
+    "r1..r6": [
+     "1/28",
+     "3/28",
+     "1/6",
+     "1/154",
+     "25/84",
+     "75/308"
+    ]
+   },
+   "v0": {
+    "H": "O(2)_z",
+    "chi": "det-type: R_z(t) -> 1, flips -> -1",
+    "u": "[0, 0, 0, 1, 0, 0, 0]",
+    "r1..r6": [
+     "0",
+     "4/21",
+     "0",
+     "18/77",
+     "0",
+     "100/231"
+    ]
+   },
+   "xyz": {
+    "H": "O (also T with trivial chi)",
+    "chi": "A2 sign character of O",
+    "u": "[0, 1, 0, 0, 0, -1, 0]",
+    "r1..r6": [
+     "0",
+     "0",
+     "0",
+     "6/11",
+     "0",
+     "24/77"
+    ]
+   },
+   "cat": {
+    "H": "D6",
+    "chi": "R_z(pi/3) -> -1, R_y(pi) -> +1",
+    "u": "[1, 0, 0, 0, 0, 0, 1]",
+    "r1..r6": [
+     "0",
+     "25/84",
+     "0",
+     "9/154",
+     "0",
+     "463/924"
+    ]
+   }
+  }
+ },
+ "item2": {
+  "A": {
+   "basis_a": "[0, 0, 1, 0, 0, 0, 0]",
+   "basis_b": "[0, 0, 0, 0, 0, 1, 0]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "(3*(4*x**4 + 8*x**2*y**2 + 64*x**2 + 4*y**4 + 64*y**2 + 25)/308) / (1 + x^2 + y^2)^2",
+   "924_N_of_t": "36*t**2 + 576*t + 225",
+   "dfdt_numerator": "-21*(4*t - 1)",
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "75/308",
+     "kind": "point",
+     "value_check": "75/308",
+     "hess_det": "9/121",
+     "hess_trace": "6/11",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "|z|^2=1/4",
+     "value": "9/35",
+     "kind": "circle",
+     "value_check": "9/35",
+     "d2f_dt2": "-384/1375",
+     "type": "circle of maxima (Morse-Bott)",
+     "index": "circle, Euler characteristic 0"
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "3/77",
+     "kind": "point",
+     "hess_det": "144/121",
+     "hess_trace": "24/11",
+     "type": "local min",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "0.25",
+    "inf"
+   ]
+  },
+  "B": {
+   "basis_a": "[0, 0, 1, 0, 0, 0, 0]",
+   "basis_b": "[0, 0, 0, 0, 0, 0, 1]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "((x**4 + 2*x**2*y**2 + 450*x**2 + y**4 + 450*y**2 + 225)/924) / (1 + x^2 + y^2)^2",
+   "924_N_of_t": "t**2 + 450*t + 225",
+   "dfdt_numerator": "-224*t",
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "75/308",
+     "kind": "point",
+     "value_check": "75/308",
+     "leading_order": "(-8/33) |z|^4",
+     "hess_det": "0",
+     "hess_trace": "0",
+     "type": "degenerate (Hessian 0); F(t)-F(0) = (-8/33) t^2, isolated local max",
+     "index": 1
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "1/924",
+     "kind": "point",
+     "hess_det": "1024/1089",
+     "hess_trace": "64/33",
+     "type": "local min",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "inf"
+   ]
+  },
+  "C": {
+   "basis_a": "[0, 1, 0, 0, 0, 0, 0]",
+   "basis_b": "[0, 0, 0, 0, 0, 1, 0]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "(3*(x**4 + 2*x**2*y**2 + 30*x**2 + y**4 + 30*y**2 + 1)/77) / (1 + x^2 + y^2)^2",
+   "924_N_of_t": "36*t**2 + 1080*t + 36",
+   "dfdt_numerator": "-84*(t - 1)",
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "3/77",
+     "kind": "point",
+     "value_check": "3/77",
+     "hess_det": "576/121",
+     "hess_trace": "48/11",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "|z|^2=1",
+     "value": "24/77",
+     "kind": "circle",
+     "value_check": "24/77",
+     "d2f_dt2": "-3/22",
+     "type": "circle of maxima (Morse-Bott)",
+     "index": "circle, Euler characteristic 0"
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "3/77",
+     "kind": "point",
+     "hess_det": "576/121",
+     "hess_trace": "48/11",
+     "type": "local min",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "1.0",
+    "inf"
+   ]
+  },
+  "D": {
+   "basis_a": "[0, 1, 0, 0, 0, 0, 0]",
+   "basis_b": "[0, 0, 0, 0, 0, 0, 1]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "((x**4 + 2*x**2*y**2 + 912*x**2 + y**4 + 912*y**2 + 36)/924) / (1 + x^2 + y^2)^2",
+   "924_N_of_t": "t**2 + 912*t + 36",
+   "dfdt_numerator": "-35*(13*t - 12)",
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "3/77",
+     "kind": "point",
+     "value_check": "3/77",
+     "hess_det": "400/121",
+     "hess_trace": "40/11",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "|z|^2=12/13",
+     "value": "9/35",
+     "kind": "circle",
+     "value_check": "9/35",
+     "d2f_dt2": "-28561/206250",
+     "type": "circle of maxima (Morse-Bott)",
+     "index": "circle, Euler characteristic 0"
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "1/924",
+     "kind": "point",
+     "hess_det": "4225/1089",
+     "hess_trace": "130/33",
+     "type": "local min",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "0.923076923077",
+    "inf"
+   ]
+  },
+  "E": {
+   "basis_a": "[1, 0, 0, 0, 0, 0, 0]",
+   "basis_b": "[0, 0, 0, 0, 0, 0, 1]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "((x**4 + 2*x**2*y**2 + 1850*x**2 + y**4 + 1850*y**2 + 1)/924) / (1 + x^2 + y^2)^2",
+   "924_N_of_t": "t**2 + 1850*t + 1",
+   "dfdt_numerator": "-924*(t - 1)",
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "1/924",
+     "kind": "point",
+     "value_check": "1/924",
+     "hess_det": "16",
+     "hess_trace": "8",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "|z|^2=1",
+     "value": "463/924",
+     "kind": "circle",
+     "value_check": "463/924",
+     "d2f_dt2": "-1/4",
+     "type": "circle of maxima (Morse-Bott)",
+     "index": "circle, Euler characteristic 0"
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "1/924",
+     "kind": "point",
+     "hess_det": "16",
+     "hess_trace": "8",
+     "type": "local min",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "1.0",
+    "inf"
+   ]
+  },
+  "F": {
+   "basis_a": "[0, 0, 0, 1, 0, 0, 0]",
+   "basis_b": "[0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "(4*(18*x**4 + 36*x**2*y**2 + 71*x**2 + 18*y**4 + 15*y**2 + 25)/231) / (1 + x^2 + y^2)^2",
+   "elimination": {
+    "p1": "-40*x**2/33 + 8*y**2/3 + 8/11",
+    "q1": "-104*x**2/33 + 8*y**2/11 - 40/33",
+    "p1_minus_q1": "64*(x**2 + y**2 + 1)/33",
+    "groebner_lex": [
+     "5*x**3 - 11*x*y**2 - 3*x",
+     "13*x**2*y - 3*y**3 + 5*y",
+     "2*x*y**3 + x*y",
+     "6*y**5 - 7*y**3 - 5*y"
+    ],
+    "n_complex_solutions_of_groebner_system": 5
+   },
+   "axis_equations": {
+    "x=0": "8*(3*y**2 - 5)/33",
+    "y=0": "-8*(5*x**2 - 3)/33"
+   },
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "100/231",
+     "kind": "point",
+     "value_check": "100/231",
+     "hess_det": "-320/363",
+     "hess_trace": "-16/33",
+     "type": "saddle",
+     "index": -1
+    },
+    {
+     "where": "z=-sqrt(15)*I/3",
+     "value": "75/308",
+     "kind": "point",
+     "value_check": "75/308",
+     "hess_det": "135/3872",
+     "hess_trace": "141/352",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "z=sqrt(15)*I/3",
+     "value": "75/308",
+     "kind": "point",
+     "value_check": "75/308",
+     "hess_det": "135/3872",
+     "hess_trace": "141/352",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "z=-sqrt(15)/5",
+     "value": "463/924",
+     "kind": "point",
+     "value_check": "463/924",
+     "hess_det": "3125/11616",
+     "hess_trace": "-1175/1056",
+     "type": "local max",
+     "index": 1
+    },
+    {
+     "where": "z=sqrt(15)/5",
+     "value": "463/924",
+     "kind": "point",
+     "value_check": "463/924",
+     "hess_det": "3125/11616",
+     "hess_trace": "-1175/1056",
+     "type": "local max",
+     "index": 1
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "24/77",
+     "kind": "point",
+     "hess_det": "-320/363",
+     "hess_trace": "16/33",
+     "type": "saddle",
+     "index": -1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "0.6",
+    "1.66666666667",
+    "inf"
+   ]
+  },
+  "G": {
+   "basis_a": "[0, 0, 0, 1, 0, 0, 0]",
+   "basis_b": "[sqrt(2)/2, 0, 0, 0, 0, 0, -sqrt(2)/2]",
+   "chart": "u = a + z b, z = x + i y; omitted point [b]",
+   "rhat6_on_chart": "((463*x**4 + 926*x**2*y**2 + 296*x**2 + 463*y**4 - 40*y**2 + 400)/924) / (1 + x^2 + y^2)^2",
+   "elimination": {
+    "p1": "15*x**2/11 + 31*y**2/11 - 12/11",
+    "q1": "7*x**2/11 + 23*y**2/11 - 20/11",
+    "p1_minus_q1": "8*(x**2 + y**2 + 1)/11",
+    "groebner_lex": [
+     "15*x**3 + 31*x*y**2 - 12*x",
+     "7*x**2*y + 23*y**3 - 20*y",
+     "16*x*y**3 - 27*x*y",
+     "368*y**5 - 941*y**3 + 540*y"
+    ],
+    "n_complex_solutions_of_groebner_system": 5
+   },
+   "axis_equations": {
+    "x=0": "(23*y**2 - 20)/11",
+    "y=0": "3*(5*x**2 - 4)/11"
+   },
+   "critical_set": [
+    {
+     "where": "z=0",
+     "value": "100/231",
+     "kind": "point",
+     "value_check": "100/231",
+     "hess_det": "240/121",
+     "hess_trace": "-32/11",
+     "type": "local max",
+     "index": 1
+    },
+    {
+     "where": "z=-2*sqrt(115)*I/23",
+     "value": "200/903",
+     "kind": "point",
+     "value_check": "200/903",
+     "hess_det": "2059629760/17788021603",
+     "hess_trace": "668656/874577",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "z=2*sqrt(115)*I/23",
+     "value": "200/903",
+     "kind": "point",
+     "value_check": "200/903",
+     "hess_det": "2059629760/17788021603",
+     "hess_trace": "668656/874577",
+     "type": "local min",
+     "index": 1
+    },
+    {
+     "where": "z=-2*sqrt(5)/5",
+     "value": "24/77",
+     "kind": "point",
+     "value_check": "24/77",
+     "hess_det": "-200000/2381643",
+     "hess_trace": "400/2673",
+     "type": "saddle",
+     "index": -1
+    },
+    {
+     "where": "z=2*sqrt(5)/5",
+     "value": "24/77",
+     "kind": "point",
+     "value_check": "24/77",
+     "hess_det": "-200000/2381643",
+     "hess_trace": "400/2673",
+     "type": "saddle",
+     "index": -1
+    },
+    {
+     "where": "omitted point [b]",
+     "value": "463/924",
+     "kind": "point",
+     "hess_det": "345/121",
+     "hess_trace": "-38/11",
+     "type": "local max",
+     "index": 1
+    }
+   ],
+   "index_sum": 2,
+   "newton_search_abs_z2_found": [
+    "0.0",
+    "0.8",
+    "0.869565217391",
+    "inf"
+   ]
+  }
+ },
+ "item3": {
+  "v3": {
+   "rhat6": "1/924",
+   "924*rhat6": "1",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "SO(2)_z",
+   "character": "R_z(t) -> e^{-3it}"
+  },
+  "v2": {
+   "rhat6": "3/77",
+   "924*rhat6": "36",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "SO(2)_z",
+   "character": "R_z(t) -> e^{-2it}"
+  },
+  "v1": {
+   "rhat6": "75/308",
+   "924*rhat6": "225",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "SO(2)_z",
+   "character": "R_z(t) -> e^{-it}"
+  },
+  "v0": {
+   "rhat6": "100/231",
+   "924*rhat6": "400",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "O(2)_z",
+   "character": "R_z(t) -> 1, every flip -> -1"
+  },
+  "xyz": {
+   "rhat6": "24/77",
+   "924*rhat6": "288",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "O",
+   "character": "A2 (sign) character of O; T acts trivially"
+  },
+  "cat": {
+   "rhat6": "463/924",
+   "924*rhat6": "463",
+   "tangential_gradient": "exactly 0",
+   "stabilizer": "D6",
+   "character": "R_z(pi/3) -> -1, R_y(pi) -> +1"
+  },
+  "control_(v3+v1-v-2)/sqrt3_grad_norm": "2*sqrt(1002)/297"
+ },
+ "item4": {
+  "orbits": {
+   "v3": {
+    "rhat6": "1/924",
+    "924*rhat6": "1",
+    "u": "[1, 0, 0, 0, 0, 0, 0]",
+    "stabilizer": "SO(2)",
+    "occurs_as": "line class v3; poles of B, D, E",
+    "r1..r6": [
+     "9/28",
+     "25/84",
+     "1/6",
+     "9/154",
+     "1/84",
+     "1/924"
+    ],
+    "tr(rho_2^3)": "1375/49392"
+   },
+   "v2": {
+    "rhat6": "3/77",
+    "924*rhat6": "36",
+    "u": "[0, 1, 0, 0, 0, 0, 0]",
+    "stabilizer": "SO(2)",
+    "occurs_as": "line class v2; poles of A (v-2), C, D",
+    "r1..r6": [
+     "1/7",
+     "0",
+     "1/6",
+     "7/22",
+     "4/21",
+     "3/77"
+    ],
+    "tr(rho_2^3)": "0"
+   },
+   "v1": {
+    "rhat6": "75/308",
+    "924*rhat6": "225",
+    "u": "[0, 0, 1, 0, 0, 0, 0]",
+    "stabilizer": "SO(2)",
+    "occurs_as": "line class v1; poles of A, B",
+    "r1..r6": [
+     "1/28",
+     "3/28",
+     "1/6",
+     "1/154",
+     "25/84",
+     "75/308"
+    ],
+    "tr(rho_2^3)": "-33/5488"
+   },
+   "v0": {
+    "rhat6": "100/231",
+    "924*rhat6": "400",
+    "u": "[0, 0, 0, 1, 0, 0, 0]",
+    "stabilizer": "O(2)",
+    "occurs_as": "line class v0; z=0 of F and G",
+    "r1..r6": [
+     "0",
+     "4/21",
+     "0",
+     "18/77",
+     "0",
+     "100/231"
+    ],
+    "tr(rho_2^3)": "-44/3087"
+   },
+   "xyz": {
+    "rhat6": "24/77",
+    "924*rhat6": "288",
+    "u": "[0, sqrt(2)/2, 0, 0, 0, -sqrt(2)/2, 0]",
+    "stabilizer": "O",
+    "occurs_as": "line class xyz; circle of C; omitted point of F; z=+-2/sqrt5 of G",
+    "r1..r6": [
+     "0",
+     "0",
+     "0",
+     "6/11",
+     "0",
+     "24/77"
+    ],
+    "tr(rho_2^3)": "0"
+   },
+   "cat": {
+    "rhat6": "463/924",
+    "924*rhat6": "463",
+    "u": "[sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+    "stabilizer": "D6",
+    "occurs_as": "line class cat; circle of E; z=+-sqrt(3/5) of F; omitted point of G",
+    "r1..r6": [
+     "0",
+     "25/84",
+     "0",
+     "9/154",
+     "0",
+     "463/924"
+    ],
+    "tr(rho_2^3)": "1375/49392"
+   },
+   "A*": {
+    "rhat6": "9/35",
+    "924*rhat6": "1188/5",
+    "u": "[0, 0, 2*sqrt(5)/5, 0, 0, sqrt(5)/5, 0]",
+    "stabilizer": "C3",
+    "occurs_as": "circle |z|^2=1/4 of A",
+    "r1..r6": [
+     "1/175",
+     "12/175",
+     "1/6",
+     "11/350",
+     "172/525",
+     "9/35"
+    ],
+    "tr(rho_2^3)": "-132/42875"
+   },
+   "D*": {
+    "rhat6": "9/35",
+    "924*rhat6": "1188/5",
+    "u": "[0, sqrt(13)/5, 0, 0, 0, 0, 2*sqrt(3)/5]",
+    "stabilizer": "C5",
+    "occurs_as": "circle |z|^2=12/13 of D",
+    "r1..r6": [
+     "1/175",
+     "12/175",
+     "1/6",
+     "11/350",
+     "172/525",
+     "9/35"
+    ],
+    "tr(rho_2^3)": "132/42875"
+   },
+   "F*": {
+    "rhat6": "75/308",
+    "924*rhat6": "225",
+    "u": "[0, sqrt(5)*I/4, 0, sqrt(6)/4, 0, sqrt(5)*I/4, 0]",
+    "stabilizer": "D2",
+    "occurs_as": "z=+-i sqrt(5/3) of F",
+    "r1..r6": [
+     "0",
+     "3/112",
+     "5/32",
+     "291/2464",
+     "5/16",
+     "75/308"
+    ],
+    "tr(rho_2^3)": "-33/43904"
+   },
+   "G*": {
+    "rhat6": "200/903",
+    "924*rhat6": "8800/43",
+    "u": "[sqrt(430)*I/43, 0, 0, sqrt(989)/43, 0, 0, -sqrt(430)*I/43]",
+    "stabilizer": "D3",
+    "occurs_as": "z=+-i sqrt(20/23) of G",
+    "r1..r6": [
+     "0",
+     "16/38829",
+     "920/5547",
+     "1782/12943",
+     "1840/5547",
+     "200/903"
+    ],
+    "tr(rho_2^3)": "352/245438109"
+   }
+  },
+  "same_orbit_by_rotation": [
+   {
+    "map": "R_y(pi/2) R_z(pi/2): cat -> F point z = sqrt(3/5)",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(5pi/3) R_y(arccos(1/sqrt3)) R_z(pi/4): xyz -> G point z = 2/sqrt5",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/2): F point z -> -z (z = sqrt(3/5))",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/2): F point z -> -z (z = i sqrt(5/3))",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/3): G point z -> -z (z = 2/sqrt5)",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/3): G point z -> -z (z = i sqrt(20/23))",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/4): (v2+v-2)/sqrt2 (omitted point of F) -> xyz line",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(pi/6): (v3-v-3)/sqrt2 (omitted point of G) -> cat line",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_y(pi): v1 -> v-1",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_y(pi): v2 -> v-2",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_y(pi): v3 -> v-3",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(2pi/7) moves circle point of A to z = 1/2 * e^{-2pi i (-3)/7}",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(2pi/7) moves circle point of D to z = 2*sqrt(39)/13 * e^{-2pi i (-5)/7}",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(2pi/7) moves circle point of C to z = 1 * e^{-2pi i (-4)/7}",
+    "verified_exactly": true
+   },
+   {
+    "map": "R_z(2pi/7) moves circle point of E to z = 1 * e^{-2pi i (-6)/7}",
+    "verified_exactly": true
+   }
+  ],
+  "separations": [
+   {
+    "pair": [
+     "v1",
+     "F*"
+    ],
+    "value": "75/308",
+    "separated_by": "r_1: 1/28 vs 0 (exact, rotation-invariant)"
+   },
+   {
+    "pair": [
+     "A*",
+     "D*"
+    ],
+    "value": "9/35",
+    "separated_by": "all quartic invariants r_1..r_6 agree; tr(rho_2^3): -132/42875 vs 132/42875 (exact, rotation-invariant); also stabilizers C3 vs C5 are non-isomorphic"
+   }
+  ]
+ },
+ "item5": {
+  "v3": {
+   "dim_O": 3,
+   "dim_N": 10,
+   "signature_(n-,n0,n+)": [
+    0,
+    0,
+    10
+   ],
+   "charpoly_monic_factored": "(lam - 4)**2*(11*lam - 3)**2*(11*lam - 2)**2*(33*lam - 65)**2*(33*lam - 32)**2/17363069361",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "2.67e-51",
+    "O_u_residual": "0.0",
+    "dim_O": 3
+   },
+   "mp80": {
+    "max_|eig - exact root|": "4.22e-81",
+    "O_u_residual": "0.0",
+    "dim_O": 3
+   },
+   "item6": {
+    "index_g>0": 0,
+    "index_g<0": 10,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": true,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "v2": {
+   "dim_O": 3,
+   "dim_N": 10,
+   "signature_(n-,n0,n+)": [
+    2,
+    0,
+    8
+   ],
+   "charpoly_monic_factored": "(3*lam - 4)**2*(11*lam - 24)**2*(11*lam - 20)**2*(11*lam - 12)**2*(33*lam + 8)**2/17363069361",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "1.07e-50",
+    "O_u_residual": "4.5e-52",
+    "dim_O": 3
+   },
+   "mp80": {
+    "max_|eig - exact root|": "1.69e-80",
+    "O_u_residual": "3.02e-82",
+    "dim_O": 3
+   },
+   "item6": {
+    "index_g>0": 2,
+    "index_g<0": 8,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "v1": {
+   "dim_O": 3,
+   "dim_N": 10,
+   "signature_(n-,n0,n+)": [
+    4,
+    2,
+    4
+   ],
+   "charpoly_monic_factored": "lam**2*(3*lam + 5)**2*(11*lam - 3)**2*(363*lam**2 - 374*lam - 600)**2/143496441",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "5.35e-51",
+    "O_u_residual": "3.47e-51",
+    "dim_O": 3
+   },
+   "mp80": {
+    "max_|eig - exact root|": "2.11e-81",
+    "O_u_residual": "2.92e-81",
+    "dim_O": 3
+   },
+   "item6": {
+    "index_g>0": 4,
+    "index_g<0": 4,
+    "kernel": 2,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   },
+   "item7_kernel_vectors_c_coords": [
+    "[0, 0, 0, 0, 0, 0, 1]",
+    "[0, 0, 0, 0, 0, 0, I]"
+   ],
+   "item7_kernel_is_tangent_of_class_B": true
+  },
+  "v0": {
+   "dim_O": 3,
+   "dim_N": 10,
+   "signature_(n-,n0,n+)": [
+    8,
+    0,
+    2
+   ],
+   "charpoly_monic_factored": "(11*lam - 8)**2*(11*lam + 12)**2*(11*lam + 20)**2*(33*lam + 40)**2*(33*lam + 100)**2/2100931392681",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "5.35e-51",
+    "O_u_residual": "2.67e-51",
+    "dim_O": 3
+   },
+   "mp80": {
+    "max_|eig - exact root|": "8.43e-81",
+    "O_u_residual": "0.0",
+    "dim_O": 3
+   },
+   "item6": {
+    "index_g>0": 8,
+    "index_g<0": 2,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "xyz": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    6,
+    0,
+    3
+   ],
+   "charpoly_monic_factored": "(11*lam + 8)**3*(11*lam + 24)**3*(33*lam - 40)**3/63664587657",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "2.14e-50",
+    "O_u_residual": "3.22e-51",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "5.27e-81",
+    "O_u_residual": "5.45e-81",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 6,
+    "index_g<0": 3,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "cat": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    9,
+    0,
+    0
+   ],
+   "charpoly_monic_factored": "(lam + 4)*(11*lam + 10)**2*(11*lam + 15)*(11*lam + 23)*(33*lam + 64)**2*(33*lam + 67)**2/17363069361",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "3.21e-50",
+    "O_u_residual": "1.6e-50",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "1.69e-80",
+    "O_u_residual": "1.27e-80",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 9,
+    "index_g<0": 0,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": true
+   }
+  },
+  "A*": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    5,
+    0,
+    4
+   ],
+   "charpoly_monic_factored": "(55*lam + 24)*(16471125*lam**4 + 9583200*lam**3 - 45776720*lam**2 - 23015168*lam + 998400)**2/14921387732109375",
+   "exact_field": "QQ<sqrt(10)>",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "2.14e-50",
+    "O_u_residual": "3.38e-51",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "1.48e-80",
+    "O_u_residual": "7.47e-81",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 5,
+    "index_g<0": 4,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "D*": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    5,
+    0,
+    4
+   ],
+   "charpoly_monic_factored": "(55*lam + 24)**2*(55*lam + 104)*(165*lam - 4)**2*(1815*lam**2 - 1012*lam - 3360)**2/14921387732109375",
+   "exact_field": "QQ<sqrt(26)>",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "1.6e-50",
+    "O_u_residual": "1.06e-51",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "8.43e-81",
+    "O_u_residual": "2.28e-81",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 5,
+    "index_g<0": 4,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "F*": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    5,
+    0,
+    4
+   ],
+   "charpoly_monic_factored": "(11*lam - 10)*(11*lam + 7)*(33*lam - 64)*(31944*lam**3 + 46948*lam**2 - 13530*lam - 7125)**2/4074533610048",
+   "exact_field": "QQ",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "1.34e-50",
+    "O_u_residual": "3.73e-51",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "1.05e-80",
+    "O_u_residual": "4.17e-81",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 5,
+    "index_g<0": 4,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "G*": {
+   "dim_O": 4,
+   "dim_N": 9,
+   "signature_(n-,n0,n+)": [
+    3,
+    0,
+    6
+   ],
+   "charpoly_monic_factored": "(11*lam - 8)*(473*lam - 920)*(473*lam + 696)*(1419*lam - 560)**2*(671187*lam**2 + 438944*lam - 339200)**2/2232373353377701794512571",
+   "exact_field": "QQ<sqrt(46)>",
+   "O_u_residuals_exact": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "mp50": {
+    "max_|eig - exact root|": "5.35e-51",
+    "O_u_residual": "2.73e-51",
+    "dim_O": 4
+   },
+   "mp80": {
+    "max_|eig - exact root|": "6.85e-81",
+    "O_u_residual": "2.61e-81",
+    "dim_O": 4
+   },
+   "item6": {
+    "index_g>0": 3,
+    "index_g<0": 6,
+    "kernel": 0,
+    "local_min_of_g*rhat6_g>0": false,
+    "local_min_of_g*rhat6_g<0": false
+   }
+  },
+  "control_noncritical_O_residuals": [
+   "2*sqrt(1002)/297",
+   "sqrt(416*sqrt(15)/29403 + 5560/29403)",
+   "sqrt(5560/29403 - 416*sqrt(15)/29403)",
+   "4*sqrt(921)/297"
+  ]
+ },
+ "item5b": {
+  "A*": {
+   "class": "A",
+   "chart_z": "1/2",
+   "u": "[0, 0, 2*sqrt(5)/5, 0, 0, sqrt(5)/5, 0]",
+   "u_perp": "[0, 0, -sqrt(5)/5, 0, 0, 2*sqrt(5)/5, 0]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1/3)*[i u] + (5/6)*[-i Jz u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "-24/55"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "3.34e-51",
+   "chart_hessian_item2": "[[-384/1375, 0], [0, 0]]"
+  },
+  "D*": {
+   "class": "D",
+   "chart_z": "2*sqrt(39)/13",
+   "u": "[0, sqrt(13)/5, 0, 0, 0, 0, 2*sqrt(3)/5]",
+   "u_perp": "[0, -2*sqrt(3)/5, 0, 0, 0, 0, sqrt(13)/5]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(-sqrt(39)/39)*[i u] + (5*sqrt(39)/78)*[-i Jz u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "-104/55"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "8.02e-51",
+   "chart_hessian_item2": "[[-17576/34375, 0], [0, 0]]"
+  },
+  "F*": {
+   "class": "F",
+   "chart_z": "sqrt(15)*I/3",
+   "u": "[0, sqrt(5)*I/4, 0, sqrt(6)/4, 0, sqrt(5)*I/4, 0]",
+   "u_perp": "[0, sqrt(3)/4, 0, sqrt(10)*I/4, 0, sqrt(3)/4, 0]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp",
+    "t3 = i u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "64/33",
+     "0"
+    ],
+    [
+     "0",
+     "10/11"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "5.35e-51",
+   "chart_hessian_item2": "[[3/11, 0], [0, 45/352]]"
+  },
+  "G*": {
+   "class": "G",
+   "chart_z": "2*sqrt(115)*I/23",
+   "u": "[sqrt(430)*I/43, 0, 0, sqrt(989)/43, 0, 0, -sqrt(430)*I/43]",
+   "u_perp": "[sqrt(1978)/86, 0, 0, 2*sqrt(215)*I/43, 0, 0, -sqrt(1978)/86]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp",
+    "t3 = i u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "8/11",
+     "0"
+    ],
+    [
+     "0",
+     "920/473"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "2.67e-51",
+   "chart_hessian_item2": "[[4232/20339, 0], [0, 486680/874577]]"
+  },
+  "xyz in C (supplementary)": {
+   "class": "C",
+   "chart_z": "1",
+   "u": "[0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]",
+   "u_perp": "[0, -sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1/2)*[-i Jz u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "-24/11"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "5.35e-51",
+   "chart_hessian_item2": "[[-6/11, 0], [0, 0]]"
+  },
+  "cat in E (supplementary)": {
+   "class": "E",
+   "chart_z": "1",
+   "u": "[sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+   "u_perp": "[-sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1/3)*[-i Jz u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "-4"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "1.07e-50",
+   "chart_hessian_item2": "[[-1, 0], [0, 0]]"
+  },
+  "xyz in G (supplementary)": {
+   "class": "G",
+   "chart_z": "2*sqrt(5)/5",
+   "u": "[sqrt(2)/3, 0, 0, sqrt(5)/3, 0, 0, -sqrt(2)/3]",
+   "u_perp": "[sqrt(10)/6, 0, 0, -2/3, 0, 0, -sqrt(10)/6]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp",
+    "t3 = i u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "40/33",
+     "0"
+    ],
+    [
+     "0",
+     "-8/11"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "5.35e-51",
+   "chart_hessian_item2": "[[1000/2673, 0], [0, -200/891]]"
+  },
+  "cat in F (supplementary)": {
+   "class": "F",
+   "chart_z": "sqrt(15)/5",
+   "u": "[0, sqrt(3)/4, 0, sqrt(10)/4, 0, sqrt(3)/4, 0]",
+   "u_perp": "[0, sqrt(5)/4, 0, -sqrt(6)/4, 0, sqrt(5)/4, 0]",
+   "n_directions": 3,
+   "directions": {
+    "t1 = i u": {
+     "projection_onto_N_u_is_zero": true,
+     "equals_O_direction": "(1)*[i u]",
+     "H_u_on_unit_tangent_(orbit-null control)": "0"
+    },
+    "t2 = u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    },
+    "t3 = i u_perp": {
+     "projection_onto_N_u_is_zero": false,
+     "norm_of_projection_onto_N_u": "1"
+    }
+   },
+   "nonnull_directions": [
+    "t2 = u_perp",
+    "t3 = i u_perp"
+   ],
+   "H_u_matrix_on_unit_tangents": [
+    [
+     "-10/11",
+     "0"
+    ],
+    [
+     "0",
+     "-64/33"
+    ]
+   ],
+   "Gram_matrix_Re": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "mp50_max_deviation": "8.02e-51",
+   "chart_hessian_item2": "[[-125/352, 0], [0, -25/33]]"
+  }
+ },
+ "item8": {
+  "level1_optimality_dual_point": {
+   "p0,p2,p4,p6": [
+    "1/7",
+    "1/3",
+    "0",
+    "11/21"
+   ],
+   "r0..r6": [
+    "1/7",
+    "0",
+    "1/3",
+    "0",
+    "0",
+    "0",
+    "11/21"
+   ]
+  },
+  "min": {
+   "value": "1/924",
+   "identity": "924 N = |u|^4 + 1715 P0 + 714 P2 + 77 P4",
+   "attained_at": "v3 (and exactly where P0=P2=P4=0)"
+  },
+  "level1_upper_bound": {
+   "value": "11/21",
+   "identity": "11/21 |u|^4 - N = 29/18 R1 + 9/22 R5 + 7/18 P4"
+  },
+  "max": {
+   "value": "463/924",
+   "attained_at": "cat = (v3+v-3)/sqrt2",
+   "certificate": "lambda |u|^6 - N|u|^2 = sum_b sum_M kappa_{L,M}^-1 c_bM^T Y_b conj(c_bM), Y_b = P_b Yt_b P_b^T, Yt_b rational PD",
+   "reduced_blocks": [
+    [
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     3,
+     2,
+     1
+    ],
+    [
+     1,
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     5,
+     1,
+     0
+    ],
+    [
+     1,
+     6,
+     1,
+     0
+    ],
+    [
+     1,
+     7,
+     1,
+     0
+    ],
+    [
+     1,
+     9,
+     1,
+     0
+    ],
+    [
+     2,
+     1,
+     2,
+     2
+    ],
+    [
+     2,
+     2,
+     2,
+     2
+    ],
+    [
+     2,
+     3,
+     4,
+     3
+    ],
+    [
+     2,
+     4,
+     3,
+     2
+    ],
+    [
+     2,
+     5,
+     3,
+     2
+    ],
+    [
+     2,
+     6,
+     2,
+     1
+    ],
+    [
+     2,
+     7,
+     2,
+     1
+    ],
+    [
+     2,
+     8,
+     1,
+     1
+    ],
+    [
+     2,
+     9,
+     1,
+     0
+    ]
+   ],
+   "n_unknowns": 23,
+   "rank_of_identity_constraints": 8,
+   "ldl_pivots": {
+    "block kind=1 L=1": [
+     "32035106733992387177256259299748301963451651357397979728979/225581719124243311873845473387894344659987946383810189586275"
+    ],
+    "block kind=1 L=3": [
+     "18585751464684862827/350039335283921470"
+    ],
+    "block kind=2 L=1": [
+     "302700106805004103087786663706494125444401406150505805467253/80206833466397621999589501649029100323551269825354734075120",
+     "333100449152161440530913836337421835197357508097792637285914453047438255140797890834368917758918588101920359/1154430095611883408563969679027701784882600261774756919539131873810886335677736733827594102173854649270991500"
+    ],
+    "block kind=2 L=2": [
+     "3948603328750295607516580628421004277202205727527311884645544662474929505254439/1283396904102042402065258077164708186552191288498260960466140873674482563536000",
+     "725971481979198059753097210960782402199232115003652844060869445419990211987532614502886192269458353995247111882262794695426163679763981480583991501/3221331269811606387486206767328958547292942196460901167679872973646861876683681048509254076931763113222729288024517947185244602407538102342164716160"
+    ],
+    "block kind=2 L=3": [
+     "1499348568268239793313946768399371192037590334769136795488740787/1691376648020293480157565957847734325106019543998693429543304000",
+     "2967597588043134367970552903740404907590109780300778516497729123607737212943/523190268302169641526525190976948074438705199913553290768054541952333978943",
+     "197954073748665170515530449697480678858667006553763965076626201326770632201867887286290275314623407/228413492895906319481961505744903352736099647793890814990639144802436869715892005072284263454809950"
+    ],
+    "block kind=2 L=4": [
+     "155488/692685",
+     "86086872606864148391867/21437485546796551116800"
+    ],
+    "block kind=2 L=5": [
+     "1177754/250117",
+     "1973035984050701605287889/355982390183593771413750"
+    ],
+    "block kind=2 L=6": [
+     "58887/171694"
+    ],
+    "block kind=2 L=7": [
+     "969429/260176"
+    ],
+    "block kind=2 L=8": [
+     "79500/337139"
+    ]
+   },
+   "Yt_blocks": {
+    "kind=1,L=1": [
+     [
+      "32035106733992387177256259299748301963451651357397979728979/225581719124243311873845473387894344659987946383810189586275"
+     ]
+    ],
+    "kind=1,L=3": [
+     [
+      "18585751464684862827/350039335283921470"
+     ]
+    ],
+    "kind=2,L=1": [
+     [
+      "302700106805004103087786663706494125444401406150505805467253/80206833466397621999589501649029100323551269825354734075120",
+      "-308016155985359819735750103872584864096534666420912492549033/50129270916498513749743438530643187702219543640846708796950"
+     ],
+     [
+      "-308016155985359819735750103872584864096534666420912492549033/50129270916498513749743438530643187702219543640846708796950",
+      "1031890514622108609590056106116797354686197747987715480167231/100258541832997027499486877061286375404439087281693417593900"
+     ]
+    ],
+    "kind=2,L=2": [
+     [
+      "3948603328750295607516580628421004277202205727527311884645544662474929505254439/1283396904102042402065258077164708186552191288498260960466140873674482563536000",
+      "-9351072836055894100028785484606299959871126271437706058824798546269027/4079076829972605065175067961066456412491557050212196448375853903587200"
+     ],
+     [
+      "-9351072836055894100028785484606299959871126271437706058824798546269027/4079076829972605065175067961066456412491557050212196448375853903587200",
+      "957943/495451"
+     ]
+    ],
+    "kind=2,L=3": [
+     [
+      "1499348568268239793313946768399371192037590334769136795488740787/1691376648020293480157565957847734325106019543998693429543304000",
+      "-1864639/604237",
+      "2387031/498161"
+     ],
+     [
+      "-1864639/604237",
+      "9479497/577497",
+      "-24875221/934655"
+     ],
+     [
+      "2387031/498161",
+      "-24875221/934655",
+      "39055983/884330"
+     ]
+    ],
+    "kind=2,L=4": [
+     [
+      "155488/692685",
+      "157603/385816"
+     ],
+     [
+      "157603/385816",
+      "4407989/926225"
+     ]
+    ],
+    "kind=2,L=5": [
+     [
+      "1177754/250117",
+      "-7237363/881925"
+     ],
+     [
+      "-7237363/881925",
+      "7711578/388607"
+     ]
+    ],
+    "kind=2,L=6": [
+     [
+      "58887/171694"
+     ]
+    ],
+    "kind=2,L=7": [
+     [
+      "969429/260176"
+     ]
+    ],
+    "kind=2,L=8": [
+     [
+      "79500/337139"
+     ]
+    ]
+   },
+   "numeric_margin_before_rounding": 0.07677467776902046
+  },
+  "search": {
+   "starts": 200,
+   "best_min": 0.0010822510822510818,
+   "best_max": 0.5010822510822511,
+   "min_minus_1/924": -4.336808689942018e-19,
+   "max_minus_463/924": 0.0,
+   "distinct_local_max_values_found": [
+    463.0
+   ],
+   "distinct_local_min_values_found": [
+    1.0
+   ]
+  }
+ },
+ "item9": {
+  "Z1": "class B pole v1: rhat6 = 225/924 - (224/924) t^2/(1+t)^2; no linear term in t, hence zero chart Hessian. The cancellation is the identity 2<3 1;3 -1|6 0><3 -3;3 3|6 0> + <3 1;3 3|6 4>^2 + <3 -3;3 -1|6 -4>^2 = 2<3 1;3 -1|6 0>^2, i.e. 30 + 420 = 450 (in units 1/924).",
+  "Z3": "For F*, G*, cat@F, xyz@G the map sigma = (rotation) o Theta, times the sign s0, is a real-linear isometry that preserves rhat6 (S1, S2), fixes u, and acts as eps on u_perp and -eps on i u_perp (eps = +-1); hence H_u(u_perp, i u_perp) = -H_u(u_perp, i u_perp) = 0."
+ },
+ "item10": {
+  "sector w6=28/39": {
+   "orbit_values_Q": {
+    "v3": "1288/1287",
+    "v2": "147/143",
+    "v1": "168/143",
+    "v0": "1687/1287",
+    "xyz": "175/143",
+    "cat": "1750/1287",
+    "A*": "77/65",
+    "D*": "77/65",
+    "F*": "168/143",
+    "G*": "5831/5031"
+   },
+   "charpolys_Q": {
+    "v3": "(39*lam - 112)**2*(99*lam - 140)**2*(143*lam - 28)**2*(429*lam - 56)**2*(1287*lam - 896)**2/92927308010445919222641",
+    "v2": "(117*lam - 112)**2*(143*lam - 224)**2*(143*lam - 112)**2*(429*lam - 560)**2*(1287*lam + 224)**2/1744968339307262260958481",
+    "v1": "lam**2*(117*lam + 140)**2*(143*lam - 28)**2*(184041*lam**2 - 136136*lam - 156800)**2/9481410877506980841",
+    "v0": "(143*lam + 112)**2*(429*lam - 224)**2*(429*lam + 560)**2*(1287*lam + 1120)**2*(1287*lam + 2800)**2/1900270521505608602183785809",
+    "xyz": "(143*lam + 224)**3*(429*lam + 224)**3*(1287*lam - 1120)**3/492170557240509868475469",
+    "cat": "(39*lam + 112)*(143*lam + 140)*(429*lam + 280)**2*(429*lam + 644)*(1287*lam + 1792)**2*(1287*lam + 1876)**2/1208055004135796949894333",
+    "A*": "(715*lam + 224)*(977050663875*lam**4 + 408129321600*lam**3 - 1399668990720*lam**2 - 505228967936*lam + 15735193600)**2/682559019841683434461171875",
+    "D*": "(165*lam + 224)*(715*lam + 224)**2*(6435*lam - 112)**2*(920205*lam**2 - 368368*lam - 878080)**2/2957755752647294882665078125",
+    "F*": "(429*lam - 280)*(429*lam + 196)*(1287*lam - 1792)*(78953589*lam**3 + 83309226*lam**2 - 17237220*lam - 6517000)**2/1476511671721529605426407",
+    "G*": "(429*lam - 224)*(6149*lam + 6496)*(18447*lam - 25760)*(55341*lam - 15680)**2*(1020875427*lam**2 + 479326848*lam - 265932800)**2/155319877181670290241419432640384086463"
+   },
+   "signatures": {
+    "v3": [
+     0,
+     0,
+     10
+    ],
+    "v2": [
+     2,
+     0,
+     8
+    ],
+    "v1": [
+     4,
+     2,
+     4
+    ],
+    "v0": [
+     8,
+     0,
+     2
+    ],
+    "xyz": [
+     6,
+     0,
+     3
+    ],
+    "cat": [
+     9,
+     0,
+     0
+    ],
+    "A*": [
+     5,
+     0,
+     4
+    ],
+    "D*": [
+     5,
+     0,
+     4
+    ],
+    "F*": [
+     5,
+     0,
+     4
+    ],
+    "G*": [
+     3,
+     0,
+     6
+    ]
+   },
+   "item5b_times_w": {
+    "A*": {
+     "H_u_matrix_times_w": [
+      [
+       "-224/715"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "D*": {
+     "H_u_matrix_times_w": [
+      [
+       "-224/165"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "F*": {
+     "H_u_matrix_times_w": [
+      [
+       "1792/1287",
+       "0"
+      ],
+      [
+       "0",
+       "280/429"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "G*": {
+     "H_u_matrix_times_w": [
+      [
+       "224/429",
+       "0"
+      ],
+      [
+       "0",
+       "25760/18447"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "xyz in C (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-224/143"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "cat in E (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-112/39"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "xyz in G (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "1120/1287",
+       "0"
+      ],
+      [
+       "0",
+       "-224/429"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "cat in F (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-280/429",
+       "0"
+      ],
+      [
+       "0",
+       "-1792/1287"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    }
+   }
+  },
+  "sector w6=21/52": {
+   "orbit_values_Q": {
+    "v3": "2289/2288",
+    "v2": "581/572",
+    "v1": "2513/2288",
+    "v0": "168/143",
+    "xyz": "161/143",
+    "cat": "2751/2288",
+    "A*": "287/260",
+    "D*": "287/260",
+    "F*": "2513/2288",
+    "G*": "609/559"
+   },
+   "charpolys_Q": {
+    "v3": "(13*lam - 21)**2*(44*lam - 35)**2*(143*lam - 56)**2*(286*lam - 21)**2*(572*lam - 63)**2/179055743540104397824",
+    "v2": "(13*lam - 7)**2*(143*lam - 126)**2*(143*lam - 105)**2*(143*lam - 63)**2*(143*lam + 14)**2/29551192049099260969",
+    "v1": "lam**2*(52*lam + 35)**2*(572*lam - 63)**2*(40898*lam**2 - 17017*lam - 11025)**2/1479799533389292544",
+    "v0": "(143*lam - 42)**2*(143*lam + 63)**2*(143*lam + 70)**2*(143*lam + 105)**2*(143*lam + 175)**2/3575694237941010577249",
+    "xyz": "(143*lam - 70)**3*(143*lam + 42)**3*(143*lam + 126)**3/25004854810776297743",
+    "cat": "(13*lam + 21)*(143*lam + 112)**2*(286*lam + 105)**2*(572*lam + 315)*(572*lam + 469)**2*(572*lam + 483)/2327724666021357171712",
+    "A*": "(715*lam + 126)*(4020784625*lam**4 + 944743800*lam**3 - 1822485665*lam**2 - 370040748*lam + 6482700)**2/11559196935455019296875",
+    "D*": "(55*lam + 42)*(715*lam - 7)**2*(715*lam + 126)**2*(102245*lam**2 - 23023*lam - 30870)**2/150269560160915250859375",
+    "F*": "(143*lam - 112)*(286*lam - 105)*(572*lam + 147)*(1497193984*lam**3 + 888631744*lam**2 - 103423320*lam - 21994875)**2/52438981276129134364327936",
+    "G*": "(143*lam - 42)*(6149*lam - 4830)*(6149*lam - 980)**2*(6149*lam + 3654)*(37810201*lam**2 + 9985976*lam - 3116400)**2/292261750940688223606043629754543"
+   },
+   "signatures": {
+    "v3": [
+     0,
+     0,
+     10
+    ],
+    "v2": [
+     2,
+     0,
+     8
+    ],
+    "v1": [
+     4,
+     2,
+     4
+    ],
+    "v0": [
+     8,
+     0,
+     2
+    ],
+    "xyz": [
+     6,
+     0,
+     3
+    ],
+    "cat": [
+     9,
+     0,
+     0
+    ],
+    "A*": [
+     5,
+     0,
+     4
+    ],
+    "D*": [
+     5,
+     0,
+     4
+    ],
+    "F*": [
+     5,
+     0,
+     4
+    ],
+    "G*": [
+     3,
+     0,
+     6
+    ]
+   },
+   "item5b_times_w": {
+    "A*": {
+     "H_u_matrix_times_w": [
+      [
+       "-126/715"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "D*": {
+     "H_u_matrix_times_w": [
+      [
+       "-42/55"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "F*": {
+     "H_u_matrix_times_w": [
+      [
+       "112/143",
+       "0"
+      ],
+      [
+       "0",
+       "105/286"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "G*": {
+     "H_u_matrix_times_w": [
+      [
+       "42/143",
+       "0"
+      ],
+      [
+       "0",
+       "4830/6149"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "xyz in C (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-126/143"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "cat in E (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-21/13"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0",
+      "t3 = i u_perp": "0"
+     }
+    },
+    "xyz in G (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "70/143",
+       "0"
+      ],
+      [
+       "0",
+       "-42/143"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    },
+    "cat in F (supplementary)": {
+     "H_u_matrix_times_w": [
+      [
+       "-105/286",
+       "0"
+      ],
+      [
+       "0",
+       "-112/143"
+      ]
+     ],
+     "Gram_matrix_Re (unchanged)": [
+      [
+       "1",
+       "0"
+      ],
+      [
+       "0",
+       "1"
+      ]
+     ],
+     "orbit_null_controls_times_w": {
+      "t1 = i u": "0"
+     }
+    }
+   }
+  }
+ },
+ "item11": {
+  "924*rhat6": "204",
+  "rhat6": "17/77",
+  "tangential_gradient_norm": "2*sqrt(1002)/297",
+  "tangential_gradient_norm_minpoly": "29403*X**2 - 1336",
+  "||M_u d||": {
+   "i u": {
+    "minimal_polynomial": "29403*X**2 - 1336",
+    "exact": "2*sqrt(1002)/297",
+    "numeric": "0.2131608322066587741775613",
+    "squared": "1336/29403"
+   },
+   "-i Jx u": {
+    "minimal_polynomial": "864536409*X**4 - 326961360*X**2 + 28317760",
+    "exact": "sqrt(3)*sqrt(416*sqrt(15) + 5560)/297",
+    "numeric": "0.4938543877615531354103708",
+    "squared": "416*sqrt(15)/29403 + 5560/29403"
+   },
+   "-i Jy u": {
+    "minimal_polynomial": "864536409*X**4 - 326961360*X**2 + 28317760",
+    "exact": "sqrt(3)*sqrt(5560 - 416*sqrt(15))/297",
+    "numeric": "0.3664703877718992100445823",
+    "squared": "5560/29403 - 416*sqrt(15)/29403"
+   },
+   "-i Jz u": {
+    "minimal_polynomial": "29403*X**2 - 4912",
+    "exact": "4*sqrt(921)/297",
+    "numeric": "0.4087270277574011632975351",
+    "squared": "4912/29403"
+   }
+  }
+ },
+ "item12": {
+  "e1 = u_perp": {
+   "exact_second_derivative": "64/33",
+   "exact_matrix_formula": "64/33",
+   "minimal_polynomial": "33*X - 64",
+   "dps50": {
+    "finite_difference": "1.93939393939393939393939393939",
+    "matrix": "1.93939393939393939393939393939",
+    "|fd - matrix|": "8.02e-51",
+    "|fd - exact|": "2.67e-51",
+    "|matrix - exact|": "5.35e-51"
+   },
+   "dps80": {
+    "finite_difference": "1.93939393939393939393939393939",
+    "matrix": "1.93939393939393939393939393939",
+    "|fd - matrix|": "4.22e-81",
+    "|fd - exact|": "4.22e-81",
+    "|matrix - exact|": "0.0"
+   }
+  },
+  "e2 = generic unit vector of N_u": {
+   "exact_second_derivative": "(-2156748448066*sqrt(15) + 1625311542060*sqrt(2) + 4831929869904*sqrt(30))/43841638707405 + 6273629725040/8768327741481",
+   "exact_matrix_formula": "(-2156748448066*sqrt(15) + 1625311542060*sqrt(2) + 4831929869904*sqrt(30))/43841638707405 + 6273629725040/8768327741481",
+   "minimal_polynomial": "133920642469381146225*X**4 - 383274233428896216000*X**3 + 303279115281209333640*X**2 - 35111146438706046720*X - 10723003823272339184",
+   "dps50": {
+    "finite_difference": "1.18105086435313888201626959099",
+    "matrix": "1.18105086435313888201626959099",
+    "|fd - matrix|": "5.35e-51",
+    "|fd - exact|": "2.67e-51",
+    "|matrix - exact|": "2.67e-51"
+   },
+   "dps80": {
+    "finite_difference": "1.18105086435313888201626959099",
+    "matrix": "1.18105086435313888201626959099",
+    "|fd - matrix|": "4.22e-81",
+    "|fd - exact|": "2.11e-81",
+    "|matrix - exact|": "2.11e-81"
+   }
+  }
+ },
+ "defects": {
+  "D1 CG sign flip at <3 1;3 -1|6 0>: CG route vs Casimir route (item 0 check)": "fired",
+  "D1b same defect: lowering table vs Racah formula (item 0 check)": "fired",
+  "D2 Theta without its sign: invariance N(R_111(2pi/3) u) == N(u) (item 9 check)": "fired",
+  "D3 point off the critical circle of A: exact zero gradient (item 2 check)": "fired",
+  "D4 critical point |z|^2=5/3 removed from class F list: Newton-search containment (item 2 check)": "fired",
+  "D4b same defect: Poincare-Hopf index sum == 2 (item 2 check)": "fired",
+  "D5 Hessian formula missing -4N(u) I: M annihilates O_u (item 5 check)": "fired",
+  "D6 orbit-null control on u_perp (not in O_u): H_u == 0 (item 5b check)": "fired",
+  "D7 duplicate orbit (R_y(pi) v1 listed separately): distinct invariants (item 4 check)": "fired",
+  "D8 lambda = 463/924 - 1/1000: exact certificate system consistent (item 8 check)": "fired",
+  "D9 one Gram entry perturbed by 1e-6: exact identity (item 8 check)": "fired",
+  "D10 all Gram blocks negated: exact LDL positivity (item 8 check)": "fired",
+  "D11 central difference with h = 1e-3: agreement with e^T M e to 1e-40 (item 12 check)": "fired"
+ },
+ "headline": {
+  "cg_33_3m3_60": "sqrt(231)/462",
+  "rhat6_item0": {
+   "u1 = 2v3 + v1 - 3v-2": "1977/8624",
+   "u2 = v3 + i v0 + 2v-1": "6329/33264"
+  },
+  "orbits": {
+   "v3": {
+    "rhat6": "1/924",
+    "dim_N": 10,
+    "signature": [
+     0,
+     0,
+     10
+    ],
+    "charpoly": "(lam - 4)**2*(11*lam - 3)**2*(11*lam - 2)**2*(33*lam - 65)**2*(33*lam - 32)**2/17363069361"
+   },
+   "v2": {
+    "rhat6": "3/77",
+    "dim_N": 10,
+    "signature": [
+     2,
+     0,
+     8
+    ],
+    "charpoly": "(3*lam - 4)**2*(11*lam - 24)**2*(11*lam - 20)**2*(11*lam - 12)**2*(33*lam + 8)**2/17363069361"
+   },
+   "v1": {
+    "rhat6": "75/308",
+    "dim_N": 10,
+    "signature": [
+     4,
+     2,
+     4
+    ],
+    "charpoly": "lam**2*(3*lam + 5)**2*(11*lam - 3)**2*(363*lam**2 - 374*lam - 600)**2/143496441"
+   },
+   "v0": {
+    "rhat6": "100/231",
+    "dim_N": 10,
+    "signature": [
+     8,
+     0,
+     2
+    ],
+    "charpoly": "(11*lam - 8)**2*(11*lam + 12)**2*(11*lam + 20)**2*(33*lam + 40)**2*(33*lam + 100)**2/2100931392681"
+   },
+   "xyz": {
+    "rhat6": "24/77",
+    "dim_N": 9,
+    "signature": [
+     6,
+     0,
+     3
+    ],
+    "charpoly": "(11*lam + 8)**3*(11*lam + 24)**3*(33*lam - 40)**3/63664587657"
+   },
+   "cat": {
+    "rhat6": "463/924",
+    "dim_N": 9,
+    "signature": [
+     9,
+     0,
+     0
+    ],
+    "charpoly": "(lam + 4)*(11*lam + 10)**2*(11*lam + 15)*(11*lam + 23)*(33*lam + 64)**2*(33*lam + 67)**2/17363069361"
+   },
+   "A*": {
+    "rhat6": "9/35",
+    "dim_N": 9,
+    "signature": [
+     5,
+     0,
+     4
+    ],
+    "charpoly": "(55*lam + 24)*(16471125*lam**4 + 9583200*lam**3 - 45776720*lam**2 - 23015168*lam + 998400)**2/14921387732109375"
+   },
+   "D*": {
+    "rhat6": "9/35",
+    "dim_N": 9,
+    "signature": [
+     5,
+     0,
+     4
+    ],
+    "charpoly": "(55*lam + 24)**2*(55*lam + 104)*(165*lam - 4)**2*(1815*lam**2 - 1012*lam - 3360)**2/14921387732109375"
+   },
+   "F*": {
+    "rhat6": "75/308",
+    "dim_N": 9,
+    "signature": [
+     5,
+     0,
+     4
+    ],
+    "charpoly": "(11*lam - 10)*(11*lam + 7)*(33*lam - 64)*(31944*lam**3 + 46948*lam**2 - 13530*lam - 7125)**2/4074533610048"
+   },
+   "G*": {
+    "rhat6": "200/903",
+    "dim_N": 9,
+    "signature": [
+     3,
+     0,
+     6
+    ],
+    "charpoly": "(11*lam - 8)*(473*lam - 920)*(473*lam + 696)*(1419*lam - 560)**2*(671187*lam**2 + 438944*lam - 339200)**2/2232373353377701794512571"
+   }
+  },
+  "global_min": "1/924 at v3 (proved)",
+  "global_max": "463/924 at (v3+v-3)/sqrt2 (proved)"
+ }
+}

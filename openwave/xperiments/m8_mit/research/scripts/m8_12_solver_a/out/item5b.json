@@ -1,0 +1,346 @@
+{
+ "A*": {
+  "class": "A",
+  "chart_z": "1/2",
+  "u": "[0, 0, 2*sqrt(5)/5, 0, 0, sqrt(5)/5, 0]",
+  "u_perp": "[0, 0, -sqrt(5)/5, 0, 0, 2*sqrt(5)/5, 0]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1/3)*[i u] + (5/6)*[-i Jz u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "-24/55"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "3.34e-51",
+  "chart_hessian_item2": "[[-384/1375, 0], [0, 0]]"
+ },
+ "D*": {
+  "class": "D",
+  "chart_z": "2*sqrt(39)/13",
+  "u": "[0, sqrt(13)/5, 0, 0, 0, 0, 2*sqrt(3)/5]",
+  "u_perp": "[0, -2*sqrt(3)/5, 0, 0, 0, 0, sqrt(13)/5]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(-sqrt(39)/39)*[i u] + (5*sqrt(39)/78)*[-i Jz u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "-104/55"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "8.02e-51",
+  "chart_hessian_item2": "[[-17576/34375, 0], [0, 0]]"
+ },
+ "F*": {
+  "class": "F",
+  "chart_z": "sqrt(15)*I/3",
+  "u": "[0, sqrt(5)*I/4, 0, sqrt(6)/4, 0, sqrt(5)*I/4, 0]",
+  "u_perp": "[0, sqrt(3)/4, 0, sqrt(10)*I/4, 0, sqrt(3)/4, 0]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp",
+   "t3 = i u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "64/33",
+    "0"
+   ],
+   [
+    "0",
+    "10/11"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1",
+    "0"
+   ],
+   [
+    "0",
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "5.35e-51",
+  "chart_hessian_item2": "[[3/11, 0], [0, 45/352]]"
+ },
+ "G*": {
+  "class": "G",
+  "chart_z": "2*sqrt(115)*I/23",
+  "u": "[sqrt(430)*I/43, 0, 0, sqrt(989)/43, 0, 0, -sqrt(430)*I/43]",
+  "u_perp": "[sqrt(1978)/86, 0, 0, 2*sqrt(215)*I/43, 0, 0, -sqrt(1978)/86]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp",
+   "t3 = i u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "8/11",
+    "0"
+   ],
+   [
+    "0",
+    "920/473"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1",
+    "0"
+   ],
+   [
+    "0",
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "2.67e-51",
+  "chart_hessian_item2": "[[4232/20339, 0], [0, 486680/874577]]"
+ },
+ "xyz in C (supplementary)": {
+  "class": "C",
+  "chart_z": "1",
+  "u": "[0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]",
+  "u_perp": "[0, -sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1/2)*[-i Jz u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "-24/11"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "5.35e-51",
+  "chart_hessian_item2": "[[-6/11, 0], [0, 0]]"
+ },
+ "cat in E (supplementary)": {
+  "class": "E",
+  "chart_z": "1",
+  "u": "[sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+  "u_perp": "[-sqrt(2)/2, 0, 0, 0, 0, 0, sqrt(2)/2]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1/3)*[-i Jz u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "-4"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "1.07e-50",
+  "chart_hessian_item2": "[[-1, 0], [0, 0]]"
+ },
+ "xyz in G (supplementary)": {
+  "class": "G",
+  "chart_z": "2*sqrt(5)/5",
+  "u": "[sqrt(2)/3, 0, 0, sqrt(5)/3, 0, 0, -sqrt(2)/3]",
+  "u_perp": "[sqrt(10)/6, 0, 0, -2/3, 0, 0, -sqrt(10)/6]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp",
+   "t3 = i u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "40/33",
+    "0"
+   ],
+   [
+    "0",
+    "-8/11"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1",
+    "0"
+   ],
+   [
+    "0",
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "5.35e-51",
+  "chart_hessian_item2": "[[1000/2673, 0], [0, -200/891]]"
+ },
+ "cat in F (supplementary)": {
+  "class": "F",
+  "chart_z": "sqrt(15)/5",
+  "u": "[0, sqrt(3)/4, 0, sqrt(10)/4, 0, sqrt(3)/4, 0]",
+  "u_perp": "[0, sqrt(5)/4, 0, -sqrt(6)/4, 0, sqrt(5)/4, 0]",
+  "n_directions": 3,
+  "directions": {
+   "t1 = i u": {
+    "projection_onto_N_u_is_zero": true,
+    "equals_O_direction": "(1)*[i u]",
+    "H_u_on_unit_tangent_(orbit-null control)": "0"
+   },
+   "t2 = u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   },
+   "t3 = i u_perp": {
+    "projection_onto_N_u_is_zero": false,
+    "norm_of_projection_onto_N_u": "1"
+   }
+  },
+  "nonnull_directions": [
+   "t2 = u_perp",
+   "t3 = i u_perp"
+  ],
+  "H_u_matrix_on_unit_tangents": [
+   [
+    "-10/11",
+    "0"
+   ],
+   [
+    "0",
+    "-64/33"
+   ]
+  ],
+  "Gram_matrix_Re": [
+   [
+    "1",
+    "0"
+   ],
+   [
+    "0",
+    "1"
+   ]
+  ],
+  "mp50_max_deviation": "8.02e-51",
+  "chart_hessian_item2": "[[-125/352, 0], [0, -25/33]]"
+ }
+}

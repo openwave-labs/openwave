@@ -1,0 +1,5 @@
+{
+ "kernel_dim": 2,
+ "kernel": "span_R{v-3, i v-3} = T_{v1} L13",
+ "F_series": "75/308 - 8*t**2/33"
+}

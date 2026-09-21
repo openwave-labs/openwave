@@ -1,0 +1,17 @@
+PASS [item12] e1 = u_perp lies in N_u (orthogonal to u and O_u, exactly) 
+PASS [item12] e1 = u_perp: exact second derivative == exact matrix formula 64/33 vs 64/33
+e1 = u_perp minimal polynomial of H_u(e,e): 33*X - 64
+PASS [item12] e1 = u_perp dps=50: finite-difference and matrix routes agree 
+e1 = u_perp 50 {'finite_difference': '1.93939393939393939393939393939', 'matrix': '1.93939393939393939393939393939', '|fd - matrix|': '8.02e-51', '|fd - exact|': '2.67e-51', '|matrix - exact|': '5.35e-51'}
+PASS [item12] e1 = u_perp dps=80: finite-difference and matrix routes agree 
+e1 = u_perp 80 {'finite_difference': '1.93939393939393939393939393939', 'matrix': '1.93939393939393939393939393939', '|fd - matrix|': '4.22e-81', '|fd - exact|': '4.22e-81', '|matrix - exact|': '0.0'}
+e1 = u_perp exact H_u(e,e) = 64/33
+PASS [item12] e2 = generic unit vector of N_u lies in N_u (orthogonal to u and O_u, exactly) 
+PASS [item12] e2 = generic unit vector of N_u: exact second derivative == exact matrix formula (-2156748448066*sqrt(15) + 1625311542060*sqrt(2) + 4831929869904*sqrt(30))/43841638707405 + 6273629725040/8768327741481 vs (-2156748448066*sqrt(15) + 1625311542060*sqrt(2) + 4831929869904*sqrt(30))/43841638707405 + 6273629725040/8768327741481
+e2 = generic unit vector of N_u minimal polynomial of H_u(e,e): 133920642469381146225*X**4 - 383274233428896216000*X**3 + 303279115281209333640*X**2 - 35111146438706046720*X - 10723003823272339184
+PASS [item12] e2 = generic unit vector of N_u dps=50: finite-difference and matrix routes agree 
+e2 = generic unit vector of N_u 50 {'finite_difference': '1.18105086435313888201626959099', 'matrix': '1.18105086435313888201626959099', '|fd - matrix|': '5.35e-51', '|fd - exact|': '2.67e-51', '|matrix - exact|': '2.67e-51'}
+PASS [item12] e2 = generic unit vector of N_u dps=80: finite-difference and matrix routes agree 
+e2 = generic unit vector of N_u 80 {'finite_difference': '1.18105086435313888201626959099', 'matrix': '1.18105086435313888201626959099', '|fd - matrix|': '4.22e-81', '|fd - exact|': '2.11e-81', '|matrix - exact|': '2.11e-81'}
+e2 = generic unit vector of N_u exact H_u(e,e) = (-2156748448066*sqrt(15) + 1625311542060*sqrt(2) + 4831929869904*sqrt(30))/43841638707405 + 6273629725040/8768327741481
+item12 fails: 0

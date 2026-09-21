@@ -1,0 +1,51 @@
+PASS [item4] v3: representative is a unit vector 
+PASS [item4] v3: 50-digit value agrees with exact 1/924 
+v3   rhat6 = 1/924    =         1/924  stab SO(2) r1..r5 = ['9/28', '25/84', '1/6', '9/154', '1/84']  tr(rho2^3) = 1375/49392
+PASS [item4] v2: representative is a unit vector 
+PASS [item4] v2: 50-digit value agrees with exact 3/77 
+v2   rhat6 = 3/77     =        36/924  stab SO(2) r1..r5 = ['1/7', '0', '1/6', '7/22', '4/21']  tr(rho2^3) = 0
+PASS [item4] v1: representative is a unit vector 
+PASS [item4] v1: 50-digit value agrees with exact 75/308 
+v1   rhat6 = 75/308   =       225/924  stab SO(2) r1..r5 = ['1/28', '3/28', '1/6', '1/154', '25/84']  tr(rho2^3) = -33/5488
+PASS [item4] v0: representative is a unit vector 
+PASS [item4] v0: 50-digit value agrees with exact 100/231 
+v0   rhat6 = 100/231  =       400/924  stab O(2)  r1..r5 = ['0', '4/21', '0', '18/77', '0']  tr(rho2^3) = -44/3087
+PASS [item4] xyz: representative is a unit vector 
+PASS [item4] xyz: 50-digit value agrees with exact 24/77 
+xyz  rhat6 = 24/77    =       288/924  stab O     r1..r5 = ['0', '0', '0', '6/11', '0']  tr(rho2^3) = 0
+PASS [item4] cat: representative is a unit vector 
+PASS [item4] cat: 50-digit value agrees with exact 463/924 
+cat  rhat6 = 463/924  =       463/924  stab D6    r1..r5 = ['0', '25/84', '0', '9/154', '0']  tr(rho2^3) = 1375/49392
+PASS [item4] A*: representative is a unit vector 
+PASS [item4] A*: 50-digit value agrees with exact 9/35 
+A*   rhat6 = 9/35     =    1188/5/924  stab C3    r1..r5 = ['1/175', '12/175', '1/6', '11/350', '172/525']  tr(rho2^3) = -132/42875
+PASS [item4] D*: representative is a unit vector 
+PASS [item4] D*: 50-digit value agrees with exact 9/35 
+D*   rhat6 = 9/35     =    1188/5/924  stab C5    r1..r5 = ['1/175', '12/175', '1/6', '11/350', '172/525']  tr(rho2^3) = 132/42875
+PASS [item4] F*: representative is a unit vector 
+PASS [item4] F*: 50-digit value agrees with exact 75/308 
+F*   rhat6 = 75/308   =       225/924  stab D2    r1..r5 = ['0', '3/112', '5/32', '291/2464', '5/16']  tr(rho2^3) = -33/43904
+PASS [item4] G*: representative is a unit vector 
+PASS [item4] G*: 50-digit value agrees with exact 200/903 
+G*   rhat6 = 200/903  =   8800/43/924  stab D3    r1..r5 = ['0', '16/38829', '920/5547', '1782/12943', '1840/5547']  tr(rho2^3) = 352/245438109
+PASS [item4] the 10 orbits have pairwise distinct invariant vectors (rhat6, r1..r5, tr rho2^3) 
+shared value 75/308: v1 vs F* -> two orbits; r_1: 1/28 vs 0 (exact, rotation-invariant)
+PASS [item4] A* vs D* separated by tr(rho_2^3) 
+shared value 9/35: A* vs D* -> two orbits; all quartic invariants r_1..r_6 agree; tr(rho_2^3): -132/42875 vs 132/42875 (exact, rotation-invariant); also stabilizers C3 vs C5 are non-isomorphic
+PASS [item4] rotation exhibited: R_y(pi/2) R_z(pi/2): cat -> F point z = sqrt(3/5) 
+PASS [item4] rotation exhibited: R_z(5pi/3) R_y(arccos(1/sqrt3)) R_z(pi/4): xyz -> G point z = 2/sqrt5 
+PASS [item4] rotation exhibited: R_z(pi/2): F point z -> -z (z = sqrt(3/5)) 
+PASS [item4] rotation exhibited: R_z(pi/2): F point z -> -z (z = i sqrt(5/3)) 
+PASS [item4] rotation exhibited: R_z(pi/3): G point z -> -z (z = 2/sqrt5) 
+PASS [item4] rotation exhibited: R_z(pi/3): G point z -> -z (z = i sqrt(20/23)) 
+PASS [item4] rotation exhibited: R_z(pi/4): (v2+v-2)/sqrt2 (omitted point of F) -> xyz line 
+PASS [item4] rotation exhibited: R_z(pi/6): (v3-v-3)/sqrt2 (omitted point of G) -> cat line 
+PASS [item4] rotation exhibited: R_y(pi): v1 -> v-1 
+PASS [item4] rotation exhibited: R_y(pi): v2 -> v-2 
+PASS [item4] rotation exhibited: R_y(pi): v3 -> v-3 
+PASS [item4] rotation exhibited: R_z(2pi/7) moves circle point of A to z = 1/2 * e^{-2pi i (-3)/7} 
+PASS [item4] rotation exhibited: R_z(2pi/7) moves circle point of D to z = 2*sqrt(39)/13 * e^{-2pi i (-5)/7} 
+PASS [item4] rotation exhibited: R_z(2pi/7) moves circle point of C to z = 1 * e^{-2pi i (-4)/7} 
+PASS [item4] rotation exhibited: R_z(2pi/7) moves circle point of E to z = 1 * e^{-2pi i (-6)/7} 
+PASS [item4] control: R_y(pi) does NOT map cat onto the F point (test can fail) 
+item4 fails: 0

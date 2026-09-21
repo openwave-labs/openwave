@@ -1,0 +1,15 @@
+{
+ "D1 CG sign flip at <3 1;3 -1|6 0>: CG route vs Casimir route (item 0 check)": "fired",
+ "D1b same defect: lowering table vs Racah formula (item 0 check)": "fired",
+ "D2 Theta without its sign: invariance N(R_111(2pi/3) u) == N(u) (item 9 check)": "fired",
+ "D3 point off the critical circle of A: exact zero gradient (item 2 check)": "fired",
+ "D4 critical point |z|^2=5/3 removed from class F list: Newton-search containment (item 2 check)": "fired",
+ "D4b same defect: Poincare-Hopf index sum == 2 (item 2 check)": "fired",
+ "D5 Hessian formula missing -4N(u) I: M annihilates O_u (item 5 check)": "fired",
+ "D6 orbit-null control on u_perp (not in O_u): H_u == 0 (item 5b check)": "fired",
+ "D7 duplicate orbit (R_y(pi) v1 listed separately): distinct invariants (item 4 check)": "fired",
+ "D8 lambda = 463/924 - 1/1000: exact certificate system consistent (item 8 check)": "fired",
+ "D9 one Gram entry perturbed by 1e-6: exact identity (item 8 check)": "fired",
+ "D10 all Gram blocks negated: exact LDL positivity (item 8 check)": "fired",
+ "D11 central difference with h = 1e-3: agreement with e^T M e to 1e-40 (item 12 check)": "fired"
+}

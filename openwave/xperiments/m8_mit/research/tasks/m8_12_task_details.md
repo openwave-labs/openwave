@@ -239,6 +239,127 @@ Four defects were caught by those steps' own gates and are recorded in the step 
 - The exactness rule: a value is accepted as exact when an exact route returns it and a 30-digit route agrees; a value that a computation did not reach is reported as missing, never as zero.
 - The claims tables above, with no value edited.
 
+## AS RUN (go, 2026-09-21)
+
+The maintainer's go. Nothing in the claims tables above is edited; this section records what was
+fixed before the rooms opened, so the posture is readable afterwards rather than reconstructed.
+
+| Item | As run |
+|---|---|
+| Posture | OFFLINE, the stricter of the two the FIREWALL section admits. The rooms hold four tools, no network, no MCP server and no instruction file, so items 1 to 4 and item 8 are derived rather than located, and the worklist's standing request for anything looked up rather than derived stays the discriminator |
+| Rooms | two solver rooms on the same packet, launched independently and in parallel, then one adversarial audit room on a second launch. The solvers never see each other's work |
+| Packet | `worklist.md`, byte-identical to the merged file, plus a brief carrying only room mechanics. Both cleared the handout gate, whose own selftest passes by planting a frozen value and a withheld term |
+| Exactness rule | as filed: an exact route and a high-precision route must agree, and a value a computation did not reach is reported as missing, never as zero |
+| Conventions | as the worklist displays them. The rooms are asked to build the Clebsch-Gordan coefficients from the convention it fixes, and to declare a library call as a lookup if they also make one |
+
+### The packet, hashed at launch
+
+| File | SHA-256 |
+|---|---|
+| `worklist.md` (as merged) | `c07f9bc64d39ffc99317188e28a91378be18c0fc8902490bd44bed76bba4efdc` |
+| `brief_solver.md` | `daabf276ad4c55e01c307d9846c9356f029d3d2780c36a364c7cc25d531a9f95` |
+
+### The maintainer's own route, run before the rooms opened
+
+The frozen values were encoded into `frozen_claims.json` and checked twice, so that a room reported
+as differing differs from a table that has itself been tested.
+
+| Check | Result |
+|---|---|
+| Structural consistency of the encoding: spectra carrying their filed signatures, line restrictions taking the census value at every point they name, the index pair being the two ends of the signature, the sum rules, the diagnostics | 131 of 131 pass, and five planted defects each fire |
+| Independent recomputation from the worklist's definitions: exact `924·r̂₆` at all ten representatives and at the control point, the transverse operator at 50 digits with its dimension, signature and eigenvalues, and the four control residuals | 66 of 66 agree |
+
+⚠️ One defect was found in the maintainer's own check rather than in the filed values: the numeric
+cross-check compared a 50-digit result against a float64 cast, so the prism's `8800/43` read as a
+mismatch while the exact route passed it. Fixed before launch, and recorded here because a check
+that misfires on a correct value is the same failure shape the fail-open finding named.
+
+## FINDINGS (run closed 2026-09-21)
+
+Full record: [`../findings/m8_12_method_note.md`](../findings/m8_12_method_note.md). Returns:
+[`../scripts/m8_12_solver_a/`](../scripts/m8_12_solver_a/),
+[`../scripts/m8_12_solver_b/`](../scripts/m8_12_solver_b/),
+[`../scripts/m8_12_audit/`](../scripts/m8_12_audit/),
+[`../scripts/m8_12_maintainer/`](../scripts/m8_12_maintainer/).
+
+**Every claim reproduced. None defective, none unresolved.** Two blind rooms on one packet, offline,
+then an adversarial audit that wrote its own code, then adjudication against a frozen table that had
+itself been tested first.
+
+| F | Finding |
+|---|---|
+| F1 | The census reproduces in full: ten orbits, ten signatures, ten characteristic polynomials, the classification counts, the kernel, both controls and the sector bridge, in two independent rooms and again on the maintainer's own route |
+| F2 | ⭐ **The audit found zero mathematical defects** in either room, and demonstrated two artifact defects in one room's files on disk, neither touching its mathematics |
+| F3 | ⭐ **The elimination requirement earned its place.** Applying a solver to the exact Gröbner bases returns no circle points for four loci and no real point at all for the locus carrying `v₁`. A room that trusted a solver would have lost the one degenerate orbit, which is the orbit the census most depends on |
+| F4 | ⚠️ **Item 5b does not fix the normalization the P4 pass condition requires.** Two correct rooms report different numbers for the same orbit, related by exact projection factors, because the worklist does not say whether to normalize before or after projecting onto `N_u`. The pass condition names the convention; the worklist does not. This is the same shape as N1's convention dependence, caught in round one of [#571](https://github.com/openwave-labs/openwave/pull/571), recurring in a different claim |
+| F5 | ⚠️ **One room's defect-plant machinery contaminated its own archived artifacts.** Its `run_all.py` collects results before running the planted defects, which then overwrite the same `out/` paths, so two landed JSON files hold deliberately broken values while the return holds correct ones. The safety mechanism damaged the record it was protecting |
+| F6 | ⚠️ **The maximum is argued by one room, searched by the other.** Both report `463/924`; one built an exact positivity certificate, the other ran a 400-start search and correctly said it proved only a lower bound. The audit built an independent certificate, so `G2` stands as an argument, but not from both rooms |
+| F7 | ⭐ **Every discrepancy raised in this run was an instrument defect, and all four were the maintainer's.** A float64 cast, a tangent-convention slip, a mis-read label, and an adapter line that asserted a verdict instead of deriving it. Zero came from the rooms or from the filed values. That is the inverse of the fail-open pattern named as Gate D row D14, and it argues the same remedy from the other side: test the check before trusting its verdict |
+
+### The adjudication
+
+| Group | IDs | Verdict |
+|---|---|---|
+| Parents | P1, P2, P3, P4, P5 | reproduced |
+| The classification | L0, L1, L2 | reproduced, arguments SOUND in both rooms |
+| The census | H1, H2, H3, H4 | reproduced |
+| The two ends | G1, G2, G3 | reproduced; `G2` as an argument from one room and the audit |
+| Controls | N1, N2 | reproduced, all residuals nonzero |
+| Diagnostics | D1, D2 | recorded, not adjudicated |
+
+### DEVIATIONS LOG
+
+| # | Deviation |
+|---|---|
+| 1 | The go-time record was written into this document shortly after the rooms launched rather than before. The substantive artifacts, the packet, the briefs, the gate and both maintainer check runs, were all fixed and hashed before launch, and those hashes are what the AS RUN section pins |
+| 2 | The resume ping fired at its scheduled time on a healthy session, because the reset-time watchdog that would have pushed it forward was not armed at go. Re-armed with the watchdog on the owner's instruction. No work was affected |
+| 3 | The maintainer's numeric cross-check compared a 50-digit value against a float64 cast, so a correct prism value read as a mismatch. Fixed before launch |
+| 4 | The maintainer's first in-locus computation normalized in the ambient tangent rather than on the projection onto `N_u`, reproducing the tangent-convention defect the author's own step notes record catching. Fixed |
+| 5 | A compare adapter read one room's label for the point at infinity as an interior critical point, and reported a difference that does not exist. Fixed |
+| 6 | A compare adapter asserted that both rooms argued the maximum instead of deriving it from their returns, so that line could not have failed. Caught by the audit's grade, rewritten to derive from evidence, and it then reproduced the audit's verdict independently |
+| 7 | One room read a single background-command output of its own, outside its room, in a folder holding only its own four files. Same class as M8.10 and M8.11 |
+| 8 | One disclosed redaction at copy-out: a room printed the absolute interpreter path into its return and said so; the landed copy carries a marked replacement |
+
+## TASK REVIEW (2026-09-21)
+
+Task Duration: 02:17 (from 10:33 to 12:50)
+Usage Cap Triggered: NO
+
+| Result | |
+|---|---|
+| ✅ | Every pre-registered claim reproduced: P1-P5, L0-L2, H1-H4, G1-G3, N1, N2. None defective, none unresolved |
+| ✅ | Two blind rooms, offline, on one packet, agreeing on all ten orbits, signatures, characteristic polynomials, the classification, the kernel and both controls |
+| ✅ | The adversarial audit found zero mathematical defects in either room |
+| ✅ | The maintainer's own route ran before any room opened: 131 structural checks with five mutations firing, 66 independent recomputations, a compare harness proven on a synthetic return |
+| ⚠️ | Two artifact defects in one room's landed files, neither touching its mathematics |
+| ⚠️ | The maximum is argued by one room and only searched by the other |
+| ⚠️ | Item 5b under-determines a normalization its pass condition requires |
+
+Issues: none blocking. The three items above are recorded as F4, F5 and F6, and the first is worth
+sending to the author as a rule about the instrument rather than a correction to the mathematics.
+
+Deviations from plan: eight, logged above. Four were defects in the maintainer's own checking and
+none in the rooms or the filed values.
+
+Action needed: none outstanding. Commit, push, PR and any note to the author are the owner's.
+
+### Findings
+
+The census stands: ten critical orbits of the level-6 reduced quartic on the loci of projective
+dimension at most one, with their exact values, transverse dimensions, signatures and characteristic
+polynomials, reproduced blind and twice over, and no stability claim attaches to any of it. The two
+results worth carrying forward are that requiring completeness by elimination rather than by a solver
+was load-bearing, since a solver silently loses the one degenerate orbit, and that every discrepancy
+this run produced came from an instrument rather than from the object under test.
+
+### Research docs created/updated
+
+- [`tasks/m8_12_task_details.md`](m8_12_task_details.md) (this file): AS RUN, FINDINGS F1-F7, the adjudication, the deviations log
+- [`findings/m8_12_method_note.md`](../findings/m8_12_method_note.md): the author-facing record
+- [`scripts/m8_12_solver_a/`](../scripts/m8_12_solver_a/), [`scripts/m8_12_solver_b/`](../scripts/m8_12_solver_b/), [`scripts/m8_12_audit/`](../scripts/m8_12_audit/), [`scripts/m8_12_maintainer/`](../scripts/m8_12_maintainer/)
+- [`m8_12/brief_solver.md`](../m8_12/brief_solver.md), [`m8_12/brief_auditor.md`](../m8_12/brief_auditor.md)
+- [`m8_roadmap.md`](../m8_roadmap.md), [`m8_theory_canonical.md`](../m8_theory_canonical.md), [`__M8_model_briefing.md`](../../__M8_model_briefing.md)
+
 ## DEFINITION OF DONE
 
 Two blind agents return the classification, the critical sets, the ten signatures and the spectra. The audit grades L0, L1, L2, G1 and G2 as arguments, and checks the negative controls. Adjudication records each claim as reproduced, defective or unresolved. No radius, no stability claim, no MODELS.md cell, and no change to M8.7's gate.

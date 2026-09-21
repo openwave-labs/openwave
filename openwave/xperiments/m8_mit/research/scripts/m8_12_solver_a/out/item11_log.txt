@@ -1,0 +1,25 @@
+PASS [item11] N(u) from the polynomial equals rhat6 from rho_6 
+PASS [item11] gradient is tangent: Re<u, g> = 0 
+924*rhat6 = 204   rhat6 = 17/77
+|tangential gradient| = 2*sqrt(1002)/297 = 0.21316083220665877418
+PASS [item11] ||M_u (i u)|| equals ||X g|| (generator applied to the gradient) 
+PASS [item11] ||M_u (i u)|| is nonzero 
+PASS [item11] ||M_u (i u)|| 50-digit agrees 
+   minimal polynomial: 29403*X**2 - 1336
+||M_u (i u)|| = 2*sqrt(1002)/297 = 0.21316083220665877418   (squared: 1336/29403)
+PASS [item11] ||M_u (-i Jx u)|| equals ||X g|| (generator applied to the gradient) 
+PASS [item11] ||M_u (-i Jx u)|| is nonzero 
+PASS [item11] ||M_u (-i Jx u)|| 50-digit agrees 
+   minimal polynomial: 864536409*X**4 - 326961360*X**2 + 28317760
+||M_u (-i Jx u)|| = sqrt(3)*sqrt(416*sqrt(15) + 5560)/297 = 0.49385438776155313541   (squared: 416*sqrt(15)/29403 + 5560/29403)
+PASS [item11] ||M_u (-i Jy u)|| equals ||X g|| (generator applied to the gradient) 
+PASS [item11] ||M_u (-i Jy u)|| is nonzero 
+PASS [item11] ||M_u (-i Jy u)|| 50-digit agrees 
+   minimal polynomial: 864536409*X**4 - 326961360*X**2 + 28317760
+||M_u (-i Jy u)|| = sqrt(3)*sqrt(5560 - 416*sqrt(15))/297 = 0.36647038777189921004   (squared: 5560/29403 - 416*sqrt(15)/29403)
+PASS [item11] ||M_u (-i Jz u)|| equals ||X g|| (generator applied to the gradient) 
+PASS [item11] ||M_u (-i Jz u)|| is nonzero 
+PASS [item11] ||M_u (-i Jz u)|| 50-digit agrees 
+   minimal polynomial: 29403*X**2 - 4912
+||M_u (-i Jz u)|| = 4*sqrt(921)/297 = 0.4087270277574011633   (squared: 4912/29403)
+item11 fails: 0

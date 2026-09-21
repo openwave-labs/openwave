@@ -1,0 +1,41 @@
+coherent
+hexagon
+octahedron
+prism
+pyramid
+zonal
+weight state
+weight states
+C3 ray
+D2 ray
+L0
+L1
+L2
+H1
+H2
+H3
+H4
+G1
+G2
+G3
+N1
+N2
+D1
+D2
+P1
+P2
+P3
+P4
+P5
+M8.12
+M8.11
+M8.1.2
+bedrock
+Kawaguchi
+Ueda
+condensate
+DISCLOSURE_INVENTORY
+s1_L0
+s1_L1
+s1_H
+s1_control

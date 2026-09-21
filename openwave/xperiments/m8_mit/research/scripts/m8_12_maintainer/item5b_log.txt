@@ -1,0 +1,21 @@
+
+=== prism, D3 chart at z = sqrt(230)/10:  924*N(u) = 204.65116279069767442,  dim O_u = 4 ===
+  d/dx: transverse fraction 1.0  (squared 1.0 = 1)
+  d/dy: transverse fraction 0.68199434  (squared 0.46511628 = 20/43)
+  independent transverse directions: 2  ['d/dx', 'd/dy']
+    H[d/dx,d/dx] = 1.945031712473572938689   = 920/473
+    H[d/dx,d/dy] = -1.673267060283161599713e-51   = 0
+    H[d/dy,d/dy] = 0.7272727272727272727273   = 8/11
+  Gram of the normalized projected directions:
+    ['1.0', '0.0']
+    ['0.0', '1.0']
+
+=== pyramid, C5 line at s* = 12/25:  924*N(u) = 237.6,  dim O_u = 4 ===
+  d/da: transverse fraction 1.0  (squared 1.0 = 1)
+  d/db: transverse fraction 1.0  (squared 1.0 = 1)
+  d/dphase: projection onto N_u is ZERO, it is an orbit direction. H_u along the unprojected unit tangent = -9.6716264916e-42  [orbit-null control]
+  d/db: dependent on the directions already kept, dropped
+  independent transverse directions: 1  ['d/da']
+    H[d/da,d/da] = -1.890909090909090909091   = -104/55
+  Gram of the normalized projected directions:
+    ['1.0']

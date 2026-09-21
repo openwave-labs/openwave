@@ -1,0 +1,354 @@
+{
+ "Wmin in W": {
+  "orbit": "Wmin",
+  "class": "W",
+  "chart_point": "sqrt(230)/23",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat",
+    "d/dy u_hat"
+   ],
+   "H": [
+    [
+     "920/473",
+     "0"
+    ],
+    [
+     "0",
+     "184/473"
+    ]
+   ],
+   "Gram": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "920/473",
+     "0"
+    ],
+    [
+     "0",
+     "8/11"
+    ]
+   ]
+  },
+  "primary": true
+ },
+ "Umin in U": {
+  "orbit": "Umin",
+  "class": "U",
+  "chart_point": "sqrt(30)*I/6",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat",
+    "d/dy u_hat"
+   ],
+   "H": [
+    [
+     "8/11",
+     "0"
+    ],
+    [
+     "0",
+     "10/11"
+    ]
+   ],
+   "Gram": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "64/33",
+     "0"
+    ],
+    [
+     "0",
+     "10/11"
+    ]
+   ]
+  },
+  "primary": true
+ },
+ "L12circle in L12": {
+  "orbit": "L12circle",
+  "class": "L12",
+  "chart_point": "1/2",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   },
+   "d/dy u_hat": {
+    "O_u_combination": "(2/3)(i u) + (2/3)(-i Jz u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat"
+   ],
+   "H": [
+    [
+     "-24/55"
+    ]
+   ],
+   "Gram": [
+    [
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-24/55"
+    ]
+   ]
+  },
+  "primary": true
+ },
+ "L23circle in L23": {
+  "orbit": "L23circle",
+  "class": "L23",
+  "chart_point": "2*sqrt(39)/13",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   },
+   "d/dy u_hat": {
+    "O_u_combination": "(sqrt(39)/15)(i u) + (sqrt(39)/30)(-i Jz u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat"
+   ],
+   "H": [
+    [
+     "-104/55"
+    ]
+   ],
+   "Gram": [
+    [
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-104/55"
+    ]
+   ]
+  },
+  "primary": true
+ },
+ "hex in L33": {
+  "orbit": "hex",
+  "class": "L33",
+  "chart_point": "1",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   },
+   "d/dy u_hat": {
+    "O_u_combination": "(1/2)(i u) + (1/6)(-i Jz u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat"
+   ],
+   "H": [
+    [
+     "-4"
+    ]
+   ],
+   "Gram": [
+    [
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-4"
+    ]
+   ]
+  },
+  "primary": false
+ },
+ "hex in U": {
+  "orbit": "hex",
+  "class": "U",
+  "chart_point": "sqrt(30)/10",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat",
+    "d/dy u_hat"
+   ],
+   "H": [
+    [
+     "-10/11",
+     "0"
+    ],
+    [
+     "0",
+     "-40/33"
+    ]
+   ],
+   "Gram": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-10/11",
+     "0"
+    ],
+    [
+     "0",
+     "-64/33"
+    ]
+   ]
+  },
+  "primary": false
+ },
+ "oct in L22": {
+  "orbit": "oct",
+  "class": "L22",
+  "chart_point": "-1",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   },
+   "d/dy u_hat": {
+    "O_u_combination": "(-1/2)(i u) + (-1/4)(-i Jz u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat"
+   ],
+   "H": [
+    [
+     "-24/11"
+    ]
+   ],
+   "Gram": [
+    [
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-24/11"
+    ]
+   ]
+  },
+  "primary": false
+ },
+ "oct in W": {
+  "orbit": "oct",
+  "class": "W",
+  "chart_point": "sqrt(10)*I/5",
+  "n_tangent_directions": 3,
+  "normalisation": "t / sqrt(Re<t,t>), unprojected",
+  "null": {
+   "i u": {
+    "O_u_combination": "(1)(i u)",
+    "H_u_unit": "0"
+   }
+  },
+  "transverse": {
+   "directions": [
+    "d/dx u_hat",
+    "d/dy u_hat"
+   ],
+   "H": [
+    [
+     "-40/99",
+     "0"
+    ],
+    [
+     "0",
+     "40/33"
+    ]
+   ],
+   "Gram": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "H_on_projected_unit_vectors": [
+    [
+     "-8/11",
+     "0"
+    ],
+    [
+     "0",
+     "40/33"
+    ]
+   ]
+  },
+  "primary": false
+ }
+}
