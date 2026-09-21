@@ -229,6 +229,8 @@ The derivation ran in three steps before this document, each reviewed by two aut
 | H | the ten signatures, spectra and the `v₁` kernel | `s1_H.py` | 29 checks |
 | N1 | the control point, measured with the step-3 machinery | `s1_control.py` | 7 checks, on top of re-running step 3 |
 
+**Correction, 2026-09-20, after filing.** The N1 row above records `s1_control.py` as filed, at 7 checks. The edits agreed in #571 grew N1 from three scored quantities to six, so the control was extended to measure each of the four orbit residuals against its frozen expression, the phase identity, the orthogonality of `∇N` to the orbit, and both sum rules. It now runs 16 checks. No frozen value moves, the worklist is untouched, and the filed row is left as filed rather than rewritten.
+
 Four defects were caught by those steps' own gates and are recorded in the step notes: an `arccos` precision loss that made every half-turn read as the identity; a fixing-group predicate that accepted a zero matrix as a scalar; a tangent convention that projected out only the radial direction; and a kernel gate that pointed at the wrong end of a line.
 
 ## TO BE FIXED AT GO
