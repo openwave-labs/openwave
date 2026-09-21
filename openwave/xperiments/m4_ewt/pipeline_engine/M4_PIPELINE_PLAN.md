@@ -425,30 +425,34 @@ The wave equation is implemented in the Euler-Lagrange form derived from
 the Lagrangian
 
 ```text
-L = ½ |∂Ψ/∂t|² − ½ c²(|Ψ|²) |∇Ψ|²
+L = ½ |∂Ψ/∂t|² − ½ c²(|Ψ|²) |∇Ψ|² − V(Ψ)
 ```
 
-which gives
+`V` is the sum of the potentials the selected variants contribute, by the
+same rule the budget follows. Under B4a the slaved density
+`ρ = ρ₀ − β_ρ|Ψ|²` makes the deformation energy a potential in the field,
+`V = ½ κ (ρ − ρ₀)² = ½ κ β_ρ² Ψ⁴` in the real one-component case, which
+gives
 
 ```text
-∂²Ψ/∂t² = ∇·(c²(ρ) ∇Ψ) + c₀² (β_ρ/ρ₀) |∇Ψ|² Ψ
+∂²Ψ/∂t² = ∇·(c²(ρ) ∇Ψ) + c₀² (β_ρ/ρ₀) |∇Ψ|² Ψ − 2 κ β_ρ² Ψ³
 ```
 where the second term is the variation of `c²` with respect to `|Ψ|²`
-(one-component case, `c² = c₀²(1 − β_ρ|Ψ|²/ρ₀)`). The plain divergence form
+(one-component case, `c² = c₀²(1 − β_ρ|Ψ|²/ρ₀)`) and the third is
+`− dV/dΨ`. This is the same equation as the one in Section 1.5, and the
+Hamiltonian of this `L` is `E_total` term for term, which is what makes
+the budget a check rather than a restatement of the stepper. The plain
+divergence form
 `∇·(c²∇Ψ)` alone does not conserve the gradient energy `½c²|∇Ψ|²` when `c²`
 depends on the field: the exchange term `½ ∫ ∂(c²)/∂t · |∇Ψ|²` appears on
 the right-hand side of the identity and does not vanish when `c²` moves.
 The Euler-Lagrange form above cancels it exactly, so the budget holds as
 written.
 
-Under B4a the deformation energy carries the slaved density. With
-`ρ = ρ₀ − β_ρ|Ψ|²` and the deformation potential `½ κ (ρ − ρ₀)²` treated
-as a real term in the Lagrangian, the equation gains one more
-contribution, `− 2 κ β_ρ² Ψ³` in the real one-component case, so that
-`E_total` closes. The alternative drops `E_deformation` under B4a
-entirely, treating the slaved density as bookkeeping rather than a second
-energy. This plan takes R2: the density has energy in every variant, and
-the equation pays for it.
+The alternative was to drop `E_deformation` under B4a entirely, treating
+the slaved density as bookkeeping rather than a second energy. This plan
+takes R2: the density has energy in every variant, and the equation pays
+for it, by the `V` term above.
 
 For the EMC density dynamics variants (item 2.4):
 
@@ -464,7 +468,13 @@ For the EMC density dynamics variants (item 2.4):
   deformation energy becomes
   `E_deformation = ∫ (½ |∂ρ/∂t|²/c_ρ² + ½ κ |∇ρ|² + ½ κ (ρ − ρ₀)²) dV`,
   and the budget includes it. B4c is deferred until the extra term is
-  added to the tracker.
+  added to the tracker. ⚠️ The three terms above do not share a single
+  `[κ]`: the gradient and spring terms differ by a factor of length
+  squared and `κ` multiplies both, so it cancels between them and no
+  choice of `[κ]` makes all three energy densities. Pinning the density
+  wave speed at `√κ · c_ρ`, or redefining `c_ρ`, reaches only the kinetic
+  term. The formula needs a length scale, or a second stiffness, before
+  the variant is implemented from it.
 
 **Rule.** The budget enumerates every term the selected variants put in
 the equation. A variant that adds a potential to the Lagrangian adds its
@@ -472,6 +482,10 @@ matching term to the stepper and its energy to `E_total`. The B6a
 recommended start, for instance, adds `F = γ_nl (1 − ρ/ρ₀) |Ψ|² Ψ`, which
 under B4a is `γ_nl (β_ρ/ρ₀) Ψ⁵` and carries its own potential
 `− γ_nl (β_ρ/ρ₀) Ψ⁶ / 6`; without that term the drift does not converge.
+⚠️ That potential is unbounded below, so B6a has no ground state and a
+large-amplitude run can collapse rather than converge. The term is kept
+on the empirical ground above; the property is recorded here so it is a
+known limit of the variant rather than a surprise in a sweep.
 The budget is not a fixed formula, it is the sum of the active terms.
 
 
