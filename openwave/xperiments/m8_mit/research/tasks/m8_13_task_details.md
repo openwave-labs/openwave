@@ -24,7 +24,7 @@ It audits one proposition about one quartic on one seven-dimensional space. It c
 
 ### Ownership and run format
 
-The author freezes the claims below and supplies the argument under audit, which is already public. One maintainer-run auditor works in two stages, as M8.11's audit did for its theorem. At stage 1 it receives only the worklist and commits its own answer and argument. At stage 2 it receives the author's argument and grades it. Then adjudication.
+The author freezes the claims below and supplies the argument under audit, which is already public. One maintainer-run auditor works in two stages, as M8.11's audit did for its theorem. At stage 1 it receives only the worklist and commits its own answer and argument. Stage 2 has two parts, and each return is committed before the next part's files are handed over: at 2a the auditor receives the grading instructions for 2a and N2's variant, and grades the variant's part 3c; at 2b it receives the author's argument with its checker and log, and grades the argument step by step. Then adjudication.
 
 ### Sources of record
 
@@ -47,7 +47,7 @@ The argument under audit runs in four steps. Step 1 writes `r̂₆` on the unit 
 
 ## THE FIREWALL
 
-The stage-1 room has no access to: this document; `S0_S3_MAXIMUM.md` and its checker and log; the author's check described below; M8.12's task doc, method note and author package; and the S0 memo. It receives the worklist only. At stage 2 it additionally receives `S0_S3_MAXIMUM.md` at the hash above, its checker and log, and N2's variant.
+The stage-1 room has no access to: this document; `S0_S3_MAXIMUM.md` and its checker and log; the author's check described below; and M8.12's task doc, method note and author package. It receives the worklist only. At 2a it additionally receives `stage2a_grading.md` and N2's variant, `step3_text.md`, and nothing else: the argument itself would expose the variant's omission by comparison, and its checker names the third block's equality point among its exact checks. At 2b it additionally receives `stage2b_grading.md`, and `S0_S3_MAXIMUM.md` at the hash above with its checker and log.
 
 **Network posture: offline, and this is load-bearing for U1.** The author's uniqueness argument has been public in this repository since #581, so an unrestricted online room could locate the very argument under audit. If network access is enabled and that argument is reached at stage 1 from any source, U1 cannot be scored as an independent reproduction, and stage 1 must be rerun offline. In the literature, Kawaguchi and Ueda's review states the bound `TrN̄² ≤ 171/2` without proof, and Romero et al. probe the maximization numerically without settling it; external material located without exposure to the author's argument is recorded as located, and U1 still passes only on the auditor's own completeness argument. The worklist's standing request for anything looked up is the discriminator.
 
@@ -81,7 +81,7 @@ The stage-1 room has no access to: this document; `S0_S3_MAXIMUM.md` and its che
 | ID | Claim | Standing | Pass condition | Fail condition |
 | --- | --- | --- | --- | --- |
 | N1 | The stage-1 return proves the minimum and its complete equality set, the coherent states, where the answer is known | known: M8.12 G1 | the known value and set, with a completeness argument | a different set, or no completeness argument, which would mean the stage-1 procedure cannot certify a complete equality set even where the answer is known. It is not a test that the maximum's method transfers: bounding the invariant form term by term reaches the maximum but not the minimum |
-| N2 | Given a copy of step 3 whose equality tracing omits the third block's case, although its conclusion survives, the grader notices the omission at the equality-set part | new | the grader explicitly notes that the tracing sentence omits the third block's equality case, and addresses it. The scale-correct grade is ESTABLISHED, SUPPLIED, with the case supplied. A GAP, or an ESTABLISHED that writes out a derivation from the third block's own bound, also passes N2, since each shows the omission was noticed, but each is recorded as a scale misapplication: the case can be completed, so it is not a GAP, and a derivation the grader writes is a supplied part, so it is not ESTABLISHED as written | the grader accepts the complete equality set without addressing the third block's equality case, which would mean the grading reads conclusions rather than arguments |
+| N2 | Given at 2a, before it sees the argument or its checker, a copy of step 3 whose equality tracing omits the third block's case, although its conclusion survives, the grader notices the omission at the equality-set part | new | the 2a return explicitly notes that the tracing sentence omits the third block's equality case, and addresses it. N2 is scored on that content, not on the label: the case may appear in what the grader supplies, in a GAP note, or in a derivation it writes out, and whatever else it supplies, including a branch analysis, neither earns nor costs the pass. The scale-correct grade is ESTABLISHED, SUPPLIED, with the case supplied. A GAP, or an ESTABLISHED that writes out a derivation from the third block's own bound, also passes N2, since each shows the omission was noticed, but each is recorded as a scale misapplication: the case can be completed, so it is not a GAP, and a derivation the grader writes is a supplied part, so it is not ESTABLISHED as written | the 2a return accepts the complete equality set without addressing the third block's equality case, whatever label it gives, which would mean the grading reads conclusions rather than arguments |
 
 ### Diagnostics, not claims
 
@@ -107,14 +107,39 @@ The stage-1 room has no access to: this document; `S0_S3_MAXIMUM.md` and its che
 
 The argument is one page, its checker runs in under a minute, and the author-side check above runs in about a second. The auditor's stage 1 is a genuine derivation, and it may not close: M8.12's solver A argued the maximum's value and stated explicitly that it had not settled uniqueness. U3's rule makes that outcome a partial verdict rather than a failure of the task.
 
-**The author expects part 3c to grade ESTABLISHED, SUPPLIED, not ESTABLISHED as written.** The note states the sign conditions of M₁'s equality cases, `b = 0` with `a > 0` and `a = −2b` with `b > 0`, without deriving them from the squaring branch `a + 6b > 0`, and it does not show that the other branch, `a + 6b ≤ 0`, contains no equality point. Each of those case lines meets the ellipse twice, and only one point of each pair is an equality point. A grader following the scale should supply that branch analysis. That is still a pass, and it is recorded as one the auditor completed.
+**The author expects part 3c to grade ESTABLISHED, SUPPLIED, not ESTABLISHED as written.** The note states the sign conditions of M₁'s equality cases, `b = 0` with `a > 0` and `a = −2b` with `b > 0`, without deriving them from the squaring branch `a + 6b > 0`, and it does not show that the other branch, `a + 6b ≤ 0`, contains no equality point. Each of those case lines meets the ellipse twice, and only one point of each pair is an equality point. A grader following the scale should supply that branch analysis. That is still a pass, and it is recorded as one the auditor completed. N2's variant inherits the same omission, so its part 3c is expected to need that branch analysis and the third block's equality case supplied: the two texts are expected to earn the same label, and a matching label is not a failure of the control.
 
 ## TO BE FIXED AT GO
 
-- Every file either room sees, byte-pinned: the worklist; the stage-2 grading instructions; N2's variant; `S0_S3_MAXIMUM.md`; `check_s3_maximum.py` and `check_s3_maximum_log.txt`; and the maintainer's room brief, if there is one. The pre-registration's own instruments, the gate, its mutation suite and its inventory, are pinned in the gate's provenance block.
+- Every file the auditor sees, at each stage, byte-pinned: the worklist; the grading instructions for 2a and 2b; N2's variant; `S0_S3_MAXIMUM.md`; `check_s3_maximum.py` and `check_s3_maximum_log.txt`; and the maintainer's room brief, if there is one. The pre-registration's own instruments are pinned in the amendment below, apart from the two logs, which are posted with it.
 - The exactness rule, as #547's: exact means a symbolic derivation, or an identification stating its precision, repeated at a second precision.
 - The argument-grading rule, M8.11's with its overlap resolved: one verdict per step, ESTABLISHED, ESTABLISHED, SUPPLIED with the supplied part named, GAP or DEFECT, and a passing argument is recorded as an audited argument, never as a verified or proven theorem.
 
+## AMENDMENT (before go, 2026-09-22)
+
+The maintainer approved and merged this pre-registration at [#583](https://github.com/openwave-labs/openwave/pull/583#pullrequestreview-5278860214), with two questions and three notes, and pinned its seven instruments by hash in the review. This section records what changed in response, before the go. No frozen value moved, and no claim was added or removed.
+
+- **N2 is sequenced, so it cannot be passed by comparing texts.** Handed over together with the argument, the variant differs from it in one clause, so its omission could be found by comparison rather than by reading the variant as an argument. Stage 2 now runs in two parts, each return committed before the next part's files are handed over: at 2a the variant alone, at 2b the argument with its checker and log. The checker waits for 2b as well, since it names the third block's equality point among its exact checks. The variant is renamed `step3_text.md`, byte-identical, so that its file name does not announce it as a variant, and the grading instructions are split to match, with the four verdicts and their rules unchanged.
+- **N2 is scored on content, not on the label.** Both texts are expected to earn ESTABLISHED, SUPPLIED, so the label cannot tell them apart. N2's pass condition now scores whether the third block's equality case is addressed, and the pre-registered expectation names what each text is expected to need.
+- **The firewall names only what the repository resolves.** An exclusion that named no file in the repository is removed. Stage 1 was already a whitelist, receiving the worklist only.
+
+**The instruments.** Of the seven files the review pinned, two are unchanged and match it byte for byte:
+
+| file | SHA-256 |
+| --- | --- |
+| `m813_equality.py` | `3577872c112cefe13413eab3a706e834314e635129f7a914f5488d43f3cc090d` |
+| `m813_equality_log.txt` | `a30b8198d329d2a038ea3253fce2253b007954db0581fa4b71aeac5d12de0354` |
+
+The gate, its mutation suite and its inventory changed, because this amendment added gates and arms for the sequencing, the scoring rule and the firewall. These hashes supersede the review's for those three files only:
+
+| file | SHA-256 |
+| --- | --- |
+| `m813_prereg_build.py` | `eb0a440887bb778739464d6fed7bcc350038170f024d7820840a8d1480b66dd6` |
+| `m813_prereg_arms.py` | `f068c3d27eac293f424df7069d8559c35e8ee8e224964b9e62938a7206c128b0` |
+| `gate_inventory.txt` | `71e9a8887b077c382af0290cfc191f2f455298fb2284326e378619e813b78a6c` |
+
+The gate's log and the mutation suite's log are outputs of runs that read this document, so their hashes cannot be stated here without changing them. They are posted with this amendment, and supersede the review's for those two files only.
+
 ## DEFINITION OF DONE
 
-The auditor returns its stage-1 answer and argument, then its stage-2 grades and N2's. Adjudication records U1, U2 and U3, and G2's uniqueness clause moves from unresolved to an audited argument only if U3 passes. If U2 passes with any part graded ESTABLISHED, SUPPLIED, G2's status records what was supplied, for instance "audited argument, with the branch analysis of step 3c supplied by the auditor", so the record says whose argument it was, which is the lesson #582 exists for. No stability claim, no `MODELS.md` cell, and no change to M8.7's gate.
+The auditor returns its stage-1 answer and argument, then its 2a grade of N2's variant, then its 2b grades of the argument. Adjudication records U1, U2 and U3, and G2's uniqueness clause moves from unresolved to an audited argument only if U3 passes. If U2 passes with any part graded ESTABLISHED, SUPPLIED, G2's status records what was supplied, for instance "audited argument, with the branch analysis of step 3c supplied by the auditor", so the record says whose argument it was, which is the lesson #582 exists for. No stability claim, no `MODELS.md` cell, and no change to M8.7's gate.

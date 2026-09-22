@@ -1,19 +1,19 @@
-# Stage 2: grading the author's argument
+# Stage 2b: grading the author's argument
 
-Your stage-1 return is committed and will not change. You now receive four files: the author's argument, `S0_S3_MAXIMUM.md`; its checker, `check_s3_maximum.py`, with its log; and `n2_variant_step3.md`, a second text of the argument's step 3.
+Your stage-1 and 2a returns are committed and will not change. Besides these instructions, you now receive three files: the author's argument, `S0_S3_MAXIMUM.md`; its checker, `check_s3_maximum.py`; and the checker's log, `check_s3_maximum_log.txt`. Running the author's checker and getting the author's output is not a verification of anything.
 
 ## How to grade
-
-Give one verdict per step, and for step 3 one per part:
 
 - **ESTABLISHED**: the stated route holds as written.
 - **ESTABLISHED, SUPPLIED**: the stated route omits a case or a derivation, and you supply it, shown. Name exactly what you supplied.
 - **GAP**: the step cannot be established, as written or with anything you can supply, and you say what is missing.
 - **DEFECT**: a false statement, or a necessary hypothesis left unstated, even if the result can be rescued.
 
-Grade the argument, not its conclusion. A true conclusion does not make a step ESTABLISHED: if the text's reasoning does not reach it, the grade is ESTABLISHED, SUPPLIED, with what you added, or GAP. GAP is strict: a step you can complete is never a GAP. Complete it and name what you supplied. The same line runs the other way: a derivation you write out is a supplied part, even when the text contains its ingredients, so it is ESTABLISHED, SUPPLIED and never ESTABLISHED as written. Running the author's checker and getting the author's output is not a verification of anything; every number you assert comes from code you wrote.
+Grade the argument, not its conclusion. A true conclusion does not make a step ESTABLISHED: if the text's reasoning does not reach it, the grade is ESTABLISHED, SUPPLIED, with what you added, or GAP. GAP is strict: a step you can complete is never a GAP. Complete it and name what you supplied. The same line runs the other way: a derivation you write out is a supplied part, even when the text contains its ingredients, so it is ESTABLISHED, SUPPLIED and never ESTABLISHED as written. Every number you assert comes from code you wrote.
 
 ## What to grade
+
+Give one verdict per step, and for step 3 one per part:
 
 1. Step 1, the invariant form.
 2. Step 2, the two bounds and their equality cases.
@@ -26,7 +26,3 @@ Grade the argument, not its conclusion. A true conclusion does not make a step E
 4. Step 4, the combination of the three equality cases.
 
 Then reconcile: does the author's equality set agree with your stage-1 answer? Report any disagreement in either direction.
-
-## The second text of step 3
-
-`n2_variant_step3.md` is another text of the same step. Grade its part 3c on the same scale, as an argument, and say why.
