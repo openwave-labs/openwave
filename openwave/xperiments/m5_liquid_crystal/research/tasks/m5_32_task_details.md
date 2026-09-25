@@ -2665,7 +2665,7 @@ The thread re-read at the go held one new comment, posted 15 minutes after the g
 
 The addendum adds three reads and one fit to instruments already in the scope (the interior reader at more radii, the winding reader on the pair fields, the virial column, the exponent fit); no new pool, no new script. The convo row is in [`m5_32_convo.md`](m5_32_convo.md).
 
-## R26: THE INDEX-PARTITION CENSUS OF THE CHARGE, THE STRAND LADDER BELOW DELTA 0.03, THE SPIN GATE WITH THE PHYSICAL GENERATOR, THE GAP-TAIL MOMENT READ, AND THE GENERATOR-CATALOG AUDIT (2026-09-25 14:42 UTC go; no plan post, the reply goes with the results; the thread re-read at the go held report 018, folded in as the addendum above; the results post pending)
+## R26: THE INDEX-PARTITION CENSUS OF THE CHARGE, THE STRAND LADDER BELOW DELTA 0.03, THE SPIN GATE WITH THE PHYSICAL GENERATOR, THE GAP-TAIL MOMENT READ, AND THE GENERATOR-CATALOG AUDIT (2026-09-25 14:42 UTC go; no plan post, the reply goes with the results; the thread re-read at the go held report 018, folded in as the addendum above; the results post [discussioncomment-18603873](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18603873), 2026-09-25 18:44 UTC, pinned to the commit `3705fdfd`)
 
 ### Run-time deviations (every one logged in the checkpoint at the minute it was made)
 
@@ -2760,7 +2760,7 @@ The ratio `C_rigid(L 96) / C_rigid(L 48)` is 2.04 at h 1.5 (the internal generat
 
 **The held pair (report 018 item 3):** on every stored R22-2 unlike pair (d 6, 8, 10, 12 at n 32, 48, 64) the director's degree is +1 around one core and -1 around the other (0.87 to 1.00 with the cell-sampled reader, integers to 1e-4 with the interpolated one), 0 on the outer sphere, and 0 on the spheres of radius d / 2 - 1 (no core inside) and d / 2 + 1 (both inside) about the midpoint (the audit: the d / 2 sphere itself passes through both cores and is an ill-posed read): our held pair keeps its two unit charges inside the balls to the end of the descent, the exterior carrying none. 018's setup (Dirichlet balls, the exterior free) is a different experiment; ours does not test whether the exterior would shed the charge, it fixes the exterior's winding on the shell.
 
-## TASK REVIEW (2026-09-25, R26; presented in the terminal at 18:11 UTC and approved by the user at 18:30 UTC; the commit `03ec7c54` holds the run, this section committed after it; the results post drafted at FINISH and posted by the user, pinned to the review commit)
+## TASK REVIEW (2026-09-25, R26; presented in the terminal at 18:11 UTC and approved by the user at 18:30 UTC; the commit `03ec7c54` holds the run, this section the commit `3705fdfd`; the results post [discussioncomment-18603873](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18603873), posted by the user at 18:44 UTC, pinned to `3705fdfd`)
 
 Task Duration: 03:29 (from the go at 14:42 UTC to the review at 18:11 UTC, 2026-09-25)
 Usage Cap Triggered: NO (the 17:15 UTC ping fired on schedule as a false alarm, no cap hit; the ping parked at 18:11 UTC; the UPS Sentinel stopped at 18:11 UTC)
