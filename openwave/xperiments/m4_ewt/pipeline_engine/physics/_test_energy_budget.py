@@ -2,10 +2,17 @@
 Tests for EnergyBudget and EnergyBudgetUpdate (plan item 1.8).
 
 The energy kernel uses the forward-difference edge sum of plan item
-1.23, with the mean of the two leapfrog levels in time. Tests here
-pin the shape (edge sum, shell edges included), the conservation
-(spread over a full period and O(dt^2) convergence), and the dE_dt
-reporting against a finite difference of the recorded E_total.
+1.23, with the mean of the two leapfrog levels in time, over interior
+nodes and edges that touch interior. Tests here pin the shape, the
+conservation (spread over a full period and O(dt^2) convergence), the
+dE_dt reporting against a finite difference of the recorded E_total,
+and conservation under all three BoundaryProcessor kinds (dirichlet,
+reflecting, periodic).
+
+The boundary weight is read from the BoundaryCondition feature, the
+same feature BoundaryProcessor reads, so the two processors cannot
+disagree on the kind through the feature alone. A pipeline without
+the feature scores at weight 1.0 (dirichlet/reflecting value).
 
 The negative control (gradient-only) shows why E_kin is required.
 
@@ -24,6 +31,7 @@ import numpy as np
 import taichi as ti
 
 from .features import (
+    BoundaryCondition,
     EMCDensityField,
     EnergyBudget,
     PsiLongField,
@@ -37,6 +45,7 @@ from ..pipeline import (
     Stage,
 )
 from .allocator import AllocateWaveField, AllocateWaveSpeed
+from .boundary import BoundaryProcessor
 from .emc import UpdateEMCDensityProcessor, UpdateWaveSpeedProcessor
 from .energy import EnergyBudgetUpdate
 from .evolution import (
@@ -106,7 +115,12 @@ class _UnitsWithC(UnitSystem):
 class _SeedStandingWave(BaseProcessor):
     """
     Seed PsiLong with a 3D standing wave, rest start (psi_prev = psi).
-    Modes are mode * pi / (n - 1) per axis, zero on the outer shell.
+    Modes are mode_k * pi / (n - 1) per axis, zero on the outer shell.
+
+    mode is a (mx, my, mz) tuple. mode=(1, 1, 1) is the mirror-
+    symmetric case, whose periodic wrap is zero. mode=(2, 2, 2) is
+    the asymmetric case with non-zero wrap, used in the periodic
+    boundary test.
     """
 
     name = "_SeedStandingWave"
@@ -114,9 +128,9 @@ class _SeedStandingWave(BaseProcessor):
     order = 5
     requires = (WaveGrid, PsiLongField)
 
-    def __init__(self, amp=1.0, mode=1):
+    def __init__(self, amp=1.0, mode=(1, 1, 1)):
         self.amp = float(amp)
-        self.mode = int(mode)
+        self.mode = tuple(int(m) for m in mode)
 
     def process(self, ctx):
         if ctx.sim.step > 0:
@@ -130,7 +144,9 @@ class _SeedStandingWave(BaseProcessor):
             grid.ny,
             grid.nz,
             self.amp,
-            self.mode,
+            self.mode[0],
+            self.mode[1],
+            self.mode[2],
         )
 
 
@@ -142,11 +158,13 @@ def _seed_standing_wave(
     ny: ti.i32,
     nz: ti.i32,
     amp: ti.f32,
-    mode: ti.i32,
+    mx: ti.i32,
+    my: ti.i32,
+    mz: ti.i32,
 ):
-    kx = ti.cast(mode, ti.f32) * ti.math.pi / ti.cast(nx - 1, ti.f32)
-    ky = ti.cast(mode, ti.f32) * ti.math.pi / ti.cast(ny - 1, ti.f32)
-    kz = ti.cast(mode, ti.f32) * ti.math.pi / ti.cast(nz - 1, ti.f32)
+    kx = ti.cast(mx, ti.f32) * ti.math.pi / ti.cast(nx - 1, ti.f32)
+    ky = ti.cast(my, ti.f32) * ti.math.pi / ti.cast(ny - 1, ti.f32)
+    kz = ti.cast(mz, ti.f32) * ti.math.pi / ti.cast(nz - 1, ti.f32)
     for i, j, k in ti.ndrange(nx, ny, nz):
         s = (
             ti.sin(kx * ti.cast(i, ti.f32))
@@ -199,10 +217,6 @@ def _rho_deficit_array(nx, ny, nz):
 class _RunResult:
     """
     Lightweight container for a run and its recorded histories.
-
-    Written as a plain class rather than a namedtuple so the field
-    names appear in autocomplete and read like the other fixtures in
-    this file.
     """
 
     __slots__ = ("ctx", "E_total", "E_grad", "dE_dt")
@@ -220,16 +234,22 @@ def _run(
     dt=0.05,
     max_steps=100,
     amp=1.0,
-    mode=1,
+    mode=(1, 1, 1),
     rho_def=False,
     kappa=1.0,
     use_variable_c2=False,
     c_value=1.0,
+    boundary_kind=None,
 ):
     """
-    Minimal energy pipeline: allocate, seed standing wave, seed rho,
-    Clear, Laplacian, Leapfrog, EnergyBudgetUpdate, plus a recorder
-    that captures E_total, E_grad and dE_dt each step.
+    Minimal energy pipeline.
+
+    boundary_kind None -> no BoundaryProcessor, no BoundaryCondition
+    feature. EnergyBudgetUpdate scores at weight 1.0.
+
+    boundary_kind set -> BoundaryProcessor with that kind, and
+    BoundaryCondition provided through initial_features. EnergyBudgetUpdate
+    reads the feature and uses the matching weight.
 
     Returns a _RunResult with the ctx and the three histories.
     """
@@ -251,9 +271,12 @@ def _run(
 
     class P(Pipeline):
         def __init__(self):
+            external = [UnitSystem]
+            if boundary_kind is not None:
+                external.append(BoundaryCondition)
             super().__init__(
                 error_policy=ErrorPolicy.FAIL_FAST,
-                external_provides=(UnitSystem,),
+                external_provides=tuple(external),
             )
             self.add(AllocateWaveField(nx=grid_n, ny=grid_n, nz=grid_n, dx=dx))
             if use_variable_c2:
@@ -271,13 +294,21 @@ def _run(
             self.add(LeapfrogProcessor(field_type=PsiLongField))
             self.add(
                 EnergyBudgetUpdate(
-                    field_type=PsiLongField, use_variable_c2=use_variable_c2, kappa=kappa
+                    field_type=PsiLongField,
+                    use_variable_c2=use_variable_c2,
+                    kappa=kappa,
                 )
             )
+            if boundary_kind is not None:
+                self.add(BoundaryProcessor(field_type=PsiLongField))
             self.add(_Record())
 
     from ..runner import Runner
     from ..sinks import InMemorySink
+
+    initial = [_UnitsWithC(c_value)]
+    if boundary_kind is not None:
+        initial.append(BoundaryCondition(boundary_kind))
 
     ctx = Runner({"session": InMemorySink()}).run(
         P(),
@@ -285,7 +316,7 @@ def _run(
         params={},
         dt=dt,
         max_steps=max_steps,
-        initial_features=[_UnitsWithC(c_value)],
+        initial_features=initial,
     )
     return _RunResult(ctx, E_total_hist, E_grad_hist, dE_dt_hist)
 
@@ -300,8 +331,7 @@ def test_uniform_rho_gives_zero_deform():
     rho = 1.0 everywhere -> (rho - 1.0) = 0 everywhere -> E_deform = 0.
 
     Mutation caught by this test: the deformation term reading |rho|
-    instead of (rho - 1). The "deformation term dropped entirely" arm
-    is caught by test_deficit_contributes_to_deform.
+    instead of (rho - 1).
     """
     _ti_init()
     r = _run(grid_n=12, dt=0.05, max_steps=3)
@@ -316,31 +346,134 @@ def test_uniform_rho_gives_zero_deform():
 def test_deficit_contributes_to_deform():
     """
     rho < 1 in the centre -> E_deform > 0, and its value matches an
-    independent numpy integral over the full grid.
+    independent numpy integral over the interior nodes.
 
-    Mutation caught: E_deform reading a constant instead of the field.
+    Mutation caught: E_deform reading a constant instead of the field,
+    or the deformation sum including the shell.
     """
     _ti_init()
     n = 12
-    r = _run(grid_n=n, dt=0.05, max_steps=2, rho_def=True, kappa=1.0)
+    dx = 1.0
+    kappa = 1.0
+    r = _run(grid_n=n, dx=dx, dt=0.05, max_steps=2, rho_def=True, kappa=kappa)
     assert r.ctx.diag.errors == [], r.ctx.diag.errors
 
     b = r.ctx.data.require(EnergyBudget)
     rho_arr = r.ctx.data.require(EMCDensityField).rho.to_numpy()
-    drho = rho_arr - 1.0
-    expected = 0.5 * (drho * drho).sum()  # dx = 1, dv = 1, kappa = 1
-    assert abs(b.E_deform - expected) < 1e-3, (b.E_deform, expected)
+    interior = (slice(1, -1),) * 3
+    drho = rho_arr[interior] - 1.0
+    dv = dx**3
+    expected = 0.5 * kappa * (drho * drho).sum() * dv
+    assert abs(b.E_deform - expected) < 1e-6, (b.E_deform, expected)
+
+
+def test_components_against_numpy_at_nonunit_scales():
+    """
+    dx = 0.5, kappa = 2, c_value = 2, mode-1 standing wave with a
+    deficit rho, no BoundaryProcessor. All three components match a
+    numpy reference on the same arena, so the dv exponent, the kappa
+    factor and c against c^2 are all checked absolutely.
+
+    Mutation caught: dv = dx^2 or dv = 1, kappa dropped or squared,
+    c instead of c^2.
+    """
+    _ti_init()
+    n = 12
+    dx = 0.5
+    dt = 0.05
+    kappa = 2.0
+    c_value = 2.0
+    r = _run(
+        grid_n=n,
+        dx=dx,
+        dt=dt,
+        max_steps=1,
+        rho_def=True,
+        kappa=kappa,
+        c_value=c_value,
+    )
+    assert r.ctx.diag.errors == [], r.ctx.diag.errors
+
+    psi = r.ctx.data.require(PsiLongField).psi.to_numpy().astype(np.float64)
+    psi_prev = r.ctx.data.require(PsiLongField).psi_prev.to_numpy().astype(np.float64)
+    rho = r.ctx.data.require(EMCDensityField).rho.to_numpy().astype(np.float64)
+
+    e_kin_exp, e_grad_exp, e_deform_exp = _numpy_energy_components(
+        psi, psi_prev, rho, dx, dt, kappa, c_value**2, weight_shell=1.0
+    )
+
+    b = r.ctx.data.require(EnergyBudget)
+    assert abs(b.E_kin - e_kin_exp) < 1e-6 * max(1.0, abs(e_kin_exp)), (b.E_kin, e_kin_exp)
+    assert abs(b.E_grad - e_grad_exp) < 1e-6 * max(1.0, abs(e_grad_exp)), (
+        b.E_grad,
+        e_grad_exp,
+    )
+    assert abs(b.E_deform - e_deform_exp) < 1e-6 * max(1.0, abs(e_deform_exp)), (
+        b.E_deform,
+        e_deform_exp,
+    )
+
+
+def _numpy_energy_components(psi, psi_prev, rho, dx, dt, kappa, c2, weight_shell):
+    """
+    Numpy reference for the three components: interior nodes, interior-
+    interior edges, shell-interior edges weighted by weight_shell.
+    """
+    interior = (slice(1, -1),) * 3
+    dv = dx**3
+    inv_dx = 1.0 / dx
+    inv_dt = 1.0 / dt
+
+    v = (psi - psi_prev) * inv_dt
+    e_kin = 0.5 * (v[interior] ** 2).sum() * dv
+
+    drho = rho[interior] - 1.0
+    e_deform = 0.5 * kappa * (drho**2).sum() * dv
+
+    e_grad = 0.0
+    # x-axis interior-interior
+    dn = (psi[2:-1, 1:-1, 1:-1] - psi[1:-2, 1:-1, 1:-1]) * inv_dx
+    dp = (psi_prev[2:-1, 1:-1, 1:-1] - psi_prev[1:-2, 1:-1, 1:-1]) * inv_dx
+    e_grad += 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    # x-axis shell-interior (lower and upper)
+    dn = (psi[1, 1:-1, 1:-1] - psi[0, 1:-1, 1:-1]) * inv_dx
+    dp = (psi_prev[1, 1:-1, 1:-1] - psi_prev[0, 1:-1, 1:-1]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    dn = (psi[-1, 1:-1, 1:-1] - psi[-2, 1:-1, 1:-1]) * inv_dx
+    dp = (psi_prev[-1, 1:-1, 1:-1] - psi_prev[-2, 1:-1, 1:-1]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    # y-axis interior-interior
+    dn = (psi[1:-1, 2:-1, 1:-1] - psi[1:-1, 1:-2, 1:-1]) * inv_dx
+    dp = (psi_prev[1:-1, 2:-1, 1:-1] - psi_prev[1:-1, 1:-2, 1:-1]) * inv_dx
+    e_grad += 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    # y-axis shell-interior
+    dn = (psi[1:-1, 1, 1:-1] - psi[1:-1, 0, 1:-1]) * inv_dx
+    dp = (psi_prev[1:-1, 1, 1:-1] - psi_prev[1:-1, 0, 1:-1]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    dn = (psi[1:-1, -1, 1:-1] - psi[1:-1, -2, 1:-1]) * inv_dx
+    dp = (psi_prev[1:-1, -1, 1:-1] - psi_prev[1:-1, -2, 1:-1]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    # z-axis interior-interior
+    dn = (psi[1:-1, 1:-1, 2:-1] - psi[1:-1, 1:-1, 1:-2]) * inv_dx
+    dp = (psi_prev[1:-1, 1:-1, 2:-1] - psi_prev[1:-1, 1:-1, 1:-2]) * inv_dx
+    e_grad += 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    # z-axis shell-interior
+    dn = (psi[1:-1, 1:-1, 1] - psi[1:-1, 1:-1, 0]) * inv_dx
+    dp = (psi_prev[1:-1, 1:-1, 1] - psi_prev[1:-1, 1:-1, 0]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+    dn = (psi[1:-1, 1:-1, -1] - psi[1:-1, 1:-1, -2]) * inv_dx
+    dp = (psi_prev[1:-1, 1:-1, -1] - psi_prev[1:-1, 1:-1, -2]) * inv_dx
+    e_grad += weight_shell * 0.5 * c2 * 0.5 * ((dn**2).sum() + (dp**2).sum()) * dv
+
+    return e_kin, e_grad, e_deform
 
 
 def test_energy_total_includes_all_three_components():
     """
-    Structural check: E_total is the sum of its three components, and
-    it exceeds E_grad + E_deform by exactly E_kin on an arena where
-    E_kin > 0.
+    Structural check: E_total is the sum of its three components.
 
     Mutation caught: E_total defined as E_grad + E_deform (kinetic
-    term dropped). Not caught here: one component substituted for
-    another inside the kernel, since the sum still adds up.
+    term dropped).
     """
     _ti_init()
     r = _run(grid_n=12, dt=0.05, max_steps=5)
@@ -361,8 +494,7 @@ def test_energy_total_includes_all_three_components():
 def test_dE_dt_zero_on_static_state():
     """
     A field with psi == psi_prev and no gradient has E_total = 0 on
-    both steps, so dE_dt = 0 after the first step. Smoke check that
-    the reporting path runs without error.
+    both steps, so dE_dt = 0 after the first step.
     """
     _ti_init()
 
@@ -411,11 +543,10 @@ def test_dE_dt_zero_on_static_state():
 def test_variable_c2_path_differs_from_const_path():
     """
     With c^2 read from WaveSpeedField, E_grad differs from the same
-    field scored at constant c^2. The arena has a non-uniform rho via
-    UpdateEMCDensity from the standing wave.
+    field scored at constant c^2.
 
     Mutation caught: use_variable_c2=True silently falls back to the
-    constant-c^2 kernel; the two E_grad values agree.
+    constant-c^2 kernel.
     """
     _ti_init()
 
@@ -445,31 +576,47 @@ def test_standing_wave_conserves_total_energy():
     """
     A 3D standing wave at rest, integrated with the production chain,
     conserves E_total over one period to the O(dt^2) bar of plan item
-    1.23. The measure is the spread of the per-step E_total over the
-    run, (max - min) / mean.
+    1.23.
 
-    Mutation caught: any of the kernel bugs a single-step read could
-    not see (kinetic dropped, edge sum reverted to centered, shell
-    edges dropped), because the spread is measured over the whole run.
-    It reads E_total only, so a hard-wired dE_dt is caught by
-    test_dE_dt_matches_finite_difference, not here.
-
-    Reference (reviewer, N=16, dt=0.05, mean form, edges, shell
-    included): spread 1.64e-4. Threshold 5e-4 leaves a 3x margin.
+    Mutation caught: any kernel bug a single-step read could not see.
     """
     _ti_init()
     n = 16
     dt = 0.05
-    steps = 350  # about one period for mode-1 in a 16^3 box
+    steps = 350
 
-    r = _run(grid_n=n, dt=dt, max_steps=steps, mode=1)
+    r = _run(grid_n=n, dt=dt, max_steps=steps)
     assert r.ctx.diag.errors == [], r.ctx.diag.errors
     assert len(r.E_total) == steps, len(r.E_total)
 
     arr = np.array(r.E_total)
     spread = (arr.max() - arr.min()) / abs(arr.mean())
-    assert spread < 5e-4, (
-        f"E_total spread over {steps} steps = {spread}, " f"expected < 5e-4 (mean form, edge sum)"
+    assert spread < 5e-4, f"E_total spread over {steps} steps = {spread}, expected < 5e-4"
+
+
+def test_conservation_at_c_other_than_1():
+    """
+    Same standing wave at c = 2 (so c^2 = 4).
+
+    Mutation caught: c for c^2 in the gradient term.
+
+    Threshold looser than the c=1 test: the spread scales as
+    (c k dt)^2, four times the c=1 value at c=2.
+    """
+    _ti_init()
+    n = 16
+    dt = 0.05
+    steps = 350
+
+    r = _run(grid_n=n, dt=dt, max_steps=steps, c_value=2.0)
+    assert r.ctx.diag.errors == [], r.ctx.diag.errors
+
+    arr = np.array(r.E_total)
+    spread = (arr.max() - arr.min()) / abs(arr.mean())
+    # Threshold looser than the c=1 test: the spread scales as
+    # (c k dt)^2, so at c=2 it is four times the c=1 value.
+    assert spread < 1e-3, (
+        f"E_total spread at c=2 over {steps} steps = {spread}, " f"expected < 1e-3"
     )
 
 
@@ -478,12 +625,7 @@ def test_energy_conservation_is_second_order_in_dt():
     The same standing wave at dt and dt/2. Under the mean form the
     spread is O(dt^2), so the ratio must be about 4.
 
-    Mutation caught: the kernel using the level-n+1-only gradient
-    (first order in dt, ratio about 2), or a mixer that is not the
-    mean. A one-sided gradient gives spread about 1.8e-2 at dt=0.05,
-    a hundred times the mean's 1.6e-4.
-
-    Threshold: ratio >= 3, so a first-order path fails.
+    Mutation caught: the kernel using the level-n+1-only gradient.
     """
     _ti_init()
     n = 16
@@ -491,8 +633,8 @@ def test_energy_conservation_is_second_order_in_dt():
     steps_coarse = 350
     steps_fine = 700
 
-    r1 = _run(grid_n=n, dt=dt, max_steps=steps_coarse, mode=1)
-    r2 = _run(grid_n=n, dt=dt / 2, max_steps=steps_fine, mode=1)
+    r1 = _run(grid_n=n, dt=dt, max_steps=steps_coarse)
+    r2 = _run(grid_n=n, dt=dt / 2, max_steps=steps_fine)
     assert r1.ctx.diag.errors == [], r1.ctx.diag.errors
     assert r2.ctx.diag.errors == [], r2.ctx.diag.errors
 
@@ -511,19 +653,17 @@ def test_energy_conservation_is_second_order_in_dt():
 def test_dE_dt_matches_finite_difference():
     """
     dE_dt reported by the processor equals the finite difference of
-    the recorded E_total, sign included, for every step after the
-    first.
+    the recorded E_total, sign included.
 
     Mutation caught: dE_dt sign flipped, dE_dt divided by dt twice,
-    E_prev updated before the difference, or the whole dE_dt path
-    short-circuited.
+    E_prev updated before the difference, or dE_dt hard-wired.
     """
     _ti_init()
     n = 12
     dt = 0.05
     steps = 20
 
-    r = _run(grid_n=n, dt=dt, max_steps=steps, mode=1)
+    r = _run(grid_n=n, dt=dt, max_steps=steps)
     assert r.ctx.diag.errors == [], r.ctx.diag.errors
     assert len(r.E_total) == steps
     assert len(r.dE_dt) == steps
@@ -538,20 +678,14 @@ def test_dE_dt_matches_finite_difference():
 
 def test_conservation_at_nonunit_dx():
     """
-    Same standing wave, run at dx = 0.5: the same 16^3 grid with cells
-    half as wide, so the mode's frequency doubles and the 350 steps
-    cover two periods. The mean edge sum must still conserve to the
-    O(dt^2) bar.
+    Same standing wave at dx = 0.5.
 
     Mutation caught: a kernel that drops the 1/dx in the gradient, or
-    hard-codes dx = 1 there, which unbalances E_grad against E_kin.
-    Not caught: the exponent of dv. dv multiplies all three components
-    alike, so the relative spread does not see it.
+    hard-codes dx = 1 there. Not caught: the exponent of dv, since the
+    spread is relative.
 
-    Threshold: 1e-3 here, looser than the 5e-4 the dx=1 test uses.
-    The spread scales as (omega dt)^2, and omega doubles at dx = 0.5,
-    so the spread is measured near 6.6e-4, four times the 1.6e-4 at
-    dx=1.
+    Threshold looser than the dx = 1 test: the spread scales as
+    (omega dt)^2, and omega doubles at dx = 0.5.
     """
     _ti_init()
     n = 16
@@ -559,13 +693,121 @@ def test_conservation_at_nonunit_dx():
     dt = 0.05
     steps = 350
 
-    r = _run(grid_n=n, dx=dx, dt=dt, max_steps=steps, mode=1)
+    r = _run(grid_n=n, dx=dx, dt=dt, max_steps=steps)
     assert r.ctx.diag.errors == [], r.ctx.diag.errors
 
     arr = np.array(r.E_total)
     spread = (arr.max() - arr.min()) / abs(arr.mean())
-    assert spread < 1e-3, (
-        f"E_total spread at dx=0.5 over {steps} steps = {spread}, " f"expected < 1e-3"
+    assert (
+        spread < 1e-3
+    ), f"E_total spread at dx=0.5 over {steps} steps = {spread}, expected < 1e-3"
+
+
+# ======================================================================
+# Boundaries: dirichlet, reflecting, periodic
+# ======================================================================
+
+
+def test_boundary_dirichlet_conserves():
+    """
+    With BoundaryProcessor(dirichlet) and BoundaryCondition(dirichlet)
+    registered, E_total conserves. weight_shell is read from the
+    feature, and both processors read the same feature.
+
+    Mutation caught: the dirichlet weight changed (0.5 halves every
+    shell-interior edge). Not caught: node or edge sums reverted to
+    full-grid scope, since the dirichlet shell is zero and adds
+    nothing; the reflecting and periodic tests catch that.
+    """
+    _ti_init()
+    n = 16
+    dt = 0.05
+    steps = 350
+
+    r = _run(grid_n=n, dt=dt, max_steps=steps, boundary_kind="dirichlet")
+    assert r.ctx.diag.errors == [], r.ctx.diag.errors
+
+    arr = np.array(r.E_total)
+    spread = (arr.max() - arr.min()) / abs(arr.mean())
+    assert spread < 5e-4, (
+        f"E_total spread under dirichlet over {steps} steps = " f"{spread}, expected < 5e-4"
+    )
+
+
+def test_boundary_reflecting_conserves():
+    """
+    With BoundaryProcessor(reflecting), the shell copies the interior
+    neighbour, so both shell-interior edges are exactly zero. The
+    weight_shell = 1.0 is a formality here.
+
+    The seed sin(pi x/L) is an eigenmode under dirichlet, not under
+    reflecting; under reflecting the field evolves toward a cos-mode
+    superposition. E_total is still conserved (leapfrog + holonomic
+    constraint), so the spread stays O(dt^2).
+
+    Mutation caught: node or edge sums reverted to full-grid scope,
+    which double-counts the reflected shell and swings 109%.
+    """
+    _ti_init()
+    n = 16
+    dt = 0.05
+    steps = 350
+
+    r = _run(grid_n=n, dt=dt, max_steps=steps, boundary_kind="reflecting")
+    assert r.ctx.diag.errors == [], r.ctx.diag.errors
+
+    arr = np.array(r.E_total)
+    spread = (arr.max() - arr.min()) / abs(arr.mean())
+    assert spread < 5e-4, (
+        f"E_total spread under reflecting over {steps} steps = " f"{spread}, expected < 5e-4"
+    )
+
+
+def test_boundary_periodic_conserves():
+    """
+    With BoundaryProcessor(periodic) and an asymmetric seed, mode
+    (2, 2, 2). The shell copies the opposite face, so the two shell-
+    interior edges are the same wrap value. weight_shell = 0.5 on
+    each gives the wrap energy once. The feature is the same one
+    BoundaryProcessor reads, so the two cannot disagree on the kind.
+
+    This test uses an asymmetric seed on purpose: a mirror-symmetric
+    seed (mode 1) has zero wrap, and the test would then be
+    insensitive to the double-count it exists to catch. With mode 2
+    the wrap is non-zero and a kernel that sums both edges at weight
+    1.0 fails.
+
+    dt is halved here (0.025, 700 steps) so the spread stays under the
+    5e-4 the other boundary tests use. Mode 2 has twice the frequency
+    of mode 1, and the spread scales as (omega dt)^2, four times
+    larger; halving dt quarters it back.
+
+    Mutation caught: the feature-weights mapping changed to 1.0 for
+    periodic (both edges counted at full value, doubling the wrap), or
+    shell-interior edges dropped entirely.
+    """
+    _ti_init()
+    n = 16
+    # dt halved and steps doubled relative to the other boundary tests:
+    # this test uses mode (2,2,2), whose frequency is twice mode (1,1,1).
+    # The spread scales as (omega dt)^2, four times larger, and the
+    # threshold is kept at the same 5e-4 by dropping dt.
+    dt = 0.025
+    steps = 700
+
+    r = _run(
+        grid_n=n,
+        dt=dt,
+        max_steps=steps,
+        mode=(2, 2, 2),
+        boundary_kind="periodic",
+    )
+    assert r.ctx.diag.errors == [], r.ctx.diag.errors
+
+    arr = np.array(r.E_total)
+    spread = (arr.max() - arr.min()) / abs(arr.mean())
+    assert spread < 5e-4, (
+        f"E_total spread under periodic over {steps} steps = " f"{spread}, expected < 5e-4"
     )
 
 
@@ -578,23 +820,16 @@ def test_gradient_only_energy_oscillates():
     """
     Negative control. The same standing wave, scored by E_grad alone,
     has a per-step spread far above the tolerance the positive test
-    uses. Plan item 1.23 says a gradient-only integral oscillates at
-    2*omega; the measured spread is the discrete signature of that
-    oscillation.
+    uses.
 
-    Both figures are spread over the same run, so they are directly
-    comparable. The gradient-only spread must be at least ten times
-    the full E_total spread.
-
-    Mutation caught: E_kin silently dropped from E_total. That makes
-    the two spreads agree and the ratio collapse to 1.
+    Mutation caught: E_kin silently dropped from E_total.
     """
     _ti_init()
     n = 16
     dt = 0.05
     steps = 350
 
-    r = _run(grid_n=n, dt=dt, max_steps=steps, mode=1)
+    r = _run(grid_n=n, dt=dt, max_steps=steps)
     assert r.ctx.diag.errors == [], r.ctx.diag.errors
 
     g = np.array(r.E_grad)
@@ -617,10 +852,13 @@ def test_gradient_only_energy_oscillates():
 def test_budget_update_requires_all_features():
     """
     EnergyBudgetUpdate.requires names its features, and the two
-    flavours (constant c^2 and variable c^2) declare different tuples.
+    flavours declare different tuples. BoundaryCondition is not in
+    requires: it is an optional feature the processor try_get's, since
+    a pipeline without a boundary is a legal configuration.
 
     Mutation caught: any of the required features dropped from
-    requires, or WaveSpeedField added to the constant-c^2 flavour.
+    requires, WaveSpeedField added to the constant-c^2 flavour, or
+    BoundaryCondition incorrectly added to requires.
     """
     _ti_init()
     from .features import WaveSpeedField
@@ -631,24 +869,53 @@ def test_budget_update_requires_all_features():
     assert EMCDensityField in proc.requires, proc.requires
     assert UnitSystem in proc.requires, proc.requires
     assert WaveSpeedField not in proc.requires, proc.requires
+    assert BoundaryCondition not in proc.requires, proc.requires
 
     proc_var = EnergyBudgetUpdate(field_type=PsiLongField, use_variable_c2=True)
     assert WaveSpeedField in proc_var.requires, proc_var.requires
+
+
+def test_weights_for_known_kinds():
+    """
+    The kind -> weight mapping is exact. dirichlet and reflecting
+    share 1.0; periodic is 0.5; an unknown kind raises at process
+    time (through the helper).
+
+    Mutation caught: a kind mapped to the wrong weight, or an unknown
+    kind silently accepted.
+    """
+    _ti_init()
+    from .energy import _weight_shell_for_kind
+
+    assert _weight_shell_for_kind("dirichlet") == 1.0
+    assert _weight_shell_for_kind("reflecting") == 1.0
+    assert _weight_shell_for_kind("periodic") == 0.5
+    try:
+        _weight_shell_for_kind("banana")
+    except ValueError:
+        return
+    raise AssertionError("expected ValueError for unknown kind")
 
 
 def main() -> int:
     tests = [
         test_uniform_rho_gives_zero_deform,
         test_deficit_contributes_to_deform,
+        test_components_against_numpy_at_nonunit_scales,
         test_energy_total_includes_all_three_components,
         test_dE_dt_zero_on_static_state,
         test_variable_c2_path_differs_from_const_path,
         test_standing_wave_conserves_total_energy,
+        test_conservation_at_c_other_than_1,
         test_energy_conservation_is_second_order_in_dt,
         test_dE_dt_matches_finite_difference,
         test_conservation_at_nonunit_dx,
+        test_boundary_dirichlet_conserves,
+        test_boundary_reflecting_conserves,
+        test_boundary_periodic_conserves,
         test_gradient_only_energy_oscillates,
         test_budget_update_requires_all_features,
+        test_weights_for_known_kinds,
     ]
     passed = 0
     for t in tests:

@@ -16,7 +16,6 @@ Gradient discretisation (edge sum, mean in time):
 
         E_grad = sum_edges (1/2) c^2_{i+1/2} ((psi_{i+1} - psi_i)/dx)^2 dv
 
-    summed over every edge in the three axes, shell edges included,
     with c^2_{i+1/2} = (1/2)(c^2_i + c^2_{i+1}) on the variable path.
 
     The time level is the mean of the two endpoints the leapfrog holds,
@@ -25,30 +24,55 @@ Gradient discretisation (edge sum, mean in time):
         E_grad = 0.5 * c^2_{1/2} * ( |D+psi^{n+1}|^2 + |D+psi^n|^2 ) / 2 * dv
 
     Kinetic is at n+1/2, so the mean places the gradient at the same
-    time. A one-sided level-n+1 gradient leaves a first-order gap and
-    a spread about a hundred times larger; a cross-product form is
-    exact but is a different quantity (the staggered invariant of item
-    1.23, which _test_variable_coeff pins). Plan item 1.23 names the
-    O(dt^2) convergence bar for this energy; machine precision is
-    reserved for the staggered expression.
+    time. A one-sided level-n+1 gradient leaves a first-order gap; a
+    cross-product form is exact but is a different quantity (the
+    staggered invariant of item 1.23, which _test_variable_coeff pins).
+    Plan item 1.23 names the O(dt^2) convergence bar for this energy;
+    machine precision is reserved for the staggered expression.
 
-    Shell edges are included because the 6-point Laplacian transports
-    energy across them, and a mode whose gradient peaks at the shell
-    (a standing wave) loses 26% of its gradient score if they are not
-    counted.
+Scoring scope (interior nodes, interior-interior edges, and shell-
+interior edges weighted by the boundary kind):
+    Nodes: interior only (i, j, k in [1, n-2]). Shell nodes hold one
+    of three things after a BoundaryProcessor step: zero (dirichlet),
+    a copy of the interior neighbour (reflecting), or a copy of the
+    opposite face (periodic). Counting them adds nothing or a
+    duplicate.
 
-    Scope: the full-grid sums are the conserved energy only with a
-    fixed (dirichlet) shell. Under the reflecting and periodic
-    boundaries the shell voxels are copies of interior ones, so the
-    sums count them a second time: on the 16^3 mode-1 standing wave
-    E_total then swings 109% over a period, while the energy of the
-    interior nodes and edges (plus the wrap edges under periodic)
-    holds to 4e-4. Scoring those two kinds
-    needs the boundary kind, and is a follow-up.
+    Edges: every interior-interior edge, plus the two shell-interior
+    edges at each end of each axis, weighted by weight_shell:
+      1.0 under dirichlet: shell is zero, so the shell-interior edge
+          at the lower end is psi(1), the upper end -psi(n-2). Both
+          are real and additive; the sum matches the flux the 6-point
+          Laplacian transports across the shell.
+      1.0 under reflecting: shell is a copy of the interior neighbour,
+          so both shell-interior edges are exactly zero. The weight
+          is a formality.
+      0.5 under periodic: shell is a copy of the opposite face, so
+          both shell-interior edges are the same wrap value. 0.5 on
+          each gives the wrap energy once, not twice.
 
-Kinetic and deformation sums run over the full grid. The kinetic
-velocity is (psi - psi_prev)/dt at each voxel; the deformation term
-is (rho - 1) at each voxel.
+    weight_shell comes from the registered BoundaryCondition feature,
+    the same feature BoundaryProcessor reads. One source of truth for
+    the boundary kind; a mismatch between the two processors is not
+    possible through the feature alone. A BoundaryProcessor with
+    kind_override set (a test-only path, see boundary.py) does break
+    the link, and a run that uses both together would measure a
+    different energy than the one the boundary applies.
+
+    A pipeline without a BoundaryCondition registered scores at
+    weight_shell = 1.0, the dirichlet/reflecting value. That matches
+    a seed whose shell is zero by construction (the standing-wave
+    fixture) and DirichletBoundaryProcessor's output. It does not
+    match an arbitrary seed, which is a caller's responsibility to
+    keep consistent.
+
+    The pre-fix versions: a full-grid sum counted the duplicated shell
+    nodes (109% swing under reflecting and periodic); a
+    centered-difference gradient over interior voxels swung 15% under
+    dirichlet. Separately, an edge sum without the shell-interior
+    edges, which the 6-point Laplacian transports energy across, loses
+    26% of the gradient score of a mode whose gradient peaks at the
+    shell.
 
 Accumulators are f64 to avoid f32 summation loss on larger grids.
 The values are read back to Python floats once per step.
@@ -61,6 +85,7 @@ import taichi as ti
 
 from ..pipeline import BaseProcessor, Stage
 from .features import (
+    BoundaryCondition,
     EMCDensityField,
     EnergyBudget,
     PsiLongField,
@@ -103,6 +128,7 @@ def _integrate_energy_const_c2(
     inv_dt: ti.f32,
     inv_dx: ti.f32,
     dv: ti.f32,
+    weight_shell: ti.f32,
     nx: ti.i32,
     ny: ti.i32,
     nz: ti.i32,
@@ -114,55 +140,44 @@ def _integrate_energy_const_c2(
     out_grad[None] = 0.0
     out_deform[None] = 0.0
 
-    # Kinetic and deformation, full grid.
-    for i, j, k in ti.ndrange(nx, ny, nz):
+    # Kinetic and deformation, interior nodes only.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1)):
         v = (psi[i, j, k] - psi_prev[i, j, k]) * inv_dt
         out_kin[None] += 0.5 * v.norm_sqr() * dv
         drho = rho[i, j, k] - 1.0
         out_deform[None] += 0.5 * kappa * drho * drho * dv
 
-    # Gradient, forward differences on every edge, all three axes.
-    for i, j, k in ti.ndrange((0, nx - 1), (0, ny), (0, nz)):
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_const,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i + 1,
-            j,
-            k,
+    # x-edges: interior-interior, then the two shell-interior edges.
+    for i, j, k in ti.ndrange((1, nx - 2), (1, ny - 1), (1, nz - 1)):
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_const, inv_dx, dv, i, j, k, i + 1, j, k)
+    for j, k in ti.ndrange((1, ny - 1), (1, nz - 1)):
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, 0, j, k, 1, j, k
         )
-    for i, j, k in ti.ndrange((0, nx), (0, ny - 1), (0, nz)):
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_const,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i,
-            j + 1,
-            k,
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, nx - 2, j, k, nx - 1, j, k
         )
-    for i, j, k in ti.ndrange((0, nx), (0, ny), (0, nz - 1)):
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_const,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i,
-            j,
-            k + 1,
+
+    # y-edges.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 2), (1, nz - 1)):
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_const, inv_dx, dv, i, j, k, i, j + 1, k)
+    for i, k in ti.ndrange((1, nx - 1), (1, nz - 1)):
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, i, 0, k, i, 1, k
+        )
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, i, ny - 2, k, i, ny - 1, k
+        )
+
+    # z-edges.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 2)):
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_const, inv_dx, dv, i, j, k, i, j, k + 1)
+    for i, j in ti.ndrange((1, nx - 1), (1, ny - 1)):
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, i, j, 0, i, j, 1
+        )
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_const, inv_dx, dv, i, j, nz - 2, i, j, nz - 1
         )
 
 
@@ -176,6 +191,7 @@ def _integrate_energy_var_c2(
     inv_dt: ti.f32,
     inv_dx: ti.f32,
     dv: ti.f32,
+    weight_shell: ti.f32,
     nx: ti.i32,
     ny: ti.i32,
     nz: ti.i32,
@@ -187,57 +203,83 @@ def _integrate_energy_var_c2(
     out_grad[None] = 0.0
     out_deform[None] = 0.0
 
-    for i, j, k in ti.ndrange(nx, ny, nz):
+    # Kinetic and deformation, interior nodes only.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 1)):
         v = (psi[i, j, k] - psi_prev[i, j, k]) * inv_dt
         out_kin[None] += 0.5 * v.norm_sqr() * dv
         drho = rho[i, j, k] - 1.0
         out_deform[None] += 0.5 * kappa * drho * drho * dv
 
-    for i, j, k in ti.ndrange((0, nx - 1), (0, ny), (0, nz)):
+    # x-edges.
+    for i, j, k in ti.ndrange((1, nx - 2), (1, ny - 1), (1, nz - 1)):
         c2_half = 0.5 * (c2_field[i, j, k] + c2_field[i + 1, j, k])
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_half,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i + 1,
-            j,
-            k,
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_half, inv_dx, dv, i, j, k, i + 1, j, k)
+    for j, k in ti.ndrange((1, ny - 1), (1, nz - 1)):
+        c2_half = 0.5 * (c2_field[0, j, k] + c2_field[1, j, k])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, 0, j, k, 1, j, k
         )
-    for i, j, k in ti.ndrange((0, nx), (0, ny - 1), (0, nz)):
+        c2_half = 0.5 * (c2_field[nx - 2, j, k] + c2_field[nx - 1, j, k])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, nx - 2, j, k, nx - 1, j, k
+        )
+
+    # y-edges.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 2), (1, nz - 1)):
         c2_half = 0.5 * (c2_field[i, j, k] + c2_field[i, j + 1, k])
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_half,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i,
-            j + 1,
-            k,
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_half, inv_dx, dv, i, j, k, i, j + 1, k)
+    for i, k in ti.ndrange((1, nx - 1), (1, nz - 1)):
+        c2_half = 0.5 * (c2_field[i, 0, k] + c2_field[i, 1, k])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, i, 0, k, i, 1, k
         )
-    for i, j, k in ti.ndrange((0, nx), (0, ny), (0, nz - 1)):
+        c2_half = 0.5 * (c2_field[i, ny - 2, k] + c2_field[i, ny - 1, k])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, i, ny - 2, k, i, ny - 1, k
+        )
+
+    # z-edges.
+    for i, j, k in ti.ndrange((1, nx - 1), (1, ny - 1), (1, nz - 2)):
         c2_half = 0.5 * (c2_field[i, j, k] + c2_field[i, j, k + 1])
-        out_grad[None] += _edge_energy(
-            psi,
-            psi_prev,
-            c2_half,
-            inv_dx,
-            dv,
-            i,
-            j,
-            k,
-            i,
-            j,
-            k + 1,
+        out_grad[None] += _edge_energy(psi, psi_prev, c2_half, inv_dx, dv, i, j, k, i, j, k + 1)
+    for i, j in ti.ndrange((1, nx - 1), (1, ny - 1)):
+        c2_half = 0.5 * (c2_field[i, j, 0] + c2_field[i, j, 1])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, i, j, 0, i, j, 1
         )
+        c2_half = 0.5 * (c2_field[i, j, nz - 2] + c2_field[i, j, nz - 1])
+        out_grad[None] += weight_shell * _edge_energy(
+            psi, psi_prev, c2_half, inv_dx, dv, i, j, nz - 2, i, j, nz - 1
+        )
+
+
+# Boundary-kind weights. One source of truth: the BoundaryCondition
+# feature. Kept here as module constants so the mapping is one line.
+_WEIGHT_SHELL_DIRICHLET_OR_REFLECTING = 1.0
+_WEIGHT_SHELL_PERIODIC = 0.5
+
+
+def _weight_shell_for_kind(kind: str) -> float:
+    """
+    Weight of the shell-interior edges for a BoundaryCondition kind.
+
+    Module-level helper, not a method: the mapping is a pure function
+    of the feature's kind and has no processor state.
+
+    dirichlet and reflecting -> 1.0. Under dirichlet the shell is
+    zero and both shell-interior edges are real; under reflecting the
+    shell copies the interior neighbour, so both edges are zero and
+    the weight is a formality.
+
+    periodic -> 0.5. The shell copies the opposite face, so the two
+    shell-interior edges at each end of each axis are the same wrap
+    value. 0.5 on each gives the wrap energy once.
+    """
+    if kind in ("dirichlet", "reflecting"):
+        return _WEIGHT_SHELL_DIRICHLET_OR_REFLECTING
+    if kind == "periodic":
+        return _WEIGHT_SHELL_PERIODIC
+    raise ValueError(f"EnergyBudgetUpdate: unknown BoundaryCondition kind {kind!r}")
 
 
 class EnergyBudgetUpdate(BaseProcessor):
@@ -254,6 +296,13 @@ class EnergyBudgetUpdate(BaseProcessor):
     configuration. Default 1.0. The plan's "supplied by the unit
     system" is not done yet: UnitSystem has no kappa field, and adding
     one is a larger change.
+
+    The boundary kind is read from the BoundaryCondition feature at
+    process time (try_get, not require). A pipeline without the
+    feature scores at the dirichlet/reflecting weight, 1.0, which
+    matches a seed whose shell is zero by construction. A pipeline
+    with the feature gets the weight that matches the boundary the
+    BoundaryProcessor applies, since both read the same feature.
 
     Does not read or write any other feature. Does not enforce a
     conservation law; it reports, it does not police.
@@ -291,6 +340,13 @@ class EnergyBudgetUpdate(BaseProcessor):
         if dt <= 0.0:
             raise ValueError(f"EnergyBudgetUpdate: dt must be > 0, got {dt}")
 
+        bc = ctx.data.try_get(BoundaryCondition)
+        weight_shell = (
+            _weight_shell_for_kind(bc.kind)
+            if bc is not None
+            else _WEIGHT_SHELL_DIRICHLET_OR_REFLECTING
+        )
+
         inv_dt = 1.0 / dt
         inv_dx = 1.0 / grid.dx
         dv = grid.dx**3
@@ -306,6 +362,7 @@ class EnergyBudgetUpdate(BaseProcessor):
                 inv_dt,
                 inv_dx,
                 dv,
+                weight_shell,
                 grid.nx,
                 grid.ny,
                 grid.nz,
@@ -324,6 +381,7 @@ class EnergyBudgetUpdate(BaseProcessor):
                 inv_dt,
                 inv_dx,
                 dv,
+                weight_shell,
                 grid.nx,
                 grid.ny,
                 grid.nz,
