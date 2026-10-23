@@ -1,9 +1,5 @@
 # M4.9 Emergent Metric Encodings from Lattice Dynamics
 
-> **Note (2026-10-22, [PR #649](https://github.com/openwave-labs/openwave/pull/649)):** M4.3 and M4.5 use the index $n_\gamma = \eta^{-1}$ since that
-> change. The statements below that identify $\eta^{-1/2}$ with the M4.3 and M4.5 encoding
-> predate it; the clock exponent (M4.4) is unaffected.
-
 ## Criterion
 Gravity: local metric phenomena — foundational encoding derivation
 
@@ -47,11 +43,13 @@ $$v_{\text{phys}} \propto \eta^{+1/2}$$
 
 ### 3. Refractive index
 
-The corresponding effective refractive index is
+The timelike wave speed is $v_{\text{phys}} \propto \eta^{+1/2}$; this is the clock exponent (M4.4: $v_{\text{clock}} = \sqrt{\eta}$).
 
-$$n_\gamma(\eta) = \frac{c_0}{v_{\text{phys}}} \propto \eta^{-1/2}$$
+The null-probe refractive index is not $1/v_{\text{phys}}$. A light ray samples both the spatial cell stretching ($\eta^{-1/2}$) and the temporal propagation-period dilation ($\eta^{-1/2}$) of the strained medium, giving
 
-This is the same encoding used in M4.3 and M4.5.
+$$n_\gamma(\eta) = \sqrt{\frac{g_{rr}}{g_{00}}} = \frac{1}{\eta} = \left(1 - \frac{r_s}{r}\right)^{-1}$$
+
+(manuscript v5.1.7, "Emergent Metric Encodings from Lattice Dynamics"; M4.3 and M4.5 use this form). This index is not measured by the script below; the script measures the timelike exponents $\alpha$ and $\beta$.
 
 ### 4. Clock frequency
 
@@ -125,22 +123,22 @@ Phase 3 is an analytical consistency check on phase 2 ($\gamma \equiv \beta$), n
 
 ## Interpretation
 
-Given the $1/r$ EMC pair potential ($n=1$) and the 1D linear spacing reduction $a(\eta) = 1/\eta$, the physical wave speed scales as $v_{\text{phys}} \propto \eta^{n/2} = \eta^{+1/2}$. 
+Given the $1/r$ EMC pair potential ($n=1$) and the 1D linear spacing reduction $a(\eta) = 1/\eta$, the physical (timelike) wave speed scales as $v_{\text{phys}} \propto \eta^{n/2} = \eta^{+1/2}$.
 
-The mapping to M4.3–M4.5 assumes purely axial lattice strain along the propagation vector ($q=1$), yielding an effective axial spacing $a_\parallel(\eta) = \eta^{-1}$ and making the identification with $n_\gamma \propto \eta^{-0.5}$ exact. For a general compression geometry with $q$ compressing directions and potential exponent $n$, the closed-form scaling is $\beta = n / (2q)$.
+The mapping to M4.3–M4.5 uses the null-probe index, not the timelike speed. In 1D axial strain ($q = 1$) the axial spacing is $a_\parallel(\eta) = \eta^{-1}$ and the timelike speed is $v_{\text{phys}} \propto \eta^{+1/2}$. The null-probe index is $n_\gamma = 1/v_\gamma = \sqrt{g_{rr}/g_{00}} = \eta^{-1}$, which is the encoding M4.3 and M4.5 use.
 
 This establishes how the Schwarzschild encodings used in M4.3–M4.5 map back to microscopic lattice parameters:
 
-- $v_{\text{clock}} \propto \sqrt{\eta}$ ($\beta = 0.5$)
-- $n_\gamma \propto \eta^{-1/2}$ ($\alpha = 3.0$)
+- $v_{\text{clock}} \propto \sqrt{\eta}$ (timelike, $\beta = 0.5$)
+- $n_\gamma = \eta^{-1}$ (null probe, from $\sqrt{g_{rr}/g_{00}}$, not from $1/v_{\text{phys}}$)
 
-For a pair potential $V(r) \propto r^{-n}$ this is $\beta = n/2$ at $q = 1$. Under the physical assumption of a $1/r$ electrostatic-like EMC interaction, the target metric exponents $+1/2$ and $-1/2$ naturally emerge from the discrete lattice dynamics.
+For a pair potential $V(r) \propto r^{-n}$ the timelike exponent is $\beta = n/2$ at $q = 1$. Under the physical assumption of a $1/r$ electrostatic-like EMC interaction, the timelike wave-speed exponent is $\beta = +1/2$ (clock, M4.4) and the null-probe index is $n_\gamma = \eta^{-1}$ (light, M4.3 and M4.5). The two exponents are distinct: a clock samples node availability ($\sqrt{\eta}$); a light ray samples the combined spatial and temporal strain ($\eta^{-1}$).
 
 ## Reference
 
-Enhanced EWT manuscript, version 4.5.12:
-[DOI: 10.5281/zenodo.22140646](https://doi.org/10.5281/zenodo.22140646)
+Enhanced EWT manuscript, version 5.1.7:
+[DOI: 10.5281/zenodo.23559858](https://doi.org/10.5281/zenodo.23559858)
 
 Relevant section:
 
-- „Emergent Metric Encodings from Lattice Dynamics”
+- „Emergent Metric Encodings from Lattice Dynamics"
