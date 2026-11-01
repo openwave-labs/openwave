@@ -17,7 +17,7 @@
 
 | TaskID | Title | Description | Owner | Gated By |
 | --- | --- | --- | --- | --- |
-| [M8.18](tasks/m8_18_task_details.md) | The census's two remedies | Read twelve points on `N = 24, 32` and 40, once the kernel at `N = 40` and six controls have passed, and rerun T4/R5's locator with a midpoint moved once, as admitted on #512. Frozen MIT instrument; no time integration, persistence test, MODELS.md cell movement or change to M8.7's gate | author-proposed and author-run, maintainer-adjudicated | registration and go ([#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-19278753)) |
+| [M8.18](tasks/m8_18_task_details.md) | The census's two remedies | Read twelve points on `N = 24, 32` and 40, once the kernel at `N = 40` and six controls have passed, and rerun T4/R5's locator with a midpoint moved once, as admitted on #512. Frozen MIT instrument; no time integration, persistence test, MODELS.md cell movement or change to M8.7's gate | author-proposed and author-run, maintainer-adjudicated | the maintainers' adjudication of the run ([method note](findings/m8_18_method_note.md)) |
 
 ## LATER (gated)
 
