@@ -385,3 +385,15 @@ As M8.17's: the guard writes `run/FROZEN.json` and its pin, the filed terms are 
 - **The method note** on OpenWave, and the maintainers' adjudication.
 - **The roadmap:** both M8 status rows record the filing, and the Done row states the adjudicated outcome.
 - **After the adjudication,** a dated note on the census page with each row's standing and catalog status, S6 applied per item, and S5's obligation stated as open.
+
+## Dated note, 2026-11-01: after the adjudication
+
+Everything above this heading is the filed pre-registration, byte for byte: its 44,825 bytes are a prefix of this file and hash to the governing `924e7ee3…`.
+
+The maintainer adjudicated the run on [#692](https://github.com/openwave-labs/openwave/pull/692#pullrequestreview-5730646319) (2026-11-01): it stands as recorded. T4/R5 ends Each change of type located. Arm A ended at its control gate, with none of the twelve read, and T1/R4, T4/R4, T1/R5 and T5/R2 end Not settled by this run. Under the approval's reading of S6, each item left open closes on the census page as instrument-limited, under S6's last sentence, with its cause named and no type claimed; for an item whose admitted remedy stopped at its gate before reading it, that reading is a standing rule. The roadmap's Done row states the outcome. The author's dated note records it on MIT, in § V of [the census page](https://github.com/dmobius3/mode-identity-theory/blob/7f22be8147644da9241574602f6c3019dd1a6874/files/framework/files/working/files/slot-dynamics-census.md#v-the-program), with each row's standing and catalog status, S6 applied per item and S5's obligation open, and the run's record is [`RECORD.md`](https://github.com/dmobius3/mode-identity-theory/blob/5241a2d50baae390f8b90a2c8ae0ba08366236d4/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-18/RECORD.md).
+
+**The approval's two comment-tier items,** both taken in the close-out:
+1. both M8 status rows record the run and its adjudication, beside the Done row, as § DEFINITION OF DONE asks;
+2. `RECORD.md` § 1 and the method note's §§ 3 and 8 say 57 jobs were each started once, and the run's log has 56 `started` events and 57 `completed`, since `gate` logs only its completion. Nothing rests on it. Both files stay as the approval pins them, and this note and the folder's `REPRODUCE.md` carry the correction.
+
+No rule, threshold or outcome changes.
