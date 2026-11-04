@@ -3788,7 +3788,7 @@ The user's reading of the criterion (2026-11-04, before the go): the ⚠️ stay
 | 6 | the strand loci are a 0.1 object on n 24, not a 0.03 one (0 to 8 cells at 0.03) | the along-the-loci read reported as weak, the biaxial host as the read that carries the word |
 | 7 | the plan's shell means are binning-dependent (overlapping shells of half-width 0.75 h) | the audit's non-overlapping shells quoted beside them |
 
-## TASK REVIEW (2026-11-04, R32; presented in the terminal at 12:09 EST and approved by the user at 12:14 EST; the run, this section and the roadmap entry in one PR; the results post's clause and its convo row in the follow-up)
+## TASK REVIEW (2026-11-04, R32; presented in the terminal at 12:09 EST and approved by the user at 12:14 EST; the run, this section and the roadmap entry merged in [PR #695](https://github.com/openwave-labs/openwave/pull/695) as `1dbd936e`; the results post [discussioncomment-19402711](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19402711), top-level, posted at 12:17 EST after the merge; its convo row and this clause in the follow-up PR)
 
 **Task Duration:** 00:15 (from the go at 11:54 EST to the review at 12:09 EST)
 **Usage Cap Triggered:** NO (no reset time was available to the go; the ping sat at go + 5 h 05 and was parked unfired)
