@@ -17,7 +17,7 @@
 
 | TaskID | Title | Description | Owner | Gated By |
 | --- | --- | --- | --- | --- |
-| [M8.19](tasks/m8_19_task_details.md) | The census's persistence tests (S5) | Test every Elliptic stretch on record that has no persistence test, on M8.15.x's frozen finite-element dynamics, where seven gates fixed before any target evolves pass, and record a stretch untested with its cause where they do not, under the answer of 2026-11-07 on #512; run the coherent row's ladder in `R5` above `ε = 2` as its own gate. Outside the harmonic admission; no MODELS.md cell movement or change to M8.7's gate | author-proposed and author-run, maintainer-adjudicated | registration and go ([#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-19464325)) |
+| [M8.19](tasks/m8_19_task_details.md) | The census's persistence tests (S5) | Test every Elliptic stretch on record without a persistence test, on M8.15.x's frozen finite-element dynamics, where seven gates fixed before any target evolves pass; where they do not, record the stretch untested with its cause (#512, 2026-11-07). Run the coherent row's ladder in `R5` above `ε = 2` as its own gate. Outside the harmonic admission; no MODELS.md cell or M8.7 gate change | author-proposed and author-run, maintainer-adjudicated | registration and go ([#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-19464325)) |
 
 ## LATER (gated)
 
