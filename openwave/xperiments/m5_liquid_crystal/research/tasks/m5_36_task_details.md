@@ -167,7 +167,7 @@ The readings of § 4 stand after the run, with one addition from `V83`: the auth
 
 What the audit noticed beside the claims: the shipped README's `V83` line says Σm_ν 58.8 meV and m_ββ 1.5 to 3.7 (the JSON, the gate and the article say 58.69 and 1.45 to 3.65; a loose rounding or a lag); the README has no `V84` row (§ 5); in the shipped tree the scripts of `V58`, `V61`, `V67` and `V76` are newer than their JSONs (the rerun agrees to round-off, so harmless); the shipped `V83` and `V84` JSONs carry a later timestamp than the rest (a later pass on the author's side); the `V65` figure was not checked for existence. Folded into this record: § 9 (the leaf count, the `V71` threshold leaf, the `V74` warning) and § 10 (13 asserts).
 
-## TASK REVIEW (2026-11-08; presented in the terminal at 09:47 EST and approved by the user at 09:47 EST)
+## TASK REVIEW (2026-11-08; presented in the terminal at 09:47 EST and approved by the user at 09:47 EST; the run, this section and the roadmap entry merged in [PR #700](https://github.com/openwave-labs/openwave/pull/700) as `d1cdf1b6`; the results post [discussioncomment-19474402](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19474402), top-level, posted at 09:52 EST after the merge; its convo row and this clause in the follow-up PR)
 
 **Task Duration:** 00:15 (from the go at 09:32 EST to the review at 09:47 EST)
 **Usage Cap Triggered:** NO (reset none: no ping armed, weekly cap only)
