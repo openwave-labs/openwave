@@ -1,0 +1,450 @@
+{
+ "task": "M5.36",
+ "what": "scorecard v1.7 scripts V58 to V84 as shipped (V78 excluded), 6 single-threaded workers; the Release 2.3 gate",
+ "pool": {
+  "workers": 6,
+  "pool_wall_s": 23.3,
+  "jobs": 26,
+  "exit_0": 26,
+  "passes": {
+   "1": "python3 -I -E -s, 26 scripts, 14 exit 0, 12 ModuleNotFoundError on local modules (Python 3.12 -I implies -P)",
+   "2": "python3 -E -s, the 12 scripts with local imports, all exit 0"
+  }
+ },
+ "jobs": {
+  "V58": {
+   "script": "V58_ghost_origin.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 1.7,
+   "log_lines": 7,
+   "flags": []
+  },
+  "V59": {
+   "script": "V59_thirds_test.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 1.1,
+   "log_lines": 9,
+   "flags": []
+  },
+  "V60": {
+   "script": "V60_quark_steps.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.8,
+   "log_lines": 22,
+   "flags": []
+  },
+  "V61": {
+   "script": "V61_cube_walls.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 5.0,
+   "log_lines": 4,
+   "flags": []
+  },
+  "V62": {
+   "script": "V62_hedgehog_ghost.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 17.0,
+   "log_lines": 40,
+   "flags": []
+  },
+  "V63": {
+   "script": "V63_boost_static_hessian.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 15.1,
+   "log_lines": 16,
+   "flags": []
+  },
+  "V64": {
+   "script": "V64_KT_alternative.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 11.2,
+   "log_lines": 18,
+   "flags": []
+  },
+  "V65": {
+   "script": "V65_front_figure_v13.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 3.0,
+   "log_lines": 4,
+   "flags": []
+  },
+  "V66": {
+   "script": "V66_sol_v13_checks.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 0.7,
+   "log_lines": 80,
+   "flags": []
+  },
+  "V67": {
+   "script": "V67_charge_compensation_deadlock.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 1.6,
+   "log_lines": 168,
+   "flags": []
+  },
+  "V68": {
+   "script": "V68_roll_figure.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 1.1,
+   "log_lines": 4,
+   "flags": []
+  },
+  "V69": {
+   "script": "V69_compensation_cost_test.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.3,
+   "log_lines": 65,
+   "flags": []
+  },
+  "V70": {
+   "script": "V70_isospin_cost_su3.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 5.2,
+   "log_lines": 55,
+   "flags": []
+  },
+  "V71": {
+   "script": "V71_regulated_contraction.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 0.5,
+   "log_lines": 15,
+   "flags": []
+  },
+  "V72": {
+   "script": "V72_trace_axial_rotational.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.4,
+   "log_lines": 35,
+   "flags": []
+  },
+  "V73": {
+   "script": "V73_common_sources_beta_chain.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 2.8,
+   "log_lines": 52,
+   "flags": []
+  },
+  "V74": {
+   "script": "V74_scalar_source_sigma_term.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 3.2,
+   "log_lines": 104,
+   "flags": []
+  },
+  "V75": {
+   "script": "V75_record_gauss_law_nucleons.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 4.4,
+   "log_lines": 62,
+   "flags": []
+  },
+  "V76": {
+   "script": "V76_melting_weight_and_record_magnetism.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.5,
+   "log_lines": 55,
+   "flags": []
+  },
+  "V77": {
+   "script": "V77_declared_mass_term_and_record_radii.py",
+   "pass": 2,
+   "flags_run": "rerun without -I (local imports)",
+   "rc": 0,
+   "wall_s": 1.8,
+   "log_lines": 96,
+   "flags": []
+  },
+  "V79": {
+   "script": "V79_argon_proposals_checked.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.3,
+   "log_lines": 102,
+   "flags": []
+  },
+  "V80": {
+   "script": "V80_pmns_tm1_nufit.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.3,
+   "log_lines": 66,
+   "flags": []
+  },
+  "V81": {
+   "script": "V81_static_exterior_AB.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.7,
+   "log_lines": 38,
+   "flags": []
+  },
+  "V82": {
+   "script": "V82_charged_current_holdouts.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.1,
+   "log_lines": 60,
+   "flags": []
+  },
+  "V83": {
+   "script": "V83_v17_checks.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.3,
+   "log_lines": 8,
+   "flags": []
+  },
+  "V84": {
+   "script": "V84_v17rc2_checks.py",
+   "pass": 1,
+   "flags_run": "python3 -I -E -s",
+   "rc": 0,
+   "wall_s": 0.1,
+   "log_lines": 13,
+   "flags": []
+  }
+ },
+ "regenerated_json": {
+  "V58_ghost_origin.json": {
+   "leaves": 14,
+   "max_rel_diff": 2.44546902803584e-16,
+   "at": "/I1_h (h_cov in bracket and trace)/metric_min_eig",
+   "values": "0.9079837135 vs 0.9079837135",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V59_thirds_test.json": {
+   "leaves": 43,
+   "max_rel_diff": 0.0,
+   "at": "/hedgehog/target cut[0]",
+   "values": "0.3331 vs 0.3331",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V60_quark_steps.json": {
+   "leaves": 47,
+   "max_rel_diff": 0.0,
+   "at": "/cube levels/-0.3333",
+   "values": "3 vs 3",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V61_cube_walls.json": {
+   "leaves": 12,
+   "max_rel_diff": 3.734093163652428e-12,
+   "at": "/T_face avoiding discs of radius rho around both intermediate corners/0.3",
+   "values": "1.041930503 vs 1.041930503",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V62_hedgehog_ghost.json": {
+   "leaves": 16,
+   "max_rel_diff": 2.806331788774932e-10,
+   "at": "/Hessian eigenvalues, eta[1]",
+   "values": "-31903.11693 vs -31903.11692",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V63_boost_static_hessian.json": {
+   "leaves": 15,
+   "max_rel_diff": 4.0622768523599227e-11,
+   "at": "/S2 (d2E/deps2), local internal Lorentz transformation, chi = exp(-(r/R)^2)/R=6, rotation, eta",
+   "values": "0.4372810874 vs 0.4372810874",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V64_KT_alternative.json": {
+   "leaves": 11,
+   "max_rel_diff": 5.728877994285262e-10,
+   "at": "/kinetic: sup_r of angle-averaged -k_I1/k_KT (kappa_T above this: every spherically symmetric boost envelope positive-norm; pointwise, any envelope: 0.061, review)",
+   "values": "0.03899827417 vs 0.0389982742",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V66_sol_v13_checks.json": {
+   "leaves": 49,
+   "max_rel_diff": 0.5000000000000083,
+   "at": "/A: max relative change under a local trace shift/norm-only",
+   "values": "6.70336695e-14 vs 3.351683475e-14",
+   "above_1e-6": 3,
+   "above_1e-3": 3
+  },
+  "V67_charge_compensation_deadlock.json": {
+   "leaves": 84,
+   "max_rel_diff": 1.169462969825494e-11,
+   "at": "/D: det of the three current axes at a sample point: hedgehog, fixed axis[0]",
+   "values": "-7.898772562 vs -7.898772562",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V69_compensation_cost_test.json": {
+   "leaves": 34,
+   "max_rel_diff": 0.0,
+   "at": "/delta per d-step fitted to n - p (MeV)",
+   "values": "2.2541 vs 2.2541",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V70_isospin_cost_su3.json": {
+   "leaves": 38,
+   "max_rel_diff": 7.666553258023982e-12,
+   "at": "/D: rho-omega overlap term on V48: |n - p| from it (MeV; sign set by the mixing convention)",
+   "values": "0.2788173288 vs 0.2788173288",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V71_regulated_contraction.json": {
+   "leaves": 9,
+   "max_rel_diff": 0.6453131395824806,
+   "at": "/(ii) covariance error, 200 boosted jets",
+   "values": "1.231370561e-11 vs 3.471711807e-11",
+   "above_1e-6": 4,
+   "above_1e-3": 4
+  },
+  "V72_trace_axial_rotational.json": {
+   "leaves": 9,
+   "max_rel_diff": 7.61163063997677e-16,
+   "at": "/kernels K1 = int S s^2 x^2 F', K2 = int S s^3 c x[1]",
+   "values": "0.07292938118 vs 0.07292938118",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V73_common_sources_beta_chain.json": {
+   "leaves": 31,
+   "max_rel_diff": 1.0,
+   "at": "/record Hopf neutron: total 'charge' = flux through the boundary (degree 0)",
+   "values": "0 vs 2.760898161e-21",
+   "above_1e-6": 1,
+   "above_1e-3": 1
+  },
+  "V74_scalar_source_sigma_term.json": {
+   "leaves": 60,
+   "max_rel_diff": 5.238645327844161e-07,
+   "at": "/A: relative difference",
+   "values": "9.711029522e-06 vs 9.711024435e-06",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V75_record_gauss_law_nucleons.json": {
+   "leaves": 35,
+   "max_rel_diff": 0.5,
+   "at": "/neutron: max |<G_r>_shell| / <|G_r|>_shell over shells (degree 0 on every sphere)",
+   "values": "6.353287436e-17 vs 1.270657487e-16",
+   "above_1e-6": 1,
+   "above_1e-3": 1
+  },
+  "V76_melting_weight_and_record_magnetism.json": {
+   "leaves": 31,
+   "max_rel_diff": 6.303391951278784e-16,
+   "at": "/A: tail exponent of 1 - D ~ r^-p on 20 < r < 200 (V5 units; rho ~ r^-(p+3))",
+   "values": "4.22714513 vs 4.22714513",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V77_declared_mass_term_and_record_radii.json": {
+   "leaves": 53,
+   "max_rel_diff": 8.017111058167731e-12,
+   "at": "/A: sigma_piN (MeV) by declaration; Roy-Steiner 59.1(35), lattice 41.9(49)/standard f\u00b2m\u00b2(1 - cos F) on the same profile",
+   "values": "134.4880919 vs 134.4880919",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V79_argon_proposals_checked.json": {
+   "leaves": 53,
+   "max_rel_diff": 0.4049612099607231,
+   "at": "/A: m_A against R^T m_0 (vacuum-locked) and R m_0 (body-carried)[0]/err_RT",
+   "values": "8.919981195e-15 vs 5.307734817e-15",
+   "above_1e-6": 1,
+   "above_1e-3": 1
+  },
+  "V80_pmns_tm1_nufit.json": {
+   "leaves": 33,
+   "max_rel_diff": 0.0,
+   "at": "/theta12/NuFIT 6.0",
+   "values": "0.95 vs 0.95",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V81_static_exterior_AB.json": {
+   "leaves": 15,
+   "max_rel_diff": 0.0,
+   "at": "/bending/analytic/locked",
+   "values": "11.68 vs 11.68",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V82_charged_current_holdouts.json": {
+   "leaves": 32,
+   "max_rel_diff": 0.0,
+   "at": "/anchored layer, LB1/gmu_over_ge_minus1_ppm",
+   "values": "-0.00057181381 vs -0.00057181381",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V83_v17_checks.json": {
+   "leaves": 29,
+   "max_rel_diff": 0.0,
+   "at": "/rotor anchor/E_star_MeV",
+   "values": "865.648125 vs 865.648125",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  },
+  "V84_v17rc2_checks.json": {
+   "leaves": 26,
+   "max_rel_diff": 0.0,
+   "at": "/(3) mu_V*Delta0 (MeV*muN) for W, DN56; Mp[0]",
+   "values": "938.2718478 vs 938.2718478",
+   "above_1e-6": 0,
+   "above_1e-3": 0
+  }
+ },
+ "gate": {
+  "passed": 42,
+  "failed": 0,
+  "fail_lines": [],
+  "lines": 58
+ }
+}

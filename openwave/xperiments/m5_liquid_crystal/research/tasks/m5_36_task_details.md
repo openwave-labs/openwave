@@ -26,7 +26,7 @@ The scripts never run on this stack, `V58` to `V84`: the ghost analysis (`V58`, 
 
 **The author's chart and this column.** The v1.7 chart transcribes this column's live tally (9 green, 11 amber, 2 red, 9 open) and moves LdGS chips only (8 green and 23 amber to 9 green and 22 amber: Neutrinos and C5 dark radiation to green, Gravity: Newton limit and Muon decay to green since v1.6, Lepton masses from red to amber on Release 2.3's anchor). No note attaches an edit request to this column. The two requests that touch the table: the lepton cell's pointer (Release 2.1 to 2.3; the cell's text names the Dirac-core coupling, which Release 2.3 makes CPT-even, the old pseudoscalar twist coupling having been CPT-odd), and the grades of the proposed rows P1, P2 and N4, which are a criteria-table question (M5.34 § 5) and are answered here as readings, not edits.
 
-**On R32.** Both numbers R32 could not reproduce from a closed form close by the post. The W ratio: W_μ/W_e − 1 = −(δ_μ − δ_e)/2 = (κ_h,μ − κ_h,e)/4 with δᵢ = (b/M)² rᵢ²/(1 + rᵢ²)³, printed in Sec. 5 since Release 2.2 and computed by `L24`; the author reads our factor-200 miss at the Release 2.0 baseline as the baseline's own amplitudes not having been used, which the R32 script's own comment confirms (it calibrated on the eq. (22) amplitudes at the PDG masses). Checked at staging with the printed baseline inputs (rₑ 0.0015984, r_μ 0.022991, b/M 0.02): −0.10504 ppm, the stated −0.1050 ppm. The dipole: the R32 ratio 4.357 between the printed d at 10 TeV and the closed form is e√(m_μ/mₑ) = 4.354 (the μ → eγ amplitude carries the off-diagonal factor √(mₑ m_μ) with e kept in the rate; the EDM form d = e m c_d/(16π² M²) is the diagonal one; Sec. 12 since Release 2.2); the 0.07 percent gap sits inside the three printed digits of d. R2b runs both as a script of this repo. The R32 record stays as written; the close is recorded beside it ([M5.32](m5_32_task_details.md), the section of 2026-11-08).
+**On R32.** Both numbers R32 could not reproduce from a closed form close by the post. The W ratio: W_μ/W_e − 1 = −(δ_μ − δ_e)/2 = (κ_h,μ − κ_h,e)/4 with δᵢ = (b/M)² rᵢ²/(1 + rᵢ²)³, printed in Sec. 5 since Release 2.2 and computed by `L24`; the author reads our factor-200 miss at the Release 2.0 baseline as the baseline's own amplitudes not having been used; the R32 script's comment says it calibrated on the eq. (22) amplitudes, and R2b found the actual cause (deviation 1 of § 8): the script passed the lepton masses in MeV to a formula whose b and M were in GeV, so r_μ came out near 1 instead of 0.023, which is the author's diagnosis in its mechanism. Checked at staging with the printed baseline inputs (rₑ 0.0015984, r_μ 0.022991, b/M 0.02): −0.10504 ppm, the stated −0.1050 ppm. The dipole: the R32 ratio 4.357 between the printed d at 10 TeV and the closed form is e√(m_μ/mₑ) = 4.354 (the μ → eγ amplitude carries the off-diagonal factor √(mₑ m_μ) with e kept in the rate; the EDM form d = e m c_d/(16π² M²) is the diagonal one; Sec. 12 since Release 2.2); the 0.07 percent gap sits inside the three printed digits of d. R2b runs both as a script of this repo. The R32 record stays as written; the close is recorded beside it ([M5.32](m5_32_task_details.md), the section of 2026-11-08).
 
 **The gate for any S-run, now with a target.** The author's reading of R32: the five-strand Z₃ shell is a static saddle, the channel triplet has to come from the Dirac operator on a relaxed core, and when a relaxed host binds Dirac states it must hit L28's target: at m₁ = 0, TM1 holds exactly when the seesaw columns annihilate (j + k)/√2 in the channel basis. The capstone's criterion (the classical route closed by the core-scale arithmetic above) is the author's reading, recorded and not adopted as a result of this platform; it does not move the M5.32 candidate ledger, whose classical entries carry their own measured words.
 
@@ -75,3 +75,126 @@ The convo row for the author's post of 2026-11-08 in [`m5_32_convo.md`](m5_32_co
 **Model and effort.** Fable / high for the plan, the record, the grades and the post; Sonnet for the R2b reimplementation from the printed formulas (a different model, as at R32) and for the R5 audit; no derivation-grade audit (nothing here is a derivation of this platform's).
 
 **Research body.** This document; scripts `m5_36_reproduction_record.py` and `m5_36_anchor_close.py` under `research/scripts/` (written at EXECUTE); data `m5_36_reproduction.json`, `m5_36_anchor_close.json`; [`m5_32_convo.md`](m5_32_convo.md); [`_CITATIONS.md`](../../theory/_CITATIONS.md); [`MODELS.md`](../../../../../MODELS.md); the roadmap row and the change-log entry in [`m5_roadmap.md`](../m5_roadmap.md).
+
+## EXECUTION RECORD (2026-11-08; the go at 09:32 EST, `go M5.36, reset none, ping me, fan on`; the pre-flight box printed at 09:36 EST, the work started on the user's "go on", the stop itself a deviation, § 14)
+
+### 8. Environment and isolation
+
+Python 3.12.14, NumPy 2.5.3, SciPy 1.18.1, SymPy 1.14.0, mpmath 1.3.0 (the M5.33 pins; the author's stack is Python 3.13 with the same four). The scorecard tree (368 files) and the Release 2.3 `code/` tree (102 files) copied into an isolated working folder outside the repo; the SHA-256 of all 26 scripts about to run equal to the archive copy (26 of 26); `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS`, `MKL_NUM_THREADS`, `VECLIB_MAXIMUM_THREADS` at 1 in every job's environment, `MPLBACKEND=Agg`; six single-threaded workers for the scorecard scripts, the gate sequential beside them. macDOC answering before the launch; no UPS Sentinel (short attended jobs, seconds to a quarter of a minute each); the desk fan on, confirmed in the go.
+
+### 9. R1: `V58` to `V84` as shipped (26 scripts, `V78` excluded), every regenerated JSON at the shipped digits
+
+Two passes. Pass 1 ran all 26 under `python3 -I -E -s`: 14 exit 0, 12 fail at import with `ModuleNotFoundError` on the bundle's own modules (`common`, `vortex_radial`, `vortex_v3`), because Python 3.12's `-I` implies `-P` and drops the script's directory from `sys.path` (deviation 2). Pass 2 reran those 12 under `python3 -E -s` from the same copy: 12 exit 0. Total pool wall 23 s (6.3 s + 17.0 s); the longest script 17 s (`V62`). No Traceback, NaN or Inf in any final log. The comparator ([`m5_36_reproduction_record.py`](../scripts/m5_36_reproduction_record.py), [`m5_36_reproduction.json`](../data/m5_36_reproduction.json)) walks every leaf of the 24 regenerated JSONs against the shipped copies (`V65` and `V68` write figures only).
+
+| Script | Pass | Wall (s) | Regenerated JSON: leaves, max relative difference, at |
+| --- | --- | --- | --- |
+| `V58_ghost_origin.py` | 2 | 1.7 | 14 leaves, 2.4e-16 at `I1_h (h_cov in bracket and trace)/metric_min_eig` |
+| `V59_thirds_test.py` | 1 | 1.1 | 43 leaves, 0 at `random smooth, amplitude 0.8/target cut[0]` |
+| `V60_quark_steps.py` | 1 | 0.8 | 47 leaves, 0 at `Theta for 1/3, 2/3 (deg)[0]` |
+| `V61_cube_walls.py` | 1 | 5.0 | 12 leaves, 3.7e-12 at `T_face avoiding discs of radius rho around both intermediate corners/0.3` |
+| `V62_hedgehog_ghost.py` | 2 | 17.0 | 16 leaves, 2.8e-10 at `Hessian eigenvalues, eta[1]` |
+| `V63_boost_static_hessian.py` | 2 | 15.1 | 15 leaves, 4.1e-11 at `S2 (d2E/deps2), local internal Lorentz transformation, R=6, rotation, eta` |
+| `V64_KT_alternative.py` | 2 | 11.2 | 11 leaves, 5.7e-10 at `kinetic: sup_r of angle-averaged -k_I1/k_KT` |
+| `V65_front_figure_v13.py` | 2 | 3.0 | figure only, no JSON |
+| `V66_sol_v13_checks.py` | 2 | 0.7 | 49 leaves, 5.0e-01 at `A: max relative change under a local trace shift/norm-only` (6.70e-14 against 3.35e-14, a round-off residual; the other 46 leaves at or under 1e-6) |
+| `V67_charge_compensation_deadlock.py` | 2 | 1.6 | 84 leaves, 1.2e-11 at `D: det of the three current axes at a sample point: hedgehog, fixed axis[0]` |
+| `V68_roll_figure.py` | 2 | 1.1 | figure only, no JSON |
+| `V69_compensation_cost_test.py` | 1 | 0.3 | 34 leaves, 0 at `predictions/D⁺ − D⁰/predicted` |
+| `V70_isospin_cost_su3.py` | 1 | 5.2 | 38 leaves, 7.7e-12 at `D: rho-omega overlap term on V48` |
+| `V71_regulated_contraction.py` | 2 | 0.5 | 9 leaves, 6.5e-01 at `(ii) covariance error, 200 boosted jets` (1.23e-11 against 3.47e-11, a round-off residual); ⚠️ one physics-bearing leaf moved: `(vi) M01 at which M eta gets a complex pair` 16.6 shipped, 16.5 here, one step of the script's 0.1 scan grid (§ 15) |
+| `V72_trace_axial_rotational.py` | 1 | 0.4 | 9 leaves, 7.6e-16 at `kernels K1, K2[1]` |
+| `V73_common_sources_beta_chain.py` | 2 | 2.8 | 31 leaves, 1.0 at `record Hopf neutron: total 'charge' = flux through the boundary (degree 0)` (0 against 2.8e-21, a round-off residual; the other 30 leaves at or under 1e-6) |
+| `V74_scalar_source_sigma_term.py` | 2 | 3.2 | 60 leaves, 5.2e-07 at `A: relative difference` |
+| `V75_record_gauss_law_nucleons.py` | 1 | 4.4 | 35 leaves, 5.0e-01 at `neutron: max \|<G_r>_shell\| / <\|G_r\|>_shell over shells (degree 0 on every sphere)` (6.4e-17 against 1.3e-16, a round-off residual; the other 34 leaves at or under 1e-6) |
+| `V76_melting_weight_and_record_magnetism.py` | 1 | 0.5 | 31 leaves, 6.3e-16 at `A: tail exponent of 1 - D ~ r^-p` |
+| `V77_declared_mass_term_and_record_radii.py` | 2 | 1.8 | 53 leaves, 8.0e-12 at `A: sigma_piN (MeV) by declaration/standard f²m²(1 - cos F)` |
+| `V79_argon_proposals_checked.py` | 1 | 0.3 | 53 leaves, 4.0e-01 at `A: m_A against R^T m_0 and R m_0[0]/err_RT` (8.9e-15 against 5.3e-15, a round-off residual; the other 52 leaves at or under 1e-6) |
+| `V80_pmns_tm1_nufit.py` | 1 | 0.3 | 33 leaves, 0 at `theta12/JUNO 59 d` |
+| `V81_static_exterior_AB.py` | 1 | 0.7 | 15 leaves, 0 at `bending/GR/k` |
+| `V82_charged_current_holdouts.py` | 1 | 0.1 | 32 leaves, 0 at `anchored layer, LB1/delta/mu` |
+| `V83_v17_checks.py` | 1 | 0.3 | 29 leaves, 0 at `e-fold sqrt(27/8) vs 3 sqrt(6)/4[0]` |
+| `V84_v17rc2_checks.py` | 1 | 0.1 | 26 leaves, 0 at `(3) best common moment residual[0]` |
+
+Over the 24 JSONs, 1591 float leaves, 129 of them differing from the shipped copy, 128 at round-off (relative differences 1e-16 to 5.2e-7 on physics-bearing values, or relative 0.1 to 1 on residuals whose absolute values sit between 1e-11 and 1e-21: a trace-shift invariance error, a covariance error, a boundary flux and a shell mean of degree-0 fields, a locking error) and one physics-bearing leaf moved: `V71`'s `(vi) M01 at which M eta gets a complex pair` reads 16.5 against the shipped 16.6, one step of the script's `linspace(0, 25, 251)` scan (the onset of the complex pair sits at a grid boundary and a round-off flip moves it by one step; the sibling leaf, the g at which h_β loses positivity, is unchanged). The eight JSONs of `V59`, `V60`, `V69`, `V80` to `V84` are identical to the byte. `V74` prints one `RuntimeWarning` (an invalid value in a square root inside the shipped `vortex_radial.py`, line 310) and its JSON carries no NaN leaf. The two scripts the author asked for, read against the post: `V83` gives the rank-two masses (0, 8.595, 50.090) meV, the sum 58.685 meV against DESI DR2's 64 meV (ΛCDM) and 160 meV (w₀wₐ), the m_ββ range 1.450 to 3.654 meV, ΔN_eff = 0, the C, P, T, CPT table (the Release 2.2 twist pseudoscalar CPT-odd; the axial density, the E·B source and Ω·V CPT-even), the khronon equation λ_u-free (SymPy, true), the e-fold √(27/8) = 3√6/4 to 1e-16, and the rotor anchor E* = 865.65 MeV; `V84` gives the u, d flip phase at physical masses 39.729 MeV/fm³ (leading order 40.552; the rc1 symmetric-mass value 36.927; no stationary phase with the director along u), the Hermitian part of a B = 1 hedgehog equal to cos F times the identity to 0.0, the rotor identity μ_V Δ₀ = M_p at 938.27 MeV·μ_N for the W and DN56 states, the carrier radii 0.319 and 0.430 fm² against the target 0.824 (the physical r²_ES 0.591), the σ_πN contracts 52.19 and 89.42 MeV with DN14's curvature 310.73, and the DESI numbers (64.2, 53, 163; 59.2 with Lyα). `V80`'s TM1 pull against JUNO's preliminary θ₁₂ is +2.31σ (+1.06σ at 59 days), as the README states. Note on `V84` (3) and (1): the NJL phase values are transcribed by the author from an M1 bundle "not re-run here" (the docstring), so their reproduction is a transcription check.
+
+### 10. R2a: the Release 2.3 gate, and `L24`, `L25` as shipped
+
+`verify_release.py` in the copy's folder: **42 passed, 0 failed**, 30 s of wall (the article's "about 1 min each" for L26 to L29 overstates this stack; the eleven scripts ran inside the gate), including the 13 asserts on L26 to L30 (3, 3, 3, 2, 2; the plan's "16" counted the JSON loads) (the twist pseudoscalar's spectrum even in c; the axial coupling's Kramers pairs; the Release 2.2 coupling CPT-odd; the rank-two sum 58.685 meV and the m_ββ upper 3.654; the cone δ_ν 0.47757; LB1b's max scalar over M 0.4989 and electron tuning 0.2582; the Bargmann phase π/4 and the smallest Z_n 245; the Z₃-invariant fraction 0.589, the TM1 target check at 0, the TM2 pull 5.817) and the L23 asserts of Release 2.1 (the tree tau 1776.969005 MeV, W_μ/W_e − 1 at −5.718 × 10⁻¹⁰, κ_h − 1 for the tau −2.6703 × 10⁻⁸, the MEG margins 1.9765 on d and 21.339 / 26.832 TeV on M). `L24` and `L25` are not in the gate's list and ran separately: exit 0, seconds each; `L24`'s JSON within 3.7e-9 of the shipped copy on 40 leaves (the identity rows), `L25`'s identical on 32 leaves. `L24` prints the baseline at W_exact −0.10503573 ppm against the closed form −0.10503579 ppm and LB1 at −5.718137 × 10⁻¹⁰ against −5.718138 × 10⁻¹⁰.
+
+### 11. R2b: the anchor close, reimplemented from the printed formulas ([`m5_36_anchor_close.py`](../scripts/m5_36_anchor_close.py), [`m5_36_anchor_close.json`](../data/m5_36_anchor_close.json); written by a different model from the printed forms, never from `L24`)
+
+| Quantity | This script | The article / `L24` | R32's record |
+| --- | --- | --- | --- |
+| baseline amplitudes (M 10 TeV, b 200 GeV) | r_e 0.001598437, r_μ 0.02299068 | 0.0015984, 0.0229907 | not computed at the baseline |
+| baseline W_μ/W_e − 1, exact SVD | −0.1050357 ppm | −0.1050 ppm | the guess at a factor 200 |
+| baseline closed form −(δ_μ − δ_e)/2 | −0.1050358 ppm (6e-14 from the exact) | same | |
+| the closed form at the printed amplitudes, b/M 0.02 | −0.10504 ppm | −0.10504 ppm (the post) | |
+| LB1 (M 30 TeV, b 10 GeV) | r_e 0.0071486, r_μ 0.1033376; W −5.718138 × 10⁻¹⁰ exact and closed | −5.72 × 10⁻¹⁰ | −5.718 × 10⁻¹⁰ (the guess matched here) |
+| the expansion 1 − g = δ/2 + O((b/M)⁴) | holds on a 4 × 4 grid of r and b/M, the residual scaling as (b/M)⁴ | the article's statement | |
+| the dipole factor e√(m_μ/m_e) | 4.35441 | "exactly e√(m_μ/m_e)" | 4.35731 (closed form over printed d), a 0.067 percent gap inside the printed three digits |
+| the R32 miss | 4.600026 × 10⁻⁵ reproduced exactly | | 4.600026 × 10⁻⁵ |
+
+**The cause of the R32 miss (deviation 3).** The R32 script defines the lepton masses in MeV (`me, mm = 0.51099895, 105.6583755`) and calls its δ function with b = 200 and M = 10⁴ in GeV, so the mass-to-b ratio entered a thousand times too large and r_μ came out near 1 instead of 0.023; that slip gives δ_μ − δ_e = 4.600026 × 10⁻⁵ exactly, and with the masses in GeV the same function gives 2.10072 × 10⁻⁷, the exact SVD value. The author's reading ("the baseline's own amplitudes weren't used") is right in its mechanism; the staging texts of this task, the M5.32 closing section and the convo row, which had attributed the miss to the script's comment about eq. (22) amplitudes, were corrected before this record was written. The R32 numbers themselves stand (the two anchor numbers were not cited by value in the cell, as pre-registered).
+
+### 12. R3: the lepton cell
+
+[`MODELS.md`](../../../../../MODELS.md), the M5 lepton row: the pointer `[Release 2.1](https://doi.org/10.5281/zenodo.23879623)` became `[Release 2.3](https://doi.org/10.5281/zenodo.24051900)`; the icon, the prose and the other pointers unchanged; `check_models_md.py` clean (the cell at the 65-word maximum, as before; no tally moves).
+
+### 13. R4: the grades of P1, P2 and N4, and the neutrino row
+
+The readings of § 4 stand after the run, with one addition from `V83`: the author's P1 bookkeeping is a C, P, T, CPT table of four coupling terms, each entry ±1, and on this column the matching statement is that the record action is a functional of the 4×4 tensor field alone, a statement by inspection of the action's terms, not a computed row. This column has computed nothing on P1, P2 or N4; the honest icons at adoption would be 🚧 for P2 and N4, and 🚧 or a structural ⚠️ for P1 (the user's call at REVIEW); the structure of the criteria table stays the board's (M5.34 § 5). On the neutrino row: nothing on this stack bears on the rank-two corner against the Koide cone (58.69 against 59.05 meV, both inside DESI DR2's 64.2 meV); this column's neutrino row keeps its decay-side ⚠️ and its next in-platform step (the tracer on the ejecta, the M5.20 series) after the electron program; no rung is proposed.
+
+### 14. The deviations
+
+| # | Deviation | Handling |
+| --- | --- | --- |
+| 1 | the pre-flight box ended the turn (the 2026-11-04 rule) and the user had to say "go on"; the user's rule of 2026-11-08: the box never ends the turn | the rule rewritten in the workflow single source (2.EXECUTE and the box-rule row), the compliance table of its CLAUDE.md and the memory files, before the work resumed; `no stop` retired |
+| 2 | 12 scripts failed under `python3 -I` (Python 3.12's `-I` implies `-P`, the script's directory is not on `sys.path`, so the bundle's own modules did not import) | rerun under `python3 -E -s` from the same isolated copy (the environment still ignored, the user site still off); the reproduction rule's flag set is amended for bundles with local modules |
+| 3 | the staging texts attributed the R32 miss to the script's comment (eq. (22) amplitudes at the PDG masses); the reimplementation found a unit slip (masses in MeV against b and M in GeV) | the three texts corrected (§ 2 and § 7 (ii) here, the M5.32 closing section, the convo row); the author's mechanism confirmed, the R32 numbers unchanged |
+| 4 | the record script's first launch-time rule (the pool record's mtime minus the pool wall) excluded the pass-1 JSONs | the launch time now read from the earliest log; the record recompiled over all 24 JSONs |
+| 5 | the gate took 30 s against the plan's "about 5 min" (the article's per-script minutes) | recorded; the plan's hour estimate held through the desk work, not the compute |
+| 6 | `L24` and `L25` are not in the gate's script list | run separately as shipped, compared with the shipped JSONs (§ 10) |
+
+### 15. The fresh-agent audit (Sonnet, 2026-11-08, after the record was compiled and before anything left the tree; the agent saw the logs, the JSONs, the shipped copies and the two anchor scripts, not this document's comparator, and wrote its own leaf walker)
+
+| # | Claim | Verdict | What decided it |
+| --- | --- | --- | --- |
+| 1 | the 26 scripts exit 0, none timed out, no Traceback, NaN or Inf in a final log | CONFIRMED (one warning) | every final log ends `rc=0`, the longest wall 17 s; the one `RuntimeWarning` in `V74` (a square root in the shipped replica), no NaN leaf |
+| 2 | the 24 JSONs agree with the shipped copies at every physics leaf; five residual leaves differ | QUALIFIED, the numbers hold, the wording did not | about 100 float leaves differ, almost all at 1e-16 to 1e-10 relative (the largest absolute difference 9e-6 on a Hessian eigenvalue of 31903 in `V62`); the "five leaves" were this document's per-file maxima; ⚠️ one physics-bearing leaf moved, `V71` (vi) 16.5 against 16.6 (6e-3 relative, a scan-grid threshold); no string, boolean or key mismatch; § 9 rewritten on the audit's count |
+| 3 | the gate 42 passed 0 failed with the 16 asserts on L26 to L30 | QUALIFIED | 42 `ok` lines, `rc=0`; the L26 to L30 asserts number 13 (3, 3, 3, 2, 2), the plan's 16 had counted the JSON loads; § 10 corrected |
+| 4 | the anchor close: the baseline −0.10504 ppm exact and closed, LB1 −5.718 × 10⁻¹⁰, the dipole factor 4.354 against 4.357, the 4.600026 × 10⁻⁵ miss a unit slip | CONFIRMED | recomputed independently: δ_μ − δ_e = 2.100716 × 10⁻⁷ in GeV (W −0.10504 ppm), 4.600026 × 10⁻⁵ with the masses in MeV against b and M in GeV, reproduced to all digits; e√(m_μ/mₑ) 4.354412; the agent did not cross-check the exact-SVD path of the new script, which `L24`'s own exact value (−0.10503573 ppm) does |
+| 5 | `V83`, `V84` and `V80` print the post's headline values | QUALIFIED (the post was not handed to the agent; matched against the article's text and the logs) | masses (0, 8.5953, 50.0899) meV, sum 58.6853, m_ββ 1.4502 to 3.6541, ΔN_eff 0; 39.729 MeV/fm³, r_B² 0.3190 and 0.4303 against 0.8241, σ_πN 52.19 and 89.42; `V80` TM1 sin²θ₁₂ 0.3184 against JUNO's 0.3036 ± 0.0064, +2.31σ (the δ fits are separate numbers, the TM2 pull 5.817 another) |
+
+What the audit noticed beside the claims: the shipped README's `V83` line says Σm_ν 58.8 meV and m_ββ 1.5 to 3.7 (the JSON, the gate and the article say 58.69 and 1.45 to 3.65; a loose rounding or a lag); the README has no `V84` row (§ 5); in the shipped tree the scripts of `V58`, `V61`, `V67` and `V76` are newer than their JSONs (the rerun agrees to round-off, so harmless); the shipped `V83` and `V84` JSONs carry a later timestamp than the rest (a later pass on the author's side); the `V65` figure was not checked for existence. Folded into this record: § 9 (the leaf count, the `V71` threshold leaf, the `V74` warning) and § 10 (13 asserts).
+
+## TASK REVIEW (2026-11-08; presented in the terminal at 09:47 EST and approved by the user at 09:47 EST)
+
+**Task Duration:** 00:15 (from the go at 09:32 EST to the review at 09:47 EST)
+**Usage Cap Triggered:** NO (reset none: no ping armed, weekly cap only)
+
+**Results**
+
+| Piece | Status | Result |
+| --- | --- | --- |
+| R1 `V58` to `V84` as shipped (26 scripts, `V78` out) | ✅ measured | 26 exit 0, 23 s of pool wall; 1591 float leaves in 24 JSONs, 1462 identical, 128 at round-off |
+| R1 the one leaf that moved | ⚠️ qualified | `V71` (vi) complex-pair onset 16.5 against 16.6, one step of its 0.1 scan grid |
+| R1 `V83`, `V84`, `V80` headline values | ✅ measured | Σm_ν 58.685 meV, m_ββ 1.450 to 3.654, ΔN_eff 0; 39.729 MeV/fm³, r_B² 0.319 and 0.430 against 0.824; TM1 +2.31σ |
+| R2a the Release 2.3 gate | ✅ measured | 42 passed, 0 failed in 30 s; `L24`, `L25` separately at the shipped values |
+| R2b the anchor close (independent reimplementation) | ✅ measured | baseline −0.1050357 ppm exact, −0.1050358 closed; LB1 −5.718138 × 10⁻¹⁰; dipole 4.354 against 4.357 |
+| R2b the R32 miss | ✅ measured | a unit slip: masses in MeV against b, M in GeV; 4.600026 × 10⁻⁵ reproduced exactly |
+| R3 the lepton cell | ✅ edited | pointer Release 2.1 to 2.3; icon, prose, tallies unchanged; checker clean |
+| R4 the grades and the neutrino row | ✅ written | readings of the column (§ 13), nothing computed on P1, P2, N4; no neutrino rung |
+| R5 the audit | ✅ folded | 2 CONFIRMED, 3 QUALIFIED on wording (leaf count, 13 not 16 asserts, the post not handed over), 0 REFUTED |
+
+**Issues / blockers.** (1) Resolution mistaken for accuracy, caught by the audit: the comparator reported per-file maxima and the first draft said "five leaves"; the true count is 129 differing leaves, 128 at round-off and one grid-threshold leaf in `V71`; the record carries the audited count. (2) Artifact read as result, guarded: `V84`'s NJL phase values are the author's transcriptions from an M1 bundle, so their reproduction is a transcription check, stated as such. (3) One `RuntimeWarning` in `V74` from the shipped replica's square root, no NaN in its output.
+
+**Deviations from plan:** six, in § 14: the pre-flight box ended the turn and the user had to resume (the rule rewritten: the box never ends the turn); 12 scripts failed under `python3 -I` (3.12's `-I` implies `-P`), rerun under `-E -s`; the staging texts had attributed the R32 miss to eq. (22) amplitudes, the cause is the unit slip, three texts corrected; the record script's first launch-time rule dropped the pass-1 JSONs, fixed; the gate took 30 s against the plan's 5 min; `L24` and `L25` are outside the gate's list and ran separately.
+
+**Action needed.** (1) The user's reading of P1 at adoption, if the board adopts the row (🚧 or a structural ⚠️). (2) The results post on #186, after the merge (the user runs it). (3) The workflow single source and its compliance table changed for the box rule, the user's commit. (4) A `V78` run only if the author wants it.
+
+**Scope.** A rerun of the author's scripts as shipped on pinned versions plus a reimplementation of two printed closed forms: it licenses "the v1.3 to v1.7 accretion and Release 2.3 reproduce on this stack" and "the two R32 numbers close", and it says nothing about the physics of the rows, moves no icon, and stages no S-run.
+
+**Findings:** The scorecard's V58 to V84 and the Release 2.3 gate reproduce on this stack to the digit, with one scan-grid threshold leaf one step off. The two anchor numbers R32 could not close now close from the printed closed forms, and the factor-200 miss at the baseline was a unit slip in the R32 script, which confirms the author's diagnosis in its mechanism. The lepton cell points to Release 2.3 with its icon unchanged, and the proposed rows P1, P2 and N4 are graded as readings of the column with nothing computed on them.
+
+**Research docs created / updated:** this document (§§ 8 to 15) · [`m5_32_task_details.md`](m5_32_task_details.md) (the closing section of 2026-11-08) · [`m5_32_convo.md`](m5_32_convo.md) · [`MODELS.md`](../../../../../MODELS.md) (the lepton cell's pointer) · scripts [`m5_36_reproduction_record.py`](../scripts/m5_36_reproduction_record.py) · [`m5_36_anchor_close.py`](../scripts/m5_36_anchor_close.py) · data [`m5_36_reproduction.json`](../data/m5_36_reproduction.json) · [`m5_36_anchor_close.json`](../data/m5_36_anchor_close.json) (no plot: the run produced no figure of its own) · the roadmap row and the change-log entry in [`m5_roadmap.md`](../m5_roadmap.md).
+

@@ -1,0 +1,200 @@
+{
+ "baseline": {
+  "M_GeV": 10000.0,
+  "b_GeV": 200.0,
+  "b_over_M": 0.02,
+  "r_e": 0.001598437137980714,
+  "r_mu": 0.022990677001011085,
+  "smin_e_check": 0.0005109989506946638,
+  "smin_mu_check": 0.1056583755000536,
+  "delta_e": 1.021992680032546e-09,
+  "delta_mu": 2.1109358064396057e-07,
+  "one_minus_g_e": 5.10996338579989e-10,
+  "one_minus_g_mu": 1.0554672908675213e-07,
+  "exact_ratio_minus_1": -1.0503573277809153e-07,
+  "exact_ratio_minus_1_ppm": -0.10503573277809153,
+  "closed_form": -1.05035793981964e-07,
+  "closed_form_ppm": -0.105035793981964,
+  "exact_minus_closed": 6.120387247547264e-14,
+  "exact_minus_closed_ppm": 6.120387247547264e-08,
+  "kappa_h_mu_minus_e_over_4": -1.0503579400689134e-07
+ },
+ "LB1": {
+  "M_GeV": 30000.0,
+  "b_GeV": 10.0,
+  "b_over_M": 0.0003333333333333333,
+  "r_e": 0.007148601709564508,
+  "r_mu": 0.10333763408855416,
+  "smin_e_check": 0.0005109989506898359,
+  "smin_mu_check": 0.10565837550069444,
+  "delta_e": 5.677185867128167e-12,
+  "delta_mu": 1.1493048058847056e-09,
+  "one_minus_g_e": 2.8385929334479294e-12,
+  "one_minus_g_mu": 5.746524011469587e-10,
+  "exact_ratio_minus_1": -5.718138185173416e-10,
+  "exact_ratio_minus_1_ppm": -0.0005718138185173416,
+  "closed_form": -5.718138100087887e-10,
+  "closed_form_ppm": -0.0005718138100087887,
+  "exact_minus_closed": -8.50855286826362e-18,
+  "exact_minus_closed_ppm": -8.50855286826362e-12,
+  "kappa_h_mu_minus_e_over_4": -5.718138185173416e-10
+ },
+ "printed_targets": {
+  "baseline_r_e": 0.0015984,
+  "baseline_r_mu": 0.0229907,
+  "baseline_W_ppm": -0.105,
+  "LB1_W": -5.72e-10
+ },
+ "expansion_grid": [
+  {
+   "r": 0.002,
+   "b_over_M": 0.2,
+   "one_minus_g": 7.999900480867954e-08,
+   "delta_over_2": 7.999904000768e-08,
+   "rel_err": -4.3999278561373096e-07,
+   "resid_over_bM4": -2.199937528712714e-11
+  },
+  {
+   "r": 0.002,
+   "b_over_M": 0.1,
+   "one_minus_g": 1.999975780196069e-08,
+   "delta_over_2": 1.999976000192e-08,
+   "rel_err": -1.0999928548249607e-07,
+   "resid_over_bM4": -2.1999593100326038e-11
+  },
+  {
+   "r": 0.002,
+   "b_over_M": 0.05,
+   "one_minus_g": 4.999939862983362e-09,
+   "delta_over_2": 4.99994000048e-09,
+   "rel_err": -2.7499657462818764e-08,
+   "resid_over_bM4": -2.1999461975655336e-11
+  },
+  {
+   "r": 0.002,
+   "b_over_M": 0.02,
+   "one_minus_g": 7.999903965571042e-10,
+   "delta_over_2": 7.999904000767998e-10,
+   "rel_err": -4.399672282178515e-09,
+   "resid_over_bM4": -2.1998097432667477e-11
+  },
+  {
+   "r": 0.02,
+   "b_over_M": 0.2,
+   "one_minus_g": 7.99005668931783e-06,
+   "delta_over_2": 7.990407674883072e-06,
+   "rel_err": -4.392586455203433e-05,
+   "resid_over_bM4": -2.193659782765308e-07
+  },
+  {
+   "r": 0.02,
+   "b_over_M": 0.1,
+   "one_minus_g": 1.9975799812985442e-06,
+   "delta_over_2": 1.997601918720768e-06,
+   "rel_err": -1.0981878830892931e-05,
+   "resid_over_bM4": -2.1937422223750698e-07
+  },
+  {
+   "r": 0.02,
+   "b_over_M": 0.05,
+   "one_minus_g": 4.993991085783778e-07,
+   "delta_over_2": 4.99400479680192e-07,
+   "rel_err": -2.745495589195869e-06,
+   "resid_over_bM4": -2.1937629027268287e-07
+  },
+  {
+   "r": 0.02,
+   "b_over_M": 0.02,
+   "one_minus_g": 7.990404164852783e-08,
+   "delta_over_2": 7.990407674883071e-08,
+   "rel_err": -4.3928050121527503e-07,
+   "resid_over_bM4": -2.193768930210635e-07
+  },
+  {
+   "r": 0.1,
+   "b_over_M": 0.2,
+   "one_minus_g": 0.00019391328718551393,
+   "delta_over_2": 0.00019411802958552895,
+   "rel_err": -0.001054731497389336,
+   "resid_over_bM4": -0.0001279640000093827
+  },
+  {
+   "r": 0.1,
+   "b_over_M": 0.1,
+   "one_minus_g": 4.851669943868842e-05,
+   "delta_over_2": 4.8529507396382237e-05,
+   "rel_err": -0.0002639210323979565,
+   "resid_over_bM4": -0.00012807957693817463
+  },
+  {
+   "r": 0.1,
+   "b_over_M": 0.05,
+   "one_minus_g": 1.213157617093362e-05,
+   "delta_over_2": 1.2132376849095559e-05,
+   "rel_err": -6.599516087387105e-05,
+   "resid_over_bM4": -0.0001281085059101584
+  },
+  {
+   "r": 0.1,
+   "b_over_M": 0.02,
+   "one_minus_g": 1.9411597971979418e-06,
+   "delta_over_2": 1.941180295855289e-06,
+   "rel_err": -1.0559893581711823e-05,
+   "resid_over_bM4": -0.00012811660841967326
+  },
+  {
+   "r": 0.5,
+   "b_over_M": 0.2,
+   "one_minus_g": 0.0025340718049160784,
+   "delta_over_2": 0.0025600000000000006,
+   "rel_err": -0.010128201204657128,
+   "resid_over_bM4": -0.016205121927451407
+  },
+  {
+   "r": 0.5,
+   "b_over_M": 0.1,
+   "one_minus_g": 0.0006383661093728914,
+   "delta_over_2": 0.0006400000000000002,
+   "rel_err": -0.0025529541048574284,
+   "resid_over_bM4": -0.01633890627108754
+  },
+  {
+   "r": 0.5,
+   "b_over_M": 0.05,
+   "one_minus_g": 0.0001598976706066373,
+   "delta_over_2": 0.00016000000000000004,
+   "rel_err": -0.0006395587085171527,
+   "resid_over_bM4": -0.01637270293803911
+  },
+  {
+   "r": 0.5,
+   "b_over_M": 0.02,
+   "one_minus_g": 2.5597378849374265e-05,
+   "delta_over_2": 2.5600000000000002e-05,
+   "rel_err": -0.00010238869631787467,
+   "resid_over_bM4": -0.016382191410859948
+  }
+ ],
+ "expansion_max_rel_err_at_bM_0p02": 0.00010238869631787467,
+ "closed_form_at_printed_amplitudes": {
+  "r_e": 0.0015984,
+  "r_mu": 0.0229907,
+  "b_over_M": 0.02,
+  "W_ratio_minus_1": -1.0503602856174009e-07,
+  "ppm": -0.10503602856174009,
+  "expected_ppm": -0.10504
+ },
+ "dipole_factor": {
+  "e": 0.30282212087175264,
+  "e_sqrt_mmu_over_me": 4.354412391337774,
+  "earlier_inverse_ratio": 4.3573138754828165,
+  "relative_gap": 0.0006663319603845248
+ },
+ "r32_miss_diagnosis_numbers": {
+  "reproduced_dmu_minus_de_MeV_masses_with_GeV_b_M": 4.600026002691369e-05,
+  "recorded_in_old_json": 4.600026002691369e-05,
+  "same_formula_with_masses_in_GeV": 2.100715879639554e-07,
+  "exact_svd_delta_diff": 2.10071587963928e-07
+ },
+ "r32_miss_diagnosis": "The earlier script passed the lepton masses in MeV (0.511, 105.66) into dl(m, b, M) while b=200 and M=1e4 are in GeV, so y=m/b was 1000 times too large and the amplitudes were r_mu ~ 1.0 instead of 0.023, giving delta_mu - delta_e = 4.6e-5 (reproduced here to the digit). With masses in GeV the same eq. (22)-style formula gives the printed amplitudes and the closed form -(delta_mu - delta_e)/2 = -0.105 ppm, so the printed W value stands and the factor ~200 was a unit slip, not a formula error."
+}
