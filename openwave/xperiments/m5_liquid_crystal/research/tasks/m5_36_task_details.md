@@ -144,6 +144,8 @@ Over the 24 JSONs, 1591 float leaves, 129 of them differing from the shipped cop
 
 The readings of § 4 stand after the run, with one addition from `V83`: the author's P1 bookkeeping is a C, P, T, CPT table of four coupling terms, each entry ±1, and on this column the matching statement is that the record action is a functional of the 4×4 tensor field alone, a statement by inspection of the action's terms, not a computed row. This column has computed nothing on P1, P2 or N4; the honest icons at adoption would be 🚧 for P2 and N4, and 🚧 or a structural ⚠️ for P1 (the user's call at REVIEW); the structure of the criteria table stays the board's (M5.34 § 5). On the neutrino row: nothing on this stack bears on the rank-two corner against the Koide cone (58.69 against 59.05 meV, both inside DESI DR2's 64.2 meV); this column's neutrino row keeps its decay-side ⚠️ and its next in-platform step (the tracer on the ejecta, the M5.20 series) after the electron program; no rung is proposed.
 
+The author's reply of 2026-11-10 accepted the grey grades and stated a precondition for N4 (the exterior tensor must commute with all three isospin generators before a rotor or magnetic read is defined); the precondition and its reading on this column are in [M5.37](m5_37_task_details.md) § 2.
+
 ### 14. The deviations
 
 | # | Deviation | Handling |

@@ -1,0 +1,92 @@
+{
+ "task": "M5.37",
+ "what": "arithmetic checks on the numbers printed in the post of 2026-11-10; no card run",
+ "constants": {
+  "hbarc": 197.3269804,
+  "Mp": 938.27208816,
+  "Mn": 939.56542052,
+  "mu_p": 2.79284734463,
+  "mu_n": -1.91304273,
+  "m_rho": 775.26,
+  "rE2_p": 0.7071128099999999,
+  "rE2_n": -0.1155
+ },
+ "post": {
+  "delta": 293.0,
+  "mu_rot": 3.2,
+  "mu_v": 4.706,
+  "ratio_rigid": 0.6,
+  "ratio_data": 0.887,
+  "mu_missing": 0.66,
+  "r2_missing": 1.5,
+  "rms_missing": 1.2,
+  "r2_rho": 0.39,
+  "gA": 0.904,
+  "gpiNN": 9.55,
+  "gt_lo": 0.01,
+  "gt_hi": 0.025,
+  "g_phys": 13.1,
+  "born": 0.53
+ },
+ "values": {
+  "1_ratio_symbolic": "3/5",
+  "1_magnetic_normalization_at_q0": "1",
+  "1_ratio_numeric": {
+   "gaussian": [
+    0.6000021412579579,
+    0.6000085711033774
+   ],
+   "exponential": [
+    0.6000257127711763,
+    0.6001028335202219
+   ],
+   "shell": [
+    0.6000077240784162,
+    0.600030897143065
+   ]
+  },
+  "2_mu_rot": 3.2022938162457337,
+  "2_mu_p_minus_mu_n": 4.70589007463,
+  "3_open_moment_full_convention": 1.5035962583842664,
+  "3_open_moment_half_convention": 0.7517981291921332,
+  "4_rE2_isovector_fm2": 0.82261281,
+  "4_rM2_target_fm2": 0.72965756247,
+  "4_mu_x_at_rx2_1.5_on_mu_rot_3.20": 0.9814195800015987,
+  "4_total_moment_then": 4.183713396247333,
+  "4_mu_x_at_rx2_1.5_on_total_4.706": 1.1039122958852017,
+  "4_rx2_if_mu_x_is_open_moment_fm2": 1.2324714975821518,
+  "4b_data_ratio_by_input_set": {
+   "rMp_0.851_rMn_0.864": 0.8913845916855504,
+   "rMp_0.777_rMn_0.862": 0.8027634057947096
+  },
+  "4b_mu_x_on_rotor_by_input_set": {
+   "rMp_0.851_rMn_0.864": 1.0011002968187934,
+   "rMp_0.777_rMn_0.862": 0.6361432049127127
+  },
+  "4b_ratio_at_which_mu_x_is_0.66": 0.8090680800555682,
+  "5_r2_rho_pole_fm2": 0.3887133326328734,
+  "5_rms_of_1.5_fm2": 1.224744871391589,
+  "6_GT_discrepancy_physical_inputs": {
+   "f_pi_92.07": 0.03467194159308573,
+   "f_pi_92.28": 0.036868721960071626,
+   "f_pi_93.00": 0.044325222177154955
+  },
+  "6_f_pi_needed_for_1pct_and_2.5pct_MeV": [
+   89.77550943184302,
+   91.15667111540984
+  ],
+  "7_born_scaling": 0.5314521298292642
+ },
+ "checks": {
+  "1_ratio_is_3_over_5": true,
+  "2_mu_rot_is_3.20": true,
+  "2_mu_v_is_4.706": true,
+  "3_open_moment_is_0.66": false,
+  "4b_printed_ratio_0.887_is_the_0.851_set": true,
+  "4_mu_x_is_0.66": false,
+  "5_rho_pole_is_0.39": true,
+  "5_rms_is_1.2": true,
+  "6_GT_within_1_to_2.5_pct_at_physical_inputs": false,
+  "7_born_is_0.53": true
+ }
+}
