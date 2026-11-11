@@ -1,0 +1,50 @@
+{
+ "versions": {
+  "python": "3.12.14",
+  "sympy": "1.14.0"
+ },
+ "checks": {
+  "1_identity_on_the_two_cards": {
+   "products_MeV_muN": {
+    "W": 938.2718477660001,
+    "DN56": 938.2720334400001
+   },
+   "M_p": 938.2721,
+   "relative_deviation": {
+    "W": -2.688282002560882e-07,
+    "DN56": -7.093890985743201e-08
+   },
+   "pass": true,
+   "fails_if": "either printed product differs from 938.2721 beyond the printed digits (1e-5)"
+  },
+  "2_data_against_the_bound": {
+   "product_MeV_muN": 1378.8257700000001,
+   "over_M_p": 1.4695372163362848,
+   "data_outside_the_bound": true,
+   "gap_at_which_the_data_moment_saturates_MeV": 199.38249725344195,
+   "pass": true,
+   "fails_if": "the product of the measured isovector moment and the 293 MeV gap is at or below M_p (then the data sit inside the bound and nothing is missing)"
+  },
+  "3_missing_moment": {
+   "rotor_moment_at_293": 3.2022938566552903,
+   "missing_muN": 1.5035961433447098,
+   "post_prints": "~1.5",
+   "m5_37_row_3": 1.504,
+   "pass": true,
+   "fails_if": "4.70589 - M_p / 293 is not 1.504 (the M5.37 row) or does not round to the post's 1.5"
+  },
+  "4_inequality_direction": {
+   "status": "NOT DERIVABLE from the held material: V84 part (3) states an identity on two cards (check 1); no script or text held on OpenWave derives '<=' for the class of locks the post names. Recorded as an ask.",
+   "pass": null
+  },
+  "5_darwin_statements": {
+   "i_darwin_coefficient_is_smearing_at_3_4_lambda2": true,
+   "ii_isotropic_smearing_gives_d2_over_6_laplacian": true,
+   "iii_planar_orbit_averaged_over_orientations_gives_R2": true,
+   "iv_casimir_3_4_and_projection_one_third": true,
+   "pass": true,
+   "fails_if": "any of: hbar^2/(8 m^2 c^2) != (3/4 lambda_C^2)/6; the smearing term != <d^2>/6 Laplacian; the orientation average != R^2/3 per axis; s(s+1) != 3/4 at s = 1/2"
+  }
+ },
+ "all_pass": true
+}
