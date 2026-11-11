@@ -57,6 +57,8 @@ Rows 3, 4, 4b and 6 are not errors of the post on this evidence: the card has it
 
 ### 4. Asks to the author (held: no reply was posted at the close, the user's decision of 2026-11-10; none blocks anything)
 
+Both asks went to the author on 2026-11-11 inside the [M5.38](m5_38_task_details.md) results post ([discussioncomment-19547011](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19547011)).
+
 1. The +0.66 μ_N of item 4 of the post: at the printed data ratio 0.887 the two-radius solve gives 0.98 to 1.10 μ_N, and it gives 0.66 at a ratio of 0.81 (a proton magnetic radius near 0.78 fm in place of 0.851 fm); which ratio and which r_E,V² the 0.66 is read at.
 2. The 1 to 2.5 percent of Goldberger-Treiman: the f_π and the nucleon mass used (the card's or the physical ones).
 
