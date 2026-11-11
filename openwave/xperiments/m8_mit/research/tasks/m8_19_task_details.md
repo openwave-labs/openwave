@@ -172,3 +172,11 @@ As M8.18: a freeze block pins every file by SHA-256 in `FROZEN.json` before the 
 ## DEFINITION OF DONE
 
 Every stretch in § The stretches has its outcome, the coherent row's ladder has its own, and the record is filed for adjudication. On adjudication, the census page records where S5 stands, in a dated note.
+
+## Dated note, 2026-11-10: after the adjudication
+
+Everything above this heading is the filed pre-registration, byte for byte: its 21,303 bytes are a prefix of this file and hash to the governing `f2295e0b…`.
+
+The maintainer adjudicated the run on [#705](https://github.com/openwave-labs/openwave/pull/705#pullrequestreview-5849541157) (2026-11-10): approve and merge, no findings, no maintainer edits; the record stands as filed. Gate 1 passed. T1/R4 lower and upper, T1/R5, T4/R4 and T4/R5 end Untested, gate 3 the first to fail at all 46 of their points; under the answer of 2026-11-07, S5 counts each of them for the census's close, with no persistence claimed either way. The coherent row in `R5` has its test: its ladder is established, Elliptic at all 15 points from 0.25 to 32, and its test at 32, with `T` = 1000, Persists, valid. How the census counts the ladder's types above 2 is not ruled. The roadmap's Done row states the outcome, and the author's dated note records where S5 stands on MIT, in § V of [the census page](https://github.com/dmobius3/mode-identity-theory/blob/d3083e8560d5dd81167b4d919a7cd91af7db5cf7/files/framework/files/working/files/slot-dynamics-census.md#v-the-program), as § DEFINITION OF DONE asks.
+
+No rule, threshold or outcome changes.
