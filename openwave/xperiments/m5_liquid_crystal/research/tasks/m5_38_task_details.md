@@ -234,7 +234,7 @@ The post's "missing 1.5 μ_N" is the open moment of row 3 of M5.37, which settle
 
 Ten CONFIRMED, two QUALIFIED, one REFUTED as a reading. Folded into this record: § 10 rewritten on the topology block (deviations 10 and 11), the spectral-deviation reading in § 9, the eigenvalue range of § 9 (0.29, not 0.30), and the wording of check (a). The agent's further notes on the scripts: the dipole and quadrupole moving fractions in the JSON are normalized by a radius that shrinks with resolution and are not converged (they are not quoted here); the centroid is read on 14 of 16 phases. Not verified by the agent or by this task: any statement about a relaxed spinning state.
 
-## TASK REVIEW (2026-11-11; presented in the terminal at 12:07 EST and approved by the user the same day)
+## TASK REVIEW (2026-11-11; presented in the terminal at 12:07 EST and approved by the user the same day; the results post went on the thread at 17:13 UTC, [discussioncomment-19547011](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19547011))
 
 **Task Duration:** 00:18 (from 11:49 EST to 12:07 EST)
 **Usage Cap Triggered:** NO
@@ -256,7 +256,7 @@ Ten CONFIRMED, two QUALIFIED, one REFUTED as a reading. Folded into this record:
 
 **Deviations from plan.** The eleven of § 8.
 
-**Action needed.** None blocking. For the reply: the five asks of § 5, with the two of [M5.37](m5_37_task_details.md) § 4 if the user sends them along; the pick among items 1 to 3 of § 1 is the user's. One anti-recipe row entered in [`m5_theory_canonical.md`](../m5_theory_canonical.md) § 6 and a pointer in [Q66](../m5_question_tracker.md#q66-detail). No cell of [`MODELS.md`](../../../../../MODELS.md) changes.
+**Action needed.** None blocking. The reply carried the five asks of § 5 and the two of [M5.37](m5_37_task_details.md) § 4 (the user's decision), with items 1 to 3 of § 1 stated as rung candidates and none picked; the pick is the user's. One anti-recipe row entered in [`m5_theory_canonical.md`](../m5_theory_canonical.md) § 6 and a pointer in [Q66](../m5_question_tracker.md#q66-detail). No cell of [`MODELS.md`](../../../../../MODELS.md) changes.
 
 **Scope.** Reads on stored 3×3 pinned census fields in one box and on an analytic pinned-clock seed: they say nothing about a relaxed spinning state, a larger or free box, or the author's card.
 
