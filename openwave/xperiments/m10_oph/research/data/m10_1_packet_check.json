@@ -1,0 +1,34 @@
+{
+  "files": {
+    "TASK.md": {
+      "sha256": "bb5563f1cacea4240bcb0fc57ead7bce92eca649b52e4db6a61d35f1dea80ebe",
+      "bytes": 4416
+    },
+    "TASK_AUDIT.md": {
+      "sha256": "715bf6c2e64028590478cc47d7adba28c3df981c01d4f8227cdb4e435df151f7",
+      "bytes": 4450
+    },
+    "OPENING_PROMPT.md": {
+      "sha256": "95661eee4f73de9e810aa1ad829cb4f9ddf38c51fd01a24e9f5fbbd3f1dc22cd",
+      "bytes": 140
+    },
+    "OPENING_PROMPT_AUDIT.md": {
+      "sha256": "d4ea55e1c9d883f3e5077eafefcaeb71aa56108982ea49202c5a15e6bf620f2e",
+      "bytes": 146
+    }
+  },
+  "mutations": {
+    "a framework name": "caught",
+    "an outcome word": "caught",
+    "a decimal value": "caught",
+    "an undeclared integer": "caught",
+    "a row id": "caught"
+  },
+  "violations": {
+    "TASK.md": [],
+    "TASK_AUDIT.md": [],
+    "OPENING_PROMPT.md": [],
+    "OPENING_PROMPT_AUDIT.md": []
+  },
+  "verdict": "clean"
+}

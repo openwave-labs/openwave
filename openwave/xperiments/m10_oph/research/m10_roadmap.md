@@ -9,15 +9,15 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | 🔶 Running since 2026-11-13. Blind recompute of the scalar dispersion on the twelve icosahedral directions, in two clean rooms, with the comparison done last. Certifies arithmetic on a declared object and moves no cell. | the rooms' returns, then the adjudication |
 
 ## BACKLOG
 
-> The certification gate first, maintainer-run. Every later row is the author's to
-> create, in the pull request that brings the task.
+> Every row here is the author's to create, in the pull request that brings the
+> task.
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | 🚧 Blind recompute of the scalar dispersion on the twelve icosahedral directions, from the author's definition-only statement, with an adversarial audit. Certifies arithmetic on a declared object and moves no cell. | maintainer go |
 
 ## STATUS AT A GLANCE (2026-11-13)
 
@@ -62,3 +62,6 @@ update rules with no action are tier 2 and admissible, and a row on a declared
 source is inherited until its observable is computed on the carrier's own
 process. M10.1 registered as the certification gate, from the author's own offer.
 The briefing's hero image is a placeholder for the author to fill.
+
+2026-11-13. M10.1 started on the maintainers' go: the packet for the two clean
+rooms committed before either opens.
