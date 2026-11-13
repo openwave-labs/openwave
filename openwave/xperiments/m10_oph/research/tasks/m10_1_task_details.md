@@ -145,3 +145,23 @@ Headless, per the standard's § 3.4, with
 room per stage, outside every working tree, the room interpreter carrying `sympy`
 and `mpmath` and unable to import the platform package. The rooms' records are
 added with commit 2.
+
+### Commit 2: the commitment (2026-11-13)
+
+The rooms ran after commit 1 (`f55868ab`). Their returns, the checks C1 to C4,
+the deviations, the transcript checks and every hash are in
+[`../findings/m10_1_commitment.md`](../findings/m10_1_commitment.md); the
+returned files are under [`../m10_1/returns/`](../m10_1/returns/). The author's
+values were still unopened when this section was written.
+
+| Check | Verdict at commit 2 |
+| --- | --- |
+| C1 | ✅ three derivations, two routes, exact agreement ([`../scripts/m10_1_compare_rooms.py`](../scripts/m10_1_compare_rooms.py)) |
+| C2 | ✅ the solver's 20 samples and 32 further samples all inside the stated bound |
+| C3 | ✅ exact |
+| C4 | ✅ four altered operators rejected; the test reads degree two only |
+| C5 | pending, commit 3 |
+
+Two audit rooms stopped before their step two, for a cause in the packet's
+layout; the step-two checks were done outside the rooms by an independent audit
+agent. Both are logged as deviations in the commitment.
