@@ -1,0 +1,132 @@
+{
+ "C2": {
+  "n": 32,
+  "all_inside": true,
+  "n_outside": 0,
+  "max_diff_over_bound": "0.1399986",
+  "min_diff_over_bound": "0.079471318",
+  "outside": [],
+  "diff_halving_ratios(1/64=0.015625)": {
+   "d1_(2,-3,7)": "0.0156321,0.0156268,0.0156254",
+   "d2_(5,1,1)": "0.0156314,0.0156266,0.0156254",
+   "d3_(-4,6,3)": "0.0156314,0.0156266,0.0156254",
+   "d4_(1,0,0)": "0.0156308,0.0156265,0.0156254",
+   "d5_(1,1,1)": "0.0156301,0.0156263,0.0156253",
+   "d6_(phi,1,0)": "0.0156309,0.0156265,0.0156254",
+   "d7_(1,-1,0)": "0.0156325,0.0156269,0.0156255",
+   "d8_(7,2,-9)": "0.0156315,0.0156266,0.0156254"
+  },
+  "solver_rows_all_inside": true,
+  "solver_max_diff_over_bound": 0.16799818867079092,
+  "bound_valid_derivation": "1-cos t has 8th derivative -cos t; Lagrange remainder after t^6 term <= t^8/8!; |u.n|<=1 and 12 terms give 12 (ak)^8/(2 a^2 8!)"
+ },
+ "C3": {
+  "degree_2": {
+   "terms": 3,
+   "bad_terms": 0,
+   "factor": "1",
+   "exact": true
+  },
+  "degree_4": {
+   "terms": 6,
+   "bad_terms": 0,
+   "factor": "1/4",
+   "exact": true
+  },
+  "degree_6": {
+   "terms": 9,
+   "bad_terms": 0,
+   "factor": "1/16",
+   "exact": true
+  },
+  "inv_coeff_ratio": [
+   "1/4",
+   "1/16"
+  ],
+  "I6_coeff_ratio": "1/16",
+  "ratio_unchanged": "16/75",
+  "all_exact": true,
+  "mutation_wrong_factor_1/8_for_deg6_exact": false
+ },
+ "C4": {
+  "original": true,
+  "removed": false,
+  "doubled": false,
+  "own_rotate_one_direction": false,
+  "own_replace_one_by_axis": false,
+  "sanity_rotate_all_passes": true,
+  "cube_axes_passes_solver_test": true,
+  "cube_axes_degree4_is_invariant": false
+ },
+ "mutations": {
+  "coefficient_1e-3_change": {
+   "n": 32,
+   "all_inside": false,
+   "n_outside": 3,
+   "max_diff_over_bound": "3.900908",
+   "min_diff_over_bound": "0.08389601",
+   "outside": [
+    [
+     "d1_(2,-3,7)",
+     "1/16"
+    ],
+    [
+     "d1_(2,-3,7)",
+     "1/32"
+    ],
+    [
+     "d8_(7,2,-9)",
+     "1/32"
+    ]
+   ],
+   "red_by_a*k": [
+    "1/16",
+    "1/32"
+   ]
+  },
+  "wrong_scaling_a_half_in_polys": {
+   "n": 32,
+   "all_inside": false,
+   "n_outside": 32,
+   "max_diff_over_bound": "2.6423438e+8",
+   "min_diff_over_bound": "64379.14",
+   "outside": [
+    [
+     "d1_(2,-3,7)",
+     "1/4"
+    ],
+    [
+     "d1_(2,-3,7)",
+     "1/8"
+    ],
+    [
+     "d1_(2,-3,7)",
+     "1/16"
+    ],
+    [
+     "d1_(2,-3,7)",
+     "1/32"
+    ],
+    [
+     "d2_(5,1,1)",
+     "1/4"
+    ],
+    [
+     "d2_(5,1,1)",
+     "1/8"
+    ]
+   ]
+  },
+  "c3_wrong_factor": {
+   "passes": false
+  }
+ },
+ "script": {
+  "rerun_returncode": 0,
+  "rerun_identical_content": true,
+  "keys_differing": [],
+  "duplicate_dps_line": true,
+  "no_degree6_qx2qy2qz2_term": true,
+  "report_tightest_ratio_0.17_vs_mine_on_solver_rows": 0.16799818867079092
+ }
+}

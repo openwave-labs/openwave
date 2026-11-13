@@ -1,0 +1,61 @@
+{
+ "task": "M10.1",
+ "written": "2026-11-13T18:30:28+00:00",
+ "base": "3b52d368e7605ee964db13c62aa64adecc25c6bd",
+ "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984",
+ "machine": "workstation",
+ "versions": {
+  "python": "3.12.14",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "sympy": "1.14.0",
+  "mpmath": "1.3.0"
+ },
+ "jobs": {
+  "1_solver_room": {
+   "command": "clean_room_launch.sh <solver room> OPENING_PROMPT.md <transcript> sonnet",
+   "exit": 0,
+   "wall_s": 103,
+   "log": "1_solver_room.log"
+  },
+  "2_audit_room_a": {
+   "command": "clean_room_launch.sh <audit room A> OPENING_PROMPT_AUDIT.md <transcript> sonnet",
+   "exit": 0,
+   "wall_s": 105,
+   "log": "2_audit_room_a.log"
+  },
+  "3_audit_room_b": {
+   "command": "clean_room_launch.sh <audit room B> OPENING_PROMPT_AUDIT.md <transcript> sonnet",
+   "exit": 0,
+   "wall_s": 163,
+   "log": "3_audit_room_b.log"
+  },
+  "4_stage_two_audit": {
+   "command": "python3 stage_two_audit.py",
+   "exit": 0,
+   "wall_s": 1,
+   "log": "4_stage_two_audit.log"
+  },
+  "5_compare_rooms": {
+   "command": "python3 m10_1_compare_rooms.py",
+   "exit": 0,
+   "wall_s": 1,
+   "log": "5_compare_rooms.log"
+  },
+  "6_adjudicate": {
+   "command": "python3 m10_1_adjudicate.py",
+   "exit": 0,
+   "wall_s": 0,
+   "log": "6_adjudicate.log"
+  }
+ },
+ "comparator": {},
+ "verdict": "C1 to C4 hold; C5: every value agrees exactly",
+ "summary": {
+  "jobs": 6,
+  "exit_nonzero": [],
+  "no_end_line": [],
+  "wall_total_s": 373,
+  "files_compared": 0
+ }
+}

@@ -1,0 +1,38 @@
+{
+  "sources": {
+    "solver": "m10_1/returns/solver/results.json",
+    "audit_a": "m10_1/returns/audit_a/audit_results.json",
+    "audit_b": "m10_1/returns/audit_b/audit_results.json"
+  },
+  "agreed_values": {
+    "degree_2": {
+      "invariant_coefficient": "1",
+      "remainder_coefficient_in_I6": "0",
+      "ratio": "0"
+    },
+    "degree_4": {
+      "invariant_coefficient": "-a**2/20",
+      "remainder_coefficient_in_I6": "0",
+      "ratio": "0"
+    },
+    "degree_6": {
+      "invariant_coefficient": "a**4/840",
+      "remainder_coefficient_in_I6": "2*a**4/7875",
+      "ratio": "16/75"
+    }
+  },
+  "first_nonzero_remainder_degree": 6,
+  "scaling_a_to_half": {
+    "degree_2": "1",
+    "degree_4": "1/4",
+    "degree_6": "1/16"
+  },
+  "differences": [],
+  "internal_consistency": [],
+  "mutations": {
+    "one degree-6 coefficient moved by 1e-6": "caught",
+    "the ratio moved by 1/75": "caught",
+    "the first nonzero remainder moved to degree 4": "caught"
+  },
+  "verdict": "C1 holds: the three derivations agree exactly"
+}

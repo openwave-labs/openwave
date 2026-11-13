@@ -92,3 +92,132 @@ comparison with any target.
 | A normalization convention is read differently from the author's | the `I6` normalization is in the definition; C5 reports both numbers, so a convention gap is visible and is routed to the author as an author-gated question |
 | The control cannot fail | C4 is run on a deliberately broken operator, and its rejection is part of the record |
 | A value reaches the room through this repository | the solver and the audit agent are told to read no repository document |
+
+## RUN RECORD
+
+### Ordering, declared before launch (2026-11-13)
+
+Three commits on one branch, each pushed before the step it gates.
+
+| # | Commit | Pushed before |
+| --- | --- | --- |
+| 1 | the packet, the packet check and its output, and this section | the rooms open |
+| 2 | the commitment: both rooms' returns, their hashes, the environment records, the manifests and the transcript checks | the author's values are opened |
+| 3 | the adjudication: the comparison with the author's values, the method note, the roadmap row | the merge |
+
+**Deviation from [`CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md) § 14, declared here.**
+The standard has each of the three commits merged before the next step. Here each
+is pushed to the pull request's branch and the branch merges once; the push times
+on the branch carry the same ordering. The reason is proportion: this run
+certifies arithmetic on a declared object and moves no cell.
+
+### The packet
+
+Four files under [`../m10_1/packet/`](../m10_1/packet/), checked by
+[`../scripts/m10_1_packet_check.py`](../scripts/m10_1_packet_check.py)
+(output: [`../data/m10_1_packet_check.json`](../data/m10_1_packet_check.json)).
+The check scans for withheld names and outcome words, admits only the integers the
+definition needs, rejects any decimal literal, and is mutation-tested: five planted
+violations, five caught.
+
+| File | SHA-256 | Bytes |
+| --- | --- | --- |
+| `TASK.md` | `bb5563f1cacea4240bcb0fc57ead7bce92eca649b52e4db6a61d35f1dea80ebe` | 4416 |
+| `TASK_AUDIT.md` | `715bf6c2e64028590478cc47d7adba28c3df981c01d4f8227cdb4e435df151f7` | 4450 |
+| `OPENING_PROMPT.md` | `95661eee4f73de9e810aa1ad829cb4f9ddf38c51fd01a24e9f5fbbd3f1dc22cd` | 140 |
+| `OPENING_PROMPT_AUDIT.md` | `d4ea55e1c9d883f3e5077eafefcaeb71aa56108982ea49202c5a15e6bf620f2e` | 146 |
+
+**Withholdings, stated.** The author's definition-only statement names the
+framework and its result files. The packet restates the mathematics without them:
+it names neither the framework, its author, this platform, the registered rows,
+nor the solid the twelve directions belong to. The audit room receives the solver
+room's returns in a `solver/` folder, added at its launch, and nothing else.
+
+**The two routes.** The solver room is told to use a direct symbolic series
+expansion. The audit room is told to use a different route (moments of the
+direction set, or a fit to high-precision evaluations) and to save its own results
+before it opens the solver's.
+
+### Launch
+
+Headless, per the standard's § 3.4, with
+[`clean_room_launch.sh`](../../../../../dev_docs/utils/clean_room_launch.sh): one
+room per stage, outside every working tree, the room interpreter carrying `sympy`
+and `mpmath` and unable to import the platform package. The rooms' records are
+added with commit 2.
+
+### Commit 2: the commitment (2026-11-13)
+
+The rooms ran after commit 1 (`f55868ab`). Their returns, the checks C1 to C4,
+the deviations, the transcript checks and every hash are in
+[`../findings/m10_1_commitment.md`](../findings/m10_1_commitment.md); the
+returned files are under [`../m10_1/returns/`](../m10_1/returns/). The author's
+values were still unopened when this section was written.
+
+| Check | Verdict at commit 2 |
+| --- | --- |
+| C1 | ✅ three derivations, two routes, exact agreement ([`../scripts/m10_1_compare_rooms.py`](../scripts/m10_1_compare_rooms.py)) |
+| C2 | ✅ the solver's 20 samples and 32 further samples all inside the stated bound |
+| C3 | ✅ exact |
+| C4 | ✅ four altered operators rejected; the test reads degree two only |
+| C5 | pending, commit 3 |
+
+Two audit rooms stopped before their step two, for a cause in the packet's
+layout; the step-two checks were done outside the rooms by an independent audit
+agent. Both are logged as deviations in the commitment.
+
+### Commit 3: the adjudication (2026-11-13)
+
+Commit 2 (`3f6e4ea0`) was committed at 18:26:39 UTC and pushed by the same
+command. The author's register was opened after it, at the pinned commit. C5, by
+[`../scripts/m10_1_adjudicate.py`](../scripts/m10_1_adjudicate.py) (output
+[`../data/m10_1_adjudication.json`](../data/m10_1_adjudication.json)): the seven
+values of the author's row FZ-11 agree exactly with the rooms' result. The method
+note is [`../findings/m10_1_method_note.md`](../findings/m10_1_method_note.md);
+the receipt is [`../data/m10_1_receipt.json`](../data/m10_1_receipt.json).
+
+### Teardown
+
+The three rooms were deleted after this record was written. The session
+transcripts are kept on the maintainers' machine, outside the repository and
+under its regular backups; their SHA-256 are:
+
+| Transcript | SHA-256 |
+| --- | --- |
+| solver | `da4ae269142099de98bb4430c7b8e5d86a883f6f50712add217725c7abea6e40` |
+| audit A | `ee3a921a81a7471e1e93a8df56a813ef08bc137b765408cfb40e5d9b2f85262e` |
+| audit B | `563c86bca7898ac2391ec7e0f590b6953736c9f55cbbc787cb3144d19c9e8042` |
+
+## TASK REVIEW (2026-11-13)
+
+**Scope**: arithmetic on one declared mathematical object, through degree six; it
+licenses "the author's frozen coefficients for the twelve-direction dispersion are
+correct" and does not license any physical identification, any statement about
+the author's other frozen rows, or any `MODELS.md` cell.
+
+| Check | Result |
+| --- | --- |
+| C1, the gate | ✅ three derivations by two routes agree exactly |
+| C2 | ✅ 52 samples inside the stated bound |
+| C3 | ✅ exact |
+| C4 | ✅ four altered operators rejected; the test reads degree two only |
+| C5 | ✅ seven of seven of the author's frozen values agree exactly |
+
+| Issue | Disposition |
+| --- | --- |
+| Two audit rooms stopped before their second step: stepping into the packet's subfolder moved the session's directory, and the room-relative allow rules refused every later write | Logged; the second-step checks were done outside the rooms by an independent audit agent, before the unseal. The guard is now in [`CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md) § 4 |
+| The three commits were pushed in order to one branch, not merged one by one | Declared before launch, in the run record above |
+| The solver's control reads degree two only | Recorded as a limit of C4; C1 and C3 carry the coefficients |
+| The author's row FZ-12 (the thirty-edge branch) | Out of scope: a different object, not recomputed |
+
+**Findings.** The author's frozen expansion of the twelve-direction dispersion is
+correct: `ω² = |q|² − (a²/20)|q|⁴ + (a⁴/840)|q|⁶[1 + (16/75) I6(n)]`, with no
+direction dependence below degree six. That is a statement about a declared
+mathematical object. It moves no cell, and it says nothing about whether any
+physical dispersion has this form.
+
+**Documents.** This task document; the [commitment](../findings/m10_1_commitment.md);
+the [method note](../findings/m10_1_method_note.md); the packet and the returns
+under [`../m10_1/`](../m10_1/); the three scripts under [`../scripts/`](../scripts/);
+the [roadmap](../m10_roadmap.md) row; the [briefing](../../__M10_model_briefing.md)
+status row.

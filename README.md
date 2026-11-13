@@ -129,15 +129,15 @@ OpenWave is the **simulator and comparison engine**; the candidate frameworks co
 
 How these frameworks compare against the shared observables, criteria by criteria with validation status and the script behind each cell: **[MODELS.md](MODELS.md)**.
 
-### Platform Contributors
+### Platform Maintainers
 
 OpenWave is a multi-contributor open-source platform. Alongside the theoretical frameworks contributed by the physics advisors above, the platform itself is built collaboratively:
 
 | Contributor | Role |
 | --- | --- |
 | [Rodrigo Griesi](https://github.com/xrodz) (OpenWave Labs) | Founder, lead engineer/researcher, project director — sets vision, methodology, and engineering direction |
-| [Anthropic Claude Code](https://claude.com/product/claude-code) (Fable 5 Model) | AI agent contributor: code, numerical analysis, derivations, documentation, manuscript review |
-| Community contributors | Repo open to external contributions under [Apache 2.0](LICENSE) |
+| [Anthropic Claude Code](https://claude.com/product/claude-code) | AI agent contributor: code, numerical analysis, derivations, documentation, manuscript review |
+| Community Maintainers | Repo open to external contributions under [Apache 2.0](LICENSE) |
 
 The platform's design treats AI agents as first-class contributors, not as a tool layered on top of the work. Numerical analyses, derivations, and code are performed by AI agents under engineering direction from OpenWave Labs; all artifacts are open-source so any researcher can reproduce, refute, or extend.
 

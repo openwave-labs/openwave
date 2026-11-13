@@ -1,0 +1,31 @@
+{
+ "degree_2": {
+  "polynomial": "x**2 + y**2 + z**2",
+  "invariant_coefficient": "1",
+  "remainder": "0",
+  "remainder_coefficient_in_I6": "0",
+  "ratio": "0"
+ },
+ "degree_4": {
+  "polynomial": "-a**2*x**4/20 - a**2*x**2*y**2/10 - a**2*x**2*z**2/10 - a**2*y**4/20 - a**2*y**2*z**2/10 - a**2*z**4/20",
+  "invariant_coefficient": "-a**2/20",
+  "remainder": "0",
+  "remainder_coefficient_in_I6": "0",
+  "ratio": "0"
+ },
+ "degree_6": {
+  "polynomial": "a**4*x**6/900 - sqrt(5)*a**4*x**4*y**2/1200 + a**4*x**4*y**2/240 + sqrt(5)*a**4*x**4*z**2/1200 + a**4*x**4*z**2/240 + sqrt(5)*a**4*x**2*y**4/1200 + a**4*x**2*y**4/240 - sqrt(5)*a**4*x**2*z**4/1200 + a**4*x**2*z**4/240 + a**4*y**6/900 - sqrt(5)*a**4*y**4*z**2/1200 + a**4*y**4*z**2/240 + sqrt(5)*a**4*y**2*z**4/1200 + a**4*y**2*z**4/240 + a**4*z**6/900",
+  "invariant_coefficient": "a**4/840",
+  "remainder": "-a**4*x**6/12600 - sqrt(5)*a**4*x**4*y**2/1200 + a**4*x**4*y**2/1680 + a**4*x**4*z**2/1680 + sqrt(5)*a**4*x**4*z**2/1200 + a**4*x**2*y**4/1680 + sqrt(5)*a**4*x**2*y**4/1200 - a**4*x**2*y**2*z**2/140 - sqrt(5)*a**4*x**2*z**4/1200 + a**4*x**2*z**4/1680 - a**4*y**6/12600 - sqrt(5)*a**4*y**4*z**2/1200 + a**4*y**4*z**2/1680 + a**4*y**2*z**4/1680 + sqrt(5)*a**4*y**2*z**4/1200 - a**4*z**6/12600",
+  "remainder_coefficient_in_I6": "2*a**4/7875",
+  "ratio": "16/75"
+ },
+ "first_nonzero_remainder_degree": 6,
+ "scaling_a_to_half": {
+  "degree_2": "1 (unchanged)",
+  "degree_4": "1/4",
+  "degree_6": "1/16",
+  "rule": "coefficient of degree 2m scales by 2^-(2m-2)"
+ },
+ "notes": "ratio = remainder_coefficient_in_I6 / invariant_coefficient; invariant part = sphere average, coef*|q|^(2m); I6 polynomial = |q|^6 I6(q/|q|); sum of P6 at a vertex = 132/25"
+}

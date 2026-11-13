@@ -171,9 +171,10 @@ which answer the application's second question.
 | Scalar tilt | 0.96602 sits 2.4σ from the CMB combination with DESI BAO |
 | Uncalibrated runs | With no measured input the numbers miss: a mixing matrix close to the identity, and lepton mass ratios 1 : 30.84 : 452.62 |
 
-This table is condensed. The application's list has further entries (the coupling
-chain at the Z mass, the endpoint chain, the W and Z branch, the galaxy fit), and
-one entry tied to the dispersion rows, withheld here with them (§ 10).
+This table is condensed. The application's list has further entries: the coupling
+chain at the Z mass, the endpoint chain, the W and Z branch, the galaxy fit, and,
+under a scale hypothesis the model derives nowhere, a dispersion coefficient 5.47
+times beyond a photon-only Pierre Auger bound that holds in one source scenario.
 
 The author's empirical status page states that no retained comparison supplies an
 OPH-specific empirical confirmation.
@@ -188,7 +189,8 @@ custody files are in the author's repository.
 | FZ-15, scalar tilt `n_s = 1 − P/48` | 0.966021495637 at k* = 0.05 Mpc⁻¹ | First Simons Observatory primary-CMB release with Planck | P is calibrated from the fine-structure constant through a declared map; the branch was chosen after CMB comparisons |
 | FZ-13, dark energy | (w0, wa) = (−1, 0) | First DESI DR3 w0waCDM release | Equals the ΛCDM value; survival earns nothing distinctive |
 | FZ-10, tau mass from measured m_e and m_μ | 1776.969027 MeV | A world average or dedicated measurement at σ ≤ 0.045 MeV | It is the Koide value; the balance was first abstracted from the measured triple |
-| FZ-11 and FZ-12, lattice dispersion | Not restated here: withheld from this tree until [M10.1](tasks/m10_1_task_details.md) has run | None named | No physical sector, scale or frame is attached |
+| FZ-11, dispersion on the twelve vertex directions | `C4 = −a²/20`, `B0 = a⁴/840`, `B6 = 2a⁴/7875`; anisotropic ranks one to five vanish. Reproduced exactly in [M10.1](tasks/m10_1_task_details.md) | None named | No physical sector, scale or frame is attached |
+| FZ-12, dispersion on the thirty edge directions | `C4 = −a²/20`, `B0 = a⁴/840`, `B6 = −a⁴/12600`, the opposite sign at rank six. Not recomputed in-platform | None named | The same |
 | FZ-02, A5 angular multiplets | First nonconstant invariant at l = 6 | None named | No dataset in the registration |
 | FZ-01, four cosmology targets | A capacity band for Λ, two tilt candidates, two readings of an acceleration scale, the w-law | Per-target policies | The capacity band was fixed with the measured Λ known |
 
