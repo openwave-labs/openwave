@@ -72,9 +72,9 @@ LIMIT = int(sys.argv[1]) if len(sys.argv) > 1 else 65
 LINK = re.compile(r"\[[^\]]*\]\([^)]*\)")
 TAG = re.compile(r"^\s*[^\[]*\[[^\]]*\]")  # leading icon + [status]
 ICON = re.compile(r"(✅|❌|⚠️|🔶|🚧)")
-MODEL_HEAD = re.compile(r"^#{2,4} .*\((M\d)\)\s*$")
-MODEL_COL = re.compile(r"^\[(M\d)\]\(#")
-BOARD_COL = re.compile(r"\((M\d)\)\]\(")  # "[Liquid Crystal<br>(M5)](path)"
+MODEL_HEAD = re.compile(r"^#{2,4} .*\((M\d+)\)\s*$")
+MODEL_COL = re.compile(r"^\[(M\d+)\]\(#")
+BOARD_COL = re.compile(r"\((M\d+)\)\]\(")  # "[Liquid Crystal<br>(M5)](path)"
 NUM = re.compile(r"\d+")
 REGIMES = {"static", "dynamic", "both"}  # MODELS.md "Summary Status" legend
 
