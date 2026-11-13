@@ -9,7 +9,6 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | 🔶 Running since 2026-11-13. Blind recompute of the scalar dispersion on the twelve icosahedral directions, in two clean rooms, with the comparison done last. Certifies arithmetic on a declared object and moves no cell. | the rooms' returns, then the adjudication |
 
 ## BACKLOG
 
@@ -26,7 +25,7 @@
 | Where is M10? | Registered column, admitted 2026-11-13 ([discussion #712](https://github.com/openwave-labs/openwave/discussions/712)). Every `MODELS.md` cell not yet tested |
 | What kind of column? | Tier 2: a local repair and memory law on a screen of twelve-port carriers, written as update rules with no action |
 | What decides the first cell? | One criteria row computed on the carrier's own process in-platform. Rows on declared sources are inherited ([`m10_theory_canonical.md`](m10_theory_canonical.md) § 8) |
-| Who runs what? | The author runs and brings every task after M10.1, on the author's own compute. Maintainers review, at maintainer pace |
+| Who runs what? | M10.1, the certification gate, was the one maintainer-run task and is closed. The author runs and brings every task from here, on the author's own compute. Maintainers review, at maintainer pace |
 
 ## CONVENTIONS
 
@@ -52,6 +51,7 @@ regenerates the headline number. Adversarial audit on substantive claims
 
 | TaskID | Title | Description | Completed |
 | --- | --- | --- | --- |
+| [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | ✅ Closed 2026-11-13. The author's frozen expansion coefficients are reproduced exactly in clean rooms, seven of seven values, the comparison made after the rooms' result was pushed. Arithmetic on a declared object; no cell moves. Full record: [note](findings/m10_1_method_note.md) + [task](tasks/m10_1_task_details.md) | 2026-11-13 |
 
 ## CHANGE-LOG
 
@@ -65,3 +65,8 @@ The briefing's hero image is a placeholder for the author to fill.
 
 2026-11-13. M10.1 started on the maintainers' go: the packet for the two clean
 rooms committed before either opens.
+
+2026-11-13. M10.1 closed. Three clean rooms, two routes, one exact result; the
+author's seven frozen values for the twelve-direction dispersion agree with it
+exactly. Two audit rooms stopped early for a cause in the packet's layout, logged
+with the fix. The backlog is empty: the next row is the author's to create.

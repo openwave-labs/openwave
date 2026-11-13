@@ -165,3 +165,59 @@ values were still unopened when this section was written.
 Two audit rooms stopped before their step two, for a cause in the packet's
 layout; the step-two checks were done outside the rooms by an independent audit
 agent. Both are logged as deviations in the commitment.
+
+### Commit 3: the adjudication (2026-11-13)
+
+Commit 2 (`3f6e4ea0`) was committed at 18:26:39 UTC and pushed by the same
+command. The author's register was opened after it, at the pinned commit. C5, by
+[`../scripts/m10_1_adjudicate.py`](../scripts/m10_1_adjudicate.py) (output
+[`../data/m10_1_adjudication.json`](../data/m10_1_adjudication.json)): the seven
+values of the author's row FZ-11 agree exactly with the rooms' result. The method
+note is [`../findings/m10_1_method_note.md`](../findings/m10_1_method_note.md);
+the receipt is [`../data/m10_1_receipt.json`](../data/m10_1_receipt.json).
+
+### Teardown
+
+The three rooms were deleted after this record was written. The session
+transcripts are kept on the maintainers' machine, outside the repository and
+under its regular backups; their SHA-256 are:
+
+| Transcript | SHA-256 |
+| --- | --- |
+| solver | `da4ae269142099de98bb4430c7b8e5d86a883f6f50712add217725c7abea6e40` |
+| audit A | `ee3a921a81a7471e1e93a8df56a813ef08bc137b765408cfb40e5d9b2f85262e` |
+| audit B | `563c86bca7898ac2391ec7e0f590b6953736c9f55cbbc787cb3144d19c9e8042` |
+
+## TASK REVIEW (2026-11-13)
+
+**Scope**: arithmetic on one declared mathematical object, through degree six; it
+licenses "the author's frozen coefficients for the twelve-direction dispersion are
+correct" and does not license any physical identification, any statement about
+the author's other frozen rows, or any `MODELS.md` cell.
+
+| Check | Result |
+| --- | --- |
+| C1, the gate | ✅ three derivations by two routes agree exactly |
+| C2 | ✅ 52 samples inside the stated bound |
+| C3 | ✅ exact |
+| C4 | ✅ four altered operators rejected; the test reads degree two only |
+| C5 | ✅ seven of seven of the author's frozen values agree exactly |
+
+| Issue | Disposition |
+| --- | --- |
+| Two audit rooms stopped before their second step: stepping into the packet's subfolder moved the session's directory, and the room-relative allow rules refused every later write | Logged; the second-step checks were done outside the rooms by an independent audit agent, before the unseal. The guard is now in [`CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md) § 4 |
+| The three commits were pushed in order to one branch, not merged one by one | Declared before launch, in the run record above |
+| The solver's control reads degree two only | Recorded as a limit of C4; C1 and C3 carry the coefficients |
+| The author's row FZ-12 (the thirty-edge branch) | Out of scope: a different object, not recomputed |
+
+**Findings.** The author's frozen expansion of the twelve-direction dispersion is
+correct: `ω² = |q|² − (a²/20)|q|⁴ + (a⁴/840)|q|⁶[1 + (16/75) I6(n)]`, with no
+direction dependence below degree six. That is a statement about a declared
+mathematical object. It moves no cell, and it says nothing about whether any
+physical dispersion has this form.
+
+**Documents.** This task document; the [commitment](../findings/m10_1_commitment.md);
+the [method note](../findings/m10_1_method_note.md); the packet and the returns
+under [`../m10_1/`](../m10_1/); the three scripts under [`../scripts/`](../scripts/);
+the [roadmap](../m10_roadmap.md) row; the [briefing](../../__M10_model_briefing.md)
+status row.

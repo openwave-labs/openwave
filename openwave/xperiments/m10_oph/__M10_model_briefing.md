@@ -23,7 +23,7 @@
 | Disclosure | A co-author of the flagship is the applicant of K7 ([discussion #525](https://github.com/openwave-labs/openwave/discussions/525)), and the author's repository vendors K7 comparison files. The two are separate frameworks, and K7's standing is unchanged by this column (the author's disclosure, and the admission reply) |
 | Lineage | Wheeler's law without law; the relational and Darwinist readings of quantum theory (Rovelli, Zurek); distributed agreement (Lamport, Dijkstra's self-stabilization); Jacobson and Van Raamsdonk for gravity from entanglement thermodynamics; Doplicher and Roberts for gauge groups from superselection; Bisognano and Wichmann for modular clocks; Wilson's lattice gauge theory; 't Hooft's cellular automaton interpretation as the closest relative among discrete deterministic substrates |
 | Primary sources | Author repository [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography), pinned at `3c4e1e2` for this scaffold; registry in [`theory/_CITATIONS.md`](theory/_CITATIONS.md). For every number, the specification of record is the executable model at the pinned commit ([`research/m10_theory_canonical.md`](research/m10_theory_canonical.md) § 1) |
-| In-repo | Headless only. No launcher. The first task is the certification gate [`research/tasks/m10_1_task_details.md`](research/tasks/m10_1_task_details.md) |
+| In-repo | Headless only. No launcher. The certification gate's record: [`research/tasks/m10_1_task_details.md`](research/tasks/m10_1_task_details.md) |
 | Application | [discussion #712](https://github.com/openwave-labs/openwave/discussions/712); admission reply [discussioncomment-19595538](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19595538) |
 
 ## Model Profile (what it brings, short form)
@@ -79,13 +79,13 @@ in-platform result.
 | All criteria rows | 🚧 The author's constructions exist for every row, each on its own declared finite source. Inherited until computed on the carrier's own process |
 | Lepton register | 🚧 Koide's 2/3 and the phase 2/9 from a register on one carrier face. The headline numbers were recomputed at admission from the stated formulas; the result is a fit by the author's own parameter count ([`research/m10_background.md`](research/m10_background.md) § 4) |
 | Hadron source | 🚧 Calibrated to seven measured inputs; the held-out comparisons fail and are on record |
-| Certification gate | 🚧 M10.1, planned: a blind recompute of the twelve-direction dispersion the author offered |
+| Certification gate | ✅ M10.1 closed 2026-11-13: the author's frozen coefficients of the twelve-direction dispersion are reproduced exactly in clean rooms. Arithmetic on a declared object, so no cell moves. Note: [`research/findings/m10_1_method_note.md`](research/findings/m10_1_method_note.md) |
 
 ## Roadmap
 
 | Task | What lands |
 | --- | --- |
-| M10.1 | Certification gate: a blind, maintainer-run recompute of the twelve-direction scalar dispersion, from the author's definition-only statement. Certifies arithmetic on a declared object and moves no cell |
+| M10.1 | Certification gate, closed 2026-11-13: a maintainer-run recompute of the twelve-direction scalar dispersion in clean rooms. The author's frozen coefficients agree exactly. It certified arithmetic on a declared object and moved no cell |
 | Later tasks | Created and ordered by the author on [`research/m10_roadmap.md`](research/m10_roadmap.md) |
 | Rendering | Not before a cell exists. Headless first |
 

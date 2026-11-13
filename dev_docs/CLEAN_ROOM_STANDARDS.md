@@ -180,6 +180,7 @@ rendering pins a transcription, not the object.
 | print repo-safe relative paths in all output | a script echoing an absolute path forces a disclosed redaction at copy-out, since the room path stays out of the repository |
 | fail loud, report the honest outcome, tolerances fixed in source | a disagreement is a finding, not a failure of the task |
 | a consulted-files manifest including anything that loaded WITHOUT being asked for | the manifest is corroborated against the transcript at copy-out |
+| where the packet hands over a subfolder: read its files by path, and never change directory out of the room's top level | in a headless launch the allow rules are written relative to the room, so after a `cd` into a subfolder every later write needs a prompt and is refused. Observed at M10.1 ([commitment](../openwave/xperiments/m10_oph/research/findings/m10_1_commitment.md) § 3): two audit rooms stopped at their second step |
 
 **Commit before the room opens.** The packet, the task file, the audit script, and the audit
 output land in the repository first, so the timestamps predate the run and nothing reads as

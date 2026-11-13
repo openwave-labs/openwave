@@ -1,0 +1,54 @@
+{
+  "candidate": "data/m10_1_compare_rooms.json",
+  "target": "row FZ-11 of the author's frozen prediction register at the pinned commit, transcribed after commit 2",
+  "rows": [
+    {
+      "quantity": "C4",
+      "author": "-a**2/20",
+      "rooms": "-a**2/20",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "B0",
+      "author": "a**4/840",
+      "rooms": "a**4/840",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "B6",
+      "author": "2*a**4/7875",
+      "rooms": "2*a**4/7875",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "B6/C4^2",
+      "author": "32/315",
+      "rooms": "32/315",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "B0/C4^2",
+      "author": "10/21",
+      "rooms": "10/21",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "B6/B0",
+      "author": "16/75",
+      "rooms": "16/75",
+      "verdict": "agree"
+    },
+    {
+      "quantity": "lowest anisotropic rank",
+      "author": "6",
+      "rooms": "6",
+      "verdict": "agree"
+    }
+  ],
+  "quadratic coefficient is 1": true,
+  "mutations": {
+    "target B6 transcribed as 2a^4/7876": "caught",
+    "candidate C4 scaled by 21/20": "caught"
+  },
+  "verdict": "C5: every value agrees exactly"
+}
