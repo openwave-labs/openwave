@@ -57,8 +57,8 @@ BREAK = re.compile(r"<br\s*/?>")
 MARKUP = re.compile(r"[`*_#]")
 RULE = re.compile(r"^\|[\s\-:|]+\|$")
 SPLIT = re.compile(r"(?<!\\)\|")
-MODEL_HEAD = re.compile(r"^#{2,4} .*\((M\d)\)\s*$")
-MODEL_COL = re.compile(r"^\[(M\d)\]\(#")
+MODEL_HEAD = re.compile(r"^#{2,4} .*\((M\d+)\)\s*$")
+MODEL_COL = re.compile(r"^\[(M\d+)\]\(#")
 
 
 def cells_of(line):

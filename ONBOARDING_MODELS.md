@@ -344,6 +344,7 @@ For maintainers, and so authors know what to expect. This is the M8 order, which
 | 5 | Run task 1 as a **blind certification gate**: an independent recompute of one bedrock claim, gates pre-registered before the run, by an agent that has not seen the claimed values, adversarially audited afterwards |
 | 6 | Record the result honestly, negatives included, then add the agent-orientation document so the author can take over |
 | 7 | Add the column to [`MODELS.md`](MODELS.md) with its cells at their earned status, most of them 🚧 |
+| 8 | Register the author wherever the roster is kept: a row in [`README.md` § Theoretical Contributors](README.md#theoretical-contributors), and the advisors and project-architecture tables in [`CLAUDE.md`](CLAUDE.md) |
 
 **Certification first** is the pattern: the first task on a new column is not a new result, it is an independent check that one existing headline number holds up. It costs little, it establishes the working relationship, and it is the strongest possible start for a column's credibility.
 

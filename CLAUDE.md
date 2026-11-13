@@ -49,6 +49,7 @@ Claims about this repository that cannot be traced to a runnable script or a res
 | Dr. Paul Werbos | Ouroboros chaoiton Lagrangian | M6, and shared into M7 |
 | Marc Fleury | Toroidal-Beltrami electron | M7 (fused with the Ouroboros chaoiton) |
 | Blake Shatto | Mode Identity Theory (spectral geometry + representation theory) | M8 |
+| Bernhard Mueller | Observer Patch Holography (observers and records on a twelve-port carrier screen) | M10 |
 
 ### Known Challenges & Limitations
 
@@ -68,6 +69,7 @@ Claims about this repository that cannot be traced to a runnable script or a res
 | `openwave/xperiments/m7_hydroboros/` | Toroidal-Beltrami (Fleury) fused with the Ouroboros chaoiton |
 | `openwave/xperiments/m8_mit/` | Mode Identity Theory (Shatto), a top-down spectral-geometry column |
 | `openwave/xperiments/m9_emergent_gravity/` | NSM (McGwier), a gravity-certification column: entanglement bookkeeping on SM + Einstein-Cartan |
+| `openwave/xperiments/m10_oph/` | OPH (Mueller), Observer Patch Holography: a local repair and memory law on a screen of twelve-port carriers (update rules, no action); every criterion not yet tested in-platform |
 | `openwave/common/`, `i_o/`, `validations/`, `video_export/` | Shared utilities, rendering, physics-invariant tests |
 
 Refer to `README.md` and `SYS_ARCH.md` for the full Modules Structure and Objects Map.

@@ -22,6 +22,7 @@ Current Models in the platform:
 - **[M7 - HydroBoros](openwave/xperiments/m7_hydroboros/__M7_model_briefing.md)** (Toroidal-Beltrami, Marc Fleury's toroidal electron fused with Paul Werbos's Ouroboros);
 - **[M8 - MIT](openwave/xperiments/m8_mit/__M8_model_briefing.md)** (Mode Identity Theory, Blake Shatto top-down model, spectral geometry + representation theory);
 - **[M9 - NSM](openwave/xperiments/m9_emergent_gravity/__M9_model_briefing.md)** (New Standard Model, Bob McGwier gravity-certification column: gravity as entanglement bookkeeping on the Standard Model minimally coupled to Einstein-Cartan)
+- **[M10 - OPH](openwave/xperiments/m10_oph/__M10_model_briefing.md)** (Observer Patch Holography, Bernhard Mueller: observers as feedback loops on a holographic screen of twelve-port icosahedral carriers, with a local repair and memory law and no action)
 
 Every file reference is an active link to the file in this repository (under `openwave/xperiments/`). Rows are grouped by domain: particles, forces, waves + quantum emergence.
 
@@ -29,13 +30,13 @@ Every file reference is an active link to the file in this repository (under `op
 
 **Column order:** models are sequenced by their validated + partial count (✅ + ⚠️), highest first; ties break toward more ✅ (validated), then fewer ❌ (honest negatives). The order updates as validations land. A ❌ is a result, not an embarrassment: documented negatives (with the scripts that produced them) are part of the platform's value.
 
-| **MODEL SCORE-BOARD** | [Liquid Crystal<br>(M5)](openwave/xperiments/m5_liquid_crystal/__M5_model_briefing.md) | [HydroBoros<br>(M7)](openwave/xperiments/m7_hydroboros/__M7_model_briefing.md) | [EWT<br>(M4)](openwave/xperiments/m4_ewt/__M4_model_briefing.md) | [Ouroboros<br>(M6)](openwave/xperiments/m6_ouroboros/__M6_model_briefing.md) | [MIT<br>(M8)](openwave/xperiments/m8_mit/__M8_model_briefing.md) | [NSM<br>(M9)](openwave/xperiments/m9_emergent_gravity/__M9_model_briefing.md) |
-| --- | --- | --- | --- | --- | --- | --- |
-| ✅ validated in-platform | 9 | 0 | 0 | 3 | 0 | 0 |
-| ⚠️ partial / with caveats | 11 | 10 | 10 | 2 | 1 | 1 |
-| ❌ honest negative | 2 | 0 | 3 | 3 | 0 | 0 |
-| 🚧 planned / not tested | 9 | 21 | 18 | 23 | 30 | 30 |
-| **Total criteria** | **31** | **31** | **31** | **31** | **31** | **31** |
+| **MODEL SCORE-BOARD** | [Liquid Crystal<br>(M5)](openwave/xperiments/m5_liquid_crystal/__M5_model_briefing.md) | [HydroBoros<br>(M7)](openwave/xperiments/m7_hydroboros/__M7_model_briefing.md) | [EWT<br>(M4)](openwave/xperiments/m4_ewt/__M4_model_briefing.md) | [Ouroboros<br>(M6)](openwave/xperiments/m6_ouroboros/__M6_model_briefing.md) | [MIT<br>(M8)](openwave/xperiments/m8_mit/__M8_model_briefing.md) | [NSM<br>(M9)](openwave/xperiments/m9_emergent_gravity/__M9_model_briefing.md) | [OPH<br>(M10)](openwave/xperiments/m10_oph/__M10_model_briefing.md) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ✅ validated in-platform | 9 | 0 | 0 | 3 | 0 | 0 | 0 |
+| ⚠️ partial / with caveats | 11 | 10 | 10 | 2 | 1 | 1 | 0 |
+| ❌ honest negative | 2 | 0 | 3 | 3 | 0 | 0 | 0 |
+| 🚧 planned / not tested | 9 | 21 | 18 | 23 | 30 | 30 | 31 |
+| **Total criteria** | **31** | **31** | **31** | **31** | **31** | **31** | **31** |
 
 ### Summary Status
 
@@ -47,46 +48,46 @@ Magnetism carries no standalone row by design: the magnetic force of currents is
 
 Each criterion's simplest passing test sits in its own companion table right below ([§ Simplest Test per Criterion](#simplest-test-per-criterion)), keeping this matrix to icons.
 
-| Criteria | [M5](#liquid-crystal-m5) | [M7](#hydroboros-m7) | [M4](#ewt-m4) | [M6](#ouroboros-m6) | [M8](#mit-m8) | [M9](#nsm-m9) | regime |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| **PARTICLE - ELECTRON** | | | | | | | |
-| Charge quantization | ✅ | ⚠️ | ❌ | ⚠️ | 🚧 | 🚧 | static |
-| Electron rest energy (mass) | ✅ | ⚠️ | ⚠️ | ❌ | 🚧 | 🚧 | static |
-| de Broglie clock (Zitterbewegung) | ✅ | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | dynamic |
-| Particle stability (Derrick escape) | ✅ | ⚠️ | ⚠️ | ✅ | 🚧 | 🚧 | dynamic |
-| Magnetic moment μ (g ≈ 2, magnetostatics) | ❌ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
-| Angular momentum J (spin ℏ/2) | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
-| Spin-½ statistics (720° double cover) | ✅ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| | | | | | | | |
-| **PARTICLE - FULL SPECTRUM** | | | | | | | |
-| Antimatter + annihilation | ✅ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | both |
-| Neutrinos (neutral states) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | both |
-| Neutrino oscillations (PMNS) | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | both |
-| Lepton mass spectrum (μ, τ) | ⚠️ | 🚧 | ❌ | ❌ | 🚧 | 🚧 | static |
-| Quarks | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Baryons: bound state (p, n) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | static |
-| Baryons: mass ordering + charge profile | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Baryons: exact masses | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Deuteron (binding + quadrupole) | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Nuclear structure (levels, halos) | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | both |
-| Mesons (π, K) | 🚧 | 🚧 | 🚧 | ❌ | 🚧 | 🚧 | static |
-| Dark matter candidate | 🚧 | 🚧 | 🚧 | ✅ | 🚧 | 🚧 | static |
-| | | | | | | | |
-| **FORCES** | | | | | | | |
-| Electric force (Coulomb 1/r, electrostatics) | ✅ | ⚠️ | ❌ | 🚧 | 🚧 | 🚧 | static |
-| Lorentz covariance (+ Coulomb = EM) | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
-| Strong force: confinement | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Running coupling | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
-| Weak force: muon decay | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
-| Weak force: beta decay (n → p) | ❌ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
-| Gravity: Newton limit (GEM) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | both |
-| Gravity: local metric phenomena | 🚧 | 🚧 | ⚠️ | 🚧 | 🚧 | ⚠️ | both |
-| Cosmology: Λ / cosmic acceleration | 🚧 | 🚧 | 🚧 | 🚧 | ⚠️ | 🚧 | static |
-| | | | | | | | |
-| **WAVES + QUANTUM EMERGENCE** | | | | | | | |
-| EM waves (Maxwell) | ✅ | ⚠️ | ⚠️ | ✅ | 🚧 | 🚧 | dynamic |
-| Quantum wave equation (Klein-Gordon) | ✅ | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | dynamic |
-| Orbital quantization (atomic structure) | 🚧 | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | static |
+| Criteria | [M5](#liquid-crystal-m5) | [M7](#hydroboros-m7) | [M4](#ewt-m4) | [M6](#ouroboros-m6) | [M8](#mit-m8) | [M9](#nsm-m9) | [M10](#oph-m10) | regime |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **PARTICLE - ELECTRON** | | | | | | | | |
+| Charge quantization | ✅ | ⚠️ | ❌ | ⚠️ | 🚧 | 🚧 | 🚧 | static |
+| Electron rest energy (mass) | ✅ | ⚠️ | ⚠️ | ❌ | 🚧 | 🚧 | 🚧 | static |
+| de Broglie clock (Zitterbewegung) | ✅ | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | dynamic |
+| Particle stability (Derrick escape) | ✅ | ⚠️ | ⚠️ | ✅ | 🚧 | 🚧 | 🚧 | dynamic |
+| Magnetic moment μ (g ≈ 2, magnetostatics) | ❌ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Angular momentum J (spin ℏ/2) | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Spin-½ statistics (720° double cover) | ✅ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| | | | | | | | | |
+| **PARTICLE - FULL SPECTRUM** | | | | | | | | |
+| Antimatter + annihilation | ✅ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | both |
+| Neutrinos (neutral states) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | both |
+| Neutrino oscillations (PMNS) | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | both |
+| Lepton mass spectrum (μ, τ) | ⚠️ | 🚧 | ❌ | ❌ | 🚧 | 🚧 | 🚧 | static |
+| Quarks | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Baryons: bound state (p, n) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Baryons: mass ordering + charge profile | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Baryons: exact masses | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Deuteron (binding + quadrupole) | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Nuclear structure (levels, halos) | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | both |
+| Mesons (π, K) | 🚧 | 🚧 | 🚧 | ❌ | 🚧 | 🚧 | 🚧 | static |
+| Dark matter candidate | 🚧 | 🚧 | 🚧 | ✅ | 🚧 | 🚧 | 🚧 | static |
+| | | | | | | | | |
+| **FORCES** | | | | | | | | |
+| Electric force (Coulomb 1/r, electrostatics) | ✅ | ⚠️ | ❌ | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Lorentz covariance (+ Coulomb = EM) | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Strong force: confinement | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Running coupling | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | static |
+| Weak force: muon decay | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Weak force: beta decay (n → p) | ❌ | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Gravity: Newton limit (GEM) | ⚠️ | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | both |
+| Gravity: local metric phenomena | 🚧 | 🚧 | ⚠️ | 🚧 | 🚧 | ⚠️ | 🚧 | both |
+| Cosmology: Λ / cosmic acceleration | 🚧 | 🚧 | 🚧 | 🚧 | ⚠️ | 🚧 | 🚧 | static |
+| | | | | | | | | |
+| **WAVES + QUANTUM EMERGENCE** | | | | | | | | |
+| EM waves (Maxwell) | ✅ | ⚠️ | ⚠️ | ✅ | 🚧 | 🚧 | 🚧 | dynamic |
+| Quantum wave equation (Klein-Gordon) | ✅ | ⚠️ | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | dynamic |
+| Orbital quantization (atomic structure) | 🚧 | 🚧 | ⚠️ | 🚧 | 🚧 | 🚧 | 🚧 | static |
 
 ### Simplest Test per Criterion
 
@@ -420,15 +421,59 @@ Deep dive: [`m9_theory_canonical.md`](openwave/xperiments/m9_emergent_gravity/re
 | Quantum wave equation (Klein-Gordon) | 🚧 [not yet tested]<br>Inherited: Dirac and gauge fields are inputs on the Einstein-Cartan background, not emergent<br>(none yet) |
 | Orbital quantization (atomic structure) | 🚧 [not yet tested]<br>Not addressed: matter is installed (Standard Model fields), not emerged; the column claims gravity only<br>(none yet) |
 
+## OPH (M10)
+
+Deep dive: [`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) (spec of record, the row map and the scoring rule) · [`m10_background.md`](openwave/xperiments/m10_oph/research/m10_background.md) (the gap map + onboarding evaluation of record) · [`m10_roadmap.md`](openwave/xperiments/m10_oph/research/m10_roadmap.md) (tasks and gates) · [model briefing](openwave/xperiments/m10_oph/__M10_model_briefing.md)
+
+Every row opens not yet tested. The author's constructions exist for all of them, each on its own declared finite source and none on the twelve-port carrier. A declared or installed source is inherited, so a row moves when its observable is computed on the carrier's own process in-platform ([`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) § 8).
+
+| Criteria | Status + result summary |
+| --- | --- |
+| **PARTICLE - ELECTRON** | |
+| Charge quantization | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the electric current's spectrum sits in thirds of a unit on the full fermion Fock space, a unit winding cannot split in two, and on an eight-cell source a transported unit charge arrives with one unit of Gauss flux. The hypercharge embedding and the charge normalization are declared, so quantization is assigned; electron indivisibility is not proved<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Electron rest energy (mass) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a localized charged packet sits within 0.003 ppm above the 511 keV rest branch of the declared kinetic source. The electron mass is the column's energy anchor, so this row is a calibration, and the charge-one energy floor keeps neutral zero modes<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| de Broglie clock (Zitterbewegung) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a collision channel pumps a charged branch at the rest-mass frequency with a finite linewidth. No self-starting oscillation: the author's own theorem shows an energy-conserving collision cannot create the phase, so it needs a declared resource<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Particle stability (Derrick escape) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the charged packet persists over its proved domain and the dressed spin-half band is isolated on the three-mode photon Fock space. The band needs a declared trap; without it the source has no normalizable minimum, so no self-bound particle is claimed<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Magnetic moment μ (g ≈ 2, magnetostatics) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the static magnetic coefficient of the dressed charge is 1.99828, with matching Larmor precession. Trap, regulator and external field are declared, and the deviation from 2 has the opposite sign to the measured anomaly (2.00232)<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Angular momentum J (spin ℏ/2) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the dressed band carries angular momentum one half with the field's share included, on the declared charge source under a trap. Identification with the electron is a premise<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Spin-½ statistics (720° double cover) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: under literal rotations of a cubic source a tensor field returns after 180°, the spin frame after 360° and the amplitude after 720°. The tensor field is a declared readout and the spinor rotation a premise; no exchange-statistics claim<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| **PARTICLE - FULL SPECTRUM** | |
+| Antimatter + annihilation | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the charged current converts a neutral particle-hole pair into two transverse quanta of opposite momentum, conserving energy, charge and momentum. A finite extension with a supplied resonance; no scattering rate<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Neutrinos (neutral states) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: light charge-zero Dirac states come out of the weak decay of a heavier charged state, in all nine neutral pair channels. The masses come from oscillation inputs, with the Dirac term, normal ordering and the lightest mass declared<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Neutrino oscillations (PMNS) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: three-flavour vacuum oscillation records and the matter potential √2 G_F n_e on the calibrated family tensor. The six oscillation parameters are inputs, so the angles are calibrations; the uncalibrated source gives a mixing matrix close to the identity<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Lepton mass spectrum (μ, τ) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a register on one carrier face gives Koide's 2/3 and the phase 2/9, hence the ratios 1 : 206.770 : 3477.47, the muon ratio +9.83 ppm off. A fit by the author's own parameter count: at least five choices against two observables, the register designed with the masses known<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Quarks | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the fractional charges 2/3 and −1/3 as phase lifts of a closed loop of (SU(3)×U(1))/Z3, with a dual-electric string phase that jumps by the quark's charge. No localized texture: the Gauss states hold none, and distinct quark masses are not established<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Baryons: bound state (p, n) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: colour-singlet three-quark states bind below their fragment thresholds, with a propagating band of width 0.145 GeV. Coefficients are calibrated, and the band's zone-edge energy lies at least 0.28 GeV below the relativistic value at the common length<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Baryons: mass ordering + charge profile | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the neutron-assigned state is heavier by 1.2933 MeV, with positive charge inside and negative outside. The ordering follows from calibrated inputs (uncalibrated, proton and neutron are degenerate), and one length cannot match both measured charge radii<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Baryons: exact masses | 🚧 [not yet tested]<br>Author's construction, not run in-platform: proton and neutron masses on one hyperfine action with seven measured inputs. Both masses are calibration inputs, so nothing is predicted here; the bands are one-dimensional with no scattering poles<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Deuteron (binding + quadrupole) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a two-nucleon state bound by 2.2246 MeV, with a matching electric quadrupole at 0.7559 fm per cell. The binding is an input and the length is fitted to the quadrupole, so both halves of the row are calibrations<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Nuclear structure (levels, halos) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: three- and four-baryon boxes with one triton calibration. The held-out helion and alpha both miss their measured masses, with and without a Coulomb term, and the strong mirror gap is fixed at 1.2933 MeV against the observed 0.5295 MeV<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Mesons (π, K) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the charged kaon and Lambda as calibration inputs on a two-family source, with a bulk Lambda that opens the proton-pion shell. The held-out neutral pion (3.3 MeV high), Sigma, Xi, Omega and neutral kaon miss, and no decay amplitude is computed<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Dark matter candidate | 🚧 [not yet tested]<br>Author's construction, not run in-platform: an isolated, stationary neutral band on an eight-cell periodic source, 0.0896 source units above the ground state. The band is flat in momentum; no abundance and no cosmological identity<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| **FORCES** | |
+| Electric force (Coulomb 1/r, electrostatics) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: an attractive inverse-square static force between charges, and an inward acceleration of the charge current, on a finite Hamiltonian. The field-energy coefficient is declared and the strength α is supplied, so the strength earns no credit under the row's own clause<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Lorentz covariance (+ Coulomb = EM) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: moving charged records with group speed bounded by one and a controlled continuum dispersion, on 16, 32 and 64 sites. The kinetic law is a nonlocal square root, a preferred frame is kept, and the baryon band fails the relativistic test<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Strong force: confinement | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the energy of a pinned quark and diquark grows linearly with separation on an open colour chain, by exact Gauss elimination. A constrained potential with external pinning on a declared Gauss-law string; the 1 GeV/fm tension is a declared target<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Running coupling | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the charge response of the dressed charge drops by 54.7 percent across the Brillouin zone. The Wilson coefficient 1/2 was selected as the first of five tested values that shows the onset; no renormalized coupling is derived<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Weak force: muon decay | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a heavier charged state decays to a lighter one and a neutral pair at tree level, the lifetime −0.42 percent off with no radiative corrections. G_F is supplied with muon-lifetime ancestry, and the tau width ratio 0.97256 equals the Standard Model phase-space value<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Weak force: beta decay (n → p) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: the neutron-assigned state converts to proton, electron and antineutrino with a parity-odd momentum record, on the calibrated source. The native axial ratio is 5/3; the measured 1.2753 failed as a held-out value and became an input. No neutron lifetime<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Gravity: Newton limit (GEM) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: positive energy gives mutual attraction through a declared energy-lapse coupling. A tested failure on strength: the one unit attachment gives a Newton constant 1.18 × 10⁴⁰ times too large and light at 0.00196 c, and no length unit repairs it while the electron anchor is kept<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Gravity: local metric phenomena | 🚧 [not yet tested]<br>Author's construction, not run in-platform: on one finite source a wave passing a mass bends inward, arrives late and is redshifted, and nearby clocks run slow. The coupling of light to the geometry is declared, so the size of the bending is encoded, and its unit attachment fails G and c<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Cosmology: Λ / cosmic acceleration | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a declared capacity law gives w = −1, and four capacity histories are compared with fifteen chronometer rows. H₀ and the matter fraction are supplied, and neither a horizon nor an amplitude for Λ is selected, so Λ is not derived<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| **WAVES + QUANTUM EMERGENCE** | |
+| EM waves (Maxwell) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: two transverse polarizations propagate on a cochain field. The Maxwell stencil is declared, so the row is inherited from the installed equations and is not an emergence claim<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Quantum wave equation (Klein-Gordon) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: matter waves obey ω² = k² + m² on all bands of a 90-mode-per-site kinetic source, which the author also wrote as a headless Taichi kernel against the platform. A free source with a declared kinetic law, so the dispersion is installed, not emergent<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+| Orbital quantization (atomic structure) | 🚧 [not yet tested]<br>Author's construction, not run in-platform: a charge bound to a source has discrete negative-energy levels, with a first gap approaching 3/8. Mass, kinetic law and coupling are supplied; no precision hydrogen claim<br>[`m10_theory_canonical.md`](openwave/xperiments/m10_oph/research/m10_theory_canonical.md) |
+
 ## Reading the table
 
-The frameworks escape Derrick's theorem three different ways (standing-wave interference, topology + time-periodic resonance, oscillation), and the table makes the triangulation visible: M7 (HydroBoros) carries M6's topology-plus-oscillation route into a full-3D dynamical PDE, earning the harmonic-frame soliton but surfacing an honest real-time vacuum instability as its open question. M6's own column now records the 2026-07-20 decision-gate close of its electron sector (three honest negatives earned by pre-registered re-derivation; the neutral-sector DM candidate stands), the platform's clearest demonstration that cells move in both directions. Particle stability requires time-periodicity in every framework that achieves it, charge quantization only emerges where there is topology, and lepton mass spectra remain the open problem across all four dynamical columns. The new M8 column (scaffold stage, 2026-07-21) inverts the direction of the whole table: it is a top-down structural model, strong exactly on the origin-of-the-numbers questions the dynamical columns leave open and absent exactly where they are strong (it has no native field equation); its program is to close that gap on the platform ([`m8_background.md`](openwave/xperiments/m8_mit/research/m8_background.md)). That convergence-and-divergence pattern is the platform's scientific product.
+The frameworks escape Derrick's theorem three different ways (standing-wave interference, topology + time-periodic resonance, oscillation), and the table makes the triangulation visible: M7 (HydroBoros) carries M6's topology-plus-oscillation route into a full-3D dynamical PDE, earning the harmonic-frame soliton but surfacing an honest real-time vacuum instability as its open question. M6's own column now records the 2026-07-20 decision-gate close of its electron sector (three honest negatives earned by pre-registered re-derivation; the neutral-sector DM candidate stands), the platform's clearest demonstration that cells move in both directions. Particle stability requires time-periodicity in every framework that achieves it, charge quantization only emerges where there is topology, and lepton mass spectra remain the open problem across all four dynamical columns. The new M8 column (scaffold stage, 2026-07-21) inverts the direction of the whole table: it is a top-down structural model, strong exactly on the origin-of-the-numbers questions the dynamical columns leave open and absent exactly where they are strong (it has no native field equation); its program is to close that gap on the platform ([`m8_background.md`](openwave/xperiments/m8_mit/research/m8_background.md)). The M10 column (admitted 2026-11-13) arrives from a third direction, observers and their records first: its author's constructions cover every row on separately declared sources, and joining them to one process on its carrier is the column's open problem ([`m10_background.md`](openwave/xperiments/m10_oph/research/m10_background.md)). That convergence-and-divergence pattern is the platform's scientific product.
 
-The one-page model briefings summarize what each model brings (identity, profile, per-particle field configurations, status, roadmap, contribution invite). Beyond the five scored columns above: [`M3 Wolff-LaFreniere`](openwave/xperiments/m3_wolff_lafreniere/__M3_model_briefing.md) (the scalar engine behind the EWT record), and the wave-physics library [`M1 Granule Motion`](openwave/xperiments/m1_granule_motion/__M1_model_briefing.md) + [`M2 Free Wave`](openwave/xperiments/m2_free_wave/__M2_model_briefing.md).
+The one-page model briefings summarize what each model brings (identity, profile, per-particle field configurations, status, roadmap, contribution invite). Beyond the scored columns above: [`M3 Wolff-LaFreniere`](openwave/xperiments/m3_wolff_lafreniere/__M3_model_briefing.md) (the scalar engine behind the EWT record), and the wave-physics library [`M1 Granule Motion`](openwave/xperiments/m1_granule_motion/__M1_model_briefing.md) + [`M2 Free Wave`](openwave/xperiments/m2_free_wave/__M2_model_briefing.md).
 
 ## Contributing a model or a validation
 
-**Yes, new models and validations are welcome, and the bar is reproducibility, not orthodoxy.** Competing and unconventional frameworks are explicitly in scope (the table already spans five). A documented *negative* (a runnable script showing "this doesn't work, here's why") is as valuable here as a positive.
+**Yes, new models and validations are welcome, and the bar is reproducibility, not orthodoxy.** Competing and unconventional frameworks are explicitly in scope (the table already spans seven). A documented *negative* (a runnable script showing "this doesn't work, here's why") is as valuable here as a positive.
 
 **What you can contribute:**
 
