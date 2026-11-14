@@ -1,0 +1,147 @@
+{
+ "name": "r2_g91_cont",
+ "card": "C",
+ "lam": 1.0,
+ "grid": 91,
+ "half_box": 10.125,
+ "spacing": 0.22499999999999964,
+ "delta": 0.2,
+ "kx": 0.25,
+ "ko": 0.02,
+ "start": {
+  "kind": "pad",
+  "source": "m5_39_r2_g73_cont.npz",
+  "source_grid": 73,
+  "source_iteration": 602,
+  "source_energy": 75.52595627987365,
+  "center_eigenvalues": [
+   0.3311818227001051,
+   0.3833865053071687,
+   0.39045237264937543
+  ],
+  "energy": 75.52595627987357,
+  "terms": [
+   33.775490920922614,
+   39.70574519312951,
+   2.9366990706111994e-08,
+   0.004200230586454089,
+   0.001974413769320702,
+   2.0385453122386235,
+   1.7986006360167343e-07
+  ],
+  "residual": 0.0318114484107642,
+  "degree": 1,
+  "gradient_check": [
+   9.38914896030358e-09,
+   2.1072513861196423e-09,
+   1.1200953744513542e-08
+  ]
+ },
+ "caps": {
+  "main": 3000,
+  "polish": 1000,
+  "handoff": 0
+ },
+ "label": "STATIONARY",
+ "gate": 0.001,
+ "optimizer_stop_gate": 0.001,
+ "energy": 75.52024345681441,
+ "terms": [
+  33.769521802132886,
+  39.69491219810482,
+  2.9218857145442048e-08,
+  0.004202933019800859,
+  0.0019750022581171292,
+  2.0496313118707548,
+  1.8020918610014045e-07
+ ],
+ "term_names": [
+  "tensor_quadratic",
+  "quaternion_quartic",
+  "record_quartic",
+  "composite_quadratics",
+  "record_potential",
+  "pion_mass",
+  "orientation"
+ ],
+ "composites": [
+  0.003848088641107972,
+  0.000354844378692887
+ ],
+ "residual": 0.0006465266064772027,
+ "residual_winding": 0.0006465266064772027,
+ "residual_factor": 0.00013474428320282622,
+ "degree": 1,
+ "degree_preimages": 1,
+ "hemisphere_margin_first_triangulation": 3.407018168023362,
+ "hemisphere_margin_four_triangulations": 3.4070170707546414,
+ "center_eigenvalues": [
+  0.33118644002806685,
+  0.383398331998997,
+  0.3904608801390971
+ ],
+ "branch": "ISOTROPIC CENTER",
+ "iterations": 185,
+ "evaluations": 195,
+ "wall_hits": 0,
+ "energy_drift_last_tenth": 3.6026521854637394e-07,
+ "saved_states_under_the_gate": [],
+ "handoff_iteration": null,
+ "segments": [
+  {
+   "segment": "main",
+   "iterations": 185,
+   "optimizer_success": true,
+   "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "optimizer_value": 75.52024345681441,
+   "wall_time_s": 313.001540184021
+  }
+ ],
+ "resumed_at": [],
+ "threads": 6,
+ "wall_time_s": 323.21298694610596,
+ "history": [
+  {
+   "iteration": 50,
+   "segment": "main",
+   "energy": 75.52077204547888,
+   "residual": 0.18058424379281246,
+   "residual_winding": 0.18058424379281246,
+   "residual_factor": 0.00013372228320303916,
+   "center_eigenvalues": [
+    0.3311906564003068,
+    0.38338290129378816,
+    0.39044749009267515
+   ],
+   "seconds_per_iteration": 1.524111042022705
+  },
+  {
+   "iteration": 100,
+   "segment": "main",
+   "energy": 75.52028631042027,
+   "residual": 0.07239700838143664,
+   "residual_winding": 0.07239700838143664,
+   "residual_factor": 0.0001390016945773511,
+   "center_eigenvalues": [
+    0.3311902230778503,
+    0.3833872940635688,
+    0.3904440426767293
+   ],
+   "seconds_per_iteration": 1.6432650303840637
+  },
+  {
+   "iteration": 150,
+   "segment": "main",
+   "energy": 75.52024484572955,
+   "residual": 0.005548868609853567,
+   "residual_winding": 0.005548868609853567,
+   "residual_factor": 0.00012816081679551745,
+   "center_eigenvalues": [
+    0.33118960074569,
+    0.3833897238206137,
+    0.390449603304231
+   ],
+   "seconds_per_iteration": 1.6848204390207926
+  }
+ ]
+}
