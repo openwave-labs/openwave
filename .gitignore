@@ -266,3 +266,10 @@ openwave/xperiments/*/data/_live_monitor_data.json
 # M4 K-sweep demo output (pipeline_engine/physics/_demo_k_sweep.py), regenerated on each run.
 # The file only: m2 and m5 track files in their model-root data/ folders.
 openwave/xperiments/m4_ewt/data/k_sweep_golden.json
+
+# M4.11 scan output and the M4.7 resonance-scanner figures, regenerated on each run and
+# recorded as not committed in the M4.11 findings note (the exception to the tracked-summary
+# rule above, by that note). The named files only.
+openwave/xperiments/m4_ewt/research/data/m4_11_lock_in_n_scan.csv
+openwave/xperiments/m4_ewt/research/data/m4_11_lock_in_n_scan.json
+openwave/xperiments/m4_ewt/research/scripts/Fig[1-4]_*.pdf
