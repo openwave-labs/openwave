@@ -4,6 +4,7 @@ M4/EWT - N as the internal lock-in point: drift, resolution, grouping.
 
 OpenWave criterion:
     Gravity: Newton limit (GEM) + local metric phenomena (strength clause)
+    Cosmology: Lambda / cosmic acceleration
 
 Purpose:
     Quantify how the geometric stiffness N_geom = 778.8025 acts as the
@@ -20,6 +21,28 @@ Purpose:
 
     Only PDG quark masses are used for the Cabibbo sector. No EWT quark
     masses enter the calculation.
+
+    Cosmological rows (added 2026-11-14):
+      - Omega_vac(N): effective vacuum fraction Omega_BCC * C_gap. This
+        depends on N only through eps_M, so it is INDEPENDENT of G and
+        lambda_l. It is the only cosmological sector that does not
+        inherit G's sensitivity.
+      - Lambda_vac(N): full chain N -> eps_M -> alpha -> {hbar, lambda_l}
+        -> G -> T_p -> R_H -> H_0 -> Lambda_dS -> Omega_vac -> Lambda_vac.
+        Because G enters through a -12 power and the chain preserves
+        that exponent, beta(Lambda_vac) is dominated by -12 from G. This
+        row is therefore a CONSISTENCY TEST WITH G, not an independent
+        constraint on N. It is reported honestly as such.
+        Two distinct G-related observations apply to the cosmological
+        chain. First, G_geom is a derived quantity, not a free parameter:
+        the combinations hbar/G (in T_p^2) and hbar*G (in lambda_l^2)
+        reduce to expressions in r_e, m_e, c, alpha_geom, and the BCC
+        geometric factors, so the 0.048% residual on G_geom is a test of
+        the geometry, not an accuracy on H_0 or Lambda_vac. Second, G(N)
+        itself scales as N^-12, so Lambda_vac(N) inherits that sensitivity
+        even though the G symbol drops out of the symbolic combination.
+        The first observation is about provenance; the second is about
+        the lock-in scan's N-dependence. Both are true and distinct.
 
 Output:
     - console: three sections
@@ -43,14 +66,27 @@ try:
         BCC_IDEAL_PROJECTION_LP,
         compute_alpha_geometric,
         derive_eps_M_from_BCC,
+        build_geometric_ladder,
         derive_planck_charge_from_e,
         derive_neutrino_radius,
+        derive_hbar,
         derive_lambda_l_geometric,
         gravity_sector,
         compute_lepton_amms,
     )
 except ImportError:
-    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
+    raise ImportError(
+        "This module requires m4_7_ewt_emergence_engine.py in the same directory."
+    )
+
+
+# ----------------------------------------------------------------------
+# Cosmological constants (v5.3.1, see M4.14 findings)
+# ----------------------------------------------------------------------
+K_B           = 1.380649e-23    # exact SI 2019
+T_CMB_CODATA  = 2.7255          # COBE/FIRAS anchor
+LAMBDA_PLANCK = 1.089e-52       # Planck 2018 [m^-2]
+OMEGA_L_BAO   = 0.6889          # Planck+BAO
 
 
 # ----------------------------------------------------------------------
@@ -111,16 +147,19 @@ def amm_values(N: float) -> dict:
 
 
 def mixing_values(N: float) -> dict:
-    """Raw mixing angle predictions at given N."""
+    """Raw mixing angle predictions at given N (N = N_geom in the scan)."""
     eps_M = 1.0 / (N * PI**3)
 
-    # Pure neutral gap operator (manuscript Section 3.1.1)
-    C_local = eps_M / (2.0 * SQRT2)
-    C_gap = 1.0 + PI**6 * C_local
+    # zeta tracks N through the constraint N = 8*pi^4 * (1 - zeta):
+    #   zeta = 1 - N/(8*pi^4)
+    # At N = N_geom_ref it reproduces the reference zeta = 6.034e-4 from
+    # derive_eps_M_from_BCC. The ladder is taken from the engine so that
+    # C_local, C_gap, and eps_flavor share a single source of truth.
+    zeta = 1.0 - N / (8.0 * PI**4)
+    ladder = build_geometric_ladder(eps_M, zeta=zeta)
 
-    # Linear flavor deficit at the pi^5 rung (v5.2.2+; replaces removed C_fermion).
-    # With N = 8 pi^4 (1 - zeta), this reduces to 1/(pi * N).
-    eps_flavor = 1.0 / (PI * N)
+    C_gap = ladder["C_gap"]
+    eps_flavor = ladder["eps_flavor"]
 
     # M_W_PDG is the anchor (PDG 2022 average, 80.377 GeV)
     sin2_W_pred = 1.0 - (M_W_PDG / M_Z_CODATA) ** 2 * (1.0 / C_gap)
@@ -132,6 +171,71 @@ def mixing_values(N: float) -> dict:
     }
 
 
+def Omega_vac_value(N: float) -> float:
+    """
+    Effective vacuum fraction Omega_vac = eta_BCC * C_gap at given N.
+
+    INDEPENDENT of G and lambda_l: this sector tests only eps_M(N)
+    through the neutral gap operator C_gap. It is the only cosmological
+    quantity that does not inherit G's sensitivity. See M4.14 findings.
+    """
+    eps_M = 1.0 / (N * PI**3)
+    zeta = 1.0 - N / (8.0 * PI**4)
+    ladder = build_geometric_ladder(eps_M, zeta=zeta)
+    eta_BCC = SQRT3 * PI / 8.0
+    return eta_BCC * ladder["C_gap"]
+
+
+def Lambda_vac_value(N: float) -> float:
+    """
+    Observed cosmological constant Lambda_vac = Omega_vac * Lambda_dS at N.
+
+    WARNING: the logarithmic derivative is dominated by -12 from G(N),
+    through the chain N -> eps_M -> alpha -> {hbar, lambda_l} -> G -> T_p
+    -> R_H -> H_0 -> Lambda_dS -> Omega_vac -> Lambda_vac. This row is a
+    CONSISTENCY TEST WITH G, not an independent constraint on N. For an
+    independent cosmological test, see Omega_vac.
+    """
+    eps_M = 1.0 / (N * PI**3)
+    alpha_inv = compute_alpha_geometric(eps_M)
+    alpha_geom = 1.0 / alpha_inv
+
+    q_P = derive_planck_charge_from_e(alpha_geom, E_CHARGE_CODATA)
+    r_nu = derive_neutrino_radius(alpha_geom, q_P)["r_nu"]
+
+    lambda_l = derive_lambda_l_geometric(
+        alpha_geom=alpha_geom,
+        r_e=R_E,
+        r_nu=r_nu,
+        N_geom=N,
+        L_p_geom=BCC_IDEAL_PROJECTION_LP,
+        K_WC=10,
+    )
+
+    gravity_res = gravity_sector(
+        alpha_geom=alpha_geom,
+        r_nu=r_nu,
+        N_geom=N,
+        L_p_geom=BCC_IDEAL_PROJECTION_LP,
+        K_WC=10,
+        lambda_l=lambda_l,
+        r_e=R_E,
+        m_e=M_E,
+        c0=C0,
+    )
+    G_EWT = gravity_res["G_EWT"]
+
+    hbar_geom = derive_hbar(alpha_geom, R_E, M_E, C0)
+    T_p = (1.0 / K_B) * math.sqrt(hbar_geom * C0**5 / G_EWT)
+
+    H_factor = 8.0 * (2.0 * PI)**2
+    R_H = lambda_l * (T_p / T_CMB_CODATA)**2 / H_factor
+    H_0_si = C0 / R_H
+    Lambda_dS = 3.0 * H_0_si**2 / C0**2
+
+    return Omega_vac_value(N) * Lambda_dS
+
+
 SECTOR_VALUE_FUNCS = {
     "alpha": alpha_value,
     "G": G_value,
@@ -140,6 +244,8 @@ SECTOR_VALUE_FUNCS = {
     "a_tau": lambda N: amm_values(N)["a_tau"],
     "sin2_W": lambda N: mixing_values(N)["sin2_W"],
     "sin_C": lambda N: mixing_values(N)["sin_C"],
+    "Lambda_vac": Lambda_vac_value,
+    "Omega_vac": Omega_vac_value,
 }
 
 SECTOR_TARGETS = {
@@ -150,6 +256,8 @@ SECTOR_TARGETS = {
     "a_tau": A_TAU_EXP,
     "sin2_W": SIN2_THETA_W,
     "sin_C": SIN_THETA_C_PDG,
+    "Lambda_vac": LAMBDA_PLANCK,
+    "Omega_vac": OMEGA_L_BAO,
 }
 
 SECTOR_LABELS = {
@@ -160,6 +268,8 @@ SECTOR_LABELS = {
     "a_tau": "a_tau",
     "sin2_W": "sin^2(theta_W)",
     "sin_C": "sin(theta_C)",
+    "Lambda_vac": "Lambda_vac",
+    "Omega_vac": "Omega_vac",
 }
 
 
@@ -175,9 +285,7 @@ def relative_error(N: float, sector: str) -> float:
 
 
 def log_derivative(N: float, sector: str, h: float = 1e-6) -> float:
-    """
-    d(ln O)/d(ln N) for sector at N by central difference in log N.
-    """
+    """d(ln O)/d(ln N) for sector at N by central difference in log N."""
     log_N = math.log(N)
     val_plus = math.log(SECTOR_VALUE_FUNCS[sector](math.exp(log_N + h)))
     val_minus = math.log(SECTOR_VALUE_FUNCS[sector](math.exp(log_N - h)))
@@ -377,6 +485,39 @@ def main():
               f"{SECTOR_LABELS[primary_members[1]]}): {agreement_pct:.4f}% of N_geom")
 
     # ------------------------------------------------------------------
+    # NOTE on the cosmological rows
+    # ------------------------------------------------------------------
+    print("\n" + "=" * 78)
+    print("NOTE: cosmological rows")
+    print("=" * 78)
+    print("  Two distinct G-related observations:")
+    print()
+    print("  1. G_geom is a derived quantity, not a free parameter.")
+    print("     In the combinations that determine T_p^2 (~ hbar/G) and")
+    print("     lambda_l^2 (~ hbar*G), the symbols hbar and G do not")
+    print("     appear when the expressions are written out: both")
+    print("     combinations reduce to expressions in r_e, m_e, c,")
+    print("     alpha_geom, and the BCC geometric factors (manuscript")
+    print("     v5.3.1, sec:cosmo_summary). Numerically, G_EWT is")
+    print("     computed in this script as an intermediate, but the")
+    print("     chain could be written without it. Consequently, the")
+    print("     0.048% residual of G_geom against CODATA is a test of")
+    print("     the BCC geometry at the level of G, not a direct")
+    print("     accuracy on H_0 or Lambda_vac.")
+    print()
+    print("  2. G(N) sensitivity propagates through the chain (this is")
+    print("     what the lock-in scan measures).")
+    print("     G depends on N through the -12 exponent of the lattice")
+    print("     stiffness, and Lambda_vac inherits this exponent:")
+    print("     beta(Lambda_vac) = -12.014, dominated by -12 from G.")
+    print("     Lambda_vac is therefore a CONSISTENCY TEST WITH G, not")
+    print("     an independent constraint on N.")
+    print()
+    print("  Omega_vac depends on N only through eps_M (via C_gap), so it")
+    print("  is INDEPENDENT of G and lambda_l. It is the only")
+    print("  cosmological sector that does not inherit G's sensitivity.")
+
+    # ------------------------------------------------------------------
     # Save artifacts
     # ------------------------------------------------------------------
     out_dir = Path(__file__).resolve().parents[1] / "data"
@@ -411,6 +552,10 @@ def main():
         "N_opt": N_opt,
         "grouping": {g: [SECTOR_LABELS[n] for n in members] for g, members in groups.items()},
         "shift_C": shift_C,
+        "cosmological_note": {
+            "Lambda_vac": "inherits beta from G; consistency test, not independent",
+            "Omega_vac": "independent of G; tests eps_M(N) alone",
+        },
     }
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
