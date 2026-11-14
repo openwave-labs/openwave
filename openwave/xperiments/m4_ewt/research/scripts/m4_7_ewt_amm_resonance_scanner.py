@@ -32,7 +32,7 @@ try:
         derive_eps_M_from_BCC,
     )
 except ImportError:
-    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
 
 
 # =============================================================================

@@ -44,7 +44,7 @@ try:
     from m4_7_ewt_particle_masses import mass_spherical
 except ImportError:
     raise ImportError(
-        "This module requires ewt_emergence_engine.py and ewt_particle_masses.py."
+        "This module requires m4_7_ewt_emergence_engine.py and m4_7_ewt_particle_masses.py."
     )
 
 
