@@ -1,0 +1,458 @@
+{
+ "task": "M5.40 R1",
+ "digests": {
+  "files": 14,
+  "all_match": true,
+  "rows": [
+   {
+    "file": "bq_c33/residual_edge/final.npz",
+    "match": true
+   },
+   {
+    "file": "bq_c33/residual_edge/run.json",
+    "match": true
+   },
+   {
+    "file": "bq_c_refine/bq_core.py",
+    "match": true
+   },
+   {
+    "file": "bq_c_refine/dn87_relax.py",
+    "match": true
+   },
+   {
+    "file": "bq_c_refine/fast_quartic.py",
+    "match": true
+   },
+   {
+    "file": "bq_rc76/gate55/final.npz",
+    "match": true
+   },
+   {
+    "file": "bq_rc76/gate55/run.json",
+    "match": true
+   },
+   {
+    "file": "bq_rc76/kinetic_operator.py",
+    "match": true
+   },
+   {
+    "file": "definitions/inertia.py",
+    "match": true
+   },
+   {
+    "file": "definitions/lattice_source.py",
+    "match": true
+   },
+   {
+    "file": "definitions/magnetic_correction.py",
+    "match": true
+   },
+   {
+    "file": "definitions/radius_sensitivity.py",
+    "match": true
+   },
+   {
+    "file": "definitions/static_preflight.py",
+    "match": true
+   },
+   {
+    "file": "definitions/zero_q2.py",
+    "match": true
+   }
+  ]
+ },
+ "fields": [
+  {
+   "tag": "g33",
+   "source": "bq_c33/residual_edge/final.npz",
+   "grid": 33,
+   "half_box": 3.6,
+   "spacing": 0.2250000000000001,
+   "run_record": {
+    "card": "C",
+    "delta": 0.2,
+    "ko": 0.02,
+    "kx": 0.25,
+    "grid": 33,
+    "box": 3.6,
+    "seed": "smooth",
+    "tetra": "symmetric",
+    "stencil": "edge",
+    "frame_scale": 3.0,
+    "steps": 200,
+    "report": 25,
+    "residual": 0.001,
+    "align_start": false,
+    "reset_frame": false,
+    "filter_center": false,
+    "sobolev": 0.3,
+    "h": 0.2250000000000001,
+    "gradient_check": [
+     1.2956652452279435e-07,
+     2.6297400810334354e-08,
+     9.624233406513479e-08
+    ],
+    "success": false,
+    "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+    "filter_cutoff": 0.75,
+    "source_input": "bq_c33/last_edge/final.npz",
+    "damping": 8e-05,
+    "method": "normalized raw-residual polish with descending energy"
+   },
+   "run_record_history": [
+    {
+     "step": 0,
+     "energy": 76.05003057685762,
+     "residual": 0.0009398386491751648,
+     "residual_q": 0.0004937641356741035,
+     "residual_f": 0.0009398386491751648,
+     "degree": 1,
+     "margin": 0.7007126577593885,
+     "max_record_amplitude": 0.39375728165396306,
+     "tag": "final"
+    }
+   ],
+   "layout": {
+    "arrays": {
+     "state": [
+      33,
+      33,
+      33,
+      13
+     ],
+     "record": [
+      33,
+      33,
+      33,
+      3,
+      3
+     ],
+     "q": [
+      33,
+      33,
+      33,
+      4
+     ],
+     "coords": [
+      33,
+      33,
+      33,
+      3
+     ]
+    },
+    "dtype": "float64",
+    "coords_against_the_card_grid": 0.0,
+    "stored_q_against_p_over_length": 0.0,
+    "stored_record_against_f_transpose_f": 0.0,
+    "boundary_against_the_card_values": 0.0,
+    "winding_vector_length": {
+     "min": 0.9999999999999998,
+     "max": 1.0000000000000002,
+     "interior_min": 0.9999999999999998,
+     "interior_max": 1.0000000000000002,
+     "largest_departure_from_one": 2.220446049250313e-16
+    }
+   },
+   "terms": [
+    33.694989945351736,
+    40.65363255658854,
+    4.2925726991505853e-08,
+    0.004085191911722977,
+    0.0019531460683151042,
+    1.6953693097809728,
+    3.842940630282256e-07
+   ],
+   "term_names": [
+    "tensor_quadratic",
+    "quaternion_quartic",
+    "record_quartic",
+    "composite_quadratics",
+    "record_potential",
+    "pion_mass",
+    "orientation"
+   ],
+   "K1": {
+    "energy": 76.05003057692109,
+    "recorded": 76.05003057685762,
+    "relative_difference": 8.345253338715296e-13,
+    "bound": 1e-10,
+    "met": true
+   },
+   "K2": {
+    "degree": 1,
+    "degree_preimages": 1,
+    "recorded_degree": 1,
+    "pair_margin": 0.7007126577593885,
+    "hemisphere_margin_first_triangulation": 3.389114532946902,
+    "hemisphere_margin_four_triangulations": 3.389114532946902,
+    "recorded_margin": 0.7007126577593885,
+    "recorded_max_record_amplitude": 0.39375728165396306,
+    "max_record_amplitude_candidates": {
+     "largest record eigenvalue over the grid": 0.39375728165396306,
+     "largest record eigenvalue at the center node": 0.39375728165396306,
+     "largest entry of the record in magnitude": 0.3937532339268173,
+     "largest singular value of the factor": 0.627500822034492,
+     "largest entry of the factor in magnitude": 0.5974618323727394,
+     "largest Frobenius norm of the record": 0.6381732411254808
+    },
+    "node_of_the_largest_record_eigenvalue": {
+     "index": [
+      16,
+      16,
+      16
+     ],
+     "radius": 0.0
+    },
+    "center_eigenvalues": [
+     0.33341617046860317,
+     0.3755714926656893,
+     0.39375728165396306
+    ],
+    "branch": "ISOTROPIC CENTER",
+    "pair_margin_relative_difference": 0.0,
+    "max_record_amplitude_matches": [
+     "largest record eigenvalue over the grid",
+     "largest record eigenvalue at the center node"
+    ],
+    "met": true
+   },
+   "K3": {
+    "recorded": {
+     "residual": 0.0009398386491751648,
+     "residual_q": 0.0004937641356741035,
+     "residual_f": 0.0009398386491751648
+    },
+    "readings": {
+     "A, on the winding vector as stored": {
+      "residual": 0.00093983864917515,
+      "residual_q": 0.0004937641356858661,
+      "residual_f": 0.00093983864917515,
+      "relative_differences": {
+       "residual": 1.5804382780052108e-14,
+       "residual_q": 2.3822341356270767e-11,
+       "residual_f": 1.5804382780052108e-14
+      },
+      "met": true
+     },
+     "B, on the unit sphere": {
+      "residual": 0.00093983864917515,
+      "residual_q": 0.0004937641356858661,
+      "residual_f": 0.00093983864917515,
+      "relative_differences": {
+       "residual": 1.5804382780052108e-14,
+       "residual_q": 2.3822341356270767e-11,
+       "residual_f": 1.5804382780052108e-14
+      },
+      "met": true
+     }
+    },
+    "bound": 0.01,
+    "identified_with": [
+     "A, on the winding vector as stored",
+     "B, on the unit sphere"
+    ],
+    "largest_node_norm_of_the_unit_sphere_winding_gradient_over_h3": 0.000566013670341646
+   },
+   "converted_copy": "m5_40_author_g33.npz"
+  },
+  {
+   "tag": "g55",
+   "source": "bq_rc76/gate55/final.npz",
+   "grid": 55,
+   "half_box": 6.075,
+   "spacing": 0.22499999999999964,
+   "run_record": {
+    "card": "C",
+    "delta": 0.2,
+    "ko": 0.02,
+    "kx": 0.25,
+    "grid": 55,
+    "box": 6.075,
+    "seed": "smooth",
+    "tetra": "symmetric",
+    "stencil": "edge",
+    "frame_scale": 4.0,
+    "steps": 90,
+    "report": 20,
+    "residual": 0.001,
+    "align_start": false,
+    "reset_frame": false,
+    "filter_center": false,
+    "sobolev": 0.3,
+    "h": 0.22499999999999964,
+    "gradient_check": [
+     6.99121852846522e-08,
+     2.2480795365205136e-08,
+     1.5619571739009246e-07
+    ],
+    "filter_cutoff": 0.75,
+    "source_input": "bq_rc76/final55/final.npz",
+    "damping": 5e-05,
+    "method": "normalized raw-residual polish with descending energy"
+   },
+   "run_record_history": [
+    {
+     "step": 0,
+     "energy": 75.56196067298767,
+     "residual": 0.0010342958242354656,
+     "residual_q": 0.0010342958242354656,
+     "residual_f": 0.0007689358258631073
+    },
+    {
+     "step": 1,
+     "energy": 75.56196067295708,
+     "residual": 0.0007687154202239039,
+     "residual_q": 0.0006954587150100987,
+     "residual_f": 0.0007687154202239039,
+     "degree": 1,
+     "margin": 0.7086535367852621,
+     "max_record_amplitude": 0.3954694856350875,
+     "tag": "final"
+    }
+   ],
+   "layout": {
+    "arrays": {
+     "state": [
+      55,
+      55,
+      55,
+      13
+     ],
+     "record": [
+      55,
+      55,
+      55,
+      3,
+      3
+     ],
+     "q": [
+      55,
+      55,
+      55,
+      4
+     ],
+     "coords": [
+      55,
+      55,
+      55,
+      3
+     ]
+    },
+    "dtype": "float64",
+    "coords_against_the_card_grid": 0.0,
+    "stored_q_against_p_over_length": 0.0,
+    "stored_record_against_f_transpose_f": 0.0,
+    "boundary_against_the_card_values": 0.0,
+    "winding_vector_length": {
+     "min": 0.9999999999999998,
+     "max": 1.0000000000000002,
+     "interior_min": 0.9999999999999998,
+     "interior_max": 1.0000000000000002,
+     "largest_departure_from_one": 2.220446049250313e-16
+    }
+   },
+   "terms": [
+    33.79148216955273,
+    39.77198959840249,
+    4.3777230714618036e-08,
+    0.004206512288484165,
+    0.0019833023277314103,
+    1.992298682163324,
+    3.649526928097236e-07
+   ],
+   "term_names": [
+    "tensor_quadratic",
+    "quaternion_quartic",
+    "record_quartic",
+    "composite_quadratics",
+    "record_potential",
+    "pion_mass",
+    "orientation"
+   ],
+   "K1": {
+    "energy": 75.5619606734647,
+    "recorded": 75.56196067295708,
+    "relative_difference": 6.71782105580917e-12,
+    "bound": 1e-10,
+    "met": true
+   },
+   "K2": {
+    "degree": 1,
+    "degree_preimages": 1,
+    "recorded_degree": 1,
+    "pair_margin": 0.7086535367852621,
+    "hemisphere_margin_first_triangulation": 3.405551021941825,
+    "hemisphere_margin_four_triangulations": 3.405549545267121,
+    "recorded_margin": 0.7086535367852621,
+    "recorded_max_record_amplitude": 0.3954694856350875,
+    "max_record_amplitude_candidates": {
+     "largest record eigenvalue over the grid": 0.3954694856350875,
+     "largest record eigenvalue at the center node": 0.3954694856350875,
+     "largest entry of the record in magnitude": 0.39546508992143853,
+     "largest singular value of the factor": 0.6288636462978977,
+     "largest entry of the factor in magnitude": 0.5997363351133107,
+     "largest Frobenius norm of the record": 0.6393717395698539
+    },
+    "node_of_the_largest_record_eigenvalue": {
+     "index": [
+      27,
+      27,
+      27
+     ],
+     "radius": 0.0
+    },
+    "center_eigenvalues": [
+     0.3335811877729884,
+     0.3756643428062649,
+     0.3954694856350875
+    ],
+    "branch": "ISOTROPIC CENTER",
+    "pair_margin_relative_difference": 0.0,
+    "max_record_amplitude_matches": [
+     "largest record eigenvalue over the grid",
+     "largest record eigenvalue at the center node"
+    ],
+    "met": true
+   },
+   "K3": {
+    "recorded": {
+     "residual": 0.0007687154202239039,
+     "residual_q": 0.0006954587150100987,
+     "residual_f": 0.0007687154202239039
+    },
+    "readings": {
+     "A, on the winding vector as stored": {
+      "residual": 0.0007687154202239032,
+      "residual_q": 0.0006954587149780534,
+      "residual_f": 0.0007687154202239032,
+      "relative_differences": {
+       "residual": 8.462446392734326e-16,
+       "residual_q": 4.607797593106549e-11,
+       "residual_f": 8.462446392734326e-16
+      },
+      "met": true
+     },
+     "B, on the unit sphere": {
+      "residual": 0.0007687154202239032,
+      "residual_q": 0.0006954587149780531,
+      "residual_f": 0.0007687154202239032,
+      "relative_differences": {
+       "residual": 8.462446392734326e-16,
+       "residual_q": 4.607828772589934e-11,
+       "residual_f": 8.462446392734326e-16
+      },
+      "met": true
+     }
+    },
+    "bound": 0.01,
+    "identified_with": [
+     "A, on the winding vector as stored",
+     "B, on the unit sphere"
+    ],
+    "largest_node_norm_of_the_unit_sphere_winding_gradient_over_h3": 0.0009984396358177986
+   },
+   "converted_copy": "m5_40_author_g55.npz"
+  }
+ ]
+}

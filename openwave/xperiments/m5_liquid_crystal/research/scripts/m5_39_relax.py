@@ -104,6 +104,7 @@ def main():
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--stop-gate", type=float, default=GATE, help="the optimizer's own stop (the card's driver: the gate); "
                     "a smaller value lets a run go on past the gate. The label is always read at the card's gate")
+    ap.add_argument("--prefix", default="m5_39", help="prefix of the output files (a later task reuses the driver under its own)")
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--work-dir", type=Path, required=True)
     a = ap.parse_args()
@@ -149,7 +150,7 @@ def main():
     first = evaluate(full)
     if first is None:
         result = dict(name=a.name, label="INADMISSIBLE", reason="the start is not admissible at this spacing", start=start_info)
-        (a.out_dir / f"m5_39_{a.name}.json").write_text(json.dumps(result, indent=1) + "\n")
+        (a.out_dir / f"{a.prefix}_{a.name}.json").write_text(json.dumps(result, indent=1) + "\n")
         print(json.dumps(result), flush=True)
         return
     terms0, g0 = first
@@ -210,9 +211,14 @@ def main():
                 st["wall_hits"] += 1
                 return WALL, np.zeros_like(y)
             terms, grad = res
+            # the length of the winding unknowns, and the winding gradient read on the unit sphere
+            # (grad_p times |p| node by node); added for M5.40, the optimizer does not see them
+            plen = np.linalg.norm(C.interior(work_state)[..., :4], axis=-1).reshape(-1, 1)
             st["last"] = (y.copy(), terms, float(np.max(np.abs(grad)) / h ** 3),
                           float(np.max(np.abs(grad.reshape(-1, 13)[:, :4])) / h ** 3),
-                          float(np.max(np.abs(grad.reshape(-1, 13)[:, 4:])) / h ** 3))
+                          float(np.max(np.abs(grad.reshape(-1, 13)[:, 4:])) / h ** 3),
+                          float(np.max(np.abs(grad.reshape(-1, 13)[:, :4]) * plen) / h ** 3),
+                          float(plen.min()), float(plen.max()))
             return float(terms.sum()), grad * scale
 
         def callback(y):
@@ -233,7 +239,8 @@ def main():
                 eig = C.center_eigenvalues(state_of(y))
                 per = (time.time() - t_seg) / max(1, it - it_seg0)
                 row = dict(iteration=it, segment=tag, energy=float(last[1].sum()), residual=last[2], residual_winding=last[3],
-                           residual_factor=last[4], center_eigenvalues=eig.tolist(), seconds_per_iteration=per)
+                           residual_factor=last[4], residual_winding_unit_sphere=last[5], winding_length_min=last[6],
+                           winding_length_max=last[7], center_eigenvalues=eig.tolist(), seconds_per_iteration=per)
                 st["rows"].append(row)
                 save_checkpoint(state_of(y))
                 (work / "progress.json").write_text(json.dumps(dict(name=a.name, **row, evaluations=st["evaluations"],
@@ -298,6 +305,7 @@ def main():
     else:
         label = "NOT STATIONARY"
     gq = grad.reshape(-1, 13) if admissible_end else None
+    plen_end = np.linalg.norm(C.interior(full)[..., :4], axis=-1).reshape(-1, 1)
     result = dict(
         name=a.name, card="C" if a.lam == 1.0 else f"C with a a^T / G_time scaled by {a.lam:g}", lam=a.lam,
         grid=a.grid, half_box=a.box, spacing=h, delta=a.delta, kx=a.kx, ko=a.ko, start=start_info,
@@ -307,6 +315,8 @@ def main():
         residual=residual,
         residual_winding=float(np.max(np.abs(gq[:, :4])) / h ** 3) if admissible_end else None,
         residual_factor=float(np.max(np.abs(gq[:, 4:])) / h ** 3) if admissible_end else None,
+        residual_winding_unit_sphere=float(np.max(np.abs(gq[:, :4]) * plen_end) / h ** 3) if admissible_end else None,
+        winding_length_range=[float(plen_end.min()), float(plen_end.max())],
         degree=int(deg), degree_preimages=int(hits), hemisphere_margin_first_triangulation=float(m0),
         hemisphere_margin_four_triangulations=float(m4), center_eigenvalues=eig.tolist(), branch=C.branch(eig),
         iterations=st["iteration"], evaluations=st["evaluations"], wall_hits=st["wall_hits"],
@@ -314,11 +324,11 @@ def main():
         segments=st["segments"], resumed_at=st["resumed_at"], threads=a.threads, wall_time_s=time.time() - t_start,
         history=st["rows"],
     )
-    C.save_state(a.out_dir / f"m5_39_{a.name}.npz", full, coords, compressed=True, iteration=st["iteration"], energy=energy,
+    C.save_state(a.out_dir / f"{a.prefix}_{a.name}.npz", full, coords, compressed=True, iteration=st["iteration"], energy=energy,
                  trace_it=ti, trace_e=te, trace_res=np.array(st["trace_res"]))
-    tmp = a.out_dir / f"m5_39_{a.name}.json.tmp"
+    tmp = a.out_dir / f"{a.prefix}_{a.name}.json.tmp"
     tmp.write_text(json.dumps(result, indent=1) + "\n")
-    os.replace(tmp, a.out_dir / f"m5_39_{a.name}.json")
+    os.replace(tmp, a.out_dir / f"{a.prefix}_{a.name}.json")
     if ckpt.exists():
         ckpt.unlink()
     print(a.name, "DONE", label, f"E {energy:.6f} residual {residual:.2e} iterations {st['iteration']} center {np.round(eig, 4).tolist()}", flush=True)

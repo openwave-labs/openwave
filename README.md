@@ -112,9 +112,9 @@ OpenWave is the **simulator and comparison engine**; the candidate frameworks co
 - Milo Wolff — [Wave Structure of Matter](https://www.amazon.com/dp/0962778710) & [Schroedinger's Universe](https://www.amazon.com/Schroedingers-Universe-Origin-Natural-Laws-ebook/dp/B001MIZV3A)
 - Gabriel LaFreniere — [Matter is Made of Waves](https://lafreniere.pages.dev/)
 
-### Theoretical Contributors
+### Model Authors
 
-| Contributor | Framework | Contribution |
+| Author | Framework | Contribution |
 | --- | --- | --- |
 | [Jeff Yee](https://www.linkedin.com/in/jeffyee/) | [Energy Wave Theory (EWT)](https://energywavetheory.com "Energy Wave Theory") | A proposed deterministic field-theoretic alternative to quantum mechanics, drawing conceptual inspiration from historical wave interpretations of QM (de Broglie, Bohm, Wolff). Primary physics advisor and collaborator on OpenWave since its inception. |
 | [Dr. Jarek Duda](https://en.wikipedia.org/wiki/Jaros%C5%82aw_Duda_(computer_scientist)) | [Liquid-Crystal Particle Analogs](https://en.wikipedia.org/wiki/Draft:Liquid_crystal_particle_analogs "Topological Field Framework") | A Landau-de Gennes field framework modeling particles as topological defects with integer-quantized charge. Proposes unifying electromagnetism, quantum mechanics, and gravity through a single vector order parameter, with mass and Zitterbewegung derived from a time-crystal mechanism (see [arXiv:2108.07896](https://arxiv.org/pdf/2108.07896), [arXiv:2501.04036](https://arxiv.org/pdf/2501.04036)). |
@@ -133,7 +133,7 @@ How these frameworks compare against the shared observables, criteria by criteri
 
 OpenWave is a multi-contributor open-source platform. Alongside the theoretical frameworks contributed by the physics advisors above, the platform itself is built collaboratively:
 
-| Contributor | Role |
+| Maintainer | Role |
 | --- | --- |
 | [Rodrigo Griesi](https://github.com/xrodz) (OpenWave Labs) | Founder, lead engineer/researcher, project director — sets vision, methodology, and engineering direction |
 | [Anthropic Claude Code](https://claude.com/product/claude-code) | AI agent contributor: code, numerical analysis, derivations, documentation, manuscript review |
