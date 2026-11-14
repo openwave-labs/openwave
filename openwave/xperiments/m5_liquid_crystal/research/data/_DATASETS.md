@@ -1,10 +1,10 @@
 # Local-only datasets manifest
 
-> AUTO-GENERATED, do not hand-edit the table: `python3 dev_docs/utils/gen_datasets_manifest.py data --write`
+> AUTO-GENERATED, do not hand-edit the table: `python3 dev_docs/utils/gen_datasets_manifest.py openwave/xperiments/m5_liquid_crystal/research/data --write`
 
 Heavy binary arrays in this folder are **local-only**: gitignored, never deleted (policy 2026-07-20, which supersedes the earlier "delete raw data > 1 MB" rule). They stay on the working machine so later tasks can consume them directly, and they stay OUT of the repo so clones stay light. What IS tracked in git and readable on GitHub: the summary `.json` / `.csv` / `.txt` in this same folder, the plots, and the scripts that rebuild everything here.
 
-**Inventory**: 165 local-only files, 925.43 MB, in 11 task groups.
+**Inventory**: 210 local-only files, 2275.48 MB, in 12 task groups.
 
 | Task group | Files | Size | Producing script(s) | Record (regen commands + context) |
 | --- | --- | --- | --- | --- |
@@ -19,5 +19,6 @@ Heavy binary arrays in this folder are **local-only**: gitignored, never deleted
 | `m5_22_1` | 12 | 22.35 MB | [`m5_22_1_a_kick.py`](../scripts/m5_22_1_a_kick.py) · [`m5_22_1_b_deuteron.py`](../scripts/m5_22_1_b_deuteron.py) · [`m5_22_1_c_panels.py`](../scripts/m5_22_1_c_panels.py) (+1 more) | [`m5_22_1_task_details.md`](../tasks/m5_22_1_task_details.md) |
 | `m5_22_2` | 20 | 25.96 MB | [`m5_22_2_a_dive.py`](../scripts/m5_22_2_a_dive.py) · [`m5_22_2_b_decay.py`](../scripts/m5_22_2_b_decay.py) · [`m5_22_2_c_panels.py`](../scripts/m5_22_2_c_panels.py) (+1 more) | [`m5_22_2_task_details.md`](../tasks/m5_22_2_task_details.md) |
 | `m5_22_4` | 9 | 7.62 MB | [`m5_22_4_a_fullf.py`](../scripts/m5_22_4_a_fullf.py) · [`m5_22_4_b_omega.py`](../scripts/m5_22_4_b_omega.py) · [`m5_22_4_c_panels.py`](../scripts/m5_22_4_c_panels.py) (+1 more) | [`m5_22_4_task_details.md`](../tasks/m5_22_4_task_details.md) |
+| `m5_39` | 45 | 1350.05 MB | [`m5_39_cardc.py`](../scripts/m5_39_cardc.py) · [`m5_39_forecast_pilot.py`](../scripts/m5_39_forecast_pilot.py) · [`m5_39_plots.py`](../scripts/m5_39_plots.py) (+8 more) | [`m5_39_task_details.md`](../tasks/m5_39_task_details.md) |
 
 **Regeneration**: the exact command + runtime per dataset lives in the task record linked on its row (the task_details / findings doc), which is where the run configuration is already written down. Runs are deterministic from their fixed seeds and configs, so a regenerated array reproduces the original bit-for-bit at the stored precision.
