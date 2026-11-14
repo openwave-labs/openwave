@@ -140,12 +140,43 @@ numbers the package carries tabulated in the findings note. The scripts are
 deliberately not reformatted with `black`, so that they stay checkable
 against the archive's checksums.
 
+## Maintainer note (review of PR #717, 2026-11-14)
+
+[PR #717](https://github.com/openwave-labs/openwave/pull/717) replaced the four scripts in place with the manuscript
+v5.3.1 state (linear `eps_flavor` in the Cabibbo sector, the mixed W-Z
+operator `C_gap_mixed`, PDG 2024 quark masses, `Q_P_INPUT` renamed
+`Q_P_REFERENCE`) and added `m4_7_ewt_electroweak_bosons.py` and
+`m4_7_ewt_amm_structural_resonance.py`. Everything above this note
+describes the v5.0.0 artifact as merged in PR #523, readable at
+`bf72451d`.
+
+Checked at the reviewed head `fc2abdd3` against the v5.3.1 code record,
+DOI 10.5281/zenodo.24208608 (MD5 of all eight files verified on download):
+five of the six M4.7 scripts, and the M4.14 script, were content-identical
+to it after line-ending normalization, the byte-order mark on the engine,
+and the module rename (the module name in the import line and in the
+`ImportError` message). The
+electroweak script was ahead of the record in three places: the version
+line, four added imports, and `r_e_geom` derived from `r_nu` in place of a
+hard-coded value. The author stated in the thread that the files are
+prepared for v5.3.2.
+
+Edits applied at merge, announced in the review, so the repository copies
+differ from that record by these lines as well: the "leter" typo in the
+version headers, a final newline on every file, and the "PDG 2022" comment
+above the PDG 2024 quark masses. The M4.14 script carries more, listed in
+its own task document. The scripts remain outside `black`. The trinity
+functions are untouched by the sync: M4.8, M4.10, M4.10.2 and M4.12 print
+byte-identical output before and after.
+
 ## Artifacts
 
 - `research/scripts/m4_7_ewt_emergence_engine.py`
 - `research/scripts/m4_7_ewt_amm_extended.py`
 - `research/scripts/m4_7_ewt_amm_resonance_scanner.py`
 - `research/scripts/m4_7_ewt_particle_masses.py`
+- `research/scripts/m4_7_ewt_electroweak_bosons.py` (since PR #717)
+- `research/scripts/m4_7_ewt_amm_structural_resonance.py` (since PR #717)
 - `research/findings/m4_7_enhanced_ewt_geometric_consistency.md`
 - [`research/findings/m4_7_geometric_conventions.md`](../findings/m4_7_geometric_conventions.md): the author's record of the geometric conventions and of the status of every constant (charge as amplitude, K_WC, L_mu, L_tau, O_mu, the Planck closure, the scope of the zero-free-parameter statement), answering the review questions from [PR #523](https://github.com/openwave-labs/openwave/pull/523)
 
