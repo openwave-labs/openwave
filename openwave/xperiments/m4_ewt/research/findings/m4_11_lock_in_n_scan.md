@@ -9,6 +9,7 @@ DONE (post-hoc)
 |---|---|
 | 2026-11-14 | Cosmological rows added. $\Lambda_{\text{vac}}(N)$ (full chain) enters PRIMARY with resolution $4.89 \times 10^{-4}$, but inherits $\beta = -12$ from $G$; consistency test, not independent. $\Omega_{\text{vac}}(N)$ (independent of $G$, tests only $\varepsilon_M$) enters WEAK with resolution $8.88 \times 10^{-2}$. Primary $G$-$a_\tau$ agreement 0.1396% unchanged. |
 | 2026-11-14 | Engine sync to manuscript v5.3.1. Linear flavor deficit $\varepsilon_{\text{flavor}} = 1/(\pi N)$ replaces the quadratic $C_{\text{fermion}} = (1+\pi^5 C_{\text{local}})^2$; $M_W^{\text{PDG}} = 80.377$ GeV (PDG 2022 average) replaces $M_W^{\text{CDFII}} = 80.4335$ GeV as the Weinberg anchor. $\sin\theta_C$ moves from PRIMARY to WEAK; $\sin^2\theta_W$ resolution worsens from 14.6% to 24.9%. The central result ($G$-$a_\tau$ agreement 0.14%) is unchanged. |
+| 2026-11-14 | Maintainer edits at the merge of [PR #717](https://github.com/openwave-labs/openwave/pull/717): the $G$ note in the script output states the square-root dependence of $H_0$ on $G_{\text{geom}}$; the operator of the Weinberg row and the rounding of the $\Lambda$ reference are recorded in the comparison table. No number in Sections 1-3 changed. |
 | 2026-09-08 | Initial version (engine v5.0.0, `M_W_CDFII` anchor, quadratic `C_fermion`). |
 
 ## Objective
@@ -164,8 +165,8 @@ corresponding leg can take.
 |--------|--------|------------|
 | $G$ | `G_CODATA` $= 6.674305 \times 10^{-11}$ | Measured. CODATA relative uncertainty $2.2 \times 10^{-5}$, so the model's $4.8 \times 10^{-4}$ residual is about 21 times the experimental uncertainty |
 | $a_\tau$ | `A_TAU_EXP` $= 1.177210 \times 10^{-3}$ | The **Standard Model prediction**, $a_\tau^{\text{SM}} = 117721(5) \times 10^{-8}$, not a measurement. The best experimental bound is $-0.052 < a_\tau < 0.013$ at 95% CL (DELPHI, Eur. Phys. J. C **35** (2004) 159), a window 55 times the value itself |
-| $\sin^2\theta_W$ | inverted from `M_W_PDG` $= 80.377$ GeV (PDG 2022 average) | The CDF II 2022 value (80.4335 GeV) is treated as a 5.8$\sigma$ outlier by ATLAS/CMS 2024 and is no longer used as the anchor. The PDG-average anchor gives resolution 24.9% and $N_{\text{opt}} = 1031.8$. The sector stays WEAK |
-| $\Lambda_{\text{vac}}$ | `LAMBDA_PLANCK` $= 1.089 \times 10^{-52}$ m$^{-2}$ | Planck 2018. $\Lambda_{\text{vac}}$ inherits $\beta = -12$ from $G$, so its resolution of $4.89 \times 10^{-4}$ is not an independent constraint on $N$ |
+| $\sin^2\theta_W$ | inverted from `M_W_PDG` $= 80.377$ GeV (PDG 2022 average) | The CDF II 2022 value (80.4335 GeV) is treated as a 5.8$\sigma$ outlier by ATLAS/CMS 2024 and is no longer used as the anchor. The PDG-average anchor gives resolution 24.9% and $N_{\text{opt}} = 1031.8$. The sector stays WEAK. The row is computed with the pure $\pi^6$ operator `C_gap`, while the engine's $W$ prediction uses `C_gap_mixed`; with the mixed operator the same row reads 0.231260 and resolution 0.49% on this anchor, or 2.3% on the PDG 2024 average (80.3692 GeV). The review of [PR #717](https://github.com/openwave-labs/openwave/pull/717) recorded this as a known issue and did not change the row |
+| $\Lambda_{\text{vac}}$ | `LAMBDA_PLANCK` $= 1.089 \times 10^{-52}$ m$^{-2}$ | Planck 2018 base set, $3\,\Omega_\Lambda H_0^2/c^2$ rounded to four digits (Planck does not publish it; unrounded it is $1.0891 \times 10^{-52}$, against which M4.14 reads $-0.600\%$ where this row reads $0.5875\%$). $\Lambda_{\text{vac}}$ inherits $\beta = -12$ from $G$, so its resolution of $4.89 \times 10^{-4}$ is not an independent constraint on $N$ |
 | $\Omega_{\text{vac}}$ | `OMEGA_L_BAO` $= 0.6889$ | Planck+BAO. Independent of $G$ (tests only $\varepsilon_M(N)$ through $C_{\text{gap}}$); resolution $8.88 \times 10^{-2}$ |
 | $\alpha^{-1}$, $a_e$, $a_\mu$, $\sin\theta_C$ | CODATA and PDG values | Measured |
 
@@ -289,8 +290,10 @@ times the uncertainty on the SM value it is compared against.
 
 Run from the model's script directory:
 
-    cd openwave/xperiments/m4_ewt/research/scripts
-    python3 m4_11_lock_in_n_scan.py
+```bash
+cd openwave/xperiments/m4_ewt/research/scripts
+python3 m4_11_lock_in_n_scan.py
+```
 
 Runs in under a second and needs `m4_7_ewt_emergence_engine.py` in the same
 directory. It writes `m4_11_lock_in_n_scan.csv` and `.json` to

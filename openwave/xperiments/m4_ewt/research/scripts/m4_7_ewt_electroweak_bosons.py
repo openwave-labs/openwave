@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-From manuscript version: 5.3.2 (not published yet) or leter
+From manuscript version: 5.3.2 (not published yet) or later
 
 Enhanced EWT -- Electroweak and Heavy Boson Module
 ====================================================

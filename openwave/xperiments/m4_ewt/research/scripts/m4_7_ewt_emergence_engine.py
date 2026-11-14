@@ -1,4 +1,4 @@
-# From manuscript version: 5.2.4 or leter
+# From manuscript version: 5.2.4 or later
 # =============================================================================
 # SECTION 1: GLOBAL INPUTS & CONSTANTS
 # -----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ R_INF_CODATA      = 10973731.568157           # Rydberg constant [m^-1]
 A0_CODATA         = 5.29177210903e-11         # Bohr radius [m]
 LAMBDA_C_CODATA   = 2.42631023867e-12         # electron Compton wavelength [m]
 
-# Quark masses (MS-bar, PDG 2022) used in flavour mixing test
+# Quark masses (MS-bar, PDG 2024) used in flavour mixing test
 M_D_PDG           = 0.00470                   # d-quark mass [GeV], PDG 2024
 M_S_PDG           = 0.09350                   # s-quark mass [GeV], PDG 2024
 

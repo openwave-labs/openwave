@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-From manuscript version: 5.2.4 or leter
+From manuscript version: 5.2.4 or later
 
 Enhanced EWT -- Particle Mass Module
 ======================================

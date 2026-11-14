@@ -18,6 +18,13 @@ engine), except for the `ewt_*` to `m4_7_ewt_*` module rename and, in the
 three companion modules, the one import line that follows it. Verified at
 merge against the record's MD5 checksums (maintainer note below).
 
+This note describes the v5.0.0 artifact as merged in
+[PR #523](https://github.com/openwave-labs/openwave/pull/523), readable at
+`bf72451d`. The scripts were replaced in place on 2026-11-14 by the
+manuscript v5.3.1 sync of [PR #717](https://github.com/openwave-labs/openwave/pull/717); what they match since then is recorded in the
+[task document](../tasks/m4_7_task_details.md)'s maintainer note for that
+review.
+
 ## What the scripts deliver
 
 ### 1. Emergence of G from BCC geometry (zero calibration)
@@ -195,7 +202,7 @@ unchanged; this section is the platform's reading of the artifact.
 | `L_mu_dim`, `L_tau_dim` | 5, 34 | engine, `compute_lepton_amms` | dimensional counts in the muon and tau shell terms; `L_mu_dim^2 = 25` ppm is added to the tau shell as the interface term |
 | `O_mu`, `O_tau` | `1/(4 pi^2)`, 1 | engine, `compute_lepton_amms` | projection operators; with `O_tau = 1` the tau "full" value equals the shell total identically |
 | Shell prefactors | `3 A_pi pi^3 / (2 L_mu^2)`, `3 A_pi pi^3 / (8 sqrt 2) + A_pi / 2` | engine, `compute_lepton_amms` | structure of the shell terms; whether these are derived or postulated in v5.0.0 is the author's to state |
-| `Q_P_INPUT`, `LAMBDA_L` | 1.87554603778e-18, 1.6162e-35 | engine, section 1.2 | reference values only; `LAMBDA_L` is a rounded Planck length (CODATA 2018: 1.616255e-35 m, which puts the derived `lambda_l` at 0.0242%) |
+| `Q_P_REFERENCE` (`Q_P_INPUT` before the v5.3.1 sync), `LAMBDA_L` | 1.87554603778e-18, 1.6162e-35 | engine, section 1.2 | reference values only; `LAMBDA_L` is a rounded Planck length (CODATA 2018: 1.616255e-35 m, which puts the derived `lambda_l` at 0.0242%) |
 | EWT shell references | 248.8, 1177.21 ppm | `m4_7_ewt_amm_extended.py`, `m4_7_ewt_amm_resonance_scanner.py` | comparison targets for the shell terms, not inputs to the engine chain |
 | `RHO_A`, `A_LONG`, `L_LONG` | 3.8598e22, 9.2154e-19, 2.8541e-17 | `m4_7_ewt_particle_masses.py` | Jeff Yee's EWT wave constants, themselves fitted to the electron; the spherical-mode masses inherit them |
 | Orbital amplitudes | 185.68543, 3436.795 | `m4_7_ewt_particle_masses.py`, `mass_orbital` | mass-sector calibrations, unchanged from the v4.5.2 port; their targets in the spherical table (0.09488543, 1.75619909 GeV) are EWT reference masses, not the PDG values used in the full scan |

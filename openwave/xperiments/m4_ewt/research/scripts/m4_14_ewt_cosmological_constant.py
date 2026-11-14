@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-From manuscript version: 5.3.0 or leter
+From manuscript version: 5.3.1 or later
 Cosmological constant from the BCC lattice.
 
 Chain (each step shown in its own Part below):
@@ -16,24 +16,28 @@ Chain (each step shown in its own Part below):
     [6]  EWT trinity         alpha, hbar, G, lambda_l
     [7]  Planck temperature  T_p    = (1/k_B)*sqrt(hbar*c^5/G)
     [8]  Horizon radius      R_H    = lambda_l*(T_p/T_cmb)^2 / H
-                             Haug relation RECOVERED from the BCC
-                             horizon model, not imported
+                             the Haug and Tatum relation, with its
+                             factor 32*pi^2 read as 8*(2*pi)^2
     [9]  Hubble constant     H_0    = c/R_H
     [10] de Sitter Lambda    Lambda_dS = 3*H_0^2/c^2
     [11] Vacuum fraction     Omega_vac = eta_BCC * C_gap
     [12] Observed Lambda     Lambda_vac = Omega_vac * Lambda_dS
 
-Key insight: the SAME eps_M that fixes the AMM (via O_mu) also fixes
-the horizon factor (via H = 8/O_mu). The factor 32*pi^2 needed to
-close the Haug relation is exactly 8*(2*pi)^2 = 8 times the 2D unit,
-where 8 is BCC coordination and (2*pi)^2 is the AMM projection unit.
+Reading of the horizon factor: the factor 32*pi^2 of the Haug and
+Tatum relation is read as 8*(2*pi)^2 = 8 times the 2D unit, where 8
+is BCC coordination and (2*pi)^2 is the AMM projection unit. H and
+O_mu = 1/(2*pi)^2 are fixed numbers in this script, so N_geom, eps_M
+and M_mu (Parts 1-4) do not enter H_0 directly: eps_M reaches H_0
+only through the trinity (alpha, hbar, G, lambda_l) of Part 6.
 
-The Haug relation T_cmb = (T_p/8pi)*sqrt(2*lambda_l/R_H) is therefore
-RECOVERED from the BCC horizon model, not imported. It is the
-combination of:
+The relation T_cmb = (T_p/8pi)*sqrt(2*lambda_l/R_H) is the Haug and
+Tatum relation, with its factor 32*pi^2 read as 8*(2*pi)^2. In that
+reading it is the combination of:
     - naive equipartition: T_cmb = T_p*sqrt(lambda_l/R_H)
     - BCC horizon factor:  H = 8*(2*pi)^2  (phase-unit ansatz)
     - corrected:           T_cmb = T_p*sqrt(lambda_l/(H*R_H))
+With CODATA hbar and G and no lattice quantity, the same relation
+gives H_0 = 66.8954 km/s/Mpc; with the lattice trinity, 66.9113.
 
 The horizon factor H itself is a model construct: each of the 8 BCC
 directions contributes one 2D phase unit (2*pi)^2. A first-principles
@@ -43,15 +47,18 @@ Lattice discrimination: under the phase-unit ansatz, only N=8 (BCC)
 gives H_0 = 66.91 km/s/Mpc matching Planck. N=4 (tetrahedron),
 N=6 (SC), N=12 (FCC), and N=16 (hypercubic) are all excluded at
 many sigma. This is a conditional falsification of the ansatz, not
-an absolute derivation that other lattices are impossible.
+an absolute derivation that other lattices are impossible. The unit
+X = (2*pi)^2 is part of the phase-unit ansatz; the test is conditional
+on it and discriminates the product N*X = 32*pi^2, not N alone.
 
 Anchors: r_e, m_e, c, e (dimensional) and T_cmb (cosmological).
 No continuously adjustable parameter appears in the chain.
 
 Status of Omega_vac = eta_BCC * C_gap: this is a geometric MECHANISM,
 not a numerical fit. The ingredients are eta_BCC (pure BCC
-crystallography) and C_gap (neutral volumetric response, the SAME
-operator that fixes M_W to 0.012% in the electroweak sector). The
+crystallography) and C_gap (neutral volumetric response: the pure
+pi^6 operator the engine assigns to neutral vertices; using it here
+is part of the identification). The
 product is what Lambda-CDM calls the dark-energy fraction; in EWT
 it is not a mysterious substance but the effective vacuum response
 of the BCC lattice. What is not yet established: why the observable
@@ -65,7 +72,7 @@ import math
 
 try:
     from m4_7_ewt_emergence_engine import (
-        PI, C0, M_E, R_E, E_CHARGE_CODATA,
+        PI, C0, M_E, R_E, E_CHARGE_CODATA, G_CODATA,
         BCC_IDEAL_PROJECTION_LP,
         compute_alpha_core,
         compute_alpha_geometric,
@@ -87,7 +94,8 @@ except ImportError as e:
 # Unit-definition constants and the cosmological anchor
 # ----------------------------------------------------------------------
 K_B          = 1.380649e-23    # exact by SI 2019
-T_CMB_CODATA = 2.7255          # COBE/FIRAS -- measured anchor
+HBAR_SI      = 6.62607015e-34 / (2.0 * math.pi)   # exact by SI 2019
+T_CMB_COBE_FIRAS = 2.7255      # COBE/FIRAS (Fixsen 2009) -- measured anchor
 T_CMB_SIGMA  = 0.0006
 MPC_M        = 3.0856775814913673e22
 
@@ -96,14 +104,24 @@ K_WC = 10
 
 # ----------------------------------------------------------------------
 # Reference values (Planck 2018, DESI 2024, SH0ES 2022)
+#
+# The Planck 2018 base set (TT,TE,EE+lowE+lensing) is the reference for
+# H_0, Omega_Lambda and Lambda. The set with BAO is reported beside it.
+# Planck does not publish Lambda: the reference is 3*Omega_L*H_0^2/c^2
+# evaluated on each set.
 # ----------------------------------------------------------------------
-H0_PLANCK       = 67.36
-H0_PLANCK_SIGMA = 0.54
-OMEGA_L_PLANCK_TT        = 0.6847
-OMEGA_L_PLANCK_ALL       = 0.6889
-OMEGA_L_PLANCK_TT_SIGMA  = 0.0073
-OMEGA_L_PLANCK_ALL_SIGMA = 0.0056
-LAMBDA_PLANCK   = 1.089e-52
+H0_PLANCK           = 67.36
+H0_PLANCK_SIGMA     = 0.54
+H0_PLANCK_BAO       = 67.66
+H0_PLANCK_BAO_SIGMA = 0.42
+OMEGA_L_PLANCK_BASE       = 0.6847
+OMEGA_L_PLANCK_ALL        = 0.6889
+OMEGA_L_PLANCK_BASE_SIGMA = 0.0073
+OMEGA_L_PLANCK_ALL_SIGMA  = 0.0056
+LAMBDA_PLANCK     = (3.0 * OMEGA_L_PLANCK_BASE
+                     * (H0_PLANCK * 1000.0 / MPC_M)**2 / C0**2)
+LAMBDA_PLANCK_BAO = (3.0 * OMEGA_L_PLANCK_ALL
+                     * (H0_PLANCK_BAO * 1000.0 / MPC_M)**2 / C0**2)
 
 H0_DESI       = 68.52
 H0_DESI_SIGMA = 0.62
@@ -138,9 +156,8 @@ def derive_vacuum_chain():
     Derive N_geom, eps_M, M_mu, and H from the BCC lattice.
 
     The chain closes exactly: H*M_mu = 8*N_geom. This identity is
-    the algebraic expression of eps_M being the SAME vacuum property
-    in both the AMM (via O_mu) and the horizon (via H). The identity
-    itself is tautological by construction; the non-trivial content
+    tautological by construction (H and O_mu are fixed numbers, and
+    M_mu is defined as N_geom*O_mu); the non-trivial content
     is the shared physical origin of the (2*pi)^2 factor (2D Fourier
     normalisation), not the algebraic identity.
     """
@@ -189,9 +206,10 @@ def print_vacuum_chain(vc):
     print()
     print(f"  eps_M = {vc['eps_M']:.15e}")
     print()
-    print("  This is the SAME eps_M that appears in the AMM, in alpha,")
-    print("  and in the cosmological horizon. It is the universal")
-    print("  vacuum property of the BCC lattice.")
+    print("  This is the same eps_M that appears in the AMM and in alpha.")
+    print("  It reaches H_0 only through the trinity of Part 6: the")
+    print("  horizon factor H of Part 4 is a fixed number, so Parts 1-4")
+    print("  do not enter H_0 directly.")
 
     sep("PART 3: AMM projection -> M_mu is forced")
     print()
@@ -294,6 +312,11 @@ def lattice_discrimination_test(H_BCC, H0_BCC):
     print("  The value of the test lies in the specificity of the")
     print("  prediction, not in a claim that other lattices are")
     print("  physically impossible.")
+    print()
+    print("  The unit X = (2*pi)^2 is part of the phase-unit ansatz; the")
+    print("  test is conditional on it. It discriminates the product")
+    print("  N*X = 32*pi^2, not N alone: N = 16 with unit 2*pi^2 gives")
+    print(f"  the same H_0 = {H0_BCC:.4f}.")
     return results
 
 
@@ -367,17 +390,11 @@ def print_ewt_trinity(tri):
     print("  The residual against CODATA is 0.048% for G and 0.028%")
     print("  for lambda_l, attributed to the lattice impedance zeta.")
     print()
-    print("  Note: because hbar and G enter the cosmological chain")
-    print("  only through the combinations hbar/G and hbar*G (see")
-    print("  Parts 7-8 below), the individual CODATA residuals do")
-    print("  not propagate to H_0 or Lambda. The chain is a test of")
-    print("  the BCC geometry at the level of the products.")
-    print()
-    print("  This is consistent with Haug's composite-constant view")
-    print("  (Haug 2020 Physics Essays, Haug 2022 Universe, Haug 2023")
-    print("  JAMP): all observable gravitational predictions depend")
-    print("  on GM, not on G and M separately. The specific form of")
-    print("  G_geom is therefore not critical for the predictions.")
+    print("  Note: G_geom is itself an expression in the anchors and")
+    print("  alpha_geom. lambda_l is the Planck length of hbar_geom and")
+    print("  G_geom, so H_0 is proportional to G_geom^(1/2): the 0.048%")
+    print("  residual on G enters H_0 at 0.024% and Lambda at 0.048%")
+    print("  (Part 9 gives the H_0 figure for CODATA hbar and G).")
 
     sep("PART 7: Planck temperature from the EWT trinity")
     print()
@@ -400,12 +417,12 @@ def horizon_radius_derived(tri, H_factor):
     Inverting:           R_H_naive = lambda_l * (T_p / T_cmb)^2
     BCC correction:      R_H = R_H_naive / H, with H = 8*(2*pi)^2
 
-    This recovers the Haug relation exactly:
-        T_cmb = (T_p / (8*pi)) * sqrt(2*lambda_l / R_H)
-    The recovery is algebraic; the horizon factor H itself is a
-    model construct (phase-unit ansatz).
+    This is the Haug and Tatum relation,
+        T_cmb = (T_p / (8*pi)) * sqrt(2*lambda_l / R_H),
+    with its factor 32*pi^2 read as 8*(2*pi)^2. The horizon factor H
+    itself is a model construct (phase-unit ansatz).
     """
-    R_H_naive = tri["lambda_l"] * (tri["T_p"] / T_CMB_CODATA)**2
+    R_H_naive = tri["lambda_l"] * (tri["T_p"] / T_CMB_COBE_FIRAS)**2
     R_H       = R_H_naive / H_factor
     return R_H_naive, R_H
 
@@ -421,24 +438,25 @@ def print_horizon_and_h0(tri, R_H_naive, R_H_BCC):
     print()
     print(f"  lambda_l  = {tri['lambda_l']:.6e} m")
     print(f"  T_p       = {tri['T_p']:.6e} K")
-    print(f"  T_cmb     = {T_CMB_CODATA} K")
+    print(f"  T_cmb     = {T_CMB_COBE_FIRAS} K")
     print(f"  R_H_naive = {R_H_naive:.6e} m")
     print(f"  R_H       = {R_H_BCC:.6e} m")
     print()
-    print("  The Haug relation is recovered exactly:")
+    print("  This is the Haug and Tatum relation, with its factor")
+    print("  32*pi^2 read as 8*(2*pi)^2:")
     print("      T_cmb = (T_p / (8*pi)) * sqrt(2*lambda_l/R_H)")
     T_check = (tri["T_p"] / (8.0 * PI)) * math.sqrt(2.0 * tri["lambda_l"] / R_H_BCC)
-    print(f"  Recovered T_cmb = {T_check:.10f} K")
-    print(f"  Match: {'YES' if abs(T_check - T_CMB_CODATA) < 1e-4 else 'NO'}")
+    print(f"  T_cmb from the inverse relation = {T_check:.10f} K")
+    print(f"  Identity: {'YES' if abs(T_check - T_CMB_COBE_FIRAS) < 1e-4 else 'NO'}")
+    print("  (an identity, not a test: it inverts the relation R_H was")
+    print("   computed from and returns the input T_cmb for any input)")
     print()
-    print("  The Haug relation is now RECOVERED, not imported. It is")
-    print("  the combination of naive equipartition and the BCC")
-    print("  horizon factor H = 8*(2*pi)^2. The horizon factor itself")
-    print("  is a model construct: each of the 8 BCC directions")
-    print("  contributes one 2D phase unit (2*pi)^2. A first-principles")
-    print("  derivation of H from the elastic properties of the lattice")
-    print("  is open. The recovery is therefore a consequence of the")
-    print("  BCC horizon model, not an import from external literature.")
+    print("  In this reading the relation is the combination of naive")
+    print("  equipartition and the BCC horizon factor H = 8*(2*pi)^2.")
+    print("  The horizon factor itself is a model construct: each of")
+    print("  the 8 BCC directions contributes one 2D phase unit")
+    print("  (2*pi)^2. A first-principles derivation of H from the")
+    print("  elastic properties of the lattice is open.")
 
     sep("PART 9: Hubble constant H_0 and tension analysis")
     H_0_BCC = h0_km_s_mpc(R_H_BCC)
@@ -451,18 +469,28 @@ def print_horizon_and_h0(tri, R_H_naive, R_H_BCC):
     print(f"  {'Reference':<20} {'H_0':>10} {'sigma':>8} {'tension':>14}")
     print("  " + "-" * 58)
     for name, H0_ref, H0_sig in [
-        ("Planck 2018", H0_PLANCK, H0_PLANCK_SIGMA),
+        ("Planck 2018 base", H0_PLANCK, H0_PLANCK_SIGMA),
+        ("Planck 2018 +BAO", H0_PLANCK_BAO, H0_PLANCK_BAO_SIGMA),
         ("DESI 2024",   H0_DESI,   H0_DESI_SIGMA),
         ("SH0ES 2022",  H0_SHOES,  H0_SHOES_SIGMA),
     ]:
         t = (H_0_BCC - H0_ref) / H0_sig
         print(f"  {name:<20} {H0_ref:>10.2f} {H0_sig:>8.2f} {t:>+13.2f} sigma")
     print()
+    # Same relation with CODATA hbar and G and no lattice quantity
+    lambda_l_codata = math.sqrt(HBAR_SI * G_CODATA / C0**3)
+    T_p_codata      = (1.0 / K_B) * math.sqrt(HBAR_SI * C0**5 / G_CODATA)
+    H_0_codata = h0_km_s_mpc(
+        lambda_l_codata * (T_p_codata / T_CMB_COBE_FIRAS)**2
+        / (8.0 * (2.0 * PI)**2)
+    )
     print("  H_0 = 66.91 is on the Planck side of the Hubble tension.")
-    print("  Because the horizon relation is recovered from the BCC")
-    print("  horizon model and T_cmb is external to the lattice, the")
-    print("  0.83-sigma agreement is a consistency check of the model")
-    print("  against observation, not an unconditional derivation.")
+    print("  The same relation with CODATA hbar and G, and no lattice")
+    print(f"  quantity, gives H_0 = {H_0_codata:.4f} km/s/Mpc, so the")
+    print("  0.83-sigma agreement is that of the Haug and Tatum")
+    print("  relation. The lattice adds the reading of 32*pi^2 as")
+    print(f"  8*(2*pi)^2 and the {(H_0_BCC / H_0_codata - 1.0) * 100.0:+.4f}% carried by the")
+    print("  trinity. T_cmb is external to the lattice.")
     return H_0_BCC
 
 
@@ -484,11 +512,13 @@ def print_lambda_de_sitter(H_0_BCC):
     print(f"  Lambda_dS     = {Lambda_dS:.6e} m^-2")
     print(f"  Lambda_Planck = {LAMBDA_PLANCK:.6e} m^-2")
     print(f"  Ratio         = {Lambda_dS/LAMBDA_PLANCK:.6f}")
+    print("  (Lambda_Planck = 3*Omega_Lambda*H_0^2/c^2 on the Planck")
+    print("   2018 base set; Planck does not publish it separately)")
     print()
     print("  The 1.44x ratio is structural: it decomposes as")
     print("  (H_0^EWT/H_0^Planck)^2 * (Omega_Lambda^Planck)^-1")
     r1 = (H_0_BCC/H0_PLANCK)**2
-    r2 = 1.0/OMEGA_L_PLANCK_TT
+    r2 = 1.0/OMEGA_L_PLANCK_BASE
     print(f"  = {r1:.4f} * {r2:.4f}")
     print(f"  = {r1*r2:.4f}")
     return Lambda_dS
@@ -506,18 +536,22 @@ def omega_vac_mechanism(tri):
     is the void fraction where matter solitons reside.
 
     C_gap = 1 + pi^6*C_local is the neutral volumetric response of the
-    vacuum to depletion. It is the SAME operator that fixes M_W to
-    0.012% in the electroweak sector, derived from the same eps_M.
+    vacuum to depletion. It is the pure pi^6 operator the engine
+    assigns to neutral vertices, built from the same eps_M; using it
+    here is part of the identification. The engine's M_W prediction
+    at 0.012% uses the mixed operator C_gap_mixed, not this one.
 
     The product is the natural composition: (occupied fraction) times
-    (response of the vacuum to voids). It gives Omega_vac = 0.6897,
-    matching Planck+BAO to 0.12%.
+    (response of the vacuum to voids). It gives Omega_vac = 0.6897:
+    +0.74% (+0.69 sigma) from the Planck 2018 base set and +0.12%
+    (+0.15 sigma) from the set with BAO.
 
     What is not yet established: why the observable cosmological
     fraction must be exactly this product, rather than another
-    combination of eta_BCC and C_gap. The ingredients are derived
-    and the mechanism is geometric, but the specific composition is
-    identified, not derived from a horizon-balance argument.
+    combination of eta_BCC and C_gap. The ingredients are fixed by
+    the lattice quantities and the mechanism is geometric, but the
+    choice of operator and the specific composition are identified,
+    not derived from a horizon-balance argument.
     """
     return tri["eta_BCC"] * tri["C_gap"]
 
@@ -542,8 +576,9 @@ def print_omega_vac(tri, Omega_vac):
     print("       occupied by EMC spheres; the remaining")
     print("       1-eta_BCC = 0.32 is the void volume)")
     print(f"  C_gap   = 1 + pi^6*C_local = {tri['C_gap']:.10f}")
-    print("      (neutral volumetric response of the vacuum; the")
-    print("       same operator that fixes M_W to 0.012%)")
+    print("      (neutral volumetric response of the vacuum: the")
+    print("       pure pi^6 operator the engine assigns to neutral")
+    print("       vertices; using it here is part of the identification)")
     print(f"  Omega_vac = {Omega_vac:.10f}")
     print()
     print()
@@ -578,19 +613,37 @@ def print_omega_vac(tri, Omega_vac):
     print("    depletion. The product is the natural composition:")
     print("    (occupied fraction) times (response to voids).")
     print()
-    print("  Comparison with Planck:")
-    print(f"  Omega_L^Planck (TT)     = {OMEGA_L_PLANCK_TT} +/- {OMEGA_L_PLANCK_TT_SIGMA}")
+    print("  Comparison with Planck 2018 (base = TT,TE,EE+lowE+lensing):")
+    print(f"  Omega_L^Planck (base)   = {OMEGA_L_PLANCK_BASE} +/- {OMEGA_L_PLANCK_BASE_SIGMA}")
     print(f"  Omega_L^Planck (+BAO)   = {OMEGA_L_PLANCK_ALL} +/- {OMEGA_L_PLANCK_ALL_SIGMA}")
-    rel_TT  = (Omega_vac - OMEGA_L_PLANCK_TT)  / OMEGA_L_PLANCK_TT  * 100.0
-    rel_ALL = (Omega_vac - OMEGA_L_PLANCK_ALL) / OMEGA_L_PLANCK_ALL * 100.0
-    t_TT    = (Omega_vac - OMEGA_L_PLANCK_TT)  / OMEGA_L_PLANCK_TT_SIGMA
-    t_ALL   = (Omega_vac - OMEGA_L_PLANCK_ALL) / OMEGA_L_PLANCK_ALL_SIGMA
-    print(f"  Rel diff (TT):   {rel_TT:+.3f}%  ({t_TT:+.2f} sigma)")
+    rel_BASE = (Omega_vac - OMEGA_L_PLANCK_BASE) / OMEGA_L_PLANCK_BASE * 100.0
+    rel_ALL  = (Omega_vac - OMEGA_L_PLANCK_ALL)  / OMEGA_L_PLANCK_ALL  * 100.0
+    t_BASE   = (Omega_vac - OMEGA_L_PLANCK_BASE) / OMEGA_L_PLANCK_BASE_SIGMA
+    t_ALL    = (Omega_vac - OMEGA_L_PLANCK_ALL)  / OMEGA_L_PLANCK_ALL_SIGMA
+    print(f"  Rel diff (base): {rel_BASE:+.3f}%  ({t_BASE:+.2f} sigma)")
     print(f"  Rel diff (+BAO): {rel_ALL:+.3f}%  ({t_ALL:+.2f} sigma)")
     print()
+    print("  The data do not choose between the candidates:")
+    print(f"  {'candidate':<24} {'Omega':>8} {'base':>13} {'+BAO':>13}")
+    print("  " + "-" * 61)
+    for name, val in [
+        ("eta_BCC alone",         eta),
+        ("eta_BCC * C_gap",       Omega_vac),
+        ("eta_BCC * C_gap_mixed", eta * tri["C_gap_mixed"]),
+    ]:
+        t_b = (val - OMEGA_L_PLANCK_BASE) / OMEGA_L_PLANCK_BASE_SIGMA
+        t_a = (val - OMEGA_L_PLANCK_ALL)  / OMEGA_L_PLANCK_ALL_SIGMA
+        print(f"  {name:<24} {val:>8.4f} {t_b:>+7.2f} sigma {t_a:>+7.2f} sigma")
+    print(f"  C_gap - 1 = {delta_C * 100.0:.2f}%; the Planck 1-sigma on Omega_Lambda is")
+    print(f"  {OMEGA_L_PLANCK_BASE_SIGMA / OMEGA_L_PLANCK_BASE * 100.0:.2f}% (base) and "
+          f"{OMEGA_L_PLANCK_ALL_SIGMA / OMEGA_L_PLANCK_ALL * 100.0:.2f}% (+BAO).")
+    print()
     print("  Status:")
-    print("    - The ingredients eta_BCC and C_gap are derived or")
-    print("      independently tested (M_W), not free parameters.")
+    print("    - The ingredients eta_BCC and C_gap are fixed by the")
+    print("      lattice quantities, not free parameters. C_gap is the")
+    print("      pure pi^6 operator; the engine's M_W prediction uses")
+    print("      the mixed operator C_gap_mixed, so M_W does not test")
+    print("      this ingredient.")
     print("    - The product is the natural geometric composition.")
     print("    - The quantity plays the role that Lambda-CDM calls the")
     print("      dark-energy fraction. In EWT it is not a mysterious")
@@ -608,7 +661,7 @@ def print_omega_vac(tri, Omega_vac):
 # ======================================================================
 # PART 12: Observed Lambda
 # ======================================================================
-def print_lambda_vac(Omega_vac, Lambda_dS):
+def print_lambda_vac(Omega_vac, Lambda_dS, H_0_BCC):
     sep("PART 12: Observed cosmological constant Lambda_vac")
     Lambda_vac = Omega_vac * Lambda_dS
     print()
@@ -619,59 +672,36 @@ def print_lambda_vac(Omega_vac, Lambda_dS):
     print(f"  Ratio         = {Lambda_vac/LAMBDA_PLANCK:.6f}")
     print(f"  Rel diff      = {(Lambda_vac-LAMBDA_PLANCK)/LAMBDA_PLANCK*100:+.3f}%")
     print()
-    print("  The chain closes: Lambda is predicted to 0.59% accuracy")
-    print("  from the BCC lattice with one cosmological anchor (T_cmb).")
+    print("  One Planck 2018 set at a time:")
+    print(f"  {'set':<6} {'H_0':>13} {'Omega_vac':>13} {'Lambda_vac':>11}")
+    print("  " + "-" * 46)
+    rel = {}
+    for name, H0_ref, H0_sig, OL_ref, OL_sig, L_ref in [
+        ("base", H0_PLANCK, H0_PLANCK_SIGMA,
+         OMEGA_L_PLANCK_BASE, OMEGA_L_PLANCK_BASE_SIGMA, LAMBDA_PLANCK),
+        ("+BAO", H0_PLANCK_BAO, H0_PLANCK_BAO_SIGMA,
+         OMEGA_L_PLANCK_ALL, OMEGA_L_PLANCK_ALL_SIGMA, LAMBDA_PLANCK_BAO),
+    ]:
+        t_H = (H_0_BCC - H0_ref) / H0_sig
+        t_O = (Omega_vac - OL_ref) / OL_sig
+        rel[name] = (Lambda_vac / L_ref - 1.0) * 100.0
+        print(f"  {name:<6} {t_H:>+7.2f} sigma {t_O:>+7.2f} sigma {rel[name]:>+10.2f}%")
+    print()
+    print(f"  The chain reproduces Lambda to {abs(rel['base']):.2f}% on the base set under")
+    print("  the two stated identifications (the horizon factor and the")
+    print("  Omega_vac product), with one cosmological anchor (T_cmb).")
+    print(f"  On the set with BAO it is {rel['+BAO']:+.2f}%: a tension, not a victory.")
+    print("  Lambda_vac is built from Omega_vac and H_0 by the relation")
+    print("  that defines the reference, so this figure combines those")
+    print("  two comparisons and is not a third test.")
     return Lambda_vac
 
 
 # ======================================================================
-# PART 13: Matter correction (diagnostic only)
-# ======================================================================
-def try_matter_correction(tri, R_H_0, Omega_m_target=0.31):
-    """
-    Diagnostic only, NOT part of the derivation chain.
-
-    Tests whether a simple matter correction to the horizon radius,
-        R_H(Omega_m) = R_H(0) * (1 - Omega_m)^p,
-    can close the H_0 gap to Planck. The fitted exponent p turns out
-    to be small (p ~ 0.018), confirming that de Sitter already
-    dominates and matter is a ~0.6% perturbation.
-    """
-    sep("PART 13: Matter correction -- diagnostic only, not derivation")
-    print()
-    print("  Tests: R_H(Omega_m) = R_H(0) * (1 - Omega_m)^p")
-    print("  Find p such that H_0(Omega_m=0.31) = Planck H_0.")
-    print()
-
-    H_0_0 = h0_km_s_mpc(R_H_0)
-    ratio = H_0_0 / H0_PLANCK
-    p     = math.log(ratio) / math.log(1.0 - Omega_m_target)
-    f     = (1.0 - Omega_m_target)**p
-
-    R_H_corr    = R_H_0 * f
-    H_0_corr    = h0_km_s_mpc(R_H_corr)
-    Lambda_corr = lambda_de_sitter(H_0_corr)
-
-    print(f"  H_0(Omega_m=0)    = {H_0_0:.6f} km/s/Mpc")
-    print(f"  target H_0        = {H0_PLANCK:.4f} km/s/Mpc")
-    print(f"  required ratio    = {ratio:.6f}")
-    print(f"  best-fit p        = {p:.6f}")
-    print(f"  f(0.31)           = {f:.6f}")
-    print()
-    print(f"  H_0(corrected)    = {H_0_corr:.6f} km/s/Mpc")
-    print(f"  Lambda(corrected) = {Lambda_corr:.6e} m^-2")
-    print()
-    print("  The smallness of p (0.018) confirms that de Sitter")
-    print("  already dominates and matter is a ~0.6% perturbation.")
-    print("  This is a diagnostic, not a derivation of Lambda.")
-    return {"p": p, "f": f, "H_0_corr": H_0_corr, "Lambda_corr": Lambda_corr}
-
-
-# ======================================================================
-# PART 14: Full chain summary
+# PART 13: Full chain summary
 # ======================================================================
 def print_full_chain(vc, tri, R_H_BCC, H_0_BCC, Lambda_dS, Omega_vac, Lambda_vac):
-    sep("PART 14: FULL CHAIN -- from eps_M to Lambda_vac")
+    sep("PART 13: FULL CHAIN -- from eps_M to Lambda_vac")
     print()
     print("  Step 1: N_geom = 8*pi^4*(1-zeta)")
     print(f"          N_geom = {vc['N_geom']:.6f}")
@@ -703,23 +733,24 @@ def print_full_chain(vc, tri, R_H_BCC, H_0_BCC, Lambda_dS, Omega_vac, Lambda_vac
     print(f"  Step 11: Lambda_vac = {Lambda_vac:.4e} m^-2")
     print()
     print("  Summary:")
-    print(f"    H_0^EWT    = {H_0_BCC:.2f} km/s/Mpc   (Planck: {H0_PLANCK})")
+    print(f"    H_0^EWT    = {H_0_BCC:.2f} km/s/Mpc   (Planck base: {H0_PLANCK})")
     print(f"    Lambda_dS  = {Lambda_dS:.2e} m^-2  ({Lambda_dS/LAMBDA_PLANCK:.3f} x Planck)")
-    print(f"    Omega_vac  = {Omega_vac:.4f}          (Planck+BAO: {OMEGA_L_PLANCK_ALL})")
+    print(f"    Omega_vac  = {Omega_vac:.4f}          "
+          f"(Planck base: {OMEGA_L_PLANCK_BASE}; +BAO: {OMEGA_L_PLANCK_ALL})")
     print(f"    Lambda_vac = {Lambda_vac:.2e} m^-2  ({Lambda_vac/LAMBDA_PLANCK:.3f} x Planck)")
     print()
     print("  Anchors: r_e, m_e, c, e (dimensional), T_cmb (cosmological).")
     print("  No continuously adjustable parameter in the chain.")
     print()
-    print("  The Haug relation is RECOVERED from the BCC horizon model,")
-    print("  not imported. The factor 32*pi^2 = 8*(2*pi)^2 comes from 8")
-    print("  BCC directions, each contributing the 2D unit")
-    print("  (2*pi)^2 = 1/O_mu. The phase-unit ansatz itself (one")
-    print("  (2*pi)^2 per BCC direction) is a model construct; its")
-    print("  first-principles derivation is open.")
+    print("  The horizon relation is the Haug and Tatum relation, with")
+    print("  its factor 32*pi^2 read as 8*(2*pi)^2: 8 BCC directions,")
+    print("  each contributing the 2D unit (2*pi)^2 = 1/O_mu. The")
+    print("  phase-unit ansatz itself (one (2*pi)^2 per BCC direction)")
+    print("  is a model construct; its first-principles derivation is")
+    print("  open.")
     print()
     print("  Open: the specific composition Omega_vac = eta_BCC*C_gap")
-    print("  is a geometric mechanism with derived ingredients; a")
+    print("  is a geometric mechanism with lattice-fixed ingredients; a")
     print("  horizon-balance derivation of why this exact product is")
     print("  required (rather than, e.g., a sum or eta_BCC alone)")
     print("  remains the principal open objective.")
@@ -756,12 +787,9 @@ def main():
     print_omega_vac(tri, Omega_vac)
 
     # Part 12: Lambda_vac
-    Lambda_vac = print_lambda_vac(Omega_vac, Lambda_dS)
+    Lambda_vac = print_lambda_vac(Omega_vac, Lambda_dS, H_0_BCC)
 
-    # Part 13: matter correction (diagnostic)
-    corr = try_matter_correction(tri, R_H_BCC, Omega_m_target=0.31)
-
-    # Part 14: full chain summary
+    # Part 13: full chain summary
     print_full_chain(vc, tri, R_H_BCC, H_0_BCC, Lambda_dS, Omega_vac, Lambda_vac)
 
     return {
@@ -773,7 +801,6 @@ def main():
         "Lambda_dS":    Lambda_dS,
         "Omega_vac":    Omega_vac,
         "Lambda_vac":   Lambda_vac,
-        "matter_corr":  corr,
     }
 
 

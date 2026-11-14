@@ -35,12 +35,11 @@ Purpose:
         constraint on N. It is reported honestly as such.
         Two distinct G-related observations apply to the cosmological
         chain. First, G_geom is a derived quantity, not a free parameter:
-        the combinations hbar/G (in T_p^2) and hbar*G (in lambda_l^2)
-        reduce to expressions in r_e, m_e, c, alpha_geom, and the BCC
-        geometric factors, so the 0.048% residual on G_geom is a test of
-        the geometry, not an accuracy on H_0 or Lambda_vac. Second, G(N)
-        itself scales as N^-12, so Lambda_vac(N) inherits that sensitivity
-        even though the G symbol drops out of the symbolic combination.
+        it is itself an expression in r_e, m_e, c, alpha_geom, and the
+        BCC geometric factors. H_0 is proportional to G_geom^(1/2), so
+        the 0.048% residual on G_geom enters H_0 at 0.024% and Lambda_vac
+        at 0.048%. Second, G(N) itself scales as N^-12, and Lambda_vac(N)
+        inherits that sensitivity.
         The first observation is about provenance; the second is about
         the lock-in scan's N-dependence. Both are true and distinct.
 
@@ -84,9 +83,9 @@ except ImportError:
 # Cosmological constants (v5.3.1, see M4.14 findings)
 # ----------------------------------------------------------------------
 K_B           = 1.380649e-23    # exact SI 2019
-T_CMB_CODATA  = 2.7255          # COBE/FIRAS anchor
-LAMBDA_PLANCK = 1.089e-52       # Planck 2018 [m^-2]
-OMEGA_L_BAO   = 0.6889          # Planck+BAO
+T_CMB_COBE_FIRAS = 2.7255       # COBE/FIRAS anchor (Fixsen 2009)
+LAMBDA_PLANCK = 1.089e-52       # 3*Omega_L*H_0^2/c^2 on the Planck 2018 base set, rounded [m^-2]
+OMEGA_L_BAO   = 0.6889          # Planck 2018 with BAO
 
 
 # ----------------------------------------------------------------------
@@ -229,7 +228,7 @@ def Lambda_vac_value(N: float) -> float:
     T_p = (1.0 / K_B) * math.sqrt(hbar_geom * C0**5 / G_EWT)
 
     H_factor = 8.0 * (2.0 * PI)**2
-    R_H = lambda_l * (T_p / T_CMB_CODATA)**2 / H_factor
+    R_H = lambda_l * (T_p / T_CMB_COBE_FIRAS)**2 / H_factor
     H_0_si = C0 / R_H
     Lambda_dS = 3.0 * H_0_si**2 / C0**2
 
@@ -493,17 +492,11 @@ def main():
     print("  Two distinct G-related observations:")
     print()
     print("  1. G_geom is a derived quantity, not a free parameter.")
-    print("     In the combinations that determine T_p^2 (~ hbar/G) and")
-    print("     lambda_l^2 (~ hbar*G), the symbols hbar and G do not")
-    print("     appear when the expressions are written out: both")
-    print("     combinations reduce to expressions in r_e, m_e, c,")
-    print("     alpha_geom, and the BCC geometric factors (manuscript")
-    print("     v5.3.1, sec:cosmo_summary). Numerically, G_EWT is")
-    print("     computed in this script as an intermediate, but the")
-    print("     chain could be written without it. Consequently, the")
-    print("     0.048% residual of G_geom against CODATA is a test of")
-    print("     the BCC geometry at the level of G, not a direct")
-    print("     accuracy on H_0 or Lambda_vac.")
+    print("     It is itself an expression in r_e, m_e, c, alpha_geom,")
+    print("     and the BCC geometric factors (manuscript v5.3.1,")
+    print("     sec:cosmo_summary). H_0 is proportional to G_geom^(1/2),")
+    print("     so the 0.048% residual of G_geom against CODATA enters")
+    print("     H_0 at 0.024% and Lambda_vac at 0.048%.")
     print()
     print("  2. G(N) sensitivity propagates through the chain (this is")
     print("     what the lock-in scan measures).")
