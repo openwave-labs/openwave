@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-From manuscript version: 5.0.0
+From manuscript version: 5.2.4 or leter
 
 Enhanced EWT -- AMM Resonance Scanner (Onion Model)
 =====================================================
@@ -32,7 +32,7 @@ try:
         derive_eps_M_from_BCC,
     )
 except ImportError:
-    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
 
 
 # =============================================================================
@@ -66,19 +66,18 @@ def calculate_EWT_from_geometry(Kn_m_in: int, Kn_t_in: int):
     L_mu = 5
     L_tau = 34
 
-    # Core: Electron Ground State
-    ae_pred = (alpha_geom / (2.0 * PI)) * (1.0 - eps_M * (PI**3))
-
     # Shell 1: Muon Resonance
     M_mu_shell = (Kn_m_in - Kn_e) / Kn_e
     B_mu_scale = (3.0 * A_pi * PI**3) / (2.0 * L_mu**2)
     amu_shell = B_mu_scale * (1.0 - eps_M) ** (M_mu_shell * PI**3)
 
-    am_ppm = ae_pred + amu_shell  # in dimensionless (not ppm) actually
-    # Wait: ae_pred is dimensionless, amu_shell is dimensionless.
-    # In Scilab they did ae_pred + amu_shell without scaling by 1e6.
-    # Then they divided by 1e6 to compare to target_amu.
-    # We will replicate exactly.
+    # The shell comparison uses the pure muon-shell contribution (in ppm).
+    # The electron AMM (ae_pred = (alpha/2pi)(1 - eps_M*pi^3), dimensionless
+    # ~0.00116) is NOT added here: it is negligible at the ppm scale
+    # (~5e-6 relative) and is already accounted for in the full muon AMM of
+    # ewt_amm_extended.py. Including it would contaminate the shell reference
+    # and break consistency with Table final_results_confirmed (a_mu_shell_ppm).
+    am_ppm = amu_shell
 
     e_m = abs(am_ppm / 1e6 - target_amu) / target_amu * 100.0
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-From manuscript version: 5.0.0
+From manuscript version: 5.2.4 or leter
 
 Enhanced EWT -- Extended Lepton AMM Module
 ============================================
@@ -25,7 +25,7 @@ try:
         get_AMMi_K,
     )
 except ImportError:
-    raise ImportError("This module requires m4_7_ewt_emergence_engine.py in the same directory.")
+    raise ImportError("This module requires ewt_emergence_engine.py in the same directory.")
 
 
 def compute_lepton_amms_extended(alpha_geom: float, eps_M: float) -> dict:
@@ -54,7 +54,8 @@ def compute_lepton_amms_extended(alpha_geom: float, eps_M: float) -> dict:
     """
     A_pi = compute_alpha_core()
     L_mu_dim = 5
-    L_tau_dim = 34
+    L_tau_dim = 34  # Reserved for the 4th-generation extension; see note in
+                    # ewt_emergence_engine.compute_lepton_amms.
     K_e = 10
 
     # Electron
@@ -83,7 +84,11 @@ def compute_lepton_amms_extended(alpha_geom: float, eps_M: float) -> dict:
     # Recursive accumulation with interface tension L_mu^2
     a_tau_shell_total_ppm = a_mu_shell_ppm + a_tau_shell_raw_ppm + L_mu_dim**2
 
-    # Projection operator for tau (3D -> 3D, unity)
+    # Projection operator for tau (3D -> 3D, unity).
+    # With O_tau = 1, this expression reduces algebraically to
+    # a_tau_shell_total_ppm. It is written explicitly to show that no
+    # dimensional projection is applied for the tau, in contrast to the
+    # muon's O_mu = 1/(4*pi^2).
     a_tau_full_ppm = a_e_ppm + (a_tau_shell_total_ppm - a_e_ppm)
 
     # Internal references (from orbital mass relations)
@@ -124,7 +129,7 @@ def report_extended_amms(res: dict) -> None:
     print(f"    EWT shell reference   : {res['ref_a_tau_shell_ppm']:.6f} ppm")
     print(f"    Internal rel. error   : {res['err_a_tau_shell_pct']:.6f} %")
     print(f"  Tau full a_tau          : {res['a_tau_full_ppm']:.6f} ppm")
-    print(f"    Experimental target   : {A_TAU_EXP*1e6:.6f} ppm")
+    print(f"    SM prediction         : {A_TAU_EXP*1e6:.6f} ppm  (no direct measurement)")
     print(f"    Full rel. error       : {abs(res['a_tau_full_ppm'] - A_TAU_EXP*1e6)/(A_TAU_EXP*1e6)*100:.6f} %")
 
 

@@ -37,13 +37,12 @@ try:
         G_CODATA, ALPHA_INV_CODATA, A_E_CODATA,
         A_MU_EXP, A_TAU_EXP,
         SIN2_THETA_W, SIN_THETA_C_PDG,
-        M_Z_CODATA, M_W_CDFII,
+        M_Z_CODATA, M_W_PDG,
         M_D_PDG, M_S_PDG,
         C0, M_E, R_E, E_CHARGE_CODATA,
         BCC_IDEAL_PROJECTION_LP,
         compute_alpha_geometric,
         derive_eps_M_from_BCC,
-        build_geometric_ladder,
         derive_planck_charge_from_e,
         derive_neutrino_radius,
         derive_lambda_l_geometric,
@@ -114,12 +113,18 @@ def amm_values(N: float) -> dict:
 def mixing_values(N: float) -> dict:
     """Raw mixing angle predictions at given N."""
     eps_M = 1.0 / (N * PI**3)
-    ladder = build_geometric_ladder(eps_M)
-    C_gap = ladder["C_gap"]
-    C_fermion = ladder["C_fermion"]
 
-    sin2_W_pred = 1.0 - (M_W_CDFII / M_Z_CODATA) ** 2 * (1.0 / C_gap)
-    sinC_pred = math.sqrt(M_D_PDG / M_S_PDG) * C_fermion
+    # Pure neutral gap operator (manuscript Section 3.1.1)
+    C_local = eps_M / (2.0 * SQRT2)
+    C_gap = 1.0 + PI**6 * C_local
+
+    # Linear flavor deficit at the pi^5 rung (v5.2.2+; replaces removed C_fermion).
+    # With N = 8 pi^4 (1 - zeta), this reduces to 1/(pi * N).
+    eps_flavor = 1.0 / (PI * N)
+
+    # M_W_PDG is the anchor (PDG 2022 average, 80.377 GeV)
+    sin2_W_pred = 1.0 - (M_W_PDG / M_Z_CODATA) ** 2 * (1.0 / C_gap)
+    sinC_pred = math.sqrt(M_D_PDG / M_S_PDG) * (1.0 + eps_flavor)
 
     return {
         "sin2_W": sin2_W_pred,

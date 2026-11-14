@@ -1,4 +1,4 @@
-# From manuscript version: 5.0.0
+# From manuscript version: 5.2.4 or leter
 # =============================================================================
 # SECTION 1: GLOBAL INPUTS & CONSTANTS
 # -----------------------------------------------------------------------------
@@ -46,24 +46,35 @@ G_CODATA          = 6.674305e-11              # gravitational constant [m^3 kg^-
 M_Z_CODATA        = 91.1876                   # Z boson mass [GeV]
 M_W_PDG           = 80.377                    # W boson mass, PDG 2022 average [GeV]
 M_W_CDFII         = 80.4335                   # W boson mass, CDF II 2022 [GeV]
+M_W_ATLAS_2024    = 80.3600                   # ATLAS 2024 average [GeV]
+M_W_CMS_2024      = 80.3602                   # CMS 2024 average [GeV]
+M_W_PDG_2024      = 80.3692                   # PDG 2024 average [GeV]
 M_H_CODATA        = 125.25                    # Higgs mass [GeV]
 SIN2_THETA_W      = 0.23122                   # Weinberg angle sin^2(theta_W)
 SIN_THETA_C_PDG   = 0.2243                    # Cabibbo angle sin(theta_C)
+# PPM_CONVENTION = 10^-6 is the parts-per-million reporting convention.
+# It happens to coincide numerically with (r_nu/r_e)^3 because the decadic
+# anchor r_e/r_nu ~ 100 = 10^2 has a cube (10^2)^3 = 10^6. This is a
+# numerical coincidence of the decimal system, not a derivation from the
+# BCC lattice: if the decadic anchor were non-decimal, the ppm convention
+# would be unchanged but would not coincide with any simple geometric
+# ratio of the model.
+PPM_CONVENTION = 1.0e-6
 R_INF_CODATA      = 10973731.568157           # Rydberg constant [m^-1]
 A0_CODATA         = 5.29177210903e-11         # Bohr radius [m]
 LAMBDA_C_CODATA   = 2.42631023867e-12         # electron Compton wavelength [m]
 
 # Quark masses (MS-bar, PDG 2022) used in flavour mixing test
-M_D_PDG           = 0.004692                  # d-quark mass [GeV]
-M_S_PDG           = 0.094954                  # s-quark mass [GeV]
+M_D_PDG           = 0.00470                   # d-quark mass [GeV], PDG 2024
+M_S_PDG           = 0.09350                   # s-quark mass [GeV], PDG 2024
 
 A_MU_EXP          = 1.1659206100e-3        # muon AMM from Fermilab/Brookhaven
-A_TAU_EXP         = 1.177210e-3            # tau AMM from PDG
+A_TAU_EXP         = 1.177210e-3            # tau AMM: Standard Model prediction, not a direct measurement
 
-# Fundamental length scale (Planck charge interpreted as geometric amplitude)
-# This is currently treated as an INPUT, but will later be reclassified
-# as DERIVED once the geometric origin of q_P is explicitly shown.
-Q_P_INPUT         = 1.87554603778e-18         # Planck charge as length [m]
+# Reference value of the Planck charge (interpreted as a geometric amplitude).
+# The DERIVED value is q_P_geom = e / sqrt(alpha_geom); see derive_planck_charge_from_e().
+# Q_P_REFERENCE is retained only as a cross-check anchor for the main() report.
+Q_P_REFERENCE     = 1.87554603778e-18         # Planck charge reference value [m]
 # Fundamental EMC spacing (Planck length) [m]
 LAMBDA_L          = 1.6162e-35
 # Elementary charge (CODATA 2022) -- empirical anchor of the amplitude scale
@@ -171,7 +182,8 @@ def compute_alpha_core() -> float:
 # Later sections will compute eps_M and pass it here.
 # =============================================================================
 
-def build_geometric_ladder(eps_M: float, source_label: str = "") -> dict:
+def build_geometric_ladder(eps_M: float, source_label: str = "",
+                           zeta: float = 0.0) -> dict:
     """
     Build the geometric ladder from the magnetic deficit eps_M.
 
@@ -181,36 +193,50 @@ def build_geometric_ladder(eps_M: float, source_label: str = "") -> dict:
         Magnetic deficit parameter.
     source_label : str
         Optional label describing the source of eps_M.
+    zeta : float
+        Lattice impedance (default 0.0 for ideal BCC packing).
 
     Returns
     -------
     dict with:
-        eps_M     : magnetic deficit (input)
-        source    : source label
-        C_local   : local coupling
-        C_gap     : volumetric operator (pi^6)
-        C_fermion : surface operator (pi^5)
-        ladder    : dictionary {3: pi^3, ..., 7: pi^7}
+        eps_M       : magnetic deficit
+        zeta        : lattice impedance
+        source      : source label
+        ...
     """
     C_local = eps_M / (2.0 * SQRT2)
 
+    pi6 = PI**6
+    pi7 = PI**7
+    O_mixed = (pi6 * pi7) / (pi6 + pi7)
+
+    # Flavor deficit (analogous to eps_M, at the pi^5 rung)
+    eps_flavor = 1.0 / (8.0 * pi7 * (1.0 - zeta) / PI**2)  # = 1/(8*pi^5*(1-zeta))
+    # Simplified: eps_flavor = 1 / (8 * PI**5 * (1 - zeta))
+
     return {
         "eps_M": eps_M,
+        "zeta": zeta,
+        "eps_flavor": eps_flavor,
         "source": source_label,
         "C_local": C_local,
-        "C_gap": 1.0 + PI**6 * C_local,
-        "C_fermion": (1.0 + PI**5 * C_local) ** 2,
+        "C_gap": 1.0 + pi6 * C_local,
+        "C_gap_mixed": 1.0 + O_mixed * C_local,
+        "O_mixed": O_mixed,
         "ladder": {n: PI**n for n in range(3, 8)},
     }
 
 
 def report_ladder(lad: dict) -> None:
     """Print the contents of a ladder dictionary in a readable form."""
-    print(f"  Source     : {lad.get('source', 'unknown')}")
-    print(f"  eps_M      : {lad['eps_M']:.15e}")
-    print(f"  C_local    : {lad['C_local']:.15e}")
-    print(f"  C_gap      : {lad['C_gap']:.15f}")
-    print(f"  C_fermion  : {lad['C_fermion']:.15f}")
+    print(f"  Source       : {lad.get('source', 'unknown')}")
+    print(f"  eps_M        : {lad['eps_M']:.15e}")
+    print(f"  zeta         : {lad.get('zeta', 0.0):.10e}")
+    print(f"  C_local      : {lad['C_local']:.15e}")
+    print(f"  C_gap        : {lad['C_gap']:.15f}  (pure pi^6, Z-Z and Z-H)")
+    print(f"  C_gap_mixed  : {lad['C_gap_mixed']:.15f}  (mixed W-Z)")
+    print(f"  O_mixed      : {lad['O_mixed']:.6f}  (harmonic mean pi^6*pi^7/(pi^6+pi^7))")
+    print(f"  eps_flavor    : {lad['eps_flavor']:.15f}")
     print("  Ladder:")
     for n in sorted(lad["ladder"]):
         print(f"    pi^{n} = {lad['ladder'][n]:.15f}")
@@ -285,84 +311,150 @@ def derive_eps_M_from_BCC(N_input: float = 8.0 * PI**4) -> dict:
 
 def weinberg_sector(C_gap: float, M_Z: float, sin2_W: float) -> dict:
     """
-    Compute the W boson mass from the Weinberg angle using the pi^6 operator.
+    Compute the W boson mass from the Weinberg angle using a given C_gap operator.
 
-    Formula:
-        M_W = M_Z * sqrt( (1 - sin^2(theta_W)) * C_gap )
-
-    Parameters
-    ----------
-    C_gap : float
-        Volumetric lattice operator from the pi^6 rung.
-    M_Z : float
-        Experimental Z boson mass [GeV].
-    sin2_W : float
-        Experimental Weinberg angle sin^2(theta_W).
-
-    Returns
-    -------
-    dict with:
-        M_W_pred       : predicted W mass [GeV]
-        rel_err_PDG    : relative error to PDG average
-        rel_err_CDFII  : relative error to CDF II measurement
+    Since v5.2.0, the main M_W prediction uses the mixed W-Z operator
+    (see weinberg_sector_mixed). This function remains for:
+      - pure pi^6 calculations (neutral vertices Z-Z, Z-H),
+      - backward compatibility with older scripts.
     """
     M_W_pred = M_Z * math.sqrt((1.0 - sin2_W) * C_gap)
 
     rel_err_PDG = abs(M_W_pred - M_W_PDG) / M_W_PDG * 100.0
     rel_err_CDFII = abs(M_W_pred - M_W_CDFII) / M_W_CDFII * 100.0
+    rel_err_PDG_2024 = abs(M_W_pred - M_W_PDG_2024) / M_W_PDG_2024 * 100.0
 
     return {
         "M_W_pred": M_W_pred,
         "rel_err_PDG": rel_err_PDG,
         "rel_err_CDFII": rel_err_CDFII,
+        "rel_err_PDG_2024": rel_err_PDG_2024,
     }
 
 
-def cabibbo_sector(C_fermion: float, M_d: float, M_s: float) -> dict:
+def weinberg_sector_mixed(lad: dict, M_Z: float, sin2_W: float) -> dict:
     """
-    Compute the Cabibbo angle from quark masses using the pi^5 operator.
+    Compute W mass via the mixed W-Z operator (harmonic mean pi^6 * pi^7).
 
-    Formula:
-        sin(theta_C) = sqrt( M_d / M_s ) * C_fermion
+    The W-Z vertex is a mixed process: one charged (W) and one neutral
+    (Z) soliton. The harmonic combination
+        O_mixed = pi^6 * pi^7 / (pi^6 + pi^7)
+    is the unique simple parameter-free form that reduces to the correct
+    single-rung limit when one channel decouples. It is a methodologically
+    motivated ansatz, not a first-principles derivation.
 
     Parameters
     ----------
-    C_fermion : float
-        Surface lattice operator from the pi^5 rung.
-    M_d : float
-        Down quark mass [GeV].
-    M_s : float
-        Strange quark mass [GeV].
+    lad : dict
+        Ladder dictionary from build_geometric_ladder(); must contain
+        "C_gap_mixed" and "O_mixed".
+    M_Z : float
+        Z-boson mass [GeV].
+    sin2_W : float
+        MS-bar Weinberg angle.
 
     Returns
     -------
     dict with:
-        sin_C_pred : predicted sin(theta_C)
-        rel_err    : relative error to PDG target
+        M_W_pred         : predicted W mass [GeV]
+        C_gap_mixed      : the mixed operator value used
+        O_mixed          : harmonic mean of pi^6 and pi^7
+        rel_err_PDG      : relative error vs PDG 2022 [%]
+        rel_err_CDFII    : relative error vs CDF II 2022 [%]
+        rel_err_PDG_2024 : relative error vs PDG 2024 [%]
+        rel_err_ATLAS    : relative error vs ATLAS 2024 [%]
+        rel_err_CMS      : relative error vs CMS 2024 [%]
     """
-    sin_C_pred = math.sqrt(M_d / M_s) * C_fermion
-    rel_err = abs(sin_C_pred - SIN_THETA_C_PDG) / SIN_THETA_C_PDG * 100.0
+    C_gap_mixed = lad["C_gap_mixed"]
+    M_W_pred = M_Z * math.sqrt((1.0 - sin2_W) * C_gap_mixed)
 
-    return {"sin_C_pred": sin_C_pred, "rel_err": rel_err}
+    return {
+        "M_W_pred": M_W_pred,
+        "C_gap_mixed": C_gap_mixed,
+        "O_mixed": lad["O_mixed"],
+        "rel_err_PDG": abs(M_W_pred - M_W_PDG) / M_W_PDG * 100.0,
+        "rel_err_CDFII": abs(M_W_pred - M_W_CDFII) / M_W_CDFII * 100.0,
+        "rel_err_PDG_2024": abs(M_W_pred - M_W_PDG_2024) / M_W_PDG_2024 * 100.0,
+        "rel_err_ATLAS": abs(M_W_pred - M_W_ATLAS_2024) / M_W_ATLAS_2024 * 100.0,
+        "rel_err_CMS": abs(M_W_pred - M_W_CMS_2024) / M_W_CMS_2024 * 100.0,
+    }
+
+
+def cabibbo_sector(
+    M_d: float, M_s: float,
+    eps_flavor: float = None,
+    target: float = SIN_THETA_C_PDG,
+) -> dict:
+    """
+    Compute the Cabibbo angle from the bare Gatto-Sartori-Tonin
+    relation with the EWT flavor deficit correction:
+
+        sin(theta_C) = sqrt(M_d/M_s) * (1 + eps_flavor)
+
+    where eps_flavor = 1/(8*pi^5*(1-zeta)) by default, or
+    1/(8*pi^5) in the ideal limit (zeta = 0).
+
+    Parameters
+    ----------
+    M_d, M_s : float
+        Down and strange quark masses [GeV].
+    eps_flavor : float, optional
+        Flavor deficit. If None, uses ideal value 1/(8*pi^5).
+    target : float
+        Reference sin(theta_C), default PDG value.
+
+    Returns
+    -------
+    dict with keys:
+        sin_C_pred : predicted sin(theta_C)
+        rel_err    : relative error vs target [%]
+        eps_flavor : the flavor deficit value used
+    """
+    if eps_flavor is None:
+        eps_flavor = 1.0 / (8.0 * PI**5)  # ideal limit
+    sin_C_pred = math.sqrt(M_d / M_s) * (1.0 + eps_flavor)
+    rel_err = abs(sin_C_pred - target) / target * 100.0
+    return {
+        "sin_C_pred": sin_C_pred,
+        "rel_err": rel_err,
+        "eps_flavor": eps_flavor,
+    }
 
 
 def run_sector_tests(lad: dict) -> None:
     """
     Run experimental validation tests on a given ladder dictionary.
 
+    Since v5.2.0, the W-mass prediction uses the mixed W-Z operator
+    (harmonic mean of pi^6 and pi^7). The pure pi^6 result is shown
+    for comparison and corresponds to a hypothetical neutral W boson.
+
     Parameters
     ----------
     lad : dict
         Ladder dictionary produced by build_geometric_ladder().
     """
-    result_W = weinberg_sector(lad["C_gap"], M_Z_CODATA, SIN2_THETA_W)
-    print(f"  M_W prediction      : {result_W['M_W_pred']:.6f} GeV")
-    print(f"  rel. err PDG        : {result_W['rel_err_PDG']:.4f} %")
-    print(f"  rel. err CDF II     : {result_W['rel_err_CDFII']:.4f} %")
+    # Mixed operator (main prediction, v5.2.0)
+    result_W_mixed = weinberg_sector_mixed(lad, M_Z_CODATA, SIN2_THETA_W)
+    print(f"  M_W prediction (mixed)    : {result_W_mixed['M_W_pred']:.6f} GeV")
+    print(f"  rel. err PDG 2024 (mixed) : {result_W_mixed['rel_err_PDG_2024']:.4f} %")
+    print(f"  rel. err ATLAS 2024       : {result_W_mixed['rel_err_ATLAS']:.4f} %")
+    print(f"  rel. err CMS 2024         : {result_W_mixed['rel_err_CMS']:.4f} %")
+    print(f"  rel. err CDF II 2022      : {result_W_mixed['rel_err_CDFII']:.4f} %  (outlier)")
 
-    result_C = cabibbo_sector(lad["C_fermion"], M_D_PDG, M_S_PDG)
-    print(f"  sin theta_C         : {result_C['sin_C_pred']:.10f}")
-    print(f"  rel. err PDG        : {result_C['rel_err']:.6f} %")
+    # Pure pi^6 (for comparison / neutral vertices)
+    result_W_pure = weinberg_sector(lad["C_gap"], M_Z_CODATA, SIN2_THETA_W)
+    print(f"  M_W (pure pi^6)           : {result_W_pure['M_W_pred']:.6f} GeV")
+    print(f"  rel. err PDG 2024 (pure)  : {result_W_pure['rel_err_PDG_2024']:.4f} %")
+
+    result_C = cabibbo_sector(
+        M_D_PDG, M_S_PDG,
+        eps_flavor=lad.get("eps_flavor"),
+    )
+    print(f"  sin theta_C               : {result_C['sin_C_pred']:.10f}")
+    print(f"  rel. err PDG              : {result_C['rel_err']:.6f} %")
+    print(f"  eps_flavor                : {result_C['eps_flavor']:.6e}")
+    print(f"  zeta                      : {lad.get('zeta', 0.0):.6e}")
 
 
 # =============================================================================
@@ -994,7 +1086,9 @@ def compute_lepton_amms(
     alpha_geom: float,
     eps_M: float,
     L_mu_dim: int = 5,
-    L_tau_dim: int = 34,
+    L_tau_dim: int = 34,  # Reserved for the 4th-generation extension
+                          # (see Section sec:three_generations in the manuscript);
+                          # not used in the three-generation AMM computation.
     K_WC_e: int = 10,
 ) -> dict:
     """
@@ -1002,7 +1096,7 @@ def compute_lepton_amms(
     """
     A_pi = compute_alpha_core()
 
-    a_e_ppm = (alpha_geom / (2.0 * PI)) * (1.0 - eps_M * (PI**3)) * 1e6
+    a_e_ppm = (alpha_geom / (2.0 * PI)) * (1.0 - eps_M * (PI**3)) / PPM_CONVENTION
 
     K_e = K_WC_e
     K_mu_total = get_AMMi_K(2)
@@ -1037,13 +1131,13 @@ def compute_lepton_amms(
 
 
 def report_lepton_amms(res: dict) -> None:
-    """Print lepton AMM results and compare with experimental targets."""
+    """Print lepton AMM results and compare with experimental / SM references."""
     print("--- Lepton Anomalous Magnetic Moments ---")
-    print(f"  Electron a_e   : {res['a_e_ppm']:.6f} ppm  (CODATA: {A_E_CODATA*1e6:.6f} ppm)")
+    print(f"  Electron a_e   : {res['a_e_ppm']:.6f} ppm  (CODATA: {A_E_CODATA/PPM_CONVENTION:.6f} ppm)")
     print(f"  Muon shell     : {res['a_mu_shell_ppm']:.6f} ppm")
-    print(f"  Muon full a_mu : {res['a_mu_ppm']:.6f} ppm  (Exp: {A_MU_EXP*1e6:.6f} ppm)")
+    print(f"  Muon full a_mu : {res['a_mu_ppm']:.6f} ppm  (Exp: {A_MU_EXP/PPM_CONVENTION:.6f} ppm)")
     print(f"  Tau shell      : {res['a_tau_shell_ppm']:.6f} ppm")
-    print(f"  Tau full a_tau : {res['a_tau_ppm']:.6f} ppm  (Exp: {A_TAU_EXP*1e6:.6f} ppm)")
+    print(f"  Tau full a_tau : {res['a_tau_ppm']:.6f} ppm  (SM prediction: {A_TAU_EXP/PPM_CONVENTION:.6f} ppm)")
 
 def amm_rigidity_test(
     base_alpha_geom: float,
@@ -1079,9 +1173,9 @@ def amm_rigidity_test(
 
     print("-" * 78)
     print("Reference experimental:")
-    print(f"  a_e   : {A_E_CODATA*1e6:.6f} ppm")
-    print(f"  a_mu  : {A_MU_EXP*1e6:.6f} ppm")
-    print(f"  a_tau : {A_TAU_EXP*1e6:.6f} ppm")
+    print(f"  a_e   : {A_E_CODATA/PPM_CONVENTION:.6f} ppm")
+    print(f"  a_mu  : {A_MU_EXP/PPM_CONVENTION:.6f} ppm")
+    print(f"  a_tau : {A_TAU_EXP/PPM_CONVENTION:.6f} ppm")
     print("=" * 78)
 
 # =============================================================================
@@ -1147,7 +1241,6 @@ def main():
     q_P_geom = derive_planck_charge_from_e(alpha_geom, E_CHARGE_CODATA)
 
     print(f"Derived q_P         : {q_P_geom:.15e}")
-    print(f"Reference Q_P_INPUT : {Q_P_INPUT:.15e}")
 
     ratio_qP_e_derived = q_P_geom / E_CHARGE_CODATA
     ratio_qP_e_expected = 1.0 / math.sqrt(alpha_geom)
@@ -1214,7 +1307,7 @@ def main():
         c0=C0,
     )
 
-    ladder_bcc = build_geometric_ladder(eps_M_bcc, "BCC packing derived")
+    ladder_bcc = build_geometric_ladder(eps_M_bcc, "BCC packing derived", zeta=bcc_derived["zeta"])
 
     print(f"\n--- Geometric Ladder (Pure BCC) ---")
     report_ladder(ladder_bcc)
