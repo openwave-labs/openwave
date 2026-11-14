@@ -1,0 +1,104 @@
+{
+ "name": "r3_c45_pair",
+ "card": "C",
+ "lam": 1.0,
+ "grid": 45,
+ "half_box": 6.075,
+ "spacing": 0.27613636363636385,
+ "delta": 0.2,
+ "kx": 0.25,
+ "ko": 0.02,
+ "start": {
+  "kind": "state",
+  "source": "m5_39_r2_g45_chain.npz",
+  "source_grid": 45,
+  "source_iteration": 2153,
+  "source_energy": 75.61755251105137,
+  "center_eigenvalues": [
+   0.35216755446528214,
+   0.37690607470308984,
+   0.37851120409817834
+  ],
+  "energy": 75.61755251105137,
+  "terms": [
+   33.740223322565875,
+   39.834767835435926,
+   2.803517073159864e-07,
+   0.004526494691039872,
+   0.0019763572340558365,
+   2.036056931029568,
+   1.2897431946089878e-06
+  ],
+  "residual": 0.0006778655783012099,
+  "degree": 1,
+  "gradient_check": [
+   7.3122014483966445e-09,
+   1.3742770318002485e-08,
+   2.64791289796301e-10
+  ]
+ },
+ "caps": {
+  "main": 2000,
+  "polish": 1000,
+  "handoff": 0
+ },
+ "label": "STATIONARY",
+ "gate": 0.001,
+ "optimizer_stop_gate": 0.001,
+ "energy": 75.61755251105137,
+ "terms": [
+  33.740223322565875,
+  39.834767835435926,
+  2.803517073159864e-07,
+  0.004526494691039872,
+  0.0019763572340558365,
+  2.036056931029568,
+  1.2897431946089878e-06
+ ],
+ "term_names": [
+  "tensor_quadratic",
+  "quaternion_quartic",
+  "record_quartic",
+  "composite_quadratics",
+  "record_potential",
+  "pion_mass",
+  "orientation"
+ ],
+ "composites": [
+  0.004182032858679813,
+  0.00034446183236005936
+ ],
+ "residual": 0.0006778655783012099,
+ "residual_winding": 0.0006778655783012099,
+ "residual_factor": 0.0003434198456809145,
+ "degree": 1,
+ "degree_preimages": 1,
+ "hemisphere_margin_first_triangulation": 3.1605952763393277,
+ "hemisphere_margin_four_triangulations": 3.1605952763393277,
+ "center_eigenvalues": [
+  0.35216755446528214,
+  0.37690607470308984,
+  0.37851120409817834
+ ],
+ "branch": "ISOTROPIC CENTER",
+ "iterations": 0,
+ "evaluations": 1,
+ "wall_hits": 0,
+ "energy_drift_last_tenth": null,
+ "saved_states_under_the_gate": [],
+ "handoff_iteration": null,
+ "segments": [
+  {
+   "segment": "main",
+   "iterations": 0,
+   "optimizer_success": true,
+   "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "optimizer_value": 75.61755251105137,
+   "wall_time_s": 0.615900993347168
+  }
+ ],
+ "resumed_at": [],
+ "threads": 1,
+ "wall_time_s": 6.818021297454834,
+ "history": []
+}

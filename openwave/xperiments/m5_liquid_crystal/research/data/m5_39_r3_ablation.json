@@ -1,0 +1,269 @@
+{
+ "task": "M5.39 R3",
+ "printed": {
+  "energy_percent": {
+   "33": 0.0425,
+   "45": 0.0433,
+   "55": 0.0438
+  },
+  "direct": [
+   0.00027,
+   0.00028
+  ],
+  "relaxed": [
+   -0.00036,
+   -0.00027
+  ],
+  "rms_radius_fm": -0.00015
+ },
+ "grids": [
+  {
+   "grid": 33,
+   "start": "r2_g33_iso",
+   "start_is_stationary": true,
+   "start_branch": "ISOTROPIC CENTER",
+   "card": {
+    "label": "STATIONARY",
+    "energy": 76.05107475426023,
+    "residual": 0.0006578467107985136,
+    "iterations": 0,
+    "drift": null,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "ablated": {
+    "label": "NOT STATIONARY",
+    "energy": 76.01759440268218,
+    "residual": 0.010613534440567809,
+    "iterations": 3000,
+    "drift": 1.3119389024041084e-05,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "energy_change_percent": 0.0440428980173937,
+   "energy_change_by_term": [
+    0.01867755657908532,
+    0.014963976752142116,
+    1.8170820121336214e-07,
+    0.0003711212464574073,
+    0.0009898087021541382,
+    -0.001522755784752361,
+    4.623747779572502e-07
+   ],
+   "inertia": {
+    "card": 34.32462134391906,
+    "card_read_without_the_term": 34.31552936956862,
+    "ablated": 34.334530427402264,
+    "direct": 0.0002648819999889321,
+    "relaxed": -0.00028868733565670277,
+    "chiral": -0.0005535693356456349
+   },
+   "rms_radius_change_fm": -0.00016697869714332164,
+   "isovector_r2_change_fm2": -0.00029476533257472156,
+   "split": {
+    "cross_centered_form": 0.03157028588773182,
+    "cross_remainder_centered": 0.015790706270193286,
+    "winding_part": 33.66319893031491,
+    "cross_part": 0.03207680123410698,
+    "pure_record_part": 3.171638321320385e-05,
+    "tensor_term_card": 33.69530744793223,
+    "tensor_term_ablated": 33.66319893031491,
+    "split_misfit_card": 0.0,
+    "split_misfit_ablated": 0.0,
+    "cross_continuum_form": 0.03207680123410697,
+    "cross_remainder": 2.1632125514214815e-16,
+    "share_of_the_winding_part": 0.000952874422318215,
+    "largest_record_eigenvalue": 0.38328112952083604,
+    "bound_on_the_share": 0.008695652173913044
+   },
+   "label": "FAILS: the ablated continuation is not stationary where the card's is",
+   "energy_within_5_percent": true,
+   "inertia_parts_within_a_factor_1_5": true
+  },
+  {
+   "grid": 45,
+   "start": "r2_g45_chain",
+   "start_is_stationary": true,
+   "start_branch": "ISOTROPIC CENTER",
+   "card": {
+    "label": "STATIONARY",
+    "energy": 75.61755251105137,
+    "residual": 0.0006778655783012099,
+    "iterations": 0,
+    "drift": null,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "ablated": {
+    "label": "NOT STATIONARY",
+    "energy": 75.58383058895224,
+    "residual": 0.0019235065484227896,
+    "iterations": 3000,
+    "drift": 1.7860001051417385e-05,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "energy_change_percent": 0.044615259423041106,
+   "energy_change_by_term": [
+    0.017269018739973774,
+    0.01711175219477923,
+    1.6540510549243163e-07,
+    0.0005971950600301597,
+    0.0009528839346471915,
+    -0.002209790060316408,
+    6.968249087831361e-07
+   ],
+   "inertia": {
+    "card": 38.1335593897855,
+    "card_read_without_the_term": 38.12570093706175,
+    "ablated": 38.15153334674625,
+    "direct": 0.0002060770840567634,
+    "relaxed": -0.0004713422310522476,
+    "chiral": -0.000677419315109011
+   },
+   "rms_radius_change_fm": -0.00015767506684032125,
+   "isovector_r2_change_fm2": -0.0004731864745943926,
+   "split": {
+    "cross_centered_form": 0.03142096194705382,
+    "cross_remainder_centered": 0.021880658799159746,
+    "winding_part": 33.70806595033381,
+    "cross_part": 0.03212385301417126,
+    "pure_record_part": 3.351921821858576e-05,
+    "tensor_term_card": 33.740223322565875,
+    "tensor_term_ablated": 33.70806595033321,
+    "split_misfit_card": 9.687240517790083e-15,
+    "split_misfit_ablated": 1.791741259454e-14,
+    "cross_continuum_form": 0.03212385301417126,
+    "cross_remainder": 0.0,
+    "share_of_the_winding_part": 0.0009530019628389015,
+    "largest_record_eigenvalue": 0.37851120409817834,
+    "bound_on_the_share": 0.008695652173913044
+   },
+   "label": "FAILS: the ablated continuation is not stationary where the card's is",
+   "energy_within_5_percent": true,
+   "inertia_parts_within_a_factor_1_5": true
+  },
+  {
+   "grid": 55,
+   "start": "r2_g55_smooth",
+   "start_is_stationary": true,
+   "start_branch": "ISOTROPIC CENTER",
+   "card": {
+    "label": "STATIONARY",
+    "energy": 75.5617454083069,
+    "residual": 0.0005289262473197127,
+    "iterations": 19,
+    "drift": 5.290161197990528e-09,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "ablated": {
+    "label": "NOT STATIONARY",
+    "energy": 75.52874105564077,
+    "residual": 0.003870686552951573,
+    "iterations": 3000,
+    "drift": 9.531419962627297e-06,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "energy_change_percent": 0.043697739701269646,
+   "energy_change_by_term": [
+    0.018174069495962897,
+    0.015471912052440473,
+    1.8828355320878883e-08,
+    0.00039285881877302144,
+    0.0009712953195670855,
+    -0.0020059221314436826,
+    1.2028247177136424e-07
+   ],
+   "inertia": {
+    "card": 37.43769357880069,
+    "card_read_without_the_term": 37.42644351178602,
+    "ablated": 37.449936703844934,
+    "direct": 0.0003005010709591893,
+    "relaxed": -0.0003270266908529837,
+    "chiral": -0.000627527761812173
+   },
+   "rms_radius_change_fm": -0.0001819518648006022,
+   "isovector_r2_change_fm2": -0.0004998650133325427,
+   "split": {
+    "cross_centered_form": 0.03113619107270211,
+    "cross_remainder_centered": 0.014644023985559428,
+    "winding_part": 33.75990319613315,
+    "cross_part": 0.031598926510438906,
+    "pure_record_part": 3.1066383909556506e-05,
+    "tensor_term_card": 33.7915331890267,
+    "tensor_term_ablated": 33.75990319613223,
+    "split_misfit_card": 2.3760783120360086e-14,
+    "split_misfit_ablated": 2.7361025033802716e-14,
+    "cross_continuum_form": 0.031598926510438906,
+    "cross_remainder": 0.0,
+    "share_of_the_winding_part": 0.0009359898435389541,
+    "largest_record_eigenvalue": 0.39033328466709766,
+    "bound_on_the_share": 0.008695652173913044
+   },
+   "label": "FAILS: the ablated continuation is not stationary where the card's is",
+   "energy_within_5_percent": true,
+   "inertia_parts_within_a_factor_1_5": true
+  }
+ ],
+ "cross_remainder_fixture": {
+  "rows": [
+   {
+    "grid": 17,
+    "spacing": 0.4500000000000002,
+    "remainder_edge_averaged": 0.0,
+    "remainder": 0.059471529411354106
+   },
+   {
+    "grid": 33,
+    "spacing": 0.2250000000000001,
+    "remainder_edge_averaged": 0.0,
+    "remainder": 0.024079612656351817
+   },
+   {
+    "grid": 65,
+    "spacing": 0.11249999999999982,
+    "remainder_edge_averaged": 0.0,
+    "remainder": 0.0075977308775543335
+   },
+   {
+    "grid": 129,
+    "spacing": 0.05624999999999991,
+    "remainder_edge_averaged": 0.0,
+    "remainder": 0.0021139008761197576
+   }
+  ],
+  "orders": [
+   1.3043869923918676,
+   1.6641716694437245,
+   1.8456608823532261
+  ],
+  "second_order": true,
+  "edge_averaged_form_is_exact": true,
+  "review_fixture": {
+   "points": [
+    32,
+    64,
+    128
+   ],
+   "remainder": [
+    0.00069,
+    0.00018,
+    4.4e-05
+   ]
+  }
+ },
+ "unpaired_check_33": {
+  "ablated_from_the_linked_seed": {
+   "label": "STATIONARY",
+   "energy": 76.02279702826414,
+   "residual": 0.0006005122989460967,
+   "branch": "ISOTROPIC CENTER",
+   "center_eigenvalues": [
+    0.3765071043354319,
+    0.37669124846768837,
+    0.377298262889381
+   ],
+   "iterations": 1627
+  },
+  "paired_difference": 0.033480351578049294,
+  "unpaired_difference": 0.028277725996090908,
+  "stopping_floor": 1.4525832767731117e-05,
+  "returned": false
+ }
+}

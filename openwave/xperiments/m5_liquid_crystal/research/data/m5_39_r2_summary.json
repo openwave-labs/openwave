@@ -1,0 +1,4006 @@
+{
+ "task": "M5.39 R2",
+ "units": {
+  "length_fm": 0.5014,
+  "e_f_pi_MeV": 393.55201515755886,
+  "M_N": 938.272,
+  "m_p": 938.272,
+  "Delta": 293.0,
+  "scales": {
+   "inherited": [
+    4.259,
+    92.4
+   ],
+   "printed_55": [
+    4.311,
+    91.29
+   ]
+  }
+ },
+ "grids": {
+  "33": {
+   "half_box": 3.6,
+   "spacing": 0.225,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g33_linked",
+     "label": "NOT STATIONARY",
+     "energy": 76.05082644626748,
+     "residual": 0.0234319016541638,
+     "iterations": 8000,
+     "evaluations": 8200,
+     "drift_last_tenth": 5.878245247004088e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3372708794378807,
+      0.37304318764257,
+      0.39211895096581956
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.3888660924952188,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 338.4540127751987,
+     "wall_time_h": 0.6290958772102991,
+     "threads": 1
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g33_smooth",
+     "label": "NOT STATIONARY",
+     "energy": 76.09311950587198,
+     "residual": 0.0015463630468583317,
+     "iterations": 8000,
+     "evaluations": 8243,
+     "drift_last_tenth": 5.220605146405433e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      1.5235095544915235e-06,
+      0.28131051421223197,
+      0.950203780779285
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.3891534874859097,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 2,
+     "started_from": null,
+     "start_energy": 266.8532147910436,
+     "wall_time_h": 0.6369401511218813,
+     "threads": 1
+    },
+    {
+     "start": "iso",
+     "name": "r2_g33_iso",
+     "label": "STATIONARY",
+     "energy": 76.05107475426023,
+     "residual": 0.000593549803540938,
+     "iterations": 4736,
+     "evaluations": 4870,
+     "drift_last_tenth": 6.937331562539839e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3590628550861209,
+      0.3593621311744906,
+      0.38328112952083604
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.389064630455708,
+     "segments": [
+      [
+       "main",
+       4736,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": null,
+     "start_energy": 305.6222632877029,
+     "wall_time_h": 0.377509714100096,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006578467107985136,
+      "largest_norm_of_p": 1.347736892232508,
+      "isospin_inertia": 34.324621343919056,
+      "isospin_eigenvalues": [
+       34.32413170593609,
+       34.32474941819331,
+       34.32498290762775
+      ],
+      "spin_inertia": 35.3581287210071,
+      "mixed_inertia": -34.6385892827634,
+      "isospin_inertia_other_actions": {
+       "left": 34.324621343919056,
+       "q_only": 34.32462108961745,
+       "q_left_right": 34.36129009171384,
+       "record_right": 0.03666874779478488
+      },
+      "ours_against_the_audit": 1.0764246679938168e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5
+       ],
+       "inertia": [
+        0.0,
+        1.9169148233318856,
+        13.573253432650759,
+        25.80297203729122,
+        31.236332883341067,
+        33.14931188638996,
+        33.945702561184746,
+        34.23701584658919,
+        34.31247294252768,
+        34.323668193774594,
+        34.3245788355081,
+        34.32462095049955,
+        34.32462134389031,
+        34.32462134391906
+       ]
+      },
+      "winding_total": 0.9999715484617597,
+      "r2_s_card": 0.9153423571437088,
+      "r2_v_card": 1.797372085947027,
+      "r2_s_fm2": 0.2301188626569484,
+      "r2_v_fm2": 0.45186286525637104,
+      "tail": {
+       "shells": 4,
+       "mean": 1.968272199246111,
+       "spread": 0.05148208700675383,
+       "continuum_dipole_mean": 1.6601593891212496
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 311.9466998748504,
+        "mu_v_rigid": 3.0077958842854384,
+        "tail_amplitude_fm2": 0.4948274887039828,
+        "g_a_implied_by_the_tail": 0.9089571803624248,
+        "g_pinn_tail": 9.230925973794218
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 319.6265004099052,
+        "mu_v_rigid": 2.935526305849836,
+        "tail_amplitude_fm2": 0.4948274887039828,
+        "g_a_implied_by_the_tail": 0.8872497720549226,
+        "g_pinn_tail": 9.119127057206999
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 324.7843263022835,
+        "mu_v_rigid": 2.8889078813696534,
+        "tail_amplitude_fm2": 0.4948274887039828,
+        "g_a_implied_by_the_tail": 0.8731650528259511,
+        "g_pinn_tail": 9.046418398929987
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0014668452764412653,
+        "max_N": 0.001322787676509507,
+        "max_s": 0.10202498140133952,
+        "energy_difference": 9.328469730007782e-08,
+        "record_quartic_difference": 9.328482499180758e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0028943315773836725,
+        "max_N": 0.002784651280889243,
+        "max_s": 0.08296653533807635,
+        "energy_difference": 3.9204707036333275e-08,
+        "record_quartic_difference": 3.920521357533833e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.003100722384393239,
+        "max_N": 0.0029339928039262765,
+        "max_s": 0.10413242600284418,
+        "energy_difference": 8.611930013557867e-08,
+        "record_quartic_difference": 8.611933910789735e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0
+    },
+    {
+     "start": "chain",
+     "name": "r2_g33_chain",
+     "label": "STATIONARY",
+     "energy": 76.05110289346426,
+     "residual": 0.0006033294537267785,
+     "iterations": 5927,
+     "evaluations": 6067,
+     "drift_last_tenth": 3.85385473578026e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.35178879334215113,
+      0.37331883798525045,
+      0.37663120760825286
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.3888713097863628,
+     "segments": [
+      [
+       "main",
+       5927,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 2,
+     "started_from": "handoff.npz",
+     "start_energy": 76.49290378797562,
+     "wall_time_h": 0.47143986642360686,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006093560931559897,
+      "largest_norm_of_p": 1.0133974644198787,
+      "isospin_inertia": 34.32221167870429,
+      "isospin_eigenvalues": [
+       34.32152397004872,
+       34.32204877577107,
+       34.32306229029308
+      ],
+      "spin_inertia": 35.39606847368215,
+      "mixed_inertia": -34.63605412486826,
+      "isospin_inertia_other_actions": {
+       "left": 34.32221167870429,
+       "q_only": 34.32221139926261,
+       "q_left_right": 34.381772336236516,
+       "record_right": 0.05956065753222845
+      },
+      "ours_against_the_audit": 1.035090304885927e-15,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5
+       ],
+       "inertia": [
+        0.0,
+        1.9169381351697683,
+        13.573188369721052,
+        25.80160481599472,
+        31.234247004042835,
+        33.14700893730189,
+        33.9433272018112,
+        34.23461447331303,
+        34.31006450547278,
+        34.32125867663292,
+        34.32216917873781,
+        34.322211284489896,
+        34.322211678675146,
+        34.32221167870425
+       ]
+      },
+      "winding_total": 0.9999715470330137,
+      "r2_s_card": 0.9153128848996636,
+      "r2_v_card": 1.7973172464173315,
+      "r2_s_fm2": 0.2301114532770298,
+      "r2_v_fm2": 0.4518490784911201,
+      "tail": {
+       "shells": 4,
+       "mean": 1.9681751206675382,
+       "spread": 0.051479200218134125,
+       "continuum_dipole_mean": 1.66007757447721
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 311.96860076860946,
+        "mu_v_rigid": 3.007584730284849,
+        "tail_amplitude_fm2": 0.49480308295905556,
+        "g_a_implied_by_the_tail": 0.9089123490270602,
+        "g_pinn_tail": 9.230470688609175
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 319.64894048069567,
+        "mu_v_rigid": 2.9353202253353454,
+        "tail_amplitude_fm2": 0.49480308295905556,
+        "g_a_implied_by_the_tail": 0.8872060113663638,
+        "g_pinn_tail": 9.118677286137288
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 324.80712848941283,
+        "mu_v_rigid": 2.888705073572864,
+        "tail_amplitude_fm2": 0.49480308295905556,
+        "g_a_implied_by_the_tail": 0.8731219868200296,
+        "g_pinn_tail": 9.045972213976665
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.004944387330434477,
+        "max_N": 0.0045008505212291005,
+        "max_s": 0.15152106653715616,
+        "energy_difference": 2.5013946469698567e-10,
+        "record_quartic_difference": 2.5015537445526524e-10
+       },
+       {
+        "axis": 1,
+        "max_q": 0.010075781610377177,
+        "max_N": 0.009718881531364219,
+        "max_s": 0.1271846337689959,
+        "energy_difference": 6.238096261768078e-09,
+        "record_quartic_difference": 6.238133401777729e-09
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0077502671056780235,
+        "max_N": 0.007307738755348514,
+        "max_s": 0.1218711699681878,
+        "energy_difference": -3.376214863237692e-10,
+        "record_quartic_difference": -3.3751699526498756e-10
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 2.8139204033550413e-05
+    },
+    {
+     "start": "reset",
+     "name": "r2_g33_reset",
+     "label": "NOT STATIONARY",
+     "energy": 76.05376089582485,
+     "residual": 0.006744942719951892,
+     "iterations": 8000,
+     "evaluations": 8192,
+     "drift_last_tenth": 4.79874874770303e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.010800547624224284,
+      0.18131575521444546,
+      0.9550294282251358
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.3894866817795877,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": "handoff.npz",
+     "start_energy": 76.11807529387742,
+     "wall_time_h": 0.6357023706038792,
+     "threads": 1
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g33_iso",
+    "from_stationary": true,
+    "energy": 76.05107475426023,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "spread_within_branch": {
+    "ISOTROPIC CENTER": 2.8139204033550413e-05
+   }
+  },
+  "45": {
+   "half_box": 6.075,
+   "spacing": 0.2761363636363636,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g45_linked",
+     "label": "STATIONARY",
+     "energy": 75.61787938386229,
+     "residual": 0.0005852401249126206,
+     "iterations": 2966,
+     "evaluations": 3085,
+     "drift_last_tenth": 8.576701702622813e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.35717445185964575,
+      0.370986611425115,
+      0.37941037792742355
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.1619081288372226,
+     "segments": [
+      [
+       "main",
+       2966,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 958.0072807663605,
+     "wall_time_h": 0.6360473921563891,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006960433511842804,
+      "largest_norm_of_p": 2.2076875827213827,
+      "isospin_inertia": 38.13513552971197,
+      "isospin_eigenvalues": [
+       38.13487671998768,
+       38.13515212535437,
+       38.135377743793846
+      ],
+      "spin_inertia": 39.272305744757105,
+      "mixed_inertia": -38.62102038565022,
+      "isospin_inertia_other_actions": {
+       "left": 38.13513552971197,
+       "q_only": 38.13513523603635,
+       "q_left_right": 38.16391147739156,
+       "record_right": 0.028775947679592396
+      },
+      "ours_against_the_audit": 2.3476538946243704e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.9700881431518118,
+        14.096364862615378,
+        26.5637986569252,
+        32.32047585847779,
+        34.985473022491945,
+        36.35262619056003,
+        37.11231781131286,
+        37.575607734427194,
+        37.841375628448375,
+        37.99635388484137,
+        38.07501376391233,
+        38.11340751726625,
+        38.128238540925885,
+        38.133284378978715,
+        38.134757273277145,
+        38.13507459891191,
+        38.135128345052614,
+        38.13513491749174,
+        38.13513551858955,
+        38.13513552969988,
+        38.13513552971196
+       ]
+      },
+      "winding_total": 0.9999459609399635,
+      "r2_s_card": 0.9754041467479402,
+      "r2_v_card": 2.4885287032378876,
+      "r2_s_fm2": 0.24521851428455976,
+      "r2_v_fm2": 0.6256209935102632,
+      "tail": {
+       "shells": 8,
+       "mean": 2.085566530904479,
+       "spread": 0.007269172833402671,
+       "continuum_dipole_mean": 1.8695914577383834
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 280.7765648124413,
+        "mu_v_rigid": 3.341703395462387,
+        "tail_amplitude_fm2": 0.5243155135797866,
+        "g_a_implied_by_the_tail": 0.9631242437480283,
+        "g_pinn_tail": 9.781020261108123
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 287.6889893181101,
+        "mu_v_rigid": 3.2614108806316264,
+        "tail_amplitude_fm2": 0.5243155135797866,
+        "g_a_implied_by_the_tail": 0.9401232359320644,
+        "g_pinn_tail": 9.662558963572655
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 292.33143828950045,
+        "mu_v_rigid": 3.2096171574636267,
+        "tail_amplitude_fm2": 0.5243155135797866,
+        "g_a_implied_by_the_tail": 0.9251991725670579,
+        "g_pinn_tail": 9.585517411968365
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.016252799944916886,
+        "max_N": 0.016276812089832306,
+        "max_s": 0.11945636718485772,
+        "energy_difference": 2.159144401048252e-07,
+        "record_quartic_difference": 2.159143645743079e-07
+       },
+       {
+        "axis": 1,
+        "max_q": 0.00462172780759416,
+        "max_N": 0.004303766156229096,
+        "max_s": 0.10880635975252993,
+        "energy_difference": 2.1844768127721181e-07,
+        "record_quartic_difference": 2.184475567971827e-07
+       },
+       {
+        "axis": 2,
+        "max_q": 0.01911490780005374,
+        "max_N": 0.01914492604373787,
+        "max_s": 0.11552937073417131,
+        "energy_difference": 1.9736651779567183e-07,
+        "record_quartic_difference": 1.9736650781170745e-07
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.00032687281091625664
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g45_smooth",
+     "label": "STATIONARY",
+     "energy": 75.61801211445328,
+     "residual": 0.0003591604552720539,
+     "iterations": 6311,
+     "evaluations": 6523,
+     "drift_last_tenth": 8.155725993219676e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      1.3931531545305615e-09,
+      0.21911324024770779,
+      0.956204467338291
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.1628576257727405,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       311,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": null,
+     "start_energy": 919.7378345198415,
+     "wall_time_h": 1.3040021489063898,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0005528816733173634,
+      "largest_norm_of_p": 3.7604932905113726,
+      "isospin_inertia": 38.13659143630988,
+      "isospin_eigenvalues": [
+       38.13480921509392,
+       38.13708208597005,
+       38.13788300786567
+      ],
+      "spin_inertia": 39.28656754067878,
+      "mixed_inertia": -38.62250167913724,
+      "isospin_inertia_other_actions": {
+       "left": 38.13659143630988,
+       "q_only": 38.13659092327125,
+       "q_left_right": 38.30146051068798,
+       "record_right": 0.16486907437811124
+      },
+      "ours_against_the_audit": 9.688068540736143e-15,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.9698125485103604,
+        14.096801283669713,
+        26.565197047072196,
+        32.32182075869032,
+        34.986838921764374,
+        36.35402527636296,
+        37.11374168911986,
+        37.577044655325,
+        37.84281895112803,
+        37.99780201970596,
+        38.07646476370213,
+        38.11486140594991,
+        38.12969391601354,
+        38.13474024255846,
+        38.13621317470585,
+        38.13653051829003,
+        38.13658425469137,
+        38.136590823716716,
+        38.13659142524672,
+        38.13659143629817,
+        38.13659143630992
+       ]
+      },
+      "winding_total": 0.9999459634703198,
+      "r2_s_card": 0.975370620713111,
+      "r2_v_card": 2.48851446401623,
+      "r2_s_fm2": 0.2452100857736927,
+      "r2_v_fm2": 0.6256174137420297,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0856037626089368,
+       "spread": 0.007261959721275524,
+       "continuum_dipole_mean": 1.8696248403552278
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 280.76584585624056,
+        "mu_v_rigid": 3.34183097355944,
+        "tail_amplitude_fm2": 0.5243248737032614,
+        "g_a_implied_by_the_tail": 0.96314143752088,
+        "g_pinn_tail": 9.78119487268261
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 287.6780064724513,
+        "mu_v_rigid": 3.261535393356013,
+        "tail_amplitude_fm2": 0.5243248737032614,
+        "g_a_implied_by_the_tail": 0.9401400190890413,
+        "g_pinn_tail": 9.66273146036636
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 292.32027821321276,
+        "mu_v_rigid": 3.2097396928298028,
+        "tail_amplitude_fm2": 0.5243248737032614,
+        "g_a_implied_by_the_tail": 0.9252156892984338,
+        "g_pinn_tail": 9.58568853340998
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.010840113347633745,
+        "max_N": 0.01088495567950035,
+        "max_s": 0.5939937515297429,
+        "energy_difference": 1.2431897289388871e-08,
+        "record_quartic_difference": 1.243200249695458e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0017588278015570466,
+        "max_N": 0.0033539980885652467,
+        "max_s": 0.07666656635602383,
+        "energy_difference": 1.610928279660584e-08,
+        "record_quartic_difference": 1.610941015370636e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0009519327858816668,
+        "max_N": 0.0033539980885652467,
+        "max_s": 0.07392551553305193,
+        "energy_difference": 6.242331096473208e-09,
+        "record_quartic_difference": 6.2423380709524485e-09
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.00045960340190731586
+    },
+    {
+     "start": "iso",
+     "name": "r2_g45_iso",
+     "label": "STATIONARY",
+     "energy": 75.61779203944214,
+     "residual": 0.0006904300855700106,
+     "iterations": 3316,
+     "evaluations": 3449,
+     "drift_last_tenth": 1.1522728271984306e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3620121497555929,
+      0.37123041175968746,
+      0.37433940069583066
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.162376038787428,
+     "segments": [
+      [
+       "main",
+       3316,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 951.1869569484667,
+     "wall_time_h": 0.6864230786429512,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0008208645999467748,
+      "largest_norm_of_p": 2.1857237649263763,
+      "isospin_inertia": 38.13634600383064,
+      "isospin_eigenvalues": [
+       38.13588367118126,
+       38.136179095921655,
+       38.13697524438899
+      ],
+      "spin_inertia": 39.26656335392737,
+      "mixed_inertia": -38.62217278843408,
+      "isospin_inertia_other_actions": {
+       "left": 38.13634600383064,
+       "q_only": 38.13634604913222,
+       "q_left_right": 38.17094819075992,
+       "record_right": 0.0346021869292869
+      },
+      "ours_against_the_audit": 1.751347729503128e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.970034942541153,
+        14.096472973619989,
+        26.564997925964754,
+        32.32156066299365,
+        34.98659804507078,
+        36.35378189721679,
+        37.11350340799098,
+        37.57681050426168,
+        37.842583938898,
+        37.99756331105391,
+        38.076223047200116,
+        38.114616964289425,
+        38.129448113784136,
+        38.13449441916329,
+        38.135967681968516,
+        38.13628510199946,
+        38.13633883260947,
+        38.13634539467043,
+        38.13634599298132,
+        38.13634600381926,
+        38.13634600383067
+       ]
+      },
+      "winding_total": 0.9999459618916814,
+      "r2_s_card": 0.9753958588704824,
+      "r2_v_card": 2.4885208238691265,
+      "r2_s_fm2": 0.24521643069592264,
+      "r2_v_fm2": 0.6256190126215131,
+      "tail": {
+       "shells": 8,
+       "mean": 2.085589706318442,
+       "spread": 0.0072192347367714405,
+       "continuum_dipole_mean": 1.86961220237627
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 280.76765276919514,
+        "mu_v_rigid": 3.3418094668166987,
+        "tail_amplitude_fm2": 0.5243213399242806,
+        "g_a_implied_by_the_tail": 0.9631349462610941,
+        "g_pinn_tail": 9.781128950612953
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 287.67985786970746,
+        "mu_v_rigid": 3.261514403364837,
+        "tail_amplitude_fm2": 0.5243213399242806,
+        "g_a_implied_by_the_tail": 0.9401336828513287,
+        "g_pinn_tail": 9.662666336701541
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 292.3221594865421,
+        "mu_v_rigid": 3.2097190361758945,
+        "tail_amplitude_fm2": 0.5243213399242806,
+        "g_a_implied_by_the_tail": 0.9252094536458461,
+        "g_pinn_tail": 9.585623928989413
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.018399940248668784,
+        "max_N": 0.018428459601972386,
+        "max_s": 0.11484605491970008,
+        "energy_difference": 2.3142133898090833e-07,
+        "record_quartic_difference": 2.3142125181128813e-07
+       },
+       {
+        "axis": 1,
+        "max_q": 0.006417739964123088,
+        "max_N": 0.0064134009055873175,
+        "max_s": 0.13111065356072799,
+        "energy_difference": 1.6782831835371326e-07,
+        "record_quartic_difference": 1.678291424576393e-07
+       },
+       {
+        "axis": 2,
+        "max_q": 0.005408819063816493,
+        "max_N": 0.005409179379368563,
+        "max_s": 0.14532432630402978,
+        "energy_difference": 1.495506580795336e-07,
+        "record_quartic_difference": 1.4955074693327235e-07
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.00023952839076457622
+    },
+    {
+     "start": "chain",
+     "name": "r2_g45_chain",
+     "label": "STATIONARY",
+     "energy": 75.61755251105137,
+     "residual": 0.000674989408750311,
+     "iterations": 2153,
+     "evaluations": 2196,
+     "drift_last_tenth": 4.338130949577135e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.35216755446528214,
+      0.37690607470308984,
+      0.37851120409817834
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.1605952763393277,
+     "segments": [
+      [
+       "main",
+       2153,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 76.17486674698928,
+     "wall_time_h": 0.4519553988509708,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006778655783012099,
+      "largest_norm_of_p": 1.0087011894049531,
+      "isospin_inertia": 38.13355938978547,
+      "isospin_eigenvalues": [
+       38.132995512511926,
+       38.133403368934836,
+       38.13427928790963
+      ],
+      "spin_inertia": 39.32156077470671,
+      "mixed_inertia": -38.61927624407796,
+      "isospin_inertia_other_actions": {
+       "left": 38.13355938978547,
+       "q_only": 38.13355915063248,
+       "q_left_right": 38.205955744328584,
+       "record_right": 0.07239635454311026
+      },
+      "ours_against_the_audit": 9.689049383930968e-15,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.9702364925700286,
+        14.093552528302698,
+        26.561403509802446,
+        32.31867895740569,
+        34.98386581290282,
+        36.35105179297237,
+        37.11075531778855,
+        37.574045504837606,
+        37.83980956623965,
+        37.99478338176178,
+        38.07343931814616,
+        38.111831474479956,
+        38.12666224000288,
+        38.1317082536534,
+        38.133181134921145,
+        38.133498468804746,
+        38.13355220774982,
+        38.1335587780522,
+        38.13355937876087,
+        38.13355938977287,
+        38.1335593897855
+       ]
+      },
+      "winding_total": 0.9999459607061587,
+      "r2_s_card": 0.9755753785484481,
+      "r2_v_card": 2.488680270065833,
+      "r2_s_fm2": 0.2452615622948218,
+      "r2_v_fm2": 0.6256590977078796,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0854995301020027,
+       "spread": 0.007220281864801503,
+       "continuum_dipole_mean": 1.8695320988820474
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 280.7881698962915,
+        "mu_v_rigid": 3.341565281566345,
+        "tail_amplitude_fm2": 0.5242986694467224,
+        "g_a_implied_by_the_tail": 0.9630933024684003,
+        "g_pinn_tail": 9.78070603655723
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 287.7008801069515,
+        "mu_v_rigid": 3.261276085256332,
+        "tail_amplitude_fm2": 0.5242986694467224,
+        "g_a_implied_by_the_tail": 0.9400930335816234,
+        "g_pinn_tail": 9.662248544703276
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 292.3435209604872,
+        "mu_v_rigid": 3.2094845027429764,
+        "tail_amplitude_fm2": 0.5242986694467224,
+        "g_a_implied_by_the_tail": 0.9251694496663045,
+        "g_pinn_tail": 9.585209468131888
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0583734351258013,
+        "max_N": 0.05844244405215181,
+        "max_s": 0.11615278806513393,
+        "energy_difference": 4.957423982432374e-08,
+        "record_quartic_difference": 4.957432290720563e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.009451340472902378,
+        "max_N": 0.008714381714565978,
+        "max_s": 0.14856759213327772,
+        "energy_difference": 1.3578599578067951e-08,
+        "record_quartic_difference": 1.3578308869550838e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.017762592101961194,
+        "max_N": 0.015004428010424675,
+        "max_s": 0.12681001636087919,
+        "energy_difference": 2.7684905035130214e-08,
+        "record_quartic_difference": 2.7684821635718038e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0
+    },
+    {
+     "start": "reset",
+     "name": "r2_g45_reset",
+     "label": "STATIONARY",
+     "energy": 75.6181962467511,
+     "residual": 0.0002981380739628296,
+     "iterations": 5623,
+     "evaluations": 5766,
+     "drift_last_tenth": 5.3423918870976195e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.009125477846990008,
+      0.18965966753458136,
+      0.9582469255525179
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.1634842035059494,
+     "segments": [
+      [
+       "main",
+       5623,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 7,
+     "started_from": "handoff.npz",
+     "start_energy": 75.67738128323532,
+     "wall_time_h": 1.2147083161936867,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0002981380739628296,
+      "largest_norm_of_p": 1.0063910898560422,
+      "isospin_inertia": 38.13896209647606,
+      "isospin_eigenvalues": [
+       38.13786682149453,
+       38.13931511166561,
+       38.13970435626799
+      ],
+      "spin_inertia": 39.300615817885124,
+      "mixed_inertia": -38.62477234015357,
+      "isospin_inertia_other_actions": {
+       "left": 38.13896209647606,
+       "q_only": 38.1389605997851,
+       "q_left_right": 38.55083363368757,
+       "record_right": 0.4118715372115082
+      },
+      "ours_against_the_audit": 1.4345101715164552e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.969463317584791,
+        14.09659514319235,
+        26.565842777782834,
+        32.32326395581103,
+        34.98873558534076,
+        36.356134840775866,
+        37.11596668380302,
+        37.57934051732498,
+        37.84515530283067,
+        38.00015953346377,
+        38.07883070357798,
+        38.11723018121276,
+        38.132063817231014,
+        38.137110630002105,
+        38.138583746335286,
+        38.13890113004042,
+        38.138954899440506,
+        38.138961483244515,
+        38.13896208551304,
+        38.13896209646411,
+        38.13896209647604
+       ]
+      },
+      "winding_total": 0.9999459715276313,
+      "r2_s_card": 0.9754426733329267,
+      "r2_v_card": 2.48865963971362,
+      "r2_s_fm2": 0.24522819994353748,
+      "r2_v_fm2": 0.6256539111968978,
+      "tail": {
+       "shells": 8,
+       "mean": 2.085748964667385,
+       "spread": 0.007225023281263621,
+       "continuum_dipole_mean": 1.8697561845013704
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 280.7483938761602,
+        "mu_v_rigid": 3.342038709627943,
+        "tail_amplitude_fm2": 0.5243613777853512,
+        "g_a_implied_by_the_tail": 0.9632084925012226,
+        "g_pinn_tail": 9.78187585037121
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 287.6601248429276,
+        "mu_v_rigid": 3.261738138062511,
+        "tail_amplitude_fm2": 0.5243613777853512,
+        "g_a_implied_by_the_tail": 0.9402054726849968,
+        "g_pinn_tail": 9.66340419050016
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 292.30210802710303,
+        "mu_v_rigid": 3.2099392177938073,
+        "tail_amplitude_fm2": 0.5243613777853512,
+        "g_a_implied_by_the_tail": 0.9252801038459153,
+        "g_pinn_tail": 9.58635589972934
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.004353899889866497,
+        "max_N": 0.004785465056050514,
+        "max_s": 0.002860418279594601,
+        "energy_difference": 1.1085148798883893e-08,
+        "record_quartic_difference": 1.1085069901990147e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.004340037571752881,
+        "max_N": 0.004343270620831363,
+        "max_s": 0.03558485530144445,
+        "energy_difference": 1.443643782295112e-08,
+        "record_quartic_difference": 1.4436151974519442e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.005676413354896961,
+        "max_N": 0.005476084321446972,
+        "max_s": 0.03558710187333906,
+        "energy_difference": 3.940456849704788e-09,
+        "record_quartic_difference": 3.94045091924399e-09
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0006437356997253119
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g45_chain",
+    "from_stationary": true,
+    "energy": 75.61755251105137,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "spread_within_branch": {
+    "ISOTROPIC CENTER": 0.00032687281091625664,
+    "SPLIT CENTER": 0.000184132297817996
+   }
+  },
+  "55": {
+   "half_box": 6.075,
+   "spacing": 0.225,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g55_linked",
+     "label": "NOT STATIONARY",
+     "energy": 75.562709195022,
+     "residual": 0.010122165259695946,
+     "iterations": 8000,
+     "evaluations": 8227,
+     "drift_last_tenth": 5.947059160860135e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3388785467559643,
+      0.37608061725667796,
+      0.389352046010836
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.404918263928928,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 967.0488224092129,
+     "wall_time_h": 3.0973799896902507,
+     "threads": 1
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g55_smooth",
+     "label": "STATIONARY",
+     "energy": 75.56174551416568,
+     "residual": 0.0006736834620071208,
+     "iterations": 2977,
+     "evaluations": 3025,
+     "drift_last_tenth": 7.156882574577139e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.33122685681274333,
+      0.38337065671981774,
+      0.39033990595516843
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.405584892041485,
+     "segments": [
+      [
+       "main",
+       2977,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 931.1781080672494,
+     "wall_time_h": 1.1498144922653835,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0009628081778046293,
+      "largest_norm_of_p": 3.869174723382324,
+      "isospin_inertia": 37.43767459551075,
+      "isospin_eigenvalues": [
+       37.43670028383284,
+       37.438088070882856,
+       37.43823543181652
+      ],
+      "spin_inertia": 38.21581471170751,
+      "mixed_inertia": -37.75502519699264,
+      "isospin_inertia_other_actions": {
+       "left": 37.43767459551075,
+       "q_only": 37.437674763904,
+       "q_left_right": 37.53907341638527,
+       "record_right": 0.10139882087452044
+      },
+      "ours_against_the_audit": 6.263091830230386e-15,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.8343735424974201,
+        13.314446401113775,
+        25.911785761477596,
+        31.97369128652298,
+        34.41534417918511,
+        35.69970039073037,
+        36.43857835819981,
+        36.89700846407955,
+        37.155124770493764,
+        37.30147722674074,
+        37.38035227956175,
+        37.416865427760456,
+        37.430929836271645,
+        37.435893263889085,
+        37.437304906406,
+        37.43761476674268,
+        37.437667325864396,
+        37.437674101528515,
+        37.43767458350749,
+        37.43767459548883,
+        37.437674595510714
+       ]
+      },
+      "winding_total": 0.9999733060482325,
+      "r2_s_card": 0.9613702758065288,
+      "r2_v_card": 2.4713394851272112,
+      "r2_s_fm2": 0.2416903716235019,
+      "r2_v_fm2": 0.6212995903863717,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0572702283275093,
+       "spread": 0.006439693644378686,
+       "continuum_dipole_mean": 1.8438869146186212
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 286.0074101390198,
+        "mu_v_rigid": 3.2805863300672304,
+        "tail_amplitude_fm2": 0.5172017676511833,
+        "g_a_implied_by_the_tail": 0.9500568806999216,
+        "g_pinn_tail": 9.648314492810357
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 293.04861256974425,
+        "mu_v_rigid": 3.201762300705981,
+        "tail_amplitude_fm2": 0.5172017676511833,
+        "g_a_implied_by_the_tail": 0.9273679432337122,
+        "g_pinn_tail": 9.531460440437797
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 297.7775500004621,
+        "mu_v_rigid": 3.150915843046408,
+        "tail_amplitude_fm2": 0.5172017676511833,
+        "g_a_implied_by_the_tail": 0.9126463648081197,
+        "g_pinn_tail": 9.45546416407306
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0014237130093046296,
+        "max_N": 0.001318285573192465,
+        "max_s": 0.05337409618687758,
+        "energy_difference": 1.2737615406877012e-09,
+        "record_quartic_difference": 1.273916088043637e-09
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0006302671753629416,
+        "max_N": 0.0006284199718041243,
+        "max_s": 0.05337412554791156,
+        "energy_difference": 2.2449697212323372e-08,
+        "record_quartic_difference": 2.244978907218014e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0004608711105055412,
+        "max_N": 0.0004428213145221671,
+        "max_s": 0.0533746042689691,
+        "energy_difference": 2.295846002198232e-08,
+        "record_quartic_difference": 2.295849420724261e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0
+    },
+    {
+     "start": "iso",
+     "name": "r2_g55_iso",
+     "label": "STATIONARY",
+     "energy": 75.5629790519197,
+     "residual": 0.0005626386506303455,
+     "iterations": 4144,
+     "evaluations": 4288,
+     "drift_last_tenth": 1.197322161772263e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3618279592630078,
+      0.3625266646208741,
+      0.37929524092006345
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4052340550612223,
+     "segments": [
+      [
+       "main",
+       4144,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 960.2457216651314,
+     "wall_time_h": 1.6115646613968744,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0007189200271789909,
+      "largest_norm_of_p": 2.249847181737306,
+      "isospin_inertia": 37.43513511589946,
+      "isospin_eigenvalues": [
+       37.43505049673749,
+       37.43509536944949,
+       37.435259481511416
+      ],
+      "spin_inertia": 38.21407164004648,
+      "mixed_inertia": -37.75246593718423,
+      "isospin_inertia_other_actions": {
+       "left": 37.43513511589946,
+       "q_only": 37.43513517135156,
+       "q_left_right": 37.47434595242062,
+       "record_right": 0.039210836521168
+      },
+      "ours_against_the_audit": 3.6063100179511373e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.8346570052052447,
+        13.3139244068208,
+        25.910369701028138,
+        31.97159078826525,
+        34.4129594903977,
+        35.69721333716181,
+        36.43606400657288,
+        36.89448105181978,
+        37.15258902976164,
+        37.29893703521329,
+        37.37781093495505,
+        37.41432550494524,
+        37.428391057653684,
+        37.433354408345195,
+        37.43476567245674,
+        37.43507533061994,
+        37.43512784088862,
+        37.435134619385664,
+        37.435135103719105,
+        37.435135115877685,
+        37.43513511589943
+       ]
+      },
+      "winding_total": 0.9999733025338384,
+      "r2_s_card": 0.9613325732397269,
+      "r2_v_card": 2.471324631462658,
+      "r2_s_fm2": 0.24168089312431087,
+      "r2_v_fm2": 0.6212958561459898,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0572390552564297,
+       "spread": 0.006448837515894201,
+       "continuum_dipole_mean": 1.8438593223768578
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 286.026811965258,
+        "mu_v_rigid": 3.280363800698399,
+        "tail_amplitude_fm2": 0.5171939306800147,
+        "g_a_implied_by_the_tail": 0.9500424848319098,
+        "g_pinn_tail": 9.648168295393342
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 293.06849204859293,
+        "mu_v_rigid": 3.2015451181440127,
+        "tail_amplitude_fm2": 0.5171939306800147,
+        "g_a_implied_by_the_tail": 0.9273538911629569,
+        "g_pinn_tail": 9.53131601366794
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 297.797750275273,
+        "mu_v_rigid": 3.150702109511226,
+        "tail_amplitude_fm2": 0.5171939306800147,
+        "g_a_implied_by_the_tail": 0.9126325358081133,
+        "g_pinn_tail": 9.45532088884727
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.006584253851856544,
+        "max_N": 0.005995011341739742,
+        "max_s": 0.114119417219364,
+        "energy_difference": 4.574720833261381e-07,
+        "record_quartic_difference": 4.5747213359102e-07
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0029809459862313588,
+        "max_N": 0.0028456420688419692,
+        "max_s": 0.09580105646216466,
+        "energy_difference": 3.126085346139007e-07,
+        "record_quartic_difference": 3.126090932675713e-07
+       },
+       {
+        "axis": 2,
+        "max_q": 0.007353436272116408,
+        "max_N": 0.0070716543228540926,
+        "max_s": 0.09609034769469108,
+        "energy_difference": 4.2404009548135946e-07,
+        "record_quartic_difference": 4.240398776333132e-07
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0012335377540182435
+    },
+    {
+     "start": "chain",
+     "name": "r2_g55_chain",
+     "label": "STATIONARY",
+     "energy": 75.56288687709554,
+     "residual": 0.0006630876626358813,
+     "iterations": 3528,
+     "evaluations": 3611,
+     "drift_last_tenth": 4.491843199616596e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3492827744927934,
+      0.37696828239835917,
+      0.37718214702064284
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4036171152935175,
+     "segments": [
+      [
+       "main",
+       3528,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 76.10589655857467,
+     "wall_time_h": 1.3673048827383254,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006644126824238094,
+      "largest_norm_of_p": 1.0065376092058593,
+      "isospin_inertia": 37.43183170197866,
+      "isospin_eigenvalues": [
+       37.43136067760969,
+       37.431652395539786,
+       37.43248203278648
+      ],
+      "spin_inertia": 38.29292448175947,
+      "mixed_inertia": -37.74902662359178,
+      "isospin_inertia_other_actions": {
+       "left": 37.43183170197866,
+       "q_only": 37.431831454446304,
+       "q_left_right": 37.51699352377613,
+       "record_right": 0.08516182179747182
+      },
+      "ours_against_the_audit": 1.1768933127880086e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.8353887409462462,
+        13.30907617030624,
+        25.904905612109786,
+        31.967816894933662,
+        34.4096231217202,
+        35.693955175119726,
+        36.43280697171168,
+        36.8912115740595,
+        37.1493078223335,
+        37.29564691281185,
+        37.374514030958146,
+        37.41102406864228,
+        37.42508769283542,
+        37.430050657154666,
+        37.43146204562203,
+        37.43177185002561,
+        37.43182442198928,
+        37.43183120567093,
+        37.43183168981641,
+        37.4318317019556,
+        37.43183170197862
+       ]
+      },
+      "winding_total": 0.9999733009403808,
+      "r2_s_card": 0.9617086506413539,
+      "r2_v_card": 2.4716259671302687,
+      "r2_s_fm2": 0.2417754397201916,
+      "r2_v_fm2": 0.6213716125234451,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0570894227076293,
+       "spread": 0.006420560768324091,
+       "continuum_dipole_mean": 1.8437260143718834
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 286.0520542499502,
+        "mu_v_rigid": 3.28007432933918,
+        "tail_amplitude_fm2": 0.5171563127639665,
+        "g_a_implied_by_the_tail": 0.9499733838306863,
+        "g_pinn_tail": 9.647466539314191
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 293.0943557718563,
+        "mu_v_rigid": 3.201262602035052,
+        "tail_amplitude_fm2": 0.5171563127639665,
+        "g_a_implied_by_the_tail": 0.9272864404085002,
+        "g_pinn_tail": 9.530622756797815
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 297.82403136249513,
+        "mu_v_rigid": 3.150424079976228,
+        "tail_amplitude_fm2": 0.5171563127639665,
+        "g_a_implied_by_the_tail": 0.9125661558061867,
+        "g_pinn_tail": 9.454633159455438
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0848279621369235,
+        "max_N": 0.08489045455656956,
+        "max_s": 0.11546294200061628,
+        "energy_difference": 4.366592065707664e-08,
+        "record_quartic_difference": 4.3666015183057786e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0056633186788061195,
+        "max_N": 0.005557147563366464,
+        "max_s": 0.14503821473301412,
+        "energy_difference": 4.1404163653169235e-08,
+        "record_quartic_difference": 4.1404567971445474e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0075092758808002775,
+        "max_N": 0.007126713229832604,
+        "max_s": 0.12083444284667184,
+        "energy_difference": 3.1772344755154336e-08,
+        "record_quartic_difference": 3.1772492487622216e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.001141362929857337
+    },
+    {
+     "start": "reset",
+     "name": "r2_g55_reset",
+     "label": "NOT STATIONARY",
+     "energy": 75.56558817270762,
+     "residual": 0.00343570158298067,
+     "iterations": 8000,
+     "evaluations": 8181,
+     "drift_last_tenth": 4.279950786667541e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.010832690817288285,
+      0.18225283183404875,
+      0.9549699391144171
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4059223723537215,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": "handoff.npz",
+     "start_energy": 75.61517556720138,
+     "wall_time_h": 3.0560283288690777,
+     "threads": 1
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g55_smooth",
+    "from_stationary": true,
+    "energy": 75.56174551416568,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "spread_within_branch": {
+    "ISOTROPIC CENTER": 0.0012335377540182435
+   }
+  },
+  "65": {
+   "half_box": 6.075,
+   "spacing": 0.18984375,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g65_linked",
+     "label": "NOT STATIONARY",
+     "energy": 75.52343870821245,
+     "residual": 0.006473613287229858,
+     "iterations": 8000,
+     "evaluations": 8221,
+     "drift_last_tenth": 5.607875438329302e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.33173502287024165,
+      0.37402906289335414,
+      0.3964606444849068
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.5574315345670775,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 973.3852907466963,
+     "wall_time_h": 5.110758290820652,
+     "threads": 1
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g65_smooth",
+     "label": "NOT STATIONARY",
+     "energy": 75.60089870481806,
+     "residual": 0.005081647413110102,
+     "iterations": 8000,
+     "evaluations": 8323,
+     "drift_last_tenth": 7.293119054452291e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.33028651371440687,
+      0.384410445499331,
+      0.3876557259244818
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.558171283063921,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 939.0364814034779,
+     "wall_time_h": 5.112515448596742,
+     "threads": 1
+    },
+    {
+     "start": "iso",
+     "name": "r2_g65_iso",
+     "label": "STATIONARY",
+     "energy": 75.52405057493895,
+     "residual": 0.0005251928879273677,
+     "iterations": 6011,
+     "evaluations": 6205,
+     "drift_last_tenth": 1.075321706878185e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3564731687790353,
+      0.3657916385135156,
+      0.37882124331487294
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.5576106979667643,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       11,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": null,
+     "start_energy": 966.5931374279587,
+     "wall_time_h": 3.55878599524498,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006329734018987847,
+      "largest_norm_of_p": 2.190133034219598,
+      "isospin_inertia": 37.005490935611654,
+      "isospin_eigenvalues": [
+       37.00519651276773,
+       37.00545843570492,
+       37.00581785836233
+      ],
+      "spin_inertia": 37.60321683193106,
+      "mixed_inertia": -37.22875407517651,
+      "isospin_inertia_other_actions": {
+       "left": 37.005490935611654,
+       "q_only": 37.005490893977445,
+       "q_left_right": 37.04581815553346,
+       "record_right": 0.040327219921807184
+      },
+      "ours_against_the_audit": 2.476910984346868e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.7091325393340564,
+        13.677237847626973,
+        25.68411856447505,
+        31.525082268302526,
+        33.99474804716846,
+        35.296839957421824,
+        36.03375868564315,
+        36.472870457058804,
+        36.72778440117848,
+        36.87302439334769,
+        36.94873798280065,
+        36.98511301332038,
+        36.99891511407236,
+        37.00375798333238,
+        37.005117782804376,
+        37.00543297894859,
+        37.00548371909328,
+        37.005490489448874,
+        37.00549092619012,
+        37.00549093557483,
+        37.00549093561159
+       ]
+      },
+      "winding_total": 0.9999855756463965,
+      "r2_s_card": 0.9523832986535026,
+      "r2_v_card": 2.4598734813338496,
+      "r2_s_fm2": 0.2394310279527559,
+      "r2_v_fm2": 0.6184170145593532,
+      "tail": {
+       "shells": 8,
+       "mean": 2.0393224266135714,
+       "spread": 0.006160852645061166,
+       "continuum_dipole_mean": 1.8270875744638422
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 289.3476638729107,
+        "mu_v_rigid": 3.2427149659383963,
+        "tail_amplitude_fm2": 0.512689655122608,
+        "g_a_implied_by_the_tail": 0.9417685030833229,
+        "g_pinn_tail": 9.56414177062429
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 296.47109984681106,
+        "mu_v_rigid": 3.1648008877924783,
+        "tail_amplitude_fm2": 0.512689655122608,
+        "g_a_implied_by_the_tail": 0.9192775058512822,
+        "g_pinn_tail": 9.448307163015272
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 301.25526609451174,
+        "mu_v_rigid": 3.1145414059106913,
+        "tail_amplitude_fm2": 0.512689655122608,
+        "g_a_implied_by_the_tail": 0.9046843597370412,
+        "g_pinn_tail": 9.37297388467598
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.004208624565843858,
+        "max_N": 0.0038657670960273727,
+        "max_s": 0.13118327717623643,
+        "energy_difference": 1.5644074835563515e-07,
+        "record_quartic_difference": 1.5644080668445948e-07
+       },
+       {
+        "axis": 1,
+        "max_q": 0.01642116732069526,
+        "max_N": 0.0160477666021061,
+        "max_s": 0.11117578880696054,
+        "energy_difference": 1.6484739262523362e-07,
+        "record_quartic_difference": 1.648478879175737e-07
+       },
+       {
+        "axis": 2,
+        "max_q": 0.015720801694343367,
+        "max_N": 0.015436498590990397,
+        "max_s": 0.10962846925167052,
+        "energy_difference": 1.0805742078900948e-07,
+        "record_quartic_difference": 1.0805738205083871e-07
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 2.4947991448698303e-05
+    },
+    {
+     "start": "chain",
+     "name": "r2_g65_chain",
+     "label": "STATIONARY",
+     "energy": 75.5240256269475,
+     "residual": 0.0006431414794384043,
+     "iterations": 3290,
+     "evaluations": 3384,
+     "drift_last_tenth": 2.0747874316384696e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.34794115898039685,
+      0.3759749708373108,
+      0.37684290077302834
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.5565445811464884,
+     "segments": [
+      [
+       "main",
+       3290,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 75.97938170352795,
+     "wall_time_h": 2.0756959941652084,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006443991635039039,
+      "largest_norm_of_p": 1.0065418843258263,
+      "isospin_inertia": 37.00243495117795,
+      "isospin_eigenvalues": [
+       37.00200501474308,
+       37.00225921454657,
+       37.003040624244235
+      ],
+      "spin_inertia": 37.69466376274716,
+      "mixed_inertia": -37.22559049173075,
+      "isospin_inertia_other_actions": {
+       "left": 37.00243495117795,
+       "q_only": 37.002434712088885,
+       "q_left_right": 37.09882318307905,
+       "record_right": 0.09638823190110006
+      },
+      "ours_against_the_audit": 3.4180369098667487e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.7101782043837055,
+        13.671078863953383,
+        25.677793004977218,
+        31.521325779302458,
+        33.99156561264199,
+        35.29377254736767,
+        36.0307096111504,
+        36.46982002906563,
+        36.7247314405705,
+        36.86996959484782,
+        36.94568212437824,
+        36.982057101247534,
+        36.99585922539431,
+        37.00070203873477,
+        37.00206180076198,
+        37.00237700200702,
+        37.002427737401945,
+        37.002434504307075,
+        37.00243494172773,
+        37.002434951141694,
+        37.00243495117795
+       ]
+      },
+      "winding_total": 0.999985574470923,
+      "r2_s_card": 0.9528759541101143,
+      "r2_v_card": 2.4602730201802783,
+      "r2_s_fm2": 0.23955488250015278,
+      "r2_v_fm2": 0.6185174594084415,
+      "tail": {
+       "shells": 8,
+       "mean": 2.039185922276536,
+       "spread": 0.006188716528904514,
+       "continuum_dipole_mean": 1.82696461108086
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 289.37156073153335,
+        "mu_v_rigid": 3.2424471763156055,
+        "tail_amplitude_fm2": 0.5126553376647287,
+        "g_a_implied_by_the_tail": 0.9417054647508469,
+        "g_pinn_tail": 9.563501584053167
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 296.4955850210265,
+        "mu_v_rigid": 3.1645395324637327,
+        "tail_amplitude_fm2": 0.5126553376647287,
+        "g_a_implied_by_the_tail": 0.9192159729789662,
+        "g_pinn_tail": 9.447674729963703
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 301.2801463869836,
+        "mu_v_rigid": 3.114284201106379,
+        "tail_amplitude_fm2": 0.5126553376647287,
+        "g_a_implied_by_the_tail": 0.9046238036733503,
+        "g_pinn_tail": 9.372346494142008
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.09967377152595921,
+        "max_N": 0.0997120212048946,
+        "max_s": 0.12382162766286889,
+        "energy_difference": 4.899943917280325e-08,
+        "record_quartic_difference": 4.899951196540805e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.005662779426539758,
+        "max_N": 0.005492657716607498,
+        "max_s": 0.14211025418043025,
+        "energy_difference": 4.3756358536484186e-08,
+        "record_quartic_difference": 4.375634000456323e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.011520393606801035,
+        "max_N": 0.010420341557822232,
+        "max_s": 0.1221680519143076,
+        "energy_difference": 2.4514051233381906e-08,
+        "record_quartic_difference": 2.4514204951704755e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0
+    },
+    {
+     "start": "reset",
+     "name": "r2_g65_reset",
+     "label": "NOT STATIONARY",
+     "energy": 75.52561706549064,
+     "residual": 0.0042181274835487465,
+     "iterations": 8000,
+     "evaluations": 8196,
+     "drift_last_tenth": 9.141123939571116e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.007909475297910687,
+      0.18190015689444936,
+      0.9581512145545241
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.558357234668761,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 75.57013199414571,
+     "wall_time_h": 5.306389593349563,
+     "threads": 1
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g65_chain",
+    "from_stationary": true,
+    "energy": 75.5240256269475,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "spread_within_branch": {
+    "ISOTROPIC CENTER": 2.4947991448698303e-05
+   }
+  },
+  "73": {
+   "half_box": 8.1,
+   "spacing": 0.22499999999999998,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g73_linked",
+     "label": "STATIONARY",
+     "energy": 75.52659949089231,
+     "residual": 0.0004653103598091184,
+     "iterations": 5556,
+     "evaluations": 5699,
+     "drift_last_tenth": 2.1748889068362587e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3363392505596335,
+      0.3768062654281505,
+      0.39121594151052974
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4047582502705107,
+     "segments": [
+      [
+       "main",
+       5556,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 2074.9251857723293,
+     "wall_time_h": 5.167882758643892,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006225941060587816,
+      "largest_norm_of_p": 2.3769684182381776,
+      "isospin_inertia": 37.9230744306208,
+      "isospin_eigenvalues": [
+       37.921743331997675,
+       37.92345147080668,
+       37.92402848905803
+      ],
+      "spin_inertia": 38.73369331061147,
+      "mixed_inertia": -38.24254829534221,
+      "isospin_inertia_other_actions": {
+       "left": 37.9230744306208,
+       "q_only": 37.92307433581116,
+       "q_left_right": 38.01815807500591,
+       "record_right": 0.09508364438509927
+      },
+      "ours_against_the_audit": 2.866609948279603e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5,
+        11.0,
+        11.5,
+        12.0,
+        12.5,
+        13.0,
+        13.5,
+        14.0
+       ],
+       "inertia": [
+        0.0,
+        1.8289210577783637,
+        13.290911066540103,
+        25.912903618649167,
+        32.02246640268709,
+        34.50569065578783,
+        35.830831455885786,
+        36.6116267219465,
+        37.11604924831924,
+        37.419820011121466,
+        37.61188966787216,
+        37.73572702192902,
+        37.81355333702167,
+        37.86108765168029,
+        37.89043182803404,
+        37.90721239332811,
+        37.91595544521158,
+        37.92014274983238,
+        37.92196565264068,
+        37.92269588838023,
+        37.92296358576327,
+        37.923046219227125,
+        37.92306839376184,
+        37.923073312100435,
+        37.923074289853865,
+        37.923074420764635,
+        37.923074430374015,
+        37.92307443062019,
+        37.92307443062059
+       ]
+      },
+      "winding_total": 0.9999734310052252,
+      "r2_s_card": 0.9653694710402347,
+      "r2_v_card": 2.716254930944443,
+      "r2_s_fm2": 0.24269577714367824,
+      "r2_v_fm2": 0.6828718134990975,
+      "tail": {
+       "shells": 12,
+       "mean": 2.064028350754311,
+       "spread": 0.0017743728973496076,
+       "continuum_dipole_mean": 1.9047466403429105
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 282.3466323195496,
+        "mu_v_rigid": 3.3231209180426777,
+        "tail_amplitude_fm2": 0.5189007728752012,
+        "g_a_implied_by_the_tail": 0.9531778128087846,
+        "g_pinn_tail": 9.680009157739088
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 289.29771024032425,
+        "mu_v_rigid": 3.243274892222833,
+        "tail_amplitude_fm2": 0.5189007728752012,
+        "g_a_implied_by_the_tail": 0.9304143422962989,
+        "g_pinn_tail": 9.562771240388013
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 293.9661192069452,
+        "mu_v_rigid": 3.1917691825549417,
+        "tail_amplitude_fm2": 0.5189007728752012,
+        "g_a_implied_by_the_tail": 0.9156444035590926,
+        "g_pinn_tail": 9.486525316634914
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.009461223680684477,
+        "max_N": 0.009469077119461343,
+        "max_s": 0.09348071725618465,
+        "energy_difference": 1.9374053294995974e-07,
+        "record_quartic_difference": 1.9374053616120215e-07
+       },
+       {
+        "axis": 1,
+        "max_q": 0.06192419232516159,
+        "max_N": 0.06198156726915223,
+        "max_s": 0.08044106027351164,
+        "energy_difference": 1.7668843099727383e-07,
+        "record_quartic_difference": 1.7669028648533183e-07
+       },
+       {
+        "axis": 2,
+        "max_q": 0.023788216457657704,
+        "max_N": 0.02381622296773912,
+        "max_s": 0.10396220729812028,
+        "energy_difference": 1.4714987628394738e-07,
+        "record_quartic_difference": 1.471499918515072e-07
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0006432110186551654
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g73_smooth",
+     "label": "STATIONARY",
+     "energy": 75.53655510066558,
+     "residual": 0.0006781348867240719,
+     "iterations": 3178,
+     "evaluations": 3308,
+     "drift_last_tenth": 6.4092282627825625e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.330445810811859,
+      0.381877889911473,
+      0.39276338765460467
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.406575064197624,
+     "segments": [
+      [
+       "main",
+       3178,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 2048.9844633489593,
+     "wall_time_h": 2.9918861858712305,
+     "threads": 1,
+     "reads": {
+      "lumps": 2,
+      "lump_energy": 0.009739274605447795,
+      "residual_at_unit_p": 0.000842387248477062,
+      "largest_norm_of_p": 2.513213836914337,
+      "isospin_inertia": 37.928847424440015,
+      "isospin_eigenvalues": [
+       37.92790904088481,
+       37.92923105629005,
+       37.92940217614516
+      ],
+      "spin_inertia": 38.653402260568605,
+      "mixed_inertia": -38.248334995464546,
+      "isospin_inertia_other_actions": {
+       "left": 37.928847424440015,
+       "q_only": 37.92884741076466,
+       "q_left_right": 38.038982295008125,
+       "record_right": 0.11013487056810704
+      },
+      "ours_against_the_audit": 3.8965260183060466e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5,
+        11.0,
+        11.5,
+        12.0,
+        12.5,
+        13.0,
+        13.5,
+        14.0
+       ],
+       "inertia": [
+        0.0,
+        1.8279960985053485,
+        13.294093189585041,
+        25.91826350174443,
+        32.02789288980301,
+        34.51118376831947,
+        35.83635075406527,
+        36.617170374692094,
+        37.12162139879916,
+        37.42542394148601,
+        37.61752809524265,
+        37.7414000246896,
+        37.819256180508965,
+        37.866814390606095,
+        37.896177277829764,
+        37.91297035015795,
+        37.921721142333965,
+        37.92591248368625,
+        37.92773718994857,
+        37.92846822857513,
+        37.92873633569192,
+        37.9288191505322,
+        37.928841375803586,
+        37.928846303916885,
+        37.928847283424574,
+        37.92884741421726,
+        37.92884742360569,
+        37.9288474244394,
+        37.92884742443982
+       ]
+      },
+      "winding_total": 0.9999734339877473,
+      "r2_s_card": 0.965160478491355,
+      "r2_v_card": 2.7161998960592326,
+      "r2_s_fm2": 0.24264323600726448,
+      "r2_v_fm2": 0.6828579776210874,
+      "tail": {
+       "shells": 12,
+       "mean": 2.0644866394638153,
+       "spread": 0.0023893107245611667,
+       "continuum_dipole_mean": 1.9051564437094648
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 282.3036575002777,
+        "mu_v_rigid": 3.323626793602832,
+        "tail_amplitude_fm2": 0.5190159875550164,
+        "g_a_implied_by_the_tail": 0.9533894526487124,
+        "g_pinn_tail": 9.682158468771213
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 289.25367742608023,
+        "mu_v_rigid": 3.243768612897856,
+        "tail_amplitude_fm2": 0.5190159875550164,
+        "g_a_implied_by_the_tail": 0.9306209278250681,
+        "g_pinn_tail": 9.564894520375635
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 293.9213758333793,
+        "mu_v_rigid": 3.1922550625644046,
+        "tail_amplitude_fm2": 0.5190159875550164,
+        "g_a_implied_by_the_tail": 0.9158477096289528,
+        "g_pinn_tail": 9.488631667278524
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.008339660057452982,
+        "max_N": 0.008353296455304448,
+        "max_s": 0.0017622320433702265,
+        "energy_difference": 6.684928166578175e-10,
+        "record_quartic_difference": 6.684533124995597e-10
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0006794702504650126,
+        "max_N": 0.004177426844088088,
+        "max_s": 0.9608081746123265,
+        "energy_difference": 4.128750674681214e-09,
+        "record_quartic_difference": 4.128738705087076e-09
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0026009324346649267,
+        "max_N": 0.00417744092321697,
+        "max_s": 0.9608114128018187,
+        "energy_difference": 4.569429279399628e-09,
+        "record_quartic_difference": 4.56923912348304e-09
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.010598820791926755
+    },
+    {
+     "start": "iso",
+     "name": "r2_g73_iso",
+     "label": "STATIONARY",
+     "energy": 75.52682971805858,
+     "residual": 0.00047248836311115087,
+     "iterations": 4965,
+     "evaluations": 5150,
+     "drift_last_tenth": 1.24825725009714e-05,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3501758246827028,
+      0.3571262310197721,
+      0.39669899777096657
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4045850478844244,
+     "segments": [
+      [
+       "main",
+       4965,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 2072.3522801721847,
+     "wall_time_h": 4.618943676087591,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006287999738979061,
+      "largest_norm_of_p": 2.3858321690914557,
+      "isospin_inertia": 37.92377434177703,
+      "isospin_eigenvalues": [
+       37.92251360745855,
+       37.923083584698425,
+       37.925725833174106
+      ],
+      "spin_inertia": 38.687990490938894,
+      "mixed_inertia": -38.2432416974567,
+      "isospin_inertia_other_actions": {
+       "left": 37.92377434177703,
+       "q_only": 37.923774119779104,
+       "q_left_right": 37.982288654622344,
+       "record_right": 0.0585143128453127
+      },
+      "ours_against_the_audit": 3.4472678439293503e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5,
+        11.0,
+        11.5,
+        12.0,
+        12.5,
+        13.0,
+        13.5,
+        14.0
+       ],
+       "inertia": [
+        0.0,
+        1.8288641160756542,
+        13.289628198797589,
+        25.912204648873594,
+        32.02264237021402,
+        34.5061146381629,
+        35.83137598950617,
+        36.61222764932033,
+        37.11668098577028,
+        37.420466751889535,
+        37.61254809952816,
+        37.73639651728882,
+        37.81423212086654,
+        37.861773945292924,
+        37.89112396884572,
+        37.907908326762374,
+        37.91665349629541,
+        37.920841874526474,
+        37.922665325892766,
+        37.92339574930128,
+        37.92366350736931,
+        37.92374614838575,
+        37.92376831250743,
+        37.92377322492309,
+        37.92377420106779,
+        37.92377433189807,
+        37.92377434152833,
+        37.92377434177628,
+        37.92377434177671
+       ]
+      },
+      "winding_total": 0.9999734315149066,
+      "r2_s_card": 0.9654195691453654,
+      "r2_v_card": 2.7164218458424005,
+      "r2_s_fm2": 0.24270837190550038,
+      "r2_v_fm2": 0.6829137762315973,
+      "tail": {
+       "shells": 12,
+       "mean": 2.0641580124363172,
+       "spread": 0.001975460975240928,
+       "continuum_dipole_mean": 1.9048644506440338
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 282.34142140472596,
+        "mu_v_rigid": 3.323182249815984,
+        "tail_amplitude_fm2": 0.5189333700761944,
+        "g_a_implied_by_the_tail": 0.9532376911716058,
+        "g_pinn_tail": 9.680617253199005
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 289.29237103824363,
+        "mu_v_rigid": 3.2433347503517926,
+        "tail_amplitude_fm2": 0.5189333700761944,
+        "g_a_implied_by_the_tail": 0.930472790664288,
+        "g_pinn_tail": 9.563371970994847
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 293.9606938459426,
+        "mu_v_rigid": 3.191828090090591,
+        "tail_amplitude_fm2": 0.5189333700761944,
+        "g_a_implied_by_the_tail": 0.9157019240836733,
+        "g_pinn_tail": 9.487121257494207
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.05494542655122805,
+        "max_N": 0.05499698325620475,
+        "max_s": 0.10052617998315863,
+        "energy_difference": 9.281552593165543e-08,
+        "record_quartic_difference": 9.281565789773965e-08
+       },
+       {
+        "axis": 1,
+        "max_q": 0.04359966007069576,
+        "max_N": 0.043640049597577765,
+        "max_s": 0.10710329202111149,
+        "energy_difference": 8.78225421274692e-08,
+        "record_quartic_difference": 8.782439038704778e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.003906990586195111,
+        "max_N": 0.0036888797977918356,
+        "max_s": 0.09976666830210934,
+        "energy_difference": 8.277773133613664e-08,
+        "record_quartic_difference": 8.277779703471237e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0008734381849251349
+    },
+    {
+     "start": "cont",
+     "name": "r2_g73_cont",
+     "label": "STATIONARY",
+     "energy": 75.52595627987365,
+     "residual": 0.0006538345349409143,
+     "iterations": 602,
+     "evaluations": 619,
+     "drift_last_tenth": 5.927756916435101e-07,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3311818227001051,
+      0.3833865053071687,
+      0.39045237264937543
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4068148135651053,
+     "segments": [
+      [
+       "main",
+       602,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "m5_39_r2_g55_smooth.npz",
+     "start_energy": 75.56174551416568,
+     "wall_time_h": 0.580724901954333,
+     "threads": 1,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006543845097184047,
+      "largest_norm_of_p": 1.0039706211907644,
+      "isospin_inertia": 37.92938959178151,
+      "isospin_eigenvalues": [
+       37.92840755550469,
+       37.92983393912922,
+       37.92992728071061
+      ],
+      "spin_inertia": 38.63659212206807,
+      "mixed_inertia": -38.24888217579899,
+      "isospin_inertia_other_actions": {
+       "left": 37.92938959178151,
+       "q_only": 37.92938974135164,
+       "q_left_right": 38.031661392030855,
+       "record_right": 0.10227180024935179
+      },
+      "ours_against_the_audit": 2.8286886368814215e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5,
+        11.0,
+        11.5,
+        12.0,
+        12.5,
+        13.0,
+        13.5,
+        14.0
+       ],
+       "inertia": [
+        0.0,
+        1.828273759490191,
+        13.294683647633368,
+        25.918956835408487,
+        32.028646184181994,
+        34.51198348057773,
+        35.83718281357996,
+        36.61799779096659,
+        37.12241440402862,
+        37.42616193276724,
+        37.618206787575616,
+        37.74202831794983,
+        37.819849536550464,
+        37.86738683071718,
+        37.8967365540295,
+        37.913521726427376,
+        37.9222673215358,
+        37.926455889745185,
+        37.928279393985996,
+        37.929010055647495,
+        37.929278161208174,
+        37.92936112368109,
+        37.92938346864513,
+        37.92938844907437,
+        37.92938944692024,
+        37.929389581691154,
+        37.92938959153727,
+        37.929389591780804,
+        37.92938959178136
+       ]
+      },
+      "winding_total": 0.999973434391819,
+      "r2_s_card": 0.9651645245909741,
+      "r2_v_card": 2.715981806489813,
+      "r2_s_fm2": 0.2426442532046391,
+      "r2_v_fm2": 0.6828031494758796,
+      "tail": {
+       "shells": 12,
+       "mean": 2.064075820373484,
+       "spread": 0.002149080951015403,
+       "continuum_dipole_mean": 1.9047824857642495
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 282.2996222172128,
+        "mu_v_rigid": 3.323674302610492,
+        "tail_amplitude_fm2": 0.5189127068305018,
+        "g_a_implied_by_the_tail": 0.9531997344978748,
+        "g_pinn_tail": 9.68023178372586
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 289.24954279857906,
+        "mu_v_rigid": 3.2438149803865803,
+        "tail_amplitude_fm2": 0.5189127068305018,
+        "g_a_implied_by_the_tail": 0.9304357404590161,
+        "g_pinn_tail": 9.562991170074955
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 293.91717448522525,
+        "mu_v_rigid": 3.1923006937016045,
+        "tail_amplitude_fm2": 0.5189127068305018,
+        "g_a_implied_by_the_tail": 0.9156654620349217,
+        "g_pinn_tail": 9.486743492777647
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0013082465909432727,
+        "max_N": 0.0012396312729978534,
+        "max_s": 0.05374955841834473,
+        "energy_difference": 1.4131558145891177e-09,
+        "record_quartic_difference": 1.4132735126368352e-09
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0006582016506507535,
+        "max_N": 0.0006561981385829459,
+        "max_s": 0.053749431203785385,
+        "energy_difference": 2.486184769168176e-08,
+        "record_quartic_difference": 2.4862471388695875e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.0005706963018109648,
+        "max_N": 0.0005417723020117765,
+        "max_s": 0.0537502091266644,
+        "energy_difference": 2.5525750402266567e-08,
+        "record_quartic_difference": 2.5525692233839788e-08
+       }
+      ]
+     },
+     "gap_to_the_lowest_stationary": 0.0
+    },
+    {
+     "start": "contreset",
+     "name": "r2_g73_contreset",
+     "label": "NOT STATIONARY",
+     "energy": 75.52979636903099,
+     "residual": 0.001733077627269138,
+     "iterations": 8000,
+     "evaluations": 8203,
+     "drift_last_tenth": 6.4769383243401535e-06,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.010981370298868356,
+      0.18230944293534398,
+      0.9549787336575327
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4071332479653567,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "m5_39_r2_g55_smooth.npz",
+     "start_energy": 75.60505511450556,
+     "wall_time_h": 6.4172966702779135,
+     "threads": 1
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g73_cont",
+    "from_stationary": true,
+    "energy": 75.52595627987365,
+    "branch": "ISOTROPIC CENTER"
+   },
+   "spread_within_branch": {
+    "ISOTROPIC CENTER": 0.0008734381849251349
+   }
+  },
+  "77": {
+   "half_box": 6.075,
+   "spacing": 0.15986842105263158,
+   "jobs": [
+    {
+     "start": "linked",
+     "name": "r2_g77_linked",
+     "label": "NOT STATIONARY",
+     "energy": 75.49251207019017,
+     "residual": 0.0041058446295871714,
+     "iterations": 8000,
+     "evaluations": 8225,
+     "drift_last_tenth": 5.381075567356675e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3562321941801537,
+      0.371212796569225,
+      0.3715631592523256
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.675914534662183,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 978.9073176804131,
+     "wall_time_h": 8.542197552257115,
+     "threads": 1
+    },
+    {
+     "start": "smooth",
+     "name": "r2_g77_smooth",
+     "label": "STATIONARY",
+     "energy": 75.49300993697047,
+     "residual": 0.0006647097656605745,
+     "iterations": 4942,
+     "evaluations": 5054,
+     "drift_last_tenth": 6.348368984276931e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3294159061698994,
+      0.3839068269200014,
+      0.38705662004924
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.675994385447636,
+     "segments": [
+      [
+       "main",
+       4942,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 1,
+     "started_from": null,
+     "start_energy": 945.730922837993,
+     "wall_time_h": 5.380620748003324,
+     "threads": 1,
+     "reads": {
+      "lumps": 1,
+      "lump_energy": 0.001899322885908929,
+      "residual_at_unit_p": 0.0008591342265786016,
+      "largest_norm_of_p": 2.228689923174077,
+      "isospin_inertia": 36.68461896981899,
+      "isospin_eigenvalues": [
+       36.68391958557875,
+       36.68493706258221,
+       36.685000261296054
+      ],
+      "spin_inertia": 37.128265111677514,
+      "mixed_inertia": -36.84113101935309,
+      "isospin_inertia_other_actions": {
+       "left": 36.68461896981899,
+       "q_only": 36.684619516689985,
+       "q_left_right": 36.77761515752213,
+       "record_right": 0.09299618770313174
+      },
+      "ours_against_the_audit": 2.6922567705438886e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5
+       ],
+       "inertia": [
+        0.0,
+        1.5381489002262683,
+        13.81489439596994,
+        25.74529731709183,
+        31.25078785464042,
+        33.70757531861535,
+        34.99957940402882,
+        35.72897491362987,
+        36.1602378168095,
+        36.409172645916655,
+        36.552770649472336,
+        36.62885781642713,
+        36.664153575260215,
+        36.67821270620573,
+        36.68290869852275,
+        36.68425772022207,
+        36.684561419579005,
+        36.6846123248005,
+        36.684618455439036,
+        36.684618959637305,
+        36.684618969705795,
+        36.68461896981924
+       ]
+      },
+      "winding_total": 0.9999924062905325,
+      "r2_s_card": 0.9454635034748752,
+      "r2_v_card": 2.450830815457371,
+      "r2_s_fm2": 0.23769137788205041,
+      "r2_v_fm2": 0.6161436706343812,
+      "tail": {
+       "shells": 8,
+       "mean": 2.025755512337161,
+       "spread": 0.005846409387416429,
+       "continuum_dipole_mean": 1.815209751277272
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 291.87852166322324,
+        "mu_v_rigid": 3.214597616341917,
+        "tail_amplitude_fm2": 0.5092789062823664,
+        "g_a_implied_by_the_tail": 0.9355032394924292,
+        "g_pinn_tail": 9.50051480814099
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 299.064264701183,
+        "mu_v_rigid": 3.137359125596287,
+        "tail_amplitude_fm2": 0.5092789062823664,
+        "g_a_implied_by_the_tail": 0.913161867168866,
+        "g_pinn_tail": 9.385450808539396
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 303.89027695605745,
+        "mu_v_rigid": 3.0875354400880495,
+        "tail_amplitude_fm2": 0.5092789062823664,
+        "g_a_implied_by_the_tail": 0.8986658042621508,
+        "g_pinn_tail": 9.310618696722896
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0002176134609017493,
+        "max_N": 0.004268510126495818,
+        "max_s": 0.981757329121966,
+        "energy_difference": 3.900453293681494e-10,
+        "record_quartic_difference": 3.900007945229302e-10
+       },
+       {
+        "axis": 1,
+        "max_q": 0.00022122775050564038,
+        "max_N": 0.004268571468934912,
+        "max_s": 0.9817714378835606,
+        "energy_difference": 8.340066415257752e-10,
+        "record_quartic_difference": 8.351690952447321e-10
+       },
+       {
+        "axis": 2,
+        "max_q": 0.00016012522779499587,
+        "max_N": 0.004268485012508832,
+        "max_s": 0.9817515529043123,
+        "energy_difference": 9.7257668585371e-10,
+        "record_quartic_difference": 9.725146497327543e-10
+       }
+      ]
+     }
+    },
+    {
+     "start": "iso",
+     "name": "r2_g77_iso",
+     "label": "NOT STATIONARY",
+     "energy": 75.49127426191029,
+     "residual": 0.007770408891814227,
+     "iterations": 8000,
+     "evaluations": 8221,
+     "drift_last_tenth": 8.362793593619244e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.32871132948094145,
+      0.3839548991505325,
+      0.38756491364538626
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.675232856598044,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": null,
+     "start_energy": 972.1235440994741,
+     "wall_time_h": 8.38576886249913,
+     "threads": 1
+    },
+    {
+     "start": "chain",
+     "name": "r2_g77_chain",
+     "label": "NOT STATIONARY",
+     "energy": 75.4923808151618,
+     "residual": 0.0022893896303502093,
+     "iterations": 8000,
+     "evaluations": 8195,
+     "drift_last_tenth": 2.2738564240398773e-06,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.3466583299906158,
+      0.37535947988231694,
+      0.3766087571969813
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.6744235389641635,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 76.09773221330995,
+     "wall_time_h": 7.801482145852513,
+     "threads": 1
+    },
+    {
+     "start": "reset",
+     "name": "r2_g77_reset",
+     "label": "NOT STATIONARY",
+     "energy": 75.49395856354845,
+     "residual": 0.0075267046430551815,
+     "iterations": 8000,
+     "evaluations": 8204,
+     "drift_last_tenth": 1.227851363694299e-05,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.005816605342972724,
+      0.18233823591924833,
+      0.9584306723242975
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.6744632017188485,
+     "segments": [
+      [
+       "main",
+       6000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       2000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "handoff.npz",
+     "start_energy": 75.53671992249629,
+     "wall_time_h": 7.783496256404453,
+     "threads": 1
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g77_smooth",
+    "from_stationary": true,
+    "energy": 75.49300993697047,
+    "branch": "ISOTROPIC CENTER"
+   }
+  },
+  "91": {
+   "half_box": 10.125,
+   "spacing": 0.225,
+   "jobs": [
+    {
+     "start": "cont",
+     "name": "r2_g91_cont",
+     "label": "STATIONARY",
+     "energy": 75.52024345681441,
+     "residual": 0.0006465266064772027,
+     "iterations": 185,
+     "evaluations": 195,
+     "drift_last_tenth": 3.6026521854637394e-07,
+     "branch": "ISOTROPIC CENTER",
+     "center_eigenvalues": [
+      0.33118644002806685,
+      0.383398331998997,
+      0.3904608801390971
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.4070170707546414,
+     "segments": [
+      [
+       "main",
+       185,
+       "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "m5_39_r2_g73_cont.npz",
+     "start_energy": 75.52595627987357,
+     "wall_time_h": 0.08978138526280721,
+     "threads": 6,
+     "reads": {
+      "lumps": 0,
+      "lump_energy": 0.0,
+      "residual_at_unit_p": 0.0006466241328676669,
+      "largest_norm_of_p": 1.0004251922894407,
+      "isospin_inertia": 38.04811951797178,
+      "isospin_eigenvalues": [
+       38.04713561657124,
+       38.04856532139704,
+       38.048657615947064
+      ],
+      "spin_inertia": 38.731551493299584,
+      "mixed_inertia": -38.36835513410377,
+      "isospin_inertia_other_actions": {
+       "left": 38.04811951797178,
+       "q_only": 38.048119668254294,
+       "q_left_right": 38.15060223655834,
+       "record_right": 0.10248271858656303
+      },
+      "ours_against_the_audit": 2.7264888473251408e-14,
+      "inertia_inside_radius": {
+       "radius": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        9.5,
+        10.0,
+        10.5,
+        11.0,
+        11.5,
+        12.0,
+        12.5,
+        13.0,
+        13.5,
+        14.0,
+        14.5,
+        15.0,
+        15.5,
+        16.0,
+        16.5,
+        17.0,
+        17.5
+       ],
+       "inertia": [
+        0.0,
+        1.827267464667829,
+        13.29142277133374,
+        25.92016213668218,
+        32.0376913225651,
+        34.52780654923882,
+        35.85963065499038,
+        36.6472476065249,
+        37.159192667024726,
+        37.47057696191304,
+        37.67053137123729,
+        37.802588695164104,
+        37.88878769796318,
+        37.94458985019892,
+        37.98223500434552,
+        38.006976787535805,
+        38.02299427172108,
+        38.03340224063713,
+        38.03984277370557,
+        38.04368851125537,
+        38.0458935510898,
+        38.04704521507732,
+        38.04762745489393,
+        38.04790760897026,
+        38.04803551354962,
+        38.048089160895714,
+        38.048109509095596,
+        38.04811656030297,
+        38.048118725754776,
+        38.048119335642994,
+        38.04811948267064,
+        38.048119513486185,
+        38.04811951764839,
+        38.04811951796358,
+        38.0481195179717,
+        38.048119517971706
+       ]
+      },
+      "winding_total": 0.9999734555160552,
+      "r2_s_card": 0.9657944713656599,
+      "r2_v_card": 2.816177712497363,
+      "r2_s_fm2": 0.24280262305849076,
+      "r2_v_fm2": 0.7079925966301535,
+      "tail": {
+       "shells": 15,
+       "mean": 2.0650987941163184,
+       "spread": 0.0017093568831105799,
+       "continuum_dipole_mean": 1.9638955996954992
+      },
+      "physical": {
+       "inherited": {
+        "e": 4.259,
+        "f_pi": 92.4,
+        "gap_MeV": 281.41870053871673,
+        "mu_v_rigid": 3.33407836154412,
+        "tail_amplitude_fm2": 0.5191698844344789,
+        "g_a_implied_by_the_tail": 0.9536721484908314,
+        "g_pinn_tail": 9.685029389919178
+       },
+       "printed_55": {
+        "e": 4.311,
+        "f_pi": 91.29,
+        "gap_MeV": 288.3469337523995,
+        "mu_v_rigid": 3.2539690566145727,
+        "tail_amplitude_fm2": 0.5191698844344789,
+        "g_a_implied_by_the_tail": 0.9308968724205889,
+        "g_pinn_tail": 9.567730670811015
+       },
+       "own_box_rung": {
+        "e": 4.345639631472977,
+        "f_pi": 90.5625059904386,
+        "gap_MeV": 293.0,
+        "mu_v_rigid": 3.202293515358362,
+        "tail_amplitude_fm2": 0.5191698844344789,
+        "g_a_implied_by_the_tail": 0.9161192737193745,
+        "g_pinn_tail": 9.491445204508546
+       }
+      },
+      "mirror": [
+       {
+        "axis": 0,
+        "max_q": 0.0013116950003852089,
+        "max_N": 0.0012427391461518388,
+        "max_s": 0.05380151089120594,
+        "energy_difference": 1.4187975239110528e-09,
+        "record_quartic_difference": 1.4189920240526339e-09
+       },
+       {
+        "axis": 1,
+        "max_q": 0.0006603223368406363,
+        "max_N": 0.0006583330122513465,
+        "max_s": 0.053801388381856045,
+        "energy_difference": 2.4973545009743248e-08,
+        "record_quartic_difference": 2.4974476198974464e-08
+       },
+       {
+        "axis": 2,
+        "max_q": 0.000573453656084534,
+        "max_N": 0.0005453855378073588,
+        "max_s": 0.05380215685531487,
+        "energy_difference": 2.5649612211964268e-08,
+        "record_quartic_difference": 2.56495815558247e-08
+       }
+      ]
+     }
+    },
+    {
+     "start": "contreset",
+     "name": "r2_g91_contreset",
+     "label": "NOT STATIONARY",
+     "energy": 75.52415260461589,
+     "residual": 0.03168955924875459,
+     "iterations": 4000,
+     "evaluations": 4073,
+     "drift_last_tenth": 3.33195064854408e-05,
+     "branch": "SPLIT CENTER",
+     "center_eigenvalues": [
+      0.011876182203353439,
+      0.18125484160373687,
+      0.9550665401671681
+     ],
+     "degree": 1,
+     "wall_hits": 0,
+     "hemisphere_margin": 3.407317482896138,
+     "segments": [
+      [
+       "main",
+       3000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ],
+      [
+       "polish",
+       1000,
+       "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT"
+      ]
+     ],
+     "saved_states_under_the_gate": 0,
+     "started_from": "m5_39_r2_g73_cont.npz",
+     "start_energy": 75.56928151478286,
+     "wall_time_h": 1.789338242146704,
+     "threads": 6
+    }
+   ],
+   "missing": [],
+   "state_of_the_grid": {
+    "name": "r2_g91_cont",
+    "from_stationary": true,
+    "energy": 75.52024345681441,
+    "branch": "ISOTROPIC CENTER"
+   }
+  }
+ },
+ "control_33": {
+  "state": "r2_g33_iso",
+  "checks": {
+   "a_33_state_is_stationary": true,
+   "energy": {
+    "ours": 76.05107475426023,
+    "printed": 76.05003,
+    "difference": 0.0010447542602207704,
+    "within": false
+   },
+   "center": {
+    "ours": [
+     0.3590628550861209,
+     0.3593621311744906,
+     0.38328112952083604
+    ],
+    "printed": [
+     0.333,
+     0.376,
+     0.394
+    ],
+    "largest_difference": 0.026062855086120884,
+    "within": false
+   },
+   "gap": {
+    "ours": 311.9466998748504,
+    "printed": 311.9,
+    "within": true,
+    "inertia": 34.324621343919056
+   },
+   "mu_v": {
+    "ours_rigid_relation": 3.0077958842854384,
+    "printed": 3.004,
+    "within_printed_digits": false,
+    "relative_difference": 0.0012636099485481278,
+    "note": "the printed moment is an integral whose definition is neither in the text nor in the archive; the text puts it 0.12 percent from the rigid relation"
+   },
+   "r2_s": {
+    "ours": 0.2301188626569484,
+    "printed": 0.2303,
+    "within_printed_digits": false
+   },
+   "r2_v": {
+    "ours": 0.45186286525637104,
+    "printed": 0.4519,
+    "within_printed_digits": true
+   }
+  },
+  "passed": false
+ },
+ "comparison_55": {
+  "state": "r2_g55_smooth",
+  "stationary": true,
+  "branch": "ISOTROPIC CENTER",
+  "inertia": {
+   "ours": 37.43767459551075,
+   "printed": 37.44,
+   "within_printed_digits": true
+  },
+  "tail_amplitude_fm2": {
+   "ours": 0.5172017676511833,
+   "the_authors_fitted": 0.518,
+   "implied_by_the_printed_g_a": 0.504,
+   "spread_over_the_outer_shells_card": 0.006439693644378686
+  },
+  "g_a_implied_by_the_tail": {
+   "ours": 0.9273679432337122,
+   "the_authors": 0.929,
+   "printed_axial_integral_not_computed_here": 0.904
+  },
+  "g_pinn_tail": {
+   "ours": 9.531460440437797,
+   "printed": [
+    9.54,
+    9.55
+   ],
+   "within_printed_range": false
+  },
+  "calibration_rule_on_our_inertia": {
+   "e": 4.310637899528436,
+   "f_pi": 91.2978599294113
+  }
+ },
+ "own_calibration": {
+  "grid": 91,
+  "state": "r2_g91_cont",
+  "inertia": 38.04811951797178,
+  "e": 4.345639631472977,
+  "f_pi": 90.5625059904386
+ },
+ "box_number": {
+  "inertia_55": 37.43767459551075,
+  "inertia_73": 37.92938959178151,
+  "rise_percent": 1.313422913104012,
+  "recorded_by_the_reply": {
+   "inertia_73": 37.85,
+   "rise_percent": 1.1,
+   "still_outside_percent": 0.3
+  },
+  "window_percent": [
+   0.8,
+   1.4
+  ],
+  "reasons": [],
+  "rise_73_to_91_percent": 0.313028834547846,
+  "what_the_declared_rule_returns": "AGREES",
+  "label": "NOT LABELED: the 33^3 control did not pass"
+ },
+ "ladders": {
+  "mesh": {
+   "branches": [
+    "ISOTROPIC CENTER",
+    "ISOTROPIC CENTER",
+    "ISOTROPIC CENTER"
+   ],
+   "energies": [
+    75.56174551416568,
+    75.5240256269475,
+    75.49300993697047
+   ],
+   "inertias": [
+    37.43767459551075,
+    37.00243495117795,
+    36.68461896981899
+   ],
+   "energy_differences": [
+    -0.03771988721817365,
+    -0.031015689977039074
+   ],
+   "inertia_differences": [
+    -0.43523964433279616,
+    -0.3178159813589616
+   ],
+   "what_the_declared_rule_returns": "CONVERGENT",
+   "word": "NOT LABELED: the 33^3 control did not pass"
+  },
+  "box": {
+   "branches": [
+    "ISOTROPIC CENTER",
+    "ISOTROPIC CENTER",
+    "ISOTROPIC CENTER"
+   ],
+   "energies": [
+    75.56174551416568,
+    75.52595627987365,
+    75.52024345681441
+   ],
+   "inertias": [
+    37.43767459551075,
+    37.92938959178151,
+    38.04811951797178
+   ],
+   "energy_differences": [
+    -0.035789234292025185,
+    -0.0057128230592411455
+   ],
+   "inertia_differences": [
+    0.4917149962707583,
+    0.11872992619026945
+   ],
+   "what_the_declared_rule_returns": "CONVERGENT",
+   "word": "NOT LABELED: the 33^3 control did not pass"
+  }
+ },
+ "mesh_ladder_in_h2": {
+  "grids": [
+   45,
+   55,
+   65,
+   77
+  ],
+  "spacing_squared": [
+   0.07625129132231405,
+   0.050625,
+   0.0360406494140625,
+   0.025557912049861495
+  ],
+  "states": [
+   "r2_g45_chain",
+   "r2_g55_smooth",
+   "r2_g65_chain",
+   "r2_g77_smooth"
+  ],
+  "lumps": [
+   0,
+   0,
+   0,
+   1
+  ],
+  "fits": {
+   "isospin_inertia": {
+    "values": [
+     38.13355938978547,
+     37.43767459551075,
+     37.00243495117795,
+     36.68461896981899
+    ],
+    "slopes_between_neighbors": [
+     27.15511134725835,
+     29.842922505748195,
+     30.318033383562266
+    ],
+    "extrapolated_from_the_three_finest": 35.91825163131245,
+    "slope": 30.029109561396815
+   },
+   "energy": {
+    "values": [
+     75.61755251105137,
+     75.56174551416568,
+     75.5240256269475,
+     75.49300993697047
+    ],
+    "slopes_between_neighbors": [
+     2.1777242826042036,
+     2.5863261443086714,
+     2.958739582941282
+    ],
+    "extrapolated_from_the_three_finest": 75.42405207753818,
+    "slope": 2.7322679967488646
+   },
+   "tail_amplitude": {
+    "values": [
+     2.0854995301020027,
+     2.0572702283275093,
+     2.039185922276536,
+     2.025755512337161
+    ],
+    "slopes_between_neighbors": [
+     1.1015757769799814,
+     1.2399802064831504,
+     1.2811930197965624
+    ],
+    "extrapolated_from_the_three_finest": 1.9937480660190092,
+    "slope": 1.2561307362313079
+   },
+   "r2_v_card": {
+    "values": [
+     2.488680270065833,
+     2.4713394851272112,
+     2.4602730201802783,
+     2.450830815457371
+    ],
+    "slopes_between_neighbors": [
+     0.6766794586277926,
+     0.7587903816302566,
+     0.900738461229888
+    ],
+    "extrapolated_from_the_three_finest": 2.4303488415940366,
+    "slope": 0.8144171757740083
+   },
+   "r2_s_card": {
+    "values": [
+     0.9755753785484481,
+     0.9613702758065288,
+     0.9528759541101143,
+     0.9454635034748752
+    ],
+    "slopes_between_neighbors": [
+     0.5543175390951035,
+     0.5824271465748285,
+     0.7071102115515107
+    ],
+    "extrapolated_from_the_three_finest": 0.9296214446533654,
+    "slope": 0.6312881048085115
+   }
+  }
+ },
+ "labels": {
+  "control_33_passed": false,
+  "note": "the comparison words below are what the declared rules return; by the definition of done they are not applied as labels while the 33^3 control has not passed"
+ }
+}

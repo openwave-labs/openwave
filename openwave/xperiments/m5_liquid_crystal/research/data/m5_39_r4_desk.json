@@ -1,0 +1,1469 @@
+{
+ "task": "M5.39 R4",
+ "moment_bound": {
+  "statement": "(mu_p - mu_n)(Delta - N) = M_N Lambda_V / Lambda <= M_N for Lambda_V <= Lambda",
+  "algebra_holds": true,
+  "conditions": [
+   "the isovector moment is (2/3) M_N Lambda_V, i.e. the magnetic current is the minimally gauged rigid-rotor current",
+   "Lambda_V <= Lambda, the isospin inertia",
+   "the gap is the rigid rotor's, 3 / (2 Lambda)"
+  ],
+  "inputs": {
+   "M_N": 938.918,
+   "m_p": 938.272,
+   "mu_p_minus_mu_n": 4.706
+  },
+  "rows": [
+   {
+    "quantity": "mu_V at the bound, gap 293 MeV (mu_N)",
+    "printed": 3.2,
+    "returned": 3.2044982935153583,
+    "label": "REPRODUCED"
+   },
+   {
+    "quantity": "the same with the proton mass",
+    "printed": 3.2,
+    "returned": 3.202293515358362,
+    "label": "REPRODUCED"
+   },
+   {
+    "quantity": "gap that 4.706 mu_N would need (MeV)",
+    "printed": 199.5,
+    "returned": 199.5150871228219,
+    "label": "REPRODUCED"
+   },
+   {
+    "quantity": "moment missing at 293 MeV (mu_N)",
+    "printed": 1.5,
+    "returned": 1.501501706484642,
+    "label": "REPRODUCED"
+   },
+   {
+    "quantity": "moment missing at the Breit-Wigner gap 1232 - 938.272 MeV (mu_N)",
+    "printed": 1.51,
+    "returned": 1.5094440026146638,
+    "label": "REPRODUCED"
+   }
+  ],
+  "passed": true
+ },
+ "cranking": {
+  "statement": "(H - w^2 K) Phi = i w K Z with H Z = 0 is solved by Phi = -(i / w) Z, a pure zero mode",
+  "symbolic_residual_zero": true,
+  "numeric_largest_difference": 7.016976289393512e-15,
+  "operator_invertible_in_every_trial": true,
+  "passed": true
+ },
+ "finkelstein_rubinstein": {
+  "condition": "the sign source is the winding field alone, and the configuration is the rational-map shell named in the row",
+  "rows": [
+   {
+    "key": "B2",
+    "B": 2,
+    "configuration": "torus, D_inf_h",
+    "source": "MMW (57), (58)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       1.9999999999999996
+      ],
+      "N": 1.4135798584282297e-16,
+      "integer": true,
+      "sign": 1,
+      "misfit": 7.771561172376096e-16,
+      "axis_misfit": 4.440892098500626e-16
+     },
+     {
+      "space": [
+       3.141592653589793,
+       0.0,
+       0.0
+      ],
+      "iso": [
+       -3.141592653589793,
+       -0.0,
+       -0.0
+      ],
+      "N": 1.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.0547118733938987e-15,
+      "axis_misfit": 2.220446049250313e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "0": {
+      "0": 0,
+      "1": 1,
+      "2": 0,
+      "3": 1,
+      "4": 0,
+      "5": 1,
+      "6": 0
+     },
+     "1": {
+      "0": 1,
+      "1": 0,
+      "2": 2,
+      "3": 1,
+      "4": 2,
+      "5": 1,
+      "6": 2
+     },
+     "2": {
+      "0": 0,
+      "1": 1,
+      "2": 1,
+      "3": 2,
+      "4": 2,
+      "5": 3,
+      "6": 2
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (1, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (0, 1) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "ground state: J = 1 (2003 table)",
+      "passed": true,
+      "ours": "1"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 3 (2003 table)",
+      "passed": true,
+      "ours": "3"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 0 (2003 table)",
+      "passed": true,
+      "ours": "0"
+     },
+     {
+      "check": "parity of (J, I) = (1, 0) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (0, 1) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "1",
+     "second_J": "3",
+     "lowest_J_at_the_next_isospin": "0"
+    },
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "iso": [
+      0.0,
+      0.0,
+      3.141592653589793
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=1, I=0": [
+      1
+     ],
+     "J=3, I=0": [
+      1
+     ],
+     "J=0, I=1": [
+      1
+     ],
+     "J=2, I=1": [
+      -1,
+      1
+     ],
+     "J=3, I=1": [
+      -1
+     ],
+     "J=4, I=1": [
+      -1,
+      1
+     ],
+     "J=1, I=2": [
+      1
+     ],
+     "J=2, I=2": [
+      -1
+     ],
+     "J=3, I=2": [
+      -1,
+      1
+     ],
+     "J=4, I=2": [
+      -1,
+      1
+     ]
+    },
+    "passed": true
+   },
+   {
+    "key": "B3",
+    "B": 3,
+    "configuration": "tetrahedron, T_d",
+    "source": "MMW (66), (67)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       3.141592653589793
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -3.141592653589793
+      ],
+      "N": 3.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.2212453270876722e-15,
+      "axis_misfit": 4.440892098500626e-16
+     },
+     {
+      "space": [
+       1.2091995761561454,
+       1.2091995761561454,
+       1.2091995761561454
+      ],
+      "iso": [
+       1.2091995761561445,
+       1.2091995761561445,
+       1.2091995761561456
+      ],
+      "N": 2.0000000000000004,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.0269562977782698e-15,
+      "axis_misfit": 3.3306690738754696e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "1/2": {
+      "1/2": 1,
+      "3/2": 0,
+      "5/2": 1,
+      "7/2": 2,
+      "9/2": 1,
+      "11/2": 2,
+      "13/2": 3
+     },
+     "3/2": {
+      "1/2": 0,
+      "3/2": 2,
+      "5/2": 2,
+      "7/2": 2,
+      "9/2": 4,
+      "11/2": 4,
+      "13/2": 4
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (1/2, 1/2) has 1 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (3/2, 3/2) has 2 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 2
+     },
+     {
+      "check": "ground state: J = 1/2 (2003 table)",
+      "passed": true,
+      "ours": "1/2"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 5/2 (2003 table)",
+      "passed": true,
+      "ours": "5/2"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 3/2 (2003 table)",
+      "passed": true,
+      "ours": "3/2"
+     },
+     {
+      "check": "parity of (J, I) = (1/2, 1/2) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (3/2, 3/2) is [-1, 1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1,
+       1
+      ]
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "1/2",
+     "second_J": "5/2",
+     "lowest_J_at_the_next_isospin": "3/2"
+    },
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      1.5707963267948966
+     ],
+     "iso": [
+      0.0,
+      0.0,
+      1.5707963267948966
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=1/2, I=1/2": [
+      1
+     ],
+     "J=5/2, I=1/2": [
+      -1
+     ],
+     "J=7/2, I=1/2": [
+      -1,
+      1
+     ],
+     "J=3/2, I=3/2": [
+      -1,
+      1
+     ],
+     "J=5/2, I=3/2": [
+      -1,
+      1
+     ],
+     "J=7/2, I=3/2": [
+      -1,
+      1
+     ]
+    },
+    "passed": true
+   },
+   {
+    "key": "B4",
+    "B": 4,
+    "configuration": "cube, O_h",
+    "source": "MMW (79), (80)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.5707963267948966
+      ],
+      "iso": [
+       -3.141592653589793,
+       -0.0,
+       -0.0
+      ],
+      "N": 2.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 9.992007221626409e-16,
+      "axis_misfit": 3.3306690738754696e-16
+     },
+     {
+      "space": [
+       1.2091995761561454,
+       1.2091995761561454,
+       1.2091995761561454
+      ],
+      "iso": [
+       3.2374508066277996e-16,
+       1.0687377944436332e-17,
+       2.0943951023931953
+      ],
+      "N": 4.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.1102230246251565e-15,
+      "axis_misfit": 1.9492521197934398e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "0": {
+      "0": 1,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6": 1
+     },
+     "1": {
+      "0": 0,
+      "1": 0,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 2
+     },
+     "2": {
+      "0": 1,
+      "1": 0,
+      "2": 2,
+      "3": 0,
+      "4": 3,
+      "5": 2,
+      "6": 3
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (0, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (2, 1) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (4, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (2, 0) is not allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 0
+     },
+     {
+      "check": "ground state: J = 0 (2003 table)",
+      "passed": true,
+      "ours": "0"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 4 (2003 table)",
+      "passed": true,
+      "ours": "4"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 0 (2003 table)",
+      "passed": false,
+      "ours": "2"
+     },
+     {
+      "check": "parity of (J, I) = (0, 0) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (4, 0) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (2, 1) is [-1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1
+      ]
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "0",
+     "second_J": "4",
+     "lowest_J_at_the_next_isospin": "2"
+    },
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "iso": [
+      0.0,
+      0.0,
+      3.141592653589793
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=0, I=0": [
+      1
+     ],
+     "J=4, I=0": [
+      1
+     ],
+     "J=2, I=1": [
+      -1
+     ],
+     "J=3, I=1": [
+      1
+     ],
+     "J=4, I=1": [
+      -1
+     ],
+     "J=0, I=2": [
+      1
+     ],
+     "J=2, I=2": [
+      -1,
+      1
+     ],
+     "J=4, I=2": [
+      -1,
+      1,
+      1
+     ]
+    },
+    "passed": false
+   },
+   {
+    "key": "B5",
+    "B": 5,
+    "configuration": "D_2d (the minimal-energy map)",
+    "source": "Krusch, table 2; the map is MMW (87)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       3.141592653589793
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       3.141592653589793
+      ],
+      "N": 10.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 8.881784197001252e-16,
+      "axis_misfit": 2.5936800310791976e-16
+     },
+     {
+      "space": [
+       1.9236706937217898e-16,
+       3.141592653589793,
+       1.9236706937217898e-16
+      ],
+      "iso": [
+       -1.1108214514616042e-15,
+       3.141592653589793,
+       -0.0
+      ],
+      "N": 10.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.3877787807814457e-15,
+      "axis_misfit": 7.148987098233553e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "1/2": {
+      "1/2": 1,
+      "3/2": 2,
+      "5/2": 3,
+      "7/2": 4,
+      "9/2": 5,
+      "11/2": 6,
+      "13/2": 7
+     },
+     "3/2": {
+      "1/2": 2,
+      "3/2": 4,
+      "5/2": 6,
+      "7/2": 8,
+      "9/2": 10,
+      "11/2": 12,
+      "13/2": 14
+     }
+    },
+    "checks": [
+     {
+      "check": "ground state: J = 1/2 (2003 table)",
+      "passed": true,
+      "ours": "1/2"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 3/2 (2003 table)",
+      "passed": true,
+      "ours": "3/2"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 1/2 (2003 table)",
+      "passed": true,
+      "ours": "1/2"
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "1/2",
+     "second_J": "3/2",
+     "lowest_J_at_the_next_isospin": "1/2"
+    },
+    "passed": true
+   },
+   {
+    "key": "B5_D4h",
+    "B": 5,
+    "configuration": "D_4h (the variant the 2007 paper quantizes), a = -2",
+    "source": "MMW (91), (92)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.5707963267948966
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       1.5707963267948966
+      ],
+      "N": 5.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.2212453270876722e-15,
+      "axis_misfit": 2.220446049250313e-16
+     },
+     {
+      "space": [
+       3.141592653589793,
+       0.0,
+       0.0
+      ],
+      "iso": [
+       3.141592653589793,
+       0.0,
+       -0.0
+      ],
+      "N": 10.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 2.3037127760972e-15,
+      "axis_misfit": 2.220446049250313e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "1/2": {
+      "1/2": 0,
+      "3/2": 1,
+      "5/2": 2,
+      "7/2": 2,
+      "9/2": 2,
+      "11/2": 3,
+      "13/2": 4
+     },
+     "3/2": {
+      "1/2": 1,
+      "3/2": 2,
+      "5/2": 3,
+      "7/2": 4,
+      "9/2": 5,
+      "11/2": 6,
+      "13/2": 7
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (1/2, 3/2) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (3/2, 1/2) has 1 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (5/2, 1/2) has 2 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 2
+     },
+     {
+      "check": "(J, I) = (1/2, 1/2) has 0 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 0
+     },
+     {
+      "check": "parity of (J, I) = (3/2, 1/2) is [-1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1
+      ]
+     }
+    ],
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      6.283185307179586
+     ],
+     "iso": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=3/2, I=1/2": [
+      -1
+     ],
+     "J=5/2, I=1/2": [
+      -1,
+      -1
+     ],
+     "J=7/2, I=1/2": [
+      -1,
+      -1
+     ],
+     "J=1/2, I=3/2": [
+      -1
+     ],
+     "J=3/2, I=3/2": [
+      -1,
+      -1
+     ],
+     "J=5/2, I=3/2": [
+      -1,
+      -1,
+      -1
+     ],
+     "J=7/2, I=3/2": [
+      -1,
+      -1,
+      -1,
+      -1
+     ]
+    },
+    "passed": true
+   },
+   {
+    "key": "B6",
+    "B": 6,
+    "configuration": "D_4d",
+    "source": "MMW (105), (106)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.5707963267948966
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -3.141592653589793
+      ],
+      "N": 6.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 8.881784197001252e-16,
+      "axis_misfit": 1.4323608766004565e-16
+     },
+     {
+      "space": [
+       3.141592653589793,
+       0.0,
+       0.0
+      ],
+      "iso": [
+       -3.141592653589793,
+       -0.0,
+       -0.0
+      ],
+      "N": 14.999999999999998,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.1102230246251565e-15,
+      "axis_misfit": 1.1102230246251565e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "0": {
+      "0": 0,
+      "1": 1,
+      "2": 0,
+      "3": 1,
+      "4": 1,
+      "5": 2,
+      "6": 1
+     },
+     "1": {
+      "0": 1,
+      "1": 0,
+      "2": 3,
+      "3": 2,
+      "4": 4,
+      "5": 3,
+      "6": 6
+     },
+     "2": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 4,
+      "4": 6,
+      "5": 7,
+      "6": 8
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (1, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (3, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (0, 1) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (2, 1) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 3
+     },
+     {
+      "check": "ground state: J = 1 (2003 table)",
+      "passed": true,
+      "ours": "1"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 3 (2003 table)",
+      "passed": true,
+      "ours": "3"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 1 (2003 table)",
+      "passed": false,
+      "ours": "0"
+     },
+     {
+      "check": "parity of (J, I) = (1, 0) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (3, 0) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (0, 1) is [1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       1
+      ]
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "1",
+     "second_J": "3",
+     "lowest_J_at_the_next_isospin": "0"
+    },
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      0.7853981633974483
+     ],
+     "iso": [
+      -0.0,
+      -0.0,
+      -1.5707963267948966
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=1, I=0": [
+      1
+     ],
+     "J=3, I=0": [
+      1
+     ],
+     "J=4, I=0": [
+      -1
+     ],
+     "J=0, I=1": [
+      1
+     ],
+     "J=2, I=1": [
+      -1,
+      1,
+      1
+     ],
+     "J=3, I=1": [
+      -1,
+      1
+     ],
+     "J=4, I=1": [
+      -1,
+      -1,
+      1,
+      1
+     ],
+     "J=0, I=2": [
+      -1
+     ],
+     "J=1, I=2": [
+      -1,
+      1
+     ],
+     "J=2, I=2": [
+      -1,
+      -1,
+      1
+     ],
+     "J=3, I=2": [
+      -1,
+      -1,
+      1,
+      1
+     ],
+     "J=4, I=2": [
+      -1,
+      -1,
+      -1,
+      1,
+      1,
+      1
+     ]
+    },
+    "passed": false
+   },
+   {
+    "key": "B7",
+    "B": 7,
+    "configuration": "dodecahedron, Y_h",
+    "source": "Krusch, table 2; MMW (117)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.2566370614359172
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -2.5132741228718354
+      ],
+      "N": 6.999999999999999,
+      "integer": true,
+      "sign": -1,
+      "misfit": 9.992007221626409e-16,
+      "axis_misfit": 3.3390460035702264e-16
+     },
+     {
+      "space": [
+       0.0,
+       3.141592653589793,
+       0.0
+      ],
+      "iso": [
+       -0.0,
+       3.1415926535897927,
+       -0.0
+      ],
+      "N": 21.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.6375789613221059e-15,
+      "axis_misfit": 3.3306690738754696e-16
+     },
+     {
+      "space": [
+       1.028606596916169,
+       0.7473264372464647,
+       1.664320434862724
+      ],
+      "iso": [
+       -0.6357138379465556,
+       1.9565260134026108,
+       -0.3928927589696134
+      ],
+      "N": 13.999999999999998,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.6930901125533637e-15,
+      "axis_misfit": 6.106226635438361e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "1/2": {
+      "1/2": 0,
+      "3/2": 0,
+      "5/2": 0,
+      "7/2": 1,
+      "9/2": 0,
+      "11/2": 0,
+      "13/2": 1
+     },
+     "3/2": {
+      "1/2": 0,
+      "3/2": 1,
+      "5/2": 0,
+      "7/2": 0,
+      "9/2": 1,
+      "11/2": 1,
+      "13/2": 1
+     }
+    },
+    "checks": [
+     {
+      "check": "ground state: J = 7/2 (2003 table)",
+      "passed": true,
+      "ours": "7/2"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 13/2 (2003 table)",
+      "passed": true,
+      "ours": "13/2"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 3/2 (2003 table)",
+      "passed": true,
+      "ours": "3/2"
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "7/2",
+     "second_J": "13/2",
+     "lowest_J_at_the_next_isospin": "3/2"
+    },
+    "passed": true
+   },
+   {
+    "key": "B7_D5",
+    "B": 7,
+    "configuration": "D_5 (the variant the 2007 paper quantizes), a = 2",
+    "source": "MMW (121), (122)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.2566370614359172
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -2.513274122871835
+      ],
+      "N": 7.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 8.881784197001252e-16,
+      "axis_misfit": 2.3192000394655646e-16
+     },
+     {
+      "space": [
+       0.0,
+       3.141592653589793,
+       0.0
+      ],
+      "iso": [
+       -0.0,
+       3.1415926535897922,
+       -0.0
+      ],
+      "N": 21.0,
+      "integer": true,
+      "sign": -1,
+      "misfit": 1.6930901125533637e-15,
+      "axis_misfit": 4.440892098500626e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "1/2": {
+      "1/2": 0,
+      "3/2": 1,
+      "5/2": 1,
+      "7/2": 2,
+      "9/2": 2,
+      "11/2": 2,
+      "13/2": 3
+     },
+     "3/2": {
+      "1/2": 1,
+      "3/2": 2,
+      "5/2": 2,
+      "7/2": 3,
+      "9/2": 4,
+      "11/2": 5,
+      "13/2": 6
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (3/2, 1/2) has 1 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (5/2, 1/2) has 1 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (7/2, 1/2) has 2 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 2
+     },
+     {
+      "check": "(J, I) = (1/2, 1/2) has 0 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 0
+     },
+     {
+      "check": "(J, I) = (1/2, 3/2) has 1 state(s) (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "parity of (J, I) = (3/2, 1/2) is [-1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (5/2, 1/2) is [-1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1
+      ]
+     },
+     {
+      "check": "parity of (J, I) = (7/2, 1/2) is [-1, -1] (2007 paper)",
+      "passed": true,
+      "ours": [
+       -1,
+       -1
+      ]
+     }
+    ],
+    "parity_operator": {
+     "space": [
+      0.0,
+      0.0,
+      6.283185307179586
+     ],
+     "iso": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "note": "the operator the 2007 paper prints; where a symmetry element has sign -1 the choice is a convention, as that paper says"
+    },
+    "parity": {
+     "J=3/2, I=1/2": [
+      -1
+     ],
+     "J=5/2, I=1/2": [
+      -1
+     ],
+     "J=7/2, I=1/2": [
+      -1,
+      -1
+     ],
+     "J=1/2, I=3/2": [
+      -1
+     ],
+     "J=3/2, I=3/2": [
+      -1,
+      -1
+     ],
+     "J=5/2, I=3/2": [
+      -1,
+      -1
+     ],
+     "J=7/2, I=3/2": [
+      -1,
+      -1,
+      -1
+     ]
+    },
+    "passed": true
+   },
+   {
+    "key": "B8",
+    "B": 8,
+    "configuration": "D_6d",
+    "source": "MMW (150), (151)",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       1.0471975511965976
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -2.0943951023931953
+      ],
+      "N": 8.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.0547118733938987e-15,
+      "axis_misfit": 1.1102230246251565e-16
+     },
+     {
+      "space": [
+       3.141592653589793,
+       0.0,
+       0.0
+      ],
+      "iso": [
+       3.141592653589793,
+       -0.0,
+       -0.0
+      ],
+      "N": 28.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.609823385706477e-15,
+      "axis_misfit": 2.220446049250313e-16
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "0": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6": 2
+     },
+     "1": {
+      "0": 0,
+      "1": 1,
+      "2": 1,
+      "3": 2,
+      "4": 2,
+      "5": 3,
+      "6": 3
+     },
+     "2": {
+      "0": 1,
+      "1": 0,
+      "2": 3,
+      "3": 2,
+      "4": 5,
+      "5": 4,
+      "6": 6
+     }
+    },
+    "checks": [
+     {
+      "check": "the printed constraint equations allow the same states as the rule applied to the map",
+      "passed": true
+     },
+     {
+      "check": "(J, I) = (0, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "(J, I) = (2, 0) is allowed (2007 paper)",
+      "passed": true,
+      "multiplicity": 1
+     },
+     {
+      "check": "ground state: J = 0 (2003 table)",
+      "passed": true,
+      "ours": "0"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 2 (2003 table)",
+      "passed": true,
+      "ours": "2"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 0 (2003 table)",
+      "passed": false,
+      "ours": "1"
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "0",
+     "second_J": "2",
+     "lowest_J_at_the_next_isospin": "1"
+    },
+    "passed": false
+   },
+   {
+    "key": "B12",
+    "B": 12,
+    "configuration": "T_d (the rational-map shell)",
+    "source": "Krusch, tables 1 and 2",
+    "generators": [
+     {
+      "space": [
+       0.0,
+       0.0,
+       3.141592653589793
+      ],
+      "iso": [
+       -0.0,
+       -0.0,
+       -0.0
+      ],
+      "N": 72.0,
+      "integer": true,
+      "sign": 1,
+      "misfit": 1.1657341758564144e-15,
+      "axis_misfit": 0.0
+     },
+     {
+      "space": [
+       1.2091995761561454,
+       1.2091995761561454,
+       1.2091995761561454
+      ],
+      "iso": [
+       -8.201312373381865e-16,
+       -2.0164864046106293e-17,
+       2.0943951023931966
+      ],
+      "N": 43.99999999999999,
+      "integer": true,
+      "sign": 1,
+      "misfit": 2.55351295663786e-15,
+      "axis_misfit": 1.3401736186442861e-15
+     }
+    ],
+    "rule_sound": true,
+    "allowed": {
+     "0": {
+      "0": 1,
+      "1": 0,
+      "2": 0,
+      "3": 1,
+      "4": 1,
+      "5": 0,
+      "6": 2
+     },
+     "1": {
+      "0": 1,
+      "1": 0,
+      "2": 2,
+      "3": 1,
+      "4": 3,
+      "5": 2,
+      "6": 4
+     },
+     "2": {
+      "0": 1,
+      "1": 0,
+      "2": 4,
+      "3": 1,
+      "4": 5,
+      "5": 4,
+      "6": 6
+     }
+    },
+    "checks": [
+     {
+      "check": "ground state: J = 0 (2003 table)",
+      "passed": true,
+      "ours": "0"
+     },
+     {
+      "check": "second spin at the lowest isospin: J = 3 (2003 table)",
+      "passed": true,
+      "ours": "3"
+     },
+     {
+      "check": "lowest spin at the next isospin: J = 0 (2003 table)",
+      "passed": true,
+      "ours": "0"
+     }
+    ],
+    "lowest_states": {
+     "ground_J": "0",
+     "second_J": "3",
+     "lowest_J_at_the_next_isospin": "0"
+    },
+    "passed": true
+   }
+  ],
+  "passed": false
+ }
+}

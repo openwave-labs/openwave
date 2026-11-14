@@ -1,0 +1,69 @@
+{
+ "grid": "g45",
+ "winner": "r2_g45_chain",
+ "from_stationary": true,
+ "energy": 75.61755251105137,
+ "branch": "ISOTROPIC CENTER",
+ "jobs": {
+  "r2_g45_linked": {
+   "label": "STATIONARY",
+   "energy": 75.61787938386229,
+   "residual": 0.0005852401249126206,
+   "branch": "ISOTROPIC CENTER",
+   "center_eigenvalues": [
+    0.35717445185964575,
+    0.370986611425115,
+    0.37941037792742355
+   ],
+   "iterations": 2966
+  },
+  "r2_g45_smooth": {
+   "label": "STATIONARY",
+   "energy": 75.61801211445328,
+   "residual": 0.0003591604552720539,
+   "branch": "SPLIT CENTER",
+   "center_eigenvalues": [
+    1.3931531545305615e-09,
+    0.21911324024770779,
+    0.956204467338291
+   ],
+   "iterations": 6311
+  },
+  "r2_g45_iso": {
+   "label": "STATIONARY",
+   "energy": 75.61779203944214,
+   "residual": 0.0006904300855700106,
+   "branch": "ISOTROPIC CENTER",
+   "center_eigenvalues": [
+    0.3620121497555929,
+    0.37123041175968746,
+    0.37433940069583066
+   ],
+   "iterations": 3316
+  },
+  "r2_g45_chain": {
+   "label": "STATIONARY",
+   "energy": 75.61755251105137,
+   "residual": 0.000674989408750311,
+   "branch": "ISOTROPIC CENTER",
+   "center_eigenvalues": [
+    0.35216755446528214,
+    0.37690607470308984,
+    0.37851120409817834
+   ],
+   "iterations": 2153
+  },
+  "r2_g45_reset": {
+   "label": "STATIONARY",
+   "energy": 75.6181962467511,
+   "residual": 0.0002981380739628296,
+   "branch": "SPLIT CENTER",
+   "center_eigenvalues": [
+    0.009125477846990008,
+    0.18965966753458136,
+    0.9582469255525179
+   ],
+   "iterations": 5623
+  }
+ }
+}
