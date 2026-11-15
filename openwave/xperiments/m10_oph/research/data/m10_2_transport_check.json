@@ -1,0 +1,14 @@
+{
+  "task": "M10.2",
+  "all_rejected": true,
+  "mutations": [
+    "missing_input",
+    "changed_input",
+    "extra_input",
+    "changed_input_and_manifest",
+    "nan",
+    "positive_infinity",
+    "negative_infinity",
+    "extra_result_field"
+  ]
+}

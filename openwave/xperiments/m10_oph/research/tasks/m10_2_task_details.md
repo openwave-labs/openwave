@@ -26,7 +26,7 @@ author's proposal for the three static criteria.
 
 | ID | Check | Passing condition | Failure condition |
 | --- | --- | --- | --- |
-| P1 | Published input identity and closure | Every published file matches its manifest; every scientific preregistration pin resolves; exactly the declared bytecode-cache exception | Any additional absent, changed or unlisted file |
+| P1 | Published input identity and closure | Every published file matches its manifest; every live scientific input consumed by this replay resolves; exactly the declared bytecode-cache exception | Any additional absent, changed or unlisted file |
 | P2 | Complete compact-coordinate instrument | Regenerated pair/single actions, continuity checks, eigen-equations, controls and pointer marginals match the archived receipt; floats within absolute 1e-10 | Any exact mismatch, larger floating error or failed original assertion |
 | P3 | Localized source records | Every retained branch agrees with independently evaluated endpoint averaging; compact eigen-equations and complete detector probabilities pass the reader | Any mismatch or missing outcome |
 | P4 | Common source charge and moments | All frozen common-source assertions pass; full regenerated receipt, raw records and arrays match; original controls remain discriminating | Any mismatch, lost failure outcome or ineffective control |
@@ -71,3 +71,22 @@ retain their recorded status until a maintainer decision.
 on one declared signed-source instrument; no physical clock, free lifetime,
 spin magnitude, exchange statistic, continuous spatial symmetry or other
 criterion is established by this task.
+
+## Execution binding
+
+The pinned author package is [c330c6e7f23506b5f87c339cd73906928c1a7cd9](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source). Its portable adapter
+restores 150 provider paths from identical, manifest-verified export bytes.
+It compares and restores the localized reader's timing receipt before the
+common-source consumer. These path/timing accommodations change no scientific
+input or comparison gate. The first task-planning commit precedes the platform
+wrapper run; the existing author-side experiment is explicitly a reproduction.
+
+## Run record
+
+Planning commit `e6aa42a` precedes the platform replay. The public-download
+command and an exact local-checkout replay both reproduce the pinned package.
+P1–P6 pass, including all eight transport/comparator mutation checks. The
+[method note](../findings/m10_2_method_note.md), [receipt](../data/m10_2_receipt.json)
+and [submission audit](../findings/m10_2_submission_audit.md) record the result
+as **REPRODUCED WITH DISCLOSED SOURCE PREMISES**. The task remains in review;
+this record assigns no matrix icon.
