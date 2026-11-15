@@ -17,6 +17,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| [M10.3](tasks/m10_3_task_details.md) | Review free-wave source and replay policy | Proposed review of rows 29/30 evidence, its portable replay amendment and complete candidate declaration. Local computations are preserved as prior evidence. No cell movement or retrospective platform registration. | Author endorsement, independent audit and candidate-pin decision |
 
 ## STATUS AT A GLANCE (2026-11-13)
 
