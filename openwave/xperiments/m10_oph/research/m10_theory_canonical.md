@@ -208,23 +208,30 @@ once. Each kill rule rejects a branch; none rejects OPH as a whole.
 
 ## 11.1 Author premise and claim register
 
-Source: the author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) on discussion
-#712. The admission construction and the signed-source candidate proposed in
-[PR #723](https://github.com/openwave-labs/openwave/pull/723) keep separate source
-domains. The table classifies their claims; it assigns no matrix status and
-changes no candidate pin.
+The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288)
+links the [94-entry theorem and observable inventory](m10_theorem_observable_inventory.md).
+Each entry has an intuition, linked evidence and a boundary in one main column.
+The inventory selects source records at public RER `main`,
+[`bb1de05927d8c6bb1285182cc91e97410092ec8a`](https://github.com/FloatingPragma/observer-patch-holography/tree/bb1de05927d8c6bb1285182cc91e97410092ec8a).
+It expands the admission-snapshot account without changing the column's scored
+candidate. The source proposed in [PR #723](https://github.com/openwave-labs/openwave/pull/723)
+remains `A-static-signed-source-v1` at `c330c6e7`. No result from another source
+is transferred into it by this register.
 
-| Item | Declared premises and scope | Standing |
-| --- | --- | --- |
-| Architecture | Twelve-port carriers, wiring, repair/memory law, scheduler, preparations and observer apparatus are specified design choices | No uniqueness claim. Their observable consequences must be derived and tested on the specified construction |
-| Closure | The complete inhabited history satisfies `R(D(U)) ≅ U`; there is no external execution time in this interpretation | Overall physical hypothesis. Finite consensus and record-closure results retain their stated domains and do not establish our Universe as a realized fixed point |
-| Time, geometry and gravity | Order in completed records, observer algebras, reference states and calibrated clocks must be connected on one source; geometric and Einstein reconstructions retain their hypotheses | The common observed 3+1-dimensional interacting matter/gravity construction is not established. A time parameter, mesh or conditional theorem alone does not discharge it |
-| M10.2 source | `A-static-signed-source-v1` declares its graph, positive coherent memory law, addressing and compact-state preparation; full inputs and outputs are in the commit-pinned author package linked by PR #723 | Finite carrier/source observations and proposed physical dictionaries are under review. Implementation of every coherent body branch by passive scalar repair is not claimed |
-| M10.2 charge | Primitive relative integer boundary source and law-dependent stopped response on the prepared/read register | Finite result reproduced and audited by the producing group; electric-charge identification and cell decision are submitted for review |
-| M10.2 energy | Compact transfer-energy ray and complete eigenray certificate; lower modes and unresolved complement retained | The 511 keV value calibrates the reporting unit. No predicted electron mass, physical clock or free lifetime is inferred |
-| M10.2 field/frame | Current mean and covariance under the executed finite addressed-cell rotation | Finite result; no spin-magnitude, spinor phase, exchange-statistic or global continuous-spatial-symmetry claim |
-| Other headline comparisons | Lepton ratios, hadron comparisons, frozen scalar tilt, and component field/gauge/gravity results keep their original premises, calibration ancestry and failures | The admission parameter counts and residuals are retained. Separate sources are not combined into one completed model; no component receives a cell through this clarification |
+| Item | Intuition, evidence and boundary |
+| --- | --- |
+| Architecture | **Intuition.** Specify the observer process, then calculate what its observers can measure.<br>**Evidence.** Carrier, law, memory, scheduler, preparation and instrument contracts are explicit in the linked source packages.<br>**Boundary.** Design choices and constitutive selection principles are inputs. No uniqueness theorem is claimed or required. |
+| Closure | **Intuition.** Observers recover and realize the specification of their complete inhabited history.<br>**Evidence.** Finite quotient/fixed-point and record-closure results have precise domains; the inventory links them.<br>**Boundary.** The full physical closure `R(D(U)) ≅ U` is the hypothesis. Finite consistency is not its realization in our Universe. |
+| Measurement, space and clocks | **Intuition.** Even probability assignments, spatial directions and clock comparisons need an operational account.<br>**Evidence.** Finite effect-representation, rank-three response, locality and clock-calibration theorems are listed individually.<br>**Boundary.** Their premises and source domains are retained; record order, modular time, count time and calibrated proper time are distinct. |
+| Einstein, de Sitter and Koide | **Intuition.** Connect record balance to geometry, fixed capacity to the horizon-transfer sign, and cyclic balance to a family-mass relation.<br>**Evidence.** The inventory follows the complete conditional Einstein chain, the finite de Sitter entropy/gradient/spectrum results and the positive-chamber Koide identity/register branch.<br>**Boundary.** Physical tower/horizon/scale realization and the charged-family/phase/observable-mass maps are explicit. The demo Einstein inhabitant is synthetic; known prior mathematics keeps its attribution. |
+| M10.2 source | **Intuition.** Three static assays use preparations of the same signed-source species.<br>**Evidence.** The fixed author package and platform replay are linked in PR #723.<br>**Boundary.** Graph, positive coherent memory and addressing are declared; no passive-repair implementation of every coherent body branch is claimed. |
+| M10.2 charge | **Intuition.** Compare actual stopped source currents and the primitive integer relative boundary class.<br>**Evidence.** Complete charge trials and controls reproduce with a separate producing-group implementation audit.<br>**Boundary.** Physical electric-charge identification and the per-cell decision are under review. |
+| M10.2 energy | **Intuition.** Read a compact localized ray's transfer energy against the same source's zero reference.<br>**Evidence.** The full-graph eigenray and complete certificate retain lower modes and unresolved complement.<br>**Boundary.** The 511 keV unit is calibrated; no predicted electron mass, physical clock or free lifetime follows. |
+| M10.2 field/frame | **Intuition.** Compare the return of a current covariance and the reversal/return of its nonzero mean.<br>**Evidence.** All finite current alternatives and the proper addressed-cell rotation are reproduced.<br>**Boundary.** This is not a spin-magnitude, spinor-phase, exchange-statistic or global continuous-rotation result. |
+| Published source progress | **Intuition.** A stronger finite source can support additional complete instruments and field limits.<br>**Evidence.** Public `main` binds LOCAL12 charge and terminal meters, native Maxwell and scalar wave packages, calibrated static compositions and source-equivalence controls.<br>**Boundary.** These distinct sources and their internal full-criterion decisions are not merged into M10.2 or official platform awards. |
 
-The comment links the complete source records and identifies the other headline
-claims individually. The schematic in the briefing illustrates the proposed
-patch/history interpretation, not a completed physical reconstruction.
+The selected schematic illustrates the proposed patch/history interpretation.
+The full inventory preserves calibrations and failed comparisons, including the
+muon residual and the distinction between an isolated energy anchor and finite
+interacting pair energies. It reports no common construction recovering all
+observed properties.

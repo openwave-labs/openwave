@@ -105,7 +105,12 @@ in-platform result.
 
 The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) supplies the
 promised premise list and headline-claim standing; its condensed register is in
-[canonical § 11.1](research/m10_theory_canonical.md#111-author-premise-and-claim-register).
+[canonical § 11.1](research/m10_theory_canonical.md#111-author-premise-and-claim-register). The
+[94-entry theorem and observable inventory](research/m10_theorem_observable_inventory.md)
+gives an intuition, source evidence and boundary for each selected result,
+including the Einstein tower, de Sitter capacity-transfer analysis, Koide and
+published native field progress. Its public RER snapshot is separate from the
+source scored by a platform task.
 
 Flow: [`ONBOARDING_MODELS.md`](../../../ONBOARDING_MODELS.md) STEP 3, then
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md): fork, branch, pull request, DCO
