@@ -114,8 +114,17 @@ the § 3.1 and § 3.2 checks, and launches. Each guard below was made to fire at
 | the file tools | `--restricted` confines Read, Edit and Write to the working directory; an outside path fails as outside the working directory, not as a prompt |
 | shell commands | `./py` is allowlisted, and `--permission-prompts none` denies every prompt automatically. The client also admits two shapes without a prompt: a write into the room by redirection (`cat > file <<EOF`), which the `Edit(./**)` and `Write(./**)` rules cover, and a wrapper such as `time ./py`. Both run OUTSIDE the `./py` sandbox, so the transcript check reads every shell command's paths, not only the denials. Observed at M8.11 ([#564](https://github.com/openwave-labs/openwave/pull/564)), every path in the room |
 | harness pointers | the client writes a background command's output, and any tool result too large to return inline, to per-session folders OUTSIDE the room, both named after the room's path (a `tasks/` folder under the system temp directory, and a `tool-results/` folder under the client's per-project history), and hands the session the path. `--restricted` allows the read. The folders hold only that session's own output, so nothing answer-bearing is reachable this way, but it is a read outside the room: the transcript check classifies it separately, and the implementer's manifest will usually not list it. Observed at M8.11, and the same route appeared in M8.10's in-session run ([#547](https://github.com/openwave-labs/openwave/pull/547)) |
-| code the implementation runs | `./py` executes under macOS `sandbox-exec`, whose profile denies reads and writes outside the room and the interpreter's own install, and every network call, so a script opening an outside file gets `Operation not permitted` from the OS |
+| code the implementation runs | `./py` starts the interpreter with a fixed environment under macOS `sandbox-exec`, on a profile that denies by default. It can read the system's libraries and frameworks, the interpreter's own install and the room, and write to the room. Every network call is refused. The only program a script can start is the interpreter itself, as `sys.executable`; no shell, no system tool and no other tool in the interpreter's install, so a script cannot reach the clipboard or launch an application. No system service can be looked up. The clock reads UTC. A script that tries anything else gets `Operation not permitted` from the OS. `./py` and its profile are closed to writes from inside the sandbox and locked with the user-immutable flag, so neither a script nor the session's file tools can change them; the launch script hashes both before the session and checks them after it. It probes each denial before the session starts and aborts if one is open. The outside-read, outside-write, program, service, network and wrapper-write probes each have a control that must succeed unsandboxed; the others only check that the action is refused. `CLEAN_ROOM_SETUP_ONLY=1` builds the interpreter and runs the probes without starting a session |
 | web, MCP connectors, skills, agents, messaging | absent from the session: four tools, no MCP server, no skill |
+
+**What a room script can still see.** The names at the top of the file system, whether a
+given path exists (a refused read and a missing file answer differently), the machine's host
+name and kernel version, and the interpreter's install. The last one matters: the names of
+every package installed in that environment are visible to the room, so an environment that
+also holds other projects shows their names. The files that record where a package was
+installed from are closed, and the launch script says how many packages came from a local
+folder without naming them. An environment kept for rooms alone, holding only the numerics
+libraries a room needs, shows nothing else, and is the clean answer.
 
 The approval prompt's job, making a reach outside the room visible, passes to the record:
 every automatic denial is listed in the transcript's final `permission_denials` entry, which
@@ -270,6 +279,10 @@ needs a human's answer goes in a NEW comment.
 
 ## 10. Teardown, last
 
+A headless room's `./py` and `.room.sb` are locked: run `chflags nouchg <room>/py <room>/.room.sb`
+before deleting, and record the launch script's closing line, which says whether both files
+were unchanged at the end of the session. If it says they changed, the room is void.
+
 Delete the room only after this standard's per-run write-up (or its refutation) is done: the
 room is the last place to check a detail the transcript renders ambiguously. A room left on
 disk is a room that gets reused, and its second occupant is not context-isolated: by then
@@ -307,7 +320,7 @@ independent-method reproduction; blind is never granted by machinery (§ 1).
 
 ## 13. Failure modes actually hit
 
-Every entry below happened during the first exercise; the standard exists because they did.
+Entries 1 to 10 happened during the first exercise; the standard exists because they did. Entry 11 was found later, by an audit and not in a run.
 
 | # | Failure mode | Where caught | Guard now |
 | --- | --- | --- | --- |
@@ -321,10 +334,13 @@ Every entry below happened during the first exercise; the standard exists becaus
 | 8 | the byte-identity double run writing to session temp space against an absolute "writes only inside the room" statement | transcript check | § 7, disclosed session-temp writes |
 | 9 | the audit reply landed as a merged-PR body edit, notifying nobody | close-out | § 9 communications rule |
 | 10 | the kept transcript's hash written only to the run's gitignored checkpoint | after close-out, by the operator asking why checkpoints are gitignored | § 10, hash at teardown and record it in the task document |
+| 11 | the room's sandbox allowed by default and denied a list: a script could start any system program, and through one read the clipboard or launch an application; it could look up system services, read system folders the list had not named, and it inherited the launching shell's whole environment. `./py` and its profile were also writable, by a script and by the session's file tools, so either could have removed the sandbox for the calls that followed | 2026-11-15, by adversarial audits: first of the review wrapper built on the same pattern ([`PR_REVIEW_STANDARDS.md` § 3.1](PR_REVIEW_STANDARDS.md#31-the-safety-gate-before-anything-runs)), then of this launcher's first rebuild, which still allowed every read by default. The 80 scripts returned by past rooms were then searched: the only program any of them starts is its own interpreter, and none reads the environment, opens a socket or writes to `./py` | § 3.4: a deny-by-default profile with a read allowlist, a fixed environment and clock, a locked and hashed `./py`, and launch probes with controls. Still visible to a room: the names of the packages in the interpreter's install |
 
-None of the ten reached the result; five were caught by machinery (checks, mutation
-suites, the transcript audit), five by a person reading carefully. That ratio is the
-argument for keeping both.
+None of the eleven reached the result. Of the first ten, five were caught by machinery
+(checks, mutation suites, the transcript audit) and five by a person reading carefully. That
+ratio is the argument for keeping both. The eleventh was caught by neither: it took an audit
+whose only job was to break a sandbox, which is the argument for attacking a guard on purpose
+instead of waiting for it to fail.
 
 Entry 10 generalizes past this procedure: **a disposable file is never the only home for a
 fact worth keeping.** Checkpoints exist so a stopped session can resume, they are gitignored
@@ -344,4 +360,4 @@ and is the opposite of it.
 | commit 2 | the commitment: hashes, environment, manifest, transcript check, redactions, pre-declarations, operator log; merged BEFORE unsealing |
 | commit 3 | adjudication naming commit 2; own transcription; two-sided comparison mutations; exact comparison |
 | close | method note draft frozen + maintainer layer; independent adversarial audit recorded; questions to humans in NEW comments |
-| teardown | per-run write-up done, then delete the room; keep the transcript, hash it, record the hash in the task document; nothing of record left only in the run's checkpoint |
+| teardown | per-run write-up done, the launch script's unchanged-interpreter line recorded, then unlock and delete the room; keep the transcript, hash it, record the hash in the task document; nothing of record left only in the run's checkpoint |
