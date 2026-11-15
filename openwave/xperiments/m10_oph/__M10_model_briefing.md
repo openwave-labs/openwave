@@ -15,14 +15,14 @@ the one we inhabit.
 > carrier with update rules, not a field, and it was admitted with every criterion
 > not yet tested in-platform (discussion #712, 2026-11-13). Model ID M10 was assigned at admission.
 
-[![OPH conceptual schematic: overlapping observer patches on a spherical carrier network, with one patch mapped to an observer's complete history in emergent spacetime](https://raw.githubusercontent.com/FloatingPragma/observer-patch-holography/b975b763264406a03ff959b8ba871d6828ac876d/assets/oph-schematic.png)](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/flagship/from_observer_consensus_to_standard_physics.pdf)
+[![OPH conceptual schematic: overlapping observer patches on a spherical carrier network, with one patch mapped to an observer's complete history in emergent spacetime](https://raw.githubusercontent.com/FloatingPragma/observer-patch-holography/bb1de05927d8c6bb1285182cc91e97410092ec8a/assets/oph-schematic.png)](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/flagship/from_observer_consensus_to_standard_physics.pdf)
 
 *Conceptual schematic selected by Bernhard Mueller, generated with AI assistance.
 The image illustrates OPH's proposed patch/history interpretation; the depicted
 human history and curved spacetime are the physical target. Finite static
 experiments do not establish that reconstruction. Click for the synthesis paper.
-[Image source](https://github.com/FloatingPragma/observer-patch-holography/blob/b975b763264406a03ff959b8ba871d6828ac876d/assets/oph-schematic.png),
-[CC BY-NC-SA 4.0](https://github.com/FloatingPragma/observer-patch-holography/blob/b975b763264406a03ff959b8ba871d6828ac876d/LICENSE).*
+[Image source](https://github.com/FloatingPragma/observer-patch-holography/blob/bb1de05927d8c6bb1285182cc91e97410092ec8a/assets/oph-schematic.png),
+[CC BY-NC-SA 4.0](https://github.com/FloatingPragma/observer-patch-holography/blob/bb1de05927d8c6bb1285182cc91e97410092ec8a/LICENSE).*
 
 ## Identity
 
