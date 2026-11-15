@@ -8,9 +8,15 @@
 > the observers arrive at when they compare records. Its substrate is a discrete
 > carrier with update rules, not a field, and it was admitted with every criterion
 > not yet tested in-platform (discussion #712, 2026-11-13). Model ID M10 was assigned at admission.
->
-> **Hero image: placeholder.** Every model briefing opens with one. The author
-> chooses the image and the link it opens, and adds it here by pull request.
+
+[![OPH conceptual schematic: overlapping observer patches on a spherical carrier network, with one patch mapped to an observer's complete history in emergent spacetime](https://raw.githubusercontent.com/FloatingPragma/observer-patch-holography/b975b763264406a03ff959b8ba871d6828ac876d/assets/oph-schematic.png)](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/flagship/from_observer_consensus_to_standard_physics.pdf)
+
+*Conceptual schematic selected by Bernhard Mueller, generated with AI assistance.
+The image illustrates OPH's proposed patch/history interpretation; the depicted
+human history and curved spacetime are the physical target. Finite static
+experiments do not establish that reconstruction. Click for the synthesis paper.
+[Image source](https://github.com/FloatingPragma/observer-patch-holography/blob/b975b763264406a03ff959b8ba871d6828ac876d/assets/oph-schematic.png),
+[CC BY-NC-SA 4.0](https://github.com/FloatingPragma/observer-patch-holography/blob/b975b763264406a03ff959b8ba871d6828ac876d/LICENSE).*
 
 ## Identity
 
@@ -96,7 +102,10 @@ in-platform result.
 | A row derived on the carrier | The column's open join: one criteria row computed on the common process, with no field, action, radial direction, clock or coupling supplied for that row |
 | Independent recompute of the hadron fit | The author's own load-bearing offer: the seven-input hyperfine action with its held-out failures (neutral pion, helion, alpha), recomputed by a second implementation |
 | A falsification attempt on the frozen scalar tilt | Whether the author's frozen value survives the first Simons Observatory primary-CMB release, under the kill rule the author froze |
-| The author's premise list | The premises and the standing of each headline result, in the author's own words on the application thread; the canonical spec takes its premise list from it |
+
+The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) supplies the
+promised premise list and headline-claim standing; its condensed register is in
+[canonical § 11.1](research/m10_theory_canonical.md#111-author-premise-and-claim-register).
 
 Flow: [`ONBOARDING_MODELS.md`](../../../ONBOARDING_MODELS.md) STEP 3, then
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md): fork, branch, pull request, DCO

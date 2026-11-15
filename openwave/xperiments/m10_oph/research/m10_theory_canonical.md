@@ -202,6 +202,29 @@ once. Each kill rule rejects a branch; none rejects OPH as a whole.
 
 | Item | State |
 | --- | --- |
-| The premise list | The application says the premises and the standing of each headline result follow in a first comment on the thread. It had not been posted at scaffold time (2026-11-13). This section takes its premise list from that comment when it exists; until then the register of record is `model/PREMISES.md` at the pin |
+| The premise list | The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) supplies the promised clarification. Its condensed register is in § 11.1; the detailed admission-snapshot register is `model/PREMISES.md` at `3c4e1e2` |
 | The round count of the lepton register | The phase 2/9 is the limit of many rounds per clock unit, and a finite round count changes the mass ratios ([`m10_background.md`](m10_background.md) § 4). The admission reply recommends freezing the limit and the kick coefficient here with a no-revision rule. Whether to freeze them is the author's call |
 | The join | Which criteria row is first computed on the carrier's own process, and by what construction, is the author's program to define ([`m10_roadmap.md`](m10_roadmap.md)) |
+
+## 11.1 Author premise and claim register
+
+Source: the author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) on discussion
+#712. The admission construction and the signed-source candidate proposed in
+[PR #723](https://github.com/openwave-labs/openwave/pull/723) keep separate source
+domains. The table classifies their claims; it assigns no matrix status and
+changes no candidate pin.
+
+| Item | Declared premises and scope | Standing |
+| --- | --- | --- |
+| Architecture | Twelve-port carriers, wiring, repair/memory law, scheduler, preparations and observer apparatus are specified design choices | No uniqueness claim. Their observable consequences must be derived and tested on the specified construction |
+| Closure | The complete inhabited history satisfies `R(D(U)) ≅ U`; there is no external execution time in this interpretation | Overall physical hypothesis. Finite consensus and record-closure results retain their stated domains and do not establish our Universe as a realized fixed point |
+| Time, geometry and gravity | Order in completed records, observer algebras, reference states and calibrated clocks must be connected on one source; geometric and Einstein reconstructions retain their hypotheses | The common observed 3+1-dimensional interacting matter/gravity construction is not established. A time parameter, mesh or conditional theorem alone does not discharge it |
+| M10.2 source | `A-static-signed-source-v1` declares its graph, positive coherent memory law, addressing and compact-state preparation; full inputs and outputs are in the commit-pinned author package linked by PR #723 | Finite carrier/source observations and proposed physical dictionaries are under review. Implementation of every coherent body branch by passive scalar repair is not claimed |
+| M10.2 charge | Primitive relative integer boundary source and law-dependent stopped response on the prepared/read register | Finite result reproduced and audited by the producing group; electric-charge identification and cell decision are submitted for review |
+| M10.2 energy | Compact transfer-energy ray and complete eigenray certificate; lower modes and unresolved complement retained | The 511 keV value calibrates the reporting unit. No predicted electron mass, physical clock or free lifetime is inferred |
+| M10.2 field/frame | Current mean and covariance under the executed finite addressed-cell rotation | Finite result; no spin-magnitude, spinor phase, exchange-statistic or global continuous-spatial-symmetry claim |
+| Other headline comparisons | Lepton ratios, hadron comparisons, frozen scalar tilt, and component field/gauge/gravity results keep their original premises, calibration ancestry and failures | The admission parameter counts and residuals are retained. Separate sources are not combined into one completed model; no component receives a cell through this clarification |
+
+The comment links the complete source records and identifies the other headline
+claims individually. The schematic in the briefing illustrates the proposed
+patch/history interpretation, not a completed physical reconstruction.
