@@ -1,0 +1,232 @@
+{
+  "identity": {
+    "commit": "c330c6e7f23506b5f87c339cd73906928c1a7cd9",
+    "files": 329
+  },
+  "jobs": [
+    {
+      "command": "python3 -B code/openwave_static_signed_source/replay.py",
+      "exit": 0,
+      "result": {
+        "all_pass": true,
+        "candidate": "A-static-signed-source-v1",
+        "external_review": false,
+        "identical_provider_aliases": 150,
+        "jobs": [
+          {
+            "command": "python3 -B openwave/shared/compact_static_adjudication/headline.py",
+            "exit": 0,
+            "name": "compact_static_adjudication",
+            "result": {
+              "all_pair_columns_per_context": 65536,
+              "all_pass": true,
+              "amplitude_phase_convention": "positive real 1/sqrt(1260), explicitly declared quantum lift",
+              "body_contexts": 1260,
+              "body_effect_sum": "I on valid sector; invalid identity flag on full complement",
+              "candidate": "A-signed-compact-coordinate-v1",
+              "complete_action_sha256": "8530cf9102dd174dbd1f1c54dd19ece0d692552498216fa59f8bee04e30105da",
+              "contact_columns": 2520,
+              "elapsed_seconds": 5.202793042000849,
+              "external_review_or_platform_award": false,
+              "full_regional_continuity_checks": 144549720,
+              "held_law_energy": 0,
+              "native_calls_total": 12798,
+              "native_endpoint_table_calls": 18,
+              "native_record_counts_are_compressed_exact_instrument_not_trajectories": true,
+              "nonzero_current_records": 602280,
+              "pair_all_columns_checked": 82575360,
+              "pair_invalid_columns": 8175,
+              "pair_valid_columns": 57361,
+              "scalar_reference_columns": 11340,
+              "schema": "oph.compact.encoded-interface.v1",
+              "single_all_columns_checked": 645120,
+              "single_energy_certificate": {
+                "C": {
+                  "coherent": 0.9999999999999969,
+                  "dephased": 0.24999999999999922,
+                  "sign_plant": 0.2499999999999991
+                },
+                "E": {
+                  "coherent": 0.9999999999999969,
+                  "dephased": 0.24999999999999922,
+                  "sign_plant": 0.2499999999999991
+                }
+              },
+              "valid_pair_body_columns_checked": 72274860,
+              "wrong_chart_failing_columns": 24
+            },
+            "wall_seconds": 5.355405458001769
+          },
+          {
+            "command": "python3 -B openwave/shared/localized_rest_join/headline.py",
+            "exit": 0,
+            "name": "localized_rest_join",
+            "result": {
+              "all_pass": true,
+              "contact_branches": 2520,
+              "elapsed_seconds": 0.059755458001745865,
+              "energy_clicks": {
+                "coherent": 1,
+                "dephased": 0.0625,
+                "sign_plant": 0.25
+              },
+              "full_row_completion_claimed": false,
+              "native_branch_records_replayed": 32760,
+              "row_award": false,
+              "schema": "oph.localized_signed_rest.reader.v1"
+            },
+            "wall_seconds": 0.10583100000076229
+          },
+          {
+            "command": "python3 -B openwave/shared/static_candidate_join/headline.py",
+            "exit": 0,
+            "name": "static_candidate_join",
+            "result": {
+              "all_pass": true,
+              "charge_trials": 264,
+              "elapsed_seconds": 5.089955499999633,
+              "moment_branches": 720,
+              "native_calls": 435080,
+              "old_coin_disagreements": 12000
+            },
+            "wall_seconds": 5.389130041003227
+          }
+        ],
+        "official_rows_solved": [],
+        "omitted_cache_pins": 1,
+        "schema": "oph.static.replay.v1",
+        "scientific_inputs_changed": false,
+        "verified_files": 316
+      },
+      "wall_seconds": 11.109038791000785
+    },
+    {
+      "command": "python3 -B code/openwave_static_signed_source/audit/audit.py --evidence-root code/openwave_static_signed_source/evidence --check",
+      "exit": 0,
+      "result": {
+        "all_checks_pass": true,
+        "elapsed_seconds": 5.4577259170037,
+        "join": {
+          "branch_probability": "1/2",
+          "new_offdiagonal": "1/4",
+          "old_distinguishing_records": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              -1,
+              -1
+            ]
+          ],
+          "old_pair_branches": 79200,
+          "old_reduced_offdiagonal": "0",
+          "original_coin_disagreements": 12000,
+          "verdict": "CONFIRMED classical ancestry; REFUTED coherent equivalence (as disclosed)"
+        },
+        "lean_source_custody_checked": false,
+        "row_1": {
+          "absorption_probabilities": "all exactly 1",
+          "boundary_rank": 11,
+          "cell_branches": 7980,
+          "complete_swap_control_branches": 7920,
+          "expected_absorption_events_max": "90",
+          "expected_absorption_events_min": "66",
+          "face_smith_factors": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "half_current_plant": [
+            "1/2",
+            "1/2"
+          ],
+          "solved_flow_entries": 3960,
+          "solved_transient_states": 132,
+          "verdict": "CONFIRMED finite source; QUALIFIED electric-charge identification"
+        },
+        "row_2": {
+          "E12": 12.057508280349891,
+          "E6": 6.014331228348674,
+          "cancelled_exterior_coordinates": 64,
+          "finite_pair_excess_record_units": 0.028845823652545916,
+          "full_pair_support_branch_calls": 20160,
+          "ideal_certificate": {
+            "pair_coherent": 1.0,
+            "pair_dephased": 0.0625,
+            "pair_sign_plant": 0.25,
+            "single_coherent": 1.0,
+            "single_dephased": 0.25,
+            "single_sign_plant": 0.25
+          },
+          "laplacian_eigenvalue": 6,
+          "lower_nonconstant_rayleigh": "1/3",
+          "pair_keV_at_511_anchor": 1024.4508487023415,
+          "preparation_inverse_max_errors": {
+            "f": 2.2204460492503136e-16,
+            "g": 2.2204460492503136e-16
+          },
+          "saved_complete_law_max_errors": {
+            "C_coherent": 3.1086244689504383e-15,
+            "C_dephased": 3.552713678800501e-15,
+            "C_sign_plant": 3.552713678800501e-15,
+            "E_coherent": 3.1086244689504383e-15,
+            "E_dephased": 3.552713678800501e-15,
+            "E_sign_plant": 3.552713678800501e-15
+          },
+          "source_positions": 240,
+          "source_seams": 630,
+          "support_per_arm": 4,
+          "transfer_pair": "104/105",
+          "transfer_single": "209/210",
+          "vacuum_output_amplitude": 0,
+          "verdict": "CONFIRMED finite localized energy certificate; QUALIFIED rest-energy interpretation"
+        },
+        "row_7": {
+          "covariance_nonconstant": true,
+          "enumerated_alternatives": 720,
+          "fixed_seam_failed_inputs": 4,
+          "half_turn_frame_reversal": true,
+          "half_turn_tensor_return": true,
+          "mean_coefficient": "-1/6 + sqrt(5)/30",
+          "source_axes": 12,
+          "squared_frame_return": true,
+          "variance_parallel": "5/18 - sqrt(5)/18",
+          "variance_transverse": "sqrt(5)/30 + 1/6",
+          "verdict": "CONFIRMED finite tensor/frame statement; QUALIFIED physical-rotation dictionary"
+        }
+      },
+      "wall_seconds": 5.796218959003454
+    }
+  ],
+  "official_rows_solved": [],
+  "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source",
+  "task": "M10.2",
+  "verdict": "REPRODUCED WITH DISCLOSED SOURCE PREMISES",
+  "versions": {
+    "numpy": "2.3.5",
+    "python": "3.13.7",
+    "scipy": "1.16.3",
+    "sympy": "1.14.0"
+  },
+  "written": "2026-11-15T02:49:18+00:00"
+}

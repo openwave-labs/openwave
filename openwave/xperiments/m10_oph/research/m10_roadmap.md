@@ -9,6 +9,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | 🔶 Reproduce charge, compact energy and field/frame rotation on one declared candidate; retain source premises and request separate row adjudication. | Author replay and adversarial audit; maintainer review |
 
 ## BACKLOG
 

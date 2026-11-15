@@ -34,9 +34,20 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 | Author contact | GitHub [@muellerberndt](https://github.com/muellerberndt), for author-gated questions (definitions, intent, which construction is the specification of record); routing convention in [`dev_docs/CROSS_MODEL_TESTING.md`](../../../dev_docs/CROSS_MODEL_TESTING.md) § 6 |
 | Disclosure | A co-author of the flagship is the applicant of K7 ([discussion #525](https://github.com/openwave-labs/openwave/discussions/525)), and the author's repository vendors K7 comparison files. The two are separate frameworks, and K7's standing is unchanged by this column (the author's disclosure, and the admission reply) |
 | Lineage | Wheeler's law without law; the relational and Darwinist readings of quantum theory (Rovelli, Zurek); distributed agreement (Lamport, Dijkstra's self-stabilization); Jacobson and Van Raamsdonk for gravity from entanglement thermodynamics; Doplicher and Roberts for gauge groups from superselection; Bisognano and Wichmann for modular clocks; Wilson's lattice gauge theory; 't Hooft's cellular automaton interpretation as the closest relative among discrete deterministic substrates |
-| Primary sources | Author repository [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography), pinned at `3c4e1e2` for this scaffold; registry in [`theory/_CITATIONS.md`](theory/_CITATIONS.md). For every number, the specification of record is the executable model at the pinned commit ([`research/m10_theory_canonical.md`](research/m10_theory_canonical.md) § 1) |
+| Primary sources | Author repository [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography), admission snapshot at `3c4e1e2`; the M10.2 candidate pin is in the canonical specification; registry in [`theory/_CITATIONS.md`](theory/_CITATIONS.md). For every number, the specification of record is the executable model at the pinned commit ([`research/m10_theory_canonical.md`](research/m10_theory_canonical.md) § 1) |
 | In-repo | Headless only. No launcher. The certification gate's record: [`research/tasks/m10_1_task_details.md`](research/tasks/m10_1_task_details.md) |
 | Application | [discussion #712](https://github.com/openwave-labs/openwave/discussions/712); admission reply [discussioncomment-19595538](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19595538) |
+
+## Active candidate submission
+
+[M10.2](research/tasks/m10_2_task_details.md) brings one signed-source candidate
+for charge quantization, localized energy and finite field/frame rotation.
+The [author package](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source) is pinned by the canonical specification.
+Its declared coherent memory law, operational observables and review boundaries
+are in the [method note](research/findings/m10_2_method_note.md). The submission
+includes author-run reproduction and a second-agent audit; it awards no cell.
+The profile and particle tables below retain the admission construction as
+ancestry and do not transfer its separate-source results to M10.2.
 
 ## Model Profile (what it brings, short form)
 

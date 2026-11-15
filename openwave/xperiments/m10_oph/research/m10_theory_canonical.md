@@ -12,8 +12,9 @@
 | Item | Value |
 | --- | --- |
 | Author repository | [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography) |
-| Pinned commit | [`3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`](https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984) (2026-11-13), the commit the application's links use in its short form `3c4e1e23fc32`; the full hash was resolved from the repository at scaffold time |
-| For every number | The executable model at the pinned commit: [`model/CONSTRUCTION.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/CONSTRUCTION.md), [`model/PREMISES.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/PREMISES.md), and the `PROOF.md` of the package that produces the number (the author's statement) |
+| Pinned candidate for M10.2 | [`c330c6e7f23506b5f87c339cd73906928c1a7cd9`](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source), `A-static-signed-source-v1`; its exact executable scope is § 1.1 |
+| Admission pin (ancestry) | [`3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`](https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984) (2026-11-13), the commit the application's links use in its short form `3c4e1e23fc32`; the full hash was resolved from the repository at scaffold time |
+| For admission-snapshot numbers | The executable model at the pinned commit: [`model/CONSTRUCTION.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/CONSTRUCTION.md), [`model/PREMISES.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/PREMISES.md), and the `PROOF.md` of the package that produces the number (the author's statement) |
 | For the hypothesis | The flagship paper ([`../theory/_CITATIONS.md`](../theory/_CITATIONS.md)) and the author's [hypothesis page](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/docs/OPH_EXECUTABLE_HYPOTHESIS.md) |
 | Refereed status | All papers are preprints. None is refereed (the author's statement) |
 
@@ -22,6 +23,38 @@ commit. A changed law, memory, state or decoder is a new candidate, with its
 empirical ancestry kept visible. That is the author's own rule on the hypothesis
 page, adopted here as an admission term. Moving the pin is a pull request that
 says what changed.
+
+## 1.1 Signed-source candidate for M10.2
+
+The selected candidate for [M10.2](tasks/m10_2_task_details.md) is
+`A-static-signed-source-v1`, at the author commit above. Its complete source,
+proofs, frozen records and replay are in the [author package](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source). The
+[method note](findings/m10_2_method_note.md) specifies the observables and the
+separate physical identification questions. No matrix status is assigned here.
+
+| Element | Declaration or consequence |
+| --- | --- |
+| Carrier graph and addressing | Declared 240 positions and 630 seams; a 30-seam cell-addressed intervention for charge and moments |
+| Scalar update | The native signed endpoint repair law, called directly by each source branch |
+| Coherent memory | Declared positive-amplitude fine-current instrument with complete vacuum/invalid outcomes; no passive-repair compilation of every body branch is claimed |
+| Particle preparation | A selected four-port compact charged ray in the prepared/read source register; distinct assays use fresh preparations of one source species |
+| Charge | Measured primitive integer boundary source and law-dependent stopped response; proposed electric-charge identification |
+| Static energy | Full-graph transfer spectrum with the constant-mode zero reference; selected energy-eigenray certificate with unresolved complement |
+| Field and frame | First-current centered covariance and nonzero mean; the executed rotation is a proper finite addressed-cell permutation |
+| Calibration | 511 keV fixes the selected single-state energy unit; the compact pair consequence is 1024.4508487023415 keV |
+| Excluded inference | No physical clock, lifetime, spin magnitude, exchange statistic, global continuous rotation or transfer of successes from distinct source laws |
+
+The change from the paired-source ancestor is explicit: the source is one
+signed-coordinate register with a positive coherent memory convention. The
+paired ancestor has an exact coarse classical map but fails coherent
+instrument equivalence. That failure and the other archived limitations are
+retained. This selection does not combine other candidates' results.
+
+Sections 2–7 and 9–11 below preserve the admission specification and its
+construction/claim ancestry at `3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`.
+They do not assign those separate sources' results to M10.2. Section 8 remains
+the scoring rule for the selected candidate. The source admissibility and
+physical dictionary of M10.2 are submitted for maintainer review.
 
 ## 2. Arena
 

@@ -1,0 +1,37 @@
+{
+  "base": "e6aa42aff71d43fa6592cbfc4f87d08f28773f39",
+  "comparator": {
+    "compact_provider_receipt": "all fields except elapsed_seconds and separately verified artifact_sha256",
+    "evidence_files": 316,
+    "independent_audit": "exact structure and discrete values; finite floats within absolute 1e-10",
+    "numeric_absolute_tolerance": 1e-10,
+    "original_common_source_receipt_and_records": "compared by frozen producer script",
+    "provider_aliases": 150,
+    "transport_mutations_rejected": 8
+  },
+  "jobs": [
+    {
+      "command": "python3 -B code/openwave_static_signed_source/replay.py",
+      "exit": 0,
+      "wall_seconds": 11.109038791000785
+    },
+    {
+      "command": "python3 -B code/openwave_static_signed_source/audit/audit.py --evidence-root code/openwave_static_signed_source/evidence --check",
+      "exit": 0,
+      "wall_seconds": 5.796218959003454
+    }
+  ],
+  "machine": "workstation",
+  "official_rows_solved": [],
+  "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source",
+  "reproduction_route": "Public Git fetch by exact author commit; no local source checkout",
+  "task": "M10.2",
+  "verdict": "REPRODUCED WITH DISCLOSED SOURCE PREMISES",
+  "versions": {
+    "numpy": "2.3.5",
+    "python": "3.13.7",
+    "scipy": "1.16.3",
+    "sympy": "1.14.0"
+  },
+  "written": "2026-11-15T02:49:18+00:00"
+}
