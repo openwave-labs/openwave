@@ -1,0 +1,172 @@
+{
+  "task": "M10.3",
+  "written": "2026-11-15T12:27:47.228739+00:00",
+  "base": "5dc8125fc5816a86e7c88c4c8898a0efb3d27ed4",
+  "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence",
+  "machine": "workstation",
+  "versions": {
+    "numpy": "2.5.1",
+    "optimize": 0,
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+    "zlib": "1.3.1"
+  },
+  "jobs": [
+    {
+      "name": "headline",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<platform>/openwave/xperiments/m10_oph/research/scripts/m10_3_replay.py",
+        "--source",
+        "<author-package>",
+        "--output",
+        "<output>/headline"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.147112999984529,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "full_replay",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<platform>/openwave/xperiments/m10_oph/research/scripts/m10_3_replay.py",
+        "--source",
+        "<author-package>",
+        "--mode",
+        "full",
+        "--output",
+        "<output>/full"
+      ],
+      "exit": 0,
+      "wall_seconds": 14.522013999987394,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "transport",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<platform>/openwave/xperiments/m10_oph/research/scripts/m10_3_transport_check.py",
+        "--source",
+        "<author-package>",
+        "--output",
+        "<output>/m10_3_transport_check.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 5.6802327999903355,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "amendment_tests",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<author-package>/reproduce.py",
+        "tests",
+        "--run",
+        "<output>/full/replay",
+        "--output",
+        "<output>/m10_3_amendment_tests.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 9.572142999997595,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "wrapper_tests",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<author-package>/test_transport.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.3939976999827195,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "saved_result_verification",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "<author-package>/reproduce.py",
+        "verify",
+        "--run",
+        "<output>/full/replay",
+        "<author-package>/evidence/shared/unified_wave_replay_amendment_20261115/results/linux_final",
+        "--output",
+        "<output>/cross_environment.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 20.173464400024386,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "roadmap",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "dev_docs/utils/check_roadmaps.py",
+        "openwave/xperiments/m10_oph/research/m10_roadmap.md"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.06131599997752346,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "matrix",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "dev_docs/utils/check_models_md.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.11815260001458228,
+      "log": "m10_3_validation.log"
+    },
+    {
+      "name": "generic_provenance",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "dev_docs/utils/verify_provenance_archive.py",
+        "<scratch-markdown-manifest-view>"
+      ],
+      "exit": 0,
+      "wall_seconds": 4.269252899975982,
+      "log": "m10_3_validation.log"
+    }
+  ],
+  "comparator": {
+    "discrete": "exact, including types and structure",
+    "float_budget": "1e-12 + 1e-12 * max(abs(x),abs(y))",
+    "cross_environment_leaves": 4
+  },
+  "verdict": "DEVELOPER REPLAY PASSED; PLATFORM TASK UNREGISTERED",
+  "official_rows_solved": [],
+  "log_sha256": "4cd8b56a84256338f554d54ac502e8e96f2b1865c700e8fedcb5f8e6a211fb59",
+  "executed_platform_scripts_sha256": {
+    "m10_3_replay.py": "784ef0d024c5c3f0c584366acc42225b61a2370ab34638a79f3526c5f8cc1523",
+    "m10_3_transport_check.py": "f4c83d06129d8187d089d9e006166375b8d2d5861619e152a0137c14517319c5"
+  }
+}

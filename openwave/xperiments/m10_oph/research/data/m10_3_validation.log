@@ -1,0 +1,110 @@
+headline: exit=0 wall_seconds=2.147112999984529
+[stdout]
+{
+  "status": "pass",
+  "headline": {
+    "current_records": 131072,
+    "branches": 37908
+  }
+}
+full_replay: exit=0 wall_seconds=14.522013999987394
+[stdout]
+{
+  "status": "pass",
+  "headline": {
+    "overlapping_lineage_calls": 1009734
+  }
+}
+transport: exit=0 wall_seconds=5.6802327999903355
+[stdout]
+Passed unchanged-package check and rejected seven transport mutations
+amendment_tests: exit=0 wall_seconds=9.572142999997595
+[stderr]
+test_changed_float_fails (test_replay.ComparatorTests.test_changed_float_fails) ... ok
+test_discrete_records_and_types_are_exact (test_replay.ComparatorTests.test_discrete_records_and_types_are_exact) ... ok
+test_invalid_json_fails (test_replay.ComparatorTests.test_invalid_json_fails) ... ok
+test_nonfinite_values_fail_in_either_operand (test_replay.ComparatorTests.test_nonfinite_values_fail_in_either_operand) ... ok
+test_path_escape_fails (test_replay.ComparatorTests.test_path_escape_fails) ... ok
+test_roundoff_is_allowed (test_replay.ComparatorTests.test_roundoff_is_allowed) ... ok
+test_structure_is_exact (test_replay.ComparatorTests.test_structure_is_exact) ... ok
+test_changed_record_fails_even_with_updated_hash (test_replay.GeneratedArtifactTests.test_changed_record_fails_even_with_updated_hash) ... ok
+test_receipt_mutations_fail (test_replay.GeneratedArtifactTests.test_receipt_mutations_fail) ... ok
+test_recompressed_archive_passes (test_replay.GeneratedArtifactTests.test_recompressed_archive_passes) ... ok
+test_wrong_embedded_hash_fails (test_replay.GeneratedArtifactTests.test_wrong_embedded_hash_fails) ... ok
+test_canonical_reference_has_no_sign_ambiguity (test_replay.SourceTests.test_canonical_reference_has_no_sign_ambiguity) ... ok
+test_child_assertion_survives_inherited_optimization (test_replay.SourceTests.test_child_assertion_survives_inherited_optimization) ... ok
+test_child_timeout_retains_failure_receipt (test_replay.SourceTests.test_child_timeout_retains_failure_receipt) ... ok
+test_crlf_and_corruption_fail (test_replay.SourceTests.test_crlf_and_corruption_fail) ... ok
+test_exact_blob_custody (test_replay.SourceTests.test_exact_blob_custody) ... ok
+test_extra_unsealed_source_fails (test_replay.SourceTests.test_extra_unsealed_source_fails) ... ok
+test_historical_orbital_reference_is_rejected (test_replay.SourceTests.test_historical_orbital_reference_is_rejected) ... ok
+test_optimized_entry_rejected (test_replay.SourceTests.test_optimized_entry_rejected) ... ok
+test_origin_mutation_fails (test_replay.SourceTests.test_origin_mutation_fails) ... ok
+test_patch_is_narrow_and_cannot_reapply (test_replay.SourceTests.test_patch_is_narrow_and_cannot_reapply) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 8.517s
+
+OK
+wrapper_tests: exit=0 wall_seconds=0.3939976999827195
+[stderr]
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.209s
+
+OK
+saved_result_verification: exit=0 wall_seconds=20.173464400024386
+[stdout]
+Verified 2 replay(s), 4 cross-environment leaf comparisons
+roadmap: exit=0 wall_seconds=0.06131599997752346
+[stdout]
+
+1 roadmap(s) | 3 scoped table(s) | caps {'description': 65, 'title': 15, 'other': 35, 'blockquote': 50, 'intro': 80, 'changelog': 200}
+clean
+matrix: exit=0 wall_seconds=0.11815260001458228
+[stdout]
+summary cells: 217 | status icons: 217 | tests: 31 | models: M10,M4,M5,M6,M7,M8,M9 | live docs scanned for stated counts: 30
+limit 65 | max 65  median 18
+clean
+generic_provenance: exit=0 wall_seconds=4.269252899975982
+[stdout]
+
+== manifest ==
+  614 file(s) listed, 0 in the ordered set
+
+== 1. every listed file, recomputed ==
+  ✅ 614 of 614 listed file(s) verify
+
+== 2. closure, the direction a manifest cannot check on itself ==
+  ✅ no unlisted file rode along
+  ✅ no listed file is absent
+
+== 3. the ordered set, against the packet's declared value ==
+  ⚠️  the manifest declares no ordered set, so nothing pins the source content
+  ⚠️  no listed JSON declares a provenance id, so check 3 has no independent target
+
+== 5. orphan hash references ==
+     evidence\notes\wave_review_20261115\results\linux_numpy235\leaf_free.stdout.txt:43: 5947ab98c2184133a5df27bf5561e920a3ad3d89a26c105e64c64dc0aa6d7095
+     evidence\notes\wave_review_20261115\results\linux_numpy235\leaf_orbital.stdout.txt:106: 02b458a0fd0a182ace9fe48733944a8723243dee6db82c72094766ccb4bb4b51
+     evidence\notes\wave_review_20261115\results\linux_numpy235\leaf_unified.stdout.txt:83: e14c170b807624c1a24325414ea869aa892505ed29ce5a40c1e252e67b59b248
+     evidence\notes\wave_review_20261115\results\linux_numpy235\optimized_original_replay.stdout.txt:245: e14c170b807624c1a24325414ea869aa892505ed29ce5a40c1e252e67b59b248
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:82: 995c469f405c042fef806acbdbfeb3cd193dfac4301daa3bc17eb6ee64e2e6ff
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:156: 5947ab98c2184133a5df27bf5561e920a3ad3d89a26c105e64c64dc0aa6d7095
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:157: bc27b949942d87e7ed1915c680d69c524288101e38e0eae22fe2a78ddf3c539f
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:246: 5947ab98c2184133a5df27bf5561e920a3ad3d89a26c105e64c64dc0aa6d7095
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:264: 45d3f2f96ea2c983fa1aac74188d37d55ef38247d8e0678772b77896032dc16b
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:273: 02b458a0fd0a182ace9fe48733944a8723243dee6db82c72094766ccb4bb4b51
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:274: 58d53a9b5f30b7ec75210f039bf80fc0d3873e89209d1277c73d19f14b4c6bec
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:426: 02b458a0fd0a182ace9fe48733944a8723243dee6db82c72094766ccb4bb4b51
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:459: e14c170b807624c1a24325414ea869aa892505ed29ce5a40c1e252e67b59b248
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:460: 80ea8f1ab702ac7ec5497e11107bf47892c7e7812f783e02a2f085618fa7feca
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:574: e14c170b807624c1a24325414ea869aa892505ed29ce5a40c1e252e67b59b248
+     evidence\notes\wave_review_20261115\results\linux_numpy235\REPRODUCTION.json:863: e14c170b807624c1a24325414ea869aa892505ed29ce5a40c1e252e67b59b248
+     evidence\notes\wave_review_20261115\results\PROFILE_DIAGNOSTICS.json:4: 45d3f2f96ea2c983fa1aac74188d37d55ef38247d8e0678772b77896032dc16b
+     evidence\notes\wave_review_20261115\results\PROFILE_DIAGNOSTICS.json:1231: 131718936165d506b6744dbff8048fa7de2154db1df15dc04cb62ab3812518f0
+     evidence\notes\wave_review_20261115\results\windows\leaf_free.stdout.txt:43: da25273723f8f19287409884936e64c6c6085593c656c3d4b44938ff3e980f26
+     evidence\notes\wave_review_20261115\results\windows\leaf_orbital.stdout.txt:106: 525b393f71373494cd8f28b235dcb4b0634fbba12e1fbd032e403c42e27061fa
+     ... and 167 more
+  ⚠️  187 hash reference(s) resolve to nothing in this archive   a superseded artifact may have been left behind
+
+⚠️  archive verified with 3 warning(s)

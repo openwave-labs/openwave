@@ -6,6 +6,7 @@ of the author commit below. All package files are hashed before executing code.
 The headline verifies saved native records with the independent review program;
 full mode regenerates the four source leaves using the declared amendment.
 """
+
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -15,8 +16,8 @@ import subprocess
 import sys
 import time
 
-SOURCE_COMMIT = "2c000fd4ff9dbdd0303328d7dfa028a68a6f4766"
-PACKAGE_MANIFEST = "a906a237f87604e7aff23123865821375aade8e6a27eaa0539b7cbd63fd2a4bd"
+SOURCE_COMMIT = "d8551f2f7c16789acddfa737ecdc77aeda3a125c"
+PACKAGE_MANIFEST = "38129abe4a2760dcb0dfdf553e24e34330aed444720327bb0701cf82fa656c2a"
 SOURCE_REPOSITORY = "https://github.com/FloatingPragma/observer-patch-holography"
 
 
@@ -35,11 +36,15 @@ def verify_source(root):
     names = {"PACKAGE.sha256"}
     for line in manifest.read_text(encoding="utf-8").splitlines():
         expected, name = line.split(maxsplit=1)
-        require(name not in names and "\\" not in name and ":" not in name,
-                "Invalid or duplicate package path")
+        require(
+            name not in names and "\\" not in name and ":" not in name,
+            "Invalid or duplicate package path",
+        )
         target = root / name
-        require(target.resolve().is_relative_to(root) and target.resolve() != root,
-                "Package path escape")
+        require(
+            target.resolve().is_relative_to(root) and target.resolve() != root,
+            "Package path escape",
+        )
         require(sha(target) == expected, "Package bytes changed: " + name)
         names.add(name)
     files = set()
@@ -76,13 +81,19 @@ def main():
     receipt = {
         "task": "M10.3",
         "written": datetime.now(timezone.utc).isoformat(),
-        "package": {"repository": SOURCE_REPOSITORY, "commit": SOURCE_COMMIT,
-                    "manifest_sha256": PACKAGE_MANIFEST, "files_verified": count},
+        "package": {
+            "repository": SOURCE_REPOSITORY,
+            "commit": SOURCE_COMMIT,
+            "manifest_sha256": PACKAGE_MANIFEST,
+            "files_verified": count,
+        },
         "mode": args.mode,
         "exit_code": process.returncode,
         "wall_seconds": elapsed,
-        "logs": {name: {"file": name + ".txt", "sha256": sha(output / (name + ".txt"))}
-                 for name in ("stdout", "stderr")},
+        "logs": {
+            name: {"file": name + ".txt", "sha256": sha(output / (name + ".txt"))}
+            for name in ("stdout", "stderr")
+        },
         "status": "pass" if process.returncode == 0 else "fail",
         "scope": "Developer reproduction; no platform preregistration, row award or candidate adoption",
     }
@@ -93,20 +104,26 @@ def main():
         record = json.loads(record_path.read_bytes())
         if args.mode == "headline":
             require(record["all_review_checks_pass"] is True, "Independent checks failed")
-            require(record["free_tapes"]["actual_current_records"] == 131072,
-                    "Wrong current-record count")
+            require(
+                record["free_tapes"]["actual_current_records"] == 131072,
+                "Wrong current-record count",
+            )
             require(record["free_tapes"]["branches"] == 37908, "Wrong branch count")
             receipt["headline"] = {"current_records": 131072, "branches": 37908}
         else:
             require(record["status"] == "pass", "Full replay failed")
-            require(record["total_native_calls_in_overlapping_lineage"] == 1009734,
-                    "Wrong lineage census")
+            require(
+                record["total_native_calls_in_overlapping_lineage"] == 1009734,
+                "Wrong lineage census",
+            )
             receipt["headline"] = {"overlapping_lineage_calls": 1009734}
     except Exception as error:
         receipt.update(status="fail", error=str(error))
         raise
     finally:
-        (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        (output / "receipt.json").write_text(
+            json.dumps(receipt, indent=2) + "\n", encoding="utf-8"
+        )
     print(json.dumps({"status": receipt["status"], "headline": receipt["headline"]}, indent=2))
 
 

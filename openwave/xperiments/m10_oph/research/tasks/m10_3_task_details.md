@@ -11,15 +11,16 @@ assignment, interacting charge claim or static/wave join is requested here.
 ## Evidence and ownership
 
 The proposed evidence commit is
-[`2c000fd4ff9dbdd0303328d7dfa028a68a6f4766`](https://github.com/FloatingPragma/observer-patch-holography/tree/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence).
+[`d8551f2f7c16789acddfa737ecdc77aeda3a125c`](https://github.com/FloatingPragma/observer-patch-holography/tree/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence).
 Its `PACKAGE.sha256` digest is
-`a906a237f87604e7aff23123865821375aade8e6a27eaa0539b7cbd63fd2a4bd`.
+`38129abe4a2760dcb0dfdf553e24e34330aed444720327bb0701cf82fa656c2a`.
 It includes the sealed source, review, replay amendment, original failed runs
 and Windows/Linux comparison receipts. The [method note](../findings/m10_3_method_note.md)
 maps the computations and their limits. The complete proposal is
 `MFR-unified-native-field-v1`; publication of evidence is not candidate adoption.
 
-The contributor supplies compute, transport validation and review evidence.
+Mario Poneder supplies this draft, compute and transport validation with Codex
+assistance. The contributor supplies the review evidence.
 The model author owns endorsement, complete law/memory/preparation/readout
 declaration and candidate-pin choice. Maintainers decide admission and row
 status at their own pace. This draft creates no maintainer obligation to run,

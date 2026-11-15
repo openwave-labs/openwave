@@ -1,0 +1,9 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "sealed_test_sha256": "35d9fcc3d91a619e08dedf5996db5be3b2dccf7418500d11d64f9441a04ad3d0",
+  "skipped": 0,
+  "source_fixture": "bundled exact bytes",
+  "status": "pass",
+  "tests_run": 21
+}

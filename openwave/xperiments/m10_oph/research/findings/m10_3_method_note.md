@@ -1,35 +1,35 @@
 # M10.3: free-wave evidence and replay amendment
 
-For total edge weight \(W\), graph Laplacian \(L\) and projection \(\Pi\)
+For total edge weight $W$, graph Laplacian $L$ and projection $\Pi$
 off the constant mode, the declared one-unit transition and occupation
 covariance are
 
-\[
+$$
 P=I-L/(2W),\qquad
 C_n=\frac{\Pi+2\sum_{k=1}^{n-1}(1-k/n)\Pi P^k\Pi}{4W},\qquad
 C_\infty=L^+-\Pi/(4W).
-\]
+$$
 
-For native band gap \(\lambda\), spacing \(a\) and spatial momentum \(p\),
+For native band gap $\lambda$, spacing $a$ and spatial momentum $p$,
 
-\[
+$$
 q_a=\sum_j4a^{-2}\sin^2(ap_j/2),\qquad
 E_a=2a^{-1}\operatorname{asinh}(a\sqrt{\lambda+q_a}/2),
-\]
-\[
+$$
+$$
 0\leq (\lambda+|p|^2)-E_a^2
 \leq a^2\big[\sum_jp_j^4+(\lambda+|p|^2)^2\big]/12.
-\]
+$$
 
-The gaps \(0,5-\sqrt5,6,5+\sqrt5\) have multiplicities \(1,3,5,3\).
-For \(Q=|k|>0\), \(P_T=I-kk^T/Q^2\) and \(C=i[k\times]\), the
+The gaps $0,5-\sqrt5,6,5+\sqrt5$ have multiplicities $1,3,5,3$.
+For $Q=|k|>0$, $P_T=I-kk^T/Q^2$ and $C=i[k\times]$, the
 field-strength reflection Gram matrix is
-\(G=[QP_T,-C]^*[QP_T,-C]\), with rank two. On a finite cycle of period
-\(H\), the first-hit transform is
-\(h_H(A)=\cosh(\omega(H/2-1))/\cosh(\omega H/2)\), where
-\(\omega=2\operatorname{asinh}(\sqrt{A/w}/2)\).
-The finite clock energy is \(-\log h_H\), distinct from the infinite-slice
-pole \(\omega\).
+$G=[QP_T,-C]^*[QP_T,-C]$, with rank two. On a finite cycle of period
+$H$, the first-hit transform is
+$h_H(A)=\cosh(\omega(H/2-1))/\cosh(\omega H/2)$, where
+$\omega=2\operatorname{asinh}(\sqrt{A/w}/2)$.
+The finite clock energy is $-\log h_H$, distinct from the infinite-slice
+pole $\omega$.
 
 These formulas consume a declared four-axis routing, uniform preparation,
 four channels, spectral projections, curl and stopping-record clock.
@@ -45,13 +45,13 @@ the source manifest and mapped in the proof assessment.
 
 | Object | Executable location |
 | --- | --- |
-| One-unit endpoint, geometry and complete current/occupation records | `endpoint`, `geometry`, `main`, [independent.py:25](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L25-L165) |
-| Finite covariance and occupation moments | `main`, [independent.py:167](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L167-L228) |
-| Scalar energy error and speed bound | `main`, [independent.py:230](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L230-L246) |
-| Killed-cycle transform and clock cost | `main`, [independent.py:248](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L248-L270) |
-| Maxwell rank-two reflection form and wrong-sign control | `main`, [independent.py:272](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L272-L288) |
-| Directed-coin contrast | `main`, [independent.py:290](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L290-L304) |
-| Numerical comparison and deterministic orbital reference | `compare_json`, `amend_orbital_reference`, `patch_orbital`, [replay.py:165](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/shared/unified_wave_replay_amendment_20261115/replay.py#L165-L294) |
+| One-unit endpoint, geometry and complete current/occupation records | `endpoint`, `geometry`, `main`, [independent.py:25](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L25-L165) |
+| Finite covariance and occupation moments | `main`, [independent.py:167](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L167-L228) |
+| Scalar energy error and speed bound | `main`, [independent.py:230](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L230-L246) |
+| Killed-cycle transform and clock cost | `main`, [independent.py:248](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L248-L270) |
+| Maxwell rank-two reflection form and wrong-sign control | `main`, [independent.py:272](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L272-L288) |
+| Directed-coin contrast | `main`, [independent.py:290](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/independent.py#L290-L304) |
+| Numerical comparison and deterministic orbital reference | `compare_json`, `amend_orbital_reference`, `patch_orbital`, [replay.py:165](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/shared/unified_wave_replay_amendment_20261115/replay.py#L165-L294) |
 
 ## Retained local evidence
 
@@ -77,7 +77,7 @@ thresholds. The amendment does not award the local literal-byte G4 gate.
 ## Reproduction route
 
 Check out the author repository at
-`2c000fd4ff9dbdd0303328d7dfa028a68a6f4766`. With Python and NumPy installed,
+`d8551f2f7c16789acddfa737ecdc77aeda3a125c`. With Python and NumPy installed,
 run from the OpenWave repository root, substituting local source/output paths:
 
 ```sh
@@ -93,6 +93,16 @@ download code or require access to the private tracking repository.
 
 ## Audit and admission boundary
 
+Mario Poneder contributes the publication transport and this draft with Codex
+assistance; Bernhard Mueller retains the model-author decisions. The
+[submission audit](m10_3_submission_audit.md) records findings and dispositions,
+with the [developer receipt](../data/m10_3_receipt.json) and
+[replay summary](../data/m10_3_replay.json). The generic provenance checker
+verifies the 614 files through a disposable Markdown view of the pinned
+inventory, with zero failures and three warnings: no ordered concatenation,
+no provenance-id object and 187 historical hash references without a file
+target. No strict provenance-archive clearance is claimed.
+
 The separate GPT-6 Astra reviewer used an independent finite implementation
 and documented the four concrete replay findings and proof qualifications.
 That review is same-group under the local framework and confers no G6 pass.
@@ -102,8 +112,8 @@ The author's complete candidate declaration and its relation to PR #723 also
 require an explicit decision. The task proposes no retrospective registration.
 
 Minimal inspection set: the pinned independent implementation above, the
-[proof assessment](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/PROOF_REVIEW.md),
-the [amendment](https://github.com/FloatingPragma/observer-patch-holography/blob/2c000fd4ff9dbdd0303328d7dfa028a68a6f4766/code/openwave_wave_evidence/evidence/shared/unified_wave_replay_amendment_20261115/AMENDMENT.md),
+[proof assessment](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/notes/wave_review_20261115/PROOF_REVIEW.md),
+the [amendment](https://github.com/FloatingPragma/observer-patch-holography/blob/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence/evidence/shared/unified_wave_replay_amendment_20261115/AMENDMENT.md),
 and the [platform entry point](../scripts/m10_3_replay.py).
 
 **Scope**: finite records on the declared free routing family and conditional

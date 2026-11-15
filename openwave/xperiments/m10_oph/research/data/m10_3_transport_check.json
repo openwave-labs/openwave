@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "source_commit": "d8551f2f7c16789acddfa737ecdc77aeda3a125c",
+  "manifest_sha256": "38129abe4a2760dcb0dfdf553e24e34330aed444720327bb0701cf82fa656c2a",
+  "files_verified": 614,
+  "checks": {
+    "unchanged_package": true,
+    "missing_manifest": true,
+    "changed_manifest": true,
+    "missing_source": true,
+    "changed_source": true,
+    "changed_source_with_rehashed_manifest": true,
+    "extra_source": true,
+    "optimized_entry": true
+  },
+  "mutations_rejected": 7,
+  "scope": "Developer corruption controls; no independent adversarial audit"
+}
