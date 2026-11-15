@@ -70,6 +70,32 @@ Record the interpreter, versions, and available numerics libraries for the envir
 record. The M8.5-A launch shell arrived with the platform installed and switched
 environments on the spot; the rule exists because the miss was live, not hypothetical.
 
+The launch script runs the first check as written. In place of the second it asks a wider
+question, because the room interpreter starts without site processing: a platform installed in
+editable mode does not import from the room, and its name is still there to be listed. The
+script aborts if the platform's name appears in the interpreter's package folder, as an install
+record, as a module an install record declares, or as the name of any entry, or among the
+commands installed beside the interpreter. It reads the same in the install underneath a
+virtual environment. A check that cannot run aborts too. It reads the names at the top of each
+folder and the install records, not the inside of other packages, so it catches an installed
+platform and not every file that might mention one.
+
+**The room environment.** Rooms run on an environment kept for rooms alone: its own interpreter
+install, holding the numerics libraries a room needs and nothing from any other project, at
+pinned versions, so that two rooms months apart run on the same libraries. A virtual
+environment layered on a shared install is not one, because the shared install stays readable
+to the room (§ 3.4). The launch script enforces what it can test: besides the platform's name,
+it aborts if any package in the environment was installed from a path that exists on the
+machine, which is how a project under development usually gets into one. What else the environment holds is the
+operator's to keep. One way to build it, with the versions the environment record will carry:
+
+```bash
+conda create -p <room_env> python=<version> pip
+<room_env>/bin/python3 -m pip install numpy==<version> scipy==<version> sympy==<version> mpmath==<version>
+<room_env>/bin/python3 -m pip list --format=freeze   # goes into the environment record
+CLEAN_ROOM_PYTHON=<room_env>/bin/python3 sh dev_docs/utils/clean_room_launch.sh <room> <prompt> <transcript>
+```
+
 ### 3.3 What loads unavoidably
 
 It depends on the launch mode (§ 3.4).
@@ -122,9 +148,9 @@ given path exists (a refused read and a missing file answer differently), the ma
 name and kernel version, and the interpreter's install. The last one matters: the names of
 every package installed in that environment are visible to the room, so an environment that
 also holds other projects shows their names. The files that record where a package was
-installed from are closed, and the launch script says how many packages came from a local
-folder without naming them. An environment kept for rooms alone, holding only the numerics
-libraries a room needs, shows nothing else, and is the clean answer.
+installed from are closed. This is why rooms run on an environment kept for rooms alone
+(§ 3.2): the only package names it shows are the numerics libraries and the packaging tools
+that come with the interpreter.
 
 The approval prompt's job, making a reach outside the room visible, passes to the record:
 every automatic denial is listed in the transcript's final `permission_denials` entry, which
@@ -320,7 +346,7 @@ independent-method reproduction; blind is never granted by machinery (§ 1).
 
 ## 13. Failure modes actually hit
 
-Entries 1 to 10 happened during the first exercise; the standard exists because they did. Entry 11 was found later, by an audit and not in a run.
+Entries 1 to 10 happened during the first exercise; the standard exists because they did. Entries 11 and 12 were found later, and not in a run: one by an audit, one while building the room environment.
 
 | # | Failure mode | Where caught | Guard now |
 | --- | --- | --- | --- |
@@ -335,12 +361,14 @@ Entries 1 to 10 happened during the first exercise; the standard exists because 
 | 9 | the audit reply landed as a merged-PR body edit, notifying nobody | close-out | § 9 communications rule |
 | 10 | the kept transcript's hash written only to the run's gitignored checkpoint | after close-out, by the operator asking why checkpoints are gitignored | § 10, hash at teardown and record it in the task document |
 | 11 | the room's sandbox allowed by default and denied a list: a script could start any system program, and through one read the clipboard or launch an application; it could look up system services, read system folders the list had not named, and it inherited the launching shell's whole environment. `./py` and its profile were also writable, by a script and by the session's file tools, so either could have removed the sandbox for the calls that followed | 2026-11-15, by adversarial audits: first of the review wrapper built on the same pattern ([`PR_REVIEW_STANDARDS.md` § 3.1](PR_REVIEW_STANDARDS.md#31-the-safety-gate-before-anything-runs)), then of this launcher's first rebuild, which still allowed every read by default. The 80 scripts returned by past rooms were then searched: the only program any of them starts is its own interpreter, and none reads the environment, opens a socket or writes to `./py` | § 3.4: a deny-by-default profile with a read allowlist, a fixed environment and clock, a locked and hashed `./py`, and launch probes with controls. Still visible to a room: the names of the packages in the interpreter's install |
+| 12 | the launch script's interpreter check tested only the import. The room interpreter starts without site processing, so a platform installed in editable mode did not import while its name, and the name of every other package in a shared environment, stayed visible to a room script. A launch on a shared environment passed the check | 2026-11-15, while building an environment for rooms alone: the script's count of locally installed packages read 2 on an environment that held none, because it counted install records that name the folder a package was built in on another machine. The 305 Python files tracked in the folders of past rooms and their audits were then searched: none lists installed packages, and the only folders any of them lists are inside its own room | § 3.2: rooms run on an environment kept for rooms alone; the launch script aborts if the platform's name is among the entries or the install records of the interpreter's package folder, of the install under a virtual environment, or among the interpreter's commands, and if any package there was installed from a path that exists on the machine |
 
-None of the eleven reached the result. Of the first ten, five were caught by machinery
+None of the twelve reached the result. Of the first ten, five were caught by machinery
 (checks, mutation suites, the transcript audit) and five by a person reading carefully. That
 ratio is the argument for keeping both. The eleventh was caught by neither: it took an audit
 whose only job was to break a sandbox, which is the argument for attacking a guard on purpose
-instead of waiting for it to fail.
+instead of waiting for it to fail. The twelfth surfaced when the guard was run on a case it
+should have had nothing to say about, and it spoke: a guard is also tested on what must pass.
 
 Entry 10 generalizes past this procedure: **a disposable file is never the only home for a
 fact worth keeping.** Checkpoints exist so a stopped session can resume, they are gitignored
@@ -352,7 +380,7 @@ and is the opposite of it.
 
 | Phase | Gate |
 | --- | --- |
-| build | ancestor-path check run and contents read; interpreter check green; unavoidable loads grepped and disclosed; room outside every working tree |
+| build | ancestor-path check run and contents read; interpreter check green on the room environment; unavoidable loads grepped and disclosed; room outside every working tree |
 | packet | per-part mechanical audits green and mutation-tested; author evidence outside; incoming + authoritative hashes recorded; withholdings stated; task file carries the § 4 small print |
 | commit 1 | packet + task file + audit script + output merged BEFORE launch |
 | launch | hashes re-verified; headless (the launch script's checks green; the init record's cwd, model and tool list recorded) or operated (banner cwd + model recorded, default permission mode); web tools withheld; near-empty opening prompt, nothing else |
