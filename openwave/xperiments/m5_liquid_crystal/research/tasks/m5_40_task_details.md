@@ -109,7 +109,7 @@ The audit: two agents on a different model, in parallel, each asked to refute. O
 
 Go to review: about an hour and a half. The continuation's fifty minutes set the floor; R1, R2 and R4 run at the desk while it runs, and the two audits run in parallel at the end.
 
-What follows this task, as its own plan: the converged background on the mesh ladder under the rule the author proposes (a gate on the unit-normalized residual plus a lump check), with the zero-spacing calibration the reply agrees should wait for it. Its thresholds are written from K3 and from the continuation of § 5. The release also ships a tilt-texture kit (`checks/v37/LdGS_tilt_texture_kit_v1.2.zip`), an input for the plan of the tilt reduction ([M5.39](m5_39_task_details.md) § 2, row 13); it is not opened by this task.
+What follows this task, as its own plan: the converged background on the mesh ladder under the rule the author proposes (a gate on the unit-normalized residual plus a lump check), with the zero-spacing calibration the reply agrees should wait for it. Its thresholds are written from K3 and from the continuation of § 5. That task is [M5.41](m5_41_task_details.md). The release also ships a tilt-texture kit (`checks/v37/LdGS_tilt_texture_kit_v1.2.zip`), an input for the plan of the tilt reduction ([M5.39](m5_39_task_details.md) § 2, row 13); it is not opened by this task.
 
 ## FINDINGS (the run of 2026-11-14, after the go)
 

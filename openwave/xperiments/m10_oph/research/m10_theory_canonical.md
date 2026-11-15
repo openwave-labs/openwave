@@ -235,6 +235,36 @@ once. Each kill rule rejects a branch; none rejects OPH as a whole.
 
 | Item | State |
 | --- | --- |
-| The premise list | The application says the premises and the standing of each headline result follow in a first comment on the thread. It had not been posted at scaffold time (2026-11-13). This section takes its premise list from that comment when it exists; until then the register of record is `model/PREMISES.md` at the pin |
+| The premise list | The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288) supplies the promised clarification. Its condensed register is in § 11.1; the detailed admission-snapshot register is `model/PREMISES.md` at `3c4e1e2` |
 | The round count of the lepton register | The phase 2/9 is the limit of many rounds per clock unit, and a finite round count changes the mass ratios ([`m10_background.md`](m10_background.md) § 4). The admission reply recommends freezing the limit and the kick coefficient here with a no-revision rule. Whether to freeze them is the author's call |
 | The join | Which criteria row is first computed on the carrier's own process, and by what construction, is the author's program to define ([`m10_roadmap.md`](m10_roadmap.md)) |
+
+## 11.1 Author premise and claim register
+
+The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288)
+links the [94-entry theorem and observable inventory](m10_theorem_observable_inventory.md).
+Each entry has an intuition, linked evidence and a boundary in one main column.
+The inventory selects source records at public RER `main`,
+[`bb1de05927d8c6bb1285182cc91e97410092ec8a`](https://github.com/FloatingPragma/observer-patch-holography/tree/bb1de05927d8c6bb1285182cc91e97410092ec8a).
+It expands the admission-snapshot account without changing the column's scored
+candidate. The source proposed in [PR #723](https://github.com/openwave-labs/openwave/pull/723)
+remains `A-static-signed-source-v1` at `c330c6e7`. No result from another source
+is transferred into it by this register.
+
+| Item | Intuition, evidence and boundary |
+| --- | --- |
+| Architecture | **Intuition.** Specify the observer process, then calculate what its observers can measure.<br>**Evidence.** Carrier, law, memory, scheduler, preparation and instrument contracts are explicit in the linked source packages.<br>**Boundary.** Design choices and constitutive selection principles are inputs. No uniqueness theorem is claimed or required. |
+| Closure | **Intuition.** Observers recover and realize the specification of their complete inhabited history.<br>**Evidence.** Finite quotient/fixed-point and record-closure results have precise domains; the inventory links them.<br>**Boundary.** The full physical closure `R(D(U)) ≅ U` is the hypothesis. Finite consistency is not its realization in our Universe. |
+| Measurement, space and clocks | **Intuition.** Even probability assignments, spatial directions and clock comparisons need an operational account.<br>**Evidence.** Finite effect-representation, rank-three response, locality and clock-calibration theorems are listed individually.<br>**Boundary.** Their premises and source domains are retained; record order, modular time, count time and calibrated proper time are distinct. |
+| Einstein, de Sitter and Koide | **Intuition.** Connect record balance to geometry, fixed capacity to the horizon-transfer sign, and cyclic balance to a family-mass relation.<br>**Evidence.** The inventory follows the complete conditional Einstein chain, the finite de Sitter entropy/gradient/spectrum results and the positive-chamber Koide identity/register branch.<br>**Boundary.** Physical tower/horizon/scale realization and the charged-family/phase/observable-mass maps are explicit. The demo Einstein inhabitant is synthetic; known prior mathematics keeps its attribution. |
+| M10.2 source | **Intuition.** Three static assays use preparations of the same signed-source species.<br>**Evidence.** The fixed author package and platform replay are linked in PR #723.<br>**Boundary.** Graph, positive coherent memory and addressing are declared; no passive-repair implementation of every coherent body branch is claimed. |
+| M10.2 charge | **Intuition.** Compare actual stopped source currents and the primitive integer relative boundary class.<br>**Evidence.** Complete charge trials and controls reproduce with a separate producing-group implementation audit.<br>**Boundary.** Physical electric-charge identification and the per-cell decision are under review. |
+| M10.2 energy | **Intuition.** Read a compact localized ray's transfer energy against the same source's zero reference.<br>**Evidence.** The full-graph eigenray and complete certificate retain lower modes and unresolved complement.<br>**Boundary.** The 511 keV unit is calibrated; no predicted electron mass, physical clock or free lifetime follows. |
+| M10.2 field/frame | **Intuition.** Compare the return of a current covariance and the reversal/return of its nonzero mean.<br>**Evidence.** All finite current alternatives and the proper addressed-cell rotation are reproduced.<br>**Boundary.** This is not a spin-magnitude, spinor-phase, exchange-statistic or global continuous-rotation result. |
+| Published source progress | **Intuition.** A stronger finite source can support additional complete instruments and field limits.<br>**Evidence.** Public `main` binds LOCAL12 charge and terminal meters, native Maxwell and scalar wave packages, calibrated static compositions and source-equivalence controls.<br>**Boundary.** These distinct sources and their internal full-criterion decisions are not merged into M10.2 or official platform awards. |
+
+The selected schematic illustrates the proposed patch/history interpretation.
+The full inventory preserves calibrations and failed comparisons, including the
+muon residual and the distinction between an isolated energy anchor and finite
+interacting pair energies. It reports no common construction recovering all
+observed properties.

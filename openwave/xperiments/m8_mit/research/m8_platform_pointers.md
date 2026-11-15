@@ -45,7 +45,7 @@ guidance on what a compact-arena port must avoid.
 | [M5 background](../../m5_liquid_crystal/research/m5_background.md) | the narrative map: point defects as leptons, vortex strings as quarks, knots as baryons |
 | [`compute_winding_number`](../../m5_liquid_crystal/engine3_observables.py) + [`m5_1_winding.py`](../../m5_liquid_crystal/research/scripts/m5_1_winding.py) | topological charge as an integral, the thing MIT's group-theoretic charge assignment is NOT yet; porting this to S³/2I is how the two notions get compared |
 | [M5 seed catalog](../../m5_liquid_crystal/xparameters/) | the concrete defect seeds (`_topo_*.py`: canonical 4D, uniaxial, biaxial, charged ring, dressed): worked examples of "how to seed a defect configuration" that an S³/2I port will need equivalents of |
-| The M8-specific question | which defect sectors exist at all on S³/2I (π₂ and π₃ of the target space RESTRICTED to the quotient's symmetry), and whether the anti-periodic (double-cover) boundary condition creates sectors flat space does not have. Genuinely new ground: M8's own runs are the first on a compact-quotient arena (the M8.5 grid backend; the finite-element solver of M8.15 to M8.15.2), and none has asked this question (OQ5 in [`m8_theory_canonical.md`](m8_theory_canonical.md)) |
+| The M8-specific question | which defect sectors exist at all on S³/2I (π₂ and π₃ of the target space RESTRICTED to the quotient's symmetry), and whether the anti-periodic (double-cover) boundary condition creates sectors flat space does not have. Genuinely new ground: M8's own runs are the first on a compact-quotient arena (the M8.5 grid backend; the finite-element solver of M8.15 to M8.15.2 and M8.19; the harmonic Galerkin instrument of M8.16 to M8.18), and none has asked this question (OQ5 in [`m8_theory_canonical.md`](m8_theory_canonical.md)) |
 
 ## 4. Clock + stability insights (the platform's measured lessons for a background-clock model)
 
@@ -82,6 +82,14 @@ was never gathered. It is now M8.5-C, target-free, with its qualification protoc
 finite-element solver for the slot bundles under the frozen slot action, and M8.15.1 and
 M8.15.2 on its qualified revision, the M8.15.x instrument
 ([`m8_roadmap.md`](m8_roadmap.md#done)).
+
+**Status 2026-11-10.** A stationary harmonic Galerkin instrument, admitted on
+[#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-18955679)
+inside a boundary that excludes any route to the two MODELS.md criteria gated on field
+dynamics, failed its first qualification (M8.16) and passed its second for nine census rows
+(M8.16.1); M8.17 and M8.18 ran the author's census on it, and M8.19, outside the harmonic
+admission, ran the census's persistence tests on M8.15.x's frozen finite-element dynamics.
+The author's census then closed ([`m8_roadmap.md`](m8_roadmap.md#done)).
 
 | Route | How | Trade-offs |
 | --- | --- | --- |
