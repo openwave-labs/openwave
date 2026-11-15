@@ -4,7 +4,9 @@
 > **local only** (gitignored for size + copyright; OpenWave is a public repo). This manifest
 > is the tracked record; obtain the files from the original venues (DOIs / SSRN) or from the
 > author's repo, [github.com/dmobius3/mode-identity-theory](https://github.com/dmobius3/mode-identity-theory),
-> whose `files/tools/files/DOIs.md` is the author-maintained registry this list was seeded from.
+> whose tools page, `files/tools/README.md`, holds the author-maintained registry. This list
+> was seeded from the author's separate DOI page, `files/tools/files/DOIs.md`, which the
+> author removed on 2026-11-11.
 
 Two lists: the **Bibliography** of the author's own works, and the **mathematical literature**
 that M8 task documents pin as external references. The Local corpus appendix will hold the
@@ -13,16 +15,18 @@ gitignored-file inventory as papers are pulled down for tasks (filenames follow
 
 Identifier policy per [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md) section 3.4
 (never fabricate): the ten Zenodo DOIs of the 2026-07-21 seeding were machine-verified
-resolving that day, the M8.1.2 subject paper's on 2026-09-09, and the Euclid card's concept
-DOI, added beside its v1, on 2026-10-14.
+resolving that day, the M8.1.2 subject paper's on 2026-09-09, the Euclid card's concept DOI,
+added beside its v1, on 2026-10-14, and the concept DOIs of the Surviving Ray and the
+Standing-Wave Branches on 2026-11-14.
 SSRN blocks automated checks, so SSRN IDs are transcribed from the author's registry and
 marked `(author registry)`; treat them as author-attested until first use.
 
 ## Bibliography
 
 All works in this section are by Blake Shatto (independent researcher, sole author). Ordered
-by year and month ascending. **17 works**: 16 at the 2026-07-21 scaffold seeding, plus the
-M8.1.2 subject paper registered when that task was proposed.
+by year and month ascending. **18 works**: 16 at the 2026-07-21 scaffold seeding, the M8.1.2
+subject paper registered when that task was proposed, and the Standing-Wave Branches,
+registered after its deposit on 2026-11-14.
 
 | Author(s) | Year | Title | Venue / ID |
 | --- | --- | --- | --- |
@@ -42,7 +46,8 @@ M8.1.2 subject paper registered when that task was proposed.
 | Shatto | 2026 Jun | Euclid DR1: A Pre-Registered Contender Showdown | Zenodo; DOI [10.5281/zenodo.20563048](https://doi.org/10.5281/zenodo.20563048) (v1); concept DOI [10.5281/zenodo.20563047](https://doi.org/10.5281/zenodo.20563047), as the author's registry and the card itself give it |
 | Shatto | 2026 Jun | a₀(z) Coherence-Scale SPARC Pipeline (pre-registered; documented negative of record) | Zenodo; DOI [10.5281/zenodo.20271702](https://doi.org/10.5281/zenodo.20271702) |
 | Shatto | 2026 Jul | An Affine Rho-Index Conversion and the Galois Pair on the Poincaré Homology Sphere | SSRN [7129118](https://ssrn.com/abstract=7129118) (author registry) |
-| Shatto | 2026 Sep | The Surviving Ray: channel selection for a cubic self-interaction on S³/2I | Zenodo; DOI [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502) (version DOI, v1); the M8.1.2 subject paper. Its second version, retitled "The Surviving Ray: the spin-3 coupling point that S³/2I selects, and its critical geometry", is SSRN [7515378](https://ssrn.com/abstract=7515378) (author registry, since 2026-09-24) |
+| Shatto | 2026 Sep | The Surviving Ray: channel selection for a cubic self-interaction on S³/2I | Zenodo; concept DOI [10.5281/zenodo.22681501](https://doi.org/10.5281/zenodo.22681501), which resolves to the latest version. The M8.1.2 subject paper is its v1, DOI [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502) (version DOI). The later versions, from 2026-11-11, are retitled "The Surviving Ray: the spin-3 coupling point that S³/2I selects, and its critical geometry" |
+| Shatto | 2026 Nov | Nonlinear Standing-Wave Branches on the Poincaré Homology Sphere: Ground States and Small-Amplitude Spectral Stability | Zenodo; concept DOI [10.5281/zenodo.24224843](https://doi.org/10.5281/zenodo.24224843); the author's first dynamics paper |
 
 Note on venues: all entries are preprints (Zenodo / SSRN), none refereed; this is recorded
 per the [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md) red-flag checklist sourcing row and

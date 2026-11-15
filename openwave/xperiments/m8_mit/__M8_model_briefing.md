@@ -20,12 +20,14 @@
 > cross-model pointers ([`research/m8_platform_pointers.md`](research/m8_platform_pointers.md)).
 > The first sector was VALIDATED in-platform by M8.1 (2026-07-21), which verified the
 > twisted-Möbius first-eigenvalue theorem at 10-digit precision, blind and audited;
-> M8.1.1 has since verified the other two bedrock papers, and M8.1.2 the Surviving
-> Ray, which the author's repository places under Dynamics. The
+> M8.1.1 and M8.1.2 have since verified the other three bedrock papers. The
 > field-dynamics half has its contract: the pre-registration the Lagrangian survey is
 > graded against was locked before any numerics existed to tune it toward (M8.2, the
 > author's first pull request). Task-by-task state, with every later in-platform
-> result, is in the roadmap, not restated here. MIT's other results remain analytic or
+> result, is in the roadmap, not restated here. The author's page
+> [M8 on OpenWave](https://github.com/dmobius3/mode-identity-theory/blob/main/files/tools/files/openwave/README.md)
+> gives every task in the column, with its record here, its outcome and what MIT holds
+> for it. MIT's other results remain analytic or
 > externally computed, and the author reports its negatives as results: the claim
 > ledger records three pre-registered tests lost, two exploratory negatives and, since
 > mid-September, registered losses on tests of its own routes. Work runs headless
