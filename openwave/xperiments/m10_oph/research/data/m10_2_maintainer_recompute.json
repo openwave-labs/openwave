@@ -1,0 +1,80 @@
+{
+ "arms_surviving": [],
+ "checks": {
+  "A1 60 alternatives per axis": true,
+  "A1 moments on all 12 axes": true,
+  "A2 half turn is a symmetry, four ports to antipodes": true,
+  "A3 stopping times 66, 84, 90": true,
+  "A4 native rule: structure on 12 of 12 axes": true,
+  "A4 symmetric changed rule: different magnitude": true,
+  "A4 symmetric changed rule: same structure": true,
+  "A4 symmetry-breaking rule fails": true,
+  "B1 240 ports, 630 seams, 20 cells, 30 links, 3 per cell": true,
+  "B1 the 20 cells are linked as a dodecahedron": true,
+  "B2 L f = 6 f and L g = 6 g": true,
+  "B2 neither ray touches an outside seam": true,
+  "B3 E12": true,
+  "B3 E6": true,
+  "B3 pair energy": true
+ },
+ "part_a": {
+  "A1_alternatives_per_axis": 60,
+  "A1_axes_matching_claimed_moments": 12,
+  "A2_half_turn_is_a_symmetry": true,
+  "A2_ports_sent_to_antipode": 4,
+  "A3_stopping_times": [
+   66,
+   84,
+   90
+  ],
+  "A4_always_move": {
+   "half_turn_carries": 12,
+   "mean_along_v": 12,
+   "uniaxial": 12
+  },
+  "A4_always_move_mean_over_native": "2",
+  "A4_native": {
+   "half_turn_carries": 12,
+   "mean_along_v": 12,
+   "uniaxial": 12
+  },
+  "A4_orientation_biased": {
+   "half_turn_carries": 0,
+   "mean_along_v": 0,
+   "uniaxial": 0
+  },
+  "seams": 30
+ },
+ "part_b": {
+  "B1_cell_distance_profiles": [
+   [
+    1,
+    3,
+    6,
+    6,
+    3,
+    1
+   ]
+  ],
+  "B1_cells": 20,
+  "B1_links_per_cell": [
+   3
+  ],
+  "B1_ports": 240,
+  "B1_ports_with_outside_seam": 60,
+  "B1_seams": 630,
+  "B1_seams_between_cells": 30,
+  "B2_outside_seams_on_f": 0,
+  "B2_outside_seams_on_g": 0,
+  "B2_residual_f": 0.0,
+  "B2_residual_g": 0.0,
+  "B3_E12": 12.057508280349847,
+  "B3_E6": 6.014331228348651,
+  "B3_excess_keV": 2.4508487023415455,
+  "B3_pair_keV": 1024.4508487023415,
+  "B4_lowest_nonzero": 0.044142530698998615,
+  "B4_modes_at_6": 70,
+  "B4_modes_below_6": 80
+ },
+ "task": "M10.2"
+}

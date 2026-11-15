@@ -9,7 +9,6 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | 🔶 Reproduce charge, compact energy and field/frame rotation on one declared candidate; retain source premises and request separate row adjudication. | Author replay and adversarial audit; maintainer review |
 
 ## BACKLOG
 
@@ -53,6 +52,7 @@ regenerates the headline number. Adversarial audit on substantive claims
 | TaskID | Title | Description | Completed |
 | --- | --- | --- | --- |
 | [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | ✅ Closed 2026-11-13. The author's frozen expansion coefficients are reproduced exactly in clean rooms, seven of seven values, the comparison made after the rooms' result was pushed. Arithmetic on a declared object; no cell moves. Full record: [note](findings/m10_1_method_note.md) + [task](tasks/m10_1_task_details.md) | 2026-11-13 |
+| [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | ✅ Closed 2026-11-15. The author's static results on the signed-source candidate reproduce by an independent in-platform recomputation: the graph, the compact energies, the moments and the stopping times. The charge, rest-energy and spin rows stay not yet tested, since each property comes from what the candidate declares; the record says what would move each. Full record: [review](findings/m10_2_maintainer_review.md) + [task](tasks/m10_2_task_details.md) | 2026-11-15 |
 
 ## CHANGE-LOG
 
@@ -71,3 +71,13 @@ rooms committed before either opens.
 author's seven frozen values for the twelve-direction dispersion agree with it
 exactly. Two audit rooms stopped early for a cause in the packet's layout, logged
 with the fix. The backlog is empty: the next row is the author's to create.
+
+2026-11-15. M10.2 closed. The author brought a new pinned candidate, a signed unit
+pair on a federation of twenty cells, and asked for a decision on three static rows.
+Every number the maintainers recomputed agrees with the author's (the graph, the
+compact energies, the moments, the stopping times), by a script that reads one data
+file of the author's and runs none of the author's code. The package's own counts
+were not recomputed. The three rows stay not yet tested:
+the integer loads, the single anchor and the cell's symmetry are declared, and the
+run returns what they fix. The review names what would move each row. The backlog
+is empty: the next row is the author's to create.
