@@ -1,5 +1,11 @@
 # M10 OPH (Observer Patch Holography): Model Briefing
 
+The core intuition behind OPH is that reality is the self-answering question:
+“What would a universe that creates itself consistently be like?” The key word
+is *consistently*: mathematical and logical consistency, free of contradiction.
+OPH aims to show that the universe it constructs on this basis is precisely
+the one we inhabit.
+
 > **What M10 brings.** Observers first, fields second. An observer is a feedback
 > loop that reads the ports of its patch, keeps a finite record, and acts on that
 > record. The observers sit on a holographic screen of twelve-port icosahedral
