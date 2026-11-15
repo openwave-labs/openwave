@@ -11,9 +11,9 @@ assignment, interacting charge claim or static/wave join is requested here.
 ## Evidence and ownership
 
 The proposed evidence commit is
-[`d8551f2f7c16789acddfa737ecdc77aeda3a125c`](https://github.com/FloatingPragma/observer-patch-holography/tree/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence).
+[`f129539f6a99b05e596f548db6ea1fd877767b99`](https://github.com/FloatingPragma/observer-patch-holography/tree/f129539f6a99b05e596f548db6ea1fd877767b99/code/openwave_wave_evidence).
 Its `PACKAGE.sha256` digest is
-`38129abe4a2760dcb0dfdf553e24e34330aed444720327bb0701cf82fa656c2a`.
+`3ec996f2b70d53054a6721c259ed458eeac2df7c3c275713fdcaf3e392fa1361`.
 It includes the sealed source, review, replay amendment, original failed runs
 and Windows/Linux comparison receipts. The [method note](../findings/m10_3_method_note.md)
 maps the computations and their limits. The complete proposal is

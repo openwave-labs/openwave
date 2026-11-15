@@ -15,11 +15,12 @@ interacting-theory proof, approved candidate or platform award.
 
 | Finding | Disposition |
 | --- | --- |
-| Windows checkout changes sealed text bytes | Original source exported from verified Git blobs; package attributes preserve sealed bytes; all 614 committed files rechecked |
+| Windows checkout changes sealed text bytes | Original source exported from verified Git blobs; package attributes preserve sealed bytes; all 615 committed files rechecked |
 | Floating serialization breaks the original byte gate | Exact structure, scalar types and discrete content; finite float budget of absolute 1e-12 plus relative 1e-12; historical failures retained and literal-byte G4 unawarded |
 | Optimized Python bypasses archived assertions | Amendment rejects optimized entry and checks each child's optimization flag; planted assertion failure is rejected |
 | Orbital reference is selected by roundoff | Declared port-0 and positive-first-coordinate convention; expected diagnostic independently reconstructed from the original records; author adoption is pending |
 | Frozen tests and result verifier extract a private Git commit | Public wrapper replaces only their input-copy function with the byte-identical bundled source; all 21 tests execute without skips |
+| Global pytest collection imports historical test copies and collides with another package's module name | Package-local collection excludes only sealed evidence; the six public tests have a unique module name and path-specific wrapper import. Both affected packages collect together, 37 tests, without error |
 | A package could be altered together with its manifest | Platform manifest digest is pinned independently; edited source plus rewritten manifest is rejected |
 | Generic provenance checker uses a Markdown manifest dialect | Disposable Markdown view generated from the pinned SHA-256 inventory and byte counts; no sealed file or platform checker changed |
 | Generic checker reports historical hash references without a file target | 187 references disclosed, with no strict provenance-archive clearance claimed; all live scientific inputs separately bound and regenerated raw-record hashes checked |

@@ -24,7 +24,7 @@ def main():
     source = args.source.resolve()
     replay.require(not args.output.resolve().is_relative_to(source), "Output is inside source")
     count = replay.verify_source(source)
-    checks = {"unchanged_package": count == 614}
+    checks = {"unchanged_package": count == 615}
     with tempfile.TemporaryDirectory(prefix="m10_3_transport_") as directory:
         root = Path(directory) / "package"
         shutil.copytree(source, root)

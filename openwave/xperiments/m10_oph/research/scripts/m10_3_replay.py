@@ -16,8 +16,8 @@ import subprocess
 import sys
 import time
 
-SOURCE_COMMIT = "d8551f2f7c16789acddfa737ecdc77aeda3a125c"
-PACKAGE_MANIFEST = "38129abe4a2760dcb0dfdf553e24e34330aed444720327bb0701cf82fa656c2a"
+SOURCE_COMMIT = "f129539f6a99b05e596f548db6ea1fd877767b99"
+PACKAGE_MANIFEST = "3ec996f2b70d53054a6721c259ed458eeac2df7c3c275713fdcaf3e392fa1361"
 SOURCE_REPOSITORY = "https://github.com/FloatingPragma/observer-patch-holography"
 
 
@@ -52,7 +52,7 @@ def verify_source(root):
         require(not path.is_symlink(), "Package contains symlink")
         if path.is_file():
             files.add(path.relative_to(root).as_posix())
-    require(files == names and len(files) == 614, "Package inventory mismatch")
+    require(files == names and len(files) == 615, "Package inventory mismatch")
     return len(files)
 
 

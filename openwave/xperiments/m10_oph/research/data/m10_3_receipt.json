@@ -1,8 +1,8 @@
 {
   "task": "M10.3",
-  "written": "2026-11-15T12:27:47.228739+00:00",
+  "written": "2026-11-15T12:37:31.203293+00:00",
   "base": "5dc8125fc5816a86e7c88c4c8898a0efb3d27ed4",
-  "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/d8551f2f7c16789acddfa737ecdc77aeda3a125c/code/openwave_wave_evidence",
+  "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/f129539f6a99b05e596f548db6ea1fd877767b99/code/openwave_wave_evidence",
   "machine": "workstation",
   "versions": {
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
         "<output>/headline"
       ],
       "exit": 0,
-      "wall_seconds": 2.147112999984529,
+      "wall_seconds": 2.2786751999810804,
       "log": "m10_3_validation.log"
     },
     {
@@ -45,7 +45,7 @@
         "<output>/full"
       ],
       "exit": 0,
-      "wall_seconds": 14.522013999987394,
+      "wall_seconds": 13.808452299999772,
       "log": "m10_3_validation.log"
     },
     {
@@ -62,7 +62,7 @@
         "<output>/m10_3_transport_check.json"
       ],
       "exit": 0,
-      "wall_seconds": 5.6802327999903355,
+      "wall_seconds": 5.300919900008012,
       "log": "m10_3_validation.log"
     },
     {
@@ -80,7 +80,7 @@
         "<output>/m10_3_amendment_tests.json"
       ],
       "exit": 0,
-      "wall_seconds": 9.572142999997595,
+      "wall_seconds": 9.294737000018358,
       "log": "m10_3_validation.log"
     },
     {
@@ -90,10 +90,10 @@
         "-X",
         "utf8",
         "-B",
-        "<author-package>/test_transport.py"
+        "<author-package>/test_openwave_wave_transport.py"
       ],
       "exit": 0,
-      "wall_seconds": 0.3939976999827195,
+      "wall_seconds": 0.29822570001124404,
       "log": "m10_3_validation.log"
     },
     {
@@ -112,7 +112,7 @@
         "<output>/cross_environment.json"
       ],
       "exit": 0,
-      "wall_seconds": 20.173464400024386,
+      "wall_seconds": 17.402129199996125,
       "log": "m10_3_validation.log"
     },
     {
@@ -126,7 +126,7 @@
         "openwave/xperiments/m10_oph/research/m10_roadmap.md"
       ],
       "exit": 0,
-      "wall_seconds": 0.06131599997752346,
+      "wall_seconds": 0.05756300000939518,
       "log": "m10_3_validation.log"
     },
     {
@@ -139,7 +139,7 @@
         "dev_docs/utils/check_models_md.py"
       ],
       "exit": 0,
-      "wall_seconds": 0.11815260001458228,
+      "wall_seconds": 0.11423050001030788,
       "log": "m10_3_validation.log"
     },
     {
@@ -153,7 +153,7 @@
         "<scratch-markdown-manifest-view>"
       ],
       "exit": 0,
-      "wall_seconds": 4.269252899975982,
+      "wall_seconds": 3.6776768999989145,
       "log": "m10_3_validation.log"
     }
   ],
@@ -164,9 +164,9 @@
   },
   "verdict": "DEVELOPER REPLAY PASSED; PLATFORM TASK UNREGISTERED",
   "official_rows_solved": [],
-  "log_sha256": "4cd8b56a84256338f554d54ac502e8e96f2b1865c700e8fedcb5f8e6a211fb59",
+  "log_sha256": "70dc67c05fa4783ba3ef84c4339a2a42ddddf68ae1af918167d33ce8cd465eb4",
   "executed_platform_scripts_sha256": {
-    "m10_3_replay.py": "784ef0d024c5c3f0c584366acc42225b61a2370ab34638a79f3526c5f8cc1523",
-    "m10_3_transport_check.py": "f4c83d06129d8187d089d9e006166375b8d2d5861619e152a0137c14517319c5"
+    "m10_3_replay.py": "8ae45a69d41d6803824bd52ff984bc559115197718cc9b52a5fe433751d61e1b",
+    "m10_3_transport_check.py": "a918afca6a1747d8a47f1a17e4a1b7faf22bafeaa12c0806c8c4a5f9e0417207"
   }
 }

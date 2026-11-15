@@ -1,4 +1,4 @@
-headline: exit=0 wall_seconds=2.147112999984529
+headline: exit=0 wall_seconds=2.2786751999810804
 [stdout]
 {
   "status": "pass",
@@ -7,7 +7,7 @@ headline: exit=0 wall_seconds=2.147112999984529
     "branches": 37908
   }
 }
-full_replay: exit=0 wall_seconds=14.522013999987394
+full_replay: exit=0 wall_seconds=13.808452299999772
 [stdout]
 {
   "status": "pass",
@@ -15,10 +15,10 @@ full_replay: exit=0 wall_seconds=14.522013999987394
     "overlapping_lineage_calls": 1009734
   }
 }
-transport: exit=0 wall_seconds=5.6802327999903355
+transport: exit=0 wall_seconds=5.300919900008012
 [stdout]
 Passed unchanged-package check and rejected seven transport mutations
-amendment_tests: exit=0 wall_seconds=9.572142999997595
+amendment_tests: exit=0 wall_seconds=9.294737000018358
 [stderr]
 test_changed_float_fails (test_replay.ComparatorTests.test_changed_float_fails) ... ok
 test_discrete_records_and_types_are_exact (test_replay.ComparatorTests.test_discrete_records_and_types_are_exact) ... ok
@@ -43,37 +43,37 @@ test_origin_mutation_fails (test_replay.SourceTests.test_origin_mutation_fails) 
 test_patch_is_narrow_and_cannot_reapply (test_replay.SourceTests.test_patch_is_narrow_and_cannot_reapply) ... ok
 
 ----------------------------------------------------------------------
-Ran 21 tests in 8.517s
+Ran 21 tests in 8.405s
 
 OK
-wrapper_tests: exit=0 wall_seconds=0.3939976999827195
+wrapper_tests: exit=0 wall_seconds=0.29822570001124404
 [stderr]
 ......
 ----------------------------------------------------------------------
-Ran 6 tests in 0.209s
+Ran 6 tests in 0.165s
 
 OK
-saved_result_verification: exit=0 wall_seconds=20.173464400024386
+saved_result_verification: exit=0 wall_seconds=17.402129199996125
 [stdout]
 Verified 2 replay(s), 4 cross-environment leaf comparisons
-roadmap: exit=0 wall_seconds=0.06131599997752346
+roadmap: exit=0 wall_seconds=0.05756300000939518
 [stdout]
 
 1 roadmap(s) | 3 scoped table(s) | caps {'description': 65, 'title': 15, 'other': 35, 'blockquote': 50, 'intro': 80, 'changelog': 200}
 clean
-matrix: exit=0 wall_seconds=0.11815260001458228
+matrix: exit=0 wall_seconds=0.11423050001030788
 [stdout]
 summary cells: 217 | status icons: 217 | tests: 31 | models: M10,M4,M5,M6,M7,M8,M9 | live docs scanned for stated counts: 30
 limit 65 | max 65  median 18
 clean
-generic_provenance: exit=0 wall_seconds=4.269252899975982
+generic_provenance: exit=0 wall_seconds=3.6776768999989145
 [stdout]
 
 == manifest ==
-  614 file(s) listed, 0 in the ordered set
+  615 file(s) listed, 0 in the ordered set
 
 == 1. every listed file, recomputed ==
-  ✅ 614 of 614 listed file(s) verify
+  ✅ 615 of 615 listed file(s) verify
 
 == 2. closure, the direction a manifest cannot check on itself ==
   ✅ no unlisted file rode along
