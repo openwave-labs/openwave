@@ -1,0 +1,31 @@
+{
+ "task": "M10.2",
+ "written": "2026-11-15T15:59:50+00:00",
+ "base": "782251341f1e25618b9966747dd6506ffe89b2f7",
+ "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9",
+ "machine": "workstation",
+ "versions": {
+  "python": "3.12.14",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "sympy": "1.14.0",
+  "mpmath": "1.3.0"
+ },
+ "jobs": {
+  "1_recompute": {
+   "command": "python3 -I openwave/xperiments/m10_oph/research/scripts/m10_2_maintainer_recompute.py graph.json --output m10_2_maintainer_recompute.json",
+   "exit": 0,
+   "wall_s": 11,
+   "log": "1_recompute.log"
+  }
+ },
+ "comparator": {},
+ "verdict": "Every number recomputed agrees with the author's; the package's own counts were not recomputed; rows 1, 2 and 7 stay not yet tested",
+ "summary": {
+  "jobs": 1,
+  "exit_nonzero": [],
+  "no_end_line": [],
+  "wall_total_s": 11,
+  "files_compared": 0
+ }
+}
