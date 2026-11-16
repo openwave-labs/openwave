@@ -1,0 +1,202 @@
+{
+ "script": "static_preflight.py of the Card C payload, unmodified, run with python3 -E -s from an isolated folder outside the repository",
+ "script_sha256": "6332a1e3fa074317ab1a6178f99bffcdcddfc6d442fe20f36ac247744154121c",
+ "calibration_file_sha256": "3a81f4e2a11b7e3e22bf59ab7e9f3c2b1d4986f72d17a6312d6108512804754a",
+ "calibration_numbers_read": {
+  "effective_e": 4.127737520949882,
+  "effective_f_pi_MeV": 95.33832953347283,
+  "frequency_unit_MeV": 393.5316000000001
+ },
+ "fields": {
+  "m5_40_author_g33": {
+   "field_sha256": "09b9c8f67c16cdfa4bbdd59e4f25e2a6c56669d7da9e2727d834f7e14cde0bb7",
+   "output": {
+    "field": "f33/final.npz",
+    "tail": [
+     {
+      "radius": [
+       2.2,
+       2.5
+      ],
+      "free": {
+       "amplitude_lattice": 1.7336594063482307,
+       "g_piNN": 8.389178924299907,
+       "gA_GT_proxy": 0.8524290448826882,
+       "residual": 0.018255976885598796
+      },
+      "dirichlet": {
+       "amplitude_lattice": 1.9643590771147688,
+       "g_piNN": 9.505534771792608,
+       "gA_GT_proxy": 0.9658625712640343,
+       "residual": 0.008037511354317182
+      }
+     },
+     {
+      "radius": [
+       2.5,
+       2.8
+      ],
+      "free": {
+       "amplitude_lattice": 1.6209805881008623,
+       "g_piNN": 7.843926054102652,
+       "gA_GT_proxy": 0.7970256034308087,
+       "residual": 0.03776934172797475
+      },
+      "dirichlet": {
+       "amplitude_lattice": 1.9816285970612288,
+       "g_piNN": 9.589101989342442,
+       "gA_GT_proxy": 0.9743538818061389,
+       "residual": 0.006076113434298338
+      }
+     },
+     {
+      "radius": [
+       2.8,
+       3.0999999999999996
+      ],
+      "free": {
+       "amplitude_lattice": 1.4536297687351367,
+       "g_piNN": 7.0341153371611345,
+       "gA_GT_proxy": 0.7147402949152523,
+       "residual": 0.0708537986323365
+      },
+      "dirichlet": {
+       "amplitude_lattice": 1.9909056155469065,
+       "g_piNN": 9.633993487450667,
+       "gA_GT_proxy": 0.9789153314069937,
+       "residual": 0.00454397276896794
+      }
+     },
+     {
+      "radius": [
+       3.1,
+       3.4
+      ],
+      "free": {
+       "amplitude_lattice": 1.2227183369648988,
+       "g_piNN": 5.916734778042426,
+       "gA_GT_proxy": 0.6012026470268408,
+       "residual": 0.14385984729721127
+      },
+      "dirichlet": {
+       "amplitude_lattice": 1.9957375218892306,
+       "g_piNN": 9.657375085187098,
+       "gA_GT_proxy": 0.9812911483023237,
+       "residual": 0.003825508226038432
+      }
+     }
+    ],
+    "axial": {
+     "signed_gA_N_term": -0.45733781996147954,
+     "signed_gA_wedge": -0.49985254393499073,
+     "gA_spurion_diagnostic": 0.9571903638964703,
+     "step_difference": 1.688966744239906e-10
+    }
+   },
+   "gA_script": 0.9571903638964703,
+   "gA_independent": 0.9571903638861202,
+   "relative_difference": 1.08129527181361e-11,
+   "met": true,
+   "g_piNN_dirichlet_range": [
+    9.505534771792608,
+    9.657375085187098
+   ]
+  },
+  "m5_40_author_g55": {
+   "field_sha256": "82842f06d89ed59e7ce83237711ac215f4ffc73d89b81b44bac4d864761af218",
+   "output": {
+    "field": "f55/final.npz",
+    "tail": [
+     {
+      "radius": [
+       2.2,
+       2.5
+      ],
+      "free": {
+       "amplitude_lattice": 1.9942286990603688,
+       "g_piNN": 9.650073890598335,
+       "gA_GT_proxy": 0.9805492699390222,
+       "residual": 0.004540511013546317
+      },
+      "dirichlet": {
+       "amplitude_lattice": 2.0129148431355612,
+       "g_piNN": 9.740496153170795,
+       "gA_GT_proxy": 0.98973712534374,
+       "residual": 0.008281645151166977
+      }
+     },
+     {
+      "radius": [
+       2.5,
+       2.8
+      ],
+      "free": {
+       "amplitude_lattice": 2.0062869918678445,
+       "g_piNN": 9.708423976845433,
+       "gA_GT_proxy": 0.9864782540192595,
+       "residual": 0.0032406286668601103
+      },
+      "dirichlet": {
+       "amplitude_lattice": 2.0343468942063945,
+       "g_piNN": 9.844205861369291,
+       "gA_GT_proxy": 1.0002751253437918,
+       "residual": 0.006120803634312275
+      }
+     },
+     {
+      "radius": [
+       2.8,
+       3.0999999999999996
+      ],
+      "free": {
+       "amplitude_lattice": 2.002858249641494,
+       "g_piNN": 9.69183229112168,
+       "gA_GT_proxy": 0.9847923637858869,
+       "residual": 0.0035240599737907507
+      },
+      "dirichlet": {
+       "amplitude_lattice": 2.0459246511827325,
+       "g_piNN": 9.90023063443654,
+       "gA_GT_proxy": 1.0059678330838964,
+       "residual": 0.0045472843467564295
+      }
+     },
+     {
+      "radius": [
+       3.1,
+       3.4
+      ],
+      "free": {
+       "amplitude_lattice": 1.9895361407712733,
+       "g_piNN": 9.627366598176435,
+       "gA_GT_proxy": 0.9782419695743817,
+       "residual": 0.0044783659002322
+      },
+      "dirichlet": {
+       "amplitude_lattice": 2.0516306463850205,
+       "g_piNN": 9.927841948699255,
+       "gA_GT_proxy": 1.0087734337818082,
+       "residual": 0.003897179079811058
+      }
+     }
+    ],
+    "axial": {
+     "signed_gA_N_term": -0.4814091534431753,
+     "signed_gA_wedge": -0.504399749929448,
+     "gA_spurion_diagnostic": 0.9858089033726234,
+     "step_difference": 1.7932244578133805e-10
+    }
+   },
+   "gA_script": 0.9858089033726234,
+   "gA_independent": 0.9858089033484719,
+   "relative_difference": 2.4499128105012986e-11,
+   "met": true,
+   "g_piNN_dirichlet_range": [
+    9.740496153170795,
+    9.927841948699255
+   ]
+  }
+ },
+ "bound": 1e-08,
+ "all_met": true
+}

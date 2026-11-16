@@ -1,0 +1,4642 @@
+{
+ "r2_g45_iso_s1000": {
+  "file": "m5_41_r2_g45_iso_s1000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 2831,
+   "energy": 75.61780640449452,
+   "target": 1000
+  },
+  "energy": 75.61780640449452,
+  "terms": [
+   33.741413665455404,
+   39.83386533306268,
+   5.930486336951909e-07,
+   0.004339023788329241,
+   0.001957028328583878,
+   2.036228170876172,
+   2.5899347014047386e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007494542760457182,
+  "residual_winding_as_stored": 0.0007494542760457182,
+  "residual_winding_unit_sphere": 0.0008945240888754328,
+  "residual_factor": 0.00022574077038777082,
+  "gate": 0.0008945240888754328,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002436397487129,
+   2.1969910332673255
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.162983088603016,
+  "hemisphere_margin_four_triangulations": 3.162555672029836,
+  "center_eigenvalues": [
+   0.35962493439885507,
+   0.3708165360445364,
+   0.3771447033260815
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00939797959587911,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.137204382916195,
+   "inertia_diagonal": [
+    38.13674545539504,
+    38.13711428563268,
+    38.13775340772087
+   ],
+   "rS2_fm2": 0.24546655215993757,
+   "rV2_fm2": 0.6257028008109304,
+   "muV": 3.336924225326936,
+   "muV_rigid": 3.341884684808321,
+   "muV_deviation_fraction": -0.0014843299363184181,
+   "m_z": 19.04029809438157,
+   "gap_MeV": 280.76133334738813,
+   "gA_e2": 17.026958017529235,
+   "gA_e2_N_term": -8.213857394482908,
+   "gA_e2_wedge": -8.813100623046328,
+   "gA_e2_closed_form_relative_difference": 5.68003679938483e-11,
+   "frozen_rule_e": 4.350836889520425,
+   "winding_by_the_rule": 0.9989253977874839,
+   "tensor_quadratic": 33.74141366545543,
+   "quaternion_quartic": 39.83386533306264,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.144410133361816
+ },
+ "r2_g45_iso_s3000": {
+  "file": "m5_41_r2_g45_iso_s3000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 3000,
+   "energy": 75.61779786416803,
+   "target": 3000
+  },
+  "energy": 75.61779786416804,
+  "terms": [
+   33.741471828250916,
+   39.83378888188465,
+   5.4775597801043e-07,
+   0.00434178440157888,
+   0.0019576314103392275,
+   2.0362345760747105,
+   2.6143898785683636e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008200769996200501,
+  "residual_winding_as_stored": 0.0008200769996200501,
+  "residual_winding_unit_sphere": 0.000998327134862587,
+  "residual_factor": 0.00047325418655186883,
+  "gate": 0.000998327134862587,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002436846930385,
+   2.196991425542566
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.162903206342534,
+  "hemisphere_margin_four_triangulations": 3.1624585362090976,
+  "center_eigenvalues": [
+   0.35910183479599594,
+   0.37084500500987105,
+   0.37767301826250227
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00937060631024867,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.13724128551748,
+   "inertia_diagonal": [
+    38.13678287722319,
+    38.13716195148143,
+    38.13777902784781
+   ],
+   "rS2_fm2": 0.2454674821587538,
+   "rV2_fm2": 0.6256991699325313,
+   "muV": 3.336929572108961,
+   "muV_rigid": 3.3418879185072794,
+   "muV_deviation_fraction": -0.0014836961978464958,
+   "m_z": 19.040328602812906,
+   "gap_MeV": 280.76106167531134,
+   "gA_e2": 17.02697852421116,
+   "gA_e2_N_term": -8.213878178181268,
+   "gA_e2_wedge": -8.81310034602989,
+   "gA_e2_closed_form_relative_difference": 3.288585551648057e-11,
+   "frozen_rule_e": 4.350838994514259,
+   "winding_by_the_rule": 0.9989254069463802,
+   "tensor_quadratic": 33.74147182825095,
+   "quaternion_quartic": 39.83378888188461,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.74286103248596
+ },
+ "r2_g45_iso_s10000": {
+  "file": "m5_41_r2_g45_iso_s10000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 10201,
+   "energy": 75.61764158355858,
+   "target": 10000
+  },
+  "energy": 75.61764158355858,
+  "terms": [
+   33.74089289321266,
+   39.834209006390225,
+   3.885733266888807e-08,
+   0.004416770202869505,
+   0.001966245859794243,
+   2.0361564341825478,
+   1.9485316465997217e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007909292483154588,
+  "residual_winding_as_stored": 0.0007909292483154588,
+  "residual_winding_unit_sphere": 0.0009387597753085619,
+  "residual_factor": 0.00011569460064231386,
+  "gate": 0.0009387597753085619,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000244260256856,
+   2.196999240515259
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.161408505888799,
+  "hemisphere_margin_four_triangulations": 3.1611438436643717,
+  "center_eigenvalues": [
+   0.3513850594351767,
+   0.3723447649365321,
+   0.3839691150310193
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010142369574746568,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.1350552726481,
+   "inertia_diagonal": [
+    38.13457452637308,
+    38.13516452808508,
+    38.13542676348615
+   ],
+   "rS2_fm2": 0.24546236121408807,
+   "rV2_fm2": 0.6256917472482826,
+   "muV": 3.336862287891544,
+   "muV_rigid": 3.341696362701153,
+   "muV_deviation_fraction": -0.0014465930727773912,
+   "m_z": 19.039944682930354,
+   "gap_MeV": 280.7771557202696,
+   "gA_e2": 17.026623580300896,
+   "gA_e2_N_term": -8.213527857351558,
+   "gA_e2_wedge": -8.813095722949338,
+   "gA_e2_closed_form_relative_difference": 8.402571648993957e-11,
+   "frozen_rule_e": 4.350714298469009,
+   "winding_by_the_rule": 0.9989253805287401,
+   "tensor_quadratic": 33.74089289321268,
+   "quaternion_quartic": 39.83420900639019,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.74189019203186
+ },
+ "r2_g45_iso_s30000": {
+  "file": "m5_41_r2_g45_iso_s30000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.61736740697992,
+   "target": 30000
+  },
+  "energy": 75.61736740697992,
+  "terms": [
+   33.740037420669324,
+   39.83471088138301,
+   5.324051028787053e-09,
+   0.00457075113969127,
+   0.001977987295461366,
+   2.0360703328694942,
+   2.8298871302208484e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0002471316897267377,
+  "residual_winding_as_stored": 0.0002471316897267377,
+  "residual_winding_unit_sphere": 0.00029259000030963336,
+  "residual_factor": 2.3597465510040682e-05,
+  "gate": 0.00029259000030963336,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002444287969823,
+   2.197036772531356
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.1613046833465823,
+  "hemisphere_margin_four_triangulations": 3.1604624450028536,
+  "center_eigenvalues": [
+   0.34864769704575643,
+   0.36891752847008785,
+   0.39027665204350814
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.011144938472802832,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.13305103079703,
+   "inertia_diagonal": [
+    38.132424333467455,
+    38.13342210595223,
+    38.13330665297141
+   ],
+   "rS2_fm2": 0.2454564051890129,
+   "rV2_fm2": 0.6256798558226724,
+   "muV": 3.3368050961971556,
+   "muV_rigid": 3.341520735115042,
+   "muV_deviation_fraction": -0.0014112253945730568,
+   "m_z": 19.039618350404908,
+   "gap_MeV": 280.79191313702773,
+   "gA_e2": 17.026094061039785,
+   "gA_e2_N_term": -8.213007447148785,
+   "gA_e2_wedge": -8.813086613890999,
+   "gA_e2_closed_form_relative_difference": 7.468461500080655e-12,
+   "frozen_rule_e": 4.350599967990251,
+   "winding_by_the_rule": 0.9989253570734691,
+   "tensor_quadratic": 33.74003742066935,
+   "quaternion_quartic": 39.834710881382975,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.926289796829224
+ },
+ "r2_g45_chain_s1000": {
+  "file": "m5_41_r2_g45_chain_s1000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 1812,
+   "energy": 75.61755935140651,
+   "target": 1000
+  },
+  "energy": 75.61755935140648,
+  "terms": [
+   33.74036043776122,
+   39.83461487329228,
+   3.467676272245788e-07,
+   0.004520985176162797,
+   0.0019757874543560434,
+   2.036085387159483,
+   1.533795364470348e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009393964899966951,
+  "residual_winding_as_stored": 0.0009393964899966951,
+  "residual_winding_unit_sphere": 0.0009457703449119068,
+  "residual_factor": 0.0003413389722035369,
+  "gate": 0.0009457703449119068,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000001105918548,
+   1.0086905036684763
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.1606645577038983,
+  "hemisphere_margin_four_triangulations": 3.1606645577038983,
+  "center_eigenvalues": [
+   0.35239412734996467,
+   0.37673893413228837,
+   0.37841932473881235
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009166626970837172,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.13387532415187,
+   "inertia_diagonal": [
+    38.13336395695047,
+    38.13432715254099,
+    38.13393486296415
+   ],
+   "rS2_fm2": 0.24545745661878574,
+   "rV2_fm2": 0.6256773680288648,
+   "muV": 3.3367836854089643,
+   "muV_rigid": 3.3415929662442756,
+   "muV_deviation_fraction": -0.0014392180268192334,
+   "m_z": 19.03949618167644,
+   "gap_MeV": 280.78584360157856,
+   "gA_e2": 17.026308048800345,
+   "gA_e2_N_term": -8.213222627504841,
+   "gA_e2_wedge": -8.813085421295504,
+   "gA_e2_closed_form_relative_difference": 1.5956186650981718e-10,
+   "frozen_rule_e": 4.350646989552473,
+   "winding_by_the_rule": 0.9989253550426758,
+   "tensor_quadratic": 33.740360437761254,
+   "quaternion_quartic": 39.834614873292246,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.53065586090088
+ },
+ "r2_g45_chain_s3000": {
+  "file": "m5_41_r2_g45_chain_s3000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 3000,
+   "energy": 75.61753301731078,
+   "target": 3000
+  },
+  "energy": 75.61753301731078,
+  "terms": [
+   33.74017302978215,
+   39.83478344496916,
+   1.778035250288744e-07,
+   0.004538720718567264,
+   0.0019776973938668216,
+   2.0360590844821664,
+   8.621613388825622e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008101233867428435,
+  "residual_winding_as_stored": 0.0008101233867428435,
+  "residual_winding_unit_sphere": 0.0008172371195970248,
+  "residual_factor": 0.00029804313917283266,
+  "gate": 0.0008172371195970248,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000001289594098,
+   1.0087810486286324
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.160386301054394,
+  "hemisphere_margin_four_triangulations": 3.160386301054394,
+  "center_eigenvalues": [
+   0.35163395382685037,
+   0.377208523652395,
+   0.378755549000746
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00963637729340125,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.133522953950255,
+   "inertia_diagonal": [
+    38.13301562905143,
+    38.13395741939876,
+    38.13359581340057
+   ],
+   "rS2_fm2": 0.24545548567225958,
+   "rV2_fm2": 0.6256706760204039,
+   "muV": 3.336762768568752,
+   "muV_rigid": 3.341562088769137,
+   "muV_deviation_fraction": -0.0014362504938978393,
+   "m_z": 19.03937683138679,
+   "gap_MeV": 280.78843818389504,
+   "gA_e2": 17.02620580723437,
+   "gA_e2_N_term": -8.213118056369492,
+   "gA_e2_wedge": -8.813087750864877,
+   "gA_e2_closed_form_relative_difference": 2.557146708234949e-11,
+   "frozen_rule_e": 4.3506268887643245,
+   "winding_by_the_rule": 0.998925342012812,
+   "tensor_quadratic": 33.740173029782184,
+   "quaternion_quartic": 39.834783444969126,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.9099018573761
+ },
+ "r2_g45_chain_s10000": {
+  "file": "m5_41_r2_g45_chain_s10000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 10001,
+   "energy": 75.61749057841318,
+   "target": 10000
+  },
+  "energy": 75.61749057841321,
+  "terms": [
+   33.74005301011453,
+   39.83483581066757,
+   2.9646237944738683e-08,
+   0.0045711361791289035,
+   0.0019802640881329443,
+   2.0360502084616057,
+   1.1925602154123443e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.00047887626808532015,
+  "residual_winding_as_stored": 0.00047887626808532015,
+  "residual_winding_unit_sphere": 0.0004816077399465426,
+  "residual_factor": 6.85285734066419e-05,
+  "gate": 0.0004816077399465426,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000000205889288,
+   1.0092903191397151
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.1606941089458336,
+  "hemisphere_margin_four_triangulations": 3.1597891868892383,
+  "center_eigenvalues": [
+   0.34989088507098814,
+   0.378137149222042,
+   0.37955699593851433
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010306963415712592,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.13226839976854,
+   "inertia_diagonal": [
+    38.13192160386255,
+    38.13249199596619,
+    38.132391599476875
+   ],
+   "rS2_fm2": 0.24545487882057293,
+   "rV2_fm2": 0.6256774960359693,
+   "muV": 3.3367559174532517,
+   "muV_rigid": 3.3414521547696747,
+   "muV_deviation_fraction": -0.0014054480204720443,
+   "m_z": 19.039337739314988,
+   "gap_MeV": 280.7976761422983,
+   "gA_e2": 17.02613049926382,
+   "gA_e2_N_term": -8.213042540522054,
+   "gA_e2_wedge": -8.813087958741768,
+   "gA_e2_closed_form_relative_difference": 1.26706501673922e-10,
+   "frozen_rule_e": 4.350555322572353,
+   "winding_by_the_rule": 0.998925340362956,
+   "tensor_quadratic": 33.74005301011456,
+   "quaternion_quartic": 39.83483581066753,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.508902072906494
+ },
+ "r2_g45_chain_s30000": {
+  "file": "m5_41_r2_g45_chain_s30000.npz",
+  "grid": 45,
+  "half_box": 6.075,
+  "spacing": 0.27613636363636385,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.61748706391482,
+   "target": 30000
+  },
+  "energy": 75.61748706391482,
+  "terms": [
+   33.74004606061343,
+   39.83483829616711,
+   1.8506182218236902e-09,
+   0.004571976912521061,
+   0.00198022380771669,
+   2.036050495683289,
+   8.88014178221496e-09
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.00015120305780865737,
+  "residual_winding_as_stored": 0.00015120305780865737,
+  "residual_winding_unit_sphere": 0.00015235316844472693,
+  "residual_factor": 6.9339001991950355e-06,
+  "gate": 0.00015235316844472693,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000002695676604,
+   1.0097444270304567
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.1606126176052323,
+  "hemisphere_margin_four_triangulations": 3.1598140168637694,
+  "center_eigenvalues": [
+   0.34979633732298626,
+   0.3781906885320941,
+   0.37959729778785517
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.01033847545558289,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 38.131709158755875,
+   "inertia_diagonal": [
+    38.131411863551484,
+    38.13191060000393,
+    38.13180501271221
+   ],
+   "rS2_fm2": 0.24545485696280764,
+   "rV2_fm2": 0.6256819494673986,
+   "muV": 3.3367586336814807,
+   "muV_rigid": 3.34140314963137,
+   "muV_deviation_fraction": -0.0013899896965147152,
+   "m_z": 19.039353237957357,
+   "gap_MeV": 280.8017943310768,
+   "gA_e2": 17.026128297252022,
+   "gA_e2_N_term": -8.213039862196693,
+   "gA_e2_wedge": -8.813088435055327,
+   "gA_e2_closed_form_relative_difference": 1.1064952505370185e-10,
+   "frozen_rule_e": 4.3505234202231495,
+   "winding_by_the_rule": 0.9989253400922867,
+   "tensor_quadratic": 33.74004606061346,
+   "quaternion_quartic": 39.83483829616707,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 36.45357704162598
+ },
+ "r2_g55_iso_s1000": {
+  "file": "m5_41_r2_g55_iso_s1000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.56384686679783,
+   "target": 1000
+  },
+  "energy": 75.56384686679783,
+  "terms": [
+   33.791864533964166,
+   39.774261926247846,
+   2.4933131386121465e-05,
+   0.003961264453924889,
+   0.001967578686842449,
+   1.991708446878368,
+   5.818343530247467e-05
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.02615343361876653,
+  "residual_winding_as_stored": 0.02615343361876653,
+  "residual_winding_unit_sphere": 0.03243828201030931,
+  "residual_factor": 0.0021429389702581634,
+  "gate": 0.03243828201030931,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0003507055140177,
+   2.2539309683647533
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4054256203300577,
+  "hemisphere_margin_four_triangulations": 3.405414441223417,
+  "center_eigenvalues": [
+   0.3645019730074287,
+   0.36832630850422193,
+   0.37041078689832496
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00470063100557086,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.429434763875314,
+   "inertia_diagonal": [
+    37.42894305873883,
+    37.42964129994419,
+    37.42971993294291
+   ],
+   "rS2_fm2": 0.2417845642029195,
+   "rV2_fm2": 0.6210837613358677,
+   "muV": 3.2772408294988495,
+   "muV_rigid": 3.2798642905891557,
+   "muV_deviation_fraction": -0.0007998687926916714,
+   "m_z": 18.6997480635398,
+   "gap_MeV": 286.070372695652,
+   "gA_e2": 16.797177069040718,
+   "gA_e2_N_term": -8.203115143462956,
+   "gA_e2_wedge": -8.594061925577762,
+   "gA_e2_closed_form_relative_difference": 1.306977490035069e-10,
+   "frozen_rule_e": 4.310275296549405,
+   "winding_by_the_rule": 0.999514133059542,
+   "tensor_quadratic": 33.79186453396411,
+   "quaternion_quartic": 39.77426192624792,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.129300117492676
+ },
+ "r2_g55_iso_s3000": {
+  "file": "m5_41_r2_g55_iso_s3000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 4452,
+   "energy": 75.56297741866499,
+   "target": 3000
+  },
+  "energy": 75.562977418665,
+  "terms": [
+   33.79201048385568,
+   39.77252328083596,
+   6.599032733031655e-07,
+   0.00423059378059896,
+   0.0019710029375867412,
+   1.992238971889048,
+   2.4254628443613885e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.000694555167959277,
+  "residual_winding_as_stored": 0.000694555167959277,
+  "residual_winding_unit_sphere": 0.0009124515534757532,
+  "residual_factor": 0.00024892719586188403,
+  "gate": 0.0009124515534757532,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0003531715511287,
+   2.254107753268643
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405465566890511,
+  "hemisphere_margin_four_triangulations": 3.405465566890511,
+  "center_eigenvalues": [
+   0.3575423676258795,
+   0.36635851362585203,
+   0.37978764354213634
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.007988380582426,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.435266782343575,
+   "inertia_diagonal": [
+    37.435252970508174,
+    37.43526389649935,
+    37.4352834800232
+   ],
+   "rS2_fm2": 0.2418076568716305,
+   "rV2_fm2": 0.6213605782209902,
+   "muV": 3.2777852434302246,
+   "muV_rigid": 3.280375338357757,
+   "muV_deviation_fraction": -0.0007895727349387371,
+   "m_z": 18.702854458183538,
+   "gap_MeV": 286.0258059584498,
+   "gA_e2": 16.79698146495989,
+   "gA_e2_N_term": -8.202879442620164,
+   "gA_e2_wedge": -8.594102022339728,
+   "gA_e2_closed_form_relative_difference": 6.15195237770289e-11,
+   "frozen_rule_e": 4.310611083426389,
+   "winding_by_the_rule": 0.9995142266841274,
+   "tensor_quadratic": 33.79201048385563,
+   "quaternion_quartic": 39.77252328083603,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.18358302116394
+ },
+ "r2_g55_iso_s10000": {
+  "file": "m5_41_r2_g55_iso_s10000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 10017,
+   "energy": 75.56293194966419,
+   "target": 10000
+  },
+  "energy": 75.56293194966419,
+  "terms": [
+   33.7918945365459,
+   39.77258950534512,
+   8.935292135233779e-08,
+   0.004244134330948473,
+   0.0019728591705087018,
+   1.9922305068796384,
+   3.180391727154132e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0006911204370789682,
+  "residual_winding_as_stored": 0.0006911204370789682,
+  "residual_winding_unit_sphere": 0.0008616295581730071,
+  "residual_factor": 0.00018549206590543174,
+  "gate": 0.0008616295581730071,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0003534716363214,
+   2.2541113096750167
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405044526745291,
+  "hemisphere_margin_four_triangulations": 3.4049231286237758,
+  "center_eigenvalues": [
+   0.35385548889625845,
+   0.36787011800690944,
+   0.38196839011596134
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009143664494471598,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43416395196126,
+   "inertia_diagonal": [
+    37.4340837002498,
+    37.43415826588328,
+    37.434249889750696
+   ],
+   "rS2_fm2": 0.24180692874058368,
+   "rV2_fm2": 0.6213679099626851,
+   "muV": 3.277778231102337,
+   "muV_rigid": 3.2802786996023947,
+   "muV_deviation_fraction": -0.0007622731874461497,
+   "m_z": 18.70281444624311,
+   "gap_MeV": 286.03423243083853,
+   "gA_e2": 16.796911460337256,
+   "gA_e2_N_term": -8.202805434654366,
+   "gA_e2_wedge": -8.594106025682892,
+   "gA_e2_closed_form_relative_difference": 3.1333420430426253e-10,
+   "frozen_rule_e": 4.310547588381607,
+   "winding_by_the_rule": 0.9995142246539199,
+   "tensor_quadratic": 33.79189453654584,
+   "quaternion_quartic": 39.77258950534519,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.17443609237671
+ },
+ "r2_g55_iso_s30000": {
+  "file": "m5_41_r2_g55_iso_s30000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 30008,
+   "energy": 75.56288769642723,
+   "target": 30000
+  },
+  "energy": 75.56288769642724,
+  "terms": [
+   33.791635743788966,
+   39.77278234444536,
+   2.711160290613815e-08,
+   0.004291378788078844,
+   0.001979036927394708,
+   1.9921991043426208,
+   6.102322004866527e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007864666049065517,
+  "residual_winding_as_stored": 0.0007864666049065517,
+  "residual_winding_unit_sphere": 0.0009806537414388068,
+  "residual_factor": 0.0001229755445343584,
+  "gate": 0.0009806537414388068,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000353629033602,
+   2.25411336512887
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.404366669769429,
+  "hemisphere_margin_four_triangulations": 3.404034353591816,
+  "center_eigenvalues": [
+   0.3484563827943899,
+   0.37105776975055466,
+   0.384154846087565
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009570574182227197,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43275601697962,
+   "inertia_diagonal": [
+    37.4327867868235,
+    37.43261219838619,
+    37.43286906572918
+   ],
+   "rS2_fm2": 0.2418046511571217,
+   "rV2_fm2": 0.6213687717348569,
+   "muV": 3.2777553878326304,
+   "muV_rigid": 3.2801553251592885,
+   "muV_deviation_fraction": -0.0007316535617232223,
+   "m_z": 18.702684103857337,
+   "gap_MeV": 286.0449908586071,
+   "gA_e2": 16.79676689498605,
+   "gA_e2_N_term": -8.202658901283755,
+   "gA_e2_wedge": -8.594107993702295,
+   "gA_e2_closed_form_relative_difference": 3.0278754069440773e-10,
+   "frozen_rule_e": 4.310466525694945,
+   "winding_by_the_rule": 0.9995142186372705,
+   "tensor_quadratic": 33.79163574378891,
+   "quaternion_quartic": 39.77278234444543,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.13895511627197
+ },
+ "r2_g55_chain_s1000": {
+  "file": "m5_41_r2_g55_chain_s1000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 2029,
+   "energy": 75.56291568397673,
+   "target": 1000
+  },
+  "energy": 75.5629156839767,
+  "terms": [
+   33.790712785886086,
+   39.77367450090329,
+   3.763844265893374e-07,
+   0.004472025589481872,
+   0.0019970254657831837,
+   1.9920575469119939,
+   1.4228356359552077e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009711429209800988,
+  "residual_winding_as_stored": 0.0009711429209800988,
+  "residual_winding_unit_sphere": 0.0009766857876816076,
+  "residual_factor": 0.0005148450818648435,
+  "gate": 0.0009766857876816076,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000376998701,
+   1.0064240216043354
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4035124366177065,
+  "hemisphere_margin_four_triangulations": 3.4033868797674476,
+  "center_eigenvalues": [
+   0.3499796123697538,
+   0.3766246067147318,
+   0.37680194330793937
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009479245593232904,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.431805473382475,
+   "inertia_diagonal": [
+    37.43139153002323,
+    37.43216020696081,
+    37.431864683163404
+   ],
+   "rS2_fm2": 0.2417940329375037,
+   "rV2_fm2": 0.6213270388878434,
+   "muV": 3.2776106801523137,
+   "muV_rigid": 3.2800720309813083,
+   "muV_deviation_fraction": -0.0007503953589269585,
+   "m_z": 18.701858410139494,
+   "gap_MeV": 286.0522546876187,
+   "gA_e2": 16.796279246280907,
+   "gA_e2_N_term": -8.202175239203298,
+   "gA_e2_wedge": -8.59410400707761,
+   "gA_e2_closed_form_relative_difference": 1.2965137614622026e-10,
+   "frozen_rule_e": 4.310411796724867,
+   "winding_by_the_rule": 0.9995141857716604,
+   "tensor_quadratic": 33.790712785886036,
+   "quaternion_quartic": 39.77367450090336,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.5737042427063
+ },
+ "r2_g55_chain_s3000": {
+  "file": "m5_41_r2_g55_chain_s3000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 3053,
+   "energy": 75.56289231148406,
+   "target": 3000
+  },
+  "energy": 75.56289231148408,
+  "terms": [
+   33.790695285995085,
+   39.77365824930987,
+   2.1914377478862533e-07,
+   0.004479767262856063,
+   0.0019969301683545604,
+   1.9920609656046284,
+   8.939995214541618e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008845365584250436,
+  "residual_winding_as_stored": 0.0008845365584250436,
+  "residual_winding_unit_sphere": 0.0008888832903485327,
+  "residual_factor": 0.00027826473698327325,
+  "gate": 0.0008888832903485327,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000461731833,
+   1.0064676794076581
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.403602948215996,
+  "hemisphere_margin_four_triangulations": 3.403602948215996,
+  "center_eigenvalues": [
+   0.34938829188235143,
+   0.37690427168341295,
+   0.3771504615931282
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009429128452279834,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43180898718911,
+   "inertia_diagonal": [
+    37.43141294809922,
+    37.43213707967708,
+    37.43187693379104
+   ],
+   "rS2_fm2": 0.24179424805637398,
+   "rV2_fm2": 0.621328393891756,
+   "muV": 3.2776183495831854,
+   "muV_rigid": 3.2800723388889477,
+   "muV_deviation_fraction": -0.0007481509711440015,
+   "m_z": 18.70190217147183,
+   "gap_MeV": 286.0522278352614,
+   "gA_e2": 16.79626231801083,
+   "gA_e2_N_term": -8.20215830206452,
+   "gA_e2_wedge": -8.594104015946309,
+   "gA_e2_closed_form_relative_difference": 3.4537311732357063e-11,
+   "frozen_rule_e": 4.310411999038822,
+   "winding_by_the_rule": 0.9995141873893407,
+   "tensor_quadratic": 33.79069528599503,
+   "quaternion_quartic": 39.77365824930994,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.647624254226685
+ },
+ "r2_g55_chain_s10000": {
+  "file": "m5_41_r2_g55_chain_s10000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 10000,
+   "energy": 75.56286589696467,
+   "target": 10000
+  },
+  "energy": 75.5628658969647,
+  "terms": [
+   33.79062270558859,
+   39.773693700693336,
+   5.526593328804024e-08,
+   0.004495136171278188,
+   0.0019977879143267766,
+   1.9920563357932843,
+   1.7553796192028813e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008359943184331213,
+  "residual_winding_as_stored": 0.0008359943184331213,
+  "residual_winding_unit_sphere": 0.0008392729294885718,
+  "residual_factor": 0.0001104757530270503,
+  "gate": 0.0008392729294885718,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000837258929,
+   1.006609296321674
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.403599527627273,
+  "hemisphere_margin_four_triangulations": 3.4032784676603387,
+  "center_eigenvalues": [
+   0.3479244595163502,
+   0.3776235169377291,
+   0.37787214295763705
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009879320042897557,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43120515240784,
+   "inertia_diagonal": [
+    37.43089484443478,
+    37.43146570492754,
+    37.431254907861195
+   ],
+   "rS2_fm2": 0.2417938385936854,
+   "rV2_fm2": 0.62133244802508,
+   "muV": 3.2776182415437387,
+   "muV_rigid": 3.2800194260905315,
+   "muV_deviation_fraction": -0.0007320641236734371,
+   "m_z": 18.70190155500495,
+   "gap_MeV": 286.05684238837887,
+   "gA_e2": 16.796215491157763,
+   "gA_e2_N_term": -8.202111539366822,
+   "gA_e2_wedge": -8.594103951790942,
+   "gA_e2_closed_form_relative_difference": 3.956774576241196e-11,
+   "frozen_rule_e": 4.310377231988366,
+   "winding_by_the_rule": 0.9995141866351034,
+   "tensor_quadratic": 33.79062270558854,
+   "quaternion_quartic": 39.7736937006934,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.592490911483765
+ },
+ "r2_g55_chain_s30000": {
+  "file": "m5_41_r2_g55_chain_s30000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.56285189029064,
+   "target": 30000
+  },
+  "energy": 75.56285189029064,
+  "terms": [
+   33.790544034419035,
+   39.77374930201201,
+   8.328188163001213e-09,
+   0.004510399305028918,
+   0.001999832932374776,
+   1.9920482900576588,
+   2.3236373137487682e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0004932418665740193,
+  "residual_winding_as_stored": 0.0004932418665740193,
+  "residual_winding_unit_sphere": 0.0004964144414696732,
+  "residual_factor": 2.7687736536055996e-05,
+  "gate": 0.0004964144414696732,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000001252148336,
+   1.0067453836376912
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4034885031967965,
+  "hemisphere_margin_four_triangulations": 3.402971980959846,
+  "center_eigenvalues": [
+   0.34634825991409435,
+   0.3782218608521057,
+   0.3788487005372297
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010279437440166517,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43027336788462,
+   "inertia_diagonal": [
+    37.42996495727595,
+    37.4304917310721,
+    37.43036341530581
+   ],
+   "rS2_fm2": 0.24179319573546276,
+   "rV2_fm2": 0.6213375475523402,
+   "muV": 3.2776133722970613,
+   "muV_rigid": 3.2799377757315686,
+   "muV_deviation_fraction": -0.0007086730277950926,
+   "m_z": 18.701873771362898,
+   "gap_MeV": 286.06396345147874,
+   "gA_e2": 16.79617391621284,
+   "gA_e2_N_term": -8.202068864312805,
+   "gA_e2_wedge": -8.594105051900035,
+   "gA_e2_closed_form_relative_difference": 1.1592289938564498e-10,
+   "frozen_rule_e": 4.31032358199536,
+   "winding_by_the_rule": 0.9995141849559946,
+   "tensor_quadratic": 33.790544034418986,
+   "quaternion_quartic": 39.77374930201207,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.5979540348053
+ },
+ "r2_g55_smooth_s1000": {
+  "file": "m5_41_r2_g55_smooth_s1000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 2281,
+   "energy": 75.5617708871379,
+   "target": 1000
+  },
+  "energy": 75.5617708871379,
+  "terms": [
+   33.79167843868516,
+   39.77156434090667,
+   4.966959568147191e-08,
+   0.004186354734220031,
+   0.001971004602925651,
+   1.9923703807760262,
+   3.1776330900035755e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007189998557224155,
+  "residual_winding_as_stored": 0.0007189998557224155,
+  "residual_winding_unit_sphere": 0.0009775033263313968,
+  "residual_factor": 0.0004959446866187423,
+  "gate": 0.0009775033263313968,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0005922344350324,
+   3.9043617582743675
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405589330939127,
+  "hemisphere_margin_four_triangulations": 3.405589330939127,
+  "center_eigenvalues": [
+   0.33199252780736055,
+   0.3833590808805446,
+   0.3895594040206979
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.008341554661571021,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.438235342619,
+   "inertia_diagonal": [
+    37.43726809148784,
+    37.43866533468981,
+    37.438772601679354
+   ],
+   "rS2_fm2": 0.2418190660823063,
+   "rV2_fm2": 0.6213935574800857,
+   "muV": 3.277991414298093,
+   "muV_rigid": 3.28063546718159,
+   "muV_deviation_fraction": -0.0008059575377842298,
+   "m_z": 18.70403085732164,
+   "gap_MeV": 286.0031263412738,
+   "gA_e2": 16.796508989161914,
+   "gA_e2_N_term": -8.202435529101118,
+   "gA_e2_wedge": -8.594073460060795,
+   "gA_e2_closed_form_relative_difference": 1.0000387122070246e-10,
+   "frozen_rule_e": 4.310781992521648,
+   "winding_by_the_rule": 0.999514296961282,
+   "tensor_quadratic": 33.791678438685096,
+   "quaternion_quartic": 39.77156434090673,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.1485812664032
+ },
+ "r2_g55_smooth_s3000": {
+  "file": "m5_41_r2_g55_smooth_s3000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 3234,
+   "energy": 75.56174129451988,
+   "target": 3000
+  },
+  "energy": 75.56174129451988,
+  "terms": [
+   33.79178324483762,
+   39.7713961387846,
+   2.895807003740947e-08,
+   0.004195498200585747,
+   0.0019715375256965087,
+   1.9923946509303623,
+   1.9528295591595216e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0003544200849210921,
+  "residual_winding_as_stored": 0.0003544200849210921,
+  "residual_winding_unit_sphere": 0.0004985252690661396,
+  "residual_factor": 0.0002835433513608175,
+  "gate": 0.0004985252690661396,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0005925180225266,
+   3.9043626317181945
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.40561159304313,
+  "hemisphere_margin_four_triangulations": 3.405606209631966,
+  "center_eigenvalues": [
+   0.33111659183287906,
+   0.38322340044417297,
+   0.3905721804661034
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.008329112279600051,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43848272796461,
+   "inertia_diagonal": [
+    37.43750675176937,
+    37.43893643125989,
+    37.43900500086456
+   ],
+   "rS2_fm2": 0.24182114935470586,
+   "rV2_fm2": 0.6213921030860007,
+   "muV": 3.278016608932525,
+   "muV_rigid": 3.2806571450499895,
+   "muV_deviation_fraction": -0.0008048802421943835,
+   "m_z": 18.704174616459568,
+   "gap_MeV": 286.0012364948617,
+   "gA_e2": 16.796546583630654,
+   "gA_e2_N_term": -8.202468929470554,
+   "gA_e2_wedge": -8.5940776541601,
+   "gA_e2_closed_form_relative_difference": 1.0463898834378872e-10,
+   "frozen_rule_e": 4.310796234946827,
+   "winding_by_the_rule": 0.9995143048076339,
+   "tensor_quadratic": 33.79178324483757,
+   "quaternion_quartic": 39.77139613878467,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.503674030303955
+ },
+ "r2_g55_smooth_s10000": {
+  "file": "m5_41_r2_g55_smooth_s10000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 10000,
+   "energy": 75.56170866330487,
+   "target": 10000
+  },
+  "energy": 75.56170866330488,
+  "terms": [
+   33.7914801541952,
+   39.77172953085965,
+   5.573014548001231e-09,
+   0.004202319411119608,
+   0.0019722994397596383,
+   1.9923243229499596,
+   3.087617925959638e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0002127340380736621,
+  "residual_winding_as_stored": 0.0002127340380736621,
+  "residual_winding_unit_sphere": 0.0003083680612707708,
+  "residual_factor": 6.437892250019239e-05,
+  "gate": 0.0003083680612707708,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0005935040077467,
+   3.9043717320076827
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4056006357783803,
+  "hemisphere_margin_four_triangulations": 3.4056006357783803,
+  "center_eigenvalues": [
+   0.3300308681334518,
+   0.38276649308717337,
+   0.3921192431215463
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.008387005816570536,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.436054975264646,
+   "inertia_diagonal": [
+    37.43519813062443,
+    37.436392123325,
+    37.436574671844525
+   ],
+   "rS2_fm2": 0.24181694672294088,
+   "rV2_fm2": 0.6213836203095301,
+   "muV": 3.2779488254124765,
+   "muV_rigid": 3.2804444060803193,
+   "muV_deviation_fraction": -0.0007607446915476324,
+   "m_z": 18.703787847584863,
+   "gap_MeV": 286.01978386248777,
+   "gA_e2": 16.79635613976805,
+   "gA_e2_N_term": -8.202288041175805,
+   "gA_e2_wedge": -8.594068098592244,
+   "gA_e2_closed_form_relative_difference": 1.6546165636639186e-10,
+   "frozen_rule_e": 4.310656462764507,
+   "winding_by_the_rule": 0.9995142922345625,
+   "tensor_quadratic": 33.79148015419514,
+   "quaternion_quartic": 39.77172953085972,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.275190114974976
+ },
+ "r2_g55_smooth_s30000": {
+  "file": "m5_41_r2_g55_smooth_s30000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.56170360256297,
+   "target": 30000
+  },
+  "energy": 75.56170360256296,
+  "terms": [
+   33.79147874217579,
+   39.771721227611145,
+   2.990954980754055e-10,
+   0.0042031573236624474,
+   0.0019721928101971366,
+   1.9923282803709028,
+   1.9721624490288837e-09
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 5.411708432226584e-05,
+  "residual_winding_as_stored": 5.411708432226584e-05,
+  "residual_winding_unit_sphere": 7.46490878804943e-05,
+  "residual_factor": 9.240757161542494e-06,
+  "gate": 7.46490878804943e-05,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0005937408249481,
+   3.904384552568281
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4056285507451824,
+  "hemisphere_margin_four_triangulations": 3.4056285507451824,
+  "center_eigenvalues": [
+   0.32999594940128635,
+   0.38251579816995057,
+   0.3924088569252747
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.008383632286541771,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.435084278585265,
+   "inertia_diagonal": [
+    37.43437811479655,
+    37.43530570786493,
+    37.43556901309432
+   ],
+   "rS2_fm2": 0.24181708666786883,
+   "rV2_fm2": 0.6213947011885212,
+   "muV": 3.2779521196940813,
+   "muV_rigid": 3.2803593459292437,
+   "muV_deviation_fraction": -0.0007338300415622445,
+   "m_z": 18.703806644566612,
+   "gap_MeV": 286.02720039325783,
+   "gA_e2": 16.796361320394173,
+   "gA_e2_N_term": -8.202290892306301,
+   "gA_e2_wedge": -8.594070428087871,
+   "gA_e2_closed_form_relative_difference": 2.452434398751224e-10,
+   "frozen_rule_e": 4.310600575905677,
+   "winding_by_the_rule": 0.9995142924961737,
+   "tensor_quadratic": 33.791478742175734,
+   "quaternion_quartic": 39.77172122761121,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 56.02890110015869
+ },
+ "r2_g55_author_s1000": {
+  "file": "m5_41_r2_g55_author_s1000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 1856,
+   "energy": 75.5617542715497,
+   "target": 1000
+  },
+  "energy": 75.5617542715497,
+  "terms": [
+   33.79137684211397,
+   39.77183330782938,
+   4.492383474275674e-09,
+   0.004243824256792363,
+   0.0019791746807252815,
+   1.9923210837415568,
+   3.4434890954661257e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.000868420636294032,
+  "residual_winding_as_stored": 0.000868420636294032,
+  "residual_winding_unit_sphere": 0.0008685981112530734,
+  "residual_factor": 0.0003621308515524417,
+  "gate": 0.0008685981112530734,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000655411772,
+   1.0002689174819763
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405362984209642,
+  "hemisphere_margin_four_triangulations": 3.40532483530793,
+  "center_eigenvalues": [
+   0.33027383584832476,
+   0.38017831348532094,
+   0.3945664645714379
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.011109264458827067,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.437026665485845,
+   "inertia_diagonal": [
+    37.435868083704136,
+    37.43768646688112,
+    37.43752544587228
+   ],
+   "rS2_fm2": 0.2418159299705557,
+   "rV2_fm2": 0.6213781495494063,
+   "muV": 3.276074931331187,
+   "muV_rigid": 3.280529553293418,
+   "muV_deviation_fraction": -0.0013578972205139372,
+   "m_z": 18.693095515516234,
+   "gap_MeV": 286.0123601258344,
+   "gA_e2": 16.796332881464664,
+   "gA_e2_N_term": -8.202254061974534,
+   "gA_e2_wedge": -8.594078819490129,
+   "gA_e2_closed_form_relative_difference": 2.114516521329129e-11,
+   "frozen_rule_e": 4.310712406099815,
+   "winding_by_the_rule": 0.9995142878066418,
+   "tensor_quadratic": 33.79137684211392,
+   "quaternion_quartic": 39.771833307829446,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.45598888397217
+ },
+ "r2_g55_author_s3000": {
+  "file": "m5_41_r2_g55_author_s3000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 3002,
+   "energy": 75.56174949446965,
+   "target": 3000
+  },
+  "energy": 75.56174949446964,
+  "terms": [
+   33.79122616235159,
+   39.77200831848889,
+   1.4533617763672419e-09,
+   0.004245151152114002,
+   0.001979995472577345,
+   1.9922898538465252,
+   1.1704564161316096e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0006157558763831131,
+  "residual_winding_as_stored": 0.0006157558763831131,
+  "residual_winding_unit_sphere": 0.0006158443212539869,
+  "residual_factor": 0.00016926020875716608,
+  "gate": 0.0006158443212539869,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000730659455,
+   1.000296870485797
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405397546819837,
+  "hemisphere_margin_four_triangulations": 3.405391439802152,
+  "center_eigenvalues": [
+   0.33004717379399306,
+   0.3803442450440457,
+   0.3945557333702105
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010477302750920695,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43664517105898,
+   "inertia_diagonal": [
+    37.43547552449194,
+    37.43730473144365,
+    37.43715525724134
+   ],
+   "rS2_fm2": 0.24181379999235855,
+   "rV2_fm2": 0.6213689606293687,
+   "muV": 3.276062111995151,
+   "muV_rigid": 3.280496123722397,
+   "muV_deviation_fraction": -0.001351628400101501,
+   "m_z": 18.693022369120627,
+   "gap_MeV": 286.0152747064787,
+   "gA_e2": 16.796253476095306,
+   "gA_e2_N_term": -8.202175053154587,
+   "gA_e2_wedge": -8.594078422940719,
+   "gA_e2_closed_form_relative_difference": 7.807370260052693e-11,
+   "frozen_rule_e": 4.310690442323645,
+   "winding_by_the_rule": 0.9995142801236663,
+   "tensor_quadratic": 33.791226162351535,
+   "quaternion_quartic": 39.77200831848895,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.376259088516235
+ },
+ "r2_g55_author_s10000": {
+  "file": "m5_41_r2_g55_author_s10000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 10000,
+   "energy": 75.56173897115201,
+   "target": 10000
+  },
+  "energy": 75.56173897115198,
+  "terms": [
+   33.79126781202487,
+   39.771938456577836,
+   9.272884696070328e-10,
+   0.0042485199268752485,
+   0.001979828705447922,
+   1.9923043482783853,
+   4.711293194195242e-09
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008145577096750513,
+  "residual_winding_as_stored": 0.0008145577096750513,
+  "residual_winding_unit_sphere": 0.000814748034800036,
+  "residual_factor": 6.628159188544673e-05,
+  "gate": 0.000814748034800036,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000001198405524,
+   1.000479124768537
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.405540956435402,
+  "hemisphere_margin_four_triangulations": 3.4054667803960412,
+  "center_eigenvalues": [
+   0.3298115997662156,
+   0.3802142507045166,
+   0.3949346038278607
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010769115382735853,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.43547227472197,
+   "inertia_diagonal": [
+    37.434410184350256,
+    37.43628534240424,
+    37.43572129741138
+   ],
+   "rS2_fm2": 0.24181466904959914,
+   "rV2_fm2": 0.6213880071832953,
+   "muV": 3.2761967810974455,
+   "muV_rigid": 3.2803933452317096,
+   "muV_deviation_fraction": -0.0012792868697786286,
+   "m_z": 18.693790783288478,
+   "gap_MeV": 286.02423589349326,
+   "gA_e2": 16.79627910148041,
+   "gA_e2_N_term": -8.202198998639131,
+   "gA_e2_wedge": -8.594080102841275,
+   "gA_e2_closed_form_relative_difference": 1.7037470698079053e-10,
+   "frozen_rule_e": 4.310622914469472,
+   "winding_by_the_rule": 0.9995142833872623,
+   "tensor_quadratic": 33.79126781202481,
+   "quaternion_quartic": 39.7719384565779,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.51893401145935
+ },
+ "r2_g55_author_s30000": {
+  "file": "m5_41_r2_g55_author_s30000.npz",
+  "grid": 55,
+  "half_box": 6.075,
+  "spacing": 0.22499999999999964,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.5617365877321,
+   "target": 30000
+  },
+  "energy": 75.5617365877321,
+  "terms": [
+   33.791264172194495,
+   39.77193856158426,
+   4.739583058938363e-11,
+   0.00424874605299937,
+   0.0019797873595161406,
+   1.9923053202833907,
+   2.1005661240622954e-10
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 8.596101810105657e-05,
+  "residual_winding_as_stored": 8.596101810105657e-05,
+  "residual_winding_unit_sphere": 8.59918234128821e-05,
+  "residual_factor": 9.310437966874734e-06,
+  "gate": 8.59918234128821e-05,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000000154391684,
+   1.0006695185308063
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.4054707004945386,
+  "hemisphere_margin_four_triangulations": 3.4054619869829073,
+  "center_eigenvalues": [
+   0.32978662854594887,
+   0.38016880584584795,
+   0.3950106058586758
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010732248033257799,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.4352332803006,
+   "inertia_diagonal": [
+    37.43421370616365,
+    37.43603893818178,
+    37.435447196556375
+   ],
+   "rS2_fm2": 0.24181467960081812,
+   "rV2_fm2": 0.6213905515402305,
+   "muV": 3.276220344405978,
+   "muV_rigid": 3.2803724026427226,
+   "muV_deviation_fraction": -0.0012657277062201322,
+   "m_z": 18.693925234174458,
+   "gap_MeV": 286.02606193251495,
+   "gA_e2": 16.796279754489376,
+   "gA_e2_N_term": -8.202198872368651,
+   "gA_e2_wedge": -8.594080882120727,
+   "gA_e2_closed_form_relative_difference": 1.264716237603349e-10,
+   "frozen_rule_e": 4.310609154572631,
+   "winding_by_the_rule": 0.9995142833276947,
+   "tensor_quadratic": 33.79126417219444,
+   "quaternion_quartic": 39.77193856158433,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 57.74785804748535
+ },
+ "r2_g65_iso_s1000": {
+  "file": "m5_41_r2_g65_iso_s1000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.52522971634114,
+   "target": 1000
+  },
+  "energy": 75.52522971634114,
+  "terms": [
+   33.80560084005821,
+   39.74924994939349,
+   2.7475695836508707e-05,
+   0.0038746145045270206,
+   0.001987357793260087,
+   1.9644219852439082,
+   6.749365192528693e-05
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.03370130227715815,
+  "residual_winding_as_stored": 0.03370130227715815,
+  "residual_winding_unit_sphere": 0.039249177876628696,
+  "residual_factor": 0.002911414077006399,
+  "gate": 0.039249177876628696,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0002382812694464,
+   2.2406741272854243
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5580228576597723,
+  "hemisphere_margin_four_triangulations": 3.5580099542894734,
+  "center_eigenvalues": [
+   0.36529348001765705,
+   0.3664140543762109,
+   0.36920558938841136
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.002925624749481592,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.99868175452562,
+   "inertia_diagonal": [
+    36.99816162323565,
+    36.99912688548556,
+    36.99875675485564
+   ],
+   "rS2_fm2": 0.23945006446664363,
+   "rV2_fm2": 0.6183703081520358,
+   "muV": 3.2405055355865335,
+   "muV_rigid": 3.242118291421853,
+   "muV_deviation_fraction": -0.0004974389242942134,
+   "m_z": 18.490138585036675,
+   "gap_MeV": 289.4009149766447,
+   "gA_e2": 16.65210805523374,
+   "gA_e2_N_term": -8.189261639914465,
+   "gA_e2_wedge": -8.462846415319273,
+   "gA_e2_closed_form_relative_difference": 3.274269939139304e-11,
+   "frozen_rule_e": 4.2854013325553435,
+   "winding_by_the_rule": 0.9997495028186983,
+   "tensor_quadratic": 33.80560084005813,
+   "quaternion_quartic": 39.74924994939357,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 113.84412121772766
+ },
+ "r2_g65_iso_s3000": {
+  "file": "m5_41_r2_g65_iso_s3000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 8294,
+   "energy": 75.52390185972244,
+   "target": 3000
+  },
+  "energy": 75.52390185972243,
+  "terms": [
+   33.80759903802794,
+   39.7451047410166,
+   1.41992171071622e-07,
+   0.00422220857891203,
+   0.001981528093046515,
+   1.9649935254897435,
+   6.765240250150131e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008153077028067826,
+  "residual_winding_as_stored": 0.0008153077028067826,
+  "residual_winding_unit_sphere": 0.0009690334440263339,
+  "residual_factor": 0.0004335240669572169,
+  "gate": 0.0009690334440263339,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000242874196873,
+   2.241000127621017
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5578765578851494,
+  "hemisphere_margin_four_triangulations": 3.557099263474648,
+  "center_eigenvalues": [
+   0.34952670836256006,
+   0.37005110836269717,
+   0.3816130355903322
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00961123342877001,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.00520861160094,
+   "inertia_diagonal": [
+    37.005249781758394,
+    37.005007510688934,
+    37.0053685423555
+   ],
+   "rS2_fm2": 0.23949904427469126,
+   "rV2_fm2": 0.6184672203614963,
+   "muV": 3.2411736980936183,
+   "muV_rigid": 3.2426902264667223,
+   "muV_deviation_fraction": -0.0004676759934471031,
+   "m_z": 18.4939510819504,
+   "gap_MeV": 289.34987139439266,
+   "gA_e2": 16.65224007108113,
+   "gA_e2_N_term": -8.189426524071532,
+   "gA_e2_wedge": -8.462813547009599,
+   "gA_e2_closed_form_relative_difference": 2.4894814959100927e-10,
+   "frozen_rule_e": 4.285779305056657,
+   "winding_by_the_rule": 0.9997496068781274,
+   "tensor_quadratic": 33.80759903802787,
+   "quaternion_quartic": 39.745104741016675,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 112.46779012680054
+ },
+ "r2_g65_iso_s10000": {
+  "file": "m5_41_r2_g65_iso_s10000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 11032,
+   "energy": 75.52386680722665,
+   "target": 10000
+  },
+  "energy": 75.52386680722667,
+  "terms": [
+   33.80749986194352,
+   39.74515614786097,
+   7.788399561125555e-08,
+   0.004242241006490753,
+   0.0019835541892528935,
+   1.9649845299766173,
+   3.9436582775846094e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0005968980901648719,
+  "residual_winding_as_stored": 0.000570182023884613,
+  "residual_winding_unit_sphere": 0.0007318114475229707,
+  "residual_factor": 0.0005968980901648719,
+  "gate": 0.0007318114475229707,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002429347808879,
+   2.2410027025081356
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.557858977820485,
+  "hemisphere_margin_four_triangulations": 3.556467981937584,
+  "center_eigenvalues": [
+   0.34738733669884375,
+   0.3709563035511122,
+   0.38271178890142693
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00980574688441619,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.00494446365508,
+   "inertia_diagonal": [
+    37.00501064537539,
+    37.00473004816199,
+    37.00509269742785
+   ],
+   "rS2_fm2": 0.2394984475812823,
+   "rV2_fm2": 0.6184662606241184,
+   "muV": 3.2411690769043138,
+   "muV_rigid": 3.2426670797261816,
+   "muV_deviation_fraction": -0.00046196627191041895,
+   "m_z": 18.493924713709475,
+   "gap_MeV": 289.3519368257903,
+   "gA_e2": 16.65217888408528,
+   "gA_e2_N_term": -8.189364140243217,
+   "gA_e2_wedge": -8.462814743842065,
+   "gA_e2_closed_form_relative_difference": 1.267476513856325e-10,
+   "frozen_rule_e": 4.285764008806986,
+   "winding_by_the_rule": 0.9997496064008632,
+   "tensor_quadratic": 33.807499861943455,
+   "quaternion_quartic": 39.745156147861046,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 113.2004337310791
+ },
+ "r2_g65_iso_s30000": {
+  "file": "m5_41_r2_g65_iso_s30000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 30128,
+   "energy": 75.52373585554763,
+   "target": 30000
+  },
+  "energy": 75.52373585554764,
+  "terms": [
+   33.80696911881051,
+   39.745506581231524,
+   3.966901502566674e-08,
+   0.004335015881748191,
+   0.001995356076053648,
+   1.9649296121456383,
+   1.317331412167352e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007839114181290186,
+  "residual_winding_as_stored": 0.0007839114181290186,
+  "residual_winding_unit_sphere": 0.0009337533062550288,
+  "residual_factor": 0.0003254837747250451,
+  "gate": 0.0009337533062550288,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000243076374843,
+   2.241004543716821
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5573037188079133,
+  "hemisphere_margin_four_triangulations": 3.555481278427708,
+  "center_eigenvalues": [
+   0.3395102774124881,
+   0.37420954648494054,
+   0.3870157732192498
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010137286315082067,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.00361333270003,
+   "inertia_diagonal": [
+    37.00381660408551,
+    37.003164208870515,
+    37.003859185144066
+   ],
+   "rS2_fm2": 0.23949434732422673,
+   "rV2_fm2": 0.6184584633142843,
+   "muV": 3.2411286068918987,
+   "muV_rigid": 3.2425504354617645,
+   "muV_deviation_fraction": -0.0004384908109110741,
+   "m_z": 18.493693794141564,
+   "gap_MeV": 289.3623456827998,
+   "gA_e2": 16.651871420946556,
+   "gA_e2_N_term": -8.189054555008758,
+   "gA_e2_wedge": -8.462816865937798,
+   "gA_e2_closed_form_relative_difference": 1.258248964656522e-10,
+   "frozen_rule_e": 4.2856869249939225,
+   "winding_by_the_rule": 0.9997496020151491,
+   "tensor_quadratic": 33.80696911881044,
+   "quaternion_quartic": 39.745506581231595,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 113.5801649093628
+ },
+ "r2_g65_chain_s1000": {
+  "file": "m5_41_r2_g65_chain_s1000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 1646,
+   "energy": 75.5240398160891,
+   "target": 1000
+  },
+  "energy": 75.52403981608907,
+  "terms": [
+   33.80656513620835,
+   39.74619932214802,
+   4.434906085411872e-07,
+   0.004441125183183517,
+   0.00200995502234832,
+   1.9648222410001561,
+   1.593036428870062e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009942681247852787,
+  "residual_winding_as_stored": 0.0009942681247852787,
+  "residual_winding_unit_sphere": 0.000996846932119076,
+  "residual_factor": 0.0006770623616721802,
+  "gate": 0.000996846932119076,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000124744213,
+   1.006485442637824
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5567165636925915,
+  "hemisphere_margin_four_triangulations": 3.5564191741880142,
+  "center_eigenvalues": [
+   0.34871456260249234,
+   0.37560673008342244,
+   0.37645503141913006
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009775879553586733,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.002401209196286,
+   "inertia_diagonal": [
+    37.002051939237106,
+    37.00268455035103,
+    37.002467138000725
+   ],
+   "rS2_fm2": 0.23948601171488731,
+   "rV2_fm2": 0.6184330820596294,
+   "muV": 3.2409803727373183,
+   "muV_rigid": 3.2424442195752365,
+   "muV_deviation_fraction": -0.00045146400023809985,
+   "m_z": 18.492847978563987,
+   "gap_MeV": 289.3718246054869,
+   "gA_e2": 16.65171807666052,
+   "gA_e2_N_term": -8.18890917231917,
+   "gA_e2_wedge": -8.46280890434135,
+   "gA_e2_closed_form_relative_difference": 1.1559678895043462e-10,
+   "frozen_rule_e": 4.285616731519211,
+   "winding_by_the_rule": 0.9997495844665415,
+   "tensor_quadratic": 33.806565136208285,
+   "quaternion_quartic": 39.74619932214809,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 112.69031310081482
+ },
+ "r2_g65_chain_s3000": {
+  "file": "m5_41_r2_g65_chain_s3000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 3158,
+   "energy": 75.5240262296591,
+   "target": 3000
+  },
+  "energy": 75.52402622965909,
+  "terms": [
+   33.80652438527202,
+   39.74621838601164,
+   2.1845600239596285e-07,
+   0.004448748069977058,
+   0.002011246774850731,
+   1.9648224943494121,
+   7.507251747619024e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009735478860123029,
+  "residual_winding_as_stored": 0.0009735478860123029,
+  "residual_winding_unit_sphere": 0.000977302306122978,
+  "residual_factor": 0.00038821221198420913,
+  "gate": 0.000977302306122978,
+  "gate_met": true,
+  "winding_length_range": [
+   1.000000018299968,
+   1.0065233784760954
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5565661149786285,
+  "hemisphere_margin_four_triangulations": 3.556539589375943,
+  "center_eigenvalues": [
+   0.34797879507302365,
+   0.3759327813964044,
+   0.37682404344071113
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009461983788229843,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.002343064096834,
+   "inertia_diagonal": [
+    37.002010380448105,
+    37.00261476950837,
+    37.002404042334035
+   ],
+   "rS2_fm2": 0.23948584136242757,
+   "rV2_fm2": 0.6184340838492807,
+   "muV": 3.2409840139754746,
+   "muV_rigid": 3.2424391244399087,
+   "muV_deviation_fraction": -0.00044877032647006043,
+   "m_z": 18.492868755259906,
+   "gap_MeV": 289.37227932138126,
+   "gA_e2": 16.65169694385139,
+   "gA_e2_N_term": -8.18888525041146,
+   "gA_e2_wedge": -8.462811693439932,
+   "gA_e2_closed_form_relative_difference": 6.567882119498343e-11,
+   "frozen_rule_e": 4.28561336433626,
+   "winding_by_the_rule": 0.9997495841950055,
+   "tensor_quadratic": 33.80652438527196,
+   "quaternion_quartic": 39.74621838601171,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 113.70243215560913
+ },
+ "r2_g65_chain_s10000": {
+  "file": "m5_41_r2_g65_chain_s10000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 10000,
+   "energy": 75.52400467464375,
+   "target": 10000
+  },
+  "energy": 75.52400467464372,
+  "terms": [
+   33.806459843115924,
+   39.74624675580846,
+   5.2583287301826477e-08,
+   0.004463189434955867,
+   0.002013019170578942,
+   1.96482164784949,
+   1.6668102973109066e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0008769743554998079,
+  "residual_winding_as_stored": 0.0008769743554998079,
+  "residual_winding_unit_sphere": 0.0008788029388165394,
+  "residual_factor": 0.00021749686193617314,
+  "gate": 0.0008788029388165394,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000438873613,
+   1.0066124132869294
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5565001564904137,
+  "hemisphere_margin_four_triangulations": 3.5565001564904137,
+  "center_eigenvalues": [
+   0.3459551865951871,
+   0.3772360837802309,
+   0.37754786775129145
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.00967009464830653,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.002030105615006,
+   "inertia_diagonal": [
+    37.00170723729453,
+    37.00228479351828,
+    37.00209828603221
+   ],
+   "rS2_fm2": 0.2394855510945758,
+   "rV2_fm2": 0.6184386527008362,
+   "muV": 3.2409890522050113,
+   "muV_rigid": 3.2424117005326156,
+   "muV_deviation_fraction": -0.0004387623963270082,
+   "m_z": 18.492897503108452,
+   "gap_MeV": 289.37472679545124,
+   "gA_e2": 16.651661058982043,
+   "gA_e2_N_term": -8.188846684207455,
+   "gA_e2_wedge": -8.46281437477459,
+   "gA_e2_closed_form_relative_difference": 6.243063420077093e-11,
+   "frozen_rule_e": 4.285595240863838,
+   "winding_by_the_rule": 0.9997495840127804,
+   "tensor_quadratic": 33.80645984311586,
+   "quaternion_quartic": 39.746246755808535,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 114.0572988986969
+ },
+ "r2_g65_chain_s30000": {
+  "file": "m5_41_r2_g65_chain_s30000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 30002,
+   "energy": 75.5239797641447,
+   "target": 30000
+  },
+  "energy": 75.5239797641447,
+  "terms": [
+   33.80631205149758,
+   39.746355497465814,
+   1.3757577819330482e-08,
+   0.0044910653480290325,
+   0.002016425855850995,
+   1.9648046683375546,
+   4.1882286936094156e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0003964952748666487,
+  "residual_winding_as_stored": 0.0003964952748666487,
+  "residual_winding_unit_sphere": 0.0003988297120220632,
+  "residual_factor": 0.00014630053578581012,
+  "gate": 0.0003988297120220632,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000710705998,
+   1.0066848270055937
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5562629310886944,
+  "hemisphere_margin_four_triangulations": 3.5560068340824196,
+  "center_eigenvalues": [
+   0.34398757601385194,
+   0.37800796736451797,
+   0.37863344981422425
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009910708722571673,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 37.00127331891186,
+   "inertia_diagonal": [
+    37.00094149777905,
+    37.00156334533332,
+    37.00131511362322
+   ],
+   "rS2_fm2": 0.2394842736460899,
+   "rV2_fm2": 0.6184386179596951,
+   "muV": 3.2409789125610438,
+   "muV_rigid": 3.2423453848722565,
+   "muV_deviation_fraction": -0.00042144563549217917,
+   "m_z": 18.492839646881976,
+   "gap_MeV": 289.380645374079,
+   "gA_e2": 16.651577628271845,
+   "gA_e2_N_term": -8.188763003330372,
+   "gA_e2_wedge": -8.462814624941474,
+   "gA_e2_closed_form_relative_difference": 1.1101893124951809e-10,
+   "frozen_rule_e": 4.285551414916078,
+   "winding_by_the_rule": 0.9997495822802199,
+   "tensor_quadratic": 33.80631205149752,
+   "quaternion_quartic": 39.74635549746589,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 114.31908106803894
+ },
+ "r2_g65_smooth_s1000": {
+  "file": "m5_41_r2_g65_smooth_s1000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.60234830479301,
+   "target": 1000
+  },
+  "energy": 75.60234830479301,
+  "terms": [
+   33.802402089124,
+   39.753097297577185,
+   9.390290014203108e-07,
+   0.008264187733299429,
+   0.07568297409560688,
+   1.9628935270680226,
+   7.290165885139795e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.09278388988855261,
+  "residual_winding_as_stored": 0.040087857161809584,
+  "residual_winding_unit_sphere": 0.06139162012591218,
+  "residual_factor": 0.09278388988855261,
+  "gate": 0.09278388988855261,
+  "gate_met": false,
+  "winding_length_range": [
+   0.9992717122323633,
+   4.260238229576782
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5580142900664624,
+  "hemisphere_margin_four_triangulations": 3.5579764269005527,
+  "center_eigenvalues": [
+   0.34137730986626436,
+   0.37722872949817066,
+   0.38290057043261955
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 24,
+   "largest_excess": 0.972320710655219,
+   "potential_energy_of_the_lumps": 0.07339646068425887,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719091693847566
+    },
+    {
+     "index": [
+      1,
+      1,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9715653209969881
+    },
+    {
+     "index": [
+      1,
+      2,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719097930112237
+    },
+    {
+     "index": [
+      1,
+      2,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9715676257942929
+    },
+    {
+     "index": [
+      1,
+      62,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9718964465858762
+    },
+    {
+     "index": [
+      1,
+      62,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.972135972656209
+    },
+    {
+     "index": [
+      1,
+      63,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9718986439262391
+    },
+    {
+     "index": [
+      1,
+      63,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9721360174284227
+    },
+    {
+     "index": [
+      2,
+      1,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971909889959947
+    },
+    {
+     "index": [
+      2,
+      1,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9715651142904925
+    },
+    {
+     "index": [
+      2,
+      63,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9718984843766312
+    },
+    {
+     "index": [
+      2,
+      63,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9721314733474427
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 36.98435964049858,
+   "inertia_diagonal": [
+    36.98348718828035,
+    36.984610731916156,
+    36.98498100129924
+   ],
+   "rS2_fm2": 0.23939310384569668,
+   "rV2_fm2": 0.6175922874230036,
+   "muV": 3.239250065146908,
+   "muV_rigid": 3.240863274062938,
+   "muV_deviation_fraction": -0.0004977713589280341,
+   "m_z": 18.482974942770625,
+   "gap_MeV": 289.5129848608907,
+   "gA_e2": 16.64871422492759,
+   "gA_e2_N_term": -8.186448161760909,
+   "gA_e2_wedge": -8.462266063166682,
+   "gA_e2_closed_form_relative_difference": 2.4388435536270154e-10,
+   "frozen_rule_e": 4.284571817226591,
+   "winding_by_the_rule": 0.9997494440798264,
+   "tensor_quadratic": 33.80240208912394,
+   "quaternion_quartic": 39.75309729757725,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 111.13343596458435
+ },
+ "r2_g65_smooth_s3000": {
+  "file": "m5_41_r2_g65_smooth_s3000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 9029,
+   "energy": 75.60089103561963,
+   "target": 3000
+  },
+  "energy": 75.60089103561964,
+  "terms": [
+   33.807578842959764,
+   39.74413066127223,
+   1.7646266950819315e-08,
+   0.008456684423361902,
+   0.07561632864692934,
+   1.965108389697448,
+   1.1097363347012282e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009453406656580595,
+  "residual_winding_as_stored": 0.0005947028847174904,
+  "residual_winding_unit_sphere": 0.0009542588292818155,
+  "residual_factor": 0.0009453406656580595,
+  "gate": 0.0009542588292818155,
+  "gate_met": true,
+  "winding_length_range": [
+   0.9992791227954155,
+   4.262436739148118
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5581736755333413,
+  "hemisphere_margin_four_triangulations": 3.5581708810645307,
+  "center_eigenvalues": [
+   0.33000774345376566,
+   0.3843136279517324,
+   0.3880740970666151
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 24,
+   "largest_excess": 0.9719136094247669,
+   "potential_energy_of_the_lumps": 0.07337852966164657,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719028967515263
+    },
+    {
+     "index": [
+      1,
+      1,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971892068072227
+    },
+    {
+     "index": [
+      1,
+      2,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719027192167702
+    },
+    {
+     "index": [
+      1,
+      2,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9718920355513766
+    },
+    {
+     "index": [
+      1,
+      62,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971907291349452
+    },
+    {
+     "index": [
+      1,
+      62,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719031435363372
+    },
+    {
+     "index": [
+      1,
+      63,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719069178698512
+    },
+    {
+     "index": [
+      1,
+      63,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719031621629077
+    },
+    {
+     "index": [
+      2,
+      1,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719028653613991
+    },
+    {
+     "index": [
+      2,
+      1,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9718921797229795
+    },
+    {
+     "index": [
+      2,
+      63,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971906926351334
+    },
+    {
+     "index": [
+      2,
+      63,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719031551050554
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 37.00792094936231,
+   "inertia_diagonal": [
+    37.007047223424465,
+    37.00835123769371,
+    37.008364386968765
+   ],
+   "rS2_fm2": 0.23951040218542932,
+   "rV2_fm2": 0.6184820202545525,
+   "muV": 3.2413256860834827,
+   "muV_rigid": 3.242927903039282,
+   "muV_deviation_fraction": -0.0004940649325868574,
+   "m_z": 18.494818316696637,
+   "gap_MeV": 289.3286647293789,
+   "gA_e2": 16.651875231691594,
+   "gA_e2_N_term": -8.189085836102281,
+   "gA_e2_wedge": -8.462789395589313,
+   "gA_e2_closed_form_relative_difference": 2.6890928566121285e-10,
+   "frozen_rule_e": 4.285936367649771,
+   "winding_by_the_rule": 0.9997496421495364,
+   "tensor_quadratic": 33.80757884295971,
+   "quaternion_quartic": 39.7441306612723,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 112.25991606712341
+ },
+ "r2_g65_smooth_s10000": {
+  "file": "m5_41_r2_g65_smooth_s10000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 10057,
+   "energy": 75.60088900999226,
+   "target": 10000
+  },
+  "energy": 75.60088900999227,
+  "terms": [
+   33.80771021694373,
+   39.743977196908155,
+   1.5417910332552627e-08,
+   0.008457129698280908,
+   0.07561641794937966,
+   1.9651279422135222,
+   9.086128966539494e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009718388890578959,
+  "residual_winding_as_stored": 0.0005579488294142429,
+  "residual_winding_unit_sphere": 0.0007893473399529084,
+  "residual_factor": 0.0009718388890578959,
+  "gate": 0.0009718388890578959,
+  "gate_met": true,
+  "winding_length_range": [
+   0.9992791318323059,
+   4.2624370472243465
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.5581792107747314,
+  "hemisphere_margin_four_triangulations": 3.5581764469827273,
+  "center_eigenvalues": [
+   0.32994609445599093,
+   0.3842668782004755,
+   0.38811102444885565
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 24,
+   "largest_excess": 0.9719098129128442,
+   "potential_energy_of_the_lumps": 0.0733785561878318,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971903098006431
+    },
+    {
+     "index": [
+      1,
+      1,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719038348201099
+    },
+    {
+     "index": [
+      1,
+      2,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719031828719469
+    },
+    {
+     "index": [
+      1,
+      2,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719037917551121
+    },
+    {
+     "index": [
+      1,
+      62,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719041311985057
+    },
+    {
+     "index": [
+      1,
+      62,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719077521627172
+    },
+    {
+     "index": [
+      1,
+      63,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719042873657668
+    },
+    {
+     "index": [
+      1,
+      63,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719077324138963
+    },
+    {
+     "index": [
+      2,
+      1,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719030876709258
+    },
+    {
+     "index": [
+      2,
+      1,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719037348648052
+    },
+    {
+     "index": [
+      2,
+      63,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719042873244255
+    },
+    {
+     "index": [
+      2,
+      63,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719077439248565
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 37.008137087725316,
+   "inertia_diagonal": [
+    37.00727166819532,
+    37.00856051667003,
+    37.00857907831058
+   ],
+   "rS2_fm2": 0.23951224341806032,
+   "rV2_fm2": 0.6184823999675392,
+   "muV": 3.2413442765390443,
+   "muV_rigid": 3.242946842798942,
+   "muV_deviation_fraction": -0.0004941697590438165,
+   "m_z": 18.494924392769008,
+   "gap_MeV": 289.3269749652111,
+   "gA_e2": 16.65193769509269,
+   "gA_e2_N_term": -8.189146636264036,
+   "gA_e2_wedge": -8.462791058828657,
+   "gA_e2_closed_form_relative_difference": 2.47483745977313e-10,
+   "frozen_rule_e": 4.285948883266618,
+   "winding_by_the_rule": 0.9997496456554181,
+   "tensor_quadratic": 33.807710216943676,
+   "quaternion_quartic": 39.74397719690823,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 112.80473399162292
+ },
+ "r2_g65_smooth_s30000": {
+  "file": "m5_41_r2_g65_smooth_s30000.npz",
+  "grid": 65,
+  "half_box": 6.075,
+  "spacing": 0.18984374999999964,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.60087568307844,
+   "target": 30000
+  },
+  "energy": 75.60087568307841,
+  "terms": [
+   33.807647387565346,
+   39.74402331666018,
+   2.9454188215671988e-09,
+   0.008461483344072294,
+   0.07561692334100696,
+   1.965126554369116,
+   1.4853271451328069e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0006859939704386828,
+  "residual_winding_as_stored": 0.00028396245977202673,
+  "residual_winding_unit_sphere": 0.00039773808182884006,
+  "residual_factor": 0.0006859939704386828,
+  "gate": 0.0006859939704386828,
+  "gate_met": true,
+  "winding_length_range": [
+   0.9992792178180988,
+   4.26244592598007
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.558191810290736,
+  "hemisphere_margin_four_triangulations": 3.5581879487734382,
+  "center_eigenvalues": [
+   0.32926769904191683,
+   0.38392425403439817,
+   0.3891677594751978
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 24,
+   "largest_excess": 0.9719043360888907,
+   "potential_energy_of_the_lumps": 0.07337842092242576,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719034506930379
+    },
+    {
+     "index": [
+      1,
+      1,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719038916440972
+    },
+    {
+     "index": [
+      1,
+      2,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971903436047826
+    },
+    {
+     "index": [
+      1,
+      2,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719038695822317
+    },
+    {
+     "index": [
+      1,
+      62,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719037022704178
+    },
+    {
+     "index": [
+      1,
+      62,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971904335224109
+    },
+    {
+     "index": [
+      1,
+      63,
+      2
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971903655108401
+    },
+    {
+     "index": [
+      1,
+      63,
+      62
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971904334591134
+    },
+    {
+     "index": [
+      2,
+      1,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719034456010548
+    },
+    {
+     "index": [
+      2,
+      1,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719038864746077
+    },
+    {
+     "index": [
+      2,
+      63,
+      1
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.971903656890033
+    },
+    {
+     "index": [
+      2,
+      63,
+      63
+     ],
+     "radius": 10.084974598207197,
+     "eigenvalue": 0.9719043361136647
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 37.00732845267982,
+   "inertia_diagonal": [
+    37.006477842551476,
+    37.007875549732596,
+    37.0076319657554
+   ],
+   "rS2_fm2": 0.2395117398317585,
+   "rV2_fm2": 0.6184916424424144,
+   "muV": 3.2413472720559664,
+   "muV_rigid": 3.242875983775113,
+   "muV_deviation_fraction": -0.00047140616131957636,
+   "m_z": 18.494941485016625,
+   "gap_MeV": 289.3332969544318,
+   "gA_e2": 16.65190679529197,
+   "gA_e2_N_term": -8.18911379722885,
+   "gA_e2_wedge": -8.462792998063122,
+   "gA_e2_closed_form_relative_difference": 2.0865866466357459e-10,
+   "frozen_rule_e": 4.285902058599464,
+   "winding_by_the_rule": 0.9997496447667267,
+   "tensor_quadratic": 33.807647387565275,
+   "quaternion_quartic": 39.74402331666026,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 113.17235779762268
+ },
+ "r2_g77_iso_s1000": {
+  "file": "m5_41_r2_g77_iso_s1000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.49364419881495,
+   "target": 1000
+  },
+  "energy": 75.49364419881495,
+  "terms": [
+   33.811072737464585,
+   39.732565736607505,
+   2.4703978631304822e-05,
+   0.003784254981513097,
+   0.0019975079264113334,
+   1.9441166894512882,
+   8.256840503230628e-05
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.050700090478591524,
+  "residual_winding_as_stored": 0.050700090478591524,
+  "residual_winding_unit_sphere": 0.05970999619793543,
+  "residual_factor": 0.005115707758137547,
+  "gate": 0.05970999619793543,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0002855294179416,
+   2.2698419207116203
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.675881694791334,
+  "hemisphere_margin_four_triangulations": 3.675874491379982,
+  "center_eigenvalues": [
+   0.3626651697298579,
+   0.367134806165754,
+   0.3683439378094884
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.004092258229133389,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.678114132020404,
+   "inertia_diagonal": [
+    36.678156701127605,
+    36.67742528711678,
+    36.678760407816846
+   ],
+   "rS2_fm2": 0.23769089617883152,
+   "rV2_fm2": 0.6162006997120894,
+   "muV": 3.213056778954694,
+   "muV_rigid": 3.214027610800924,
+   "muV_deviation_fraction": -0.0003020608295234428,
+   "m_z": 18.33351755522017,
+   "gap_MeV": 291.93028611418373,
+   "gA_e2": 16.54211656664387,
+   "gA_e2_N_term": -8.176806373179195,
+   "gA_e2_wedge": -8.365310193464676,
+   "gA_e2_closed_form_relative_difference": 4.609646804649331e-10,
+   "frozen_rule_e": 4.2667959460752805,
+   "winding_by_the_rule": 0.999872331838269,
+   "tensor_quadratic": 33.81107273746453,
+   "quaternion_quartic": 39.73256573660756,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 182.91585111618042
+ },
+ "r2_g77_iso_s3000": {
+  "file": "m5_41_r2_g77_iso_s3000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 8174,
+   "energy": 75.49185392177603,
+   "target": 3000
+  },
+  "energy": 75.49185392177601,
+  "terms": [
+   33.8121857686557,
+   39.72911744496728,
+   3.477425771477334e-07,
+   0.0042380342716140445,
+   0.001994836270497716,
+   1.9443164321459503,
+   1.0577223980341051e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0006523150787996268,
+  "residual_winding_as_stored": 0.0006523150787996268,
+  "residual_winding_unit_sphere": 0.0008008715802635865,
+  "residual_factor": 0.0005410902127655237,
+  "gate": 0.0008008715802635865,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002930513387087,
+   2.27044549130212
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.675425557906167,
+  "hemisphere_margin_four_triangulations": 3.6754178260258628,
+  "center_eigenvalues": [
+   0.34323786220738634,
+   0.36546789878157115,
+   0.39081927093382585
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009335875410195267,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.68149965312147,
+   "inertia_diagonal": [
+    36.68182919544133,
+    36.681212677896085,
+    36.681457086027
+   ],
+   "rS2_fm2": 0.23772815299240319,
+   "rV2_fm2": 0.6161685193596684,
+   "muV": 3.213359237152052,
+   "muV_rigid": 3.2143242770432665,
+   "muV_deviation_fraction": -0.00030023103085985436,
+   "m_z": 18.335243364333564,
+   "gap_MeV": 291.90334239178895,
+   "gA_e2": 16.541212536339742,
+   "gA_e2_N_term": -8.176093165596976,
+   "gA_e2_wedge": -8.365119370742768,
+   "gA_e2_closed_form_relative_difference": 3.540318207982263e-11,
+   "frozen_rule_e": 4.266992861793655,
+   "winding_by_the_rule": 0.9998723821660114,
+   "tensor_quadratic": 33.81218576865565,
+   "quaternion_quartic": 39.729117444967336,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 181.3933048248291
+ },
+ "r2_g77_iso_s10000": {
+  "file": "m5_41_r2_g77_iso_s10000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 10072,
+   "energy": 75.4918395277644,
+   "target": 10000
+  },
+  "energy": 75.4918395277644,
+  "terms": [
+   33.81216264668527,
+   39.72911875538372,
+   1.6445694932452561e-07,
+   0.00424474671651577,
+   0.0019954243587150962,
+   1.944317239032937,
+   5.511302978752261e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0007722415759273275,
+  "residual_winding_as_stored": 0.0007722415759273275,
+  "residual_winding_unit_sphere": 0.0009282024988626617,
+  "residual_factor": 0.0005617128934521858,
+  "gate": 0.0009282024988626617,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002930867908768,
+   2.270446786637405
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6752758756453185,
+  "hemisphere_margin_four_triangulations": 3.675231578651034,
+  "center_eigenvalues": [
+   0.34275485548765805,
+   0.3657272149282711,
+   0.39092580316985304
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.009569222643699068,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.681462372551984,
+   "inertia_diagonal": [
+    36.68180445657718,
+    36.68118144429228,
+    36.68140121678648
+   ],
+   "rS2_fm2": 0.23772814753162977,
+   "rV2_fm2": 0.6161702563458549,
+   "muV": 3.213360339712281,
+   "muV_rigid": 3.2143210102237334,
+   "muV_deviation_fraction": -0.000298871988328675,
+   "m_z": 18.335249655478947,
+   "gap_MeV": 291.9036390626994,
+   "gA_e2": 16.54119631210765,
+   "gA_e2_N_term": -8.17607596068622,
+   "gA_e2_wedge": -8.365120351421433,
+   "gA_e2_closed_form_relative_difference": 2.786182796675718e-10,
+   "frozen_rule_e": 4.266990693453132,
+   "winding_by_the_rule": 0.9998723821923243,
+   "tensor_quadratic": 33.812162646685216,
+   "quaternion_quartic": 39.72911875538378,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 180.60438227653503
+ },
+ "r2_g77_iso_s30000": {
+  "file": "m5_41_r2_g77_iso_s30000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 30004,
+   "energy": 75.4917996818317,
+   "target": 30000
+  },
+  "energy": 75.4917996818317,
+  "terms": [
+   33.81196768001037,
+   39.72925580329826,
+   1.911145794333923e-08,
+   0.004276716196582231,
+   0.001999549574201316,
+   1.9442998477351796,
+   6.59056370337139e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.00027826784437919987,
+  "residual_winding_as_stored": 0.00027826784437919987,
+  "residual_winding_unit_sphere": 0.00035227393134873295,
+  "residual_factor": 0.00021166875180190643,
+  "gate": 0.00035227393134873295,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0002931897498533,
+   2.2704482680591673
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6751924788888535,
+  "hemisphere_margin_four_triangulations": 3.67510051003955,
+  "center_eigenvalues": [
+   0.3405879847421543,
+   0.36745032789545184,
+   0.39138774647952934
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010088462710437604,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.6806906668776,
+   "inertia_diagonal": [
+    36.681071269778265,
+    36.68036311564317,
+    36.68063761521136
+   ],
+   "rS2_fm2": 0.2377266015004611,
+   "rV2_fm2": 0.6161728814919151,
+   "muV": 3.213342275058651,
+   "muV_rigid": 3.214253387244647,
+   "muV_deviation_fraction": -0.0002834599753746003,
+   "m_z": 18.335146579602224,
+   "gap_MeV": 291.90978026916366,
+   "gA_e2": 16.541093832146515,
+   "gA_e2_N_term": -8.175968841207071,
+   "gA_e2_wedge": -8.365124990939446,
+   "gA_e2_closed_form_relative_difference": 1.651924094238968e-11,
+   "frozen_rule_e": 4.26694580867978,
+   "winding_by_the_rule": 0.9998723811074239,
+   "tensor_quadratic": 33.81196768001032,
+   "quaternion_quartic": 39.729255803298315,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 181.51651620864868
+ },
+ "r2_g77_chain_s1000": {
+  "file": "m5_41_r2_g77_chain_s1000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.49247428915905,
+   "target": 1000
+  },
+  "energy": 75.49247428915909,
+  "terms": [
+   33.811073546932775,
+   39.730764430893714,
+   1.712094159101867e-06,
+   0.004494054057839404,
+   0.0020561943672596696,
+   1.9440799525627073,
+   4.398250642319084e-06
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.007315406300381281,
+  "residual_winding_as_stored": 0.007315406300381281,
+  "residual_winding_unit_sphere": 0.007340652626924631,
+  "residual_factor": 0.0034116892434908038,
+  "gate": 0.007340652626924631,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0000000064941863,
+   1.0060533328761452
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6750674782522634,
+  "hemisphere_margin_four_triangulations": 3.6746264108145037,
+  "center_eigenvalues": [
+   0.3486207445575033,
+   0.374590301263171,
+   0.37540048791544495
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.011064427837142177,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.67787431155742,
+   "inertia_diagonal": [
+    36.6775319902281,
+    36.67816486637145,
+    36.677926078072694
+   ],
+   "rS2_fm2": 0.23770871686392223,
+   "rV2_fm2": 0.6161226857204102,
+   "muV": 3.213088930004483,
+   "muV_rigid": 3.2140065958276094,
+   "muV_deviation_fraction": -0.00028552082759181197,
+   "m_z": 18.333701007264835,
+   "gap_MeV": 291.93219491772516,
+   "gA_e2": 16.5407915865624,
+   "gA_e2_N_term": -8.175665003719836,
+   "gA_e2_wedge": -8.365126582842564,
+   "gA_e2_closed_form_relative_difference": 4.1997380714856436e-10,
+   "frozen_rule_e": 4.266781996794133,
+   "winding_by_the_rule": 0.9998723610537474,
+   "tensor_quadratic": 33.81107354693273,
+   "quaternion_quartic": 39.73076443089377,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 185.99099016189575
+ },
+ "r2_g77_chain_s3000": {
+  "file": "m5_41_r2_g77_chain_s3000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 4428,
+   "energy": 75.49239977319436,
+   "target": 3000
+  },
+  "energy": 75.49239977319435,
+  "terms": [
+   33.81127679674049,
+   39.73047591026449,
+   2.0860523084354108e-07,
+   0.004464130267577194,
+   0.002046177079302758,
+   1.9441357463747637,
+   8.038624861445317e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009809954315881445,
+  "residual_winding_as_stored": 0.0009809954315881445,
+  "residual_winding_unit_sphere": 0.0009846026505276344,
+  "residual_factor": 0.0004997756483150655,
+  "gate": 0.0009846026505276344,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000141014789,
+   1.006164705084435
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.675510084530601,
+  "hemisphere_margin_four_triangulations": 3.6744536517153286,
+  "center_eigenvalues": [
+   0.3474063575699,
+   0.3750922843724257,
+   0.37607175957487293
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010177765836152389,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.67843033412196,
+   "inertia_diagonal": [
+    36.678116632283874,
+    36.67870931098171,
+    36.67846505910029
+   ],
+   "rS2_fm2": 0.23771233784342505,
+   "rV2_fm2": 0.6161406119713326,
+   "muV": 3.213142407064623,
+   "muV_rigid": 3.2140553189399337,
+   "muV_deviation_fraction": -0.0002840373872631252,
+   "m_z": 18.334006144300474,
+   "gap_MeV": 291.92776940424994,
+   "gA_e2": 16.540903576741464,
+   "gA_e2_N_term": -8.175764928965613,
+   "gA_e2_wedge": -8.36513864777585,
+   "gA_e2_closed_form_relative_difference": 1.5834958791525795e-10,
+   "frozen_rule_e": 4.266814338064198,
+   "winding_by_the_rule": 0.9998723644777101,
+   "tensor_quadratic": 33.81127679674044,
+   "quaternion_quartic": 39.73047591026455,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 182.26315593719482
+ },
+ "r2_g77_chain_s10000": {
+  "file": "m5_41_r2_g77_chain_s10000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 10020,
+   "energy": 75.49237313360939,
+   "target": 10000
+  },
+  "energy": 75.49237313360936,
+  "terms": [
+   33.81125530227449,
+   39.73046459567893,
+   7.560192905295864e-08,
+   0.004469963859645305,
+   0.002045692293609818,
+   1.944137186681672,
+   3.172190962026837e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.000919675730538341,
+  "residual_winding_as_stored": 0.000919675730538341,
+  "residual_winding_unit_sphere": 0.0009251002682937619,
+  "residual_factor": 0.0007684272750132679,
+  "gate": 0.0009251002682937619,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000211577988,
+   1.0062234149289189
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.675618229997523,
+  "hemisphere_margin_four_triangulations": 3.674442520982401,
+  "center_eigenvalues": [
+   0.3462532206531133,
+   0.37556488498855023,
+   0.3768016968503704
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.01018558027769867,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.67838882274742,
+   "inertia_diagonal": [
+    36.67808321736687,
+    36.678684631641666,
+    36.678398619233725
+   ],
+   "rS2_fm2": 0.2377124780656892,
+   "rV2_fm2": 0.6161414831321573,
+   "muV": 3.2131470956478285,
+   "muV_rigid": 3.214051681383666,
+   "muV_deviation_fraction": -0.00028144716560618566,
+   "m_z": 18.334032897087127,
+   "gap_MeV": 291.9280997983421,
+   "gA_e2": 16.540883194389572,
+   "gA_e2_N_term": -8.175744465885948,
+   "gA_e2_wedge": -8.365138728503625,
+   "gA_e2_closed_form_relative_difference": 1.0291365576988354e-10,
+   "frozen_rule_e": 4.26681192354732,
+   "winding_by_the_rule": 0.9998723648015385,
+   "tensor_quadratic": 33.81125530227443,
+   "quaternion_quartic": 39.73046459567898,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 184.40943384170532
+ },
+ "r2_g77_chain_s30000": {
+  "file": "m5_41_r2_g77_chain_s30000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 30006,
+   "energy": 75.49233210970618,
+   "target": 30000
+  },
+  "energy": 75.49233210970618,
+  "terms": [
+   33.81111676039929,
+   39.73055025042172,
+   2.431602744584332e-08,
+   0.004493722697586116,
+   0.0020480697554181586,
+   1.9441231945863144,
+   8.752982079815572e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009433776047495777,
+  "residual_winding_as_stored": 0.0009433776047495777,
+  "residual_winding_unit_sphere": 0.0009477220736816696,
+  "residual_factor": 0.00031736772958932584,
+  "gate": 0.0009477220736816696,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0000000394767288,
+   1.0063362173258283
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6755131083405606,
+  "hemisphere_margin_four_triangulations": 3.674489214503978,
+  "center_eigenvalues": [
+   0.3445018639065367,
+   0.3761778108075978,
+   0.3779551933629956
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 0,
+   "largest_excess": 0.010271337682733792,
+   "potential_energy_of_the_lumps": 0.0,
+   "nodes": []
+  },
+  "readouts": {
+   "inertia": 36.678005629915596,
+   "inertia_diagonal": [
+    36.67770947152006,
+    36.678319542157794,
+    36.67798787606894
+   ],
+   "rS2_fm2": 0.23771144121995624,
+   "rV2_fm2": 0.6161404405560326,
+   "muV": 3.213141212827768,
+   "muV_rigid": 3.214018102984916,
+   "muV_deviation_fraction": -0.00027283298632740927,
+   "m_z": 18.33399933005353,
+   "gap_MeV": 291.9311497121346,
+   "gA_e2": 16.540793763880174,
+   "gA_e2_N_term": -8.175658027171739,
+   "gA_e2_wedge": -8.365135736708433,
+   "gA_e2_closed_form_relative_difference": 3.1302265640815625e-10,
+   "frozen_rule_e": 4.266789634999939,
+   "winding_by_the_rule": 0.9998723642672994,
+   "tensor_quadratic": 33.81111676039924,
+   "quaternion_quartic": 39.73055025042177,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 183.8726282119751
+ },
+ "r2_g77_smooth_s1000": {
+  "file": "m5_41_r2_g77_smooth_s1000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 1000,
+   "energy": 75.49705941615214,
+   "target": 1000
+  },
+  "energy": 75.49705941615214,
+  "terms": [
+   33.80166289609976,
+   39.7445826988259,
+   1.525045779611073e-06,
+   0.0042539935544747874,
+   0.006111101155716858,
+   1.9404362960673076,
+   1.0905403212337616e-05
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.13355883558613107,
+  "residual_winding_as_stored": 0.051180468469570924,
+  "residual_winding_unit_sphere": 0.06545624077477684,
+  "residual_factor": 0.13355883558613107,
+  "gate": 0.13355883558613107,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0011100573690968,
+   2.5774201499051874
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6757302812684713,
+  "hemisphere_margin_four_triangulations": 3.6757302812684713,
+  "center_eigenvalues": [
+   0.32570253082004585,
+   0.37954421040675623,
+   0.3829708852944327
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 2,
+   "largest_excess": 0.9817745095053103,
+   "potential_energy_of_the_lumps": 0.0037986463094687303,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817745095068914
+    },
+    {
+     "index": [
+      75,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817745026515015
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 36.64130633232623,
+   "inertia_diagonal": [
+    36.64043236634865,
+    36.6416502900606,
+    36.64183634056946
+   ],
+   "rS2_fm2": 0.2375252912929722,
+   "rV2_fm2": 0.6146666323007487,
+   "muV": 3.209750100857107,
+   "muV_rigid": 3.21080221911137,
+   "muV_deviation_fraction": -0.0003276808045044044,
+   "m_z": 18.314649839794583,
+   "gap_MeV": 292.22354289380013,
+   "gA_e2": 16.534238381983613,
+   "gA_e2_N_term": -8.170099602530303,
+   "gA_e2_wedge": -8.36413877945331,
+   "gA_e2_closed_form_relative_difference": 7.450922005926586e-10,
+   "frozen_rule_e": 4.26465446748939,
+   "winding_by_the_rule": 0.999872213019283,
+   "tensor_quadratic": 33.80166289609971,
+   "quaternion_quartic": 39.74458269882598,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 185.41123294830322
+ },
+ "r2_g77_smooth_s3000": {
+  "file": "m5_41_r2_g77_smooth_s3000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 3000,
+   "energy": 75.495467257061,
+   "target": 3000
+  },
+  "energy": 75.49546725706098,
+  "terms": [
+   33.812614295091976,
+   39.72782429535083,
+   1.6023653084957613e-07,
+   0.004345409451630127,
+   0.0059257596661147945,
+   1.9447564830198931,
+   8.542440206692318e-07
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.022858207580261324,
+  "residual_winding_as_stored": 0.006615628958234639,
+  "residual_winding_unit_sphere": 0.009334938811171875,
+  "residual_factor": 0.022858207580261324,
+  "gate": 0.022858207580261324,
+  "gate_met": false,
+  "winding_length_range": [
+   1.0011266921099886,
+   2.580978339227039
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6759222133630014,
+  "hemisphere_margin_four_triangulations": 3.6759222133630014,
+  "center_eigenvalues": [
+   0.31568276098171605,
+   0.3836532504440056,
+   0.3891261090502218
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 2,
+   "largest_excess": 0.981774160129703,
+   "potential_energy_of_the_lumps": 0.003798641038483477,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817741601612762
+    },
+    {
+     "index": [
+      75,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817741580858154
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 36.68728724705658,
+   "inertia_diagonal": [
+    36.68666323078833,
+    36.68755816173791,
+    36.687640348643505
+   ],
+   "rS2_fm2": 0.23774625342312974,
+   "rV2_fm2": 0.6164089762946477,
+   "muV": 3.2137937922013524,
+   "muV_rigid": 3.214831431981511,
+   "muV_deviation_fraction": -0.0003227664660223617,
+   "m_z": 18.337722910501952,
+   "gap_MeV": 291.8572932521322,
+   "gA_e2": 16.54172172421486,
+   "gA_e2_N_term": -8.176467181196836,
+   "gA_e2_wedge": -8.365254543018025,
+   "gA_e2_closed_form_relative_difference": 2.8364993533788215e-10,
+   "frozen_rule_e": 4.267329470822755,
+   "winding_by_the_rule": 0.9998723979015773,
+   "tensor_quadratic": 33.812614295091926,
+   "quaternion_quartic": 39.727824295350885,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 183.43368005752563
+ },
+ "r2_g77_smooth_s10000": {
+  "file": "m5_41_r2_g77_smooth_s10000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 14690,
+   "energy": 75.49523118670145,
+   "target": 10000
+  },
+  "energy": 75.49523118670142,
+  "terms": [
+   33.81250449143171,
+   39.72792911300505,
+   1.7398622210518327e-08,
+   0.004397325318260232,
+   0.005918056634829654,
+   1.9444821009174702,
+   8.199547660778592e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.0009496884963698624,
+  "residual_winding_as_stored": 0.0006056052023576502,
+  "residual_winding_unit_sphere": 0.0008924854356209138,
+  "residual_factor": 0.0009496884963698624,
+  "gate": 0.0009496884963698624,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0011276735177999,
+   2.581197155796362
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6755077427184863,
+  "hemisphere_margin_four_triangulations": 3.6755077427184863,
+  "center_eigenvalues": [
+   0.31298002924572443,
+   0.38266424469629223,
+   0.393323010720751
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 2,
+   "largest_excess": 0.9817742855525005,
+   "potential_energy_of_the_lumps": 0.003798642951227513,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817742855863556
+    },
+    {
+     "index": [
+      75,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817742844685534
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 36.6846230147,
+   "inertia_diagonal": [
+    36.68387545864738,
+    36.68499539205757,
+    36.684998193395046
+   ],
+   "rS2_fm2": 0.23774230706276103,
+   "rV2_fm2": 0.6161998083919946,
+   "muV": 3.213576954318547,
+   "muV_rigid": 3.21459797078651,
+   "muV_deviation_fraction": -0.00031761871227498073,
+   "m_z": 18.336485645988887,
+   "gap_MeV": 291.8784894804231,
+   "gA_e2": 16.541172516150276,
+   "gA_e2_N_term": -8.176046581988702,
+   "gA_e2_wedge": -8.365125934161572,
+   "gA_e2_closed_form_relative_difference": 3.4953088773471933e-10,
+   "frozen_rule_e": 4.2671745211859715,
+   "winding_by_the_rule": 0.9998724004150877,
+   "tensor_quadratic": 33.81250449143167,
+   "quaternion_quartic": 39.72792911300512,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 185.85957598686218
+ },
+ "r2_g77_smooth_s30000": {
+  "file": "m5_41_r2_g77_smooth_s30000.npz",
+  "grid": 77,
+  "half_box": 6.075,
+  "spacing": 0.15986842105263133,
+  "stored": {
+   "iteration": 30000,
+   "energy": 75.4952173645255,
+   "target": 30000
+  },
+  "energy": 75.49521736452553,
+  "terms": [
+   33.812506784369205,
+   39.727916187666956,
+   7.786026452072088e-09,
+   0.004394843557273656,
+   0.0059169070571684955,
+   1.944482606120285,
+   2.7968595582557865e-08
+  ],
+  "term_names": [
+   "tensor_quadratic",
+   "quaternion_quartic",
+   "record_quartic",
+   "composite_quadratics",
+   "record_potential",
+   "pion_mass",
+   "orientation"
+  ],
+  "residual_as_stored": 0.000990721866248457,
+  "residual_winding_as_stored": 0.00041186629504863287,
+  "residual_winding_unit_sphere": 0.000597025717775864,
+  "residual_factor": 0.000990721866248457,
+  "gate": 0.000990721866248457,
+  "gate_met": true,
+  "winding_length_range": [
+   1.0011277479668401,
+   2.5812371956006794
+  ],
+  "degree": 1,
+  "degree_preimages": 1,
+  "hemisphere_margin_first_triangulation": 3.6755779066691123,
+  "hemisphere_margin_four_triangulations": 3.6755779066691123,
+  "center_eigenvalues": [
+   0.3128227022108756,
+   0.382298246240634,
+   0.39391857453788
+  ],
+  "branch": "ISOTROPIC CENTER",
+  "record_lumps": {
+   "count": 2,
+   "largest_excess": 0.9817742822752118,
+   "potential_energy_of_the_lumps": 0.003798642909290526,
+   "nodes": [
+    {
+     "index": [
+      1,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.981774282223997
+    },
+    {
+     "index": [
+      75,
+      1,
+      4
+     ],
+     "radius": 9.976096908218198,
+     "eigenvalue": 0.9817742823100173
+    }
+   ]
+  },
+  "readouts": {
+   "inertia": 36.68438527037133,
+   "inertia_diagonal": [
+    36.68365009601042,
+    36.68477130129256,
+    36.68473441381103
+   ],
+   "rS2_fm2": 0.23774242800024842,
+   "rV2_fm2": 0.6162028817752836,
+   "muV": 3.213575143499727,
+   "muV_rigid": 3.214577137740571,
+   "muV_deviation_fraction": -0.000311703280994724,
+   "m_z": 18.33647531356064,
+   "gap_MeV": 291.88038108784747,
+   "gA_e2": 16.541166882265024,
+   "gA_e2_N_term": -8.176042835771256,
+   "gA_e2_wedge": -8.36512404649377,
+   "gA_e2_closed_form_relative_difference": 1.2420647976161907e-10,
+   "frozen_rule_e": 4.267160693891288,
+   "winding_by_the_rule": 0.9998724007075472,
+   "tensor_quadratic": 33.812506784369155,
+   "quaternion_quartic": 39.72791618766701,
+   "constants": {
+    "e": 4.259,
+    "f_pi_MeV": 92.4,
+    "m_p_MeV": 938.272,
+    "length_fm": 0.5014260110242734
+   }
+  },
+  "seconds": 185.24109268188477
+ }
+}
