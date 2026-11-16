@@ -1,0 +1,163 @@
+
+===== R2: lowest level n = 7, s_N = 1/4 =====
+C.2 next level at which R2 occurs: 13 (multiplicity 1); lambda_1 - lambda_0 = 13*15 - 7*9 = 132 / R^2
+C.1 y (unit, CS components): y_m = (p_m) sqrt((j+m)!(j-m)!)/sqrt(42624), p = [(1, 2), (0, -1), (3, 1), (1, 0), (-2, 1), (1, 1), (0, 2), (1, -1)]
+   symmetry search (2e5-point grid + least squares): stabilizing rotations found = 1 (identity among them: True); with charge conjugation: n/a (Sp(1) included above)
+  PASS: R2: symmetry search finds the identity (search is live)
+  PASS: R2: y has no nontrivial stabilizer in Gamma (search)
+  PASS: R2 L=8: exact value has no sqrt5 part
+   L= 8 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=8: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=9: exact value has no sqrt5 part
+   L= 9 (slot absent): ||Pi_L N||^2 = 0  ~ 2.46368142745928059790466711218e-103   [zero]
+  PASS: R2 L=9: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=10: exact value has no sqrt5 part
+   L=10 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=10: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=11: exact value has no sqrt5 part
+   L=11 (slot absent): ||Pi_L N||^2 = 0  ~ 1.43802793240232730968830872192e-103   [zero]
+  PASS: R2 L=11: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=12: exact value has no sqrt5 part
+   L=12 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=12: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=13: exact value has no sqrt5 part
+   L=13 (slot occurs x1): ||Pi_L N||^2 = 113465028425/6430729823232  ~ 0.0176441914905350467830089507317   [nonzero]
+  PASS: R2 L=13: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=14: exact value has no sqrt5 part
+   L=14 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=14: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=15: exact value has no sqrt5 part
+   L=15 (slot absent): ||Pi_L N||^2 = 0  ~ 9.62436821199318147290981134929e-104   [zero]
+  PASS: R2 L=15: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=16: exact value has no sqrt5 part
+   L=16 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=16: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=17: exact value has no sqrt5 part
+   L=17 (slot occurs x1): ||Pi_L N||^2 = 446878247025/34809013910528  ~ 0.0128380036324396278791935441092   [nonzero]
+  PASS: R2 L=17: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=18: exact value has no sqrt5 part
+   L=18 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=18: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=19: exact value has no sqrt5 part
+   L=19 (slot occurs x1): ||Pi_L N||^2 = 1438595353125/24182223606112  ~ 0.0594897878936740298933413356285   [nonzero]
+  PASS: R2 L=19: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=20: exact value has no sqrt5 part
+   L=20 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R2 L=20: norm nonzero only where the slot occurs (0(b))
+  PASS: R2 L=21: exact value has no sqrt5 part
+   L=21 (L > 20, outside the asked range): ||Pi_L N||^2 = 0  ~ 1.23068760925300509510550165049e-103   [zero]
+  PASS: R2: route A (exact) and route B (50 digits) agree on every level to 1e-40
+  PASS: R2: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+   lowest-level part ||Pi_n N||^2 = 1.37293728821795349861877928406;  mean|psi_y|^6 = 219048910913/149735130688 ~ 1.462909271234602203174323
+C.1 R2: levels n < L <= 20 with nonzero norm: [13, 17, 19]
+
+===== R4: lowest level n = 6, s_N = 3/7 =====
+C.2 next level at which R4 occurs: 10 (multiplicity 1); lambda_1 - lambda_0 = 10*12 - 6*8 = 72 / R^2
+C.1 y (unit, CS components): y_m = (p_m) sqrt((j+m)!(j-m)!)/sqrt(7596), p = [(1, 2), (0, -1), (3, 1), (1, 0), (-2, 1), (1, 1), (0, 2)]
+   symmetry search (2e5-point grid + least squares): stabilizing rotations found = 1 (identity among them: True); with charge conjugation: 0
+  PASS: R4: symmetry search finds the identity (search is live)
+  PASS: R4: y has no nontrivial stabilizer in Gamma (search)
+  PASS: R4 L=7: exact value has no sqrt5 part
+   L= 7 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=7: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=8: exact value has no sqrt5 part
+   L= 8 (slot absent): ||Pi_L N||^2 = 0  ~ 2.08725038373035200972640120389e-103   [zero]
+  PASS: R4 L=8: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=9: exact value has no sqrt5 part
+   L= 9 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=9: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=10: exact value has no sqrt5 part
+   L=10 (slot occurs x1): ||Pi_L N||^2 = 743445721760/12730758624441  ~ 0.0583975977937955961494581976058   [nonzero]
+  PASS: R4 L=10: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=11: exact value has no sqrt5 part
+   L=11 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=11: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=12: exact value has no sqrt5 part
+   L=12 (slot absent): ||Pi_L N||^2 = 0  ~ 5.44872109513686652090959478407e-104   [zero]
+  PASS: R4 L=12: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=13: exact value has no sqrt5 part
+   L=13 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=13: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=14: exact value has no sqrt5 part
+   L=14 (slot occurs x1): ||Pi_L N||^2 = 183564316665800/4496786851899771  ~ 0.0408212180633487294908305295428   [nonzero]
+  PASS: R4 L=14: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=15: exact value has no sqrt5 part
+   L=15 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=15: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=16: exact value has no sqrt5 part
+   L=16 (slot occurs x1): ||Pi_L N||^2 = 369416600/616589449047  ~ 0.000599128967534183249583781618147   [nonzero]
+  PASS: R4 L=16: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=17: exact value has no sqrt5 part
+   L=17 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=17: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=18: exact value has no sqrt5 part
+   L=18 (slot occurs x1): ||Pi_L N||^2 = 1091044138688000/7767177289645059  ~ 0.140468550929376049807590224903   [nonzero]
+  PASS: R4 L=18: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=19: exact value has no sqrt5 part
+   L=19 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=19: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=20: exact value has no sqrt5 part
+   L=20 (slot occurs x1): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4 L=20: norm nonzero only where the slot occurs (0(b))
+  PASS: R4 L=21: exact value has no sqrt5 part
+   L=21 (L > 20, outside the asked range): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R4: route A (exact) and route B (50 digits) agree on every level to 1e-40
+  PASS: R4: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+   lowest-level part ||Pi_n N||^2 = 1.73388080431547326273507447503;  mean|psi_y|^6 = 23127763829653/11715199531893 ~ 1.974167300069527821432537
+C.1 R4: levels n < L <= 20 with nonzero norm: [10, 14, 16, 18]
+
+===== R5: lowest level n = 6, s_N = 4/7 =====
+C.2 next level at which R5 occurs: 8 (multiplicity 1); lambda_1 - lambda_0 = 8*10 - 6*8 = 32 / R^2
+C.1 y (unit, CS components): y_m = (p_m) sqrt((j+m)!(j-m)!)/sqrt(7596), p = [(1, 2), (0, -1), (3, 1), (1, 0), (-2, 1), (1, 1), (0, 2)]
+   symmetry search (2e5-point grid + least squares): stabilizing rotations found = 1 (identity among them: True); with charge conjugation: 0
+  PASS: R5: symmetry search finds the identity (search is live)
+  PASS: R5: y has no nontrivial stabilizer in Gamma (search)
+  PASS: R5 L=7: exact value has no sqrt5 part
+   L= 7 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=7: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=8: exact value has no sqrt5 part
+   L= 8 (slot occurs x1): ||Pi_L N||^2 = 207361291585/6915473820684  ~ 0.029985116994411552840760012863   [nonzero]
+  PASS: R5 L=8: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=9: exact value has no sqrt5 part
+   L= 9 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=9: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=10: exact value has no sqrt5 part
+   L=10 (slot absent): ||Pi_L N||^2 = 0  ~ 1.13765975313918112042887079164e-103   [zero]
+  PASS: R5 L=10: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=11: exact value has no sqrt5 part
+   L=11 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=11: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=12: exact value has no sqrt5 part
+   L=12 (slot occurs x1): ||Pi_L N||^2 = 1837640980/132989881167  ~ 0.0138179007596255430376882156373   [nonzero]
+  PASS: R5 L=12: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=13: exact value has no sqrt5 part
+   L=13 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=13: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=14: exact value has no sqrt5 part
+   L=14 (slot occurs x1): ||Pi_L N||^2 = 3277934226175/307472605258104  ~ 0.0106608984674370565857749374029   [nonzero]
+  PASS: R5 L=14: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=15: exact value has no sqrt5 part
+   L=15 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=15: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=16: exact value has no sqrt5 part
+   L=16 (slot occurs x1): ||Pi_L N||^2 = 969718575/2375011211144  ~ 0.00040830063051908882513702425179   [nonzero]
+  PASS: R5 L=16: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=17: exact value has no sqrt5 part
+   L=17 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=17: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=18: exact value has no sqrt5 part
+   L=18 (slot occurs x2): ||Pi_L N||^2 = 7427867462050/95891077649939  ~ 0.0774615078283534667521543862999   [nonzero]
+  PASS: R5 L=18: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=19: exact value has no sqrt5 part
+   L=19 (slot absent): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=19: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=20: exact value has no sqrt5 part
+   L=20 (slot occurs x1): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5 L=20: norm nonzero only where the slot occurs (0(b))
+  PASS: R5 L=21: exact value has no sqrt5 part
+   L=21 (L > 20, outside the asked range): ||Pi_L N||^2 = 0  ~ 0.0   [zero]
+  PASS: R5: route A (exact) and route B (50 digits) agree on every level to 1e-40
+  PASS: R5: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+   lowest-level part ||Pi_n N||^2 = 1.38730747876796700598639683201;  mean|psi_y|^6 = 659366663529/433896278959 ~ 1.519641203448313714027911
+C.1 R5: levels n < L <= 20 with nonzero norm: [8, 12, 14, 16, 18]
+checks: 97 PASS, 0 FAIL

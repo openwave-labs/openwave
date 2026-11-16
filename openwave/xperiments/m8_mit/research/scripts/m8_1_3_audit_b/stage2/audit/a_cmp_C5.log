@@ -1,0 +1,55 @@
+[PASS] pentagonal pyramid in R4: zero multiplicity cb 6 == my exact 6
+[PASS] pentagonal pyramid in R4: k, r_u, signature equal :: (4, 2, [5, 0, 4]) vs (4, 2, [5, 0, 4])
+[PASS] pentagonal pyramid in R4: s_g = (-1.034685681e-71 - 1.095185488j): cb multiplicity and values equal mine (rel 2.36e-20)
+[PASS] pentagonal pyramid in R4: s_g = (4.405136796e-72 - 0.0622348691j): cb multiplicity and values equal mine (rel 7.76e-21)
+[PASS] pentagonal pyramid in R4: s_g = (-0.04173528598 - 0.06091686092j): cb multiplicity and values equal mine (rel 1.23e-20)
+[PASS] pentagonal pyramid in R4: s_g = (0.04173528598 - 0.06091686092j): cb multiplicity and values equal mine (rel 1.23e-20)
+[PASS] pentagonal pyramid in R4: s_g = (-0.04173528598 + 0.06091686092j): cb multiplicity and values equal mine (rel 1.23e-20)
+[PASS] pentagonal pyramid in R4: s_g = (0.04173528598 + 0.06091686092j): cb multiplicity and values equal mine (rel 1.23e-20)
+[PASS] pentagonal pyramid in R4: s_g = (1.106765008e-71 + 0.0622348691j): cb multiplicity and values equal mine (rel 7.76e-21)
+[PASS] pentagonal pyramid in R4: s_g = (-5.226538943e-132 + 1.095185488j): cb multiplicity and values equal mine (rel 2.36e-20)
+[PASS] pentagonal pyramid in R4: every cb group matched
+[PASS] coherent v3 in R4: zero multiplicity cb 4 == my exact 4
+[PASS] coherent v3 in R4: k, r_u, signature equal :: (3, 1, [0, 0, 10]) vs (3, 1, [0, 0, 10])
+[PASS] coherent v3 in R4: s_g = (0.0 - 2.871794872j): cb multiplicity and values equal mine (rel 4.29e-21)
+[PASS] coherent v3 in R4: s_g = (0.0 - 1.414141414j): cb multiplicity and values equal mine (rel 4.11e-21)
+[PASS] coherent v3 in R4: s_g = (0.0 - 0.6961926962j): cb multiplicity and values equal mine (rel 1.52e-20)
+[PASS] coherent v3 in R4: s_g = (0.0 - 0.1958041958j): cb multiplicity and values equal mine (rel 2.97e-20)
+[PASS] coherent v3 in R4: s_g = (0.0 - 0.1305361305j): cb multiplicity and values equal mine (rel 4.25e-22)
+[PASS] coherent v3 in R4: s_g = (0.0 + 0.1305361305j): cb multiplicity and values equal mine (rel 4.25e-22)
+[PASS] coherent v3 in R4: s_g = (0.0 + 0.1958041958j): cb multiplicity and values equal mine (rel 2.97e-20)
+[PASS] coherent v3 in R4: s_g = (0.0 + 0.6961926962j): cb multiplicity and values equal mine (rel 1.52e-20)
+[PASS] coherent v3 in R4: s_g = (0.0 + 1.414141414j): cb multiplicity and values equal mine (rel 4.11e-21)
+[PASS] coherent v3 in R4: s_g = (0.0 + 2.871794872j): cb multiplicity and values equal mine (rel 4.29e-21)
+[PASS] coherent v3 in R4: every cb group matched
+[PASS] coherent v3 in R5: zero multiplicity cb 4 == my exact 4
+[PASS] coherent v3 in R5: k, r_u, signature equal :: (3, 1, [0, 0, 10]) vs (3, 1, [0, 0, 10])
+[PASS] coherent v3 in R5: s_g = (0.0 - 1.615384615j): cb multiplicity and values equal mine (rel 3.86e-21)
+[PASS] coherent v3 in R5: s_g = (0.0 - 0.7954545455j): cb multiplicity and values equal mine (rel 2.19e-22)
+[PASS] coherent v3 in R5: s_g = (0.0 - 0.3916083916j): cb multiplicity and values equal mine (rel 6.75e-21)
+[PASS] coherent v3 in R5: s_g = (0.0 - 0.1101398601j): cb multiplicity and values equal mine (rel 4.4e-22)
+[PASS] coherent v3 in R5: s_g = (0.0 - 0.07342657343j): cb multiplicity and values equal mine (rel 3.79e-21)
+[PASS] coherent v3 in R5: s_g = (0.0 + 0.07342657343j): cb multiplicity and values equal mine (rel 3.79e-21)
+[PASS] coherent v3 in R5: s_g = (0.0 + 0.1101398601j): cb multiplicity and values equal mine (rel 4.4e-22)
+[PASS] coherent v3 in R5: s_g = (0.0 + 0.3916083916j): cb multiplicity and values equal mine (rel 6.75e-21)
+[PASS] coherent v3 in R5: s_g = (0.0 + 0.7954545455j): cb multiplicity and values equal mine (rel 2.19e-22)
+[PASS] coherent v3 in R5: s_g = (0.0 + 1.615384615j): cb multiplicity and values equal mine (rel 3.86e-21)
+[PASS] coherent v3 in R5: every cb group matched
+[PASS] weight 7/2 in R2: zero multiplicity cb 6 == my exact 6
+[PASS] weight 7/2 in R2: k, r_u, signature equal :: (5, 1, [0, 0, 10]) vs (5, 1, [0, 0, 10])
+[PASS] weight 7/2 in R2: s_g = (0.0 - 3.916083916j): cb multiplicity and values equal mine (rel 3.96e-20)
+[PASS] weight 7/2 in R2: s_g = (0.0 - 3.524475524j): cb multiplicity and values equal mine (rel 4.35e-21)
+[PASS] weight 7/2 in R2: s_g = (0.0 - 2.34965035j): cb multiplicity and values equal mine (rel 7.25e-21)
+[PASS] weight 7/2 in R2: s_g = (0.0 - 1.174825175j): cb multiplicity and values equal mine (rel 1.05e-20)
+[PASS] weight 7/2 in R2: s_g = (0.0 - 0.7832167832j): cb multiplicity and values equal mine (rel 1.7e-20)
+[PASS] weight 7/2 in R2: s_g = (0.0 + 0.7832167832j): cb multiplicity and values equal mine (rel 1.7e-20)
+[PASS] weight 7/2 in R2: s_g = (0.0 + 1.174825175j): cb multiplicity and values equal mine (rel 1.05e-20)
+[PASS] weight 7/2 in R2: s_g = (0.0 + 2.34965035j): cb multiplicity and values equal mine (rel 7.25e-21)
+[PASS] weight 7/2 in R2: s_g = (0.0 + 3.524475524j): cb multiplicity and values equal mine (rel 4.35e-21)
+[PASS] weight 7/2 in R2: s_g = (0.0 + 3.916083916j): cb multiplicity and values equal mine (rel 3.96e-20)
+[PASS] weight 7/2 in R2: every cb group matched
+[PASS] octahedron in R4: zero multiplicity cb 8 == my exact 8
+[PASS] octahedron in R4: k, r_u, signature equal :: (4, 4, [6, 0, 3]) vs (4, 4, [6, 0, 3])
+[PASS] octahedron in R4: s_g = (-0.6740856795 + 2.287939528e-80j): cb multiplicity and values equal mine (rel 2.07e-20)
+[PASS] octahedron in R4: s_g = (0.6740856795 + 0.0j): cb multiplicity and values equal mine (rel 2.07e-20)
+[PASS] octahedron in R4: every cb group matched

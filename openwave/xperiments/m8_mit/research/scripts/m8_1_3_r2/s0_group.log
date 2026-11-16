@@ -1,0 +1,73 @@
+|q1|^2 = (1+0r5)  |q2|^2 = (1+0r5)
+PASS  0(a) |q1| = |q2| = 1 exactly  [(1+0r5), (1+0r5)]
+order |Gamma0| = 120
+PASS  0(a) group closes and is finite
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+PASS  class has a single real part
+conjugacy classes (order, size, real part w = Re q):
+   order  1  size  1  w = 1
+   order  2  size  1  w = -1
+   order  3  size 20  w = -1/2
+   order  4  size 30  w = 0
+   order  5  size 12  w = -1/4 + sqrt(5)/4
+   order  5  size 12  w = -sqrt(5)/4 - 1/4
+   order  6  size 20  w = 1/2
+   order 10  size 12  w = 1/4 + sqrt(5)/4
+   order 10  size 12  w = 1/4 - sqrt(5)/4
+PASS  class sizes sum to |G|
+PASS  trace of D^(0/2) on a class rep equals U_0(w) on every class
+PASS  trace of D^(1/2) on a class rep equals U_1(w) on every class
+PASS  trace of D^(2/2) on a class rep equals U_2(w) on every class
+PASS  trace of D^(3/2) on a class rep equals U_3(w) on every class
+PASS  trace of D^(4/2) on a class rep equals U_4(w) on every class
+PASS  trace of D^(5/2) on a class rep equals U_5(w) on every class
+derived irreducible characters (dims): [1, 2, 3, 4, 5, 6, 2, 4, 3]
+PASS  number of irreducibles = number of classes  [9 vs 9]
+PASS  sum of dim^2 = |G|  [120]
+PASS  row orthonormality exact
+PASS  column orthogonality exact
+PASS  multiplicities integral for irrep 0
+PASS  multiplicities integral for irrep 1
+PASS  multiplicities integral for irrep 2
+PASS  multiplicities integral for irrep 3
+PASS  multiplicities integral for irrep 4
+PASS  multiplicities integral for irrep 5
+PASS  multiplicities integral for irrep 6
+PASS  multiplicities integral for irrep 7
+PASS  multiplicities integral for irrep 8
+
+character table (columns = classes in the order above):
+  dim 1 lowest level  0: ['1', '1', '1', '1', '1', '1', '1', '1', '1']
+  dim 2 lowest level  1: ['2', '-2', '-1', '0', '-1/2 + sqrt(5)/2', '-sqrt(5)/2 - 1/2', '1', '1/2 + sqrt(5)/2', '1/2 - sqrt(5)/2']
+  dim 2 lowest level  7: ['2', '-2', '-1', '0', '-sqrt(5)/2 - 1/2', '-1/2 + sqrt(5)/2', '1', '1/2 - sqrt(5)/2', '1/2 + sqrt(5)/2']
+  dim 3 lowest level  2: ['3', '3', '0', '-1', '1/2 - sqrt(5)/2', '1/2 + sqrt(5)/2', '0', '1/2 + sqrt(5)/2', '1/2 - sqrt(5)/2']
+  dim 3 lowest level  6: ['3', '3', '0', '-1', '1/2 + sqrt(5)/2', '1/2 - sqrt(5)/2', '0', '1/2 - sqrt(5)/2', '1/2 + sqrt(5)/2']
+  dim 4 lowest level  3: ['4', '-4', '1', '0', '-1', '-1', '-1', '1', '1']
+  dim 4 lowest level  6: ['4', '4', '1', '0', '-1', '-1', '1', '-1', '-1']
+  dim 5 lowest level  4: ['5', '5', '-1', '1', '0', '0', '-1', '0', '0']
+  dim 6 lowest level  5: ['6', '-6', '0', '0', '1', '1', '0', '-1', '-1']
+
+levels l <= 20 with multiplicity (l, mult):
+  dim 1 : [(0, 1), (12, 1), (20, 1)]
+  dim 2 : [(1, 1), (11, 1), (13, 1), (19, 1)]
+  dim 2 : [(7, 1), (13, 1), (17, 1), (19, 1)]
+  dim 3 : [(2, 1), (10, 1), (12, 1), (14, 1), (18, 1), (20, 1)]
+  dim 3 : [(6, 1), (10, 1), (14, 1), (16, 1), (18, 1), (20, 1)]
+  dim 4 : [(3, 1), (9, 1), (11, 1), (13, 1), (15, 1), (17, 1), (19, 1)]
+  dim 4 : [(6, 1), (8, 1), (12, 1), (14, 1), (16, 1), (18, 2), (20, 1)]
+  dim 5 : [(4, 1), (8, 1), (10, 1), (12, 1), (14, 1), (16, 2), (18, 1), (20, 2)]
+  dim 6 : [(5, 1), (7, 1), (9, 1), (11, 1), (13, 1), (15, 2), (17, 2), (19, 2)]
+PASS  0(b) name R2 (dim 2, lowest level 7) picks exactly one irreducible  [1]
+  R2: character ['2', '-2', '-1', '0', '-sqrt(5)/2 - 1/2', '-1/2 + sqrt(5)/2', '1', '1/2 - sqrt(5)/2', '1/2 + sqrt(5)/2'], multiplicity at lowest level 1
+PASS  0(b) name R4 (dim 3, lowest level 6) picks exactly one irreducible  [1]
+  R4: character ['3', '3', '0', '-1', '1/2 + sqrt(5)/2', '1/2 - sqrt(5)/2', '0', '1/2 - sqrt(5)/2', '1/2 + sqrt(5)/2'], multiplicity at lowest level 1
+PASS  0(b) name R5 (dim 4, lowest level 6) picks exactly one irreducible  [1]
+  R5: character ['4', '4', '1', '0', '-1', '-1', '1', '-1', '-1'], multiplicity at lowest level 1
+checks: 34 pass, 0 fail

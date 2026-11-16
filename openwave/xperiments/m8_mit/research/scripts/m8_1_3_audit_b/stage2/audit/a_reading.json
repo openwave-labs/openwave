@@ -1,0 +1,22 @@
+{
+ "Sp(1) (as stated)": {
+  "k": 6,
+  "r_u": 2,
+  "signature": [
+   0,
+   3,
+   6
+  ],
+  "dim K'": 3
+ },
+ "literal: U(1) and J only": {
+  "k": 4,
+  "r_u": 2,
+  "signature": [
+   0,
+   5,
+   6
+  ],
+  "dim K'": 5
+ }
+}

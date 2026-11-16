@@ -1,0 +1,63 @@
+[PASS] 0(a) ca: class real parts are a permutation of mine
+[PASS] 0(a) ca: the 9 character rows equal mine exactly (as class functions)
+[PASS] 0(a) cb: class real parts are a permutation of mine
+[PASS] 0(a) cb: the 9 character rows equal mine exactly (as class functions)
+[PASS] 0(a) cert: class real parts are a permutation of mine
+[PASS] 0(a) cert: the 9 character rows equal mine exactly (as class functions)
+[PASS] 0(a) ca: class sizes and element orders equal mine
+[PASS] 0(a) cb: class sizes and element orders equal mine
+[PASS] 0(a) cert: class sizes and element orders equal mine
+[PASS] 0(b) ca: levels <= 20 with multiplicities equal mine for all 9 irreducibles
+[PASS] 0(b) cb: levels <= 20 with multiplicities equal mine for all 9 irreducibles
+[PASS] 0(b) cert: levels <= 20 with multiplicities equal mine for all 9 irreducibles
+[PASS] 0(b) ca: R2 -> 2' is my slot irreducible
+[PASS] 0(b) ca: R4 -> 3' is my slot irreducible
+[PASS] 0(b) ca: R5 -> 4 is my slot irreducible
+[PASS] 0(b) cb: R2 -> 2@7 is my slot irreducible
+[PASS] 0(b) cb: R4 -> 3@6 is my slot irreducible
+[PASS] 0(b) cb: R5 -> 4@6 is my slot irreducible
+[PASS] 0(c) cb R2: eta^dagger eta = I exactly
+[PASS] 0(c) cb R2: eta eta^dagger = MY exact isotypic projector (same D^j convention)
+[PASS] 0(c) cb R2: s_N = dim/(2j+1)
+[PASS] 0(c) cb R2: multiplicity 1
+[PASS] 0(c) cb R4: eta^dagger eta = I exactly
+[PASS] 0(c) cb R4: eta eta^dagger = MY exact isotypic projector (same D^j convention)
+[PASS] 0(c) cb R4: s_N = dim/(2j+1)
+[PASS] 0(c) cb R4: multiplicity 1
+[PASS] 0(c) cb R5: eta^dagger eta = I exactly
+[PASS] 0(c) cb R5: eta eta^dagger = MY exact isotypic projector (same D^j convention)
+[PASS] 0(c) cb R5: s_N = dim/(2j+1)
+[PASS] 0(c) cb R5: multiplicity 1
+[PASS] 0(c) cert R4: eta^dagger eta = I exactly
+[PASS] 0(c) cert R4: eta eta^dagger = MY exact isotypic projector (same D^j convention)
+[PASS] 0(c) cert R4: s_N = dim/(2j+1)
+[PASS] 0(c) cert R4: multiplicity 1
+[PASS] 0(c) cert R5: eta^dagger eta = I exactly
+[PASS] 0(c) cert R5: eta eta^dagger = MY exact isotypic projector (same D^j convention)
+[PASS] 0(c) cert R5: s_N = dim/(2j+1)
+[PASS] 0(c) cert R5: multiplicity 1
+[PASS] 0(c) ca R2: my rebuild of ca D^j is a homomorphism (sanity) :: 1.2e-50
+[PASS] 0(c) ca R2: D(h) eta = eta rho(h) for all 120 h, in ca convention (40-digit eta) :: 2.82e-40
+[PASS] 0(c) ca R2: tr rho(h) = chi(h) up to float precision of my chi (all h) :: 5.43e-17
+[PASS] 0(c) ca R2: eta^dagger eta = I
+[PASS] 0(c) ca R2: ca exact P equals eta eta^dagger (40 digits)
+[PASS] 0(e) ca: U conj(eta) C = eta (map is exactly Theta) at 28 digits :: 5.26e-51
+[PASS] 0(e) ca: C conj(C) = -1 at 28 digits
+[PASS] 0(e) ca: conj(rho(h)) C = C rho(h) for all h :: 3.96e-51
+[PASS] 0(c) ca R4: my rebuild of ca D^j is a homomorphism (sanity) :: 7.7e-51
+[PASS] 0(c) ca R4: D(h) eta = eta rho(h) for all 120 h, in ca convention (40-digit eta) :: 1.76e-40
+[PASS] 0(c) ca R4: tr rho(h) = chi(h) up to float precision of my chi (all h) :: 5.43e-17
+[PASS] 0(c) ca R4: eta^dagger eta = I
+[PASS] 0(c) ca R4: ca exact P equals eta eta^dagger (40 digits)
+[PASS] 0(c) ca R5: my rebuild of ca D^j is a homomorphism (sanity) :: 7.7e-51
+[PASS] 0(c) ca R5: D(h) eta = eta rho(h) for all 120 h, in ca convention (40-digit eta) :: 1.86e-40
+[PASS] 0(c) ca R5: tr rho(h) = chi(h) up to float precision of my chi (all h) :: 1.4e-40
+[PASS] 0(c) ca R5: eta^dagger eta = I
+[PASS] 0(c) ca R5: ca exact P equals eta eta^dagger (40 digits)
+[PASS] 0(e) cb: (Theta eta) C = -eta exactly (map w -> -Theta w)
+[PASS] 0(e) cb: C conj(C) = -1 exactly
+[PASS] 0(e) cb: conj(rho(h)) C = C rho(h) for all 120 h (my D, 50 digits) :: 2.84e-51
+[PASS] 0(d): my <3 3;3 -3|6 0> = +1/sqrt(924)
+[PASS] 0(d) ca: value equals +1/sqrt(924) exactly :: sqrt(231)/462
+[PASS] 0(d) cb: value equals +1/sqrt(924) exactly :: sqrt(924)/924
+[PASS] 0(d) cert: value equals +1/sqrt(924) exactly :: sqrt(231)/462

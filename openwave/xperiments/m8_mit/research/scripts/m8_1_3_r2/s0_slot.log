@@ -1,0 +1,48 @@
+PASS  0(c) P is an orthogonal projector of rank 2 (P^2 = P = P^H)
+multiplicity of R2 in V_7/2 = rank P / dim R2 = 1
+PASS  0(c) eta^H eta = I_2  [Matrix([[1, 0], [0, 1]])]
+eta (rows m = -7/2 .. 7/2):
+   m = -7/2: [sqrt(15)/8, 0]
+   m = -5/2: [0, sqrt(21)/8]
+   m = -3/2: [-sqrt(7)/8, 0]
+   m = -1/2: [0, sqrt(21)/8]
+   m = 1/2: [sqrt(21)/8, 0]
+   m = 3/2: [0, -sqrt(7)/8]
+   m = 5/2: [sqrt(21)/8, 0]
+   m = 7/2: [0, sqrt(15)/8]
+PASS  D(gen q1) unitary
+PASS  0(c) intertwiner: D(q1) eta = eta rho(q1)
+   rho(q1) = [[1/2 - I/2, 1/2 + I/2], [-1/2 + I/2, 1/2 + I/2]]
+PASS  D(gen q2) unitary
+PASS  0(c) intertwiner: D(q2) eta = eta rho(q2)
+   rho(q2) = [[1/4 - sqrt(5)/4, 1/2 + (-sqrt(5)*I - I)/4], [-1/2 + (-sqrt(5)*I - I)/4, 1/4 - sqrt(5)/4]]
+PASS  tr rho(q1) = chi_R2(q1)
+PASS  tr rho(q2) = chi_R2(q2)
+   quadrature s at w = [1, 0, 0, 0, 0, 0, 0, 0]: 0.25  |diff| = 2.54e-50
+PASS  0(c) s exact (dim rho/(2j+1)) agrees with 50-digit quadrature
+   quadrature s at w = [1/3, 2, -1, I, 0, 5, -2/7, 1 + I]: 0.25  |diff| = 2.07e-50
+PASS  0(c) s exact (dim rho/(2j+1)) agrees with 50-digit quadrature
+0(c) s_N(R2) = 1/4
+0(d) <3 3; 3 -3 | 6 0> = sqrt(231)/462 = 0.032897584747988449419
+PASS  0(d) <3 3; 3 -3|6 0> > 0
+PASS  <7/2 7/2; 7/2 -7/2|7 0> > 0 (convention fixed by the formula)  [sqrt(858)/1716]
+0(d) Theta^2 on V_3 = +1: True ; Theta^2 on V_7/2 = -1: True
+PASS  0(d) Theta^2 = +1 on V_3
+PASS  0(d) Theta^2 = -1 on V_7/2
+PASS  Theta commutes with D(q1) on V_7/2
+PASS  Theta commutes with D(q2) on V_7/2
+PASS  CG coefficients <7/2 m1; 7/2 m2 | J M> form an orthogonal 64 x 64 matrix (50 digits)  [1.24e-71]
+PASS  CG vectors |J M> on V_3 x V_3 obey the Condon-Shortley ladder relation (exact, J = 6, 4, 2)
+solutions of conj(rho)C = C rho: [{c0: 0, c1: -c2, c3: 0}]
+0(e) C = [[0, -1], [1, 0]]
+PASS  0(e) C unitary
+PASS  0(e) conj(rho(q1)) C = C rho(q1)
+PASS  0(e) conj(rho(q2)) C = C rho(q2)
+0(e) C conj(C) = [[-1, 0], [0, -1]]
+PASS  conj(D(q1)) = Y D(q1) Y^-1
+PASS  conj(D(q2)) = Y D(q2) Y^-1
+eta^H Y^-1 conj(eta) C = [[1, 0], [0, 1]]
+PASS  Y^-1 conj(eta) C = lam eta (Hom is one-dimensional)
+0(e) on w: psi_w -> conj(psi_w) C reads w -> (-1) * Theta(w)
+PASS  0(e) conj(psi_w) C = psi_{w'} at sampled group points (numeric, 40 digits)
+checks: 25 pass, 0 fail

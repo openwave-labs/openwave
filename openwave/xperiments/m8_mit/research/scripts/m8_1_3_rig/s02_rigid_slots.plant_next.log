@@ -1,0 +1,19 @@
+dim1_n0: dim 1, lowest level 0, mult 1, dim V_(n/2) = 1 -> rigid: True
+dim2_n1: dim 2, lowest level 1, mult 1, dim V_(n/2) = 2 -> rigid: True
+dim2_n7: dim 2, lowest level 7, mult 1, dim V_(n/2) = 8 -> rigid: False
+dim3_n2: dim 3, lowest level 2, mult 1, dim V_(n/2) = 3 -> rigid: True
+dim3_n6: dim 3, lowest level 6, mult 1, dim V_(n/2) = 7 -> rigid: False
+dim4_n3: dim 4, lowest level 3, mult 1, dim V_(n/2) = 4 -> rigid: True
+dim4_n6: dim 4, lowest level 6, mult 1, dim V_(n/2) = 7 -> rigid: False
+dim5_n4: dim 5, lowest level 4, mult 1, dim V_(n/2) = 5 -> rigid: True
+dim6_n5: dim 6, lowest level 5, mult 1, dim V_(n/2) = 6 -> rigid: True
+
+E.1 dim1_n0: n = 0, next level = 12, lambda1-lambda0 = 168 /R^2
+E.1 dim2_n1: n = 1, next level = 11, lambda1-lambda0 = 140 /R^2
+E.1 dim3_n2: n = 2, next level = 6, lambda1-lambda0 = 40 /R^2
+E.1 dim4_n3: n = 3, next level = 9, lambda1-lambda0 = 84 /R^2
+E.1 dim5_n4: n = 4, next level = 8, lambda1-lambda0 = 56 /R^2
+E.1 dim6_n5: n = 5, next level = 7, lambda1-lambda0 = 28 /R^2
+PASS E.1 rigid set equals {rho : chi_rho = chi_{V_{n/2}} exactly} (sympy, from characters)  [['dim1_n0', 'dim2_n1', 'dim3_n2', 'dim4_n3', 'dim5_n4', 'dim6_n5'] vs ['dim1_n0', 'dim2_n1', 'dim3_n2', 'dim4_n3', 'dim5_n4', 'dim6_n5']]
+FAIL E.1 next levels agree with a direct sympy inner product  [{'dim1_n0': 12, 'dim2_n1': 11, 'dim3_n2': 10, 'dim4_n3': 9, 'dim5_n4': 8, 'dim6_n5': 7}]
+SUMMARY PASS=1 FAIL=1 plant=next

@@ -1,0 +1,64 @@
+== 0(a)
+||q1||^2 = 1  ||q2||^2 = 1
+PASS ||q1|| = ||q2|| = 1 (exact)
+order of Gamma_0 = 120
+PASS closed under multiplication (all |G|^2 products)
+PLANTED-DEFECT-FIRED closure check on G minus one element
+number of classes: 9
+  class 0: size   1, element order  1, Re g = 1
+  class 1: size  12, element order 10, Re g = 1/4 + sqrt(5)/4
+  class 2: size  20, element order  6, Re g = 1/2
+  class 3: size  12, element order  5, Re g = -1/4 + sqrt(5)/4
+  class 4: size  30, element order  4, Re g = 0
+  class 5: size  12, element order 10, Re g = 1/4 - sqrt(5)/4
+  class 6: size  20, element order  3, Re g = -1/2
+  class 7: size  12, element order  5, Re g = -sqrt(5)/4 - 1/4
+  class 8: size   1, element order  2, Re g = -1
+PASS class sizes sum to |G|
+PASS each class has a single real part (trace) value
+  peeled from V_{0/2}: new irreducible of dim 1
+  peeled from V_{1/2}: new irreducible of dim 2
+  peeled from V_{2/2}: new irreducible of dim 3
+  peeled from V_{3/2}: new irreducible of dim 4
+  peeled from V_{4/2}: new irreducible of dim 5
+  peeled from V_{5/2}: new irreducible of dim 6
+  peeled from V_{7/2}: new irreducible of dim 2
+  peeled from V_{8/2}: new irreducible of dim 4
+  peeled from V_{10/2}: new irreducible of dim 3
+irreducibles found: 9
+PASS #irreducibles = #classes
+PASS sum of dim^2 = |G|
+PASS row orthonormality (exact)
+PASS column orthogonality (exact)
+PLANTED-DEFECT-FIRED column orthogonality with one table entry shifted by 1
+PASS all character values are algebraic integers of Q(sqrt5)
+
+character table (rows: irreducibles; columns: classes as above)
+  dim 1  first level  0: ['1', '1', '1', '1', '1', '1', '1', '1', '1']
+  dim 2  first level  1: ['2', '1/2 + sqrt(5)/2', '1', '-1/2 + sqrt(5)/2', '0', '1/2 - sqrt(5)/2', '-1', '-sqrt(5)/2 - 1/2', '-2']
+  dim 2  first level  7: ['2', '1/2 - sqrt(5)/2', '1', '-sqrt(5)/2 - 1/2', '0', '1/2 + sqrt(5)/2', '-1', '-1/2 + sqrt(5)/2', '-2']
+  dim 3  first level  2: ['3', '1/2 + sqrt(5)/2', '0', '1/2 - sqrt(5)/2', '-1', '1/2 - sqrt(5)/2', '0', '1/2 + sqrt(5)/2', '3']
+  dim 3  first level  6: ['3', '1/2 - sqrt(5)/2', '0', '1/2 + sqrt(5)/2', '-1', '1/2 + sqrt(5)/2', '0', '1/2 - sqrt(5)/2', '3']
+  dim 4  first level  3: ['4', '1', '-1', '-1', '0', '1', '1', '-1', '-4']
+  dim 4  first level  6: ['4', '-1', '1', '-1', '0', '-1', '1', '-1', '4']
+  dim 5  first level  4: ['5', '0', '-1', '0', '1', '0', '-1', '0', '5']
+  dim 6  first level  5: ['6', '-1', '0', '1', '0', '-1', '0', '1', '-6']
+
+== 0(b)  multiplicity of each irreducible in V_{l/2}, l = 0..20
+  irr #0 dim 1: l=0:x1, l=12:x1, l=20:x1
+  irr #1 dim 2: l=1:x1, l=11:x1, l=13:x1, l=19:x1
+  irr #2 dim 2: l=7:x1, l=13:x1, l=17:x1, l=19:x1
+  irr #3 dim 3: l=2:x1, l=10:x1, l=12:x1, l=14:x1, l=18:x1, l=20:x1
+  irr #4 dim 3: l=6:x1, l=10:x1, l=14:x1, l=16:x1, l=18:x1, l=20:x1
+  irr #5 dim 4: l=3:x1, l=9:x1, l=11:x1, l=13:x1, l=15:x1, l=17:x1, l=19:x1
+  irr #6 dim 4: l=6:x1, l=8:x1, l=12:x1, l=14:x1, l=16:x1, l=18:x2, l=20:x1
+  irr #7 dim 5: l=4:x1, l=8:x1, l=10:x1, l=12:x1, l=14:x1, l=16:x2, l=18:x1, l=20:x2
+  irr #8 dim 6: l=5:x1, l=7:x1, l=9:x1, l=11:x1, l=13:x1, l=15:x2, l=17:x2, l=19:x2
+PASS sum over irreducibles of mult*dim = l+1 for every l <= 20
+  R2: irreducibles with that (dim, lowest level): [2]
+PASS R2 names exactly one irreducible
+  R4: irreducibles with that (dim, lowest level): [4]
+PASS R4 names exactly one irreducible
+  R5: irreducibles with that (dim, lowest level): [6]
+PASS R5 names exactly one irreducible
+checks: 13 PASS, 0 FAIL

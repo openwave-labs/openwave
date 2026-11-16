@@ -1,0 +1,10 @@
+[PASS] C.3 R2 line: |Gamma_u|, dim K', n_-, k, signature, abs. irreducible equal
+[PASS] C.3 R2 line: gamma_u exactly equal
+[PASS] C.3 R2 line: cb's exact K' spans the same 3-dim real space as my K' (exact ranks 3, 3, 3)
+[PASS] C.3 R4 v1: k, r_u, signature, dim K', weight, zero multiplicity off K' equal
+[PASS] C.3 R4 v1: gamma_u exactly equal :: -19919/6697728 vs -19919/6697728
+[PASS] C.3 R4 v1: slow polynomial off K' identical (exact)
+[PASS] C.3 R5 v1: k, r_u, signature, dim K', weight, zero multiplicity off K' equal
+[PASS] C.3 R5 v1: gamma_u exactly equal :: 224487/41628563 vs 224487/41628563
+[PASS] C.3 R5 v1: slow polynomial off K' identical (exact)
+audit.json written

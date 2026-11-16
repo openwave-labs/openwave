@@ -1,0 +1,86 @@
+||q1||^2 = 1  ||q2||^2 = 1
+[PASS] 0(a) |q1| = |q2| = 1 exactly
+|Gamma0| = 120
+  class 0: size   1, element order  1, real part 1
+  class 1: size   1, element order  2, real part -1
+  class 2: size  20, element order  3, real part -1/2
+  class 3: size  30, element order  4, real part 0
+  class 4: size  12, element order  5, real part (-1/4+-1/4*sqrt5)
+  class 5: size  12, element order  5, real part (-1/4+1/4*sqrt5)
+  class 6: size  20, element order  6, real part 1/2
+  class 7: size  12, element order 10, real part (1/4+-1/4*sqrt5)
+  class 8: size  12, element order 10, real part (1/4+1/4*sqrt5)
+[PASS] 0(a) class sizes sum to |G|
+[PASS] 0(a) identified characters satisfy exact row orthogonality
+[PASS] 0(a) exact column orthogonality
+[PASS] 0(a)/(b) every V_l (l<=20) decomposes with nonnegative integer multiplicities, dims add up
+  chi_0: dim 1: ['1', '1', '1', '1', '1', '1', '1', '1', '1']
+  chi_1: dim 2: ['2', '-2', '-1', '0', '(-1/2+-1/2*sqrt5)', '(-1/2+1/2*sqrt5)', '1', '(1/2+-1/2*sqrt5)', '(1/2+1/2*sqrt5)']
+  chi_2: dim 2: ['2', '-2', '-1', '0', '(-1/2+1/2*sqrt5)', '(-1/2+-1/2*sqrt5)', '1', '(1/2+1/2*sqrt5)', '(1/2+-1/2*sqrt5)']
+  chi_3: dim 3: ['3', '3', '0', '-1', '(1/2+-1/2*sqrt5)', '(1/2+1/2*sqrt5)', '0', '(1/2+1/2*sqrt5)', '(1/2+-1/2*sqrt5)']
+  chi_4: dim 3: ['3', '3', '0', '-1', '(1/2+1/2*sqrt5)', '(1/2+-1/2*sqrt5)', '0', '(1/2+-1/2*sqrt5)', '(1/2+1/2*sqrt5)']
+  chi_5: dim 4: ['4', '-4', '1', '0', '-1', '-1', '-1', '1', '1']
+  chi_6: dim 4: ['4', '4', '1', '0', '-1', '-1', '1', '-1', '-1']
+  chi_7: dim 5: ['5', '5', '-1', '1', '0', '0', '-1', '0', '0']
+  chi_8: dim 6: ['6', '-6', '0', '0', '1', '1', '0', '-1', '-1']
+  irrep 0 (dim 1): levels<=20 with multiplicity [(0, 1), (12, 1), (20, 1)]
+  irrep 1 (dim 2): levels<=20 with multiplicity [(1, 1), (11, 1), (13, 1), (19, 1)]
+  irrep 2 (dim 2): levels<=20 with multiplicity [(7, 1), (13, 1), (17, 1), (19, 1)]
+  irrep 3 (dim 3): levels<=20 with multiplicity [(6, 1), (10, 1), (14, 1), (16, 1), (18, 1), (20, 1)]
+  irrep 4 (dim 3): levels<=20 with multiplicity [(2, 1), (10, 1), (12, 1), (14, 1), (18, 1), (20, 1)]
+  irrep 5 (dim 4): levels<=20 with multiplicity [(3, 1), (9, 1), (11, 1), (13, 1), (15, 1), (17, 1), (19, 1)]
+  irrep 6 (dim 4): levels<=20 with multiplicity [(6, 1), (8, 1), (12, 1), (14, 1), (16, 1), (18, 2), (20, 1)]
+  irrep 7 (dim 5): levels<=20 with multiplicity [(4, 1), (8, 1), (10, 1), (12, 1), (14, 1), (16, 2), (18, 1), (20, 2)]
+  irrep 8 (dim 6): levels<=20 with multiplicity [(5, 1), (7, 1), (9, 1), (11, 1), (13, 1), (15, 2), (17, 2), (19, 2)]
+  slot R2 -> irrep 2 (dim 2, lowest level 7)
+  slot R4 -> irrep 3 (dim 3, lowest level 6)
+  slot R5 -> irrep 6 (dim 4, lowest level 6)
+[PASS] 0(b) the three slot names select distinct irreps
+[PASS] 0(c) R2: eta^dag eta = I, eta eta^dag = P, D eta = eta rho, tr rho = chi :: max err 9.22e-41
+[FAIL] 0(c) R2: s_N by Schur equals exact S^3 integral at a random w :: 1/4 vs 101/400
+  R2: multiplicity at lowest level n=7: 1;  s_N = 101/400
+  R2: eta (rows m = ['7/2', '5/2', '3/2', '1/2', '-1/2', '-3/2', '-5/2', '-7/2']):
+      ['(0.48412291827592711065 + 0.0j)', '0.0']
+      ['0.0', '(0.57282196186948000082 + 0.0j)']
+      ['(-0.33071891388307382381 + 0.0j)', '0.0']
+      ['0.0', '(0.57282196186948000082 + 0.0j)']
+      ['(0.57282196186948000082 + 0.0j)', '0.0']
+      ['0.0', '(-0.33071891388307382381 + 0.0j)']
+      ['(0.57282196186948000082 + 0.0j)', '0.0']
+      ['0.0', '(0.48412291827592711065 + 0.0j)']
+[PASS] 0(c) R4: eta^dag eta = I, eta eta^dag = P, D eta = eta rho, tr rho = chi :: max err 7.12e-41
+[FAIL] 0(c) R4: s_N by Schur equals exact S^3 integral at a random w :: 3/7 vs 303/700
+  R4: multiplicity at lowest level n=6: 1;  s_N = 303/700
+  R4: eta (rows m = ['3', '2', '1', '0', '-1', '-2', '-3']):
+      ['(0.66143782776614764763 + 0.0j)', '0.0', '(3.9209741987433658325e-42 + 0.0j)']
+      ['0.0', '(0.61237243569579452455 + 0.0j)', '0.0']
+      ['(0.16366341767699428595 + 0.0j)', '0.0', '(0.73192505471139988452 + 0.0j)']
+      ['0.0', '(-0.5 + 0.0j)', '0.0']
+      ['(-0.36596252735569994226 + 0.0j)', '0.0', '(0.6546536707079771438 + 0.0j)']
+      ['0.0', '(0.61237243569579452455 + 0.0j)', '0.0']
+      ['(-0.63386569104638743313 + 0.0j)', '0.0', '(-0.18898223650461361361 + 0.0j)']
+[PASS] 0(c) R5: eta^dag eta = I, eta eta^dag = P, D eta = eta rho, tr rho = chi :: max err 7.41e-41
+[FAIL] 0(c) R5: s_N by Schur equals exact S^3 integral at a random w :: 4/7 vs 101/175
+  R5: multiplicity at lowest level n=6: 1;  s_N = 101/175
+  R5: eta (rows m = ['3', '2', '1', '0', '-1', '-2', '-3']):
+      ['(0.75 + 0.0j)', '0.0', '(2.2229834200662198734e-42 + 0.0j)', '0.0']
+      ['0.0', '(0.790569415042094833 + 0.0j)', '0.0', '0.0']
+      ['(-0.14433756729740644113 + 0.0j)', '0.0', '(0.6454972243679028142 + 0.0j)', '0.0']
+      ['0.0', '(0.38729833462074168852 + 0.0j)', '0.0', '(0.77459666924148337704 + 0.0j)']
+      ['(0.3227486121839514071 + 0.0j)', '0.0', '(-0.57735026918962576451 + 0.0j)', '0.0']
+      ['0.0', '(-0.4743416490252568998 + 0.0j)', '0.0', '(0.6324555320336758664 + 0.0j)']
+      ['(0.5590169943749474241 + 0.0j)', '0.0', '(0.5 + 0.0j)', '0.0']
+<3 3; 3 -3 | 6 0> =  + sqrt(1/924)
+[PASS] 0(d) Racah CG <33;3-3|60> equals the lowering-operator construction :: 0.032897584747988449419
+[PASS] 0(d) Theta^2 is scalar on V_6/2
+  Theta^2 on V_6/2 = 1.0
+[PASS] 0(d) Theta^2 is scalar on V_7/2
+  Theta^2 on V_7/2 = -1.0
+[PASS] 0(e) C is unitary and intertwines conj(rho) with rho on both generators :: smallest singular values 1.27e-41, next 1.62
+  C = [['-6.14256037139322e-42', '(-0.996061637330635 + 0.0886634910107607j)'], ['(0.996061637330635 - 0.0886634910107607j)', '(-1.45794907598549e-41 + 1.19637327826083e-41j)']]
+  C conj(C) = [['(-1.0 + 1.57220618960969e-41j)', '(2.1701186492666e-41 + 1.11685675623753e-41j)'], ['(-2.1701186492666e-41 + 1.11685675623753e-41j)', '(-1.0 - 1.57220618960969e-41j)']]
+[PASS] 0(e) W^dag conj(eta) C is a multiple of eta (multiplicity one)
+[PASS] 0(e) W^T = -W on V_7/2
+[PASS] 0(e) psi_w -> conj(psi_w) C equals psi at w' = (-c0) Theta w at random g
+  the map is w -> (-c0) Theta w with -c0 = (0.99606163733063465134 - 0.088663491010760718631j) |c0| = 1.0
+[PASS] 0(e) C conj(C) = -1

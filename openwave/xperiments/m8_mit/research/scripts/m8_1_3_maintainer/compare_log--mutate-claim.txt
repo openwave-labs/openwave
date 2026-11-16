@@ -1,0 +1,516 @@
+PASS A1  l6    beta R4                                    28/39 vs 28/39
+PASS A1  l6    beta R5                                    21/52 vs 21/52
+PASS A1  r2    beta R2                                    24/13 vs 24/13
+PASS A1  l6    ratio beta R5/R4 = 21/52 / 28/39           9/16 vs 9/16
+PASS A1  l6    difference beta R4 - R5 (49/156 stated)    49/156 vs 49/156
+PASS A1  -     closed form d(d-r)/(13r) at the room betas evaluated, not given to rooms
+PASS A2  l6    (q6,q4,q2,q0) R4                           ['1288/1287', '35/33', '14/9', '7/3'] vs ['1288/1287', '35/33', '14/9', '7/3']
+PASS A2  l6    (q6,q4,q2,q0) R5                           ['2289/2288', '91/88', '21/16', '7/4'] vs ['2289/2288', '91/88', '21/16', '7/4']
+PASS A2  r2    q7 R2                                      144/143 vs 144/143
+PASS A2  r2    (q5,q3,q1) R2, script value                ['196/143', '28/11', '0']
+PASS A3  r2    line {5/2, -3/2}: critical                 True
+PASS A3  r2    line {5/2, -3/2}: Q                        161/143 vs 161/143
+PASS A3  r2    line {5/2, -3/2}: signature                [0, 3, 6] vs [0, 3, 6]
+PASS A3  r2    line {7/2, -1/2}: critical                 True
+PASS A3  r2    line {7/2, -1/2}: Q                        193/143 vs 193/143
+PASS A3  r2    line {7/2, -1/2}: signature                [5, 0, 4] vs [5, 0, 4]
+PASS A3  r2    line {7/2, -3/2}: critical                 True
+PASS A3  r2    line {7/2, -3/2}: Q                        22/13 vs 22/13
+PASS A3  r2    line {7/2, -3/2}: signature                [9, 0, 0] vs [9, 0, 0]
+PASS A3  r2    line {7/2, -5/2}: critical                 True
+PASS A3  r2    line {7/2, -5/2}: Q                        369/247 vs 369/247
+PASS A3  r2    line {7/2, -5/2}: signature                [6, 0, 3] vs [6, 0, 3]
+PASS A3  r2    weight 1/2: critical                       True
+PASS A3  r2    weight 1/2: Q                              168/143 vs 168/143
+PASS A3  r2    weight 1/2: signature                      [4, 0, 6] vs [4, 0, 6]
+PASS A3  r2    weight 3/2: critical                       True
+PASS A3  r2    weight 3/2: Q                              224/143 vs 224/143
+PASS A3  r2    weight 3/2: signature                      [8, 0, 2] vs [8, 0, 2]
+PASS A3  r2    weight 5/2: critical                       True
+PASS A3  r2    weight 5/2: Q                              168/143 vs 168/143
+PASS A3  r2    weight 5/2: signature                      [4, 0, 6] vs [4, 0, 6]
+PASS A3  r2    weight 7/2: critical                       True
+PASS A3  r2    weight 7/2: Q                              144/143 vs 144/143
+PASS A3  r2    weight 7/2: signature                      [0, 0, 10] vs [0, 0, 10]
+PASS A4  r2    Q constant on {5/2, -5/2} (identity)       168/143
+PASS A4  r2    Q constant on {7/2, -7/2} (identity)       144/143
+PASS A4  r2    Q constant on {3/2, -3/2} (identity)       224/143
+PASS A5  l6    percents R4                                ['2.0%', '0.039%'] vs ['2.0%', '0.039%']
+PASS A5  l6    percents R5                                ['1.5%', '0.022%'] vs ['1.5%', '0.022%']
+PASS A5  r2    percents R2                                ['6.0%', '0.35%'] vs ['6.0%', '0.35%']
+PASS B1  l6    C3 ray R4: critical                        True
+PASS B1  l6    C3 ray R4: 924 r6                          1188/5 vs 1188/5
+PASS B1  l6    C3 ray R4: signature                       [5, 0, 4] vs [5, 0, 4]
+PASS B1  l6    C3 ray R4: k                               4 vs 4
+PASS B1  l6    C3 ray R4: r_u                             2 vs 2
+PASS B1  l6    C3 ray R4: zero multiplicity (script)      6 vs 6
+PASS B1  l6    C3 ray R4: slow polynomial, monic (script) deg 4 vs 4
+PASS B1  l6    C3 ray R4: slow-flow words                 'hyperbolic, a complex quartet' vs 'hyperbolic, a complex quartet'
+PASS B1  l6    D2 ray R4: critical                        True
+PASS B1  l6    D2 ray R4: 924 r6                          225 vs 225
+PASS B1  l6    D2 ray R4: signature                       [5, 0, 4] vs [5, 0, 4]
+PASS B1  l6    D2 ray R4: k                               4 vs 4
+PASS B1  l6    D2 ray R4: r_u                             4 vs 4
+PASS B1  l6    D2 ray R4: zero multiplicity (script)      8 vs 8
+PASS B1  l6    D2 ray R4: slow polynomial, monic (script) deg 3 vs 3
+PASS B1  l6    D2 ray R4: slow-flow words                 'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B1  l6    coherent v3 R4: critical                   True
+PASS B1  l6    coherent v3 R4: 924 r6                     1 vs 1
+PASS B1  l6    coherent v3 R4: signature                  [0, 0, 10] vs [0, 0, 10]
+PASS B1  l6    coherent v3 R4: k                          3 vs 3
+PASS B1  l6    coherent v3 R4: r_u                        1 vs 1
+PASS B1  l6    coherent v3 R4: zero multiplicity (script) 4 vs 4
+PASS B1  l6    coherent v3 R4: slow polynomial, monic (script) deg 5 vs 5
+PASS B1  l6    coherent v3 R4: slow-flow words            'elliptic, simple' vs 'elliptic, simple'
+PASS B1  l6    coherent v3 R4: Krein signs (PDF)          ['+', '+', '+', '+', '+'] vs +
+PASS B1  l6    coherent v3 R4: Krein per cluster (script) ['+', '+', '+', '+', '+'] vs ['+', '+', '+', '+', '+']
+PASS B1  l6    hexagon R4: critical                       True
+PASS B1  l6    hexagon R4: 924 r6                         463 vs 463
+FAIL B1  l6    hexagon R4: signature                      [9, 0, 0] vs [8, 0, 1]
+PASS B1  l6    hexagon R4: k                              4 vs 4
+PASS B1  l6    hexagon R4: r_u                            4 vs 4
+PASS B1  l6    hexagon R4: zero multiplicity (script)     8 vs 8
+PASS B1  l6    hexagon R4: slow polynomial, monic (script) deg 3 vs 3
+PASS B1  l6    hexagon R4: slow-flow words                'elliptic, one double frequency' vs 'elliptic, one double frequency'
+PASS B1  l6    hexagon R4: Krein signs (PDF)              ['-', '-'] vs -
+PASS B1  l6    hexagon R4: Krein per cluster (script)     ['-', '-'] vs ['-', '-']
+PASS B1  l6    octahedron R4: critical                    True
+PASS B1  l6    octahedron R4: 924 r6                      288 vs 288
+PASS B1  l6    octahedron R4: signature                   [6, 0, 3] vs [6, 0, 3]
+PASS B1  l6    octahedron R4: k                           4 vs 4
+PASS B1  l6    octahedron R4: r_u                         4 vs 4
+PASS B1  l6    octahedron R4: zero multiplicity (script)  8 vs 8
+PASS B1  l6    octahedron R4: slow polynomial, monic (script) deg 3 vs 3
+PASS B1  l6    octahedron R4: slow-flow words             'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B1  l6    pentagonal pyramid R4: critical            True
+PASS B1  l6    pentagonal pyramid R4: 924 r6              1188/5 vs 1188/5
+PASS B1  l6    pentagonal pyramid R4: signature           [5, 0, 4] vs [5, 0, 4]
+PASS B1  l6    pentagonal pyramid R4: k                   4 vs 4
+PASS B1  l6    pentagonal pyramid R4: r_u                 2 vs 2
+PASS B1  l6    pentagonal pyramid R4: zero multiplicity (script) 6 vs 6
+PASS B1  l6    pentagonal pyramid R4: slow polynomial, monic (script) deg 4 vs 4
+PASS B1  l6    pentagonal pyramid R4: slow-flow words     'hyperbolic, a complex quartet' vs 'hyperbolic, a complex quartet'
+PASS B1  l6    trigonal prism R4: critical                True
+PASS B1  l6    trigonal prism R4: 924 r6                  8800/43 vs 8800/43
+PASS B1  l6    trigonal prism R4: signature               [3, 0, 6] vs [3, 0, 6]
+PASS B1  l6    trigonal prism R4: k                       4 vs 4
+PASS B1  l6    trigonal prism R4: r_u                     4 vs 4
+PASS B1  l6    trigonal prism R4: zero multiplicity (script) 8 vs 8
+PASS B1  l6    trigonal prism R4: zero multiplicity as (Z) asks = k + r_u 8 vs 8
+PASS B1  l6    trigonal prism R4: slow polynomial, monic (script) deg 3 vs 3
+PASS B1  l6    trigonal prism R4: slow-flow words         'elliptic, one double frequency' vs 'elliptic, one double frequency'
+PASS B1  l6    trigonal prism R4: Krein signs (PDF)       ['+', '+'] vs +
+PASS B1  l6    trigonal prism R4: Krein per cluster (script) ['+', '+'] vs ['+', '+']
+PASS B1  l6    v1 R4: critical                            True
+PASS B1  l6    v1 R4: 924 r6                              225 vs 225
+PASS B1  l6    v1 R4: signature                           [4, 2, 4] vs [4, 2, 4]
+PASS B1  l6    v1 R4: k, r_u degenerate -> n0 > 0 (scored with signature) n0=2; room k,r_u = 3,1 (C3's)
+PASS B1  l6    v1 R4: zero multiplicity (script)          6 vs 6
+PASS B1  l6    v1 R4: slow polynomial, monic (script)     deg 4 vs 4
+PASS B1  l6    v1 R4: slow flow unscored (degenerate rule) room says 'elliptic, simple'
+PASS B1  l6    v2 R4: critical                            True
+PASS B1  l6    v2 R4: 924 r6                              36 vs 36
+PASS B1  l6    v2 R4: signature                           [2, 0, 8] vs [2, 0, 8]
+PASS B1  l6    v2 R4: k                                   3 vs 3
+PASS B1  l6    v2 R4: r_u                                 1 vs 1
+PASS B1  l6    v2 R4: zero multiplicity (script)          4 vs 4
+PASS B1  l6    v2 R4: zero multiplicity as (Z) asks = k + r_u 4 vs 4
+PASS B1  l6    v2 R4: slow polynomial, monic (script)     deg 5 vs 5
+PASS B1  l6    v2 R4: slow-flow words                     'elliptic, simple' vs 'elliptic, simple'
+PASS B1  l6    v2 R4: Krein signs (PDF)                   ['+', '+', '+', '+', '-'] vs ['+', '+', '+', '+', '-']
+PASS B1  l6    v2 R4: Krein per cluster (script)          ['+', '+', '+', '+', '-'] vs ['+', '+', '+', '+', '-']
+PASS B1  l6    zonal v0 R4: critical                      True
+PASS B1  l6    zonal v0 R4: 924 r6                        400 vs 400
+PASS B1  l6    zonal v0 R4: signature                     [8, 0, 2] vs [8, 0, 2]
+PASS B1  l6    zonal v0 R4: k                             3 vs 3
+PASS B1  l6    zonal v0 R4: r_u                           3 vs 3
+PASS B1  l6    zonal v0 R4: zero multiplicity (script)    6 vs 6
+PASS B1  l6    zonal v0 R4: slow polynomial, monic (script) deg 4 vs 4
+PASS B1  l6    zonal v0 R4: slow-flow words               'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B2  l6    C3 ray R5: critical                        True
+PASS B2  l6    C3 ray R5: signature                       [5, 0, 4] vs [5, 0, 4]
+PASS B2  l6    C3 ray R5: k                               4 vs 4
+PASS B2  l6    C3 ray R5: r_u                             2 vs 2
+PASS B2  l6    C3 ray R5: zero multiplicity (script)      6 vs 6
+PASS B2  l6    C3 ray R5: slow polynomial, monic (script) deg 4 vs 4
+PASS B2  l6    C3 ray R5: slow-flow words                 'hyperbolic, a complex quartet' vs 'hyperbolic, a complex quartet'
+PASS B2  l6    D2 ray R5: critical                        True
+PASS B2  l6    D2 ray R5: signature                       [5, 0, 4] vs [5, 0, 4]
+PASS B2  l6    D2 ray R5: k                               4 vs 4
+PASS B2  l6    D2 ray R5: r_u                             4 vs 4
+PASS B2  l6    D2 ray R5: zero multiplicity (script)      8 vs 8
+PASS B2  l6    D2 ray R5: slow polynomial, monic (script) deg 3 vs 3
+PASS B2  l6    D2 ray R5: slow-flow words                 'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B2  l6    coherent v3 R5: critical                   True
+PASS B2  l6    coherent v3 R5: signature                  [0, 0, 10] vs [0, 0, 10]
+PASS B2  l6    coherent v3 R5: k                          3 vs 3
+PASS B2  l6    coherent v3 R5: r_u                        1 vs 1
+PASS B2  l6    coherent v3 R5: zero multiplicity (script) 4 vs 4
+PASS B2  l6    coherent v3 R5: slow polynomial, monic (script) deg 5 vs 5
+PASS B2  l6    coherent v3 R5: slow-flow words            'elliptic, simple' vs 'elliptic, simple'
+PASS B2  l6    coherent v3 R5: Krein signs (PDF)          ['+', '+', '+', '+', '+'] vs +
+PASS B2  l6    coherent v3 R5: Krein per cluster (script) ['+', '+', '+', '+', '+'] vs ['+', '+', '+', '+', '+']
+PASS B2  l6    hexagon R5: critical                       True
+PASS B2  l6    hexagon R5: signature                      [9, 0, 0] vs [9, 0, 0]
+PASS B2  l6    hexagon R5: k                              4 vs 4
+PASS B2  l6    hexagon R5: r_u                            4 vs 4
+PASS B2  l6    hexagon R5: zero multiplicity (script)     8 vs 8
+PASS B2  l6    hexagon R5: slow polynomial, monic (script) deg 3 vs 3
+PASS B2  l6    hexagon R5: slow-flow words                'elliptic, one double frequency' vs 'elliptic, one double frequency'
+PASS B2  l6    hexagon R5: Krein signs (PDF)              ['-', '-'] vs -
+PASS B2  l6    hexagon R5: Krein per cluster (script)     ['-', '-'] vs ['-', '-']
+PASS B2  l6    octahedron R5: critical                    True
+PASS B2  l6    octahedron R5: signature                   [6, 0, 3] vs [6, 0, 3]
+PASS B2  l6    octahedron R5: k                           4 vs 4
+PASS B2  l6    octahedron R5: r_u                         4 vs 4
+PASS B2  l6    octahedron R5: zero multiplicity (script)  8 vs 8
+PASS B2  l6    octahedron R5: slow polynomial, monic (script) deg 3 vs 3
+PASS B2  l6    octahedron R5: slow-flow words             'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B2  l6    pentagonal pyramid R5: critical            True
+PASS B2  l6    pentagonal pyramid R5: signature           [5, 0, 4] vs [5, 0, 4]
+PASS B2  l6    pentagonal pyramid R5: k                   4 vs 4
+PASS B2  l6    pentagonal pyramid R5: r_u                 2 vs 2
+PASS B2  l6    pentagonal pyramid R5: zero multiplicity (script) 6 vs 6
+PASS B2  l6    pentagonal pyramid R5: slow polynomial, monic (script) deg 4 vs 4
+PASS B2  l6    pentagonal pyramid R5: slow-flow words     'hyperbolic, a complex quartet' vs 'hyperbolic, a complex quartet'
+PASS B2  l6    trigonal prism R5: critical                True
+PASS B2  l6    trigonal prism R5: signature               [3, 0, 6] vs [3, 0, 6]
+PASS B2  l6    trigonal prism R5: k                       4 vs 4
+PASS B2  l6    trigonal prism R5: r_u                     4 vs 4
+PASS B2  l6    trigonal prism R5: zero multiplicity (script) 8 vs 8
+PASS B2  l6    trigonal prism R5: zero multiplicity as (Z) asks = k + r_u 8 vs 8
+PASS B2  l6    trigonal prism R5: slow polynomial, monic (script) deg 3 vs 3
+PASS B2  l6    trigonal prism R5: slow-flow words         'elliptic, one double frequency' vs 'elliptic, one double frequency'
+PASS B2  l6    trigonal prism R5: Krein signs (PDF)       ['+', '+'] vs +
+PASS B2  l6    trigonal prism R5: Krein per cluster (script) ['+', '+'] vs ['+', '+']
+PASS B2  l6    v1 R5: critical                            True
+PASS B2  l6    v1 R5: signature                           [4, 2, 4] vs [4, 2, 4]
+PASS B2  l6    v1 R5: k, r_u degenerate -> n0 > 0 (scored with signature) n0=2; room k,r_u = 3,1 (C3's)
+PASS B2  l6    v1 R5: zero multiplicity (script)          6 vs 6
+PASS B2  l6    v1 R5: slow polynomial, monic (script)     deg 4 vs 4
+PASS B2  l6    v1 R5: slow flow unscored (degenerate rule) room says 'elliptic, simple'
+PASS B2  l6    v2 R5: critical                            True
+PASS B2  l6    v2 R5: signature                           [2, 0, 8] vs [2, 0, 8]
+PASS B2  l6    v2 R5: k                                   3 vs 3
+PASS B2  l6    v2 R5: r_u                                 1 vs 1
+PASS B2  l6    v2 R5: zero multiplicity (script)          4 vs 4
+PASS B2  l6    v2 R5: zero multiplicity as (Z) asks = k + r_u 4 vs 4
+PASS B2  l6    v2 R5: slow polynomial, monic (script)     deg 5 vs 5
+PASS B2  l6    v2 R5: slow-flow words                     'elliptic, simple' vs 'elliptic, simple'
+PASS B2  l6    v2 R5: Krein signs (PDF)                   ['+', '+', '+', '+', '-'] vs ['+', '+', '+', '+', '-']
+PASS B2  l6    v2 R5: Krein per cluster (script)          ['+', '+', '+', '+', '-'] vs ['+', '+', '+', '+', '-']
+PASS B2  l6    zonal v0 R5: critical                      True
+PASS B2  l6    zonal v0 R5: signature                     [8, 0, 2] vs [8, 0, 2]
+PASS B2  l6    zonal v0 R5: k                             3 vs 3
+PASS B2  l6    zonal v0 R5: r_u                           3 vs 3
+PASS B2  l6    zonal v0 R5: zero multiplicity (script)    6 vs 6
+PASS B2  l6    zonal v0 R5: slow polynomial, monic (script) deg 4 vs 4
+PASS B2  l6    zonal v0 R5: slow-flow words               'hyperbolic, real pairs' vs 'hyperbolic, real pairs'
+PASS B2  l6    C3 ray: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    C3 ray: every paired eigenvalue ratio 9/16 4 pairs
+PASS B2  l6    D2 ray: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    D2 ray: every paired eigenvalue ratio 9/16 3 pairs
+PASS B2  l6    coherent v3: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    coherent v3: every paired eigenvalue ratio 9/16 5 pairs
+PASS B2  l6    hexagon: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    hexagon: every paired eigenvalue ratio 9/16 3 pairs
+PASS B2  l6    octahedron: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    octahedron: every paired eigenvalue ratio 9/16 3 pairs
+PASS B2  l6    pentagonal pyramid: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    pentagonal pyramid: every paired eigenvalue ratio 9/16 4 pairs
+PASS B2  l6    trigonal prism: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    trigonal prism: every paired eigenvalue ratio 9/16 3 pairs
+PASS B2  l6    v1: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    v1: every paired eigenvalue ratio 9/16     4 pairs
+PASS B2  l6    v2: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    v2: every paired eigenvalue ratio 9/16     5 pairs
+PASS B2  l6    zonal v0: scaling, R5 monic = R4 monic at 256nu/81 the rooms own polynomials
+PASS B2  l6    zonal v0: every paired eigenvalue ratio 9/16 4 pairs
+PASS B3  r2    line {5/2, -3/2}: signature                [0, 3, 6] vs [0, 3, 6]
+PASS B3  r2    line {5/2, -3/2}: k, r_u degenerate -> n0 > 0 n0=3
+PASS B3  r2    line {5/2, -3/2}: zero multiplicity (script) 12 vs 12
+PASS B3  r2    line {5/2, -3/2}: slow polynomial, monic (script) deg 2 vs 2
+PASS B3  r2    line {5/2, -3/2}: at the point unscored (degenerate rule) room says 'elliptic, simple'
+PASS B3  r2    line {7/2, -1/2}: signature                [5, 0, 4] vs [5, 0, 4]
+PASS B3  r2    line {7/2, -1/2}: k                        6 vs 6
+PASS B3  r2    line {7/2, -1/2}: r_u                      2 vs 2
+PASS B3  r2    line {7/2, -1/2}: zero multiplicity (script) 8 vs 8
+PASS B3  r2    line {7/2, -1/2}: slow polynomial, monic (script) deg 4 vs 4
+PASS B3  r2    line {7/2, -1/2}: words at the point       'hyperbolic (no listed sub-word)' vs 'hyperbolic'
+PASS B3  r2    line {7/2, -3/2}: signature                [9, 0, 0] vs [9, 0, 0]
+PASS B3  r2    line {7/2, -3/2}: k                        6 vs 6
+PASS B3  r2    line {7/2, -3/2}: r_u                      4 vs 4
+PASS B3  r2    line {7/2, -3/2}: zero multiplicity (script) 10 vs 10
+PASS B3  r2    line {7/2, -3/2}: slow polynomial, monic (script) deg 3 vs 3
+PASS B3  r2    line {7/2, -3/2}: words at the point       'elliptic, simple' vs 'elliptic'
+PASS B3  r2    line {7/2, -3/2}: Krein at the point       ['-'] vs -
+PASS B3  r2    line {7/2, -3/2}: along the family = definite J: elliptic, simple; k: elliptic, simple; (i+J)/sqrt2: elliptic, simple; (i+k)/sqrt2: elliptic, simple
+PASS B3  r2    line {7/2, -5/2}: signature                [6, 0, 3] vs [6, 0, 3]
+PASS B3  r2    line {7/2, -5/2}: k                        6 vs 6
+PASS B3  r2    line {7/2, -5/2}: r_u                      2 vs 2
+PASS B3  r2    line {7/2, -5/2}: zero multiplicity (script) 8 vs 8
+PASS B3  r2    line {7/2, -5/2}: slow polynomial, monic (script) deg 4 vs 4
+PASS B3  r2    line {7/2, -5/2}: words at the point       'hyperbolic (no listed sub-word)' vs 'hyperbolic'
+PASS B3  r2    weight 1/2: signature                      [4, 0, 6] vs [4, 0, 6]
+PASS B3  r2    weight 1/2: k                              5 vs 5
+PASS B3  r2    weight 1/2: r_u                            1 vs 1
+PASS B3  r2    weight 1/2: zero multiplicity (script)     6 vs 6
+PASS B3  r2    weight 1/2: slow polynomial, monic (script) deg 5 vs 5
+PASS B3  r2    weight 1/2: words at the point             'hyperbolic (no listed sub-word)' vs 'hyperbolic'
+PASS B3  r2    weight 3/2: signature                      [8, 0, 2] vs [8, 0, 2]
+PASS B3  r2    weight 3/2: k                              5 vs 5
+PASS B3  r2    weight 3/2: r_u                            1 vs 1
+PASS B3  r2    weight 3/2: zero multiplicity (script)     6 vs 6
+PASS B3  r2    weight 3/2: slow polynomial, monic (script) deg 5 vs 5
+PASS B3  r2    weight 3/2: words at the point             'elliptic, simple' vs 'elliptic'
+PASS B3  r2    weight 3/2: along the family = hyperbolic  J: hyperbolic, real pairs; k: hyperbolic, real pairs; (i+J)/sqrt2: hyperbolic, a complex quartet; (i+k)/sqrt2: hyperbolic, a complex quartet
+PASS B3  r2    weight 5/2: signature                      [4, 0, 6] vs [4, 0, 6]
+PASS B3  r2    weight 5/2: k                              5 vs 5
+PASS B3  r2    weight 5/2: r_u                            1 vs 1
+PASS B3  r2    weight 5/2: zero multiplicity (script)     6 vs 6
+PASS B3  r2    weight 5/2: slow polynomial, monic (script) deg 5 vs 5
+PASS B3  r2    weight 5/2: words at the point             'elliptic, one double frequency' vs 'elliptic'
+PASS B3  r2    weight 5/2: along the family = hyperbolic  J: hyperbolic, real pairs; k: hyperbolic, real pairs; (i+J)/sqrt2: hyperbolic, a complex quartet; (i+k)/sqrt2: hyperbolic, a complex quartet
+PASS B3  r2    weight 7/2: signature                      [0, 0, 10] vs [0, 0, 10]
+PASS B3  r2    weight 7/2: k                              5 vs 5
+PASS B3  r2    weight 7/2: r_u                            1 vs 1
+PASS B3  r2    weight 7/2: zero multiplicity (script)     6 vs 6
+PASS B3  r2    weight 7/2: slow polynomial, monic (script) deg 5 vs 5
+PASS B3  r2    weight 7/2: words at the point             'elliptic, simple' vs 'elliptic, simple'
+PASS B3  r2    weight 7/2: Krein at the point             ['+'] vs +
+PASS B3  r2    weight 7/2: along the family = definite    J: elliptic (neither 'simple' nor 'one double frequency'); k: elliptic (neither 'simple' nor 'one double frequency'); (i+J)/sqrt2: elliptic, simple; (i+k)/sqrt2: elliptic, simple
+PASS D1  cert  O1 R4: Krawczyk in the given box           passed
+PASS D1  cert  O1 R4: signature                           [4, 0, 5] vs [4, 0, 5]
+PASS D1  cert  O1 R4: k                                   4 vs 4
+PASS D1  cert  O1 R4: r_u                                 2 vs 2
+PASS D1  cert  O1 R4: zero multiplicity                   6 vs 6
+PASS B4  cert  O1 R4: signature                           [4, 0, 5] vs [4, 0, 5]
+PASS B4  cert  O1 R4: k                                   4 vs 4
+PASS B4  cert  O1 R4: r_u                                 2 vs 2
+PASS B4  cert  O1 R4: zero multiplicity                   6 vs 6
+PASS D1  cert  O1 R4: slow roots positive, negative       [1, 3] vs [1, 3]
+PASS D1  cert  O1 R4: 924 r6 inside Table 2 digits        [215.7757925016684135, 215.7757925016684135] in [215.7757925, 215.7757926), width 1.0e-67
+PASS B4  cert  O1 R4: 924 r6 inside Table 2 digits        [215.7757925016684135, 215.7757925016684135] in [215.7757925, 215.7757926), width 1.0e-67
+PASS D1  cert  O1 R4: room enclosure inside the script enclosure script value
+PASS B4  cert  O1 R4: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O1 R4: slow-flow words                     'hyperbolic, one real pair' vs 'hyperbolic, one real pair'
+PASS D1  cert  O2 R4: Krawczyk in the given box           passed
+PASS D1  cert  O2 R4: signature                           [6, 0, 3] vs [6, 0, 3]
+PASS D1  cert  O2 R4: k                                   4 vs 4
+PASS D1  cert  O2 R4: r_u                                 2 vs 2
+PASS D1  cert  O2 R4: zero multiplicity                   6 vs 6
+PASS B4  cert  O2 R4: signature                           [6, 0, 3] vs [6, 0, 3]
+PASS B4  cert  O2 R4: k                                   4 vs 4
+PASS B4  cert  O2 R4: r_u                                 2 vs 2
+PASS B4  cert  O2 R4: zero multiplicity                   6 vs 6
+PASS D1  cert  O2 R4: slow roots positive, negative       [1, 3] vs [1, 3]
+PASS D1  cert  O2 R4: 924 r6 inside Table 2 digits        [238.01652892561983471, 238.01652892561983471] in [238.0165289, 238.016529), width 1.0e-67
+PASS B4  cert  O2 R4: 924 r6 inside Table 2 digits        [238.01652892561983471, 238.01652892561983471] in [238.0165289, 238.016529), width 1.0e-67
+PASS D1  cert  O2 R4: room enclosure inside the script enclosure script value
+PASS B4  cert  O2 R4: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O2 R4: slow-flow words                     'hyperbolic, one real pair' vs 'hyperbolic, one real pair'
+PASS B4  cert  O2 R4: contains 28800/121                  28800/121 in [238.0165289256198347107438, 238.0165289256198347107438]
+PASS D1  cert  O3 R4: Krawczyk in the given box           passed
+PASS D1  cert  O3 R4: signature                           [7, 0, 2] vs [7, 0, 2]
+PASS D1  cert  O3 R4: k                                   4 vs 4
+PASS D1  cert  O3 R4: r_u                                 2 vs 2
+PASS D1  cert  O3 R4: zero multiplicity                   6 vs 6
+PASS B4  cert  O3 R4: signature                           [7, 0, 2] vs [7, 0, 2]
+PASS B4  cert  O3 R4: k                                   4 vs 4
+PASS B4  cert  O3 R4: r_u                                 2 vs 2
+PASS B4  cert  O3 R4: zero multiplicity                   6 vs 6
+PASS D1  cert  O3 R4: slow roots positive, negative       [0, 4] vs [0, 4]
+PASS D1  cert  O3 R4: 924 r6 inside Table 2 digits        [238.35685474309527035, 238.35685474309527035] in [238.3568547, 238.3568548), width 1.0e-67
+PASS B4  cert  O3 R4: 924 r6 inside Table 2 digits        [238.35685474309527035, 238.35685474309527035] in [238.3568547, 238.3568548), width 1.0e-67
+PASS D1  cert  O3 R4: room enclosure inside the script enclosure script value
+PASS B4  cert  O3 R4: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O3 R4: slow-flow words                     'elliptic, simple' vs 'elliptic, simple'
+PASS B4  cert  O3 R4: zero multiplicity as (Z) asks       6 vs 6
+PASS D1  cert  O1 R5: Krawczyk in the given box           passed
+PASS D1  cert  O1 R5: signature                           [4, 0, 5] vs [4, 0, 5]
+PASS D1  cert  O1 R5: k                                   4 vs 4
+PASS D1  cert  O1 R5: r_u                                 2 vs 2
+PASS D1  cert  O1 R5: zero multiplicity                   6 vs 6
+PASS B4  cert  O1 R5: signature                           [4, 0, 5] vs [4, 0, 5]
+PASS B4  cert  O1 R5: k                                   4 vs 4
+PASS B4  cert  O1 R5: r_u                                 2 vs 2
+PASS B4  cert  O1 R5: zero multiplicity                   6 vs 6
+PASS D1  cert  O1 R5: slow roots positive, negative       [1, 3] vs [1, 3]
+PASS D1  cert  O1 R5: 924 r6 inside Table 2 digits        [215.7757925016684135, 215.7757925016684135] in [215.7757925, 215.7757926), width 1.0e-67
+PASS B4  cert  O1 R5: 924 r6 inside Table 2 digits        [215.7757925016684135, 215.7757925016684135] in [215.7757925, 215.7757926), width 1.0e-67
+PASS D1  cert  O1 R5: room enclosure inside the script enclosure script value
+PASS B4  cert  O1 R5: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O1 R5: slow-flow words                     'hyperbolic, one real pair' vs 'hyperbolic, one real pair'
+PASS B4  cert  O1: scaling, each paired ratio enclosure contains 9/16 4 pairs
+PASS B4  cert  O1: R5 roots meet 81/256 x R4 roots, one each interval overlap
+PASS D1  cert  O2 R5: Krawczyk in the given box           passed
+PASS D1  cert  O2 R5: signature                           [6, 0, 3] vs [6, 0, 3]
+PASS D1  cert  O2 R5: k                                   4 vs 4
+PASS D1  cert  O2 R5: r_u                                 2 vs 2
+PASS D1  cert  O2 R5: zero multiplicity                   6 vs 6
+PASS B4  cert  O2 R5: signature                           [6, 0, 3] vs [6, 0, 3]
+PASS B4  cert  O2 R5: k                                   4 vs 4
+PASS B4  cert  O2 R5: r_u                                 2 vs 2
+PASS B4  cert  O2 R5: zero multiplicity                   6 vs 6
+PASS D1  cert  O2 R5: slow roots positive, negative       [1, 3] vs [1, 3]
+PASS D1  cert  O2 R5: 924 r6 inside Table 2 digits        [238.01652892561983471, 238.01652892561983471] in [238.0165289, 238.016529), width 1.0e-67
+PASS B4  cert  O2 R5: 924 r6 inside Table 2 digits        [238.01652892561983471, 238.01652892561983471] in [238.0165289, 238.016529), width 1.0e-67
+PASS D1  cert  O2 R5: room enclosure inside the script enclosure script value
+PASS B4  cert  O2 R5: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O2 R5: slow-flow words                     'hyperbolic, one real pair' vs 'hyperbolic, one real pair'
+PASS B4  cert  O2 R5: contains 28800/121                  28800/121 in [238.0165289256198347107438, 238.0165289256198347107438]
+PASS B4  cert  O2: scaling, each paired ratio enclosure contains 9/16 4 pairs
+PASS B4  cert  O2: R5 roots meet 81/256 x R4 roots, one each interval overlap
+PASS D1  cert  O3 R5: Krawczyk in the given box           passed
+PASS D1  cert  O3 R5: signature                           [7, 0, 2] vs [7, 0, 2]
+PASS D1  cert  O3 R5: k                                   4 vs 4
+PASS D1  cert  O3 R5: r_u                                 2 vs 2
+PASS D1  cert  O3 R5: zero multiplicity                   6 vs 6
+PASS B4  cert  O3 R5: signature                           [7, 0, 2] vs [7, 0, 2]
+PASS B4  cert  O3 R5: k                                   4 vs 4
+PASS B4  cert  O3 R5: r_u                                 2 vs 2
+PASS B4  cert  O3 R5: zero multiplicity                   6 vs 6
+PASS D1  cert  O3 R5: slow roots positive, negative       [0, 4] vs [0, 4]
+PASS D1  cert  O3 R5: 924 r6 inside Table 2 digits        [238.35685474309527035, 238.35685474309527035] in [238.3568547, 238.3568548), width 1.0e-67
+PASS B4  cert  O3 R5: 924 r6 inside Table 2 digits        [238.35685474309527035, 238.35685474309527035] in [238.3568547, 238.3568548), width 1.0e-67
+PASS D1  cert  O3 R5: room enclosure inside the script enclosure script value
+PASS B4  cert  O3 R5: 924 r6 width <= 1e-50 (clause 2)    1.0e-67
+PASS B4  cert  O3 R5: slow-flow words                     'elliptic, simple' vs 'elliptic, simple'
+PASS B4  cert  O3 R5: zero multiplicity as (Z) asks       6 vs 6
+PASS B4  cert  O3: scaling, each paired ratio enclosure contains 9/16 4 pairs
+PASS B4  cert  O3: R5 roots meet 81/256 x R4 roots, one each interval overlap
+PASS B5  l6    HS spin-6 factor = r6, constant 1 (identity) 1
+PASS C1  ca    R2: s_N                                    1/4 vs 1/4
+PASS C1  ca    R2: levels with nonzero norm               [13, 17, 19]
+PASS C2  ca    R2: next level                             13 vs 13
+PASS C2  ca    R2: gap                                    132 vs 132
+PASS C1  ca    R4: s_N                                    3/7 vs 3/7
+PASS C1  ca    R4: levels with nonzero norm               [10, 14, 16, 18]
+PASS C2  ca    R4: next level                             10 vs 10
+PASS C2  ca    R4: gap                                    72 vs 72
+PASS C1  ca    R5: s_N                                    4/7 vs 4/7
+PASS C1  ca    R5: levels with nonzero norm               [8, 12, 14, 16, 18]
+PASS C2  ca    R5: next level                             8 vs 8
+PASS C2  ca    R5: gap                                    32 vs 32
+PASS C1  cb    R2: s_N                                    1/4 vs 1/4
+PASS C1  cb    R2: levels with nonzero norm               [13, 17, 19]
+PASS C2  cb    R2: next level                             13 vs 13
+PASS C2  cb    R2: gap                                    132 vs 132
+PASS C1  cb    R4: s_N                                    3/7 vs 3/7
+PASS C1  cb    R4: levels with nonzero norm               [10, 14, 16, 18]
+PASS C2  cb    R4: next level                             10 vs 10
+PASS C2  cb    R4: gap                                    72 vs 72
+PASS C1  cb    R5: s_N                                    4/7 vs 4/7
+PASS C1  cb    R5: levels with nonzero norm               [8, 12, 14, 16, 18]
+PASS C2  cb    R5: next level                             8 vs 8
+PASS C2  cb    R5: gap                                    32 vs 32
+PASS C3  cb    R2 line point: order of Gamma_u            24 vs 24
+PASS C3  cb    R2 line point: dim K'                      3 vs 3
+PASS C3  cb    R2 line point: absolutely irreducible      True
+PASS C3  cb    R2 line point: n-                          0 vs 0
+PASS C3  cb    R2 line point: gamma_u                     115020/20333173 vs 115020/20333173
+PASS C3  cb    v1 R4: K' = C v_-3                         real dimension 2, components m in ['-3']
+PASS C3  cb    v1 R4: weight 4 under the circle           [4]
+PASS C3  cb    v1 R4: gamma_u                             -19919/6697728 vs -19919/6697728
+PASS C3  cb    v1 R4: Krein sign of the pair = sign of gamma_u - vs -
+PASS C3  cb    v1 R4: (k, r_u) (clause 5)                 [3, 1]
+PASS C3  cb    v1 R4: off K', zero multiplicity 4 = k + r_u 4
+PASS C3  cb    v1 R4: off K', four simple negative roots  deg 4, simple True
+PASS C3  cb    v1 R5: K' = C v_-3                         real dimension 2, components m in ['-3']
+PASS C3  cb    v1 R5: weight 4 under the circle           [4]
+PASS C3  cb    v1 R5: gamma_u                             224487/41628563 vs 224487/41628563
+PASS C3  cb    v1 R5: Krein sign of the pair = sign of gamma_u + vs +
+PASS C3  cb    v1 R5: (k, r_u) (clause 5)                 [3, 1]
+PASS C3  cb    v1 R5: off K', zero multiplicity 4 = k + r_u 4
+PASS C3  cb    v1 R5: off K', four simple negative roots  deg 4, simple True
+PASS C4  ca    line {5/2, -3/2} R2: critical, R~0 negative - -27273813/37780754440
+PASS C4  ca    line {7/2, -1/2} R2: critical, R~0 negative - -182482085/158679168648
+PASS C4  ca    line {7/2, -3/2} R2: critical, R~0 negative - -6768561/1092831740
+PASS C4  ca    line {7/2, -5/2} R2: critical, R~0 negative - -23307740389/14991465809320
+PASS C4  ca    weight 1/2 R2: critical, R~0 negative      - -728595/1889037722
+PASS C4  ca    weight 3/2 R2: critical, R~0 negative      - -28845747/9445188610
+PASS C4  ca    weight 5/2 R2: critical, R~0 negative      - -316750/944518861
+PASS C4  ca    weight 7/2 R2: critical, R~0 negative      - -1629062/33058160135
+PASS C4  ca    C3 ray R4: critical, R~0 negative          - -1033699247/643990132500
+PASS C4  ca    D2 ray R4: critical, R~0 negative          - -593698945/544042863936
+PASS C4  ca    coherent v3 R4: critical, R~0 negative     - -608931967/110168679947040
+PASS C4  ca    hexagon R4: critical, R~0 negative         - -1921938515/1377108499338
+PASS C4  ca    octahedron R4: critical, R~0 negative      - -2203040/2833556583
+PASS C4  ca    pentagonal pyramid R4: critical, R~0 negative - -267786421/175633672500
+PASS C4  ca    trigonal prism R4: critical, R~0 negative  - -336158940460/452437047342423
+PASS C4  ca    v1 R4: critical, R~0 negative              - -30976085/90673810656
+PASS C4  ca    v2 R4: critical, R~0 negative              - -23286907/85006697490
+PASS C4  ca    zonal v0 R4: critical, R~0 negative        - -1871763250/688554249669
+PASS C4  ca    O1 R4 R4: critical, R~0 negative           - 
+PASS C4  ca    O2 R4 R4: critical, R~0 negative           - 
+PASS C4  ca    O3 R4 R4: critical, R~0 negative           - 
+PASS C4  ca    C3 ray R5: critical, R~0 negative          - -15793825383/27476912320000
+PASS C4  ca    D2 ray R5: critical, R~0 negative          - -670232535/967187313664
+PASS C4  ca    coherent v3 R5: critical, R~0 negative     - -122896067/38687492546560
+PASS C4  ca    hexagon R5: critical, R~0 negative         - -75480591711/38687492546560
+PASS C4  ca    octahedron R5: critical, R~0 negative      - -54176703/75561508880
+PASS C4  ca    pentagonal pyramid R5: critical, R~0 negative - -1599151113/2497901120000
+PASS C4  ca    trigonal prism R5: critical, R~0 negative  - -3697737715/4965015608696
+PASS C4  ca    v1 R5: critical, R~0 negative              - -11034061815/7737498509312
+PASS C4  ca    v2 R5: critical, R~0 negative              - -415251627/2417968284160
+PASS C4  ca    zonal v0 R5: critical, R~0 negative        - -5273625/15112301776
+PASS C4  ca    O1 R5 R5: critical, R~0 negative           - 
+PASS C4  ca    O2 R5 R5: critical, R~0 negative           - 
+PASS C4  ca    O3 R5 R5: critical, R~0 negative           - 
+PASS C4  ca    line {5/2, -3/2} R2: R~0 exact (script value) -27273813/37780754440 vs -27273813/37780754440
+PASS C4  ca    coherent v3 R4: R~0 exact (script value)   -608931967/110168679947040 vs -608931967/110168679947040
+PASS C4  ca    coherent v3 R5: R~0 exact (script value)   -122896067/38687492546560 vs -122896067/38687492546560
+PASS C4  ca    octahedron R4: R~0 exact (script value)    -2203040/2833556583 vs -2203040/2833556583
+PASS C4  ca    pentagonal pyramid R4: R~0 exact (script value) -267786421/175633672500 vs -267786421/175633672500
+PASS C4  ca    weight 7/2 R2: R~0 exact (script value)    -1629062/33058160135 vs -1629062/33058160135
+PASS C4  ca    count of tabulated points scored           34
+PASS C5  cb    coherent v3, R4: zero multiplicity         4 vs 4
+PASS C5  cb    coherent v3, R4: k, r_u                    3,1
+PASS C5  cb    coherent v3, R4: c_g at s=(0.0 + 0.13053613j) rel diff 5.1e-13, s matched to 4.1e-09, mult 1
+PASS C5  cb    coherent v3, R4: c_g at s=(0.0 + 0.1958042j) rel diff 3.6e-12, s matched to 2.1e-08, mult 1
+PASS C5  cb    coherent v3, R4: c_g at s=(0.0 + 0.6961927j) rel diff 3.4e-14, s matched to 5.5e-09, mult 1
+PASS C5  cb    coherent v3, R4: c_g at s=(0.0 + 1.4141414j) rel diff 1.8e-14, s matched to 1.0e-08, mult 1
+PASS C5  cb    coherent v3, R4: c_g at s=(0.0 + 2.8717949j) rel diff 8.8e-13, s matched to 9.8e-09, mult 1
+PASS C5  cb    coherent v3, R5: zero multiplicity         4 vs 4
+PASS C5  cb    coherent v3, R5: k, r_u                    3,1
+PASS C5  cb    coherent v3, R5: c_g at s=(0.0 + 0.073426573j) rel diff 3.5e-13, s matched to 5.8e-09, mult 1
+PASS C5  cb    coherent v3, R5: c_g at s=(0.0 + 0.11013986j) rel diff 4.9e-13, s matched to 1.3e-09, mult 1
+PASS C5  cb    coherent v3, R5: c_g at s=(0.0 + 0.39160839j) rel diff 1.5e-12, s matched to 4.1e-09, mult 1
+PASS C5  cb    coherent v3, R5: c_g at s=(0.0 + 0.79545455j) rel diff 1.8e-13, s matched to 5.7e-09, mult 1
+PASS C5  cb    coherent v3, R5: c_g at s=(0.0 + 1.6153846j) rel diff 4.9e-13, s matched to 9.5e-09, mult 1
+PASS C5  cb    octahedron, R4: zero multiplicity          8 vs 8
+PASS C5  cb    octahedron, R4: k, r_u                     4,4
+PASS C5  cb    octahedron, R4: c_g at s=0.67408568        rel diff 1.9e-12, s matched to 7.0e-10, mult 3
+PASS C5  cb    pentagonal pyramid, R4: zero multiplicity  6 vs 6
+PASS C5  cb    pentagonal pyramid, R4: k, r_u             4,2
+PASS C5  cb    pentagonal pyramid, R4: c_g at s=(0.0 + 0.062234869j) rel diff 2.9e-12, s matched to 1.5e-09, mult 1
+PASS C5  cb    pentagonal pyramid, R4: c_g at s=(0.041735286 + 0.060916861j) rel diff 1.2e-12, s matched to 1.1e-09, mult 1
+PASS C5  cb    pentagonal pyramid, R4: c_g at s=(0.0 + 1.0951855j) rel diff 2.9e-12, s matched to 1.1e-08, mult 1
+PASS C5  cb    weight 7/2, R2: zero multiplicity          6 vs 6
+PASS C5  cb    weight 7/2, R2: k, r_u                     5,1
+PASS C5  cb    weight 7/2, R2: c_g at s=(0.0 + 0.78321678j) rel diff 3.9e-13, s matched to 4.1e-09, mult 1
+PASS C5  cb    weight 7/2, R2: c_g at s=(0.0 + 1.1748252j) rel diff 9.4e-13, s matched to 2.1e-08, mult 1
+PASS C5  cb    weight 7/2, R2: c_g at s=(0.0 + 2.3496503j) rel diff 7.8e-13, s matched to 2.1e-08, mult 1
+PASS C5  cb    weight 7/2, R2: c_g at s=(0.0 + 3.5244755j) rel diff 3.2e-13, s matched to 6.9e-09, mult 1
+PASS C5  cb    weight 7/2, R2: c_g at s=(0.0 + 3.9160839j) rel diff 3.1e-12, s matched to 4.1e-09, mult 1
+PASS E1  rig   rigid slots found = n 0..5                 ['dim1_n0', 'dim2_n1', 'dim3_n2', 'dim4_n3', 'dim5_n4', 'dim6_n5']
+PASS E1  rig   n=0: levels                                [0, 12]
+PASS E1  rig   n=0: gap                                   168 vs 168
+PASS E1  rig   n=0: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 2, 'geometric': 1}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+PASS E1  rig   n=1: levels                                [1, 11]
+PASS E1  rig   n=1: gap                                   140 vs 140
+PASS E1  rig   n=1: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 4, 'geometric': 3}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+PASS E1  rig   n=2: levels                                [2, 10]
+PASS E1  rig   n=2: gap                                   112 vs 112
+PASS E1  rig   n=2: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 6, 'geometric': 5}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+PASS E1  rig   n=3: levels                                [3, 9]
+PASS E1  rig   n=3: gap                                   84 vs 84
+PASS E1  rig   n=3: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 8, 'geometric': 7}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+PASS E1  rig   n=4: levels                                [4, 8]
+PASS E1  rig   n=4: gap                                   56 vs 56
+PASS E1  rig   n=4: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 10, 'geometric': 9}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+PASS E1  rig   n=5: levels                                [5, 7]
+PASS E1  rig   n=5: gap                                   28 vs 28
+PASS E1  rig   n=5: E0 spectrum (0: 2n+2/2n+1; +-2iw: n; +-i sqrt(4w^2+2g4c^2|v|^2)) 0 {'algebraic': 12, 'geometric': 11}, tail ['I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)', '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)']
+
+TOTAL: 513 PASS, 1 FAIL  [--mutate-claim]

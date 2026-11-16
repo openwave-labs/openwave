@@ -1,0 +1,164 @@
+[PASS] D: each given generator is G-skew (exact)
+[PASS] D: the given generators span the same 4-dim space as my phase + rotation generators (exact ranks) :: 4, 4
+[PASS] D O1 R4: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 8.15e-56
+O1 R4: Krawczyk done in 0.1s; width of K(Z) cap Z: 1.63e-115; c-part of K(Z): [['-1.47578E-116', '1.47578E-116'], ['-5.65518E-117', '5.65518E-117'], ['-4.78093E-117', '4.78093E-117'], ['-1.13460E-116', '1.13460E-116']]
+   second iteration on K(Z): True; width now 1.17e-129
+[PASS] D O1 R4: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['56.995197', '56.995198']
+[PASS] D O1 R4: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O1 R4: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O1 R4: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O1 R4: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O1 R4: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O1 R4: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O1 R4: every reported enclosure has width <= 1e-50
+O1 R4: k = 4, r_u = 2, signature [4, 0, 5], zero multiplicity 6
+   924 r6hat in ['215.775792501668413495232338935878268247683235575953591162243', '215.775792501668413495232338935878268247683235575953591162244']  (width 2.72e-126)
+   slow root nu in ['-0.910840427591467670677435924205334013015440321514654172870148', '-0.910840427591467670677435924205334013015440321514654172870147'] (width 1.32e-103), sign -, simple: True
+   slow root nu in ['-0.0552551889611103288223068082788105389704486591119322148072956', '-0.0552551889611103288223068082788105389704486591119322148072955'] (width 1.14e-102), sign -, simple: True
+   slow root nu in ['-0.00166256825506687050758380803133819429936254275724237757809462', '-0.00166256825506687050758380803133819429936254275724237757809461'] (width 1.26e-103), sign -, simple: True
+   slow root nu in ['0.0585308283636859641432626161677479476032811161392280039612018', '0.0585308283636859641432626161677479476032811161392280039612019'] (width 1.06e-102), sign +, simple: True
+   slow-flow words: hyperbolic, one real pair
+   over the Section-5 box: 924 r6hat in ['215.7757925016684134952323', '215.7757925016684134952324'] (width 8.67e-56); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 2.36e-55  ['-0.9108404275914676706774360', '-0.9108404275914676706774359']
+      slow root certified True: width 1.75e-53  ['-0.05525518896111032882230681', '-0.05525518896111032882230680']
+      slow root certified True: width 3.0e-53  ['-0.001662568255066870507583809', '-0.001662568255066870507583808']
+      slow root certified True: width 1.38e-53  ['0.05853082836368596414326261', '0.05853082836368596414326262']
+[PASS] D O1 R5: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 7.53e-56
+O1 R5: Krawczyk done in 0.1s; width of K(Z) cap Z: 1.51e-115; c-part of K(Z): [['-1.27609E-116', '1.27609E-116'], ['-4.42649E-117', '4.42649E-117'], ['-3.74672E-117', '3.74672E-117'], ['-9.90677E-117', '9.90677E-117']]
+   second iteration on K(Z): True; width now 1.17e-129
+[PASS] D O1 R5: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['56.995197', '56.995198']
+[PASS] D O1 R5: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O1 R5: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O1 R5: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O1 R5: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O1 R5: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O1 R5: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O1 R5: every reported enclosure has width <= 1e-50
+O1 R5: k = 4, r_u = 2, signature [4, 0, 5], zero multiplicity 6
+   924 r6hat in ['215.775792501668413495232338935878268247683235575953591162243', '215.775792501668413495232338935878268247683235575953591162244']  (width 4.1e-126)
+   slow root nu in ['-0.288195604042612817675282460393093965055666664229246046884696', '-0.288195604042612817675282460393093965055666664229246046884695'] (width 4.17e-103), sign -, simple: True
+   slow root nu in ['-0.0174830871322263149789330135569673970961185210471348023413709', '-0.0174830871322263149789330135569673970961185210471348023413708'] (width 3.62e-102), sign -, simple: True
+   slow root nu in ['-0.000526046986954751996540189259915600540032679544283721030569000', '-0.000526046986954751996540189259915600540032679544283721030568999'] (width 3.98e-103), sign -, simple: True
+   slow root nu in ['0.0185195199119475120922041871468264990463506656534276106283490', '0.0185195199119475120922041871468264990463506656534276106283491'] (width 3.34e-102), sign +, simple: True
+   slow-flow words: hyperbolic, one real pair
+   over the Section-5 box: 924 r6hat in ['215.7757925016684134952323', '215.7757925016684134952324'] (width 8.67e-56); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 2.22e-55  ['-0.2881956040426128176752825', '-0.2881956040426128176752824']
+      slow root certified True: width 1.79e-53  ['-0.01748308713222631497893302', '-0.01748308713222631497893301']
+      slow root certified True: width 3.09e-53  ['-0.0005260469869547519965401893', '-0.0005260469869547519965401892']
+      slow root certified True: width 1.41e-53  ['0.01851951991194751209220418', '0.01851951991194751209220419']
+[PASS] D O2 R4: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 8.32e-56
+O2 R4: Krawczyk done in 0.1s; width of K(Z) cap Z: 1.66e-115; c-part of K(Z): [['-1.25788E-116', '1.25788E-116'], ['-6.51144E-117', '6.51144E-117'], ['-1.19460E-116', '1.19460E-116'], ['-1.24710E-116', '1.24710E-116']]
+   second iteration on K(Z): True; width now 1.89e-129
+[PASS] D O2 R4: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.593740', '44.593741']
+[PASS] D O2 R4: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O2 R4: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O2 R4: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O2 R4: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O2 R4: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O2 R4: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O2 R4: every reported enclosure has width <= 1e-50
+O2 R4: k = 4, r_u = 2, signature [6, 0, 3], zero multiplicity 6
+   924 r6hat in ['238.016528925619834710743801652892561983471074380165289256198', '238.016528925619834710743801652892561983471074380165289256199']  (width 2.61e-125)
+   slow root nu in ['-1.07210899781572673906597761351662222002601026642634100165007', '-1.07210899781572673906597761351662222002601026642634100165006'] (width 1.16e-103), sign -, simple: True
+   slow root nu in ['-0.0987422939807734556460389511102115551472548509956266213549171', '-0.0987422939807734556460389511102115551472548509956266213549170'] (width 9.35e-103), sign -, simple: True
+   slow root nu in ['-0.00118157408744558538823697824172591117646719842013602230878520', '-0.00118157408744558538823697824172591117646719842013602230878519'] (width 1.91e-101), sign -, simple: True
+   slow root nu in ['0.000945140369839325030520237812760036147831130855293130421608561', '0.000945140369839325030520237812760036147831130855293130421608562'] (width 1.92e-101), sign +, simple: True
+   slow-flow words: hyperbolic, one real pair
+   over the Section-5 box: 924 r6hat in ['238.0165289256198347107438', '238.0165289256198347107439'] (width 8.31e-56); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 5.86e-55  ['-1.072108997815726739065978', '-1.072108997815726739065977']
+      slow root certified True: width 4.69e-53  ['-0.09874229398077345564603896', '-0.09874229398077345564603895']
+      slow root certified True: width 1.93e-51  ['-0.001181574087445585388236979', '-0.001181574087445585388236978']
+      slow root certified True: width 1.89e-51  ['0.0009451403698393250305202378', '0.0009451403698393250305202379']
+[PASS] D O2 R5: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 1.28e-55
+O2 R5: Krawczyk done in 0.1s; width of K(Z) cap Z: 2.56e-115; c-part of K(Z): [['-1.00071E-116', '1.00071E-116'], ['-4.80959E-117', '4.80959E-117'], ['-9.75620E-117', '9.75620E-117'], ['-9.98218E-117', '9.98218E-117']]
+   second iteration on K(Z): True; width now 2.13e-129
+[PASS] D O2 R5: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.593740', '44.593741']
+[PASS] D O2 R5: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O2 R5: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O2 R5: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O2 R5: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O2 R5: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O2 R5: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O2 R5: every reported enclosure has width <= 1e-50
+O2 R5: k = 4, r_u = 2, signature [6, 0, 3], zero multiplicity 6
+   924 r6hat in ['238.016528925619834710743801652892561983471074380165289256198', '238.016528925619834710743801652892561983471074380165289256199']  (width 4.57e-125)
+   slow root nu in ['-0.339221987590132288532594479276743749305104810861459457553342', '-0.339221987590132288532594479276743749305104810861459457553341'] (width 3.66e-103), sign -, simple: True
+   slow root nu in ['-0.0312426789548541012005045118747153748708111051978349856630793', '-0.0312426789548541012005045118747153748708111051978349856630792'] (width 2.95e-102), sign -, simple: True
+   slow root nu in ['-0.000373857426105829751746856396796089083179074500121163308639067', '-0.000373857426105829751746856396796089083179074500121163308639066'] (width 6.04e-101), sign -, simple: True
+   slow root nu in ['0.000299048320144473935438043995443605187399693747182592047462083', '0.000299048320144473935438043995443605187399693747182592047462084'] (width 6.08e-101), sign +, simple: True
+   slow-flow words: hyperbolic, one real pair
+   over the Section-5 box: 924 r6hat in ['238.0165289256198347107438', '238.0165289256198347107439'] (width 8.31e-56); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 6.56e-55  ['-0.3392219875901322885325945', '-0.3392219875901322885325944']
+      slow root certified True: width 5.62e-53  ['-0.03124267895485410120050452', '-0.03124267895485410120050451']
+      slow root certified True: width 2.33e-51  ['-0.0003738574261058297517468564', '-0.0003738574261058297517468563']
+      slow root certified True: width 2.27e-51  ['0.0002990483201444739354380439', '0.0002990483201444739354380440']
+[PASS] D O3 R4: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 9.68e-56
+O3 R4: Krawczyk done in 0.1s; width of K(Z) cap Z: 1.94e-115; c-part of K(Z): [['-2.76397E-116', '2.76397E-116'], ['-1.13213E-116', '1.13213E-116'], ['-5.21131E-117', '5.21131E-117'], ['-1.39626E-116', '1.39626E-116']]
+   second iteration on K(Z): True; width now 1.08e-129
+[PASS] D O3 R4: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.464498', '44.464499']
+[PASS] D O3 R4: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O3 R4: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O3 R4: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O3 R4: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O3 R4: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O3 R4: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O3 R4: every reported enclosure has width <= 1e-50
+O3 R4: k = 4, r_u = 2, signature [7, 0, 2], zero multiplicity 6
+   924 r6hat in ['238.356854743095270345532123383755488501994475833471334187918', '238.356854743095270345532123383755488501994475833471334187919']  (width 6.46e-126)
+   slow root nu in ['-1.02432941669732950497484345149267234645438519288153558625399', '-1.02432941669732950497484345149267234645438519288153558625398'] (width 1.22e-103), sign -, simple: True
+   slow root nu in ['-0.0965299801561094930166488655790986694420059512279634297413442', '-0.0965299801561094930166488655790986694420059512279634297413441'] (width 1.11e-102), sign -, simple: True
+   slow root nu in ['-0.0193910729839310209538294931640573953865135772275252843120175', '-0.0193910729839310209538294931640573953865135772275252843120174'] (width 3.24e-102), sign -, simple: True
+   slow root nu in ['-0.0000329115537456027286336628310800999861294194046489761184690478', '-0.0000329115537456027286336628310800999861294194046489761184690477'] (width 2.52e-102), sign -, simple: True
+   slow-flow words: elliptic, simple
+   over the Section-5 box: 924 r6hat in ['238.3568547430952703455321', '238.3568547430952703455322'] (width 1.65e-55); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 1.18e-53  ['-1.024329416697329504974844', '-1.024329416697329504974843']
+      slow root certified True: width 1.41e-51  ['-0.09652998015610949301664887', '-0.09652998015610949301664886']
+      slow root certified True: width 6.43e-51  ['-0.01939107298393102095382950', '-0.01939107298393102095382949']
+      slow root certified True: width 5.03e-51  ['-0.00003291155374560272863366284', '-0.00003291155374560272863366283']
+[PASS] D O3 R5: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 1.02e-55
+O3 R5: Krawczyk done in 0.1s; width of K(Z) cap Z: 2.05e-115; c-part of K(Z): [['-2.33391E-116', '2.33391E-116'], ['-8.97156E-117', '8.97156E-117'], ['-4.12639E-117', '4.12639E-117'], ['-1.20289E-116', '1.20289E-116']]
+   second iteration on K(Z): True; width now 1.08e-129
+[PASS] D O3 R5: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.464498', '44.464499']
+[PASS] D O3 R5: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O3 R5: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O3 R5: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O3 R5: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O3 R5: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O3 R5: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O3 R5: every reported enclosure has width <= 1e-50
+O3 R5: k = 4, r_u = 2, signature [7, 0, 2], zero multiplicity 6
+   924 r6hat in ['238.356854743095270345532123383755488501994475833471334187918', '238.356854743095270345532123383755488501994475833471334187919']  (width 9.55e-126)
+   slow root nu in ['-0.324104229501889413683446560823853359620332814935173369088175', '-0.324104229501889413683446560823853359620332814935173369088174'] (width 3.85e-103), sign -, simple: True
+   slow root nu in ['-0.0305426890337690192747990551246366883781346955057228039415972', '-0.0305426890337690192747990551246366883781346955057228039415971'] (width 3.49e-102), sign -, simple: True
+   slow root nu in ['-0.00613545668632192459867261307144003525901406154464667198934928', '-0.00613545668632192459867261307144003525901406154464667198934927'] (width 1.02e-101), sign -, simple: True
+   slow root nu in ['-0.0000104134213023196133567448801464378862362616085022150999843472', '-0.0000104134213023196133567448801464378862362616085022150999843471'] (width 7.97e-102), sign -, simple: True
+   slow-flow words: elliptic, simple
+   over the Section-5 box: 924 r6hat in ['238.3568547430952703455321', '238.3568547430952703455322'] (width 1.65e-55); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 3.74e-53  ['-0.3241042295018894136834466', '-0.3241042295018894136834465']
+      slow root certified True: width 4.75e-51  ['-0.03054268903376901927479906', '-0.03054268903376901927479905']
+      slow root certified True: width 2.17e-50  ['-0.006135456686321924598672614', '-0.006135456686321924598672613']
+      slow root certified True: width 1.7e-50  ['-0.00001041342130231961335674489', '-0.00001041342130231961335674488']
+B.4 O1 pair 1: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 4.48e-103)
+[PASS] B.4 O1 pair 1: ratio width <= 1e-50
+B.4 O1 pair 2: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 6.4e-101)
+[PASS] B.4 O1 pair 2: ratio width <= 1e-50
+B.4 O1 pair 3: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 2.34e-100)
+[PASS] B.4 O1 pair 3: ratio width <= 1e-50
+B.4 O1 pair 4: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 5.58e-101)
+[PASS] B.4 O1 pair 4: ratio width <= 1e-50
+B.4 O2 pair 1: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 3.34e-103)
+[PASS] B.4 O2 pair 1: ratio width <= 1e-50
+B.4 O2 pair 2: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 2.93e-101)
+[PASS] B.4 O2 pair 2: ratio width <= 1e-50
+B.4 O2 pair 3: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 5.0e-98)
+[PASS] B.4 O2 pair 3: ratio width <= 1e-50
+B.4 O2 pair 4: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 6.29e-98)
+[PASS] B.4 O2 pair 4: ratio width <= 1e-50
+B.4 O3 pair 1: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 3.68e-103)
+[PASS] B.4 O3 pair 1: ratio width <= 1e-50
+B.4 O3 pair 2: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 3.54e-101)
+[PASS] B.4 O3 pair 2: ratio width <= 1e-50
+B.4 O3 pair 3: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 5.16e-100)
+[PASS] B.4 O3 pair 3: ratio width <= 1e-50
+B.4 O3 pair 4: xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001'] real (width 2.37e-97)
+[PASS] B.4 O3 pair 4: ratio width <= 1e-50

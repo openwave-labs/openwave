@@ -1,0 +1,9 @@
+s0_anchors.py: exit 0, 20 PASS, 0 FAIL, 2s  (output in s0_anchors.log)
+s1_C1C2.py: exit 0, 12 PASS, 0 FAIL, 43s  (output in s1_C1C2.log)
+s2_C3.py: exit 0, 25 PASS, 0 FAIL, 52s  (output in s2_C3.log)
+s3_C4.py: exit 0, 14 PASS, 0 FAIL, 43s  (output in s3_C4.log)
+s4_C5.py: exit 0, 72 PASS, 0 FAIL, 110s  (output in s4_C5.log)
+s5_D_B4.py: exit 0, 21 PASS, 0 FAIL, 3s  (output in s5_D_B4.log)
+planted.py: exit 0, 7 PASS, 0 FAIL, 253s  (output in planted.log)
+assemble.py: exit 0, 1 PASS, 0 FAIL, 0s  (output in assemble.log)
+total FAIL lines: 0

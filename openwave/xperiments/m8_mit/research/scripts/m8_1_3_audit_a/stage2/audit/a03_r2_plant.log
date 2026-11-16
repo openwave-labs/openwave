@@ -1,0 +1,182 @@
+
+==== R2 weight 7/2: u = [1, 0, 0, 0, 0, 0, 0, 0]
+  critical True; Q = 144/143
+  criticality attack: residual at u + 1e-30 delta = 2.350E-30
+PASS: R2 weight 7/2: perturbed residual nonzero and O(1e-30) (exact zero at u is not a tolerance)
+PASS: R2 weight 7/2: M_hat vanishes on all six generator vectors incl. Theta u, Theta(iu) (exact)
+FAIL: R2 weight 7/2: h invariant under exp(tJ) = cos t + sin t Theta at random u (rel. err < 1e-40)  [rel err 1.71]
+PASS: R2 weight 7/2: charpoly(M_hat) rational
+  k = 5, r_u = 1; signature (0, 0, 10) (exact) / (0, 0, 10) (60-digit eigen-decomposition on N_u, min |nonzero| 0.7832)
+  alternative reading (no continuous Sp(1); K_u = phase + rotations): k = 3, r_u = 1, signature (0, 2, 10)
+PASS: R2 weight 7/2: signature exact = numeric eigen-decomposition
+  [i] zero mult 6 (alg via ranks 6, kernel dim 5); slow poly rational: True; factored over Q: (20449*nu + 12544)*(20449*nu + 28224)*(20449*nu + 112896)*(20449*nu + 254016)*(20449*nu + 313600)/3575694237941010577249
+      roots: neg x1 -0.613428529512446; neg x1 -1.380214191403; neg x1 -5.52085676561201; neg x1 -12.421927722627; neg x1 -15.3357132378111  -> elliptic, simple
+      Krein nu=-0.61342852951244559636: + (dim 2, min|eig| 0.7832, ker sv 7.14e-102, gap 0.613)
+PASS: R2 weight 7/2 [i]: Krein at nu=-0.61342852951244559636 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-1.3802141914030025918: + (dim 2, min|eig| 1.175, ker sv 0.0, gap 0.767)
+PASS: R2 weight 7/2 [i]: Krein at nu=-1.3802141914030025918 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-5.5208567656120103673: + (dim 2, min|eig| 2.35, ker sv 0.0, gap 4.14)
+PASS: R2 weight 7/2 [i]: Krein at nu=-5.5208567656120103673 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-12.421927722627023326: + (dim 2, min|eig| 3.524, ker sv 0.0, gap 2.91)
+PASS: R2 weight 7/2 [i]: Krein at nu=-12.421927722627023326 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-15.335713237811139909: + (dim 2, min|eig| 3.916, ker sv 0.0, gap 2.91)
+PASS: R2 weight 7/2 [i]: Krein at nu=-15.335713237811139909 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 weight 7/2 [i]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 weight 7/2 [i]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 weight 7/2 [i]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 6  [max err 6.41e-50, numeric zeros 6]
+  [J] zero mult 8 (alg via ranks 8, kernel dim 5); slow poly rational: True; factored over Q: (20449*nu + 56448)**2*(20449*nu + 62720)**2/174859124550883201
+      roots: neg x2 -2.76042838280601; neg x2 -3.06714264756223  -> elliptic (not named)
+      Krein nu=-2.7604283828060051836: + (dim 4, min|eig| 1.175, ker sv 0.0, gap 0.307)
+PASS: R2 weight 7/2 [J]: Krein at nu=-2.7604283828060051836 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-3.0671426475622279818: + (dim 4, min|eig| 0.7832, ker sv 2.86e-101, gap 0.307)
+PASS: R2 weight 7/2 [J]: Krein at nu=-3.0671426475622279818 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 weight 7/2 [J]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 weight 7/2 [J]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 weight 7/2 [J]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 1.07e-50, numeric zeros 8]
+  [k] zero mult 8 (alg via ranks 8, kernel dim 5); slow poly rational: True; factored over Q: (20449*nu + 56448)**2*(20449*nu + 62720)**2/174859124550883201
+      roots: neg x2 -2.76042838280601; neg x2 -3.06714264756223  -> elliptic (not named)
+      Krein nu=-2.7604283828060051836: + (dim 4, min|eig| 1.175, ker sv 0.0, gap 0.307)
+PASS: R2 weight 7/2 [k]: Krein at nu=-2.7604283828060051836 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-3.0671426475622279818: + (dim 4, min|eig| 0.7832, ker sv 2.86e-101, gap 0.307)
+PASS: R2 weight 7/2 [k]: Krein at nu=-3.0671426475622279818 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 weight 7/2 [k]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 weight 7/2 [k]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 weight 7/2 [k]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 1.07e-50, numeric zeros 8]
+  [(i+J)/sqrt2] zero mult 6 (alg via ranks 6, kernel dim 5); slow poly rational: True; factored over Q: (20449*nu + 127008)*(418161601*nu**2 + 2597186592*nu + 3186376704)*(418161601*nu**2 + 4617220608*nu + 3933798400)/3575694237941010577249
+      roots: neg x1 -6.21096386131351; neg x1 -4.52817415493952; neg x1 -1.68278970637399; neg x1 -10.1113355430282; neg x1 -0.930377988195773  -> elliptic, simple
+      Krein nu=-6.2109638613135116632: + (dim 2, min|eig| 1.762, ker sv 4.04e-101, gap 1.66)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: Krein at nu=-6.2109638613135116632 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-4.5281741549395184527: + (dim 2, min|eig| 2.068, ker sv 1.25e-101, gap 0.976)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: Krein at nu=-4.5281741549395184527 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-1.6827897063739932104: + (dim 2, min|eig| 1.261, ker sv 1.05e-101, gap 0.65)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: Krein at nu=-1.6827897063739932104 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-10.111335543028247909: + (dim 2, min|eig| 2.804, ker sv 6.81e-101, gap 3.27)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: Krein at nu=-10.111335543028247909 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-0.93037798819577282598: + (dim 2, min|eig| 0.8507, ker sv 7.07e-102, gap 0.6)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: Krein at nu=-0.93037798819577282598 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 weight 7/2 [(i+J)/sqrt2]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 6  [max err 1.28e-49, numeric zeros 6]
+  [(i+k)/sqrt2] zero mult 6 (alg via ranks 6, kernel dim 5); slow poly rational: True; factored over Q: (20449*nu + 127008)*(418161601*nu**2 + 2597186592*nu + 3186376704)*(418161601*nu**2 + 4617220608*nu + 3933798400)/3575694237941010577249
+      roots: neg x1 -6.21096386131351; neg x1 -4.52817415493952; neg x1 -1.68278970637399; neg x1 -10.1113355430282; neg x1 -0.930377988195773  -> elliptic, simple
+      Krein nu=-6.2109638613135116632: + (dim 2, min|eig| 1.762, ker sv 4.04e-101, gap 1.66)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: Krein at nu=-6.2109638613135116632 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-4.5281741549395184527: + (dim 2, min|eig| 2.068, ker sv 1.25e-101, gap 0.976)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: Krein at nu=-4.5281741549395184527 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-1.6827897063739932104: + (dim 2, min|eig| 1.261, ker sv 1.05e-101, gap 0.65)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: Krein at nu=-1.6827897063739932104 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-10.111335543028247909: + (dim 2, min|eig| 2.804, ker sv 6.81e-101, gap 3.27)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: Krein at nu=-10.111335543028247909 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-0.93037798819577282598: + (dim 2, min|eig| 0.8507, ker sv 7.07e-102, gap 0.6)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: Krein at nu=-0.93037798819577282598 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 weight 7/2 [(i+k)/sqrt2]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 6  [max err 1.71e-49, numeric zeros 6]
+PASS: r2 vs mine weight 7/2: A.4 critical
+FAIL: r2 vs mine weight 7/2: A.4 Q
+PASS: r2 vs mine weight 7/2: A.4/B.3 signature
+PASS: r2 vs mine weight 7/2: B.3 k
+PASS: r2 vs mine weight 7/2: B.3 r_u
+PASS: r2 vs mine weight 7/2: i zero multiplicity
+PASS: r2 vs mine weight 7/2: i slow polynomial
+PASS: r2 vs mine weight 7/2: i words
+PASS: r2 vs mine weight 7/2: i Krein signs
+PASS: r2 vs mine weight 7/2: J zero multiplicity
+PASS: r2 vs mine weight 7/2: J slow polynomial
+PASS: r2 vs mine weight 7/2: J words
+PASS: r2 vs mine weight 7/2: J Krein signs
+PASS: r2 vs mine weight 7/2: k zero multiplicity
+PASS: r2 vs mine weight 7/2: k slow polynomial
+PASS: r2 vs mine weight 7/2: k words
+PASS: r2 vs mine weight 7/2: k Krein signs
+PASS: r2 vs mine weight 7/2: (i+J)/sqrt2 zero multiplicity
+PASS: r2 vs mine weight 7/2: (i+J)/sqrt2 slow polynomial
+PASS: r2 vs mine weight 7/2: (i+J)/sqrt2 words
+PASS: r2 vs mine weight 7/2: (i+J)/sqrt2 Krein signs
+PASS: r2 vs mine weight 7/2: (i+k)/sqrt2 zero multiplicity
+PASS: r2 vs mine weight 7/2: (i+k)/sqrt2 slow polynomial
+PASS: r2 vs mine weight 7/2: (i+k)/sqrt2 words
+PASS: r2 vs mine weight 7/2: (i+k)/sqrt2 Krein signs
+  (2s)
+
+==== R2 line {7/2, -5/2}: u = [sqrt(646)/38, 0, 0, 0, 0, 0, sqrt(798)/38, 0]
+  critical True; Q = 369/247
+  criticality attack: residual at u + 1e-30 delta = 1.367E-30
+PASS: R2 line {7/2, -5/2}: perturbed residual nonzero and O(1e-30) (exact zero at u is not a tolerance)
+PASS: R2 line {7/2, -5/2}: M_hat vanishes on all six generator vectors incl. Theta u, Theta(iu) (exact)
+FAIL: R2 line {7/2, -5/2}: h invariant under exp(tJ) = cos t + sin t Theta at random u (rel. err < 1e-40)  [rel err 0.624]
+PASS: R2 line {7/2, -5/2}: charpoly(M_hat) rational
+  k = 6, r_u = 2; signature (6, 0, 3) (exact) / (6, 0, 3) (60-digit eigen-decomposition on N_u, min |nonzero| 1.43)
+  alternative reading (no continuous Sp(1); K_u = phase + rotations): k = 4, r_u = 2, signature (6, 2, 3)
+PASS: R2 line {7/2, -5/2}: signature exact = numeric eigen-decomposition
+  [i] zero mult 8 (alg via ranks 8, kernel dim 6); slow poly rational: True; factored over Q: (43681*nu + 529984)*(7382089*nu - 22579200)*(322457029609*nu**2 - 229584540416*nu + 3540418560000)/103978535944259502692881
+      roots: pos x1 3.05864640754128; neg x1 -12.1330555619148; nonreal x1 (0.355992456877721 - 3.29435492063566j); nonreal x1 (0.355992456877721 + 3.29435492063566j)  -> hyperbolic (not named)
+      Krein nu=-12.133055561914791328: - (dim 2, min|eig| 3.403, ker sv 5.76e-101, gap 11.9)
+PASS: R2 line {7/2, -5/2} [i]: Krein at nu=-12.133055561914791328 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 line {7/2, -5/2} [i]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 line {7/2, -5/2} [i]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 line {7/2, -5/2} [i]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 1.6e-49, numeric zeros 8]
+  [J] zero mult 8 (alg via ranks 8, kernel dim 6); slow poly rational: False; monic over Q(sqrt51): nu**4 + 85879360*nu**3/7382089 + 178782915641344*nu**2/54495238003921 + nu*(-8218222739862021734400/402288697021127170969 - 4873206294577152000*sqrt(51)/21173089316901430051) - 832890413481549889536000000/228440843469538127416259557
+      roots: neg x1 -0.163481189296894; pos x1 1.26911508213667; neg x1 -11.1652052161981; neg x1 -1.57390532532468  -> hyperbolic, one real pair
+      Krein nu=-0.16348118929689363961: - (dim 2, min|eig| 0.04407, ker sv 2.2e-101, gap 0.0719)
+PASS: R2 line {7/2, -5/2} [J]: Krein at nu=-0.16348118929689363961 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-11.165205216198143515: - (dim 2, min|eig| 3.122, ker sv 3.46e-101, gap 8.89)
+PASS: R2 line {7/2, -5/2} [J]: Krein at nu=-11.165205216198143515 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-1.5739053253246788079: + (dim 2, min|eig| 0.4642, ker sv 1.24e-101, gap 0.921)
+PASS: R2 line {7/2, -5/2} [J]: Krein at nu=-1.5739053253246788079 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 line {7/2, -5/2} [J]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 line {7/2, -5/2} [J]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 line {7/2, -5/2} [J]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 1.08e-49, numeric zeros 8]
+  [k] zero mult 8 (alg via ranks 8, kernel dim 6); slow poly rational: False; monic over Q(sqrt51): nu**4 + 85879360*nu**3/7382089 + 178782915641344*nu**2/54495238003921 + nu*(-8218222739862021734400/402288697021127170969 + 4873206294577152000*sqrt(51)/21173089316901430051) - 832890413481549889536000000/228440843469538127416259557
+      roots: neg x1 -11.193034807437; pos x1 1.1843123168736; neg x1 -1.43279136899321; neg x1 -0.19196278912649  -> hyperbolic, one real pair
+      Krein nu=-11.193034807436951069: - (dim 2, min|eig| 3.141, ker sv 6.7e-101, gap 8.89)
+PASS: R2 line {7/2, -5/2} [k]: Krein at nu=-11.193034807436951069 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-1.4327913689932060687: + (dim 2, min|eig| 0.3376, ker sv 6.87e-102, gap 1.06)
+PASS: R2 line {7/2, -5/2} [k]: Krein at nu=-1.4327913689932060687 stable at 60/100 digits, semisimple, definite margin
+      Krein nu=-0.19196278912649011993: - (dim 2, min|eig| 0.03742, ker sv 2.43e-102, gap 0.103)
+PASS: R2 line {7/2, -5/2} [k]: Krein at nu=-0.19196278912649011993 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 line {7/2, -5/2} [k]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 line {7/2, -5/2} [k]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 line {7/2, -5/2} [k]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 3.43e-49, numeric zeros 8]
+  [(i+J)/sqrt2] zero mult 8 (alg via ranks 8, kernel dim 6); slow poly rational: False; monic over Q(sqrt51): nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(1773226969531844198400/36571699729193379179 - 609150786822144000*sqrt(51)/21173089316901430051) - 44243648607513546326016000000/228440843469538127416259557
+      roots: neg x1 -11.6644551261309; pos x1 2.33291232480177; nonreal x1 (-0.333203821660697 + 2.6469339559917j); nonreal x1 (-0.333203821660697 - 2.6469339559917j)  -> hyperbolic (not named)
+      Krein nu=-11.664455126130936738: - (dim 2, min|eig| 3.262, ker sv 1.93e-100, gap 10.8)
+PASS: R2 line {7/2, -5/2} [(i+J)/sqrt2]: Krein at nu=-11.664455126130936738 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 line {7/2, -5/2} [(i+J)/sqrt2]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 line {7/2, -5/2} [(i+J)/sqrt2]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 line {7/2, -5/2} [(i+J)/sqrt2]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 4.49e-49, numeric zeros 8]
+  [(i+k)/sqrt2] zero mult 8 (alg via ranks 8, kernel dim 6); slow poly rational: False; monic over Q(sqrt51): nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(609150786822144000*sqrt(51)/21173089316901430051 + 1773226969531844198400/36571699729193379179) - 44243648607513546326016000000/228440843469538127416259557
+      roots: neg x1 -11.666983118535; pos x1 2.32805958852474; nonreal x1 (-0.329513457320148 - 2.64990477465737j); nonreal x1 (-0.329513457320148 + 2.64990477465737j)  -> hyperbolic (not named)
+      Krein nu=-11.666983118535005667: - (dim 2, min|eig| 3.264, ker sv 1.26e-100, gap 10.8)
+PASS: R2 line {7/2, -5/2} [(i+k)/sqrt2]: Krein at nu=-11.666983118535005667 stable at 60/100 digits, semisimple, definite margin
+PASS: R2 line {7/2, -5/2} [(i+k)/sqrt2]: odd coefficients vanish (Hamiltonian charpoly)
+PASS: R2 line {7/2, -5/2} [(i+k)/sqrt2]: algebraic zero multiplicity charpoly = rank sequence
+PASS: R2 line {7/2, -5/2} [(i+k)/sqrt2]: 50-digit eigenvalues of tau*M_hat: squares match the slow roots, zero count = 8  [max err 3.25e-49, numeric zeros 8]
+PASS: r2 vs mine line {7/2, -5/2}: A.4 critical
+PASS: r2 vs mine line {7/2, -5/2}: A.4 Q
+PASS: r2 vs mine line {7/2, -5/2}: A.4/B.3 signature
+PASS: r2 vs mine line {7/2, -5/2}: B.3 k
+PASS: r2 vs mine line {7/2, -5/2}: B.3 r_u
+PASS: r2 vs mine line {7/2, -5/2}: i zero multiplicity
+PASS: r2 vs mine line {7/2, -5/2}: i slow polynomial
+PASS: r2 vs mine line {7/2, -5/2}: i words
+PASS: r2 vs mine line {7/2, -5/2}: i Krein signs
+PASS: r2 vs mine line {7/2, -5/2}: J zero multiplicity
+PASS: r2 vs mine line {7/2, -5/2}: J slow polynomial
+PASS: r2 vs mine line {7/2, -5/2}: J words
+PASS: r2 vs mine line {7/2, -5/2}: J Krein signs
+PASS: r2 vs mine line {7/2, -5/2}: k zero multiplicity
+PASS: r2 vs mine line {7/2, -5/2}: k slow polynomial
+PASS: r2 vs mine line {7/2, -5/2}: k words
+PASS: r2 vs mine line {7/2, -5/2}: k Krein signs
+PASS: r2 vs mine line {7/2, -5/2}: (i+J)/sqrt2 zero multiplicity
+PASS: r2 vs mine line {7/2, -5/2}: (i+J)/sqrt2 slow polynomial
+PASS: r2 vs mine line {7/2, -5/2}: (i+J)/sqrt2 words
+PASS: r2 vs mine line {7/2, -5/2}: (i+J)/sqrt2 Krein signs
+PASS: r2 vs mine line {7/2, -5/2}: (i+k)/sqrt2 zero multiplicity
+PASS: r2 vs mine line {7/2, -5/2}: (i+k)/sqrt2 slow polynomial
+PASS: r2 vs mine line {7/2, -5/2}: (i+k)/sqrt2 words
+PASS: r2 vs mine line {7/2, -5/2}: (i+k)/sqrt2 Krein signs
+  (6s)
+FAIL: planted: Krein definiteness on the union of a - and a + cluster
+-- 4 FAIL line(s)

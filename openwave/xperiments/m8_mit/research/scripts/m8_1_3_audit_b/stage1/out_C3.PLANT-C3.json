@@ -1,0 +1,151 @@
+{
+ "C.3": {
+  "R2": {
+   "line {5/2, -3/2}": {
+    "critical": true,
+    "h(u)": "161/143",
+    "k": 6,
+    "r_u": 2,
+    "signature": [
+     0,
+     3,
+     6
+    ],
+    "n_-": 0,
+    "|Gamma_u|": 24,
+    "element orders": [
+     1,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "K' basis (chart x = (Re p_7/2..Re p_-7/2, Im p_7/2..Im p_-7/2))": [
+     [
+      "-3/5",
+      "0",
+      "-3",
+      "0",
+      "1/5",
+      "0",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "0",
+      "13",
+      "0",
+      "0",
+      "0",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "3/5",
+      "0",
+      "-3",
+      "0",
+      "-1/5",
+      "0",
+      "1",
+      "0"
+     ]
+    ],
+    "dim K'": 3,
+    "Gamma_u acts on K' absolutely irreducibly": true,
+    "commutant dimension": 1,
+    "R0(u) (V=R=1)": "-27273813/37780754440",
+    "gamma_u": "115020/20333173 R^2",
+    "gamma_u (number, V=R=1)": "115020/20333173"
+   }
+  },
+  "R4": {
+   "v1": {
+    "critical": true,
+    "h(u)": "168/143",
+    "k": 3,
+    "r_u": 1,
+    "signature": [
+     4,
+     2,
+     4
+    ],
+    "K'": "the m = -3 weight space (Re p_-3, Im p_-3), real dimension 2",
+    "dim K'": 2,
+    "weight under the circle": "4",
+    "R0(u) (V=R=1)": "-30976085/90673810656",
+    "gamma_u": "-19919/6697728 R^2",
+    "gamma_u (number, V=R=1)": "-19919/6697728",
+    "zero multiplicity off K'": 4,
+    "slow polynomial off K'": "(20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)",
+    "zero multiplicity on all of E0 (for reference)": 6
+   }
+  },
+  "R5": {
+   "v1": {
+    "critical": true,
+    "h(u)": "2513/2288",
+    "k": 3,
+    "r_u": 1,
+    "signature": [
+     4,
+     2,
+     4
+    ],
+    "K'": "the m = -3 weight space (Re p_-3, Im p_-3), real dimension 2",
+    "dim K'": 2,
+    "weight under the circle": "4",
+    "R0(u) (V=R=1)": "-11034061815/7737498509312",
+    "gamma_u": "224487/41628563 R^2",
+    "gamma_u (number, V=R=1)": "224487/41628563",
+    "zero multiplicity off K'": 4,
+    "slow polynomial off K'": "(20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)",
+    "zero multiplicity on all of E0 (for reference)": 6
+   }
+  }
+ }
+}

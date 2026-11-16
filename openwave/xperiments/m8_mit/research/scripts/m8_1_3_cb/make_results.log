@@ -1,0 +1,222 @@
+  PASS: R2: C equals an integer matrix to 1e-35
+  PASS: R2: (Theta eta) C = -eta
+  PASS: C.3 R4: exact and identified gamma agree
+  PASS: C.3 R5: exact and identified gamma agree
+  PASS: C.3 R2: exact and identified gamma agree
+{
+ "0(a)": {
+  "|q1|^2": "1",
+  "|q2|^2": "1",
+  "order": "120",
+  "conjugacy classes": [
+   {
+    "size": 1,
+    "element order": 1,
+    "real part": "1"
+   },
+   {
+    "size": 1,
+    "element order": 2,
+    "real part": "-1"
+   },
+   {
+    "size": 20,
+    "element order": 3,
+    "real part": "-1/2"
+   },
+   {
+    "size": 30,
+    "element order": 4,
+    "real part": "0"
+   },
+   {
+    "size": 12,
+    "element order": 5,
+    "real part": "-sqrt(5)/4 - 1/4"
+   },
+   {
+    "size": 12,
+    "element order": 5,
+    "real part": "-1/4 + sqrt(5)/4"
+   },
+   {
+    "size": 20,
+    "element order": 6,
+    "real part": "1/2"
+   },
+   {
+    "size": 12,
+    "element order": 10,
+    "real part": "1/4 - sqrt(5)/4"
+   },
+   {
+    "size": 12,
+    "element order": 10,
+    "real part": "1/4 + sqrt(5)/4"
+   }
+  ],
+  "irreducible characters (label dim@lowest level; columns = classes above)": {
+   "1@0": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "2@1": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "-sqrt(5)/2 - 1/2",
+    "-1/2 + sqrt(5)/2",
+    "1",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2"
+   ],
+   "3@2": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2",
+    "0",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2"
+   ],
+   "4@3": [
+    "4",
+    "-4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "-1",
+    "1",
+    "1"
+   ],
+   "5@4": [
+    "5",
+    "5",
+    "-1",
+    "1",
+    "0",
+    "0",
+    "-1",
+    "0",
+    "0"
+   ],
+   "6@5": [
+    "6",
+    "-6",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "-1",
+    "-1"
+   ],
+   "3@6": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2",
+    "0",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2"
+   ],
+   "4@6": [
+    "4",
+    "4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "1",
+    "-1",
+    "-1"
+   ],
+   "2@7": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "-1/2 + sqrt(5)/2",
+    "-sqrt(5)/2 - 1/2",
+    "1",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2"
+   ]
+  },
+  "status": "DERIVED in this room from q1, q2 (closure, conjugation, characters of V_j restricted, Galois conjugation, orthogonality)"
+ },
+ "0(b)": {
+  "1@0": {
+   "dim": 1,
+   "levels (l: multiplicity), l <= 20": {
+    "0": 1,
+    "12": 1,
+    "20": 1
+   }
+  },
+  "2@1": {
+   "dim": 2,
+   "levels (l: multiplicity), l <= 20": {
+    "1": 1,
+    "11": 1,
+    "13": 1,
+    "19": 1
+   }
+  },
+  "3@2": {
+   "dim": 3,
+   "levels (l: multiplicity), l <= 20": {
+    "2": 1,
+    "10": 1,
+    "12": 1,
+    "14": 1,
+    "18": 1,
+    "20": 1
+   }
+  },
+  "4@3": {
+   "dim": 4,
+   "levels (l: multiplicity), l <= 20": {
+    "3": 1,
+    "9": 1,
+    "11": 1,
+    "13": 1,
+    "15": 1,
+    "17": 1,
+    "19": 1
+   }
+  },
+  "5@4": {
+   "dim": 5,
+   "levels (l: multiplicity), l <= 20": {
+    "4": 1,
+    "8": 1,
+    "10": 1,
+    "12": 1,
+    "14": 1,
+    "16": 2,
+    "18": 1,
+    "20": 2
+   }
+  },
+  "6@5": {
+   "dim": 6,
+   "levels (l: multiplicity), l <= 20": {
+    "5": 1,
+    "7": 1,
+    "9": 
+... results.json written
+checks: 5 PASS, 0 FAIL

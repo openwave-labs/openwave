@@ -1,0 +1,97 @@
+PASS: O3 R4: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 4.104e-89, ||I - Y J(Z)||_inf = 9.682e-56, max width K = 1.936e-115, max width Z = 2.0e-60]
+PASS: O3 R4: K(Z) lies inside the exact box of Section 5
+PASS: O3 R4: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O3 R4: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['1.94e-115', '1.15e-219', '1.06e-219']]
+PASS: O3 R4: 924 r6 enclosure width <= 1e-50  [7.67e-112]
+PASS: O3 R4: k = 4 (Gram determinant > 0)  [44.464498586148148697]
+PASS: O3 R4: r_u certified (rank of sigma|K_u = 2)  [[(1, 2)]]
+PASS: O3 R4: signature certified (all 9 Gershgorin discs exclude 0)  [[7, 0, 2]]
+PASS: O3 R4: zero multiplicity certified (a_6 excludes 0)  [6.31033025e-8]
+PASS: O3 R4: structural zeros of char_S enclose 0 (consistency)
+PASS: O3 R4: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O3 R4: slow-root enclosures width <= 1e-50  [2.0e-80]
+O3 R4: lambda = 4.74081384535538545561936945885, 924 r6 = 238.356854743095270345532123383755488502
+   k = 4, r_u = 2, signature = [7, 0, 2], zero mult = 6
+   slow roots: ['-1.02432941669732950497484345149', '-0.0965299801561094930166488655791', '-0.0193910729839310209538294931641', '-0.0000329115537456027286336628310801'], signs [-1, -1, -1, -1]
+   certified box width 1.936e-115; Krawczyk steps [(True, '1.94e-115'), (True, '1.15e-219'), (False, '1.06e-219')]
+PASS: O3 R5: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 1.404e-89, ||I - Y J(Z)||_inf = 1.024e-55, max width K = 2.049e-115, max width Z = 2.0e-60]
+PASS: O3 R5: K(Z) lies inside the exact box of Section 5
+PASS: O3 R5: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O3 R5: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['2.05e-115', '1.15e-219', '9.74e-220']]
+PASS: O3 R5: 924 r6 enclosure width <= 1e-50  [1.2e-111]
+PASS: O3 R5: k = 4 (Gram determinant > 0)  [44.464498586148148697]
+PASS: O3 R5: r_u certified (rank of sigma|K_u = 2)  [[(1, 2)]]
+PASS: O3 R5: signature certified (all 9 Gershgorin discs exclude 0)  [[7, 0, 2]]
+PASS: O3 R5: zero multiplicity certified (a_6 excludes 0)  [6.324588919e-10]
+PASS: O3 R5: structural zeros of char_S enclose 0 (consistency)
+PASS: O3 R5: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O3 R5: slow-root enclosures width <= 1e-50  [2.0e-80]
+O3 R5: lambda = 4.4167077880124043187858953206, 924 r6 = 238.356854743095270345532123383755488502
+   k = 4, r_u = 2, signature = [7, 0, 2], zero mult = 6
+   slow roots: ['-0.324104229501889413683446560824', '-0.0305426890337690192747990551246', '-0.00613545668632192459867261307144', '-0.0000104134213023196133567448801464'], signs [-1, -1, -1, -1]
+   certified box width 2.049e-115; Krawczyk steps [(True, '2.05e-115'), (True, '1.15e-219'), (False, '9.74e-220')]
+PASS: O1 R4: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 3.038e-89, ||I - Y J(Z)||_inf = 8.152e-56, max width K = 1.63e-115, max width Z = 2.0e-60]
+PASS: O1 R4: K(Z) lies inside the exact box of Section 5
+PASS: O1 R4: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O1 R4: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['1.63e-115', '1.24e-219', '1.15e-219']]
+PASS: O1 R4: 924 r6 enclosure width <= 1e-50  [4.08e-112]
+PASS: O1 R4: k = 4 (Gram determinant > 0)  [56.995197888787505992]
+PASS: O1 R4: r_u certified (rank of sigma|K_u = 2)  [[(1, 2)]]
+PASS: O1 R4: signature certified (all 9 Gershgorin discs exclude 0)  [[4, 0, 5]]
+PASS: O1 R4: zero multiplicity certified (a_6 excludes 0)  [-4.89755725e-6]
+PASS: O1 R4: structural zeros of char_S enclose 0 (consistency)
+PASS: O1 R4: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O1 R4: slow-root enclosures width <= 1e-50  [2.0e-80]
+O1 R4: lambda = 4.67063183372701915616233827175, 924 r6 = 215.7757925016684134952323389358782682477
+   k = 4, r_u = 2, signature = [4, 0, 5], zero mult = 6
+   slow roots: ['-0.910840427591467670677435924205', '-0.0552551889611103288223068082788', '-0.00166256825506687050758380803134', '0.0585308283636859641432626161677'], signs [-1, -1, -1, 1]
+   certified box width 1.63e-115; Krawczyk steps [(True, '1.63e-115'), (True, '1.24e-219'), (False, '1.15e-219')]
+PASS: O1 R5: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 1.56e-89, ||I - Y J(Z)||_inf = 7.534e-56, max width K = 1.507e-115, max width Z = 2.0e-60]
+PASS: O1 R5: K(Z) lies inside the exact box of Section 5
+PASS: O1 R5: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O1 R5: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['1.51e-115', '1.06e-219', '1.24e-219']]
+PASS: O1 R5: 924 r6 enclosure width <= 1e-50  [6.37e-112]
+PASS: O1 R5: k = 4 (Gram determinant > 0)  [56.995197888787505992]
+PASS: O1 R5: r_u certified (rank of sigma|K_u = 2)  [[(1, 2)]]
+PASS: O1 R5: signature certified (all 9 Gershgorin discs exclude 0)  [[4, 0, 5]]
+PASS: O1 R5: zero multiplicity certified (a_6 excludes 0)  [-4.908623651e-8]
+PASS: O1 R5: structural zeros of char_S enclose 0 (consistency)
+PASS: O1 R5: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O1 R5: slow-root enclosures width <= 1e-50  [2.0e-80]
+O1 R5: lambda = 4.37723040647144827534131527786, 924 r6 = 215.7757925016684134952323389358782682477
+   k = 4, r_u = 2, signature = [4, 0, 5], zero mult = 6
+   slow roots: ['-0.288195604042612817675282460393', '-0.017483087132226314978933013557', '-0.000526046986954751996540189259916', '0.0185195199119475120922041871468'], signs [-1, -1, -1, 1]
+   certified box width 1.507e-115; Krawczyk steps [(True, '1.51e-115'), (True, '1.06e-219'), (False, '1.24e-219')]
+PASS: O2 R4: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 8.181e-90, ||I - Y J(Z)||_inf = 8.322e-56, max width K = 1.664e-115, max width Z = 2.0e-60]
+PASS: O2 R4: K(Z) lies inside the exact box of Section 5
+PASS: O2 R4: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O2 R4: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['1.66e-115', '1.77e-219', '1.77e-219']]
+PASS: O2 R4: 924 r6 enclosure width <= 1e-50  [3.37e-111]
+PASS: O2 R4: k = 4 (Gram determinant > 0)  [44.593740531795367975]
+PASS: O2 R4: r_u certified (rank of sigma|K_u = 2)  [[(1, 2), (2, 3)]]
+PASS: O2 R4: signature certified (all 9 Gershgorin discs exclude 0)  [[6, 0, 3]]
+PASS: O2 R4: zero multiplicity certified (a_6 excludes 0)  [-1.182223057e-7]
+PASS: O2 R4: structural zeros of char_S enclose 0 (consistency)
+PASS: O2 R4: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O2 R4: slow-root enclosures width <= 1e-50  [2.0e-80]
+O2 R4: lambda = 4.73975611165693810321909495463, 924 r6 = 238.0165289256198347107438016528925619835
+   k = 4, r_u = 2, signature = [6, 0, 3], zero mult = 6
+   slow roots: ['-1.07210899781572673906597761352', '-0.0987422939807734556460389511102', '-0.00118157408744558538823697824173', '0.00094514036983932503052023781276'], signs [-1, -1, -1, 1]
+   certified box width 1.664e-115; Krawczyk steps [(True, '1.66e-115'), (True, '1.77e-219'), (False, '1.77e-219')]
+PASS: O2 R5: Krawczyk K(Z) in int(Z) on the Section-5 box (outward-rounded)  [max|F(zt)| = 5.472e-90, ||I - Y J(Z)||_inf = 1.281e-55, max width K = 2.563e-115, max width Z = 2.0e-60]
+PASS: O2 R5: K(Z) lies inside the exact box of Section 5
+PASS: O2 R5: the c-part of K(Z) contains 0 (consistency: c = 0 at the zero)
+PASS: O2 R5: refined box is certified by its own Krawczyk test  [steps [True, True, False], widths ['2.56e-115', '2.03e-219', '2.06e-219']]
+PASS: O2 R5: 924 r6 enclosure width <= 1e-50  [5.2e-111]
+PASS: O2 R5: k = 4 (Gram determinant > 0)  [44.593740531795367975]
+PASS: O2 R5: r_u certified (rank of sigma|K_u = 2)  [[(1, 2), (2, 3)]]
+PASS: O2 R5: signature certified (all 9 Gershgorin discs exclude 0)  [[6, 0, 3]]
+PASS: O2 R5: zero multiplicity certified (a_6 excludes 0)  [-1.184894379e-9]
+PASS: O2 R5: structural zeros of char_S enclose 0 (consistency)
+PASS: O2 R5: slow roots certified real and simple (4 disjoint sign changes)
+PASS: O2 R5: slow-root enclosures width <= 1e-50  [2.0e-80]
+O2 R5: lambda = 4.41611281280702768306074091198, 924 r6 = 238.0165289256198347107438016528925619835
+   k = 4, r_u = 2, signature = [6, 0, 3], zero mult = 6
+   slow roots: ['-0.339221987590132288532594479277', '-0.0312426789548541012005045118747', '-0.000373857426105829751746856396796', '0.000299048320144473935438043995444'], signs [-1, -1, -1, 1]
+   certified box width 2.563e-115; Krawczyk steps [(True, '2.56e-115'), (True, '2.03e-219'), (False, '2.06e-219')]
+all checks passed

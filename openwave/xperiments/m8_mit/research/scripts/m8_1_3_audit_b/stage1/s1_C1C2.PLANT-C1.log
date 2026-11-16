@@ -1,0 +1,47 @@
+[PASS] C.1 R2: exact level norms have zero sqrt5 and imaginary parts
+[PASS] C.1 R2: sum over levels equals the total norm of N (exact) :: 1.1905645368384783
+[FAIL] C.1 R2: CG route agrees with exact route at every level (40 digits) :: 1.15e-6
+[PASS] C.1 R2: nonzero levels are exactly the occurrence levels of the slot (<= 3n) :: [13, 17, 19]
+R2: s_N = 1/4; y (weighted p_m, m=j..-j, before normalisation, ||y||^2 = 8359488/1225): ['1/7+2/5i', '-3/7+1/5i', '2/7+-1/5i', '1/7+3/5i', '-2/7+-2/5i', '3/7+1/5i', '-1/7+2/5i', '2/7+1i']
+   level norms (unit y, V=1):
+     L= 7:                          71902155614246643/62509159688499953  = 1.150265912588723458032155
+     L= 9:                                                            0  = 0.0
+     L=11:                                                            0  = 0.0
+     L=13:                      233812732291858195/22234027261509521744  = 0.01051598657957137381860549
+     L=15:                                                            0  = 0.0
+     L=17:                    5011164425197928025/557990855284835216816  = 0.008980728586743415805316899
+     L=19:                    3794686071104683125/182420087304657667036  = 0.02080190908344003823298352
+     L=21:                                                            0  = 0.0
+   nonzero above the lowest level, up to 20: [13, 17, 19]
+   (level 21 = 3n, beyond the range asked: 0)
+C.2 R2: next level 13, lambda1-lambda0 = 132/R^2
+[PASS] C.1 R4: exact level norms have zero sqrt5 and imaginary parts
+[PASS] C.1 R4: sum over levels equals the total norm of N (exact) :: 1.658288298024509
+[FAIL] C.1 R4: CG route agrees with exact route at every level (40 digits) :: 1.5e-6
+[PASS] C.1 R4: nonzero levels are exactly the occurrence levels of the slot (<= 3n) :: [10, 14, 16, 18]
+R4: s_N = 3/7; y (weighted p_m, m=j..-j, before normalisation, ||y||^2 = 422136/1225): ['1/7+2/5i', '-3/7+1/5i', '2/7+-1/5i', '1/7+3/5i', '-2/7+-2/5i', '3/7+1/5i', '-1/7+2/5i']
+   level norms (unit y, V=1):
+     L= 6:                      4507572565285803727/3004410601640706687  = 1.500318419467772235775614
+     L= 8:                                                            0  = 0.0
+     L=10:                         10722761099846740/273128236512791517  = 0.03925907199032699394019449
+     L=12:                                                            0  = 0.0
+     L=14:                     1514515564767161950/96474962652684914727  = 0.01569853486463114710052317
+     L=16:                                1394827308350/107548236645993  = 0.01296931825057466489135647
+     L=18:                   15004629168682258000/166638571854637579983  = 0.090042953451204080284276
+   nonzero above the lowest level, up to 20: [10, 14, 16, 18]
+C.2 R4: next level 10, lambda1-lambda0 = 72/R^2
+[PASS] C.1 R5: exact level norms have zero sqrt5 and imaginary parts
+[PASS] C.1 R5: sum over levels equals the total norm of N (exact) :: 1.3726957755169997
+[FAIL] C.1 R5: CG route agrees with exact route at every level (40 digits) :: 1.27e-6
+[PASS] C.1 R5: nonzero levels are exactly the occurrence levels of the slot (<= 3n) :: [8, 12, 14, 16, 18]
+R5: s_N = 4/7; y (weighted p_m, m=j..-j, before normalisation, ||y||^2 = 422136/1225): ['1/7+2/5i', '-3/7+1/5i', '2/7+-1/5i', '1/7+3/5i', '-2/7+-2/5i', '3/7+1/5i', '-1/7+2/5i']
+   level norms (unit y, V=1):
+     L= 6:                      1503488053230012689/1186927645092624864  = 1.266705733450739739667202
+     L= 8:                        35645117189365495/1186927645092624864  = 0.03003141542514484042581926
+     L=10:                                                            0  = 0.0
+     L=12:                            610174545074045/45651063272793264  = 0.01336605330368486036107908
+     L=14:                      108179683197654425/26386314571674506592  = 0.004099840578486259399020561
+     L=16:                              43937060213025/4971118493859232  = 0.008838465682783455520912405
+     L=18:                     1634432820160031675/32916261107088904688  = 0.04965426707616064293354997
+   nonzero above the lowest level, up to 20: [8, 12, 14, 16, 18]
+C.2 R5: next level 8, lambda1-lambda0 = 32/R^2

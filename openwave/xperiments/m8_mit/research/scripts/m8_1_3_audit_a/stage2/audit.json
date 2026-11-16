@@ -1,0 +1,2615 @@
+{
+ "0(a)": {
+  "l6": "AGREE",
+  "r2": "AGREE",
+  "rig": "AGREE",
+  "rooms with each other": "AGREE",
+  "note": "order 120, 9 classes (sizes, element orders, Re g), 9 characters: each row equals one of mine, bijectively"
+ },
+ "0(b)": {
+  "l6": "AGREE",
+  "r2": "AGREE",
+  "rig": "AGREE",
+  "rooms with each other": "AGREE",
+  "note": "levels <= 20 with multiplicities; R2 = 2 (lowest level 7), R4 = 3 (lowest 6), R5 = 4 (lowest 6) in all rooms"
+ },
+ "0(c)": {
+  "R2": {
+   "r2": "AGREE",
+   "note": "multiplicity 1, s_N = 1/4; r2's eta verified exactly in r2's own stated convention (my D code); rho(q1), rho(q2) reproduced"
+  },
+  "R4": {
+   "l6": "AGREE",
+   "note": "multiplicity 1, s_N = 3/7; l6's eta verified exactly in l6's convention (it is NOT an intertwiner in my convention: eta is convention-dependent, not a defect)"
+  },
+  "R5": {
+   "l6": "AGREE",
+   "note": "multiplicity 1, s_N = 4/7; eta verified exactly in l6 convention"
+  }
+ },
+ "0(d)": {
+  "l6": "AGREE",
+  "r2": "AGREE",
+  "rooms with each other": "AGREE",
+  "note": "<3 3; 3 -3|6 0> = sqrt(231)/462 > 0 (my lowering route); Theta^2 = +1 on V_3, -1 on V_7/2"
+ },
+ "0(e)": {
+  "R2": {
+   "r2": "AGREE",
+   "note": "C = [[0,-1],[1,0]] solves conj(rho)C = C rho (solution space one complex line), C conj(C) = -I; map = w -> -Theta w (50-digit check at random SU(2) points, residual 8e-51)"
+  }
+ },
+ "A.1": {
+  "R2": {
+   "r2": "AGREE"
+  },
+  "R4": {
+   "l6": "AGREE"
+  },
+  "R5": {
+   "l6": "AGREE"
+  }
+ },
+ "A.2": {
+  "R2": {
+   "r2": "AGREE"
+  },
+  "R4": {
+   "l6": "AGREE"
+  },
+  "R5": {
+   "l6": "AGREE"
+  }
+ },
+ "A.3": {
+  "l6": "AGREE"
+ },
+ "A.4": {
+  "R2": {
+   "line {5/2, -3/2}": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "161/143",
+     "signature": [
+      0,
+      3,
+      6
+     ]
+    }
+   },
+   "line {7/2, -1/2}": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "193/143",
+     "signature": [
+      5,
+      0,
+      4
+     ]
+    }
+   },
+   "line {7/2, -3/2}": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "22/13",
+     "signature": [
+      9,
+      0,
+      0
+     ]
+    }
+   },
+   "line {7/2, -5/2}": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "369/247",
+     "signature": [
+      6,
+      0,
+      3
+     ]
+    }
+   },
+   "weight 1/2": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "168/143",
+     "signature": [
+      4,
+      0,
+      6
+     ]
+    }
+   },
+   "weight 3/2": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "224/143",
+     "signature": [
+      8,
+      0,
+      2
+     ]
+    }
+   },
+   "weight 5/2": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "168/143",
+     "signature": [
+      4,
+      0,
+      6
+     ]
+    }
+   },
+   "weight 7/2": {
+    "r2": "AGREE",
+    "mine": {
+     "critical": true,
+     "Q": "144/143",
+     "signature": [
+      0,
+      0,
+      10
+     ]
+    }
+   }
+  }
+ },
+ "A.5": {
+  "R2": {
+   "{5/2, -5/2}": {
+    "r2": "AGREE"
+   },
+   "{7/2, -7/2}": {
+    "r2": "AGREE"
+   },
+   "{3/2, -3/2}": {
+    "r2": "AGREE"
+   }
+  }
+ },
+ "A.6": {
+  "R2": {
+   "r2": "AGREE",
+   "changes under nearest rounding": "True"
+  },
+  "R4": {
+   "l6": "AGREE",
+   "changes under nearest rounding": "False"
+  },
+  "R5": {
+   "l6": "AGREE",
+   "changes under nearest rounding": "False"
+  }
+ },
+ "B.1": {
+  "R4": {
+   "C3 ray": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "77/65",
+     "924 r6hat": "1188/5",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 2,
+     "zero multiplicity": 6,
+     "kernel dim of S": 4,
+     "slow polynomial": "161332131962579720872640625*nu**4 + 194767005105025648855560000*nu**3 + 32893021579212071243366400*nu**2 - 77511964173743503179776*nu + 61899079407370240000",
+     "words": "hyperbolic, a complex quartet",
+     "krein": [
+      [
+       "-1.003615778578613792964348",
+       "+"
+      ],
+      [
+       "-0.2059618825948008719944603",
+       "-"
+      ]
+     ]
+    }
+   },
+   "D2 ray": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "168/143",
+     "924 r6hat": "225",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(16731*nu - 980)**2*(552123*nu + 501760)",
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      [
+       "-501760/552123",
+       "+"
+      ]
+     ]
+    }
+   },
+   "coherent v3": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "1288/1287",
+     "924 r6hat": "1",
+     "signature": [
+      0,
+      0,
+      10
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 4,
+     "kernel dim of S": 3,
+     "slow polynomial": "(1521*nu + 12544)*(9801*nu + 19600)*(20449*nu + 784)*(184041*nu + 3136)*(1656369*nu + 802816)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-12544/1521",
+       "+"
+      ],
+      [
+       "-19600/9801",
+       "+"
+      ],
+      [
+       "-784/20449",
+       "+"
+      ],
+      [
+       "-3136/184041",
+       "+"
+      ],
+      [
+       "-802816/1656369",
+       "+"
+      ]
+     ]
+    }
+   },
+   "hexagon": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "1750/1287",
+     "924 r6hat": "463",
+     "signature": [
+      9,
+      0,
+      0
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(61347*nu + 90160)*(552123*nu + 501760)**2",
+     "words": "elliptic, one double frequency",
+     "krein": [
+      [
+       "-90160/61347",
+       "-"
+      ],
+      [
+       "-501760/552123",
+       "-"
+      ]
+     ]
+    }
+   },
+   "octahedron": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "175/143",
+     "924 r6hat": "288",
+     "signature": [
+      6,
+      0,
+      3
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(552123*nu - 250880)**3",
+     "words": "hyperbolic, real pairs",
+     "krein": []
+    }
+   },
+   "pentagonal pyramid": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "77/65",
+     "924 r6hat": "1188/5",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 2,
+     "zero multiplicity": 6,
+     "kernel dim of S": 4,
+     "slow polynomial": "(846777242025*nu**2 + 1018930808896*nu + 3933798400)*(21169431050625*nu**2 + 83366483200*nu + 629407744)",
+     "words": "hyperbolic, a complex quartet",
+     "krein": [
+      [
+       "-1.199431253836944822417931",
+       "+"
+      ],
+      [
+       "-0.003873178931357409753765109",
+       "-"
+      ]
+     ]
+    }
+   },
+   "trigonal prism": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "5831/5031",
+     "924 r6hat": "8800/43",
+     "signature": [
+      3,
+      0,
+      6
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(7913763*nu + 5770240)*(278420571*nu + 19066880)**2",
+     "words": "elliptic, one double frequency",
+     "krein": [
+      [
+       "-5770240/7913763",
+       "+"
+      ],
+      [
+       "-19066880/278420571",
+       "+"
+      ]
+     ]
+    }
+   },
+   "v1": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "168/143",
+     "924 r6hat": "225",
+     "signature": [
+      4,
+      2,
+      4
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 6,
+     "kernel dim of S": 5,
+     "slow polynomial": "(20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-784/20449",
+       "+"
+      ],
+      [
+       "-12544/20449",
+       "-"
+      ],
+      [
+       "-19600/1656369",
+       "-"
+      ],
+      [
+       "-1960000/1656369",
+       "+"
+      ]
+     ]
+    }
+   },
+   "v2": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "147/143",
+     "924 r6hat": "36",
+     "signature": [
+      2,
+      0,
+      8
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 4,
+     "kernel dim of S": 3,
+     "slow polynomial": "(13689*nu + 12544)*(20449*nu + 12544)*(20449*nu + 50176)*(184041*nu + 313600)*(1656369*nu + 3136)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-12544/13689",
+       "+"
+      ],
+      [
+       "-12544/20449",
+       "+"
+      ],
+      [
+       "-50176/20449",
+       "+"
+      ],
+      [
+       "-313600/184041",
+       "+"
+      ],
+      [
+       "-3136/1656369",
+       "-"
+      ]
+     ]
+    }
+   },
+   "zonal v0": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "1687/1287",
+     "924 r6hat": "400",
+     "signature": [
+      8,
+      0,
+      2
+     ],
+     "k": 3,
+     "r_u": 3,
+     "zero multiplicity": 6,
+     "kernel dim of S": 3,
+     "slow polynomial": "(61347*nu + 62720)**2*(552123*nu - 250880)**2",
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      [
+       "-62720/61347",
+       "-"
+      ]
+     ]
+    }
+   }
+  }
+ },
+ "B.2": {
+  "R5": {
+   "C3 ray": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "287/260",
+     "924 r6hat": "1188/5",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 2,
+     "zero multiplicity": 6,
+     "kernel dim of S": 4,
+     "slow polynomial": "10928695284430200062500*nu**4 + 4174532859761352213125*nu**3 + 223070079069092280025*nu**2 - 166322631255076296*nu + 42025399290000",
+     "words": "hyperbolic, a complex quartet",
+     "krein": [
+      [
+       "-0.3175503049408895204301258",
+       "+"
+      ],
+      [
+       "-0.06516762691476121340449722",
+       "-"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "D2 ray": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "2513/2288",
+     "924 r6hat": "225",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(20449*nu + 5880)*(118976*nu - 2205)**2",
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      [
+       "-5880/20449",
+       "+"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "coherent v3": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "2289/2288",
+     "924 r6hat": "1",
+     "signature": [
+      0,
+      0,
+      10
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 4,
+     "kernel dim of S": 3,
+     "slow polynomial": "(169*nu + 441)*(1936*nu + 1225)*(20449*nu + 3136)*(81796*nu + 441)*(327184*nu + 3969)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-441/169",
+       "+"
+      ],
+      [
+       "-1225/1936",
+       "+"
+      ],
+      [
+       "-3136/20449",
+       "+"
+      ],
+      [
+       "-441/81796",
+       "+"
+      ],
+      [
+       "-3969/327184",
+       "+"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "hexagon": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "2751/2288",
+     "924 r6hat": "463",
+     "signature": [
+      9,
+      0,
+      0
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(20449*nu + 5880)**2*(327184*nu + 152145)",
+     "words": "elliptic, one double frequency",
+     "krein": [
+      [
+       "-152145/327184",
+       "-"
+      ],
+      [
+       "-5880/20449",
+       "-"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "octahedron": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "161/143",
+     "924 r6hat": "288",
+     "signature": [
+      6,
+      0,
+      3
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(20449*nu - 2940)**3",
+     "words": "hyperbolic, real pairs",
+     "krein": [],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "pentagonal pyramid": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "287/260",
+     "924 r6hat": "1188/5",
+     "signature": [
+      5,
+      0,
+      4
+     ],
+     "k": 4,
+     "r_u": 2,
+     "zero multiplicity": 6,
+     "kernel dim of S": 4,
+     "slow polynomial": "(41816160100*nu**2 + 15920793889*nu + 19448100)*(261351000625*nu**2 + 325650325*nu + 777924)",
+     "words": "hyperbolic, a complex quartet",
+     "krein": [
+      [
+       "-0.3795075451593458227181735",
+       "+"
+      ],
+      [
+       "-0.001225498021249805429902241",
+       "-"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "trigonal prism": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "609/559",
+     "924 r6hat": "8800/43",
+     "signature": [
+      3,
+      0,
+      6
+     ],
+     "k": 4,
+     "r_u": 4,
+     "zero multiplicity": 8,
+     "kernel dim of S": 4,
+     "slow polynomial": "(879307*nu + 202860)*(3437291*nu + 74480)**2",
+     "words": "elliptic, one double frequency",
+     "krein": [
+      [
+       "-202860/879307",
+       "+"
+      ],
+      [
+       "-74480/3437291",
+       "+"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "v1": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "2513/2288",
+     "924 r6hat": "225",
+     "signature": [
+      4,
+      2,
+      4
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 6,
+     "kernel dim of S": 5,
+     "slow polynomial": "(20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-3969/20449",
+       "-"
+      ],
+      [
+       "-30625/81796",
+       "+"
+      ],
+      [
+       "-1225/327184",
+       "-"
+      ],
+      [
+       "-3969/327184",
+       "+"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "v2": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "581/572",
+     "924 r6hat": "36",
+     "signature": [
+      2,
+      0,
+      8
+     ],
+     "k": 3,
+     "r_u": 1,
+     "zero multiplicity": 4,
+     "kernel dim of S": 3,
+     "slow polynomial": "(169*nu + 49)*(20449*nu + 3969)*(20449*nu + 11025)*(20449*nu + 15876)*(81796*nu + 49)",
+     "words": "elliptic, simple",
+     "krein": [
+      [
+       "-49/169",
+       "+"
+      ],
+      [
+       "-3969/20449",
+       "+"
+      ],
+      [
+       "-11025/20449",
+       "+"
+      ],
+      [
+       "-15876/20449",
+       "+"
+      ],
+      [
+       "-49/81796",
+       "-"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   },
+   "zonal v0": {
+    "l6": "AGREE",
+    "fields": {
+     "critical": "AGREE",
+     "Q": "AGREE",
+     "924 rhat_6": "AGREE",
+     "signature": "AGREE",
+     "k": "AGREE",
+     "r_u": "AGREE",
+     "zero multiplicity": "AGREE",
+     "slow polynomial": "AGREE",
+     "words": "AGREE",
+     "Krein signs": "AGREE",
+     "ratio": "AGREE"
+    },
+    "mine": {
+     "critical": true,
+     "Q": "168/143",
+     "924 r6hat": "400",
+     "signature": [
+      8,
+      0,
+      2
+     ],
+     "k": 3,
+     "r_u": 3,
+     "zero multiplicity": 6,
+     "kernel dim of S": 3,
+     "slow polynomial": "(20449*nu - 2940)**2*(20449*nu + 6615)**2",
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      [
+       "-6615/20449",
+       "-"
+      ]
+     ],
+     "ratio +xi_R5/+xi_R4 (all pairs)": "9/16"
+    }
+   }
+  }
+ },
+ "B.3": {
+  "R2": {
+   "line {5/2, -3/2}": {
+    "r2": "AGREE",
+    "k": {
+     "z": 12,
+     "kernel": 9,
+     "Q": "nu**2 + 26560*nu/1859 + 18932875264/418161601",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-4.744681891535038388185241"
+      },
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-9.542569318793095016871241"
+      }
+     ],
+     "words": "elliptic, simple",
+     "krein": [
+      {
+       "nu": "-4.7446818915350383882",
+       "mult": 1,
+       "sign": "+",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "1.663",
+       "sv": "4.61e-101",
+       "gap": "3.12"
+      },
+      {
+       "nu": "-9.5425693187930950169",
+       "mult": 1,
+       "sign": "+",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "2.396",
+       "sv": "2.33e-101",
+       "gap": "4.39"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 2,
+    "signature": [
+     0,
+     3,
+     6
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 4,
+     "r_u": 2,
+     "signature": [
+      0,
+      5,
+      6
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 12,
+       "kernel dim": 9,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-4.2846104944007041909",
+         "+"
+        ],
+        [
+         "-10.002640715927429214",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 12,
+       "kernel dim": 9,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-4.7446818915350383882",
+         "+"
+        ],
+        [
+         "-9.5425693187930950169",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 12,
+       "kernel dim": 9,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-4.7446818915350383882",
+         "+"
+        ],
+        [
+         "-9.5425693187930950169",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 9,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-9.430370024072900071",
+         "+"
+        ],
+        [
+         "-4.840554915148091282",
+         "+"
+        ],
+        [
+         "-0.016326271107142052085",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 9,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-9.430370024072900071",
+         "+"
+        ],
+        [
+         "-4.840554915148091282",
+         "+"
+        ],
+        [
+         "-0.016326271107142052085",
+         "+"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "line {7/2, -1/2}": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 6,
+     "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 4046336504627200*nu/76958879209641 + 495192635258961920000/4721196362873846427",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "nonreal",
+       "mult": 1,
+       "val": "(-3.782809265326747844230362 - 3.282782069649390046649264j)"
+      },
+      {
+       "kind": "nonreal",
+       "mult": 1,
+       "val": "(-3.782809265326747844230362 + 3.282782069649390046649264j)"
+      },
+      {
+       "kind": "nonreal",
+       "mult": 1,
+       "val": "(-0.4174721936959699197461435 - 2.001691195780769026116125j)"
+      },
+      {
+       "kind": "nonreal",
+       "mult": 1,
+       "val": "(-0.4174721936959699197461435 + 2.001691195780769026116125j)"
+      }
+     ],
+     "words": "hyperbolic (not named)",
+     "krein": [],
+     "Kf": "QQ"
+    },
+    "r_u": 2,
+    "signature": [
+     5,
+     0,
+     4
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 4,
+     "r_u": 2,
+     "signature": [
+      5,
+      2,
+      4
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": []
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": []
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": []
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-3.4445228654458457866",
+         "+"
+        ],
+        [
+         "-1.8207386795359789155",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-3.4445228654458457866",
+         "+"
+        ],
+        [
+         "-1.8207386795359789155",
+         "-"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "line {7/2, -3/2}": {
+    "r2": "AGREE",
+    "k": {
+     "z": 10,
+     "kernel": 6,
+     "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 399699093749760/777362416259",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-8.434642280796126949973104"
+      },
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-9.088263774450374942875267"
+      },
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-6.707520860495099163438"
+      }
+     ],
+     "words": "elliptic, simple",
+     "krein": [
+      {
+       "nu": "-8.43464228079612695",
+       "mult": 1,
+       "sign": "-",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "2.611",
+       "sv": "7.94e-101",
+       "gap": "0.637"
+      },
+      {
+       "nu": "-9.0882637744503749429",
+       "mult": 1,
+       "sign": "-",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "2.855",
+       "sv": "6.33e-101",
+       "gap": "0.645"
+      },
+      {
+       "nu": "-6.7075208604950991634",
+       "mult": 1,
+       "sign": "-",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "2.492",
+       "sv": "7.45e-101",
+       "gap": "1.68"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 4,
+    "signature": [
+     9,
+     0,
+     0
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 4,
+     "r_u": 4,
+     "signature": [
+      9,
+      2,
+      0
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-7.5144994865274585554",
+         "-"
+        ],
+        [
+         "-9.4875095283214326883",
+         "-"
+        ],
+        [
+         "-7.2284179008927098126",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-8.43464228079612695",
+         "-"
+        ],
+        [
+         "-9.0882637744503749429",
+         "-"
+        ],
+        [
+         "-6.7075208604950991634",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-8.43464228079612695",
+         "-"
+        ],
+        [
+         "-9.0882637744503749429",
+         "-"
+        ],
+        [
+         "-6.7075208604950991634",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-9.1690642318459548675",
+         "-"
+        ],
+        [
+         "-8.3169710777699944074",
+         "-"
+        ],
+        [
+         "-6.7443916061256517815",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 10,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-9.2874395075336790894",
+         "-"
+        ],
+        [
+         "-8.1147650255266945102",
+         "-"
+        ],
+        [
+         "-6.8282223826812274567",
+         "-"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "line {7/2, -5/2}": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 6,
+     "Q": "nu**4 + 85879360*nu**3/7382089 + 178782915641344*nu**2/54495238003921 + nu*(-8218222739862021734400/402288697021127170969 + 4873206294577152000*sqrt(51)/21173089316901430051) - 832890413481549889536000000/228440843469538127416259557",
+     "rational": false,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-11.19303480743695106917514"
+      },
+      {
+       "kind": "pos",
+       "mult": 1,
+       "val": "1.184312316873598326770757"
+      },
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-1.432791368993206068667645"
+      },
+      {
+       "kind": "neg",
+       "mult": 1,
+       "val": "-0.1919627891264901199283952"
+      }
+     ],
+     "words": "hyperbolic, one real pair",
+     "krein": [
+      {
+       "nu": "-11.193034807436951069",
+       "mult": 1,
+       "sign": "-",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "3.141",
+       "sv": "6.7e-101",
+       "gap": "8.89"
+      },
+      {
+       "nu": "-1.4327913689932060687",
+       "mult": 1,
+       "sign": "+",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "0.3376",
+       "sv": "6.87e-102",
+       "gap": "1.06"
+      },
+      {
+       "nu": "-0.19196278912649011993",
+       "mult": 1,
+       "sign": "-",
+       "dim": 2,
+       "ok": true,
+       "min_abs_eig": "0.03742",
+       "sv": "2.43e-102",
+       "gap": "0.103"
+      }
+     ],
+     "Kf": "QQ<sqrt(51)>"
+    },
+    "r_u": 2,
+    "signature": [
+     6,
+     0,
+     3
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 4,
+     "r_u": 2,
+     "signature": [
+      6,
+      2,
+      3
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-12.133055561914791328",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": false,
+       "words": "hyperbolic, one real pair",
+       "krein": [
+        [
+         "-0.16348118929689363961",
+         "-"
+        ],
+        [
+         "-11.165205216198143515",
+         "-"
+        ],
+        [
+         "-1.5739053253246788079",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": false,
+       "words": "hyperbolic, one real pair",
+       "krein": [
+        [
+         "-11.193034807436951069",
+         "-"
+        ],
+        [
+         "-1.4327913689932060687",
+         "+"
+        ],
+        [
+         "-0.19196278912649011993",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": false,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-11.664455126130936738",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 6,
+       "slow polynomial rational": false,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-11.666983118535005667",
+         "-"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "weight 1/2": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 5,
+     "Q": "nu**4 + 260352*nu**3/20449 + 10442981376*nu**2/418161601 - 846509742489600*nu/8550986578849 + 10571633173463040000/174859124550883201",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 2,
+       "val": "-7.414562012198138893676914"
+      },
+      {
+       "kind": "pos",
+       "mult": 2,
+       "val": "1.048676149808780000821517"
+      }
+     ],
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      {
+       "nu": "-7.4145620121981388937",
+       "mult": 2,
+       "sign": "+",
+       "dim": 4,
+       "ok": true,
+       "min_abs_eig": "2.157",
+       "sv": "2.69e-101",
+       "gap": "7.41"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 1,
+    "signature": [
+     4,
+     0,
+     6
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 3,
+     "r_u": 1,
+     "signature": [
+      4,
+      2,
+      6
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-2.8167636559244950853",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-7.4145620121981388937",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-7.4145620121981388937",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-5.7225181684082893877",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic (not named)",
+       "krein": [
+        [
+         "-5.7225181684082893877",
+         "+"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "weight 3/2": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 5,
+     "Q": "nu**4 + 263936*nu**3/20449 + 219234304*nu**2/418161601 - 2269363788840960*nu/8550986578849 + 73928344379955609600/174859124550883201",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 2,
+       "val": "-8.792168962785538441589873"
+      },
+      {
+       "kind": "pos",
+       "mult": 2,
+       "val": "2.338650453322973034968523"
+      }
+     ],
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      {
+       "nu": "-8.7921689627855384416",
+       "mult": 2,
+       "sign": "-",
+       "dim": 4,
+       "ok": true,
+       "min_abs_eig": "2.461",
+       "sv": "5.68e-101",
+       "gap": "8.74"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 1,
+    "signature": [
+     8,
+     0,
+     2
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 3,
+     "r_u": 1,
+     "signature": [
+      8,
+      2,
+      2
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-0.15335713237811139909",
+         "-"
+        ],
+        [
+         "-2.8167636559244950853",
+         "+"
+        ],
+        [
+         "-5.5208567656120103673",
+         "-"
+        ],
+        [
+         "-6.9384442593011591981",
+         "-"
+        ],
+        [
+         "-1.8154312358330771949",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-8.7921689627855384416",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-8.7921689627855384416",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-8.2164005573160540296",
+         "-"
+        ],
+        [
+         "-6.8297965165307304342",
+         "-"
+        ],
+        [
+         "-0.050632859740281236089",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-8.2164005573160540296",
+         "-"
+        ],
+        [
+         "-6.8297965165307304342",
+         "-"
+        ],
+        [
+         "-0.050632859740281236089",
+         "-"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "weight 5/2": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 5,
+     "Q": "nu**4 + 160000*nu**3/20449 - 1027653632*nu**2/418161601 - 594212290560000*nu/8550986578849 + 13792509619240697856/174859124550883201",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "pos",
+       "mult": 2,
+       "val": "1.608685021272433859846447"
+      },
+      {
+       "kind": "neg",
+       "mult": 2,
+       "val": "-5.520856765612010367255122"
+      }
+     ],
+     "words": "hyperbolic, real pairs",
+     "krein": [
+      {
+       "nu": "-5.5208567656120103673",
+       "mult": 2,
+       "sign": "+",
+       "dim": 4,
+       "ok": true,
+       "min_abs_eig": "2.35",
+       "sv": "0.0",
+       "gap": "5.16"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 1,
+    "signature": [
+     4,
+     0,
+     6
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 3,
+     "r_u": 1,
+     "signature": [
+      4,
+      2,
+      6
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic, one double frequency",
+       "krein": [
+        [
+         "-0.078243434886791530148",
+         "-"
+        ],
+        [
+         "-0.61342852951244559636",
+         "-"
+        ],
+        [
+         "-8.1404469656217907966",
+         "+"
+        ],
+        [
+         "-5.5208567656120103673",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-5.5208567656120103673",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, real pairs",
+       "krein": [
+        [
+         "-5.5208567656120103673",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-5.5208567656120103673",
+         "+"
+        ],
+        [
+         "-0.05928329934173180627",
+         "-"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "hyperbolic, a complex quartet",
+       "krein": [
+        [
+         "-5.5208567656120103673",
+         "+"
+        ],
+        [
+         "-0.05928329934173180627",
+         "-"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "weight 7/2": {
+    "r2": "AGREE",
+    "k": {
+     "z": 8,
+     "kernel": 5,
+     "Q": "nu**4 + 238336*nu**3/20449 + 21281849344*nu**2/418161601 + 843809197916160*nu/8550986578849 + 12534563579992473600/174859124550883201",
+     "rational": true,
+     "roots": [
+      {
+       "kind": "neg",
+       "mult": 2,
+       "val": "-2.760428382806005183627561"
+      },
+      {
+       "kind": "neg",
+       "mult": 2,
+       "val": "-3.067142647562227981808401"
+      }
+     ],
+     "words": "elliptic (not named)",
+     "krein": [
+      {
+       "nu": "-2.7604283828060051836",
+       "mult": 2,
+       "sign": "+",
+       "dim": 4,
+       "ok": true,
+       "min_abs_eig": "1.175",
+       "sv": "0.0",
+       "gap": "0.307"
+      },
+      {
+       "nu": "-3.0671426475622279818",
+       "mult": 2,
+       "sign": "+",
+       "dim": 4,
+       "ok": true,
+       "min_abs_eig": "0.7832",
+       "sv": "2.86e-101",
+       "gap": "0.307"
+      }
+     ],
+     "Kf": "QQ"
+    },
+    "r_u": 1,
+    "signature": [
+     0,
+     0,
+     10
+    ],
+    "under the Pin(2) reading (no continuous Sp(1))": {
+     "k": 3,
+     "r_u": 1,
+     "signature": [
+      0,
+      2,
+      10
+     ]
+    },
+    "structures": {
+     "S_u = i M_hat": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-0.61342852951244559636",
+         "+"
+        ],
+        [
+         "-1.3802141914030025918",
+         "+"
+        ],
+        [
+         "-5.5208567656120103673",
+         "+"
+        ],
+        [
+         "-12.421927722627023326",
+         "+"
+        ],
+        [
+         "-15.335713237811139909",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member J": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic (not named)",
+       "krein": [
+        [
+         "-2.7604283828060051836",
+         "+"
+        ],
+        [
+         "-3.0671426475622279818",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member k": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 8,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic (not named)",
+       "krein": [
+        [
+         "-2.7604283828060051836",
+         "+"
+        ],
+        [
+         "-3.0671426475622279818",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+J)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-6.2109638613135116632",
+         "+"
+        ],
+        [
+         "-4.5281741549395184527",
+         "+"
+        ],
+        [
+         "-1.6827897063739932104",
+         "+"
+        ],
+        [
+         "-10.111335543028247909",
+         "+"
+        ],
+        [
+         "-0.93037798819577282598",
+         "+"
+        ]
+       ]
+      }
+     },
+     "member (i+k)/sqrt2": {
+      "r2": "AGREE",
+      "fields": {
+       "zero multiplicity": "AGREE",
+       "slow polynomial": "AGREE",
+       "words": "AGREE",
+       "Krein signs": "AGREE"
+      },
+      "mine": {
+       "zero multiplicity": 6,
+       "kernel dim": 5,
+       "slow polynomial rational": true,
+       "words": "elliptic, simple",
+       "krein": [
+        [
+         "-6.2109638613135116632",
+         "+"
+        ],
+        [
+         "-4.5281741549395184527",
+         "+"
+        ],
+        [
+         "-1.6827897063739932104",
+         "+"
+        ],
+        [
+         "-10.111335543028247909",
+         "+"
+        ],
+        [
+         "-0.93037798819577282598",
+         "+"
+        ]
+       ]
+      }
+     }
+    }
+   },
+   "statement in solver_r2/RETURN.md": {
+    "r2": "DEFECT (text only; no reported value affected)",
+    "note": "'The smallest |eigenvalue| of M-hat there is >= 0.04 in every case' is false: r2's own out_B3_R2.json records 0.012563 (line {5/2, -3/2}, members (i+J)/sqrt2 and (i+k)/sqrt2, nu = -0.0163), 0.017596 (weight 3/2, the sqrt2 members) and 0.037419 (line {7/2, -5/2}, member k); my independent computation gives the same three margins. The 0.04 bound holds only for the clusters of S_u = i M_hat."
+   }
+  }
+ },
+ "B.5": {
+  "l6": "AGREE"
+ },
+ "E.1": {
+  "rig": "AGREE"
+ },
+ "E.2": {
+  "rig": "AGREE",
+  "per dimension": {
+   "d=1": "AGREE",
+   "d=2": "AGREE",
+   "d=3": "AGREE",
+   "d=4": "AGREE",
+   "d=5": "AGREE",
+   "d=6": "AGREE"
+  }
+ },
+ "unchecked": [
+  "nothing in scope is left ungraded; solvers' own quadrature/ladder/CG-orthogonality claims were not re-run (running their code is not verification); their reported values were reproduced by my own routes instead"
+ ]
+}

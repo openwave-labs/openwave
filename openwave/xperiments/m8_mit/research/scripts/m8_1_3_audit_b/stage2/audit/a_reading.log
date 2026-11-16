@@ -1,0 +1,4 @@
+Sp(1) (as stated): critical True, h(u) = 161/143, k = 6, r_u = 2, signature on N_u [0, 3, 6], dim K' = 3
+literal: U(1) and J only: critical True, h(u) = 161/143, k = 4, r_u = 2, signature on N_u [0, 5, 6], dim K' = 5
+[PASS] reading: the two readings give different k (the reading matters for C.3)
+[PASS] h(Theta x) == h(x) identically (exact polynomial identity)

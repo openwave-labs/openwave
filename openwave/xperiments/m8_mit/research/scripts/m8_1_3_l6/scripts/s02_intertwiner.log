@@ -1,0 +1,79 @@
+== 0(c) R4: irreducible #4, dim 3, in V_3
+PASS R4: P^2 = P (exact)
+PASS R4: P Hermitian (exact)
+  multiplicity at level 6 = tr(P)/dim = 1
+PASS R4: multiplicity one at level 6 (tr P = dim rho)
+PASS R4: P commutes with D^3(q1) (exact)
+PASS R4: P commutes with D^3(q2) (exact)
+PASS R4: eta^+ eta = I (exact)
+PASS R4: eta eta^+ = P (exact)
+PASS R4: D^3(q1) eta = eta rho(q1) (exact)
+PASS R4: tr rho(q1) = chi(q1) = 0
+PASS R4: D^3(q2) eta = eta rho(q2) (exact)
+PASS R4: tr rho(q2) = chi(q2) = 1/2 - sqrt(5)/2
+  eta (columns; rows m = 3..-3), exact:
+   m= 3: ['sqrt(7)/4', '0', '0']
+   m= 2: ['0', 'sqrt(6)/4', '0']
+   m= 1: ['sqrt(21)/28', '0', 'sqrt(105)/14']
+   m= 0: ['0', '-1/2', '0']
+   m=-1: ['-sqrt(105)/28', '0', 'sqrt(21)/7']
+   m=-2: ['0', 'sqrt(6)/4', '0']
+   m=-3: ['-3*sqrt(35)/28', '0', '-sqrt(7)/14']
+  P (exact, rows/cols m = 3..-3):
+    ['7/16', '0', 'sqrt(3)/16', '0', '-sqrt(15)/16', '0', '-3*sqrt(5)/16']
+    ['0', '3/8', '0', '-sqrt(6)/8', '0', '3/8', '0']
+    ['sqrt(3)/16', '0', '9/16', '0', '3*sqrt(5)/16', '0', '-sqrt(15)/16']
+    ['0', '-sqrt(6)/8', '0', '1/4', '0', '-sqrt(6)/8', '0']
+    ['-sqrt(15)/16', '0', '3*sqrt(5)/16', '0', '9/16', '0', 'sqrt(3)/16']
+    ['0', '3/8', '0', '-sqrt(6)/8', '0', '3/8', '0']
+    ['-3*sqrt(5)/16', '0', '-sqrt(15)/16', '0', 'sqrt(3)/16', '0', '7/16']
+== 0(c) R5: irreducible #6, dim 4, in V_3
+PASS R5: P^2 = P (exact)
+PASS R5: P Hermitian (exact)
+  multiplicity at level 6 = tr(P)/dim = 1
+PASS R5: multiplicity one at level 6 (tr P = dim rho)
+PASS R5: P commutes with D^3(q1) (exact)
+PASS R5: P commutes with D^3(q2) (exact)
+PASS R5: eta^+ eta = I (exact)
+PASS R5: eta eta^+ = P (exact)
+PASS R5: D^3(q1) eta = eta rho(q1) (exact)
+PASS R5: tr rho(q1) = chi(q1) = 1
+PASS R5: D^3(q2) eta = eta rho(q2) (exact)
+PASS R5: tr rho(q2) = chi(q2) = -1
+  eta (columns; rows m = 3..-3), exact:
+   m= 3: ['3/4', '0', '0', '0']
+   m= 2: ['0', 'sqrt(10)/4', '0', '0']
+   m= 1: ['-sqrt(3)/12', '0', 'sqrt(15)/6', '0']
+   m= 0: ['0', 'sqrt(15)/10', '0', 'sqrt(15)/5']
+   m=-1: ['sqrt(15)/12', '0', '-sqrt(3)/3', '0']
+   m=-2: ['0', '-3*sqrt(10)/20', '0', 'sqrt(10)/5']
+   m=-3: ['sqrt(5)/4', '0', '1/2', '0']
+  P (exact, rows/cols m = 3..-3):
+    ['9/16', '0', '-sqrt(3)/16', '0', 'sqrt(15)/16', '0', '3*sqrt(5)/16']
+    ['0', '5/8', '0', 'sqrt(6)/8', '0', '-3/8', '0']
+    ['-sqrt(3)/16', '0', '7/16', '0', '-3*sqrt(5)/16', '0', 'sqrt(15)/16']
+    ['0', 'sqrt(6)/8', '0', '3/4', '0', 'sqrt(6)/8', '0']
+    ['sqrt(15)/16', '0', '-3*sqrt(5)/16', '0', '7/16', '0', '-sqrt(3)/16']
+    ['0', '-3/8', '0', 'sqrt(6)/8', '0', '5/8', '0']
+    ['3*sqrt(5)/16', '0', 'sqrt(15)/16', '0', '-sqrt(3)/16', '0', '9/16']
+PLANTED-DEFECT-FIRED intertwining test with eta[3,0] shifted by 1/10
+
+== s_N
+PASS beta-weights integrate the constant to 1
+  R4: s_N (Schur, exact) = 3/7;  quadrature <|phi_w|^2>/||w||^2 = 0.428571428571428571428571428571428571428571429
+PASS R4: quadrature s_N agrees with dim/7 to 1e-40
+PLANTED-DEFECT-FIRED R4: same quadrature check against a wrong s_N = dim/8
+  R5: s_N (Schur, exact) = 4/7;  quadrature <|phi_w|^2>/||w||^2 = 0.571428571428571428571428571428571428571428571
+PASS R5: quadrature s_N agrees with dim/7 to 1e-40
+PLANTED-DEFECT-FIRED R5: same quadrature check against a wrong s_N = dim/8
+
+== 0(d)
+  <3 3; 3 -3 | 6 0> = sqrt(231)/462 = 0.032897584747988449419  sign: +
+PASS <3 3;3 -3|6 0> = +sqrt(1/924)
+PASS CG(3x3) orthonormality for M = 0, 1, 2 (exact)
+PLANTED-DEFECT-FIRED CG orthonormality with one coefficient doubled
+  Theta^2 on V_{6/2} = {1}
+PASS Theta^2 on V_6/2 is (-1)^(2j) = 1
+  Theta^2 on V_{7/2} = {-1}
+PASS Theta^2 on V_7/2 is (-1)^(2j) = -1
+checks: 29 PASS, 0 FAIL

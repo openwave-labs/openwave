@@ -1,0 +1,530 @@
+PASS  i^2 = J^2 = k^2 = -1 and iJ = -Ji (real 16x16 matrices)
+PASS  member J: tau^2 = -1
+PASS  member k: tau^2 = -1
+PASS  member (i+J)/sqrt2: tau^2 = -1
+PASS  member (i+k)/sqrt2: tau^2 = -1
+PASS  h(tau w) = h(w) for tau = i at a random w (50 digits)  [0.0]
+PASS  h(tau w) = h(w) for tau = J at a random w (50 digits)  [3.42e-49]
+PASS  h(tau w) = h(w) for tau = k at a random w (50 digits)  [3.42e-49]
+====================================================================================================
+weight 7/2
+  u (m: component): {'7/2': '1'}
+  h(u) = Q(u) = 144/143 = 1.00699300699300699300699300699
+  critical (grad h = 4 h u exactly): True
+PASS  weight 7/2: Mhat u = 8 h u
+PASS  weight 7/2: k exact rank = k numeric rank  [5 vs 5]
+PASS  weight 7/2: Mhat vanishes on K_u
+PASS  weight 7/2: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  weight 7/2: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  weight 7/2: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[0, 0, 10]]
+PASS  weight 7/2: signature exact = numeric (50 digits)  [[0, 0, 10] vs [0, 0, 10]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 7/2: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [6 vs 6]
+PASS  weight 7/2: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [4.28e-49]
+PASS  weight 7/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.613 / 2.67e-51]
+PASS  weight 7/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.767 / 3.21e-50]
+PASS  weight 7/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 4.14 / 3.21e-50]
+PASS  weight 7/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 2.91 / 1.71e-49]
+PASS  weight 7/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 2.91 / 4.7e-49]
+  k = 5, r_u = 1, signature [n-, n0, n+] = [0, 0, 10]
+  zero multiplicity of S_u = 6; slow polynomial (rational) = (20449*nu + 12544) * (20449*nu + 28224) * (20449*nu + 112896) * (20449*nu + 254016) * (20449*nu + 313600)
+     root nu = -0.61342852951244559636168027776  (neg, multiplicity 1), exact -12544/20449
+     root nu = -1.38021419140300259181378062496  (neg, multiplicity 1), exact -28224/20449
+     root nu = -5.52085676561201036725512249987  (neg, multiplicity 1), exact -112896/20449
+     root nu = -12.4219277226270233263240256247  (neg, multiplicity 1), exact -254016/20449
+     root nu = -15.3357132378111399090420069441  (neg, multiplicity 1), exact -313600/20449
+  slow-flow words: elliptic, simple
+     cluster tau = 0.783216783216783216783216783217 (nu = -0.613428529512445596361680277764), Krein sign +, dim ker = 2, min|eig of Mhat there| = 0.78322
+     cluster tau = 1.17482517482517482517482517483 (nu = -1.38021419140300259181378062497), Krein sign +, dim ker = 2, min|eig of Mhat there| = 1.1748
+     cluster tau = 2.34965034965034965034965034965 (nu = -5.52085676561201036725512249988), Krein sign +, dim ker = 2, min|eig of Mhat there| = 2.3497
+     cluster tau = 3.52447552447552447552447552448 (nu = -12.4219277226270233263240256247), Krein sign +, dim ker = 2, min|eig of Mhat there| = 3.5245
+     cluster tau = 3.91608391608391608391608391608 (nu = -15.3357132378111399090420069441), Krein sign +, dim ker = 2, min|eig of Mhat there| = 3.9161
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 7/2 / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 7/2 / member J: numeric eigenvalues match exact slow polynomial  [4.81e-50]
+PASS  weight 7/2 / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 0.307 / 3.21e-50]
+PASS  weight 7/2 / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 0.307 / 1.07e-50]
+  member J: zero mult 8; slow poly (rational) (20449*nu + 56448)^2 * (20449*nu + 62720)^2
+      roots: [('neg', 2, '-2.76042838280'), ('neg', 2, '-3.06714264756')]
+      words: elliptic (neither 'simple' nor 'one double frequency'); Krein: [('1.6614536956', '+'), ('1.7513259683', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 7/2 / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 7/2 / member k: numeric eigenvalues match exact slow polynomial  [4.81e-50]
+PASS  weight 7/2 / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 0.307 / 3.21e-50]
+PASS  weight 7/2 / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 0.307 / 1.07e-50]
+  member k: zero mult 8; slow poly (rational) (20449*nu + 56448)^2 * (20449*nu + 62720)^2
+      roots: [('neg', 2, '-2.76042838280'), ('neg', 2, '-3.06714264756')]
+      words: elliptic (neither 'simple' nor 'one double frequency'); Krein: [('1.6614536956', '+'), ('1.7513259683', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 7/2 / member (i+J)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 7/2 / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [1.28e-49]
+PASS  weight 7/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.66 / 2.27e-50]
+PASS  weight 7/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.976 / 4.97e-50]
+PASS  weight 7/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.65 / 3.28e-50]
+PASS  weight 7/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.27 / 3.86e-50]
+PASS  weight 7/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.6 / 3.14e-51]
+  member (i+J)/sqrt2: zero mult 6; slow poly (rational) (20449*nu + 127008) * (418161601*nu**2 + 2597186592*nu + 3186376704) * (418161601*nu**2 + 4617220608*nu + 3933798400)
+      roots: [('neg', 1, '-6.21096386131'), ('neg', 1, '-4.52817415493'), ('neg', 1, '-1.68278970637'), ('neg', 1, '-10.1113355430'), ('neg', 1, '-0.93037798819')]
+      words: elliptic, simple; Krein: [('2.4921805434', '+'), ('2.1279506937', '+'), ('1.2972238459', '+'), ('3.1798326281', '+'), ('0.9645610339', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 7/2 / member (i+k)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 7/2 / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [2.99e-49]
+PASS  weight 7/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.66 / 2.27e-50]
+PASS  weight 7/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.976 / 4.97e-50]
+PASS  weight 7/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.65 / 3.28e-50]
+PASS  weight 7/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.27 / 3.86e-50]
+PASS  weight 7/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.6 / 3.14e-51]
+  member (i+k)/sqrt2: zero mult 6; slow poly (rational) (20449*nu + 127008) * (418161601*nu**2 + 2597186592*nu + 3186376704) * (418161601*nu**2 + 4617220608*nu + 3933798400)
+      roots: [('neg', 1, '-6.21096386131'), ('neg', 1, '-4.52817415493'), ('neg', 1, '-1.68278970637'), ('neg', 1, '-10.1113355430'), ('neg', 1, '-0.93037798819')]
+      words: elliptic, simple; Krein: [('2.4921805434', '+'), ('2.1279506937', '+'), ('1.2972238459', '+'), ('3.1798326281', '+'), ('0.9645610339', '+')]
+====================================================================================================
+weight 5/2
+  u (m: component): {'5/2': '1'}
+  h(u) = Q(u) = 168/143 = 1.17482517482517482517482517483
+  critical (grad h = 4 h u exactly): True
+PASS  weight 5/2: Mhat u = 8 h u
+PASS  weight 5/2: k exact rank = k numeric rank  [5 vs 5]
+PASS  weight 5/2: Mhat vanishes on K_u
+PASS  weight 5/2: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  weight 5/2: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  weight 5/2: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[4, 0, 6]]
+PASS  weight 5/2: signature exact = numeric (50 digits)  [[4, 0, 6] vs [4, 0, 6]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 5/2: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [6 vs 6]
+PASS  weight 5/2: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [1.07e-49]
+PASS  weight 5/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0782 / 3.98e-52]
+PASS  weight 5/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.443 / 2.67e-51]
+PASS  weight 5/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 2.62 / 4.28e-50]
+PASS  weight 5/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 2.62 / 3.21e-50]
+  k = 5, r_u = 1, signature [n-, n0, n+] = [4, 0, 6]
+  zero multiplicity of S_u = 6; slow polynomial (rational) = (20449*nu + 1600) * (20449*nu + 12544) * (20449*nu + 166464) * (20449*nu + 112896)^2
+     root nu = -0.07824343488679153014817350481  (neg, multiplicity 1), exact -1600/20449
+     root nu = -0.61342852951244559636168027776  (neg, multiplicity 1), exact -12544/20449
+     root nu = -8.14044696562179079661597144114  (neg, multiplicity 1), exact -166464/20449
+     root nu = -5.52085676561201036725512249987  (neg, multiplicity 2), exact -112896/20449
+  slow-flow words: elliptic, one double frequency
+     cluster tau = 0.27972027972027972027972027972 (nu = -0.0782434348867915301481735048169), Krein sign -, dim ker = 2, min|eig of Mhat there| = 0.073611
+     cluster tau = 0.783216783216783216783216783217 (nu = -0.613428529512445596361680277764), Krein sign -, dim ker = 2, min|eig of Mhat there| = 0.78322
+     cluster tau = 2.85314685314685314685314685315 (nu = -8.14044696562179079661597144115), Krein sign +, dim ker = 2, min|eig of Mhat there| = 2.8531
+     cluster tau = 2.34965034965034965034965034965 (nu = -5.52085676561201036725512249988), Krein sign +, dim ker = 4, min|eig of Mhat there| = 2.3497
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 5/2 / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 5/2 / member J: numeric eigenvalues match exact slow polynomial  [1.61e-50]
+PASS  weight 5/2 / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 5.16 / 3.21e-50]
+  member J: zero mult 8; slow poly (rational) (20449*nu - 32896)^2 * (20449*nu + 112896)^2
+      roots: [('pos', 2, '1.608685021272'), ('neg', 2, '-5.52085676561')]
+      words: hyperbolic, real pairs; Krein: [('2.3496503496', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  weight 5/2 / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 5/2 / member k: numeric eigenvalues match exact slow polynomial  [5.35e-50]
+PASS  weight 5/2 / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 5.16 / 3.21e-50]
+  member k: zero mult 8; slow poly (rational) (20449*nu - 32896)^2 * (20449*nu + 112896)^2
+      roots: [('pos', 2, '1.608685021272'), ('neg', 2, '-5.52085676561')]
+      words: hyperbolic, real pairs; Krein: [('2.3496503496', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  weight 5/2 / member (i+J)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 5/2 / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [1.31e-49]
+PASS  weight 5/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 2.4 / 1.1e-50]
+PASS  weight 5/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0593 / 5.23e-51]
+  member (i+J)/sqrt2: zero mult 6; slow poly (rational) (20449*nu + 112896)^2 * (8550986578849*nu**3 + 24005821190208*nu**2 + 29571340125184*nu + 1670499532800)
+      roots: [('neg', 2, '-5.52085676561'), ('neg', 1, '-0.05928329934'), ('nonreal', 1, '(-1.3740455721'), ('nonreal', 1, '(-1.3740455721')]
+      words: hyperbolic, a complex quartet; Krein: [('2.3496503496', '+'), ('0.2434816201', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  weight 5/2 / member (i+k)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 5/2 / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [2.35e-49]
+PASS  weight 5/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 2.4 / 1.19e-50]
+PASS  weight 5/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0593 / 1.1e-51]
+  member (i+k)/sqrt2: zero mult 6; slow poly (rational) (20449*nu + 112896)^2 * (8550986578849*nu**3 + 24005821190208*nu**2 + 29571340125184*nu + 1670499532800)
+      roots: [('neg', 2, '-5.52085676561'), ('neg', 1, '-0.05928329934'), ('nonreal', 1, '(-1.3740455721'), ('nonreal', 1, '(-1.3740455721')]
+      words: hyperbolic, a complex quartet; Krein: [('2.3496503496', '+'), ('0.2434816201', '-')]
+====================================================================================================
+weight 3/2
+  u (m: component): {'3/2': '1'}
+  h(u) = Q(u) = 224/143 = 1.56643356643356643356643356643
+  critical (grad h = 4 h u exactly): True
+PASS  weight 3/2: Mhat u = 8 h u
+PASS  weight 3/2: k exact rank = k numeric rank  [5 vs 5]
+PASS  weight 3/2: Mhat vanishes on K_u
+PASS  weight 3/2: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  weight 3/2: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  weight 3/2: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[8, 0, 2]]
+PASS  weight 3/2: signature exact = numeric (50 digits)  [[8, 0, 2] vs [8, 0, 2]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 3/2: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [6 vs 6]
+PASS  weight 3/2: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [1.07e-49]
+PASS  weight 3/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.153 / 8.91e-52]
+PASS  weight 3/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.922 / 2.14e-50]
+PASS  weight 3/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.27 / 3.21e-50]
+PASS  weight 3/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.42 / 4.27e-50]
+PASS  weight 3/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.0 / 1.75e-50]
+  k = 5, r_u = 1, signature [n-, n0, n+] = [8, 0, 2]
+  zero multiplicity of S_u = 6; slow polynomial (rational) = (20449*nu + 3136) * (20449*nu + 57600) * (20449*nu + 112896) * (418161601*nu**2 + 3660534592*nu + 5267275776)
+     root nu = -0.15335713237811139909042006944  (neg, multiplicity 1), exact -3136/20449
+     root nu = -2.81676365592449508533424617340  (neg, multiplicity 1), exact -57600/20449
+     root nu = -5.52085676561201036725512249987  (neg, multiplicity 1), exact -112896/20449
+     root nu = -6.93844425930115919809955145616  (neg, multiplicity 1), exact -89504/20449 - 736*sqrt(5065)/20449
+     root nu = -1.81543123583307719487810026274  (neg, multiplicity 1), exact -89504/20449 + 736*sqrt(5065)/20449
+  slow-flow words: elliptic, simple
+     cluster tau = 0.391608391608391608391608391608 (nu = -0.153357132378111399090420069441), Krein sign -, dim ker = 2, min|eig of Mhat there| = 0.043512
+     cluster tau = 1.67832167832167832167832167832 (nu = -2.81676365592449508533424617341), Krein sign +, dim ker = 2, min|eig of Mhat there| = 1.6783
+     cluster tau = 2.34965034965034965034965034965 (nu = -5.52085676561201036725512249988), Krein sign -, dim ker = 2, min|eig of Mhat there| = 2.3497
+     cluster tau = 2.63409268236733826550386621037 (nu = -6.93844425930115919809955145617), Krein sign -, dim ker = 2, min|eig of Mhat there| = 2.4995
+     cluster tau = 1.34737939565405155221715292365 (nu = -1.81543123583307719487810026274), Krein sign -, dim ker = 2, min|eig of Mhat there| = 1.2786
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 3/2 / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 3/2 / member J: numeric eigenvalues match exact slow polynomial  [6.49e-50]
+PASS  weight 3/2 / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 8.74 / 3.88e-50]
+  member J: zero mult 8; slow poly (rational) (418161601*nu**2 + 2698613632*nu - 8598159360)^2
+      roots: [('neg', 2, '-8.79216896278'), ('pos', 2, '2.338650453322')]
+      words: hyperbolic, real pairs; Krein: [('2.9651591800', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 3/2 / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 3/2 / member k: numeric eigenvalues match exact slow polynomial  [1.39e-49]
+PASS  weight 3/2 / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 8.74 / 3.88e-50]
+  member k: zero mult 8; slow poly (rational) (418161601*nu**2 + 2698613632*nu - 8598159360)^2
+      roots: [('neg', 2, '-8.79216896278'), ('pos', 2, '2.338650453322')]
+      words: hyperbolic, real pairs; Krein: [('2.9651591800', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 5
+PASS  weight 3/2 / member (i+J)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 3/2 / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [4.28e-49]
+PASS  weight 3/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.37 / 2.09e-50]
+PASS  weight 3/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.3 / 2.9e-50]
+PASS  weight 3/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0506 / 1.41e-50]
+  member (i+J)/sqrt2: zero mult 6; slow poly (rational) (3575694237941010577249*nu**5 + 53906969789542680269888*nu**4 + 221153719869311734236160*nu**3 + 291274806442246852313088*nu**2 + 1074907932693246221746176*nu + 53707279443807751372800)
+      roots: [('neg', 1, '-8.21640055731'), ('neg', 1, '-6.82979651653'), ('neg', 1, '-0.05063285974'), ('nonreal', 1, '(0.01044244980'), ('nonreal', 1, '(0.01044244980')]
+      words: hyperbolic, a complex quartet; Krein: [('2.8664264437', '-'), ('2.6133879383', '-'), ('0.2250174654', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 5
+PASS  weight 3/2 / member (i+k)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 3/2 / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [1.72e-49]
+PASS  weight 3/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.37 / 1.96e-50]
+PASS  weight 3/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.3 / 3.04e-50]
+PASS  weight 3/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0506 / 4.04e-51]
+  member (i+k)/sqrt2: zero mult 6; slow poly (rational) (3575694237941010577249*nu**5 + 53906969789542680269888*nu**4 + 221153719869311734236160*nu**3 + 291274806442246852313088*nu**2 + 1074907932693246221746176*nu + 53707279443807751372800)
+      roots: [('neg', 1, '-8.21640055731'), ('neg', 1, '-6.82979651653'), ('neg', 1, '-0.05063285974'), ('nonreal', 1, '(0.01044244980'), ('nonreal', 1, '(0.01044244980')]
+      words: hyperbolic, a complex quartet; Krein: [('2.8664264437', '-'), ('2.6133879383', '-'), ('0.2250174654', '-')]
+====================================================================================================
+weight 1/2
+  u (m: component): {'1/2': '1'}
+  h(u) = Q(u) = 168/143 = 1.17482517482517482517482517483
+  critical (grad h = 4 h u exactly): True
+PASS  weight 1/2: Mhat u = 8 h u
+PASS  weight 1/2: k exact rank = k numeric rank  [5 vs 5]
+PASS  weight 1/2: Mhat vanishes on K_u
+PASS  weight 1/2: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  weight 1/2: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  weight 1/2: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[4, 0, 6]]
+PASS  weight 1/2: signature exact = numeric (50 digits)  [[4, 0, 6] vs [4, 0, 6]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 1/2: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [6 vs 6]
+PASS  weight 1/2: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [1.79e-49]
+PASS  weight 1/2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.87 / 2.14e-50]
+  k = 5, r_u = 1, signature [n-, n0, n+] = [4, 0, 6]
+  zero multiplicity of S_u = 6; slow polynomial (rational) = (20449*nu + 57600) * (418161601*nu**2 - 223793856*nu + 1625702400) * (418161601*nu**2 + 1346689344*nu + 8851046400)
+     root nu = -2.81676365592449508533424617340  (neg, multiplicity 1), exact -57600/20449
+     root nu = (0.26759254731282703310675338647  (nonreal, multiplicity 1)
+     root nu = (0.26759254731282703310675338647  (nonreal, multiplicity 1)
+     root nu = (-1.6102498899701696904494107291  (nonreal, multiplicity 1)
+     root nu = (-1.6102498899701696904494107291  (nonreal, multiplicity 1)
+  slow-flow words: hyperbolic (no listed sub-word)
+     cluster tau = 1.67832167832167832167832167832 (nu = -2.81676365592449508533424617341), Krein sign +, dim ker = 2, min|eig of Mhat there| = 1.6783
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 1/2 / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 1/2 / member J: numeric eigenvalues match exact slow polynomial  [8.63e-50]
+PASS  weight 1/2 / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 7.41 / 7.69e-51]
+  member J: zero mult 8; slow poly (rational) (418161601*nu**2 + 2661969024*nu - 3251404800)^2
+      roots: [('neg', 2, '-7.41456201219'), ('pos', 2, '1.048676149808')]
+      words: hyperbolic, real pairs; Krein: [('2.7229693373', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  weight 1/2 / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  weight 1/2 / member k: numeric eigenvalues match exact slow polynomial  [1.18e-49]
+PASS  weight 1/2 / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 4, gap 7.41 / 7.69e-51]
+  member k: zero mult 8; slow poly (rational) (418161601*nu**2 + 2661969024*nu - 3251404800)^2
+      roots: [('neg', 2, '-7.41456201219'), ('pos', 2, '1.048676149808')]
+      words: hyperbolic, real pairs; Krein: [('2.7229693373', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 5
+PASS  weight 1/2 / member (i+J)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 1/2 / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [3.31e-49]
+PASS  weight 1/2 / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.79 / 1.48e-50]
+  member (i+J)/sqrt2: zero mult 6; slow poly (rational) (3575694237941010577249*nu**5 + 32599336308270256928832*nu**4 + 88202785715689269740544*nu**3 + 73897666028129393049600*nu**2 - 118598380655329935360000*nu + 414408020399751168000000)
+      roots: [('neg', 1, '-5.72251816840'), ('nonreal', 1, '(0.79657070747'), ('nonreal', 1, '(0.79657070747'), ('nonreal', 1, '(-2.4937741397'), ('nonreal', 1, '(-2.4937741397')]
+      words: hyperbolic (no listed sub-word); Krein: [('2.3921785402', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 5
+PASS  weight 1/2 / member (i+k)/sqrt2: zero multiplicity exact = numeric  [6 vs 6]
+PASS  weight 1/2 / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [3.85e-49]
+PASS  weight 1/2 / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.79 / 1.43e-51]
+  member (i+k)/sqrt2: zero mult 6; slow poly (rational) (3575694237941010577249*nu**5 + 32599336308270256928832*nu**4 + 88202785715689269740544*nu**3 + 73897666028129393049600*nu**2 - 118598380655329935360000*nu + 414408020399751168000000)
+      roots: [('neg', 1, '-5.72251816840'), ('nonreal', 1, '(0.79657070747'), ('nonreal', 1, '(0.79657070747'), ('nonreal', 1, '(-2.4937741397'), ('nonreal', 1, '(-2.4937741397')]
+      words: hyperbolic (no listed sub-word); Krein: [('2.3921785402', '+')]
+====================================================================================================
+line {7/2, -1/2}
+  u (m: component): {'-1/2': 'sqrt(21)/6', '7/2': 'sqrt(15)/6'}
+  h(u) = Q(u) = 193/143 = 1.34965034965034965034965034965
+  critical (grad h = 4 h u exactly): True
+PASS  line {7/2, -1/2}: Mhat u = 8 h u
+PASS  line {7/2, -1/2}: k exact rank = k numeric rank  [6 vs 6]
+PASS  line {7/2, -1/2}: Mhat vanishes on K_u
+PASS  line {7/2, -1/2}: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  line {7/2, -1/2}: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  line {7/2, -1/2}: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[5, 0, 4]]
+PASS  line {7/2, -1/2}: signature exact = numeric (50 digits)  [[5, 0, 4] vs [5, 0, 4]]
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -1/2}: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [8 vs 8]
+PASS  line {7/2, -1/2}: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [7.05e-50]
+  k = 6, r_u = 2, signature [n-, n0, n+] = [5, 0, 4]
+  zero multiplicity of S_u = 8; slow polynomial (rational) = (1254484803*nu**2 + 9490953472*nu + 31470387200) * (3763454409*nu**2 + 3142275136*nu + 15735193600)
+     root nu = (-3.7828092653267478442303617128  (nonreal, multiplicity 1)
+     root nu = (-3.7828092653267478442303617128  (nonreal, multiplicity 1)
+     root nu = (-0.4174721936959699197461435223  (nonreal, multiplicity 1)
+     root nu = (-0.4174721936959699197461435223  (nonreal, multiplicity 1)
+  slow-flow words: hyperbolic (no listed sub-word)
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -1/2} / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -1/2} / member J: numeric eigenvalues match exact slow polynomial  [2.05e-49]
+  member J: zero mult 8; slow poly (rational) (1254484803*nu**2 + 9490953472*nu + 31470387200) * (3763454409*nu**2 + 3142275136*nu + 15735193600)
+      roots: [('nonreal', 1, '(-3.7828092653'), ('nonreal', 1, '(-3.7828092653'), ('nonreal', 1, '(-0.4174721936'), ('nonreal', 1, '(-0.4174721936')]
+      words: hyperbolic (no listed sub-word); Krein: []
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -1/2} / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -1/2} / member k: numeric eigenvalues match exact slow polynomial  [9.75e-50]
+  member k: zero mult 8; slow poly (rational) (1254484803*nu**2 + 9490953472*nu + 31470387200) * (3763454409*nu**2 + 3142275136*nu + 15735193600)
+      roots: [('nonreal', 1, '(-3.7828092653'), ('nonreal', 1, '(-3.7828092653'), ('nonreal', 1, '(-0.4174721936'), ('nonreal', 1, '(-0.4174721936')]
+      words: hyperbolic (no listed sub-word); Krein: []
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -1/2} / member (i+J)/sqrt2: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -1/2} / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [9.67e-50]
+PASS  line {7/2, -1/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 2.41 / 7.94e-51]
+PASS  line {7/2, -1/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.31 / 8.36e-51]
+  member (i+J)/sqrt2: zero mult 8; slow poly (rational) (1254484803*nu**2 + 6605190592*nu + 7867596800) * (3763454409*nu**2 + 11799563776*nu + 48189030400)
+      roots: [('neg', 1, '-3.44452286544'), ('neg', 1, '-1.82073867953'), ('nonreal', 1, '(-1.5676506865'), ('nonreal', 1, '(-1.5676506865')]
+      words: hyperbolic, a complex quartet; Krein: [('1.8559425813', '+'), ('1.3493475014', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -1/2} / member (i+k)/sqrt2: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -1/2} / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [8.22e-50]
+PASS  line {7/2, -1/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 2.41 / 1.36e-50]
+PASS  line {7/2, -1/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.31 / 6.75e-51]
+  member (i+k)/sqrt2: zero mult 8; slow poly (rational) (1254484803*nu**2 + 6605190592*nu + 7867596800) * (3763454409*nu**2 + 11799563776*nu + 48189030400)
+      roots: [('neg', 1, '-3.44452286544'), ('neg', 1, '-1.82073867953'), ('nonreal', 1, '(-1.5676506865'), ('nonreal', 1, '(-1.5676506865')]
+      words: hyperbolic, a complex quartet; Krein: [('1.8559425813', '+'), ('1.3493475014', '-')]
+====================================================================================================
+line {7/2, -3/2}
+  u (m: component): {'-3/2': 'sqrt(70)/10', '7/2': 'sqrt(30)/10'}
+  h(u) = Q(u) = 22/13 = 1.69230769230769230769230769231
+  critical (grad h = 4 h u exactly): True
+PASS  line {7/2, -3/2}: Mhat u = 8 h u
+PASS  line {7/2, -3/2}: k exact rank = k numeric rank  [6 vs 6]
+PASS  line {7/2, -3/2}: Mhat vanishes on K_u
+PASS  line {7/2, -3/2}: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  line {7/2, -3/2}: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  line {7/2, -3/2}: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[9, 0, 0]]
+PASS  line {7/2, -3/2}: signature exact = numeric (50 digits)  [[9, 0, 0] vs [9, 0, 0]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -3/2}: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [10 vs 10]
+PASS  line {7/2, -3/2}: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [2.36e-49]
+PASS  line {7/2, -3/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.279 / 2.23e-50]
+PASS  line {7/2, -3/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.92 / 2.06e-50]
+PASS  line {7/2, -3/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.274 / 9.57e-51]
+  k = 6, r_u = 4, signature [n-, n0, n+] = [9, 0, 0]
+  zero multiplicity of S_u = 10; slow polynomial (rational) = (20449*nu + 153664) * (418161601*nu**2 + 6989958976*nu + 28677390336)
+     root nu = -7.51449948652745855543058340261  (neg, multiplicity 1), exact -153664/20449
+     root nu = -9.48750952832143268826085321324  (neg, multiplicity 1), exact -170912/20449 - 1568*sqrt(217)/20449
+     root nu = -7.22841790089270981259493435582  (neg, multiplicity 1), exact -170912/20449 + 1568*sqrt(217)/20449
+  slow-flow words: elliptic, simple
+     cluster tau = 2.74125874125874125874125874126 (nu = -7.51449948652745855543058340261), Krein sign -, dim ker = 2, min|eig of Mhat there| = 2.6338
+     cluster tau = 3.08018011296765447580496845126 (nu = -9.48750952832143268826085321325), Krein sign -, dim ker = 2, min|eig of Mhat there| = 3.0249
+     cluster tau = 2.68857172135926286741336005965 (nu = -7.22841790089270981259493435583), Krein sign -, dim ker = 2, min|eig of Mhat there| = 2.6403
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -3/2} / member J: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {7/2, -3/2} / member J: numeric eigenvalues match exact slow polynomial  [2.39e-49]
+PASS  line {7/2, -3/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.632 / 4.94e-51]
+PASS  line {7/2, -3/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.643 / 4.73e-50]
+PASS  line {7/2, -3/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.67 / 4.46e-50]
+  member J: zero mult 10; slow poly (rational) (1859*nu + 15680) * (418161601*nu**2 + 6605190592*nu + 25491013632)
+      roots: [('neg', 1, '-8.43464228079'), ('neg', 1, '-9.08826377445'), ('neg', 1, '-6.70752086049')]
+      words: elliptic, simple; Krein: [('2.9042455613', '-'), ('3.0146747377', '-'), ('2.5898881945', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -3/2} / member k: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {7/2, -3/2} / member k: numeric eigenvalues match exact slow polynomial  [1.51e-49]
+PASS  line {7/2, -3/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.637 / 2.58e-50]
+PASS  line {7/2, -3/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.645 / 5.08e-50]
+PASS  line {7/2, -3/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.68 / 4.06e-50]
+  member k: zero mult 10; slow poly (rational) (1859*nu + 15680) * (418161601*nu**2 + 6605190592*nu + 25491013632)
+      roots: [('neg', 1, '-8.43464228079'), ('neg', 1, '-9.08826377445'), ('neg', 1, '-6.70752086049')]
+      words: elliptic, simple; Krein: [('2.9042455613', '-'), ('3.0146747377', '-'), ('2.5898881945', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  line {7/2, -3/2} / member (i+J)/sqrt2: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {7/2, -3/2} / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [1.52e-49]
+PASS  line {7/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.841 / 6.01e-50]
+PASS  line {7/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.823 / 3.78e-50]
+PASS  line {7/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.52 / 1.29e-50]
+  member (i+J)/sqrt2: zero mult 10; slow poly (rational) (8550986578849*nu**3 + 207194055356288*nu**2 + 1660529011068928*nu + 4397939090915328)
+      roots: [('neg', 1, '-9.16906423184'), ('neg', 1, '-8.31697107776'), ('neg', 1, '-6.74439160612')]
+      words: elliptic, simple; Krein: [('3.0280462730', '-'), ('2.8839159276', '-'), ('2.5969966511', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  line {7/2, -3/2} / member (i+k)/sqrt2: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {7/2, -3/2} / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [4.92e-49]
+PASS  line {7/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.16 / 4.24e-50]
+PASS  line {7/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.05 / 3.94e-50]
+PASS  line {7/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.24 / 2.37e-50]
+  member (i+k)/sqrt2: zero mult 10; slow poly (rational) (657768198373*nu**3 + 15938004258176*nu**2 + 127733000851456*nu + 338495170019328)
+      roots: [('neg', 1, '-9.28743950753'), ('neg', 1, '-8.11476502552'), ('neg', 1, '-6.82822238268')]
+      words: elliptic, simple; Krein: [('3.0475300667', '-'), ('2.8486426637', '-'), ('2.6130867537', '-')]
+====================================================================================================
+line {7/2, -5/2}
+  u (m: component): {'-5/2': 'sqrt(798)/38', '7/2': 'sqrt(646)/38'}
+  h(u) = Q(u) = 369/247 = 1.49392712550607287449392712551
+  critical (grad h = 4 h u exactly): True
+PASS  line {7/2, -5/2}: Mhat u = 8 h u
+PASS  line {7/2, -5/2}: k exact rank = k numeric rank  [6 vs 6]
+PASS  line {7/2, -5/2}: Mhat vanishes on K_u
+PASS  line {7/2, -5/2}: K_u orthogonal to u
+  N Mhat N^-1 rational: False
+PASS  line {7/2, -5/2}: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  line {7/2, -5/2}: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[6, 0, 3]]
+PASS  line {7/2, -5/2}: signature exact = numeric (50 digits)  [[6, 0, 3] vs [6, 0, 3]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -5/2}: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [8 vs 8]
+PASS  line {7/2, -5/2}: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [3.64e-49]
+PASS  line {7/2, -5/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 11.9 / 1.73e-49]
+  k = 6, r_u = 2, signature [n-, n0, n+] = [6, 0, 3]
+  zero multiplicity of S_u = 8; slow polynomial (rational) = (43681*nu + 529984) * (7382089*nu - 22579200) * (322457029609*nu**2 - 229584540416*nu + 3540418560000)
+     root nu = -12.1330555619147913280373617820  (neg, multiplicity 1), exact -529984/43681
+     root nu = 3.058646407541279981858793628741  (pos, multiplicity 1), exact 22579200/7382089
+     root nu = (0.35599245687772119788856514734  (nonreal, multiplicity 1)
+     root nu = (0.35599245687772119788856514734  (nonreal, multiplicity 1)
+  slow-flow words: hyperbolic (no listed sub-word)
+     cluster tau = 3.48325358851674641148325358852 (nu = -12.133055561914791328037361782), Krein sign -, dim ker = 2, min|eig of Mhat there| = 3.4027
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -5/2} / member J: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -5/2} / member J: numeric eigenvalues match exact slow polynomial  [3.42e-49]
+PASS  line {7/2, -5/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0719 / 6.79e-52]
+PASS  line {7/2, -5/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 8.89 / 3.83e-49]
+PASS  line {7/2, -5/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.921 / 1.68e-50]
+  member J: zero mult 8; slow poly (monic, algebraic) (nu**2 + nu*(147392/567853 - 1411200*sqrt(51)/7382089) - 141616742400*sqrt(51)/4191941384917 + 141616742400/4191941384917) * (nu**2 + nu*(1411200*sqrt(51)/7382089 + 7633024/671099) + 117625981132800/54495238003921 + 117625981132800*sqrt(51)/54495238003921)
+      roots: [('neg', 1, '-0.16348118929'), ('pos', 1, '1.269115082136'), ('neg', 1, '-11.1652052161'), ('neg', 1, '-1.57390532532')]
+      words: hyperbolic, one real pair; Krein: [('0.4043280713', '-'), ('3.3414375972', '-'), ('1.2545538351', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  Sturm count of real roots matches numerics for factor of degree 2
+PASS  line {7/2, -5/2} / member k: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -5/2} / member k: numeric eigenvalues match exact slow polynomial  [3.21e-49]
+PASS  line {7/2, -5/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 8.89 / 3.45e-49]
+PASS  line {7/2, -5/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 1.06 / 1.5e-50]
+PASS  line {7/2, -5/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.103 / 2.19e-51]
+  member k: zero mult 8; slow poly (monic, algebraic) (nu**2 + nu*(7633024/671099 - 1411200*sqrt(51)/7382089) - 117625981132800*sqrt(51)/54495238003921 + 117625981132800/54495238003921) * (nu**2 + nu*(147392/567853 + 1411200*sqrt(51)/7382089) + 141616742400/4191941384917 + 141616742400*sqrt(51)/4191941384917)
+      roots: [('neg', 1, '-11.1930348074'), ('pos', 1, '1.184312316873'), ('neg', 1, '-1.43279136899'), ('neg', 1, '-0.19196278912')]
+      words: hyperbolic, one real pair; Krein: [('3.3455993196', '-'), ('1.1969926353', '+'), ('0.4381355830', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 4
+PASS  line {7/2, -5/2} / member (i+J)/sqrt2: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -5/2} / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [7.49e-49]
+PASS  line {7/2, -5/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 10.8 / 2.91e-49]
+  member (i+J)/sqrt2: zero mult 8; slow poly (monic, algebraic) (nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(1773226969531844198400/36571699729193379179 - 609150786822144000*sqrt(51)/21173089316901430051) - 44243648607513546326016000000/228440843469538127416259557)
+      roots: [('neg', 1, '-11.6644551261'), ('pos', 1, '2.332912324801'), ('nonreal', 1, '(-0.3332038216'), ('nonreal', 1, '(-0.3332038216')]
+      words: hyperbolic (no listed sub-word); Krein: [('3.4153265035', '-')]
+PASS  Sturm count of real roots matches numerics for factor of degree 4
+PASS  line {7/2, -5/2} / member (i+k)/sqrt2: zero multiplicity exact = numeric  [8 vs 8]
+PASS  line {7/2, -5/2} / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [8.55e-49]
+PASS  line {7/2, -5/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 10.8 / 4.65e-49]
+  member (i+k)/sqrt2: zero mult 8; slow poly (monic, algebraic) (nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(609150786822144000*sqrt(51)/21173089316901430051 + 1773226969531844198400/36571699729193379179) - 44243648607513546326016000000/228440843469538127416259557)
+      roots: [('neg', 1, '-11.6669831185'), ('pos', 1, '2.328059588524'), ('nonreal', 1, '(-0.3295134573'), ('nonreal', 1, '(-0.3295134573')]
+      words: hyperbolic (no listed sub-word); Krein: [('3.4156965788', '-')]
+====================================================================================================
+line {5/2, -3/2}
+  u (m: component): {'-3/2': '1/2', '5/2': 'sqrt(3)/2'}
+  h(u) = Q(u) = 161/143 = 1.12587412587412587412587412587
+  critical (grad h = 4 h u exactly): True
+PASS  line {5/2, -3/2}: Mhat u = 8 h u
+PASS  line {5/2, -3/2}: k exact rank = k numeric rank  [6 vs 6]
+PASS  line {5/2, -3/2}: Mhat vanishes on K_u
+PASS  line {5/2, -3/2}: K_u orthogonal to u
+  N Mhat N^-1 rational: True
+PASS  line {5/2, -3/2}: charpoly of Mhat real-rooted (Sturm, exact)
+PASS  line {5/2, -3/2}: n0 = (zero multiplicity of Mhat) - k is >= 0 and n+ = (positive count) - 1 is >= 0  [[0, 3, 6]]
+PASS  line {5/2, -3/2}: signature exact = numeric (50 digits)  [[0, 3, 6] vs [0, 3, 6]]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  line {5/2, -3/2}: zero multiplicity of S exact = numeric count of |eig| < 1e-20  [12 vs 12]
+PASS  line {5/2, -3/2}: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)  [2.57e-49]
+PASS  line {5/2, -3/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.51 / 3.47e-50]
+PASS  line {5/2, -3/2}: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 5.17 / 2.72e-49]
+  k = 6, r_u = 2, signature [n-, n0, n+] = [0, 3, 6]
+  zero multiplicity of S_u = 12; slow polynomial (rational) = (20449*nu + 87616) * (20449*nu + 204544)
+     root nu = -4.28461049440070419091398112377  (neg, multiplicity 1), exact -87616/20449
+     root nu = -10.0026407159274292141425008557  (neg, multiplicity 1), exact -204544/20449
+  slow-flow words: elliptic, simple
+     cluster tau = 2.06993006993006993006993006993 (nu = -4.28461049440070419091398112377), Krein sign +, dim ker = 2, min|eig of Mhat there| = 1.5017
+     cluster tau = 3.16269516645651912472902725911 (nu = -10.0026407159274292141425008558), Krein sign +, dim ker = 2, min|eig of Mhat there| = 2.5961
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  line {5/2, -3/2} / member J: zero multiplicity exact = numeric  [12 vs 12]
+PASS  line {5/2, -3/2} / member J: numeric eigenvalues match exact slow polynomial  [2.57e-49]
+PASS  line {5/2, -3/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.12 / 2.28e-50]
+PASS  line {5/2, -3/2} / member J: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 4.39 / 4.78e-50]
+  member J: zero mult 12; slow poly (rational) (20449*nu + 97024) * (20449*nu + 195136)
+      roots: [('neg', 1, '-4.74468189153'), ('neg', 1, '-9.54256931879')]
+      words: elliptic, simple; Krein: [('2.1782290723', '+'), ('3.0891049381', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  Sturm count of real roots matches numerics for factor of degree 1
+PASS  line {5/2, -3/2} / member k: zero multiplicity exact = numeric  [12 vs 12]
+PASS  line {5/2, -3/2} / member k: numeric eigenvalues match exact slow polynomial  [3.0e-49]
+PASS  line {5/2, -3/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.12 / 2.85e-50]
+PASS  line {5/2, -3/2} / member k: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 4.39 / 5.43e-50]
+  member k: zero mult 12; slow poly (rational) (20449*nu + 97024) * (20449*nu + 195136)
+      roots: [('neg', 1, '-4.74468189153'), ('neg', 1, '-9.54256931879')]
+      words: elliptic, simple; Krein: [('2.1782290723', '+'), ('3.0891049381', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  line {5/2, -3/2} / member (i+J)/sqrt2: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {5/2, -3/2} / member (i+J)/sqrt2: numeric eigenvalues match exact slow polynomial  [2.67e-49]
+PASS  line {5/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 4.21 / 3.88e-50]
+PASS  line {5/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.01 / 3.95e-50]
+PASS  line {5/2, -3/2} / member (i+J)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0135 / 3.85e-51]
+  member (i+J)/sqrt2: zero mult 10; slow poly (rational) (8550986578849*nu**3 + 122170093348160*nu**2 + 392329653354496*nu + 6372753408000)
+      roots: [('neg', 1, '-9.43037002407'), ('neg', 1, '-4.84055491514'), ('neg', 1, '-0.01632627110')]
+      words: elliptic, simple; Krein: [('3.0708907541', '+'), ('2.2001261134', '+'), ('0.1277742975', '+')]
+PASS  Sturm count of real roots matches numerics for factor of degree 3
+PASS  line {5/2, -3/2} / member (i+k)/sqrt2: zero multiplicity exact = numeric  [10 vs 10]
+PASS  line {5/2, -3/2} / member (i+k)/sqrt2: numeric eigenvalues match exact slow polynomial  [1.28e-49]
+PASS  line {5/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 4.21 / 3.18e-50]
+PASS  line {5/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 3.01 / 3.86e-50]
+PASS  line {5/2, -3/2} / member (i+k)/sqrt2: ker(S^2 + tau^2) has dimension 2*mult (semisimple cluster), SVD gap clear  [dim 2, gap 0.0135 / 2.92e-51]
+  member (i+k)/sqrt2: zero mult 10; slow poly (rational) (8550986578849*nu**3 + 122170093348160*nu**2 + 392329653354496*nu + 6372753408000)
+      roots: [('neg', 1, '-9.43037002407'), ('neg', 1, '-4.84055491514'), ('neg', 1, '-0.01632627110')]
+      words: elliptic, simple; Krein: [('3.0708907541', '+'), ('2.2001261134', '+'), ('0.1277742975', '+')]
+checks: 308 pass, 0 fail

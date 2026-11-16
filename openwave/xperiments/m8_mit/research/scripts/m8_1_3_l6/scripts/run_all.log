@@ -1,0 +1,6 @@
+s01_group.py: ok, 1s, PASS 13, FAIL 0, planted defects fired 2, missed 0
+s02_intertwiner.py: ok, 8s, PASS 29, FAIL 0, planted defects fired 4, missed 0
+s03_blockA.py: ok, 41s, PASS 16, FAIL 0, planted defects fired 4, missed 0
+s04_blockB.py: ok, 7s, PASS 13, FAIL 0, planted defects fired 6, missed 0
+s05_crosscheck.py: ok, 6s, PASS 20, FAIL 0, planted defects fired 2, missed 0
+s06_results.py: ok, 0s, PASS 1, FAIL 0, planted defects fired 0, missed 0

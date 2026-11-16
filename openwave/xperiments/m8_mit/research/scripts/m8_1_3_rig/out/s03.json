@@ -1,0 +1,156 @@
+{
+ "dim1_n0": {
+  "d": 1,
+  "n": 0,
+  "charpoly": "mu**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 2,
+    "geometric": 1
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   }
+  }
+ },
+ "dim2_n1": {
+  "d": 2,
+  "n": 1,
+  "charpoly": "mu**4*(mu**2 + 4*omega**2)*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 4,
+    "geometric": 3
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "2*I*omega": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-2*I*omega": {
+    "algebraic": 1,
+    "geometric": 1
+   }
+  }
+ },
+ "dim3_n2": {
+  "d": 3,
+  "n": 2,
+  "charpoly": "mu**6*(mu**2 + 4*omega**2)**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 6,
+    "geometric": 5
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "2*I*omega": {
+    "algebraic": 2,
+    "geometric": 2
+   },
+   "-2*I*omega": {
+    "algebraic": 2,
+    "geometric": 2
+   }
+  }
+ },
+ "dim4_n3": {
+  "d": 4,
+  "n": 3,
+  "charpoly": "mu**8*(mu**2 + 4*omega**2)**3*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 8,
+    "geometric": 7
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "2*I*omega": {
+    "algebraic": 3,
+    "geometric": 3
+   },
+   "-2*I*omega": {
+    "algebraic": 3,
+    "geometric": 3
+   }
+  }
+ },
+ "dim5_n4": {
+  "d": 5,
+  "n": 4,
+  "charpoly": "mu**10*(mu**2 + 4*omega**2)**4*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 10,
+    "geometric": 9
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "2*I*omega": {
+    "algebraic": 4,
+    "geometric": 4
+   },
+   "-2*I*omega": {
+    "algebraic": 4,
+    "geometric": 4
+   }
+  }
+ },
+ "dim6_n5": {
+  "d": 6,
+  "n": 5,
+  "charpoly": "mu**12*(mu**2 + 4*omega**2)**5*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+  "eigenvalues": {
+   "0": {
+    "algebraic": 12,
+    "geometric": 11
+   },
+   "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+    "algebraic": 1,
+    "geometric": 1
+   },
+   "2*I*omega": {
+    "algebraic": 5,
+    "geometric": 5
+   },
+   "-2*I*omega": {
+    "algebraic": 5,
+    "geometric": 5
+   }
+  }
+ }
+}

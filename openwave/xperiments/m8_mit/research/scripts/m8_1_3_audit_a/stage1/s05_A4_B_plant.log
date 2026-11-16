@@ -1,0 +1,65 @@
+
+[R2] line {5/2, -3/2}: unit u (CS) = [0, sqrt(3)/2, 0, 0, 0, 1/2, 0, 0]
+  critical: True;  Q(u) = h(u) = 161/143
+PASS: R2 line {5/2, -3/2}: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+FAIL: R2 line {5/2, -3/2}: M_hat u = 8 h u
+FAIL: R2 line {5/2, -3/2}: M_hat vanishes on K_u (all 6 generator vectors)
+  k = dim K_u = 6;  r_u = 2
+FAIL: R2 line {5/2, -3/2}: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (0, 0, 9)   [dim N_u = 9]
+PASS: R2 line {5/2, -3/2}: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 0; slow polynomial = (20449*nu + 25921)**2*(20449*nu + 52969)*(20449*nu + 233289)*(38014691*nu**2 + 821414022*nu + 2019337187)*(418161601*nu**2 + 5538284466*nu + 8392208881)
+      root nu = -52969/20449  mult 1  neg
+      root nu = -233289/20449  mult 1  neg
+      root nu = -25921/20449  mult 2  neg
+      root nu = -18.7791385025930712413177303024  mult 1  neg
+      root nu = -2.82866628003688621381455000471  mult 1  neg
+      root nu = -11.4990661399447061940879401862  mult 1  neg
+      root nu = -1.74529788763610460350607419103  mult 1  neg
+      words: elliptic, one double frequency
+      Krein: nu = -52969/20449: cluster dim 2, sign +, M_hat eigs there ['1.12587412587413', '2.3006993006993']; kernel sv max 7.66e-51, gap 0.234
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -233289/20449: cluster dim 2, sign +, M_hat eigs there ['1.12587412587413', '10.1328671328671']; kernel sv max 7.14e-51, gap 0.0836
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -25921/20449: cluster dim 4, sign +, M_hat eigs there ['1.12587412587413', '1.12587412587413', '1.12587412587413', '1.12587412587413']; kernel sv max 9.72e-51, gap 0.444
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -18.779138502593071241: cluster dim 2, sign +, M_hat eigs there ['3.7696988003752', '4.79487287975811']; kernel sv max 2.13e-50, gap 7.04
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -2.8286662800368862138: cluster dim 2, sign +, M_hat eigs there ['1.14384584840327', '2.38024848407457']; kernel sv max 1.04e-50, gap 0.238
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -11.499066139944706194: cluster dim 2, sign +, M_hat eigs there ['3.13012169264996', '3.13012169264996']; kernel sv max 1.76e-50, gap 0.0907
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -1.7452978876361046035: cluster dim 2, sign +, M_hat eigs there ['1.21945202130732', '1.21945202130732']; kernel sv max 2.9e-51, gap 0.478
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: zero multiplicity + 2 deg(slow) = 16
+
+[R4] v1: unit u (CS) = [0, 0, 1, 0, 0, 0, 0]
+  critical: True;  Q(u) = h(u) = 168/143
+PASS: R4 v1: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+FAIL: R4 v1: M_hat u = 8 h u
+FAIL: R4 v1: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 3;  r_u = 1
+FAIL: R4 v1: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (5, 0, 5)   [dim N_u = 10]
+PASS: R4 v1: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 0; slow polynomial = (20449*nu + 28224)*(20449*nu + 38416)*(20449*nu + 254016)*(33871089681*nu**2 - 1330657328*nu + 22127616)*(33871089681*nu**2 + 213225812800*nu + 66127151104)
+      root nu = -28224/20449  mult 1  neg
+      root nu = -38416/20449  mult 1  neg
+      root nu = -254016/20449  mult 1  neg
+      root nu = 0.0196429660299124168588038051908 - 0.0163536862400389626316676911442*I  mult 1  nonreal
+      root nu = 0.0196429660299124168588038051908 + 0.0163536862400389626316676911442*I  mult 1  nonreal
+      root nu = -5.96808942418458731794400631798  mult 1  neg
+      root nu = -0.327126195040355916323237273271  mult 1  neg
+      words: hyperbolic, a complex quartet
+      Krein: nu = -28224/20449: cluster dim 2, sign +, M_hat eigs there ['1.17482517482517', '1.17482517482517']; kernel sv max 2.67e-51, gap 0.498
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -38416/20449: cluster dim 2, sign +, M_hat eigs there ['1.37062937062937', '1.37062937062937']; kernel sv max 2.67e-51, gap 0.498
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -254016/20449: cluster dim 2, sign +, M_hat eigs there ['1.17482517482517', '10.5734265734266']; kernel sv max 0.0, gap 6.41
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -5.9680894241845873179: cluster dim 2, sign +, M_hat eigs there ['2.38410382877045', '2.38410382877045']; kernel sv max 3.15e-51, gap 4.09
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.32712619504035591632: cluster dim 2, sign +, M_hat eigs there ['0.55816829660027', '0.55816829660027']; kernel sv max 1.34e-51, gap 0.29
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R4 v1 [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+-- 6 FAIL line(s)

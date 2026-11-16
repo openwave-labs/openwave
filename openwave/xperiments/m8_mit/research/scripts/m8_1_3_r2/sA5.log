@@ -1,0 +1,25 @@
+PASS  span (5/2,-5/2): coefficients rational
+PASS  span (5/2,-5/2): Q on unit vectors = c0 + c1 |alpha|^2|beta|^2 identically
+A.5 span {5/2, -5/2}:  Q = 168*(A + B)**2/143   (A = |alpha|^2, B = |beta|^2, A + B = 1)
+      = 168/143 + (0) |alpha|^2 |beta|^2 ;  range on the span: [168/143, 168/143]
+PASS  span {5/2, -5/2}: formula = generic f_J evaluation at (|alpha|^2 = 1/3)  [0]
+PASS  span {5/2, -5/2}: formula = 50-digit quadrature of the defining integral  [5.14e-49]
+PASS  span {5/2, -5/2}: formula = generic f_J evaluation at (|alpha|^2 = 9/25)  [0]
+PASS  span {5/2, -5/2}: formula = 50-digit quadrature of the defining integral  [5.14e-49]
+PASS  span (7/2,-7/2): coefficients rational
+PASS  span (7/2,-7/2): Q on unit vectors = c0 + c1 |alpha|^2|beta|^2 identically
+A.5 span {7/2, -7/2}:  Q = 144*(A + B)**2/143   (A = |alpha|^2, B = |beta|^2, A + B = 1)
+      = 144/143 + (0) |alpha|^2 |beta|^2 ;  range on the span: [144/143, 144/143]
+PASS  span {7/2, -7/2}: formula = generic f_J evaluation at (|alpha|^2 = 1/3)  [0]
+PASS  span {7/2, -7/2}: formula = 50-digit quadrature of the defining integral  [1.57e-49]
+PASS  span {7/2, -7/2}: formula = generic f_J evaluation at (|alpha|^2 = 9/25)  [0]
+PASS  span {7/2, -7/2}: formula = 50-digit quadrature of the defining integral  [1.55e-49]
+PASS  span (3/2,-3/2): coefficients rational
+PASS  span (3/2,-3/2): Q on unit vectors = c0 + c1 |alpha|^2|beta|^2 identically
+A.5 span {3/2, -3/2}:  Q = 224*(A + B)**2/143   (A = |alpha|^2, B = |beta|^2, A + B = 1)
+      = 224/143 + (0) |alpha|^2 |beta|^2 ;  range on the span: [224/143, 224/143]
+PASS  span {3/2, -3/2}: formula = generic f_J evaluation at (|alpha|^2 = 1/3)  [0]
+PASS  span {3/2, -3/2}: formula = 50-digit quadrature of the defining integral  [6.55e-49]
+PASS  span {3/2, -3/2}: formula = generic f_J evaluation at (|alpha|^2 = 9/25)  [0]
+PASS  span {3/2, -3/2}: formula = 50-digit quadrature of the defining integral  [6.55e-49]
+checks: 18 pass, 0 fail

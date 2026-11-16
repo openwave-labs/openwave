@@ -1,0 +1,21 @@
+[PASS] C.4 pentagonal pyramid in R4: critical (exact)
+[FAIL] C.4 pentagonal pyramid in R4: cubic form in (|p_3|^2, |p_-2|^2) verified exactly at a fifth point
+[PASS] C.4 pentagonal pyramid in R4: exact R0(u) agrees with the CG route :: 4.48e-44
+C.4 pentagonal pyramid in R4: h(u) = 77/65; R0(u) = -267786421/175633672500 = -0.001524687249251705990489950; sign -
+[PASS] C.4 coherent v3 in R4: critical (exact)
+[PASS] C.4 coherent v3 in R4: exact R0(u) agrees with the CG route :: 0.0
+C.4 coherent v3 in R4: h(u) = 1288/1287; R0(u) = -608931967/110168679947040 = -0.000005527269340911810727828358; sign -
+[PASS] C.4 coherent v3 in R5: critical (exact)
+[PASS] C.4 coherent v3 in R5: exact R0(u) agrees with the CG route :: 8.76e-47
+C.4 coherent v3 in R5: h(u) = 2289/2288; R0(u) = -122896067/38687492546560 = -0.000003176635623311483559670282; sign -
+[PASS] C.4 weight 7/2 in R2: critical (exact)
+[PASS] C.4 weight 7/2 in R2: exact R0(u) agrees with the CG route :: 2.1e-45
+C.4 weight 7/2 in R2: h(u) = 144/143; R0(u) = -1629062/33058160135 = -0.00004927866503602681516867182; sign -
+[PASS] C.4 octahedron in R4: critical (exact)
+[PASS] C.4 octahedron in R4: exact R0(u) agrees with the CG route :: 6.73e-44
+C.4 octahedron in R4: h(u) = 175/143; R0(u) = -2203040/2833556583 = -0.0007774822684739025732030000; sign -
+[PASS] C.4 O3 R4: the interval box encloses every centre coordinate
+   interval CG route built and evaluated in 0.6s
+[PASS] C.4 O3 R4: interval enclosure of R0 over the box excludes 0
+[PASS] C.4 O3 R4: point value at the centre lies inside the enclosure
+C.4 O3 R4: R0 over the box in ['-0.001577487421193184536535094776324262989779499396000493752526708239204995', '-0.001577487421193184536535094776324262989779499396000493752525663119036625'], width 1.05e-60; sign -

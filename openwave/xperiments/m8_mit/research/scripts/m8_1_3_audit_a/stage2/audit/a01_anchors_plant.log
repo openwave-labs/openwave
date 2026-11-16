@@ -1,0 +1,45 @@
+PASS: l6 0(a): 9 classes, Re g values = mine
+PASS: l6 0(a): class sizes and element orders = mine
+FAIL: l6 0(a): every character row equals one of my 9 rows, bijectively  [{0: 'V_0/2', 1: 'V_1/2', 2: 'gal(V_1/2)', 3: 'V_2/2', 4: None, 5: 'V_3/2', 6: 'V_6/2-known', 7: 'V_4/2', 8: 'V_5/2'}]
+PASS: l6 0(b): name R2 -> the same irreducible as mine (gal(V_1/2))  [theirs -> gal(V_1/2)]
+FAIL: l6 0(b): name R4 -> the same irreducible as mine (gal(V_2/2))  [theirs -> None]
+PASS: l6 0(b): name R5 -> the same irreducible as mine (V_6/2-known)  [theirs -> V_6/2-known]
+PASS: r2 0(a): 9 classes, Re g values = mine
+PASS: r2 0(a): class sizes and element orders = mine
+PASS: r2 0(a): every character row equals one of my 9 rows, bijectively  [{0: 'V_0/2', 1: 'V_1/2', 2: 'gal(V_1/2)', 3: 'V_2/2', 4: 'gal(V_2/2)', 5: 'V_3/2', 6: 'V_6/2-known', 7: 'V_4/2', 8: 'V_5/2'}]
+PASS: r2 0(b): name R2 -> the same irreducible as mine (gal(V_1/2))  [theirs -> gal(V_1/2)]
+PASS: r2 0(b): name R4 -> the same irreducible as mine (gal(V_2/2))  [theirs -> gal(V_2/2)]
+PASS: r2 0(b): name R5 -> the same irreducible as mine (V_6/2-known)  [theirs -> V_6/2-known]
+PASS: rig 0(a): 9 classes, Re g values = mine
+PASS: rig 0(a): class sizes and element orders = mine
+PASS: rig 0(a): every character row equals one of my 9 rows, bijectively  [{0: 'V_0/2', 1: 'V_1/2', 2: 'gal(V_1/2)', 3: 'gal(V_2/2)', 4: 'V_2/2', 5: 'V_3/2', 6: 'V_6/2-known', 7: 'V_4/2', 8: 'V_5/2'}]
+PASS: rig 0(b): name R2 -> the same irreducible as mine (gal(V_1/2))  [theirs -> gal(V_1/2)]
+PASS: rig 0(b): name R4 -> the same irreducible as mine (gal(V_2/2))  [theirs -> gal(V_2/2)]
+PASS: rig 0(b): name R5 -> the same irreducible as mine (V_6/2-known)  [theirs -> V_6/2-known]
+PASS: l6 0(b): levels <= 20 with multiplicities = mine for all 9 irreducibles
+PASS: r2 0(b): levels <= 20 with multiplicities = mine for all 9 irreducibles
+PASS: rig 0(b): levels <= 20 with multiplicities = mine for all 9 irreducibles
+FAIL: l6 0(c) R4: eta^H eta = I (exact)
+FAIL: l6 0(c) R4: range(eta) invariant under D(q1), D(q2) in l6's convention (exact)
+FAIL: l6 0(c) R4: tr(eta^H D(q_i) eta) = chi_R4(q_i) (my character)
+PASS: l6 0(c) R5: eta^H eta = I (exact)
+PASS: l6 0(c) R5: range(eta) invariant under D(q1), D(q2) in l6's convention (exact)
+PASS: l6 0(c) R5: tr(eta^H D(q_i) eta) = chi_R5(q_i) (my character)
+FAIL: l6[in my convention, informative] 0(c) R4: eta^H eta = I (exact)
+FAIL: l6[in my convention, informative] 0(c) R4: range(eta) invariant under D(q1), D(q2) in my convention (exact)
+FAIL: l6[in my convention, informative] 0(c) R4: tr(eta^H D(q_i) eta) = chi_R4(q_i) (my character)
+  (informative) l6 eta R4 in my quaternion convention invariant: False
+PASS: r2 0(c) R2: eta^H eta = I (exact)
+PASS: r2 0(c) R2: range(eta) invariant under D(q1), D(q2) in r2's convention (exact)
+PASS: r2 0(c) R2: tr(eta^H D(q_i) eta) = chi_R2(q_i) (my character)
+PASS: r2 0(c): reported rho(q1), rho(q2) = eta^H D(q_i) eta (exact, my D in their convention)
+PASS: l6/r2 0(c): s_N = 3/7, 4/7, 1/4 equal mine
+PASS: l6/r2 0(d): CG value sqrt(231)/462 and sign +; Theta^2 = +1 (V_3), -1 (V_7/2), all = mine
+  my CG <3 3; 3 -3|6 0> by lowering |6 6> = sqrt(231)/462
+PASS: 0(d): my lowering route gives sqrt(231)/462
+FAIL: r2 0(e): conj(rho(h)) C = C rho(h) for both generators, with rho from their eta
+FAIL: r2 0(e): C unitary and C conj(C) = -I
+PASS: r2 0(e): the real solution space of conj(rho) X = X rho is 2-dimensional (one complex line)  [nullity 2]
+  0(e): max |conj(psi_w) C - psi_(-Theta w)| over 12 (w, g) samples = 3.66 (50 digits)
+FAIL: r2 0(e): psi -> conj(psi) C equals w -> -Theta(w) on E_0 (to 1e-40 at 50 digits)
+-- 11 FAIL line(s)

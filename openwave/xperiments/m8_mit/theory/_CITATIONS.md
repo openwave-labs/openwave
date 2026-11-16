@@ -17,7 +17,8 @@ Identifier policy per [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md)
 (never fabricate): the ten Zenodo DOIs of the 2026-07-21 seeding were machine-verified
 resolving that day, the M8.1.2 subject paper's on 2026-09-09, the Euclid card's concept DOI,
 added beside its v1, on 2026-10-14, and the concept DOIs of the Surviving Ray and the
-Standing-Wave Branches on 2026-11-14.
+Standing-Wave Branches on 2026-11-14, and the Standing-Wave Branches' version DOI, M8.1.3's
+subject, on 2026-11-16, its record returning the pinned file's size and MD5.
 SSRN blocks automated checks, so SSRN IDs are transcribed from the author's registry and
 marked `(author registry)`; treat them as author-attested until first use.
 
@@ -47,7 +48,7 @@ registered after its deposit on 2026-11-14.
 | Shatto | 2026 Jun | a₀(z) Coherence-Scale SPARC Pipeline (pre-registered; documented negative of record) | Zenodo; DOI [10.5281/zenodo.20271702](https://doi.org/10.5281/zenodo.20271702) |
 | Shatto | 2026 Jul | An Affine Rho-Index Conversion and the Galois Pair on the Poincaré Homology Sphere | SSRN [7129118](https://ssrn.com/abstract=7129118) (author registry) |
 | Shatto | 2026 Sep | The Surviving Ray: channel selection for a cubic self-interaction on S³/2I | Zenodo; concept DOI [10.5281/zenodo.22681501](https://doi.org/10.5281/zenodo.22681501), which resolves to the latest version. The M8.1.2 subject paper is its v1, DOI [10.5281/zenodo.22681502](https://doi.org/10.5281/zenodo.22681502) (version DOI). The later versions, from 2026-11-11, are retitled "The Surviving Ray: the spin-3 coupling point that S³/2I selects, and its critical geometry" |
-| Shatto | 2026 Nov | Nonlinear Standing-Wave Branches on the Poincaré Homology Sphere: Ground States and Small-Amplitude Spectral Stability | Zenodo; concept DOI [10.5281/zenodo.24224843](https://doi.org/10.5281/zenodo.24224843); the author's first dynamics paper |
+| Shatto | 2026 Nov | Nonlinear Standing-Wave Branches on the Poincaré Homology Sphere: Ground States and Small-Amplitude Spectral Stability | Zenodo; concept DOI [10.5281/zenodo.24224843](https://doi.org/10.5281/zenodo.24224843); the author's first dynamics paper. The M8.1.3 subject paper is the version deposited 2026-11-14, DOI [10.5281/zenodo.24224845](https://doi.org/10.5281/zenodo.24224845) (version DOI) |
 
 Note on venues: all entries are preprints (Zenodo / SSRN), none refereed; this is recorded
 per the [`ONBOARDING_MODELS.md`](../../../../ONBOARDING_MODELS.md) red-flag checklist sourcing row and

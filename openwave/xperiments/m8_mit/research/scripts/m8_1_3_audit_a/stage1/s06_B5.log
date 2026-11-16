@@ -1,0 +1,9 @@
+PASS: 924 rhat_6 (Casimir) = |w Theta w|_F^2/|w|^4 (Fischer) exactly at 8 points
+PASS: HS6 = sum b_J f_J consistent at all 8 points
+PASS: rhat_6 = sum c_J f_J consistent at all 8 points
+HS6 coefficients (J = 6,4,2,0): ['1/924', '13/154', '65/84', '13/7']
+rhat6 coefficients (J = 6,4,2,0): ['1/924', '13/154', '65/84', '13/7']
+rhat6 / HS6 coefficientwise: ['1', '1', '1', '1']
+proportional as functions: True; rhat_6 = 1 * HS6, i.e. HS6 = 1 * rhat_6
+PASS: coefficientwise ratio identical (exact)
+-- 0 FAIL line(s)

@@ -1,0 +1,37 @@
+A.1 exact channel coefficients q_J (R2): {7: '144/143', 5: '196/143', 3: '28/11', 1: '0'}
+PASS  q_J rational
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+PASS  sum_J f_J = 1 (exact)
+   Q quadrature = 1.340288742794381945744350226896319728629   sum q_J f_J = 1.340288742794381945744350226896319728629   |diff| = 3.03e-50
+   Q quadrature = 1.40925703959520403222997324946928448827   sum q_J f_J = 1.409257039595204032229973249469284488270   |diff| = 1.92e-49
+   Q quadrature = 1.244396347335405182208198561824824078028   sum q_J f_J = 1.244396347335405182208198561824824078028   |diff| = 4.19e-50
+   Q quadrature = 1.534876145697649336221582513653270337459   sum q_J f_J = 1.534876145697649336221582513653270337459   |diff| = 1.22e-49
+   Q quadrature = 1.218674165823758561581979410249917302638   sum q_J f_J = 1.218674165823758561581979410249917302638   |diff| = 2.67e-49
+   Q quadrature = 1.271478592932742976864352678118031751643   sum q_J f_J = 1.271478592932742976864352678118031751643   |diff| = 1.56e-49
+   Q quadrature = 1.006993006993006993006993006993006993007   sum q_J f_J = 1.006993006993006993006993006993006993007   |diff| = 1.44e-49
+PASS  A.1 exact q_J reproduce the 50-digit quadrature of Q at all 7 test points to 1e-40  [2.67e-49]
+   q_7 from quadrature = 1.006993006993006993006993006993006993007   exact 144/143
+   q_5 from quadrature = 1.370629370629370629370629370629370629371   exact 196/143
+   q_3 from quadrature = 2.545454545454545454545454545454545454545   exact 28/11
+   q_1 from quadrature = 5.832626976275479323683703289762251459048e-48   exact 0
+PASS  A.1 q_J solved from quadrature agree with exact q_J to 1e-35  [5.83e-48]
+PASS  T^6_M orthonormal in the Hilbert-Schmidt product
+   HS spin-6 factor = sum_J c_J f_J, exact traces: c_J = {7: '1/264', 5: '53/264', 3: '221/264', 1: '-13/24'}
+PASS  c_J exact traces are rational
+   max |HS(w) - sum c_J f_J(w)| over the 7 test points (50 digits): 1.34e-51
+PASS  HS factor equals sum_J c_J f_J at 7 test points to 1e-45
+   (q_J - 1) / c_J by channel: {7: '24/13', 5: '24/13', 3: '24/13', 1: '24/13'}
+A.2 Q - 1 proportional to the HS spin-6 factor in R2: True
+A.2 beta_R2 = 24/13
+PASS  A.2 Q - 1 = beta * HS spin-6 factor at the 7 test points (50 digits, HS evaluated directly)  [2.37e-51]
+A.6 q = Q(v_7/2) = 144/143 = 1.00699300699300699300699300699 ; quadrature: 1.00699300699300699300699300699
+PASS  A.6 Q(v_7/2) exact vs quadrature agree to 1e-40
+A.6 sqrt((q-1)/2) in % = 5.9131239598908261882 -> rounded up (ceiling) to 2 sig: 6.00000000000000 ; nearest: 5.90000000000000
+A.6 (q-1)/2 in %       = 0.34965034965034965035 -> rounded up (ceiling) to 2 sig: 0.350000000000000 ; nearest: 0.350000000000000
+PASS  A.6 q > 1 so that the square root is real
+checks: 16 pass, 0 fail

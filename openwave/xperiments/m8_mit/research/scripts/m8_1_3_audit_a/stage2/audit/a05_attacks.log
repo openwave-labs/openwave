@@ -1,0 +1,31 @@
+  C3 ray: 924 rhat_6 Casimir route 237.6; Fischer exact 1188/5
+PASS: 924 rhat_6 C3 ray: Casimir route = exact Fischer value (1e-40) = l6
+  D2 ray: 924 rhat_6 Casimir route 225.0; Fischer exact 225
+PASS: 924 rhat_6 D2 ray: Casimir route = exact Fischer value (1e-40) = l6
+  coherent v3: 924 rhat_6 Casimir route 1.0; Fischer exact 1
+PASS: 924 rhat_6 coherent v3: Casimir route = exact Fischer value (1e-40) = l6
+  hexagon: 924 rhat_6 Casimir route 463.0; Fischer exact 463
+PASS: 924 rhat_6 hexagon: Casimir route = exact Fischer value (1e-40) = l6
+  octahedron: 924 rhat_6 Casimir route 288.0; Fischer exact 288
+PASS: 924 rhat_6 octahedron: Casimir route = exact Fischer value (1e-40) = l6
+  pentagonal pyramid: 924 rhat_6 Casimir route 237.6; Fischer exact 1188/5
+PASS: 924 rhat_6 pentagonal pyramid: Casimir route = exact Fischer value (1e-40) = l6
+  trigonal prism: 924 rhat_6 Casimir route 204.651162790697674418604651163; Fischer exact 8800/43
+PASS: 924 rhat_6 trigonal prism: Casimir route = exact Fischer value (1e-40) = l6
+  v1: 924 rhat_6 Casimir route 225.0; Fischer exact 225
+PASS: 924 rhat_6 v1: Casimir route = exact Fischer value (1e-40) = l6
+  v2: 924 rhat_6 Casimir route 36.0; Fischer exact 36
+PASS: 924 rhat_6 v2: Casimir route = exact Fischer value (1e-40) = l6
+  zonal v0: 924 rhat_6 Casimir route 400.0; Fischer exact 400
+PASS: 924 rhat_6 zonal v0: Casimir route = exact Fischer value (1e-40) = l6
+  R4 D2 ray positive nu = 0.0585739047278: dim 4, M_hat restricted: 2 positive, 2 negative -> indefinite
+PASS: R4 D2 ray positive nu = 0.0585739047278: the hyperbolic cluster carries an indefinite form (alternative reading would report "indefinite")
+  R4 octahedron positive nu = 0.454391503343: dim 6, M_hat restricted: 3 positive, 3 negative -> indefinite
+PASS: R4 octahedron positive nu = 0.454391503343: the hyperbolic cluster carries an indefinite form (alternative reading would report "indefinite")
+  R4 zonal v0 positive nu = 0.454391503343: dim 4, M_hat restricted: 2 positive, 2 negative -> indefinite
+PASS: R4 zonal v0 positive nu = 0.454391503343: the hyperbolic cluster carries an indefinite form (alternative reading would report "indefinite")
+  R4 C3 ray quartet nu = (0.00116758435474 - 0.000702053638506j): dim 4, M_hat restricted: 2 positive, 2 negative -> indefinite
+PASS: R4 C3 ray quartet nu = (0.00116758435474 - 0.000702053638506j): the hyperbolic cluster carries an indefinite form (alternative reading would report "indefinite")
+  R4 pentagonal pyramid quartet nu = (-0.00196902984782 + 0.0050847652232j): dim 4, M_hat restricted: 2 positive, 2 negative -> indefinite
+PASS: R4 pentagonal pyramid quartet nu = (-0.00196902984782 + 0.0050847652232j): the hyperbolic cluster carries an indefinite form (alternative reading would report "indefinite")
+-- 0 FAIL line(s)

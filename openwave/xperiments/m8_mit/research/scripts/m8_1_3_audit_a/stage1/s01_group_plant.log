@@ -1,0 +1,66 @@
+0(a)
+|q1|^2 = 1  |q2|^2 = 1
+PASS: |q1| = |q2| = 1 exactly
+order of Gamma0 = 120
+PASS: quaternion->SU(2) matrix map is multiplicative on sampled pairs
+number of classes = 9
+  class 0: size 1, element order 1, Re(g) = 1
+  class 1: size 12, element order 10, Re(g) = (1/4+1/4*sqrt5)
+  class 2: size 20, element order 6, Re(g) = 1/2
+  class 3: size 12, element order 5, Re(g) = (-1/4+1/4*sqrt5)
+  class 4: size 30, element order 4, Re(g) = 0
+  class 5: size 12, element order 10, Re(g) = (1/4+-1/4*sqrt5)
+  class 6: size 20, element order 3, Re(g) = -1/2
+  class 7: size 12, element order 5, Re(g) = (-1/4+-1/4*sqrt5)
+  class 8: size 1, element order 2, Re(g) = -1
+PASS: class sizes sum to |G|
+irreducible characters (columns = classes above):
+  V_0/2        dim 1:  ['1', '1', '1', '1', '1', '1', '1', '1', '1']
+  V_1/2        dim 2:  ['2', '(1/2+-1/2*sqrt5)', '1', '(-1/2+1/2*sqrt5)', '0', '(1/2+-1/2*sqrt5)', '-1', '(-1/2+-1/2*sqrt5)', '-2']
+  gal(V_1/2)   dim 2:  ['2', '(1/2+-1/2*sqrt5)', '1', '(-1/2+-1/2*sqrt5)', '0', '(1/2+1/2*sqrt5)', '-1', '(-1/2+1/2*sqrt5)', '-2']
+  V_2/2        dim 3:  ['3', '(1/2+1/2*sqrt5)', '0', '(1/2+-1/2*sqrt5)', '-1', '(1/2+-1/2*sqrt5)', '0', '(1/2+1/2*sqrt5)', '3']
+  gal(V_2/2)   dim 3:  ['3', '(1/2+-1/2*sqrt5)', '0', '(1/2+1/2*sqrt5)', '-1', '(1/2+1/2*sqrt5)', '0', '(1/2+-1/2*sqrt5)', '3']
+  V_3/2        dim 4:  ['4', '1', '-1', '-1', '0', '1', '1', '-1', '-4']
+  V_4/2        dim 5:  ['5', '0', '-1', '0', '1', '0', '-1', '0', '5']
+  V_5/2        dim 6:  ['6', '-1', '0', '1', '0', '-1', '0', '1', '-6']
+  V_6/2-known  dim 4:  ['4', '-1', '1', '-1', '0', '-1', '1', '-1', '4']
+FAIL: exact orthonormality of the derived characters
+PASS: number of irreducibles = number of classes
+PASS: sum of dim^2 = |G|
+FAIL: column orthogonality
+
+0(b) multiplicities of each irreducible in V_{l/2}, l = 0..20
+  V_0/2        dim 1: levels (l, mult): [(0, 1), (12, 1), (20, 1)]
+FAIL: multiplicity of V_1/2 in V_0/2 is an integer  [-1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_1/2 is an integer  [(3/4+-1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_2/2 is an integer  [(-1/4+-1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_3/2 is an integer  [-1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_5/2 is an integer  [1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_6/2 is an integer  [(1/4+1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_7/2 is an integer  [(1/4+1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_8/2 is an integer  [1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_10/2 is an integer  [-1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_11/2 is an integer  [(3/4+-1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_12/2 is an integer  [(-1/4+-1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_13/2 is an integer  [(1+-1/10*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_15/2 is an integer  [1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_16/2 is an integer  [(1/4+1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_17/2 is an integer  [(1/4+1/20*sqrt5)]
+FAIL: multiplicity of V_1/2 in V_18/2 is an integer  [1/10*sqrt5]
+FAIL: multiplicity of V_1/2 in V_20/2 is an integer  [-1/10*sqrt5]
+  V_1/2        dim 2: levels (l, mult): [(0, -999), (1, -999), (2, -999), (3, -999), (5, -999), (6, -999), (7, -999), (8, -999), (10, -999), (11, -999), (12, -999), (13, -999), (15, -999), (16, -999), (17, -999), (18, -999), (19, 1), (20, -999)]
+  gal(V_1/2)   dim 2: levels (l, mult): [(7, 1), (13, 1), (17, 1), (19, 1)]
+  V_2/2        dim 3: levels (l, mult): [(2, 1), (10, 1), (12, 1), (14, 1), (18, 1), (20, 1)]
+  gal(V_2/2)   dim 3: levels (l, mult): [(6, 1), (10, 1), (14, 1), (16, 1), (18, 1), (20, 1)]
+  V_3/2        dim 4: levels (l, mult): [(3, 1), (9, 1), (11, 1), (13, 1), (15, 1), (17, 1), (19, 1)]
+  V_4/2        dim 5: levels (l, mult): [(4, 1), (8, 1), (10, 1), (12, 1), (14, 1), (16, 2), (18, 1), (20, 2)]
+  V_5/2        dim 6: levels (l, mult): [(5, 1), (7, 1), (9, 1), (11, 1), (13, 1), (15, 2), (17, 2), (19, 2)]
+  V_6/2-known  dim 4: levels (l, mult): [(6, 1), (8, 1), (12, 1), (14, 1), (16, 1), (18, 2), (20, 1)]
+FAIL: every multiplicity is a nonnegative integer and dims add up
+slot R2: dim 2, lowest level 7 -> ['gal(V_1/2)']
+PASS: R2 picks out exactly one irreducible
+slot R4: dim 3, lowest level 6 -> ['gal(V_2/2)']
+PASS: R4 picks out exactly one irreducible
+slot R5: dim 4, lowest level 6 -> ['V_6/2-known']
+PASS: R5 picks out exactly one irreducible
+-- 20 FAIL line(s)

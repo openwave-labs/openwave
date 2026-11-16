@@ -1,0 +1,245 @@
+{
+ "order": 120,
+ "norms": [
+  "1",
+  "1"
+ ],
+ "classes": [
+  {
+   "size": 1,
+   "element order": 1,
+   "real part w = cos(angle/2)": "1",
+   "representative (w,x,y,z)": [
+    "1",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  {
+   "size": 1,
+   "element order": 2,
+   "real part w = cos(angle/2)": "-1",
+   "representative (w,x,y,z)": [
+    "-1",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  {
+   "size": 20,
+   "element order": 3,
+   "real part w = cos(angle/2)": "-1/2",
+   "representative (w,x,y,z)": [
+    "-1/2",
+    "1/2",
+    "1/2",
+    "1/2"
+   ]
+  },
+  {
+   "size": 30,
+   "element order": 4,
+   "real part w = cos(angle/2)": "0",
+   "representative (w,x,y,z)": [
+    "0",
+    "(-1/4) + (1/4)*sqrt(5)",
+    "(1/4) + (1/4)*sqrt(5)",
+    "1/2"
+   ]
+  },
+  {
+   "size": 12,
+   "element order": 5,
+   "real part w = cos(angle/2)": "(-1/4) + (1/4)*sqrt(5)",
+   "representative (w,x,y,z)": [
+    "(-1/4) + (1/4)*sqrt(5)",
+    "1/2",
+    "(1/4) + (1/4)*sqrt(5)",
+    "0"
+   ]
+  },
+  {
+   "size": 12,
+   "element order": 5,
+   "real part w = cos(angle/2)": "(-1/4) + (-1/4)*sqrt(5)",
+   "representative (w,x,y,z)": [
+    "(-1/4) + (-1/4)*sqrt(5)",
+    "0",
+    "(-1/4) + (1/4)*sqrt(5)",
+    "1/2"
+   ]
+  },
+  {
+   "size": 20,
+   "element order": 6,
+   "real part w = cos(angle/2)": "1/2",
+   "representative (w,x,y,z)": [
+    "1/2",
+    "1/2",
+    "1/2",
+    "1/2"
+   ]
+  },
+  {
+   "size": 12,
+   "element order": 10,
+   "real part w = cos(angle/2)": "(1/4) + (1/4)*sqrt(5)",
+   "representative (w,x,y,z)": [
+    "(1/4) + (1/4)*sqrt(5)",
+    "(-1/4) + (1/4)*sqrt(5)",
+    "1/2",
+    "0"
+   ]
+  },
+  {
+   "size": 12,
+   "element order": 10,
+   "real part w = cos(angle/2)": "(1/4) + (-1/4)*sqrt(5)",
+   "representative (w,x,y,z)": [
+    "(1/4) + (-1/4)*sqrt(5)",
+    "1/2",
+    "(1/4) + (1/4)*sqrt(5)",
+    "0"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "dim": 1,
+   "lowest level": 0,
+   "values": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ]
+  },
+  {
+   "dim": 2,
+   "lowest level": 1,
+   "values": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "(-1/2) + (1/2)*sqrt(5)",
+    "(-1/2) + (-1/2)*sqrt(5)",
+    "1",
+    "(1/2) + (1/2)*sqrt(5)",
+    "(1/2) + (-1/2)*sqrt(5)"
+   ]
+  },
+  {
+   "dim": 2,
+   "lowest level": 7,
+   "values": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "(-1/2) + (-1/2)*sqrt(5)",
+    "(-1/2) + (1/2)*sqrt(5)",
+    "1",
+    "(1/2) + (-1/2)*sqrt(5)",
+    "(1/2) + (1/2)*sqrt(5)"
+   ]
+  },
+  {
+   "dim": 3,
+   "lowest level": 2,
+   "values": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "(1/2) + (-1/2)*sqrt(5)",
+    "(1/2) + (1/2)*sqrt(5)",
+    "0",
+    "(1/2) + (1/2)*sqrt(5)",
+    "(1/2) + (-1/2)*sqrt(5)"
+   ]
+  },
+  {
+   "dim": 3,
+   "lowest level": 6,
+   "values": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "(1/2) + (1/2)*sqrt(5)",
+    "(1/2) + (-1/2)*sqrt(5)",
+    "0",
+    "(1/2) + (-1/2)*sqrt(5)",
+    "(1/2) + (1/2)*sqrt(5)"
+   ]
+  },
+  {
+   "dim": 4,
+   "lowest level": 3,
+   "values": [
+    "4",
+    "-4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "-1",
+    "1",
+    "1"
+   ]
+  },
+  {
+   "dim": 4,
+   "lowest level": 6,
+   "values": [
+    "4",
+    "4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "1",
+    "-1",
+    "-1"
+   ]
+  },
+  {
+   "dim": 5,
+   "lowest level": 4,
+   "values": [
+    "5",
+    "5",
+    "-1",
+    "1",
+    "0",
+    "0",
+    "-1",
+    "0",
+    "0"
+   ]
+  },
+  {
+   "dim": 6,
+   "lowest level": 5,
+   "values": [
+    "6",
+    "-6",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "-1",
+    "-1"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+[PASS] O1 R4: signature equal :: [4, 0, 5] vs [4, 0, 5]
+[PASS] O1 R4: k, r_u, zero multiplicity equal
+[PASS] O1 R4: 924 r6hat enclosures intersect :: 215.775792501668413495232338935878268247 / 215.775792501668413495232338935878268247
+[PASS] O1 R4: lambda enclosures intersect
+[PASS] O1 R4: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O1 R4: slow-root signs equal
+[PASS] O1 R4: slow-flow words equal :: hyperbolic, one real pair / hyperbolic, one real pair
+[PASS] O2 R4: signature equal :: [6, 0, 3] vs [6, 0, 3]
+[PASS] O2 R4: k, r_u, zero multiplicity equal
+[PASS] O2 R4: 924 r6hat enclosures intersect :: 238.016528925619834710743801652892561983 / 238.016528925619834710743801652892561983
+[PASS] O2 R4: lambda enclosures intersect
+[PASS] O2 R4: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O2 R4: slow-root signs equal
+[PASS] O2 R4: slow-flow words equal :: hyperbolic, one real pair / hyperbolic, one real pair
+[PASS] O3 R4: signature equal :: [7, 0, 2] vs [7, 0, 2]
+[PASS] O3 R4: k, r_u, zero multiplicity equal
+[PASS] O3 R4: 924 r6hat enclosures intersect :: 238.356854743095270345532123383755488501 / 238.356854743095270345532123383755488501
+[PASS] O3 R4: lambda enclosures intersect
+[PASS] O3 R4: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O3 R4: slow-root signs equal
+[PASS] O3 R4: slow-flow words equal :: elliptic, simple / elliptic, simple
+[PASS] O1 R5: signature equal :: [4, 0, 5] vs [4, 0, 5]
+[PASS] O1 R5: k, r_u, zero multiplicity equal
+[PASS] O1 R5: 924 r6hat enclosures intersect :: 215.775792501668413495232338935878268247 / 215.775792501668413495232338935878268247
+[PASS] O1 R5: lambda enclosures intersect
+[PASS] O1 R5: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O1 R5: slow-root signs equal
+[PASS] O1 R5: slow-flow words equal :: hyperbolic, one real pair / hyperbolic, one real pair
+[PASS] O2 R5: signature equal :: [6, 0, 3] vs [6, 0, 3]
+[PASS] O2 R5: k, r_u, zero multiplicity equal
+[FAIL] O2 R5: 924 r6hat enclosures intersect :: 238.016528925619834710743801652892561983 / 1190082644628099173553719008264462809917
+[PASS] O2 R5: lambda enclosures intersect
+[PASS] O2 R5: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O2 R5: slow-root signs equal
+[PASS] O2 R5: slow-flow words equal :: hyperbolic, one real pair / hyperbolic, one real pair
+[PASS] O3 R5: signature equal :: [7, 0, 2] vs [7, 0, 2]
+[PASS] O3 R5: k, r_u, zero multiplicity equal
+[PASS] O3 R5: 924 r6hat enclosures intersect :: 238.356854743095270345532123383755488501 / 238.356854743095270345532123383755488501
+[PASS] O3 R5: lambda enclosures intersect
+[PASS] O3 R5: all 4 slow-root enclosures intersect pairwise in sorted order
+[PASS] O3 R5: slow-root signs equal
+[PASS] O3 R5: slow-flow words equal :: elliptic, simple / elliptic, simple
+[PASS] O1 R4: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O1 R4: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O1 R4: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O1 R4: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O1 R4: cert ratio pair 3 contains 9/16 and width <= 1e-50
+[PASS] O2 R4: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O2 R4: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O2 R4: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O2 R4: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O2 R4: cert ratio pair 3 contains 9/16 and width <= 1e-50
+[PASS] O3 R4: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O3 R4: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O3 R4: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O3 R4: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O3 R4: cert ratio pair 3 contains 9/16 and width <= 1e-50
+[PASS] O1 R5: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O1 R5: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O1 R5: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O1 R5: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O1 R5: cert ratio pair 3 contains 9/16 and width <= 1e-50
+[PASS] O2 R5: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O2 R5: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O2 R5: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O2 R5: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O2 R5: cert ratio pair 3 contains 9/16 and width <= 1e-50
+[PASS] O3 R5: cert printed B.4 enclosures have width <= 1e-50 (as decimals) :: max 1.00e-67
+[PASS] O3 R5: cert ratio pair 0 contains 9/16 and width <= 1e-50
+[PASS] O3 R5: cert ratio pair 1 contains 9/16 and width <= 1e-50
+[PASS] O3 R5: cert ratio pair 2 contains 9/16 and width <= 1e-50
+[PASS] O3 R5: cert ratio pair 3 contains 9/16 and width <= 1e-50

@@ -1,0 +1,14 @@
+planted sN in s0_anchors.py (s_N altered by 1% (and w changed)): the check "0(c) R2: s_N by Schur equals exact S^3 integral..." printed FAIL: True  (exit code 0)
+[PASS] planted defect sN fires
+planted C1 in s1_C1C2.py (a 1e-6 relative error added to the CG level norm): the check "C.1 R2: CG route agrees with exact route..." printed FAIL: True  (exit code 0)
+[PASS] planted defect C1 fires
+planted C3 in s2_C3.py (a 1e-10 error added to the comparison): the check "C.3 v1 R4: exact Hess R0 on K' agrees with the CG route..." printed FAIL: True  (exit code 0)
+[PASS] planted defect C3 fires
+planted C4 in s3_C4.py (the fifth-point value doubled): the check "C.4 pentagonal pyramid in R4: cubic form..." printed FAIL: True  (exit code 0)
+[PASS] planted defect C4 fires
+planted C5 in s4_C5.py (a 1e-20 error added to the Hessian comparison): the check "C.5 coherent v3 in R4: CG-route Hessian of R0 agrees..." printed FAIL: True  (exit code 0)
+[PASS] planted defect C5 fires
+planted Dspan in s5_D_B4.py (one generator replaced by a G-skew map outside the span): the check "D: the given generators span the same 4-dim space..." printed FAIL: True  (exit code 0)
+[PASS] planted defect Dspan fires
+planted Dbox in s5_D_B4.py (the box shifted by 1e-40 (no longer contains the zero)): the check "D O3 R4: Krawczyk K(Z) lies in the interior of Z..." printed FAIL: True  (exit code 1)
+[PASS] planted defect Dbox fires

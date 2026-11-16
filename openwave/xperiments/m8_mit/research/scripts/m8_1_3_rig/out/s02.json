@@ -1,0 +1,38 @@
+{
+ "dim1_n0": {
+  "dim": 1,
+  "n": 0,
+  "next level": 12,
+  "lambda1 - lambda0": "168"
+ },
+ "dim2_n1": {
+  "dim": 2,
+  "n": 1,
+  "next level": 11,
+  "lambda1 - lambda0": "140"
+ },
+ "dim3_n2": {
+  "dim": 3,
+  "n": 2,
+  "next level": 10,
+  "lambda1 - lambda0": "112"
+ },
+ "dim4_n3": {
+  "dim": 4,
+  "n": 3,
+  "next level": 9,
+  "lambda1 - lambda0": "84"
+ },
+ "dim5_n4": {
+  "dim": 5,
+  "n": 4,
+  "next level": 8,
+  "lambda1 - lambda0": "56"
+ },
+ "dim6_n5": {
+  "dim": 6,
+  "n": 5,
+  "next level": 7,
+  "lambda1 - lambda0": "28"
+ }
+}
