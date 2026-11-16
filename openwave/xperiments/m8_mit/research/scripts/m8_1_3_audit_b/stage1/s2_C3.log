@@ -1,0 +1,41 @@
+[PASS] C.3 v1 R4: v1 is critical (exact)
+[PASS] C.3 v1 R4: K' is invariant under the circle
+v1 R4: critical True; h(u) = 168/143; k = 3; r_u = 1; signature [4, 2, 4]
+   K' = span of the m = [Fraction(-3, 1)] components (real dim 2); circle generator on K' = [[0, -4], [4, 0]] -> weight [Fraction(4, 1)]
+[PASS] C.3 v1 R4: exact Hess R0 on K' agrees with the CG route :: 9.18e-41
+[PASS] C.3 v1 R4: exact R0(u) agrees with the CG route :: 1.12e-44
+[PASS] C.3 v1 R4: grad R0(u) vanishes along K' (CG route) :: 0.0
+[PASS] C.3 v1 R4: gamma_u is a multiple of the identity on K' :: [[-19919/6697728, 0], [0, -19919/6697728]]
+   R0(u) = -30976085/90673810656;  gamma_u on K' = [[-19919/6697728, 0], [0, -19919/6697728]]  (V = R = 1; i.e. gamma_u = -19919/6697728 R^2)
+[PASS] C.3 v1 R4: Shat preserves the components off K'
+   off K': zero multiplicity 4, slow polynomial (20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000);  (whole E0: zero multiplicity 6, slow (20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000))
+[PASS] C.3 v1 R5: v1 is critical (exact)
+[PASS] C.3 v1 R5: K' is invariant under the circle
+v1 R5: critical True; h(u) = 2513/2288; k = 3; r_u = 1; signature [4, 2, 4]
+   K' = span of the m = [Fraction(-3, 1)] components (real dim 2); circle generator on K' = [[0, -4], [4, 0]] -> weight [Fraction(4, 1)]
+[PASS] C.3 v1 R5: exact Hess R0 on K' agrees with the CG route :: 1.38e-40
+[PASS] C.3 v1 R5: exact R0(u) agrees with the CG route :: 2.24e-44
+[PASS] C.3 v1 R5: grad R0(u) vanishes along K' (CG route) :: 0.0
+[PASS] C.3 v1 R5: gamma_u is a multiple of the identity on K' :: [[224487/41628563, 0], [0, 224487/41628563]]
+   R0(u) = -11034061815/7737498509312;  gamma_u on K' = [[224487/41628563, 0], [0, 224487/41628563]]  (V = R = 1; i.e. gamma_u = 224487/41628563 R^2)
+[PASS] C.3 v1 R5: Shat preserves the components off K'
+   off K': zero multiplicity 4, slow polynomial (20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969);  (whole E0: zero multiplicity 6, slow (20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969))
+[PASS] C.3 R2 line: the given point equals x0/sqrt(r) (p_{5/2} = p_{-3/2} = 960^{-1/2})
+[PASS] C.3 R2 line: critical (exact)
+R2 line {5/2,-3/2}: critical True; h(u) = 161/143; k = 6; r_u = 2; signature [0, 3, 6]; dim K' = 3
+   K' basis vector (chart x): [-3/5, 0, -3, 0, 1/5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+   K' basis vector (chart x): [0, 0, 0, 13, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+   K' basis vector (chart x): [0, 0, 0, 0, 0, 0, 0, 0, 3/5, 0, -3, 0, -1/5, 0, 1, 0]
+[PASS] C.3 R2 line: exact Hess R0 on K' agrees with the CG route :: 2.94e-39
+[PASS] C.3 R2 line: exact R0(u) agrees with the CG route :: 3.36e-44
+[PASS] C.3 R2 line: grad R0(u) vanishes along K' (CG route) :: 0.0
+[PASS] C.3 R2 line: gamma_u is a multiple of the identity on K' :: [[115020/20333173, 0, 0], [0, 115020/20333173, 0], [0, 0, 115020/20333173]]
+   R0(u) = -27273813/37780754440;  gamma_u on K' = [[115020/20333173, 0, 0], [0, 115020/20333173, 0], [0, 0, 115020/20333173]]
+   stabiliser search: 24 elements of SU(2)/(+-1) preserve H u
+[PASS] C.3 R2 line: the stabiliser found is non-empty and closed under composition
+[PASS] C.3 R2 line: the identity is among the elements found
+[PASS] C.3 R2 line: every element fixes u and is orthogonal
+   |Gamma_u| (as maps of E0) = 24; element orders [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4]
+[PASS] C.3 R2 line: K' is invariant under Gamma_u
+   commutant of Gamma_u on K' has dimension 1; traces on K': [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -0.0, 0.0, -0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 3.0]
+[PASS] C.3 R2 line: commutant dimension computed with a clear singular-value gap :: smallest sv [6.92820323e+00 6.92820323e+00 1.55319988e-15]

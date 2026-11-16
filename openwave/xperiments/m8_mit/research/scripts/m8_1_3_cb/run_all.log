@@ -1,0 +1,11 @@
+s00_group.py           exit 0    27 PASS   0 FAIL      0.6 s  -> s00_group.log
+s01_cg_theta.py        exit 0    34 PASS   0 FAIL      1.1 s  -> s01_cg_theta.log
+s02_eta.py             exit 0    51 PASS   0 FAIL     26.3 s  -> s02_eta.log
+s02b_eta_exact.py      exit 0    12 PASS   0 FAIL      0.4 s  -> s02b_eta_exact.log
+s03_levels.py          exit 0    97 PASS   0 FAIL     39.3 s  -> s03_levels.log
+s04_c3.py              exit 0    29 PASS   0 FAIL     14.2 s  -> s04_c3.log
+s04b_c3_exact.py       exit 0    15 PASS   0 FAIL      3.1 s  -> s04b_c3_exact.log
+s05_c5.py              exit 0    66 PASS   0 FAIL     77.1 s  -> s05_c5.log
+s99_planted.py         exit 0     6 PASS   0 FAIL     80.8 s  -> s99_planted.log
+make_results.py        exit 0     5 PASS   0 FAIL      0.1 s  -> make_results.log
+all scripts: 342 PASS, 0 FAIL (the FAIL lines printed inside s99_planted.log come from the planted-defect subprocesses and are not counted here)

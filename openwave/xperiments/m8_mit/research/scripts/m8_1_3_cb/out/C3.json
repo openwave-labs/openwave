@@ -1,0 +1,103 @@
+{
+ "R2 line {5/2, -3/2}": {
+  "|Gamma_u|": 24,
+  "dim K'": 3,
+  "n_-": 0,
+  "k": 6,
+  "signature": [
+   0,
+   3,
+   6
+  ],
+  "K'": "dimension 3",
+  "absolutely irreducible": true,
+  "commutant dimension": 1,
+  "gamma_u": "115020/20333173",
+  "gamma_u (decimal, 30 digits)": "0.00565676591646566918011271531502",
+  "R~0(u)": "-0.000721896992377794348777964741987",
+  "kappa_u": "161/143",
+  "K' support (m)": [
+   "-1/2",
+   "-5/2",
+   "-7/2",
+   "1/2",
+   "3/2",
+   "7/2"
+  ],
+  "K' (exact)": "real span of: e1 with weighted coordinates p_{1/2} = 13, p_{-7/2} = 1; and e2(z), z in C, with p_{7/2} = 3z, p_{-1/2} = -z, p_{3/2} = 15 conj(z), p_{-5/2} = -5 conj(z)  (p_m = w_m/sqrt((j+m)!(j-m)!)); not a complex subspace"
+ },
+ "v1 R4": {
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   4,
+   2,
+   4
+  ],
+  "dim K'": 2,
+  "K'": "real dimension 2, components m in ['-3']",
+  "K' weight under the circle": [
+   4
+  ],
+  "K' is a complex subspace": true,
+  "gamma_u": "-19919/6697728",
+  "gamma_u (decimal, 30 digits)": "-0.0029739935691625578106486259221",
+  "R~0(v1)": "-0.000341621078632259661496937892629",
+  "kappa_u": "168/143",
+  "off K': zero multiplicity of S^": 4,
+  "off K': slow polynomial": "(20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)",
+  "off K': components m": [
+   "3",
+   "2",
+   "1",
+   "0",
+   "-1",
+   "-2"
+  ],
+  "off K': slow roots (nu)": [
+   "-1.1833112066212299313",
+   "-0.61342852951244559636",
+   "-0.038339283094527849773",
+   "-0.011833112066212299313"
+  ],
+  "whole E_0: zero multiplicity of S^ (for reference)": 6,
+  "kappa_u = h(v1)": "168/143"
+ },
+ "v1 R5": {
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   4,
+   2,
+   4
+  ],
+  "dim K'": 2,
+  "K'": "real dimension 2, components m in ['-3']",
+  "K' weight under the circle": [
+   4
+  ],
+  "K' is a complex subspace": true,
+  "gamma_u": "224487/41628563",
+  "gamma_u (decimal, 30 digits)": "0.00539261948580833789530520186344",
+  "R~0(v1)": "-0.00142605026698494609256934679677",
+  "kappa_u": "2513/2288",
+  "off K': zero multiplicity of S^": 4,
+  "off K': slow polynomial": "(20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)",
+  "off K': components m": [
+   "3",
+   "2",
+   "1",
+   "0",
+   "-1",
+   "-2"
+  ],
+  "off K': slow roots (nu)": [
+   "-0.37440706146999853294",
+   "-0.19409262066604723947",
+   "-0.012130788791627952467",
+   "-0.0037440706146999853294"
+  ],
+  "whole E_0: zero multiplicity of S^ (for reference)": 6,
+  "kappa_u = h(v1)": "2513/2288"
+ }
+}

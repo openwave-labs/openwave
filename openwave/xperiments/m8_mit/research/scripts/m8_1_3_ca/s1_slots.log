@@ -1,0 +1,71 @@
+[PASS] D^1/2: homomorphism D(gh) = D(g)D(h)
+[PASS] D^1/2: unitary
+[PASS] D^1/2: Theta commutes with D (conj(D) = U^-1 D U)
+[PASS] D^3: homomorphism D(gh) = D(g)D(h)
+[PASS] D^3: unitary
+[PASS] D^3: Theta commutes with D (conj(D) = U^-1 D U)
+[PASS] D^7/2: homomorphism D(gh) = D(g)D(h)
+[PASS] D^7/2: unitary
+[PASS] D^7/2: Theta commutes with D (conj(D) = U^-1 D U)
+[PASS] CG: W_J (D^3 (x) D^3) = D^J W_J for all J (my Racah CG and my D^j agree)  (1.01e-50)
+[PASS] CG: W_J (D^7/2 (x) D^7/2) = D^J W_J for all J (my Racah CG and my D^j agree)  (1.51e-50)
+[PASS] CG: W_J (D^6 (x) D^7/2) = D^J W_J for all J (my Racah CG and my D^j agree)  (8.38e-50)
+[PASS] CG: my Racah CG == sympy.physics.quantum.cg.CG on all coefficients used  (1764 compared, 0 differ)
+0(d) <3 3; 3 -3 | 6 0> = sqrt(231)/462 = 0.032897584747988449419
+[PASS] 0(d) <3 3; 3 -3 | 6 0> > 0
+[PASS] 0(d) Theta^2 on V_3 is a scalar
+0(d) Theta^2 on V_3 = 1
+[PASS] 0(d) Theta^2 on V_7/2 is a scalar
+0(d) Theta^2 on V_7/2 = -1
+[PASS] 0(c) R2: P^2 = P exactly (weighted coordinates)
+[PASS] 0(c) R2: trace P = dim rho = 2 (multiplicity one)  (2)
+[PASS] 0(c) R2: P commutes with D(q1) exactly
+[PASS] 0(c) R2: P commutes with D(q2) exactly
+[PASS] 0(c) R2: P is Hermitian in the orthonormal CS basis (exact)
+[PASS] 0(c) R2: eta^dagger eta = I
+[PASS] 0(c) R2: eta eta^dagger = P
+[PASS] 0(c) R2: D(h) eta = eta rho(h) for all 120 h  (2.11e-51)
+[PASS] 0(c) R2: trace rho(h) = chi_2'(h) for all 120 h  (8.13e-51)
+[PASS] 0(c) R2: 9 distinct Gauss-Legendre nodes, weights sum to 2
+0(c) R2: s_N exact (Schur) = 1/4;  cubature = 0.25
+[PASS] 0(c) R2: cubature s_N agrees with dim rho/(2j+1) to 1e-40
+0(c) R2: P exact (orthonormal basis) row 0: ['15/64', '0', 'sqrt(105)/64', '0', '3*sqrt(35)/64', '0', '-3*sqrt(35)/64', '0']
+[PASS] 0(c) R4: P^2 = P exactly (weighted coordinates)
+[PASS] 0(c) R4: trace P = dim rho = 3 (multiplicity one)  (3)
+[PASS] 0(c) R4: P commutes with D(q1) exactly
+[PASS] 0(c) R4: P commutes with D(q2) exactly
+[PASS] 0(c) R4: P is Hermitian in the orthonormal CS basis (exact)
+[PASS] 0(c) R4: eta^dagger eta = I
+[PASS] 0(c) R4: eta eta^dagger = P
+[PASS] 0(c) R4: D(h) eta = eta rho(h) for all 120 h  (2.41e-51)
+[PASS] 0(c) R4: trace rho(h) = chi_3'(h) for all 120 h  (5.35e-51)
+[PASS] 0(c) R4: 8 distinct Gauss-Legendre nodes, weights sum to 2
+0(c) R4: s_N exact (Schur) = 3/7;  cubature = 0.4285714285714285714285714285714285714286
+[PASS] 0(c) R4: cubature s_N agrees with dim rho/(2j+1) to 1e-40
+0(c) R4: P exact (orthonormal basis) row 0: ['7/16', '0', '-sqrt(3)/16', '0', '-sqrt(15)/16', '0', '3*sqrt(5)/16']
+[PASS] 0(c) R5: P^2 = P exactly (weighted coordinates)
+[PASS] 0(c) R5: trace P = dim rho = 4 (multiplicity one)  (4)
+[PASS] 0(c) R5: P commutes with D(q1) exactly
+[PASS] 0(c) R5: P commutes with D(q2) exactly
+[PASS] 0(c) R5: P is Hermitian in the orthonormal CS basis (exact)
+[PASS] 0(c) R5: eta^dagger eta = I
+[PASS] 0(c) R5: eta eta^dagger = P
+[PASS] 0(c) R5: D(h) eta = eta rho(h) for all 120 h  (2.99e-51)
+[PASS] 0(c) R5: trace rho(h) = chi_4(h) for all 120 h  (5.39e-51)
+[PASS] 0(c) R5: 8 distinct Gauss-Legendre nodes, weights sum to 2
+0(c) R5: s_N exact (Schur) = 4/7;  cubature = 0.5714285714285714285714285714285714285714
+[PASS] 0(c) R5: cubature s_N agrees with dim rho/(2j+1) to 1e-40
+0(c) R5: P exact (orthonormal basis) row 0: ['9/16', '0', 'sqrt(3)/16', '0', 'sqrt(15)/16', '0', '-3*sqrt(5)/16']
+0(e) singular values of the intertwining system: ['2.5726', '2.0', '1.618', '2.6026e-51']
+[PASS] 0(e) the space of C with conj(rho)C = C rho is one-dimensional
+[PASS] 0(e) C is unitary after scaling
+[PASS] 0(e) conj(rho(h)) C = C rho(h) for all 120 h
+0(e) C conj(C) = [                                                   (-1.0 - 1.8150298172863508300312135803281647366811771809105e-51j)  (-3.1918306829047100463799335100608000356705098625037e-52 - 5.1266644277451773220861016097560693805333079575767e-52j)]
+[(3.1918306829047100463799335100608000356705098625037e-52 - 5.1266644277451773220861016097560693805333079575767e-52j)                                                      (-1.0 + 1.8150298172863508300312135803281647366811771809105e-51j)]
+[PASS] 0(e) C conj(C) = -1
+0(e) eta^dagger U conj(eta) C = [(-0.87617691755922322574873746959920795214362776521508 + 0.48198963592220335934626760415916924730670064820611j)  (-1.8745910678759033891061040644175493878657366978398e-52 + 8.4740072633075275695579316030474781800605311382495e-52j)]
+[                                              (-2.8932814429035722673178779474795020182488606573317e-52 + 0.0j)        (-0.87617691755922322574873746959920795214362776521508 + 0.48198963592220335934626760415916924730670064820611j)]
+[PASS] 0(e) U conj(eta) C = c eta with c a scalar of modulus 1
+[PASS] 0(e) (U^-1)^T = U on V_7/2 (exact)
+[PASS] 0(e) conj(psi_w) C0 = psi_{Theta w} at random points (map = Theta when c = 1)  (5.98e-51)
+failures: 0

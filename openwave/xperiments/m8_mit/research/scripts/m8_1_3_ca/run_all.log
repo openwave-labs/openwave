@@ -1,0 +1,7 @@
+s0_group.py        exit 0  PASS  26  FAIL   0      7.6s  -> s0_group.log
+s1_slots.py        exit 0  PASS  56  FAIL   0     35.2s  -> s1_slots.log
+s2_constants.py    exit 0  PASS  24  FAIL   0     38.6s  -> s2_constants.log
+s3_points.py       exit 0  PASS  28  FAIL   0    206.7s  -> s3_points.log
+s4_boxes.py        exit 0  PASS  33  FAIL   0      2.9s  -> s4_boxes.log
+planted.py         exit 0  PASS   0  FAIL  12      2.0s  -> planted.log
+assemble.py        exit 0  PASS   0  FAIL   0      0.1s  -> assemble.log

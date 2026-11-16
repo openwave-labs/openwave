@@ -1,0 +1,472 @@
+{
+ "0(a)": {
+  "norm q1": "1",
+  "norm q2": "1",
+  "order": 120,
+  "classes": [
+   {
+    "label": "C0",
+    "element order": 1,
+    "Re g": "1",
+    "size": 1
+   },
+   {
+    "label": "C1",
+    "element order": 2,
+    "Re g": "-1",
+    "size": 1
+   },
+   {
+    "label": "C2",
+    "element order": 3,
+    "Re g": "-1/2",
+    "size": 20
+   },
+   {
+    "label": "C3",
+    "element order": 4,
+    "Re g": "0",
+    "size": 30
+   },
+   {
+    "label": "C4",
+    "element order": 5,
+    "Re g": "-sqrt(5)/4 - 1/4",
+    "size": 12
+   },
+   {
+    "label": "C5",
+    "element order": 5,
+    "Re g": "-1/4 + sqrt(5)/4",
+    "size": 12
+   },
+   {
+    "label": "C6",
+    "element order": 6,
+    "Re g": "1/2",
+    "size": 20
+   },
+   {
+    "label": "C7",
+    "element order": 10,
+    "Re g": "1/4 - sqrt(5)/4",
+    "size": 12
+   },
+   {
+    "label": "C8",
+    "element order": 10,
+    "Re g": "1/4 + sqrt(5)/4",
+    "size": 12
+   }
+  ],
+  "characters": {
+   "dim1_n0": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "dim2_n1": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "-sqrt(5)/2 - 1/2",
+    "-1/2 + sqrt(5)/2",
+    "1",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2"
+   ],
+   "dim2_n7": [
+    "2",
+    "-2",
+    "-1",
+    "0",
+    "-1/2 + sqrt(5)/2",
+    "-sqrt(5)/2 - 1/2",
+    "1",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2"
+   ],
+   "dim3_n6": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2",
+    "0",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2"
+   ],
+   "dim3_n2": [
+    "3",
+    "3",
+    "0",
+    "-1",
+    "1/2 + sqrt(5)/2",
+    "1/2 - sqrt(5)/2",
+    "0",
+    "1/2 - sqrt(5)/2",
+    "1/2 + sqrt(5)/2"
+   ],
+   "dim4_n3": [
+    "4",
+    "-4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "-1",
+    "1",
+    "1"
+   ],
+   "dim4_n6": [
+    "4",
+    "4",
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "1",
+    "-1",
+    "-1"
+   ],
+   "dim5_n4": [
+    "5",
+    "5",
+    "-1",
+    "1",
+    "0",
+    "0",
+    "-1",
+    "0",
+    "0"
+   ],
+   "dim6_n5": [
+    "6",
+    "-6",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "-1",
+    "-1"
+   ]
+  }
+ },
+ "0(b)": {
+  "dim1_n0": {
+   "dim": 1,
+   "levels": {
+    "0": 1,
+    "12": 1,
+    "20": 1
+   }
+  },
+  "dim2_n1": {
+   "dim": 2,
+   "levels": {
+    "1": 1,
+    "11": 1,
+    "13": 1,
+    "19": 1
+   }
+  },
+  "dim2_n7": {
+   "dim": 2,
+   "levels": {
+    "7": 1,
+    "13": 1,
+    "17": 1,
+    "19": 1
+   }
+  },
+  "dim3_n6": {
+   "dim": 3,
+   "levels": {
+    "6": 1,
+    "10": 1,
+    "14": 1,
+    "16": 1,
+    "18": 1,
+    "20": 1
+   }
+  },
+  "dim3_n2": {
+   "dim": 3,
+   "levels": {
+    "2": 1,
+    "10": 1,
+    "12": 1,
+    "14": 1,
+    "18": 1,
+    "20": 1
+   }
+  },
+  "dim4_n3": {
+   "dim": 4,
+   "levels": {
+    "3": 1,
+    "9": 1,
+    "11": 1,
+    "13": 1,
+    "15": 1,
+    "17": 1,
+    "19": 1
+   }
+  },
+  "dim4_n6": {
+   "dim": 4,
+   "levels": {
+    "6": 1,
+    "8": 1,
+    "12": 1,
+    "14": 1,
+    "16": 1,
+    "18": 2,
+    "20": 1
+   }
+  },
+  "dim5_n4": {
+   "dim": 5,
+   "levels": {
+    "4": 1,
+    "8": 1,
+    "10": 1,
+    "12": 1,
+    "14": 1,
+    "16": 2,
+    "18": 1,
+    "20": 2
+   }
+  },
+  "dim6_n5": {
+   "dim": 6,
+   "levels": {
+    "5": 1,
+    "7": 1,
+    "9": 1,
+    "11": 1,
+    "13": 1,
+    "15": 2,
+    "17": 2,
+    "19": 2
+   }
+  },
+  "names": {
+   "R2": "dim2_n7",
+   "R4": "dim3_n6",
+   "R5": "dim4_n6"
+  }
+ },
+ "E.1": {
+  "dim1_n0": {
+   "dim": 1,
+   "n": 0,
+   "next level": 12,
+   "lambda1 - lambda0 (units 1/R^2)": "168"
+  },
+  "dim2_n1": {
+   "dim": 2,
+   "n": 1,
+   "next level": 11,
+   "lambda1 - lambda0 (units 1/R^2)": "140"
+  },
+  "dim3_n2": {
+   "dim": 3,
+   "n": 2,
+   "next level": 10,
+   "lambda1 - lambda0 (units 1/R^2)": "112"
+  },
+  "dim4_n3": {
+   "dim": 4,
+   "n": 3,
+   "next level": 9,
+   "lambda1 - lambda0 (units 1/R^2)": "84"
+  },
+  "dim5_n4": {
+   "dim": 5,
+   "n": 4,
+   "next level": 8,
+   "lambda1 - lambda0 (units 1/R^2)": "56"
+  },
+  "dim6_n5": {
+   "dim": 6,
+   "n": 5,
+   "next level": 7,
+   "lambda1 - lambda0 (units 1/R^2)": "28"
+  }
+ },
+ "E.2": {
+  "reading": "eigenvalues of the real 4d x 4d generator A of d/dT (u, u_T), zeta = psi_u in E_0, rotating frame psi = e^{i omega T}(psi_v + zeta); r = |v|; valid for v != 0, omega > 0, g_4 > 0",
+  "slots": {
+   "dim1_n0": {
+    "d": 1,
+    "n": 0,
+    "charpoly in mu": "mu**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 2,
+      "geometric": 1
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 1.5545844726786284e-16
+   },
+   "dim2_n1": {
+    "d": 2,
+    "n": 1,
+    "charpoly in mu": "mu**4*(mu**2 + 4*omega**2)*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 4,
+      "geometric": 3
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "2*I*omega": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-2*I*omega": {
+      "algebraic": 1,
+      "geometric": 1
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 1.7440434672064572e-16
+   },
+   "dim3_n2": {
+    "d": 3,
+    "n": 2,
+    "charpoly in mu": "mu**6*(mu**2 + 4*omega**2)**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 6,
+      "geometric": 5
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "2*I*omega": {
+      "algebraic": 2,
+      "geometric": 2
+     },
+     "-2*I*omega": {
+      "algebraic": 2,
+      "geometric": 2
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 1.867646858752573e-17
+   },
+   "dim4_n3": {
+    "d": 4,
+    "n": 3,
+    "charpoly in mu": "mu**8*(mu**2 + 4*omega**2)**3*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 8,
+      "geometric": 7
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "2*I*omega": {
+      "algebraic": 3,
+      "geometric": 3
+     },
+     "-2*I*omega": {
+      "algebraic": 3,
+      "geometric": 3
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 2.1119484935715814e-16
+   },
+   "dim5_n4": {
+    "d": 5,
+    "n": 4,
+    "charpoly in mu": "mu**10*(mu**2 + 4*omega**2)**4*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 10,
+      "geometric": 9
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "2*I*omega": {
+      "algebraic": 4,
+      "geometric": 4
+     },
+     "-2*I*omega": {
+      "algebraic": 4,
+      "geometric": 4
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 4.1944870939924214e-17
+   },
+   "dim6_n5": {
+    "d": 6,
+    "n": 5,
+    "charpoly in mu": "mu**12*(mu**2 + 4*omega**2)**5*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2)",
+    "eigenvalues": {
+     "0": {
+      "algebraic": 12,
+      "geometric": 11
+     },
+     "I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)": {
+      "algebraic": 1,
+      "geometric": 1
+     },
+     "2*I*omega": {
+      "algebraic": 5,
+      "geometric": 5
+     },
+     "-2*I*omega": {
+      "algebraic": 5,
+      "geometric": 5
+     }
+    },
+    "E0 decoupled from next level (relative E0 component, quadrature)": 7.819674657623425e-17
+   }
+  }
+ }
+}

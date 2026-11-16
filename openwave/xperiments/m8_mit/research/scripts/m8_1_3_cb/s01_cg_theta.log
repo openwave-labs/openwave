@@ -1,0 +1,40 @@
+0(d) <3 3; 3 -3 | 6 0> = +sqrt(1/924)  = 0.032897584747988
+  PASS: 0(d): <3 3;3 -3|6 0> > 0 as the convention requires
+  PASS: <j j; j -j | 2j 0> > 0 for j=1/2
+  PASS: <j j; j -j | 2j 0> > 0 for j=1
+  PASS: <j j; j -j | 2j 0> > 0 for j=3
+  PASS: <j j; j -j | 2j 0> > 0 for j=7/2
+CG built from the convention vs Racah's formula: 5196 coefficients in 100 tables, 0 mismatches
+  PASS: built CG == Racah formula exactly, all tables used
+  PASS: each coupled state has unit norm (exact sum of squares)
+sympy.physics.quantum.cg.CG comparison: 150 sampled coefficients, 0 mismatches
+  PASS: built CG == sympy library CG on the sample
+  PASS: D^1/2(p)D^1/2(q) = D^1/2(pq) (quaternion map is a homomorphism)
+  PASS: D^1/2 unitary
+  PASS: D^1/2(R_z(theta)) = diag(e^(-i m theta))
+  PASS: D^1/2: exp(-i t sigma_x/2) -> 1 - i t J_x (CS J_x)
+  PASS: D^1/2: exp(-i t sigma_y/2) -> 1 - i t J_y (CS J_y)
+  PASS: D^3(p)D^3(q) = D^3(pq) (quaternion map is a homomorphism)
+  PASS: D^3 unitary
+  PASS: D^3(R_z(theta)) = diag(e^(-i m theta))
+  PASS: D^3: exp(-i t sigma_x/2) -> 1 - i t J_x (CS J_x)
+  PASS: D^3: exp(-i t sigma_y/2) -> 1 - i t J_y (CS J_y)
+  PASS: D^7/2(p)D^7/2(q) = D^7/2(pq) (quaternion map is a homomorphism)
+  PASS: D^7/2 unitary
+  PASS: D^7/2(R_z(theta)) = diag(e^(-i m theta))
+  PASS: D^7/2: exp(-i t sigma_x/2) -> 1 - i t J_x (CS J_x)
+  PASS: D^7/2: exp(-i t sigma_y/2) -> 1 - i t J_y (CS J_y)
+  PASS: coupling covariant under D: (7/2)x(7/2)->5
+  PASS: coupling covariant under D: (3)x(3)->6
+  PASS: coupling covariant under D: (3)x(3)->2
+  PASS: coupling covariant under D: (5)x(7/2)->9/2
+  PASS: coupling covariant under D: (6)x(3)->9
+0(d) Theta^2 on V_3 = +1 * identity
+  PASS: Theta^2 = +-1 on V_3
+  PASS: Theta commutes with D^3(g)
+  PASS: conj D^3_(m m') = (-1)^(m-m') D^3_(-m,-m')
+0(d) Theta^2 on V_7/2 = -1 * identity
+  PASS: Theta^2 = +-1 on V_7/2
+  PASS: Theta commutes with D^7/2(g)
+  PASS: conj D^7/2_(m m') = (-1)^(m-m') D^7/2_(-m,-m')
+checks: 34 PASS, 0 FAIL

@@ -1,0 +1,17 @@
+dim 1, lowest level 0: {0: 1, 12: 1, 20: 1}
+dim 2, lowest level 1: {1: 1, 11: 1, 13: 1, 19: 1}
+dim 2, lowest level 7: {7: 1, 13: 1, 17: 1, 19: 1}
+dim 3, lowest level 2: {2: 1, 10: 1, 12: 1, 14: 1, 18: 1, 20: 1}
+dim 3, lowest level 6: {6: 1, 10: 1, 14: 1, 16: 1, 18: 1, 20: 1}
+dim 4, lowest level 3: {3: 1, 9: 1, 11: 1, 13: 1, 15: 1, 17: 1, 19: 1}
+dim 4, lowest level 6: {6: 1, 8: 1, 12: 1, 14: 1, 16: 1, 18: 2, 20: 1}
+dim 5, lowest level 4: {4: 1, 8: 1, 10: 1, 12: 1, 14: 1, 16: 2, 18: 1, 20: 2}
+dim 6, lowest level 5: {5: 1, 7: 1, 9: 1, 11: 1, 13: 1, 15: 2, 17: 2, 19: 2}
+PASS: sum_rho dim(rho)*mult(rho, l) == l+1 for l = 0..20
+PASS: name R2 (dim 2, lowest level 7) picks exactly one irreducible  [1 hits]
+R2: multiplicity at lowest level 7 = 1
+PASS: name R4 (dim 3, lowest level 6) picks exactly one irreducible  [1 hits]
+R4: multiplicity at lowest level 6 = 1
+PASS: name R5 (dim 4, lowest level 6) picks exactly one irreducible  [1 hits]
+R5: multiplicity at lowest level 6 = 1
+all checks passed

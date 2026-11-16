@@ -1,0 +1,21 @@
+<3 3; 3 -3 | 6 0> = 1/518400 * sqrt(22394880000/77);  square = 1/924;  sign = +1
+PASS: <3 3;3 -3|6 0>^2 == 1/924 (= C(6,6)C(6,0)/C(12,6), stretched-coupling formula)
+PASS: sum_m1 <j m1; j M-m1|J M>^2 == 1 for all J, M (j = 3)
+PASS: orthogonality between J != J' (40 digits, j = 3)
+PASS: CS sign rule <j j; j -j|2j 0> > 0 (j = 3)
+PASS: sum_m1 <j m1; j M-m1|J M>^2 == 1 for all J, M (j = 7/2)
+PASS: orthogonality between J != J' (40 digits, j = 7/2)
+PASS: CS sign rule <j j; j -j|2j 0> > 0 (j = 7/2)
+PASS: sum_m1 <j m1; j M-m1|J M>^2 == 1 for all J, M (j = 1)
+PASS: orthogonality between J != J' (40 digits, j = 1)
+PASS: CS sign rule <j j; j -j|2j 0> > 0 (j = 1)
+PASS: sum_m1 <j m1; j M-m1|J M>^2 == 1 for all J, M (j = 1/2)
+PASS: orthogonality between J != J' (40 digits, j = 1/2)
+PASS: CS sign rule <j j; j -j|2j 0> > 0 (j = 1/2)
+sympy library CG compared on 575 coefficients (j = 3 and 7/2): agree = True
+PASS: own Racah CG == sympy library CG on all j=3, 7/2 couplings
+Theta^2 on V_3: multiplies every basis vector (and i times it) by {(Fraction(1, 1), Fraction(0, 1))}
+Theta^2 on V_7/2: multiplies every basis vector (and i times it) by {(Fraction(-1, 1), Fraction(0, 1))}
+PASS: Theta^2 on V_3 is a single scalar
+PASS: Theta^2 on V_7/2 is a single scalar
+all checks passed

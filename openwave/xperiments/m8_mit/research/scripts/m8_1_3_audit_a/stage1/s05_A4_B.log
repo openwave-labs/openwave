@@ -1,0 +1,310 @@
+==== A.4 and B.3 (R2) ====
+
+[R2] line {5/2, -3/2}: unit u (CS) = [0, sqrt(3)/2, 0, 0, 0, 1/2, 0, 0]
+  critical: True;  Q(u) = h(u) = 161/143
+PASS: R2 line {5/2, -3/2}: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R2 line {5/2, -3/2}: M_hat u = 8 h u
+PASS: R2 line {5/2, -3/2}: M_hat vanishes on K_u (all 6 generator vectors)
+  k = dim K_u = 6;  r_u = 2
+PASS: R2 line {5/2, -3/2}: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (0, 3, 6)   [dim N_u = 9]
+PASS: R2 line {5/2, -3/2}: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 12; slow polynomial = (20449*nu + 87616)*(20449*nu + 204544)
+      root nu = -87616/20449  mult 1  neg
+      root nu = -204544/20449  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -87616/20449: cluster dim 2, sign +, M_hat eigs there ['1.50171397230221', '1.50171397230221']; kernel sv max 5.15e-51, gap 3.51
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -204544/20449: cluster dim 2, sign +, M_hat eigs there ['2.59606689263779', '3.50582750582751']; kernel sv max 3.56e-51, gap 5.17
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [S = i M_hat]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 line {5/2, -3/2}: tau = J squares to -1
+  [member J] zero multiplicity = 12; slow polynomial = (20449*nu + 97024)*(20449*nu + 195136)
+      root nu = -97024/20449  mult 1  neg
+      root nu = -195136/20449  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -97024/20449: cluster dim 2, sign +, M_hat eigs there ['1.6629644864939', '1.76355529363512']; kernel sv max 6.26e-51, gap 3.12
+PASS: R2 line {5/2, -3/2} [member J]: cluster dim = 2 x multiplicity
+      Krein: nu = -195136/20449: cluster dim 2, sign +, M_hat eigs there ['2.39635430114122', '3.34457699163582']; kernel sv max 5.16e-51, gap 4.39
+PASS: R2 line {5/2, -3/2} [member J]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [member J]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 line {5/2, -3/2}: tau = k squares to -1
+  [member k] zero multiplicity = 12; slow polynomial = (20449*nu + 97024)*(20449*nu + 195136)
+      root nu = -97024/20449  mult 1  neg
+      root nu = -195136/20449  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -97024/20449: cluster dim 2, sign +, M_hat eigs there ['1.6629644864939', '1.76355529363512']; kernel sv max 4.19e-51, gap 3.12
+PASS: R2 line {5/2, -3/2} [member k]: cluster dim = 2 x multiplicity
+      Krein: nu = -195136/20449: cluster dim 2, sign +, M_hat eigs there ['2.39635430114122', '3.34457699163582']; kernel sv max 5.28e-51, gap 4.39
+PASS: R2 line {5/2, -3/2} [member k]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [member k]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 line {5/2, -3/2}: tau = (i+J)/sqrt2 squares to -1
+  [member (i+J)/sqrt2] zero multiplicity = 10; slow polynomial = 8550986578849*nu**3 + 122170093348160*nu**2 + 392329653354496*nu + 6372753408000
+      root nu = -9.43037002407290007098876448354  mult 1  neg
+      root nu = -4.84055491514809128198269725936  mult 1  neg
+      root nu = -0.0163262711071420520850202366627  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -9.4303700240729000710: cluster dim 2, sign +, M_hat eigs there ['2.3492082475711', '3.30526582557655']; kernel sv max 1.03e-50, gap 4.21
+PASS: R2 line {5/2, -3/2} [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -4.8405549151480912820: cluster dim 2, sign +, M_hat eigs there ['1.74194528434962', '1.76524058303']; kernel sv max 6.11e-51, gap 3.01
+PASS: R2 line {5/2, -3/2} [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.016326271107142052085: cluster dim 2, sign +, M_hat eigs there ['0.012563329020798', '0.0130697756271015']; kernel sv max 6.37e-51, gap 0.0135
+PASS: R2 line {5/2, -3/2} [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [member (i+J)/sqrt2]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 line {5/2, -3/2}: tau = (i+k)/sqrt2 squares to -1
+  [member (i+k)/sqrt2] zero multiplicity = 10; slow polynomial = 8550986578849*nu**3 + 122170093348160*nu**2 + 392329653354496*nu + 6372753408000
+      root nu = -9.43037002407290007098876448354  mult 1  neg
+      root nu = -4.84055491514809128198269725936  mult 1  neg
+      root nu = -0.0163262711071420520850202366627  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -9.4303700240729000710: cluster dim 2, sign +, M_hat eigs there ['2.3492082475711', '3.30526582557655']; kernel sv max 6.5e-51, gap 4.21
+PASS: R2 line {5/2, -3/2} [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -4.8405549151480912820: cluster dim 2, sign +, M_hat eigs there ['1.74194528434962', '1.76524058303']; kernel sv max 5.18e-51, gap 3.01
+PASS: R2 line {5/2, -3/2} [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.016326271107142052085: cluster dim 2, sign +, M_hat eigs there ['0.012563329020798', '0.0130697756271015']; kernel sv max 1.54e-51, gap 0.0135
+PASS: R2 line {5/2, -3/2} [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+PASS: R2 line {5/2, -3/2} [member (i+k)/sqrt2]: zero multiplicity + 2 deg(slow) = 16
+
+[R2] weight 7/2: unit u (CS) = [1, 0, 0, 0, 0, 0, 0, 0]
+  critical: True;  Q(u) = h(u) = 144/143
+PASS: R2 weight 7/2: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R2 weight 7/2: M_hat u = 8 h u
+PASS: R2 weight 7/2: M_hat vanishes on K_u (all 6 generator vectors)
+  k = dim K_u = 5;  r_u = 1
+PASS: R2 weight 7/2: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (0, 0, 10)   [dim N_u = 10]
+PASS: R2 weight 7/2: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 6; slow polynomial = (20449*nu + 12544)*(20449*nu + 28224)*(20449*nu + 112896)*(20449*nu + 254016)*(20449*nu + 313600)
+      root nu = -12544/20449  mult 1  neg
+      root nu = -28224/20449  mult 1  neg
+      root nu = -112896/20449  mult 1  neg
+      root nu = -254016/20449  mult 1  neg
+      root nu = -313600/20449  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -12544/20449: cluster dim 2, sign +, M_hat eigs there ['0.783216783216783', '0.783216783216783']; kernel sv max 0.0, gap 0.613
+PASS: R2 weight 7/2 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -28224/20449: cluster dim 2, sign +, M_hat eigs there ['1.17482517482517', '1.17482517482517']; kernel sv max 2.67e-51, gap 0.767
+PASS: R2 weight 7/2 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -112896/20449: cluster dim 2, sign +, M_hat eigs there ['2.34965034965035', '2.34965034965035']; kernel sv max 1.07e-50, gap 4.14
+PASS: R2 weight 7/2 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -254016/20449: cluster dim 2, sign +, M_hat eigs there ['3.52447552447552', '3.52447552447552']; kernel sv max 0.0, gap 2.91
+PASS: R2 weight 7/2 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -313600/20449: cluster dim 2, sign +, M_hat eigs there ['3.91608391608392', '3.91608391608392']; kernel sv max 2.14e-50, gap 2.91
+PASS: R2 weight 7/2 [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R2 weight 7/2 [S = i M_hat]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 weight 7/2: tau = J squares to -1
+  [member J] zero multiplicity = 8; slow polynomial = (20449*nu + 56448)**2*(20449*nu + 62720)**2
+      root nu = -56448/20449  mult 2  neg
+      root nu = -62720/20449  mult 2  neg
+      words: elliptic (multiplicity pattern not named by the worklist)
+      Krein: nu = -56448/20449: cluster dim 4, sign +, M_hat eigs there ['1.17482517482517', '1.17482517482517', '2.34965034965035', '2.34965034965035']; kernel sv max 5.35e-51, gap 0.307
+PASS: R2 weight 7/2 [member J]: cluster dim = 2 x multiplicity
+      Krein: nu = -62720/20449: cluster dim 4, sign +, M_hat eigs there ['0.783216783216783', '0.783216783216783', '3.91608391608392', '3.91608391608392']; kernel sv max 0.0, gap 0.307
+PASS: R2 weight 7/2 [member J]: cluster dim = 2 x multiplicity
+PASS: R2 weight 7/2 [member J]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 weight 7/2: tau = k squares to -1
+  [member k] zero multiplicity = 8; slow polynomial = (20449*nu + 56448)**2*(20449*nu + 62720)**2
+      root nu = -56448/20449  mult 2  neg
+      root nu = -62720/20449  mult 2  neg
+      words: elliptic (multiplicity pattern not named by the worklist)
+      Krein: nu = -56448/20449: cluster dim 4, sign +, M_hat eigs there ['1.17482517482517', '1.17482517482517', '2.34965034965035', '2.34965034965035']; kernel sv max 5.35e-51, gap 0.307
+PASS: R2 weight 7/2 [member k]: cluster dim = 2 x multiplicity
+      Krein: nu = -62720/20449: cluster dim 4, sign +, M_hat eigs there ['0.783216783216783', '0.783216783216783', '3.91608391608392', '3.91608391608392']; kernel sv max 0.0, gap 0.307
+PASS: R2 weight 7/2 [member k]: cluster dim = 2 x multiplicity
+PASS: R2 weight 7/2 [member k]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 weight 7/2: tau = (i+J)/sqrt2 squares to -1
+  [member (i+J)/sqrt2] zero multiplicity = 6; slow polynomial = (20449*nu + 127008)*(418161601*nu**2 + 2597186592*nu + 3186376704)*(418161601*nu**2 + 4617220608*nu + 3933798400)
+      root nu = -127008/20449  mult 1  neg
+      root nu = -4.52817415493951845271357366833  mult 1  neg
+      root nu = -1.68278970637399321044843914403  mult 1  neg
+      root nu = -10.1113355430282479085297612693  mult 1  neg
+      root nu = -0.930377988195772825980483730434  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -127008/20449: cluster dim 2, sign +, M_hat eigs there ['1.76223776223776', '1.76223776223776']; kernel sv max 7.56e-51, gap 1.66
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -4.5281741549395184527: cluster dim 2, sign +, M_hat eigs there ['2.06799635495558', '2.06799635495558']; kernel sv max 8.16e-51, gap 0.976
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -1.6827897063739932104: cluster dim 2, sign +, M_hat eigs there ['1.26067497371575', '1.26067497371575']; kernel sv max 1.4e-53, gap 0.65
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -10.111335543028247909: cluster dim 2, sign +, M_hat eigs there ['2.80434878162863', '2.80434878162863']; kernel sv max 1.27e-50, gap 3.27
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.93037798819577282598: cluster dim 2, sign +, M_hat eigs there ['0.850662873383027', '0.850662873383027']; kernel sv max 3.97e-51, gap 0.6
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: cluster dim = 2 x multiplicity
+PASS: R2 weight 7/2 [member (i+J)/sqrt2]: zero multiplicity + 2 deg(slow) = 16
+PASS: R2 weight 7/2: tau = (i+k)/sqrt2 squares to -1
+  [member (i+k)/sqrt2] zero multiplicity = 6; slow polynomial = (20449*nu + 127008)*(418161601*nu**2 + 2597186592*nu + 3186376704)*(418161601*nu**2 + 4617220608*nu + 3933798400)
+      root nu = -127008/20449  mult 1  neg
+      root nu = -4.52817415493951845271357366833  mult 1  neg
+      root nu = -1.68278970637399321044843914403  mult 1  neg
+      root nu = -10.1113355430282479085297612693  mult 1  neg
+      root nu = -0.930377988195772825980483730434  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -127008/20449: cluster dim 2, sign +, M_hat eigs there ['1.76223776223776', '1.76223776223776']; kernel sv max 7.56e-51, gap 1.66
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -4.5281741549395184527: cluster dim 2, sign +, M_hat eigs there ['2.06799635495558', '2.06799635495558']; kernel sv max 8.16e-51, gap 0.976
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -1.6827897063739932104: cluster dim 2, sign +, M_hat eigs there ['1.26067497371575', '1.26067497371575']; kernel sv max 0.0, gap 0.65
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -10.111335543028247909: cluster dim 2, sign +, M_hat eigs there ['2.80434878162863', '2.80434878162863']; kernel sv max 1.27e-50, gap 3.27
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.93037798819577282598: cluster dim 2, sign +, M_hat eigs there ['0.850662873383027', '0.850662873383027']; kernel sv max 3.97e-51, gap 0.6
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: cluster dim = 2 x multiplicity
+PASS: R2 weight 7/2 [member (i+k)/sqrt2]: zero multiplicity + 2 deg(slow) = 16
+
+==== B.1 (R4) and B.2 (R5) ====
+
+[R4] v1: unit u (CS) = [0, 0, 1, 0, 0, 0, 0]
+  critical: True;  Q(u) = h(u) = 168/143
+PASS: R4 v1: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R4 v1: M_hat u = 8 h u
+PASS: R4 v1: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 3;  r_u = 1
+PASS: R4 v1: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (4, 2, 4)   [dim N_u = 10]
+PASS: R4 v1: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 6; slow polynomial = (20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)
+      root nu = -784/20449  mult 1  neg
+      root nu = -12544/20449  mult 1  neg
+      root nu = -19600/1656369  mult 1  neg
+      root nu = -1960000/1656369  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -784/20449: cluster dim 2, sign +, M_hat eigs there ['0.195804195804196', '0.195804195804196']; kernel sv max 0.0, gap 0.00739
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -12544/20449: cluster dim 2, sign -, M_hat eigs there ['-0.322501028383381', '-0.322501028383381']; kernel sv max 7.25e-52, gap 0.546
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -19600/1656369: cluster dim 2, sign -, M_hat eigs there ['-0.00988910079819171', '-0.00988910079819171']; kernel sv max 6.17e-53, gap 0.0118
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -1960000/1656369: cluster dim 2, sign +, M_hat eigs there ['0.447918094976919', '0.447918094976919']; kernel sv max 0.0, gap 1.11
+PASS: R4 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R4 v1 [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 225  (Fischer route, exact);  Casimir route 225.0
+PASS: R4 v1: 924 rhat_6 Fischer = Casimir route to 1e-40
+
+[R5] v1: unit u (CS) = [0, 0, 1, 0, 0, 0, 0]
+  critical: True;  Q(u) = h(u) = 2513/2288
+PASS: R5 v1: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R5 v1: M_hat u = 8 h u
+PASS: R5 v1: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 3;  r_u = 1
+PASS: R5 v1: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (4, 2, 4)   [dim N_u = 10]
+PASS: R5 v1: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 6; slow polynomial = (20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)
+      root nu = -3969/20449  mult 1  neg
+      root nu = -30625/81796  mult 1  neg
+      root nu = -1225/327184  mult 1  neg
+      root nu = -3969/327184  mult 1  neg
+      words: elliptic, simple
+      Krein: nu = -3969/20449: cluster dim 2, sign -, M_hat eigs there ['-0.181406828465652', '-0.181406828465652']; kernel sv max 3.62e-52, gap 0.173
+PASS: R5 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -30625/81796: cluster dim 2, sign +, M_hat eigs there ['0.251953928424517', '0.251953928424517']; kernel sv max 5.61e-52, gap 0.353
+PASS: R5 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -1225/327184: cluster dim 2, sign -, M_hat eigs there ['-0.00556261919898284', '-0.00556261919898284']; kernel sv max 3.08e-53, gap 0.00374
+PASS: R5 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -3969/327184: cluster dim 2, sign +, M_hat eigs there ['0.11013986013986', '0.11013986013986']; kernel sv max 0.0, gap 0.00234
+PASS: R5 v1 [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R5 v1 [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 225  (Fischer route, exact);  Casimir route 225.0
+PASS: R5 v1: 924 rhat_6 Fischer = Casimir route to 1e-40
+  B.2 v1: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-1.1833112066212299313 + 0.0j), nu_R5 = (-0.37440706146999853294 + 0.0j))
+  B.2 v1: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-0.61342852951244559636 + 0.0j), nu_R5 = (-0.19409262066604723947 + 0.0j))
+  B.2 v1: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-0.038339283094527849773 + 0.0j), nu_R5 = (-0.012130788791627952467 + 0.0j))
+  B.2 v1: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-0.011833112066212299313 + 0.0j), nu_R5 = (-0.0037440706146999853294 + 0.0j))
+PASS: B.2 v1: P_R5(nu) is proportional to P_R4((256/81) nu) exactly, so each ratio is exactly 9/16
+PASS: B.2 v1: numerical clause-3 ratios all equal 9/16 to 1e-40
+
+[R4] pentagonal pyramid: unit u (CS) = [2*sqrt(3)/5, 0, 0, 0, 0, sqrt(13)/5, 0]
+  critical: True;  Q(u) = h(u) = 77/65
+PASS: R4 pentagonal pyramid: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R4 pentagonal pyramid: M_hat u = 8 h u
+PASS: R4 pentagonal pyramid: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 4;  r_u = 2
+PASS: R4 pentagonal pyramid: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (5, 0, 4)   [dim N_u = 9]
+PASS: R4 pentagonal pyramid: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 6; slow polynomial = (846777242025*nu**2 + 1018930808896*nu + 3933798400)*(21169431050625*nu**2 + 83366483200*nu + 629407744)
+      root nu = -1.19943125383694482241793093261  mult 1  neg
+      root nu = -0.00387317893135740975376510855456  mult 1  neg
+      root nu = -0.00196902984781772660560539348418 - 0.00508476522319656160563965929739*I  mult 1  nonreal
+      root nu = -0.00196902984781772660560539348418 + 0.00508476522319656160563965929739*I  mult 1  nonreal
+      words: hyperbolic, a complex quartet
+      Krein: nu = -1.1994312538369448224: cluster dim 2, sign +, M_hat eigs there ['0.935427576928648', '0.935427576928648']; kernel sv max 1.57e-51, gap 1.18
+PASS: R4 pentagonal pyramid [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.0038731789313574097538: cluster dim 2, sign -, M_hat eigs there ['-0.00439177256664041', '-0.00439177256664041']; kernel sv max 2.67e-52, gap 0.0008
+PASS: R4 pentagonal pyramid [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R4 pentagonal pyramid [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 1188/5  (Fischer route, exact);  Casimir route 237.6
+PASS: R4 pentagonal pyramid: 924 rhat_6 Fischer = Casimir route to 1e-40
+
+[R5] pentagonal pyramid: unit u (CS) = [2*sqrt(3)/5, 0, 0, 0, 0, sqrt(13)/5, 0]
+  critical: True;  Q(u) = h(u) = 287/260
+PASS: R5 pentagonal pyramid: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R5 pentagonal pyramid: M_hat u = 8 h u
+PASS: R5 pentagonal pyramid: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 4;  r_u = 2
+PASS: R5 pentagonal pyramid: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (5, 0, 4)   [dim N_u = 9]
+PASS: R5 pentagonal pyramid: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 6; slow polynomial = (41816160100*nu**2 + 15920793889*nu + 19448100)*(261351000625*nu**2 + 325650325*nu + 777924)
+      root nu = -0.379507545159345822718173459145  mult 1  neg
+      root nu = -0.00122549802124980542990224137859  mult 1  neg
+      root nu = -0.000623013350286077558804831532104 - 0.00160885149640203707053442344957*I  mult 1  nonreal
+      root nu = -0.000623013350286077558804831532104 + 0.00160885149640203707053442344957*I  mult 1  nonreal
+      words: hyperbolic, a complex quartet
+      Krein: nu = -0.37950754515934582272: cluster dim 2, sign +, M_hat eigs there ['0.526178012022364', '0.526178012022364']; kernel sv max 5.98e-53, gap 0.373
+PASS: R5 pentagonal pyramid [S = i M_hat]: cluster dim = 2 x multiplicity
+      Krein: nu = -0.0012254980212498054299: cluster dim 2, sign -, M_hat eigs there ['-0.00247037206873523', '-0.00247037206873523']; kernel sv max 8.54e-53, gap 0.000253
+PASS: R5 pentagonal pyramid [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R5 pentagonal pyramid [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 1188/5  (Fischer route, exact);  Casimir route 237.6
+PASS: R5 pentagonal pyramid: 924 rhat_6 Fischer = Casimir route to 1e-40
+  B.2 pentagonal pyramid: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-1.1994312538369448224 + 0.0j), nu_R5 = (-0.37950754515934582272 + 0.0j))
+  B.2 pentagonal pyramid: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-0.0038731789313574097538 + 0.0j), nu_R5 = (-0.0012254980212498054299 + 0.0j))
+  B.2 pentagonal pyramid: +xi R5 / +xi R4 = (0.5625 - 9.82759738966494399007982524827e-53j)   (nu_R4 = (-0.0019690298478177266056 - 0.0050847652231965616056j), nu_R5 = (-0.0006230133502860775588 - 0.0016088514964020370705j))
+  B.2 pentagonal pyramid: +xi R5 / +xi R4 = (0.5625 + 9.82759738966494399007982524827e-53j)   (nu_R4 = (-0.0019690298478177266056 + 0.0050847652231965616056j), nu_R5 = (-0.0006230133502860775588 + 0.0016088514964020370705j))
+PASS: B.2 pentagonal pyramid: P_R5(nu) is proportional to P_R4((256/81) nu) exactly, so each ratio is exactly 9/16
+PASS: B.2 pentagonal pyramid: numerical clause-3 ratios all equal 9/16 to 1e-40
+
+[R4] D2 ray: unit u (CS) = [0, sqrt(5)/4, 0, sqrt(6)*I/4, 0, sqrt(5)/4, 0]
+  critical: True;  Q(u) = h(u) = 168/143
+PASS: R4 D2 ray: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R4 D2 ray: M_hat u = 8 h u
+PASS: R4 D2 ray: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 4;  r_u = 4
+PASS: R4 D2 ray: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (5, 0, 4)   [dim N_u = 9]
+PASS: R4 D2 ray: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 8; slow polynomial = (16731*nu - 980)**2*(552123*nu + 501760)
+      root nu = -501760/552123  mult 1  neg
+      root nu = 980/16731  mult 2  pos
+      words: hyperbolic, real pairs
+      Krein: nu = -501760/552123: cluster dim 2, sign +, M_hat eigs there ['0.652680652680653', '1.39238539238539']; kernel sv max 2.16e-51, gap 0.889
+PASS: R4 D2 ray [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R4 D2 ray [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 225  (Fischer route, exact);  Casimir route 225.0
+PASS: R4 D2 ray: 924 rhat_6 Fischer = Casimir route to 1e-40
+
+[R5] D2 ray: unit u (CS) = [0, sqrt(5)/4, 0, sqrt(6)*I/4, 0, sqrt(5)/4, 0]
+  critical: True;  Q(u) = h(u) = 2513/2288
+PASS: R5 D2 ray: grad h(u) = 4 h(u) u (Euler identity holds: u.grad = 4h)
+PASS: R5 D2 ray: M_hat u = 8 h u
+PASS: R5 D2 ray: M_hat vanishes on K_u (all 4 generator vectors)
+  k = dim K_u = 4;  r_u = 4
+PASS: R5 D2 ray: charpoly(M_hat) divisible by (x - 8h) x^k
+  signature on N_u (n-, n0, n+) = (5, 0, 4)   [dim N_u = 9]
+PASS: R5 D2 ray: n- + n0 + n+ = dim N_u
+  [S = i M_hat] zero multiplicity = 8; slow polynomial = (20449*nu + 5880)*(118976*nu - 2205)**2
+      root nu = -5880/20449  mult 1  neg
+      root nu = 2205/118976  mult 2  pos
+      words: hyperbolic, real pairs
+      Krein: nu = -5880/20449: cluster dim 2, sign +, M_hat eigs there ['0.367132867132867', '0.783216783216783']; kernel sv max 3.18e-52, gap 0.281
+PASS: R5 D2 ray [S = i M_hat]: cluster dim = 2 x multiplicity
+PASS: R5 D2 ray [S = i M_hat]: zero multiplicity + 2 deg(slow) = 14
+  924 rhat_6 = 225  (Fischer route, exact);  Casimir route 225.0
+PASS: R5 D2 ray: 924 rhat_6 Fischer = Casimir route to 1e-40
+  B.2 D2 ray: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (-0.9087830066851045872 + 0.0j), nu_R5 = (-0.28754462320895887329 + 0.0j))
+  B.2 D2 ray: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (0.058573904727750881597 + 0.0j), nu_R5 = (0.01853314954276492738 + 0.0j))
+  B.2 D2 ray: +xi R5 / +xi R4 = (0.5625 + 0.0j)   (nu_R4 = (0.058573904727750881597 + 0.0j), nu_R5 = (0.01853314954276492738 + 0.0j))
+PASS: B.2 D2 ray: P_R5(nu) is proportional to P_R4((256/81) nu) exactly, so each ratio is exactly 9/16
+PASS: B.2 D2 ray: numerical clause-3 ratios all equal 9/16 to 1e-40
+-- 0 FAIL line(s)

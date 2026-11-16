@@ -1,0 +1,43 @@
+R4 C3 ray: crit resid 1.07e-50  Q 1.1846153846153846154  k 4  r 2  sig [5, 0, 4]  zeros 6  max|nu_num - nu_exact| 3.0e-51
+PASS R4 C3 ray: independent numeric (CS coordinates) agrees with exact s04 results
+R4 D2 ray: crit resid 1.07e-50  Q 1.1748251748251748252  k 4  r 4  sig [5, 0, 4]  zeros 8  max|nu_num - nu_exact| 1.1e-50
+PASS R4 D2 ray: independent numeric (CS coordinates) agrees with exact s04 results
+R4 coherent v3: crit resid 0.0  Q 1.000777000777000777  k 3  r 1  sig [0, 0, 10]  zeros 4  max|nu_num - nu_exact| 0.0e+00
+PASS R4 coherent v3: independent numeric (CS coordinates) agrees with exact s04 results
+R4 hexagon: crit resid 1.6e-50  Q 1.3597513597513597514  k 4  r 4  sig [9, 0, 0]  zeros 8  max|nu_num - nu_exact| 1.7e-74
+PASS R4 hexagon: independent numeric (CS coordinates) agrees with exact s04 results
+R4 octahedron: crit resid 1.07e-50  Q 1.2237762237762237762  k 4  r 4  sig [6, 0, 3]  zeros 8  max|nu_num - nu_exact| 4.3e-54
+PASS R4 octahedron: independent numeric (CS coordinates) agrees with exact s04 results
+R4 pentagonal pyramid: crit resid 0.0  Q 1.1846153846153846154  k 4  r 2  sig [5, 0, 4]  zeros 6  max|nu_num - nu_exact| 2.0e-51
+PASS R4 pentagonal pyramid: independent numeric (CS coordinates) agrees with exact s04 results
+R4 trigonal prism: crit resid 5.35e-51  Q 1.1590141125024845955  k 4  r 4  sig [3, 0, 6]  zeros 8  max|nu_num - nu_exact| 5.2e-51
+PASS R4 trigonal prism: independent numeric (CS coordinates) agrees with exact s04 results
+R4 v1: crit resid 0.0  Q 1.1748251748251748252  k 3  r 1  sig [4, 2, 4]  zeros 6  max|nu_num - nu_exact| 6.7e-52
+PASS R4 v1: independent numeric (CS coordinates) agrees with exact s04 results
+R4 v2: crit resid 0.0  Q 1.027972027972027972  k 3  r 1  sig [2, 0, 8]  zeros 4  max|nu_num - nu_exact| 3.9e-53
+PASS R4 v2: independent numeric (CS coordinates) agrees with exact s04 results
+R4 zonal v0: crit resid 0.0  Q 1.3108003108003108003  k 3  r 3  sig [8, 0, 2]  zeros 6  max|nu_num - nu_exact| 6.1e-51
+PASS R4 zonal v0: independent numeric (CS coordinates) agrees with exact s04 results
+R5 C3 ray: crit resid 1.07e-50  Q 1.1038461538461538462  k 4  r 2  sig [5, 0, 4]  zeros 6  max|nu_num - nu_exact| 7.7e-52
+PASS R5 C3 ray: independent numeric (CS coordinates) agrees with exact s04 results
+R5 D2 ray: crit resid 1.6e-50  Q 1.0983391608391608392  k 4  r 4  sig [5, 0, 4]  zeros 8  max|nu_num - nu_exact| 2.5e-51
+PASS R5 D2 ray: independent numeric (CS coordinates) agrees with exact s04 results
+R5 coherent v3: crit resid 0.0  Q 1.0004370629370629371  k 3  r 1  sig [0, 0, 10]  zeros 4  max|nu_num - nu_exact| 0.0e+00
+PASS R5 coherent v3: independent numeric (CS coordinates) agrees with exact s04 results
+R5 hexagon: crit resid 5.35e-51  Q 1.2023601398601398601  k 4  r 4  sig [9, 0, 0]  zeros 8  max|nu_num - nu_exact| 0.0e+00
+PASS R5 hexagon: independent numeric (CS coordinates) agrees with exact s04 results
+R5 octahedron: crit resid 5.35e-51  Q 1.1258741258741258741  k 4  r 4  sig [6, 0, 3]  zeros 8  max|nu_num - nu_exact| 3.8e-52
+PASS R5 octahedron: independent numeric (CS coordinates) agrees with exact s04 results
+R5 pentagonal pyramid: crit resid 5.35e-51  Q 1.1038461538461538462  k 4  r 2  sig [5, 0, 4]  zeros 6  max|nu_num - nu_exact| 7.5e-52
+PASS R5 pentagonal pyramid: independent numeric (CS coordinates) agrees with exact s04 results
+R5 trigonal prism: crit resid 5.35e-51  Q 1.089445438282647585  k 4  r 4  sig [3, 0, 6]  zeros 8  max|nu_num - nu_exact| 1.1e-51
+PASS R5 trigonal prism: independent numeric (CS coordinates) agrees with exact s04 results
+R5 v1: crit resid 0.0  Q 1.0983391608391608392  k 3  r 1  sig [4, 2, 4]  zeros 6  max|nu_num - nu_exact| 5.1e-52
+PASS R5 v1: independent numeric (CS coordinates) agrees with exact s04 results
+R5 v2: crit resid 0.0  Q 1.0157342657342657343  k 3  r 1  sig [2, 0, 8]  zeros 4  max|nu_num - nu_exact| 7.3e-53
+PASS R5 v2: independent numeric (CS coordinates) agrees with exact s04 results
+R5 zonal v0: crit resid 0.0  Q 1.1748251748251748252  k 3  r 3  sig [8, 0, 2]  zeros 6  max|nu_num - nu_exact| 1.1e-51
+PASS R5 zonal v0: independent numeric (CS coordinates) agrees with exact s04 results
+PLANTED-DEFECT-FIRED v1 in R4 compared against signature [4, 1, 5] instead of the computed one
+PLANTED-DEFECT-FIRED criticality residual at a non-critical point (v3 + v1)
+checks: 68 PASS, 0 FAIL

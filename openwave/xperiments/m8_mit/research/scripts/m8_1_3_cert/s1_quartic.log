@@ -1,0 +1,22 @@
+PASS: G X_i is antisymmetric for the four bench generators (exact)
+PASS: X_1^2 == -I (phase generator is the complex structure i)
+PASS: X_1 commutes with the three rotation generators (exact)
+R4: s_N = 3/7; c_J = {0: 3/7, 1: 0, 2: 2/7, 3: 1/7, 4: 15/77, 5: 2/11, 6: 184/1001}
+R4: q_J = c_J/s_N^2 = {0: 7/3, 1: 0, 2: 14/9, 3: 7/9, 4: 35/33, 5: 98/99, 6: 1288/1287}; 263 monomials in h
+PASS: R4: imaginary part of h cancels exactly
+PASS: R4: odd-J channels contribute the zero polynomial (w (x) w is symmetric)  [0 odd-J monomials]
+PASS: R4: grad h . X_i x == 0 identically for i = 1..4 (exact)
+R4: trial 0: Q(w) from cubature = 1.2772475599387734471418104319201134, from polynomial = 1.2772475599387734471418104319201134
+R4: trial 1: Q(w) from cubature = 1.2954154936561234274535751881773973, from polynomial = 1.2954154936561234274535751881773973
+PASS: R4: polynomial h == definition (40-digit SU(2) cubature)  [4.96e-40]
+PASS: R4: polynomial h == sum_J q_J ||[w(x)w]_J||^2 with Racah CG  [1.34e-40]
+R5: s_N = 4/7; c_J = {0: 4/7, 1: 1/7, 2: 3/7, 3: 2/7, 4: 26/77, 5: 25/77, 6: 327/1001}
+R5: q_J = c_J/s_N^2 = {0: 7/4, 1: 7/16, 2: 21/16, 3: 7/8, 4: 91/88, 5: 175/176, 6: 2289/2288}; 263 monomials in h
+PASS: R5: imaginary part of h cancels exactly
+PASS: R5: odd-J channels contribute the zero polynomial (w (x) w is symmetric)  [0 odd-J monomials]
+PASS: R5: grad h . X_i x == 0 identically for i = 1..4 (exact)
+R5: trial 0: Q(w) from cubature = 1.1292786322240280674963774322527842, from polynomial = 1.1292786322240280674963774322527842
+R5: trial 1: Q(w) from cubature = 1.1267143578861776579044192222257501, from polynomial = 1.1267143578861776579044192222257501
+PASS: R5: polynomial h == definition (40-digit SU(2) cubature)  [7.32e-41]
+PASS: R5: polynomial h == sum_J q_J ||[w(x)w]_J||^2 with Racah CG  [1.46e-41]
+all checks passed

@@ -1,0 +1,46 @@
+[PASS] generators: each X_i is G-skew (X^T G + G X = 0), exact
+[PASS] generators: span of inputs.json's four == span of my phase + su(2) generators (rank 4 of the 8)  (rank 4)
+[PASS] D R4 O1: Krawczyk K(B) inside int(B)  (max width ratio 4.88e-55, ||I - Y J(B)||_inf <= 4.88e-55)
+[PASS] D R4 O1: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.52E-58)
+[PASS] D R4 O1: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R4 O1: R0~ has constant sign over the box  (['-0.000863329763239803973508472229497', '-0.000863329763239803973508472229496'])
+R4 O1: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.67063183372701915616233827175098140869', '28.67063183372701915616233827175098140870']
+      R0~ over box in ['-0.000863329763239803973508472229496633990783339748', '-0.000863329763239803973508472229496633990783339747'], width 7.05e-61  sign -
+[PASS] C.4 R4 O1: reported decimal enclosure contains the interval and carries its sign
+[PASS] D R5 O1: Krawczyk K(B) inside int(B)  (max width ratio 4.81e-55, ||I - Y J(B)||_inf <= 4.81e-55)
+[PASS] D R5 O1: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.52E-58)
+[PASS] D R5 O1: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R5 O1: R0~ has constant sign over the box  (['-0.000786103199105844553814426531721', '-0.000786103199105844553814426531720'])
+R5 O1: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.37723040647144827534131527785992704239', '28.37723040647144827534131527785992704240']
+      R0~ over box in ['-0.000786103199105844553814426531720552667356782768', '-0.000786103199105844553814426531720552667356782767'], width 5.78e-61  sign -
+[PASS] C.4 R5 O1: reported decimal enclosure contains the interval and carries its sign
+[PASS] D R4 O2: Krawczyk K(B) inside int(B)  (max width ratio 4.67e-55, ||I - Y J(B)||_inf <= 4.67e-55)
+[PASS] D R4 O2: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.83E-58)
+[PASS] D R4 O2: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R4 O2: R0~ has constant sign over the box  (['-0.00156451543861247101284463728996', '-0.00156451543861247101284463728995'])
+R4 O2: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.73975611165693810321909495463214471478', '28.73975611165693810321909495463214471479']
+      R0~ over box in ['-0.00156451543861247101284463728995918182412852963', '-0.00156451543861247101284463728995918182412852962'], width 1.01e-60  sign -
+[PASS] C.4 R4 O2: reported decimal enclosure contains the interval and carries its sign
+[PASS] D R5 O2: Krawczyk K(B) inside int(B)  (max width ratio 7.52e-55, ||I - Y J(B)||_inf <= 7.52e-55)
+[PASS] D R5 O2: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.83E-58)
+[PASS] D R5 O2: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R5 O2: R0~ has constant sign over the box  (['-0.000596034322637912719136676783442', '-0.000596034322637912719136676783441'])
+R5 O2: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.41611281280702768306074091198058140206', '28.41611281280702768306074091198058140207']
+      R0~ over box in ['-0.000596034322637912719136676783441298348027258702', '-0.000596034322637912719136676783441298348027258701'], width 5.66e-61  sign -
+[PASS] C.4 R5 O2: reported decimal enclosure contains the interval and carries its sign
+[PASS] D R4 O3: Krawczyk K(B) inside int(B)  (max width ratio 5.55e-55, ||I - Y J(B)||_inf <= 5.55e-55)
+[PASS] D R4 O3: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.54E-58)
+[PASS] D R4 O3: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R4 O3: R0~ has constant sign over the box  (['-0.00157748742119318453653509477633', '-0.00157748742119318453653509477632'])
+R4 O3: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.74081384535538545561936945884617090443', '28.74081384535538545561936945884617090444']
+      R0~ over box in ['-0.00157748742119318453653509477632426298977949940', '-0.00157748742119318453653509477632426298977949939'], width 1.57e-60  sign -
+[PASS] C.4 R4 O3: reported decimal enclosure contains the interval and carries its sign
+[PASS] D R5 O3: Krawczyk K(B) inside int(B)  (max width ratio 5.44e-55, ||I - Y J(B)||_inf <= 5.44e-55)
+[PASS] D R5 O3: <X_i x, G k_k> nonsingular on B (so c = 0 at the zero)  (min diag >= 0.99999999, max off-diag row sum <= 1.54E-58)
+[PASS] D R5 O3: grad h . X_i x and Gx . X_i x enclose 0 on B (invariance; consistent with h's symmetry)
+[PASS] C.4 R5 O3: R0~ has constant sign over the box  (['-0.000576860076001386977530470583142', '-0.000576860076001386977530470583141'])
+R5 O3: certified=True  lambda (= 4h at the zero, from K(B)) in ['28.41670778801240431878589532060097113374', '28.41670778801240431878589532060097113375']
+      R0~ over box in ['-0.000576860076001386977530470583141830922381440359', '-0.000576860076001386977530470583141830922381440358'], width 6.82e-61  sign -
+[PASS] C.4 R5 O3: reported decimal enclosure contains the interval and carries its sign
+[PASS] C.4 exact R0~ at all census/R2 points == independent 130-digit real-chart evaluation (to 1e-100)  (2.47e-132)
+failures: 0

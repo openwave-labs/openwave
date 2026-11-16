@@ -1,0 +1,4 @@
+[PASS] R4: cert quartic == my quartic, coefficient by coefficient (exact) :: 263 vs 263 monomials
+[PASS] R4: cert even-J q_J == mine (exact) :: {'6': '1288/1287', '4': '35/33', '2': '14/9', '0': '7/3'}
+[FAIL] R5: cert quartic == my quartic, coefficient by coefficient (exact) :: 263 vs 263 monomials
+[PASS] R5: cert even-J q_J == mine (exact) :: {'6': '2289/2288', '4': '91/88', '2': '21/16', '0': '7/4'}

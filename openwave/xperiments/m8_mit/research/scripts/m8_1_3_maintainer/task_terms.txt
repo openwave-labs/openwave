@@ -1,0 +1,24 @@
+Blake
+dmobius3
+mode-identity-theory
+Mode Identity
+MIT
+OpenWave
+openwave
+Standing-Wave
+standing-wave
+Poincaré
+Poincare
+Zenodo
+zenodo
+Surviving Ray
+Soft-Slot
+Slot Ground States
+Krein-identification
+hamiltonian-krein
+sr_v2
+Sh]
+Theorem
+Proposition
+Lemma
+Table

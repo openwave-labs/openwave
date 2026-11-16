@@ -271,3 +271,169 @@ Each obligation binds only on its acceptance in this pull request's thread, befo
 | Record the outcome on MIT's side, in a dated note | the author | after the adjudication |
 
 No obligation asks for original derivation. The proofs are outside the task, and Block C's formula is evaluated, not derived. So nothing here is optional under the ceiling's last clause. Block E is optional by the author's own offer.
+
+## GO-TIME PRE-REGISTRATION (2026-11-16, go 10:30 EST)
+
+The maintainer's go. The planning sections above are kept as filed, so their status lines ("registration and go pending") describe the document at filing: the blocks were accepted at the merge of #731, and the go was given on 2026-11-16. No value in the claims file is edited. This section records what was fixed before the rooms opened; the packet files were hashed before launch, and this text was written while the rooms ran (deviation 1).
+
+### The go-time checklist, answered
+
+| Item | As run |
+| --- | --- |
+| Blocks accepted | all five, A to E, in the review of [#731](https://github.com/openwave-labs/openwave/pull/731), merged as filed at `0300b2bc` |
+| Instrument | the offered packet, adopted unchanged: `conventions-and-worklist.md` and `inputs.json` at the hashes of Sources of record, given to every room as `worklist.md` and `inputs.json`. Beside them, `clauses.md`, the designer's five clauses, recorded on [#731](https://github.com/openwave-labs/openwave/pull/731#issuecomment-6906779256) before the go, which take precedence where they speak. None adds a value |
+| Coverage | confirmed at the designer's audit of the packet against the claims file, recorded in the same comment: complete apart from C1's script constants, with two quantities asked outside their own block (C3's `k` and `r_u` at `v₁`, now clause 5; C4's criticality, read from A.4, B.1, B.2 and Block D) |
+| The claims file | received at the author's commit `72077986229a71a485461476fc6bb40f2671a658`, 52,445 bytes, SHA-256 `25fb8a946ec72aa01a6f5e0c5b1ace28ec3269bb92ce7c2dce1469d519abb669`, equal to the pin; re-serialized as stated, it reproduces its own bytes. Not edited |
+| Where it is held | in the designer's working folder, outside every room. This file was on `main` at the go (`0300b2bc`). No room can read either (the containment table below) |
+| The designer's audit | done before the go and recorded on [#731](https://github.com/openwave-labs/openwave/pull/731#issuecomment-6906779256), with the six readings the adjudication applies |
+| Environment | a conda environment kept for rooms alone: Python 3.12.14, numpy 2.5.3, scipy 1.18.1, sympy 1.14.0, mpmath 1.3.0, and the packaging tools that come with the interpreter. No library beyond `mpmath` |
+| Matching rules | frozen as the claims file states them |
+| Posture | OFFLINE for every block, the stricter of the two this document admits for A, B, C and E |
+| Citations row | at FINISH |
+
+### The packet as run
+
+| File | SHA-256 |
+| --- | --- |
+| `worklist.md` (the merged `conventions-and-worklist.md`, byte-identical) | `ddb0b1a75a45f32376f618ca32d571e373a0d8f70c53b2efe2036828a2b75179` |
+| `inputs.json` (the merged file, byte-identical) | `64734303b824abd3667bbd90d5b1d80f6a42af9d7e9b4962ba5a63c164400ed6` |
+| [`../m8_1_3/as_run/clauses.md`](../m8_1_3/as_run/clauses.md) | `92162f6f29da705f61070ca9918b264ef5adfc89a4fd67dc4695b7aa12c81b46` |
+| [`../m8_1_3/as_run/opening_prompt.md`](../m8_1_3/as_run/opening_prompt.md) | `7083043022280d18b0715bd5cb3cf85e0a2988254b81f9f0eba024eb8d18a248` |
+
+Each room also holds its own brief, `BRIEF.md`, carrying only the room's mechanics and its list of items: [`../m8_1_3/as_run/`](../m8_1_3/as_run/), `brief_<room>.md`. The stage-1 briefs were hashed before launch; the two stage-2 briefs were written and hashed at their own launches.
+
+| Brief | SHA-256 |
+| --- | --- |
+| `brief_l6.md` | `9f73806f05e8d0bad58e313d6cd1a7295a9e9aad370f6b605ff00a8665933318` |
+| `brief_r2.md` | `9d17c59d9c4375ef06b0afb0f51240d2ffd6ab78b859395ccf1935290b1c891a` |
+| `brief_cert.md` | `c424114368224057eb7522f32de724b17205a7ab010ab1a33cfdc47d8b3034c2` |
+| `brief_ca.md` | `886be315cc3a254784818f8f92218eb147f778cbf0a8a2a63f253317f9afae8d` |
+| `brief_cb.md` | `9a01d187e81153fdcc5ae102e163f0e967ae92fb12393af262e1d9ffa13ad93f` |
+| `brief_rig.md` | `425abbd8bdb886ab37a19203c6bc2895efd5b84ba2de986edb27ee0a4eef3a95` |
+| `brief_xa.md` (audit `a`, stage 1) | `50de5ade642a9d0087cd5b3ea2ada4a26fe36179da4b3fd9948fe1fdba9386aa` |
+| `brief_xb.md` (audit `b`, stage 1) | `d797aa93a7d5bb8f4a10b055d25d087001e94b849a2c9fa1067c97efb86db9e7` |
+| `brief_xa2.md` (audit `a`, stage 2) | `69799a9f8b2d8a22ee1979d1c4f33f292a5622748b7fa8effef138158227f6e0` |
+| `brief_xb2.md` (audit `b`, stage 2) | `b96bf5884f8b5ccb224b6ded511c456d162aec6d6af2622a8f8f0c78fef8f00c` |
+
+**The leak gate.** From the claims file's value fields (1,120 strings; the fields `what`, `on_record`, `source` and `matching_rules` are not read) the gate takes three pattern classes: 79 fractions other than `1/2` to `7/2`, 124 decimals of four or more places and 181 integers of three or more digits. It scans those and 32 withheld terms against each packet file. Small integers (signatures, `k`, levels, gaps) are outside it, as are two scored values that appear only in the skipped fields, `49/156` and `81/256`; none of those appears in a brief or in `clauses.md` either, by reading. `worklist.md` and `clauses.md` match only `924`, the worklist's own factor in `924 r̂₆`. The stage-1 briefs and the opening prompt match nothing, and the two stage-2 briefs, gated when they were written, match nothing ([`gate_stage2_log.txt`](../scripts/m8_1_3_maintainer/gate_stage2_log.txt)). `inputs.json` matches only Block D's start points and centres, which the claims file carries as the same inputs, the component `sqrt(1/4)` (whose `1/4` coincides with C1's `s_N` in `R₂`) and two factorials of the chart. The gate's selftest plants a claims fraction, a claims integer and a term and flags all three. ⚠️ The first run of the gate caught one leak of the designer's own: an example fraction in the briefs' return format was a claims value. It was replaced by placeholders before any room existed.
+
+### Rooms
+
+Six solver rooms and two audit rooms, launched together at 10:35 EST, each a headless one-shot session under the launcher of [`CLEAN_ROOM_STANDARDS.md` § 3.4](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md#34-launch-headless-or-operated) on the room environment, model Opus 5.5. Each room's init record shows four tools, no MCP server and no skill.
+
+| Room | Items |
+| --- | --- |
+| `l6` | 0(a) to 0(d); A.1, A.2 and A.6 in `R₄` and `R₅`; A.3; B.1, B.2, B.5 |
+| `r2` | 0(a) to 0(e); A.1, A.2 and A.6 in `R₂`; A.4, A.5; B.3 |
+| `cert` | 0(a) to 0(d); Block D, all six boxes; then B.4 at the points it certifies |
+| `ca` | 0(a) to 0(e); C.1, C.2; C.4 at every point it names |
+| `cb` | 0(a) to 0(e); C.1, C.2; C.3; C.5 |
+| `rig` | 0(a), 0(b); Block E |
+| `xa`, audit, stage 1 | its own route, before it sees any room's work: anchors; A.1 to A.3; A.4 at two points; B.1 and B.2 at three census points; B.3 at two points with the members; B.5; E.1 and E.2 in two slots |
+| `xb`, audit, stage 1 | its own route: anchors; C.1, C.2, C.3; C.4 at the five cases and `O3 R4`; C.5 at two cases; Block D and B.4 at `O3` in both slots |
+
+Every claim group has at least one solver room. C.1 and C.2 run in two solver rooms; the anchors run in every room. The audit's second stage is a new launch, after each solver's return and each auditor's stage-1 return are copied out and hashed, with the solvers' rooms copied in beside the auditor's own stage-1 files.
+
+### Containment
+
+| Route to the answers | Guard |
+| --- | --- |
+| The claims file, this file and every repository document | the session's file tools are confined to the room by `--restricted`, which still admits reads of the harness's own per-session output folders (the harness-pointer route of `CLEAN_ROOM_STANDARDS.md` § 3.4; those hold only the room's own output); code runs only through `./py`, whose deny-by-default sandbox reads the system libraries, the interpreter's install and the room, nothing else |
+| Another room | the same: each room reads only itself. The auditors see the solvers' work only in stage 2 |
+| Web, MCP, skills, agents | absent: four tools |
+| The interpreter's install | the room environment holds only the numerics libraries; the launcher aborts on the platform's name or a locally installed package. It holds the numerics libraries and the packaging tools that come with the interpreter, nothing else |
+| What loads unavoidably | a `--restricted` launch loads no instruction file and no memory; the account's email address and the working-directory path reach every session, as § 3.3 of the standard says, and the room paths name nothing |
+| Designer-only material | the author's scripts were never fetched. The certificate file was fetched and hashed before the go; its three orbits were compared field by field with the claims file's designer-side copies at that check (deviation 2). Neither reaches a room or the adjudication |
+
+## FINDINGS (run closed 2026-11-16)
+
+Full record: [`../findings/m8_1_3_method_note.md`](../findings/m8_1_3_method_note.md). Returns: [`../scripts/m8_1_3_l6/`](../scripts/m8_1_3_l6/), [`../scripts/m8_1_3_r2/`](../scripts/m8_1_3_r2/), [`../scripts/m8_1_3_cert/`](../scripts/m8_1_3_cert/), [`../scripts/m8_1_3_ca/`](../scripts/m8_1_3_ca/), [`../scripts/m8_1_3_cb/`](../scripts/m8_1_3_cb/), [`../scripts/m8_1_3_rig/`](../scripts/m8_1_3_rig/), the audit rooms [`../scripts/m8_1_3_audit_a/`](../scripts/m8_1_3_audit_a/) and [`../scripts/m8_1_3_audit_b/`](../scripts/m8_1_3_audit_b/), and the designer's comparison [`../scripts/m8_1_3_maintainer/`](../scripts/m8_1_3_maintainer/). The claims file, committed beside the record: [`../m8_1_3/m8_1_3_claims.json`](../m8_1_3/m8_1_3_claims.json).
+
+**Every frozen claim reproduces, blind, in all five blocks, and no claim was found defective.** The comparison against the claims file prints 514 lines under the file's own matching rules, and all 514 pass. Most set a value a room returned against the value the file freezes. Three record cells the degenerate rule leaves unscored and cannot fail; about 30 check a room's values against each other or against a clause (B2's scaling and ratios, B4's widths, ratios and overlaps, two counts); and D1 and B4 score the same enclosure and integers from `cert`, so about 30 lines are repeated between them. Planting one wrong claim value and, separately, one wrong room value turns exactly one line red each time.
+
+### The adjudication
+
+| Group | Verdict | What was compared |
+| --- | --- | --- |
+| A1 | ✅ reproduced | β in the three slots, exact; the ratio and the difference. The closed form `d(d − r)/(13r)` was not in the packet; the rooms' values satisfy it at all three `(d, r)` |
+| A2 | ✅ reproduced | the eight channel coefficients of `R₄` and `R₅` and `R₂`'s `q₇`, exact; `R₂`'s other three agree with the script's values |
+| A3 | ✅ reproduced | `R₂`'s eight points: all critical, exactly; `Q` and the signature at each |
+| A4 | ✅ identity holds | `Q` constant on the three spans, as polynomials in `\|α\|²` and `\|β\|²` |
+| A5 | ✅ reproduced | the two percentages in each slot, rounded up as printed |
+| B1 | ✅ reproduced | at the ten census orbits in `R₄`: criticality, `924 r̂₆`, signature, `k`, `r_u`, the zero multiplicity (with (Z)'s at the prism and `v₂`), the slow polynomial (the script's, made monic), the slow-flow words and the Krein signs. At `v₁` the degenerate rule applies: `n₀ = 2` scored with the signature, the words unscored here |
+| B2 | ✅ reproduced | the same in `R₅`, computed from `R₅`'s own quartic; at every orbit the room's `R₅` slow polynomial equals its `R₄` polynomial at `256ν/81`, and every paired eigenvalue ratio is exactly 9/16 |
+| B3 | ✅ reproduced | `R₂`'s eight points: signature, `k`, `r_u`, zero multiplicity, slow polynomial, the words and Krein sign at the point, and the four members where the file scores them (`definite` at weight 7/2 and the line `{7/2, −3/2}`, `hyperbolic` at weights 3/2 and 5/2). The line `{5/2, −3/2}` is degenerate and goes to C3 |
+| B4 | ✅ reproduced, at the points Block D certified | `O₁` to `O₃` in both slots: signature, `k`, `r_u`, zero multiplicity ((Z)'s at `O₃`), words; `924 r̂₆` inside Table 2's printed digits with width far under `10⁻⁵⁰`; `O₂`'s enclosure contains `28800/121`; each paired ratio enclosure contains 9/16, and each `R₅` root enclosure meets `81/256` of exactly one `R₄` root |
+| B5 | ✅ identity holds | the Hilbert-Schmidt spin-6 factor and `r̂₆` are the same polynomial on `V₃` |
+| C1 | ✅ reproduced, in two rooms | the levels with nonzero norm in each slot; `s_N`. The script's constants `t_J` and `κ_J` have no worklist item and are not scored |
+| C2 | ✅ reproduced, in two rooms | next level and gap in each slot |
+| C3 | ✅ reproduced | `R₂`'s line point: `\|Γ_u\| = 24`, `dim K′ = 3`, absolutely irreducible, `n₋ = 0`, `γ_u` exact. `v₁` in both slots: `K′ = ℂv₋₃` at circle weight 4, `γ_u` exact in each slot with the pair's Krein sign its sign, `(k, r_u) = (3, 1)` (clause 5), and off `K′` zero multiplicity `4 = k + r_u` with four simple negative slow roots |
+| C4 | ✅ reproduced | `R̃₀ < 0` at all 28 tabulated critical points, exactly, and over the six certified boxes by interval; the six values the file carries as the script's agree as exact rationals |
+| C5 | ✅ reproduced | the five zero multiplicities; all 19 slow groups' values of the supplied formula agree with the script's values, the largest relative difference `3.6e−12` against the rule's `10⁻⁹`, the octahedron's threefold group included. These are the script's values, not the paper's: a pass records that the formula gives the script's value |
+| D1 | ✅ reproduced | all six boxes are certified in the box Section 3 defines (Krawczyk's test on an outward-rounded superset of it, with the image inside the exact box); signature, `k`, `r_u`, zero multiplicity, the slow roots certified real and simple with their signs; `924 r̂₆` inside Table 2's digits and inside the script's enclosure |
+| E1 | ✅ reproduced, on `E₀` | the six rigid slots `n = 0` to `5`, their next levels and gaps, and on `E₀` the eigenvalue 0 with algebraic multiplicity `2n + 2` and geometric `2n + 1`, `±2iω` each `n` times, and the simple pair `±i(4ω² + 2g₄c²\|v\|²)^{1/2}`, exactly. Off `E₀` the paper's statement is a proof's and is recorded beside the score, not scored. The script's printed line (its gaps, and a remark on `Sym⁶`) is not scored beyond the levels and gaps it shares with the row |
+
+The anchors 0(a) to 0(e) agree across every room that answered them (order 120, nine classes, the character table, the levels to 20, multiplicity 1 at the lowest level, `s_N`, the sign of `⟨3 3; 3 −3 | 6 0⟩`, `Θ²`), and each room DERIVED its character table; any recognition of the group, before or after, is recorded as unused. 0(e) depends on the phase chosen for `C`: rooms report the map as `Θ` or `−Θ`, which is that phase, and both readings give the same quaternionic structure.
+
+### The adversarial audit
+
+Two audit rooms, each first computing its share of the worklist by its own route, hashed before it saw any room's work, then grading the solvers' returns in a second launch with its own code only. Both recomputed every item and point in their scope. **Neither found a disagreement with any reported value, nor a defect in one.** What they demonstrated is in the rooms' checks and text: a false margin statement in `r2`'s return, a check `ca` calls independent that re-evaluates the same formula, a few PASS lines that cannot fail, and planted defects that do not exercise the route a value rests on. Each value so affected was recomputed by an audit route that can fail. Full record: the [method note](../findings/m8_1_3_method_note.md) § 5.
+
+One reading decides scored values. In `R₂` every room and both audits took the fibre group to be the continuous `Sp(1)` that the worklist names, under which the quartic is invariant. The group the phase and the one map `ψ ↦ ψ̄C` literally generate is smaller, and under it `k` would drop by 2 at every `R₂` point. The claims file's `k` rule names `Sp(1)` in `R₂`, so the scores stand as read.
+
+`|Γ_u| = 24` at `R₂`'s line point rests on two independent numerical searches and on the maximality of the octahedral group among finite subgroups of SO(3), not on 24 elements built exactly.
+
+### The transcript audit
+
+All ten room sessions were classified call by call against their rooms. No session read or wrote outside its room, apart from `cb`'s two reads of harness files holding its own output (deviation 5). Every launcher closing line reports `./py` and its profile unchanged. Every room returned a consulted-material manifest, and the two reads outside a room that the transcripts show, both `cb`'s, are disclosed in its manifest.
+
+### What the record does not claim
+
+No theorem. The verdict attaches to the pinned PDF, version DOI `10.5281/zenodo.24224845`, and reads as M8.1.2's: the frozen claims reproduce, blind. C5's values are the pinned script's, and their passing says nothing about whether the formula is the next-order term. E1 is scored on `E₀` only. No `MODELS.md` icon moves and M8.7's gate is unchanged.
+
+### DEVIATIONS LOG
+
+| # | Deviation |
+| --- | --- |
+| 1 | The go-time section was written while the rooms ran, not before. The stage-1 packet (worklist, inputs, clauses, opening prompt and the eight stage-1 briefs) was hashed before launch, and the two stage-2 briefs at their own launches; those hashes are what it pins |
+| 2 | The certificate file, designer-only material, was fetched and hashed before the go, and at that check its three orbits were compared field by field with the claims file's designer-side copies. Nothing from it reached a room, and it played no part in the adjudication |
+| 3 | The leak gate's first run caught a leak of the designer's own: an example fraction in the briefs' return format was a claims value. It was replaced by placeholders before any room existed, and the gate then passed |
+| 4 | Every room's first command was a shell read of its own four packet files (`ls` and `cat`, in some rooms after a `cd` into the room itself), outside the `./py` rule; the client admits such reads without a prompt. Audit `a` also read `py` and `.room.sb` with `cat`, in both stages, and `ca` read one of its own logs with `cat`. Several later commands wrapped `./py` in `time` or piped its output through `tail`, `grep` or `cut`. All touched only the room, and the rooms reported them |
+| 5 | Room `cb` read two harness files holding copies of its own output, outside the room, by the harness-pointer route, and disclosed both |
+| 6 | The designer's comparison first stopped on the octahedron's threefold slow group, whose room records its values under a different key. The adapter now reads every eigenvalue of the group and requires all three to agree, which is stricter than the first version |
+| 7 | The audit's second stage launched room by room as its inputs were ready, not together, so as to share the machine with another long run |
+
+## TASK REVIEW (2026-11-16)
+
+Task Duration: 01:38 (from 10:30 to 12:08 EST)
+Usage Cap Triggered: NO
+
+| Result | |
+| --- | --- |
+| ✅ | Every frozen claim reproduces, blind, in all five blocks: A1 to A5, B1 to B5, C1 to C5, D1 and E1, 17 of 17 groups, two of them identities that hold |
+| ✅ | Six solver rooms offline; Krawczyk certificates at all six boxes; C5's 19 slow groups within `3.6·10⁻¹²` of the script's values against the rule's `10⁻⁹` |
+| ✅ | Two audit rooms, each computing its share by its own route before seeing a room's work: no disagreement with any value, no defect in one |
+| ⚠️ | Defects in the rooms' checks and text only: a false margin statement (`r2`), a check called independent that is not (`ca`), PASS lines that cannot fail; every affected value was confirmed by an audit route that can fail |
+| ⚠️ | `\|Γ_u\| = 24` rests on two numerical searches and a maximality argument, not on 24 elements built exactly |
+| ⚠️ | One reading decides scored values: `R₂`'s fibre group taken as the continuous `Sp(1)` the worklist names and the claims file's `k` rule uses |
+
+Issues: none blocking. The doc checker passes on the designer's documents; its remaining findings are dashes and table pipes inside the verbatim room returns and the as-run briefs, which stay byte-identical to what the rooms produced and received.
+
+Deviations from plan: seven, in the deviations log above. Separately, an adversarial audit of this record found 21 items, one false and the rest overstated or incomplete, all corrected before the record was presented.
+
+Action needed: none outstanding on the platform side. The author's dated note on MIT's side is the author's, as the obligations table states.
+
+Scope: a blind reproduction of the pinned PDF's frozen values, version DOI `10.5281/zenodo.24224845`. No theorem; C5's values are the script's; Block E on `E₀` only; no `MODELS.md` icon moves, and M8.7's gate is unchanged.
+
+### Findings
+
+Every frozen claim of the Standing-Wave Branches reproduces, blind, in all five blocks, on six offline rooms and a two-stage adversarial audit that found no disagreement, and no claim was found defective. Every discrepancy the run produced was in an instrument, a room's check or text or the designer's own comparison, never in a value the paper states.
+
+### Research docs created/updated
+
+- [`tasks/m8_1_3_task_details.md`](m8_1_3_task_details.md) (this file): go-time pre-registration, findings, the adjudication, the audit, the deviations log
+- [`findings/m8_1_3_method_note.md`](../findings/m8_1_3_method_note.md): the author-facing record
+- [`scripts/m8_1_3_l6/`](../scripts/m8_1_3_l6/), [`scripts/m8_1_3_r2/`](../scripts/m8_1_3_r2/), [`scripts/m8_1_3_cert/`](../scripts/m8_1_3_cert/), [`scripts/m8_1_3_ca/`](../scripts/m8_1_3_ca/), [`scripts/m8_1_3_cb/`](../scripts/m8_1_3_cb/), [`scripts/m8_1_3_rig/`](../scripts/m8_1_3_rig/), [`scripts/m8_1_3_audit_a/`](../scripts/m8_1_3_audit_a/), [`scripts/m8_1_3_audit_b/`](../scripts/m8_1_3_audit_b/), [`scripts/m8_1_3_maintainer/`](../scripts/m8_1_3_maintainer/)
+- [`m8_1_3/as_run/`](../m8_1_3/as_run/), [`m8_1_3/m8_1_3_claims.json`](../m8_1_3/m8_1_3_claims.json)
+- [`m8_roadmap.md`](../m8_roadmap.md), [`m8_theory_canonical.md`](../m8_theory_canonical.md), [`__M8_model_briefing.md`](../../__M8_model_briefing.md), [`../theory/_CITATIONS.md`](../../theory/_CITATIONS.md)
+- [`dev_docs/CLEAN_ROOM_STANDARDS.md`](../../../../../dev_docs/CLEAN_ROOM_STANDARDS.md) § 3.4: the third shell shape the client admits, observed in every room of this run

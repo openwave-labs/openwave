@@ -1,0 +1,13 @@
+gate set: 1120 value strings; 79 fractions, 124 decimals (4+ places), 181 integers of 3+ digits, 32 terms
+clauses.md [('int', '924')]
+conventions-and-worklist.md [('int', '924')]
+opening_prompt.md []
+BRIEF_ca.md []
+BRIEF_cb.md []
+BRIEF_cert.md []
+BRIEF_l6.md []
+BRIEF_r2.md []
+BRIEF_rig.md []
+BRIEF_xa.md []
+BRIEF_xb.md []
+selftest: PASS (planted fraction, integer and term flagged)

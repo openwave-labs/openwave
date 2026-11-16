@@ -1,0 +1,67 @@
+===== C.3 (1): R2, point of the line {5/2, -3/2} =====
+stabilizer search: 24 rotations; closed under products: True
+  PASS: R2 line point: rotation set found is a group
+[dps 50] h(u) = 1.12587412587412587412587412587; |grad h - 4 h u| = 2.2387e-50; k = 6; r_u = 2; signature on N_u = (0, 3, 6); dim K' = 3
+[dps 80] h(u) = 1.12587412587412587412587412587; |grad h - 4 h u| = 7.8223e-81; k = 6; r_u = 2; signature on N_u = (0, 3, 6); dim K' = 3
+  PASS: R2 line point is critical (|grad h - 4h u| < 1e-40 at 50 digits)
+  PASS: R2 line point: k = 6 (finite stabilizer)
+  PASS: R2 line point: signature and dim K' agree at 50 and 80 digits
+Gamma_u: 24 distinct maps of E_0; max residual D(g)u in Hu: 2.23e-51; max |A u - u| = 1.38e-50; max |A^T A - 1| = 2.89e-50; max |[A, M^]| = 4.79e-49
+  PASS: Gamma_u elements verified at 50 digits (fix u, orthogonal, commute with M^)
+  PASS: |Gamma_u| = number of rotations found (2-to-1 count of (g, q) pairs)
+K' invariant under Gamma_u: max residual 1.25e-49; commutant dimension of Gamma_u on K' = 1
+traces of Gamma_u on K': ['-1.0', '-1.0', '-1.0', '-1.0', '-1.0', '-1.0', '-1.0', '-1.0', '-1.0', '-1.6704779e-50', '-1.7038875e-50', '-6.6819118e-51', '-8.0182941e-51', '1.0', '1.0', '1.0', '1.0', '1.0', '1.0', '3.0', '5.0114338e-51', '5.0114338e-51', '5.679625e-51', '5.679625e-51']
+  PASS: K' invariant under Gamma_u
+  PASS: commutant dimension the same at 50 and 80 digits
+gamma_u matrix on K' (50 digits): diag ['0.005656765916465669180112715', '0.005656765916465669180112715', '0.005656765916465669180112715']; |gamma - gamma_11 I| = 3.84e-52
+R~0(u) = -0.000721896992377794348777964741987
+gamma_u = 115020/20333173 R^2   [rational, q <= 1e15, same at 50 and 80 digits]   ~ 0.00565676591646566918011271531502
+  PASS: gamma_u is a multiple of the identity on K' (1e-35)
+  PASS: gamma_u identified exactly at two precisions
+K' is supported on the components m in ['-1/2', '-5/2', '-7/2', '1/2', '3/2', '7/2']
+exact form of K' checked: max |v - P_K' v| = 2.27e-50, smallest singular value of the 3 vectors 1.0
+  PASS: R2 line point: the exact 3 vectors lie in K' and span it
+kappa_u = h(u) = 161/143  [rational, q <= 1e15, same at 50 and 80 digits]
+
+===== C.3 (2): v1 in R4 =====
+h(v1) = 1.17482517482517482517482517483; |grad h - 4 h u| = 1.0542e-80
+  PASS: v1 critical in R4
+clause 5: k = 3, r_u = 1  (130 digits: k = 3, r_u = 1); singular values of the 4 tangent vectors: ['2.34521', '2.34521', '1.41421', '0.0']
+  PASS: R4 v1: k and r_u agree at 80 and 130 digits
+signature on N_u = (4, 2, 4); dim K' = 2; circle fixes u: 0.0; [circle, M^] = 6.47e-79
+  PASS: R4 v1: the circle fixes u and commutes with M^
+K' supported on m in ['-3']; circle weights there (w_m -> e^(i(1-m)theta) w_m): [4]; K' complex (i-invariant) residual 2.71e-79
+gamma_u on K': diag ['-0.002973993569162557810648626', '-0.002973993569162557810648626']; |gamma - gamma_11 I| = 8.94e-83
+gamma_u = -19919/6697728 R^2  [rational, q <= 1e15, same at 80 and 130 digits]  ~ -0.0029739935691625578106486259221;  R~0(v1) = -0.000341621078632259661496937892629
+  PASS: R4 v1: gamma_u a multiple of the identity on K'
+  PASS: R4 v1: gamma_u identified exactly at two precisions
+off K': components m in ['3', '2', '1', '0', '-1', '-2']; coupling of M^ to the rest: 1.62e-80
+  PASS: R4 v1: off-K' components form an M^-invariant block
+   zero multiplicity of S^ off K' = 4 (130 digits: 4); whole E_0: 6; largest |zero eigenvalue| 5.01e-41 vs smallest |nonzero| 0.10878 (80 digits); at 130 digits 3.01e-65 vs 0.10878
+  PASS: R4 v1: zero multiplicity off K' agrees at 80 and 130 digits
+  PASS: R4 v1: characteristic polynomial off K' is even in xi with real coefficients
+  PASS: R4 v1: slow polynomial coefficients identified as rationals at two precisions
+   slow polynomial (off K', nu = xi^2): (20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)
+   roots in nu: [-1.1833112066212299313, -0.61342852951244559636, -0.038339283094527849773, -0.011833112066212299313]
+
+===== C.3 (2): v1 in R5 =====
+h(v1) = 1.09833916083916083916083916084; |grad h - 4 h u| = 4.744e-81
+  PASS: v1 critical in R5
+clause 5: k = 3, r_u = 1  (130 digits: k = 3, r_u = 1); singular values of the 4 tangent vectors: ['2.34521', '2.34521', '1.41421', '0.0']
+  PASS: R5 v1: k and r_u agree at 80 and 130 digits
+signature on N_u = (4, 2, 4); dim K' = 2; circle fixes u: 0.0; [circle, M^] = 7.34e-79
+  PASS: R5 v1: the circle fixes u and commutes with M^
+K' supported on m in ['-3']; circle weights there (w_m -> e^(i(1-m)theta) w_m): [4]; K' complex (i-invariant) residual 6.03e-79
+gamma_u on K': diag ['0.005392619485808337895305202', '0.005392619485808337895305202']; |gamma - gamma_11 I| = 2.55e-83
+gamma_u = 224487/41628563 R^2  [rational, q <= 1e15, same at 80 and 130 digits]  ~ 0.00539261948580833789530520186344;  R~0(v1) = -0.00142605026698494609256934679677
+  PASS: R5 v1: gamma_u a multiple of the identity on K'
+  PASS: R5 v1: gamma_u identified exactly at two precisions
+off K': components m in ['3', '2', '1', '0', '-1', '-2']; coupling of M^ to the rest: 2.48e-80
+  PASS: R5 v1: off-K' components form an M^-invariant block
+   zero multiplicity of S^ off K' = 4 (130 digits: 4); whole E_0: 6; largest |zero eigenvalue| 2.77e-40 vs smallest |nonzero| 0.0611888 (80 digits); at 130 digits 2.78e-66 vs 0.0611888
+  PASS: R5 v1: zero multiplicity off K' agrees at 80 and 130 digits
+  PASS: R5 v1: characteristic polynomial off K' is even in xi with real coefficients
+  PASS: R5 v1: slow polynomial coefficients identified as rationals at two precisions
+   slow polynomial (off K', nu = xi^2): (20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)
+   roots in nu: [-0.37440706146999853294, -0.19409262066604723947, -0.012130788791627952467, -0.0037440706146999853294]
+checks: 29 PASS, 0 FAIL

@@ -1,0 +1,26 @@
+{
+ "dim1_n0": {
+  "next level used": 12,
+  "relative E0 component": 1.5545844726786284e-16
+ },
+ "dim2_n1": {
+  "next level used": 11,
+  "relative E0 component": 1.7440434672064572e-16
+ },
+ "dim3_n2": {
+  "next level used": 10,
+  "relative E0 component": 1.867646858752573e-17
+ },
+ "dim4_n3": {
+  "next level used": 9,
+  "relative E0 component": 2.1119484935715814e-16
+ },
+ "dim5_n4": {
+  "next level used": 8,
+  "relative E0 component": 4.1944870939924214e-17
+ },
+ "dim6_n5": {
+  "next level used": 7,
+  "relative E0 component": 7.819674657623425e-17
+ }
+}

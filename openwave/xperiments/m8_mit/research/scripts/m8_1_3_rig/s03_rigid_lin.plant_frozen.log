@@ -1,0 +1,71 @@
+PASS E.2 dim1_n0: the member solves the reduced equation (residual 0)
+FAIL E.2 dim1_n0: char poly equals prod (mu - ev)^alg of the closed form  [mu**2*(mu**2 + 4*omega**2)]
+FAIL E.2 dim1_n0: geometric multiplicities (symbolic rank)  [{'0': 2, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0}]
+FAIL E.2 dim1_n0: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 2, 4*I: 0, -4*I: 0}]
+dim1_n0: A (4x4) char poly = mu**2*(mu**2 + 4*omega**2)
+    eigenvalue 0: alg 2, geom 2
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+PASS E.2 dim2_n1: the member solves the reduced equation (residual 0)
+FAIL E.2 dim2_n1: char poly equals prod (mu - ev)^alg of the closed form  [mu**4*(mu**2 + 4*omega**2)**2]
+FAIL E.2 dim2_n1: geometric multiplicities (symbolic rank)  [{'0': 4, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '2*I*omega': 2, '-2*I*omega': 2}]
+FAIL E.2 dim2_n1: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 4, 4*I: 0, -4*I: 0, 2*I: 2, -2*I: 2}]
+dim2_n1: A (8x8) char poly = mu**4*(mu**2 + 4*omega**2)**2
+    eigenvalue 0: alg 4, geom 4
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue 2*I*omega: alg 1, geom 2
+    eigenvalue -2*I*omega: alg 1, geom 2
+PASS E.2 dim3_n2: the member solves the reduced equation (residual 0)
+FAIL E.2 dim3_n2: char poly equals prod (mu - ev)^alg of the closed form  [mu**6*(mu**2 + 4*omega**2)**3]
+FAIL E.2 dim3_n2: geometric multiplicities (symbolic rank)  [{'0': 6, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '2*I*omega': 3, '-2*I*omega': 3}]
+FAIL E.2 dim3_n2: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 6, 4*I: 0, -4*I: 0, 2*I: 3, -2*I: 3}]
+dim3_n2: A (12x12) char poly = mu**6*(mu**2 + 4*omega**2)**3
+    eigenvalue 0: alg 6, geom 6
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue 2*I*omega: alg 2, geom 3
+    eigenvalue -2*I*omega: alg 2, geom 3
+PASS E.2 dim4_n3: the member solves the reduced equation (residual 0)
+FAIL E.2 dim4_n3: char poly equals prod (mu - ev)^alg of the closed form  [mu**8*(mu**2 + 4*omega**2)**4]
+FAIL E.2 dim4_n3: geometric multiplicities (symbolic rank)  [{'0': 8, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '2*I*omega': 4, '-2*I*omega': 4}]
+FAIL E.2 dim4_n3: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 8, 4*I: 0, -4*I: 0, 2*I: 4, -2*I: 4}]
+dim4_n3: A (16x16) char poly = mu**8*(mu**2 + 4*omega**2)**4
+    eigenvalue 0: alg 8, geom 8
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue 2*I*omega: alg 3, geom 4
+    eigenvalue -2*I*omega: alg 3, geom 4
+PASS E.2 dim5_n4: the member solves the reduced equation (residual 0)
+FAIL E.2 dim5_n4: char poly equals prod (mu - ev)^alg of the closed form  [mu**10*(mu**2 + 4*omega**2)**5]
+FAIL E.2 dim5_n4: geometric multiplicities (symbolic rank)  [{'0': 10, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '2*I*omega': 5, '-2*I*omega': 5}]
+FAIL E.2 dim5_n4: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 10, 4*I: 0, -4*I: 0, 2*I: 5, -2*I: 5}]
+dim5_n4: A (20x20) char poly = mu**10*(mu**2 + 4*omega**2)**5
+    eigenvalue 0: alg 10, geom 10
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue 2*I*omega: alg 4, geom 5
+    eigenvalue -2*I*omega: alg 4, geom 5
+PASS E.2 dim6_n5: the member solves the reduced equation (residual 0)
+FAIL E.2 dim6_n5: char poly equals prod (mu - ev)^alg of the closed form  [mu**12*(mu**2 + 4*omega**2)**6]
+FAIL E.2 dim6_n5: geometric multiplicities (symbolic rank)  [{'0': 12, 'I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)': 0, '2*I*omega': 6, '-2*I*omega': 6}]
+FAIL E.2 dim6_n5: geometric multiplicities at (w,g,c,|v|)=(1,1,1,sqrt6), exact ranks  [{0: 12, 4*I: 0, -4*I: 0, 2*I: 6, -2*I: 6}]
+dim6_n5: A (24x24) char poly = mu**12*(mu**2 + 4*omega**2)**6
+    eigenvalue 0: alg 12, geom 12
+    eigenvalue I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue -I*sqrt(2*c**2*g_4*r**2 + 4*omega**2): alg 1, geom 0
+    eigenvalue 2*I*omega: alg 5, geom 6
+    eigenvalue -2*I*omega: alg 5, geom 6
+PASS E.2 dim1_n0: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 5.4e-20, ev err 9.6e-07, nullities {'0': 1, 'iOm': 1}, null(A^2) 2]
+PASS E.2 dim1_n0: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 4.4e-16, ev err 3.5e-06, nullities {'0': 1, 'iOm': 1}, null(A^2) 2]
+PASS E.2 dim2_n1: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 1.3e-15, ev err 6.2e-06, nullities {'0': 3, 'iOm': 1, '2iw': 1}, null(A^2) 4]
+PASS E.2 dim2_n1: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 8.9e-16, ev err 3.0e-06, nullities {'0': 3, 'iOm': 1, '2iw': 1}, null(A^2) 4]
+PASS E.2 dim3_n2: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 2.8e-14, ev err 9.8e-07, nullities {'0': 5, 'iOm': 1, '2iw': 2}, null(A^2) 6]
+PASS E.2 dim3_n2: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 1.4e-14, ev err 2.7e-06, nullities {'0': 5, 'iOm': 1, '2iw': 2}, null(A^2) 6]
+PASS E.2 dim4_n3: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 2.7e-15, ev err 4.1e-06, nullities {'0': 7, 'iOm': 1, '2iw': 3}, null(A^2) 8]
+PASS E.2 dim4_n3: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 7.1e-15, ev err 9.2e-06, nullities {'0': 7, 'iOm': 1, '2iw': 3}, null(A^2) 8]
+PASS E.2 dim5_n4: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 7.1e-15, ev err 6.7e-06, nullities {'0': 9, 'iOm': 1, '2iw': 4}, null(A^2) 10]
+PASS E.2 dim5_n4: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 1.4e-14, ev err 1.3e-05, nullities {'0': 9, 'iOm': 1, '2iw': 4}, null(A^2) 10]
+PASS E.2 dim6_n5: numeric FD at random v (trial 0): member residual, eigenvalues, nullities  [resid 3.6e-15, ev err 3.8e-06, nullities {'0': 11, 'iOm': 1, '2iw': 5}, null(A^2) 12]
+PASS E.2 dim6_n5: numeric FD at random v (trial 1): member residual, eigenvalues, nullities  [resid 1.6e-15, ev err 2.0e-06, nullities {'0': 11, 'iOm': 1, '2iw': 5}, null(A^2) 12]
+SUMMARY PASS=18 FAIL=18 plant=frozen

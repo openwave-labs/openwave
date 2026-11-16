@@ -1,0 +1,1346 @@
+{
+ "R4|C3 ray": {
+  "critical": true,
+  "Q": "77/65",
+  "perturbed residual": "7.4851e-31",
+  "k": 4,
+  "r_u": 2,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "161332131962579720872640625*nu**4 + 194767005105025648855560000*nu**3 + 32893021579212071243366400*nu**2 - 77511964173743503179776*nu + 61899079407370240000",
+  "words": "hyperbolic, a complex quartet",
+  "roots": [
+   {
+    "nu": "-1.00361577857861379296434811774",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.205961882594800871994460340452",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "0.00116758435473848978795081503287 - 0.000702053638505817414463022955152*I",
+    "mult": 1,
+    "kind": "nonreal"
+   },
+   {
+    "nu": "0.00116758435473848978795081503287 + 0.000702053638505817414463022955152*I",
+    "mult": 1,
+    "kind": "nonreal"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-1.003615778578613792964348",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.7122"
+   },
+   {
+    "nu": "-0.2059618825948008719944603",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.32739"
+   }
+  ],
+  "924 r6hat": "1188/5",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|C3 ray": {
+  "critical": true,
+  "Q": "287/260",
+  "perturbed residual": "4.2103e-31",
+  "k": 4,
+  "r_u": 2,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "10928695284430200062500*nu**4 + 4174532859761352213125*nu**3 + 223070079069092280025*nu**2 - 166322631255076296*nu + 42025399290000",
+  "words": "hyperbolic, a complex quartet",
+  "roots": [
+   {
+    "nu": "-0.317550304940889520430125771629",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.0651676269147612134044972170962",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "0.000369430987241475284468812568994 - 0.000222134159058481291294940856904*I",
+    "mult": 1,
+    "kind": "nonreal"
+   },
+   {
+    "nu": "0.000369430987241475284468812568994 + 0.000222134159058481291294940856904*I",
+    "mult": 1,
+    "kind": "nonreal"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-0.3175503049408895204301258",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.40061"
+   },
+   {
+    "nu": "-0.06516762691476121340449722",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.18416"
+   }
+  ],
+  "924 r6hat": "1188/5",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|D2 ray": {
+  "critical": true,
+  "Q": "168/143",
+  "perturbed residual": "6.2160e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(16731*nu - 980)**2*(552123*nu + 501760)",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "-501760/552123",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "980/16731",
+    "mult": 2,
+    "kind": "pos"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-501760/552123",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.65268"
+   }
+  ],
+  "924 r6hat": "225",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|D2 ray": {
+  "critical": true,
+  "Q": "2513/2288",
+  "perturbed residual": "3.4965e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(20449*nu + 5880)*(118976*nu - 2205)**2",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "-5880/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "2205/118976",
+    "mult": 2,
+    "kind": "pos"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-5880/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.36713"
+   }
+  ],
+  "924 r6hat": "225",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|coherent v3": {
+  "critical": true,
+  "Q": "1288/1287",
+  "perturbed residual": "1.6410e-30",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   0,
+   0,
+   10
+  ],
+  "zero multiplicity": 4,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 4,
+  "slow polynomial": "(1521*nu + 12544)*(9801*nu + 19600)*(20449*nu + 784)*(184041*nu + 3136)*(1656369*nu + 802816)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-12544/1521",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-19600/9801",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-784/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3136/184041",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-802816/1656369",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-12544/1521",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "2.8718"
+   },
+   {
+    "nu": "-19600/9801",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "1.4141"
+   },
+   {
+    "nu": "-784/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.1958"
+   },
+   {
+    "nu": "-3136/184041",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.13054"
+   },
+   {
+    "nu": "-802816/1656369",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.69619"
+   }
+  ],
+  "924 r6hat": "1",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|coherent v3": {
+  "critical": true,
+  "Q": "2289/2288",
+  "perturbed residual": "9.2308e-31",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   0,
+   0,
+   10
+  ],
+  "zero multiplicity": 4,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 4,
+  "slow polynomial": "(169*nu + 441)*(1936*nu + 1225)*(20449*nu + 3136)*(81796*nu + 441)*(327184*nu + 3969)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-441/169",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-1225/1936",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3136/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-441/81796",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3969/327184",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-441/169",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "1.6154"
+   },
+   {
+    "nu": "-1225/1936",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.79545"
+   },
+   {
+    "nu": "-3136/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.39161"
+   },
+   {
+    "nu": "-441/81796",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.073427"
+   },
+   {
+    "nu": "-3969/327184",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.11014"
+   }
+  ],
+  "924 r6hat": "1",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|hexagon": {
+  "critical": true,
+  "Q": "1750/1287",
+  "perturbed residual": "1.0723e-30",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   9,
+   0,
+   0
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(61347*nu + 90160)*(552123*nu + 501760)**2",
+  "words": "elliptic, one double frequency",
+  "roots": [
+   {
+    "nu": "-90160/61347",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-501760/552123",
+    "mult": 2,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-90160/61347",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.97902"
+   },
+   {
+    "nu": "-501760/552123",
+    "mult": 2,
+    "dim": 4,
+    "sign": "-",
+    "min_abs_eig": "0.65268"
+   }
+  ],
+  "924 r6hat": "463",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|hexagon": {
+  "critical": true,
+  "Q": "2751/2288",
+  "perturbed residual": "6.0315e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   9,
+   0,
+   0
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(20449*nu + 5880)**2*(327184*nu + 152145)",
+  "words": "elliptic, one double frequency",
+  "roots": [
+   {
+    "nu": "-152145/327184",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-5880/20449",
+    "mult": 2,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-152145/327184",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.5507"
+   },
+   {
+    "nu": "-5880/20449",
+    "mult": 2,
+    "dim": 4,
+    "sign": "-",
+    "min_abs_eig": "0.36713"
+   }
+  ],
+  "924 r6hat": "463",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|octahedron": {
+  "critical": true,
+  "Q": "175/143",
+  "perturbed residual": "8.9510e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   6,
+   0,
+   3
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(552123*nu - 250880)**3",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "250880/552123",
+    "mult": 3,
+    "kind": "pos"
+   }
+  ],
+  "krein": [],
+  "924 r6hat": "288",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|octahedron": {
+  "critical": true,
+  "Q": "161/143",
+  "perturbed residual": "5.0350e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   6,
+   0,
+   3
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(20449*nu - 2940)**3",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "2940/20449",
+    "mult": 3,
+    "kind": "pos"
+   }
+  ],
+  "krein": [],
+  "924 r6hat": "288",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|pentagonal pyramid": {
+  "critical": true,
+  "Q": "77/65",
+  "perturbed residual": "8.7515e-31",
+  "k": 4,
+  "r_u": 2,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(846777242025*nu**2 + 1018930808896*nu + 3933798400)*(21169431050625*nu**2 + 83366483200*nu + 629407744)",
+  "words": "hyperbolic, a complex quartet",
+  "roots": [
+   {
+    "nu": "-1.19943125383694482241793093261",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.00387317893135740975376510855456",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.00196902984781772660560539348418 - 0.00508476522319656160563965929739*I",
+    "mult": 1,
+    "kind": "nonreal"
+   },
+   {
+    "nu": "-0.00196902984781772660560539348418 + 0.00508476522319656160563965929739*I",
+    "mult": 1,
+    "kind": "nonreal"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-1.199431253836944822417931",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.93543"
+   },
+   {
+    "nu": "-0.003873178931357409753765109",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.0043918"
+   }
+  ],
+  "924 r6hat": "1188/5",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|pentagonal pyramid": {
+  "critical": true,
+  "Q": "287/260",
+  "perturbed residual": "4.9227e-31",
+  "k": 4,
+  "r_u": 2,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(41816160100*nu**2 + 15920793889*nu + 19448100)*(261351000625*nu**2 + 325650325*nu + 777924)",
+  "words": "hyperbolic, a complex quartet",
+  "roots": [
+   {
+    "nu": "-0.379507545159345822718173459145",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.00122549802124980542990224137859",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-0.000623013350286077558804831532104 - 0.00160885149640203707053442344957*I",
+    "mult": 1,
+    "kind": "nonreal"
+   },
+   {
+    "nu": "-0.000623013350286077558804831532104 + 0.00160885149640203707053442344957*I",
+    "mult": 1,
+    "kind": "nonreal"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-0.3795075451593458227181735",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.52618"
+   },
+   {
+    "nu": "-0.001225498021249805429902241",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.0024704"
+   }
+  ],
+  "924 r6hat": "1188/5",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|trigonal prism": {
+  "critical": true,
+  "Q": "5831/5031",
+  "perturbed residual": "4.6084e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   3,
+   0,
+   6
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(7913763*nu + 5770240)*(278420571*nu + 19066880)**2",
+  "words": "elliptic, one double frequency",
+  "roots": [
+   {
+    "nu": "-5770240/7913763",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-19066880/278420571",
+    "mult": 2,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-5770240/7913763",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.52214"
+   },
+   {
+    "nu": "-19066880/278420571",
+    "mult": 2,
+    "dim": 4,
+    "sign": "+",
+    "min_abs_eig": "0.11259"
+   }
+  ],
+  "924 r6hat": "8800/43",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|trigonal prism": {
+  "critical": true,
+  "Q": "609/559",
+  "perturbed residual": "2.5922e-31",
+  "k": 4,
+  "r_u": 4,
+  "signature": [
+   3,
+   0,
+   6
+  ],
+  "zero multiplicity": 8,
+  "kernel dim of S": 4,
+  "alg zero mult (rank sequence)": 8,
+  "slow polynomial": "(879307*nu + 202860)*(3437291*nu + 74480)**2",
+  "words": "elliptic, one double frequency",
+  "roots": [
+   {
+    "nu": "-202860/879307",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-74480/3437291",
+    "mult": 2,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-202860/879307",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.29371"
+   },
+   {
+    "nu": "-74480/3437291",
+    "mult": 2,
+    "dim": 4,
+    "sign": "+",
+    "min_abs_eig": "0.063333"
+   }
+  ],
+  "924 r6hat": "8800/43",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|v1": {
+  "critical": true,
+  "Q": "168/143",
+  "perturbed residual": "8.9178e-31",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   4,
+   2,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 5,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-784/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-12544/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-19600/1656369",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-1960000/1656369",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-784/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.1958"
+   },
+   {
+    "nu": "-12544/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.3225"
+   },
+   {
+    "nu": "-19600/1656369",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.0098891"
+   },
+   {
+    "nu": "-1960000/1656369",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.44792"
+   }
+  ],
+  "924 r6hat": "225",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|v1": {
+  "critical": true,
+  "Q": "2513/2288",
+  "perturbed residual": "5.0163e-31",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   4,
+   2,
+   4
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 5,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-3969/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-30625/81796",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-1225/327184",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3969/327184",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-3969/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.18141"
+   },
+   {
+    "nu": "-30625/81796",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.25195"
+   },
+   {
+    "nu": "-1225/327184",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.0055626"
+   },
+   {
+    "nu": "-3969/327184",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.11014"
+   }
+  ],
+  "924 r6hat": "225",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|v2": {
+  "critical": true,
+  "Q": "147/143",
+  "perturbed residual": "1.1189e-30",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   2,
+   0,
+   8
+  ],
+  "zero multiplicity": 4,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 4,
+  "slow polynomial": "(13689*nu + 12544)*(20449*nu + 12544)*(20449*nu + 50176)*(184041*nu + 313600)*(1656369*nu + 3136)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-12544/13689",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-12544/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-50176/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-313600/184041",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3136/1656369",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-12544/13689",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.95726"
+   },
+   {
+    "nu": "-12544/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.78322"
+   },
+   {
+    "nu": "-50176/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "1.5664"
+   },
+   {
+    "nu": "-313600/184041",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "1.3054"
+   },
+   {
+    "nu": "-3136/1656369",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.010878"
+   }
+  ],
+  "924 r6hat": "36",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|v2": {
+  "critical": true,
+  "Q": "581/572",
+  "perturbed residual": "6.2937e-31",
+  "k": 3,
+  "r_u": 1,
+  "signature": [
+   2,
+   0,
+   8
+  ],
+  "zero multiplicity": 4,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 4,
+  "slow polynomial": "(169*nu + 49)*(20449*nu + 3969)*(20449*nu + 11025)*(20449*nu + 15876)*(81796*nu + 49)",
+  "words": "elliptic, simple",
+  "roots": [
+   {
+    "nu": "-49/169",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-3969/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-11025/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-15876/20449",
+    "mult": 1,
+    "kind": "neg"
+   },
+   {
+    "nu": "-49/81796",
+    "mult": 1,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-49/169",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.53846"
+   },
+   {
+    "nu": "-3969/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.44056"
+   },
+   {
+    "nu": "-11025/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.73427"
+   },
+   {
+    "nu": "-15876/20449",
+    "mult": 1,
+    "dim": 2,
+    "sign": "+",
+    "min_abs_eig": "0.88112"
+   },
+   {
+    "nu": "-49/81796",
+    "mult": 1,
+    "dim": 2,
+    "sign": "-",
+    "min_abs_eig": "0.0061189"
+   }
+  ],
+  "924 r6hat": "36",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ },
+ "R4|zonal v0": {
+  "critical": true,
+  "Q": "1687/1287",
+  "perturbed residual": "9.3240e-31",
+  "k": 3,
+  "r_u": 3,
+  "signature": [
+   8,
+   0,
+   2
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(61347*nu + 62720)**2*(552123*nu - 250880)**2",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "-62720/61347",
+    "mult": 2,
+    "kind": "neg"
+   },
+   {
+    "nu": "250880/552123",
+    "mult": 2,
+    "kind": "pos"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-62720/61347",
+    "mult": 2,
+    "dim": 4,
+    "sign": "-",
+    "min_abs_eig": "0.78322"
+   }
+  ],
+  "924 r6hat": "400",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE"
+  }
+ },
+ "R5|zonal v0": {
+  "critical": true,
+  "Q": "168/143",
+  "perturbed residual": "5.2448e-31",
+  "k": 3,
+  "r_u": 3,
+  "signature": [
+   8,
+   0,
+   2
+  ],
+  "zero multiplicity": 6,
+  "kernel dim of S": 3,
+  "alg zero mult (rank sequence)": 6,
+  "slow polynomial": "(20449*nu - 2940)**2*(20449*nu + 6615)**2",
+  "words": "hyperbolic, real pairs",
+  "roots": [
+   {
+    "nu": "2940/20449",
+    "mult": 2,
+    "kind": "pos"
+   },
+   {
+    "nu": "-6615/20449",
+    "mult": 2,
+    "kind": "neg"
+   }
+  ],
+  "krein": [
+   {
+    "nu": "-6615/20449",
+    "mult": 2,
+    "dim": 4,
+    "sign": "-",
+    "min_abs_eig": "0.44056"
+   }
+  ],
+  "924 r6hat": "400",
+  "verdicts": {
+   "critical": "AGREE",
+   "Q": "AGREE",
+   "924 rhat_6": "AGREE",
+   "signature": "AGREE",
+   "k": "AGREE",
+   "r_u": "AGREE",
+   "zero multiplicity": "AGREE",
+   "slow polynomial": "AGREE",
+   "words": "AGREE",
+   "Krein signs": "AGREE",
+   "ratio": "AGREE"
+  },
+  "ratio": "9/16"
+ }
+}

@@ -1,0 +1,3 @@
+[PASS] D: each given generator is G-skew (exact)
+[PASS] D: the given generators span the same 4-dim space as my phase + rotation generators (exact ranks) :: 4, 4
+[FAIL] D O1 R4: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 8.15e-56

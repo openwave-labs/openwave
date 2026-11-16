@@ -1,0 +1,55 @@
+PASS: R2: evaluation matrix of the f_J has full column rank 4 (f_J independent)
+PASS: R2: HS6 = sum b_J f_J exactly at all 7 points
+R2: HS6 channel coefficients b_J: {'7': '1/264', '5': '53/264', '3': '221/264', '1': '-13/24'}
+R2: q_J - 1: {'7': '1/143', '5': '53/143', '3': '17/11', '1': '-1'}
+R2: (q_J - 1)/b_J: {'7': '24/13', '5': '24/13', '3': '24/13', '1': '24/13'}
+R2: Q - 1 proportional to HS6: True
+R2: beta = 24/13
+PASS: R2: T^6_M orthonormal in Hilbert-Schmidt (numerical, 1e-45)
+   numeric point 0: HS6 (literal T^K) = 0.27992053592461770978604100174, Q - 1 = 0.516776374014678848835768003212, ratio = 1.84615384615384615384615384615
+PASS: R2: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R2: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 1: HS6 (literal T^K) = 0.243555246543589333408892085525, Q - 1 = 0.449640455157395692447185388661, ratio = 1.84615384615384615384615384615
+PASS: R2: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R2: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 2: HS6 (literal T^K) = 0.215145839037902936815261568927, Q - 1 = 0.397192318223820806428175204172, ratio = 1.84615384615384615384615384615
+PASS: R2: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R2: literal-definition HS6 equals sum b_J f_J to 1e-40
+PASS: R4: evaluation matrix of the f_J has full column rank 4 (f_J independent)
+PASS: R4: HS6 = sum b_J f_J exactly at all 7 points
+R4: HS6 channel coefficients b_J: {'6': '1/924', '4': '13/154', '2': '65/84', '0': '13/7'}
+R4: q_J - 1: {'6': '1/1287', '4': '2/33', '2': '5/9', '0': '4/3'}
+R4: (q_J - 1)/b_J: {'6': '28/39', '4': '28/39', '2': '28/39', '0': '28/39'}
+R4: Q - 1 proportional to HS6: True
+R4: beta = 28/39
+PASS: R4: T^6_M orthonormal in Hilbert-Schmidt (numerical, 1e-45)
+   numeric point 0: HS6 (literal T^K) = 0.244021750939129555242556766212, Q - 1 = 0.175195103238349424276707421896, ratio = 0.717948717948717948717948717949
+PASS: R4: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R4: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 1: HS6 (literal T^K) = 0.304499046036431392789335353488, Q - 1 = 0.218614699718463564053881792247, ratio = 0.717948717948717948717948717949
+PASS: R4: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R4: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 2: HS6 (literal T^K) = 0.175800808950197937961211373198, Q - 1 = 0.12621596540014210930548508845, ratio = 0.717948717948717948717948717949
+PASS: R4: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R4: literal-definition HS6 equals sum b_J f_J to 1e-40
+PASS: R5: evaluation matrix of the f_J has full column rank 4 (f_J independent)
+PASS: R5: HS6 = sum b_J f_J exactly at all 7 points
+R5: HS6 channel coefficients b_J: {'6': '1/924', '4': '13/154', '2': '65/84', '0': '13/7'}
+R5: q_J - 1: {'6': '1/2288', '4': '3/88', '2': '5/16', '0': '3/4'}
+R5: (q_J - 1)/b_J: {'6': '21/52', '4': '21/52', '2': '21/52', '0': '21/52'}
+R5: Q - 1 proportional to HS6: True
+R5: beta = 21/52
+PASS: R5: T^6_M orthonormal in Hilbert-Schmidt (numerical, 1e-45)
+   numeric point 0: HS6 (literal T^K) = 0.244021750939129555242556766212, Q - 1 = 0.0985472455715715511556479248163, ratio = 0.403846153846153846153846153846
+PASS: R5: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R5: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 1: HS6 (literal T^K) = 0.304499046036431392789335353488, Q - 1 = 0.122970768591635754780308508139, ratio = 0.403846153846153846153846153846
+PASS: R5: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R5: literal-definition HS6 equals sum b_J f_J to 1e-40
+   numeric point 2: HS6 (literal T^K) = 0.175800808950197937961211373198, Q - 1 = 0.070996480537579936484335362253, ratio = 0.403846153846153846153846153846
+PASS: R5: numeric (Q-1)/HS6 equals exact beta to 1e-40
+PASS: R5: literal-definition HS6 equals sum b_J f_J to 1e-40
+
+A.3
+beta_R5/beta_R4 = 9/16 ; beta_R4 - beta_R5 = 49/156
+-- 0 FAIL line(s)

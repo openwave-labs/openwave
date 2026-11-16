@@ -1,0 +1,114 @@
+[PASS] C.4 R4 C3 ray: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 C3 ray: ca exact value agrees with my CG route to 1e-50 :: 1.52e-64
+R4 C3 ray: h = 77/65, R0 = -0.001605147648749105639440834
+[PASS] C.4 R4 D2 ray: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 D2 ray: ca exact value agrees with my CG route to 1e-50 :: 7.6e-64
+R4 D2 ray: h = 168/143, R0 = -0.001091272369064363707231935
+[PASS] C.4 R4 coherent v3: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 coherent v3: my exact S^3 value agrees with my CG route :: 5.93e-67
+[PASS] C.4 R4 coherent v3: ca exact value == my exact value :: -608931967/110168679947040 vs -608931967/110168679947040
+[PASS] C.4 R4 coherent v3: ca exact value agrees with my CG route to 1e-50 :: 5.93e-67
+R4 coherent v3: h = 1288/1287, R0 = -0.000005527269340911810727828358
+[FAIL] C.4 R4 hexagon: critical (exact sympy) :: max residual 1.42E-19
+[FAIL] C.4 R4 hexagon: ca exact value agrees with my CG route to 1e-50 :: 3.55e-43
+R4 hexagon: h = 233333333333333333333333333333333333333352280000000000000000000000000000000000000504/171600000000000000000000000000000000000017160000000000000000000000000000000000000429, R0 = -0.001395633325859152900238986
+[PASS] C.4 R4 octahedron: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 octahedron: my exact S^3 value agrees with my CG route :: 3.04e-64
+[PASS] C.4 R4 octahedron: ca exact value == my exact value :: -2203040/2833556583 vs -2203040/2833556583
+[PASS] C.4 R4 octahedron: ca exact value agrees with my CG route to 1e-50 :: 3.04e-64
+R4 octahedron: h = 175/143, R0 = -0.000777482268473902573203
+[PASS] C.4 R4 pentagonal pyramid: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 pentagonal pyramid: ca exact value agrees with my CG route to 1e-50 :: 1.52e-64
+R4 pentagonal pyramid: h = 77/65, R0 = -0.00152468724925170599048995
+[PASS] C.4 R4 trigonal prism: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 trigonal prism: ca exact value agrees with my CG route to 1e-50 :: 1.52e-64
+R4 trigonal prism: h = 5831/5031, R0 = -0.0007429960531184818348949442
+[PASS] C.4 R4 v1: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 v1: my exact S^3 value agrees with my CG route :: 3.8e-65
+[PASS] C.4 R4 v1: ca exact value == my exact value :: -30976085/90673810656 vs -30976085/90673810656
+[PASS] C.4 R4 v1: ca exact value agrees with my CG route to 1e-50 :: 3.8e-65
+R4 v1: h = 168/143, R0 = -0.0003416210786322596614969379
+[PASS] C.4 R4 v2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 v2: my exact S^3 value agrees with my CG route :: 3.8e-65
+[PASS] C.4 R4 v2: ca exact value == my exact value :: -23286907/85006697490 vs -23286907/85006697490
+[PASS] C.4 R4 v2: ca exact value agrees with my CG route to 1e-50 :: 3.8e-65
+R4 v2: h = 147/143, R0 = -0.0002739420267766480431470294
+[PASS] C.4 R4 zonal v0: critical (exact sympy) :: max residual 0
+[PASS] C.4 R4 zonal v0: my exact S^3 value agrees with my CG route :: 3.04e-64
+[PASS] C.4 R4 zonal v0: ca exact value == my exact value :: -1871763250/688554249669 vs -1871763250/688554249669
+[PASS] C.4 R4 zonal v0: ca exact value agrees with my CG route to 1e-50 :: 3.04e-64
+R4 zonal v0: h = 1687/1287, R0 = -0.00271839619158517885760591
+[PASS] C.4 R5 C3 ray: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 C3 ray: ca exact value agrees with my CG route to 1e-50 :: 7.6e-65
+R5 C3 ray: h = 287/260, R0 = -0.0005748035004465887526622933
+[PASS] C.4 R5 D2 ray: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 D2 ray: ca exact value agrees with my CG route to 1e-50 :: 4.56e-64
+R5 D2 ray: h = 2513/2288, R0 = -0.0006929707674317553940301887
+[PASS] C.4 R5 coherent v3: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 coherent v3: my exact S^3 value agrees with my CG route :: 8.9e-67
+[PASS] C.4 R5 coherent v3: ca exact value == my exact value :: -122896067/38687492546560 vs -122896067/38687492546560
+[PASS] C.4 R5 coherent v3: ca exact value agrees with my CG route to 1e-50 :: 8.9e-67
+R5 coherent v3: h = 2289/2288, R0 = -0.000003176635623311483559670282
+[FAIL] C.4 R5 hexagon: critical (exact sympy) :: max residual 7.97E-20
+[FAIL] C.4 R5 hexagon: ca exact value agrees with my CG route to 1e-50 :: 4.38e-44
+R5 hexagon: h = 366800000000000000000000000000000000000032293333333333333333333333333333333333334171/305066666666666666666666666666666666666697173333333333333333333333333333333333334096, R0 = -0.001951033441109161649128783
+[PASS] C.4 R5 octahedron: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 octahedron: my exact S^3 value agrees with my CG route :: 2.28e-64
+[PASS] C.4 R5 octahedron: ca exact value == my exact value :: -54176703/75561508880 vs -54176703/75561508880
+[PASS] C.4 R5 octahedron: ca exact value agrees with my CG route to 1e-50 :: 2.28e-64
+R5 octahedron: h = 161/143, R0 = -0.0007169881041687318936450545
+[PASS] C.4 R5 pentagonal pyramid: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 pentagonal pyramid: ca exact value agrees with my CG route to 1e-50 :: 0.0
+R5 pentagonal pyramid: h = 287/260, R0 = -0.0006401979246480341063300376
+[PASS] C.4 R5 trigonal prism: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 trigonal prism: ca exact value agrees with my CG route to 1e-50 :: 2.28e-64
+R5 trigonal prism: h = 609/559, R0 = -0.0007447585277523760132123932
+[PASS] C.4 R5 v1: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 v1: my exact S^3 value agrees with my CG route :: 1.52e-64
+[PASS] C.4 R5 v1: ca exact value == my exact value :: -11034061815/7737498509312 vs -11034061815/7737498509312
+[PASS] C.4 R5 v1: ca exact value agrees with my CG route to 1e-50 :: 1.52e-64
+R5 v1: h = 2513/2288, R0 = -0.001426050266984946092569347
+[PASS] C.4 R5 v2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 v2: my exact S^3 value agrees with my CG route :: 1.9e-65
+[PASS] C.4 R5 v2: ca exact value == my exact value :: -415251627/2417968284160 vs -415251627/2417968284160
+[PASS] C.4 R5 v2: ca exact value agrees with my CG route to 1e-50 :: 1.9e-65
+R5 v2: h = 581/572, R0 = -0.0001717357625078436628487824
+[PASS] C.4 R5 zonal v0: critical (exact sympy) :: max residual 0
+[PASS] C.4 R5 zonal v0: my exact S^3 value agrees with my CG route :: 0.0
+[PASS] C.4 R5 zonal v0: ca exact value == my exact value :: -5273625/15112301776 vs -5273625/15112301776
+[PASS] C.4 R5 zonal v0: ca exact value agrees with my CG route to 1e-50 :: 0.0
+R5 zonal v0: h = 168/143, R0 = -0.0003489623935630439464564594
+[PASS] C.4 R2 line {5/2, -3/2}: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 line {5/2, -3/2}: my exact S^3 value agrees with my CG route :: 3.8e-64
+[PASS] C.4 R2 line {5/2, -3/2}: ca exact value == my exact value :: -27273813/37780754440 vs -27273813/37780754440
+[PASS] C.4 R2 line {5/2, -3/2}: ca exact value agrees with my CG route to 1e-50 :: 3.8e-64
+R2 line {5/2, -3/2}: h = 161/143, R0 = -0.0007218969923777943487779647
+[PASS] C.4 R2 line {7/2, -1/2}: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 line {7/2, -1/2}: ca exact value agrees with my CG route to 1e-50 :: 0.0
+R2 line {7/2, -1/2}: h = 193/143, R0 = -0.001150006560752799943040952
+[PASS] C.4 R2 line {7/2, -3/2}: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 line {7/2, -3/2}: ca exact value agrees with my CG route to 1e-50 :: 1.82e-63
+R2 line {7/2, -3/2}: h = 22/13, R0 = -0.006193598476559621154488064
+[PASS] C.4 R2 line {7/2, -5/2}: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 line {7/2, -5/2}: ca exact value agrees with my CG route to 1e-50 :: 1.52e-64
+R2 line {7/2, -5/2}: h = 369/247, R0 = -0.001554733918981416738788358
+[PASS] C.4 R2 weight 1/2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 weight 1/2: my exact S^3 value agrees with my CG route :: 1.14e-64
+[PASS] C.4 R2 weight 1/2: ca exact value == my exact value :: -728595/1889037722 vs -728595/1889037722
+[PASS] C.4 R2 weight 1/2: ca exact value agrees with my CG route to 1e-50 :: 1.14e-64
+R2 weight 1/2: h = 168/143, R0 = -0.0003856963741457779105164952
+[PASS] C.4 R2 weight 3/2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 weight 3/2: my exact S^3 value agrees with my CG route :: 3.04e-64
+[PASS] C.4 R2 weight 3/2: ca exact value == my exact value :: -28845747/9445188610 vs -28845747/9445188610
+[PASS] C.4 R2 weight 3/2: ca exact value agrees with my CG route to 1e-50 :: 3.04e-64
+R2 weight 3/2: h = 224/143, R0 = -0.003054014926653751597237824
+[PASS] C.4 R2 weight 5/2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 weight 5/2: my exact S^3 value agrees with my CG route :: 7.6e-65
+[PASS] C.4 R2 weight 5/2: ca exact value == my exact value :: -316750/944518861 vs -316750/944518861
+[PASS] C.4 R2 weight 5/2: ca exact value agrees with my CG route to 1e-50 :: 7.6e-65
+R2 weight 5/2: h = 168/143, R0 = -0.0003353559289061142422226336
+[PASS] C.4 R2 weight 7/2: critical (exact sympy) :: max residual 0
+[PASS] C.4 R2 weight 7/2: my exact S^3 value agrees with my CG route :: 9.5e-66
+[PASS] C.4 R2 weight 7/2: ca exact value == my exact value :: -1629062/33058160135 vs -1629062/33058160135
+[PASS] C.4 R2 weight 7/2: ca exact value agrees with my CG route to 1e-50 :: 9.5e-66
+R2 weight 7/2: h = 144/143, R0 = -0.00004927866503602681516867182

@@ -1,0 +1,1 @@
+Read `BRIEF.md`, then `worklist.md`, `clauses.md` and `inputs.json`, in this directory, then do what `BRIEF.md` says. Everything you need is here; nothing outside this directory is available or needed.

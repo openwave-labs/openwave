@@ -1,0 +1,216 @@
+  PASS: the five cases are those of inputs.json
+
+===== C.5: pentagonal pyramid in R4 =====
+h(u) = Q(u) = kappa_u = 1.184615384615384615384615;  |grad h - 4hu| = 3.76e-50;  k = 4, r_u = 2, signature (5, 0, 4), dim K' = 0
+  PASS: pentagonal pyramid in R4: critical
+  PASS: pentagonal pyramid in R4: zero multiplicity the same at 50 and 70 digits
+zero multiplicity of S^ = 6  (largest |zero eig| 3.0e-25, smallest |nonzero| 0.0622349)
+  PASS: pentagonal pyramid in R4: nondegenerate (K' = 0)
+R~0(u) = -0.00152468724925170599048995;  |<grad R~0, K_u>| = 1.09e-55;  |M^ z - grad R~0| on Ru+N_u = 1.04e-53
+  PASS: pentagonal pyramid in R4: grad R~0(u) orthogonal to K_u
+  PASS: pentagonal pyramid in R4: same slow-group structure at 50 and 70 digits
+  PASS: pentagonal pyramid in R4: s_g = (-3.2201704e-51 - 1.0951855j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.09e-48)
+  s_g = (2.15907463859542459360804e-72 - 1.095185488324669513111975j)   multiplicity 1   mu0 = (3.2883624613060695117e-74 - 0.016680140573170973919j)
+      value: (-9.498119551829170939588947e-76 + 0.0001321715189203882735231213j)
+      (biorthogonality residual 1.7e-52, eigen residual 4.92e-50, 50-vs-70 rel. diff 1.09e-48, s_g diff 2.78e-50)
+  PASS: pentagonal pyramid in R4: s_g = (-3.2840871e-51 - 0.062234869j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 4.21e-46)
+  s_g = (-1.695099560429036898909469e-72 - 0.06223486909568790724544574j)   multiplicity 1   mu0 = (-2.5817086927191497297e-74 - 0.00094786351365644267462j)
+      value: (-4.714402638012304288115173e-76 + 0.00001313911766073773401189807j)
+      (biorthogonality residual 7.66e-51, eigen residual 2.14e-50, 50-vs-70 rel. diff 4.21e-46, s_g diff 2.03e-49)
+  PASS: pentagonal pyramid in R4: s_g = (-0.041735286 - 0.060916861j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.17e-49)
+  s_g = (-0.04173528598376259430139185 - 0.06091686091686091686091686j)   multiplicity 1   mu0 = (-0.00063564614806535620237 - 0.00092778968878039034701j)
+      value: (-0.0001242332455239913262308566 + 0.0002348453653056894878831448j)
+      (biorthogonality residual 4.99e-52, eigen residual 4.86e-51, 50-vs-70 rel. diff 6.17e-49, s_g diff 4.92e-50)
+  PASS: pentagonal pyramid in R4: s_g = (0.041735286 - 0.060916861j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.19e-49)
+  s_g = (0.04173528598376259430139185 - 0.06091686091686091686091686j)   multiplicity 1   mu0 = (0.00063564614806535620237 - 0.00092778968878039034701j)
+      value: (0.0001242332455239913262308566 + 0.0002348453653056894878831448j)
+      (biorthogonality residual 3.19e-52, eigen residual 5.89e-51, 50-vs-70 rel. diff 6.19e-49, s_g diff 4.89e-50)
+  PASS: pentagonal pyramid in R4: s_g = (-0.041735286 + 0.060916861j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.29e-49)
+  s_g = (-0.04173528598376259430139185 + 0.06091686091686091686091686j)   multiplicity 1   mu0 = (-0.00063564614806535620237 + 0.00092778968878039034701j)
+      value: (-0.0001242332455239913262308566 - 0.0002348453653056894878831448j)
+      (biorthogonality residual 1.37e-51, eigen residual 8.14e-51, 50-vs-70 rel. diff 6.29e-49, s_g diff 4.94e-50)
+  PASS: pentagonal pyramid in R4: s_g = (0.041735286 + 0.060916861j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.12e-49)
+  s_g = (0.04173528598376259430139185 + 0.06091686091686091686091686j)   multiplicity 1   mu0 = (0.00063564614806535620237 + 0.00092778968878039034701j)
+      value: (0.0001242332455239913262308566 - 0.0002348453653056894878831448j)
+      (biorthogonality residual 2.09e-51, eigen residual 5.98e-51, 50-vs-70 rel. diff 6.12e-49, s_g diff 4.9e-50)
+  PASS: pentagonal pyramid in R4: s_g = (-1.6640891e-52 + 0.062234869j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 4.22e-46)
+  s_g = (-4.765261585722447732899873e-72 + 0.06223486909568790724544574j)   multiplicity 1   mu0 = (-7.257695976174085974e-74 + 0.00094786351365644267462j)
+      value: (6.322101519099951432789244e-76 - 0.00001313911766073773401189807j)
+      (biorthogonality residual 3.81e-51, eigen residual 1.46e-50, 50-vs-70 rel. diff 4.22e-46, s_g diff 1.98e-49)
+  PASS: pentagonal pyramid in R4: s_g = (1.4936843e-100 + 1.0951855j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.05e-48)
+  s_g = (6.092098260262160132387606e-130 + 1.095185488324669513111975j)   multiplicity 1   mu0 = (9.2785246380673937478e-132 + 0.016680140573170973919j)
+      value: (7.41747416719460609722902e-76 - 0.0001321715189203882735231213j)
+      (biorthogonality residual 2.45e-52, eigen residual 3.78e-50, 50-vs-70 rel. diff 1.05e-48, s_g diff 8.92e-51)
+
+===== C.5: coherent v3 in R4 =====
+h(u) = Q(u) = kappa_u = 1.000777000777000777000777;  |grad h - 4hu| = 1.34e-51;  k = 3, r_u = 1, signature (0, 0, 10), dim K' = 0
+  PASS: coherent v3 in R4: critical
+  PASS: coherent v3 in R4: zero multiplicity the same at 50 and 70 digits
+zero multiplicity of S^ = 4  (largest |zero eig| 4.02e-26, smallest |nonzero| 0.130536)
+  PASS: coherent v3 in R4: nondegenerate (K' = 0)
+R~0(u) = -0.000005527269340911810727828358;  |<grad R~0, K_u>| = 5.1e-57;  |M^ z - grad R~0| on Ru+N_u = 3.4e-106
+  PASS: coherent v3 in R4: grad R~0(u) orthogonal to K_u
+  PASS: coherent v3 in R4: same slow-group structure at 50 and 70 digits
+  PASS: coherent v3 in R4: s_g = (1.920202e-101 - 2.8717949j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 2.3e-49)
+  s_g = (4.174154168392807943633595e-142 - 2.871794871794871794871795j)   multiplicity 1   mu0 = (7.525243607246880729e-144 - 0.051773257834939266926j)
+      value: (5.254626309336479061125543e-75 + 0.001132560058530995646095141j)
+      (biorthogonality residual 9.04e-53, eigen residual 8.14e-50, 50-vs-70 rel. diff 2.3e-49, s_g diff 7.68e-51)
+  PASS: coherent v3 in R4: s_g = (1.6671281e-51 - 1.4141414j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.93e-49)
+  s_g = (2.336574720025309854752468e-71 - 1.414141414141414141414141j)   multiplicity 1   mu0 = (4.2124208319539147334e-73 - 0.025494407267204942047j)
+      value: (-7.830106005912959035382684e-75 + 0.0005703556513970103566576533j)
+      (biorthogonality residual 6.42e-101, eigen residual 3.11e-50, 50-vs-70 rel. diff 1.93e-49, s_g diff 1.43e-50)
+  PASS: coherent v3 in R4: s_g = (7.4793453e-52 - 0.6961927j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 8.43e-49)
+  s_g = (-2.15243918534739995021519e-71 - 0.6961926961926961926961927j)   multiplicity 1   mu0 = (-3.8804578283604331513e-73 - 0.012551092808470125315j)
+      value: (4.590176760328158201910957e-75 + 0.0003214413092329892304148907j)
+      (biorthogonality residual 1.34e-51, eigen residual 2.83e-50, 50-vs-70 rel. diff 8.43e-49, s_g diff 1.46e-51)
+  PASS: coherent v3 in R4: s_g = (1.8766577e-52 - 0.1958042j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 8.49e-49)
+  s_g = (-1.350848799514062931893181e-71 - 0.1958041958041958041958042j)   multiplicity 1   mu0 = (-2.4353356111938667014e-73 - 0.003529994852382222745j)
+      value: (2.556313816318941141461021e-75 + 0.0001034754069346288178069244j)
+      (biorthogonality residual 2.09e-52, eigen residual 1.12e-50, 50-vs-70 rel. diff 8.49e-49, s_g diff 2.94e-50)
+  PASS: coherent v3 in R4: s_g = (-3.2624548e-52 - 0.13053613j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 4.34e-49)
+  s_g = (-1.420083655827270976900503e-71 - 0.1305361305361305361305361j)   multiplicity 1   mu0 = (-2.5601535117435801109e-73 - 0.0023533299015881484966j)
+      value: (2.691425977255698835321556e-75 + 0.00006125542157113129329797399j)
+      (biorthogonality residual 1.37e-51, eigen residual 1.86e-50, 50-vs-70 rel. diff 4.34e-49, s_g diff 9.04e-51)
+  PASS: coherent v3 in R4: s_g = (1.4542244e-52 + 0.13053613j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 4.31e-49)
+  s_g = (-1.353187337521308217861859e-71 + 0.1305361305361305361305361j)   multiplicity 1   mu0 = (-2.4395515714769298221e-73 + 0.0023533299015881484966j)
+      value: (2.318609442988888150679753e-75 - 0.00006125542157113129329797399j)
+      (biorthogonality residual 3.34e-52, eigen residual 1.0e-50, 50-vs-70 rel. diff 4.31e-49, s_g diff 8.04e-51)
+  PASS: coherent v3 in R4: s_g = (1.1628093e-51 + 0.1958042j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 8.46e-49)
+  s_g = (-9.999295941658770627757354e-72 + 0.1958041958041958041958042j)   multiplicity 1   mu0 = (-1.8026918706481333117e-73 + 0.003529994852382222745j)
+      value: (2.364883585340726045170435e-75 - 0.0001034754069346288178069244j)
+      (biorthogonality residual 1.44e-52, eigen residual 1.41e-50, 50-vs-70 rel. diff 8.46e-49, s_g diff 3.27e-50)
+  PASS: coherent v3 in R4: s_g = (5.0221045e-52 + 0.6961927j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 8.51e-49)
+  s_g = (-1.67758783591196815412671e-71 + 0.6961926961926961926961927j)   multiplicity 1   mu0 = (-3.024386888578300417e-73 + 0.012551092808470125315j)
+      value: (4.243983384027317517355921e-75 - 0.0003214413092329892304148907j)
+      (biorthogonality residual 7.99e-53, eigen residual 3.59e-50, 50-vs-70 rel. diff 8.51e-49, s_g diff 9.45e-51)
+  PASS: coherent v3 in R4: s_g = (-1.9521496e-51 + 1.4141414j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.98e-49)
+  s_g = (2.176345717796238574219549e-71 + 1.414141414141414141414141j)   multiplicity 1   mu0 = (3.9235569744926737765e-73 + 0.025494407267204942047j)
+      value: (-3.920722470088086721044631e-75 - 0.0005703556513970103566576533j)
+      (biorthogonality residual 3.34e-52, eigen residual 2.5e-50, 50-vs-70 rel. diff 1.98e-49, s_g diff 4.02e-51)
+  PASS: coherent v3 in R4: s_g = (1.901627e-101 + 2.8717949j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 2.3e-49)
+  s_g = (4.621485597379405226458843e-142 + 2.871794871794871794871795j)   multiplicity 1   mu0 = (8.3317011170800969046e-144 + 0.051773257834939266926j)
+      value: (-1.392238821785373221368907e-75 - 0.001132560058530995646095141j)
+      (biorthogonality residual 9.04e-53, eigen residual 8.14e-50, 50-vs-70 rel. diff 2.3e-49, s_g diff 7.68e-51)
+
+===== C.5: coherent v3 in R5 =====
+h(u) = Q(u) = kappa_u = 1.000437062937062937062937;  |grad h - 4hu| = 1.47e-50;  k = 3, r_u = 1, signature (0, 0, 10), dim K' = 0
+  PASS: coherent v3 in R5: critical
+  PASS: coherent v3 in R5: zero multiplicity the same at 50 and 70 digits
+zero multiplicity of S^ = 4  (largest |zero eig| 5.24e-26, smallest |nonzero| 0.0734266)
+  PASS: coherent v3 in R5: nondegenerate (K' = 0)
+R~0(u) = -0.000003176635623311483559670282;  |<grad R~0, K_u>| = 8.6e-57;  |M^ z - grad R~0| on Ru+N_u = 1.04e-106
+  PASS: coherent v3 in R5: grad R~0(u) orthogonal to K_u
+  PASS: coherent v3 in R5: same slow-group structure at 50 and 70 digits
+  PASS: coherent v3 in R5: s_g = (-4.3712054e-101 - 1.6153846j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 5.55e-49)
+  s_g = (-1.682458219120297390534569e-141 - 1.615384615384615384615385j)   multiplicity 1   mu0 = (-3.0341979448764634273e-143 - 0.029132353032504052338j)
+      value: (-4.029568741979913523661146e-75 + 0.0009262404663135482546264222j)
+      (biorthogonality residual 3.34e-52, eigen residual 4.36e-50, 50-vs-70 rel. diff 5.55e-49, s_g diff 1.64e-51)
+  PASS: coherent v3 in R5: s_g = (-5.2354884e-52 - 0.79545455j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.84e-48)
+  s_g = (5.549201387045581566096684e-72 - 0.7954545454545454545454545j)   multiplicity 1   mu0 = (1.0007603905363569241e-73 - 0.014345476872066389409j)
+      value: (1.174110755313034708200866e-75 + 0.0005383067676759031773498823j)
+      (biorthogonality residual 4.52e-52, eigen residual 2.35e-50, 50-vs-70 rel. diff 1.84e-48, s_g diff 7.67e-51)
+  PASS: coherent v3 in R5: s_g = (-2.8322586e-51 - 0.39160839j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 2.84e-48)
+  s_g = (3.710481181444188947745101e-72 - 0.3916083916083916083916084j)   multiplicity 1   mu0 = (6.691598190846823227e-74 - 0.0070623886139403763243j)
+      value: (-1.916653682536494904039664e-75 + 0.0002254744829593478989884773j)
+      (biorthogonality residual 2.88e-52, eigen residual 1.45e-50, 50-vs-70 rel. diff 2.84e-48, s_g diff 1.96e-50)
+  PASS: coherent v3 in R5: s_g = (1.7914937e-51 - 0.11013986j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.4e-47)
+  s_g = (8.555826350038387467455301e-72 - 0.1101398601398601398601399j)   multiplicity 1   mu0 = (1.5429845706112122054e-73 - 0.0019862967976707308412j)
+      value: (-1.470527628571443141145018e-75 + 0.00006250175626083035008797249j)
+      (biorthogonality residual 1.37e-99, eigen residual 8.35e-51, 50-vs-70 rel. diff 1.4e-47, s_g diff 6.38e-51)
+  PASS: coherent v3 in R5: s_g = (-5.6770187e-53 - 0.073426573j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 5.03e-48)
+  s_g = (-7.780646327532072717675621e-72 - 0.07342657342657342657342657j)   multiplicity 1   mu0 = (-1.4031861729768411699e-73 - 0.0013241978651138205608j)
+      value: (1.391810354680783215372058e-75 + 0.00003718587169131293239785894j)
+      (biorthogonality residual 3.29e-52, eigen residual 5.98e-51, 50-vs-70 rel. diff 5.03e-48, s_g diff 9.39e-53)
+  PASS: coherent v3 in R5: s_g = (-1.1877104e-52 + 0.073426573j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 5.04e-48)
+  s_g = (-5.053091232486288675234568e-72 + 0.07342657342657342657342657j)   multiplicity 1   mu0 = (-9.1129032855863829812e-74 + 0.0013241978651138205608j)
+      value: (8.544813906568657712050325e-76 - 0.00003718587169131293239785894j)
+      (biorthogonality residual 2.31e-52, eigen residual 1.41e-50, 50-vs-70 rel. diff 5.04e-48, s_g diff 2.93e-51)
+  PASS: coherent v3 in R5: s_g = (1.5070329e-51 + 0.11013986j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.4e-47)
+  s_g = (8.631748954128267601500921e-72 + 0.1101398601398601398601399j)   multiplicity 1   mu0 = (1.5566766912642667355e-73 + 0.0019862967976707308412j)
+      value: (-2.123124988385136203686989e-75 - 0.00006250175626083035008797249j)
+      (biorthogonality residual 4.36e-52, eigen residual 8.58e-51, 50-vs-70 rel. diff 1.4e-47, s_g diff 5.66e-51)
+  PASS: coherent v3 in R5: s_g = (-2.8717927e-51 + 0.39160839j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 2.84e-48)
+  s_g = (6.805514754672774783477165e-72 + 0.3916083916083916083916084j)   multiplicity 1   mu0 = (1.2273278853397867949e-73 + 0.0070623886139403763243j)
+      value: (-2.283997275574353596462212e-75 - 0.0002254744829593478989884773j)
+      (biorthogonality residual 4.64e-52, eigen residual 1.92e-50, 50-vs-70 rel. diff 2.84e-48, s_g diff 2.36e-50)
+  PASS: coherent v3 in R5: s_g = (9.8206198e-52 + 0.79545455j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.84e-48)
+  s_g = (1.213244139630654128323384e-72 + 0.7954545454545454545454545j)   multiplicity 1   mu0 = (2.1880025508303768433e-74 + 0.014345476872066389409j)
+      value: (2.138646686411464180563977e-76 - 0.0005383067676759031773498823j)
+      (biorthogonality residual 4.16e-52, eigen residual 3.23e-50, 50-vs-70 rel. diff 1.84e-48, s_g diff 1.57e-50)
+  PASS: coherent v3 in R5: s_g = (5.220296e-102 + 1.6153846j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 5.55e-49)
+  s_g = (-2.027295012475006660139097e-141 + 1.615384615384615384615385j)   multiplicity 1   mu0 = (-3.6560874383711229122e-143 + 0.029132353032504052338j)
+      value: (-4.029568741979913523661146e-75 - 0.0009262404663135482546264222j)
+      (biorthogonality residual 3.34e-52, eigen residual 4.36e-50, 50-vs-70 rel. diff 5.55e-49, s_g diff 1.64e-51)
+
+===== C.5: weight 7/2 in R2 =====
+h(u) = Q(u) = kappa_u = 1.006993006993006993006993;  |grad h - 4hu| = 1.11e-50;  k = 5, r_u = 1, signature (0, 0, 10), dim K' = 0
+  PASS: weight 7/2 in R2: critical
+  PASS: weight 7/2 in R2: zero multiplicity the same at 50 and 70 digits
+zero multiplicity of S^ = 6  (largest |zero eig| 3.1e-25, smallest |nonzero| 0.783217)
+  PASS: weight 7/2 in R2: nondegenerate (K' = 0)
+R~0(u) = -0.00004927866503602681516867182;  |<grad R~0, K_u>| = 7.01e-57;  |M^ z - grad R~0| on Ru+N_u = 1.48e-105
+  PASS: weight 7/2 in R2: grad R~0(u) orthogonal to K_u
+  PASS: weight 7/2 in R2: same slow-group structure at 50 and 70 digits
+  PASS: weight 7/2 in R2: s_g = (-8.7291886e-53 - 3.9160839j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.37e-49)
+  s_g = (-1.611733082151389717820881e-71 - 3.916083916083916083916084j)   multiplicity 1   mu0 = (-2.5206143471887997512e-73 - 0.061244243311680337743j)
+      value: (3.103436147772552825600892e-75 + 0.00112381203739344096085545j)
+      (biorthogonality residual 7.64e-53, eigen residual 1.42e-49, 50-vs-70 rel. diff 1.37e-49, s_g diff 5.66e-50)
+  PASS: weight 7/2 in R2: s_g = (5.043977e-52 - 3.5244755j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.74e-49)
+  s_g = (-1.124411253638272463912881e-71 - 3.524475524475524475524476j)   multiplicity 1   mu0 = (-1.7584841866483185216e-73 - 0.055119818980512303969j)
+      value: (-7.329262362996083430101031e-77 + 0.000731817516616237273253187j)
+      (biorthogonality residual 3.19e-52, eigen residual 7.0e-50, 50-vs-70 rel. diff 1.74e-49, s_g diff 2.31e-50)
+  PASS: weight 7/2 in R2: s_g = (-3.7916861e-52 - 2.3496503j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.15e-49)
+  s_g = (-1.015881261030567625125444e-71 - 2.34965034965034965034965j)   multiplicity 1   mu0 = (-1.5887524491188536055e-73 - 0.036746545987008202646j)
+      value: (2.190616642691120061411409e-75 + 0.0005811055041064553939142126j)
+      (biorthogonality residual 1.28e-101, eigen residual 6.74e-50, 50-vs-70 rel. diff 1.15e-49, s_g diff 7.75e-51)
+  PASS: weight 7/2 in R2: s_g = (-2.5785809e-51 - 1.1748252j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 7.77e-49)
+  s_g = (-3.596548078075204011338055e-72 - 1.174825174825174825174825j)   multiplicity 1   mu0 = (-5.6246972816675989927e-74 - 0.018373272993504101323j)
+      value: (-5.145273696732976649452513e-76 + 0.0002620748045032471993527425j)
+      (biorthogonality residual 5.93e-52, eigen residual 5.13e-50, 50-vs-70 rel. diff 7.77e-49, s_g diff 2.84e-51)
+  PASS: weight 7/2 in R2: s_g = (1.0031124e-51 - 0.78321678j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.83e-49)
+  s_g = (-5.195363184028982237648051e-72 - 0.7832167832167832167832168j)   multiplicity 1   mu0 = (-8.1251090056671550092e-74 - 0.012248848662336067549j)
+      value: (1.922574760812804182077054e-75 + 0.0002251623048000872655838305j)
+      (biorthogonality residual 8.18e-53, eigen residual 3.54e-50, 50-vs-70 rel. diff 6.83e-49, s_g diff 8.17e-51)
+  PASS: weight 7/2 in R2: s_g = (1.0031124e-51 + 0.78321678j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 6.8e-49)
+  s_g = (-4.87195280627717707954903e-72 + 0.7832167832167832167832168j)   multiplicity 1   mu0 = (-7.6193225034115795356e-74 + 0.012248848662336067549j)
+      value: (3.522820103899695523317171e-76 - 0.0002251623048000872655838305j)
+      (biorthogonality residual 4.87e-52, eigen residual 3.87e-50, 50-vs-70 rel. diff 6.8e-49, s_g diff 5.53e-51)
+  PASS: weight 7/2 in R2: s_g = (-2.5785809e-51 + 1.1748252j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 7.85e-49)
+  s_g = (-3.416793576316277968567518e-72 + 1.174825174825174825174825j)   multiplicity 1   mu0 = (-5.3435764303784247239e-74 + 0.018373272993504101323j)
+      value: (1.217015057944609927686262e-75 - 0.0002620748045032471993527425j)
+      (biorthogonality residual 2.85e-52, eigen residual 3.65e-50, 50-vs-70 rel. diff 7.85e-49, s_g diff 1.24e-50)
+  PASS: weight 7/2 in R2: s_g = (-3.7916861e-52 + 2.3496503j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.17e-49)
+  s_g = (-1.015286195928475721276656e-71 + 2.34965034965034965034965j)   multiplicity 1   mu0 = (-1.5878218175828662262e-73 + 0.036746545987008202646j)
+      value: (1.635961026412918176882561e-76 - 0.0005811055041064553939142126j)
+      (biorthogonality residual 3.34e-52, eigen residual 5.61e-50, 50-vs-70 rel. diff 1.17e-49, s_g diff 2.42e-51)
+  PASS: weight 7/2 in R2: s_g = (5.043977e-52 + 3.5244755j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.69e-49)
+  s_g = (-1.123903894954032363832558e-71 + 3.524475524475524475524476j)   multiplicity 1   mu0 = (-1.7576907205385583538e-73 + 0.055119818980512303969j)
+      value: (1.265431024474548563969105e-75 - 0.000731817516616237273253187j)
+      (biorthogonality residual 4.79e-52, eigen residual 7.2e-50, 50-vs-70 rel. diff 1.69e-49, s_g diff 1.83e-51)
+  PASS: weight 7/2 in R2: s_g = (-8.7291886e-53 + 3.9160839j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.44e-49)
+  s_g = (-1.714850519061979954292957e-71 + 3.916083916083916083916084j)   multiplicity 1   mu0 = (-2.6818813049751483307e-73 + 0.061244243311680337743j)
+      value: (3.286361441950203813273926e-75 - 0.00112381203739344096085545j)
+      (biorthogonality residual 2.93e-53, eigen residual 1.65e-49, 50-vs-70 rel. diff 1.44e-49, s_g diff 8.33e-50)
+
+===== C.5: octahedron in R4 =====
+h(u) = Q(u) = kappa_u = 1.223776223776223776223776;  |grad h - 4hu| = 1.26e-50;  k = 4, r_u = 4, signature (6, 0, 3), dim K' = 0
+  PASS: octahedron in R4: critical
+  PASS: octahedron in R4: zero multiplicity the same at 50 and 70 digits
+zero multiplicity of S^ = 8  (largest |zero eig| 2.96e-25, smallest |nonzero| 0.674086)
+  PASS: octahedron in R4: nondegenerate (K' = 0)
+R~0(u) = -0.000777482268473902573203;  |<grad R~0, K_u>| = 9.05e-57;  |M^ z - grad R~0| on Ru+N_u = 1.78e-55
+  PASS: octahedron in R4: grad R~0(u) orthogonal to K_u
+  PASS: octahedron in R4: same slow-group structure at 50 and 70 digits
+  PASS: octahedron in R4: s_g = (-0.67408568 - 6.7912659e-53j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.16e-48)
+  s_g = (-0.6740856795263880204197012 - 3.650714931070796724375042e-73j)   multiplicity 3   mu0 = (-0.0099380798999990653174 - 5.3822678301951501715e-75j)
+      value: (0.0002057332500003858096557444 - 7.004577667432123735906756e-73j)
+      value: (0.0002057332500003858096557444 + 7.02862961591585581497191e-73j)
+      value: (0.0002057332500003858096557444 - 4.629131018083342864753881e-75j)
+      (biorthogonality residual 7.07e-52, eigen residual 9.54e-50, 50-vs-70 rel. diff 1.16e-48, s_g diff 2.08e-50)
+  PASS: octahedron in R4: s_g = 0.67408568: c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 1.16e-48)
+  s_g = (0.6740856795263880204197012 - 1.532035280445534885284949e-72j)   multiplicity 3   mu0 = (0.0099380798999990653174 - 2.2586875065173637769e-74j)
+      value: (-0.0002057332500003858096557444 + 3.123062424847672922659752e-75j)
+      value: (-0.0002057332500003858096557444 + 6.840021104963596722781841e-73j)
+      value: (-0.0002057332500003858096557444 - 6.833388842871907575170698e-73j)
+      (biorthogonality residual 6.72e-52, eigen residual 1.43e-49, 50-vs-70 rel. diff 1.16e-48, s_g diff 2.48e-50)
+checks: 66 PASS, 0 FAIL

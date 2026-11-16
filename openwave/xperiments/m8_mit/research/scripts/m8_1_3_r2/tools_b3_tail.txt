@@ -1,0 +1,64 @@
+    Ms = sim(Mw)
+    print("  N Mhat N^-1 rational:", all(x.is_Rational for x in Ms))
+    coM = charpoly(Ms)
+    zM, restM = split_zero(coM)
+    rationalM = all(c.is_Rational for c in restM)
+    Pm = sp.Poly(restM, xi) if rationalM else sp.Poly(restM, xi, extension=True)
+    npos = nneg = nreal = 0
+    if Pm.degree() > 0:
+        for f, e in sp.sqf_list(Pm)[1]:
+            fe = f.as_expr().subs(xi, nu)
+            fq = sp.Poly(fe, nu) if rationalM else sp.Poly(fe, nu, extension=True)
+            nr_, np_ = sturm_counts(fq)
+            nreal += nr_ * e; npos += np_ * e; nneg += (nr_ - np_) * e
+    chk(f"{name}: charpoly of Mhat real-rooted (Sturm, exact)", nreal == Pm.degree())
+    sig = [nneg, zM - kdim, npos - 1]
+    chk(f"{name}: signature dimensions sum to dim N_u = 15 - k", sum(sig) == dimR - 1 - kdim and min(sig) >= 0, str(sig))
+    # numeric signature on N_u
+    Mnum = to_mp_mat(Mw)
+    evM = sorted(mpm.re(e) for e in mpm.eig(Mnum, left=False, right=False))
+    tol = mpm.mpf(10) ** -30
+    sig_num = [sum(1 for e in evM if e < -tol), sum(1 for e in evM if abs(e) <= tol) - kdim, sum(1 for e in evM if e > tol) - 1]
+    chk(f"{name}: signature exact = numeric (50 digits)", sig == sig_num, f"{sig} vs {sig_num}")
+    S = I0 * Ms
+    coS = charpoly(S)
+    zS, restS = split_zero(coS)
+    P, ratP = slow_poly(restS)
+    rd = root_data(P, ratP)
+    Snum = to_mp_mat(I0) * Mnum
+    evS = mpm.eig(Snum, left=False, right=False)
+    nzero_num = sum(1 for e in evS if abs(e) < mpm.mpf(10) ** -20)
+    chk(f"{name}: zero multiplicity of S exact = numeric count of |eig| < 1e-20", zS == nzero_num, f"{zS} vs {nzero_num}")
+    agree, worst = match_roots([e * e for e in evS if abs(e) >= mpm.mpf(10) ** -20], rd)
+    chk(f"{name}: squares of nonzero numeric eigenvalues of S match the slow polynomial's roots (each twice)", agree, mpm.nstr(worst, 3) if worst is not None else "count")
+    kr = krein(Snum, Mnum, rd, name)
+    w_ = words(rd)
+    print(f"  k = {kdim}, r_u = {r_u}, signature [n-, n0, n+] = {sig}")
+    print(f"  zero multiplicity of S_u = {zS}; slow polynomial ({'rational' if ratP else 'monic, algebraic coefficients'}) = {rd['factored']}")
+    for r in rd["roots"]:
+        print(f"     root nu = {r['value'][:32]}  ({r['kind']}, multiplicity {r['mult']})" + (f", exact {r['exact']}" if r['exact'] else ""))
+    print(f"  slow-flow words: {w_}")
+    for c in kr:
+        print(f"     cluster tau = {c['tau']} (nu = {c['nu']}), Krein sign {c['sign']}, dim ker = {c['dim_ker']}, min|eig of Mhat there| = {c['min_abs_eig']}")
+    R.update(k=kdim, r_u=r_u, signature=sig, zero_mult=zS, slow_poly=rd["factored"], slow_poly_rational=ratP, roots=rd["roots"], words=w_, krein=kr)
+    R["members"] = {}
+    for mn, (A, sc) in members.items():
+        Am = A * Ms           # N commutes with i and Theta (N_k = N_{n-k})
+        co = charpoly(Am)
+        z, rest = split_zero(co)
+        Pm_, ratm = slow_poly(rest, scale=sc)   # eigenvalues of (A/sqrt(sc)) Mhat: nu -> sc * nu
+        rdm = root_data(Pm_, ratm)
+        tau_num = to_mp_mat(A) / mpm.sqrt(sc)
+        Sn = tau_num * Mnum
+        evn = mpm.eig(Sn, left=False, right=False)
+        nz_n = sum(1 for e in evn if abs(e) < mpm.mpf(10) ** -20)
+        chk(f"{name} / member {mn}: zero multiplicity exact = numeric", z == nz_n, f"{z} vs {nz_n}")
+        ag, worst = match_roots([e * e for e in evn if abs(e) >= mpm.mpf(10) ** -20], rdm)
+        chk(f"{name} / member {mn}: numeric eigenvalues match exact slow polynomial", ag, mpm.nstr(worst, 3) if worst is not None else "count")
+        krm = krein(Sn, Mnum, rdm, f"{name} / member {mn}")
+        wm = words(rdm)
+        print(f"  member {mn}: zero mult {z}; slow poly ({'rational' if ratm else 'monic, algebraic'}) {rdm['factored']}")
+        print(f"      roots: {[(r['kind'], r['mult'], r['value'][:14]) for r in rdm['roots']]}")
+        print(f"      words: {wm}; Krein: {[(c['tau'][:12], c['sign']) for c in krm]}")
+        R["members"][mn] = dict(zero_mult=z, slow_poly=rdm["factored"], slow_poly_rational=ratm, roots=rdm["roots"], words=wm, krein=krm)
+

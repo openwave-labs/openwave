@@ -1,0 +1,30 @@
+B1 C3 ray | hyperbolic, a complex quartet | hyperbolic, a complex quartet | ok
+B1 D2 ray | hyperbolic, real pairs | hyperbolic, real pairs | ok
+B1 coherent v3 | elliptic, simple | elliptic, simple; Krein + | ok
+B1 hexagon | elliptic, one double frequency | elliptic, one double frequency; Krein − | ok
+B1 octahedron | hyperbolic, real pairs | hyperbolic, real pairs | ok
+B1 pentagonal pyramid | hyperbolic, a complex quartet | hyperbolic, a complex quartet | ok
+B1 trigonal prism | elliptic, one double frequency | elliptic, one double frequency; Krein + | ok
+B1 v2 | elliptic, simple | elliptic, simple; Krein 4+, 1− | ok
+B1 zonal v0 | hyperbolic, real pairs | hyperbolic, real pairs | ok
+B2 C3 ray | hyperbolic, a complex quartet | hyperbolic, a complex quartet | ok
+B2 D2 ray | hyperbolic, real pairs | hyperbolic, real pairs | ok
+B2 coherent v3 | elliptic, simple | elliptic, simple; Krein + | ok
+B2 hexagon | elliptic, one double frequency | elliptic, one double frequency; Krein − | ok
+B2 octahedron | hyperbolic, real pairs | hyperbolic, real pairs | ok
+B2 pentagonal pyramid | hyperbolic, a complex quartet | hyperbolic, a complex quartet | ok
+B2 trigonal prism | elliptic, one double frequency | elliptic, one double frequency; Krein + | ok
+B2 v2 | elliptic, simple | elliptic, simple; Krein 4+, 1− | ok
+B2 zonal v0 | hyperbolic, real pairs | hyperbolic, real pairs | ok
+scaling C3 ray True
+scaling D2 ray True
+scaling coherent v3 True
+scaling hexagon True
+scaling octahedron True
+scaling pentagonal pyramid True
+scaling trigonal prism True
+scaling v1 True
+scaling v2 True
+scaling zonal v0 True
+mutations red: [True, True, True, True, True, True]
+28 checks, 0 mismatches; mutations ALL RED

@@ -1,0 +1,88 @@
+{
+ "E.1": {
+  "V_0/2": {
+   "dim": 1,
+   "n": 0,
+   "next_level": 12,
+   "gap": 168
+  },
+  "V_1/2": {
+   "dim": 2,
+   "n": 1,
+   "next_level": 11,
+   "gap": 140
+  },
+  "V_2/2": {
+   "dim": 3,
+   "n": 2,
+   "next_level": 10,
+   "gap": 112
+  },
+  "V_3/2": {
+   "dim": 4,
+   "n": 3,
+   "next_level": 9,
+   "gap": 84
+  },
+  "V_4/2": {
+   "dim": 5,
+   "n": 4,
+   "next_level": 8,
+   "gap": 56
+  },
+  "V_5/2": {
+   "dim": 6,
+   "n": 5,
+   "next_level": 7,
+   "gap": 28
+  }
+ },
+ "E.2": {
+  "trivial (n=0)": [
+   {
+    "eigenvalue": "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "sqrt(-2*c**2*g_4*r**2 - 4*omega**2)",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "0",
+    "algebraic": 2,
+    "geometric": 1
+   }
+  ],
+  "trivial (n=0) charpoly": "lambda**2*(2*c**2*g_4*r**2 + lambda**2 + 4*omega**2)",
+  "V_1/2 (n=1)": [
+   {
+    "eigenvalue": "-2*I*omega",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "2*I*omega",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "-I*sqrt(2*c**2*g_4*r**2 + 4*omega**2)",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "sqrt(-2*c**2*g_4*r**2 - 4*omega**2)",
+    "algebraic": 1,
+    "geometric": 1
+   },
+   {
+    "eigenvalue": "0",
+    "algebraic": 4,
+    "geometric": 3
+   }
+  ],
+  "V_1/2 (n=1) charpoly": "lambda**4*(lambda**2 + 4*omega**2)*(2*c**2*g_4*r**2 + lambda**2 + 4*omega**2)"
+ }
+}

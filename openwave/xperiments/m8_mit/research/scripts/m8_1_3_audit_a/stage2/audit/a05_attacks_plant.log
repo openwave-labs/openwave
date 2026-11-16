@@ -1,0 +1,21 @@
+  C3 ray: 924 rhat_6 Casimir route 29.04; Fischer exact 1188/5
+FAIL: 924 rhat_6 C3 ray: Casimir route = exact Fischer value (1e-40) = l6
+  D2 ray: 924 rhat_6 Casimir route 109.125; Fischer exact 225
+FAIL: 924 rhat_6 D2 ray: Casimir route = exact Fischer value (1e-40) = l6
+  coherent v3: 924 rhat_6 Casimir route 54.0; Fischer exact 1
+FAIL: 924 rhat_6 coherent v3: Casimir route = exact Fischer value (1e-40) = l6
+  hexagon: 924 rhat_6 Casimir route 54.0; Fischer exact 463
+FAIL: 924 rhat_6 hexagon: Casimir route = exact Fischer value (1e-40) = l6
+  octahedron: 924 rhat_6 Casimir route 504.0; Fischer exact 288
+FAIL: 924 rhat_6 octahedron: Casimir route = exact Fischer value (1e-40) = l6
+  pentagonal pyramid: 924 rhat_6 Casimir route 29.04; Fischer exact 1188/5
+FAIL: 924 rhat_6 pentagonal pyramid: Casimir route = exact Fischer value (1e-40) = l6
+  trigonal prism: 924 rhat_6 Casimir route 127.216873985938345051379123851; Fischer exact 8800/43
+FAIL: 924 rhat_6 trigonal prism: Casimir route = exact Fischer value (1e-40) = l6
+  v1: 924 rhat_6 Casimir route 6.0; Fischer exact 225
+FAIL: 924 rhat_6 v1: Casimir route = exact Fischer value (1e-40) = l6
+  v2: 924 rhat_6 Casimir route 294.0; Fischer exact 36
+FAIL: 924 rhat_6 v2: Casimir route = exact Fischer value (1e-40) = l6
+  zonal v0: 924 rhat_6 Casimir route 216.0; Fischer exact 400
+FAIL: 924 rhat_6 zonal v0: Casimir route = exact Fischer value (1e-40) = l6
+-- 10 FAIL line(s)

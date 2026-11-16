@@ -1,0 +1,64 @@
+|q1|^2 = 1  |q2|^2 = 1
+PASS 0(a) |q1| = 1 exactly
+PASS 0(a) |q2| = 1 exactly
+order of Gamma_0 = 120
+PASS 0(a) set is closed under generators and inverses
+PASS 0(a) every element is a unit quaternion
+PASS 0(a) real part constant on each class
+PASS 0(a) class sizes sum to group order
+classes (k: element order, Re g, size):
+  C0: order 1, Re = 1, size 1
+  C1: order 2, Re = -1, size 1
+  C2: order 3, Re = -1/2, size 20
+  C3: order 4, Re = 0, size 30
+  C4: order 5, Re = -sqrt(5)/4 - 1/4, size 12
+  C5: order 5, Re = -1/4 + sqrt(5)/4, size 12
+  C6: order 6, Re = 1/2, size 20
+  C7: order 10, Re = 1/4 - sqrt(5)/4, size 12
+  C8: order 10, Re = 1/4 + sqrt(5)/4, size 12
+PASS 0(a) class constants: sum_j a_ijk = |C_i|
+PASS 0(a) every character value identified in Q(sqrt5) at 30 digits (denominator <= 1000)
+PASS 0(a) every character value identified in Q(sqrt5) at 60 digits (denominator <= 1000)
+PASS 0(a) identifications at 30 and 60 digits agree
+PASS 0(a) EXACT: each row satisfies the class-algebra eigen-equations
+PASS 0(a) EXACT: row orthonormality (values real)
+PASS 0(a) EXACT: column orthogonality
+PASS 0(a) number of irreducibles = number of classes
+PASS 0(a) sum of dim^2 = |G|
+PASS 0(b) EXACT: all multiplicities for l <= 60 are non-negative integers
+PASS 0(b) EXACT: sum_rho mult*dim = l+1 for every l
+PASS conv: quaternion->SU(2) map is a homomorphism (sampled)
+PASS 0(b) tr D^{l/2}(g) = U_l(Re g) numerically, l <= 20, all classes  [max err 2.68e-14]
+PASS conv: D^j is a homomorphism, l <= 20  [max err 1.21e-14]
+
+character table (rows: irreps labelled dim<d>_n<lowest level>; columns C0..C8):
+     dim1_n0: 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+     dim2_n1: 2 | -2 | -1 | 0 | -sqrt(5)/2 - 1/2 | -1/2 + sqrt(5)/2 | 1 | 1/2 - sqrt(5)/2 | 1/2 + sqrt(5)/2
+     dim2_n7: 2 | -2 | -1 | 0 | -1/2 + sqrt(5)/2 | -sqrt(5)/2 - 1/2 | 1 | 1/2 + sqrt(5)/2 | 1/2 - sqrt(5)/2
+     dim3_n6: 3 | 3 | 0 | -1 | 1/2 - sqrt(5)/2 | 1/2 + sqrt(5)/2 | 0 | 1/2 + sqrt(5)/2 | 1/2 - sqrt(5)/2
+     dim3_n2: 3 | 3 | 0 | -1 | 1/2 + sqrt(5)/2 | 1/2 - sqrt(5)/2 | 0 | 1/2 - sqrt(5)/2 | 1/2 + sqrt(5)/2
+     dim4_n3: 4 | -4 | 1 | 0 | -1 | -1 | -1 | 1 | 1
+     dim4_n6: 4 | 4 | 1 | 0 | -1 | -1 | 1 | -1 | -1
+     dim5_n4: 5 | 5 | -1 | 1 | 0 | 0 | -1 | 0 | 0
+     dim6_n5: 6 | -6 | 0 | 0 | 1 | 1 | 0 | -1 | -1
+
+0(b) levels l <= 20 with multiplicity (l: mult):
+     dim1_n0: 0:1, 12:1, 20:1
+     dim2_n1: 1:1, 11:1, 13:1, 19:1
+     dim2_n7: 7:1, 13:1, 17:1, 19:1
+     dim3_n6: 6:1, 10:1, 14:1, 16:1, 18:1, 20:1
+     dim3_n2: 2:1, 10:1, 12:1, 14:1, 18:1, 20:1
+     dim4_n3: 3:1, 9:1, 11:1, 13:1, 15:1, 17:1, 19:1
+     dim4_n6: 6:1, 8:1, 12:1, 14:1, 16:1, 18:2, 20:1
+     dim5_n4: 4:1, 8:1, 10:1, 12:1, 14:1, 16:2, 18:1, 20:2
+     dim6_n5: 5:1, 7:1, 9:1, 11:1, 13:1, 15:2, 17:2, 19:2
+PASS 0(b) name R2 (dim 2, lowest level 7) picks out exactly one irreducible  [hits ['dim2_n7']]
+  R2 -> ['dim2_n7']
+PASS 0(b) name R4 (dim 3, lowest level 6) picks out exactly one irreducible  [hits ['dim3_n6']]
+  R4 -> ['dim3_n6']
+PASS 0(b) name R5 (dim 4, lowest level 6) picks out exactly one irreducible  [hits ['dim4_n6']]
+  R5 -> ['dim4_n6']
+  R2: multiplicity at level 7 = 1
+  R4: multiplicity at level 6 = 1
+  R5: multiplicity at level 6 = 1
+SUMMARY PASS=23 FAIL=0 plant=None

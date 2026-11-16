@@ -1,0 +1,44 @@
+[s00_group.py] DEFECT=wrong_generator (q2 replaced by (1+i+j-k)/2: a different group): 7 FAIL line(s)
+      FAIL: every class contains the inverses of its elements (characters real)
+      FAIL: sum of squared dimensions = |Gamma_0|
+      FAIL: number of irreducibles = number of classes
+      FAIL: column orthogonality
+      FAIL: slot R2 (dim 2, lowest level 7) picks exactly one irreducible
+      FAIL: slot R4 (dim 3, lowest level 6) picks exactly one irreducible
+  PASS: planted defect 'wrong_generator' in s00_group.py makes at least one check fail
+[s01_cg_theta.py] DEFECT=cg_sign (sign of <3 3; 3 -3|6 0> flipped in the built table): 1 FAIL line(s)
+      FAIL: built CG == Racah formula exactly, all tables used
+  PASS: planted defect 'cg_sign' in s01_cg_theta.py makes at least one check fail
+[s02_eta.py] DEFECT=eta_perturb (eta_{3,1} of R4 shifted by 1e-8): 12 FAIL line(s)
+      FAIL: R4: eta^dag eta = I
+      FAIL: R4: D(h) eta = eta rho(h) for all 120 h
+      FAIL: R4: trace rho(h) = character of the slot for all h
+      FAIL: R4: rho is a homomorphism (all h times each generator)
+      FAIL: R4: rho irreducible (<chi,chi> = 1 from the matrices)
+      FAIL: R4: quadrature of the definition agrees with s_N = 3/7 to 1e-28
+  PASS: planted defect 'eta_perturb' in s02_eta.py makes at least one check fail
+[s03_levels.py] DEFECT=wrong_sN_routeA (route A uses s_N * 8/7): 6 FAIL line(s)
+      FAIL: R2: route A (exact) and route B (50 digits) agree on every level to 1e-40
+      FAIL: R2: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+      FAIL: R4: route A (exact) and route B (50 digits) agree on every level to 1e-40
+      FAIL: R4: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+      FAIL: R5: route A (exact) and route B (50 digits) agree on every level to 1e-40
+      FAIL: R5: sum of all level norms (route B) = mean|psi|^6 (route A, exact)
+  PASS: planted defect 'wrong_sN_routeA' in s03_levels.py makes at least one check fail
+[s04b_c3_exact.py] DEFECT=wrong_lambda0 (exact route uses lambda_0 = n(n+1)): 6 FAIL line(s)
+      FAIL: R2 line {5/2, -3/2}: exact gamma_u equals the value identified from 50/80-digit numerics (115020/20333173)
+      FAIL: R2 line {5/2, -3/2}: exact R~0(u) agrees with route B to 1e-25
+      FAIL: v1 R4: exact gamma_u equals the value identified from 50/80-digit numerics (-19919/6697728)
+      FAIL: v1 R4: exact R~0(u) agrees with route B to 1e-25
+      FAIL: v1 R5: exact gamma_u equals the value identified from 50/80-digit numerics (224487/41628563)
+      FAIL: v1 R5: exact R~0(u) agrees with route B to 1e-25
+  PASS: planted defect 'wrong_lambda0' in s04b_c3_exact.py makes at least one check fail
+[s05_c5.py] DEFECT=T1_mu0sq_sign (sign of the mu0^2 term of T_1 flipped in the 70-digit run only): 10 FAIL line(s)
+      FAIL: coherent v3 in R4: s_g = (1.920202e-101 - 2.8717949j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.519)
+      FAIL: coherent v3 in R4: s_g = (1.6671281e-51 - 1.4141414j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.197)
+      FAIL: coherent v3 in R4: s_g = (7.4793453e-52 - 0.6961927j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.0761)
+      FAIL: coherent v3 in R4: s_g = (1.8766577e-52 - 0.1958042j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.0177)
+      FAIL: coherent v3 in R4: s_g = (-3.2624548e-52 - 0.13053613j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.0132)
+      FAIL: coherent v3 in R4: s_g = (1.4542244e-52 + 0.13053613j): c_g agrees at 50/70 digits to >= 15 significant digits (rel. diff 0.0132)
+  PASS: planted defect 'T1_mu0sq_sign' in s05_c5.py makes at least one check fail
+checks: 6 PASS, 0 FAIL

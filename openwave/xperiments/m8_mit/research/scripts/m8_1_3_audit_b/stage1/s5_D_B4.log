@@ -1,0 +1,53 @@
+[PASS] D: each given generator is G-skew (exact)
+[PASS] D: the given generators span the same 4-dim space as my phase + rotation generators (exact ranks) :: 4, 4
+[PASS] D O3 R4: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 9.68e-56
+O3 R4: Krawczyk done in 0.1s; width of K(Z) cap Z: 1.94e-115; c-part of K(Z): [['-2.76397E-116', '2.76397E-116'], ['-1.13213E-116', '1.13213E-116'], ['-5.21131E-117', '5.21131E-117'], ['-1.39626E-116', '1.39626E-116']]
+   second iteration on K(Z): True; width now 1.08e-129
+[PASS] D O3 R4: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.464498', '44.464499']
+[PASS] D O3 R4: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O3 R4: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O3 R4: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O3 R4: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O3 R4: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O3 R4: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O3 R4: every reported enclosure has width <= 1e-50
+O3 R4: k = 4, r_u = 2, signature [7, 0, 2], zero multiplicity 6
+   924 r6hat in ['238.356854743095270345532123383755488501994475833471334187918', '238.356854743095270345532123383755488501994475833471334187919']  (width 6.46e-126)
+   slow root nu in ['-1.02432941669732950497484345149267234645438519288153558625399', '-1.02432941669732950497484345149267234645438519288153558625398'] (width 1.22e-103), sign -, simple: True
+   slow root nu in ['-0.0965299801561094930166488655790986694420059512279634297413442', '-0.0965299801561094930166488655790986694420059512279634297413441'] (width 1.11e-102), sign -, simple: True
+   slow root nu in ['-0.0193910729839310209538294931640573953865135772275252843120175', '-0.0193910729839310209538294931640573953865135772275252843120174'] (width 3.24e-102), sign -, simple: True
+   slow root nu in ['-0.0000329115537456027286336628310800999861294194046489761184690478', '-0.0000329115537456027286336628310800999861294194046489761184690477'] (width 2.52e-102), sign -, simple: True
+   slow-flow words: elliptic, simple
+   over the Section-5 box: 924 r6hat in ['238.3568547430952703455321', '238.3568547430952703455322'] (width 1.65e-55); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 1.18e-53  ['-1.024329416697329504974844', '-1.024329416697329504974843']
+      slow root certified True: width 1.41e-51  ['-0.09652998015610949301664887', '-0.09652998015610949301664886']
+      slow root certified True: width 6.43e-51  ['-0.01939107298393102095382950', '-0.01939107298393102095382949']
+      slow root certified True: width 5.03e-51  ['-0.00003291155374560272863366284', '-0.00003291155374560272863366283']
+[PASS] D O3 R5: Krawczyk K(Z) lies in the interior of Z (unique zero of the slice system in the box) :: ||I - Y J(Z)||_inf = 1.02e-55
+O3 R5: Krawczyk done in 0.0s; width of K(Z) cap Z: 2.05e-115; c-part of K(Z): [['-2.33391E-116', '2.33391E-116'], ['-8.97156E-117', '8.97156E-117'], ['-4.12639E-117', '4.12639E-117'], ['-1.20289E-116', '1.20289E-116']]
+   second iteration on K(Z): True; width now 1.08e-129
+[PASS] D O3 R5: Gram determinant of the 4 tangent vectors excludes 0 -> k = 4 :: ['44.464498', '44.464499']
+[PASS] D O3 R5: sigma on K_u: phase row encloses 0 (structurally exactly 0) and a rotation entry excludes 0
+[PASS] D O3 R5: charpoly(Mhat): c_0..c_3 enclose 0 (structural zeros from K_u) and c_4 excludes 0 (ker Mhat = K_u, n_0 = 0)
+[PASS] D O3 R5: every coefficient of the reduced charpoly of Mhat has a certified sign
+[PASS] D O3 R5: Descartes counts close (all roots of the symmetric reduced charpoly real and nonzero)
+[PASS] D O3 R5: charpoly(Shat): odd coefficients and c_0..c_5 enclose 0; c_6 excludes 0 -> zero multiplicity 6
+[PASS] D O3 R5: all 4 slow roots certified real and simple (Krawczyk, radius 1e-52)
+[PASS] D O3 R5: every reported enclosure has width <= 1e-50
+O3 R5: k = 4, r_u = 2, signature [7, 0, 2], zero multiplicity 6
+   924 r6hat in ['238.356854743095270345532123383755488501994475833471334187918', '238.356854743095270345532123383755488501994475833471334187919']  (width 9.55e-126)
+   slow root nu in ['-0.324104229501889413683446560823853359620332814935173369088175', '-0.324104229501889413683446560823853359620332814935173369088174'] (width 3.85e-103), sign -, simple: True
+   slow root nu in ['-0.0305426890337690192747990551246366883781346955057228039415972', '-0.0305426890337690192747990551246366883781346955057228039415971'] (width 3.49e-102), sign -, simple: True
+   slow root nu in ['-0.00613545668632192459867261307144003525901406154464667198934928', '-0.00613545668632192459867261307144003525901406154464667198934927'] (width 1.02e-101), sign -, simple: True
+   slow root nu in ['-0.0000104134213023196133567448801464378862362616085022150999843472', '-0.0000104134213023196133567448801464378862362616085022150999843471'] (width 7.97e-102), sign -, simple: True
+   slow-flow words: elliptic, simple
+   over the Section-5 box: 924 r6hat in ['238.3568547430952703455321', '238.3568547430952703455322'] (width 1.65e-55); c_6 of charpoly(Shat) excludes 0: True
+      slow root certified True: width 3.74e-53  ['-0.3241042295018894136834466', '-0.3241042295018894136834465']
+      slow root certified True: width 4.75e-51  ['-0.03054268903376901927479906', '-0.03054268903376901927479905']
+      slow root certified True: width 2.17e-50  ['-0.006135456686321924598672614', '-0.006135456686321924598672613']
+      slow root certified True: width 1.7e-50  ['-0.00001041342130231961335674489', '-0.00001041342130231961335674488']
+B.4 pair 1 (sorted by nu): xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001']   (width 3.68e-103)
+B.4 pair 2 (sorted by nu): xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001']   (width 3.54e-101)
+B.4 pair 3 (sorted by nu): xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001']   (width 5.16e-100)
+B.4 pair 4 (sorted by nu): xi_R5/xi_R4 = ['0.5624999999999999999999999999999999999999999999999999999', '0.5625000000000000000000000000000000000000000000000000001']   (width 2.37e-97)
+[PASS] B.4 ratio enclosures have width <= 1e-50

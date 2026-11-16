@@ -1,0 +1,88 @@
+===== slot R2: j = 7/2, s_N = 1/4
+  c_J (h = sum_J c_J ||[w (x) Theta w]_J||^2): {0: '8', 6: '24/13'}
+[PASS] R2: c_J nonzero only for J in {0, 6} (Gamma_0-invariants of V_J, J <= 2j)  ([0, 6])
+[PASS] R2: c_0 ||[w(x)Theta w]_0||^2 = ||w||^4, i.e. c_0 = 2j+1 (mean of |psi|^2 is ||w||^2)  (8)
+[PASS] R2: c_6 is rational  (24/13)
+  g_K (||Pi_K N||^2 = g_K ||[[w(x)Theta w]_6 (x) w]_K||^2 for K != j): {'5/2': '0', '7/2': '72/13', '9/2': '0', '11/2': '0', '13/2': '84/17', '15/2': '0', '17/2': '588/247', '19/2': '576/323'}
+[PASS] R2: every g_K is rational
+[PASS] R2: g_K = 0 at every level where the slot does not occur  (nonzero at [7, 13, 17, 19], slot occurs at [7, 13, 17, 19])
+  C.2 next level 13, lambda_1 - lambda_0 = 132
+===== slot R4: j = 3, s_N = 3/7
+  c_J (h = sum_J c_J ||[w (x) Theta w]_J||^2): {0: '7', 6: '28/39'}
+[PASS] R4: c_J nonzero only for J in {0, 6} (Gamma_0-invariants of V_J, J <= 2j)  ([0, 6])
+[PASS] R4: c_0 ||[w(x)Theta w]_0||^2 = ||w||^4, i.e. c_0 = 2j+1 (mean of |psi|^2 is ||w||^2)  (7)
+[PASS] R4: c_6 is rational  (28/39)
+  g_K (||Pi_K N||^2 = g_K ||[[w(x)Theta w]_6 (x) w]_K||^2 for K != j): {'3': '112/117', '4': '0', '5': '196/117', '6': '0', '7': '686/663', '8': '98/153', '9': '27440/37791'}
+[PASS] R4: every g_K is rational
+[PASS] R4: g_K = 0 at every level where the slot does not occur  (nonzero at [6, 10, 14, 16, 18], slot occurs at [6, 10, 14, 16, 18, 20])
+  C.2 next level 10, lambda_1 - lambda_0 = 72
+===== slot R5: j = 3, s_N = 4/7
+  c_J (h = sum_J c_J ||[w (x) Theta w]_J||^2): {0: '7', 6: '21/52'}
+[PASS] R5: c_J nonzero only for J in {0, 6} (Gamma_0-invariants of V_J, J <= 2j)  ([0, 6])
+[PASS] R5: c_0 ||[w(x)Theta w]_0||^2 = ||w||^4, i.e. c_0 = 2j+1 (mean of |psi|^2 is ||w||^2)  (7)
+[PASS] R5: c_6 is rational  (21/52)
+  g_K (||Pi_K N||^2 = g_K ||[[w(x)Theta w]_6 (x) w]_K||^2 for K != j): {'3': '63/208', '4': '147/208', '5': '0', '6': '147/208', '7': '147/544', '8': '3087/7072', '9': '26901/67184'}
+[PASS] R5: every g_K is rational
+[PASS] R5: g_K = 0 at every level where the slot does not occur  (nonzero at [6, 8, 12, 14, 16, 18], slot occurs at [6, 8, 12, 14, 16, 18, 20])
+  C.2 next level 8, lambda_1 - lambda_0 = 32
+C.1 R2: y = [1 - 3*I, 2 - 2*I, 3 + I, 4 - I, 5 - I, 6 + I, 7 - 2*I, 8 - 3*I] / ||y||,  ||y||^2 = 234
+   level 13: ||Pi_L N||^2 = (-347836887370*sqrt(3) - 53560193883*sqrt(105) - 32190218991*sqrt(21) - 23620495374*sqrt(15) + 909791190*sqrt(7) + 95359385079*sqrt(5) + 64185441558*sqrt(35))/11649415439376 + 1564785721583/11649415439376 = 0.0660851469793462121705968871823
+   level 17: ||Pi_L N||^2 = (-230241351081*sqrt(105) - 971900991950*sqrt(3) - 228998065653*sqrt(21) - 157205223630*sqrt(7) + 47670442386*sqrt(35) + 98275766022*sqrt(15) + 263265010029*sqrt(5))/97452240030288 + 100412324005/1203114074448 = 0.0397809087213870680725581240991
+   level 19: ||Pi_L N||^2 = (-11933145534*sqrt(105) - 32872351500*sqrt(7) - 27802409544*sqrt(5) - 17294226670*sqrt(3) - 1989988560*sqrt(15) + 1839359988*sqrt(21) + 7667630238*sqrt(35))/7964846540937 + 588203435078/7964846540937 = 0.0417979907871338345813473000321
+   levels with nonzero norm: [13, 17, 19]
+C.1 R4: y = [1 - 3*I, 2 - 2*I, 3 + I, 4 - I, 5 - I, 6 + I, 7 - 2*I] / ||y||,  ||y||^2 = 161
+   level 10: ||Pi_L N||^2 = (-869707884*sqrt(2) - 85208776*sqrt(15) + 57929646*sqrt(30))/89772639957 + 2406041/100754927 = 0.0100377065306555069977190887686
+   level 14: ||Pi_L N||^2 = (-91453533060*sqrt(2) - 15115544278*sqrt(15) - 3491939859*sqrt(30))/18119823645924 + 189383935049/9059911822962 = 0.00947937756537922034668814396726
+   level 16: ||Pi_L N||^2 = (-232290420*sqrt(2) - 57655711*sqrt(30) - 2324526*sqrt(15))/156526654284 + 315323791/26087775714 = 0.00791327396582868385937303808379
+   level 18: ||Pi_L N||^2 = (-25915794160*sqrt(30) - 70427478840*sqrt(2) - 14204096400*sqrt(15))/23473407904947 + 9036176740/340194317463 = 0.0139280082921310614673203703343
+   level 20: ||Pi_L N||^2 = 0 = 0
+   levels with nonzero norm: [10, 14, 16, 18]
+C.1 R5: y = [1 - 3*I, 2 - 2*I, 3 + I, 4 - I, 5 - I, 6 + I, 7 - 2*I] / ||y||,  ||y||^2 = 161
+   level  8: ||Pi_L N||^2 = (-1114193709*sqrt(30) + 171106034*sqrt(15) + 873310182*sqrt(2))/1560492309376 + 14924658811/1560492309376 = 0.00686943882501450947505896604750
+   level 12: ||Pi_L N||^2 = (-25460630*sqrt(30) - 1175306*sqrt(15) + 17345745*sqrt(2))/30009467488 + 721567705/60018934976 = 0.00804109190099201777062085737164
+   level 14: ||Pi_L N||^2 = (-91453533060*sqrt(2) - 15115544278*sqrt(15) - 3491939859*sqrt(30))/69381888832256 + 189383935049/34690944416128 = 0.00247564101595841245661275188431
+   level 16: ||Pi_L N||^2 = (-696871260*sqrt(2) - 172967133*sqrt(30) - 6973578*sqrt(15))/689048552192 + 2837914119/344524276096 = 0.00539282011853949969743330840566
+   level 18: ||Pi_L N||^2 = (-118564758282*sqrt(30) - 322205715693*sqrt(2) - 64983741030*sqrt(15))/194742347063264 + 248043051513/16934117135936 = 0.00768061260841736324888727118548
+   level 20: ||Pi_L N||^2 = 0 = 0
+   levels with nonzero norm: [8, 12, 14, 16, 18]
+cubature R2: h = 1.17118947391475, CG formula h = 1.17118947391475
+[PASS] R2: h by cubature == h by the CG formula (rel 1e-12)
+   level  1: cubature 1.63551077565186e-31   CG exact 0
+   level  3: cubature 5.75310034326784e-31   CG exact 0
+   level  5: cubature 4.04784588865984e-30   CG exact 0
+   level  9: cubature 9.02816058312498e-30   CG exact 0
+   level 11: cubature 4.97088004943123e-30   CG exact 0
+   level 13: cubature 0.0660851469793461   CG exact 0.0660851469793462
+   level 15: cubature 6.42036541731595e-30   CG exact 0
+   level 17: cubature 0.0397809087213872   CG exact 0.0397809087213871
+   level 19: cubature 0.0417979907871339   CG exact 0.0417979907871338
+   level 21: cubature 1.47432115612977e-29   CG exact 0
+[PASS] R2: level norms by cubature == CG formula at every level != lowest (abs 1e-12)  (1.53e-16)
+[PASS] R2: cubature level norms sum to int |psi|^6 (Parseval, rel 1e-12)
+cubature R4: h = 1.05414558459377, CG formula h = 1.05414558459376
+[PASS] R4: h by cubature == h by the CG formula (rel 1e-12)
+   level  0: cubature 2.72828339169262e-31   CG exact 0
+   level  2: cubature 1.03246230404140e-30   CG exact 0
+   level  4: cubature 2.22478640377454e-30   CG exact 0
+   level  8: cubature 1.14583751461919e-29   CG exact 0
+   level 10: cubature 0.0100377065306555   CG exact 0.0100377065306555
+   level 12: cubature 1.93813099854959e-30   CG exact 0
+   level 14: cubature 0.00947937756537926   CG exact 0.00947937756537922
+   level 16: cubature 0.00791327396582870   CG exact 0.00791327396582868
+   level 18: cubature 0.0139280082921311   CG exact 0.0139280082921311
+[PASS] R4: level norms by cubature == CG formula at every level != lowest (abs 1e-12)  (4.34e-17)
+[PASS] R4: cubature level norms sum to int |psi|^6 (Parseval, rel 1e-12)
+cubature R5: h = 1.03045689133399, CG formula h = 1.03045689133399
+[PASS] R5: h by cubature == h by the CG formula (rel 1e-12)
+   level  0: cubature 4.75626760988188e-33   CG exact 0
+   level  2: cubature 3.05386939172421e-31   CG exact 0
+   level  4: cubature 4.82496671745784e-30   CG exact 0
+   level  8: cubature 0.00686943882501450   CG exact 0.00686943882501451
+   level 10: cubature 2.54101798656041e-30   CG exact 0
+   level 12: cubature 0.00804109190099201   CG exact 0.00804109190099202
+   level 14: cubature 0.00247564101595841   CG exact 0.00247564101595841
+   level 16: cubature 0.00539282011853951   CG exact 0.0053928201185395
+   level 18: cubature 0.00768061260841737   CG exact 0.00768061260841736
+[PASS] R5: level norms by cubature == CG formula at every level != lowest (abs 1e-12)  (1.39e-17)
+[PASS] R5: cubature level norms sum to int |psi|^6 (Parseval, rel 1e-12)
+failures: 0

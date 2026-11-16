@@ -1,0 +1,2417 @@
+{
+ "line {5/2, -3/2}": {
+  "critical": true,
+  "Q": "161/143",
+  "k": {
+   "z": 12,
+   "kernel": 9,
+   "Q": "nu**2 + 26560*nu/1859 + 18932875264/418161601",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.744681891535038388185241"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.542569318793095016871241"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-4.7446818915350383882",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.663",
+     "sv": "4.61e-101",
+     "gap": "3.12"
+    },
+    {
+     "nu": "-9.5425693187930950169",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.396",
+     "sv": "2.33e-101",
+     "gap": "4.39"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 2,
+  "signature": [
+   0,
+   3,
+   6
+  ],
+  "alt": {
+   "k": 4,
+   "r_u": 2,
+   "signature": [
+    0,
+    5,
+    6
+   ]
+  },
+  "i": {
+   "z": 12,
+   "kernel": 9,
+   "Q": "nu**2 + 26560*nu/1859 + 17921327104/418161601",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.284610494400704190913981"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-10.0026407159274292141425"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-4.2846104944007041909",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.502",
+     "sv": "1.73e-101",
+     "gap": "3.51"
+    },
+    {
+     "nu": "-10.002640715927429214",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.596",
+     "sv": "6.31e-101",
+     "gap": "5.17"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 12,
+   "kernel": 9,
+   "Q": "nu**2 + 26560*nu/1859 + 18932875264/418161601",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.744681891535038388185241"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.542569318793095016871241"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-4.7446818915350383882",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.663",
+     "sv": "1.01e-101",
+     "gap": "3.12"
+    },
+    {
+     "nu": "-9.5425693187930950169",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.396",
+     "sv": "4.77e-101",
+     "gap": "4.39"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 10,
+   "kernel": 9,
+   "Q": "nu**3 + 26560*nu**2/1859 + 19185762304*nu/418161601 + 6372753408000/8550986578849",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.430370024072900070988764"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.840554915148091281982697"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.01632627110714205208502024"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-9.430370024072900071",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.349",
+     "sv": "5.27e-101",
+     "gap": "4.21"
+    },
+    {
+     "nu": "-4.840554915148091282",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.742",
+     "sv": "5.13e-101",
+     "gap": "3.01"
+    },
+    {
+     "nu": "-0.016326271107142052085",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.01256",
+     "sv": "2.12e-101",
+     "gap": "0.0135"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 10,
+   "kernel": 9,
+   "Q": "nu**3 + 26560*nu**2/1859 + 19185762304*nu/418161601 + 6372753408000/8550986578849",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.430370024072900070988764"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.840554915148091281982697"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.01632627110714205208502024"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-9.430370024072900071",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.349",
+     "sv": "3.65e-101",
+     "gap": "4.21"
+    },
+    {
+     "nu": "-4.840554915148091282",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.742",
+     "sv": "2.02e-101",
+     "gap": "3.01"
+    },
+    {
+     "nu": "-0.016326271107142052085",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.01256",
+     "sv": "7.99e-102",
+     "gap": "0.0135"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "line {7/2, -1/2}": {
+  "critical": true,
+  "Q": "193/143",
+  "k": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 4046336504627200*nu/76958879209641 + 495192635258961920000/4721196362873846427",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 - 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 + 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 - 2.001691195780769026116125j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 + 2.001691195780769026116125j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [],
+   "Kf": "QQ"
+  },
+  "r_u": 2,
+  "signature": [
+   5,
+   0,
+   4
+  ],
+  "alt": {
+   "k": 4,
+   "r_u": 2,
+   "signature": [
+    5,
+    2,
+    4
+   ]
+  },
+  "i": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 4046336504627200*nu/76958879209641 + 495192635258961920000/4721196362873846427",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 - 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 + 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 - 2.001691195780769026116125j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 + 2.001691195780769026116125j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 4046336504627200*nu/76958879209641 + 495192635258961920000/4721196362873846427",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 - 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-3.782809265326747844230362 + 3.282782069649390046649264j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 - 2.001691195780769026116125j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.4174721936959699197461435 + 2.001691195780769026116125j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 6701744835788800*nu/76958879209641 + 379131861370142720000/4721196362873846427",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-3.444522865445845786631531"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.820738679535978915472892"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.567650686531805412924294 - 3.216665823423229580198336j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.567650686531805412924294 + 3.216665823423229580198336j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-3.4445228654458457866",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.5351",
+     "sv": "1.0e-101",
+     "gap": "2.41"
+    },
+    {
+     "nu": "-1.8207386795359789155",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.2796",
+     "sv": "2.05e-101",
+     "gap": "1.31"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 1546048*nu**3/184041 + 401758830592*nu**2/11290363227 + 6701744835788800*nu/76958879209641 + 379131861370142720000/4721196362873846427",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-3.444522865445845786631531"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.820738679535978915472892"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.567650686531805412924294 - 3.216665823423229580198336j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.567650686531805412924294 + 3.216665823423229580198336j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-3.4445228654458457866",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.5351",
+     "sv": "1.81e-101",
+     "gap": "2.41"
+    },
+    {
+     "nu": "-1.8207386795359789155",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.2796",
+     "sv": "7.58e-102",
+     "gap": "1.31"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "line {7/2, -3/2}": {
+  "critical": true,
+  "Q": "22/13",
+  "k": {
+   "z": 10,
+   "kernel": 6,
+   "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 399699093749760/777362416259",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.434642280796126949973104"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.088263774450374942875267"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.707520860495099163438"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-8.43464228079612695",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.611",
+     "sv": "7.94e-101",
+     "gap": "0.637"
+    },
+    {
+     "nu": "-9.0882637744503749429",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.855",
+     "sv": "6.33e-101",
+     "gap": "0.645"
+    },
+    {
+     "nu": "-6.7075208604950991634",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.492",
+     "sv": "7.45e-101",
+     "gap": "1.68"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 4,
+  "signature": [
+   9,
+   0,
+   0
+  ],
+  "alt": {
+   "k": 4,
+   "r_u": 4,
+   "signature": [
+    9,
+    2,
+    0
+   ]
+  },
+  "i": {
+   "z": 10,
+   "kernel": 6,
+   "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 4406682508591104/8550986578849",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-7.514499486527458555430583"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.487509528321432688260853"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-7.228417900892709812594934"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-7.5144994865274585554",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.634",
+     "sv": "5.35e-101",
+     "gap": "0.279"
+    },
+    {
+     "nu": "-9.4875095283214326883",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.025",
+     "sv": "7.86e-101",
+     "gap": "1.92"
+    },
+    {
+     "nu": "-7.2284179008927098126",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.64",
+     "sv": "1.04e-100",
+     "gap": "0.274"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 10,
+   "kernel": 6,
+   "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 399699093749760/777362416259",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.434642280796126949973104"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.088263774450374942875267"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.707520860495099163438"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-8.43464228079612695",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.466",
+     "sv": "1.04e-100",
+     "gap": "0.632"
+    },
+    {
+     "nu": "-9.0882637744503749429",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.71",
+     "sv": "2.95e-101",
+     "gap": "0.643"
+    },
+    {
+     "nu": "-6.7075208604950991634",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.429",
+     "sv": "7.49e-101",
+     "gap": "1.67"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 10,
+   "kernel": 6,
+   "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 4397939090915328/8550986578849",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.169064231845954867470651"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.31697107776999440735338"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.74439160612565178146234"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-9.1690642318459548675",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.886",
+     "sv": "7.24e-101",
+     "gap": "0.841"
+    },
+    {
+     "nu": "-8.3169710777699944074",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.609",
+     "sv": "2.73e-101",
+     "gap": "0.823"
+    },
+    {
+     "nu": "-6.7443916061256517815",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.492",
+     "sv": "5.05e-101",
+     "gap": "1.52"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 10,
+   "kernel": 6,
+   "Q": "nu**3 + 495488*nu**2/20449 + 81203433472*nu/418161601 + 338495170019328/657768198373",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-9.287439507533679089382239"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.11476502552669451018362"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.828222382681227456720511"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-9.2874395075336790894",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.905",
+     "sv": "4.37e-101",
+     "gap": "1.16"
+    },
+    {
+     "nu": "-8.1147650255266945102",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.567",
+     "sv": "3.3e-101",
+     "gap": "1.05"
+    },
+    {
+     "nu": "-6.8282223826812274567",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.474",
+     "sv": "4.52e-101",
+     "gap": "1.24"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "line {7/2, -5/2}": {
+  "critical": true,
+  "Q": "369/247",
+  "k": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 85879360*nu**3/7382089 + 178782915641344*nu**2/54495238003921 + nu*(-8218222739862021734400/402288697021127170969 + 4873206294577152000*sqrt(51)/21173089316901430051) - 832890413481549889536000000/228440843469538127416259557",
+   "rational": false,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-11.19303480743695106917514"
+    },
+    {
+     "kind": "pos",
+     "mult": 1,
+     "val": "1.184312316873598326770757"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.432791368993206068667645"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.1919627891264901199283952"
+    }
+   ],
+   "words": "hyperbolic, one real pair",
+   "krein": [
+    {
+     "nu": "-11.193034807436951069",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.141",
+     "sv": "6.7e-101",
+     "gap": "8.89"
+    },
+    {
+     "nu": "-1.4327913689932060687",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.3376",
+     "sv": "6.87e-102",
+     "gap": "1.06"
+    },
+    {
+     "nu": "-0.19196278912649011993",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.03742",
+     "sv": "2.43e-102",
+     "gap": "0.103"
+    }
+   ],
+   "Kf": "QQ<sqrt(51)>"
+  },
+  "r_u": 2,
+  "signature": [
+   6,
+   0,
+   3
+  ],
+  "alt": {
+   "k": 4,
+   "r_u": 2,
+   "signature": [
+    6,
+    2,
+    3
+   ]
+  },
+  "i": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 61732160*nu**3/7382089 - 1776112298541056*nu**2/54495238003921 + 300061659549715660800*nu/2380406491249273201 - 250691271599849472000000/615257609137630193449",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "pos",
+     "mult": 1,
+     "val": "3.058646407541279981858794"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-12.13305556191479132803736"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.3559924568777211978885651 - 3.294354920635663262820671j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.3559924568777211978885651 + 3.294354920635663262820671j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-12.133055561914791328",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.403",
+     "sv": "5.76e-101",
+     "gap": "11.9"
+    }
+   ],
+   "Kf": "QQ<sqrt(51)>"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 85879360*nu**3/7382089 + 178782915641344*nu**2/54495238003921 + nu*(-8218222739862021734400/402288697021127170969 - 4873206294577152000*sqrt(51)/21173089316901430051) - 832890413481549889536000000/228440843469538127416259557",
+   "rational": false,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.1634811892968936396070173"
+    },
+    {
+     "kind": "pos",
+     "mult": 1,
+     "val": "1.269115082136667031282023"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-11.16520521619814351473108"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.573905325324678807944351"
+    }
+   ],
+   "words": "hyperbolic, one real pair",
+   "krein": [
+    {
+     "nu": "-0.16348118929689363961",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.04407",
+     "sv": "2.2e-101",
+     "gap": "0.0719"
+    },
+    {
+     "nu": "-11.165205216198143515",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.122",
+     "sv": "3.46e-101",
+     "gap": "8.89"
+    },
+    {
+     "nu": "-1.5739053253246788079",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.4642",
+     "sv": "1.24e-101",
+     "gap": "0.921"
+    }
+   ],
+   "Kf": "QQ<sqrt(51)>"
+  },
+  "(i+J)/sqrt2": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(1773226969531844198400/36571699729193379179 - 609150786822144000*sqrt(51)/21173089316901430051) - 44243648607513546326016000000/228440843469538127416259557",
+   "rational": false,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-11.66445512613093673827677"
+    },
+    {
+     "kind": "pos",
+     "mult": 1,
+     "val": "2.332912324801772445253168"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.333203821660697323838666 + 2.64693395599170317784472j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.333203821660697323838666 - 2.64693395599170317784472j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-11.664455126130936738",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.262",
+     "sv": "1.93e-100",
+     "gap": "10.8"
+    }
+   ],
+   "Kf": "QQ<sqrt(51)>"
+  },
+  "(i+k)/sqrt2": {
+   "z": 8,
+   "kernel": 6,
+   "Q": "nu**4 + 73805760*nu**3/7382089 - 756189847433216*nu**2/54495238003921 + nu*(609150786822144000*sqrt(51)/21173089316901430051 + 1773226969531844198400/36571699729193379179) - 44243648607513546326016000000/228440843469538127416259557",
+   "rational": false,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-11.66698311853500566681676"
+    },
+    {
+     "kind": "pos",
+     "mult": 1,
+     "val": "2.328059588524742730679684"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.3295134573201480022819279 - 2.649904774657369112794034j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-0.3295134573201480022819279 + 2.649904774657369112794034j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-11.666983118535005667",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.264",
+     "sv": "1.26e-100",
+     "gap": "10.8"
+    }
+   ],
+   "Kf": "QQ<sqrt(51)>"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "weight 1/2": {
+  "critical": true,
+  "Q": "168/143",
+  "k": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 260352*nu**3/20449 + 10442981376*nu**2/418161601 - 846509742489600*nu/8550986578849 + 10571633173463040000/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-7.414562012198138893676914"
+    },
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "1.048676149808780000821517"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-7.4145620121981388937",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.157",
+     "sv": "2.69e-101",
+     "gap": "7.41"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 1,
+  "signature": [
+   4,
+   0,
+   6
+  ],
+  "alt": {
+   "k": 3,
+   "r_u": 1,
+   "signature": [
+    4,
+    2,
+    6
+   ]
+  },
+  "i": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 112512*nu**4/20449 + 1174450176*nu**3/38014691 + 44011015372800*nu**2/657768198373 + 14976480329072640000*nu/174859124550883201 + 828816040799502336000000/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-2.816763655924495085334246"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.2675925473128270331067534 - 1.953492103991675933832084j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.2675925473128270331067534 + 1.953492103991675933832084j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.610249889970169690449411 - 4.309717431336407427302624j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.610249889970169690449411 + 4.309717431336407427302624j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-2.8167636559244950853",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.678",
+     "sv": "0.0",
+     "gap": "1.87"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 260352*nu**3/20449 + 10442981376*nu**2/418161601 - 846509742489600*nu/8550986578849 + 10571633173463040000/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-7.414562012198138893676914"
+    },
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "1.048676149808780000821517"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-7.4145620121981388937",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.157",
+     "sv": "2.69e-101",
+     "gap": "7.41"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 186432*nu**4/20449 + 10314925056*nu**3/418161601 + 176720353689600*nu**2/8550986578849 - 5799715421552640000*nu/174859124550883201 + 414408020399751168000000/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-5.722518168408289387654635"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.7965707074778297258093597 + 1.06760936249034176258465j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.7965707074778297258093597 - 1.06760936249034176258465j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-2.49377413977815957841463 + 2.279343842556748407700373j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-2.49377413977815957841463 - 2.279343842556748407700373j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-5.7225181684082893877",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.033",
+     "sv": "7.61e-101",
+     "gap": "1.79"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 186432*nu**4/20449 + 10314925056*nu**3/418161601 + 176720353689600*nu**2/8550986578849 - 5799715421552640000*nu/174859124550883201 + 414408020399751168000000/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-5.722518168408289387654635"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.7965707074778297258093597 + 1.06760936249034176258465j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.7965707074778297258093597 - 1.06760936249034176258465j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-2.49377413977815957841463 + 2.279343842556748407700373j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-2.49377413977815957841463 - 2.279343842556748407700373j)"
+    }
+   ],
+   "words": "hyperbolic (not named)",
+   "krein": [
+    {
+     "nu": "-5.7225181684082893877",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.033",
+     "sv": "7.32e-101",
+     "gap": "1.79"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "weight 3/2": {
+  "critical": true,
+  "Q": "224/143",
+  "k": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 263936*nu**3/20449 + 219234304*nu**2/418161601 - 2269363788840960*nu/8550986578849 + 73928344379955609600/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-8.792168962785538441589873"
+    },
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "2.338650453322973034968523"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-8.7921689627855384416",
+     "mult": 2,
+     "sign": "-",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.461",
+     "sv": "5.68e-101",
+     "gap": "8.74"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 1,
+  "signature": [
+   8,
+   0,
+   2
+  ],
+  "alt": {
+   "k": 3,
+   "r_u": 1,
+   "signature": [
+    8,
+    2,
+    2
+   ]
+  },
+  "i": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 352640*nu**4/20449 + 43386277888*nu**3/418161601 + 2194726563348480*nu**2/8550986578849 + 40718850854020448256*nu/174859124550883201 + 107414558887615502745600/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.1533571323781113990904201"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-2.816763655924495085334246"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-5.520856765612010367255122"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.938444259301159198099551"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.8154312358330771948781"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-0.15335713237811139909",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.04351",
+     "sv": "1.6e-101",
+     "gap": "0.153"
+    },
+    {
+     "nu": "-2.8167636559244950853",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.678",
+     "sv": "0.0",
+     "gap": "0.922"
+    },
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "0.0",
+     "gap": "1.27"
+    },
+    {
+     "nu": "-6.9384442593011591981",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.5",
+     "sv": "2.29e-101",
+     "gap": "1.42"
+    },
+    {
+     "nu": "-1.8154312358330771949",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.279",
+     "sv": "1.16e-101",
+     "gap": "1.0"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 263936*nu**3/20449 + 219234304*nu**2/418161601 - 2269363788840960*nu/8550986578849 + 73928344379955609600/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-8.792168962785538441589873"
+    },
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "2.338650453322973034968523"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-8.7921689627855384416",
+     "mult": 2,
+     "sign": "-",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.461",
+     "sv": "5.68e-101",
+     "gap": "8.74"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 308288*nu**4/20449 + 25862947840*nu**3/418161601 + 696560386572288*nu**2/8550986578849 + 52565305525612314624*nu/174859124550883201 + 53707279443807751372800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.216400557316054029591138"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.829796516530730434184325"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.05063285974028123608911815"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.01044244980003683545725507 - 2.299169542298896672871596j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.01044244980003683545725507 + 2.299169542298896672871596j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-8.2164005573160540296",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.72",
+     "sv": "9.77e-101",
+     "gap": "1.37"
+    },
+    {
+     "nu": "-6.8297965165307304342",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.532",
+     "sv": "8.67e-101",
+     "gap": "1.3"
+    },
+    {
+     "nu": "-0.050632859740281236089",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.0176",
+     "sv": "6.11e-102",
+     "gap": "0.0506"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 308288*nu**4/20449 + 25862947840*nu**3/418161601 + 696560386572288*nu**2/8550986578849 + 52565305525612314624*nu/174859124550883201 + 53707279443807751372800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.216400557316054029591138"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.829796516530730434184325"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.05063285974028123608911815"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.01044244980003683545725507 - 2.299169542298896672871596j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(0.01044244980003683545725507 + 2.299169542298896672871596j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-8.2164005573160540296",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.72",
+     "sv": "1.01e-100",
+     "gap": "1.37"
+    },
+    {
+     "nu": "-6.8297965165307304342",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.532",
+     "sv": "2.97e-101",
+     "gap": "1.3"
+    },
+    {
+     "nu": "-0.050632859740281236089",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.0176",
+     "sv": "4.17e-101",
+     "gap": "0.0506"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "weight 5/2": {
+  "critical": true,
+  "Q": "168/143",
+  "k": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 160000*nu**3/20449 - 1027653632*nu**2/418161601 - 594212290560000*nu/8550986578849 + 13792509619240697856/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "1.608685021272433859846447"
+    },
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-5.520856765612010367255122"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "0.0",
+     "gap": "5.16"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 1,
+  "signature": [
+   4,
+   0,
+   6
+  ],
+  "alt": {
+   "k": 3,
+   "r_u": 1,
+   "signature": [
+    4,
+    2,
+    6
+   ]
+  },
+  "i": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 406400*nu**4/20449 + 55899885568*nu**3/418161601 + 2841433001164800*nu**2/8550986578849 + 31019051132393619456*nu/174859124550883201 + 42582726362854431129600/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.0782434348867915301481735"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.6134285295124455963616803"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-8.140446965621790796615971"
+    },
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-5.520856765612010367255122"
+    }
+   ],
+   "words": "elliptic, one double frequency",
+   "krein": [
+    {
+     "nu": "-0.078243434886791530148",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.07361",
+     "sv": "2.09e-102",
+     "gap": "0.0782"
+    },
+    {
+     "nu": "-0.61342852951244559636",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.7832",
+     "sv": "7.14e-102",
+     "gap": "0.443"
+    },
+    {
+     "nu": "-8.1404469656217907966",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.853",
+     "sv": "0.0",
+     "gap": "2.62"
+    },
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "0.0",
+     "gap": "2.62"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 160000*nu**3/20449 - 1027653632*nu**2/418161601 - 594212290560000*nu/8550986578849 + 13792509619240697856/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "pos",
+     "mult": 2,
+     "val": "1.608685021272433859846447"
+    },
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-5.520856765612010367255122"
+    }
+   ],
+   "words": "hyperbolic, real pairs",
+   "krein": [
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "0.0",
+     "gap": "5.16"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 283200*nu**4/20449 + 27153875968*nu**3/418161601 + 1059882821222400*nu**2/8550986578849 + 18808488532069318656*nu/174859124550883201 + 21291363181427215564800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-5.520856765612010367255122"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.05928329934173180626998437"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.37404557219817414772324 - 1.186305223723739464550176j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.37404557219817414772324 + 1.186305223723739464550176j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "6.08e-101",
+     "gap": "2.4"
+    },
+    {
+     "nu": "-0.05928329934173180627",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.04268",
+     "sv": "1.49e-101",
+     "gap": "0.0593"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 283200*nu**4/20449 + 27153875968*nu**3/418161601 + 1059882821222400*nu**2/8550986578849 + 18808488532069318656*nu/174859124550883201 + 21291363181427215564800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-5.520856765612010367255122"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.05928329934173180626998437"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.37404557219817414772324 - 1.186305223723739464550176j)"
+    },
+    {
+     "kind": "nonreal",
+     "mult": 1,
+     "val": "(-1.37404557219817414772324 + 1.186305223723739464550176j)"
+    }
+   ],
+   "words": "hyperbolic, a complex quartet",
+   "krein": [
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "5.8e-101",
+     "gap": "2.4"
+    },
+    {
+     "nu": "-0.05928329934173180627",
+     "mult": 1,
+     "sign": "-",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.04268",
+     "sv": "5.19e-102",
+     "gap": "0.0593"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ },
+ "weight 7/2": {
+  "critical": true,
+  "Q": "144/143",
+  "k": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 238336*nu**3/20449 + 21281849344*nu**2/418161601 + 843809197916160*nu/8550986578849 + 12534563579992473600/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-2.760428382806005183627561"
+    },
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-3.067142647562227981808401"
+    }
+   ],
+   "words": "elliptic (not named)",
+   "krein": [
+    {
+     "nu": "-2.7604283828060051836",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "1.175",
+     "sv": "0.0",
+     "gap": "0.307"
+    },
+    {
+     "nu": "-3.0671426475622279818",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "0.7832",
+     "sv": "2.86e-101",
+     "gap": "0.307"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "r_u": 1,
+  "signature": [
+   0,
+   0,
+   10
+  ],
+  "alt": {
+   "k": 3,
+   "r_u": 1,
+   "signature": [
+    0,
+    2,
+    10
+   ]
+  },
+  "i": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 721280*nu**4/20449 + 171838148608*nu**3/418161601 + 15094192165355520*nu**2/8550986578849 + 417526312849549295616*nu/174859124550883201 + 3183979702335368173977600/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.6134285295124455963616803"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.380214191403002591813781"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-5.520856765612010367255122"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-12.42192772262702332632403"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-15.33571323781113990904201"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-0.61342852951244559636",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.7832",
+     "sv": "7.14e-102",
+     "gap": "0.613"
+    },
+    {
+     "nu": "-1.3802141914030025918",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.175",
+     "sv": "0.0",
+     "gap": "0.767"
+    },
+    {
+     "nu": "-5.5208567656120103673",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.35",
+     "sv": "0.0",
+     "gap": "4.14"
+    },
+    {
+     "nu": "-12.421927722627023326",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.524",
+     "sv": "0.0",
+     "gap": "2.91"
+    },
+    {
+     "nu": "-15.335713237811139909",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "3.916",
+     "sv": "0.0",
+     "gap": "2.91"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "J": {
+   "z": 8,
+   "kernel": 5,
+   "Q": "nu**4 + 238336*nu**3/20449 + 21281849344*nu**2/418161601 + 843809197916160*nu/8550986578849 + 12534563579992473600/174859124550883201",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-2.760428382806005183627561"
+    },
+    {
+     "kind": "neg",
+     "mult": 2,
+     "val": "-3.067142647562227981808401"
+    }
+   ],
+   "words": "elliptic (not named)",
+   "krein": [
+    {
+     "nu": "-2.7604283828060051836",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "1.175",
+     "sv": "0.0",
+     "gap": "0.307"
+    },
+    {
+     "nu": "-3.0671426475622279818",
+     "mult": 2,
+     "sign": "+",
+     "dim": 4,
+     "ok": true,
+     "min_abs_eig": "0.7832",
+     "sv": "2.86e-101",
+     "gap": "0.307"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+J)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 479808*nu**4/20449 + 80605987840*nu**3/418161601 + 5765659427340288*nu**2/8550986578849 + 167367760201849503744*nu/174859124550883201 + 1591989851167684086988800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.210963861313511663162013"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.528174154939518452713574"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.682789706373993210448439"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-10.11133554302824790852976"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.9303779881957728259804837"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-6.2109638613135116632",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.762",
+     "sv": "4.04e-101",
+     "gap": "1.66"
+    },
+    {
+     "nu": "-4.5281741549395184527",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.068",
+     "sv": "1.25e-101",
+     "gap": "0.976"
+    },
+    {
+     "nu": "-1.6827897063739932104",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.261",
+     "sv": "1.05e-101",
+     "gap": "0.65"
+    },
+    {
+     "nu": "-10.111335543028247909",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.804",
+     "sv": "6.81e-101",
+     "gap": "3.27"
+    },
+    {
+     "nu": "-0.93037798819577282598",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.8507",
+     "sv": "7.07e-102",
+     "gap": "0.6"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "(i+k)/sqrt2": {
+   "z": 6,
+   "kernel": 5,
+   "Q": "nu**5 + 479808*nu**4/20449 + 80605987840*nu**3/418161601 + 5765659427340288*nu**2/8550986578849 + 167367760201849503744*nu/174859124550883201 + 1591989851167684086988800/3575694237941010577249",
+   "rational": true,
+   "roots": [
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-6.210963861313511663162013"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-4.528174154939518452713574"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-1.682789706373993210448439"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-10.11133554302824790852976"
+    },
+    {
+     "kind": "neg",
+     "mult": 1,
+     "val": "-0.9303779881957728259804837"
+    }
+   ],
+   "words": "elliptic, simple",
+   "krein": [
+    {
+     "nu": "-6.2109638613135116632",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.762",
+     "sv": "4.04e-101",
+     "gap": "1.66"
+    },
+    {
+     "nu": "-4.5281741549395184527",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.068",
+     "sv": "1.25e-101",
+     "gap": "0.976"
+    },
+    {
+     "nu": "-1.6827897063739932104",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "1.261",
+     "sv": "1.05e-101",
+     "gap": "0.65"
+    },
+    {
+     "nu": "-10.111335543028247909",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "2.804",
+     "sv": "6.81e-101",
+     "gap": "3.27"
+    },
+    {
+     "nu": "-0.93037798819577282598",
+     "mult": 1,
+     "sign": "+",
+     "dim": 2,
+     "ok": true,
+     "min_abs_eig": "0.8507",
+     "sv": "7.07e-102",
+     "gap": "0.6"
+    }
+   ],
+   "Kf": "QQ"
+  },
+  "verdicts": {
+   "A.4 critical": "AGREE",
+   "A.4 Q": "AGREE",
+   "A.4/B.3 signature": "AGREE",
+   "B.3 k": "AGREE",
+   "B.3 r_u": "AGREE",
+   "i zero multiplicity": "AGREE",
+   "i slow polynomial": "AGREE",
+   "i words": "AGREE",
+   "i Krein signs": "AGREE",
+   "J zero multiplicity": "AGREE",
+   "J slow polynomial": "AGREE",
+   "J words": "AGREE",
+   "J Krein signs": "AGREE",
+   "k zero multiplicity": "AGREE",
+   "k slow polynomial": "AGREE",
+   "k words": "AGREE",
+   "k Krein signs": "AGREE",
+   "(i+J)/sqrt2 zero multiplicity": "AGREE",
+   "(i+J)/sqrt2 slow polynomial": "AGREE",
+   "(i+J)/sqrt2 words": "AGREE",
+   "(i+J)/sqrt2 Krein signs": "AGREE",
+   "(i+k)/sqrt2 zero multiplicity": "AGREE",
+   "(i+k)/sqrt2 slow polynomial": "AGREE",
+   "(i+k)/sqrt2 words": "AGREE",
+   "(i+k)/sqrt2 Krein signs": "AGREE"
+  }
+ }
+}

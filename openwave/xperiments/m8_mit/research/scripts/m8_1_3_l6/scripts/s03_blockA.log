@@ -1,0 +1,77 @@
+PASS f_J are rational at all 7 test points
+PASS f_J sum to 1 at all 7 test points
+PASS f_J at v_3 is (1,0,0,0)
+PASS the four f_J are linearly independent functions (rank 4 at the test points)
+HS spin-6 factor = sum_J a_J f_J with a_J = {6: 1/924, 4: 13/154, 2: 65/84, 0: 13/7}
+PASS HS6 = sum a_J f_J verified at the 3 held-out points (exact)
+PASS r6hat = HS6 at all 7 test points (exact) [see B.5]
+
+== A.1 R4: exact channel coefficients (all J incl. odd, which never enter Q):
+   J=6: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 1288/1287
+   J=5: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 98/99
+   J=4: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 35/33
+   J=3: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 7/9
+   J=2: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 14/9
+   J=1: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 0
+   J=0: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 7/3
+   point 0: Q quadrature(50 dig) = 1.320035652917006844237174076169351086934   exact sum q_J f_J = 58919497/44634777
+   point 1: Q quadrature(50 dig) = 1.124943795701748158976370177124886689455   exact sum q_J f_J = 16369983/14551823
+   point 2: Q quadrature(50 dig) = 1.158165195283570224608200448129463053243   exact sum q_J f_J = 1098625661/948591501
+   point 3: Q quadrature(50 dig) = 1.263713770993549386901187455204075702691   exact sum q_J f_J = 8154587/6452875
+   point 4: Q quadrature(50 dig) = 1.29597990217035268283603905241446150933   exact sum q_J f_J = 1206315901/930813741
+   point 5: Q quadrature(50 dig) = 1.218751943493159413847560807759087391687   exact sum q_J f_J = 1195397/980837
+   point 6: Q quadrature(50 dig) = 1.000777000777000777000777000777000777001   exact sum q_J f_J = 1288/1287
+   q_J fitted from quadrature at 4 points: ['1.000777000777000777000777000777000777001', '1.060606060606060606060606060606060606061', '1.555555555555555555555555555555555555556', '2.333333333333333333333333333333333333333']
+     J=6: fitted 1.000777000777000777000777000777000777000777  exact 1288/1287  diff 1.57e-49
+     J=4: fitted 1.06060606060606060606060606060606060606060606  exact 35/33  diff 3.65e-49
+     J=2: fitted 1.55555555555555555555555555555555555555555556  exact 14/9  diff 1.5e-48
+     J=0: fitted 2.33333333333333333333333333333333333333333333  exact 7/3  diff 2.16e-48
+PASS R4: quadrature-fitted q_J agree with exact q_J to 1e-40
+PASS R4: exact q_J predict quadrature Q at the 3 held-out points to 1e-40
+PLANTED-DEFECT-FIRED R4: held-out test with q_6 off by 1e-30
+PASS R4: Q at point 0 at 40 digits agrees with exact to 1e-35
+== A.2 R4: (q_J - 1)/a_J = {6: 28/39, 4: 28/39, 2: 28/39, 0: 28/39}
+PASS R4: Q - 1 is a constant multiple of HS6 (exact, all J)
+PLANTED-DEFECT-FIRED R4: proportionality test with q_4 shifted by 1e-6
+   beta_R4 = 28/39
+PASS R4: quadrature Q(v_3) = q_6 to 1e-40
+== A.6 R4: q = Q(v_3) = 1288/1287 = 1.00077700077700077700077700078
+   sqrt((q-1)/2) = sqrt(286)/858 = 1.9710413199636087294 %  -> rounded up to 2 s.f.: 2.0 %
+   (q-1)/2 = 1/2574 = 0.038850038850038850039 %  -> rounded up to 2 s.f.: 0.039 %
+
+== A.1 R5: exact channel coefficients (all J incl. odd, which never enter Q):
+   J=6: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 2289/2288
+   J=5: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 175/176
+   J=4: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 91/88
+   J=3: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 7/8
+   J=2: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 21/16
+   J=1: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 7/16
+   J=0: tr(Pi_J P(x)P)/((2J+1) s_N^2) = 7/4
+   point 0: Q quadrature(50 dig) = 1.1800200547658163498834104178452599864   exact sum q_J f_J = 17556644/14878259
+   point 1: Q quadrature(50 dig) = 1.070280885082233339424208224632748762818   exact sum q_J f_J = 15574538/14551823
+   point 2: Q quadrature(50 dig) = 1.088967922347008251342112752072822967449   exact sum q_J f_J = 344328572/316197167
+   point 3: Q quadrature(50 dig) = 1.148338996183871530131917943552292582763   exact sum q_J f_J = 7410088/6452875
+   point 4: Q quadrature(50 dig) = 1.166488694970823384095271966983134598998   exact sum q_J f_J = 120642634/103423749
+   point 5: Q quadrature(50 dig) = 1.123047968214902170289252954364486657824   exact sum q_J f_J = 1101527/980837
+   point 6: Q quadrature(50 dig) = 1.000437062937062937062937062937062937063   exact sum q_J f_J = 2289/2288
+   q_J fitted from quadrature at 4 points: ['1.000437062937062937062937062937062937063', '1.034090909090909090909090909090909090909', '1.3125', '1.75']
+     J=6: fitted 1.00043706293706293706293706293706293706293706  exact 2289/2288  diff 4.1e-49
+     J=4: fitted 1.03409090909090909090909090909090909090909091  exact 91/88  diff 7.98e-49
+     J=2: fitted 1.3125  exact 21/16  diff 7.81e-49
+     J=0: fitted 1.75  exact 7/4  diff 6.59e-49
+PASS R5: quadrature-fitted q_J agree with exact q_J to 1e-40
+PASS R5: exact q_J predict quadrature Q at the 3 held-out points to 1e-40
+PLANTED-DEFECT-FIRED R5: held-out test with q_6 off by 1e-30
+PASS R5: Q at point 0 at 40 digits agrees with exact to 1e-35
+== A.2 R5: (q_J - 1)/a_J = {6: 21/52, 4: 21/52, 2: 21/52, 0: 21/52}
+PASS R5: Q - 1 is a constant multiple of HS6 (exact, all J)
+PLANTED-DEFECT-FIRED R5: proportionality test with q_4 shifted by 1e-6
+   beta_R5 = 21/52
+PASS R5: quadrature Q(v_3) = q_6 to 1e-40
+== A.6 R5: q = Q(v_3) = 2289/2288 = 1.00043706293706293706293706294
+   sqrt((q-1)/2) = sqrt(286)/1144 = 1.4782809899727065470 %  -> rounded up to 2 s.f.: 1.5 %
+   (q-1)/2 = 1/4576 = 0.021853146853146853147 %  -> rounded up to 2 s.f.: 0.022 %
+
+== A.3
+   beta_R5/beta_R4 = 9/16    beta_R4 - beta_R5 = 49/156
+checks: 16 PASS, 0 FAIL

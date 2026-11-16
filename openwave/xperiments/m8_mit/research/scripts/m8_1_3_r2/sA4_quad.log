@@ -1,0 +1,17 @@
+line {5/2, -3/2}     Q exact = 161/143    quadrature = 1.125874125874125874125874125874125874126  |diff| = 2.32e-49
+PASS  A.4 line {5/2, -3/2}: exact Q = 50-digit quadrature of the integral
+line {7/2, -1/2}     Q exact = 193/143    quadrature = 1.34965034965034965034965034965034965035  |diff| = 6.04e-49
+PASS  A.4 line {7/2, -1/2}: exact Q = 50-digit quadrature of the integral
+line {7/2, -3/2}     Q exact = 22/13      quadrature = 1.692307692307692307692307692307692307692  |diff| = 5.8e-50
+PASS  A.4 line {7/2, -3/2}: exact Q = 50-digit quadrature of the integral
+line {7/2, -5/2}     Q exact = 369/247    quadrature = 1.493927125506072874493927125506072874494  |diff| = 1.92e-49
+PASS  A.4 line {7/2, -5/2}: exact Q = 50-digit quadrature of the integral
+weight 1/2           Q exact = 168/143    quadrature = 1.174825174825174825174825174825174825175  |diff| = 5.14e-49
+PASS  A.4 weight 1/2: exact Q = 50-digit quadrature of the integral
+weight 3/2           Q exact = 224/143    quadrature = 1.566433566433566433566433566433566433566  |diff| = 6.55e-49
+PASS  A.4 weight 3/2: exact Q = 50-digit quadrature of the integral
+weight 5/2           Q exact = 168/143    quadrature = 1.174825174825174825174825174825174825175  |diff| = 5.14e-49
+PASS  A.4 weight 5/2: exact Q = 50-digit quadrature of the integral
+weight 7/2           Q exact = 144/143    quadrature = 1.006993006993006993006993006993006993007  |diff| = 1.44e-49
+PASS  A.4 weight 7/2: exact Q = 50-digit quadrature of the integral
+checks: 8 pass, 0 fail

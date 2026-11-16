@@ -1,0 +1,77 @@
+R2 (j = 7/2):
+   q_0 = 4  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_1 = 0
+   q_2 = 0  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_3 = 28/11
+   q_4 = 0  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_5 = 196/143
+   q_6 = 12/13  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_7 = 144/143
+PASS: R2: every q_J (symmetric channels) is rational
+   quadrature Q at point 1: 1.25932091125841128464441558355917522; sum f_J - 1 = 2.3e-41
+   quadrature Q at point 2: 1.1816293923619665655623847564306163; sum f_J - 1 = -1.15e-41
+   quadrature Q at point 3: 1.37500256374788395655526958839940906; sum f_J - 1 = 0.0
+   quadrature Q at point 4: 1.29643303323257391941387917337703985; sum f_J - 1 = 2.3e-41
+   quadrature Q at point 5: 1.52075032713817039306370330572496583; sum f_J - 1 = -2.3e-41
+   quadrature Q at point 6: 1.29215299944358435694573690437759294; sum f_J - 1 = -1.15e-41
+   least-squares residual over 6 points: 3.67e-40
+PASS: R2: Q from quadrature is exactly a combination of the f_J (residual < 1e-30)
+   fitted q_7 = 1.006993006993006993006993006993007   exact 144/143   diff -4.75e-39
+PASS: R2: fitted q_7 agrees with exact to 1e-30
+   fitted q_5 = 1.370629370629370629370629370629371   exact 196/143   diff 2.79e-39
+PASS: R2: fitted q_5 agrees with exact to 1e-30
+   fitted q_3 = 2.545454545454545454545454545454545   exact 28/11   diff 2.3e-39
+PASS: R2: fitted q_3 agrees with exact to 1e-30
+   fitted q_1 = 6.028469437913001957573742587846381e-39   exact 0   diff 6.03e-39
+PASS: R2: fitted q_1 agrees with exact to 1e-30
+R4 (j = 6/2):
+   q_0 = 7/3
+   q_1 = 0  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_2 = 14/9
+   q_3 = 7/9  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_4 = 35/33
+   q_5 = 98/99  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_6 = 1288/1287
+PASS: R4: every q_J (symmetric channels) is rational
+   quadrature Q at point 1: 1.19365644631334039077131150321005448; sum f_J - 1 = 0.0
+   quadrature Q at point 2: 1.14387251335817463091027606233242904; sum f_J - 1 = -5.74e-41
+   quadrature Q at point 3: 1.19522932544334313487775400598821619; sum f_J - 1 = 4.59e-41
+   quadrature Q at point 4: 1.1332308131706983889120464850718292; sum f_J - 1 = -2.3e-41
+   quadrature Q at point 5: 1.16096725719669121138452616356150009; sum f_J - 1 = -3.44e-41
+   quadrature Q at point 6: 1.17192660716843858425925587048875536; sum f_J - 1 = -1.15e-41
+   least-squares residual over 6 points: 2.53e-40
+PASS: R4: Q from quadrature is exactly a combination of the f_J (residual < 1e-30)
+   fitted q_6 = 1.000777000777000777000777000777001   exact 1288/1287   diff -9.18e-40
+PASS: R4: fitted q_6 agrees with exact to 1e-30
+   fitted q_4 = 1.060606060606060606060606060606061   exact 35/33   diff -1.33e-39
+PASS: R4: fitted q_4 agrees with exact to 1e-30
+   fitted q_2 = 1.555555555555555555555555555555556   exact 14/9   diff 2.51e-39
+PASS: R4: fitted q_2 agrees with exact to 1e-30
+   fitted q_0 = 2.333333333333333333333333333333333   exact 7/3   diff 1.04e-38
+PASS: R4: fitted q_0 agrees with exact to 1e-30
+R5 (j = 6/2):
+   q_0 = 7/4
+   q_1 = 7/16  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_2 = 21/16
+   q_3 = 7/8  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_4 = 91/88
+   q_5 = 175/176  (antisymmetric channel, not in Sym^2: does not enter Q)
+   q_6 = 2289/2288
+PASS: R5: every q_J (symmetric channels) is rational
+   quadrature Q at point 1: 1.10893175105125396980886272055565564; sum f_J - 1 = 0.0
+   quadrature Q at point 2: 1.08092828876397322988703028506199134; sum f_J - 1 = -5.74e-41
+   quadrature Q at point 3: 1.1098164955618805133687366283683716; sum f_J - 1 = 4.59e-41
+   quadrature Q at point 4: 1.07494233240851784376302614785290393; sum f_J - 1 = -2.3e-41
+   quadrature Q at point 5: 1.0905440821731388064037959670033438; sum f_J - 1 = -3.44e-41
+   quadrature Q at point 6: 1.09670871653224670364583142714992489; sum f_J - 1 = -1.15e-41
+   least-squares residual over 6 points: 1.38e-40
+PASS: R5: Q from quadrature is exactly a combination of the f_J (residual < 1e-30)
+   fitted q_6 = 1.000437062937062937062937062937063   exact 2289/2288   diff -5.24e-40
+PASS: R5: fitted q_6 agrees with exact to 1e-30
+   fitted q_4 = 1.034090909090909090909090909090909   exact 91/88   diff 2.18e-39
+PASS: R5: fitted q_4 agrees with exact to 1e-30
+   fitted q_2 = 1.3125   exact 21/16   diff -2.56e-39
+PASS: R5: fitted q_2 agrees with exact to 1e-30
+   fitted q_0 = 1.75   exact 7/4   diff -7.52e-39
+PASS: R5: fitted q_0 agrees with exact to 1e-30
+-- 0 FAIL line(s)

@@ -1,0 +1,57 @@
+[PASS] C.4 R4 C3 ray: exact R0~ agrees with direct cubature from the definition  (-0.00160514764874911 vs -0.00160514764874909)
+R4 C3 ray               critical=True  R0~ = -1033699247/643990132500  = -0.001605147648749105639440834  sign -
+[PASS] C.4 R4 D2 ray: exact R0~ agrees with direct cubature from the definition  (-0.00109127236906436 vs -0.00109127236906437)
+R4 D2 ray               critical=True  R0~ = -593698945/544042863936  = -0.001091272369064363707231935  sign -
+[PASS] C.4 R4 coherent v3: exact R0~ agrees with direct cubature from the definition  (-5.52726934091181e-06 vs -0.00000552726934091122)
+R4 coherent v3          critical=True  R0~ = -608931967/110168679947040  = -0.000005527269340911810727828358  sign -
+[PASS] C.4 R4 hexagon: exact R0~ agrees with direct cubature from the definition  (-0.00139563332585915 vs -0.00139563332585917)
+R4 hexagon              critical=True  R0~ = -1921938515/1377108499338  = -0.001395633325859152900238986  sign -
+[PASS] C.4 R4 octahedron: exact R0~ agrees with direct cubature from the definition  (-0.000777482268473903 vs -0.000777482268473897)
+R4 octahedron           critical=True  R0~ = -2203040/2833556583  = -0.000777482268473902573203  sign -
+[PASS] C.4 R4 pentagonal pyramid: exact R0~ agrees with direct cubature from the definition  (-0.00152468724925171 vs -0.00152468724925171)
+R4 pentagonal pyramid   critical=True  R0~ = -267786421/175633672500  = -0.00152468724925170599048995  sign -
+[PASS] C.4 R4 trigonal prism: exact R0~ agrees with direct cubature from the definition  (-0.000742996053118482 vs -0.000742996053118479)
+R4 trigonal prism       critical=True  R0~ = -336158940460/452437047342423  = -0.0007429960531184818348949442  sign -
+[PASS] C.4 R4 v1: exact R0~ agrees with direct cubature from the definition  (-0.00034162107863226 vs -0.000341621078632266)
+R4 v1                   critical=True  R0~ = -30976085/90673810656  = -0.0003416210786322596614969379  sign -
+[PASS] C.4 R4 v2: exact R0~ agrees with direct cubature from the definition  (-0.000273942026776648 vs -0.000273942026776649)
+R4 v2                   critical=True  R0~ = -23286907/85006697490  = -0.0002739420267766480431470294  sign -
+[PASS] C.4 R4 zonal v0: exact R0~ agrees with direct cubature from the definition  (-0.00271839619158518 vs -0.00271839619158531)
+R4 zonal v0             critical=True  R0~ = -1871763250/688554249669  = -0.00271839619158517885760591  sign -
+[PASS] C.4 R5 C3 ray: exact R0~ agrees with direct cubature from the definition  (-0.000574803500446589 vs -0.000574803500446587)
+R5 C3 ray               critical=True  R0~ = -15793825383/27476912320000  = -0.0005748035004465887526622933  sign -
+[PASS] C.4 R5 D2 ray: exact R0~ agrees with direct cubature from the definition  (-0.000692970767431755 vs -0.000692970767431762)
+R5 D2 ray               critical=True  R0~ = -670232535/967187313664  = -0.0006929707674317553940301887  sign -
+[PASS] C.4 R5 coherent v3: exact R0~ agrees with direct cubature from the definition  (-3.17663562331148e-06 vs -0.00000317663562331157)
+R5 coherent v3          critical=True  R0~ = -122896067/38687492546560  = -0.000003176635623311483559670282  sign -
+[PASS] C.4 R5 hexagon: exact R0~ agrees with direct cubature from the definition  (-0.00195103344110916 vs -0.00195103344110914)
+R5 hexagon              critical=True  R0~ = -75480591711/38687492546560  = -0.001951033441109161649128783  sign -
+[PASS] C.4 R5 octahedron: exact R0~ agrees with direct cubature from the definition  (-0.000716988104168732 vs -0.000716988104168731)
+R5 octahedron           critical=True  R0~ = -54176703/75561508880  = -0.0007169881041687318936450545  sign -
+[PASS] C.4 R5 pentagonal pyramid: exact R0~ agrees with direct cubature from the definition  (-0.000640197924648034 vs -0.000640197924648025)
+R5 pentagonal pyramid   critical=True  R0~ = -1599151113/2497901120000  = -0.0006401979246480341063300376  sign -
+[PASS] C.4 R5 trigonal prism: exact R0~ agrees with direct cubature from the definition  (-0.000744758527752376 vs -0.000744758527752374)
+R5 trigonal prism       critical=True  R0~ = -3697737715/4965015608696  = -0.0007447585277523760132123932  sign -
+[PASS] C.4 R5 v1: exact R0~ agrees with direct cubature from the definition  (-0.00142605026698495 vs -0.00142605026698504)
+R5 v1                   critical=True  R0~ = -11034061815/7737498509312  = -0.001426050266984946092569347  sign -
+[PASS] C.4 R5 v2: exact R0~ agrees with direct cubature from the definition  (-0.000171735762507844 vs -0.000171735762507818)
+R5 v2                   critical=True  R0~ = -415251627/2417968284160  = -0.0001717357625078436628487824  sign -
+[PASS] C.4 R5 zonal v0: exact R0~ agrees with direct cubature from the definition  (-0.000348962393563044 vs -0.000348962393563047)
+R5 zonal v0             critical=True  R0~ = -5273625/15112301776  = -0.0003489623935630439464564594  sign -
+[PASS] C.4 R2 line {5/2, -3/2}: exact R0~ agrees with direct cubature from the definition  (-0.000721896992377794 vs -0.000721896992377797)
+R2 line {5/2, -3/2}     critical=True  R0~ = -27273813/37780754440  = -0.0007218969923777943487779647  sign -
+[PASS] C.4 R2 line {7/2, -1/2}: exact R0~ agrees with direct cubature from the definition  (-0.0011500065607528 vs -0.00115000656075279)
+R2 line {7/2, -1/2}     critical=True  R0~ = -182482085/158679168648  = -0.001150006560752799943040952  sign -
+[PASS] C.4 R2 line {7/2, -3/2}: exact R0~ agrees with direct cubature from the definition  (-0.00619359847655962 vs -0.00619359847655960)
+R2 line {7/2, -3/2}     critical=True  R0~ = -6768561/1092831740  = -0.006193598476559621154488064  sign -
+[PASS] C.4 R2 line {7/2, -5/2}: exact R0~ agrees with direct cubature from the definition  (-0.00155473391898142 vs -0.00155473391898142)
+R2 line {7/2, -5/2}     critical=True  R0~ = -23307740389/14991465809320  = -0.001554733918981416738788358  sign -
+[PASS] C.4 R2 weight 1/2: exact R0~ agrees with direct cubature from the definition  (-0.000385696374145778 vs -0.000385696374145806)
+R2 weight 1/2           critical=True  R0~ = -728595/1889037722  = -0.0003856963741457779105164952  sign -
+[PASS] C.4 R2 weight 3/2: exact R0~ agrees with direct cubature from the definition  (-0.00305401492665375 vs -0.00305401492665397)
+R2 weight 3/2           critical=True  R0~ = -28845747/9445188610  = -0.003054014926653751597237824  sign -
+[PASS] C.4 R2 weight 5/2: exact R0~ agrees with direct cubature from the definition  (-0.000335355928906114 vs -0.000335355928906096)
+R2 weight 5/2           critical=True  R0~ = -316750/944518861  = -0.0003353559289061142422226336  sign -
+[PASS] C.4 R2 weight 7/2: exact R0~ agrees with direct cubature from the definition  (-4.92786650360268e-05 vs -0.0000492786650360281)
+R2 weight 7/2           critical=True  R0~ = -1629062/33058160135  = -0.00004927866503602681516867182  sign -
+failures: 0

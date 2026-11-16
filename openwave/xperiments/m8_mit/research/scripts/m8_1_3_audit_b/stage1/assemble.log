@@ -1,0 +1,2 @@
+[PASS] assemble: every expected (item, slot, point) entry is present in own.json :: []
+own.json written with items ['0(a)', '0(b)', '0(c)', '0(d)', '0(e)', 'C.1', 'C.2', 'C.3', 'C.4', 'C.5', 'D', 'B.4']

@@ -1,0 +1,49 @@
+PASS: O3 R4: point certified by our Krawczyk test
+O3 R4: signature [7, 0, 2], k 4, r_u 2, zero mult 6, words: elliptic, simple; signs [-1, -1, -1, -1]
+PASS: O3 R5: point certified by our Krawczyk test
+O3 R5: signature [7, 0, 2], k 4, r_u 2, zero mult 6, words: elliptic, simple; signs [-1, -1, -1, -1]
+PASS: O3: root 0 has the same certified sign in R4 and R5
+  O3 pair 0: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 3.61e-70
+PASS: O3: ratio enclosure width <= 1e-50 (pair 0)
+PASS: O3: root 1 has the same certified sign in R4 and R5
+  O3 pair 1: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 1.21e-70
+PASS: O3: ratio enclosure width <= 1e-50 (pair 1)
+PASS: O3: root 2 has the same certified sign in R4 and R5
+  O3 pair 2: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 1.91e-70
+PASS: O3: ratio enclosure width <= 1e-50 (pair 2)
+PASS: O3: root 3 has the same certified sign in R4 and R5
+  O3 pair 3: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 3.56e-70
+PASS: O3: ratio enclosure width <= 1e-50 (pair 3)
+PASS: O1 R4: point certified by our Krawczyk test
+O1 R4: signature [4, 0, 5], k 4, r_u 2, zero mult 6, words: hyperbolic, one real pair; signs [-1, -1, -1, 1]
+PASS: O1 R5: point certified by our Krawczyk test
+O1 R5: signature [4, 0, 5], k 4, r_u 2, zero mult 6, words: hyperbolic, one real pair; signs [-1, -1, -1, 1]
+PASS: O1: root 0 has the same certified sign in R4 and R5
+  O1 pair 0: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 1.28e-70
+PASS: O1: ratio enclosure width <= 1e-50 (pair 0)
+PASS: O1: root 1 has the same certified sign in R4 and R5
+  O1 pair 1: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 2.12e-70
+PASS: O1: ratio enclosure width <= 1e-50 (pair 1)
+PASS: O1: root 2 has the same certified sign in R4 and R5
+  O1 pair 2: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 2.23e-70
+PASS: O1: ratio enclosure width <= 1e-50 (pair 2)
+PASS: O1: root 3 has the same certified sign in R4 and R5
+  O1 pair 3: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 2.0e-70
+PASS: O1: ratio enclosure width <= 1e-50 (pair 3)
+PASS: O2 R4: point certified by our Krawczyk test
+O2 R4: signature [6, 0, 3], k 4, r_u 2, zero mult 6, words: hyperbolic, one real pair; signs [-1, -1, -1, 1]
+PASS: O2 R5: point certified by our Krawczyk test
+O2 R5: signature [6, 0, 3], k 4, r_u 2, zero mult 6, words: hyperbolic, one real pair; signs [-1, -1, -1, 1]
+PASS: O2: root 0 has the same certified sign in R4 and R5
+  O2 pair 0: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 3.45e-70
+PASS: O2: ratio enclosure width <= 1e-50 (pair 0)
+PASS: O2: root 1 has the same certified sign in R4 and R5
+  O2 pair 1: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 1.19e-70
+PASS: O2: ratio enclosure width <= 1e-50 (pair 1)
+PASS: O2: root 2 has the same certified sign in R4 and R5
+  O2 pair 2: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 3.13e-70
+PASS: O2: ratio enclosure width <= 1e-50 (pair 2)
+PASS: O2: root 3 has the same certified sign in R4 and R5
+  O2 pair 3: ratio xi(R5)/xi(R4) in [0.5625, 0.5625]  width 1.24e-70
+PASS: O2: ratio enclosure width <= 1e-50 (pair 3)
+all checks passed

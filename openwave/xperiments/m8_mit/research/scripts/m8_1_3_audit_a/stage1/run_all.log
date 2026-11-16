@@ -1,0 +1,17 @@
+s01_group.py                 rc=0 PASS=11 FAIL=0 (1s)
+s02_anchors.py               rc=0 PASS=21 FAIL=0 (41s)
+s03_A1.py                    rc=0 PASS=18 FAIL=0 (31s)
+s04_A2_A3.py                 rc=0 PASS=27 FAIL=0 (2s)
+s05_A4_B.py                  rc=0 PASS=121 FAIL=0 (10s)
+s06_B5.py                    rc=0 PASS=4 FAIL=0 (0s)
+s07_E.py                     rc=0 PASS=5 FAIL=0 (1s)
+--- planted defects (each must report FAIL >= 1) ---
+s01_group.py plant           rc=0 PASS=8 FAIL=20 (1s)
+s02_anchors.py plant         rc=0 PASS=8 FAIL=10 (40s)
+s03_A1.py plant              rc=0 PASS=15 FAIL=3 (31s)
+s04_A2_A3.py plant           rc=0 PASS=6 FAIL=13 (2s)
+s05_A4_B.py plant            rc=0 PASS=18 FAIL=6 (6s)
+s06_B5.py plant              rc=0 PASS=3 FAIL=1 (0s)
+s07_E.py plant               rc=0 PASS=3 FAIL=2 (1s)
+s08_collect.py               rc=0 PASS=0 FAIL=0 (0s)
+ALL OK

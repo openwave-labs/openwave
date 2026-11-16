@@ -1,0 +1,33 @@
+--- planted: |q2|^2 == 1 exactly  (defect: phi -> 8/5)
+FAIL: |q2|^2 == 1 exactly  (defect: phi -> 8/5)  [253/200 + (-1/8)*sqrt(5)]
+--- planted: row orthonormality of the character table (defect: one value + 1/10)
+FAIL: row orthonormality of the character table (defect: one value + 1/10)
+--- planted: name picks exactly one irreducible (defect: name (4, 7))
+FAIL: name picks exactly one irreducible (defect: name (4, 7))  [0 hits]
+--- planted: P^2 == P (defect: P -> 2P)
+FAIL: P^2 == P (defect: P -> 2P)
+--- planted: own CG == sympy CG (defect: sign flipped)
+FAIL: own CG == sympy CG (defect: sign flipped)
+--- planted: Theta^2 on V_3 is a single scalar (defect: sign dropped for m >= 0)
+FAIL: Theta^2 on V_3 is a single scalar (defect: sign dropped for m >= 0)  [{(Fraction(1, 1), Fraction(0, 1)), (Fraction(-1, 1), Fraction(0, 1))}]
+--- planted: tr rho(h) == chi(h) (defect: R4's eta against R5's character)
+FAIL: tr rho(h) == chi(h) (defect: R4's eta against R5's character)  [2.62]
+--- planted: grad h . X_i x == 0 (defect: h + x_0^4/1000)
+FAIL: grad h . X_i x == 0 (defect: h + x_0^4/1000)
+--- planted: h == definition (defect: s_N = 1/2)
+FAIL: h == definition (defect: s_N = 1/2)  [0.265]
+--- planted: Krawczyk K(Z) in int(Z) (defect: centre x_0 shifted by 3e-60)
+FAIL: Krawczyk K(Z) in int(Z) (defect: centre x_0 shifted by 3e-60)
+--- planted: Krawczyk K(Z) in int(Z) (defect: one coefficient of h times 1.001)
+FAIL: Krawczyk K(Z) in int(Z) (defect: one coefficient of h times 1.001)
+--- planted: 924 r6 enclosure width <= 1e-50 (defect: box radius 1e-45)
+FAIL: 924 r6 enclosure width <= 1e-50 (defect: box radius 1e-45)  [1.37e-40]
+--- planted: k = 4 from Gram determinant (defect: zonal v0, fixed by rotations about z)
+FAIL: k = 4 from Gram determinant (defect: zonal v0, fixed by rotations about z)
+--- planted: slow roots certified real and simple (defect: (nu^2+1)(nu+1)(nu+2))
+FAIL: slow roots certified real and simple (defect: (nu^2+1)(nu+1)(nu+2))
+--- planted: slow roots certified real and simple (defect: (nu+1)^2(nu+2)(nu+3))
+FAIL: slow roots certified real and simple (defect: (nu+1)^2(nu+2)(nu+3))
+--- planted: signature certified: all Gershgorin discs exclude 0 (defect: a zero eigenvalue)
+FAIL: signature certified: all Gershgorin discs exclude 0 (defect: a zero eigenvalue)
+planted defects fired: 16/16

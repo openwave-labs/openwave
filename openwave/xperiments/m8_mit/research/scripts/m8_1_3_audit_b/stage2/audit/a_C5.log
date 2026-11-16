@@ -1,0 +1,195 @@
+
+===== pentagonal pyramid in R4: exact part (0s charpoly): critical True, h = 77/65, zero multiplicity 6, charpoly rational True, odd coefficients zero True
+   slow polynomial: (846777242025*nu**2 + 1018930808896*nu + 3933798400)*(21169431050625*nu**2 + 83366483200*nu + 629407744)
+[PASS] C.5 pentagonal pyramid in R4: critical (exact)
+   numeric: k = 4, r_u = 2, signature [5, 0, 4] (min |eig| on N_u 0.017405), |grad R0 . K| = 0.0, zhat residual 1.48e-53, numerical zero count 6 / 6; dim ker Shat (geometric) = 4 (sv gap 1.05e-50 vs 0.017405)
+[PASS] C.5 pentagonal pyramid in R4: numerical zero count (50 and 70 digits) == exact zero multiplicity :: 6, 6, 6
+[PASS] C.5 pentagonal pyramid in R4: grad R0 orthogonal to K_u and zhat solves the system
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-1.03468568145e-71 - 1.09518548832j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-1.03468568145e-71 - 1.09518548832j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.32e-50, 1.11e-55
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 1.09e-44
+   s_g = (-1.034685681453035363324764e-71 - 1.095185488324669513111975j)  mult 1:  values (2.273422107149380762033e-75 + 0.0001321715189203882735231j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (4.40513679638e-72 - 0.0622348690957j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (4.40513679638e-72 - 0.0622348690957j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.07e-48, 1.64e-55
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 1.3e-50
+   s_g = (4.405136796381942209088573e-72 - 0.06223486909568790724544574j)  mult 1:  values (-1.714787542667847460437e-75 + 0.0000131391176607377340119j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-0.0417352859838 - 0.0609168609169j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-0.0417352859838 - 0.0609168609169j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.89e-49, 0.0
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 8.17e-51
+   s_g = (-0.04173528598376259430139185 - 0.06091686091686091686091686j)  mult 1:  values (-0.0001242332455239913262309 + 0.0002348453653056894878831j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (0.0417352859838 - 0.0609168609169j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (0.0417352859838 - 0.0609168609169j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.86e-49, 9.23e-55
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 8.61e-51
+   s_g = (0.04173528598376259430139185 - 0.06091686091686091686091686j)  mult 1:  values (0.0001242332455239913262309 + 0.0002348453653056894878831j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-0.0417352859838 + 0.0609168609169j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-0.0417352859838 + 0.0609168609169j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.97e-49, 4.61e-55
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 8.99e-51
+   s_g = (-0.04173528598376259430139185 + 0.06091686091686091686091686j)  mult 1:  values (-0.0001242332455239913262309 - 0.0002348453653056894878831j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (0.0417352859838 + 0.0609168609169j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (0.0417352859838 + 0.0609168609169j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.87e-49, 3.26e-55
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 8.92e-51
+   s_g = (0.04173528598376259430139185 + 0.06091686091686091686091686j)  mult 1:  values (0.0001242332455239913262309 - 0.0002348453653056894878831j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (1.10676500764e-71 + 0.0622348690957j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (1.10676500764e-71 + 0.0622348690957j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.22e-48, 7.55e-56
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 1.14e-51
+   s_g = (1.106765007638514558577139e-71 + 0.06223486909568790724544574j)  mult 1:  values (-3.115593431740285330084e-75 - 0.0000131391176607377340119j)
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-5.22653894339e-132 + 1.09518548832j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 pentagonal pyramid in R4: s_g = (-5.22653894339e-132 + 1.09518548832j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.3e-50, 3.42e-56
+[PASS] C.5 pentagonal pyramid in R4: s_g^2 is a root of the exact slow polynomial :: 3.5e-46
+   s_g = (-5.226538943387211545106071e-132 + 1.095185488324669513111975j)  mult 1:  values (-9.647945870276707941717e-77 - 0.0001321715189203882735231j)
+
+===== coherent v3 in R4: exact part (0s charpoly): critical True, h = 1288/1287, zero multiplicity 4, charpoly rational True, odd coefficients zero True
+   slow polynomial: (1521*nu + 12544)*(9801*nu + 19600)*(20449*nu + 784)*(184041*nu + 3136)*(1656369*nu + 802816)
+[PASS] C.5 coherent v3 in R4: critical (exact)
+   numeric: k = 3, r_u = 1, signature [0, 0, 10] (min |eig| on N_u 0.13054), |grad R0 . K| = 0.0, zhat residual 0.0, numerical zero count 4 / 4; dim ker Shat (geometric) = 3 (sv gap 1.07e-50 vs 0.13054)
+[PASS] C.5 coherent v3 in R4: numerical zero count (50 and 70 digits) == exact zero multiplicity :: 4, 4, 4
+[PASS] C.5 coherent v3 in R4: grad R0 orthogonal to K_u and zhat solves the system
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 2.87179487179j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 2.87179487179j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.57e-51, 6.44e-55
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 4.48e-44
+   s_g = (0.0 - 2.871794871794871794871795j)  mult 1:  values (0.0 + 0.001132560058530995646095j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 1.41414141414j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 1.41414141414j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.04e-50, 6.01e-56
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 0.0
+   s_g = (0.0 - 1.414141414141414141414141j)  mult 1:  values (0.0 + 0.0005703556513970103566577j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.696192696193j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.696192696193j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.77e-51, 2.46e-55
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 2.41e-47
+   s_g = (0.0 - 0.6961926961926961926961927j)  mult 1:  values (0.0 + 0.0003214413092329892304149j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.195804195804j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.195804195804j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.51e-50, 1.16e-56
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 3.03e-49
+   s_g = (0.0 - 0.1958041958041958041958042j)  mult 1:  values (0.0 + 0.0001034754069346288178069j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.130536130536j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 - 0.130536130536j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 3.74e-50, 2.79e-57
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 2.22e-49
+   s_g = (0.0 - 0.1305361305361305361305361j)  mult 1:  values (0.0 + 0.00006125542157113129329797j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.130536130536j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.130536130536j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 3.74e-50, 2.17e-56
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 2.22e-49
+   s_g = (0.0 + 0.1305361305361305361305361j)  mult 1:  values (0.0 - 0.00006125542157113129329797j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.195804195804j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.195804195804j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.51e-50, 1.63e-55
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 3.03e-49
+   s_g = (0.0 + 0.1958041958041958041958042j)  mult 1:  values (0.0 - 0.0001034754069346288178069j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.696192696193j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 0.696192696193j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.77e-51, 6.63e-55
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 2.41e-47
+   s_g = (0.0 + 0.6961926961926961926961927j)  mult 1:  values (0.0 - 0.0003214413092329892304149j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 1.41414141414j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 1.41414141414j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.04e-50, 1.87e-57
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 0.0
+   s_g = (0.0 + 1.414141414141414141414141j)  mult 1:  values (0.0 - 0.0005703556513970103566577j)
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 2.87179487179j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R4: s_g = (0.0 + 2.87179487179j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.57e-51, 2.07e-55
+[PASS] C.5 coherent v3 in R4: s_g^2 is a root of the exact slow polynomial :: 4.48e-44
+   s_g = (0.0 + 2.871794871794871794871795j)  mult 1:  values (0.0 - 0.001132560058530995646095j)
+
+===== coherent v3 in R5: exact part (0s charpoly): critical True, h = 2289/2288, zero multiplicity 4, charpoly rational True, odd coefficients zero True
+   slow polynomial: (169*nu + 441)*(1936*nu + 1225)*(20449*nu + 3136)*(81796*nu + 441)*(327184*nu + 3969)
+[PASS] C.5 coherent v3 in R5: critical (exact)
+   numeric: k = 3, r_u = 1, signature [0, 0, 10] (min |eig| on N_u 0.073427), |grad R0 . K| = 0.0, zhat residual 0.0, numerical zero count 4 / 4; dim ker Shat (geometric) = 3 (sv gap 0.0 vs 0.073427)
+[PASS] C.5 coherent v3 in R5: numerical zero count (50 and 70 digits) == exact zero multiplicity :: 4, 4, 4
+[PASS] C.5 coherent v3 in R5: grad R0 orthogonal to K_u and zhat solves the system
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 1.61538461538j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 1.61538461538j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.56e-51, 2.64e-55
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.37e-48
+   s_g = (0.0 - 1.615384615384615384615385j)  mult 1:  values (0.0 + 0.0009262404663135482546264j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.795454545455j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.795454545455j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.02e-51, 1.31e-54
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 2.17e-51
+   s_g = (0.0 - 0.7954545454545454545454545j)  mult 1:  values (0.0 + 0.0005383067676759031773499j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.391608391608j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.391608391608j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.74e-51, 3.26e-55
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.0e-52
+   s_g = (0.0 - 0.3916083916083916083916084j)  mult 1:  values (0.0 + 0.0002254744829593478989885j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.11013986014j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.11013986014j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.59e-50, 2.42e-56
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.58e-54
+   s_g = (0.0 - 0.1101398601398601398601399j)  mult 1:  values (0.0 + 0.00006250175626083035008797j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.0734265734266j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 - 0.0734265734266j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 5.28e-50, 4.09e-57
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 3.12e-55
+   s_g = (0.0 - 0.07342657342657342657342657j)  mult 1:  values (0.0 + 0.00003718587169131293239786j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.0734265734266j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.0734265734266j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 5.28e-50, 6.47e-57
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 3.12e-55
+   s_g = (0.0 + 0.07342657342657342657342657j)  mult 1:  values (0.0 - 0.00003718587169131293239786j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.11013986014j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.11013986014j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.59e-50, 1.63e-55
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.58e-54
+   s_g = (0.0 + 0.1101398601398601398601399j)  mult 1:  values (0.0 - 0.00006250175626083035008797j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.391608391608j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.391608391608j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.74e-51, 3.3e-55
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.0e-52
+   s_g = (0.0 + 0.3916083916083916083916084j)  mult 1:  values (0.0 - 0.0002254744829593478989885j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.795454545455j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 0.795454545455j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.02e-51, 1.31e-54
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 2.17e-51
+   s_g = (0.0 + 0.7954545454545454545454545j)  mult 1:  values (0.0 - 0.0005383067676759031773499j)
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 1.61538461538j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 coherent v3 in R5: s_g = (0.0 + 1.61538461538j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.56e-51, 7.86e-56
+[PASS] C.5 coherent v3 in R5: s_g^2 is a root of the exact slow polynomial :: 1.37e-48
+   s_g = (0.0 + 1.615384615384615384615385j)  mult 1:  values (0.0 - 0.0009262404663135482546264j)
+
+===== weight 7/2 in R2: exact part (0s charpoly): critical True, h = 144/143, zero multiplicity 6, charpoly rational True, odd coefficients zero True
+   slow polynomial: (20449*nu + 12544)*(20449*nu + 28224)*(20449*nu + 112896)*(20449*nu + 254016)*(20449*nu + 313600)
+[PASS] C.5 weight 7/2 in R2: critical (exact)
+   numeric: k = 5, r_u = 1, signature [0, 0, 10] (min |eig| on N_u 0.78322), |grad R0 . K| = 0.0, zhat residual 0.0, numerical zero count 6 / 6; dim ker Shat (geometric) = 5 (sv gap 1.07e-50 vs 0.78322)
+[PASS] C.5 weight 7/2 in R2: numerical zero count (50 and 70 digits) == exact zero multiplicity :: 6, 6, 6
+[PASS] C.5 weight 7/2 in R2: grad R0 orthogonal to K_u and zhat solves the system
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 3.91608391608j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 3.91608391608j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.38e-51, 3.07e-55
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 4.48e-44
+   s_g = (0.0 - 3.916083916083916083916084j)  mult 1:  values (0.0 + 0.001123812037393440960855j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 3.52447552448j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 3.52447552448j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.96e-51, 1.32e-55
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 0.0
+   s_g = (0.0 - 3.524475524475524475524476j)  mult 1:  values (0.0 + 0.0007318175166162372732532j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 2.34965034965j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 2.34965034965j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 4.11e-51, 2.78e-56
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 2.1e-45
+   s_g = (0.0 - 2.34965034965034965034965j)  mult 1:  values (0.0 + 0.0005811055041064553939142j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 1.17482517483j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 1.17482517483j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.24e-51, 3.19e-56
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 1.16e-46
+   s_g = (0.0 - 1.174825174825174825174825j)  mult 1:  values (0.0 + 0.0002620748045032471993527j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 0.783216783217j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 - 0.783216783217j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.5e-51, 6.11e-56
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 5.3e-48
+   s_g = (0.0 - 0.7832167832167832167832168j)  mult 1:  values (0.0 + 0.0002251623048000872655838j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 0.783216783217j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 0.783216783217j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.5e-51, 3.45e-55
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 5.3e-48
+   s_g = (0.0 + 0.7832167832167832167832168j)  mult 1:  values (0.0 - 0.0002251623048000872655838j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 1.17482517483j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 1.17482517483j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.24e-51, 9.13e-56
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 1.16e-46
+   s_g = (0.0 + 1.174825174825174825174825j)  mult 1:  values (0.0 - 0.0002620748045032471993527j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 2.34965034965j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 2.34965034965j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 4.11e-51, 2.57e-57
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 2.1e-45
+   s_g = (0.0 + 2.34965034965034965034965j)  mult 1:  values (0.0 - 0.0005811055041064553939142j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 3.52447552448j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 3.52447552448j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 9.96e-51, 1.31e-54
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 0.0
+   s_g = (0.0 + 3.524475524475524475524476j)  mult 1:  values (0.0 - 0.0007318175166162372732532j)
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 3.91608391608j): multiplicity 1, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 1, ker (S-s)^2 1, left 1
+[PASS] C.5 weight 7/2 in R2: s_g = (0.0 + 3.91608391608j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 2.38e-51, 2.61e-54
+[PASS] C.5 weight 7/2 in R2: s_g^2 is a root of the exact slow polynomial :: 4.48e-44
+   s_g = (0.0 + 3.916083916083916083916084j)  mult 1:  values (0.0 - 0.001123812037393440960855j)
+
+===== octahedron in R4: exact part (0s charpoly): critical True, h = 175/143, zero multiplicity 8, charpoly rational True, odd coefficients zero True
+   slow polynomial: (552123*nu - 250880)**3
+[PASS] C.5 octahedron in R4: critical (exact)
+   numeric: k = 4, r_u = 4, signature [6, 0, 3] (min |eig| on N_u 0.52214), |grad R0 . K| = 0.0, zhat residual 7.38e-54, numerical zero count 8 / 8; dim ker Shat (geometric) = 4 (sv gap 2.12e-50 vs 0.52214)
+[PASS] C.5 octahedron in R4: numerical zero count (50 and 70 digits) == exact zero multiplicity :: 8, 8, 8
+[PASS] C.5 octahedron in R4: grad R0 orthogonal to K_u and zhat solves the system
+[PASS] C.5 octahedron in R4: s_g = (-0.674085679526 + 2.2879395283e-80j): multiplicity 3, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 3, ker (S-s)^2 3, left 3
+[PASS] C.5 octahedron in R4: s_g = (-0.674085679526 + 2.2879395283e-80j): values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.96e-50, 1.64e-54
+[PASS] C.5 octahedron in R4: s_g^2 is a root of the exact slow polynomial :: 1.63e-55
+   s_g = (-0.6740856795263880204197012 + 2.287939528296602550052932e-80j)  mult 3:  values (0.0002057332500003858096557 - 7.566411642022758771724e-82j), (0.0002057332500003858096557 + 2.212591071742671840739e-81j), (0.0002057332500003858096557 - 3.124393363814613553208e-81j)
+[PASS] C.5 octahedron in R4: s_g = 0.674085679526: multiplicity 3, semisimple (geometric = algebraic-from-(S-s)^2 = left count) :: geo 3, ker (S-s)^2 3, left 3
+[PASS] C.5 octahedron in R4: s_g = 0.674085679526: values agree 50 vs 70 digits to 1e-30 (relative), basis-change invariant :: 1.66e-50, 6.57e-55
+[PASS] C.5 octahedron in R4: s_g^2 is a root of the exact slow polynomial :: 1.63e-55
+   s_g = 0.6740856795263880204197012  mult 3:  values (-0.0002057332500003858096557 + 6.060059770577480605014e-79j), (-0.0002057332500003858096557 - 1.452376382806710174849e-78j), (-0.0002057332500003858096557 - 5.061570906493992404526e-79j)

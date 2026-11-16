@@ -1,0 +1,116 @@
+[PASS] C.5 coherent v3 in R4: critical (exact)
+coherent v3 in R4: h(u) = 1288/1287; k = 3; signature [0, 0, 10]; zero multiplicity 4; slow polynomial (1521*nu + 12544)*(9801*nu + 19600)*(20449*nu + 784)*(184041*nu + 3136)*(1656369*nu + 802816)
+[PASS] C.5 coherent v3 in R4: numerical k equals exact k :: 3 vs 3
+[FAIL] C.5 coherent v3 in R4: CG-route Hessian of R0 agrees with exact S^3 entries :: 1.0e-20
+[PASS] C.5 coherent v3 in R4: grad R0(u) is orthogonal to K_u :: 0.0
+[PASS] C.5 coherent v3 in R4: Mhat zhat = grad R0 holds (nondegenerate on R u + N_u) :: 0.0
+[PASS] C.5 coherent v3 in R4: numerical zero count equals exact zero multiplicity :: 4 vs 4
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.195804195804j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.195804195804j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.0383392830945278 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.195804195804j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.195804195804j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.0383392830945278 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 1.41414141414j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 1.41414141414j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-1.99979593918988 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 1.41414141414j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 1.41414141414j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-1.99979593918988 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.130536130536j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.130536130536j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.0170396813753457 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.130536130536j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.130536130536j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.0170396813753457 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.696192696193j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 0.696192696193j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.484684270232056 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.696192696193j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 0.696192696193j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-0.484684270232056 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 2.87179487179j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 - 2.87179487179j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-8.24720578566732 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 2.87179487179j) has matching left/right eigenspaces of size 1
+[PASS] C.5 coherent v3 in R4: s = (0.0 + 2.87179487179j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 coherent v3 in R4: s^2 = (-8.24720578566732 + 0.0j) is a root of the exact slow polynomial
+   s_g = (0.0 - 2.871794871794871794871795j)  (s_g^2 = -12544/1521), multiplicity 1:
+       value (0.0 + 0.0011325600585309956461j)   [|Re| = 0.0]
+   s_g = (0.0 - 1.414141414141414141414141j)  (s_g^2 = -19600/9801), multiplicity 1:
+       value (0.0 + 0.00057035565139701035666j)   [|Re| = 0.0]
+   s_g = (0.0 - 0.6961926961926961926961927j)  (s_g^2 = -802816/1656369), multiplicity 1:
+       value (0.0 + 0.00032144130923298923041j)   [|Re| = 0.0]
+   s_g = (0.0 - 0.1958041958041958041958042j)  (s_g^2 = -784/20449), multiplicity 1:
+       value (0.0 + 0.00010347540693462881781j)   [|Re| = 0.0]
+   s_g = (0.0 - 0.1305361305361305361305361j)  (s_g^2 = -3136/184041), multiplicity 1:
+       value (0.0 + 0.000061255421571131293298j)   [|Re| = 0.0]
+   s_g = (0.0 + 0.1305361305361305361305361j)  (s_g^2 = -3136/184041), multiplicity 1:
+       value (0.0 - 0.000061255421571131293298j)   [|Re| = 0.0]
+   s_g = (0.0 + 0.1958041958041958041958042j)  (s_g^2 = -784/20449), multiplicity 1:
+       value (0.0 - 0.00010347540693462881781j)   [|Re| = 0.0]
+   s_g = (0.0 + 0.6961926961926961926961927j)  (s_g^2 = -802816/1656369), multiplicity 1:
+       value (0.0 - 0.00032144130923298923041j)   [|Re| = 0.0]
+   s_g = (0.0 + 1.414141414141414141414141j)  (s_g^2 = -19600/9801), multiplicity 1:
+       value (0.0 - 0.00057035565139701035666j)   [|Re| = 0.0]
+   s_g = (0.0 + 2.871794871794871794871795j)  (s_g^2 = -12544/1521), multiplicity 1:
+       value (0.0 - 0.0011325600585309956461j)   [|Re| = 0.0]
+   kappa = 1.000777000777000777, omega0 = 6.9282032302755091741, chi = 0.018028187996094923305
+[PASS] C.5 weight 7/2 in R2: critical (exact)
+weight 7/2 in R2: h(u) = 144/143; k = 5; signature [0, 0, 10]; zero multiplicity 6; slow polynomial (20449*nu + 12544)*(20449*nu + 28224)*(20449*nu + 112896)*(20449*nu + 254016)*(20449*nu + 313600)
+[PASS] C.5 weight 7/2 in R2: numerical k equals exact k :: 5 vs 5
+[FAIL] C.5 weight 7/2 in R2: CG-route Hessian of R0 agrees with exact S^3 entries :: 1.0e-20
+[PASS] C.5 weight 7/2 in R2: grad R0(u) is orthogonal to K_u :: 0.0
+[PASS] C.5 weight 7/2 in R2: Mhat zhat = grad R0 holds (nondegenerate on R u + N_u) :: 0.0
+[PASS] C.5 weight 7/2 in R2: numerical zero count equals exact zero multiplicity :: 6 vs 6
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 0.783216783217j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 0.783216783217j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-0.613428529512446 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 0.783216783217j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 0.783216783217j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-0.613428529512446 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 2.34965034965j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 2.34965034965j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-5.52085676561201 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 2.34965034965j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 2.34965034965j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-5.52085676561201 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 3.52447552448j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 3.52447552448j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-12.421927722627 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 3.52447552448j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 3.52447552448j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-12.421927722627 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 1.17482517483j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 1.17482517483j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-1.380214191403 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 1.17482517483j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 1.17482517483j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-1.380214191403 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 3.91608391608j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 - 3.91608391608j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-15.3357132378111 + 0.0j) is a root of the exact slow polynomial
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 3.91608391608j) has matching left/right eigenspaces of size 1
+[PASS] C.5 weight 7/2 in R2: s = (0.0 + 3.91608391608j): eigenpair residual small and l^T r = I after normalisation
+[PASS] C.5 weight 7/2 in R2: s^2 = (-15.3357132378111 + 0.0j) is a root of the exact slow polynomial
+   s_g = (0.0 - 3.916083916083916083916084j)  (s_g^2 = -313600/20449), multiplicity 1:
+       value (0.0 + 0.0011238120373934409609j)   [|Re| = 0.0]
+   s_g = (0.0 - 3.524475524475524475524476j)  (s_g^2 = -254016/20449), multiplicity 1:
+       value (0.0 + 0.00073181751661623727325j)   [|Re| = 0.0]
+   s_g = (0.0 - 2.34965034965034965034965j)  (s_g^2 = -112896/20449), multiplicity 1:
+       value (0.0 + 0.00058110550410645539391j)   [|Re| = 0.0]
+   s_g = (0.0 - 1.174825174825174825174825j)  (s_g^2 = -28224/20449), multiplicity 1:
+       value (0.0 + 0.00026207480450324719935j)   [|Re| = 0.0]
+   s_g = (0.0 - 0.7832167832167832167832168j)  (s_g^2 = -12544/20449), multiplicity 1:
+       value (0.0 + 0.00022516230480008726558j)   [|Re| = 0.0]
+   s_g = (0.0 + 0.7832167832167832167832168j)  (s_g^2 = -12544/20449), multiplicity 1:
+       value (0.0 - 0.00022516230480008726558j)   [|Re| = 0.0]
+   s_g = (0.0 + 1.174825174825174825174825j)  (s_g^2 = -28224/20449), multiplicity 1:
+       value (0.0 - 0.00026207480450324719935j)   [|Re| = 0.0]
+   s_g = (0.0 + 2.34965034965034965034965j)  (s_g^2 = -112896/20449), multiplicity 1:
+       value (0.0 - 0.00058110550410645539391j)   [|Re| = 0.0]
+   s_g = (0.0 + 3.524475524475524475524476j)  (s_g^2 = -254016/20449), multiplicity 1:
+       value (0.0 - 0.00073181751661623727325j)   [|Re| = 0.0]
+   s_g = (0.0 + 3.916083916083916083916084j)  (s_g^2 = -313600/20449), multiplicity 1:
+       value (0.0 - 0.0011238120373934409609j)   [|Re| = 0.0]
+   kappa = 1.006993006993006993, omega0 = 7.9372539331937717715, chi = 0.015639154988518371959

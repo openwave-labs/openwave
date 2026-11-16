@@ -1,0 +1,127 @@
+
+[R4] v2: u = [0, 1, 0, 0, 0, 0, 0]
+  critical: True;  Q = 147/143
+  criticality attack: residual of grad h - (4h/|u|^2) u at u + 1e-30 delta = 6.6253E-82
+FAIL: R4 v2: perturbing by 1e-30 gives a nonzero residual of order 1e-30 (so the exact zero is not a tolerance)
+PASS: R4 v2: M_hat u = 8 h u (exact)
+PASS: R4 v2: M_hat vanishes on K_u (exact)
+PASS: R4 v2: charpoly(M_hat) divisible by (x - 8h) x^k
+  k = 3, r_u = 1; signature exact (Descartes) (2, 0, 8); numeric 60-digit eigen-decomposition on N_u (0, 0, 10), min |nonzero eig| 0.025952, max |zero eig| None
+FAIL: R4 v2: signature, exact Descartes = numeric eigen-decomposition on an explicit basis of N_u
+  zero multiplicity: charpoly 4; rank sequence of S^p [11, 10, 10] (exact) -> algebraic 4, kernel dim 3
+FAIL: R4 v2: algebraic zero multiplicity, charpoly = rank sequence
+  slow polynomial (13689*nu + 12544)*(20449*nu + 12544)*(20449*nu + 50176)*(184041*nu + 313600)*(1656369*nu + 3136)
+  words: elliptic, simple
+  Krein nu=-12544/13689: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.95726; kernel sv max 7.78e-62 / 0.0, gap 0.303
+PASS: R4 v2: Krein sign at nu=-12544/13689 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-12544/20449: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.78322; kernel sv max 0.0 / 7.14e-102, gap 0.303
+PASS: R4 v2: Krein sign at nu=-12544/20449 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-50176/20449: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 1.5664; kernel sv max 0.0 / 2.86e-101, gap 0.75
+PASS: R4 v2: Krein sign at nu=-50176/20449 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-313600/184041: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 1.3054; kernel sv max 1.56e-61 / 0.0, gap 0.75
+PASS: R4 v2: Krein sign at nu=-313600/184041 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-3136/1656369: - (60 dig) / - (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.010878; kernel sv max 6.08e-64 / 4.41e-104, gap 0.00189
+PASS: R4 v2: Krein sign at nu=-3136/1656369 agrees at 60/100 digits, semisimple cluster, definite margin
+  924 rhat_6 = 36   (1s)
+PASS: l6 vs mine R4 v2: critical
+FAIL: l6 vs mine R4 v2: Q
+PASS: l6 vs mine R4 v2: 924 rhat_6
+PASS: l6 vs mine R4 v2: signature
+PASS: l6 vs mine R4 v2: k
+PASS: l6 vs mine R4 v2: r_u
+PASS: l6 vs mine R4 v2: zero multiplicity
+PASS: l6 vs mine R4 v2: slow polynomial
+PASS: l6 vs mine R4 v2: words
+PASS: l6 vs mine R4 v2: Krein signs
+
+[R5] v2: u = [0, 1, 0, 0, 0, 0, 0]
+  critical: True;  Q = 581/572
+  criticality attack: residual of grad h - (4h/|u|^2) u at u + 1e-30 delta = 1.2051E-81
+FAIL: R5 v2: perturbing by 1e-30 gives a nonzero residual of order 1e-30 (so the exact zero is not a tolerance)
+PASS: R5 v2: M_hat u = 8 h u (exact)
+PASS: R5 v2: M_hat vanishes on K_u (exact)
+PASS: R5 v2: charpoly(M_hat) divisible by (x - 8h) x^k
+  k = 3, r_u = 1; signature exact (Descartes) (2, 0, 8); numeric 60-digit eigen-decomposition on N_u (0, 0, 10), min |nonzero eig| 0.1021, max |zero eig| None
+FAIL: R5 v2: signature, exact Descartes = numeric eigen-decomposition on an explicit basis of N_u
+  zero multiplicity: charpoly 4; rank sequence of S^p [11, 10, 10] (exact) -> algebraic 4, kernel dim 3
+FAIL: R5 v2: algebraic zero multiplicity, charpoly = rank sequence
+  slow polynomial (169*nu + 49)*(20449*nu + 3969)*(20449*nu + 11025)*(20449*nu + 15876)*(81796*nu + 49)
+  words: elliptic, simple
+  Krein nu=-49/169: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.53846; kernel sv max 0.0 / 3.57e-102, gap 0.0958
+PASS: R5 v2: Krein sign at nu=-49/169 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-3969/20449: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.44056; kernel sv max 0.0 / 0.0, gap 0.0958
+PASS: R5 v2: Krein sign at nu=-3969/20449 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-11025/20449: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.73427; kernel sv max 0.0 / 0.0, gap 0.237
+PASS: R5 v2: Krein sign at nu=-11025/20449 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-15876/20449: + (60 dig) / + (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.88112; kernel sv max 0.0 / 0.0, gap 0.237
+PASS: R5 v2: Krein sign at nu=-15876/20449 agrees at 60/100 digits, semisimple cluster, definite margin
+  Krein nu=-49/81796: - (60 dig) / - (100 dig); cluster dim 2; min |M_hat eig| on cluster 0.0061189; kernel sv max 2.4e-64 / 1.64e-104, gap 0.000599
+PASS: R5 v2: Krein sign at nu=-49/81796 agrees at 60/100 digits, semisimple cluster, definite margin
+  924 rhat_6 = 36   (1s)
+PASS: l6 vs mine R5 v2: critical
+FAIL: l6 vs mine R5 v2: Q
+PASS: l6 vs mine R5 v2: 924 rhat_6
+PASS: l6 vs mine R5 v2: signature
+PASS: l6 vs mine R5 v2: k
+PASS: l6 vs mine R5 v2: r_u
+PASS: l6 vs mine R5 v2: zero multiplicity
+PASS: l6 vs mine R5 v2: slow polynomial
+PASS: l6 vs mine R5 v2: words
+PASS: l6 vs mine R5 v2: Krein signs
+FAIL: B.2 v2: P_R5(nu) proportional to P_R4((256/81) nu) exactly -> every clause-3 ratio +xi_R5/+xi_R4 = 9/16
+PASS: B.2 v2: numeric clause-3 ratios (sort, +xi branch) all 9/16 to 1e-40 (5 pairs)
+FAIL: l6 vs mine B.2 v2: ratio  [l6 9/16]
+
+[R4] octahedron: u = [0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]
+  critical: True;  Q = 175/143
+  criticality attack: residual of grad h - (4h/|u|^2) u at u + 1e-30 delta = 3.4939E-83
+FAIL: R4 octahedron: perturbing by 1e-30 gives a nonzero residual of order 1e-30 (so the exact zero is not a tolerance)
+PASS: R4 octahedron: M_hat u = 8 h u (exact)
+PASS: R4 octahedron: M_hat vanishes on K_u (exact)
+PASS: R4 octahedron: charpoly(M_hat) divisible by (x - 8h) x^k
+  k = 4, r_u = 4; signature exact (Descartes) (6, 0, 3); numeric 60-digit eigen-decomposition on N_u (6, 0, 3), min |nonzero eig| 0.32214, max |zero eig| None
+PASS: R4 octahedron: signature, exact Descartes = numeric eigen-decomposition on an explicit basis of N_u
+  zero multiplicity: charpoly 8; rank sequence of S^p [10, 6, 6] (exact) -> algebraic 8, kernel dim 4
+FAIL: R4 octahedron: algebraic zero multiplicity, charpoly = rank sequence
+  slow polynomial (552123*nu - 250880)**3
+  words: hyperbolic, real pairs
+  924 rhat_6 = 288   (1s)
+PASS: l6 vs mine R4 octahedron: critical
+PASS: l6 vs mine R4 octahedron: Q
+PASS: l6 vs mine R4 octahedron: 924 rhat_6
+PASS: l6 vs mine R4 octahedron: signature
+PASS: l6 vs mine R4 octahedron: k
+PASS: l6 vs mine R4 octahedron: r_u
+PASS: l6 vs mine R4 octahedron: zero multiplicity
+PASS: l6 vs mine R4 octahedron: slow polynomial
+PASS: l6 vs mine R4 octahedron: words
+PASS: l6 vs mine R4 octahedron: Krein signs
+
+[R5] octahedron: u = [0, sqrt(2)/2, 0, 0, 0, sqrt(2)/2, 0]
+  critical: True;  Q = 161/143
+  criticality attack: residual of grad h - (4h/|u|^2) u at u + 1e-30 delta = 6.1332E-81
+FAIL: R5 octahedron: perturbing by 1e-30 gives a nonzero residual of order 1e-30 (so the exact zero is not a tolerance)
+PASS: R5 octahedron: M_hat u = 8 h u (exact)
+PASS: R5 octahedron: M_hat vanishes on K_u (exact)
+PASS: R5 octahedron: charpoly(M_hat) divisible by (x - 8h) x^k
+  k = 4, r_u = 4; signature exact (Descartes) (6, 0, 3); numeric 60-digit eigen-decomposition on N_u (6, 0, 3), min |nonzero eig| 0.093706, max |zero eig| None
+PASS: R5 octahedron: signature, exact Descartes = numeric eigen-decomposition on an explicit basis of N_u
+  zero multiplicity: charpoly 8; rank sequence of S^p [10, 6, 6] (exact) -> algebraic 8, kernel dim 4
+FAIL: R5 octahedron: algebraic zero multiplicity, charpoly = rank sequence
+  slow polynomial (20449*nu - 2940)**3
+  words: hyperbolic, real pairs
+  924 rhat_6 = 288   (1s)
+PASS: l6 vs mine R5 octahedron: critical
+PASS: l6 vs mine R5 octahedron: Q
+PASS: l6 vs mine R5 octahedron: 924 rhat_6
+PASS: l6 vs mine R5 octahedron: signature
+PASS: l6 vs mine R5 octahedron: k
+PASS: l6 vs mine R5 octahedron: r_u
+PASS: l6 vs mine R5 octahedron: zero multiplicity
+PASS: l6 vs mine R5 octahedron: slow polynomial
+PASS: l6 vs mine R5 octahedron: words
+PASS: l6 vs mine R5 octahedron: Krein signs
+FAIL: B.2 octahedron: P_R5(nu) proportional to P_R4((256/81) nu) exactly -> every clause-3 ratio +xi_R5/+xi_R4 = 9/16
+PASS: B.2 octahedron: numeric clause-3 ratios (sort, +xi branch) all 9/16 to 1e-40 (3 pairs)
+FAIL: l6 vs mine B.2 octahedron: ratio  [l6 9/16]
+-- 16 FAIL line(s)

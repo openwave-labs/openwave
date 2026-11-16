@@ -1,0 +1,13 @@
+[FAIL] planted: 0(a) |q2|^2 == 1 with q2 = (phi + phi i + j)/2  (sqrt(5)/4 + 1) -> detector fired
+[FAIL] planted: 0(a) <chi, chi> == 1 for 3' with one value shifted by 1  (3/4) -> detector fired
+[FAIL] planted: CG: W_6 (D^3 (x) D^3) = D^6 W_6 with <3 0;3 0|6 0> sign-flipped  (0.532) -> detector fired
+[FAIL] planted: Theta commutes with D^3 when Theta drops the (-1)^(j-m) phase  (1.02) -> detector fired
+[FAIL] planted: 0(c) R4: s_N agrees with dim rho/(2j) (planted wrong formula) -> detector fired
+[FAIL] planted: c_J nonzero only for J in {0, 6}, with a non-invariant projector  ([0, 1, 2, 3, 4, 5, 6]) -> detector fired
+[FAIL] planted: R5 level-14 norm: cubature == CG formula when g_7 is scaled by (1 + 1e-6)  (0.00247564101595841 vs 0.002475643491599426) -> detector fired
+[FAIL] planted: exact criticality test reports v2 + v3/10 critical -> detector fired
+   s4_boxes.py with PLANT=shift-centre: ['[FAIL] D R4 O1: Krawczyk K(B) inside int(B)  (max width ratio 4.88e-55, ||I - Y J(B)||_inf <= 4.88e-55)']
+[FAIL] planted: Krawczyk on O1 R4 with PLANT=shift-centre -> detector fired
+   s4_boxes.py with PLANT=wrong-c6: ['[FAIL] D R4 O1: Krawczyk K(B) inside int(B)  (max width ratio 4.88e-55, ||I - Y J(B)||_inf <= 4.88e-55)']
+[FAIL] planted: Krawczyk on O1 R4 with PLANT=wrong-c6 -> detector fired
+planted defects run: all detectors fired

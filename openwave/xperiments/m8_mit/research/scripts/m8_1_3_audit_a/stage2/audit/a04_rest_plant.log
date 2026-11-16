@@ -1,0 +1,44 @@
+FAIL: A.1 R4: solver q_J = my exact q_J  [{'q_6': '1288/1287', 'q_4': '36/33', 'q_2': '14/9', 'q_0': '7/3'}]
+PASS: A.2 R4: proportional, beta = mine (28/39)
+PASS: A.1 R5: solver q_J = my exact q_J  [{'q_6': '2289/2288', 'q_4': '91/88', 'q_2': '21/16', 'q_0': '7/4'}]
+PASS: A.2 R5: proportional, beta = mine (21/52)
+PASS: A.1 R2: solver q_J = my exact q_J  [{'q_7': '144/143', 'q_5': '196/143', 'q_3': '28/11', 'q_1': '0'}]
+PASS: A.2 R2: proportional, beta = mine (24/13)
+PASS: A.3: ratio 9/16 and difference 49/156 = mine
+PASS: A.2 R2: r2 HS coefficients = my stage-1 (1/264, 53/264, 221/264, -13/24)
+  A.5 {5/2, -5/2}: h(alpha v_a + beta v_b) = 168*(ai**2 + ar**2 + bi**2 + br**2)**2/143
+FAIL: A.5 {5/2, -5/2}: h = c (|alpha|^2+|beta|^2)^2 exactly, c = 168/143
+PASS: A.5 {5/2, -5/2}: r2 value (168/143) and formula = mine
+  A.5 {7/2, -7/2}: h(alpha v_a + beta v_b) = 144*(ai**2 + ar**2 + bi**2 + br**2)**2/143
+FAIL: A.5 {7/2, -7/2}: h = c (|alpha|^2+|beta|^2)^2 exactly, c = 144/143
+PASS: A.5 {7/2, -7/2}: r2 value (144/143) and formula = mine
+  A.5 {3/2, -3/2}: h(alpha v_a + beta v_b) = 224*(ai**2 + ar**2 + bi**2 + br**2)**2/143
+FAIL: A.5 {3/2, -3/2}: h = c (|alpha|^2+|beta|^2)^2 exactly, c = 224/143
+PASS: A.5 {3/2, -3/2}: r2 value (224/143) and formula = mine
+  A.6 R2: q = 144/143; sqrt((q-1)/2) = 5.91312395989 %, (q-1)/2 = 0.349650349650 %; ceiling (6, 7/20); nearest (59/10, 7/20); solver (6.00000000000000, 0.350000000000000)
+PASS: A.6 R2: q and both ceilings at 2 s.f. = mine
+  A.6 R4: q = 1288/1287; sqrt((q-1)/2) = 1.97104131996 %, (q-1)/2 = 0.0388500388500 %; ceiling (2, 39/1000); nearest (2, 39/1000); solver (2.00000000000000, 0.0390000000000000)
+PASS: A.6 R4: q and both ceilings at 2 s.f. = mine
+  A.6 R5: q = 2289/2288; sqrt((q-1)/2) = 1.47828098997 %, (q-1)/2 = 0.0218531468531 %; ceiling (3/2, 11/500); nearest (3/2, 11/500); solver (1.50000000000000, 0.0220000000000000)
+PASS: A.6 R5: q and both ceilings at 2 s.f. = mine
+PASS: B.5: l6 proportional with constant 1 = mine
+PASS: E.1: rig six rigid slots, n, next level and gap = mine
+  E.2 d=1, omega=2, 2gc^2|v|^2=9: charpoly mu**2*(2*mu**2 + 41)/2; geometric: 0 -> 1, 2i omega -> 0, i sqrt -> 0
+  E.2 d=1, omega=3, 2gc^2|v|^2=13: charpoly mu**2*(2*mu**2 + 85)/2; geometric: 0 -> 1, 2i omega -> 0, i sqrt -> 0
+FAIL: E.2 d=1: my exact charpoly and geometric multiplicities match rig closed form (mu**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+  E.2 d=2, omega=2, 2gc^2|v|^2=9: charpoly mu**4*(mu**2 + 16)*(2*mu**2 + 41)/2; geometric: 0 -> 3, 2i omega -> 1, i sqrt -> 0
+  E.2 d=2, omega=3, 2gc^2|v|^2=13: charpoly mu**4*(mu**2 + 36)*(2*mu**2 + 85)/2; geometric: 0 -> 3, 2i omega -> 1, i sqrt -> 0
+FAIL: E.2 d=2: my exact charpoly and geometric multiplicities match rig closed form (mu**4*(mu**2 + 4*omega**2)*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+  E.2 d=3, omega=2, 2gc^2|v|^2=9: charpoly mu**6*(mu**2 + 16)**2*(2*mu**2 + 41)/2; geometric: 0 -> 5, 2i omega -> 2, i sqrt -> 0
+  E.2 d=3, omega=3, 2gc^2|v|^2=13: charpoly mu**6*(mu**2 + 36)**2*(2*mu**2 + 85)/2; geometric: 0 -> 5, 2i omega -> 2, i sqrt -> 0
+FAIL: E.2 d=3: my exact charpoly and geometric multiplicities match rig closed form (mu**6*(mu**2 + 4*omega**2)**2*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+  E.2 d=4, omega=2, 2gc^2|v|^2=9: charpoly mu**8*(mu**2 + 16)**3*(2*mu**2 + 41)/2; geometric: 0 -> 7, 2i omega -> 3, i sqrt -> 0
+  E.2 d=4, omega=3, 2gc^2|v|^2=13: charpoly mu**8*(mu**2 + 36)**3*(2*mu**2 + 85)/2; geometric: 0 -> 7, 2i omega -> 3, i sqrt -> 0
+FAIL: E.2 d=4: my exact charpoly and geometric multiplicities match rig closed form (mu**8*(mu**2 + 4*omega**2)**3*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+  E.2 d=5, omega=2, 2gc^2|v|^2=9: charpoly mu**10*(mu**2 + 16)**4*(2*mu**2 + 41)/2; geometric: 0 -> 9, 2i omega -> 4, i sqrt -> 0
+  E.2 d=5, omega=3, 2gc^2|v|^2=13: charpoly mu**10*(mu**2 + 36)**4*(2*mu**2 + 85)/2; geometric: 0 -> 9, 2i omega -> 4, i sqrt -> 0
+FAIL: E.2 d=5: my exact charpoly and geometric multiplicities match rig closed form (mu**10*(mu**2 + 4*omega**2)**4*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+  E.2 d=6, omega=2, 2gc^2|v|^2=9: charpoly mu**12*(mu**2 + 16)**5*(2*mu**2 + 41)/2; geometric: 0 -> 11, 2i omega -> 5, i sqrt -> 0
+  E.2 d=6, omega=3, 2gc^2|v|^2=13: charpoly mu**12*(mu**2 + 36)**5*(2*mu**2 + 85)/2; geometric: 0 -> 11, 2i omega -> 5, i sqrt -> 0
+FAIL: E.2 d=6: my exact charpoly and geometric multiplicities match rig closed form (mu**12*(mu**2 + 4*omega**2)**5*(2*c**2*g_4*r**2 + mu**2 + 4*omega**2))
+-- 10 FAIL line(s)

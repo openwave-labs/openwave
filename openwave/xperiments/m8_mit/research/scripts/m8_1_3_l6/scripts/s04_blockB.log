@@ -1,0 +1,246 @@
+PASS inputs.json generators span = span(phase, derived infinitesimal rotations), dim 4
+PLANTED-DEFECT-FIRED span test with the z-rotation replaced by its square
+== B.5
+PASS B.5: ||(ww^+)_6||^2 and ||[w (x) Theta w]_6||^2 are the same polynomial (exact)
+PLANTED-DEFECT-FIRED B.5 test against the spin-4 analogue
+PASS HS6 polynomial = sum_J a_J ||[w(x)w]_J||^2 with the a_J of s03 (exact)
+   constant: HS6 = 1 * r6hat on all of V_3
+
+== B.1 (R4); quartic h = sum_J q_J ||[w(x)w]_J||^2, q_J = {6: '1288/1287', 4: '35/33', 2: '14/9', 0: '7/3'}
+-- C3 ray: critical=True  Q=77/65  924 r6hat=1188/5  signature=[5, 0, 4]  k=4  r_u=2  zero mult=6
+   slow polynomial: 161332131962579720872640625*nu**4 + 194767005105025648855560000*nu**3 + 32893021579212071243366400*nu**2 - 77511964173743503179776*nu + 61899079407370240000
+    {'factor': '161332131962579720872640625*nu**4 + 194767005105025648855560000*nu**3 + 32893021579212071243366400*nu**2 - 77511964173743503179776*nu + 61899079407370240000', 'multiplicity': 1, 'negative real': 2, 'positive real': 0, 'non-real': 2}
+   words: hyperbolic, a complex quartet
+   Krein: {'nu': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 0)', 'nu_num': '-1.00361577857861379296434811774', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['42.4723713563085', '42.4723713563085'], 'max kernel singular value (90 dig)': '6.52e-92', 'smallest non-kernel s.v.': '0.94072'}
+   Krein: {'nu': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 1)', 'nu_num': '-0.205961882594800871994460340452', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-84.8147149220189', '-84.8147149220189'], 'max kernel singular value (90 dig)': '3.89e-93', 'smallest non-kernel s.v.': '0.17901'}
+-- D2 ray: critical=True  Q=168/143  924 r6hat=225  signature=[5, 0, 4]  k=4  r_u=4  zero mult=8
+   slow polynomial: (16731*nu - 980)**2*(552123*nu + 501760)
+    {'factor': '552123*nu + 501760', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '16731*nu - 980', 'multiplicity': 2, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+   words: hyperbolic, real pairs
+   Krein: {'nu': '-501760/552123', 'nu_num': '-0.908783006685104587202489300391', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['31.8596657579708', '67.9672869503378'], 'max kernel singular value (90 dig)': '1.46e-91', 'smallest non-kernel s.v.': '0.78679'}
+-- coherent v3: critical=True  Q=1288/1287  924 r6hat=1  signature=[0, 0, 10]  k=3  r_u=1  zero mult=4
+   slow polynomial: (1521*nu + 12544)*(9801*nu + 19600)*(20449*nu + 784)*(184041*nu + 3136)*(1656369*nu + 802816)
+    {'factor': '1521*nu + 12544', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '9801*nu + 19600', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 784', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '184041*nu + 3136', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '1656369*nu + 802816', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-12544/1521', 'nu_num': '-8.24720578566732412886259040105', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['2067.69230769231', '2067.69230769231'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '6.2474'}
+   Krein: {'nu': '-19600/9801', 'nu_num': '-1.99979593918987858381797775737', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['169.69696969697', '169.69696969697'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '1.5151'}
+   Krein: {'nu': '-784/20449', 'nu_num': '-0.0383392830945278497726050173603', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['7.04895104895105', '7.04895104895105'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0213'}
+   Krein: {'nu': '-3136/184041', 'nu_num': '-0.0170396813753457110100466743823', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['6.26573426573427', '6.26573426573427'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.01704'}
+   Krein: {'nu': '-802816/1656369', 'nu_num': '-0.484684270232055779841327626875', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['33.4172494172494', '33.4172494172494'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.44634'}
+-- hexagon: critical=True  Q=1750/1287  924 r6hat=463  signature=[9, 0, 0]  k=4  r_u=4  zero mult=8
+   slow polynomial: (61347*nu + 90160)*(552123*nu + 501760)**2
+    {'factor': '61347*nu + 90160', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '552123*nu + 501760', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, one double frequency
+   Krein: {'nu': '-90160/61347', 'nu_num': '-1.46967251862356757461652566548', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-54.041958041958', '-35.2447552447552'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.56089'}
+   Krein: {'nu': '-501760/552123', 'nu_num': '-0.908783006685104587202489300391', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-66.8344988344988', '-66.8344988344988', '-31.3286713286713', '-31.3286713286713'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.56089'}
+-- octahedron: critical=True  Q=175/143  924 r6hat=288  signature=[6, 0, 3]  k=4  r_u=4  zero mult=8
+   slow polynomial: (552123*nu - 250880)**3
+    {'factor': '552123*nu - 250880', 'multiplicity': 3, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+   words: hyperbolic, real pairs
+-- pentagonal pyramid: critical=True  Q=77/65  924 r6hat=1188/5  signature=[5, 0, 4]  k=4  r_u=2  zero mult=6
+   slow polynomial: (846777242025*nu**2 + 1018930808896*nu + 3933798400)*(21169431050625*nu**2 + 83366483200*nu + 629407744)
+    {'factor': '846777242025*nu**2 + 1018930808896*nu + 3933798400', 'multiplicity': 1, 'negative real': 2, 'positive real': 0, 'non-real': 0}
+    {'factor': '21169431050625*nu**2 + 83366483200*nu + 629407744', 'multiplicity': 1, 'negative real': 0, 'positive real': 0, 'non-real': 2}
+   words: hyperbolic, a complex quartet
+   Krein: {'nu': '-24913952/41409225 - 208544*sqrt(14089)/41409225', 'nu_num': '-1.19943125383694482241793093261', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['207.145366818193', '207.145366818193'], 'max kernel singular value (90 dig)': '4.62e-92', 'smallest non-kernel s.v.': '1.1794'}
+   Krein: {'nu': '-24913952/41409225 + 208544*sqrt(14089)/41409225', 'nu_num': '-0.00387317893135740975376510855456', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-0.332395322533279', '-0.332395322533279'], 'max kernel singular value (90 dig)': '2.89e-92', 'smallest non-kernel s.v.': '0.00079157'}
+-- trigonal prism: critical=True  Q=5831/5031  924 r6hat=8800/43  signature=[3, 0, 6]  k=4  r_u=4  zero mult=8
+   slow polynomial: (7913763*nu + 5770240)*(278420571*nu + 19066880)**2
+    {'factor': '7913763*nu + 5770240', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '278420571*nu + 19066880', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, one double frequency
+   Krein: {'nu': '-5770240/7913763', 'nu_num': '-0.729139854200839726941532113105', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['38.2165352378118', '102.207012845311'], 'max kernel singular value (90 dig)': '5.86e-92', 'smallest non-kernel s.v.': '0.63827'}
+   Krein: {'nu': '-19066880/278420571', 'nu_num': '-0.0684822961590722403913179245653', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['10.5007100361232', '10.5007100361232', '22.8765317006391', '22.8765317006391'], 'max kernel singular value (90 dig)': '5.67e-93', 'smallest non-kernel s.v.': '0.026905'}
+-- v1: critical=True  Q=168/143  924 r6hat=225  signature=[4, 2, 4]  k=3  r_u=1  zero mult=6
+   slow polynomial: (20449*nu + 784)*(20449*nu + 12544)*(1656369*nu + 19600)*(1656369*nu + 1960000)
+    {'factor': '20449*nu + 784', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 12544', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '1656369*nu + 19600', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '1656369*nu + 1960000', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-784/20449', 'nu_num': '-0.0383392830945278497726050173603', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['23.4965034965035', '23.4965034965035'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0063272'}
+   Krein: {'nu': '-12544/20449', 'nu_num': '-0.613428529512445596361680277764', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-45.3725584760068', '-45.3725584760068'], 'max kernel singular value (90 dig)': '1.14e-91', 'smallest non-kernel s.v.': '0.53522'}
+   Krein: {'nu': '-19600/1656369', 'nu_num': '-0.0118331120662122993125324127655', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-0.575894693541752', '-0.575894693541752'], 'max kernel singular value (90 dig)': '1.94e-92', 'smallest non-kernel s.v.': '0.011833'}
+   Krein: {'nu': '-1960000/1656369', 'nu_num': '-1.18331120662122993125324127655', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['29.6352296352296', '29.6352296352296'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '1.1028'}
+-- v2: critical=True  Q=147/143  924 r6hat=36  signature=[2, 0, 8]  k=3  r_u=1  zero mult=4
+   slow polynomial: (13689*nu + 12544)*(20449*nu + 12544)*(20449*nu + 50176)*(184041*nu + 313600)*(1656369*nu + 3136)
+    {'factor': '13689*nu + 12544', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 12544', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 50176', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '184041*nu + 313600', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '1656369*nu + 3136', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-12544/13689', 'nu_num': '-0.916356198407480458762510044561', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['34.4615384615385', '34.4615384615385'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.30293'}
+   Krein: {'nu': '-12544/20449', 'nu_num': '-0.613428529512445596361680277764', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['37.5944055944056', '37.5944055944056'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.30293'}
+   Krein: {'nu': '-50176/20449', 'nu_num': '-2.45371411804978238544672111106', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['187.972027972028', '187.972027972028'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.74975'}
+   Krein: {'nu': '-313600/184041', 'nu_num': '-1.70396813753457110100466743823', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['939.86013986014', '939.86013986014'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.74975'}
+   Krein: {'nu': '-3136/1656369', 'nu_num': '-0.00189329793059396789000518604248', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-1.25314685314685', '-1.25314685314685'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0018933'}
+-- zonal v0: critical=True  Q=1687/1287  924 r6hat=400  signature=[8, 0, 2]  k=3  r_u=3  zero mult=6
+   slow polynomial: (61347*nu + 62720)**2*(552123*nu - 250880)**2
+    {'factor': '61347*nu + 62720', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '552123*nu - 250880', 'multiplicity': 2, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+   words: hyperbolic, real pairs
+   Krein: {'nu': '-62720/61347', 'nu_num': '-1.02238088252074266060280046294', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-939.86013986014', '-939.86013986014', '-563.916083916084', '-563.916083916084'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '1.0224'}
+
+== B.2 (R5); quartic h = sum_J q_J ||[w(x)w]_J||^2, q_J = {6: '2289/2288', 4: '91/88', 2: '21/16', 0: '7/4'}
+-- C3 ray: critical=True  Q=287/260  924 r6hat=1188/5  signature=[5, 0, 4]  k=4  r_u=2  zero mult=6
+   slow polynomial: 10928695284430200062500*nu**4 + 4174532859761352213125*nu**3 + 223070079069092280025*nu**2 - 166322631255076296*nu + 42025399290000
+    {'factor': '10928695284430200062500*nu**4 + 4174532859761352213125*nu**3 + 223070079069092280025*nu**2 - 166322631255076296*nu + 42025399290000', 'multiplicity': 1, 'negative real': 2, 'positive real': 0, 'non-real': 2}
+   words: hyperbolic, a complex quartet
+   Krein: {'nu': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 0)', 'nu_num': '-0.317550304940889520430125771629', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['23.8907088879235', '23.8907088879235'], 'max kernel singular value (90 dig)': '1.33e-92', 'smallest non-kernel s.v.': '0.29765'}
+   Krein: {'nu': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 1)', 'nu_num': '-0.0651676269147612134044972170962', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-47.7082771436356', '-47.7082771436356'], 'max kernel singular value (90 dig)': '2.16e-93', 'smallest non-kernel s.v.': '0.05664'}
+-- D2 ray: critical=True  Q=2513/2288  924 r6hat=225  signature=[5, 0, 4]  k=4  r_u=4  zero mult=8
+   slow polynomial: (20449*nu + 5880)*(118976*nu - 2205)**2
+    {'factor': '20449*nu + 5880', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '118976*nu - 2205', 'multiplicity': 2, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+   words: hyperbolic, real pairs
+   Krein: {'nu': '-5880/20449', 'nu_num': '-0.287544623208958873294537630202', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['17.9210619888586', '38.231598909565'], 'max kernel singular value (90 dig)': '7.63e-92', 'smallest non-kernel s.v.': '0.24895'}
+-- coherent v3: critical=True  Q=2289/2288  924 r6hat=1  signature=[0, 0, 10]  k=3  r_u=1  zero mult=4
+   slow polynomial: (169*nu + 441)*(1936*nu + 1225)*(20449*nu + 3136)*(81796*nu + 441)*(327184*nu + 3969)
+    {'factor': '169*nu + 441', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '1936*nu + 1225', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 3136', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '81796*nu + 441', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '327184*nu + 3969', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-441/169', 'nu_num': '-2.60946745562130177514792899408', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['1163.07692307692', '1163.07692307692'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '1.9767'}
+   Krein: {'nu': '-1225/1936', 'nu_num': '-0.632747933884297520661157024793', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['95.4545454545455', '95.4545454545455'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.47939'}
+   Krein: {'nu': '-3136/20449', 'nu_num': '-0.153357132378111399090420069441', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['18.7972027972028', '18.7972027972028'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.14123'}
+   Krein: {'nu': '-441/81796', 'nu_num': '-0.00539146168516797887427258056629', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['3.52447552447552', '3.52447552447552'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0053915'}
+   Krein: {'nu': '-3969/327184', 'nu_num': '-0.0121307887916279524671133062741', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['3.96503496503497', '3.96503496503497'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0067393'}
+-- hexagon: critical=True  Q=2751/2288  924 r6hat=463  signature=[9, 0, 0]  k=4  r_u=4  zero mult=8
+   slow polynomial: (20449*nu + 5880)**2*(327184*nu + 152145)
+    {'factor': '327184*nu + 152145', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 5880', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, one double frequency
+   Krein: {'nu': '-152145/327184', 'nu_num': '-0.465013570345738177906010073842', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-30.3986013986014', '-19.8251748251748'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.17747'}
+   Krein: {'nu': '-5880/20449', 'nu_num': '-0.287544623208958873294537630202', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-37.5944055944056', '-37.5944055944056', '-17.6223776223776', '-17.6223776223776'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.17747'}
+-- octahedron: critical=True  Q=161/143  924 r6hat=288  signature=[6, 0, 3]  k=4  r_u=4  zero mult=8
+   slow polynomial: (20449*nu - 2940)**3
+    {'factor': '20449*nu - 2940', 'multiplicity': 3, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+   words: hyperbolic, real pairs
+-- pentagonal pyramid: critical=True  Q=287/260  924 r6hat=1188/5  signature=[5, 0, 4]  k=4  r_u=2  zero mult=6
+   slow polynomial: (41816160100*nu**2 + 15920793889*nu + 19448100)*(261351000625*nu**2 + 325650325*nu + 777924)
+    {'factor': '41816160100*nu**2 + 15920793889*nu + 19448100', 'multiplicity': 1, 'negative real': 2, 'positive real': 0, 'non-real': 0}
+    {'factor': '261351000625*nu**2 + 325650325*nu + 777924', 'multiplicity': 1, 'negative real': 0, 'positive real': 0, 'non-real': 2}
+   words: hyperbolic, a complex quartet
+   Krein: {'nu': '-778561/4089800 - 6517*sqrt(14089)/4089800', 'nu_num': '-0.379507545159345822718173459145', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['116.519268835234', '116.519268835234'], 'max kernel singular value (90 dig)': '1.19e-92', 'smallest non-kernel s.v.': '0.37317'}
+   Krein: {'nu': '-778561/4089800 + 6517*sqrt(14089)/4089800', 'nu_num': '-0.00122549802124980542990224137859', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-0.186972368924969', '-0.186972368924969'], 'max kernel singular value (90 dig)': '1.38e-92', 'smallest non-kernel s.v.': '0.00025046'}
+-- trigonal prism: critical=True  Q=609/559  924 r6hat=8800/43  signature=[3, 0, 6]  k=4  r_u=4  zero mult=8
+   slow polynomial: (879307*nu + 202860)*(3437291*nu + 74480)**2
+    {'factor': '879307*nu + 202860', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '3437291*nu + 74480', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, one double frequency
+   Krein: {'nu': '-202860/879307', 'nu_num': '-0.230704406993234444852594145162', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['21.4968010712692', '57.4914447254873'], 'max kernel singular value (90 dig)': '1.82e-92', 'smallest non-kernel s.v.': '0.20195'}
+   Krein: {'nu': '-74480/3437291', 'nu_num': '-0.0216682265190814510613154370695', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['5.90664939531931', '5.90664939531931', '12.8680490816095', '12.8680490816095'], 'max kernel singular value (90 dig)': '2.42e-93', 'smallest non-kernel s.v.': '0.0085129'}
+-- v1: critical=True  Q=2513/2288  924 r6hat=225  signature=[4, 2, 4]  k=3  r_u=1  zero mult=6
+   slow polynomial: (20449*nu + 3969)*(81796*nu + 30625)*(327184*nu + 1225)*(327184*nu + 3969)
+    {'factor': '20449*nu + 3969', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '81796*nu + 30625', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '327184*nu + 1225', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '327184*nu + 3969', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-3969/20449', 'nu_num': '-0.194092620666047239473812900386', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-25.5220641427538', '-25.5220641427538'], 'max kernel singular value (90 dig)': '5.7e-92', 'smallest non-kernel s.v.': '0.16935'}
+   Krein: {'nu': '-30625/81796', 'nu_num': '-0.374407061469998532935595872659', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['16.6698166698167', '16.6698166698167'], 'max kernel singular value (90 dig)': '3.03e-92', 'smallest non-kernel s.v.': '0.34892'}
+   Krein: {'nu': '-1225/327184', 'nu_num': '-0.00374407061469998532935595872659', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-0.323940765117236', '-0.323940765117236'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.0037441'}
+   Krein: {'nu': '-3969/327184', 'nu_num': '-0.0121307887916279524671133062741', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['13.2167832167832', '13.2167832167832'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.002002'}
+-- v2: critical=True  Q=581/572  924 r6hat=36  signature=[2, 0, 8]  k=3  r_u=1  zero mult=4
+   slow polynomial: (169*nu + 49)*(20449*nu + 3969)*(20449*nu + 11025)*(20449*nu + 15876)*(81796*nu + 49)
+    {'factor': '169*nu + 49', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 3969', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 11025', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '20449*nu + 15876', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+    {'factor': '81796*nu + 49', 'multiplicity': 1, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: elliptic, simple
+   Krein: {'nu': '-49/169', 'nu_num': '-0.289940828402366863905325443787', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['19.3846153846154', '19.3846153846154'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.095848'}
+   Krein: {'nu': '-3969/20449', 'nu_num': '-0.194092620666047239473812900386', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['21.1468531468531', '21.1468531468531'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.095848'}
+   Krein: {'nu': '-11025/20449', 'nu_num': '-0.539146168516797887427258056629', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['528.671328671329', '528.671328671329'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.23722'}
+   Krein: {'nu': '-15876/20449', 'nu_num': '-0.776370482664188957895251601545', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '+', 'restricted M-hat eigenvalues (90 dig)': ['105.734265734266', '105.734265734266'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.23722'}
+   Krein: {'nu': '-49/81796', 'nu_num': '-0.000599051298351997652696953396254', 'multiplicity': 1, 'dim ker(S^2+tau^2)': 2, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-0.704895104895105', '-0.704895104895105'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.00059905'}
+-- zonal v0: critical=True  Q=168/143  924 r6hat=400  signature=[8, 0, 2]  k=3  r_u=3  zero mult=6
+   slow polynomial: (20449*nu - 2940)**2*(20449*nu + 6615)**2
+    {'factor': '20449*nu - 2940', 'multiplicity': 2, 'negative real': 0, 'positive real': 1, 'non-real': 0}
+    {'factor': '20449*nu + 6615', 'multiplicity': 2, 'negative real': 1, 'positive real': 0, 'non-real': 0}
+   words: hyperbolic, real pairs
+   Krein: {'nu': '-6615/20449', 'nu_num': '-0.323487701110078732456354833977', 'multiplicity': 2, 'dim ker(S^2+tau^2)': 4, 'Krein': '-', 'restricted M-hat eigenvalues (90 dig)': ['-528.671328671329', '-528.671328671329', '-317.202797202797', '-317.202797202797'], 'max kernel singular value (90 dig)': '0.0', 'smallest non-kernel s.v.': '0.32349'}
+PLANTED-DEFECT-FIRED criticality test on the pentagonal pyramid with sqrt(13) -> sqrt(14)
+PLANTED-DEFECT-FIRED 'M-hat vanishes on K_u' with a non-symmetry matrix in place of the z-rotation (v1, R4)
+PLANTED-DEFECT-FIRED Krein definiteness test on the union of a + and a - cluster (R4, C3 ray)
+
+== B.2 comparison R5 vs R4 (clause 3 pairing)
+PASS C3 ray: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- C3 ray: ['9/16']
+     {'nu_R4': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 0)', 'nu_R5': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 0)', '+xi_R4': '1.001806258005316012392248*I', '+xi_R5': '0.5635160201279902569706397*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 1)', 'nu_R5': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 1)', '+xi_R4': '0.4538302354347943530089112*I', '+xi_R5': '0.2552795074320718235675125*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 2)', 'nu_R5': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 2)', '+xi_R4': '0.03556672536102731006354228 - 0.009869528771337233982631024*I', '+xi_R5': '0.02000628301557786191074253 - 0.005551609933877194115229951*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': 'CRootOf(161332131962579720872640625*x**4 + 194767005105025648855560000*x**3 + 32893021579212071243366400*x**2 - 77511964173743503179776*x + 61899079407370240000, 3)', 'nu_R5': 'CRootOf(10928695284430200062500*x**4 + 4174532859761352213125*x**3 + 223070079069092280025*x**2 - 166322631255076296*x + 42025399290000, 3)', '+xi_R4': '0.03556672536102731006354228 + 0.009869528771337233982631024*I', '+xi_R5': '0.02000628301557786191074253 + 0.005551609933877194115229951*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([5, 0, 4], [5, 0, 4]), 'k': (4, 4), 'r_u': (2, 2), 'zero multiplicity': (6, 6), 'words': ('hyperbolic, a complex quartet', 'hyperbolic, a complex quartet')}
+PASS D2 ray: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- D2 ray: ['9/16']
+     {'nu_R4': '-501760/552123', 'nu_R5': '-5880/20449', '+xi_R4': '0.9533011101877017048512916*I', '+xi_R5': '0.5362318744805822089788515*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '980/16731', 'nu_R5': '2205/118976', '+xi_R4': '0.2420204634483433130115608', '+xi_R5': '0.1361365106896931135690029', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '980/16731', 'nu_R5': '2205/118976', '+xi_R4': '0.2420204634483433130115608', '+xi_R5': '0.1361365106896931135690029', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([5, 0, 4], [5, 0, 4]), 'k': (4, 4), 'r_u': (4, 4), 'zero multiplicity': (8, 8), 'words': ('hyperbolic, real pairs', 'hyperbolic, real pairs')}
+PASS coherent v3: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- coherent v3: ['9/16']
+     {'nu_R4': '-12544/1521', 'nu_R5': '-441/169', '+xi_R4': '2.871794871794871794871795*I', '+xi_R5': '1.615384615384615384615385*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-19600/9801', 'nu_R5': '-1225/1936', '+xi_R4': '1.414141414141414141414141*I', '+xi_R5': '0.7954545454545454545454545*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-802816/1656369', 'nu_R5': '-3136/20449', '+xi_R4': '0.6961926961926961926961927*I', '+xi_R5': '0.3916083916083916083916084*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-784/20449', 'nu_R5': '-3969/327184', '+xi_R4': '0.1958041958041958041958042*I', '+xi_R5': '0.1101398601398601398601399*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-3136/184041', 'nu_R5': '-441/81796', '+xi_R4': '0.1305361305361305361305361*I', '+xi_R5': '0.07342657342657342657342657*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([0, 0, 10], [0, 0, 10]), 'k': (3, 3), 'r_u': (1, 1), 'zero multiplicity': (4, 4), 'words': ('elliptic, simple', 'elliptic, simple')}
+PASS hexagon: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- hexagon: ['9/16']
+     {'nu_R4': '-90160/61347', 'nu_R5': '-152145/327184', '+xi_R4': '1.212300506732372678758973*I', '+xi_R5': '0.6819190350369596318019221*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-501760/552123', 'nu_R5': '-5880/20449', '+xi_R4': '0.9533011101877017048512916*I', '+xi_R5': '0.5362318744805822089788515*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-501760/552123', 'nu_R5': '-5880/20449', '+xi_R4': '0.9533011101877017048512916*I', '+xi_R5': '0.5362318744805822089788515*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([9, 0, 0], [9, 0, 0]), 'k': (4, 4), 'r_u': (4, 4), 'zero multiplicity': (8, 8), 'words': ('elliptic, one double frequency', 'elliptic, one double frequency')}
+PASS octahedron: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- octahedron: ['9/16']
+     {'nu_R4': '250880/552123', 'nu_R5': '2940/20449', '+xi_R4': '0.6740856795263880204197012', '+xi_R5': '0.3791731947335932614860819', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '250880/552123', 'nu_R5': '2940/20449', '+xi_R4': '0.6740856795263880204197012', '+xi_R5': '0.3791731947335932614860819', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '250880/552123', 'nu_R5': '2940/20449', '+xi_R4': '0.6740856795263880204197012', '+xi_R5': '0.3791731947335932614860819', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([6, 0, 3], [6, 0, 3]), 'k': (4, 4), 'r_u': (4, 4), 'zero multiplicity': (8, 8), 'words': ('hyperbolic, real pairs', 'hyperbolic, real pairs')}
+PASS pentagonal pyramid: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- pentagonal pyramid: ['9/16']
+     {'nu_R4': '-24913952/41409225 - 208544*sqrt(14089)/41409225', 'nu_R5': '-778561/4089800 - 6517*sqrt(14089)/4089800', '+xi_R4': '1.095185488324669513111975*I', '+xi_R5': '0.6160418371826266011254857*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-24913952/41409225 + 208544*sqrt(14089)/41409225', 'nu_R5': '-778561/4089800 + 6517*sqrt(14089)/4089800', '+xi_R4': '0.06223486909568790724544574*I', '+xi_R5': '0.03500711386632444782556323*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-6272/3185325 - 43904*sqrt(23)*I/41409225', 'nu_R5': '-49/78650 - 343*sqrt(23)*I/1022450', '+xi_R4': '0.04173528598376259430139185 - 0.06091686091686091686091686*I', '+xi_R5': '0.02347609836586645929453291 - 0.03426573426573426573426573*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-6272/3185325 + 43904*sqrt(23)*I/41409225', 'nu_R5': '-49/78650 + 343*sqrt(23)*I/1022450', '+xi_R4': '0.04173528598376259430139185 + 0.06091686091686091686091686*I', '+xi_R5': '0.02347609836586645929453291 + 0.03426573426573426573426573*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([5, 0, 4], [5, 0, 4]), 'k': (4, 4), 'r_u': (2, 2), 'zero multiplicity': (6, 6), 'words': ('hyperbolic, a complex quartet', 'hyperbolic, a complex quartet')}
+PASS trigonal prism: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- trigonal prism: ['9/16']
+     {'nu_R4': '-5770240/7913763', 'nu_R5': '-202860/879307', '+xi_R4': '0.853896863913224433000144*I', '+xi_R5': '0.480316985951188743562581*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-19066880/278420571', 'nu_R5': '-74480/3437291', '+xi_R4': '0.2616912229309042768059204*I', '+xi_R5': '0.1472013128986336557033302*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-19066880/278420571', 'nu_R5': '-74480/3437291', '+xi_R4': '0.2616912229309042768059204*I', '+xi_R5': '0.1472013128986336557033302*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([3, 0, 6], [3, 0, 6]), 'k': (4, 4), 'r_u': (4, 4), 'zero multiplicity': (8, 8), 'words': ('elliptic, one double frequency', 'elliptic, one double frequency')}
+PASS v1: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+PLANTED-DEFECT-FIRED same exact ratio test with c = 3/4
+-- v1: ['9/16']
+     {'nu_R4': '-1960000/1656369', 'nu_R5': '-30625/81796', '+xi_R4': '1.087801087801087801087801*I', '+xi_R5': '0.6118881118881118881118881*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-12544/20449', 'nu_R5': '-3969/20449', '+xi_R4': '0.7832167832167832167832168*I', '+xi_R5': '0.4405594405594405594405594*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-784/20449', 'nu_R5': '-3969/327184', '+xi_R4': '0.1958041958041958041958042*I', '+xi_R5': '0.1101398601398601398601399*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-19600/1656369', 'nu_R5': '-1225/327184', '+xi_R4': '0.1087801087801087801087801*I', '+xi_R5': '0.06118881118881118881118881*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([4, 2, 4], [4, 2, 4]), 'k': (3, 3), 'r_u': (1, 1), 'zero multiplicity': (6, 6), 'words': ('elliptic, simple', 'elliptic, simple')}
+PASS v2: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- v2: ['9/16']
+     {'nu_R4': '-50176/20449', 'nu_R5': '-15876/20449', '+xi_R4': '1.566433566433566433566434*I', '+xi_R5': '0.8811188811188811188811189*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-313600/184041', 'nu_R5': '-11025/20449', '+xi_R4': '1.305361305361305361305361*I', '+xi_R5': '0.7342657342657342657342657*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-12544/13689', 'nu_R5': '-49/169', '+xi_R4': '0.957264957264957264957265*I', '+xi_R5': '0.5384615384615384615384615*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-12544/20449', 'nu_R5': '-3969/20449', '+xi_R4': '0.7832167832167832167832168*I', '+xi_R5': '0.4405594405594405594405594*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-3136/1656369', 'nu_R5': '-49/81796', '+xi_R4': '0.04351204351204351204351204*I', '+xi_R5': '0.02447552447552447552447552*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([2, 0, 8], [2, 0, 8]), 'k': (3, 3), 'r_u': (1, 1), 'zero multiplicity': (4, 4), 'words': ('elliptic, simple', 'elliptic, simple')}
+PASS zonal v0: slow poly R5(nu) proportional to slow poly R4(nu/c^2), c = 9/16 (exact)
+-- zonal v0: ['9/16']
+     {'nu_R4': '-62720/61347', 'nu_R5': '-6615/20449', '+xi_R4': '1.011128519289582030629552*I', '+xi_R5': '0.5687597921003898922291229*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '-62720/61347', 'nu_R5': '-6615/20449', '+xi_R4': '1.011128519289582030629552*I', '+xi_R5': '0.5687597921003898922291229*I', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '250880/552123', 'nu_R5': '2940/20449', '+xi_R4': '0.6740856795263880204197012', '+xi_R5': '0.3791731947335932614860819', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+     {'nu_R4': '250880/552123', 'nu_R5': '2940/20449', '+xi_R4': '0.6740856795263880204197012', '+xi_R5': '0.3791731947335932614860819', "ratio +xi_R5/+xi_R4 (= ratio of -xi's)": '9/16', 'ratio (40 dig)': '0.5625000000000000000000000000000000000000'}
+    R4 vs R5: {'critical': (True, True), 'signature': ([8, 0, 2], [8, 0, 2]), 'k': (3, 3), 'r_u': (3, 3), 'zero multiplicity': (6, 6), 'words': ('hyperbolic, real pairs', 'hyperbolic, real pairs')}
+checks: 181 PASS, 0 FAIL

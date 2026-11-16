@@ -1,0 +1,4 @@
+gate set: 1120 value strings; 79 fractions, 124 decimals (4+ places), 181 integers of 3+ digits, 32 terms
+BRIEF_xa2.md []
+BRIEF_xb2.md []
+selftest: PASS (planted fraction, integer and term flagged)

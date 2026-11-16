@@ -1,0 +1,62 @@
+[PASS] C.1 R2: my reading of cb y (weighted p, Gaussian integers) reproduces cb stated unit y
+[PASS] C.1 R2 (cb y): exact level norms real and rational
+[PASS] C.1 R2 (cb y): my CG route agrees with my exact route at every level :: 4.67e-61
+[PASS] C.1 R2 (cb y) L=8: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=9: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=10: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=11: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=12: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=13: cb exact value == my exact value :: 113465028425/6430729823232
+[PASS] C.1 R2 (cb y) L=14: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=15: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=16: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=17: cb exact value == my exact value :: 446878247025/34809013910528
+[PASS] C.1 R2 (cb y) L=18: cb exact value == my exact value :: 0
+[PASS] C.1 R2 (cb y) L=19: cb exact value == my exact value :: 1438595353125/24182223606112
+[PASS] C.1 R2 (cb y) L=20: cb exact value == my exact value :: 0
+R2 ca y, reading A: orthonormal components: max |ca - mine| over levels = 3.89e-62
+[PASS] C.1 R2 (ca y, orthonormal components): ca exact surd values agree with my CG route to 1e-50 :: 3.89e-62
+[PASS] C.1 R2 (ca y): nonzero levels equal ca list :: [13, 17, 19]
+R2 ca y, reading B: weighted coordinates: max |ca - mine| over levels = 0.0558
+[PASS] C.1 R4: my reading of cb y (weighted p, Gaussian integers) reproduces cb stated unit y
+[PASS] C.1 R4 (cb y): exact level norms real and rational
+[PASS] C.1 R4 (cb y): my CG route agrees with my exact route at every level :: 7.78e-62
+[PASS] C.1 R4 (cb y) L=7: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=8: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=9: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=10: cb exact value == my exact value :: 743445721760/12730758624441
+[PASS] C.1 R4 (cb y) L=11: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=12: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=13: cb exact value == my exact value :: 0
+[FAIL] C.1 R4 (cb y) L=14: cb exact value == my exact value :: 183564316665800/4496786851899771 vs 917821583329917821583329/22483934259498855000000000
+[PASS] C.1 R4 (cb y) L=15: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=16: cb exact value == my exact value :: 369416600/616589449047
+[PASS] C.1 R4 (cb y) L=17: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=18: cb exact value == my exact value :: 1091044138688000/7767177289645059
+[PASS] C.1 R4 (cb y) L=19: cb exact value == my exact value :: 0
+[PASS] C.1 R4 (cb y) L=20: cb exact value == my exact value :: 0
+R4 ca y, reading A: orthonormal components: max |ca - mine| over levels = 2.43e-63
+[PASS] C.1 R4 (ca y, orthonormal components): ca exact surd values agree with my CG route to 1e-50 :: 2.43e-63
+[PASS] C.1 R4 (ca y): nonzero levels equal ca list :: [10, 14, 16, 18]
+R4 ca y, reading B: weighted coordinates: max |ca - mine| over levels = 0.0533
+[PASS] C.1 R5: my reading of cb y (weighted p, Gaussian integers) reproduces cb stated unit y
+[PASS] C.1 R5 (cb y): exact level norms real and rational
+[PASS] C.1 R5 (cb y): my CG route agrees with my exact route at every level :: 1.56e-61
+[PASS] C.1 R5 (cb y) L=7: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=8: cb exact value == my exact value :: 207361291585/6915473820684
+[PASS] C.1 R5 (cb y) L=9: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=10: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=11: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=12: cb exact value == my exact value :: 1837640980/132989881167
+[PASS] C.1 R5 (cb y) L=13: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=14: cb exact value == my exact value :: 3277934226175/307472605258104
+[PASS] C.1 R5 (cb y) L=15: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=16: cb exact value == my exact value :: 969718575/2375011211144
+[PASS] C.1 R5 (cb y) L=17: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=18: cb exact value == my exact value :: 7427867462050/95891077649939
+[PASS] C.1 R5 (cb y) L=19: cb exact value == my exact value :: 0
+[PASS] C.1 R5 (cb y) L=20: cb exact value == my exact value :: 0
+R5 ca y, reading A: orthonormal components: max |ca - mine| over levels = 1.22e-63
+[PASS] C.1 R5 (ca y, orthonormal components): ca exact surd values agree with my CG route to 1e-50 :: 1.22e-63
+[PASS] C.1 R5 (ca y): nonzero levels equal ca list :: [8, 12, 14, 16, 18]
+R5 ca y, reading B: weighted coordinates: max |ca - mine| over levels = 0.0294

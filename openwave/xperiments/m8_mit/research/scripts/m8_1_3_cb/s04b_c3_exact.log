@@ -1,0 +1,19 @@
+  PASS: R2 line {5/2, -3/2}: e lies in K' (|e - P_K' e| < 1e-40)
+  PASS: R2 line {5/2, -3/2}: u'/sqrt(Nu) is the input point
+R2 line {5/2, -3/2}: kappa_u = 161/143;  R~0(u) = -27273813/37780754440;  D^2 R~0(u)[e,e] = 911735937/321136412740;  gamma_u = 115020/20333173 R^2  ~ 0.00565676591646567
+  PASS: R2 line {5/2, -3/2}: exact gamma_u equals the value identified from 50/80-digit numerics (115020/20333173)
+  PASS: R2 line {5/2, -3/2}: exact kappa_u equals the identified one
+  PASS: R2 line {5/2, -3/2}: exact R~0(u) agrees with route B to 1e-25
+  PASS: v1 R4: e lies in K' (|e - P_K' e| < 1e-40)
+  PASS: v1 R4: u'/sqrt(Nu) is the input point
+v1 R4: kappa_u = 168/143;  R~0(u) = -30976085/90673810656;  D^2 R~0(u)[e,e] = -837074497/136010715984;  gamma_u = -19919/6697728 R^2  ~ -0.00297399356916256
+  PASS: v1 R4: exact gamma_u equals the value identified from 50/80-digit numerics (-19919/6697728)
+  PASS: v1 R4: exact kappa_u equals the identified one
+  PASS: v1 R4: exact R~0(u) agrees with route B to 1e-25
+  PASS: v1 R5: e lies in K' (|e - P_K' e| < 1e-40)
+  PASS: v1 R5: u'/sqrt(Nu) is the input point
+v1 R5: kappa_u = 2513/2288;  R~0(u) = -11034061815/7737498509312;  D^2 R~0(u)[e,e] = -7934498901/3868749254656;  gamma_u = 224487/41628563 R^2  ~ 0.00539261948580834
+  PASS: v1 R5: exact gamma_u equals the value identified from 50/80-digit numerics (224487/41628563)
+  PASS: v1 R5: exact kappa_u equals the identified one
+  PASS: v1 R5: exact R~0(u) agrees with route B to 1e-25
+checks: 15 PASS, 0 FAIL
