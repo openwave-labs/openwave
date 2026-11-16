@@ -4,7 +4,9 @@
 #
 # 1. Machine-local absolute paths, which are useless to other clones and
 #    permanent once pushed. See dev_docs/utils/check_no_local.py.
-# 2. An optional machine-local hook, if the committer has installed one at
+# 2. Files over the 1 MB size cap, unless allowed by name, because every byte
+#    is downloaded by every clone forever. See dev_docs/utils/check_file_size.py.
+# 3. An optional machine-local hook, if the committer has installed one at
 #    $GIT_DIR/hooks/pre-commit.local. Not tracked, not required, and absent on
 #    a fresh clone; it exists so a contributor can add their own checks without
 #    changing this file.
@@ -22,8 +24,13 @@ if command -v python3 >/dev/null 2>&1; then
         exit 1
     fi
     python3 dev_docs/utils/check_no_local.py --staged || exit 1
+    if [ ! -f dev_docs/utils/check_file_size.py ]; then
+        echo "pre-commit: dev_docs/utils/check_file_size.py is missing; refusing to pass silently" >&2
+        exit 1
+    fi
+    python3 dev_docs/utils/check_file_size.py --staged || exit 1
 else
-    echo "pre-commit: python3 not found, path check SKIPPED (not run, not clean)" >&2
+    echo "pre-commit: python3 not found, path and size checks SKIPPED (not run, not clean)" >&2
 fi
 
 LOCAL_HOOK="$(git rev-parse --git-dir)/hooks/pre-commit.local"
