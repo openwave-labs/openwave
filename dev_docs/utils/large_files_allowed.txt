@@ -1,0 +1,39 @@
+# Files allowed over the 1 MB cap of dev_docs/utils/check_file_size.py: one repo-relative path per line, its reason after '#'.
+# A new entry needs a reason a reviewer can read (PR_REVIEW_STANDARDS.md gate A1). Prefer keeping a file local and gitignored.
+#
+# Already tracked when the cap was set (2026-11-16); listed so the whole-repo audit passes, not as a precedent.
+images/demo1.gif  # already tracked when the cap was set
+images/demo2.gif  # already tracked when the cap was set
+images/demo3.gif  # already tracked when the cap was set
+images/layers/LAYER_1a_energy_wave.gif  # already tracked when the cap was set
+images/layers/LAYER_1b_medium_disturbance.gif  # already tracked when the cap was set
+images/layers/LAYER_1d_longitudinal_transverse_waves.gif  # already tracked when the cap was set
+images/layers/LAYER_2a_standing_waves.gif  # already tracked when the cap was set
+images/layers/LAYER_2b_wave_interference.gif  # already tracked when the cap was set
+images/layers/LAYER_4a_attractive_forces.gif  # already tracked when the cap was set
+images/layers/LAYER_4b_repulsive_forces.gif  # already tracked when the cap was set
+images/spacetime_vibes.gif  # already tracked when the cap was set
+images/spherical_wave.gif  # already tracked when the cap was set
+images/standing_wave.gif  # already tracked when the cap was set
+openwave/xperiments/m3_wolff_lafreniere/research/images/wave_interference.gif  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_27_lockscan.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r17_0_symbol.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r18_1.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r21_1_runs.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r23_1_cscan.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r29_2_dispersion.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r31_s1.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r6_deltaladder.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r7_kt_lattice.json  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/images/clock.gif  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_20_1_endpoints.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_20_endpoints.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_21_1e_iso_film_basic.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_21_c_film_control.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_21_c_film_gentle.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/plots/m5_21_c_film_prod.png  # already tracked when the cap was set
+openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md  # already tracked when the cap was set
+openwave/xperiments/m6_ouroboros/research/archive/plots/m6_v3_chaoiton_results.json  # already tracked when the cap was set
+openwave/xperiments/m8_mit/research/data/m8_1_1_coexact.json  # already tracked when the cap was set
+openwave/xperiments/m8_mit/research/images/blueprint.png  # already tracked when the cap was set
+openwave/xperiments/m8_mit/research/scripts/m8_10_author/dryrun/transcript.jsonl  # already tracked when the cap was set

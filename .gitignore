@@ -239,6 +239,10 @@ openwave/xperiments/m5_liquid_crystal/research/data/m5_32_*_log*.txt
 **/data/*.pkl
 **/data/*.pt
 **/data/*.mat
+# Pickles anywhere, not only under data/ (2026-11-16): they are binary, and loading one runs
+# code, so none should ride a commit. Five tiny ones landed in M8.1.3's room returns before
+# this line and stay tracked as the record of those rooms.
+**/*.pkl
 
 # All model theory/ folders are LOCAL-ONLY corpora: third-party copyrighted papers (publisher
 # PDFs, author docs; the m7 corpus alone is ~700 MB), author-shared material and images,

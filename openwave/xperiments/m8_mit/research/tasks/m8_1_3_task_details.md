@@ -403,6 +403,23 @@ No theorem. The verdict attaches to the pinned PDF, version DOI `10.5281/zenodo.
 | 6 | The designer's comparison first stopped on the octahedron's threefold slow group, whose room records its values under a different key. The adapter now reads every eigenvalue of the group and requires all three to agree, which is stricter than the first version |
 | 7 | The audit's second stage launched room by room as its inputs were ready, not together, so as to share the machine with another long run |
 
+### Teardown
+
+The ten rooms were unlocked and deleted after the record merged ([#732](https://github.com/openwave-labs/openwave/pull/732)), with the harness folders named after them. The session transcripts are kept on the maintainers' machine, outside the repository and under its regular backups; their SHA-256 are:
+
+| Transcript | SHA-256 |
+| --- | --- |
+| solver `l6` | `4addbd523adcf370afb10dad0753fd36b75c14b27ee706ddd17c763e316d360d` |
+| solver `r2` | `87e6aea4f834cc415f28f85701e6d9162a96a3aa0f9d078313ea87eb14a1f372` |
+| solver `cert` | `2929b71babb6d456ecc7cdd88ae264a975c8c015c0e9a33576d85d5e9a72c846` |
+| solver `ca` | `3060e403fbaca2058e2d3456cb5b11066cd68e4a738a8e5b595939960279571a` |
+| solver `cb` | `2f3d8230461f82cb9d86d820ab1ac580a9f7ed05116fbeae3b97572ce6c7d2f6` |
+| solver `rig` | `b6cd1b8da23e7b8e66216138abc496f51d114ee8f029ce97490aef281dc8279d` |
+| audit `a`, stage 1 | `21972a3846aa0100d2affdec422b8ab62dd97fffe90ccd7c8ea856044ce79672` |
+| audit `a`, stage 2 | `69d6ccd7d037574b1c067da1c50f0cc32677bed4e134e0ab87ee295dffec0306` |
+| audit `b`, stage 1 | `e67f420410a1f75d22a93aaf1074d1bf15adf1cf6e9fa5835b8203f962f750e4` |
+| audit `b`, stage 2 | `a6e57b1224180ec924f304a407317999519c970918ba8fea049757ff15f8f46a` |
+
 ## TASK REVIEW (2026-11-16)
 
 Task Duration: 01:38 (from 10:30 to 12:08 EST)
