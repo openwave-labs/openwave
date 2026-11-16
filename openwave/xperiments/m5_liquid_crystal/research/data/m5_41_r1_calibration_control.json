@@ -1,0 +1,124 @@
+{
+ "constants": {
+  "e_inherited": 4.259,
+  "f_pi_inherited_MeV": 92.4,
+  "frequency_unit_MeV": 393.5316000000001,
+  "delta_MeV": 293.0,
+  "m_p_MeV": 938.272
+ },
+ "from_the_33_field": {
+  "inertia": 34.32633181038963,
+  "e": 4.127737520949882,
+  "f_pi_MeV": 95.33832953347283,
+  "action_energy_unit_MeV": 23.096994188606597,
+  "inverse_inertia_unit_MeV": 6705.076813629441,
+  "gap_check_MeV": 292.99999999999994
+ },
+ "from_the_55_field": {
+  "inertia": 37.43686888432652,
+  "e": 4.31070332217972,
+  "f_pi_MeV": 91.29173839804164,
+  "action_energy_unit_MeV": 21.177921924786904,
+  "inverse_inertia_unit_MeV": 7312.668388738447,
+  "gap_check_MeV": 293.0,
+  "gA_e2": 16.796426057046766,
+  "gA": 0.9039004736890065
+ },
+ "against_the_file": [
+  {
+   "check": "frequency unit, hbar c / L",
+   "ours": 393.5316000000001,
+   "file": 393.5316000000001,
+   "relative_difference": 0.0,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "length unit L, fm",
+   "ours": 0.5014260110242734,
+   "file": 0.5014260110242734,
+   "relative_difference": 0.0,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "inertia of the 33^3 field (our readout against the file)",
+   "ours": 34.32633181038963,
+   "file": 34.32633181038963,
+   "relative_difference": 0.0,
+   "bound": 1e-10,
+   "met": true
+  },
+  {
+   "check": "effective_e",
+   "ours": 4.127737520949882,
+   "file": 4.127737520949882,
+   "relative_difference": 0.0,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "effective_f_pi_MeV",
+   "ours": 95.33832953347283,
+   "file": 95.33832953347283,
+   "relative_difference": 0.0,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "inverse_inertia_unit_MeV",
+   "ours": 6705.076813629441,
+   "file": 6705.076813629442,
+   "relative_difference": 1.356426968777142e-16,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "action_energy_unit_MeV",
+   "ours": 23.096994188606597,
+   "file": 23.096994188606597,
+   "relative_difference": 0.0,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "calibrated_bare_gap_MeV",
+   "ours": 292.99999999999994,
+   "file": 293.0,
+   "relative_difference": 1.94004842528355e-16,
+   "bound": 1e-12,
+   "met": true
+  },
+  {
+   "check": "minimal_muV_muN",
+   "ours": 3.198542995034765,
+   "file": 3.198542995087794,
+   "relative_difference": 1.657915392065889e-11,
+   "bound": 1e-09,
+   "met": true
+  },
+  {
+   "check": "rigid_muV_muN",
+   "ours": 3.202293515358362,
+   "file": 3.202293515358362,
+   "relative_difference": 0.0,
+   "bound": 1e-09,
+   "met": true
+  }
+ ],
+ "against_the_printed_digits": [
+  {
+   "check": "printed e of the 55^3 field",
+   "ours": 4.31070332217972,
+   "printed": "4.311",
+   "met": true
+  },
+  {
+   "check": "printed f_pi of the 55^3 field, MeV",
+   "ours": 91.29173839804164,
+   "printed": "91.29",
+   "met": true
+  }
+ ],
+ "all_met": true
+}
