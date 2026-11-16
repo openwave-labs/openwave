@@ -1,4 +1,4 @@
-# From manuscript version: 5.2.4 or later
+# From manuscript version: 5.3.2 or later
 # =============================================================================
 # SECTION 1: GLOBAL INPUTS & CONSTANTS
 # -----------------------------------------------------------------------------

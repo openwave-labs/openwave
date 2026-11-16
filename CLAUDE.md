@@ -109,6 +109,8 @@ The same hook chains `$GIT_DIR/hooks/pre-commit.local` when a contributor has in
 
 **Research `data/` folders follow the same local-only pattern (2026-07-20).** Heavy binary arrays (`.npz` `.npy` `.h5` `.pkl` `.pt` `.mat`) are gitignored and **kept on the working machine, never deleted** (this supersedes an earlier rule that deleted arrays over 1 MB at task close). What IS tracked, and what a reader on GitHub audits: the distilled summary `.json` / `.csv` / `.txt` beside them, the plots, the scripts that produce everything, and the per-folder **`_DATASETS.md`** manifest, which indexes every local-only file by task group with its producing script and the task record holding the exact regen command. Regenerate a manifest after any run that writes arrays: `python3 dev_docs/utils/gen_datasets_manifest.py <path/to/data> --write`. Runs are deterministic from their fixed seeds and configs, so a clone rebuilds every array from tracked code.
 
+**A size cap backs the type rule (2026-11-16).** No committed file over 1 MB, of any type (a JSON, a log, a transcript, an image), unless [`dev_docs/utils/large_files_allowed.txt`](dev_docs/utils/large_files_allowed.txt) lists it with a reason. [`dev_docs/utils/check_file_size.py`](dev_docs/utils/check_file_size.py) enforces it from the same `.githooks/pre-commit` hook, and before handing over any commit chain run it on the branch, `python3 dev_docs/utils/check_file_size.py --range origin/main..HEAD`, since a clone without the hook path set gets no hook. Pickles (`*.pkl`) are ignored everywhere, not only under `data/`.
+
 ## Installation & Usage
 
 Refer to `README.md` for installation, CLI usage (`openwave -x`), and the instrumentation framework.
