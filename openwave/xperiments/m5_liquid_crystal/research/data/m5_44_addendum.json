@@ -1,0 +1,1292 @@
+{
+ "author_measure": {
+  "threshold": 0.15,
+  "cut": 0.93,
+  "states": [
+   {
+    "chain": "r2_g33",
+    "path": "j0",
+    "file": "m5_42_r2_g33_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.260501510659415,
+    "plaquette_share": 0.7100835851099024,
+    "smallest_gap_radius": 4.251386927326083,
+    "smallest_gap_share": 0.7085644878876804,
+    "plaquette_normal": [
+     -0.7022505659746204,
+     0.7119081017013592,
+     0.005567523712839709
+    ],
+    "cloud": {
+     "nodes": 177,
+     "gap_min": 0.00917594650558684,
+     "center": [
+      -0.04429612887731185,
+      -0.04276832901745021,
+      0.03421028778137337
+     ],
+     "normal": [
+      0.7025226223665859,
+      -0.7116593509837381,
+      -0.0017126647599672068
+     ],
+     "radius": 4.254736261310115,
+     "radius_over_half_box": 0.7091227102183525,
+     "radius_min": 3.9176891707232833,
+     "radius_max": 4.657618672040558,
+     "off_plane": 0.3186256499278871
+    }
+   },
+   {
+    "chain": "r2_g33",
+    "path": "j0x",
+    "file": "m5_42_r2_g33_j0x_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": [
+     "self",
+     "j1"
+    ],
+    "converged": true,
+    "plaquette_radius": 4.260501510659415,
+    "plaquette_share": 0.7100835851099024,
+    "smallest_gap_radius": 4.251386927326083,
+    "smallest_gap_share": 0.7085644878876804,
+    "plaquette_normal": [
+     -0.7022505659746204,
+     0.7119081017013592,
+     0.005567523712839709
+    ],
+    "cloud": {
+     "nodes": 177,
+     "gap_min": 0.00918540234297438,
+     "center": [
+      -0.044313840413529475,
+      -0.04278181873888507,
+      0.034206498593641665
+     ],
+     "normal": [
+      0.7025233837222001,
+      -0.7116586126867052,
+      -0.0017071357136907012
+     ],
+     "radius": 4.2547358246725215,
+     "radius_over_half_box": 0.7091226374454203,
+     "radius_min": 3.917666791798767,
+     "radius_max": 4.657630484490344,
+     "off_plane": 0.3186284438652785
+    }
+   },
+   {
+    "chain": "g3_g33",
+    "path": "j0",
+    "file": "m5_42_g3_g33_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.264681093979315,
+    "plaquette_share": 0.7107801823298859,
+    "smallest_gap_radius": 4.2516602606459815,
+    "smallest_gap_share": 0.7086100434409969,
+    "plaquette_normal": [
+     -0.7034232538416868,
+     0.7107470586237766,
+     0.005860427665600839
+    ],
+    "cloud": {
+     "nodes": 175,
+     "gap_min": 0.008729344239159276,
+     "center": [
+      -0.04536565758218956,
+      -0.04324412759136666,
+      0.02532219354524745
+     ],
+     "normal": [
+      0.7035108359913071,
+      -0.710681387106268,
+      -0.002114157875516966
+     ],
+     "radius": 4.2553292577019235,
+     "radius_over_half_box": 0.7092215429503206,
+     "radius_min": 3.916190851253899,
+     "radius_max": 4.650445579649763,
+     "off_plane": 0.32154158717714876
+    }
+   },
+   {
+    "chain": "g3_g49",
+    "path": "j0",
+    "file": "m5_42_g3_g49_j0_end.npz",
+    "N": 49,
+    "half_box": 6.0,
+    "spacing": 0.25,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.2551848664498015,
+    "plaquette_share": 0.7091974777416336,
+    "smallest_gap_radius": 4.254316810894246,
+    "smallest_gap_share": 0.7090528018157077,
+    "plaquette_normal": [
+     -0.7046601178718773,
+     0.7095383868196772,
+     0.0030652748852941915
+    ],
+    "cloud": {
+     "nodes": 635,
+     "gap_min": 0.0057991679393545326,
+     "center": [
+      -0.01950663402403756,
+      -0.018032486184725163,
+      -0.01949849621390266
+     ],
+     "normal": [
+      -0.7045729994093126,
+      0.7096298189361661,
+      0.0015519600476047053
+     ],
+     "radius": 4.259056268475277,
+     "radius_over_half_box": 0.7098427114125462,
+     "radius_min": 3.862564041520762,
+     "radius_max": 4.6163991989643725,
+     "off_plane": 0.3239169994674713
+    }
+   },
+   {
+    "chain": "g3_g65",
+    "path": "j0",
+    "file": "m5_42_g3_g65_j0_end.npz",
+    "N": 65,
+    "half_box": 6.0,
+    "spacing": 0.1875,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.25833734769955,
+    "plaquette_share": 0.7097228912832584,
+    "smallest_gap_radius": 4.255082139366218,
+    "smallest_gap_share": 0.7091803565610363,
+    "plaquette_normal": [
+     -0.7047696321107145,
+     0.7094330039347153,
+     0.0021397622985676584
+    ],
+    "cloud": {
+     "nodes": 1500,
+     "gap_min": 0.003727040644218471,
+     "center": [
+      -0.014801772735271149,
+      -0.01382702032502081,
+      -0.03085158487024469
+     ],
+     "normal": [
+      -0.7052042411475553,
+      0.7090031209146183,
+      0.0012461142932806426
+     ],
+     "radius": 4.261704870219629,
+     "radius_over_half_box": 0.7102841450366048,
+     "radius_min": 3.840454505976064,
+     "radius_max": 4.640236812880277,
+     "off_plane": 0.32454254337433497
+    }
+   },
+   {
+    "chain": "r3_g33_L0.3",
+    "path": "j0",
+    "file": "m5_42_r3_g33_L0.3_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.097042242153655,
+    "plaquette_share": 0.6828403736922759,
+    "smallest_gap_radius": 4.0866255754869885,
+    "smallest_gap_share": 0.6811042625811647,
+    "plaquette_normal": [
+     0.0,
+     8.15877512775301e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 200,
+     "gap_min": 0.004790441889713892,
+     "center": [
+      -1.5121769021228445e-10,
+      -3.943927181050038e-10,
+      0.00498600407201179
+     ],
+     "normal": [
+      2.8842015122261127e-10,
+      -1.2333276565776708e-10,
+      1.0000000000000002
+     ],
+     "radius": 4.101880360486358,
+     "radius_over_half_box": 0.6836467267477263,
+     "radius_min": 3.7499999997449716,
+     "radius_max": 4.515597967442843,
+     "off_plane": 0.8143000159573306
+    }
+   },
+   {
+    "chain": "r3_g33_L0.1",
+    "path": "j0",
+    "file": "m5_42_r3_g33_L0.1_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.000536474882556,
+    "plaquette_share": 0.6667560791470927,
+    "smallest_gap_radius": 3.9692864748825554,
+    "smallest_gap_share": 0.6615477458137592,
+    "plaquette_normal": [
+     0.0,
+     -1.2416494329279495e-17,
+     0.9999999999999999
+    ],
+    "cloud": {
+     "nodes": 130,
+     "gap_min": 0.027575103997010242,
+     "center": [
+      -1.6175603606656648e-09,
+      -2.3769047988839843e-09,
+      0.020326372264622916
+     ],
+     "normal": [
+      -1.282458764481733e-09,
+      1.9937857659708475e-09,
+      -0.9999999999999998
+     ],
+     "radius": 3.9650180072105785,
+     "radius_over_half_box": 0.6608363345350964,
+     "radius_min": 3.7499999993457,
+     "radius_max": 4.275657846932974,
+     "off_plane": 0.8653004542000822
+    }
+   },
+   {
+    "chain": "r3_g49_L0.3",
+    "path": "j0",
+    "file": "m5_42_r3_g49_L0.3_j0_end.npz",
+    "N": 49,
+    "half_box": 6.0,
+    "spacing": 0.25,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.100138390742122,
+    "plaquette_share": 0.6833563984570202,
+    "smallest_gap_radius": 4.093193946297678,
+    "smallest_gap_share": 0.682198991049613,
+    "plaquette_normal": [
+     0.0,
+     -7.894655147650577e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 616,
+     "gap_min": 0.004518886018216595,
+     "center": [
+      -1.6272281755501256e-07,
+      4.685222502508587e-07,
+      0.004130866382572423
+     ],
+     "normal": [
+      8.161158948243486e-08,
+      2.5970806718894056e-07,
+      0.999999999999963
+     ],
+     "radius": 4.104242426362392,
+     "radius_over_half_box": 0.6840404043937319,
+     "radius_min": 3.7499997922585178,
+     "radius_max": 4.451123918848844,
+     "off_plane": 0.8411488957814703
+    }
+   },
+   {
+    "chain": "r3_g49_L0.1",
+    "path": "j0",
+    "file": "m5_42_r3_g49_L0.1_j0_end.npz",
+    "N": 49,
+    "half_box": 6.0,
+    "spacing": 0.25,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 3.987941424953064,
+    "plaquette_share": 0.664656904158844,
+    "smallest_gap_radius": 3.974052536064175,
+    "smallest_gap_share": 0.6623420893440292,
+    "plaquette_normal": [
+     0.0,
+     5.696754186378887e-18,
+     1.0000000000000002
+    ],
+    "cloud": {
+     "nodes": 560,
+     "gap_min": 0.008144789688288023,
+     "center": [
+      -1.3059058915901178e-06,
+      1.0628869819991877e-05,
+      0.006247433884757638
+     ],
+     "normal": [
+      1.2646248613012987e-06,
+      5.64111844034421e-06,
+      0.9999999999832893
+     ],
+     "radius": 3.981637743817914,
+     "radius_over_half_box": 0.663606290636319,
+     "radius_min": 3.6400494742880642,
+     "radius_max": 4.301171053685231,
+     "off_plane": 0.8691647223217503
+    }
+   },
+   {
+    "chain": "r3_g65_L0.3",
+    "path": "j0",
+    "file": "m5_42_r3_g65_L0.3_j0_end.npz",
+    "N": 65,
+    "half_box": 6.0,
+    "spacing": 0.1875,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.1034426646372415,
+    "plaquette_share": 0.6839071107728736,
+    "smallest_gap_radius": 4.0930259979705745,
+    "smallest_gap_share": 0.6821709996617624,
+    "plaquette_normal": [
+     0.0,
+     -7.89678068502383e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 1544,
+     "gap_min": 0.004363214845464869,
+     "center": [
+      3.2554912404560226e-06,
+      -2.7118302594054567e-06,
+      0.002626169428747088
+     ],
+     "normal": [
+      -2.1260127940224947e-06,
+      -1.3853211657847721e-06,
+      0.9999999999967804
+     ],
+     "radius": 4.105372519806639,
+     "radius_over_half_box": 0.6842287533011064,
+     "radius_min": 3.749998590546504,
+     "radius_max": 4.515602228410735,
+     "off_plane": 0.8434491071606894
+    }
+   },
+   {
+    "chain": "r3_g65_L0.1",
+    "path": "j0",
+    "file": "m5_42_r3_g65_L0.1_j0_end.npz",
+    "N": 65,
+    "half_box": 6.0,
+    "spacing": 0.1875,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 3.991355983536122,
+    "plaquette_share": 0.6652259972560203,
+    "smallest_gap_radius": 3.971824733536122,
+    "smallest_gap_share": 0.661970788922687,
+    "plaquette_normal": [
+     0.0,
+     1.4707865416383255e-17,
+     0.9999999999999999
+    ],
+    "cloud": {
+     "nodes": 1254,
+     "gap_min": 0.01029356520115643,
+     "center": [
+      -1.3522855628913761e-05,
+      -1.110960738672209e-06,
+      0.006366852282705383
+     ],
+     "normal": [
+      -9.802742042661487e-06,
+      6.628810064289983e-07,
+      -0.9999999999517334
+     ],
+     "radius": 3.9823525589976505,
+     "radius_over_half_box": 0.6637254264996084,
+     "radius_min": 3.6066303163001012,
+     "radius_max": 4.377242224946712,
+     "off_plane": 0.8700166072092289
+    }
+   },
+   {
+    "chain": "r4_hb6_L0.3",
+    "path": "j0",
+    "file": "m5_42_r4_hb6_L0.3_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.097042242153655,
+    "plaquette_share": 0.6828403736922759,
+    "smallest_gap_radius": 4.0866255754869885,
+    "smallest_gap_share": 0.6811042625811647,
+    "plaquette_normal": [
+     0.0,
+     8.15877512775301e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 200,
+     "gap_min": 0.004790441889713892,
+     "center": [
+      -1.5121769021228445e-10,
+      -3.943927181050038e-10,
+      0.00498600407201179
+     ],
+     "normal": [
+      2.8842015122261127e-10,
+      -1.2333276565776708e-10,
+      1.0000000000000002
+     ],
+     "radius": 4.101880360486358,
+     "radius_over_half_box": 0.6836467267477263,
+     "radius_min": 3.7499999997449716,
+     "radius_max": 4.515597967442843,
+     "off_plane": 0.8143000159573306
+    }
+   },
+   {
+    "chain": "r4_hb6_L0.1",
+    "path": "j0",
+    "file": "m5_42_r4_hb6_L0.1_j0_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 4.000536474882556,
+    "plaquette_share": 0.6667560791470927,
+    "smallest_gap_radius": 3.9692864748825554,
+    "smallest_gap_share": 0.6615477458137592,
+    "plaquette_normal": [
+     0.0,
+     -1.2416494329279495e-17,
+     0.9999999999999999
+    ],
+    "cloud": {
+     "nodes": 130,
+     "gap_min": 0.027575103997010242,
+     "center": [
+      -1.6175603606656648e-09,
+      -2.3769047988839843e-09,
+      0.020326372264622916
+     ],
+     "normal": [
+      -1.282458764481733e-09,
+      1.9937857659708475e-09,
+      -0.9999999999999998
+     ],
+     "radius": 3.9650180072105785,
+     "radius_over_half_box": 0.6608363345350964,
+     "radius_min": 3.7499999993457,
+     "radius_max": 4.275657846932974,
+     "off_plane": 0.8653004542000822
+    }
+   },
+   {
+    "chain": "r4_hb9_L0.3",
+    "path": "j0",
+    "file": "m5_42_r4_hb9_L0.3_j0_end.npz",
+    "N": 49,
+    "half_box": 9.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 5.967415174664171,
+    "plaquette_share": 0.6630461305182412,
+    "smallest_gap_radius": 5.962206841330836,
+    "smallest_gap_share": 0.6624674268145374,
+    "plaquette_normal": [
+     0.0,
+     -1.4142503990143175e-17,
+     0.9999999999999999
+    ],
+    "cloud": {
+     "nodes": 340,
+     "gap_min": 0.0349860476602627,
+     "center": [
+      -8.210543966745642e-11,
+      -2.219001427337835e-12,
+      0.006476367182349623
+     ],
+     "normal": [
+      -2.502255294201009e-11,
+      -4.72238495138419e-13,
+      -0.9999999999999999
+     ],
+     "radius": 5.974910943444021,
+     "radius_over_half_box": 0.6638789937160023,
+     "radius_min": 5.624999999945882,
+     "radius_max": 6.386019887286638,
+     "off_plane": 0.8916393420730697
+    }
+   },
+   {
+    "chain": "r4_hb9_L0.1",
+    "path": "j0",
+    "file": "m5_42_r4_hb9_L0.1_j0_end.npz",
+    "N": 49,
+    "half_box": 9.0,
+    "spacing": 0.375,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 5.472182541207354,
+    "plaquette_share": 0.6080202823563726,
+    "smallest_gap_radius": 5.438328374540687,
+    "smallest_gap_share": 0.6042587082822986,
+    "plaquette_normal": [
+     0.0,
+     1.6423418418503213e-16,
+     1.0000000000000002
+    ],
+    "cloud": {
+     "nodes": 216,
+     "gap_min": 0.034145566339352396,
+     "center": [
+      1.0804288479112767e-09,
+      -1.0973921988023518e-08,
+      0.007264847442834393
+     ],
+     "normal": [
+      -2.6507999072324763e-10,
+      -2.2594187421555146e-09,
+      1.0000000000000002
+     ],
+     "radius": 5.422025773115364,
+     "radius_over_half_box": 0.6024473081239293,
+     "radius_min": 5.209666486715223,
+     "radius_max": 5.724126580157471,
+     "off_plane": 0.7133920311687049
+    }
+   },
+   {
+    "chain": "r4_hb12_L0.3",
+    "path": "j0",
+    "file": "m5_42_r4_hb12_L0.3_j0_end.npz",
+    "N": 65,
+    "half_box": 12.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 7.6738590970442475,
+    "plaquette_share": 0.6394882580870206,
+    "smallest_gap_radius": 7.6269840970442475,
+    "smallest_gap_share": 0.6355820080870206,
+    "plaquette_normal": [
+     0.0,
+     7.797787779496964e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 418,
+     "gap_min": 0.03156381093487726,
+     "center": [
+      -6.221108109095499e-10,
+      1.180691548341988e-09,
+      0.001992057419862041
+     ],
+     "normal": [
+      2.2589673342024105e-11,
+      -2.740174343931475e-11,
+      1.0
+     ],
+     "radius": 7.6472125915304066,
+     "radius_over_half_box": 0.6372677159608672,
+     "radius_min": 7.21326902182901,
+     "radius_max": 8.051591458954666,
+     "off_plane": 0.903674081863094
+    }
+   },
+   {
+    "chain": "r4_hb12_L0.1",
+    "path": "j0",
+    "file": "m5_42_r4_hb12_L0.1_j0_end.npz",
+    "N": 65,
+    "half_box": 12.0,
+    "spacing": 0.375,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 6.511798203084109,
+    "plaquette_share": 0.5426498502570091,
+    "smallest_gap_radius": 6.53523570308411,
+    "smallest_gap_share": 0.5446029752570092,
+    "plaquette_normal": [
+     0.0,
+     -9.786107914412613e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 276,
+     "gap_min": 0.016025564000630044,
+     "center": [
+      -7.3938462765204706e-09,
+      9.179254822119638e-09,
+      0.004444386075637998
+     ],
+     "normal": [
+      -1.881315227626897e-09,
+      -1.5358711185361935e-09,
+      1.0
+     ],
+     "radius": 6.524603542872115,
+     "radius_over_half_box": 0.5437169619060096,
+     "radius_min": 6.241243854586096,
+     "radius_max": 6.79153886453759,
+     "off_plane": 0.6222859492136539
+    }
+   },
+   {
+    "chain": "r4_hb18_L0.3",
+    "path": "j0",
+    "file": "m5_42_r4_hb18_L0.3_j0_end.npz",
+    "N": 97,
+    "half_box": 18.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 10.464611884626278,
+    "plaquette_share": 0.5813673269236821,
+    "smallest_gap_radius": 10.459403551292944,
+    "smallest_gap_share": 0.5810779750718302,
+    "plaquette_normal": [
+     0.0,
+     -1.2519761855014672e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 636,
+     "gap_min": 0.005178985148285631,
+     "center": [
+      -5.1708494097830636e-11,
+      -7.79019111031901e-10,
+      0.0009543491151792911
+     ],
+     "normal": [
+      2.6785534230820904e-11,
+      -1.1684356546801312e-11,
+      0.9999999999999999
+     ],
+     "radius": 10.478925716955372,
+     "radius_over_half_box": 0.582162539830854,
+     "radius_min": 10.097184012616383,
+     "radius_max": 10.875000000599789,
+     "off_plane": 0.9320396696257247
+    }
+   },
+   {
+    "chain": "r4_hb18_L0.1",
+    "path": "j0",
+    "file": "m5_42_r4_hb18_L0.1_j0_s01000.npz",
+    "N": 97,
+    "half_box": 18.0,
+    "spacing": 0.375,
+    "L1": 0.1,
+    "stencil": "averaged",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 7.9269607390505845,
+    "plaquette_share": 0.44038670772503247,
+    "smallest_gap_radius": 7.958210739050584,
+    "smallest_gap_share": 0.4421228188361435,
+    "plaquette_normal": [
+     0.0,
+     -3.027027309243029e-17,
+     1.0
+    ],
+    "cloud": {
+     "nodes": 308,
+     "gap_min": 0.0031534226332283755,
+     "center": [
+      1.83324237965231e-06,
+      7.410609120619633e-08,
+      0.001941249259161047
+     ],
+     "normal": [
+      2.4569065359014205e-07,
+      3.1817176590671335e-08,
+      0.9999999999999691
+     ],
+     "radius": 7.9354724438519835,
+     "radius_over_half_box": 0.44085958021399907,
+     "radius_min": 7.6485272733237695,
+     "radius_max": 8.232938608972928,
+     "off_plane": 0.6197272137239783
+    }
+   },
+   {
+    "chain": "g3x_avg_g33",
+    "path": "j0f",
+    "file": "m5_42_g3x_avg_g33_j0f_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": [
+     "g3_g33",
+     "j0"
+    ],
+    "converged": true,
+    "plaquette_radius": 4.259123237380102,
+    "plaquette_share": 0.7098538728966837,
+    "smallest_gap_radius": 4.253914904046769,
+    "smallest_gap_share": 0.7089858173411282,
+    "plaquette_normal": [
+     -0.7018896324948516,
+     0.7122825131692593,
+     -0.0021366397745899136
+    ],
+    "cloud": {
+     "nodes": 170,
+     "gap_min": 0.023753298272888967,
+     "center": [
+      -9.362190014275901e-06,
+      -8.164342955185401e-06,
+      -0.003266649921410843
+     ],
+     "normal": [
+      -0.7049873016576762,
+      0.7092199267409525,
+      -3.8712383358280214e-06
+     ],
+     "radius": 4.254733909915727,
+     "radius_over_half_box": 0.7091223183192877,
+     "radius_min": 3.924924387624857,
+     "radius_max": 4.59454718962155,
+     "off_plane": 0.3213022981683729
+    }
+   },
+   {
+    "chain": "g3x_fwd_g33",
+    "path": "j0a",
+    "file": "m5_42_g3x_fwd_g33_j0a_end.npz",
+    "N": 33,
+    "half_box": 6.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": [
+     "r3_g33_L0.3",
+     "j0"
+    ],
+    "converged": true,
+    "plaquette_radius": 4.096841286192558,
+    "plaquette_share": 0.682806881032093,
+    "smallest_gap_radius": 4.092935036192558,
+    "smallest_gap_share": 0.6821558393654263,
+    "plaquette_normal": [
+     -0.008157029798470503,
+     0.011095449365566605,
+     0.9999051724379884
+    ],
+    "cloud": {
+     "nodes": 193,
+     "gap_min": 0.006757041512226336,
+     "center": [
+      -0.01889144757356631,
+      -0.028274998352037083,
+      -0.03429702050221817
+     ],
+     "normal": [
+      0.003055341446510495,
+      -0.007561918116052905,
+      -0.9999667405884317
+     ],
+     "radius": 4.100645936250506,
+     "radius_over_half_box": 0.6834409893750842,
+     "radius_min": 3.713402981607983,
+     "radius_max": 4.5200155897091205,
+     "off_plane": 0.8219263488769779
+    }
+   },
+   {
+    "chain": "g3x_avg_g49",
+    "path": "j0f",
+    "file": "m5_42_g3x_avg_g49_j0f_end.npz",
+    "N": 49,
+    "half_box": 6.0,
+    "spacing": 0.25,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": [
+     "g3_g49",
+     "j0"
+    ],
+    "converged": true,
+    "plaquette_radius": 4.25466625124306,
+    "plaquette_share": 0.7091110418738434,
+    "smallest_gap_radius": 4.2546662512430595,
+    "smallest_gap_share": 0.7091110418738432,
+    "plaquette_normal": [
+     -0.7021161094443434,
+     0.7120618295227483,
+     0.000959059672612021
+    ],
+    "cloud": {
+     "nodes": 648,
+     "gap_min": 0.0041988391293901195,
+     "center": [
+      9.75314924892286e-06,
+      6.061819619456236e-06,
+      -0.003641660980983178
+     ],
+     "normal": [
+      -0.7053296447473738,
+      0.7088794623998722,
+      5.311352787379969e-06
+     ],
+     "radius": 4.258267041814257,
+     "radius_over_half_box": 0.7097111736357095,
+     "radius_min": 3.889065560270895,
+     "radius_max": 4.611269252865286,
+     "off_plane": 0.32372706441092114
+    }
+   },
+   {
+    "chain": "g3x_fwd_g49",
+    "path": "j0a",
+    "file": "m5_42_g3x_fwd_g49_j0a_end.npz",
+    "N": 49,
+    "half_box": 6.0,
+    "spacing": 0.25,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": [
+     "r3_g49_L0.3",
+     "j0"
+    ],
+    "converged": true,
+    "plaquette_radius": 4.106766673025757,
+    "plaquette_share": 0.6844611121709595,
+    "smallest_gap_radius": 4.095481950803535,
+    "smallest_gap_share": 0.6825803251339225,
+    "plaquette_normal": [
+     -0.002389526241553682,
+     0.006818681934782529,
+     0.9999738975298371
+    ],
+    "cloud": {
+     "nodes": 633,
+     "gap_min": 0.0015581431449596117,
+     "center": [
+      -0.012238531386292417,
+      -0.003428857136351309,
+      -0.018692104460551258
+     ],
+     "normal": [
+      0.0027198502726847426,
+      -0.005838433543062239,
+      -0.9999792573390001
+     ],
+     "radius": 4.105425996406529,
+     "radius_over_half_box": 0.6842376660677548,
+     "radius_min": 3.7342991144127944,
+     "radius_max": 4.507736685695045,
+     "off_plane": 0.839933594383495
+    }
+   },
+   {
+    "chain": "g3b_fwd_hb9",
+    "path": "j0",
+    "file": "m5_42_g3b_fwd_hb9_j0_end.npz",
+    "N": 49,
+    "half_box": 9.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "forward",
+    "start": "seed",
+    "converged": true,
+    "plaquette_radius": 6.166069881619435,
+    "plaquette_share": 0.6851188757354927,
+    "smallest_gap_radius": 6.142632381619435,
+    "smallest_gap_share": 0.682514709068826,
+    "plaquette_normal": [
+     -0.7055833373169011,
+     0.7086252042218558,
+     -0.0015729088586670422
+    ],
+    "cloud": {
+     "nodes": 333,
+     "gap_min": 0.00506495720361444,
+     "center": [
+      -0.011091579678514901,
+      -0.0071674178474718155,
+      -0.05689701219801072
+     ],
+     "normal": [
+      -0.7040507905777281,
+      0.7101467694718813,
+      -0.002012484913232732
+     ],
+     "radius": 6.140420349145295,
+     "radius_over_half_box": 0.6822689276828106,
+     "radius_min": 5.625402574201549,
+     "radius_max": 6.542141392168781,
+     "off_plane": 0.3631715133816151
+    }
+   },
+   {
+    "chain": "g3b_avg_hb9",
+    "path": "j0b",
+    "file": "m5_42_g3b_avg_hb9_j0b_end.npz",
+    "N": 49,
+    "half_box": 9.0,
+    "spacing": 0.375,
+    "L1": 0.3,
+    "stencil": "averaged",
+    "start": [
+     "g3b_fwd_hb9",
+     "j0"
+    ],
+    "converged": true,
+    "plaquette_radius": 6.162029460673741,
+    "plaquette_share": 0.6846699400748602,
+    "smallest_gap_radius": 6.130779460673742,
+    "smallest_gap_share": 0.681197717852638,
+    "plaquette_normal": [
+     -0.7063101244874449,
+     0.7079018053146756,
+     0.0010208225864580176
+    ],
+    "cloud": {
+     "nodes": 326,
+     "gap_min": 0.02212129796212725,
+     "center": [
+      -1.0377303066536606e-05,
+      -9.433706601445406e-06,
+      -0.013200799472357068
+     ],
+     "normal": [
+      -0.7054692222551069,
+      0.7087405565116651,
+      2.5118576264394765e-06
+     ],
+     "radius": 6.140182093315098,
+     "radius_over_half_box": 0.6822424548127887,
+     "radius_min": 5.678945402512997,
+     "radius_max": 6.5242099136056515,
+     "off_plane": 0.3635652183138399
+    }
+   }
+  ]
+ },
+ "delta_005": [
+  {
+   "chain": "r6_hb6_L0.3",
+   "path": "j0",
+   "half_box": 6.0,
+   "L1": 0.3,
+   "J": 0.0,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 370.216235934803,
+   "I_inside_r2": 28.134963913562014,
+   "degree_r3": 4.417437057588218e-18,
+   "degree_r4": 1.0,
+   "gap_r3": 0.43800010656737004,
+   "gap_r4": 0.10640520966611677,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 84,
+   "loop_radius": 3.825853363925006,
+   "loop_share": 0.6376422273208343,
+   "loop_spread": 0.10946092567538103,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb6_L0.3",
+   "path": "j40",
+   "half_box": 6.0,
+   "L1": 0.3,
+   "J": 77.70728743630076,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 486.2617443368713,
+   "I_inside_r2": 28.759836811729528,
+   "degree_r3": 1.1043592643970545e-18,
+   "degree_r4": 8.834874115176436e-18,
+   "gap_r3": 0.5788053079620097,
+   "gap_r4": 0.12919386633476382,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 88,
+   "loop_radius": 4.180772689233991,
+   "loop_share": 0.6967954482056652,
+   "loop_spread": 0.11326861081206895,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb6_L0.3",
+   "path": "j10",
+   "half_box": 6.0,
+   "L1": 0.3,
+   "J": 310.82914974520304,
+   "label": "ONE-CELL",
+   "converged": false,
+   "I": 3896.3672607224817,
+   "I_inside_r2": 27.92569727490314,
+   "degree_r3": 1.3252311172764653e-17,
+   "degree_r4": 0.06531804080372593,
+   "gap_r3": 0.4998135888139684,
+   "gap_r4": 0.009933635200716884,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 106,
+   "loop_radius": 4.065361438308399,
+   "loop_share": 0.6775602397180664,
+   "loop_spread": 0.12487680899953285,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb6_L0.0",
+   "path": "j0",
+   "half_box": 6.0,
+   "L1": 0.0,
+   "J": 0.0,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 2095.989000791207,
+   "I_inside_r2": 521.0843523067832,
+   "degree_r3": 1.0,
+   "degree_r4": 1.0,
+   "gap_r3": 0.13661492753399074,
+   "gap_r4": 0.24948979272730698,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 10,
+   "loop_radius": 0.37610065623557276,
+   "loop_share": 0.0626834427059288,
+   "loop_spread": 0.1402446292718775,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb6_L0.0",
+   "path": "j40",
+   "half_box": 6.0,
+   "L1": 0.0,
+   "J": 77.70728743630076,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 3171.280055078903,
+   "I_inside_r2": 676.9435105492656,
+   "degree_r3": 1.0,
+   "degree_r4": 1.0,
+   "gap_r3": 0.0961754584422071,
+   "gap_r4": 0.20007480300895875,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 18,
+   "loop_radius": 0.41128992411044263,
+   "loop_share": 0.06854832068507377,
+   "loop_spread": 0.14593679588856961,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb6_L0.0",
+   "path": "j10",
+   "half_box": 6.0,
+   "L1": 0.0,
+   "J": 310.82914974520304,
+   "label": "SMOOTH",
+   "converged": false,
+   "I": 12864.318528709315,
+   "I_inside_r2": 1916.9078124300534,
+   "degree_r3": 1.0,
+   "degree_r4": 1.0,
+   "gap_r3": 0.05426035840452459,
+   "gap_r4": 0.12591165728923065,
+   "loops": 2,
+   "fragments": 4,
+   "plaquettes": 56,
+   "loop_radius": 0.6343677254168005,
+   "loop_share": 0.10572795423613342,
+   "loop_spread": 0.26354148936065486,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.3",
+   "path": "j0",
+   "half_box": 12.0,
+   "L1": 0.3,
+   "J": 0.0,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 1567.6841019889466,
+   "I_inside_r2": 25.262825387982033,
+   "degree_r3": 0.0,
+   "degree_r4": 2.208718528794109e-18,
+   "gap_r3": 0.8814058699653585,
+   "gap_r4": 0.7943385393890402,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 142,
+   "loop_radius": 6.582168581489133,
+   "loop_share": 0.5485140484574277,
+   "loop_spread": 0.09377838435174363,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.3",
+   "path": "j40",
+   "half_box": 12.0,
+   "L1": 0.3,
+   "J": 77.70728743630076,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 1719.2719887545313,
+   "I_inside_r2": 25.284141588497068,
+   "degree_r3": 9.663143563474227e-19,
+   "degree_r4": 0.0,
+   "gap_r3": 0.8897003928523681,
+   "gap_r4": 0.8144575834100318,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 148,
+   "loop_radius": 6.83250420653793,
+   "loop_share": 0.5693753505448275,
+   "loop_spread": 0.09305201730399323,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.3",
+   "path": "j10",
+   "half_box": 12.0,
+   "L1": 0.3,
+   "J": 310.82914974520304,
+   "label": "SMOOTH",
+   "converged": true,
+   "I": 2720.2199358144103,
+   "I_inside_r2": 25.614396377712854,
+   "degree_r3": 3.451122701240795e-20,
+   "degree_r4": 2.760898160992636e-19,
+   "gap_r3": 0.9124812662771862,
+   "gap_r4": 0.8709657694685862,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 176,
+   "loop_radius": 8.233780895783832,
+   "loop_share": 0.6861484079819861,
+   "loop_spread": 0.0934299006028965,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.0",
+   "path": "j0",
+   "half_box": 12.0,
+   "L1": 0.0,
+   "J": 0.0,
+   "label": "SMOOTH",
+   "converged": false,
+   "I": 2631.1567309386405,
+   "I_inside_r2": 546.8200284630492,
+   "degree_r3": 1.0,
+   "degree_r4": 1.0000000000000002,
+   "gap_r3": 0.07660229071236746,
+   "gap_r4": 0.19572598080097037,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 44,
+   "loop_radius": 1.1885550987292517,
+   "loop_share": 0.09904625822743764,
+   "loop_spread": 0.5253231963335908,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.0",
+   "path": "j40",
+   "half_box": 12.0,
+   "L1": 0.0,
+   "J": 77.70728743630076,
+   "label": "SMOOTH",
+   "converged": false,
+   "I": 4317.531562268145,
+   "I_inside_r2": 628.0332915701335,
+   "degree_r3": 1.0,
+   "degree_r4": 1.0,
+   "gap_r3": 0.05426485298793471,
+   "gap_r4": 0.13824721012503005,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 58,
+   "loop_radius": 1.53218061744822,
+   "loop_share": 0.127681718120685,
+   "loop_spread": 0.6840831786873957,
+   "spacing": 0.375
+  },
+  {
+   "chain": "r6_hb12_L0.0",
+   "path": "j10",
+   "half_box": 12.0,
+   "L1": 0.0,
+   "J": 310.82914974520304,
+   "label": "SMOOTH",
+   "converged": false,
+   "I": 13680.641711404402,
+   "I_inside_r2": 916.651161257799,
+   "degree_r3": 1.0000000000000002,
+   "degree_r4": 1.0,
+   "gap_r3": 0.026599348057906813,
+   "gap_r4": 0.11925126827236415,
+   "loops": 1,
+   "fragments": 0,
+   "plaquettes": 44,
+   "loop_radius": 1.072446270252519,
+   "loop_share": 0.08937052252104326,
+   "loop_spread": 0.5057129136905534,
+   "spacing": 0.375
+  }
+ ]
+}
