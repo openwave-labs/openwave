@@ -4,7 +4,7 @@
 
 Heavy binary arrays in this folder are **local-only**: gitignored, never deleted (policy 2026-07-20, which supersedes the earlier "delete raw data > 1 MB" rule). They stay on the working machine so later tasks can consume them directly, and they stay OUT of the repo so clones stay light. What IS tracked in git and readable on GitHub: the summary `.json` / `.csv` / `.txt` in this same folder, the plots, and the scripts that rebuild everything here.
 
-**Inventory**: 274 local-only files, 4776.92 MB, in 14 task groups.
+**Inventory**: 650 local-only files, 7396.04 MB, in 15 task groups.
 
 | Task group | Files | Size | Producing script(s) | Record (regen commands + context) |
 | --- | --- | --- | --- | --- |
@@ -22,5 +22,6 @@ Heavy binary arrays in this folder are **local-only**: gitignored, never deleted
 | `m5_39` | 45 | 1350.05 MB | [`m5_39_cardc.py`](../scripts/m5_39_cardc.py) · [`m5_39_forecast_pilot.py`](../scripts/m5_39_forecast_pilot.py) · [`m5_39_plots.py`](../scripts/m5_39_plots.py) (+8 more) | [`m5_39_task_details.md`](../tasks/m5_39_task_details.md) |
 | `m5_40` | 4 | 62.88 MB | [`m5_40_payload.py`](../scripts/m5_40_payload.py) · [`m5_40_plots.py`](../scripts/m5_40_plots.py) · [`m5_40_readouts.py`](../scripts/m5_40_readouts.py) (+1 more) | [`m5_40_task_details.md`](../tasks/m5_40_task_details.md) |
 | `m5_41` | 60 | 2438.55 MB | [`m5_41_calibration.py`](../scripts/m5_41_calibration.py) · [`m5_41_plots.py`](../scripts/m5_41_plots.py) · [`m5_41_pool.py`](../scripts/m5_41_pool.py) (+3 more) | [`m5_41_task_details.md`](../tasks/m5_41_task_details.md) |
+| `m5_42` | 376 | 2619.12 MB | [`m5_42_controls.py`](../scripts/m5_42_controls.py) · [`m5_42_eq42.py`](../scripts/m5_42_eq42.py) · [`m5_42_gates.py`](../scripts/m5_42_gates.py) (+5 more) | [`m5_42_task_details.md`](../tasks/m5_42_task_details.md) |
 
 **Regeneration**: the exact command + runtime per dataset lives in the task record linked on its row (the task_details / findings doc), which is where the run configuration is already written down. Runs are deterministic from their fixed seeds and configs, so a regenerated array reproduces the original bit-for-bit at the stored precision.
