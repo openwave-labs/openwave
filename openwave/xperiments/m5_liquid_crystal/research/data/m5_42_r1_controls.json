@@ -1,0 +1,483 @@
+{
+ "author_J0": {
+  "U2": 53.3508286625895,
+  "U4": 5.418232073727794,
+  "UV": 5.153474606702941,
+  "U": 63.922535343020236,
+  "I": 510.89226266934713,
+  "E": 63.922535343020236,
+  "inertia_inside_r2": 21.979966248489472,
+  "two_J_Omega_over_E": null,
+  "gmax_over_h3": 0.00017257189757636916
+ },
+ "author_J168": {
+  "U2": 56.332192624100735,
+  "U4": 5.247841231519358,
+  "UV": 5.822179628987811,
+  "U": 67.4022134846079,
+  "I": 801.0472834288583,
+  "E": 85.17899243716008,
+  "inertia_inside_r2": 24.150351414471235,
+  "two_J_Omega_over_E": 0.8347963949287996,
+  "gmax_over_h3": 0.00011824945327489325
+ },
+ "author_eigenvalue_range": [
+  -0.1717188219056078,
+  1.0100847178434593
+ ],
+ "minor_axis_at_plus_z_node_fixed_False": [
+  [
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.999999999998,
+   0.0
+  ],
+  [
+   0.0,
+   0.0,
+   0.0
+  ]
+ ],
+ "minor_axis_at_plus_z_node_fixed_True": [
+  [
+   1.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0,
+   0.0
+  ]
+ ],
+ "nodes_changed_by_the_fixed_chart": 16,
+ "gate1": {
+  "a": 0.7,
+  "b": 0.4,
+  "derived_coefficient": 0.013553164799999991,
+  "rows": [
+   {
+    "N": 17,
+    "h": 0.25,
+    "density": 0.0008341039791966167,
+    "density_over_h2": 0.013345663667145867
+   },
+   {
+    "N": 33,
+    "h": 0.125,
+    "density": 0.00021095342415857808,
+    "density_over_h2": 0.013501019146148997
+   },
+   {
+    "N": 65,
+    "h": 0.0625,
+    "density": 5.2891060241323966e-05,
+    "density_over_h2": 0.013540111421778935
+   },
+   {
+    "N": 129,
+    "h": 0.03125,
+    "density": 1.323232460409693e-05,
+    "density_over_h2": 0.013549900394595256
+   }
+  ],
+  "order_two_finest": 1.9989573645631529
+ },
+ "gate2": {
+  "forward": {
+   "U4": 0.0022849445160893246,
+   "I": 0.0037240116090964883,
+   "U": 0.0018474639123802418
+  },
+  "averaged": {
+   "U4": 2.0578696311395472e-14,
+   "I": 2.5228813413425718e-14,
+   "U": 1.764506705192496e-14
+  },
+  "note": "the forward stencil is expected to fail this test; its defect is the number printed here"
+ },
+ "timing": [
+  {
+   "N": 33,
+   "stencil": "forward",
+   "seconds_per_evaluation": 0.012622674306233725,
+   "microseconds_per_node": 0.3512445197493871
+  },
+  {
+   "N": 33,
+   "stencil": "averaged",
+   "seconds_per_evaluation": 0.024998982747395832,
+   "microseconds_per_node": 0.6956335461333955
+  },
+  {
+   "N": 49,
+   "stencil": "forward",
+   "seconds_per_evaluation": 0.04122463862101237,
+   "microseconds_per_node": 0.3504036466184359
+  },
+  {
+   "N": 49,
+   "stencil": "averaged",
+   "seconds_per_evaluation": 0.08396999041239421,
+   "microseconds_per_node": 0.7137331419085093
+  },
+  {
+   "N": 65,
+   "stencil": "forward",
+   "seconds_per_evaluation": 0.09650627772013347,
+   "microseconds_per_node": 0.35141111595861074
+  },
+  {
+   "N": 65,
+   "stencil": "averaged",
+   "seconds_per_evaluation": 0.1959383487701416,
+   "microseconds_per_node": 0.7134760082663326
+  },
+  {
+   "N": 97,
+   "stencil": "forward",
+   "seconds_per_evaluation": 0.33237719535827637,
+   "microseconds_per_node": 0.3641799366895661
+  },
+  {
+   "N": 97,
+   "stencil": "averaged",
+   "seconds_per_evaluation": 0.6662993431091309,
+   "microseconds_per_node": 0.7300526509594684
+  }
+ ],
+ "checks": [
+  {
+   "check": "a J0: stored inertia density, cell by cell",
+   "value": 5.777525058097521e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a kernel term or weight differing from the author's script"
+  },
+  {
+   "check": "a J0: U2 against the reference",
+   "value": 5.194139882980972e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J0: U4 against the reference",
+   "value": 9.999365635225108e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J0: UV against the reference",
+   "value": 5.170366524431318e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J0: I against the reference",
+   "value": 1.0013672297056837e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J0: gradient against the reference, over the size of its terms",
+   "value": 2.6512270621709796e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a gradient term of the kernel off"
+  },
+  {
+   "check": "a J0: dI/dM against the reference",
+   "value": 3.484920772674074e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "an inertia gradient term off"
+  },
+  {
+   "check": "a J168: stored inertia density, cell by cell",
+   "value": 4.204202614357811e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a kernel term or weight differing from the author's script"
+  },
+  {
+   "check": "a J168: U2 against the reference",
+   "value": 6.306720035748328e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J168: U4 against the reference",
+   "value": 8.462321748279912e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J168: UV against the reference",
+   "value": 4.423974492827768e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J168: I against the reference",
+   "value": 1.844995821039148e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a term of the kernel off"
+  },
+  {
+   "check": "a J168: gradient against the reference, over the size of its terms",
+   "value": 2.4293036127994745e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a gradient term of the kernel off"
+  },
+  {
+   "check": "a J168: dI/dM against the reference",
+   "value": 4.830727796302901e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "an inertia gradient term off"
+  },
+  {
+   "check": "b: I of the J = 0 field prints as 511",
+   "value": 0.0,
+   "bound": 0,
+   "met": true,
+   "fails_if": "another inertia"
+  },
+  {
+   "check": "b: inertia inside r < 2 prints as 22",
+   "value": 0.0,
+   "bound": 0,
+   "met": true,
+   "fails_if": "another core share"
+  },
+  {
+   "check": "b: 2 J Omega / E at J_e/10 prints as 0.83",
+   "value": 0.0,
+   "bound": 1e-09,
+   "met": true,
+   "fails_if": "another ratio"
+  },
+  {
+   "check": "c random 13^3: U2 against the eight reflections",
+   "value": 4.328927872989874e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c random 13^3: U4 against the eight reflections",
+   "value": 9.292875505884308e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c random 13^3: UV against the eight reflections",
+   "value": 5.489538142293564e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c random 13^3: I against the eight reflections",
+   "value": 8.546018565005524e-16,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c random 13^3: gradient against the eight reflections",
+   "value": 2.262824906194968e-16,
+   "bound": 1e-11,
+   "met": true,
+   "fails_if": "a gradient weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J0: U2 against the eight reflections",
+   "value": 2.930937932717147e-14,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J0: U4 against the eight reflections",
+   "value": 1.6349212946601377e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J0: UV against the eight reflections",
+   "value": 9.823696396419505e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J0: I against the eight reflections",
+   "value": 2.0358471776584575e-14,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J0: gradient against the eight reflections",
+   "value": 1.2597732156459915e-14,
+   "bound": 1e-11,
+   "met": true,
+   "fails_if": "a gradient weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J168: U2 against the eight reflections",
+   "value": 6.9401514688119e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J168: U4 against the eight reflections",
+   "value": 1.6391517761715938e-14,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J168: UV against the eight reflections",
+   "value": 3.813771114506697e-15,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J168: I against the eight reflections",
+   "value": 1.4488739242997696e-14,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a weight of the averaged stencil off"
+  },
+  {
+   "check": "c author J168: gradient against the eight reflections",
+   "value": 3.828482696565986e-15,
+   "bound": 1e-11,
+   "met": true,
+   "fails_if": "a gradient weight of the averaged stencil off"
+  },
+  {
+   "check": "c: nodal weights (interior 1, face 1/2, edge 1/4, corner 1/8) on a uniform field",
+   "value": 9.033481188224814e-16,
+   "bound": 1e-13,
+   "met": true,
+   "fails_if": "other node weights"
+  },
+  {
+   "check": "d averaged, J = 0.0: gradient against central differences",
+   "value": 2.3481974858025956e-08,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "d averaged, J = 168.8: gradient against central differences",
+   "value": 8.39640511510806e-08,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "d forward, J = 0.0: gradient against central differences",
+   "value": 2.3364745108760952e-08,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "d forward, J = 168.8: gradient against central differences",
+   "value": 2.921340254689467e-08,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "d averaged with band, J = 0.0: gradient against central differences",
+   "value": 5.659956277796479e-10,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "d averaged with band, J = 168.8: gradient against central differences",
+   "value": 1.016613544686865e-10,
+   "bound": 1e-06,
+   "met": true,
+   "fails_if": "an analytic gradient term off"
+  },
+  {
+   "check": "e J0: band energy on the author's field",
+   "value": 0.0,
+   "bound": 0.0,
+   "met": true,
+   "fails_if": "an eigenvalue of the field outside [-0.5, 1.5]"
+  },
+  {
+   "check": "e J168: band energy on the author's field",
+   "value": 0.0,
+   "bound": 0.0,
+   "met": true,
+   "fails_if": "an eigenvalue of the field outside [-0.5, 1.5]"
+  },
+  {
+   "check": "f: the frame's minor axis at rho = 1e-4 from the +z axis is the x direction, from eight azimuths",
+   "value": 0.0008822172482933206,
+   "bound": 0.001,
+   "met": true,
+   "fails_if": "a frame not regular at the north pole, or another limit"
+  },
+  {
+   "check": "f: the fixed chart sets the axis node to that limit",
+   "value": 0.0,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "the fix not applied"
+  },
+  {
+   "check": "g: gate 1, the h^2 coefficient of the forward quartic on a rank-one field (finest spacing)",
+   "value": 0.00024085927183112066,
+   "bound": 0.02,
+   "met": true,
+   "fails_if": "a quartic that sees a rank-one gradient at another order or size"
+  },
+  {
+   "check": "g: gate 1, the order between the two finest spacings is 2",
+   "value": 0.001042635436847128,
+   "bound": 0.1,
+   "met": true,
+   "fails_if": "another order"
+  },
+  {
+   "check": "h: gate 2, the averaged stencil under the three mirrors (energy, quartic, inertia)",
+   "value": 2.5228813413425718e-14,
+   "bound": 1e-12,
+   "met": true,
+   "fails_if": "a stencil that is not mirror symmetric"
+  }
+ ],
+ "all_met": true
+}
