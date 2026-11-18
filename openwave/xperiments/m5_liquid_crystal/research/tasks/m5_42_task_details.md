@@ -398,6 +398,8 @@ Gate 3 as the plan wrote it (a difference that falls under refinement) is not me
 
 3. **Free faces.** With every node free and L₁ = 0.3 the hedgehog leaves the box: at J = 0 the energy goes to zero, and the degree of the long axis and the count of the minor axis' turns are zero on every sphere. Up to J_e/5 the state is the vacuum set turning and the ratio lies between 3.4 and 4.0, which is the ceiling of the identity of § 1 as U goes to zero, not a property of a defect. At J_e/2.5 and J_e the path ends, not converged, on a ONE-CELL state at a face (ratio 1.82, 92 and 97 percent of the inertia within a tenth of the half-box of a face). Without L₁ the free-face states are not converged and their sphere reads are not integers. Expectation 7 made no prediction.
 
+> Read with [M5.45](m5_45_task_details.md) (2026-11-18): without L₁ the state at δ = 0.05 on half-box 6 depends on the spacing and on the start of the descent. The rows of Table 10 without L₁ are those of spacing 0.375 from the seed.
+
 **Table 10. δ = 0.05 (J_e = 3108.3; mirror-averaged stencil, spacing 0.375).**
 
 | Chain | Half-box | L₁ | J | Iterations | E | U | I | 2JΩ/E | I inside r < 2 | Eigenvalue range | Label |
