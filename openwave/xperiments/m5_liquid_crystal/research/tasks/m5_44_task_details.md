@@ -396,6 +396,8 @@ The fields read are the local-only end states of M5.42 ([`_DATASETS.md`](../data
 
 ### 15. The δ = 0.05 states
 
+> Read with [M5.45](m5_45_task_details.md) (2026-11-18): without L₁ the state on half-box 6 depends on the spacing and on the start of the descent (the inertia at J = 0 is 1189 to 2063 at spacing 0.5, 1977 to 2722 at 0.375, 3372 to 3936 at 0.25). The numbers of this section for the states without L₁ are those of spacing 0.375 from the seed.
+
 **The read asked.** "The long axis's degree on r = 3 and 4 at δ = 0.05. Is the one state with a nonzero degree on r = 4 there, and does its core carry the inertia?" The degree by sphere and the inertia inside r < 2 are in the tracked reads of M5.42 ([`m5_42_r7_reads.json`](../data/m5_42_r7_reads.json)); the loops are those of Table 7. Table 9 puts them side by side for the twelve end states at δ = 0.05. The degree is printed as a magnitude.
 
 **Table 9. The δ = 0.05 states (mirror-averaged stencil, spacing 0.375).**

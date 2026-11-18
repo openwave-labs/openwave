@@ -1,6 +1,6 @@
 """M5.45: the delta = 0.05 state at J = 0 on half-box 6 against the spacing, without L1 and with a small L1.
 
-One chain is one L-BFGS-B descent of U (J = 0) from the seed, on the evaluator of M5.42 (m5_42_eq42.py: the
+One chain is one L-BFGS-B descent of U (J = 0), from the seed for the seven chains of the plan, on the evaluator of M5.42 (m5_42_eq42.py: the
 mirror-averaged stencil, the chart fixed, the faces held to the frame). One process, one thread.
 
     chain            N    spacing   L1
@@ -11,6 +11,11 @@ mirror-averaged stencil, the chart fixed, the faces held to the frame). One proc
     h0500_L0.03      25   0.5       0.03
     h0375_L0.03      33   0.375     0.03
     h0250_L0.03      49   0.25      0.03
+
+Added during the run (m5_45_task_details.md, section 15): three chains named *_kick (the end state of a chain
+without L1 with Gaussian noise added, relaxed again) and fourteen named *_from_* (a state of another grid, or the
+state without L1 of the same grid, sampled onto this grid with the faces set back to the frame, relaxed). They
+start from the end states or stops of the seven chains above, which therefore run first. `--list` prints all 24.
 
 What differs from the driver of M5.42 (m5_42_relax.py), and why. There the J = 0 state at spacing 0.375 without
 L1 ended at iteration 8364 on the optimizer's function tolerance while its inertia was still rising (1890 at
@@ -57,7 +62,29 @@ TARGETS = (1000, 3000, 10000, 30000, 100000)
 CHAINS = {
     "h0500_L0": dict(N=25, L1=0.0), "h0375_L0": dict(N=33, L1=0.0), "h0250_L0": dict(N=49, L1=0.0), "h01875_L0": dict(N=65, L1=0.0),
     "h0500_L0.03": dict(N=25, L1=0.03), "h0375_L0.03": dict(N=33, L1=0.03), "h0250_L0.03": dict(N=49, L1=0.03),
+    # Added during the run (deviation 2): the end state of a chain without L1, with independent Gaussian noise of standard
+    # deviation KICK added to the six components of every free node, relaxed again by the same rule. Does it come back?
+    "h0500_L0_kick": dict(N=25, L1=0.0, start="h0500_L0"), "h0375_L0_kick": dict(N=33, L1=0.0, start="h0375_L0"),
+    "h0250_L0_kick": dict(N=49, L1=0.0, start="h0250_L0"),
+    # Added during the run (deviation 3): a state of another grid sampled onto this grid by trilinear interpolation, the
+    # faces set back to the frame, relaxed by the same rule. Is the state reached from the seed the lowest on its grid?
+    "h0250_L0_from_h01875": dict(N=49, L1=0.0, interp="m5_45_h01875_L0_s010000.npz"),
+    "h0250_L0_from_h0375": dict(N=49, L1=0.0, interp="m5_45_h0375_L0_end.npz"),
+    "h0375_L0_from_h0250": dict(N=33, L1=0.0, interp="m5_45_h0250_L0_end.npz"),
+    "h0500_L0_from_h0375": dict(N=25, L1=0.0, interp="m5_45_h0375_L0_end.npz"),
+    "h0500_L0_from_h0250": dict(N=25, L1=0.0, interp="m5_45_h0250_L0_end.npz"),
+    "h0375_L0_from_h0500": dict(N=33, L1=0.0, interp="m5_45_h0500_L0_end.npz"),
+    "h0375_L0_from_h01875": dict(N=33, L1=0.0, interp="m5_45_h01875_L0_s010000.npz"),
+    "h0500_L0_from_h01875": dict(N=25, L1=0.0, interp="m5_45_h01875_L0_s010000.npz"),
+    # the same question with L1 = 0.03: from another grid's L1 = 0.03 state, and from the state without L1 of the same grid
+    "h0500_L0.03_from_h0375": dict(N=25, L1=0.03, interp="m5_45_h0375_L0.03_end.npz"),
+    "h0375_L0.03_from_h0500": dict(N=33, L1=0.03, interp="m5_45_h0500_L0.03_end.npz"),
+    "h0250_L0.03_from_h0375": dict(N=49, L1=0.03, interp="m5_45_h0375_L0.03_end.npz"),
+    "h0500_L0.03_from_no_L1": dict(N=25, L1=0.03, interp="m5_45_h0500_L0_end.npz"),
+    "h0375_L0.03_from_no_L1": dict(N=33, L1=0.03, interp="m5_45_h0375_L0_end.npz"),
+    "h0250_L0.03_from_no_L1": dict(N=49, L1=0.03, interp="m5_45_h0250_L0_end.npz"),
 }
+KICK, KICK_SEED = 1e-2, 20261118
 
 
 def tail_drift(traj, it):
@@ -115,8 +142,30 @@ def main():
         log(f"resumes at it {st['iteration']}")
     else:
         st = dict(iteration=0, stops=[], traj=[], ftol_ends=[], abnormal=[], resumed_at=[], nfev=0, seconds=0.0)
-        x = mod.seed6().reshape(-1)
-        log(f"starts from the seed: N {c['N']} spacing {mod.h:g} L1 {c['L1']}")
+        if c.get("start"):
+            src = json.loads((a.work_dir / f"{c['start']}.json").read_text())
+            m6 = np.load(a.out_dir / src["end_file"], allow_pickle=False)["m6"]
+            noise = np.random.default_rng(KICK_SEED).normal(0.0, KICK, m6.shape) * mod.mask[..., None]
+            x = (m6 + noise).reshape(-1)
+            p0 = mod.evaluate(x, 0.0, need_grad=False)
+            log(f"starts from the end of {c['start']} with a kick of {KICK:g}: U {p0['U']:.6f} I {p0['I']:.3f} (before the kick U {src['stops'][-1]['U']:.6f} I {src['stops'][-1]['I']:.3f})")
+            st["kick"] = dict(source=c["start"], amplitude=KICK, seed=KICK_SEED, U_after_the_kick=p0["U"], I_after_the_kick=p0["I"],
+                              U_before=src["stops"][-1]["U"], I_before=src["stops"][-1]["I"])
+        elif c.get("interp"):
+            from scipy.ndimage import map_coordinates
+            z = np.load(a.out_dir / c["interp"], allow_pickle=False)
+            xs = z["x"]
+            idx = (mod.x - xs[0]) / (xs[1] - xs[0])
+            grid = np.meshgrid(idx, idx, idx, indexing="ij")
+            m6 = np.stack([map_coordinates(z["m6"][..., k], grid, order=1, mode="nearest") for k in range(6)], -1)
+            m6 = np.where(mod.mask[..., None], m6, mod.seed6())
+            x = m6.reshape(-1)
+            p0 = mod.evaluate(x, 0.0, need_grad=False)
+            log(f"starts from {c['interp']} sampled onto this grid: U {p0['U']:.6f} I {p0['I']:.3f}")
+            st["interp"] = dict(source_file=c["interp"], source_spacing=float(xs[1] - xs[0]), U_at_the_start=p0["U"], I_at_the_start=p0["I"])
+        else:
+            x = mod.seed6().reshape(-1)
+            log(f"starts from the seed: N {c['N']} spacing {mod.h:g} L1 {c['L1']}")
     t0 = time.time() - st["seconds"]
     deadline = time.time() + a.wall_hours * 3600 - st["seconds"]
     box = dict(it=st["iteration"], last=None, last_ckpt=time.time(), cut=None, x=None)
@@ -203,7 +252,7 @@ def main():
                converged=bool(gate and (by_ftol or (pair is not None and max(pair.values()) <= 1e-3))),
                drift_of_I_over_the_last_tenth=drift, word=None if drift is None else ("STEADY" if abs(drift) < 1e-3 else ("RISING" if drift > 0 else "FALLING")),
                label=last["label"], seconds=time.time() - t0, function_tolerance_ends=st["ftol_ends"], abnormal=st["abnormal"], resumed_at=st["resumed_at"],
-               stops=st["stops"], trajectory=st["traj"], end_file=last["file"], finished=True)
+               stops=st["stops"], trajectory=st["traj"], end_file=last["file"], kick=st.get("kick"), interp=st.get("interp"), finished=True)
     jf.write_text(json.dumps(rec, indent=1) + "\n")
     ckpt.unlink(missing_ok=True)
     state_f.unlink(missing_ok=True)
