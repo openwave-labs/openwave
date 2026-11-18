@@ -139,7 +139,7 @@ OpenWave implements classical-field-theory-with-topology-and-nonlinearity approa
 | [Scaling Factor](dev_docs/SCALING_FACTOR.md) | Physics unit scaling |
 | [Version Management](dev_docs/VERSION_MANAGEMENT.md) | Release versioning |
 | [Wave Diagnostics](dev_docs/WAVE_DIAGNOSTICS.md) | Validation diagnostics |
-| [Method Note](dev_docs/METHOD_NOTE.md) | **MANDATORY** standard for any report/email to a model's theory owner or external physicist |
+| [Method Note](dev_docs/METHOD_NOTE.md) | **MANDATORY** standard for any report/email to a model's theory owner or external physicist; also the single source for the [equation format](dev_docs/METHOD_NOTE.md#equation-format) of every doc and post |
 | [AI Hygiene](AI_HYGIENE.md) | **MANDATORY** working contract for AI-assisted research: division of labor, failure modes, verification habits |
 | [PR Review Standards](dev_docs/PR_REVIEW_STANDARDS.md) | **MANDATORY** procedure for every pull request, read before the diff |
 
@@ -154,6 +154,8 @@ Before any substantive derivation, verification, or headline claim is trusted, r
 ### Method note (model-owner-facing output): MANDATORY
 
 Any report, summary doc, or email addressed to a model's theory owner (M5: Duda; M7: Fleury; any advisor) follows [`dev_docs/METHOD_NOTE.md`](dev_docs/METHOD_NOTE.md): **equations first** (Hamiltonian / potential / observable definitions in math notation), an **equation-to-code map** with absolute GitHub hyperlinks (`#L` anchors; `blob/main` for frozen task-scoped files, commit-pinned only for live/evolving files like the root engines and production rendering code), the functional in a **small auditable module**, results after methods, a minimal physics-first inspection set, and the **adversarial audit recorded in the note**. Adopted 2026-07-03 after the M5.16 audit failure ("still I have no idea what does it calculate"): results a physicist cannot audit by reading carry no weight, regardless of correctness.
+
+**Equations are typeset, never typed as plain text in a code block.** Any equation written in this repository or posted from it (a method note, a task document, a pull request, an issue, a discussion post) is LaTeX math in Markdown, `$$` on its own line above and below a display equation and `$ ... $` inline, which GitHub typesets in the browser with nothing to install. The rule, a worked example and the cases that break rendering: [`dev_docs/METHOD_NOTE.md` § Equation format](dev_docs/METHOD_NOTE.md#equation-format). The body of an e-mail typesets no LaTeX: there the equations are plain Unicode text and the mail links the note.
 
 ### Pull-request review (any PR in play): MANDATORY
 
