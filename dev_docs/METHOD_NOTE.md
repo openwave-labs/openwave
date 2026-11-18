@@ -55,9 +55,9 @@ A worked example, the static energy of the M5 functional. The source:
 
 ```markdown
 $$
-U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2
-  + \kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2
-  + v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
+U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2 +
+\kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2 +
+v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
 \qquad c_k = 1 + \delta^k
 $$
 ```
@@ -65,9 +65,9 @@ $$
 and what GitHub shows for it:
 
 $$
-U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2
-  + \kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2
-  + v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
+U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2 +
+\kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2 +
+v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
 \qquad c_k = 1 + \delta^k
 $$
 
@@ -90,6 +90,7 @@ Rules that keep an equation from breaking:
 | Norms and absolute values without the bar character | `\lVert x \rVert` and `\lvert x \rvert`, never the keyboard bar: inside a table cell the bar ends the cell, and at the start of a line it reads as a table row |
 | Comparisons | `\lt` and `\gt`, or the signs with a space on each side. A `<` followed at once by a letter can be read as the start of an HTML tag |
 | One equation per display block | Several statements on one line are separated by `\qquad`, as in the reference note. Alignment environments are used only inside a `math` fence |
+| No line of a `$$` block starts with a list or heading mark | A line that begins with `+`, `-`, `*`, `>`, `#` or a number and a period is read by Markdown as a list item, a quote or a heading, and the block is no longer an equation (the first version of the example above broke this way, on two lines that began with `+`). Break a long equation after the operator, so every line begins with a symbol or a letter |
 | No backslash before punctuation | Markdown reads a backslash before a punctuation mark as an escape and removes it, inside `$ ... $` and inside `$$` blocks alike: `\{0,1\}` reaches the typesetter as `{0,1}` and the braces vanish, and the thin space `\,` becomes a comma. Write `\lbrace` and `\rbrace`, `\operatorname{tr}` or `\quad` in place of a `\,`, `\vert` for a bar; a backslash before a letter (`\sum`, `\qquad`) is untouched |
 | When Markdown still damages the source | An underscore or an asterisk pair read as emphasis, or a `\\` line break that loses a backslash: move the equation into a `math` fence, where the source is taken as typed |
 | Text inside math | `\mathrm{...}` or `\operatorname{...}` for a name with more than one letter (`\operatorname{tr}`, `\mathrm{invalid}`), so it is not set as a product of variables |
