@@ -143,6 +143,8 @@ The marks in `MODELS.md` are the audit's on all twelve cells. The audit found no
 
 **Left open by the audit.** The clock cell's way back names a precondition and not the frequency itself; the validated route of the spin cell turns on an assignment that is itself a choice; the mass recipe of the M6 dark-matter cell uses a ratio the M6.2 review questioned; the scattering bound named in the rest-energy cell is not sourced in the cited files.
 
+**The clock cell's way back, reworded 2026-11-19.** The first point above was closed with the column's author before the pull request: the cell's way back named a precondition (a charge of finite size, then a clock whose motion is a symmetry of that state, the same as the rest-energy row in the table above) and now names the frequency itself, worded from the author's suggestion: ħΩ/E = 1 on a converged state at the physical J, the inertia grid-converged and not carried by a few cells, unchanged between two spacings and two boxes. The icon did not change.
+
 **The marks of the M5 column and its author.** Two of the adopted marks, charge quantization and Klein-Gordon, are lower than the marks the column's author had seen before the re-read. The rows are on the working branch and do not land on `main` before the author has seen them and had the chance to supply evidence, or to name a run, that would read them differently.
 
 **Scope**: a re-read of what existing cells' cited evidence shows, under a bar written down first; it licenses icon and text changes in `MODELS.md` and does not license any new result, any change to the criteria set, or any statement about a model's physics.
