@@ -61,7 +61,7 @@ current spec's particle sector is silent (details: [`research/m6_particle_hunt.m
 | Positron | `Q_CS = −1` (opposite linking sign) | ✅ (statement only) |
 | Muon / tau | higher-ω states (values version-dependent: 11.0/40.7 → 12.82/50.0 → "bifurcation islands"); no ω-discreteness mechanism | ✅ claimed |
 | Pion+ (candidate) | chaoiton at ω = 15.0 (3.25%) | ✅ claimed |
-| Neutral chaoiton (DM) | `Q_CS = 0`, l = 1 p-wave → m_χ = 0.460 MeV, m_J = 0.6184 MeV, C = 770 MeV·fm | ✅ neutral knot (in-platform) |
+| Neutral chaoiton (DM) | `Q_CS = 0`, l = 1 p-wave → m_χ = 0.460 MeV, m_J = 0.6184 MeV, C = 770 MeV·fm | ⚠️ neutral static profile by a boundary-value solve (in-platform; re-based 2026-11-18) |
 | Proton | three-chaoiton bound state (Schwinger H-particle lineage) | 🚧 narrative-level |
 
 Honest caveats preserved from the archive era and confirmed by the refresh read: the clock
@@ -75,16 +75,16 @@ for static configurations while the solutions are time-periodic.
 The 2026-07-20 refresh day settled which cells the column has earned; the live tally is
 the [`MODELS.md`](../../../MODELS.md) score-board. The three honest negatives (electron mass,
 lepton spectrum, pion) were earned by the M6.2 decision gate's pre-registered no-search
-re-derivation, exactly the "cells move in both directions" contract; the three ✅
-(neutral-sector stability, DM candidate, Maxwell-by-construction) are archive-era,
-two-vector results and stand. Nothing from the July-era theory (+Eli, v4) is validated
+re-derivation, exactly the "cells move in both directions" contract; the three archive-era ✅
+(neutral-sector stability, DM candidate, Maxwell-by-construction) were re-read under the
+written bar on 2026-11-18 ([T11](../../../dev_docs/tasks/t11_task_details.md)) and read 🚧, ⚠️ and 🚧. Nothing from the July-era theory (+Eli, v4) is validated
 in-platform.
 
 | Sector | Status |
 | --- | --- |
-| Particle stability | ✅ era (neutral sector): nodeless neutral BVP ground state (K₁ tail); oscillation as the genuine Derrick escape; the CHARGED sector is closed: no localized state at the calibration point (M6.2) nor anywhere in the localization window (M6.4), and the published census evidence is dead (62/319/62 irreproducible or imposed-by-construction; radial-only gap closed within the reduction) |
-| Dark-matter candidate | ✅ era: m_χ = 0.460 MeV, parameter-free m_J (our strongest M6 result); the phenomenology chain above it (suppression factors, modulation inference) is unverified → M6.6 |
-| Maxwell EM | ✅ era: `A_μ` is the 4-potential by construction (two-vector spec; absent from v4) |
+| Particle stability | 🚧 re-based 2026-11-18 (neutral sector): a nodeless neutral radial profile by BVP (K₁ tail), never evolved in time, on a row that asks for a run in time; the CHARGED sector is closed: no localized state at the calibration point (M6.2) nor anywhere in the localization window (M6.4), and the published census evidence is dead (62/319/62 irreproducible or imposed-by-construction; radial-only gap closed within the reduction) |
+| Dark-matter candidate | ⚠️ re-based 2026-11-18: parameter-free m_J = 0.6184 MeV; m_χ = 0.460 MeV is set by the chosen λ; stability untested; the phenomenology chain above it (suppression factors, modulation inference) is unverified → M6.6 |
+| Maxwell EM | 🚧 re-based 2026-11-18: `A_μ` is the 4-potential by construction (two-vector spec; absent from v4), a declared property; no wave is computed |
 | Electron rest mass | ❌ M6.2 (2026-07-20): the benchmark H/Q is a code artifact on a non-localized state; honest negative of record ([`research/findings/m6_2_method_note.md`](research/findings/m6_2_method_note.md)) |
 | Charge quantization | ⚠️ Lean-stated + claimed; static-proof vs time-periodic gap; never computed in-platform; |
 | de Broglie clock | ⚠️ built into the ansatz, not emergent; the Q in L = ωQ is a coded convention (no internal U(1) exists, M6.2) |

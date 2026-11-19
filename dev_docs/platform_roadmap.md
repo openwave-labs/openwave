@@ -12,6 +12,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| [T11](tasks/t11_task_details.md) | One written bar: every validated cell re-read | 🔶 IN PROGRESS since 2026-11-18. The bar that declined three M10 rows is written into `MODELS.md` beside the status table, and every cell that carries a validated icon is re-read under it, in every column: the evidence it cites, the best current evidence, the icon, and what would restore it. Any cell that moves does so on its own evidence. Docs-only | none for the run (go given 2026-11-18); the pull request waits for the affected author |
 
 ## BACKLOG
 
@@ -59,6 +60,8 @@
 | [T10](tasks/t10_task_details.md) | A validation receipt per reproduction run | ✅ Closed 2026-10-27 (batched with T9). `write_receipt.py` writes a fixed-shape JSON per reproduction run (base, the package's pin, versions, command and exit per job, comparator output, verdict words; the interpreter by name, the machine by class); the shape in `METHOD_NOTE.md`; the M5.35 run converted; a mutation check turns the writer red on a broken log | 2026-10-27 |
 
 ## CHANGE-LOG
+
+**T11 STAGED: ONE WRITTEN BAR, EVERY VALIDATED CELL RE-READ (2026-11-18; ruled 2026-11-15).** The review of [#723](https://github.com/openwave-labs/openwave/pull/723) declined three M10 rows because the property each row names came from what the candidate declares, and it said in the thread that the same question goes to an M5 cell of the same kind. The user ruled that the bar is one bar for every column and that it belongs in `MODELS.md` itself, not in a review. [T11](tasks/t11_task_details.md) fixes the bar's text first and then re-reads every validated cell under it. No cell moves at staging.
 
 **T9 AND T10 CLOSED THE DAY THEY WERE FILED (2026-10-27).** The scope line is now a fixed slot: row 7 of the method-note shape with two filled examples (a reproduction verdict, a lattice-gap read), a pre-send check, review check C9, a pointer in the M5 roadmap conventions, and the M5.35 review retrofitted as the worked example. The validation receipt is now a writer and a shape: [`write_receipt.py`](utils/write_receipt.py) turns a run's logs and comparator output into one tracked JSON (the interpreter by name, the machine by class, never a path), the first receipt is the M5.35 run's, and the writer's own mutation check (a flipped exit code turns it red) is the first application of the audit rule's new sentence. Records: [T9](tasks/t9_task_details.md), [T10](tasks/t10_task_details.md).
 
