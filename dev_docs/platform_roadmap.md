@@ -12,7 +12,6 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| [T11](tasks/t11_task_details.md) | One written bar: every validated cell re-read | 🔶 IN PROGRESS since 2026-11-18. The bar that declined three M10 rows is written into `MODELS.md` beside the status table, and every cell that carries a validated icon is re-read under it, in every column: the evidence it cites, the best current evidence, the icon, and what would restore it. Any cell that moves does so on its own evidence. Docs-only | none for the run (go given 2026-11-18); the pull request waits for the affected author |
 
 ## BACKLOG
 
@@ -58,8 +57,11 @@
 | [T8](tasks/t8_task_details.md) | Research-script performance note: preallocation and pool shape for NumPy lattice work | ✅ Closed 2026-10-27. Two sections under [`PERFORMANCE_GUIDELINES.md § Python Performance`](PERFORMANCE_GUIDELINES.md#lattice-step-loops-write-into-fixed-buffers): write lattice steps into fixed buffers with slice adds, and size pools by job shape with one thread per worker. Fixed-work comparisons only; a demonstration script asserts agreement to 1e-12; no machine numbers. | 2026-10-27 |
 | [T9](tasks/t9_task_details.md) | The scope line: what a result licenses and what it does not | ✅ Closed 2026-10-27 (batched with T10, 11:29 to 11:35 EDT). One mandatory `**Scope**:` line in every results post, task review and method note: a slot and two filled examples in `METHOD_NOTE.md`, check C9 in `PR_REVIEW_STANDARDS.md`, a pointer in the M5 roadmap conventions, the M5.35 review retrofitted as the worked example | 2026-10-27 |
 | [T10](tasks/t10_task_details.md) | A validation receipt per reproduction run | ✅ Closed 2026-10-27 (batched with T9). `write_receipt.py` writes a fixed-shape JSON per reproduction run (base, the package's pin, versions, command and exit per job, comparator output, verdict words; the interpreter by name, the machine by class); the shape in `METHOD_NOTE.md`; the M5.35 run converted; a mutation check turns the writer red on a broken log | 2026-10-27 |
+| [T11](tasks/t11_task_details.md) | One written bar: every validated cell re-read | ✅ Closed 2026-11-19 (run 2026-11-18, 00:31 go-to-review; landed by [#741](https://github.com/openwave-labs/openwave/pull/741) after the M5 author read the rows). The bar is written in `MODELS.md`; twelve validated cells re-read. M5 keeps two validated cells and M6 none; ten cells moved, each naming what would move it back. No script found wrong. Docs-only | 2026-11-19 |
 
 ## CHANGE-LOG
+
+**T11 CLOSED: ONE BAR IN `MODELS.md`, TWELVE VALIDATED CELLS RE-READ, TEN MOVED (2026-11-19).** The run of 2026-11-18 wrote the bar beside the status table and re-read every cell that carried a validated icon: M5 went from 9 validated and 11 partial to 2 and 15, M6 from 3 and 2 to 0 and 3, and the column order did not change. The rows went to the author of the M5 column before any pull request; the author answered on 2026-11-19, the clock cell's way back was reworded from their suggestion, and [#741](https://github.com/openwave-labs/openwave/pull/741) landed the work with the author tagged. The runs that would move cells back are rows of the M5 roadmap ([M5.46](../openwave/xperiments/m5_liquid_crystal/research/tasks/m5_46_task_details.md) charge quantization, M5.47 Klein-Gordon). Record: [T11](tasks/t11_task_details.md).
 
 **T11 STAGED: ONE WRITTEN BAR, EVERY VALIDATED CELL RE-READ (2026-11-18; ruled 2026-11-15).** The review of [#723](https://github.com/openwave-labs/openwave/pull/723) declined three M10 rows because the property each row names came from what the candidate declares, and it said in the thread that the same question goes to an M5 cell of the same kind. The user ruled that the bar is one bar for every column and that it belongs in `MODELS.md` itself, not in a review. [T11](tasks/t11_task_details.md) fixes the bar's text first and then re-reads every validated cell under it. No cell moves at staging.
 
