@@ -51,8 +51,8 @@ regenerates the headline number. Adversarial audit on substantive claims
 
 | TaskID | Title | Description | Completed |
 | --- | --- | --- | --- |
-| [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | ✅ Closed 2026-11-13. The author's frozen expansion coefficients are reproduced exactly in clean rooms, seven of seven values, the comparison made after the rooms' result was pushed. Arithmetic on a declared object; no cell moves. Full record: [note](findings/m10_1_method_note.md) + [task](tasks/m10_1_task_details.md) | 2026-11-13 |
-| [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | ✅ Closed 2026-11-15. The author's static results on the signed-source candidate reproduce by an independent in-platform recomputation: the graph, the compact energies, the moments and the stopping times. The charge, rest-energy and spin rows stay not yet tested, since each property comes from what the candidate declares; the record says what would move each. Full record: [review](findings/m10_2_maintainer_review.md) + [task](tasks/m10_2_task_details.md) | 2026-11-15 |
+| ✅ [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | Closed 2026-11-13. The author's frozen expansion coefficients are reproduced exactly in clean rooms, seven of seven values, the comparison made after the rooms' result was pushed. Arithmetic on a declared object; no cell moves. Full record: [note](findings/m10_1_method_note.md) + [task](tasks/m10_1_task_details.md) | 2026-11-13 |
+| ✅ [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | Closed 2026-11-15. The author's static results on the signed-source candidate reproduce by an independent in-platform recomputation: the graph, the compact energies, the moments and the stopping times. The charge, rest-energy and spin rows stay not yet tested, since each property comes from what the candidate declares; the record says what would move each. Full record: [review](findings/m10_2_maintainer_review.md) + [task](tasks/m10_2_task_details.md) | 2026-11-15 |
 
 ## CHANGE-LOG
 

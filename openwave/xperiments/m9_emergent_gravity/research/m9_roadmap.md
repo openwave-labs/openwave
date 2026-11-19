@@ -20,12 +20,12 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| M9.3 | Metric phenomena note | Parked. Domain note: Einstein+Lambda, FGHMV cited, dS [O], torsion out of scope. Record at `a5640709` | author per-task PR |
-| M9.4 | Axial UV deformation | Parked. Q4b tree-level r(k)=(3/16)/(1+k^2/M^2). Record at `a5640709` | author per-task PR |
-| M9.5 | Q4a holographic pair | Parked. Selection-uniqueness negative; existence still [O]. Record at `a5640709` | author per-task PR |
-| M9.6 | de Sitter FGHMV bar | Parked. Copy obstructed (sign, isometries). Record at `a5640709` | author per-task PR |
-| M9.7 | Jacobson substitute | Parked. Not [P]. Record at `a5640709` | author per-task PR |
-| M9.8+ | Entanglement-gravity campaign | Parked. Papers 14 to 73 (A1/A2 ansatz, first law, Gauss and enclosed-energy results, vacuum-energy negatives); the author registers each as a task row before its PR. Record at `a5640709` | author per-task PR |
+| 🚧 M9.3 | Metric phenomena note | Parked. Domain note: Einstein+Lambda, FGHMV cited, dS [O], torsion out of scope. Record at `a5640709` | author per-task PR |
+| 🚧 M9.4 | Axial UV deformation | Parked. Q4b tree-level r(k)=(3/16)/(1+k^2/M^2). Record at `a5640709` | author per-task PR |
+| 🚧 M9.5 | Q4a holographic pair | Parked. Selection-uniqueness negative; existence still [O]. Record at `a5640709` | author per-task PR |
+| 🚧 M9.6 | de Sitter FGHMV bar | Parked. Copy obstructed (sign, isometries). Record at `a5640709` | author per-task PR |
+| 🚧 M9.7 | Jacobson substitute | Parked. Not [P]. Record at `a5640709` | author per-task PR |
+| 🚧 M9.8+ | Entanglement-gravity campaign | Parked. Papers 14 to 73 (A1/A2 ansatz, first law, Gauss and enclosed-energy results, vacuum-energy negatives); the author registers each as a task row before its PR. Record at `a5640709` | author per-task PR |
 
 ## STATUS AT A GLANCE (2026-09-02)
 
@@ -57,8 +57,8 @@ neighbors record \(I_B\) / axial negatives. Official M9.2 is Newton only.
 
 | TaskID | Title | Description | Completed |
 | --- | --- | --- | --- |
-| [M9.1](tasks/m9_1_task_details.md) | Hehl-Datta elimination | ✅ Closed 2026-08-15. Gate PASS r=3/16 both signatures (scatter <1e-15). Paper spin dual C2 FAIL (measured -1/2 not -1/4). Full record: [note](findings/m9_1_hehl_datta_note.md) + [task](tasks/m9_1_task_details.md) | 2026-08-15 |
-| [M9.2](tasks/m9_2_task_details.md) | Newton limit | ⚠️ Closed 2026-08-15. C1 PASS, C2 FAIL (Dirichlet images). Inherited Einstein, not GEM; the MODELS.md Newton cell stays 🚧. [note](findings/m9_2_newton_note.md) | 2026-08-15 |
+| ✅ [M9.1](tasks/m9_1_task_details.md) | Hehl-Datta elimination | Closed 2026-08-15. Gate PASS r=3/16 both signatures (scatter <1e-15). Paper spin dual C2 FAIL (measured -1/2 not -1/4). Full record: [note](findings/m9_1_hehl_datta_note.md) + [task](tasks/m9_1_task_details.md) | 2026-08-15 |
+| ✅ [M9.2](tasks/m9_2_task_details.md) | Newton limit | ⚠️ Closed 2026-08-15. C1 PASS, C2 FAIL (Dirichlet images). Inherited Einstein, not GEM; the MODELS.md Newton cell stays 🚧. [note](findings/m9_2_newton_note.md) | 2026-08-15 |
 
 ## CHANGE-LOG
 
