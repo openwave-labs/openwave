@@ -1,10 +1,10 @@
 # Local-only datasets manifest
 
-> AUTO-GENERATED, do not hand-edit the table: `python3 dev_docs/utils/gen_datasets_manifest.py openwave/xperiments/m5_liquid_crystal/research/data --write`
+> AUTO-GENERATED, do not hand-edit the table: `gen-datasets-manifest data --write`
 
 Heavy binary arrays in this folder are **local-only**: gitignored, never deleted (policy 2026-07-20, which supersedes the earlier "delete raw data > 1 MB" rule). They stay on the working machine so later tasks can consume them directly, and they stay OUT of the repo so clones stay light. What IS tracked in git and readable on GitHub: the summary `.json` / `.csv` / `.txt` in this same folder, the plots, and the scripts that rebuild everything here.
 
-**Inventory**: 850 local-only files, 8380.40 MB, in 17 task groups.
+**Inventory**: 918 local-only files, 13149.56 MB, in 19 task groups.
 
 | Task group | Files | Size | Producing script(s) | Record (regen commands + context) |
 | --- | --- | --- | --- | --- |
@@ -25,5 +25,7 @@ Heavy binary arrays in this folder are **local-only**: gitignored, never deleted
 | `m5_42` | 376 | 2619.12 MB | [`m5_42_controls.py`](../scripts/m5_42_controls.py) · [`m5_42_eq42.py`](../scripts/m5_42_eq42.py) · [`m5_42_gates.py`](../scripts/m5_42_gates.py) (+5 more) | [`m5_42_task_details.md`](../tasks/m5_42_task_details.md) |
 | `m5_45` | 63 | 213.89 MB | [`m5_45_reads.py`](../scripts/m5_45_reads.py) · [`m5_45_relax.py`](../scripts/m5_45_relax.py) | [`m5_45_task_details.md`](../tasks/m5_45_task_details.md) |
 | `m5_46` | 137 | 770.47 MB | [`m5_46_degree.py`](../scripts/m5_46_degree.py) · [`m5_46_pull.py`](../scripts/m5_46_pull.py) · [`m5_46_reads.py`](../scripts/m5_46_reads.py) | [`m5_46_task_details.md`](../tasks/m5_46_task_details.md) |
+| `m5_47` | 19 | 4527.95 MB | [`m5_47_evolve.py`](../scripts/m5_47_evolve.py) · [`m5_47_reads.py`](../scripts/m5_47_reads.py) · [`m5_47_report.py`](../scripts/m5_47_report.py) (+1 more) | [`m5_47_task_details.md`](../tasks/m5_47_task_details.md) |
+| `m5_48` | 49 | 241.21 MB | [`m5_48_pool.py`](../scripts/m5_48_pool.py) · [`m5_48_reads.py`](../scripts/m5_48_reads.py) · [`m5_48_relax.py`](../scripts/m5_48_relax.py) | [`m5_48_task_details.md`](../tasks/m5_48_task_details.md) |
 
-**Regeneration**: the exact command + runtime per dataset lives in the task record linked on its row (the task_details / findings doc), which is where the run configuration is already written down. Runs are deterministic from their fixed seeds and configs, so a regenerated array reproduces the original bit-for-bit at the stored precision.
+**Regeneration**: the exact command + runtime per dataset lives in the task record linked on its row (the task_details / findings doc), which is where the run configuration is already written down. Runs in both repos are deterministic from their fixed seeds and configs, so a regenerated array reproduces the original bit-for-bit at the stored precision.
