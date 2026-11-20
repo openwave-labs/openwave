@@ -1,0 +1,779 @@
+{
+ "passed": true,
+ "base_states": [
+  "m5_46_B0a_end.npz",
+  "m5_46_B0b_end.npz",
+  "m5_46_B0c_end.npz",
+  "m5_46_B0d_end.npz"
+ ],
+ "controls": [
+  {
+   "control": "K1 seed reads 1 on every cube, no pierced triangle, no loop",
+   "passed": true,
+   "numbers": [
+    {
+     "half_box": 8.0,
+     "N": 33,
+     "surfaces": 12,
+     "abs_q": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "pierced_triangles": 0,
+     "q_off_whole_max": 2.220446049250313e-16,
+     "min_gap": 0.8845541282333728,
+     "loops": 0,
+     "fragments": 0
+    },
+    {
+     "half_box": 8.0,
+     "N": 65,
+     "surfaces": 13,
+     "abs_q": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "pierced_triangles": 0,
+     "q_off_whole_max": 2.220446049250313e-16,
+     "min_gap": 0.8845541282333728,
+     "loops": 0,
+     "fragments": 0
+    },
+    {
+     "half_box": 10.0,
+     "N": 41,
+     "surfaces": 16,
+     "abs_q": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "pierced_triangles": 0,
+     "q_off_whole_max": 2.220446049250313e-16,
+     "min_gap": 0.8845541282333728,
+     "loops": 0,
+     "fragments": 0
+    }
+   ],
+   "counter_input": "a uniform M returns [0] on the same cubes, so the check fails on it"
+  },
+  {
+   "control": "K2 uniform M reads 0 on every cube",
+   "passed": true,
+   "numbers": [
+    {
+     "half_box": 8.0,
+     "N": 33,
+     "abs_q": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "q_abs_max": 0.0
+    },
+    {
+     "half_box": 8.0,
+     "N": 65,
+     "abs_q": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "q_abs_max": 0.0
+    },
+    {
+     "half_box": 10.0,
+     "N": 41,
+     "abs_q": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "q_abs_max": 0.0
+    }
+   ],
+   "counter_input": "the seed returns [1], so the check fails on it"
+  },
+  {
+   "control": "K3 degree-2 director reads 2 on every cube",
+   "passed": true,
+   "numbers": [
+    {
+     "half_box": 8.0,
+     "spacing": 0.5,
+     "abs_q": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ],
+     "pierced_triangles": 0,
+     "q_off_whole_max": 4.440892098500626e-16
+    },
+    {
+     "half_box": 8.0,
+     "spacing": 0.25,
+     "abs_q": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ],
+     "pierced_triangles": 0,
+     "q_off_whole_max": 4.440892098500626e-16
+    }
+   ],
+   "counter_input": "the map w -> w (degree 1) returns [1], so the check fails on it"
+  },
+  {
+   "control": "K4 pair of opposite points: 0 around both, 1 around each",
+   "passed": true,
+   "numbers": [
+    {
+     "spacing": 0.5,
+     "around_both_half_width_4p5_up": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "around_the_upper": 1,
+     "around_the_lower": 1,
+     "q_upper": -1.0,
+     "q_lower": 1.0,
+     "all_centered": [
+      [
+       2.0,
+       0
+      ],
+      [
+       2.5,
+       0
+      ],
+      [
+       3.0,
+       "pierced"
+      ],
+      [
+       3.5,
+       0
+      ],
+      [
+       4.0,
+       0
+      ],
+      [
+       4.5,
+       0
+      ],
+      [
+       5.0,
+       0
+      ],
+      [
+       5.5,
+       0
+      ],
+      [
+       6.0,
+       0
+      ],
+      [
+       6.5,
+       0
+      ],
+      [
+       7.0,
+       0
+      ],
+      [
+       7.5,
+       0
+      ]
+     ]
+    },
+    {
+     "spacing": 0.25,
+     "around_both_half_width_4p5_up": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "around_the_upper": 1,
+     "around_the_lower": 1,
+     "q_upper": -1.0,
+     "q_lower": 1.0,
+     "all_centered": [
+      [
+       2.0,
+       0
+      ],
+      [
+       2.5,
+       0
+      ],
+      [
+       3.0,
+       0
+      ],
+      [
+       3.5,
+       0
+      ],
+      [
+       4.0,
+       0
+      ],
+      [
+       4.5,
+       0
+      ],
+      [
+       5.0,
+       0
+      ],
+      [
+       5.5,
+       0
+      ],
+      [
+       6.0,
+       0
+      ],
+      [
+       6.5,
+       0
+      ],
+      [
+       7.0,
+       0
+      ],
+      [
+       7.5,
+       0
+      ],
+      [
+       7.75,
+       0
+      ]
+     ]
+    }
+   ],
+   "counter_input": "two points of the same sign return [1] around both (a zero of index -1 sits between them), so the check fails on it"
+  },
+  {
+   "control": "K5 cubes cut by the base loop are not liftable; piercings equal the line reader's crossings",
+   "passed": true,
+   "numbers": [
+    {
+     "state": "m5_46_B0a_end.npz",
+     "loops": 1,
+     "radius": 3.292979879261825,
+     "cut": [
+      {
+       "half_width": 2.5,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      },
+      {
+       "half_width": 3.0,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      }
+     ],
+     "pierced_without_a_crossing": []
+    },
+    {
+     "state": "m5_46_B0b_end.npz",
+     "loops": 1,
+     "radius": 3.3159160613465914,
+     "cut": [
+      {
+       "half_width": 2.5,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      },
+      {
+       "half_width": 3.0,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      }
+     ],
+     "pierced_without_a_crossing": []
+    },
+    {
+     "state": "m5_46_B0c_end.npz",
+     "loops": 1,
+     "radius": 3.292979879261825,
+     "cut": [
+      {
+       "half_width": 2.5,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      },
+      {
+       "half_width": 3.0,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      }
+     ],
+     "pierced_without_a_crossing": []
+    },
+    {
+     "state": "m5_46_B0d_end.npz",
+     "loops": 1,
+     "radius": 3.3159160613465914,
+     "cut": [
+      {
+       "half_width": 2.5,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      },
+      {
+       "half_width": 3.0,
+       "pierced_triangles": 8,
+       "line_crossings": 8,
+       "plaquettes_both_triangles": 0,
+       "charge": null
+      }
+     ],
+     "pierced_without_a_crossing": []
+    }
+   ],
+   "counter_input": "on the 13 liftable cubes around the loop of m5_46_B0d_end.npz the charge is [1] and the count is [0]: a charge is assigned there, so the check fails on them"
+  },
+  {
+   "control": "K6 one ring: one loop at its radius; two rings: two loops",
+   "passed": true,
+   "numbers": [
+    {
+     "spacing": 0.5,
+     "rings": 1,
+     "R0": 3.0,
+     "loops": 1,
+     "radius": [
+      2.9807867983087153
+     ],
+     "fragments": 0,
+     "charge_by_cube": [
+      [
+       2.0,
+       "pierced"
+      ],
+      [
+       2.5,
+       "pierced"
+      ],
+      [
+       3.0,
+       "pierced"
+      ],
+      [
+       3.5,
+       1
+      ],
+      [
+       4.0,
+       1
+      ],
+      [
+       4.5,
+       1
+      ],
+      [
+       5.0,
+       1
+      ],
+      [
+       5.5,
+       1
+      ],
+      [
+       6.0,
+       1
+      ],
+      [
+       6.5,
+       1
+      ],
+      [
+       7.0,
+       1
+      ],
+      [
+       7.5,
+       1
+      ]
+     ]
+    },
+    {
+     "spacing": 0.5,
+     "rings": 1,
+     "R0": 5.0,
+     "loops": 1,
+     "radius": [
+      5.013455779994072
+     ],
+     "fragments": 0,
+     "charge_by_cube": [
+      [
+       2.0,
+       0
+      ],
+      [
+       2.5,
+       0
+      ],
+      [
+       3.0,
+       0
+      ],
+      [
+       3.5,
+       "pierced"
+      ],
+      [
+       4.0,
+       "pierced"
+      ],
+      [
+       4.5,
+       "pierced"
+      ],
+      [
+       5.0,
+       "pierced"
+      ],
+      [
+       5.5,
+       1
+      ],
+      [
+       6.0,
+       1
+      ],
+      [
+       6.5,
+       1
+      ],
+      [
+       7.0,
+       1
+      ],
+      [
+       7.5,
+       1
+      ]
+     ]
+    },
+    {
+     "spacing": 0.5,
+     "rings": 2,
+     "R0": 3.0,
+     "loops": 2,
+     "radius": [
+      2.9807867983087153,
+      2.9807867983087153
+     ],
+     "center_z": [
+      -3.25,
+      3.25
+     ],
+     "fragments": 0
+    },
+    {
+     "spacing": 0.25,
+     "rings": 1,
+     "R0": 3.0,
+     "loops": 1,
+     "radius": [
+      3.003899184431196
+     ],
+     "fragments": 0,
+     "charge_by_cube": [
+      [
+       2.0,
+       "pierced"
+      ],
+      [
+       2.5,
+       "pierced"
+      ],
+      [
+       3.0,
+       "pierced"
+      ],
+      [
+       3.5,
+       1
+      ],
+      [
+       4.0,
+       1
+      ],
+      [
+       4.5,
+       1
+      ],
+      [
+       5.0,
+       1
+      ],
+      [
+       5.5,
+       1
+      ],
+      [
+       6.0,
+       1
+      ],
+      [
+       6.5,
+       1
+      ],
+      [
+       7.0,
+       1
+      ],
+      [
+       7.5,
+       1
+      ],
+      [
+       7.75,
+       1
+      ]
+     ]
+    },
+    {
+     "spacing": 0.25,
+     "rings": 1,
+     "R0": 5.0,
+     "loops": 1,
+     "radius": [
+      5.009975076290654
+     ],
+     "fragments": 0,
+     "charge_by_cube": [
+      [
+       2.0,
+       0
+      ],
+      [
+       2.5,
+       0
+      ],
+      [
+       3.0,
+       0
+      ],
+      [
+       3.5,
+       "pierced"
+      ],
+      [
+       4.0,
+       "pierced"
+      ],
+      [
+       4.5,
+       "pierced"
+      ],
+      [
+       5.0,
+       "pierced"
+      ],
+      [
+       5.5,
+       1
+      ],
+      [
+       6.0,
+       1
+      ],
+      [
+       6.5,
+       1
+      ],
+      [
+       7.0,
+       1
+      ],
+      [
+       7.5,
+       1
+      ],
+      [
+       7.75,
+       1
+      ]
+     ]
+    },
+    {
+     "spacing": 0.25,
+     "rings": 2,
+     "R0": 3.0,
+     "loops": 2,
+     "radius": [
+      3.003899184431196,
+      3.003899184431196
+     ],
+     "center_z": [
+      -3.125,
+      3.125
+     ],
+     "fragments": 0
+    }
+   ],
+   "counter_input": "the ring of radius 5 reads 5 and the two rings read two loops, so a check for one loop of radius 3 fails on both"
+  },
+  {
+   "control": "K7 random sign flips of n before the lift leave every read unchanged",
+   "passed": true,
+   "numbers": [
+    {
+     "state": "m5_46_B0a_end.npz",
+     "surfaces": 12,
+     "liftable": 9,
+     "trials": 5,
+     "nodes_flipped": 89713,
+     "reads_moved": 0,
+     "largest_change_of_abs_q": 0.0
+    },
+    {
+     "state": "m5_46_B0b_end.npz",
+     "surfaces": 13,
+     "liftable": 10,
+     "trials": 5,
+     "nodes_flipped": 685521,
+     "reads_moved": 0,
+     "largest_change_of_abs_q": 0.0
+    },
+    {
+     "state": "m5_46_B0c_end.npz",
+     "surfaces": 16,
+     "liftable": 13,
+     "trials": 5,
+     "nodes_flipped": 172212,
+     "reads_moved": 0,
+     "largest_change_of_abs_q": 0.0
+    },
+    {
+     "state": "m5_46_B0d_end.npz",
+     "surfaces": 17,
+     "liftable": 14,
+     "trials": 5,
+     "nodes_flipped": 1330151,
+     "reads_moved": 0,
+     "largest_change_of_abs_q": 0.0
+    }
+   ],
+   "counter_input": "without the lift the same flipped field of m5_46_B0d_end.npz sums to [-6.0, 6.0, -38.0, -10.0] on its first liftable cubes (lifted: [0, 1, 1, 1]), so the read moves when the lift is skipped"
+  }
+ ]
+}
