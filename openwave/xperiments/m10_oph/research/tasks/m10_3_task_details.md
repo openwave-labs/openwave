@@ -23,3 +23,7 @@ python -B row_04_check.py --board "$ECHO_INPUTS/FEDERATION_LEVEL0.npz" --receipt
 ```
 
 The last command is expected to exit 1 at the persistence gate. The 20-cell exposure and its units are supplied. No additional interventions occur in flight. The author carries out the platform replay after the planning commit. A pass supports a request for full row 4 credit. The maintainers decide the mark and pin. [Complete design and raw inputs](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo)
+
+## Execution
+
+Planning commit `484a96fd08f9e940a8239918341b88c0e324db56` was published before this release replay. The checkers used the publicly downloaded author inputs. The two programs reproduced both receipts, and the contrast-removal control exited at its scientific gate. [Measured output and timings](../data/m10_3_reproduction.json) · [Method and proposed cell](../findings/m10_3_method_note.md)
