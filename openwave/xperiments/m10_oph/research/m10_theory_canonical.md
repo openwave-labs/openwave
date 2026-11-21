@@ -12,6 +12,7 @@
 | Item | Value |
 | --- | --- |
 | Author repository | [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography) |
+| Proposed pin for M10.3 | [Interval Echo at `4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c`](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo), proposed as the single candidate for the M10 column. Row 4 is the sole result requested. The [registered task](tasks/m10_3_task_details.md) gives the source change, observer and controls. |
 | Pinned candidate for M10.2 | [`c330c6e7f23506b5f87c339cd73906928c1a7cd9`](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source), `A-static-signed-source-v1`; its exact executable scope is § 1.1 |
 | Admission pin (ancestry) | [`3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`](https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984) (2026-11-13), the commit the application's links use in its short form `3c4e1e23fc32`; the full hash was resolved from the repository at scaffold time |
 | For admission-snapshot numbers | The executable model at the pinned commit: [`model/CONSTRUCTION.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/CONSTRUCTION.md), [`model/PREMISES.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/PREMISES.md), and the `PROOF.md` of the package that produces the number (the author's statement) |
@@ -55,6 +56,20 @@ construction/claim ancestry at `3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`.
 They do not assign those separate sources' results to M10.2. Section 8 remains
 the scoring rule for the selected candidate. The source admissibility and
 physical dictionary of M10.2 are submitted for maintainer review.
+
+## 1.2 Proposed Interval Echo candidate for M10.3
+
+| Element | Declaration or consequence |
+| --- | --- |
+| Carrier and addresses | Complete 12-port echosahedra with local and intercell seams on the spherical federation. The launch observer owns one 30-seam cell. |
+| Update and memory | Each seam balances endpoint loads and writes their old contrast and a coin in an eleven-state memory. The free generator uses the coherent echo and zero-load degree references. |
+| Schedule and preparation | The free-pair assay starts from blank collars and two distinct units on an internal gateway-touching seam. Uniform exposure enables every contact until one terminal read per preparation. |
+| Observable | The terminal patch copies the outgoing pair flag and undoes the echo. Its record is one of 30 home seams or quiet. Report the probability over all releases. |
+| Comparison and units | Coupling 8 and dimensionless exposures are supplied. A control sets the contrast coupling to zero on the same carrier. The assay uses no calibration to a measured particle mass. |
+| Source ancestry | M10.2 used a signed-coordinate compact source and static transfer observable. Its static replay and its unresolved charge, rest-energy and spin identifications remain attached to that pin. M10.3 tests free binding on a separate law. |
+| Scope | The decision requested concerns free persistence of this prepared excitation on its tested time window. Electromagnetic charge, spin, particle identity and a universal lifetime require other measurements. |
+
+[Registered terms](tasks/m10_3_task_details.md)
 
 ## 2. Arena
 
