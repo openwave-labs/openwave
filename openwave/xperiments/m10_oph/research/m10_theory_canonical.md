@@ -12,8 +12,8 @@
 | Item | Value |
 | --- | --- |
 | Author repository | [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography) |
-| Proposed pin for M10.3 | [Interval Echo at `4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c`](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo), proposed as the single candidate for the M10 column. Row 4 is the sole result requested. The [registered task](tasks/m10_3_task_details.md) gives the source change, observer and controls. |
-| Pinned candidate for M10.2 | [`c330c6e7f23506b5f87c339cd73906928c1a7cd9`](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source), `A-static-signed-source-v1`; its exact executable scope is § 1.1 |
+| Pinned candidate (M10.3) | [Interval Echo at `4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c`](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo), adopted as the single candidate for the M10 column on 2026-11-21 in the review of [pull request #745](https://github.com/openwave-labs/openwave/pull/745). Row 4 is the one row computed on it. The [registered task](tasks/m10_3_task_details.md) gives the source change, observer and controls. |
+| Earlier candidate, M10.2 (ancestry) | [`c330c6e7f23506b5f87c339cd73906928c1a7cd9`](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source), `A-static-signed-source-v1`; its exact executable scope is § 1.1 |
 | Admission pin (ancestry) | [`3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`](https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984) (2026-11-13), the commit the application's links use in its short form `3c4e1e23fc32`; the full hash was resolved from the repository at scaffold time |
 | For admission-snapshot numbers | The executable model at the pinned commit: [`model/CONSTRUCTION.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/CONSTRUCTION.md), [`model/PREMISES.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/PREMISES.md), and the `PROOF.md` of the package that produces the number (the author's statement) |
 | For the hypothesis | The flagship paper ([`../theory/_CITATIONS.md`](../theory/_CITATIONS.md)) and the author's [hypothesis page](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/docs/OPH_EXECUTABLE_HYPOTHESIS.md) |
@@ -58,6 +58,8 @@ the scoring rule for the selected candidate. The source admissibility and
 physical dictionary of M10.2 are submitted for maintainer review.
 
 ## 1.2 Proposed Interval Echo candidate for M10.3
+
+Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https://github.com/openwave-labs/openwave/pull/745), [maintainer review](findings/m10_3_maintainer_review.md)).
 
 | Element | Declaration or consequence |
 | --- | --- |
@@ -255,6 +257,8 @@ once. Each kill rule rejects a branch; none rejects OPH as a whole.
 | The join | Which criteria row is first computed on the carrier's own process, and by what construction, is the author's program to define ([`m10_roadmap.md`](m10_roadmap.md)) |
 
 ## 11.1 Author premise and claim register
+
+Since 2026-11-21 the column's scored candidate is Interval Echo (§ 1); the M10.2 source named below is ancestry.
 
 The author's [premise/status comment](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19624288)
 links the [94-entry theorem and observable inventory](m10_theorem_observable_inventory.md).

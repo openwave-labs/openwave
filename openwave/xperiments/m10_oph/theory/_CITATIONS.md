@@ -32,6 +32,18 @@ The year column is the year of the pinned versions. Nothing here was invented.
 | Bernhard Mueller; Mario Poneder; Alexander Osika; Kai Xue; Peter Nguyen; Maarten Antonie Visser; David Matscheko; Brieuc de La Fournière | 2026 | Recovering Observer Spacetime and Einstein Dynamics from Overlap Consistency (spacetime and the conditional Einstein limit) | author repository, [`paper/recovering_observer_spacetime_and_einstein_dynamics_from_overlap_consistency.pdf`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/paper/recovering_observer_spacetime_and_einstein_dynamics_from_overlap_consistency.pdf) | [title-page source](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/paper/recovering_observer_spacetime_and_einstein_dynamics_from_overlap_consistency.tex#L6) |
 | Bernhard Mueller; Kai Xue; Jinwook Kim; Kale Arnav Anirudha; David Matscheko; Jonathan Hill | 2026 | Reality as a Consensus Protocol (repair as a consensus protocol, normal forms) | author repository, [`paper/reality_as_consensus_protocol.pdf`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/paper/reality_as_consensus_protocol.pdf) | [title-page source](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/paper/reality_as_consensus_protocol.tex#L28) |
 
+**Release `r2072`** (registered 2026-11-21). The model briefing links two of these
+papers as PDFs of release `r2072` of the author's repository, published 2026-11-21,
+its tag on commit `7a11a741dcc8de00a2ca826b3800909566467d62`:
+[`observers_are_all_you_need.pdf`](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/observers_are_all_you_need.pdf)
+(Observers Are All You Need) and
+[`executable_observer_construction.pdf`](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/executable_observer_construction.pdf)
+(An Executable Observer for Observer Patch Holography). The release also carries the
+flagship,
+[`from_observer_consensus_to_standard_physics.pdf`](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/from_observer_consensus_to_standard_physics.pdf).
+The release versions were not compared with the admission-pin versions, which stay
+the record above. No PDF from the release is downloaded or committed here.
+
 The author lists and order are transcribed from the eight title-page author
 blocks at the admission pin, with full given names from the matching PDF metadata.
 `B. Müller` is expanded to Bernhard Mueller; the accent in Brieuc de La Fournière
