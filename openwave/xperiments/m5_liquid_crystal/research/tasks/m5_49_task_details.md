@@ -222,3 +222,277 @@ Read against the recurring failure families of the records of [M5.47](m5_47_task
 **Estimate.** Stage 1 is a desk read of stored sums: four scripts, the controls and the reads, with no pool. The clock of the task is stage 2: the base chain on 105³, then three jobs whose cost per job is about 2.2 times that of the 81³ jobs of M5.47 § 14 (the ratio of the node counts), beside one more 81³ job and two on the grid of V2. The reads of grid e, the findings and two audits in parallel follow. Model: the session's model for the build, in one sub-agent; the audit on Opus, a numbers check on Sonnet.
 
 **Plan audit (2026-11-20, before any wave was read along a ray).** An independent pass on a different model read the draft of this plan against the two posts, the registration and its script in the author's archive, the record and the tracked summary of M5.47 and the scripts, and recomputed its numbers with its own code. It opened no Fourier array and computed no profile along a ray. It confirmed the registered numbers from the archive's two profiles, the cutoff rule against the bins of M5.47 § 11 (to about 10⁻⁷), the ratios and cutoffs quoted in the expectations and the shifts of the edges derived from them, the quotes of K², the width of the window, the settings of the jobs, the loop radii, and the half-box of the draft under the draft's own assumption. It found nineteen faults (two critical, three high, six medium, eight low), all folded above. Those that changed a reading, a control or the job list: a band was read on two pieces under ω, evidence the registration does not count, so BAND now needs a run of half a wavelength, a shorter run is ZONE without label, and the Scope says the falsifier is not read; the cutoff rule was written for seventeen targets and could not pass its vacuum control, whose job has twenty-three and whose kept targets start far above the cutoff, so the rule reads the targets of the job and two vacuum jobs with the mid mass at 4 and at 5.5 were added (C6 (b)); no control told the offset of the cutoffs from a bias of the intercept, so that bias enters the margin and every edge is found on three profiles; the second draw did not exist on grid d, so job Sd was added, C10 runs per grid, and a statement must repeat in the second draw; "R does not depend on" the identity of the author's I with L₁ q was false, so § 1 states the author's three-weight direction, q_P is computed and C14 was added; the entries said to be known before the run assumed that F equals the registered numbers, so that paragraph is limited to the N column and stage 2 moved from half-box 12 to 13, which also covers the author's own ray in the plane; cases were missing (an edge by its midpoint, F with no band or with several, a band not predicted, one form of F lacking an edge, a least K² at the first target) and each has its rule; the nodes that enter a piece and the count of a node shared by two rays were not stated; the made-up profiles of C2 contradicted the rule they test; C1 compared round-off to ten digits; the rule for a piece that is not fitted used a margin of 0.25 where the bins show 0.27, now 0.5. The others corrected numbers and wording (1.6 to 7.7 percent; 16.577 at r = 2.50; the half wavelength defined; a reason or the words "the plan's choice" for each threshold; the tracked figure disclosed; the expectations rewritten with the undecided range and the margin; the runners and their file names; the author's design stated). One fact was settled after the audit, by reading the archive's script of the driven run as text: the definition of the author's direction and the design of their run, on which the fold of the fifth fault and the roles of lines PF and PD rest. Three points of the fold are the nearest thing that keeps a decision's purpose: the margin δ is per grid, since a second draw withholds on its own grid; C6 (b) costs the labels of its own frequency; and C14 also compares the band-or-none statement of F under the two kinetic factors. Added at the fold from the geometry of the grids, which needs no state: the ends of the lines (7.5 and 10 on PD of grids b and d, where the draft wrote about 7.7 and 10.1), the largest covered r₀ per line, and the first piece of every line falling under the floor. Not checked by the audit: anything that needs the arrays (the node counts of real pieces, the size of the region where the eigenvalue condition fails, whether C3, C7, C8 and C11 pass on pieces); the posts online; the plots.
+
+## FINDINGS (2026-11-20)
+
+> The run of the plan above, made on 2026-11-20. Scripts: [`m5_49_predict.py`](../scripts/m5_49_predict.py), [`m5_49_waves.py`](../scripts/m5_49_waves.py), [`m5_49_reads.py`](../scripts/m5_49_reads.py), [`m5_49_report.py`](../scripts/m5_49_report.py). Prediction: [`m5_49_bands_predicted.json`](../data/m5_49_bands_predicted.json). Summary of the reads: [`m5_49_reads.json`](../data/m5_49_reads.json). One `m5_49_<job>.json` per job and `m5_49_chain_B0e.json` in [`../data/`](../data/).
+
+**In brief.** (1) The controls were met, with two exceptions, neither of which changes a word (§ 7). C12 is not met on three pairs of inner edges of grid b. The statement clause of C10 is not met on three statements at ω = 4, which become undecided by the plan: line PF of grid d and line PD of grid e (BAND, then ZONE in the second draw) and line O of grid e (undecided, then ZONE). C2 took two tries; C2 and C13 were met again on the final reads script. The prediction of every grid was written and hashed before any Fourier sum of that grid was read along a ray, as local file times and notes show (§ 7, C5). (2) Against F, the author's rule on the background of OpenWave, over the grids of spacing 0.25: R2, R3 and R4 HELD; R1 no label on b, d and e. On grid b the run first routed R1 by a literal crossing of ω and gave NOT HELD. F's own statement on that line lies inside the margin, and by the ruling recorded in § 12 (item 15) R1 there is a band-or-none entry without label (§ 8). (3) Against the registered numbers: N2, N3 and N4 HELD; N1 NOT HELD, on grid b alone, where the read finds a band on the axis at ω = 4 from s = 2 to 4.5, longer than its half wavelength of 1.88; on grids d and e the axis reads ZONE, a run shorter than its half wavelength, which carries no label (§ 9). (4) Every HELD rests on an outer edge, and N1's NOT HELD rests on a band statement of the axis. No inner edge carries a word on any grid: all lie under the radius of 2.5, or their windows hold pieces next to the loop that are not read. (5) On the labeled grids every read edge that carries HELD lies 3.4 to 7.4 percent outside the edge it is scored against, and within 1.4 percent of the edge of C, the cutoffs that M5.47 fitted per bin of q (§ 10). On the tabled grids the HELD edges reach +9.8 percent (a) and +9.1 percent (c). The HELD words therefore hold the offset of the cutoffs under the formula that M5.47 had already tabled, inside the tolerance of 10 percent. (6) Every reading is on the action of M5.42 with κ = v = 1, δ = 0.05 and L₁ = 0.03, the action on which the author registered the bands. It is not on the action of the author's later post, and no label carries over to that one (§ 13). (7) The cell is not re-read here.
+
+**Scope.** The relaxed unit of M5.42 at J = 0, the shell held, on half-boxes 8, 10 and 13 at spacings 0.5 and 0.25 (labels on 0.25 only). Free noise in the mid polarization W was evolved over a length of 72 with the time part of M5.47, and read on pieces of four lines through the center of the loop. The statement read is the registered band, the stretch of a line where the local cutoff of the mid wave lies under ω. The registered falsifier, a wave advancing in phase, is not read (limit (3) of the plan).
+
+### 7. The controls
+
+| Control | Tries | Word | What was read |
+| --- | --- | --- | --- |
+| C1, the stepper again | 1 | ✅ met | `m5_47_evolve.py --controls` unchanged, its output written outside `data/`: 91 numeric and boolean leaves of [`m5_47_controls_stepper.json`](../data/m5_47_controls_stepper.json) reproduced bit for bit; K0 to K5 passed by their own thresholds |
+| C2, the readers on made-up inputs | 2, and a third run | ✅ met | 50 of 50 at the second try. At the first, 47 of 50: three made-up inputs contradicted the rule they test (§ 12, item 8). Run a third and last time on the final reads script (after the fix of § 12, item 15): 50 of 50, no input changed |
+| C3, q | 1 | ✅ met | q from its definition against $W \cdot \mathcal{A}(M_0) \cdot W / (2 L_1)$ on every node of D: largest gap 6.2 × 10⁻¹⁵ on a to e |
+| C4, the base state B0e | 1 | ✅ met | gate met at the end (9.8 × 10⁻⁶ against 10⁻³); one loop; center at the center of the box; normal along z; radius 3.337, 0.64 % from 3.316 |
+| C5, the prediction first | 1 | ✅ met | block hashes of V1, V2, a to d noted before any Fourier sum was opened by a script of this task, and of e before its jobs were launched; every read along a ray took the hash of its block and matched it before it opened a sum. The hashes of a to d are unchanged after block e was added. The proof is local (see below) |
+| C6 (a), V2 on the pieces | 1 | ✅ met | 36 pieces read, 36 fitted, worst gap 0.135 % from 7.7517, every read piece OVER at 4 and 5.5, no edge. V1 (tabled) fits no piece |
+| C6 (b), Vq4 and Vq55 | 1 | ✅ met | Vq4: 36 of 36 fitted, worst gap 0.397 % from 4, β(4) = −0.00137. Vq55: 36 of 36 fitted, worst gap 0.288 % from 5.5, β(5.5) = −0.00015 |
+| C7, the twin | 1 | ✅ met | twin power over difference power at every kept target of every fitted piece, both draws: worst 7.1 × 10⁻⁷ (b), 4.1 × 10⁻⁷ (d), 4.4 × 10⁻⁷ (e); no piece set aside |
+| C8, the linearized equations | 1 | ✅ met | worst gap of the quotient from ω², both draws: 1.80 % (b), 1.97 % (d), 1.71 % (e); 2.24 % and 2.95 % on the tabled a and c; no piece set aside |
+| C9, the energy | 1 | ✅ met | largest drift of E over the perturbation's energy: Sd 0.45 %, Ue 0.36 %, Se 0.36 %, Vq4 0.018 %, Vq55 0.12 % (the second draws checked by eye, since the script withholds on the first draw's C9 only) |
+| C10, the second draw | 1 | ⚠️ met on the median and the edges, not met on three statements | median relative difference of ω_c over the pieces fitted in both draws: 0.0051 over 36 pieces (b), 0.0026 over 52 (d), 0.0019 over 70 (e). Every edge with a word found again within 0.7 %. The statements of the axis at ω = 4 repeat (BAND on b, ZONE on d and e). Three statements at ω = 4 do not repeat and are undecided by the plan: PF of d and PD of e (BAND, then ZONE), O of e (undecided, then ZONE). No word changes: those lines carry edge entries, and their HELD edges are found again within 0.7 %. The HELD edges at 6.73 (d, PF) and 6.66 (e, PD) sit on bands that the second draw reads as ZONE |
+| C11, the rays of a line | 1 | ✅ met | worst gap of the q̄ of one ray from that of its line over the windows: 0.32 % (b), 0.28 % (d), 0.26 % (e) |
+| C12, the swap | 1 | ⚠️ met on 5 pairs, not met on 3 | met: A against PD (outer, ω = 4) on b; A against PF and against PD, outer and inner, at ω = 5.5 on e. Not met on b: the inner edges of A against PF at ω = 4, and of A against PF and against PD at ω = 5.5, read within 0.12 of each other where F puts them 0.31 to 0.58 apart. Those entries carry no word for other reasons (the radius of 2.5, the cover). Pairs with a read edge missing are not scored |
+| C13, the reader on the bins of M5.47 | 1, and a second run | ✅ met | the cutoffs of M5.47 § 11 reproduced on 8, 9, 8 and 10 bins of a to d, worst relative gap 2.1 × 10⁻⁷ (the stored values carry seven digits); the same numbers on the final reads script |
+| C14, the two kinetic factors | 1 | ✅ met | every edge of F with q_P within 1.46 % of the edge of F with q (edges: 9 of 9 on b, 8 of 8 on d, 10 of 10 on e); the band-or-none statement of F alike under both on the one statement entry of each of b, d and e |
+
+The margin δ is 0.0102 on grid b (twice the median of C10), 0.0100 on d and e (the floor), and 0.0258 on grid a (tabled). The three profiles of the bias are 0.14 % apart at ω = 4 and 0.015 % at 5.5. No entry changed its word between them.
+
+The words of C7 to C12 and C14 come from one run of the reads script over all grids, made again after the fix of § 12, item 15. Two earlier runs on the grids that had ended were trials and are not the record.
+
+**How C5 is shown.** The proof that each prediction preceded its read rests on local file times, the run notes and the log of the hash checks, kept with the checkpoints. The prediction file was not under version control at the time. Blocks V1, V2 and a to d were written at 09:57 and the first sum of the unit was read along a ray at 11:07. Block e was written at 10:43; the first Fourier sum of grid e was written at 17:29 and opened at 17:47.
+
+### 8. The readings against F (R1 to R4)
+
+The labeled grids, every entry. "F on the pieces" is the edge that carries the label, with the ray form in brackets. "Read" is the read edge of the same kind nearest to it, printed also where no word is given.
+
+| Reading | Grid | Line | ω | Entry | F on the pieces (ray form) | Read | Read against F | Second draw | Word | What withheld it |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 | b | A | 4 | band or none | F: inside the margin | BAND (run 2 to 4.5, half wavelength 1.88) | | BAND | no label | the statement of F lies inside the margin. The word of the literal-crossing routing the run first used: ❌ NOT HELD, outer edge 3.32 against 4.58 (+38.0 %) |
+| R1 | d | A | 4 | band or none | F: inside the margin | ZONE (run 2 to 4, half wavelength 2.64) | | ZONE | no label | the statement of F lies inside the margin |
+| R1 | d | A | 4 | inner edge | ray form only, 1.75 | n/a | | n/a | no label | only the ray form of F has the edge |
+| R1 | d | A | 4 | outer edge | ray form only, 2.89 | n/a | | n/a | no label | only the ray form of F has the edge |
+| R1 | e | A | 4 | band or none | F: inside the margin | ZONE (run 2.5 to 3.5, half wavelength 2.91) | | ZONE | no label | the statement of F lies inside the margin |
+| R1 | e | A | 4 | inner edge | ray form only, 1.95 | n/a | | n/a | no label | only the ray form of F has the edge |
+| R1 | e | A | 4 | outer edge | ray form only, 2.61 | n/a | | n/a | no label | only the ray form of F has the edge |
+| R2 | b | PF | 4 | inner edge | 2.79 (2.63) | 2.05 | −26.7 % | 2.10 | no label | the window is not covered |
+| R2 | b | PF | 4 | outer edge | 6.17 (6.17) | n/a | | n/a | no label | the window is not covered |
+| R2 | b | PD | 4 | inner edge | 2.30 (2.64) | n/a | | n/a | no label | the radius is under 2.5 |
+| R2 | b | PD | 4 | outer edge | 6.12 (6.21) | 6.69 | +9.3 % | 6.70 | no label | the window is not covered |
+| R2 | d | PF | 4 | inner edge | 2.85 (2.65) | n/a | | n/a | no label | the window is not covered |
+| R2 | d | PF | 4 | outer edge | 6.26 (6.28) | 6.73 | +7.4 % | 6.73 | ✅ HELD | |
+| R2 | d | PD | 4 | inner edge | 2.38 (2.66) | n/a | | 2.08 | no label | the radius is under 2.5 |
+| R2 | d | PD | 4 | outer edge | 6.20 (6.29) | 6.64 | +7.1 % | 6.69 | no label | the window is not covered |
+| R2 | e | PF | 4 | inner edge | 2.88 (2.66) | n/a | | n/a | no label | the window is not covered |
+| R2 | e | PF | 4 | outer edge | 6.31 (6.33) | n/a | | 6.69 | no label | the window is not covered |
+| R2 | e | PD | 4 | inner edge | 2.51 (2.67) | n/a | | n/a | no label | the window is not covered |
+| R2 | e | PD | 4 | outer edge | 6.24 (6.33) | 6.66 | +6.6 % | 6.67 | ✅ HELD | |
+| R3 | b | A | 5.5 | inner edge | 0.84 (0.58) | 0.76 | −9.8 % | 0.76 | no label | the radius is under 2.5 |
+| R3 | b | A | 5.5 | outer edge | beyond the line | n/a | | n/a | no label | F is under ω out to where the line stops being read |
+| R3 | d | A | 5.5 | inner edge | 0.88 (0.60) | n/a | | 0.86 | no label | the radius is under 2.5 |
+| R3 | d | A | 5.5 | outer edge | beyond the line | n/a | | n/a | no label | F is under ω out to where the line stops being read |
+| R3 | e | A | 5.5 | inner edge | 0.90 (0.62) | 0.85 | −4.8 % | 0.93 | no label | the radius is under 2.5 |
+| R3 | e | A | 5.5 | outer edge | 8.33 (8.29) | 8.84 | +6.1 % | 8.85 | ✅ HELD | |
+| R4 | b | PF | 5.5 | inner edge | 1.26 (1.49) | 0.88 | −30.6 % | 0.93 | no label | the radius is under 2.5 |
+| R4 | b | PF | 5.5 | outer edge | beyond the line | n/a | | n/a | no label | F is under ω out to where the line stops being read |
+| R4 | b | PD | 5.5 | inner edge | 1.15 (1.48) | 0.87 | −24.1 % | n/a | no label | the radius is under 2.5 |
+| R4 | b | PD | 5.5 | outer edge | beyond the line | n/a | | n/a | no label | F is under ω out to where the line stops being read |
+| R4 | d | PF | 5.5 | inner edge | 1.30 (1.52) | 1.14 | −12.6 % | 1.13 | no label | the radius is under 2.5 |
+| R4 | d | PF | 5.5 | outer edge | beyond the line | n/a | | n/a | no label | F is under ω out to where the line stops being read |
+| R4 | d | PD | 5.5 | inner edge | 1.20 (1.51) | 1.08 | −10.1 % | 1.05 | no label | the radius is under 2.5 |
+| R4 | d | PD | 5.5 | outer edge | 9.54 (9.67) | n/a | | n/a | no label | the window is not covered |
+| R4 | e | PF | 5.5 | inner edge | 1.32 (1.53) | 1.21 | −8.8 % | 1.25 | no label | the radius is under 2.5 |
+| R4 | e | PF | 5.5 | outer edge | 9.73 (9.80) | 10.07 | +3.5 % | 10.10 | ✅ HELD | |
+| R4 | e | PD | 5.5 | inner edge | 1.22 (1.52) | 1.03 | −15.8 % | 1.08 | no label | the radius is under 2.5 |
+| R4 | e | PD | 5.5 | outer edge | 9.65 (9.80) | 10.07 | +4.4 % | 10.04 | ✅ HELD | |
+
+No read BAND lies outside every band of F, so no entry "band not predicted" exists. Where a window on lines PF and PD is not covered, one of three things stops it. The box ends (PF of b at ω = 4; the outer edges at ω = 5.5 on b and d). Or pieces next to the loop line are not read, since the eigenvalue condition removes their nodes (every inner edge at ω = 4 that lies above 2.5). Or pieces have kept targets more than 0.10 ω² off their line, so they are neither fitted nor OVER: s = 5.75 on PD of b and d (worst gaps 0.124 and 0.118), and the three pieces at s = 5.25, 5.75 and 6.25 on PF of e (0.101 to 0.178).
+
+**R1 on grid b.** On the pieces of the axis of grid b, F dips under 4 by at most 1.6 %: m_F is 3.981, 3.936 and 3.986 at s = 2.25, 2.75 and 3.25, against the limit (1 − δ) ω = 3.959. One piece is under that limit, where § 5 asks for two, so F's statement lies inside the margin and R1 is a band-or-none entry without label. The run first routed this line by a literal crossing of ω, under which F has a band from 2.21 to 3.32, and scored its outer edge by the edge rule: NOT HELD, 3.32 against a read edge of 4.58 (+38.0 %). That word is kept in the summary file as the word of the first routing, and the ruling is recorded in § 12 (item 15). The read lies under F by 3.1 to 7.6 % on those three pieces (cutoffs 3.68 to 3.86). On a profile this flat, that offset moves the outer edge from 3.32 to 4.58. The read edge lies 0.6 % from the edge of C (4.55), the cutoffs of M5.47 at the same q̄. In the words of § 1, it is the offset that M5.47 had already tabled, seen along a line. On grids d and e, F on the pieces of the axis stays above 4 (least 4.010 and 4.047), inside the margin, so R1 carries no label there either.
+
+| Grid | R1 | R2 | R3 | R4 | N1 | N2 | N3 | N4 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| a (tabled) | no label | HELD | no label | no label | no label | HELD | no label | no label |
+| b | no label | no label | no label | no label | NOT HELD | no label | no label | no label |
+| c (tabled) | no label | HELD | no label | no label | no label | HELD | no label | no label |
+| d | no label | HELD | no label | no label | no label | HELD | no label | no label |
+| e | no label | HELD | HELD | HELD | no label | HELD | HELD | HELD |
+| **b, d, e** | **no label** | **HELD** | **HELD** | **HELD** | **NOT HELD** | **HELD** | **HELD** | **HELD** |
+
+Grids b, d and e carry the words. Behind each word: R2 two grids (d on PF, e on PD); R3 and R4 one (e); N1 one (b); N2 two (d on PF, e on PD); N3 and N4 one (e). R1 carries no word; under the literal-crossing routing it was NOT HELD on grid b. On grids a and c (tabled) R2 and N2 read HELD on their outer edges at ω = 4 (a: PD, 6.77 against F 6.17; c: PF 6.87 against 6.39, PD 6.83 against 6.25).
+
+![The cutoff read on each piece of the four lines of grid e, with F, F′ and C](../plots/m5_49_profiles_e.png)
+
+![The same on grid d](../plots/m5_49_profiles_d.png)
+
+![The same on grid b](../plots/m5_49_profiles_b.png)
+
+### 9. The readings against the registered numbers (N1 to N4)
+
+| Reading | Grid | Line | ω | Entry | Registered | Read | Read against the registered number | Second draw | Word | What withheld it |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| N1 | b | A | 4 | band or none | no band | BAND (run 2 to 4.5, half wavelength 1.88) | | BAND | ❌ NOT HELD | the read says BAND |
+| N1 | d | A | 4 | band or none | no band | ZONE (run 2 to 4, half wavelength 2.64) | | ZONE | no label | the read says ZONE |
+| N1 | e | A | 4 | band or none | no band | ZONE (run 2.5 to 3.5, half wavelength 2.91) | | ZONE | no label | the read says ZONE |
+| N2 | b | PF | 4 | inner edge | 2.77 | 2.05 | −26.2 % | 2.10 | no label | the window is not covered |
+| N2 | b | PF | 4 | outer edge | 6.31 | n/a | | n/a | no label | the window is not covered |
+| N2 | b | PD | 4 | inner edge | 2.77 | n/a | | n/a | no label | the window is not covered |
+| N2 | b | PD | 4 | outer edge | 6.31 | 6.69 | +6.0 % | 6.70 | no label | the window is not covered |
+| N2 | d | PF | 4 | inner edge | 2.77 | n/a | | n/a | no label | the window is not covered |
+| N2 | d | PF | 4 | outer edge | 6.31 | 6.73 | +6.6 % | 6.73 | ✅ HELD | |
+| N2 | d | PD | 4 | inner edge | 2.77 | n/a | | 2.08 | no label | the window is not covered |
+| N2 | d | PD | 4 | outer edge | 6.31 | 6.64 | +5.3 % | 6.69 | no label | the window is not covered |
+| N2 | e | PF | 4 | inner edge | 2.77 | n/a | | n/a | no label | the window is not covered |
+| N2 | e | PF | 4 | outer edge | 6.31 | n/a | | 6.69 | no label | the window is not covered |
+| N2 | e | PD | 4 | inner edge | 2.77 | n/a | | n/a | no label | the window is not covered |
+| N2 | e | PD | 4 | outer edge | 6.31 | 6.66 | +5.5 % | 6.67 | ✅ HELD | |
+| N3 | b | A | 5.5 | inner edge | 0.81 | 0.76 | −6.2 % | 0.76 | no label | the radius is under 2.5 |
+| N3 | b | A | 5.5 | outer edge | 8.38 | n/a | | n/a | no label | the window is not covered |
+| N3 | d | A | 5.5 | inner edge | 0.81 | n/a | | 0.86 | no label | the radius is under 2.5 |
+| N3 | d | A | 5.5 | outer edge | 8.38 | n/a | | n/a | no label | the window is not covered |
+| N3 | e | A | 5.5 | inner edge | 0.81 | 0.85 | +5.5 % | 0.93 | no label | the radius is under 2.5 |
+| N3 | e | A | 5.5 | outer edge | 8.38 | 8.84 | +5.4 % | 8.85 | ✅ HELD | |
+| N4 | b | PF | 5.5 | inner edge | 1.56 | 0.88 | −43.8 % | 0.93 | no label | the radius is under 2.5 |
+| N4 | b | PF | 5.5 | outer edge | 9.74 | n/a | | n/a | no label | the window is not covered |
+| N4 | b | PD | 5.5 | inner edge | 1.56 | 0.87 | −44.1 % | n/a | no label | the radius is under 2.5 |
+| N4 | b | PD | 5.5 | outer edge | 9.74 | n/a | | n/a | no label | the window is not covered |
+| N4 | d | PF | 5.5 | inner edge | 1.56 | 1.14 | −27.0 % | 1.13 | no label | the radius is under 2.5 |
+| N4 | d | PF | 5.5 | outer edge | 9.74 | n/a | | n/a | no label | the window is not covered |
+| N4 | d | PD | 5.5 | inner edge | 1.56 | 1.08 | −30.9 % | 1.05 | no label | the radius is under 2.5 |
+| N4 | d | PD | 5.5 | outer edge | 9.74 | n/a | | n/a | no label | the window is not covered |
+| N4 | e | PF | 5.5 | inner edge | 1.56 | 1.21 | −22.6 % | 1.25 | no label | the radius is under 2.5 |
+| N4 | e | PF | 5.5 | outer edge | 9.74 | 10.07 | +3.4 % | 10.10 | ✅ HELD | |
+| N4 | e | PD | 5.5 | inner edge | 1.56 | 1.03 | −34.0 % | 1.08 | no label | the radius is under 2.5 |
+| N4 | e | PD | 5.5 | outer edge | 9.74 | 10.07 | +3.4 % | 10.04 | ✅ HELD | |
+
+**N1, the axis at ω = 4.** The read cutoff on the pieces of the axis, from s = 1.75 to 4.75:
+
+| Grid | Largest q̄ on the axis | Least read cutoff | Pieces UNDER at 4 (margin) | Run | Half wavelength | Statement | Second draw |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| b | 3.878 | 3.683 | s = 2.25 to 4.25 (δ = 0.0102) | 2.0 to 4.5 (2.5) | 1.88 | BAND | BAND |
+| d | 3.737 | 3.839 | s = 2.25 to 3.75 (δ = 0.0100) | 2.0 to 4.0 (2.0) | 2.64 | ZONE | ZONE |
+| e | 3.669 | 3.872 | s = 2.75 and 3.25 (δ = 0.0100) | 2.5 to 3.5 (1.0) | 2.91 | ZONE | ZONE |
+
+The kinetic factor on the axis falls as the box grows, so the cutoffs rise toward 4 and the run shortens, while the half wavelength grows as $\omega^2 - \omega_c^2$ shrinks. The word NOT HELD rests on the smallest box alone; the two larger boxes give no label.
+
+### 10. Descriptors, without label
+
+**B, the two backgrounds.** The edges of F on the ray form against the registered numbers, on the labeled grids:
+
+| Edge | Registered | b | d | e |
+| --- | --- | --- | --- | --- |
+| PF outer at 4 | 6.31 | 6.17 (−2.3 %) | 6.28 (−0.4 %) | 6.33 (+0.4 %) |
+| PD outer at 4 | 6.31 | 6.21 (−1.6 %) | 6.29 (−0.3 %) | 6.33 (+0.4 %) |
+| A outer at 5.5 | 8.38 | beyond the line | beyond the line | 8.29 (−1.0 %) |
+| PF outer at 5.5 | 9.74 | beyond the line | beyond the line | 9.80 (+0.6 %) |
+| PD outer at 5.5 | 9.74 | beyond the line | 9.67 (−0.7 %) | 9.80 (+0.6 %) |
+| PF inner at 4 | 2.77 | 2.63 (−5.1 %) | 2.65 (−4.2 %) | 2.66 (−3.8 %) |
+| PD inner at 4 | 2.77 | 2.64 (−4.7 %) | 2.66 (−4.0 %) | 2.67 (−3.7 %) |
+| A inner at 5.5 | 0.81 | 0.58 (−28.9 %) | 0.60 (−25.5 %) | 0.62 (−23.9 %) |
+| PF inner at 5.5 | 1.56 | 1.49 (−4.7 %) | 1.52 (−2.9 %) | 1.53 (−2.0 %) |
+| PD inner at 5.5 | 1.56 | 1.48 (−4.9 %) | 1.51 (−3.2 %) | 1.52 (−2.4 %) |
+
+On the axis at ω = 4 the registration has no band. The ray form of F has a short one on every grid (1.52 to 3.29 on b, 1.75 to 2.89 on d, 1.95 to 2.61 on e). The least $m_F^2$ of the axis is 14.92, 15.52 and 15.82 on the ray form (at r = 2.25) and 15.50, 16.08 and 16.38 on the pieces, against 16.577 at r = 2.50 in the registration. The two forms of F differ by at most 1.56 % on the outer edges that carry a word (PD of e at ω = 5.5, 9.65 against 9.80). F with q_P lies within 1.46 % of F with q (C14).
+
+**The read against C.** Every read outer edge that carries a word lies within 1.4 % of the edge of C on the same line, and so does the edge of R1 on grid b, which carries none:
+
+| Grid | Line | ω | Read | C | F on the pieces |
+| --- | --- | --- | --- | --- | --- |
+| b | A | 4 | 4.58 | 4.55 | 3.32 |
+| d | PF | 4 | 6.73 | 6.69 | 6.26 |
+| e | PD | 4 | 6.66 | 6.66 | 6.24 |
+| e | A | 5.5 | 8.84 | 8.95 | 8.33 |
+| e | PF | 5.5 | 10.07 | 10.21 | 9.73 |
+| e | PD | 5.5 | 10.07 | 10.10 | 9.65 |
+
+Over the fitted pieces with q̄ above 2, the read cutoff lies under the local mass $\sqrt{m^2_{\mathrm{mid}} / \bar q}$ on 31 of 35 pieces of grid b, 45 of 49 of d and 41 of 44 of e. The median of the read against F is −6.2, −4.2 and −3.7 % over all those pieces, and −6.65, −4.45 and −3.74 % over the pieces that lie under F. The bins of M5.47 showed the same. The exceptions lie within 5 % over F, on the inner pieces of line O and on single pieces of A, PD and PF. Where the outer edges are read, the read follows C, not F.
+
+**The read edges of the three boxes.** The outer edge at ω = 4 reads 6.69 (b, PD), 6.73 and 6.64 (d, PF and PD), and 6.66 (e, PD); the second draw of e has 6.69 on PF. At ω = 5.5 only grid e holds the outer edges: 8.84 on the axis, 10.07 on PF and PD.
+
+**Line O and grids a and c.** On line O of grid e the outer edges read 5.31 at ω = 4 (F 4.66, C 5.33) and 9.48 at 5.5 (F 9.02, C 9.57). Grids a and c are in the tables above. The full tables per piece (q̄, m_F, F′, C, ω_c of both draws, c², t\*, the statuses, K² and the share of the power outside W at the two frequencies) are in the summary file.
+
+![The kinetic factor q of grids b, d and e with the lines of the read](../plots/m5_49_qmap.png)
+
+![Job Ue: the start, the end, and the Fourier modulus at the two test frequencies on the section y = 0](../plots/m5_49_sections_e.png)
+
+### 11. The expectations of the plan against the outcome
+
+| Registered before the run (§ 5) | Outcome |
+| --- | --- |
+| R4 HELD on grid e, on PD, and on PF if the edge of F on PF lies inside 10.23; the read edge 5 to 8 % outside F | HELD on PD and PF (F on PF at 9.73); the read edges 4.4 % and 3.5 % outside F, under the range expected |
+| R3 and R2 at the tolerance, their outer edges 8 to 12 % outside F; "inside the bias of the estimator" as soon as β is a percent or more | R3 HELD at +6.1 %; R2 HELD at +7.4 % (d, PF) and +6.6 % (e, PD): both under the 8 to 12 % expected, not at the tolerance. β was 0.14 % and 0.015 %, so no entry fell inside the bias |
+| Every such edge within 3 % of C | within 1.4 % (§ 10) |
+| On the axis at ω = 4, with δ = 0.01: a piece OVER where q̄ is at most 3.14 to 3.25, UNDER where it is at least 3.26 to 3.38 | held on the outer side of the run (OVER at q̄ 3.19 to 3.26, UNDER at 3.39 to 3.47 on b and d). Not on the inner side: the pieces at s = 1.75 with q̄ 3.28 (d) and 3.40 (b) read 4.23 and 4.21, OVER. On e two pieces at q̄ 3.40 and 3.59 read 3.99 and 4.02, OPEN |
+| If the axis resembles the author's: F says NO BAND only while δ is under 0.018; the read a run of 2 to 2.5 beside a half wavelength of 2.2 to 2.6, ZONE or BAND; N1 no label or NOT HELD, R1 the same or no label by the margin | The axis peaks at q̄ 3.88, 3.74 and 3.67. F's statement lies inside the margin on b, d and e (on b one piece under (1 − δ) ω where § 5 asks for two). Runs: 2.5 (half wavelength 1.88) on b, 2.0 (2.64) on d, 1.0 (2.91) on e. N1 NOT HELD on b, no label on d and e; R1 no label by the margin on all three (NOT HELD on b under the literal-crossing routing the run first used) |
+| If the peak of q on the axis is under about 3.1, R1 and N1 HELD | the peak is above 3.6 on every grid; not this case |
+| B within 10 % on the outer edges; the inner edges not predicted | outer edges within 2.3 %; inner edges 2.0 to 5.1 % under in the plane, 24 to 29 % under on the axis at ω = 5.5 |
+| The labels these grids could carry: the registered inner edges none; 8.38 on A of e alone; 9.74 on PF and PD of e alone; 6.31 on PF and PD of d and e and PD of b | as registered. 6.31 carried a word on PF of d and PD of e; on PD of b and d and PF of e an unfitted piece in the window left it without one. The inner edge at 2.77 carried no word on any grid |
+
+### 12. Deviations from plan (logged as they happen)
+
+1. **The wall-time cap of the base chain.** B0e runs under a cap of three hours where the chains of M5.46 ran under one (grids of at most 81³). The cap is a limit of the machine and not part of the descent rule; the descent rule, the gate, the iteration cap and the reads of the chain are unchanged.
+2. **Seeds the plan does not fix.** Vq4 and Vq55 use the seed of V2 (4722), so that they differ from V2 by v and by the targets alone. Sd, Ue and Se use 4714, 4705 and 4715, on the pattern of M5.47.
+3. **The runners are not edited at all.** The plan allowed an edit by a parameter whose default is the old value. [`m5_49_waves.py`](../scripts/m5_49_waves.py) instead enters its jobs in the tables of the two runners inside its own process, lets them write under their own names into a staging folder, and renames the files `m5_49_*`. The scripts of M5.46 and M5.47 are unchanged in the repository.
+4. **One hash per grid.** The prediction file holds one block per grid, and the hash that the reads script takes is the hash of the block of the grid it opens (the SHA-256 of the block's JSON text: keys sorted, separators `,` and `:`, UTF-8, floats with seven significant digits). The plan wrote of the hash of the file; a hash per block lets the block of grid e be added when its base state exists without changing the hashes of grids a to d.
+5. **C14 before the reads.** The plan runs C14 before any read along a ray, and its second clause (the same band-or-none statement of F under the two kinetic factors) needs the margin δ, which is known only after C6 and C10. The edges were compared before the reads; the statements are compared with the margin of each grid once it exists.
+6. **The pieces "of the line" in the rule of NO BAND.** The plan asks that nine pieces in ten of the line be read and does not say which pieces are the line's. The script counts the pieces from the center out to the radius at which the line stops being read.
+7. **Where F has an edge in one form only.** An edge that only the ray form of F has is listed as an entry with no label; where F is under the frequency out to the end of a line, the missing outer edge is listed the same way.
+8. **C2, two tries.** The first try failed on three of its fifty made-up inputs, each a defect of the input and not of a reader (a table built with two kept targets where three were meant; a table of slope 0.87 whose target 11 has K² above 4/h²; a profile whose two close edges lay outside the range tested). The inputs were corrected; no reader, threshold or definition changed.
+9. **Choices the plan left open and the scripts fixed.** A read BAND counts as "not predicted" only on a line where F on the pieces has at least one band (after item 15: only on a line where F says BAND by § 5); where F has none, the line's one entry is the band-or-none entry. The three profiles of the bias are applied to the band-or-none statements as well as to the edges. For an entry that reads NOT HELD the second draw's word is printed beside it and does not withhold it (C10 as written asks only that a labeled edge be found again). C11 is read on the windows of the N entries as well as of the R entries. C12 compares the outermost outer and the innermost inner edge of F between lines A, PF and PD, and is not scored where a read edge is missing. The median of C10 is taken over the pieces of all four lines. C7 and C8 are also read on the second draws. F on the pieces joins consecutive read pieces whatever their distance (the distance is recorded); "the ray form has a band" means a sample of the ray form under the frequency. F′ of a piece is the square root of the mean of the local mass squared over its nodes. In C6 (a) the status of a vacuum piece is taken at the largest margin, 0.03. On the grids of spacing 0.5 (tabled) V1 fits no piece, since K² up to 4/h² = 16 leaves two targets above its cutoff, so the gap of V2 stands in the margin there.
+10. **How the base chain B0e ended.** B0e ended by a stalled line search at iteration 1502, after a restart that stalled with no iteration made, where B0b to B0d ended by the function tolerance repeated after a restart. The gate of M5.45 was met at the end (the largest entry of the gradient over h³ 9.8 × 10⁻⁶ against 10⁻³), and C4 asks for nothing more; a stalled end is one the runner of M5.46 allows, as on B0a. The end state was taken as it is.
+11. **The desk reads beside the four long jobs.** C6 (b) and the reads of the stored sums on the pieces ran as a fifth, short process while the four long jobs ran, as the parallel shape of § 3 provides ("one more process holds the desk reads").
+12. **Trial runs of the words.** The reads script made the words twice before the record, on the grids whose sums existed (a to d without Sd, then with it), to test that path on real data. The reads were not changed between those runs and the first making of the record, whose entries for grids a to d equalled those of the second trial. The record was made again after the fix of item 15, and only the entry of that item changed.
+13. **Wall times out of the tracked records.** The runners write the wall time of each job and of each read of the base chain into their summaries. These fields were removed from the tracked `m5_49_*.json` files and are kept with the local checkpoints, and `m5_49_waves.py` writes them there. No other field was touched.
+14. **Fixes in the report script, presentation only.** The curves of F, F′ and C are not drawn across pieces that are not read. A statement of the read that is None is printed as "undecided", and the second-draw column reads "n/a" on a grid without a second draw. The labels of the two test frequencies, the y labels and the space under the title of the map of q were moved or changed so that nothing collides. No number, threshold or rule changed.
+15. **The routing of R1 (a reading of a rule).** The reads script first routed an R entry by a literal crossing of ω: the edges of F on the pieces were scored by the edge rule wherever F on the pieces crossed ω, and the band-or-none entry was made only where it did not. On line A of grid b at ω = 4 that gave R1 NOT HELD (3.32 against 4.58). The audit of the record found that § 5 defines when F says BAND (two consecutive pieces with m_F at most (1 − δ) ω, and a band in the ray form; otherwise F's statement lies inside the margin), and that § 6 asks F's statement to clear the margin. On that line one piece (3.936) lies under the limit 3.959, so F's statement is inside the margin; the script's own field said so. The ruling: "if F has no band there" in the row of R1 is read by the definition of § 5, not by a literal crossing. An entry is scored by the edge rule only where F says BAND by § 5, on every line, grid and frequency. The script was fixed as a defect after all the reads had been made, before the record's words were final. C2, C13, the words and the report were run again on the final script. One entry changed: R1 on line A of grid b at ω = 4 became a band-or-none entry with no label, in place of an inner edge with no label and an outer edge NOT HELD. The word of the first routing is kept in the field `as_run_literal_crossing`. No threshold, tolerance or definition changed.
+
+**Audits of the record (2026-11-20).** Two passes read the record, the scripts and the data, and recomputed with their own code. A record audit ran in a fresh context on the same model as the builder that wrote these findings, so not on a model different from the writer. It re-applied the word rules and found eight faults: one high (the routing of R1, item 15), three medium and four low. A numbers check ran on a different model. It recomputed the cutoffs of 507 pieces within 1.6 × 10⁻⁷, all seven block hashes and every word of R and N, and found five mismatches of prose against data, none of which changed a word. All of these are folded above. Not tested by either: the sums of grids d and e on the pieces against the raw Fourier arrays; C1, C3 and C4 beyond their stored numbers.
+
+### 13. Limits, not computed, and how to regenerate
+
+**Limits.**
+
+1. **The action.** Every reading of this task is on the action of M5.42 with κ = v = 1, δ = 0.05 and L₁ = 0.03, the action on which the author registered the bands. The author's post of 2026-11-20 at 19:28 UTC ([discussioncomment-19782482](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19782482); the row of that date in the [thread record](m5_32_convo.md)) reported a relaxed ring on a different action. That action has a gradient term $L_V \, s(M) \, \lvert \nabla M \rvert^2$, weighted by the potential's own density $s(M) = \sum_k \big( \operatorname{tr} M^k - c_k \big)^2$, with $L_V = 1$, $L_1 = 0$ and $\delta = 0$. No reading of this task was made on that action and no label carries over to it. The post changed nothing in the frozen plan.
+2. **The time part.** Every label is conditional on the time part supplied by the plan of M5.47 (its § 1), as there.
+3. **A band, not a wave.** "Propagates" is read as the cutoff of a piece lying under ω. That cutoff is an intercept of a line through the targets above it. No advance of a phase, reflection or decay beyond an edge is read, and nothing is driven. The registered falsifier is not read.
+4. **The words carry the offset of C.** The read edges that carry HELD on the labeled grids sit on the cutoffs that M5.47 fitted per bin of q (within 1.4 %) and 3.4 to 7.4 % outside the edge they are scored against; on the tabled grids a and c they reach +9.8 % and +9.1 %. They are HELD because that offset fits inside the tolerance of 10 %. R2 on grid d, at +7.4 %, is the closest to the end of the range. The bias of the cutoff was measured on a uniform background only, 0.14 % at ω = 4 and 0.015 % at 5.5; a bias that a varying background adds is not measured.
+5. **Few grids behind each word.** N1 NOT HELD rests on grid b alone, the smallest box, where the axis has its largest kinetic factor; the two larger boxes give no label. It also rests on the plan's rule of the middle piece. The middle piece of the run on b has the run's lowest cutoff, 3.683, and a half wavelength of 1.88. At the run's highest cutoff, 3.893 (s = 4.25), the half wavelength is about 3.2, longer than the run of 2.5. The run's inner end, at the read edge 2.05, is where C12 is not met. R3, R4, N3 and N4 rest on grid e alone. R2 and N2 rest on one line of each of grids d and e, on bands that the second draw reads as ZONE (C10).
+6. **No inner edge carries a word.** On every grid the registered inner edges and those of F lie under the radius of 2.5, or their windows hold pieces next to the loop that are not read.
+7. **Grids a to d are not a blind read.** Their sums were read by M5.47 in bins of q (limit (2) of the plan). Grid e is new data: its prediction was hashed before its jobs were launched.
+8. **The error bar** is the second draw alone (C10), and the cone of 15° pools rays that C11 shows to be alike within 0.32 %.
+
+**Not done in this run.** The regeneration of the index [`_DATASETS.md`](../data/_DATASETS.md) for the arrays of this task.
+
+**Not computed.** A driven wave, the advance of a phase, a reflection, the decay beyond an edge, the pattern of the wave in three dimensions. The inner edges at ω = 5.5 as a wave read; the inner edge at 2.77, which no grid covers. The outer edges at ω = 5.5 on grids of half-box 8 and 10, which end before them. A half-box above 13, a spacing under 0.25. The light and the soft polarizations. Another time part, and the action of the author's later post. An error bar beyond the second draw. The bias of the cutoff on a background that is not uniform.
+
+**Regenerate.** From `research/`, with one thread per process (each script sets the thread variables itself):
+
+```bash
+python scripts/m5_47_evolve.py --controls --data checkpoints/m5_49/c1/data --work checkpoints/m5_49/c1/work   # C1: compare with data/m5_47_controls_stepper.json
+python scripts/m5_49_waves.py --chain B0e                         # the base state of grid e
+python scripts/m5_49_waves.py --job Vq4                           # and Vq55, Sd, Ue, Ne, Se (Ue, Ne, Se after B0e)
+python scripts/m5_49_predict.py --grids V1 V2 a b c d             # the prediction, then --grids e once B0e exists
+python scripts/m5_49_reads.py --pure                              # C2
+python scripts/m5_49_reads.py --bins --hash a=<h> b=<h> c=<h> d=<h>                    # C13
+python scripts/m5_49_reads.py --vacuum V1 V2 Vq4 Vq55 --c6                              # C6
+python scripts/m5_49_reads.py --pieces a b c d e --hash a=<h> b=<h> c=<h> d=<h> e=<h>  # the sums on the pieces
+python scripts/m5_49_reads.py --words                             # C7 to C12, C14 and the readings
+python scripts/m5_49_report.py --tables --plots --profile-grids b d e
+```
+
+The hash `<h>` of a grid is that of its block in the `hashes` field of the prediction file. The heavy arrays are written to [`../data/`](../data/) and ignored by git: `m5_49_B0e_end.npz` (by `--chain B0e`), `m5_49_<job>_fourier.npz` for Sd, Ue, Ne, Se, Vq4 and Vq55, and `m5_49_Vq4_modes.npz`, `m5_49_Vq55_modes.npz` (each by `--job <job>`). The sums on the pieces, the tables and the run notes stay in the local checkpoints.
+
+## TASK REVIEW (2026-11-20)
+
+**Task Duration:** 08:25 (from 2026-11-20 09:48 EST to 2026-11-20 18:13 EST; one go with [M5.50](m5_50_task_details.md), this is the segment of M5.49)
+**Usage Cap Triggered:** NO
+
+**Results.** ✅ Twelve of the fourteen controls are met; the two that are met in part change no word (C12 on three pairs of inner edges of grid b; the statement clause of C10 on three statements at ω = 4, which become undecided). ✅ Against the registered numbers, N2, N3 and N4 read HELD: the outer edges at 6.66 and 6.73 against 6.31, at 8.84 against 8.38, and at 10.07 against 9.74, inside the tolerance of 10 percent. ❌ N1 reads NOT HELD on grid b alone: the registration says no band on the axis at ω = 4, and the read finds a run from 2 to 4.5, longer than its half wavelength of 1.88; on grids d and e the run is shorter than its half wavelength and carries no label. ✅ Against F, R2, R3 and R4 read HELD; R1 carries no label on b, d and e. 🔶 Every HELD edge lies 3.4 to 7.4 percent outside F and within 1.4 percent of the cutoffs of [M5.47](m5_47_task_details.md): the HELD words carry that offset inside the tolerance.
+
+**Issues / blockers.** One word was changed by the record audit and a ruling: the run first routed R1 on grid b by a literal crossing of ω and gave NOT HELD (3.32 against 4.58); by the definition of § 5 the statement of F on that line lies inside the margin, so the entry is a band-or-none entry without label, and the first word is printed beside it (§ 12, item 15). The user accepted the ruling at the review. N1's NOT HELD rests on one grid, the smallest box, and on the plan's choice of the piece that sets the half wavelength (family: artifact read as result; limit 5). The proof that each prediction preceded its read is local: file times, the run notes and the hash log. The record audit ran in a fresh context on the same model as the builder that wrote the findings; the numbers check ran on a different model.
+
+**Deviations from plan.** Fifteen, listed in § 12. Outside that list: the build started in one sub-agent and was handed over to a second, on a different model, 25 minutes after the go; the scripts and the first controls are the first's, the remaining jobs, the reads and the findings the second's.
+
+**Action needed.** The results go to the author on discussion #186 with those of [M5.50](m5_50_task_details.md). The Klein-Gordon cell of `MODELS.md` stays partial by the user's ruling at this review. The registered falsifier, a driven wave advancing in phase on the axis at ω = 4, is the read that would decide N1 on the larger boxes.
+
+**Scope**: The relaxed unit of the action of M5.42 (δ = 0.05, L₁ = 0.03) at J = 0 on half-boxes 8, 10 and 13 at spacing 0.25, read from free noise on four lines; nothing is said about a driven wave, an inner edge, another action, or a limit at zero spacing.
+
+**Findings.** On OpenWave the outer edges of the author's registered bands are found inside their tolerance of 10 percent at three of the four readings, each shifted outward by the offset of the cutoffs that M5.47 had tabled. The registered absence of a band on the axis at ω = 4 is not held on the smallest box and is undecided on the two larger ones. No reading tests the registered falsifier.
+
+**Research docs created / updated.** [`m5_49_task_details.md`](m5_49_task_details.md) (this document) · [`m5_49_predict.py`](../scripts/m5_49_predict.py) · [`m5_49_waves.py`](../scripts/m5_49_waves.py) · [`m5_49_reads.py`](../scripts/m5_49_reads.py) · [`m5_49_report.py`](../scripts/m5_49_report.py) · [`m5_49_bands_predicted.json`](../data/m5_49_bands_predicted.json) · [`m5_49_reads.json`](../data/m5_49_reads.json) · key plots [`m5_49_profiles_e.png`](../plots/m5_49_profiles_e.png) and [`m5_49_qmap.png`](../plots/m5_49_qmap.png) · the thread record [`m5_32_convo.md`](m5_32_convo.md) · the [roadmap](../m5_roadmap.md)
+
