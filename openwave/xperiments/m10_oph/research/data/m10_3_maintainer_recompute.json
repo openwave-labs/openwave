@@ -1,0 +1,242 @@
+{
+ "arming": {
+  "energy_t0": -11.5,
+  "energy_t37_minus_t0": -5.488942633746774e-13,
+  "max_prob_difference_vs_expm_multiply_t1": 1.0602629885170245e-14,
+  "norm_t37_minus_1": 4.951594689828198e-14,
+  "variance_t0": 2.25
+ },
+ "arms_surviving": [],
+ "checks": {
+  "Hoeffding radius about 0.02857": true,
+  "arming: agrees with expm_multiply at exposure 1 to 1e-12": true,
+  "arming: energy conserved to 1e-10 over [0, 37]": true,
+  "arming: norm at exposure 37 within 1e-10": true,
+  "carrier: 240 ports, 630 seams": true,
+  "cell 0 at exposure 150, kappa 8 and 0": true,
+  "common lower bound above 95.48%": true,
+  "energy variance of the launch state": true,
+  "grid minimum over [0, 37] and where": true,
+  "home-cell probability at exposures 1, 7, 37, kappa 8": true,
+  "launch seam (156, 157)": true,
+  "pair records of 4,096, kappa 0": true,
+  "pair records of 4,096, kappa 8": true,
+  "receipt: 186 outcome probabilities to nine digits": true,
+  "receipt: addresses are the 30 home seams": true,
+  "receipt: record counts equal the recomputed draws": true,
+  "receipt: source is the launch seam": true,
+  "window bound at or above the 94% floor": true
+ },
+ "claimed": {
+  "cell0_home_t150": {
+   "0.0": 0.149558605,
+   "8.0": 0.983880525
+  },
+  "common_lower_bound": 0.9548,
+  "grid_min_at": 34.0,
+  "grid_min_home_kappa8": 0.978883326,
+  "hoeffding_radius": 0.02857,
+  "home_t1_t7_t37_kappa8": [
+   0.990982505,
+   0.989653268,
+   0.980271948
+  ],
+  "launch": [
+   156,
+   157
+  ],
+  "pair_records": {
+   "0.0": [
+    1780,
+    1182,
+    824
+   ],
+   "8.0": [
+    4048,
+    4052,
+    4028
+   ]
+  },
+  "ports": 240,
+  "seams": 630,
+  "variance": 2.25,
+  "window_floor": 0.94
+ },
+ "claims": {
+  "cell0_home_t150": {
+   "0.0": 0.1495586047502488,
+   "8.0": 0.9838805252106864
+  },
+  "common_lower_bound": 0.95483285256747,
+  "grid_min_at": 34.0,
+  "grid_min_home_kappa8": 0.978883326359249,
+  "hoeffding_radius": 0.028565584932530065,
+  "home_t1_t7_t37_kappa8": [
+   0.9909825049605254,
+   0.9896532683450084,
+   0.9802719478031773
+  ],
+  "pair_records": {
+   "0.0": [
+    1780,
+    1182,
+    824
+   ],
+   "8.0": [
+    4048,
+    4052,
+    4028
+   ]
+  },
+  "variance": 2.25,
+  "window_bound": 0.9436886691229227
+ },
+ "inputs": {
+  "board_sha256": "99870398e3d516f899c600e9bf25ba53c7f513142ba8facbe1cedd94b23f915b",
+  "receipt_sha256": "7f6e458fd0b7cf9b9e50fb15a5c4b77f944a2457a9c53cdcca88efdf4d4c3bdd"
+ },
+ "launch": [
+  156,
+  157
+ ],
+ "receipt": {
+  "addresses_match": true,
+  "max_probability_difference": 4.941805853420078e-10,
+  "record_counts_receipt_vs_recomputed": {
+   "0.0_t1": [
+    1780,
+    1780
+   ],
+   "0.0_t37": [
+    824,
+    824
+   ],
+   "0.0_t7": [
+    1182,
+    1182
+   ],
+   "8.0_t1": [
+    4048,
+    4048
+   ],
+   "8.0_t37": [
+    4028,
+    4028
+   ],
+   "8.0_t7": [
+    4052,
+    4052
+   ]
+  },
+  "source_matches": true,
+  "values_compared": 186
+ },
+ "reported": {
+  "cell0_adjacent_t150": {
+   "0.0": 0.19167457890913023,
+   "8.0": 0.991537299528315
+  },
+  "coupling_table_t37": {
+   "-8.0": {
+    "adjacent_t37": 0.9891461072643956,
+    "home_t37": 0.9838878185460241
+   },
+   "0.0": {
+    "adjacent_t37": 0.2358441750942511,
+    "home_t37": 0.20290580079434853
+   },
+   "0.5": {
+    "adjacent_t37": 0.44208911386158345,
+    "home_t37": 0.4168193590557418
+   },
+   "1.0": {
+    "adjacent_t37": 0.5078129984815463,
+    "home_t37": 0.467236570345418
+   },
+   "16.0": {
+    "adjacent_t37": 0.9977380900863025,
+    "home_t37": 0.9971743966013672
+   },
+   "2.0": {
+    "adjacent_t37": 0.8668446607465679,
+    "home_t37": 0.8447544110082179
+   },
+   "4.0": {
+    "adjacent_t37": 0.9754517791748671,
+    "home_t37": 0.9547087486805861
+   },
+   "8.0": {
+    "adjacent_t37": 0.9910021586643325,
+    "home_t37": 0.9802719478031773
+   }
+  },
+  "free_pair_grid": {
+   "0.0": {
+    "adjacent_t1_t7_t37": [
+     0.45248067096595457,
+     0.288689937568619,
+     0.2358441750942511
+    ],
+    "grid_min_at": 20.625,
+    "grid_min_home": 0.15347425438979886,
+    "home_t1_t7_t37": [
+     0.450001676450817,
+     0.2757686316597241,
+     0.2029058007943485
+    ]
+   },
+   "8.0": {
+    "adjacent_t1_t7_t37": [
+     0.9911220981327045,
+     0.9906907803191989,
+     0.9910021586643325
+    ],
+    "grid_min_at": 34.0,
+    "grid_min_home": 0.978883326359249,
+    "home_t1_t7_t37": [
+     0.9909825049605254,
+     0.9896532683450084,
+     0.9802719478031773
+    ]
+   }
+  },
+  "launch_degrees": [
+   5,
+   6
+  ],
+  "long_times_kappa8": {
+   "adjacent": [
+    0.991293805739112,
+    0.9915888481416041,
+    0.9915788470575617
+   ],
+   "adjacent_min_over_grid": 0.990357491305345,
+   "grid_step": 4.0,
+   "home": [
+    0.9685288424900964,
+    0.9291345876346553,
+    0.9099702565058557
+   ],
+   "marks": [
+    300,
+    1000,
+    2000
+   ]
+  }
+ },
+ "structure": {
+  "between_cell_ends_per_cell": [
+   3
+  ],
+  "between_cells_form_a_matching": true,
+  "cells_identical": true,
+  "degrees": {
+   "5": 180,
+   "6": 60
+  },
+  "ports": 240,
+  "seams": 630,
+  "seams_between_cells": 30
+ },
+ "task": "M10.3"
+}
