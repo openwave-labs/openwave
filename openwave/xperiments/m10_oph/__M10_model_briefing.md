@@ -6,14 +6,15 @@ is *consistently*: mathematical and logical consistency, free of contradiction.
 OPH aims to show that the universe it constructs on this basis is precisely
 the one we inhabit.
 
-> **What M10 brings.** Observers first, fields second. An observer is a feedback
-> loop that reads the ports of its patch, keeps a finite record, and acts on that
-> record. The observers sit on a holographic screen of twelve-port icosahedral
-> carriers and run one local repair and memory law, written as update rules with no
-> action behind it. Fields, particles and spacetime are the effective descriptions
-> the observers arrive at when they compare records. Its substrate is a discrete
-> carrier with update rules, not a field, and it was admitted with every criterion
-> not yet tested in-platform (discussion #712, 2026-11-13). Model ID M10 was assigned at admission.
+## From measurements to spacetime
+
+Start with two observers who meet, separate and meet again. In Observer Patch Holography each is a finite patch on a spherical screen of twelve-port icosahedral cells. At each meeting they can read the same event on their overlap. Between meetings each keeps its own records, compares readings with neighbours and repairs disagreements locally. A reading that survives every allowed comparison is a fact the observers can share.
+
+Each observer reads time from within its own history. The quantities accessible to its patch form its readout algebra. Its state determines a modular flow on the support of that algebra, and a local clock calibrated against this flow measures its elapsed time. At reunion the observers can compare their hands. The simulator’s schedule supplies no universal present. [Observer clocks, p. 6, Definition 1.3 and Remark 1.4](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/observers_are_all_you_need.pdf#page=6)
+
+Why call this *holography*? The records live on a two-dimensional screen. Under OPH’s reconstruction premises, a spacetime with three spatial dimensions and one time dimension can account for the measurements observers make. The simulation shows the two views side by side. On the left are the cells and their clock hands. On the right is the view one observer builds as signals reach it. [Watch the OPH simulation](https://floatingpragma.ai/oph/simulation/) · [Spacetime reconstruction, §1, p. 2, paragraph “What a test of the model is”](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/executable_observer_construction.pdf#page=2)
+
+The executable uses local repair and memory rules on this discrete carrier. OpenWave admitted OPH as M10 on 13 November 2026, with every criterion awaiting an in-platform test. [Admission discussion](https://github.com/openwave-labs/openwave/discussions/712)
 
 [![OPH conceptual schematic: overlapping observer patches on a spherical carrier network, with one patch mapped to an observer's complete history in emergent spacetime](https://raw.githubusercontent.com/FloatingPragma/observer-patch-holography/bb1de05927d8c6bb1285182cc91e97410092ec8a/assets/oph-schematic.png)](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/flagship/from_observer_consensus_to_standard_physics.pdf)
 
@@ -34,20 +35,15 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 | Author contact | GitHub [@muellerberndt](https://github.com/muellerberndt), for author-gated questions (definitions, intent, which construction is the specification of record); routing convention in [`dev_docs/CROSS_MODEL_TESTING.md`](../../../dev_docs/CROSS_MODEL_TESTING.md) § 6 |
 | Disclosure | A co-author of the flagship is the applicant of K7 ([discussion #525](https://github.com/openwave-labs/openwave/discussions/525)), and the author's repository vendors K7 comparison files. The two are separate frameworks, and K7's standing is unchanged by this column (the author's disclosure, and the admission reply) |
 | Lineage | Wheeler's law without law; the relational and Darwinist readings of quantum theory (Rovelli, Zurek); distributed agreement (Lamport, Dijkstra's self-stabilization); Jacobson and Van Raamsdonk for gravity from entanglement thermodynamics; Doplicher and Roberts for gauge groups from superselection; Bisognano and Wichmann for modular clocks; Wilson's lattice gauge theory; 't Hooft's cellular automaton interpretation as the closest relative among discrete deterministic substrates |
-| Primary sources | Author repository [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography), admission snapshot at `3c4e1e2`; the M10.2 candidate pin is in the canonical specification; registry in [`theory/_CITATIONS.md`](theory/_CITATIONS.md). For every number, the specification of record is the executable model at the pinned commit ([`research/m10_theory_canonical.md`](research/m10_theory_canonical.md) § 1) |
+| Primary sources | The author’s [OPH repository](https://github.com/FloatingPragma/observer-patch-holography) contains the executable model. The [canonical specification](research/m10_theory_canonical.md#1-specification-of-record-and-the-pin) distinguishes the admission snapshot, the adopted M10.2 pin and the proposed M10.3 pin. The [bibliography](theory/_CITATIONS.md) lists the admission sources. |
 | In-repo | Headless only. No launcher. The certification gate's record: [`research/tasks/m10_1_task_details.md`](research/tasks/m10_1_task_details.md) |
 | Application | [discussion #712](https://github.com/openwave-labs/openwave/discussions/712); admission reply [discussioncomment-19595538](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19595538) |
 
 ## Active candidate submission
 
-[M10.2](research/tasks/m10_2_task_details.md) brings one signed-source candidate
-for charge quantization, localized energy and finite field/frame rotation.
-The [author package](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source) is pinned by the canonical specification.
-Its declared coherent memory law, operational observables and review boundaries
-are in the [method note](research/findings/m10_2_method_note.md). The submission
-includes author-run reproduction and a second-agent audit; it awards no cell.
-The profile and particle tables below retain the admission construction as
-ancestry and do not transfer its separate-source results to M10.2.
+**M10.3 proposes Interval Echo** as the single candidate for M10 and requests a decision on particle stability in free evolution (row 4). A shared seam balances its endpoint loads and records their previous signed difference. In the prepared-pair experiment, a one-cell observer found both loads on a shared seam in its cell in **4,028 of 4,096** releases at exposure 37. With the contrast interaction switched off, the same observer detected **824 of 4,096**. The pair’s charge, spin and species are unassigned. The re-pin and row decision are pending. [Proposed candidate](research/m10_theory_canonical.md#12-proposed-interval-echo-candidate-for-m103) · [Task and replay](research/tasks/m10_3_task_details.md) · [Method, control and measured figure](research/findings/m10_3_method_note.md) · [Row 4 animation with a cell-0 release](https://floatingpragma.ai/oph/simulation/openwave/row-4/)
+
+**M10.2 is the adopted signed-source candidate.** Its graph and energies reproduced. Integer loads, the 511 keV calibration and the half-turn symmetry limited what those results established about charge, rest energy and spin. The model profile and particle tables below describe the earlier admission construction. [M10.2 task](research/tasks/m10_2_task_details.md) · [Maintainer decision](research/findings/m10_2_maintainer_review.md)
 
 ## Model Profile (what it brings, short form)
 
@@ -92,9 +88,7 @@ yet joined.
 
 ## Implementation Status
 
-Registered column. Every `MODELS.md` cell is at 🚧, and the per-row summaries are
-in [`MODELS.md` § OPH (M10)](../../../MODELS.md#oph-m10). Nothing below is an
-in-platform result.
+The official M10 matrix currently marks every criterion 🚧 (not yet tested). The table below records earlier author constructions and the M10.1 certification. The M10.3 submission above requests a maintainer decision on its prepared-pair measurement. [Official M10 matrix](../../../MODELS.md#oph-m10)
 
 | Sector | Status |
 | --- | --- |
