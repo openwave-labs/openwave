@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-From manuscript version: 5.3.2 (not published yet) or later
+From manuscript version: 5.3.2 or later
 
 Enhanced EWT -- Electroweak and Heavy Boson Module
 ====================================================
@@ -41,7 +41,7 @@ try:
         build_geometric_ladder,
         lattice_impedance,
     )
-    from m4_7_ewt_particle_masses import mass_spherical
+    from ewt_particle_masses import mass_spherical
 except ImportError:
     raise ImportError(
         "This module requires m4_7_ewt_emergence_engine.py and m4_7_ewt_particle_masses.py."
