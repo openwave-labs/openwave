@@ -276,3 +276,480 @@ Read against the recurring failure families of the records of M5.46 to [M5.48](m
 **Not planned.** Two straight +½ lines held apart in place of the loop; a continuation ladder at spacing 0.25; a hold at a separation beyond 20.5 or a box beyond half-box 14; a start that is already in two pieces; a steepest-descent version of any chain; the second hold at spacing 0.25.
 
 **Plan audit (2026-11-20, before any rung was relaxed).** An independent pass on a different model read the draft of this plan against the action code, the instrument and the records of M5.46, the thread record and the cell, and ran its own checks on stored states and on model curves. It found eighteen faults, two critical, five high, eight medium and three low, all folded above. The two critical ones were controls that a correct build could not meet: K7 put its four targets on both sides of the free state, where the middle step crosses the minimum of U and the trapezoid fails on any curve (the targets are now on one side, and the error of the identity is defined against the step in U); and K11 asked for the iteration counts of M5.46 while reading at every iteration, where the EXIT rule of M5.46 counts reads (the dense reads are now extra reads that no stop rule counts). The faults that changed a reading: R2 could not be NOT HELD by a split, a rung in two sets never being counted (R2 now reads every CONVERGED rung, and NOT HELD outranks no label in every reading); a failed step of the identity turned a jump to a cheaper branch, or a fall of the force inside a step, into a shorter run read as HELD (R1 gained the word BRANCH, a failing step is bisected once, R1 is printed a second time with no cut, and every label names where its run ends and why); the step from the free state to the first target could fail the identity on a correct curve and leave no counted rung (it is no longer tested there); with held faces part (a) of the clause cannot fail for a state with one set (limit (2) says so, and the ladder's read is the number of sets); and the hold can be met by two pieces at a cost that does not grow with the target, so that a split could be made by the hold and read as NOT HELD (every state in two pieces is now released, and only a split that persists with no hold gives the word). The faults that changed a control, a rule or the job list: the map of the family took its source from outside the box at about half of the nodes (it is now radial and the identity beyond R + 2, checked on stored states); the released top rung was read at every iteration from its first read, and a late fragment made a blind read (the dense reads start within 2 of a face, and a fragment's plaquettes count); two tolerances failed correct code (10⁻⁸ for the shift of K4, 10⁻¹⁴ for the maps at zero amplitude); K10 listed no expected word (its records now do); the dependencies of the top counted rung were misstated (the family, the releases and the `Z` chains wait for the counted run of both boxes at their spacing); the room rule had no eligibility and extrapolates in the size of the loop (eligibility stated, limit (5) added, the agreement of the two boxes made a descriptor); the instrument could be changed between tries with outcomes in view (only after a failed control or the one-third rule, every try printed); the first bound of K9 was under the start value; two claims about M5.46 overreached (only two of the four exits were repeated there, and the rise of 4.1 compared a chain with free faces to a base with held faces); and a list of terms was left open (the denominator of the identity, the free state in R1, the reads rule of R2, R3 with no counted rung, an exit that touches no face, the tolerance of K8, the noise, LOWER STATE, the target of K5, the chains of K6 and K7 and the caps of the `E` chains in the job list, the members compared by R5). Two things were added at the fold and not from the audit. A counted rung with U at or under the free state's gives no label for R1. And, on the drafter's objection to the word BRANCH as the fold first had it, a step on which U falls is checked by continuing the upper rung's state down to the lower target before the word is given, since a fresh start that lands above the lowest state at the lower rung would otherwise read as a fall of U. The auditor found sound: D and the reader on the base states, the share of the weight near the loop, M_zz inside the loop, the dilation clauses of K4, the gradient of D against central differences, the gate, the margins of EVADED on the bases, the room at the top targets, the counts of targets, the algebra of the force of the hold, the numbers quoted from M5.46, the author's definition against the thread record, and the two limits of the cell against `MODELS.md` and M5.46 § 15. It did not check, and could not at plan time: any relaxation under the hold, so whether the rungs converge, the real curve U(D), whether the hold makes a split cheaper than one loop, and whether K6 and K9 are met; and it read the author's post through the thread record and not at its source.
+
+## FINDINGS (2026-11-20)
+
+> Run of 2026-11-20, one try. The numbers and the words below are carried by [`m5_50_summary.json`](../data/m5_50_summary.json), written by [`m5_50_reads.py`](../scripts/m5_50_reads.py) from the local chain records; the tables are printed from it by [`m5_50_report.py`](../scripts/m5_50_report.py). Every deviation from the plan and every reading of a rule is in the list after these findings. Two audits of this record are folded in (§ 17).
+
+⚠️ **No label of R1, R2, R3 or R5 is given on any grid: K2 is not met as worded, at either spacing.** The two new bases of half-box 14 relaxed to one centered loop, CONVERGED, and the reader's radius of that loop is larger than on the base of half-box 10 at the same spacing by more than the bound of 0.03: 3.3887 against 3.2930 at spacing 0.5 (a gap of 0.096) and 3.3613 against 3.3159 at spacing 0.25 (a gap of 0.045). That radius is the mean radius of the pierced plaquettes, and it moves in jumps of the plaquette grid larger than the bound; by continuous measures the difference of the two boxes lies inside the bound: half the gap of D is 0.0225 and 0.0218, and the radius at which the two largest eigenvalues meet (a descriptor outside the plan, § 7) differs by 0.022 and 0.021. No change of an input or of a script that the plan allows can alter the reader's numbers, so no second try was spent, and the labels stay withheld as the plan prices K2: no ladder on that base, and with it no room rule for either box at that spacing. All chains were run as planned, and the words that the frozen rules give on the chains as run are printed beside each withheld label, marked "as run"; they are not labels. R4 on the four `E` chains, which do not start from a base of half-box 14, keeps its label.
+
+**In brief.** (1) The controls: K1, K3, K4 (on its second try), K5, K6, K7, K9, K10 (on its third run), K11 and K12 met. K2 NOT MET as worded on both bases of half-box 14, on a radius read that moves in jumps larger than its bound, which withholds every label of R1, R2, R3 and R5 (above). K8 met on half-box 10 at spacing 0.5 and NOT MET on the three other grids, on points at μ = 80 that have no curve to be compared with; where a point has a curve it lies on it to 10⁻⁴ or better, but as built K8 could not fail for the failure it names (§ 6). (2) The cost of the separation: on every grid U rose from each held rung to the next, and the force of the hold grew with the separation, from 0.24 to 0.45 at the first target to 1.06 at 13 on half-box 10 and 1.08 at 15.25 on half-box 14 (spacing 0.5); the mean of f over the last two rungs of each run read was 0.83 to 0.98 of its largest. This holds up to 13 and 15.25 at spacing 0.5 and up to 10 at spacing 0.25, on the fresh rungs, which are not always the lowest states at their D; f on half-box 10 is above f on half-box 14 at every shared target, by 3 to 15 percent (§ 8). As run, R1 gives no word on any grid: the rises of U of the two boxes differ by 6 to 14 percent at every shared target, above the 5 percent of the room rule, so no room rule exists, and read literally no rung is then eligible. The reads script skips that clause; read so, the runs end at 13 on half-box 10 at spacing 0.5 (the top), at 15.25 on half-box 14 at spacing 0.5 (the next rung EVADED) and at 10 on both grids at spacing 0.25 (the rung at 11.5 cut by its wall cap); the family and the `Z` chains started from those top rungs (deviation 26). (3) The hold was met without holding the line: the loop went back to about its free size and one to three single nodes far from the vacuum carried most of the weight of D, on half-box 14 at spacing 0.5 from the target 16 on, on the rungs of 113³ from 14.5 on (at their wall caps), on the continuation chains, and on every pinch and the larger noise of the family. Such CONVERGED states are EVADED by § 1 and give no point of the curve; they cost less U than the stretched loop at the same target. On the fresh ladders at the first strength 6 of 18 rungs of half-box 14 are EVADED, one third, one short of the plan's instrument failure; under the readings that also count the walled rungs or the continuation chains the instrument failure is met, and no second try was run (§ 10). (4) One line or two: no state of any chain ended with two clear sets, so no release was owed; R2 and R3 as run read HELD at spacing 0.5 and no label at 0.25 with the room clause skipped, no label everywhere read literally (§ 11). (5) R4 is NOT HELD on `E0a`, `E0b` and `E14d` and HELD on `E14c`. The early R4 result on `E0a` and `E0b`, a blind read on the box surface between the last 1 and the first 0 with no pierced plaquette left in the box, is NOT HELD by the frozen rule and is reported as that; `E14d` reads the same. A descriptor outside the plan places those reads: the gap closed for one or two iterations on a handful of nodes of the face the loop had just left, within 0.5 of the center of its last set (§ 12). (6) Every reading is on the action of M5.42 with $\kappa = v = 1$, $\delta = 0.05$ and $L_1 = 0.03$; none is on the density-weighted action of the author's post of 2026-11-20 on discussion #186, and no word printed here carries over to it (§ 15, item 9).
+
+**Scope.** The relaxed unit of the action of M5.42 at J = 0, held by the functional D of § 1 at targets on a ladder, on half-boxes 10 and 14 at spacings 0.5 and 0.25, and the four exits of M5.46 run again. Nothing here is said about another action, another δ or L₁, J above 0, a limit at zero spacing, or a box beyond half-box 14. Nothing in this section sets or suggests a mark of [`MODELS.md`](../../../../../MODELS.md).
+
+### 6. The controls
+
+**Table 1. The controls.**
+
+| Control | Word | The numbers |
+| --- | --- | --- |
+| K1 | met | B0c: U 31.197579244458, relative gap 0.0e+00, 1 loop of radius 3.2930; B0d: U 31.399283010231, relative gap 0.0e+00, 1 loop of radius 3.3159 |
+| K2 | NOT MET | B14a: CONVERGED, 1 loop, center within 0.0000, radius 3.3887 against 3.2930 (gap 0.0957, bound 0.03); D 6.9169 against 6.8719 (half the gap 0.0225); B14b: CONVERGED, 1 loop, center within 0.0000, radius 3.3613 against 3.3159 (gap 0.0454, bound 0.03); D 6.9244 against 6.8807 (half the gap 0.0218) |
+| K3 | met | the seven controls of M5.46 on the four base states: K1 met, K2 met, K3 met, K4 met, K5 met, K6 met, K7 met |
+| K4 | met | 10a: D 6.8719, reader 6.5860 (D above it by 0.286); shifts of two cells change D by 2.1e-09, 4.7e-09, 2.1e-09 (the shift alone 9e-16, 2e-15, 9e-16); dilations 1.5 and 2: ratio 1.0059, 1.0049 of the dilation, D above the reader by 0.337, 0.547; 10b: D 6.8807, reader 6.6318 (D above it by 0.249); shifts of two cells change D by 4.3e-10, 8.5e-10, 4.3e-10 (the shift alone 9e-16, 3e-15, 9e-16); dilations 1.5 and 2: ratio 1.0013, 1.0010 of the dilation, D above the reader by 0.333, 0.446 |
+| K5 | met | worst gap over the largest entry, 200 entries each: D 3.1e-07, hold 1.8e-07, E 4.3e-07, obstacle 9.7e-13 (bound 1e-6) |
+| K6 | met | 10a: U 31.1975792445 against 31.1975792445 (relative gap 1.1e-16), hold energy 2.0e-28, radius 3.2930 and 3.2930, iterations 1 and 1 (one end by the function tolerance within 25 iterations of the start, no restart); 10b: U 31.3992830102 against 31.3992830102 (relative gap 0.0e+00), hold energy 0.0e+00, radius 3.3159 and 3.3159, iterations 0 and 0 (the gate alone, a stalled line search in its record); 14a: U 38.6983326330 against 38.6983326330 (relative gap 0.0e+00), hold energy 0.0e+00, radius 3.3887 and 3.3887, iterations 0 and 0 (the gate alone, a stalled line search in its record); 14b: U 38.9015736733 against 38.9015736733 (relative gap 0.0e+00), hold energy 0.0e+00, radius 3.3613 and 3.3613, iterations 0 and 0 (the gate alone, a stalled line search in its record) |
+| K7 | met | e of the three steps: 0.0017, 0.0010, 0.0008 (bound 0.01); f at the four rungs: 0.0338, 0.0666, 0.0983, 0.1291; U: 31.199249, 31.204192, 31.212316, 31.223521 |
+| K8 | NOT MET | 10a: met, largest gap 1.8e-05 on 8 of 8 points; 14a: NOT MET, largest gap 9.9e-05 on 11 of 18 points; 10b: NOT MET, largest gap 1.8e-06 on 1 of 2 points; 14b: NOT MET, largest gap 0.0e+00 on 0 of 1 points; with the hold energy counted into U at both strengths (the failure the control names) the gaps would be 10a 0.0013 to 0.0208, 14a 0.0011 to 0.0218, 10b 0.0084 to 0.0084, every one under its tolerance: as built the control could not fail for its named failure |
+| K9 | met | 10a: R_d 1.5: CONVERGED, U 31.19863, obstacle energy 2.86e-04 (start 6.31e-03), radius 3.2930; R_d 4.5: CONVERGED, U 32.85516, obstacle energy 7.47e-02 (start 7.30e+00), radius 4.8833; R_d 5.5: CONVERGED, U 34.52454, obstacle energy 9.80e-02 (start 1.26e+01), radius 5.9067; 14a: R_d 1.5: CONVERGED, U 38.69932, obstacle energy 2.69e-04 (start 5.92e-03), radius 3.3887; R_d 5.5: CONVERGED, U 41.80198, obstacle energy 9.58e-02 (start 1.53e+01), radius 5.9067; R_d 8: CONVERGED, U 47.19992, obstacle energy 1.34e-01 (start 4.10e+01), radius 8.3926 |
+| K10 | met | 45 made-up records, failed: [] |
+| K11 | met | E0a: 775 iterations against 775, U at the end 4.10065157 against 4.10065157, 72 dense reads from iteration 700; E14c: 975 iterations against 975, U at the end 4.54137439 against 4.54137439, 120 dense reads from iteration 850 |
+| K12 | met | 10a: largest change at zero amplitude 0e+00, source points outside the box 0, the pinch at 0.5 gives 1 set with radii in the ratio 0.515; 10b: largest change at zero amplitude 0e+00, source points outside the box 0, the pinch at 0.5 gives 1 set with radii in the ratio 0.476 |
+
+| Control | Tries | Word | What changed between the tries |
+| --- | --- | --- | --- |
+| K1 | 1 | met | nothing |
+| K2 | 1 | NOT MET as worded on `B14a` and on `B14b` (the reader's radius, which moves in plaquette jumps; continuous measures of the size lie inside the bound, § 7) | nothing: no admissible change alters it |
+| K3 | 1 | met | nothing; the four base states were all present at its first run |
+| K4 | 2 | met on try 2 | the input: the shift is two cells (try 1 shifted by 2, 3 and 4 cells at spacing 0.5 and moved D by up to 1.9 × 10⁻⁸ through the far-field weight that leaves the box; the shift alone moves D by 2 × 10⁻¹⁵) |
+| K5 | 1 | met | nothing |
+| K6 | 1 | met on all four grids | nothing |
+| K7 | 1 | met | nothing |
+| K8 | 1 | met on half-box 10 at spacing 0.5; NOT MET on the three other grids; as built it could not fail for its named failure | nothing |
+| K9 | 1 | met | nothing |
+| K10 | 3 | met on run 3 | a defect of the reader (a step on which U falls is not bisected after its branch check) and the input of record 45; later changes of the reads script (deviations 17, 18, 22 to 24, 26 to 28) were each followed by a confirmation run on all 45 records, with the same words |
+| K11 | 1 | met | nothing |
+| K12 | 1 | met | nothing |
+
+1. **K6 tests little here.** On all four grids both chains of the pair ended at iteration 0 or 1: the base is already at rest, so the rung whose target is its own D does nothing. The free state is returned, but the hold is not exercised by K6; it is exercised by K7, whose four rungs raise U by 1.7 × 10⁻³ to 2.6 × 10⁻² above the free state and meet the step identity to 0.17 percent or better.
+2. **K8.** On half-box 10 at spacing 0.5 the eight points at μ = 80 lie on the cubic through the points and slopes at μ = 20 to 1.8 × 10⁻⁵ at most (the tolerance there is 0.005 to 0.077); at the top target the point at μ = 80 lies 0.04 beyond the last node and the cubic's end segment is extended to it (deviation 18). A check by hand at d = 13 gives a gap of 1.5 × 10⁻⁶. On the other grids every point at μ = 80 that has a curve lies on it to 10⁻⁴ (half-box 14 at spacing 0.5: eleven points) or 1.8 × 10⁻⁶ (half-box 10 at spacing 0.25: one point). K8 is NOT MET there by the reading of deviation 9, on the points that have no curve: on half-box 14 at spacing 0.5 the rungs at μ = 20 at 16 to 19.75 are EVADED and give no node, and the rung at 20.5 was cut by its wall cap; at 13 on half-box 10 and at 14.5 on half-box 14 at spacing 0.25 the chain at μ = 80, or its partners at μ = 20, were cut by the wall cap. **What K8 can detect.** The failure that K8 names is a hold energy counted into U. Counted at both strengths, it would move the points off the curve by 0.0011 to 0.0218 at the 19 points of spacing 0.5 (0.0013 to 0.0208 on half-box 10, 0.0011 to 0.0218 on half-box 14), against tolerances of 0.005 to 0.116, every one inside: as built the control could not fail for its named failure. What it shows is that the points of both strengths lie on one curve far inside its tolerance.
+3. **K9.** At R_d = 1.5 the obstacle left the base where it was (U within 3.4 × 10⁻⁵ relative, the radius unchanged, the obstacle energy down from 6.3 × 10⁻³ to 2.9 × 10⁻⁴). At the larger disks the loop was pushed out to radii 4.88 to 8.39, and U stood above the curve of the first hold at the same reader's separation by 25 to 43 percent of the rise (Table 7): the second hold costs more for the same separation, as a hold that presses on the inside of the line rather than on its core may. U rose from the smaller to the larger disk on both boxes, so the two kinds of hold agree in sign.
+
+### 7. The bases and the chains
+
+The two bases of half-box 14 met the gate of M5.45 (`B14a` at iteration 1146, `B14b` at 1665, max \|dE/dm\|/h³ 1.2 × 10⁻⁵ at the end of `B14b`), each with one loop centered on the box. U is larger in the larger box (38.698 against 31.198, 38.902 against 31.399), which holds more of the frame's far field. An independent count of the pierced plaquettes, with a grouping written apart from the scripts, returns the same set, the same count (56 and 112) and the same reader's radius on both bases, and on three rungs checked the same way.
+
+**A descriptor outside the plan: the size of the bases by a continuous measure.** The reader's radius is the mean radius of the pierced plaquettes, a set of grid cells, and it moves in jumps of that grid. The radius at which the two largest eigenvalues meet was read on the four bases by [`m5_50_diag_radius.py`](../scripts/m5_50_diag_radius.py): in the plane of the loop, along 72 azimuths, the least of l₃ − l₂ located by a parabola through the samples about it, the mean over the azimuths.
+
+| Spacing | Half-box 10 | Half-box 14 | Gap (K2's bound 0.03) | The reader's radii and their gap | Half the gap of D |
+| --- | --- | --- | --- | --- | --- |
+| 0.5 | 3.3288 | 3.3508 | 0.022 | 3.2930, 3.3887: 0.096 | 0.0225 |
+| 0.25 | 3.3327 | 3.3537 | 0.021 | 3.3159, 3.3613: 0.045 | 0.0218 |
+
+The record audit (§ 17) read the same radius with its own code and found 3.3286 against 3.3525 and 3.3322 against 3.3565, gaps of 0.024; the two reads agree within 0.004. By both continuous measures the size of the loop differs between the boxes by less than the bound; K2 is not met as worded, and the plan's price of K2 stands.
+
+**Table 13. The chains by class.**
+
+| Class | Chains | CONVERGED | EXIT | Other ends | With two clear sets or more at the end |
+| --- | --- | --- | --- | --- | --- |
+| base | 2 | 2 | 0 | none | 0 |
+| cont_down | 7 | 7 | 0 | none | 0 |
+| cont_up | 24 | 17 | 0 | WALL | 0 |
+| exit | 8 | 0 | 7 | WALL | 0 |
+| family | 21 | 19 | 0 | WALL | 0 |
+| k6 | 8 | 8 | 0 | none | 0 |
+| k7 | 4 | 4 | 0 | none | 0 |
+| mu2 | 29 | 23 | 0 | WALL | 0 |
+| obstacle | 6 | 6 | 0 | none | 0 |
+| rung | 43 | 33 | 0 | WALL | 0 |
+
+The wall caps of the plan were set from a staging estimate and, under the load of the batch, the chains ran slower than that estimate; the pool held nine chains while three wave processes of the other task were alive, against the eight of the plan's parallel shape (deviation 28). Twenty-six chains ended at their wall cap (Table 13; none at the cap of 20000 iterations): on 113³ seven of the nine outward rungs (11.5 to 20.5), the point at μ = 80, one member of the family and `Z14b`; on 81³ the rung at 11.5, the inward rung at 4, the point at μ = 80 at 13 and one member of the family; on 57³ the rung at 20.5, four points at μ = 80 (16.75 to 19.75) and seven rungs of the continuation chain. Seven of them reached the cap with the gate met but before the second end by the function tolerance that CONVERGED needs, among them the rung `R10b_d1150_m20` (max \|dE/dm\|/h³ = 3.4 × 10⁻⁵ against the gate of 10⁻³). By § 1 a chain that is not CONVERGED carries no value of U into any reading. The state of `R10b_d1150_m20` at its cap (U = 33.7718, f = 0.874, one clear set) lies between its neighbors on the curve, and is printed here as a descriptor only. In the tables the driver's word FUNCTION TOLERANCE, REPEATED AFTER A RESTART is printed with how the chain ended by its events: the two chains of the K6 pair on half-box 10 at spacing 0.5 ended at iteration 1 with one end by the function tolerance and no restart, and `R14a_d1450_m20` and `R14b_d1000_m20` are CONVERGED by the gate alone, a stalled line search in their record.
+
+### 8. The cost of the separation (R1)
+
+**Table 2a. The ladder of half-box 10, spacing 0.5 (41³).** Free state: U 31.197579, D 6.8719, reader's separation 6.5860.
+
+| Target d | Kind | D reached | Reader's separation | U | Rise of U | f | Hold energy | Room | Word | Clear sets | Weight within 1.5 | Counted | e of the step from the counted rung below |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 | inward | 4.0029 | 6.5287 | 31.394741 | 0.197162 | -0.0582 | 8.47e-05 | 6.736 | CONVERGED, EVADED (the gate alone, a stalled line search in its record) | 1 | 0.489 | no: an EVADED rung |  |
+| 5.5 | inward | 5.5289 | 5.2805 | 31.562586 | 0.365007 | -0.5780 | 8.35e-03 | 7.360 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | no |  |
+| 7.75 | rung | 7.7369 | 7.5156 | 31.316676 | 0.119097 | 0.2627 | 1.73e-03 | 6.242 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes |  |
+| 8.5 | rung | 8.4781 | 8.3390 | 31.579042 | 0.381462 | 0.4387 | 4.81e-03 | 5.831 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0093 |
+| 9.25 | rung | 9.2208 | 9.1104 | 31.960059 | 0.762480 | 0.5833 | 8.51e-03 | 5.445 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0039 |
+| 10 | rung | 9.9659 | 9.8825 | 32.428436 | 1.230856 | 0.6821 | 1.16e-02 | 5.059 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0064 |
+| 10.75 | rung | 10.7111 | 10.6615 | 32.973306 | 1.775727 | 0.7784 | 1.51e-02 | 4.669 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0013 |
+| 11.5 | rung | 11.4565 | 11.5013 | 33.588770 | 2.391191 | 0.8707 | 1.90e-02 | 4.249 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.992 | yes | 0.0014 |
+| 12.25 | rung | 12.2018 | 12.2675 | 34.271863 | 3.074284 | 0.9631 | 2.32e-02 | 3.866 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes | 0.0005 |
+| 13 | rung | 12.9472 | 12.8677 | 35.022798 | 3.825218 | 1.0558 | 2.79e-02 | 3.566 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.992 | yes | 0.0019 |
+
+**Table 2b. The ladder of half-box 14, spacing 0.5 (57³).** Free state: U 38.698333, D 6.9169, reader's separation 6.7774.
+
+| Target d | Kind | D reached | Reader's separation | U | Rise of U | f | Hold energy | Room | Word | Clear sets | Weight within 1.5 | Counted | e of the step from the counted rung below |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7.75 | rung | 7.7379 | 7.5156 | 38.802565 | 0.104232 | 0.2424 | 1.47e-03 | 10.242 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.992 | yes |  |
+| 8.5 | rung | 8.4794 | 8.3492 | 39.047871 | 0.349539 | 0.4125 | 4.25e-03 | 9.825 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0102 |
+| 9.25 | rung | 9.2225 | 9.1104 | 39.406972 | 0.708640 | 0.5496 | 7.55e-03 | 9.445 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.992 | yes | 0.0045 |
+| 10 | rung | 9.9669 | 9.8825 | 39.859213 | 1.160880 | 0.6622 | 1.10e-02 | 9.059 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0027 |
+| 10.75 | rung | 10.7141 | 10.6615 | 40.350433 | 1.652101 | 0.7183 | 1.29e-02 | 8.669 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.992 | yes | 0.0499 |
+| 11.5 | rung | 11.4604 | 11.4615 | 40.915262 | 2.216929 | 0.7924 | 1.57e-02 | 8.269 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.991 | yes | 0.0020 |
+| 12.25 | rung | 12.2070 | 12.2954 | 41.532408 | 2.834076 | 0.8603 | 1.85e-02 | 7.852 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes | 0.0004 |
+| 13 | rung | 12.9540 | 12.8413 | 42.196839 | 3.498507 | 0.9207 | 2.12e-02 | 7.579 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes | 0.0011 |
+| 13.75 | rung | 13.7013 | 13.7608 | 42.905198 | 4.206865 | 0.9741 | 2.37e-02 | 7.120 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.990 | yes | 0.0005 |
+| 14.5 | rung | 14.4487 | 14.5356 | 43.654393 | 4.956060 | 1.0260 | 2.63e-02 | 6.732 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.990 | yes | 0.0023 |
+| 15.25 | rung | 15.1960 | 15.2329 | 44.441212 | 5.742879 | 1.0790 | 2.91e-02 | 6.384 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.990 | yes | 0.0003 |
+| 16 | rung | 15.9902 | 6.7134 | 39.293297 | 0.594964 | 0.1954 | 9.54e-04 | 10.643 | CONVERGED, EVADED (the gate alone, a stalled line search in its record) | 1 | 0.171 | no: an EVADED rung |  |
+| 16.75 | rung | 16.7411 | 6.7176 | 39.290673 | 0.592340 | 0.1789 | 8.00e-04 | 10.641 | CONVERGED, EVADED (the gate alone, a stalled line search in its record) | 1 | 0.171 | no: an EVADED rung |  |
+| 17.5 | rung | 17.4908 | 6.6931 | 39.314451 | 0.616118 | 0.1850 | 8.55e-04 | 10.653 | CONVERGED, EVADED (the function tolerance repeated after a restart) | 1 | 0.160 | no: an EVADED rung |  |
+| 18.25 | rung | 18.2387 | 6.7176 | 39.380457 | 0.682125 | 0.2266 | 1.28e-03 | 10.641 | CONVERGED, EVADED (the function tolerance repeated after a restart) | 1 | 0.135 | no: an EVADED rung |  |
+| 19 | rung | 18.9881 | 6.6931 | 39.409030 | 0.710697 | 0.2379 | 1.42e-03 | 10.653 | CONVERGED, EVADED (the function tolerance repeated after a restart) | 1 | 0.126 | no: an EVADED rung |  |
+| 19.75 | rung | 19.7365 | 6.6870 | 39.458416 | 0.760084 | 0.2702 | 1.82e-03 | 10.657 | CONVERGED, EVADED (the gate alone, a stalled line search in its record) | 1 | 0.112 | no: an EVADED rung |  |
+| 20.5 | rung | 20.4949 | 6.7250 | 39.159787 | 0.461454 | 0.1027 | 2.64e-04 | 10.638 | WALL | 1 | 0.244 | no: a rung that is not CONVERGED |  |
+
+**Table 2c. The ladder of half-box 10, spacing 0.25 (81³).** Free state: U 31.399283, D 6.8807, reader's separation 6.6318.
+
+| Target d | Kind | D reached | Reader's separation | U | Rise of U | f | Hold energy | Room | Word | Clear sets | Weight within 1.5 | Counted | e of the step from the counted rung below |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 | inward | 4.0010 | 6.6320 | 31.473475 | 0.074192 | -0.0204 | 1.05e-05 | 6.684 | WALL | 1 | 0.471 | no: a rung that is not CONVERGED |  |
+| 5.5 | inward | 5.5298 | 5.2101 | 31.777790 | 0.378507 | -0.5962 | 8.89e-03 | 7.395 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.990 | no |  |
+| 8.5 | rung | 8.4777 | 8.3504 | 31.785095 | 0.385812 | 0.4463 | 4.98e-03 | 5.825 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes |  |
+| 10 | rung | 9.9664 | 9.8419 | 32.617669 | 1.218386 | 0.6717 | 1.13e-02 | 5.079 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes | 0.0004 |
+| 11.5 | rung | 11.4563 | 11.3805 | 33.771752 | 2.372469 | 0.8743 | 1.91e-02 | 4.310 | WALL | 1 | 0.991 | no: a rung that is not CONVERGED |  |
+| 13 | rung | 12.9465 | 12.8725 | 35.219853 | 3.820570 | 1.0708 | 2.87e-02 | 3.564 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | no |  |
+
+**Table 2d. The ladder of half-box 14, spacing 0.25 (113³).** Free state: U 38.901574, D 6.9244, reader's separation 6.7226.
+
+| Target d | Kind | D reached | Reader's separation | U | Rise of U | f | Hold energy | Room | Word | Clear sets | Weight within 1.5 | Counted | e of the step from the counted rung below |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 8.5 | rung | 8.4790 | 8.3504 | 39.255820 | 0.354246 | 0.4202 | 4.42e-03 | 9.825 | CONVERGED (the function tolerance repeated after a restart) | 1 | 0.991 | yes |  |
+| 10 | rung | 9.9690 | 9.8584 | 40.028297 | 1.126724 | 0.6210 | 9.64e-03 | 9.071 | CONVERGED (the gate alone, a stalled line search in its record) | 1 | 0.991 | yes | 0.0042 |
+| 11.5 | rung | 11.4605 | 11.3488 | 41.085018 | 2.183445 | 0.7894 | 1.56e-02 | 8.326 | WALL | 1 | 0.991 | no: a rung that is not CONVERGED |  |
+| 13 | rung | 12.9540 | 12.8998 | 42.380267 | 3.478693 | 0.9191 | 2.11e-02 | 7.550 | WALL | 1 | 0.990 | no: a rung that is not CONVERGED |  |
+| 14.5 | rung | 14.4972 | 6.7249 | 39.004330 | 0.102756 | 0.0558 | 7.78e-05 | 10.638 | WALL | 1 | 0.546 | no: a rung that is not CONVERGED |  |
+| 16 | rung | 15.9979 | 6.7274 | 39.049340 | 0.147766 | 0.0424 | 4.50e-05 | 10.636 | WALL | 1 | 0.377 | no: a rung that is not CONVERGED |  |
+| 17.5 | rung | 17.4974 | 6.7375 | 39.101729 | 0.200155 | 0.0529 | 6.99e-05 | 10.631 | WALL | 1 | 0.290 | no: a rung that is not CONVERGED |  |
+| 19 | rung | 18.9982 | 6.6642 | 39.181903 | 0.280329 | 0.0352 | 3.11e-05 | 10.668 | WALL | 1 | 0.231 | no: a rung that is not CONVERGED |  |
+| 20.5 | rung | 20.4976 | 6.7398 | 39.181120 | 0.279546 | 0.0485 | 5.88e-05 | 10.630 | WALL | 1 | 0.188 | no: a rung that is not CONVERGED |  |
+
+**Table 3. The room rule: the shared targets of the two boxes.**
+
+| Spacing | Target | Room on half-box 10 | Rise on half-box 10 | Rise on half-box 14 | Gap | Agrees (5 percent) | Room rule |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.5 | 7.75 | 6.242 | 0.119097 | 0.104232 | 0.1426 | no | none |
+| 0.5 | 8.5 | 5.831 | 0.381462 | 0.349539 | 0.0913 | no | none |
+| 0.5 | 9.25 | 5.445 | 0.762480 | 0.708640 | 0.0760 | no | none |
+| 0.5 | 10 | 5.059 | 1.230856 | 1.160880 | 0.0603 | no | none |
+| 0.5 | 10.75 | 4.669 | 1.775727 | 1.652101 | 0.0748 | no | none |
+| 0.5 | 11.5 | 4.249 | 2.391191 | 2.216929 | 0.0786 | no | none |
+| 0.5 | 12.25 | 3.866 | 3.074284 | 2.834076 | 0.0848 | no | none |
+| 0.5 | 13 | 3.566 | 3.825218 | 3.498507 | 0.0934 | no | none |
+| 0.25 | 8.5 | 5.825 | 0.385812 | 0.354246 | 0.0891 | no | none |
+| 0.25 | 10 | 5.079 | 1.218386 | 1.126724 | 0.0814 | no | none |
+
+**Table 5. The counted runs: the numbers under R1.**
+
+| Grid | Counted rungs | Ends at | Ended by | Largest f | Mean of f on the last two | Ratio | Largest e of a counted step | Bisections | Lower states | Start dependence |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | 8 (7.75, 8.5, 9.25, 10, 10.75, 11.5, 12.25, 13) | 13.0 | the top of the ladder | 1.0558 | 1.0094 | 0.956 | 0.0093 | 0 | none | none |
+| half-box 14, spacing 0.5 (57³) | 11 (7.75, 8.5, 9.25, 10, 10.75, 11.5, 12.25, 13, 13.75, 14.5, 15.25) | 15.25 | an EVADED rung | 1.0790 | 1.0525 | 0.975 | 0.0499 | 0 | none | none |
+| half-box 10, spacing 0.25 (81³) | 2 (8.5, 10) | 10.0 | a rung that is not CONVERGED | 0.6717 | 0.5590 | 0.832 | 0.0004 | 0 | none | none |
+| half-box 14, spacing 0.25 (113³) | 2 (8.5, 10) | 10.0 | a rung that is not CONVERGED | 0.6210 | 0.5206 | 0.838 | 0.0042 | 0 | none | none |
+
+**Table 4. R1 to R3 per grid.** Where a label is withheld, the words that the frozen rules give on the chains as run are printed beside it; they are not labels.
+
+Two readings of the room clause are printed when no room rule exists (deviation 26): the reads script skips the clause ("skipped"), and the literal reading, in which eligibility needs a room rule and no rung is counted ("literal"). The print with no cut is given as the plan defines it (EVADED rungs out) and with the EVADED rungs in (deviation 27).
+
+| Grid | Labels R1, R2, R3 | R1 as run, skipped | R1 as run, literal | R1 with no cut | R1 with no cut, EVADED rungs in | R2 as run, skipped / literal | R3 as run, skipped / literal |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | no label (all three): K2 is not met on the base of half-box 14 at this spacing | no label: no shared target agrees between the two boxes: no room rule; the run ending at 13, the top of the ladder | no label: no room rule, so no rung is eligible and none is counted (the literal reading) | 8 rungs, U rises at every step: yes, largest f 1.0558, mean of the last two 1.0094 (0.956 of the largest), least f 0.249 of the largest | 8 rungs, U rises at every step: yes, largest f 1.0558, mean of the last two 1.0094 (0.956 of the largest) | HELD: every CONVERGED outward rung ends with one clear set; every liftable surface reads 0 or 1, and 1 around the loop / no label: fewer than three counted rungs (the literal reading: no counted rung) | HELD: the 6 chains of the family are CONVERGED and end with one clear set / no label: the grid has no top counted rung (the literal reading: no counted rung) |
+| half-box 14, spacing 0.5 (57³) | no label (all three): K2 is not met on the base of half-box 14 at this spacing | no label: K8 is not met on this grid (no R1); the rules applied to the chains as run give: no label: no shared target agrees between the two boxes: no room rule; the run ending at 15.25, on an EVADED rung | no label: no room rule, so no rung is eligible and none is counted (the literal reading) | 11 rungs, U rises at every step: yes, largest f 1.0790, mean of the last two 1.0525 (0.975 of the largest), least f 0.225 of the largest | 17 rungs, U rises at every step: no, largest f 1.0790, mean of the last two 0.2540 (0.235 of the largest) | HELD: every CONVERGED outward rung ends with one clear set; every liftable surface reads 0 or 1, and 1 around the loop / no label: fewer than three counted rungs (the literal reading: no counted rung) | HELD: the 6 chains of the family are CONVERGED and end with one clear set / no label: the grid has no top counted rung (the literal reading: no counted rung) |
+| half-box 10, spacing 0.25 (81³) | no label (all three): K2 is not met on the base of half-box 14 at this spacing | no label: K8 is not met on this grid (no R1); the rules applied to the chains as run give: no label: no shared target agrees between the two boxes: no room rule; two counted rungs; the run ending at 10, on a rung that is not CONVERGED | no label: no room rule, so no rung is eligible and none is counted (the literal reading) | 3 rungs, U rises at every step: yes, largest f 1.0708, mean of the last two 0.8712 (0.814 of the largest), least f 0.417 of the largest | 3 rungs, U rises at every step: yes, largest f 1.0708, mean of the last two 0.8712 (0.814 of the largest) | no label: fewer than three counted rungs / no label: fewer than three counted rungs (the literal reading: no counted rung) | no label: P10b_pin2e95: not CONVERGED / no label: the grid has no top counted rung (the literal reading: no counted rung) |
+| half-box 14, spacing 0.25 (113³) | no label (all three): K2 is not met on the base of half-box 14 at this spacing | no label: K8 is not met on this grid (no R1); the rules applied to the chains as run give: no label: no shared target agrees between the two boxes: no room rule; two counted rungs; the run ending at 10, on a rung that is not CONVERGED | no label: no room rule, so no rung is eligible and none is counted (the literal reading) | 2 rungs, U rises at every step: yes, largest f 0.6210, mean of the last two 0.5206 (0.838 of the largest), least f 0.677 of the largest | 2 rungs, U rises at every step: yes, largest f 0.6210, mean of the last two 0.5206 (0.838 of the largest) | no label: fewer than three counted rungs / no label: fewer than three counted rungs (the literal reading: no counted rung) | no label: P14b_noise20: not CONVERGED / no label: the grid has no top counted rung (the literal reading: no counted rung) |
+
+![The rise of U, the force of the hold and the error of the step identity against the reader's separation, on the four ladders](../plots/m5_50_ladders.png)
+
+1. **U rises and the force grows.** On every grid U rose at every step between CONVERGED rungs with one clear set that are not EVADED, and f grew with the separation: on half-box 10 at spacing 0.5 from 0.263 at 7.75 to 1.056 at 13; on half-box 14 at spacing 0.5 from 0.242 at 7.75 to 1.079 at 15.25; at spacing 0.25 from 0.446 and 0.420 at 8.5 to 0.672 and 0.621 at 10, and to 1.071 at 13 on half-box 10. Over the range read, U against the separation is convex, and the cost per unit of separation does not fall away; the range read is up to 13 and 15.25 at spacing 0.5 and up to 10 at spacing 0.25 (13 on half-box 10 with the rung at 11.5 missing). The step identity holds on every step to 1.1 percent or better (e = 0.0102 on half-box 14 from 7.75 to 8.5), except the step from 10 to 10.75 on half-box 14 at spacing 0.5, at e = 0.0499 against the tolerance of 0.05; no step called for a bisection and no fall of U called for a branch check.
+2. **Part of the force is the box.** At every shared target f on half-box 10 is above f on half-box 14: by a ratio of 1.03 to 1.15 at spacing 0.5, rising from 1.03 at 10 to 1.147 at 13, and 1.06 and 1.08 at spacing 0.25. The smaller box adds to the cost of a given separation, more as the loop nears its faces.
+3. **The fresh rungs are not always the lowest states at their D.** The continuation chain coming down on half-box 10 reaches U = 31.282 at 7.75 against 31.317 for the fresh rung there; that state is EVADED (§ 9), so it enters no comparison, but it shows that a fresh start does not find the lowest U at a given D.
+4. **As run, R1 gives no word**, on every grid, under both readings of the room clause. The rises of U on half-box 10 are above those on half-box 14 by 6.0 to 14.3 percent at all ten shared targets (Table 3), so no shared target agrees and no room rule exists. This is a separate quantity from the size of the loop that K2 reads: it is the cost of the separation in two boxes, not the size of the free loop. Read literally, eligibility needs a room rule, so with none no rung is eligible and no rung is counted. The reads script skipped the room clause when no room rule exists (deviation 26); read so, the counted run ends at 13 on half-box 10 at spacing 0.5 (the top of the ladder, eight rungs, the mean of f over the last two 0.956 of its largest), at 15.25 on half-box 14 at spacing 0.5 (the next rung EVADED, eleven rungs, 0.975), and at 10 on both grids at spacing 0.25 (the rung at 11.5 cut by its wall cap, two rungs, 0.832 and 0.838). The top rungs of those runs are the ones the family and the `Z` chains started from. The print with no cut (Table 4) is given in two versions (deviation 27). As the plan defines it, with the EVADED rungs out, it has the same rungs at spacing 0.5 and adds the rung at 13 on half-box 10 at spacing 0.25 (three rungs, 0.814). With the EVADED rungs in, half-box 14 at spacing 0.5 has 17 rungs, U falls from 44.44 at 15.25 to 39.29 at 16, and the mean of f over the last two is 0.235 of the largest.
+5. **An independent check of the step identity.** From the raw records, by hand: on half-box 14 at spacing 0.5, the step from 7.75 to 8.5 has ΔU = 0.24531 against T = 0.24281 (e = 0.0102), and the step from 10 to 10.75 has e = 0.0499; on half-box 10 at spacing 0.25 the step from 8.5 to 10 has e = 0.0004. The reads script returns the same values, the same largest f and the same ratio of the last two.
+
+### 9. The second strength, the second hold and the continuation chains
+
+**Table 6. K8: the second strength (μ = 80) against the cubic through the points and slopes at μ = 20.**
+
+| Grid | Target | D reached | U | Cubic at that D | Gap | Tolerance | Gap with the hold energy counted into U | Word |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | 7.75 | 7.7467 | 31.319269 | 31.319269 | 0.000000 | 0.0050 | 0.0004 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 8.5 | 8.4945 | 31.586267 | 31.586267 | 0.000000 | 0.0078 | 0.0012 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 9.25 | 9.2427 | 31.972832 | 31.972814 | 0.000018 | 0.0155 | 0.0022 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 10 | 9.9914 | 32.445897 | 32.445896 | 0.000001 | 0.0250 | 0.0029 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 10.75 | 10.7402 | 32.996046 | 32.996048 | 0.000002 | 0.0360 | 0.0038 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 11.5 | 11.4891 | 33.617221 | 33.617224 | 0.000003 | 0.0484 | 0.0048 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 12.25 | 12.2379 | 34.306669 | 34.306664 | 0.000005 | 0.0622 | 0.0059 | CONVERGED: met |
+| half-box 10, spacing 0.5 (41³) | 13 | 12.9867 | 35.064637 | 35.064639 | 0.000002 | 0.0773 | 0.0070 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 7.75 | 7.7469 | 38.804772 | 38.804772 | 0.000000 | 0.0050 | 0.0004 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 8.5 | 8.4948 | 39.054260 | 39.054260 | 0.000000 | 0.0071 | 0.0011 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 9.25 | 9.2431 | 39.418313 | 39.418312 | 0.000000 | 0.0144 | 0.0019 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 10 | 9.9917 | 39.875673 | 39.875574 | 0.000099 | 0.0235 | 0.0029 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 10.75 | 10.7410 | 40.369792 | 40.369794 | 0.000002 | 0.0334 | 0.0032 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 11.5 | 11.4901 | 40.938818 | 40.938821 | 0.000002 | 0.0448 | 0.0039 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 12.25 | 12.2392 | 41.560175 | 41.560172 | 0.000003 | 0.0572 | 0.0047 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 13 | 12.9885 | 42.228644 | 42.228639 | 0.000006 | 0.0706 | 0.0053 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 13.75 | 13.7378 | 42.940799 | 42.940804 | 0.000005 | 0.0848 | 0.0060 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 14.5 | 14.4871 | 43.693885 | 43.693895 | 0.000010 | 0.0999 | 0.0066 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 15.25 | 15.2365 | 44.484888 | 44.484902 | 0.000013 | 0.1157 | 0.0073 | CONVERGED: met |
+| half-box 14, spacing 0.5 (57³) | 16 | 15.9976 | 39.291550 | n/a | n/a | 0.0119 | n/a | CONVERGED, EVADED: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 16.75 | 16.7478 | 39.290614 | n/a | n/a | 0.0118 | n/a | WALL: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 17.5 | 17.4973 | 39.350623 | n/a | n/a | 0.0130 | n/a | WALL: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 18.25 | 18.2471 | 39.390814 | n/a | n/a | 0.0138 | n/a | WALL: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 19 | 18.9986 | 39.235163 | n/a | n/a | 0.0107 | n/a | CONVERGED, EVADED: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 19.75 | 19.7485 | 39.245989 | n/a | n/a | 0.0110 | n/a | WALL: NOT MET |
+| half-box 14, spacing 0.5 (57³) | 20.5 | 20.4984 | 39.277241 | n/a | n/a | 0.0116 | n/a | CONVERGED, EVADED: NOT MET |
+| half-box 10, spacing 0.25 (81³) | 10 | 9.9916 | 32.634605 | 32.634603 | 0.000002 | 0.0247 | 0.0029 | CONVERGED: met |
+| half-box 10, spacing 0.25 (81³) | 13 | 12.9865 | 35.262885 | n/a | n/a | 0.0773 | n/a | WALL: NOT MET |
+| half-box 14, spacing 0.25 (113³) | 14.5 | 14.5003 | 39.227322 | n/a | n/a | 0.0065 | n/a | WALL: NOT MET |
+
+**Table 7. K9 and the second kind of hold (the obstacle), spacing 0.5.**
+
+| Grid | R_d | Word | U | Reader's separation | D | U of the first hold at that separation | Gap over the rise | U of the first hold at that D | Gap over the rise |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | 1.5 | CONVERGED | 31.198630 | 6.5860 | 6.8769 | n/a | n/a | n/a | n/a |
+| half-box 10, spacing 0.5 (41³) | 4.5 | CONVERGED | 32.855156 | 9.7666 | 9.7835 | 32.358176 | 0.4282 | 32.306709 | 0.4945 |
+| half-box 10, spacing 0.5 (41³) | 5.5 | CONVERGED | 34.524538 | 11.8134 | 11.5560 | 33.866979 | 0.2463 | 33.675995 | 0.3424 |
+| half-box 14, spacing 0.5 (57³) | 1.5 | CONVERGED | 38.699319 | 6.7774 | 6.9217 | n/a | n/a | n/a | n/a |
+| half-box 14, spacing 0.5 (57³) | 5.5 | CONVERGED | 41.801977 | 11.8134 | 11.7556 | 41.175666 | 0.2528 | 41.153229 | 0.2643 |
+| half-box 14, spacing 0.5 (57³) | 8 | CONVERGED | 47.199922 | 16.7852 | 16.6067 | n/a | n/a | n/a | n/a |
+
+**Table 8. The continuation chains at spacing 0.5 against the fresh rungs.** Up: each rung from the end of the rung below, from the free state; down: from the top, each from the end of the rung above. The share is that of the weight within 1.5 of the loop's plaquettes.
+
+| Grid | Direction | Target d | Word | D reached | Reader's separation | Share | U | U of the fresh rung | Gap over the rise |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | up | 7.75 | CONVERGED | 7.7369 | 7.5156 | 0.992 | 31.316676 | 31.316676 | -0.0000 |
+| half-box 10, spacing 0.5 (41³) | up | 8.5 | CONVERGED, EVADED | 8.4805 | 7.2536 | 0.997 | 31.569679 | 31.579042 | -0.0245 |
+| half-box 10, spacing 0.5 (41³) | up | 9.25 | CONVERGED | 9.2212 | 9.1104 | 0.992 | 31.959335 | 31.960059 | -0.0009 |
+| half-box 10, spacing 0.5 (41³) | up | 10 | CONVERGED, EVADED | 9.9728 | 6.7774 | 0.183 | 31.781458 | 32.428436 | -0.5256 |
+| half-box 10, spacing 0.5 (41³) | up | 10.75 | CONVERGED, EVADED | 10.4959 | 7.0046 | 0.039 | 32.578770 | 32.973306 | -0.2222 |
+| half-box 10, spacing 0.5 (41³) | up | 11.5 | CONVERGED, EVADED | 10.5778 | 7.5156 | 1.000 | 33.343454 | 33.588770 | -0.1026 |
+| half-box 10, spacing 0.5 (41³) | up | 12.25 | CONVERGED, EVADED | 10.5967 | 7.7668 | 0.012 | 33.808162 | 34.271863 | -0.1508 |
+| half-box 10, spacing 0.5 (41³) | up | 13 | CONVERGED, EVADED | 12.6147 | 6.7774 | 0.020 | 33.073578 | 35.022798 | -0.5096 |
+| half-box 10, spacing 0.5 (41³) | down | 7.75 | CONVERGED, EVADED | 7.7458 | 6.8442 | 0.859 | 31.282030 | 31.316676 | -0.2909 |
+| half-box 10, spacing 0.5 (41³) | down | 8.5 | CONVERGED, EVADED | 8.4963 | 6.7774 | 0.734 | 31.360715 | 31.579042 | -0.5723 |
+| half-box 10, spacing 0.5 (41³) | down | 9.25 | CONVERGED, EVADED | 9.2460 | 6.7774 | 0.601 | 31.417581 | 31.960059 | -0.7115 |
+| half-box 10, spacing 0.5 (41³) | down | 10 | CONVERGED, EVADED | 9.9950 | 6.7774 | 0.470 | 31.484298 | 32.428436 | -0.7671 |
+| half-box 10, spacing 0.5 (41³) | down | 10.75 | CONVERGED, EVADED | 10.7427 | 6.7774 | 0.341 | 31.574081 | 32.973306 | -0.7880 |
+| half-box 10, spacing 0.5 (41³) | down | 11.5 | CONVERGED, EVADED | 11.4865 | 6.7774 | 0.213 | 31.720133 | 33.588770 | -0.7815 |
+| half-box 10, spacing 0.5 (41³) | down | 12.25 | CONVERGED, EVADED | 12.2045 | 6.7774 | 0.090 | 32.066057 | 34.271863 | -0.7175 |
+| half-box 14, spacing 0.5 (57³) | up | 7.75 | CONVERGED | 7.7379 | 7.5156 | 0.992 | 38.802565 | 38.802565 | -0.0000 |
+| half-box 14, spacing 0.5 (57³) | up | 8.5 | CONVERGED, EVADED | 8.4801 | 7.2442 | 0.997 | 39.065782 | 39.047871 | 0.0512 |
+| half-box 14, spacing 0.5 (57³) | up | 9.25 | CONVERGED | 9.2231 | 9.1104 | 0.992 | 39.404982 | 39.406972 | -0.0028 |
+| half-box 14, spacing 0.5 (57³) | up | 10 | CONVERGED, EVADED | 9.9729 | 6.7774 | 0.186 | 39.278949 | 39.859213 | -0.4998 |
+| half-box 14, spacing 0.5 (57³) | up | 10.75 | CONVERGED, EVADED | 10.4963 | 7.1671 | 0.520 | 40.074841 | 40.350433 | -0.1668 |
+| half-box 14, spacing 0.5 (57³) | up | 11.5 | not CONVERGED | 11.4772 | 7.2045 | 0.575 | 39.632983 | 40.915262 | -0.5784 |
+| half-box 14, spacing 0.5 (57³) | up | 12.25 | CONVERGED, EVADED | 12.2223 | 7.3097 | 0.564 | 40.009584 | 41.532408 | -0.5373 |
+| half-box 14, spacing 0.5 (57³) | up | 13 | CONVERGED, EVADED | 12.9010 | 6.8389 | 0.067 | 40.033072 | 42.196839 | -0.6185 |
+| half-box 14, spacing 0.5 (57³) | up | 13.75 | CONVERGED, EVADED | 13.6453 | 6.7473 | 0.058 | 40.069368 | 42.905198 | -0.6741 |
+| half-box 14, spacing 0.5 (57³) | up | 14.5 | not CONVERGED | 14.4880 | 6.7277 | 0.185 | 39.278524 | 43.654393 | -0.8829 |
+| half-box 14, spacing 0.5 (57³) | up | 15.25 | CONVERGED, EVADED | 15.2176 | 6.7164 | 0.096 | 39.561417 | 44.441212 | -0.8497 |
+| half-box 14, spacing 0.5 (57³) | up | 16 | not CONVERGED | 15.7656 | 6.6939 | 0.028 | 40.462032 | 39.293297 | 1.9644 |
+| half-box 14, spacing 0.5 (57³) | up | 16.75 | not CONVERGED | 16.2936 | 6.6397 | 0.018 | 41.289096 | 39.290673 | 3.3738 |
+| half-box 14, spacing 0.5 (57³) | up | 17.5 | not CONVERGED | 17.2570 | 6.6309 | 0.018 | 40.655322 | 39.314451 | 2.1763 |
+| half-box 14, spacing 0.5 (57³) | up | 18.25 | not CONVERGED | 17.3690 | 6.5293 | 0.007 | 41.651207 | 39.380457 | 3.3289 |
+| half-box 14, spacing 0.5 (57³) | up | 19 | not CONVERGED | 17.3968 | 6.4917 | 0.005 | 42.285054 | 39.409030 | 4.0468 |
+
+1. **The continuation chains** (Table 8) agree with the fresh rungs to within 0.3 percent of the rise where they hold the line (at 7.75 and 9.25 on both boxes). At 8.5 the up chain of each box is EVADED by the separation clause alone: the reader's separation is 7.24 on half-box 14 and 7.25 on half-box 10, against D = 8.48 (§ 10). From 10 on the chains are EVADED by the share. No continuation rung enters a comparison of START-DEPENDENT (deviation 22), so START-DEPENDENT is read on two rungs per box, and on neither. Of the up chain of half-box 14 the rungs from 7.75 to 19 ran (16 rungs; from 10 on each EVADED or cut by its wall cap of one hour), and the chain was cut by the builder before 19.75, after the outcomes of the other chains were known (deviation 25); its down chain was not run. On half-box 10 both chains ran in full: up from 7.75 to 13 (6 of 8 rungs EVADED) and back down to 7.75 (7 of 7 EVADED).
+
+### 10. The hold met without holding the line
+
+The functional D measures the spread of the weight w = u², with u the potential density. The fresh rungs met it by stretching the loop (the share of the weight within 1.5 of the loop's plaquettes was 0.99 on every fresh rung up to 15.25). Other chains met it another way: one to three single nodes, far from the vacuum, carried most of the weight, and the loop stood at or near its free size.
+
+| State | Target d | D reached | Reader's separation | Share within 1.5 of the loop | The hottest nodes: place, u, share of the weight | U | U of the stretched loop at that target |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `R14a_d1600_m20` (fresh rung) | 16 | 15.990 | 6.713 | 0.171 | (−2.5, 9, 0) and (3, −8, 0): u = 2.09 and 2.06, 0.42 and 0.41 | 39.293 | none: no fresh rung at 16 held the loop (44.441 at 15.25) |
+| `R14a_d2050_m20` (fresh rung, cut by its cap, gate met) | 20.5 | 20.495 | 6.725 | 0.244 | (0, 13.5, 7.5) and (−2.5, −8.5, 0): u = 1.81 and 1.51, 0.45 and 0.31 | 39.160 at the cap | none |
+| `R14b_d1450_m20` to `R14b_d2050_m20` (113³, cut by their caps) | 14.5 to 20.5 | 14.50 to 20.50 | 6.66 to 6.74 | 0.55, 0.38, 0.29, 0.23, 0.19 | the largest u 3.58 to 5.95; the two hottest nodes 0.45 to 0.81 of the weight | 39.00 to 39.18 at the caps | none (42.38 at 13, also at its cap) |
+| `U10a_d0850` (continuation) | 8.5 | 8.481 | 7.254 | 0.997 | (3, −3.5, 0) and (−3, 3.5, 0): u = 1.24 each, 0.31 each, about 1.0 from the line | 31.570 | 31.579 (fresh, not EVADED) |
+| `U14a_d1000` (continuation) | 10 | 9.973 | 6.777 | 0.186 | (3.5, −4, 0) and (−3.5, 4, 0): u = 2.00 each, 0.41 each | 39.279 | 39.859 |
+| `U10a_d1225` (continuation) | 12.25 | 10.597 | 7.767 | 0.012 | (3.5, −4, 0) and (−3.5, 4, 0): u = 8.29 each, 0.49 each | 33.808 | 34.272 |
+| `P10a_pin3e80` (family) | 13 | 12.970 | 6.743 | 0.121 | three nodes: (−6.5, −1, 0), (4.5, 5.5, 0), (4.5, −5.5, 0); u = 2.18, 2.10, 1.86; 0.33, 0.31, 0.24 | 32.087 | 35.023 |
+| `R10b_d0400_m20` (inward, cut by its cap) | 4 | 4.001 | 6.632 | 0.471 | (0, −1.5, 0): u = 4.15, 0.52 | 31.473 | none |
+
+On the core of the loop u is about 0.1; at those nodes the three eigenvalues stand far from the vacuum (at the hottest node of `R14a_d1600_m20` they are −0.24, −0.16 and 0.51). Since the weight is u², one node at u = 2 weighs as much as 400 nodes of the core, and two of them a distance d apart give D close to d at a cost in U of order one, whatever d. The loop stood at its free size (a reader's separation of 6.71 to 6.78) on most such states, but not on all: 7.25 on `U10a_d0850`, where the loop is round (its line radius 3.566, the 72 azimuths within 0.095 of each other) and two hot nodes about 1.0 from the line carry 61 percent of the weight, which the share clause counts as on the loop (0.997), so only the separation clause caught the state; 7.52 on `U10a_d1150` and 7.77 on `U10a_d1225`. The pinch with three lobes left three hot nodes, the other members two.
+
+**The one-third rule.** § 3 ends a try as an instrument failure when more than a third of the rungs of a ladder are EVADED. The reading used here counts the fresh outward ladders at the first strength only, and a rung as EVADED only when it is CONVERGED (the word of § 1). On that reading half-box 14 at spacing 0.5 has 6 of 18 rungs EVADED (16 to 19.75), exactly one third; the rule says more than a third, so it is missed by one rung, and no other ladder comes near. Beside it, other readings count the same failure:
+
+| Ladder | EVADED | Fraction |
+| --- | --- | --- |
+| Half-box 14 at spacing 0.5, fresh, the reading used | 16 to 19.75 | 6 of 18, one third |
+| The same, with the rung at 20.5 (cut by its wall cap with the gate met, share 0.244, the same hot nodes) | 16 to 20.5 | 7 of 18 |
+| Half-box 14 at spacing 0.25, fresh, with the rungs at 14.5 to 20.5 cut by their caps in the hot-node configuration (largest u 3.6 to 6.0, the two hottest nodes 0.45 to 0.81 of the weight, the reader's separation about 6.7; not EVADED only because that word needs CONVERGED) | 14.5 to 20.5 | 5 of 9 |
+| Half-box 10 at spacing 0.5, continuation up | 8.5, and 10 to 13 | 6 of 8 |
+| Half-box 10 at spacing 0.5, continuation down | every rung | 7 of 7 |
+| Half-box 14 at spacing 0.5, continuation up | 8.5, 10, 10.75, 12.25 to 13.75, 15.25 | 7 of 16 |
+
+Under the readings that count the walled rungs or the continuation ladders the plan's instrument failure is met: the hold of § 1 fails above 15.25 on half-box 14 at spacing 0.5 and from 14.5 on half-box 14 at spacing 0.25. The second try that § 3 then allows (another pair of strengths, or the power of u in the weight raised from 2 to 3) was not run. A power of 3 rewards a few hot nodes more, not less, and a weaker pair moves D away from the target without changing which state is cheaper at a given D, so neither change addresses the mechanism; that is a reading, not run. Every label of these grids is withheld by K2 in any case. The pinches of the family, and its noise at 0.2, went the same way (§ 11).
+
+### 11. One line or two (R2), the family (R3), the releases
+
+**Table 9. The family that seeks a split, on the top counted rung of each grid.**
+
+| Grid | Member | Sets of the start | Word of the chain | Clear sets at the end | U at the end | U of the rung | D | Reader's separation | Release | Word |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| half-box 10, spacing 0.5 (41³) | pin2e50 | 1 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 31.887676 | 35.022798 | 12.9788 | 6.7774 | none | one clear set |
+| half-box 10, spacing 0.5 (41³) | pin2e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 32.039280 | 35.022798 | 12.9635 | 6.7774 | none | one clear set |
+| half-box 10, spacing 0.5 (41³) | pin2e95 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 32.244428 | 35.022798 | 12.9326 | 6.7774 | none | one clear set |
+| half-box 10, spacing 0.5 (41³) | pin3e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 32.086781 | 35.022798 | 12.9696 | 6.7427 | none | one clear set |
+| half-box 10, spacing 0.5 (41³) | noise05 | 1 | the function tolerance repeated after a restart [CONVERGED] | 1 | 35.022798 | 35.022798 | 12.9472 | 12.8677 | none | one clear set |
+| half-box 10, spacing 0.5 (41³) | noise20 | 2 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 31.616128 | 35.022798 | 12.9937 | 6.7183 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | pin2e50 | 1 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 39.708688 | 44.441212 | 15.2056 | 6.7774 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | pin2e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 39.991876 | 44.441212 | 15.1602 | 6.7774 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | pin2e95 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 39.652683 | 44.441212 | 15.2121 | 6.7322 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | pin3e80 | 1 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 39.820123 | 44.441212 | 15.2075 | 6.7187 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | noise05 | 1 | the function tolerance repeated after a restart [CONVERGED] | 1 | 44.441212 | 44.441212 | 15.1960 | 15.2273 | none | one clear set |
+| half-box 14, spacing 0.5 (57³) | noise20 | 1 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 39.300374 | 44.441212 | 15.2386 | 6.7102 | none | one clear set |
+| half-box 10, spacing 0.25 (81³) | pin2e50 | 1 | the gate alone, a stalled line search in its record [CONVERGED, EVADED] | 1 | 31.625850 | 32.617669 | 9.9938 | 6.7730 | none | one clear set |
+| half-box 10, spacing 0.25 (81³) | pin2e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 31.616477 | 32.617669 | 9.9945 | 6.7730 | none | one clear set |
+| half-box 10, spacing 0.25 (81³) | pin2e95 | 1 | WALL [not CONVERGED] | 1 | 31.452841 | 32.617669 | 9.9992 | 6.6731 | none | not CONVERGED |
+| half-box 10, spacing 0.25 (81³) | pin3e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 31.668711 | 32.617669 | 9.9921 | 6.7737 | none | one clear set |
+| half-box 10, spacing 0.25 (81³) | noise05 | 1 | the gate alone, a stalled line search in its record [CONVERGED] | 1 | 32.617669 | 32.617669 | 9.9664 | 9.8374 | none | one clear set |
+| half-box 10, spacing 0.25 (81³) | noise20 | 2 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 31.580563 | 32.617669 | 9.9958 | 6.7118 | none | one clear set |
+| half-box 14, spacing 0.25 (113³) | pin2e80 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 39.117633 | 40.028297 | 9.9945 | 6.7730 | none | one clear set |
+| half-box 14, spacing 0.25 (113³) | pin2e95 | 1 | the function tolerance repeated after a restart [CONVERGED, EVADED] | 1 | 39.124004 | 40.028297 | 9.9941 | 6.7730 | none | one clear set |
+| half-box 14, spacing 0.25 (113³) | noise20 | 1 | WALL [not CONVERGED] | 1 | 39.053466 | 40.028297 | 9.9968 | 6.7646 | none | not CONVERGED |
+
+1. **No state in two clear sets.** No chain of the run ended with two clear sets: not a rung, a point at μ = 80, a continuation, an obstacle chain or a member of the family. No release was owed, and none ran. At every read of every chain with held faces no liftable surface read anything but 0 or 1, and each liftable surface around the loop read 1, which the held faces fix for a state with one set (limit (2)).
+2. **The family.** On each grid the family was applied to the end state of the top rung of the counted run as the reads script read it, with the room clause skipped (13 on half-box 10 and 15.25 on half-box 14 at spacing 0.5, 10 on both grids at spacing 0.25); read literally there is no top counted rung (deviation 26). The noise at 0.05 returned the rung's own state on every grid where it ran (U equal to the rung's to six digits or better, one clear set, the share 0.99). Every pinch, at every amplitude and with two or three lobes, and the noise at 0.2 ended EVADED: the loop shrank back to its free size (a reader's separation of 6.67 to 6.78) and two or three hot nodes met the hold (shares 0.04 to 0.36), at a U below the rung's (on half-box 10 at spacing 0.5, 31.62 to 32.24 against 35.02; on half-box 14, 39.30 to 39.99 against 44.44). Two members were cut by their wall cap: the pinch at 0.95 on half-box 10 at spacing 0.25, and the noise at 0.2 on half-box 14 at spacing 0.25. No member ended in two clear sets; the pinch at 0.95, where the two cores overlap on the axis, healed into one loop as well. Two clear sets stood at some reads of the noise at 0.2: at read 0 on half-box 10 at both spacings (made by the added noise, gone by iteration 10), and at the reads at iterations 10 and 20 on half-box 14 at spacing 0.25, gone after. Read by § 1 and deviation 23, none of the EVADED members is a LOWER STATE: it gives no point of the curve.
+3. **As run, R2 and R3.** With the room clause skipped, R2 reads HELD on both grids at spacing 0.5 and no label at spacing 0.25 (two counted rungs), and R3 reads HELD on both grids at spacing 0.5 (all six members CONVERGED with one clear set) and no label at spacing 0.25 (one member not CONVERGED). Read literally (no room rule, no counted rung), R2 and R3 are no label on every grid. R3 as frozen has no clause for an EVADED member, so the HELD as run counts five EVADED members of six as one clear set: what it supports is that no member ended in two pieces, and nothing about a split under a hold that held the line, since the members did not hold it.
+
+![Cross-sections of the potential density on half-box 10 at spacing 0.5: the base, the top rung of the run read and each end state of the family](../plots/m5_50_sections_10a.png)
+
+![The same on half-box 14 at spacing 0.5](../plots/m5_50_sections_14a.png)
+
+![The same on half-box 10 at spacing 0.25](../plots/m5_50_sections_10b.png)
+
+![The same on half-box 14 at spacing 0.25](../plots/m5_50_sections_14b.png)
+
+### 12. The exits (R4)
+
+**Table 10. R4: the exit chains.** One character per read: 1 or 0 on a liftable surface, L at the loop, B blind; runs are written as class × number of reads.
+
+| Chain | How it ended | Iterations | Cadence reads, dense reads (from) | Faces touched at the last read with a set | Surfaces around the loop at the first read | The box surface, read by read | R4 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| E0a | EXIT | 775 | 50, 72 (700) | +z | 8 | 1×46, L×12, B×1, 0×63 | NOT HELD: surface 7.5: a blind read between the last 1 and the first 0 |
+| E0b | EXIT | 1250 | 69, 72 (1175) | +z | 9 | 1×65, L×15, B×2, 0×59 | NOT HELD: surface 7.5: a blind read between the last 1 and the first 0; surface 7.75: a blind read between the last 1 and the first 0 |
+| E14c | EXIT | 975 | 58, 120 (850) | +z | 12 | 1×59, L×54, 0×65 | HELD: 12 surfaces around the loop at the first read, each a run of 1, then reads at the loop, then a run of 0 |
+| E14d | EXIT | 1375 | 74, 312 (1050) | -x | 13 | 1×71, L×254, B×1, 0×60 | NOT HELD: surface 9.5: a blind read between the last 1 and the first 0; surface 9.75: a blind read between the last 1 and the first 0 |
+| Z10a | EXIT | 1450 | 77, 120 (1325) | +z | 6 | 1×75, L×61, 0×61 | no label: K2 is not met on the base of half-box 14 at this spacing, so every label of this spacing is withheld. As run, not a label: no label: surface 7.5: a read outside the order 1, at the loop, 0 (a blind read in the run of 1, or a read that is not 0 after the first 0) |
+| Z10b | EXIT | 2900 | 135, 240 (2650) | +z | 10 | 1×131, L×172, B×3, 0×69 | no label: K2 is not met on the base of half-box 14 at this spacing, so every label of this spacing is withheld. As run, not a label: NOT HELD: surface 9.5: a blind read between the last 1 and the first 0; surface 9.75: a blind read between the last 1 and the first 0 |
+| Z14a | EXIT | 2350 | 113, 144 (2200) | +z | 12 | 1×106, L×87, B×1, 0×63 | no label: K2 is not met on the base of half-box 14 at this spacing, so every label of this spacing is withheld. As run, not a label: NOT HELD: surface 13.5: a blind read between the last 1 and the first 0 |
+| Z14b | WALL | 4650 | 205, 168 (4475) | +z | 18 | 1×203, L×170 | no label: K2 is not met on the base of half-box 14 at this spacing, so every label of this spacing is withheld. As run, not a label: no label: the chain does not end by EXIT (WALL) |
+
+**Table 11. The desk re-read of the four added chains of M5.46 (no label of R4).**
+
+| Chain of M5.46 | How it ended | Reads | Faces touched at the last read with a set | The outermost surface around the loop, read by read | The rules of R4 applied to the stored record |
+| --- | --- | --- | --- | --- | --- |
+| X0a | EXIT | 50 | none | 1×46, L×1, 0×3 | no label: vanished inside (no face touched at the last read with a set) |
+| X0b | EXIT | 69 | +z | 1×65, L×1, 0×3 | HELD: 9 surfaces around the loop at the first read, each a run of 1, then reads at the loop, then a run of 0 |
+| X14c | EXIT | 58 | +z | 1×53, L×2, 0×3 | HELD: 12 surfaces around the loop at the first read, each a run of 1, then reads at the loop, then a run of 0 |
+| X14d | EXIT | 74 | -x | 1×61, L×10, 0×3 | HELD: 13 surfaces around the loop at the first read, each a run of 1, then reads at the loop, then a run of 0 |
+
+![The class of every nested surface at every read of the exit chains](../plots/m5_50_exits.png)
+
+1. **R4 HELD on `E14c`**: twelve surfaces around the loop at the first read, each a run of 1, then reads at the loop, then a run of 0.
+2. **R4 NOT HELD on `E0a`, `E0b` and `E14d`**, by the clause "a blind read between the last 1 and the first 0": on the box surface (and on the surface inside it, for `E0b` and `E14d`) one or two reads between the last read at the loop and the first 0 were blind, with no pierced plaquette anywhere in the box. All three are dense reads, which M5.46 did not take. The desk re-read of the stored records of M5.46 at its cadence of 25 iterations (Table 11) has no such read, since its reads skip those iterations.
+3. **The `Z` chains** (the top rung of the run read, released with free faces) carry no label: the grids' labels are withheld by K2, and read literally there is no top counted rung to release. As run: `Z10b` and `Z14a` left through +z with a blind read between the last read at the loop and the first 0, on the box surface, like `E0a`, `E0b` and `E14d` (NOT HELD as run). `Z10a` left through +z; its surface of half-width 7.5 reads 1 × 71, at the loop × 54, 0 × 1, at the loop × 1, 0 × 70. Under deviation 6 that is no word, but a read at the loop after the first 0 breaks part (c) of the author's clause, so NOT HELD as run is equally defensible. `Z14b` was cut by its wall cap before it left (no word).
+
+**A descriptor outside the plan: the surfaces at the blind reads.** The blind reads were looked at once more, with no label read from what follows. The three `E` chains were run again exactly, in a separate work folder, by [`m5_50_diag_r4.py`](../scripts/m5_50_diag_r4.py): each rerun returns the record of the pool to the last digit (775, 1250 and 1375 iterations; U at the end 4.100651565559661, 6.561808139710491 and 6.936522481110179; 72, 72 and 312 dense reads; the same class string at every read). At each blind read the script printed the least gap over the nodes of each blind surface, the node where it sits, the number of nodes at or under the bound 0.2, and the pierced plaquettes of the line reader at the reads before and after.
+
+| Chain | Read | Surface (half-width) | Least gap on it | Where (face, distance to the face's edge) | Nodes at or under 0.2 | Pierced plaquettes before (read) | After (read) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `E0a` | 712 | 7.5 (the box surface) | 0.116 | (−1.5, 2.0, 7.5): +z, 5.5 | 2 of 5402 | 9, one set of radius 0.84 touching +z (711) | 0 (713) |
+| `E0b` | 1190 | 7.5 | 0.115 | (−3.25, 2.0, 7.5): +z, 4.25 | 18 of 21602 | 5, one fragment (1189) | 0 (1192) |
+| `E0b` | 1190 | 7.75 (the box surface) | 0.085 | (−3.25, 2.0, 7.75): +z, 4.5 | 22 of 23066 | 5 (1189) | 0 (1192) |
+| `E0b` | 1191 | 7.5 | 0.173 | (−3.25, 2.0, 7.5): +z, 4.25 | 6 of 21602 | 5 (1189) | 0 (1192) |
+| `E0b` | 1191 | 7.75 | 0.144 | (−3.25, 2.0, 7.75): +z, 4.5 | 11 of 23066 | 5 (1189) | 0 (1192) |
+| `E14d` | 1315 | 9.5 | 0.168 | (−9.5, −0.75, 1.25): −x, 8.25 | 5 of 34658 | 3, one fragment (1314) | 0 (1316) |
+| `E14d` | 1315 | 9.75 (the box surface) | 0.115 | (−9.75, −0.75, 1.25): −x, 8.5 | 8 of 36506 | 3 (1314) | 0 (1316) |
+
+In all three chains the loop left through one face as one shrinking set (in `E0a` of radius 2.41 at iteration 705 down to 0.84 at 711; in `E0b` 1.66 at 1185 down to 0.50 at 1188, then a fragment of 5 plaquettes; in `E14d` 0.98 at 1311 down to 0.55 at 1313, then a fragment of 3). At the blind reads no plaquette was pierced anywhere in the box, and the gap was at or under 0.2 on a few nodes of the outer surfaces only, inside the face the loop was leaving and away from its edges, within 0.5 of the center of the last set (at (−1.17, 1.92, 7.81) in `E0a`, (−3.20, 1.85, 7.84) in `E0b`, (−9.78, −0.77, 1.38) in `E14d`). One or two reads later the gap there was above 0.2 and the surfaces read 0. As a description: the core of the vanishing piece kept the gap closed on the surface for one or two iterations after its last pierced plaquette had gone. The frozen rule counts a read with no pierced plaquette within 1.0 as blind, so R4 stays NOT HELD on the three chains; the descriptor names what the blind read is made of, and the rule is not read again on it. The descriptor was made after the words of R4 were known.
+
+### 13. The two spacings (R5)
+
+**Table 12. R5: the two spacings of a box.**
+
+| Box | R5 | As run, the room clause skipped | As run, literal |
+| --- | --- | --- | --- |
+| half-box 10 | no label: a grid with no label in R1, R2, R3 on pin2e95: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 | no label: a grid with no label in R1, R2, R3 on pin2e95: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 | no label: a grid with no label in R1, R2, R3 on pin2e95: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 |
+| half-box 14 | no label: a grid with no label in R1, R2, R3 on noise20: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 | no label: a grid with no label in R1, R2, R3 on noise20: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 | no label: a grid with no label in R1, R2, R3 on noise20: one clear set at spacing 0.5, not CONVERGED at spacing 0.25 |
+
+R5 carries no label on either box: R1 to R3 carry none on any grid. As run it carries none either, under both readings of the room clause, since R1 as run carries no word on any grid (§ 8 item 4).
+
+### 14. The expectations of the plan against the outcome
+
+| # | Registered before the run | Outcome |
+| --- | --- | --- |
+| 1 | R1: f between 0.1 and 0.8 at every outward rung | FAILED above 0.8: f passed 0.8 at 11.5 on half-box 10 and at 12.25 on half-box 14 (spacing 0.5), at 13 on half-box 10 (spacing 0.25), and reached 1.06 to 1.08 at the top of the runs read; it was between 0.24 and 0.8 below those targets |
+| 2 | R1: the mean of f over the last two at least 0.8 of the largest | as registered on the runs read with the room clause skipped: 0.956, 0.975, 0.832 and 0.838 (0.235 on half-box 14 at spacing 0.5 with the EVADED rungs kept in) |
+| 3 | R1: HELD on every grid whose top rungs converge | not read: every label is withheld by K2, and as run R1 gives no word (no room rule) |
+| 4 | The two boxes agree on all shared targets, so the room rule is at most 3.6 | WRONG: no shared target agrees (the rises of U differ by 6 to 14 percent), and no room rule exists |
+| 5 | No step needs a bisection | as registered: no step failed the identity (the largest e of a step 0.0499 at spacing 0.5, 0.0042 at 0.25) |
+| 6 | R2 HELD, with no rung in two sets | no label (K2); as run HELD at spacing 0.5 and no label at 0.25 with the room clause skipped, no label everywhere read literally; no rung of any grid ended in two clear sets |
+| 7 | R3: the pinches at 0.5 and 0.8 and the noise return to one loop; the pinch at 0.95 not predicted, a split there expected MADE BY THE HOLD | in part: every member ended with one clear set where it converged, the pinch at 0.95 included, and no split was made by the hold; but the pinches and the noise at 0.2 returned to one loop at its free size, EVADED, and not to the held loop; only the noise at 0.05 returned to the rung |
+| 8 | R4 HELD on the chains that exit through one face | FAILED on three of four `E` chains: NOT HELD on `E0a`, `E0b` and `E14d` (a blind read on the box surface between the last read at the loop and the first 0), HELD on `E14c` |
+| 9 | Not predicted: whether `Z14a` and `Z14b` contract before they leave, or reach several faces | `Z14a` left through one face (+z) after 2350 iterations; `Z14b` was cut by its wall cap at 4650 iterations with the loop touching +z and U = 17.16; on half-box 10 both `Z` chains left through +z |
+| 10 | Not predicted: whether every rung on 113³ converges inside its cap | seven of the nine outward rungs on 113³ were cut by the wall cap (11.5 to 20.5), and the point at μ = 80; none reached the cap of 20000 iterations |
+
+Not expected and found: K2 failing on the reader's plaquette granularity while continuous measures of the size agree within its bound; the rises of U of the two boxes differing by 6 to 14 percent, with f larger in the smaller box; the hold met by a few hot nodes (§ 10), on fresh rungs above 15.25 on half-box 14 at spacing 0.5, at the caps from 14.5 at spacing 0.25, and on every pinch and the larger noise of the family; a force that grows with the separation over the whole range read.
+
+### 15. Limits
+
+1. **With held faces the whole number around a single line reads 1 by construction** (limit (2) of the plan). On every rung the liftable surfaces around the loop read 1 and no liftable surface read anything but 0 or 1; that is what the held frame forces on a state with one set, and it is not evidence about the charge. The informative reads of the ladder are two: the cost of the separation (U and f against the separation held) and the number of clear sets, under the hold and with no hold.
+2. **A rising U is expected by geometry** (limit (1)): what is held is the loop's size, and a closed line with a positive energy per length costs more as it grows. What the ladder can refute is that the cost per unit of separation stays positive and does not fall away; the force f is that read, and it grew. It was read up to 13 and 15.25 at spacing 0.5 and up to 10 at spacing 0.25 (13 on half-box 10, without the rung at 11.5); nothing is said beyond.
+3. **K2 withholds every label, as worded.** K2 is not met on a radius read that moves in plaquette jumps larger than its bound; by two continuous measures (half the gap of D, and the radius where the two largest eigenvalues meet) the size of the loop differs between the boxes by less than the bound (§ 7). The labels stay withheld as the plan prices K2. The difference of the rises of U between the boxes (6 to 14 percent), which defeats the room rule, is a separate quantity. Every word printed beside a withheld label is what the frozen rules give on the chains as run, not a label.
+4. **Part of the force is the box.** f on half-box 10 is above f on half-box 14 at every shared target, by 3 to 15 percent, more at the larger targets: part of the growth of f with the separation is the approach of the faces.
+5. **The fresh rungs are not the lowest states found at their D**: the continuation chain coming down on half-box 10 reaches 31.282 at 7.75 against 31.317 for the fresh rung, though by an EVADED state.
+6. **The hold did not hold the line above 15.25 on half-box 14 at spacing 0.5, nor from 14.5 on half-box 14 at spacing 0.25** (at the wall caps, in the hot-node configuration), nor on any pinch or on the noise at 0.2 of the family (§ 10, § 11). There the states found met D with a few hot nodes, not with the line. On the reading of the one-third rule used here the instrument failure is missed by one rung; on readings that count the walled rungs or the continuation ladders it is met, and no second try was run. Above those targets the ladder reads nothing about the line, and the family read nothing about a split.
+7. **Wall caps cut the large grids.** The runs at spacing 0.25 end at 10 because the rungs at 11.5 were cut by their wall caps, one of them with the gate met. Longer caps would not by themselves have extended the run on half-box 14: its rungs from 14.5 on stood at their caps in the hot-node configuration, which a converged chain would read EVADED.
+8. **Reads along a chain are reads along an optimizer's path** (limit (3)); two boxes and two spacings are not a continuum limit (limit (4)); the room rule extrapolates in the size of the loop (limit (5)).
+9. **Another action, posted during the run.** Every reading of this task is on the action of M5.42 with $\kappa = v = 1$, $\delta = 0.05$ and $L_1 = 0.03$. After the go the author posted on discussion #186 ([discussioncomment-19782482](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19782482); the row of 2026-11-20 19:28 UTC in the [thread record](m5_32_convo.md)) a relaxed ring on a different action, with a gradient term weighted by the potential's own density,
+
+$$
+L_V \, s(M) \, \lVert \nabla M \rVert^2 , \qquad s(M) = \sum_{k=1}^{3} \big( \operatorname{tr} M^k - c_k \big)^2 ,
+$$
+
+at $L_V = 1$, $L_1 = 0$ and $\delta = 0$, and described the charge there as a half-disclination loop carrying the whole degree ($Q / 4\pi = 0.999$, with 93 to 96 percent within one unit of the line; the author's numbers, not checked in this task). No reading of this task was made on that action, no label or word printed here carries over to it, and the post changed nothing in the frozen plan.
+
+### 16. Not computed, and how to regenerate
+
+**Not computed.** A second try of any control. A second try of the instrument: under the reading of the one-third rule used here it was not owed, under the readings that count the walled rungs or the continuation ladders it was owed and was not run (§ 10). Any release (no state in two clear sets). The continuation of half-box 14 at spacing 0.5 above 19 and back down: 19 chains of the plan cut by the builder, so the definition of done ("every chain of § 2 ended by its own rule or cut by a cap") is not met for those 19 (deviation 25). The members of the family on 113³ that the plan leaves out (the pinches at 0.5 and with three lobes, and the noise at 0.05). Any value of U from the chains cut by a wall cap (Table 13), including the rung at 11.5 on half-box 10 at spacing 0.25 that met the gate. The least gap at the blind reads of `Z10b` (three reads) and `Z14a` (one), outside the descriptor of § 12, which covers the three `E` chains. A rung beyond its wall cap. Any reading on the action of the author's post of 2026-11-20.
+
+**Regenerate.** From `research/scripts/`, with one thread per process (the script sets the five thread variables to 1 before NumPy loads). `python m5_50_hold.py --list` names every chain of the static list; `python m5_50_hold.py --pool` runs the whole plan by its dependencies, the bisections, branch checks, family, `Z` chains and releases added by the reads as the outcomes call for them, and is restartable; one chain alone is `python m5_50_hold.py --chain NAME --out-dir ../data --work-dir ../checkpoints/m5_50` once its `spec.json` exists in `../checkpoints/m5_50/chains/NAME/` (the pool writes it). Each chain writes its end state `data/m5_50_NAME_end.npz` (local, indexed by [`_DATASETS.md`](../data/_DATASETS.md)) and its record `checkpoints/m5_50/chains/NAME.json` (local). The base states `m5_50_B14a_end.npz` and `m5_50_B14b_end.npz` come from `--chain B14a` and `--chain B14b`, and every other held state from its chain of the same name; the descriptor reruns of § 12 write `checkpoints/m5_50/diag/data/m5_50_E0a_end.npz` and its two partners (`python m5_50_diag_r4.py E0a E0b E14d`), and the line radius of § 7 is `python m5_50_diag_radius.py m5_46_B0c_end.npz m5_50_B14a_end.npz m5_46_B0d_end.npz m5_50_B14b_end.npz`. Then `python m5_50_hold.py --controls` (K1, K3, K4, K5, K12), `python m5_50_reads.py --k10`, `python m5_50_reads.py --summary` (the tracked summary and the words) and `python m5_50_report.py --tables --plots` (the tables of these findings and the plots).
+
+### 17. Audits of the record (2026-11-20)
+
+Two audits read this record after the run. A record audit, in a fresh context on the same model as the builder that wrote these findings (so not a different model from the writer), recomputed U on 9 states with its own stencil (to 10⁻⁹), D on 13, the words of all 152 chains, the ladders and the exit sequences, and found thirteen faults: one high (what the failure of K2 measures, § 7), the others medium or low, none changing a label. A numbers check on a different model matched every table cell against the 152 chain records, recomputed D on 17 end states (to 10⁻¹²), the controls and the exit words, and found four mismatches of prose. All are folded above: the reading of K2 (§ 7, § 15 item 3), the room clause with no room rule (deviation 26), what K8 can detect (§ 6 item 2), the one-third rule under its readings (§ 10), the descriptions of the EVADED states (§ 10), the limits on f (§ 8, § 15), the two prints with no cut (deviation 27), `Z10a` (§ 12), and the smaller corrections. Not tested by either: a rerun of K10, K3, K4, K5, K9 and K12 from the arrays, and U on the 113³ grid.
+
+## DEVIATIONS AND READINGS OF THE RULES (2026-11-20, logged as they happened)
+
+The plan above is unchanged. Each entry names what the run did where the plan was silent or could not be followed as written, with the conservative option taken.
+
+| # | What | What the run did | Kind |
+| --- | --- | --- | --- |
+| 1 | K2 on the base of half-box 14 at spacing 0.5 (`B14a`) | NOT MET on the radius clause: the reader gives 3.3887 against 3.2930 on half-box 10, a gap of 0.096 against the bound of 0.03. The other clauses are met (CONVERGED, one loop, centered). By the held quantity the gap is smaller: D is 6.9169 against 6.8719, half the gap 0.022. No change of an input or of a script that the plan allows can alter this, so no second try was spent. The cost of K2 is the ladder: the chains of half-box 14 at spacing 0.5 are run and tabled, and every label of the two grids at spacing 0.5 is withheld (with no ladder on half-box 14 no shared target exists, so no room rule), the words that the frozen rules give on the chains as run printed beside | control not met |
+| 2 | K4, the shift | Try 1 shifted the base by 1, 1.5 and 2 length units and failed on two of three shifts (changes of D of 1.5e-8 and 1.3e-8 at spacing 0.5, 1.9e-8 and 1.5e-8 at spacing 0.25, bound 1e-8). The change is the weight of the layers that the shift pushes out of the box; the shift alone changes D by 2e-15. Try 2 shifts by two cells, the input measured at the plan audit, and is met (2e-9 to 5e-9). The input of a control changed, which the plan allows; no threshold changed | try 2 of 3 |
+| 3 | K10, the readers | Met on the third run. Run 1 failed records 5, 8 and 45 and run 2 record 45: the reader asked for a bisection of a step on which U falls. The reader was changed (entry 4), and record 45 was completed with the bisection rung that its failing step from 10 to 11.5 calls for, on the curve of ladder A. A defect of a script and the input of a control changed | try 3 of 3 |
+| 4 | A step on which U falls, after its branch check | Not bisected: the counted run ends at the lower rung of that step, named "on a fall of U". The plan asks for a bisection of every step that fails the identity and gives the words of records 5, 8 and 45 with no bisection rung; the word is the same under both readings | reading of a rule |
+| 5 | A branch check that ends CONVERGED in two clear sets | Read as written: the lower rung stands, U still falls, the word is BRANCH, and the state is released | reading of a rule |
+| 6 | R4, a surface whose reads leave the order 1, at the loop, 0 without meeting a clause of NOT HELD (a blind read inside the run of 1, a read that is not 0 after the first 0, a surface that never reads 0) | no label, the reads printed | reading of a rule |
+| 7 | The faces of a rung's start | Set back to the face values of the base (the seed on the faces, which is the frame to 1e-7), not to the analytic frame, so that K6 compares like with like | reading of a rule |
+| 8 | K1, the reference value | U to twelve digits is taken from the function-tolerance event of the chain in `m5_46_summary.json`; its `U_at_the_end` holds nine digits | reading of a rule |
+| 9 | K8 with a point that has no CONVERGED chain | NOT MET on that grid | reading of a rule |
+| 10 | The cubes about each set at a read with two sets or more | Three cubes centered on the set, of half-width its extent plus 0.5, 1.0 and 1.5, rounded up to a multiple of 0.5 | choice of this run |
+| 11 | The second hold | The disk lies in the plane z = 0 about the z axis of the box (the base loops are centered within 0.01) | choice of this run |
+| 12 | The noise of the family | The rms is taken over the six components of the nodes within 1.5 of the fitted circle | choice of this run |
+| 13 | The releases | Also started for a state in two clear sets from a bisection, a branch check, a rung at the second strength or a continuation chain | wider than the plan |
+| 14 | The continuation back down | Ends at the first outward target | choice of this run |
+| 15 | The order of the pool | The rungs of half-box 10 at spacing 0.25 were started before the whole of spacing 0.5 had run; the grids of 65³ nodes or more hold at most the pool's size less two while a smaller chain is ready | order of the run |
+| 16 | The chain records | Kept local with the checkpoints; the tracked record is `m5_50_summary.json`, written by the reads script | choice of this run |
+| 17 | The middle rung of a bisection at spacing 0.5 | A defect of the reads script, fixed before any bisection ran: the reader took a rung's target from its chain name, which keeps two decimals, and the middle of a step at spacing 0.5 has three (8.125 is named `d0812`), so a bisection rung would never have been found and the ladder never read as final. The target is now read from the chain's own hold. No threshold or rule changed. The pool, which imports the reads script once, was started again so that it uses the fixed reader: the running pool was told to stop starting chains (the stop file of the handover, read once and kept), and a new pool adopted every running chain | defect of a script |
+| 18 | K8 at the top target | A defect of the reads script, fixed before K8 was read: the cubic through the points and slopes at μ = 20 returned no value outside its nodes, and at the top target the point at μ = 80 reaches D = d − f/80, above the point at μ = 20 (D = d − f/20) by about 0.04, so every ladder whose top target carries a point at μ = 80 would have failed K8 for want of a curve. The two end segments of the cubic are extended by 0.1 in D; the tolerance of K8 is unchanged | defect of a script |
+| 19 | K2 on the base of half-box 14 at spacing 0.25 (`B14b`) | NOT MET on the radius clause as on `B14a`: the reader gives 3.3613 against 3.3159 on half-box 10, a gap of 0.045 against the bound of 0.03; CONVERGED, one loop, centered (by the held quantity D is 6.9244 against 6.8807, half the gap 0.022). No second try: no admissible change of an input or of a script alters it. As for spacing 0.5 (entry 1), every label of the two grids at spacing 0.25 is withheld and the words that the frozen rules give on the chains as run are printed beside, marked as such. With both spacings withheld, R1, R2, R3 and R5 carry no label on any grid, and the run reports descriptors and as-run words; R4 on the four `E` chains, which do not depend on a base of half-box 14, keeps its label | control not met |
+| 20 | The early R4 result on `E0a` and `E0b` | A descriptor added outside the plan, with no label: the two exit chains run again exactly (and `E14d`, which ended later with the same kind of blind read, in a slot left idle near the end of the pool), in a separate work folder, printing at each blind read the least gap on each blind surface, where it sits, and the pierced plaquettes at the reads before and after ([`m5_50_diag_r4.py`](../scripts/m5_50_diag_r4.py)) | addition outside the plan |
+| 21 | The order of the pool, second change | The continuation chains up and down the ladders at spacing 0.5 were moved ahead of the other rungs of the same size: each is one serial chain of up to 35 rungs, the longest path of the run, and the first order left it last. The rule of a chain, its spec and its dependencies are unchanged. The pool was started again for it by the same stop file as in entry 17 | order of the run |
+| 22 | START-DEPENDENT against an EVADED continuation rung | The continuation chains up the ladders at spacing 0.5 reached EVADED states (the weight of the hold carried by two nodes, § 1 says such a rung gives no point of the curve). The first build compared every CONVERGED continuation rung with one clear set to its fresh partner; an EVADED one is now left out of the comparison and printed with its word. Fixed in the reads script before any reading was made; no threshold changed | reading of a rule |
+| 23 | An EVADED state from a branch check or from the family | Read by § 1 (an EVADED state gives no point of the curve): an EVADED branch check is neither a lower state nor a branch, and the step is left not decided (no label, printed); an EVADED member of the family is never a LOWER STATE (its R3 word is read as written, with EVADED printed beside). Changed in the reads script before any reading; K10 run again on the changed script as a confirmation, all 45 records as before | reading of a rule |
+| 24 | R3 on a family with members missing | A defect of the reads script, found on a trial read before the family ran: with no record of the family the reader returned HELD on zero chains. R3 now carries no label when fewer chains of the family have a record than the plan names (six, three on 113³). K10 confirmed on the changed script, all 45 records as before | defect of a script |
+| 25 | The continuation chain of half-box 14 at spacing 0.5 | Cut by the builder: the chain up the ladder ran from 7.75 to 19 (16 rungs), and its rungs from 19.75 on and the whole chain back down (17 rungs) were not run. From 10 on its rungs were EVADED or cut by their wall cap of one hour, and the 19 rungs left, run one after another, could each take up to that cap; every label of that grid is withheld by K2, and an EVADED or walled rung enters no comparison of START-DEPENDENT. The pool was told to start nothing more when this chain was the only work left. The cut was decided after the outcomes of every other chain were known. It leaves 19 chains of § 2 not run, so the definition of done (every chain ended by its own rule or cut by a cap) is not met for those 19 | not run |
+| 26 | The room clause when no room rule exists | Found by the record audit, not logged during the run. No shared target agreed at either spacing, so no room rule exists. The reads script then skipped the room clause of eligibility (`why_not` tests the room only when a rule exists), and that reading built the counted runs, the top rungs from which the family and the `Z` chains started, and the as-run words of R2 and R3. Read literally, eligibility needs a room rule, so no rung is eligible and no rung is counted: R1, R2 and R3 as run are then no label on every grid, and there is no top counted rung for the family or the `Z` chains. Both readings are printed wherever an as-run word appears (Tables 4 and 12, § 8, § 11). No label changes: every label is withheld by K2 | reading of a rule |
+| 27 | The print of R1 with no cut | The plan removes only the cuts by the identity and by the room rule; the first build also left out the EVADED rungs. Both versions are printed (Table 4): with the EVADED rungs in, on half-box 14 at spacing 0.5 U falls from 44.44 at 15.25 to 39.29 at 16 and the mean of f over the last two is 0.235 of the largest, not 0.975. A descriptor; no label depends on it | reading of a rule |
+| 28 | The size of the pool | The pool held nine chains while three wave processes of M5.49 were alive (the coordinator's sizing rule, ten less the live count of the other task, under the ceiling of twelve), against the eight of the plan's parallel shape. It bears on the wall caps of § 7: the chains ran slower under that load than the staging estimate assumed | order of the run |
+| 29 | Prints added after the audits | The reads and report scripts print, beside what they printed before: how each CONVERGED chain ended by its events (the driver's word FUNCTION TOLERANCE, REPEATED AFTER A RESTART is wrong where no restart followed an end by the function tolerance, or where the chain converged by the stall clause); the gap of K8 with the hold energy counted into U at both strengths; the literal reading of deviation 26; the print of deviation 27. A tracked script was added for the descriptor of § 7 ([`m5_50_diag_radius.py`](../scripts/m5_50_diag_radius.py)). No rule, threshold or word changed; K10 was run again on the changed scripts, all 45 records as before | prints only |
