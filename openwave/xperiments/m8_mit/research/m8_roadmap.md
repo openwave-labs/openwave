@@ -495,3 +495,14 @@ isotropy group at `R₂`'s line point rests on two numerical searches and the oc
 maximality, as the task file records. No gate or MODELS.md icon moves. The author's verdict note
 landed on MIT (`1ee8fba`), and the paper's page names `R₂`'s fibre group by its elements, the
 `Sp(1)` the run read (`3812f72`). Record: [method note](findings/m8_1_3_method_note.md).
+
+**#512 RULING AND THE PARTICLE-STABILITY CELL RE-BASED (2026-11-21).** The author asked on
+[#512](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-19797592) for a ruling on time
+integration in a harmonic basis, for the particle-stability cell to record M8.1.3 at its scope, and what would move that
+row. The answer of the same day, on that thread, admitted the time arm on M8.16.1's instrument under conditions, its
+qualification first; nothing has filed under it. The cell, last written on 2026-10-04, before M8.15 ran, is re-based on
+the platform's record since: M8.1.3's blind reproduction, the linear type at finite amplitude where decided, from M8.15 to M8.18, and
+the nine persistence tests of M8.15 and M8.19 that Persist. Its icon stays 🚧, since the author's paper puts none of
+these states forward as a particle state and no route is authorized, and the cell now names what would move it. The
+history of M8.4 and the closed chassis leaves the cell and stays in the background and this roadmap. No task, gate or
+icon moves.
