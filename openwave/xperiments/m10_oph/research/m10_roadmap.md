@@ -9,6 +9,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| 🔶 [M10.3](tasks/m10_3_task_details.md) | Free particle persistence | Review the Interval Echo pin and free-pair reproduction for row 4. | Maintainer assessment |
 
 ## BACKLOG
 
