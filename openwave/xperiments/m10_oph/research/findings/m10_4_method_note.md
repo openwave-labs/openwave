@@ -49,6 +49,21 @@ For a release with those eleven records already present, their free terms vanish
 
 An additional audit checks whether changing the two-load amplitudes on the blank board could give the same exact protection. Let $P$ project onto all 30 home-seam addresses. The diagonal contrast has no matrix element from $P$ to its complement, so the escape block $2(I-P)H_\kappa P=(I-P)LP$ is an integer matrix independent of $\kappa$. Its rank over the rationals is 30 on blank memory and 29 after the eleven writes. Independently enumerating single-load swaps from those 30 words gives nonzero minors of orders 30 and 29 with absolute determinants 128 and 4, respectively. On the blank board every nonzero vector supported entirely on those 30 addresses therefore has an outgoing amplitude at first order in time. On the written board $D$ spans the one-dimensional kernel, and the eigenvector identity above keeps it there at every time. This checks exact confinement. High return probabilities over finite windows remain possible on blank memory, as M10.3 illustrates. [Replay](../scripts/m10_4_connected_pair.py) · [Exact ranks](../data/m10_4_reproduction.json)
 
+### Can a one-load task select the eleven memories?
+
+Take cell 13 and use the source-port selector from the earlier tidal-station experiment. Among ports without an intercell contact, choose the one adjacent to the most gateways, breaking ties by address. Require a single load to leave through either adjacent gateway. At each gateway every live contact except the return must deliver to the same home receiver, even if the other gateway is unavailable. The receiver and the switches are outputs. This routing requirement was formulated with the pair layout known. The earlier experiment supplies the port selector alone. [Tidal-station selector][tidal] · [OPH construction and native contact tests][routing]
+
+On the pinned board, the source is 156, the gateways are 157 and 166 and the common receiver is 163. Four contacts must transmit: each gateway connects to the source and the receiver. Every other contact incident on these three transmitting ports would permit a wrong transfer or a direct bypass. Of the 32,768 binary settings of their fifteen contacts, exactly one routes exclusively through the gateways. With all other contacts blank, its eleven writes coincide with the filed preparation. Allow receipt directly from 156 to 163 and a second layout with just ten writes also satisfies delivery. An apparatus that chooses each hop by address can send through either gateway on an entirely blank board. [OpenWave enumeration and controls](../scripts/m10_4_gateway_routing.py)
+
+Two uniform incident-contact attempts on fresh one-load preparations give the following exact probabilities. Each entry gives (receiver, other), where “other” means outside the source, gateways and receiver. The replay retains all four bins.
+
+| Read rule | Blank | Eleven writes | Ten writes with bypass |
+| --- | --- | --- | --- |
+| Read after two attempts | (1/15, 44/75) | (1/15, 0) | (11/75, 2/25) |
+| Stop at first receipt, up to two attempts | (4/15, 38/75) | (1/15, 0) | (26/75, 0) |
+
+For the two-load control, omit the direct seam's write during setup. The shared neutral contact 156–161 can still read vacancy at 156 with 161 empty. Keep the same monitored acquisition, exhaustion and 31-bin detector. At exposure 37, the ten-write coherent home probabilities are 0.526840130, 0.940265361 and 0.996086764 at strengths 0, 0.5 and 8. The routing task therefore gives an operational reason to prepare the eleven memories when gateway transit is required. Whether those contacts belong to the proposed particle or to its apparatus remains indistinguishable from the filed free-flight records. [Full nine-setting replay](../scripts/m10_4_gateway_routing.py)
+
 ## Equation-to-code map
 
 | Equation or operation | Pinned implementation |
@@ -74,7 +89,7 @@ Dephasing removes the off-diagonal elements of $\rho$ once before coherent fligh
 
 The nine settings $(\kappa,t)\in\lbrace0,0.5,8\rbrace\times\lbrace1,7,37\rbrace$ give 1,116 address and quiet probabilities across four arms, rounded to trillionths. M10.3 drew 4,096 simulated records per setting for its sampling gates (native lower bounds above 0.80 and final control upper bound below 0.65). A raw-board Chebyshev and Poisson replay of M10.4 differs from its archived bins by less than $1.8\times10^{-11}$ (tolerance $2\times10^{-10}$). [M10.3 sampling design][sampling] · [Independent replay][check]
 
-**Audit.** All 30 connected-pair and acquisition tests pass at the pin. An independent check summed the signed exchange amplitudes from $D$ at every destination outside $X,Z$. Their squared norm is zero with every write. Omitting a single write gives $1/8$ for eight contacts and $1/4$ for three. This tests exact cancellation. The finite-window probabilities of the eleven omissions require separate evolution. [Native-column and changed-contact tests][tests] · [Source and denominator tests][source-tests]
+**Audit.** All 30 connected-pair and acquisition tests pass at the pin. An independent check summed the signed exchange amplitudes from $D$ at every destination outside $X,Z$. Their squared norm is zero with every write. Omitting a single write gives $1/8$ for eight contacts and $1/4$ for three. This tests exact cancellation. The routing control evolves the 156–163 omission at all nine settings. The other ten omissions have no corresponding finite-window calculation here. [Native-column and changed-contact tests][tests] · [Source and denominator tests][source-tests]
 
 ## Reproduce
 
@@ -84,9 +99,17 @@ Start with the [source and flight operators][flight]. The two data inputs from t
 python -I -B m10_4_connected_pair.py BOARD.npz --archive connected_records.json
 ```
 
+The optional routing control reads the same pinned board and prints the two-attempt distributions and every ordered two-load bin for the ten-write alternative.
+
+```sh
+python -I -B -O -W error m10_4_gateway_routing.py BOARD.npz
+```
+
 For the separate author implementation, run `python -B -O -W error -m model.candidate_laws.interval_echo.openwave.row_04.open_pair_check --full` from the pinned OPH checkout.
 
 [law]: https://github.com/FloatingPragma/observer-patch-holography/blob/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/contrast_memory_spherical_v1/law.py#L67-L97
+[tidal]: https://github.com/FloatingPragma/observer-patch-holography/blob/d37d200a794b49446433ac5c7306f241fed18295/model/experiments/interval_echo_einstein_station/native_tidal_response/PROTOCOL.md
+[routing]: https://github.com/FloatingPragma/observer-patch-holography/blob/5c915945178631ca6aafd1e859707ecbd18a128a/model/candidate_laws/interval_echo/openwave/row_04/PROTOCOL.md#one-load-delivery-through-either-of-two-gateways
 [collar]: https://github.com/FloatingPragma/observer-patch-holography/blob/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04/corridor_pair.py#L49-L121
 [flight]: https://github.com/FloatingPragma/observer-patch-holography/blob/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04/open_pair.py#L24-L135
 [monitor]: https://github.com/FloatingPragma/observer-patch-holography/blob/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04/corridor_release.py#L31-L47
