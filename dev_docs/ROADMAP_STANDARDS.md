@@ -33,7 +33,8 @@ Sections in this order. Bracketed ones are optional; nothing else is a top-level
 
 | Icon | Status | Where the row sits |
 | --- | --- | --- |
-| 🔶 | in progress | `IN PROGRESS` |
+| 🔶 | in progress, worked on today | `IN PROGRESS` |
+| 🔶🔶 | in progress over several days, waiting for a later day (nights of data, a person home) | `IN PROGRESS` |
 | 🚧 | backlog | `BACKLOG`, `LATER`, and any phase table that follows them |
 | ✅ | done | `DONE`, and any phase table that follows it |
 
