@@ -660,3 +660,22 @@ Two independent passes in fresh contexts read this record before the review, and
 | The record against the plan | Read both scripts against §§ 1 to 6 and the logs against the deviations; regenerated the prediction, all thirteen reads and the summary byte for byte from the stored fields with the tracked code; recomputed pieces of Gb and GbG with its own estimator; rebuilt the timeline of the edits and of the hold | No word to change, and no edit that changed a number. Two faults of presentation: the profile of pieces that § 5 removes was compared with the thresholds of W1, on one side only; and the failure of the read in the middle of the plane band was absent from the prose. Ten smaller items, among them the grouping of C10, the caveat on C11 at ω = 5.5, the count of the runs of C13, trial runs missing from the deviations, and the missing map to the code |
 
 Every finding is folded above (In brief, §§ 10, 12 to 15, the deviations, the map to the code). The second pass also fitted the VD1 speed read with a leftover transient of the lowest box mode; that fit is the audit's, stated as such under C9. Not recomputed by either pass: C12 (compared as stored), C1 to C3 and C13 (their stored outputs were read), the geometry of the pieces and the polarization W, which both passes took from the task's code, and no driven job was run again. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.
+
+## TASK REVIEW (2026-11-23)
+
+**Task Duration:** 04:29 (from 2026-11-23 13:24 EST to 17:53 EST, the segment of M5.52; one of four tasks under one go of 2026-11-23 13:24 EST, a batch of 04:48 to the joint review at 18:12 EST)
+**Usage Cap Triggered:** NO
+
+**Results.** ⚠️ No word on any entry of W1, W2, R2 to R4, N2 to N4 and P1 to P3, on grids b, d and e: C9 is not met at ω = 5.5 (the read c² of the evanescent vacuum case 2.4 percent high against 1 percent) and C11 is not met at ω = 4 (the read moves with the damping in all three bins, 0.351 against 0.16 next to the threshold). ✅ The thirteen jobs ended at their length, and every other control is met on the sourced jobs. 🔶 The profiles of y with ε are tabled as numbers with no word.
+
+**Issues / blockers.** The instrument is not validated for the question: its known-answer controls returned the other answer (family: unvalidated instrument, caught by the controls). The read fails, unexplained, in the middle of the plane band on all three grids, against the premise of § 3. The budget at ω = 5.5 is 6.87 in y. The profile of pieces that § 5 removes was kept as numbers at the request of the maintainer session, made with the axis read of grid b in view (deviation 5).
+
+**Deviations from plan.** The six of the deviations list; a hold on the reads of grids d and e while the plan of [M5.55](m5_55_task_details.md) was frozen; none changes a word.
+
+**Action needed.** A driven read that can decide the registered statements needs a smaller budget: no bulk damping (an absorbing shell), a damping twin on each labeled grid, a longer settling. It is not staged by this record.
+
+**Scope.** This says that the damped drive as built cannot decide the author's registered band statements; it says nothing for or against the bands, and nothing on the action of the author's later posts.
+
+**Findings.** The registered falsifier, a driven wave on the axis at ω = 4, is not decided: the read near the threshold depends on the damping that a steady state in a closed box needs.
+
+**Research docs created / updated.** This document; [`m5_52_drive.py`](../scripts/m5_52_drive.py), [`m5_52_reads.py`](../scripts/m5_52_reads.py); [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json), [`m5_52_summary.json`](../data/m5_52_summary.json); key plot [`m5_52_profiles_e.png`](../plots/m5_52_profiles_e.png); the rung T4 scored on these fields in [M5.55](m5_55_task_details.md); roadmap [`m5_roadmap.md`](../m5_roadmap.md); thread record [`m5_32_convo.md`](m5_32_convo.md). The data manifest lists arrays under `data/`; the fields of this task stay in the local checkpoints. The review was approved by the repo owner on 2026-11-23.

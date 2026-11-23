@@ -533,3 +533,22 @@ Two independent passes in fresh contexts read this record before the review, and
 | The record against the plan | Read the kernel, the driver and the readers against §§ 1 to 5 line by line; recomputed U of the stored G1 and G6 arrays and of five end states with its own code; ran the tracked reader on the seeds; read every word against its rule and the logs against the deviations | No word to change. Two gaps in the evidence: the orientation turning before the stop (§ 8), and the line reader outside its regime (§ 7), which withholds one more clause of S1 on G2. Nine smaller items: the try-1 ratios of K1 (a), the chains that meet the first clause only, the withheld U of the two-state sentence, four entries missing from the deviations, the time of deviation 3, the radii of the author's arrays beside the release's, two rows of § 12, a clause of § 15 |
 
 Every finding was folded into §§ 7 to 15 where it applies, and § 17 was added to place the first gap. Neither pass re-ran a chain, K5 or the gradient control, and $R_L$, $P_2$ and the degree of the end states were checked as stored, not recomputed. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.
+
+## TASK REVIEW (2026-11-23)
+
+**Task Duration:** 01:01 (from 2026-11-23 13:24 EST to 14:25 EST, the segment of M5.51; one of four tasks under one go of 2026-11-23 13:24 EST, a batch of 04:48 to the joint review at 18:12 EST)
+**Usage Cap Triggered:** NO
+
+**Results.** ✅ The port reproduces the author's stored energies to $1.3 \times 10^{-14}$ relative under both weights and their three fixed-field rises (K2), and the wall of K3 in closed form. ✅ With the end weight, from the seed: U, $R_L$ and N/U REPRODUCED on G1, G4 and G6, where the ring took the lattice orientation of the author's array; the author's four stored states STATIONARY. ✅ With the midpoint weight: one smooth ring of degree 1 on all six grids, U higher by 0.997, 0.513 and 0.214 percent at spacings 0.5, 0.375 and 0.25 on half-box 6. 🔶 S1 reads no label: every clause holds on all six grids, and one chain (`G2_mid_a`, 628 iterations) has no earlier state for the second step. 🔶 G2 reads "no label (other orientation)": the two ring normals lie 10.5° apart with U within $5.5 \times 10^{-8}$; whether they are one state is unresolved.
+
+**Issues / blockers.** The stop tolerance sets the ring's orientation: the chains stop while the ring normal is still turning, and K5 and STATIONARY cannot see that mode (family: artifact read as result; stated in § 8, and it withholds G2). The one-ring read returns "one ring" on a field with no ring outside its regime (family: unvalidated instrument; § 7, guarded by the regime flags). The registered expectation on the radius was not met on G5 and G6, where the two weights pick different orientations.
+
+**Deviations from plan.** The twelve of § 14, each the conservative reading; none changes a word. One run was added after the audit (§ 17, a descriptor).
+
+**Action needed.** None on this record. A continuation under a tighter gradient tolerance would place the orientation on G2; the pinned-line ladder is [M5.53](m5_53_task_details.md).
+
+**Scope.** The author's later action at δ = 0, static, in closed boxes of half-width 6 to 12 with held hedgehog faces; no statement on its dynamics, on a free exterior, or on the action of M5.42.
+
+**Findings.** An independent port reproduces the author's ring on their later action, and the ring survives the corrected link weight with an energy shift that falls with the spacing. The lattice orientation of the ring is a slow mode that the stop rules do not resolve.
+
+**Research docs created / updated.** This document; [`m5_51_action.py`](../scripts/m5_51_action.py), [`m5_51_relax.py`](../scripts/m5_51_relax.py), [`m5_51_reads.py`](../scripts/m5_51_reads.py); [`m5_51_summary.json`](../data/m5_51_summary.json); key plot [`m5_51_energies.png`](../plots/m5_51_energies.png); the rung T2 scored on these states in [M5.54](m5_54_task_details.md); roadmap [`m5_roadmap.md`](../m5_roadmap.md); thread record [`m5_32_convo.md`](m5_32_convo.md). The data manifest lists arrays under `data/`; this task stored none there. The review was approved by the repo owner on 2026-11-23.

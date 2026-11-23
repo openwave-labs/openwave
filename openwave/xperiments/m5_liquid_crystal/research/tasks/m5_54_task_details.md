@@ -367,3 +367,22 @@ Two independent passes in fresh contexts read this record before the review, and
 | The record against the plan | Read both scripts against the plan and the archive's text line by line; diffed the two control tries; recomputed Q with a hand-written stencil and flux on six states (agreement to about $10^{-7}$), the regime, and all 15 words | No word to change. One gap: the guard that the plan sets on the U word (what it tests) was missing from the findings. Seven smaller items: a range of chain `b`, the same count of flipped nodes, a digit of the fourth reader, the decimals of Q, run events missing from the deviations, tables given as ranges with no map to the code, three identifiers in British spelling |
 
 Every finding is folded above (the opening paragraph, §§ 6 to 8, 10, 11, 14). Neither pass recomputed $R_L$, $R_A$, N/U or the gates of M5.51, which this task takes from M5.51's record, nor the eight earlier states that are rebuilt starts. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.
+
+## TASK REVIEW (2026-11-23)
+
+**Task Duration:** 00:23 (from the freeze of the plan, 2026-11-23 16:20 EST, to 16:43 EST, the segment of M5.54; one of four tasks under one go of 2026-11-23 13:24 EST, a batch of 04:48 to the joint review at 18:12 EST)
+**Usage Cap Triggered:** NO
+
+**Results.** ✅ The port of the author's charge integral reproduces their archive's values to round-off on their own array (C1), and every control is met. ✅ Of the fifteen entries of T2: four INSIDE (U on G1 and G4, N/U on G4 and G5), three INSIDE (fixed by the held faces) (Q on G1, G4, G5), one OUTSIDE (N/U on G1, 0.9345 under 0.94), seven no label (the radius on all four grids, and every entry of G2 by M5.51's second step). ✅ The bare seed, with no ring, reads the same Q/4π as the relaxed ring to the fourth decimal.
+
+**Issues / blockers.** Two of the INSIDE words say less than their name (family: unfalsifiable check, on the side of the prediction): the stated U values equal the author's fixed-field energies, and Q is fixed by the two outer node layers. U, the radius and N/U were scored after their numbers were known; only Q was read after its rule. The radius cannot carry a word while the author names no reader.
+
+**Deviations from plan.** The nine of § 10; none changes a word.
+
+**Action needed.** The author is asked which reader gives the radius of T2 (the results post on discussion #186).
+
+**Scope.** The stored end states of [M5.51](m5_51_task_details.md), against the ranges of the author's rung T2; no relaxation was run, and no statement is made on where the charge sits beyond the tabled shares.
+
+**Findings.** Against T2, the inertial ratio lies just under the author's range on the smallest box and inside it on the larger one; the energy word and the charge word are fixed by construction, and the radius word waits for a named reader.
+
+**Research docs created / updated.** This document; [`m5_54_charge.py`](../scripts/m5_54_charge.py), [`m5_54_score.py`](../scripts/m5_54_score.py); [`m5_54_summary.json`](../data/m5_54_summary.json); key plot [`m5_54_profile.png`](../plots/m5_54_profile.png); roadmap [`m5_roadmap.md`](../m5_roadmap.md); thread record [`m5_32_convo.md`](m5_32_convo.md). The data manifest lists arrays under `data/`; this task stored none. The review was approved by the repo owner on 2026-11-23.

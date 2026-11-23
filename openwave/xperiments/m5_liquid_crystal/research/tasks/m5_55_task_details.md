@@ -595,3 +595,22 @@ Two independent passes in fresh contexts read this record before the review, and
 | The record against the plan | Read the script against §§ 2 to 5; rebuilt the order of the record from the push of the commit, the birth and access times of the files and the logs of both tasks; reproduced the prediction file and the summary byte for byte with the final script and reran K4; recomputed y, the read speed and the purity on grid e with its own Laplacian; recomputed every entry with bin II at its own value of 0.48 | Every "no label" follows from its frozen rule, under either value of bin II, and nothing opened a field of grid d or e before the hash line. One wrong range in a sentence of the brief (a piece left out). Four faults of statement: the error of § 2 not described completely (whose it was, that it was checkable in the frozen commit, what it changed); rates tabled and summarized on pieces that the purity clause makes not read; causes given for the slope read and for the phase that were not computed; a sentence that the read lies near F, which the plane pieces contradict. Nine smaller items |
 
 Every finding is folded above. Not recomputed by either pass: grid b and the vacuum reads by an independent method, the phase-1 numbers of § 17 items 1 to 7, and the geometry of the pieces and the polarization W, which both passes took from the code of M5.52 and M5.49. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.
+
+## TASK REVIEW (2026-11-23)
+
+**Task Duration:** 01:42 (from the freeze of the plan, 2026-11-23 16:20 EST, to 18:02 EST, the segment of M5.55; one of four tasks under one go of 2026-11-23 13:24 EST, a batch of 04:48 to the joint review at 18:12 EST)
+**Usage Cap Triggered:** NO
+
+**Results.** ⚠️ Every entry of T4a′, T4b1 and T4b2 reads no label on the axis and the plane of grids d and e, each by its own frozen rule; T4a and T4c carry no word by the plan. ✅ The order of the record held: the plan pushed, the prediction hashed, then the first read of grids d and e. 🔶 Numbers without a word: on grid e the read y changes sign at 9.08 (axis) and at 10.39 and 10.34 (plane), above the author's intervals; within 1.5 beyond them the field carries 3.5 to 124 times more power outside the mid polarization than in it.
+
+**Issues / blockers.** The plan stated the budget of bin II as 0.96 where the rule of M5.52 gives 6.87; the statement was the freezing session's, was checkable in the frozen commit and was not checked; no word depends on it (§ 11). One clause of C9 was set aside after its outcome was known (§ 5, § 16). Under the budget as it turned out, most entries could read only NOT HELD or no label for every profile predicted before the read. The source sits at ±3 along the normal, not near the core as T4 states.
+
+**Deviations from plan.** Those of the deviations list; none changes a word.
+
+**Action needed.** As for [M5.52](m5_52_task_details.md): a driven read with a smaller budget and a source at the core, before T4 can carry a word.
+
+**Scope.** The stored fields of M5.52 at ω = 5.5 on the action of M5.42; it says that this scoring cannot decide T4, and nothing for or against it.
+
+**Findings.** The author's rung T4 is not decided on OpenWave: the budget of the damped drive is wider than the effects the rung names, and beyond the outer edges the read field is not dominated by the mid polarization.
+
+**Research docs created / updated.** This document; [`m5_55_reads.py`](../scripts/m5_55_reads.py); [`m5_55_predicted.json`](../data/m5_55_predicted.json), [`m5_55_summary.json`](../data/m5_55_summary.json); key plot [`m5_55_e_A.png`](../plots/m5_55_e_A.png); roadmap [`m5_roadmap.md`](../m5_roadmap.md); thread record [`m5_32_convo.md`](m5_32_convo.md). No array was stored by this task. The review was approved by the repo owner on 2026-11-23.
