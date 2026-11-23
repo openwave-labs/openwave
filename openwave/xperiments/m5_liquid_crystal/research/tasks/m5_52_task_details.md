@@ -318,7 +318,9 @@ On the two deep cases the mid branch read alone is off by up to 1.44 and 0.54, f
 
 ## FINDINGS (2026-11-23)
 
-> The run of the plan above, made on 2026-11-23; the sections below are filled as the run proceeds.
+> The run of the plan above, made on 2026-11-23. Scripts: [`m5_52_drive.py`](../scripts/m5_52_drive.py) (the prediction, the driver, the jobs, stage 0) and [`m5_52_reads.py`](../scripts/m5_52_reads.py) (the controls, the reads, the words, the plots). Prediction: [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json). Summary: [`m5_52_summary.json`](../data/m5_52_summary.json).
+
+**In brief.** (1) The thirteen driven jobs ended at their length; none was capped. (2) Two controls are not met, and by the costs of § 5 they withhold every word of § 6 on every grid. C9 is not met at ω = 5.5 on one clause of one vacuum case: the speed read on VD1 reaches 1.0244 against the 1 percent the clause allows, on its innermost pieces. That withholds R3, R4, N3, N4, P2 and P3. C11 is not met at ω = 4 in all three bins: the read on grid b moves with the damping by more than its bounds (bin I: 0.351 against 0.16; six of its eight pieces are the axis-domain pieces of grid b). At ω = 5.5 C11 is met only as each bin is scored on its own pieces (bin II: three pieces); C9 withholds that frequency in any case. C11 at ω = 4 removes every read piece at ω = 4 on every grid and leaves W1, W2, R2, N2 and P1 without read pieces. (3) Every entry of W1, W2, R2 to R4, N2 to N4 and P1 to P3 therefore reads no label on grids b, d and e. The registered falsifier is not decided by this run. (4) C8 and C12 are also not met on GaN, the unsourced twin of grid a, where they carry no label. Every other control is met. (5) The profiles of y with ε are reported below as numbers with no word (§ 13), with the read edges and phases as descriptors (§ 14). At ω = 4 every piece of those profiles is a piece that § 5 makes not read (C11), so their numbers carry no statement about W1, R2, N2 or P1 in either direction. (6) In the middle of the plane band the read fails on all three grids, unexplained: on PF and PD from s = 4.25 to 5.25 at ω = 4 (and to 6.75 at ω = 5.5) it returns an m² far under m_F² with a speed of 1.8 to 13, so the soft rule and the speed bound remove pieces that M5.49 read with cutoffs near F (§ 14). The plan's § 3 did not foresee it. (7) Every reading is on the action of M5.42 with the time part of M5.47; nothing carries over to the action that M5.51 ports.
 
 ### 10. The controls
 
@@ -328,15 +330,15 @@ On the two deep cases the mid branch read alone is off by up to 1.44 and 0.54, f
 | C2, the driver reduces to the stepper | 1 | ✅ met | from rest on B0a, a_s = 0, γ = 0, f₀ not subtracted: M and p equal to `RK4.step` after each of 50 steps (`numpy.array_equal`); the state moved by 1.45 × 10⁻⁷ |
 | C3, the hold (a wiring check) | 1 | ✅ met | largest $\lvert M - M_0 \rvert$ after 500 steps: 0 |
 | C4, the subtraction against a twin | 1 | ✅ met | GaP − GaN against Ga0, window 2, both tones, on the 15779 nodes of D of grid a with g under 10⁻³: worst 1.57 × 10⁻⁵ (bound 0.01) |
-| C5, the prediction first | 1 | ✅ met | [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json) written by the stage-0 process, its block and file hashes written to the local run log, before Ga0 started in the same process; the hashes of blocks b, d, e and V2 of M5.49 matched; every read took the five block hashes and matched them before it opened a lock-in amplitude |
+| C5, the prediction first | 1 | ✅ met | [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json) written by the stage-0 process, its block and file hashes written to the local run log, before Ga0 started in the same process; the hashes of blocks b, d, e and V2 of M5.49 matched; every read (`--read`) took the five block hashes and matched them before it opened a lock-in amplitude. `--c12` opens the amplitudes without a hash check; it was always run in the same call as `--read` with `--hash` |
 | C6, linearity | 1 | ✅ met | Ga0 against GaH, both tones and windows: worst 1.65 × 10⁻⁷ (bound 0.02) |
 | C7, the step | 1 | ✅ met | Ga0 against GaS: worst 5.0 × 10⁻⁵ (bound 0.01) |
 | C8, the energy | 1 | ⚠️ met on every job but GaN | ratio of the largest residual to the largest $\lvert H'(t) - H'(0) \rvert$: Ga0 8.5 × 10⁻⁶, GaH 2.6 × 10⁻⁵, GaS 6.3 × 10⁻⁶, GaP 7.6 × 10⁻⁶, VD1 1.7 × 10⁻⁵, VD2 2.4 × 10⁻⁶, VD3 1.3 × 10⁻⁷, VD4 1.5 × 10⁻⁵, Gb 1.6 × 10⁻⁵, GbG 5.1 × 10⁻⁶. ❌ GaN 0.0918 (bound 0.02): with no source and f₀ not subtracted, its largest $\lvert H'(t) - H'(0) \rvert$ is 1.50 × 10⁻¹¹ and its residual 1.38 × 10⁻¹², the size of the residual of the other jobs of grid a (1.6 to 2.1 × 10⁻¹²). Cost by § 5: no label from GaN, which carries none |
-| C9, the known answer | 1 | ⚠️ met at ω = 4, not met at ω = 5.5 | ω = 4, VD2 and VD3: 26 of 26 pieces read, none soft, worst $\lvert m^2_{\mathrm{read}} - m^2 \rvert$ 0.0014 and 0.0033 (tolerance 0.16), $c^2_{\mathrm{read}}$ within 0.10 and 0.52 % of 1, every status as set, no edge, Φ within 0.05 % of $\sqrt{y}$ times the stretch. ω = 5.5: VD4, VD2 and VD3 meet every clause; ❌ VD1 (y = −3.03) fails one clause, $c^2_{\mathrm{read}}$ within 1 % of 1: it reads 1.0244 (PF), 1.0239 (PD) and 1.0234 (A) on the innermost read piece (s = 0.75, where the field is smallest), falling toward 1 outward, while every other clause holds (26 read, none soft, worst mass error 0.050 against 0.30, every piece EVAN, no edge). Window 1 reads 0.92 to 0.93 on the same pieces. $b_{\mathrm{vac}}$ = 0.0033 at ω = 4 and 0.050 at 5.5. Cost by § 5: no label at ω = 5.5 |
-| C10, the windows | 1 | ✅ met on the jobs read | median of $\lvert y_i - y_i^{(1)} \rvert$: Gb 0.0044 (ω = 4) and 0.0045 (5.5), GbG 0.0025 and 0.0092, grid-a jobs 0.0046 and 0.010, against 0.16 and 0.30; the deep evanescent vacuum cases (VD1 and VD4 at ω = 4, tabled) read 1.64 and 0.88 |
-| C11, the damping | 1 | ❌ not met at ω = 4; met at 5.5 | 90th percentile of $\lvert y(\mathrm{Gb}) - y(\mathrm{GbG}) \rvert$ over the read pieces of grid b. ω = 4: bin I 0.351 over 8 pieces (bound 0.16), bin II 2.22 over 5 (bound 0.96), bin III 3.07 over 1 (bound 1.92). ω = 5.5: bin I no piece, bin II 0.48 over 3 (bound 1.82), bin III 3.44 over 13 (bound 3.63). On the same pieces $c^2_{\mathrm{read}}$ itself moves with the damping (for one, the axis at s = 1.75: 0.87 at γ = 0.3, 1.42 at 0.15). Cost by § 5: at ω = 4 every piece of bins I, II and III is not read on every grid |
-| C12, the steady state | 1 | ⚠️ met on every job but GaN | worst ratio: Ga0, GaH and GaS 3.7 × 10⁻⁴, GaP 5.5 × 10⁻⁴, VD1 2.1 × 10⁻³, VD2 3.0 × 10⁻⁴, VD3 7.1 × 10⁻⁴, VD4 4.9 × 10⁻³, Gb 1.8 × 10⁻⁴, GbG 1.1 × 10⁻⁴ (bound 0.03). ❌ GaN 758: no source, so its lock-in holds the drift of the base state, not a driven steady state; grid a carries no label |
-| C13, the readers on made-up inputs | 1, and a second run on the final reads script | ✅ met | (a) amplitudes to 3.3 × 10⁻¹⁵, the 5.5 tone at 4 under 3.3 × 10⁻¹⁵, the tone at 4.3 against the analytic response 1.6 × 10⁻¹⁵. (b) every plane wave to 10⁻¹⁴ with the right status, filtered unchanged, the added wave read within 0.07 of 14 and 18 filtered and 1.6 to 1.85 off unfiltered, the soft input NOT READ (soft); the two-speed input over ε on at most 9.97 % of the draws of a bin (bin I at ω = 4), the 90th percentiles of the error 0.14 to 2.44 at ω = 4 and 0.19 to 4.26 at 5.5. (c) 24 of 24 outcomes |
+| C9, the known answer | 1 | ⚠️ met at ω = 4, not met at ω = 5.5 | ω = 4, VD2 and VD3: 26 of 26 pieces read, none soft, worst $\lvert m^2_{\mathrm{read}} - m^2 \rvert$ 0.0014 and 0.0033 (tolerance 0.16), $c^2_{\mathrm{read}}$ within 0.10 and 0.52 % of 1, every status as set, no edge, Φ within 0.05 % of $\sqrt{y}$ times the stretch. ω = 5.5: VD4, VD2 and VD3 meet every clause; ❌ VD1 (y = −3.03) fails one clause, $c^2_{\mathrm{read}}$ within 1 % of 1: it reads 1.0244 (PF), 1.0239 (PD) and 1.0234 (A) on the innermost read piece (s = 0.75, where the field is smallest), falling toward 1 outward, while every other clause holds (26 read, none soft, worst mass error 0.050 against 0.30, every piece EVAN, no edge). Window 1 reads 0.92 to 0.93 on the same pieces. $b_{\mathrm{vac}}$ = 0.0033 at ω = 4 and 0.050 at 5.5. Cost by § 5: no label at ω = 5.5. The record audit inferred, as a model fit of its own and not a result of this run, that a leftover transient of the lowest mid mode of the box (frequency about 5.786, decaying at γ/2, beating against the 5.5 lock-in between the two windows) fits the speed read on VD1; with it removed, the audit's fit gives c² of 1.003 to 1.006 and m² of 33.28 to 33.29 against the set 33.275 |
+| C10, the windows | 1 | ✅ met, per labeled grid and as pooled on grid a and on the vacuum jobs | the plan defines C10 per grid and ω; the labeled grids are one job each, grid a pools its five jobs and the vacuum its four. Median of $\lvert y_i - y_i^{(1)} \rvert$ against 0.16 (ω = 4) and 0.30 (5.5): b 0.0044 and 0.0045 (Gb; GbG alone 0.0025 and 0.0092), d 0.0127 and 0.0048, e 0.0123 and 0.0039, grid a pooled 0.0045 and 0.0101, vacuum pooled 0.0114 and 0.0112. Per job, VD1 and VD4 at ω = 4 (the deep evanescent cases, tabled in C9) read 1.64 and 0.88, above the bound; the plan grants their exemption inside C9 only, so the control is met as pooled and not job by job |
+| C11, the damping | 1 | ❌ not met at ω = 4; met at 5.5 | 90th percentile of $\lvert y(\mathrm{Gb}) - y(\mathrm{GbG}) \rvert$ over the read pieces of grid b. ω = 4: bin I 0.351 over 8 pieces (bound 0.16), bin II 2.22 over 5 (bound 0.96), bin III 3.07 over 1 (bound 1.92). ω = 5.5: bin I no piece, bin II 0.48 over 3 (bound 1.815), scored on its own 90th percentile (under the convention of the budget, where a bin of fewer than five pieces takes the largest value, 3.44, it would not meet its bound), bin III 3.44 over 13 (bound 3.63). Six of the eight bin-I pieces at ω = 4 are the axis-domain pieces of grid b (A, s = 1.75 to 4.25), with $\lvert \Delta y \rvert$ of 0.03 to 0.32 between the two dampings; the median of bin I, 0.166, is itself above the bound. On the same pieces $c^2_{\mathrm{read}}$ itself moves with the damping (for one, the axis at s = 1.75: 0.87 at γ = 0.3, 1.42 at 0.15). Cost by § 5: at ω = 4 every piece of bins I, II and III is not read on every grid |
+| C12, the steady state | 1 | ⚠️ met on every job but GaN | worst ratio: Ga0, GaH and GaS 3.7 × 10⁻⁴, GaP 5.5 × 10⁻⁴, VD1 2.1 × 10⁻³, VD2 3.0 × 10⁻⁴, VD3 7.1 × 10⁻⁴, VD4 4.9 × 10⁻³, Gb 1.8 × 10⁻⁴, GbG 1.1 × 10⁻⁴, Gd 1.81 × 10⁻⁴, Ge 1.75 × 10⁻⁴ (bound 0.03). ❌ GaN 758: no source, so its lock-in holds the drift of the base state, not a driven steady state; grid a carries no label |
+| C13, the readers on made-up inputs | 1, run four times (in stage 0; after GbG ended; after the fix of deviation 4; on the final script), the same numbers each time | ✅ met | (a) amplitudes to 3.3 × 10⁻¹⁵, the 5.5 tone at 4 under 3.3 × 10⁻¹⁵, the tone at 4.3 against the analytic response 1.6 × 10⁻¹⁵. (b) every plane wave to 10⁻¹⁴ with the right status, filtered unchanged, the added wave read within 0.07 of 14 and 18 filtered and 1.6 to 1.85 off unfiltered, the soft input NOT READ (soft); the two-speed input over ε on at most 9.97 % of the draws of a bin (bin I at ω = 4), the 90th percentiles of the error 0.14 to 2.44 at ω = 4 and 0.19 to 4.26 at 5.5. (c) 24 of 24 outcomes |
 | C14, the backgrounds | 1 | ✅ met | loop center equal, normal within 3.3 × 10⁻²⁴, radius within 6.1 × 10⁻⁸ of the blocks of M5.49 on b, d and e; piece geometry identical; q on the pieces equal to seven digits |
 
 **What the controls leave.** By the costs of § 5, C9 at ω = 5.5 withholds every entry at that frequency (R3, R4, N3, N4, P2, P3), and C11 at ω = 4 removes every read piece of bins I to III at that frequency on every grid, which leaves the entries at ω = 4 (W1, W2, R2, N2, P1) without read pieces. Both follow from jobs of grid b and of the vacuum alone; they hold whatever grids d and e read.
@@ -351,13 +353,310 @@ On the two deep cases the mid branch read alone is off by up to 1.44 and 0.54, f
 | VD1, VD2, VD3, VD4 | vacuum, 49³ | 3356 of 3356 | no | met |
 | Gb | b, 65³ | 3356 of 3356 | no | met |
 | GbG | b, 65³ | 5456 of 5456 | no | met |
-| Gd | d, 81³ | 3356 of 3356 | no | met (1.8 × 10⁻⁵); its field not yet read (deviation 2) |
-| Ge | e, 105³ | see below | | |
+| Gd | d, 81³ | 3356 of 3356 | no | met (1.8 × 10⁻⁵) |
+| Ge | e, 105³ | 3356 of 3356 | no (cap 7 hours) | met (4.5 × 10⁻⁵) |
 
 No job had a node where the kinetic matrix was not positive.
+
+### 12. The words
+
+Every entry carries "no label". The first reason in each row is the rule of § 6 as the read gave it; the controls that withhold the frequency follow it. The withholding by C9 (ω = 5.5) and by C11 (ω = 4) applies to every entry of its frequency, whatever the first reason.
+
+| Reading | b | d | e | What withholds it |
+| --- | --- | --- | --- | --- |
+| W1 | no label | no label | no label | C11 at ω = 4: every domain piece of the axis is in a failed bin, so the cover of the domain is 0 of 6 or 7 (undecided) |
+| W2 | no label | no label | no label | the read makes no statement (W1 undecided). F: ZONE on b; on d the pieces are undecided and the ray says ZONE; on e the pieces say NO WAVE and the ray ZONE, so F's statement lies inside its margin on d and e |
+| R2 | no label | no label | no label | C11 at ω = 4; with the pieces removed, every window of an edge of F is not covered (inner edges also under 2.5 or with the two forms of F more than 3 % apart) |
+| N2 | no label | no label | no label | C11 at ω = 4; every window not covered |
+| R3 | no label | no label | no label | C9 at ω = 5.5; also: inner edges under 2.5, the outer edge of F beyond the line on b and d, the three profiles disagree on e |
+| N3 | no label | no label | no label | C9 at ω = 5.5; inner edge under 2.5; outer edge: window not covered on b and d, the three profiles disagree on e |
+| R4 | no label | no label | no label | C9 at ω = 5.5; inner edges under 2.5; outer edges beyond the line (b, d PF), window not covered (d PD), the three profiles disagree (e) |
+| N4 | no label | no label | no label | C9 at ω = 5.5; the same as R4 by the registered radii |
+| P1 | no label | no label | no label | C11 at ω = 4; with the pieces removed, the outer edge of F lies beyond the stretch |
+| P2 | no label | no label | no label | C9 at ω = 5.5; F has no outer edge on A of b and d; the three profiles disagree on e |
+| P3 | no label | no label | no label | C9 at ω = 5.5; F has no outer edge on PF of b and d and on PD of b; the three profiles disagree on PD of d; Φ_F(0.87) exceeds 2 Φ_F(1) on the stretches of e |
+
+No grid carries a word for any reading. Every entry, with its numbers and reasons, is in the field `entries` of the summary file; the budget terms are in `b_gamma` and `b_vac`, and the outcome of each control per frequency and clause in `controls`.
+
+### 13. The profiles of y with ε, numbers with no word
+
+The budget of each piece (§ 3) on the labeled grids is set by its largest term. At ω = 4 the damping term of bin I, 2 × 0.351 = 0.70, exceeds the floor of 0.16 and sets ε on most pieces near the threshold; at ω = 5.5 the damping term is 2 × 3.44 = 6.87 in every bin (bins I and II have fewer than five pieces and take the largest). No read piece carries an infinite ε. Where the filter term is allowed, it uses the filtered y wherever that is finite (deviation 6); it sets ε on 39 of the 195 read pieces of b, d and e, up to 1454 on PF of e at s = 8.25 and ω = 5.5, none of them in a word. The status column is the position of the three profiles, printed as a number of the read and not a word; at ω = 4 every piece in the tables is removed from the words by C11.
+
+![Grid e: the read y with ε on lines A, PF and PD at both tones, beside F and the cutoffs of M5.49](../plots/m5_52_profiles_e.png)
+
+![The same on grid d](../plots/m5_52_profiles_d.png)
+
+![The same on grid b](../plots/m5_52_profiles_b.png)
+
+![The axis at ω = 4 on the three grids side by side](../plots/m5_52_axis_w4.png)
+
+**Grid b, line A.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -16.17; -8.35 | -14.43 | D NOT READ (c2) |  | -1.92; 5.90 | -0.18 |
+| 1.25 | NOT READ (c2) |  | -6.46; -1.00 | -5.80 | D 4.77 ± 6.87 | MARGIN | 7.79; 13.25 | 8.45 |
+| 1.75 | D -0.79 ± 0.70 | EVAN | -1.68; 2.62 | -1.72 | D 6.34 ± 6.87 | MARGIN | 12.57; 16.87 | 12.53 |
+| 2.25 | D 0.36 ± 0.70 | MARGIN | 0.15; 4.01 | 1.12 | D 12.27 ± 6.87 | PROP | 14.40; 18.26 | 15.37 |
+| 2.75 | D 0.98 ± 0.70 | PROP | 0.51; 4.27 | 2.21 | D 10.63 ± 6.87 | PROP | 14.76; 18.52 | 16.46 |
+| 3.25 | D 0.76 ± 0.70 | PROP | 0.11; 3.97 | 2.43 | D 15.42 ± 6.87 | PROP | 14.36; 18.22 | 16.68 |
+| 3.75 | D 0.33 ± 0.70 | MARGIN | -0.68; 3.37 | 1.83 | D 13.65 ± 6.87 | PROP | 13.57; 17.62 | 16.08 |
+| 4.25 | D 0.07 ± 0.70 | MARGIN | -1.72; 2.59 | 0.85 | D 13.40 ± 6.87 | PROP | 12.53; 16.84 | 15.10 |
+| 4.75 | D -0.33 ± 0.70 | MARGIN | -2.87; 1.72 | -0.44 | D 14.22 ± 6.87 | PROP | 11.38; 15.97 | 13.81 |
+| 5.25 | -1.10 ± 0.70 | EVAN | -4.06; 0.82 | -1.84 | D 12.75 ± 6.87 | PROP | 10.19; 15.07 | 12.41 |
+| 5.75 | -2.48 ± 4.44 | MARGIN | -5.28; -0.11 | -2.91 | D 11.13 ± 6.87 | PROP | 8.97; 14.14 | 11.34 |
+| 6.25 | 0.22 ± 5.71 | MARGIN | -6.47; -1.00 | -3.99 | D 10.14 ± 21.29 | MARGIN | 7.78; 13.25 | 10.26 |
+
+**Grid b, line PF.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -19.11; -10.57 | -15.09 | D -0.71 ± 6.87 | MARGIN | -4.86; 3.68 | -0.84 |
+| 1.25 | NOT READ (c2) |  | -14.41; -7.02 | -11.83 | D 2.06 ± 6.87 | MARGIN | -0.16; 7.23 | 2.42 |
+| 1.75 | NOT READ (c2) |  | -8.10; -2.24 | -3.77 | D 7.90 ± 6.87 | PROP | 6.15; 12.01 | 10.48 |
+| 2.25 | D 1.44 ± 4.44 | MARGIN | -2.07; 2.33 | 2.38 | D 10.29 ± 6.87 | PROP | 12.18; 16.58 | 16.63 |
+| 4.75 | D NOT READ (soft) |  | 6.45; 8.77 | 8.44 | D NOT READ (soft) |  | 20.70; 23.02 | 22.69 |
+| 5.25 | D NOT READ (soft) |  | 4.39; 7.21 | 7.06 | D NOT READ (c2) |  | 18.64; 21.46 | 21.31 |
+| 5.75 | D 8.12 ± 6.15 | PROP | 2.03; 5.42 | n/a | D NOT READ (c2) |  | 16.28; 19.67 | n/a |
+| 6.25 | D 2.85 ± 4.44 | MARGIN | -0.40; 3.59 | 2.75 | D NOT READ (c2) |  | 13.85; 17.84 | 17.00 |
+
+**Grid b, line PD.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -18.87; -10.40 | -15.50 | D -0.52 ± 6.87 | MARGIN | -4.62; 3.85 | -1.25 |
+| 1.25 | NOT READ (c2) |  | -13.13; -6.05 | -10.54 | D 3.51 ± 6.87 | MARGIN | 1.12; 8.20 | 3.71 |
+| 1.75 | -1.25 ± 4.44 | MARGIN | -6.43; -0.97 | n/a | D 7.84 ± 6.87 | PROP | 7.82; 13.28 | n/a |
+| 2.25 | D 2.56 ± 4.44 | MARGIN | -0.24; 3.71 | n/a | D 10.74 ± 6.87 | PROP | 14.01; 17.96 | n/a |
+| 4.25 | D NOT READ (soft) |  | 7.70; 9.72 | 8.49 | D 19.85 ± 6.87 | PROP | 21.95; 23.97 | 22.74 |
+| 4.75 | D NOT READ (soft) |  | 5.90; 8.36 | 7.51 | D NOT READ (soft) |  | 20.15; 22.61 | 21.76 |
+| 5.25 | D NOT READ (soft) |  | 3.65; 6.65 | 6.01 | D NOT READ (c2) |  | 17.90; 20.90 | 20.26 |
+| 5.75 | D 6.95 ± 6.15 | PROP | 1.56; 5.07 | n/a | D NOT READ (c2) |  | 15.81; 19.32 | n/a |
+| 6.25 | D 3.20 ± 4.44 | MARGIN | -0.58; 3.45 | 2.07 | D NOT READ (c2) |  | 13.67; 17.70 | 16.32 |
+| 6.75 | D -1.12 ± 9.58 | MARGIN | -3.15; 1.50 | -0.29 | D NOT READ (soft) |  | 11.10; 15.75 | 13.96 |
+| 7.25 | NOT READ (c2) |  | -5.60; -0.35 | -2.95 | D 17.09 ± 51.48 | MARGIN | 8.65; 13.90 | 11.30 |
+
+**Grid d, line A.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (soft) |  | -16.93; -8.93 | n/a | D NOT READ (c2) |  | -2.68; 5.32 | n/a |
+| 1.25 | NOT READ (c2) |  | -7.20; -1.56 | -6.48 | D 4.25 ± 6.87 | MARGIN | 7.05; 12.69 | 7.77 |
+| 1.75 | D -0.84 ± 0.70 | EVAN | -2.33; 2.13 | -1.91 | D 6.41 ± 6.87 | MARGIN | 11.92; 16.38 | 12.34 |
+| 2.25 | D -0.21 ± 0.70 | MARGIN | -0.44; 3.55 | 0.69 | D 11.90 ± 6.87 | PROP | 13.81; 17.80 | 14.94 |
+| 2.75 | D 0.38 ± 0.70 | MARGIN | -0.08; 3.83 | 1.18 | D 10.20 ± 6.87 | PROP | 14.17; 18.08 | 15.43 |
+| 3.25 | D 0.18 ± 0.70 | MARGIN | -0.50; 3.51 | 1.26 | D 16.32 ± 6.87 | PROP | 13.75; 17.76 | 15.51 |
+| 3.75 | D -0.32 ± 0.70 | MARGIN | -1.33; 2.88 | 0.84 | D 13.05 ± 6.87 | PROP | 12.92; 17.13 | 15.09 |
+| 4.25 | D -0.46 ± 0.70 | MARGIN | -2.44; 2.04 | -0.47 | D 12.64 ± 6.87 | PROP | 11.81; 16.29 | 13.78 |
+| 4.75 | -0.72 ± 0.70 | EVAN | -3.68; 1.10 | -1.59 | D 14.22 ± 6.87 | PROP | 10.57; 15.35 | 12.66 |
+| 5.25 | NOT READ (c2) |  | -4.99; 0.11 | -3.12 | D 11.18 ± 6.87 | PROP | 9.26; 14.36 | 11.13 |
+| 5.75 | -5.33 ± 6.15 | MARGIN | -6.36; -0.92 | -4.30 | D 10.38 ± 6.87 | PROP | 7.89; 13.33 | 9.95 |
+| 6.25 | NOT READ (c2) |  | -7.72; -1.95 | -5.78 | D 9.78 ± 27.76 | MARGIN | 6.53; 12.30 | 8.47 |
+| 6.75 | NOT READ (c2) |  | -9.11; -3.01 | -7.22 | D 7.57 ± 25.44 | MARGIN | 5.14; 11.24 | 7.03 |
+| 7.25 | NOT READ (c2) |  | -10.43; -4.00 | -8.66 | D 6.21 ± 9.81 | MARGIN | 3.82; 10.25 | 5.59 |
+| 7.75 | NOT READ (soft) |  | -11.73; -4.99 | -10.06 | D 4.91 ± 6.87 | MARGIN | 2.52; 9.26 | 4.19 |
+| 8.25 | NOT READ (soft) |  | -12.94; -5.91 | -11.34 | D 3.17 ± 6.87 | MARGIN | 1.31; 8.34 | 2.91 |
+
+**Grid d, line PF.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -19.79; -11.09 | -17.20 | D -0.94 ± 6.87 | MARGIN | -5.54; 3.16 | -2.95 |
+| 1.25 | -3.76 ± 4.44 | MARGIN | -14.98; -7.45 | -13.43 | D 1.45 ± 6.87 | MARGIN | -0.73; 6.80 | 0.82 |
+| 1.75 | NOT READ (c2) |  | -8.58; -2.60 | -7.36 | D 7.37 ± 6.87 | PROP | 5.67; 11.65 | 6.89 |
+| 2.25 | D 1.03 ± 0.70 | PROP | -2.47; 2.02 | -0.44 | D 9.77 ± 6.87 | PROP | 11.78; 16.27 | 13.81 |
+| 4.75 | D NOT READ (c2) |  | 6.63; 8.91 | 7.02 | D NOT READ (soft) |  | 20.88; 23.16 | 21.27 |
+| 5.25 | D NOT READ (soft) |  | 4.65; 7.41 | 6.02 | D NOT READ (c2) |  | 18.90; 21.66 | 20.27 |
+| 5.75 | D 8.51 ± 6.15 | PROP | 2.39; 5.69 | 4.46 | D NOT READ (c2) |  | 16.64; 19.94 | 18.71 |
+| 6.25 | D 3.94 ± 4.44 | MARGIN | 0.07; 3.94 | 2.16 | D NOT READ (c2) |  | 14.32; 18.19 | 16.41 |
+| 6.75 | D 0.12 ± 17.34 | MARGIN | -2.32; 2.14 | -0.10 | D NOT READ (soft) |  | 11.93; 16.39 | 14.15 |
+| 7.25 | NOT READ (c2) |  | -4.60; 0.41 | -2.50 | D 20.87 ± 63.65 | MARGIN | 9.65; 14.66 | 11.75 |
+| 7.75 | -3.92 ± 5.32 | MARGIN | -6.88; -1.32 | -4.94 | D 15.13 ± 49.35 | MARGIN | 7.37; 12.93 | 9.31 |
+| 8.25 | NOT READ (c2) |  | -9.03; -2.95 | -7.19 | D 9.44 ± 97.29 | MARGIN | 5.22; 11.30 | 7.06 |
+
+**Grid d, line PD.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -19.53; -10.89 | -18.68 | D NOT READ (c2) |  | -5.28; 3.36 | -4.43 |
+| 1.25 | -6.36 ± 6.15 | EVAN | -13.67; -6.46 | -12.03 | D 2.82 ± 6.87 | MARGIN | 0.58; 7.79 | 2.22 |
+| 1.75 | -2.02 ± 4.44 | MARGIN | -6.87; -1.31 | n/a | D 7.48 ± 6.87 | PROP | 7.38; 12.94 | n/a |
+| 2.25 | D 2.12 ± 4.44 | MARGIN | -0.64; 3.40 | n/a | D 10.18 ± 6.87 | PROP | 13.61; 17.65 | n/a |
+| 4.25 | D NOT READ (soft) |  | 7.77; 9.77 | 7.44 | D 19.29 ± 6.87 | PROP | 22.02; 24.02 | 21.69 |
+| 4.75 | D NOT READ (soft) |  | 6.09; 8.50 | 6.81 | D NOT READ (soft) |  | 20.34; 22.75 | 21.06 |
+| 5.25 | D NOT READ (soft) |  | 3.91; 6.85 | 5.58 | D NOT READ (c2) |  | 18.16; 21.10 | 19.83 |
+| 5.75 | D 7.61 ± 6.15 | PROP | 1.87; 5.31 | n/a | D NOT READ (c2) |  | 16.12; 19.56 | n/a |
+| 6.25 | D 3.50 ± 4.44 | MARGIN | -0.21; 3.73 | 1.91 | D NOT READ (c2) |  | 14.04; 17.98 | 16.16 |
+| 6.75 | D -0.32 ± 13.58 | MARGIN | -2.72; 1.83 | -0.53 | D NOT READ (soft) |  | 11.53; 16.08 | 13.72 |
+| 7.25 | NOT READ (c2) |  | -5.11; 0.02 | -2.89 | D 17.75 ± 54.38 | MARGIN | 9.14; 14.27 | 11.36 |
+| 7.75 | -1.59 ± 10.29 | MARGIN | -7.47; -1.77 | -4.85 | D 12.12 ± 56.97 | MARGIN | 6.78; 12.48 | 9.40 |
+| 8.25 | NOT READ (c2) |  | -9.72; -3.46 | -7.72 | D 8.13 ± 29.18 | MARGIN | 4.53; 10.79 | 6.53 |
+| 8.75 | NOT READ (c2) |  | -11.48; -4.80 | -9.58 | D 5.83 ± 8.42 | MARGIN | 2.77; 9.45 | 4.67 |
+| 9.25 | NOT READ (c2) |  | -13.16; -6.07 | -11.03 | D 3.70 ± 6.87 | MARGIN | 1.09; 8.18 | 3.22 |
+| 9.75 | NOT READ (soft) |  | -15.03; -7.48 | -13.43 | D 1.70 ± 6.87 | MARGIN | -0.78; 6.77 | 0.82 |
+
+**Grid e, line A.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (soft) |  | -17.30; -9.20 | -15.84 | D NOT READ (c2) |  | -3.05; 5.05 | -1.59 |
+| 1.25 | NOT READ (c2) |  | -7.55; -1.83 | n/a | D 3.94 ± 6.87 | MARGIN | 6.70; 12.42 | n/a |
+| 1.75 | D -0.44 ± 0.70 | MARGIN | -2.65; 1.89 | -2.34 | D 6.36 ± 6.87 | MARGIN | 11.60; 16.14 | 11.91 |
+| 2.25 | D -0.50 ± 0.70 | MARGIN | -0.74; 3.33 | -0.12 | D 11.78 ± 6.87 | PROP | 13.51; 17.58 | 14.13 |
+| 2.75 | D 0.07 ± 0.70 | MARGIN | -0.38; 3.60 | 0.97 | D 10.07 ± 6.87 | PROP | 13.87; 17.85 | 15.22 |
+| 3.25 | D -0.11 ± 0.70 | MARGIN | -0.81; 3.28 | 1.01 | D 16.46 ± 6.87 | PROP | 13.44; 17.53 | 15.26 |
+| 3.75 | D -0.70 ± 0.70 | EVAN | -1.67; 2.62 | 0.09 | D 12.88 ± 6.87 | PROP | 12.58; 16.87 | 14.34 |
+| 4.25 | D -0.69 ± 0.70 | MARGIN | -2.82; 1.76 | -1.01 | D 12.41 ± 6.87 | PROP | 11.43; 16.01 | 13.24 |
+| 4.75 | NOT READ (c2) |  | -4.11; 0.78 | -2.36 | D 13.80 ± 6.87 | PROP | 10.14; 15.03 | 11.89 |
+| 5.25 | NOT READ (c2) |  | -5.48; -0.26 | -3.78 | D 10.73 ± 6.87 | PROP | 8.77; 13.99 | 10.47 |
+| 5.75 | NOT READ (c2) |  | -6.92; -1.35 | -5.25 | D 9.82 ± 6.87 | PROP | 7.33; 12.90 | 9.00 |
+| 6.25 | NOT READ (c2) |  | -8.36; -2.44 | -6.90 | D 9.12 ± 27.18 | MARGIN | 5.89; 11.81 | 7.35 |
+| 6.75 | NOT READ (c2) |  | -9.85; -3.56 | -8.29 | D 6.69 ± 14.60 | MARGIN | 4.40; 10.69 | 5.96 |
+| 7.25 | NOT READ (c2) |  | -11.27; -4.64 | -9.79 | D 5.25 ± 6.87 | MARGIN | 2.98; 9.61 | 4.46 |
+| 7.75 | NOT READ (c2) |  | -12.69; -5.71 | -11.25 | D 3.59 ± 6.87 | MARGIN | 1.56; 8.54 | 3.00 |
+| 8.25 | NOT READ (c2) |  | -14.04; -6.74 | -12.64 | D 1.97 ± 6.87 | MARGIN | 0.21; 7.51 | 1.61 |
+| 8.75 | NOT READ (soft) |  | -15.36; -7.73 | -13.99 | D 0.83 ± 6.87 | MARGIN | -1.11; 6.52 | 0.26 |
+| 9.25 | NOT READ (soft) |  | -16.61; -8.68 | -15.51 | D -0.44 ± 6.87 | MARGIN | -2.36; 5.57 | -1.26 |
+| 9.75 | NOT READ (soft) |  | -17.82; -9.60 | -17.06 | D -1.83 ± 6.87 | MARGIN | -3.57; 4.65 | -2.81 |
+| 10.25 | NOT READ (soft) |  | -18.94; -10.45 | -18.13 | D -2.07 ± 6.87 | MARGIN | -4.69; 3.80 | -3.88 |
+| 10.75 | NOT READ (soft) |  | -20.02; -11.26 | -19.18 | D -7.97 ± 10.19 | MARGIN | -5.77; 2.99 | -4.93 |
+| 11.25 | NOT READ (soft) |  | -21.03; -12.03 | -20.54 | 0.21 ± 8.06 | MARGIN | -6.78; 2.22 | -6.29 |
+
+**Grid e, line PF.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | NOT READ (c2) |  | -20.12; -11.34 | -16.58 | D NOT READ (c2) |  | -5.87; 2.91 | -2.33 |
+| 1.25 | -2.32 ± 4.44 | MARGIN | -15.25; -7.65 | -14.04 | D 1.19 ± 6.87 | MARGIN | -1.00; 6.60 | 0.21 |
+| 1.75 | NOT READ (c2) |  | -8.81; -2.78 | -7.42 | D 7.18 ± 6.87 | PROP | 5.44; 11.47 | 6.83 |
+| 2.25 | D 0.94 ± 0.70 | PROP | -2.66; 1.88 | n/a | D 9.60 ± 6.87 | PROP | 11.59; 16.13 | n/a |
+| 4.75 | D NOT READ (soft) |  | 6.70; 8.96 | 6.67 | D NOT READ (soft) |  | 20.95; 23.21 | 20.92 |
+| 5.25 | D NOT READ (soft) |  | 4.77; 7.50 | n/a | D NOT READ (c2) |  | 19.02; 21.75 | n/a |
+| 5.75 | D 8.55 ± 6.15 | PROP | 2.54; 5.81 | n/a | D NOT READ (c2) |  | 16.79; 20.06 | n/a |
+| 6.25 | D 3.95 ± 4.44 | MARGIN | 0.26; 4.09 | n/a | D NOT READ (c2) |  | 14.51; 18.34 | n/a |
+| 6.75 | D 0.52 ± 18.86 | MARGIN | -2.07; 2.32 | -0.24 | D NOT READ (soft) |  | 12.18; 16.57 | 14.01 |
+| 7.25 | NOT READ (c2) |  | -4.30; 0.64 | -2.49 | D 21.29 ± 66.26 | MARGIN | 9.95; 14.89 | 11.76 |
+| 7.75 | -2.04 ± 6.55 | MARGIN | -6.51; -1.04 | -4.84 | D 16.03 ± 50.82 | MARGIN | 7.74; 13.21 | 9.41 |
+| 8.25 | NOT READ (c2) |  | -8.58; -2.61 | -6.98 | D 10.23 ± 1454.41 | MARGIN | 5.67; 11.64 | 7.27 |
+| 8.75 | NOT READ (c2) |  | -10.60; -4.13 | -9.20 | D 6.94 ± 14.70 | MARGIN | 3.65; 10.12 | 5.05 |
+| 9.25 | NOT READ (soft) |  | -12.49; -5.57 | -11.01 | D 4.46 ± 6.87 | MARGIN | 1.76; 8.68 | 3.24 |
+| 9.75 | NOT READ (c2) |  | -14.31; -6.94 | -13.02 | D 2.51 ± 6.87 | MARGIN | -0.06; 7.31 | 1.23 |
+| 10.25 | NOT READ (soft) |  | -15.99; -8.21 | -14.93 | D 0.57 ± 6.87 | MARGIN | -1.74; 6.04 | -0.68 |
+| 10.75 | NOT READ (soft) |  | -17.61; -9.44 | -16.46 | D -1.52 ± 6.87 | MARGIN | -3.36; 4.81 | -2.21 |
+| 11.25 | NOT READ (soft) |  | -19.11; -10.58 | -18.15 | D -2.53 ± 6.87 | MARGIN | -4.86; 3.67 | -3.90 |
+
+**Grid e, line PD.** y and ε of the read (window 2, before the C11 removal), the status the three profiles give as a number with no word, y_F at λ = 1 and 0.87, and ω² − ω_c² from the cutoffs of M5.49. "D" marks a piece of the near-threshold domain.
+
+| s | y at 4 (± ε) | status at 4 | F at 4 (λ = 1; 0.87) | M5.49 at 4 | y at 5.5 (± ε) | status at 5.5 | F at 5.5 (λ = 1; 0.87) | M5.49 at 5.5 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.75 | 1.44 ± 4.44 | MARGIN | -19.84; -11.13 | -16.78 | D NOT READ (c2) |  | -5.59; 3.12 | -2.53 |
+| 1.25 | -2.52 ± 4.44 | MARGIN | -13.94; -6.66 | -12.32 | D 2.56 ± 6.87 | MARGIN | 0.31; 7.59 | 1.93 |
+| 1.75 | -1.81 ± 4.44 | MARGIN | -7.09; -1.48 | -4.30 | D 7.35 ± 6.87 | PROP | 7.16; 12.77 | 9.95 |
+| 2.25 | D 1.90 ± 4.44 | MARGIN | -0.83; 3.26 | n/a | D 9.97 ± 6.87 | PROP | 13.42; 17.51 | n/a |
+| 4.75 | D NOT READ (soft) |  | 6.17; 8.56 | 6.46 | D NOT READ (soft) |  | 20.42; 22.81 | 20.71 |
+| 5.25 | D NOT READ (soft) |  | 4.03; 6.94 | 5.12 | D NOT READ (c2) |  | 18.28; 21.19 | 19.37 |
+| 5.75 | D 7.60 ± 6.15 | PROP | 2.02; 5.42 | 3.66 | D NOT READ (c2) |  | 16.27; 19.67 | 17.91 |
+| 6.25 | D 3.66 ± 4.44 | MARGIN | -0.03; 3.87 | 1.98 | D NOT READ (c2) |  | 14.22; 18.12 | 16.23 |
+| 6.75 | D -0.06 ± 14.59 | MARGIN | -2.50; 2.00 | -0.47 | D NOT READ (soft) |  | 11.75; 16.25 | 13.78 |
+| 7.25 | NOT READ (c2) |  | -4.85; 0.22 | -2.75 | D 18.21 ± 56.47 | MARGIN | 9.40; 14.47 | 11.50 |
+| 7.75 | -1.55 ± 8.90 | MARGIN | -7.17; -1.53 | -5.21 | D 12.63 ± 54.43 | MARGIN | 7.08; 12.72 | 9.04 |
+| 8.25 | NOT READ (c2) |  | -9.37; -3.20 | -7.55 | D 8.56 ± 38.54 | MARGIN | 4.88; 11.05 | 6.70 |
+| 8.75 | NOT READ (c2) |  | -11.11; -4.52 | -9.55 | D 6.26 ± 10.12 | MARGIN | 3.14; 9.73 | 4.70 |
+| 9.25 | NOT READ (c2) |  | -12.76; -5.77 | -11.02 | D 4.17 ± 6.87 | MARGIN | 1.49; 8.48 | 3.23 |
+| 9.75 | NOT READ (soft) |  | -14.63; -7.18 | -12.98 | D 2.21 ± 6.87 | MARGIN | -0.38; 7.07 | 1.27 |
+| 10.25 | NOT READ (soft) |  | -16.40; -8.53 | -14.97 | D 0.38 ± 6.87 | MARGIN | -2.15; 5.72 | -0.72 |
+| 10.75 | NOT READ (soft) |  | -18.05; -9.77 | -16.45 | D -1.80 ± 6.87 | MARGIN | -3.80; 4.48 | -2.20 |
+| 11.25 | NOT READ (soft) |  | -19.59; -10.94 | -18.25 | D -6.17 ± 7.61 | MARGIN | -5.34; 3.31 | -4.00 |
+| 11.75 | NOT READ (soft) |  | -20.78; -11.84 | -19.32 | NOT READ (c2) |  | -6.53; 2.41 | -5.07 |
+| 12.25 | NOT READ (soft) |  | -21.91; -12.69 | -21.10 | NOT READ (c2) |  | -7.66; 1.56 | -6.85 |
+| 12.75 | NOT READ (soft) |  | -23.17; -13.65 | -22.35 | NOT READ (soft) |  | -8.92; 0.60 | -8.10 |
+| 13.25 | NOT READ (soft) |  | -24.32; -14.52 | n/a | NOT READ (soft) |  | -10.07; -0.27 | n/a |
+
+### 14. Descriptors, without label
+
+**The axis at ω = 4.** These pieces are not read by § 5 (C11 removes them), and the numbers below carry no statement about W1 in either direction. Over the near-threshold domain (s = 1.75 to 4.75 on b, 1.75 to 4.25 on d and e) the read y is −0.79, 0.36, 0.98, 0.76, 0.33, 0.07, −0.33 on b; −0.84, −0.21, 0.38, 0.18, −0.32, −0.46 on d; −0.44, −0.50, 0.07, −0.11, −0.70, −0.69 on e, each with ε = 0.70. Φ of the runs at or above 0 is 1.53, 0.44 and 0.04 on the profile y; on y + ε 2.94 (b), 1.79 (d), and on e two runs, 1.254 over s = 2.25 to 3.25 and 0.040 at 4.25; on y − ε 0.29 on b and no run on d and e. The share of the six-component power outside W on the domain pieces is 0.07 to 0.56 on b, 0.16 to 0.66 on d and 0.23 to 0.71 on e. The failure of C11 sits largely on these pieces: six of the eight bin-I pieces at ω = 4 are the axis-domain pieces of grid b. The profile before the removal is kept with that read in view (deviation 5).
+
+**The read edges.** At ω = 4 these are edges of pieces that § 5 makes not read (C11), numbers with no word; at ω = 5.5 nothing was removed, and C9 withholds the words. On the profile y the outer edge at ω = 4 lies at 6.62 (b, PD), 6.78 and 6.71 (d, PF and PD), 6.953 and 6.74 (e, PF and PD), against the edges of F at 6.12, 6.26, 6.20, 6.308 and 6.24: 8.0 to 10.2 % outside F. ⚠️ On PF of e the read edge, 6.953 against F at 6.308 (+10.2 %) and against the registered 6.31, lies beyond the 10 percent of the registration; it carries no word (the window of N2 on that line is not covered: the piece at 5.25 is removed by the soft rule and the one at 7.25 by the speed bound; the three profiles disagree), and it is listed here so that the edges on both sides of the registration's 10 percent are in the record. None of these edges is a statement about R2 or N2 in either direction. At ω = 5.5 on grid e: 9.08 on A against F 8.33 (+9.0 %), 10.39 on PF against 9.73 (+6.7 %), 10.34 on PD against 9.65 (+7.1 %). With ε of 0.70 and 6.87 the profiles y + ε and y − ε mostly have no edge or one far away, which is why the three profiles disagree where a window is covered.
+
+**The read in the middle of the plane band, an instrument failure the plan did not foresee.** The plan's § 3 rests on the premise that no piece M5.49 read would be lost to the soft rule. On PF and PD of all three grids it fails in the same way. At ω = 4, the 14 domain pieces from s = 4.25 to 5.25 (all read by M5.49; 13 of them with cutoffs that M5.49 fitted at 0.878 to 1.020 of F) read an m² of −2.43 to 3.36 against m_F² of 8.23 to 12.35, with c² of 1.89 to 2.59, so the soft rule (and once the speed bound) removes them; the share of the power outside W there is 0.18 to 0.52. The 17 pieces from 5.75 to 6.75 are read, with c² of 1.22 to 1.82. At ω = 5.5, 29 of the 31 domain pieces from 4.25 to 6.75 are removed: m² of −235.1 to 2.70, c² of 1.84 to 13.2, a share outside W of 0.21 to 0.61; only s = 4.25 on PD of b and d is read (c² 0.95 and 0.97). The cause is not known.
+
+**κ̄ beyond the outer edges** (the mean of $\sqrt{\max(-y, 0)}$ on the read pieces within 1.5 of the edge), beside the interval of F from κ̄_F(0.87) to κ̄_F(1). The read has none at ω = 4 (the pieces are removed by C11) and none where it has no outer edge.
+
+| Grid, line, ω | Outer edge of F | κ̄ read | κ̄_F(0.87) to κ̄_F(1) |
+| --- | --- | --- | --- |
+| e, A, 5.5 | 8.33 | 1.15 | 0 to 1.49 |
+| e, PF, 5.5 | 9.73 | 1.41 | 0 to 1.13 |
+| e, PD, 5.5 | 9.65 | 1.91 | 0 to 1.34 |
+| d, PD, 5.5 | 9.54 | none | 0 to 0.88 |
+| b, d, e, PF and PD, 4 | 6.12 to 6.31 | none (C11) | κ̄_F(0.87) 0 to 0.38; κ̄_F(1) 0.63 to 2.10 |
+
+**Where the plan's rules live in the scripts.**
+
+| Plan | Function |
+| --- | --- |
+| The driven step, § 1 (f₀, the source, the damping, the stage weights of $\mathcal{W}$ and $\mathcal{L}$) | `Driver.step` and `Driver._terms` in `m5_52_drive.py` |
+| The source g and S | `source_profile`, `ramp`, `drive_time`, `job_setup` |
+| The lock-in windows | `lockin_coefficients`, `window_norm`, `run_job` |
+| H′ and C8 | `run_job` (the series and `C8_ratio`) |
+| The estimator Z, the ratio, m²_read, c²_read | `inner_W`, `lap`, `read_field`, `ratio_read` in `m5_52_reads.py` |
+| The NOT READ rules | `read_field` (with `piece_max` for g), `binomial_filter` and `gfilt_of` for the filter |
+| ε and its terms | `eps_of`, `control_c11` (b_γ), `control_c9` (b_vac) |
+| Statuses, profiles, edges, Φ | `words`, `edges0`, `joined_pairs`, `phi_on`, `phi_linear` |
+| W1, W2 | `statement`, `runs_nonneg`, `run_phi`, `w1_word`, `w2_word`, `F_statement` |
+| R and N | `edge_entry`, `window_cover` |
+| P | `p_entry`, `p_stretch` |
+| κ̄ | `kappa_bar` |
+| The prediction (§ 4) | `predict` in `m5_52_drive.py`; `predict_grid`, `predict_vacuum`, `settings`, `domain_of`, `predicted_decay`, `m49_reference` |
+| C1, C2, C3, stage 0 | `control_c1`, `control_c2`, `control_c3`, `stage0` in `m5_52_drive.py` |
+| C4, C6, C7 | `grid_a_controls` |
+| C9, C10, C11, C12, C13, C14 | `control_c9`, `words` (C10), `control_c11`, `control_c12`, `c13` and `c13_profiles`, `control_c14` |
+
+**Other descriptors in the summary file.** Per piece: c²_read, Re Z (beside the free-noise Re Z of M5.49 at the targets 4 and 5.5, `free_noise_ReZ_m5_49`, made after the words), window 1 and filtered values, the root mean square of a, the share outside W, the terms of ε, the reason a piece is not read. Per ray of A, PF and PD: the author's read, minus the gradient of the phase of a and its modulus (`author_read_descriptor`). κ̄ beyond the outer edges, read and F.
+
+### 15. The expectations of § 6 against the outcome
+
+| Registered before the run | Outcome |
+| --- | --- |
+| (1) W1: ZONE or undecided and no label on b, d and e, b the nearest to WAVE (Φ of 3.05 by M5.49's cutoffs); WAVE likely out of reach by the purity clause | no label on b, d and e, by C11: every axis domain piece is not read by § 5, so the statement is undecided. The numbers of those removed pieces (§ 14) carry no statement about W1 in either direction |
+| (2) R2 to R4 and N2 to N4 as in M5.49: HELD where covered, the read edges 3 to 8 % outside F | no label everywhere (C11 at 4, C9 at 5.5). The read outer edges on the profile y lie 8.0 to 10.2 % outside F at ω = 4 (pieces removed by C11) and 6.7 to 9.0 % at ω = 5.5 on e (nothing removed, C9 withholds); PF of e at ω = 4 lies beyond 10 % (§ 14) |
+| (3) P1 to P3 inside their intervals, near λ = 0.935 | no label everywhere (C11 at 4, C9 at 5.5) |
+| (4) C9, C10 and C12 met; C11 met if the ratio holds on the unit | C10 met on every job read; C12 met on every sourced job; C9 met at ω = 4 and not at 5.5 (one clause of VD1); C11 not met at ω = 4 in all three bins, met at 5.5 |
 
 ### Deviations from the plan (logged as they happen)
 
 1. **Code tests before stage 0.** Before stage 0 the scripts were tested: the pure readers of C13 on their made-up inputs, a trial prediction written to a scratch file outside the repository (it reproduced the plan-time numbers of § 4 and the P table of § 6), and 41 steps of the driver on grid a written to scratch (no lock-in window reached, no amplitude written). Stage 0 then ran as one process in the plan's order. No threshold, setting or rule changed.
-2. **The reads of grids d and e delayed by an instruction of the orchestrator.** While Gd and Ge ran, the orchestrator ordered that no read, lock-in inspection, C12, words or plot be made on the fields of Gd and Ge until a second, separate scoring rule for those fields had been frozen, so that it is frozen before anyone has read them. The jobs ran untouched. The reads of d and e were delayed, not changed: no rule, job or target of this plan changed.
+2. **The reads of grids d and e delayed by an instruction of the maintainer session.** While Gd and Ge ran, the maintainer session ordered that no read, lock-in inspection, C12, words or plot be made on the fields of Gd and Ge until a second, separate scoring rule for those fields, [M5.55](m5_55_task_details.md), had been frozen (commit `44660227`), so that it was frozen before anyone had read them. The jobs ran untouched. Gd ended under the hold and was read after the release; Ge ended after it. The reads of d and e were delayed, not changed: no rule, job or target of this plan changed.
 3. **Choices the plan left open, fixed by the scripts.** The near-threshold domain of a line holds the pieces that M5.49 reads (F on the pieces is defined on those). A piece is excluded by the source when any of its nodes, in D or not, has g at 10⁻³ or more. The term $b_\gamma$ pools the read pieces of all four lines of grid b. Where window 1 does not read a piece that window 2 reads, the window term of ε is infinite (the piece can only be MARGIN). C9's "no edge" is checked on the three profiles. The reference Φ_F of the prediction file (§ 4) is taken on the stretches of the pieces M5.49 reads; it reproduced every number of § 4 and of the P table of § 6. In C11 a bin with fewer than five pieces is still scored on its own 90th percentile, while its budget term takes the largest of the bins as § 3 fixes.
+4. **A script defect in `predict_grid`, removed.** A text replacement meant for the read of a job (it adds the samples along each ray) also matched two lines of `predict_grid` in [`m5_52_reads.py`](../scripts/m5_52_reads.py) and left four lines there with undefined names. The stage-0 process had imported the module before that edit, so the prediction file was written by the function as it stood before it, and holds no ray samples. The four lines were removed; the prediction then written again by `m5_52_drive.predict` into a scratch file is identical byte for byte to [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json). C13 was run again on the edited script and met, with the same numbers. No number changed. The commit `44660227` holds the script with the four dead lines; the fix is in the version of the record.
+5. **Additions to the summary and the profile, at the maintainer session's request.** The summary file holds, by name, the binned damping term per frequency and bin (`b_gamma`, with the count of each bin and whether it took the largest value), the vacuum term per frequency (`b_vac`), and the outcome of every control per frequency and clause (`controls`; C9 by its clauses). Where C11 removes the pieces of a bin, the profile of y with ε as read before the removal is kept as numbers (`y_before_C11`, `status_before_C11_no_word`), and the removal applies to both windows (the scripts had first applied it to window 2 alone, which changed no word). The pre-removal profile was kept after the maintainer session asked, in its release of the hold, for the profiles to be reported as numbers. That request came after a trial of the words on grid b (deviation 6), made before GbG had ended and before C11 existed, had shown the axis read of grid b to the builder and to that session; the choice was made with that read in view. No word, threshold or rule changed.
+6. **Further choices and trial runs.** The trial words ran twice on real data and wrote only to the local checkpoints, never to the record: on grid b alone, before GbG ended (so without the damping term and before C11 existed), and on grids b and d after the release, just before the last edit of the reads script. C10 is computed per labeled grid (one job each), pooled over the five jobs of grid a and over the four vacuum jobs (the plan defines it per grid and ω). Where the filter term of ε is allowed, it uses the filtered y wherever that is finite, also where the filtered piece would fail its own read rules (the plan is silent). The run log's clock times were written by hand and can differ by a minute or two from the file times; the order is the same.
+
+### 16. Not computed, and how to regenerate
+
+**Not computed.** A front read before its first return; the literal phase as a word (tabled per ray as the author's read, a descriptor); the decay beyond an outer edge as a word (κ̄ tabled only); a frequency scan; the author's absorbing layer and a source at the loop's center; a steady state without loss; the inner edges as words; the pattern of the wave in three dimensions; the light and the soft polarizations; the action of the author's later post; another time part; another spacing and the limit at zero spacing; the bias of a cutoff on a background that is not uniform; an error bar beyond ε; grids a and c as labeled grids; any word on grids b, d and e (withheld by C9 and C11). Not done in this run: the regeneration of the index [`_DATASETS.md`](../data/_DATASETS.md) for the arrays of this task.
+
+**Who wrote the prediction.** [`m5_52_drive_predicted.json`](../data/m5_52_drive_predicted.json) was written by `m5_52_drive.py --stage0`, which calls `predict()` of the same script (it calls `predict_grid` and `predict_vacuum` of `m5_52_reads.py`) after C1 and C14 and before Ga0. `m5_52_drive.py --predict` runs the same function alone and refuses while the file exists; run with the file moved aside, it reproduces the file byte for byte (SHA-256 `13593daa600de3bee404912cf647d1e1a668a077ca29c8ee03932461eba40c51`, checked after the fix of deviation 4).
+
+**Regenerate.** From `research/`, one thread per process (each script sets the thread variables itself):
+
+```bash
+python scripts/m5_52_drive.py --stage0          # C1, C14, the prediction and its hashes, C13, C2, C3, then Ga0 with C8 and C12
+python scripts/m5_52_drive.py --job Ge          # and Gd, GbG, Gb, VD1 to VD4, GaH, GaS, GaP, GaN, one process each
+python scripts/m5_52_reads.py --read Ge --c12 Ge --hash b=<h> d=<h> e=<h> V=<h> settings=<h>    # every job
+python scripts/m5_52_reads.py --c13
+python scripts/m5_52_reads.py --words --hash b=<h> d=<h> e=<h> V=<h> settings=<h>
+python scripts/m5_52_reads.py --plots
+```
+
+The hash `<h>` of a block is that of the `hashes` field of the prediction file. The heavy arrays stay in the local checkpoints and are ignored by git: per job, `checkpoints/m5_52/jobs/<job>/lockin_w1.npz` and `lockin_w2.npz` (the lock-in amplitudes of the two windows at both tones, six components, complex as real and imaginary parts) and `end.npz` (the end state), each written by `m5_52_drive.py --job <job>`; `series.json` holds the energy series. The reads of each job (`checkpoints/m5_52/reads/<job>.json`) and C12 (`checkpoints/m5_52/c12/<job>.json`) are written by `m5_52_reads.py --read` and `--c12`.
+
+### 17. The checks of the record (2026-11-23)
+
+Two independent passes in fresh contexts read this record before the review, and neither wrote in it.
+
+| Pass | What it did | What it found |
+| --- | --- | --- |
+| The numbers | Wrote its own estimator (Laplacian, projection, piece sums, the ratio) and recomputed y, the read speed, the read flags and their reasons on 2512 records of pieces, tones and windows over nine jobs (largest difference from a stored read $4.9 \times 10^{-6}$, no flag differing); recomputed ε from its terms on all 195 read pieces and every status; recomputed C4, C6, C7, C8, C9 clause by clause, C10 and C11; regenerated the 137 rows of § 13 and compared them as text; recomputed the block hashes | No number and no word to change. Six small items: the rounding of the edge percentages, two runs where the record said one, jobs missing from two control rows, a sentence on infinite ε that no piece has, the filter term's use where the plan is silent |
+| The record against the plan | Read both scripts against §§ 1 to 6 and the logs against the deviations; regenerated the prediction, all thirteen reads and the summary byte for byte from the stored fields with the tracked code; recomputed pieces of Gb and GbG with its own estimator; rebuilt the timeline of the edits and of the hold | No word to change, and no edit that changed a number. Two faults of presentation: the profile of pieces that § 5 removes was compared with the thresholds of W1, on one side only; and the failure of the read in the middle of the plane band was absent from the prose. Ten smaller items, among them the grouping of C10, the caveat on C11 at ω = 5.5, the count of the runs of C13, trial runs missing from the deviations, and the missing map to the code |
+
+Every finding is folded above (In brief, §§ 10, 12 to 15, the deviations, the map to the code). The second pass also fitted the VD1 speed read with a leftover transient of the lowest box mode; that fit is the audit's, stated as such under C9. Not recomputed by either pass: C12 (compared as stored), C1 to C3 and C13 (their stored outputs were read), the geometry of the pieces and the polarization W, which both passes took from the task's code, and no driven job was run again. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.

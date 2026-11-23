@@ -188,3 +188,182 @@ with $A_g$ the author's stored array of the grid and $r_g$ the release's radius 
 | Smaller items | C4 (b) made the out-of-regime control; C4 (c)'s failing input and tolerance; the budget at $\ell_2$; the rounding of $U_{T2}$; the fourth reader tabled as such; the citations, the file names and the wording of fact (d) |
 
 The plan and its audit were written by instances of one model in separate contexts.
+
+## FINDINGS (2026-11-23)
+
+> Every control was met (C3 on its second try, a defect of its failing input). The port returns the archive's charge, gap read and shares on the rotated G1 array to round-off. Of the fifteen entries, four read INSIDE (U on G1 and G4, N/U on G4 and G5), three INSIDE (fixed by the held faces) (Q on G1, G4, G5), one OUTSIDE (N/U on G1, 0.9345 under 0.939) and seven no label (the four radius entries by the readers or the second step, and every entry of G2 by M5.51's second step). The words fixed by M5.51's numbers came out as the plan printed them. Two of the INSIDE words say less than their name: the stated U values equal the author's stored energies times their own fixed-field rises (the plan, claim (b)), so U INSIDE says only that relaxing under the midpoint weight lowered U by less than 1 percent from that fixed-field value; and Q is fixed by the two outer node layers, with or without a ring.
+
+All numbers below are read from [`m5_54_summary.json`](../data/m5_54_summary.json), written by `m5_54_score.py --summary` from the charge reads of `m5_54_score.py --reads` and the controls of `m5_54_charge.py --selftest`. Every read was taken on stored fields; nothing was relaxed. The SHA-256 of the archive's `hodge.py` is `600d1b10eb28e825e1c8cd9415fb7a945f622b15efcff36dab047df26e5798c4` and of `hodge.json` `b9462467bedeaddbc72333e83599f61c60f39a0d87e64c8b453c9f42b9ac5bce` (the copies in `soleve20b/` and `rethink20/` are identical).
+
+### 5. The controls
+
+| Control | Result | Tries | Deciding numbers |
+| --- | --- | --- | --- |
+| C1, the port against the archive | met | 1 | on the stored G1 array rotated (new x, y, z = old y, z, x): Q/4π, R, $z_0$ and the shares equal to `hodge.json` (difference 0) except the least gap ($-1.1 \times 10^{-16}$) and the share within 0.5 ($+5.6 \times 10^{-17}$); Q/4π rotated minus unrotated 0. Failing inputs all miss: the opposite lift $-0.9986035$, the least eigenvector $-0.0054$, forward differences 0.9986036 ($1.1 \times 10^{-7}$ off), the sum with the face nodes 0.9972415, the shares on the unrotated array off by 0.41 to 0.88 |
+| C2, the archive's other two arrays | met | 1 | stored G2: 0.9992369 against 0.9991, $+1.4 \times 10^{-4}$; stored G4: 0.9994018 against 0.9994, $+1.8 \times 10^{-6}$ (against the 16 printed digits $+1.5 \times 10^{-4}$ and $+6.0 \times 10^{-7}$) |
+| C3, the identity | met | 2 | volume sum against the two-layer flux at every half-width of every field read: worst $1.07 \times 10^{-15}$ relative. Failing inputs (try 2, on the stored G1 array): the sum with the face nodes $1.3 \times 10^{-3}$, a stencil with forward differences on one axis $1.1 \times 10^{-6}$ |
+| C4 (a), the seed | met | 1 | Q/4π 0.998609, 0.999237, 0.999402, 0.999669 and $Q(\ell_2)/4\pi$ 0.997954, 0.998993, 0.999237, 0.999605 on G1, G2, G4, G5; in regime (0 flips, least $g_{12}$ on the shells 0.99889 to 0.999999). Failing inputs: the opposite lift $-0.9986$ to $-0.9997$, one component of $b$ in the wrong cyclic order 0.3329 to 0.3332, the least eigenvector $\lvert Q/4\pi \rvert \le 1.3 \times 10^{-16}$ |
+| C4 (b), $\hat z \hat z^{\mathsf T}$ | met | 1 | out of regime on all four grids: 184 to 376 lift flips on the box shell, 152 to 344 on the second shell; Q = 0. The failing inputs read in regime: a test on $\tilde n \cdot x$ (no negative node) and a test on the raw sign of $\hat n \cdot x$ (0 opposite pairs, since that sign is 0 on the plane z = 0) |
+| C4 (c), charge $1 - \sqrt2$ | met | 1 | Q/4π $-0.421936$, $-0.417347$, $-0.418784$, $-0.417283$ on G1, G2, G4, G5, from $1 - \sqrt2$ by $-0.0077$, $-0.0031$, $-0.0046$, $-0.0031$ (bound 0.01); out of regime on all four. Failing inputs: no lift $\lvert Q/4\pi \rvert \le 6 \times 10^{-17}$, the opposite lift $+0.4173$ to $+0.4219$ |
+| The regime on the author's arrays | met | 1 | the four stored arrays in regime on both shells: 0 lift flips, least $g_{12}$ 0.9481, 0.9605, 0.9884, 0.9958 on the box shell and 0.8272, 0.8789, 0.9666, 0.9881 on the second shell (G1, G2, G4, G6); the raw-sign pairs on the box shell 4436, 7812, 9992, 17809. The failing input, C4 (b), reads out of regime |
+
+C3, try 1: every identity held (worst $1.07 \times 10^{-15}$), but its failing input "a stencil that mixes orders" read on the seed of G1 returned $2.8 \times 10^{-16}$ and so did not fail: the seed is mirror symmetric, and on such a field the forward and the central telescopes agree. Try 2 read the two failing inputs on the stored G1 array; no threshold changed (deviation 1).
+
+The R_A budgets of § 3, recomputed with `m5_51_reads.py` on the constructed rings of M5.51's K4 (a) (largest $\lvert R_A - R_0 \rvert$ over the three offsets):
+
+| Spacing | Box axis | Body diagonal | Tilted 16° | Neither (largest of the three) | The plan's values |
+| --- | --- | --- | --- | --- | --- |
+| 0.5 | 0.0195 | 0.0882 | 0.1223 | 0.1223 | 0.020, 0.089, 0.123 |
+| 0.375 | 0.0323 | 0.0472 | 0.0185 | 0.0472 | 0.033, 0.048, 0.048 |
+
+All six agree with the plan's within 0.001 (largest difference 0.00076); the words use the larger of the two, the plan's values (deviation 6).
+
+### 6. Q/4π on the states
+
+Q/4π at the box surface $L$ and at $\ell_2 = L - 2h$, beside the seed of the same grid; every state below is in regime (0 lift flips on both shells, least $g_{12}$ on the second shell 0.8214 at worst, the radius clause held).
+
+| Grid | Chain | $Q(L)/4\pi$ | $Q(\ell_2)/4\pi$ | At the earlier state | The seed | The author's array |
+| --- | --- | --- | --- | --- | --- | --- |
+| G1 | `G1_mid_a` | 0.998604 | 0.997811 | 0.998604, 0.997811 (iteration 8000) | 0.998609, 0.997954 | 0.998604, 0.997812 |
+| G2 | `G2_mid_a` | 0.999239 | 0.998992 | 0.999237, 0.998993 (the start) | 0.999237, 0.998993 | 0.999237, 0.998968 |
+| G4 | `G4_mid_a` | 0.999402 | 0.999229 | 0.999402, 0.999229 (iteration 3500) | 0.999402, 0.999237 | 0.999402, 0.999228 |
+| G5 | `G5_mid_a` | 0.999669 | 0.999603 | 0.999669, 0.999603 (iteration 6000) | 0.999669, 0.999605 | no array |
+| G3 | `G3_mid_a` (tabled) | 0.999670 | 0.999607 | 0.999670, 0.999607 | 0.999669, 0.999605 | no array |
+| G6 | `G6_mid_a` (tabled) | 0.999669 | 0.999603 | 0.999669, 0.999603 | 0.999669, 0.999605 | 0.999668, 0.999605 |
+
+Over all 24 end states and their earlier states, $Q(L)/4\pi$ lies between 0.998604 and 0.999670 and $Q(\ell_2)/4\pi$ between 0.997811 and 0.999607, every one in regime. The chains `b` of the T2 grids read the same values to $10^{-5}$ (the largest difference, $6.9 \times 10^{-6}$, on G2 at $\ell_2$; G1 0.998604 and 0.997811; G2 0.999238 and 0.998985; G4 0.999402 and 0.999229; G5 0.999669 and 0.999603).
+
+### 7. The words against T2
+
+The state is the midpoint chain `a`; all four qualify (CONVERGED, SMOOTH, one ring, `line_regime` and `halfturn_all` true, K5 met). The chain `b` word is that of the same rule on its end value without a second step.
+
+| Grid | Read | Chain `a` | Deciding numbers | Chain `b` by the rule | Word |
+| --- | --- | --- | --- | --- | --- |
+| G1 | U | 20.482703 | $U/U_{T2} - 1 = -0.00084$ against 0.00966; second step $5.3 \times 10^{-9}$ relative | INSIDE ($-0.00084$) | INSIDE |
+| G1 | Radius | $R_L$ 2.8140, $R_A$ 2.8247, $R_{\mathrm{rel}}$ 2.7595 | inside by 0.0460 (budget 0.01), 0.0353 (0.020), $-0.0005$ (0.015) | no label (readers) | no label (readers) |
+| G1 | Q/4π | 0.9986, 0.9978 | ≥ 0.992 and ≥ 0.9944; second step $6.3 \times 10^{-9}$ and $1.1 \times 10^{-8}$; seed 0.9986, 0.9980 | INSIDE (fixed by the held faces) | INSIDE (fixed by the held faces) |
+| G1 | N/U | 0.93454 | under 0.939; second step $9.2 \times 10^{-8}$ | OUTSIDE (0.93454) | OUTSIDE |
+| G2 | U | 20.527989 | $-0.00010$; M5.51's second step withholds (earlier state = the start, U 40.39) | INSIDE ($-0.00010$) | no label (second step) |
+| G2 | Radius | $R_L$ 2.8154, $R_A$ 2.8146, $R_{\mathrm{rel}}$ 2.7620 | $R_L$ and the class withheld by M5.51 (the start is outside the reader's regime, $R_L$ 0.0024); $R_A$ has 1 node at the start, under 4 | no label (readers) | no label (second step) |
+| G2 | Q/4π | 0.9992, 0.9990 | Q at the start 0.9992, 0.9990 (within $1.7 \times 10^{-6}$ and $7.9 \times 10^{-7}$, passes), but one ring is withheld by M5.51; seed 0.9992, 0.9990 | INSIDE (fixed by the held faces) | no label (second step) |
+| G2 | N/U | 0.93817 | M5.51's second step withholds (0.93817 against 0.89566 at the start) | OUTSIDE (0.93880) | no label (second step) |
+| G4 | U | 21.487779 | $-0.00057$ against 0.00966; second step $8.7 \times 10^{-8}$ | INSIDE ($-0.00057$) | INSIDE |
+| G4 | Radius | $R_L$ 2.8516, $R_A$ 2.8697, $R_{\mathrm{rel}}$ 2.8600 | inside by 0.0084 (budget 0.01), $-0.0097$ (0.020), $-0.00003$ (0.015) | no label (readers) | no label (readers) |
+| G4 | Q/4π | 0.9994, 0.9992 | ≥ 0.992 and ≥ 0.9944; second step $2.5 \times 10^{-8}$ and $2.0 \times 10^{-8}$; seed 0.9994, 0.9992 | INSIDE (fixed by the held faces) | INSIDE (fixed by the held faces) |
+| G4 | N/U | 0.95575 | in [0.941, 0.999]; second step $3.5 \times 10^{-6}$ | INSIDE (0.95575) | INSIDE |
+| G5 | U | 21.548266 | no $U_{T2}$ on G5 | | tabled, no entry |
+| G5 | Radius | $R_L$ 2.8439, $R_A$ 2.8484 | inside by 0.0161 (budget 0.01), 0.0116 (0.033) | no label (readers) | no label (readers) |
+| G5 | Q/4π | 0.9997, 0.9996 | ≥ 0.992 and ≥ 0.9944; second step $2.0 \times 10^{-12}$ and $2.1 \times 10^{-9}$; seed 0.9997, 0.9996 | INSIDE (fixed by the held faces) | INSIDE (fixed by the held faces) |
+| G5 | N/U | 0.95938 | in [0.941, 0.999]; second step $4.1 \times 10^{-8}$ | INSIDE (0.95938) | INSIDE |
+
+The second steps of $R_A$ on the states that reached the radius rule: G1 2.82473 against 2.82466, G4 2.86970 against 2.86959, G5 2.84838 against 2.84836, all within 0.001. No chain `b` vetoed a word: wherever chain `a` gave one, chain `b` gave the same.
+
+**What the U word tests.** $U_{T2}$ equals, to the digits given, the author's stored end-weight energy times their fixed-field rise under the midpoint weight (20.280477 × 1.010709 = 20.498, 21.287491 × 1.010084 = 21.502; the plan, claim (b)). Chains `a` and `b` end at the same U on both grids (20.482703 on G1, 21.487779 on G4), 0.084 and 0.057 percent under the stated values, and a descent from the author's array cannot rise above its fixed-field value. U INSIDE therefore says that relaxing under the midpoint weight lowers U by less than 1 percent from the fixed-field value, and that the chain from the hedgehog reaches the same energy; it is not an independent confirmation of the three stated numbers.
+
+**The tally.**
+
+| Read | INSIDE | INSIDE (fixed by the held faces) | OUTSIDE | No label |
+| --- | --- | --- | --- | --- |
+| U (G1, G2, G4) | 2 | 0 | 0 | 1 |
+| Radius (G1, G2, G4, G5) | 0 | 0 | 0 | 4 |
+| Q/4π (G1, G2, G4, G5) | 0 | 3 | 0 | 1 |
+| N/U (G1, G2, G4, G5) | 2 | 0 | 1 | 1 |
+| Total (15) | 4 | 3 | 1 | 7 |
+
+No word is given to the rung as a whole; the author's confidence of 80 percent is tabled, not scored.
+
+**What the plan said was fixed, against the run.** The table "Words already fixed by M5.51's numbers" of the plan, recomputed from M5.51's summary by `m5_54_score.py`, returned every entry as printed, with no difference (`fixed_table_differences` empty in the summary): U INSIDE on G1 ($-0.084$ percent) and G4 ($-0.057$ percent), no label (second step) on G2; the radius no label on all four, with $R_{\mathrm{rel}}$ 2.7595, 2.7620 and 2.8600 and the G4 and G5 margins as the plan states them; N/U OUTSIDE on G1 (0.9345), no label (second step) on G2, INSIDE on G4 (0.9558) and G5 (0.9594). The run added the Q column, whose outcome § 1 had shown to be fixed: INSIDE (fixed by the held faces) on G1, G4 and G5, at the values the plan audit printed for the seed and the author's arrays to the fourth decimal, and no label (second step) on G2.
+
+### 8. The descriptors (no word)
+
+**The shares** about M5.51's fitted circle of each state, over the inner nodes ($S_\delta$ the share of $\lvert \rho \rvert$ within δ, the signed share within 1, the branch share of $\lvert \rho \rvert$ on flipped nodes with $d \ge 1$):
+
+| State | $h$ | $S_{0.5}$ | $S_1$ | $S_{1.5}$ | Signed, $d < 1$ | Branch |
+| --- | --- | --- | --- | --- | --- | --- |
+| `G1_mid_a` | 0.5 | 0.4241 | 0.9284 | 0.9713 | 0.9534 | 0.0277 |
+| `G2_mid_a` | 0.375 | 0.8655 | 0.9770 | 0.9901 | 0.9837 | 0.0009 |
+| `G4_mid_a` | 0.5 | 0.4204 | 0.9269 | 0.9685 | 0.9533 | 0.0270 |
+| `G5_mid_a` | 0.375 | 0.8192 | 0.9578 | 0.9823 | 0.9785 | 0.0170 |
+| `G3_mid_a` | 0.25 | 0.9505 | 0.9885 | 0.9952 | 0.9926 | 0.0006 |
+| `G6_mid_a` | 0.5 | 0.4203 | 0.9271 | 0.9679 | 0.9536 | 0.0261 |
+| author's G1, fitted circle | 0.5 | 0.4135 | 0.9315 | 0.9711 | 0.9566 | 0.0239 |
+| author's G1 rotated, the archive's distance | 0.5 | 0.4186 | 0.9309 | 0.9714 | 0.9560 | |
+| author's G2, fitted circle | 0.375 | 0.8386 | 0.9654 | 0.9861 | 0.9834 | 0.0097 |
+| author's G4, fitted circle | 0.5 | 0.4204 | 0.9261 | 0.9700 | 0.9527 | 0.0271 |
+| author's G4 rotated, the archive's distance | 0.5 | 0.4191 | 0.9261 | 0.9686 | 0.9527 | |
+| author's G6, fitted circle | 0.5 | 0.6046 | 0.9374 | 0.9731 | 0.9645 | 0.0042 |
+| the archive on its three files (`hodge.json`) | 0.5, 0.375, 0.5 | 0.4186, 0.8135, 0.4349 | 0.9309, 0.9633, 0.9280 | 0.9714, 0.9832, 0.9688 | 0.9560, 0.9821, 0.9532 | |
+
+Over all 24 end states $S_1$ runs from 0.9261 to 0.9889; the posted 93 to 96 percent within one unit of the line (end-weight arrays, post of 2026-11-20, item 2) is tabled beside, with no word. As the plan states, the shares sharpen with the spacing ($S_{0.5}$ 0.41 to 0.43 at $h = 0.5$ on the box-axis rings, 0.82 to 0.87 at 0.375, 0.95 at 0.25) and are read at their spacing. The table shows the midpoint chains `a`; the same reads on the other 18 end states (every end-weight state among them) are in `tabled_states` of the summary.
+
+**The fourth reader** (the archive's gap read on the half-plane, after the lattice rotation that puts a box-axis normal on z; not in any word): 2.7999 on the author's G1 array (the archive's 2.7999 on its file), 2.8591 on the author's G4 array (the archive's 2.8591 on its file, differing in the sixth significant digit, 2.859071 against 2.859062); 2.8537 on `G1_mid_a`, 2.8986 on `G4_mid_a`, 2.8659 on `G5_mid_a`, 2.9007 on `G6_mid_a`. It is not defined on the author's G2 and G6 arrays (normal off the box axes) and was not read there. On `G4_mid_a`, `G5_mid_a` and `G6_mid_a` this reader lies above the 2.86 of T2; by the plan it stays outside the word, and every radius entry is "no label" without it.
+
+**The profile** $Q(\ell)/4\pi$: near 0 on cubes inside the ring, rising across the ring between about $R_L - 1$ and $R_L + 1$ (on `G1_mid_a` 0.03 at $\ell = 2$, 0.71 at 3, 0.985 at 3.5), and on the plateau of the seed's value outside it, on every state and on the author's arrays; the seed, with no ring, reads 0.89 at $\ell = 2h$ and 0.98 within four node steps. Inside the ring the cube cuts the branch sheet, so there the profile is set by the lift, not by enclosed charge (§ 1).
+
+![Q(l)/4pi against the cube half-width l per grid: midpoint and end weight, chains a and b, the author's stored array and the seed with no ring; the dash-dot line marks R_L of the midpoint chain a and the dotted line l2 = L - 2h](../plots/m5_54_profile.png)
+
+![rho = div b on the meridian plane through the fitted axis of the four T2 midpoint states G1, G2, G4, G5 (chain a); + marks the fitted circle](../plots/m5_54_rho_meridian.png)
+
+### 9. The plan's choices, named as such
+
+These are the plan's, not the author's: chain `a` as the state and chain `b` as a veto; the midpoint weight; the three radius reads in the word ($R_L$, $R_A$, $R_{\mathrm{rel}}$), the assumption of $R_{\mathrm{rel}}$ (the offset between two readers on the author's end-weight array carries to the midpoint state), the rule that every reader agrees, and the fourth reader left out of the word; every budget (U $3.4 \times 10^{-4}$, $R_L$ 0.01, $R_A$ per class and spacing, $R_{\mathrm{rel}}$ 0.015, Q 0.002 and 0.0044, N/U 0.001); the node weight of N; the second surface at $L - 2h$; the regime and its test on lift flips; the bars of the new second steps ($R_A$ 0.001, Q $10^{-4}$); the separate Q outcome INSIDE (fixed by the held faces); the tally with no rung word; the distance to M5.51's fitted circle for the shares.
+
+### 10. Deviations from the plan
+
+1. C3, try 2: its two failing inputs were read on the author's stored G1 array instead of the seed of G1, on which the mirror symmetry makes a mixed-order stencil telescope like the central one (a defect of the control's input). No threshold changed.
+2. The order of the controls: C4 (a, b, c) and the regime row ran first, then C1 and C2, all before any chain state was read; the identity C3 is evaluated inside every read and reported at the end of the same process.
+3. "The sum of the absolute terms" of C3 is taken as the smaller of $h^3 \sum \lvert \rho \rvert$ over the cube and $h^2 \sum \lvert \cdot \rvert$ of the flux terms (the stricter scale).
+4. The radius clause of the regime on the constructed fields, which carry no ring (the seed, $\hat z \hat z^{\mathsf T}$, the field of C4 (c)): $R_L$ taken as 0.
+5. The author's four arrays are read as stored, as the archive read them; their faces equal the seed exactly (largest difference 0), so resetting them would change nothing.
+6. The $R_A$ budget used is the larger of the recomputed value and the plan's (here always the plan's, by at most 0.00076); no word depends on the difference.
+7. Details the plan leaves open, fixed as the stricter reading: a Q outcome also needs the earlier state in regime (all were); the radius second step also needs M5.51's second step on the class (the $R_A$ budget depends on it) and a node set of at least 4 for $R_A$ at the earlier state; qualifying is M5.51's `qualifies` together with `line_regime` and `halfturn_all`; the veto of chain `b` is applied where chain `a` gives a word, and where chain `a` gives no label its reason is kept with chain `b`'s word printed beside; the earlier state that is a start was rebuilt with `m5_51_relax.start_state` and checked against M5.51's record (U equal to M5.51's record exactly, as for every loaded state); the fourth reader is tabled only where the normal lies on a box axis.
+8. §§ 5 and 6 print Q/4π to six decimals, beyond the four that the plan sets, to show the comparison with the seed; the budgets of § 1 (0.002 at the box, 0.0044 at $\ell_2$) apply to every one, and the words of § 7 use four.
+9. What the run log shows beside the above: a first pass of the summary used the recomputed $R_A$ budgets, and the rule "the larger of the recomputed and the plan's" (deviation 6) was written after that output was seen (every margin was checked against both sets: no word differs); the meridian plot was cropped again after the first pass; two local logs were edited by hand to remove absolute paths, and two print lines of `m5_54_score.py` were changed after `reads.json` was written (no number changed); the script version of control try 1 was not kept, so only try 2 regenerates; after the audit, three identifiers of `m5_54_charge.py` were respelled and the controls rerun, every one of their 1890 stored values unchanged.
+
+### 11. Observations the plan did not foresee
+
+- On the seed the lift is $\hat r$, which has no length scale, so $Q(\ell)/4\pi$ of the seed depends only on $\ell / h$: the seed of G4 at $\ell_2$ (16 nodes from the center) equals the seed of G2 at $L$ (16 nodes) to $10^{-16}$, and the seeds of G3, G5 and G6 read the same values. The held-face states of G3, G5 and G6 all read 0.99967 at the box.
+- The start of `G2_mid_a`, the seed with noise (U 40.39, no ring, outside the line reader's regime), reads Q in regime at 0.999237 and 0.998993, within $1.7 \times 10^{-6}$ of the end state: the new Q second step passes on a field with no ring, and only M5.51's one-ring step withholds the Q word there, as § 1 anticipated.
+- The least eigenvector, a failing input of C4 (a), reads 0 to $10^{-16}$ on the seed rather than a value spread by the degeneracy; it misses its bound either way.
+- Both wrong regime tests read in regime on C4 (b), the raw-sign test because $\operatorname{sgn}(\hat n \cdot x) = 0$ on the plane z = 0, so no neighbor pair has opposite signs.
+- The branch sheet: 169 to 548 nodes have a lift flip with a neighbor on the 24 end states (498 to 548 on G3, at most 356 on the others); the branch share of $\lvert \rho \rvert$ off the line is 0.0005 to 0.028.
+
+### 12. Not computed
+
+The regeneration of the data manifest [`_DATASETS.md`](../data/_DATASETS.md) (outside this task's files, left to the review); and the plan's own list: any relaxation; the other rungs of the post (T1, T3, T4); the archive's split of $b$ into longitudinal and transverse parts; Q on free faces; the release's own radius reader; a spacing of 0.25 on half-box 9; any limit in an infinite box; a word on the shares.
+
+### 13. The local files and how to regenerate them
+
+Every command runs from the research folder with `python3 -I` and the thread variables set to 1; nothing heavy is written (no array is stored by this task).
+
+| Files | Script and mode | Command |
+| --- | --- | --- |
+| `checkpoints/m5_54/controls_try2.json` (and the record of try 1) | `m5_54_charge.py`, the controls | `python3 -I scripts/m5_54_charge.py --selftest --try-tag try2` |
+| `checkpoints/m5_54/reads.json` | `m5_54_score.py`, the reads on M5.51's stored states | `python3 -I scripts/m5_54_score.py --reads` |
+| `../data/m5_54_summary.json`, `../plots/m5_54_*.png` (tracked) | `m5_54_score.py`, the words, the tally and the plots | `python3 -I scripts/m5_54_score.py --summary` |
+
+### 14. The map from the equations to the code
+
+| Plan § 1 and § 3 | Function | File |
+| --- | --- | --- |
+| The top eigenvector, the lift $\tilde n$, the whole read at both surfaces with its regime | `charge_read` | [`m5_54_charge.py`](../scripts/m5_54_charge.py) |
+| The density $b_a = \tfrac12 \epsilon_{abc} \tilde n \cdot (\partial_b \tilde n \times \partial_c \tilde n)$ | `bfield` | the same |
+| $\rho = \nabla \cdot b$, central inside and one-sided on the faces | `divergence` | the same |
+| The two-layer flux of the telescoped sum, and $Q(\ell)$ | `flux`, `shell_mask` | the same |
+| The lift flips of the regime test and of the branch share | `flips` | the same |
+| The shares about a circle, and the archive's distance | `shares`, `archive_gap_read` | the same |
+| The lattice rotation of C1 | `cyclic`, `cyclic_vec` | the same |
+| The rules of U, the radius, Q and N/U | `_u_rule`, `_radius_rule`, `_q_rule`, `_nu_rule` | [`m5_54_score.py`](../scripts/m5_54_score.py) |
+| The second step, the veto and the words | `words`, `radius_readers` | the same |
+| The tally and the check of the words fixed by M5.51 | `tally`, `fixed_table_check` | the same |
+
+### 15. The checks of the record (2026-11-23)
+
+Two independent passes in fresh contexts read this record before the review, and neither wrote in it.
+
+| Pass | What it did | What it found |
+| --- | --- | --- |
+| The numbers | Wrote its own charge read and recomputed Q/4π at both surfaces on all 24 end states, the 16 earlier states with a stored file, the author's four arrays and the six seeds (largest difference $4.4 \times 10^{-16}$); recomputed the shares on four states, every word, the veto and the tally from the stored numbers, and the hashes | No number and no word to change. One range in § 11 (the count of flipped nodes) |
+| The record against the plan | Read both scripts against the plan and the archive's text line by line; diffed the two control tries; recomputed Q with a hand-written stencil and flux on six states (agreement to about $10^{-7}$), the regime, and all 15 words | No word to change. One gap: the guard that the plan sets on the U word (what it tests) was missing from the findings. Seven smaller items: a range of chain `b`, the same count of flipped nodes, a digit of the fourth reader, the decimals of Q, run events missing from the deviations, tables given as ranges with no map to the code, three identifiers in British spelling |
+
+Every finding is folded above (the opening paragraph, §§ 6 to 8, 10, 11, 14). Neither pass recomputed $R_L$, $R_A$, N/U or the gates of M5.51, which this task takes from M5.51's record, nor the eight earlier states that are rebuilt starts. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.

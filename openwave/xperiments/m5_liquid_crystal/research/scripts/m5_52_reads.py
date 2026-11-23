@@ -492,11 +492,6 @@ def predict_grid(g, block, G):
             if ln == "A" and w == 4.0 and dom:
                 at["statement_F"] = F_statement(Lb, w)
                 at["largest_decay"] = {str(l): predicted_decay(Lb, w, l) for l in (1.0, 0.935)}
-            if ln in WORD_LINES:
-                a2 = inner_W(G["W6"], A[2][t])
-                sr, rays = ray_samples(G, L, a2)
-                at["rays"] = rays
-                at["ray_s"] = sr
             rec["at"][str(w)] = at
         out["lines"][ln] = rec
     return out
@@ -998,7 +993,9 @@ def control_c9(R):
                        tolerance=FLOOR * w * w, worst_c2_dev=c2dev, eps=eps, wrong_status=wrong, edges=n_edges, lines=per_line)
             if bounded:
                 phi_ok = all(v["phi"] is None or (v["phi"]["rel"] is not None and v["phi"]["rel"] <= 0.02) for v in per_line.values())
-                row["passed"] = bool(n_read >= 24 and n_soft == 0 and worst <= FLOOR * w * w and c2dev <= 0.01 and wrong == 0 and n_edges == 0 and phi_ok)
+                row["clauses"] = dict(read=bool(n_read >= 24 and n_soft == 0), cutoff=bool(worst <= FLOOR * w * w), speed=bool(c2dev <= 0.01),
+                                      statuses=bool(wrong == 0), edges=bool(n_edges == 0), phase=bool(phi_ok))
+                row["passed"] = all(row["clauses"].values())
             rows.append(row)
     passed = {str(w): all(r["passed"] for r in rows if r["bounded"] and r["tone"] == w) for w in TONES}
     return dict(rows=rows, b_vac=bvac, passed=passed)
@@ -1020,6 +1017,8 @@ def control_c11(Rb, RbG):
             rows.append(dict(bin=["I", "II", "III"][b], pieces=len(diffs[b]), p90=p90[b], bound=bound, passed=(None if p90[b] is None else bool(p90[b] <= bound))))
         largest = max(v for v in p90.values() if v is not None)
         bg[str(w)] = [p90[b] if len(diffs[b]) >= 5 else largest for b in range(3)]
+        for b in range(3):
+            rows[b].update(value_used=bg[str(w)][b], took_largest=bool(len(diffs[b]) < 5))
         out[str(w)] = rows
     return dict(per_tone=out, b_gamma=bg)
 
@@ -1110,6 +1109,9 @@ def words(doc, trial=False):
                 wh.append("C12 not met on this grid and frequency")
             if not c9["passed"][str(w)]:
                 wh.append("C9 not met at this frequency")
+            fb = [r["bin"] for r in c11["per_tone"][str(w)] if r["passed"] is False]
+            if fb:
+                wh.append(f"C11 not met at this frequency in bin(s) {', '.join(fb)}: their pieces are not read on every grid")
             per_w[w] = wh
         for ln in LINES:
             Lb = blk["lines"][ln]
@@ -1120,18 +1122,20 @@ def words(doc, trial=False):
                 P, P1, Pf = piece_arrays(rj, ln, w), piece_arrays(rj, ln, w, "w1"), piece_arrays(rj, ln, w, "filtered")
                 allowed = np.array(rj["lines"][ln]["filter_allowed"], bool)
                 bins_fail = [b for b, r in enumerate(c11["per_tone"][str(w)]) if r["passed"] is False]
-                ok = P["ok"].copy()
-                for i in range(len(ok)):
-                    if ok[i] and bin_of(P["y"][i], w) in bins_fail:
-                        ok[i] = False
-                P["ok"] = ok
+                ok_pre = P["ok"].copy()
                 eps, terms = eps_of(P, P1, Pf, allowed, w, c11["b_gamma"][str(w)], c9["b_vac"][str(w)])
+                removed = np.array([bool(ok_pre[i] and bin_of(P["y"][i], w) in bins_fail) for i in range(len(ok_pre))])
+                ok = ok_pre & ~removed
+                P["ok"] = ok
                 y = np.where(ok, P["y"], np.nan)
                 prof = [y, y + eps, y - eps]
                 status = [None if not ok[i] else ("PROP" if y[i] - eps[i] >= 0 else ("EVAN" if y[i] + eps[i] < 0 else "MARGIN")) for i in range(len(ok))]
                 edges = [edges0(c, p, ok, Dl) for p in prof]
                 purity = [bool(ok[i] and P["p_out"][i] < P["p_in"][i]) for i in range(len(ok))]
-                rec["at"][str(w)] = dict(y=y, eps=eps, eps_terms=terms, status=status, ok=ok, reason=P["reason"], y_w1=np.where(P1["ok"], P1["y"], np.nan),
+                y_pre = np.where(ok_pre, P["y"], np.nan)
+                status_pre = [None if not ok_pre[i] else ("PROP" if y_pre[i] - eps[i] >= 0 else ("EVAN" if y_pre[i] + eps[i] < 0 else "MARGIN")) for i in range(len(ok_pre))]
+                rec["at"][str(w)] = dict(y=y, eps=eps, eps_terms=terms, status=status, ok=ok, reason=P["reason"], removed_by_C11=removed, y_before_C11=y_pre,
+                                         status_before_C11_no_word=status_pre, ok_window1=P1["ok"] & ~removed, y_w1=np.where(P1["ok"], P1["y"], np.nan),
                                          y_filtered=np.where(allowed, Pf["y"], np.nan), c2=np.where(ok, P["c2"], np.nan), Z_re=P["Z_re"], rms=P["rms"],
                                          outside_W_share=P["p_out"] / (P["p_out"] + P["p_in"]), purity=purity, edges=edges, m2=P["m2"],
                                          domain=Lb["at"][str(w)]["domain"], bins_failed_C11=bins_fail)
@@ -1159,10 +1163,13 @@ def words(doc, trial=False):
         dom = A4["domain"]
         c = gw["lines"]["A"]["centers"]
         P1 = piece_arrays(rj, "A", 4.0, "w1")
+        P1["ok"] = P1["ok"] & ~np.array(A4["removed_by_C11"], bool)
         pur1 = [bool(P1["ok"][i] and P1["p_out"][i] < P1["p_in"][i]) for i in range(len(P1["ok"]))]
         st2, info2 = statement(c, 0.5, dom, A4["ok"], np.nan_to_num(A4["y"], nan=-1e9), np.nan_to_num(A4["eps"]), A4["purity"])
         st1, info1 = statement(c, 0.5, dom, P1["ok"], np.nan_to_num(P1["y"], nan=-1e9), np.nan_to_num(A4["eps"]), pur1)
         stf, word, why = w1_word(st2, st1)
+        if stf is None and st1 == st2:
+            why = f"undecided ({info2['why']})"
         purity_ratio = [float(A4["outside_W_share"][i] / (1 - A4["outside_W_share"][i])) if np.isfinite(A4["outside_W_share"][i]) else None for i in dom]
         entry("W1", "A", 4.0, "statement", word, why, statement=stf, window2=st2, window1=st1, info_w2=info2, info_w1=info1, domain=dom,
               domain_s=[float(c[i]) for i in dom], purity_ratio_out_over_in=purity_ratio)
@@ -1209,6 +1216,27 @@ def words(doc, trial=False):
         grids[g] = gw
     out["grids"] = grids
     out["entries"] = entries
+    # the budget terms and the controls by name (an input of a later task)
+    out["b_gamma"] = {str(w): [dict(bin=r["bin"], pieces=r["pieces"], p90=r["p90"], value=r["value_used"], took_largest=r["took_largest"])
+                               for r in c11["per_tone"][str(w)]] for w in TONES} if "trial_missing" not in c11 else None
+    out["b_vac"] = c9["b_vac"]
+    c9c = {}
+    for w in TONES:
+        rows9 = [r for r in c9["rows"] if r["bounded"] and r["tone"] == w]
+        c9c[str(w)] = {k: all(r["clauses"][k] for r in rows9) for k in ("read", "cutoff", "speed", "statuses", "edges", "phase")} if rows9 else None
+        if rows9:
+            c9c[str(w)]["cases"] = {r["job"]: r["clauses"] for r in rows9}
+    c10c = {g: {str(w): grids[g]["C10"][str(w)]["passed"] for w in TONES} for g in grids}
+    out["controls"] = dict(
+        C1=st0["C1"]["passed"], C2=st0["C2"]["passed"], C3=st0["C3"]["passed"], C4=out["C4"]["passed"], C5=True,
+        C6=out["C6"]["passed"], C7=out["C7"]["passed"],
+        C8={n: v["passed"] for n, v in out["C8"].items()},
+        C9={str(w): dict(passed=c9["passed"][str(w)], clauses=c9c[str(w)]) for w in TONES},
+        C10=c10c,
+        C11={str(w): {r["bin"]: r["passed"] for r in c11["per_tone"][str(w)]} for w in TONES} if "trial_missing" not in c11 else None,
+        C12={n: {f"{r['tone']:g} w{r['window']}": r["passed"] for r in v["rows"]} for n, v in out["C12"].items()},
+        C13=st0["C13"]["passed"], C14=st0["C14"]["passed"],
+        note="C5: the prediction file and its hashes were written before Ga0 (run log); every read matched the block hashes (hash_checks.log)")
     names = ("W1", "W2", "R2", "R3", "R4", "N2", "N3", "N4", "P1", "P2", "P3")
     out["words"] = {n: dict(word=reading_word([e["word"] for e in entries if e["reading"] == n]),
                             per_grid={g: reading_word([e["word"] for e in entries if e["reading"] == n and e["grid"] == g]) for g in LABELED},
@@ -1256,7 +1284,7 @@ COL_READ, COL_F, COL_49 = "#1f4e9c", "#2a9d8f", "#d9822b"
 def _panel(ax, gl, Lb, r49, w, title):
     c = np.array(gl["centers"], float)
     at = gl["at"][str(w)]
-    y, eps = arr(at["y"]), arr(at["eps"])
+    y, eps = arr(at["y_before_C11"]), arr(at["eps"])
     yF1, yF87 = arr(Lb["at"][str(w)]["y_F"]["1.0"]), arr(Lb["at"][str(w)]["y_F"]["0.87"])
     dom = Lb["at"][str(w)]["domain"]
     if dom:
@@ -1270,7 +1298,8 @@ def _panel(ax, gl, Lb, r49, w, title):
         mm = np.isfinite(wc)
         ax.plot(c[mm], w * w - wc[mm] ** 2, "s", ms=4, color=COL_49, label=r"M5.49 cutoffs, $\omega^2 - \omega_c^2$")
     k = np.isfinite(y)
-    ax.errorbar(c[k], y[k], yerr=eps[k], fmt="o", ms=4, color=COL_READ, ecolor=COL_READ, elinewidth=1.0, capsize=2, label=r"read $y$ with $\varepsilon$")
+    ax.errorbar(c[k], y[k], yerr=np.where(np.isfinite(eps[k]), eps[k], 0), fmt="o", ms=4, color=COL_READ, ecolor=COL_READ, elinewidth=1.0, capsize=2,
+                label=r"read $y$ with $\varepsilon$ (before the C11 removal)")
     ax.set_title(title, fontsize=9)
     ax.set_xlabel("s along the line")
     ax.grid(alpha=0.25, lw=0.5)
@@ -1292,20 +1321,20 @@ def plots(summary=None, plots_dir=None):
             for j, w in enumerate(TONES):
                 ax = axs[i, j]
                 _panel(ax, S["grids"][g]["lines"][ln], doc["blocks"][g]["lines"][ln], r49[g]["lines"][ln], w, f"grid {g}, line {ln}, $\\omega$ = {w:g}")
-                yy = arr(S["grids"][g]["lines"][ln]["at"][str(w)]["y"])
+                yy = arr(S["grids"][g]["lines"][ln]["at"][str(w)]["y_before_C11"])
                 lo = np.nanmin(np.r_[yy[np.isfinite(yy)], -5.0])
                 ax.set_ylim(max(lo - 2, -40), w * w * 0.75 if w == 5.5 else 8)
                 ax.set_ylabel(r"$y = \omega^2 - m^2$")
         h, l = axs[0, 0].get_legend_handles_labels()
         fig.legend(h, l, loc="lower center", ncol=3, fontsize=8, bbox_to_anchor=(0.5, -0.04))
-        fig.suptitle(f"M5.52, grid {g}: the local law read on the driven field (window 2) beside F", fontsize=11)
+        fig.suptitle(f"M5.52, grid {g}: the local law read on the driven field (window 2) beside F; numbers only, no word (C9, C11)", fontsize=11)
         fig.savefig(plots_dir / f"m5_52_profiles_{g}.png", dpi=110, bbox_inches="tight")
         plt.close(fig)
     fig, axs = plt.subplots(1, 3, figsize=(13, 4.2), constrained_layout=True, sharey=True)
     for j, g in enumerate(LABELED):
         e = [x for x in S["entries"] if x["reading"] == "W1" and x["grid"] == g][0]
         _panel(axs[j], S["grids"][g]["lines"]["A"], doc["blocks"][g]["lines"]["A"], r49[g]["lines"]["A"], 4.0,
-               f"grid {g}, axis, $\\omega$ = 4: W1 {e['statement'] or 'undecided'}, {e['word']}")
+               f"grid {g}, axis, $\\omega$ = 4 (W1: {e['word']})")
         axs[j].set_xlim(0, 7)
         axs[j].set_ylim(-14, 6)
     axs[0].set_ylabel(r"$y = 16 - m^2$")
