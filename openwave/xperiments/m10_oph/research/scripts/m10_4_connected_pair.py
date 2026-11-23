@@ -21,6 +21,7 @@ from scipy import sparse
 from scipy.linalg import expm
 from scipy.sparse.csgraph import connected_components
 from scipy.sparse.linalg import expm_multiply
+from sympy import Matrix
 
 # Isolated Python omits even the script's directory. Resolve this platform helper locally.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -59,6 +60,11 @@ def local_law():
     require(np.array_equal(metric[:, None] * v, v.T * metric), "echo is not Hermitian")
     require(np.array_equal(v @ v, 4 * basis), "echo fails reversal")
     blank = basis[:, :9]
+    # P selects blank memory, regardless of the endpoint word. P is diagonal
+    # also in this scaled basis. The preparation echo is a positive control.
+    is_blank = np.arange(99) < 9
+    changes_blank = is_blank[:, None] != is_blank[None, :]
+    require(v[changes_blank].any(), "preparation echo failed to cross the blank boundary")
     reflection = [labels.index((coin, -d)) for coin, d in labels]
     identity = np.eye(10, dtype=int)
     swap = [words.index((b, a)) for a, b in words]
@@ -71,6 +77,7 @@ def local_law():
     for label_op, blank_op in coefficients:
         # 4 h in this basis, for twice exchange and for contrast separately.
         local = v[:, 9:] @ np.kron(label_op, basis[:9, :9]) @ v[9:, :]
+        require(not local[changes_blank].any(), "free term mixes blank and written memory")
         require(np.array_equal(local @ blank, 4 * blank @ blank_op), "blank reduction")
         require(all(not (local @ cols).any() for cols in neutral), "neutral seam acts")
     written = neutral[0] + neutral[1]
@@ -223,6 +230,16 @@ def protected(twice, cost, dark, detector):
     )
 
 
+def home_escape_rank(twice_exchange, detector):
+    """Exact rank of the block from the thirty home outcomes into quiet."""
+    outside = np.ones(twice_exchange.shape[0], dtype=bool)
+    outside[detector] = False
+    block = twice_exchange[:, detector][outside]
+    block.eliminate_zeros()
+    reachable = block[block.getnnz(axis=1) > 0]
+    return Matrix(reachable.toarray().tolist()).rank()
+
+
 def flight_certificate(car, pairs, twice, cost, detector):
     dark = np.zeros(len(pairs), dtype=np.int64)
     dark[[car.idx[WORDS[0]], car.idx[WORDS[2]]]] = [1, -1]
@@ -352,6 +369,7 @@ def replay(board, archive):
         "open_contacts": sorted(tuple(sorted((v, EXIT))) for v in (A, C)),
         "setup_swaps": swaps,
         "outcome_order": [*home, "quiet"],
+        "home_escape_ranks": {},
     }
     weights, exhaustion, report["source"] = acquisition(degree)
     floor = report["source"]["protected_probability"]
@@ -359,6 +377,7 @@ def replay(board, archive):
     for memory, live in (("marked", [e for e in seams if e not in cut]), ("blank", seams)):
         car, pairs, twice, cost = sector(live, degree)
         detector = np.array([car.idx[e] for e in home])
+        report["home_escape_ranks"][memory] = home_escape_rank(twice, detector)
         if memory == "marked":
             report["certificate"] = flight_certificate(car, pairs, twice, cost, detector)
             report["certificate"].update(
@@ -368,6 +387,7 @@ def replay(board, archive):
             require(np.array_equal(cost, 12 - 2 * car.adj), "blank M10.3 reduction")
         rows = appointments(car, cost, detector, weights, exhaustion)
         report[memory] = rows
+    require(report["home_escape_ranks"] == {"marked": 29, "blank": 30}, "home escape ranks")
     for row in report["marked"]:
         bins = row["bins"]
         require(sum(bins["coherent"][:-1]) >= floor - TOL, "protected weight escaped")
@@ -410,6 +430,7 @@ def summary(result):
             "setup_swaps",
             "source",
             "certificate",
+            "home_escape_ranks",
             "archive",
         )
     }

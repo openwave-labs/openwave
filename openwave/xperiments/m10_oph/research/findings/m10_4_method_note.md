@@ -41,6 +41,14 @@ p_{\rm home}(\kappa,t)\ \ge\ \frac{1-f_R^M}{1+9^{-R}},\qquad
 f_R=(1-9^{-R})/2,\qquad 1-p_{\rm home}\ \le\ 9^{-R}+2^{-M}.
 $$
 
+## Which part comes from preparation?
+
+The free generator preserves the blank-memory projector on each seam. For each of exchange and contrast, the 99-state calculation checks both off-diagonal blocks between blank and written memory are zero. Other seams act on their own memories, even where they share a load port, and the degree references preserve the seam memory. Consequently an all-blank release has exactly zero probability of producing the eleven records at any exposure. The addressed preparation echo does cross this boundary. [Native seam operators][law] · [Platform check](../scripts/m10_4_connected_pair.py)
+
+For a release with those eleven records already present, their free terms vanish. A comparison with those eleven terms switched off on blank memories gives the same 31 probabilities at every time, provided it starts with the same accepted load state and exhaustion weight, retains the original degree references and reads all 30 geometric home addresses plus quiet. This follows because both the restricted generator and each detector projector agree. The return measurements establish persistence of the prepared composite. Assigning the fixed inactive contacts to the particle requires a judgment beyond those measurements. [Free generator][flight] · [Terminal reader][readout]
+
+An additional audit checks whether changing the two-load amplitudes on the blank board could give the same exact protection. Let $P$ project onto all 30 home-seam addresses. The diagonal contrast has no matrix element from $P$ to its complement, so the escape block $2(I-P)H_\kappa P=(I-P)LP$ is an integer matrix independent of $\kappa$. Its rank over the rationals is 30 on blank memory and 29 after the eleven writes. Independently enumerating single-load swaps from those 30 words gives nonzero minors of orders 30 and 29 with absolute determinants 128 and 4, respectively. On the blank board every nonzero vector supported entirely on those 30 addresses therefore has an outgoing amplitude at first order in time. On the written board $D$ spans the one-dimensional kernel, and the eigenvector identity above keeps it there at every time. This checks exact confinement. High return probabilities over finite windows remain possible on blank memory, as M10.3 illustrates. [Replay](../scripts/m10_4_connected_pair.py) · [Exact ranks](../data/m10_4_reproduction.json)
+
 ## Equation-to-code map
 
 | Equation or operation | Pinned implementation |

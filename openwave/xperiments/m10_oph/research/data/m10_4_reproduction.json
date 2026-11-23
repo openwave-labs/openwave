@@ -103,6 +103,10 @@
   "connected_ports": 240,
   "connected_pair_states": 28680
  },
+ "home_escape_ranks": {
+  "marked": 29,
+  "blank": 30
+ },
  "archive": {
   "bins_compared": 1116,
   "maximum_absolute_error": 1.714550723619368e-11,
