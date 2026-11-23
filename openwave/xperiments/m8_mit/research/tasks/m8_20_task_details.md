@@ -8,7 +8,7 @@ Pre-registration, for review. It governs nothing until the maintainer's go. **Se
 
 **What the ruling admits.** The ruling of 2026-11-21 on #512 ([19798236](https://github.com/openwave-labs/openwave/discussions/512#discussioncomment-19798236)) admits a time arm on the instrument M8.16.1 qualified, at its pin `8cc2d7e2`: first the arm's qualification, which this is, then the sequel's tests, once this one is adjudicated.
 
-**The arm.** A stepper, the Strang splitting with the exact linear flow, and an FFT evaluation of the instrument's exact cubic, at MIT `d14d06be`, beside the pinned instrument: MIT's own computation, stated in [a design](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/slot-dynamics-time/DESIGN.md) before its prototype ran, and outside M8 until this filing.
+**The arm.** A stepper, the Strang splitting with the exact linear flow, and an FFT evaluation of the instrument's exact cubic, at MIT `d14d06be`, beside the pinned instrument: MIT's own computation, stated in [a design](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/slot-dynamics-time/DESIGN.md) before its prototype ran, and outside M8 until this filing.
 
 **What this task asks:** does the arm, run on the pinned instrument from M8.16.1's stationary members, reproduce in time the linear spectra that instrument recorded at seven of them, and Theorem 3.7's exact spectrum at the rigid families, under tolerances and rules fixed before the run, with its controls passing on this task's own states; and in which slots?
 
@@ -104,19 +104,18 @@ The prototype evolved no soft-slot branch, and the rigid families only at `N = 1
 
 Development earns no credit, and each run is logged with its script's SHA-256 in the qualification's `DEVLOG.md`. Every tolerance formula, and every threshold that depends on a member, is fixed below or computed in the registered run by a rule fixed below. One allowance depends on a registered outcome through its stated formula: a read without a ladder is held against its member's error at `N = 16` (§ THE REFERENCES AND THE TOLERANCE), and neither that formula nor its coefficient may change after the error is observed.
 
-**What development ran before filing:** `DEVLOG.md` entries 2 to 8 (§ Known outcomes). The six tests of § THE TESTS BEFORE THE FREEZE follow the filing.
+**What development ran:** `DEVLOG.md` entries 2 to 8, 10 and 14 before filing, and 11, 13 and 14 after (§ Known outcomes). The six tests of § THE TESTS BEFORE THE FREEZE follow the filing.
 
 ### Known outcomes, and the choices made knowing them
 
 The ruling's "The prototype" condition, with the reading's extension to the rigid families. Known before these terms, and none of it new evidence:
-- the prototype's registered record, [`record/`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/slot-dynamics-time/record), landed at MIT `005852cf` from the run's HEAD `d14d06be`: under its readings nothing stopped, controls 1 to 9 passed for both steppers, the FFT cubic was adopted, and the rule of its design's § 4 chose the splitting for production;
-- its `DEVLOG.md` entry 14, the replay of control 9's window in `R2` at `N = 12`;
-- M8.16.1's stored linear readings at every member ([`run/out/`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/run/out)), which this task's reads are held to;
+- the prototype's registered record, [`record/`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/slot-dynamics-time/record), landed at MIT `005852cf` from the run's HEAD `d14d06be`: under its readings nothing stopped, controls 1 to 9 passed for both steppers, the FFT cubic was adopted, and the rule of its design's § 4 chose the splitting for production;
+- M8.16.1's stored linear readings at every member ([`run/out/`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/run/out)), which this task's reads are held to;
 - the values M8.1.3 reproduced blind: Theorem 4.2's slow flows and Krein signs in its Block B, and the rigid families' spectrum on `E₀` in its Block E.
 
 **The choices made knowing it, each with the readings it was chosen from:**
 - **The stepper.** The splitting is scored; Verlet's scheme is a reported cross-check with no pass line. Chosen knowing: the rule's fractions of Verlet's error at equal cost, 0.061 and 0.139 in `R1` and 0.011 and 0.030 in `R3`; the energy at the design's § 5 step, 1.8 × 10⁻² to 9.3 × 10⁻² of the energy for Verlet against 2.2 × 10⁻⁴ to 6.5 × 10⁻⁴ for the splitting; and that the rule's choice rests on the record's reading 7.
-- **The window.** A halving ratio is read only where a bound certified along that run puts `h·ω_max` at most 0.25 (§ THE REFERENCES AND THE TOLERANCE). Chosen knowing entry 14: in `R2` at `N = 12`, Verlet's energy-error ratio at `h₀/2` is 4.73 at `h·ω_max` of at most 0.43, where the design's § 5 bound gave `h·ω̄ = 0.80`.
+- **The window.** A halving ratio is read only where a bound certified along that run puts `h·ω_max` at most 0.25 (§ THE REFERENCES AND THE TOLERANCE). Chosen knowing its `DEVLOG.md` entry 14: in `R2` at `N = 12`, Verlet's energy-error ratio at `h₀/2` is 4.73 at `h·ω_max` of at most 0.43, where the design's § 5 bound gave `h·ω̄ = 0.80`.
 - **The ceilings.** Reversibility, the charges and equivariance keep the design's ceiling of 10⁻¹⁰, raised only to ten times a floor the dry run measures at the reads' own durations (§ THE CONTROLS). Chosen knowing the prototype's worsts over 20 time units, 8.4 × 10⁻¹⁵, 1.6 × 10⁻¹⁵ and 1.7 × 10⁻¹⁴, and its matched rigid waves within 7.3 × 10⁻¹² over 22,146 to 22,780 steps, against reads here of up to about 6,700 time units.
 - **The FFT tolerance,** 10⁻¹¹ normalized, is the design's own, fixed before the prototype ran. Its worst on the record is 3.8 × 10⁻¹⁵ over sixty states.
 - **The read.** Paired runs at `±δ`, demodulated at the carrier's own measured rotation (§ THE READ). Chosen knowing that the prototype's continuum-started rigid waves stood 1.6 × 10⁻² to 5.0 × 10⁻¹ off at `h₀` by `t = 50`, far above a perturbation of 10⁻⁵, and that its read eigenvalues sat on the unit circle to 2.4 × 10⁻¹⁰.
@@ -126,15 +125,16 @@ The ruling's "The prototype" condition, with the reading's extension to the rigi
 **The development readings,** each logged in the qualification's `DEVLOG.md`, are known outcomes too:
 - **The read on synthetic systems** (entries 2 and 5): 29 of 29 checks pass, each spectrum recovered with its multiplicities and Krein signs, and every arm refused.
 - **The loader** (entries 3 and 5): every planned read's stored point loads, C2a's recorded deviations are reproduced, and the wrong-cutoff arm is refused.
-- **The member path on the rigid families** (entries 4 and 5), in `R1` and `R3` at `‖φ‖²` = 0.5 and 2, over 30 time units, its perturbation on `E₀` and its circle widened to 1.5 times the larger of Theorem 3.7's two frequencies: in `R3` the instrument's record held to M8.16.1's stored record of C1; at `N = 16` both frequencies admitted at every step, Krein + and definite, within 3.7 × 10⁻⁷ relative at `h₀/32`, the ratios of successive differences 3.996 to 4.000; at `N = 24`, within 1.3 × 10⁻⁴ at `h₀`; and the registered run's three mutations, run at a development point, each turned its check red. That read had no continuation; the registered rigid read stays the prototype's controls 5 and 6 (§ THE MEMBERS).
+- **The member path on the rigid families** (entries 4, 5 and 10), in `R1` and `R3` at `‖φ‖²` = 0.5 and 2, over 30 time units, its perturbation on `E₀` and its circle widened to 1.5 times the larger of Theorem 3.7's two frequencies: in `R3` the instrument's record held to M8.16.1's stored record of C1; at `N = 16` both frequencies admitted at every step, Krein + and definite, within 3.7 × 10⁻⁷ relative at `h₀/32`, the ratios of successive differences 3.996 to 4.000; at `N = 24`, within 1.3 × 10⁻⁴ at `h₀`; and the registered run's three mutations, run at a development point, each turned its check red. That read had no continuation; the registered rigid read stays the prototype's controls 5 and 6 (§ THE MEMBERS).
 - **The first rigid run** failed its admission in `R1`: the charge removal took out the Sp(1) charges, whose first-order directions are modes at `±2iω` (entries 4 and 6).
+- **Control 6 at the development points** (entry 11): at the three steps the ratio reads, its floors agree within a factor of 1.14, and every ratio is eligible under each reading of the rule, the least by 3.18.
 - **What the directions excited** (entries 7 and 8): each kept 0.869 to 1.000 of its squared norm in the target eigenspaces, since the targets and the generalized kernel fill `E₀`'s phase space; every group was spanned, the smallest singular value 0.110.
 
-**The choice made knowing them:** the charge removal, now the phase and right-SU(2) charges only (§ THE READ). The tolerance, the fit's cutoff, the mode fraction, the floor, the ladder and the durations were fixed before any development read. Step 3's account and report followed entry 5 and preceded entry 7.
+**The choice made knowing them:** the charge removal, now the phase and right-SU(2) charges only (§ THE READ). The tolerance, the fit's cutoff, the mode fraction, the floor, the ladder and the durations were fixed before any development read. Step 3's account and report followed entry 5 and preceded entry 7. The floor's two uses, the finer read's in (R1)'s eligibility and step 8's test at the reads (R1) holds, were chosen knowing entry 5, where the larger floor would leave `R3`'s double group at `2ω`, at `‖φ‖²` = 0.5, short.
 
 ### Ownership and run format
 
-Author-proposed, author-run, maintainer-adjudicated, as M8.15 to M8.19. One registered run on the author's machine, on mains power with sleep off, after the maintainer's go and the freeze block's pull request, with at most four jobs at once, each on one thread. The frozen terms' SHA-256 lands on MIT `main`, on [the time arm's page](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/slot-dynamics-time.md), before any sealed run. Reproduction is optional and declinable per run. A claim that frozen text is defective is reproduced by the maintainer with independent code before it is ratified (the ruling, § 3).
+Author-proposed, author-run, maintainer-adjudicated, as M8.15 to M8.19. One registered run on the author's machine, on mains power with sleep off, after the maintainer's go and the freeze block's pull request, with at most four jobs at once, each on one thread. The frozen terms' SHA-256 lands on MIT `main`, on [the time arm's page](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/slot-dynamics-time.md), before any sealed run. Reproduction is optional and declinable per run. A claim that frozen text is defective is reproduced by the maintainer with independent code before it is ratified (the ruling, § 3).
 
 ### Sources of record
 
@@ -143,12 +143,12 @@ Author-proposed, author-run, maintainer-adjudicated, as M8.15 to M8.19. One regi
 | #512: the comments 18955679, 19798236, 19803452 and 19812666, and the question 19797592 | the boundary; the admission and its conditions; the reading; development's conditions; the criteria |
 | OpenWave's [C2 protocol](https://github.com/openwave-labs/openwave/blob/f8fd02b2e0d96cfa0d868259daec2c9822375d34/openwave/xperiments/m8_mit/research/findings/m8_5c2_protocol.md), at `f8fd02b2` | the C2 verdict |
 | M8.16.1's governing text, `9d167129…`, in OpenWave's [`m8_16_1_task_details.md`](https://github.com/openwave-labs/openwave/blob/f8fd02b2e0d96cfa0d868259daec2c9822375d34/openwave/xperiments/m8_mit/research/tasks/m8_16_1_task_details.md) | everything inherited |
-| The arm's [`DESIGN.md`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/slot-dynamics-time/DESIGN.md), committed at MIT `b9717ae1`, and its code at `d14d06be`: `timearm.py`, `fftcubic.py`, `controls.py`, `pin.py`, `INSTRUMENT.sha256` | the equation, the stepper, the step bound, the FFT path, the controls |
-| The prototype's [`record/`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/slot-dynamics-time/record) and `DEVLOG.md`, at MIT `005852cf` | the known outcomes |
-| The qualification's `DEVLOG.md`, entries 1 to 9, in [`qualification/`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/slot-dynamics-time/qualification), at MIT `0bce5dca` | the development readings |
-| M8.16.1's `instrument/` at MIT `d1c0ec8`, its `run/seeds.py`, its pin `8cc2d7e2…`, its stored records, [`run/out/`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/run/out), and its [`RECORD.md`](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/RECORD.md) and `run/FROZEN.json`, SHA-256 `c258e299…` | the instrument; the members, their seeds and stored linear readings; the frozen spectra |
-| MIT's [Standing-Wave Branches](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/dynamics/files/standing-wave-branches.md): Theorems 3.7 and 4.2, Tables 4 and 5; and [The Soft-Slot Branches](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/soft-slot-branches.md#iv-the-orbits), § IV | the theorems; the types; the slow spectra |
-| MIT's [The Slot Dynamics in Time](https://github.com/dmobius3/mode-identity-theory/blob/0bce5dcae299fd1c7e59ff6b4cb183fa0aff4ef8/files/framework/files/working/files/slot-dynamics-time.md), at `0bce5dca` | the ruling and the reading, recorded before these terms |
+| The arm's [`DESIGN.md`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/slot-dynamics-time/DESIGN.md), committed at MIT `b9717ae1`, and its code at `d14d06be`: `timearm.py`, `fftcubic.py`, `controls.py`, `pin.py`, `INSTRUMENT.sha256` | the equation, the stepper, the step bound, the FFT path, the controls |
+| The prototype's [`record/`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/slot-dynamics-time/record) and `DEVLOG.md`, at MIT `005852cf` | the known outcomes |
+| The qualification's `DEVLOG.md`, entries 1 to 14, in [`qualification/`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/slot-dynamics-time/qualification), at MIT `094af7df` | the development readings |
+| M8.16.1's `instrument/` at MIT `d1c0ec8`, its `run/seeds.py`, its pin `8cc2d7e2…`, its stored records, [`run/out/`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/run/out), and its [`RECORD.md`](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/scripts/soft-slot-dynamics-m8-16-1/RECORD.md) and `run/FROZEN.json`, SHA-256 `c258e299…` | the instrument; the members, their seeds and stored linear readings; the frozen spectra |
+| MIT's [Standing-Wave Branches](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/dynamics/files/standing-wave-branches.md): Theorems 3.7 and 4.2, Tables 4 and 5; and [The Soft-Slot Branches](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/soft-slot-branches.md#iv-the-orbits), § IV | the theorems; the types; the slow spectra |
+| MIT's [The Slot Dynamics in Time](https://github.com/dmobius3/mode-identity-theory/blob/094af7df0bd6999254f5281b7593f97a3af2a998/files/framework/files/working/files/slot-dynamics-time.md), at `094af7df` | the ruling and the reading, recorded before these terms |
 
 ## THE INSTRUMENT AND THE ARM
 
@@ -184,14 +184,14 @@ Each is read at `N = 16` and 24, and at amplitude 2 also at `N = 32`: 17 points 
 
 ## THEOREM 4.2'S VALUES, WITH THEIR SOURCES
 
-**The scored value.** For each slow group `g` of a member at amplitude `ε`, Theorem 4.2's leading order is `L_g = εκsτ_g`, or `iεκsτ_g` for an imaginary pair, where:
+**The scored value.** For each slow group `g` of a member at amplitude `ε`, Theorem 4.2's leading order is `L_g = εχsτ_g`, or `iεχsτ_g` for an imaginary pair, where:
 - `τ_g` runs over the nonzero eigenvalues of `Ŝ_u` for unit `u`, in `R4`'s normalization;
-- `κ = 1/(8√λ₀ Q(u))` is Theorem 4.2's `χ = c²/(8ω₀Q(u))` at `c = 1` and `ω₀ = √λ₀`, with `λ₀ = n₀(n₀+2)`;
+- `χ = 1/(8√λ₀ Q(u))` is Theorem 4.2's `χ = c²/(8ω₀Q(u))` at `c = 1` and `ω₀ = √λ₀`, with `λ₀ = n₀(n₀+2)`;
 - `s` is 9/16 in `R5`, and 1 elsewhere.
 
 These are M8.16.1's frozen values, which this task's loader reads from M8.16.1's `run/FROZEN.json`, refusing a file whose SHA-256 is not `c258e299…`:
 
-| Member | `λ₀` | `Q(u)` | `s` | `κs` | `τ`: Krein sign, multiplicity | Rows |
+| Member | `λ₀` | `Q(u)` | `s` | `χs` | `τ`: Krein sign, multiplicity | Rows |
 | --- | --- | --- | --- | --- | --- | --- |
 | C2a | 48 | 1288/1287 | 1 | 0.0180282 | 28/143, 56/429, 140/99, 112/39 and 896/1287, each +, simple | Table 4, coherent `v₃` |
 | C2a/R5 | 48 | 2289/2288 | 9/16 | 0.0101443 | the same five | Table 4, coherent `v₃`, in `R5` |
@@ -207,15 +207,15 @@ These are M8.16.1's frozen values, which this task's loader reads from M8.16.1's
 
 At each member, amplitude `ε` and cutoff `N`:
 1. **The member.** The qualification's code continues the member from M8.16.1's seed through M8.16.1's own points at that cutoff, in order, solving but not reading those before it, with M8.16.1's `run/seeds.py` byte for byte, as its pin covers it, its cases in `run/FROZEN.json`, and the pinned instrument's continuation called as M8.16.1's driver calls it; it computes the linear record at the point as that driver's `read_point` does. The loader first checks the stored record's case, amplitude, cutoff and SHA-256 against the freeze block, refusing a mismatch before any value is compared, then holds the recomputed `λ = ω²` and the slow groups' eigenvalues, classes, sizes and Krein counts to the stored ones, within 10⁻¹⁰ relative.
-2. **The carrier.** The member's standing wave `e^{iωT}φ`, with its matched velocity.
+2. **The carrier.** The member's standing wave `e^{iωT}φ`, with the continuum's velocity `iωφ`.
 3. **The perturbation.** `k` directions per point, `k` the largest multiplicity among the member's slow groups: 3 at C3, 2 at the hexagon, and 1 elsewhere. Each is drawn from a frozen seed in the rotating frame as two parts of equal norm, in position and velocity, one in the member's slow eigenspaces, by the instrument's linear record at the point, and one outside them and its generalized kernel. In the lab frame its first-order change of the charges the rotating frame conserves, the phase and right-SU(2) charges, is removed, which takes nothing the read reads, since a mode of nonzero eigenvalue carries none (DERIVED); it is then normalized, which moves the split from even. The Sp(1) charges, antilinear, turn at `2ω` in that frame and are not removed. The record saves each normalized direction and reports its share in the slow eigenspaces and each slow group's singular values of the directions' coefficients on it; the mode fraction and the admission judge the excitation. Each direction, scaled to `δ = 10⁻⁵` of the carrier's norm `|(q, p)|`, runs as a pair, at `+δ` and `−δ`, from the same carrier.
-4. **The baseline cancellation.** The read uses the pair's half difference, `(x₊ − x₋)/2`, which cancels the carrier and the perturbation's terms of second order in `δ`; the pair's mean is the carrier, to second order (INFERRED, from the expansion in `δ`). It stands in for the design's reference run (its § 9), and its mean gives the carrier's rotation.
-5. **The demodulation.** Half difference and mean are taken to the carrier's rotating frame, as the design's § 2 transforms them, at the carrier's own measured rotation, not the continuum's `ω`: the slope of a least-squares line through the unwrapped phase of `⟨φ, c̄(t)⟩`, the pair's mean coefficients against the member's, over the run. The splitting turns a rigid orbit fast by about `κ²h²/(24Ω)` (DERIVED, from the design's § 4). At `R4`'s level 6 with `κ = 1`, at `N = 16`'s step bound, that is 5.5 × 10⁻⁵: 2.4 % and 1.2 % of C2a's slowest frequency at `ε = 1` and 2. Demodulated at the continuum's rotation, it would be read as a slow frequency.
-6. **The fit.** The half differences are projected onto the `Ω`-complement of the member's generalized kernel, as the instrument's linear record computes it at the point, which sets the symmetries' zero directions apart. The one-step map is then fitted by least squares on the subspace the data support, from all `k` directions' observations at once, every `h₀` of time at every step of the ladder: at the data's numerical rank, its singular values above 10⁻⁸ of the largest, as the prototype's control 6 fitted it. The fit's eigenvalues `μ` give `λ = log(μ)/h₀`. A fitted eigenvalue whose mode carries less than 10⁻³ of every direction's projected start is reported and not admitted, setting apart the weakly excited directions of the prototype's `DEVLOG.md` entry 11, some inside the slow circle. The admitted eigenvalues of modulus below 1, where every stored slow group of every member lies and no stored fast one, are the read's slow eigenvalues.
+4. **The baseline cancellation.** The read uses the pair's half difference, `(x₊ − x₋)/2`, which cancels the carrier and the perturbation's terms of second order in `δ`; the pair's mean is the carrier, to second order (INFERRED, from the expansion in `δ`). It stands in for the design's reference run (its § 9).
+5. **The demodulation.** Half difference and mean are taken to the carrier's rotating frame, as the design's § 2 transforms them, at the carrier's own measured rotation, not the continuum's `ω`: the slope of a least-squares line through the unwrapped phase of `⟨φ, c̄(t)⟩`, the pair's mean coefficients against the member's, over the run. The splitting turns a rigid orbit fast by about `κ²h²/(24Ω)` (DERIVED, from the design's § 4). At `R4`'s level 6 with `κ = 1`, at `N = 16`'s step bound, that is 5.5 × 10⁻⁵: 2.4 % and 1.2 % of C2a's slowest frequency at `ε = 1` and 2.
+6. **The fit.** The half differences are projected onto the `Ω`-complement of the member's generalized kernel, as the instrument's linear record computes it at the point. The one-step map is fitted by least squares on the subspace the data support, from all `k` directions' observations at once, every `h₀` of time at every step of the ladder: at the data's numerical rank, its singular values above 10⁻⁸ of the largest, as the prototype's control 6 fitted it. The fit's eigenvalues `μ` give `λ = log(μ)/h₀`. A fitted eigenvalue whose mode carries less than 10⁻³ of every direction's projected start is reported and not admitted, setting apart the weakly excited directions of the prototype's `DEVLOG.md` entry 11, some inside the slow circle. The admitted eigenvalues of modulus below 1, where every stored slow group of every member lies and no stored fast one, are the read's slow eigenvalues.
 7. **The duration** `T` of every run at the point: the larger of one period of the slowest imaginary slow group and three e-foldings of the smallest positive real part, each where it applies, in the stored record at that point. They run from about 160 at C3 at `ε = 2` to about 6,700 at P5 at `ε = 1`.
-8. **The read's floor,** computed in the run: the largest change of any read slow eigenvalue when the fit uses only the first nine tenths of the observations; a refit that fails its admission fails the point's. A group whose floor exceeds a tenth of its tolerance is Unresolved.
+8. **The read's floor,** computed in the run: the change of each group's read centre when the fit uses only the first nine tenths of the observations; a refit that fails its admission fails the point's. A group whose floor exceeds a tenth of its bound in (R1), at `h₀/32` on a ladder and `h₀` without one, is Unresolved.
 
-**Mode admission.** Each stored slow group of size `k` is matched by exactly `k` read pairs or quartets, each eigenvalue folded to its representative and assigned to the nearest group: an imaginary pair by its member at `+iτ`, a quartet by its member in the first quadrant, a real pair by its positive member. Where a class holds two or more stored groups, each must lie inside half the distance from its group's stored centre to the nearest other group of the class. Where a class holds one group, as C3's real triple and P5's and C3R's quartets do, no half-gap test applies, and (R1) judges the agreement. Every stored group must be recovered with its multiplicity, and none admitted inside the circle is left unmatched. A point that fails any of these, its rank included, fails its admission, with the rank or the match named.
+**Mode admission.** Each stored slow group of size `k` is matched by exactly `k` read pairs or quartets, each eigenvalue folded to its representative and assigned to the nearest group: an imaginary pair by its member at `+iτ`, a quartet by its member in the first quadrant, a real pair by its positive member. Where a class holds two or more stored groups, each must lie inside half the distance from its group's stored centre to the nearest other group of the class. Where a class holds one group, as C3's real triple and P5's and C3R's quartets do, no half-gap test applies, and (R1) judges the agreement. Every stored group must be recovered with its multiplicity, and none admitted inside the circle is left unmatched. A point that fails any of these fails its admission, the rank or the match named.
 
 ## THE REFERENCES AND THE TOLERANCE
 
@@ -223,19 +223,19 @@ At each member, amplitude `ε` and cutoff `N`:
 
 **(R1) The stored record at the same member, amplitude and cutoff.** At step `h`, a group's read value `λ_g(h)` is the mean of its matched eigenvalues, its centre, as M8.16.1 reads a group, and its error is `e_g(h) = λ_g(h) − λ_g^stat`, its read centre less its stored one.
 - **With a ladder,** `h₀`, `h₀/8`, `h₀/16` and `h₀/32`, at `N = 16` at every point, and at `N = 24` for C2b and C3 at `ε = 2`:
-  - the group is Resolved at every step;
+  - the group is Resolved at `h₀/32`;
   - `|e_g(h₀/32)| ≤ b_g`;
   - it converges at second order in time: the ratio of successive differences, `|λ_g(h₀/8) − λ_g(h₀/16)|/|λ_g(h₀/16) − λ_g(h₀/32)|`, lies in [3.5, 4.5] and is eligible. A ratio of successive differences cancels any bias of the read that does not depend on the step, from the finite `δ`, from growth over the run or from the fit.
 
-  A ratio is eligible when `h·ω_max` is at most 0.25 at its three steps, by a bound certified along each run, and both its differences exceed ten floors. The bound is the design's § 5 bound with the run's own largest `‖c‖²`, over every step, in place of `C̄`. At `h₀/8` it is at most 0.2 at every member, since `h₀ω̄ = 1.6`, so the ratio lies inside the window before any run (DERIVED). A point whose ratio is not eligible fails its convergence admission, and the window is not loosened afterward.
+  A ratio is eligible when `h·ω_max` is at most 0.25 at its three steps, by a bound certified along each run, and both its differences exceed ten floors of their finer reads. The bound is the design's § 5 bound with the run's own largest `‖c‖²`, over every step, in place of `C̄`. At `h₀/8` it is at most 0.2 at every member, since `h₀ω̄ = 1.6`, so the ratio lies inside the window before any run (DERIVED). A point whose ratio is not eligible fails its convergence admission, and the window is not loosened afterward.
 - **Without a ladder,** at the other cutoffs, the read at `h₀` is Resolved, and `|e_g(h₀)| ≤ b_g + 2|e₁₆|(h₀/h₁₆)²`, with `h₁₆` the `h₀` of that member and amplitude at `N = 16` and `e₁₆` the group's error there: its tolerance, plus twice the step error the `N = 16` ladder measured, scaled by the square of the two steps' ratio. That is a single-step comparison, recorded apart from the convergence the ladders demonstrate.
 - The two instruments act on the same truncation space with the same exact cubic, so any disagreement is the arm's or its read's (DERIVED).
 
-**(R2) Theorem 4.2's leading order.** At every read the record gives each group's deviation from leading order, `d_g = |λ_g − L_g|/|L_g|`, beside M8.16.1's stored deviation at the same member, amplitude and cutoff, under that one normalization. The two must agree within the tolerance (R1) allows that read, divided by `|L_g|`. By the reverse triangle inequality, `||a − c| − |b − c|| ≤ |a − b|`, this follows from (R1) (DERIVED). It is scored as the ruling's Criteria row asks, not as a second independent pass. M8.16.1's deviations run from 0.39 % to 7.10 % at C2a, C2b, C3 and C2a/R5, and from 5.8 % to 41.7 % at P5's quartet, and they differ by cutoff: C2a's is 2.76 % at `N = 16` and 2.86 % at 24, at `ε = 1`. Where M8.16.1 scored a group's next-order value, the record reports the read's two-term residual beside it, unscored.
+**(R2) Theorem 4.2's leading order.** At every read the record gives each group's deviation from leading order, `d_g = |λ_g − L_g|/|L_g|`, beside M8.16.1's stored deviation at the same member, amplitude and cutoff, under that one normalization. The two must agree within the tolerance (R1) sets, at `h₀/32` on a ladder and `h₀` without one, divided by `|L_g|`, and are reported at the other reads. By the reverse triangle inequality, `||a − c| − |b − c|| ≤ |a − b|`, this follows from (R1) (DERIVED). It is scored as the ruling's Criteria row asks, not as a second independent pass. M8.16.1's deviations run from 0.39 % to 7.10 % at C2a, C2b, C3 and C2a/R5, and from 5.8 % to 41.7 % at P5's quartet. Where M8.16.1 scored a group's next-order value, the record reports the read's two-term residual beside it, unscored.
 
 **(R3) Krein signatures.** On every imaginary group, the instrument's own Krein form at the point, evaluated on the read's eigenspace, has the stored sign. On a group of size 2, the hexagon's double, the form is definite on the read's whole two-dimensional eigenspace, with the stored sign. No sign is assigned to a real pair or a quartet, and a sign is never read from a frequency (the design's § 9).
 
-**Convergence in space.** Each read is held to the stored record at its own cutoff; the instrument's own convergence in `N` is M8.16.1's, and is not rescored.
+**Convergence in space** is the instrument's, M8.16.1's, and is not rescored.
 
 **The next-order floor,** for the sequel's amplitude ladder (the design's § 9): the read's error at `h₀`, at each member at `N = 24`, reported unscored.
 
@@ -247,7 +247,7 @@ The prototype's controls 1 to 9 (the design's § 8), on this task's own states: 
 3. **Free modes,** with the cubic off: each level at `ω_n` exactly, within its ceiling.
 4. **Reversibility:** forward, then back over the same steps, within its ceiling, relative to `|(q, p)|`.
 5. **The rigid standing waves,** in `R1` and `R3`: the matched discrete wave within its ceiling, and the continuum-started wave converging at second order.
-6. **Theorem 3.7's spectrum read in time,** in `R1` and `R3`, under step halving by (R1)'s ratio rule, and within `10⁻³` relative of its exact values at `h₀/32` (§ THE MEMBERS).
+6. **Theorem 3.7's spectrum read in time,** in `R1` and `R3`, as the prototype reads it, its frequencies above a quarter of the smaller exact one and as many as the exact distinct values, each with a floor as step 8 computes it; under step halving by (R1)'s ratio rule, and within `10⁻³` relative of its exact values at `h₀/32` (§ THE MEMBERS).
 7. **Charges:** every applicable `J_D` within its ceiling, relative to `‖D‖·|q|·|p|`, on the multi-level states and along every member's runs.
 8. **Equivariance,** under right SU(2), the phase, Sp(1) where it acts, and charge conjugation in the real slots, within its ceiling.
 9. **Convergence and energy,** as the prototype's reading 8 reads them: the relative energy error `|H(t) − H(0)|/H(0)` at second order under halving on the multi-level states of controls 4, 7 and 8, at `h₀/8`, `h₀/16` and `h₀/32`, its eligible ratios in [3.5, 4.5] under the window; and its secular drift, the difference of its means over the last and the first tenths of the observations, within 10⁻² of its largest oscillation, on control 5's continuum-started rigid waves over 2,000 time units. A rigid wave or a member is a relative equilibrium: the error's `h²` part is constant along the rotation, so the error there is `O(h⁴)` (the prototype's `DEVLOG.md`, entry 8), and neither owes a second-order ratio. The members' energy errors are reported, unscored.
@@ -256,19 +256,19 @@ The prototype's controls 1 to 9 (the design's § 8), on this task's own states: 
 - **The ceilings.** Each round-off control's ceiling is the larger of the design's 10⁻¹⁰ and ten times its floor: the same machinery with the cubic switched off, where each stepper's answer is exact in exact arithmetic, measured in the dry run on development states at the cutoffs and the longest duration it governs.
 - **The window,** `h·ω_max ≤ 0.25` on the certified bound, where the design's § 8 read 0.5.
 
-The prototype's control 10, the cost, is reported from the run's own timings; its control 11, report-only and dominated by the mesh's error, is not repeated.
+Control 10, the cost, is reported from the run's timings; control 11 is not repeated.
 
 ## THE VERDICT, STOPPING AND OUTCOMES
 
 **The common gates** are controls 1 and 2, every control and read on the rigid families in `R1` and `R3`, and the arms that run in the registered run (§ MUTATION ARMS), whose unmutated reads are then scored with their slots. A failure of one disqualifies the arm in every slot.
 
-**Per slot.** Once the common gates pass, `R2`, `R4` and `R5` are scored apart, each on its own controls, 3, 4, 7, 8 and 9 on its own states, and on its own members' reads, as M8.16.1 kept `R5` apart. One slot's failure does not void another.
+**Per slot.** Once the common gates pass, `R2`, `R4` and `R5` are scored apart, each on its own controls, 3, 4, 7, 8 and 9 on its own states, and on its own members' reads. One slot's failure does not void another.
 
 **The verdict:** QUALIFIED in each slot whose controls and every read at every point pass, the slots named; NOT QUALIFIED in the rest, with the failing check and point named. The rigid slots, `R1` and `R3`, qualify with the common gates. At a stop of the whole run, the verdict is NOT QUALIFIED.
 
 **Outcomes, kept apart in the record,** none becoming a pass by omission:
 - a failed value: a read outside its tolerance, a ratio outside [3.5, 4.5], or a sign that differs;
-- an Unresolved group, its floor over a tenth of its tolerance;
+- an Unresolved group (step 8);
 - a failed admission, of rank or of match;
 - a run past `C̄`;
 - a point with no eligible convergence ratio.
@@ -287,13 +287,13 @@ Each must turn its named check red. Before the freeze, an arm left green is a de
   - the broken pair, the `−δ` run left out, so that the read differences the `+δ` run against the stationary point carried at the continuum's rotation, on C3 at `ε = 2` and `N = 16`: its admission fails, or some group lies outside `b_g + 2|e_g(h₀)|` of its stored value;
   - a sign flip in the Krein form, on the hexagon at `ε = 1` and `N = 16`: (R3) refuses it.
 
-  Demodulation at the continuum's rotation runs only on the synthetic systems: on a registered member at `h₀` its effect is of the order of the read's own step error, so a refusal there is not certain.
+  Demodulation at the continuum's rotation runs only on the synthetic systems.
 
 ## STATED LIMITS
 
 - **The time per step** is taken to scale with the fibre dimension: 2/3 of `R4`'s in `R2`, and 4/3 in `R5`. That is assumed, not measured.
 - **The read is linear,** at a perturbation of 10⁻⁵ over finite durations; persistence and finite amplitude are the sequel's.
-- **One direction cannot show a multiplicity,** so `k` directions run where a group is multiple; a multiplicity the stored record does not hold is not tested.
+- **A multiplicity the stored record does not hold** is not tested.
 - **A qualified slot** qualifies the arm there for its members' kind of state, at these cutoffs and steps; anything else is the sequel's, under a ruling on #512 where it reaches the census.
 
 ## THE TESTS BEFORE THE FREEZE
@@ -304,7 +304,7 @@ On development inputs only (§ The split), each logged, each with its arms red:
 3. **The loader, on the stored records:** it loads every planned read's record, and refuses the wrong-cutoff arm.
 4. **Every verdict path,** as M8.16.1's test 1: a synthetic record for each registered outcome, asserting the verdict this document gives it, per slot and at the common gates, with the stops and the resume after an interruption.
 5. **Every constant,** as M8.16.1's test 2: each numeric item in FROZEN VALUES is a literal that `FROZEN.json` holds, a value its calculation reproduces, or an unscored report, and the reverse scan rejects an unregistered scoring literal.
-6. **Every import,** as M8.16.1's test 3: each file the driver imports is in the manifest and named in the freeze block, the arm's two files, the instrument's twelve and M8.16.1's `run/seeds.py` byte for byte.
+6. **Every import,** as M8.16.1's test 3: each file the driver imports is in the manifest and named in the freeze block, `timearm.py`, `fftcubic.py`, `pin.py`, `controls.py`, the instrument's twelve and M8.16.1's `run/seeds.py` byte for byte.
 
 They run again on the filed text before the go.
 
@@ -349,7 +349,7 @@ At four single-thread jobs that is about 51 hours of wall time, before the rigid
 
 ## THE FREEZE, THE GUARD AND THE RUN
 
-**The freeze,** as M8.16.1's, with new pins. `pin_manifest.py` writes the manifest pin over the qualification's folder, the arm's two files and `INSTRUMENT.sha256`. The filed terms are copied beside the driver. The order is M8.16.1's: the pin on MIT `main`; the maintainer's go; `write_guard.py` writes `FROZEN.json` and its pin; the freeze block; the run. `FROZEN.json` holds the members with their points, cutoffs, durations, seeds and frozen values, the stored records' SHA-256, every frozen value above, the dry run's ceilings, the terms' SHA-256, the go and the manifest's SHA-256.
+**The freeze,** as M8.16.1's, with new pins. `pin_manifest.py` writes the manifest pin over the qualification's folder, `timearm.py`, `fftcubic.py`, `pin.py`, `controls.py` and `INSTRUMENT.sha256`. The filed terms are copied beside the driver. The order is M8.16.1's: the pin on MIT `main`; the maintainer's go; `write_guard.py` writes `FROZEN.json` and its pin; the freeze block; the run. `FROZEN.json` holds every frozen value above with the members' points, cutoffs, durations and seeds, the stored records' SHA-256, the dry run's ceilings, the terms' SHA-256, the go and the manifest's SHA-256.
 
 **The guard** refuses as M8.16.1's does, and also refuses:
 - a read or an evolution at a member, amplitude or cutoff not in § THE MEMBERS;
