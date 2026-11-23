@@ -45,6 +45,8 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 
 **M10.2 is the earlier signed-source candidate, kept as ancestry.** Its graph and energies reproduced. Integer loads, the 511 keV calibration and the half-turn symmetry limited what those results established about charge, rest energy and spin. [M10.2 task](research/tasks/m10_2_task_details.md) · [Maintainer decision](research/findings/m10_2_maintainer_review.md)
 
+**M10.4 proposes the pair together with eleven written seam records for row 4.** The pair is prepared on the same board and measured with the same thirty-seam detector as M10.3. Once preparation ends, the source gives at least 99.4771841% joint home detection at every free exposure for any real contrast strength, counting failed preparations as quiet. The written contacts persist during flight. The question for review is whether this localized material composite meets the free-persistence criterion. [Candidate change](research/m10_theory_canonical.md#13-proposed-connected-two-load-candidate-for-m104) · [Task](research/tasks/m10_4_task_details.md) · [Method and comparison with blank memories](research/findings/m10_4_method_note.md)
+
 ## Model Profile (what it brings, short form)
 
 The table records the model at admission. For the scored candidate's carrier, seam law, preparation and observer, see the [Interval Echo specification](research/m10_theory_canonical.md#12-interval-echo-candidate-for-m103).

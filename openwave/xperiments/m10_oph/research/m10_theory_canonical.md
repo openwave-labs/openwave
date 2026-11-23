@@ -76,6 +76,21 @@ Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https:/
 
 [Registered terms](tasks/m10_3_task_details.md)
 
+## 1.3 Proposed connected two-load candidate for M10.4
+
+M10.4 proposes replacing the M10.3 pin with Interval Echo at [`09f062f77f7f540f2783f128ae6314c5d8b818ea`](https://github.com/FloatingPragma/observer-patch-holography/tree/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04), archived as `interval-echo-m10.4-connected-pair-proposal`. The nomination is the pair and its eleven prepared neutral seam records. M10.3 used blank memories. Its [decision](findings/m10_3_maintainer_review.md) and supplied choice of coupling belong to that experiment. The requested cell is row 4 alone. The maintainers decide the proposed pin and grade.
+
+| Element | M10.4 declaration |
+| --- | --- |
+| Hardware and law | The M10.3 board, with 20 cells, 240 ports and 630 seams. The local 99-state echo, exchange and contrast operators, degree references and binary pair detector are those of M10.3. |
+| Preparation | Start with one load each on 156 and 157. Use the two loads to write eleven neutral contacts while leaving both paths to 163 open. Address two source contacts and the middle degree reference, with three occupied reads per attempt and at most eight attempts. This is designed apparatus. |
+| Release and clock | After acceptance enable the entire free generator on the prepared materials. There is no intervention during flight. Pulse lengths and terminal appointments are in supplied native exposure units. |
+| Observation | The cell-13 observer reads any of its thirty internal pair addresses or quiet. Exhaustion and undetected releases count against the joint home probability. |
+| Parameter ancestry | The nominal contrast strength 8 was chosen in the antecedent design search. The protected-weight proof works for every real strength. The 94% criterion and the interference solution were known when the eleven-record source was chosen. |
+| Interpretation | The proposed particle is a localized material composite. A successful home read alone establishes neither freely translating matter on blank memories nor electron identity, a mass or a physical time scale. |
+
+[Protocol and controls](tasks/m10_4_task_details.md) · [Derivation and replay](findings/m10_4_method_note.md)
+
 ## 2. Arena
 
 A holographic screen of twelve-port icosahedral carriers. Each carrier holds integer
