@@ -242,3 +242,294 @@ Nothing in this section sets an icon or moves a cell.
 **Not computed.** δ above 0 beyond the controls K1 and K3; a time evolution on the new action and its spectrum; the coupled Maxwell exterior (the author's rung B); the limit of an infinite box, and any fit in $1/L$; the pinned-line ladder ([M5.53](m5_53_task_details.md)); the twist clock at $J > 0$; a spacing under 0.25 or a half-box above 12; a Hessian of the relaxed states beyond the re-relaxations of K5; the dynamical meaning of N; the author's charge integral on the loop.
 
 **Plan audit (2026-11-23, before any chain was relaxed).** An independent pass in a fresh context read the draft against the two posts, the author's archives and the scripts, and recomputed its numbers with its own code, relaxing nothing. It confirmed the energies of the stored arrays to round-off under both weights, the closed form of the wall, the inertial read, the gradients of the link terms, and the relation of the two stencils (a constant with held faces). It changed, by item: the node-connectivity clause of the archive's ring reader fails on the author's own arrays, so that reader became a descriptor and a first guess with a frozen fallback, and the radius words rest on the line reader alone; no word is given across orientations of the ring on the lattice, and chain `b` carries the STATIONARY test instead; K5 runs on the chain ends that carry the words; the m = 2 word is a statement about the lattice's symmetry, with bounds per class; the degree's regime is stated and it carries no word against the author's charge; the fixed-field rise on half-box 12 (1.69 percent) was added and S1's energy bound set to 3 percent; the second-step rule is defined per read; and smaller fixes to the controls, the citations and the scheduling. The drafter and the auditor ran on the same model in separate contexts, and the session's model read the draft in full and each revision beside them.
+
+## FINDINGS (2026-11-23)
+
+> Every chain ended CONVERGED and SMOOTH, with one ring and degree 1, and every re-relaxation of K5 returned to its state. With the end weight, on the three grids where this task's chain from the seed took the orientation of the author's stored ring (G1, G4, G6), U, $R_L$ and N/U are REPRODUCED and the m = 2 word is REPRODUCED on G1 and G4; on G2 the chain ended 4.30° from the author's angle to the nearest body diagonal while its orientation was still turning, with U and $R_L$ within $5.5 \times 10^{-8}$ and $4 \times 10^{-5}$ of the author's state, and every entry reads "no label (other orientation)" by the rule as written; whether the two are one state along one slow rotation is unresolved. On the chains from the seed the ring's orientation was still turning over the last 500 to 1000 iterations before the stop (§ 8); continued with the energy tolerance switched off, three of the four G2 states stopped by the gradient tolerance without turning further (§ 17). The author's four stored states are STATIONARY under the port. S1 reads "no label": every clause holds on all six grids, but on G2 the midpoint chain ended after 628 iterations, so its earlier state is the start and the second-step rule withholds its energy, its radius and its shape.
+
+All numbers below are read from [`m5_51_summary.json`](../data/m5_51_summary.json), written by `m5_51_reads.py --summary` from the chain records. The choices named as this plan's in § 6 (the noise start, the cap, the CONVERGED rule, the line reader and its fallback, $P_2$ and its bounds, the tolerances, STATIONARY, S1, the grids G3 and G5) are the plan's, not the author's.
+
+### 7. The controls
+
+| Control | Result | Tries | Deciding numbers |
+| --- | --- | --- | --- |
+| K1 (a), the gradient | met | 2 | 200 components per case, 0 outside $10^{-5}$ relative or $10^{-9}$ absolute, in all 8 cases (both weights, δ = 0 and 0.05, held and free faces); ratios per decade 99.99 to 100.01 (steps $10^{-2}$ to $10^{-3}$) and 94.78 to 110.51 ($10^{-3}$ to $10^{-4}$) |
+| K1 (b), against `m5_42_eq42.py` | met | 1 | gradient norm $4.2 \times 10^{-16}$; energy difference against the face terms evaluated alone $3.2 \times 10^{-15}$ relative; every differing term couples face nodes only |
+| K1 (c), inertia, quartic part | met | 1 | $8.4 \times 10^{-15}$ to $2.0 \times 10^{-14}$ relative on the four stored arrays |
+| K1 (d), inertia, $L_V$ part | met | 1 | $3.8 \times 10^{-15}$ to $8.0 \times 10^{-15}$ relative against the dense evaluation |
+| K2, the author's states at fixed field | met | 1 | $U^{\mathrm{end}}$, $U^{\mathrm{mid}}$ of G1, G2, G4 within $1.3 \times 10^{-14}$ relative of `audit_d0.json`; rises 1.0709, 0.5358, 1.0084 percent; G6 $U^{\mathrm{end}}$ 21.805155 (0.00015 from 21.805), rise 1.6906 percent; the parts of G1 and G4 match `laue.json` to every printed digit |
+| K3, the loophole in closed form | met | 1 | $U_4$, $U_V$, $U^{\mathrm{end}}$ zero to $10^{-14}$ in all 12 walls; $U^{\mathrm{mid}}$ against the closed form within $4.0 \times 10^{-13}$ relative (worst case, δ = 0.05) |
+| K4 (a), the line reader | met | 1 | $R_L - R_0$ from $-0.0057$ to $-0.0022$ on the 18 constructed rings; jitter $j_L$ at most 0.0019 (h = 0.5) and 0.0009 (h = 0.375); $\nu_L$ within 0.018°; regime met on all; the fallback start returns the same values; the two-ring field fails one ring (crossings missing, 6 far nodes); a field with no ring is flagged only by the regime flags and by $R_L$ (see below) |
+| K4 (b), $P_2$ | met | 1 | axisymmetric ring $P_2 \le 1.2 \times 10^{-32}$ in both classes at the three spacings; ratio 99.98 to 99.99 between ε = $10^{-2}$ and $10^{-3}$; the reader without co-rotation returns $P_2$ = 0.264 on the axisymmetric ring |
+| K4 (c), N/U | met | 1 | G1 0.94712, G4 0.96815, G6 1.00461 (posted 0.947, 0.968, 1.005); $N_a$ of G1 and G4 match to every printed digit; twisted field $N_x = N_y = 0$, error ratio 3.65 between h = 0.5 and 0.25 |
+| K4 (d), the degree | met | 1 | `m5_46_degree.py --selftest` ALL PASS; the seed of each of the six grids reads 1 on every surface, all liftable |
+| K5, the convergence gate | met on all 13 | 1 each | U back within $1.8 \times 10^{-10}$ relative at worst, $R_L$ within $4.1 \times 10^{-6}$, class and degree unchanged (table of § 8) |
+
+**A limit of the line reader.** K4 (a) tested the failing input the plan asked for, two rings. On a field with no ring (the pure seed of G1 and of G2, and the noisy start of `G2_mid_a`) the reader still returns "one ring", the class "neither" and SMOOTH, with $R_L$ under 0.003, and with `line_regime` and `halfturn_all` false. Such a field is flagged only by those two flags and by $R_L$. This record therefore claims "one ring" only where `line_regime` and `halfturn_all` are both true; they are true on all 24 end states and on the author's four stored states (`m5_51_summary.json`, keys `line_regime` and `halfturn_all`).
+
+K1 (a), try 1: every component met its bound, and the directional ratio from step $10^{-3}$ to $10^{-4}$ read 47.67, 18.28, 162.72, 27.07, 23.11, 8.58, 46.95 and 51.79 in the eight cases (8.58 to 162.72, seven below the band of 80 to 120 and one above it; `controls_k1_k3_try1.json`) because the two totals of U carried round-off of the size of the truncation error at step $10^{-4}$. Try 2 computed the difference node by node (an exactly rounded sum of the differences of each node's share of U) and compared it with the gradient along the step actually applied in floating point; no threshold changed (deviation 1).
+
+**The bounds of K4 (b)**, by class and spacing, used by the m = 2 words:
+
+| Spacing | $B_{\mathrm{abs}}$, box axis | $B_{\mathrm{pres}}$, box axis | $B_{\mathrm{abs}}$, body diagonal | $B_{\mathrm{pres}}$, body diagonal |
+| --- | --- | --- | --- | --- |
+| 0.5 | $6.20 \times 10^{-9}$ | $6.20 \times 10^{-5}$ | $6.10 \times 10^{-9}$ | $6.10 \times 10^{-5}$ |
+| 0.375 | $6.31 \times 10^{-9}$ | $6.31 \times 10^{-5}$ | $6.27 \times 10^{-9}$ | $6.27 \times 10^{-5}$ |
+| 0.25 | $6.39 \times 10^{-9}$ | $6.39 \times 10^{-5}$ | $6.37 \times 10^{-9}$ | $6.37 \times 10^{-5}$ |
+
+With $j_L \le 0.0019$, $2 j_L < 0.01$ at both spacings of K4 (a), so $\tau_L = 0.01$ on every grid.
+
+**The author's arrays**, copied to `checkpoints/m5_51/author/` and read with `allow_pickle=False`:
+
+| File | SHA-256 |
+| --- | --- |
+| `milestone_action_halfbox6_h0p5.npz` | `c89056fb1feaadd3f13e69d02dc2cc55b7e3b200029d66b84554402e550a7448` |
+| `milestone_action_halfbox6_h0p375.npz` | `159bdb19c5fc38f75d7a2c0cc0f7ee4b8e510f50c45140434f4189c212b50777` |
+| `milestone_action_halfbox9_h0p5.npz` | `62b8b5fa4207ed90fd089f39be92367d55c9e1a36ffef954d54d16f8a4429283` |
+| `milestone_action_halfbox12_h0p5_final.npz` | `28691bf52d9085b41c4a1c1b4da92ca88e1008ee2013580083a7eec663dbc156` |
+| archive `LdGS_milestone_arrays_20nov.zip` | `9d1bc04ef8a2a3eba47501538c4fde4430e3ae4fc43f9a0c5d7c4d99a1d6ae9c` |
+| archive `LdGS_v42_engine_midpoint.zip` | `87620fa4ef1729a484f15df758abf730566d4b4bbcd7e964f1b3f66f0b1a594b` |
+
+**The author's stored states read by this task** (faces reset to $M_0$, end weight):
+
+| Grid | U | $R_L$ | $R_A$ | Class (angles to axis, diagonal) | Label | $P_2$ | N/U | One ring |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| G1 | 20.280477 | 2.7846 | 2.7978 | axis (0.15°, 54.59°) | SMOOTH | $2.75 \times 10^{-11}$ | 0.9471 | yes |
+| G2 | 20.423145 | 2.7934 | 2.7800 | neither (17.46°, 42.49°) | SMOOTH | $6.37 \times 10^{-6}$ (no regime) | 0.9467 | yes |
+| G4 | 21.287491 | 2.8215 | 2.8325 | axis (0.03°, 54.71°) | SMOOTH | $1.40 \times 10^{-12}$ | 0.9681 | yes |
+| G6 | 21.805155 | 2.9087 | 2.8504 | diag (54.65°, 0.10°) | SMOOTH | $1.28 \times 10^{-8}$ | 1.0046 | yes |
+
+### 8. The chains
+
+All 24 chains ended by the optimizer's relative-reduction tolerance with the gate under $10^{-3}$, so every one is CONVERGED; none was cut by a cap, restarted or resumed. Every end state is SMOOTH, one ring, and reads $\lvert q \rvert = 1$ on every liftable surrounding surface, with eigenvalues between $-0.267$ and $1.006$. The column "Earlier state" gives the iteration of the state of the second step and the reads it withholds; the last column gives the angle between the ring normals of the earlier state and of the end (`rotation_deg_earlier_to_end` in the summary).
+
+| Chain | Start | End | Iterations | U | Gate | $R_L$ | Class (angles to axis, diagonal) | $P_2$ | N/U | Earlier state | Rotation, earlier to end |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `G1_end_a` | seed + noise | CONVERGED | 6960 | 20.280478 | $3.9 \times 10^{-5}$ | 2.7846 | axis (0.21°, 54.55°) | $5.54 \times 10^{-11}$ | 0.9471 | 6000 | 0.59° |
+| `G1_end_b` | stored array | CONVERGED | 32 | 20.280477 | $3.0 \times 10^{-5}$ | 2.7846 | axis (0.15°, 54.59°) | $2.06 \times 10^{-11}$ | 0.9471 | 0 | 0.00° |
+| `G1_mid_a` | seed + noise | CONVERGED | 8663 | 20.482703 | $6.5 \times 10^{-5}$ | 2.8140 | axis (0.18°, 54.56°) | $3.77 \times 10^{-11}$ | 0.9345 | 8000 | 0.29° |
+| `G1_mid_b` | stored array | CONVERGED | 232 | 20.482703 | $5.7 \times 10^{-6}$ | 2.8140 | axis (0.15°, 54.59°) | $1.59 \times 10^{-11}$ | 0.9345 | 0: withholds U, $R_L$, N/U | 0.00° |
+| `G2_end_a` | seed + noise | CONVERGED | 6846 | 20.423146 | $9.0 \times 10^{-5}$ | 2.7934 | neither (16.60°, 38.19°) | $1.54 \times 10^{-6}$ | 0.9467 | 6000 | 0.34° |
+| `G2_end_b` | stored array | CONVERGED | 2 | 20.423145 | $5.0 \times 10^{-6}$ | 2.7934 | neither (17.46°, 42.49°) | $6.37 \times 10^{-6}$ | 0.9467 | 0 | 0.00° |
+| `G2_mid_a` | seed + noise | CONVERGED | 628 | 20.527989 | $3.8 \times 10^{-5}$ | 2.8154 | neither (51.80°, 4.39°) | $9.25 \times 10^{-7}$ | 0.9382 | 0: withholds U, $R_L$, N/U, class, one ring | out of regime at the start |
+| `G2_mid_b` | stored array | CONVERGED | 8511 | 20.527962 | $1.1 \times 10^{-4}$ | 2.8133 | neither (36.56°, 18.31°) | $4.68 \times 10^{-6}$ | 0.9388 | 8000 | 1.85° |
+| `G3_end_a` | seed + noise | CONVERGED | 4079 | 20.507914 | $2.4 \times 10^{-4}$ | 2.8029 | diag (54.59°, 0.22°) | $1.62 \times 10^{-9}$ | 0.9463 | 3500: withholds $P_2$ | 0.48° |
+| `G3_end_b` | `G2_end_a`, order 3 | CONVERGED | 5696 | 20.507914 | $1.9 \times 10^{-5}$ | 2.8029 | diag (54.71°, 0.04°) | $5.15 \times 10^{-11}$ | 0.9463 | 5000 | 0.25° |
+| `G3_mid_a` | seed + noise | CONVERGED | 1514 | 20.551763 | $1.3 \times 10^{-4}$ | 2.8095 | diag (54.68°, 0.05°) | $1.14 \times 10^{-10}$ | 0.9436 | 1000: withholds $P_2$, class | 2.37° |
+| `G3_mid_b` | `G2_mid_a`, order 3 | CONVERGED | 2918 | 20.551763 | $1.1 \times 10^{-4}$ | 2.8095 | diag (54.64°, 0.14°) | $4.89 \times 10^{-10}$ | 0.9436 | 2000 | 0.24° |
+| `G4_end_a` | seed + noise | CONVERGED | 5651 | 21.287491 | $7.0 \times 10^{-5}$ | 2.8216 | axis (0.10°, 54.64°) | $4.17 \times 10^{-12}$ | 0.9681 | 5000 | 0.55° |
+| `G4_end_b` | stored array | CONVERGED | 1 | 21.287491 | $2.0 \times 10^{-5}$ | 2.8215 | axis (0.03°, 54.71°) | $1.40 \times 10^{-12}$ | 0.9681 | 0 | 0.00° |
+| `G4_mid_a` | seed + noise | CONVERGED | 4485 | 21.487779 | $4.3 \times 10^{-5}$ | 2.8516 | axis (0.04°, 54.71°) | $2.64 \times 10^{-12}$ | 0.9558 | 3500 | 0.48° |
+| `G4_mid_b` | stored array | CONVERGED | 415 | 21.487779 | $3.4 \times 10^{-5}$ | 2.8516 | axis (0.02°, 54.71°) | $8.20 \times 10^{-15}$ | 0.9558 | 0: withholds U, $R_L$, N/U | 0.00° |
+| `G5_end_a` | seed + noise | CONVERGED | 5735 | 21.437038 | $1.2 \times 10^{-4}$ | 2.8886 | diag (54.73°, 0.01°) | $9.55 \times 10^{-12}$ | 0.9723 | 5000 | 0.06° |
+| `G5_end_b` | `G4_end_a`, order 3 | CONVERGED | 544 | 21.444097 | $8.3 \times 10^{-5}$ | 2.8285 | axis (0.09°, 54.65°) | $2.15 \times 10^{-12}$ | 0.9657 | 0: withholds U, $R_L$, N/U | 0.01° |
+| `G5_mid_a` | seed + noise | CONVERGED | 6625 | 21.548266 | $8.6 \times 10^{-5}$ | 2.8439 | axis (0.07°, 54.67°) | $3.23 \times 10^{-12}$ | 0.9594 | 6000 | 0.14° |
+| `G5_mid_b` | `G4_mid_a`, order 3 | CONVERGED | 513 | 21.548266 | $1.1 \times 10^{-4}$ | 2.8439 | axis (0.04°, 54.71°) | $6.15 \times 10^{-14}$ | 0.9594 | 0: withholds U, $R_L$, N/U | 0.00° |
+| `G6_end_a` | seed + noise | CONVERGED | 4264 | 21.805154 | $5.9 \times 10^{-5}$ | 2.9087 | diag (54.73°, 0.01°) | $9.26 \times 10^{-11}$ | 1.0046 | 3500: withholds $P_2$ | 0.25° |
+| `G6_end_b` | stored array | CONVERGED | 1003 | 21.805154 | $1.0 \times 10^{-5}$ | 2.9087 | diag (54.73°, 0.00°) | $7.69 \times 10^{-12}$ | 1.0046 | 500 | 0.06° |
+| `G6_mid_a` | seed + noise | CONVERGED | 6386 | 22.039628 | $4.8 \times 10^{-5}$ | 2.8539 | axis (0.06°, 54.68°) | $9.24 \times 10^{-13}$ | 0.9677 | 5500 | 0.29° |
+| `G6_mid_b` | stored array | CONVERGED | 6256 | 22.039628 | $4.9 \times 10^{-5}$ | 2.8539 | axis (0.02°, 54.72°) | $9.52 \times 10^{-13}$ | 0.9677 | 5500 | 0.20° |
+
+**The error budget of the reads of chains `a`.** Between the earlier state and the end, over the eleven chains `a` other than `G2_mid_a`, U moved by at most $9.88 \times 10^{-7}$ relative (`G3_mid_a`; at most $1.5 \times 10^{-7}$ over the chains that carry words), $R_L$ by at most $2.1 \times 10^{-4}$ and N/U by at most $1.9 \times 10^{-5}$; K5 returned U within $1.8 \times 10^{-10}$ relative and $R_L$ within $4.1 \times 10^{-6}$. The reader's own jitter, from K4 (a), is at most 0.0019 in $R_L$.
+
+**The orientation was still turning before the stop.** The ring normal turned by 0.06° to 0.59° between the earlier state and the end on the chains `a` with a saved earlier state, by 2.38° on `G3_mid_a` and by 1.85° on `G2_mid_b` (its last 511 iterations). `G2_end_a` went from (42.74°, 26.39°) at iteration 1000 to (29.93°, 30.61°) at 3000, (16.94°, 37.85°) at 6000 and (16.60°, 38.19°) at its end at 6846: a monotone drift up to the stop by the relative-reduction tolerance. On every grid but G2 the drift runs toward a box axis or a body diagonal; on G2 no chain had reached either. The stop rule, K5 and STATIONARY cannot see this mode: K5's re-relaxations stop by the same tolerance after 99 to 237 iterations, and the chains `b` from the author's states on G2 and G4 ran 2 and 1 iterations. § 17 continues the four G2 states with that tolerance switched off: three stop by the gradient tolerance within 130 iterations without turning further, so on G2 the ring sits, to both tolerances, at angles that are neither a box axis nor a body diagonal. What a tighter gradient tolerance would do there is not computed.
+
+On `G2_mid_a` the earlier state is the start (no saved state lies 500 iterations or more before its end at 628), so U, $R_L$, N/U, the class and one ring carry no word there. `G2_mid_a` lies above `G2_mid_b` by $1.32 \times 10^{-6}$ relative in U and 0.0021 in $R_L$, both above K5's own bars ($10^{-6}$ and 0.002), so the K5 return of `G2_mid_a` does not show that it is the end of its descent.
+
+**K5.** Twelve chains `a` (all CONVERGED, seeds 51101 to 51112) and the one chain `b` that ended as a second state (`G5_end_b`, seed 51209):
+
+| Re-relaxation of | Iterations | $\lvert \Delta U \rvert / U$ | $\lvert \Delta R_L \rvert$ | Class, degree |
+| --- | --- | --- | --- | --- |
+| `G1_end_a` | 102 | $5.3 \times 10^{-11}$ | $1.2 \times 10^{-7}$ | same, same |
+| `G1_mid_a` | 99 | $7.0 \times 10^{-11}$ | $8.3 \times 10^{-7}$ | same, same |
+| `G2_end_a` | 105 | $7.3 \times 10^{-12}$ | $6.5 \times 10^{-7}$ | same, same |
+| `G2_mid_a` | 103 | $4.3 \times 10^{-12}$ | $8.4 \times 10^{-7}$ | same, same |
+| `G3_end_a` | 155 | $1.2 \times 10^{-10}$ | $1.3 \times 10^{-6}$ | same, same |
+| `G3_mid_a` | 143 | $4.4 \times 10^{-11}$ | $2.0 \times 10^{-6}$ | same, same |
+| `G4_end_a` | 145 | $9.0 \times 10^{-11}$ | $1.5 \times 10^{-7}$ | same, same |
+| `G4_mid_a` | 135 | $5.7 \times 10^{-11}$ | $2.9 \times 10^{-7}$ | same, same |
+| `G5_end_a` | 237 | $1.8 \times 10^{-10}$ | $4.1 \times 10^{-6}$ | same, same |
+| `G5_mid_a` | 165 | $7.7 \times 10^{-11}$ | $9.0 \times 10^{-7}$ | same, same |
+| `G6_end_a` | 213 | $1.5 \times 10^{-11}$ | $3.5 \times 10^{-7}$ | same, same |
+| `G6_mid_a` | 218 | $1.4 \times 10^{-10}$ | $1.5 \times 10^{-6}$ | same, same |
+| `G5_end_b` | 164 | $4.7 \times 10^{-11}$ | $1.8 \times 10^{-6}$ | same, same |
+
+No state is STALLED. That is the output of the rule; the rule cannot see a slow rotation of the ring that the relative-reduction tolerance also stops (above).
+
+**Two starts, two states (§ 5 (iii)).** Eleven of the twelve pairs end in one state ($\lvert \Delta U \rvert / U \le 1.3 \times 10^{-6}$, $\lvert \Delta R_L \rvert \le 0.0021$, the same class and degree). The pair G5, end weight, ends in two states: `G5_end_a` on a body diagonal (U 21.437038, $R_L$ 2.8886) and `G5_end_b` on a box axis (U 21.444097, $R_L$ 2.8285); the classes differ and the lower U is that of chain `a`, by $3.3 \times 10^{-4}$ relative. The U of `G5_end_b` is a read that the second step withholds (it moved by $3.7 \times 10^{-4}$ from its start in 544 iterations); its K5 returned U within $4.7 \times 10^{-11}$ and $R_L$ within $1.8 \times 10^{-6}$. Both are reported; nothing is averaged.
+
+### 9. The end weight against the author's numbers (§ 5 (i))
+
+The word of a grid is that of its chain `a`. All twelve chains `a` are CONVERGED, SMOOTH, one ring and passed K5, so the orientation rule decides: on G1 and G4 the chain `a` lies on a box axis like the author's array, on G6 on a body diagonal like the author's array; on G2 both lie in the class "neither", at angles (16.60°, 38.19°) against the author's (17.46°, 42.49°), 0.86° and 4.30° apart, so the second angle is outside 1°. The chain ended there while its orientation was still turning (§ 8; its continuation in § 17 stopped after 58 iterations without turning further), with U and $R_L$ within $5.5 \times 10^{-8}$ relative and $4 \times 10^{-5}$ of the author's state; the word stays "no label (other orientation)" by the rule as written, and whether the two are one state along one slow rotation is unresolved.
+
+| Grid | Quantity | This task | Reference | Difference | Tolerance or bounds | Word |
+| --- | --- | --- | --- | --- | --- | --- |
+| G1 | U | 20.280478 | 20.281 (posted) | $-0.00052$ | 0.0203 | REPRODUCED |
+| G1 | $R_L$ | 2.78458 | 2.78456 (stored array) | $+0.00002$ | 0.01 | REPRODUCED |
+| G1 | m = 2 | $P_2 = 5.54 \times 10^{-11}$ | $10^{-11}$ (release) | | $B_{\mathrm{abs}} = 6.20 \times 10^{-9}$ | REPRODUCED |
+| G1 | N/U | 0.94712 | 0.947 (posted) | $+0.00012$ | 0.005 | REPRODUCED |
+| G2 | U | 20.423146 | 20.423 | $+0.00015$ | 0.0204 | no label (other orientation) |
+| G2 | $R_L$ | 2.79345 | 2.79341 | $+0.00004$ | 0.01 | no label (other orientation) |
+| G2 | m = 2 | $P_2 = 1.54 \times 10^{-6}$ | $10^{-11}$ | | | no label (other orientation) |
+| G4 | U | 21.287491 | 21.287 | $+0.00049$ | 0.0213 | REPRODUCED |
+| G4 | $R_L$ | 2.82157 | 2.82153 | $+0.00003$ | 0.01 | REPRODUCED |
+| G4 | m = 2 | $P_2 = 4.17 \times 10^{-12}$ | $10^{-11}$ | | $B_{\mathrm{abs}} = 6.20 \times 10^{-9}$ | REPRODUCED |
+| G4 | N/U | 0.96815 | 0.968 | $+0.00015$ | 0.005 | REPRODUCED |
+| G6 | U | 21.805154 | 21.805 | $+0.00015$ | 0.0218 | REPRODUCED |
+| G6 | $R_L$ | 2.90866 | 2.90869 | $-0.00002$ | 0.01 | REPRODUCED |
+| G6 | m = 2 | $P_2 = 9.26 \times 10^{-11}$ at the end, $8.93 \times 10^{-8}$ at iteration 3500 | $10^{-11}$ | | $B_{\mathrm{abs}} = 6.10 \times 10^{-9}$ | no label (second step: the two values lie on two sides of $B_{\mathrm{abs}}$) |
+| G6 | N/U | 1.00460 | 1.005 | $-0.00040$ | 0.005 | REPRODUCED |
+
+Every word above passed the second step (U within $1.5 \times 10^{-7}$ relative, $R_L$ within $2.1 \times 10^{-4}$, N/U within $1.4 \times 10^{-5}$ of the earlier state, against the bars $10^{-4}$, 0.001 and 0.0005).
+
+**Tabled beside, with no word.**
+
+| Grid | $R_A$ | Release radius | $P_1$ | $P_3$ | $P_4$ | Degree (surfaces) | $N_{\mathrm{vir}}/U$ |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| G1 | 2.7978 | 2.73 | $1.4 \times 10^{-5}$ | $6.0 \times 10^{-10}$ | $2.5 \times 10^{-5}$ | 1 (5) | 0.9676 |
+| G2 | 2.7869 | 2.74 | $3.3 \times 10^{-5}$ | $6.1 \times 10^{-6}$ | $1.1 \times 10^{-5}$ | 1 (5) | 0.9612 |
+| G3 | 2.8017 | none | $1.9 \times 10^{-5}$ | $3.8 \times 10^{-5}$ | $2.1 \times 10^{-9}$ | 1 (6) | 0.9559 |
+| G4 | 2.8325 | 2.83 | $3.5 \times 10^{-6}$ | $6.7 \times 10^{-10}$ | $1.4 \times 10^{-5}$ | 1 (11) | 0.9777 |
+| G5 | 2.8712 | none | $9.5 \times 10^{-9}$ | $4.9 \times 10^{-4}$ | $2.5 \times 10^{-11}$ | 1 (11) | 0.9735 |
+| G6 | 2.8505 | 2.82 | $2.9 \times 10^{-8}$ | $2.2 \times 10^{-3}$ | $2.0 \times 10^{-10}$ | 1 (17) | 0.9874 |
+
+Three readers give three sets of radii for the author's four arrays (G1, G2, G4, G6): this task's $R_L$ 2.7846, 2.7934, 2.8215, 2.9087; the archive's reader $R_A$ 2.7978, 2.7800, 2.8325, 2.8504; the release's radii 2.73, 2.74, 2.83, 2.82. G6's $R_L$ lies 0.09 above its release radius and outside the posted range; no word. The posted range of radii is 2.73 to 2.83, the release's m = 2 power $10^{-11}$, the posted Q/4π = 0.999 (a source integral on the loop, not this read). On G3 the posted "20.509 so far" stands beside $U$ = 20.507914 of `G3_end_a`, with no word; G3 and G5 are tables.
+
+**STATIONARY.**
+
+| Grid | U stored | U at the end of chain `b` | Fall (relative) | $\lvert \Delta R_L \rvert$ | Class | Word |
+| --- | --- | --- | --- | --- | --- | --- |
+| G1 | 20.280477485 | 20.280477483 | $7.4 \times 10^{-11}$ | $5.1 \times 10^{-7}$ | axis, axis | STATIONARY |
+| G2 | 20.423144527 | 20.423144527 | $3.5 \times 10^{-12}$ | $3.3 \times 10^{-9}$ | neither, neither | STATIONARY |
+| G4 | 21.287491291 | 21.287491291 | $6.7 \times 10^{-13}$ | $2.1 \times 10^{-8}$ | axis, axis | STATIONARY |
+| G6 | 21.805154769 | 21.805154108 | $3.0 \times 10^{-8}$ | $3.1 \times 10^{-5}$ | diag, diag | STATIONARY |
+
+The bars are $10^{-4}$ relative in U and $\tau_L = 0.01$ in $R_L$. On G6 the state the archive records as still settling fell by $3.0 \times 10^{-8}$ in 1003 iterations.
+
+### 10. The midpoint weight (§ 5 (ii)) and S1
+
+| Grid, start | $U^{\mathrm{end}}$ | $U^{\mathrm{mid}}$ | Relaxed shift | Fixed-field rise of the author's state | $R_L^{\mathrm{end}}$ | $R_L^{\mathrm{mid}}$ | Radius shift | Classes (end, mid) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| G1, a | 20.280478 | 20.482703 | 0.997 % | | 2.7846 | 2.8140 | 1.057 % | axis, axis |
+| G1, b | 20.280477 | 20.482703 | 0.997 % | 1.07 % (posted) | 2.7846 | 2.8140 | 1.058 % | axis, axis |
+| G2, a | 20.423146 | 20.527989 | 0.513 % | | 2.7934 | 2.8154 | 0.785 % | neither, neither |
+| G2, b | 20.423145 | 20.527962 | 0.513 % | 0.54 % (posted) | 2.7934 | 2.8133 | 0.712 % | neither, neither |
+| G3, a | 20.507914 | 20.551763 | 0.214 % | | 2.8029 | 2.8095 | 0.236 % | diag, diag |
+| G3, b | 20.507914 | 20.551763 | 0.214 % | | 2.8029 | 2.8095 | 0.236 % | diag, diag |
+| G4, a | 21.287491 | 21.487779 | 0.941 % | | 2.8216 | 2.8516 | 1.063 % | axis, axis |
+| G4, b | 21.287491 | 21.487779 | 0.941 % | 1.01 % (posted) | 2.8215 | 2.8516 | 1.064 % | axis, axis |
+| G5, a | 21.437038 | 21.548266 | 0.519 % | | 2.8886 | 2.8439 | $-1.546$ % | diag, axis |
+| G5, b | 21.444097 | 21.548266 | 0.486 % | | 2.8285 | 2.8439 | 0.546 % | axis, axis |
+| G6, a | 21.805154 | 22.039628 | 1.075 % | | 2.9087 | 2.8539 | $-1.883$ % | diag, axis |
+| G6, b | 21.805154 | 22.039628 | 1.075 % | 1.69 % (this plan) | 2.9087 | 2.8539 | $-1.883$ % | diag, axis |
+
+Every midpoint state is SMOOTH, one ring, degree 1 on every liftable surrounding surface, with zero jump links between near-vacuum nodes. On G1, G2, G4 and G6 the relaxed midpoint energy of chain `b` lies below the fixed-field value of the author's state, as a descent must: 0.997 against 1.07, 0.513 against 0.54, 0.941 against 1.01 and 1.075 against 1.69 percent above the author's end-weight energy. The pairs `b` meet the three clauses of S1 on all four grids (tabled, no word). On G6 the midpoint chain from the author's body-diagonal state ended on a box axis, the state that the midpoint chain from the seed also reached.
+
+**S1.** All six grids qualify (both chains `a` CONVERGED, SMOOTH, one ring, K5 met).
+
+| Grid | Energy $U^{\mathrm{mid}}/U^{\mathrm{end}} - 1$ | Size $R_L^{\mathrm{mid}}/R_L^{\mathrm{end}} - 1$ | Shape | Second step on the reads of the clauses |
+| --- | --- | --- | --- | --- |
+| G1 | 0.0100 | 0.0106 | holds | passes |
+| G2 | 0.0051 | 0.0078 | holds | withholds the energy, the size and the shape (`G2_mid_a`: earlier state = the start, outside the reader's regime) |
+| G3 | 0.0021 | 0.0024 | holds | passes |
+| G4 | 0.0094 | 0.0106 | holds | passes |
+| G5 | 0.0052 | $-0.0155$ | holds | passes |
+| G6 | 0.0108 | $-0.0188$ | holds | passes |
+
+**S1: no label.** No clause fails on any grid (bounds 0.03 and 0.03), so it is not NOT HELD; the energy, size and shape clauses of G2 rest on reads that the second-step rule withholds, and the plan's HELD needs every clause to hold on every qualifying grid, so it is not HELD either (the reading of deviation 3). The values that the rule withholds, 0.0051 and 0.0078, both lie inside the bounds.
+
+### 11. Plots
+
+![U against the spacing on half-box 6 and against the box at spacing 0.5, both weights, both starts, with the author's posted U](../plots/m5_51_energies.png)
+
+![The top gap on a meridian plane through the fitted axis of each of the 24 end states](../plots/m5_51_gap_meridian.png)
+
+![The crossing radius against the azimuth about the fitted axis, per grid, both weights and starts, with the author's stored array](../plots/m5_51_line_radius.png)
+
+![The co-rotating azimuthal power for m = 1 to 4 per state, with the bounds of K4 (b) dashed (box axis) and dotted (body diagonal) and the release's 1e-11 as a gray line](../plots/m5_51_spectrum.png)
+
+### 12. The registered expectations against the outcome
+
+| Expectation (§ 5) | Outcome | Scored |
+| --- | --- | --- |
+| STATIONARY on G1, G2, G4 | STATIONARY on all three | met |
+| G6 STATIONARY, or NOT STATIONARY by the energy clause | STATIONARY (fall $3.0 \times 10^{-8}$) | met |
+| every chain `a` one ring, degree 1, SMOOTH | all twelve | met |
+| some entries may read "no label (other orientation)" | G2 | not scored (a possibility, not a prediction) |
+| where the class matches, U, $R_L$, N/U REPRODUCED | G1, G4, G6: all REPRODUCED | met |
+| m = 2: a matching chain `a` on G1 or G4 under $B_{\mathrm{abs}}$; the author's G6 array between the bounds of its class; no m = 2 word on G2 | G1 and G4 REPRODUCED; the author's G6 array at $1.28 \times 10^{-8}$, between $6.10 \times 10^{-9}$ and $6.10 \times 10^{-5}$; G2 no word (orientation) | met |
+| midpoint U above the end weight by 0.3 to 1.7 percent on G1, G2, G4, G6, less on G3 | 0.997, 0.513, 0.941, 1.075; G3 0.214 | met |
+| the line radius within 1.5 percent | G5 $-1.546$ % and G6 $-1.883$ %, where the midpoint state took the box axis and the end state the body diagonal; the four others within 1.07 % (G4 1.063 and 1.064) | not met |
+| S1 HELD | no label | not met |
+| the loophole count near zero on every relaxed state | 0 jump links on all 24 end states | met |
+
+### 13. Observations the plan did not foresee
+
+- The relative-reduction tolerance of $10^{-12}$ ended every chain, all before 9000 iterations; the cap of 30000 was never reached. Eight chains ended by the tolerance before their first stop, so they meet the first clause of CONVERGED only (`only_first_clause` in the summary), and their earlier state is the start: `G1_end_b` (32 iterations), `G1_mid_b` (232), `G2_end_b` (2), `G2_mid_a` (628), `G4_end_b` (1), `G4_mid_b` (415), `G5_end_b` (544), `G5_mid_b` (513). On the five of them that moved from their start (`G1_mid_b`, `G2_mid_a`, `G4_mid_b`, `G5_end_b`, `G5_mid_b`) the second step withholds U, $R_L$ and N/U.
+- The lattice orientation of the ring differs between the two weights on two grids: with the end weight the seed chain ended on a body diagonal on G5 and G6, with the midpoint weight on a box axis. On G6 the midpoint chain from the author's diagonal state also moved to the box axis. On G5 the end weight holds both orientations (two states, the diagonal lower by $3.3 \times 10^{-4}$ in U, where the U of `G5_end_b` is a read the second step withholds; its K5 returned it within $4.7 \times 10^{-11}$).
+- In the class "neither" on G2, the end-weight chain `a` and the author's array differ by $5.5 \times 10^{-8}$ in U and $4 \times 10^{-5}$ in $R_L$ but by 4.30° in the angle to the nearest body diagonal, and the chain ended while its orientation was still turning; whether the two are one state along one slow rotation is unresolved; the two midpoint ends of G2 lie at (51.80°, 4.39°) and (36.56°, 18.31°) with U equal to $1.3 \times 10^{-6}$. The two-state rule compares the class, not the angles, so it names these one state.
+- The end-weight rings on a body diagonal at spacings 0.5 and 0.375 are less planar: the out-of-plane spread of the crossings is 0.126 on G6 and 0.049 on G5, against at most 0.005 on every other state, the body-diagonal rings of G3 at spacing 0.25 included (0.0038 and 0.0022).
+- The order-3 interpolation of the starts of G3 and G5 differed from $M_0$ on the faces by at most 0.0039 before the faces were reset.
+
+### 14. Deviations from the plan
+
+1. K1 (a), try 2: the central difference of the control computed node by node, summed exactly, against the gradient along the step actually applied; a defect of the control script (round-off of the two totals at step $10^{-4}$). No threshold changed.
+2. $\tau_L$ on G3 (spacing 0.25, not covered by K4 (a)): the floor 0.01, the strictest value of the rule. It enters only the second step of G3, which carries no word against the author.
+3. S1 against the second-step rule, on which the plan is silent: NOT HELD only on a failing clause whose reads pass the second step; a clause that fails or holds on a withheld read gives "no label", never HELD. It was written after `G2_mid_a` had ended at 628 iterations; no timestamped log entry fixes when it was written.
+4. A state qualifies for a word and for S1 only with K5 met, so "STALLED" and "K5 not run" both withhold; every chain `a` met K5, so this changed nothing.
+5. Details the plan leaves open, fixed as follows: the noise of start `a` drawn as an $(N - 2)^3 \times 6$ array over the free nodes in C order; the draws of K1 (a) in the order $S_1$ to $S_4$, $k_1$ to $k_4$, $\varphi_1$ to $\varphi_4$, then per case (weight, δ, faces) the 200 components and the direction; the degree surfaces include the box surface $L - h$; the far-node clause of one ring runs over every node; `maxfun` of 1.25 times the cap is a total over restarts; the wall cap counts across resumes (no restart or resume happened); the map_coordinates mode of the interpolated starts is the default; the K5 seeds follow the order of the chains, whether or not a chain qualified.
+6. The data manifest `_DATASETS.md` was not regenerated in this run (the run edits only this task's files); it is left to the review.
+7. K5 also ran on the one chain `b` that ended as a second state by the two-state rule (`G5_end_b`), as the plan words it, whether or not such a chain is CONVERGED (it was).
+8. The first launch of the chains died at start on a duplicate dictionary key in `m5_51_relax.py` (no iteration ran); the key was renamed and the chains relaunched.
+9. `m5_51_relax.py` was edited at 13:39:52 while nine chains were running: only the description string of an earlier state that is the start changed (from "the chain is shorter than 500 iterations" to "no saved state lies 500 iterations or more before the end"). The running processes had loaded the earlier file, so the record of `G2_mid_a` carries the earlier string; no number changed.
+10. `m5_51_reads.py` was edited after results existed: a type check in the difference column of the words (a crash on the m = 2 row; no value changed), the size and drawing order of the author's markers in the energy plot, the scoring of two expectations in the summary (m = 2, and the loophole count), and, after the audit, the regime guard of the second step (rulings below), the rotation and regime flags per chain, and the post-audit continuations in the summary.
+11. A limit found by the audit: the one-ring read outside its regime returns "one ring" on a field with no ring (§ 7). The second step now withholds $R_L$, the class and one ring when either state lies outside the reader's regime; this withholds the class and one ring of `G2_mid_a`, and the shape clause of S1 on G2. S1 stays "no label".
+12. After the audit, a run added to place the drift of § 8 (a descriptor, no word): the four G2 states continued with the relative-reduction tolerance switched off (§ 17).
+
+### 15. Not computed
+
+A continuation of the G2 states under a tighter gradient tolerance than that of the chains; a re-run of any chain, of K5, of K1 or of the readers by the checks of § 18; and everything the plan's own list names: δ above 0 beyond K1 and K3, a time evolution on the new action, the coupled Maxwell exterior, the limit of an infinite box, the pinned-line ladder of [M5.53](m5_53_task_details.md), the twist clock at $J > 0$, spacings under 0.25 or half-boxes above 12, a Hessian beyond K5, the dynamical meaning of N, and the author's charge integral on the loop.
+
+### 16. The local arrays and how to regenerate them
+
+The heavy arrays stay in `checkpoints/m5_51/` (gitignored). Every command runs from the research folder with `python3 -I` and the thread variables set to 1.
+
+| Arrays | Script and mode | Command |
+| --- | --- | --- |
+| `author/*.npz` | copies of the author's archive (hashes in § 7) | extract `LdGS_milestone_arrays_20nov.zip` |
+| `chains/<chain>/end.npz`, `sNNNNN.npz`, `ckpt_NNNNN.npz`, `chains/<chain>.json` | `m5_51_relax.py`, one chain | `python3 -I scripts/m5_51_relax.py --chain <chain>` (24 chains, `--list` prints them; G3 and G5 `b` after G2 and G4 `a` of the same weight) |
+| `chains/k5_<chain>/`, `chains/k5_<chain>.json` | `m5_51_relax.py`, K5 | `python3 -I scripts/m5_51_relax.py --k5 <chain>` |
+| `controls_k1_k3_try2.json` | `m5_51_action.py`, the controls | `python3 -I scripts/m5_51_action.py --selftest --out checkpoints/m5_51/controls_k1_k3_try2.json` |
+| `controls_k4_try1.json`, `k4d_m5_46_selftest.json` | `m5_51_reads.py`, K4 | `python3 -I scripts/m5_51_reads.py --k4` |
+| `stored_reads.json` | `m5_51_reads.py`, the author's arrays | `python3 -I scripts/m5_51_reads.py --stored` |
+| `../data/m5_51_summary.json`, `../plots/m5_51_*.png` (tracked) | `m5_51_reads.py`, the summary | `python3 -I scripts/m5_51_reads.py --summary` |
+| `chains/post_<chain>/`, `chains/post_<chain>.json` (§ 17) | `m5_51_relax.py`, the continuation after the audit | `python3 -I scripts/m5_51_relax.py --post <chain>` for `G2_end_a`, `G2_end_b`, `G2_mid_a`, `G2_mid_b` |
+
+### 17. After the audit: the rotation on G2 continued (descriptor, no word)
+
+Added after the audit, to place the drift of § 8; no rule changed and no word of §§ 9 to 10 changes. The four G2 end states were continued from their `end.npz`, same weight, with the relative-reduction tolerance switched off (`ftol` 0) and the other options of the chains (`maxcor` 10, `gtol` $10^{-7}$ on the gradient with its factor $h^3$), a cap of 30000 iterations from the continuation's start, a wall cap of 40 minutes, and a saved state with its reads every 1000 iterations and at the end.
+
+| Continuation of | Iteration | U | Gate | $R_L$ | Class (angles to axis, diagonal) | Regime, half-turn | Stop |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `G2_end_a` | 0 | 20.4231456479 | $9.0 \times 10^{-5}$ | 2.79345 | neither (16.595°, 38.192°) | true, true | |
+| `G2_end_a` | 58 | 20.4231456473 | $1.7 \times 10^{-6}$ | 2.79344 | neither (16.595°, 38.192°) | true, true | gradient tolerance |
+| `G2_end_b` | 0 | 20.4231445271 | $5.0 \times 10^{-6}$ | 2.79341 | neither (17.461°, 42.492°) | true, true | |
+| `G2_end_b` | 128 | 20.4231445258 | $1.8 \times 10^{-6}$ | 2.79341 | neither (17.460°, 42.493°) | true, true | gradient tolerance |
+| `G2_mid_a` | 0 | 20.5279886973 | $3.8 \times 10^{-5}$ | 2.81537 | neither (51.797°, 4.391°) | true, true | |
+| `G2_mid_a` | 94 | 20.5279886966 | $1.5 \times 10^{-6}$ | 2.81537 | neither (51.797°, 4.391°) | true, true | gradient tolerance |
+| `G2_mid_b` | 0 | 20.5279615508 | $1.1 \times 10^{-4}$ | 2.81329 | neither (36.555°, 18.310°) | true, true | |
+| `G2_mid_b` | 1000 | 20.5279605420 | $1.9 \times 10^{-5}$ | 2.81340 | neither (37.065°, 17.681°) | true, true | |
+| `G2_mid_b` | 1500 | 20.5279604979 | $1.9 \times 10^{-6}$ | 2.81341 | neither (37.066°, 17.673°) | true, true | gradient tolerance |
+
+Each continuation stopped by the gradient tolerance, after 58, 128, 94 and 1500 iterations. The ring normal turned by under 0.001° on `G2_end_a`, `G2_end_b` and `G2_mid_a` and by 1.64° on `G2_mid_b`; U fell by $3.1 \times 10^{-11}$, $6.1 \times 10^{-11}$, $3.2 \times 10^{-11}$ and $5.1 \times 10^{-8}$ relative. The two end-weight states stay 0.87° and 4.30° apart in their two angles, $5.5 \times 10^{-8}$ apart in U and $3.8 \times 10^{-5}$ in $R_L$; the end-weight pair did not approach. The two midpoint states stay apart, at (51.80°, 4.39°) and (37.07°, 17.67°); the angles of `G2_mid_b` moved by 0.51° and 0.64° toward those of `G2_mid_a`, with U differing by $1.37 \times 10^{-6}$ relative (from $1.32 \times 10^{-6}$) and $R_L$ by 0.0020.
+
+### 18. The checks of the record (2026-11-23)
+
+Two independent passes in fresh contexts read this record before the review, and neither wrote in it.
+
+| Pass | What it did | What it found |
+| --- | --- | --- |
+| The numbers | Recomputed U of all 24 end states under both weights, and their N/U, with code that shares nothing with the kernel of this task (largest relative difference $6.2 \times 10^{-14}$); read every table against the summary and the chain records; redid the arithmetic of every word, of S1, of STATIONARY and of the two-state rule; recomputed the six hashes | No number and no word to change. Three sentences that misdescribed the data (a maximum taken over three chains and stated for eleven, a bound of 1.06 that is 1.07 percent, five chains that are eight) |
+| The record against the plan | Read the kernel, the driver and the readers against §§ 1 to 5 line by line; recomputed U of the stored G1 and G6 arrays and of five end states with its own code; ran the tracked reader on the seeds; read every word against its rule and the logs against the deviations | No word to change. Two gaps in the evidence: the orientation turning before the stop (§ 8), and the line reader outside its regime (§ 7), which withholds one more clause of S1 on G2. Nine smaller items: the try-1 ratios of K1 (a), the chains that meet the first clause only, the withheld U of the two-state sentence, four entries missing from the deviations, the time of deviation 3, the radii of the author's arrays beside the release's, two rows of § 12, a clause of § 15 |
+
+Every finding was folded into §§ 7 to 15 where it applies, and § 17 was added to place the first gap. Neither pass re-ran a chain, K5 or the gradient control, and $R_L$, $P_2$ and the degree of the end states were checked as stored, not recomputed. The record and the second pass were written by instances of one model in separate contexts, the second under a neutral brief; the numbers pass ran on a different model.

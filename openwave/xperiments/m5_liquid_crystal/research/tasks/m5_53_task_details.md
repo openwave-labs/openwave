@@ -13,7 +13,9 @@
 | 3 | The rule for a split read on the free region between the two cylinders | the label of a rung |
 | 4 | The exit clause, registered before the run: a surface on which the gap closes on fewer than 30 nodes, all within one loop radius of the loop's last piece, reads unreadable; the clause fails if a readable surface reads other than 0 or 1, or if unreadable reads last more than 5 iterations after the loop's last piercing has left the box | the rule of the free-faced exits |
 
-**Open at the plan.** Which action the ladder runs on (that of [M5.42](m5_42_task_details.md), on which M5.50 ran, or the author's newer action ported in [M5.51](m5_51_task_details.md)); the radius of the cylinders and the profile imposed on them; the base control that M5.50 did not meet as worded (a radius read that moves in jumps larger than its bound), which needs a continuous measure before it gates a label.
+**The author's registered prediction (post of 2026-11-23 20:05 UTC, [discussioncomment-19840001](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19840001), rung T3, stated as registered before any run, their confidence 60 percent).** On the action of [M5.42](m5_42_task_details.md), with the hold of row 1 and d from 6 to 20: U(d) is linear for d above about three loop radii, with a slope within 15 percent of the tension of a straight ½ line measured in the same action and box; no split. The post adds one read to the table above: the tension of a straight ½ line in the same action and box.
+
+**Open at the plan.** Which action the ladder runs on: the author's prediction of 2026-11-23 names that of [M5.42](m5_42_task_details.md), on which M5.50 ran; whether it also runs on the newer action ported in [M5.51](m5_51_task_details.md) is decided at the plan; the radius of the cylinders and the profile imposed on them; the base control that M5.50 did not meet as worded (a radius read that moves in jumps larger than its bound), which needs a continuous measure before it gates a label.
 
 **Definition of done.** Written with the plan.
 
