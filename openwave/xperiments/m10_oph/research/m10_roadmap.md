@@ -9,6 +9,7 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
+| 🔶 [M10.4](tasks/m10_4_task_details.md) | Connected two-load release | Test free persistence of the pair with eleven prepared seam records and repeat the release with blank memories. | Candidate and row 4 review |
 
 ## BACKLOG
 
