@@ -386,3 +386,20 @@ Every finding is folded above (the opening paragraph, §§ 6 to 8, 10, 11, 14). 
 **Findings.** Against T2, the inertial ratio lies just under the author's range on the smallest box and inside it on the larger one; the energy word and the charge word are fixed by construction, and the radius word waits for a named reader.
 
 **Research docs created / updated.** This document; [`m5_54_charge.py`](../scripts/m5_54_charge.py), [`m5_54_score.py`](../scripts/m5_54_score.py); [`m5_54_summary.json`](../data/m5_54_summary.json); key plot [`m5_54_profile.png`](../plots/m5_54_profile.png); roadmap [`m5_roadmap.md`](../m5_roadmap.md); thread record [`m5_32_convo.md`](m5_32_convo.md). The data manifest lists arrays under `data/`; this task stored none. The review was approved by the repo owner on 2026-11-23.
+
+## AFTER THE REVIEW: THE AUTHOR NAMED THE READER OF THE RADIUS (2026-11-24)
+
+Appended; nothing above is edited by it. The author's post of 2026-11-24 05:26 UTC (the row of that date in the [thread record](m5_32_convo.md)) answers the question this task left with them: the range 2.76 to 2.86 of T2 refers to the $R_L$ of their deposited engine, the reader that gave 2.78456, 2.82153 and 2.90869 on their stored arrays, with a midpoint shift of about 1 percent applied; they ask that the stored states be scored with that $R_L$ as it is, any other reader being a cross-check. [M5.51](m5_51_task_details.md) § 9 returned those three values on the same arrays (2.7846, 2.8215, 2.9087), so the line reader of this record is the reader they name.
+
+No state was read again and no rule was added. The table is the frozen radius rule of § 3 (inside or outside by more than the reader's budget, otherwise no label; the second step and the veto of chain `b` unchanged) with the set of readers reduced to the one the author names. Every number is the `R_L` entry of `words/<grid>/entries/radius/readers_a` in [`m5_54_summary.json`](../data/m5_54_summary.json), written on 2026-11-23.
+
+| Grid | $R_L$, midpoint chain `a` | Inside [2.76, 2.86] by | Budget of $R_L$ | Radius entry by $R_L$ alone |
+| --- | --- | --- | --- | --- |
+| G1, half-box 6 at 0.5 | 2.8140 | 0.0460 | 0.01 | INSIDE |
+| G2, half-box 6 at 0.375 | 2.8154 | 0.0446 | 0.01 | no label (second step), as every entry of G2 |
+| G4, half-box 9 at 0.5 | 2.8516 | 0.0084 | 0.01 | no label (within the reader's budget of the upper end) |
+| G5, half-box 9 at 0.375 | 2.8439 | 0.0161 | 0.01 | INSIDE |
+
+Chain `b` gives the same entry on G1, G4 and G5 (2.8140, 2.8516, 2.8439). The author's stored values times 1.01 are 2.812 on G1 and 2.850 on G4; the relaxed midpoint states read 2.814 and 2.852.
+
+**What this is and is not.** The rule and the numbers predate the author's answer; the choice of the reader is theirs and arrived after the numbers were public in the results post of 2026-11-23, so this is a scoring after the fact on both sides, as the U and N/U entries of § 7 already were. The entries of the three-reader rule in § 7 and its tally stand as written: they are the outcome of the plan as frozen. With the reader named, the radius entries of T2 read two inside and two without a word. In the same post the author states that the three entries of Q/4π carry no information (a hedgehog with no ring reads the same) and that N/U = 0.9345 on G1 is a miss of T2 as registered, which is how § 7 records them.
