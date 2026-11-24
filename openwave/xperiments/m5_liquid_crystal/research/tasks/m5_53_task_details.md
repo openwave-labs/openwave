@@ -22,3 +22,5 @@
 **Gating.** [M5.51](m5_51_task_details.md) closed (the action is picked from its result), a plan with its audit, and the user's go.
 
 **Blindspot pass, consumers, research body.** Written with the plan.
+
+**After the author's post of 2026-11-24 05:26 UTC (appended; the row of that date in the [thread record](m5_32_convo.md)).** The post calls the pinned ladder a diagnostic of an older sector: in capstone 4.5 the electron is described as the Dirac field in frame variables and no longer as the half-line construction, and the post proposes to withdraw the question of what binds the two half-lines instead of answering it. That paragraph opens with a drafting note asking for the author's own confirmation, so it is recorded here as not confirmed. The task stays filed as written; in the run order it sits after [M5.56](m5_56_task_details.md), the discriminator the author asked of OpenWave's actions on the same day.
