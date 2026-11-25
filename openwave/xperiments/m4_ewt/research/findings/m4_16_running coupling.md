@@ -1,4 +1,4 @@
-# EWT / OpenWave Findings (M4.16, M4.17 & Metric Conversion Status of $m_e$)
+# EWT / OpenWave Findings (M4.16)
 
 ## Finding 1 (M4.16): Scale-Dependent Gravitational Coupling $\alpha_G(r)$ and Geometric Emergence
 
@@ -40,29 +40,13 @@ with $\alpha_G(r)$ evaluated from $N(r)$ and $G(r) = G_{\text{Base}}\,[\alpha_G(
 * At $r = r_e$ (core boundary onset): $N(r_e) = 1.212915 \times 10^{52}\ \mathrm{m^{-3}}$, $\alpha_G(r_e) = 3.977632 \times 10^{-47}$, $G(r_e) = 1.515457 \times 10^{-12}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$
 * At $r = 0.1\,r_e$ (deep core): $N(0.1\,r_e) = 3.263183 \times 10^{52}\ \mathrm{m^{-3}}$, $\alpha_G(0.1\,r_e) = 2.425041 \times 10^{-47}$, $G(0.1\,r_e) = 9.239280 \times 10^{-13}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$ (core-to-asymptotic ratio: $1.383656 \times 10^{-2}$)
 
-\paragraph{Scale Invariance and the Absence of Implicit Anchor Dependence.}
-Both the asymptotic coupling $\alpha_G(\infty)$ and the running profile $\alpha_G(r/r_e)$ are invariant with respect to external dimensional unit choices. In Path 3, the asymptotic value is governed exclusively by dimensionless BCC lattice invariants ($A_\pi$, $\varepsilon_M$, $N_{\text{geom}}$, $K_{\text{WC}}$, and $X_{\text{eff}}$). Expressed in terms of the dimensionless scale $\tilde{r} \equiv r / r_e$, the core radius $r_e = 100\,r_\nu$ acts strictly as an internal geometric scale ratio rather than an externally imposed length anchor; covariant rescaling of the lattice scale leaves $\alpha_G(\tilde{r})$ unchanged, confirming that the onset at $\tilde{r} \sim 1$ is a geometric consequence of the core-to-vacuum density transition.
+### Scale Invariance and the Absence of Implicit Anchor Dependence
 
----
+A careful reader might note that the effective density $N_{\text{eff}}$ entering the factored geometric expression for $\alpha_G$ is related to $(r_\nu / \lambda_l)^3$, and since $\lambda_l$ is derived from $r_e$, there appears to be an implicit dependence on the empirical anchors $r_e$ and $e$. However, this is not a dynamical dependence, but a manifestation of *scale invariance*. The anchors $r_e$ and $e$ merely set the absolute unit scale (in metres) and do not dictate the geometric ratios. Specifically, the fundamental geometric link $r_e = 100\,r_\nu$ enforces a rigid ratio, meaning the factor $(r_e / r_\nu)^6$ is a fixed geometric constant ($10^{12}$), while $e$ cancels identically in the geometric fixed-point equation for $r_\nu$. Consequently, if one were to artificially scale the anchor $r_e$ by any factor, the derived Planck length $\lambda_l$ would scale by the exact same factor, leaving the dimensionless density ratios and the coupling $\alpha_G$ completely invariant. The gravitational coupling is therefore a pure, dimensionless geometric ratio of the BCC lattice, entirely independent of the numerical values of the empirical anchors.
 
-## Finding 2 (M4.17): Local Medium / Field Parameter Dependence $G(B)$ and $\alpha_G(B)$
+**Note on profile form:**
 
-* **Script:** `openwave/xperiments/m4_ewt/research/scripts/m4_17_g_of_b.py`
-* **Status:** **PASS** (Recovers $G_{\text{EWT}} = 6.677439 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$ and $\alpha_G = 1.752633 \times 10^{-45}$ as $B / B_0 \to 0$; smooth suppression across $B / B_0 \sim 1$)
-
-### 1. Formulation and Physical Scope
-
-Starting from the geometric baseline $G_{\text{EWT}}$ and $\alpha_G^{\text{geom}}$ in `m4_7_ewt_emergence_engine.py`, an effective parameter/field-dependent coupling is modeled via a normalized local medium/field state parameter $x_B = B / B_0$:
-
-$$G(B) = G_{\text{EWT}}\, f_G\!\left(\frac{B}{B_0}\right), \qquad \alpha_G(B) = \alpha_{\text{geom}}\left(\frac{G(B)}{G_{\text{Base}}}\right) = \alpha_G^{\text{geom}}\, f_G\!\left(\frac{B}{B_0}\right)$$
-
-with the saturation profile $f_G(B/B_0) = \left[1 + (B/B_0)^p\right]^{-1}$ ($p = 2.0$, $f_G(0) = 1$). Rather than treating $B$ as an arbitrary alteration of an electron's intrinsic constants, $B$ represents a local medium/field state parameter in the core neighborhood. For $B \ll B_0$ (standard macroscopic or weak-field regimes), $f_G \to 1$ and $G(B) \to G_{\text{EWT}}$.
-
-### 2. Quantitative Behavior Across $B / B_0$
-
-* At $B / B_0 = 1.0000 \times 10^{-3}$: $f_G = 0.999999$, $G(B) = 6.677432 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$ ($1.000 \times 10^{-4}\%$ difference vs. $G_{\text{EWT}}$), $\alpha_G(B) = 1.752631 \times 10^{-45}$
-* At $B / B_0 = 1.0000 \times 10^{0}$: $f_G = 0.500000$, $G(B) = 3.338719 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$, $\alpha_G(B) = 8.763165 \times 10^{-46}$
-* At $B / B_0 = 1.0000 \times 10^{2}$: $f_G = 9.999000 \times 10^{-5}$, $G(B) = 6.676771 \times 10^{-15}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$, $\alpha_G(B) = 1.752458 \times 10^{-49}$
+The specific profile shape is secondary to the algebraic structure and limiting behavior of the equations; the radial profile $N(r)$ with $\exp[-(r/r_e)^2]$ serves as a working model ansatz to test scale running across $r_e$, while the asymptotic $\alpha_G$ value and core boundary scale $r_e$ follow from the BCC geometry.
 
 ---
 
@@ -74,14 +58,12 @@ Section:
 
 The Geometric Identity of $G$: Derivation and Consistency:
 * Derivation of $G$ from Electron Scaling (The $\hbar$-Independent Base)
-* The Base Gravitational Scaling ($\mathbf{G}_{\text{Base}}$
+* The Base Gravitational Scaling ($\mathbf{G}_{\text{Base}}$)
 * The Gravitational Identity Flow: From Electromagnetic Base to Surface Transition
 * The Gravitational Coupling Constant
-* Formalization of Soliton Geometric Density \(\rho(r)\)
-* Formal Definition of the Operator \(\mathcal{U}\): Mapping Geometric Parameters to \(G\)
+* Formalization of Soliton Geometric Density $\rho(r)$
+* Formal Definition of the Operator $\mathcal{U}$: Mapping Geometric Parameters to $G$
 * Geometric Emergence of the Planck Length
-* he Electron Mass Cancellation in the Planck Length
-* The Gravitational Coupling Constant
+* The Electron Mass Cancellation in the Planck Length
 
 DOI: [10.5281/zenodo.24513845](https://doi.org/10.5281/zenodo.24513845).
-
