@@ -9,7 +9,6 @@
 
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
-| 🔶 [M10.4](tasks/m10_4_task_details.md) | Connected two-load release | Test free persistence of the pair with eleven prepared seam records and repeat the release with blank memories. | Candidate and row 4 review |
 
 ## BACKLOG
 
@@ -19,14 +18,14 @@
 | TaskID | Title | Description | Gated By |
 | --- | --- | --- | --- |
 
-## STATUS AT A GLANCE (2026-11-21)
+## STATUS AT A GLANCE (2026-11-25)
 
 | Question | Answer |
 | --- | --- |
-| Where is M10? | Registered column, admitted 2026-11-13 ([discussion #712](https://github.com/openwave-labs/openwave/discussions/712)). Scored on the Interval Echo pin since 2026-11-21 ([M10.3](tasks/m10_3_task_details.md)); particle stability partial, every other `MODELS.md` cell not yet tested |
+| Where is M10? | Registered column, admitted 2026-11-13 ([discussion #712](https://github.com/openwave-labs/openwave/discussions/712)). Scored on Interval Echo since 2026-11-21, on the M10.4 pin with eleven written seam records since 2026-11-25 ([M10.4](tasks/m10_4_task_details.md)); particle stability partial, every other `MODELS.md` cell not yet tested |
 | What kind of column? | Tier 2: a local repair and memory law on a screen of twelve-port carriers, written as update rules with no action |
-| What decides the next cell? | In the words of [`m10_theory_canonical.md`](m10_theory_canonical.md) § 8: "Its observable computed on the carrier's own process in-platform. With something still supplied, that is a case for ⚠️ with the caveat in the cell. With the source derived from the carrier, it meets the bar for ✅ set in the #482 answer." Row 4 is the first, at partial, its coupling supplied ([review](findings/m10_3_maintainer_review.md) § 5) |
-| Who runs what? | M10.1, the certification gate, was the one maintainer-run task and is closed. The author runs and brings every task from here, on the author's own compute. Maintainers review, at maintainer pace |
+| What decides the next cell? | In the words of [`m10_theory_canonical.md`](m10_theory_canonical.md) § 8: "Its observable computed on the carrier's own process in-platform. With something still supplied, that is a case for ⚠️ with the caveat in the cell. With the source derived from the carrier, it meets the bar for ✅ set in the #482 answer." Row 4 is the first, at partial, its record pattern chosen with the row's criterion known ([review](findings/m10_4_maintainer_review.md) § 5) |
+| Who runs what? | M10.1, the certification gate, was the one maintainer-run task and is closed. The author and the co-author run and bring every task from here, on their own compute. Maintainers review, at maintainer pace |
 
 ## CONVENTIONS
 
@@ -55,6 +54,7 @@ regenerates the headline number. Adversarial audit on substantive claims
 | ✅ [M10.1](tasks/m10_1_task_details.md) | Certification gate: twelve-direction dispersion | Closed 2026-11-13. The author's frozen expansion coefficients are reproduced exactly in clean rooms, seven of seven values, the comparison made after the rooms' result was pushed. Arithmetic on a declared object; no cell moves. Full record: [note](findings/m10_1_method_note.md) + [task](tasks/m10_1_task_details.md) | 2026-11-13 |
 | ✅ [M10.2](tasks/m10_2_task_details.md) | Signed-source static tests | Closed 2026-11-15. The author's static results on the signed-source candidate reproduce by an independent in-platform recomputation: the graph, the compact energies, the moments and the stopping times. The charge, rest-energy and spin rows stay not yet tested, since each property comes from what the candidate declares; the record says what would move each. Full record: [review](findings/m10_2_maintainer_review.md) + [task](tasks/m10_2_task_details.md) | 2026-11-15 |
 | ✅ [M10.3](tasks/m10_3_task_details.md) | Free particle persistence | Closed 2026-11-21. The author's free-pair numbers on Interval Echo reproduce to nine digits by an independent in-platform recomputation. The pin was adopted and the particle-stability row moved to partial: the pair's persistence comes out of the generator the candidate's spec states, with the coupling a supplied choice. Full record: [maintainer review](findings/m10_3_maintainer_review.md) + [task](tasks/m10_3_task_details.md) | 2026-11-21 |
+| ✅ [M10.4](tasks/m10_4_task_details.md) | Connected two-load release | Closed 2026-11-25. The connected release reproduces to nine digits by an independent in-platform recomputation, with the seam law's switch-off checked exactly. The pin moved to the written-record candidate and row 4 stays partial: persistence is exact at every coupling, and the record pattern was chosen with the row's criterion known. Full record: [maintainer review](findings/m10_4_maintainer_review.md) + [task](tasks/m10_4_task_details.md) | 2026-11-25 |
 
 ## CHANGE-LOG
 
@@ -94,3 +94,14 @@ recorded in the cell. The maintainers' recompute, a script that reads one data f
 of the author's and runs none of the author's code, reproduces the author's numbers
 to nine digits and is the check of record. The backlog is empty: the next row is
 the author's to create.
+
+2026-11-25. M10.4 closed, with pull request
+[#749](https://github.com/openwave-labs/openwave/pull/749) merged, filed by the
+column's co-author, Mario Poneder, named that day on the author's approval. The pin
+moves to Interval Echo at `09f062f7` with eleven written seam records around the
+pair's launch, on the same law and board. Row 4 stays partial: the pair's home
+probability is at least 0.99477 at every exposure and every coupling, and the record
+pattern was chosen with the row's criterion known. What would move it is recorded in
+the cell. The maintainers' recompute reads one data file of the authors' and runs none
+of their code; it reproduces the numbers to nine digits and checks the seam law's
+switch-off exactly. The backlog is empty: the next row is the authors' to create.
