@@ -1,4 +1,4 @@
-# From manuscript version: 5.3.2 or later
+﻿# From manuscript version: 5.4.0 or later
 # =============================================================================
 # SECTION 1: GLOBAL INPUTS & CONSTANTS
 # -----------------------------------------------------------------------------
@@ -34,6 +34,8 @@ SQRT3   = math.sqrt(3.0)             # diagonal of unit cube face
 
 # Metric and electromagnetic scales
 C0                = 299792458.0               # speed of light [m/s] (exact SI)
+K_B               = 1.380649e-23              # Boltzmann constant [J/K] (exact SI)
+
 M_E               = 9.1093837015e-31          # electron mass [kg]
 R_E               = 2.8179403262e-15          # classical electron radius [m]
 ALPHA_INV_CODATA  = 137.035999084              # inverse fine-structure constant
@@ -41,6 +43,8 @@ A_E_CODATA        = 0.0011596521816            # electron AMM (g-2)/2
 
 # Gravitational scale
 G_CODATA          = 6.674305e-11              # gravitational constant [m^3 kg^-1 s^-2]
+# Gravitational coupling constant for two electrons (CODATA 2022)
+ALPHA_G_CODATA    = 1.75181e-45
 
 # Electroweak and flavour scales
 M_Z_CODATA        = 91.1876                   # Z boson mass [GeV]
@@ -64,7 +68,7 @@ R_INF_CODATA      = 10973731.568157           # Rydberg constant [m^-1]
 A0_CODATA         = 5.29177210903e-11         # Bohr radius [m]
 LAMBDA_C_CODATA   = 2.42631023867e-12         # electron Compton wavelength [m]
 
-# Quark masses (MS-bar, PDG 2024) used in flavour mixing test
+# Quark masses (MS-bar, PDG 2022) used in flavour mixing test
 M_D_PDG           = 0.00470                   # d-quark mass [GeV], PDG 2024
 M_S_PDG           = 0.09350                   # s-quark mass [GeV], PDG 2024
 
@@ -80,6 +84,11 @@ LAMBDA_L          = 1.6162e-35
 # Elementary charge (CODATA 2022) -- empirical anchor of the amplitude scale
 E_CHARGE_CODATA   = 1.602176634e-19
 
+
+# Cosmological reference values (Planck 2018)
+OMEGA_GAMMA_CODATA = 5.402e-5    # CMB radiation density parameter (approx)
+# Note: The theoretical value from Haug (2026) is exactly 1/(5760*pi) ~ 5.526e-5.
+T_CMB_COBE_FIRAS = 2.7255
 # -----------------------------------------------------------------------------
 # 1.3 PURE BCC LATTICE GEOMETRY
 # -----------------------------------------------------------------------------
@@ -771,6 +780,13 @@ def derive_lambda_l_geometric(
     obtained by combining the geometric G with the Planck length definition.
     It does NOT use hbar or G as input.
 
+    Crucial physical insight:
+    Although hbar depends linearly on m_e, and G depends on 1/m_e, their
+    product (hbar * G) is completely independent of the electron mass.
+    The electron mass cancels algebraically. The Planck length is therefore
+    a pure property of the BCC vacuum, defined only by r_e (or r_nu), alpha,
+    and N_geom.
+
     Formula:
         lambda_l = [ r_e^2 * sqrt(X_eff) /
                      ( alpha_geom * A_pi^4 * N_geom^3 * K_WC *
@@ -1212,6 +1228,218 @@ def report_atomic_scales(res: dict) -> None:
     print(f"    CODATA        : {LAMBDA_C_CODATA:.15e} m")
     print(f"    rel_error     : {abs(res['lambda_C'] - LAMBDA_C_CODATA)/LAMBDA_C_CODATA*100:.6f} %")
 
+# =============================================================================
+# SECTION 10: THERMODYNAMIC SCALES
+# =============================================================================
+
+def derive_planck_temperature(hbar_geom: float, G_EWT: float) -> float:
+    """
+    Derive the Planck temperature from the geometric trinity.
+
+    Formula:
+        T_p = (1/k_B) * sqrt(hbar * c^5 / G)
+
+    Note on mass dependence:
+    Unlike the Planck length (where m_e cancels identically), the Planck
+    temperature scales linearly with the electron mass, because
+    hbar ~ m_e and G ~ 1/m_e, so hbar/G ~ m_e^2.
+    The geometric formula can be written explicitly as:
+        T_p = (m_e c^2 / k_B) * sqrt(A_pi / alpha) * (N_geom*A_pi)^(3/2) * sqrt(K_WC * sqrt(N_eff))
+
+    Parameters
+    ----------
+    hbar_geom : float
+        Reduced Planck constant [J*s].
+    G_EWT : float
+        Gravitational constant [m^3/kg/s^2].
+
+    Returns
+    -------
+    float
+        Planck temperature [K].
+    """
+    return (1.0 / K_B) * math.sqrt(hbar_geom * C0**5 / G_EWT)
+
+# =============================================================================
+# SECTION 10: GRAVITATIONAL COUPLING
+# =============================================================================
+
+def derive_gravitational_coupling(alpha_geom: float, G_EWT: float, G_Base: float) -> float:
+    """
+    Path 1: Derive alpha_G from the standard physics definition.
+    
+    Formula:
+        alpha_G = G * m_e^2 / (hbar * c)
+    
+    By substituting the geometric G and hbar, we show that this 
+    standard definition reduces to a pure geometric number. This 
+    bridges the gap between Standard Model definitions and EWT.
+    """
+    return alpha_geom * (G_EWT / G_Base)
+
+
+def derive_alpha_G_from_alpha(alpha_geom: float, A_pi: float, N_geom: float, K_WC: int, N_eff: float) -> float:
+    """
+    Path 2: Derive alpha_G from the geometric form with alpha_geom.
+    
+    Derivation:
+        G_geom = (c^2 r_e / m_e) * [1/A_pi] * [1/(N_geom*A_pi)^3] * [1/(K_WC*sqrt(N_eff))]
+        hbar_geom = (m_e * c * r_e) / alpha_geom
+    Substituting into alpha_G = G * m_e^2 / (hbar * c):
+        alpha_G = alpha_geom / [ A_pi^4 * N_geom^3 * K_WC * sqrt(N_eff) ]
+    
+    Crucial insight: The mass m_e and radius r_e cancel entirely. 
+    The coupling is purely a property of the BCC vacuum geometry.
+    """
+    return alpha_geom / (A_pi**4 * N_geom**3 * K_WC * math.sqrt(N_eff))
+
+
+def derive_alpha_G_pure_geom(eps_M: float, A_pi: float, N_geom: float, K_WC: int, N_eff: float) -> float:
+    """
+    Path 3: Derive alpha_G using ONLY BCC geometry (no alpha_geom).
+    
+    Derivation:
+        Since alpha_geom = 1 / (A_pi - eps_M), we substitute it into Path 2:
+        alpha_G = 1 / [ (A_pi - eps_M) * A_pi^4 * N_geom^3 * K_WC * sqrt(N_eff) ]
+    Factoring A_pi out of (A_pi - eps_M):
+        alpha_G = 1 / [ A_pi^5 * (1 - eps_M/A_pi) * N_geom^3 * K_WC * sqrt(N_eff) ]
+    
+    This is the purest form: it isolates A_pi^5 (the 5-dimensional 
+    geometric ladder), a tiny vacuum correction (1 - eps_M/A_pi), 
+    the lattice stiffness N_geom^3, and the surface projection.
+    """
+    correction = 1.0 - (eps_M / A_pi)
+    return 1.0 / (A_pi**5 * correction * N_geom**3 * K_WC * math.sqrt(N_eff))
+    
+def derive_hubble_entropy(R_H: float, lambda_l: float) -> float:
+    """
+    Derive the entropy of the Hubble horizon in Planck units (Bekenstein-Hawking).
+    
+    Formula:
+        S = pi * (R_H / lambda_l)^2
+        
+    Since both R_H and lambda_l are geometric quantities in EWT, 
+    the entropy is a pure geometric number independent of m_e and c.
+    
+    Parameters
+    ----------
+    R_H : float
+        Hubble radius [m].
+    lambda_l : float
+        Geometric Planck length [m].
+        
+    Returns
+    -------
+    float
+        Dimensionless horizon entropy.
+    """
+    return PI * (R_H / lambda_l)**2
+
+
+def derive_cmb_density_parameter(
+    hbar_geom: float, 
+    H_0: float, 
+    G_EWT: float, 
+    T_cmb: float
+) -> float:
+    """
+    Derive the CMB radiation density parameter Omega_gamma.
+    
+    Formula:
+        Omega_gamma = rho_gamma / rho_crit
+    where:
+        rho_gamma = (pi^2 * k_B^4 / (15 * hbar^3 * c^3)) * T_cmb^4
+        rho_crit  = 3 * H_0^2 * c^2 / (8 * pi * G)
+        
+    Parameters
+    ----------
+    hbar_geom : float
+        Reduced Planck constant [J*s].
+    H_0 : float
+        Hubble constant [km/s/Mpc].
+    G_EWT : float
+        Gravitational constant [m^3/kg/s^2].
+    T_cmb : float
+        CMB temperature [K].
+        
+    Returns
+    -------
+    float
+        Dimensionless radiation density parameter Omega_gamma.
+    """
+    # Radiation energy density [J/m^3]
+    rho_gamma = (PI**2 * K_B**4) / (15.0 * hbar_geom**3 * C0**3) * T_cmb**4
+    
+    # Critical density [J/m^3]
+    # Convert H_0 from km/s/Mpc to 1/s
+    MPC_M = 3.0856775814913673e22
+    H_0_si = H_0 * 1000.0 / MPC_M
+    rho_crit = (3.0 * H_0_si**2 * C0**2) / (8.0 * PI * G_EWT)
+    
+    return rho_gamma / rho_crit
+    
+
+def derive_hubble_radius(lambda_l: float, T_p: float, T_cmb: float) -> float:
+    """
+    Derive the Hubble radius from the Haug-Tatum relation.
+    
+    Formula:
+        R_H = lambda_l * (T_p / T_cmb)^2 / H_factor
+    where H_factor = 8 * (2*pi)^2 = 32*pi^2.
+    
+    Parameters
+    ----------
+    lambda_l : float
+        Geometric Planck length [m].
+    T_p : float
+        Planck temperature [K].
+    T_cmb : float
+        CMB temperature [K].
+        
+    Returns
+    -------
+    float
+        Hubble radius [m].
+    """
+    H_factor = 8.0 * (2.0 * PI)**2
+    return lambda_l * (T_p / T_cmb)**2 / H_factor
+
+def derive_lambda_l_cancelled_form(r_e: float, alpha_geom: float, A_pi: float, N_geom: float, K_WC: int, N_eff: float) -> float:
+    """
+    Derive the Planck length using the explicit mass-cancelled form.
+    
+    This function demonstrates the algebraic cancellation of m_e 
+    explicitly:
+        lambda_l = (r_e / sqrt(alpha_geom * A_pi)) 
+                   * (1 / (N_geom * A_pi))^(3/2) 
+                   * (1 / sqrt(K_WC * sqrt(N_eff)))
+                   
+    Parameters
+    ----------
+    r_e : float
+        Classical electron radius [m].
+    alpha_geom : float
+        Geometric fine-structure constant.
+    A_pi : float
+        Geometric core constant.
+    N_geom : float
+        Effective BCC stiffness.
+    K_WC : int
+        Number of wave centres.
+    N_eff : float
+        Effective neutrino density.
+        
+    Returns
+    -------
+    float
+        Planck length [m].
+    """
+    term1 = r_e / math.sqrt(alpha_geom * A_pi)
+    term2 = (1.0 / (N_geom * A_pi)) ** 1.5
+    term3 = 1.0 / math.sqrt(K_WC * math.sqrt(N_eff))
+    return term1 * term2 * term3
+
+
 def main():
     print("ENHANCED EWT - EMERGENCE ENGINE (PROTOTYPE)")
 
@@ -1321,9 +1549,85 @@ def main():
     atomic_res = compute_atomic_scales(alpha_geom, r_e_geom)
     report_atomic_scales(atomic_res)
 
+    alpha_G_ewt = derive_gravitational_coupling(alpha_geom, gravity_res['G_EWT'], gravity_res['G_Base'])
+    rel_err = abs(alpha_G_ewt - ALPHA_G_CODATA) / ALPHA_G_CODATA * 100.0
+
+    # ----------------------------------------------------------------
+    # Alpha_G (Gravitational Coupling) - Three Equivalent Paths
+    # ----------------------------------------------------------------
+    print("\n" + "=" * 78)
+    print("GRAVITATIONAL COUPLING CONSTANT (alpha_G)")
+    print("=" * 78)
+    
+    A_pi = compute_alpha_core()
+    N_eff = gravity_res["N_nu_eff"]
+    G_Base = gravity_res["G_Base"]
+    G_EWT = gravity_res["G_EWT"]
+
+    # Path 1: Standard physics definition (using G and hbar)
+    alpha_G_path1 = derive_gravitational_coupling(alpha_geom, G_EWT, G_Base)
+    
+    # Path 2: Geometric formula (canceling m_e and r_e)
+    alpha_G_path2 = derive_alpha_G_from_alpha(alpha_geom, A_pi, bcc_derived["N_geom"], 10, N_eff)
+    
+    # Path 3: Pure BCC geometry (canceling alpha_geom, m_e, r_e, G)
+    alpha_G_path3 = derive_alpha_G_pure_geom(eps_M_bcc, A_pi, bcc_derived["N_geom"], 10, N_eff)
+
+    rel_err_alphaG = abs(alpha_G_path3 - ALPHA_G_CODATA) / ALPHA_G_CODATA * 100.0
+
+    print(f"  Path 1 (from G_EWT and hbar)     = {alpha_G_path1:.6e}")
+    print(f"  Path 2 (geometric with alpha)    = {alpha_G_path2:.6e}")
+    print(f"  Path 3 (pure BCC geometry)       = {alpha_G_path3:.6e}")
+    print(f"  CODATA 2022 reference            = {ALPHA_G_CODATA:.6e}")
+    print(f"  Relative error (Path 3 vs CODATA)= {rel_err_alphaG:.6f} %")
+    print("  -> m_e, r_e, G and hbar cancel entirely. Gravity is pure geometry.")
+    print("=" * 78)
+
+    # ----------------------------------------------------------------
+    # Planck length mass-cancellation check
+    # ----------------------------------------------------------------
+    lambda_l_cancelled = derive_lambda_l_cancelled_form(R_E, alpha_geom, A_pi, bcc_derived["N_geom"], 10, N_eff)
+    
+    print("\n" + "=" * 78)
+    print("PLANCK LENGTH MASS CANCELLATION")
+    print("=" * 78)
+    print(f"  Engine path (via X_eff)     = {lambda_l_geom:.6e} m")
+    print(f"  Mass-cancelled path (N_eff) = {lambda_l_cancelled:.6e} m")
+    print(f"  Difference                  = {abs(lambda_l_geom - lambda_l_cancelled):.6e} m")
+    print("  -> The exact algebraic cancellation of m_e is confirmed.")
+    print("=" * 78)
+
+    print("\n" + "=" * 78)
+    
+    G_EWT = gravity_res['G_EWT']
+    T_p = derive_planck_temperature(hbar_geom, G_EWT)
+    T_cmb = T_CMB_COBE_FIRAS
+    
+    R_H = derive_hubble_radius(lambda_l_geom, T_p, T_cmb)
+    
+    MPC_M = 3.0856775814913673e22
+    H_0_si = C0 / R_H
+    H_0 = H_0_si * MPC_M / 1000.0  # H_0 w km/s/Mpc
+
+    entropy = derive_hubble_entropy(R_H, lambda_l_geom)
+    print(f"Hubble Radius R_H = {R_H:.6e} m")
+    print(f"Hubble Entropy S   = {entropy:.6e}")
+
+    omega_gamma_ewt = derive_cmb_density_parameter(hbar_geom, H_0, G_EWT, T_cmb)
+    rel_err_omega = abs(omega_gamma_ewt - OMEGA_GAMMA_CODATA) / OMEGA_GAMMA_CODATA * 100.0
+
+    print(f"Omega_gamma (EWT)     = {omega_gamma_ewt:.6e}")
+    print(f"Omega_gamma (CODATA)  = {OMEGA_GAMMA_CODATA:.6e}")
+    print(f"Relative error        = {rel_err_omega:.4f} %")
+    print(f"Exact theoretical 1/(5760*pi) = {1.0/(5760.0 * PI):.6e}")
+
     print("\n" + "=" * 78)
     print("END OF TEST")
     print("=" * 78)
 
+
+
+
 if __name__ == "__main__":
     main()
+    

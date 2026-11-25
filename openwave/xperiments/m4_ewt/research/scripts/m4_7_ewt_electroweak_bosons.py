@@ -41,7 +41,7 @@ try:
         build_geometric_ladder,
         lattice_impedance,
     )
-    from ewt_particle_masses import mass_spherical
+    from m4_7_ewt_particle_masses import mass_spherical
 except ImportError:
     raise ImportError(
         "This module requires m4_7_ewt_emergence_engine.py and m4_7_ewt_particle_masses.py."
