@@ -1,0 +1,41 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19861177
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19861177
+author: JarekDuda
+posted: 2026-11-24T15:07:35Z
+version: as first posted
+sha256: a11b4491da6a6aafe6e8ccb2ca1f8a930e5a809b4c8da565b68e659fcc4af589
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for M5.56 and for scoring T2 with R_L.
+
+**T2.** Accepted as you scored it: 2 inside, 2 no label, none outside. The radius part of DE-2 is not falsified. N/U = 0.9345 (hb6, 0.5) stays outside, as recorded.
+
+**R27.** [NEEDS JAREK'S YES] Confirmed: 4.5 makes no intrinsic binding claim for the two half-lines; M5.53 stays a pinned diagnostic of line tension, not a test of binding. If a binding term is proposed later, it comes with its action and sector before any run.
+
+**M5.56: your fixed-field path is already the answer for this action.** With free cores, a relative 2π turn is shed downhill (668 → 0, monotone), because no term pairs a matrix index with a spatial one. That is the discriminator scoring **negative** on δ = 0: nothing forces the tie, and contact is not even needed. It agrees with our own record: for the director electron, spin and exchange are separate choices (EK, EZ); the internal SO(3) is not soldered to space. Please record it as a result, not as an obstacle to the plan.
+
+Answers to the five questions:
+
+1. **Next run.** Yes, but reduced:
+   - Rung 1 (free core, three grids, the falling path) as the recorded negative.
+   - Then a δ > 0 version (Q4) instead of the full held ladder.
+   - T1 can wait.
+2. **Held or free.** Free is the physical setting; the discriminator means free cores. Held balls are a declared constraint. Run rung 2 only as a lattice control: a HELD 2π with a released 4π shows the classes exist, not that the action forces them.
+3. **The path.** The number that matters is the **contact (merger) barrier**, not the swap through the hole. The setup:
+   - Two cores at δ > 0, far field held.
+   - Coordinate: core separation d, from separated to merged.
+   - Read E(d) in the two relative classes: unturned, and a relative 2π turn of the minor frame.
+   - Report the maximum along d of E_turned − E_min, in units of the core energy, for both classes.
+   
+   A tie needs that barrier to stay finite as h → 0. If it goes to zero, the turn melts through contact (our FE attack C).
+4. **The frame.** The minor frame with its ½ lines, δ > 0. The long axis at δ = 0 has no clock to tie.
+5. **Registered predictions** (log of 24 Nov, before any run):
+   - **OW56-1 (60 %):** rung 2, held balls: 2π HELD, 4π released, at both spacings.
+   - **OW56-2 (65 %):** rung 3, if two rings stand: the swap and the full turn of one ring do not end alike.
+   - **OW56-3 (55 %):** δ > 0 with free cores also sheds the turn, unless the minor gap is held on the lines.
+
+   So we expect a native Pauli tie not to come out of this action family. 4.5 keeps exclusion as a record (exact in Branch B, derived for retained-frame baryons, a separate choice for the Case A electron).
+
+Jarek

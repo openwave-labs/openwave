@@ -1,0 +1,116 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18527288
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18527288
+author: xrodz
+posted: 2026-09-20T12:33:14Z
+version: as first posted
+sha256: e1dcbac956e52c5d30a5a0872085b01ad3fb171df4c9c84d0e44f7bf868670d0
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R23 results: one linear invariant gives the degenerate pair its second-order stiffness and confines the biaxial halo; no exponent could be certified at any box we ran; at delta 0.9224 the object fills the box; the 008 well exists for any field
+
+## TL;DR
+
+1. **The term.** Inside `V(tr N^p)` exactly one linear invariant `L` keeps `(g, 1, delta, delta)` critical, and the split `delta ± eps` costs exactly `(g + delta)(1 - delta) c eps^2 - c eps^4 / 2` under `V4 - c L`. Five zero modes plus the doublet at `5.81 c`. One finding the plan did not foresee: on full 4x4 matrices a second signature sector lies lower than the vacuum, behind a barrier.
+2. **The halo.** The stiffness does what the 09-19 reply predicted qualitatively: it confines the biaxial halo and restores a clean unit hedgehog for `c >= 1e-3`. With `c = 0` a fresh seed relaxes to the R22 box-filling state again.
+3. **The exponent.** Not certified, by either law. The pre-registered label is `HALO_BOX_LIMITED`. Over the seven-point ladder requested on 09-20 the readable window holds three points and only one of them is clean: there is a wall at `c <= 1e-4` on both boxes, an amplitude threshold between `c` 3e-3 and 1e-2, and a collapse of a disclination network between `c` 3e-4 and 1e-3. On the linear tail alone the profile follows the `c^(-1/4)` equation to 9 to 18 percent: a hypothesis on three points, not a result.
+4. **Delta 0.9224.** Both rows fill the box: at `W1 x 25` the hedgehog tears, at the scaled weight it melts into a scale-free ramp. My stated expectation (row A reads the lattice) was wrong. Row B cannot take a stiffness at all: the vacuum is unstable there above `c` 1e-6.
+5. **For Maciej.** The well of the 008 ladder survives the positive contraction because the report's contraction already is the positive one; it disappears under `eta`. More important: any non-uniform field has such a well, so its existence carries no information.
+
+Everything below is pinned to `461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf` ([the task record](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), [the ledger § 6.14](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md)). Every row names its validation script. Three fresh agents attacked the run with their own code before this post: 116 checks, 84 passed, and the 32 that failed are the corrections written into the tables below. Every number quoted here was reproduced by them. Sign convention: the code writes `V = V4 - c L` with `c >= 0`; the plan post's `abs(c)` is this `c`.
+
+## 1. The stiffness term (R23-0)
+
+```text
+N = M eta,   vacuum spectrum (-g, 1, delta, delta),   V4 = w sum_p (tr N^p - C_p)^2
+L = sum_p a_p (tr N^p - C_p),    sum_p p a_p x^(p-1) = (x + g)(x - 1)(x - delta)
+a_p = ( delta g,  -(delta g - delta + g) / 2,  (g - delta - 1) / 3,  1 / 4 )
+on (-g, 1, delta + eps, delta - eps):    L = (delta + g)(delta - 1) eps^2 + eps^4 / 2     (exact)
+```
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| one direction of first derivatives keeps the vacuum critical | holds on the vacuum orbit (rank 3 of the 10 x 4 Jacobian on 200 boosted vacua). Audit correction: criticality is a condition on the minimal polynomial, `Q(N) = 0`; a symmetric `M` with the vacuum spectrum and a Jordan block is not critical | [`m5_32_r23_0_form.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_0_form.py), audit A1 |
+| the Hessian on the vacuum | 5 zero modes for `c > 0` (7 at `c = 0`); the doublet `M_23`, `(M_22 - M_33) / sqrt 2` at exactly `(g + delta)(1 - delta) c`; three massive modes positive. The orbit tangent has rank 5 and the (2,3) rotation's tangent has norm exactly 0 | the same, audit A3 |
+| stability in `c` | stable to `c` 0.0863 at delta 0.3, 6.9e-3 at delta 0.92238 with `W1 x 25`, 1.04e-6 with `W1 x 25 / 6615`; the destabilizing mode is mostly `M_11` | the same, audit A4 |
+| the vacuum as global minimum | yes on real spectra. On full matrices `V4 - c L` reaches `-c^2 sum a_p^2 / 4w` (-501 `c^2` here) on states whose spectrum carries a complex pair with a (1,1) plane, so the timelike direction sits inside the pair: a different signature sector, degenerate with the vacuum at `c = 0`. The barrier is 27.9 per unit volume (1541 `w`), reached by a block-diagonal path through a twin vacuum `diag(-delta, -g, 1, delta)` that has `V = 0` for every `c` and is unstable along `M_0i` at `-5.81 c`. No complex spectrum within Frobenius distance 4.15 of the vacuum. A descent does not climb the barrier, so the rows below stay in the vacuum's sector | the same, audit A5 ([`m5_32_r23_0_audit.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_0_audit.py)) |
+| the 09-20 conversion | `V_0` (isotropic block at fixed trace, `M_00` at vacuum) is 0.019253 at `W1 x 25`, so `c = 3.1e-3 V_0 / 11.62` is 5.1e-6, a factor 6 under the ladder's floor | the same |
+| the linear halo equation | `eps'' = eps / r^2 + beta r^2 eps`, `beta = 5.81 c / 2K`, `K = 8 (1 - delta)^2`, has the closed form `sqrt(r) K_nu(sqrt(beta) r^2 / 2)`, `nu = sqrt(5) / 4`; every radius scales as `beta^(-1/4)` (fitted -0.2500000000). `K` and the angular factor come from the R22-1 audit and were not re-audited | the same, audit A6 |
+
+## 2. The halo against `c` (R23-1)
+
+Settings: the certified quartic plus `V4 - c L`, `V4` at `W1 x 25`, g 8, delta 0.3, pinned exterior, the analytic `rad` seed, the R22-1s instrument (`M_00` solved per cell on `V4 - c L`, L-BFGS on the spatial block). The known-answer control (`c = 0`, one chunk from the R22-1s source) returns the R22-1s energy 4.171721334566199 with a difference of exactly 0. The auditors reproduced every stored energy part to 1e-8 and every residual to 1e-6 with their own code. Script [`m5_32_r23_1_cscan.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_1_cscan.py), summary [`m5_32_r23_1_cscan_collect.json`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r23_1_cscan_collect.json), audits [`m5_32_r23_1_audit.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_1_audit.py) and [`m5_32_r23_1b_audit.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_1b_audit.py).
+
+![the halo radius against c, the split profiles, the drift read](https://raw.githubusercontent.com/openwave-labs/openwave/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r23_1_cscan.png)
+
+Reads: `r_half` = the half-energy radius (pre-registered; interpolated here; 4.44 on the seed); `r_eps` = the radius where `eps r^0.618` falls to half its r 4.5 value (pre-registered); `R_K` = the fitted cutoff of the `K_nu` form (added after the second audit, NOT pre-registered). Ends: G = at the gate (max abs(G) under 1e-3), F = still falling at the iteration cap, with the attained residual.
+
+| `c` | n 32 L 48: end, E, `r_half`, `r_eps`, `R_K` | n 48 L 72: end, E, `r_half`, `r_eps`, `R_K` | n 48 L 48, h 1.0: end, E, `r_half`, `r_eps` |
+| --- | --- | --- | --- |
+| 0 | G, 3.5233, 16.90, none, uncut | | |
+| 3e-5 | F 2.0e-3, 3.6623, 16.46, none, uncut | F 5.0e-3, 3.7997, 18.61, 32.98, 39.5 | |
+| 1e-4 | F 5.9e-3, 3.9557, 15.92, none, uncut | F 3.5e-3, 4.1576, 17.03, 28.11, 18.0 | |
+| 3e-4 | G, 4.5674, 13.85, none, uncut | F 1.1e-3, 4.8111, 14.37, 22.17, 10.83 | F 3.9e-3, 4.7609, 13.36, 20.92 |
+| 1e-3 | G, 5.4168, 11.16, 15.81, 9.64 | F 6.7e-3, 5.6513, 11.72, 16.11, 7.67 | |
+| 3e-3 | G, 6.2314, 7.33, 9.36, 5.02 | G, 6.5104, 7.50, 9.39, 5.12 | G, 6.3329, 7.03, 8.82 |
+| 1e-2 | G, 6.7550, 5.76, 6.67 | | G, 6.8554, 5.76, 7.60 |
+| 3e-2 | G, 7.1779, 5.58, 6.33 | | G, 7.2898, 5.58, 7.23 |
+
+**The label.** `HALO_BOX_LIMITED`: the L 48 and L 72 half-energy radii differ by 11.7 percent at `c` 3e-5, and by 7.1 percent at `c` 1e-4 with the L 72 row unconverged, so no `c` passes the registered box check and no slope is fitted under the registered rule. The margin, disclosed: the `c` 1e-4 check is excluded only because that row's radius drifts 2.35 percent against a 2.0 percent rule, on a cell-quantized reader. Had that flag gone the other way, the rule would have fitted through the two top rows and returned `HALO_QUARTER` (slopes -0.20 and -0.27), which the reads below do not support.
+
+| Read | Result |
+| --- | --- |
+| the stiffness confines the halo | `eps(18) / eps(6)` is 0.78, 0.83, 0.84, 0.49, 0.108, 0.0022 from `c` 0 to 3e-3; at `c` 3e-3 the exterior is back to (0.301, 0.304, 0.9985) by r 15. At `c = 0` the fresh seed ends at shell means (0.14 to 0.18, 0.44 to 0.50, 0.96 to 0.98) from r 1.5 to r 15, the R22 state again. Those are shell means: the spread of the mid eigenvalue inside a shell is 28 to 32 percent of the gap, and R22's (0.17, 0.45, 0.98) is a halo value (r 1.5 reads (0.113, 0.556, 0.932)) |
+| the degree | clean unit degree, zero orientation conflicts and zero disclination piercings on the r 6, 9, 12 cubes for every `rad` row with `c >= 1e-3`, on all three lattices, also with a box-centered reader; every row with `c <= 3e-4` is pierced |
+| the point hedgehog opens into a disclination network | of the top eigenvector, in every row with a halo: frustrated plaquettes out to r 12.6, 14.4, 12.0, then 4.1, 2.4 on L 72 (`c` 3e-5 to 3e-3). The network collapses between `c` 3e-4 and 1e-3, on every box |
+| the halo is how the core escapes | at `c = 0` the energy inside r 6 falls from 8.03 (seed) to 0.167, while outside r 6 it is 3.36 (curvature 2.69 plus `V4` 0.67) against 3.17 for the bare uniaxial hedgehog. So the halo is not an exterior saving and not free in the potential: outside the core it trades 0.48 of curvature for 0.67 of `V4` |
+| the top of the ladder is a threshold, not a retreat | from `c` 3e-3 to 1e-2 `eps(6)` falls 12.7 times at h 1.5 and 26.7 times at h 1.0 (0.089 to 0.0071, 0.083 to 0.0031), where a retreating cutoff allows at most 2.5. What is left scales as `h^2` (ratio 2.1 to 2.5 between the spacings), so it is the discretization biaxiality of an essentially uniaxial hedgehog. The state is stable to a biaxial core kick. The two points added on the 09-20 request carry no halo information, under either law |
+| the bottom of the ladder is the wall | the pinned shell is 2 cells deep, so the free half-box of L 72 is 33: `r_eps` 32.98 at `c` 3e-5 is the end of the read window and 28.1 at `c` 1e-4 is 0.85 of it. The half-energy radius of a uniform density in the free region of L 48 is 20.6 |
+| the plateau is nonlinear | for `c <= 3e-4` `eps(r)` sits near 0.13 to 0.15 across the box and drops at the wall; it is not the linear `r^(-0.618)` tail. At r 6 the quartic force of `V4` over the quadratic force of `c` is 24.8, 8.2, 2.6, 0.47, 0.12 for the five lower `c` (valley-floor quartic coefficient 0.137) |
+| the exponent | three points remain between the wall and the threshold. At `c` 3e-4 the network reaches r 12, inside the read region; at `c` 3e-3 `r_eps` is 1.5 times its floor and `eps(4.5)` is already down 31 percent; only `c` 1e-3 is clean. Local log slopes on L 72: -0.27 then -0.49 (`r_eps`), -0.29 then -0.37 (`R_K`), -0.17 then -0.41 (`r_half`, biased flat at the top where it sits 7 percent above a halo-free core-plus-Coulomb reference). 13 of 14 size reads the third auditor tried steepen by 0.12 to 0.41 across the window. The reads are soft too: `r_eps` at `c` 3e-3 moves 6 percent with the shell width, `R_K` 15 to 64 percent between a log and a linear fit |
+| the tail-only read (a hypothesis) | fitted only where `eps` is below the nonlinear crossover, the `K_nu` form fits well (RMS log residual 0.03, 0.07, 0.15) with cutoffs 8.92, 7.16, 5.12 at `c` 3e-4, 1e-3, 3e-3, which are 1.09, 1.18, 1.11 times `beta^(-1/4)`. Least-squares slope -0.24 (local -0.18 and -0.30, one point wall-adjacent). The profile's shape at `c` 1e-3 and 3e-3 also fits the `K_nu` cutoff better than `exp(-r / R) / r` (0.31 against 0.40, 0.11 against 0.34). This is the closest any read comes to a single exponent and it agrees with the 09-20 concession; three points do not certify it |
+| box, spacing, start field | at `c` 3e-3 `r_eps` is 9.36, 9.39, 8.82 on the three lattices; the 0.279 of energy between the boxes is the hedgehog's Coulomb tail between the walls (0.2827 from the lattice density). At `c` 3e-4 the seed and a box-filling start field end 3.8 percent apart in radius and 1.8 percent in energy, both at the gate, and they are NOT the same field (mostly frame differences inside r 12): the gate does not select a unique stationary point |
+| the physical point (an extrapolation) | `c` 5.1e-6 is outside every box. Over anchors and readers the extrapolation gives 6 to 57 seed-core radii against the 206 of the 09-19 reply. Nothing at the physical point was measured |
+
+## 3. Delta 0.92238 (R23-2)
+
+Label `DELTA_BOX_FILLING` for both rows; `TWIN_SAME_OBJECT`, `DELTA_COMPACT` and `CORE_LATTICE_PINNED` all fail. Radii of 19.9 and 20.9 are the reader's ceiling (20.6), not sizes. The gate is relative, `1e-3 k(delta) / k(0.3)` = 1.5e-7.
+
+| Row | End | E | What the field is |
+| --- | --- | --- | --- |
+| A, `W1 x 25`, `c` 0 | falling at 6000, residual 4.2e-5 | 3.22e-4 from 4.04e-3 | torn: the hedgehog is lost through disclinations (4, 6, 8 piercings on the three cubes, 118 frustrated plaquettes from r 4.4 to the pin) while the gap weight `G_1^2` stays at 0.45 to 0.79 of vacuum |
+| A, `W1 x 25`, `c` 3.094e-5 | falling at 6000, residual 1.6e-5 | 5.73e-4 | unit degree, no conflicts on r 9 and r 12; pierced on r 6; box-filling, shell means near (0.910, 0.940, 0.995) |
+| B, `W1 x 25 / 6615`, `c` 0 | under the gate at 232 iterations (3.1e-10) | 1.545e-4 from 8.66e-4 | melted: `G_1^2` over vacuum is 1e-4 at r 1.5, 0.14 at r 15; `V4` paid 1.3e-6 against 7.1e-4 of curvature saved. A scale-free ramp: the anisotropy grows as 0.0393 r, the energy density is nearly uniform, the direction field is intact (degree 1, no disclinations). No core scale but the box |
+| B with a stiffness | not run | | R23-0 shows the vacuum unstable there above `c` 1.04e-6 (lowest Hessian eigenvalue -6.3e-6 at the planned `c`); a stable `c` would cut the halo only at about the half-box |
+
+Reading: at the Coulomb-anchored delta the quartic is 6600 times weaker while `V4`'s softest massive mode is 54 times weaker at `W1 x 25` (1.04e-3 against 5.59e-2) and vanishes with `w`. So `V4` at the equal-`k/w` weight does not hold the spectrum, and at `W1 x 25` the field escapes by tearing. The equal-`k/w` twin is not a twin for the soft mode.
+
+## 4. For Maciej: the well of the 008 ladder (R23-3)
+
+Your committed N 32 field, our re-typed route 2, the control 0.32551859539640887 reproduced first. Script [`m5_32_r23_3_well.py`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r23_3_well.py), record [`m5_32_r23_3_well.json`](https://github.com/openwave-labs/openwave/blob/461d0ff3dd0e35963a6c2f3a660b6302f68fd5cf/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r23_3_well.json); the auditor reproduced every number to 1e-15 with own stencils.
+
+| Contraction | `C1` | Well |
+| --- | ---: | --- |
+| the report's `G = eta - 2 q eta` | +9.0754e-6 | yes |
+| Frobenius | +9.0729e-6 | yes |
+| `eta` | -9.0729e-6 | no |
+
+On that field `M_0i = 0` exactly and `G` equals the Euclidean metric to 3.9e-4, so the report's contraction already is the positive one: label `WELL_SURVIVES`. The static density lives entirely in the rotation block and the frozen tangent's density entirely in the boost block (`a0` has only `0i` entries), so under `eta` the second flips sign and the well is gone. That is the 09-19 hypothesis reversed: the well is there because the contraction is positive on the boost block. "No well under `eta`" holds on an exactly block-diagonal field only (white-noise `M_0i` of amplitude 1e-2 moves `C1(eta)` to +4.1e-5).
+
+The point that matters for the ladder: under a positive contraction `C1` is a sum of products of non-negative densities, so ANY non-uniform field has a well. Three block-diagonal white-noise fields with no soliton return `omega_E` of 25.3, 25.6, 24.9; the uniform vacuum returns `C1 = 0`. Existence is fixed by the form `(i1s - omega^2 k1)^2`; only the magnitude could inform, and R22-3 showed the magnitude depends on the `a0` normalization, the envelope and `h^(-3/2)`. The released-profile test and `(Q, E, dE/dQ)` need your time-dependent stack and were not run here.
+
+## Deviations
+
+Nine, each logged before its rows were read; the full table is in the task record. The ones a reader needs: row B ran at `c = 0` only (unstable vacuum, found at the form level after the pool had launched; the queued job was blocked before it ran). The L 48 box limits `c <= 3e-4`, so the scan was repeated on n 48 L 72. The 09-20 01:26 UTC request for a seven-point, three-decade ladder arrived four hours into the run; it was met in full (`c` 1e-2 and 3e-2 at two spacings), since ladder rows are independent jobs, and the record says those two values were chosen after the lower rows had been seen. `R_K`, the interpolated `r_half` and the tail-only fit were added after the second audit and are marked as not pre-registered. Five n 48 rows end still falling: the auditor found them converged for radii (0.2 and 1.8 percent over the last 1000 iterations), not in energy. Two statements of mine were wrong and were corrected by the auditors before this post: the size of the barrier to the second sector, and the mechanism of the top of the ladder.
+
+The pair row of the ledger now reads, as agreed on 09-20: absent or repulsive; the sign read at the few-percent level on the pinned pair; zero not resolved; director sector only.
+
+## Not computed here
+
+The kinetic term `kappa_0 Tr(d Phi d Phi)` with the rank-2 projector (it has to pass the P240 witness first, as the 09-20 reply says). Row B with a stiffness. The released profile and `(Q, E, dE/dQ)` of the 008 ladder. Any second spacing for the nonlinear plateau at `c <= 3e-4`. The angular factor of the linear halo equation. The neutrino ring. A literature check on biaxial coronas around defect cores.
+
+## Two questions for the author
+
+1. The scan cannot deliver the calibration on this action at these boxes: below `c` 1e-4 the wall reads, above 3e-3 the halo is gone, and in between the plateau is nonlinear. A larger box moves only the wall. Does the note expect the threshold at the top (the split amplitude collapsing by one to two orders inside half a decade of `c`), and is there a read of the halo the author would accept that does not need a power law, for example the amplitude `eps(6)` against `c` near the threshold?
+2. For the kinetic term: is `u` in `P_perp = 1 - u u^T - n n^T` the eta-normalized eigenvector of the timelike eigenvalue of `N`, and `n` the top spatial eigenvector of the same `N`? One line with the definition is enough for the witness to be run on exactly that object.

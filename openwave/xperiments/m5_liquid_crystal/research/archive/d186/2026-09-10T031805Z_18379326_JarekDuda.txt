@@ -1,0 +1,23 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18379326
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18379326
+author: JarekDuda
+posted: 2026-09-10T03:18:05Z
+version: as first posted
+sha256: 34ff6d06f1e658e6b874b5dbe8633f952487910fc224ace3eb5584ce05dedeb1
+archived: 2026-11-25
+==== verbatim text below this line ====
+Just talked separately with Opus about reversing Newton sign, and suggested completely new looking approach: replacing commutator with mixed on - in time changing to anticommutator:
+
+commutator for the spatial/EM sector, anticommutator for the time/gravity sector
+
+On the literature: the mixed structure exists, and the closest match is Savvidy's tensor gauge fields. Field strengths "antisymmetric in their first two indices and totally symmetric with respect to the rest" — exactly your structure. And notably his construction was built to "eliminate all negative norm states," yielding "two symmetric polarizations of helicity-two massless tensor gauge bosons and antisymmetric polarization of helicity-zero." The ghost problem you're facing is the one that literature exists to solve.
+
+The clean statement is for the plain brackets, without ξ. For symmetric A, B: [A,B]ᵀ = −[A,B] — antisymmetric, an so(4) element, spin-1. And {A,B}ᵀ = {A,B} — symmetric, decomposing into trace (spin-0) plus traceless symmetric (spin-2). That part is solid.
+
+With the ξ insertion the symbolic test returns "mixed", and that's a real complication rather than noise. A ξ B is not symmetric in the naive sense — the correct statement involves index position, M_αβ versus M_α^β, which your §V already flags as needing care. So the spin decomposition has to be done with indices raised consistently, and my one-line claim skipped that.
+
+What survives, and I think it's the useful part: your F_μν = [∂_μM, ∂_νM] uses the bracket that produces odd spin, and odd spin repels like charges. The trace and traceless-symmetric parts of M — the spin-0 and spin-2 content, both attractive — never enter the field strength at all. The commutator discards exactly what gravity needs.
+
+So the proposal is: keep [·,·] for the rotation sector where like-charge repulsion is wanted, and use {·,·} for the boost/time sector where attraction is. Two brackets, two spins, two signs — each where it belongs, and no sign reversed by hand, hence no ghost.

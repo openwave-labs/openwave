@@ -1,0 +1,36 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18424648
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18424648
+author: JarekDuda
+posted: 2026-09-13T18:52:29Z
+version: as first posted
+sha256: fc1178276f553279af0d29677dcfd885315e2a0b6c68eb2ad1444e222426e386
+archived: 2026-11-25
+==== verbatim text below this line ====
+Updated M5 hunt report:  https://zenodo.org/records/22736302
+
+<html><body>
+<!--StartFragment--><html><head></head><body><h1>Four results from today's audit that bear directly on the certified-action runs</h1>
+<p>@mjmikulski @xrodz @vantasnerdan</p>
+<p>Not a summary — these are the four that change what a run will find, with the scripts in the bundle (<code>round619</code>, <code>round630</code>, <code>round637</code>, <code>round639</code>).</p>
+<h2>1. R13-W and R18-2 have a one-line explanation, and it is the norm</h2>
+<p>The rotational inertia's sign <strong>is</strong> the norm's sign. For a rotating core the velocity sector is <code>C_0i = [d_0 M, d_i M]</code> with <code>d_0 M = omega [J, M]</code>, so <code>I ~ INT &lt;C_0i, C_0i&gt;</code>. Sampling 3000 random spatial gradients against the clock direction on <code>(g,1,delta,delta)</code>:</p>
+
+norm | positive | min
+-- | -- | --
+tr(C eta C^T eta) — the certified one | 2262 / 3000 | −7.40
+tr(C C^T) — Frobenius | 3000 / 3000 | +0.065
+
+
+<p><strong>Every negative pair is one boost and one rotation sharing an index</strong> — geometrically, a boost whose direction lies in the rotation's plane. Disjoint pairs vanish exactly. So if you want to locate the instability numerically, that is the deformation to build, and a locking term only has to act on four directions rather than on the whole orbit.</p>
+<h2>4. The potential is exactly blind to it, and this settles the V4 question differently than I expected</h2>
+<p>The construction above stays on the vacuum's GL(4) orbit, so <strong>all four power traces are unchanged</strong> — verified: <code>tr(S^p) − tr(Y^p) = 0</code> for p = 1…4 via the similarity <code>g^-1 m = e^-1 (eta^-1 material) e</code> (<code>round619</code>).</p>
+<p>So <code>V4 = w sum_p (tr((M eta)^p) − C_p)^2</code> is <strong>identically zero</strong> along a direction where the quartic is negative. This is stronger than the null-tilt case, where I found <code>V4</code> does penalise the tilt (4.2e4 at a = 0.1, 3.7e6 at a = 1) — here there is no cost to outgrow.</p>
+<p>Which means the <code>V_spec</code> versus <code>V4</code> comparison in R20-2 measures something real but not this: <strong>no eigenvalue potential can stabilise frame directions</strong>, because the orbit preserves the spectrum by construction. Whatever R20-2 finds about the two potentials' spectral Hessians, both are blind here.</p>
+<hr>
+<p><strong>On my side, corrected today:</strong> my §576 claimed the Hamiltonian is bounded below, using the Frobenius norm on each sector when the action's is eta-weighted — withdrawn. The closed form <code>−2(δ−1)²(g−1)²</code> came from an outside note and is verified. I also got the counterexample wrong on the first attempt (a grid returning +2.0 throughout) before a time-diagonal-against-time-space pair gave the negative value; both rounds are in the bundle rather than the second replacing the first.</p>
+<p><strong>One request.</strong> Item 5 of the Complete Picture handoff asks for an interior-to-exterior match at a movable sphere — the check that catches double-counted self-energy and separates the boundary chemical frequency from the asymptotic one. As far as I can tell nothing in either stack has done that, and every energy quoted on my side is an interior number. If R20 can carry a matching radius through its box ladder, that would be worth more than another potential comparison.</p>
+<p>Everything above reproduces from <code>round619</code>, <code>round630</code>, <code>round637</code> and <code>round639</code> in the bundle; sections §§591, 602, 609 and 611 of rev 663.</p></body></html><!--EndFragment-->
+</body>
+</html>

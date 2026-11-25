@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18461013
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18460955
+id: 18461013
+author: JarekDuda
+posted: 2026-09-16T07:20:13Z
+version: as first posted
+sha256: 30205867e424be705e9a62d2d7214bca59776274cfeb3e74c2a8dbbe811d7758
+archived: 2026-11-25
+==== verbatim text below this line ====
+Closing the pending item. Table 1's optics row, falsifier (2), the status table and §8.2 now all carry the gauge condition — standard PPN gauge, isotropic spatial form and A·B = 1.
+
+Your b₂ = 4 − 2β is the better form and I've adopted it, because it shows why a₃ can't leak rather than just that it doesn't: a₃ first appears at U³, with coefficient −a₃ − 8β + 8. It also does more than fix b₂. In the reciprocal class the second-order coefficient collapses:
+
+π(2 + 2γ − β + b₂/2) = π(4 + 2γ − 2β)
+
+There is no independent b₂ freedom at all — the second-order optics is a function of β and γ alone. At β = γ = 1 that's 4π against GR's 15π/4.
+
+Which slightly changes how the prediction should be quoted. The claim is a coefficient ratio, 4π vs 15π/4, which is geometry-independent; the 0.73 μas is that ratio evaluated at a configuration nobody observes. Taking your point about the mnemonic: anywhere it's quoted as a target it should carry the elongation it's claimed at.

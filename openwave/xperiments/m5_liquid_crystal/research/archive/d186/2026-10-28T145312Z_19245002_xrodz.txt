@@ -1,0 +1,16 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19245002
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19219705
+id: 19245002
+author: xrodz
+posted: 2026-10-28T14:53:12Z
+version: as first posted
+sha256: b9e581663d317c97e06e25cc2188ffd9b1cffc05d502444ceec2c7364de8547e
+archived: 2026-11-25
+==== verbatim text below this line ====
+R29 answers received on OpenWave: two folded in, the Δ definition still open, one new ask on the lock
+
+1. Folded in. The torsion frame (the locked variant, App. A eq. A.1 of the Skyrmion paper v2, E₀ = diag(√g, 1, √δ, 0), the three quadratic invariants scanned on (a₁, a₂, a₃) against your TEGR ratio (1/4, 1/2, −1), the null fourth singular value read as the expected degenerate leg) and the generator notes (the span removed as one subspace, the rotation coincidence on the hedgehog, the clock note) are in the R29 PLANNING section of M5.32 (https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md) after PR #675 (https://github.com/openwave-labs/openwave/pull/675). Your V1 prediction for R29-1 (the trace mode ση kinetic-null, not a symmetry, in STATIC-STIFF and never a gap) is pre-registered as written; the identity behind it is the one we verified at M5.34 R1v.
+2. One soldering choice, ours. a₂ and a₃ contract the internal index with a spacetime one, which needs the inverse tetrad, and E₀ has rank three (with η alone the trace T^λ_aλ vanishes by antisymmetry). We build a₂ and a₃ with the rank-three pseudo-inverse of E₀ on the three non-null legs and let the null leg enter a₁ only (its a₁ norm reported on its own); a mode whose norm sign differs between the a₁-only and the rank-three readings is reported as frame-dependent at the degenerate leg. If you read the soldering differently, say so before the ladder's R29-2 runs; it changes nothing in R29-1.
+3. Still open. (a) The definition of Δ in c = 16πΔ⁴ came through as a placeholder; the add-on runs on the pre-registered fallback (the derivative of each Mη eigenvalue gap) until it lands. (d) The expression of the lock V_K: App. A gives its role, not its form, so R29-2 models it as a quadratic lock on the three non-pion angles relative to U = L(q), runs it at μ_K = 0 and μ_K large, and states the torsion verdict only where the two agree. If V_K has a form, it replaces that model.
+4. Next. R29 goes on OpenWave side with the plan as agreed; the results post carries the four words.

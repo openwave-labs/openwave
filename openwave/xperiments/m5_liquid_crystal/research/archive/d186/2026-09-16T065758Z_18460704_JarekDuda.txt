@@ -1,0 +1,174 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18460704
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18460704
+author: JarekDuda
+posted: 2026-09-16T06:57:58Z
+version: as first posted
+sha256: 753087f72478767fff4740158ed5ee3ebd82d963a84219068dbf776aca59b6bb
+archived: 2026-11-25
+==== verbatim text below this line ====
+Updated refreshed search: https://zenodo.org/records/22788604
+[m5_v2_verification.py](https://github.com/user-attachments/files/32275522/m5_v2_verification.py)
+
+# Reply for github.com/vantasnerdan/substrate-framework/discussions/186
+
+@xrodz @vantasnerdan @mjmikulski @giuliano-vantasner
+
+Second post. The working note is at
+[doi:10.5281/zenodo.22788604](https://doi.org/10.5281/zenodo.22788604), and everything below
+re-derives in one script, attached: `m5_v2_verification.py` (numpy + sympy + scipy, under a
+minute).
+
+I am going to lead with what I got wrong, because the thread runs on status labels and several
+things I would have posted a fortnight ago are now withdrawn. Then what survived, then two
+things the stacks can falsify this week.
+
+---
+
+## I. Retractions
+
+These were all things I believed and in three cases had written down as results.
+
+**The redshift does not select the Q-ball.** I claimed a free-phase rotor redshifts as
+`e^{-4U}` and is therefore excluded. False, and no relaxation argument is needed. For a rotor
+of fixed *proper* inertia in a static lapse,
+`S = ∫dτ (I_p/2)(dθ/dτ)² = ∫dt (I_p/2N)θ̇²`, so `J = I_pθ̇/N` and `θ̇ = NJ/I_p ∝ √(−g₀₀)`.
+Even a rigid rotor redshifts correctly. My `e^{-4U}` held the *coordinate* inertia fixed while
+varying the metric — it changed the apparatus rather than moving it. The note's title changed
+accordingly.
+
+**The `Q₈` no-go for Fermi statistics.** I argued that a first-order term is a flat `U(1)`
+connection, hence a one-dimensional character of `π₁`, hence trivial on the centre of `Q₈`,
+hence incapable of giving the soliton a `−1`. The premise is false: `B[M]θ̇` is flat only if `B`
+is constant along the trajectory, and a genuine Wess–Zumino term has curvature — the
+spin-coherent connection `S(1−cosθ)dφ` has `F = S sinθ dθ∧dφ ≠ 0`. Worse, the counterexample
+is the one I had cited two paragraphs earlier as the precedent. Route (i) is open.
+
+**A twelve-order clock–Coulomb collision.** I derived `ω = Λ_t/|ζ|` on a tilted shell, fixing
+`Λ_t ~ 10⁵ eV` against Coulomb's `< 3×10⁻⁸ eV`. It omitted the inertia the tilt stiffness
+itself contributes: being a two-derivative term with no spatial derivative in its time part, its
+inertia grows as `R³` and dominates. Redone, `ω` acquires a `J`-dependence and the number does
+not follow.
+
+**A superluminal trap for kinetic-term clocks.** I wrote `c_s² = 1 + 2uK′/K` and concluded that
+binding and causality were incompatible. That is not the k-essence sound speed and not the sound
+speed of anything: for `P` linear in the kinetic invariant, `P_XX = 0` and `c_s² = 1` exactly,
+for any `K`.
+
+**An orbifold obstruction at the clock core.** I claimed the eigenvalue plane is `ℝ²/ℤ₃`, a cone
+of deficit `4π/3` whose apex is where every melted core sits. It quotients the wrong space: the
+physical field is `Q`, the traceless symmetric `3×3` matrices are `ℝ⁵`, smooth at `Q = 0`. A
+line through the origin is smooth in `Q` while `r = |t|` kinks — a coordinate singularity.
+
+Two of these came from tests with silent bookkeeping faults (an ascending eigenvalue sort that
+selected a transverse projector instead of the time axis; a six-element basis for a
+five-dimensional space), both producing cleaner results than the physics supported. The note
+carries a status table listing every principal claim as exact, conditional, or withdrawn.
+
+---
+
+## II. What survived, exactly
+
+**The quartic *is* Faber's dual-Maxwell energy.** On the degenerate-pair vacuum,
+`F_ij = −(1−δ)²ρ_ij[n]_×` (verified on 500 random jets; the overall sign is a convention, the
+energy is not), giving `Σ⟨F_ij,F_ij⟩ = 4(1−δ)⁴|E_top|²` exactly. Hence
+**`e² = 16πc₄(1−δ)⁴`**, so with `c₄ = 1` and Gaussian units `1−δ = 0.110`. And by Helmholtz plus
+Cauchy–Schwarz the **charge-even channel is exactly zero**: the record's "Newton sign" cell
+should read *absent*, not *repels*. One caveat added since the referee note: the cross-term
+cancellation uses a boundary term at the excised cores that we have checked only indirectly.
+
+**The one defect.** Rotation×rotation and boost×boost are both positive; only rotation×boost is
+negative. The negative block couples **charge and clock to mass, never mass to mass**, so the
+original sign-flip mechanism could not have worked even with the ghost.
+
+**Scale-mode gravity, with one honest condition.** `Q = E/2` for static solitons by Derrick.
+For a *rotating* soliton there are two inertias — quadratic (`C₂ ~ λ³`) and quartic
+(`C₄ ~ λ`) — and `2Q − E` vanishes identically in the coefficients **iff** the `χ`-weights are
+`(p₂,p₄) = (8,4)`, which minimal coupling supplies as `p(n_s) = 8 − 2n_s` for every term. That
+is a consistency statement about a self-generated metric rather than a derivation, and it holds
+in one of two weight assignments the note states. Also: `γ = β = 1`, `η_N = 0`, and
+`Ġ/G = 0` — the last only with the covariant kinetic term `κ[e^{8χ}χ̇² − |∇χ|²]`, since the
+original form put the scalar and matter cones a factor `e^{4χ}` apart.
+
+**One near-term prediction: `0.73 μas`.** Second-order solar deflection, `11.65` against GR's
+`10.92`. It depends on `b₂`, not on the `U³` coefficient as I first said — and every reciprocal
+metric (`AB = 1`) with `β = γ = 1` has `b₂ = 2`, so this is fixed for the class rather than
+tunable. Note Gaia's 45° solar-aspect scanning law means it never observes near the limb.
+
+---
+
+## III. Two things the stacks can falsify
+
+**1. Relaxed like and unlike pairs on the degenerate-pair vacuum.** Predicted
+`U(++) → +32π(1−δ)⁴/d` from above with lattice residual `∝ h/d²`, and
+`U(+−) = −32π(1−δ)⁴/d` to lattice precision. If it holds we have the Coulomb certificate with
+the charge in closed form. Two ansatz traps: the collinear rational-map product has the wrong
+local degree when both centres sit on the stereographic axis, and the quotient map creates a
+director-flip tube costing `∝ L/d²`.
+
+**2. `C₁₂` versus the biaxiality gap on *relaxed* clocks.** The shipped `cross_inertia.py`
+scans seven gaps and crosses between 0.18 and 0.14 (the 0.22/0.16 numbers I quoted earlier came
+from a coarser separate run — @giuliano-vantasner was right to flag it). The crossing sits where
+the degenerate exterior that localises the clock begins. If a localised clock exists on the
+attractive side, two problems close at once.
+
+---
+
+## IV. The open problem, and the current best candidate
+
+**The free-inertia escape is open on the corrected Lagrangian.** A tilted *uniaxial* shell
+carries clock inertia at zero **static** cost — the quartic vanishes (one jet), `κ₀₀(∂ln λ₀)²`
+vanishes (constant eigenvalues), `κ₂₃w(D)` vanishes identically at `λ₂ = λ₃`, and `V` is
+spectrum-preserving. With `β = af(r/R)` and `a² ∝ R⁻²` both the energy and the frequency vanish
+as `1/R` at fixed charge, so **no positive stiffness gaps a massless mode carrying the clock
+charge**, whatever its coefficient.
+
+Two ways out have been found, both outside the classes we had tested.
+
+**A splay-free elastic term.** The Coulomb hedgehog is *pure splay* — twist `7.7×10⁻²⁹`, bend
+`0` — while the tilted shell carries bend `0.68`. So tail-blindness and escape-charging are not
+the same condition, and a twist-bend combination could charge one and not the other. It lives in
+the `L₂,L₃` invariants that have never been enumerated for `SO(1,3)`. Caveat: its energy is also
+linear in `R`, so the same `a² ∝ R⁻²` choice defeats it unless no profile family does.
+
+**A spectral clock charge — the strongest candidate.** Put the clock `U(1)` on two spectral
+amplitudes of the *proper* spatial matrix rather than on director rotation: with `A = log B`,
+`b = ⅓tr A`, `q = √(tr(A−b)²)`, `S = (A−b)/q`,
+`Φ = (F/√2)[b − b_v + i log(q/q_v)]`. Director Goldstones carry **none** of this charge, so the
+halo cannot absorb it and the escape closes by construction. Three things we checked: `b` is
+exactly scale-invariant on the *proper* matrix (on the raw one it would shift by `−log s` and
+the clock would rotate the gravitational mode); the non-isotropic patch is forced, since at an
+isotropic `B` the tangent representation is `1⊕5` with no non-trivial commuting compact `U(1)`;
+and the core stays regular, `min‖Z‖ = 0.263`, because `S_∞` is uniaxial and `S_c` maximally
+biaxial — different orbits, never proportional.
+
+Its cost is that it **inverts the core**, from melted-and-isotropic to maximally biaxial. The
+FLS lightening, the `q⁴` mechanism and the K-ball were all solving the old problem and do not
+carry over. And `μ²(S) = m_c² + (m_v²−m_c²)·6[tr S³]²` is minimised on a whole `SO(3)` orbit, so
+the core carries a two-parameter orientational degeneracy — extra zero modes any stability
+analysis has to include.
+
+**The next calculation is small and decides a lot.** `Φ` is built from two scale-invariant
+scalars, so the clock sector's fields carry `χ`-weight zero and the sector takes its weight
+entirely from the metric factors. That is directly testable against `p(n_s) = 8 − 2n_s`. Since
+the whole gravity result rests on that identity, it should be run before the coupled defect.
+
+---
+
+## V. Scoreboard states
+
+I'd suggest three, kept distinct, because collapsing them is how most of my retractions
+happened:
+
+- **excluded within this class** — naming the class every time;
+- **reduced model solved** — flat space, one sector, numerically verified;
+- **full coupled model untested**.
+
+Every closure in the note is of the first kind. Claim 13 is about effective metrics built from
+one scalar; the Fierz–Pauli result is about two-derivative terms on `M`'s orientation; route (b)
+is about the projector-diagonal `κ₁₂,κ₁₃`. None is a theorem about all Lagrangians, and the two
+mechanisms above were both found outside the tested families.
+
+Happy to be shown wrong on any of it — that has been the productive direction so far.
+

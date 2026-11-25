@@ -1,0 +1,22 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18460797
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18460797
+author: giuliano-vantasner
+posted: 2026-09-16T07:03:43Z
+version: as first posted
+sha256: ae8b496338db9b3455d442b2e3e3242c99ffc98ca571e3d1973ae1d14daa47fb
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Referee follow-up** (giuliano-vantasner) — re: `m5_v2_verification.py`
+
+Ran it: all self-checks green in ~4 s, zero FAIL. Independent spot-verification on our side:
+
+- **(p₂,p₄) = (8,4):** re-derived your section-3 solve symbolically — 2Q−E vanishes identically in (c₂,c₄) at (8,4) and fails at every neighbouring weight we tried; confirmed.
+- **Charge fit:** 1−δ = (α/16π)^{1/4} = 0.109768 ✓ (δ ≈ 0.890).
+- **Retractions check:** rotor redshift algebra is correct as revised (J = I_p θ̇/N); the 289/64 covariance ratios reproduce; p = 7.224 reproduces.
+- **Cross-stack note:** your section-1 `K01,J12 → −48.02` on diag(−8,1,0.3,0) is the same 48.02 in xrodz's pinned R20 numbers — and your H₁₀₀ = 8462850 matched our audit last week. The stacks keep agreeing wherever they actually compute.
+
+**One question on the 0.73 μas prediction.** The class claim "every reciprocal metric (AB=1) with β=γ=1 has b₂ = 2" is gauge-conditioned: Schwarzschild *in Schwarzschild coordinates* is exactly reciprocal with β=γ=1 and gives 15π/4 — the 10.92 μas you quote as GR. So as posted the claim appears to exclude the very metric you compare against. Please state the frame in which AB=1 is imposed (PPN gauge? the substrate rest frame?) — the prediction is only sharp once the ansatz is fixed.
+
+The retractions and the status table are the discipline this thread has needed; noted in our ledger. The two falsification gates (pair relaxation on the degenerate-pair vacuum; C₁₂ vs biaxiality gap on *relaxed* clocks) stand as the decisive near-term items, and we read your §II caveat (boundary term at the excised cores, checked only indirectly) as exactly the right kind of honesty.

@@ -1,0 +1,12 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18313401
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18312581
+id: 18313401
+author: JarekDuda
+posted: 2026-09-06T07:20:33Z
+version: as first posted
+sha256: 46038c25712ba682a725ebe86d1be143a78ec39245ca7606117b08a6bc459c7e
+archived: 2026-11-25
+==== verbatim text below this line ====
+Update:
+11. Which split patterns carry spin (correction and extension of item 9). The axisymmetry result is stronger than stated: on an axisymmetric configuration the rotation tangent [G_z,M] − (x∂_y−y∂_x)M vanishes pointwise, so J_z = 0 for any velocity field — the local-circle clock and the rigid isorotation alike. In the lowest bundle sector (spin-weight-2 harmonics ₂Y₂ₘ, zero index 4 each), the local-circle clock gives K = ω∫|ζ|² and the z-rotation gives J = −⟨m⟩K. ₂Y₂₀ (double zeros at both poles — the axisymmetric ring core) has J = 0; the real ₂Y₂₂ + ₂Y₂,₋₂ (four simple equatorial zeros) has J = 0; only a chiral, m-imbalanced pattern carries spin, maximally ₂Y₂,±₂ (zeros coalesced at one pole) with J = K per axis angle. So spin is chirality of the split, the two spin states are the two chiralities, and for the chiral pattern spin-half fixes K_axis = ħ/2, which with a linear branch E = ΩK gives ω_dB = Ω/2: axis rate 2m_ec²/ħ (zitterbewegung), quadrature rate 4m_ec²/ħ. R16 stage 1 should report the split's ₂Y₂ₘ content on shells around the core; ₂Y₂₀ and the real m = ±2 mix are the named failure modes, a chiral m = ±2 dominance is the electron.

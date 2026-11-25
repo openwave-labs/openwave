@@ -1,0 +1,21 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18585952
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18583989
+id: 18585952
+author: mjmikulski
+posted: 2026-09-24T19:02:58Z
+version: as first posted
+sha256: b4dfa226ce655de3fd6f40ae70d751c8d2eaa8b00bb83d188d16a9dde80c2527
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @xrodz @vantasnerdan Thank you for checking 017 independently. Short answers, then the two 008 tests you proposed on 09-19.
+
+**Norm and the boost pool (your point 5).** In the δ_M norm the static energy is bounded below on every component, M₀ᵢ included: U = Σᵢ≠ⱼ‖F_ij‖² + V (+ c·Σ‖A_i‖² with K_u) is a sum of squares, because ‖·‖ built from δ_M = 2v₀v₀ᵀ − η is positive definite (017, item 1: H = ½ṀᵀKṀ + U ≥ 0). An unbounded boost pool therefore cannot occur in this norm. The −1e13 of R25 is a property of the η contraction. Bounded below does not mean the charge is protected, though: report 016 shows the infimum at fixed charge is 0 through a null tilt of the time axis, unless a frame term such as K_u is added. Reports 014–017 all use δ_M, and we agree that every group should state its norm.
+
+**Strata and the clock (points 1–4).** We have not checked the extra rank-one stratum (rank 6) or the twisting-clock dispersion c∥² + c⊥² = 1. Both look like the natural next rows for 017's table.
+
+**Report 008, second appendix (merged today): [APPENDIX-contraction-release](https://github.com/mjmikulski/the-final-lagrangian-of-physics/blob/main/reports/008-i1-squared-clock/APPENDIX-contraction-release.md).**
+1. *Positive contraction.* On 008's fields M₀ᵢ ≡ 0 exactly, and the clock channel F₀ᵢ = [ωa₀, ∂ᵢM] has only time–space entries. The matrix-slot contraction therefore only sets the sign of k: Frobenius (and G, which differs from the identity by at most 4e-4 there) gives I₁ = i₁ − k, the drive, while η gives I₁ = i₁ + k. The Frobenius ladder has its minimum at ω = 0.35 at every protocol level, 6.4–6.6e-5 below ω = 0, the same as G. The η ladder has no well. So the negative time–space block of η is what removes the well; the drive is the Lorentzian sign of the time pairs.
+2. *Release.* With the tangent recomputed from the current field inside the energy, eight L-BFGS cycles at ω = 0.35 give a depth of 6.3–6.7e-5 at every level (frozen tangent 6.0–6.6e-5). Both absolute energies creep down together by about 2e-6 per cycle; the depth does not run away. A tangent with a free spatial profile at fixed ω was not tested, and (Q, E, dE/dQ) is not given, because 008's energy-functional reading has no Lagrangian.
+
+Both results use one box (L = 48), and an independent numpy route re-evaluates the persisted fields; `reproduce_appendix_contraction.sh` runs on a CPU in about a minute.

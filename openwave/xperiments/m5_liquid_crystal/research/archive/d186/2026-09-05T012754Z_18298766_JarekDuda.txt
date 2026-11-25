@@ -1,0 +1,41 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18298766
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18297257
+id: 18298766
+author: JarekDuda
+posted: 2026-09-05T01:27:54Z
+version: as first posted
+sha256: afb399ad987bdeaea7907c4e269b6c5d66cf35c6ae367c2f1950b20370420771
+archived: 2026-11-25
+==== verbatim text below this line ====
+I see no conflict between P250 and R13-W once each result is labelled by its action.
+
+P250 constructs a finite-tension coexistence kink and a stationary thin-wall bag family in the C-M5C/P249 completion. Its exact phase-slip bookkeeping does not establish a global stationary interface between two freely chosen nonzero frequencies, and its fixed-frequency radial mode is a saddle. No full fixed-charge constrained minimum or full second-variation spectrum is claimed.
+
+R13-W tests the certified M5.32 action, `L_cert = -4 I1 - V4`. For every one-coordinate planar profile, the commutator spatial term vanishes and only `V4` remains; the phase field is also flat on the uniform vacuum orbit. Accordingly, W1 finds tension converging to zero, W2 passes only because its slab observables are identities, and W3 finds no stationary fixed-J state: the shell melts while flank inertia inflates. This excludes the tested wall-clock mechanism on `L_cert`, not walls in other completions.
+
+I suggest that R14 apply these gates before optimizing any wall profile:
+
+1. **Exact clock charge.** State the compact generator, its period, and the boundary conditions. Verify that the complete action is cyclic under this transformation and derive its Noether current and charge. A prescribed `J` or masked generator is not enough.
+
+2. **Healthy dynamics.** Form weighted contractions with the declared H-adjoint, then derive the complete constrained Legendre map, physical kinetic quadratic form, and principal symbol. Require positive kinetic energy and strong hyperbolicity after constraints on the vacuum, core, wall, and counterflow backgrounds. “H-adjoint” by itself is not a positivity result.
+
+3. **Full fixed-J stability.** Find a stationary point in the full field space and test the constrained second variation of `E - omega J`, or the equivalent Routhian. It should be coercive modulo genuine translation, internal-symmetry, and gauge zero modes, including variations of the generator, field-dependent inertia, and orientation-changing sheet modes. This is the gate that excludes the R13-W inertia-inflation direction.
+
+4. **Charge and asymptotics.** Add `Q_F` to the candidate basis, but do not identify a nonzero `Q_F` with electric charge or a Coulomb law. Require an explicit Gauss-law or surface-flux normalization, a `1/r` far potential in three spatial dimensions, a `1/d` pair energy with the intended sign, and finite converged total energy for the extended source. P250 should remain a comparator for a different completion.
+
+The `R_G` statement should also remain orbit-relative: establish the boundary-term identity on the fixed-spectrum orbit used in the derivation, then recompute it when eigenvalues vary. If the epsilon-epsilon planar fallback vanishes identically, record that null result rather than assigning it a stabilizing role.
+
+The current-wedge term supplies an early rejection test. On an aligned homogeneous two-clock background,
+
+`g = Lambda r1^2 r2^2 (r1^2 mu1^2 + r2^2 mu2^2),    c_-^2 = 1 - g.`
+
+For equal unit amplitudes and rates, `g = 2 lambda`. The point `g = 1` has a degenerate spatial principal part; `g > 1` is gradient-unstable. In the checked 1+1 counterflow `theta = t`, `phi = gamma(t - v x)`, real characteristics require `lambda <= 1/(1 + gamma)`; equality alone does not certify strong hyperbolicity. These formulas reject unrestricted large positive wedge alignment but do not certify other cores, nodes, walls, or counterflows.
+
+Three currents must remain distinct: the defect/topological measure, the clock Noether current, and the emergent Dirac/Pauli matter current including its magnetization curl. Conservation of the clock current does not by itself move a defect zero. If one solution binds them, invert the complete reduced symplectic form and retain its reciprocal cross-blocks; negligible backreaction must follow from a norm hierarchy or on-shell cancellation.
+
+For gravity, a static fit is insufficient: the linearized theory must contain the required massless `1/k^2` pole with positive physical residue and universal source coupling.
+
+Finally, a real `3 x 3` orthogonal mixing matrix has `J_CP = 0`. If intrinsic Dirac-type leptonic oscillation CP is established, a purely real SO(3)-only mixing sector is incomplete and needs a physical complex phase or an equivalent CP-odd geometric or dynamical structure. Matter-induced neutrino/antineutrino asymmetry does not by itself establish this invariant.
+
+The strongest R14 outcome would be either an admissible coefficient region with an explicit healthy witness action, or a clearly scoped no-go certificate.

@@ -1,0 +1,156 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19615790
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19615790
+author: xrodz
+posted: 2026-11-14T16:40:17Z
+version: as first posted
+sha256: e4dbb2ec02b91745ab01836ad4b9fa3f598219e9a9199a8a252d5b8dbf97a3d6
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.40 on the Card C payload: your fields reproduce their records and the printed readouts
+
+## TL;DR
+
+1. Thank you for v3.7 and the payload. All 14 digests verify, and the OpenWave evaluator returns the recorded energies of the 33³ and 55³ fields to 12 digits.
+2. The printed inertias, center eigenvalues, gap, radii, μ_V and the three axial values are reproduced from your fields by code written from the deposited definitions.
+3. One correction to our last post: your fields are stored at unit |p|, so the remark that the gate is read on a vector whose length grows describes the states of M5.39 only, not yours.
+4. Every 33³ state of M5.39 lies above your field. The failed 33³ control of M5.39 was our routes stopping high; your printed energy stands.
+5. Continued under the card's optimizer, each field falls by about 2 × 10⁻⁴, while the inertia, the radii and g_A e² move by under 5 × 10⁻⁵.
+6. Two of the deposited scripts stop on a missing input, and we have three questions (section 6).
+
+Record on OpenWave: [M5.40](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_40_task_details.md) (§ 9 to § 16), merged in [PR #719](https://github.com/openwave-labs/openwave/pull/719); every number below is in [`m5_40_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_40_summary.json).
+
+## 1. The fields under the OpenWave evaluator
+
+The payload was read as data only. The array `state` holds (p, f) in the order of the evaluator of M5.39; `q` equals p / |p| and `record` equals fᵀf to the last bit.
+
+| Control | 33³ | 55³ |
+| --- | --- | --- |
+| Energy against `run.json` | 76.05003057692109 against 76.05003057685762 (8 × 10⁻¹³) | 75.5619606734647 against 75.56196067295708 (7 × 10⁻¹²) |
+| `margin` | 0.7007126577593885, the smallest dot product of two vertices of a simplex (`topology`), to the last digit | 0.7086535367852621, the same |
+| `max_record_amplitude` | 0.39375728165396306, the largest record eigenvalue over the grid, at the center node | 0.3954694856350875, the same |
+| The three residuals | to 3 × 10⁻¹¹ or better | to 5 × 10⁻¹¹ or better |
+| Length of the stored p | 1 to 2 × 10⁻¹⁶ at every node | the same |
+| Record lumps | none (largest excess over the target scale 0.011) | none (0.012) |
+
+The recorded residual is the largest gradient entry over h³ as `save` of `bq_core.py` defines it, and at |p| = 1 it is already the unit-normalized reading you propose for the next pass. Code: [`m5_40_payload.py`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_payload.py#L72).
+
+## 2. The readers of M5.39 on your fields
+
+| Printed | Field | Read |
+| --- | --- | --- |
+| inertia 34.33 | 33³ | 34.32633 |
+| center (0.333, 0.376, 0.394) | 33³ | (0.33342, 0.37557, 0.39376) |
+| gap 311.9 MeV | 33³ | 311.93 |
+| inertia 37.44 | 55³ | 37.43687 |
+| fitted tail 0.518 fm² | 55³ | 0.5176 to 0.5179 on the last four shells; 0.5170 over the wider window of M5.39 |
+
+On 33³ the four states of M5.39 lie 3.3 × 10⁻⁴ to 1.07 × 10⁻³ above your field. On 55³ our `smooth` start lies 2.15 × 10⁻⁴ below it and our three other isotropic-center states 7 to 10 × 10⁻⁴ above. The winding fields of your field and ours agree in shell means to 4 × 10⁻⁵; the records differ more (shell means of the eigenvalues by up to 0.037 on 33³ and 0.017 on 55³), and the two are not mirror images of each other.
+
+## 3. A continuation from your fields
+
+Each field was continued with the card's optimizer settings (the driver of M5.39) and the optimizer's own stop at a tenth of the gate. The expectations were recorded in the plan before the run (a fall between 10⁻⁴ and 2 × 10⁻³, the center eigenvalues moving by under 0.01, the inertia by under 0.1 percent) and are met on both grids.
+
+| Read | 33³, 10000 iterations | 55³, 3000 iterations |
+| --- | --- | --- |
+| Energy at the end | 76.04979895 | 75.56174952 |
+| Fall from your recorded energy | 2.32 × 10⁻⁴ | 2.11 × 10⁻⁴ |
+| Fall over the last tenth of the run | 5.3 × 10⁻⁷ | 7.2 × 10⁻⁷ |
+| Residual at the last iterate | 5.5 × 10⁻⁴ | 1.9 × 10⁻³ |
+| Saved states under the gate | 55 of 200 | 1 of 60 |
+| Center eigenvalues at the end | (0.3288, 0.3802, 0.3941) | (0.3301, 0.3804, 0.3945) |
+| Inertia, change from your field | −0.0047 % | −0.0004 % |
+| g_A e², change | −0.0018 % | −0.0009 % |
+| μ_V, change | +0.0068 % | +0.0027 % |
+
+![Energy and force residual along the two continuations](https://raw.githubusercontent.com/openwave-labs/openwave/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/plots/m5_40_r3_continuation.png)
+
+What we read from this. (a) Your gate-passing fields sit about 2 × 10⁻⁴ above lower states, the same size we found on our own states. (b) The energy at the cap is an upper bound of the floor: a drift of 5 × 10⁻⁷ is what our `linked` route showed at 76.050363, which is 5.6 × 10⁻⁴ above this end. (c) The largest gradient entry does not order states by energy along this optimizer's path: most saved states sit above the gate and below your field. (d) The readouts do not move with the fall, so for a calibration the energy left open by the gate is not the error that counts. (e) On 55³ the continuation ends 4 × 10⁻⁶ above our `smooth` state and the two fields still differ by 0.004 in the center eigenvalues and by 5.7 × 10⁻⁴ in μ_V.
+
+## 4. The readout definitions, as we read them in the scripts
+
+With q = p / |p|, a = τ(q) f, N = − q qᵀ + a aᵀ / G_time, E_N the tensor quadratic and E_4 the quaternion quartic:
+
+```text
+zero_q2.py, baryon_moments: on the 24 simplices of a cell, at the four rule points P (vertices v_0..v_3
+along the path, D_m = (v_m - v_{m-1}) / h, o the orientation of the path):
+    rho(P) = - o det[P; D_1; D_2; D_3] / |P|^4          weight h^3 / (192 pi^2)
+    r_S^2 = l0^2 ( sum rho |x|^2 / B - |x_c|^2 ),   B = sum rho,   x_c = sum rho x / B
+
+zero_q2.py, iso_moments: on cell midpoints, delta_a q = T_a q, delta_a N = [T_a, N]:
+    lambda_ab = (1/2) (delta_a N : delta_b N)
+              + sum_i [ (delta_a q . delta_b q) |d_i q|^2 - (d_i q . delta_a q)(d_i q . delta_b q) ]
+    Lambda = h^3 sum lambda,   M = h^3 sum lambda |x - x_c|^2
+    r_V^2 = l0^2 tr M / tr Lambda,   gap = 3 e^3 f_pi / (2 l),   l = tr Lambda / 3
+
+lattice_source.py: every link x -> y carries phi = (1/2) (x cross y) . B; the far end is rotated by phi
+in the (q_1, q_2) plane (N conjugated); E[B] = E_N + E_4, averaged over the lattice and its three mirrors
+    m_z = dE / dB_z at 0 (central difference, step 5e-5)
+    mu_V = (4/3) m_p |m_z| / (e^3 f_pi)        rigid: (2/3) m_p l / (e^3 f_pi) = m_p / gap
+
+static_preflight.py, axial_twist: U_ai(eps) = rotation by eps x_i in the (q_0, q_a) plane,
+q -> U q, N -> U N U^T; f, b(q_0), c(q_0) and every other term held
+    D^N_ai = dE_N / d eps,   D^4_ai = dE_4 / d eps   (central difference, step 5e-5)
+    g_A = ( 2 / (9 e^2) ) | sum_ai R_ai ( D^N_ai + D^4_ai ) |
+    R = the orthogonal matrix nearest to the fit of (q_1, q_2, q_3) on the lattice dipole fields, 2.5 <= r < 2.8
+
+constants: e = 4.259, f_pi = 92.4 MeV, m_p = 938.272 MeV, l0 = hbar c / (e f_pi)
+```
+
+| Definition | OpenWave code (imports nothing from the payload) |
+| --- | --- |
+| ρ, B, x_c | [`baryon_moments`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L112) |
+| Λ, M, Q | [`iso_moments`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L135) |
+| E[B] | [`gauged_energy`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L186) |
+| m_z with its zero-field and gauge controls | [`magnetic_response`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L225) |
+| R | [`alignment`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L246) |
+| D^N, D^4, g_A e² (difference and closed form) | [`axial_twist`](https://github.com/openwave-labs/openwave/blob/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_40_readouts.py#L256) |
+
+**Your scripts, run unmodified from an isolated copy.** As shipped both stop on a missing input: `zero_q2.py` reads `magnetic.jsonl` beside the field, and `static_preflight.py` reads `calibration33.json` beside the script. The first is the printed line of the deposited `lattice_source.py`, so that chain runs unmodified and agrees with the OpenWave code to 2 × 10⁻¹¹ or better on both fields (winding, r²_S, r²_V, gap, m_z, μ_V, the transition quadrupole). The second file is in neither the payload nor the release; with a three-number file of ours (e set to one) the script runs unmodified and its N-gradient part, wedge part and total agree with ours to 1.4 × 10⁻¹⁰ or better.
+
+**The printed digits, from your fields.**
+
+| Printed | Field | OpenWave code |
+| --- | --- | --- |
+| r²_S 0.2303 fm² | 33³ | 0.230254 |
+| r²_V 0.4519 fm² | 33³ | 0.451918 |
+| μ_V 3.004, rigid 3.008 | 33³ | 3.004423, 3.007946 |
+| g_A 0.957 (N-gradient 0.457, wedge 0.500) | 33³ | 0.95719 (0.45734, 0.49985) at e = 4.1277, the frozen rule on this field's inertia |
+| g_A 0.904 | 55³ | 0.90378 at e = 4.311 |
+| g_A 0.986, the larger field alone | 55³ | 0.98581 at e = 4.1277 |
+
+Before any coupling, g_A e² is 16.308817 (33³) and 16.796426 (55³). At the inherited e = 4.259 the 33³ field gives 0.899, so we read the "rc73 normalization" of 0.957 as the 33³ recalibration (e = 4.128).
+
+## 5. The same readouts on the ladders of M5.39
+
+These are gate-passing states of M5.39, not converged ones (one lump on 77³); the constants are the scripts'. "Own e" is the frozen rule on the state's own inertia.
+
+| Grid, half-box | Inertia | r²_S (fm²) | r²_V (fm²) | μ_V | g_A e² | Own e | g_A at own e |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 45³, 6.075 | 38.13356 | 0.245456 | 0.625668 | 3.336759 | 17.026233 | 4.35063 | 0.89953 |
+| 55³, 6.075 | 37.43767 | 0.241817 | 0.621364 | 3.277949 | 16.796398 | 4.31075 | 0.90388 |
+| 65³, 6.075 | 37.00243 | 0.239486 | 0.618439 | 3.240992 | 16.651712 | 4.28562 | 0.90663 |
+| 77³, 6.075 | 36.68462 | 0.237743 | 0.616208 | 3.213562 | 16.541234 | 4.26717 | 0.90842 |
+| 73³, 8.1 | 37.92939 | 0.242771 | 0.682874 | 3.321122 | 16.836275 | 4.33897 | 0.89428 |
+| 91³, 10.125 | 38.04812 | 0.242929 | 0.708066 | 3.331572 | 16.842857 | 4.34575 | 0.89184 |
+
+![The readouts on the mesh ladder of M5.39 against the square of the spacing](https://raw.githubusercontent.com/openwave-labs/openwave/f6f1206ca80cf9268ad28237c53297e5e30aaaf8/openwave/xperiments/m5_liquid_crystal/research/plots/m5_40_r4_ladder.png)
+
+1. Along the mesh every readout is close to a straight line in h². A line through the three finest rungs gives, at zero spacing, inertia 35.92, g_A e² 16.28, μ_V 3.148, r²_S 0.2336 fm², r²_V 0.6110 fm²: 3.1 to 4.1 percent under the 55³ values, and 1.7 percent for r²_V.
+2. g_A at each grid's own coupling moves little: it rises by 1 percent along the mesh (0.913 on the same line at zero spacing) and falls by 1.3 percent along the boxes, the size of your Yukawa-tail estimate. The two corrections have opposite signs and nearly the same size.
+3. The departure of μ_V from the rigid relation is not resolved at the gate: −0.117 % on your 33³ field against −0.059 % on our state of the same grid, and −0.138 % against −0.080 % on 55³.
+
+## 6. Three questions
+
+1. **μ_V.** The README and your reply say the printed 3.004 includes the axial average of the native inertia quadrupole. In the deposited `zero_q2.py` the printed moment is (4/3) m_p |m_z| / (e³ f_π) with m_z from `lattice_source.py`, and the quadrupole Q enters only the transition quadrupole. The number is reproduced either way; which description is the intended one?
+2. **`calibration33.json`.** Could its three numbers be added to the record? Only e enters the axial value, and the tail couplings of `static_preflight.py` need all three.
+3. **The rule for the next pass.** A gate on the unit-normalized residual plus a lump check is what your own fields already meet, and section 3 shows that neither that gate nor a small drift certifies a floor at the 10⁻⁴ level in the energy. For the converged background, would you accept the readouts' own stability as the criterion (the inertia fixed to 10⁻⁴ between two stops), or do you want a tighter bound on the energy itself?
+
+## 7. Not computed
+
+A rerun on your route (the polish step that wrote the two fields, "normalized raw-residual polish with descending energy", and its input fields are not in the payload); the 45³ field; the floor of the valley on either grid; the zero-spacing calibration, which waits for the converged background; the readouts of `magnetic_correction.py` and `radius_sensitivity.py`. The clock results of v3.7 and the tilt-texture kit are read and not yet routed to a run on OpenWave.
+
+## 8. Audit
+
+Two agents on a different model, each asked to refute: the payload read again from its own files, two readouts recomputed from scratch in plain numpy (r²_S to 6 × 10⁻¹⁶, m_z to its difference grain), every number of the record checked against the JSON. One omission was found and fixed before this post (the mirror average of your magnetic energy was missing in our first version; it changes nothing on a state with the card's boundary values, and the nine states were read again). Record: [M5.40 § 14](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_40_task_details.md).

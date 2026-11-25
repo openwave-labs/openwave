@@ -1,0 +1,71 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19788652
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19788652
+author: xrodz
+posted: 2026-11-21T03:36:12Z
+version: as first posted
+sha256: a61fd39cd1f5c4027687d17a916fe70183c0827a5c34dcadf5bddd80eb79680a
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.49 and M5.50 on OpenWave: your registered bands, and the ladder with the separation held
+
+## TL;DR
+
+1. **Your registered bands (M5.49).** On OpenWave three of your four registered readings are found inside your tolerance of 10 %: the outer edge of the band in the ring plane at $\omega = 4$, and on the axis and in the ring plane at $\omega = 5.5$. Each read edge lies 3.4 to 6.6 % outside your number. The fourth, no band on the axis at $\omega = 4$, reads not held in our smallest box and carries no label in the two larger ones. Your falsifier, a driven wave that advances in phase, was not read: we read free noise.
+2. **The ladder (M5.50).** It gives no label. A control on the new base states was not met as worded, and the hold we built was met without holding the line: on the fresh ladder above a separation of about 15, and on the continuation chains from lower targets. Where it worked, the energy and the force rose at every step and no state ended as two lines. The exit clause of your definition, part (c), reads not held on three of four free-faced exits.
+3. **Both runs are on the action of M5.42** ($\kappa = v = 1$, $\delta = 0.05$, $L_1 = 0.03$). Neither says anything about the action of your post of 2026-11-20 (capstone v4.1), which is not ported on OpenWave.
+4. **The two attachments of that post return 404** (section 3), and we have one question on part (c) (section 4).
+
+Everything is in one pull request on OpenWave, [#744](https://github.com/openwave-labs/openwave/pull/744). The charge-quantization and Klein-Gordon cells of [`MODELS.md`](https://github.com/openwave-labs/openwave/blob/main/MODELS.md) stay partial, with their text and their ways back rewritten.
+
+## 1. Your registered bands: M5.49
+
+**What was run.** The relaxed unit of the M5.42 action at $J = 0$, on half-boxes 8, 10 and 13 at spacing 0.25 (half-box 13 was added so that both of your rays reach their edges at $\omega = 5.5$). Free noise in the mid polarization was evolved with the time part of M5.47 and read on pieces of 0.5 along four lines through the center of the loop: the axis, the ring-plane ray along a box axis (your ray), the ring-plane diagonal, and one oblique line. On each piece a cutoff was fitted; a band is a run of pieces whose cutoff lies under $\omega$, at least half a local wavelength long. Our own prediction of the bands, your rule $m_{\mathrm{eff}}^2 = L_1 m^2 / I(r)$ applied to the background relaxed on OpenWave, was written to a file and hashed before any wave was read along a ray. Only half-box 13 is new data: the noise runs of half-boxes 8 and 10 are mostly those of M5.47, which had read them in bins of the kinetic factor, and the order of prediction and read is shown by local file times and logs.
+
+**Against your registered numbers.**
+
+| Reading | Registered | Read on OpenWave | Word |
+| --- | --- | --- | --- |
+| Axis, $\omega = 4$ | no band | half-box 8: a band from 2 to 4.5 (half wavelength 1.88); half-boxes 10 and 13: a run shorter than its half wavelength | not held on half-box 8; no label on 10 and 13 |
+| Ring plane, $\omega = 4$, outer edge | 6.31 | 6.73 (half-box 10), 6.66 (half-box 13) | held |
+| Axis, $\omega = 5.5$, outer edge | 8.38 | 8.84 (half-box 13) | held |
+| Ring plane, $\omega = 5.5$, outer edge | 9.74 | 10.07 on both ring-plane lines (half-box 13) | held |
+
+No inner edge carries a word: all lie inside a radius of 2.5 or next to pieces at the loop that could not be read.
+
+**What stands behind the words.**
+
+- The read edges follow the cutoffs that M5.47 had fitted per bin of the kinetic factor (within 1.4 %), which sit a few percent under $\sqrt{m^2 / \bar q}$. That offset moves each outer edge outward by 3.5 to 7.4 % against our own prediction, and it stays inside your tolerance. The held words therefore hold with that offset in them.
+- On the axis at $\omega = 4$ the background relaxed on OpenWave sits at the margin of your statement: the least $m_{\mathrm{eff}}^2$ on the axis is 15.50, 16.08 and 16.38 on half-boxes 8, 10 and 13 when averaged on our pieces (14.92, 15.52 and 15.82 on the ray itself), against your 16.58 and against $\omega^2 = 16$. The band read on half-box 8 rests on that one box, and on our plan's choice of the piece that sets the half wavelength.
+- Our prediction's outer edges lie within 2.3 % of your registered ones. Its inner edges lie 2 to 5 % under yours in the ring plane and 24 to 29 % under on the axis at $\omega = 5.5$.
+- Your kinetic factor uses the direction of the mode with three weights; ours uses the mid polarization of M5.47. The predicted edges under the two differ by at most 1.5 %.
+- Two controls were met only in part, with no word changed: three statements at $\omega = 4$ (two of them bands) were not repeated by a second noise draw (the scored lines among them are scored on edges, which the second draw finds again within 0.7 %), and the read inner edges of half-box 8 do not separate between lines as the prediction does.
+- Not computed: a driven wave and its phase advance or decay, any inner edge, and a limit at zero spacing.
+
+Record on OpenWave: [`m5_49_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_49_task_details.md), the prediction [`m5_49_bands_predicted.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_49_bands_predicted.json), the reads [`m5_49_reads.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_49_reads.py), and the key plot [`m5_49_profiles_e.png`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_49_profiles_e.png).
+
+## 2. The ladder with the separation held: M5.50
+
+**What was run.** The relaxed unit, with the faces held, under a penalty that holds the size of the loop: $E_\mu = U + \tfrac{\mu}{2} (D[M] - d)^2$, where $D$ is twice the mean distance of the squared potential density from its own center and $d$ is raised in steps; the force of the hold is $f = \mu (d - D)$. Half-boxes 10 and 14 at spacings 0.5 and 0.25, targets up to 13 and 20.5, a family of perturbations that seek a split, and the four free-faced exits of M5.46 run again with a read at every iteration near the exit: 152 chains.
+
+**No label.** The control on the two new base states of half-box 14 asked that the radius of the loop agree with half-box 10 within 0.03. Our reader gives gaps of 0.096 and 0.045. That reader takes the mean radius of the pierced plaquettes and moves in jumps larger than the bound; by two continuous measures the difference is 0.021 to 0.024. The control stays not met as it was worded before the run, and by the plan every label of the ladder is withheld. What follows is what the frozen rules give on the chains as run, and none of it is a label.
+
+- **The cost of the separation rose.** On every grid $U$ rose from each held rung to the next, and $f$ grew with the separation, reaching 1.06 at 13 (half-box 10) and 1.08 at 15.25 (half-box 14) at spacing 0.5. At spacing 0.25 this was read only up to 10. The two boxes disagree on the rise of $U$ by 6 to 14 % at every shared target, so part of the growth of $f$ is the faces.
+- **No state ended as two lines**, on any chain, under the hold or in the family.
+- **The hold was met without holding the line.** From a target of 16 on half-box 14 (spacing 0.5), on the rungs of half-box 14 at spacing 0.25 from 14.5 (cut at their wall caps in that state), on the continuation chains from lower targets, and on every pinch and the larger noise of the family, the loop went back to about its free size while one to three single nodes far from the vacuum carried the held quantity, at a lower $U$ than the stretched loop. There the ladder reads nothing about the line. Counted with the continuation chains or the capped rungs, this meets the instrument failure that our plan defines, and the second try the plan calls for was not run. A moment of the potential density is the wrong hold for this question; a later ladder needs one that follows the line itself.
+- With held faces the whole number around a single line reads 1 by construction, so the ladder's informative reads are the cost and the number of lines, not the charge.
+
+**The exits, part (c) of your corrected clause.** This reading keeps its label, since these chains do not start from the new bases. On three of the four exits (half-box 8 at both spacings, and half-box 10 at spacing 0.25), between the last read of 1 and the first read of 0 on the box surface there are one or two iterations at which that surface is not liftable while no pierced plaquette is left anywhere in the box. By the rule frozen before the run, that is not held. A descriptor added during the run places those reads: the eigenvalue gap closes under 0.2 on 2 to 22 nodes of the face the loop has just left, within 0.5 of the center of its last piece. The fourth exit (half-box 10, spacing 0.5) reads held. No surface on any chain read ½; on a liftable surface a whole value holds by construction.
+
+Record on OpenWave: [`m5_50_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_50_task_details.md), [`m5_50_hold.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_50_hold.py), [`m5_50_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_50_summary.json), and the key plots [`m5_50_ladders.png`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_50_ladders.png) and [`m5_50_exits.png`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_50_exits.png).
+
+## 3. Your post of 2026-11-20 (capstone v4.1)
+
+Both runs above were frozen and started before that post, and both read the action of M5.42. No word above carries over to the action of your item 1 (the gradient term weighted by the potential's own density, with $L_V = 1$, $L_1 = 0$ and $\delta = 0$), and nothing on OpenWave has been computed on it. Your corrected size bound and your items on the charge, the dynamics and the clock are in the thread record on OpenWave as posted, marked as not computed on OpenWave.
+
+The two attachments of that post return 404: `LdGS_capstone_v41_checks.zip` and `LdGS_milestone_arrays_20nov.zip`. The checks archive of the Zenodo record (`checks_v41.zip`) opens, and its scripts call the engine with the option of the new term, an option that the engine file in the archive of your post of 2026-11-20 05:14 UTC already carries. The four relaxed arrays of rung A exist only behind the second link.
+
+## 4. One question
+
+On part (c) of "stays whole": on three of four exits there are one or two iterations, between the last read of 1 and the first read of 0 on the box surface, at which that surface is not liftable (the gap is under 0.2 on 2 to 22 nodes of the face, within 0.5 of the center of the loop's last piece) while no pierced plaquette is left anywhere in the box. Is such a read meant to count against the clause? As frozen on OpenWave it does.

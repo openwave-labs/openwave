@@ -1,0 +1,68 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18448240
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18448240
+author: JarekDuda
+posted: 2026-09-15T10:50:01Z
+version: edited 2026-09-15T11:19:05Z
+sha256: e34a170cfc9fdd8d1f6df14977b249f409fe726504e56bc2d55fc0440e4e1dbe
+archived: 2026-11-25
+==== verbatim text below this line ====
+I am afraid that while my big M5 document ( https://zenodo.org/records/22727461 ) contains a lot of valuable information, generally it has drifted - I have restarted with Fable critically analyzing it:
+
+@xrodz @vantasnerdan @mjmikulski
+
+Thank you for R13-W and P250. I accept the R13-W verdict: on L_cert the phase gradient costs nothing, so the wall was the wrong place to look — what is missing is a term that charges the phase gradient, not a place to hide a frequency jump.
+
+On Rodrigo's question 1: I take the ambient frequency to be set by content (electrons and nuclei filling space), the empty vacuum at ω = 0, and fixed J (the Noether charge) as the physical ensemble. An isolated particle conserves J and its ω follows; fixed ω is a bath. Please report signs in the fixed-J ensemble, with the fixed-ω sign as a control: a genuinely inertial term must flip between the two.
+
+Since all three stacks still carry "Newton sign" as one cell, I propose freezing one premise, recording one exact closure, and replacing the cell with two rungs.
+
+## I. Premise: the boost-vector channel is closed
+
+*(exact; one SymPy script, attached)*
+
+On the vacuum orbit of diag(g,1,δ,0), with A_X = XM + MXᵀ, the η-norm of [A_X, A_Y]_η is positive for every rotation–rotation and boost–boost pair, and negative for every rotation–boost pair except the three where the boost lies along the rotation axis, which vanish: (J23,K02) → −2δ²(g+δ)², (J23,K03) → −2δ²g², (J12,K01) → −2(δ−1)²(g+1)², (J23,K01) → 0. This negative block is at once the term the paper used to propel the clock, the only source of attraction in the boost sector, and the direction with no floor. A vector-type texture with a positive norm repels its own kind, exactly as like hedgehogs do (Maxwell's remark that a Maxwell-like gravity needs negative field energy; Feynman's odd-spin rule); with a negative norm it attracts and is a ghost. R1, reports 001/005/006 and P240-0032 are three instances of this one fact.
+
+**Verdict:** boost-vector channel `NEWTON_CLOSED` for every constant- or field-coefficient deformation of the quartic. And the "green Newton" of the coframe versions in my own audit record is an imported Einstein constraint — `NEWTON_SUPPLIED`, not `NEWTON_DERIVED`; only the latter counts here.
+
+## II. Exact closure: the two-derivative sector on the 4×4 field
+
+The only two-derivative structure that attracts is the Fierz–Pauli operator (M's indices contracted with the derivative indices): a symmetric two-tensor whose vev breaks all six Lorentz generators — our case — has two Goldstone modes obeying the linearised Einstein equations with attractive sign *if* the quadratic term is Fierz–Pauli, whose negative conformal direction is harmless only because gauge invariance makes it non-propagating (Kostelecký & Potting, PRD 79, 065018 (2009); Carroll, Tam & Wehus, PRD 80, 025020 (2009)). On our field that direction is physical, and it lands on the electron: for the static hedgehog M_ij = δδ_ij + (1−δ)n_in_j, ½(∂_kM_ij)² = (∂_iM_ij)² = 4(1−δ)²/r² and the trace terms vanish, so the Fierz–Pauli static density is −2κ(1−δ)²/r² and the tail energy is −2κ(1−δ)²L. GR's sign: the point charge has no floor. The other sign: gravity repels. A component-diagonal (projector-weighted) two-derivative term avoids the tail but is a sum of scalar-like norms and cannot attract.
+
+**Verdict:** `CANDIDATE_REFUTED` for derived Newton from any two-derivative term on M as it stands. Scope: it does not refute a version in which the longitudinal/time-eigenvalue direction is a constraint rather than a field — a lapse-like g with no kinetic term, varied to give C(M) = ρ. That is a modelling choice, it is mine to make, and I will state it in a separate post after thinking it through; until then no stack should spend cycles on plain quadratic terms for gravity.
+
+## III. Rung R14-C: clock cross inertia
+
+*(numerical; on the P249/P250 completion, the only licensed clock)*
+
+Dan's P240-0034 algebra is the one route whose form is Newton's. For two clocks with inertia matrix [[I₁,C],[C,I₂]], E_J = ¼JᵀI⁻¹J gives ΔE_J = −j₁j₂C/(2I₁I₂) = −2ω₁ω₂C(d). If C(d) = A/d with A > 0 independent of clock type, and ω = mc²/ħ, this is −Gm₁m₂/d with G = 2c⁴A/ħ², universal because ω ∝ m and additive over constituents.
+
+**Gates:** (1) C(d) between two relaxed fixed-J clocks, like- and counter-rotating, ring and split core: sign, exponent, and A relative to I₁I₂. (2) The fixed-ω control flips the sign. (3) The g-dependence of A: the paper's estimate g⁴ ≈ ke²/Gm² ≈ 10³⁸ would make A ∝ g⁻⁴ the hierarchy coming out for free; anything else is a number to explain.
+
+**Falsifier:** if the clock tangent vanishes in the exterior (P249), C decays exponentially and the leading pair term is the self-inertia modulation by the other defect's static gradient, δI₁ ∝ ∫_core₁|∂M₂|² ∝ d⁻² — attractive, but 1/d². A 1/d cross inertia needs a massless tail in the tangent, which is exactly the sector R13-W shows has no stiffness. So R14-C and R14-G are one question.
+
+## IV. Rung R14-G: the phase and boost stiffness
+
+*(symbolic; every stack can run it in a day; no gravity claim)*
+
+L_cert has no quadratic stiffness — F vanishes on any single jet (your planar and phase flatness) — so no vacuum waves, no radiation threshold, no phase stiffness, no linear response. Add the projector-diagonal term L₂ = −Σ_{a<b} κ_ab Tr(P_a ∂_μM P_b ∂^μM) = −Σ κ_ab (d_a−d_b)² (Γ_μ)_ab(Γ^μ)_ab in the eigenframe (modulo the η signs in the (0,i) pairs), with κ₁₂ = κ₁₃ = 0 so the hedgehog's tilt jets cost nothing: Coulomb and the finite point charge untouched. κ₂₃ charges the phase gradient with stiffness δ²κ₂₃ — the paper's Klein–Gordon phase waves, and the term R13-W asks for; it also turns the hairy-ball line of the hedgehog into a vortex with logarithmic tension, which is the spin line the paper wanted rather than a defect. The three κ₀ᵢ give the boost sector a pencil.
+
+**Gates:** (1) the quadratic pencil about diag(g,1,δ,0): no ghost or tachyon, and the channel-resolved thresholds that replace the 0.786 gate; (2) twist-sheet inertia per unit length finite at κ₂₃ ≠ 0, i.e. the free-inertia escape closes; (3) a relaxed fixed-J clock exists on L_cert + L₂ with a massless-tailed tangent — the object R14-C needs.
+
+## V. Protocols
+
+**The J gate.** Every fixed-J result so far uses an arbitrary J (50–800 in lattice units), and the sheet escape's reward J²/(4 kin) scales as J². A de Broglie clock with spin ½ fixes the scale: E = ħω and J = ħ/2 give E_rot = Jω/2 = E/4, i.e. Jω/E = ½ (1 if the clock is the Zitterbewegung 2mc²/ħ). Report every clock at the J satisfying this on the relaxed state, and re-ask the sheet-escape question there.
+
+**Disagreement procedure for gravity.** One frozen two-defect field (the 08-17 notebook pair); each stack evaluates the pair energy by channel — static texture overlap, eigenvalue deficit, clock cross inertia at fixed J — and reports sign and tail exponent per channel. The "Newton sign" cell becomes a channel ledger and the disagreements become numbers.
+
+The neutrino/PMNS anchor waits on R14.
+
+---
+
+Notes:
+
+- Section II is new and exact; the attached script reproduces it in seconds. It is the strongest statement in the post and the one to expect pushback on — the pushback will be "that's why gravity is a gauge theory", which is the point.
+- Section I's correction (three vanishing pairs) matters because R9's stabiliser argument uses exactly those directions.
+- The constraint/lapse route in II is the same conclusion my earlier research reached from the other side (mimetic/khronometric, cardinal gravity's auxiliary modes). Nobody has written it for M5; it is the one decision the thread has been waiting on you for, and I'd post the gravity plan only after you decide whether a non-dynamical time eigenvalue is acceptable in the one-field programme.
+- On Gemini's closing question: Fable — the R14-G pencil and the two-line tail test for whatever lapse-constrained version you choose (one claim per script); ChatGPT 5.6 — the Benci–Fortunato bridge that OpenWave left unverified in P249, and Kostelecký–Potting's mode counting (2 TT + 4 auxiliary + 4 massive) checked against V₄'s Hessian.The script is below; it evaluates the four Fierz–Pauli pieces on the hedgehog symbolically and prints the −2κ(1−δ)²/r² density and the −2κ(1−δ)²(L−1) tail.

@@ -1,0 +1,28 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18431594
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18431594
+author: JarekDuda
+posted: 2026-09-14T09:29:10Z
+version: as first posted
+sha256: 33827f717061baed2d87ad95b51fd976f586c02ab8af9deb9c765fd5039e3f34
+archived: 2026-11-25
+==== verbatim text below this line ====
+Recent report: https://zenodo.org/records/22743894
+
+**@xrodz @mjmikulski — three results from the audit side, two of which bear directly on R20.**
+
+**1. R20's boost saddle is Astra's normal-relaxation gate, already run.** With E = E₀ + ⟨J,q⟩ + ½⟨q,Hq⟩, relaxing off a constrained manifold gives **ΔE = −½⟨J,H⁻¹J⟩ ≤ 0**, and the constrained profile is stationary only if J = 0. Your d²E/ds² = −31 to −1672 **with both potentials silent to 10⁻¹³** is exactly a non-zero J on a direction V cannot see. Two lines proposed and measured the same calculation independently. **The answer is J ≠ 0, so every constrained energy in the record — including m_N and g_A — is an upper bound.**
+
+**2. inc(h) = 2G(h) exactly** (symbolic, general quadratic field). Saint-Venant incompatibility *is* twice the linearised Einstein tensor — Kröner's identification. **So any inc² term is R_μν², not R:** quadratic gravity, with Stelle's ghost. That settles what the inc branch can deliver, independently of resolution.
+
+**3. The det(M) = const proposal does not close the negative direction.** Its normal is (1/λ₀,…,1/λ₃), dominated by the *smallest* eigenvalue, while E₀₀ lies along the largest. **At (8, 1, 0.3, 0⁺), 100 % of E₀₀ survives; raising λ₃ to 0.3 changes 0.03 %.**
+
+**And one structural note that reframes the target.** §591's escape is **−2(δ−1)²(g−1)²** — a product with **two** zeros. We only ever tried δ = 1. **g = 1 also kills it, with δ free, so the generations survive** — but g = 1 is teleparallelism with equal legs, which the paper rejects for making a hedgehog in space and one in time comparable. **Two roots, one costing the particle content, one costing the hierarchy, and the current parameters sit at the maximum.**
+
+**Variants worth specifying next:**
+- **v23** = gauged SO(3) → U(1) (HLS): gives Cornell's linear term with κ = 2.29 against lattice's 1–2, λ = 0.255 fm against a 0.4–0.5 fm tube. Coulomb coefficient fails (2.76 vs 0.52) — that's α_s, needing colour.
+- **v24** = Hermitian M: three independent routes demand it — u(4) ⊃ su(3) for colour, a chiral Σ for a massless photon with fractional charges, a Dirac mass for U(1)_B.
+- **Not v25** (det constraint): tested above, 0.03 % effect.
+
+**Most useful next rung, agreed: the free or relaxed-far-field boundary.** With 72 % of S_d's energy in the pinned shell, that's where the three totals actually differ.

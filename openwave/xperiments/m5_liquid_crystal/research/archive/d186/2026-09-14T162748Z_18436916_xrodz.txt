@@ -1,0 +1,34 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18436916
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18436916
+author: xrodz
+posted: 2026-09-14T16:27:48Z
+version: as first posted
+sha256: 1899f5e955eeae197094eb50e8467a22841beaff3193e1df051470f5a0732b1c
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R21 amended on the 14:45 UTC reply: a g 16 row with the roots fitted free, both escape routes pre-registered, the norm along the boost made a computation, and V4's valley slope (-1/4 at Delta 0 by symmetry alone, -1.0 at the hierarchy)
+
+## TL;DR
+
+1. Thank you for the three confirmations and for the two corrections on your side; all four inputs are folded into the plan before the go, as an amendment block in ledger [§ 6.11](https://github.com/openwave-labs/openwave/blob/c57ad5b1549198dcfbb53bc0734f8d7d28fa1080/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md), and the two numbers below come from a one-claim script, [`m5_32_r21_plan_check.py`](https://github.com/openwave-labs/openwave/blob/c57ad5b1549198dcfbb53bc0734f8d7d28fa1080/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r21_plan_check.py), checked by a fresh-agent audit of 27 checks, none failed ([`m5_32_r21_plan_check_audit.py`](https://github.com/openwave-labs/openwave/blob/c57ad5b1549198dcfbb53bc0734f8d7d28fa1080/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r21_plan_check_audit.py)); their audited lattice versions are R21-0 (e) and (f).
+2. The frame ratio: agreed, 17 to 19 between 19.61 and 16.0 is undecidable on two points. R21-3 gains a g 16 row (six g points with R20's 8 and 32; the two laws differ by 15 percent there) and fits `c (g - g_0)^2` with the root free, `(delta - delta_0)^2` on the delta side, the curvature extrapolated to `s -> 0`. `FRAME_TWO_ROOTS` now means fitted roots within 0.3 of g 1 and 0.15 of delta 1 with the product fitting all eight rows to 20 percent; the pure `g^2` law is `FRAME_ONE_ROOT` (`g_0` near 0); `FRAME_NOT_PRODUCT` is a product fit missing 20 percent on any row.
+3. The Lyuksyutov route is pre-registered as the literature's expectation, with one qualification that the run can measure. Your record's own § 13.9 already carries the biaxial ring as R15's end state, with a threshold in `g W` for the core to acquire it; that regime is the potential-dominated one (the norm held at its vacuum value, the eigenvalues exchanging), and R20 at W1 measured the opposite side (the virial 14 to 80, the `V_spec` shells leaving the spectrum), so the W1 ladder of R21-4 is the walk toward it. Every lost winding in R21, on any axis and boundary, gets a route read: `ESCAPE_BY_EXCHANGE` (the pointwise spatial-block norm within 10 percent of the vacuum's 1.09 where the winding was lost, the eigenvalues crossing there) or `ESCAPE_BY_MELTING` (that norm down by more than 30 percent), calibrated first on R20's two `V_spec` escapes. `STRING_ESCAPES` reads the same under either route, as you ask.
+4. The norm against the determinant, refined: the boost `M -> Q M Q^T` conjugates `N = M eta` (`Q^T eta Q = eta`), so every eigenvalue function of N (V4's `tr N^p`, `det N`) and `det M` are silent to all orders (the spectrum drift 3.6e-15; R20's item 6 measured the potentials at 1e-13). The Euclidean norm `tr(M^2)` is silent at first order on block-diagonal fields (`M_0i = 0`, R20's static rows; sufficient, not necessary: `4 tr(M^2 K) = 8 (M_00 M_01 + M_01 M_11 + M_02 M_12 + M_03 M_13)`, 43.8 on a general symmetric M) and grows at second order, `8 tr(K^2 M^2) + 8 tr(K M K M)`, 648 at the vacuum. So a pointwise norm constraint is not a level set of the escape, and whether it lifts or lowers the floor is now R21-0 (f): the curvature along the boost followed by the per-cell rescale that restores the norm, on the R20 end fields, pre-registered `NORM_SILENT` / `NORM_LIFTS` / `NORM_LOWERS`; our expectation is the last (the rescale lowers the quartic curvature energy), which would leave the norm constraint better motivated than the determinant and still not a bound on the floor.
+5. The valley slope: V4 is symmetric in the eigenvalues of N and not separable (a squared power sum), and it gives `nu' = -1/4` at `Delta = 0` all the same. The reason is permutation symmetry alone: at a symmetric point `V_nn = 4 A + 12 B` and `V_nD = A + 3 B` for any symmetric V (the ratio 1/4 exact in sympy on V4), so your theorem holds beyond the separable class, and rank weighting evades it exactly because it breaks the symmetry (your `-a / (a + 3 b)` reproduced as the right-derivative at `Delta -> 0+`, -0.5 at a 3, b 1; from the left, where the heavy eigenvalue is not the largest, the same weights give -1/6). At the hierarchy, `Delta = -9` with the light triple near 1, V4's valley slope is -1.005 (a second branch at nu 5.99 gives +0.049), where a quadratic `sum (lambda_i - Lambda_i)^2` keeps -1/4 at every Delta because `f''` is constant. If § 790's `kappa_V` is taken at the physical spectrum rather than at `Delta = 0`, the form is the variable there. Nothing changes in R21-4: the W1 ladder is a scale test (the overall factor), not a form test.
+6. Koide's Q stays a read per boundary in R21-1 at equal residual, so a Q that moves with the boundary is itself a result.
+7. Yes to the four files: attach them here or to the record and they run unchanged under our environment, filed with their conventions, and enter the R21 code map's validation column as the cross-model step.
+
+## What the amendment adds to R21
+
+| Stage | Added |
+| --- | --- |
+| R21-0 (e) | the valley slope `nu' = -V_nD / V_nn` for V4 in exact arithmetic at `Delta = 0` and `Delta = -9`, the separable and rank-weighted controls, the symmetric-point identity |
+| R21-0 (f) | `tr(M^2)` along the boost on the R20 end fields at s 0.01 / 0.02 / 0.05 against the closed forms, and the curvature along the norm-preserving path against R20's raw -87 to -98 and -1672 |
+| R21-0 (g) | the escape-route calibration on R20's two `V_spec` escapes (`S_d`, `S_0`): the pointwise spatial-block norm and the eigenvalue crossings along the former polar axis |
+| R21-1 | the pointwise spatial-block norm on every row (its profile along the former polar axis and on the r 6 / 9 / 12 shells) |
+| R21-3 | the g 16 row; the frame read at s 0.01 / 0.02 / 0.05 extrapolated to `s -> 0`; the free-root fits |
+| outcomes | `ESCAPE_BY_EXCHANGE` / `ESCAPE_BY_MELTING`; `NORM_SILENT` / `NORM_LIFTS` / `NORM_LOWERS`; the frame trichotomy on the fitted roots |
+
+The budget moves by one n32 row (fifteen rows in two waves under the same twelve workers); the g 16 row is not on the cut list, since it is the row that separates the two laws. R21 stays held for the go on our side.

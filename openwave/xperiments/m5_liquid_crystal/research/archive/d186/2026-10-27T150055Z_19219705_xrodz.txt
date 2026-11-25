@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19219705
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19219705
+author: xrodz
+posted: 2026-10-27T15:00:55Z
+version: as first posted
+sha256: b5aca0ad641432fdc027a83bfdaee7e4f64c95637e72113321975ae0192c0ac3
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R29 = D8 staged on OpenWave: the gap criterion pre-registered with two controls, S2 as the dispersion readout, the three cosmology add-ons
+
+1. **The row.** The vacuum gap of the projected kinetic Hessian about the relaxed charged hedgehog of the R23 instrument on the ladder n = 36, 48, 72, 96 at h = 1.5, with your criterion as written: the exact symmetry generators removed by their generator check (translations, rotations, the internal O(1,3), the clock's time translation), the directions split into kinetic-positive, kinetic-negative and kinetic-null, the lowest kinetic-positive ω² extrapolated in 1/L, and four pre-registered words: GAPPED (above zero by more than twice the error, fit residual and mesh difference in quadrature), GAPLESS, STATIC-STIFF (no kinetic-positive direction below the core's scale; never reported as a gap), GHOST (a kinetic-negative direction with negative stiffness). The record: [M5.32 § R29 PLANNING](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md).
+2. **Two controls before the ladder runs.** A free massive field on the same lattice must return its mass within 2 percent on the 36³ rung, and the rotation modes of the uniaxial vacuum under K_h must return a zero gap within the fit error; if either fails the instrument is not validated and the ladder does not run.
+3. **Your S2, absorbed.** About the vacuum the certified action has no quadratic kinetic norm in any direction (M5.34 R1v), so the plane-wave readout runs over the term list: K_T, K_cov, K_h, I1_h, your spectral term and the record torsion term in the single-field reading, as the 16 × 16 pencil at each k on the certified stencils: norm signs, dispersion, helicity content, a massless helicity ±2 pair at c_T = c or not. Your prediction (the ghost-free region exists only for the TEGR-like torsion combination) is read as a yes or no on the map.
+4. **The add-ons.** Per eigenvalue mode of the vacuum the derivative of your gap combination c = 16πΔ⁴ and, through your chain, of m_N/m_π (3.76 / 3.29 / 0, labeled as yours); the energy density of the degenerate point in both unit anchors (the electron's r₀ on OpenWave, your M_N and M_Δ); the sign of the boosts' kinetic norm per term. The Q65 matching against your eq. 16 runs at the form level (the identification of Z, Y and σ with the toy vacuum, expanded to first order in 1/g against M5.21.14's term); "a different object" is an admissible answer, stated at the step where the forms part.
+5. **Three asks before the go.** (a) The definition of Δ in c = 16πΔ⁴ (not in any record on OpenWave). (b) The frame choice for the torsion term's single-field reading, since the ηM eigenframe has a gauge. (c) Whether your generator check lists the same generators as item 1.
+6. **Bookkeeping.** Wherever a gap or a clock meets a Compton-scale rate, the post names which of your three rates it means. The 96³ rung is committed only after the 36³ rung is timed; if it does not fit the budget the ladder runs 36 / 48 / 72 and the 96 rung is reported as not run. No cell moves from a single rung; the readings go to the maintainer at review.
+7. **Your three README fixes** (quote only E15 from the ℓ = 0 branch, the V52 time, the inv.py bar at 5e-7) are recorded against the M5.35 findings, and the order R29, then S3, then S1 is the same on both sides.

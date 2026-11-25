@@ -1,0 +1,29 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18306565
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18306565
+author: JarekDuda
+posted: 2026-09-05T16:54:11Z
+version: as first posted
+sha256: 1fba16992c82ee65a2e1ac08e94bd2b40b7e842401c06cd0f57d2bc22e4c4b3c
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @vantasnerdan @mjmikulski — thanks for R14; every verdict has been checked against what I wrote, and the record on my side is corrected where you were right.
+
+**R14-0, the R_G orbit theorem: you are right, and I can say why I was wrong.** I reran it in 3+1 on a periodic box (spectral derivatives, N = 16/32/48, D = diag(−g, 1, δ, 0.1), random smooth textures). R_η stays at 1e−13 everywhere. For the covariant G: zero on rotation-only orbits (ηMη → 1e−7, M⁻¹ → 7e−5), the Kronecker G also zero with a single boost plane (−5e−9), but with two boost planes ∫R_G converges to +41.1 (Kronecker), −110 (ηMη), −300 (M⁻¹), and with three to +5.8 / −65 / +187 — your −7.68 / −10.1 / −1.90 is the same phenomenon on your box. My evidence was 2+1, and in two spatial dimensions the ΓΓ form is topological (the Gauss–Bonnet analogue), so it vanished for every G. Withdrawn: "total derivative on the whole orbit for every covariant G". Standing: EL ≡ 0 for R_η; no (∂_t M)² term for any G; the static record untouched for G = η and for the Kronecker G (u constant ⇒ G = I), which agrees with your R14-C finding that ηMη shifts it. R_G is a boost-sector term; with your threshold and no-pair-law results it is closed as a mediator from both sides.
+
+**K_P invariant order — a convention, both texts right.** With N = Mη (mine) tr(ΩHΩᵀH⁻¹) is exactly invariant and the transposed order changes by −23.9 under a boost; with N = ηM (yours) it is the reverse (checked numerically, random off-vacuum point, boost ⊕ rotation). Your note on the roots for the (−g, 1, δ, 0) spectrum and on M⁻¹ being undefined on the certified vacuum are both adopted.
+
+**R14-B: verdict as predicted, mechanism yours.** My package required the degenerate pair (δ, δ) for K_P precisely so that the exterior is silent; run on the certified (δ, 0) vacuum the exterior ticks and, as you also found, the biaxial hedgehog's transverse (2,3) frame carries a 1/r connection that K_P charges (L-exponent 1.34). So on the certified vacuum K_P fails twice, and the sheet regime is never reached. Your addition that V₄-type potentials are quartically soft at a degenerate spectrum is the price of the degenerate pair: the charge-2 split needs an explicit quadratic stiffness, which is exactly what R14-D found (μ ≥ 5.6e−4). That is the P249 gap I named on 09-03, now measured.
+
+**R14-A:** the infeasibility prediction holds with your certificate; the total-derivative/counting trap I warned about did not bite because your tail rows are plateaus on relaxed fields with cancellation required on every field — the right design. Your finding that the certified 4I₁ has negative ω² on the hedgehog's boost tangents (−0.22, −0.16) is the same sign structure as the floor witness; the witness itself is a specific direction (a twist of the spatial frame *inside* the dressed frame) that a descent from a smooth rapidity-0.1 seed will not sample, and I read your audit's boost-sector saddle at c = 0.3 as it. V1 stands as a request.
+
+**R14-C:** K_λ as a model statement confirmed, and the core-locality of the eigenvalue deficits on the certified potential is why the light scale has to come from the potential, as written. tr N not constant through the core answers rung I: the stiff-trace mediator is not admissible as is.
+
+**The next object, pre-registered.** R14-D says P250's structure appears on the 4×4 field exactly when the potential has an explicit split stiffness at a degenerate pair, and that the K_P^h weights f(λ)⁴ ~ 1e3 (degree 10 in eigenvalues against V₄'s 8) are what make the fixed-ω functional unbounded along the split and the walls 3500–7700 units wide. Both are cured by replacing the polynomial projector with the exact spectral projector onto the (2,3) eigenplane, P₂₃ = (N−g)(N−1)/[(λ₂₃−g)(λ₂₃−1)] (a rational covariant function of N, weight 1 on the block, degree 2 overall):
+
+L = −4 I₁ʰ − [V₄(g,1,δ,δ) + μ(λ₂−λ₃)²] + c_P · ½ η^{μν} tr(Ω_μ H Ω_νᵀ H⁻¹),  Ω_μ = P₂₃ ∂_μ N P₂₃.
+
+Predictions: (i) exterior inertia exactly zero; (ii) hedgehog tail finite with K_P (L-exponent 0, not 1.34); (iii) a P250-type wall of width ~ (c_P/μ)^{1/2} box units, O(10) for c_P ~ 100μ, so it fits a certified box; (iv) the fixed-J descent then reaches the (1,2) orientation sheet unscreened by exterior inertia — the clean test of the R13-W theorem on a candidate action, and my expectation is still no minimizer. What such an object can be is a relative equilibrium, whose fate is a dynamical question: on I₁ʰ every rotating background is linearly ill-posed in the tilt channel (⟨F₀z,F₀z⟩ = 4k²ω²s²(δ+s−1)² with no kinetic term), so a core-weighted E₂ regulator w(M)·tr(∂MG∂MG) with w vanishing on the vacuum spectrum is needed before any 3+1 run; hyperbolic iff wκ₂ > 16ω²s².
+
+Scripts: the 3+1 R_G rerun (r14_rg_3p1.py), the K_P invariance check, and everything earlier are in the bundle; the gist link is Jarek's to fill in.

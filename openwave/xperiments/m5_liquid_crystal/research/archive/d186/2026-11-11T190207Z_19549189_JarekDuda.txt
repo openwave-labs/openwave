@@ -1,0 +1,33 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19549189
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19549189
+author: JarekDuda
+posted: 2026-11-11T19:02:07Z
+version: as first posted
+sha256: b149b3bf0e86b56a090ee9ffd5ba3e949022867a9ba33a4cea76020b9aaa27fb
+archived: 2026-11-25
+==== verbatim text below this line ====
+LdGS update, 11 November: capstone v2.997, and where large compute would help most
+
+@xrodz @vantasnerdan @mjmikulski — thank you again for M5.36 and the reruns.
+
+Capstone v2.997 is deposited (all versions: https://doi.org/10.5281/zenodo.23994958). Its new front box states the sharpest near-term test: the selected branch has m1 = 0, so Σmν = 58.69 ± 0.26 meV, at the edge of DESI's ΛCDM bound with Lyman-α (< 59.2 meV); DESI's next releases and Euclid decide it. Milestone 3.0 (three held-out N→Δ ratios plus the absolute M1+ within 10%, pre-registered, scored mechanically by score_photon_point.py in the source zip) is not reached. Two structural facts set the path:
+- For locks whose magnetic current is the minimally gauged rigid-rotor current, (μp − μn)(Δ − N) ≤ M_N (your V84 identity as a bound), so Card C cannot pass the M1+ gate alone; the missing ≥1.51 μN needs magnetization not carried by the isospin inertia (a declared divergence-free magnetization ∂_ν K^{μν}, or the loop-level pion cloud).
+- The N→Δ transition frequency ω* ≈ 293 MeV lies above the pion threshold, so the driven core deformation radiates pions; the transition current must be solved in the full field space with an outgoing pion exterior before any residue. Sol's pilot reached nodal residuals 1.4e-3 / 2.0e-3 on 45³ / 55³ against a 1e-5 target, with the record block still essentially unsolved.
+
+Where your compute and independent implementations would help most, in order of value to the milestone:
+
+1. Independent full-space outgoing response on frozen Card C (highest value). Interior Hessian minus ω²·kinetic metric at ω* = 293 MeV, collective constraints imposed, three pion components matched to outgoing Hankel waves (l = 1, 3, plus an l = 5 control), two matching radii, on 45³, 55³ and 65³. Gates: nodal residual ≤ 1e-5 on every grid with one stopping rule; source-work / outward-flux balance; insertion arrays stable to 0.1 pp. Two independent solutions of the same frozen card would settle convergence faster than either stack alone. Known difficulty: generalized near-null record directions (both Hessian and metric ≈ 0 in the core and tails) need deflation or a declared constraint.
+
+2. Card C at larger grids (65³, 77³). Relaxed fields with force residual ≤ 1e-3; inertia tensor and its anisotropy, g_A, μ_V, g_πNN and the Goldberger–Treiman discrepancy per grid, so the scored residues have a converged background.
+
+3. The twisting nucleon's Δ width, by real-time evolution. A Hamiltonian integrator (symplectic leapfrog, energy-drift and charge-conservation gates) on Card S: a spinning hedgehog at J = √(15)/2 ħ radiates pions; the radiated power gives a native classical Δ width, to compare with 117 MeV and with the Dorey–Hughes–Mattis benchmark. The same integrator answers several of your NUMERICALLY_UNRESOLVED items.
+
+4. The saddle energy of a native ΔB = 3 event. A minimum-energy path (string method or nudged elastic band) between baryon sectors in the declared action; the saddle energy (not the bounce action) decides at what temperature such events are thermally active in the early universe, and whether a primordial baryon asymmetry survives. Nobody has computed it.
+
+5. An adiabatic photon card, as a cheap provisional read: E2 from the rotation-induced static (centrifugal, O(Ω²)) deformation, a static real solve below threshold, current closed at that order; scored separately and labelled adiabatic.
+
+What we provide: the frozen Card C specification (action, constants, fields at 45³ and 55³ with SHA-256 hashes) on request as a release asset, Sol's pilot code and receipts, the pre-registration with its amendments, and the scorer. Your rung-packet and result vocabulary fit these directly; a result that disagrees with Sol's on the same frozen card is as valuable as one that agrees.
+
+Questions welcome on any item; tell us which you would take, and we will freeze the packet for it before any number.

@@ -1,0 +1,25 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19626175
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19626175
+author: JarekDuda
+posted: 2026-11-15T06:26:30Z
+version: as first posted
+sha256: 272e228f0959ba0321f7b6141553ad94c9e0a8528d6b9043692f357d39568656
+archived: 2026-11-25
+==== verbatim text below this line ====
+Capstone v3.9 is on Zenodo (doi:10.5281/zenodo.23994958, all versions; the source zip has every check script). For this thread:
+M5.40: both corrections (the 33³ energy stands; fields stored at unit |p|) and calibration33.json are in, as discussed.
+A correction to our own script: checks/self_metric_cones.py is rewritten. Its cone probe's "six plus four modes" count was wrong: the roots are defective (Jordan chains) and the kinetic matrix is indefinite (Sol v8, reconstructed independently). If you reused the old script or its json, please rerun. The v3.8 originals are kept alongside.
+Rodrigo's question of 31 Aug (is the ambient frequency a property of the content or of the vacuum?): v3.9 says content.
+A vacuum (field) clock dilutes as a⁻³, which the methanol bound excludes by over six orders.
+With a Mexican hat in the gradients, at its minimum no mode has both a time and a space term, so nothing propagates.
+A matter-carried rate Ω = ħ/(2I₁) survives: it is the same for every electron and does not dilute.
+(S for these; deriving I₁ from the action is open.)
+Lines (S):
+Your two braided +½ lines are the light vortex type: a turn about the charge axis, cost ∝ δ². The two minor-axis types are heavy Alice lines.
+In the 2108 vacuum the line group is Q8.
+Bare loops whose core may change are bosons.
+Quarkonia fix one string tension for all families (±17 %), so the family label sits in cores, not in tubes.
+An optional rung, if useful: the energy per length of the three vortex types, and the merge barrier for a split ½+½ pair to change its axis, in the 2108 vacuum (one radial problem per type).
+Jarek

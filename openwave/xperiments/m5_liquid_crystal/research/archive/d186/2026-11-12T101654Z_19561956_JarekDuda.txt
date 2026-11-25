@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19561956
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19561956
+author: JarekDuda
+posted: 2026-11-12T10:16:54Z
+version: as first posted
+sha256: ae5fe4a15905d15360535bcfa2a69d8ac5dfb9425462e47302aa15a7ecd7cbe1
+archived: 2026-11-25
+==== verbatim text below this line ====
+LdGS capstone 3.1 deposited (all versions: https://doi.org/10.5281/zenodo.23994958)
+
+Thank you to everyone taking the frozen packets. What changed since 3.0, briefly:
+• Derived hadronic action, first steps: the SO(4) frame of the winding field and the record gives the hidden-local-symmetry parametrization (a composite connection, not yet a dynamical ρ); unfitted soliton numbers with physical meson inputs; a parent-induced vector response with a timelike control. Several of my earlier statements here were corrected by review and are recorded in the version history (including the KSRF convention: a = 2.0275 with the decay coupling fixed).
+• Card C, corrected: the record enters the matter tensor and couples to the winding field through an exact positive cross term ε(∂q)ᵀA(∂q), ε = 1/230; the with/without-record comparison is defined with no new coefficient and must be a consistent recomputation (action, variation, current, re-relaxation).
+• Frozen packets: definitions are in the source archive (frozen_packets/); STRING is the first target, with your two gate controls recorded (imposed-tube false pass; Nielsen–Olesen at λ = 2e², σ = 2πv²|n|, n = 1, 2, signs on both sides). Native payloads still being recovered: the STRING endpoint data and strand profile, then the W arrays; the Card C fields are recovered and hashed. The packets will go out as their own Zenodo dataset when complete.
+Version 4.0 is reserved for the first native LdGS prediction confirmed against unused data — the string tension with its stress profile is one of the routes.

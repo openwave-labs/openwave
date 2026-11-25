@@ -62,6 +62,8 @@
 
 **SERIES ID SCHEME (2026-07-23, user decision).** Task IDs are organized into named series: **M5.20.x = the neutrino hunt** · **M5.21.x = the electron hunt** · **M5.22.x = the nuclear hunt** · **M5.23.x = the rendering series (the official home for ALL future rendering tasks)** · **M5.27.x = the background-wave time sector** · **M5.28.x = the composite-particles hunt (nuclei + electron)**. Renumbered accordingly, FUTURE tasks only (done tasks keep their IDs, they carry scripts/data/logs): M5.21.7 → [M5.20.8](tasks/m5_20_8_task_details.md) (neutrino task, wrong series) · M5.15 → [M5.28](tasks/m5_28_task_details.md) · M5.26 → [M5.23.1](tasks/m5_23_1_task_details.md) · M5.25 → [M5.23.2](tasks/m5_23_2_task_details.md) · M5.13 → [M5.23.3](tasks/m5_23_3_task_details.md) · M5.6.5e → [M5.23.4](tasks/m5_23_4_task_details.md) · M5.6.5f → [M5.23.5](tasks/m5_23_5_task_details.md) · M5.8.7 → [M5.23.6](tasks/m5_23_6_task_details.md) · M5.6.5b → [M5.23.7](tasks/m5_23_7_task_details.md) (same-day follow-up: render task, belongs to the series). Pre-rename records (task reviews, convo entries, archives, checkpoints) keep the old numbering.
 
+**THE THREAD ARCHIVE (2026-11-25, user decision).** Every post of discussion #186, as posted and after each edit, is copied into [`archive/d186/`](archive/d186/_INDEX.md) by [`archive_discussion.py`](../../../../dev_docs/utils/archive_discussion.py) (platform task [T12](../../../../dev_docs/tasks/t12_task_details.md)). The tool runs at every landing that follows a post from OpenWave or a reading of a new post, and its new files ride that pull request. The thread record [`tasks/m5_32_convo.md`](tasks/m5_32_convo.md) stays the reading of each post; the archive holds the words.
+
 ---
 
 ## DONE (new workflow)

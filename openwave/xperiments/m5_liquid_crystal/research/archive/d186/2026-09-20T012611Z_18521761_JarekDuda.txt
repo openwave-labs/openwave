@@ -1,0 +1,51 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18521761
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18521761
+author: JarekDuda
+posted: 2026-09-20T01:26:11Z
+version: as first posted
+sha256: ce66a87865277014e8b918d91b1df8dac0b97f4e5f280229dc6fcba2f09c20bd
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @vantasnerdan @mjmikulski
+
+All four questions answered, two concessions, and one request about the scan design that I'd ask you to act on before R23-1 runs.
+
+**Q4 — you are right and I was wrong.** The stabiliser of diag(g,1,δ,δ) is the single (2,3) rotation, so the orbit is 5-dimensional; M₂₃ is not a stabiliser direction but a perturbation that splits the pair as δ ± ε, like (M₂₂−M₃₃) after 45°. Your 5 + 2 is correct and I miscounted an orbit against a perturbation. It improves the picture: under the residual SO(2) the pair carries **charge 2**, with the doublet
+
+  Φ = ½(M₂₂−M₃₃) + i M₂₃  (equivalently (M₂₂−M₃₃)/√2 + i√2 M₂₃ in the Frobenius-orthonormal basis),
+
+verified to transform as Φ → e^{2iα}Φ. The relative normalisation matters and my first draft had it wrong: "one coefficient gives the doublet its mass" is true only because the two components carry equal weight, which is the whole content of the claim. So the ε⁴-flatness is a single fact about one complex field, not two coincidences.
+
+**Q1 — yes, L is the intended term, and your uniqueness result is stronger than my LdG version.** A split at fixed trace shifts every invariant at O(ε²) and never at O(ε), so the ε² curvature depends only on the *first* derivatives of V in the invariants; criticality fixes those up to one direction; hence the curvature of any spectral potential is unique up to scale. One number, not a function. And I'd drop "accident" from my earlier post — your own mechanism makes it a **theorem**: any potential that is a sum of squares vanishing at the vacuum has zero first derivatives in the invariants and is therefore ε⁴-flat. That is a prediction — every sum-of-squares potential you try will do this — and it is much stronger than calling the current V₄ unlucky.
+
+On the Bs/2: the factor is convention-dependent and both of us should state it. With V = (A/2)I₂ − (B/3)I₃ + (C/4)I₂² and its own stationarity condition the curvature is **+Bs/2**; with +(B/3)I₃ it is −Bs/2; the intermediate Bs/6 that turned up in review comes from combining one convention's curvature formula with the other's stationarity. Magnitude |B|s/2 either way, and the mechanism — the cubic invariant carries all of it — is convention-free.
+
+**Q2 — yes, that state.** V₀ is the barrier to melting the *director*: isotropic spatial block at fixed trace, M₀₀ at its vacuum value, minus the vacuum. Conversion between your V = (g+δ)(1−δ)|c|ε² and my V = ½M²ε²: **c = M²/[2(g+δ)(1−δ)]**, which at g = 8, δ = 0.3 is M²/11.62, so M²/V₀ = 3.1×10⁻³ gives **c ≈ 2.67×10⁻⁴ V₀**. Caveat: V₀ is a barrier height in a sharp-core Derrick model and a relaxed core does not fully melt, so treat that as the centre of the scan, not a target.
+
+**Q3 — neither, and my note is inconsistent; my error.** The convention-free definition is the generalised eigenvalue along the doublet, ω₀² = V″/K″ with both second derivatives along the same direction — read it off your measured 0.0321w against the kinetic normalisation rather than from either closed form. The √2 between my two expressions is the complex-versus-real normalisation. What is convention-free is the anchor: **ω₀ = m_e**.
+
+**The exponent — your −1/4 is right for the action you are running, and that is the useful result.** On L_cert + cL the doublet has no gradient term of its own, so the only stiffness is the quartic-induced K/r², the large-r equation is ε″ = k²r²ε, and the tail is Gaussian at r* ∝ c^{−1/4}. I reproduce it. My −1/2 assumed the doublet has a kinetic term of its own, which the note intends but writes badly — I used the individual projectors P₂, P₃, and those are undefined exactly where the pair is degenerate.
+
+The repaired form, with two caveats I'd rather state than have found:
+
+  Φ ≡ P_⊥ M P_⊥ − ½Tr(P_⊥MP_⊥)P_⊥,  **P_⊥ = 1 − uu^T − nn^T** (rank 2),  L ⊃ −κ₀ Tr(∂_μΦ ∂^μΦ).
+
+First, the rank-2 transverse projector needs a **timelike** projector as well as the director — the naive 1 − nn^T on the 4×4 has rank 3 and gives Φ ≠ 0 on the vacuum (verified). That puts the term in the same family as substrate-framework's P240 L₁ field-dependent kinetic axis, which was rejected by an exact mechanism (a tilted P_t plus a high-wavenumber static witness made the Hamiltonian unbounded below). So I am not claiming the term is safe; I am claiming it does not reopen the *Coulomb-tail* trilemma — Φ ≡ 0 on any uniaxial texture, for any director field, verified — and that it must pass P240's witness before anything else. Second, n is the leading eigenvector, so it is discontinuous where the long axis crosses the pair, which is where the core is and is the same discontinuity your R9 found on the z axis; a smooth surrogate for the projectors is an open construction problem.
+
+Third, "constant κ₀" is not quite what the term gives. Since Φ = O(ε), Tr(∂Φ∂Φ) ~ (∂ε)² + ε²(∂n)², so it is a constant stiffness **plus** an induced ε²/r² term of the same shape as the quartic-induced one. The exponent conclusion survives — at large r the constant piece competes with the mass and the cutoff is exponential — but the induced piece is there and someone will find it.
+
+So R23-1 is not choosing between two guesses about one Lagrangian: **the exponent identifies which Lagrangian you are in.** −1/4 says the doublet has no kinetic term of its own; −1/2 says it has one. Same conclusion your R13-W phase-flatness statement reaches from the vacuum side (on the uniform vacuum with arbitrary phase every F_μν = 0, so the phase has no action at all) — I should have cited that as yours rather than re-deriving the special case.
+
+**One request, and I'd treat it as blocking for the scan's value.** As designed the ladder can only see −1/4. Your readable window is R ∈ [3h, L/2] = [4.5, 24], a factor 5.33; that window spans **2.9 decades of c under −1/4 but only 1.45 under −1/2**. Your 6 points over 2 decades therefore cover the window fully under −1/4, while under −1/2 the low-c end sits outside the box and reads HALO_BOX_LIMITED — the scan is biased toward the hypothesis I am conceding and cannot confirm the one I am arguing for. **A 3-decade, 7-point ladder extended upward in c gives ≥3 in-window points under both laws**, at no extra cost per point. If budget is tight, drop a box row rather than shorten the ladder.
+
+**On the rest of the plan.** Your Newton wording is better than mine and I adopt it verbatim — "sign certified" overstates a cancellation of two large numbers. Your Derrick caveat is right: the 9× radius ratio is for a potential-balanced object and your R22 rows were not balanced, so row A reading the lattice is the correct pre-registration and row B at equal k/w is the informative one. On the halo in core units, 206 is a lower bound in general (a Q-ball tail is 1/√(ω₀²−ω²) and diverges at threshold), but R23-1's object is static with no clock, so the mode mass is exactly the right length there — and, separately, note that 386/1.88 = (3/2)/α = 205.55, which is Nambu's 1952 formula and **not** m_μ/m_e = 206.768; it should never be written up as the muon ratio. R23-3's block split is the test I wanted; C₁ ≤ 0 under the Frobenius contraction is the negative block.
+
+One narrowing on my own earlier claim: the doublet's charge 2 confirms the **frame → tensor** step of the factor-2 chain specifically. The spinor → frame step is the double cover and runs the other way relative to the frame, so the two should not be lumped together.
+
+---
+
+Changes from the draft: the doublet normalisation fixed and verified; the projector given its timelike part with P240's rejection named rather than waved at; "constant κ₀" corrected to constant-plus-induced; "accident" upgraded to the sum-of-squares theorem; the Bs convention stated; the scan-ladder request added as the one blocking item; the factor-2 claim narrowed.
+
+For the split: **Fable** — the P240 witness on κ₀Tr(∂Φ∂Φ) with the rank-2 projector (a high-wavenumber static configuration with tilted P_t, checking whether the Hamiltonian is bounded below), *then* the Derrick-balance and pair-energy invariance, in that order, since the second is worthless if the first fails. **ChatGPT 5.6** — the biaxial-corona literature question in its sharper form: whether any measured nematic system shows a biaxial halo radius scaling as a power of a control parameter, since a matching exponent is worth far more than an existence citation.

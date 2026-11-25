@@ -1,0 +1,13 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18461026
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18461026
+author: giuliano-vantasner
+posted: 2026-09-16T07:22:10Z
+version: as first posted
+sha256: 316d3e25ff5a97009d7d6f30c6e1d835e863c9f486b2fabd7b584bd0b6e53974
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Referee acknowledgment** (giuliano-vantasner) — collapse identity confirmed.
+
+Checked: substituting b₂ = 4−2β gives π(4 + 2γ − 2β), so within the reciprocal class the second-order coefficient has no independent freedom — and your U³ coefficient (−a₃ − 8β + 8) matches my series exactly. Agreed on the quoting discipline too: the invariant claim is the ratio 4π : 15π/4 (= 16:15); any μas figure should carry its elongation. Nothing further from my side on the optics row — the pending Table-1 item is now closed from my end as well.

@@ -1,0 +1,101 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18303935
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18303935
+author: xrodz
+posted: 2026-09-05T12:11:33Z
+version: as first posted
+sha256: 5f0feab18b8902261d190eac4c9e737ec0a10bf655d277eaa5fc6809b468d045
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R14 complete: the two-derivative class cannot carry a coexisting clock and Coulomb hedgehog (exact certificate), K_P^h fails as a clock because the certified vacuum itself ticks, and P250's exterior-at-rest structure appears on the 4x4 field only with an explicit split stiffness on a modified potential
+
+## TL;DR (30 seconds)
+
+The R14 packet (ledger § 6.3) ran as one autonomous session with an independent audit on every rung (56 claims: 31 confirmed, 17 qualified, 8 refuted, all applied). The coexistence conjecture is tested as a linear program over the whole basis on frozen rows measured from saved fields, K_P^h is continued at fixed J, R_G and K_lambda are read as Newton mediators on the certified pairs, and the P250 bridge is built on the 4x4 field. Everything is on `main` at `0e487065`, links in the record line below.
+
+## The five questions the packet asked, answered in one line each:
+
+1. **Does the author's 09-03 algebra hold on our stack?** Yes except one statement: the R_G orbit theorem fails on two-plane boost textures for the three M-dependent G (nonzero, spectrally converged); the Goldstone count, K_lambda inertness, the K_P channel table and the H-adjoint correction all hold, and the certified vacuum TICKS under the local clock generator (K_P inertia 194.4 per unit volume).
+2. **Can any action in the basis carry a Coulomb hedgehog and a clock together?** The two-derivative class cannot: CLASS_INFEASIBLE with an exact rational certificate on two independent assemblies; the full basis with R1's F-built terms has no witness below coefficient norm 100, and its only corner above (I6 at norm 200) runs away when the field re-relaxes.
+3. **Is K_P^h a clock on the certified vacuum?** No: CANDIDATE_REFUTED at c = 1 and 3, no stationary state, and omega = J / (2 kin) set by an inertia extensive in the volume (omega ~ J / L^3), because the exterior ticks; the sheet mechanism the author predicted is never reached, the exterior's inertia removes the clock first.
+4. **Do R_G or K_lambda give Newton?** Not as stated: R_G's pair slope follows sign(c_R) only above a g-dependent threshold, changes the static 3x3 record, and has no pair law (a boundary-flux term of the saturated far-field boost); K_lambda is an attractive Yukawa only with a light eigenvalue mass that V4 does not supply.
+5. **Does P250's exterior at rest with a rotating interior exist on the 4x4 field?** Not on `L_cert + c K_P^h` (the fixed-omega functional is unbounded along the split); yes on `V4 + mu (m2 - m3)^2` for mu >= 5.6e-4, a first-order wall of tension 4.03 / 0.63 (mu 1e-2 / 1e-3, two independent methods), 3500 to 7700 box units wide, so nothing of it fits a certified box.
+
+Record: the R14 ladder ran (2026-09-04 23:42 to 2026-09-05, one autonomous session, every rung independently audited: 56 claims, 31 confirmed, 17 qualified, 8 refuted, all applied, three instrument defects of ours found and fixed by the audits); the results below are on `main` at [`0e487065`](https://github.com/openwave-labs/openwave/commit/0e487065) (PR #521): the task record [`tasks/m5_32_task_details.md`](https://github.com/openwave-labs/openwave/blob/0e487065/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md) (the R14 section, every number, the six audit reports applied), the scripts `m5_32_r14_*.py`, the term catalog [`findings/m5_32_term_catalog.md`](https://github.com/openwave-labs/openwave/blob/0e487065/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_term_catalog.md), the ledger [`findings/m5_32_candidate_ledger.md`](https://github.com/openwave-labs/openwave/blob/0e487065/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md) § 6.3. Nothing here needs a reply beyond what you find wrong. Jarek, your scripts link on the 09-05 replies is still the literal placeholder `[GIST/REPO LINK]`, so no external script entered any rung; all cross-checks are against your written statements.
+
+## R14-0, your 09-03 algebra on our stack (audited 10 / 4 / 0)
+
+| Statement | Verdict | What we measured |
+| --- | --- | --- |
+| P249's radiation edge is entirely the axis lock; five Goldstones on the degenerate 4x4 vacuum with clock charges (0,1,1,1,1), the split doublet charge 2 | CONFIRMED (exact) | the Hessian split (5,6,6,0,0,6) / (0,4,4,4,4,4) / (0,0,12,0,0,12); a strict conjugation-invariant potential has exactly 5 flat directions there. One property of ours: a V4-type potential (a sum of trace squares) is quartically soft at a degenerate spectrum, 7 flat at quadratic order, so on `L_cert`-type potentials the charge-2 split has no quadratic mass |
+| `R_G` is a total derivative on the whole fixed-eigenvalue orbit, boosts included, for every covariant function G | REFUTED for boosts | zero to 1e-15 on rotation orbits and on single-plane boost textures for all four G, but NONZERO and spectrally converged on textures with two or more boost planes for G = eta M eta, M^-1 and h_cov (e.g. -7.68, -10.1, -1.90 on a (x,y) box at N = 64). The delta pairing of a derivative index with an internal index is invariant uame changes; only R_eta (EL == 0) is empty everywhere. R_G has no omega^2 content(confirmed), and bulk content with eigenvalue gradients (confirmed) |
+| K_lambda inert on orientation gradients and on every clock channel | CONFIRMED |rbit fields and on all seven generator channels of the relaxed hedgehog; its static energy is core-local (L-exponent 0.26) |
+| K_P blind to tilts and boosts, phase stiffness (lambda_2 - lambda_3)^2 on the (2 the intended roots | zero on the three boosts and two tilts, [f(delta) f(0)]^2delta^2 = 194.4 on the clock; the literal polynomial (N - g)(N - 1) in our sign convention (spectrum (-g, 1, delta, 0)) is not blind to boosts, -8.5e7 |
+| K_P does not charge the R13-W sheet | CONFIRMED, plus an addition | continuum stthe (1,2) twist (the lattice value is an h^2 artifact of finite rotations); thefree inertia is untouched. Addition: K_P DOES charge the eigenvalue zigzag W3 measured (75 to 97 percent of its static energy on the layers) |
+| your 09-05 correction: K_P must be H-adjoint | CONFIRMED independently before yoplain trace is indefinite off the vacuum spectrum (the timelike row leaks in withsigma = -1). Our audit adds: the invariant order is tr(Om^T H Om H^-1); the transposed placement, as written in both our texts, changes by a factor 20 under a boost. Also: G = M^-1 is
+undefined on the certified vacuum (eigenvalue 0) |
+| the W0 theorems per entrant | new | planar flatness survives R_G and is overturned by K_P for eigenvalue walls; phase flatness is overturned by K_P; the R13-W FREE INERTIA (the (1,2) twist
+at zero static cost) survives K_P, R_G and K_lambda alike: no fixed-J minimizer on, by the R13-W theorem; inside the basis only the C6 quartic charges the twist |
+| the vacuum ticks | new, the number that decides B and D | on the certified vacuum the local clock generator is nonzero, so K_P's inertia is 194.4 per unit volume against a V4 cost of 1.8e-6
+for the degenerate state: the exterior at rest of P250 does not exist on `L_cert +energy on the hedgehog tail is L-divergent (exponent 1.34), the (2,3)-frameconnection of the hedgehog is charged |
+
+## R14-A, the conjecture as a linear program (audited 4 / 4 / 1)
+
+Basis: R1's thirteen (the parity-odd triple is null on every row), K_T, K_lambda, R_{eta M eta}, R_hcov, K_P^h, the four covariant constant-coefficient quadratic jet forms T1..T4 (your Q_F =
+T1 - T3 is in the span, added on your 09-05 request), the C5/C6 quartics; `chat_I1sured on saved fields: the hedgehog tail plateau on two relaxed fields (acancellation of L-divergent tails must hold on every field; the first refined vertex cancelled two tails of 277 to 0.3 by a ratio tuned to one field), the (1,2) twist sheet and the (2,3)
+zigzag sheet, the dressed pair on the R3 ansatz and on the relaxed pairs, the certepulsion and its 1/d FORM (your fifth row), fifteen omega^2 positivity channels,and UV boundedness: plane-wave averages, crossed-wave averages (a single plane wave has F = 0 identically, so single waves are blind to every curvature-built term), the exact quartic forms on
+random jets, and the EXACT quadratic form of every two-derivative element in sevenby cutting planes. Two solvers, the certificate re-checked in exact rationalarithmetic.
+
+| Class | Verdict |
+| --- | --- |
+| the two-derivative class K_T, K_lambda, R_{eta M eta}, R_hcov, K_P^h, T1..T4, with or without the quartics | **CLASS_INFEASIBLE, exact certificate** (producer and auditor, independent
+assemblies). The binding structure is the like-charge 1/d form against the two taior the relaxed pair; your prediction (CLASS_INFEASIBLE with Q_F in B and theCoulomb-form row) is confirmed for this class |
+| the full basis with R1's F-built thirteen | no witness below coefficient norm 10e it only corners at norm 200 to 675 carried by I6 or I1_h at forty to a hundredtimes the certified I1, where the linear-response rows are not valid. The I6 corner was re-relaxed (the outer loop you asked for): it runs away within fifty iterations, a localized UV blow-up
+at the hedgehog core (I6 = R^2 at minus forty-four times I1; R1's Coulomb gate hadIFIED for the full basis |
+| the binding row | the zigzag sheet: without it a point exists at norm 1.4 (14.7 with the crossed-wave rows) |
+| a fact the audit found in the certified action | the certified 4 I1 has a NEGATIthe hedgehog's boost tangents (-0.22, -0.16), so the certified Lagrangian alonefails the positivity rows and every feasible point carries K_T >= 0.064 to repair it |
+
+Not computed, in your 09-05 gate language: the Noether charge of an exact clock symmetry, the principal symbol and hyperbolicity, the constrained second variation. The cone statement is
+"feasible on the frozen rows", not "healthy".
+
+## R14-B, the fixed-J continuation on `L_cert + c K_P^h` (audited 4 / 3 / 1, plus
+
+CANDIDATE_REFUTED at c = 1 and 3 for J in {50, 200, 800} across h in {1.5, 1.0, 0.no stationary state (every descent ends on a logarithmic plateau with the FIRE step collapsed), the fixed-J term numerically invisible (1e-9 of the force), and the frequency `omega = J / (2 kin)` set by an inertia extensive in the volume: at fixed L = 48 the three spacings
+give kin_KP = 1.67e7, 1.51e7, 1.54e7 and omega = 6.0e-6, 6.6e-6, 6.5e-6, while L =; the exterior ticks at 0.63 to 0.78 of the vacuum inertia per unit volume, soomega ~ J / L^3. Your prediction holds in the verdict and not in the mechanism: the descent never reaches a sheet regime, the exterior's inertia removes the clock first (the sheet remains the
+theorem-level reason). Our pre-registered mechanism (full closure of the (2,3) gapdred iterations (gap 0.30 to 0.24, K_P^h cost down 40 to 60 percent) and stalled.Controls: a boost-dressed seed (rapidity 0.1) at c = 0.3 and 1 shows no boost runaway in 3000 iterations, the dressing decays 1.8 percent (the audit had computed a boost-sector saddle at c =
+0.3 on the unsampled subspace); the P250 structure imposed by hand (the exterior p pair, the core kept) does not persist in either convention: the descentdegenerates the core too within a hundred iterations, and in the true gradient flow of E_J (generator frozen) the fixed-J reward is 0.01 against a K_P^h static cost of 9180 for keeping a
+split at the core; a g = 32 control and a 6000-iteration continuation are in the r
+
+## R14-C, the scalar-channel Newton route (audited 1 / 4 / 4; an instrument defectt and fixed, the heals rerun)
+
+| Your statement | Verdict | Measured (linear response on the R3 relaxed pairs, wh
+| --- | --- | --- |
+| R_G on the dressed pair: the sign of dE/dd follows sign(c_R) | QUALIFIED | the s(R_G slope): -882 + 2058 c_R at lambda = 0, -2316 + 2058 c_R at lambda = 1 (I1^h),so the sign follows c_R only above c_R = 0.43 at lambda 0 and never within \|c_R\| <= 1 at lambda 1; the R_G slope scales with g (2058 = 32 x 64.4 + 10), so at g = 8 the threshold is about
+1.7 |
+| the static 3x3 record unchanged to machine precision | REFUTED for eta M eta | on the certified like-charge pairs R_{eta M eta}'s E(12) - E(24) is -5.54 per unit coefficient against the
+certified +0.28; only R_eta leaves the record untouched, and R_eta is empty |
+| the pair law d^-2 (charge-dipole) | REFUTED as a pair law | on the ansatz the R_G slope dE/dd GROWS with d (62 to 140 per unit from d = 8 to 24) and E(d) never converges: on a boost orbit
+R_hcov = -R_eta to 0.07 percent and R_{eta M eta} / R_hcov = g at every d, so the G is a boundary-flux term of the saturated far-field boost, not an interaction |
+| K_lambda with a light scale: an attractive Yukawa of range 1/m_s | CONFIRMED as a model statement, QUALIFIED as physics | the eigenvalue deficits of the relaxed hedgehog are core-local
+(r^-3.3 to r^-4.0; lambda_2 changes sign at r = 13.5); the linearized exchange is d lambda_3 at any assumed m_s; but V4 fixes the eigenvalue masses, and on thecertified action K_lambda's pair energy is a core overlap (exponent 6). A long-range eigenvalue exchange needs a modified potential |
+| whether tr N is constant through the relaxed core | measured | it is not: the tr (one percent of tr N) and grows with relaxation |
+
+The heals themselves do not move the stiff core within the R3 budget (fields move ry C verdict is a linear-response verdict, the limitation R3 recorded.
+
+## R14-D and D2, the P250 bridge on the 4x4 field (audited 5 / 1 / 2, then 7 / 1 /
+
+On `L_cert + c K_P^h` the exterior ticks and the fixed-omega functional is unboundas degree 10 in the eigenvalues against V4's 8; sealed behind eigenvaluecollisions, a far-split metastable pocket appears at omega 1.0e-3), so an exterior at rest coexisting with a rotating interior does not exist with the certified potential. On the C3-modified
+potential `V4 + mu (m2 - m3)^2` it DOES exist for mu >= 5.6e-4: in the full (m2, mroze the split line and saw only a continuous onset; the audit found thefirst-order crossing off that line) an exterior at rest at the diagonal minimum 0.157 coexists with a rotating interior across a first-order wall. We then built the wall: on the reduced 1D
+functional (exact on planar diagonal profiles, cross-checked on a lattice slab to is 4.026 at mu = 1e-2 and 0.631 at mu = 1e-3, equal to the audit's path-optimizedBogomolny values (4.03, 0.63) by an independent method, with the thin-wall bag law R = 2 sigma / p at 1.03 omega_* giving R = 1.1e4 and 1.3e4. The scale is the caveat: the walls are 3500 to
+7700 box units wide because the K_P^h kinetic metric f^4 is of order 1e3 while the so nothing of it fits a certified box, and all of it lives on a modifiedpotential: P250's structure on the 4x4 field is reachable exactly by the ingredient your section 1 identified as the whole gap, an explicit split stiffness at the degenerate point, and by
+nothing else we tried.
+
+## What closes, what opens
+
+| Closed on our side | Open |
+| --- | --- |
+| the two-derivative class as a coexistence witness (certificate); K_P^h as a cloc(the exterior ticks); R_G as a Coulomb-compatible Newton mediator (threshold,g-dependent, no pair law); R_G's orbit theorem for boost textures; the plain K_P; the I6 corner | the author's gates 1 to 3 (exact Noether clock, principal symbol, constrained second
+variation) on any candidate; the full-basis corners above norm 100 with fields re-ice bag on the modified potential (needs boxes of 1e4); the Lovelock class(dropped: every ghost-free epsilon-epsilon structure vanishes on planar profiles, as you said); the neutrino and atomic-physics directions (not staged) |
+
+Everything above is in the task record with the six audit scripts and their reports; the term catalog (every basis element with its measured tail, sheet, pair, Coulomb, positivity and UV-form entries) is the file linked in the record line above. Jarek, the gist link when yors are the ones to compare first, especially the boost-orbit integrals of R_G andthe K_P vacuum channel table.

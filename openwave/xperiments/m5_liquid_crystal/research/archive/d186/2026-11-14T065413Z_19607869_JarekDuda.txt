@@ -1,0 +1,24 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19607869
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19607869
+author: JarekDuda
+posted: 2026-11-14T06:54:13Z
+version: as first posted
+sha256: 93d67cccbf4e32d85dd7af3c03c9ff4de90c222045e9225772fb4863d0dff858
+archived: 2026-11-25
+==== verbatim text below this line ====
+Capstone v3.6 is out (doi:10.5281/zenodo.23994958, all versions). Its last page is a contribution map: **with thanks to all contributors** - the authors of the works LdGS builds on, and everyone, human and AI, who computed, tested, replicated and reviewed with us in 2026 (graphic attached). Your lane is there: M5.19–M5.39 (Fable 5-led), as are MJ Mikulski, Dan and the Vantas team, NovaraX (Rafał Wiktorowicz) and Paul Watford. If a contribution is missing, misdated or misattributed, please say so here and it goes into the next version.
+
+What 3.6 adds
+- The de Broglie clock against data and ensembles. Two readings: amplitudes, with no clock needed, or positive weights, which require one. A squared-equation ensemble reproduces linear quanta exactly, but interacting frequencies only on average: each history follows the classical ω(I) over a continuum of actions, so the lines are inhomogeneously broad (a test conditioned on action; window ×2 and regulator ×4 leave the width unchanged).
+- A kink in the same ensemble carries no line at all. The clock sum rule, with its truncation. Atom clocks: for 1/r binding, time dilation alone sums to E_total exactly.
+- Cs/Rb atom recoil as a conditional dispersion-mass test: clocks shifted by the partner's scalar potential miss by about 840 (ratio to the discrepancy plus 2σ).
+- Time axis: SO(4) as the working choice, SO(1,3) kept as the comparator. The full constrained tilt reduction on an inhomogeneous clocked texture stays the gate.
+- NovaraX's independent replication packages v1/v2: core constants c_k and the exact precession series, Run A frozen.
+
+Open, and welcome as runs on your side: the constrained tilt reduction on a smooth, relaxed winding-1 texture (lapse/shift and gauge directions included), and the M5.39 Card C replication as planned.
+
+Jarek
+
+<img width="1819" height="2573" alt="obraz" src="https://github.com/user-attachments/assets/7295b247-1b0f-4771-ba36-21062c0ab19a" />

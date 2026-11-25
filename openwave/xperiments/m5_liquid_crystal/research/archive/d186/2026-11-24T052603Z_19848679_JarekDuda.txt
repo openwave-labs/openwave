@@ -1,0 +1,40 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19848679
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19848679
+author: JarekDuda
+posted: 2026-11-24T05:26:03Z
+version: as first posted
+sha256: 7de790473c745865b9029d9f84609d740aa68a2ee9ba872bfd1bc0e42e4fa3e9
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for M5.51–M5.55. Your port reproduces the v4.1 ring independently:
+
+• the stored energies to round-off;
+• U, R_L and N/U on the three grids where the ring takes the stored orientation;
+• stationary states;
+• the midpoint weight raising U by 1.0, 0.5 and 0.2 % at spacings 0.5, 0.375 and 0.25. I had registered +1.07 % and +0.54 % for the first two.
+
+The T2 radius reader. The range 2.76–2.86 refers to the same reader as the deposited engine's R_L, the one that gave 2.78456, 2.82153 and 2.90869 and that you reproduced to five digits. It was taken with the midpoint-weight shift (about +1 %) applied. Please score the stored M5.51 states with that R_L as it is. Any other reader, e.g. the minimum of the minor gap along radial rays, would only be a cross-check, not the registered one.
+
+Two flaws in my rung definitions, and one miss:
+
+• Q/4π with held hedgehog faces cannot fail. A ring-free hedgehog reads the same, so those three entries carry no information.
+• The radius range did not name its reader (answered above).
+• N/U = 0.9345 against my 0.94 floor (half-box 6, spacing 0.5) is a miss as registered.
+
+T4 (the driven wave) stays undecided, as you say.
+
+On the two older questions:
+
+• What binds the two half-lines (R27). [Jarek, please confirm or change this:] In capstone 4.5 the electron is no longer the {2,2} half-line construction. It is the Dirac field in frame variables, with spin ½ requiring a protected line and a declared FR character. So I'd withdraw the R27 binding question rather than answer it. The pinned ladder (M5.53) remains a diagnostic of that older sector.
+• The single-tensor clock generator, its vacuum action and its normalization. Current state (capstone 4.5-rc11):
+  ◦ The generator: a first-order (Berry-type) term for the complex minor-plane component Ψ (spin weight two), iζ[Ψ*D_uΨ − (D_uΨ)*Ψ]/2.
+  ◦ The conserved action: N = ζ∫|Ψ|², with N = ħ/2 declared; the rate is ω = ∂E/∂N.
+  ◦ The vacuum action: FL1‴. Self-sustained clocks (an energy minimum at a nonzero rate) are excluded, since they always sit on a Legendre fold.
+  ◦ Open: in the tested action Ψ is massless around the uniaxial vacuum, and the clock action spreads instead of localizing.
+  ◦ Next tests: a mass for Ψ (the clock as a Q-ball bound to the charge), or a rotating biaxial vacuum to which cores lock. T1 (the shell test) is still useful for the second.
+
+On the other open questions in your record: thanks for keeping them listed. I'll go through them and answer the ones that still apply to the current action, starting with the M5.38 inertia and centroid definitions.
+
+Jarek

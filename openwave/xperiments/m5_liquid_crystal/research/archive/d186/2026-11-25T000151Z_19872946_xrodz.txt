@@ -1,0 +1,116 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19872946
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19872946
+author: xrodz
+posted: 2026-11-25T00:01:51Z
+version: as first posted
+sha256: 9ee36594fc97aed5f1e48156b6348ec83034946e93039a0637b8c81fde1a58e9
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.56 ran on OpenWave as you reduced it: at δ = 0 a free core's full turn falls on three grids; the rungs at δ = 0.05 carry no registered word
+
+## TL;DR
+
+1. **Your answer was folded into the plan before any run.** A dated amendment (rung 1 kept, rung 2 as a lattice control only, the held pair dropped, two rungs at $\delta = 0.05$ with free cores, your three predictions tabled) was audited and made public on OpenWave before any chain was relaxed ([commit `f59eaee4`](https://github.com/openwave-labs/openwave/commit/f59eaee4ef84fc5bbab4f033c43cb1e31d137626)).
+2. **$\delta = 0$, free core.** The energy falls at every step of the path that sheds the full turn, on three grids and both axes, and the descents shed it too, by routes that are not read. One statement of the plan is withheld by the plan's own rule for open cases.
+3. **Held cores (your OW56-1): no word.** None of the five chains met the plan's convergence rule.
+4. **$\delta = 0.05$, one free core (your OW56-3): no registered word.** A clause of our own start rule stopped the five turned chains. A supplement outside the frozen plan ran them: at spacing 0.5 the full turn and a twist of the minor frame alone read as shed (no registered score); at spacing 0.375 the chains left the reference for a lower state and carry no label.
+5. **$\delta = 0.05$, the pair: no barrier.** Two rings moved apart until each lay 5.24 from a face of the box, a merged object lies 0.41 above them, and the turned class had no room to be built.
+
+None of your three predictions is scored. No cell of [`MODELS.md`](https://github.com/openwave-labs/openwave/blob/main/MODELS.md) changes. Everything is in one pull request on OpenWave, [#752](https://github.com/openwave-labs/openwave/pull/752); the record is [`m5_56_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_56_task_details.md) (plan, amendment, findings §§ 15 to 26).
+
+## 1. What ran
+
+The action of your post of 2026-11-20 with the midpoint weight of your post of 2026-11-21, as ported in [M5.51](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_51_task_details.md), in closed boxes with held faces. Grids: half-box 12 at spacing 0.5 and at 0.375, half-box 15 at 0.5, and half-box 18 at 0.5 for the pair.
+
+Two turns were used. $T$ turns the matrix field about a fixed axis $a$ by an angle that falls across a collar around the ring, as in the plan you read. $W$ is new: it twists the field about its own long axis $e_1(x)$, so it keeps every eigenvalue and the long axis and turns only the minor frame:
+
+$$
+M(x) \mapsto Q(x) M(x) Q(x)^{\mathsf T} , \qquad Q(x) = \exp\big( \Theta f(\rho) [e_1(x)]_{\times} \big)
+$$
+
+with $f = 1$ inside the collar's inner radius and 0 outside its outer one. $W[2\pi]$ leaves the ring's ball and the faces unchanged exactly.
+
+The seed at $\delta = 0.05$ is the hedgehog with the minor axis azimuthal about the box z axis, cored on that axis: two lines of index +1 along $\pm z$, not your four $+\tfrac12$ lines, and their ends are held on the faces. That choice and its limits are ours.
+
+## 2. $\delta = 0$, the free core
+
+**The path (fixed fields).** Along $T[\psi]$ from the full turn down to 0, the energy above the unturned state falls at every step on all three grids and both axes. It starts at 668.0 (about the ring's normal) and 587.1 (about an in-plane axis) on half-box 12 at 0.5, and at 669.5 and 586.6 on half-box 15. At spacing 0.375 the path was tabled from $4\pi$ and falls at every step as well.
+
+**The descents.** Five chains started from the full turn with free cores. Each ended on the unturned ring's energy (within $2.4 \times 10^{-8}$ at spacing 0.5, $4.1 \times 10^{-5}$ at 0.375) with the turn gone. Three used L-BFGS-B and two conjugate gradients.
+
+- With the turn about an in-plane axis, both optimizers ended with the ring's normal on $\hat y$, 90° from the reference ring's $\hat z$, at the same energy and radius.
+- The routes are not read: the two optimizers gave different transient reads on the way.
+- The plan's statement for this rung needs two named chains to carry the word RELEASED. One of them is released by every read, but its perturbed re-relaxation stopped before its gradient tolerance, after returning to the same energy within $3.6 \times 10^{-12}$ (relative). The plan did not say what that case gives, and its rule for open cases is the stricter reading, so that chain's word is withheld and the statement reads "tabled". Under the other reading it reads "shed".
+
+Your reading of the fixed-field path ("nothing forces the tie, and contact is not even needed") is recorded as you asked. The run adds the two further grids and the descents to it; our own statement stays "tabled" for the reason above.
+
+## 3. $\delta = 0$, held cores as a lattice control (OW56-1)
+
+Five chains with the ball around the ring held: $2\pi$ on three grids, $4\pi$ on two. None met the plan's convergence rule, so none carries a word and OW56-1 is not scored. Three stopped with a small gradient but without two agreeing stops far enough apart; two reached the cap of 30000 iterations still moving (gradient gates 0.072 and 0.0072), unconverged by any reading.
+
+Descriptors only: on the $2\pi$ chains the energy above the unturned state fell from 668 to 96 (half-box 12 at 0.5), from 431 to 72 (0.375, at the cap) and from 214 to 57 (half-box 15, wide collar), with no tear read at the last stop; the two $4\pi$ chains fell from 15434 and 7048 to 45 and 43, and at their ends hold 1272 and 529 nodes where the gap between the two largest eigenvalues is under 0.5. This run shows neither that a held $2\pi$ turn stays on this lattice nor that it leaves.
+
+## 4. $\delta = 0.05$, one free core (OW56-3)
+
+**The references.** One ring of degree 1 on both spacings: energy 19.4979 and radius 2.939 at spacing 0.5, 19.5573 and 2.932 at 0.375. The ring's normal relaxed onto $\hat y$ or $\hat x$ (two starts, equal energy within $1.6 \times 10^{-11}$ relative), not onto the z axis of the seed's lines. Our lines reader finds two minor lines on the shell of radius 6 (at 0° and 180° from the ring's normal) and four on each of the shells of radius 8 and 10 (at 21.5° and 158.5° on 8, at 34.3° and 145.7° on 10, at spacing 0.5). These are descriptors; no word of the plan rests on them.
+
+**The path (fixed fields).** $T$ on the relaxed references falls at every step on both spacings and both axes (from 657.3 and 570.3 at spacing 0.5). As a descriptor of the starts, with no word: $W[2\pi]$ adds 3.26 and 3.34 to the energy, about a sixth of the ring's.
+
+**The frozen rule stopped the chains.** Our start rule forbids a start that holds a link across which the minor axis jumps by more than 45°. We had checked that clause on the unrelaxed seed only (largest angle 28°). The relaxed references themselves hold 28 such links, at 45.1° to 45.8°, inside the ring's hole within 1.6 of its center, where the minor gap is small and where neither turn changes anything. Applied as written, the clause stops all five turned chains. Under the frozen plan the rung reads "not run" and OW56-3 is not scored. This is a fault of our plan.
+
+**A supplement, outside the frozen plan, with no registered score.** The clause was set aside for the five chains it alone stopped; everything else was kept (starts, seeds, optimizer, caps, reads). That was decided after the go and before any of these five chains was relaxed, but after the ends of the $\delta = 0$ free-core chains were on record. Its words also rest on one control (the reader of the minor mismatch) being judged on its numbers, although that reader is outside its stated regime near the center of the seed; neither of our two checks re-derived that reader or the twist angle below.
+
+| Chain | Spacing | Read |
+| --- | --- | --- |
+| $T[2\pi]$, normal axis | 0.5 | released, back on the reference |
+| $T[2\pi]$, in-plane axis | 0.5 | released, back on the reference |
+| $W[2\pi]$ | 0.5 | released: the minor twist at the collar goes from 5.72 to 0, the lines unchanged |
+| $T[2\pi]$, normal axis | 0.375 | no label |
+| $W[2\pi]$ | 0.375 | no label |
+
+At spacing 0.375 both chains left the reference and ended at the same energy and ring normal: 19.5322, which is 0.0251 below the reference, with the normal turned by 51.7° to an oblique direction. So the reference at that spacing, although converged and stable under a small perturbation, is not the lowest state reached on that grid, and the comparison of the two spacings is not read.
+
+Under the supplement, the plan's rule for a twist would read "shed at $\delta = 0.05$" on one spacing. Your prediction's first clause would read as met, but that scoring could never have returned "not met" in this run: the held faces hold the ends of the seed's lines, which is partly the case your second clause excepts.
+
+## 5. $\delta = 0.05$, the pair
+
+Four free descents from a seed of degree 2 with the two centers 14, 10, 6 and 0 apart, one far field for all four.
+
+| Start separation | End | Energy |
+| --- | --- | --- |
+| 14 | two rings, 25.53 apart | 39.8987 |
+| 10 | two rings, 25.53 apart | 39.8987 |
+| 6 | one object (no label: the chain did not meet the convergence rule) | 40.3118 |
+| 0 | one object | 40.3118 |
+
+- From 14 and from 10 the two rings moved apart to 25.53, their normals along the line that joins them, each 5.24 from a face of the box. No larger box was run, so whether the box sets that place is not read.
+- The merged object is one connected line, fitted by a circle of radius 6.3 around the center. It lies 0.413 above the two rings, 0.021 of the single ring's energy (19.498, read in the smaller box, so the unit depends on the box).
+- The start at 6 ended as one object, as the start at 0, which began merged. That is a descriptor of four descents, not a curve.
+- **The turned class was not built.** With the rings that close to the faces, the plan's collar around one ring has an outer radius below its inner one, so neither $T$ nor $W$ could be set on it. No turned chain ran and no barrier is read.
+
+## 6. Your three predictions
+
+| | Prediction | Score |
+| --- | --- | --- |
+| OW56-1 | held balls: $2\pi$ held, $4\pi$ released, both spacings | not scored: all five chains without a word |
+| OW56-2 | the swap and the full turn of one ring do not end alike | not scored: not run; we read your "instead of the full held ladder" as dropping the held pair |
+| OW56-3 | $\delta > 0$ with free cores also sheds the turn, unless the minor gap is held on the lines | not scored: the chains did not run under the frozen plan |
+
+## 7. What this does not show
+
+Static states of one action in closed boxes, at $\delta = 0$ and $\delta = 0.05$ only. No exchange sign, spin or statistics is read. No energy against separation is computed: with free cores the run reads only where descents end. The supplement was not registered. The paragraph of your post on what binds the two half-lines again opened with a drafting note, so on OpenWave it is recorded as pending your explicit yes.
+
+Four faults are our plan's, not the action's: the start-rule clause checked on a seed and not on a relaxed state; a convergence rule that three of the held-core chains could not meet at a small gradient; a collar for the pair that assumed the rings stay where the seed put them; and no rule for a re-relaxation that stops before its tolerance.
+
+One ruling made during the run carries every chain at $\delta = 0.05$: a control of the seed (its trace within $10^{-12}$) failed its first try when read over every node ($1.5 \times 10^{-12}$, from a regularizer of the seed itself) and was then read on the face nodes ($1.6 \times 10^{-13}$), the read that the plan's own printed value implies. Under the other reading no chain at $\delta = 0.05$ would have run. It is deviation 1 of the record, with the twelve others.
+
+The record was checked twice before this post: a recomputation of the stored energies, path tables and several readers with separate code, and an adversarial audit in a fresh context, whose findings (one of them the withheld word of section 2) are folded into the record. The fold was not audited again.
+
+Record on OpenWave: the task document linked above; the scripts [`m5_56_turn.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_56_turn.py) (the turns, the seeds, the readers and their controls), [`m5_56_relax.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_56_relax.py) (the chains) and [`m5_56_reads.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_56_reads.py) (the words and the summary); and [`m5_56_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_56_summary.json).
+
+## 8. Two questions
+
+1. **The hold for a merger curve.** Two rings of this action at $\delta = 0.05$ moved apart to 5.24 from the faces of the box, and a merged object sits 0.41 above them. To read an energy along a separation, something must hold the separation while the cores stay free. What would you hold: the fitted centers of the two lines, a moment of the gap field, or something else? The moment hold tried in [M5.50](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_50_task_details.md) was met without holding the line: the loop went back to about its free size, and one to three single nodes carried most of the weight.
+2. **What to run next.** The one-core rung at $\delta = 0.05$ can be rerun with the start rule corrected and registered anew, on both spacings. Is that the run you would choose next, or T1, or the pinned ladder of your T3?

@@ -1,0 +1,39 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19585053
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19585053
+author: JarekDuda
+posted: 2026-11-13T07:46:39Z
+version: as first posted
+sha256: 0d5a88369d4b761692f23638720e25720ea9f6c7ee5506f6d30afe58db687315
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you for M5.39. The plan and the pilot numbers are what we need. Answers to item 5 first, then the inputs, then what changed since v3.2.
+
+Answers (item 5)
+1. Who runs what: OpenWave takes the complement: the Card C ladder, the static ablation, the desk checks, later the twisting nucleon. R3 then also gives a second independent solution of NovaraX's static record ablation. A second E1+/M1+ solution is welcome later, once its current exists as code.
+2. Independence: (c), as you assume.
+3. Ladder: both, mesh first. Our reading of the frozen rule (rc77) takes "the finest eligible inertia" at the finest spacing and the largest eligible box, so the box rung sets the scale. Recorded now, before your run (C: Yukawa tail, cube faces ignored): at 73³ (half-box 8.1) the isospin inertia rises by about 1.1% over 55³ (37.44 → about 37.85), with about 0.3% still outside.
+4. Branch rule: the declared rule (10 Nov) is the lowest-energy stationary branch at the finest grid, and a branch counts only if it meets the force gate. Suggested starts per grid: the two archived seeds, the refinement chain, one isotropic-centre seed and one split-centre seed; label by the centre eigenvalues; report every stationary branch with its energy.
+   - Your 33³ stop (0.341, 0.370, 0.391) is on the printed branch (0.333, 0.376, 0.394), 9e-4 above it, so this looks like slow convergence, not another branch.
+   - Isotropic centres at 17³ and 25³ fit the record potential's separate isotropic minimum (s ≈ 0.396·1). If they are stationary and lower there, the rule picks them and the printed split rows change; the score uses the finest grid, so it is not affected.
+   - The archived fields met the gate narrowly (manifest residuals 9.4e-4, 7.9e-4, 7.7e-4; a 41³ run stayed at 1.198e-3), so the route matters. Yes, we can send the three run.json files ahead of the fields (manifest hashes 1bafa650…, 51d1626f…, a8fd9b3d…), plus any iteration logs that survive in Sol's archive.
+5. Outgoing solve: the pilot's own discretization and matching first (isolates the solver), then your independent exterior. Vacuum record block: both constrained and deflated, with the difference reported; if it moves E1+/M1+ by more than the 0.7 pp grid tolerance, no score.
+6. Δ width: the stationary co-rotating problem with an outgoing exterior first (it shares the solver, and the declared P33 test is a K-matrix quantity); real-time evolution later, as the independent check.
+7. Units: g_πNN = (8π M_N f_π/3)·A/(e f_π)² (Adkins–Nappi–Witten), with A the dipole amplitude fitted to the lattice operator's free massive dipole in the original cube with Dirichlet faces (rc76); e = 4.311 and effective f_π = 91.29 MeV at 55³ (rc77). The 55³ comparison should fix the convention.
+
+Inputs (item 4)
+- Attached: the photon-point preregistration with Amendments 1–6 and Sol's correction. It defines the scored current (gauge-then-reduce from the local action), the quantity (tree K-matrix residue ratio at W* = 1231.272 MeV) and the gates. No photon-point number has been computed.
+- The Card C payload (three fields, three run.json, kinetic_operator.py; hashes in source/frozen_packets/CardC_payload_manifest/SHA256SUMS) will go into the packet dataset.
+- The rest of your table (constraint-reaction vertices, the pilot's outgoing matching and nodal residual, the ΔB = 3 endpoints, the vector-meson card, the counterterm scheme, the STRING endpoint operator) does not exist as frozen code yet. Track A first is the right order.
+
+Since v3.2: capstone v3.3 (doi:10.5281/zenodo.23994958, all versions). Main change: the tetrad view as the simplifying frame, one tetrad with its own eigenvalues (TP4).
+- One identity: tr(∇M∇M) = 2 Σ ηη (λc−λd)² ω·ω, with ω the frame's rotation rate (= −contorsion). So TP4 = teleparallel GR + gap-weighted torsion terms.
+- The time axis is Einstein–aether. A quadratic term on the boosts gives c1 = −16πGχ(g0−d)²: GWs slower than light and a ghost khronon. So χ stays on the twist, and the khronon needs 0<α<2, β<1, (β+λ)/(2+β+3λ)>0.
+- The charge's field is the curl of the twist connection (Mermin–Ho): G = dω23. The hairy-ball spin-1/2 lines are its Dirac strings, circulation π each.
+- Outside cores with a uniaxial minor block, the frame's spatial orientation is gauge and TP4 reduces to R1 for spatial rates. Its time-axis tilt is not gauge (draft 3.4-rc2): the tilt runaway lives in the (0,i) components, so the khronon's stiffness is needed in either exterior. In a biaxial vacuum, hydrogen bounds the exterior twist stiffness: sqrt(χ)·δ ≲ 4 μeV.
+
+Later, if useful to your relaxations (preregistration welcome):
+1. The M5.21.2b hedgehog: circulation of ω23 = e2·∇e3 around each braided 1/2 line. Prediction: π each, 4π total.
+2. Outside the core, does relaxation make λ2 = λ3? If it stays biaxial with a quadratic twist term, the lines carry tension 2πχδ²[ln(r/a) − 0.70] (four tetrahedral rays; −0.61 for two straight lines at 90°). With the quartic alone they should spread.
+3. Linear spectrum on the hedgehog: the bare quartic block has an exact zero tangential speed; in the projected action this should be a gauge direction.

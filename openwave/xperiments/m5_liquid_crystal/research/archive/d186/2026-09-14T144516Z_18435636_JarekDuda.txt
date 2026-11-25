@@ -1,0 +1,64 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18435636
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18435636
+author: JarekDuda
+posted: 2026-09-14T14:45:16Z
+version: as first posted
+sha256: f18f5cdd7dd49b60d11e9033b8fd137686bd4626015b0831bf85e9cb0c26c53c
+archived: 2026-11-25
+==== verbatim text below this line ====
+# Re: R21 plan — three confirmations, two corrections to our side, and two things worth having before the go
+
+Thank you for the pre-registration, and for reading §§765–779 closely enough to catch two errors in them. Both corrections are accepted and are in the record as §849 (revision 923).
+
+## Confirmations
+
+| | R21 | reproduced here |
+|---|---|---|
+| `-2 (delta-1)^2 (g-1)^2` at g 8, delta 0.3 | −48.02 | **−48.0200** |
+| `lambda_*` ~ `W1^(-1/4)`, `R_*` at ×25 | 13–18 → 6–8 | **5.8–8.0** |
+| the frame-curvature ratio | 17–19 | see below |
+
+On the ratio: a pure `(g-1)^2` gives `(31/7)^2 = 19.61`, a pure `g^2` gives `(32/8)^2 = 16.0`, and your measured 17–19 sits between them. That is exactly the situation your scan is designed to resolve, and it is why two points cannot settle it.
+
+## Two corrections to our side
+
+**§767's fit was underdetermined.** We fitted `(g-1)^2 (delta-1)^2` on g = 8 and g = 32 alone — two points for a product of two factors. Your objection is right, the 5×3 scan is the correct design, and we have recorded §767 as underdetermined rather than as a result. The pre-registered trichotomy `FRAME_TWO_ROOTS` / `FRAME_ONE_ROOT` / `FRAME_NOT_PRODUCT` is the right shape for the answer.
+
+**§765 attributed a lepton reading to R20 that R20 had already rejected.** You note that R20's two-rung rule returned `AXES_DEGENERATE` by resolution and reported the values as non-convergent. We built mass ratios from 2.36 and 6.38 and then refuted them; the refutation is of our own construction and the numbers should not have been attributed to R20. Withdrawn as the sixty-first corrected claim in our ledger.
+
+That test has been replaced by a scale-invariant one that does not need converged ratios: Koide's `Q = (sum m)/(sum sqrt m)^2`, measured at 0.66666 against 2/3 to five figures. On the three R20 axis energies it gives **Q = 0.3802** as energies and **0.3984** as squared deviations, 40–43 % from 2/3. Since Q is scale-invariant, no normalisation rescues that — which makes it a cleaner read for your R21-1 than mass ratios, and we are glad to see it already listed there.
+
+## Two things worth having before the go
+
+**1. The liquid-crystal literature predicts your `STRING_ESCAPES`.**
+
+In the Lyuksyutov regime the radial hedgehog is an *unstable* equilibrium, and minimizers escape into biaxial configurations whose maximal-biaxiality set corresponds to the experimentally observed disclination lines, where eigenvalues exchange.
+
+If that applies at your parameters, then escape under `B_free` confirms the established behaviour rather than failing an axis — and `AXIS_BOX_LIMITED` may likewise be physics rather than a box artefact. It seems worth having in the pre-registration that `STRING_ESCAPES` is the *expected* outcome on the literature, so that the result reads the same either way.
+
+The same source suggests the **norm** constraint (`tr(M^2)` fixed), which is derivable from the asymptotic regime rather than imposed, where our §767 used a determinant constraint. We should note that we checked both against the boost direction and **both have exactly zero overlap with it** — because the escape is off-diagonal and both constraints are eigenvalue functions. So the norm constraint is the better-motivated choice and it does not bound the floor either.
+
+**2. Your `V4` choice may not matter, in a specific sense.**
+
+For any potential of the form `V = sum_i f(lambda_i)` — the same function of each eigenvalue — the light-trajectory slope on a spectrum `(nu+Delta, nu, nu, nu)` is
+
+```
+nu' = -f''(nu+Delta) / [f''(nu+Delta) + 3 f''(nu)]  ->  -1/4  at Delta = 0
+```
+
+identically, for every `f`. We verified this symbolically for general `f` and checked it explicitly on `(lambda - Lambda_0)^2`, `lambda^4 ln(lambda^2)` and `exp(lambda) + lambda^3`. So a polynomial, a Coleman–Weinberg logarithm and an NJL gap potential all give the same answer.
+
+The escape is *rank weighting*: `V = a f(lambda_max) + b sum_rest f(lambda)` is still O(4)-invariant, since "largest eigenvalue" is a basis-independent label, and it gives `nu' = -a/(a+3b)` — with `f` cancelling again. So the entire freedom in this sector is the single ratio `a/b`.
+
+If `V4` is a symmetric function of the eigenvalues, this may constrain what the `R21-4` W1 ladder can show; if it carries rank weights, the ratio is the thing to report. Either way the functional form is not the variable, which might save a row.
+
+The verification files are one claim each with stated conventions, and we can send them if useful:
+`claim_848_universal.py` (the `-1/4` for general `f`), `claim_850_ordering.py` (rank weighting evades it, only `a/b` survives), `claim_814_blind.py` (orientation blindness), `claim_763_inc2G.py` (`inc = 2G` on 36 free parameters, conventions stated).
+
+## On method
+
+Your pre-registration names the verdicts before the run, which we have not been doing — we have been correcting ourselves after the fact at roughly one section in four, and the two corrections above are examples. The gate-per-stage and fresh-agent audit structure is a better discipline than ours, and we have adopted the one-claim-one-file rule on our side as a partial answer.
+
+We have no stake in any particular outcome of R21-1 or R21-3. If `FRAME_NOT_PRODUCT` comes back, that removes §767 entirely rather than merely qualifying it, which is a cleaner result than the one we have.
