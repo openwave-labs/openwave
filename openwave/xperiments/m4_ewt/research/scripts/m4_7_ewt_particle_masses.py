@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-From manuscript version: 5.2.4 or later
+From manuscript version: 5.4.1 or later
 
 Enhanced EWT -- Particle Mass Module
 ======================================
@@ -202,15 +202,15 @@ def report_spherical_mass_table() -> None:
     mass_entries = [
         ("Neutrino",    1,  0.00000000238, "sph"),
         ("Quark u",     13, 0.002162,      "sph"),
-        ("Electron",    10, 0.00051099,    "sph"),
+        ("Electron",    10, 0.00051099895, "sph"),
         ("Quark d",     15, 0.004692,      "sph"),
-        ("Muon",        20, 0.09488543,    "orb"),
+        ("Muon",        20, 0.09488543,    "orb"), #calibration
         ("Quark s",     28, 0.094954,      "sph"),
-        ("Tau",         50, 1.75619909,    "orb"),
+        ("Tau",         50, 1.75619909,    "orb"), #calibration
         ("Omega_cc*",   58, 3.7259,        "sph"),
-        ("W Boson",    109, 80.387,        "sph"),
-        ("Z Boson",    110, 91.182,        "sph"),
-        ("Higgs",      117, 124.9613,      "sph"),
+        ("W Boson",    109, 80.377,        "sph"),  
+        ("Z Boson",    110, 91.1876,       "sph"),  
+        ("Higgs",      117, 125.25,        "sph"),  
     ]
 
     for name, K_val, target, mode in mass_entries:
