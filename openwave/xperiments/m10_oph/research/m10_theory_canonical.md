@@ -54,10 +54,13 @@ retained. This selection does not combine other candidates' results.
 Sections 2–7 and 9–11 below preserve the admission specification and its
 construction/claim ancestry at `3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`.
 They do not assign those separate sources' results to M10.2. Section 8 remains
-the scoring rule for the selected candidate. The source admissibility and
-physical dictionary of M10.2 are submitted for maintainer review.
+the scoring rule for the selected candidate. The [M10.2 review](findings/m10_2_maintainer_review.md)
+records the signed-source recomputation and retains the admission marks for charge,
+rest energy and spin. Each of the three properties depended on a declared input.
 
-## 1.2 Proposed Interval Echo candidate for M10.3
+<a name="12-proposed-interval-echo-candidate-for-m103"></a>
+
+## 1.2 Interval Echo candidate for M10.3
 
 Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https://github.com/openwave-labs/openwave/pull/745), [maintainer review](findings/m10_3_maintainer_review.md)).
 
@@ -69,9 +72,24 @@ Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https:/
 | Observable | The terminal patch copies the outgoing pair flag and undoes the echo. Its record is one of 30 home seams or quiet. Report the probability over all releases. |
 | Comparison and units | Coupling 8 and dimensionless exposures are supplied. A control sets the contrast coupling to zero on the same carrier. The assay uses no calibration to a measured particle mass. |
 | Source ancestry | M10.2 used a signed-coordinate compact source and static transfer observable. Its static replay and its unresolved charge, rest-energy and spin identifications remain attached to that pin. M10.3 tests free binding on a separate law. |
-| Scope | The decision requested concerns free persistence of this prepared excitation on its tested time window. Electromagnetic charge, spin, particle identity and a universal lifetime require other measurements. |
+| Scope | Row 4 concerns free persistence of this prepared excitation on its tested time window. Electromagnetic charge, spin, particle identity and a universal lifetime require other measurements. |
 
 [Registered terms](tasks/m10_3_task_details.md)
+
+## 1.3 Proposed connected two-load candidate for M10.4
+
+M10.4 proposes replacing the M10.3 pin with Interval Echo at [`09f062f77f7f540f2783f128ae6314c5d8b818ea`](https://github.com/FloatingPragma/observer-patch-holography/tree/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04), archived as `interval-echo-m10.4-connected-pair-proposal`. The nomination is the pair and its eleven prepared neutral seam records. M10.3 used blank memories. Its [decision](findings/m10_3_maintainer_review.md) and supplied choice of coupling belong to that experiment. The requested cell is row 4 alone. The maintainers decide the proposed pin and grade.
+
+| Element | M10.4 declaration |
+| --- | --- |
+| Hardware and law | The M10.3 board, with 20 cells, 240 ports and 630 seams. The local 99-state echo, exchange and contrast operators, degree references and binary pair detector are those of M10.3. |
+| Preparation | Start with one load each on 156 and 157. Use the two loads to write eleven neutral contacts while leaving both paths to 163 open. Address two source contacts and the middle degree reference, with three occupied reads per attempt and at most eight attempts. This is designed apparatus. |
+| Release and clock | After acceptance enable the entire free generator on the prepared materials. There is no intervention during flight. Pulse lengths and terminal appointments are in supplied native exposure units. |
+| Observation | The cell-13 observer reads any of its thirty internal pair addresses or quiet. Exhaustion and undetected releases count against the joint home probability. |
+| Parameter ancestry | The nominal contrast strength 8 was chosen in the antecedent design search. The protected-weight proof works for every real strength. The 94% criterion and the interference solution were known when the eleven-record source was chosen. |
+| Interpretation | The proposed particle is a localized material composite. A successful home read alone establishes neither freely translating matter on blank memories nor electron identity, a mass or a physical time scale. |
+
+[Protocol and controls](tasks/m10_4_task_details.md) · [Derivation and replay](findings/m10_4_method_note.md)
 
 ## 2. Arena
 
@@ -277,7 +295,7 @@ is transferred into it by this register.
 | Measurement, space and clocks | **Intuition.** Even probability assignments, spatial directions and clock comparisons need an operational account.<br>**Evidence.** Finite effect-representation, rank-three response, locality and clock-calibration theorems are listed individually.<br>**Boundary.** Their premises and source domains are retained; record order, modular time, count time and calibrated proper time are distinct. |
 | Einstein, de Sitter and Koide | **Intuition.** Connect record balance to geometry, fixed capacity to the horizon-transfer sign, and cyclic balance to a family-mass relation.<br>**Evidence.** The inventory follows the complete conditional Einstein chain, the finite de Sitter entropy/gradient/spectrum results and the positive-chamber Koide identity/register branch.<br>**Boundary.** Physical tower/horizon/scale realization and the charged-family/phase/observable-mass maps are explicit. The demo Einstein inhabitant is synthetic; known prior mathematics keeps its attribution. |
 | M10.2 source | **Intuition.** Three static assays use preparations of the same signed-source species.<br>**Evidence.** The fixed author package and platform replay are linked in PR #723.<br>**Boundary.** Graph, positive coherent memory and addressing are declared; no passive-repair implementation of every coherent body branch is claimed. |
-| M10.2 charge | **Intuition.** Compare actual stopped source currents and the primitive integer relative boundary class.<br>**Evidence.** Complete charge trials and controls reproduce with a separate producing-group implementation audit.<br>**Boundary.** Physical electric-charge identification and the per-cell decision are under review. |
+| M10.2 charge | **Intuition.** Compare actual stopped source currents and the primitive integer relative boundary class.<br>**Evidence.** Complete charge trials and controls reproduce with a separate producing-group implementation audit.<br>**Boundary.** Integer loads and currents are fixed by the source. Their identification with physical electric charge is unverified. The row retains its admission mark. [M10.2 review](findings/m10_2_maintainer_review.md) |
 | M10.2 energy | **Intuition.** Read a compact localized ray's transfer energy against the same source's zero reference.<br>**Evidence.** The full-graph eigenray and complete certificate retain lower modes and unresolved complement.<br>**Boundary.** The 511 keV unit is calibrated; no predicted electron mass, physical clock or free lifetime follows. |
 | M10.2 field/frame | **Intuition.** Compare the return of a current covariance and the reversal/return of its nonzero mean.<br>**Evidence.** All finite current alternatives and the proper addressed-cell rotation are reproduced.<br>**Boundary.** This is not a spin-magnitude, spinor-phase, exchange-statistic or global continuous-rotation result. |
 | Published source progress | **Intuition.** A stronger finite source can support additional complete instruments and field limits.<br>**Evidence.** Public `main` binds LOCAL12 charge and terminal meters, native Maxwell and scalar wave packages, calibrated static compositions and source-equivalence controls.<br>**Boundary.** These distinct sources and their internal full-criterion decisions are not merged into M10.2 or official platform awards. |
