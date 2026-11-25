@@ -22,7 +22,7 @@ Current Models in the platform:
 - **[M7 - HydroBoros](openwave/xperiments/m7_hydroboros/__M7_model_briefing.md)** (Toroidal-Beltrami, Marc Fleury's toroidal electron fused with Paul Werbos's Ouroboros);
 - **[M8 - MIT](openwave/xperiments/m8_mit/__M8_model_briefing.md)** (Mode Identity Theory, Blake Shatto top-down model, spectral geometry + representation theory);
 - **[M9 - NSM](openwave/xperiments/m9_emergent_gravity/__M9_model_briefing.md)** (New Standard Model, Bob McGwier gravity-certification column: gravity as entanglement bookkeeping on the Standard Model minimally coupled to Einstein-Cartan)
-- **[M10 - OPH](openwave/xperiments/m10_oph/__M10_model_briefing.md)** (Observer Patch Holography, Bernhard Mueller: observers as feedback loops on a holographic screen of twelve-port icosahedral carriers, with a local repair and memory law and no action)
+- **[M10 - OPH](openwave/xperiments/m10_oph/__M10_model_briefing.md)** (Observer Patch Holography, Bernhard Mueller, with Mario Poneder as co-author of the column: observers as feedback loops on a holographic screen of twelve-port icosahedral carriers, with a local repair and memory law and no action)
 
 Every file reference is an active link to the file in this repository (under `openwave/xperiments/`). Rows are grouped by domain: particles, forces, waves + quantum emergence.
 
