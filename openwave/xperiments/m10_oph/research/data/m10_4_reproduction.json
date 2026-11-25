@@ -1,0 +1,261 @@
+{
+ "board_sha256": "99870398e3d516f899c600e9bf25ba53c7f513142ba8facbe1cedd94b23f915b",
+ "local_law": {
+  "dimension": 99,
+  "blank_columns_per_coefficient": 9,
+  "neutral_columns_per_coefficient": 18
+ },
+ "neutral_edges": [
+  [
+   152,
+   166
+  ],
+  [
+   156,
+   161
+  ],
+  [
+   156,
+   163
+  ],
+  [
+   156,
+   167
+  ],
+  [
+   157,
+   161
+  ],
+  [
+   157,
+   164
+  ],
+  [
+   157,
+   165
+  ],
+  [
+   157,
+   170
+  ],
+  [
+   158,
+   166
+  ],
+  [
+   162,
+   166
+  ],
+  [
+   166,
+   167
+  ]
+ ],
+ "open_contacts": [
+  [
+   157,
+   163
+  ],
+  [
+   163,
+   166
+  ]
+ ],
+ "setup_swaps": [
+  [
+   156,
+   166
+  ],
+  [
+   156,
+   157
+  ],
+  [
+   156,
+   157
+  ],
+  [
+   156,
+   166
+  ]
+ ],
+ "source": {
+  "signed_one_attempt_numerators": [
+   -13,
+   14
+  ],
+  "denominator": 27,
+  "first_vacancies": [
+   "4/9",
+   "4/81",
+   "4/729"
+  ],
+  "exhaustion": "308184696497866080256/79766443076872509863361",
+  "exhaustion_probability": 0.003863588303678808,
+  "protected_weight": "217693858576368887077/218837978263024718418",
+  "protected_probability": 0.9947718412693399
+ },
+ "certificate": {
+  "twice_exchange_eigenvalue": 2,
+  "contrast_eigenvalue": 3,
+  "first_exterior_probability_power": 8,
+  "coefficient": "1/18432",
+  "connected_ports": 240,
+  "connected_pair_states": 28680
+ },
+ "home_escape_ranks": {
+  "marked": 29,
+  "blank": 30
+ },
+ "archive": {
+  "bins_compared": 1116,
+  "maximum_absolute_error": 1.714550723619368e-11,
+  "sha256": "bf0f1d94c8d3d82809b315db814aa3332ca806f3d6a11eb9b8695a88fa2eaf58"
+ },
+ "home_probabilities": [
+  {
+   "kappa": 0,
+   "exposure": 1,
+   "marked": {
+    "coherent": 0.995763987,
+    "dephased": 0.860201225,
+    "stochastic_swap": 0.753088868,
+    "unfiltered": 0.863537578
+   },
+   "blank": {
+    "coherent": 0.490137533,
+    "dephased": 0.44826306,
+    "stochastic_swap": 0.356714936,
+    "unfiltered": 0.450001676
+   }
+  },
+  {
+   "kappa": 0,
+   "exposure": 7,
+   "marked": {
+    "coherent": 0.995443825,
+    "dephased": 0.74334241,
+    "stochastic_swap": 0.430386415,
+    "unfiltered": 0.746225518
+   },
+   "blank": {
+    "coherent": 0.345009691,
+    "dephased": 0.273911523,
+    "stochastic_swap": 0.128631747,
+    "unfiltered": 0.275768632
+   }
+  },
+  {
+   "kappa": 0,
+   "exposure": 37,
+   "marked": {
+    "coherent": 0.995196058,
+    "dephased": 0.652907216,
+    "stochastic_swap": 0.123196093,
+    "unfiltered": 0.655439565
+   },
+   "blank": {
+    "coherent": 0.270723254,
+    "dephased": 0.205913422,
+    "stochastic_swap": 0.00931323,
+    "unfiltered": 0.202905801
+   }
+  },
+  {
+   "kappa": 0.5,
+   "exposure": 1,
+   "marked": {
+    "coherent": 0.995763556,
+    "dephased": 0.860044213,
+    "stochastic_swap": 0.753088868,
+    "unfiltered": 0.863379957
+   },
+   "blank": {
+    "coherent": 0.571677489,
+    "dephased": 0.531695032,
+    "stochastic_swap": 0.356714936,
+    "unfiltered": 0.533757234
+   }
+  },
+  {
+   "kappa": 0.5,
+   "exposure": 7,
+   "marked": {
+    "coherent": 0.995720368,
+    "dephased": 0.844280577,
+    "stochastic_swap": 0.430386415,
+    "unfiltered": 0.847555181
+   },
+   "blank": {
+    "coherent": 0.533141751,
+    "dephased": 0.470314964,
+    "stochastic_swap": 0.128631747,
+    "unfiltered": 0.472750289
+   }
+  },
+  {
+   "kappa": 0.5,
+   "exposure": 37,
+   "marked": {
+    "coherent": 0.995945068,
+    "dephased": 0.926296116,
+    "stochastic_swap": 0.123196093,
+    "unfiltered": 0.929888823
+   },
+   "blank": {
+    "coherent": 0.440929105,
+    "dephased": 0.415281759,
+    "stochastic_swap": 0.00931323,
+    "unfiltered": 0.416819359
+   }
+  },
+  {
+   "kappa": 8,
+   "exposure": 1,
+   "marked": {
+    "coherent": 0.996104397,
+    "dephased": 0.984450931,
+    "stochastic_swap": 0.753088868,
+    "unfiltered": 0.988269196
+   },
+   "blank": {
+    "coherent": 0.988617767,
+    "dephased": 0.987153762,
+    "stochastic_swap": 0.356714936,
+    "unfiltered": 0.990982505
+   }
+  },
+  {
+   "kappa": 8,
+   "exposure": 7,
+   "marked": {
+    "coherent": 0.996133449,
+    "dephased": 0.995054888,
+    "stochastic_swap": 0.430386415,
+    "unfiltered": 0.998914281
+   },
+   "blank": {
+    "coherent": 0.987468703,
+    "dephased": 0.985829898,
+    "stochastic_swap": 0.128631747,
+    "unfiltered": 0.989653268
+   }
+  },
+  {
+   "kappa": 8,
+   "exposure": 37,
+   "marked": {
+    "coherent": 0.996109886,
+    "dephased": 0.986454527,
+    "stochastic_swap": 0.123196093,
+    "unfiltered": 0.990280564
+   },
+   "blank": {
+    "coherent": 0.970097239,
+    "dephased": 0.976566633,
+    "stochastic_swap": 0.00931323,
+    "unfiltered": 0.980271948
+   }
+  }
+ ]
+}

@@ -14,7 +14,7 @@ Each observer reads time from within its own history. The quantities accessible 
 
 Why call this *holography*? The records live on a two-dimensional screen. Under OPH’s reconstruction premises, a spacetime with three spatial dimensions and one time dimension can account for the measurements observers make. The simulation shows the two views side by side. On the left are the cells and their clock hands. On the right is the view one observer builds as signals reach it. [Watch the OPH simulation](https://floatingpragma.ai/oph/simulation/) · [Spacetime reconstruction, §1, p. 2, paragraph “What a test of the model is”](https://github.com/FloatingPragma/observer-patch-holography/releases/download/r2072/executable_observer_construction.pdf#page=2)
 
-The executable uses local repair and memory rules on this discrete carrier. OpenWave admitted OPH as M10 on 13 November 2026, with every criterion awaiting an in-platform test. [Admission discussion](https://github.com/openwave-labs/openwave/discussions/712)
+The executable uses local repair and memory rules on this discrete carrier. OpenWave admitted OPH as M10 on 13 November 2026. All criteria entered untested. The M10.3 review awards partial credit for particle stability on Interval Echo. [Admission discussion](https://github.com/openwave-labs/openwave/discussions/712) · [M10.3 decision](research/findings/m10_3_maintainer_review.md)
 
 [![OPH conceptual schematic: overlapping observer patches on a spherical carrier network, with one patch mapped to an observer's complete history in emergent spacetime](https://raw.githubusercontent.com/FloatingPragma/observer-patch-holography/bb1de05927d8c6bb1285182cc91e97410092ec8a/assets/oph-schematic.png)](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/flagship/from_observer_consensus_to_standard_physics.pdf)
 
@@ -33,6 +33,7 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 | Name | OPH (Observer Patch Holography) |
 | Author | Bernhard Mueller, Pragma Research Inc., corresponding author. Not the sole author: the flagship paper lists fourteen authors (the author's statement in the application) |
 | Author contact | GitHub [@muellerberndt](https://github.com/muellerberndt), for author-gated questions (definitions, intent, which construction is the specification of record); routing convention in [`dev_docs/CROSS_MODEL_TESTING.md`](../../../dev_docs/CROSS_MODEL_TESTING.md) § 6 |
+| Co-author | Mario Poneder, GitHub [@MarioPoneder](https://github.com/MarioPoneder). Scope: the whole M10 column, carried with the author. Author-gated questions on a pull request the co-author opens go to the co-author in its thread; a question raised outside a pull request opened by either of them goes to both handles, per [`ONBOARDING_MODELS.md`](../../../ONBOARDING_MODELS.md#model-co-authors). Requested in [discussion #712](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19859247), approved by the author ([reply](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19876009)) and accepted by the co-author ([reply](https://github.com/openwave-labs/openwave/discussions/712#discussioncomment-19863911)) |
 | Disclosure | A co-author of the flagship is the applicant of K7 ([discussion #525](https://github.com/openwave-labs/openwave/discussions/525)), and the author's repository vendors K7 comparison files. The two are separate frameworks, and K7's standing is unchanged by this column (the author's disclosure, and the admission reply) |
 | Lineage | Wheeler's law without law; the relational and Darwinist readings of quantum theory (Rovelli, Zurek); distributed agreement (Lamport, Dijkstra's self-stabilization); Jacobson and Van Raamsdonk for gravity from entanglement thermodynamics; Doplicher and Roberts for gauge groups from superselection; Bisognano and Wichmann for modular clocks; Wilson's lattice gauge theory; 't Hooft's cellular automaton interpretation as the closest relative among discrete deterministic substrates |
 | Primary sources | The author’s [OPH repository](https://github.com/FloatingPragma/observer-patch-holography) contains the executable model. The [canonical specification](research/m10_theory_canonical.md#1-specification-of-record-and-the-pin) distinguishes the admission snapshot, the earlier M10.2 pin and the adopted M10.3 pin. The [bibliography](theory/_CITATIONS.md) lists the admission sources. |
@@ -41,13 +42,17 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 
 ## Active candidate submission
 
-**Interval Echo is the pinned candidate for M10** (task M10.3), with particle stability in free evolution (row 4) at ⚠️ partial. A shared seam balances its endpoint loads and records their previous signed difference. In the prepared-pair experiment, a one-cell observer found both loads on a shared seam in its cell in **4,028 of 4,096** releases at exposure 37. With the contrast interaction switched off, the same observer detected **824 of 4,096**. The pair’s charge, spin and species are unassigned. The pin was adopted and the row decided on 2026-11-21. [Maintainer decision](research/findings/m10_3_maintainer_review.md) · [Pinned candidate](research/m10_theory_canonical.md#12-proposed-interval-echo-candidate-for-m103) · [Task and replay](research/tasks/m10_3_task_details.md) · [Method, control and measured figure](research/findings/m10_3_method_note.md) · [Row 4 animation with a cell-0 release](https://floatingpragma.ai/oph/simulation/openwave/row-4/)
+**Interval Echo is the pinned candidate for M10** (task M10.3), with particle stability in free evolution (row 4) at ⚠️ partial. A shared seam balances its endpoint loads and records their previous signed difference. At exposure 37 the computed probability that both loads occupy a seam in the launch cell is **0.980** at the supplied coupling $\kappa = 8$ and **0.203** with the contrast interaction switched off. Of 4,096 seeded draws from each computed outcome distribution, 4,028 and 824 respectively returned a launch-cell seam. The pair’s charge, spin and species are unassigned. The pin was adopted and the row decided on 2026-11-21. [Maintainer decision](research/findings/m10_3_maintainer_review.md) · [Pinned candidate](research/m10_theory_canonical.md#12-interval-echo-candidate-for-m103) · [Task and replay](research/tasks/m10_3_task_details.md) · [Method, control and simulated counts](research/findings/m10_3_method_note.md) · [Row 4 animation with a cell-0 release](https://floatingpragma.ai/oph/simulation/openwave/row-4/)
 
-**M10.2 is the earlier signed-source candidate, kept as ancestry.** Its graph and energies reproduced. Integer loads, the 511 keV calibration and the half-turn symmetry limited what those results established about charge, rest energy and spin. The model profile and particle tables below describe the earlier admission construction. [M10.2 task](research/tasks/m10_2_task_details.md) · [Maintainer decision](research/findings/m10_2_maintainer_review.md)
+**M10.2 is the earlier signed-source candidate, kept as ancestry.** Its graph and energies reproduced. Integer loads, the 511 keV calibration and the half-turn symmetry limited what those results established about charge, rest energy and spin. [M10.2 task](research/tasks/m10_2_task_details.md) · [Maintainer decision](research/findings/m10_2_maintainer_review.md)
+
+**M10.4 proposes the pair together with eleven written seam records for row 4.** The pair is prepared on the same board and measured with the same thirty-seam detector as M10.3. Once preparation ends, the source gives at least 99.4771841% joint home detection at every free exposure for any real contrast strength, counting failed preparations as quiet. The written contacts persist during flight. The question for review is whether this localized material composite meets the free-persistence criterion. [Candidate change](research/m10_theory_canonical.md#13-proposed-connected-two-load-candidate-for-m104) · [Task](research/tasks/m10_4_task_details.md) · [Method and comparison with blank memories](research/findings/m10_4_method_note.md)
 
 ## Model Profile (what it brings, short form)
 
-| Attribute | M10 |
+The table records the model at admission. For the scored candidate's carrier, seam law, preparation and observer, see the [Interval Echo specification](research/m10_theory_canonical.md#12-interval-echo-candidate-for-m103).
+
+| Attribute | Admission construction |
 | --- | --- |
 | Substrate | A holographic screen of twelve-port icosahedral carriers. Each carrier holds integer loads on its ports, neighbouring carriers share seam links, and a six-class flux register records the protected classes. Port symmetry: the icosahedral group A5, with its binary cover for spinors. Not a field and not a dynamical medium. The design is declared, with no derivation claimed |
 | Vacuum / dynamics | Tier 2: a local repair and memory law written as update rules, run by the native observers. No Lagrangian, no action, no field equation. Conservation is demonstrated per source, not asserted |
@@ -67,20 +72,19 @@ experiments do not establish that reconstruction. Click for the synthesis paper.
 
 | Attribute | M10 |
 | --- | --- |
-| The defining open problem | By the author's own account, each criteria row runs on its own declared finite source and none runs on the twelve-port screen. One process carrying the rows is the column's open join ([`research/m10_background.md`](research/m10_background.md) § 2) |
+| The defining open problem | Row 4 has an in-platform computation on the pinned carrier. Extending it to other criteria requires computing their observables on this candidate. The separate sources at admission and the M10.2 static assays retain their own scope. [M10.3 review](research/findings/m10_3_maintainer_review.md) |
 | How a cell moves | A declared or installed source is inherited and leaves its row not yet tested. A row moves when its observable is computed on the carrier's own process in-platform ([`research/m10_theory_canonical.md`](research/m10_theory_canonical.md) § 8) |
 | Predictions | None passes the prediction test of [`ONBOARDING_MODELS.md`](../../../ONBOARDING_MODELS.md) § 1.1, on the author's own audit. The lepton ratios, the hadron spectrum and the tau width ratio are comparisons with known data |
 | Residuals on record | The author lists them unprompted: the muon ratio 442 standard uncertainties from measurement, the held-out hadrons and light nuclei failing, the gravity unit attachment off by 1.18 × 10⁴⁰, the weak mixing angle of the declared coupling chain at 0.23074 against 0.23129(4) |
 
 ## Field Configuration of Particles
 
-Standing demand: state the field configuration of each particle, and whether it
-uses topological vortices. The author's answer has two layers, and they are not
-yet joined.
+Interval Echo tests a prepared pair of unit loads with unassigned species. The other entries describe the admission construction and its separate sources.
 
 | Particle | Configuration in OPH | Topological vortex? |
 | --- | --- | --- |
-| Native picture, any species | A protected flux defect of the carrier network, labelled by a centre class in Z6 | The intended reading is a topological defect of overlap transport. No localized defect is established for any species (the author's hypothesis page) |
+| Interval Echo, prepared pair | Two units start on one seam. The terminal observer reads one of 30 seams in the launch cell or quiet. | The assay does not measure a vortex. [M10.3 review](research/findings/m10_3_maintainer_review.md) |
+| Admission picture, any species | A protected flux defect of the carrier network, labelled by a centre class in Z6 | The intended reading is a topological defect of overlap transport. No localized defect is established for any species (the author's hypothesis page) |
 | Electron and charged leptons, in the row constructions | A state of a declared finite source carrying the fifteen-state module; the three families from a register on one carrier face | No |
 | Quarks | Phase lifts of a closed loop of (SU(3)×U(1))/Z3; no localized texture | No |
 | Baryons, mesons, light nuclei | States of a calibrated hyperfine action on two-cell blocks and boxes | No |
@@ -103,8 +107,10 @@ The official M10 matrix marks particle stability ⚠️ (partial) and every othe
 | Task | What lands |
 | --- | --- |
 | M10.1 | Certification gate, closed 2026-11-13: a maintainer-run recompute of the twelve-direction scalar dispersion in clean rooms. The author's frozen coefficients agree exactly. It certified arithmetic on a declared object and moved no cell |
+| [M10.2](research/findings/m10_2_maintainer_review.md) | The static assays on the signed-source candidate reproduced. Charge, rest energy and spin each depended on a declared input and kept their admission marks. |
+| [M10.3](research/findings/m10_3_maintainer_review.md) | OpenWave adopted Interval Echo. The free pair on its two-load generator earned partial credit for row 4 at the supplied coupling. |
 | Later tasks | Created and ordered by the author on [`research/m10_roadmap.md`](research/m10_roadmap.md) |
-| Rendering | Not before a cell exists. Headless first |
+| Rendering | The platform replay is headless. The author provides a separate [cell-0 animation](https://floatingpragma.ai/oph/simulation/openwave/row-4/). |
 
 ## Help Wanted
 

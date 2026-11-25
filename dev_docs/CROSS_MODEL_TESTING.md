@@ -119,7 +119,8 @@ a prescription, adding an extension), that work opens as an issue at that point.
 
 Author contact handles are listed in each model briefing's Identity table, and so is
 the `Co-author` row where a column carries one. A question inside a co-author's named
-scope goes to the co-author; anything else goes to the author. Where a column carries
+scope goes to the co-author; anything else goes to the author. Where that scope is the
+whole column, the question goes to both handles. Where a column carries
 two authors instead, the `Author contact` row names the scope of each.
 
 ## See also

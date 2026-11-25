@@ -2,7 +2,9 @@
 
 In the two-unit sector the native seam and degree-reference terms reduce, up to an overall phase, to `H = L_moves/2 − 2κ P_adjacent`. Allowed swaps connect all distinct-port configurations. The contrast is 10 for adjacent units and 12 when separated. The observer occupies one echosahedron and returns the occupied internal seam or quiet. Its echo writes the pair flag and the inverse echo restores the state in each terminal branch. A fresh source is released for each read. [Native operator, full-matrix comparison and decoder](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo/row_04/native_check.py) · [Independent sparse evolution](../scripts/m10_3/row_04_check.py)
 
-| Native exposure | Pair records in the home cell, κ = 8 | Exchange only, κ = 0 |
+**Scope**: On the 20-cell carrier at the supplied coupling $\kappa = 8$, the free two-load generator gives the probability of detecting the prepared pair on a launch-cell seam through exposure 37, without establishing its charge, spin, species or lifetime beyond that window.
+
+| Native exposure | Seeded draws on a home seam, κ = 8 | Exchange only, κ = 0 |
 | ---: | ---: | ---: |
 | 1 | 4,048 / 4,096 | 1,780 / 4,096 |
 | 7 | 4,052 / 4,096 | 1,182 / 4,096 |
@@ -21,6 +23,8 @@ A changed-law run using the same source and detector rejects at the native persi
 - [Native generator and detector comparison](https://github.com/FloatingPragma/observer-patch-holography/blob/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo/row_04/native_check.py#L17)
 
 ## Requested row 4 cell
+
+The paragraph below is the author's submitted cell. The [maintainer decision](m10_3_maintainer_review.md) awards partial credit.
 
 ✅ A prepared two-unit pair persists under Interval Echo on a 20-cell sphere. With all seams active its one-cell detection probability stays at least 94% through native exposure 37. At 37 the terminal receiver recorded 4,028/4,096 pairs, versus 824/4,096 under exchange alone. The adjacent launch, blank memories, uniform exposure and read window are supplied. Charge and spin are unassigned.
 
