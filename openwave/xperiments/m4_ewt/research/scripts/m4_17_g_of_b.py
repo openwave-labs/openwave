@@ -200,7 +200,8 @@ def main():
     plt.title(r"Parametric Dependence of $G(B)$ and $\alpha_G(B)$")
     fig.tight_layout()
 
-    out_dir = os.path.dirname(os.path.abspath(__file__))
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    out_dir = os.path.normpath(os.path.join(script_dir, "..", "plots"))
     plot_path = os.path.join(out_dir, "m4_17_g_of_b.png")
     plt.savefig(plot_path, dpi=150)
     print(f"  Plot saved to: {plot_path}")

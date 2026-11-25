@@ -3,10 +3,14 @@
 ## Finding 2 (M4.17): Local Medium / Field Parameter Dependence $G(B)$ and $\alpha_G(B)$
 
 ## Status
+
 DONE (post-hoc)
 
 ## Criterion
-`Parametric / field dependence` — effective coupling $G(B)$ and $\alpha_G(B)$ recover the baseline EWT limit for weak local fields ($B \ll B_0$) and exhibit smooth modulation across $B \sim B_0$
+
+`Parametric / field dependence` — effective coupling $G(B)$ and $\alpha_G(B)$ recover the baseline EWT limit for weak local fields ($B \ll B_0$) and exhibit smooth modulation across $B \sim B_0$. No `MODELS.md` criterion.
+
+**Scope**: evaluates a chosen saturation ansatz $f_G$ in normalized units ($B_0 = 1$, $p = 2$) on top of the M4.7 baseline. The $B \to 0$ limit holds by construction ($f_G(0) = 1$). $B$ is not yet identified with a physical field: per the author (review of [PR #755](https://github.com/openwave-labs/openwave/pull/755)), it is a generic local medium/field state parameter, and its identity and the exponent $p$ remain open.
 
 * **Script:** `openwave/xperiments/m4_ewt/research/scripts/m4_17_g_of_b.py`
 
@@ -37,6 +41,7 @@ Enhanced EWT manuscript, version 5.4.4 (2026-11-24).
 Section:
 
 The Geometric Identity of $G$: Derivation and Consistency:
+
 * Derivation of $G$ from Electron Scaling (The $\hbar$-Independent Base)
 * The Base Gravitational Scaling ($\mathbf{G}_{\text{Base}}$)
 * The Gravitational Identity Flow: From Electromagnetic Base to Surface Transition

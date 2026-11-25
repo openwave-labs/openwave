@@ -15,7 +15,7 @@ Mechanism:
 
         alpha_G_geom = 1 / [ A_pi^5 * (1 - eps_M/A_pi) * N_geom^3 * K_WC * sqrt(N_eff) ]
 
-    which yields alpha_G_geom = 1.752651e-45 (~0.048% from CODATA 2022).
+    which yields alpha_G_geom = 1.752633e-45 (~0.047% from CODATA 2022).
     At macroscopic scales (r >> r_e), the effective vacuum density settles
     at N_eff and both alpha_G(r) and G(r) remain constant. Near and inside
     the soliton core radius (r <= r_e), local lattice compression / core
@@ -105,10 +105,10 @@ def main():
     print(f"    (1 - eps_M / A_pi)   = {1.0 - eps_M / A_pi:.12f}  (vacuum correction)")
     print(f"    N_geom^3             = {N_geom**3:.6e}  (BCC lattice stiffness)")
     print(f"    K_WC                 = {K_WC}             (wave-center count)")
-    print(f"    N_stat               = {N_stat:.6e} m^-3")
+    print(f"    N_stat               = {N_stat:.6e} (dimensionless)")
     print(f"    X_eff = N_stat/N_eff = {X_eff:.6f}      (volume deficit factor)")
-    print(f"    N_eff                = {N_eff:.6e} m^-3")
-    print(f"    sqrt(N_eff)          = {math.sqrt(N_eff):.6e} m^(-3/2)")
+    print(f"    N_eff                = {N_eff:.6e} (dimensionless)")
+    print(f"    sqrt(N_eff)          = {math.sqrt(N_eff):.6e} (dimensionless)")
     print("  ------------------------------------------------------------------------")
     print(f"    alpha_G (EWT geom)   = {alpha_G_asymp:.6e}")
     print(f"    alpha_G (CODATA)     = {ALPHA_G_CODATA:.6e}")
@@ -141,7 +141,7 @@ def main():
     G_vals = [G_running(s * r_e) for s in scales]
 
     print("[2/3] Scale Dependence of alpha_G(r) and G(r):")
-    print(f"  {'r / r_e':>10} {'N(r) [m^-3]':>16} {'alpha_G(r)':>16} {'G(r) [SI]':>16}")
+    print(f"  {'r / r_e':>10} {'N(r) [-]':>16} {'alpha_G(r)':>16} {'G(r) [SI]':>16}")
     print("  " + "-" * 64)
 
     sample_indices = [0, 10, 15, 20, 25, 30, 40, 60]
@@ -161,8 +161,7 @@ def main():
     print(f"  CODATA 2022 reference            = {ALPHA_G_CODATA:.6e}")
     print(f"  Asymptotic relative error        = {err_far:.6f} %")
     print(f"  Core-to-asymptotic ratio (0.1r_e)= {ratio_core_to_far:.6e}")
-    print("  Onset verified: alpha_G(r) and G(r) are constant for r >> r_e and")
-    print("  begin running smoothly at the core boundary r ~ r_e.")
+    print("  By construction: the profile's width is r_e and its r = 0 value is N_stat.")
     print()
 
     # --- 4. Plotting ---
@@ -207,7 +206,8 @@ def main():
     plt.title(r"Running Gravitational Coupling $\alpha_G(r)$ and $G(r)$ (Onset at $r_e$)")
     fig.tight_layout()
 
-    out_dir = os.path.dirname(os.path.abspath(__file__))
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    out_dir = os.path.normpath(os.path.join(script_dir, "..", "plots"))
     plot_path = os.path.join(out_dir, "m4_16_running_coupling.png")
     plt.savefig(plot_path, dpi=150)
     print(f"  Plot saved to: {plot_path}")
