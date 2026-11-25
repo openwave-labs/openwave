@@ -92,15 +92,17 @@ Being a column in OpenWave is a commitment, not a listing. Five things belong to
 
 ### Model co-authors
 
-A column can carry more than one name. When a contributor's work becomes a standing part of a column rather than a one-off contribution, the column's author can promote that contributor to **co-author** over a named scope. Three steps, and no other machinery:
+A column can carry more than one name. The column's author can make someone a **co-author** over a named scope: a contributor whose work has become a standing part of the column rather than a one-off contribution, or a collaborator the author names to carry the column's work with them. The scope is one part of the column or the whole of it. Five steps, and no other machinery:
 
 | Step | Who |
 | --- | --- |
-| Approve the promotion, in a public thread | the column's author |
-| Accept it, in the same thread | the contributor |
-| Turn the briefing's `Extension` row into a `Co-author` row, carrying the handle and the scope | a maintainer |
+| Approve it, in a public thread | the column's author |
+| Accept it, in the same thread | the co-author |
+| Send the co-author the collaborator invitation an author receives ([§ What the model author owns](#what-the-model-author-owns)) | a maintainer |
+| Add a `Co-author` row to the briefing's Identity table, carrying the handle and the scope. An `Extension` row naming that person becomes this row | a maintainer |
+| Name the co-author in the README's [Model Authors](README.md#model-authors) table and on the column's line of the model list in [`MODELS.md`](MODELS.md) | a maintainer |
 
-A co-author carries the author's duties over that scope and no further: owns the claims inside it, answers the challenges to it, and receives its author-gated questions. Everything outside the scope stays the author's. The role takes effect on the briefing edit, and it is removed the way it was added, by the author saying so in a public thread.
+A co-author carries the author's duties over that scope and no further: owns the claims inside it, answers the challenges to it, and receives its author-gated questions. Everything outside the scope stays the author's. Where the scope is the whole column, the author stays the author of record, and a question raised outside a pull request opened by either of them goes to both handles. The role takes effect on the briefing edit, and it is removed the way it was added, by the author saying so in a public thread.
 
 **What this changes for review.** An author-gated finding on a pull request opened by an author or co-author of that column goes to that person in the thread, and the review writes no model-author note at all ([`dev_docs/PR_REVIEW_STANDARDS.md`](dev_docs/PR_REVIEW_STANDARDS.md#81-when-the-contributor-is-not-an-author-of-the-column) section 8.1). A column can equally carry two authors from the start, as [M7](openwave/xperiments/m7_hydroboros/__M7_model_briefing.md) does, with a scope named against each handle; the routing is the same.
 

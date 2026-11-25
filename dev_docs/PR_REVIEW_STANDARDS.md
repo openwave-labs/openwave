@@ -402,7 +402,7 @@ The @-mention is the mechanism, not a courtesy. GitHub notifies on `@handle` and
 
 | # | Rule |
 | --- | --- |
-| M1 | Take the handle from the model briefing's **`Author contact`** row, which is where it is maintained, or from the **`Co-author`** row when the finding sits inside that co-author's scope. Do not guess it from the author's name |
+| M1 | Take the handle from the model briefing's **`Author contact`** row, which is where it is maintained, or from the **`Co-author`** row when the finding sits inside that co-author's scope, and from both rows when that scope is the whole column. Do not guess it from the author's name |
 | M2 | Put the `@handle` in the **first sentence** of the model-author note, not buried in a table cell or a closing line. It is what makes the routing real |
 | M3 | Mention **once**, in the review body. Repeating it in every subsequent comment turns the channel into noise, which is the thing [`AI_HYGIENE.md`](../AI_HYGIENE.md) § 3 warns about |
 | M4 | Say in the same sentence **what is being asked**. A bare mention reads as a summons; "tagging @handle on the two rows below, the rest is mine" is actionable |
