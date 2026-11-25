@@ -1,0 +1,535 @@
+{
+ "arming": {
+  "energy_drift": 3.7765056079301926e-11,
+  "m10_3_values": [
+   0.9909825049605462,
+   0.9896532683447826,
+   0.9802719477957951
+  ],
+  "unit_err": 3.826339245449617e-11
+ },
+ "arms_surviving": [],
+ "checks": {
+  "acquisition: accepted state (-13 X + 14 Z) / 27": true,
+  "acquisition: exhaustion 0.0038635883": true,
+  "acquisition: failures 4/9, 4/81, 4/729": true,
+  "arming: energy of X conserved over [0, 37], 1e-10 of the spectral scale": true,
+  "arming: flown states unit and orthogonal to 1e-10": true,
+  "arming: the M10.3 record for the sharp pair at kappa 8 on blank memory": true,
+  "blank memories at kappa 1/2, exposure 37": true,
+  "coherent arm at or above the floor, nine settings": true,
+  "dark identity fails for X + Z": true,
+  "dark identity fails on the blank board": true,
+  "dark identity: 2K D = 2 D and C D = 3 D on the written board": true,
+  "escape ranks 29 written, 30 blank": true,
+  "one-load delivery table": true,
+  "run summary: 72 home probabilities to nine digits": true,
+  "seam law: a neutral record switches its seam off, every kappa": true,
+  "seam law: no element between blank and written memory": true,
+  "seam law: the control record at d = 1 does not": true,
+  "stochastic control at exposure 1, below 0.94": true,
+  "ten writes, coherent, exposure 37": true,
+  "the eleven written seams, two between cells": true,
+  "the floor (1 - f^8) 729 / 730": true,
+  "the method note's table at exposure 37": true,
+  "the two open contacts are live seams": true
+ },
+ "claimed": {
+  "accepted_times_27": [
+   -13,
+   14
+  ],
+  "blank_coherent_k05_t37": 0.440929105,
+  "blank_unfiltered_k05_t37": 0.416819359,
+  "dark_eigenvalues": {
+   "contrast": 3,
+   "twice_exchange": 2
+  },
+  "escape_ranks": {
+   "blank": 30,
+   "written": 29
+  },
+  "exhaustion": 0.0038635883,
+  "first_vacancies": [
+   "4/9",
+   "4/81",
+   "4/729"
+  ],
+  "floor": 0.994771841,
+  "one_load_receiver_other": {
+   "fixed_attempts": {
+    "blank": [
+     "1/15",
+     "44/75"
+    ],
+    "eleven": [
+     "1/15",
+     "0"
+    ],
+    "ten": [
+     "11/75",
+     "2/25"
+    ]
+   },
+   "stop_on_receipt": {
+    "blank": [
+     "4/15",
+     "38/75"
+    ],
+    "eleven": [
+     "1/15",
+     "0"
+    ],
+    "ten": [
+     "26/75",
+     "0"
+    ]
+   }
+  },
+  "open_contacts": [
+   [
+    157,
+    163
+   ],
+   [
+    163,
+    166
+   ]
+  ],
+  "stochastic_t1": 0.753088868,
+  "table_t37": {
+   "coherent": [
+    0.995196058,
+    0.995945068,
+    0.996109886
+   ],
+   "dephased": [
+    0.652907216,
+    0.926296116,
+    0.986454527
+   ],
+   "stochastic_swap": [
+    0.123196093,
+    0.123196093,
+    0.123196093
+   ],
+   "unfiltered": [
+    0.655439565,
+    0.929888823,
+    0.990280564
+   ]
+  },
+  "ten_write_coherent_t37": [
+   0.52684013,
+   0.940265361,
+   0.996086764
+  ],
+  "written_between_cells": [
+   [
+    152,
+    166
+   ],
+   [
+    157,
+    170
+   ]
+  ],
+  "written_seams": [
+   [
+    152,
+    166
+   ],
+   [
+    156,
+    161
+   ],
+   [
+    156,
+    163
+   ],
+   [
+    156,
+    167
+   ],
+   [
+    157,
+    161
+   ],
+   [
+    157,
+    164
+   ],
+   [
+    157,
+    165
+   ],
+   [
+    157,
+    170
+   ],
+   [
+    158,
+    166
+   ],
+   [
+    162,
+    166
+   ],
+   [
+    166,
+    167
+   ]
+  ]
+ },
+ "claims": {
+  "accepted_times_27": [
+   -12.999999999999972,
+   13.99999999999997
+  ],
+  "blank_coherent_k05_t37": 0.44092910467316293,
+  "blank_unfiltered_k05_t37": 0.4168193590557618,
+  "coherent_min": 0.9951960577364455,
+  "dark": {
+   "contrast": 3,
+   "twice_exchange": 2
+  },
+  "dark_blank_board": false,
+  "dark_weight": 0.9947718412693347,
+  "dark_wrong_phase": false,
+  "escape_ranks": {
+   "blank": 30,
+   "written": 29
+  },
+  "exhaustion": 0.003863588303678782,
+  "first_vacancies": [
+   0.4444444444444441,
+   0.04938271604938266,
+   0.00548696844993141
+  ],
+  "floor_exact": "217693858576368887077/218837978263024718418",
+  "one_load_receiver_other": {
+   "fixed_attempts": {
+    "blank": [
+     "1/15",
+     "44/75"
+    ],
+    "eleven": [
+     "1/15",
+     "0"
+    ],
+    "ten": [
+     "11/75",
+     "2/25"
+    ]
+   },
+   "stop_on_receipt": {
+    "blank": [
+     "4/15",
+     "38/75"
+    ],
+    "eleven": [
+     "1/15",
+     "0"
+    ],
+    "ten": [
+     "26/75",
+     "0"
+    ]
+   }
+  },
+  "open_contacts": [
+   [
+    157,
+    163
+   ],
+   [
+    163,
+    166
+   ]
+  ],
+  "stochastic_t1": 0.7530888676234855,
+  "summary_compared": 72,
+  "summary_max_difference": 4.736995240506303e-10,
+  "table_t37": {
+   "coherent": [
+    0.9951960577364455,
+    0.9959450684164133,
+    0.9961098860213045
+   ],
+   "dephased": [
+    0.6529072163598181,
+    0.9262961157292816,
+    0.9864545274328966
+   ],
+   "stochastic_swap": [
+    0.12319609303238736,
+    0.12319609303238736,
+    0.12319609303238736
+   ],
+   "unfiltered": [
+    0.6554395649967723,
+    0.9298888233109438,
+    0.9902805638393778
+   ]
+  },
+  "ten_write_coherent_t37": [
+   0.5268401297032452,
+   0.9402653610696872,
+   0.9960867637665074
+  ],
+  "written_between_cells": [
+   [
+    152,
+    166
+   ],
+   [
+    157,
+    170
+   ]
+  ],
+  "written_seams": [
+   [
+    152,
+    166
+   ],
+   [
+    156,
+    161
+   ],
+   [
+    156,
+    163
+   ],
+   [
+    156,
+    167
+   ],
+   [
+    157,
+    161
+   ],
+   [
+    157,
+    164
+   ],
+   [
+    157,
+    165
+   ],
+   [
+    157,
+    170
+   ],
+   [
+    158,
+    166
+   ],
+   [
+    162,
+    166
+   ],
+   [
+    166,
+    167
+   ]
+  ]
+ },
+ "inputs": {
+  "board_sha256": "99870398e3d516f899c600e9bf25ba53c7f513142ba8facbe1cedd94b23f915b",
+  "run_summary_sha256": "b4cfcfee71a11cae6ba908bcba32141c7d5f181342e5ebdbeb0f3b3573c232dd"
+ },
+ "reported": {
+  "blank_coherent_t37_by_kappa": {
+   "0.0": 0.27072325392547236,
+   "0.5": 0.44092910467316293,
+   "8.0": 0.9700972393760708
+  },
+  "coherent_written_t37_by_kappa": {
+   "-8.0": 0.9961121477674237,
+   "0.0": 0.9951960577379698,
+   "0.5": 0.9959450684158608,
+   "1.0": 0.9957800635705979,
+   "16.0": 0.9961300671858521,
+   "2.0": 0.9959217119061521,
+   "4.0": 0.9961353699112443,
+   "8.0": 0.9961098859631067
+  },
+  "one_load": {
+   "a_minus_c_is_an_eigenvector_on_the_blank_board": false,
+   "a_minus_c_is_an_eigenvector_on_the_written_board": true,
+   "contacts_touching_a_b_c": 15,
+   "leak_per_written_seam_restored_alone": {
+    "152-166": "1/8",
+    "156-161": "0",
+    "156-163": "0",
+    "156-167": "0",
+    "157-161": "1/8",
+    "157-164": "1/8",
+    "157-165": "1/8",
+    "157-170": "1/8",
+    "158-166": "1/8",
+    "162-166": "1/8",
+    "166-167": "1/8"
+   }
+  },
+  "tables": {
+   "blank": [
+    {
+     "coherent": 0.49013753334164867,
+     "dephased": 0.44826306026570023,
+     "exposure": 1.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.3567149357819891,
+     "unfiltered": 0.450001676450817
+    },
+    {
+     "coherent": 0.345009691205489,
+     "dephased": 0.27391152260641993,
+     "exposure": 7.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.12863174691662038,
+     "unfiltered": 0.2757686316597249
+    },
+    {
+     "coherent": 0.27072325392547236,
+     "dephased": 0.2059134218687138,
+     "exposure": 37.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.00931322986794334,
+     "unfiltered": 0.2029058007943467
+    },
+    {
+     "coherent": 0.5716774893728362,
+     "dephased": 0.5316950320162913,
+     "exposure": 1.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.3567149357819891,
+     "unfiltered": 0.5337572343866616
+    },
+    {
+     "coherent": 0.5331417510704278,
+     "dephased": 0.47031496412404517,
+     "exposure": 7.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.12863174691662038,
+     "unfiltered": 0.47275028875581476
+    },
+    {
+     "coherent": 0.44092910467316293,
+     "dephased": 0.4152817589329671,
+     "exposure": 37.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.00931322986794334,
+     "unfiltered": 0.4168193590557618
+    },
+    {
+     "coherent": 0.9886177667535856,
+     "dephased": 0.9871537619487282,
+     "exposure": 1.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.3567149357819891,
+     "unfiltered": 0.9909825049605462
+    },
+    {
+     "coherent": 0.9874687026113638,
+     "dephased": 0.9858298979709118,
+     "exposure": 7.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.12863174691662038,
+     "unfiltered": 0.9896532683447826
+    },
+    {
+     "coherent": 0.9700972393760708,
+     "dephased": 0.9765666332319097,
+     "exposure": 37.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.00931322986794334,
+     "unfiltered": 0.9802719477957951
+    }
+   ],
+   "written": [
+    {
+     "coherent": 0.9957639865263005,
+     "dephased": 0.860201224641615,
+     "exposure": 1.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.7530888676234855,
+     "unfiltered": 0.8635375783290379
+    },
+    {
+     "coherent": 0.9954438253908409,
+     "dephased": 0.7433424102420506,
+     "exposure": 7.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.43038641463013,
+     "unfiltered": 0.7462255184269738
+    },
+    {
+     "coherent": 0.9951960577364455,
+     "dephased": 0.6529072163598181,
+     "exposure": 37.0,
+     "kappa": 0.0,
+     "stochastic_swap": 0.12319609303238736,
+     "unfiltered": 0.6554395649967723
+    },
+    {
+     "coherent": 0.9957635563562907,
+     "dephased": 0.8600442125847526,
+     "exposure": 1.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.7530888676234855,
+     "unfiltered": 0.8633799572893698
+    },
+    {
+     "coherent": 0.9957203683126654,
+     "dephased": 0.8442805767776909,
+     "exposure": 7.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.43038641463013,
+     "unfiltered": 0.8475551810618
+    },
+    {
+     "coherent": 0.9959450684164133,
+     "dephased": 0.9262961157292816,
+     "exposure": 37.0,
+     "kappa": 0.5,
+     "stochastic_swap": 0.12319609303238736,
+     "unfiltered": 0.9298888233109438
+    },
+    {
+     "coherent": 0.9961043966815423,
+     "dephased": 0.9844509307728262,
+     "exposure": 1.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.7530888676234855,
+     "unfiltered": 0.9882691960793312
+    },
+    {
+     "coherent": 0.996133448625231,
+     "dephased": 0.9950548878277607,
+     "exposure": 7.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.43038641463013,
+     "unfiltered": 0.9989142813632043
+    },
+    {
+     "coherent": 0.9961098860213045,
+     "dephased": 0.9864545274328966,
+     "exposure": 37.0,
+     "kappa": 8.0,
+     "stochastic_swap": 0.12319609303238736,
+     "unfiltered": 0.9902805638393778
+    }
+   ]
+  }
+ },
+ "seam": {
+  "blank_block_is_exchange_plus_contrast": true,
+  "control_record_at_d1_switches_the_seam_off": false,
+  "echo_of_an_empty_blank_seam_is_the_neutral_record": true,
+  "echo_squares_to_identity": true,
+  "neutral_record_switches_the_seam_off": true,
+  "no_element_between_blank_and_written": true
+ },
+ "task": "M10.4"
+}

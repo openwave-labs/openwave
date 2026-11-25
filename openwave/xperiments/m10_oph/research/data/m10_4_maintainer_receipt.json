@@ -1,0 +1,31 @@
+{
+ "task": "M10.4",
+ "written": "2026-11-25T15:26:09+00:00",
+ "base": "3d8dcb1e848615ba86b5c70b7b1dbee6fe82ec36",
+ "package": "https://github.com/FloatingPragma/observer-patch-holography/tree/09f062f77f7f540f2783f128ae6314c5d8b818ea",
+ "machine": "workstation",
+ "versions": {
+  "python": "3.12.14",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "sympy": "1.14.0",
+  "mpmath": "1.3.0"
+ },
+ "jobs": {
+  "1_recompute": {
+   "command": "python3 -I openwave/xperiments/m10_oph/research/scripts/m10_4_maintainer_recompute.py FEDERATION_LEVEL0.npz --output m10_4_maintainer_recompute.json",
+   "exit": 0,
+   "wall_s": 119,
+   "log": "1_recompute.log"
+  }
+ },
+ "comparator": {},
+ "verdict": "Every number recomputed agrees with the authors'; the pin is adopted; row 4 stays partial",
+ "summary": {
+  "jobs": 1,
+  "exit_nonzero": [],
+  "no_end_line": [],
+  "wall_total_s": 119,
+  "files_compared": 0
+ }
+}

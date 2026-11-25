@@ -12,7 +12,8 @@
 | Item | Value |
 | --- | --- |
 | Author repository | [FloatingPragma/observer-patch-holography](https://github.com/FloatingPragma/observer-patch-holography) |
-| Pinned candidate (M10.3) | [Interval Echo at `4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c`](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo), adopted as the single candidate for the M10 column on 2026-11-21 in the review of [pull request #745](https://github.com/openwave-labs/openwave/pull/745). Row 4 is the one row computed on it. The [registered task](tasks/m10_3_task_details.md) gives the source change, observer and controls. |
+| Pinned candidate (M10.4) | [Interval Echo at `09f062f77f7f540f2783f128ae6314c5d8b818ea`](https://github.com/FloatingPragma/observer-patch-holography/tree/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04), with the pair's eleven written seam records (§ 1.3), adopted on 2026-11-25 in the review of [pull request #749](https://github.com/openwave-labs/openwave/pull/749) ([maintainer review](findings/m10_4_maintainer_review.md)). The law and the board are the same bytes as at the M10.3 pin. Row 4 is the one row computed on it. |
+| Earlier pin, M10.3 (ancestry) | [Interval Echo at `4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c`](https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo), on blank memories, adopted on 2026-11-21 in the review of [pull request #745](https://github.com/openwave-labs/openwave/pull/745). The [registered task](tasks/m10_3_task_details.md) gives the source change, observer and controls. |
 | Earlier candidate, M10.2 (ancestry) | [`c330c6e7f23506b5f87c339cd73906928c1a7cd9`](https://github.com/FloatingPragma/observer-patch-holography/tree/c330c6e7f23506b5f87c339cd73906928c1a7cd9/code/openwave_static_signed_source), `A-static-signed-source-v1`; its exact executable scope is § 1.1 |
 | Admission pin (ancestry) | [`3c4e1e23fc32dd241e8c2bfba75de123fe5c6984`](https://github.com/FloatingPragma/observer-patch-holography/tree/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984) (2026-11-13), the commit the application's links use in its short form `3c4e1e23fc32`; the full hash was resolved from the repository at scaffold time |
 | For admission-snapshot numbers | The executable model at the pinned commit: [`model/CONSTRUCTION.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/CONSTRUCTION.md), [`model/PREMISES.md`](https://github.com/FloatingPragma/observer-patch-holography/blob/3c4e1e23fc32dd241e8c2bfba75de123fe5c6984/model/PREMISES.md), and the `PROOF.md` of the package that produces the number (the author's statement) |
@@ -62,7 +63,7 @@ rest energy and spin. Each of the three properties depended on a declared input.
 
 ## 1.2 Interval Echo candidate for M10.3
 
-Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https://github.com/openwave-labs/openwave/pull/745), [maintainer review](findings/m10_3_maintainer_review.md)).
+Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https://github.com/openwave-labs/openwave/pull/745), [maintainer review](findings/m10_3_maintainer_review.md)). Since 2026-11-25 the pin is § 1.3's, on the same law and board; this section's blank-memory preparation is its ancestry.
 
 | Element | Declaration or consequence |
 | --- | --- |
@@ -76,7 +77,11 @@ Adopted as the column's pinned candidate on 2026-11-21 ([review of #745](https:/
 
 [Registered terms](tasks/m10_3_task_details.md)
 
-## 1.3 Proposed connected two-load candidate for M10.4
+<a name="13-proposed-connected-two-load-candidate-for-m104"></a>
+
+## 1.3 Connected two-load candidate for M10.4
+
+Adopted as the column's pinned candidate on 2026-11-25 ([review of #749](https://github.com/openwave-labs/openwave/pull/749#pullrequestreview-6060088147), [maintainer review](findings/m10_4_maintainer_review.md)). Row 4 stays partial: the record pattern was chosen with the row's criterion known.
 
 M10.4 proposes replacing the M10.3 pin with Interval Echo at [`09f062f77f7f540f2783f128ae6314c5d8b818ea`](https://github.com/FloatingPragma/observer-patch-holography/tree/09f062f77f7f540f2783f128ae6314c5d8b818ea/model/candidate_laws/interval_echo/openwave/row_04), archived as `interval-echo-m10.4-connected-pair-proposal`. The nomination is the pair and its eleven prepared neutral seam records. M10.3 used blank memories. Its [decision](findings/m10_3_maintainer_review.md) and supplied choice of coupling belong to that experiment. The requested cell is row 4 alone. The maintainers decide the proposed pin and grade.
 
