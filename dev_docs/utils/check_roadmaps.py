@@ -14,6 +14,13 @@ Checks, per roadmap file:
 3. Shape: every data row carries as many cells as its header. This is what an
    unescaped "|" inside a cell looks like from here, and such a row otherwise
    parses by position and reports the wrong column's contents.
+4. Status icon: in a task table (first column `TaskID`), every row's first cell
+   opens with the icon of the region the table sits in, then a space, then the ID:
+   🔶 under IN PROGRESS (🔶🔶 for a task in progress over several days, waiting for
+   a later day), 🚧 under BACKLOG or LATER, ✅ under DONE. A section that is
+   none of these (a phase table, say) inherits the region of the last one above it.
+   The Description does not open with one of these three icons: the status is said
+   once, beside the ID. A `(none)` placeholder row carries no icon.
 
 ARCHIVE, LEGACY and PRE-REGISTERED sections are frozen (ROADMAP_STANDARDS.md
 section 7) and are skipped entirely: they preserve how the work read, or what was
@@ -45,6 +52,23 @@ MARKUP = re.compile(r"[`*_#>]")
 RULE = re.compile(r"^\|[\s\-:|]+\|$")
 SPLIT = re.compile(r"(?<!\\)\|")  # a literal pipe in a cell is written \|
 
+# The status icon of a task row, by the region its table sits in (docstring, check 4).
+STATUS = {"progress": "\U0001f536", "backlog": "\U0001f6a7", "done": "\u2705"}
+REGION_NAME = {"progress": "IN PROGRESS", "backlog": "BACKLOG", "done": "DONE"}
+LIFECYCLE = re.compile("^(?:\u2705|\U0001f536|\U0001f6a7)")
+
+
+def region_of(title, current):
+    """The region a level-2 heading opens; any other heading keeps the current one."""
+    t = title.upper()
+    if t.startswith("IN PROGRESS"):
+        return "progress"
+    if t.startswith(("BACKLOG", "LATER")):
+        return "backlog"
+    if t.startswith("DONE"):
+        return "done"
+    return current
+
 
 REQUIRED = ("dev_docs/platform_roadmap.md",)
 
@@ -75,6 +99,8 @@ def check(path):
     errors = []
     rel = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
     section = None  # nearest "## ..." heading
+    region = None  # progress / backlog / done: sets the status icon of a task row
+    task_table = False  # the current table's first column is the task ID
     frozen = False
     changelog = False
     idx = None  # column index of `Description` in the current table
@@ -110,9 +136,10 @@ def check(path):
             level = len(line) - len(line.lstrip("#"))
             title = line.strip("# ").strip()
             if level == 1:
-                section, frozen, changelog = None, False, False
+                section, frozen, changelog, region = None, False, False, None
             elif level == 2:  # only a top-level section can open or close a frozen region
                 section = title
+                region = region_of(title, region)
                 frozen = any(w in title.upper() for w in FROZEN)
                 changelog = "CHANGE-LOG" in title.upper()
             else:  # a sub-heading inherits its parent section's frozen / change-log state
@@ -151,6 +178,7 @@ def check(path):
         if "Description" in cells:  # a header row: this table is in scope
             idx, width, header_line = cells.index("Description"), len(cells), i
             header = cells
+            task_table = cells[0] in ("TaskID", "Task ID")
             tables += 1
             continue
         if idx is None:
@@ -170,6 +198,23 @@ def check(path):
                 r" (an unescaped '|' inside a cell does this; write it as '\|')"
             )
             continue  # parsing by column index would report the wrong cells
+
+        if task_table and region:
+            want = STATUS[region]
+            bare = LIFECYCLE.sub("", cells[0]).lstrip("\ufe0f").strip()
+            if bare == "(none)":
+                if LIFECYCLE.match(cells[0]):
+                    errors.append(f"{rel}:{i}: a '(none)' placeholder row carries no status icon")
+            elif not (cells[0].startswith(want + " ") or (region == "progress" and cells[0].startswith(want * 2 + " "))):
+                errors.append(
+                    f"{rel}:{i}: {cells[0][:30]} must open with '{want} ' before the task ID"
+                    f" (a row under {REGION_NAME[region]}; ROADMAP_STANDARDS.md section 2)"
+                )
+            if LIFECYCLE.match(cells[idx]):
+                errors.append(
+                    f"{rel}:{i}: {cells[0][:30]} description opens with a status icon;"
+                    " the status is said once, beside the task ID"
+                )
 
         n = words(cells[idx])
         if n > CAPS["description"]:

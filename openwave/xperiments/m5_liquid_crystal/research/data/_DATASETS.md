@@ -4,7 +4,7 @@
 
 Heavy binary arrays in this folder are **local-only**: gitignored, never deleted (policy 2026-07-20, which supersedes the earlier "delete raw data > 1 MB" rule). They stay on the working machine so later tasks can consume them directly, and they stay OUT of the repo so clones stay light. What IS tracked in git and readable on GitHub: the summary `.json` / `.csv` / `.txt` in this same folder, the plots, and the scripts that rebuild everything here.
 
-**Inventory**: 214 local-only files, 2338.36 MB, in 13 task groups.
+**Inventory**: 1374 local-only files, 23457.05 MB, in 21 task groups.
 
 | Task group | Files | Size | Producing script(s) | Record (regen commands + context) |
 | --- | --- | --- | --- | --- |
@@ -21,5 +21,13 @@ Heavy binary arrays in this folder are **local-only**: gitignored, never deleted
 | `m5_22_4` | 9 | 7.62 MB | [`m5_22_4_a_fullf.py`](../scripts/m5_22_4_a_fullf.py) · [`m5_22_4_b_omega.py`](../scripts/m5_22_4_b_omega.py) · [`m5_22_4_c_panels.py`](../scripts/m5_22_4_c_panels.py) (+1 more) | [`m5_22_4_task_details.md`](../tasks/m5_22_4_task_details.md) |
 | `m5_39` | 45 | 1350.05 MB | [`m5_39_cardc.py`](../scripts/m5_39_cardc.py) · [`m5_39_forecast_pilot.py`](../scripts/m5_39_forecast_pilot.py) · [`m5_39_plots.py`](../scripts/m5_39_plots.py) (+8 more) | [`m5_39_task_details.md`](../tasks/m5_39_task_details.md) |
 | `m5_40` | 4 | 62.88 MB | [`m5_40_payload.py`](../scripts/m5_40_payload.py) · [`m5_40_plots.py`](../scripts/m5_40_plots.py) · [`m5_40_readouts.py`](../scripts/m5_40_readouts.py) (+1 more) | [`m5_40_task_details.md`](../tasks/m5_40_task_details.md) |
+| `m5_41` | 60 | 2438.55 MB | [`m5_41_calibration.py`](../scripts/m5_41_calibration.py) · [`m5_41_plots.py`](../scripts/m5_41_plots.py) · [`m5_41_pool.py`](../scripts/m5_41_pool.py) (+3 more) | [`m5_41_task_details.md`](../tasks/m5_41_task_details.md) |
+| `m5_42` | 376 | 2619.12 MB | [`m5_42_controls.py`](../scripts/m5_42_controls.py) · [`m5_42_eq42.py`](../scripts/m5_42_eq42.py) · [`m5_42_gates.py`](../scripts/m5_42_gates.py) (+5 more) | [`m5_42_task_details.md`](../tasks/m5_42_task_details.md) |
+| `m5_45` | 63 | 213.89 MB | [`m5_45_reads.py`](../scripts/m5_45_reads.py) · [`m5_45_relax.py`](../scripts/m5_45_relax.py) | [`m5_45_task_details.md`](../tasks/m5_45_task_details.md) |
+| `m5_46` | 137 | 770.47 MB | [`m5_46_degree.py`](../scripts/m5_46_degree.py) · [`m5_46_pull.py`](../scripts/m5_46_pull.py) · [`m5_46_reads.py`](../scripts/m5_46_reads.py) | [`m5_46_task_details.md`](../tasks/m5_46_task_details.md) |
+| `m5_47` | 19 | 4527.95 MB | [`m5_47_evolve.py`](../scripts/m5_47_evolve.py) · [`m5_47_reads.py`](../scripts/m5_47_reads.py) · [`m5_47_report.py`](../scripts/m5_47_report.py) (+1 more) | [`m5_47_task_details.md`](../tasks/m5_47_task_details.md) |
+| `m5_48` | 344 | 1211.94 MB | [`m5_48_pool.py`](../scripts/m5_48_pool.py) · [`m5_48_reads.py`](../scripts/m5_48_reads.py) · [`m5_48_relax.py`](../scripts/m5_48_relax.py) (+1 more) | [`m5_48_task_details.md`](../tasks/m5_48_task_details.md) |
+| `m5_49` | 9 | 7052.86 MB | [`m5_49_predict.py`](../scripts/m5_49_predict.py) · [`m5_49_reads.py`](../scripts/m5_49_reads.py) · [`m5_49_report.py`](../scripts/m5_49_report.py) (+1 more) | [`m5_49_task_details.md`](../tasks/m5_49_task_details.md) |
+| `m5_50` | 152 | 2283.89 MB | [`m5_50_diag_r4.py`](../scripts/m5_50_diag_r4.py) · [`m5_50_diag_radius.py`](../scripts/m5_50_diag_radius.py) · [`m5_50_hold.py`](../scripts/m5_50_hold.py) (+2 more) | [`m5_50_task_details.md`](../tasks/m5_50_task_details.md) |
 
 **Regeneration**: the exact command + runtime per dataset lives in the task record linked on its row (the task_details / findings doc), which is where the run configuration is already written down. Runs in both repos are deterministic from their fixed seeds and configs, so a regenerated array reproduces the original bit-for-bit at the stored precision.

@@ -79,6 +79,10 @@ def example():
     pass
 ```
 
+### Equations
+
+Equations are written as LaTeX math, which GitHub typesets: `$$` on its own line above and below a display equation, `$ ... $` for a symbol inside a sentence, and never inside a code block. The full rule, a worked example and the cases that break rendering are in [`METHOD_NOTE.md` § Equation format](METHOD_NOTE.md#equation-format), the single source.
+
 ### Line Length
 
 While not enforced by linter, consider keeping lines under 120 characters for better readability in code editors.

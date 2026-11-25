@@ -1,0 +1,1138 @@
+{
+ "task": "M5.48",
+ "controls": {
+  "K1": {
+   "what": "the ten J = 0 end states of M5.45 used by P1 and the start of P2, read back: U and I of m5_45_summary.json to 1e-12 (relative)",
+   "rows": [
+    {
+     "state": "h0375_L0",
+     "U": 14.735914625029437,
+     "I": 2095.989003973905,
+     "gmax_over_h3": 3.631763431096765e-05,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0250_L0",
+     "U": 15.129189840265868,
+     "I": 3372.3115547449356,
+     "gmax_over_h3": 8.559839482302767e-05,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0375_L0_from_h0500",
+     "U": 14.900970997807493,
+     "I": 1977.4778374477976,
+     "gmax_over_h3": 2.644339371445144e-05,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0375_L0_from_h0250",
+     "U": 14.812176818538857,
+     "I": 2469.4917810637376,
+     "gmax_over_h3": 3.040597122216937e-05,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0375_L0_from_h01875",
+     "U": 14.444967411040459,
+     "I": 2721.7932375629116,
+     "gmax_over_h3": 3.8691472565706896e-05,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0250_L0_from_h0375",
+     "U": 14.969171173466325,
+     "I": 3434.668226166864,
+     "gmax_over_h3": 0.0004622002521272872,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0250_L0_from_h01875",
+     "U": 14.736171314184976,
+     "I": 3936.182210245922,
+     "gmax_over_h3": 0.00024074937477053682,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0375_L0.03",
+     "U": 23.40991812794585,
+     "I": 119.10051483365491,
+     "gmax_over_h3": 1.7573429369097013e-06,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0250_L0.03",
+     "U": 23.492486296280838,
+     "I": 119.32054547137031,
+     "gmax_over_h3": 6.832847067308676e-07,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h0250_L0.03_from_no_L1",
+     "U": 23.491727228004667,
+     "I": 119.16709448280149,
+     "gmax_over_h3": 2.248675279370449e-06,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": true
+    },
+    {
+     "state": "h01875_L0",
+     "U": 14.692442924781759,
+     "I": 5296.463658838351,
+     "gmax_over_h3": 0.022894981087606285,
+     "U_relative": 0.0,
+     "I_relative": 0.0,
+     "converged_by_the_tables_of_M5_45": false
+    }
+   ],
+   "largest_relative": 0.0,
+   "met": true
+  },
+  "K2": {
+   "what": "k2_h0375_L0 (delta 0.05, no L1, spacing 0.375, from the seed): its first end by the function tolerance against chain r6_hb6_L0.0 path j0 of M5.42 (8364), and its end at 8383",
+   "iteration": 8364,
+   "reference_iteration": 8364,
+   "U": 14.735914625035203,
+   "I": 2095.989000791207,
+   "reference": {
+    "U": 14.735914625035203,
+    "I": 2095.989000791207
+   },
+   "relative": {
+    "U": 0.0,
+    "I": 0.0
+   },
+   "end_iteration": 8383,
+   "end_message": "ABNORMAL: ",
+   "met": true,
+   "end_iteration_of_M5_45": 8383
+  },
+  "K3": {
+   "what": "k3_r6_L0.3_j40 (L1 = 0.3, J = J_e/40, from the J = 0 end of M5.42): first end by the function tolerance against path j40 of chain r6_hb6_L0.3",
+   "iteration": 224,
+   "reference_iteration": 224,
+   "E": 94.01834394300279,
+   "U": 87.8093190803307,
+   "I": 486.2617443368713,
+   "reference": {
+    "E": 94.01834394300279,
+    "U": 87.8093190803307,
+    "I": 486.2617443368713
+   },
+   "relative": {
+    "E": 0.0,
+    "U": 0.0,
+    "I": 0.0
+   },
+   "end_iteration": 228,
+   "end_message": "FUNCTION TOLERANCE, REPEATED AFTER A RESTART",
+   "met": true
+  },
+  "K4": {
+   "what": "k4_r6_L0_j40 (no L1, J = J_e/40): first end by the function tolerance against path j40 of chain r6_hb6_L0.0",
+   "iteration": 6205,
+   "reference_iteration": 6205,
+   "E": 15.866480031449965,
+   "U": 14.914431896969198,
+   "I": 3171.280055078903,
+   "reference": {
+    "E": 15.866480031449965,
+    "U": 14.914431896969198,
+    "I": 3171.280055078903
+   },
+   "relative": {
+    "E": 0.0,
+    "U": 0.0,
+    "I": 0.0
+   },
+   "end_iteration": 6227,
+   "end_message": "FUNCTION TOLERANCE, REPEATED AFTER A RESTART",
+   "met": true
+  },
+  "K5": {
+   "what": "p3_h0375 (delta 0.3, no L1, from the seed): first end by the function tolerance against path j0 of chain r3_g33_L0.0 of M5.42",
+   "iteration": 6316,
+   "reference_iteration": 6316,
+   "U": 7.652590648825851,
+   "I": 1082.895769448143,
+   "reference": {
+    "U": 7.652590648825851,
+    "I": 1082.895769448143
+   },
+   "relative": {
+    "U": 0.0,
+    "I": 0.0
+   },
+   "end_iteration": 6328,
+   "end_message": "FUNCTION TOLERANCE, REPEATED AFTER A RESTART",
+   "met": true
+  },
+  "K6": {
+   "what": "central differences against the gradient at 200 random interior entries, each within 1e-6 of its largest entry: the clock term alone on the two J = 0 states of spacing 0.375, and the whole E_J on the seed of each grid, at J_e/80 and J_e/1280",
+   "rows": [
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.001,
+     "largest_gradient_entry": 0.004478008982887553,
+     "largest_difference": 1.3962597800297816e-06,
+     "over_the_largest_entry": 0.00031180370235198406,
+     "clock_term_alone_largest_difference": 4.6050506923370205e-09,
+     "clock_term_alone_over_its_largest_entry": 1.6825211104837178e-06,
+     "round_off_of_the_difference_of_U": 3.241901289229468e-12
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.001,
+     "largest_gradient_entry": 1.7492226704300844e-05,
+     "largest_difference": 1.3960694408175695e-06,
+     "over_the_largest_entry": 0.0798108476649411,
+     "clock_term_alone_largest_difference": 1.7988479266941486e-11,
+     "clock_term_alone_over_its_largest_entry": 1.6825211104837178e-06,
+     "round_off_of_the_difference_of_U": 3.241901289229468e-12
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.0001,
+     "largest_gradient_entry": 0.004478008982887553,
+     "largest_difference": 1.3950522606481179e-08,
+     "over_the_largest_entry": 3.1153404693452555e-06,
+     "clock_term_alone_largest_difference": 4.619857708193509e-11,
+     "clock_term_alone_over_its_largest_entry": 1.687931065428028e-08,
+     "round_off_of_the_difference_of_U": 3.2419012182225654e-11
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.0001,
+     "largest_gradient_entry": 1.7492226704300844e-05,
+     "largest_difference": 1.3948506227120262e-08,
+     "over_the_largest_entry": 0.000797411699660325,
+     "clock_term_alone_largest_difference": 1.8046319172630894e-13,
+     "clock_term_alone_over_its_largest_entry": 1.687931065428028e-08,
+     "round_off_of_the_difference_of_U": 3.2419012182225654e-11
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 1e-05,
+     "largest_gradient_entry": 0.004478008982887553,
+     "largest_difference": 4.789891540920157e-10,
+     "over_the_largest_entry": 1.0696475954435208e-07,
+     "clock_term_alone_largest_difference": 1.490040240698158e-11,
+     "clock_term_alone_over_its_largest_entry": 5.444075055713664e-09,
+     "round_off_of_the_difference_of_U": 3.2419012175136455e-10
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 1e-05,
+     "largest_gradient_entry": 1.7492226704300844e-05,
+     "largest_difference": 4.761532767556223e-10,
+     "over_the_largest_entry": 2.722084985547035e-05,
+     "clock_term_alone_largest_difference": 5.820469690175481e-14,
+     "clock_term_alone_over_its_largest_entry": 5.444075055665308e-09,
+     "round_off_of_the_difference_of_U": 3.2419012175136455e-10
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.001,
+     "largest_gradient_entry": 8.665322214116431,
+     "largest_difference": 0.0012549581096616969,
+     "over_the_largest_entry": 0.0001448253254353635,
+     "clock_term_alone_largest_difference": 0.0012550164233040562,
+     "clock_term_alone_over_its_largest_entry": 0.000288986122861077,
+     "round_off_of_the_difference_of_U": 5.638606495304905e-12
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.001,
+     "largest_gradient_entry": 0.16014453292613579,
+     "largest_difference": 4.844094261160017e-06,
+     "over_the_largest_entry": 3.024826494323276e-05,
+     "clock_term_alone_largest_difference": 4.902407903531469e-06,
+     "clock_term_alone_over_its_largest_entry": 0.000288986122861077,
+     "round_off_of_the_difference_of_U": 5.638606495304905e-12
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.0001,
+     "largest_gradient_entry": 8.665322214116431,
+     "largest_difference": 1.254835079356198e-05,
+     "over_the_largest_entry": 1.4481112742835826e-06,
+     "clock_term_alone_largest_difference": 1.2548975471204926e-05,
+     "clock_term_alone_over_its_largest_entry": 2.8895874985881937e-06,
+     "round_off_of_the_difference_of_U": 5.6386063982105816e-11
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.0001,
+     "largest_gradient_entry": 0.16014453292613579,
+     "largest_difference": 4.83947577793048e-08,
+     "over_the_largest_entry": 3.021942547462806e-07,
+     "clock_term_alone_largest_difference": 4.901943543439424e-08,
+     "clock_term_alone_over_its_largest_entry": 2.8895874985881937e-06,
+     "round_off_of_the_difference_of_U": 5.6386063982105816e-11
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 1e-05,
+     "largest_gradient_entry": 8.665322214116431,
+     "largest_difference": 1.29710763019375e-07,
+     "over_the_largest_entry": 1.4968948622368234e-08,
+     "clock_term_alone_largest_difference": 1.289854094643772e-07,
+     "clock_term_alone_over_its_largest_entry": 2.9700801276070734e-08,
+     "round_off_of_the_difference_of_U": 5.638606395878796e-10
+    },
+    {
+     "state": "h0375_L0",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 1e-05,
+     "largest_gradient_entry": 0.16014453292613579,
+     "largest_difference": 1.2292027985749687e-09,
+     "over_the_largest_entry": 7.675583899838278e-09,
+     "clock_term_alone_largest_difference": 5.038492557202234e-10,
+     "clock_term_alone_over_its_largest_entry": 2.9700801276070734e-08,
+     "round_off_of_the_difference_of_U": 5.638606395878796e-10
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.001,
+     "largest_gradient_entry": 0.0335419980530372,
+     "largest_difference": 1.4019406049980195e-06,
+     "over_the_largest_entry": 4.179657403775548e-05,
+     "clock_term_alone_largest_difference": 3.570007768884109e-07,
+     "clock_term_alone_over_its_largest_entry": 3.058165807096762e-05,
+     "round_off_of_the_difference_of_U": 5.150182060385579e-12
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.001,
+     "largest_gradient_entry": 0.00013102721397967947,
+     "largest_difference": 1.3235894575863167e-06,
+     "over_the_largest_entry": 0.010101637800156443,
+     "clock_term_alone_largest_difference": 1.3945342847203552e-09,
+     "clock_term_alone_over_its_largest_entry": 3.058165807096762e-05,
+     "round_off_of_the_difference_of_U": 5.150182060385579e-12
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.0001,
+     "largest_gradient_entry": 0.0335419980530372,
+     "largest_difference": 1.4015684481278115e-08,
+     "over_the_largest_entry": 4.1785478787269217e-07,
+     "clock_term_alone_largest_difference": 3.5581356160052646e-09,
+     "clock_term_alone_over_its_largest_entry": 3.047995797858363e-07,
+     "round_off_of_the_difference_of_U": 5.1501819888704574e-11
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.0001,
+     "largest_gradient_entry": 0.00013102721397967947,
+     "largest_difference": 1.3232757569667842e-08,
+     "over_the_largest_entry": 0.00010099243636302961,
+     "clock_term_alone_largest_difference": 1.3898967250020565e-11,
+     "clock_term_alone_over_its_largest_entry": 3.047995797858363e-07,
+     "round_off_of_the_difference_of_U": 5.1501819888704574e-11
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 1e-05,
+     "largest_gradient_entry": 0.0335419980530372,
+     "largest_difference": 7.38835867364492e-10,
+     "over_the_largest_entry": 2.2027187116170945e-08,
+     "clock_term_alone_largest_difference": 1.4238976462483104e-10,
+     "clock_term_alone_over_its_largest_entry": 1.2197494729607413e-08,
+     "round_off_of_the_difference_of_U": 5.150181988155311e-10
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the J = 0 state",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 1e-05,
+     "largest_gradient_entry": 0.00013102721397967947,
+     "largest_difference": 6.801403481218147e-10,
+     "over_the_largest_entry": 5.1908327092057006e-06,
+     "clock_term_alone_largest_difference": 5.562100180657463e-13,
+     "clock_term_alone_over_its_largest_entry": 1.2197494729607413e-08,
+     "round_off_of_the_difference_of_U": 5.150181988155311e-10
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.001,
+     "largest_gradient_entry": 4.7542528018667705,
+     "largest_difference": 0.0006764883819498912,
+     "over_the_largest_entry": 0.00014229120960590616,
+     "clock_term_alone_largest_difference": 0.0006765372081898313,
+     "clock_term_alone_over_its_largest_entry": 0.00022031669716827032,
+     "round_off_of_the_difference_of_U": 7.575996361607084e-12
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.001,
+     "largest_gradient_entry": 0.17019752346378367,
+     "largest_difference": 2.5938972296121743e-06,
+     "over_the_largest_entry": 1.5240511006402098e-05,
+     "clock_term_alone_largest_difference": 2.6427234694915286e-06,
+     "clock_term_alone_over_its_largest_entry": 0.00022031669716827032,
+     "round_off_of_the_difference_of_U": 7.575996361607084e-12
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 0.0001,
+     "largest_gradient_entry": 4.7542528018667705,
+     "largest_difference": 6.765249131124307e-06,
+     "over_the_largest_entry": 1.4229889349737383e-06,
+     "clock_term_alone_largest_difference": 6.765801097596835e-06,
+     "clock_term_alone_over_its_largest_entry": 2.203306682138518e-06,
+     "round_off_of_the_difference_of_U": 7.575996266933914e-11
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 0.0001,
+     "largest_gradient_entry": 0.17019752346378367,
+     "largest_difference": 2.587694412567454e-08,
+     "over_the_largest_entry": 1.520406619264404e-07,
+     "clock_term_alone_largest_difference": 2.6428910537487638e-08,
+     "clock_term_alone_over_its_largest_entry": 2.203306682138518e-06,
+     "round_off_of_the_difference_of_U": 7.575996266933914e-11
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 80,
+     "J": 38.85364371815038,
+     "step": 1e-05,
+     "largest_gradient_entry": 4.7542528018667705,
+     "largest_difference": 6.681432007660248e-08,
+     "over_the_largest_entry": 1.4053590093140957e-08,
+     "clock_term_alone_largest_difference": 6.683337949731083e-08,
+     "clock_term_alone_over_its_largest_entry": 2.1764522709458322e-08,
+     "round_off_of_the_difference_of_U": 7.575996265987183e-10
+    },
+    {
+     "state": "h0375_L0.03",
+     "at": "the seed",
+     "k": 1280,
+     "J": 2.4283527323843987,
+     "step": 1e-05,
+     "largest_gradient_entry": 0.17019752346378367,
+     "largest_difference": 1.2138439198011372e-09,
+     "over_the_largest_entry": 7.131971694402657e-09,
+     "clock_term_alone_largest_difference": 2.6106788866137043e-10,
+     "clock_term_alone_over_its_largest_entry": 2.1764522709458322e-08,
+     "round_off_of_the_difference_of_U": 7.575996265987183e-10
+    }
+   ],
+   "clock_term_alone_on_the_J0_states": {
+    "h0375_L0|J_e/80": 5.444075055713664e-09,
+    "h0375_L0|J_e/1280": 5.444075055665308e-09,
+    "h0375_L0.03|J_e/80": 1.2197494729607413e-08,
+    "h0375_L0.03|J_e/1280": 1.2197494729607413e-08
+   },
+   "whole_E_J_on_the_seed": {
+    "h0375_L0|J_e/80": 1.4968948622368234e-08,
+    "h0375_L0|J_e/1280": 7.675583899838278e-09,
+    "h0375_L0.03|J_e/80": 1.4053590093140957e-08,
+    "h0375_L0.03|J_e/1280": 7.131971694402657e-09
+   },
+   "met": true,
+   "first_wording": {
+    "what": "the whole E_J on the two J = 0 states, within 1e-6 of the largest entry of the gradient (the wording of the plan before the fold of its audit)",
+    "result": {
+     "h0375_L0|J_e/80": 1.0696475954435208e-07,
+     "h0375_L0|J_e/1280": 2.722084985547035e-05,
+     "h0375_L0.03|J_e/80": 2.2027187116170945e-08,
+     "h0375_L0.03|J_e/1280": 5.1908327092057006e-06
+    },
+    "met": false,
+    "note": "NOT MET at J_e/1280: the largest gradient entry of a converged state there is the clock force alone, under the round-off of the central difference of U"
+   }
+  },
+  "K7": {
+   "what": "the clauses of the survival test on known answers: S3 on a state against itself (passes), on the state of M5.42 at J_e/40 (passes, share 0.928) and on a state of another start (fails); S2 on a U lowered by hand; S4 on returns that do not move, close 80, 95 and 100 percent of the way, and on a tiny excursion; S5 on a state against itself and against the state with L1 = 0.03",
+   "S3_itself": {
+    "S3": true,
+    "share_on_W0": 0.950033796112944,
+    "share_of_I0_on_W0": 0.950033796112944,
+    "jaccard": 1.0,
+    "largest_change_of_a_component": 0.0,
+    "I0": 2095.989003973905,
+    "U0": 14.735914625029437,
+    "I": 2095.989003973905,
+    "U": 14.735914625029437
+   },
+   "S3_M5_42_at_J_e_over_40": {
+    "S3": true,
+    "share_on_W0": 0.9282104678106103,
+    "share_of_I0_on_W0": 0.9500337960962201,
+    "jaccard": 0.8533783783783784,
+    "largest_change_of_a_component": 0.44104090780040833,
+    "I0": 2095.989000791207,
+    "U0": 14.735914625035203,
+    "I": 3171.280055078903,
+    "U": 14.914431896969198
+   },
+   "S3_another_start": {
+    "S3": false,
+    "share_on_W0": 0.6437918053414456,
+    "share_of_I0_on_W0": 0.950033796112944,
+    "jaccard": 0.37035137214670427,
+    "largest_change_of_a_component": 1.2522780518540078,
+    "I0": 2095.989003973905,
+    "U0": 14.735914625029437,
+    "I": 2721.7932375629116,
+    "U": 14.444967411040459
+   },
+   "S2": {
+    "equal": true,
+    "higher": true,
+    "lowered_by_1e_6": false,
+    "lowered_by_1e_10": true
+   },
+   "S4": {
+    "does_not_move": false,
+    "closes_80_percent": false,
+    "closes_95_percent": true,
+    "closes_all": true,
+    "tiny_excursion_inside_the_floor": true,
+    "another_state_as_the_return": false
+   },
+   "S5": {
+    "itself": {
+     "S5": true,
+     "same_number_of_loops": true,
+     "radius_change": 0.0
+    },
+    "against_the_state_with_L1": {
+     "S5": false,
+     "same_number_of_loops": true,
+     "radius_change": 7.314572295193693
+    },
+    "M5_42_at_J_e_over_40": {
+     "S5": true,
+     "same_number_of_loops": true,
+     "radius_change": 0.09356343120238766,
+     "reference": {
+      "loops": 1,
+      "fragments": 0,
+      "pierced": 10,
+      "radius": 0.37610065623557276
+     },
+     "at_J": {
+      "loops": 1,
+      "fragments": 0,
+      "pierced": 18,
+      "radius": 0.41128992411044263
+     },
+     "note": "reported, no answer fixed in advance"
+    },
+    "radius_without_L1": 0.37610065623557276,
+    "radius_with_L1": 3.12711609654046
+   },
+   "met": true
+  },
+  "K8": {
+   "what": "the reads of P3 applied to the records of M5.45 (delta = 0.05): 1.609 and 1.446; 1.376, 1.735, 1.167; the ratio to 0.1875 no value; and the words on made-up ratios",
+   "got": {
+    "growth_from_the_seed": 1.6089357092767083,
+    "growth_lowest_U": 1.4461723822087131,
+    "spread_0375": 1.3763963297185438,
+    "spread_0500": 1.735423005541965,
+    "spread_0250": 1.1672059791473313,
+    "to_01875_is_no_value": true,
+    "converged_pairs_are_values": true
+   },
+   "expected": {
+    "growth_from_the_seed": 1.609,
+    "growth_lowest_U": 1.446,
+    "spread_0375": 1.376,
+    "spread_0500": 1.735,
+    "spread_0250": 1.167
+   },
+   "word_on_M5_45": {
+    "G": 1.6089357092767083,
+    "G_is_a_value": true,
+    "S": 1.3763963297185438,
+    "states_at_coarse": 4,
+    "converged_at_coarse": 4,
+    "word": "NOT HELD",
+    "second_reading": "AS AT delta = 0.05",
+    "the_inertia_fell_as_the_spacing_fell": false
+   },
+   "made_up": {
+    "held": {
+     "word": "HELD",
+     "second_reading": "BELOW delta = 0.05",
+     "fell": false
+    },
+    "not_held_on_G": {
+     "word": "NOT HELD",
+     "second_reading": "BETWEEN",
+     "fell": false
+    },
+    "not_held_on_S_alone": {
+     "word": "NOT HELD",
+     "second_reading": "BETWEEN",
+     "fell": false
+    },
+    "no_label_G_not_a_value": {
+     "word": "no label",
+     "second_reading": "BETWEEN",
+     "fell": false
+    },
+    "no_label_a_state_missing": {
+     "word": "no label",
+     "second_reading": "BETWEEN",
+     "fell": false
+    },
+    "as_at": {
+     "word": "NOT HELD",
+     "second_reading": "AS AT delta = 0.05",
+     "fell": false
+    },
+    "between": {
+     "word": "NOT HELD",
+     "second_reading": "BETWEEN",
+     "fell": false
+    },
+    "fell": {
+     "word": "HELD",
+     "second_reading": "BELOW delta = 0.05",
+     "fell": true
+    }
+   },
+   "met": true
+  },
+  "K9": {
+   "what": "the window of P2 on the cut state of M5.45 and seven made-up records, both edges of the two forms",
+   "rows": [
+    {
+     "case": "the cut state of M5.45",
+     "converged": false,
+     "I": 5296.463658838351,
+     "U": 14.692442924781759,
+     "I_times_h": 993.0869360321908,
+     "word": "no label",
+     "expected": "no label",
+     "met": true
+    },
+    {
+     "case": "made up",
+     "converged": true,
+     "I": 5400.0,
+     "U": 14.7,
+     "I_times_h": 1012.5,
+     "word": "HELD",
+     "expected": "HELD",
+     "met": true
+    },
+    {
+     "case": "made up, the lower edge",
+     "converged": true,
+     "I": 5310.0,
+     "U": 14.7,
+     "I_times_h": 995.625,
+     "word": "EDGE",
+     "expected": "EDGE",
+     "met": true
+    },
+    {
+     "case": "made up, the upper edge",
+     "converged": true,
+     "I": 6920.0,
+     "U": 14.7,
+     "I_times_h": 1297.5,
+     "word": "EDGE",
+     "expected": "EDGE",
+     "met": true
+    },
+    {
+     "case": "made up",
+     "converged": true,
+     "I": 5290.0,
+     "U": 14.7,
+     "I_times_h": 991.875,
+     "word": "NOT HELD",
+     "expected": "NOT HELD",
+     "met": true
+    },
+    {
+     "case": "made up",
+     "converged": true,
+     "I": 6950.0,
+     "U": 14.7,
+     "I_times_h": 1303.125,
+     "word": "NOT HELD",
+     "expected": "NOT HELD",
+     "met": true
+    },
+    {
+     "case": "made up",
+     "converged": true,
+     "I": 5400.0,
+     "U": 15.2,
+     "I_times_h": 1012.5,
+     "word": "NOT HELD",
+     "expected": "NOT HELD",
+     "met": true
+    },
+    {
+     "case": "made up, an edge with U outside",
+     "converged": true,
+     "I": 5310.0,
+     "U": 14.2,
+     "I_times_h": 995.625,
+     "word": "NOT HELD",
+     "expected": "NOT HELD",
+     "met": true
+    }
+   ],
+   "cut_state_I_times_h": 993.0869360321908,
+   "met": true
+  },
+  "K10": {
+   "what": "the start of p2_h01875_L0: U and I of the record, the counter at 27200, 272 trajectory points; the start file unchanged; a name outside m5_48_ refused",
+   "refuses_a_name_outside_m5_48": true,
+   "start_file": "m5_45_h01875_L0_end.npz",
+   "sha256_at_the_start": "a3b61f7ebfbd0bb5ecdf2877658cd19f3dbe73a28a4ecc6315ef9370a272deee",
+   "sha256_at_this_read": "a3b61f7ebfbd0bb5ecdf2877658cd19f3dbe73a28a4ecc6315ef9370a272deee",
+   "unchanged": true,
+   "chain_finished": true,
+   "counter_at_the_start": 27200,
+   "trajectory_points_carried": 272,
+   "read_back": {
+    "U_relative": 0.0,
+    "I_relative": 0.0,
+    "gmax_relative": 0.0
+   },
+   "U_at_the_start": 14.692442924781759,
+   "I_at_the_start": 5296.463658838351,
+   "first_new_trajectory_iteration": 27300,
+   "met": true
+  },
+  "K11": {
+   "what": "the reader of P1 on made-up tables: HELD; HELD, START-DEPENDENT (the pair at 0.193 of M5.45's inertias); FALSIFIED; each clause of NOT HELD alone; no label with no survivor; no label with a larger candidate UNDECIDED; a decided failure not hidden by an undecided state; the largest survivor taken; START-DEPENDENT on the fall of omega alone; and the amendment after the fold: a cut chain that fails S3, or S5, at its last state does not block the word, one that passes both blocks it above J* and not below",
+   "cases": {
+    "held": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "held_start_dependent": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": "START-DEPENDENT",
+     "k_star": 40,
+     "pairs": 12,
+     "pairs_left_out": 0,
+     "pairs_at_or_above_in_both": 11
+    },
+    "falsified": {
+     "word": "FALSIFIED",
+     "reason": null,
+     "clauses_failed": [
+      "the absolute value of f_dE under 0.05 without L1"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 0
+    },
+    "falsified_from_below": {
+     "word": "FALSIFIED",
+     "reason": null,
+     "clauses_failed": [
+      "the absolute value of f_dE under 0.05 without L1"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 0
+    },
+    "not_held_between": {
+     "word": "NOT HELD",
+     "reason": null,
+     "clauses_failed": [
+      "f_dE from 0.05 up to 0.20"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 0
+    },
+    "not_held_the_excess_rose": {
+     "word": "NOT HELD",
+     "reason": null,
+     "clauses_failed": [
+      "f_dE at or under -0.05 (the excess rose)"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 0
+    },
+    "not_held_on_omega": {
+     "word": "NOT HELD",
+     "reason": null,
+     "clauses_failed": [
+      "f_omega under 0.20"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 0
+    },
+    "not_held_on_the_arm_with_L1": {
+     "word": "NOT HELD",
+     "reason": null,
+     "clauses_failed": [
+      "an absolute value of 0.02 or more with L1 = 0.03"
+     ],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "no_candidate_survives": {
+     "word": "no label",
+     "reason": "no candidate survives",
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": null,
+     "pairs": 0,
+     "pairs_left_out": 0,
+     "pairs_at_or_above_in_both": null
+    },
+    "undecided_above": {
+     "word": "no label",
+     "reason": "undecided at J_e/160, larger than the largest surviving candidate",
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 320,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "undecided_everywhere": {
+     "word": "no label",
+     "reason": "undecided at J_e/40, J_e/80, J_e/160, J_e/320, J_e/640, J_e/1280",
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": null,
+     "pairs": 0,
+     "pairs_left_out": 0,
+     "pairs_at_or_above_in_both": null
+    },
+    "a_failing_state_beats_an_undecided_one": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 320,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "the_largest_survivor_is_taken": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 320,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "cut_failing_S3_does_not_block": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 80,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "cut_failing_S5_does_not_block": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 80,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "cut_passing_S3_and_S5_above_blocks": {
+     "word": "no label",
+     "reason": "undecided at J_e/80, larger than the largest surviving candidate",
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 160,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "cut_passing_S3_and_S5_below_does_not_block": {
+     "word": "HELD",
+     "reason": null,
+     "clauses_failed": [],
+     "qualifier": null,
+     "k_star": 40,
+     "pairs": 1,
+     "pairs_left_out": 11,
+     "pairs_at_or_above_in_both": 1
+    },
+    "start_dependent_on_omega_alone": {
+     "word": "HELD",
+     "qualifier": "START-DEPENDENT",
+     "pairs": 9,
+     "pairs_left_out": 3,
+     "omega_sides": [
+      false,
+      true
+     ],
+     "dE_sides": [
+      true
+     ]
+    }
+   },
+   "met": true
+  },
+  "K12": {
+   "what": "addition (b) and the gate: the rule after an end by the function tolerance on six constructed inputs; the gate on two clock forces; and the chain of K3 under a gate of 1e-12, which must record a stall and must not be CONVERGED",
+   "cases": {
+    "a_long_segment_restarts": "restart",
+    "a_repeat_under_the_gate_ends": "end",
+    "a_repeat_above_the_gate_stalls": "stalled, restart",
+    "the_third_stall_restarts": "stalled, restart",
+    "the_fourth_stall_ends": "stalled, end",
+    "forty_ends_end": "end",
+    "gate_of_a_small_clock_force": 0.000531,
+    "gate_of_a_large_clock_force": 0.001,
+    "clock_force_on_the_seed_state_at_J_e_over_320": 0.005307269979085098,
+    "its_gate": 0.0005307269979085098,
+    "chain": {
+     "gate": 1e-12,
+     "stalls_recorded": 1,
+     "message": "ABNORMAL: ",
+     "how_it_ended": "function tolerance at 224, then function tolerance at 228, then a stalled line search at 228 (the driver's record: converged False), STALLED above its gate (addition (b), 1 times)",
+     "converged": false,
+     "stalled_above_the_gate": true,
+     "gmax_over_h3": 5.360592149167542e-06
+    }
+   },
+   "met": true
+  },
+  "K13": {
+   "what": "the interpolated start of the driver on the 14 carried chains of M5.45: U and I at the start as M5.45 recorded them, to 1e-12 (relative)",
+   "rows": [
+    {
+     "chain": "h0250_L0_from_h01875",
+     "source": "m5_45_h01875_L0_s010000.npz",
+     "U": 25.650817867316196,
+     "I": 1681.974726811265,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0250_L0_from_h0375",
+     "source": "m5_45_h0375_L0_end.npz",
+     "U": 27.57129806165647,
+     "I": 768.7407210390691,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0375_L0_from_h0250",
+     "source": "m5_45_h0250_L0_end.npz",
+     "U": 24.39628725688112,
+     "I": 1483.9069579174018,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0500_L0_from_h0375",
+     "source": "m5_45_h0375_L0_end.npz",
+     "U": 27.625862280666837,
+     "I": 740.1627114840896,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0500_L0_from_h0250",
+     "source": "m5_45_h0250_L0_end.npz",
+     "U": 20.047518679491148,
+     "I": 1746.1000258369932,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0375_L0_from_h0500",
+     "source": "m5_45_h0500_L0_end.npz",
+     "U": 30.732525019600104,
+     "I": 458.0188356031498,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0375_L0_from_h01875",
+     "source": "m5_45_h01875_L0_s010000.npz",
+     "U": 25.60637056797355,
+     "I": 2356.3532184566484,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0500_L0_from_h01875",
+     "source": "m5_45_h01875_L0_s010000.npz",
+     "U": 34.704001127838154,
+     "I": 1082.1222223286998,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0500_L0.03_from_h0375",
+     "source": "m5_45_h0375_L0.03_end.npz",
+     "U": 23.386456616503335,
+     "I": 115.90741048941604,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0375_L0.03_from_h0500",
+     "source": "m5_45_h0500_L0.03_end.npz",
+     "U": 23.694729152969472,
+     "I": 113.3604485089005,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0250_L0.03_from_h0375",
+     "source": "m5_45_h0375_L0.03_end.npz",
+     "U": 23.59278769158705,
+     "I": 116.28234855702351,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0500_L0.03_from_no_L1",
+     "source": "m5_45_h0500_L0_end.npz",
+     "U": 40.57031028777656,
+     "I": 1209.005356794385,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0375_L0.03_from_no_L1",
+     "source": "m5_45_h0375_L0_end.npz",
+     "U": 52.76555499346908,
+     "I": 2116.410893700747,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    },
+    {
+     "chain": "h0250_L0.03_from_no_L1",
+     "source": "m5_45_h0250_L0_end.npz",
+     "U": 69.19569786592137,
+     "I": 3391.870711693185,
+     "U_relative": 0.0,
+     "I_relative": 0.0
+    }
+   ],
+   "largest_relative": 0.0,
+   "met": true
+  }
+ }
+}

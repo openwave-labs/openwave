@@ -14,7 +14,7 @@ The lesson generalizes: physicists verify by reading the Lagrangian / Hamiltonia
 
 | # | Element | Requirement |
 | --- | --- | --- |
-| 1 | **Equations first** | The report OPENS with the physics in math notation: the Lagrangian / Hamiltonian (or free-energy) density, the potential with its explicit form and coefficients, the ansatz / boundary conditions, the discretization, the minimization or evolution scheme, and the DEFINITION of every reported observable. All before any result. |
+| 1 | **Equations first** | The report OPENS with the physics in math notation: the Lagrangian / Hamiltonian (or free-energy) density, the potential with its explicit form and coefficients, the ansatz / boundary conditions, the discretization, the minimization or evolution scheme, and the DEFINITION of every reported observable. All before any result. Written as typeset math, in the format of [§ Equation format](#equation-format). |
 | 2 | **Equation-to-code map** | A table mapping every term of the functional (and every observable) to `function name` + `script.py:line` + a clickable GitHub **permalink** (commit-pinned `https://github.com/.../blob/<commit>/...#L<n>-L<m>`, so line anchors never drift). Test: any term findable in under a minute by a human clicking links. |
 | 3 | **Small auditable physics module** | The energy functional / Hamiltonian lives in a single-purpose module (target ~200 lines, not a monolith), whose docstring carries the same equations as the report. Drivers, sweeps, and plotting import it; they never re-implement physics. |
 | 4 | **Results after methods** | Each result states its pre-registered gate and convergence evidence next to the number. |
@@ -28,6 +28,7 @@ The lesson generalizes: physicists verify by reading the Lagrangian / Hamiltonia
 | --- | --- |
 | Can the owner find `V(...)` and the Hamiltonian density from the report in one click? | yes, via the equation-to-code map |
 | Does the report open with equations, not results? | yes |
+| Are the equations typeset math that renders on GitHub, with none left inside a code block? | yes ([§ Equation format](#equation-format)) |
 | Is every code link clickable (absolute https) with a file:line anchor? | yes. `blob/main` links are the DEFAULT for task-scoped files (frozen after task close, anchors stable; The maintainer 2026-07-05); commit-pin ONLY when linking into live/evolving files whose lines will drift |
 | Is the functional in a small module whose docstring matches the report's equations? | yes |
 | Is each headline number next to its gate + convergence evidence? | yes |
@@ -39,6 +40,61 @@ The lesson generalizes: physicists verify by reading the Lagrangian / Hamiltonia
 ## Scope
 
 Applies to every model in `openwave/xperiments/` when reporting outward to its theory owner or any external physicist. It does not constrain internal working notes; it constrains anything that crosses the repo boundary toward a scientist.
+
+## Equation format
+
+Adopted 2026-11-18. Every equation in a method note, a task document, a pull request, an issue or a discussion post is written as **LaTeX math in Markdown**, which GitHub typesets in the browser. The reference is the M10.2 method note, the first note in the repository written this way: [`m10_2_method_note.md`](../openwave/xperiments/m10_oph/research/findings/m10_2_method_note.md). An equation typed as plain text inside a code block is the form this replaces: a reader checks a typeset formula against a paper at a glance, and a row of Unicode symbols in a fixed-width box only with effort.
+
+| Form | How it is written | Use it for |
+| --- | --- | --- |
+| Display | a line holding only `$$`, the LaTeX on the lines after it, a line holding only `$$`, with a blank line before and after the block | every equation a reader will check: the functional, the potential, an observable's definition, a stencil |
+| Inline | `$ ... $` inside a sentence | a symbol or a short expression in running text, such as $E_J = U + J^2/2I$ |
+| Fenced | a code fence whose language is `math` | a display equation that Markdown would otherwise damage (see the last rows of the next table) |
+
+A worked example, the static energy of the M5 functional. The source:
+
+```markdown
+$$
+U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2 +
+\kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2 +
+v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
+\qquad c_k = 1 + \delta^k
+$$
+```
+
+and what GitHub shows for it:
+
+$$
+U = h^3 \sum_n \Big[ L_1 \sum_i \lVert \partial_i M \rVert^2 +
+\kappa \sum_{i \lt j} \lVert [\partial_i M, \partial_j M] \rVert^2 +
+v \sum_k \big( \operatorname{tr} M^k - c_k \big)^2 \Big],
+\qquad c_k = 1 + \delta^k
+$$
+
+What it needs, and where it renders:
+
+| Question | Answer |
+| --- | --- |
+| Is this LaTeX? | Yes: LaTeX math syntax, typeset by MathJax, which GitHub runs in the reader's browser |
+| Does the writer or the reader install anything? | No. Nothing is installed in the repository's environment or on the reader's computer; a browser on github.com is enough |
+| Where does it render? | In every Markdown surface of GitHub: files in a repository, pull requests, issues, discussions and their comments. Editors with a Markdown preview that supports math show it too |
+| Where does it not render? | In a terminal, in a plain-text editor, and in the body of an e-mail: there the LaTeX source is shown as typed, which stays readable. Inside a code block of any language other than `math` it is never typeset |
+| And in an e-mail to a theory owner? | Mail clients typeset no LaTeX. The equations go in the mail as plain Unicode text, one per line, and the mail links the note on GitHub where they are typeset |
+| And in a docstring? | A docstring keeps its equations as plain text, readable in an editor. The note carries the same equations typeset (requirement 3 of the table above compares the two) |
+
+Rules that keep an equation from breaking:
+
+| Rule | Detail |
+| --- | --- |
+| No math in a code block | A block of language `text`, `python` or none shows the source, not the formula. Pseudocode and stencils made of words stay in code blocks; equations leave them |
+| Norms and absolute values without the bar character | `\lVert x \rVert` and `\lvert x \rvert`, never the keyboard bar: inside a table cell the bar ends the cell, and at the start of a line it reads as a table row |
+| Comparisons | `\lt` and `\gt`, or the signs with a space on each side. A `<` followed at once by a letter can be read as the start of an HTML tag |
+| One equation per display block | Several statements on one line are separated by `\qquad`, as in the reference note. Alignment environments are used only inside a `math` fence |
+| No line of a `$$` block starts with a list or heading mark | A line that begins with `+`, `-`, `*`, `>`, `#` or a number and a period is read by Markdown as a list item, a quote or a heading, and the block is no longer an equation (the first version of the example above broke this way, on two lines that began with `+`). Break a long equation after the operator, so every line begins with a symbol or a letter |
+| No backslash before punctuation | Markdown reads a backslash before a punctuation mark as an escape and removes it, inside `$ ... $` and inside `$$` blocks alike: `\{0,1\}` reaches the typesetter as `{0,1}` and the braces vanish, and the thin space `\,` becomes a comma. Write `\lbrace` and `\rbrace`, `\operatorname{tr}` or `\quad` in place of a `\,`, `\vert` for a bar; a backslash before a letter (`\sum`, `\qquad`) is untouched |
+| When Markdown still damages the source | An underscore or an asterisk pair read as emphasis, or a `\\` line break that loses a backslash: move the equation into a `math` fence, where the source is taken as typed |
+| Text inside math | `\mathrm{...}` or `\operatorname{...}` for a name with more than one letter (`\operatorname{tr}`, `\mathrm{invalid}`), so it is not set as a product of variables |
+| Look at it rendered | Before a note is sent, its equations are read on the rendered page, since a formula that fails to parse is shown as raw source with no error |
 
 ## The scope line
 

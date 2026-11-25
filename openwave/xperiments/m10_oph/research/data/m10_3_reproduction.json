@@ -1,0 +1,69 @@
+{
+  "planning_commit": "484a96fd08f9e940a8239918341b88c0e324db56",
+  "source_pin": "4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c",
+  "release_replay": {
+    "started_utc": "2026-11-21T08:44:53Z",
+    "finished_utc": "2026-11-21T08:45:09Z",
+    "source_inputs": "https://github.com/FloatingPragma/observer-patch-holography/tree/4fe10f9ac3e81423155fb3ac7baaf0fdb4c0b11c/openwave/interval_echo/row_04",
+    "prior_knowledge": "Reproduction of disclosed author results and local rehearsals."
+  },
+  "author_input_sha256": {
+    "FEDERATION_LEVEL0.npz": "99870398e3d516f899c600e9bf25ba53c7f513142ba8facbe1cedd94b23f915b",
+    "row_04_receipt.json": "7f6e458fd0b7cf9b9e50fb15a5c4b77f944a2457a9c53cdcca88efdf4d4c3bdd",
+    "row_04_window.json": "f0b594675b4468c35d28954ae754ecf88ab41ad3887449c5fc07bc21566d4754"
+  },
+  "environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "python_numpy_scipy": "3.12.6 2.3.5 1.18.1",
+  "runs": [
+    {
+      "command": [
+        "check_inputs.py",
+        "$ECHO_INPUTS"
+      ],
+      "exit": 0,
+      "seconds": 0.02,
+      "output": "All three author inputs match."
+    },
+    {
+      "command": [
+        "row_04_check.py",
+        "--board",
+        "$ECHO_INPUTS/FEDERATION_LEVEL0.npz",
+        "--receipt",
+        "$ECHO_INPUTS/row_04_receipt.json"
+      ],
+      "exit": 0,
+      "seconds": 8.25,
+      "output": "8.0 0.983880525 [4048, 4052, 4028]\n0.0 0.149558605 [1780, 1182, 824]"
+    },
+    {
+      "command": [
+        "row_04_window.py",
+        "--board",
+        "$ECHO_INPUTS/FEDERATION_LEVEL0.npz",
+        "--inputs",
+        "$ECHO_INPUTS"
+      ],
+      "exit": 0,
+      "seconds": 3.73,
+      "output": "{\n  \"source\": [\n    156,\n    157\n  ],\n  \"kappa\": 8,\n  \"last_exposure\": 37,\n  \"steps\": 296,\n  \"step\": 0.125,\n  \"variance\": 2.25,\n  \"polynomial_degree\": 24,\n  \"max_terms\": 13,\n  \"absolute_row_sum\": 14.0,\n  \"grid_probability_error_budget\": 1e-06,\n  \"grid_minimum\": 0.978883326,\n  \"grid_minimum_exposure\": 34.0,\n  \"sample_probabilities\": [\n    0.990982505,\n    0.989653268,\n    0.980271948\n  ],\n  \"all_exposures_lower_bound_percent\": 94\n}"
+    },
+    {
+      "command": [
+        "row_04_check.py",
+        "--board",
+        "$ECHO_INPUTS/FEDERATION_LEVEL0.npz",
+        "--receipt",
+        "$ECHO_INPUTS/row_04_receipt.json",
+        "--remove-contrast"
+      ],
+      "exit": 1,
+      "seconds": 4.19,
+      "output": "REJECT: freely released pair missed its local persistence gate"
+    }
+  ]
+}

@@ -29,6 +29,17 @@ Sections in this order. Bracketed ones are optional; nothing else is a top-level
 
 **Table shape.** Live tables (IN PROGRESS, BACKLOG, phase tables) carry `| TaskID | Title | Description | Gated By |`; the fourth column may be renamed to the local gate vocabulary (`Gate`, `Validation gate`, `Owner` may be inserted before it). DONE tables carry `| TaskID | Title | Description | Completed |`. The column named `Description` is the one the budget below applies to, and it must be named exactly that so the checker can find it.
 
+**Status icon.** Every task row opens its `TaskID` cell with one status icon, a space, then the ID: `🚧 [M5.47](tasks/m5_47_task_details.md)`. The icon says where the row stands, and it is said once, there:
+
+| Icon | Status | Where the row sits |
+| --- | --- | --- |
+| 🔶 | in progress, worked on today | `IN PROGRESS` |
+| 🔶🔶 | in progress over several days, waiting for a later day (nights of data, a person home) | `IN PROGRESS` |
+| 🚧 | backlog | `BACKLOG`, `LATER`, and any phase table that follows them |
+| ✅ | done | `DONE`, and any phase table that follows it |
+
+The icon follows the section, so moving a row between tables changes its icon in the same edit, and a parked or deferred task that sits in `BACKLOG` carries 🚧. The icon is not part of the ID: links, file names, commit messages and prose keep the bare ID. The `Description` never opens with one of these three icons. A closed row whose outcome is negative or carries a caveat may still open its `Description` with ❌ or ⚠️: that mark is the verdict, the icon beside the ID is the status. A `(none)` placeholder row carries no icon.
+
 **Blockquote placement.** One blockquote directly under the heading it explains, before the table. Never between the header row and the data rows, never after a table.
 
 **Escaped pipes.** A literal `|` inside a cell is written `\|`. An unescaped one silently shifts every later column.
@@ -54,7 +65,7 @@ The hard rule, and the reason this document exists.
 
 | Include | Leave to the task document |
 | --- | --- |
-| Status icon and, for a closed row, the close date | run logs, durations, cap events |
+| The state in a word (`STAGED`, `Closed`) and, for a closed row, the close date; the status icon sits beside the ID (§ 2) | run logs, durations, cap events |
 | One sentence on what the task does or found | the method, the ladder of sub-results, the deferred items |
 | The single decisive number or verdict, if there is one | every other number |
 | What it unblocks or is blocked by, when not already in `Gated By` | the blindspots table, the audit record, the cross-links |
@@ -63,7 +74,7 @@ Anti-patterns, all of them observed in this repository before the rule existed: 
 
 ## 5. DONE rows
 
-Appended at the **end** of the table, so it reads in order of completion. A closed row states the verdict, not the evidence for it: `✅ Closed <date>. <one-sentence verdict, with the decisive number if there is one>. Full record: [note] + [task doc].` The temptation to keep the full close-out summary in the row is what produced the 288-word rows this standard replaces; the summary already exists, in the task document's `TASK REVIEW` section.
+Appended at the **end** of the table, so it reads in order of completion. A closed row states the verdict, not the evidence for it: `Closed <date>. <one-sentence verdict, with the decisive number if there is one>. Full record: [note] + [task doc].`, in a row whose `TaskID` cell opens with ✅ (§ 2). The temptation to keep the full close-out summary in the row is what produced the 288-word rows this standard replaces; the summary already exists, in the task document's `TASK REVIEW` section.
 
 ## 6. Task IDs
 
@@ -97,4 +108,4 @@ python3 dev_docs/utils/check_roadmaps.py          # all roadmaps
 python3 dev_docs/utils/check_roadmaps.py <path>   # one file
 ```
 
-Exit 0 clean, 1 with a line-numbered list of violations. Run it after any roadmap edit and before merging one. It checks the six budgets, the required `Description` column, and each row's cell count against its header (the unescaped-pipe bug). It does not check whether a row is *accurate*; that is what review is for.
+Exit 0 clean, 1 with a line-numbered list of violations. Run it after any roadmap edit and before merging one. It checks the six budgets, the required `Description` column, each row's cell count against its header (the unescaped-pipe bug), and the status icon of every task row against the section it sits in (§ 2). It does not check whether a row is *accurate*; that is what review is for.
