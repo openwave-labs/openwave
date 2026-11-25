@@ -16,7 +16,8 @@ Checks, per roadmap file:
    parses by position and reports the wrong column's contents.
 4. Status icon: in a task table (first column `TaskID`), every row's first cell
    opens with the icon of the region the table sits in, then a space, then the ID:
-   🔶 under IN PROGRESS, 🚧 under BACKLOG or LATER, ✅ under DONE. A section that is
+   🔶 under IN PROGRESS (🔶🔶 for a task in progress over several days, waiting for
+   a later day), 🚧 under BACKLOG or LATER, ✅ under DONE. A section that is
    none of these (a phase table, say) inherits the region of the last one above it.
    The Description does not open with one of these three icons: the status is said
    once, beside the ID. A `(none)` placeholder row carries no icon.
@@ -204,7 +205,7 @@ def check(path):
             if bare == "(none)":
                 if LIFECYCLE.match(cells[0]):
                     errors.append(f"{rel}:{i}: a '(none)' placeholder row carries no status icon")
-            elif not cells[0].startswith(want + " "):
+            elif not (cells[0].startswith(want + " ") or (region == "progress" and cells[0].startswith(want * 2 + " "))):
                 errors.append(
                     f"{rel}:{i}: {cells[0][:30]} must open with '{want} ' before the task ID"
                     f" (a row under {REGION_NAME[region]}; ROADMAP_STANDARDS.md section 2)"
