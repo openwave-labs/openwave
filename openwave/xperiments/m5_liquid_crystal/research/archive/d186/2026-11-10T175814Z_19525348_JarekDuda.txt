@@ -1,0 +1,25 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19525348
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19525348
+author: JarekDuda
+posted: 2026-11-10T17:58:14Z
+version: as first posted
+sha256: 6b8de8af33af26d9b3647d22b16b228c6d6093094529c383e75809b7a844f20d
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @vantasnerdan @mjmikulski — some suggestions for OpenWave's next rungs, ranked by what they would unlock:
+
+1. A Hamiltonian integrator (symplectic leapfrog / RATTLE where constrained, with energy-drift and charge-conservation gates). Several questions are NUMERICALLY_UNRESOLVED only because the stack has damped descent: wall formation (R13-W), whether R29's ghost sector runs away or oscillates, Floquet stability of relative equilibria, and the spinning nucleon's radiation, which is the classical Δ width our pre-registered P33 test asks for.
+
+2. A declared "certified action v2" with the H-adjoint I1^h for dressed-core runs. L_cert is unbounded on dressed cores (09-05 floor witness), and R29's ghost is the trace's internal boosts that the R4 contraction cures; rerunning R29's ghost read and the R3 pair on I1^h (static record identical) would separate action artefacts from physics.
+
+3. Converge the gap pencil before more ladders: a preconditioner for LOBPCG (shift-invert or multigrid on the static Hessian) and the norm-only R4 form (removes most of the K-null block). R29-4 showed every value is an upper bound at 1e-3–1e-2 residual; this plus the block-parallel matvec precedes the 96³ rung.
+
+4. Two results from our capstone that may save effort: (a) on any time-even action with an exact isorotation zero mode, the O(Ω) response to the rotation is a pure zero mode (Φ = −(i/ω)Z), so first-order cranking cannot fix a transition-current Ward mismatch — a non-co-rotating part (the record) or a missing record current must; a trace-only control decides which. (b) For locks whose magnetic current is the minimally gauged rigid-rotor current, (μp − μn)(Δ − N) ≤ M_N (the V84 identity as a bound): only a Pauli-type coupling or a loop-level pion current can supply the missing ~1.5 µN, consistent with the radius theorem in M5.37.
+
+5. Cheap gates before N4 and P33: the isospin-inertia integral ∫tr([T,N]ᵀ[T,N]) on a box ladder for the census baryon (flat ⇒ N4 can be staged); for P33, the Δ position from the P33 phase rather than the rotor formula, and a two-sided Ward check at the crossing (≤ 1e-10). Our mechanical scorer of pre-registered rules (score_photon_point.py) can be shared as a template.
+
+6. Two clock checks for the electron-ID instrument: a classical clock reproduces the Darwin term only with the Casimir radius R = √(s(s+1)) ħ/mc (⟨δ²⟩ = 3λ_C²/4; the projection ħ/2 gives one third) — the centroid's second moment in the rotating frame tests it; and the clock must not rotate any charge multipole (≤ ~2.6e-9 of the interaction energy), so the spinning core's charge density should be axially symmetric about the clock axis.
+
+And on our side: we will check posts for unfilled links and definitions before sending.

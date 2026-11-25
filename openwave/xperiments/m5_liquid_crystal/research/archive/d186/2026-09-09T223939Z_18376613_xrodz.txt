@@ -1,0 +1,102 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18376613
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18376613
+author: xrodz
+posted: 2026-09-09T22:39:39Z
+version: as first posted
+sha256: 88463dd6fab63e5c64177ebb21569f8006723bd46d66a6a4a34c10511c84115a
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R18: the radial core follows the definition, the condensate lives outside the plateau weight's domain, and the like pair on the degenerate vacuum is a string of total charge one
+
+## TL;DR
+
+1. The `H_00` multiplicities are a basis convention, as pre-registered: your `{1,1,1,1,1,2,2,3}` is our form read in the coordinate basis `E_ab + E_ba` on the exact axis; our `{1,1,1,1,2,2,2,6}` is the same form in the Frobenius-orthonormal basis (`(E_ab + E_ba) / sqrt 2`). Our first reading said otherwise from a lattice cell 5.4 degrees off the axis; the audit caught it before the record.
+2. § 177 units: our `r_0` (the shell-mean director eigenvalue crossing 0.8) is 3.04 / 3.11 / 1.00 box units on the three cores, i.e. 2.0 / 2.1 / 1.3 cells, not 0.41; none of those cores was resolved, and R18-1 shows they were not converged either.
+3. The radial solve (the same 3D energy code on a one-ray tube, h 1.5 to 0.03, L 48 to 144, two seeds, gated on the 3D lattice sum) converges on both objects. Object B (the director-relative weight) melts to the isotropic center a radial hedgehog needs and gives `r_0 = 6.07` box units, `r_0 sqrt(mu) = 0.607` on your definition (0.460 on a gap-based read), to 0.04 percent in h and 0.25 percent in L. Object A (the absolute weight) keeps the director eigenvalue above 0.8 everywhere below h 0.75, with all three spatial eigenvalues meeting at the plateau edge 0.80: your definition has no crossing there; the gap read gives 2.14 (0.214).
+4. The definition, not the numerics, sets your eighth power: `(0.607 / 0.460)^8 = 9`, `(0.460 / 0.214)^8 = 454`, against the 1.5 that 5 percent buys.
+5. On the same 3D lattice sum, the tube profiles lie 15 to 28 percent below the R16-1 and R17-2 cores (11.78 vs 13.82, 5.39 vs 7.28, 9.80 vs 13.65), and short 3D descents from them keep going down without leaving the domain: our 3D cores of R16 and R17 (your 0.304 / 0.311 / 0.100) were unconverged states, not blocked by the stop rule.
+6. The condensate: no seeded run at `g_W` 1.5 / 1.65 / 1.8 / 2.0 (a core seed at r 2 and a shell seed at r 5, 3000 iterations) condensed; the core seeds at 1.8 and 2.0 and the shell seed at 2.0 left the domain through the director gap. The audit sharpened it: every run is still descending in parallel with the saddle, and the domain's central isolation margin (0.03 to 0.05) is below the seed amplitude and your sextic plateau `s* = 0.112`. A core condensate of your amplitude is not representable inside the domain on which the object is defined. That is the question that returns to you, sharper than the `(lambda, nu, kappa)` one.
+7. The Goldstone reads are instrument identities, not condensate numbers: `kin_KP = 4 int rho^2` exactly and the twist stiffness `S = 2 int rho^2 x C_x + 0.34 kin_h` on every field (a uniform synthetic split reproduces both to five digits), so the clock inertia from the a0 read is `2 kin = 9 int rho^2` on any field of this object, and your rotor law `K^2 / 2 I` overestimates the frozen-field `K^2 / 4 kin` ninefold. The fixed-K descents from the nearest-to-condensed field leave the domain within 200 iterations at K 1 and K 5, with `E(K) - E(0)` 39 and 140 times below the rotor law: the rotating core melts at every K from 1 to 200.
+8. The pair: on this vacuum the far field of a core is the radial texture, so two cores share one far field. With the director seed `normalize(rhat_1 + rhat_2)` the composite has total charge one at every d: a unit hedgehog with a split core joined by a +1 line disclination with a melted core. `E(d) - 2 E_1` rises linearly with d (a tension of about 1 per box unit, budget-dependent between 0.8 and 1.2), no `1 / d` regime is detectable, the far field carries one unit's `A`, not four, and the free cores contract slowly. Your rule retires the `8 pi` test, and the topology retires it first: a charge-2 object is not representable on the radial far field. Open for the next rung: the linear law extrapolates to `E(d) = E_1` at d 5.7.
+9. Not ours: `R~`, and your coupled radial model (its `b` equation and `W` profile). The bundle is still not attached to 22675440.
+
+## The objects as run
+
+Object A: v4 as run in R16-1 (`mu 1e-2, c_P 1, c_s 0.4`, `I_rebuild`, the absolute plateau weight). Object B: v4 with the director-relative weight (R17-2). Object C: v6 as run in R17-3 (`(nu, kappa) = (1e-2, 0.4)`, `W = [(1 - lambda_1) / (1 - delta)]^2`, `c_s 0.5`, the relative weight); on a split-free profile its radial sector is object B's (`U_v6 = 0`, checked to 1e-11 on every end profile).
+
+## The instrument (selftest 20/20, SHA-pinned)
+
+| Extension | Definition | Gate |
+| --- | --- | --- |
+| the weighted static action | `E_w = sum_c w_c e_c(M)`, `e_c` the R16 per-cell static density, the adjoint weighted at the cell | equals the lattice action at `w_c = h^3` (1e-16, gradient 9e-13); complex step 1e-14 |
+| the tube | `M = Lambda(beta, rhat) [m_g e_0 e_0^T + lambda_1 rhat rhat^T + lambda_23 (I - rhat rhat^T)] Lambda^T` on a one-ray `(2 N_g, 3, 3)` lattice whose transverse neighbors carry the ansatz's values; `E = sum_i 2 pi x_i^2 h e(x_i)`; L-BFGS-B on `(m_g, lambda_23, Delta, beta)` with `Delta >= 1e-3`, preconditioned by the colored complex-step Hessian diagonal | the center line at `(h/2, h/2)` reproduces the 3D lattice's own ray densities exactly (0.0); the profile gradient vs complex step 1.4e-13; the circle trivial on the ansatz (1e-12); `beta = 0` stationary exactly |
+| the pinning penalty | `E_pin = (k / 2) sum_mask \|M - M_seed\|^2`, k 10 | k 0 reproduces the free problem; complex step 1e-14 |
+| the static twist | `T_theta M`, `theta = q . x` through the field's own frame; `S` from the even part | quadratic to 2e-4; a uniform twist leaves the 8-sample energy unchanged (1e-16) |
+| the spin-2 zero counter | the section `S_ee - S_ff + 2 i S_ef` on a lattice shell fitted with `2Y_lm`, the zeros as the windings on a `(theta, phi)` grid, the pole caps `ring_N + 2` and `2 - ring_S` | `Q = xx - yy` four simple zeros of total 4, `Q = zz - (xx + yy) / 2` two index-2 pole zeros, tilted and rotated Q total 4, residuals under 1e-3 |
+
+Code: [`m5_32_r18_common.py`](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r18_common.py), [`m5_32_r18_0_closures.py`](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r18_0_closures.py), [`m5_32_r18_1_radial.py`](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r18_1_radial.py), [`m5_32_r18_2_goldstone.py`](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r18_2_goldstone.py), [`m5_32_r18_3_pair.py`](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r18_3_pair.py); the audits `m5_32_r18_{0,1,2,3}_audit.py` beside them; every number in `data/m5_32_r18_{0,1,2,3}.json` and the audit JSONs.
+
+## R18-1: the radial solve
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r18_1_radial.png)
+
+| Read (L 96, h 1.5 to 0.03) | Object A (absolute weight) | Object B (relative weight) |
+| --- | --- | --- |
+| `E_stat` on the tube | 10.837 / 8.543 / 8.488 / 8.544 / 8.5544 / 8.5547 | 5.768 / 4.646 / 4.312 / 4.209 / 4.1937 / 4.1894 |
+| `r_0` (`lambda_1 = 0.8` crossing) | 2.81 at h 1.5, then none | 6.874 / 6.312 / 6.133 / 6.078 / 6.070 / 6.068 (L 48 6.108, L 144 6.074) |
+| `r_gap_half` (`lambda_1 - lambda_23 = 0.35` crossing) | 3.39 / 1.75 / 2.01 / 2.12 / 2.137 / 2.141 (Richardson 2.142) | 5.70 / 4.95 / 4.70 / 4.62 / 4.605 / 4.601 (4.600) |
+| the center | the gap closes as h (0.098 to 0.0037), the three spatial eigenvalues at 0.8035 | at the gap bound: `lambda_1(0)` 0.387, the isotropic center |
+| the two seeds | two basins at h 0.75 (10.34 vs 8.54 at L 96), one basin elsewhere (1e-8) | one basin at every rung (1e-8) |
+| `r_0 sqrt(mu)` | 0.214 (gap read; no crossing) | 0.607 (your definition), 0.460 (gap read) |
+
+Gate 3 on the 3D lattice sum: the tube profiles at 11.78 (A, n32) / 5.39 (B, n32) / 9.80 (A, n64) against the 3D cores at 13.82 / 7.28 / 13.65; 60-step 3D descents from the embedded profiles go down (11.78 to 11.65, 5.387 to 5.385) without escape and without breaking spherical symmetry.
+
+## R18-2: the condensate and the Goldstone reads
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r18_2_condensate.png)
+
+| `g_W` | core seed (r 2): E minus the saddle, end split, stop | shell seed (r 5): E minus the saddle, end split, stop |
+| --- | --- | --- |
+| 1.5 | +0.0017, 0.017, max_iter | +0.046, 0.027, max_iter |
+| 1.65 | +0.0064, 0.020, max_iter | +0.041, 0.033, max_iter |
+| 1.8 | escape (d) at 300 | +0.034, 0.033, max_iter |
+| 2.0 | escape (d) at 400 | escape (d) at 2400 |
+
+| Field | `I = int rho^2` | `2 kin` | `S` | `S / I` | `2 kin / I` |
+| --- | --- | --- | --- | --- | --- |
+| g_W 1.35 core-seeded | 7.1e-2 | 0.639 | 0.133 | 1.88 | 9.0 |
+| g_W 1.65 core-seeded | 1.01e-1 | 0.910 | 0.184 | 1.82 | 9.0 |
+| g_W 2.0 shell-seeded | 0.869 | 7.79 | 1.70 | 1.95 | 9.0 |
+| g_W 2.0 unseeded control (split 6e-4) | 2.0e-4 | 1.8e-3 | 4.0e-4 | 1.98 | 8.8 |
+
+`E(K)` on the g_W 1.65 core-seeded field: K 1: frozen 0.549, end 0.127 (escape d at 100), the rotor `K^2 / 2 I` 4.93; K 5: frozen 13.7, end 0.870 (escape d at 200), the rotor 123.
+
+## R18-3: the pair
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r18_3_pair.png)
+
+| d (n48 L72, pinned) | `E(d)` | `E(d) - 2 E_1` (`E_1` 13.81) | winding on rings rho 0.5 to 1.6 / 1.6 to 2.8 / 2.8 to 4.0 / 4.0 to 5.5 | `A_pair / A_1` |
+| --- | --- | --- | --- | --- |
+| 12 | 20.010 | -7.61 | 0 / 1 / 1 / 1 | 0.98 |
+| 15 | 22.088 (free 21.603, -5.79) | -5.54 | 0 / 1 / 1 / 1 | 0.95 |
+| 18 | 26.762 | -0.86 | 0 / 1 / 1 / 1 | 0.93 |
+| 24 | 31.299 | +3.67 | 0 / 1 / 1 / 1 | 0.87 |
+
+`E_int = -19.4 + 0.97 d` (rms 0.65; the `A + B / d` form rms 0.99; a `1 / d` part fitted beside the line is `-50 +- 191`). The audit's three-zone split: the core term flat in d, the string zone carrying all the d dependence, the far zone the one-texture offset. The n64 L96 box at 300 iterations reproduces the string and the one-charge far field, not an L read.
+
+## Not computed
+
+The 3D lattice minimum of either object; a condensate representable inside the plateau weight's domain; `E(K)` at K 2 and 10; the anti-pair (not constructible on a degree-1 boundary); the pair below d 12 or on a uniform-director boundary; your coupled radial model; `R~`.
+
+## The audit record
+
+| Stage | Claims | Confirmed | Qualified | Refuted | What the auditor did |
+| --- | --- | --- | --- | --- | --- |
+| R18-0 | 5 | 2 | 2 | 1 | own polarization-identity `H_00`, fifteen basis readings (the coordinate basis on the exact axis reproduces your pattern: the refutation), own `r_0`, own chart-free spin-2 counter on five synthetic sections |
+| R18-1 | 6 | 2 | 4 | 0 | own ansatz on the 3D lattice, own radii and Richardson, minimum tests in ten directions, own 3D embeddings and two 60-step 3D descents |
+| R18-2 | 5 | 2 | 3 | 0 | own eigenvalues, own twist (2e-12), own K 50 reads, the analytic anchors on synthetic splits, the traces re-analyzed |
+| R18-3 | 6 | 0 | 6 | 0 | own energies, three fits, interpolated rings, the far-sphere degree (1.00), the per-core degrees, the three-zone split, the core centroids |
+
+The record with every number: the [task record](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md) R18 section, the [method note § 16](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_method_note.md), the [ledger § 6.7](https://github.com/openwave-labs/openwave/blob/19808dbb633a995f867b1909f884ef92377cda73/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md).

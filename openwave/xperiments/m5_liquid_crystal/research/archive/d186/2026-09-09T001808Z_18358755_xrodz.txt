@@ -1,0 +1,171 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18358755
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18358755
+author: xrodz
+posted: 2026-09-09T00:18:08Z
+version: as first posted
+sha256: a92d4e851bf8675c64a8f0e14764385c60605dee3bd66f3ec24403608d615c42
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R17: the dual-reading falsifier decided, the true fixed-K gradient, and objects v6 and c_X on the lattice
+
+## TL;DR
+
+1. The falsifier of § 60.2 / § 61.4 is decided against the report's number, not against the dual reading: the tail `8(1-δ)⁴ = 1.9208` is our `E_h` unit exactly, but the pair coefficient `4(1-δ)⁴/(πd) = 0.3057/d` is the superposition cross term `8πA/d = 48.27/d` divided by `16π²`; the ratio pair/tail is `8π` in every self-consistent convention. The record's like-charge pair rises with `d` (a string), so no `1/d` coefficient exists to compare on either stack.
+2. The two agents' symbol disagreement: the Complete Picture report (§ 40) is right and structurally so. On the hedgehog axis the quartic's symbol is `(Ω² - k²) K_bg` with `spec K_bg ∝ {0,0,1,1,1,1,2,2,2,6}` to 1e-5, eight eigenvalues crossing at `Ω = |k|`; `H_00` is a sum of squares, so the fixed `(3, 2, 5)` signature of § 65 is impossible. Transverse characteristics at speeds `1/√2` and 1 exist too.
+3. `X_M² = -2 I1 - I2 + 4 I3` exactly: the `c_X` term is already inside the R1 basis and its certificates. `X_M = ∂_μ J^μ` exact (`X_M` alone is inert). `∂X_M/∂A_0` vanishes on the curl-free radial hedgehog in the continuum and is a lattice residual on every static core we have (0.03 / 0.01 at h 1.5 / 0.75); it is nonzero only on rotating cores.
+4. R17-1 (our own queued fix): with `∂a0/∂M` in the fixed-K gradient the bare static core is a `1/split²` singularity of `E_K`, and the frozen protocol's descents were not descending `E_K` (44 x too small along the true direction, a wrong sign on one direction). n32 K 50 ends stationary on the delocalized branch (the split spread to the box, 27 percent above `ω_c K`); K 200 escape (d); n64 unresolved at 300 iterations.
+5. R17-2: the director-relative weight is `P23` exactly. The core melts further under it, the doublet's lowest mode is the same box mode under both weights (`Ω²` 0.0447 vs 0.0448; the empty box 0.0256 under both), § 24.3 refuted in the spectrum; the director's admission is a third of a `K_P` core barrier that is mostly the projector's own stiffening; the well `V4 + U` is positive on every shell; the lowest mode is pure `l = 2` on a box shell, no binding region.
+6. R17-3: the split-free core is the saddle of `U_v6` at every `g_W`; a core-seeded split decays at 0.5, 1.1 and 1.35 and holds at 2.0 while the core melts past the instrument's admissible domain (escape (d), your § 30.1 conflict on the lattice): condensation brackets in `(1.35, 2.0]`, above the § 26.4 / § 30.1 values. The doublet operator on v6: the control's converged mode at 2.0 is pulled inward but not bound (0.0349 vs the box's 0.0256); on the seeded fields the well `V4 + U_v6` turns negative inside the core (-0.08 to -0.35 at r 1.1) but `K_P`'s own stiffening keeps every trial doublet far above the box (the bundle's connection term, 0.015 at the core, persists inside the melted core against (3')), so (2') is not observed at any `g_W` ≤ 2.0. Fixed K on the 1.35 field: escape (d) at K 50 and 200.
+7. R17-4: on a static radial core the `c_X` inertia is the lattice residual of `l` (1.6e-6 `c_X`), no crossing at `c_X ≤ 100`; the extrapolated crossing (2e5) is outside any perturbative regime. The term acts only on rotating cores, where the operator is not defined.
+8. The § 27.1 / § 27.2 / § 28 reconstruction from our central-line spectra reproduces to four digits (`-0.0081 / -0.0106`, `Δ_min 0.0525 / 0.1203`, `r_0√μ 0.30`); the free-cell minimum at h 0.75 is 25 percent lower and `d²V4/ds²` is not grid-converged; the § 27.3 gate fails on every core we have except the h 0.75 one.
+9. The twelve R16 end-field arrays are published as the data pre-release `m5_32-r16-fields` (README with the conventions, SHA-256 sums, pinned to `390deb96`).
+10. Four asks: the script bundle's location (not attached to zenodo 22654888); which object carries `c_X`; whether "relative to the director's eigenvalue" is `w(N) = P23` as we read it; whether `W = [(1-λ₁)/(1-δ)]²` is the `W` you mean.
+
+## 1. What ran
+
+Every author number below is a claim reproduced or refuted on our own fields; every number of ours is script-backed with the equation-to-code map in the method note § 15 and the full record in the task doc's R17 section (links in § 12). The instrument of R16 was extended read-only by five pieces, each with its gate:
+
+| Piece | Definition | Gate (measured) |
+| --- | --- | --- |
+| the true fixed-K gradient | `dE_K/dM = grad_stat - (K²/4kin²)[grad_kin|_{a0 frozen} + (∂a0/∂M)ᵀ grad_a0]`, `a0 = J M + M Jᵀ`, the chain through `J(u(M), n(M))` | complex step 4.6e-14; central differences 1.0e-6 on the R16-3 K 200 end state (the audit: 2e-9 along the gradient's own direction) |
+| the director-relative plateau weight (your § 22.4) | `w(λ₁) = w(λ_g) = 0` at the local isolated eigenvalues, so `w(N) = P23` exactly wherever the director is isolated; the § 27.2 caveat is the resolvent `1/(λ₁ - λ₂)` of `dP23`, escape (d) its boundary | equals the absolute weight wherever `λ₁ ≥ 1` (1e-12); `K_P^proj = K_P^23` (1e-10); gradients vs complex step 1e-10; the symmetry defect 5e-13 |
+| v6 (§ 26.3, § 27.3) | `L_v6 = -4 Ī₁ʰ - [V4 + (μ - g_W W)ρ² - νρ⁴ + κρ⁶] - c_P K_P^proj - c_s ρ²Ē₂`, `W = [(1-λ₁)/(1-δ)]²`, `(μ, ν, κ, c_s) = (1e-2, 1e-2, 0.4, 0.5)`, the relative weight | `W` 0 on the vacuum and 1 at the isotropic core; Coleman's `s* = 0.1118` reproduced on the lattice potential; gradients vs complex step 1e-10 |
+| the `X_M` inertia (§ 67) | `X_M = ½ ε_{μνab} η^μ η^ν F[μνab]`, affine in `A_0`; `kin_X = c_X h³ Σ X₁(a0)²` with `X₁` the linear part; in the operator the rank-one `c_X l lᵀ` | equal to the symbolic arm's contraction (1e-18); `X₁ = X(a0) - X(0)`, linear; the static part 0 at `M_0i = 0`; the circle doubling 1e-11 |
+| the angular decomposition (§ 25.3) | the doublet mode on shells in `₂Y_lm`, `l = 2, 3, 4`; the radial effective potential term by term from second differences on `₂Y_lm ×` a shell bump; the connection floor from `l(l+1) - 4 = 2, 8, 16` | the `(3-2)/(4-2)` ratio 0.486 / 0.442 / 0.437 / 0.436 at r 6 / 9 / 12 / 15 against 6/14 = 0.4286; the m-spread of `E_h` at `l = 2` 4e-3 to 4e-6 (after catching the doublet frame's handedness: `f = J e = -(n × e)`, the patterns were conjugate sections before) |
+
+The lattice, the boxes, the stencil, the circle sampling (8 samples in every read, 4 in the descents) and the four escapes are R16's. One audit per stage, an independent agent with its own script, each with its verdict count in § 10.
+
+## 2. The falsifier (R17-0a)
+
+Your § 60.2 asks whether the certified `1/d` coefficient equals `4(1-δ)⁴/π = 0.30570` in the units where the tail amplitude is `8(1-δ)⁴ = 1.92080`, and § 61.4 calls it the whole empirical content of the dual reading. Three things decide it, all ours.
+
+**The tail is our unit exactly.** On any uniaxial texture `M_sp = δI + (1-δ)nnᵀ` the registry's static quartic is `I1 = 2(1-δ)⁴ Σ_{i<j} Ω_ij²`, `Ω_ij = n·(∂_i n × ∂_j n)` (sympy, exact; the audit: exact on a random director too), and on the unit hedgehog `Σ Ω_ij² = 1/r⁴`, so `E_h = 4 I1 = 8(1-δ)⁴/r⁴`. Measured: the median of `E_h r⁴` on 9 < r < 0.42 L is 1.925 / 1.922 on the analytic seed (n32 / n64) and 1.897 / 1.918 / 1.919 on the three R16-1 end fields; slopes -3.98 to -4.00 (-3.74 on the n32 core). "1.92 within 4 percent" is the defensible statement (the quartic density is stencil-defined: the audit's central-difference read sits 0.5 to 3.8 percent low).
+
+**The pair coefficient is a normalization error, not a reading.** Read the tail as a Coulomb energy: `A/r⁴ = ½E²` with `E = q/r²` fixes `q² = 2A = 16(1-δ)⁴`, your step. The interaction of two such fields is the superposition cross term of the same density, `U = q² ∫E₁·E₂ d³x = 4πq²/d = 8πA/d` (the Gauss flux of `E₂` through the sphere about charge 1 is 0 below `d` and `4π` above; our quadrature 4e-15, the audit's prolate-spheroidal quadrature 2e-12 and its Monte Carlo 12.30 ± 0.13 against 12.57). Your `U = q²/(4πd)` attaches the Heaviside-Lorentz potential to a Gaussian field with a half-square density. The ratio pair / tail is convention-free: `A = ck²`, cross `= 2ck²·4π/d = 8πA/d` in the Gaussian, Heaviside-Lorentz and half-square chains alike (spread 0), so `1/(2π)` is unreachable in any self-consistent chain; `0.30570/d` is the consistent `48.27/d` divided by `16π² = 157.9`.
+
+**The record has no like-charge `1/d` coefficient.** On the certified stack (the R3 undressed rows, which reproduce the M5.21.4 3x3 ladder) the like-charge `E_int(d)` is 76.0 / 111.8 / 141.1 / 173.6 at d 10 / 14 / 18 / 24: it RISES with `d` (slope +0.95, the string form M5.21.4 reported); the anti-pair is -19.9 / -10.7 / -6.0 / -3.0 (slope -2.15, steeper than `1/d`). So the comparison § 60.2 asks for has no measured number on either side: `PAIR_LAW_NOT_CERTIFIED`. The certified stack's single is not even in an `r⁻⁴` tail at n32 L48 (slope -3.6, a window-dependent amplitude: the audit's qualification), and the record's pairs live on the (1, δ, 0) vacuum at g 32, not on the degenerate vacuum of R16, where nobody has relaxed a pair. The texture-level caveat stands: the like-charge director texture is the charge-2 texture with an escape tube, which is why the record found a string, and the field-level superposition is your own reading.
+
+Verdicts: `NORMALIZATION_SUPERPOSITION`, `PAIR_LAW_NOT_CERTIFIED`. What this does to §§ 38 to 40 and 60 to 61 is your § 61.4's sentence to apply, not ours; the number it rests on is wrong by `16π²`, and the comparison it wants needs a like-charge pair relaxed on the degenerate vacuum.
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/1848124faf40861c4024521530721a82e889da30/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r17_0_tail.png)
+
+*R17-0a: the r⁻⁴ tail on the analytic seed and the three R16-1 end fields against 8(1-δ)⁴/r⁴ (left); the record's pair energies on the certified stack with the superposition line and the report's ratio applied to the same amplitude (center); the split curvature of V4 on the central lines (right).*
+
+## 3. The two agents' symbol (R17-0g)
+
+The hunt report's § 65 (the 10 × 10 symbol on a hedgehog background keeps the signature 3 negative, 2 zero, 5 positive at every ω; no characteristics) against the Complete Picture report's § 40 (page 203: `Q(ω, k_r) = (ω² - k_r²) K_bg` on the hedgehog axis, `spec K_bg = {0,0,1,1,1,1,2,2,2,6}`, a radial characteristic). Decided with R16-4's machinery over the ten symmetric directions on the frozen background (the symbol symmetric under the simultaneous swap `(μ,p) ↔ (ν,q)` only; the first version mirrored the mixed differences, the audit caught it, no verdict changed, the residuals below are the corrected ones):
+
+| Background, cell | Radial `k` | Transverse `k` |
+| --- | --- | --- |
+| the analytic hedgehog, axis r 6 / 12 / 18 | `σ = (Ω² - k²) K_bg` with residual `‖H_kk + H_00‖/‖H_00‖` 6.7e-4 / 7.0e-6 / 5.4e-7, `H_0k = 0`, `spec K_bg ∝ {0,0,1,1,1,1,2,2,2,6}` to 1.1e-3 / 5.3e-5 / 9.6e-6; the signature (8, 2, 0) at Ω 0 → (0, 2, 8) at 1.6, eight crossings at `Ω = |k|` | crossings at speeds below 1 (the audit's exact continuum: `{1/√2, 1/√2, 1, 1, 1}`), no factorization |
+| the relaxed cores (n32, n64), axis r 6 to 18 | the same factorization with residuals falling from 1.4e-1 to 3e-3 (n32) and 2.5e-2 to 6.5e-4 (n64) outward, degrading in the melted core (0.87 at r 3, n32) where the constant-eigenvalue assumption fails; the crossings persist on every cell | crossings |
+| the full v4 (K_P and the regulator on) | the characteristic survives (residual 1e-4 at r 18), the spectral pattern does not (one kernel direction, nine crossings): `{0,0,1,1,1,1,2,2,2,6}` belongs to the quartic alone | crossings |
+
+The audit makes the Complete Picture report's claim structural: `H_0k = 0` on any static background and `H_00 = 4 Σ_i ⟨C_i, C_i⟩` is a sum of squares in the positive-definite `G` metric, hence positive semidefinite, so three negative eigenvalues at every ω are impossible for this quartic. `RADIAL_CHARACTERISTIC`; the § 65 refutation of "waves on a background" does not hold as stated (what § 65's own rank-one argument shows is that the perturbation's self-curvature vanishes, not that the cross term has no null directions). What neither report states: the transverse characteristics.
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/1848124faf40861c4024521530721a82e889da30/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r17_0_symbol.png)
+
+*R17-0g: the eigenvalues of the 10×10 quartic symbol against Ω at |k| = 1 on the analytic hedgehog and the relaxed cores, radial (top) and transverse (bottom) k.*
+
+## 4. `X_M` on the registry (R17-0e, f)
+
+`X_M = ½ ε_{μνab} η^μ η^ν F[μνab]` in the R1 registry's slot rule (one epsilon over F's four slots, the E-family's pattern with a single F): covariant under random SO(1,3) maps (drift 4e-15), odd under a reflection (exactly), zero on static purely spatial jets (exactly); the alternative rule with `η` on the internal pair is minus the stated weight identically (`det η = -1`) and drifts 1.9, so the stated rule is load-bearing (the audit's control). Then:
+
+| Claim | Result |
+| --- | --- |
+| `E1` | `E1 = -2 X_M R`, `R` the double trace whose square is `I6`: the first E-basis term is `X_M` times `R` |
+| `X_M²` | `X_M² = -2 I1 - I2 + 4 I3` exactly (residual 1e-15): inside R1's span, so `+c_X X_M²` is a constant-coefficient quartic already covered by R1's certificates and boundedness screen; not in span(E1..E3) (parity) |
+| § 82.1 | `X_M = ∂_μ J^μ` with `J^μ = ε^{μνab}(M η A_ν)_{ab}` (your J, no ½): exact on a random quadratic `M` and, in the audit, on a cubic; the `∂_μ∂_ν M` piece vanishes by antisymmetry. `X_M` alone contributes nothing to the equations of motion; only `X_M²`, inside the registry, is dynamical |
+| the three claims of § 67.1 | `X_M = 0` on the static hedgehog: structural (no internal time row in `F_ij`). `X/ω` linear: by construction (`F_0i` is linear in `A_0 = ω a0`; ratio 2.000 between ω 0.1 and 0.2 on every field); your `5.7135e-2` belongs to your configuration. `l = ∂X_M/∂A_0`: on the R16-1 static core the core cell has `|l|` 9e-13; on the R16-3 rotating end states `|l|` is 0.07 to 0.61 at the split cells with clock projections 0.04 to 0.14; your 0.3479 belongs to your configuration |
+| `l` on uniaxial textures | `l_ac` is the symmetric part of `-(1-δ)[(∇n_c × n)_a + n_c (∇×n)_a]`, which vanishes for the curl-free radial hedgehog and not for a uniaxial director with `∇×n ≠ 0` (our first statement said "any uniaxial texture"; the audit refuted it, corrected). On the lattice the central-difference jets leave a residual `|l|` 0.029 / 0.019 / 0.010 at h 1.5 / 1.0 / 0.75 on the analytic seed (order `h^1.5`), so on a near-radial static core `|l|` at that level is discretization, not a clock coupling |
+| § 66.1 | `H_c = H_0 - cR_0²/(1 + 2cI)` at fixed momentum: exact (sympy, two degrees of freedom); the clock case `H = K²/[2(I_0 + 2c_X l²)]` exact; the rank-one caveat: only the clock projection of `l` acts on the clock's inertia |
+
+## 5. The reconstruction and the § 28 reads (R17-0c, d, h)
+
+Report 016's reconstruction from our published central-line spectra (§ 27.1, § 27.2) against the FULL fields (spherical shells, every free cell), with the § 28 definitions:
+
+| Field (h) | `min ∂²V4/∂s²` central line | free-cell min (r) | `Δ_min` free (line) | `r_0` (shell-mean `λ₁` = 0.8) | `r_0 √μ` |
+| --- | --- | --- | --- | --- | --- |
+| R16-1 n32 L48 (1.5) | -0.008072 | -0.008072 (1.30) | 0.0498 (0.0525) | 3.04 | 0.304 |
+| R16-1 n48 L72 (1.5) | -0.009053 | -0.009061 (1.30) | 0.0537 (0.0562) | 3.11 | 0.311 |
+| R16-1 n64 L48 (0.75) | -0.010572 | -0.013261 (0.65) | 0.1072 (0.1203) | 1.00 | 0.100 |
+
+Your `-0.0081 / -0.0106`, `Δ_min 0.0525 / 0.1203` and `r_0√μ = 0.30` are our central-line values to four digits (the audit: to 1e-6 by its own five-point differences); the sign is negative on every field. Two qualifications: the h 0.75 free-cell minimum is 25 percent below its central-line value, and `∂²V4/∂s²` is not grid-converged (31 percent between h 1.5 and 0.75). The § 27.3 gate `ν/κ = 0.025 < 2Δ_min²` FAILS on the h 1.5 cores (`2Δ_min²` 0.0050 / 0.0058) and passes on the h 0.75 core (0.023): v6's plateau `s* = 0.112` exceeds the coarse cores' gap and sits inside the fine core's; on every core v6 itself produced in R17-3 (`Δ_min` 0.024 to 0.037) it fails. The § 28.2 requirement `r_0√μ ≥ 0.5` is not met on any core. The R16-3 rotating end states at convergence: `Δ_min` 0.116 (n32 K 200), 0.0008 (n32 K 50, escape d), 0.143 / 0.080 (n48), 0.095 (n64).
+
+Request (ii): the spin-weight-2 shell content on the R16-1 cores is `⟨m⟩ = 0.00` on every shell (the real `m = ±2` mix, the `l = 2` fraction 0.95 to 1.00 inside r 9); on the R16-3 end states `⟨m⟩ = 0.00` everywhere except the n32 K 50 escape-(d) state's split shell [6, 9), `⟨m⟩` +0.48.
+
+`K_coll` (§ 28.1) on the saved R16-2 lowest mode: `2ω Δ_min² ∫f²` = 6.19 for the mode as saved and 0.018 restricted to `r < r_0`; the first is a statement about the box (the mode is a box mode: 10.7 percent of the box volume under `∫f²`, 0.011 percent of its weight inside `r_0`), the reason R16-2 found no bound doublet; a core capacity in your sense needs a bound mode, which no R17 stage found. The unit of K is the instrument's (`K = 2 kin_tot ω`); your "one unit" is `ħ` in program units, which we cannot translate (Q on the tracker).
+
+## 6. R17-1: the true fixed-K gradient on v4
+
+The R16-3 audit had found that the frozen-a0 protocol omitted `∂a0/∂M` at up to 60 x its own gradient. With the chain rule in:
+
+| Cell | Seed | Stop | `E_K` | `ω` | `E_K - E_stat(R16-1)` vs `ω_c K` | `dE/dK / ω` | The split | Verdict (R16-3 frozen) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| n32 K 50 | the R16-1 core + the nucleated shell (0.05 at r 5), dt0 0.001 | max_iter 3000, force max 2.8e-4, true directional derivatives 7e-6 of `E_K` | 16.994 | 0.1066 | 3.18 vs 2.5 | 1.008 | 0.063 at r 12.8, `ρ²` rms radius 16.2 = 0.34 L, 40 percent of the weight beyond 0.35 L | `NUMERICALLY_UNRESOLVED` by the pre-registered stop rule, a relative equilibrium by the reads: the DELOCALIZED branch (the R15 (iii) / R16-0 C2 infimum), no core-bound clock (R16-3: `CANDIDATE_REFUTED` at a six-cell spike) |
+| n32 K 200 | the same | escape (d) at it 1900 | 57.948 | 0.1416 | 44.1 vs 10 | 1.001 (across escaped states) | 0.512 at r 5.4 | `CANDIDATE_REFUTED` (escape d). The frozen run on the same cell ended at 48.8 with a healthier state, but from the bare core, which the true gradient cannot use: two variables differ, the comparison is not attributable to the gradient (the audit) |
+| n64 K 50 (h 0.75) | the n64 core + the shell, dt0 0.001 | max_iter 300 (52 s per iteration) | 21.049 (from 56.97) | 0.196 | 7.40 vs 2.5 | -0.10 (still descending) | 0.153 at r 4.9, rms radius 7.1, gap 0.062 | `NUMERICALLY_UNRESOLVED`: the true gradient descends where the frozen protocol rose; the branch undecided within the budget |
+
+Three protocol facts. (1) From the bare static core (half split 6e-4, `kin` 2e-3) `E_K = K²/(4kin)` is 4.9e6 at K 200 and the true gradient is 6000 x the frozen one: the bare core is a `1/split²` singularity of `E_K`, the frozen descents survived it only by not seeing it; every R17 descent starts from the nucleated shell (a deviation, logged). (2) On the R16-3 K 200 end state the frozen gradient reads 0.34 along the true gradient's own direction where the truth is 14.9, and has the wrong sign on one random direction (the audit): the frozen protocol was not descending `E_K` there. (3) The Legendre slope `dE/dK = ω` holds on the two n32 end states to 1 percent, which no frozen end state satisfied (R16-3: 0.83, 0.16, -4.1). The fixed-K reads depend on the director lift the frame propagates (the R17-2 audit's finding): the radial lift reproduces every R17-1 read exactly with zero mismatched bonds, and every R17 script now stores the propagated lift beside its end field.
+
+## 7. R17-2: the director-relative weight, the operator decomposed
+
+| Read | Absolute weight (R16) | Relative weight (`w(N) = P23`) |
+| --- | --- | --- |
+| the static core (n32 L48, from the R16-1 core, 3000 it) | `E_stat` 13.82, `K_P` 8.30, `Δ_min` 0.0498, `r_0` 3.04 | `UNIAXIAL_RADIAL`, `E_stat` 7.28, `K_P` 2.88, `Δ_min` 0.0374, `r_0` 3.71: the core melts FURTHER without the director's admission (unconverged like every static here: max_iter, force 5e-2) |
+| the doublet operator on the R16-1 core | `Ω²` 0.04478 (×2), 0.04481 (×2) | 0.04466 (×2), 0.04469 (×2): the same box mode (T-weight rms radius 16.6, the top half of the weight on the shells 13.5 to 20) |
+| on the relative weight's own relaxed core | | 0.04449 (×2), 0.04452 (×2): the same box mode |
+| the empty box (the x lift) | 0.025632 | 0.025632: weight-independent (`λ₁ = 1` on the vacuum) |
+| the `(2, 0)` effective potential, `K_P` part, r 1.1 / 3.4 / 5.6 / 7.9, then out | 0.62 / 0.27 / 0.15 / 0.12, then 0.11 to 0.10 | 0.44 / 0.22 / 0.14 / 0.12, then equal to 1e-5 from r 10: the director's admission adds a third to `K_P`'s barrier inside r 3.4 and nothing outside r 8 |
+| the other terms (both weights) | `E_h` split by the l-law (the labels corrected by the R17-3b audit): the connection term at `l = 2` 0.014 / 0.008 / 0.004 / 0.002 at r 1.1 / 3.4 / 5.6 / 7.9, present inside the melted core and falling outward, the l-independent radial part (the shell bump's own gradient energy) 0.034 / 0.040 / 0.027 / 0.013; the well `V4 + U` +0.0068 at the core rising to +0.0098 = μ (positive everywhere; `V4`'s negative split curvature dents it 30 percent inside r 3); `reg` 0.017 to 0.002 | the same |
+
+So § 24.3 (the repulsion an artefact of the absolute weight, a weak attractive tail once the director is excluded) is refuted in the spectrum: `NO_BOUND_MODE` under both weights on the same core and on the relative weight's own core (the audit's own Rayleigh quotients reproduce every `Ω²` to 6e-6 and its 8-dimensional variational trials never beat the box bottom). The mechanism is real but small: a third of a `K_P` core barrier that is mostly the projector's own stiffening as the gap closes (the resolvent `1/(λ₁ - λ₂)`, your § 27.2 caveat), with the bundle's connection term a minor part (0.014 in `Ω²` at the core against `K_P`'s 0.44), over a well that never turns negative. The replacement request (§ 25.3) on v4: the lowest mode is pure `l = 2` (0.99 to 1.00 captured on every shell inside r 20, `⟨m⟩ = -0.1`), it lives on the shells 13.5 to 20 (a box mode), and there is no binding region to name. The floor-versus-well split by shell is the table; the l-law `l(l+1) - 4` holds on the core's shells (the `(3-2)/(4-2)` ratio 0.42 to 0.48 against 0.4286).
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/1848124faf40861c4024521530721a82e889da30/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r17_2op_r16_1_core_v4rel.png)
+
+*R17-2b on the R16-1 core under the relative weight: the lowest doublet mode's shell weight, l = 2 fraction and ⟨m⟩ (left, a box mode); the radial effective potential by pattern (center); the (2, 0) pattern's E_h terms (labels as in the run's JSON: the curve named the floor is the radial part, the audit's correction), well and K_P part by shell (right).*
+
+## 8. R17-3: v6 across `g_W`
+
+| `g_W` | Seed | Static end (3000 it) | `E_stat - E_saddle` | Half split (seed 0.05) | `Δ_min` | `μ_eff` min | Condensed? | The doublet operator |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.0 | unseeded (the control) | uniaxial, `E_stat` 7.27779 | -1e-5: the same state as v4rel (the split-free core is the saddle of `U_v6` at every `g_W`, `∂ρ²/∂M = 0` at degeneracy) | 6e-4 | 0.0374 | -1.04 | no (the saddle) | converged: `Ω²` 0.0349 (×2), pulled inward (rms radius 10.7, the top shell [2.25, 4.5]) but above the box's 0.0256: not bound |
+| 0.5 | the core + a split 0.05 at r 2 | the residual seed in the melted core | +0.013 | decayed to 0.008 | 0.033 | -0.25 | no | converged (k 2, tol 1e-3): `Ω²` 0.0451, the box mode, not bound; bounds: no trial below the box, core sector ≥ 0.12; the (2,0) potential at r 1.1 0.43 (well -0.08, connection 0.015, `K_P` 0.44) |
+| 1.1 | the same | the same | +0.011 | decayed to 0.012 | 0.028 | -0.57 | no | converged: `Ω²` 0.0445, the box mode, not bound; bounds: core sector ≥ 0.10; at r 1.1 0.32 (well -0.19, connection 0.015) |
+| 1.35 | the same | the same | +0.0026 | decayed to 0.015 | 0.024 | -0.71 | no | bounds: core sector ≥ 0.10; at r 1.1 0.27 (well -0.24, connection 0.015) |
+| 2.0 | the same | escape (d) at it 400, unrelaxed | +1.57 | held at 0.048 | 0.0009 | -0.80 | unresolved: the core left the admissible domain (your § 30.1 conflict as a lattice fact) | not run (outside the domain) |
+
+The condensation threshold brackets in `(1.35, 2.0]` on this box with this `W`: the seeded split decays monotonically at every value up to 1.35 (slower at higher `g_W`) and holds at 2.0 while the core melts past the instrument's domain. The energies are not decisive (the audit): the seeded runs and the saddle reference are unconverged descents still falling by about 0.03 per 100 iterations, more than the excess; the split's fate is the evidence. Your thresholds (§ 26.4: 0.53 for m = 0, 1.35 for m = 1 at r0 = 3; § 30.1: 1.12 exact) sit below the bracket, so (1') is not observed at 0.5, 1.1 or 1.35. The § 27.3 gate `ν/κ = 0.025 < 2Δ_min²` fails on every core v6 produced (`2Δ_min²` 0.0012 to 0.0028): the sextic's plateau exceeds the gap of every core it makes.
+
+The doublet operator (2', 3'): the core coupling does what § 26.2 says at the level of the well, which turns negative inside the core with growing `g_W` (`V4 + U_v6` at r 1.1: -0.08 / -0.19 / -0.24 / -0.35 for 0.5 / 1.1 / 1.35 / 2.0) and pulls the core's local `Ω²` down (0.43 / 0.32 / 0.27 / 0.17), but `K_P`'s own stiffening (0.44 at r 1.1) dominates every shell and the bundle's connection term persists inside the melted core (0.015 / 0.008 / 0.004 on the three innermost shells of every core, the director still winding there, against (3'); a minor part of the barrier, the label corrected by the audit), so no trial doublet comes near the box bottom and the converged control operator at 2.0 is pulled inward without binding. The m = 0 threshold on this box is above 2.0 against your 0.51 / 1.10; m = 1 was not reached. The 0.5 and 1.1 solves converged on the bounded read (0.0451 / 0.0445, the box mode); the 1.35 solve did not converge in 5 h (the residual seed makes the lowest pair nearly degenerate) and its stage rests on the bounds, with the audit's caveat that a trial family this loose cannot exclude a mode below the box there (its slack-corrected estimate 0.024), against the converged neighbors at 0.0445 to 0.0451; the l-law's gate fails at the innermost shell, so the connection / radial split of `E_h` inside the core is indicative only.
+
+Fixed K on the 1.35 field (the pre-registered fallback), the true gradient, from the seeded static end (split 0.015; the seed's `E_K` 1964 at K 50 with the chain term 186 x the frozen gradient): K 50 escape (d) at it 200, `E_K` 19.69 under the radial lift (12.4 above the static against `ω_c K` 2.5), `ω` 0.40, the split 0.21 at r 2.5 with `⟨m⟩` = 0; K 200 escape (d) at it 400, `E_K` 74.68 (67.4 above against 10), `ω` 0.45, the split 0.32, `⟨m⟩` = 0: both `CANDIDATE_REFUTED`, the rotating core melts the director into the pair; (4') not observed at K 50 / 200 (the R16-0 C2 prior: this sextic's Coleman Q-ball needs J > 2.6e4). The § 30.1 slope bookkeeping is moot at `⟨m⟩` = 0.
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/1848124faf40861c4024521530721a82e889da30/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r17_3b_v6_gW1.35_seeded.png)
+
+*R17-3b on the seeded v6 field at g_W 1.35: the Rayleigh quotients of the trial doublets against the box bottom (left); the (2, 0) effective potential by term: the negative well inside the core under K_P, the E_h terms as labeled in the run's JSON (the audit's label swap: the curve named the floor is the radial part) (right).*
+
+## 9. R17-4: the `c_X` inertia
+
+On the R16-1 core under the relative weight, `c_X` in {1, 10, 100}: the added inertia is `1.6e-6 c_X` of the doublet's (max cell `1e-4 c_X`), the lowest `Ω²` 0.0446626 / 0.0446625 / 0.0446624 / 0.0446529 at `c_X` 0 / 1 / 10 / 100, a shift of -1.0e-7 per unit: `NO_BOUND_MODE` at every rung, no crossing. The box bottom sits 0.019 below, so a crossing would need `c_X` of order 2e5, an extrapolation 2000 x past the ladder into a regime where the added inertia is a third of the doublet's (the audit's caveat: indicative only), and where the coupling `l` itself is the lattice residual of a radial static core (§ 4 above). The § 67.2 threshold `2c_X l²/I_0 > 0.75` is unreachable on a static radial core by construction, not by a small coefficient; the place where `l` is nonzero is the rotating core, on which the doublet operator is not defined at a non-stationary state. `K_coll(c_X)` has no bound mode to act on. Since `X_M² = -2I1 - I2 + 4I3`, R1's boundedness screen applies to `c_X X_M²` unchanged.
+
+## 10. Deviations, audits, machine
+
+Deviations logged at EXECUTE (the task record's table): (1) every R17 descent starts from the nucleated shell (the bare-core singularity); (2) the v6 statics run core-seeded (the split-free core is the saddle of `U_v6`; an unseeded control kept at 2.0); (3) the run shape 8 to 12 workers on 12 performance cores (the machine: M4 Max, 12 P + 4 E cores, 48 GB; the BLAS single-threaded; peak concurrent footprint 3.30 GiB at 12 workers (the closing set: reached early, never beaten), swap never created); (4) the doublet frame's handedness measured at setup (the harmonic patterns were conjugate sections in the first gate run); (5) the symbol script's `(μ,ν,p,q)` mirroring corrected before the record (no verdict changed); (6) the fixed-K reads' dependence on the propagated director lift, found by the R17-2 audit, fixed for the record (the lift stored; the radial-lift values quoted where they differ).
+
+Audits (an independent agent per stage, its own script and method): R17-0 9 claims, 7 confirmed / 1 qualified / 1 refuted (the "any uniaxial texture" statement on `l`, corrected); R17-2 with R17-3a and R17-3c 8 claims, 3 / 5 / 0 (the seeded statics unconverged, the lift dependence, "identical from r 7.9" is 0.24 percent); R17-1 with R17-4 7 claims, 2 / 5 / 0 (the frozen protocol's failure stronger than claimed, the K 200 comparison seed-confounded, the `c_X` extrapolation); R17-3b 4 claims, 2 / 2 / 0 (the box-bottom comparator's lift, the free-cell restriction of every `Ω²`, the `E_h` split's labels corrected). Every number in this post that an audit qualified carries the qualification.
+
+Worker count and memory from the machine's sampler (11912 samples over 9 h): 8 to 12 workers on 12 performance cores, peak single-process footprint 3.80 GiB, peak concurrent 3.30 GiB, swap never created: the wall clock was cores and bandwidth, not memory.
+
+## 11. The definitions we ask for
+
+1. The script bundle `m5_scripts_bundle.zip` (round32 to round89) is not attached to zenodo 22654888 (the re-versioned record) either; where is it? Nothing here was re-run on its say-so and a `REPRODUCED` column waits for it.
+2. Which object carries `+c_X X_M²` in your line: v4, v6, or the relative-weight v4 we used (object B)? We ran it on B.
+3. "The plateau weight defined relative to the director's eigenvalue" (§ 22.4): we read it as `w(λ₁(x)) = w(λ_g(x)) = 0` on every cell, i.e. `w(N) = P23` exactly wherever the director is isolated, with the § 27.2 derivative caveat as the resolvent of `dP23`. Is that the object, or does the taper keep a finite width around the local eigenvalues?
+4. `W = [(1-λ₁)/(1-δ)]²` is the example of § 26.3; is it the `W` of v6, and does the sextic's `(ν, κ)` move with `g_W` as § 27.3's self-consistency condition suggests? On every core v6 produced here `ν/κ = 0.025` exceeds `2Δ_min²`.
+
+## 12. Code and data
+
+The task record (every number, the deviations, the audit tables): https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md. The method note § 15 (equations first, the equation-to-code map): https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_method_note.md. The ledger § 6.6 with the outcome: https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md. Scripts: `m5_32_r17_common.py` (the instrument extension, selftest 21/21), `m5_32_r17_0_record.py`, `m5_32_r17_0_symbolic.py`, `m5_32_r17_0_symbol.py`, `m5_32_r17_1_fixedk.py`, `m5_32_r17_2_statics.py`, `m5_32_r17_2_operator.py`, `m5_32_r17_3_fixedk.py`, the audits `m5_32_r17_0_audit.py`, `m5_32_r17_2_audit.py`, `m5_32_r17_1_audit.py`, `m5_32_r17_3_audit.py`; data JSONs `data/m5_32_r17_*.json`; the R16 end fields as the data pre-release `m5_32-r16-fields` (https://github.com/openwave-labs/openwave/releases/tag/m5_32-r16-fields). The end fields of R17 stay local under the dataset policy (13 arrays, listed in the task record with their regeneration commands); ask if you want them released the same way.

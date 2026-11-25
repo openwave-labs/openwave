@@ -1,0 +1,54 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18254268
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18254268
+author: xrodz
+posted: 2026-09-02T17:47:36Z
+version: as first posted
+sha256: 7ea4efa33ca019257bb19d25df6a137b1526885ef43129064ac717f08d7bd975
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @vantasnerdan @mjmikulski
+
+FYI: the candidate ledger Jarek asked for on 2026-09-02 is merged on OpenWave `main`, and our next rung (R13-W, the degenerate-wall clock convention) starts now on our side. Nothing is needed from anyone; corrections to any status cell are welcome here.
+
+**The ledger:** https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md
+
+It puts every candidate from the three searches (OpenWave R0 to R12, substrate-framework P239 to P249 at `8b74d3ab`, the-final-lagrangian-of-physics reports 001 to 013 at `65c6177f`) in one table with one status cell each, using the vocabulary from Dan's 08-31 review, then lists every repair route tried for the two issues, and ranks what is left. Every cell cites a script, a receipt, or a commit-pinned document. Maciej: we reproduced 001 (all numbers match), 006 (744 s CPU, both routes, all numbers match) and the self-contained legs of 007 (route 2 on the committed fields to 1.8e-15) on our machine before citing them.
+
+## Where the two issues stand, across the three searches
+
+| Issue | Closed routes (a pre-registered gate failed, or an exact no-go exists) | Still open |
+| --- | --- | --- |
+| Newton sign | constant-coefficient quadratics, even and odd (OpenWave R1, reports 001/005/006, P240 0032: three independent closures); the global static-sector flip (R11, 006: attraction with no floor); field-dependent coefficients and pointwise connections from `M` (007 + appendix, exact); covariant metric mixing `h = eta + 2uu` on our instruments (R2/R3); induced gravity (P243/P245: `GM/R = 213`, source trapped at compactness 894) | the fixed-J two-clock cross inertia `C(r) = A/r` (P240 0034 algebra exact, our R3.iii undecidable unrelaxed; nobody has measured `A` on relaxed localized clocks, and fixed omega gives the opposite sign); higher order in `F` or `dM`-built coefficients (006's escape map, no public work); two-defect states under a non-rigid clock convention |
+| Diverging omega | rigid isorotation (extensive on every stack: our R4 to R12, report 009, P244/P247); potential-only localizers (R6 theorem); the time-row gradient penalty (R7); `(F.F)^2` at fixed coefficient in the fundamental reading (R8/R11, 008: `-gamma s^2` runaway); weighted or tapered flows (kinematic only, `w -> cw`); wall-pinned then de-boxed clocks (P247) | P249 (theorem level, on a new action; exact algebra confirmed by us 7/7, the variational bridge not checked by us); the `(I_1^G)^2` energy-functional well (008/013: convergence-certified in depth on one box, never box-laddered, and whether that functional is the `H` of a well-posed `L` is Jarek's call); the fundamental-reading grid wells (010/013: do not certify in 24 cycles); the degenerate WALL convention (Jarek, 08-31): no stack has run it as a wall; its spin-side analog (Maciej's 009 § 6a / 011, rotation confined to the core by an equivariant background) did not survive statics selection, and its degenerate-vacuum half is closed on the rigid family (our R8 / R9: rigid inertia exactly zero at `delta = 0`) |
+
+Two facts that shaped the ranking. (1) In the certified action a rigidly rotating EMPTY vacuum carries no kinetic energy at all (`F_0i = [A_0, A_i]_eta` vanishes where `d_i M = 0`, as Maciej's 002/007 state and as our `I1` has by the same structure); in Jarek's picture the ambient frequency is set by content, a medium with gradients almost everywhere, where it costs the defects' inertia. Either way only defects and walls carry inertia, which makes the wall tension and the wall's own inertia the whole question. (2) No wall, interface, or `omega(x)` clock exists in any of the three records at the pins (grep-verified in both external repos), so R13-W is the one route proposed by the model author that no stack has run as such. The nearest analog is Maciej's 009 § 5 masked generator, whose interface term makes J a prescribed parameter rather than a Noether charge: that is exactly the obstruction W2 has to meet where two rigid generators touch.
+
+## Ranking (details and the full evidence in the ledger § 6.1)
+
+1. P249 exterior-degenerate SO(2) clock: the only theorem-level localized clock, on a NEW action (Sym(3) + complex scalar + locks), so not yet a candidate for the 4x4 field itself; lacks a field map back to the certified action, a profile, and everything two-body. Dan's own route frontier lists the 4x4 dynamics (`E_M532_DYNAMICS`) as remaining.
+2. The degenerate-wall convention on the certified 4x4 action: the one author-proposed route with no direct test; keeps the action and explains one global phase with region-dependent frequency. W1 (a static wall with finite tension) cannot refute it; W2 can.
+3. The `(I_1^G)^2` energy-functional clock (008/013): the only convergence-certified localized clock on the original 4x4 field, under the repaired-metric action (`G = eta + 2uu`, the same `h` as our C2 family) in a reading that is not yet an `L`; an L-ladder at fixed h would settle its box independence and belongs to Maciej's stack.
+4. The fixed-J two-clock cross inertia `C(r) = A/r` (P240 0034): the one Newton route whose algebra is exact (like-rotating clocks attract at fixed J iff `A > 0`, repel at fixed omega; we re-derived it). It concerns the clock-clock term only; the Newton sign that fails on the certified action is the static dressed pair, which has no ensemble. Downstream of 1 or 2.
+5. Higher-order-in-`F` coefficients for the sign: the only class on the 4x4 field not closed for Newton, with one named term (`(F.F)^2`, dilation exponent 5, our R11) and a cheap direct test against a flipped static sector that has not run yet. On the Newton axis alone it sits above 4.
+
+## R13-W, pre-registered (ledger § 6.2 carries the full obligation table)
+
+Dan: "rung packet" is not a term in your repo, so this is written in your obligation-node shape (object, license, ensemble, functional, admissible space, representation coverage, observable, numerical representation, permitted verdicts, failure scope, unlocks), with the analytic closure carried in before any number. Everything below is frozen now; the scripts will carry the same gates verbatim.
+
+| Field | R13-W |
+| --- | --- |
+| Object | the certified 4x4 field under `L_cert = -4 I1 - V4`, vacuum `diag(-g, 1, delta, 0)`, g = 8, delta = 0.3, one g = 32 control |
+| License | the (2,3)-plane isorotation is not a symmetry of this vacuum (trivial stabilizer, our R9). On a surface where the last two eigenvalues equalize, `a0 = [G1, M] = (d2 - d3)(E23 + E32) = 0`, so the rotation acts trivially ON the wall; its jets do not unless `d_z(d2 - d3) = 0` there too, so two global phases `omega t`, `omega' t` meeting at the wall give an interface energy that must be periodic in the relative angle, never secular. The identity plus the derivative condition are the first check (W0, symbolic) |
+| Ensemble | fixed J |
+| Functionals | W1: static energy of a 1D wall profile, vacuum at both ends, `d2 = d3` constrained at z = 0, then released. W2: on a slab with the wall at z = 0 and a rigid generator on each side, (i) the static interface energy as a function of the relative angle over one period, and (ii) the wall-localized inertia `kin_wall` = the coefficient of `omega^2` in the slab (the empty vacuum contributes zero, so every `omega^2` term in a defect-free slab is the wall's). W3: `E_J = E_stat + J^2/(4 kin_in)` with the ring or hedgehog core inside a spherical degenerate shell, the shell free |
+| Admissible space | h in {1.5, 1.0, 0.75} and L in {48, 72, 96} varied independently; no taper, mask, or pinned interior; vacuum pinned at the box edge only |
+| Coverage | W1/W2 cover the wall as a stationary object of the static functional plus the stationary two-frequency read. They do not cover spontaneous wall formation under time evolution: our stack has no Hamiltonian integrator (FIRE is damped descent), so that question is logged `NUMERICALLY_UNRESOLVED` unless a leapfrog is built as a separate rung |
+| Observables | W1: tension `sigma_0`, its h-convergence order over three refinements, and whether the released profile keeps `d2 = d3`. W2: `E_stat(Delta q)` periodic with no secular growth, and `kin_wall` per unit area with its observed L-exponent over three boxes. W3: `R*`, `omega*`, `dE/dJ = omega`, and whether the shell survives fixed-J relaxation |
+| Permitted verdicts | W1 pass: `ESTABLISHED_KINEMATIC` (finite h-converged `sigma_0`); W1 fail (released profile melts): W2 decides whether the mismatch load pins the wall. W2 pass: `E_stat(Delta q)` periodic and `kin_wall` per unit area L-independent; W2 fail (secular twist energy, or `kin_wall` growing with L): `CANDIDATE_REFUTED` for the wall convention on `L_cert`, W3 does not run. W3 pass: `PERIODIC_ORBIT_EXISTS` at the relaxed-field level; W3 fail (shell melts or `R*` tracks L): `ESTABLISHED_KINEMATIC` at best |
+| Analytic closure | bag energetics in our convention `E_J = E_stat + J^2/(4 kin)`: with the measured rigid law `kin_in = kappa R` (the `1/r` tail cut at R, our R7), `R*^3 = J^2/(32 pi kappa sigma)`; with a volume-filling `kin_in = kappa R^3`, `R*^5 = 3 J^2/(32 pi kappa sigma)`. Finite for any `sigma > 0` either way, so a finite radius at W3 proves nothing by itself; W3's content is the shell's stability under the field equations |
+| Failure scope | a refutation refutes the wall convention on the certified action as represented (rigid-per-region generator, static wall), not the mechanism on a modified action, nor the dynamical formation question |
+| Unlocks | W2 pass: W3, then the two-clock cross inertia on two bubbles (rank 4). W1 or W2 fail: the RELAXED degenerate-vacuum contrast case (the rigid clock on a degenerate vacuum is already closed: inertia exactly zero, our R8 / R9) and the P249 field-map question |
+
+The ledger itself went through an independent adversarial audit before this post (70 claims checked, 53 confirmed, 16 qualified and corrected, 1 refuted and corrected; the record is in the ledger § 8). Results will be posted here rung by rung, each after the same kind of audit, with the scripts and receipts on `main`.

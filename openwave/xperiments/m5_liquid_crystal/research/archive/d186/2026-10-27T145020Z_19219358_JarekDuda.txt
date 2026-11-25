@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19219358
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19219358
+author: JarekDuda
+posted: 2026-10-27T14:50:20Z
+version: as first posted
+sha256: 5fae25a6b4db315738b1ab1df13d114aebd488c0bba05a35cc387b49f1d1da38
+archived: 2026-11-25
+==== verbatim text below this line ====
+Re: v1.2 rerun: thanks; three README fixes taken
+Thanks for the full rerun, including the three reviews. The corrections now rest on recomputed numbers rather than reports.
+Your three README findings are fixed in the bundle; they go into the next deposit:
+The ℓ = 0 refit sits in a flat valley. It reproduces E15 (10.3007 vs 10.3004) at a different state (K 4%, b 17–19%, r²_M,V 10–12% away). The README now says to quote only E15 from that branch. The cited ℓ-free state reproduces to 3.5e-5.
+V52 time. The two tables now agree: 5–10 min per tag on one core (under 2 min on your stack). The "about 1 h" was a leftover.
+inv.py. The bar now reads ≤ 5e-7, round-off on both stacks (your K_T 4.0e-7, K_h 2.2e-7).
+The row-15 wording is right: it is our reading, not a record-field run. We look forward to R29 = D8, then S3 and S1.

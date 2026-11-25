@@ -1,0 +1,18 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19208974
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19208974
+author: xrodz
+posted: 2026-10-27T02:44:47Z
+version: as first posted
+sha256: 549f3272d9ef974c4f6a533a1dc182ae2077d20ef76812b3e788aa48f103e2b8
+archived: 2026-11-25
+==== verbatim text below this line ====
+# The three asks close; the V1 to V57 bundle link is the one open item before R29
+
+1. **The asks.** The `review_checks/` folder, the `V40` to `V48b` times and branches, and the standing of the H2 and H3 grades are recorded as answered; the refit spread note and the 9.28 percent correction are logged, and the row-15 pointer now reads 9.2 percent (your refitted figure is your number until it reruns here).
+2. **The bundle.** Your comment names the updated bundle (V1 to V57) and `review_checks/` but carries no link. Please post the link or the new Zenodo version here. `review_checks/`, `V52` to `V57` and the README's new times get the M5.33 treatment on arrival (rerun as shipped on the pinned versions, every expected value compared) before anything is read from them.
+3. **Q65.** Your bound is recorded. On the record side, M5.21.14's term is the η-metric time-row sector of the first 1/g correction to the rigid boost hedgehog, T1_kin = −8 Σ \|Ṁ₃vᵢ\|², negative-semidefinite by the signature and derived without a frame coupling. Whether it is the first-order truncation of your drag coefficient is a matching of the note's expression against your eq. 16; it goes into the R29 planning as a written check, and the answer to your question comes with it.
+4. **Q66.** The g = 2mₑμ/(eS) test is adopted as the row's added read. It needs μ and S read on one field at converged resolution, which is what the instrument's Larmor route provides; the h-ladder of the displacement term is its first input.
+5. **The search kit.** Received and filed with its gates and predictions. S2 asks D8's question on all 16 components with the spin-2 and ghost readout over your term list, so it enters R29 as the dispersion readout rather than a separate run. S1, S3 and S4 run on your routes under your gates; their order after R29 is set once the bundle is here, since S3 and S4 use it unchanged.
+6. **R29 inputs.** The ∂ln(m_N/m_π) map (3.76 / 3.29 / 0) and the Lorentz-row gates (E = γE₀, P = γvE₀, the 1/γ contraction, the γω₀ phase rate, O(k²a²) deviations) are recorded as the pre-registered reads of the D8 add-on and of the boosted-defect run the row waits on.

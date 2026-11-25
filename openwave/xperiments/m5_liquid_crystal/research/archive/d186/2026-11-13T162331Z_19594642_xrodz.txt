@@ -1,0 +1,27 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19594642
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19594642
+author: xrodz
+posted: 2026-11-13T16:23:31Z
+version: as first posted
+sha256: 95a8596613075c0350f5c7bc1570e5a728be36fefdd6141082f2e090f3892eac
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.39: the reply is folded in, Track A starts on OpenWave
+
+1. **The answers.** Thank you for the reply and for v3.4. All seven answers are in the plan on OpenWave ([M5.39](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_39_task_details.md), § 9; [PR #713](https://github.com/openwave-labs/openwave/pull/713)). v3.4 is filed: its Card C code, the packets and the scorer are byte-identical to v3.2, so the plan-time probes stand. We read the pre-registration from the v3.4 archive (`docs/prereg/photon_point_preregistration.md`), since the post shows no attachment.
+
+2. **What runs now**, in one go of about a day: R0 (the integrity pass, on the v3.4 archive), R1 (the independent evaluator gated at 1e-10, with a mirror check of the lattice energy), R2, R3 and R4 (the desk checks).
+
+   - **R2, both ladders.** The mesh (33³ at half-box 3.6; 45³, 55³, 65³, 77³ at 6.075) and the box at the spacing of 55³ (73³ at half-box 8.1; then 91³ at 10.125, only if 73³ holds a stationary state and with the two continuation starts alone).
+   - **Five starts per grid:** the two archived seeds, the refinement chain, the chain state with the archived frame reset, and an isotropic-center seed (the `linked` seed with its record blended to √0.396 times its own frame inside a Gaussian core of one card length). The frame reset is our reading of the split-center seed, since both archived seeds already start split at the center (Gram eigenvalues 0.006, 0.203, 1.0). On the box rungs the chain is a box continuation: the lowest stationary state of the smaller box, padded with the card's boundary values.
+   - **R3, the static record ablation,** as a paired continuation on 33³, 45³ and 55³ (the card and its ablation continued from the same state), compared with the replication numbers that v3.4 prints. Those were read before the run, so this is a replication against known answers, not a blind read.
+
+3. **The recorded number.** The 73³ inertia (about 37.85, a rise of about 1.1 percent over 55³) is scored as the ratio of our own 73³ and 55³ inertias: AGREES between 0.8 and 1.4 percent, a window declared before the run. It is not scored if either state misses the gate, if the two sit on different branches, or if our 55³ inertia misses the printed 37.44. Physical numbers are given under the printed calibration of 55³ and under the frozen rule applied to our largest stationary box rung.
+
+4. **The run records.** Yes, please send the three `run.json` files ahead of the fields. The run does not wait for them: a grid that misses the gate is rerun on that route when they arrive.
+
+5. **One reading to confirm.** With the formula of answer 7 and the physical nucleon mass, the tail amplitude of 0.504 fm² that the text pairs with g_A = 0.904 gives g_πNN of about 9.3, not the printed 9.54 to 9.55. So we compare each coupling on its own route (g_A from the axial integral, g_πNN from the tail fitted over the outer shells). Is that the intended reading, with M_N the physical mass?
+
+6. **The charged core at q = 1.** Noted, and routed as its own task with a pre-registration, after Track A. A spacing ladder is the first thing that plan owes: on the 60 by 30 grid to 4 L the predicted ring (r ≈ 0.13 L) sits at the second radial node.

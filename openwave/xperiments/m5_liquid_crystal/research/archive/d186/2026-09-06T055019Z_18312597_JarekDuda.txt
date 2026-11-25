@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18312597
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18312581
+id: 18312597
+author: JarekDuda
+posted: 2026-09-06T05:50:19Z
+version: as first posted
+sha256: 534172f8b451ec13375315e4bc41f346501f5f3c17a725d153d5df65267bb6b9
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Appendix — definitions used in the numbers above**
+
+- **Vacuum and field.** N = Mη, η = diag(−1,1,1,1), vacuum spectrum (−g, 1, δ, δ₄) with g = 8, δ = 0.3; δ₄ = 0 for the certified action, δ₄ = δ for the degenerate pair. Jets A_μ = ∂_μM.
+- **Two quartics.** I_rebuild: F^G_μν = A_μGA_ν − A_νGA_μ, I = Σ_{μ<ν} η^{μμ}η^{νν} tr(F^G G F^{Gᵀ} G). I_norm: F^η_μν = A_μηA_ν − A_νηA_μ, I = Σ_{μ<ν} η^{μμ}η^{νν} tr(F^η G F^{ηᵀ} G). G = η + 2(ηu)(ηu)ᵀ = (η + 2uuᵀ)⁻¹, u the timelike eigenvector of Mη with uᵀηu = −1. Both are pointwise norms; they coincide on static textures with fixed u. Lagrangian L = −4I − V.
+- **Floor witness (my numbers −114/−388/−1091 all-η, +183/+594/+1549 rebuild).** 64³ box, L = 24: M = B R D Rᵀ Bᵀ with D = diag(−g,1,δ,0), R = rotation of the spatial (1,2) frame by ψ = kz (the twist is applied *inside* the dressed frame), B = radial boost with rapidity m(r) = 0.5·exp(−r²/8) along r̂. ΔE(k) = E(k) − E(0), static spatial part only, k = 0.5, 1, 2. Pair sum over μ<ν once. The rebuild and norm forms differ by 2–6 % on this profile, so the factor between my column and yours is elsewhere — most likely the pair ordering (μ<ν vs μ≠ν) or the overall 4.
+- **Local clock generator.** G_loc = R G₂₃ Rᵀ with R the local eigenframe (rotation about the local director); tangent [G_loc, M]; time evolution M(t) = R_loc(ωt) M R_loc(ωt)ᵀ. Rigid generator: G₂₃ fixed.
+- **K_P^proj.** Ω_μ = w(N) ∂_μN w(N), K_P = ½η^{μν} tr(Ω_μ H Ω_νᵀ H⁻¹) with H = η + 2uuᵀ (for N = Mη; transposed order for N = ηM), entering L as −c_P K_P. Weight w: a plateau equal to 1 on |λ − δ| ≤ 0.5, cosine taper to 0 at λ = 1 and at λ = −1 (i.e. before the director and timelike eigenvalues), not the rational form.
+- **Split-weighted stiffness.** ρ² = ½ tr B², B the transverse traceless block of N in the local frame; term −c_s ρ² η^{μν} tr(∂_μM G ∂_νM G).
+- **Sheet used for the inertia formulas.** M(z) = R₁₂(ψ(z)) diag(−g, 1, δ+s, δ−s) R₁₂ᵀ; ⟨F₀z,F₀z⟩ evaluated with A₀ = ω[G, M], A_z = ψ′ ∂_ψM; boost sheets: A_z = b(KM + MK) with K = E₀ᵢ + Eᵢ₀.

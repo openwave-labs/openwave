@@ -1,0 +1,43 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18528194
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18528194
+author: JarekDuda
+posted: 2026-09-20T14:12:48Z
+version: as first posted
+sha256: 23643bc05e18496185d209c259c400449a16c59733f179fab89bb36f1aff882f
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks — two answers, and one number that I think settles the calibration question.
+
+**2. The projector.** Yes: `u` is the eta-normalized eigenvector of the timelike eigenvalue of `N`, and `n` is the top spatial eigenvector of the same `N`. But I would not run the witness on `P_perp = 1 - u u^T - n n^T`. That form is singular exactly where the physics is — wherever the pair it projects onto splits or coalesces, which is the core, the wall and the halo edge. Use the basis-free Riesz cluster projector instead:
+
+```
+P_23 = I - P_g - P_1,    B = P_23 N P_23 - (1/2) tr(P_23 N) P_23
+```
+
+Same doublet, polynomial in `N`, no director in its construction, smooth through splitting and coalescence. It still fails at the `lambda_1 = lambda_3` core crossing, and that is the right thing to gate on.
+
+**1a. Why the term is needed at all.** For `V = w sum_p (tr N^p - C_p)^2`, splitting a degenerate pair by `eps` enters every invariant at `O(eps^2)`, so `V = O(eps^4)` identically — the degenerate pair has no quadratic stiffness of its own. (In 3x3 with vacuum `(1, delta, delta)` it is exactly `V = 4 eps^4 (1 + 9 delta^2 + 36 delta^4)`.) So `c L` is literally supplying the missing `m_b^2`, and your doublet `(g + delta)(1 - delta) c = 5.81 c` is that mass. It also means the `c = 0` box-filling state is not a condensate but the absence of a scale.
+
+Separately, I have been computing the biaxial direction on the 3x3 record: it never condenses on its own. The elastic term beats the potential's own instability by about a factor 6 on the relaxed core, in every family tested — spherical, torus, split core — and with a one-constant quadratic elastic term as well as the commutator quartic. So expect the halo to be sourced by the core and never self-sustaining.
+
+**1b. Yes, expect the threshold at the top — it is the cutoff crossing the core.** Your own linear form predicts it. With `R_c = beta^(-1/4)`, `beta = 5.81 c / 2K`, `K = 8 (1 - delta)^2 = 3.92`:
+
+| c | 3e-4 | 1e-3 | 3e-3 | 1e-2 |
+| --- | --- | --- | --- | --- |
+| `R_c = beta^(-1/4)` | 8.19 | 6.06 | 4.61 | 3.41 |
+| your fitted `R_K` | 8.92 | 7.16 | 5.12 | — |
+| ratio | 1.09 | 1.18 | 1.11 | — |
+
+The halo dies when `R_c` falls below the core. With your seed `r_half = 4.44` and that measured ratio of 1.1, this is `c ~ 5e-3` — inside the 3e-3 to 1e-2 window where you see `eps(6)` fall by 12.7 to 26.7 times. So the collapse is geometric, not a retreat, and half a decade is the right width for it.
+
+The bottom of the window is not the box either: it is the nonlinear crossover, which your own quartic-over-quadratic force ratio at r 6 (24.8, 8.2, 2.6, 0.47, 0.12) puts between `c` 3e-4 and 1e-3. A larger box moves the wall and does not move the crossover. **So no box on this action gives more than about half a decade of clean window.** That is a property of the action, not of your ladder, and I think it retires the power-law read rather than deferring it.
+
+**1c. The read I would accept, with no power law in it.** A collapse test. The linear halo has one master curve: plot `eps(r) * r^0.618` against `rho = sqrt(beta) r^2 / 2` and every row must lie on `sqrt(rho) K_nu(rho)`, `nu = sqrt(5)/4` — no fitted exponent, no fitted radius, one free amplitude per row which is the core's boundary condition. Three things come out of the one plot: which rows are linear (they collapse), where each row peels off at small `rho` (that *is* the nonlinear crossover, measured rather than inferred), and whether the `c^(-1/4)` law holds at all. It uses every point of every profile instead of one radius per row — and unlike a slope of `-0.24 ± 0.1`, it can be refuted.
+
+Your `eps(6)` against `c` is the right instinct, and I would keep it as the supporting read near the threshold, where the collapse test runs out because the profile is no longer a tail. Pre-register it as the ratio to the master curve at the same normalization rather than as a raw amplitude.
+
+**On the physical point.** The same law anchors it without extrapolating a fitted slope: at `c = 5.1e-6`, `R_c = 22.7`, about 5 seed-core radii. The nonlinear plateau extends the halo at small `c`, so treat 22.7 as a lower bound — but it is a long way from 206, and I would rather have that on the record now than discover it later.
+
+**Small one on the second signature sector.** Depth `-501 c^2` against a barrier of 27.9 per unit volume is 0.45 at your top row and 1.3e-8 at the physical point, so the metastability is real but binding nowhere on the ladder. Worth one line in the ledger so it does not get re-litigated.

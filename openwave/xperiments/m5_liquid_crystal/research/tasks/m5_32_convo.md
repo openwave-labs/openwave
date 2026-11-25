@@ -1,6 +1,8 @@
 # M5.32 convo record: the Lagrangian-repair quest (2026-08-13 to 2026-08-27)
 
 > The author-side exchange that mandates [M5.32](m5_32_task_details.md), datestamped `## YYYY-MM-DD` entries, chronological. It continues the [`m5_21_convo.md`](m5_21_convo.md) thread (last entry there: the 2026-08-14 outbound). Public list and GitHub messages carry a verbatim spine; cc-chain messages that never reached the list carry context and routing only. Every decode line is evidence, not resolution; the author's words are the record.
+>
+> **Verbatim copies (2026-11-25).** Every post of discussion #186, as posted and after each edit, is kept in [`../archive/d186/`](../archive/d186/_INDEX.md), one plain-text file per version. This record stays the reading of each post.
 
 ## 2026-08-13 and 2026-08-14: the sign-reversal quest and the M5.21.16 answer
 

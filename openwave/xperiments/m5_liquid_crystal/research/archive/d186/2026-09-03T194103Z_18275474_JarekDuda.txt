@@ -1,0 +1,68 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18275474
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18275474
+author: JarekDuda
+posted: 2026-09-03T19:41:03Z
+version: as first posted
+sha256: a8da4e1c053a5f38ba2789548305c0a1b9ed172dfb0a7ee361462304065ef656
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks, as this is too difficult for me, I have also started using AI tools - below suggestions working with Fable 5.1, tomorrow should reconsider with Astra:
+
+Following up on R13-W and the corrected P250 (#197). I re-derived the load-bearing algebra independently and probed the two directions we discussed (a lower-order F contraction as in Einstein–Hilbert, and the Kronecker time-axis metric). Scripts are attached; everything below is reproducible with sympy/numpy only.
+
+## 1. P249's radiation edge is entirely the axis lock
+
+Decomposing the P249 exterior Hessian term by term (order a, t, p, u, v, q):
+
+| term | a | t | p | u | v | q |
+|---|---|---|---|---|---|---|
+| V_ldg (rotation-invariant) | 5 | 6 | 6 | **0** | **0** | 6 |
+| V_axis = tr S² − S₀₀² | 0 | 4 | 4 | 4 | 4 | 4 |
+| V_lock | 0 | 0 | 12 | 0 | 0 | 12 |
+
+The charge-1 shear doublet (u,v), which sets the edge m*² = 4, gets its whole mass from the explicitly rotation-breaking lock; under the invariant part it is a Goldstone. The same holds in the 4×4 degenerate vacuum (−g,1,δ,δ): of the five Goldstones, boost₀₂, boost₀₃, tilt₁₂, tilt₁₃ are all clock-charged (only boost₀₁ is neutral). So in an orientation-invariant M5 the exterior-degenerate clock has massless charged channels and the hylomorphic theorem cannot transfer — the quantitative form of the #190 audit's "covariant action absent". Since the core's charged content is even (split = charge 2, tilts = charge 1), there is no linear source; decay is parametric (split → tilt + tilt). A metastable relative equilibrium is not excluded; a strict fixed-J minimizer is.
+
+## 2. The linear (Einstein–Hilbert-like) F contraction
+
+The only Lorentz scalar linear in F is the double mixed trace R_G = Σ_μν G_cd[∂_μM^{νc}∂_νM^{μd} − ∂_μM^{μc}∂_νM^{νd}] (R0 rule: mixed pairs with δ).
+
+- G = η: identically ∂_μJ^μ, EL ≡ 0 (symbolic, generic M in 1+1 and 2+1). The literal EH term is empty on L_cert.
+- G ∈ {ηMη, M⁻¹, η+2uuᵀ}: still a total derivative on the whole fixed-eigenvalue Lorentz orbit, boosts included (periodic-box integral → 0 with spectral convergence, e.g. 6.9 → 5e-2 → 8e-4 → 1e-8). On the orbit every covariant G is L⁻ᵀCL⁻¹ and the frame connection is pure gauge — Mikulski 006's flat-connection appendix, generalised.
+- Bulk content appears only with eigenvalue gradients. So R_G is a (∂λ)·(∂frame) coupling — the analogue of the ΓΓ part of √g R.
+- No (∂ₜM)² term for any G (cannot ghost the kinetic form; at most B-type on a clock); every static texture untouched (Coulomb record exact); outside the R1 F×F class.
+
+## 3. Newton sign, in one sentence
+
+The boost dressing is a vector (aether-tilt) charge; in a covariant positive-energy theory odd-spin mediation makes like charges repel, even-spin attracts. R1/R2/R11 are instances: no signature choice ("imaginary time" in any placement) or F×F coefficient changes the spin of the mediator. Attraction has to be carried by the eigenvalue (scalar) or symmetric-tensor channel of M — "density deficit", not "time-axis tilt". P239-H is the scalar version.
+
+## 4. Candidate terms (all covariant, all Coulomb-preserving)
+
+- **K_λ = ½ η^{μν} Σ_a ∂_μλ_a ∂_νλ_a** — eigenvalue-only kinetic term. Inert on every orientation gradient. With a light overall scale gives Nordström-type attraction; F² ∝ s⁴ under M → sM, so keep a small mass to avoid runaway.
+- **R_G** with free coefficient — tunable-sign gravitational coupling for a dressed core with eigenvalue deformation; short range unless combined with K_λ.
+- **K_P = ½ η^{μν} tr(P∂_μN P · P∂_νN P)**, N = Mη, P = (N−g)(N−1). Tilts (f(1)=0) and boosts (f(g)=0) invisible; the (2,3) block gets phase stiffness ∝ (λ₂−λ₃)²|∂φ|² and a split-modulus kinetic term. P249's Q-ball structure without the lock. Removes the rigid-clock volume divergence but not R13-W's tilt-sheet free inertia (runs through the I₁ cross term F₀z, invisible to K_P by construction).
+- Rejected on inspection: TEGR torsion² / EH for the metric M (charges tilts → hedgehog ~ L); constraint-like −c₂(∇·ε)² for the aether (attractive, but the quartic bounds it via a uniform-gradient, Lorentz-breaking ground state).
+
+## 5. Structural conjecture and cheap rungs
+
+Conjecture: within local, second-order-in-time, covariant Lagrangians, a strict fixed-J minimizer clock and a Coulomb hedgehog cannot coexist in a translation-invariant vacuum — the R13-W sheet (rank-1 tilt jet) and the hedgehog tail (rank-2 tilt jet, 1/r) live in the same channel, and every 2-derivative term that charges one diverges on the other.
+
+1. **R_G on the boost-dressed pair** (R3 instrument, one coefficient). Predict: sign flips with sign(c_R); static 3×3 record unchanged to machine precision.
+2. **K_λ + light scale**: linearised two-core exchange. Predict: attractive Yukawa, range 1/m_s.
+3. **Falsifier**: any covariant term bounding fixed-J inertia with ∫I₁ finite on the hedgehog.
+
+## 6. Costlier searches (for the compute you have)
+
+- **A. Extended Farkas over a term basis.** Enumerate covariant scalars up to 4 derivatives with polynomial weights f(N) inserted (traces of products of N, ∂N, f(N)). On fixed witness families the constraints are linear in the coefficients: (i) hedgehog-tail finiteness, (ii) bounded inertia on the R13-W sheet family, (iii) attractive dressed-pair sign, (iv) kinetic-form positivity. LP feasibility gives either a feasible cone or an infeasibility certificate — a theorem for §5 within the class. Outer loop: re-relax the witnesses under each feasible action.
+- **B. Fixed-J continuation protocol** (R13-W's own method) applied to each candidate action: E_J(h, L) for h → 0, L → ∞. Convergence = minimizer exists; drift = lattice artifact. This is the decisive numerical test and it is embarrassingly parallel over (candidate, h, L, J).
+- **C. 3+1 evolution + Floquet of the K_P relative equilibrium** (no lock): growth rate of the charge-1 tilt doublet at ω/2 vs amplitude; lifetime in units of 2π/ω. This is the number that decides whether "metastable" is physics.
+- **D. Full pair relaxation for Newton** under R_G and K_λ with free dressing (beyond the ansatz): E(d), plus a multipole decomposition of the eigenvalue channel's far field — monopole means 1/d, dipole means 1/d².
+- **E. Effective-metric diagnostic.** Propagate small tilt wavepackets through a dressed core and extract n(r); compare to GR's isotropic weak-field metric. Independently of Newton this tests the degenerate pencil directly: in L_cert tilt waves propagate only where ∂M ≠ 0, which is a strong prediction about light in vacuum.
+- **F. The one class that can evade §5: second-derivative (Lovelock/Galileon-type, εε∂∂M∂∂M) invariants.** Scaling is different: on the sheet ∫(∂²M)² ~ Ψ²/w³ (charged), on the hedgehog tail ∂²M ~ r⁻³ (finite). Ostrogradsky is the risk; only degenerate εε structures (the ones GR itself uses) are candidates. Cheap first pass: scaling on the two families; then ghost analysis.
+
+## 7. Next anchor after electron and Newton: neutrino oscillations
+
+In the model's own terms a resting neutrino is a neutral time-crystal (paper §VI-C, Fig. 6), so the classical anchor is: a neutral localized object with ≥ 2 stationary internal states of slightly different rest energy, and a coherent two-frequency solution beating between them; covariance then gives the lab beat ∝ Δm²/2E automatically, so what is tested is (i) existence and lifetime of the neutral object (same radiation obstruction as the clock — rung C's machinery), (ii) a natural hierarchy Δm² ≪ m_e², plausibly from the δ-weighted twist channel, and (iii) three flavours from the three axes, which would make the mixing angles geometric outputs of the eigenframe rather than inputs. Concretely: search for twist/tilt vortex-loop (Hopfion-like) solutions of the corrected action, compute their internal linear spectrum, look for a near-degenerate triplet, then build the two-frequency composite — which is the object P250 was already reaching for. This reuses B–C wholesale.
+
+If useful, I can open §5–§7 as R14+ with the scripts as the audit baseline.

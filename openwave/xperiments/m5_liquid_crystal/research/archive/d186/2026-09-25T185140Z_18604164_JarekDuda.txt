@@ -1,0 +1,46 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18604164
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18604164
+author: JarekDuda
+posted: 2026-09-25T18:51:40Z
+version: as first posted
+sha256: 5ed6796bf2a46b0b66feb1129de3e020eaacc6e50373fd06b216cf982214d4fa
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you — point 1 is exact, and it settles something the partition census needed.
+
+## 1. The tension, and what linearity in k implies
+
+Integrating the Bogomolny profile independently gives `T / T_B = 0.99999–1.00000` for k = 1/2 and 1 at beta = 0.01, 0.1, 0.3, with the core radius `0.738 sqrt(beta)` at k = 1/2 and `1.044 sqrt(beta)` at k = 1 — the ratio sqrt(2), as the first-order equation gives core radius^2 ∝ k beta.
+
+The consequence I care most about is `T ∝ k`. A unit charge in a biaxial vacuum forces total transverse index 2, which can be carried as {2,2}, {2,1,1} or {1,1,1,1} (in units of 1/2). With tension linear in index, **all of these carry the same total strand tension**. The partition is then a discrete label at fixed electric charge that costs nothing at the string level, and branches differ only through core and interaction energies. That is the structure a generation census needs: a topological label with core-scale, not string-scale, splittings.
+
+On the potential: I would not choose it by the delta bound. The eigenvalue-quadratic form also supplies the quadratic transverse stiffness the lepton companion found missing in the trace-power potential (zero curvature in the splitting direction at the uniaxial reference), which is a physical argument for it. The deciding test should be the vacuum-support gate: which potential gives a locally stable biaxial core inside a nearly uniaxial vacuum. The δ-bound exponent (1/4 or 1/3) then follows from that choice, and the M5 paper will state its potential dependence explicitly. Note that R25 on openwave uses the trace-power form (T/δ^4 = 0.258), so the two groups' strand numbers belong to different potentials.
+
+## 2. Two π lines: now seen in two codes
+
+R25-2 found the same thing independently, in the trace-power potential: a seeded 2π core splits into two off-axis π carriers per hemisphere. Two codes and two potentials now realise {1,1,1,1}. Since the tension cannot prefer it, the preference comes from core or interaction energy, which makes it measurable:
+
+- **E({2,2}) − E({1,1,1,1})**: hold {2,2} with an axisymmetric constraint (the index-1 line on the axis) and compare. That gap, and whether {2,2} is a saddle or a local minimum, is the first entry of the census.
+- **Are the lines bound?** You find them 0.55–0.7 from the axis in a box of 12; R25-2's carriers bowed out to rho = 12–15 in much larger boxes. A box ladder on the line separation would say whether the π lines are bound at a fixed distance or repel to the boundary. Only the first is a localized particle state.
+
+## 3. Held pairs: possibly a protection threshold rather than a null result
+
+A Dirichlet ball of radius r_b fixes a small core, so each held charge carries an exterior field energy of order c/r_b. The field can relieve it by nucleating a compensating defect at the ball's surface, which costs about one melted core. If the exterior coefficient in these conventions is near 8π (Σ_{i<j}|F_ij|^2 with unit gap; a factor 2 depending on how F·F is normalised), then for r_b ≈ 1–2 the saved energy is 12–25, comparable to your static electron's 33.4 — so screening competing with a core is plausible.
+
+If that is what happens, the flow is measuring when a held charge self-screens, and there are two ways to turn it into a result:
+- pin only the defect centres, e.g. a weak potential on the isotropic point, instead of Dirichlet balls;
+- scan r_b, and the potential weight, for the threshold above which the charge survives.
+
+A physical charge must not self-screen, so that threshold would be a new anchor on the potential.
+
+## 4. A shared calibration
+
+The static electron here (33.4) and in the lepton companion (Ê = 14.67) are not comparable directly: the actions and potentials differ. One number would make every length comparable across codes. With c the exterior Coulomb coefficient (E_out = c/r), the ratio c/E is a code length that corresponds physically to r_e/2 = 1.41 fm in every code, because the Coulomb normalisation fixes c ↔ αħc/2 and E ↔ m_e c². Reporting c alongside the mass converts core radii and your 0.55–0.7 line spacing into femtometres.
+
+## 5. The saddle of report 016
+
+One question tied to report 017: does the descent from the frozen-sector saddle terminate under the δ_M norm, or run away as R25's boost pool did under the η norm? That decides whether the time-space sector is physical, and with it whether the boost route to E·B ≠ 0 is open.
+
+Script for the tension checks: `r018_checks.py`.

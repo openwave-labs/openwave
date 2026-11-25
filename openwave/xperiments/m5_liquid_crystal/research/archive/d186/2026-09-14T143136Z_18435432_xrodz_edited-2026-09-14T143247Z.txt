@@ -1,0 +1,57 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18435432
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18435432
+author: xrodz
+posted: 2026-09-14T14:31:36Z
+version: edited 2026-09-14T14:32:47Z
+sha256: b6a8c8b83c16b260185c074fc932afe6ce2202f5e06706dc5c8aee559278002b
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R21 plan: the three axes under three boundaries at one residual (the seed pin, the relaxed far field, free), the section 711.3 texture on the certified action, the two-roots read of the frame saddle, and the W1 ladder
+
+@mjmikulski , thank you for running the L-ladder we asked for on 2026-09-02, on our own instrument's seed, with the appendix and its reproduction script: the box dependence of a polished static energy is the read R20 could not make at its budgets, and it sets this rung's comparison bar.
+
+@JarekDuda, thank you for the three audit results and for reading our boost saddle as the normal-relaxation gate, and for the sections 765 to 779 of the 1716-page record that take R20 apart line by line.
+
+It has been an exciting collaboration with both of you, and this rung is built from what you sent.
+
+## TL;DR
+
+1. R20 compared rows at equal step budgets and end residuals `max |G|` of 0.03 to 0.15; the L-ladder's rows are polished to 1e-4 and its energy falls 6 then 4 percent with the box, the opposite sign to our equal-budget increments. R21 compares every boundary at one residual: an L-BFGS polish with the gate `max |G| < 1e-3` on every n32 row, the residual reported where the gate is not reached.
+2. The boundary rung you both named: the three axes `S_1`, `S_d`, `S_0` on `4 I1 + V4` under `B_seed` (R20's pin at the seed), `B_far` (the pin at the R20 n64 field's values on the n32 shell, the cells coincide exactly) and `B_free` (no pin; the stack's stencil is one-sided at the faces, so the discrete functional already carries its natural boundary and dropping the mask is the free boundary with the same exact gradient). Started from the R20 end fields, so only the boundary changes.
+3. Section 711.3's texture (`A = E_00`, `B = E_01 + E_10`, the eta pairing) placed on our lattice exactly, at delta 0.3 and at your delta 1: the sign of `E_curv` on it and its `1 / s` growth. R20 could not see it (`M_0i = 0` by construction); this is R19's RUNAWAY direction in closed form.
+4. The two-roots read: your `-2 (delta - 1)^2 (g - 1)^2` is -48.02 at our parameters, the same number as the second `V_spec` curvature (`2 P'(1)^2`), and R20's frame curvatures at g 8 and g 32 have the ratio 17 to 19 against `(31 / 7)^2 = 19.6`. Two points cannot fix a product of two factors; a scan over g in {1, 2, 4, 8, 32} and delta in {0.3, 0.6, 1} can, and its outcome is pre-registered (`FRAME_TWO_ROOTS` / `FRAME_ONE_ROOT` / `FRAME_NOT_PRODUCT`).
+5. The W1 ladder your section 776 asked for and section 779.1 withdrew as a prescription: the question under it stands and costs three rows (`S_1` at W1 times 5 and 25, `S_d` at times 25). `lambda_*` scales as `W1^(-1/4)`, so times 25 moves `R_*` 13 to 18 to 6 to 8 if the equilibrium is the potential's; and under `B_free` a stationary row must have the virial at 3, which the pinned rows cannot show (the shell carries half of the dilation derivative for `S_d` and `S_0`).
+6. Dropped: v13 (`I_2` to `I_5`), by your own section 714.3. Not this rung: the sigma term (v12, the R22 candidate with its own certification), v23 and v24 (new field content), `inc(h) = 2 G(h)` and the sourced-constraint Newton (nothing to run here), the `J != 0` reading (accepted as the reading of our own saddle).
+7. Every claim row in the results post will name its validation script, per Dan's rule on the list; the fresh-agent audit per stage stays.
+
+## Objects and boundaries
+
+The three axes of R20 (`S_1 (1, delta, 0)`, `S_d (delta, 1, 0)`, `S_0 (0, 1, delta)` on `4 I1 + V4`, g 8, delta 0.3, the same seeds and instrument) under:
+
+```text
+B_seed   the R20 boundary: the Dirichlet shell (depth 1.6) at the seed's values, the seed's line defect frozen at half-width 24
+B_far    the Dirichlet shell at the relaxed far field: the R20 n64 end field's values on the n32 box's shell (the central 32^3 of the 64^3 field)
+B_free   no pin: every cell relaxes, the faces one-sided (the natural boundary of the discrete functional)
+```
+
+Pre-registered: the seed's line defect is intrinsic to the three-axis assignment (the frame `(n, phi, theta)` is singular on the polar axis for every assignment, the cost is the transverse eigenvalue carried by `phi` or `theta`), so no pinned boundary is fair to the three; the free boundary is the one that does not hold the defect, and with `pi_2 = 0` on the biaxial vacuum it can let the string escape through the faces or the electron fill the box, both of which are outcomes with names below.
+
+## Stages
+
+| Stage | What runs | Gate or read |
+| --- | --- | --- |
+| R21-0, form level (one script, audited) | (a) the free-boundary gradient at face and edge cells, 4-point stencil 1e-11, complex step 1e-13 on n8; (b) the `B_far` seed: cell coincidence to 1e-15, the restriction bitwise, its shell energy against the seed's 45.5 for `S_d`; (c) section 711.3's texture on the n32 lattice, s in {12, 9, 6, 4.5, 3}, eps in {0.5, 1, 2, 4}, at delta 0.3 and delta 1, the fit to `-a eps^4 / s + b^2 eps^2 s + c s^3`, the jet's -2 and the Frobenius +2 as a form-level control; (d) the `(g - 1)^2` ratio from the R20 record as the pre-registration of R21-3 | `TEXTURE_UNBOUNDED` iff `E_curv` is negative on the texture and grows as `1 / s` at fixed eps at either vacuum; `TEXTURE_BOUNDED` iff positive on every (s, eps); the lattice floor at `s = 2h` reported either way |
+| R21-1, the boundary triple, n32 | `B_far` and `B_free` for each axis from the R20 end fields, FIRE 4500 accepted steps, checkpoints, detached pools; the R20 reads (degrees with the solid-angle degree, the tube read, the shell share, the Derrick, frame and radial reads, the matching radius) plus Maciej's tail-slope read on r 8 to 16 and the face-layer energy under `B_free`; optional: `S_d` under `B_free` at n64 from the R20 n64 field, 2000 steps | per axis `INTERIOR_SET` (E(< 12) to 2 percent across the three boundaries, the degree kept) / `BOUNDARY_SET` (a polished total moving by more than 5 percent, or the winding lost) / `BOUNDARY_UNDECIDED`; `S_d`: `STRING_ESCAPES` / `STRING_HELD`; per axis under `B_free`: `AXIS_BOX_LIMITED` (`dE / d lambda < 0`, `R_* > L / 4`) / `AXIS_LOCALIZED` (`R_* < L / 6`, the virial within 30 percent of 3); the triple: `THREE_AXES_DISTINCT` iff the three polished `B_free` energies differ by more than three times the largest boundary difference, else `AXES_DEGENERATE`; Koide Q a read |
+| R21-2, the polish | scipy L-BFGS (memory 20) on the free entries with the same `energy_grad`, every n32 row of the triple (R20's three `B_seed` rows included), up to 3000 iterations | `POLISHED` iff `max |G| < 1e-3`; else the residual recorded and the row qualified; comparisons at the largest residual among an axis's rows where a gate is missed; the 1e-4 bar reported if reached |
+| R21-3, the (g, delta) scan | `S_1` under `B_seed` at g in {1, 2, 4} (g 8 and 32 are R20's) and delta in {0.6, 1} at g 8, 3000 steps plus the polish, then the frame read at s 0.02 and 0.05 | `FRAME_TWO_ROOTS` iff the curvature at g 1 and at delta 1 are both within 5 percent of zero relative to g 8's and the g scan fits `(g - 1)^2` to 20 percent; `FRAME_ONE_ROOT` iff one factor works; `FRAME_NOT_PRODUCT` otherwise |
+| R21-4, the W1 ladder | `S_1` at W1 times 5 and 25, `S_d` at times 25, under `B_seed`, 4500 steps plus the polish; the `S_1` times-25 row also under `B_free` if the budget allows | `SCALE_IS_THE_POTENTIALS` iff at times 25 the polished `S_1` has `R_* < L / 6`, the virial within 30 percent of 3 and `dE / d lambda` within 10 percent of zero relative to R20's; `SCALE_IS_THE_BOXS` iff `R_*` stays above `L / 4` or the virial above 6; `SCALE_UNDECIDED` otherwise; `S_d`'s shell share against 72 percent |
+
+## Budget
+
+R21-0 under an hour; R21-1, R21-3 and R21-4 fourteen n32 rows in two waves under 12 workers and a 12 GB memory budget, about 3 h wall; R21-2 about 1 h in parallel; the optional n64 string row 3.5 h alongside, cut without penalty if it is not in at collect; one fresh-agent audit per stage; the review about 8 h after the go. Cut first if the day runs long: the n64 row, the `B_free` copy of the W1 row, the delta scan.
+
+## Where it is written
+
+The packet, pre-registered before the go: [ledger section 6.11](https://github.com/openwave-labs/openwave/blob/db617176741cc3e00ba5704c9337384ae694fe51/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md) (pinned to `db617176741cc3e00ba5704c9337384ae694fe51`); the inputs with their routing in [`m5_32_convo.md`](https://github.com/openwave-labs/openwave/blob/db617176741cc3e00ba5704c9337384ae694fe51/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_convo.md), the 2026-09-14 section. Two readings of R20's numbers in the 1716-page record that R20 did not make, so that they are not carried as ours: the ratios 2.36 and 6.38 read as lepton masses (R20's two-rung rule returned `AXES_DEGENERATE` by resolution and said the values do not converge), and the four curvatures of section 370 reproduced on the roots (8, 1, 0.3, 0), which is this stack's s = +1 spectrum (R20-0). The rest of sections 765 to 767 reads our record as we wrote it.

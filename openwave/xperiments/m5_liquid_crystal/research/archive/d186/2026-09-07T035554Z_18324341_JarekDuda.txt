@@ -1,0 +1,57 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18324341
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18324341
+author: JarekDuda
+posted: 2026-09-07T03:55:54Z
+version: as first posted
+sha256: 1af1f1280c3a62a0cd2e58ddfbd3321cf83c0ec57e7363dc0f3789a5c397d55f
+archived: 2026-11-25
+==== verbatim text below this line ====
+Here is my updated Lagrangian hunt report, you might find valuable: https://zenodo.org/records/22594931
+Also dBB/hydrodynamics-like atomic level summary: https://zenodo.org/records/22315045 
+And complete picture trying to combine them: https://zenodo.org/records/22550061  
+All 3 working simultaneously and discussing - maybe others also should, also for different models of particles.
+Below is the proper response:
+
+@xrodz @vantasnerdan @mjmikulski — this consolidates my side since the 09-03 post, through your R14, R15, R16 and three independent audits (Astra). Scorecards, then corrections, then the theorems on the record, then the object with its pre-registered predictions and requests, then the atomic gates and what is open. A definitions appendix closes it so every number can be checked from text.
+
+## 1. Scorecards
+
+**R14.** Your refutation of the R_G orbit theorem for ≥2 boost planes was right; reproduced in 3+1 on a periodic box (R_η at 1e−13; two boost planes: ∫R_G → +41.1 Kronecker, −110 ηMη, −300 M⁻¹). My 2+1 evidence was topological (Gauss–Bonnet); withdrawn. R14-A CLASS_INFEASIBLE and R14-B refuted as predicted (the certified (δ,0) exterior ticks; my package needed the degenerate pair for exactly that). K_P trace order is convention-tied (N = Mη vs ηM; both texts right).
+
+**R15.** (i),(ii) held; (iii),(iv) failed by Coleman's condition — V₄ + μs² has V/s² minimised at s → 0, your theorem. Your R15-P-iv end state (−0.11, 0.70, 0.70) is the Landau–de Gennes biaxial-ring core; your R12 ring is the half-degree ring disclination.
+
+**R16 (v4).** Three of my four stage predictions failed, one held. Cause: v4 as posted had no clock well. U = μρ² gives only the vacuum mass; the hedgehog's I₁ enhancement is a sub-critical 1/r² well (strength α = 4κμ(1−δ)²/c_P² ≈ 0.02, ¼ needed); V₄'s split curvature at the melted core is positive (your "the core repels"); and the transverse-tensor shell carries an angular barrier (λ_ang = 2, threshold V₀r₀² = π², not π²/4 — Astra). With nothing binding or capping the split, fixed K inflated it to the (1,3) collision, escape (d), which the sextic plateau was designed to prevent and "optional" left out. Stage 4 held and was generalised: c_s > 16ω² at the operating ω (your 32ω²ρ² flips; the run's c_s = 0.4 covers ω ≤ 0.16, the spikes reached 0.276). Your finding that the hedgehog exterior is not degenerate in the tilt channel corrects my statement, which holds for the uniform vacuum only. Retraction accepted (E_h ≥ 0 pointwise, both completions); naming settled (my h column is I_rebuild/4, yours I_norm; identical on u = e₀ fields); both normalisations reproduced (ω_c² = μ/4c_P for the quadrature rate, Ω_c² = μ/c_P for the canonical doublet Ω = 2ω).
+
+## 2. Corrections adopted from the audits, re-derived before adoption
+
+Two inequivalent H-adjoint completions (G inside the bracket vs only in the norm; at G = I, A₁ = I, A₂ = E₀₁+E₁₀ gives ‖F^G‖² = 0 but ‖F^η‖²_G = 8). Kinetic sign: with η = (−,+,+,+) every quadratic term enters as −cK. The eigenvalue kinetic metric is discontinuous at the pair → smooth transverse block B, ρ² = ½tr B². A spectral weight that falls with the split kills the Coleman crossing → plateau weight. Three script faults of mine (a zero boost generator, an inconsistent endpoint gradient, a phase-independent commutator witness) were found by Astra and repaired; results restated below are from the repaired scripts.
+
+## 3. On the record
+
+**(a) Local clock circle.** T_αM = R_n(α/2)MR_n(α/2)ᵀ — conjugation by a rotation about the local director, weight two on the split — fixes every uniaxial texture pointwise; its tangent vanishes at B = 0, so B = 0 director sheets carry no clock inertia in any action (I₁ cross term 8ω²ψ′²s²(δ+s−1)², zero at s = 0; nonzero at s = 0 under the rigid generator — your W0-3). Sheets *with* split reopen it unless their tilt is charged: the split-weighted E₂, c_s ρ²tr(∂MG∂MG), vanishes on every Coulomb texture, closes them (floor E_K ≥ K√c_s/4 on tilt and pair-plane boost families), and is the core regulator — hyperbolic iff c_s > 16ω², s and δ cancelling. The H-adjoint is mandatory (all-η pair-plane boost cross term −8b²ω²s²(g−δ∓s)²). I₁ must be circle-averaged (non-invariance via the ∂R terms of the transformed jets); V and the projected K_P are invariant.
+
+**(b) Axisymmetry cancels the spin.** On an axisymmetric texture [G_z,M] = (x∂_y−y∂_x)M pointwise, so the physical-rotation tangent vanishes and J_z = 0 for any velocity field — the local-circle clock and the rigid isorotation alike. The axisymmetric ring core (your P246 clock stress) spins with zero angular momentum. Your registered, unbuilt "fixed-axis non-spherical rotor" (P247) is the object with spin.
+
+**(c) Spin is chirality of the split, and a competition.** In the lowest bundle sector (spin-weight-2 harmonics ₂Y₂ₘ, zero index 4 each) J_z = −⟨m⟩K. With a positive quartic the tetrahedral four-half-defect pattern is the shell minimum (Astra's identity β₄ = 25/21 + 25|ℓ|²/63 + 25|A₀₀|²/21); on v5's sextic the plateau amplitude always exceeds the chirality crossover (s*²/A_×² = Δβ₆/2Δβ₄ = 2.55 for any ν, κ), so at J = 0 the core is tetrahedral. Minimising over all five modes at fixed polarisation P = ⟨m⟩: the cheapest chiral carrier up to P = 1 is the m = +1 mode y₁ ∝ sinθ(1−cosθ)e^{iφ} (3+1 zeros, J = −K per quadrature angle); at fixed J the optimum sits at P* ≈ 1 over a decade of J before coalescing into y₂ at large J. The pattern fixes the mass–phase convention (y₁: J = K_quad, tensor ticking at 2mc²/ħ; y₂: J = 2K_quad), which is why it must be computed before E = ħω is read.
+
+**(d) Clock rate near a core.** On the tail I₁ raises the doublet's inertia and stiffness equally (both 4(λ−δ)²/r²), so the local threshold is Ω_c(r)² = μ/(c_P + η), N(r) = (1+η/c_P)^{−1/2}: every clock runs slower near every core, charge-sign independent, and a bound clock feels F = −E∇ln N, attractive but 1/r³. Newton needs a 1/r field in the split gap — the scale mode — and that is now a defined calculation, not a slogan.
+
+## 4. Object v5, pre-registered
+
+L_v5 = −4Ī₁ʰ − [V₄(g,1,δ,δ) + μρ² − νρ⁴ + κρ⁶] − c_P K_P^proj − c_s ρ²Ē₂, (μ,ν,κ) = (1e−2, 4e−2, 0.4); plateau weight defined *relative to the director's eigenvalue* (w = 1 near the pair, tapering to 0 at λ₁(x) and λ_g(x), λ₁ the isolated largest spatial eigenvalue — the absolute |λ−δ| ≤ 0.5 admitted the director once it melted, as you saw); regulator averaged; c_s = 0.5; fixed K with the true gradient.
+
+Predictions: (1) static core biaxial — torus or split core of Morse index 0 (McLauchlan–Han–Langer–Majumdar 2024 for the sixth-order potential), radial hedgehog a transition state; (2) static split near s* = 0.224, below the collision at 0.35 — no escape (d); (3) at fixed K the reduced Q-ball branch: bound above a minimum charge, E/K < Ω_c, dE/dK = Ω; (4) split angular content on shells: tetrahedral at J = 0, y₁-dominated (3+1 zeros, P* ≈ 1) at moderate J, coalesced y₂ only at large J — not the axisymmetric ₂Y₂₀; (5) hyperbolic at the branch's ω with c_s = 0.5. Named failure modes: uniaxial static core (scan ν); ₂Y₂₀ (J = 0, not the electron); a spike (plateau or c_s).
+
+Requests: (i) ∂²V₄/∂s² along the relaxed core's radial profile — the doublet's mass profile, which with the λ_ang = 2 barrier decides what any potential without a negative quartic can bind; (ii) the ₂Y₂ₘ content of the split on shells and P at each K; (iii) λ_eff (the K-dependence of E with the core free — Astra's reciprocal-relaxation term), ħω − E along the branch, and E_stat/E_rot; (iv) **R16-2 rerun with the director-relative weight**: report the doublet operator's lowest mode against the empty box. Prediction: a weak attractive tail (Ω_c(r)² = μ/(c_P + η), η = 4κ(1−δ)²/r²) with repulsion confined to the melted core where ∂²V₄/∂s² > 0. The absolute weight fed the hedgehog's own 1/r jets into K_P^proj as a positive 1/r² barrier; the sign of the corrected tail is the first computed step of a clock-rate reading of gravity, so the rerun decides more than the doublet.
+
+## 5. Atomic gates that bind the action now
+
+A field-carrier envelope needs the free electron within 2.7e−5 of its carrier gap; the reduced core sits 2e−2 below — the atomic envelope is the core's position state. The moment cannot be transported charge of a core smaller than (g/2)ƛ_C; it is a magnetisation current of the clock, testable through D₂₁ = 8E_hfs(2S) − E_hfs(1S): an r⁻⁴ tail gives a residual linear in its scale, an exponential tail quadratic (Astra). A charged core on the 2p₍±1₎ Bohm flow radiates at 92–840× the quantum rate (mean) — guidance must be node-regular. Once a current vertex exists, amplitude, phase and photon must be varied together: stable iff c²m_h² ≥ 4κ²ω² (Astra), the electromagnetic analogue of c_s > 16ω².
+
+## 6. Open
+
+Newton (every curvature mediator closed by spin-parity; the clock-rate route of §3(d) is the one started); the photon (a director wave and a finite charge cannot share the director stiffness — three derivations; the gauge-sector benchmark is a parallel item, and gauging the uniaxial tensor is Alice electrodynamics); the exterior constraint structure (milder than I said: your tail carries tilt inertia); spin-half quantisation (Finkelstein–Rubinstein on the actual core sector). Four of my pre-registered predictions have now been weakened or overturned by computation (R_G orbit, R15 (iii)/(iv), R16 stages 1–3, automatic chirality); each is recorded as such.
+
+**Appendix — definitions.** N = Mη, η = diag(−1,1,1,1), vacuum (−g,1,δ,δ₄), g = 8, δ = 0.3. I_rebuild: F^G = A_μGA_ν − A_νGA_μ; I_norm: F^η with G only in the norm; G = η + 2(ηu)(ηu)ᵀ, u the timelike eigenvector. L = −4I − V. Floor witness (my −114/−388/−1091 all-η, +183/+594/+1549 rebuild): 64³, L = 24, M = BRDRᵀBᵀ, D = diag(−g,1,δ,0), R the (1,2) twist by kz inside the dressed frame, B a radial boost with rapidity 0.5·exp(−r²/8), ΔE(k) static spatial, μ<ν once. Local generator G_loc = RG₂₃Rᵀ; rigid G₂₃. K_P^proj: Ω_μ = w(N)∂_μN w(N), K_P = ½η^{μν}tr(Ω_μHΩ_νᵀH⁻¹), H = η + 2uuᵀ (N = Mη; transposed order for ηM), entering L as −c_P K_P. ρ² = ½tr B², B the transverse traceless block. Inertia-formula sheet: M(z) = R₁₂(ψ(z)) diag(−g,1,δ+s,δ−s) R₁₂ᵀ, A₀ = ω[G,M], A_z = ψ′∂_ψM; boost sheets A_z = b(KM + MK), K = E₀ᵢ + Eᵢ₀. Shell basis: y₀ = √(15/8) sin²θ, y_{±1} = (√5/2) sinθ(1∓cosθ)e^{±iφ}, y_{±2} = (√5/4)(1∓cosθ)²e^{±2iφ}; β_k = ⟨|ζ|^k⟩ at unit norm.

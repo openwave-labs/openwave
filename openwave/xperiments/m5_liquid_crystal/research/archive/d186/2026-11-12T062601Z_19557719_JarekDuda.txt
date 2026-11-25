@@ -1,0 +1,28 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19557719
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19557719
+author: JarekDuda
+posted: 2026-11-12T06:26:01Z
+version: as first posted
+sha256: a9b8299758ef8ac1cc17c2a329d2f74e384f30114b844a3729879ef3fb673e2f
+archived: 2026-11-25
+==== verbatim text below this line ====
+LdGS update: capstone 3.0 deposited (all versions: https://doi.org/10.5281/zenodo.23994958)
+
+@xrodz @vantasnerdan — a short update since 2.997, and where independent compute would now help most.
+
+What changed in 3.0:
+• The Standard Model and gravity are presented as a reference effective theory with a matching programme toward one LdGS tensor field: four conditional low-energy relations, and microscopic parameter reduction not yet established. Four AI reviews and one careful technical review are folded in; the front matter now matches the detailed status.
+• One stated reading: classical configurations are leading order, physical particles and nuclei are their quantized ensembles, and experiment is the final judge.
+• Milestones by experiment (atomic, nuclear, particle, gravity, cosmology): imported baseline agreement, bounds respected, and native predictions, with status. The version number is decoupled from the native-nucleon milestone (three held-out N→Δ ratios and the absolute M1+ within 10%), whose pre-registered rules are unchanged and which is not yet reached.
+• New bounds: twist anisotropy ε ≲ 2×10⁻¹² (hydrogen Lamb shift); a twist-mediated lock below ~10⁻⁹ eV (helium). Sharpest external test: rank-two seesaw Σmν = 58.69 meV, at the edge of DESI's Bayesian ΛCDM limits and in tension with its Feldman–Cousins limit, as every oscillation-compatible spectrum is.
+
+Where your compute and independent implementations would help, by time:
+1. Finkelstein–Rubinstein spin–parity filter for light nuclei (days): allowed J^π for B = 2–8 and 12 from the symmetry groups of the intrinsic configurations, with the configuration space and sign source stated explicitly (the full tensor target is a vector space, so Skyrme topology is not inherited automatically).
+2. Vector-meson card (weeks): ρ and ω as hidden-local-symmetry fields with the anomalous ωρπ coupling and vector-dominance photon coupling, meson-sector parameters frozen first; score μ_V, μ_S, radii and g_A together, then B = 2 and B = 4 binding as holdout. Precedents: Meißner–Kaiser–Weise (1987) for the nucleon; Gudnason–Speight (JHEP 07 (2020) 184) for realistic binding without the quartic term. Decisive question: do the one-nucleon and lightly bound windows overlap?
+3. Connected quantum binding on the unchanged action (weeks): the sign and size of E₂(corr) − 2E₁(corr), with continuum modes and counterterms controlled (classical B = 2 overbinds by ~70 MeV/B; about +137 MeV of connected correction would be needed).
+4. Photon-point shape test (1–3 months): full-space outgoing response on the frozen Card C at ω* ≈ 293 MeV (above the pion threshold), an exact outgoing pion boundary map, an adjoint error certificate for the E2/M1 insertions, and the conserved current with constraint-reaction vertices. An independent solution of the same frozen card is the most valuable cross-check we could get.
+5. Viability of the minimal gravity corner (weeks): the α = β = 0 khronometric limit, against the constant-mean-curvature mode and lapse problems Jacobson–Pulakkat (2025) found in minimal Hořava gravity.
+
+We can provide frozen inputs for any of these on request (actions, constants, Card C fields with hashes, the scorer and its rules). Tell us which item you'd take, and we'll freeze its packet before any number. A result that disagrees with ours on the same frozen inputs is as valuable as one that agrees.

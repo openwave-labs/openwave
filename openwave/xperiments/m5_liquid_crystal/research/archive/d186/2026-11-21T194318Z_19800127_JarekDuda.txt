@@ -1,0 +1,54 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19800127
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19800127
+author: JarekDuda
+posted: 2026-11-21T19:43:18Z
+version: as first posted
+sha256: 3a7b97d2c47d2158133a8c13cf62ca445f174b975480ec9c74683e54f927317c
+archived: 2026-11-25
+==== verbatim text below this line ====
+**On M5.49 and M5.50.** Thank you, Rodrigo and the auditors. The extra controls and the held-back labels are what make these reads usable. S = computed, C = reading, O = open.
+
+**1. The bands (M5.49): we accept the words as read.** Three of four held, one not held.
+- The outer edges came out 3.4–6.6 % outside our numbers. That is the offset you identified: the fitted cutoffs sit a few percent under √(m²/q̄). So the rule m_eff² = L₁m²/I(r) holds on your background with that offset in it.
+- "No band on the axis at ω = 4" is not held on half-box 8, and we count it so. It was a yes/no statement registered too close to its threshold. It rested on the least m_eff² on the axis being 16.58, against ω² = 16. On your relaxed background that minimum is 15.50–16.38 (14.92–15.82 on the ray itself), below 16 on half-box 8. There our own rule predicts the band you read. Lesson for us: a band/no-band statement within a few percent of threshold should not be registered as a yes/no.
+- Our falsifier, a driven wave that advances in phase, is still unread. If a driven run is cheap on your side, it is the read we would value most here.
+
+**2. The ladder (M5.50): no label, agreed.**
+- Two reads count for us as information, not labels: U and the force rose at every held step, and no state ended as two lines.
+- The hold failed in an instructive way. Holding a moment of the potential density let the field park the held quantity on one to three single nodes, while the loop returned to its free size.
+- A hold that follows the line itself (C; a suggestion, not a registered prediction): pin the two ½-line piercings. On two thin cylinders around x = ±d/2 in the cross-section plane, impose the field of a ½ line (minor axes turning by π) as Dirichlet data. Relax the rest, and read U(d) and its derivative as the force. This is the usual way defect–defect interactions are computed with pinned cores. The rule for a split would then be read on the free region between the cylinders.
+
+**3. Your question on part (c).** As frozen, those reads count against the clause, and we do not change that after the run. So 3 of 4 exits are not held.
+- What the reads probably are (C): when the loop leaves through a face, the major gap closes on the face nodes it crosses. There the long axis is undefined, so the surface has no degree at all for those one or two iterations (neither ½ nor 1). A topological charge can leave a closed surface only through a point where the order parameter melts, so this is how a whole unit would leave. No surface ever read ½.
+- For a future run, a clause we would register before it starts (not a rescore):
+  - a surface on which the gap closes on fewer than 30 nodes, all within one loop radius of the loop's last piece, reads "unreadable", not "not held";
+  - the clause fails if any readable surface reads other than 0 or 1;
+  - it also fails if unreadable reads persist for more than 5 iterations after the loop's last piercing has left the box.
+
+**4. The two 404s, re-attached.** `LdGS_capstone_v41_checks.zip` and `LdGS_milestone_arrays_20nov.zip` (the four relaxed arrays of rung A; m6 is the upper triangle of M).
+
+**5. Before porting the v4.1 action, one warning (S, found 21 Nov).**
+- The term in question is item 1 of that post, L_V s(M)|∇M|². In our engine its link weight was the mean of s at the two end sites. With that weight a ~90° jump of the minor frame between two vacuum sites costs nothing, and all such jumps between two uniform domains are parallel, so the commutator vanishes on them too. A long 2D line run exploited this, ending with 1206 free-jump links.
+- Evaluating s at the link midpoint, s(½(M_i + M_j)), closes the loophole.
+- Effect on the rung-A states of the v4.1 post (δ = 0; re-evaluated tonight at fixed field): U rises by +1.07 % (half-box 6, spacing 0.5), +0.54 % (half-box 6, spacing 0.375) and +1.01 % (half-box 9, spacing 0.5). The change halves with the spacing, as discretization error does, and the stored U is reproduced exactly with the old weight. So the v4.1 numbers stand within their grid error.
+- On the biaxial states (δ = 0.01–0.10) the shift is +0.5 to +1.9 %. Relaxed with the midpoint weight, the δ = 0.05 state at spacing 0.5 moves U by +0.92 %, the ring radius by +0.99 % and the inertia by +1.9 %.
+- In a biaxial vacuum the ½ line then has a finite tension, 0.885 δ⁴ field units per line (14.6 δ⁴ keV/fm). Hydrogen then bounds the biaxial gap at δ < 2.3 × 10⁻⁶.
+- Please port with the midpoint weight. The engine option is `lv_mid=True`; the diff and both audits are in `LdGS_v42_engine_midpoint.zip`.
+
+**6. Capstone v4.2, released today** (https://doi.org/10.5281/zenodo.23994958, all versions): the electron against experiment.
+- (S) Every assignment of the charge to a femtometre structure is excluded, by the 2026 hydrogen line and by g.
+- (S) The Dirac Lagrangian is exactly a first-order Lagrangian of a clocked frame: the phase is a rotation of the minor axes about the spin axis at 2mc²/ħ, and the spin direction is the sense of that rotation.
+- (S/C) There is a section on g-factors in experiments: the free electron with both recoil values of α, the bound electrons in C, Ne and Sn, the positron, the muon, the τ and the EDM.
+- The next native step is a first-order clock term of the action (O).
+
+**Rows of MODELS.md, as I read them now:**
+- Klein–Gordon: partial. Three of four band edges held within 10 %; the axis/no-band statement was not held on half-box 8, at its threshold; the driven-wave falsifier is unread.
+- Charge quantization: partial. The ladder gives no label; part (c) is not held on 3 of 4 exits as frozen. Two reads are positive: no state split, and no surface read ½.
+
+Jarek
+
+[LdGS_v42_engine_midpoint.zip](https://github.com/user-attachments/files/35218588/LdGS_v42_engine_midpoint.zip)
+[LdGS_milestone_arrays_20nov.zip](https://github.com/user-attachments/files/35218589/LdGS_milestone_arrays_20nov.zip)
+[LdGS_capstone_v41_checks.zip](https://github.com/user-attachments/files/35218591/LdGS_capstone_v41_checks.zip)

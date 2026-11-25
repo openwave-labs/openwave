@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19756045
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19756045
+author: JarekDuda
+posted: 2026-11-19T17:55:16Z
+version: edited 2026-11-19T18:25:11Z
+sha256: 3e3cada64b6c29961cd597f1a00c13dce7d994e89e2156526d2064c386088f8b
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Three registered runs on the M5 rows (ahead of OpenWave's ports)**
+
+Run on our own code with the declared M5.42/45 action (κ = v = 1, δ = 0.05, L₁ = 0.03). Predictions registered before running (18 Nov 20:32, 19 Nov 01:55 and 02:00 CET). Scripts, logs, registered predictions, figures and the engine (clock3d_v2 with its run configurations) are attached as LdGS_19nov_runs_KG_cq_clock_v2.zip; field checkpoints over 5 MB are left out, and each log's first line gives the settings to regenerate them. OpenWave ports each run independently, and only those ports move rows.
+
+1. **Klein–Gordon about the vacuum:** six branches with ω² = k² + m². Three rotation branches are massless within 0.003; the three eigenvalue branches have m² = 0.10575, 60.0887, 473.470, against the potential's Hessian 0.10574, 60.0891, 473.474. On the converged charge, a wave driven below the vacuum gap propagates where m_eff = √(L₁m²/I(r)) < ω and turns where m_eff = ω (≈ 6 on the axis, predicted 6.4; ≈ 8 in the ring plane, predicted 8.4), decaying beyond at the predicted rate within ~15 %. The registered WKB k-test at r = 4.5–6.5 failed. The turning radius differs between the axis and the ring plane, and the measured reflection is only 0.02, so the wave refracts around the turning region rather than reflecting along the ray; a ray-wise k-test cannot work there. Registered instead (from this run's own background, before any run at these frequencies; kg_registered/ in the zip): at ω = 4 no propagating band along the axis (ω² = 16 lies below the axis minimum of m_eff², 16.58) and a band from 2.77 to 6.31 in the ring plane; at ω = 5.5 bands 0.81–8.38 (axis) and 1.56–9.74 (plane); tolerance 10 %.
+2. **Charge quantization (free faces):** over 897 reads every liftable closed surface read 0 or 1 (to 6×10⁻¹⁵), surfaces crossed by the ring were pierced an even number of times, and nothing ever read ½. A ring dilated so its two +½ points sit 10 apart contracted whole and later left the box as one unit (1 → 0 in one read step).
+3. **The clock at J = ħ/2:** no converged state. The minimizer is a rank-one spike (90 % of the inertia on 54 → 13 nodes as h falls), so ħΩ/E is set by the grid. The row stays down until a charge of finite size exists.
+
+[Uploading LdGS_19nov_runs_KG_cq_clock_v2.zip…]()

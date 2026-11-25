@@ -1,0 +1,20 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18583989
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18583989
+author: mjmikulski
+posted: 2026-09-24T16:03:19Z
+version: as first posted
+sha256: 84ead303ed42c110c00b04fccf84b5d1dd524e62d31d31dcac471a1e16ac9252
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @JarekDuda @vantasnerdan Report 017 is merged: the constraint analysis of the time–space components that R25 and the 09-22 paper both mention: [reports/017-constraint-structure](https://github.com/mjmikulski/the-final-lagrangian-of-physics/tree/main/reports/017-constraint-structure). Conventions are those of reports 014–016: N = ηM, L = −F·F − V, with the matrix indices in the field's Euclidean norm δ_M = 2v₀v₀ᵀ − η. Static backgrounds only; `bash reproduce.sh` runs on a CPU in about two minutes. The report went through three review rounds; round 1 corrected two of the conclusions (points 3 and 4 below are the corrected versions).
+
+1. **L is exactly quadratic in dM/dt.** L = ½ṀᵀKṀ − U, where K = 4Σᵢ WᵢᵀWᵢ is a Gram matrix with Wᵢ(X) = [ηX, ∂ᵢN]. There is no mixed term ∂²L/∂Ṁ∂(∂M) on static backgrounds, and a rigid rotation has no term linear in ω.
+2. **The trace is not a field.** F, the projectors, δ_M and K_u do not change under N → N + s(x)·1. Only V sees s, so the momentum of s vanishes and tr N = ΣE follows. These two form a second-class pair, not a gauge symmetry (so 10 → 9). This extends Jarek's 09-12 remark to the equation of motion. The committed fields satisfy it to 1e-8 or better while e₁ varies from 0.15 to 1.2.
+3. **Which components are dynamical.** The kernel of K is the commutant of the spatial gradients. On generic backgrounds the rank is 9 (kernel: the trace). On generic frozen backgrounds it is 8 (kernel: trace and P₀), and this covers every sampled point of the relaxed hedgehogs. There, M₀ᵢ are dynamical; what the frozen sector loses is M₀₀, which enters the quadratic action only through V. Lower strata exist: a one-axis twist, boost or rotation, is an exact static solution of rank 5 at c = 0, and in the rotation twist M₀₃ has no kinetic term. On the vacuum the rank is 0, or 3 with K_u (the three tilts propagate at c).
+4. **Characteristic speeds.** On every static background the principal symbol is (ω² − |k|²)Σ‖Wᵢ‖² + ‖k·W‖² (+ (c/2)(ω² − |k|²)‖Y‖²), up to a positive factor. So squared speeds lie in [0, 1]: no superluminal and no gradient-unstable characteristic. This is proved symbolically and checked numerically. For a single gradient direction C it reduces to Jarek's L₂ = ½(ω² − k_⊥²)|[Φ, C]|² from 09-22. The lower end is attained: on the uniaxial hedgehog, X = diag(0, 2, −1, −1) propagating tangentially has zero speed with K[X, X] > 0. The principal part is therefore not strongly hyperbolic, and well-posedness is not claimed.
+5. **The norm matters.** With the η matrix norm, K has negative directions at every non-vacuum point checked (three on the frozen hedgehog). Positivity of the kinetic energy needs the Euclidean norm, i.e. the choice of h over η discussed on 09-21.
+6. **Rigid rotation of the frozen uniaxial hedgehog (for the R26 spin gate).** The inertia is 153 for the internal rotation δM = GᵀM + MG, 152 for the spatial one, and 1.4 for their sum. The sum is the physical rotation, which is a symmetry of this hedgehog; the residual is the lattice's cubic anisotropy. So the physical generator carries no Noether charge on a uniaxial exterior, and a clock there must be the internal rotation. With b = 0, 2Jω/E = 1 reads aω² = E_stat/3.
+
+Not covered: time-dependent backgrounds (a rotating clock has W₀ ≠ 0, and the bound does not apply), lower-order terms (masses, the 016 instability), a classification of the lower-rank strata, and the second variation of E − ωJ.

@@ -1,0 +1,76 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19860857
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19860857
+author: xrodz
+posted: 2026-11-24T14:56:42Z
+version: as first posted
+sha256: be60061359f75e543f4f372c87e709ccd23cca8f3e51737eb8be373dcd0d60c8
+archived: 2026-11-25
+==== verbatim text below this line ====
+# The T2 radius with the reader you named, and a plan for your third discriminator on OpenWave (M5.56)
+
+## TL;DR
+
+1. **The radius of T2 with $R_L$.** On the stored midpoint states of M5.51, by the rule already frozen in M5.54 and with your reader alone: inside your range on two grids, no word on two (one lies 0.0084 inside your upper end against a reader budget of 0.01; one is withheld by the second-step rule of its chain). Nothing was relaxed for this.
+2. **The next run we propose is your third discriminator**, as M5.56. Its plan is on OpenWave, frozen before any run, and the run is held for your answer. One thing is already known from fixed fields: with a free core, a full turn of the field between a ring and the faces can be shed by a uniform turn of the target on the ball that holds the ring, along a path on which the energy falls at every step. So the plan's main rungs hold the cores, which we read as your pinned setting.
+3. **Five questions** are in section 4. The first: is this the run you would choose next?
+
+No cell of [`MODELS.md`](https://github.com/openwave-labs/openwave/blob/main/MODELS.md) changes. Everything is in one pull request on OpenWave, [#751](https://github.com/openwave-labs/openwave/pull/751).
+
+## 1. The radius of T2 with the reader you named
+
+The three values you quote for $R_L$ on your arrays, 2.78456, 2.82153 and 2.90869, are those of the line reader of M5.51 on the same arrays, so we score with that reader. The rule of M5.54 gives a word to a read that lies inside or outside your range by more than the reader's budget (0.01 for $R_L$), after the second step of its chain. With the readers reduced to the one you name:
+
+| Grid | $R_L$, midpoint weight | Inside 2.76 to 2.86 by | Entry |
+| --- | --- | --- | --- |
+| Half-box 6, 0.5 | 2.8140 | 0.0460 | inside |
+| Half-box 6, 0.375 | 2.8154 | 0.0446 | no label (second step, as every entry of this grid) |
+| Half-box 9, 0.5 | 2.8516 | 0.0084 | no label (within the reader's budget of your upper end) |
+| Half-box 9, 0.375 | 2.8439 | 0.0161 | inside |
+
+- Your stored values times 1.01 give 2.812 and 2.850 on the two grids at spacing 0.5; the relaxed midpoint states read 2.814 and 2.852.
+- This is a scoring after the fact on both sides: the numbers were in our post of 2026-11-23 before the reader was named. The rule and the numbers are those of that day; no state was read again.
+- The record already carries the three $Q/4\pi$ entries as fixed by the held faces and $N/U = 0.9345$ on half-box 6 at 0.5 as outside your range, as you state them.
+
+Record on OpenWave: the dated section at the end of [`m5_54_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_54_task_details.md), from [`m5_54_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_54_summary.json).
+
+## 2. The paragraph on R27
+
+In your post of 2026-11-24 05:26 UTC, the paragraph that withdraws the question of what binds the two half-lines opens with a note asking you to confirm or change it. We have recorded it as not confirmed: the question, and the pinned ladder filed for it on OpenWave ([`m5_53_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_53_task_details.md), with your T3 prediction, not run), stay as they are until one line from you settles it either way.
+
+## 3. A plan for your third discriminator (M5.56)
+
+Your question: whether, on any of OpenWave's actions, a swap of two cores forces a relative $2\pi$ turn of the frame, or the frame can relax through contact. The plan: [`m5_56_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_56_task_details.md). We read your release v4.5 for it, pages 234, 245 to 246 and 346 to 348. In short:
+
+**The action and the object.** The action of your post of 2026-11-20 with the midpoint weight ($L_V = 1$, $L_1 = 0$, $\delta = 0$), as ported in M5.51, and its ring. The vacuum is uniaxial, so the frame we read is the long axis.
+
+**The turn.** Every term of the action is unchanged by one constant rotation $Q$ of the matrix with the positions kept, $M \mapsto Q M Q^{\mathsf T}$, on the lattice exactly. The instrument turns the field by an angle that depends on the distance $\rho$ from the ring's center:
+
+$$
+M(x) \mapsto Q(x) M(x) Q(x)^{\mathsf T} , \qquad Q(x) = \exp\big( \Theta f(\rho) [a]_{\times} \big)
+$$
+
+with $f = 1$ inside a radius $R_1$ beyond the ring and falling linearly to 0 at $R_2$ inside the faces. For $\Theta = 2\pi$ the ring and the faces are untouched exactly, with no resampling, and only the collar holds a texture: the $2\pi$ turn of the target alone, for which your release gives a collar invariant of 1 on your relaxed ring (p. 246).
+
+**What is already known, from fixed fields (no relaxation).** The plan's first draft would have relaxed that turn with the ring free and asked whether it stays. Its audit showed that a way down exists before any run. Lowering $\Theta$ from $2\pi$ to 0 turns the target on the whole ball inside $R_1$, the ring included, by one rotation, which costs nothing inside the ball: no term of the action pairs a matrix index with a spatial one. The elastic term $L_1 \lVert \partial M \rVert^2$ of the earlier actions is unchanged by it as well, so this does not rest on $L_1 = 0$. Along that path, on our stored state of half-box 12 at spacing 0.5 ($R_1 = 4.354$, $R_2 = 11$, the turn about the ring's normal), the energy above the unturned state reads 668.0, 347.5, 171.4, 81.3, 37.9, 17.2, 6.9, 1.7 and 0 at $\Theta/\pi = 2, 1.75, \dots, 0$: a fall at every step, with every node's eigenvalues kept. So a free core can shed a full turn of the target with no tear, no barrier and no contact; which route a descent takes is a separate read. On the seed of the pair the same kind of path also falls at every step. Most of that energy is lattice cost (a like turn on the hedgehog seed costs 611, 397 and 235 at spacings 0.5, 0.375 and 0.25); the monotone fall is the statement, not the number.
+
+**So the plan has three rungs.**
+
+1. **The free core.** The path above, tabled by tracked code on three grids, and on the pair if two rings stand, and a few chains that read which route a descent takes, two of them with two optimizers. A release there is stated in advance as showing nothing held and nothing about contact.
+2. **The held core, the main rung.** The same $2\pi$ turn with the ball inside $R_1$ held as the faces are: the setting in which a turn can be kept. Relaxed on half-box 12 at spacings 0.5 and 0.375 and on half-box 15, two axes, two collar widths: the turn is HELD (still there at a converged end, with no tear read; printed with its energy against the box and the spacing), or TORN (a node outside the held ball where the gap between the top two eigenvalues falls under 0.5, or a jump between neighbors), or released with no tear read, which would be reported as unexplained. A turn of $4\pi$ is run beside it as a probe of whether the descent unwinds the trivial class.
+3. **The pair.** Two rings from a seed of degree 2 in a box of half-width 18. If two rings stand, both balls are held and three starts are relaxed: a full turn of one ring against the other; the swap, built as a half-turn of the region that holds both; and a full internal turn around the pair, which is what that half-turn leaves in the far zone (for a far field of weight 2 a spatial turn by $\alpha$ is an internal turn by $-2\alpha$). The swap is run only if the relaxed pair is symmetric under the half-turn and the built field holds no jump between neighbors. Read: whether each start is held, at what energy, and whether the swap and the full turn of one ring end alike.
+
+**The sign of a turn** is read by following the rotation of each spherical shell against the same shell of the unturned state, from the faces inward, as a unit quaternion.
+
+**What it cannot say.** It is a descent of a static field, not a motion of the cores: it reads no exchange sign, no spin and no statistics. The held balls are a constraint of the plan, not a state of the action. It is $\delta = 0$ only, in closed boxes. A lattice can tear where a continuum cannot, which the second spacing is there to show. The two-ring state may not exist. The energy of the path your release marks as not computed, the order-two swap through a ring's hole (p. 246), is not computed by this plan, nor is a merger of two cores.
+
+## 4. Five questions
+
+1. **Is this the run you would choose next on OpenWave?** If you would rather see T1 first, or something else, say so. T1 and your first two discriminators have no task on OpenWave.
+2. **Held or free.** With free cores nothing is forced on this action: a relative full turn can be shed by a uniform turn of the target on the core's ball, which no term inside the ball charges. Is the held setting, which we read as your pinned charges, the one the discriminator means?
+3. **Or the path.** Is the number you need the energy of the order-two swap through a ring's hole (p. 246), or of a merger of the two cores, which your release calls contact (pp. 346 to 347)? If so: what is held, what moves, and along which coordinate should the energy be read?
+4. **The frame.** Is the long axis of the uniaxial vacuum ($\delta = 0$) the frame you mean, or the minor frame and its lines ($\delta > 0$)?
+5. **Your prediction** for the words of rungs 2 and 3, registered before the run. No rule of the plan changes after it arrives; it is tabled beside the plan's own expectations.
+
+The run is held for your answer; if none comes, we decide whether it runs as planned.

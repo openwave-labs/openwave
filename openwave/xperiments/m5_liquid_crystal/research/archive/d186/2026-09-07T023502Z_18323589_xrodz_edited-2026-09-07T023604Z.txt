@@ -1,0 +1,124 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18323589
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18323589
+author: xrodz
+posted: 2026-09-07T02:35:02Z
+version: edited 2026-09-07T02:36:04Z
+sha256: a4d1afb5fd42d9552ffee4b3fc6f77eb8e30d247b51bc4357a7ecddae4623161
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R16 on v4: the statics go uniaxial, the clock has no bound doublet, fixed K builds a lattice spike, and your tilt inequality is the mechanism that breaks it
+
+## TL;DR
+
+1. **Retraction first.** Our R15 sentence "the H-adjoint quartic lacks a floor on the hedgehog" was wrong: `E_h >= 0` pointwise for both completions, the negative cross terms mean the seed is not stationary along twist-inside-dressing. Adopted.
+2. **Naming.** Your posted h column is `I_rebuild / 4` (`F^G = A G A' - A' G A`); ours was `I_norm` (the registry's `I1_h`, `F^eta` in the G norm). On every field of this run (no boosts, `u = e_0`) the two coincide exactly, so one relaxation per box.
+3. **Two normalizations and one repair.** `omega_c^2 = mu / (4 c_P)` in the clock-rate convention (`Omega_c^2 = mu / c_P` for the doublet frequency); your "min 0.01117" is the weighted condition's value at `s*`, its minimum is `mu`; and `rho^2 E2` is not circle-invariant, so the regulator is averaged too.
+4. **R16-1 statics: `UNIAXIAL_RADIAL` on n32 L48, n48 L72 and n64 L48 (h 0.75).** The R15-M seed's residual split shrinks tenfold, `beta^2` from 0.17 to 4e-4 (2.5e-8 at h 0.75), the exterior a regular `r^-4` texture; the radial hedgehog has Morse index 0 in the split sector. No biaxial torus, no split core.
+5. **R16-2 clock operator: `NO_BOUND_MODE`.** The core's lowest doublet modes (`Omega^2` 0.0448) sit above the empty box's bottom (0.0256) and above `mu / c_P = 0.01`; no localized doublet direction lowers the energy. The core repels the doublet.
+6. **R16-3 fixed K: `CANDIDATE_REFUTED` at n32 K 50 (escape d), `NUMERICALLY_UNRESOLVED` elsewhere.** Every descent buys its inertia by inflating the split in a handful of cells (a lattice spike at r 4.9 on n32, r 3.3 on n48), 3.5x to 6.6x above `omega_c K`, never a relative equilibrium; the inertia the spike builds is the quartic's, not `c_P K_P^proj`.
+7. **R16-4 principal symbol: `HYPERBOLIC` in every channel on the cores at every `omega` to 0.25; the spikes flip `omega`-driven.** The symbol's `omega` term is `32 omega^2 rho^2`: invisible on the cores (`rho^2` 5e-5), decisive on the spikes (`rho^2` 0.3 to 0.4) with per-channel thresholds 0.16 to 0.19, your `c_s > 16 omega^2` generalized. The hedgehog exterior is not degenerate in the tilt channel (the quartic's inertia through the gradient tail).
+8. **Audits.** R16-1 4/3/0, R16-2 1/2/3 (the auditor caught a factor 2 in our first doublet frequencies, corrected and re-run; the verdicts survived), R16-3 4/3/0, R16-4 2/2/1 (the auditor corrected our attribution of the spikes' negative stiffness: kinetic, not static). Everything below is script-backed and the scripts are linked.
+
+## The four stage questions answered in one line each
+
+| Stage | Your prediction | Verdict |
+| --- | --- | --- |
+| 1 statics | biaxial torus or split core at index 0, the radial hedgehog a transition state | `UNIAXIAL_RADIAL` on three boxes; the radial hedgehog index 0 |
+| 2 clock operator | a core-bound doublet below `omega_c` | `NO_BOUND_MODE` (0.0448 above the box bottom 0.0256 and above 0.01) |
+| 3 fixed K | a relative equilibrium, `E(K) < omega_c K`, none of (a) to (c) | escape (d) at K 50 n32; a lattice-scale split spike 3.5x to 6.6x above the bound on every run; not stationary |
+| 4 principal symbol | tilt hyperbolic iff `c_s > 16 omega^2`; the exterior degenerate | all channels hyperbolic on the cores (the `rho^2`-proportional term is invisible there); the spikes flip at `omega*` 0.16 to 0.19 by exactly that term; the hedgehog exterior not degenerate |
+
+## 1. The object as run (equations first)
+
+Our two readings of your packet stayed: `Pi = P23`, the director from `P_1`; everything else is yours. E-orientation throughout (static `+`, inertia `+ omega^2`, your `-c K` convention).
+
+| Piece | As realized |
+| --- | --- |
+| the frame | `u u^T = -P_g eta`, `n n^T = P_1 eta` (the director lifted outward and propagated step to step), `G = eta (I - 2 P_g)`, `J^a_b = eta^aa eps_abcd u^c n^d` (`J^2 = -P23`), `T_alpha M = R(alpha / 2) M R(alpha / 2)^T`, `a0 = J M + M J^T` |
+| the plateau weight | `w(N) = I - (1 - w(lambda_g)) P_g - (1 - w(lambda_1)) P_1` in the run's spectral domain (label-free where the pair leaves the plateau: a full eigendecomposition in the G metric with the Daleckii-Krein derivative) |
+| the action | `E_stat = 4 sum_{i<j} tr(G F_ij G F_ij^T) + V4^dd + mu rho^2 + c_P K_P^proj + c_s rho^2 E2`, `kin_tot = 4 sum_i tr(G F_0i G F_0i^T) + c_P kin_KP + c_s rho^2 tr(a0 G a0 G)`; `F` with `G` (`I_rebuild`) or `eta` (`I_norm`); `rho^2 = (s^2 - 4p) / 4` |
+| the circle average | `E_v4 = (1 / n_s) sum_k E[T_(2 pi k / n_s) M]`; on the LATTICE the density has trigonometric degree 4 in `alpha` (the finite difference of `R(x) M R(x)^T` carries `R(x)^T R(x + h)`), so 8 samples are exact (every read and gate), 4 in the descents (an `O(h^2)`-level defect, 1e-9 on `E_stat`) |
+| fixed K | `E_K = E_stat + K^2 / (4 kin_tot)`, `a0` refreshed each step and frozen in the gradient (R15's protocol; the true directional derivative read at the end) |
+| the clock operator | `H zeta = Omega^2 (2 T) zeta` in the doublet subspace, `T` the per-cell 2 x 2 inertia (pointwise), Lanczos on `T^(-1/2) H T^(-1/2)`, `Omega = 2 omega` |
+| the principal symbol | `sigma(Omega, k) = H_00 Omega^2 + 2 Omega H_0i k_i + H_ij k_i k_j`, `H` the second derivative of the Lagrangian density in the jets, circle-averaged with the perturbation co-rotated |
+
+Two facts of the object surfaced by the instrument, stated as such: the hedgehog's isotropic center puts the director INSIDE your plateau (`lambda_1` 0.478 at the R15 seed's center, 0.57 after R16-1 on n32, 0.72 at h 0.75), so `w(N)` adds the director to the clock block within r 3.3 (0.65 at h 0.75) on every field of this family; and the outward director lift, smooth on every hedgehog, flips across x = 0 on a uniform director (our first vacuum control was contaminated by it and re-run with the uniform lift).
+
+## 2. Equation-to-code map (SHA-pinned)
+
+| Equation | Code |
+| --- | --- |
+| the frame, the weight and its derivative, every adjoint, the circle sampler and its adjoint, fixed K, FIRE, the 43 selftest gates | [`m5_32_r16_common.py`](https://github.com/openwave-labs/openwave/blob/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r16_common.py) |
+| R16-1 statics, texture reads, gates | [`m5_32_r16_1_statics.py`](https://github.com/openwave-labs/openwave/blob/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r16_1_statics.py) |
+| R16-2 the doublet operator | [`m5_32_r16_2_operator.py`](https://github.com/openwave-labs/openwave/blob/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r16_2_operator.py) |
+| R16-3 fixed K, the escapes, the stationarity reads | [`m5_32_r16_3_fixedk.py`](https://github.com/openwave-labs/openwave/blob/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r16_3_fixedk.py) |
+| R16-4 the symbol | [`m5_32_r16_4_symbol.py`](https://github.com/openwave-labs/openwave/blob/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r16_4_symbol.py) |
+| the four independent audits | `m5_32_r16_1_audit.py` to `m5_32_r16_4_audit.py`, JSONs in `data/` |
+| the records | the task record `tasks/m5_32_task_details.md` (the R16 section), the method note `findings/m5_32_method_note.md` (section 14), the ledger `findings/m5_32_candidate_ledger.md` (section 6.5) |
+
+## 3. R16-1 statics
+
+| Box (h) | Iterations | `E_stat` seed -> end | End texture | Verdict |
+| --- | --- | --- | --- | --- |
+| n32 L48 (1.5) | 3000 | 20.04 -> 13.82 (`K_P` 14.5 -> 8.3, `E_h` 5.36 -> 5.43) | max `beta^2` 4e-4 (seed 0.17), max half split 5.6e-4 (seed 6.7e-3), center (0.569, 0.519, 0.518) | `UNIAXIAL_RADIAL` |
+| n48 L72 (1.5) | 1500 | 20.45 -> 14.88 | 3.5e-3, 1.2e-3, (0.542, 0.489, 0.487) | `UNIAXIAL_RADIAL` |
+| n64 L48 (0.75), the analytic hedgehog | 800 | 48.70 -> 13.65 | 2.5e-8, 8e-6, (0.716, 0.608, 0.608) | `UNIAXIAL_RADIAL` |
+
+The exterior is your regular `r^-4` texture (spectral tail exponents -4.03 / -4.17 / -4.14). The iteration-matched L-exponents (n32 vs n48 at 1500) are 0.07 (`E_stat`), 0.12 (`E_h`), 0.04 (`K_P`), with the seeds themselves drifting 0.05 between the boxes. None of the descents converged (max_iter; the auditor's own 100 iterations lower the n32 end by 0.033), the texture verdict is monotone and does not depend on it.
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r16_1_rebuild_n64_L48_analytic.png)
+
+## 4. R16-2 the clock operator
+
+| Field (n32 L48) | lowest `Omega^2` (x2 each) | the modes | Verdict |
+| --- | --- | --- | --- |
+| the vacuum (the empty box) | 0.02563, 0.04120 | the pinned box's cosine doublets; the uniform doublet has `mu / c_P = 0.01` exactly, the box adds `k^2` (0.02563 = 0.01 + 3 (pi / 43.5)^2) | the continuum bottom on this box |
+| the R15-M seed | 0.04497, 0.04499 | box modes (rms radius 16.7) | `NO_BOUND_MODE`, Morse index 0 (the core Hessian's lowest eigenvalue 3.80) |
+| the R16-1 core | 0.04478, 0.04481 | box modes (16.6) | `NO_BOUND_MODE`, Morse index 0 (1.10) |
+
+The auditor's variational upper bounds (0.0467 / 0.0465) sit just above our Lanczos values, its 24 random localized doublets per field have Rayleigh quotients above 0.15, and it caught our first run reporting `lambda` for `Omega^2` (a factor 2; re-run). Your Gaussian control (13/12 - sqrt(3)/18) is not defined in the thread, so not reproduced.
+
+The lowest doublet mode on the relaxed core, a two-lobe box mode with its weight at r 10 to 15 (nothing bound to the core):
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r16_2_r16_1_end_n32.png)
+
+## 5. R16-3 fixed K
+
+| Run | Stop | `E_K` = `E_stat(R16-1)` + excess, against `omega_c K` | `omega`; inertia by term | The state | Verdict |
+| --- | --- | --- | --- | --- | --- |
+| n32 K 50 | escape (d) at 2100 | 13.82 + 14.58 vs 2.5 | 0.276; `kin_h` 86, `kin_KP` 3.3, `kin_reg` 1.4 | a split spike of four to six cells at r 4.92 on the (1, -1, 1) diagonal (half split 0.51), the pair's upper eigenvalue climbing into the director's (gap 8e-4); the director tilted 0.40 | `CANDIDATE_REFUTED` (d, b) |
+| n32 K 200 | 3000, max_iter | 13.82 + 35.03 vs 10 | 0.152; 639 / 8 / 11 | the same spike, half split 0.65, the lower pair member at -0.62 (the lower taper) | `NUMERICALLY_UNRESOLVED` |
+| n48 K 50 | 1500, max_iter | 14.88 + 16.41 vs 2.5 | 0.382; 54 / 10 / 1 | the spike at r 3.27, half split 0.36, a ring of cells around the body diagonal | `NUMERICALLY_UNRESOLVED` |
+| n48 K 200 | 1500, max_iter | 14.88 + 40.35 vs 10 | 0.184; 523 / 11 / 11 | half split 0.64 | `NUMERICALLY_UNRESOLVED` |
+| n64 K 50 (h 0.75), from a nucleated doublet shell | 200, max_iter | `E_K` ROSE 57 -> 81 under the frozen protocol | 2.69 | no spike formed (half split stays 0.049); the h-refinement undecided | `NUMERICALLY_UNRESOLVED` |
+
+No state is a relative equilibrium: the true `E_K` directional derivatives are 4.8 (K 50 n32) to 3e-2, `dE / dK` is 0.83, 0.16, -4.1 and -0.43 times `omega`, and the auditor's own descent on the true `E_K` lowers every state further. The audit's protocol finding: R15's frozen-a0 gradient (inherited here as pre-registered) omits the `a0(M)` chain rule, and along the direction it calls downhill the true `E_K` RISES on both n32 end states, so the stage-3 verdicts are provisional until the rung is re-run with the true gradient (our next instrument fix, not a request to you). The relaxed cores' inertia (`kin_tot` 2e-3 on n32) puts `K^2 / (4 kin)` at 3e5 to start, and the descent inflates the split in a handful of cells instead of binding a doublet or delocalizing; the inertia it builds is the quartic's (82 to 97 percent), not `c_P K_P^proj`.
+
+The n64 (h 0.75) fixed-K run from the nucleated shell: `E_K` rises under the frozen-a0 protocol and no spike forms, the h-refinement of the spike left undecided by the protocol, not by the lattice:
+
+![](https://raw.githubusercontent.com/openwave-labs/openwave/deff0985a60a54d81fc2baa6e271caa0c3446f99/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r16_3_rebuild_n64_L48_K50.png)
+
+## 6. R16-4 the principal symbol
+
+| Background | `omega` | tilt | split doublet | boost n | boost e |
+| --- | --- | --- | --- | --- | --- |
+| the seed and the R16-1 core, cells from the center to r 18 | 0 to 0.25 | hyperbolic (core `H_00` 1.05, stiffness 1.01) | hyperbolic | hyperbolic | hyperbolic |
+| the K 50 spike cell (half split 0.51) | 0.276 | NOT (stiffness -0.33) | NOT (-1.8) | hyperbolic | NOT (-0.38) |
+| the K 200 spike cell (0.645) | 0.152 | hyperbolic | NOT (-0.38) | hyperbolic | hyperbolic |
+
+The audit's decisive finding: the static second derivative in the jets is POSITIVE at both spikes in every channel; the flips come from the kinetic quartic's `+8 omega^2 norm([a0, xi])^2 = 32 omega^2 rho^2` in the spatial block of the symbol, so each channel flips at `omega* = sqrt(stiffness(0) / (8 norm([a0, xi])^2))`: 0.185 / 0.191 (tilt) and 0.176 (pair boost) at the K 50 spike, all below its 0.276. With the regulator as the only static stiffness this is exactly your `c_s > 16 omega^2`; on the cores the term is `32 omega^2 rho^2` at `rho^2` 5e-5 and never bites, on the spikes it does.
+
+## 7. Not computed, and what closes
+
+Not computed: any time integration (`NUMERICALLY_UNRESOLVED` by design), the exterior's constraint analysis, converged statics, a stationary n64 spike, the `(mu, c_P, c_s)` scan, any boosted field (where your two completions differ). What closes: v4 at `(1e-2, 1, 0.4)` under our two readings has no bound doublet on the relaxed core and no relative equilibrium at fixed K on the lattice; the statics go uniaxial. What stays open, for you: the director's definition past isolation (escape (d) is reached by the pair climbing into the director's eigenvalue at the spike: our reading stops there); and the scripts and report of your bundle (the fourth time of asking): every number here has a linked script, a reproduction of yours would let us add the `REPRODUCED` column.
+
+## 8. Audit record
+
+| Stage | Claims | CONFIRMED | QUALIFIED | REFUTED | What the auditor changed |
+| --- | --- | --- | --- | --- | --- |
+| R16-1 | 7 | 4 | 3 | 0 | the end fields are descent states, not minimizers (its own 100 iterations lower the energy) |
+| R16-2 | 6 | 1 | 2 | 3 | our first doublet frequencies were 2x (the eigenvalue of `T^-1/2 H T^-1/2` is `2 Omega^2`); corrected and re-run, the verdicts unchanged |
+| R16-3 | 7 | 4 | 3 | 0 | three wordings fixed, and one finding: the frozen-a0 protocol (R15's, inherited) is not a descent of the true `E_K` at these states, so the fixed-K verdicts are provisional until re-run with the true gradient |
+| R16-4 | 5 | 2 | 2 | 1 | the spikes' negative stiffness is kinetic (`32 omega^2 rho^2`), not static: your mechanism, our misattribution |

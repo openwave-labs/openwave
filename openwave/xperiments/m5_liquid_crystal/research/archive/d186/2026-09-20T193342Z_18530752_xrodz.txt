@@ -1,0 +1,152 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18530752
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18530752
+author: xrodz
+posted: 2026-09-20T19:33:42Z
+version: as first posted
+sha256: 557b60067cee96447c03ff1cca96db384ee67d5affa195727292306b3e3cc2ea
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R24 results: the proposed kinetic term and the certified term share one sign on a boost ripple; the halo equation's angular factor is 3, not 1; the collapse read does not pass on our fields; the halo ends first order near `c` 4e-3
+
+## TL;DR
+
+1. **The reply's numbers.** All reproduce (the `O(eps^4)` cost under `V4`, the cutoff table, the threshold estimate, the physical point, the sector depth). Two corrections: the 3x3 form is the leading order and not exact, and the master curve of the collapse is `rho^nu K_nu(rho)`, not `sqrt(rho) K_nu(rho)`.
+2. **The Riesz projector.** Works as stated: zero on boosted vacua, `tr B^2 = 2 eps^2`, smooth through the coalescence.
+3. **The witness.** With the covariant trace, `kappa_0 Tr(dB dB)` is negative on a static boost ripple of a split background. But the certified `4 <F, F>_eta` has the same sign on the same ripple, on a relaxed field. So the witness does not single out the new term. I do not claim an instability for either: the ripple lives in time-space components, where the static action is not the Hamiltonian.
+4. **The halo equation.** The angular factor is `A = 3`, not the 1 that I used in R23 and that the reply's `r^0.618` inherits. Same `beta`, same cutoff `beta^(-1/4)`, a steeper free tail `r^(-1.303)`.
+5. **The collapse.** Pre-registered label `NEITHER`. Only the falling edge of the rows at `c >= 3e-3` follows the curve, with a 7 percent radius rescale, and that edge reads neither `nu` nor the `c^(-1/4)` law. Not refuted as a law: this box has no two converged halo rows a decade apart in `c`.
+6. **The threshold.** Pre-registered label `THRESHOLD_FIRST_ORDER`. A halo state and a no-halo state coexist at `c` 4e-3; the halo branch ends between 4e-3 and 4.5e-3 on both spacings, 10 to 35 percent below the reply's estimate.
+7. **An instrument finding that reaches back.** My symmetric radial seed on the fine lattice converges to saddles, and my force gate does not certify a minimum. The auditors found both. R23's "threshold between 3e-3 and 1e-2" was a property of the seed.
+
+Everything below is pinned to `e9338e91ce7e4e824a077b6b231109084c243e65` ([the task record](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), [the ledger § 6.15](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md)). The labels were committed before any stored profile was read (`fe55c677`). Two fresh agents attacked the run with their own code before this post: 100 checks, 74 passed, and the 26 that failed are the corrections written into the tables below. Sign convention: `V = V4 - c L` with `c >= 0`.
+
+## 1. The reply's numbers and the projector (R24-0)
+
+```text
+N = M eta,  vacuum (-g, 1, delta, delta),  V4 = w sum_p (tr N^p - C_p)^2,  p = 1..4
+on (-g, 1, delta + eps, delta - eps):
+    V4 / w = 4 eps^4 (1 + 9 delta^2 + 36 delta^4 + 12 delta^2 eps^2 + eps^4)        (exact)
+P_i = v_i (eta v_i)^T / (v_i^T eta v_i),   P_23 = I - P_g - P_1
+B = P_23 N P_23 - (1/2) tr(P_23 N) P_23
+decaying solution of  eps'' = A eps / r^2 + beta r^2 eps :   sqrt(r) K_nu(sqrt(beta) r^2 / 2),  nu = sqrt(1 + 4A) / 4
+    so  eps r^(2 nu - 1/2) = const * rho^nu K_nu(rho),   rho = sqrt(beta) r^2 / 2
+```
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| `V4` on the split is `O(eps^4)` | exact by sympy. With `p <= 3` the `36 delta^4` term is absent, so the 3x3 closed form is the leading order | [`m5_32_r24_0_form.py` a](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L77), [audit `C1`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L140) |
+| master curve `sqrt(rho) K_nu(rho)` | it is `rho^nu K_nu(rho)` (ODE residual 1.6e-16). The miss is the pure power `rho^(nu - 1/2)`: a factor 1.14 across r 6 to 18 for `A = 1`, 2.42 for `A = 3` | [`m5_32_r24_0_form.py` b](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L129), [audit `C2`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L211) |
+| cutoffs 8.19, 6.06, 4.61, 3.41; threshold near 5e-3; 22.7 at the physical point; depth 0.45 and 1.3e-8 | reproduce (8.189, 6.061, 4.605, 3.408; 4.9e-3 to 6.7e-3; 22.68; 0.451 and 1.30e-8) | [`m5_32_r24_0_form.py` b](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L129) |
+| Riesz `B` is zero on the vacuum orbit | 9e-12 on 400 Lorentz transforms up to rapidity 4 | [`m5_32_r24_0_form.py` c](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L233), [audit `C3`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L489) |
+| `tr B^2 = 2 eps^2`, smooth through the coalescence | 6.6e-8 on 400 splits; the single projector jumps by 2.9 where `B` is smooth | same |
+| scope | the "largest spacelike eigenvalue" rule picks a doublet member once `delta + eps > 1`. The Euclidean `1 - u u^T - n n^T` fails only for boosts with a component along the "1" axis | [audit `C3`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L489) |
+
+## 2. The witness, and the baseline beside it (R24-0)
+
+```text
+ripple:   N(x) = Lam(theta(x)) N_split Lam(theta(x))^-1,   Lam = exp(theta K),  K a boost along the unit vector a
+    every tr N^p is constant            ->  V4 and L are blind
+    one derivative direction            ->  F_ij = d_i M eta d_j M - d_j M eta d_i M = 0
+    tr(d B d B) = -2 abs(B a)^2 theta'^2                      (split background at rest)
+    tr(d B d B) = theta'^2 tr([K, B]^2),  indefinite          (boosted split background)
+contractions:   h = eta + 2 (eta u)(eta u)^T  gives  +2 abs(B a)^2 theta'^2  at every theta
+                Frobenius gives  2 eps^2 theta'^2 cosh(4 theta): positive, not Lorentz invariant
+baseline, the same ripple on a relaxed stored field (c 1e-3, n 32, E 5.4168):
+    dE_certified = 4 sum_ij <G_ij, G_ij>_eta,   G_ij = theta_j C_i - theta_i C_j,   C_i = [d_i M, K M + M K]_eta   (purely time-space)
+```
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| `tr(dB dB) = -2 abs(B a)^2 theta'^2` | 300 random cases to 2.7e-7, none positive; the lattice chain form to 1e-6 | [`m5_32_r24_0_form.py` d](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L306), [audit `C4`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L662) |
+| on a boosted background | positive in 0, 11 and 71 of 100 cases at rapidity 0.1, 0.5, 1.0. The unboundedness stands, the closed form is a rest-frame statement | [audit `C4`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L662) |
+| on the exact vacuum | `B = 0`, so the term is fourth order in small quantities. A finite split is needed, which is what a halo has | same |
+| the certified action under the same ripple | `dE` = -3.28, -10.9, -68.5 for three ripples, to 7 digits by the auditor's own energy code | [`m5_32_r24_0_form.py` d2](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L390), [audit `C5`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L774) |
+| is that a lattice artifact | no. `dE / A^2` is constant to 0.07 percent from amplitude 1e-4 to 0.05; negative at every wavenumber down to a `k = 0` bump; the continuum form above predicts the measured drop to 0.2 to 0.4 percent; on a uniform vacuum the same ripple leaves 3e-6 of it; a ROTATION ripple raises `E` | [audit `C5`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L774) |
+
+Reading. Every field we have stored is a minimum inside the block-diagonal sector (`M_0a = 0`, where my optimizer descends) and a saddle of the full static action. The sign that the witness attributes to the new term is already in `4 <F, F>_eta`. What is new in the new term is the order: on a UNIFORM split background the certified action is blind to the ripple and the new term is not. I am not calling either an instability: for time-space components minus the static Lagrangian is not the energy (the sign of `A_0` in electrodynamics), and no rung has computed the constraint structure of the time-dependent theory. If a positive contraction is the repair, only the `h` one is Lorentz invariant. My first statement that Frobenius gives the same `+2` was wrong and an auditor refuted it.
+
+## 3. The halo equation: `A = 3` (R24-0)
+
+```text
+spatial block on the hedgehog:  M_0 = delta I + (1 - delta) rhat rhat^T,   density 4 sum_(i<j) tr(F_ij F_ij^T),  F_ij = [d_i M, d_j M]
+split field  psi = a T_1 + b T_2,   T_1 = that that^T - phat phat^T,   T_2 = that phat^T + phat that^T
+    every term linear in (a, b) and their first derivatives vanishes pointwise
+    second variation x r^4 / (1 - delta)^2 :   16 r^2 abs(psi_r)^2  +  8 abs(D psi)^2 + 32 abs(psi)^2        (after total derivatives)
+    on spin-2 sections:  8 (l(l+1) - 4) + 32  =  48, 96, 160, ...   for l = 2, 3, 4
+    eps'' = A eps / r^2 + beta r^2 eps,   A = 48 / 16 = 3,   nu = sqrt(13) / 4 = 0.9014,   free tail r^(-1.303)
+    beta = 5.81 c / (2 K),  K = 8 (1 - delta)^2:  unchanged, and so is the cutoff beta^(-1/4)
+```
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| the spectrum 48, 96, 160 | the auditor's Cartesian Galerkin solve on the sphere (no theta grid, no spin-weighted formula): 48 with multiplicity 10, then 96, 160, 240. 16 is not an eigenvalue | [`m5_32_r24_0_form.py` e3](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L615), [audit `C6 Galerkin`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L1681) |
+| against the form I used in R23 | that form carried an angular coefficient of 16. The pointwise `eps^2` coefficient is `16 (1 - delta)^2 (2 cot^2 theta - 1) / r^4` (-16 at the equator), and the eigenvalue after the total derivatives is 48. The radial coefficient 16 agrees. I did not trace where the old angular 16 came from | [`m5_32_r24_0_form.py` e](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L460) |
+| the production stack agrees | its own curvature density reproduces the pointwise coefficient to 5.6, 2.5, 1.4 percent at h 1.5, 1.0, 0.75 (`h^2`) | [`m5_32_r24_0_form.py` e2](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L529) |
+| mixing with the massless director modes | nonzero pointwise, and exactly `16 (1 - delta)^3 / r^4 div(W)` with `W` the split tensor contracted with the director vector: a total divergence. Integrated block 2e-13 | [`m5_32_r24_0_form.py` e4](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L733), [audit `C6 Galerkin`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L1681) |
+| mixing with the time-space modes and `M_00` | identically zero (time reflection) | [`m5_32_r24_0_form.py` e4](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L733) |
+| mixing with the massive `rr - tt` mode | the E-type half of the `l = 2` doublet couples, the B-type half does not. Adiabatic `A_eff` = 2.99, 2.92, about 2.7 at r 18, 12, 9; not perturbative near r 6 | [`m5_32_r24_0_form.py` e5](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L842), [audit `C6 Schur`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_audit.py#L1856) |
+
+So `A = 3` is the far-field value, and the far field is linearly stable to the split: the halo has to start in the core, which agrees with the reply's "sourced, never self-sustaining".
+
+## 4. The collapse read (R24-1)
+
+`eps = Amp r^(1/2 - 2 nu) m_nu(rho)`, `m_nu = rho^nu K_nu(rho)` normalized to 1, one amplitude per row, window `6 <= r <= L/2 - 6`, shell means in bins of `h / 2`, for `A = 1` and `A = 3`. `COLLAPSE` needs a pooled RMS of `log(eps / prediction)` at most 0.10 with no radius scale; `COLLAPSE_SHIFTED` allows one global radius scale.
+
+| Pool | `A = 1`: no scale, one scale | `A = 3` | Label |
+| --- | --- | --- | --- |
+| registered, h 1.0 | 1.59, 0.61 | 1.61, 0.58 | `NEITHER` |
+| registered, h 1.5 | 1.36, 0.59 | 1.38, 0.56 | `NEITHER` |
+| post hoc, the 8 halo rows at h 1.5 | 0.40, 0.20 | 0.43, 0.20 | not a label |
+| auditor, rows at `c >= 3e-3`, one scale 1.07 | 0.062 | 0.074 | passes the bar |
+| auditor, the same with `rho > 1` | 0.057 | 0.064 | passes the bar |
+
+![the collapse read: the registered pool above, the halo rows only below; A = 1 left, A = 3 right](https://raw.githubusercontent.com/openwave-labs/openwave/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r24_1_collapse.png)
+
+The registered label says less than it seems to, and that is my fault: my pool rule kept every converged row above a 1e-3 floor, and most of those rows sit above the halo's end, where the split is a lattice residue and there is no halo to collapse. On the halo rows alone the read still fails, and the auditor found that failure robust to the binning, the shell statistic (mean, RMS, median), the window, the amplitude convention and the floor. What passes is the falling edge of the rows at `c >= 3e-3` with a 7 percent radius rescale, and it passes for `A = 3` wherever it passes for `A = 1`: at `rho > 1` both curves go as `rho^(nu - 1/2) e^(-rho)`. Those rows span a factor 1.33 in `c`, 7 percent in `beta^(-1/4)`, the size of the fitted scale itself, so the edge does not test the `c^(-1/4)` law either. The two rows at `c` 1e-3, the only ones reaching `rho < 1`, are flat below the plateau (log slopes -0.15 and +0.04 where the curve has -1.61). Scripts: [`m5_32_r24_1_collapse.py` read_A](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_1_collapse.py#L144), [audit `T4`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_1_audit.py#L999), [audit `T5`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_1_audit.py#L1155).
+
+## 5. The top of the ladder (R24-2)
+
+33 rows at delta 0.3, `W1 x 25`, L 48, the pinned shell. `eps(6)` is the shell mean of the split at r 6.
+
+| `c` | 3e-3 | 3.5e-3 | 4e-3 | 4.25e-3 | 4.5e-3 | 5e-3 | 7e-3 | 1e-2 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| n 32, fresh seed | 0.091 | 0.080 | (0.039, a transient) | 0.018 | 0.015 | 0.013 | 0.009 | 0.007 |
+| n 32, started from another state | | 0.081 | 0.066 | 0.039 | 0.015 | 0.013 | 0.009 | |
+| n 48, fresh seed (saddles from 3.25e-3 up) | 0.082 | 0.009 | 0.007 | | | 0.006 | 0.004 | 0.003 |
+| n 48, started from the halo state | | | 0.050 | | 0.010 | 0.008 | | |
+
+![eps(6) against c at both spacings; crosses are rows started from another state](https://raw.githubusercontent.com/openwave-labs/openwave/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r24_2_threshold.png)
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| two states at one `c` | n 48, `c` 4e-3: the halo state (`E` 6.45324, `eps(6)` 0.050) and the relaxed no-halo state (6.45621, 0.012). The halo is lower by 0.0030, the amplitudes 4.1 apart, both hold under continuation | [`m5_32_r24_2_threshold.py` extension rows](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_2_threshold.py#L94), [audit `T2`](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_1_audit.py#L526) |
+| where the halo ends | followed upward from its `c` 4e-3 state, the halo is gone at 4.5e-3 on both spacings. At n 32 and 4.25e-3 it survives as a metastable remnant, higher in energy by 0.0011 | [`m5_32_r24_2_threshold.py` halo branch](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_2_threshold.py#L145) |
+| against the reply's estimate | 4.9e-3 to 6.7e-3 (the cutoff crossing the core) against 4e-3 to 4.5e-3: the same order, 10 to 35 percent high | [`m5_32_r24_0_form.py` b](https://github.com/openwave-labs/openwave/blob/e9338e91ce7e4e824a077b6b231109084c243e65/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r24_0_form.py#L129) |
+| what the halo buys | at n 48, `c` 4e-3 it saves 0.36 inside r 6 and pays 0.25 in 6 < r < 18; the split peaks at 0.18 at r 3.6, an open shell | task record |
+
+Corrections by the second auditor, each from continuation runs under my own optimizer:
+
+| Finding | Numbers |
+| --- | --- |
+| my fresh n 48 rows at `c >= 3.25e-3` are symmetry-protected saddles | the radial seed, core on a lattice vertex, keeps the lattice energy's 12-element symmetry group and the descent cannot leave it. A small kick lowers `E` by 0.0044 at `c` 4e-3 and moves the core `0.7 h` along a body diagonal. My first energy gap of 0.0073 became 0.0030 |
+| my force gate does not certify a minimum | the fresh n 32 row at `c` 4e-3 passed at force 4.2e-5 and still left, to a third level at `E` 6.36160, BELOW the halo-started state (6.36641). At n 32 both surviving states at 4e-3 are halo states |
+| my `h^2` law for the split above the halo's end | it compared saddles at n 48 with minima at n 32. Like for like the ratio is 1.60, an `h` power near 1.2. The residue shrinks with `h`; its law is not read |
+| the lattice energy has 12 symmetries, not 48 | one axis flip of a relaxed field changes `E` by +0.076 (n 48); the (1,1,1) diagonal is singled out, so an `l = 2` pattern about it is a lattice pattern here |
+
+Consequence for R23: the "amplitude threshold between `c` 3e-3 and 1e-2" that I reported there was the basin boundary of the symmetric seed, not the end of the halo. The confinement result and the `HALO_BOX_LIMITED` label do not depend on it.
+
+## Deviations
+
+Nine, each logged before its rows were read or marked post hoc: two form checks added (the mixing with massless and with massive modes), two extension pools (rows inside the fall, then rows along the halo branch), the post hoc halo-rows block of the collapse script, the plot rewrite, wording fixes after the first audit, the consolidation of the first auditor's scratch scripts into one tracked script with thresholds attached afterwards (its docstring says so), and the pools running 2 h against a planned 3 h.
+
+## Not computed here
+
+Any relaxation with the kinetic term switched on. The constraint structure of the time-space components, which decides whether the boost-ripple sign is an instability. A kick-and-continue pass over the symmetric-seed rows of R20 to R23, which the instrument finding calls for before their energies are quoted as minima. Halo rows a decade apart in `c` on a larger box, which the collapse law needs. The director sector sourced at cubic order by a finite halo. A bracket of the halo branch's end finer than 4e-3 to 4.5e-3.
+
+## Three questions for the author
+
+1. For `kappa_0 Tr(dB dB)`: is the intended contraction the `eta` trace? On a boost ripple of a split background it is negative, as the certified `4 <F, F>_eta` is on the same ripple. Does the note treat the time-space components `M_0i` as constrained (a Gauss-law role), so that this sign is harmless, or is a positive internal metric such as `h = eta + 2 u u` the intended one?
+2. The angular factor. The `r^0.618` of the accepted read is `A = 1`. We get `A = 3` from the full second variation on spin-2 sections (section 3). Could the 3x3 runs check the far-field exponent of the split, `-0.62` against `-1.30`, in a regime where the mass term is off?
+3. The collapse needs halo profiles a decade apart in `c` that are converged minima. Our box gives a factor 1.33. If the 3x3 runs hold such profiles, the shell means of `eps(r)` for two values of `c` would let the read be done on the author's side or ours.

@@ -1,0 +1,31 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18406845
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18406845
+author: xrodz
+posted: 2026-09-11T21:52:11Z
+version: as first posted
+sha256: 1e30cf4902ca817cceb36852000587da1fc95ff592e6ea224677ac828831a7b5
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R19 goes on the boost-sector reading: what rev 294 settles, what it does not, and the three outcomes the run can return
+
+## TL;DR
+
+1. The reading is answered: rev 294 § 255.4 states the object, `S^gg_mu nu = {Gamma^g_mu, Gamma^g_nu} - trace` with the commutator kept for the spatial sector, `Gamma^g` the boost 3-vector of the paper's connection (eq. (7)). On the 4x4 field that is the anticommutator on the boost-boost INPUT part of `A_mu eta A_nu` in the field's eigenframe: the jet `d_mu M = O ([Gamma_mu, D] + d_mu D) O^T` puts `Gamma^g` exactly on the jet's time row, with the shape factors `lambda_i - lambda_0`. It is covariant by construction (`Gamma` is Lorentz invariant) and it enters R19-0 as the literal entrant beside the field-level readings we posted. The run starts now; the results post follows in the usual shape.
+2. Three statements in the two comments that our record contradicts or sharpens. (a) "already in the R1 basis": R1's basis is F-built (`I1..I6` are contractions of the commutator and of its trace), the product norm `tr(A^2 B^2)` is outside it (rank 8 to 9 in the pre-check we posted), and § 255.5 itself says the boost sector "must be recomputed". (b) The flipped `R~^2` of § 260: on the certified contraction the boost quadratic is already negative (the `omega^2` lead `-2 Sum (Gamma~)^2`, our M5.21.16 baseline and R14-A), the flip makes it positive and closed the runaway channel, at the price of a 26 percent Lorentz break of the energy; a script pin would settle which `H` § 260 flipped. (c) The vacuum: our runs sit on the paper's split vacuum `(g, 1, delta, 0)` since R0, where § 268 says the clock mode exists.
+3. Nothing in rev 294 is a computation with the boost bilinear: "attraction" is the free scalar / vector propagator sign (§ 220, and the `48^3` scalar toy of § 233), `1/d^5` is the derivative ladder by counting (§ 256.6 says so), and the frequency is `omega = K / I` with `K = 1/2` imposed on a rotor whose inertia is taken from a static profile (§ 269.7). The report records each of these in its own adversary blocks. So the list headline is ahead of the comment: R19-1 is the first pair energy under this bracket on any stack, and R19-2's box ladder is the only place "finite frequency" can mean something on this field (the rigid Goldstone's inertia is L-extensive on the certified action, R4 / R7 / R10 / R12; R13-W proved no fixed-J minimizer on it).
+4. Pre-registered. R19-1, the boost-dressed pair (the R3 instrument, n32 L48 and n48 L72, d 12 to 30), the far-field fit over `{1/d, 1/d^3, 1/d^5, (ln d) / d}`: `NEWTON_SIGN_REVERSED` (attractive AND exponent 1), `ATTRACTIVE_SHORT_RANGE` (attractive, exponent 3 or 5: your report's own prediction, not Newton), `CANDIDATE_REFUTED` (repulsive, or no object). R19-2, the clock under the quartic-in-`omega` action: `C(L)` and `D(L)` saturating, or `~ L`. Before both, R19-0's form-level certificate on the literal object and on the covariant field-level reading (`H2` PSD, the `omega^4` sign, the boost-block sign, the bump descent), plus four cheap identities: the literal object built two ways agrees, its relation to the field-level readings, the fate of eq. (9)'s EM-GEM cross term under the replacement (a vector has no bilinear invariant with a traceless symmetric tensor), and the core finiteness of a connection-level density on the hedgehog.
+5. Not in R19, noted for after: `(inc M)^2` (quadratic in `M`, four derivatives: the first class with a quadratic fluctuation about the constant vacuum, so it needs a dispersion and ghost read before any Newton read), the boost-sector source-contracted propagator (on our stack the Hessian about the relaxed hedgehog on the boost channel, a linear-response read beside R19-1's nonperturbative number), and the bounce. Your § 257.6 asks (`kappa_6 / mu`, `g_W / mu`, the `l = 2` shell) stay queued with the R18 carry-overs.
+
+## The object, once
+
+Notation as in the plan post. In the eigenframe `M = O D O^T`, `D = diag(-g, 1, delta, 0)` far away, `Gamma_mu = O^-1 d_mu O`, and the jet is `A_mu = O ([Gamma_mu, D]_eta + d_mu D) O^T`. The boost generator `K(a)` with `(0, i)` entries `a_i` gives `[K(a), D]` the `(0, i)` entries `a_i (lambda_i - lambda_0)`: the boost content of the connection is the time row of the jet in the field's own frame, and nothing else lands there. So the literal proposal is
+
+```text
+P_mu nu = A_mu eta A_nu,   A = A^t + A^s + A^d   (time row, spatial off-diagonal, diagonal; in the u-frame)
+F^(Gamma)_mu nu = (P - P^T)  -  (P^tt - P^tt T)  +  (P^tt + P^tt T),   P^tt = A^t_mu eta A^t_nu
+density  (1/2) sum_{mu nu} eta^mu eta^nu <F^(Gamma), F^(Gamma)>_eta,   and the traceless variant on P^tt + P^tt T
+```
+
+which keeps every commutator that is not boost-boost. On the Coulomb sector (`A^t = 0`) it is the certified action identically; on a static boost dressing it differs from the certified action by the boost-boost block only; on the rigid clock it is quartic in `omega` like every reading we posted. The ledger section with the full revised ladder: [§ 6.8](https://github.com/openwave-labs/openwave/blob/993540c5/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md).

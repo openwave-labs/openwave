@@ -1,0 +1,159 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18343531
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18343531
+author: JarekDuda
+posted: 2026-09-08T06:47:24Z
+version: as first posted
+sha256: 08ef55088352bc5156935038ab60436b618791d0cf296d52dc375def31962ec6
+archived: 2026-11-25
+==== verbatim text below this line ====
+The report is regularly updated in https://zenodo.org/records/22653584
+
+# M5 Lagrangian hunt — status update (report revisions 44 → 85)
+
+A long working session with Astra (five further notes) and a literature pass. The report is now 154 pages, §§28–67 are new, and enough has changed — including several things I got wrong and have withdrawn — that a summary is overdue.
+
+**PDF:** `M5_final_lagrangian_approaches.pdf` (rev. 85) · **Scripts:** `m5_scripts_bundle.zip` (round32–round74, all sympy/numpy/scipy, no network)
+
+---
+
+## 1. The single biggest change: the dual formulation is now fixed
+
+Jarek's clarification — **we work in the dual formulation, where the hedgehog is an *electric* monopole, the elementary charge, and there are no magnetic monopoles in the spectrum** — settles a convention the report had been sloppy about, and re-reading the record under it changes several things (§§59–61).
+
+- **The r⁻⁴ tail is a Coulomb field.** With `4I₁ = 8(1−δ)⁴Ω²` and `Ω² = 1/r⁴` on a unit hedgehog, matching to `E = q/r²` gives `q = 4(1−δ)² = 1.96` at δ = 0.3. The tail R16 has been measuring since the start is the Coulomb field energy of a point charge, and the electron's mass is its own field energy, cut off by the core. That reading was available from page one and nobody wrote it down.
+- **The photon is not as far away as we thought.** The director is a unit vector mod sign — two degrees of freedom, exactly two polarisations — and `dΩ = 0` holds *identically*, so the homogeneous Maxwell equation needs no field equation. What M5 lacks is not the field strength, the polarisation count or the Bianchi identity. **It lacks the potential.** "No photon in δM" becomes "M5 has F and lacks A".
+- **What dissolves:** the hidden-magnetic-charge worry (the winding *is* the electric charge); `c₁ = 4Q` becomes the quantised electric flux, with Dirac quantisation following from an integer winding.
+- **What gets worse:** the Alice problem. With the winding as *electric* charge, the unoriented director's O(2) structure means observed charge is defined only up to the director's holonomy. That needs a proof that Alice strings cannot form in this vacuum, or an abundance estimate. Neither exists, and it is now the most concrete phenomenological threat.
+
+---
+
+## 2. A falsifier you can run today
+
+**In the dual reading the pair coefficient and the tail amplitude are not independent.** Two charges of strength `q = 4(1−δ)²` interact as `U = 4(1−δ)⁴/(πd)`, so:
+
+> **At δ = 0.3 the certified Coulomb pair coefficient must be 0.30570, in the units where the tail amplitude is 1.92080.**
+
+Both numbers are already measured. No new computation on either side. **If they disagree, the identification of Ω with the electromagnetic field strength is wrong and §§38–40 and §§60–61 fall together.** This is the first thing to check and I'd like it checked before anything else.
+
+---
+
+## 3. Newton: where it actually stands
+
+The short version: **Newton is not something M5 is failing to deliver through a bad choice of term; it is something the *form* of the action cannot deliver.** Three languages, one fact (§46.3, corrected in §44.2):
+
+| language | statement | why the linear term is missing |
+|---|---|---|
+| curvature (§8.3) | R² without R | no Einstein–Hilbert term |
+| torsion (§40.2) | 𝕋² without 𝕋 — **strictly worse**, since 𝕋² is O(ε⁴) while R² has an O(ε²) piece via ℬ | the quartic is a quadratic form in torsion-squared |
+| defects (§46) | inc² without inc | ∫inc is a boundary term |
+
+And §47.1 closes the search: **any scalar linear in ∂∂M reduces by parts to one quadratic in ∂M**, so §29/§31's four contractions A, B, C, D are exhaustive. There is no unexamined linear gravitational invariant.
+
+What that leaves:
+
+- **Gravity enters by adding the linear term** — which is TEGR, which is GR. Astra's two-stretch calculation (verified here) shows the mechanism: with `e⁰ = N dt`, `eⁱ = B dxⁱ`, the quadratic Lagrangian is `M_P²[|∇Ψ|² − 2∇Φ·∇Ψ]`, and varying **both** stretches gives `Φ = Ψ`, `∇²Φ = 4πGρ` — attraction from the *cross term*, not from either stretch alone. Isotropic Schwarzschild annihilates both EL equations exactly.
+- **Which torsion modifications keep it?** Two independent derivations (mine §51, Astra's) agree: `2c₁ + c₂ + c₃ = 0` with `c₃ ≠ 0`, leaving a two-parameter family with TEGR one member, and `G_N/G = 1/(2c₁+c₂)` on that line. **The free direction is the axial torsion** (`I₁ − 2I₂ = −18a_μa^μ`), and on a spherical solution with `a_μ = 0` both it and its first variation vanish — so the spherical Newton benchmark survives any modification along it. That is the natural home for a chiral core's gravitational coupling.
+- **The scalar route is bounded.** A conformally coupled scalar has PPN γ = −1 (zero deflection), so mixing gives γ = 1 − 2f and Cassini bounds the scalar's share of Newton at **f < 1.2·10⁻⁵**. §32's modulus is a fifth force, not gravity. It also costs projective invariance: a nonzero dilation current requires breaking the symmetry that controls the connection's scalar modes.
+
+---
+
+## 3a. New since the first draft of this post: a candidate repair for the clock
+
+Jarek's proposal that the two curvature squares should contribute with *opposite* signs turned out to name a choice the programme had already made twice in opposite directions (§58) — the all-η contraction gives 2(B−E), the H-adjoint gives 2(B+E), and those are the electromagnetic Lagrangian and energy density respectively. Astra's response (§66) then showed exactly when a negative Hamiltonian square is legitimate, with an **exact fixed-momentum identity**, verified here to machine precision:
+
+> `ℋ_c = ℋ_0 − c R_0²/(1 + 2cI)`, and `∂ℋ_c/∂c|_{q,p} = −R(v_c)²`
+
+The correction is a genuine negative square, and `K_c = K_0 + 2cℓℓᵀ` is *more* positive than `K_0` — the energy falls because the theory has more inertia for the same canonical momentum, not because anything has negative energy. The cautionary case: with `K_0 = ℓ = 1, p = 1` the exact `1/2(1+2c)` stays positive while its truncation `½ − c` reaches −0.5 at c = 1. **The denominator is part of the physics.**
+
+Following that to the dual trace gives the best new result of this cycle (§67). For a declared candidate `X_M = ½ε^{μνab}F^M_{μνab}`:
+
+- `X_M = 0` **exactly** on the static hedgehog — the certified Coulomb record is untouched;
+- `X_M` is **exactly linear in the rotation rate** (X/ω constant to seven digits);
+- its velocity gradient `∂X/∂A₀` is nonzero at (1,2), (1,3) and **(2,3) — the clock direction — with value 0.348**.
+
+Through the Legendre identity this means `+c_X X_M²` simply **adds `2c_Xℓ²` to the clock's moment of inertia**, so `Ω² = k/I` falls. R16's lowest doublet sat at Ω² = 0.0448 against a box bottom of 0.0256, a ratio of 1.750, so
+
+> **`2c_Xℓ²/I₀ > 0.75` would produce the bound doublet R16 failed to find, without disturbing the static Coulomb texture.**
+
+That is the first quantitative candidate resolution of the clock's binding failure that costs the certified record nothing. Two caveats matter: the coupling is **rank one** and its direction is a mixture (the tilts get some of the added inertia too), and **binding and capacity pull opposite ways** — adding inertia lowers Ω² but also lowers ω, and §28's `K_coll ∝ ω`. So there is a *window* in c_X, not a direction of improvement, and computing `Ω²(c_X)` against `K_coll(c_X)` on one relaxed profile is now the most informative cheap calculation in the clock sector.
+
+Also new: **a fourth exact blindness of the quartic.** `M ↦ M + σ(x)η` leaves F identically unchanged (5.7098692001 with and without, to ten digits). This one is *local*, so the mode is pure gauge for I₁ and all its dynamics must come from the potential. Whether it is a symmetry of the whole action or only its leading term has never been checked.
+
+And a methodological warning to apply retroactively: **the fixed-flux sign.** With `ℋ(D,B) = D²/2Z + (Z/2)B²`, differentiating at fixed electric displacement gives the opposite sign to differentiating `ZE²/2` at fixed field. A topological charge *is* a flux, so for our sectors the fixed-flux Hamiltonian is the natural comparison — and several pair calculations in the record should be re-read with that in mind.
+
+---
+
+## 4. New theorems worth keeping
+
+- **The rank rule (§41.2).** `Ω = n·(∂n × ∂n)` is the pullback of the target area form, so **I₁ ≡ 0 on every rank-≤1 director map**. One fact explains planar flatness, free twist *and* bend sheets, the bend obstruction, and why the hedgehog tail is the only place I₁ is nonzero. It has since also explained the volume mode's invisibility and killed a hypothesis of mine (§65). It is the most productive theorem in the report and the one I keep forgetting.
+- **The kernel of the quartic (§53).** `F = 0` iff the jets η-commute; a fixed frame with all four eigenvalues varying gives `F ≡ 0`. So **I₁ is a pure orientation stiffness and the entire length sector is in its kernel** — four of ten components non-dynamical. That is the exact source of §6.2's underdetermination, and the reason K_λ and K_P had to be invented. In metric-affine terms: **I₁ lives entirely in torsion; the whole nonmetricity sector is invisible to it.**
+- **The photon theorem (§33.1).** The vector sector's kinetic determinant is `−2α(2α+β)(κ−ω)²(κ+ω)²`, so it propagates iff `2α + β ≠ 0` — which is exactly the negation of energy-blindness `4α + 2β = 0`. **A quadratic form leaves the point charge finite ⟺ its photon sector does not propagate.** The fourth horn, in one line of algebra.
+- **The blindness theorem (§31.2).** Energy-blind needs β = −2α; source-blind needs β = −3α/2. Incompatible: no quadratic tensor sector leaves the charge both energetically free and gravitationally inert.
+- **The polarisation gate (§45).** Any covariant *algebraic* map g = F(M) with a flat vacuum orbit annihilates all orbit tangents, so the cross polarisation is lost for waves across the director. Both polarisations survive *along* it — a direction-dependent signature, not a flat impossibility, and a **fifth** independent role for the degenerate pair.
+
+---
+
+## 5. Things I got wrong and have withdrawn
+
+Listing these explicitly because the audit trail is the point.
+
+- **§59.3 withdrawn (§61.2).** I suggested the recorded pair repulsion might be a fixed-current sign artefact — parallel currents attract while their field energy rises. But duality acts on the *spacetime* indices, and for any static configuration `F_0i ≡ 0`, including the boost-dressed one. **A static dressing is not a current.** The pair scans are static, `−∂E/∂d` is correct, and the recorded repulsion stands. The hopeful reading survived exactly as long as it took to ask which indices duality acts on.
+- **§29.1's signs corrected (§31.1).** For a static field E = −∫L: sheets cost *positive* energy, and the one negative direction is the conformal mode, where GR has it. The pair energy flips too.
+- **§29.2's spectral exclusion was too broad (§34.1).** `tr(X²) − (tr X)²` with `X = N − I` is a spectral function and *is* Fierz–Pauli. My argument holds only at a non-degenerate spectrum.
+- **§29.3's root cause withdrawn in that generality (§34.3).** With an independent metric, `N^μ_ν = g^{μα}M_{αν}` makes the potential a coordinate scalar; spectrum selection breaks no diffeomorphism invariance.
+- **§40.2's analogy was wrong (§44.2).** 𝕋² is strictly worse than R², not equivalent.
+- **§25.1's numbers withdrawn (§30.1).** 4.44 and 6.09 were cap-dependent, not converged eigenvalues.
+- **§55.1 scoped (§56–57).** The hypermomentum map holds at the level of *charges* — the static hedgehog is hypermomentum-neutral, all three angular averages ~10⁻¹³ — but not densities, since Δ = −2PM is bilinear.
+- **§63.2 corrected (§64.2).** The 4/3 problem means "mass = field energy" needs a stabilising stress; the split-mass prediction becomes **26–47 MeV**, not a sharp 35.
+- **§65: a hypothesis of mine, tested and refuted.** Waves on a hedgehog background: the quadratic operator exists, but its 10×10 symbol keeps signature (3−, 2 zero, 5+) at every ω — no characteristics. The cause is the rank rule: a plane wave is a rank-one perturbation.
+
+---
+
+## 6. Quantitative statements now on record
+
+| quantity | value | status |
+|---|---|---|
+| Coulomb pair coefficient (dual reading) | 0.30570 at δ = 0.3 | **falsifier — please check** |
+| α, induced | `sinh⁴(q_∞)·log(Λ²/m²)/384π³`; α = 1/137 needs δ ≈ 0.18 for Λ from 1 TeV to M_Pl | prediction; certified δ = 0.3 disagrees by 40 % in q_∞ |
+| core radius | `r₀ = αƛ_C`, the classical electron radius | follows from "mass = field energy" |
+| split/clock mass | ≳ 26–47 MeV | follows from the above + §28's capacity bound |
+| clock charge capacity | `K_coll = 2ωΔ_min²∫f²`; needs `r₀√μ ≳ 0.5`, R16's core is 0.30 | §28 |
+| exact tensor thresholds | 2.467401/2.493984, 1.096623/1.121847, 0.394784/0.417786 | §30, replaces my box values |
+| NGR Newton surface | `2c₁+c₂+c₃ = 0`, `c₃ ≠ 0`; `G_N/G = 1/(2c₁+c₂)` | two independent derivations agree |
+| scalar's share of Newton | `f < 1.2·10⁻⁵` (Cassini) | §42 |
+
+---
+
+## 7. Where this sits relative to the literature (§§48–50, §64)
+
+Two identifications that reframe the programme:
+
+- **M5's central degeneracy is the strong coupling problem of modified teleparallel gravity.** In f(T) the extra modes lose their kinetic term at quadratic order, so perturbation theory breaks down — that is our "no linear waves", §6.2's underdetermination and §41's rank rule, under a name with fifteen years of literature. The DoF count there is genuinely contested (3, then 1, then 3), so any Hamiltonian count we produce should be provisional until reproduced by a second method. f(Q) shares the pathology, so the nonmetricity sector is not a safe harbour. The surviving structures are STEGR and the **transverse-diffeomorphism-invariant subclass** — which is also, independently, what Astra's protected volume mode lands on.
+- **Faber's Model of Topological Fermions is the rotation sector, already published.** SO(3) solitons, charge quantised classically by the winding, finite mass without divergences, a **dual U(1) far field with freely propagating EM waves**, a *computed* classical running coupling (Theuerkauf–Anmasser–Faber 2025), and the 4/3 problem confronted (Faber 2025). The complement is clean: **Faber has the rotation sector solved; M5 adds the length sector** — the four eigenvalues carrying the clock, the scale modulus and every gravity attempt here. That is a better description of this programme than "a corrected M5 Lagrangian", and it means our original contribution is precisely the sector we have not yet made work.
+- And Kleinert–Zaanen's **world nematic crystal**: a nematic from dislocation proliferation carries only curvature rigidity, is indistinguishable from Einstein spacetime, does not support torsion, and has string-like curvature sources. Kleinert's 1987 condition for Einstein gravity to emerge is that the *first-gradient* elastic constants vanish — **which is exactly the property of M5's action that we have spent months treating as its central defect.**
+
+---
+
+## 8. What I'm asking for
+
+**To OpenWave / whoever holds the certified numbers:**
+1. **The Coulomb pair coefficient against 0.30570** (§2 above). Highest priority; nothing else in the dual reading means anything until this is settled.
+2. From R16's relaxed core at convergence: `r₀`, `min_core(a − b)`, and `Δ_min²∫f²`. §28 needs `r₀√μ ≳ 0.5` and R16's core sits at 0.30.
+3. Whether the dressed-pair scans **imposed** or **relaxed** the dressing. §61.2 says it doesn't change the sign, but it changes which regime the record documents.
+
+**On the new clock candidate:**
+8. Compute `Ω²(c_X)` against `K_coll(c_X)` on one relaxed profile. Binding wants large c_X, capacity wants small; if the window is empty the candidate dies cheaply, and if it is not, the clock sector has its first working repair.
+
+**To Astra:**
+4. The **operator audit** you proposed is adopted as priority 1: for one canonical M5 parent with the transport prescription fixed, does the local effective action generate `P_μP^μ`? Your counterexample (`Z_n/M_P² = 4sinh²q_∞ = 5.52` at q_∞ = 1, verified here) makes that the precondition for §63's numbers meaning anything.
+5. Does your scale/shape projection leave the scale sector **transverse-diffeomorphism invariant**? If the scale variable is `(det H)^{1/4}` it inherits a published ghost-freedom result; if it's a trace, it does not.
+6. Report the **hypermomentum alongside T_μν**, with the connection choice declared — that declaration is the most consequential unmade choice in the gravity sector.
+
+**To anyone with the Faber papers to hand:**
+7. In MTF, **what is the field whose plane wave is a solution, and what is its perturbation of the director?** If it's the dual potential, the two models differ by exactly that and §39's completion is the bridge. If it's something else, that's what M5 is missing and it is *not* the potential. This is a reading task, not a computation, and it is the most valuable open item after the falsifier.
+
+---
+
+*Everything above is reproducible from the script bundle. Overturned predictions are listed in §5 and in the report's verification ledger; the running count of pre-registered predictions that computation has overturned is now twelve.*

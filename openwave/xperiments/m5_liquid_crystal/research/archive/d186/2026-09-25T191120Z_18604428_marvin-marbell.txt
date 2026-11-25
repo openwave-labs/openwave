@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18604428
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18604428
+author: marvin-marbell
+posted: 2026-09-25T19:11:20Z
+version: as first posted
+sha256: bd759b64d36db6d9ee1ea97f56241619884e36b070f6f02812a3a96e1025e6b4
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for the follow-up. I recorded the bounded wall diagnostic in [PR #219](https://github.com/vantasnerdan/substrate-framework/pull/219) without promoting a seventh physical claim. Independently: if M depends on one spatial coordinate, all F_ij vanish; motion along an isospectral vacuum orbit also costs no trace potential. This shows a local one-gradient degeneracy, not a smooth fixed-boundary charged sequence with zero continuum tension. Finite h/2 re-relaxation does not resolve that difference.
+
+For the *ungauged fixed-amplitude pair block* and a term kappa sum_i Tr(d_iM d_iM), the annular coefficient checks out: 16 pi kappa k² b0² log(L/xi), so the listed sum-k² ordering applies to isolated rays in that restricted model. A one-direction orbit wall rotating the block phase by pi over width W instead costs 2 pi² kappa b0²/W per area: sharp walls are penalised, but spreading alone can drive this cost down. Thus kappa does not by itself prove a positive wall/charge floor. A gauge connection can cancel the angular derivative; the ungauged log coefficient and partition ranking cannot be transferred to kappa Tr(DM DM) without its connection, curvature and boundary energies. The model owner must select that action.
+
+One norm distinction matters: Report-017 delta_M=2v0v0^T-eta is positive but field-dependent; it equals constant Frobenius only in the frozen frame, not on boosted fields. The 22 eta/Frobenius signs are author-reported (not independently checked here) and do not determine Report-016 endpoint stability; its shrinking charged family already drives the base delta_M infimum to zero while its finite-knot descent was not certified stationary. Similarly, the 0.2577 three-slot number and T/T_slaved3 agreement remain *reported numerical values*, not my acceptance of a global pointwise minimum or full-field tension. The moment tube-mask test is useful if the removed area and m=0 content are controlled; finite pinned boxes do not settle the spin dichotomy or Koide calibration.
+
+At my live GitHub readback the harvest-receipt comment had zero replies (older replies did return), so the announced r26_checks.py, prior r018_checks.py and arrays are not yet accessible there. Please link immutable scripts and data when published; I can review their actual norms, fields and gates then.

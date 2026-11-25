@@ -1,0 +1,88 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18557744
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18557744
+author: JarekDuda
+posted: 2026-09-22T19:24:03Z
+version: as first posted
+sha256: 8697745a83af79d6b441f6cd08cd6dc2165e8fda0799513afc762bf55cec0e4d
+archived: 2026-11-25
+==== verbatim text below this line ====
+[m5ldgs_dirac_v2.9.zip](https://github.com/user-attachments/files/32533053/m5ldgs_dirac_v2.9.zip)
+
+<html><body>
+<!--StartFragment--><html><head></head><body><p>@xrodz @vantasnerdan @mjmikulski</p>
+<p>Thank you for taking Packet A, and for checking the paper's claims on your stack before running anything.</p>
+<p><strong>The correction is accepted.</strong> "R12 (linear like-charge confinement)" was my misattribution. R18-3 on the uniaxial exterior
+was one unit hedgehog with a split core, and R22-2's pinned pair returned the Coulomb energy. That agrees with the paper's
+§13 result that the Coulomb bound is attained for an opposite pair. So no OpenWave measurement of strand confinement exists
+yet, and R25-2 will be the first.</p>
+<p>Your block-sector finding helped me sharpen the strand. The results are in v2.9: [v2.9 link], with
+<code>strand_tension_check.py</code>.</p>
+<h2>Answers to the four questions</h2>
+<p><strong>1. What one charge drags.</strong> Topology fixes only the total: every enclosing sphere of a unit charge carries transverse
+index 2 (the Euler number of n*TS² is deg(n)·χ = 2Q). How that total is split is not fixed by topology, and at the
+Bogomolny point it does not matter:</p>
+<ul>
+<li>
+<p>The straight half-disclination in your block sector (only the (2,3) pair moves) is a <strong>Bogomolny line</strong>. With the
+transverse block s₀𝟙 + b(cos φ σ_z + sin φ σ_x), the gradient energy is u = 32(bb′/ρ)² and the potential is
+W·K·(b² − b₀²)², with K = 4 + 36s₀² + 144s₀⁴. Then</p>
+<p><strong>T = π√(32WK)·b₀⁴ = (π/√2)·Δ⁴√W</strong> at s₀ = 0, attained by b² = b₀²(1 − e^{−κρ²}) with κ = √(WK/32).</p>
+<p>Numerics agree with the bound to 10⁻⁶. This is exactly your identity E_u ∝ δ⁴, and it predicts <strong>T ∝ √w with core width
+∝ w^{−1/4}</strong>, i.e. your STRAND_W_LAW with the constant given.</p>
+</li>
+<li>
+<p>At this point the <strong>tension is additive in the index</strong>. One index-2 half-line, two index-1 lines, or four half-disclinations
+all cost the same per unit length. So n_half is for the dynamics (beyond the block sector) to choose, and I claim no
+preferred split. Please read it from the field as you planned.</p>
+</li>
+<li>
+<p><strong>The ± slope does not depend on the split.</strong> The segment between an opposite pair carries index 2 in every arrangement:
+each core sphere has index 2 and the far sphere 0. So <strong>σ = 4·T_½</strong>, where T_½ is your slab strand (a half-turn). Your
+T/2-versus-T distinction arises only if outer strands run to the wall instead of along the segment, which costs more length.</p>
+</li>
+<li>
+<p><strong>This corrects the paper.</strong> v2.8 used σ = T_½. With σ = 4T_½ every δ bound tightens by 4^{1/4} = √2: a metre of free
+electron needs δ ≲ 2.3×10⁻⁴ (equal cores), a kilometre δ ≲ 4.2×10⁻⁵. Your plan-time estimate of δ ≈ 2×10⁻⁴ sits right
+on it.</p>
+</li>
+</ul>
+<p><strong>2. The W and the script.</strong> W is the coefficient in E = ∫[u + W·Σ_{p≤4}(tr M^p − C_p)²], with
+u = 4·Σ_{i&lt;j}|[∂_iM, ∂_jM]|². The old 2.25 was a numerical optimum 1.3% above the exact π/√2 = 2.221, and it is replaced.
+<code>strand_tension_check.py</code> is in the v2.9 bundle, and <code>check_all.py</code> (60 checks) now covers the tension the δ bound rests on.
+The v1.10 <code>strand_tension.py</code>, which checks a different identity, came from a parallel thread and is marked as not yet in the
+bundle.</p>
+<p><strong>3. Like pairs.</strong> No like-charge confinement is expected. The far sphere of a like pair carries index 4, so its strands must
+run outward, and none is required on the segment. In a neutral medium they end on opposite charges. The like-pair energy
+should be Coulomb plus d-independent outer-strand energy. The paper's §13 construction attains Coulomb exactly for an equal
+like pair.</p>
+<p><strong>4. Packets B–D</strong> are reposted below.</p>
+<h2>One result for Packet C and the moment calculation you deferred</h2>
+<p>The E·B ≡ 0 theorem holds for the 3×3 field <strong>at fixed eigenvalues</strong>. Where eigenvalues vary, their gradients supply a
+fourth one-form. I tested a hedgehog with a through-vortex along the spin axis, a clock, and a melted vortex core
+(<code>eb_outgoing.py</code>, <code>eb_delta_scaling.py</code>):</p>
+<ul>
+<li><strong>E·B vanishes in two cases:</strong> at fixed eigenvalues (10⁻⁹), and exactly for a static twist along the vortex. It becomes
+0.05–0.24 of |F|² with a melted core and the clock.</li>
+<li><strong>The clock's sense decides the multipole.</strong> A rigid rotation about the spin axis gives dipole parity (B_r odd, zero net
+flux). A uniform sense about the local director gives net magnetic flux, i.e. a magnetic charge.</li>
+<li><strong>But the field is too weak outside a strongly biaxial region.</strong> It lives only where eigenvalues vary, and |B|/|E| ∝ δ²:
+7×10⁻², 5×10⁻³, 3×10⁻⁴, 2×10⁻⁵ for δ = 0.29 → 0.0045. The electron needs |B|/|E| ≈ λ̄/2r, about ½ at its Compton
+radius, so a weakly biaxial exterior falls short by six orders.</li>
+</ul>
+<p>So the exterior moment still needs the boost sector (or a separate connection), which is where your time–space constraint
+analysis sits. That makes it the gate for Packets B and C.</p>
+<p><strong>Packet B — the spin-½ gate on the best localized clock</strong></p>
+
+Field | B
+-- | --
+Object | a stationary clock with a genuine Noether charge J (P249/P250, or any licensed clock)
+Observable | the unit-free 2Jω/E and whether dynamics pins it at 1 (E_rot = E/4 in the E_stat + J²/4C convention); then, with a Maxwell sector (Cartan field or 4×4 boosts), the exterior dipole and the sign of its contact term
+Prediction | spin ½ ⟺ 2Jω/E = 1; a physical moment is Ampère (+8π/3), not Gilbert (−4π/3)
+Verdicts | pinned at 1 → a clock-based spin; box-dependent (your rigid-clock C) or fixed elsewhere → spin needs another carrier
+
+
+<p>Jarek</p></body></html><!--EndFragment-->
+</body>
+</html>

@@ -1,0 +1,50 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19346340
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19346340
+author: JarekDuda
+posted: 2026-11-02T08:32:36Z
+version: as first posted
+sha256: 06e126da7ad7d94052bcf4fbec67633535a289a54b773f32f14be585a03cd408
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Re: R31 = S1 on OpenWave: the informative null, and the anchor for the lepton cell (with Release 2.1)**
+
+Thank you for running S1 in full, and for taking the lifts in the article's product form once it landed. Release 2.1 of the lepton article is now out: https://doi.org/10.5281/zenodo.23879623. It cites MODELS.md at commit 763b564 (23 Oct); the lepton row is unchanged at 6f447ff (27 Oct).
+
+1. **We accept the read as worded: INFORMATIVE NULL.** It is the outcome Release 2.0 expected on classical rest energies (Sec. 10: one radial branch; breathing quanta 487–541 mₑ under every lift; your kit's "ratios of order one"). The degenerate catalog (E₂/E₁ ≤ 1.03, E₃/E₁ ≤ 1.08, Q ≈ 1/3, stable under the second box) is that statement on your instrument. It closes S1 for classical stationary energies in the fixed-J frame.
+
+2. **One request for the M5 lepton cell: keep ⚠️, but update its text.** The cell currently ends with "the pre-registered extrapolation bridge to physical parameters failed terminally (2026-08-07), leaving no live calibration route". Release 2.1 supplies a live calibration route of the kind your table credits elsewhere: parameters fixed by data, with a held-out check.
+   - **Anchor (Sec. 11).** In the working reading, the masses sit in the coupling of the elementary Dirac field to its core: a circulant of three core channels with scale s, ratio u/s and angle θ. The electron and muon fix s and θ. With Koide's u/s = 1/√2 imposed, the tau is held out and lands at 1776.969 MeV (+0.43σ, tree level).
+   - **Protected realization (Secs. 5–6).** A vectorlike-lepton embedding with one Z₄ source per family gives a tree tau of 1776.963 MeV from the same two inputs. The photon charge is exact and the W/Z/H couplings are universal to 10⁻⁷.
+   - **A concrete benchmark, LB1 (Sec. 12.1, new in 2.1).** M = 30 TeV, b = 10 GeV, f = 300 TeV.
+     - It passes μ→eγ (MEG II), τ→ℓγ, the electron EDM (with real couplings), g−2, e/μ universality and the Higgs couplings, even with generic O(1) dipole coefficients in both chiralities.
+     - The data bound the parameters; they do not fix them, so LB1 is a point in a window, not a fit.
+     - Scalar loops make Koide a condition on the physical (on-shell) source amplitudes. That is one counted renormalization condition, like pole anchoring.
+     - Conversion to pole masses is not yet computed.
+     - A release script reruns the checks and asserts 29 stated numbers.
+   - **What it is not.** It is not a derivation: three masses still need two inputs plus one structural assumption, as the Standard Model needs three Yukawas. The native origin of the circulant is open. Your S1 null now shows that origin is not in classical core energies, which is where Release 2.0 had already moved it.
+
+   **Proposed cell text:** "⚠️ [partial: accommodated with an anchor; native origin open] Masses reached in the Dirac–core coupling: electron and muon fix the circulant, Koide imposed, tau held out at +0.43σ (tree level); benchmark LB1 passes lepton-flavour, EDM, g−2 and universality checks (Release 2.1, 10.5281/zenodo.23879623). Native S1 (R31): informative null on classical rest energies; J ladder gives rotor spacings."
+
+   This changes no icon, only the reason recorded for the one already there. If you read the criterion so that an anchored accommodation does not count as partial, please say so; we would then record it as our proposal only.
+
+   On our own scorecard (green: agrees with data, fitted parameters allowed) the same anchor takes the row from red to amber, as Release 2.1 proposes. Green there needs compatibility, not a derivation: the three channels written into the action, and the core energy cancelled by the Dirac dressing. If a common residue survives, the held-out tau moves by −0.32 MeV per keV, so the tau check needs the cancellation to 0.3 keV. Your ✅ stays tied to S1.
+
+3. **The J ladder.** Rungs at 3.7–5.1 times the rest energy with Q of 0.36–0.37 are rotor spacings, not a lepton gap. Together with the degree being undefined on 105 of the 150 ladder states, this removes "J as a core excitation at fixed Q" as a route to the second and third states on this instrument. We take that as a result.
+
+4. **What the lifts did is new to us.** They merge the arrangements instead of splitting them: one field up to lattice symmetry at the sextic flip.
+   - At the same time the clock-generator inertia drops by three orders of magnitude.
+   - The spinning core's disclination stays inside r 12, so the ladder keeps its charge (10 of 10 states).
+   - The frame-jump count falls from 6–10% to under 1%.
+
+   Release 2.0 attributed frame jumps to a missing derivative penalty, and a potential lift is not one. One question, if it is in your record: on the merged J = 0 state at the sextic flip, does the minor gap stay open along the former strands, or does the lift remove the strands themselves? That decides whether the jumps were cured or their host was removed.
+
+5. **The readings.**
+   - Your frame-jump counts (5–13%, and 1–4% with the selective term) agree with ours.
+   - The vacuum D8 read is as intended.
+   - Declaring the rest energy as the classical stationary energy settles the quantization question for this run. No quantum bracket is needed: no declared quantum of an order-one mode turns a spectrum degenerate to a few percent into 1 : 207 : 3477 without a mechanism the action does not yet have.
+
+6. **The negative c₆ comparator** has no minimum: agreed, a reading of the comparator.
+
+The native question now lies in the Dirac–core coupling, which needs a relaxed host that binds the Dirac states; none does yet (Release 2.1, Sec. 10.1). We have no new S-run to propose until one does. S3b and the R4 gap ladder stay as recorded.

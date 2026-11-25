@@ -1,0 +1,55 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186
+thread: vantasnerdan/substrate-framework discussion #186
+kind: opening post
+id: discussion-186
+author: xrodz
+posted: 2026-08-29T18:08:05Z
+version: as first posted
+sha256: 6a5070f99448dd6f4271880244402e7128965197cc6f9594df886d1c48e87356
+archived: 2026-11-25
+==== verbatim text below this line ====
+@vantasnerdan @mjmikulski @JarekDuda
+
+FYI and help wanted: OpenWave's autonomous Lagrangian hunt (task M5.32) is paused on our side after 12 audited rungs; this thread posts its state, the next rung we would run, and a proposal to coordinate the three stacks that are working the same problem. Nothing is needed from anyone beyond a read; the concrete ask is at the end.
+
+## Goal
+
+The 4x4 M5 liquid-crystal action, corrected so that (1) the Coulomb sector of the 3x3 record is kept, (2) the Newton sign between two massive defects is attractive, and (3) a resting electron has a finite nonzero clock frequency at positive energy. Jarek's quest of 2026-08-17 / 08-20 (add Lorentz-covariant curvature contractions such as `R_ac R^ac` and `R^2` to `-F_abcd F^abcd - V(M)`).
+
+## What we ran (OpenWave M5.32, 2026-08-27 to 08-29)
+
+One autonomous rung ladder, each rung pre-registered (hypothesis + gate before any number), each closed by an independent adversarial audit on a second model instructed to refute it. The method note opens with the equations and carries an equation-to-code map so the implementation can be checked against the mathematics rather than the Python:
+
+- method note: https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_method_note.md
+- task doc (plan, rung log R0-R12 with every audit verdict, pause record with resume pointers): https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md
+- machine-readable ledger, one entry per rung: `research/data/m5_32_ledger.json`
+
+| Rung | Audited result |
+| --- | --- |
+| R0 | the certified stack, the record and the 2026-08-17 Newton notebook reproduce (17/17 selftests; notebook fit `A = 863.733, B = 167.668` to six digits) |
+| R1 | **no-go, certified**: within the constant-coefficient current-order covariant class, no coefficients make the energy's omega^2 form positive on every time channel while reversing the boost weight (Farkas / LP certificates at three (g, delta) points, with and without the parity-odd terms). Independently reached by Maciej's report 001 and by the P239-P247 campaigns here |
+| R2 | a field-dependent internal metric (the covariant flip family, `h = eta + 2uu`) is bounded below for `lambda >= 1/2`, keeps the static sector, but gives only a weak clock |
+| R3 | the Newton sign is not met on any of three two-defect constructions; on the author's ansatz the pair energy is `4[S - (1 - 2 lambda) T]` and the sign lives in the static sector `S`, which no covariant flip touches |
+| R4, R6, R7, R8 | the fixed-J clock runs to the box wall on every localized family (`omega* L` constant); any Lorentz-invariant derivative-free potential is constant along a boost dressing (theorem); the only bounded 2-derivative localizer is inert on the realized clock channel; the quartic classes' omega^4 inertia is itself box-divergent |
+| R9, R10 | **the point hedgehog is not a protected soliton here**: the stabilizer of `d = diag(g, 1, delta, 0)` in SO(1,3)+ is the Klein four-group, so `pi_1 = Q8` and `pi_2 = 0`; the degree the record reads is an RP^2 degree of one eigenvector, possible only through a discontinuity on the z axis; the protected objects are lines |
+| R11 | Jarek's 2026-08-29 same-sign notebook is the 08-17 notebook with the spatial curvature density globally negated (both notebooks already had same-sign centers); that flip has **no floor** (exact dilation identity `E_u[M(s x)] = s E_u[M]`, `V ~ s^-3`), and the same-sign pair stays repulsive under the certified sign. `(F_abcd F^abcd)^2` drives the clock in the energy reading but the coefficient that opens a well grows with the box (313 / 476 / 637 at L = 48 / 72 / 96) and the frequency at fixed coefficient drifts 42 % across the ladder in both Hamiltonian readings; report 008 here sees the tick in one 32^3 box, the box ladder is what it cannot see |
+| R12 | **the charged disclination ring is protected**: its half-winding survives 3000 relaxation iterations at two radii and two boxes; it shrinks ~6 % and decelerating (park or collapse open). But its clock inertia is extensive with exactly the same radial profile as the point hedgehog's |
+
+## Where we paused, and why
+
+Every rung ran into the same wall: the fixed-J clock inertia grows with the box. R12 showed it has the same shape for the ring and for the point, so it is not a property of the object and not of any Lagrangian term we added. It is the rigid rotation of the vacuum frame far from the defect: the clock generator we all inherit from the record (the isorotation of the whole internal frame) does work on the vacuum. That makes the next step a modeling choice, not a computation, which is why we stopped rather than adding another term.
+
+## The next rung, declared (R13)
+
+**Does a stationary open-space fixed-J clock exist under a vacuum-vanishing flow?**
+
+Setup: the certified 4x4 action (or any of the covariant candidates above), a relaxed defect (ring or point), and a clock generator `a0(x)` that vanishes where the field is in the vacuum, instead of the rigid isorotation. Fix the internal angular momentum `J`. Validation: `omega*` and `E_J` stable across a box ladder (L = 48, 72, 96) with no taper and no wall pin doing the work; the inertia carried by the defect (shell profile peaking at the core, not flat to the wall); `omega*` below the vacuum mass gap so the clock does not radiate; the result robust to the choice among at least two vacuum-vanishing flows (for instance the isorotation weighted by the local departure from the vacuum spectrum, and a flow solving the linearized dynamics about the relaxed object). We deliberately do not constrain which flow is right: that is the physics question.
+
+## Help wanted
+
+1. Jarek: which clock localization is physical, the rigid co-moving rotation of the whole frame or a flow that decays away from the defect? Every clock number in the three stacks depends on this, and it is a statement of the model's intent that no run can settle.
+2. Anyone with cycles: run R13 as stated above on your own stack. Two independent implementations reaching the same `omega*(L)` would be worth more than either alone; a refutation would be worth as much.
+3. Coordination proposal, since Jarek noted the three of us are hunting the same Lagrangian: one shared problem statement per rung (goal, setup, validation, posted as a thread like this one), each stack implementing independently, results compared by number with the scripts public. OpenWave's part of that is already in the open (method note, ledger, scripts); we would keep posting rung statements here if that is useful, and read yours.
+
+Thanks.
+Rodrigo Griesi (OpenWave @xrodz)

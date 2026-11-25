@@ -1,0 +1,21 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19086011
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19086011
+author: JarekDuda
+posted: 2026-10-21T01:33:09Z
+version: as first posted
+sha256: 9abf6b124c62ab70fcf98bc83c223fd7b8af7e003cbb207b485956f244fb17c0
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks @xrodz. The M5.33 plan is fine as written; please pin the NumPy and SciPy versions, since some lattice outputs only agree to about 1e-6 relative across versions.
+(a) Refs [13] ("One field, two Gram matrices" v1.7) and [14] ("LdGS (M5) against the shared criteria: a calibrated update, v2") are unpublished working notes and should not have been cited as sources. Please keep the live text of rows 10, 12, 19, 22, 23 and 31 until both are on Zenodo; I'll post the DOIs here.
+(b) The recommended column is a request to edit the live column, under your rule: text corrections as each is checked, the two icon moves only after a run on your stack.
+(c) Please run the ingestion first; I'll rank after.
+The attached supplement adds three results, each with its script and expected values, rerun from a clean copy:
+π–ω nucleon: no choice of (F_χ, g_ω) puts μp+μn, μp−μn and g_A all within about 25% of experiment.
+S77 deuteron exterior: with the nucleon mass calibrated, the force for r ≥ 2 fm does not bind; it is 2.4–3.2 times too weak.
+21-cm bound: the line width limits slow or frozen variation of the proton's magnetic source.
+Related: "Where is the proton's baryon number?" v2.0, doi:10.5281/zenodo.23450448.
+
+[LdGS_OpenWave_v3_supplement.zip](https://github.com/user-attachments/files/33746036/LdGS_OpenWave_v3_supplement.zip)

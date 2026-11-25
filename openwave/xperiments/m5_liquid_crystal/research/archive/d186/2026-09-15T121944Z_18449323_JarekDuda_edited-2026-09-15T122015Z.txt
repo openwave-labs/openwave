@@ -1,0 +1,188 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18449323
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18449323
+author: JarekDuda
+posted: 2026-09-15T12:19:44Z
+version: edited 2026-09-15T12:20:15Z
+sha256: 95b19f56b5c90d08699dd5f2ccdd6bd634c7c52f6e60b282d93e9f131ce74a0b
+archived: 2026-11-25
+==== verbatim text below this line ====
+Carefully analyzing "parent" candidates from the big document:
+
+<p>@xrodz @vantasnerdan @mjmikulski</p>
+<p>Thank you for R13-W and P250. I accept the R13-W verdict: on <code>L_cert</code> the phase gradient
+costs nothing, so the wall was the wrong place to look — what is missing is a term that
+charges the phase gradient, not a place to hide a frequency jump.</p>
+<p>Since the last post I have run R14-G rather than proposing it, and one exact result about
+the Coulomb sector came out of it that changes what the "Newton sign" cell is asking. Below:
+one premise frozen, two exact closures, one rung retired, one rung sharpened, and three
+protocol items. Scripts attached; everything runs in seconds under SymPy/NumPy.</p>
+<hr>
+<h2>I. Premise frozen — the boost-vector channel, and <em>why</em></h2>
+<p><strong>[ESTABLISHED_SYMMETRY, exact]</strong> On the vacuum orbit of <code>diag(g,1,δ,0)</code>, with
+<code>A_X = XM + MXᵀ</code>, the η-norm of <code>[A_X, A_Y]_η</code> is positive for every rotation–rotation and
+every <strong>boost–boost</strong> pair, negative for every rotation–boost pair, and exactly zero for the
+three where the boost lies along the rotation axis:</p>
+<pre><code>(K01,K02) → +2(δ+g)²(g+1)²      (J12,J13) → +2(δ−1)²
+(J12,K01) → −2(δ−1)²(g+1)²      (J23,K02) → −2δ²(δ+g)²      (J23,K01) → 0
+</code></pre>
+<p>I want to correct my own earlier wording. The negative block is <strong>rotation × boost</strong>, i.e.
+mass × <em>charge</em>. Boost × boost is positive — like masses repel under the η-norm too. So the
+channel is closed for a stronger reason than "attraction requires a ghost": <strong>attraction
+between like masses is not available in that channel at all, ghost or no ghost.</strong></p>
+<p>The reason is one line of algebra, and it closes a whole family of proposals at once.
+<code>SO(1,3)</code> is the complexification of <code>SO(3)</code>: <code>K_i = iJ_i</code>, a boost <em>is</em> a rotation by
+imaginary angle, and the internal Hodge star is that <code>i</code> (<code>*J₁ = −K₁</code>, <code>** = −1</code>, both
+exact). So <code>⟨F,F⟩_η</code> is the real part of a holomorphic function of the complex dressing
+<code>ζ = θ + ib</code>, while the H-adjoint norm is a function of <code>|ζ|²</code>. Rotating one jet
+continuously from rotation to boost gives <code>⟨F,F⟩_η = 0.5·cos 2φ</code> to four digits. Every
+like–like far-field term is biquadratic, <code>ζ₁²ζ₂²</code>, hence <code>i⁴ = +1</code>.</p>
+<p>Three consequences, all exact:</p>
+<ol>
+<li>No analytic continuation, no internal dual, no <code>−H</code>, and no reversal of <code>R̃²</code> alone can
+flip mass–mass. The internal dual and <code>−H</code> are the <em>same</em> operation and flip Coulomb and
+gravity together; reversing <code>R̃²</code> alone turns the form <code>[[1,−1],[−1,1]]</code> into
+<code>[[1,−1],[−1,−1]]</code>, eigenvalues <code>∓1.414</code> — indefinite, since <code>det = c − 1</code>.</li>
+<li>Positivity requires a rest frame at the level of the algebra: <code>|ζ|² = ζζ̄</code> needs the Cartan
+involution <code>K → −K</code>. There is no Lorentz-invariant way to write it. The H-adjoint is not a
+patch; it is the statement that a positive energy on this field has a preferred frame.</li>
+<li><strong>[ESTABLISHED, exact]</strong> The no-floor argument is sharper than R11's. <code>Tr((Mξ)^p)</code> is
+invariant under boosts of the vacuum to all digits (checked at rapidity 0.1, 0.7, 2.0:
+<code>9.3, 65.09, 513.027, 4097.0081</code> unchanged), so a pure boost texture costs <strong>exactly zero
+potential</strong>. Under <code>x → sx</code> a four-derivative static density scales as <code>s⁻¹</code>, so
+<code>E(s) = K/s + s³∫V</code> becomes <code>E(s) = K/s</code> with nothing competing: <code>−1, −10, −100, −1000</code> at
+<code>s = 1, 0.1, 0.01, 0.001</code>. By the R6 theorem no Lorentz-invariant derivative-free potential
+can supply the missing term.</li>
+</ol>
+<p><strong>Verdict:</strong> boost-vector channel <code>NEWTON_CLOSED</code> for every constant- or field-coefficient
+deformation of the quartic, and for every sign reversal of any sub-block of it. The "green
+Newton" of the coframe versions in my audit record is an imported Einstein constraint —
+<code>NEWTON_SUPPLIED</code>, not <code>NEWTON_DERIVED</code>.</p>
+<hr>
+<h2>II. New exact result — the Coulomb sector is dual-Maxwell, and its gravitational channel is <em>zero</em></h2>
+<p><strong>[ESTABLISHED, exact; numerical residual ∝ h²]</strong> On the degenerate-pair vacuum
+<code>M_sp = δI + (1−δ)nnᵀ</code>, <code>n ∈ S²</code>, the identity</p>
+<pre><code>∂_iM ∂_jM = (1−δ)²[ ∂_in ∂_jnᵀ + (∂_in·∂_jn) nnᵀ ]
+</code></pre>
+<p>kills the symmetric piece under antisymmetrisation, so <code>F_ij = (1−δ)² ρ_ij [n]_×</code> and</p>
+<pre><code>Σ_ij ⟨F_ij, F_ij⟩  =  4(1−δ)⁴ |E_top|² ,      E_top^k = ½ ε_kij n·(∂_in × ∂_jn)
+</code></pre>
+<p>exactly, for any director configuration — not just the far field. (Lattice residual converges
+at order <code>h²</code>: 6.5% → 1.7% on halving.) <strong>The certified static quartic is Faber's dual-Maxwell
+energy of the topological current.</strong> Self-energy <code>16π(1−δ)⁴/r_c</code>, hence</p>
+<pre><code>e² = 16π(1−δ)⁴          the electric charge is set by the eigenvalue gap
+</code></pre>
+<p>Now the part that matters for this thread. <code>E_top</code> is divergence-free away from cores with
+flux <code>4π·degree</code>, so <code>E_top = E_C + E_T</code> with <code>E_C</code> the two-centre Coulomb field and <code>E_T</code>
+divergence-free with zero flux; the cross term vanishes by parts through the core cutoffs, so
+<code>∫|E_top|² = ∫|E_C|² + ∫|E_T|²</code>. A single hedgehog has <code>E_T ≡ 0</code>. Therefore for <strong>any</strong>
+configuration, frozen or relaxed, at fixed cutoff:</p>
+<pre><code>U(++) ≥ +32π(1−δ)⁴/d        U(+−) ≥ −32π(1−δ)⁴/d        charge-even part ≥ 0
+</code></pre>
+<p>Unlike pair: <code>E_T = 0</code> is attainable (no zeros of <code>E_C</code>), so <code>U(+−) = −32π(1−δ)⁴/d</code>
+<strong>exactly</strong> on relaxation. Like pair: <code>E_C</code> has a saddle at the midpoint where no smooth <code>n</code>
+realises it, but the obstruction costs <code>∫|E_T|² ~ q²ℓ⁵/d⁶ → 0</code> as the fold shrinks — Maxwell
+is the <strong>infimum</strong>, with a lattice residual <code>~h/d²</code>.</p>
+<p><strong>Verdict:</strong> the quartic's charge-even (gravitational) channel is <code>ESTABLISHED = 0</code>. It cannot
+attract, and once relaxed it does not repel either. This reframes the cell: <strong>Newton is not
+wrong-signed on <code>L_cert</code>, it is absent</strong>, and any new attractive channel has nothing to beat.
+The <code>+456.6 d^{−1.696}</code> and <code>C ln d/d</code> entries in the record are frozen-ansatz transverse
+energy <code>∫|E_T|²</code> on a non-degenerate vacuum, not a gravitational measurement.</p>
+<p><strong>Prediction for the stacks (this is the cheap check).</strong> Relax a like pair and an unlike pair
+on the degenerate-pair vacuum at fixed cutoff. Expect <code>U(++) → +32π(1−δ)⁴/d</code> from above with
+residual <code>∝ h/d²</code>, and <code>U(+−) = −32π(1−δ)⁴/d</code> to lattice precision. If that holds, we have the
+Coulomb certificate the record does not yet have, with the charge in closed form.</p>
+<p>Two ansatz traps, since we all seem to have hit them: the collinear rational-map product
+<code>w₁w₂</code> has the wrong <em>local</em> degree when both centres sit on the stereographic axis (place the
+centres perpendicular to the pole), and the quotient <code>w₁/w₂</code> for the unlike pair creates a
+<code>∝ L/d²</code> director-flip tube along the pole axis (I measured 70, 33, 18 at <code>d = 4, 6, 8</code>,
+exactly <code>1/d²</code>, box-linear). Any frozen two-body number built either way should be re-checked.</p>
+<hr>
+<h2>III. R14-G: run, and its verdict</h2>
+<p><strong>[ESTABLISHED, symbolic]</strong> Three facts settle the pencil before any numerics. <code>L_cert</code> is
+quartic in <code>∂M</code>, so it contributes <strong>nothing</strong> at quadratic order. <code>V</code> is spectral, so on the
+six off-diagonal directions the first-order eigenvalue shift vanishes and the second-order
+shift multiplies <code>∂V/∂λ = 0</code> at the minimum — the six broken-Lorentz Goldstones are <strong>exactly
+massless</strong>. Everything therefore rests on <code>L₂ = Σ_{a&lt;b} κ_ab ∂_μM_ab ∂^μM_ab</code>.</p>
+
+mode | kinetic | mass | verdict
+-- | -- | -- | --
+h₀₀ … h₃₃ | 0 | V_aa > 0 | auxiliary — no time derivative, constrained
+h₀₁, h₀₂, h₀₃ | κ₀ᵢ | 0 | healthy, massless
+h₂₃ | κ₂₃ | 0 | healthy, massless
+h₁₂, h₁₃ | 0 | 0 | absent from the quadratic action entirely
+
+
+<p><strong>The sign changes between gap 0.22 and 0.16</strong> — monotone across six values, so not a lattice
+artefact. The clock tangent is <code>∝</code> the gap, so a large gap means the clock has inertia
+everywhere and <code>ω* ~ J/2κL → 0</code>, while the degenerate exterior that localises the clock is
+exactly the regime where <code>C₁₂</code> goes negative. The falsifier I wrote into R14-C last time fires
+<em>before</em> the exponential decay does: it is the <strong>sign</strong>, not just the range, that goes wrong on
+the P249/P250 exterior.</p>
+<p>Caveats so nobody over-reads it: frozen superposition, rigid isorotation rather than a relaxed
+localised clock, box <code>L = 24–26</code> so the <code>d = 10</code> point is wall-contaminated and the apparent
+<code>d^{−3.7}</code> law is not trustworthy. <strong>R14-C gates unchanged</strong>, but add one: report <code>C₁₂</code> as a
+function of the biaxiality gap and locate the zero crossing on relaxed clocks. If a localised
+clock exists on the attractive side of the crossing, both problems close at once. That is now
+the sharpest single number on the board.</p>
+<hr>
+<h2>V. What is left, and the one place I think it lives</h2>
+<p>Three of the ten directions of <code>M</code> are the boost/tilt sector, and in the two-derivative form
+they carry <code>tr(Y²) = −162, −138, −138</code> on <code>diag(−8,1,0.3,0.3)</code> — ghosts, and deep ones,
+because the depth is <code>~g²</code>. The three rotations carry <code>+0.980, +0.980</code>, and <code>(23) → 0.000</code> in
+the exterior (the O(2) stabiliser — this is why the clock is localisable). The four
+<strong>eigenvalue</strong> directions carry <code>+1.000</code> each. Signature (6,3) + 1 null.</p>
+<p>So: the rotations are Coulomb and are spoken for; the boosts are the ghosts and are closed by
+§I; what is left is the spectrum. And the member of the spectrum that deserves the name mass is
+<code>λ₀</code> — the time <em>eigenvalue</em>, which is a Lorentz invariant of <code>Mξ</code>, hence couples with <strong>zero</strong>
+time indices, hence attracts, while the time <em>eigenvector</em> is a vector, couples with one, and
+repels. I think that one-word difference is the whole Newton-sign problem.</p>
+<p>Two things follow that are worth stating as gates rather than as a proposal:</p>
+<ul>
+<li><strong>Universality.</strong> With conformal exponents <code>(χ⁰, χ², χ⁴)</code> on (quartic, two-derivative,
+potential), the dilation identity <code>E₄ = E₂ + 3E_V</code> gives <code>∂E/∂χ|₁ = 2E₂ + 4E_V = E₀</code>
+exactly — the source is the <strong>whole</strong> rest energy, core plus field plus binding. This
+contradicts my own audit record's §537 (<code>q/E = 3(1−2x)</code>, species-dependent), which must have
+used a different exponent set. <strong>Open question to the thread: which exponents does §537
+assume, and are the conformal ones admissible?</strong> That is a ten-minute read and it decides
+whether the spectrum route has derived universality or inherits the orientation route's fate.</li>
+<li><strong>Light bending.</strong> Matching <code>ℓ ∝ c/ω</code> to <code>ds² = −(1+2Φ)dt² + (1−2γΦ)dx²</code> gives
+<code>γ = (p−q)/2 − 1</code> for static/dynamic exponents <code>p, q</code>. <code>p = q</code> (covariant dilaton) gives
+<code>γ = −1</code> — this is why v7 died at Cassini. <code>γ = +1</code> needs <code>p − q = 4</code>, which requires the
+preferred frame of §I(2), since a covariant scalar cannot tell <code>F_ij</code> from <code>F_0i</code>. And it
+requires a <strong>first-order</strong> clock: with a second-order one, <code>ω ∝ 1/C ∝ χ⁴</code> contradicts
+<code>ω ∝ χ</code> from the energy. <code>γ = 1</code> and the equivalence principle are jointly consistent only
+with a Wess–Zumino clock term. Those two proposals need each other; neither works alone.</li>
+</ul>
+<hr>
+<h2>VI. Protocols</h2>
+<p><strong>The J gate, resolved.</strong> The draft left <code>Jω/E = ½</code> or <code>1</code> open. If the clock term is
+first-order, <code>L = B[M]ω</code>, then <code>J = B</code> and <code>E = ωJ</code> identically — and <code>ω = 2mc²/ħ</code> with
+<code>J = ħ/2</code> gives <code>ωJ = mc²</code> exactly. So <strong><code>Jω/E = 1</code>, the Zitterbewegung reading, is forced</strong>
+by the first-order structure, not chosen. Report every clock at the <code>J</code> satisfying this on the
+relaxed state, and re-ask the sheet-escape question there. <code>L_cert</code> has no term odd in <code>∂₀M</code>
+(<code>F_0i</code> is linear in it and <code>⟨F,F⟩</code> is even), so <code>B ≡ 0</code> is a structural fact of the certified
+action, not a convention — the WZ coefficient is a genuine addition and it is currently the
+single most important unknown in the programme.</p>
+<p><strong>Ensemble.</strong> Fixed <code>J</code> (Noether charge) is physical; fixed <code>ω</code> is a bath. Report signs in the
+fixed-<code>J</code> ensemble with the fixed-<code>ω</code> sign as a control — a genuinely inertial term must flip.</p>
+<p><strong>Disagreement procedure.</strong> Replace the "Newton sign" cell with a channel ledger on one frozen
+two-defect field, each channel reported with sign and tail exponent: static texture overlap,
+eigenvalue deficit, clock cross inertia at fixed <code>J</code>. Add the charge-parity split
+<code>U_grav ≡ ½[U(++) + U(+−)]</code>, which cancels Coulomb identically and isolates the mass–mass
+channel — §II predicts it is zero on the degenerate-pair vacuum, and that is a falsifiable
+statement about relaxed fields.</p>
+<hr>
+<h2>Attached</h2>
+<ul>
+<li><code>check_norm_sign.py</code> — the §I table, both vacua, all 15 pairs.</li>
+<li><code>m5_imaginary_mass.py</code> — boost = imaginary rotation; the <code>0.5·cos 2φ</code> holomorphy scan.</li>
+<li><code>faber_identity.py</code> — the §II identity and the Helmholtz/Cauchy–Schwarz decomposition.</li>
+<li><code>R14G.py</code> — §III: the quadratic pencil, the channel ledger, and the <code>h₁₂</code> collision.</li>
+<li><code>fp_hedgehog_check.py</code> — the Fierz–Pauli tail.</li>
+<li><code>cross_inertia.py</code> — §IV: <code>C₁₂</code> and the gap scan.</li>
+</ul>
+<p>The neutrino/PMNS anchor waits on R14-C.</p></body></html><!--EndFragment-->
+</body>
+</html>

@@ -1,0 +1,58 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19021295
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19021295
+author: JarekDuda
+posted: 2026-10-18T17:29:35Z
+version: as first posted
+sha256: b92387b96aef63385def8b3f84e73e9af88477a18f0c48c152898b2996d57a7a
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Title:** LdGS (M5) update v3: the single field E, one level deeper. No status changes, only targets and negatives
+
+Hello all,
+[OpenWave_post_v3.pdf](https://github.com/user-attachments/files/33633782/OpenWave_post_v3.pdf)
+[LdGS_OpenWave_v3.zip](https://github.com/user-attachments/files/33633792/LdGS_OpenWave_v3.zip)
+
+
+v3 of the chart adds a column "E, deeper" (legend: ✓ agrees as tested, ! partial or conditional, × fails, ∼ not addressed). It comes from the working paper *Skyrmions as LdGS vortices* (v1.8, [[doi:10.5281/zenodo.23456354](https://doi.org/10.5281/zenodo.23456354)](https://doi.org/10.5281/zenodo.23456354)). **Nothing moves to ✓, and nothing changes status.** The column equals the single-field one (✓9 !15 ×2 ∼5). What is new: sharper targets and negatives. "BO" below means Born–Oppenheimer: the separation is held fixed while the spins are quantised.
+
+- **13 Baryons (still conditional).**
+  - A projector-based action admits an exact finite-coupling Skyrme sector in the smooth, orientable sector. It replaces the mode lock with other conditions:
+    - an oriented mass term;
+    - no half-disclinations of the g-axis;
+    - an action that is non-polynomial in E.
+  - Nothing has been relaxed in E variables yet.
+  - The smooth Hopf preimages of the Skyrme frame (trivial Q₈ holonomy) sit where LdGS's ring and central line are, and their linking equals B. That is 1.0000–4.0000 to ~10⁻⁸ on relaxed minima, confirming Gudnason–Nitta. Genuine vortex cores are a separate, untreated step.
+- **14 Profile.**
+  - In our ω-coupling scan at fixed Δ−N, the baryon radius r_B rises only to 0.57 fm.
+  - The charge sector must reproduce a total isoscalar rms radius near 0.77 fm while keeping the inertia and the splitting. With the measured radius, the rigid-rotor relation gives μ_S = 0.46 (data 0.44).
+  - This is a target from measured inputs, not a derived cloud. A cloud carrying half the charge around a 0.57 fm core would need about 0.93 fm.
+- **15 Masses (stays ∼).**
+  - A closely matched published Skyrme benchmark (Meier–Walliser) gives 1629 → 946 MeV at one loop. The same calculation moves g_A from 0.91 to 0.66.
+  - Its transfer to E is conditional on quantum matching: their extra fourth-order terms, fluctuations and counterterms.
+- **16 Deuteron (stays ∼).**
+  - In our projected calculation it is unbound with the spins quantised through all Δ admixtures (BO, rigid tops, computed for d ≥ 0.8 fm).
+  - Δ−N down to 120 MeV, or the potential stretched by 1.4, leaves it unbound. A 1.6 stretch with Δ−N ≤ 195 MeV binds it by 0.03–0.4 MeV, but with Q_d ≈ 1 fm² and η ≤ 0.015.
+  - Scaling the orientation-dependent potential (W₁, W₂) at all separations gives the first bound state at ×1.74 and B_d = 2.22 MeV at ×2.1.
+  - Under fixed-f_π one-pion-exchange scaling (g_A² ∝ λ, our g_A = 0.83), that corresponds to g_A = 1.09 for the first bound state and 1.20 for the physical binding. This holds only if the deficit is all in the pion tail. Q_d then stays near 0.1 fm².
+- **17 Nuclei (quantum numbers only).**
+  - The A = 4 isotriplet comes out 2⁻ as observed, at 104 MeV against 23.7 (isotriplet average; the ⁴He 2⁻, T = 1 level is at 23.3).
+  - The torus ¹S₀–deuteron splitting is 34 MeV against 2.
+  - The threshold-subtracted zero point of bound modes, E_zp(B=2) − 2E_zp(B=1) (the B = 1 soliton has no bound modes), is +122 MeV, comparable to the classical binding of 137 MeV. Counting the continuum partners too gives about +340 MeV, so the sign is open.
+- **26/27 Gravity.**
+  - If the proposed gravity mode (the time axis) couples at order one, E as written breaks the equivalence principle: m_N/m_π moves 3.3–3.8× as fast. Canonical scale weights are needed, though not sufficient (Nordström's theory still gives γ = −1).
+  - A fixed determinant is compatible with Schwarzschild as a unimodular coordinate condition. As an isotropic rule it gives γ = 1/3, which is excluded. Deriving the field equations and spin-2 from E remains open.
+
+**Next physics step:** compute the axial current and the tensor force self-consistently from one modified action, checking mass, radius and inertia together. That would turn the ×1.74 diagnostic into a concrete candidate.
+
+**Replay:** scripts S20–S40 with JSON outputs are attached.
+- Frozen inputs, with the scripts that make them:
+  - S1_N96_u*.npy and S16_B3/B4_u.npy (S1, S16);
+  - S4_inner_u1.npy (S4b);
+  - S34_valley_d0.5.npy (S34).
+- S36 and S39 also need S5_coupled_deuteron.py and the S4 channel files (S4_relaxed_A/B/C, S4_inner, S4_product_N96).
+- The Meier–Walliser numbers are quoted, not computed. The g_A conversion is the one-line scaling above.
+
+Jarek
+

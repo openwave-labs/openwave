@@ -1,0 +1,65 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18582871
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18582871
+author: JarekDuda
+posted: 2026-09-24T14:28:24Z
+version: as first posted
+sha256: 51d9596259daa5274409891bdfe45cba8fcbb4c43ec769c27befc54903943bf3
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you — a careful rung, and the audits caught things that matter. Responses in order, then a proposal for R26.
+
+## R25-1: accepted
+
+The slaving is exact for the reason you give, and it rests on two facts: diagonal slots have no gradient energy of their own under the quartic term (the axis-length result of the paper's §14), and here they also commute with the pair's winding generator, so they appear only in the potential and sit at its pointwise minimum. The bound `T >= pi sqrt(32 w K) b0^4` should therefore be stated as a bound **within the frozen block sector**; the physical small-delta constant is your 0.258, not 0.2988. The reported numbers are mutually consistent: `K_eff(0) = 4 x 642249/845261 = 3.039`, `sqrt(3.039/4) = 0.872`, and `0.2988 x 0.863 = 0.258`.
+
+Downstream it is a fourth-root effect. Through `sigma L* = m`, delta bounds scale as `T^(-1/4)`, so if the paper's constant was computed with the slots frozen, as its bound was, they loosen by `0.863^(-1/4) = 1.038`, about 4 percent. The QCD argument does not depend on the tension formula at all.
+
+Two practical points:
+- **Deprioritise delta = 0.3.** Free charge over a metre already requires delta <~ 3e-4, so the director-tilt channel there lies outside the physical regime; delta -> 0 is where 0.258 matters.
+- **The round-off floor at delta <= 0.03** is likely `M_00 = 8` dominating the traces (8^4 = 4096 against a delta^4 signal). In the block-diagonal sector `tr N^p = (-M_00)^p + tr S^p`, so compute the two residual brackets separately, `(-M_00)^p - (-8)^p` and `tr S^p - C_p^spatial`, ideally from stored deviations from the vacuum. That should lower the floor by roughly `8^p` without extended precision.
+
+## R25-K: accepted
+
+No saddle at 2 or 10 percent, and seven rows certified minima at that kick size. I would stop kicking rows whose control still descends — converge first, then kick. The R22-1 energies should not be quoted as minima.
+
+## R25-0: the E . B witness gives a sharp moment test
+
+Zero at fixed eigenvalues and equal to the eigenvalue-gradient term on the local clock is what the pullback criterion predicts: at fixed eigenvalues `C` is pulled back from the three-dimensional orbit `SO(3)/D2`, so `F ^ F = 0`; eigenvalue gradients take the field off that orbit. This identifies a non-pullback channel that stays inside the static block-diagonal sector, where the energy is nonnegative.
+
+Combined with the far-field form `E . B ∝ q (mu . rhat) / r^5`, it becomes quantitative. In the dual dictionary your `B` is the Coulomb field, `∝ q rhat / r^2`, so a charged particle with moment `mu` needs
+
+    d_r(pair gap) ∝ mu cos(theta) / r^3,   i.e.   pair gap - delta ∝ mu cos(theta) / r^2
+
+**a dipolar (l = 1) tail in the pair gap falling as r^-2.** The gap is potential-slaved, so its deviation should follow its local source, and in a charge's exterior that source falls like the energy density, r^-4. If so, the exterior moment of a charged particle vanishes even through this channel, two powers short. That expectation is an estimate, not a computation; the decisive read is the l = 1 projection of the gap deviation against r on a stored charge in the biaxial vacuum, where the transverse frame and hence the witness are defined.
+
+## R25-2: the box dependence is expected
+
+`[J_z, M]` is internal rotation. On a hedgehog it rotates the whole asymptotic director map, and the lepton companion finds that inertia linear in the box, `(16 pi / 3) R + O(1)`, for the uniaxial case. The physical generator combines index and coordinate rotation, `[J_z, M] - (zhat x x) . grad M`, and the two cancel exactly on a radial uniaxial exterior. Rerunning the spin gate with it should make the uniaxial part box-converged; any remaining growth with L should come from the biaxial strands — the off-axis pi carriers break axial symmetry — and should scale with delta, which separates the two contributions cleanly. The converged inertia can then be compared with hbar/2 in the Coulomb normalisation of this action (4 pi / alpha in the lepton companion's convention; the factor should be rederived for this code). Agreed on the no-strand control per L.
+
+## The generator fault: one formula for every class
+
+For M with lower indices, `M -> Lambda^T M Lambda` gives `dM = G^T M + M G` — the commutator for rotations and the anticommutator for boosts, from one expression. Two assertions catch any future sign error: `dM` must be symmetric, and `G^T eta + eta G = 0` for every generator. Both pass for a rotation and a boost; the coded `J M - M J^T` fails the symmetry test for both classes.
+
+## The unbounded boost pool
+
+That is the paper's §14 made concrete: the boost-rotation terms are indefinite and the static action is unbounded below on the time-space entries. Keeping static measurements in the block-diagonal sector is right, and it makes the eigenvalue channel of R25-0 the one to pursue first for E . B != 0.
+
+## Lepton hierarchy: a suggestion
+
+Two separate questions.
+
+**How many — a census by transverse-index partition.** In a biaxial vacuum a unit charge forces total transverse index 2 on every enclosing sphere (the Euler number of `n*TS^2` is `2 deg n`). In units of 1/2, with positive indices, that is 4, with five partitions: {4}, {3,1}, {2,2}, {2,1,1}, {1,1,1,1} — from one index-2 ray to two pi lines through the core. These are topologically distinct cores with the same electric charge, the kind of label the lepton companion notes equal charges do not exclude. R25-2 has already seen two: on the converged row the seed's {2,2} core split into {1,1,1,1}. Proposed read: seed at least {2,2}, {2,1,1} and {1,1,1,1} in the S1 charge, relax in the static sector, and report the stationary energy, the kick-census label, and the barrier to {1,1,1,1}. The count of certified stationary branches is the generation count this mechanism allows; muon and tau need only metastability (2.2 us is ~1e15 Compton times).
+
+**How heavy — the target is an O(1) number.** Distinct topological cores usually differ in energy by O(1); the lepton companion's line-tension and Hopf results cap such ratios near 16, and if strand tension is linear in index, as the restricted-plane Bogomolny bound is, all five partitions carry the same total tension and differ only through their cores. Koide geometry shows why this need not be fatal: the electron amplitude has a simple zero at theta = pi/12, so `m_e/m_tau ≈ 0.18 (pi/12 - theta)^2`, and the observed hierarchy is theta sitting 15 percent below that zero. Equivalently, the traceless amplitude has biaxiality `beta^2 = 1 - 6 (tr L^3)^2 / (tr L^2)^3 = sin^2(3 theta) = 0.382`. So across whatever branch family the census finds, look for a quantity with a **quadratic zero** — a mass vanishing quadratically as a core parameter approaches a degeneracy — rather than three energies in ratio 1 : 207 : 3477.
+
+A cheap first readout on every stationary branch is its biaxiality invariant. The vacuum `diag(1, delta, 0)` would need delta ≈ 0.23 to reach 0.382, which free charge excludes, and both solved cores are uniaxial at their centres; a value near 0.382 would therefore have to be a core property of some biaxial region, and whether one exists is the test. The lepton companion's caveat stands: the family amplitude's shape statistic is not automatically a core eigenvalue ratio, so a match would motivate a core-to-family map, not replace deriving it.
+
+## Proposed R26
+
+1. The l = 1 gap-tail read on a stored charge in the biaxial vacuum.
+2. The spin gate with the physical generator, on a box ladder with the delta scaling of any residual growth.
+3. The generator-catalog audit with the universal formula and its two assertions.
+4. The split-residual fix, then the delta ladder at delta <= 0.03 to confirm 0.258.
+5. The index-partition census of the S1 charge, with the beta^2 readout on every stationary branch.

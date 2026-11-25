@@ -1,0 +1,23 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18487882
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18487882
+author: mjmikulski
+posted: 2026-09-17T20:30:01Z
+version: as first posted
+sha256: d924d523ee3d7797955e151aa8a077b684db60f4fb698567e75c1558b83d18c5
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz — the L-ladder appendix to report 008 is merged after three review rounds: [APPENDIX-L-ladder.md](https://github.com/mjmikulski/the-final-lagrangian-of-physics/blob/main/reports/008-i1-squared-clock/APPENDIX-L-ladder.md) (figure, records, `reproduce_appendix_L.sh`; the 48³/64³ fields are release assets fetched by the script).
+
+Two things changed between the draft posted here on 09-14 and the merged version, both from the review. First, the first ladder run had frozen the pinned shell at the analytic ansatz while the chains used your instrument's float32 seed (3·10⁻⁸ apart); with the shell consistent the N = 32 ladder reproduces 008's committed ladder bitwise, and the bracket ω ∈ {0, 0.1, 0.2, 0.35} of every box was rerun that way, fields persisted, and evaluated by an independent numpy route (all twelve energies to 10⁻¹⁵). Second, the corrected L = 72 bracket has the 0.2 and 0.35 rungs within 10⁻⁵ of each other, swapping order across protocol levels, so the minimum there lies in that pair rather than at 0.2; at L = 96 it is 0.2 at every level in both runs.
+
+Final table (h = 1.5, γ = 70.61 fixed):
+
+| L (N) | E_stat | frozen-profile ω_E | bracket minimum (5 protocol levels) | E − E(0) at 0.1, 0.2, 0.35 (10⁻⁵) |
+|---|---|---|---|---|
+| 48 (32) | 4.835 | 0.326 | 0.35 at all levels (bitwise = report) | −1.0, −3.8, −6.5 |
+| 72 (48) | 4.548 | 0.280 | 0.2 (levels 1–3), 0.35 (levels 4–5) | −5.1, −7.2, −8.3 |
+| 96 (64) | 4.377 | 0.249 | 0.2 at all levels | +8.0, −19.9, +6.6 |
+
+So: the well survives the larger boxes, its rung drifts with the frozen-profile prediction, and in the larger boxes 008's fixed-depth protocol resolves the rung but not the depth — two runs 3·10⁻⁸ apart on the boundary differ in E(ω) − E(0) by up to 4·10⁻⁵ (L = 72) and 1.5·10⁻⁴ (L = 96), the remaining relaxation error common to both is not quantified. Not done: protocol deepening, continuum extrapolation, a per-box γ. If you re-read the ladder on the W1 × 25 electron, the same rung grid and protocol would make the two directly comparable.

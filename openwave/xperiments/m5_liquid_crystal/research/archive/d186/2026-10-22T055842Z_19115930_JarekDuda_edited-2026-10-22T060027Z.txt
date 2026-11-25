@@ -1,0 +1,46 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19115930
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19115930
+author: JarekDuda
+posted: 2026-10-22T05:58:42Z
+version: edited 2026-10-22T06:00:27Z
+sha256: 81adb31fb10d769be29c5c111046073ee19f92f85d6b70778ad905589e80063f
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html><body>
+<!--StartFragment--><p dir="ltr"><strong>Cosmological criteria for the chart, anchored on a fitted cyclic background</strong></p>
+<p dir="ltr"><strong>The target.</strong> “[Little red dots: detailed analysis](https://doi.org/10.5281/zenodo.22666156)” v11.0, Appendices L–N, fits the reversible background</p>
+<ul dir="ltr">
+<li>r(a) = Ω_r a⁻⁴ + Ω_m a⁻³ + Ω_Λ − Q a², with E² = r(1 − r/B) and a loop-quantum-cosmology (LQC) bounce at ρ_c = 0.41 ρ_Pl,</li>
+<li>against DESI DR2 BAO, Pantheon+ supernovae and compressed CMB distances.</li>
+</ul>
+<p dir="ltr">Results:</p>
+<ul dir="ltr">
+<li>Q = 0.067, Δχ² = −2.54 for one extra parameter (ΔAIC −0.54). That is compatible, but no preference; Q = 0 remains allowed.</li>
+<li>Turnaround at a = 3.38; bounces 87 Gyr apart.</li>
+<li>Today w₀ = −0.935 and w_a ≈ −0.14. This is DESI’s direction, but smaller.</li>
+<li>The dark component is a canonical scalar with φ̇² = (2/3)ρ₀Q a². Since recombination it has rolled Δφ = 0.19 M̄_Pl, and 0.15 M̄_Pl since z = 1.</li>
+</ul>
+<p dir="ltr">An LdGS cosmology must supply that scalar as a mode of M, the bounce in place of LQC, cold dark matter and the radiation content. One structural fact applies throughout: for a homogeneous field, F_μν = 0, so −F² − V gives the vacuum no cosmological dynamics. A quadratic kinetic term (e.g. κ tr(∂M ∂M), as in R27) is a prerequisite for every row below.</p>
+<div dir="ltr">
+Row | Simplest test | Numbers | Mainstream | LdGS
+-- | -- | -- | -- | --
+C1 Background | A mode of M reproducing −Q a² | Q ≈ 0.07 (Q = 0 allowed); BAO + SN + compressed CMB as in App. M | ✓ (ΛCDM) | ∼
+C2 Constants constant along the roll | With ζ = M̄_Pl ∂ln α/∂φ, the 0.15–0.19 M̄_Pl excursion must leave α and μ = m_p/m_e fixed | ζ < 4×10⁻⁸ (clocks, α̇/α ≲ 10⁻¹⁸/yr); ζ < 5×10⁻⁶ (quasars, z ≤ 3); ζ_μ < 7×10⁻⁷ (methanol, z = 0.89). In LdGS the gaps set α (c = 16πΔ⁴), and S24 finds m_N/m_π not invariant under the scale mode. So the Q mode must be blind to α and μ, which needs a symmetry. The natural candidate is the overall scale with canonical weights, the same condition rows 26/27 need for the equivalence principle. | ✓ (Λ does not roll) | × as written (S24); ∼ with canonical weights
+C3 Bounce | Replace LQC’s ρ_c by the energy density of the degenerate point (four equal axes), where LdGS regularizes singularities | Standard expansion by T ≈ 5 MeV (BBN, neutrinos). If the same density acts locally, neutron-star cores up to about 8× nuclear density, ≈ (310 MeV)⁴, must be unaffected (2 M☉ masses, GW170817 tidal deformability). So ρ_c^¼ ≳ 300 MeV. Baryon topology is lost at that point, so η_B = 6.1×10⁻¹⁰ must be regenerated after each bounce. | n/a | ∼
+C4 Cold dark matter | The fit assumes standard cold dark matter (ω_c ≈ 0.12) | (i) A gapped eigenvalue mode oscillating; α-blind as in C2. The bounce supplies the misalignment: App. L.5 finds homogeneous displacements amplified 6–31× through the bounce. (ii) A thermal relic would need m ≈ 100–170 eV, which is too warm (bound ≳ few keV), so excluded. (iii) Compact objects inherited across the bounce, LRD-style: as all of the dark matter, only the 10¹⁷–10²² g window is open. | ✓ (fitted) | ∼
+C5 Radiation | Massless non-EM modes (three boosts) thermalized at the bounce | Bounce at ≳ 300 MeV: ΔN_eff ≈ 0.17 (0.08 if above the electroweak scale); bounce below the QCD transition: 0.9–1.7, excluded by N_eff = 2.99 ± 0.17. Prediction 0.17, or 0 if the boosts never thermalize; Simons Observatory and CMB-S4 can test it. | ✓ (3.044) | ∼
+C6 Perturbations | The bounce must generate the observed spectrum | n_s = 0.974 ± 0.003 (P-ACT + lensing + DESI DR1); r < 0.036 (BK18). App. L.5: the transfer depends on the bounce state, so this is the main open calculation. | ✓ (inflation) | ∼
+
+</div>
+<p dir="ltr"><strong>Three cheap computations decide C2–C5:</strong></p>
+<ol dir="ltr">
+<li>In D8, report each eigenvalue mode with its ∂ln α and ∂ln(m_N/m_π). This shows whether an α-blind direction exists (C2, C4).</li>
+<li>The energy density of the degenerate point, in the units already calibrated from M_N and M_Δ (C3).</li>
+<li>Whether the boosts carry a positive kinetic norm (C5).</li>
+</ol>
+<p dir="ltr">Jarek</p>
+<hr><!--EndFragment-->
+</body>
+</html>

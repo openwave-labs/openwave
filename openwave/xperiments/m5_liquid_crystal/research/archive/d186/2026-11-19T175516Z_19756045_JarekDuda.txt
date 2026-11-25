@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19756045
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19756045
+author: JarekDuda
+posted: 2026-11-19T17:55:16Z
+version: as first posted
+sha256: 7b35a07def7d9a8482849130058568cac2fd084e76b18c1604faab30b91bcf83
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Three registered runs on the M5 rows (ahead of OpenWave's ports)**
+
+Run on our own code with the declared M5.42/45 action (κ = v = 1, δ = 0.05, L₁ = 0.03). Predictions registered before running (18 Nov 20:32, 19 Nov 01:55 and 02:00 CET); scripts attached. OpenWave ports each run independently, and only those ports move rows.
+
+1. **Klein–Gordon about the vacuum:** six branches with ω² = k² + m². Three rotation branches are massless within 0.003; the three eigenvalue branches have m² = 0.10575, 60.0887, 473.470, against the potential's Hessian 0.10574, 60.0891, 473.474. On the converged charge, a wave driven below the vacuum gap propagates where m_eff = √(L₁m²/I(r)) < ω and turns where m_eff = ω (≈ 6 on the axis, predicted 6.4; ≈ 8 in the ring plane, predicted 8.4), decaying beyond at the predicted rate within ~15 %. The registered WKB k-test at r = 4.5–6.5 failed. That region is the turning-point (Airy) zone, so a full-wave prediction (script attached) replaces it for the ports, at new frequencies.
+2. **Charge quantization (free faces):** over 897 reads every liftable closed surface read 0 or 1 (to 6×10⁻¹⁵), surfaces crossed by the ring were pierced an even number of times, and nothing ever read ½. A ring dilated so its two +½ points sit 10 apart contracted whole and later left the box as one unit (1 → 0 in one read step).
+3. **The clock at J = ħ/2:** no converged state. The minimizer is a rank-one spike (90 % of the inertia on 54 → 13 nodes as h falls), so ħΩ/E is set by the grid. The row stays down until a charge of finite size exists.
