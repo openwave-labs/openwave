@@ -1,0 +1,20 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19911695
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19911695
+author: JarekDuda
+posted: 2026-11-26T05:07:00Z
+version: as first posted
+sha256: b1b21c807f160c3344478de7386d35c92712aff8444b3ca41e2c2923884ca477
+archived: 2026-11-26
+==== verbatim text below this line ====
+Thanks, plan M5.57 looks good, run on defaults with one change:
+
+• Q1–Q7, Q9: defaults OK. Hold D′, read D at every rung; lift from the pair seed; one multiplier on the sum; contact maximum over both ladders including the merged end; far field as on record with the control; rung C only at 12.9–17.1; ring energy as half the free pair's U; "local minimum" = of the action with no hold.
+• Q8: please score strictly. The first clause of OW57-2 counts as met only with an interior maximum (before the merged end), with the as-written reading printed beside it. The merged state's return after a kick was already on record before I registered, so the honest score needs the new part to carry it.
+
+M5.58: please run the three reads first on the action and states where the decay film already exists. Our 4.6/4.7 coframe action isn't ready for a port yet: no stationary core and no full isospin (capstone 4.7, item 29). I'll send equations, parameters and a reference state when it is.
+
+If you can add one reader, it would decide FD-1: the axis class of each ejected filament (which eigenvector its director winds about) at the moment it leaves the core.
+
+Noted on [1309]: 1 : 4.2 : 16.0 is M5.21.2b's census on the stencil-symmetrized functional. I'll correct the attribution in the next capstone rc.
