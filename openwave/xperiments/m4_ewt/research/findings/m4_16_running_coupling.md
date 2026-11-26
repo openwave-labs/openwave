@@ -8,24 +8,25 @@ DONE (post-hoc)
 
 ## Criterion
 
-`Running coupling` — coupling varies with scale (onset at the core radius)
+`Running coupling` — coupling varies with scale (modeled onset around the core radius $r_e$)
 
-**Scope**: reproduces the asymptotic $\alpha_G$ from the M4.7 chain with $r_e = 100\,r_\nu$, and shows what $\alpha_G(r)$ and $G(r)$ do under a chosen radial profile. It does not derive the profile, the onset radius or the core value: the profile's width is $r_e$ and its value at $r = 0$ is $N_{\text{stat}}$, so the onset at $r_e$ and the core ratio (which tends to $1/\sqrt{X_{\text{eff}}}$ at $r = 0$) are set by construction. Per the author (review of [PR #755](https://github.com/openwave-labs/openwave/pull/755)), the factor 100 is derived from the wave-center counts $K_{\text{WC}} = 10$ and $1$ (manuscript v5.4.4, "Neutrino as the Geometric Anchor"); the engine enters it as the literal `100.0`. No current observation separates $G(r)$ from a constant $G$ at $r \sim 10^{-15}$ m.
+**Scope**: reproduces the baseline $\alpha_G$ from the M4.7 chain with $r_e = 100\,r_\nu$, and models what $\alpha_G(r)$ and $G(r)$ do along a transition from the diluted core ($N_{\text{eff}}$) to the unperturbed far-field lattice ($N_{\text{stat}}$) across candidate radial profiles and regularized local metric/deficit variants ($\eta_{\text{loc}}$). It does not derive the profile, the onset radius or the core value from first-principles BCC soliton dynamics: all tested radial profiles are working ansatze (modeled, not independently confirmed), and the factor 100 comes from wave-center counts $K_{\text{WC}} = 10$ and $1$ (manuscript v5.4.4, "Neutrino as the Geometric Anchor"), entered as `100.0` in the engine. No current observation separates $G(r)$ from a constant $G$ at $r \sim 10^{-15}$ m.
 
 * **Script:** `openwave/xperiments/m4_ewt/research/scripts/m4_16_running_coupling.py`
+* **Plot:** `openwave/xperiments/m4_ewt/research/scripts/m4_16_running_coupling_all_variants.png`
 
 ### 1. Geometric Origin and Equivalent Paths for $\alpha_G$
 
-In the macroscopic asymptotic regime ($r \gg r_e$), $\alpha_G$ emerges from the Body-Centered Cubic (BCC) vacuum lattice geometry without free empirical fitting parameters:
+In the EWT M4 emergence chain, $\alpha_G$ is built from the Body-Centered Cubic (BCC) vacuum lattice geometry without free empirical fitting parameters:
 
 * **Path 1 (Standard Metric Definition):**
   $$\alpha_G = \frac{G_{\text{EWT}}\, m_e^2}{\hbar_{\text{geom}}\, c} = \alpha_{\text{geom}} \left(\frac{G_{\text{EWT}}}{G_{\text{Base}}}\right), \qquad G_{\text{Base}} = \frac{c^2 r_e}{m_e}$$
 * **Path 2 (Reduced Geometric Form via $\alpha_{\text{geom}}$):**
-  $$\alpha_G = \frac{\alpha_{\text{geom}}}{A_\pi^4 \, N_{\text{geom}}^3 \, K_{\text{WC}} \sqrt{N_{\text{eff}}}}$$
+  $$\alpha_G = \frac{\alpha_{\text{geom}}}{A_\pi^4 \, N_{\text{geom}}^3 \, K_{\text{WC}} \sqrt{N}}$$
 * **Path 3 (Pure BCC Lattice Geometry):**
-  $$\alpha_G^{\text{geom}} = \frac{1}{A_\pi^5 \left(1 - \frac{\varepsilon_M}{A_\pi}\right) N_{\text{geom}}^3 \, K_{\text{WC}} \sqrt{N_{\text{eff}}}}$$
+  $$\alpha_G^{\text{geom}} = \frac{1}{A_\pi^5 \left(1 - \frac{\varepsilon_M}{A_\pi}\right) N_{\text{geom}}^3 \, K_{\text{WC}} \sqrt{N}}$$
 
-Path 2 is Path 1 with $G_{\text{EWT}}/G_{\text{Base}}$ written out from the gravity sector, and Path 3 is Path 2 with $\alpha_{\text{geom}} = 1/(A_\pi - \varepsilon_M)$ substituted. They are one expression rewritten (they agree to $10^{-50}$ at 50 digits), so their agreement checks the algebra.
+Path 2 is Path 1 with $G_{\text{EWT}}/G_{\text{Base}}$ written out from the gravity sector, and Path 3 is Path 2 with $\alpha_{\text{geom}} = 1/(A_\pi - \varepsilon_M)$ substituted. They are one expression rewritten (they agree to $10^{-50}$ at 50 digits), so their agreement checks the algebra. Because $\alpha_G \propto N^{-1/2}$, increasing $N(r)$ from the diluted core ($N_{\text{eff}}$) to the unperturbed far-field lattice ($N_{\text{stat}}$) forces $\alpha_G(r)$ to decrease with radius.
 
 Numerical decomposition from `m4_16_running_coupling.py`:
 
@@ -33,22 +34,25 @@ Numerical decomposition from `m4_16_running_coupling.py`:
 * $1 - \varepsilon_M / A_\pi \approx 0.999999697805$ (vacuum packing correction)
 * $N_{\text{geom}}^3 \approx 4.723697 \times 10^8$ (cubic BCC lattice stiffness)
 * $K_{\text{WC}} = 10$ (wave-center count)
-* $N_{\text{stat}} \approx 3.295973 \times 10^{52}$, $X_{\text{eff}} = N_{\text{stat}} / N_{\text{eff}} \approx 5275.768324$, $N_{\text{eff}} \approx 6.247379 \times 10^{48}$, $\sqrt{N_{\text{eff}}} \approx 2.499476 \times 10^{24}$ (both densities are dimensionless: `N_nu_statutory = (r_nu / (2 lambda_l EULER))^3` is a ratio of lengths, with Euler's number)
-* Asymptotic $\alpha_G^{\text{geom}} = 1.752633 \times 10^{-45}$ vs. CODATA 2022 $1.751810 \times 10^{-45}$ ($0.046976\%$ relative error) and $G_{\text{EWT}} = 6.677439 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$
+* $N_{\text{eff}} \approx 6.247379 \times 10^{48}$ (diluted core regime, $r \to 0$) and $N_{\text{stat}} \approx 3.295973 \times 10^{52}$ (unperturbed far-field lattice regime, $r \gg r_e$), with $X_{\text{eff}} = N_{\text{stat}} / N_{\text{eff}} \approx 5275.768324$ (both densities are dimensionless length ratios involving $\lambda_l$, $r_\nu$, and Euler's number)
+* Core-limit $\alpha_G(0) \approx 1.752633 \times 10^{-45}$ vs. CODATA 2022 $1.751810 \times 10^{-45}$ ($0.046976\%$ relative difference); far-field $N_{\text{stat}}$ asymptote $\alpha_G(\infty) \approx 2.412949 \times 10^{-47}$ and $G(\infty) \approx 9.193207 \times 10^{-13}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$
 
-Since $\alpha_G = \alpha_{\text{geom}}\,G_{\text{EWT}}/G_{\text{Base}}$ is $G_{\text{EWT}}$ times fixed factors, the $0.046976\%$ is essentially the residual of $G_{\text{EWT}}$ on this route in another form ($0.046954\%$ against the engine's `G_CODATA`), the quantity [M4.10.2](../tasks/m4_10_2_task_details.md) recorded on the engine's route ($0.048169\%$ against the same constant). The two routes give two values of $\alpha_G$: this note sets $r_e = 100\,r_\nu$ and gets $1.752633 \times 10^{-45}$; the engine's own `main` uses the CODATA $r_e$ and gets $1.752651 \times 10^{-45}$. They differ by $1.04 \times 10^{-5}$, which is $(R_E/(100\,r_\nu))^6 - 1$.
+### 2. Scale Dependence Across $r_e$ and Profile Variants ($N_{\text{eff}} \to N_{\text{stat}}$)
 
-### 2. Scale Dependence and Onset at the Core Radius ($r \sim r_e$)
+Using the core-to-vacuum radial effective density profile across $r_e = 100\,r_\nu \approx 2.817935 \times 10^{-15}\ \mathrm{m}$ ($x = r / r_e$):
 
-Using the radial effective density profile across $r_e = 100\,r_\nu \approx 2.817935 \times 10^{-15}\ \mathrm{m}$:
-
-$$N(r) = N_{\text{eff}} + (N_{\text{stat}} - N_{\text{eff}})\exp\!\left[-\left(\frac{r}{r_e}\right)^2\right]$$
+$$N(r) = N_{\text{eff}} + (N_{\text{stat}} - N_{\text{eff}})\,f(x), \qquad f(0) = 0,\; \lim_{x \to \infty} f(x) = 1$$
 
 with $\alpha_G(r)$ evaluated from $N(r)$ and $G(r) = G_{\text{Base}}\,[\alpha_G(r)/\alpha_{\text{geom}}]$:
 
-* At $r = 100\,r_e$ (far-field asymptote): $N(r) = 6.247379 \times 10^{48}$, $\alpha_G(r) = 1.752633 \times 10^{-45}$, $G(r) = 6.677439 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$
-* At $r = r_e$ (core boundary onset): $N(r_e) = 1.212915 \times 10^{52}$, $\alpha_G(r_e) = 3.977632 \times 10^{-47}$, $G(r_e) = 1.515457 \times 10^{-12}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$
-* At $r = 0.1\,r_e$ (deep core): $N(0.1\,r_e) = 3.263183 \times 10^{52}$, $\alpha_G(0.1\,r_e) = 2.425041 \times 10^{-47}$, $G(0.1\,r_e) = 9.239280 \times 10^{-13}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$ (core-to-asymptotic ratio: $1.383656 \times 10^{-2}$)
+* Tested profile families in `m4_16_running_coupling.py`:
+  - Monotonic profiles: `gaussian`, `exponential`, `rational_x2`, `woods_saxon`
+  - EMC-wall profiles around $x = 1.0$: `wall_gaussian_base`, `wall_rational_base`, `wall_narrow_peak`, `wall_wide_shoulder`, `wall_dip_on_re`
+  - Regularized local metric / deficit variants ($\eta_{\text{loc}}$): `eta_loc_p2`, `eta_loc_p1`, `eta_loc_with_wall`, via $\eta_{\text{loc}}(x) = 1 - \delta_{\text{core}}/(1 + x^p) + \text{wall\_term}(x)$ mapped to $f(x) \in [0, 1]$
+* Representative values across variants (for $x = r / r_e$):
+  - Near core ($x = 0.01$): most variants sit around $f(x) \approx 1.00 \times 10^{-4}$, $\alpha_G \approx 1.418114 \times 10^{-45}$, $G \approx 5.402939 \times 10^{-11}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$, while `exponential` ($f \approx 9.950 \times 10^{-3}$) and `eta_loc_p1` ($f \approx 9.901 \times 10^{-3}$) shift earlier
+  - Around core boundary ($x \approx 1.01$): `rational_x2`, `woods_saxon`, and `eta_loc_p2` sit near $f(x) \approx 0.50$ ($\alpha_G \approx 3.40\text{–}3.42 \times 10^{-47}$, $G \approx 1.30 \times 10^{-12}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$); `wall_gaussian_base`, `wall_narrow_peak`, `wall_rational_base`, `wall_wide_shoulder`, and `eta_loc_with_wall` advance faster ($f(x) \approx 0.80\text{–}0.99$), whereas `wall_dip_on_re` slows to $f(x) \approx 0.1538$ ($\alpha_G \approx 6.150 \times 10^{-47}$)
+  - Far-field / large $x$ ($x = 100.0$): variants converge to $N \to N_{\text{stat}}$, $\alpha_G \to 2.412949 \times 10^{-47}$, $G \to 9.193207 \times 10^{-13}\ \mathrm{m^3\,kg^{-1}\,s^{-2}}$ (`eta_loc_p1` retains a gentler tail with $f(100) \approx 0.9901$, $\alpha_G \approx 2.425 \times 10^{-47}$)
 
 ### Scale Invariance and the Absence of Implicit Anchor Dependence
 
@@ -56,7 +60,7 @@ A careful reader might note that the effective density $N_{\text{eff}}$ entering
 
 **Note on profile form:**
 
-The specific profile shape is secondary to the algebraic structure and limiting behavior of the equations; the radial profile $N(r)$ with $\exp[-(r/r_e)^2]$ serves as a working model ansatz to test scale running across $r_e$, while the asymptotic $\alpha_G$ value and core boundary scale $r_e$ follow from the BCC geometry.
+The specific profile shape and auxiliary parameters ($p$, $\delta_{\text{core}}$, wall amplitude/width) are secondary to the algebraic structure and limiting behavior of the equations; all radial profiles $f(x)$ and local metric/deficit variants $\eta_{\text{loc}}(x)$ serve as modeled working ansatze to test scale running across $r_e$, while the core-to-vacuum transition direction ($N_{\text{eff}} \to N_{\text{stat}}$) and BCC geometric factors govern the running behavior pending full first-principles soliton core dynamics.
 
 ---
 
