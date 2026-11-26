@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18201206
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18201206
+author: JarekDuda
+posted: 2026-08-29T19:06:35Z
+version: as first posted
+sha256: 0a65aa8e75813f2dd239446e8396fa91919f1fae7a0f70f48ddc714358ad8848
+archived: 2026-11-25
+==== verbatim text below this line ====
+Regarding "which clock localization is physical, the rigid co-moving rotation of the whole frame or a flow that decays away from the defect? Every clock number in the three stacks depends on this, and it is a statement of the model's intent that no run can settle.", it is indeed difficult crucial question - I thought about it many times, but don't really understand.
+
+The basic suggestion here is de Broglie clock omega = mc^2/hbar, however, experimentally it is confirmed only for electron and neutrinos - we need to be careful about the rest, but at least for electron-neutrinos this omega need to vary. Another example are atoms - with own frequency from e.g. Dirac equation - slightly modified from free electron.
+
+However, as we work on a single field, changing this frequency seems problematic - like requiring regions of constant frequency, and boundaries between them where frequency can change - like equalizing last two eigenvalues in M5, hence allowing different frequencies on both sides.
+
+Another question is preferred frequency without particles? Definitely cannot be infinite, maybe is zero? 
+
+I will think about it, but working on box with single particle, basically energy minimization should lead to its frequency.

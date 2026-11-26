@@ -1,0 +1,42 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19857644
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19857644
+author: JarekDuda
+posted: 2026-11-24T12:42:32Z
+version: as first posted
+sha256: 508677549018bf569cf993db6daa11847a86663d7e3f01846e070e6db541c643
+archived: 2026-11-25
+==== verbatim text below this line ====
+LdGS 4.5 released: looks like the final stretch
+
+The 4.5 capstone is on Zenodo: doi:10.5281/zenodo.23994958. The one-page summary is attached.
+
+Where we are:
+
+Working effective Lagrangian (Branch B / R1). SM + khronon gravity + a rank-two seesaw + a core-radius operator + an internal tensor sector. It is consistent with the data used, but derives nothing.
+Native comparator (Case A, 2108 lineage). Frame tensor with a commutator quartic as the Maxwell term, charge as degree, twist as clock.
+Pauli is mapped:
+exact for the Dirac branch;
+derived for retained-frame baryons;
+for the soliton electron, spin and exchange stay separate choices in every domain tested;
+exclusion must be a sign, not an energy (VIP-2/Majorana at every Z).
+
+Next step: pick one deeper Lagrangian, then derive the effective SM from it. Current subjective ranking (given a frame field):
+
+spinor parent with texture as dressing 35 %;
+emergent quantum medium 15 %;
+native soliton electron 12 %;
+other 33 %.
+
+Discriminators where help would be valuable (predictions registered before runs):
+
+Small-lattice w₂ test (SO(3) links with a Chen–Kapustin term): does one endpoint give 2 ground states (T² = −1) and not 4? Is exchange −1? This decides whether a lattice route to native Pauli exists.
+Helium triplet node: for two in-phase twist clocks in different orbitals, is the exchange holonomy π (native) or 0?
+Any of your actions: does a swap of two cores force a relative 2π frame turn (Dirac belt), or can the frame relax through contact?
+
+Answers to the audit's three questions are in a separate reply.
+
+Jarek
+
+<img width="1195" height="1725" alt="obraz" src="https://github.com/user-attachments/assets/c84ff897-19a7-48f1-8ece-f484ed28508a" />

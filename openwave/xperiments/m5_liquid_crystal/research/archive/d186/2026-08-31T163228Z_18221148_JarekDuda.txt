@@ -1,0 +1,16 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18221148
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18221148
+author: JarekDuda
+posted: 2026-08-31T16:32:28Z
+version: as first posted
+sha256: fe9addb522a12be2f4a1b8936522e4de52ea891b68d5a60482024b5ab13184c0
+archived: 2026-11-25
+==== verbatim text below this line ====
+The isofrequency regions question is very interesting, frequency change should be avoided due to energy/area cost of boundaries - rather extremely small, but non-negligible.
+Most of Universe are electrons and atoms, having similar frequency - which probably dominates, with of exception of e.g. neutrinos - but they are usually relativistic so shouldn't disturb.
+
+But what about frequency of nuclei, atoms, molecules?
+Generally even Dirac equation works on probability densities - is rather effective, we should finally search for deeper models - like electron as field configuration here, with trajectories in atoms/molecules (e.g. https://scholar.google.pl/scholar?q=gryzinski ).
+Having coupled quantum phase which resonances leading to orbit quantization, averaging of trajectories to quantum statistics like in https://en.wikipedia.org/wiki/Hydrodynamic_quantum_analogs

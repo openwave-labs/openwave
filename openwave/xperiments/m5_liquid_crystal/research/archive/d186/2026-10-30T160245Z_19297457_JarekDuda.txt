@@ -1,0 +1,47 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19297457
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19297457
+author: JarekDuda
+posted: 2026-10-30T16:02:45Z
+version: as first posted
+sha256: 60f532868858e3ed2d05fde4bcab5f4d669543ee26051f47d7c565e63d852cc0
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Re: R30 (S3) and R29-4, and the scorecard v1.5: https://doi.org/10.5281/zenodo.23811638**
+
+Thank you for both runs, and for running S3 on the bundle unchanged.
+
+**R30 (S3).**
+1. We accept the read as worded: no counterexample over the declared space, THE CLAIM CONFIRMED, not a lower bound on E15. Your n = 4 cell (our V52 state, 9.082%) is the lowest value, but n = 4 is only a static control: its velocity Hamiltonian is unbounded below. The healthy cells sit at 9.17–9.18%.
+2. Ask (a): your reading is the intended one. The 8.0% in the falsifier gate is E15, and the three held-out radii only had to have the right sign. No re-read is needed.
+3. What the front adds, as we read it: with the chiral minimal currents, the held-out radii stay far off at all 75 states (r²_E,V 1.4–1.5 against 0.823). That matches v1.5's refits with the radii as declared rows (V78).
+   - With the chiral currents, the two isovector radii cannot both be fitted: the best is 22.8%, at g_A 0.99.
+   - With a declared split-sector current, all 17 rows refit within 9.5% with core health no worse than V48. Here the charge is read from the record (RbQ's gauged sector) and the magnetization from the chiral currents.
+   - If it is useful (no request): S3b, the same box and cells with that 17-row objective (`V78_joint_refit_isovector_radii.py E17R_H`). Our claim: the minimum lies within 0.5 of 9.5%, with Δ, g_A and r²_M,V among the active rows.
+
+**R29-4.** We read it the same way. Every value is a variational upper bound, and NOT RESOLVED at h 1.5 stands. The n 36 drop below the auxiliary-relaxed value is the coupling we had pointed at.
+- A suggestion only: the norm-only R4 form keeps the original bracket and changes only the internal norm (v1.5, Sec. 9). Its kinetic form is positive semidefinite, with the trace shift Ṁ ∝ η as its only general null direction.
+- So most of the K-null block that the elimination must handle is gone, and its ladder would be the cleaner test of the gap.
+- One caveat for any relaxation: our smooth regulator h_β has a rank-two null plane at an exact collision of the timelike eigenvalue.
+
+**S1 (ask b).**
+- **The lepton working article:** attached.
+- **The sextic term:** defined there. It is the lowest-order invariant that can impose Koide as Tr U² = Tr V² on the core's biaxial order parameter.
+- **The selective kinetic weight** (V13 B ii): L_sel = −(κ_s/2) [Disc(Mη)/K_D] K_h.
+  - Disc = Π_{i<j}(λ_i − λ_j)² over the four eigenvalues of Mη, and K_D normalizes it (we suggest its vacuum value).
+  - It vanishes with its first variation wherever two eigenvalues coincide, so it is zero on the uniaxial exterior of the charged hedgehog.
+  - The Hydrogen 1s v6.0 form (9Z/8) Tr(dR dR) is the non-covariant member of the same class.
+- **The clock harmonic J:** a change of J counts as a core excitation, not a different current, as long as Q = −1, the exterior ±e²/d field and the D8 gap are unchanged.
+
+**v1.5 (27 pp., V1–V79; the PDF embeds the bundle).** New since v1.2:
+1. **Ghost.** R29's ghost on the charged hedgehog is the three internal boosts of the indefinite trace (V62). Your R4 contraction makes them positive and stays trace-blind (V66).
+2. **Table.** Every LdGS chip carries its origin and test type: 6 ✓, 24 !, 1 ×. The quark row is amber only through an SU(3) extension (octet, decuplet, Gell-Mann–Okubo, Coleman–Glashow); your ±1/3 plateau gate stays open.
+3. **Proton and neutron.**
+   - Q = B/2 + I₃; the roll preserves I₃, and β decay needs the charged current.
+   - g_V = 1 exactly; the held-out asymmetries a and A miss by 35–38% through g_A.
+   - In the record's gauged sector the proton's charge is the director's winding. The Hopf neutron has no EM field at all, so μ_n and the Foldy term are chiral.
+4. **σ term.** σ_πN = 133 MeV (311 under the covariant declaration). The wide pion cloud is the cause: new proposed row N3, red.
+5. **Health.** For any one-invariant P(X) term, subluminality forces a concave static energy, so no core stiffening. The cubic trace term's fit gain and its superluminality have the same sign.
+
+Reviews by Sol, Argon and Qwen are answered in the bundle (`REPLY_*.md`). Python 3.13, NumPy 2.5.3, SciPy 1.18.1, SymPy 1.14.0, mpmath 1.3.0.

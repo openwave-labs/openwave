@@ -1,0 +1,75 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19840001
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19840001
+author: JarekDuda
+posted: 2026-11-23T20:05:37Z
+version: as first posted
+sha256: f57d09f43e2b94b43cc9ed14643eabb963c9face08db97107b3a861cb466a781
+archived: 2026-11-25
+==== verbatim text below this line ====
+Capstone v4.3 and v4.4 released: https://doi.org/10.5281/zenodo.23994958 (all versions; v4.4 PDF)
+
+S = computed, S(Sol) = computed by Sol, not replayed, C = reading or conditional, O = open.
+
+What changed for the M5 rows
+
+The fixed-J clock fails with a free exterior (S(Sol); the crossing checked, S).
+Take a twist at conserved J about the major axis, with a uniaxial exterior that is not pinned. A shell distortion that keeps the degree and stays on the vacuum orbit changes the fixed-J energy by ΔU − Ω²ΔI/2, with ΔU/ε² = 41.0/R + 44.7/R⁵ and ΔI/ε² = 15.0R³ + 13.3R + 5.5/R³.
+For any Ω ≠ 0, an outer shell lowers the energy. At J = I₀ = 0.5 the crossing is at R = 1.469.
+This is the infrared wall of R4–R12 in another form: a free exterior absorbs the clock charge.
+(C) #190's exterior-degenerate SO(2) fixes an aligned exterior NNᵀ, but not the radial director around a charge. So for a charge, the protection has to come from a pinned or gauged exterior.
+No clock driven by terms quartic in velocities (S, symbolic).
+For L = av² + bv⁴, H = av² + 3bv⁴, but the Euclidean action of the 4D ensemble is S_E = av_E² − bv_E⁴. No sign of b bounds both. This covers the (F·F)² clock of R11.
+Stabilizers quadratic in velocities, e.g. σ₁XY − σ₂Y², give H = S_E ≥ 0. OpenWave's time part T (M5.47) is of this allowed kind.
+Spin ½ is not from the tensor alone (S, a theorem in v4.3). In a bosonic theory whose Hamiltonian is even in the momenta, every half-integer-spin level comes doubled. So the electron is the Dirac field in frame variables (v4.2, with g = 2). The clock row at J = ħ/2 is therefore a coupled tensor–Dirac target.
+Also in 4.3–4.4:
+An exterior twist radiates: δ_ext ≤ 4.5 × 10⁻¹⁹ is needed to survive 13.8 Gyr (S(Sol)).
+The gravity frame is TEGR plus a khronon on the luminal ray, c_T = c_S = 1 (C).
+The deuteron on the complete hidden-local-symmetry (HLS) action is overbound, +38.8 to +44.5 MeV classically (S(Sol)).
+
+Rows, as I read them now:
+
+Clock: down in the tested action; the next native step is a first-order clock term coupled to Dirac (O).
+Klein–Gordon and charge quantization: partial, as in my post of 21 Nov.
+
+Four rungs, if OpenWave or Substrate have cycles. Predictions were registered on 23 Nov at 20:53 CET, before any run. My confidence is in brackets.
+
+T1, the shell test on a fixed-J clock (suited to Substrate's #190).
+
+Setup: a relaxed charged defect (point hedgehog, or the v4.1 ring) at fixed J.
+Add a shell distortion of amplitude ε at radius R that keeps the degree and stays on the vacuum orbit.
+Read ΔE_J = ΔU − Ω²ΔI/2 against R, up to the box.
+Run the same test with an aligned exterior NNᵀ as the control.
+Prediction (C) [70 %]: around the charge, ΔI grows with R (as R³ in Sol's chart), and an outer crossing R* exists where ΔE_J < 0. With the aligned exterior, ΔI stays bounded and there is no crossing.
+Falsifier: no crossing up to the box around the charge. That would mean #190's mechanism carries over to charges.
+
+T2, an independent port of the v4.1 ring.
+
+Setup: L_V s(M)|∇M|² with the midpoint weight (lv_mid=True), L_V = 1, L₁ = 0, δ = 0. Relax from the radial hedgehog on half-boxes 6 and 9 at spacings 0.5 and 0.375. The arrays and the engine are attached to my post of 21 Nov.
+Prediction (S-target) [80 %]:
+U = 20.50 (half-box 6, spacing 0.5), 20.53 (half-box 6, spacing 0.375) and 21.50 (half-box 9, spacing 0.5), each within 1 %;
+ring radius 2.76–2.86;
+Q/4π ≥ 0.99;
+N/U between 0.94 and 1.00.
+Why: this is the only finite, box-stable charged object in our record. A second code reaching it is the cross-stack confirmation proposed at the top of this thread.
+
+T3, the charge ladder with the line pinned (the M5.50 follow-up, on the M5.42 action).
+
+Setup:
+Impose the field of a ½ line as Dirichlet data on two thin cylinders at x = ±d/2, d = 6 to 20, and relax the rest.
+Read U(d), and F = −dU/dd as the force.
+Measure the tension of a straight ½ line in the same action and box.
+Prediction (C) [60 %]: U(d) is linear for d above about three loop radii, with slope within 15 % of the straight-line tension. No split.
+
+T4, the driven wave (our M5.49 falsifier).
+
+Setup: drive at ω = 5.5 near the core of the M5.42 unit. Read the phase along the axis and in the ring plane.
+Prediction (C) [65 %]:
+the phase advances inside the bands;
+the wave is evanescent beyond the outer edges (axis 8.4–8.8, plane 9.7–10.1);
+the decay rate is √(m_eff² − ω²) within 15 %.
+
+T2 is the one we would value most. Thanks to Sol (ChatGPT) for the clock, radiation and deuteron calculations, to Neon, Qwen and Kimi for reviews, and to Claude (Opus, Fable) for checks and replays.
+
+Jarek

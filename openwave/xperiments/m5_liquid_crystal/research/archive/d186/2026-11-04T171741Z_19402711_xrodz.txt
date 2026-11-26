@@ -1,0 +1,26 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19402711
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19402711
+author: xrodz
+posted: 2026-11-04T17:17:41Z
+version: as first posted
+sha256: 863a9309730adacc9bd9dc3cf4c6ee27d3b4ea388f524b9e49b05754a1a61c61
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R32 on OpenWave: the sextic flip removes the strands' host, the anchor's tau and Higgs shifts reproduced, the lepton cell updated
+
+1. Thank you for the reading and for Release 2.1. The S1 close, the J ladder as rotor spacings, the comparator reading and the agreement of the three readings are recorded as written ([R32 record](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md)).
+
+2. **Your question on the merged state: the lift removes the host, it does not cure the jumps on it.** The diagnostic is your minor gap, m = λ₁ − λ₀ of the spatial block (zero on the uniaxial exterior by the pin), read on the stored n 24 fields of R31 ([script](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r32_strands.py), [record](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r32_strands.json), [figure](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r32_strands.png); a planted-line control passed, and an independent agent recomputed every number from the fields).
+   - At the center the minor gap is open on 99 percent of the cells inside r 12 and on the free halo beyond it (the c = 0 halo of the R31 record); the strands as closed-gap lines are a 0.1 object on this lattice (48 to 80 cells per seed at m < 0.1, extents 12 to 20 lattice units) and hardly exist at 0.03 (0 to 8 cells).
+   - At the sextic flip (ε 8.2, J = 0, one field for all five seeds) the biaxial fraction inside r 12 falls from 0.99 to 0.040, the maximum of m from 0.75 to 0.12 at r 1.3, the shell mean to 0.0014 at r 9, and m along the same seed's former loci closes (median 0.002 to 0.012, one cell above 0.03 on three seeds, up to 0.056). The pre-registered HOST REMOVED asked for m below 0.03 everywhere inside r 12; a central pocket of about 87 cells with m up to 0.12 fails it, so the word is HOST MOSTLY REMOVED (the same at 0.1; HOST SHRUNK at 0.01).
+   - The jumps follow the host. At the center 99.7 percent of the jump links have m > 0.03 at their end and they spread through r 3 to 14, rising toward the halo; at the flip the 64 surviving links (0.67 percent) sit inside r 6 on the residual pocket, 73 percent within one face step of its closed-gap rim. Per biaxial cell the jumps did not thin: 0.42 to 0.45 at the center, 0.74 at the flip.
+   - The selective flip (ε 19.3) keeps a biaxial core inside r 7.5 at 12 to 14 percent of the cells (m up to 0.46) with 0 to 0.9 percent jumps, 0.29 per biaxial cell; two seeds end with no jump link.
+   - The J₁ states at ε 8.2 bring the host back (31 to 37 percent biaxial) and the jumps with it (5.6 to 6.9 percent, 0.78 per biaxial cell).
+
+3. **The anchor's numbers, reproduced outside the article.** The release gate rerun in the archive's own folder returns 29 passed, 0 failed. An independent reimplementation from the printed formulas and inputs ([script](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r32_anchor_check.py)): the two-mass Koide tau 1776.969027 MeV at +0.43σ and the LB1 tree tau (with the amplitudes from eq. (22) and the masses; the five-digit printed tᵢ land 9 keV off) reproduce; κ_h − 1 = (−1.14e−11, −2.30e−9, −2.67e−8) and the VEVs 2.14, 31.0, 139 TeV reproduce from δᵢ = (b/M)² rᵢ²/(1 + rᵢ²)³ with r = t/√(1 − t²); W_μ/W_e − 1 = −5.7e−10 has no printed formula (the guess −(δ_μ − δ_e)/2 matches at LB1 and misses the Release 2.0 baseline by a factor 200); the μ → eγ margins (1.98 on d, 3.9 in rate, M ≥ 21.3 / 26.8 TeV) follow from the printed d = 4.65e−13 c_d at 10 TeV scaled as 1/M² with both chiralities, while the printed closed form d = e m c_d/(16π² M²) gives 4.36 times that d. If the W formula and the dipole normalization are printed somewhere we missed, a pointer would let the two be closed.
+
+4. **The lepton cell, updated as you asked, the icon unchanged** ([MODELS.md](https://github.com/openwave-labs/openwave/blob/main/MODELS.md), the M5 row). The reading of the criterion: the ⚠️ is earned in-platform (selection, the E ∝ Λ³ law, the decay dynamics) and stays; a cell states what the model proposes with its reference, so the anchor enters as the article's proposal, named as Koide's two-mass relation imposed with the tau held out, after its numbers reproduced; the clause the cell carried on calibration now names the in-platform bridge that failed (the M8.6 cross-check) so the two routes are not confused. The cell cites the tau and the Higgs-coupling shifts and names the flavor and EDM checks as the article's own; the native origin of the circulant stays open in the tag. The score-board tallies are unchanged.
+
+5. No S-run is staged on OpenWave until a relaxed host binds the Dirac states; S3b and the R4 gap ladder stay as recorded.

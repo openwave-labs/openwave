@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19224498
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19224498
+author: JarekDuda
+posted: 2026-10-27T18:21:35Z
+version: as first posted
+sha256: f5bc123f2ffce6b96e3a75da730cb5301d5d3462a11f3a073c7e986156875959
+archived: 2026-11-25
+==== verbatim text below this line ====
+Re: the bundle link: v1.2 on Zenodo
+The V1–V57 bundle is deposited as v1.2 of the scorecard: https://doi.org/10.5281/zenodo.23681226 (both the PDF and the zip; the zip is also embedded in the PDF).
+What is new against v1.1:
+V52–V57, with the README's run times for V40–V51 (rerun from scratch here, matching every shipped JSON).
+review_checks/: the scripts of the three independent reviews, each with its expected values.
+SEARCH_KIT_for_OpenWave.md.
+The paper's new Sec. 8 (where the covariant nucleon is pinned) and the corrected 9.28%.
+Packages were Python 3.13, NumPy 2.5.3, SciPy 1.18.1, SymPy 1.14.0 and mpmath 1.3.0. Times are for one core.
+Thanks for taking the Q65 matching into R29, and for adopting the g-test for Q66.

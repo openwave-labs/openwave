@@ -1,0 +1,41 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18298062
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18297257
+id: 18298062
+author: JarekDuda
+posted: 2026-09-05T00:01:08Z
+version: as first posted
+sha256: fbb32fc34054be212ca007f17e1fd21072835b9a773dd42dd887757b6da7c7d8
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @vantasnerdan @mjmikulski
+
+Scripts and the full report: [GIST/REPO LINK]. Everything is sympy/numpy only; the README maps each script to the claim it checks. Since the 09-03 post, the same AI-assisted round ran its own adversarial pass and corrected several things that R14 would otherwise test in their superseded form. The corrections first, then pre-registered predictions for R14, then a floor result that bears on every dressed-core run.
+
+## Corrections to the 09-03 post
+
+1. **K_P must be written in H-adjoint form.** The plain-trace form tr(Ω_μΩ_ν) as posted is indefinite: off-vacuum its boost channels enter as −(λ₀−g)²(…) (negative in 340/2000 random off-vacuum probes). Use K_P = ½η^{μν} tr(Ω_μ H Ω_νᵀ H⁻¹), Ω_μ = P∂_μN P, H = η+2uuᵀ (0/2000 negative). The same trap applies to every f(N)-weighted term, so the R14-A basis B should be built in H-adjoint form throughout, or the LP will admit actions whose boost sectors are ghosts inside cores.
+2. **Orbit theorem, correct scope.** R_G is a total derivative on the fixed-eigenvalue orbit for every G that is a covariant *function* of M (η, ηMη, M⁻¹, η+2uuᵀ, random polynomial f(N): spectral convergence to 1e−8 … 1e−11). A constant C not commuting with the eigenframe breaks it (−206, converged), but such a C is not a function of M. Bulk content needs eigenvalue gradients, as R14-0's mutant says.
+3. **The Lovelock/εε fallback in the R14 packet is empty.** Every ghost-free second-derivative structure (all derivative indices on ε-tensors) vanishes identically on planar profiles for the same reason F does; the structures that do see the sheet ((□M)²-type) are Ostrogradsky. No compute should go there.
+4. **The conjecture is a trilemma, and R14-A needs one more row.** Sheet–tail exponents: the fixed-J sheet needs a cost ≥ c·x at both small and large gradient (p = 1 exactly; p > 1 loses to shallow wide sheets ∝ L^{1−p}, p < 1 to steep ones ∝ h^{1−p}), while the tail needs p > 3/2. But among the six invariant analytic quadratic jet forms, the tail takes values (4,0,4,2,0,2)(λ−δ)²/r² and a twist sheet (2,0,0,0,0,0)k²(1−δ)², so Q_F = Σ_i tr(∂_iM∂_iM) − |∂_iM^{ic}|² — Frank elasticity with zero splay constant — vanishes on the single tail and charges every sheet orientation. Its pair energy is finite (leading cross term odd, integrates out) but not Coulomb: −101, −136, −164, −199 at d = 2, 3, 4, 6 (L = 24), a ~c_F/d force that overtakes 1/d² beyond d ~ K_C/(90 c_F). Consequence for R14-A: Q_F is not in B, and the packet's witness rows test tail finiteness, sheet cost, dressed-pair sign and positivity — Q_F passes all four. Unless a fifth row pins the pair law's d-dependence (the four-separation fit must stay 1/d), the LP will return CONE_FEASIBLE on Q_F and mislead. Add Q_F to B and add the Coulomb-form row; the prediction is then CLASS_INFEASIBLE.
+5. **Free inertia survives the degenerate exterior.** On (−g,1,δ,δ) a (1,2) sheet gives I₁^{kin} = 2ω²(δ−1)⁴sin²ψ·ψ′² at zero static cost, because the sheet rotates the (2,3) clock generator out of the degenerate plane. The textured-medium exit is closed as well: a uniform background gradient b gives the sheet a p = 1 stiffness but confines a single hedgehog (cross energy ≈ 0.07·L at b = 0.1); same coefficient, both effects.
+
+## Pre-registered predictions for R14
+
+- **R14-0:** every listed statement confirms, with K_P blind to the R13-W sheet [T] and the K_P sign caveat above.
+- **R14-A:** CONE_FEASIBLE via Q_F if the basis/rows stay as frozen; CLASS_INFEASIBLE with Q_F in B and the Coulomb-form row added.
+- **R14-B:** CANDIDATE_REFUTED at every c ∈ {0.3, 1, 3}: the descent finds the (1,2) sheet (or its eigenvalue-zigzag sibling), invisible to K_P, with the same runaway as R13-W. The sheet has no conjugate momentum of its own, so this is variational, not dynamical — a Hamiltonian integrator would not see it.
+- **R14-C, R_G:** sign of dE/dd follows sign(c_R); the static 3×3 record unchanged to machine precision; the pair law is d^{−2.01}, odd in the partner's dressing at leading order (charge–dipole), no 1/d; single-core energy ∝ c_R·m²·(deficit), even in m. R_G is a coupling, not a mediator.
+- **R14-C, K_λ:** attractive Yukawa, range 1/m_s. Two things to read off while you are there: I₁ on the uniaxial core is ∝ (λ₁−δ)⁴ and independent of g, so the g-mode is unsourced except through dressing; and whether tr N is constant through the relaxed core decides if a stiff trace mediator is admissible (the hierarchy needs c ~ 10⁴¹E² in model units; a mode that stiff cannot be the melting direction).
+- **R14-D:** no prediction; one warning below.
+
+## A floor result that touches every dressed-core run
+
+On the all-η certified action, a twist sheet ψ = kz on a boost-gradient background of rapidity slope b has U = −2b²k²g²(δ−1)² at leading order in g — bilinear in (b, k), so nothing bounds it; the H-adjoint contraction gives exactly +2b²k²g²(δ−1)². Confirmed at 64³ on a localised radially dressed core (rapidity 0.5, width 2): ΔE = −114, −388, −1091 for k = 0.5, 1, 2 (all-η) vs +183, +594, +1549 (H-adjoint). Reproduction note: the twist must be a texture of the spatial frame *inside* the dressed frame; twisting after dressing co-rotates the boost axis and hides the effect (+160, +636, +2473 in both forms). So every dressed-core quantity on L_cert — the R3 dressed pair, R4's wall-running minimizer, the R13-W zigzag, and R14-C/D as frozen — sits on an unbounded functional; this is R2's λ ≥ ½ made explicit. Suggest R14-C/D run on I₁^h (the static 3×3 record is identical there). It is also the channel of the M5.8 clock-fuel mechanism (−c₁b²k² + c₂b⁴k⁴ has a frequency-rigid minimum at (bk)² = c₁/2c₂), so the signed quartic of that line is bounded on this witness iff it carries b⁴k⁴.
+
+## Two smaller items
+
+- R² (any G) closes as a Newton mediator: on the hedgehog R_η = 2(δ−λ)(λ−δ+2λ′r)/r², linear in λ′, so R² gives the eigenvalue mode a 1/r²-weighted stiffness whose Green's function is C₁ + C₂r (Mannheim linear potential). I₁ itself does the same. Only a constant-stiffness term gives 1/d.
+- Off-ladder, for the record: if flavour mixing is an SO(3) rotation of a real frame (MODELS.md's neutrino route), the PMNS matrix is real orthogonal, so J = 0 and δ_CP ∈ {0°, 180°} — a sharper falsifier than the single value 180°.
+
+The report (15 pp., in the bundle) carries the verification ledger with [T]/[N]/[R] status per claim and the adversarial round (A1–A8) in full.

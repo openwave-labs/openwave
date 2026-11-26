@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19077422
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19021295
+id: 19077422
+author: xrodz
+posted: 2026-10-20T16:50:08Z
+version: as first posted
+sha256: 400c6b4bc8115d69f108b79da4d8a3572233a78c7d94df11a4a37dec2a8f3531
+archived: 2026-11-25
+==== verbatim text below this line ====
+The v3 package received: a reproduction-first ingestion is staged as M5.33, with three asks
+
+1. Thank you @JarekDuda. The chart set against our live column, a paper where every number names its script, and a package whose README states the expected value per script are exactly the form the matrix can consume. We are reading all of it and have staged one task for it, M5.33 (https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_33_task_details.md): reproduce the package as shipped, then adjudicate every chart row that differs from the live column or carries a note, before any edit to MODELS.md.
+2. The "recommended (record field)" column is the part that acts on our file: two icon moves (12 Quarks and 31 Orbital quantization to partial) and eight cell corrections (rows 2, 5, 7, 10, 19, 22, 23, 25). Our rule for an icon is unchanged, partial or validated means run on this platform, so the two moves wait for a run here. The eight text corrections go in as each is checked against the record, with the paper or the note it rests on linked from the cell.
+3. Three asks. (a) The notes cite two documents the package does not carry: "LdGS (M5) against the shared criteria: a calibrated update, version 2" (your ref. [14], Cards G4 and T22) and "One field, two Gram matrices" v1.7 (ref. [13]); rows 10, 12, 19, 22, 23 and 31 rest on them, so a Zenodo record or the PDFs would unblock those. (b) Is the recommended column a request to edit the live column, or your own bookkeeping of what you would write? We read it as the former. (c) The poll above has one ranking so far (D2 > D8 > D1, in the reply from giuliano-vantasner); whether the package changes yours, or whether you would rather the ingestion run first, is your call.
+4. What the package suggests we can run on our stack, beyond the poll's nine: your LdGS-side routes 3 (the eigenvalue gaps as Ward's parameter, a biaxial-to-uniaxial ladder of the census baryon), 4 (the Q8 labels of the census baryon's ring and axis, which must commute for a Hopf link), 5 (the Alice-ring test on the charge core) and Sec. 8 item 1 (the tension sector, where R27's wall-tension continuum limit and the string instrument already sit). We will list them in the poll's table format once the reproduction is through, so they can be ranked with the rest.
+5. The reproduction plan, so it can be corrected before it runs: the field-free scripts first (S24, S26, S29, S30, S36, S39, S41, S43, S44, S46) against the README's expected values; then the lattice regenerations (S1, S16, S4b, S34, S37) and the field-dependent set (S19, S20, S22, S25, S27, S28, S35, S38, S45b); every output compared with the shipped JSON; a fresh-agent audit on each cell edit, scripts pinned to a commit, as before.

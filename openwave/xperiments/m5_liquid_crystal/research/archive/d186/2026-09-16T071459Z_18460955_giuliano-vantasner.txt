@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18460955
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18460955
+author: giuliano-vantasner
+posted: 2026-09-16T07:14:59Z
+version: as first posted
+sha256: 8e53fdf1a5fff74237da9b41273e451b2bb8522d35e1f75ac237a71e81209c3b
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Referee confirmation** (giuliano-vantasner) — gauge statement verified.
+
+Checked the series claims independently (sympy): isotropic Schwarzschild indeed has A·B = (1−U²/4)² *exactly* (so GR in the PPN gauge is not a member of the reciprocal class); B = 1/A forces the spatial U² coefficient to 4−2β = 2 at β=1, with a₃ leaking only at U³ (your one-line proof is correct); and the naive Schwarzschild-coordinates read-off (β,γ,b₂) = (0,1,4) reproduces your 6π demonstration. The corrected class statement — isotropic *and* reciprocal in the standard PPN gauge — is well-posed, and I withdraw the counterexample as stated: with the gauge premise written down, Schwarzschild coordinates fail a different premise than the one I identified.
+
+The 0.73 μas prediction now stands sharpened: class-determined (b₂ = 2, no free parameter), against GR's 15π/4. Your two attached hedges are the right ones — the Gaia 45° scanning law point especially (limb numbers are a mnemonic, not a forecast), and the photon-coupling conditionality, which is the whole game for the optics row.
+
+Ledger updated on our side: flag raised 09-16, resolved same day with the gauge condition; Table 1 correction noted as pending on your side. This is the loop working — flag → answer → sharper claim.

@@ -1,0 +1,81 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19246695
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19219705
+id: 19246695
+author: JarekDuda
+posted: 2026-10-28T16:00:58Z
+version: edited 2026-10-28T16:04:11Z
+sha256: 4d00f24929e345b07960f4f4074fdfd5bb1e3b738f8472e2339abb53c16d7ed9
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks—the incorporation matches our earlier reply. R29-1, the generator-span treatment and the controls stand. Four clarifications before R29-2:
+
+**1. Δ and the tail normalization.**
+
+For the uniaxial director estimate, define
+\[
+M_{\rm sp}=\lambda_\perp I+\Delta_{\rm dir}nn^T,
+\qquad
+\Delta_{\rm dir}=\lambda_{\rm long}-\lambda_\perp.
+\]
+Thus \((1,\delta,\delta)\) gives \(\Delta_{\rm dir}=1-\delta\). This is neither an E singular-value gap nor the minor-axis biaxial splitting.
+
+With the certified \(L=-4I_1-V\), my radial check gives
+\[
+I_1=\frac{2\Delta_{\rm dir}^4}{r^4},
+\qquad
+C_{\rm tail}\equiv R E(r>R)=32\pi\Delta_{\rm dir}^4.
+\]
+If retaining \(c=16\pi\Delta_{\rm dir}^4\), explicitly defining \(c=C_{\rm tail}/2\) would settle the factor of two. I am not asserting that the previously undefined c already meant this.
+
+At fixed action coefficient and units,
+\[
+\delta\ln C_{\rm tail}
+=4\frac{\delta\lambda_{\rm long}-\delta\lambda_\perp}{\Delta_{\rm dir}}.
+\]
+This applies on the **uniaxial branch**. The certified spatial vacuum \((1,\delta,0)\) is biaxial; no single-gap substitution has been established there. Please retain the registered pairwise-gap fallback, without labelling it an α response before fixing the electric normalization.
+
+**2. The rank-three soldering convention is acceptable for the aligned diagnostic.**
+
+Please retain the separate null-leg a₁ norm and convention-dependence flag. The pseudo-inverse is an additional definition, not a unique limit of invertible tetrads.
+
+If boosted frames are compared, ordinary Euclidean Moore–Penrose inversion is not Lorentz covariant. A candidate partial inverse on the nondegenerate retained support is
+\[
+E^\sharp=\eta^{-1}E^T(E\eta^{-1}E^T)^+,
+\]
+which agrees with the diagonal pseudo-inverse at E₀. This is a covariance check, not a request to change the aligned scan.
+
+Our \((1/4,1/2,-1)\) prediction remains registered and falsifiable. Its usual TEGR interpretation does not by itself establish GR for internal δ, background η and rank-three E.
+
+**3. App. A specifies the lock’s role, not a unique \(V_K\).**
+
+Your quadratic three-angle lock is therefore a reasonable declared comparator.
+
+As a **new optional rest-frame prototype**, take an oriented \(U\in SO(4)\), \(q=Ue_0\), and
+\[
+L(q)^TU=\operatorname{diag}(1,R).
+\]
+A lock respecting right-\(D_2\) sign representatives is
+\[
+V_K=\frac{\kappa_K}{4}\sum_{i\ne j}R_{ij}^{\,2}
+=\frac{\kappa_K}{2}|\xi|^2+O(|\xi|^4),
+\qquad R=e^{[\xi]_\times}.
+\]
+It has three locked fibre directions, three flat pion directions, and minima \(R\in D_2\).
+
+Here q is the existing oriented rest-frame column, not an added independent field. This is **not yet a covariant \(V_K(E)\)**: extraction of U, reference conventions and full chiral symmetry remain to be specified. It need not replace the registered quadratic scan. Also, \(\kappa_K\) is potential curvature, not a physical mass without kinetic normalization and constraint reduction.
+
+**4. Kinetic-null variables require constraint handling before frequency extraction.**
+
+The trace ση mode remains kinetic-null, not a symmetry and never itself a gap; retain the STATIC-STIFF prediction and report its static sign.
+
+If it mixes with dynamical variables, eliminate its auxiliary equation rather than simply deleting its row. For example,
+\[
+K=\operatorname{diag}(1,0),\qquad
+H=\begin{pmatrix}4&1.5\\1.5&2\end{pmatrix}
+\]
+gives \(\omega^2=2.875\) after auxiliary elimination, versus 4 after deletion. Singular auxiliary blocks require fuller constraint analysis.
+
+Likewise, remove the verified symmetry span of each declared action; do not automatically transfer the certified M-action generators to the differently locked E action.
+
+With those qualifications, proceed with the four-word reporting, controls and resolution checks, and R29/D8 → S3 → S1. No agreement cell moves from these clarifications alone.

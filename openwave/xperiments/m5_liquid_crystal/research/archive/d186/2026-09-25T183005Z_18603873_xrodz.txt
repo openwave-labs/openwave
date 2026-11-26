@@ -1,0 +1,116 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18603873
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18603873
+author: xrodz
+posted: 2026-09-25T18:30:05Z
+version: as first posted
+sha256: c72ec0967184980e9f931800f19e0d291b5acf3417a2003b0219c0283957a8a1
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R26: the small-delta constant 0.258 holds on the smooth-core strand, and under the certified action that strand is a saddle; three of five census branches certified, every interior reorganizes; the physical rotation generator does not remove the box dependence; the catalog fault was known since M5.21.3
+
+Pinned to commit `3705fdfd` (the R26 section of [`m5_32_task_details.md`](https://github.com/openwave-labs/openwave/blob/3705fdfd/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), ledger [§ 6.17](https://github.com/openwave-labs/openwave/blob/3705fdfd/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md), the scripts `m5_32_r26_*.py` and their audits `m5_32_r26_*_audit.py` under `research/scripts/`, the JSON records under `research/data/`). One autonomous day, 2026-09-25, on the five items of the 2026-09-24 reply plus report 018 folded in at the go. Every sub-rung was audited by a fresh agent with its own code before this post (verdict counts in § 7); nothing below is a number that only one script produced.
+
+## TL;DR
+
+1. **The norm is stated:** every static number here is in the eta contraction on the block-diagonal sector, where it equals the Frobenius one. On R25-1's 22 full-kick witness fields the eta energy is negative and the Frobenius one positive, the `M_0i` sector carrying the whole sign flip (0.3 to 4 percent of the Frobenius value): report 017's statement, reproduced.
+2. **0.258 holds.** With the three diagonal slots relaxed (`M_00`, `M_33`, the pair mean) the Bogomolny integral in deviation form reads `T_slaved3 / delta^4` = 0.2520, 0.2559, 0.2572, 0.2576 at delta 0.03, 0.01, 0.003, 0.001 and 0.2577 in the limit (the leading BPS 0.2989). Twenty block-sector rows (delta 0.03 to 0.001, h 1.5 to 0.5, w 6.25 to 100) sit at 0.9875 to 1.011 of it; after the BPS seed's own lattice factor the h to 0 extrapolations are 1.0002, 1.0007, 1.0006: `T / T_slaved3 = 1.000 +- 0.001` at every delta (the audit's reading; my pre-registered rule returned UNRESOLVED because its round-off-floor gate passed unconverged small-delta rows and failed converged ones; § 1).
+3. **Under the certified action the smooth-core strand is a saddle.** A slot-preconditioned L-BFGS leaves the block sector from R25-1's stored strands with no kick and falls to 0.13 to 0.16 of `T_bps` by 8000 iterations; constrained to the block sector it still falls to 0.57. These states are not lattice artifacts: interpolated to h / 2 and re-relaxed they come back to 0.26 `T_bps`. They are pi-jump walls of the pair anisotropy with an unmelted core, free under the commutator curvature along the wall and invisible to `V4`. The Lanczos probe gives `lambda_min` -1.0e-5 in the director row and -2.6e-3 inside the block sector at delta 0.03, h 1, and the director-row instability keeps a negative Rayleigh quotient at h 0.5. The action as written has no tension floor for a half-line, and the free-charge bound from `L_* = m / sigma` inherits that (§ 1).
+4. **The census:** five seeds by partition of the transverse index (4 half-units), each read at its intended partition before relaxation, relaxed in the R25-2 descent. Three reached the gate and are STABLE under the kick: {3,1} at 8.226, {1,1,1,1} at 8.380, {2,2} at 8.388; two capped: {2,1,1} at 8.119 (the lowest) and {4} at 8.559. `CENSUS_INSUFFICIENT` by the pre-registered rule (3 of 5 at the gate). Every interior reorganizes: the {2,2} poles split into four half-lines, the {1,1,1,1} equatorial lines migrate toward the poles (toward report 018's two pole-to-pole lines), the {3,1} reads {2,1,1} on r 9. The boundary field held by the pinned shell sets the energy at the 5 percent level, the same as the spread between partitions (§ 2).
+5. **The moment channel** reads `MOMENT_CHANNEL_OPEN` by the letter of the rule on the {3,1} branch and is not a moment: its l = 1 coefficient is 0.001 to 0.04 and RISES outward (a tail falls), built by the relaxation against the wall; the other certified branches read 1e-5 and 0.013 with slope -2. Two flaws in my pre-registration are recorded (§ 2).
+6. **The physical rotation generator** `[J_z, M] - (x d_y - y d_x) M` cancels on the axisymmetric seeds (0.02 to 0.2 percent) and not on the relaxed charge: `C_rigid` is 0.997 of `C_int` on the L 48 box and tracks it box for box (L 96 / L 48: 2.04 against 2.06 at h 1.5; 1.25 against 1.25 at h 1), stencil-robust and slope-robust. `SPIN_PHYS_INSUFFICIENT` by the rule (four of the five R25-2 boxes were capped, not gated), the ratios reported beside it (§ 3).
+7. **The catalog fault is confirmed on every stored field, and it was known.** 356 fields, 1490 of 1513 positive inertias move by over 1 percent under the tangent `G M + M G^T`, 68 flip sign. The audit found the antisymmetric form documented at the M5.21.3 audit itself (`m5_21_3_f_confirm.py` § C7.4, the corrected reads stored as `kinconj_*`), restated at M5.21.9 and flagged at R1 and R14-0. **Correction to R25:** the sentence "every `kin_of` read since M5.21.3 is suspect" is withdrawn; the affected readers are the two AFFECTED and nine MIXED scripts of the census (§ 4).
+8. **Report 018:** (1) the exponent of `T` in delta on our ladder is 3.994 (the trace-power potential's `delta^4`; the `beta^3` of the quadratic potential is a different object); (2) our reader finds the {2,2} charge's interior as four half-lines at rho 5 to 8 on r 6 to 9, running at about 55 degrees from the axis, not parallel to it; (3) on all eleven stored held pairs the director's degree is +1 and -1 around the cores and 0 outside: our pinned shell keeps both charges inside the balls to the end, a different experiment from Dirichlet balls with a free exterior; (4) the virial ratio `E_u / 3 V4` on our branches is 1.14 to 1.40 under the pinned shell, not comparable to a free field's 1.01 to 1.04 (§ 5).
+
+## 0. The stack and the norm
+
+Real symmetric 4x4 `M(x)`, `eta = diag(-1, 1, 1, 1)`, `N = M eta`, the certified biaxial vacuum `diag(8, 1, delta, 0)`. The static energy
+
+    E = 4 h^3 sum_{i<j} <F_ij, F_ij>_eta + V4,   F_ij = [A_i, A_j]_eta = A_i eta A_j - A_j eta A_i,   A_i = d_i M,
+    <F, G>_eta = tr(eta F eta G^T),   V4 = w sum_{p<=4} (tr N^p - C_p)^2,   w = W1 x 25 unless said.
+
+The tangent of `M -> Lambda M Lambda^T` is `dM = G M + M G^T` (symmetric, `G eta + eta G^T = 0`): the commutator for a rotation, the anticommutator for a boost; the lower-index form of the reply is the same formula with `G' = G^T` (sympy, all six generators). The block-diagonal static sector `M_0i = 0` is where every static number lives; there the eta and Frobenius contractions coincide to round-off, and on the full-kick witness fields they differ by the sign (item 1 of the TL;DR).
+
+## 1. R26-2: the strand's delta ladder, and what sits below the bound
+
+**The deviation form.** `M = M0 + delta D`; the curvature is homogeneous of degree 4 in first derivatives, so `E_u[M] = delta^4 E_u[D]`; the trace brackets are telescoped, `tr N^p - tr N0^p = sum_k tr(N^k eps N0^{p-1-k})`, `eps = N - N0`, so the `8^p` of the time slot is never formed and subtracted (the plain form's relative round-off 4e-7 at delta 0.001, the telescoped 8e-9; the audit's mpmath reference 2e-6 against 1e-15). `T_slaved3` is the three-slot Bogomolny integral `4 pi sqrt(8) int_0^{f0} sqrt(w V_min(f)) df` with the same binomial brackets; it agrees with the R25-1 audit's plain-form integral to 1e-11 where that one still has digits.
+
+**The rows of record** (R25-1's slab and plain L-BFGS variables, the block sector, the BPS seed plus the energy-sized kick), `T / T_slaved3`:
+
+| delta | h 1.5 | h 1 | h 0.75 | h 0.5 | after the BPS lattice factor, extrapolated |
+| --- | --- | --- | --- | --- | --- |
+| 0.03 | 0.9875 | 0.9946 | 0.9970 | 0.9988 | 1.0002 |
+| 0.01 | 0.9875 | 0.9945 | 0.9971 | 0.9995 | 1.0007 |
+| 0.003 | 0.9949 | 1.0039 | 1.0071 | 1.0007 | (unconverged rows, see below) |
+| 0.001 | 0.9947 | 1.0037 | 1.0069 | 1.0092 | 1.0006 by the converged twins |
+
+The w arm at h 1, delta 0.01: 0.9945 (w 25), 0.9889 (w 100), 0.9976 (w 6.25). The exponent of `T` in delta on the rows at the gate: 3.994. The rows survive a x2 refinement without moving (0.868 to 0.869).
+
+**The label and the audit.** My pre-registered rule returned `STRAND_0258_UNRESOLVED` (the delta 0.03 and 0.01 rows at h 1 and below did not reach the gate in 4000 iterations). The audit refuted the instrument's gate: the delta 0.003 and 0.001 rows were passed by a gate set at ten times the round-off floor while 0.7 to 1.5 percent of energy remained (the block problem is scale invariant to `O(delta)`, so they must sit where the delta 0.01 rows sit, and the audit's rescaled twins and its own descents land there), and the FALLING rows are converged to 1e-5, their deficit the BPS seed's lattice factor (0.9858, 0.9936, 0.9964, 0.9984 at the four spacings). The rule inverted the evidence; the number is the audit's: `1.000 +- 0.001` at every delta. Two instrument corrections for the next ladder: the gate read against the pair-slot gradient in scaled units, and a deviation-native optimizer state at delta 0.003 and below.
+
+**What sits below the bound.** The scaled variables need a diagonal preconditioner for L-BFGS (the diagonal slots' stiffness is delta-independent while the strand's is `O(1)`; the condition number 1e11 at delta 0.001). That optimizer, seeded on R25-1's stored block strands with no kick beyond their own director-row residue (1e-4 to 1e-3 of delta), leaves the block sector: the director row reaches 0.5 delta and the energy falls to 0.34 (delta 0.3) and 0.52 (delta 0.03) of `T_bps` in 1500 iterations, 0.13 to 0.16 at 8000, still falling; constrained to the block sector it still falls to 0.57. Interpolated to a grid twice as fine these fields rise to 2 to 23 `T_bps` (the block strands keep their value), which I first read as a lattice artifact; the audit re-relaxed the refined field at h / 2 and it came back to 0.26 `T_bps` in 400 iterations. The texture: pi-jump walls of the pair anisotropy (7 to 107 bonds with angle jumps over 150 degrees) with the core UNMELTED (`b / b0` 0.77 to 0.98 on the axis). Across a wall `M` jumps, but `[A_x, A_y]_eta` vanishes where the field is constant along the wall and `V4` is blind to a rotation; the pure winding with an unmelted point core has `u = 32 (b b' / rho)^2 = 0` in the continuum as well. The Bogomolny bound needs a continuous core, which nothing in the functional enforces. Hessian probes on the audit's own gradient: `lambda_min` -1.0e-5 in the director-row subspace and -2.6e-3 inside the block sector (a cell-scale mode) at delta 0.03, h 1; the director-row mode carried to h 0.5 keeps a negative Rayleigh quotient (the delta 0.3 probes did not converge). The pure winding with no melted core and NO walls is not the state (it costs 11.6 to 115 `T_bps` at h 1.5 to 0.5, as `1 / h^2`).
+
+So: 0.258 is the stack's number for the smooth-core strand; under the certified action that class is a saddle, and wall textures sit below it at every spacing tried. Whether a smoothness term (a Dirichlet piece, or the Skyrme-like terms of Q13) is the intended repair is yours to say.
+
+## 2. R26-4: the index-partition census
+
+Seeds: the radial hedgehog with the transverse pair `(delta, 0)` in the frame `(phi, theta)` rotated by the pair phase `psi = sum_k m_k arg(w - w_k)` in the chart `w = (x + i y) / (r + z)`, which moves the frame's index (1 at each pole) onto the chosen carriers; the pair melted along each carrier's ray with the BPS core of its index; delta 0.3, n 32, L 48. Each seed was read at its intended partition on r 9 and r 18 (total 4) before relaxation, by my sphere reader and by the audit's (discrete parallel transport). The pinned shell holds each seed's partition on the boundary, so the census compares boundary-conditioned objects.
+
+| Seed | Gate | Kick | E | Partition on r 9 at the end | beta^2 (block mean inside r 6) | `E_u / 3 V4` (pinned) | `C_rigid` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| {2,1,1} | cap (fmax 5e-3) | not kicked | 8.119 | {1,1,1,1,1,-1} (the audit's clean read) | 0.04 | 1.32 | 15675 |
+| {3,1} | at the gate | STABLE | 8.226 | {2,1,1} | 0.07 | 1.24 | 13284 |
+| {1,1,1,1} | at the gate | STABLE | 8.380 | {1,1,1,1}, moved off the equator (rho 4.6 to 8.2, abs z 3.7 to 7.8) | 0.60 | 1.14 | 7601 |
+| {2,2} | at the gate | STABLE | 8.388 | {1,1,1,1} (the R25-2 split) | 0.16 | 1.34 | 10937 |
+| {4} | cap (fmax 3e-3) | not kicked | 8.559 | six +1, two -1 | 0.30 | 1.40 | 15244 |
+
+`CENSUS_INSUFFICIENT` by the pre-registered rule (3 of 5 at the gate). The three certified branches are pairwise distinct by energy beyond their errors, but {2,2} and {1,1,1,1} differ by 0.008 with the same interior partition, a difference at the level of their boundary fields: read as interior classes, two. The energy order {2,1,1} < {3,1} < {1,1,1,1} < {2,2} < {4} spans 0.44 (5 percent), and the {2,2} seed against R25-2's S1 row in the same box (8.388 against 8.823) shows the boundary field alone moves the energy by the same 5 percent. The straight-line barriers between certified branches (120 to 141) are uninformative: 99 percent of the midpoint's energy is interior potential from leaving the vacuum manifold. The transverse index is undefined on 11 to 28 percent of the inner spheres (the director tangent to the sphere); the clean carriers still sum to 4 on every r 9 sphere. A free-shell twin is the instrument for a branch count; this box gives the reorganization and the order.
+
+**The moment channel.** The rule fires on the {3,1} branch (l = 1 over l = 0 ratio 0.92 on r 6 to 18, slope not below -2.5), and the profile says it is not a tail: the l = 1 coefficient is 0.001 to 0.04 and rises outward (slope +3.2) while the l = 0 coefficient crosses zero at r 7.5 (which inflates the ratio); the seed's own l = 1 falls outward and is 3.5 times smaller at the wall, so the rise is built by the relaxation against the wall; the l = 1 content is as much `m = +-1` as `m = 0`. {1,1,1,1} reads 0.013 with slope -2.0, {2,2} 1e-5 (the relaxed charge is not z-reflection symmetric: its odd part is 0.30 of the field, so the {2,2} null is a genuine control, a correction of my own plan). Two pre-registration flaws: a ratio to a coefficient that changes sign is not a metric, and a criterion without "falling" cannot separate a tail from a boundary. On a pinned box the moment read is UNREAD in substance.
+
+## 3. R26-3: the spin gate with the physical generator
+
+On the five stored R25-2 charges (delta 0.3):
+
+| Box | `C_int` | `C_orb` | `C_rigid` | `C_rigid` inside r 12 | Gate |
+| --- | --- | --- | --- | --- | --- |
+| h 1.5, L 48 | 14071 | 1403 | 14031 | 0.45 | at the gate |
+| h 1.5, L 72 | 26744 | 2446 | 26630 | 0.29 | cap |
+| h 1.5, L 96 | 28960 | 3201 | 28573 | 0.28 | cap |
+| h 1, L 48 | 22607 | 2252 | 23288 | 0.51 | cap |
+| h 1, L 64 | 28310 | 2585 | 29021 | 0.44 | cap |
+
+The transport term is a tenth of the internal one and does not cancel it: the relaxed charge is not axisymmetric (the rms difference from its 90-degree copy is 0.38 of the spatial block's spread; the seeds cancel to 0.02 to 0.2 percent). The ratios do not move under a fourth-order orbital stencil (2.037, 1.237; the orbital term itself carries a 15 percent stencil uncertainty on these cell-rough fields) and thirty further L-BFGS-B iterations on the capped rows move `C_rigid` by 2e-4 relative, so the box dependence is not a convergence effect at the observed slope. The halo carries 0.5 to 0.7 of the inertia at every box, so the box law is the halo's, as R25-2's audit said of the internal generator. `omega_*` on `C_rigid` reads 0.0145 to 0.0102 across the boxes. The delta arm (the S1 charge at delta 0.1 and 0.03, both at the cap, the 0.03 row converged in energy): `C_rigid` 20940 and 12903 against 14031 at delta 0.3, no monotone law. The `g` gate is not evaluated (`omega_e` and `lambda_C` are not continuum quantities of this stack); its ingredients are recorded: `<r^2>` on the energy density 299, 512, 667 at h 1.5 (L 48, 72, 96), on the director's topological charge density 206, 347, 395; the charge inside the free region 1.000.
+
+## 4. R26-1: the generator catalog, and the correction owed to R25
+
+The corrected catalog `w (G M + M G^T)` (in the R26-1 script; the platform file untouched) is symmetric on every stored field and the M5.21.3 one antisymmetric (to 1e-9 of the field's max entry, the only above-round-off value a float32 storage). On the S1 charge the normalized inertias read clock_local 1.56 to 1.24, plane_1d 1.55 to 1.15, rot_z 1.72 to 1.84, rot_x 1.35 to 1.27, boost_z -0.34 to -0.37, boost_x -0.57 to -0.55; the raw `[J_z, M]` inertia is 14071 against the anticommutator's 37180. The reader census (82 scripts): AFFECTED `m5_22_4_b_omega.py` (the omega ladder and the twist reads) and `m5_32_lagrangian.py` (a same-field consistency table, its conclusion unchanged); MIXED nine scripts that read both; the R10, R12 to R15 instruments built their own commutator or differenced a dressed family. The provenance: the M5.21.3 audit documented the antisymmetric form and stored the corrected reads (`kinconj_*`); M5.21.9 restated it; R1 and R14-0 flagged it. R25's "found" and "every read since M5.21.3 is suspect" are withdrawn; the M5.21.x reads whose arrays were not kept are priced, not rerun (the corrected inertia on every kept end field is the substitute).
+
+## 5. R26-0, the readers, and the answers to 017 and 018
+
+The readers (the partition on spheres, the gap tail, the physical generator, the biaxiality invariant, the hedgehog degree, the virial scaling) were validated against null and synthetic controls and audited before any field was read; five audit corrections applied (the sphere reader's abort policy, interpolated degrees, an unfalsifiable `fails_if`, a face-stencil artifact, and the z-symmetry claim of my plan). `beta^2 = 1 - 6 (tr L^3)^2 / (tr L^2)^3` reads 0.604 on the vacuum at delta 0.3 and 0.382 (Koide) at delta 0.2307; per branch above.
+
+To 017 item 6 (the frozen hedgehog's inertia 153 internal, 152 spatial, 1.4 rigid): on the axisymmetric seeds we see the same cancellation (0.02 to 0.2 percent); on the relaxed charge we do not, and the difference is the charge's own asymmetry, not the norm. To 018: items 1 to 4 in the TL;DR.
+
+## 6. Not computed, and open
+
+| Item | Status |
+| --- | --- |
+| a continuation of the four capped R25-2 rows, h 1 twins of two branches, a free-shell twin of the winner | the overnight arm, not run |
+| a ladder with a deviation-native optimizer and the gate on the pair-slot gradient at delta 0.003 and below | the audit's instrument, not run; the number above rests on scale invariance and the converged rows |
+| a Lanczos probe of the delta 0.3 strand | did not converge |
+| a smoothness-term arm of the strand | your call first |
+| `g` | not evaluable here |
+
+## 7. Audits
+
+| Sub-rung | Auditor's own instruments | CONFIRMED | QUALIFIED | REFUTED |
+| --- | --- | --- | --- | --- |
+| R26-0 | own sympy, stencils, shell fits, rotation by interpolation, loop and sphere readers, solid-angle degree, mpmath | 5 | 5 | 0 |
+| R26-1 | own contraction, stencils, generator set, census | 2 | 2 | 0 |
+| R26-2 | own stencil replica, exact-integer brackets, own gradient and bound, deviation-native descents, Lanczos, re-relaxation of the refined field | 5 | 3 | 2 (the small-delta gate; the residue's size) |
+| R26-3 | own orbital stencils, spline rotation test, icosphere degree, continuation probes | 3 | 3 | 0 |
+| R26-4 | own stencils with a checked adjoint, own gradient, parallel-transport sphere reader, shell quadrature | 2 | 5 | 0 |
+
+Every qualification and both refutations are folded into the record and into this post; the labels above are the pre-registered rules' outputs, the numbers beside them are the audited ones where the two differ.

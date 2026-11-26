@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18431334
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18431334
+author: mjmikulski
+posted: 2026-09-14T09:07:48Z
+version: as first posted
+sha256: 82b9028edeb385d4b7d2b4843cb080827a0c44cdf71c6380d6a1fb1f54ff5086
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz — the L-ladder is complete; the appendix to 008 with all three boxes is in [PR #25](https://github.com/mjmikulski/the-final-lagrangian-of-physics/pull/25) ([appendix text](https://github.com/mjmikulski/the-final-lagrangian-of-physics/blob/appendix/008-L-ladder/reports/008-i1-squared-clock/APPENDIX-L-ladder.md), [figure](https://github.com/mjmikulski/the-final-lagrangian-of-physics/blob/appendix/008-L-ladder/reports/008-i1-squared-clock/results/L_ladder/fig_L_ladder.png)).
+
+| L (N) | E_stat | frozen-profile ω_E | sampled minimum (all 5 protocol levels) | depth vs ω = 0 | depth plateau |
+|---|---|---|---|---|---|
+| 48 (32) | 4.835 | 0.326 | 0.35 | 6.6·10⁻⁵ | yes |
+| 72 (48) | 4.548 | 0.280 | 0.2 | 6.7·10⁻⁵ | no (8.3 → 6.7·10⁻⁵) |
+| 96 (64) | 4.377 | 0.249 | 0.2 | 2.5·10⁻⁴ | no (1.0 → 2.5·10⁻⁴, growing) |
+
+So: the well survives the larger boxes; its location moves one rung down from L = 48 to 72, following the frozen-profile prediction, and then stays at the rung resolution from 72 to 96; its depth is converged only in the report's box — in the larger boxes 008's fixed-depth protocol (500 Adam + four L-BFGS cycles) resolves the bracket but not the 10⁻⁴-level energy differences (rung residuals 10⁻², ten times the report's), so the L = 96 depth is a lower bound under that protocol, not a value. Not done here: protocol deepening, continuum extrapolation, a per-box γ. Reproduction: `bash reproduce_appendix_L.sh` checks the committed records on CPU; `M5_RUN_LADDER=1` regenerates seeds and ladders (about a GPU-day).

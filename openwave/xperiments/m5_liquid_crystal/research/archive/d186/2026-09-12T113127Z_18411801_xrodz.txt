@@ -1,0 +1,81 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18411801
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18411801
+author: xrodz
+posted: 2026-09-12T11:31:27Z
+version: as first posted
+sha256: fad5a20a6d7b0af70ba6d2595dc352ebb1dafbb740005b18faeccdf43b2277b6
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R19 result: the boost-sector anticommutator is a new covariant object, it leaves the clock as the record has it, and its dressed like pair repels
+
+## TL;DR
+
+1. The reading of rev 294 § 255.4 is realized exactly on the 4x4 field. With `M = O D O^T` and `Omega = O^-1 dO` in so(1, 3), `dM = O (Omega D + D Omega^T + dD) O^T`, and the boost content of the connection is the jet's time row in the field's own frame with the factors `lambda_i + lambda_0` (9, 8.3, 8 at the vacuum, never zero at a melted core), so `S^gg` is the anticommutator on the boost-boost input part of `A_mu eta A_nu`, and the entrant is `F^(Gamma) = F + 2 (P^tt)^T` with `P^tt = A^t eta A^t`. Built two ways it agrees to 1e-14; it is Lorentz covariant to 1e-13 and independent of the lift. Audited by a fresh agent with its own lift and its own eigen-solve (4 CONFIRMED / 2 QUALIFIED / 0 REFUTED on 34 lines).
+2. It is new and it kills the EM-GEM cross term. The ranks on random jets are 8 for the F-built basis, 9 with the pure anticommutator, 10 with the internal split, 11 with (Γ), 12 with its traceless literal (so "already in the R1 basis" holds only for the spatial sector; the F-built basis does not contain the product norm). Eq. (9)'s `R^ee . R^gg` cross term (opposite in sign between SO(4) and SO(1, 3), as your § 254 says) is EXACTLY zero under the replacement at the connection level and at the field level with the shape factors: `<F - X_a, X_s>_eta = 0` by the parity of the derivative pair, so `I(F^(Gamma)) = I(F - X_a) + I(X_s)`.
+3. It cannot cure the clock, at the form level. On the general 30-parameter static jets, every entrant's kinetic form keeps the certified action's minimal eigenvalue on every Lorentz channel (`-16 (lambda_k + g)^2` on a boost clock, `-8 (lambda_i - lambda_j)^2` on a rotation clock), because the negative direction is the diagonal jet `d_k M_00 = d_k M_kk`, with no time row, and it lies in the kernel of `Q_Gamma - Q_I1`: no mixing coefficient in [-200, 200] makes `-4 [(1 - c) I1 + c X]` positive on the six channels for any of the five entrants (R1's certificate with five new columns). On a rotation clock at the vacuum (Γ), its traceless literal and the internal split are IDENTICAL to `I1` (`Q` and the `omega^4` coefficient), so on a Coulomb-sector core the rotation clock is the record's by identity (`C(L) ~ L`, R4 / R7 / R10 / R12); on a boost clock every entrant has `D = (1/2) <X_00, X_00> > 0` (`D_Gamma = 4 (1 + g)^4`), and with the certified `-4` sign the rigid-clock Hamiltonian `H = 4A + V4 - 4C omega^2 - 12 c D omega^4` is unbounded below in `omega`. "Finite nonzero frequency" has no content on this field under the replacement.
+4. The static Newton read, on the R3 boost-dressed like pair (the M5.21.14 dressing twice, relaxed, the same protocol and budget as R3, this code reproducing R3's certified rows to every printed digit): at the instrument's vacuum g 32 the dressed pair under (Γ) is REPULSIVE and monotone, `E_int` +35555 / +29144 / +14841 / +4114 at d 10 / 14 / 18 / 24 against the certified +3869 / +2989 / +2987 / +2784; the interaction is the anticommutator overlap of the two non-decaying dressings (`I(X_s)(pair) - 2 I(X_s)(single)` reproduces `E_int` within 3 percent), ten times the certified repulsion at d 10, and it fits `1 / d` (R^2 0.91, the coefficient positive) and `ln d / d` (0.986), not `1 / d^5`; the traceless literal repels on two points (+12240, +3042). Outcome under the pre-registered rules: `CANDIDATE_REFUTED (repulsive)`, with two qualifications the audit insisted on: the pre-registered point was g 8 (where the instrument itself is unbounded, item 5), and the (Γ) descents are still falling at the R3 budget (last-quarter drifts of order 2e3 to 4e3 against margins of 4e3 to 3e4), so the rows were extended by 3000 accepted steps: after 3000 and then 9000 more accepted steps the values are +32703 / +24317 / +12374 / +3331 and +29364 / +18622 / +9862 / +3276, still positive and monotone, the d 24 value settled, the drift of `E_int` per 1500 steps down to 1e2 against values of 3e3 to 3e4 (the single and the pairs descend together); at the last budget the tail fits `1 / d` with R^2 0.993 and a positive coefficient, a Coulomb-like repulsion, not `1 / d^5`. On the pre-registered n48 L72 box the sign is the same: `E_int` +31381 / +9282 at d 14 / 24 (the certified +3021 / +2828), the single 56905 against 56902 on the small box.
+5. At g 8 the instrument itself is unbounded: the certified action's own dressed rows run away first (in 200 to 500 s, the time-row piece `I(F_t)` diving from -172 to -12588 while the rest of `I1` stays of order 100), and so does every entrant; the (Γ) single is the one bounded object there (its anticommutator piece relaxes from 367 to 61). The kills are the record's negative boost weight (the `R^eg` time row, which the replacement leaves untouched: `F^(Gamma)` has the time row of `F`), not a new instability of the object. The runaway attribution is measured on every saved end field, not inferred.
+6. Overnight, the R18 carry-over you asked about (does the string law bend below d 12): the pinned like pairs at d 6 and 9 on the R18-3 instrument give `E_int` -12.59 and -10.53, on the R18 line (the six-point law `E_int = -18.66 + 0.935 d`, rms 0.59): no bend, and the split-core object at d 6 costs more than the radial single.
+7. Not done here, for after: `(inc M)^2` (quadratic in `M`, four derivatives, the first class with a vacuum dispersion to read), the boost-sector source-contracted propagator (on our stack the Hessian about the relaxed hedgehog on the boost channel), the bounce; the remaining R18 carry-overs (the converged 3D cores from the tube profiles, the finer-h pair box, a condensate on a domain that holds it) and your § 257.6 asks stay queued. The full record: the task record R19 section, the method note § 17, the ledger § 6.8 outcome (links below, at the commit).
+
+## The objects (equations first)
+
+```text
+M = O D O^T, O Lorentz (O eta O^T = eta), D = diag(lambda_0..3), vacuum diag(g, 1, delta, 0)
+Omega_mu = O^-1 d_mu O in so(1,3): Omega eta antisymmetric (symmetric time row a = the boost 3-vector, antisymmetric spatial block)
+d_mu M = O (Omega_mu D + D Omega_mu^T + d_mu D) O^T
+   frame: A~[0,i] = a_i (lambda_i + lambda_0),  A~[i,j] = Omega_ij (lambda_j - lambda_i),  A~[i,i] = d lambda_i
+u = the timelike unit eigenvector of M eta (u^T eta u = -1), Pi_u = -u u^T eta, Pi_s = 1 - Pi_u
+A^t = Pi_u A Pi_s^T + Pi_s A Pi_u^T,   P^tt_mu nu = A^t_mu eta A^t_nu,   X_a = P^tt - P^tt^T,   X_s = P^tt + P^tt^T
+(Gamma):     F^(Gamma) = F - X_a + X_s = F + 2 (P^tt)^T
+(Gamma, tl): F - X_a + T_tl(Pi_s X_s Pi_s^T),  T_tl(Y) = Y - (1/3) tr(eta Y)(eta + u u^T)
+(B-u):       Pi_s F Pi_s^T + Pi_u G Pi_s^T + Pi_s G Pi_u^T + Pi_u G Pi_u^T,  G = P + P^T
+density I(X) = (1/2) sum_{mu nu} eta^mu eta^nu <X_mu nu, X_mu nu>_eta;   L(c) = -4 [(1 - c) I1 + c X] - V4
+rigid clock A_0 = omega a0: I = A + C omega^2 + D omega^4;  H = 4A + V4 - 4 C(c) omega^2 - 12 c D omega^4
+instrument: E_int(d) = E(pair) - 2 E(single), the R3 arm (ii) seeds, FIRE, pinned shell, 1500 accepted steps
+```
+
+## Equation-to-code map (pinned to `2721a93d7f055da67c740961cb1e72faba55c1c5`)
+
+| Equation | Code |
+| --- | --- |
+| the time-row map, (Γ) two ways, covariance, the span, eq. (9)'s cross term, the omega degree, the core ladder | [`m5_32_r19_c9_c12.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_c9_c12.py) (17 / 17), [JSON](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r19_c9_c12.json) |
+| the 30-jet kinetic forms, the `omega^4` coefficient, the `c` windows | [`m5_32_r19_certificate.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_certificate.py) (17 / 17), [JSON](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r19_certificate.json) |
+| the five entrants with exact gradients (the eigenframe chain), the gates | [`m5_32_r19_entrants.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_entrants.py) (13 / 13) |
+| the pair runs, the reads, the fits, the outcomes, the sector attribution | [`m5_32_r19_1_pair.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_1_pair.py), [JSON](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r19_1_pair.json) |
+| the independent audits (own lift, basis, Gram matrices, fields, stencils; own energies and fits) | [`m5_32_r19_0_audit.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_0_audit.py), [`m5_32_r19_1_audit.py`](https://github.com/openwave-labs/openwave/blob/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r19_1_audit.py) |
+
+## The certificate (g 8; the same structure at g 32)
+
+| Channel | min eig of `-4 Q_I1` | the same for (Γ), (Γ, tl), (B-u), (A), (T) | `D` for (Γ) / (B-u) / (Γ, tl) / (A), (T) | `c` window |
+| --- | --- | --- | --- | --- |
+| boost_1 / 2 / 3 | -1296 / -1102 / -1024 | identical | 26244 / 13122 / 8748 / 26244 (boost_1; `4 (1+g)^4`) | none for any object |
+| rot_1 / 2 / 3 | -0.72 / -8 / -3.92 | identical; (Γ), (Γ, tl), (B-u) have `Q = Q_I1` exactly | 0 for (Γ), (Γ, tl), (B-u); 0.03 / 4 / 0.96 for (A), (T) | none |
+
+## The pair (g 32, n 32, L 48; this code = R3's rows to every digit)
+
+| Object | `E(single)` | `E_int` d 10 / 14 / 18 / 24 | dressing part | force | best fit | outcome |
+| --- | --- | --- | --- | --- | --- | --- |
+| (Γ) | 56902 | +35555 / +29144 / +14841 / +4114 | +35479 / +29032 / +14700 / +3940 | repulsive, monotone | `ln d / d` 0.986, `1 / d` 0.910 (B > 0) | `CANDIDATE_REFUTED (repulsive)` |
+| (Γ, tl) | 21455 | d 14 +12240, d 24 +3042 | +12129 / +2868 | repulsive (two points) | | `CANDIDATE_REFUTED (repulsive)` |
+| certified `I1` | 411 | +3869 / +2989 / +2987 / +2784 | +3793 / +2878 / +2845 / +2611 | repulsive | `1 / d^5` 0.979 | the record (R3) |
+| undressed (the static part) | 18.97 | +76 / +112 / +141 / +174 | 0 | rising with d (the like-pair string, R18-3) | | not a Newton read |
+| (Γ), n 48 L 72 | 56905 | d 14 +31381, d 24 +9282 | +31255 / +9095 | repulsive (two points) | | the box check: the same sign |
+| certified `I1`, n 48 L 72 | 412 | d 14 +3021, d 24 +2828 | +2896 / +2641 | repulsive | | the record's box dependence |
+
+![E_int](https://raw.githubusercontent.com/openwave-labs/openwave/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r19_1_eint_n32.png)
+
+![the g 8 kills](https://raw.githubusercontent.com/openwave-labs/openwave/2721a93d7f055da67c740961cb1e72faba55c1c5/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r19_1_pieces_g8.png)
+
+## Audit record
+
+| Stage | Claims | Confirmed / Qualified / Refuted | What the auditor did on its own |
+| --- | --- | --- | --- |
+| R19-0 | 6 (34 lines) | 4 / 2 / 0 | a different lift (rotation times a Cayley boost), its own eigen-solve, non-symmetric and boosted-`u` jets, its own basis with SVD gaps over six sampling families, Gram matrices without polarization, a `c` search over [-200, 200], its own fields and stencils; QUALIFIED: on static jets the basis has the exact relation `I2 - 4 I5 + I6 = 0`, and the rigid core's `1 / h` is the asymptote of `a / h + b` |
+| R19-1 | 8 (23 lines) | 5 / 2 / 1 (as worded) | its own densities for every object on all 44 saved end fields (3e-13 against the rows), the seeds rebuilt, its own fits and outcome rules, the stops and amplitude ratios from the fields, the pin shell and the far spectrum; REFUTED the "within 2 percent" wording (it is 3); QUALIFIED the attribution wording and the convergence at the R3 budget; sharpened that the g 32 point is not the pre-registered one |
+
+## Not computed
+
+`(inc M)^2`; the source-contracted boost propagator; the bounce; a fully converged (Γ) pair (the extended descents still fall slowly, the sign and the far value settled); a dressing profile of its own for (Γ) (the record's `b*` is the certified action's g 32 minimizer, a unit-wavelength saw unresolved at h 1.5); anything at g 8 on this instrument (unbounded for the certified action itself); the remaining R18 carry-overs.

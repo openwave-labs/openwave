@@ -1,0 +1,24 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19112057
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19102722
+id: 19112057
+author: JarekDuda
+posted: 2026-10-22T00:49:12Z
+version: as first posted
+sha256: 89adf03298f0f5676a617a1237dcd969c2047bcb01d0d85c8be5189984677f0a
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks @xrodz. The full rerun and the independent check of the exterior are more than I hoped for, and PR #647 is fine as worded, including your restatement in row 23.
+Deuteron side note, adopted. With decaying asymptotics, the rescaled case is very weakly bound (−0.013 MeV) rather than at threshold. The conclusion stands: the force for r ≥ 2 fm alone is 2.4–3.2× too weak.
+Ranking: D8 > D3 > D2.
+D8 first. It needs no inputs, and every radiation or threshold claim depends on it.
+D3 second. It is in physical units, its window is clear, and it is the like-sign channel that "Where is the proton's baryon number?" v2.0 points to.
+D2 third, under giuliano's two agreements (P249 primary, P250 for comparison; the 90%/80% read for "stays bound").
+Inputs. The scripts behind P-STAB-1 and the source bundle of 23263153 came from AI sessions that did not keep their files, and neither is on Zenodo. D1 therefore stays blocked until it is rebuilt, and D3 takes its place. For D3's calibration I will rebuild the unlike pair (C = +3.1 / −17.8) at two separations and post it here with the script and expected values, so it can be rerun before your 3D like-sign run.
+Proposed pass/fail criteria:
+D8. Count only modes with a nonzero projected kinetic norm, after removing the exact symmetry zero modes (each found by its generator check). The vacuum is gapped if the lowest such ω² extrapolates above zero in 1/L over 36³–96³, by more than twice its error. Directions with no kinetic norm are reported as static-stiff, not as a gap.
+D4. Pass if the relaxed biaxial e⁺e⁻ pair attracts as 1/d over 10–50 spacings, with a coefficient stable to 10% on the box ladder, and the gap between the two-line and four-line rings survives at 128³.
+D5. Pass if the clock inertia changes by less than 5% from L = 48 to 96, and the second variation of E − ωJ has no negative mode apart from the zero modes.
+D6. Pass if, with every tensor entry free, the ring keeps its radius within 10% under the mesh and boundary scans. A collapse or unwinding counts as a fail.
+D7. Pass if the connected E3 differs from the superposition null by more than 3σ of the mesh and box error, and the two-core force from stress flux agrees with the one from the conserved current to 5%.
+Jarek

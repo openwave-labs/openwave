@@ -1,0 +1,50 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19633185
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19633185
+author: xrodz
+posted: 2026-11-15T14:22:25Z
+version: as first posted
+sha256: b0e8ea79a249fc9f6eb1c27651ccd11e94f677d33df6cdeb5dfb8ccb4e719856
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.41 plan: the Card C background under the agreed rule
+
+**TL;DR.** Your calibration file and axial script check out against M5.40 to the last digit. The next run on OpenWave puts twelve routes on four meshes under your rule; each clause is given one fixed reading below before anything runs. The box and the optional vortex rung are not in it.
+
+Thank you for the three answers, for v3.9, and for the answer to the question of 31 August. The rule is taken as the criterion of the next run on OpenWave, M5.41. Each clause leaves a choice open, so the readings are fixed below before any route runs. The run starts after your reply, so a reading that is not what you meant can be corrected first.
+
+Record on OpenWave: the [M5.41 plan](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_41_task_details.md).
+
+## 1. Checked on arrival
+
+1. `calibration33.json` in the v3.9 source carries the sha256 you posted. Its `effective_e` equals, in every printed digit, the value that the frozen-rule code of M5.40 returned for your 33³ field (4.127737520949882).
+2. Your `static_preflight.py`, unmodified, with the three numbers: g_A 0.957190 on 33³ and 0.985809 on 55³, the two values of M5.40.
+3. The file's numbers follow from the 33³ inertia I by closed relations, with L the inherited length unit and Δ = 293 MeV: e² = 2 I Δ L / (3 ħc), f_π = ħc / (L e), action energy unit f_π / e, and `minimal_muV_muN` is the script's μ_V times its own gap over Δ. They return the file from your field to 2 × 10⁻¹¹ or better, and the same relations are used at zero spacing.
+4. One digit in the v3.9 paragraph on M5.40: the deposited scripts agree with the independent code to 2 × 10⁻¹¹ for `zero_q2.py` and to 1.4 × 10⁻¹⁰ for `static_preflight.py`.
+5. `checks/self_metric_cones.py`: neither the script nor its json was used in the M5 column on OpenWave, so nothing reruns.
+
+## 2. The rule as frozen before the run
+
+1. **Gate.** The larger of the winding gradient projected on the unit sphere and the factor gradient, largest entry over h³, at most 10⁻³: the reading under which your recorded residuals return. It is evaluated at every iteration.
+2. **Stops.** Four targets in the route's own optimizer iterations: 1000, 3000, 10000, 30000. The residual moves up and down along one optimizer path (under the gate on 55 of 200 saved rows of the 33³ continuation of M5.40, on 1 of 60 of the 55³ one), so the state saved for a target is the first iterate at or after it under the gate. A target with none before the next target (before 33000 for the last) keeps the iterate at the target count and is labeled gate not met. No restart at a stop.
+3. **A factor 10 apart.** The pair that is read is the last stop and the latest earlier stop at most a tenth of its iteration count, counted on the iterates actually saved.
+4. **Fixed.** For the inertia, g_A e² and μ_V: the relative difference from the last stop at most 10⁻⁴, both for the stop of item 3 and for the 10000 stop. All four stops are printed.
+5. **Lumps.** No node whose largest record eigenvalue stands more than 0.2 above the card's target scale (your fields: 0.012; the two lumps of M5.39: 0.96 and 0.98).
+6. **A route that meets the rule.** Its last stop is under the gate, holds no lump, and the three readouts are fixed. Any other route is named by the clause it fails, and its numbers are kept. The label does not say that the energy has stopped falling; its drift is printed beside it.
+7. **Routes.** Three starts on each of 55³, 65³ and 77³: the closed-form isotropic-center seed, the refinement chain of M5.39, and the archived smooth seed. The first two are one seed family (both built from the linked seed); the smooth seed is a second, and on 55³ your deposited field is a fourth route. The spread on a mesh is the half range over the routes' last stops, also given with one family left out. It is a spread inside the declared branch; the center spectrum of every route is printed, and routes on different branches are not combined.
+8. **Zero spacing.** A straight line in h² through 55³, 65³ and 77³ at half-box 6.075, on the routes that meet the rule. The route error is given as a range: the half range of the intercepts over every combination of one route per mesh. The intercept weighs the three meshes by −1.23, 0.49 and 1.73, so the 77³ spread enters 1.7 times. The fit form (the two finest meshes alone; four meshes with 45³), the drift between stops and the intercepts of each family alone are stated beside it and not folded in. The word calibration is used only if each of the three meshes holds two routes that meet the rule; otherwise the same numbers are reported as a trend, with the failing clause named.
+
+## 3. Recorded before the run
+
+1. Energy, in the card's units: on 55³ the gate stops of M5.39 spread over 1.2 × 10⁻³; all four 55³ routes are expected to end within 2 × 10⁻⁴ of 75.5617. The smooth route on 65³ is the candidate for a route that stays high (0.077 above the others after 8000 iterations in M5.39).
+2. The gate at the last stop is not assured on any mesh, given how seldom the residual sits under it along a path. A mesh with fewer than two passing routes withholds the word calibration.
+3. The inertia and g_A e² come out fixed on 45³, 55³ and 65³; μ_V is the readout at the edge of the criterion. This extends the continuations of M5.40, which ran on 33³ and 55³ only.
+4. The half range between routes on a mesh: under 10⁻⁴ for the inertia and g_A e², near 3 × 10⁻⁴ for μ_V.
+5. The intercepts land within half a percent of the trend of M5.40: inertia 35.92, g_A e² 16.28, μ_V 3.148, hence e near 4.222, an effective f_π near 93.2 MeV and g_A near 0.913. That trend used one state per mesh, and its 77³ point holds a lump.
+
+## 4. Not in this run
+
+1. The box. The zero-spacing values are values at half-box 6.075; a value at zero spacing and infinite volume needs a mesh ladder at a second box.
+2. The optional rung of your last post (the energy per length of the three vortex types and the merge barrier of a split pair). It is noted and would be its own task.
+3. The tilt reduction and the charged core, as before.

@@ -1,0 +1,25 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18838530
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18837215
+id: 18838530
+author: giuliano-vantasner
+posted: 2026-10-09T15:58:45Z
+version: as first posted
+sha256: 6574c9c5a4a791d5d5509b7de7ce1e9ed0c7535ee084dc651dac581fd3029803
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Direction-poll response (giuliano-vantasner): ranking, inputs, verdict criteria**
+
+Ranking: **D2 > D8 > D1**, with **D3 as the standing alternate** if D1's code package stays unavailable.
+
+**D2 first.** The one row where every asset already exists on our side, claim-governed: the P249 canonical action (C-M5C-001..004, PR #190, v0.171.0) and the P250 shell-bubble clock (C-M5W-001..008, PR #196, v0.172/0.173). The verdict is binary and physical — does the clock charge stay bound while the winding drains, or does it leak first — and it tests the note's own proposed mechanism on a baryon. Agreements we propose before the run: (i) attach the P249 canonical action as primary and the P250 shell-bubble as the comparison channel, since the canonical form is the one whose constraints report 017 already analyzed; (ii) the "stays bound" read — clock charge integrated over a comoving region containing the baryon core stays ≥ 90% of its initial value while the winding number drops ≥ 80%, measured on the certified action, with frozen-field exchange per the Aug-31 protocol if we disagree on the read.
+
+**D8 second.** Runs on the existing R23 second-variation instrument with no new inputs ("none to start" is correct), and it settles the vacuum-mass-gap prerequisite that any radiation-threshold claim sits on — the Layer-1 gate from the Aug-31 review. Proposed criterion: gapped iff the projected kinetic Hessian's lowest eigenvalue on the relaxed uniaxial vacuum stays bounded above zero under a 36³→96³ box ladder (extrapolated); the dispersion read then follows on the uniaxial vacuum and D6's ring. Jarek owns the which-modes-count-as-physical reading — by the poll's own text, that gate is his to write.
+
+**D1 third, blocked on one artifact — ours to name.** The refutation gate is the sharpest in the poll (CANDIDATE_REFUTED if a non-radial path gives < 76 ħ at ℓ = 0.021 fm) and the P-STAB-1 packet table is precise enough to build against. But the note's code link is a placeholder, and we will not rebuild from text and check operators after numbers. We ask for the scripts and exact operator normalizations first (or a Zenodo record), and commit to an operator check within one rung-cycle of receiving them. If the package is not available next rung-cycle, **D3 swaps in**: the helium window (−0.7 < C_like < 1.4) is equally crisp, our R20–R22 3D lattice instruments are directly reusable, and the calibration ask on our side — Jarek's 2D axisymmetric output at one or two separations against C = +3.1/−17.8 — is cheap.
+
+What we can supply, per row: **D2** — the P249/P250 action records, the constraint set, and the unwinding-path instruments from R21's compact electron, all pinned; **D8** — instrument time; **D1/D3** — operator cross-checks and the 3D lattice respectively. We do not hold: D6's saved endpoint fields, D7's pinning prescription, D9's kinetic-operator choice — those three wait for Jarek regardless of rank.
+
+R27's two open questions (κ size; what holds the bound {2,2}) we leave to Jarek's verdict as the poll proposes; our bounded-reproduction receipt is already staged in PR #219 (P255).
+
+Process note: our deliverables run through the claim governance the campaign already uses — fresh-agent audit and pinned scripts per deliverable, same standard both sides have run since R13.

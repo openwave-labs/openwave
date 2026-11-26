@@ -1,0 +1,56 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19569098
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19569098
+author: xrodz
+posted: 2026-11-12T16:18:05Z
+version: as first posted
+sha256: f992acb6c5e17f570b53f28f5bc44a196c3e812f75fbbf8068ebe74404b97470
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.39 plan: what OpenWave can run from the capstone v3.2 archive, and what each remaining run needs
+
+**TL;DR.** We filed capstone v3.2 and sorted the requests of the three posts of 11 and 12 November against what its archive holds. Five rungs can run on OpenWave from the archive alone, in one run of a night to a day: an integrity pass with reruns of what ships, an independent evaluator of the Card C energy, the Card C ladder to 65³ and 77³ with a branch census, the static half of the record ablation, and desk checks. Seven runs wait on inputs the archive does not carry (item 4). Nothing runs before the reply to the choices of item 5. The plan on OpenWave: [M5.39](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_39_task_details.md).
+
+1. **What we read.** The three posts (v2.997, 3.0, 3.1) and the v3.2 record (Zenodo 24164976, checksums matched). The archive carries the Card C energy with its gradient and the relaxation driver (`bq_core.py`, `dn87_relax.py`, `fast_quartic.py`, byte-identical to three of the four code digests of the Card C payload manifest), the constants and run parameters, the inertia audit, the scorer, and the three packets as definitions. It does not carry the three relaxed fields, `kinetic_operator.py`, the compiled kernel, any solver of the response chain, the pre-registration file, or the twisting-nucleon solver. The pilot numbers of the post of 11 November (the residuals on 45³ and 55³, the outgoing matching at l = 1, 3, 5, the record block) are not in the text either.
+
+2. **What can run now** (Track A, § 4 of the plan), in one go:
+
+   - **R0, integrity and reruns.** Digests, the scorer's self-test, the five standalone scripts of `scripts/` and the three scripts of the STRING audit supplement, as shipped, against the printed values.
+   - **R1, an independent evaluator of the Card C energy.** Our own compiled implementation of the seven terms and the gradient, gated term by term at 1e-10 against the archived evaluation, plus a reading check of the printed energy against the code.
+   - **R2, the ladder and a branch census.** 33³ (half-box 3.6), 45³, 55³, 65³, 77³ (half-box 6.075) and one box rung (73³ at half-box 8.1). Several starts per grid (the two archived seeds and the refinement chain from the coarser grid of the same box); the branch named by the record's eigenvalues at the center; per grid the energy by term, the six-generator inertia, the rotor gap, μ_V, the radii, g_A and g_πNN by the printed relations (compared on 55³ with the printed 0.904 and 9.54 to 9.55). Control: the printed 33³ row (76.05003, center eigenvalues 0.333, 0.376, 0.394, 311.9 MeV, 3.004) from our own stationary 33³ state. Our numbers are committed before any of the three hashed fields is opened.
+   - **R3, the static half of the E1+/M1+ control.** The term a aᵀ / G_time removed from N in the action and its variation, re-relaxed on 33³, 45³, 55³; differences of energy, inertia and radii; the bilinear split of the tensor term to round-off and the review's continuum cross term at second order in the spacing. Its currents wait on item 4.
+   - **R4, desk checks.** The moment bound with its conditions and the first-order cranking statement (Sec. 31; this closes ask 4 of the M5.38 post); the Finkelstein-Rubinstein table for B = 2 to 8 and 12 as a conditional filter, with the winding field as the only sign source and each row against the published tables.
+
+3. **Cost, measured before promising it** (probes on a hashed copy, not results; § 3 of the plan). One evaluation of the archived code spends about nine tenths of its time in the quaternion quartic on the symmetric simplex rule. A compiled version of that term, written from the archived routine as its specification, returns the same value to 1e-16 relative and the same gradient to 5e-17 on a perturbed state at 33³ and 45³, about 40 times faster on twelve threads. Relaxation pilots with the archived driver, the payload's run parameters and the `linked` seed then showed what sets the clock:
+
+   - The force gate (largest gradient entry over h³ at most 1e-3) is met at 17³ in 1188 iterations. At 33³ it is not met in 6000: the residual wanders between 1.5e-3 and 2e-2 and the energy ends at 76.05095, 9e-4 above the printed 76.05003 and still falling slowly. Pilots at 25³ and 45³ were stopped before their caps and decide nothing.
+   - The slow direction is the record, mostly in the shell between one and three card lengths. The center eigenvalues read 0.341, 0.370, 0.391 at the 33³ stop, against the printed 0.333, 0.376, 0.394.
+   - The 17³ and 25³ pilots land on an isotropic center where the text prints a split one, so the branch depends on the start.
+   - With the driver's Sobolev option the optimizer stops by its own criterion with the archived residual at 2.4 times the gate.
+
+   So every job of R2 carries an iteration cap and one declared polish, a job that ends at the cap is labeled NOT STATIONARY with its residual, and the pool is bounded: three to nine hours at the pilots' iteration counts, about a day at the caps.
+
+4. **What each remaining run needs** (Track B, § 5 of the plan). The posts offer inputs on request; this is that request, per run:
+
+   | Run | What is missing before a plan can be frozen |
+   | --- | --- |
+   | The outgoing response and the photon-point shape test | `kinetic_operator.py`; the collective constraints and constraint-reaction vertices; the gauged current (the pre-registration with its amendments); photon kinematics, multipole and phase conventions; the pilot's outgoing matching (the l list, the radii, the treatment of the vacuum record block); the definition of the nodal residual and its stopping rule; the three hashed fields |
+   | The adiabatic photon card | the same current and kinetic metric; the O(Ω²) centrifugal source as the pilot projects it |
+   | The Δ width by real-time evolution | the kinetic metric; the fixed-J constraint of Card S and the preparation of the state at J = √15/2 ħ; the exterior; the observable and its comparison formula |
+   | The ΔB = 3 saddle | the two endpoints as fields of a declared action |
+   | The vector-meson card and the W packet | the meson parameters frozen; the full action with coefficients, units and boundary treatment; the B = 2 and 4 seeds; the native arrays |
+   | The connected quantum binding | the action of record and its B = 1, 2 fields; the counterterm scheme, declared first; the continuum treatment |
+   | The STRING scored ladder | the endpoint source operator with masks, arrays and radius; the separations and the mesh and box ladder; the stress convention |
+
+5. **Choices, for the author and the other fronts.**
+
+   1. **Who runs what.** The text assigns STRING, W and E1+/M1+ to an external team of this discussion with its own plan and forecast. Should OpenWave take the complement (the Card C ladder, the static ablation, the desk checks, later the twisting nucleon), or run one of the three as a second independent solution?
+   2. **What counts as independent for Card C:** (a) the archived code unchanged, (b) our compiled evaluator gated at 1e-10 against it, (c) both, with (a) as the spot check on the two coarsest grids. The plan assumes (c).
+   3. **Which ladder:** the mesh at half-box 6.075 (65³, 77³), the box at the spacing of 55³ (73³ at half-box 8.1, 91³ at 10.125), or both. The printed inertia moves 9 percent between the two half-boxes.
+   4. **The branch rule and the route:** how many starts make "the lowest stationary branch"; and could the run records of the three hashed fields be shared ahead of the fields (the option line and the iteration history of each)? The pilots of item 3 do not reach the gate at 33³ under the payload's run parameters, so the route that did is an input.
+   5. **The outgoing solve:** the pilot's own discretization and matching (isolates the solver) or an independent exterior (isolates the discretization); the vacuum record block constrained or deflated.
+   6. **The Δ width:** a real-time evolution in three dimensions, or the stationary problem in the co-rotating frame with an outgoing exterior, which shares its solver with the response; which first.
+   7. **Units and conventions** of the tail amplitude behind g_A and g_πNN, if the 55³ comparison does not fix them.
+
+6. **Sequence proposed.** The reply; Track A in one go; the comparison with the three hashed fields when the packet dataset lands; then, once their inputs arrive, the adiabatic card and the outgoing response at 45³ only, against the pilot's residual, before any ladder; then the twisting nucleon. The other asks of the M5.38 post stay open.

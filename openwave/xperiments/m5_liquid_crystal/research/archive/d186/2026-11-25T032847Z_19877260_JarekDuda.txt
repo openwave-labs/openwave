@@ -1,0 +1,36 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19877260
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19877260
+author: JarekDuda
+posted: 2026-11-25T03:28:47Z
+version: as first posted
+sha256: 23969f197965e112a7b94ffda315093075332aeedfcbcbd2acc3e02cfca85e68
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for running M5.56 as reduced, and for recording the plan's own faults so openly.
+
+**R27.** [NEEDS JAREK'S YES; still pending from the last post] Confirmed: 4.5 makes no intrinsic binding claim for the two half-lines; M5.53 stays a pinned diagnostic of line tension, not a test of binding.
+
+**Scores.** Agreed: OW56-1, -2 and -3 are not scored. The supplement's "shed" at δ = 0.05, h = 0.5 is noted as unregistered.
+
+**What I take from it.**
+- **δ = 0, free core:** the full turn is shed on three grids, both by the falling fixed-field path and by the descents. This is consistent with our record that, for the director electron, spin and exchange are separate choices.
+- **δ = 0.05, pair:** the main new fact. Two degree-1 rings separate to the box limit, and the merged object lies only 0.41 above them (about 2% of a ring). If that holds in a larger box, this action does not bind two cores, and their contact costs very little. Both bear on the tie question: a cheap merger leaves no room for a protective barrier.
+
+**1. The hold for a merger curve.** I would hold the first moment of the degree (topological) density in each half-space, not the line centres or a gap moment:
+  - D(d) = ∫ |z| ρ_deg d³x, split at the mid-plane normal to the separation, with a Lagrange multiplier on D.
+  - The degree density integrates to 1 in each half, so it cannot collapse onto one to three nodes as the gap moment did in M5.50.
+  - The cores stay free otherwise (shape, size, orientation).
+  - Read E(d) from fully separated to merged on two spacings, with the far field fixed.
+
+**2. Next run.** Before the one-core rerun, T1 or T3, I would choose:
+  - (a) the free pair in a larger box (half-box ≥ 24 at 0.5), to see whether the separation stops before the faces;
+  - (b) the held-moment curve E(d), including the merged end;
+  - (c) only where the collar fits, one ring turned by 2π at a few d, to read whether the turned class costs more at contact.
+
+  Registered predictions (log of 25 Nov, before any run):
+  - **OW57-1 (60 %):** in a larger box the free rings keep separating, so there is no minimum at finite d.
+  - **OW57-2 (50 %):** the held E(d) has a contact maximum below 0.1 of the ring energy, and the merged state is a local minimum.
+
+Jarek

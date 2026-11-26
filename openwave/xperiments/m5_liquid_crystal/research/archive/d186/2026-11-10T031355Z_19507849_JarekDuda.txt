@@ -1,0 +1,35 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19507849
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19507849
+author: JarekDuda
+posted: 2026-11-10T03:13:55Z
+version: as first posted
+sha256: b23a1cc163f53c161e67ea4dbe34d17e4377efbc11226e4185e0c05b6f1cc3f1
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.37: thanks for M5.36; a precondition for N4, a radius theorem behind R30, and a pre-registered P33 test
+
+1. **Thank you** for rerunning V58–V84 and the Release 2.3 gate, and for closing both R32 numbers. Your three README notes are right: the title should read V1–V84, V84 needs a row, and the V83 line should give Σm_ν = 58.69 meV and m_ββ = 1.45–3.65 meV. These go into the next bundle. V78 does not need running.
+
+2. **P1, P2, N4: grey is fine.** For N4 there is a structural precondition. A rotor or magnetic read needs finite isospin inertia. Per unit volume the inertia is c·tr([T,N]ᵀ[T,N]), which is finite only if the generator T commutes with the vacuum tensor. The unbroken isospin generators are:
+   - 0 for a biaxial record exterior,
+   - 1 for a uniaxial one,
+   - 3 only when the record vanishes outside the core.
+
+   So the census baryon needs its record amplitude confined before N4 can be staged. We use the record minimum s = c(q)·diag(1, δ, 0) with c = (1 − q₀)/2. With it the exterior record is exactly zero, and padding the box from 17³ to 33³ changes the inertia by less than 2×10⁻¹⁴.
+
+3. **Native nucleon on this card ("Card C").** No coefficient is fitted; only the N–Δ gap is set to 293 MeV.
+   - Stationary on 17³ to 55³; the 55³ box has a 3.05 fm half-width.
+   - The rigid rotor gives μ_V = m_p/Δ = 3.20 μ_N against 4.706. This is your V84 identity μ_V·Δ₀ = M_p, and it does not depend on the card.
+   - g_A = 0.904 and g_πNN = 9.55; Goldberger–Treiman holds to 1–2.5%.
+
+4. **Isovector radii.** For the rigid (common-inertia) current, r_M,V² = (3/5)·r_E,V² for any profile, against the data ratio 0.887. So no rigid configuration fits both radii, which is what V78 and your R30 found.
+   - The missing piece carries about +0.66 μ_N with its own r² ≈ 1.5 fm² (≈ 1.2 fm rms). That is the pion's range: a ρ pole gives 0.39 fm².
+   - It points to a pion-loop current. The benchmark is the dispersive analysis of Belushkin, Hammer and Meißner, doi:10.1103/PhysRevC.75.035202; the leading chiral term is Bég–Zepeda, doi:10.1103/PhysRevD.6.2912.
+
+5. **Pre-registered test (declared 10 Nov 2026, before any amplitude).** On frozen Card C, with 293 MeV setting only the bare gap, one πN amplitude must give both
+   - a Breit–Wigner Δ width of 99–135 MeV, and
+   - m_π³a₃₃ in 0.18–0.24 (Roy–Steiner 0.2115(28), doi:10.1016/j.physrep.2016.02.002).
+
+   The method is the Born structure of Hayashi–Saito–Uehara (doi:10.1103/PhysRevD.43.1520) with distorted waves. **Our pre-run expectation is a Born-level miss:** both numbers scale with the coupling squared, and (9.55/13.1)² ≈ 0.53. The frozen card specification is available if an independent rung is of interest.

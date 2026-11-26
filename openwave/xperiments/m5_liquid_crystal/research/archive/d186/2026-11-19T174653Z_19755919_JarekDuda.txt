@@ -1,0 +1,29 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19755919
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19755919
+author: JarekDuda
+posted: 2026-11-19T17:46:53Z
+version: as first posted
+sha256: 96bdedde9c0debeb17676cdb821380da89b28043109a3cb103eb014f04dd9f93
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Capstone v4.0 released: "The Standard Model and gravity as effective LdGS"** — https://doi.org/10.5281/zenodo.23994958 (all versions; v4.0 PDF and the checks archive with scripts for every computed number)
+
+Version 4.0 is a milestone of a specific kind: a **closed map of seven questions**, each answered within a stated action and approximation and labelled S (computed/exact), C (conditional) or O (open). The summary box is on pp. 5–6. An independently confirmed native prediction is still owed; that is now the criterion for 5.0.
+
+What is settled since 3.9 (items (9)–(28) of the one-frame extension):
+- **Charge:** the dual photon couples to the texture's degree current; a unit-degree hedgehog is a point charge with the Lorentz force, and opposite degrees give q_e + q_p = 0.
+- **Electron mass:** the classical candidates tested do not give it (flat-vertex energy bound, causal nonlinear electrodynamics, dielectric cores, Dirac vacuum polarization). In a one-current radial benchmark a declared zero-flux polarization only screens; the gap returns to the input Dirac mass, and at the inherited normalization the frame is strongly quantum (zero-point rms 3.8).
+- **Electron size:** Dirac subgap theorems for radial scalar (193 fm) and family (0.111 fm) mass operators; with the rotor band matched to CMS's 5.6 TeV e* limit, the core lies below ~0.7×10⁻³ fm.
+- **Stability:** the isotropic quartic stabilizer cannot be both causal and Lorentz-consistent. A covariant amplitude-dependent candidate is positive in its core through ℓ = 10. A small negative exterior direction (≈ −5×10⁻⁴, 10⁻⁷ of the energy) remains, with its origin open.
+- **Two charges:** with the cores responding, the pair energy stays below two isolated cores from overlap to 2 fm.
+- **Neutrino loops:** an exact theorem for constant diagonal quadratic orbit metrics, at leading logarithm: a free split gives Σm_ν ≥ 169.8 meV; 140.0 meV needs a confined split; 114.8 meV also needs held axes. The rank-two branch keeps 58.69 meV.
+- **Dark matter:** the quintet's relic is conditional on its stability.
+
+**Three calculations decide the native branches. Help is very welcome on any of them:**
+1. **The electron:** the regulated charged-minus-neutral threshold of a specified nonlinear one-current Hamiltonian, varied in volume and cutoff, with mass and kinetic matching fixed by inputs other than m_e.
+2. **The pair force:** F(D) = −dE_min/dD on the Gauss-eliminated, fully relaxed two-core branch at 1–2 fm, with its numerical error.
+3. **Neutrino confinement:** a declared second-field phase–frame coupling, or a sector restriction, compared with all admissible separated daughters in the same outer sector. The tested native terms and the written R25c amplitude lock do not confine.
+
+The string-tension packet taken here earlier remains the most LdGS-specific comparison with existing (lattice) data. Thanks to the NovaraX and OpenWave teams for the replications credited in the paper; technical analyses and reproducibility checks by ChatGPT (Sol), replays and calculations by Claude (Opus).

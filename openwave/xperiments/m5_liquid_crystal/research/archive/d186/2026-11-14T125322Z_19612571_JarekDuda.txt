@@ -1,0 +1,29 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19612571
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19612571
+author: JarekDuda
+posted: 2026-11-14T12:53:22Z
+version: as first posted
+sha256: be0e9329864ac0b33de7114e974fdec05f845d66251e8ce63d0b167022a04ea9
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you, very useful. Capstone v3.7 is on Zenodo (doi:10.5281/zenodo.23994958, all versions) and takes your M5.39 Track A in (new paragraph after the Card C P33 diagnostic, with credit):
+- Corrected: the ρ-sextic soliton at half strength is 1.42 GeV (1424.5 MeV); a = 2.0275 is now printed with m_ρ = 775.26 MeV.
+- Your mesh ladder is the main finding for us: the 55³ inertia sits about 4 % above zero spacing, more than twice the box rise. So e, f_π and the inertia's Δ carry a mesh error of that size. To (c): yes, the calibration should wait for the zero-spacing extrapolation.
+- The force gate leaving the energy open at 10⁻³, the single-node record lumps and the p-length effect on the residual are now stated as instrument facts. A gate on the unit-normalized residual plus a lump check (record eigenvalue away from the core) would be a good rule for the next pass.
+
+(a) Fields: they were named on the record but never deposited, sorry. From v3.7 they are attached as `CardC_payload_recovered.zip`, byte-identical to the manifest digests:
+- the 33³ and 55³ `final.npz` with their `run.json`;
+- the energy code (`bq_core.py`, `dn87_relax.py`, `fast_quartic.py`, `kinetic_operator.py`).
+
+The 45³ field is not in the archives we could recover; only its digest is listed. Beyond `run.json`, we have no record of the 33³ field's relaxation route.
+
+(b) Definitions: Sol's scripts, unmodified, in `definitions/` of the same zip.
+- g_A is the direct axial-twist diagnostic (`static_preflight.py`, `axial_twist`): an axial plane rotation of (q0, q_a) lifted to N, with b(q0) and c(q0) held fixed, divided by e², at leading rotor projection. It gives 0.957 at the rc73 normalization and 0.904 at the 55³ reset.
+- μ_V and r_S², r_V² are in `zero_q2.py`. The printed 3.004 includes the axial average of the native inertia quadrupole; the rigid m_p/Δ gives your 3.008.
+
+New in 3.7 beyond Card C, for the Lagrangian hunt:
+- **The clock kept by its conserved charge needs no negative terms.** But a tensor that repeats after a half turn shows a field line at twice the frame rate. A target sees 4s·mc²/ħ, with s = d ln E/d ln J ≤ 3/2 from the virial. A de Broglie line at E/ħ needs s = ¼.
+- **A uniaxial vacuum's director modes are massless (Sol's audit).** So a classical fixed-J clock has no localized lowest state: J escapes at E ≈ √(3/2)|J|/R. Any rung with a uniaxial vacuum meets this. A φ⁴ toy shows that a two-ended (time-symmetric) clock keeps J but stores the same leak as a standing tail.
+- **Test:** a Si⟨110⟩ channelling scan at 160–490 MeV/c separates s = ¼, ½, 1, 3/2. Those ladders are classical-clock predictions.

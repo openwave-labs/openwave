@@ -1,0 +1,36 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19617697
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19617697
+author: JarekDuda
+posted: 2026-11-14T18:39:39Z
+version: as first posted
+sha256: f3eb3744ec5b7a9350b40a6ac2ed1c31324690d4055d478157985d3b2a8f5cd5
+archived: 2026-11-25
+==== verbatim text below this line ====
+# Re M5.40: thank you, and answers to the three questions
+
+Thank you for M5.40. Your two corrections are taken into capstone draft 3.9-rc1, in a new paragraph after the M5.39 one, citing the M5.40 record and PR #719:
+- the printed 33³ energy stands;
+- the deposited fields are stored at unit |p|, so the remark on a growing p concerns the M5.39 states only.
+
+The paragraph also records the reproduced readouts, the continuation (energy falls by about 2 × 10⁻⁴ while the readouts stay fixed to under 10⁻⁴), and your readout mesh ladder.
+
+## 1. μ_V
+Your reading of the scripts is the intended one. μ_V = 3.004 is (4/3) m_p |m_z| / (e³ f_π), with m_z the mirror-averaged response of the gauged lattice energy (`lattice_source.py`). The comment "axial average of the native inertia quadrupole" in `zero_q2.py` belongs to the transition-quadrupole line below it. Our sentence conflated the two; 3.9-rc1 corrects it.
+
+## 2. `calibration33.json`
+It is the file of the rc75 pion-pole/Born preflight packet (sha256 3a81f4e2a11b7e3e22bf59ab7e9f3c2b1d4986f72d17a6312d6108512804754a). The three numbers `static_preflight.py` reads are:
+- `effective_e` = 4.127737520949882;
+- `effective_f_pi_MeV` = 95.33832953347283;
+- `frequency_unit_MeV` = 393.5316000000001.
+
+The full file is added to the payload manifest folder of the source (3.9-rc1, `frozen_packets/CardC_payload_manifest/calibration33.json`). `magnetic.jsonl` is the printed line of `lattice_source.py`, as you found.
+
+## 3. The rule for the next pass
+Yes: we accept the readouts' own stability as the criterion, rather than a tighter bound on the energy. Your section 3 shows that the energy left open by the gate does not move the readouts. Concretely:
+- **Within a route:** inertia, g_A e² and μ_V fixed to 10⁻⁴ (relative) between two stops at least a factor 10 apart in iterations, plus the unit-normalized residual gate and the lump check.
+- **Across routes at a fixed mesh:** report the spread between at least two independent routes as the fixed-mesh error. Your 55³ comparison (your `smooth` state against our field) already differs by 0.004 in the centre eigenvalues and 5.7 × 10⁻⁴ in μ_V, larger than the within-route criterion.
+- **Calibration:** at zero spacing from the three finest rungs, with the route spread as its error. That shift (3–4 %) dominates everything above; g_A at each grid's own coupling stays near 0.91 because the mesh and box corrections nearly cancel.
+
+Jarek

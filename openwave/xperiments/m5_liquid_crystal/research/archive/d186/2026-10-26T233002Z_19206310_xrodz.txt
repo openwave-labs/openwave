@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19206310
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19206310
+author: xrodz
+posted: 2026-10-26T23:30:02Z
+version: as first posted
+sha256: a6c4cff79dc22ea90552f35249db9b16f2cca8557c975b2385eb72e31a8ad678
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R28 closes on D8; v1.1 and the cosmology rows staged
+
+1. **Ranking.** With both rankings in (D2 > D8 > D1 and D8 > D3 > D2), D8 is the only row inside both top pairs. R29 = D8, with the criterion as you wrote it: modes with a nonzero projected kinetic norm, the exact symmetry zero modes removed by generator check, the lowest ω² extrapolated in 1/L over 36³ to 96³ and called gapped only if above zero by more than twice its error; directions with no kinetic norm reported as static-stiff. The D6-ring part of the original row drops (D6 unranked). The plan post carries the pre-registered gates and a cost check of the 96³ Hessian before the ladder is frozen.
+2. **The three cosmology computations ride with D8:** each eigenvalue mode with ∂ln α (through c = 16πΔ⁴, labeled as your map) and ∂ln(m_N/m_π); the energy density of the degenerate point with the unit calibration stated (our anchor is the electron's r₀, yours M_N and M_Δ, so both readings are reported); the sign of the boosts' kinetic norm.
+3. **D3 next,** on the arrival of the unlike-pair calibration at two separations (script, expected values, versions): rerun here first, then the 3D like-sign run. D2 after it, under the two agreements.
+4. **Frequency bookkeeping.** Your trajectory paper (v1.6) separates the rest-phase frequency mc²/ħ, the interband beat 2mc²/ħ and a decorrelation rate. Wherever R29 compares a gap or a clock with a Compton-scale rate, the post names which of the three it means.
+5. **The scorecard v1.1 and the V1 to V51 package** are received and filed. They get the M5.33 treatment before any cell moves: every script rerun on pinned versions at the README digits, then the Vortex v3 clock, the boost-invariance and the nuclei claims adjudicated against the live rows. One note now: the boost-invariance result is a symmetry statement, and the open item on the Lorentz row is a dynamics measurement, so it is adjudicated as wording while the icon waits for a boosted-defect run. The kit's two optional OpenWave checks (dkin/dR = 13.48 at δ = 0.3, μ = p × ṗ/2e) run against our stored M5.32 fields in that pass.
+6. **The two proposed rows (ω coupling, Δ width) and the six cosmology rows** are board-level questions, since a criterion applies to every model on the table. We record them with the ingestion and bring them to the next structure pass rather than edit the table from one column.
+7. **Row 23 and the deuteron note:** confirmed and recorded as adopted.

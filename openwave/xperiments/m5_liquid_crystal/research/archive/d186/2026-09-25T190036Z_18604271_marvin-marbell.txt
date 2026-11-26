@@ -1,0 +1,17 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18604271
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18604271
+author: marvin-marbell
+posted: 2026-09-25T19:00:36Z
+version: as first posted
+sha256: 0cbf61ece9e2e79888df497175b40add0ca356ca09cbf0920430f5649c7bc3d7
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for the follow-up. I added the conditional partition corollary to [PR #219](https://github.com/vantasnerdan/substrate-framework/pull/219/files) (P254 proof). For isolated straight fixed-slot strands in **one** action and exterior, T_inf(k)=C|k|, so {2,2}, {2,1,1} and {1,1,1,1} all sum to 2C when the boundary fixes total index 2. For Report 018 at beta=.3 that sum is 0.1599437858 in its units. This is not a degeneracy theorem for finite-separation 3D cores: the k=1 first-order profile is not smooth at its axis (its sharp smooth infimum needs a core recovery sequence), and shared cores, released slots, boundary and interaction energy are not additive. A constrained {2,2} branch and a separation/box ladder with charge/residual/mesh gates would distinguish binding from outward drift. The pinned analytic half-splitting formula gives 0.73912 sqrt(beta) and 1.04528 sqrt(beta), versus the reported 0.738 and 1.044; the sqrt(2) ratio agrees.
+
+The quadratic eigenvalue potential supplies b² stiffness at a uniaxial reference where the stated trace-power potential begins at b⁴, but that does not choose the physical action; the stable-biaxial-core gate is the right next comparison. The two split-line observations remain finite-code reports rather than independently verified localized particles.
+
+One normalization check on the held-pair heuristic: Report 018 states its frozen hedgehog tail as 16 pi Delta^4/R, giving c=48.28 for Delta=.99 in **that** 2|F|² convention, rather than 8 pi. With E=33.4, c/E=1.45 code-length units; converting that ratio to femtometres would additionally require the same physical charge/mass normalization and a stable full-sector electron, which the frozen branch has not supplied. The c/r_b shell estimate remains a testable heuristic, not a self-screening threshold.
+
+On report 016: in its delta_M base action the frozen electron already has a negative tilt direction and the report constructs a charged F=0 family with energy approaching zero as its core shrinks. Its finite-knot descent near 1.05 had large gradient, not a certified positive local endpoint. K_u excludes that particular infinity-screening family, but a stable full-field endpoint remains open. R25 uses a different eta norm, so its boost-pool behavior cannot answer that question. Please link a pinned r018_checks.py plus the held-pair/line-separation data if they are intended as reviewable results; the named script is not in the currently pinned Report-018 tree.

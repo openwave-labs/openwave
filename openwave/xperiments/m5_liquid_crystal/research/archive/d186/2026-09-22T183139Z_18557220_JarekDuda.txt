@@ -1,0 +1,153 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18557220
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18557220
+author: JarekDuda
+posted: 2026-09-22T18:31:39Z
+version: as first posted
+sha256: 7b60ff728cd826a8d13944a83672ff5d3376952defc038fa6a9b430997a9a4fe
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html>
+<body>
+<!--StartFragment--><html><head></head><body><p>@xrodz @vantasnerdan @mjmikulski</p>
+<p>Thank you for R13-W and P249/P250: the wall and exterior-degenerate results were very helpful. Meanwhile I finished a paper
+that bears on several open cells of the ledger:</p>
+<p><strong>"From M5/LdGS to Dirac: a positive Z4 lift of the Dirac propagator, and the road toward the QED, QCD and Standard Model
+Lagrangians"</strong>, v2.8: https://zenodo.org/records/22903411 (LaTeX source, all scripts, and <code>check_all.py</code> with 57 checks).</p>
+<ul>
+<li><strong>Part I</strong> is rigorous: path ensembles and the Dirac sector.</li>
+<li><strong>Part II</strong> is a conditional field-level reading.</li>
+<li><strong>Part III</strong> is my physical picture, a comparison with experiment, and lepton constraints.</li>
+</ul>
+<p>Every claim is labelled [D] derived, [N] numerical, [K] known, [S] speculative or [O] open. Below is what seems most useful
+for the hunt, then four proposed rungs in Dan's obligation-node shape. I don't have compute myself, so I would be grateful
+if either stack takes any of them.</p>
+<h2>1. The clock: where spin must come from, and what box-extensive inertia means</h2>
+<ul>
+<li>
+<p><strong>Spin cannot come from the vortex a charge is forced to carry [D].</strong> In a biaxial exterior the transverse frame around
+a charge Q is a section of n*TS², whose Euler number is deg(n)·χ(S²) = 2Q. So a charge carries forced vortex structure
+of total index 2Q, and a neutral particle carries none. Charge and statistics are uncorrelated in nature:</p>
+<ul>
+<li>π⁺ has Q = 1 and spin 0;</li>
+<li>the deuteron has Q = 1 and spin 1;</li>
+<li>³He has Q = 2 and spin ½;</li>
+<li>the neutron has Q = 0 and spin ½.</li>
+</ul>
+<p>So spin has to come from what every particle carries: <strong>the clock</strong>. Its natural carrier is the clock rotation's Noether
+charge, which is exactly the object P249 constructs. A unit-free gate follows: with the de Broglie reading ħ = E/ω, spin ½
+means <strong>2Jω/E = 1</strong> [D]. In the convention E_J = E_stat + J²/(4C), that is E_rot = E/4.</p>
+</li>
+<li>
+<p><strong>Box-extensive clock inertia may be physical, not a bug [S].</strong> In my reading the clock frequency is global, fixed by
+least action over the whole history rather than by minimisation around one particle. A clock turning a charge's far-field
+texture has inertia density ∝ ω²Δ²Λ²/r², which grows with the box for an isolated charge — your R4–R12 infrared wall.</p>
+<ul>
+<li>That inertia belongs to the medium. In a neutral medium the textures of opposite charges cancel beyond the screening
+distance, which cuts it off.</li>
+<li>The natural local ensemble is then <strong>fixed ω with the ambient clock imposed</strong>, as in P250's fixed-ω bags, rather than
+fixed J in a box.</li>
+</ul>
+</li>
+<li>
+<p><strong>The covariant quartic action is degenerate [D, N].</strong> Its inertia vanishes on spatially uniform configurations, so the
+Legendre map is singular. This matches your R4 (F = 0 for single plane waves) and W0 (phase flatness).</p>
+<ul>
+<li>Around a vacuum twisting along z, the pencil is not degenerate. For any perturbation Φ the quadratic Lagrangian is
+exactly <strong>L₂ = ½(ω² − k_x² − k_y²)|[Φ, C]|²</strong>, with C = τ[G₁, D] (checked to 5×10⁻⁷). Every mode not commuting with C
+has ω = k_⊥, independent of τ, Δ and k_z.</li>
+<li>A quadratic-inertia integrator gives ω = √8Δτk instead: a different action. Dynamics of the covariant action needs a
+regulating inertia ε·tr(∂ₜM)² with ε → 0, or a constraint analysis.</li>
+</ul>
+</li>
+</ul>
+<h2>2. The vacuum must be weakly biaxial, 0 &lt; δ ≲ 10⁻³</h2>
+<ul>
+<li><strong>The biaxiality must be nonzero.</strong> A twist about the director is invisible when the transverse eigenvalues are equal,
+so an exactly degenerate exterior carries no clock phase. P249/P250's δ = 0 is the limit in which the phase disappears.</li>
+<li><strong>It must also be small.</strong> In a biaxial exterior every charge drags a strand; this is your R9/R10 (lines protected, the
+hedgehog's degree only through a discontinuity) and R12 (linear like-charge confinement).
+<ul>
+<li>The strand tension scales as δ⁴, and a charge can be pulled out only to L* = m/σ.</li>
+<li>Free electrons over a metre then require δ ≲ 3×10⁻⁴ to 5×10⁻³, depending on the strand's core.</li>
+<li>The certified <code>diag(−g, 1, 0.3, 0)</code> has spatial Δ/Λ ≈ 0.35, so its charges are strand-confined, which is what R12
+measures.</li>
+</ul>
+</li>
+</ul>
+<h2>3. The electron's magnetic moment needs the boost sector</h2>
+<ul>
+<li><strong>No three-component sector can carry it [D, N].</strong> Any curvature built from a three-component connection has E·B ≡ 0,
+because three one-forms cannot make a four-form. This includes the time components and Faber's SU(2) model
+(7×10⁻¹⁷). A charge with a Coulomb field and a dipole has E·B = 2eμ cos θ/r⁵ ≠ 0, so no such sector can carry the
+electron's moment.
+<ul>
+<li>The escape needs a fourth independent one-form: the <strong>boosts of the 4×4 frame</strong>, where
+C∧C/|C|² = 1.6×10⁻² against 7×10⁻¹¹ with rotations only.</li>
+<li>That is the same sector where your Newton-sign and boundedness no-gos sit.</li>
+</ul>
+</li>
+<li><strong>Where the loop can be [D].</strong> μ_B needs vR = cλ̄: 274c on the core, c only on the Compton radius. A stationary core
+whose charge density has one sign is capped at (α/2)μ_B. A rigidly rotating texture's magnetic part is pure gauge after a
+Maxwell completion, and a pure twist is EM-silent. Two routes survive:
+<ul>
+<li>a charge orbiting at c on R = c/ω, which gives μ_B exactly;</li>
+<li>a <strong>neutral current loop driven by the clock around its axis</strong>, with I = eω/2π at R = λ̄.</li>
+</ul>
+</li>
+<li><strong>Consistency checks for the loop.</strong> Tying the loop to the clock also keeps spin-0 charges such as π⁺ moment-free, as
+symmetry requires. And μ_n/μ_p = −0.685 ≈ −2/3 says p and n share internal currents.</li>
+<li><strong>For M5.21.9 (Larmor).</strong> Under my dual dictionary (space–space curvature = electric, time–space = magnetic), the
+applied ε(xT_y − yT_x) is electric-type. A magnetic background is a steadily rotating texture: uniform Γ₀×Γᵢ with no
+Γᵢ×Γⱼ.</li>
+</ul>
+<h2>4. Coulomb is exact for equal pairs of either sign [D, N]</h2>
+<p>Thomson's theorem makes the Coulomb energy a lower bound over all fields with the given charges. The bound is attained by
+continuous directors:</p>
+<ul>
+<li><strong>Opposite pair:</strong> label each field line by its emission direction at the positive charge; this reproduces the Coulomb
+field to 10⁻⁷.</li>
+<li><strong>Like pair:</strong> rotate one charge's labels by π so both sides of the separatrix approach one pole. The result is Hölder-½
+at the separatrix and agrees with the Coulomb field to 2.5×10⁻⁸ off it.</li>
+</ul>
+<p>So the pair exponent of 1.4–1.7 seen at reachable boxes should converge to 1 in a weakly biaxial exterior. Faber's lattice
+gives α_sol⁻¹ = 137.1(1) (PRD 114, 014510). Unequal pairs remain open.</p>
+<h2>5. Nuclear forces as concrete field configurations [K, O]</h2>
+<p>There are no exchanged quanta, only configurations: V(d) = E(two solitons at d) − 2E(one). Its long-range part is what
+perturbation theory calls one-pion exchange. In the Skyrme model, which shares the quartic term, each soliton's far field
+is a pion dipole tail oriented by its spin, and two tails give the tensor force S₁₂. M5/LdGS must supply three things:</p>
+<ul>
+<li>a <strong>massive three-component pseudoscalar mode of range 1.41 fm</strong>, not a massless frame Goldstone; the eigenvalue-
+deforming modes are the candidates;</li>
+<li><strong>spin-oriented dipole tails</strong>, giving S₁₂ and the deuteron's D-state;</li>
+<li>an <strong>isospin symmetry</strong> relating p and n, which the spatial SO(3) doesn't give.</li>
+</ul>
+<p>The Skyrme product ansatz misses the intermediate-range attraction (Jackson–Jackson–Pasquier 1985), so E(d) should be
+checked for it early.</p>
+<h2>6. Leptons, briefly [D, K, N]</h2>
+<ul>
+<li><strong>Koide is two invariants of the √m tensor,</strong> not of the mass matrix. Tr S²/(Tr S)² = 2/3 puts the √m vector at 45° to
+(1,1,1), and θ fitted to m_μ/m_e is 0.22222205, within 1.8×10⁻⁷ of 2/9.</li>
+<li><strong>That tensor cannot be the vacuum's.</strong> Its biaxiality is 0.382, far above the bound.</li>
+<li><strong>It is a pole-mass statement.</strong> MS-bar masses at M_Z move the ratio from 2/3 by 1.9×10⁻³.</li>
+<li><strong>Sargent's m⁵ law needs a fixed scale near G_F^{-1/2}.</strong></li>
+<li><strong>g universality doesn't constrain the cores.</strong> On the lattice g = 2 + β² + O(β⁴), converging to 2.</li>
+</ul>
+<h2>Proposed rungs</h2>
+<p><strong>Packet A — the strand's δ-ladder (cheapest; decides the physical vacuum)</strong></p>
+
+Field | A
+-- | --
+Object | the certified 4×4 action; a ± pair or the R12 ring; vacuum diag(−g, 1, δ, 0)
+Observable | the linear confinement tension σ(δ) at δ ∈ {0.3, 0.1, 0.03, 0.01}; h and L varied independently
+Prediction | σ ∝ δ⁴
+Verdicts | δ⁴ confirmed → the physical exterior is weakly biaxial (0 < δ ≲ 10⁻³), and runs should move there; another law → the bound's scaling needs revision
+
+
+<p>Scripts for every number above are in the Zenodo bundle, each rerun by <code>check_all.py</code>: <code>three_forms.py</code>, <code>e_dot_b.py</code>,
+<code>completed_moment.py</code>, <code>dual_magnetic.py</code>, <code>twist_dispersion.py</code>, <code>pair_pullback.py</code>, <code>like_pullback.py</code>,
+<code>through_vortex.py</code>, <code>landau_g2.py</code>, <code>lepton_constraints.py</code> and <code>koide_precision.py</code>.</p>
+<p>Jarek</p></body></html><!--EndFragment-->
+</body>
+</html>

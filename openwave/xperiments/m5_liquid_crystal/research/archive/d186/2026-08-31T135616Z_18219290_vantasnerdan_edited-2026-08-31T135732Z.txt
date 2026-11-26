@@ -1,0 +1,155 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18219290
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18219290
+author: vantasnerdan
+posted: 2026-08-31T13:56:16Z
+version: edited 2026-08-31T13:57:32Z
+sha256: 518ca419b88a8811496de63d3bf6b4e29390905aa813d157d0c35238f19f8ad5
+archived: 2026-11-25
+==== verbatim text below this line ====
+@mjmikulski @JarekDuda
+
+Update: [PR #190](https://github.com/vantasnerdan/substrate-framework/pull/190) has now landed on `main` and release `v0.171.0`. It gives a positive answer to the specific exterior-degenerate clock route proposed above, with an important scope boundary explained at the end.
+
+## The result in plain language
+
+The problem with the earlier rigid clock was that it rotated the vacuum all the way to the wall. The vacuum then carried more and more inertia as the box grew, so the clock frequency fell like `1/L`. A hand-made taper can hide that behavior, but it does not create a true conserved clock.
+
+PR #190 instead builds one genuine compact `SO(2)` phase, with a fixed period of `2π`, that acts on the fields but fixes the exterior vacuum exactly. The same global phase turns everywhere; it simply becomes physically invisible in the vacuum because the two tangent-plane eigenvalues are equal there. The core breaks that degeneracy and therefore carries the clock.
+
+This addresses Jarek's concern without assigning a different frequency to every spatial region. We use one phase
+
+$$
+q(t)=\omega t,
+$$
+
+not $q(t,x)=\omega(x)t$. The exterior has zero orbit norm, so it stores no clock charge even though the global phase remains well defined.
+
+## The mathematical construction
+
+The physical fields in this completion are a real symmetric spatial tensor $S\in\mathrm{Sym}(3)$ and a complex scalar $\psi$, written in a declared constrained auxiliary orthonormal frame. Rotation by $q$ in the tangent plane acts diagonally as
+
+$$
+\psi\mapsto e^{iq}\psi,
+\qquad
+S\mapsto R(q)S R(q)^T.
+$$
+
+The exterior is
+
+$$
+(S,\psi)=(NN^T,0),
+$$
+
+and is fixed pointwise by this action. Therefore the clock is a normalized symmetry, not a weighted or tapered velocity field.
+
+Noether's theorem gives a conserved clock charge. On a relative equilibrium,
+
+$$
+Q_{\rm clock}=\omega I,
+\qquad
+E_Q=E_0+\frac{Q_{\rm clock}^2}{2I},
+\qquad
+\frac{dE}{dQ_{\rm clock}}=\omega,
+$$
+
+with full inertia
+
+$$
+I=\int\left(|\psi|^2+\frac12\mathrm{Tr}([A,S]^T[A,S])\right)d^3x.
+$$
+
+If $(u,v)$ are the axis-to-tangent shears and $(p,q)$ are the tangent-plane traceless components, the tensor part is
+
+$$
+u^2+v^2+4p^2+4q^2.
+$$
+
+That full expression matters: the first review caught that an earlier draft had accidentally omitted the shear pair. Correcting it changed the lightest charged channel and forced a real action repair before any claim was accepted.
+
+## Why the clock localizes
+
+The repaired action is positive and has a unique aligned exterior. Its complete action-specific exterior spectrum is exact:
+
+- tensor mass squares: $(10,10,22,4,4,22)$;
+- scalar mass square: $6$;
+- clock weights: scalar $1$, shear $1$, tangent clock tensor $2$.
+
+The first charged radiation threshold is therefore
+
+$$
+m_*^2=\min(6,4,22/2^2)=4.
+$$
+
+The action also has an exact split-core trial state
+
+$$
+|\psi|=\frac12,
+\qquad
+S=\mathrm{diag}\left(1,\frac14,-\frac14\right),
+$$
+
+for which
+
+$$
+V=\frac{45}{64},
+\qquad
+I=\frac12,
+\qquad
+\frac{2V}{I}=\frac{45}{16}<4.
+$$
+
+The strict margin is
+
+$$
+4-\frac{45}{16}=\frac{19}{16}.
+$$
+
+This inequality is the central binding result. A state whose clock charge spreads away to infinity approaches the exterior threshold `4`, while this split core lies strictly below it. Moreover, every unsplit core has ratio at least `4`, so a minimizing state below the threshold must dynamically develop a nonzero tangent-plane eigenvalue split. The core localization is therefore selected by the energy and charge together; it is not imposed by a wall, taper, or fitted radius.
+
+Using the Benci--Fortunato hylomorphic-soliton theorem on the full canonical
+
+$$
+H^1(\mathbb R^3)\times L^2(\mathbb R^3)
+$$
+
+phase space then gives a nonempty translation-compact family of global energy minima at fixed charge. These states have finite energy and inertia, a finite box-independent charge radius, and
+
+$$
+0<\omega^2<4.
+$$
+
+All active exterior harmonics are consequently below their own action-derived radiation thresholds:
+
+$$
+6-\omega^2>2,
+\qquad
+4-\omega^2>0,
+\qquad
+22-4\omega^2>6.
+$$
+
+Because the solutions are global fixed-charge minima, the full constrained second variation is nonnegative modulo translations, phase, and the declared frame gauge. Conservation of energy and charge then gives orbital stability of the minimizing set.
+
+An important methodological point is that this conclusion did not come from a favorable finite box. The decisive steps are exact algebra and a variational existence theorem. There were no production numerical runs, fitted widths, or premature soft-mode tests.
+
+## Significance for R13
+
+Relative to the three sub-rungs proposed above:
+
+- **R13A is achieved** for this action: there is a globally normalized compact clock, exact exterior fixation, and a conserved Noether charge.
+- **The action-specific exterior pencil is achieved** without importing the M7 `0.786` number or another model's spectrum.
+- **R13C is achieved at theorem level**: full-field fixed-charge relative equilibria exist, have intrinsic open-space localization, and form an orbitally stable minimizing set.
+- A separate numerical profile is now an optional measurement problem, not the source of the existence or stability claim. It could estimate a particular radius or frequency after a charge normalization is chosen, but it is not needed to establish the object.
+
+This is a constructive proof that the infrared wall found for the rigid clock is not universal. Exterior degeneracy can make one global clock phase invisible in the vacuum while a dynamically split core carries finite charge and inertia.
+
+## What this does not yet claim
+
+This is a new conditional canonical M5 completion, not a modification proved equivalent to OpenWave's original certified M5.32 action. It adds a complex scalar and explicit unit axis/phase locks in a constrained auxiliary-frame quotient. Its exact masses and thresholds must not be copied into M5.32 without deriving the corresponding field map and action.
+
+It also does not yet identify the solution as an electron or neutrino, derive $\omega=mc^2/\hbar$, fix $Q_{\rm clock}=\hbar/2$, produce a unique numerical width or frequency, or solve the two-clock force, Newton attraction, or gravity problems. Those are downstream campaigns. What PR #190 establishes is the missing licensed one-clock object: a compact, exterior-trivial, finite-energy, intrinsically localized and orbitally stable fixed-charge clock.
+
+The accepted claim statements and exact boundaries are in [C-M5C-001 through C-M5C-004](https://github.com/vantasnerdan/substrate-framework/blob/6939a3d8dc3cf213ee61ecb3d3f798196cc4d67a/governance/claims.yaml#L13741), and the omitted-shear failure plus bounded correction are preserved in the [independent review record](https://github.com/vantasnerdan/substrate-framework/blob/6939a3d8dc3cf213ee61ecb3d3f798196cc4d67a/campaigns/P249-exterior-degenerate-clock/reviews/C-M5C-001-C-M5C-004-review.md).
+

@@ -1,0 +1,37 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19162513
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19162513
+author: JarekDuda
+posted: 2026-10-24T10:33:17Z
+version: as first posted
+sha256: 9b5a589987ee130f118c955a49b7d808f4ab5810e1a2def9cbe50423a242a903
+archived: 2026-11-25
+==== verbatim text below this line ====
+**LdGS scorecard v1.1: Vortex v3's clock, a time axis that is not a preferred frame, and nuclei**
+
+Working paper with all checks attached: *LdGS against the OpenWave criteria* v1.1, https://doi.org/10.5281/zenodo.23615446. It has 12 pp., and scripts V1–V51 are embedded in the PDF and also in the zip. Independent adversarial reviews rechecked it; their corrections are included.
+
+1. **Vortex v3.0-rc1 replicates (4.46%), but needs a fixed external clock.**
+   - Its new spatial term carries energy but no inertia. So a moving nucleon's inertial mass would be 2E_tr = 334 MeV below its rest energy; Cs-clock bounds on the proton are at about 10⁻¹⁶.
+   - The Lorentz-invariant form (∂q·∂q)³ needs no clock. Refitted with the ω coupling held in the NN range, it gives all 15 rows within 9.2% (10.3% with a consistent radius target), against 14.1% for v2.6. It also gives g_A = 1.158, τ_n = 1030 s (v2.6: 1125) and Γ_Δ = 84 MeV.
+   - Cost: the merged ⁴He binds by 1128 MeV instead of 889.
+
+2. **The record's time axis is an internal clock, not a frame.**
+   - L = −4I1 − V4, and every other record term, is invariant under internal and spacetime boosts separately; this was checked term by term.
+   - The vacuum's timelike eigenvector breaks only the internal ones. So defects are exact boosted solutions in the same vacuum (moving hedgehog: M_I = E₀).
+   - This closes "boosted defects transforming covariantly" for matter, by symmetry.
+   - The row stays !: rule-R gravity contracts u with ∂_μ, so there u must comove with matter (|α₁ − 2α₂| = 8 otherwise).
+
+3. **Nuclei: ! [conditional], no longer ×.**
+   - The classical soliton merges ⁴He (889 MeV; measured 28.3). Two-thirds of that is the usual Skyrme-type merging and one-third the shared scalar bag.
+   - The sextic reads as ω exchange (g²/4π 10.2–14.7; NN 6–20). It already gives a soft core between rigid nucleons (+270 MeV at 0.5 fm), so the merging comes from deformation, not from a missing ω.
+   - Nucleon rotors with an attraction fitted to B_d, a_s and r_s give ³H 8.6–9.2 MeV (8.48) and ⁴He 33–37 MeV (28.3), via SVM, which reproduces Malfliet–Tjon V.
+   - Why amber: the failing approximation, a classical soliton with ω in its contact limit, fails for every Skyrme model, and two mainstream calculations repair it.
+     - A dynamical ω gives loosely bound clusters (Gudnason–Speight, JHEP 2020).
+     - Vibrational zero-point energy gives ⁴He 6.99 against 7.08 MeV per nucleon (Gudnason–Halcrow, PLB 2024; at F_π = 51.8 MeV).
+   - Neither has been run for this functional yet. The kit for both (relaxed 3D B = 4 with a Proca ω; the B = 1 and B = 4 vibrational spectra) is in the zip.
+
+4. **Table now:** LdGS ✓8 !21 ×1 –1 over the 31 shared rows. The one × is lepton masses: three minima, but 1 : 5.9 : 15.1 against 1 : 207 : 3477. Proposed rows: ω coupling !, Δ width !. Colour table attached.
+
+<img width="2400" height="2925" alt="LdGS_OpenWave_colour_table" src="https://github.com/user-attachments/assets/fc79c4da-16a3-40bd-b1e6-e59943f7f334" />

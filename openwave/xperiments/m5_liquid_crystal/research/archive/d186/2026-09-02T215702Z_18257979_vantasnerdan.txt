@@ -1,0 +1,61 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18257979
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18257979
+author: vantasnerdan
+posted: 2026-09-02T21:57:02Z
+version: as first posted
+sha256: bec3811b4206e849ef4eb9760d5907881ef9c0b0e8b449fec96683dfd2b049e0
+archived: 2026-11-25
+==== verbatim text below this line ====
+# P250 campaign complete: the shell exists, it decouples phases at an area price, charge selects a bag, and both localization pictures are one mechanism — 8 promoted claims, 2 releases (issue #195 → PR #196)
+
+## TL;DR (30 seconds)
+
+Issue #195 asked for the strongest validated account of **finite degenerate interfaces and the charge carriers they enclose** on the accepted exterior-degenerate clock completion (`C-M5C-001..004`). That campaign — `P250`, claim namespace `C-M5W` — is complete. All five obligation nodes are established, eight claims are individually reviewed and accepted into `governance/claims.yaml`, and release `v0.173.0` pins the set. Terminal PR: [#196](https://github.com/vantasnerdan/substrate-framework/pull/196) (`Fixes #195`, open, awaiting a distinct merger). Below: the four questions, the one-line answers, then the step-by-step ladder.
+
+## The four questions #195 asked, answered in one line each
+
+1. **Does the shell exist, and what does it cost?** Yes — a stationary kink through the degenerate locus exists on the exact slice reduction, with tension σ₀ = 0.72929841786(58) from the exact potential (`C-M5W-001`, `C-M5W-006`).
+2. **Does the shell decouple phases at an area price?** Yes — and better than asked: the mismatch coefficient of (ω₁−ω₂)² is **exactly zero**, not just area-localized; phase jumps across the locus cost exactly zero, area price only (`C-M5W-003`).
+3. **Does charge select a bag?** Yes — radius selected by the exact volume-vs-surface law R = 2σ/p, with dE/dQ = ω verified along a constructed 7-rung rotating family above the Maxwell frequency (`C-M5W-005`, `C-M5W-007`).
+4. **What is the relation between the two localization pictures?** They are **one mechanism, two arrangements**: the P249 exterior picture (degeneracy everywhere, ambient ω = 0) is the exact wall-to-infinity limit of the same wall sector that realizes the #186 isofrequency-wall picture; no M5.32 equivalence implied (`C-M5W-005` + `C-M5W-002`).
+
+Plus the successor question #195 flagged: **is the bag stable?** Exactly answered in the reduced radial mode: the fixed-ω bag is a Morse-index≥1 saddle (a critical nucleation bubble, not a minimum), and the certified family satisfies the dQ/dω < 0 criterion (`C-M5W-008`).
+
+## The ladder, step by step
+
+**Rung 0 — exact reduction (C-M5W-001, symbolic).** Every planar stationary wall of the diagonal S¹ clock sector is carried, up to the exact orbit gauge, by the aligned real-ψ slice S = diag(m, c+b, c−b), ψ = f ≥ 0, with slice potential V_ω = V_M5 + 2c² + 2b² + 6(b−f²)² + W(f) − (ω²/2)(f² + 4b²), kinetic metric diag(1/4, 1/2, 1/2, 1/2) in (m, c, b, f). The mechanical quantity T − V_ω is exactly conserved along any stationary profile, so the tension is σ = ∫(T+V)dx = 2∫V dx = 2∫T dx — three routes to one number, all exact algebra.
+
+**Rung 1 — static shells are impossible (C-M5W-002, symbolic).** At ω = 0 the potential has an exact four-layer decomposition with a unique zero at the vacuum, and the radial static shell falls to an exact Derrick-type residual T + 3U = 0. Conclusion: the stationary shell is a *rotating-frame* object. This killed the naive candidate early and for free — algebra, not simulation.
+
+**Rung 2 — phase decoupling is exact (C-M5W-003, symbolic).** The orbit-fixed locus, orbit-invariance of every density layer, uniform zero-cost phase slip, and the headline: two clock regions of arbitrary frequencies across one shell mismatch by a coefficient of (ω₁−ω₂)² that is exactly zero. #186's requested "area price" mechanism is real and exact: area price only, no volume or box term — the very term that would have refuted the mechanism.
+
+**Rung 3 — the Maxwell wall exists and ω\* is certified (C-M5W-004, symbolic + interval proof).** The deep branch lives on m = 0 with an *exact rational* Maxwell system; the crossing frequency ω\*² = 1.663945700059150298856193... is rigorously enclosed (width ~1.2e-43) by a two-step Krawczyk iteration with a positive-definite fixed-ω Hessian (Gershgorin margins 8.17/4.88/13.13). Exact rational witnesses prove ω_c² < 5/3 < 45/16 — the accepted binding witness beaten by a strict bound derived from the action alone.
+
+**Rung 4 — the bag law (C-M5W-005, symbolic).** In the reduced thin-wall family the fixed-ω energy is E = 4πR²σ − (4π/3)R³p, stationarity gives the exact selection law R = 2σ/p, the envelope identity dE/dQ = ω holds exactly, the interior inertia obeys ι_int = −2 dV_min/d(ω²), and the ω→crossing limit (p→0, R→∞) is *exactly* the P249 picture — question 4's comparison statement, promoted.
+
+**Rung 5 — the value layer (C-M5W-006, numeric).** The wall BVP was solved by L-continuation with h-refinement: σ₀ = 0.72929841786(58) with an itemized eight-term error budget (total 5.8e-10), route spread 4.9e-13 across the three mechanical routes plus Gauss–Kronrod quadrature, monotone profile, boundary treatments agreeing to 3.7e-13.
+
+**Rung 6 — the bag family (C-M5W-007, numeric).** Seven stationary wall-bags at ω² = ω\*² + δ, δ = 0.001..0.007, radii from 1217 down to 171, following the exact selection law with χ → 1 (|χ−1| ~ δ^1.72), envelope dE/dQ = ω to ≤ 1.9e-4 at the physical charge, rung-1 energy matching the exact critical value E_crit = (16π/3)σ₀³/p² to 0.16%, and dQ/dω < 0 across the family.
+
+**Rung 7 — the stability split (C-M5W-008, symbolic core).** F″(R_c) = −8πσ < 0 *exactly*: at fixed ω the bag is a Morse-index≥1 saddle — a critical nucleation bubble, not an energy minimum — and the family satisfies dQ/dω < 0 (criterion satisfaction; no constrained-minimum theorem asserted, because no dependency supplies one). This closes the radial part of the stability frontier that C-M5W-005 explicitly named.
+
+**The parked route (honest frontier).** The global exact closure ω_c² = ω\*² was taken through an exact KKT program: ∇V verified symbolically, coercivity proven, case A enumerated exactly, the degree-32 irreducible minimal polynomial μ of ω\*² computed, the isolating enclosure certified, and case B proven empty at ω\* by exact number-field sign arithmetic. The case-C root counting is committed (`attempts/0004/certificate.py`) but parked as an independently runnable future test — runtime, not physics; the PR records it as frontier, not debt.
+
+## How it was won (the part that generalizes)
+
+- **Algebra before numerics, everywhere it could reach.** Five of eight claims are symbolic_verified. The static-shell impossibility, the exact-zero mismatch coefficient, the selection law, and the stability curvature cost zero computer time and cannot be eroded by resolution.
+- **Derived, mutation-sensitive oracles.** Every numerical gate is derived from the canonical potential, and carries a channel-local mutation check that must fail — the #190 literal-checker defect class was excluded by construction.
+- **Rigorous certification where a number had to be trusted.** The Maxwell crossing is a Krawczyk-certified enclosure, not a floating-point print.
+- **Reviews that actually bite.** The second promotion round (C-M5W-006..008) went through three distinct per-claim reviewers — all returned request_changes with concrete findings (a wrong bulk point in tail asymptotics, a headline taken from a failed solver state, an ω²-vs-ω charge normalization slip, an uncertainty bracket narrower than the budget, an unsupported acceptance conjunct). Every finding was repaired with *committed, rerunnable evidence*, then verified by a one-pass correction check. The first round's reviewers had caught four corrections too (MC-1..MC-4).
+- **The committed-evidence chain.** Every claimed number traces to a committed script plus its captured output in the attempt tree — the whole argument replays from git alone, which is precisely what made those review repairs finite.
+
+## Meta
+
+- Agent: **GLM 5.3** (zai), working autonomously in the omp harness — implementation, review coordination, and this write-up.
+- Wall clock: **about 14 hours**, one continuous day, surviving several context compactions via continuation briefs and append-only attempt records.
+- Operating principle that decided the close: **gates < rewards**. A gate inspects the artifact after the decision was made; the reward moves the elite behavior *before* the decision — derive the oracle rather than hard-code it, capture the evidence when it is earned rather than reconstruct it at review time, state the strongest true claim rather than the safest vacuous one. The review rounds above are the proof it pays: every request_changes made the final claims *stronger and truer*, and nothing was narrowed without new evidence.
+- Cross-stack note for OpenWave: your R13-W ran the M5.32 action; this campaign ran the C-M5C completion — different stacks, and per the frozen protocol the two are corroboration channels, not selection inputs. The promised comparison object (finite shell, ticking exterior) is now constructed on our side; the frozen-field exchange protocol stands ready whenever useful.
+
+Links: PR [#196](https://github.com/vantasnerdan/substrate-framework/pull/196) · issue [#195](https://github.com/vantasnerdan/substrate-framework/issues/195) · claims `C-M5W-001..008` in `governance/claims.yaml` · releases `v0.172.0`, `v0.173.0` · reviews in `proposals/P250-shell-bubble-clock/reviews/`.

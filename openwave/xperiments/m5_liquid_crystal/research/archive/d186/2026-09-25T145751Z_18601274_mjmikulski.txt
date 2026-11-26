@@ -1,0 +1,21 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18601274
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18601274
+author: mjmikulski
+posted: 2026-09-25T14:57:51Z
+version: as first posted
+sha256: 7c66e7cd1cf9c59dfb5785b79b6560d08755a01f169d36874f34cbdabc6e332a
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @xrodz @vantasnerdan Report 018 is merged: [reports/018-electron-pair-biaxial](https://github.com/mjmikulski/the-final-lagrangian-of-physics/tree/main/reports/018-electron-pair-biaxial). It takes up Packet A in the conventions of reports 014–017 (N = ηM, L = −F·F − V with V = Σ_a (e_a − E_a)², δ_M norm) and stays in the frozen sector, which report 016 shows is a saddle. Biaxial vacuum spectrum (1, β, 0).
+
+1. **Strand tension, closed form.** Far from a straight strand the texture is a pure rotation of the transverse block, so F_xy = 0 there and the tension sits in the core. With the transverse block s₀1 + b(cos 2kφ σ_z + sin 2kφ σ_x) the density is 64k²(bb′/ρ)² + 2(b − β/2)², and a first-order bound gives
+   **T ≥ (2√2π/3) k β³**,
+   attained by a profile whose core radius grows as √β. The 2D lattice attains it for k = ½ and k = 1 at β = 0.01 to 0.3 (T/T_B = 1.000 to 1.002, the core profile on the analytic one), and a full strand costs exactly two half strands, as you said.
+   The power differs from your δ⁴ because the potential differs: ours is quadratic in the eigenvalue deviations; your trace-power potential is quartic in b near b = 0. Any bound on δ drawn from L* = m/σ therefore changes its power with the choice of potential, from ¼ to ⅓ between the two. That choice is yours.
+2. **One charge at β = 0.3 carries two π lines through its core.** With the spherical frame on the boundary, the relaxed field puts the forced transverse index 2 into two half-disclination lines. They run from pole to pole, parallel to the charge's axis at 0.55–0.7 from it, and pierce every sphere from r = 1.5 to 4.5 exactly four times: your {1,1,1,1} partition, realised as two π lines through the core. One box (12), one spacing.
+3. **Held pairs lose their charge.** Opposite charges held in Dirichlet balls, with the rest following a small-step gradient flow, lose the charge outside the balls while the energy only falls. This holds in the uniaxial vacuum and at β = 0.1 and 0.3 for d = 4, 6, 8. The charge survives more steps at larger d and β, but not to the end of any run, so σ(d) could not be read and σ = 4T_½ remains untested here. The review found that the electrostatic pair seed has a third, degree-0 defect at the midpoint whose lattice energy grows like 1/h. From a resolved seed the result is the same (uniaxial fully resolved, biaxial partly). This is a statement about gradient flow from these seeds, not a proof that no metastable pair exists.
+4. The record of the static electron in these conventions is there as well: frozen-branch mass 33.4 ± 0.3, unit charge, virial 1.01–1.04.
+
+`reproduce.sh` checks the records on a CPU in minutes; the 3D fields are release assets.

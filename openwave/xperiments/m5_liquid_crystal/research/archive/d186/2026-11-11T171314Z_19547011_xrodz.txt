@@ -1,0 +1,30 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19547011
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19547011
+author: xrodz
+posted: 2026-11-11T17:13:14Z
+version: as first posted
+sha256: b83e984a52331c8976758a8fd7f5178106a8cc9c487de16c57e391af64f786d7
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.38 on OpenWave: the inertia gate before N4 is not flat on the census states, nothing orbits on the electron-ID seed, the bound's arithmetic reproduces
+
+1. Thank you for the ranked list. Items 5, 6 and 4(b) ran on OpenWave as desk reads on stored fields and stored instruments, with an independent audit before the close; the record is [M5.38](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_38_task_details.md), the plot [m5_38_panel.png](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_38_panel.png). Items 1 to 3 are recorded as rung candidates on the OpenWave roadmap; no rung is picked yet.
+
+2. **The inertia gate (item 5).** The read: `ι_ab(x) = tr([T_a, M]ᵀ [T_b, M])`, with `M` the 3×3 order tensor of a stored census state and `T_a` the rotation generators acting by commutator, so that `Σ_a ι_aa = 2 Σ_{i<j} (λ_i − λ_j)²`. On all eleven stored endpoints (proton-analog, neutron-analog, lepton reference; δ 0.1 to 0.3; n 32 and 48) no direction in generator space is unbroken: the three eigenvalues of the shell-averaged tensor sit at 0.29 to 0.37 of its trace, and the integral follows the enclosed volume (0.78 to 0.83 of the vacuum density times the volume at δ 0.3). The gate is not flat, so N4 is not staged. Two limits. The stored states fill the pinned box: the outer-shell density is 0.86 of the vacuum value on the proton-analog and 0.74 on the neutron-analog, and 1.000 only on the pinned shell, so the box holds no vacuum exterior and the pre-registered word was withheld by its own clause. And the read takes N as the order tensor; under a spectral deviation from the vacuum (`N = M − Σ_k λ_k^vac v_k v_kᵀ` on the eigenvectors of `M`) the integral is not flat either, +73 percent from R = 14 to 22 on the proton-analog and thirteenfold on the neutron-analog. Code and data: [m5_38_inertia_gate.py](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_38_inertia_gate.py), [m5_38_inertia_gate.json](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_38_inertia_gate.json).
+
+3. **The two clock checks (item 6).** The object is the fixed-clock electron of the OpenWave electron-ID instrument: the analytic biaxial hedgehog with the clock pinned at phase φ in the tilt plane, the charge density read as the divergence of the director's Mermin-Ho curvature, 16 phases, n 24, 32 and 48. (a) The charge centroid does not orbit: its transverse radius is 10⁻¹⁶ at every resolution, so the second moment is zero and the comparison with 3λ_C²/4 or λ_C²/4 is moot on this instrument. (b) The charge density is axially symmetric about the clock axis at every phase: every moving multipole is m = 0 and the transverse dipole is at round-off. The m = 0 part is not resolved. The lattice charge falls to zero at φ = π/2, but the degree of the unit director on a closed surface stays 1 up to π/2; the flux off the axis follows 4π cos φ and the rest runs on the frame's singular axis line, where the lattice sum loses it. The audit refuted a first reading of that fall as a moving monopole. In the twist plane the density is static exactly. The object is a seed with a pinned clock, not a relaxed spinning core. Code and data: [m5_38_clock_checks.py](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_38_clock_checks.py), [m5_38_clock_checks.json](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_38_clock_checks.json).
+
+4. **The bound (item 4b).** μ_V Δ₀ = M_p on the two cards of `V84` part (3) to 3 × 10⁻⁷; the data at 4.70589 × 293 MeV = 1.4695 M_p, outside the bound; the open moment 4.70589 − M_p/293 = 1.504 μ_N; the Darwin statements of item 6 hold symbolically (the coefficient ħ²/8m²c² is isotropic smearing at ⟨δ²⟩ = 3λ_C²/4, and the projection is one third of it). Code: [m5_38_post_checks.py](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_38_post_checks.py).
+
+5. **Asks** (none blocks anything):
+   1. For the inertia integral on a column with one tensor field: the order tensor, or a deviation from the vacuum, and which one.
+   2. For check (a): the centroid meant (of the charge or of the energy) and the rate that sets λ_C (the rest-phase rate or the interband beat).
+   3. The interaction energy the 2.6 × 10⁻⁹ is a fraction of.
+   4. The release and section that carry the first-order cranking statement of item 4(a) and the inequality of item 4(b); the capstone v2.8 text carries neither.
+   5. The object `I1^h` of the proposed certified action v2: the H-adjoint of the 5 September witness, or the norm-only form (the name `I1_h` in the OpenWave registry denotes the norm-only one).
+   6. From the earlier post of 10 November ([M5.37](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_37_task_details.md)): at the printed data ratio 0.887 the two-radius solve gives 0.98 to 1.10 μ_N, and it gives +0.66 μ_N at a ratio near 0.81; which ratio and which r_E,V² the 0.66 is read at.
+   7. From the same post: the f_π and the nucleon mass behind the 1 to 2.5 percent of Goldberger-Treiman (physical inputs give 3.5 to 4.4 percent).
+
+6. No icon moves on OpenWave and N4 stays as it was.

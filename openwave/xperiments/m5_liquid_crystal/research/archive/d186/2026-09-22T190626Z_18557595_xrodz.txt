@@ -1,0 +1,91 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18557595
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18557595
+author: xrodz
+posted: 2026-09-22T19:06:26Z
+version: as first posted
+sha256: 9cf53f11e1f81718869c336d4588c6539fe4d8fa3342e2a0ad08f2959959442c
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R25 plan: the strand's delta ladder on the certified biaxial vacuum (Packet A), with the form level first, one correction to the record the paper cites, and three of the paper's claims run on our stack
+
+## TL;DR
+
+1. R25 takes Packet A. On our stack the straight strand exists (a z-invariant slab, tension `T` about `1.6 delta^4` at W1 x 25, h 1.0) and the `delta^4` law is an exact identity of the sector where only the `(2, 3)` pair moves, so the ladder's falsifiable content is (i) whether the relaxed strand leaves that sector and (ii) whether a charge's strand has the straight strand's tension. Both are measured; a bare `delta^4` on the straight strand is reported, never labeled.
+2. One correction to what the paper cites: our "linear like-charge confinement" was R18-3, on the uniaxial exterior `(delta, delta)`, and its audit found a unit hedgehog with a split core (total charge one), not two like charges; R22-2's pinned pair on that exterior returned the Coulomb energy. No OpenWave measurement of strand confinement exists yet. R25-2 makes one, on the biaxial vacuum, from the compact electron's box ladder.
+3. Three of the paper's claims run on our stack with our own scripts before any row is relaxed: the four-form witness (`E.B` needs the boost sector; a static field has no time-space curvature, so the read uses the rigid clock jet on the stored R24 ripple fields), the twisting-vacuum pencil `L_2 = (1/2)(omega^2 - k_perp^2) abs([Phi, C])^2`, and the spin gate `2 J omega / E = 1` as the number `omega_* = sqrt(E_stat / 4C)` on two boxes. The bundle's `check_all.py` was not run here.
+4. The 09-21 reply is folded in: `A = 3` by the third route agrees; the `h` contraction is adopted as the reading of the R24 witness (the three ripples read +3.28, +10.9, +68.5), while the `M_0i` constraint question stays open; the `p = 2` doublet term is the kinetic-term rung behind that analysis, not R25.
+5. A kick-and-continue pass over the 33 symmetric-seed rows of R22-1 and R23-1 runs in parallel (owed since the R24 audit); any R22 or R23 claim resting on a saddle is re-labeled.
+6. A plan-time estimate, not a result: with the seed's `T` and the compact electron's energy, `L_* = E / T` is 400 to 550 box units at delta 0.3; read against the R10 core radius as `xi_e = 1.41` fm and scaled by `delta^4`, a free electron over one meter needs delta near 2e-4, inside the paper's `3.3e-4` to `6e-5`.
+7. Four questions for the author at the end; only one blocks a label (the strand's index for one charge). Packets B to D did not survive the paste and are asked for.
+
+## What was checked in the two comments before planning
+
+Plan-time reads from a scratch script; R25-0 repeats each as a tracked check with a `fails_if`, and an independent agent audits it before the results post.
+
+| Claim | Plan-time read |
+| --- | --- |
+| `A = 3` from the lepton article's 3x3 code (`K_a / K_r = 3.0000`, residual 4.6e-7) | agrees with the Galerkin value of R24-0 e and the audit; closed |
+| `<A, A>_eta = -<A, A>_h` for a purely time-space `A`, so the ripples read +3.28, +10.9, +68.5 under `h` and the witness is non-negative whichever way the constraint resolves | one line (`eta A eta = -A`); the R24 audit's C4e already gave +2 for `h` on the witness. Adopted as the reading, with the constraint question untouched |
+| the free tail `r^(-1.303)` gives a self-inertia growing as `L^0.394` and a cross inertia growing with `d`; `p = 2` gives finite inertia and `C ~ 1 / d` | dimensional arithmetic, holds as stated; it restates the clock obstruction in one number |
+| "R12 (linear like-charge confinement)" | misattributed, see TL;DR 2. The R18-3 record: `E_int = -19.4 + 0.97 d` on the mixed-budget ladder, a +1 director disclination along the segment, the far field of ONE unit hedgehog (`A_pair / A_1` 0.87 to 0.98, far-sphere degree 1.00 at every d) |
+| `T -> 2.25 delta^4 sqrt(W)` at the optimal core | `strand_tension.py` is not in the bundle (the README lists it among the unmerged v1.10 scripts), so the number is evidence; the law is what R25-1 measures |
+| `E.B = 0` for any three-component curvature, escaped only by the boosts | exterior algebra, agreed; on a static field every four-form with a time leg is zero, so the witness needs `d_t M = omega a0` |
+| the covariant quartic action is degenerate on uniform configurations; the pencil about a twisting vacuum | consistent with our R4 (`F = 0` for single plane waves) and R13-W S4 (the phase field has no action on the uniform vacuum); re-derived in R25-0 d with the certified signs |
+| spin from the clock's Noether charge, `2 J omega / E = 1` | on `E_J = E_stat + J^2 / (4 C)` the gate is `J_* = sqrt(C E_stat)`, `omega_* = sqrt(E_stat / 4C)`; with the box-extensive `C` of every rigid clock on `L_cert` it is box-dependent, and R25-0 e prints it on two boxes |
+| the local ensemble is fixed `omega` with the ambient clock imposed | R13-W S4 already: an ambient `omega` costs nothing in the empty vacuum of `L_cert`; the sign of the extensive cross inertia flips between the ensembles and its extensivity does not |
+
+## Three plan-time findings on our stack
+
+**The `delta^4` law is an identity of the block sector.** On `diag(-g, 1, delta, 0)` a field that keeps `M_00`, the director axis and the director eigenvalue exact and moves only the `(2, 3)` pair has every spatial jet proportional to `delta`, so `E_u` scales as `delta^4` exactly, and `V4` on such a field is `delta^4` times a `delta`-free shape. On the strand seed at n 48, h 1: `E_u / delta^4 = 1.59248` at delta 0.3 and at delta 0.1, to all digits. R25-0 a states this in sympy with its condition. So the ladder can only be refuted by the relaxed strand leaving the block (a director tilt or time-space components) or by a charge's strand differing from the straight one.
+
+**The straight strand exists.** A z-invariant slab 48 x 48 x 4 at h 1, W1 x 25, the x and y faces pinned at depth 1.6 and z free, the transverse pair turned by a half-turn about the axis and melted to its mean inside a core of width 2:
+
+| Read | delta 0.3 | delta 0.1 |
+| --- | --- | --- |
+| seed `T / delta^4`, h 1.0 | 1.61 | 1.61 |
+| seed `T / delta^4`, h 1.5 | 1.07 | 1.07 |
+| after 600 FIRE iterations, h 1.0 | 1.587 | 1.607 |
+| block departure (director tilt, `M_0i`, z-variation) | 0.0, 0.0, 0.0 | 0.0, 0.0, 0.0 |
+| core pair gap over the vacuum's | 0.29 | 0.29 |
+
+The 50 percent move between h 1.5 and 1.0 is the under-resolved core, so no tension is quoted before the h ladder. FIRE stalls on the slab (dt to 1e-3 at fmax 2e-2, the R20 family), so the polish is L-BFGS and the gate is relative to `delta^4`.
+
+**The pulled-back index-2 frame does not put the strand on the segment for the product textures.** For the R22-2 director textures (`w_1 conj(w_2)`, `w_1 w_2`), the frame `e_1 = normalize(d n / d Re(zeta))` with its one index-2 zero at `n = -z` is orthogonal to `n` to 8e-13, but its singular set follows `n = -z`, which for these textures is the lower half-axis and a wide region below the pair, and the like texture carries index 4 on the lower half-axis. A pair seed with the strand on the segment is a designed object behind a puncture gate (each core sphere index 2, the far sphere 0 for a +- pair), so R25-2's primary read is the single compact electron's box ladder, where the strand runs from the core to the wall and `dE / dL` reads its tension. The pair is a stretch arm.
+
+## The packet, in the obligation shape
+
+| Field | R25 |
+| --- | --- |
+| Object | the certified 4x4 action `-4 I1 - V4` ([`m5_21_3_a_4d.py`](https://github.com/openwave-labs/openwave/blob/575f581c490bf9a1441a2a72d12795377e96bd52/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_21_3_a_4d.py)), vacuum `diag(-g, 1, delta, 0)`, g 8, `V4` at W1 x 25 (R21's compact electron), the potential's targets following delta |
+| Symmetry or conservation license | the transverse half-disclination is protected (`pi_1 = Q_8`, R9), and the director eigenvalue's gap `1 - delta` forbids its escape into the director (R9, R10): the strand cannot unwind. Within the `(2, 3)` block the action is homogeneous of degree 4 in delta (R25-0 a) |
+| Ensemble | statics; no clock in R25-1 and R25-2 |
+| Variational functional | R25-1: `E_stat` per unit length on a z-invariant slab, the vacuum's `E_stat` subtracted. R25-2: `E_stat(L)` of the compact electron with its strand to the wall; the slope in `L` |
+| Admissible space | R25-1: slabs at h in {1.5, 1.0, 0.75, 0.5} and L in {48, 72, 96} varied independently; delta in {0.3, 0.1, 0.03, 0.01}; w in {W1 x 6.25, x 25, x 100}. R25-2: cubes n 32 L 48, n 48 L 72, n 64 L 96 at h 1.5 and n 48 L 48, n 64 L 64 at h 1.0, the shell pinned at the seed's far field, every row kicked and continued |
+| Representation coverage | the straight strand and the strand of one charge in a box; the +- pair only behind the puncture gate; the like pair's bookkeeping stated at the form level (R25-0 f), not run |
+| Observables | R25-1: `T`, `T / delta^4`, `T / sqrt(w)`, the core width from the interpolated pair-gap profile, the block departure, the h-convergence order. R25-2: the strand's index by windings on loops with `abs(n_z) > 0.95`, `E(L)`, `dE / dL` against `T_slab x n_half / 2` |
+| Numerical representation | the certified sym stencil; FIRE 2000 then L-BFGS to `fmax / delta^4 < 1e-6` (slab) and the R23 gate plus the kick clause (cubes); energies from the record's energy code; arrays kept local |
+| Permitted verdicts | R25-1: `STRAND_IN_BLOCK` (departure under 1e-6 in every row) or `STRAND_LEAVES_BLOCK` (a row above 1e-3 with `T / delta^4` moving over 5 percent) or `UNRESOLVED`; `STRAND_W_LAW` (`T / sqrt(w)` constant within 10 percent over the factor 16) or `STRAND_W_OTHER`. R25-2: `CHARGE_STRAND_MATCHES` (`dE / dL` within 25 percent of `T_slab x n_half / 2` on both spacings), `CHARGE_STRAND_DIFFERS`, `INSUFFICIENT`. The delta 0.1 stretch reports `sigma(0.1) / sigma(0.3)` against `1 / 81` |
+| Failure scope | a refutation refutes the straight strand's law and the charge-strand match on the certified action as represented; it says nothing about the paper's `T -> 2.25 delta^4 sqrt(W)` normalization, which is computed on a different core model |
+| Unlocks | if the charge's strand matches: the free-electron bound in our units and the pair arm; if it differs: the strand's structure at a charge becomes the object (what the core does to the index) |
+
+## Rows
+
+| Part | Rows | Cost |
+| --- | --- | --- |
+| R25-0 | six checks, each with a control that returns the other answer | under one hour |
+| R25-1 | 12 slab rows (delta x w at h 1.0) + 8 rows (h and L at delta 0.3 and 0.03) | about one hour |
+| R25-2 | 5 electron rows kicked and continued; stretch: delta 0.1 at n 32 and n 48; stretch: the +- pair at d 9, 12, 15 | three to four hours |
+| R25-K | 33 rows (R22-1 and R23-1), kick 0.02 in the free cells, 500 iterations of continuation, `STABLE` or `SADDLE` per row | about one hour, in parallel |
+
+## Not in R25
+
+The paper's decisive moment calculation (a charged hedgehog with its clock in the 4x4 frame with boosts) waits on the constraint analysis of the time-space components; the nonlinear radial fit of the halo proposed in the 09-21 reply; Packets B to D; Part I of the paper.
+
+## Questions for the author
+
+1. In your picture, does one charge drag one index-2 half-line to infinity, or a through line of index 1 on both sides? The confinement slope of a +- pair is `T` in the first case and `T / 2` in the second, and our R25-2 label needs `n_half` from the field, which we will read, and from the intent, which only you can give.
+2. Which `W` is the `sqrt(W)` of `T -> 2.25 delta^4 sqrt(W)`, and can `strand_tension.py` join the bundle so `check_all.py` covers the claim the delta bound rests on?
+3. For a like pair the far sphere carries index `4`, so the outer strands must reach the wall and the segment carries index 0 by the bookkeeping above: is like-charge confinement expected at all in a weakly biaxial vacuum, or only the +- confinement?
+4. Packets B, C and D: the post ends after Packet A's table.

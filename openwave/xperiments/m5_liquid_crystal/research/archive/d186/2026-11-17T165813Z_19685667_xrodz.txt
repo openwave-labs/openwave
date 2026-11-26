@@ -1,0 +1,196 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19685667
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19685667
+author: xrodz
+posted: 2026-11-17T16:58:13Z
+version: as first posted
+sha256: 4288e70f3a1037942e46760751a23859777dcb5adf339c815ed0462849f55530
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.42 on OpenWave: with the rigid twist clock ħΩ = E does not come out, the ratio is set by the box, and the 0.83 state is out of configuration
+
+## TL;DR
+
+1. Thank you for the answer to the plan. The run on OpenWave is done with your three changes: the ladder on the mirror-averaged stencil with the +z chart fixed, the band control, and the inertia inside r < 2 on every box.
+2. Your two deposited states return to nine digits. The state behind the printed 0.83 is out of configuration by the plan's own rule, it is a local minimum of the discrete energy with a lower stationary state beside it, and its ratio is set by the box (section 3).
+3. On smooth, converged states 2JΩ/E is set by the box: 0.839, 0.317, 0.129, 0.031 on half-boxes 6, 9, 12, 18 at J_e/10. By the rule frozen before the run the relation ħΩ = E does not come out. The ratio passes through 1 four times, each time while still moving with the box.
+4. The one-cell states also form on the mirror-averaged stencil with the chart fixed. They are set by the spacing, and the band does not remove them: several cells pressed against the band take the place of one.
+5. Two results were not expected. The J = 0 state comes in two symmetry sectors, 0.3 apart in energy on half-box 6 and 0.57 on half-box 9, and at δ = 0.3 the long axis of every relaxed state with fixed faces and L₁ > 0 has degree 0 on the inner spheres (sections 6 and 8).
+6. Two expectations recorded before the run failed (section 9): the smooth path reaches J_e on the two largest boxes, and without the elastic term the J = 0 energy moves by 0.3 percent with the spacing where more than 5 percent was expected (converged at one spacing only).
+
+Record on OpenWave: [M5.42](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_42_task_details.md) (§ 8 to § 17), merged in [PR #736](https://github.com/openwave-labs/openwave/pull/736). It ran 54 chains with 185 paths; every number below is in [`m5_42_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_42_summary.json), [`m5_42_paths.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_42_paths.json), [`m5_42_r7_reads.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_42_r7_reads.json) and [`m5_42_r1_gates.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_42_r1_gates.json).
+
+## 1. What was computed
+
+```text
+field      M(x), real symmetric 3 x 3, vacuum eigenvalues (1, δ, 0); the faces hold your frame
+energy     U = h³ Σ [ L₁ Σ_i ‖d_i M‖² + κ Σ_{i<j} ‖[d_i M, d_j M]‖² + v Σ_k (tr Mᵏ − c_k)² ],   c_k = 1 + δᵏ
+inertia    I = 2 h³ Σ [ L₁ ‖K‖² + κ Σ_i ‖[K, d_i M]‖² ],   K = [G, M],   G_ab = −ε_abc r̂_c
+clock      E_J = U + J²/2I,   Ω = J/I,   E_rot = J²/2I,   2JΩ/E = 4 E_rot / (U + E_rot)
+values     κ = v = 1, δ = 0.3 unless said, L₁ = 0.3, 0.1, 0;   J_e = 8π(1 − δ)²/α = 1687.604
+forward    your stencil, on your frame as deposited: section 2, and gates 2, 4, 5 on those states;
+           for gate 3 it runs on the frame with the chart fixed
+averaged   U and I are the means over the eight reflections of the grid axes, E = U_avg + J²/2I_avg;
+           the +z chart is fixed in the frame (16 nodes on 33³); every other rung runs on it
+SMOOTH     no node holds more than 1 percent of the inertia, and none more than 50 times the mean
+           of its 26 neighbors (read on nodes holding more than 1e-4 of the inertia: deviation 4)
+ONE-CELL   a node holds more than half of the inertia
+CONVERGED  the largest gradient entry over h³ is at most 1e-3 at the last stop, and the optimizer ended
+           by its own tolerance or U, I and the ratio differ by at most 1e-3 relative from the stop of
+           the previous target; a path that ends before its first target has the first clause only
+OUT OF CONFIGURATION   the degree of the long axis is not one, or the puncture count is not four,
+           on the sphere r = 3 or on r = 4
+COMES OUT  at J_e, on SMOOTH and CONVERGED states, the ratio on the two largest boxes agrees to
+           2 percent and lies within 2 percent of 1; a pass through 1 while still moving with the
+           box is a CROSSING
+```
+
+The clock is the rigid twist about r̂, one Ω for the whole box, as you confirmed. The labels and the rule for "comes out" were frozen in the plan before any relaxation ([M5.42 § 2](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_42_task_details.md)).
+
+Where each term is in the code, pinned to the merge commit:
+
+| Term | Function | Code |
+| --- | --- | --- |
+| U by term, I, and the analytic gradient | `kernel()` | [`m5_42_eq42.py` L107](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py#L107) |
+| The two stencils as weights | `FORWARD`, `AVERAGED` | [L35 to L37](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py#L35-L37) |
+| The frame and the chart fix | `vacuum_frame()` | [L58](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py#L58) |
+| E_J and its gradient | `Model.evaluate()` | [L380](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py#L380) |
+| The labels and the reads | `reads()` | [`m5_42_relax.py` L121](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_relax.py#L121) |
+| Gate 4, the potential by quadrature | `potential_by_quadrature()` | [`m5_42_gates.py` L39](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_gates.py#L39) |
+| Gate 2 on states, gate 5 | `gate2()`, `gate5()` | [L84](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_gates.py#L84), [L106](https://github.com/openwave-labs/openwave/blob/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_gates.py#L106) |
+
+Controls: the forward kernel returns your stored inertia density cell by cell to 6 × 10⁻¹⁶; the mirror-averaged kernel returns the plain mean over the eight reflections to 3 × 10⁻¹⁴; the gradient agrees with fourth-order differences to under 10⁻⁶; gate 1 returns the derived h² coefficient to 2.4 × 10⁻⁴ with order 2.001. All 46 checks of the controls file are met ([§ 8](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_42_task_details.md)).
+
+## 2. Your box (33³, half-box 6, L₁ = 0.3, forward stencil, frame as deposited)
+
+| Path | J | E | U | I | 2JΩ/E | Largest node share | Label |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| from the seed | 0 | 63.922535 | 63.922535 | 510.892 |  | 0.00016 | SMOOTH, CONVERGED |
+| from the state before | J_e/10 | 85.178992 | 67.402199 | 801.047 | 0.8348 | 0.00014 | SMOOTH, CONVERGED (first clause only) |
+| from the state before | J_e | 184.810 | 131.139 | 26531.8 | 1.1617 | 0.943 at (0.375, 0.375, 4.5) | ONE-CELL, not converged |
+| from the J_e state | J_e/10 | 79.302 | 71.636 | 1857.5 | 0.3867 | 0.659 at the same node | ONE-CELL, CONVERGED |
+| from the J_e state | 0 | 63.922535 | 63.922535 | 510.892 |  | 0.00016 | SMOOTH, CONVERGED |
+
+The two smooth states are yours (2JΩ/E = 0.834797 at J_e/10). At J_e the path ends on a one-cell state with eigenvalues from −3.56 to 3.59 at its node. Relaxed at J_e/10 that state converges 5.877 below the smooth state of the same J, and relaxed at J = 0 it returns to the smooth state.
+
+![Inertia density on the plane of the largest node for the smooth and the one-cell state at J_e/10](https://raw.githubusercontent.com/openwave-labs/openwave/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/plots/m5_42_r2_inertia_slices.png)
+
+## 3. The state behind the 0.83
+
+You asked that this post say plainly what the deposited 0.83 is and which gates it fails.
+
+**It is out of configuration by the plan's own rule.** The rule frozen before the run asks for degree 1 of the long axis on the spheres r = 3 and r = 4. On the J_e/10 state the degree is 0 on both, 0.01 at r = 5 (where the two larger eigenvalues nearly meet, gap 0.008) and 1 only at r = 5.7. The deposited J = 0 state reads the same on r = 3 and r = 4. So the object relaxed in this box is not a hedgehog of the long axis inside r = 4, and the 0.83 is a number of that object. Section 8 shows that this holds for every state of the run with fixed faces and L₁ > 0 at δ = 0.3, on every box.
+
+**It is a local minimum of the discrete energy, and a lower stationary state exists.** The lowest Hessian eigenvalue is +1.13 × 10⁻³ (gate 5). The one-cell state of section 2 lies 5.88 below it on the forward stencil; on the mirror-averaged stencil the one-cell state lies 4.9, 8.0 and 9.9 below the smooth state at spacings 0.375, 0.25 and 0.1875.
+
+**Its ratio is set by the box** (section 4). That is measured on the mirror-averaged ladder with the chart fixed, whose half-box 6 rung reads 0.839; the forward stencil on your frame was run on half-box 6 only.
+
+| Gate | Result on the 0.83 state |
+| --- | --- |
+| 1, rank-one regression | met by the stencil: the h² coefficient to 2.4 × 10⁻⁴, order 2.001 |
+| 2, mirror test | FAILED: under the mirrors the quartic changes by 0.72 percent, U by 0.12 percent, I by 0.10 percent |
+| 3, two discretizations | not met as written: between the two stencils the offsets do not fall under refinement (0.495, 0.497, 0.497 in U at J_e/10). Section 6 traces them to two sectors, and inside one sector the difference in U still does not fall between 33³ and 49³ |
+| 4, the potential | met by quadrature, the measure the plan froze: 0.290 against 0.852. At the mean field of each cell it reads 0.468, also under the bound |
+| 5, the Hessian | met: +1.13 × 10⁻³ |
+
+On the deposited J = 0 state gate 4 reads 0.423 by quadrature against 0.639, which is met. The 0.665 against 0.639 of the plan (§ 1, note c) is that state at the mean field of each cell.
+
+The failed gates are not what sets the number: the forward state on your frame and the mirror-averaged state with the chart fixed differ by 0.5 percent in the ratio (0.8348 against 0.8393). What disqualifies the 0.83 as a property of the object is the lower state and the box. The configuration label says what the object is, and it applies equally to every state of section 4, the two at J_e behind the word included.
+
+## 4. The question (mirror-averaged stencil, spacing 0.375, L₁ = 0.3)
+
+2JΩ/E; a state that is not SMOOTH and CONVERGED carries its label.
+
+| J | Half-box 6 (33³) | Half-box 9 (49³) | Half-box 12 (65³) | Half-box 18 (97³) |
+| --- | --- | --- | --- | --- |
+| 0 | U 64.197, I 495.0 | U 97.652, I 1414.8 | U 133.046, I 2974.8 | U 207.944, I 8535.0 |
+| J_e/40 | 0.1023 | 0.0252 | 0.0089 | 0.0020 |
+| J_e/20 | 0.3345 | 0.0952 | 0.0349 | 0.0080 |
+| J_e/10 | 0.8393 | 0.3173 | 0.1289 | 0.0312 |
+| J_e/5 | 0.5647 (ONE-CELL, CONVERGED) | 0.8247 | 0.4079 | 0.1155 |
+| J_e/2.5 | not run | 1.5245 | 0.9826 | 0.3675 |
+| J_e | not run | 0.9942 (ONE-CELL, CONVERGED) | 1.8944 | 1.1240 |
+| I inside r < 2 at J = 0 | 22.10 | 20.50 | 20.05 | 19.82 |
+
+![2JΩ/E on the smooth branch against the half-box](https://raw.githubusercontent.com/openwave-labs/openwave/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/plots/m5_42_r4_ratio_against_box.png)
+
+1. **The ratio is set by the box.** At J_e/10 it falls 27 times from half-box 6 to 18 while the inertia at J = 0 grows 17.2 times. The inertia inside r < 2, the read you asked for, stays near 20: the growth is all outside the core. This is your "co-rotating out to R", made exact.
+2. **The word.** At J_e the SMOOTH and CONVERGED states read 1.894 on half-box 12 and 1.124 on half-box 18. They do not agree to 2 percent and neither is within 2 percent of 1: the relation DOES NOT COME OUT.
+3. **The crossings.** The ratio passes through 1 four times in the table (on half-box 9 between J_e/5 and J_e/2.5, on half-boxes 12 and 18 between J_e/2.5 and J_e, and between half-boxes 9 and 12 at J_e/2.5), each time while still moving with the box. With E_rot = J²/2I the ratio equals 1 wherever E_rot = U/3, and on any box there is a J where that holds; that J rises with the box because I does.
+4. **With L₁ = 0.1** the smooth path ends earlier: the last SMOOTH and CONVERGED state is at J_e/40, J_e/20 and J_e/10 on half-boxes 6, 9 and 12, and none was reached at J_e (half-box 18 ran to J_e/10 only and stayed smooth there).
+5. **Two cautions on the states at J_e.** They are where the optimizer went from the smooth start, not the lowest states: a spike planted on the smooth state of half-box 12 at J_e ends on a one-cell state at E = 251.7 against 368.3 (not converged), and half-box 18 was not tested that way. The half-box 18 chain beyond J_e/10 was added after half-box 12 was seen to stay smooth. The word does not depend on either: with those states set aside there is no pair of SMOOTH and CONVERGED states at J_e.
+
+## 5. The one-cell states against the spacing (half-box 6, mirror-averaged stencil, fixed chart)
+
+The lowest one-cell state of each grid: its energy above the J = 0 state of the same spacing, with the inertia in parentheses.
+
+| L₁ | J | Spacing 0.375 (33³) | Spacing 0.25 (49³) | Spacing 0.1875 (65³) |
+| --- | --- | --- | --- | --- |
+| 0.3 | J_e/10 | 16.76 (1837) | 13.71 (2170) | 11.76 (2662) |
+| 0.3 | J_e | 124.78 (26052) | 96.48 (35010) | 80.92 (42622) |
+| 0.1 | J_e/10 | 11.45 (2717) | 9.17 (3573) | 7.84 (4307) |
+| 0.1 | J_e | 97.37 (30769) | 71.14 (43586) | 57.41 (55407) |
+
+![The one-cell states against the spacing](https://raw.githubusercontent.com/openwave-labs/openwave/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/plots/m5_42_r3_one_cell_spacing.png)
+
+1. **They form with the chart fixed.** At L₁ = 0.3 and 0.1, on all three spacings, the path ends on a state with 66 to 91 percent of its inertia in one node. You asked where they form once the node is fixed: on the mirror-averaged stencil they leave the +z axis and sit near the plane z = 0, at r of about 4.5 for L₁ = 0.3 and 3.6 to 4.0 for L₁ = 0.1, at a different place on each spacing. At L₁ = 0.3 that is where the two larger eigenvalues of the smooth state nearly meet. On the forward stencil with the chart fixed they sit on the +z axis on 33³, next to the center on 49³ and next to a face on 65³.
+2. **They are set by the spacing.** The energy falls and the inertia grows as the spacing is reduced; the inertia grows by 18 to 42 percent from one spacing to the next finer one.
+3. **Against the two predictions recorded before the run** (yours, and the plan's with the amplitude re-optimized against the elastic cost; M5.42 § 5b row 6). The amplitude at J_e over the amplitude at J_e/10 is 1.91, 1.64, 1.67 at L₁ = 0.3 and 1.80, 1.78, 1.76 at L₁ = 0.1, around your 10^(1/4) = 1.78 and away from the plan's 2.15. The exponent of the spike's inertia in the spacing is −0.69 to −0.85, coarsest to finest: three of the four inside the window around your −1 and one just outside it, all four outside the window around the plan's −1/3 (by pair of spacings one value, −0.55, falls inside the plan's). The energy above the J = 0 state falls with an exponent of 0.51, 0.62, 0.55 and 0.76, with no floor on three spacings; three of the four lie inside the plan's window around 1/3. Neither prediction holds on all reads.
+4. **What weakens item 3.** Seven of the twelve states are not converged, all at the two finer spacings, so their energies are upper bounds. A floor of the size your argument gives (about 4 at J_e/10, under the 11.8 read there) would not show on these three spacings. Three spacings can be consistent with "no minimizer" and cannot establish it.
+5. **Without L₁ no one-cell state formed**, from the smooth start or from a spike planted at one node, so your prediction for L₁ = 0 was not tested.
+
+## 6. Two symmetry sectors at J = 0
+
+The J = 0 state comes in two forms, and the audit found what separates them. Your frame is symmetric under the x and y mirrors. One state keeps that symmetry; at the center its long axis lies along z and the two smaller eigenvalues are equal (0.151, 0.152, 1.010). The other breaks it; at the center its long axis lies along (−1, 1, 0)/√2 with eigenvalues (0.114, 0.195, 1.008).
+
+| Half-box | Sector | U | I | 2JΩ/E at J_e/10 |
+| --- | --- | --- | --- | --- |
+| 6 | symmetric | 64.197 | 495.0 | 0.8393 |
+| 6 | broken | 63.889 | 511.4 | 0.8348 (forward stencil) |
+| 9 | symmetric | 97.652 | 1414.8 | 0.3173 |
+| 9 | broken | 97.085 | 1470.8 | 0.3095 |
+
+U and I are under the mirror-averaged functional. Both states are local minima on half-box 6: the lowest Hessian eigenvalue is +7.1 × 10⁻⁴ for the symmetric one and +6.8 × 10⁻⁴ for the broken one (the second by the audit's own Lanczos run). In neither is the center melted: the long axis runs straight through it.
+
+Your deposited states are in the broken sector, and so is every forward-stencil state from the seed, since that stencil is not mirror symmetric. Every mirror-averaged chain from the seed stays in the symmetric sector, because a symmetric functional keeps the symmetry of a symmetric seed: the whole table of section 4 is the symmetric sector. The effect of the sector on the ratio is 0.5 percent on half-box 6 and 2.5 percent on half-box 9, against a factor of 2.7 between those two boxes. The sectors of half-boxes 12 and 18 were not compared.
+
+## 7. The band control (a change of the model: eigenvalues held in [−0.5, 1.5])
+
+At J_e/10 and L₁ = 0.3 the smooth state lies inside the band and is unchanged, on all four grids. From the one-cell state clipped into the band, on half-box 6, the path ends on a state at E = 84.378, below the smooth 85.896, with 7 nodes at a band edge carrying 40 percent of the inertia (not converged); on half-box 9 the same start returns to the smooth state. At J_e the banded states of half-boxes 6 and 9 carry 47 to 93 percent of their inertia on 51 to 181 nodes at a band edge, and none is converged. So the band does not remove the mechanism: where the unbanded model made one cell, the banded one makes several cells pressed against the band.
+
+## 8. The long axis on spheres, and three more reads
+
+**The long axis.** On the 126 relaxed states with fixed faces and L₁ > 0, your two included, the degree of the long axis is 0 on the sphere r = 3 for all and on r = 4 for all but one (at δ = 0.05), and 1 on the outermost sphere for all but four. By the rule as frozen every fixed-face state at δ = 0.3 with L₁ > 0 is OUT OF CONFIGURATION: your two states, the whole smooth branch of section 4 and both states of its item 2. The record states the label once and keeps the numbers. What it says is that the relaxed core is not a hedgehog of the long axis: the radial long axis survives only in a layer at the faces, and the inner radius of that layer grows with the box. The share of the shell 2 < r < 5 aligned with r̂ within 26° is 0.50 on half-box 6 and 0.20, 0.15, 0.13 on the three larger boxes at J = 0, where a random direction gives 0.10. One smooth state has lost the degree near the faces as well, and a second has lost part of it: half-box 12 at J_e (the 1.894; degree 0 at 0.95 of the half-box) and half-box 9 at J_e/2.5 (0.61 there). They carry three of the four crossings of section 4.
+
+![The minor gap on the plane z = 0 of your box at J = 0, J_e/10 and J_e](https://raw.githubusercontent.com/openwave-labs/openwave/38cc8e70b0ac27bb2a288f4608ccb1cd88984d81/openwave/xperiments/m5_liquid_crystal/research/plots/m5_42_r2_minor_gap.png)
+
+**Without L₁**, on the mirror-averaged stencil with the fixed chart, the J = 0 energy on half-box 6 is 7.653, 7.630, 7.652 on the three spacings, converged only at 0.375; the inertia is not settled (1083, 788, 1096). The fall of the energy to 0.35 that the plan's pilot saw was on the forward stencil with the deposited frame; it is not reproduced on the mirror-averaged stencil, and why was not tested.
+
+**δ = 0.05 without L₁.** The inertia inside r < 2 at J = 0 is 521 of 2096 on half-box 6 (converged) and 547 of 2631 on half-box 12 (not converged), a quarter and a fifth of the whole, where at δ = 0.3 without L₁ it is under 1 percent (4.8 of 1083). We flag it because it is the read you named as what a localized clock would carry.
+
+**Free faces.** With L₁ = 0.3 the hedgehog leaves the box and U goes to zero.
+
+## 9. Against what was recorded before the run
+
+| # | Expectation | Result |
+| --- | --- | --- |
+| 1 | Your box returns the two smooth and the two one-cell states | met |
+| 2 | The one-cell states are set by the spacing and exist on the mirror-averaged stencil | met for L₁ = 0.3 and 0.1; not met without L₁, where none formed |
+| 3 | The smooth branch ends between J_e/10 and J_e on every box | FAILED: the path stays SMOOTH to J_e on half-boxes 12 and 18 at L₁ = 0.3, and leaves at J_e/20 on half-box 6 at L₁ = 0.1 |
+| 4 | On the smooth branch the ratio falls with the box | met |
+| 5 | The relation does not come out | met in its word; the reason given (no smooth state at J_e on the larger boxes) failed |
+| 6 | Without L₁ the J = 0 energy moves by more than 5 percent with the spacing, and the larger boxes do not converge | first clause FAILED (0.3 percent); second clause met |
+| 7 | Free faces | not predicted: the hedgehog leaves the box |
+| 8 | The scaling of the one-cell states | neither recorded prediction holds on all reads; not tested without L₁ |
+| 9 | The band | the smooth state is unchanged at J_e/10; band-saturated at J_e, as expected |
+
+## 10. Not computed
+
+A clock that is not rigid; any state on half-box 18 from a one-cell start; the two sectors on half-boxes 12 and 18; the forward stencil without L₁; larger boxes or finer spacings; the lowest state at any J on half-boxes 12 and 18; anything about the continuum. The end states of all 185 paths are saved (2.6 GB, not tracked in the repository, indexed by [`_DATASETS.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/_DATASETS.md) on OpenWave), so a further read on them needs no new relaxation.
+
+## 11. Deviations and audit
+
+The record lists sixteen deviations from the plan ([§ 16](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_42_task_details.md)). Four are chains added after results were seen, and the statements that rest on them are: the 1.124 of half-box 18 at J_e and the crossing on that box; the two sectors of section 6; the planted spikes without L₁; the planted spike on half-box 12. Three more to name: the pool started before the audit of the amended plan returned (no chain needed a rerun); gate 4 is reported in two measures because the quadrature of the plan and the cell means of the pilot give different verdicts on the J = 0 state; and the neighbor clause of SMOOTH is read on nodes holding more than 10⁻⁴ of the inertia, which leaves it empty on the grids from 49³ up (the audit recomputed it on all nodes: the largest ratio there is 5 to 7, and one label changes, on a free-face state that enters no statement).
+
+Three agents on models other than the one that ran the task, two on a larger model and one on a smaller, each asked to refute. An independent evaluator in plain NumPy returns the kernel's U by term, I, E and both gradients to 5 × 10⁻¹⁴ on six states; all 181 paths that existed at the audit were re-evaluated and their CONVERGED labels recomputed with no difference; about 150 numbers were confirmed and 7 corrected. The audit found the two symmetry sectors, found that the draft had undercounted the failed gates and had explained the configuration rule away where it had to apply it, and found that "the branch reaches J_e" was only the path from the smooth start. All are folded in as written. The three chains added after the audit were not seen by it. Not checked by any audit: gate 1 recomputed independently, the Hessian of the forward state started from the symmetric one, the band gradient at its kink, and the numbers of your reply to the plan.

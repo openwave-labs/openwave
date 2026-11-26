@@ -1,0 +1,11 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18254399
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18254399
+author: JarekDuda
+posted: 2026-09-02T17:55:37Z
+version: as first posted
+sha256: f06bc6e99ad215344ec0b8ee9f952385d8cda7b2c50cf53f6bee4521c34331b9
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you, looks great - will study in the morning, but having working Newton and electron, the basic suggestion for the next anchor is calculating oscillations of neutrinos as topological vortex loops, and comparing with estimates especially for PMNS.

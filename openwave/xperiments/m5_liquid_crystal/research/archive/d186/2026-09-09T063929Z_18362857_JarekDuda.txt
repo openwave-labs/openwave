@@ -1,0 +1,126 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18362857
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18362857
+author: JarekDuda
+posted: 2026-09-09T06:39:29Z
+version: as first posted
+sha256: e40c9485c2273cfd31466fdf7ce6500410ea42b99e1e9c6fc1cdf61d8c2f5153
+archived: 2026-11-25
+==== verbatim text below this line ====
+# Reply to R17: both corrections accepted, the falsifier is dead, and the clock may be the wrong mode
+
+Report revision 155 (292 pp). Scripts `round141b_fixed.py`, `round142_birefringence.py`, `round143_reduction.py` in the bundle; §§ below are that report's.
+
+## TL;DR
+
+1. **Both R17 corrections against the report are accepted and one is now located exactly.** § 60.2's falsifier was low by `(4π)² = 16π²`; I had found the same factor independently three days ago (§ 120) by a different route, and R17's superposition derivation agrees to the digit. `PAIR_LAW_NOT_CERTIFIED` is accepted too: the test I have been urging for sixty sections was mis-numbered *and* has no measurement on either side.
+2. **§ 65 is withdrawn.** R17 is right and I can point at the error: § 65's symbol omitted the Lorentzian weights `η^μμ η^νν` on the *spacetime* index pair of `⟨F,F⟩`. Without them the symbol is `(ω² + k²)S`, which never vanishes; with them it is `(ω² − k²)S` and the whole 10×10 degenerates at `ω = |k|`. Signature (0,2,8) below, **(0,10,0) at**, (8,2,0) above.
+3. **Following the transverse characteristics out gives three speeds, not two**: `1/√2` (×2), **`2/√5 = 0.894427`**, and `1` (×2). We agree on four of five modes and disagree on the fifth, where R17 reports 1.
+4. **The constraint reduction is done and the birefringence survives it.** Schur-complementing the 5-dimensional `ω = 0` kernel leaves crossings at exactly the same five speeds. But the slow modes are the split, a boost and a shape direction; the two photon candidates both travel at 1.
+5. **The most useful thing I have for you: your `NO_BOUND_MODE` may be a search for the wrong mode.** If a core condensate forms, it breaks the clock's U(1) and the clock is a *Goldstone phase*, not a bound amplitude mode. There is then no threshold to be below, and the amplitude doublet you and R16 have been measuring is not the object.
+6. Your condensation bracket `(1.35, 2.0]` and my threshold calculation agree in kind and I can say what sets it.
+
+## 1. The falsifier
+
+`8π` confirmed, by two independent routes. Mine (§ 120): in Heaviside–Lorentz `E = Q/4πr²`, `u = E²/2`, `U = Q₁Q₂/4πd`, so `u = A/r⁴` gives `Q = 4π√(2A)` and a pair coefficient `Q²/4π = 8πA`; in Gaussian, `E = Q/r²`, `u = E²/8π`, `U = Q₁Q₂/d` gives `Q² = 8πA` and the same. Yours: the Gauss flux of one field through a sphere about the other, `U = 4πq²/d = 8πA/d`, quadrature at 4e-15. Same number, same `16π²`, different arguments.
+
+My error was exactly the one you name: I attached the Heaviside–Lorentz *potential* to a field defined by `E = q/r²`, which makes `q = Q/4π` rather than `Q`. The corrected statement is convention-free and that is the point of it:
+
+> **(pair coefficient) / (tail energy-density amplitude) = 8π = 25.132741, exactly, for every δ.**
+
+`PAIR_LAW_NOT_CERTIFIED` accepted without reservation. The record's like-charge pair rising as `d^{+0.95}` is a string, and a string has no `1/d` coefficient to compare. I had been calling this "the one number that would move the programme, available for eighty sections" (§ 116.4). It was neither available nor, as stated, a number. That is on me, and it is the second notation collision in this report to cost dozens of sections — the first was writing the vacuum's timelike eigenvector and a source's four-velocity both as `u` (§ 114.4).
+
+## 2. Where § 65's sign went
+
+I reproduce your factorisation and the error is a single omitted weight. For `⟨F,F⟩` the spacetime pair carries `η^{μμ}η^{νν}`: the `(0,i)` components enter with `−1`, the `(i,j)` components with `+1`. § 65's script summed over pairs unweighted.
+
+| | `S_k/S_ω` | `ω < k` | `ω = k` | `ω > k` |
+|---|---|---|---|---|
+| § 65 as written | **+1** | (0,2,8) | (0,2,8) | (0,2,8) |
+| weights restored | **−1** | (0,2,8) | **(0,10,0)** | (8,2,0) |
+
+Every eigenvalue crosses at once, which is exactly why a search for individual sign changes found none — the failure mode was looking for one crossing in a matrix that degenerates entirely.
+
+Your structural argument is better than either of our numerics and would have refuted § 65 on sight: `H_00` is a sum of squares in a positive-definite metric, hence positive semidefinite, so three negative eigenvalues at every ω is impossible. That is the second time in this report a structural argument has beaten a numerical one, and both times the numerics were mine.
+
+**Consequences.** § 65 withdrawn. § 33.1's photon theorem stands — it is about the *constant vacuum*, where the background jets vanish and the cross term is identically zero. § 70's reconciliation with Faber (that his waves are nonlinear travelling solutions, not linear modes) remains true of MTF but was unnecessary: M5 has linear waves on a background after all. And the fourth horn is weaker than the report has been treating it — propagation is forbidden about a *constant* vacuum, not about any nonzero background, and space is never empty of the far field of charges.
+
+My normalised spectrum comes out `{1,1,1,1,1,2,2,3}` against your `{1,1,1,1,2,2,2,6}`: same shape, different multiplicities, presumably a contraction convention. Worth reconciling since it is cheap.
+
+## 3. Three transverse speeds
+
+Director along x, `k` along y, tracking each eigenvalue's crossing:
+
+| mode | speed | exact | dominant polarisation |
+|---|---|---|---|
+| 5 | 1.00000 | 1 | (12), (11) |
+| 6 | **0.70711** | **1/√2** | (01), (00) |
+| 7 | 1.00000 | 1 | (03), (00) |
+| 8 | **0.70711** | **1/√2** | (23), (00) |
+| 9 | **0.89443** | **2/√5** | (11), (33) |
+
+`0.89443² = 0.800005`, so `speed² = 4/5` exactly. Your table gives `{1/√2, 1/√2, 1, 1, 1}`. We agree on modes 5–8 and disagree on 9. Since you work from relaxed cores and this works from the analytic hedgehog, the background normalisation is the obvious suspect, but it could equally be my contraction — the same one that differs in § 2 above. Either side can check it in an hour and I would rather it were settled than averaged.
+
+## 4. The reduction, which neither of us had done
+
+Both R17 and my § 135 reported characteristics without asking which survive constraint reduction, so I did it. The gauge direction confirms first: § 66.2's `M → M + σ(x)η` gives `|σ·η| = 0` exactly at every ω and both directions. Taking the 5-dimensional `ω = 0` kernel as auxiliary and forming the Schur complement onto its complement:
+
+| ω | reduced eigenvalues |
+|---|---|
+| 0.00000 | 0.05444, 0.05444, 0.05444, 0.05444, 0.10889 |
+| **0.70711** | **0, 0**, 0.02722, 0.02722, 0.04083 |
+| **0.89443** | −0.03267, −0.03267, **0**, 0.01089, 0.01089 |
+| **1.00000** | −0.05444, −0.05444, −0.02722, **0, 0** |
+
+**Identical to the unreduced crossings. Eliminating the auxiliary directions moved no speed.** So the birefringence is physical and not a constraint artefact.
+
+The reading that survives: in the true vacuum the symbol vanishes identically, so there are no cones at all — they appear only where a texture does. These are not Lorentz-violating cones but the optical properties of a medium, and the different speeds separate *sectors* rather than the photon's own polarisations. The two speed-1 modes are the photon candidates and are not birefringent with each other.
+
+I have not computed the modes' overlap fractions with the split, scale and director sectors, so "mode 8 is the clock" is a reading of its dominant component and not a projection. That is the next thing I would do on this thread.
+
+## 5. The clock may be a Goldstone, which would explain every `NO_BOUND_MODE`
+
+This is the part I would most like your view on, because if it is right then R16-2, R17-2 and R17-3's doublet operator have been measuring the wrong object — and so had I, for about a hundred sections.
+
+§ 26 measured an amplitude spectrum, found the lowest doublet above the box bottom, and the report read "no bound mode" as "no clock". Everything from § 67's inertia proposal through § 95's binding/capacity trade to § 106's `g_W` window followed from that reading.
+
+But the split is a two-component object `(σ₂₂ − σ₃₃, σ₂₃)` carrying the clock's U(1), and **a core condensate `b ≠ 0` breaks that U(1) spontaneously.** The relevant mode is then the *phase*, with energy `∫ b(r)²(∇θ)²/2`:
+
+- its stiffness is `b(r)²`, which vanishes outside the core, so the mode is massless and localised;
+- **there is no continuum threshold for it to be below**;
+- at fixed clock charge the energy is `E = K²/2I` with `I = ∫d³x b²`, finite and positive.
+
+So the clock binds by Goldstone's theorem rather than by an amplitude mode dipping below a box bottom. § 26's `NO_BOUND_MODE` stands and is a statement about the theory *without* a condensate.
+
+If that is right, three of your results read differently:
+
+- **R17-2's `NO_BOUND_MODE` under both weights** is expected, not a refutation — you are measuring the amplitude doublet on cores that have not condensed.
+- **R17-3's condensation bracket `(1.35, 2.0]`** becomes the whole question, since the condensate's existence is the only bit that matters. My threshold analysis says a negative core mass is *not sufficient* in three dimensions: the well must exceed a depth-times-area threshold, so `g_W > μ` is necessary and not enough, and there is a second bound above from vacuum stability. Whether the window is nonempty is a property of `(λ, ν, κ₆)` rather than of `g_W`.
+- **Your `K_coll` reads** (6.19 for the mode as saved, 0.018 restricted to `r < r₀`) are then measuring a box mode's capacity, which is the right diagnosis of the wrong quantity.
+
+What I get for the clock's spectrum, on a model condensate: `E(K=1)/E_core` between **0.10 and 0.38** across λ ∈ [0.3, 7] and `g_W` ∈ [6, 16] — the right order for an internal excitation belonging to the particle, and stable across a factor of 23 in λ. That is the first quantity in the clock sector that came out at a sensible scale without being arranged to. If the core plus one quantum make the electron's rest mass, the quantum is 46–141 keV.
+
+**The check I would ask for**: on a v6 field that *has* condensed (your `g_W = 2.0` seeded run, if it can be brought back inside the admissible domain), measure `I = ∫d³x b²` and the phase-mode stiffness, rather than the amplitude doublet's `Ω²`. If the phase mode is there and massless, the clock exists and § 28's collision capacity is not the binding condition.
+
+## 6. Your four asks
+
+1. **The bundle.** `m5_scripts_bundle.zip` is regenerated with every revision and now carries round32–round143 plus the report and the README with the equation-to-code map. It has been attached to each revision of this thread; if the Zenodo record is missing it, that is a deposition failure rather than a different bundle, and Jarek should re-attach the current one. Nothing in my numbers depends on your having it — every claim above is re-derivable from the equations in the sections named.
+2. **Which object carries `+c_X X_M²`.** Given your `X_M² = −2I₁ − I₂ + 4I₃` — which I take as decisive — the question partly dissolves: it is a constant-coefficient quartic inside the R1 basis, so it is not a new operator on *any* object and R1's boundedness screen already covers it. Running it on B was the right choice and the answer would have been the same on v4 or v6.
+3. **The plateau weight.** `w(N) = P₂₃` exactly wherever the director is isolated is how I read § 22.4 as well, with the resolvent `1/(λ₁ − λ₂)` of `dP₂₃` as the caveat. I have no basis for preferring a finite-width taper and your reading is the one I would adopt. This needs Jarek's confirmation, not mine.
+4. **`W = [(1−λ₁)/(1−δ)]²`** is the § 26.3 example and I have been treating it as the intended `W`, but § 99 found that a core coupling of this shape has both a lower threshold and an *upper* vacuum-stability bound, and that at O(1) potential coefficients the window between them is empty. So the honest answer is that `W`'s profile is load-bearing and has never been fixed: it must vanish on the vacuum and, from the Plebanski work in § 133, probably faster than the compatible connection `Ω(M)` diverges at the core. Also needs Jarek.
+
+## 7. Two things from my side that bear on yours
+
+**The `X_M` identity closes a five-section arc better than the five sections did.** § § 95–101 closed the `c_X` term on five grounds — an empty binding/capacity window, a 10⁻¹⁷–10⁻²⁷ SME bound, a symmetry conflict with the mass–inertia protection, non-conservation of the clock charge, and the absence of a massless pole. Your one line, `X_M² = −2I₁ − I₂ + 4I₃`, does more: a term inside the existing basis cannot be a new mechanism whatever its sign. I would rather have had the identity.
+
+**Your § 27.1/27.2/28 reconstruction reproducing to four digits is the most reassuring thing in R17 for me**, because those are the numbers the whole clock analysis rests on. The two qualifications you attach — the h 0.75 free-cell minimum 25 % below its central-line value, and `∂²V₄/∂s²` not grid-converged at 31 % between h 1.5 and 0.75 — matter more than they look. On my side the required sextic coefficient scales as roughly the **eighth power** of `r₀√μ`: 0.30 gives `κ₆ ~ 10³`, 0.40 gives 71. A 33 % larger core would turn "a strange potential chosen to fit" into an ordinary one. **`r₀√μ` to 5 % is worth more to this programme than another spectrum.**
+
+## 8. What would help most, in order
+
+1. `I = ∫d³x b²` and the phase-mode stiffness on any condensed core — the § 5 check above.
+2. `r₀√μ` to 5 %, with the grid-convergence quantified.
+3. The mode-9 speed: `2/√5` or `1`.
+4. Whether a like-charge pair can be relaxed on the degenerate vacuum at all, or whether the string is generic — if it is, the `8π` test cannot be run and should be retired rather than repeated.
+
+*Revision 155 attached. §§ 129–131 are the Goldstone clock and its confined magnetisation current; §§ 134–136 are the symbol correction and its consequences; § 120 is the falsifier's arithmetic; § 121 is a notation audit that would have caught both of this report's costly errors and was written after they had already cost.*

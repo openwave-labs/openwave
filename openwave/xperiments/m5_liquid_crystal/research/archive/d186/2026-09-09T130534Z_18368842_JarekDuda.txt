@@ -1,0 +1,110 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18368842
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18362857
+id: 18368842
+author: JarekDuda
+posted: 2026-09-09T13:05:34Z
+version: as first posted
+sha256: e6fe2220c96fa2deb76df824f9e4b33da0b9cf4560abcf5f5005eddf1c5568f8
+archived: 2026-11-25
+==== verbatim text below this line ====
+Updated report (rev 200): https://zenodo.org/records/22675440
+Comment:
+
+# M5 Lagrangian hunt — status at revision 200 (§§85 → 180)
+
+The last post ended at revision 85 with Newton open and a falsifier I was urging people to run. Ninety-five sections later Newton is closed, the falsifier was wrong by `(4π)²`, and the most useful things the report has produced are proofs that its own approach cannot work.
+
+Rather than another chronological summary, this is ordered by **what supports each claim** — which is §180's reordering of the report, and it is a lot less flattering than reading forward.
+
+**PDF:** `M5_final_lagrangian_approaches.pdf` (rev. 200, 377 pp) · **Scripts:** `m5_scripts_bundle.zip` (round32–round189, sympy/numpy/scipy, no network)
+
+---
+
+## Tier A — theorems, and they are the actual result
+
+These are derived, checkable, and **portable beyond M5**: they apply to any theory whose finite-energy solutions are winding textures with Goldstone excitations.
+
+**1. The winding forbids Newton (§149).** For a texture with `|∂N| ~ r^(−p)`, a term `(∂N)^(2m)` has convergent energy iff `2mp > 3`, and mediates a `1/r` potential iff `(2m−2)p = 0`, i.e. `m = 1`. Those together need `p > 3/2` — but a degree-`d` map from a sphere of radius `r` must vary by O(1) across it, so **`p ≤ 1` for any winding texture**.
+
+> **Finite self-energy and inverse-square propagation are incompatible for a winding texture. The topological charge that makes the electron is what forbids Newton.**
+
+**2. Goldstones mediate no static monopole force (§150).** A Goldstone couples derivatively, `L = (∂_μ π/f)J^μ`; integrating by parts gives `−π(∂_μ J^μ) = 0` by current conservation. This is independent of (1) — it holds even for a mode with a perfect constant kinetic term — so **a mediator must evade both**, and what evades both is a gauge field coupled to a conserved charge. That is why the electromagnetic sector works here and the gravitational one does not.
+
+**3. Charge quantisation needs the degeneracy (§167).** `π₂(G/H) = π₁(H)`, so point defects exist only if the unbroken subgroup contains a circle. A uniaxial vacuum has `H ⊃ SO(2)`, `π₂ = ℤ`. A **biaxial** one has `H = D₂` discrete, `π₂ = 0` — **no hedgehogs at all**. The degenerate pair is not a convenience of the certified spectrum; it is the reason M5 has a charged particle.
+
+**4. Weinberg–Witten closes the composite graviton (§145)** — no massless spin-2 with a conserved Lorentz-covariant stress tensor on a flat background. This *explains* the spectrum computation of §81 rather than restating it, and its escape clause is the one GR uses: give up the flat background.
+
+Also in this tier: `√K_max = √K_mid + √K_min` for the three biaxial disclination stiffnesses (§166, parameter-free, violated by every fermion family by 2.4–11×); only a linear dispersion satisfies `E = ħω` at every charge (§156); and the identities `inc M = 2G⁽¹⁾[M]`, `X_M = ∂_μJ^μ`, `(⋆F)·(⋆F) = −F·F`.
+
+**Six of these are negative.** That is the honest headline.
+
+---
+
+## Tier B — one determination, and it moved by 50× in a day
+
+The de Broglie relation turns out to be a *condition on the clock's spectrum*, not an input. With the clock a Goldstone rotor, `E(K) = K²/2I` and `ω = K/I`, so demanding `E = ħω` at the ground state gives
+
+> **E_clock(K=1) / E_core = 1, exactly** — the clock's first quantum costs exactly the core energy.
+
+Both sides were already computed for other reasons. The ratio scales as `√κ₆`, and where it crosses 1 has moved three times:
+
+| stage | κ₆ | what changed |
+|---|---|---|
+| §157 | 1733 | frozen director, λ = 7.02 |
+| §176 | ~10⁴ | λ from the **measured** r₀√μ, not §28's retired bound |
+| **§179** | **~8·10⁴** | the **coupled** solve — the frozen core is not a minimum |
+
+**What is solid is the law, not the number.** The `√κ₆` scaling is verified frozen to four digits and coupled to 4 %, and the coupled solve's width shift (1.786×) is identical at two couplings. The value is uncertain by more than an order of magnitude and is controlled by one measurement whose **eighth power** it follows.
+
+**The one encouraging thing.** OpenWave reports §27.3's plateau gate (`ν/κ₆ < 2Δ_min²`) failing by 14× on every core they have built. The determination — derived from the clock's moment of inertia, with no reference to the plateau — makes it pass by 200–500×. A parameter fixed by one relation that resolves an unrelated open problem is the first sign in this programme that the constraints might describe one object. It is a sign, not a result: a test passed by 300× discriminates weakly.
+
+---
+
+## Tier C — structural facts
+
+- **The degenerate pair carries eight roles**: the silent exterior, π₂ charge protection, the dRGT rank drop, the clock's SO(2), both GW polarisations, zero h–s kinetic mixing, the CPT-exact clock rate, and charge quantisation itself.
+- **The split is weight two**, and that single index fact gives the charge-±2 irrep, the π-periodicity, the CPT protection, a double-Weyl charge if fermions were ever added — and `tr(S³) ≡ 0`, which puts the core at the **Landau point** and is what justifies §§97–106's continuous-threshold analysis. That justification was assumed for ten sections before anyone found it.
+- **The clock's U(1) is exact.** The only term that breaks it is `c_X X_M²`, which is dropped on independent grounds.
+- **§138's characteristic surface is a family of anisotropic light cones** at `δ² = 0, ½, 1` — which finally places branch 1 as the nodal cone.
+
+---
+
+## Tier D — passes that could not have failed
+
+Listing these, because a scoreboard that hides them overstates the theory:
+
+| claim | why it could not fail |
+|---|---|
+| α₁ = α₂ = 0 | holds by construction once the frames lock |
+| the four-mass equality | holds by the gravitational sector's symmetries |
+| two of §144's four Plebanski gates | definitional properties of Plebanski-with-simplicity, settled in 1977 |
+| §109's Gate A | the quartic is invisible at quadratic order — any quartic matter sector passes |
+| the CPT-exact clock rate | nothing in the construction ever made the clock orientation-dependent |
+
+---
+
+## Tier E — what was refuted, and what the refutations have in common
+
+Nineteen pre-registered predictions overturned, nine section-level corrections, **five** family mechanisms, **thirteen** routes to gravity. The individual entries matter less than two patterns:
+
+**(i) Every family mechanism supplied a count and none supplied the ratios.** Hopfion charges (needed Q ratio 10.2), disclination stiffnesses (violate the sum rule), a biaxial core (two classes merge outside), the clock's phase (the clock *swaps* them), the clock's tower (needs K ~ 59). A count is protected; an energy is dynamical. The exponential hypothesis that would be needed instead was tested and fails too — the three families differ in the **sign** of the second difference of `ln m`, which survives running to a common scale.
+
+**(ii) The useful results came from audits, not constructions.** §120's factor of `16π²`, §134's missing metric weights, §157's never-varied coefficient, §167's `π₂`, §176's retired bound, §179's mis-derived equation — every one a correction to something already written, and every one worth more than the section it corrected.
+
+---
+
+## What I'm asking for
+
+1. **`r₀√μ` to 5 %, and here is the spec.** The three existing measurements are 0.304, 0.311 and 0.100 — the third samples a `w = 0.304` core at `h = 0.75`, i.e. **0.41 grid cells**, so it cannot resolve the object and the spread is explained. For 5 %: `h ≤ 0.015`, `L ≥ 6.1`. In 3D that is 800 cells per side; **but the hedgehog is spherically symmetric, so a radial solve is 400 points** — an afternoon. Through the eighth-power sensitivity this pins κ₆ to ±50 %, and everything else in Tier B is downstream of it.
+2. **A converged coupled two-field radial relaxation.** §179's factor of 48 comes from a minimisation at `|grad|∞ = 0.3`. I would defend the direction and the order, not the digit.
+3. **A like-charge pair relaxed on the degenerate vacuum**, or a statement that it cannot be done. The `8π` test needs the pair coefficient and the tail amplitude measured in the same run; OpenWave finds the like-charge configuration is a charge-2 texture with an escape tube, which is why the record shows a string. If the string is generic, the test should be retired rather than repeated.
+4. **An unambiguous definition of `R̃`.** After sixteen collaborator notes it is still ambiguous, and one natural reading — the Hodge dual — makes the whole sign-inversion proposal a rescaling by two rather than a flip. The ambiguity has now cost §§66, 67, 95, 96, 100, 101 and 132.
+
+---
+
+## The honest summary
+
+Tier A is six negative theorems. Tier B is one number that moved by a factor of fifty in a single day. **A programme whose best results are proofs that its own approach cannot work has produced something real, and has not produced what it set out to.**
+
+The gravitational sector is closed on every known mechanism, and the closure is structural rather than parametric — it would apply to a theory nobody has written yet. The matter sector still has the Coulomb tail with finite charge, the core at the classical radius from "mass = field energy", and a clock that a physical relation appears to determine. That is a smaller and firmer claim than the programme began with, and it took two hundred sections to be able to state it.

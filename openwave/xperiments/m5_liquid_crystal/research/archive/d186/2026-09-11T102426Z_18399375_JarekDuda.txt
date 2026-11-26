@@ -1,0 +1,103 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18399375
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18399375
+author: JarekDuda
+posted: 2026-09-11T10:24:26Z
+version: as first posted
+sha256: e0630adfe49b4f4edefc7f24c4a29009033def89767e50ed66ec3893ccd4fdf7
+archived: 2026-11-25
+==== verbatim text below this line ====
+# Time treatments and Newton: a structural closure, and where the one live question is
+
+Report revision 249. Scripts `round238_exotic_time.py` … `round243_self_contract.py` in the bundle; §§ are that report's.
+
+## TL;DR
+
+1. **The obstruction to Newton was never the sign.** Three routes to the attractive sign exist in M5 and all three are short of a *protected massless mode coupled to something continuous*, not short of a sign.
+2. **A time treatment can only touch one step of the closure** — that mass is the Noether charge of ℝ. Searching the groups rather than listing treatments: two choices break it, and both hit the next step.
+3. **The route closes at the field content, not at the time.** In a static configuration `F_ij = [∂_i M, ∂_j M]` lives in the spatial 3×3 block and `g` lives in the (0,0) slot. They do not meet through η, through `M⁻¹`, or through any contraction. **No definition of "time" changes which slot `g` occupies.**
+4. The covariant term that *would* couple them is the one Novarax tested (their § 12.3) and found **unbounded below under boosts**. We found the same instability independently in the boost sector, with **V supplying no restoring force**.
+5. **One gravitational question in the report is still live**, and it is not about time.
+
+---
+
+## 1. Three routes to the attractive sign, all short of the same thing
+
+| proposal | what it gives | what it lacks |
+|---|---|---|
+| **anticommutator** for the time sector | `{A,B}` is symmetric (spin 0 + 2) and **even spin attracts** — correct, and `[A,B]` does discard it | `tr({A,B}²) = tr([A,B]²) + 4tr(A²B²)`, already in the R1 basis; and `ε^{μνρσ}tr(∂M{∂M,∂M}) ≡ 0` identically (symmetric pair against antisymmetric ε) — **no topological current, no protected massless mode** |
+| **imaginary axis** | M5's `η₀₀ = −1` already *is* an imaginary axis in the precise sense (an imaginary *axis* gives a negative real coefficient; an imaginary *coefficient* is a quarter-turn) — the time sector attracts for free | nothing: it was always there, and it never helped |
+| **imaginary coupling** | for a *vector* mediator `g → ig` turns `+g²/r` into `−g²/r` — attractive | costs unitarity (`H = pσ_x + iμσ_z` is anti-Hermitian, `H² = (p²−μ²)I`, low-`p` modes grow); and applied to the dual photon it would break Coulomb repulsion |
+
+**M5 has three routes to the attractive sign and none is short of a sign.** Every one is short of a protected massless mode coupled to something that is not quantised.
+
+## 2. What a time treatment can touch
+
+The closure chain is: **(A)** a medium's sources couple to strain, because uniform shifts cost nothing; **(B)** so the force is 1/d³ unless the charge is a surface integral; **(C)** a medium's surface charges are homotopy classes, hence quantised; **(D)** mass is the Noether charge of time translation, whose group is ℝ, hence continuous; **(E)** a continuous surface charge needs a 1-form symmetry.
+
+**Time appears in exactly one step — (D).** So a time treatment is a choice of the group `G_t`, and (D) fails iff the choice makes the charge discrete or a surface term:
+
+| `G_t` | the charge | verdict |
+|---|---|---|
+| ℝ | continuous Noether | (D) holds |
+| U(1), compact time period T | quantised in 2π/T, still a **volume** charge | (C) blocks it; and the unit is < 10⁻⁴² eV |
+| ℤ, discrete/Floquet | quasi-energy | not energy — gravity couples to `T^{μν}` |
+| **Diff(ℝ), reparametrisation** | **a boundary term** | **(D) fails** — then (E) asks for a dynamical lapse |
+| timeless (Wheeler–DeWitt) | a boundary term | same |
+| ℝ × ℝ, two times (Bars) | needs Sp(2,ℝ) | that *is* (E): it adds a gauge structure |
+| ℝ with a winding | π₁(RP²) = ℤ₂ | quantised, and unrelated to mass |
+| **the clock's phase θ** | **K ∈ 2ℤ, quantised** | **(D) fails** — then (B): `K = ∫f²∂₀θ d³x` is a volume charge, 1/d³ |
+| thermal/modular (Connes–Rovelli) | the modular Hamiltonian | needs a quantum state; M5 is classical |
+
+Two break (D). Both hit the next step.
+
+## 3. Why the survivor closes
+
+Reparametrisation needs a dynamical lapse, and M5's only candidate is the time eigenvalue `g`.
+
+It looked promising for exactly one section: on the locked frame `[diag(ġ,0,0,0), ∂_i M] = 0` identically, so **`g` has no kinetic term** — which is what a lapse looks like. Then the same algebra for spatial derivatives:
+
+> **`F_ij = [S_i, S_j]` exactly.** No derivative of `g` — time or space — appears in the quartic. `g` appears only in `V`, and `dV/dg = 0` is algebraic with no coupling to anything else. **`g = 8` everywhere, source or no source.**
+
+A lapse multiplies a constraint involving the *other* fields' spatial gradients. `g` multiplies nothing. A field with neither kinetic nor gradient term is not a gauge field — it is a number.
+
+**And it is not a property of η.** Self-contracting instead, `tr(M⁻¹ F M⁻¹ F)` is `g`-independent too. The reason is structural: in a static configuration every derivative is spatial, so `F_ij` lives in the spatial block, and `g` lives in the (0,0) slot. **They do not meet through any contraction.**
+
+The only two ways they can:
+- **time derivatives** — dynamics, not a static potential;
+- **a tilted frame** — `∂_i M` acquires (0,k) entries when the time eigenvector varies in space.
+
+We computed the second. A localised radial boost χ(r) is **physical, not gauge** (§ 112's "pure gauge" was a *uniform* vacuum boost): it costs +0.2 at χ₀ = 0.01 with exponent ~2. With χ ≠ 0, `g` does acquire gradient stiffness, scaling as **χ^2.96** — so `g` couples to the medium's **velocity field**. That is a fluid's rest-energy structure, and it vanishes when nothing moves.
+
+## 4. And the term that would fix it destroys the floor
+
+GR's lapse couples through `N × (spatial gradient invariant)`. The covariant M5 analogue is `(u^μ M_μν u^ν) × I_spatial(u)` — which is **exactly the covariant clock completion f(y) in Novarax's § 12.3**, found there to be **unbounded below under boosts**, `E ≤ C − ck⁴ → −∞`, with a positive-definite velocity Hessian.
+
+Independently, in the boost sector: beyond χ₀ ≈ 0.03–0.08 our quartic falls steeply (−79 at χ₀ = 0.08 against a base of −19), with the threshold moving to smaller χ₀ as the grid refines. And **V cannot help** — it is built from the spectrum of `N = Mη`, a boost acts as `N → BNB⁻¹` which preserves that spectrum, so **V is invariant under any boost, local or uniform, and supplies zero restoring force.**
+
+That is now four independent sightings of one disease: § 99's runaway, § 22's hyperbolicity conditions, Novarax's unbounded admissible path, and the boost-sector sign. **Whether the certified action has an energy floor at all is upstream of every prediction in the report.**
+
+## 5. The statement
+
+> **The route through time is closed at the field content, not at the time.** Every treatment is a choice of `G_t`; only two break (D); both then need `g` to carry a field; `g` meets the static gradients through no contraction; and the term that would couple them destroys the energy floor.
+
+This would survive any time treatment proposed next, because it is a property of `F = [∂M, ∂M]` with a locked time row, not of what "time" is taken to mean.
+
+**Caveats.** The reduction to "a choice of `G_t`" covers the chain as written — a treatment that changed what *static* means would attack § 3 above rather than (D). And the block-structure argument uses the frame lock, which is an **exterior** finding: inside cores the frame tilts and `g` does meet the gradients, at short range, in a sector whose own stability is unresolved. The closure is of the **long-range** field.
+
+## 6. Where the one live gravitational question is
+
+Not in the time sector. In the matter sector, and it bypasses the medium theorem entirely because **a fermion bilinear is not a strain**:
+
+1. **The condensed cores can be fermions.** π₄(RP²) = ℤ₂; a *bare* hedgehog is rotation-invariant at every angle to 10⁻¹⁶ (so the FR loop is constant and carries no sign), but the **index-4 condensate** breaks that invariance. The Finkelstein–Rubinstein sign costs nothing classical and θ = π is T-invariant.
+2. **A Fermi point needs nodal pairing**, and the inter-core interaction is **dipolar** — § 187's `U = −2P₂(cos θ)/d³` for polarised cores. For identical spin-polarised fermions Pauli requires odd `l`, and `⟨1|U|1⟩ = −0.533/d³`: **attractive in p-wave**. That is Baranov et al.'s mechanism.
+3. **The open step:** bulk 3D dipolar gases prefer `p_z`, which has a **line** node. Volovik needs `p_x + ip_y`, with **point** nodes — a chiral state that breaks time reversal. **M5's cores carry a clock, which § 190 identified as angular momentum along the director: T-odd.**
+
+**Does a gas of clocked, spin-½, dipolar cores pair chirally?** It is a BCS calculation with a ³He literature and a binary answer. The honest prior is against it.
+
+**Computed since drafting — and the prior held.** On a 7200-direction grid the dipolar kernel gives pairing eigenvalues `p_z = +32.12` (attractive) and `p_x + ip_y = −15.52` (**repulsive**); Baranov's result reproduced. `p_z` has a **line** node — codimension 2, no Fermi point. The chiral state would need a T-odd coupling worth **148 % of the entire dipolar interaction**, starting from the wrong sign, and the clock is not that. Every attractive channel found is `m = 0`.
+
+**So the route closes at step 3.5.** The strength cancels in the ratio, so the ordering is independent of `f`; only a differently *shaped* interaction could change it. That was the last gravitational question in the report with a method and a computable answer, and the answer is no.
+
+*Rev. 249 attached. §§ 218–222 the sign proposals; §§ 228–230 the time treatments; § 229 the boost sector; § 227 the pairing route. Prior parallel work: OpenWave R14–R18, the M5–teleparallel chain C1–C18 (reviewed in § 221), and the Novarax dossier (Braun AI Wiktorowicz, Rafał Wiktorowicz, Marcin Rosa).*

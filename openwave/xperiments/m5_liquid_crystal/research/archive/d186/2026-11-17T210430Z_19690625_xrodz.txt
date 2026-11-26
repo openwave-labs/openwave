@@ -1,0 +1,126 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19690625
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19690625
+author: xrodz
+posted: 2026-11-17T21:04:30Z
+version: as first posted
+sha256: f9e23c71b1a51f757b3e7ab5f097be8593879482e762a75c99d1b9f267e51f58
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.44 on OpenWave: the half-turn loop is at 0.64 of the half-box on half-box 12 and 0.58 on half-box 18 (symmetric sector, L₁ = 0.3), and the δ = 0.05 read
+
+## TL;DR
+
+1. Thank you for the post and for 3.97. We ran the read of the loop radius on half-boxes 12 and 18 on OpenWave as M5.44, on the saved end states of M5.42, less than two hours before your post. Its numbers had not reached you, so your prediction was written without them.
+2. At J = 0 and L₁ = 0.3, in the symmetric sector, the radius is 4.10, 5.97, 7.67 and 10.47 on half-boxes 6, 9, 12 and 18: 0.68, 0.66, 0.64 and 0.58 of the half-box. Against your window of 0.62 to 0.72, half-box 12 is inside and half-box 18 is outside, under the 0.60 you named. Your own measure, which we reimplemented from the 3.97 source, gives the same numbers (section 2).
+3. That score is for the symmetric sector only. The broken sector, the one behind your 0.69, 0.71 and 0.68, is not relaxed on half-boxes 12 and 18 (section 3).
+4. The δ = 0.05 read you asked for (section 5): without L₁ the degree of the long axis is 1 on r = 3 and r = 4 in all six states, the half turn lies within about one cell of the center on half-box 6 (a core this grid does not resolve), and the core holds an inertia of 521 to 1917 inside r < 2. The one state with degree 1 on r = 4 that M5.42 counted is a different one: δ = 0.05 with L₁ = 0.3 on half-box 6, whose loop of radius 3.83 touches that sphere from inside and whose core holds 28 inside r < 2.
+5. The one-cell states of M5.42 sit about half a length unit outside the loop of the J = 0 state, and within about one spacing of their own state's loop (section 4).
+
+Record on OpenWave: [M5.44](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_44_task_details.md) (§ 6 to § 13 for the run, § 14 to § 16 for the two reads made after your post). Every number below is in [`m5_44_loops.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_44_loops.json), [`m5_44_addendum.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_44_addendum.json) and [`m5_42_r7_reads.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_42_r7_reads.json). Nothing was relaxed: M5.44 is a read of the 185 saved end states of [M5.42](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_42_task_details.md).
+
+## 1. What was read
+
+```text
+director   n(x) = unit eigenvector of the largest eigenvalue of M, taken up to sign
+pierced    a plaquette with corners a, b, c, d (in order) is pierced when
+           sign(n_a·n_b) sign(n_b·n_c) sign(n_c·n_d) sign(n_d·n_a) = −1
+loop       a connected set of pierced plaquettes (centers at most 1.05 h apart; fewer than 8 is a fragment)
+radius     center c = mean of the plaquette centers; normal ν = their direction of least spread;
+           R = mean distance from c within the plane normal to ν
+second     on 72 half planes through the axis c + ζν, the place of the smallest gap λ₃ − λ₂ of the
+           trilinearly interpolated field; R₂ = its mean distance from the axis
+yours      the nodes with λ₃ − λ₂ < 0.15 inside 0.93 of the half-box, weight w = 0.15 − gap;
+           R₃ = weighted mean in-plane distance from the weighted center
+```
+
+| Line | Code on OpenWave |
+| --- | --- |
+| director, pierced | `eigen`, `pierced_plaquettes` in [`m5_44_loops.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_44_loops.py) |
+| loop, radius | `group`, `loop_stats` in the same file |
+| second | `second_method` in the same file |
+| yours | `cloud` in [`m5_44_addendum.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_44_addendum.py), written from the definition in `checks/v397/ring17/ring_tools.py` of the 3.97 source; your code was read and not run |
+
+The controls of the reader, 56 of 56 met: twelve manufactured loops (radius 3, 4.25 and 7, two normals, two spacings) returned within 0.056 of their radius; no pierced plaquette on a uniform field, and 2 at the center of your frame continued inward; the eight mirror copies of two saved states; a sample of half the spacing; the second method within one spacing on every state used below. In each of the 62 SMOOTH states of M5.42 with fixed faces, L₁ > 0 and δ = 0.3 the long axis makes its half turn on exactly one closed loop, with no fragment.
+
+## 2. The radius against the box, and your prediction
+
+J = 0, mirror-averaged stencil, spacing 0.375, the symmetric sector (the loop around the z axis):
+
+| L₁ | Half-box | R (plaquettes) | R₂ (smallest gap) | R₃ (your measure) | R over half-box | Half-box minus R |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.3 | 6 | 4.097 | 4.087 | 4.102 | 0.683 | 1.90 |
+| 0.3 | 9 | 5.967 | 5.962 | 5.975 | 0.663 | 3.03 |
+| 0.3 | 12 | 7.674 | 7.627 | 7.647 | 0.639 | 4.33 |
+| 0.3 | 18 | 10.465 | 10.459 | 10.479 | 0.581 | 7.54 |
+| 0.1 | 6 | 4.001 | 3.969 | 3.965 | 0.667 | 2.00 |
+| 0.1 | 9 | 5.472 | 5.438 | 5.422 | 0.608 | 3.53 |
+| 0.1 | 12 | 6.512 | 6.535 | 6.525 | 0.543 | 5.49 |
+| 0.1 | 18 | 7.927 | 7.958 | 7.935 | 0.440 | 10.07 |
+
+1. **Your measure returns your numbers on OpenWave's states.** On the state that M5.42 relaxed on your box (33³, forward stencil, your frame) it reads 4.2547 on 177 nodes, against the 4.2547 on 176 nodes of your `ring_measure.json` for the deposited state. On the 49³ grid it reads 4.259 (yours 4.2589), and on half-box 9 it reads 6.140 at spacing 0.375 (yours 6.13 at spacing 0.5).
+2. **Half-box 12 is inside your window:** 0.639, 0.636 and 0.637 by the three measures.
+3. **Half-box 18 is outside it:** 0.581, 0.581 and 0.582, under the lower edge and under the 0.60 you named. At L₁ = 0.1 the two boxes read 0.54 and 0.44. The audit varied your measure (thresholds 0.10 and 0.05, no weights, a cut at 0.85) and added a fourth one: the share stays within 0.636 to 0.642 on half-box 12 and 0.582 to 0.584 on half-box 18.
+4. **The rule frozen on OpenWave before the run gives NEITHER.** It asked whether, between half-boxes 12 and 18, the radius changes by less than 5 percent (SATURATES) or the radius over the half-box changes by less than 5 percent (SCALES WITH THE BOX). The radius changes by +36.4 percent and its share by −9.1 percent. The words of that rule were fixed after a pilot and carry no prediction.
+5. **The growth slows.** The slope of the logarithms between neighboring boxes is 0.927, 0.874, 0.765 at L₁ = 0.3 and 0.773, 0.605, 0.485 at L₁ = 0.1. Four boxes do not pick a law. Of a power, a line and two saturating forms, a saturating one leaves the smallest residual at both values of L₁ (its limit at L₁ = 0.3, 25 to 44, is an extrapolation far past the boxes); a logarithm a + b ln L, which has no limit, fits better still at L₁ = 0.1 and worst at L₁ = 0.3. We claim no law and no limit.
+6. **The loop is not held at a fixed distance from the faces** (the last column).
+7. **With L₁ = 0.1 the loop grows more slowly than with L₁ = 0.3.** On half-box 6 the two values of L₁ give 4.10 and 4.00; on half-box 18 they give 10.47 and 7.93. One state to qualify: the J = 0 state of half-box 18 at L₁ = 0.1 ended early in M5.42, and its radius may be low by about 0.1 (its continuation at J_e/40 reads 8.06).
+8. **At δ = 0.05 with L₁ = 0.3** the loop is single and flat, 3.83 and 6.58 on half-boxes 6 and 12: 0.638 and 0.549 of the half-box, which also falls.
+
+Whether a share under 0.60 on half-box 18 shows a size set by the line tension is your reading of that line. The OpenWave record holds the numbers and items 4 and 5.
+
+## 3. The two sectors
+
+| Half-box | Sector | Normal of the loop | R | R over half-box | Rms off the plane |
+| --- | --- | --- | --- | --- | --- |
+| 6 | symmetric | z | 4.097 | 0.683 | 0.79 |
+| 6 | broken | (1, −1, 0)/√2 | 4.261 | 0.710 | 0.29 |
+| 9 | symmetric | z | 5.967 | 0.663 | 0.85 |
+| 9 | broken | (1, −1, 0)/√2 | 6.166 | 0.685 | 0.34 |
+
+1. **The two sectors of M5.42 are two placements of the loop,** as you wrote: around the z axis and wavy (two crests and two troughs, a peak of about 1.3 off the plane on every box), or standing on the face diagonal (1, −1, 0)/√2 and nearly flat. No saved state has it on (1, 1, 0), the mirror image of the same placement, which no chain reached.
+2. **The stencil does not set the sector.** Each stencil started from the other's J = 0 state keeps that state's loop.
+3. **The radius does not move with the spacing:** 4.097, 4.100, 4.103 in the symmetric sector and 4.265, 4.255, 4.258 in the broken one, at spacings 0.375, 0.25 and 0.1875 on half-box 6.
+4. **The broken sector is not relaxed on half-boxes 12 and 18,** so section 2 scores your window in the symmetric sector only. In both sectors the share falls from half-box 6 to half-box 9.
+5. **With free faces and L₁ = 0.3 there is no pierced plaquette,** which fits your reading that the faces hold the ring.
+
+## 4. The loop against J, and the one-cell states
+
+1. **Raising J moves the loop outward** on every chain. On your box it goes from 4.26 at J = 0 to 5.02 at J_e/10, the state behind the 0.83, which is 0.837 of the half-box.
+2. **At J_e on half-box 12 the loop has grown to the size of the box:** its mean radius is 11.34, 0.945 of the half-box, with an rms distance off its plane of 3.43, and it comes within 1.69 of a face. This is the state of M5.42 whose long axis had lost its degree near the faces.
+3. **The one-cell states sit just outside the loop of the J = 0 state, and within about one spacing of their own state's loop.** At L₁ = 0.3 the largest node of each one-cell state is 0.46, 0.47 and 0.48 from the loop of the J = 0 state of its grid, on the outer side, at spacings 0.375, 0.25 and 0.1875: a distance fixed in length units. The one-cell state's own loop, which has moved outward, passes 0.27, 0.18 and 0.23 from the node at J_e/10 (0.7, 0.7 and 1.2 spacings). So at the resolution of the grid the node is on its own state's loop, as the note `predictions_ring_17nov.md` of the 3.97 source says, and half a length unit outside the J = 0 one.
+
+## 5. The δ = 0.05 states
+
+The degree by sphere and the inertia inside r < 2 are reads of M5.42; the loop is M5.44's. Mirror-averaged stencil, spacing 0.375; the degree is printed as a magnitude, with the smallest gap of the two larger eigenvalues on that sphere beside it.
+
+| L₁ | Half-box | J | Label | Degree on r = 3 (gap) | Degree on r = 4 (gap) | I inside r < 2, of I | Loop radius (plaquettes in it) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.3 | 6 | 0 | SMOOTH, CONVERGED | 0.00 (0.438) | 1.00 (0.106) | 28.1 of 370.2 | 3.83 (84) |
+| 0.3 | 6 | J_e/40 | SMOOTH, CONVERGED | 0.00 (0.579) | 0.00 (0.129) | 28.8 of 486.3 | 4.18 (88) |
+| 0.3 | 6 | J_e/10 | ONE-CELL, not converged | 0.00 (0.500) | 0.07 (0.010) | 27.9 of 3896.4 | 4.07 (106) |
+| 0.3 | 12 | 0 | SMOOTH, CONVERGED | 0.00 (0.881) | 0.00 (0.794) | 25.3 of 1567.7 | 6.58 (142) |
+| 0.3 | 12 | J_e/40 | SMOOTH, CONVERGED | 0.00 (0.890) | 0.00 (0.814) | 25.3 of 1719.3 | 6.83 (148) |
+| 0.3 | 12 | J_e/10 | SMOOTH, CONVERGED | 0.00 (0.912) | 0.00 (0.871) | 25.6 of 2720.2 | 8.23 (176) |
+| 0 | 6 | 0 | SMOOTH, CONVERGED | 1.00 (0.137) | 1.00 (0.249) | 521.1 of 2096.0 | 0.38 (10) |
+| 0 | 6 | J_e/40 | SMOOTH, CONVERGED | 1.00 (0.096) | 1.00 (0.200) | 676.9 of 3171.3 | 0.41 (18) |
+| 0 | 6 | J_e/10 | SMOOTH, not converged | 1.00 (0.054) | 1.00 (0.126) | 1916.9 of 12864.3 | 0.43 (14) at the center; a second loop of 56 off center |
+| 0 | 12 | 0 | SMOOTH, not converged | 1.00 (0.077) | 1.00 (0.196) | 546.8 of 2631.2 | 1.19 (44) |
+| 0 | 12 | J_e/40 | SMOOTH, not converged | 1.00 (0.054) | 1.00 (0.138) | 628.0 of 4317.5 | 1.53 (58) |
+| 0 | 12 | J_e/10 | SMOOTH, not converged | 1.00 (0.027) | 1.00 (0.119) | 916.7 of 13680.6 | 1.07 (44) |
+
+1. **Is the one state with a nonzero degree on r = 4 there?** Yes, and it is the first row: δ = 0.05 with L₁ = 0.3 on half-box 6 at J = 0. Its loop is flat with radius 3.83, and its plaquettes lie 3.57 to 4.03 from the center of the box, so the sphere r = 3 is inside the loop and the sphere r = 4 touches its outer edge. At J_e/40 the loop (3.94 to 4.43 from the center) straddles r = 4, which reads 0; in the one-cell state at J_e/10 the sphere crosses the loop and reads 0.07.
+2. **Does its core carry the inertia?** No: 28.1 of 370.2 inside r < 2.
+3. **The states whose core holds the inertia are the six without L₁,** which M5.42 counted apart: 521 to 1917 inside r < 2, against 25 to 29 in the six with L₁ = 0.3. There the degree is 1 on r = 3 and r = 4 in all six: the long axis is a hedgehog from r = 3 outward. The plaquettes where it turns lie near the center: 10 of them at 0.27 to 0.59 from it on half-box 6 at J = 0 (CONVERGED), and 44 on a closed line of radius 1.19, with a spread of 0.53, on half-box 12 (not converged).
+4. **Without L₁ the share of the core falls as J is raised:** 0.249, 0.213, 0.149 on half-box 6 and 0.208, 0.145, 0.067 on half-box 12, at J = 0, J_e/40 and J_e/10.
+
+Four qualifications. On half-box 6 at J = 0 without L₁ the reader's radius of 0.38 is one spacing, the smallest-gap method reads 0.70, and the 10 plaquettes do not form a simple closed line: this is the core of a hedgehog of degree 1 that the grid does not resolve, and a ring is not shown there. δ = 0.05 was run at one spacing, and at δ = 0.3 without L₁ the loop moved with the spacing (3.15, 3.76, 3.80 on half-box 6), so we say nothing about the spacing. Of the six states without L₁ only the two on half-box 6 at J = 0 and J_e/40 are CONVERGED. And these are states of the rigid-twist functional, which your post reads as a functional and not as the energy of a stationary rotation.
+
+## 6. What was not computed, and the audit
+
+Not computed on OpenWave: the broken sector on half-boxes 12 and 18; a box larger than half-box 18; δ = 0.05 at a second spacing; the energy of the loop, and whether its place is a minimum against moving it; the cost of a rigid turn of the relaxed state (your point 3) and the line-tension estimate of your point 7.
+
+The run that would score your window in the broken sector is that sector relaxed on half-boxes 12 and 18. It is not started; say if you want it.
+
+Two audits, each by an agent on a model other than the one that ran the task, each asked to refute. The first wrote its own reader and its own second method and read sixteen states before opening the data: the radii agree to round-off. The second wrote its own code for your measure, for a fourth radius, for the degree on spheres and for the δ = 0.05 table: the numbers of sections 2 and 5 stand, and it corrected five statements of the record, all folded in above (the local exponents to three digits, the fit of item 5 of section 2, the one-cell states against their own loop, the wording on the core at δ = 0.05, the mirror image of the broken placement). Not checked by either audit: the labels and convergence flags of M5.42, the mirror and refinement controls, the plots.

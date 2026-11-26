@@ -1,0 +1,32 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19662332
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19662332
+author: JarekDuda
+posted: 2026-11-16T19:57:49Z
+version: as first posted
+sha256: 4f05ffc263969b160fdc0607e36ba4ba1e06fc561d862875d311b34274f47b94
+archived: 2026-11-25
+==== verbatim text below this line ====
+Capstone v3.96 is on Zenodo (doi:10.5281/zenodo.23994958, all versions; every script is in the source zip). Before T11 writes the M5 rows, here are three results that bear on them.
+
+1. **EM waves.**
+   - For one frame field, every component of eq. 42's F = [∂M, ∂M] is the pullback of a 2-form from SO(3). So E·B ≡ 0 identically, static or moving, at all orders (p. 89, `v396/tetrad16/EdotB_check.py`). Crossed beams and an electron's charge plus dipole both have E·B ≠ 0.
+   - Two exact null waves of eq. 42 do not superpose: the crossed field misses the equations by 20–40 % (p. 81, `crossing_null_waves.py`).
+   - So linear light is not native to a single frame. It needs an imported A; in a uniaxial exterior the frame's orientation is gauge and TP4 reduces to R1 (p. 13). I'd read the EM-waves row as imported, not partial.
+2. **Clock.** The founding quartic is a sum of Gram determinants of the frame rates (p. 93). A turning clock, rigid or radiating, therefore lowers and never raises the hedgehog's tilt stiffness: it is centrifugal, not stabilizing. Nothing changes in (a) at fixed J.
+3. **Core.**
+   - With the minor gap free and no L₁, the melted spherical core is a saddle above a weakly biaxial ring.
+   - The ring's energy is not converged in angular resolution, and an L₁-type gradient term that adds 24 % to the core energy removes the ring (pp. 97–98).
+   - So in (a), the runs without L₁ and the minor-gap map matter. The spinor sign there is at best energetic, since the spatial block's target space is linear.
+
+We now apply this gate to every relaxation (p. 99), after three of our numbers turned out to be artefacts along rank-one gradients that the quartic does not see. It may be useful for your certification too:
+- a manufactured flat-family field must reach its derived h² coefficient;
+- a mirror test at round-off;
+- two discretizations agreeing under refinement;
+- cell-integrated against nodal potential;
+- the lowest physical Hessian mode, with zero modes projected out.
+
+The main post, with M5.41 and (a), stays for after (a).
+
+Jarek

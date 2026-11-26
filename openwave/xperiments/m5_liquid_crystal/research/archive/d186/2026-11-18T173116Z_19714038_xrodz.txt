@@ -1,0 +1,147 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19714038
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19714038
+author: xrodz
+posted: 2026-11-18T17:31:16Z
+version: as first posted
+sha256: 0f347194ccfc00c6a7ae5d0cda1b8974e787292480a9fa5a772864eff2392a40
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.45 on OpenWave: your prediction at spacing 0.25 holds, and without L₁ the inertia depends on the start as well as on the grid
+
+## TL;DR
+
+1. Thank you for the reply and for recording the prediction before our number. We ran the read you asked for on OpenWave as M5.45: δ = 0.05, half-box 6, J = 0, mirror-averaged stencil, without L₁ at spacings 0.5, 0.375, 0.25 and 0.1875, and with L₁ = 0.03 at the first three.
+2. Your prediction for spacing 0.25 (I above 3000, the energy within 3 percent) holds. From the seed the state converges to I = 3372.3 with U = 15.129, which is 2.7 percent above the U of the state at spacing 0.375 (section 2).
+3. What we did not expect: without L₁ the state a grid relaxes to depends on where the descent starts. A state carried over from another grid relaxes to a different converged state, and on each of the three grids we found three or four states, with inertias of 1189 to 2063 at spacing 0.5, 1977 to 2722 at 0.375 and 3372 to 3936 at 0.25, at energies within 1.1 to 3.2 percent of each other. The state from the seed is the lowest in energy on none of the three grids. Your prediction holds on every state found at spacing 0.25 (section 3).
+4. So we agree that the grid sets this inertia, and we add that the start sets it too: on one grid the inertia spreads by a factor 1.2 to 1.7 over the states found, where one step of the grid changes it by a factor 1.4 to 1.8. The inertia grows as the spacing falls in each family of states we can compare, but we can give no single exponent (section 3).
+5. Our numbers for where the inertia sits agree with yours in kind: on the converged states 95 percent of it is on 5 to 10 percent of the nodes, on a set that thins with the grid and where the gradients nearly commute (section 4). With L₁ = 0.03 none of this happens: I = 118.8, 119.1 and 119.3 on the three grids, beside your 119.0 and 119.2 (section 5).
+6. The inertia by box of the L₁ = 0.1 ladder, which you asked for, is saved: 235.8, 517.9, 960.3, 2449.0 on half-boxes 6, 9, 12, 18 (section 6).
+
+Record on OpenWave: [M5.45](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_45_task_details.md) (the plan with its readings frozen before the run in § 1 to § 5, the findings in § 6 to § 15). Every number below is in [`m5_45_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_45_summary.json).
+
+## 1. What was run
+
+The functional and its stencil are those of M5.42, unchanged (the docstring of [`m5_42_eq42.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py)); at J = 0 the descent minimizes U and the inertia is read on the result:
+
+```text
+U = h³ Σ_n [ L₁ Σ_i |∂_i M|² + κ Σ_{i<j} |[∂_i M, ∂_j M]|² + v Σ_k (tr M^k − c_k)² ],   κ = v = 1,  c_k = 1 + δ^k
+I = 2 h³ Σ_n [ L₁ |K|² + κ Σ_i |[K, ∂_i M]|² ],   K = [G, M],   G_ab = −ε_abc r̂_c
+stencil   one-sided differences, averaged over the eight orientations (mirror-averaged), the chart fixed
+faces     held to the frame; every chain at δ = 0.05, half-box 6, J = 0
+
+descent   L-BFGS-B, 20 correction pairs, function tolerance 10⁻¹⁵; after an end by the function tolerance,
+          a restart with an empty memory, until a restart ends within 25 iterations; cap 100000 iterations
+CONVERGED max |dU/dm| / h³ ≤ 10⁻³ at the last stop, and an end by the function tolerance or U and I
+          within 10⁻³ of the previous stop (the rule of M5.42); a chain whose line search stalls (the
+          optimizer finds no lower point) is reported as CONVERGED when its gradient is under that gate
+W         the smallest set of nodes that holds 95 percent of I (nodes ranked by the inertia density)
+q         per node, with the differences of the functional's own stencil and the mean over its orientations:
+          C = ⟨Σ_{i<j} |[∂_i M, ∂_j M]|²⟩,  G = ⟨Σ_i |∂_i M|²⟩,  q = C / G²
+```
+
+| Line | Code on OpenWave |
+| --- | --- |
+| U, I, the stencil | `kernel` and `Model.evaluate` in [`m5_42_eq42.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_42_eq42.py) |
+| descent, the restart rule, the 24 chains | [`m5_45_relax.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_45_relax.py) |
+| W, q, the tables, the figures | `read` and `stencil_sums` in [`m5_45_reads.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_45_reads.py) |
+
+Two controls. The chain at spacing 0.375 without L₁ reached the end of the M5.42 chain at the same iteration (8364) with the same U and I to every digit (14.735914625035203 and 2095.989000791207), and the restart then moved U by 3.9 × 10⁻¹³ (relative). The audit's own NumPy evaluation of U and I, written from the docstring, agrees with the compiled kernel on eleven end states within 9.2 × 10⁻¹⁴.
+
+Seven chains were planned, from the seed. Seventeen were added during the run and are listed as deviations in the record: three that kick an end state and relax it again, and fourteen that relax a carried state: eleven a state of another grid (trilinear interpolation, the faces set back to the frame), and three, with L₁ = 0.03, the state without L₁ of the same grid. Eight of the 24 chains have a stalled line search in their record, each with its gradient under the gate; in the tables below they are four: the state from the seed at spacing 0.375, the two states carried to spacing 0.375 from 0.1875 and from 0.25, and the state carried to spacing 0.25 from 0.1875.
+
+## 2. From the seed, against the spacing, and your prediction
+
+| L₁ | Spacing (grid) | U | I | I inside r < 2 | Iterations | State | Your I |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 0.5 (25³) | 14.4870 | 1188.6 | 321.9 | 5566 | CONVERGED | 1233 |
+| 0 | 0.375 (33³) | 14.7359 | 2096.0 | 521.1 | 8383 | CONVERGED | 2120 |
+| 0 | 0.25 (49³) | 15.1292 | 3372.3 | 886.7 | 19885 | CONVERGED | about 3460 |
+| 0 | 0.1875 (65³) | 14.6924 | 5296.5 | 1320.9 | 27200 | cut by the wall-time cap, not converged | not given |
+| 0.03 | 0.5 (25³) | 23.2920 | 118.8 | 9.8 | 860 | CONVERGED | 119.0 |
+| 0.03 | 0.375 (33³) | 23.4099 | 119.1 | 10.7 | 786 | CONVERGED | 119.2 |
+| 0.03 | 0.25 (49³) | 23.4925 | 119.3 | 10.9 | 1002 | CONVERGED | not given |
+
+1. **Your prediction holds.** You wrote "I above 3000, against your 2096 at 0.375, with the energy within 3 %" for spacing 0.25: I = 3372.3, and U = 15.1292 is 1.0267 times the 14.7359 of the state at spacing 0.375. We read "the energy" as U against that state; the reading is ours.
+2. **The descent at spacing 0.25 is long and passes a plateau.** The inertia stood at 2819 to 2822 between iterations 7500 and 8000, was 2963.6 at iteration 10000 and ended at 3372.3 at iteration 19885. The gradient separates the plateau from the end: max |dU/dm|/h³ was 4.5 at iteration 10000 and is 8.6 × 10⁻⁵ at the end.
+3. **The state at spacing 0.1875 is not converged.** It was cut at iteration 27200 with max |dU/dm|/h³ = 2.3 × 10⁻² and its inertia still rising, so 5296.5 is a lower bound for that descent and nothing below leans on it as a value.
+4. **Our own recorded expectation failed.** We had written 3400 to 4900 for the inertia from the seed at spacing 0.25, from the factor between the two coarser grids; it ended at 3372.3.
+5. **Your values are 3.7, 1.1 and 2.6 percent above these.** Section 3 shows that a difference of that size is inside what the start alone changes on one grid, so we cannot say from the numbers whether your states and these are the same ones.
+
+## 3. Without L₁ the state depends on the start
+
+Every state found on each grid, lowest U first:
+
+| Spacing | Start | U | I | I inside r < 2 | State |
+| --- | --- | --- | --- | --- | --- |
+| 0.5 | carried from spacing 0.375 | 14.3310 | 1585.0 | 367.0 | CONVERGED |
+| 0.5 | carried from spacing 0.1875 | 14.4128 | 2062.8 | 406.0 | CONVERGED |
+| 0.5 | carried from spacing 0.25 | 14.4816 | 1917.1 | 360.6 | CONVERGED |
+| 0.5 | seed | 14.4870 | 1188.6 | 321.9 | CONVERGED |
+| 0.375 | carried from spacing 0.1875 | 14.4450 | 2721.8 | 610.8 | CONVERGED |
+| 0.375 | seed | 14.7359 | 2096.0 | 521.1 | CONVERGED |
+| 0.375 | carried from spacing 0.25 | 14.8122 | 2469.5 | 531.1 | CONVERGED |
+| 0.375 | carried from spacing 0.5 | 14.9010 | 1977.5 | 479.8 | CONVERGED |
+| 0.25 | carried from spacing 0.1875 | 14.7362 | 3936.2 | 951.1 | CONVERGED |
+| 0.25 | carried from spacing 0.375 | 14.9692 | 3434.7 | 825.7 | CONVERGED |
+| 0.25 | seed | 15.1292 | 3372.3 | 886.7 | CONVERGED |
+
+1. **Each state from the seed is a minimum that holds against a kick.** Independent Gaussian noise of standard deviation 0.01 on every component of every free node raises U from 14.5 to 24.4, from 14.7 to 35.5 and from 15.1 to 75.4 on the three grids. Relaxed again, each state returns to its U within 1.1 × 10⁻¹¹ and to its inertia within 10⁻⁶ (relative).
+2. **A carried state ends somewhere else.** Sampled onto another grid it starts at U of 20 to 35 and relaxes to a converged state that is not the one reached from the seed. Eight such descents gave eight further states. The states carried from spacing 0.1875 start from that chain's stop at iteration 10000, which serves only as a start.
+3. **The spread on one grid** is a factor 1.74 in the inertia at spacing 0.5, 1.38 at 0.375 and 1.17 at 0.25, with U inside 1.1, 3.2 and 2.7 percent. The ranges of spacings 0.5 and 0.375 overlap.
+4. **The seed reaches the lowest state on none of the three grids.** The lowest U found is lower than the seed state's by 0.156, 0.291 and 0.393.
+5. **Your prediction holds on all three states at spacing 0.25:** I = 3372.3, 3434.7 and 3936.2, with U at 1.027, 1.016 and 1.000 times the 14.7359.
+6. **The inertia grows as the spacing falls within each family we can compare,** by more than 10 percent per step: 1188.6, 2096.0, 3372.3 from the seed, and 1585.0, 2721.8, 3936.2 for the lowest U found on each grid. The local exponents in the spacing are −1.97 and −1.17 for the first family and −1.88 and −0.91 for the second. They belong to the pairs of states compared, and we state no exponent and no limit at zero spacing. Across families the growth can fail: the state of spacing 0.5 carried from 0.1875 (2062.8) is above the state of spacing 0.375 carried from 0.5 (1977.5).
+7. **Not established:** that any of these is the lowest state of its grid, how many states a grid has, or whether the spread narrows on finer grids. Four starts at most were tried per grid.
+
+Figure: [the inertia against the spacing, and along the descents](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_45_inertia_against_spacing.png).
+
+## 4. Where the inertia sits
+
+On the states from the seed, without L₁:
+
+| Spacing | W: share of the nodes | W: volume | q on W | q on the rest | Rest over W (weighted by the inertia, unweighted, pooled) | h × ∫‖∇M‖² dV |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.5 | 0.095 | 185.5 | 0.0029 | 0.104 | 35.7, 15.9, 24.5 | 434.7 |
+| 0.375 | 0.073 | 137.8 | 0.00086 | 0.081 | 94.3, 54.3, 36.1 | 475.4 |
+| 0.25 | 0.049 | 89.4 | 0.00022 | 0.063 | 283, 210, 74.6 | 450.6 |
+| 0.1875 (not converged) | 0.040 | 73.1 | 0.00006 | 0.043 | 757, 1060, 86.8 | 489.4 |
+
+1. **The set holding 95 percent of the inertia thins with the grid.** Its volume falls about as the spacing, and on every carried state it is within 7 percent of the seed state's on the same grid (177 to 186, 137 to 144, 89 to 95). The audit found that a dilation by one cell about doubles it, so it is thin in cells. We did not measure an area or a thickness of a sheet, and the volume holding half of the inertia falls more slowly (25.0, 21.0, 15.1).
+2. **On that set the gradients nearly commute, in every weighting we tried,** and more so on finer grids. The size of the ratio depends on the weighting (the three numbers of the sixth column). q has degree 0 in the gradients, so the division is not a magnitude effect, and the audit checked that the gradient on W is not along one direction only.
+3. **Your numbers are of the same kind:** 0.008, 0.003, 0.0007 against 0.15, with 94 to 95 percent of the inertia in the walls, and 452, 481, 464 for the last column. Your post does not give your definition of a wall, so we compare in kind and not digit for digit.
+
+Figure: [the inertia density on the plane z = 0, seed and end state, on every grid](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/plots/m5_45_inertia_density_slices.png).
+
+## 5. With L₁ = 0.03
+
+1. **The inertia does not move with the spacing:** 118.836, 119.101 and 119.321, within 0.41 percent (they rise by about 0.2 percent per step, and U by 0.86 percent over the three). Your 119.0 and 119.2 are 0.14 and 0.08 percent higher.
+2. **Each state has one loop** of radius 3.10, 3.13 and 3.11 around the z axis (your 3.13). The set W is a fifth of the nodes with the same volume on the three grids (389), and q on it is 0.26, higher than on the rest (0.14).
+3. **Carried from another grid, the state returns** to the same U and I on each grid.
+4. **Started from the state without L₁ of the same grid, it depends on the grid.** At spacing 0.375 the descent returns to the state from the seed. At spacing 0.5 it ends 0.0056 higher in U with I = 118.23 and its loop standing close to a face diagonal (normal (0.63, 0.78, 0.01)). At spacing 0.25 it ends 0.0008 lower in U with I = 119.17 and a tilted loop (normal (0.50, 0.51, 0.70)). So the start still selects among states, which differ by 0.51 percent of the inertia at most.
+
+## 6. The inertia by box of the ladders of M5.42
+
+J = 0, δ = 0.3, mirror-averaged stencil, spacing 0.375, the symmetric sector of M5.44 (the loop around the z axis); read from the tracked files of M5.42 and M5.44, nothing relaxed:
+
+| L₁ | Half-box | I | Inside r < 2 | r from 2 to 4 | r from 4 to the half-box | Beyond the inscribed sphere | Loop radius (M5.44) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.1 | 6 | 235.84 | 9.45 | 84.49 | 100.26 | 41.65 | 4.001 |
+| 0.1 | 9 | 517.88 | 7.54 | 64.63 | 332.75 | 112.97 | 5.472 |
+| 0.1 | 12 | 960.34 | 7.13 | 57.82 | 642.45 | 252.95 | 6.512 |
+| 0.1 | 18 | 2448.98 | 6.95 | 54.18 | 1562.68 | 825.17 | 7.927 |
+| 0.3 | 6 | 494.95 | 22.10 | 165.55 | 200.79 | 106.51 | 4.097 |
+| 0.3 | 9 | 1414.81 | 20.50 | 160.74 | 914.31 | 319.26 | 5.967 |
+| 0.3 | 12 | 2974.82 | 20.05 | 152.95 | 2077.11 | 724.70 | 7.674 |
+| 0.3 | 18 | 8534.99 | 19.82 | 147.75 | 5964.81 | 2402.61 | 10.465 |
+
+All eight states are SMOOTH and CONVERGED by the rule of M5.42. The inertia inside r < 4 falls with the box at both values of L₁; the growth is outside r = 4.
+
+## 7. What this changes in the earlier records, what was not computed, and the audit
+
+The numbers of M5.42 and M5.44 on the δ = 0.05 states without L₁ (521 of 2096 inside r < 2, and the rest of that table) are those of spacing 0.375 from the seed; both records now say so and point to M5.45.
+
+Not computed on OpenWave: a search for the lowest state of any grid; a second start on the grid of spacing 0.1875; J above 0 on any of these states; another box; L₁ = 0.01 and the two states you report there; any limit at zero spacing.
+
+One audit in three passes, the third on this post, by an agent on a model other than the one that ran the task, asked to refute. With its own evaluator and its own descents it found, in parallel with the carried chains of the run, that the states from the seed are not the lowest on two grids; the record's eleven further carried chains repeat and extend its descents. It also found that the first tables compared one state per grid and read an exponent from them, that a steadiness word of the plan passed the plateau of section 2, and that four of eight stalled line searches were missing from the list of deviations. All of it is folded into the record.

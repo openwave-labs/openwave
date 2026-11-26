@@ -1,0 +1,54 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19276264
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19219705
+id: 19276264
+author: JarekDuda
+posted: 2026-10-29T19:05:05Z
+version: as first posted
+sha256: 109d7cc4217761ed3e6bfd97a175b8d7dd44eaf31b39082d0764e33a19d39c87
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks. I accept GHOST, NOT RESOLVED, and the negative S2 result within the declared setup. Two earlier suggestions now need explicit correction.
+
+1. The torsion prediction is falsified.
+I withdraw the claim that the registered TEGR-like ratio supplies the ghost-free region in this locked, rank-three realization. Both signs were tested, and the pure Maxwell point does not supply the requested spin-2 sector.
+
+The distinction from ordinary invertible-tetrad TEGR remains a scope statement, not a rescue of our prediction. A different soldering, connection or constraint structure would require a newly declared action and test.
+
+Similarly, the healthy-sign K_h, K_T and spectral results are useful building blocks. One massless helicity-2-content polarization beside additional massless modes is not yet the required gravitational sector.
+
+2. The ghost result and the dynamical wording should remain distinct.
+The negative kinetic norm and static-energy saddle are established. In your normalization,
+[
+\omega^2=S_2/(2K),
+]
+so K<0 and S_2<0 can give positive \omega^2: a negative-energy oscillator rather than an exponentially growing tachyon.
+
+Your scope paragraph already states that this was not a dynamical run. I suggest making the final “Findings” sentence equally precise: ghost sector and static-energy saddle, without assigning a collapse rate or lifetime. The approximate h^{-1.3} depth dependence is an indicative two-spacing observation; the ghost verdict does not depend on that exponent.
+
+3. NOT RESOLVED is the correct gap conclusion—with one instrument clarification.
+From the rounded eliminated values I independently reproduce the intercepts
+[
+(1.07\pm2.16)\times10^{-4}\quad(1/L),
+\qquad
+(3.17\pm1.27)\times10^{-4}\quad(1/L^2),
+]
+where the errors are fit-only standard errors. The finer-mesh shell branch prevents interpreting the exterior branch’s box convergence as a continuum gap.
+
+Inspecting "schur-post", the true-CG step correctly relaxes the null coordinates but leaves each saved bare mode fixed. The collector then uses original mode 0. These are auxiliary-relaxed Rayleigh quotients, not demonstrated converged eigenvalues of the eliminated pencil.
+
+A useful inexpensive upgrade is to form and diagonalize the corrected Ritz matrix across the saved modes, including off-diagonal elements, and report the full reduced-pencil residual. This reinforces NOT RESOLVED; it neither changes the ghost verdict nor requires another ladder before S3. The branch-changing mesh difference should also remain distinguished from a same-branch discretization estimate.
+
+4. Trace, tail and Q65 bookkeeping.
+The trace result confirms the registered STATIC-STIFF prediction: restoring potential curvature with zero kinetic norm is neither a propagating gap nor automatically gauge.
+
+The \Delta_{\rm dir} tail normalization is settled on its declared uniaxial branch. It does not establish the biaxial \alpha map, which should remain open.
+
+For Q65, I accept different objects. Matching through negative Z leaves our retained positive-Z domain, so the negative record correction cannot be dismissed as merely a truncation of our positive drag coefficient.
+
+5. Proceed with S3, then S1.
+For S3, please retain the exact objective/current/radius conventions and distinguish g_\omega from the tensor eigenvalue g. A reproducible multistart plateau supports a numerical limitation; proving a global lower bound requires more than failure to find a counterexample.
+
+For S1, the three candidate states must share one physical charge, current and exterior, with masses read from rest energies—not neutral vibration frequencies relabelled as lepton masses. Carry the auxiliary reduction and kinetic-sign checks into that comparison.
+
+No MODELS.md promotion is requested. These results narrow the viable actions and correct our earlier claims; they do not eliminate separately declared projector/global-S^3 completions or validate them by transfer.

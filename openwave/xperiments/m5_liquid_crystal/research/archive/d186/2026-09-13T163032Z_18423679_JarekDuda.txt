@@ -1,0 +1,63 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18423679
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18423679
+author: JarekDuda
+posted: 2026-09-13T16:30:32Z
+version: as first posted
+sha256: dad04380486dfced43208757fe6358e91c23310aebf21dec4d08cbe5fe263b1b
+archived: 2026-11-25
+==== verbatim text below this line ====
+@mjmikulski @xrodz
+
+Both checked against the audit stack (rev 626, §§578–580; scripts `round606`–`round608` in the bundle). Three convergences, three corrections to my record, and one result I think is the most serious thing anyone has produced against this framework.
+
+## 1. 015 settles a question three of my sections reached separately
+
+"Outside the core the model is the Faddeev–Skyrme quartic without a sigma term" is the same statement I arrived at three ways this week, and none of mine was a measurement:
+
+- §563: the two independent quartic traces satisfy `tr([A_mu,A_nu][A^mu,A^nu]) = 2(T_2 - T_1)`, so `<F,F>` is the Skyrme invariant — verified to 1e-12, but only as an algebraic identity.
+- §566: eliminating the heavy connection of an SO(3) gauge–Higgs parent gives `F_munu[B_*] = [d_mu P, d_nu P]/f^2` at the isotropic point, and **the same reduction supplies the `f^2` quadratic term**.
+- §564: in a chiral parent the missing quadratic is `f_pi^2`.
+
+015 measures it, gives the tilt's exact cost `(32 pi/3) Delta^4 INT theta'^2` and its inertia, and names the absent term. **The identification is no longer an analogy.** If you have the halo's quartic coefficient in the same normalisation as the report's `lambda`, that is the one number that would let the parent comparison be quantitative rather than structural.
+
+## 2. The trace, confirmed — and I got there from a different direction
+
+§560 found that §450's shift `N -> N + sigma(x) 1` makes the trace pure gauge, so the physical content is the eigenvalue *differences*: `lambda_0 - lambda_1 = -(g+1)` and `1 - delta`, with the third pair zero by the degeneracy. In the traceless gauge `g = 1 + 2 delta = 1.63`, so the report's `g = 8` carries 6.4 units of pure gauge.
+
+Your rank counting (9 generic, 8 frozen, **0 at the vacuum**) is the part I did not have, and **rank 0 at the vacuum** is §477's missing propagator confirmed independently — as is R14-0's "no quadratic fluctuation on the flat vacuum". Two stacks, same result.
+
+One caveat I owe you: §564 notes the shift is exact only in the chiral limit. A potential breaks it, so `g` is *approximately* gauge, which is why §343's clock can depend on it at all.
+
+## 3. 016 is the most serious result against the framework in my record
+
+The null family `N = C - a(r) l l^T eta` with `l = (1, x-hat)`: `F = 0` identically, charge intact, `E <= (8 pi/3) Delta^2 R^3`, infimum zero at fixed charge.
+
+I had just run the Derrick scaling (§579) and reported that M5 **passes** the shrinking-core test — the quartic kinetic term makes the inertia `I ~ R` grow with the radius, so `E_rot ~ K^2/R` resists collapse, unlike the quadratic-kinetic models where `I ~ R^-1` lets it run away. That conclusion stands for the radial direction and is worthless in general, because 016 exploits a direction I did not test. My own adversary paragraph said "only the spherically symmetric radial mode has been checked", which is not a defence.
+
+**What makes it worse than a scaling escape is that every term built from `F` or from the spectrum is exactly blind to it.** No potential engineering reaches a direction with `F = 0`. Your `K_u = eta^{mu nu} <A_mu, A_nu>` with `A_mu = (1 - P_0) d_mu N P_0` is therefore not one repair among several — it is the only kind that can see the escape, because it sees the eigenframe rather than `F`.
+
+Two questions on it. Does `K_u` disturb §533's sign fix, which sets the overall sign of `<F,F>` by requiring a positive velocity coefficient? And does the local threshold `c ~ 0.013` sit above or below the coupling the relaxed core actually wants?
+
+## 4. omega = 0.694, withdrawn as a measurement
+
+You are right and this matters more than the rest. §§343, 511, 543 and 546 all use it — as a free rotor, as the proton's clock via `omega = L/I`, and in a domain-wall argument. If R13-W finds no fixed-J minimiser on `L_cert` and the inertia is box-extensive, and R18-2 returns `ROTOR_NOT_MINIMUM`, then 0.694 is a property of the report's couplings and not of this field, and every clock conclusion inherits that. I have flagged it in the ledger; the sections stand as conditional statements about a number nobody has measured.
+
+That also weakens §543's `omega_p/omega_e = m_p/m_e`, which was already a consistency condition rather than a derivation.
+
+## 5. pi_2 = 0 on the split vacuum
+
+Taken, and it bears on three sections. §535 (reading the Nature Physics heliknoton paper) found that **knot type is not protected** and the conserved quantity is the Hopf index; §548 concluded the baryon picture is "one topological object with two charge dressings" rather than two knots. Your point adds that on `(1, delta, 0)` — all four eigenvalues distinct — **nothing protects any winding at all**, and the paper's protection lives on the uniaxial `(1, delta, delta)`.
+
+So the pre-registered `AXIS_ESCAPES` outcome is not a pathology of the run; it is what the topology predicts. Worth noting that §363.6's "biaxiality is essential" and the uniaxial protection requirement are in direct opposition, which your pre-registration already says.
+
+## 6. Two smaller things
+
+**Koide.** I agree it is a read and not a gate, and the reason is quantitative: `Q = 2/3` is one equation on three masses, so its solutions are a two-parameter family. Your 1 : 4.5 : 162 gives 0.666803 and the measured 1 : 207 : 3477 gives 0.666661 — both on the surface. A triple landing on 2/3 is weak evidence; the ratios themselves are the content.
+
+**The string.** `E_int = -18.66 + 0.935 d` on the degenerate vacuum, against no quadratic fluctuation on the flat one, is exactly §539's resolution of an internal contradiction I had been carrying: §414's confining pair energy and the requirement that like charges repel at nuclear separations sit on opposite sides of a crossover set by the background. Your two runs confirm it from the lattice. R19-1's repulsion under the boost bilinear at every budget is new to me and I have recorded it.
+
+**On the potential:** `V_spec` versus `V4` — §579 has just established something that makes the comparison sharper than "which is prettier". A pure quartic with no potential does not have a soliton at all: `E ~ 1/R` for both the static quartic and the rotational sector, so the core **expands** without bound. `E = a/R + b R^3` then gives `R_* = (a/3b)^(1/4)`, so the potential's strength *sets* `r_0`, and `r_0^4 ~ (quartic)/(potential)` is one relation between two coefficients the report treats as independent. So R20-2's `gamma` matching is measuring something with a physical consequence, not just a normalisation.
+
+Everything above is reproducible from `round606`–`round608` in the bundle; the sections are §§578–580 of rev 626.

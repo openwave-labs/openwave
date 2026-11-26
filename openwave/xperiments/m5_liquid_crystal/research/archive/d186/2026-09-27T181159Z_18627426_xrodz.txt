@@ -1,0 +1,140 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18627426
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18627426
+author: xrodz
+posted: 2026-09-27T18:11:59Z
+version: as first posted
+sha256: e0494e759e962c36c1fd23ab99dc009559517650ce7c449203b8c1009810643b
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R27: the ungauged smoothness term melts the wall class into the smooth strand at kappa of order T_bps / E_kappa; its winding coefficient is yours to 0.1 percent per winding, but under it the full strand splits into two half strands that repel to the boundary, and the census converges to R26's order, not the sum k^2 one; the refined wall states re-form; the director's charge is not in the lines; the biaxial exterior has no Coulomb window
+
+Pinned to commit `b82d3628` (the R27 section of [`m5_32_task_details.md`](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), ledger [§ 6.18](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md), the scripts `m5_32_r27_*.py` and their audits `m5_32_r27_*_audit.py` under `research/scripts/`, the JSON records under `research/data/`). One autonomous day, 2026-09-27, on your 2026-09-25 replies to R26 and to report 018. Every sub-rung was audited by a fresh agent with its own code before this post (verdict counts in § 7); nothing below is a number that only one script produced.
+
+## TL;DR
+
+1. **The term, as run:** `E_kappa = kappa h^3 sum_i <d_i S, d_i S>` on the spatial block, the nearest-neighbor bond sum on the certified stencil's branches (the centered stencil has a null mode and reads a cell-sharp wall 2.6 times low), gradient checked by complex step. The unit `kappa_ref = T_bps / E_kappa(BPS strand)` = 3.9e-3 (delta 0.3), 3.6e-5 (delta 0.03), 4.0e-6 (delta 0.01) on L 48, h 1 (§ 0).
+2. ⭐ **The walls melt.** On the slab, at kappa 0 every smooth seed slides into the wall class (hundreds of tensor-phase wall bonds, 0.29 to 0.79 `T_bps`, the R26 finding from four seeds). The stored wall state loses its 150-degree jumps at 0.03 `kappa_ref`, its 90-degree ones at 0.1, and becomes the smooth strand itself at 0.3 `kappa_ref` (delta 0.3) and at `kappa_ref` (delta 0.03): the two seeds end in one state, energies equal to 13 digits (the audit's own descent: 1e-8). The price is a widened core, the quartic part 3.5 to 6.5 percent above its wall-free value. My pre-registered label reads `KAPPA_UNRESOLVED` on a flawed clause (it asked the quartic to sit within 3 percent of `T_bps`, unreachable since the strand's value is 0.85 and 0.60 `T_bps`); the substance is restoration (§ 1).
+3. ⭐ **Your `16 pi kappa k^2 b0^2 ln L` is exact per winding, and the k = 1 strand does not survive the term.** The two-box difference (L 96 minus L 48) of the relaxed smoothness energy at 0.3 `kappa_ref` reads your coefficient at k = 1/2 to 0.17 and 0.09 percent (delta 0.03, 0.3). For the full strand it reads 1.94 times that, not 4, because the m 2 strand splits at any kappa above 0 into two half strands whose cores fly to the pinned shell (32 apart on L 48, 67 on L 96): two independent windings at the box scale. The form-level reading is the mechanism: under the ungauged term two like half strands repel, `E_pair - E_full = -8 pi kappa b0^2 ln(d / xi)`; every pair seed (d 4, 6, 9) ends at the boundary in one state. `K2_LAW_REFUTED` by my rule; the audit's reading, which I share: the law holds per smooth winding, the object it was written for is not a minimizer of this term (§ 2).
+4. **The wall ladder does not vanish and does not converge.** The stored wall states re-relaxed at h 1, 1/2, 1/4 sit at 0.12, 0.14, 0.15 `T_bps` (delta 0.3), 0.11, 0.12, 0.17 (0.03), 0.11, 0.12, 0.17 (0.01), every row still falling at 3000 to 4000 iterations; each refinement multiplies the interpolated energy by 40 to 120 and each re-relaxation brings it back. `WALL_TENSION_UNRESOLVED`. The audit reframes the object: under this functional one-coordinate profiles and corners cost exactly zero, so what is priced is a wall's END, a singular winding (26 `T_bps` at h 1 within 3 h); the h 1 and h 1/2 states are director-row escapes spread over the box, a melted core forms at h 1/4: a finite junction energy, undecided at these counts (§ 3).
+5. ⭐ **The census under the term converges and does not order by `sum k^2`.** At kappa 2.3e-3 and 9.2e-3 (sized on the seeds' `sum k^2` spread) every one of the five pinned rows reaches the gate in 445 to 1750 iterations (kappa 0 needed 8000 and capped two); five and four certified. The order by total energy is `{2,1,1} < {3,1} < {1,1,1,1} < {2,2} < {4}` at both kappas, R26's kappa-0 order with every row now gated; `{1,1,1,1}` sits above `{2,1,1}` by 0.089 and 0.504 against errors of 3e-5 and 6e-5; `{4}` is the highest as you predicted. `ORDER_K2_REFUTED` by my rule. The audit's channel split says why the prediction was not testable here: the pair-rotation channel of the relaxed smoothness energy (the log term's) spreads 25 across the family against a predicted 9, under a director channel of 660 to 740; the SEEDS' pair channel is in your order (30, 52, 57, 75, 131) and the relaxation erases it. On L 48 the cores order the family, not the log; the test needs a larger box (§ 4).
+6. **The free-shell twins** run to their cap FALLING at 0.13 and 0.29 (from 8.2 and 8.4 pinned): with every cell free the boundary winding unwinds and the charge leaves through the faces, no director core anywhere at the end. `FREE_SHELL_REORGANIZES` by my rule; in substance a free shell does not count branches on this box (R21's finding at W1, again at W1 x 25), so the count needs the pinned shell with its 5 percent price or a box the charge cannot reach (§ 4).
+7. **The moment channel on {1,1,1,1} is empty in the axial component:** the unmasked `l = 1, m = 0` coefficient is 2e-4 and sign-changing (R26's 0.013 was its ratio to `l = 0` on one shell), the tube-masked one 1e-3 at the fit's floor; `MOMENT_FOOTPRINT` by my rule, "no axial moment" in substance. The audit finds an equatorial `l = 1` dipole of the pair gap along the seed's reflection axis (0.02 to 0.04, surviving the mask, rising outward: boundary-built, not a tail) (§ 5).
+8. **The director's charge is not in the lines and not in the core.** On every relaxed row 95 to 99.8 percent of `abs rho` sits outside r 6 and outside tubes of 3 h around the carrier lines (the tubes 0.1 to 2.7 percent, under the reader floor). The audit's lift-independent facts: the director's degree is 0 on r 3 and 1 from r 12 on every row, the unit charge is acquired in the shell the strand cores cross; and `abs rho` of the lattice Jacobian sums to 3.6 to 7 units against a net of 1, growing with box and resolution, so R26's `<r^2>` (205, 347, 394) is not a converging observable. The half-lines' angle from the axis (about 60 degrees at r 9) is the same on L 48 to 96 (§ 5).
+9. **The shared calibration:** `c = 32 pi` (`C = 8` by sympy on `M = n n^T`, the lattice fit to 0.08 percent) on the uniaxial exterior in this convention, `c / E` 2.69 in code lengths (box-bound); on the biaxial charge no Coulomb window inside L 96: the shell density falls as `r^-1` to `r^-1.9` on r 9 to 18, `r^-3` beyond, near `r^-4` only past r 24 with a `c` set by the box. The delta arm: both rows now at the gate and STABLE, `C_rigid` 13430, 20981, 14031 at delta 0.03, 0.1, 0.3: non-monotone, no law (§ 5, § 6).
+
+## 0. The term, the unit, and where each equation lives
+
+| Equation | Code |
+| --- | --- |
+| `E_kappa = kappa h^3 sum_br w_br sum_i sum_cells <d_i S, d_i S>`, `S = M[1:, 1:]`, forward and backward branches at weight 1/2 | [`m5_32_r27_0_form.py`](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r27_0_form.py) `e_kappa`, `grad_kappa` (check b: complex step 0, finite differences 2.8e-6) |
+| the two-box winding coefficient `E_kappa(2L) - E_kappa(L) = 4 pi m^2 b0^2 ln 2` per unit length (`16 pi k^2 b0^2 ln 2`, `k = m / 2`) | R27-0 check c (0.27 percent on the seeds, ratio m 2 / m 1 3.9994); R27-1 rows `bps_m{1,2}_d*_n{48,96}_L{48,96}_k0.3` |
+| the wall coefficient `2 pi^2 b0^2 / W`, on N_b bonds `2 b0^2 N_b (2 sin(pi / 2 N_b))^2 / h` | R27-0 check d |
+| the slab objective `E = delta^4 E_u[D] + V4[M0 + delta D] + kappa E_kappa`, the full static sector, the slot-preconditioned L-BFGS, the gate on the pair-slot gradient under 1e-3 with the chunk drop under 1e-5 | [`m5_32_r27_1_kappa_slab.py`](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r27_1_kappa_slab.py) `ScaledK`, `lbfgs` |
+| the census descent with the term: R25-2's reduced L-BFGS-B with `M_00` slaved to `V4`, the energy wrapped `E + kappa E_kappa` | [`m5_32_r27_2_kappa_census.py`](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r27_2_kappa_census.py) `energy_grad_kappa` |
+| the tube-masked harmonic reader (nine real `Y_lm` to l 2 by least squares outside the tubes), the footprint as the masked-out content's `l = 1` projection | [`m5_32_r27_3_reads.py`](https://github.com/openwave-labs/openwave/blob/b82d3628/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r27_3_reads.py) `moment_read`; R27-0 `masked_harmonics` (check e) |
+| the Coulomb coefficient: `e = 4 sum_{i<j} abs([A_i, A_j])^2 = 8 / r^4` on `M = n n^T`, `E(> R) = 4 pi C / R` | R27-0 check g (sympy at the pole and at a generic point) |
+
+`kappa_ref = T_bps / E_kappa(BPS strand, per unit length)` at h 1, n 48, L 48; it is a unit, box-bound (22 percent lower on L 96), and the same absolute kappa runs on both boxes of the `k^2` rows. The stored wall states of R26 read 24, 38 and 52 times the seed's smoothness energy (delta 0.3, 0.03, 0.01).
+
+## 1. The kappa arm on the slab
+
+Per row the quartic part over `T_bps`, the total over `T_bps`, the wall bonds at 150 / 90 degrees (n 48, L 48, h 1; every row relaxed as seeded, no kick):
+
+| delta 0.03, kappa / kappa_ref | BPS strand (m 1) | stored wall state | full strand (m 2) | half-strand pair, d 6 h |
+| --- | --- | --- | --- | --- |
+| 0 | 0.320 / 0.320, 164 / 380, falling | 0.107 / 0.107, 25 / 44, falling | 0.759 / 0.759, 275 / 575 | 0.789 / 0.789, 271 / 529 |
+| 0.03 | 0.813 / 0.865, 6 / 6, gate | 0.126 / 0.277, 0 / 2, falling (director row 0.69 delta) | 1.533 / 1.736, 29 / 40 | 1.568 / 1.738, 25 / 25 |
+| 0.1 | 0.838 / 0.934, 0 / 0, gate | 0.211 / 0.568, 0 / 0, falling (0.63 delta) | 1.676 / 1.872, two cores | 1.676 / 1.869, two cores |
+| 0.3 | 0.840 / 1.124, 0 / 0 | 0.563 / 1.084, 0 / 0, gate (0.39 delta): 3.6 percent below | 1.682 / 2.260, two cores | 1.683 / 2.250, two cores |
+| 1 | 0.867 / 1.772, gate | 0.867 / 1.772: the same state (2.5e-14) | 1.739 / 3.577 | 1.734 / 3.545 |
+
+| delta 0.3 | BPS strand | stored wall state | full strand | pair, d 6 h |
+| --- | --- | --- | --- | --- |
+| 0 | 0.286, 127 / 317 | 0.122, 0 / 29 (director row 0.76 delta) | 0.635, 251 / 525 | 0.674, 307 / 542 |
+| 0.03 | 0.597 / 0.624, gate | 0.143 / 0.276, falling | 1.195 / 1.250, two cores | 1.195 / 1.250 |
+| 0.1 | 0.598 / 0.687, gate | 0.229 / 0.518, falling | 1.196 / 1.377 | 1.197 / 1.376 |
+| 0.3 | 0.601 / 0.863, gate | 0.601 / 0.863: the same state (4.8e-13) | 1.204 / 1.736 | 1.205 / 1.730 |
+| 1 | 0.636 / 1.453 | 0.636 / 1.453: the same state | 1.273 / 2.937 | 1.269 / 2.918 |
+
+The crossover sits between 0.1 and 0.3 `kappa_ref` at delta 0.3 and between 0.3 and 1 at delta 0.03, above the plan's 0.02 to 0.06 (which took the walls as fixed; they widen first, then their director-row texture melts). The wall seed at delta 0.3 and kappa 0 is a director-row escape with no tensor-phase wall at all (the R26 "wall" is two classes: phase walls at small delta, an escape into the third eigen-direction at delta 0.3).
+
+## 2. The k^2 law and the split
+
+| delta | m 1: L 48, L 96, difference | `4 pi b0^2 ln 2` | ratio | m 2 difference | m 2 / m 1 | the m 2 rows' cores |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.03 | 0.006340, 0.008304, 0.0019632 | 0.0019598 | 1.0017 | 0.0038056 | 1.938 | two, 32.4 and 66.8 apart |
+| 0.3 | 0.5956, 0.7917, 0.19616 | 0.19598 | 1.0009 | 0.38109 | 1.943 | two, 32.3 and 66.8 apart |
+
+The audit's product ansatz of two BPS m 1 cores at the read positions gives the coefficient 1.96; the residual is the fixed core size (3.6) against the doubled box. The pair rows (d 4, 6, 9) end with cores 30.5 to 31.2 apart within 0.2 percent of one energy, 0.5 percent below the split m 2 state: a flat valley at the boundary. A bound pair under this term needs the connection (your gauged `kappa tr(DM DM)`) or a kappa where the quartic core interaction still holds the cores together; on this ladder none did.
+
+## 3. The wall ladder
+
+| delta | h 1 (n 48) | h 1/2 (n 96) | h 1/4 (n 192) |
+| --- | --- | --- | --- |
+| 0.3 | 0.159 at the start, 0.122 at 4000, falling 0.9 percent per 500; 0 / 29 bonds, director row 0.76 delta | 4.89 after interpolation, 0.142 at 3000, falling 1.1 percent | 5.76 after interpolation, 0.149 at 3000, falling 1.8 percent |
+| 0.03 | 0.131, 0.107, falling 0.3 percent; 25 / 44, width 3 h | 10.65, 0.123, falling 1.1 percent; 36 / 65 | 10.99, 0.172, falling 5.6 percent; 15 / 50 |
+| 0.01 | 0.131, 0.108, falling 0.3 percent; 28 / 66 | 15.24, 0.122, falling 1.0 percent; 27 / 107 | 16.45, 0.170, falling 6.4 percent; 15 / 105 |
+
+The audit's own cubic interpolation and 500-iteration re-relaxation at h 1/2 lands at 0.133, below my 0.142 after 3000: the h 1/2 rung is optimizer-limited and the rise from h 1 to h 1/2 is not a resolved h-dependence. The deciding instrument, which I did not run: h 1/4 and h 1/8 to the gate plus a box arm at fixed h (a smooth 2D texture of this functional lowers its energy as `1 / l^2` by spreading, so the spread part is box-limited). Your continuum question, "if `T_wall` vanishes the Koide delta is no longer excluded", stays open on these rows: nothing here vanishes, nothing here has converged.
+
+## 4. The census under the term
+
+| kappa 2.299e-3 | `sum k^2` | iterations | kick | `E_quartic` | `kappa E_kappa` | `E_total` | error | on r 9 | beta^2 (r 6) | kappa 0 (R26) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| {2,1,1} | 1.5 | 1250 | STABLE | 8.866 | 1.895 | **10.761** | 8e-6 | {3,1} | 0.019 | 8.119 (cap) |
+| {3,1} | 2.5 | 1250 | STABLE | 8.901 | 1.948 | 10.849 | 3e-5 | {1,1,1,1} | 0.014 | 8.226 |
+| {1,1,1,1} | 1.0 | 1250 | STABLE | 8.742 | 2.108 | 10.850 | 7e-6 | {1,1,1,1} | 0.029 | 8.380 |
+| {2,2} | 2.0 | 1250 | STABLE | 8.987 | 1.989 | 10.976 | 4e-7 | {4} | 0.111 | 8.388 |
+| {4} | 4.0 | 1750 | STABLE | 9.115 | 2.031 | 11.146 | 6e-5 | {2,1,1} | 0.139 | 8.559 (cap) |
+
+| kappa 9.197e-3 | iterations | kick | `E_quartic` | `kappa E_kappa` | `E_total` | error |
+| --- | --- | --- | --- | --- | --- | --- |
+| {2,1,1} | 750 | STABLE | 9.096 | 7.017 | **16.113** | 3e-6 |
+| {3,1} | 750 | STABLE | 9.155 | 7.173 | 16.328 | 7e-7 |
+| {2,2} | 445 | SADDLE, not reconverged (an upper bound) | 9.269 | 7.184 | 16.452 | 1e-2 |
+| {1,1,1,1} | 750 | STABLE | 9.198 | 7.419 | 16.617 | 2e-5 |
+| {4} | 750 | STABLE | 9.401 | 7.359 | 16.760 | 3e-6 |
+
+The relaxed smoothness energies at the smaller kappa are 917 ({1,1,1,1}), 883 ({4}), 865 ({2,2}), 847 ({3,1}), 824 ({2,1,1}): the four-line partition carries the most, not the least. The term also flattens beta^2 inside r 6 to 0.001 to 0.14 (R26: 0.04 to 0.60) and pulls `E_u / 3 V4` to 0.74 to 0.97. **The free-shell twins** ({3,1} and {1,1,1,1} at kappa 0, every cell free, the same descent): 8000 iterations to the cap, FALLING, energies 0.128 and 0.291 against 8.226 and 8.380 pinned; the smoothness energy of what is left is 9878 and 16528 (against about 900 pinned), the director tangent on every sphere and no director core anywhere (the audit at 5750: minimum director gap 0.27 and 0.39, 0.6 and 7.6 percent of the charge inside r 9). The object leaves through the faces; the free shell is not a counting instrument at this box size.
+
+## 5. The stored-field reads
+
+**The moment (your item 5).** On {1,1,1,1} the axial `l = 1` is 2e-4 unmasked (sign-changing across r 6 to 18, so its slope -1.98 is not an exponent) and 1e-3 with balls of 3 h masked around every carrier point read on the spheres (the lines curve), both at or under the fit's floor. The audit's transverse read: `(b_1, c_1)` = 0.044 at r 6 and 0.02 to 0.03 on r 13.5 to 21 with `b_1 = -c_1` on every shell, a dipole of the pair gap along `(1, -1, 0)`, surviving the mask and rising outward from r 9: a field quantity built against the wall, like the outward-rising axial `l = 1` of {3,1} (which keeps two thirds of its size under the mask). No branch shows a moment tail. Two synthetic controls fixed the reader first: a planted `a cos(theta) / r^2` returns `a` within 3.5 percent through the mask, a planted footprint (the gap at `-delta` inside tubes) reads slope -2.04 at 0.92 of the solid-angle prediction unmasked and 0 masked (the audit: that zero is by construction when the footprint lies inside the mask, which is why the label mask is 3 h, wider than the BPS core's 2.6 to 3.6).
+
+**The charge in the lines (6b).** The split of `abs rho` (the hedgehog Jacobian of the top eigenvector, oriented outward) at r 6 and into tubes of 3 h around the straight lines through the r 9 carriers: core 0.1 to 2.4 percent, tubes 0.1 to 2.7 percent, the rest 95 to 99.8 percent on the S1 rows (L 48 to 96, h 1.5 and 1) and the three certified branches; the hedgehog seed control keeps 96 percent inside r 6 with a reader floor of 3.6 percent outside. The audit's continuous-lift degree: exactly 0 on r 3, 1 from r 12 (10.5 at h 1; 15 to 18 on the branches), disclination lines piercing every sphere between (where a charge density is undefined). So the unit charge is acquired in the shell the strand cores cross, and `<r^2>` of `abs rho` (3.6 to 7 units of it against a net of 1, growing with box and resolution) is not the observable to carry it.
+
+**The carriers against the box (your 18:51 item 2).** The S1 half-lines read rho 7.7 to 8.4 from the axis on r 9 (z 3.2 to 4.6) on every box, L 48, 64, 72, 96; r 18 returns 14 to 26 fragments on every row (the sphere sits in the charge shell). Bound or repelling is not decided by these boxes: the near-core geometry does not move, the far course is not readable.
+
+**The calibration (18:51 item 4).** `C = 8` by sympy at the pole and at a generic point (`A_x = (e_x e_z^T + e_z e_x^T) / r`, `[A_x, A_y] = (e_x e_y^T - e_y e_x^T) / r^2`, `e = 4 abs(F_xy)^2 = 8 / r^4`), so `c = 32 pi = 100.5` and the lattice fit on the delta 0 seed gives 100.6; `c / E = 2.69` with the melted core in E (2.80 on a smaller box). On the biaxial rows: the shell energy density on r 9 to 18 falls as `r^-1.2, -1.0, -1.0` (h 1.5) and `r^-1.8, -1.9` (h 1), a would-be `c(R)` drifts 109 to 247 (L 48), 89 to 135 (L 96); the audit: the window straddles the halo's density peak, beyond it `r^-3`, and past r 24 both L 72 and L 96 approach `r^-4` with flat `c` windows at 172 to 179 and 127 to 140, the densities differing 15 to 36 percent at equal r: a Coulomb-looking window whose coefficient is set by the box. No femtometres: the mass and charge normalization is yours.
+
+## 6. The delta arm
+
+| delta | iterations to the gate | E | kick | `C_int` | `C_orb` | `C_rigid` | `C_rigid` at 8000 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.3 (R25-2) | 5750 | 8.8227 | STABLE | 14071 | 1403 | 14031 | |
+| 0.1 | 9000 | 13.8697 | STABLE | 17467 | 10369 | 20981 | 20940 |
+| 0.03 | 13750 | 17.1054 | STABLE | 13569 | 3135 | 13430 | 12903 |
+
+With all three at the gate the rule lets me state the sign: `C_rigid` rises from delta 0.3 to 0.1 and falls from 0.1 to 0.03; the delta 0.1 charge is a different object (its orbital part 10369 against 1403 and 3135, beta^2 0.19 inside r 6). Three converged points from one seed, not a law; the 4 percent between delta 0.03 and 0.3 is inside the 0.03 row's own drift (the audit).
+
+## 7. The audits
+
+| Sub-rung | Own instruments | CONFIRMED | QUALIFIED | REFUTED |
+| --- | --- | --- | --- | --- |
+| R27-0 | own bond sum, seeds, stencils, least squares, sympy, a Berg-Luscher degree | 5 | 12 | 0 |
+| R27-3 reads | own least squares, masks, floors (standard error, bootstrap, permutation), a solid-angle projection, a continuous-lift degree, gap-closure clusters | 12 | 6 | 0 |
+| R27-1 | own term with an FD-checked gradient, own readers, own L-BFGS with a Hessian eigen-preconditioner, own interpolation and re-relaxation, a two-core ansatz | 2 | 3 | 0 |
+| R27-2 and the arm | own stencils (branch and bond-sum forms to 1e-13), own beta^2, clusters, degree, orbital generator, an own continuation, a channel split of the smoothness energy | 2 | 5 | 0 |
+
+Every number in this post was reproduced; every QUALIFIED is folded into the sentence it qualifies above. Three of my own pre-registered rules were found wanting at collect (the `T_bps` clause, the `k^2` rule written on the relaxed object, the footprint zero by construction) and are recorded as such in the record's deviations table; the labels stand as the rules' outputs, the readings beside them.
+
+## 8. Not computed here
+
+The gauged `kappa tr(DM DM)` (the connection is yours); the h 1/8 wall rung and the box arm at fixed h; a census on a box where the log term is not the smallest channel; the axisymmetric {2,2}; the centre-pinned held pair; the Koide delta (conditional on a converged wall ladder); the four capped R25-2 rows.
+
+## 9. Two questions
+
+1. The term melts the walls at a kappa where its energy is of the order of the tension and widens the core by 3.5 to 6.5 percent in the quartic part: is a kappa of that size acceptable in your action, or is the gauged term meant to do this at a smaller coefficient?
+2. Under the ungauged term the k = 1 strand splits and its halves repel to the boundary, as `-8 pi kappa b0^2 ln(d / xi)` says; is the bound {2,2} object of the lepton picture meant to be held by the connection, by the quartic core interaction, or by the boundary?

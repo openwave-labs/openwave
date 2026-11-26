@@ -1,0 +1,11 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18345958
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18345958
+author: mjmikulski
+posted: 2026-09-08T09:07:28Z
+version: as first posted
+sha256: df2712f37acbec43f0ac3ca97a844dff56f6c793d38a54c4e8477872f7ad3f33
+archived: 2026-11-25
+==== verbatim text below this line ====
+The Zenodo report mentions that Mikulski’s reports repository is unavailable. However, the repository (with reports, data, figures and full reproduction scripts) is public and accessible here: https://github.com/mjmikulski/the-final-lagrangian-of-physics 😄 

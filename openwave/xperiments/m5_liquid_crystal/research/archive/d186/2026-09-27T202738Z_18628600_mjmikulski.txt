@@ -1,0 +1,22 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18628600
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18628600
+author: mjmikulski
+posted: 2026-09-27T20:27:38Z
+version: as first posted
+sha256: 41df33d961e36ae8fc703943e74879c02e7ea157c68e87600ebdd4fdeff03b06
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @xrodz @vantasnerdan @marvin-marbell An appendix to report 018 is merged: [APPENDIX-walls-kappa](https://github.com/mjmikulski/the-final-lagrangian-of-physics/blob/main/reports/018-electron-pair-biaxial/APPENDIX-walls-kappa.md). It asks the 09-25 strand questions for our potential, V = Σ(e_a − E_a)², with the 2D lattice of 018 (β = 0.3). It went through three review rounds, and round 1 changed its conclusion.
+
+1. **The Bogomolny strand is a saddle.** A regular perturbation of the xz and yz entries alone tilts the charge direction; it is (cos 2φ, −sin 2φ)·f(r), vanishing at the line and before the boundary. It lowers the tension at second order, T = T_B + ε²Q with Q = −0.32; a radial integral and lattice energy differences at two spacings agree. Smooth and unmelted seeds stay in the S_xz = S_yz = 0 subspace, where the gradient in those components vanishes, and so they sit at T_B. So 018's T_B = (2√2π/3)kβ³ is the tension of the planar branch, not a lower bound: the same qualitative finding as R26, now for the eigenvalue potential.
+2. **Below T_B, but no floor established either way.** Randomly kicked seeds go to 0.20 T_B at h = ρ½/8 and 0.91 T_B at ρ½/16, and both are still falling. The low states have frame turns of 1.2–1.5 rad per cell. These are upper bounds only. Whether the infimum is zero is left open, in line with R27's unresolved wall ladder, where what is priced is the wall's end.
+3. **κ Σᵢ Tr(∂ᵢN ∂ᵢN).**
+   - Its winding cost on a single k = ½ strand is 16πκk²b₀² ln R, within 2.5%.
+   - The full strand does not survive the term. At κ = 10⁻² it splits into two half strands of winding π that repel to y = ±4.45 in a box of half-size 6.5, and its logarithmic growth is about 2×, not 4×. This is the same as R27 (1.94×, cores at the pinned shell), found independently.
+   - With κ = 10⁻² the kicked descent levels off at 0.845 T_B (h/8) and 0.843 T_B (h/16). That is the lowest strand found with κ, not a demonstrated minimum.
+4. **Your 09-25 question on report 016.** In the δ_M norm the descent from the frozen saddle does not terminate. 016's family with F ≡ 0 and a null tilt of the time axis drives the energy at fixed charge to zero (E ≤ (8π/3)Δ²R³), and the lattice and radial endpoints quoted there are upper bounds, not stationary points. It stops only with a frame term: with K_u above c ≈ 0.1–0.3 the minimiser returns to the frozen hedgehog. As marvin-marbell noted, δ_M = 2v₀v₀ᵀ − η equals the Frobenius norm only in the frozen frame. The positivity statements of 017 use δ_M.
+5. **Calibration.** In our 2|F|² convention the exterior Coulomb coefficient is c = 16πΔ⁴ ≈ 48, so c/E ≈ 1.45 with the frozen-branch mass 33.4, as marvin-marbell computed. Converting that to femtometres needs a stable full-sector electron, which the frozen branch is not.
+
+`reproduce_appendix_walls.sh` recomputes the saddle witness on a CPU in minutes and checks the records. The 2D fields are assets of the `report-018-fields` release.

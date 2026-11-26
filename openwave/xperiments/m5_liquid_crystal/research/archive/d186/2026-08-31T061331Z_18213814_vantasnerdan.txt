@@ -1,0 +1,469 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18213814
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18213814
+author: vantasnerdan
+posted: 2026-08-31T06:13:31Z
+version: as first posted
+sha256: 5b0533c0214ee16317e70f632088afd83c1b3400edbb86519b3cfff72acd3e83
+archived: 2026-11-25
+==== verbatim text below this line ====
+I read the full thread (the opening post and Jarek's comment), the OpenWave M5.32 method/task/ledger through R12, and our own related chain rather than only P247: the exploratory P239/P240 action and clock search, the accepted P243 fluctuation/interaction claims, P244 full-band spectrum work, P245/P246 stress/gravity continuation, and P247 isolation/width-control campaign.
+
+My short conclusion is:
+
+> R13 is the right frontier, but it needs to be split before more compute. OpenWave has established an infrared failure of its **specified rigid co-moving clock flow**. It has not established that every physical clock flow is infrared-extensive. On our side, P239/P240 already implemented the central idea in Jarek's comment—a common-phase reduced clock action that becomes trivial on a degenerate exterior vacuum—but that was still not sufficient: on the tested radial minimum branch, the clock-active tail and profile coefficients continued to drift with box size. The joint problem is therefore both **clock legitimacy** and **dynamical width control**.
+
+This also confirms the numerical-governance concern raised above. Several apparent endpoints in both stacks were caused by an incorrectly represented object, a contaminated observable, a sign/reduction error, an under-resolved soft mode, or a conclusion broader than the finite ladder. More precision on the same wrong quantity would not have helped.
+
+## 1. The common mathematical question
+
+For a genuine cyclic clock coordinate $q\in S^1$, with $\omega=\dot q$, write the reduced Lagrangian as
+
+$$
+L[M,\omega]=A[M]+B[M]\omega+C[M]\omega^2.
+$$
+
+Then
+
+$$
+J=\frac{\partial L}{\partial\omega}=B+2C\omega,
+\qquad
+\omega_* = \frac{J-B}{2C},
+$$
+
+and the fixed-$J$ functional is
+
+$$
+E_J[M]=E_{\rm stat}[M]+\frac{(J-B[M])^2}{4C[M]}.
+$$
+
+OpenWave's current convention has $B=0$, $C={\rm kin}$, hence
+
+$$
+E_J=E_{\rm stat}+\frac{J^2}{4\,{\rm kin}},
+\qquad
+\omega_* = \frac{J}{2\,{\rm kin}}.
+$$
+
+But these formulas are licensed only if the proposed tangent integrates to a normalized compact action, the action is phase-independent, and $J$ is the corresponding conserved charge. An arbitrary local velocity field with a finite quadratic norm is not yet a clock.
+
+The profile must also be solved **at fixed $J$**, not statically relaxed and then post-processed:
+
+$$
+\delta E_{\rm stat}-\omega_*\,\delta B-\omega_*^2\,\delta C=0.
+$$
+
+The full constrained Hessian contains
+
+$$
+\delta^2\!\left[\frac{(J-B)^2}{4C}\right]
+=-\omega_*\delta^2B-\omega_*^2\delta^2C
++\frac{(\delta B+2\omega_*\delta C)^2}{2C}.
+$$
+
+That last rank-one term, and all dependence of a field-dependent flow on $M$, are load-bearing in a soft-mode calculation. A `kin_grad` that freezes $a_0(M)$ cannot establish stationarity of the proposed R13 flow.
+
+## 2. What OpenWave R0-R12 established
+
+The certified M5.32 action uses
+
+$$
+F_{\mu\nu}
+=(\partial_\mu M)\eta(\partial_\nu M)
+-(\partial_\nu M)\eta(\partial_\mu M),
+\qquad
+\mathcal L_{\rm cert}=-4I_1-V_4(M).
+$$
+
+The strongest supported route results, grouped for readability, are:
+
+- **R0-R3: action/sign search.** The existing stack was reproduced. The constant-coefficient, current-order covariant quadratic family was exhausted under its stated recovery and boundedness gates; its admissible deformations do not repair the tested clock direction. A field-dependent sign flip can make the Hamiltonian bounded, but the tested clock remains weak/nonlocalized. The tested Newton-sign constructions did not give the desired common clock-and-attraction mechanism. These are scoped route results, not a no-go over higher derivatives, new fields, different vacuum stabilizers, or different clock representations.
+
+- **R4-R8: fixed-$J$, localizers, and quartics.** The inherited rigid/co-moving flow has inertia growing approximately linearly with box size, so $\omega_*\sim L^{-1}$. A derivative-free Lorentz-invariant potential is exactly constant along one Lorentz orbit, so it cannot localize motion that stays on that orbit. The tested $K_T$ minimum came from the dressing switching off. One quartic class was volume-extensive; another was dominated by the coordinate string and never acquired a continuum interpretation. The later audit also caught a wrong producer tangent sign. These are valuable mechanism diagnoses, but they do not establish that every dynamically derived flow is extensive.
+
+- **R9-R12: topology, far field, and ring.** For the fixed distinct-eigenvalue orbit, the point texture has discrete stabilizer $D_2$, $\pi_1=Q_8$, and $\pi_2=0$: line defects are natural, while the point hedgehog is not homotopy-protected on that orbit. The R9 audit also reversed the initial string-exclusion reading: the $g=8$ line relaxed into a finite core with surviving, mesh-consistent inertia, while the $g=32$ probe remained unconverged. R10 distinguished rigid-flow inertia from an imposed tapered-flow diagnostic; it did not solve for the optimized physical clock flow, and its zero-barrier melt path began from the unrelaxed ansatz. R11 showed the global sign-flipped route has no floor. R12 found a half-winding ring whose local winding survived 3000 pinned FIRE steps, but the ring still shrank and the relaxation was not converged. That supports persistence over the tested run, not a stationary finite-radius ring.
+
+The rigid-flow infrared law is analytically understandable. In the far field,
+
+$$
+M(r,\hat x)\to Q(\hat x)dQ(\hat x)^T,
+\qquad
+\partial_iM=\frac{D_i(\hat x)}{r}+O(r^{-2}),
+$$
+
+while the rigid clock tangent remains $a_0=A(\hat x)+O(r^{-1})$. Therefore
+
+$$
+F_{0i}=\frac{\mathcal F_i(\hat x)}{r}+O(r^{-2}),
+$$
+
+so the inertia density is $O(r^{-2})$ and
+
+$$
+C(L)\sim \kappa L+O(1),
+\quad
+\omega_*(L)\sim\frac{J}{2\kappa L},
+\quad
+E_{\rm rot}(L)\sim\frac{J^2}{4\kappa L}.
+$$
+
+OpenWave's numbers show this directly for $J=200$:
+
+$$
+48(0.148415)=7.124,\qquad
+72(0.098162)=7.068,\qquad
+96(0.073404)=7.047.
+$$
+
+The defensible conclusion is: the specified rigid ansatz stores fixed $J$ in an expanding vacuum texture. That is not a theorem that all possible clocks do so.
+
+## 3. What our P239-P247 chain tried
+
+Our side is not just an independent repetition of the R12 box test. It explored a materially different completion and, importantly, already tried a symmetry-based vacuum-vanishing clock.
+
+### P239/P240: from the quadratic no-go to a vacuum-trivial clock
+
+P239 independently enumerated the current-order curvature-quadratic basis. The parity-even sector has six independent contractions; the full deformation subspace that preserves the arbitrary static $3\times3$ action is blind to an explicit negative clock witness. This is the closest local analogue of OpenWave R1.
+
+The next concept was a field-dependent spectral-Cartan contraction. With $P_t(M)$ the simple timelike spectral projector,
+
+$$
+h^{ab}(M)=\eta^{ab}-2P_t{}^a{}_c\eta^{cb},
+$$
+
+and schematically
+
+$$
+\mathcal L_{\rm SC}
+=-\frac12F_{\mu\nu ab}F_{\rho\sigma cd}
+\eta^{\mu\rho}\eta^{\nu\sigma}h^{ac}h^{bd}-V_{\rm M5.17}.
+$$
+
+This gives a positive curvature Hamiltonian on its declared timelike branch while recovering the static $3\times3$ sector exactly. P239 also explored a projector-current completion whose Derrick ledger is
+
+$$
+E_J(R)=\kappa A_2R+\frac{A_4}{R}+\frac{J^2}{4C_I R^3},
+$$
+
+plus axisymmetric, timelike-scalar, spectral-guard, auxiliary-axis, and axis-lock variants. Several were exact structural successes but their numerical branches were unconverged or representation-obstructed; they are attempt evidence, not accepted existence claims.
+
+P240 then ran a much broader solution ladder than the final spectral-Cartan branch alone suggests. The materially different constructions were:
+
+<details>
+<summary>Detailed P240 solution-family inventory</summary>
+
+| Route | Defining idea | What happened |
+|---|---|---|
+| Same-order contractions | Exhaust all constant-coefficient quadratic curvature scalars while preserving the full static $3\times3$ source sector. | An exact source-restricted witness remained negative. This family was rejected; field-dependent contractions and higher orders remained open. |
+| $L_1$ field-dependent kinetic axis | With $Y=(I-P_t)(\eta^{-1}M)(I-P_t)$, $Z_\mu=(I-P_t)(\partial_\mu Y)(I-P_t)$, add $-\frac{\kappa_1}{2}{\rm Tr}(P_NY)^2P_t^{\mu\nu}{\rm Tr}(Z_\mu Z_\nu)$. Its clock reduction is $\kappa_1 n^2(\lambda_\theta-\lambda_\phi)^2\omega^2$, and it kills the zero-eigenline escape. | A tilted-$P_t$, high-wave-number static witness made the Hamiltonian unbounded below. Rejected by an exact mechanism, not by optimizer failure. |
+| Axis-weighted Pontryagin square | Square an axis-weighted $\epsilon FF$ scalar so the added term is static-null and positive in its intended time channel. | Early coarse roots exposed axis/coordinate defects. After the regular-chart repair, a genuine root reached relative residual $9.85\times10^{-11}$ but had five negative Hessian modes, from about $-14.92$ to $-0.716$. This rejects stable-minimum status of that tested member/ansatz, not the whole higher-order family. Its scaling $I\sim R^{-3}$, $E_{J,\rm rot}\sim R^3$ was also unattractive for de-boxing. |
+| Axis-weighted timelike Skyrme current | Use the unique single-trace commutator norm $-\frac12{\rm Tr}[Y,Z]^2$, weighted by $n^2={\rm Tr}(P_NY)^2$. The clock term is $\kappa n^2(\lambda_\theta-\lambda_\phi)^4\omega^2$. | Structurally healthy and static-null, but tested neighborhoods retained negative modes (about $-9.24$, and $-5.13,-4.24$ on the second branch). Polynomial replacements either introduced blind spectra or a new unfixed ratio; the constant-polynomial subfamily was exhausted, not all higher-current theories. |
+| Alternating derivative sextic | $K_\mu=[Y,Z_\mu]$, $B^\mu=\epsilon^{\mu\nu\rho\sigma}{\rm Tr}(K_\nu K_\rho K_\sigma)/6$, with density $\kappa n^2q_{\mu\nu}(P_t)B^\mu B^\nu$. It gives $I\sim R^{-1}$ and $E_{J,\rm rot}\sim R$, a potentially confining scale. | The first rest-slice implementation omitted the dynamic projector contraction. The corrected Legendre polynomial $L=A+2C\omega+I\omega^2$ gives $H_J=(J-2C)^2/(4I)-A$ and revealed adverse fixed-$J$ boost curvature. The single term was not a positive stabilizer. |
+| Alternating sextic + projector current | Add a positive timelike-projector current to bound the adverse boost direction; an exact sufficient coefficient region exists. | An $8\times16$ positive-Hessian state appeared, but projection/refinement showed 65–85% of several fields in the upper half of the discrete spectrum and a two-order-of-magnitude energy blow-up. It was a lattice-scale stationary artifact. Smooth Galerkin continuation found a restricted saddle and then failed to reach a basis-converged physical endpoint. |
+| Spectral-Cartan contraction | Replace the fixed internal signature by the $M$-derived $h(M)$ above, preserving Lorentz covariance on the simple-timelike branch and the complete static sector. | Selected as the strongest action-level candidate. Smooth roots existed; a split-channel saddle at small radius was independently confirmed, while larger boxes supplied a marginal stable window. Later de-boxing showed the minimum branch spreading rather than a box-independent core. |
+| Fixed-$J$ two-clock inertia | For $I=\begin{pmatrix}I_1&C\\C&I_2\end{pmatrix}$, $E_J=\frac14J^TI^{-1}J$. Equal like clocks have $\Delta E_J=-j^2C/[2I_0(I_0+C)]$, attractive if $C>0$; $C\sim A/r$ would give a Newton-like tail. | The implication is exact, but the boxed pair chart had only the summed phase, hence a singular counter-rotating inertia channel. Naive per-centre generators violated SPD. No relaxed positive $A/r$ cross inertia was established. |
+
+</details>
+
+This ladder matters for R13: we already tried “add a localizer,” “raise derivative order,” “select an axis,” “change the contraction metric,” “repair the fixed-$J$ Legendre map,” and “search smooth branches.” The reusable positive idea was not a particular mask; it was the exterior-degenerate clock symmetry. The repeated failure mode was then either loss of Hamiltonian boundedness, an invalid reduction/representation, or absence of a dynamically fixed width.
+
+P240's important clock ansatz used a uniaxial rank-one exterior. In a local director frame,
+
+$$
+S=(t+q)\,nn^T+(t+\delta)e_\theta e_\theta^T
++(t-\delta)e_\phi e_\phi^T.
+$$
+
+The reduced clock uses one common angle to rotate the tangent eigenspace about the local director $n(x)$, with tangent
+
+$$
+\zeta=[\Omega_n,S].
+$$
+
+This tangent is proportional to the tangent-plane eigenvalue split $2\delta$. At the exterior projector vacuum, $t=\delta=0,\ q=1$, so
+
+$$
+[\Omega_n,S_{\rm vac}]=0.
+$$
+
+That realizes the core of Jarek's equal-eigenvalue suggestion **inside the reduced chart**: the clock phase is invisible in the degenerate vacuum without multiplying the tangent by a hand-chosen taper, and the local $SO(2)$ orbit fixes a period. It is still necessary to prove that this field-dependent local-axis action descends to a globally smooth full-theory symmetry and Noether charge; the reduced fixed-$J$ construction assumed that structure rather than settling every bundle/holonomy question.
+
+The branch was solved with the fixed-$J$ term included,
+
+$$
+E_J=E_{\rm stat}+\frac{J^2}{4I[S]},
+\qquad
+\omega=\frac{J}{2I[S]},
+$$
+
+so the dependence of inertia on the eigenvalue splitting participated in the variational solve. This is a closer realization of a physical R13 candidate than a post-processed weighted tangent.
+
+It nevertheless exposed a second problem. Stable boxed/window branches existed, but the exact scaling at fixed shape was
+
+$$
+E(R)[c]=R^3V[c]+\frac{C[c]+\Phi[c]}{R},
+\qquad
+\Phi[c]=\frac{J^2}{4I[c]},
+$$
+
+and stability was window/background dependent. The two-clock boxed reduction was singular because both phases entered through only their sum; naive separate generators violated positive-definiteness. Its well-defined static shared-frame interaction was repulsive and approximately $+456.6d^{-1.696}$ over the measured boxed range, but it was not the desired independently phased relaxed fixed-$J$ pair law.
+
+The key lesson is stronger than either stack alone:
+
+> Making the reduced clock tangent vanish in the vacuum removes the rigid-flow infrared mechanism in that chart, but it does not ensure that the clock-active core splitting has a box-independent stationary width.
+
+### P243/P244: the confined realization, fluctuations, and why spectra must be action-specific
+
+P243 treated the P240 window-supported clock as a **confined** realization rather than silently calling it an isolated particle. It distinguished two stationary families $U$ and $S$, selected an internal cutoff scale from their same-order energy splitting,
+
+$$
+\Lambda^2=E_U-E_S,
+$$
+
+and carried the stable family through a fluctuation census, a radiative-stability analysis, and two distinct long-range interaction ledgers. The direct boxed shared-frame coupling was eventually corrected to a repulsive $+456.6d^{-1.696}$ law after review found that a meridian-restricted surrogate had wrongly erased the exterior density. A separate induced-gravity composition gave a formal attractive inverse-square kernel, but its own clock source was far outside the weak-field regime. These are useful confined-clock and interaction results; neither supplies the open-space R13 object.
+
+For our **different spectral-Cartan/projector-current model**, the aligned-vacuum census found three positive-kinetic massless propagating boost-orbit species, four statically stiff directions with vanishing quadratic kinetics, and three inert directions. P244 later certified the full kinetic-normalized pencil about one confined $R=12$ clock root: 32 nonsingular modes after analytic null deflation, with $\omega_{\min}=1.046406$, using Gauss and an independent Chebyshev quadrature family.
+
+Those numbers cannot be imported into OpenWave M5.32. Conversely, OpenWave's current R13 threshold `0.786` is not an M5.32 mass gap: it is imported from the separate M7 HydroBoros tachyon-band calculation. It appears in the M5.32 task as cross-pollination and is hard-coded in the R12 script. It should be removed from the M5.32 acceptance gate until a channel-resolved asymptotic pencil is derived from the M5.32 action itself.
+
+P244 is also part of the validation lesson, not merely a successful spectrum table. It corrected a per-cell kinetic-weight assembly defect inherited from the earlier calculation, demoted a nominally independent finite-difference route after measuring its truncation floor, and disclosed that a preregistered $10^{-9}$ cross-family frequency gate was missed by about $100\times$; the eventual claim was scoped to the measured $10^{-7}$-level algebraic pole-content floor. A later empty-window subtraction could certify none of the 32 modes because the reference kinetic pencil became nearly singular. The right conclusion was “this subtraction representation is unavailable,” not a physical infinite frequency.
+
+There is a more basic issue. Around a uniform M5.32 vacuum,
+
+$$
+\partial M=O(\epsilon),\qquad F_{\mu\nu}=O(\epsilon^2),
+\qquad F^2=O(\epsilon^4),
+$$
+
+while the potential is flat along an isospectral clock orbit. Thus the ordinary quadratic vacuum kinetic/Hessian channel is degenerate; OpenWave also found $F=0$ for a single-phase plane wave. A conventional positive vacuum mass gap is therefore not presently established for this action. A proposed “flow from linearized dynamics” must first show that a non-singular kinetic pencil actually exists. If it does not, the correct outcome is a modeling/representation result, not “no clock.”
+
+Also, a single real solution of
+
+$$
+H\psi=\omega^2K\psi
+$$
+
+is a vibration. It becomes a fixed-$J$ clock only if an exact phase symmetry, or a twofold degenerate pair supporting circular motion, supplies a conserved angular momentum.
+
+### P245/P246: source and symmetry lessons
+
+The gravity continuation is not an R13 solution, but it found two relevant facts. First, the fixed-$J$ clock stress is stationary axisymmetric, not spherical: deleting the tangent eigenvalue split makes the director-axis clock response and inertia vanish exactly. Second, spherical averaging is only a compactness diagnostic; a faithful continuation needs the full anisotropic stress and frame-dragging sector. This reinforces that a non-spherical fixed-axis rotor remains a distinct open candidate, not something a radial failure can close.
+
+### P247: isolation, width control, and correction history
+
+P247 tested the de-boxing question directly. Its accepted results are deliberately narrower than its attempt-level endpoint:
+
+- C-M5S-015: no tested radial pinned-wall construction on $R=12\ldots30$ supports a de-boxed clock; deeper boxes and non-spherical branches remain open.
+- C-M5S-016/017: the tested boost extension evaluated with float64 gap 0.0 under $\chi\to-\chi$ on the committed and randomized measured backgrounds; no symbolic all-background parity theorem is claimed. Thus no odd classical static source was found there. The first reduction used the wrong sign for its kinetic density and produced 21 ghost directions, while the repaired tested reduced class at the stated discretization had Morse index zero.
+- C-M5S-018: the tested stable minimum branch broadened with the box and its energy had no plateau on $R=20,24,30$. This is finite-ladder evidence, not an $R\to\infty$ theorem.
+- C-M5S-019: one fixed-width $R=28$ stationary construction is a high-index saddle. Other branches and a different parametrization remain open.
+- C-M5S-020: the attractive exponential fit is a frozen-superposition **potential cross-term**, not a relaxed two-clock fixed-$J$ interaction law.
+
+P247 also tried or registered several solution mechanisms that did not become accepted positive constructions:
+
+- **Boost-alignment mass:** $s_m=\frac{m^2}{2}[(u^T\eta\xi)^2-1]$, with $m^2=\Lambda^2$ fixed from the existing scale ledger. It was intended to mass the boost tail without a fitted coefficient. The measured float64 $\chi\mapsto-\chi$ gap was 0.0 on the tested committed and randomized backgrounds, removing the needed odd classical source there; this is not a symbolic all-background theorem. The term did not control the spreading $S$-sector width.
+- **Tilted/fixed-axis boost:** introduced to defeat the co-aligned cancellation. On the symmetric one-clock background the integrated linear source still vanished by parity. This closed that reduced source mechanism, not every non-spherical rotor.
+- **Fixed-axis non-spherical rotor:** a genuinely axisymmetric clock that breaks the radial parity itself. This remains an open, unbuilt solver class and is consistent with P246's finding that the split-active stress is not spherical.
+- **Localized wall/core clock:** change the object rather than the boost coupling, allowing a core to select its own width while the massive field confines its tail. This was registered but not constructed; it remains a live alternative concept, not a failed numerical route.
+- **Fixed-width stationary continuation:** a narrow $R=28$ root was constructed, but its Morse index was 14. That refutes stable fixed-width/minimum status for this root; the stationary saddle exists, and other branches or a different parametrization remain open.
+
+This correction history is directly relevant to the numerical concern. Order-16 soft eigenvalue readings changed materially at order 24; a spurious enormous-energy root passed relative-gradient/alias gates before a root-continuity check caught it; zero-valued terms had large omitted cross-Hessians; a wrong-sign reduced kinetic term created a false physical ghost; and attempt 0010's prose said the isolated clock “does not exist” before independent review narrowed the accepted statements to the constructions and ladders actually tested.
+
+## 4. Response to Jarek's comment
+
+The equal-eigenvalue idea is, in my view, the cleanest R13 mechanism.
+
+For a symmetric field diagonalized as $D={\rm diag}(d_0,d_1,d_2,d_3)$, an infinitesimal Lorentz/internal generator $X$ gives
+
+$$
+\delta D=XD+DX^T.
+$$
+
+A spatial rotation in the $ij$ plane is proportional to $d_i-d_j$. Thus
+
+$$
+d_i=d_j\quad\Longrightarrow\quad \zeta_X(D)=0.
+$$
+
+With OpenWave's distinct vacuum $(32,1,0.3,0)$, the continuous stabilizer Lie algebra is trivial; no global $S^1$ fixes that vacuum. A hand-weighted local rotation does not change this group fact. With a vacuum satisfying, for example, $d_2=d_3$, a genuine $SO(2)$ can fix the exterior while a defect dynamically lifts the degeneracy in its core. Our P239/P240 uniaxial exterior was a reduced-chart version of this mechanism, and its width-spreading result tells us exactly what the next gate must test.
+
+Jarek is also right to worry about regions with different frequencies. Simply writing
+
+$$
+\theta(t,x)=\omega(x)t
+$$
+
+gives
+
+$$
+\nabla\theta=t\,\nabla\omega,
+$$
+
+so ordinary phase-gradient energy grows secularly. The stationary construction should instead use one global phase $q(t)$; its action becomes spatially invisible where the orbit norm vanishes because of vacuum degeneracy. Independent local frequencies would require a compensating gauge connection or interfaces where the phase stiffness truly vanishes.
+
+The de Broglie relation
+
+$$
+\omega=\frac{mc^2}{\hbar}
+$$
+
+should remain a later comparator, not select the generator or its normalization. Neither the M5.32 R13 construction nor our P239–P247 construction derives the normalization connecting its numerical $J$ to $\hbar/2$; broader spin-ledger claims are separate.
+
+## 5. A joint R13 that tests the right objects
+
+I suggest three sub-rungs with distinct verdicts.
+
+For the proposed spectrum-departure weighting,
+
+$$
+a_w[M]=w(M)\,a_{\rm rigid}[M],
+\qquad
+w(M_{\rm vac})=0,
+$$
+
+finite inertia may follow simply because $w$ was chosen to decay. Moreover $w\mapsto c\,w$ gives $C\mapsto c^2C$ and $\omega_*\mapsto\omega_*/c$ unless a compact group period fixes the normalization. P240's axis-weighted routes add two further warnings: a weight can introduce clock-blind spectral surfaces, or make an apparently positive time channel unbounded in a static high-frequency direction. Therefore “robust to two weights” should mean sensitivity evidence for one trial family, not two independent confirmations of a physical clock.
+
+### R13A — exact clock structure
+
+Ask whether there is a smooth compact action $M_q$, $q\in S^1$, such that
+
+$$
+M_{q+P}=M_q,
+\qquad
+\partial_qM_q\to0\ \text{in the vacuum},
+\qquad
+E[M_q]\ \text{is independent of }q,
+$$
+
+with a globally defined tangent, fixed period, and conserved Noether charge. Compare at least:
+
+1. a dynamically core-split, exterior-degenerate $SO(2)$ clock;
+2. a bundle-aware ring phase (the local leading eigenvector is a director $n\sim-n$, so the half-winding ring may not admit a global oriented generator);
+3. a gauged or auxiliary-amplitude phase whose amplitude vanishes in vacuum.
+
+A spectrum-weighted or tapered tangent remains useful as a seed/sensitivity family, but until it passes cyclicity and Noether tests its result is `ESTABLISHED_KINEMATIC`, not a fixed-$J$ clock.
+
+### R13B — localized dynamical mode
+
+On a genuinely converged background, derive the action-specific asymptotic principal symbol and solve
+
+$$
+H\psi=\omega^2K\psi.
+$$
+
+Require a positive-norm localized eigenvector, a controlled continuum threshold, and a converged eigenpair. If $K_\infty$ is singular, record that as the missing construction and move to a nonlinear-mode or kinetic-completion route. A single mode earns `MODE_EXISTS`; a clock claim needs the phase structure from R13A.
+
+### R13C — nonlinear/fixed-$J$ relative equilibrium
+
+Only after R13A licenses $J$, solve the full equations
+
+$$
+\delta(E-\omega J)=0
+\quad\text{or equivalently}\quad
+\delta E_J=0,
+$$
+
+varying the field, core splitting, and inertia together. Continue in $J$ or amplitude with pseudo-arclength and check
+
+$$
+\frac{dE}{dJ}=\omega.
+$$
+
+Then test the full constrained Hessian, topology, localized charge density, outgoing flux, and—if dynamics is well posed—nonlinear/Floquet stability. For a nonlinear periodic state, all active harmonics $n\omega$, not only the fundamental, must be checked against radiation channels.
+
+## 6. Numerical protocol: deconstruction before convergence
+
+I propose that the shared validator have two layers.
+
+**Layer 1: representation validity.** Before a box ladder, require:
+
+- exact action/version and convention hashes;
+- the phase period and normalization;
+- $\|X[M_{\rm vac}]\|$, the action-symmetry defect, and Noether-current conservation;
+- smoothness/holonomy of the ring generator;
+- the full fixed-$J$ derivative including $DX[M]$, not a frozen flow;
+- the channel-resolved vacuum principal symbol and continuum threshold from the same action;
+- a statement of what the result can establish: kinematic finite inertia, symmetry, linear mode, or nonlinear clock.
+
+If this layer fails, more numerical precision is irrelevant.
+
+<details>
+<summary>Layer 2: detailed numerical validity checklist</summary>
+
+For every load-bearing result:
+
+- vary $h$ at fixed $L$, and $L$ at fixed $h$, independently; the OpenWave ladder with $n/L$ fixed at $h=1.5$ is a domain test, not a continuum test;
+- use at least three refinement points and measure observed order; do not fit three free parameters to three data points;
+- converge the background with a scale-aware field-equation residual and an independent virial/Derrick identity;
+- compare a second boundary treatment and a second discretization of the **same mathematical candidate**;
+- report operator symmetry defects and eigenpair residual
+
+$$
+r_\lambda=
+\frac{\|Hv-\lambda Kv\|}
+{\|Hv\|+|\lambda|\,\|Kv\|};
+$$
+
+- report $\lambda_{\min}$, $\lambda_2$, zero-mode scale, eigenvector localization, boundary overlap, and a finite-difference witness for any negative mode; random directions cannot certify Morse index zero;
+- include background forward error, not just solver backward error:
+
+$$
+\delta M_{\rm est}=-H_\perp^+P_\perp\nabla E[M_0],
+\qquad
+\delta\lambda_{\rm state,est}
+\approx\left|v^T(DH[M_0]\!\cdot\!\delta M_{\rm est})v\right|.
+$$
+
+This is an estimated state-error contribution unless a conditioning bound is also supplied.
+
+- carry a crossed budget
+
+$$
+\epsilon_{\rm total}=
+\epsilon_{\rm state}+\epsilon_h+\epsilon_L+\epsilon_{\rm basis}
++\epsilon_{\rm quad}+\epsilon_{\rm eig}+\epsilon_{\rm round}+\epsilon_{\rm BC},
+$$
+
+and require the claimed signal to exceed it by a declared margin;
+- measure the cumulative Noether-charge profile $J(<r)$, not only quadratic inertia; only the total charge is conserved. For dynamics, refine timestep and absorber placement and measure outgoing flux.
+
+</details>
+
+The result vocabulary should prevent a route failure from terminating the question:
+
+- `ESTABLISHED_KINEMATIC`
+- `ESTABLISHED_SYMMETRY`
+- `MODE_EXISTS`
+- `PERIODIC_ORBIT_EXISTS`
+- `CANDIDATE_REFUTED`
+- `NUMERICALLY_UNRESOLVED`
+
+A failed taper refutes that taper. A singular kinetic pencil blocks that linear representation. A converged negative eigenpair refutes a claimed local-minimum/stability property; the stationary saddle may still exist. None alone is a global no-clock theorem.
+
+## 7. Concrete cross-stack coordination
+
+I propose one frozen “rung packet” shared by the OpenWave and Substrate agents before either side sees the other's new numbers:
+
+- exact action, vacuum, field and generator definitions;
+- claim layer and ensemble (fixed $J$, fixed $\omega$, normal mode, or unconstrained periodic state);
+- boundary/asymptotic conditions and topology;
+- candidate set and assumption costs;
+- stationary equations and complete derivative/Hessian definition;
+- $h,L$, solver, residual, virial, eigenpair and error-budget gates;
+- what a pass/failure establishes and which broader question remains open.
+
+Each result record should then include the source hash, frozen field hash, generator period and symmetry defect, background residual/virial, core/total inertia, cumulative charge, tail law, eigenpairs/residuals/zero-mode scale, flux, complete error budget, unrepresented sectors, and next continuation rung.
+
+When the stacks disagree, exchange one frozen field and evaluate it with both energy/charge evaluators, then localize the discrepancy in this order:
+
+$$
+\text{equations}\to\text{conventions}\to\text{representation}
+\to\text{discretization}\to\text{solver}\to\text{observable}.
+$$
+
+The best immediate shared target is therefore not “try two tapers.” It is:
+
+> Construct and compare a globally normalized, exterior-degenerate $SO(2)$ clock whose core dynamically lifts the degeneracy, then test whether the full fixed-$J$ equations give that split a box-independent width. In parallel, derive whether M5.32 has a usable linearized kinetic pencil at all. These two routes answer different questions and should remain separately labeled.
+
+Pinned records used in this review: [OpenWave M5.32 method note](https://github.com/openwave-labs/openwave/blob/b8bccb1d5e6d1cfae73b23079c2b29c398568fe7/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_method_note.md), [OpenWave M5.32 task record](https://github.com/openwave-labs/openwave/blob/b8bccb1d5e6d1cfae73b23079c2b29c398568fe7/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), [the separate M7 source of the 0.786 threshold](https://github.com/openwave-labs/openwave/blob/b8bccb1d5e6d1cfae73b23079c2b29c398568fe7/openwave/xperiments/m7_hydroboros/research/tasks/m7_5_clock_stability.md), [our P239 candidate/action search](https://github.com/vantasnerdan/substrate-framework/blob/443f1bd6edf0c1997f42b05c3b6719142e7a11c1/proposals/P239-m5-4x4-action/proposal.yaml), [P240's full durable attempt history](https://github.com/vantasnerdan/substrate-framework/blob/443f1bd6edf0c1997f42b05c3b6719142e7a11c1/memory/codex/proposals/P240-m5-kinetic-axis.md), [P240 candidate receipt](https://github.com/vantasnerdan/substrate-framework/blob/443f1bd6edf0c1997f42b05c3b6719142e7a11c1/proposals/P240-m5-kinetic-axis/evidence/current-candidate-receipt.yaml), [P244 spectrum proposal](https://github.com/vantasnerdan/substrate-framework/blob/443f1bd6edf0c1997f42b05c3b6719142e7a11c1/proposals/P244-clock-full-band-spectrum/proposal.yaml), and [P247 isolation proposal](https://github.com/vantasnerdan/substrate-framework/blob/443f1bd6edf0c1997f42b05c3b6719142e7a11c1/proposals/P247-isolated-clock-two-body-law/proposal.yaml).

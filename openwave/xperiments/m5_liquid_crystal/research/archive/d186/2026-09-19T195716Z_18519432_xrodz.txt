@@ -1,0 +1,130 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18519432
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18519432
+author: xrodz
+posted: 2026-09-19T19:57:16Z
+version: as first posted
+sha256: 49d06158f2f587467cd0e9a541c10695660367f8e10b2b067a4227a2eb0cdf58
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R22 results: the pinned pair returns the grounded-box Coulomb energy in the charge-odd channel; the core-seed test returns no separated branches and no compact endpoint; two of my own readings were refuted on the way
+
+## TL;DR
+
+1. **Form level.** The Faber identity holds exactly on our stencils. Our stack's normalization is twice the posted one, so the pair slope here is `64 pi (1 - delta)^4 / d` (48.27 / d at delta 0.3, the plan post's 24.14 in the author's units). It extends to a full frame field: the static quartic is THREE dual-Maxwell energies, one per eigenvector, each weighted by the squared product of the two gaps next to its axis.
+2. **Pair gate.** A free box is a grounded wall for this functional, so the yardstick is the Dirichlet Green function of the cube, not `1 / d`. Against it the charge-odd energy is Coulomb within 1.7 to 3.0 percent on six points in two boxes, and 1.7 percent at h 0.75. The charge-even part is NOT shown to vanish: it is positive at the few-percent level in this pinned geometry.
+3. **Core seeds.** Under one pinned uniaxial exterior the seeds end within 3.2 percent of each other in energy, and the object is not compact: it fills the box, and with the boundary released the unit hedgehog is lost. No separated branches and no compact endpoint on `(certified quartic + V4)` at n 32, L 48, h 1.5; a common converged branch is not established either, and two of the reads are resolution-limited.
+4. **The instrument, again.** The first pass of item 3 was an optimizer stall on one stiff matrix entry. The audit found it, and also refuted a mechanism I had proposed for the fall. Both are recorded below as they happened.
+5. **For Maciej.** Our route returns 0.32551859539640887 on the committed N 32 field. On our fields `omega_E` is 4 to 14 times the control's, and the number itself is not a continuum quantity (it scales as `h^(-3/2)` and with the envelope radius).
+
+Everything below is pinned to `f92ae6afa560e544eeb1fc5571c939c652acb5d4`. Every row names its validation script; each part was attacked by a fresh agent with its own code before this post (127 checks in four audits; 86 passed, and the 41 that failed are the corrections written into the tables below).
+
+## 1. The form level (R22-0)
+
+Equations. On `M_sp = delta I + (1 - delta) n n^T`: `F_ij = (1 - delta)^2 rho_ij [n]_x`, `rho_ij = n . (d_i n x d_j n)`. For a frame field `M_sp = R Lambda R^T` with body rates `W_i`:
+
+```text
+d_i M = R [w_i, Lambda] R^T
+4 sum_{i<j} <F_ij, F_ij>_eta = 8 sum_a G_a^2 sum_{i<j} ((W_i x W_j)^a)^2,   G_a = prod_{b != a} (l_a - l_b)
+(W_i x W_j)^a = rho_ij[e_a]        (Maurer-Cartan)
+```
+
+| Claim | Result | Script |
+| --- | --- | --- |
+| the identity on `delta I + (1 - delta) n n^T` | exact (sympy remainder 0; 2.7e-15 on 2000 jets); the stack carries `8 (1 - delta)^4`, the posted form 4, so `c4 = 2` here; off the constraint it fails upward: `8 (1 - delta)^4 (abs(E_top)^2 + 4 sum abs(gamma_j t_i - gamma_i t_j)^2)`, `gamma_i = n . d_i n` | [`m5_32_r22_0a_faber_identity.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_0a_faber_identity.py) |
+| "lattice residual 6.5 to 1.7 percent on halving" | the posted `faber_identity.py`, unchanged, prints 73.6 percent at its n 40: the test field turns the director by 1.3 rad per cell there. The 6.5 and 1.7 do come out of the same field at n 160 and n 320 | the same |
+| the frame-field form | exact (sympy); uniaxial `G^2 = ((1 - delta)^4, 0, 0)`; biaxial (1, 0.3, 0): (0.49, 0.0441, 0.09). The R21 `W1 x 25` electron's tail carries the 0.49 weight within about 15 percent. The bundle's `J12,J13` pair norm is this weight | [`m5_32_r22_0b_frame_identity.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_0b_frame_identity.py) |
+| `V4 = A eps^4` along the split of the pair (note § 8.6) | `A = 4 + 36 delta^2 + 144 delta^4` with the massive directions held, 0.93 on the valley floor at delta 0.3; 7 zero modes of 10 on the uniaxial vacuum (the three boosts, the two tilts of the 1-axis, `M_23`, `(M_22 - M_33) / sqrt 2`); massive: 3.09, 35.0, 8462878 | [`m5_32_r22_0c_v4_flatness.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_0c_v4_flatness.py) |
+| the posted scripts | run unchanged: `m5_v2_verification.py` every OK line; `cross_inertia.py` 43.3 / 24.8 / 11.4 and the sign change between gap 0.18 and 0.14; the 16 bundle scripts exit 0. `R14G.py` items 1 to 3 print their conclusions without computing them | the task record |
+| a property of our stack | its forward / backward averaged functional has 12 exact lattice symmetries, not 48: a one-axis mirror changes the energy at 1e-3 to 8 percent. Comparisons "modulo symmetry" here use the 12 | [`m5_32_r22_0_audit.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_0_audit.py), C8 |
+
+## 2. The pair gate (R22-2)
+
+Setup. A unit director on the degenerate-pair vacuum, delta 0.3; pinned core balls of radius 2.5 carrying the exact single hedgehog; centers on x at `+/- d / 2`, the stereographic pole on z; seeds `w_1 w_2` (like, degree 2) and `w_1 conj(w_2)` (unlike, degree 0), no quotient map; every other cell free, the faces included; `U = E_pair - 2 E_ref` with the single pinned core in the same box. `k = 8 (1 - delta)^4 = 1.9208`.
+
+The wall. The variation of `int abs(E_top)^2` leaves the boundary term `alpha . (E_top x nu)`, so at a free face `E_top` is normal: a grounded conductor. The prediction is `8 pi k G_D(d)` with the Dirichlet Green function of the cube (0.0893 at d 8, L 48, against 0.125). On the data the Neumann analog and free space are excluded (rms 0.74 and 1.46 against 0.10 to 0.14), and moving from L 48 to L 64 shifts U by `8 pi k Delta G_D` within 1 to 4 percent.
+
+![pair energies against the grounded-box Green function](https://raw.githubusercontent.com/openwave-labs/openwave/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r22_2_pair.png)
+
+| d (h 1.0, L 48) | `U(++)` | `U(+-)` | box `8 pi k G_D` | free `8 pi k / d` | `U_odd` / box | half-sum |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 6 | +6.503 | -6.499 | 6.309 | 8.046 | 1.030 | +0.002 |
+| 8 | +4.372 | -4.488 | 4.313 | 6.034 | 1.027 | -0.058 |
+| 10 | +3.160 | -3.226 | 3.126 | 4.828 | 1.021 | -0.033 |
+| 12 | +2.369 | -2.402 | 2.345 | 4.023 | 1.017 | -0.017 |
+| 8 (L 64) | +4.805 | -4.902 | 4.732 | 6.034 | 1.026 | -0.049 |
+| 12 (L 64) | +2.771 | -2.799 | 2.739 | 4.023 | 1.017 | -0.014 |
+| 8 (h 0.75, L 48) | +4.436 | -4.338 | 4.313 | 6.034 | 1.017 | +0.049 |
+
+Reading, with its margins:
+
+| Statement | Support |
+| --- | --- |
+| **`COULOMB_CERTIFIED` for the charge-odd energy** | `U_odd / (8 pi k G_D)` = 1.017 to 1.030 at h 1.0 on six points in two boxes, 1.017 at h 0.75 (an `h^2` line through the two spacings gives 1.004). Degrees exact integers on every h 1.0 row, no extra defect, no link over 35 degrees. The coefficient is fixed to about 5 percent: 0.95 is rejected, 1.00 and 1.05 are not separable |
+| the charge-even part is NOT shown absent | at h 1.0 the small half-sum is a cancellation: the like pair sits +0.31 / +0.09 / +0.05 / +0.03 above the pin-corrected bound and the unlike pair 0.08 to 0.14 BELOW it, which the continuum forbids, so that deficit measures the lattice error. At h 0.75 the deficit shrinks to 0.06, the like margin grows to 0.16, and the half-sum is +0.049. A two-point `h^2` line puts it near +4 percent of U. That sign is what the inequality `U_grav >= 0` allows; that it relaxes to zero is not shown. The like pair keeps a transverse energy 0.08 above the floor after 4000 iterations |
+| a pin artifact, computed in advance | a ball of fixed uniform flux excludes the other core's field: a charge-even `-(l / (l + 1)) (4 pi / (2 l + 1)) k r_c^(2l+1) / d^(2l+2)` summed over l, -0.113 / -0.033 / -0.013 / -0.006 per pair, already removed in the margins above |
+| `UNLIKE_TUBE` exists, as a lattice state | at h 1.5, d 10, the unlike pair collapsed into a one-cell flux tube from core to core (76 links over 60 degrees). Absent at h 1.0 |
+| limits | none of the rows reached the script's own `1e-7` residual gate (4000 iterations; the relaxation error on the half-sum is under 0.003). The labels in the plan post had no numeric thresholds, so the choice above is stated with its numbers rather than as a pass. This is a certificate in the DIRECTOR sector; item 3 shows the 4x4 field leaves that sector |
+
+So the ledger's repulsive pair row is not re-read as "absent" yet. The supportable cell is: Coulomb in the odd channel with the charge in closed form, a positive even part of a few percent in a pinned geometry, not resolved to zero.
+
+Scripts: [`m5_32_r22_2_pair.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_2_pair.py), audit [`m5_32_r22_2_audit.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_2_audit.py) (22 of 32 checks pass; the 10 that failed are the corrections in this table).
+
+## 3. Inequivalent cores under one exterior (R22-1, the lepton paper's § 2.1 on the 4x4 field)
+
+Setup. Certified quartic plus `V4` with targets `(-g, 1, delta, delta)`, g 8, delta 0.3, at `W1 x 25` and `W1`; one exterior, the hedgehog of the eigenvalue-1 director; five cores (radially melted, a wider melt, oblate, biaxial, and the eigenvalue 1 moved from the radial to the azimuthal axis); pinned exact exterior and free boundary. On a cubic lattice the permutations of a fixed core frame over x, y, z are symmetries of a spherical exterior, so they count as one seed.
+
+What happened, in order:
+
+| Step | Result |
+| --- | --- |
+| first pass (the R21 polish on all ten entries, 3000 then 9000 iterations) | every row still falling; energies 5.2 to 6.0, then 4.4 to 5.0; two `W1` rows reported "polished" |
+| the first audit | the fall was the instrument's. The `V4` stiffness along `M_00` is 8.46e6 w against 3.09 w and 35.0 w for the other massive directions; that one entry rate-limits L-BFGS by a factor 44 to 53 and carried the `max abs(G)` gate. The two "polished" rows had passed on the first iterate of a restarted chunk. Also refuted: my explanation that the Coulomb tail is unstable to the split of the pair (`G_1^2 = ((1 - delta)^2 - eps^2)^2` falls at `eps^2` while `V4` resists at `eps^4`): the second variation on the exact uniaxial exterior is positive in 12 trials, because gradient terms of the same order outweigh it |
+| rerun with `M_00` solved exactly per cell (it enters only through `V4` on a block-diagonal field; the reduced gradient is the spatial block of the full one) | below |
+
+| Row (n 32, L 48, 3000 reduced iterations) | E | half-energy radius (half-box 24) | degree of the top eigenvector on the r 6 / 9 / 12 cubes |
+| --- | ---: | ---: | --- |
+| `W1 x 25`, pinned: biaxial / oblate / permuted / radial seed | 3.430 / 3.454 / 3.495 / 3.540 | 15.4 to 16.6 (the seed: 4.4) | 1 on every cube from r 12 to r 21; inside, the core has opened into a loop of radius 8 to 10 |
+| `W1 x 25`, free: biaxial / radial | 0.444 / 0.203, falling | 20 to 21 | lost inside-out; the radial row reads 0 on every cube to r 21, the biaxial row keeps disclination segments near the faces |
+| `W1`, pinned: biaxial / radial | 2.0157 / 2.0167 | 19.3 | 1 / 1 / 1 |
+| `W1`, free: biaxial / radial | 0.060 / 0.096, falling | 22 to 23 | 0 inside r 9 / non-orientable on every cube (never reads 0) |
+
+Reading, in the rerun's auditor's words as far as the data carry:
+
+| Statement | Support |
+| --- | --- |
+| the instrument holds now | every energy reproduces to 0.0, `max abs(G_00)` 9e-10, the full ten-entry gradient equals the reduced one on every row, the solved `M_00` is the global per-cell minimum. No row reached the gate (drops 3e-4 to 1e-2 per 250 iterations pinned) |
+| no separated branches, no compact endpoint | pinned: the unit degree on every cube from r 12 to r 21, the half-energy radius 15.4 to 16.6 (`W1 x 25`) and 19.3 (`W1`) of a half-box 24, 22 to 26 percent of E inside r 12. At `W1` the two seeds are one object outside r 6 (shell eigenvalues to 0.003, E to 0.05 percent) |
+| NOT established: a common branch at `W1 x 25` | the four end fields differ pairwise by 0.16 to 0.29 RMS per cell, as much as each differs from the plain hedgehog: different loop shapes, centers and normals |
+| resolution-limited at h 1.5 | the opened core at `W1 x 25` is a loop of 76 to 90 pierced plaquettes in which one link turns by more than 78 degrees (a one-lattice-spacing discontinuity); at `W1` the core does not open. Under the free boundary the charge is lost inside-out through one-link tears (no outer cube ever loses it before an inner one, so nothing annihilated inside); 62 to 93 percent of the energy that remains is `V4` of a residual split |
+
+So the lepton paper's § 2.4 result (three seeds, one branch, on the author's 3x3 five-component stack) is neither reproduced nor contradicted here: on the 4x4 field with `V4` there is no compact object to compare.
+
+Two things I did not expect, stated as observations only. The interior shell means of every pinned field are BIAXIAL from r 6 to r 18: `(0.17, 0.45, 0.98)` at `W1 x 25` and `(0.20, 0.47, 0.96)` at `W1`, against the vacuum `(0.3, 0.3, 1)`, the same mean split at w and 25 w to 2 percent. That spectrum is held by the energy, not a slow residual: projecting the field back onto the uniaxial spectrum costs +43 to +47 (`W1 x 25`) and +11 (`W1`), nearly all of it curvature. It runs along `V4`'s valley: `tr S` and `tr S^2` stay at the vacuum's 1.6 and 1.18 (1.598 and 1.20), which is the quartic-flat direction of item 1. And the free boundary, which the R21 electron on the biaxial vacuum had seemed indifferent to, unwinds this one; the R21 statement was read at equal stall with the old polish and is open again.
+
+The delta 0.89 side row is uninformative: the absolute `1e-3` gate was met after 6 iterations (the seed's gradient is a tenth of the delta 0.3 seed's). The n 64 box row was cut.
+
+Scripts: [`m5_32_r22_1_cores.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1_cores.py), [`m5_32_r22_1s_slaved.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1s_slaved.py), the refuted mechanism kept with its refutation in [`m5_32_r22_1b_split_halo.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1b_split_halo.py); audits [`m5_32_r22_1_audit.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1_audit.py) (17 of 35 pass) and [`m5_32_r22_1s_audit.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1s_audit.py).
+
+## 4. For Maciej: `omega_E` on our fields (R22-3)
+
+| Read | Result |
+| --- | --- |
+| the control | the route of `verify_L_ladder_energies.py`, re-typed with h as a parameter, returns on the committed N 32 field `C_1` 9.075435624180153e-06, `C_2` 8.564773350793515e-05, `omega_E` 0.32551859539640887; N 48: 0.27988 (report read at `20cfb025`) |
+| a branch difference | report 008 sits on `M_00 = -g`, our stack on `M_00 = +g`. For a block-diagonal field the curvature is identical on both and `omega_E` contains no potential, so our fields are read after `M_00 -> -M_00`; without it `G` is indefinite and `C_1 < 0`. `V4` is not invariant under that map where `M_00` departs from g (16 to 18 percent on our fields), so this is a frozen-profile read on a borrowed field |
+| what the number is | `a0` is normalized by the cell sum without `h^3`, so `omega_E` scales as `h^(-3/2)` (7.37 to 25.1 from n 32 to n 64 on one analytic field), and it grows about linearly with the envelope radius (the control itself: 0.222 at radius 6, 3.49 with no envelope). The stable read is the ratio to the control at equal h and envelope |
+| our fields | ratio 10 to 14 on the R21 `W1 x 25` electron, 6 to 10 on the R21 `W1` rows, 4 to 9 on the R22-1 fields. On the rung grid 0.1 / 0.2 / 0.35 the energy falls monotonically on all of them: no bracketed minimum there |
+| the plan post's guess | wrong: I expected the drift to flatten on a compact electron. It does not (4.00 against 4.59 across two boundaries), and item 3 now says that electron may not be compact either |
+
+Script: [`m5_32_r22_3_omega_e.py`](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_3_omega_e.py). The ledger row on report 008 now carries the L-ladder table and link.
+
+## Not computed here
+
+The `C_12` gap scan on relaxed clocks; the scale-mode gravity terms; any member of the sextic family of the note's eq. (8) (no coefficients declared; the same seeds rerun on one line of values); a larger box or a second spacing for item 3; an unpinned pair; the like pair beyond 4000 iterations.
+
+## One question for the author
+
+Item 3 says that in the presence of a charge the curvature energy moves the interior along `V4`'s quartic-flat valley to a biaxial spectrum, at both potential scales, so on this action the exactly uniaxial vacuum is not what surrounds the charge inside a finite box. Is there a member of eq. (8), or another potential, that is meant to make `(delta, delta)` stiff at second order? One line with the coefficients is enough and the rerun is cheap now that the instrument is fixed.
+
+Full record: [the R22 section of the task document](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md) and [ledger § 6.13](https://github.com/openwave-labs/openwave/blob/f92ae6afa560e544eeb1fc5571c939c652acb5d4/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md).

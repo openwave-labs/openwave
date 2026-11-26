@@ -1,0 +1,40 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19585053
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19585053
+author: JarekDuda
+posted: 2026-11-13T07:46:39Z
+version: edited 2026-11-13T12:23:24Z
+sha256: b8285ee3e677f34d030d313957838874f18f4181cb2403e10eb3d8e361f25e13
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you for M5.39. The plan and the pilot numbers are what we need. Answers to item 5 first, then the inputs, then what changed: capstone v3.4 is out (doi:10.5281/zenodo.23994958, all versions).
+
+Answers (item 5)
+1. Who runs what: OpenWave takes the complement: the Card C ladder, the static ablation, the desk checks, later the twisting nucleon. R3 then also gives a second independent solution of NovaraX's static record ablation. A second E1+/M1+ solution is welcome later, once its current exists as code.
+2. Independence: (c), as you assume.
+3. Ladder: both, mesh first. Our reading of the frozen rule (rc77) takes "the finest eligible inertia" at the finest spacing and the largest eligible box, so the box rung sets the scale. Recorded now, before your run (C: Yukawa tail, cube faces ignored): at 73³ (half-box 8.1) the isospin inertia rises by about 1.1% over 55³ (37.44 → about 37.85), with about 0.3% still outside.
+4. Branch rule: the declared rule (10 Nov) is the lowest-energy stationary branch at the finest grid; a branch counts only if it meets the force gate. Suggested starts per grid: the two archived seeds, the refinement chain, one isotropic-centre seed and one split-centre seed. Label by the centre eigenvalues and report every stationary branch with its energy.
+   - Your 33³ stop (0.341, 0.370, 0.391) is on the printed branch (0.333, 0.376, 0.394), 9e-4 above it: slow convergence, not another branch.
+   - Isotropic centres at 17³ and 25³ fit the record potential's separate isotropic minimum (s ≈ 0.396·1). If they are stationary and lower there, the rule picks them and the printed split rows change; the score uses the finest grid, so it is not affected.
+   - The archived fields met the gate narrowly (residuals 9.4e-4, 7.9e-4, 7.7e-4; a 41³ run stayed at 1.198e-3), so the route matters. We can send the three run.json files ahead of the fields (hashes 1bafa650…, 51d1626f…, a8fd9b3d…).
+5. Outgoing solve: the pilot's own discretization and matching first (it isolates the solver), then your independent exterior. Vacuum record block: both constrained and deflated, with the difference reported; if it moves E1+/M1+ by more than the 0.7 pp grid tolerance, no score.
+6. Δ width: the stationary co-rotating problem with an outgoing exterior first (it shares the solver, and the declared P33 test is a K-matrix quantity); real-time evolution later, as the independent check.
+7. Units: g_πNN = (8π M_N f_π/3)·A/(e f_π)² (Adkins–Nappi–Witten), with A the dipole amplitude fitted to the lattice operator's free massive dipole in the original cube with Dirichlet faces (rc76); e = 4.311 and effective f_π = 91.29 MeV at 55³ (rc77).
+
+Inputs (item 4)
+- Attached: the photon-point preregistration (Amendments 1–6 and Sol's correction). It defines the scored current, the quantity and the gates. No photon-point number has been computed.
+- The Card C payload (three fields, three run.json, kinetic_operator.py; hashes in source/frozen_packets/CardC_payload_manifest/SHA256SUMS) will go into the packet dataset.
+- The rest of your table does not exist as frozen code yet. Track A first is the right order.
+
+What v3.4 changes (tetrad view, pp. 10–19)
+- Frozen action v2: the tilt runaway is the non-compactness of so(1,3). Contracting the frame index with the frame's own metric h = g + 2u⊗u makes the static energy a sum of squares. The lapse/shift reduction is still open, so this is not yet a ghost-freedom proof.
+- Its numbers, all in one place (Fig. 8): ten. Three measured (G, α, Λ), seven bounded, none fixed yet.
+- Exact benchmarks for any solver:
+  - charge core: E·r_ch = 0.93 αħc;
+  - +1/2 line in a biaxial exterior: Bogomol'nyi profile y² = 1 − exp(−√2ρ²/L²), T = (π/√2)δ²√(κV_δ). Atoms then bound δ_ext ≲ 1e-2.
+- Core with the minor gap free (axisymmetric): at q = 0 there is no finite core (the vacuum is S⁴, π2 = 0). At q = 1 the lowest core found is only weakly biaxial (minor gap 0.075, 0.27% below the melted core).
+  - Warning for axisymmetric codes: sin(π) ≠ 0 in floating point. Our south axis was stiff and the north axis free, which produced a fake biaxial line on one half-axis. Mirror-test your states.
+- Nucleus paper: rotational g_A 0.78 → 1.21, so g_πNN = 12.30 through GT, as recorded beforehand; 15% PCAC non-closure; the deuteron's D/S is about 7% low at 12.30.
+
+Request, if a 3D relaxation is cheap for you (preregistration welcome): the charged hedgehog core with all five components of the traceless spatial block free, F_q = 1 + (q−4)/2·t2 − q·t3 + (q+2)/2·t2² plus the commutator quartic, at q = 1. Prediction (C, axisymmetric, 60×30): the lowest state is a compact biaxial ring at r ≈ 0.13 L, minor gap ≈ 0.07–0.08, 0.2–0.3% below the radial melted core. A 3D grid has no polar axis, so it is the clean check; non-axisymmetric states would be new.
