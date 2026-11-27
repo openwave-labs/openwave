@@ -1,0 +1,2665 @@
+{
+ "task": "M5.57",
+ "controls": {
+  "C1": {
+   "met": true,
+   "tries": 1,
+   "file": "control_C1_try1.json"
+  },
+  "C2": {
+   "met": true,
+   "tries": 1,
+   "file": "control_C2_try1.json"
+  },
+  "C3": {
+   "met": true,
+   "tries": 1,
+   "file": "control_C3_try1.json"
+  },
+  "C4": {
+   "met": true,
+   "tries": 1,
+   "file": "control_C4_try1.json"
+  },
+  "C9": {
+   "met": true,
+   "tries": 1,
+   "file": "control_C9_try1.json"
+  },
+  "C5": {
+   "rows": {
+    "1.0": {
+     "a": 1.0,
+     "fixed_field_cost_of_moved_copy": 0.1609841642486245,
+     "row8_converged_second_step": false,
+     "row10_converged_second_step": false,
+     "center": [
+      0.850812693304683,
+      -0.11811922526729693,
+      1.0592214657900888e-05
+     ],
+     "RL": 2.9445061653190234,
+     "share": 0.9999991302553208,
+     "dU": 0.013855454699445602,
+     "Dprime": 0.9984525308154966,
+     "held_checks": false,
+     "release_U_rel": 1.4060974606877608e-11,
+     "release_center": [
+      -8.084481018420743e-05,
+      2.001843686511547e-05,
+      1.6156103511850558e-09
+     ],
+     "release_checks": true
+    },
+    "2.0": {
+     "a": 2.0,
+     "fixed_field_cost_of_moved_copy": 0.6999321943010202,
+     "row9_converged_second_step": true,
+     "row11_converged_second_step": false,
+     "center": [
+      1.6828852596901502,
+      0.12844413098345406,
+      -0.00026314610403117844
+     ],
+     "RL": 2.941170429997428,
+     "share": 0.9999991195992767,
+     "dU": 0.05477139162519151,
+     "Dprime": 1.99637158894117,
+     "held_checks": false,
+     "release_U_rel": 1.856570452929418e-11,
+     "release_center": [
+      -5.579058935174667e-05,
+      -2.2692035139457705e-05,
+      -5.8978819631341076e-08
+     ],
+     "release_checks": true
+    }
+   },
+   "met": false
+  },
+  "C6": {
+   "steps": [],
+   "met": false,
+   "why": "not run: C5 not met at try 2 (its cost: no held chain)"
+  },
+  "C7": {
+   "0.5": {
+    "targets": [
+     {
+      "target": 20.0,
+      "rows": [
+       18,
+       56
+      ],
+      "read": "not read (not run)"
+     },
+     {
+      "target": 16.0,
+      "rows": [
+       20,
+       57
+      ],
+      "read": "not read (not run)"
+     },
+     {
+      "target": 12.0,
+      "rows": [
+       24,
+       58
+      ],
+      "read": "not read (not run)"
+     }
+    ],
+    "read": 0,
+    "met": false
+   },
+   "0.375": {
+    "targets": [
+     {
+      "target": 20.0,
+      "rows": [
+       38,
+       59
+      ],
+      "read": "not read (not run)"
+     },
+     {
+      "target": 16.0,
+      "rows": [
+       40,
+       60
+      ],
+      "read": "not read (not run)"
+     },
+     {
+      "target": 12.0,
+      "rows": [
+       44,
+       61
+      ],
+      "read": "not read (not run)"
+     }
+    ],
+    "read": 0,
+    "met": false
+   }
+  },
+  "C8": {
+   "0.5": {
+    "met": false,
+    "reason": "not run: C5 not met (its cost: no held chain)"
+   },
+   "0.375": {
+    "met": false,
+    "reason": "not run: C5 not met (its cost: no held chain)"
+   }
+  },
+  "C10": []
+ },
+ "rungA": {
+  "rows": {
+   "1": {
+    "row": 1,
+    "name": "r01_A1",
+    "grid": "A24",
+    "kind": "free",
+    "state": "CONVERGED",
+    "iterations": 9540,
+    "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+    "restarts": 1,
+    "resumes": 1,
+    "U": 40.60578102497014,
+    "E": 40.60578102497014,
+    "gate": 5.132887381797957e-07,
+    "gate_threshold": 0.001,
+    "torque": 1.682222072615724e-07,
+    "Dprime": 32.99688624656555,
+    "converged_by": [
+     "rule_a"
+    ],
+    "target": null,
+    "mu": null,
+    "Dprime_plus": 16.498443122173107,
+    "Dprime_minus": 16.49844312439244,
+    "offset": -2.2193340498688485e-09,
+    "dprime_regime": {
+     "in_regime": true,
+     "share": 0.9999980294508252,
+     "least_g23": 0.3752424836378561,
+     "components": [
+      300,
+      300
+     ]
+    },
+    "word": "TWO RINGS",
+    "components": 2,
+    "sizes": [
+     300,
+     300
+    ],
+    "s": 32.99569801796775,
+    "circle_distance": 32.995697042298254,
+    "rings": [
+     {
+      "c": [
+       16.497849007425913,
+       -3.249559108898068e-05,
+       2.5626928712028965e-09
+      ],
+      "RL": 2.9498168937663203,
+      "nu": [
+       0.9999999999992559,
+       -1.2186872420282392e-06,
+       -5.610577134077027e-08
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     },
+     {
+      "c": [
+       -16.49784901047941,
+       3.168393796599768e-05,
+       -1.7424834733667297e-08
+      ],
+      "RL": 2.9498168939274305,
+      "nu": [
+       0.9999999999987983,
+       -1.5494318772128374e-06,
+       -5.2570989237607334e-08
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     }
+    ],
+    "g_faces": [
+     7.502150992574087,
+     7.50215098952059
+    ],
+    "D": {
+     "D": 33.14982430231629,
+     "Dp": 16.57491214925832,
+     "Dm": 16.574912153057973,
+     "Qp": 0.9995829675079355,
+     "Qm": 0.9995829675171247,
+     "dc": 32.99569801796775,
+     "in_regime": true
+    },
+    "second_step": {
+     "source": "saved stop 9000",
+     "ok": true,
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true
+     },
+     "values": {
+      "dU_rel": 1.8980672589208325e-10,
+      "dDprime": 4.161689780346478e-05,
+      "ds_or_dRL": 6.174556135363218e-05,
+      "mu_free": 6.413957851764671e-05
+     }
+    },
+    "K5": {
+     "state": "met",
+     "iterations": 563,
+     "end_state": "CONVERGED",
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true,
+      "own_relaxation_converged": true
+     },
+     "values": {
+      "dU_rel": 2.4128476994178527e-12,
+      "dDprime": 6.263004195261601e-06,
+      "ds_or_dRL": 9.297601017976831e-06,
+      "mu_free": 2.1207076712676107e-05
+     }
+    },
+    "g_mean": 7.502150991047339,
+    "qualifies": true
+   },
+   "2": {
+    "row": 2,
+    "name": "r02_A2",
+    "grid": "A24",
+    "kind": "free",
+    "state": "CONVERGED",
+    "iterations": 24098,
+    "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+    "restarts": 0,
+    "resumes": 1,
+    "U": 40.6015661126981,
+    "E": 40.6015661126981,
+    "gate": 7.789673897029559e-07,
+    "gate_threshold": 0.001,
+    "torque": 3.6303740318034036e-07,
+    "Dprime": 32.728327511814044,
+    "converged_by": [
+     "rule_a"
+    ],
+    "target": null,
+    "mu": null,
+    "Dprime_plus": 16.50157819808565,
+    "Dprime_minus": 16.226749313728398,
+    "offset": 0.2748288843572517,
+    "dprime_regime": {
+     "in_regime": true,
+     "share": 0.9999979783337635,
+     "least_g23": 0.36847470952752004,
+     "components": [
+      311,
+      302
+     ]
+    },
+    "word": "TWO RINGS",
+    "components": 2,
+    "sizes": [
+     311,
+     302
+    ],
+    "s": 32.71942517652826,
+    "circle_distance": 30.694366843110636,
+    "rings": [
+     {
+      "c": [
+       16.501771983906153,
+       -0.4231335948411544,
+       0.008943272746571734
+      ],
+      "RL": 2.950844445141026,
+      "nu": [
+       0.9994111595578473,
+       -0.032239551588016356,
+       0.011745018716152737
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "neither"
+     },
+     {
+      "c": [
+       -16.20177183508423,
+       0.5924345578298545,
+       0.09627533494519686
+      ],
+      "RL": 3.009396060716249,
+      "nu": [
+       0.730463076653331,
+       -0.485214310607865,
+       -0.4806149877266461
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "neither"
+     }
+    ],
+    "g_faces": [
+     7.498228016093847,
+     7.79822816491577
+    ],
+    "D": {
+     "D": 32.6764236249831,
+     "Dp": 16.493698509333253,
+     "Dm": 16.182725115649852,
+     "Qp": 0.9995793106382771,
+     "Qm": 0.9995845375703291,
+     "dc": 32.71942517652826,
+     "in_regime": true
+    },
+    "second_step": {
+     "source": "saved stop 23500",
+     "ok": true,
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true
+     },
+     "values": {
+      "dU_rel": 1.52583168322451e-10,
+      "dDprime": 6.999163787213547e-06,
+      "ds_or_dRL": 7.571451561716458e-06,
+      "mu_free": 0.0001903169988749752
+     }
+    },
+    "K5": {
+     "state": "met",
+     "iterations": 743,
+     "end_state": "CONVERGED",
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true,
+      "own_relaxation_converged": true
+     },
+     "values": {
+      "dU_rel": 1.76335612778189e-11,
+      "dDprime": 5.755838564880378e-06,
+      "ds_or_dRL": 6.563702491746426e-06,
+      "mu_free": 2.6631809632509513e-05
+     }
+    },
+    "g_mean": 7.648228090504809,
+    "qualifies": true
+   },
+   "3": {
+    "row": 3,
+    "name": "r03_A3",
+    "grid": "A24",
+    "kind": "free",
+    "state": "CAPPED",
+    "iterations": 12071,
+    "message": "ABNORMAL: ",
+    "restarts": 1,
+    "resumes": 1,
+    "U": 40.77687819832831,
+    "E": 40.77687819832831,
+    "gate": 6.336318722141576e-06,
+    "gate_threshold": 0.001,
+    "torque": 1.186480731250446e-06,
+    "Dprime": 32.11712343000451,
+    "converged_by": [],
+    "target": null,
+    "mu": null,
+    "Dprime_plus": 16.058561716677332,
+    "Dprime_minus": 16.058561713327183,
+    "offset": 3.3501486029763328e-09,
+    "dprime_regime": {
+     "in_regime": true,
+     "share": 0.9999979678937927,
+     "least_g23": 0.3703963402061127,
+     "components": [
+      294,
+      294
+     ]
+    },
+    "word": "TWO RINGS",
+    "components": 2,
+    "sizes": [
+     294,
+     294
+    ],
+    "s": 32.16171898678255,
+    "circle_distance": 32.16133473362929,
+    "rings": [
+     {
+      "c": [
+       16.080859203053006,
+       -0.003051579476626377,
+       4.4067035259236116e-07
+      ],
+      "RL": 2.950619238552021,
+      "nu": [
+       0.9999890482917169,
+       0.004680095784525023,
+       -2.721757715920839e-07
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     },
+     {
+      "c": [
+       -16.080859204642625,
+       0.003051605050311855,
+       2.328390354310493e-07
+      ],
+      "RL": 2.950619238294888,
+      "nu": [
+       0.9999890483445814,
+       0.004680084438448244,
+       7.399910620620698e-07
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     }
+    ],
+    "g_faces": [
+     7.919140796946994,
+     7.919140795357375
+    ],
+    "D": {
+     "D": 32.37825268436473,
+     "Dp": 16.18912634105832,
+     "Dm": 16.189126343306413,
+     "Qp": 0.9995997462669006,
+     "Qm": 0.999599746338914,
+     "dc": 32.16171898678255,
+     "in_regime": true
+    },
+    "second_step": {
+     "source": "saved stop 11500",
+     "ok": true,
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true
+     },
+     "values": {
+      "dU_rel": 1.577583619294387e-10,
+      "dDprime": 1.0451749346884753e-05,
+      "ds_or_dRL": 1.1507122152920601e-05,
+      "mu_free": 0.00017789730430945914
+     }
+    },
+    "K5": {
+     "state": "not run"
+    },
+    "g_mean": 7.919140796152185,
+    "qualifies": false
+   },
+   "4": {
+    "row": 4,
+    "name": "r04_A4",
+    "grid": "A30",
+    "kind": "free",
+    "state": "CONVERGED",
+    "iterations": 14169,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "restarts": 3,
+    "resumes": 1,
+    "U": 40.9602057321015,
+    "E": 40.9602057321015,
+    "gate": 1.279542015175661e-06,
+    "gate_threshold": 0.001,
+    "torque": 2.976848175459502e-07,
+    "Dprime": 40.718914720527124,
+    "converged_by": [
+     "rule_c"
+    ],
+    "target": null,
+    "mu": null,
+    "Dprime_plus": 20.359457279502703,
+    "Dprime_minus": 20.359457441024418,
+    "offset": -1.6152171511407687e-07,
+    "dprime_regime": {
+     "in_regime": true,
+     "share": 0.9999963700234061,
+     "least_g23": 0.37686082548073774,
+     "components": [
+      332,
+      332
+     ]
+    },
+    "word": "TWO RINGS",
+    "components": 2,
+    "sizes": [
+     332,
+     332
+    ],
+    "s": 40.67063263925937,
+    "circle_distance": 40.67062984023361,
+    "rings": [
+     {
+      "c": [
+       20.335316250185063,
+       -2.864182293259812e-05,
+       -1.7771328563519183e-06
+      ],
+      "RL": 2.9469783760104176,
+      "nu": [
+       0.9999999999719303,
+       -7.487805158914198e-06,
+       -2.689220060274033e-07
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     },
+     {
+      "c": [
+       -20.335316389033892,
+       2.8678139558119593e-05,
+       -3.734966171504036e-07
+      ],
+      "RL": 2.9469783747181784,
+      "nu": [
+       0.9999999999780264,
+       -6.627926496273175e-06,
+       1.3446902620207186e-07
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "axis"
+     }
+    ],
+    "g_faces": [
+     9.664683749814937,
+     9.664683610966108
+    ],
+    "D": {
+     "D": 40.52974250396158,
+     "Dp": 20.264871232771796,
+     "Dm": 20.264871271189783,
+     "Qp": 0.9997384379388593,
+     "Qm": 0.9997384379681173,
+     "dc": 40.67063263925937,
+     "in_regime": true
+    },
+    "second_step": {
+     "source": "saved stop 13500",
+     "ok": true,
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true
+     },
+     "values": {
+      "dU_rel": 1.8903556497917862e-10,
+      "dDprime": 8.123324828090972e-05,
+      "ds_or_dRL": 7.064838787584904e-05,
+      "mu_free": 9.067187105498467e-05
+     }
+    },
+    "K5": {
+     "state": "met",
+     "iterations": 627,
+     "end_state": "CONVERGED",
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true,
+      "own_relaxation_converged": true
+     },
+     "values": {
+      "dU_rel": 9.100276088247483e-12,
+      "dDprime": 8.59586072010643e-06,
+      "ds_or_dRL": 7.476814474216553e-06,
+      "mu_free": 2.4590763931118423e-05
+     }
+    },
+    "g_mean": 9.664683680390523,
+    "qualifies": true
+   },
+   "5": {
+    "row": 5,
+    "name": "r05_A5",
+    "grid": "A30",
+    "kind": "free",
+    "state": "CAPPED",
+    "iterations": 20808,
+    "message": "ABNORMAL: ",
+    "restarts": 3,
+    "resumes": 1,
+    "U": 40.94375989114088,
+    "E": 40.94375989114088,
+    "gate": 2.1018596265409695e-06,
+    "gate_threshold": 0.001,
+    "torque": 6.801155026637696e-07,
+    "Dprime": 40.42253362692114,
+    "converged_by": [],
+    "target": null,
+    "mu": null,
+    "Dprime_plus": 20.36668373380433,
+    "Dprime_minus": 20.055849893116807,
+    "offset": 0.31083384068752196,
+    "dprime_regime": {
+     "in_regime": true,
+     "share": 0.999996368302006,
+     "least_g23": 0.3722999770347978,
+     "components": [
+      308,
+      318
+     ]
+    },
+    "word": "TWO RINGS",
+    "components": 2,
+    "sizes": [
+     318,
+     308
+    ],
+    "s": 40.379556900792494,
+    "circle_distance": 38.06868826371636,
+    "rings": [
+     {
+      "c": [
+       20.343886591717194,
+       0.0639609824943548,
+       -0.006183843607827202
+      ],
+      "RL": 2.9471682638614656,
+      "nu": [
+       0.9998349444311191,
+       0.01530109796807023,
+       -0.009795932594335406
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "neither"
+     },
+     {
+      "c": [
+       -20.033700394031303,
+       -0.33277944713457736,
+       -0.04719291760992248
+      ],
+      "RL": 3.019823254978705,
+      "nu": [
+       -0.638439611987783,
+       -0.5528668290826748,
+       -0.535474678341523
+      ],
+      "regime": true,
+      "one_ring": true,
+      "cube_q": 1,
+      "cls": "neither"
+     }
+    ],
+    "g_faces": [
+     9.656113408282806,
+     9.966299605968697
+    ],
+    "D": {
+     "D": 40.32009871021262,
+     "Dp": 20.268627111613135,
+     "Dm": 20.05147159859948,
+     "Qp": 0.9997368032962718,
+     "Qm": 0.9997388562076309,
+     "dc": 40.379556900792494,
+     "in_regime": true
+    },
+    "second_step": {
+     "source": "saved stop 20000",
+     "ok": true,
+     "checks": {
+      "U": true,
+      "s_or_RL": true,
+      "Dprime": true,
+      "mu_free": true,
+      "word": true
+     },
+     "values": {
+      "dU_rel": 3.7721803458623526e-10,
+      "dDprime": 5.672377874077483e-06,
+      "ds_or_dRL": 8.527347290510079e-07,
+      "mu_free": 0.00021742066428896242
+     }
+    },
+    "K5": {
+     "state": "not run"
+    },
+    "g_mean": 9.811206507125751,
+    "qualifies": false
+   }
+  },
+  "boxes": {
+   "18": {
+    "counts": true,
+    "word": "TWO RINGS",
+    "s": 25.525372056705365,
+    "g": 5.237313976285888,
+    "rows": "M5.56 rows 30, 31 (record)",
+    "K5": [
+     "met",
+     "met"
+    ]
+   },
+   "24": {
+    "rows": [
+     1,
+     2
+    ],
+    "dU_rel": 0.00010381156875438613,
+    "ds": 0.2762728414394857,
+    "counts": false,
+    "word": null,
+    "why": "the two starts disagree"
+   },
+   "30": {
+    "rows": [
+     4,
+     5
+    ],
+    "counts": false,
+    "why": "a main start does not end CONVERGED with its second step and K5 met"
+   }
+  },
+  "word": "no label",
+  "follows_the_box": false,
+  "why": "a box does not count, or the boxes carry mixed words",
+  "face_control": {
+   "converged": false,
+   "word": "TWO RINGS",
+   "s": 32.16171898678255,
+   "note": "A3 not CONVERGED: the word stands, printed beside"
+  },
+  "s18": 25.525372056705365,
+  "g18": 5.237313976285888
+ },
+ "rungB": {
+  "0.5": {
+   "spacing": 0.5,
+   "references": {
+    "free": {
+     "U": 39.89868025031762,
+     "s": 25.525370989099184,
+     "word": "TWO RINGS",
+     "Dprime": 25.533866461825543,
+     "name": "M5.56 row 30",
+     "state": "CONVERGED",
+     "K5": "met",
+     "second_step": true
+    },
+    "merged": {
+     "U": 40.31180352205487,
+     "word": "ONE OBJECT",
+     "Dprime": 8.435642736681032,
+     "name": "M5.56 row 33",
+     "state": "CONVERGED",
+     "K5": "met",
+     "second_step": true
+    }
+   },
+   "tables": {
+    "inward": [
+     {
+      "row": 16,
+      "name": "r16_I05_24",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 24.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 17,
+      "name": "r17_I05_22",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 22.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 18,
+      "name": "r18_I05_20",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 20.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 19,
+      "name": "r19_I05_18",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 18.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 20,
+      "name": "r20_I05_16",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 16.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 21,
+      "name": "r21_I05_15",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 15.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 22,
+      "name": "r22_I05_14",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 14.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 23,
+      "name": "r23_I05_13",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 13.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 24,
+      "name": "r24_I05_12",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 12.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 25,
+      "name": "r25_I05_10",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 10.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 26,
+      "name": "r26_I05_8",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 8.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 27,
+      "name": "r27_I05_6",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 6.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 28,
+      "name": "r28_I05_4",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 4.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 29,
+      "name": "r29_I05_2",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 2.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     }
+    ],
+    "outward": [
+     {
+      "row": 30,
+      "name": "r30_O05_10",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 10.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 31,
+      "name": "r31_O05_12",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 12.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 32,
+      "name": "r32_O05_14",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 14.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 33,
+      "name": "r33_O05_16",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 16.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 34,
+      "name": "r34_O05_20",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 20.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 35,
+      "name": "r35_O05_24",
+      "grid": "P",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 24.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     }
+    ],
+    "inward_steps": [],
+    "outward_steps": []
+   },
+   "branches": [],
+   "guard": {
+    "references_are_what_they_are_called": true,
+    "references_converged_with_second_step": true
+   },
+   "levels": [
+    {
+     "target": 10.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 12.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 13.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 14.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 15.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 16.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 18.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 20.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 22.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 24.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    }
+   ],
+   "Mc": {
+    "value": null,
+    "label": "no label",
+    "why": [
+     "two neighboring targets hold no usable rung"
+    ],
+    "E_min": 39.89868025031762,
+    "E_ring": 19.94934012515881,
+    "E_ring_hb12": 19.497928342958982,
+    "Mc_in_hb12_unit": null,
+    "literal_interior_word_on_an_empty_range": "NO INTERIOR MAXIMUM",
+    "top": 40.31180352205487,
+    "U_free": 39.89868025031762,
+    "U_merged": 40.31180352205487,
+    "Dprime_free": 25.533866461825543,
+    "Dprime_merged": 8.435642736681032,
+    "range": [
+     10.0,
+     12.0,
+     13.0,
+     14.0,
+     15.0,
+     16.0,
+     18.0,
+     20.0,
+     22.0,
+     24.0
+    ],
+    "skipped": [],
+    "max_holder": {
+     "kind": "the merged end",
+     "name": "M5.56 row 33",
+     "K5": "met"
+    },
+    "interior_word": null,
+    "E_star": null
+   },
+   "merged_end": {
+    "reading_i": "A LOCAL MINIMUM",
+    "reading_ii": "no label",
+    "targets_next": [
+     10.0,
+     8.0
+    ],
+    "E_low_next": [
+     null,
+     null
+    ]
+   },
+   "score": {
+    "interior": "unresolved",
+    "Delta_m": null,
+    "Delta_f": null,
+    "strict": "no word",
+    "as_written": "no word"
+   },
+   "releases": {
+    "r62_C8_05": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    },
+    "r64_Rel_I05": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    },
+    "r65_Rel_O05": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    }
+   }
+  },
+  "0.375": {
+   "spacing": 0.375,
+   "references": {
+    "free": {
+     "U": 39.96319998567791,
+     "s": 24.806754973390003,
+     "word": "TWO RINGS",
+     "Dprime": 24.838242255390476,
+     "name": "r06_F375",
+     "state": "CONVERGED",
+     "K5": "met",
+     "second_step": true,
+     "iterations": 16977,
+     "gate": 1.4740985806819633e-06
+    },
+    "merged": {
+     "U": 40.225388115947794,
+     "word": "ONE OBJECT",
+     "Dprime": 8.554848154191895,
+     "name": "r07_M375",
+     "state": "CAPPED",
+     "K5": "met",
+     "second_step": false,
+     "s": null,
+     "iterations": 5165,
+     "gate": 4.363162725570699e-06
+    }
+   },
+   "tables": {
+    "inward": [
+     {
+      "row": 36,
+      "name": "r36_I375_24",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 24.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 37,
+      "name": "r37_I375_22",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 22.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 38,
+      "name": "r38_I375_20",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 20.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 39,
+      "name": "r39_I375_18",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 18.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 40,
+      "name": "r40_I375_16",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 16.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 41,
+      "name": "r41_I375_15",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 15.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 42,
+      "name": "r42_I375_14",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 14.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 43,
+      "name": "r43_I375_13",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 13.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 44,
+      "name": "r44_I375_12",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 12.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 45,
+      "name": "r45_I375_10",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 10.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 46,
+      "name": "r46_I375_8",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 8.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 47,
+      "name": "r47_I375_6",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 6.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 48,
+      "name": "r48_I375_4",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 4.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 49,
+      "name": "r49_I375_2",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 2.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     }
+    ],
+    "outward": [
+     {
+      "row": 50,
+      "name": "r50_O375_10",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 10.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 51,
+      "name": "r51_O375_12",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 12.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 52,
+      "name": "r52_O375_14",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 14.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 53,
+      "name": "r53_O375_16",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 16.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 54,
+      "name": "r54_O375_20",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 20.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     },
+     {
+      "row": 55,
+      "name": "r55_O375_24",
+      "grid": "P375",
+      "kind": "held",
+      "state": "not run: C5 not met (its cost: no held chain)",
+      "target": 24.0,
+      "after_a_capped_rung": false,
+      "usable_here": false,
+      "in_hold_here": false
+     }
+    ],
+    "inward_steps": [],
+    "outward_steps": []
+   },
+   "branches": [],
+   "guard": {
+    "references_are_what_they_are_called": true,
+    "references_converged_with_second_step": false
+   },
+   "levels": [
+    {
+     "target": 10.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 12.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 13.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 14.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 15.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 16.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 18.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 20.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 22.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    },
+    {
+     "target": 24.0,
+     "E_low": null,
+     "rung": null,
+     "row": null,
+     "ladder": null,
+     "word": null
+    }
+   ],
+   "Mc": {
+    "value": null,
+    "label": "no label",
+    "why": [
+     "two neighboring targets hold no usable rung",
+     "a reference is not CONVERGED with its second step met (this task's stricter reading)"
+    ],
+    "E_min": 39.96319998567791,
+    "E_ring": 19.981599992838955,
+    "E_ring_hb12": 19.497928342958982,
+    "Mc_in_hb12_unit": null,
+    "literal_interior_word_on_an_empty_range": "NO INTERIOR MAXIMUM",
+    "top": 40.225388115947794,
+    "U_free": 39.96319998567791,
+    "U_merged": 40.225388115947794,
+    "Dprime_free": 24.838242255390476,
+    "Dprime_merged": 8.554848154191895,
+    "range": [
+     10.0,
+     12.0,
+     13.0,
+     14.0,
+     15.0,
+     16.0,
+     18.0,
+     20.0,
+     22.0,
+     24.0
+    ],
+    "skipped": [],
+    "max_holder": {
+     "kind": "the merged end",
+     "name": "r07_M375",
+     "K5": "met"
+    },
+    "interior_word": null,
+    "E_star": null
+   },
+   "merged_end": {
+    "reading_i": "no label",
+    "reading_ii": "no label",
+    "targets_next": [
+     10.0,
+     8.0
+    ],
+    "E_low_next": [
+     null,
+     null
+    ]
+   },
+   "score": {
+    "interior": "unresolved",
+    "Delta_m": null,
+    "Delta_f": null,
+    "strict": "no word",
+    "as_written": "no word"
+   },
+   "releases": {
+    "r63_C8_375": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    },
+    "r66_Rel_I375": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    },
+    "r67_Rel_O375": {
+     "state": "not run: C5 not met (its cost: no held chain)",
+     "source": null,
+     "U": null,
+     "word": null,
+     "s": null,
+     "second_step": null
+    }
+   }
+  }
+ },
+ "rungC": {
+  "decisions": {},
+  "chains": [
+   {
+    "row": 68,
+    "name": "r68_CT1",
+    "reference": null,
+    "prep": {
+     "collar": null,
+     "C10": null,
+     "start_rule": null,
+     "paths": {}
+    },
+    "state": "not run: C5 not met (its cost: no held chain)",
+    "word": "not run: C5 not met (its cost: no held chain)"
+   },
+   {
+    "row": 69,
+    "name": "r69_CT2",
+    "reference": null,
+    "prep": {
+     "collar": null,
+     "C10": null,
+     "start_rule": null,
+     "paths": {}
+    },
+    "state": "not run: C5 not met (its cost: no held chain)",
+    "word": "not run: C5 not met (its cost: no held chain)"
+   },
+   {
+    "row": 70,
+    "name": "r70_CT3",
+    "reference": null,
+    "prep": {
+     "collar": null,
+     "C10": null,
+     "start_rule": null,
+     "paths": {}
+    },
+    "state": "not run: C5 not met (its cost: no held chain)",
+    "word": "not run: C5 not met (its cost: no held chain)"
+   }
+  ]
+ },
+ "scores": {
+  "OW57_1": "not scored",
+  "OW57_2": {
+   "strict": {
+    "spacing_05": "no word",
+    "spacing_0375": "no word",
+    "together": "not scored"
+   },
+   "as_written": {
+    "spacing_05": "no word",
+    "spacing_0375": "no word",
+    "together": "not scored"
+   },
+   "limit_9": false,
+   "skipped": {
+    "0.5": [],
+    "0.375": []
+   }
+  },
+  "expectations": [
+   {
+    "id": "X1",
+    "outcome": "not scored"
+   },
+   {
+    "id": "X2",
+    "outcome": "not scored"
+   },
+   {
+    "id": "X3",
+    "outcome": "wrong"
+   },
+   {
+    "id": "X4",
+    "outcome": "not scored"
+   },
+   {
+    "id": "X5",
+    "outcome": "not scored"
+   },
+   {
+    "id": "X6",
+    "outcome": "not scored"
+   }
+  ]
+ },
+ "rows": {
+  "r06_F375": {
+   "row": 6,
+   "name": "r06_F375",
+   "grid": "P375",
+   "kind": "free",
+   "state": "CONVERGED",
+   "iterations": 16977,
+   "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "restarts": 0,
+   "resumes": 1,
+   "U": 39.96319998567791,
+   "E": 39.96319998567791,
+   "gate": 1.4740985806819633e-06,
+   "gate_threshold": 0.001,
+   "torque": 6.435140856445349e-07,
+   "Dprime": 24.838242255390476,
+   "converged_by": [
+    "rule_a"
+   ],
+   "target": null,
+   "mu": null,
+   "Dprime_plus": 12.419120425964543,
+   "Dprime_minus": 12.419121829425933,
+   "offset": -1.403461389770655e-06,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999988773948482,
+    "least_g23": 0.36643231748930094,
+    "components": [
+     721,
+     721
+    ]
+   },
+   "word": "TWO RINGS",
+   "components": 2,
+   "sizes": [
+    721,
+    721
+   ],
+   "s": 24.806754973390003,
+   "circle_distance": 21.507099058930077,
+   "rings": [
+    {
+     "c": [
+      12.394070923314892,
+      0.4803742560933915,
+      0.18224306148651728
+     ],
+     "RL": 3.0451021584889784,
+     "nu": [
+      0.8047442196335058,
+      0.4047856478476946,
+      0.4342065410181909
+     ],
+     "regime": true,
+     "one_ring": true,
+     "cube_q": 1,
+     "cls": "neither"
+    },
+    {
+     "c": [
+      -12.394072438214968,
+      -0.4803759705795486,
+      0.18224379699037221
+     ],
+     "RL": 3.0451021910136102,
+     "nu": [
+      0.8047450072487606,
+      0.404784361352938,
+      -0.4342062805997702
+     ],
+     "regime": true,
+     "one_ring": true,
+     "cube_q": 1,
+     "cls": "neither"
+    }
+   ],
+   "g_faces": [
+    5.605929076685108,
+    5.605927561785032
+   ],
+   "D": {
+    "D": 24.816492003615657,
+    "Dp": 12.408245854173824,
+    "Dm": 12.408246149441833,
+    "Qp": 0.999559748997338,
+    "Qm": 0.9995597471380699,
+    "dc": 24.806754973390003,
+    "in_regime": true
+   },
+   "second_step": {
+    "source": "saved stop 16000",
+    "ok": true,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": true,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 2.3835788898196597e-10,
+     "dDprime": 6.580639803388522e-05,
+     "ds_or_dRL": 1.4485827513510685e-05,
+     "mu_free": 0.00020120207057738716
+    }
+   },
+   "K5": {
+    "state": "met",
+    "iterations": 620,
+    "end_state": "CONVERGED",
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": true,
+     "mu_free": true,
+     "word": true,
+     "own_relaxation_converged": true
+    },
+    "values": {
+     "dU_rel": 9.690803715045604e-12,
+     "dDprime": 4.201934672209973e-06,
+     "ds_or_dRL": 5.625962984368016e-06,
+     "mu_free": 1.7219457535787095e-05
+    }
+   }
+  },
+  "r07_M375": {
+   "row": 7,
+   "name": "r07_M375",
+   "grid": "P375",
+   "kind": "free",
+   "state": "CAPPED",
+   "iterations": 5165,
+   "message": "ABNORMAL: ",
+   "restarts": 3,
+   "resumes": 1,
+   "U": 40.225388115947794,
+   "E": 40.225388115947794,
+   "gate": 4.363162725570699e-06,
+   "gate_threshold": 0.001,
+   "torque": 1.8416700846765589e-06,
+   "Dprime": 8.554848154191895,
+   "converged_by": [],
+   "target": null,
+   "mu": null,
+   "Dprime_plus": 4.277475091833987,
+   "Dprime_minus": 4.277373062357906,
+   "offset": 0.00010202947608117796,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999990419425494,
+    "least_g23": 0.370811772330476,
+    "components": [
+     1620
+    ]
+   },
+   "word": "ONE OBJECT",
+   "components": 1,
+   "sizes": [
+    1620
+   ],
+   "s": null,
+   "circle_distance": null,
+   "rings": [
+    {
+     "c": [
+      8.829512268997657e-05,
+      -2.2734007187420683e-08,
+      -2.579369821534349e-10
+     ],
+     "RL": 6.448516943401742,
+     "nu": [
+      -1.0013222332842404e-09,
+      9.040278746925379e-07,
+      0.9999999999995914
+     ],
+     "regime": true,
+     "one_ring": null,
+     "cube_q": null,
+     "cls": "axis"
+    }
+   ],
+   "one_object": {
+    "nodes": 1620,
+    "centroid": [
+     7.900290819682005e-05,
+     -1.8124308523404898e-08,
+     -2.2037903350873596e-09
+    ],
+    "least_g12": 0.0056530687023462756
+   },
+   "g_faces": null,
+   "D": {
+    "D": 7.927761118301284,
+    "Dp": 3.9631599357466167,
+    "Dm": 3.9646011825546665,
+    "Qp": 0.9724424977400551,
+    "Qm": 0.9767378987791869,
+    "dc": 0.0,
+    "in_regime": false
+   },
+   "second_step": {
+    "source": "saved stop 4500",
+    "ok": false,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": false,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 2.553500744184589e-10,
+     "dDprime": 0.0002395012799816243,
+     "ds_or_dRL": null,
+     "mu_free": 0.00018079103377992119
+    }
+   },
+   "K5": {
+    "state": "met",
+    "iterations": 504,
+    "end_state": "CONVERGED",
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": true,
+     "mu_free": true,
+     "word": true,
+     "own_relaxation_converged": true
+    },
+    "values": {
+     "dU_rel": 5.03774799653911e-12,
+     "dDprime": 7.934862349401328e-06,
+     "ds_or_dRL": null,
+     "mu_free": 2.0106949838542204e-05
+    }
+   }
+  },
+  "r08_C5h1": {
+   "row": 8,
+   "name": "r08_C5h1",
+   "grid": "H1",
+   "kind": "held",
+   "state": "CAPPED",
+   "iterations": 3404,
+   "message": "ABNORMAL: ",
+   "restarts": 3,
+   "resumes": 0,
+   "U": 19.511783797658428,
+   "E": 19.511807744267198,
+   "gate": 3.4073356113273334e-06,
+   "gate_threshold": 0.001,
+   "torque": 4.149125166275948e-07,
+   "Dprime": 0.9984525308154966,
+   "converged_by": [],
+   "target": 1.0,
+   "mu": 20.0,
+   "f": 0.03094938369006872,
+   "hold_energy": 2.3946608769877293e-05,
+   "F": 0.1381082562042704,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999991302553208,
+    "least_g23": 0.37221069109025595,
+    "components": [
+     310
+    ]
+   },
+   "RL": 2.9445061653190234,
+   "center": [
+    0.850812693304683,
+    -0.11811922526729693,
+    1.0592214657900888e-05
+   ],
+   "normal": [
+    0.048992456365772125,
+    -0.9987991485875652,
+    -5.296242361550129e-08
+   ],
+   "one_ring": true,
+   "line_regime": true,
+   "second_step": {
+    "source": "saved stop 2500",
+    "ok": true,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": true,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 2.4021324929179855e-09,
+     "dDprime": 3.922877706008521e-06,
+     "ds_or_dRL": 3.0529747470531277e-05,
+     "mu_free": 0.0002790502251109283
+    }
+   },
+   "K5": {
+    "state": "not run"
+   }
+  },
+  "r09_C5h2": {
+   "row": 9,
+   "name": "r09_C5h2",
+   "grid": "H1",
+   "kind": "held",
+   "state": "CONVERGED",
+   "iterations": 3470,
+   "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "restarts": 1,
+   "resumes": 0,
+   "U": 19.552699734584174,
+   "E": 19.55283138825229,
+   "gate": 7.829584218986552e-07,
+   "gate_threshold": 0.001,
+   "torque": 2.9378808981482107e-07,
+   "Dprime": 1.99637158894117,
+   "converged_by": [
+    "rule_a"
+   ],
+   "target": 2.0,
+   "mu": 20.0,
+   "f": 0.072568221176601,
+   "hold_energy": 0.00013165366811840204,
+   "F": 0.2851111246618388,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999991195992767,
+    "least_g23": 0.37205422514393194,
+    "components": [
+     315
+    ]
+   },
+   "RL": 2.941170429997428,
+   "center": [
+    1.6828852596901502,
+    0.12844413098345406,
+    -0.00026314610403117844
+   ],
+   "normal": [
+    0.05041285108880066,
+    0.9987284638175091,
+    2.411829695021587e-06
+   ],
+   "one_ring": true,
+   "line_regime": true,
+   "second_step": {
+    "source": "saved stop 2500",
+    "ok": true,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": true,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 5.460182084249254e-09,
+     "dDprime": 3.4120165157691673e-06,
+     "ds_or_dRL": 1.7747383695976282e-07,
+     "mu_free": 0.00027367037604941155
+    }
+   },
+   "K5": {
+    "state": "not run"
+   }
+  },
+  "r10_C5r1": {
+   "row": 10,
+   "name": "r10_C5r1",
+   "grid": "H1",
+   "kind": "release",
+   "state": "CONVERGED",
+   "iterations": 2614,
+   "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "restarts": 0,
+   "resumes": 0,
+   "U": 19.497928342684823,
+   "E": 19.497928342684823,
+   "gate": 5.639119648459534e-07,
+   "gate_threshold": 0.001,
+   "torque": 3.6926090830612885e-07,
+   "Dprime": -0.00011852478090905704,
+   "converged_by": [
+    "rule_a"
+   ],
+   "target": null,
+   "mu": null,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999991673412593,
+    "least_g23": 0.38317641190483276,
+    "components": [
+     300
+    ]
+   },
+   "RL": 2.9390525696839203,
+   "center": [
+    -8.084481018420743e-05,
+    2.001843686511547e-05,
+    1.6156103511850558e-09
+   ],
+   "normal": [
+    -7.527570283868623e-05,
+    0.9999999971667843,
+    -1.828846553123493e-10
+   ],
+   "one_ring": true,
+   "line_regime": true,
+   "second_step": {
+    "source": "saved stop 2000",
+    "ok": false,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": false,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 1.5212916482099104e-09,
+     "dDprime": 0.0007842958579980881,
+     "ds_or_dRL": 1.5192865680191403e-05,
+     "mu_free": 0.001059352734345702
+    }
+   },
+   "K5": {
+    "state": "not run"
+   }
+  },
+  "r11_C5r2": {
+   "row": 11,
+   "name": "r11_C5r2",
+   "grid": "H1",
+   "kind": "release",
+   "state": "CONVERGED",
+   "iterations": 2736,
+   "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+   "restarts": 0,
+   "resumes": 0,
+   "U": 19.49792834259699,
+   "E": 19.49792834259699,
+   "gate": 7.976734149872655e-07,
+   "gate_threshold": 0.001,
+   "torque": 2.9558981332660624e-07,
+   "Dprime": -8.257931639906882e-05,
+   "converged_by": [
+    "rule_a"
+   ],
+   "target": null,
+   "mu": null,
+   "dprime_regime": {
+    "in_regime": true,
+    "share": 0.9999991673412093,
+    "least_g23": 0.38315702389019124,
+    "components": [
+     300
+    ]
+   },
+   "RL": 2.9390529474807754,
+   "center": [
+    -5.579058935174667e-05,
+    -2.2692035139457705e-05,
+    -5.8978819631341076e-08
+   ],
+   "normal": [
+    0.00010934598783151853,
+    0.9999999940217276,
+    1.171051186114018e-09
+   ],
+   "one_ring": true,
+   "line_regime": true,
+   "second_step": {
+    "source": "saved stop 2000",
+    "ok": false,
+    "checks": {
+     "U": true,
+     "s_or_RL": true,
+     "Dprime": false,
+     "mu_free": true,
+     "word": true
+    },
+    "values": {
+     "dU_rel": 1.5534354913526727e-09,
+     "dDprime": 0.00021592739149610364,
+     "ds_or_dRL": 1.8598260142610457e-05,
+     "mu_free": 0.0014015526295810205
+    }
+   },
+   "K5": {
+    "state": "not run"
+   }
+  },
+  "r12_C6k1": {
+   "row": 12,
+   "name": "r12_C6k1",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met at try 2 (its cost: no held chain)"
+  },
+  "r13_C6k2": {
+   "row": 13,
+   "name": "r13_C6k2",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met at try 2 (its cost: no held chain)"
+  },
+  "r14_C6k3": {
+   "row": 14,
+   "name": "r14_C6k3",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met at try 2 (its cost: no held chain)"
+  },
+  "r15_C6k4": {
+   "row": 15,
+   "name": "r15_C6k4",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met at try 2 (its cost: no held chain)"
+  },
+  "r16_I05_24": {
+   "row": 16,
+   "name": "r16_I05_24",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r17_I05_22": {
+   "row": 17,
+   "name": "r17_I05_22",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r18_I05_20": {
+   "row": 18,
+   "name": "r18_I05_20",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r19_I05_18": {
+   "row": 19,
+   "name": "r19_I05_18",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r20_I05_16": {
+   "row": 20,
+   "name": "r20_I05_16",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r21_I05_15": {
+   "row": 21,
+   "name": "r21_I05_15",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r22_I05_14": {
+   "row": 22,
+   "name": "r22_I05_14",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r23_I05_13": {
+   "row": 23,
+   "name": "r23_I05_13",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r24_I05_12": {
+   "row": 24,
+   "name": "r24_I05_12",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r25_I05_10": {
+   "row": 25,
+   "name": "r25_I05_10",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r26_I05_8": {
+   "row": 26,
+   "name": "r26_I05_8",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r27_I05_6": {
+   "row": 27,
+   "name": "r27_I05_6",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r28_I05_4": {
+   "row": 28,
+   "name": "r28_I05_4",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r29_I05_2": {
+   "row": 29,
+   "name": "r29_I05_2",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r30_O05_10": {
+   "row": 30,
+   "name": "r30_O05_10",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r31_O05_12": {
+   "row": 31,
+   "name": "r31_O05_12",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r32_O05_14": {
+   "row": 32,
+   "name": "r32_O05_14",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r33_O05_16": {
+   "row": 33,
+   "name": "r33_O05_16",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r34_O05_20": {
+   "row": 34,
+   "name": "r34_O05_20",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r35_O05_24": {
+   "row": 35,
+   "name": "r35_O05_24",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r36_I375_24": {
+   "row": 36,
+   "name": "r36_I375_24",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r37_I375_22": {
+   "row": 37,
+   "name": "r37_I375_22",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r38_I375_20": {
+   "row": 38,
+   "name": "r38_I375_20",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r39_I375_18": {
+   "row": 39,
+   "name": "r39_I375_18",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r40_I375_16": {
+   "row": 40,
+   "name": "r40_I375_16",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r41_I375_15": {
+   "row": 41,
+   "name": "r41_I375_15",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r42_I375_14": {
+   "row": 42,
+   "name": "r42_I375_14",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r43_I375_13": {
+   "row": 43,
+   "name": "r43_I375_13",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r44_I375_12": {
+   "row": 44,
+   "name": "r44_I375_12",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r45_I375_10": {
+   "row": 45,
+   "name": "r45_I375_10",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r46_I375_8": {
+   "row": 46,
+   "name": "r46_I375_8",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r47_I375_6": {
+   "row": 47,
+   "name": "r47_I375_6",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r48_I375_4": {
+   "row": 48,
+   "name": "r48_I375_4",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r49_I375_2": {
+   "row": 49,
+   "name": "r49_I375_2",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r50_O375_10": {
+   "row": 50,
+   "name": "r50_O375_10",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r51_O375_12": {
+   "row": 51,
+   "name": "r51_O375_12",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r52_O375_14": {
+   "row": 52,
+   "name": "r52_O375_14",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r53_O375_16": {
+   "row": 53,
+   "name": "r53_O375_16",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r54_O375_20": {
+   "row": 54,
+   "name": "r54_O375_20",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r55_O375_24": {
+   "row": 55,
+   "name": "r55_O375_24",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r56_C7_05_20": {
+   "row": 56,
+   "name": "r56_C7_05_20",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r59_C7_375_20": {
+   "row": 59,
+   "name": "r59_C7_375_20",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r57_C7_05_16": {
+   "row": 57,
+   "name": "r57_C7_05_16",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r60_C7_375_16": {
+   "row": 60,
+   "name": "r60_C7_375_16",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r58_C7_05_12": {
+   "row": 58,
+   "name": "r58_C7_05_12",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r61_C7_375_12": {
+   "row": 61,
+   "name": "r61_C7_375_12",
+   "grid": "P375",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r62_C8_05": {
+   "row": 62,
+   "name": "r62_C8_05",
+   "grid": "P",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r63_C8_375": {
+   "row": 63,
+   "name": "r63_C8_375",
+   "grid": "P375",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r64_Rel_I05": {
+   "row": 64,
+   "name": "r64_Rel_I05",
+   "grid": "P",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r65_Rel_O05": {
+   "row": 65,
+   "name": "r65_Rel_O05",
+   "grid": "P",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r66_Rel_I375": {
+   "row": 66,
+   "name": "r66_Rel_I375",
+   "grid": "P375",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r67_Rel_O375": {
+   "row": 67,
+   "name": "r67_Rel_O375",
+   "grid": "P375",
+   "kind": "release",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r68_CT1": {
+   "row": 68,
+   "name": "r68_CT1",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r69_CT2": {
+   "row": 69,
+   "name": "r69_CT2",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  },
+  "r70_CT3": {
+   "row": 70,
+   "name": "r70_CT3",
+   "grid": "P",
+   "kind": "held",
+   "state": "not run: C5 not met (its cost: no held chain)"
+  }
+ }
+}
