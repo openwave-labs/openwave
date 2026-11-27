@@ -1,0 +1,107 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19937507
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19937507
+author: xrodz
+posted: 2026-11-27T01:15:14Z
+version: as first posted
+sha256: b688297a024bf49a84deccd3097be23efa029ebe9d0f57e9f50d1e3b4e81d6fc
+archived: 2026-11-27
+==== verbatim text below this line ====
+# M5.57 ran on OpenWave: the hold failed its own control, so no held ladder ran; neither OW57-1 nor OW57-2 is scored
+
+## TL;DR
+
+1. **Your review was folded into the plan before any run.** The strict scoring of OW57-2 was written as a dated amendment, audited, and made public on OpenWave before any chain was relaxed ([commit `a0540a35`](https://github.com/openwave-labs/openwave/commit/a0540a35538470df00403e7c6ee6ff5ab15b21e5)).
+2. **The control of the hold was not met.** One ring, held by the smooth moment of its line at 1.0 and 2.0, met the held moment (0.998 and 1.996) while its fitted center stood at 0.851 and 1.683. The plan's bound is 0.1, and its cost for this control is "no held chain".
+3. **So $E(d)$ was not run.** Neither ladder, at either spacing, and no ring turned at a held separation. OW57-2 is not scored, by the strict rule and as written before the amendment.
+4. **The free pair on half-boxes 24 and 30: two rings on every end, no label.** The separations read 32.2 to 33.0 on half-box 24 and 40.4 and 40.7 on half-box 30, against 25.5 on half-box 18. On half-box 24 the two starts ended 0.276 apart, outside the frozen bound, and on half-box 30 one start did not end converged, so the plan gives no word and OW57-1 is not scored.
+5. **Three ends hold a ring turned away from the separation axis**, and on both larger boxes the end with a turned ring lies lower in energy than the coaxial one (on half-box 30 that end did not converge).
+
+No cell of [`MODELS.md`](https://github.com/openwave-labs/openwave/blob/main/MODELS.md) changes. Everything is in one pull request on OpenWave, [#759](https://github.com/openwave-labs/openwave/pull/759); the record is [`m5_57_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_57_task_details.md) (plan with its amendment, findings §§ 10 to 17, review).
+
+## 1. What ran
+
+The action as ported in [M5.51](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_51_task_details.md) with the midpoint weight, at $\delta = 0.05$, in closed boxes with the faces held at a far field of degree 2. The hold is the one of the plan you reviewed: the first moment of a smooth weight on the low-gap set of the line, with $g_0 = 0.2$, held by a quadratic penalty with $\mu = 20$:
+
+```math
+w = \exp\left( - g_{12}^2 / g_0^2 \right) , \qquad D'_\pm = \frac{\sum_\pm \lvert x \rvert w}{\sum_\pm w} , \qquad D' = D'_+ + D'_- , \qquad E_\mu = U + \frac{\mu}{2} \left( D' - d \right)^2
+```
+
+For the control on one ring the moment is the one-ring form $D'_1 = \sum x w / \sum w$.
+
+## 2. The control of the hold
+
+The plan's control C5 takes the relaxed single ring of M5.56 (radius 2.939, normal along $\hat y$), holds $D'_1$ at $a$ = 1.0 and 2.0 along $\hat x$, and asks that the ring's fitted center follow within 0.1.
+
+| Read | $a$ = 1.0 | $a$ = 2.0 | Bound |
+| --- | --- | --- | --- |
+| The held moment $D'_1$ at the end | 0.99845 | 1.99637 | |
+| The fitted center, x | 0.851 | 1.683 | within 0.1 of $a$: fails |
+| The fitted center, y | −0.118 | 0.128 | within 0.1 of 0: fails |
+| The radius | 2.9445 | 2.9412 | within 0.02 of 2.9391: holds |
+| Energy above the free ring | 0.0139 | 0.0548 | under the moved copy's 0.161 and 0.700: holds |
+| After release | back on the free ring | back on the free ring | holds |
+
+- The hold moved its moment by the full amount and the fitted center by about 85 percent of it; the rest of the moment's shift is not carried by the center.
+- The held state at 1.0 ended on an abnormal end of the optimizer after three restarts (gradient gate $3.4 \times 10^{-6}$), which our rule does not count as converged; the one at 2.0 converged. Both releases returned to the free ring's energy and center, with one clause of the last-step check not met (the moment still moving by $7.8 \times 10^{-4}$ and $2.2 \times 10^{-4}$ against $10^{-4}$). The control fails on the center whichever way these are read.
+- The result is the same at two tries. The first try exposed a defect of our relax script (an end message of the optimizer was not recognized); after the fix the held states agree with the first try to $2 \times 10^{-7}$.
+- The audit re-derived the failure with a separate fit (x = 0.851 and 1.708), checked the gradient of $D'_1$ against finite differences to $2.8 \times 10^{-10}$, and found both held states stationary. With that fit the y clause fails only narrowly (−0.103 and 0.109); the verdict rests on x.
+- **A limit of our control.** It pushes the ring in its own plane. The rings of the pair lie with their normals along the separation axis, so on the ladders the hold would move each ring along its normal. The control does not say what the hold does in that geometry.
+- One held chain on the pair had started beside the control (target one below the free pair's moment) and was stopped at iteration 3000 by the control's verdict. At that stop, unconverged, it held $D'$ = 24.535 with the fitted separation at 24.528. That is the state at which it was stopped, one target from its start and unconverged; it is not a read of the plan and decides nothing about the hold on the pair.
+
+## 3. The free pair on larger boxes (OW57-1)
+
+Free descents, no hold. Two starts per box (the record's separation and a larger one), and a third on half-box 24 with different faces as a control.
+
+| Row | Half-box | End | Separation $s$ | Face distance | Energy | Rings |
+| --- | --- | --- | --- | --- | --- | --- |
+| M5.56 | 18 | converged | 25.525 | 5.24 | 39.8987 | both along $\hat x$ |
+| A1 | 24 | converged (see section 6) | 32.996 | 7.50 | 40.6058 | both along $\hat x$ |
+| A2 | 24 | converged | 32.719 | 7.50, 7.80 | 40.6016 | one turned 43° from $\hat x$ |
+| A3 (face control) | 24 | not converged | 32.162 | 7.92 | 40.7769 | both along $\hat x$ |
+| A4 | 30 | converged (see section 6) | 40.671 | 9.66 | 40.9602 | both along $\hat x$ |
+| A5 | 30 | not converged | 40.380 | 9.66, 9.97 | 40.9438 | one turned 50° from $\hat x$ |
+
+- **No label.** The plan counts a box when its two starts end converged, stable under a small perturbation, and alike within 0.05 in $s$ and $10^{-6}$ relative in energy. On half-box 24 both ends are converged by the rules as applied (section 6) and stable, but 0.276 apart in $s$ and $1.0 \times 10^{-4}$ relative apart in energy. On half-box 30 one start ended on an abnormal end of the optimizer after its restarts, which our rule does not count as converged, and the two ends are 0.291 apart in any case.
+- **What the numbers are.** On these ends the separation is larger on the larger box, and so is the distance of the rings to the faces (5.24, about 7.5, about 9.7). These are descriptors: by the frozen rule the rung has no word, and the record does not say whether the separation stops or follows the box. The energies of different boxes are not compared: the box enters them.
+- **A turned ring.** A2 and A5 hold one ring whose normal left the separation axis, and each lies below the coaxial end of its box (by 0.0042 and by 0.0164, the second on a chain that did not converge). The coaxial pair is therefore not the lowest state found on these boxes. On each of the two boxes one start ended coaxial and the other with a turned ring; the run does not resolve what decides it.
+
+## 4. The references at spacing 0.375
+
+Both were relaxed free from the interpolated ends of M5.56, as the plan states.
+
+- The free pair converged, stable under a perturbation, with **both** rings turned 36° from the separation axis, 24.807 apart, at energy 39.9632. Its start carried the plan's small noise; whether the turn depends on that noise was not tested.
+- The merged object ended on an abnormal end of the optimizer after three restarts (gradient gate $4.4 \times 10^{-6}$, its moment still moving by $2.4 \times 10^{-4}$), as one line fitted by a circle of radius 6.45, at energy 40.2254. Its perturbed re-relaxation converged and returned to the same energy within $5 \times 10^{-12}$ relative. By the frozen rule the reading "a local minimum of the action" has no label at 0.375: the reference itself did not end converged, although its stability check was met.
+
+## 5. Your two predictions
+
+| | Prediction | Score |
+| --- | --- | --- |
+| OW57-1 | in a larger box the free rings keep separating, so there is no minimum at finite $d$ | not scored: the rung carries no label |
+| OW57-2 | the held $E(d)$ has a contact maximum below 0.1 of the ring energy, and the merged state is a local minimum | not scored, strictly and as written: no held rung ran |
+
+The merged state at spacing 0.5 stays what M5.56 recorded, a local minimum of the action with no hold, on record before the prediction was registered.
+
+## 6. What this does not show, and the faults of our plan
+
+Static states of one action at $\delta = 0.05$ in closed boxes up to half-box 30. Nothing is read about $E(d)$, a contact maximum, the merged end under a hold, a turned class at a held separation, or whether the free separation stops in a larger box. No exchange sign, spin or statistics is read.
+
+The faults are our plan's, not the action's:
+
+- the control of the hold tests a ring moved in its plane, not along its normal;
+- the convergence rule gives no word to a chain whose optimizer ends abnormally after its restarts at a small gradient (A3, A5, the merged reference at 0.375 and one held row of the control, gates near $10^{-6}$);
+- A1 and A4 count as converged only by restarts that the plan's sentence does not grant; no word depends on it;
+- the list of rows and the noise seeds were written after the go, before any chain of the plan ran, where the plan says "fixed before the go";
+- short smoke runs of the new scripts were made after the go on fields that are not rows of the plan; one was a one-ring hold whose log was read before the control ran (120 iterations, its center at 0.229 for a moment of 0.494). The record lists them, and no reading or choice used them;
+- the queue left out one stability check the plan names (on the merged reference at 0.375); it ran before the close.
+
+The record lists seventeen deviations. It was checked twice before this post: a recomputation with separate code of the energies and gradient gates of 13 stored states and of the $D'$ reader (the circle fit was not reimplemented there), and an adversarial audit in a fresh context (no blocker, four majors, eight minors, all folded). The builder of the record and its auditor were instances of one model family, in separate contexts. The fold was not audited again.
+
+Record on OpenWave: the task document linked above; the scripts [`m5_57_hold.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_57_hold.py) (the moment, the hold and their controls), [`m5_57_relax.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_57_relax.py) (the chains) and [`m5_57_reads.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_57_reads.py) (the words and the summary); and [`m5_57_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_57_summary.json).
+
+## 7. Three questions
+
+1. **The hold, again.** For a held $E(d)$ that you would accept for OW57-2, which do you prefer: (a) the same $D'$, with the control repeated on a ring moved along its normal and on the pair, the bound set on the fitted separation; (b) a hold on the fitted centers of the two lines themselves; (c) something else? The degree moment of your post of 2026-11-25 moves in jumps on this lattice (a step off by 0.12 on a path where $D'$ is smooth), which is why the plan did not hold it.
+2. **The turned ring.** Three ends hold a ring turned 36° to 50° from the separation axis, and on both larger boxes the turned end lies below the coaxial one. Is that expected in your picture, and should a re-run of the free pair score OW57-1 on the lowest end found on a box, or on the coaxial branch only?
+3. **What to run next.** Your two requests of 2026-11-26 are filed on OpenWave as [M5.59](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_59_task_details.md), opened and not staged; capstone 4.7 was read for it (items 29 and 33). With the held ladder of M5.57 to stage again, the three reads of [M5.58](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_58_task_details.md), and those two, which would you have first for 4.7.x?

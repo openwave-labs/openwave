@@ -216,6 +216,7 @@ Entries are ordered by year (ascending; undated last); the Bibliography is the r
 | Duda (2026) | `duda_2026-11-16_sm_gravity_effective_ldgs_v3_96/SM_gravity_effective_LdGS_v3.96.pdf`, `sm_from_ldgs_v3.96_source.zip`, `article.txt` (pdftotext) and the unpacked tree `source/` (1512 files; `checks/v395/ldgs2108/` identical to v3.95; `checks/v396/` adds the null waves, their crossing, the tetrad checks and the halo core) | 31 MB pdf, 45 MB zip, 84 MB unpacked |
 | Duda (2026) | `duda_2026-11-24_sm_gravity_effective_ldgs_v4_5/SM_gravity_effective_LdGS_v4.5.pdf` (md5 `0fcd1bd6cfc7bfcd9a99d30ae7b8d010`) and `article.txt` (pdftotext); the release's source archive was not downloaded | 18 MB pdf |
 | Duda (2026) | `duda_2026-11-25_sm_gravity_effective_ldgs_v4_6/SM_gravity_effective_LdGS_v4.6.pdf` (md5 `bc7187c99ac10b306155b21f9515b32b`) and `article.txt` (pdftotext); the record holds the PDF alone | 19 MB pdf |
+| Duda (2026) | `duda_2026-11-26_sm_gravity_effective_ldgs_v4_7/SM_gravity_effective_LdGS_v4_7.pdf` (md5 `85dab37c68efeb19a182e17867ee54fa`, Zenodo record 24568913 under the DOI of all versions 10.5281/zenodo.23994958) and `article.txt` (pdftotext); the record holds the PDF alone | 20 MB pdf |
 | Duda (2026) | `duda_2026-10-27_vortex_model_of_the_nucleus/Vortex_Model_of_the_Nucleus_v3_2_Full.pdf` | 20 MB |
 | Duda (2026) | `duda_2026-08-20_current_4x4_lagrangian.png` | 28 KB |
 | Duda (2026) | `duda_2026-08-23_models_scoreboard_screenshot.png` | 69 KB |
