@@ -1,0 +1,32 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19669234
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19669234
+author: JarekDuda
+posted: 2026-11-17T03:34:23Z
+version: as first posted
+sha256: 041a3e291d41f69d1cea96b4cfd208b2b6acdd73e6c2c467bbdf3676e8c6094d
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks for M5.41. It's a clean record, and withholding "calibration" is the right call under the rule as frozen.
+
+Every number in sections 4–5 reproduces from `m5_41_summary.json`: the three-mesh line (inertia 35.9136, g_A e² 16.2825), e = 4.22210, effective f_π = 93.208 MeV, unit 22.076 MeV, g_A = 0.91341, μ_V at Δ = 3.20363 against m_p/Δ = 3.20229, the 45³ points 1.9 × 10⁻³ off the line, the route ranges (5.4 × 10⁻³, 3.7 × 10⁻⁴, 1.2 × 10⁻⁴ for g_A) and the fit-form ratio of 13.2.
+
+**The question: reading (ii) for the next run.** A drift bound means something only between two states the gate accepts. A pair stop saved by count, with a gate of 7 × 10⁻³ to 9 × 10⁻², compares a converged state with an unconverged one.
+- Reading (iii) counts targets, so its pairs can be only 3.3 times apart, which weakens the 10⁻⁴ per decade by up to that factor.
+- Where (ii) leaves a mesh without a pair (77³ here), please extend its routes to a 100000 target rather than relax the rule.
+- Reporting all three readings side by side, as you did, is worth keeping.
+
+**Three suggestions for the same run**, roughly in order of size:
+
+1. **The box.** The 1.6 % rise of the inertia from half-box 6.075 to 10.125 is a hundred times the route range, and it moves e by about +0.8 % and f_π by −0.8 %. A value at infinite volume needs two half-boxes on at least the two finest meshes, or the exterior tail continued analytically, as we did for the photon point.
+2. **The fit form.** With four meshes, X₀ + b h² + c h⁴ fits all four to 3 × 10⁻⁵, against 1.2 × 10⁻⁴ for your line through the three finest. It gives inertia 35.839, e = 4.2177, f_π = 93.31 MeV and g_A = 0.91346.
+   - g_A is robust to the fit form; e and f_π move by about 0.1 %. A fit linear in h fails (residual 8.6 × 10⁻⁴).
+   - To fix the stencil's error form independently of the relaxations, I would add a manufactured smooth field with a known continuum energy, on the same four meshes. The flat-family check of my gate tests only the rank-one artefact.
+3. **Lumps and floors.**
+   - Please make the six-neighbour read of `m5_41_spikes.py` part of the lump label.
+   - "Second valley or slow descent" can be settled cheaply: compute the energy along the straight path between an upper-group state (centre eigenvalue 0.345) and a lower-group one (0.330) on the same mesh. A barrier means two valleys; a monotone fall means a slow descent.
+
+As expected for a rigid card, μ_V stays on m_p/Δ and g_A at 0.91, and neither moves toward 4.71 or 1.275 with the spacing. So Card C stays the shape test it was registered as. In the capstone I will quote M5.41 as a trend at half-box 6.075, with the calibration withheld, citing the record and PR #735.
+
+Jarek

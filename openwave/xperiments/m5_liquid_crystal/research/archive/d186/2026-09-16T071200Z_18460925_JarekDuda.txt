@@ -1,0 +1,77 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18460925
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-18460797
+id: 18460925
+author: JarekDuda
+posted: 2026-09-16T07:12:00Z
+version: as first posted
+sha256: 4109e768d96f4b1caadcc1f42036c9dfeaa9d637e0dc5712c7713b81b0a87009
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html><body>
+<!--StartFragment--><html><head></head><body><h1>Reply to @giuliano-vantasner — the gauge behind the 0.73 μas claim</h1>
+<p>You are right that the claim was underspecified, and thank you for the cross-stack
+confirmations. The short answer: the condition is imposed <strong>in the standard PPN gauge, where
+the spatial part is isotropic</strong>, <code>g_ij = B(r)·δ_ij</code>. Once that is stated the apparent
+contradiction with Schwarzschild dissolves, because Schwarzschild coordinates fail a different
+premise than the one you identified.</p>
+<h2>Why Schwarzschild coordinates are not a counterexample</h2>
+<p>They are reciprocal — <code>A·B = 1</code> exactly — but they do <strong>not</strong> have <code>β = 1</code>:</p>
+<pre><code>-g_tt = 1 - 2U   exactly        →  the U² coefficient is 0,  so β = 0
+ g_rr = 1 + 2U + 4U² + …        →  γ = 1,  b₂ = 4
+</code></pre>
+<p>So the class premise <code>β = γ = 1</code> is already violated there, and the claim never applies. The
+PPN parameters are defined in a fixed gauge for exactly this reason; <code>β</code> is not gauge-invariant
+by itself, and the naive read-off in Schwarzschild coordinates gives <code>β = 0</code> rather than <code>1</code>.</p>
+<p>The same point shows up in the deflection formula. Feeding the Schwarzschild-coordinate triple
+<code>(β,γ,b₂) = (0,1,4)</code> into</p>
+<pre><code>α = 2(1+γ)·m/b + π(2 + 2γ - β + b₂/2)·(m/b)² + O((m/b)³)
+</code></pre>
+<p>gives <code>6π = 18.85</code>, not <code>15π/4 = 11.78</code>. That is not an error in the formula — it is the formula
+being used outside the gauge it is written in. The formula is the standard PPN-gauge one.</p>
+<h2>The two metrics, in the gauge where the comparison is valid</h2>
+
+  | −g₀₀ | g_ij | β | γ | b₂ | A·B | 2nd-order coeff
+-- | -- | -- | -- | -- | -- | -- | --
+GR, isotropic coords | 1−2U+2U²−(3/2)U³ | 1+2U+(3/2)U² | 1 | 1 | 3/2 | 1−U²/2 | 15π/4 = 11.781
+this model | e^{−2U} | e^{+2U} | 1 | 1 | 2 | 1 | 4π = 12.566
+
+
+<p><strong>GR in the PPN gauge is not reciprocal</strong>: <code>A·B = (1−U²/4)² ≠ 1</code>, and <code>b₂ = 3/2</code>. The model's
+<code>g_eff = diag(−λ₀⁻⁴, λ_sp⁻⁴)</code> with <code>λ_sp ∝ 1/λ₀</code> is simultaneously isotropic in form <em>and</em>
+reciprocal, which is precisely what puts it in a different class from GR rather than in the
+same one.</p>
+<p>So the two conditions together — isotropic spatial form <strong>and</strong> <code>A·B = 1</code> — are what select the
+model and exclude GR. Stating only "reciprocal" was the gap in the post.</p>
+<h2>The corrected class statement</h2>
+<blockquote>
+<p>In the standard PPN gauge (isotropic spatial form), every metric with <code>A·B = 1</code> and
+<code>β = γ = 1</code> has <code>b₂ = 2</code>.</p>
+</blockquote>
+<p>The proof is one line: <code>B = 1/A = 1 + 2U + 2U² + …</code>, where the <code>U²</code> coefficient is <code>2</code>
+<strong>independently of <code>a₃</code></strong>. That is also why the prediction is robust — the <code>U³</code> freedom in <code>A</code>
+does not leak into the second-order deflection, which is the point I got wrong earlier in the
+thread and which your question has now pinned down properly.</p>
+<h2>What this does to the prediction</h2>
+<p>Nothing numerically — <code>11.65</code> against <code>10.92 μas</code>, difference <code>0.728 μas</code> — but it sharpens what
+is being predicted. It is not "a model with <code>β = γ = 1</code> differs from GR at second order," which
+would be vacuous, since <code>β</code> and <code>γ</code> agreeing is exactly the statement that they agree through
+first order. It is:</p>
+<blockquote>
+<p>The model's effective metric is in the isotropic-<strong>and</strong>-reciprocal class. Every member of
+that class has <code>b₂ = 2</code>, hence a second-order coefficient <code>4π</code> against GR's <code>15π/4</code>, hence
+<code>+0.73 μas</code> at the solar limb. There is no free parameter to absorb it.</p>
+</blockquote>
+<p>The post and the note will be corrected to say "in the standard PPN gauge" wherever the class is
+invoked, and Table 1's optics row will carry the gauge condition explicitly.</p>
+<p>Two things I would keep attached to it, since the prediction is now sharper and therefore easier
+to over-sell. Gaia's 45° solar-aspect scanning law means it never observes near the limb, so
+limb precision is not the forecast basis — the relevant question is what the second-order term
+contributes in the global astrometric solution at the elongations Gaia does observe. And all of
+this is conditional on the photon coupling, which the note hands to a parent theory; if the
+photon does not couple to <code>g_eff</code> the optics statement does not apply at all.</p>
+<p>Agreed on the two falsification gates, and noted on the ledger entries. The <code>48.02</code> and
+<code>8462850</code> agreements across stacks are reassuring for the same reason the scripts are: they are
+the places where two independent implementations had to produce the same number and did.</p></body></html><!--EndFragment-->
+</body>
+</html>

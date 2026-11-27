@@ -1,0 +1,116 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18520011
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18520011
+author: xrodz
+posted: 2026-09-19T21:09:42Z
+version: as first posted
+sha256: 0aee44feeca6c302528d079b3583737f47b3938d208caeb0aa1cc9b6f037373e
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R23 plan: a second-order stiffness on the degenerate pair, the halo radius against it, and the Coulomb-anchored delta (the three items of the 09-19 reply, with the form level first)
+
+## TL;DR
+
+1. R23 takes the three proposed items in the proposed order: the `c` scan of the halo radius, the row at delta 0.9224 with a relative gate, the two reads of the 008 well. A form level (R23-0) runs first.
+2. The stiffness term has a unique form inside `V(tr N^p)`: one linear combination of the invariants keeps `(g, 1, delta, delta)` critical and gives the split `delta ± eps` the energy `(g + delta)(1 - delta) abs(c) eps^2`. R23 runs that member unless the author names another.
+3. Two exponents are pre-registered for the radius against `c`: the reply's `-1/2` (a constant stiffness) and `-1/4` (the stiffness our R22 audit measured on the hedgehog exterior, which falls as `1 / r^2`). The scan decides; neither is claimed.
+4. The anchor arithmetic reproduces (delta 0.92238, coupling ratio 6615, radius ratio 9.02). The zero-mode count does not: the orbit has 5 modes, and `M_23` is one half of the split doublet, not a stabilizer direction.
+5. The R22-1s rows were all still falling at 3000 iterations, so the slope is fitted on a radius that has stopped drifting, not on an energy gate. Four questions for the author at the end, none blocking.
+
+## What was checked in the reply before planning
+
+These are plan-time reads from a scratch script. R23-0 repeats each one as a tracked check, and an independent agent audits it before the results post.
+
+| Claim in the reply | Plan-time read |
+| --- | --- |
+| a split at fixed trace shifts `tr S^2` by `eps^2 / 2` and `tr S^3` by `3 b eps^2 / 2`; the Landau-de Gennes curvature is `(3A + 2Bs + 2Cs^2) / 6` | exact in sympy; at the uniaxial minimum it reduces to `B s / 2`, so the cubic term carries it |
+| the `eps^4` flatness of `V4` is an accident | agreed, with the mechanism: `V4` is a sum of squares, so all of its first derivatives in the invariants vanish at the vacuum, and the curvature formula returns zero |
+| symmetry demands six zero modes, `M_23` being a stabilizer | not reproduced. The stabilizer of `diag(g, 1, delta, delta)` in the Lorentz group is the one rotation in the (2,3) plane, so the orbit has `6 - 1 = 5` modes (three boosts, two tilts). The perturbation `M_23` splits the pair as `delta ± eps`, the same as `(M_22 - M_33) / sqrt 2` after a 45 degree rotation. The two form the doublet that the reply itself calls `Phi = eps e^(i theta)`. This is the 5 + 2 of the R22-0 Hessian ([`m5_32_r22_0c_v4_flatness.py`](https://github.com/openwave-labs/openwave/blob/6f4e952dc9b0fc37d367f321482e486a2695377c/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_0c_v4_flatness.py)) |
+| `64 pi (1 - delta)^4 = alpha` gives delta 0.9224; delta 0.3 is 6600 times too strongly coupled; `R ~ A^(1/4)` gives 9 times | the arithmetic holds (0.92238, 6615, 9.02; the note's 0.110 is ours times `4^(1/4)`), given a unit prefactor on the quartic. The Derrick step assumes an object balanced by the potential, which the R22 rows were not |
+| `omega_0 = sqrt(M^2 / 2 kappa) = m_e`, a halo of 206 core radii, `M^2 / V_0 = 3.1e-3` | the arithmetic holds (0.5106 MeV; 386 fm / 1.88 fm = 205). The same reply writes the mode's mass as `sqrt(M^2 / kappa)`, which is 0.722 MeV. `kappa`, `xi` and `V_0` come from a note we have not run |
+
+## The stiffness term (R23-0)
+
+With `N = M eta` and the vacuum spectrum `(-g, 1, delta, delta)`, a potential `V(tr N, ..., tr N^4)` keeps that spectrum critical only if its first derivatives `V_p` satisfy `sum_p p V_p x^(p-1) = 0` at the three distinct eigenvalues. A cubic with three fixed roots is fixed up to a factor, so the first derivatives have one free direction:
+
+```text
+L = sum_p a_p (tr N^p - C_p),     sum_p p a_p x^(p-1) = (x + g)(x - 1)(x - delta)
+V = V4 + c L
+split delta ± eps :   V = (g + delta)(1 - delta) abs(c) eps^2 + O(eps^4)     for c < 0
+```
+
+For `c > 0` the vacuum is unstable along the split. At g 8, delta 0.3 the coefficient is `5.81 abs(c)`. A finite-difference Hessian at `W1 x 25` and `c = -1e-4` shows 5 zero modes, the doublet at `0.0321 w` twice, and the three massive modes moved by under 1 percent. Below, `c` means `abs(c)`.
+
+R23-0 checks, before any lattice row: the uniqueness statement; the vacuum as the global minimum of `V4 + c L` over the scan's `c` range (random spectra); the closed-form doublet eigenvalue; the per-cell `M_00` solve of the R22-1s instrument ([`m5_32_r22_1s_slaved.py`](https://github.com/openwave-labs/openwave/blob/6f4e952dc9b0fc37d367f321482e486a2695377c/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1s_slaved.py)) extended to `V4 + c L`, with its reduced gradient against a complex-step derivative and with `c = 0` returning the R22-1s first-chunk energy to 1e-10; the conversion of `M^2 / V_0` into `c` for each candidate definition of `V_0`.
+
+## The two exponents
+
+The reply's picture is a Klein-Gordon field with a constant stiffness `kappa`, so the halo is cut at `1 / sqrt(c / kappa)` and the radius goes as `c^(-1/2)`.
+
+On our stack the split has no gradient term of its own. Its stiffness is induced by the hedgehog through the quartic, and the R22-1 audit measured it on the exact uniaxial exterior ([`m5_32_r22_1_audit.py`](https://github.com/openwave-labs/openwave/blob/6f4e952dc9b0fc37d367f321482e486a2695377c/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r22_1_audit.py), check Q5, reproduced to 0.3 percent on clean shells):
+
+```text
+e_2 = (K / r^2) [ 2 eps_r^2 + 2 eps^2 / r^2 ],     K = 8 (1 - delta)^2
+with m2 eps^2 added, m2 = (g + delta)(1 - delta) c :
+eps'' = eps / r^2 + (m2 / 2K) r^2 eps
+```
+
+Without the potential the decaying solution is `r^(-0.618)`; the audit read log slopes of -0.4 to -0.9 on the R22 end fields, which is why they fill the box. With the potential the tail is cut as a Gaussian at `R ~ (2K / m2)^(1/4)`, up to angular factors of order one, so the radius goes as `c^(-1/4)`. On this picture the scan range below spans `R` from about 4.6 to about 14.6 in a half-box of 24.
+
+Both are hypotheses. The second one comes from an audited second variation but its cutoff has not been run.
+
+## R23-1: the `c` scan
+
+| Setting | Value |
+| --- | --- |
+| Action | the certified quartic plus `V4 + c L`, `V4` at `W1 x 25`, g 8, delta 0.3 |
+| Instrument | R22-1s: `M_00` solved per cell, descent on the spatial block, chunks of 250 |
+| Rows | pinned exterior, `rad` seed, n 32 L 48, `c` = 0, 3e-5, 1e-4, 3e-4, 1e-3, 3e-3 |
+| Box check | `c` = 3e-5 and 1e-4 repeated at n 48 L 72 |
+| Spacing check | `c` = 3e-4 repeated at n 48 L 48 |
+| Seed check | the `bia` seed at `c` = 1e-4 and 1e-3 |
+| Radius, read two ways | the half-energy radius; the radius where `eps r^0.618` falls to half its r 4.5 value |
+| Other reads | the shell profile of `eps`, the interior spectrum, the on-surface degree on r 6 / 9 / 12 |
+
+A row enters the fit only if its half-energy radius drifts by under 2 percent over its last 1000 iterations; otherwise it is labeled `UNCONVERGED` with its attained residual. The slope is fitted only on `c` values where the L 48 and L 72 radii agree to 10 percent.
+
+| Label | Condition |
+| --- | --- |
+| `HALO_HALF` | log slope of radius against `c` in [-0.6, -0.4], on both reads |
+| `HALO_QUARTER` | slope in [-0.3, -0.2], on both reads |
+| `HALO_BOX_LIMITED` | the radius moves under 10 percent across the scan, or fewer than three `c` values pass the box check |
+| `HALO_LATTICE_PINNED` | the radius stays within 1.5 h of the seed core at every `c` |
+| `HALO_OTHER` | any other slope, stated with its window |
+
+## R23-2: delta 0.9224
+
+| Row | `w` | `c` | Purpose |
+| --- | --- | --- | --- |
+| A | `W1 x 25` | 0 and one value | the proposed physical row as stated |
+| B | `W1 x 25 / 6615` | 0 and the same value scaled | the same `k / w` as the delta 0.3 main row, so A against B separates the scale from the shape |
+
+The gate is relative: `fmax < 1e-3 k(delta) / k(0.3)` on the spatial block, and the last-chunk drop under 1e-4 of E. Energies are reported in units of `k`. One expectation is stated now so it cannot be read as a result later: if the delta 0.3 object were potential-balanced, row A's radius would be 9 times smaller, under one cell at h 1.5, so row A is expected to read the lattice and serves as the control for row B.
+
+Labels: `TWIN_SAME_OBJECT` (row B's radius within 10 percent of the delta 0.3 row at equal `k / w`), `CORE_LATTICE_PINNED` (the eigenvalue dip confined to 2 cells or fewer), `DELTA_COMPACT` (radius under L / 6 and stable under one refinement), `DELTA_BOX_FILLING`.
+
+## R23-3 (stretch): the 008 well, and a note for Maciej
+
+The appendix and its ladder are Maciej's; R22-3 only re-typed the frozen-profile route and reproduced the committed value 0.32551859539640887. On that same committed N 32 field R23-3 reads `C_1` split by block (rotation-boost against the rest, the blocks summing to the full `C_1`) and `C_1` under the positive (Frobenius) contraction. Labels: `WELL_NEGATIVE_BLOCK` if `C_1 <= 0` under the positive contraction, `WELL_SURVIVES` otherwise.
+
+The second test (releasing the profile at the well's frequency) and the `(Q, E, dE/dQ)` report need the time-dependent stack of report 008, so they are not in R23. Maciej, if you run either, we will read our fields through the same definition of `Q` once it is written down, with the branch translation of R22-3.
+
+## The Newton row
+
+Proposed wording for the ledger, slightly narrower than the reply's: "absent or repulsive; the sign read at the few-percent level on the pinned pair; zero not resolved; director sector only". "Sign certified" is more than the R22-2 audit supports, since the charge-even part there is a cancellation of two large numbers.
+
+## Questions for the author
+
+1. Is `L` the intended second-order term? It is the only one inside `V(tr N^p)`. A term outside that family (for example one built on the discriminant of the spectrum) would need its definition.
+2. Which state defines the melting barrier `V_0` on the 4x4 field (for example the isotropic spatial block at fixed trace, with `M_00` at its vacuum value)? That fixes the conversion of `M^2 / V_0 = 3.1e-3` into `c`.
+3. Which of `sqrt(M^2 / 2 kappa)` and `sqrt(M^2 / kappa)` is the mode's mass? The halo radius in core units changes by `sqrt 2`.
+4. Does the 5 + 2 count of zero modes above agree with the note once `M_23` is read as the doublet's second component?
+
+## Cut line and what is not in this rung
+
+If the run is short of time, R23-3 drops first, then the `bia` seed rows, then the n 48 L 48 spacing row. Not in R23: the released-profile test, the `(Q, E, dE/dQ)` report, a discriminant-based stiffness, the neutrino ring, a literature check on biaxial coronas around defect cores, and any write-up of the halo as a mechanism. On the last point: the R22-1s audit found the opened core to be a loop one lattice spacing wide and the four `W1 x 25` end fields not to be one field, so the halo is reported as a result only after the `c` scan is audited. Every result row will name its validation script, and an independent agent audits each part before the results post.

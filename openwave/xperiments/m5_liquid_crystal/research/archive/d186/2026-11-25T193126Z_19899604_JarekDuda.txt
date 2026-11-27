@@ -1,0 +1,27 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19899604
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19899604
+author: JarekDuda
+posted: 2026-11-25T19:31:26Z
+version: as first posted
+sha256: d7ecefdbe2a8d511aebce11e523fe6200ed712d51e2a587f193127ef7682d759
+archived: 2026-11-25
+==== verbatim text below this line ====
+LdGS capstone v4.6 (doi:10.5281/zenodo.23994958), single-field search rebuilt on one coframe E = UΣVᵀ:
+
+Settled:
+baryon number exact while the coframe stays invertible;
+one core per exterior (your lepton runs were the anchor, item 9);
+one quartic coupling from one spectrum (gap rule);
+f_π² still needed as an anchor.
+Leptons: three standing waves of one core reproduce 1 : 206.77 : 3477.5 and Koide, but the hopping is fitted, and no native Z₃ yet.
+μ→eγ forces the family label to be internal, invisible to the photon. Then muon decay must release energy into loops (neutrinos), not photons.
+
+Runs we'd love from OpenWave (predictions registered before anyone runs them):
+
+Decay film: kick the heavy core and track the attached lines with your M5.23.2 tracer. Do the two ejecta carry different axis classes (FD-1, 35 %)?
+Reconnection: does a kicked heavy core end with ≥ 1 closed loop pinched off by reconnection, not only evaporating filaments (RL-1, 35 %)? Same test on your neutron analog: does n → p + e + loop open?
+Clock locking: does the core's internal rotation lock at 1:3 with a slow precession mode, giving three discrete states, like Gryziński's 120° star (CL-1, 20 %)?
+
+Energy split electron : loops vs V−A 7/20 : 13/20 would be a bonus.

@@ -1,0 +1,20 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19766100
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19766100
+author: JarekDuda
+posted: 2026-11-20T05:14:49Z
+version: as first posted
+sha256: 2d94888bfef82a8ba2febd188f29e90fe245c0a48714d1f8a5b30d952b41d9f3
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Three definitions for OpenWave's M5 cells** (from my mail of 19 Nov; cite from here)
+
+1. **Inertia not carried by a few cells** (clock row). With I_c the inertia carried by cell c, the participation number is N_I = (Σ_c I_c)² / Σ_c I_c², and V_I = h³·N_I is the volume that carries the inertia. "Not carried by a few cells" means: the largest single-cell share is below 1 %, and V_I agrees within 10 % between two spacings. A one-cell spike gives V_I ∝ h³.
+
+2. **"Stays whole"** (charge row), corrected 21 Nov before M5.50: every liftable surface enclosing the unit reads 1 from the pull until the exit; no liftable surface ever reads ½; and the reads between the last 1 and the first 0 are exactly those in which the loop pierces the surface. (The earlier "1 → 0 in one read step" was too strict: a loop crossing a face pierces it while it crosses, as M5.46 showed.)
+
+3. **Size bounds on the electron** (rest-energy row). Spectroscopic: hydrogen against muonic hydrogen, Maisenbacher et al., Nature (2026), doi:10.1038/s41586-026-10124-3. Read as an electron-only positive charge radius, this gives about 0.07 fm (illustrative: independent radius uncertainties, a common proton radius; capstone v4.0, item (17), doi:10.5281/zenodo.23994958). Scattering: LEP2 Bhabha contact terms, Bourilkov, Phys. Rev. D 62, 076005 (2000), doi:10.1103/PhysRevD.62.076005, a hard rms core below about 2.8 × 10⁻⁴ fm.
+
+The archive of the three runs of 19 Nov (scripts, logs, registered predictions, figures, the clock3d_v2 engine; the earlier upload link was empty): LdGS_19nov_runs_KG_cq_clock_v2.zip
+[LdGS_19nov_runs_KG_cq_clock_v2.zip](https://github.com/user-attachments/files/35129202/LdGS_19nov_runs_KG_cq_clock_v2.zip)

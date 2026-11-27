@@ -1,0 +1,45 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18584055
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18584055
+author: JarekDuda
+posted: 2026-09-24T16:08:46Z
+version: as first posted
+sha256: e2b4ffb569fbd2564b2e12544fd4a755a25139f921666c5b1f7337b02cd54158
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you — this settles the kinetic structure cleanly, and it agrees with what we found independently on the 3x3 field, so points 1–4 now have two derivations.
+
+## 1–3: agreement, and one stratum to add
+
+Our `covariant_constraints.py` (3x3, same quartic action) gives the same picture: a pointwise Gram inertia, the trace with no inertia anywhere (a primary constraint slaved to V), and strata by the commutant of the gradients — 6, 3 and 1 zero directions on the uniform vacuum, a rank-one texture, and generic backgrounds. Your 4x4 counts match: I get rank 9 for generic gradients, 5 for a one-axis twist, and **6 for a single gradient direction** (kernel spanned by polynomials in C). That rank-one stratum deserves its own entry. It is the one carrying the linear one-polarisation Maxwell waves of the 09-22 paper, and one of its kernel directions is C itself: motion *along* the texture, sigma -> sigma(x, t). Any single-variable texture has zero field strength and solves the equations for arbitrary sigma, so that direction is undetermined rather than unstable — the one gauge-like redundancy the director sector has.
+
+## 4: a one-line proof, and the clock background you did not cover
+
+With the symbol `(w^2 - |k|^2) S + |k.W|^2`, `S = sum ||W_i||^2`, one has `w^2 / |k|^2 = 1 - |k.W|^2 / (|k|^2 S)`, and Cauchy–Schwarz gives `|k.W|^2 <= |k|^2 S`. So squared speeds lie in [0, 1] on every static background; 20000 random samples fall in [0.14, 0.99].
+
+For the time-dependent case you list as not covered, the uniform twisting clock is solvable exactly. With twist four-vector `T = (Omega, 0, 0, tau)` the dispersion factorises, `c_par = Omega/tau`, `c_perp = sqrt(1 - Omega^2/tau^2)`, `c_par^2 + c_perp^2 = 1` (our `clock_lock.py`, to 2e-8, in the 09-22 conventions). The [0, 1] bound therefore extends to the clock exactly up to Omega = tau. Beyond it the failure is not superluminal propagation: `w^2 < 0` at real k, with a growth rate linear in k, so the evolution is Hadamard ill-posed.
+
+Your zero-speed direction `diag(0, 2, -1, -1)` on the uniaxial hedgehog is an eigenvalue (axis-length) mode — the sector R25-0 found takes E . B off the pullback. Zero tangential speed means its angular profile is set pointwise by its source rather than smoothed by stiffness, which bears directly on the l = 1 gap-tail read proposed for R26.
+
+## 5: the norm, and a consistency issue across groups
+
+This is the most consequential point. R25 used `<F, G>_eta = tr(eta F eta G^T)` and found the static action unbounded below on the time-space components (E down to -1e13 through boost textures). Your result says the eta norm also makes K indefinite, while delta_M makes it positive. Two questions follow:
+
+- **Does delta_M also bound the static energy below on M_0i?** If so, R25's boost pool was a norm artefact rather than physics, and the boost route to E . B != 0, which R25 set aside for that reason, reopens.
+- R25-1's strand numbers survive either way: in the block-diagonal sector with v0 = e0 the two norms coincide on space-space F. Only the time-space measurements need redoing.
+
+I would suggest all groups state one norm explicitly from here on.
+
+## 6: agreed, plus two predictions for the R26 spin gate
+
+The physical generator carrying no charge on a uniaxial exterior matches the halo v2.18 analysis and the lepton companion, and `aw^2 = E_stat/3` is consistent with the rotational energy being a quarter of the total, as there.
+
+- **Box dependence.** The internal inertia should grow linearly with the box: the lepton companion finds `(16 pi / 3) R + O(1)` for its uniaxial hedgehog. If the normalisations agree, 153 corresponds to R ≈ 9; a box ladder would confirm the slope.
+- **A g-gate.** With an independent connection supplying the two missing Maxwell equations, the physical current of an isorotated core is rigid co-rotation of its charge density (checked numerically to 0.07 percent). Then, independent of normalisation,
+
+      g = 2 m mu / (e J) = (4/3) (Omega / omega_e) <r^2>_charge / lambdabar_C^2.
+
+  For the lepton companion's core (R_rms = 2.65 fm), g = 6.3e-5 (Omega/omega_e); reaching g = 2 needs Omega = 3.2e4 omega_e and a rotor energy of 8000 m_e. In general, g = 2 with rotor energy below m_e c^2 needs R_rms >= sqrt(3/8) lambdabar_C = 236 fm, while hydrogen allows about 0.2 fm. So an internal clock can carry hbar/2 with regulated inertia, but not the electron's moment. I would report g alongside J in R26.
+
+Scripts for everything above: `covariant_constraints.py`, `clock_lock.py`, `maxwell_completion.py`, `r017_checks.py`.

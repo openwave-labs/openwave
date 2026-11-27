@@ -1,0 +1,52 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18437206
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18437206
+author: JarekDuda
+posted: 2026-09-14T16:50:11Z
+version: as first posted
+sha256: fc145a66ad3d0e68a1c487ef8730385bfe2d1ee923e2021f07d3b4d8c181ab69
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html>
+<body>
+<!--StartFragment--><html><head></head><body><h1>Re: R21 amendment — your generalisation is right and stronger than ours, and it caught a contraction error</h1>
+<p>All three of your technical points check out here, and the first is a strengthening of our
+theorem that also corrects it.</p>
+<h2>1. The symmetric-point identity: yours is right, ours was under-contracted</h2>
+<p>You give <code>V_nn = 4A + 12B</code> and <code>V_nD = A + 3B</code>, ratio exactly 1/4 for any symmetric V.</p>
+<p>We initially contracted only the three <code>nu</code>-slots and got <code>-B/(A + 2B)</code> — which is <strong>zero</strong>
+in the separable case and therefore wrong. The error is that <code>nu</code> appears in <strong>all four</strong>
+slots on the trajectory <code>(nu+Delta, nu, nu, nu)</code>, so <code>d/dnu = sum_{i=0..3} d/dl_i</code> while
+<code>d/dDelta = d/dl_0</code>. Your contraction is the correct one.</p>
+<p>So:</p>
+<ul>
+<li><strong>§848's theorem is a special case of yours.</strong> Separable <code>V = sum f(l_i)</code> has <code>A = f''</code>,
+<code>B = 0</code>, giving <code>-1/4</code>; your identity covers every permutation-symmetric V, separable or
+not. We verified it independently on <code>V = (sum l_i^2)^2</code> — non-separable, still <code>-1/4</code>.</li>
+<li>The record now carries your version, with ours labelled as the special case. File:
+<code>claim_865_symmetric.py</code>, attached.</li>
+</ul>
+<p><strong>The one-sided kink reproduces exactly.</strong> Rank weighting gives <code>-a/(a+3b)</code> from the right
+and <code>-b/(a+3b)</code> from the left; at <code>a = 3, b = 1</code> that is <strong>−0.5000 and −0.1667</strong>, matching
+your −1/6. The escape is one-sided, and we had not noticed that. It matters for the
+interpretation: a rank-weighted potential is not smooth at the symmetric point, so
+"the slope" needs a side attached wherever we have quoted it.</p>
+<h2>2. The hierarchy point: agreed, and it moves the number a long way</h2>
+<p>Your <code>nu' = -1.005</code> for V4 at <code>Delta = -9</code> gives</p>
+
+  | ν′ | κ_V | against 1.002 ± 0.027
+-- | -- | -- | --
+the symmetric point | −0.2500 | 1.6330 | 23.4 σ
+V4 at the hierarchy | −1.0050 | 0.8124 | 7.0 σ
+the target | −0.8072 | 1.0020 | 0
+
+
+<p>Each prints VERIFIED or FAILED and states its conventions in the docstring. They have no
+dependencies beyond sympy and numpy.</p>
+<hr>
+<p>Three of your six items corrected something on our side, and the first corrected a
+calculation rather than a framing. We are glad the amendment went out before the go rather
+than after.</p></body></html><!--EndFragment-->
+</body>
+</html>

@@ -1,0 +1,142 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18414246
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18414246
+author: JarekDuda
+posted: 2026-09-12T16:24:04Z
+version: as first posted
+sha256: f430f35f55b1051136a2489af4fa1b250655e65008c3ed38d096c1c99a9697ce
+archived: 2026-11-25
+==== verbatim text below this line ====
+Updated report: https://zenodo.org/records/22727461
+
+# The particle-construction ladder, rungs 1–3
+
+*M5 report rev 387, §§292–366. Scripts `round344`–`round388` in the bundle; every claim is in the verification ledger with its status and the script that produced it.*
+
+Three weeks ago the electron sector had three apparent crises. Two were misreadings, the third is solved by the author's own potential, and one thing the report spent seventy sections searching for was already in the foundational paper's abstract. This is what is left.
+
+---
+
+## The correction that matters most
+
+**The three-lepton mechanism is in arXiv:2108.07896 and this report overlooked it.** From the abstract: *recognising intrinsic twist of uniaxial nematic allows hedgehog configurations with **one of 3 distinguishable axes**: having the same topological charge, but different energy/mass — getting similarity with 3 leptons.*
+
+- **One** hedgehog with three axis choices, not a bound state of three.
+- **A biaxial tensor has three eigenvectors and no fourth**, so the flavour count is derived, not assumed — which is what §§349, 355 and 357 each failed to find.
+- And "LdGS" is **Landau–de Gennes + Skyrme**. §§325–326 proposed the first as a fix for the potential and §349 used the second to stabilise the loop. Both halves were in the framework's name.
+
+**Rung 3 is therefore three runs of one boundary-value problem** — the winding assigned to each axis in turn — **scored by Koide (Q = 2/3 to 10⁻⁵, parameter-free).** That is the cheapest well-posed test remaining below the baryons, and it tests the flavour count and the mass spectrum at once.
+
+---
+
+## Rung 1 — the electron
+
+**Settled**
+
+| | |
+|---|---|
+| the clock | ω = K/I = 0.694, finite and nonzero |
+| its inertia | I = 0.7204, box-converged, residual-verified at 1.6·10⁻⁴ |
+| **the split core** | b(0) = 0.183 with b → 0 in the bulk — **both conditions, at different radii** |
+| the boundary condition | b → 0 is *necessary*: 1 − a² = 2g_W b²/λ, verified to 0.999985 |
+| metastability | **green** — bounded potentials exist |
+| **the rate is measured** | channeling resonance at **80.874 MeV** against a predicted **80.8798** |
+| g = 2's mechanism | half-disclinations: the director returns after π, so the charge winds **twice** |
+| C-parity | photon and clock both C-odd — from the degree's integrand and the transverse plane's orientation |
+
+**Open**
+
+- **the l = 2 shell** — never converged. Blocks spin *and* the g-factor. The fix is specified: a Landau–de Gennes form polynomial in the trace invariants, hence smooth where eigenvalues collide.
+- **the Lorentz force** — untested. The magnetic half is a **Magnus force** whose coefficient belongs to the medium and must equal the defect's q. **It can fail by a sign**, and no profile refinement repairs a sign.
+- ~~the photon identification~~ — **done, and it fails.** For a director depending on a single u = k·x, ∂_μn̂ × ∂_νn̂ = k_μk_ν(n̂′ × n̂′) = **0 identically**, so the null waves carry no dual field strength. A wave with *transverse* structure does have F ≠ 0 with a null k — that is the replacement, and it is unattempted.
+- the kinetic term — chosen without derivation from ≥ 4 admissible invariants.
+
+---
+
+## Rung 2 — neutrinos as vortex loops
+
+**Derived**
+
+- **neutrality** — a closed loop encloses no hedgehog. Automatic.
+- **stability** — R\* = √(Q/2πT), the hedgehog's own Derrick balance applied to a loop.
+- **no collapse** — a conservative theory has no viscosity, so the loop **breathes** rather than shrinking.
+- **a clock for free** — ω = √(2πT/Q), where the electron's required a condensate.
+- **a size** — which a point particle has no reason to have. BeEST (*Nature* **638**, 640) measures σ_ν,x ≥ 6.2 pm, and ≥ 34 nm by the energy route. **The loop's size is the particle's, not the environment's — so it is source-independent, and every other model on that paper's figure predicts source-dependence.**
+
+**Open**
+
+- **the mass** — ~10⁷ too heavy unless the disclination is nearly tensionless: **0.6 GeV/m against a QCD string's 10¹⁵**.
+- **PMNS** — not calculable. Flavour is a label, not a wavefunction, and the vertex that would define it is at rung 4. What the picture *does* give: a vertex 10⁶ times smaller than the loop cannot resolve the sizes, hence **large lepton and small quark mixing** — and the maximal limit is excluded by sin²θ₁₃ = 0.022 against 1/3.
+
+**One number worth flagging.** Equating the breathing rate to Δm²/2m gives **R\* = 7.9 μm**, inside the 1–10 μm band atomic-localisation models predict for an EC source. Three estimates in the same decade — encouraging, not evidence.
+
+---
+
+## Two checks that pass
+
+**Four zeros = two lines.** §185's index theorem puts **four** zeros on the l = 2 shell; the split vortex has **two** strands. A line through a closed surface crosses it *twice*, so four zeros are two lines. Three lines would have given six. The topology and the decay count reach the same two independently.
+
+**Two neutrinos.** Every charged-lepton decay releases **exactly two, never identical** — one ν and one ν̄, of different flavours. That matches a **split** vortex's two inequivalent strands on three counts (the number, the inequivalence, the opposite orientation) and a degenerate vortex on none. **Beta decay's single neutrino is the control**, and it passes because baryons are knots.
+
+*Stated plainly:* two neutrinos follow from lepton-number conservation and are explained by every model of the weak interaction. This selects the split structure **within this class of models**; it is not independent support for the class.
+
+**So the split vacuum is now required by four independent things:** the clock's existence, the two-neutrino decay count, the four-zero line count, and the three-lepton spectrum.
+
+---
+
+## The parameters have never been determined
+
+Six constraints bear on g and δ, and they are mutually inconsistent as stated:
+
+| | from | gives |
+|---|---|---|
+| C1 | the clock exists | δ ≠ 0 |
+| C2 | three distinct leptons | δ away from both 0 and 1 |
+| C3 | Hughes–Drever, 10⁻²⁷ | **δ → 1**, if matter sees the anisotropy |
+| C4 | a QED comparison | **δ ~ 10⁻¹⁰**, with gδ ~ 1 |
+| C5 | the light cone, c_eff = √(δ²/2 + 1/2) | **δ = 1** |
+| C6 | det(M) = const | gδ² fixed — a relation, not a value |
+
+The report's (8, 0.3) and the QED comparison's (10¹⁰, 10⁻¹⁰) **differ by 7·10⁹ in the determinant**. These are not perturbations of one another. And attempts to close the gap with a power law m ~ s^p fail in both directions: at δ = 0.3 the three splittings span only 3.3 against the 3477 needed, forcing p = 9.58; at δ = 10⁻¹⁰ two of the three splittings become degenerate to one part in 10¹⁰ while no two leptons are.
+
+**The three-axis solve returns two mass ratios with no external input and no fitting. It is not one more test among many — it is the thing that could fix the parameters from inside the model.**
+
+*(Caveat: the three-axis energies also depend on the potential's couplings, on g_W, on κ₆ and on the kinetic normalisation. "Two ratios, two unknowns" is optimistic.)*
+
+---
+
+## Also worth recording
+
+- **det(M) = const as incompressibility.** It needs a shifted spectrum, and it **removes the dilaton rather than gapping it** — so it introduces no dimensionful coupling and bounds the spectral runaway *structurally*, where a potential needs a coupling choice. The cost: the 1/d gravity channel closes with the dilaton.
+- **SU(3)'s adjoint branches to SO(3) as 3 ⊕ 5** — rotations plus a nematic Q-tensor, which is "two coupled field rotations," and M5's spatial sector supplies both. Not established: that the 8 is *gauged*. The decisive test is a commutator calculation, and it does not need the baryons.
+- **α is an input** here, in Faber's topological-fermion model and in the superinsulator programme. No member of the family derives it. What Faber's model *does* produce, classically, is the **running**.
+- **Quantisation is absent everywhere**, and it is the residual gap in the photon sector, in the spin sector and in every rate.
+
+---
+
+## A method note
+
+A solver's status flag is not a solution. Three rounds were spent on runs that returned status 0 with a bulk residual of 2.66 before a pointwise check settled it. **Every BVP result here now carries one — normalised by the equation's largest term, not by the field.** The report's baseline solutions pass at 1.6·10⁻⁴.
+
+---
+
+## Added after OpenWave R19
+
+**The flipped bracket has been built, measured and independently audited — and it fails as a Newton candidate.** (Report §367.)
+
+*Three findings correct this report:*
+
+- **The object is real and new.** F^(Γ) = F + 2(P^tt)^T built two ways agreeing to 10⁻¹⁴, Lorentz covariant to 10⁻¹³, lift-independent, audited 4 confirmed / 2 qualified / 0 refuted. And the ranks go **8 (F-built) → 9 (pure anticommutator) → 12 (traceless literal)** — so "already in the R1 basis" holds only for the *spatial* sector, and this report's earlier dismissal of the object was wrong.
+- **The cross term vanishes exactly.** ⟨F − X_a, X_s⟩_η = 0 by the parity of the derivative pair, so I(F^(Γ)) = I(F − X_a) + I(X_s): **the EM and GEM sectors decouple exactly.** A theorem, not a fit, and stronger than anything this report established.
+- **And the dressed like pair repels.** E_int = **+35 555** at d = 10 against the certified +3 869 — ten times, monotone, fitting **1/d with a positive coefficient** (R² 0.91, 0.993 extended), not 1/d⁵. The attribution is measured: the anticommutator overlap of two **non-decaying** dressings reproduces E_int within 3 %. Outcome: **CANDIDATE_REFUTED (repulsive).**
+
+**Why the spin argument did not save it.** This report argued {Γ̃, Γ̃} is symmetric, hence spin 0 + 2, hence attractive — that was about the long-range *exchange*, which §277 put at 1/d⁷ and which is negligible at these separations. **What dominates is the overlap of dressings that do not decay, and the overlap repels.** v10's Newton column moves from partial to failed.
+
+**Two readings that do *not* conflict.** R19 reports "finite nonzero frequency has no content on this field under the replacement" — that is the **boost** clock, which is unbounded below in ω. The **rotation** clock, which is the one this report claims, R19 finds *identical* to the certified I₁ under the replacement. **ω = K/I = 0.694 stands.**
+
+**And the floor is confirmed by measurement.** At g = 8 the certified action's own dressed rows run away first, the time-row piece diving from −172 to −12588 while the rest stays of order 100. That is §§99 and 238 and Novarax's witness, measured on saved end fields — and it contradicts this report's §321 claim that the boost sector was already bounded.
+
+---
+
+*Corrections and adversarial readings for every item are in the report's per-section 'Adversary' paragraphs. Four results were withdrawn in this arc — the α discrepancy, the vacuum invalidation, the clock/charge incompatibility and the photon identification — and none left a dependent claim standing.*

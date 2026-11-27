@@ -1,0 +1,14 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18220002
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18220002
+author: JarekDuda
+posted: 2026-08-31T14:55:52Z
+version: as first posted
+sha256: 79f2e75eaed9bd6199e66fe5358bba4929d7953cca8f4467b5b57892f8bc3fa5
+archived: 2026-11-25
+==== verbatim text below this line ====
+Regarding " Jarek's concern without assigning a different frequency", I see you use only single frequency ω.
+Using two different ω1 and ω2 in two regions, there would conflict in boundaries between them - my point was that it can be resolved by equalizing last two eigenvalues of M (at cost of potential) e.g. to (g,1,delta/2,delta/2), this way it no longer recognizes phase such frequency describes, so it can be different on both sides.
+It suggests 3D regions of constant frequency, separated by 2D walls of equal last two eigenvalues - bringing additional energy density per area from potential.
+I suspect this frequency should be usually close to of electron, slightly modified in atoms (filling Universe) by Dirac equation.

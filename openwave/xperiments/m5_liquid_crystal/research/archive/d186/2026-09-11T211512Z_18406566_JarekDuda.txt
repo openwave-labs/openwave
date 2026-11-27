@@ -1,0 +1,189 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18406566
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18406566
+author: JarekDuda
+posted: 2026-09-11T21:15:12Z
+version: as first posted
+sha256: adef758483d7a33db7dc9badf911b9219dbd8f4bf903e3b0493d691e9977f57c
+archived: 2026-11-25
+==== verbatim text below this line ====
+Working original Lagrangian (to flip Newton sign) in https://arxiv.org/pdf/2108.07896
+Updated M5 report: https://zenodo.org/records/22714918
+
+
+# The gravity sector, reorganised: the sign was never the problem
+
+Report revision 294. Scripts `round267`–`round285` in the bundle; §§ are that report's. Companion to the electron-sector note. This one records a reorganisation rather than a result: **forty-three sections asked how to flip a sign that was already correct**, and identifying that changes what the open question is.
+
+---
+
+## TL;DR
+
+1. **The Newton sign is correct, in every sector that could carry a gravity-analogue** — and has been since the sign rule was established. The sector where like sources repel is electromagnetism, where repulsion is right.
+2. **The anticommutator proposal was tested in the wrong sector.** The original suggestion — commutator for rotations, anticommutator for boosts — was stated correctly and then computed for the *spatial* sector. Redone in the boost sector it does give spin 0+2 and attraction.
+3. **And M5's connection is teleparallel by construction**, so the EM and GEM sectors are coupled by group structure rather than by any Lagrangian term — with the Lorentzian signature flipping the cross term relative to the Euclidean case the paper's eq. (9) states.
+4. **The flip exists, couples to the conserved stress tensor, and gives 1/d⁵**, because the boost mode is a Goldstone and Goldstones couple derivatively.
+5. **The one structure that changes a power is the axion term**, and it reaches 1/d between charges.
+6. **A quadratic GEM–EM coupling does reach neutral matter** — the neutrality objection I raised was wrong — and it couples to the EM *fraction* of mass, which varies 9× across the periodic table against an Eötvös bound of 10⁻¹⁵.
+7. **Cosmological structure was tested four ways and reaches the energy floor, not Newton.**
+
+---
+
+## 1. The sign, sector by sector
+
+The rule, verified on a 48³ lattice (`V_complete = −⟨J, K⁻¹J⟩`, ratio −1.000 at five separations): **scalar and tensor exchange attract; vector exchange repels.**
+
+| sector | spin | like sources | verdict |
+|---|---|---|---|
+| the dual photon | 1 | repel | **correct — it is electromagnetism** |
+| the amplitude / split | 0 | **attract** | **correct** |
+| the clock / twist | 0 | **attract** | **correct** |
+| the symmetric boost bilinear | 2 | **attract** | **correct** |
+| `R^gg = Γ̃ × Γ̃` — the paper's | 1 | repel | wrong for gravity |
+
+> **The sign is correct everywhere it matters. The only wrong one is the paper's own `R^gg`, and that is a choice of bracket rather than a sign.**
+
+| requirement | status |
+|---|---|
+| **the sign** | **correct** |
+| the range | wrong |
+| universality | wrong — 7.4 % measured across four objects |
+| the strength | wrong — 4·10⁴² unless separately suppressed |
+
+**Three of four fail and the sign is not one of them.** Seven proposals — the anticommutator, the imaginary axis, the imaginary coupling, the NUT charge, the symmetric bilinear, the flipped Hamiltonian term — each found a way to get a sign that was never in question. **And "the sign is correct" is weaker than it sounds: any scalar attracts. That is a property of scalar exchange, not of M5.**
+
+---
+
+## 2. The anticommutator, tested in the right sector
+
+The proposal as originally stated was: *keep `[·,·]` for the rotation sector where like-charge repulsion is wanted, and use `{·,·}` for the boost/time sector where attraction is.* **That is right, and the test I ran computed the spatial sector instead.**
+
+Redone where it belongs: SO(1,3)'s boost generators are **symmetric** where SO(4)'s are antisymmetric, and for two symmetric generators `{A,B}` is symmetric — **spin 0 + 2** — while `[A,B]` is antisymmetric — spin 1. The paper's `R^gg = Γ̃ × Γ̃` is the cross product, so it keeps spin 1 and discards spin 2.
+
+**In the spatial sector the antisymmetric part is the physical one**, because its charge is the π₂ winding. **In the boost sector there is no such winding** — symmetric generators have no cross-product charge to be topological about. **So the antisymmetric choice there is an analogy with electromagnetism, not a derivation, and the symmetric bilinear is equally available and gives the right spin.**
+
+---
+
+## 3. What the flip actually buys
+
+**Every piece is present.** M5 has a conserved stress tensor by Noether's theorem — already used for the von Laue condition — and the symmetric bilinear `S^gg` is spin-2 and attractive. The vertex `S·T` can be written.
+
+**And the mode is massless, for the reason that dooms it.** The boosts are broken by the vacuum, so `Γ̃` is a Goldstone — and a Goldstone couples derivatively. With `S ~ {Γ̃, Γ̃} ~ (∂M)²`, that is two derivatives at the vertex:
+
+| derivatives at the vertex | 0 | 1 | **2** |
+|---|---|---|---|
+| static potential | **1/d** | 1/d³ | **1/d⁵** |
+
+> **An attractive spin-2 mode coupled to the stress tensor. Right spin, right source, right sign, wrong range by four powers.**
+
+To reach 1/d the vertex needs *zero* derivatives — a field coupling to T directly, with two derivatives in its kinetic term. **That is the Einstein–Hilbert structure, and M5 can build it**: `inc M = 2G⁽¹⁾[M]` means M's incompatibility *is* the linearised Einstein tensor, so `∫M·inc M` is the linearised EH action, built from M alone, vanishing on the vacuum, needing no new field.
+
+**And it has m = 1, p = 1, so 2mp = 2 < 3: linearly divergent energy on a winding texture.**
+
+| action | potential | core energy |
+|---|---|---|
+| the quartic alone | linear, confining | finite |
+| **+ M·inc M** | **1/r — Newton** | **divergent** |
+| + (inc M)² — the Stelle R² analogue | linear + Yukawa | finite, **and untested** |
+
+> **M5 can have quadratic gravity. What it cannot have is the Einstein–Hilbert term that supplies the 1/r — and that is a theorem about winding, not a choice of coefficient.**
+
+---
+
+## 4. Coupling by orthogonality
+
+`Γ_μ = Oᵀ∂_μO` is a **Weitzenböck connection** — pure gauge, zero Lorentz curvature, torsion carrying everything. **M5's O-field is teleparallel by construction**, and the EM and GEM sectors are tied by the Maurer–Cartan equation rather than by any interaction term. That is the "coupling by orthogonality" exactly.
+
+**And the signature flips which combination:**
+
+| generator | boosts | spatial block of `[Γ_μ, Γ_ν]` |
+|---|---|---|
+| SO(4) — the paper's eq. (6) | antisymmetric | `R^ee + R^gg` |
+| **SO(1,3) — eq. (39)** | **symmetric** | **`R^ee − R^gg`** |
+
+The paper states eq. (9) for the Euclidean generator and then replaces it at eq. (39). **Figure 6's "tendency for opposite curvatures" is the Euclidean statement; with boosts they have the same sign.** Every sign proposal asked how to flip a coupling by hand; **this one is flipped by η.**
+
+*Caveat:* this verifies the Maurer–Cartan commutator, not the Hamiltonian, which uses `F = [∂M, ∂M]` with shape factors. The flip is established for the constraint and conjectural for the energy.
+
+---
+
+## 5. The one structure that changes a power
+
+A Goldstone's shift symmetry forces the coupling through ∂θ. **The exception is a coupling to a topological density**, because the shift then changes the action by `c × Q` with Q an integer — the axion structure. M5 has every ingredient, and
+
+> `S_θ = κ∫θ ρ_top d⁴x` gives `□θ = −κρ_top`, hence a Coulomb tail, hence **U = −κ²Q₁Q₂/4πd: inverse-square, attractive, long-range.**
+
+Coulomb agrees with QED to ~10⁻¹², so κ/e < 10⁻⁶ — **a bound sitting at 4·10³⁰ times gravity's strength.** The channel could be gravity-strength and entirely invisible.
+
+**It is proportional to Q₁Q₂.** I concluded from this that it vanishes for neutral bodies and that neutrality was the obstruction. **That was wrong** — see the next section.
+
+---
+
+## 6. The GEM–EM coupling does reach neutral matter
+
+Matter is built of protons and neutrons, which carry plenty of charge even when the net is zero. **And the paper's GEM–EM coupling is `R^ee·R^gg` — quadratic in the EM curvature — so it couples to EM *energy density*, which is positive-definite and does not cancel when the charges do.**
+
+So the question becomes what fraction of mass is EM energy:
+
+| nucleus | E_EM/M |
+|---|---|
+| helium | 4.87·10⁻⁴ |
+| iron | 2.44·10⁻³ |
+| uranium | **4.44·10⁻³** |
+
+**A spread of 9.1 across the periodic table**, giving an Eötvös parameter of order one between elements, against MICROSCOPE's 10⁻¹⁵. **Excluded by fifteen orders.**
+
+**Which is the same failure as the NUT charge in a new channel**: that one tracks baryon number and misses the binding energy; this one tracks EM energy. Two couplings, one exclusion, because both see a *subset*.
+
+> **Gravity couples to the total stress tensor. Any coupling to a part of it is composition-dependent at the level of that part's variation — ~10⁻³ for every part in the periodic table. Any partial coupling is excluded by ~10¹² unless the part it tracks *is* the whole thing to a part in 10¹⁵.**
+
+**The obstruction is not neutrality. It is that every channel sees a fraction.** Our own δ-coupling was measured at a 7.4 % spread across four objects — 7·10¹³ times the bound.
+
+---
+
+## 7. Cosmological structure, tested four ways
+
+**Nearly constant twist frequency.** For a massive phase field the uniform mode sits at the gap, so ω = m — the de Broglie relation, not an extra hypothesis. *This is now qualified:* the clock turned out to be massless (see the electron note), so "nearly constant frequency" means ω = K/I with K topologically fixed, which is structure the report already had.
+
+**Least action over an eon.** For a rotor, `S(N) = 2π²IN²/T` grows as N², so free extremisation gives **N = 0** — a global variational principle *suppresses* the clock rather than producing it. A theta term fixes K = −θI/T, but |θ| ≤ π and I/T ~ 10⁻³⁹, so K ≤ 9·10⁻³⁹ against the ½ the electron needs.
+
+> **Over an eon, dynamics wants K = 0 and topology forces K = ½. The clock survives because it is topologically protected, not because it is energetically favoured.** Which generalises: continuous charges relax to zero under a global principle, quantised topological ones cannot, and **the surviving structure at late times is the topologically protected part.**
+
+**Extremising over the eon's length too.** ∂S/∂T = K²/2I > 0, so free extremisation drives **T → 0**. What opposes the collapse is the Friedmann equation, with **T ∝ GM** — so the eon's duration is a gravitational quantity, M5 has no G, and its longest intrinsic time scale is 10⁻²² s against an observed 4·10¹⁷ s. **Forty orders.**
+
+**Compact space and the energy floor.** A closed universe does bound the unbounded-below witness (its own scope note says "open-space or increasing-box") — but the bound is attained by the negative phase *filling the universe*, so the certified vacuum is metastable at best. And a periodic time boundary condition **forbids the two *dynamical* runaways and neither static one.**
+
+> **The cyclic structure's real content is the exclusion of runaway solutions — which matters, because two of the four sightings of the energy-floor problem are dynamical.** It does not reach Newton.
+
+**A black hole as an inward-boost hedgehog.** This is exact rather than analogical: `v = tanh χ(r)` gives Painlevé–Gullstrand, and the outward boost is its time reverse — a white hole. M5 would have three horizons, one per branch. **But the boost sector destabilises at 1.85 % of c** (converged across resolutions) against the 71–100 % a horizon needs, **so M5's collapse is a phase change rather than a horizon** — and the Schwarzschild profile p = ½ sits exactly on the convergence boundary.
+
+---
+
+## 8. What the literature already said
+
+Volovik's ³He-A result: the induced Einstein–Hilbert term **is** produced and is **swamped by non-diffeomorphism-invariant terms** from the superfluid's own Lagrangian. And Barceló–Liberati–Visser: Sakharov assumes the spacetime has **no prior dynamics**, while a medium's prior dynamics is *what makes* the effective metric.
+
+> **The medium's own equations of motion are both the source of the effective metric and the obstruction to its being Einsteinian. They cannot be dropped — they make the metric. They cannot be kept — they are not diffeomorphism invariant.**
+
+**M5's quartic is a contaminating term in exactly that sense.** Our closures are instances of a known obstruction; what is added here is a convergence theorem making it quantitative, a quantisation argument independent of diffeomorphism invariance, and an explicit name for the covariant term. **That is a narrower contribution than the report has been implying.**
+
+---
+
+## 9. The open question, restated
+
+Not *how do we flip the sign* — nothing needed flipping. The question is:
+
+> **Why is the attractive sector gapped or derivatively coupled, and what would carry a source that a neutral body has in proportion to *all* of its energy?**
+
+Everything in §§145–275 stops at the second half. **Setting the transverse splitting to zero would restore the exact symmetry and remove the sector the model was built to have — that is the trade, in the model's own variables.**
+
+---
+
+## 10. What is worth someone else's time
+
+- **`(inc M)²`, the Stelle R² analogue.** Admissible, convergent, built from M alone via the incompatibility identity, and **completely untested** — including its ghost content, which is generic for four-derivative terms. It is the one new term the survey of admissible terms left standing.
+- **The source-contracted propagator** for the boost sector. Every force law in the last forty sections rests on derivative counting at the vertex rather than on a computed propagator. This is the handoff's G-02 and it is the only calculation that could still overturn a negative result.
+- **The energy floor.** Four independent sightings — the coupled solve's runaway, the boost instability at 1.85 % of c, the unbounded-below witness, and the hyperbolicity conditions. **Nobody has computed the decay rate of the certified vacuum into the negative phase**, which is a Coleman bounce and decides whether the theory has a usable ground state.
+
+*Rev. 294 attached. §§254–256 the teleparallel structure and the flip; §267 the sign; §§245, 261 the admissible terms; §§269–270 the axion term and neutral matter; §§236, 249–252 the cosmological tests; §247 the literature. Parallel efforts: OpenWave (R14–R18), the M5–teleparallel chain (C1–C18), Novarax (Braun AI Wiktorowicz, Rafał Wiktorowicz, Marcin Rosa), the 11 September technical handoff, and Mikulski's twelve reports.*

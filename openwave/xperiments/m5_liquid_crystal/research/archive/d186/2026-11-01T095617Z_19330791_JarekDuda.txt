@@ -1,0 +1,40 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19330791
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19330791
+author: JarekDuda
+posted: 2026-11-01T09:56:17Z
+version: as first posted
+sha256: c1c7ea910af2f5d385e98a131a1d181eea01ee5b1829bc2e850e054e20ba2980
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Re: R31 = S1 staged. The lepton article: https://doi.org/10.5281/zenodo.23856047**
+
+Thank you. The lepton working article is deposited: *Choosing a Lepton-Mass Potential*, Release 2.0 (49 pp.). LaTeX, scripts L01–L22 and their outputs are embedded in the PDF and also attached on the record. It replaces Release 1.0 (record 22938292). Equation numbers below are Release 2.0's.
+
+**1. The forms for S1.** Please replace the comparator at the form level.
+- **Base trace potential**, eq. (41): V₀ = ½ rᵀ W r, with r_p = tr M^p − tr M₀^p and W = 2·1.
+- **Sextic lift**, eq. (46): V₊ = V₀ + ε/(2D²) tr[p(M)²].
+  - Take p(z) = Π(z − λ_a) over the distinct vacuum eigenvalues, and D = |p′(λ_deg)| at the degenerate pair.
+  - On your vacuum (−g, 1, δ, δ): p(z) = (z + g)(z − 1)(z − δ) and D = (g + δ)(1 − δ). Then splitting the pair costs εβ² and the vacuum orbit is untouched.
+  - Please use the product form, not copied coefficients. The power-sum residuals are not invariant under the affine map between our reference (g, 2/3, −1/3, −1/3) and your vacuum.
+- **Selective lift**, eq. (48), as the time-sector control. In your convention: p_sel(z) = (z + g)²(z − 1)²(z − δ) / [(g + δ)(1 − δ)]². This also gives εβ².
+- **Regression** (App. A): the unmodified radial core has Ê = 14.6734580, A = 11.00509, B = 3.668365, virial A = 3B.
+
+**2. K_D.** Your choice is fine: Disc at the nondegenerate (−g, 1, δ, 0) for the same (g, δ), with κ_s/K_D as the axis and both numbers reported. L_sel vanishes on your degenerate vacuum and on the uniaxial exterior, as intended.
+
+**3. "The D8 gap unchanged."** We meant a condition on the parameter point: the vacuum's D8 read stays as tabled, with no negative-norm propagating mode and the gapped modes still gapped. Your per-state read (the same K-weight signature on the free cells across the three states) is a good addition. Please keep both, and report any member that passes one and not the other.
+
+**4. What the article expects from S1** (Sec. 10, radial; Sec. 10.1, 3D):
+- **Radial sector.** There is one charged branch only. The lifts flip U″_eff(0) above ε ≈ 8.2 (sextic) and ≈ 19.3 (selective), but no second branch reaches the vacuum. The breathing quanta stay at 487–541 mₑ, so no lift reaches 206 mₑ. Your kit prediction (ratios of order one) holds there.
+- **3D relaxed cores.** With the pure quartic action they carry frame jumps: 6–11% of the links inside r < 14 change the tensor by more than 0.3 while the sorted spectrum barely moves. A quadratic gradient term removes them.
+  - A cheap health check per catalog member: the count of such jump links.
+- **A Z₃-symmetric arrangement**, if one is in your catalog, should be a static saddle. With the gradient term ours has one degenerate, Z₃-breaking negative pair (λ = −0.0907) and decays when unconstrained.
+- **Quantization.** Please declare what "rest energy" means: a classical stationary energy, that energy plus declared quanta, or an eigenvalue of a declared collective Hamiltonian. At the Coulomb normalization the action coefficient is ζ = α/8π. The breathing quantum alone is about 525 times the classical energy, so the three readings differ by factors of 10²–10³.
+
+**5. Our lepton row.**
+- MODELS.md marks M5 lepton masses partial, and its simplest native test (exactly three charged-lepton minima, ratios 1 : 207 : 3477) is unchanged.
+- At the effective calibration layer the construction accommodates the charged masses, with Koide supplying a retrospective tau check. We propose an amber label for that layer in our own scorecard, where the row was red for the closed axis-permutation reading.
+- This does not establish the native three-minimum criterion or change the pre-registered S1 gate. The OpenWave table changes only on a run on OpenWave, as you say.
+
+S3b and the R4 gap ladder are as recorded, and no icon moves: agreed.

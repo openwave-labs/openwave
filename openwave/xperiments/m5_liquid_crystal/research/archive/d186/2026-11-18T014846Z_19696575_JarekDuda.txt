@@ -1,0 +1,55 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19696575
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19696575
+author: JarekDuda
+posted: 2026-11-18T01:48:46Z
+version: as first posted
+sha256: a33106df8469f3901b1c343b9bcbec07ea4f076c490cb13f8a489030d12cbf34
+archived: 2026-11-25
+==== verbatim text below this line ====
+On M5.44. Thank you, Rodrigo, Fable and both auditors, also for recording that the read was done before our prediction and reached us after it.
+1. Our window fails on half-box 18. We wrote 0.62–0.72 for half-boxes 12 and 18. Half-box 12 holds and 18 does not, in your sector and in ours. The broken sector is already relaxed on our side (forward stencil, J = 0, L₁ = 0.3, δ = 0.3; predictions registered before running, 17 Nov 20:16 and 21:27 CET):
+Half-box
+Spacing
+R
+R over half-box
+12
+0.5
+7.83
+0.653
+12
+0.75
+7.69
+0.641
+18
+0.75
+10.68
+0.593
+18
+1.0
+10.49
+0.583
+27
+1.0
+13.76
+0.510
+So the run you offer is not needed to score the window. Our spacings are coarser than your 0.375, and the finer of each pair reads 0.01 higher, so the broken sector on 18 at 0.375 would sit near 0.60: at the edge of the clause we named, where your symmetric 0.581 is under it.
+The growth slows in both sectors. Our local exponents at matched spacing are 0.91, 0.85, 0.81 and 0.67 (6→9, 9→12, 12→18, 18→27), beside your 0.927, 0.874 and 0.765. We agree that these boxes pick no law. Our reading, not a result: a size of its own of roughly 30–45 at L₁ = 0.3 is likely.
+2. δ = 0.05 with L₁ = 0.3 is one curve in both codes. Your 3.83 and 6.58 on half-boxes 6 and 12, and our 3.82 (either stencil) and 5.15 on half-boxes 6 and 9, give shares of 0.64, 0.57 and 0.55. Your 370.2 with 28.1 inside r < 2 is our 370.8 with 28.1.
+3. δ = 0.05 without L₁: the inertia is set by the grid. This is the spacing question your section 5 leaves open.
+On half-box 6 at J = 0, with the mirror-averaged stencil, I = 1233, 2120 and about 3460 at spacings 0.5, 0.375 and 0.25. The last run is not converged and still rising. Your 2096 (521 inside r < 2) at 0.375 is our 2120 (532).
+94–95 % of that inertia sits in walls one or two cells wide along the edges of the tilted lobes (panels c and e).
+In the walls the gradients nearly commute: Σ‖[∂ₐM, ∂_bM]‖² / (Σ‖∂ₐM‖²)² is 0.008, 0.003 and 0.0007 at the three spacings, against 0.15 elsewhere.
+∫‖∇M‖² times the spacing is 452, 481 and 464: the walls keep their amplitude and thin with the grid.
+This is the flat direction at work at J = 0. The commutator quartic charges commuting gradients nothing, so only the grid sets the walls' width. The rigid-twist inertia does see them.
+With L₁ = 0.03, 0.1 and 0.3 there are no walls, and the two spacings agree: I = 119.0 and 119.2, 182.0 and 182.2, 370.4 and 370.8 at 0.5 and 0.375. Each state has a flat loop, of radius 3.13, 3.5 and 3.82.
+At L₁ = 0.01 (spacing 0.5 only) both kinds of state exist. Started from the radial hedgehog, the walls stay (U = 20.25, I = 309, no loop). Started from the L₁ = 0.03 ring, the state is a smooth ring (U = 18.49, I = 111, R = 3.04), and it is the lower one.
+A prediction for a read you list as not computed (written before any such number from you): δ = 0.05, L₁ = 0, half-box 6, J = 0 at spacing 0.25 gives I above 3000, against your 2096 at 0.375, with the energy within 3 %.
+None of this rescues L₁ as it stands: it costs the hedgehog 16πL₁ per unit of box and Coulomb beyond √(κ/L₁). What bounds commuting gradients without that cost is open.
+4. A first sign of a ring with a size of its own (one pair of boxes, one spacing). At δ = 0.05 and L₁ = 0.03 the loop has R = 3.14 on half-box 6 and 3.28 on half-box 9 (spacing 0.5): a local exponent of 0.11, where L₁ = 0.3 gave 0.74. The inertia goes from 119 to 133. I had registered 3.4–4.2 for half-box 9, so the loop lags the box more than I predicted. It continues your L₁ = 0.1 trend. Half-box 12 is running.
+5. What would help most from OpenWave. The spacing 0.25 read of item 3, and your L₁ = 0.1 ladder's inertia by box if it is saved. The broken sector on half-boxes 12 and 18 can wait.
+The scripts and the prediction files (ring17/predictions_scan_17nov_eve.md, predictions_scan2_17nov_night.md, predictions_small_L1_18nov.md) go into the next capstone source zip.
+Jarek
+
+<img width="1613" height="1136" alt="fig_186_18nov" src="https://github.com/user-attachments/assets/6c33e143-10c1-4048-a86a-9e83c352c27d" />

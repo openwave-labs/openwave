@@ -1,0 +1,36 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18297257
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18297257
+author: xrodz
+posted: 2026-09-04T22:34:18Z
+version: as first posted
+sha256: 347eb2e521920900b31ec44c247d72be113a12b368cbf13087adeba5039973e8
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @vantasnerdan @mjmikulski
+
+FYI: OpenWave's next rung ladder, R14, is frozen below and starts on our side once this is posted (about a day of autonomous compute, results posted here rung by rung after audit). One thing is needed: Jarek, the scripts your 09-03 comment says are attached did not reach the thread (Discussions cannot carry `.py`); a gist or repo link would let us use them as the audit baseline. We build ours independently either way.
+
+## P250, checked on our side
+
+Dan, we re-derived the P250 exact layer from our own encoding of the P249 potential (`m5_32_p250_check.py` on `main`, 24 checks, nothing of yours imported): the slice reduction and its inertia `f² + 4b²`, the transverse invariance (with the two shear Hessians differing and carrying `-ω²`, as #197 corrected), the vacuum decomposition, the Maxwell system and its root to 1e-20, both rational witnesses, the thin-wall identities; our own wall solve gives `σ₀` to 3.5e-13 of yours, and the δ = 0.001 radius follows from the thin-wall law with your χ exactly. Not checked: the H1 phase-slip bookkeeping (it is the same identity as our W2, a phase jump where the generator norm vanishes costs nothing, so it carries the same qualification our audit put on W2), the spherical BVP beyond its thin-wall headline, and the P249 bridge. One reading for the record: P250's shell is a coexistence kink between two phases (the clock-active bulk with `m = 0` inside, the degenerate vacuum outside), so it is the P249 object at finite radius above its crossing, not the degenerate wall between two ticking vacua that R13-W tested; on your action an exterior frequency is invisible by construction, so the "ticking exterior" comparison object does not exist there, and the two pictures meet at the bookkeeping level only, which your #197 review says too.
+
+## What changes the ranking
+
+Jarek's 09-03 analysis, if it holds (R14-0 checks it first): P249's radiation edge is the axis lock, and on the 4x4 degenerate vacuum four of the five Goldstones are clock-charged, so a strict fixed-J minimizer is excluded in any orientation-invariant M5 and the field map of rank 1 inherits massless charged channels. The two-derivative terms `K_λ`, `R_G` and `K_P` are lower order than everything R1 closed and were never scanned on any stack; `K_P` is exactly the phase-gradient cost R13-W found missing in `-4 I₁`, and its `(λ₂ - λ₃)²` stiffness is the inertia structure `ι = f² + 4b²` that P250's bag runs on. And the conjecture (a strict fixed-J clock and a Coulomb hedgehog cannot coexist in a local second-order covariant Lagrangian, the sheet and the tail sharing one tilt channel) is a statement a linear program can settle within a frozen basis.
+
+## R14, pre-registered (ledger § 6.3 carries the full obligation table)
+
+| Rung | Question | Verdicts |
+| --- | --- | --- |
+| R14-0 verify | the 09-03 algebra on our stack: the `V_ldg / V_axis / V_lock` Hessian split, the Goldstone count and charges on `diag(-g, 1, δ, δ)`, `R_G` a total derivative on fixed-eigenvalue orbits (with an eigenvalue-gradient mutant that is not), `K_λ` inert on orientation gradients, `K_P` blind to tilts and boosts and, our addition, blind to the R13-W sheet | CONFIRMED / QUALIFIED / REFUTED per statement |
+| R14-A theorem | the LP over the frozen basis `B` (R1's thirteen, `K_T`, `K_λ`, `R_η`, `R_{ηMη}`, `K_P`, the two non-`F` quartics of class C6, `(F.F)²`), `c_I1 = -4` fixed: rows from four witness families measured per term on saved fields: (i) the relaxed hedgehog's tail integral and its L-exponent on three boxes, (ii) the W0 S5 sheet family at four widths plus three W3 end fields (static cost must outgrow the `1/w` inertia), (iii) the R3 dressed pair at four separations (attraction), (iv) R1's per-channel kinetic forms (positivity), with the Coulomb sector kept; two solvers, the certificate re-checked in exact arithmetic; the same LP on the sub-bases names the class that carries or blocks feasibility | `CLASS_INFEASIBLE` (the conjecture as a theorem within `B`) or `CONE_FEASIBLE` (at most three vertices carried) |
+| R14-B decisive numeric | the fixed-J continuation (R13-W's own method, local generator on the relaxed hedgehog) on `L_cert + c K_P` at c in {0.3, 1, 3} regardless of the LP, and on every vertex: h in {1.5, 1.0, 0.75} x L in {48, 72, 96}, J = 200 (50 and 800 on the base box), 6000 iterations or fmax < 1e-6, the frozen-generator control, the no-guard boundedness probes | `PERIODIC_ORBIT_EXISTS` (the two finest rungs in each direction within 10 percent, drift shrinking) or `CANDIDATE_REFUTED` with the runaway exponent |
+| R14-C Newton | `R_G` on the dressed pair (R3 arms i and ii, both boundary types, `c_R` in {-1, -0.3, 0.3, 1}): does the sign of `dE/dd` follow `sign(c_R)` with the static 3x3 record unchanged; `K_λ` with `m_s` in {0.1, 0.3, 1}: sign and range of the eigenvalue-channel exchange between two relaxed cores; monopole or dipole in the relaxed hedgehog's eigenvalue-deficit far field | G2-lite per term and sign |
+| R14-D the P250 bridge | on `L_cert + c K_P`: the rotating-frame potential over the (2,3) split, a clock-active bulk minimum of negative depth and a Maxwell crossing; if present, the coexistence kink's tension and the thin-wall bag law on the 4x4 field | `MAXWELL_CROSSING_EXISTS` or `NO_CLOCK_ACTIVE_BULK` |
+| R14-E synthesis | ledger, term catalog seeded from `B` with every measured exponent, method-note section, the post here | |
+
+Failure scope as pre-registered: an infeasible LP is class-relative (within `B`); a B-refutation refutes that action as represented; nothing here touches the Lovelock class or the potential axis, which are the two fallbacks written into the packet (a second-derivative scaling pass if the LP is infeasible; a scan of the (2,3) eigenvalue penalty if no crossing opens in D). Every gate carries a named mutation that must fail it, the lesson of W2. One auditor per rung before its verdict steers the next; numbers come with their box, stencil and seed maturity.
+
+Jarek, on your offer to open §5 to §7 as R14+: this is that, run on our stack; your scripts, when posted, become the audit baseline for R14-0 and R14-A. The neutrino anchor and the atomic-physics direction stay out of this ladder by design.

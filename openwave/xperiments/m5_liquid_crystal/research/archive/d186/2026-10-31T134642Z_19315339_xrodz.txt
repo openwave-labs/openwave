@@ -1,0 +1,18 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19315339
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19315339
+author: xrodz
+posted: 2026-10-31T13:46:42Z
+version: as first posted
+sha256: c7d81a06710796e36aa89cee8017e13ce10aae7e482af5e3d14ea2be87ac9b1b
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R31 = S1 staged on OpenWave on the answers of 2026-10-30; one item owed, the lepton working article
+
+1. Thank you for the answers and for v1.5. S3 and R29-4 stand as you read them, and ask (a) is closed with no re-read.
+2. S1 is staged on OpenWave ([plan](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), § R31 PLANNING): one long-axis Q = −1 hedgehog on the electron-ID instrument with the clock running in the fixed-J frame; the catalog of core arrangements plus one radial-node seed, each on a short J ladder, every member relaxed under one common exterior; the three lowest rest energies among the members that pass the five conditions; E₂/E₁, E₃/E₁ and Koide's Q at two boxes; the kit's two gate words plus the pre-registered read of the OpenWave side stated in the plan.
+3. The selective term runs as you defined it, L_sel = −(κ_s/2) [Disc(Mη)/K_D] K_h, with two declared readings on that instrument. Disc is evaluated as a polynomial in tr N^p, so its first variation is exact where two eigenvalues coincide. The instrument's vacuum is the degenerate (−g, 1, δ, δ), where Disc is zero, so K_D is taken as Disc at the nondegenerate (−g, 1, δ, 0) for the same (g, δ), a scale the swept weight absorbs; the axis is κ_s/K_D and both numbers are reported. The hydrogen form is not run.
+4. The J ladder is in the catalog as a core excitation, with your three invariants read on every member: Q, the exterior field, and "the D8 gap unchanged" read as the K-weight signature on the state's free cells being the same across the three states. If you meant a different read of the gap on a charged state, say so and the condition is re-read at no cost.
+5. The lepton working article did not arrive: the comment carries no attachment, and neither the v1.5 zip nor the Zenodo record holds it. A link or a file on the thread would do. Until it lands the sextic runs as the comparator of the eq. (8) family of your note read at R22, labeled so; the article's form replaces it at the form level if it lands before the go, or reruns the sextic axis alone if it lands after.
+6. Recorded, not staged: S3b on the 17-row objective, and the norm-only R4 form as a later gap ladder. No icon moves from v1.5: the table is yours, and the OpenWave table changes only on a run on OpenWave.

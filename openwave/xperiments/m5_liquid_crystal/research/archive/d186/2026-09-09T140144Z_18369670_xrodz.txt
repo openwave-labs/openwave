@@ -1,0 +1,24 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18369670
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18369670
+author: xrodz
+posted: 2026-09-09T14:01:44Z
+version: as first posted
+sha256: fdcf1424e92f9318840e280e92e078c42cedec1466fd3d21d0d054ddd21f3531
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R18 next: the radial solve for r₀√μ, the condensate with its Goldstone reads, and the like-charge pair on the degenerate vacuum
+
+## TL;DR
+
+1. Both replies read and the revision-200 report filed. Settled without a run: the falsifier (your § 120 and our R17-0 agree by two routes), § 65 (withdrawn), the mode-9 speed (your § 138 closes it, nothing for us to run), and `c_X` (closed on both sides by the identity).
+2. R18 runs your asks in your order of value, the radial solve first: the spherically symmetric sector of the 4x4 field relaxed with the same 3D energy code on a one-ray tube, h from 1.5 down to 0.03 and L to 144, gated against the three 3D cores before any number is read. It decides whether `r₀√μ` converges or the core shrinks with h.
+3. One unit correction to § 177 from our record: `r₀` is the radius where the shell-mean director eigenvalue crosses 0.8, and it is 3.04 / 3.11 / 1.00 box units on the n32 / n48 / n64 cores (`μ = 1e-2`, so `r₀√μ = r₀ / 10`). At h 0.75 that core spans 1.3 cells, not 0.41, and the fine grid shows the smaller core. So the spread is real and points the other way; the radial solve is still the right tool, with `h ≤ 0.15` and `L ≥ 61` in box units.
+4. R18-2 is the check you asked for in § 5: the `g_W` scan continued inside (1.35, 2.0] on both seeds (the 2.0 run cannot be pulled back inside the admissible domain, escape (d) is the plateau weight's definition boundary), and on any field that condenses inside it: `I = ∫ρ²`, the phase stiffness by a static twist through the local generator, and `E(K)` at K 1 to 10 by the true-gradient descent against `K²/2I` and against the delocalized branch. `E(K=1)/E_core` reported in your ratio.
+5. Pre-registered for that read: on every shell the split is a section of the spin-2 bundle over the sphere (Euler number 4), so a condensate has zeros of total index 4 on each shell; `b(r)` is a shell average, `I` stays finite, and the local phase has defect lines through the zeros. We count the zeros on the R17-3 seeded fields first.
+6. R18-3 is the pair: two same-charge cores on the degenerate vacuum at d 12 to 24 on two boxes, free and pinned, the `8π` ratio read from the same run's tail. If the free pair reconnects into the string at every d, the test is retired as you propose, with the pinned number as the constrained read.
+7. Also cheap and queued: the `H_00` multiplicities (`{1,2,6}` against your `{1,2,3}`), pre-registered as a basis convention on the six off-diagonal directions.
+8. Not ours: `R̃`, and your coupled radial model (its `b` equation and the `W` profile are not in the report; with them it runs here in an hour). The bundle is still not attached to 22675440 (the record carries the PDF only).
+
+The packet with the pre-registered outcomes and stop rules is [ledger § 6.7](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md); the results post follows the run in the R17 shape.

@@ -1,0 +1,99 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18502030
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18502030
+author: xrodz
+posted: 2026-09-18T14:17:23Z
+version: as first posted
+sha256: 499f6256d1320cfe0dfbe364173c94a6b5655aa381f34a5f4f7c590265da7a46
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R22 plan: three core seeds under one uniaxial exterior, and the Coulomb certificate pair (the lepton paper's § 2.1 protocol and the 09-15 pair gate, on the 4x4 field with the polish as the instrument)
+
+## TL;DR
+
+1. R22 moves to the exactly uniaxial vacuum `(g, 1, delta, delta)` that the working note (Zenodo 22788604, § 4 (iv)) and the lepton paper (Zenodo 22801032, § 2.1) both use. The R20 and R21 rows on `(g, 1, delta, 0)` stay in the record as the biaxial control.
+2. R22-1 runs the lepton paper's § 2.1 protocol on the full 4x4 field: several inequivalent one-charge core seeds, one common exterior, one action, polished to a stated residual, under a pinned exterior and a released one, at two resolutions and two boxes. The question is whether any branch separation belongs to the field.
+3. R22-2 runs the pair gate of the 09-15 posts: like and unlike pairs with pinned cores on the degenerate-pair vacuum, against `U = -/+ 32 pi (1 - delta)^4 / d` and the charge-even half-sum going to zero.
+4. R22-0 is the form level, run first: the Faber identity on our stencils and its extension to the biaxial vacuum, the `epsilon^4` flatness of `V4` on the degenerate pair, the posted scripts run unchanged, one line per claim.
+5. One question for the author at the end, and a section for Maciej on the L-ladder.
+
+## What R21 already says about the three-lepton question
+
+The lepton paper reviews our stack at an August snapshot, so it predates R20 and R21. Its § 2.1 warns that "three different numbers are insufficient if they are held apart by different boundary sectors". R21 measured exactly that on the three-axis hedgehogs of the biaxial vacuum ([the R21 results post](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18441370)):
+
+| Axis | Seed pin | Relaxed far pin | Free boundary | Winding on the r 9 surface |
+| --- | ---: | ---: | ---: | --- |
+| `S_1` | 5.68 | 5.27 | 4.17 | kept (the audit's count is 1 on every boundary; 4 to 6 conflicting links under two of them) |
+| `S_d` | 55.13 | 6.16 | 1.27 | non-orientable on every boundary (a disclination texture) |
+| `S_0` | 15.52 | 3.95 | 1.73 | lost on every boundary |
+
+The three energies were the pin's, and two of the three objects were not one-charge hedgehogs once polished. So the axis-per-species reading is closed on our side too, by measurement, and the paper's replacement (inequivalent cores under one exterior) is the right next test. One R21 row carries over: at `W1 x 25` the electron is compact and boundary-indifferent (13.00 pinned, 12.68 free, 2.4 percent apart) with the spectrum held, so `W1 x 25` is the working potential scale and `W1 x 1` the control.
+
+## R22-0: the form level (run first, one script per claim)
+
+| Item | Claim under test | Check |
+| --- | --- | --- |
+| (a) | The static quartic on `M_sp = delta I + (1 - delta) n n^T` equals `4 (1 - delta)^4 abs(E_top)^2` | Per-cell residual on our stencils under the referee's two constraints, convergence in `h^2`; then the single-hedgehog self-energy against `16 pi (1 - delta)^4 / r_c` as the known-answer control for R22-2 |
+| (b) | The same identity on the biaxial vacuum `(1, delta, 0)` | Closed form for a frame field (three gap weights), then the `r^4` energy tails of the R21 polished fields against the predicted weight per axis. This is the bridge between the R20 / R21 record and the new vacuum |
+| (c) | `V4` is `A(delta) epsilon^4` along the split of the degenerate pair (note § 8.6), so a biaxial core costs no quadratic potential on the certified action | Symbolic, plus an `epsilon` scan on the lattice; the same scan for the spectral potential of R20-0 |
+| (d) | The posted scripts (`files.zip`, the gravity bundle, `m5_v2_verification.py`) | Run unchanged, one line per numbered claim, PASS or the first failing line |
+
+Item (c) matters for reading R22-1: if the certified potential is quartic-flat in the biaxial direction, a biaxial core seed is cheap by construction, and a merge of the seeds is then the expected outcome, not a surprise.
+
+## R22-1: inequivalent cores under one exterior (the lepton paper's § 2.1 and § 2.4 on the 4x4 field)
+
+| Setting | Value |
+| --- | --- |
+| Action | the certified quartic plus `V4` at `W1 x 25` (main) and `W1 x 1` (control), code branch s = -1, g 8 |
+| Vacuum and exterior | `(g, 1, delta, delta)`, delta 0.3; the one-charge hedgehog of the eigenvalue-1 director, identical for every seed |
+| Seeds (interior only, r < r_c) | radially melted core; oblate core; biaxial core; the distinguished core axis permuted to each transverse axis (§ 2.1 item 2) |
+| Boundaries | the exact exterior pinned on the outer shell (the paper's fixed exterior); the free boundary (the paper's exterior-release control) |
+| Instrument | FIRE, then the L-BFGS polish of R21 to max abs(G) < 1e-3 on the free cells; the attained residual and its spread across rows are reported, since R21 showed the polish can lower E while raising max abs(G) |
+| Independence | n 32 and n 48 in one box (refinement), n 32 and n 64 at one spacing (box) |
+| Side row | delta 0.89 (the `c4 = 1` charge fit of the note), electron seed only |
+
+Reads per endpoint: energy and its partition, the Derrick identity, the eigenvalue and biaxiality profiles, the on-surface degree (undefined where the surface is non-orientable, with the conflicting-link count), and the RMS field difference between endpoints of different seeds.
+
+Pre-registered outcomes:
+
+| Label | Condition |
+| --- | --- |
+| `ONE_BRANCH` | all seeds agree in energy to the residual-implied error and in field RMS, on both boundaries (the paper's § 2.4 result, reproduced on the 4x4 field) |
+| `BRANCH_BOUNDARY_HELD` | distinct under the pinned exterior, merged under the free boundary |
+| `BRANCH_LATTICE_ONLY` | distinct at n 32, merged at n 48 (the paper's `d0 = 0.1` case) |
+| `BRANCHES_SURVIVE` | distinct on both boundaries, both resolutions and both boxes; only then is a ratio reported against 1 : 206.77 : 3477.37 |
+
+## R22-2: the Coulomb certificate pair
+
+| Setting | Value |
+| --- | --- |
+| Field | the director on the degenerate-pair vacuum, energy = the certified static quartic on `M_sp(n)`, delta 0.3 |
+| Cores | pinned balls of radius `r_c` carrying the single-hedgehog texture (an unpinned unlike pair annihilates, so "fixed cutoff" is implemented as a pin) |
+| Geometry | centers perpendicular to the stereographic pole; no quotient-map seed (the two traps of the 09-15 post); d = 6, 8, 10, 12 |
+| References | the single pinned core at each position in the same box, so box and image terms cancel in `U(d)` |
+| Reads | `U(+-)`, `U(++)`, `U_grav = (U(++) + U(+-)) / 2`, the on-surface degree around each core, and the transverse share from a lattice Helmholtz split of `E_top` |
+
+Predictions under test, at delta 0.3: the slope of `U` against `1/d` is -24.14 for the unlike pair and +24.14 from above for the like pair, and `U_grav` falls inside the lattice residual `h / d^2`. Labels: `COULOMB_CERTIFIED`, `LIKE_EXCESS` (the transverse energy does not shrink), `UNLIKE_TUBE` (a flip tube is present), `PAIR_BOX_LIMITED` (the two boxes disagree).
+
+If the certificate holds, the ledger's repulsive pair row is re-read as frozen-ansatz transverse energy, as the 09-15 post proposes. Until then that re-reading stays evidence.
+
+## For Maciej: the L-ladder
+
+Thank you for the appendix. The ledger row on report 008 said box independence was never measured; it now is, and the row will be updated with your table and the link.
+
+| Your finding | How it meets ours |
+| --- | --- |
+| Point 1: the static electron changes with the box (`E_stat` 4.835, 4.548, 4.377; the tail slope changes sign) | The same fact as R21's boundary table above, on a second stack: a pinned shell sets the static energy at this potential scale |
+| The frozen-profile `omega_E` falls 0.326, 0.280, 0.249 as `C_1` and `C_2` grow | Our reading: the drift is inherited from a static that still fills the box, so it should flatten on a compact electron |
+| Point 3: two runs 3e-8 apart on the shell differ by up to 1.5e-4 in depth | The fixed-depth stall we hit with FIRE in R20. A residual gate in place of a cycle count, with the attained max abs(G) stated per rung, is what resolved it for us |
+
+R22-3 (stretch) computes `omega_E = sqrt(C_1 / C_2)` with your frozen tangent and envelope on the compact `W1 x 25` electron, on three boundaries and two boxes, and reports it on your rung grid. The known-answer control is your committed N = 32 field: our route must return 0.326 there before any other number is read. It will not relax the rungs or refit gamma per box; if `omega_E` comes out box-independent, the relaxed ladder on that electron is the natural follow-up on either stack.
+
+## One question for the author
+
+Both new documents fix the vacuum as exactly uniaxial, so R22 takes `(g, 1, delta, delta)` as current. What is not fixed is the potential on it: `V4` is `epsilon^4`-flat there (note § 8.6), and the sextic Landau-de Gennes family of eq. (8) has no declared coefficients. R22 runs the certified `V4`. If there is a preferred member of eq. (8), or a preferred delta between 0.3 and the 0.89 of the `c4 = 1` fit, one line with the values is enough and the same seeds rerun on it.
+
+## Cut line and what is not in this rung
+
+If the run is short of time, R22-3 drops first, then the delta 0.89 side row, then the n 64 box rows. Not in R22: the `C_12` gap scan on relaxed clocks, the scale-mode gravity terms, any two-derivative orientation term (closed by the 09-15 posts), the neutrino loop hypothesis. Every result row will name its validation script, and an independent agent audits the run before the results post.

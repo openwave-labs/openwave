@@ -1,0 +1,123 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18664376
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18664376
+author: JarekDuda
+posted: 2026-09-29T18:38:12Z
+version: as first posted
+sha256: 395010943e3b94a09684c6cf077dcba0acdf5e3e9e016b2b51e71bc79f9b9f88
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html><body>
+<!--StartFragment--><p dir="ltr">@xrodz @vantasnerdan @mjmikulski</p>
+<p dir="ltr">A progress report from a neighbouring front, <strong>baryon-number (proton) stability</strong> in the two-sector M5/LdGS completion, written up in <em>[TITLE]</em> (<a href="https://zenodo.org/records/23044996">zenodo.org/records/23044996</a>). It connects to this thread in two ways:</p>
+<ul dir="ltr">
+<li><strong>Why a separate sector.</strong> R9/R10 found the point hedgehog unprotected on the distinct-eigenvalue orbit (π₂ = 0). So baryon number is carried here by a separate O(4) degree (π₃), with charge on the tensor.</li>
+<li><strong>Familiar failure modes.</strong> Several you catalogued (frozen generators, wrong-frame charges, under-resolved cores) reappeared in our escape calculations and were caught the same way.</li>
+</ul>
+<p dir="ltr"><strong>Established</strong> (radial, uncharged O(4) sector; restricted-path results, i.e. upper bounds on the least action along the paths tested, not lower bounds):</p>
+<ol dir="ltr">
+<li><strong>The RC4 surrogate is not protected.</strong> With stabilizers built from the full field Φ, a shrink-then-melt path gives ≤ 45ħ even at κ = 10¹⁰, against the ≳ 76ħ the Super-K limit requires. So RC4's 553ħ is not the least action.</li>
+<li><strong>Repair: stabilizers built from the direction n = Φ/|Φ|,</strong> with the Lorentz-invariant baryon-current sextic λ₆B_μB^μ (the ω-exchange form). Unwinding then drains the winding through a zero whose cost grows as the shortest resolved length ℓ shrinks. Two ingredients set it:
+<ul dir="ltr">
+<li>the baryon current flowing into the sink carries B_μB^μ kinetic energy ∝ 1/ℓ;</li>
+<li>the direction quartic adds a static cost ∝ 1/ℓ.</li>
+</ul>
+An independent analytic lower bound for an isolated degree-changing event (Astra) grows the same way: 3π²c₄ ln(b/a) + π²c₆(a⁻² − b⁻²).</li>
+<li><strong>Constants fixed by data, not chosen:</strong>
+<ul dir="ltr">
+<li>units from M_N and M_Δ (collective isospin rotation);</li>
+<li>c₆ from NL3's ω repulsion, 1039 MeV fm³, reproduced to 2–5%;</li>
+<li>isoscalar radius 0.740 fm (0.77 measured);</li>
+<li>f_π 62 MeV (the known Skyrme-type deficit).</li>
+</ul>
+Then 76ħ needs ℓ ≈ 0.002 fm without an octic term, or ≈ 0.021 fm (~9 GeV) with a small positive octic (0.002% of the soliton energy), where S ∝ ℓ⁻³.</li>
+<li><strong>Robustness checks</strong> on the calibrated escape action:
+<ul dir="ltr">
+<li>covariant against hedgehog octic: &lt; 0.1%;</li>
+<li>worst-sign charge-core coupling at realistic strength: −1.5% to −4%;</li>
+<li>explicit ω exchange with its 0.25 fm range instead of the local sextic: −3% to −6% (the sink flux is longitudinal, so the finite range doesn't soften it);</li>
+<li>enforcing a continuous amplitude zero at the centre: ≤ 0.3% of the barrier.</li>
+</ul>
+</li>
+<li><strong>Independent reproduction.</strong> Astra reproduced 186.1ħ at ℓ = 0.0159 fm from the published scripts. The audit found a documentation error in the octic normalization and a missing central-continuity condition; both are corrected, with the numbers above.</li>
+</ol>
+<p dir="ltr"><strong>Not established (please attack):</strong></p>
+<ul dir="ltr">
+<li><strong>Radial paths only.</strong> No displaced zero, elongated core, low-amplitude bubble or 4D bounce has been searched.</li>
+<li><strong>Uncharged model.</strong> The charge profile is prescribed; there is no solved charged proton.</li>
+<li><strong>The octic's sign</strong> rests on a positivity assumption.</li>
+<li><strong>The short-distance length ℓ</strong> of the directional terms is assumed, not derived from the action.</li>
+<li><strong>No regular theory yet.</strong> A theory that is regular at the zero and needs no ℓ is untested: my first attempt used an invalid unwinding coordinate.</li>
+</ul>
+<p dir="ltr"><strong>Connection to P249/P250.</strong> Astra found that a rigidly rotating clock softens short-wavelength modes faster than it stabilizes the broad escape (the two frequency windows don't overlap). But a separately localized clock with an escape-penalizing coupling removed the tested radial instability, with that coupling chosen, not derived. The exterior-degenerate clock of P249/P250 is the natural candidate to test on a baryon: does the clock charge stay bound while the winding drains, or can it leak out first?</p>
+<p dir="ltr"><strong>Experimental reading.</strong> Crossing the barrier needs tens of GeV delivered within about 0.02 fm. Magnetic wigglers, lasers and heavy-ion bulk matter fall 5–38 orders of magnitude short in energy density. Only hard partonic collisions (momentum transfers ≳ 10 GeV) reach it, so collider limits on baryon-number violation constrain how strongly ordinary probes couple to the baryon direction.</p>
+<p dir="ltr"><strong>Proposed rung packet (P-STAB-1),</strong> in your obligation-node format:</p>
+<div dir="ltr">
+Field | P-STAB-1
+-- | --
+Object | calibrated direction-only O(4) soliton: c₄ = 0.25, c₆ = 30, c₈ = 0.01, λ = 10, κ = 10⁸; units from M_N, M_Δ
+License | baryon degree conserved except at zeros of Φ; continuity σ(0) sin f(0) = 0 enforced
+Functional | Euclidean action with kinetic metric: quadratic + direction quartic + B_μB^μ flux (charge counted from infinity, since the centre is a sink)
+Admissible space | axisymmetric (2D): displaced zero, elongated core, bubble; regulator ℓ ∈ {0.01, 0.016, 0.024} fm, varied independently of the grid
+Observables | S(ℓ), barrier energy, zero trajectory
+Verdicts | CANDIDATE_REFUTED if a non-radial path gives < 76ħ at ℓ = 0.021 fm; otherwise the radial result stands as NUMERICALLY_UNRESOLVED beyond radial
+Unlocks | charged sector; clock-leakage test with a P249-type clock
+
+</div>
+<p dir="ltr">Scripts, results and a README with exact operators and normalizations: [LINK: code package or Zenodo record]. Frozen-field exchange welcome.</p>
+<p dir="ltr"><em>(Posted by Jarek; calculations by Claude (Opus) and Astra.)</em></p><!--EndFragment-->
+</body>
+</html>@xrodz @vantasnerdan @mjmikulski
+
+A progress report from a neighbouring front, baryon-number (proton) stability in the two-sector M5/LdGS completion, written up in [TITLE] ([zenodo.org/records/23044996](https://zenodo.org/records/23044996)). It connects to this thread in two ways:
+
+Why a separate sector. R9/R10 found the point hedgehog unprotected on the distinct-eigenvalue orbit (π₂ = 0). So baryon number is carried here by a separate O(4) degree (π₃), with charge on the tensor.
+Familiar failure modes. Several you catalogued (frozen generators, wrong-frame charges, under-resolved cores) reappeared in our escape calculations and were caught the same way.
+
+Established (radial, uncharged O(4) sector; restricted-path results, i.e. upper bounds on the least action along the paths tested, not lower bounds):
+
+The RC4 surrogate is not protected. With stabilizers built from the full field Φ, a shrink-then-melt path gives ≤ 45ħ even at κ = 10¹⁰, against the ≳ 76ħ the Super-K limit requires. So RC4's 553ħ is not the least action.
+Repair: stabilizers built from the direction n = Φ/|Φ|, with the Lorentz-invariant baryon-current sextic λ₆B_μB^μ (the ω-exchange form). Unwinding then drains the winding through a zero whose cost grows as the shortest resolved length ℓ shrinks. Two ingredients set it:
+the baryon current flowing into the sink carries B_μB^μ kinetic energy ∝ 1/ℓ;
+the direction quartic adds a static cost ∝ 1/ℓ.
+An independent analytic lower bound for an isolated degree-changing event (Astra) grows the same way: 3π²c₄ ln(b/a) + π²c₆(a⁻² − b⁻²).
+Constants fixed by data, not chosen:
+units from M_N and M_Δ (collective isospin rotation);
+c₆ from NL3's ω repulsion, 1039 MeV fm³, reproduced to 2–5%;
+isoscalar radius 0.740 fm (0.77 measured);
+f_π 62 MeV (the known Skyrme-type deficit).
+Then 76ħ needs ℓ ≈ 0.002 fm without an octic term, or ≈ 0.021 fm (~9 GeV) with a small positive octic (0.002% of the soliton energy), where S ∝ ℓ⁻³.
+Robustness checks on the calibrated escape action:
+covariant against hedgehog octic: < 0.1%;
+worst-sign charge-core coupling at realistic strength: −1.5% to −4%;
+explicit ω exchange with its 0.25 fm range instead of the local sextic: −3% to −6% (the sink flux is longitudinal, so the finite range doesn't soften it);
+enforcing a continuous amplitude zero at the centre: ≤ 0.3% of the barrier.
+Independent reproduction. Astra reproduced 186.1ħ at ℓ = 0.0159 fm from the published scripts. The audit found a documentation error in the octic normalization and a missing central-continuity condition; both are corrected, with the numbers above.
+
+Not established (please attack):
+
+Radial paths only. No displaced zero, elongated core, low-amplitude bubble or 4D bounce has been searched.
+Uncharged model. The charge profile is prescribed; there is no solved charged proton.
+The octic's sign rests on a positivity assumption.
+The short-distance length ℓ of the directional terms is assumed, not derived from the action.
+No regular theory yet. A theory that is regular at the zero and needs no ℓ is untested: my first attempt used an invalid unwinding coordinate.
+
+Connection to P249/P250. Astra found that a rigidly rotating clock softens short-wavelength modes faster than it stabilizes the broad escape (the two frequency windows don't overlap). But a separately localized clock with an escape-penalizing coupling removed the tested radial instability, with that coupling chosen, not derived. The exterior-degenerate clock of P249/P250 is the natural candidate to test on a baryon: does the clock charge stay bound while the winding drains, or can it leak out first?
+
+Experimental reading. Crossing the barrier needs tens of GeV delivered within about 0.02 fm. Magnetic wigglers, lasers and heavy-ion bulk matter fall 5–38 orders of magnitude short in energy density. Only hard partonic collisions (momentum transfers ≳ 10 GeV) reach it, so collider limits on baryon-number violation constrain how strongly ordinary probes couple to the baryon direction.
+
+Proposed rung packet (P-STAB-1), in your obligation-node format:
+
+Field	P-STAB-1
+Object	calibrated direction-only O(4) soliton: c₄ = 0.25, c₆ = 30, c₈ = 0.01, λ = 10, κ = 10⁸; units from M_N, M_Δ
+License	baryon degree conserved except at zeros of Φ; continuity σ(0) sin f(0) = 0 enforced
+Functional	Euclidean action with kinetic metric: quadratic + direction quartic + B_μB^μ flux (charge counted from infinity, since the centre is a sink)
+Admissible space	axisymmetric (2D): displaced zero, elongated core, bubble; regulator ℓ ∈ {0.01, 0.016, 0.024} fm, varied independently of the grid
+Observables	S(ℓ), barrier energy, zero trajectory
+Verdicts	CANDIDATE_REFUTED if a non-radial path gives < 76ħ at ℓ = 0.021 fm; otherwise the radial result stands as NUMERICALLY_UNRESOLVED beyond radial
+Unlocks	charged sector; clock-leakage test with a P249-type clock
+
+Scripts, results and a README with exact operators and normalizations: [LINK: code package or Zenodo record]. Frozen-field exchange welcome.
+
+(Posted by Jarek; calculations by Claude (Opus) and Astra.)

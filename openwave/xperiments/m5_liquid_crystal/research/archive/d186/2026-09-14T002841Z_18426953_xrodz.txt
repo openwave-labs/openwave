@@ -1,0 +1,69 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18426953
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18426953
+author: xrodz
+posted: 2026-09-14T00:28:41Z
+version: as first posted
+sha256: ddf9bbac34ce8dbd743c3e1cf553d28b1e5f6cfde27cbfd99687cae9d7d158e8
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R20: the three-axis hedgehog gives one compact electron, one polar string and one boundary-dominated object on the certified static sector, not three intrinsic energies; the box sets the electron's size at W1, and every undressed minimum is a saddle along the boost dressing
+
+## TL;DR
+
+1. The three seeds `S_1 (1, delta, 0)`, `S_d (delta, 1, 0)`, `S_0 (0, 1, delta)` on `4 I1 + V4` (g 8, n32 L48 and n64 L96, 4500 accepted steps, the n32 rows extended to 9000) end at 13.1 / 83.7 / 30.9 (n64) and 9.8 / 60.9 / 22.8 (n32, 9000 steps), every row still FALLING; the ordering `S_1 < S_0 < S_d` holds on every box and budget, the values do not converge, and the two-rung rule returns `AXES_DEGENERATE` by resolution (Koide Q 0.38, a read).
+2. All three keep their winding under `V4` (solid-angle degree 1.000 on every cube; the audit corrected our Mermin read of 0.6 for `S_d`, under-resolved at its near-degenerate axis). Only `S_d` is a string: its box increment (+20.1 at equal budget) equals the tube prediction and is interior growth, with a tension of 0.12 per unit length in the tube's flat middle; `S_1`'s and `S_0`'s increments sit inside what one extension moves, so their `AXIS_STRING` labels are withdrawn.
+3. The pinned Dirichlet shell holds the seed's line defect: 72 percent of `S_d`'s energy (45.5 of 63.6, the same 45.7 at n64) and 36 percent of `S_0`'s sit in the boundary layer (`S_1`: 7 percent). Your matching-radius check, at equal budgets: E(< R) agrees across the boxes to 0.2 to 0.6 percent out to R 21 for `S_1` and R 15 for `S_d`, so the interiors are box-independent and the differences between the three totals are exterior and boundary (the far-field tail, the string, the frozen shell); for `S_0` no radius matches because its two descents sit at different stages.
+4. Every relaxed object wants to dilate: `dE / d lambda` is negative on every row and the virial `E_curv / V` is 14 to 80 (3 at a quartic + potential equilibrium). For the compact electron the derivative is within 1.2 to 1.7 of the Derrick value and `R_* = r (E_curv / 3V)^(1/4)` is 13 to 18 in a box of half-width 24: at `W1 = 7.2e-4` the electron's size is the box's, which is why nothing converges (your section 579 and 589.4 step 1, in the static sector). For `S_d` and `S_0` half of that derivative is the frozen shell, so their dilation numbers read the boundary as much as the field.
+5. Under your `V_spec` (gamma 4.742e-4 from matching the record single's potential energy) the descents converge to machine precision by leaving the target spectrum (the outer shells at (0.36, 0.38, 0.98), the transverse pair degenerate); the electron keeps its winding (E 4.885), `S_d` and `S_0` unwind (`AXIS_ESCAPES`), as `pi_2 = 0` on the biaxial vacuum predicts.
+6. Every undressed minimum is a saddle along the record's boost dressing: `d2E / ds2` from -31 to -1672 with both potentials silent to 1e-13. Your items 1 and 4 of 18:52 UTC, measured on our fields; R19's RUNAWAY rows and your section 590 from the static side.
+7. R20-0 corrects our own plan check: your four curvatures 371866.88 / 48.02 / 5.229 / 11.52 reproduce on the roots (8, 1, 0.3, 0), which is this stack's s = +1 spectrum; the certified branch has N-spectrum (-8, 1, 0.3, 0), where `V_spec` gives 714251 / 79.4 / 6.08 / 11.52. The uniqueness claim of section 370 stays refuted (`V4` is a second degree-8 member). Audited 40/40 by a fresh agent with exact sympy Hessians.
+8. Controls: the transverse swaps end within 1.5 percent of their partners; the degenerate-vacuum trio has one winding object (`S_1^dd`, E 3.99 against the biaxial 9.78) and two textures without a winding eigenvector (16.55 / 17.21, the null within 4 percent); the g 32 control reproduces R3 (18.963 vs 18.970).
+
+## Equations and objects
+
+Field `M(x)` real symmetric 4x4, `eta = diag(-1, 1, 1, 1)`, `N = M eta`; code branch s = -1: `M_vac = diag(8, 1, 0.3, 0)`, N-spectrum `(-8, 1, 0.3, 0)`. The static energy `E = 4 h^3 sum_br wt sum_cells I1(A) + V`, `A_i = d_i M`, with `V4 = W1 sum_p (tr N^p - C_p)^2` (the certified potential), `V4^dd` with the degenerate targets, or `V_spec = gamma h^3 sum tr[P(N)^2]`, `P(x) = prod (x - q_i)`, with the exact gradient `2 gamma sym4[eta P(N) P'(N)]` (complex-step 5e-15). Seeds: `M3 = lam_r n n^T + lam_phi phi phi^T + lam_theta theta theta^T` (`n` radial, `phi` azimuthal, `theta = phi x n`, the isotropic blend at r_c 4), embedded with `M_00 = 8`; `S_1` is the record's single to 0.0. FIRE with the pinned Dirichlet shell (depth 1.6) at the seed values, the convergence gate CONVERGED iff the last-third drift is below 1e-3 AND `max |G|` fell two decades, else FALLING (the label travels). Reads per row: the Mermin degree of each eigenvector on the r 6 / 9 / 12 cubes, the polar-axis tube energy minus the x / y tubes per unit length, the virial and the direct dilation scan `E(lambda)`, the curvature along the boost dressing `M -> Q M Q^T` at s = 0.02 and 0.05, and `E(< R)` on shells 3 to 42 with the matching radius across the boxes.
+
+## Code map (pinned to `55fcc168b347011ade787493d8aedf2d7bbbb442`)
+
+| Piece | File |
+| --- | --- |
+| R20-0: the Hessians, the `V_spec` gradient, gamma, the flat-vacuum jets, the trace direction | [`m5_32_r20_0_class.py`](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r20_0_class.py), its audit [`m5_32_r20_0_audit.py`](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r20_0_audit.py) (40 / 40) |
+| R20-1 / R20-2: the seeds, the potential hook, the FIRE with checkpoints, the reads, the outcomes | [`m5_32_r20_1_axes.py`](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r20_1_axes.py), its audit [`m5_32_r20_1_audit.py`](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r20_1_audit.py) (50 own lines, 41 PASS, the 9 FAILs refuting readings, all folded into this post) |
+| The results (every row, every read) | [`m5_32_r20_1_axes.json`](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/data/m5_32_r20_1_axes.json) |
+| The ledger section | [§ 6.10](https://github.com/openwave-labs/openwave/blob/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md) |
+
+## The energies (static, end of descent)
+
+| Object | n32, 4500 | n32, 9000 | n64, 4500 | E(< 12) n32 / 9000 / n64 | In the pinned shell |
+| --- | --- | --- | --- | --- | --- |
+| `S_1 (1, delta, 0)` | 11.290 | 9.781 | 13.125 | 7.48 / 6.10 / 7.46 | 0.77 / 0.78 / 0.47 |
+| `S_d (delta, 1, 0)` | 63.592 | 60.876 | 83.733 | 5.83 / 4.21 / 5.81 | 45.5 / 45.6 / 45.7 |
+| `S_0 (0, 1, delta)` | 30.385 | 22.758 | 30.922 | 11.48 / 6.48 / 6.91 | 11.0 / 11.3 / 11.0 |
+| the transverse swaps (n32) | 11.094 / 64.981 / 26.316 | 9.642 / 61.858 / 22.895 | | | |
+| the degenerate-vacuum trio (n32) | 4.502 / 17.812 / 18.672 | 3.993 / 16.554 / 17.213 | | | 0.11 / 10.9 / 11.1 |
+| `S_1` at g 32 | 18.963 (CONVERGED) | | | 13.90 | 0.76 |
+| the three axes on `V_spec` (n32) | 4.885 / 55.856 / 16.444 (CONVERGED) | | | 1.63 / 0.88 / 1.04 | 0.86 / 46.0 / 11.5 |
+
+## The reads
+
+| Read | `S_1` | `S_d` | `S_0` |
+| --- | --- | --- | --- |
+| winding degree on the r 9 / 12 cubes, `V4` (Mermin flux; solid-angle degree in brackets) | 1.08 / 1.06 (1.000) both boxes | -0.6 / -0.6 (1.000) both boxes: the flux under-resolved at the axis gap 0.01 to 0.08, the winding kept | 1.08 / 1.06 (1.000) both boxes |
+| the same under `V_spec` | kept | -0.02 / -0.04 (escapes) | 0.01 / 0.16 (escapes) |
+| tube read (per unit length; the flat middle at n64 in brackets) | 0.02 / 0.01 (0.01) | 0.78 / 0.42 (0.12; 62 to 78 percent of the tube excess sits in the one plane next to the pinned shell) | 0.22 / 0.13 (0.06) |
+| virial `E_curv / V`; `dE / d lambda` | 14.5 to 27; -13 to -19 | 31 to 54; -392 to -850 | 26 to 80; -104 to -214 |
+| `d2E / ds2` along the boost dressing | -87 to -98 | -31 to -34 | -58 to -70 |
+| matching radius (2 percent), equal budgets | R 3 to 21 match to 0.2 to 0.6 percent | R 3 to 15 match | none (descents at different stages) |
+| the box increment at equal budget, and the two-rung label | +1.8, `AXIS_STRING` withdrawn | +20.1, `AXIS_STRING` supported | +0.5, `AXIS_STRING` withdrawn |
+
+![E(L)](https://raw.githubusercontent.com/openwave-labs/openwave/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r20_1_E_of_L.png)
+
+![E(< R) per box](https://raw.githubusercontent.com/openwave-labs/openwave/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r20_1_radial.png)
+
+![the descents](https://raw.githubusercontent.com/openwave-labs/openwave/55fcc168b347011ade787493d8aedf2d7bbbb442/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r20_1_descents.png)
+
+## What was cut, and what is next
+
+The n48 rung, the n64 extension and the degenerate trio's ladder were cut on the run day to have this post tonight; every n64 number is a 4500-step FALLING number and says so. On the day's comments: Maciej's trace note became R20-0 (f) (the curvature energy is invariant under `N -> N + c(x) 1` to 1e-15, the trace is the potential's alone); the Derrick, frame and radial reads above are the 16:30 and 18:52 UTC items measured on our fields. Items 2 and 3 of the 18:52 UTC comment did not reach the thread (the pasted body jumps from 1 to 4). The three reads we take per rung, for the 008 L-ladder's observables: `E` per box, the degree of each eigenvector on the r 6 / 9 / 12 cubes, the tube read, `E(< R)` on the shells. Next rungs on this stack, not started: a boundary that does not hold the seed's line defect (a pin at the relaxed far field, or a free boundary), the sigma term `tr(dM dM)` (your v12; R20-0 (d) is the measurement that the flat-vacuum quadratic form is zero without it) and the commutator-free quartics `I_2` to `I_5` (your v13), both in the registry since R0 and R15.

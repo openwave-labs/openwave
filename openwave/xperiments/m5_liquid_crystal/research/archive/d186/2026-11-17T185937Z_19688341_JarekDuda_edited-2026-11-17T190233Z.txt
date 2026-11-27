@@ -1,0 +1,66 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19688341
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19688341
+author: JarekDuda
+posted: 2026-11-17T18:59:37Z
+version: edited 2026-11-17T19:02:33Z
+sha256: 592f40ce399fc2894aa91be0f202ea6a0f07ccc9540e76a695dddcc1ca4c412e
+archived: 2026-11-25
+==== verbatim text below this line ====
+**On M5.42.** Thank you, Rodrigo, Fable and the auditors. It is the clearest negative result the clock line has had.
+
+1. **The 0.83 is withdrawn as evidence.**
+   - M5.42 shows that the state behind it is out of configuration, with a lower state beside it.
+   - Its ratio is set by the box: 0.839, 0.317, 0.129 and 0.031 on half-boxes 6 to 18 at J_e/10.
+   - Capstone 3.97, deposited today, corrects the text and cites M5.42: https://zenodo.org/records/24322890
+2. **What the degree-0 object is** (figure attached).
+   - The gap between the two largest eigenvalues closes on a closed loop. This is a half-turn ring of the long axis,
+     uniform inside and radial outside.
+   - It sits at 0.69–0.71 of the half-box: radius 3.11, 4.25 and 6.13 on half-boxes 4.5, 6 and 9, the same at three
+     spacings.
+   - It is where your spheres lose the degree (gap 0.008 at r = 5) and where your one-cell states form (r ≈ 4.5 near
+     z = 0).
+   - Your two symmetry sectors are two orientations of this ring: around the equator (symmetric) or standing on a face
+     diagonal (broken). We get ΔU = 0.308 and ΔI = 16.5 (your 16.4).
+   - Your free-face run fits this picture: only the faces hold the ring, so without them it leaves.
+3. **The twist about r̂ is not a symmetry of the ring.**
+   - A rigid turn of 0.3 rad costs about 6.
+   - So E = U + J²/2I with this twist is a functional, not the energy of a stationary rotation. That is the other side of
+     your box law.
+4. **Our recorded predictions, scored by your record.**
+   - **Held:**
+     - the one-cell amplitude grows as J^{1/4} (10^{1/4} = 1.78; you read 1.64–1.91);
+     - the L₁ = 0 fall to 0.35 was the stencil (7.65 on the mirror-averaged one);
+     - the band only caps the spike (7 nodes at its edge).
+   - **Mostly held:** the spike's inertia grows as 1/h. Your exponents are −0.69 to −0.85, with three of four reads in
+     the window.
+   - **Failed:** the one-cell energy falling linearly with the spacing (you read exponents 0.51–0.76). There is no floor
+     either: re-optimizing the amplitude against L₁ gives E ∝ w^{1/3}, your plan's limit, and our J^{1/4} law is the
+     opposite limit. Your energy and inertia reads lie between the two.
+   - **Not tested:** L₁ = 0.
+5. **Your δ = 0.05 read is the encouraging one.**
+   - The inertia inside r < 2 is about the same on both boxes, 521 and 547 (the second not converged). That is a quarter
+     and a fifth of the whole, against under 1 % at δ = 0.3.
+   - This is what δ_ext → 0 should give, since the twist outside becomes gauge.
+   - One read on your saved end states would test it without a new relaxation: the long axis's degree on r = 3 and 4 at
+     δ = 0.05. Is the one state with a nonzero degree on r = 4 there, and does its core carry the inertia?
+6. **The ring radius on half-boxes 12 and 18.** Thank you for running it. Our prediction, recorded here before your
+   read (17 Nov, 20:00 CET):
+   - R/L between 0.62 and 0.72 on both boxes (0.69, 0.71 and 0.68 so far), so the ring keeps following the box;
+   - R is the mean distance from the centre of the loop where the gap between the two largest eigenvalues is smallest;
+   - below 0.60 on half-box 18 would mean the line tension starts to give the ring a size of its own.
+7. **Open: what fixes the ring's size.**
+   - In the same action a straight half-turn line has a finite core and a logarithmic far field, with coefficient
+     2πL₁·2(1 − δ)²/4. So L₁ does resist growth.
+   - But at δ = 0.1 the ring still grows with the box (3.87 and 5.44 on half-boxes 6 and 9), against a predicted size of
+     about 4.
+
+Jarek
+
+---
+**Zenodo description for 3.97 (short):**
+3.97: the anchor's 3D charge is a box-size half-turn ring, not a centred hedgehog (as OpenWave's M5.42 found). The clock's
+twist is not its symmetry, so the 0.83 clock ratio is withdrawn as evidence.
+
+<img width="1980" height="1200" alt="obraz" src="https://github.com/user-attachments/assets/eb326c59-4b4d-405c-b170-410587e325b7" />

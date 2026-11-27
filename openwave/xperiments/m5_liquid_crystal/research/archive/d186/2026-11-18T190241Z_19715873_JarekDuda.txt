@@ -1,0 +1,78 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19715873
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19715873
+author: JarekDuda
+posted: 2026-11-18T19:02:41Z
+version: as first posted
+sha256: d57cb1345e3977296fd16f8456b821bf7953728e5f87a081da7745d02899cbdb
+archived: 2026-11-25
+==== verbatim text below this line ====
+# Post for OpenWave discussion #186, reply to M5.45 (draft for Jarek, 18 Nov 2026, 19:55 CET)
+
+Attach `fig_m545_18nov.png` and `flat_family_check.py`. The predictions in item 4 were registered at 19:51 CET, before
+any such read.
+
+---
+
+**On M5.45.** Thank you, Rodrigo, Fable and the auditor. The extra starts are the stronger result. A run that only
+confirmed our number would have hidden them.
+
+**1. The score.** Our prediction for spacing 0.25 holds on all three of your states there: I = 3372, 3435 and 3936,
+with U at 1.027, 1.016 and 1.000 times the 0.375 state's.
+- Our "about 3460" came from a chain we had paused at 4350 iterations. Your converged chain replaces it.
+- Our 1233 and 2120 lie inside your spread on one grid, so we cannot tell either whether the states are the same.
+
+**2. Why the start decides. The algebra is S; that it explains your spread is C.**
+- **One generator costs nothing.** With the eigenvalues held by the potential, ∂ᵢM = [Ωᵢ, M], and
+  [∂ᵢM, ∂ⱼM] = B_M([Ωᵢ, Ωⱼ]). B_M multiplies each entry of the bracket by a product of two gaps. Take eigenvalues
+  1, 1+δ, 2:
+  - the bracket in the minor plane gets (1−δ);
+  - the two brackets that mix the major axis with the minor pair get δ and δ(1−δ).
+
+  So at δ = 0.05 two of the three channels are about 360 times softer in the quartic (panel b). A field with only one
+  generator, Ωᵢ = θᵢA, costs exactly zero, whatever its profile θ(x).
+- **The inertia is not blind.** Its density is |∇θ|²·|[K,[A,M]]|², which grows without bound as the profile steepens.
+  `flat_family_check.py` gives a commutator of 9 × 10⁻¹⁴ at slope 50, while the inertia density grows 10⁴-fold for a
+  100-fold slope.
+- **So the energy cannot pick the state.** Along these directions U is flat or nearly flat, while I has no bound. The
+  grid and the start pick it. This fits your numbers: U within 1–3 % across the states of one grid, I spread by a
+  factor 1.2–1.7.
+- **This is known in variational problems that do not control the gradient.** Minimizing sequences refine without limit
+  (Ball and James 1987), and a small gradient term then sets the scale (Kohn and Müller 1992). Our estimate from
+  18 Nov, 02:27, wall width ≈ 15√L₁, is that balance (C).
+- **Every 2-form energy misses these fields.** Both the commutator and the Gram/Skyrme-type quartic vanish on a gradient
+  built from one generator (S). The terms at most quadratic in time derivatives are the σ₁, σ₂ and σ₃ terms (Adam,
+  Sánchez-Guillén and Wereszczyński 2010), and of these only σ₁, the L₁ term, sees such fields (C for the class
+  statement). This is why "bound commuting gradients without L₁'s cost" has no cheap answer.
+- **The same structure appears in the founding (2108) action:** Sol's flat directions in capstone v3.98, App. E(k).
+
+**3. What scales (C).** I·h is 793, 1021 and 984 for the lowest-U state on each grid, and 594, 786 and 843 for the states
+from the seed. That is compatible with I ∝ 1/h for walls of fixed amplitude and width h: h∫‖∇M‖² is about 435–490 in
+both codes. We read no exponent from it, as you don't.
+
+**4. Predictions, registered 18 Nov 19:51 CET before any such read.** All are C; my confidence is in brackets.
+- **P1, J > 0 without L₁** [65 %]. Use δ = 0.05, half-box 6, a fixed J small enough that the J = 0 structure survives.
+  - From spacing 0.375 to 0.25, the excess energy E(J) − E(0) falls by at least 20 %, and so does ω = J/I.
+  - With L₁ = 0.03 both change by less than 2 %.
+  - **Falsifier:** if without L₁ the excess changes by less than 5 % between the two spacings, the turning state does
+    not use the free directions, and my reading of item 2 fails for the clock.
+- **P2, the h = 0.1875 chain from the seed, run to convergence** [55 %]. I·h between 1000 and 1300, that is I from 5300
+  to 6900, with U within 3 % of 14.69.
+- **P3, δ = 0.3 without L₁** [45 %]. Half-box 6, spacings 0.375 and 0.25.
+  - The inertia grows by a factor of 1.4 or less, against about 1.6 at δ = 0.05.
+  - The spread over starts at 0.375 is 1.2 or less, against 1.38.
+  - If both stay as at δ = 0.05, the exactly flat one-generator family drives the effect, not the δ-soft channels.
+
+**5. The ladder by box: thank you.** The local exponents of I in L are 1.94, 2.15 and 2.31 at L₁ = 0.1, and 2.59, 2.58
+and 2.60 at L₁ = 0.3 (δ = 0.3). Our δ = 0.05, L₁ = 0.03 ladder gives 0.28 and 0.17 (panel c).
+- At δ = 0.3 the rigid-twist inertia is mostly an exterior quantity, and the core's share converges (9.45 → 6.95 inside
+  r < 2). At δ = 0.05 the exterior barely contributes.
+- In the founding action the same rigid read grows linearly with the co-rotating radius (I = 2R/3 − 0.762, capstone
+  v3.98, Fig. 156d).
+- For a physical clock, co-rotation has to stop at the light cylinder. So I take the part that grows with the box not
+  to be a clock inertia (C).
+
+**6. What would help most from OpenWave:** P1. It decides whether a clock without L₁ has a frequency at all.
+
+Jarek

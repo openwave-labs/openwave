@@ -1,0 +1,46 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19782482
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19782482
+author: JarekDuda
+posted: 2026-11-20T19:28:50Z
+version: as first posted
+sha256: 2aae9f46d6ee90a4522f582ac1d43f6a34e9632ccf21854a1a125994fbaa1d31
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Capstone v4.1 released: the electron milestone on the physical vacuum** — https://doi.org/10.5281/zenodo.23994958 (all versions; v4.1 PDF and the checks archive)
+
+What is new since v4.0 for the M5 rows here. S = computed, C = reading or conditional, O = open.
+
+**1. An answer to "what bounds commuting gradients without L₁'s cost" (my M5.44 post).** Add L_V s(M)|∇M|², with s(M) = Σ_k (tr M^k − c_k)² the potential's own density. The stiffness then vanishes on the vacuum spectrum and costs nothing in the exterior. With L_V = 1, L₁ = 0 and the rank-one vacuum δ = 0 (which hydrogen requires), the radial hedgehog relaxes to a finite, smooth, axisymmetric ring (m = 2 power 10⁻¹¹, radius 2.73–2.83). The results (S):
+- grid: U = 20.281 and 20.423 at spacings 0.5 and 0.375 (0.7 %); spacing 0.25 is running, at 20.509 so far;
+- box: U = 20.281, 21.287 and 21.805 on half-boxes 6, 9 and 12. There is no linear growth, only the cube's Coulomb tail 20.89/L, so U∞ ≈ 23.5;
+- inertial mass equals rest energy as the box grows (von Laue): N/U = 0.947, 0.968, 1.005 read directly, and 0.968, 0.978, 0.987 from N = ⅔E₂ + (4/3)E₄. The virial falls as 1/L;
+- at U∞ = m_e c² (ħ = 16π/α field units) the ring is 3.7 fm.
+
+**2. What the charge is (S).** The top eigenvector returns as −n around the ring line, so the charge is a half-disclination loop carrying the whole degree: Q/4π = 0.999, with 93–96 % of it within one unit of the line. Counterparts: the Mori–Nakanishi loop that replaces the radial hedgehog in nematics, and Bais and Striet's toroidal monopole core with Cheshire charge in Alice electrodynamics (gauged SO(3), same tensor order parameter).
+
+**3. Dynamics.**
+- (S) On P = nnᵀ the commutator quartic is 2|G|², with G the pulled-back area form and G∧G = 0. The exterior is therefore force-free electrodynamics in Euler potentials, which is degenerate (Sol's zero-action single-curve histories). Where the field is electrically dominated it is unstable, growing as √(E²/B² − 1)|k| (checked independently).
+- (S) The static ring sits in the hyperbolic sector. Around it the kinetic metric is regular, and a first time evolution conserves energy to 10⁻¹¹ with no growth (still running).
+- (C) Main route: the capstone's protected exterior, item (13): G counted once in F = dA + ζG. Sol derived the first-class constraints, which leave two photon polarizations and keep the degree as flux.
+
+**4. Spin and clock: not from the tensor alone (S).**
+- Rigid rotation gives g_dyn = 0.63–0.75 and J ≤ 0.0065 ħ.
+- A Dirac field needs a local coupling of at least 50–80 MeV peak depth before it can bind to this core (Birman–Schwinger bound on the relaxed arrays).
+- (C) For R13 and PR #190: on the δ = 0 vacuum the two minor eigenvalues are equal, so rotation about the director fixes the exterior exactly. The exterior-degenerate SO(2) of vantasnerdan's construction is native here. Whether its charge localizes on this ring is open.
+
+**5. Correction to my v4.0 post.** With CMS's 5.6 TeV e* limit the core bound is 0.6 × 10⁻³ fm (0.7 × 10⁻³ fm for ATLAS's 4.8 TeV), as in the released renormalization paper v11.0.
+
+**6. Two rungs, if OpenWave wants them.**
+- A: port the action of item 1 and relax from the radial hedgehog on half-boxes 6 and 9 at spacings 0.5 and 0.375. Read U, the ring radius, the m = 2 power and N/U against the numbers above. The four relaxed arrays are attached (LdGS_milestone_arrays_20nov.zip, m6 = upper triangle of M; the engine is engine/clock3d_v2.py in the checks archive, option LV, run by engine/ring_scan_ck.py).
+- B: the coupled run of item (13): ordinary Maxwell outside an enclosing sphere, its unit flux matched to the oriented degree, the half-disclination carried inside. Sol's interface-multipole reader is in the checks archive.
+
+Thanks to Sol (ChatGPT) for the constraint, Dirac and interface analyses with replays, to Neon for his review, and to Claude (Opus, Fable) for the runs and checks.
+
+Jarek
+
+<img width="2325" height="1410" alt="fig_186_ring_41" src="https://github.com/user-attachments/assets/3049151c-04cf-47dc-9297-571d70882288" />
+<img width="2210" height="559" alt="fig_186_loop_41" src="https://github.com/user-attachments/assets/662abda9-2cf5-4d75-88a7-96070b042b79" />
+[LdGS_capstone_v41_checks.zip](https://github.com/user-attachments/files/35181788/LdGS_capstone_v41_checks.zip)
+[LdGS_milestone_arrays_20nov.zip](https://github.com/user-attachments/files/35181792/LdGS_milestone_arrays_20nov.zip)

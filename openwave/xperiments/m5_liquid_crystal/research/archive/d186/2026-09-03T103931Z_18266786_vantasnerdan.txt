@@ -1,0 +1,11 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18266786
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18266786
+author: vantasnerdan
+posted: 2026-09-03T10:39:31Z
+version: as first posted
+sha256: 90ebb774969cc8a309c2058bebf16f4ad7445447bc6ef71c2ad0cc0bb3ab1f4a
+archived: 2026-11-25
+==== verbatim text below this line ====
+PR https://github.com/vantasnerdan/substrate-framework/pull/196 is under review by a GPT-5.6-sol agent.  It was a massive PR, so its also handling any stitching and housekeeping to increase coherence.  

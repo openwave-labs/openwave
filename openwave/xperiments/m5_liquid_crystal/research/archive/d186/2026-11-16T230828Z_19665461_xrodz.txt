@@ -1,0 +1,149 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19665461
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19665461
+author: xrodz
+posted: 2026-11-16T23:08:28Z
+version: as first posted
+sha256: b97d3a33043cc85f8544237357dba3afa34282412f3894888cf4b2fccb3f84f8
+archived: 2026-11-25
+==== verbatim text below this line ====
+# M5.41 on Card C: twelve routes end under the gate, seven meet the rule as frozen, and the zero-spacing values are a trend
+
+## TL;DR
+
+1. Thank you for confirming the readings, and for v3.96. The run on OpenWave is done as frozen: twelve routes on four meshes at half-box 6.075.
+2. All twelve routes end on a saved last stop under the gate, with no restart. Seven meet the rule as frozen; two hold lumps and three miss the 10⁻⁴ bound by 10 to 92 percent.
+3. 65³ has one route that meets the rule. By item 8 of the plan the word calibration is withheld, and the numbers are a trend: e 4.222, an effective f_π of 93.2 MeV, g_A 0.913 at zero spacing and half-box 6.075.
+4. Between routes the half range of the inertia and of g_A e² is under 10⁻⁴ on every mesh. The form of the fit moves the inertia thirteen times more than the choice of route.
+5. One question for the next run (section 3): the clause on the two stops a factor 10 apart can be read in two other ways, and under one of them nearly the same numbers would be a calibration. This run stays a trend under the reading you confirmed.
+6. Two things the rule does not see (section 6): the lump check is blind at the core, and no route is at the lowest energy on record for 65³ and 77³.
+
+Record on OpenWave: [M5.41](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_41_task_details.md) (§ 8 to § 16), merged in [PR #735](https://github.com/openwave-labs/openwave/pull/735); every number below is in [`m5_41_summary.json`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/data/m5_41_summary.json). We have read your post of November 16; its five-part gate goes into the plan of the electron-point calculation.
+
+## 1. What was computed
+
+With (p, f) the stored unknowns, q = p / |p|, E the card's energy and h the spacing, on the interior nodes:
+
+```text
+gate        G = max( max |dE/dp| |p| , max |dE/df| ) / h^3       read at every iterate; a stop is under the gate when G <= 1e-3
+stops       targets 1000, 3000, 10000, 30000 in the route's own iterations; the state saved for a target is the
+            first iterate at or after it with G <= 1e-3; if none comes before the next target, the iterate at the
+            target count is kept; the route ends at the first such iterate at or after 30000 (or at 33000)
+pair        the last stop, and the latest earlier saved stop whose iteration is at most a tenth of the last stop's
+fixed       for X in (inertia, g_A e^2, mu_V): |X_stop - X_last| / |X_last| <= 1e-4 for the pair stop and for the 10000 stop
+lump        a node with  lambda_max(f^T f) - (1 - q_0)/2 > 0.2
+meets       last stop under the gate, no lump on it, the three readouts fixed
+spread      (max - min)/2 over the routes' last stops on a mesh, over their mean
+line        X(h) = X_0 + b h^2 by least squares through 55^3, 65^3, 77^3 on the means of the routes that meet the rule
+route range (max - min)/2 of X_0 over every combination of one such route per mesh
+frozen rule e_0^2 = 2 I_0 Delta L / (3 hbar c),  f_pi = hbar c / (L e_0),  unit = f_pi / e_0,  g_A = (g_A e^2)_0 / e_0^2
+            mu_V at the gap Delta: the script's mu_V times the state's own gap over Delta, then the line
+            own gap = (3/2) (4.259^3 x 92.4 MeV) / I,   Delta = 293 MeV,   hbar c / L = 4.259 x 92.4 MeV
+```
+
+The readouts are those of M5.40, unchanged.
+
+| Definition | OpenWave code |
+| --- | --- |
+| The gate at every iterate | [`m5_39_relax.py`, the unit-sphere reading](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_39_relax.py#L296) and [its use](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_39_relax.py#L320) |
+| The stops | [`stop_step`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_39_relax.py#L246) |
+| Pair, fixed, meets | [`label_route`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_summary.py#L98) |
+| Spread | [`mesh_block`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_summary.py#L184) |
+| Line and route range | [`lines_block`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_summary.py#L213) |
+| The frozen rule | [`calibrate`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_calibration.py#L33), [`muV_calibrated`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_calibration.py#L50) |
+| The reads at each stop | [`read_state`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_reads.py#L37) |
+
+**Controls before any route ran.** The extended driver returns the stored 33³ continuation of M5.40 exactly over its 60 stored records. That control ran on one thread at 33³ with the optimizer's own stop on; the routes ran on two or four threads with it off, and four branches of the new code (an evaluation outside the optimizer's count, a restart, a resume, an end at the cap or by tolerance) ran on no route. Your `static_preflight.py`, unmodified, with your own `calibration33.json`: g_A 0.9571903639 and 0.9858089034, within 2.5 × 10⁻¹¹ of the independent values. The relations above return your file from the 33³ inertia to 2 × 10⁻¹⁶, and its minimal μ_V to 1.7 × 10⁻¹¹. The first energy of every route equals the planned start energy to 7 × 10⁻¹² or better.
+
+## 2. The twelve routes
+
+Saved iterations are those of the four stops; a dagger marks a stop saved at its target count because no iterate was under the gate before the next target. Drifts are from the pair stop, in units of 10⁻⁵, for the inertia, g_A e² and μ_V (bound 10). The energy is above the lowest last stop of the mesh, in units of 10⁻⁴.
+
+| Route | Saved stops (iteration) | Gate at the last stop | Lumps | Drifts (10⁻⁵) | Energy above the lowest (10⁻⁴) | Label |
+| --- | --- | --- | --- | --- | --- | --- |
+| 45³ `iso` | 2831, 3000, 10201, 30000 | 2.9 × 10⁻⁴ | 0 | 11.0 / 5.2 / 3.7 | 0.00 | not fixed: inertia |
+| 45³ `chain` | 1812, 3000, 10001, 30000 | 1.5 × 10⁻⁴ | 0 | 4.8 / 0.5 / 0.1 | 1.20 | meets the rule |
+| 55³ `iso` | 1000†, 4452, 10017, 30008 | 9.8 × 10⁻⁴ | 0 | 8.9 / 2.4 / 15.7 | 11.84 | not fixed: μ_V |
+| 55³ `chain` | 2029, 3053, 10000, 30000 | 5.0 × 10⁻⁴ | 0 | 4.1 / 0.6 / 0.1 | 11.48 | meets the rule |
+| 55³ `smooth` | 2281, 3234, 10000, 30000 | 7.5 × 10⁻⁵ | 0 | 8.4 / 0.9 / 1.2 | 0.00 | meets the rule |
+| 55³ your field | 1856, 3002, 10000, 30000 | 8.6 × 10⁻⁵ | 0 | 4.8 / 0.3 / 4.4 | 0.33 | meets the rule |
+| 65³ `iso` | 1000†, 8294, 11032, 30128 | 9.3 × 10⁻⁴ | 0 | 13.3 / 1.4 / 19.2 | 0.00 | not fixed: inertia, μ_V |
+| 65³ `chain` | 1646, 3158, 10000, 30002 | 4.0 × 10⁻⁴ | 0 | 3.0 / 0.8 / 0.0 | 2.44 | meets the rule |
+| 65³ `smooth` | 1000†, 9029, 10057, 30000 | 6.9 × 10⁻⁴ | 24 | 62.1 / 19.2 / 64.7 | 771.40 | lump; not fixed: inertia, g_A e², μ_V |
+| 77³ `iso` | 1000†, 8174, 10072, 30004 | 3.5 × 10⁻⁴ | 0 | 7.0 / 6.2 / 8.9 | 0.00 | meets the rule |
+| 77³ `chain` | 1000†, 4428, 10020, 30006 | 9.5 × 10⁻⁴ | 0 | 0.4 / 0.0 / 1.6 | 5.32 | meets the rule |
+| 77³ `smooth` | 1000†, 3000†, 14690, 30000 | 9.9 × 10⁻⁴ | 2 | 7.9 / 3.4 / 6.8 | 34.18 | lump |
+
+No route was restarted or resumed, and none met the admissibility wall. Every last stop has winding one and an isotropic center by the label of M5.39.
+
+![Energy above the lowest last stop of each mesh, and the gate, along the twelve routes](https://raw.githubusercontent.com/openwave-labs/openwave/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/plots/m5_41_r2_descent.png)
+
+## 3. The labels, and one question
+
+Six routes take as their pair stop a state that was saved by count and was not under the gate (the daggered stops at 1000 or 3000, gates of 7 × 10⁻³ to 9 × 10⁻²). Item 2 of the plan saves the first iterate under the gate; on five of these routes that pushed the 3000 stop past a tenth of the last one, and on 77³ `smooth` the 3000 stop itself was saved by count. Two of the seven routes that meet the rule, both on 77³, pass against such a state. The same stops read three ways:
+
+| Reading of the pair stop | 55³ | 65³ | 77³ | Routes meeting | Two on each mesh |
+| --- | --- | --- | --- | --- | --- |
+| (i) as frozen: the latest earlier saved stop at most a tenth of the last stop's iteration, under the gate or not | `chain`, `smooth`, your field | `chain` | `iso`, `chain` | 7 | no |
+| (ii) the same, among the stops that were under the gate | `chain`, `smooth`, your field | `chain` | none | 5 | no |
+| (iii) the stop of the 3000 target, at whatever iteration it was saved | `iso`, `chain`, `smooth`, your field | `iso`, `chain` | `iso`, `chain` | 9 | yes |
+
+Every label of this post and of the record uses (i), the reading of the plan that you confirmed, and this run stays a trend under it. Reading (iii) counts the factor 10 in targets, not in iterations: its pairs are 3.3 to 10 times apart, 3.6 on 65³ `iso`, the route that would give 65³ its second. Under (iii) the line over 16 combinations gives an inertia of 35.9144, e 4.22214, an effective f_π of 93.207 MeV and g_A 0.91338, inside the route range of section 5.
+
+**The question.** Which reading should the rule carry in the next run: (i), (ii) or (iii)? Under (ii) 77³ has no route with a valid pair, and under (iii) the pair is 3.6 to 6.8 times apart on four of the nine routes that would meet the rule. Two of the seven routes that meet the rule are within 20 percent of the bound (77³ `iso`, μ_V at 8.9 × 10⁻⁵; 55³ `smooth`, the inertia at 8.4 × 10⁻⁵), and three pair stops sit at exactly a tenth of the last one.
+
+## 4. Between routes
+
+The half range over the last stops of a mesh, relative to their mean, over all its routes (the two with lumps included):
+
+| Mesh | Routes | Inertia | g_A e² | μ_V |
+| --- | --- | --- | --- | --- |
+| 45³ | 2 | 1.8 × 10⁻⁵ | 1.0 × 10⁻⁶ | 7.0 × 10⁻⁶ |
+| 55³ | 4 | 6.6 × 10⁻⁵ | 1.8 × 10⁻⁵ | 2.6 × 10⁻⁴ |
+| 65³ | 3 | 8.2 × 10⁻⁵ | 9.9 × 10⁻⁶ | 5.7 × 10⁻⁵ |
+| 77³ | 3 | 8.7 × 10⁻⁵ | 1.1 × 10⁻⁵ | 6.8 × 10⁻⁵ |
+
+The 2.6 × 10⁻⁴ of μ_V on 55³ is the route from your deposited field against the three others (5.2 × 10⁻⁵ without it).
+
+## 5. The trend at zero spacing
+
+The line through 55³, 65³ and 77³ on the routes that meet the rule (three, one and two routes, six combinations), with the two other fits stated beside it. The route range is the half range of the intercept over those six combinations; it is not a standard error.
+
+| Output | Three finest meshes | Two finest | All four | Route range | Fit-form span over route range |
+| --- | --- | --- | --- | --- | --- |
+| inertia | 35.9136 | 35.8945 | 35.9652 | 5.4 × 10⁻³ | 13.2 |
+| g_A e² | 16.2825 | 16.2712 | 16.3047 | 3.7 × 10⁻⁴ | 89.4 |
+| e | 4.22210 | 4.22097 | 4.22513 | 3.2 × 10⁻⁴ | 13.2 |
+| effective f_π (MeV) | 93.208 | 93.233 | 93.141 | 7.0 × 10⁻³ | 13.2 |
+| action energy unit (MeV) | 22.0762 | 22.0879 | 22.0445 | 3.3 × 10⁻³ | 13.2 |
+| g_A = (g_A e²)₀ / e₀² | 0.91341 | 0.91326 | 0.91334 | 1.2 × 10⁻⁴ | 1.2 |
+| μ_V at the gap Δ | 3.20363 | 3.20252 | 3.20333 | 1.1 × 10⁻³ | 1.0 |
+
+![The readouts at the last stops against the square of the spacing, the line through the three finest meshes, and the residuals of the routes about it](https://raw.githubusercontent.com/openwave-labs/openwave/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/plots/m5_41_r4_lines.png)
+
+1. For the inertia, g_A e², e, f_π and the unit, the form of the fit dominates: the 45³ points lie 1.9 × 10⁻³ of their value off the three-mesh line, so a straight line in h² does not hold at the level of the route spread. Your manufactured-field check of the h² coefficient is the test this needs.
+2. g_A is stable under all three fits, since the changes of g_A e² and of the inertia nearly cancel. Read instead as the intercept of g_A at each state's own e (0.8996, 0.9040, 0.9067, 0.9085 on the four meshes) it is 0.91320: the two readings differ by 2.1 × 10⁻⁴, about twice the route range.
+3. μ_V at the gap Δ stays within 1.3 × 10⁻³ of the rigid value m_p / Δ = 3.20229 in every variant, and its route range is your field's route alone (without it, a subset chosen after the results were seen: 3.20292, range 7.9 × 10⁻⁵). A departure of μ_V from the rigid relation is not established.
+4. The box is not in these numbers. At spacing 0.225 the inertia rises by 1.6 percent from half-box 6.075 to 10.125 (M5.40), about a hundred times the route range.
+
+## 6. What the rule does not see
+
+1. **Lumps at the core.** The lump check measures the largest record eigenvalue against (1 − q₀)/2, which is near 1 at the core, so a node left near one is not flagged there. A read against a node's six neighbors ([`m5_41_spikes.py`](https://github.com/openwave-labs/openwave/blob/eaf6d8b3239b4f38f6ba6212fb80728d5672457a/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_41_spikes.py#L23)) finds two such nodes next to the center on 77³ `smooth` (eigenvalue 0.956, radius 0.23), beside its two flagged ones, and none on the 40 stops of the ten routes without a lump. No label changes.
+2. **No floor.** A state of M5.39 lies under every last stop on 65³ (by 3.0 × 10⁻⁴) and on 77³ (by 5.3 × 10⁻⁴); both were above the gate. The `iso` routes were still falling at their last stop. On 55³ the routes split in two groups by their lowest center eigenvalue: `smooth` and your field (0.330) end 1.15 and 1.18 × 10⁻³ under `chain` and `iso` (0.346, 0.349), and differ from them by 1.0 × 10⁻⁴ (relative) in the inertia. On 65³ and 77³ every route that meets the rule is in the upper group (0.341 to 0.345), and the lower states of M5.39 are in the other (0.332, 0.329). Whether the upper group is a second valley or a slow descent is not settled.
+
+## 7. Against what was recorded before the run
+
+1. Energy: not met. The four 55³ routes do not all end within 2 × 10⁻⁴ of 75.5617 (`chain` and `iso` end 1.2 × 10⁻³ above it; section 6, item 2), and two 77³ routes end above their end states of M5.39.
+2. The gate at the last stop: met on all twelve.
+3. Inertia and g_A e² fixed on 45³, 55³, 65³: not met for the inertia on 45³ `iso` and 65³ `iso` (1.1 and 1.3 × 10⁻⁴), and for all three readouts on 65³ `smooth`, which holds lumps.
+4. Half range between routes: met for the inertia and g_A e²; for μ_V the recorded 3 × 10⁻⁴ appears on 55³ only.
+5. Intercepts within half a percent of the trend of M5.40: met (35.914, 16.283, script μ_V 3.1484, e 4.2221, f_π 93.21, g_A 0.9134). The second half, a route range at least an order under the distance from the 55³ value to the intercept, holds for the inertia, g_A e², the script's μ_V and g_A (81 to 1370 times) and not for μ_V at the gap Δ (4 times).
+
+## 8. Not computed
+
+A value at infinite volume; a second route on 65³ that would meet the rule; the three routes that are not fixed continued further; the lowest energy of any mesh; an error in the statistical sense; a rerun of any route on another thread count; the optional vortex rung; the tilt reduction and the charged core. What a calibration would need in a next run: the reading of the pair stop fixed before it, and two qualifying routes on 65³.
+
+## 9. Audit
+
+Three agents with their own code, two on a larger model and one on a smaller: the driver's change read against the plan, the gate and energy of 19 states recomputed, every label and every table recomputed. No number and no label was refuted. Fifteen claims were qualified in wording or reach, and the three readings of section 3, the table of section 5 and both items of section 6 come from that audit or were sharpened by it. The audit did not cover the readout code itself, which was checked in M5.40, or a rerun of your script. Record: [M5.41 § 14](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_41_task_details.md).

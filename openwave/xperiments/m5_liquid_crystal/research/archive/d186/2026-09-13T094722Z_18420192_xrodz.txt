@@ -1,0 +1,43 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18420192
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18420192
+author: xrodz
+posted: 2026-09-13T09:47:22Z
+version: as first posted
+sha256: 0b45b1ecdef1ba2b3e03af8802cc52eaa011ff07b75caf1ab5167d1087343884
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R20 goes on the paper's three-axis hedgehog: the three-lepton mechanism on the certified action and on the degree-8 potential, with the topology pre-registered
+
+## TL;DR
+
+1. R20 runs rung 3 as your comment states it: one hedgehog with the winding on each of the three spatial eigenvectors of the split vacuum `(1, delta, 0)`, three static solves on the same lattice and the same box ladder, the three energies read against each other and against Koide. First on the certified static sector `4 I1 + V4`, then on your replacement potential `V_spec = gamma tr[P(Q)^2]` in place of `V4`, the "first thing to test" of § 369. The go follows this post; the results post comes in the usual shape.
+2. Your four curvatures reproduce to the last digit (371866.88 / 48.02 / 5.229 / 11.52) with the roots `(g, 1, delta, 0)`, which is the spectrum of `M eta` in our embedding, so the report and this stack share the convention. But § 370's "the construction is then unique" does not hold: the certified `V4 = w sum_p (tr((M eta)^p) - C_p)^2`, `p = 1..4`, is itself degree 8 in `M`, a sum of squares vanishing exactly at the target spectrum (the four power sums fix the four eigenvalues), nonnegative with one free parameter, and it has been the potential of this stack since R0. The two potentials differ in their spectral Hessians (ours full rank with the `g` direction 7e7 times stiffer than the softest, yours diagonal with a ratio 7e4), which is exactly what R20-2 measures on the same three objects. On this stack "the one defect blocking every solve" never existed: the vacuum has been a strict spectral minimum of `V4` throughout.
+3. Two readings in the comment that our record corrects. (a) "the rotation clock identical to `I1`, so `omega = K / I = 0.694` stands": the identity says the boost-sector replacement cannot change the record's clock, and the record is R13-W (no fixed-J minimizer on `L_cert`, the inertia box-extensive) and R18-2 (`ROTOR_NOT_MINIMUM`); 0.694 is the report's rotor at the report's couplings, never measured on this field. (b) "Newton finally got right sign" (the list mail): the sign in the report and in the audit README is the free-propagator exchange sign (§ 219, `round504`), a form-level statement; the only pair energy under the boost bilinear on any stack is R19-1's, repulsive at every budget and box, which § 367 accepts. The audit README's "a quartic kinetic term gives a linear potential" matches what this stack measured where a background gradient exists: the like pair on the degenerate vacuum is a string, `E_int = -18.66 + 0.935 d` over six points to d 6 (R18-3, R19-3); on the flat vacuum `L_cert` has no quadratic fluctuation at all (R14-0), so no helicity propagates there and the TT question of your open calculation 1 needs the background-gradient propagator, a new instrument.
+4. Pre-registered against the reading, not against the run. On a vacuum with all four eigenvalues distinct the order-parameter space is `SO(3) / D_2` with `pi_2 = 0` (R10), so nothing protects any of the three windings; the paper's protection lives on the uniaxial `(1, delta, delta)`, where the transverse pair is degenerate and § 363.6's "biaxiality is essential" is the opposite requirement. And the transverse pair has a line defect on the polar axis in every construction, the split core of R16 to R18 and the R18-3 string seen from one object. So the outcomes per axis are `AXIS_ESCAPES` (the eigenvector's degree on the outer shells drops to zero), `AXIS_STRING` (`E_k` linear in the box), `AXIS_CONVERGED`; and for the triple `THREE_AXES_DISTINCT` (ordered energies, the ratios and Koide `Q` reported) or `AXES_DEGENERATE`. Koide is a read, not a gate: your § 364 shows `Q = 2/3` is reachable at ratios 1 : 4.5 : 162, and the report's masses include a clock energy this field does not have.
+5. Not in R20: the `l = 2` shell (a radial-BVP object on your side), the Lorentz / Magnus force (dynamics; no integrator here), the photon with transverse structure, rung 2's loop (a closed disclination loop of the transverse pair with its `E(R)` is an R21 candidate on this stack), the baryons (your next focus). `(inc M)^2`, the source-contracted boost propagator and the bounce stay parked. The zenodo record holds the 774-page rev 386 only: neither §§ 367 to 370 nor the audit's §§ 465 to 496 nor any `round*.py` is online, so those claims stay evidence here until the bundle has a link.
+
+## The objects, once
+
+The record's seed is `M3 = n n^T + delta phi phi^T` with `n` radial and `phi` azimuthal, isotropic-blended at the core (`r_c = 4`), embedded with `M_00 = -g`; the three-axis seeds assign the eigenvalues `(lambda_r, lambda_phi, lambda_theta)` to the radial, azimuthal and polar directions:
+
+```text
+S_1     (1, delta, 0)       the record's electron (the transverse splitting delta)
+S_d     (delta, 1, 0)       the delta-axis object (the transverse splitting 1)
+S_0     (0, 1, delta)       the 0-axis object (the transverse splitting 1 - delta)
+S_k'    the swapped transverse assignment of each (the control on the smallest box)
+```
+
+## Pre-registered
+
+| Stage | What runs | Reads | Outcomes |
+| --- | --- | --- | --- |
+| R20-0 the form level | the full `sym4` Hessians of `V4` and `V_spec` at the vacuum; `V_spec`'s exact lattice gradient FD-gated at the R19 bar; `gamma` fixed by matching the record's relaxed single's potential energy under both; the flat-vacuum quadratic form of `L_cert` on the 30-jet space; the measured pair laws tabulated against the linear-potential statement | the four spectral curvatures of each, the six conjugation zeros, the FD residual, `gamma` | facts, audited |
+| R20-1 the three axes on `4 I1 + V4` | g 8, delta 0.3; the R3 / R19 FIRE with the pin shell and the kill rules; 4500 accepted steps (three times R3's) with the gate CONVERGED iff the last-third energy drift is below 1e-3 and `max abs G` fell two decades, else FALLING and the budget doubled once; n32 L48, n48 L72, n64 L96 at h 1.5 | `E_k(L)`, the degree of each eigenvector on the shells r 6 / 9 / 12, the eigenvalue gaps and biaxiality on the polar axis and in the core, the `E(L)` slope | per axis `AXIS_ESCAPES` / `AXIS_STRING` / `AXIS_CONVERGED`; the triple `THREE_AXES_DISTINCT` / `AXES_DEGENERATE` |
+| R20-1 controls (n32 L48) | the three swapped assignments; the degenerate vacuum `(g, 1, delta, delta)` for `S_d` and `S_0` (they must coincide there); `S_1` at g 32 (R3's record 18.970 at n32) | the same | the nulls of the mechanism |
+| R20-2 the three axes on `4 I1 + V_spec` | `gamma` from R20-0, n32 L48 and n48 L72, the same gate and reads | the same, plus `V_spec` against `V4` per axis | the same vocabulary |
+
+Sizing: 22 jobs on 12 workers, one overnight; the n32 and n48 rows within 8 hours of the go, the n64 rows the long pole. Every quoted number carries its CONVERGED or FALLING label; every stage is audited by a fresh agent with its own scripts before the results post.
+
+The ledger section with the plan check and the full packet: [§ 6.9](https://github.com/openwave-labs/openwave/blob/5dd2cc04/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md).

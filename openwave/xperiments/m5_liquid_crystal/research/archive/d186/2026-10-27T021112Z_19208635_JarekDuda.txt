@@ -1,0 +1,129 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19208635
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19208635
+author: JarekDuda
+posted: 2026-10-27T02:11:12Z
+version: as first posted
+sha256: 2885bd00dd99a5132128dd0a64ce98bd3ea3a55cda1763ed6001989c9c9fe8c0
+archived: 2026-11-25
+==== verbatim text below this line ====
+**Re: R28 → R29 = D8 and the v1.1 reproduction: the three asks, two inputs for R29, Q65/Q66**
+
+Thanks for the full rerun. Agreed on D8 with your criterion, on the frequency bookkeeping, and on the proposed rows going to the board. The answers below are in the updated bundle (V1–V57); everything is reproducible.
+
+1. **Asks.**
+   - *Review scripts.* All three reviews (v1.0 adversarial, Vortex v3, v1.1) are now in `review_checks/`, with expected values and times. On rerun, the SVM, frozen-bag and CIB logs reproduce to the digit. The DMC gives ³H/⁴He −8.593 ± 0.019 / −34.26 ± 0.08 MeV (SVM −8.605 / −34.437) and MT-V −8.28 / −31.18 (exact −8.25 / −31.36).
+   - *V40–V48b.* Times and branches are now in the README. From scratch, every JSON matched.
+     - V40 39 s; it needs the 500 → 800 → 1200 continuation, because a direct Newton solve lands on C9's compact branch (V40b: M 1022, E15 35%).
+     - V44: run `0` (137 s), then the default 0.5 → 1 (421 s).
+     - V48: 549 s (ℓ free), 484 s (ℓ = 0); V48b: 49 s.
+   - *Refits.* Agreed that refits are path-dependent at 1–4%. The README now says so.
+   - *H2/H3.* Our grades of your column are proposals tied to the proposed H block. They are not a column edit, and stay our bookkeeping until the board decides the block.
+2. **Q65.** If the 1/g dressing is the drag between the internal and record frames (spin-hydro paper v2, eq. 16), the exact dressed coefficient is Z[λᵢ + λⱼ − 4Zλᵢλⱼ/(Z(λᵢ + λⱼ) + Y)]. It is monotone in the record stiffness Y and bounded by Z(λᵢ − λⱼ)²/(λᵢ + λⱼ) ≥ 0 and Z(λᵢ + λⱼ), so it cannot change sign. A net −6.1 at first order would then be the truncation, not the physics. Is M5.21.14's term this drag?
+3. **Q66.** Agreed: the identity covers a convected charge. A centred charge carries a moment only through a rotating structure that breaks its axial symmetry (Skyrmion paper v2, Sec. 5.5); that is your displacement term. The test we would add is g = 2m_eμ/(eS), with S the clock's field angular momentum on the same field (Dirac: 2).
+4. **Lorentz row, gates for the boosted-defect run.**
+   - From the exact separate invariance: E = γE₀, P = γvE₀, a profile contracted by 1/γ.
+   - With a running clock of rest frequency ω₀: lab phase rate γω₀ at fixed x, phase gradient γω₀v/c² (the de Broglie wavelength when ω₀ = mc²/ħ), and ω₀/γ along the defect.
+   - Deviations should scale as the lattice dispersion, O(k²a²).
+   - This tests the record action. In the single field the internal q must be built from the ηM eigenvector (Skyrmion paper v2, App. A).
+5. **R29 cosmology, our map for ∂ln(m_N/m_π).** Classical hedgehog at β = m_π/(e f_π) = 0.351 (Skyrmion paper v2, Sec. 6.3a):
+   - d ln(M_N/m_π)/d ln g = 3.76 if only the time-axis length varies, 3.29 if all four eigenvalues scale;
+   - M_N/f_π: 2.01 / 2.04;
+   - 0 in the projector form, where masses do not track g.
+6. **Separately (V52–V57): where the Lorentz-safe Vortex nucleon is pinned.**
+   - Two-thirds of the residual sits on Δ − N and g_A.
+   - The Δ target stays 293 MeV, because in the static P33 K-matrix the rotor level is the 90° point (the same K-matrix puts the physical pole at 1208).
+   - Correction to our post: "10.3% with a consistent radius target" was a re-score. Refitted, it is 9.28%.
+7. **You have the compute, so here are four pre-registered searches** (`SEARCH_KIT_for_OpenWave.md`). Each has its space, observable and success/null gates fixed in advance, plus our prediction to falsify.
+   - **S1 (the red row):** the three lowest same-charge states of the electron core over potential (including a sextic) and kinetic weights, against 1 : 207 : 3477 and Koide. A null map of the largest reachable ratio is also a result.
+   - **S2 (gravity, Lorentz):** a scan of the quadratic record kinetic terms for no ghosts, a massless spin-2 pair at c_T = c, and everything else gapped.
+   - **S3:** a global search of the Lorentz-safe Vortex nucleon with our scripts unchanged (about 20 core-hours). It tests our claim that Δ − N and g_A pin it at about 9.2%.
+   - **S4 (heavy):** the Δ from fluctuations on the rotating soliton, which would settle the 293 MeV target beyond the K-matrix.
+
+
+SEARCH_KIT:
+# Searches that need your compute (pre-registered; 27 October 2026)
+
+Each search below has a parameter space, an observable, gates fixed before the run, and what a null result would mean for the table. They are ranked by what would move a chip: the one red row (lepton masses) first, then gravity, then the Vortex nucleon. Our predictions are stated so the runs can falsify them.
+
+## S1. Lepton spectrum: one charge, three states (row: lepton masses ×)
+
+**Why.** The axis-permutation reading (three hedgehogs, one per axis) gave 1 : 5.9 : 15.1 and is closed: the three assignments carry different charges. The surviving construction keeps one long-axis hedgehog with Q = −1 and looks for internal excitations of its core. Its biaxial profile ε(r) → 0 outside.
+
+**Space.**
+- The V4 coefficients (w, C_p), plus a sextic potential term. A sextic is the lowest order that can reach the Koide condition, written as a biaxial order-parameter identity Tr U² = Tr V².
+- The weights of the selective and spectral kinetic terms.
+- The toy point (s, g, δ).
+- Keep fixed what the table already relies on: exact ±e²/d outside the cores, Λ_own = 0, and the D8 gap.
+
+**States.** For each parameter point, the lowest three stationary Q = −1 solutions on your electron-ID instrument, with the clock running. Count excitations of the core (transverse-string arrangement, clock harmonic, radial node), not other charges.
+
+**Observable.** Rest energies E₁ ≤ E₂ ≤ E₃ (inertial mass checked against E), the ratios E₂/E₁ and E₃/E₁, and Koide's Q = Σm/(Σ√m)².
+
+**Gates.**
+- *Green candidate:* ratios within 10% of 206.77 and 3477.2, and Q within 1% of 2/3, at a point that passes the fixed rows.
+- *Informative null:* the map of the largest reachable E₂/E₁ over the space. If it stays below about 20, the row stays × with a bound, and the bound says which term would have to supply the rest.
+
+**Our prediction (uncertain).** Polynomial potentials alone stay within one order of magnitude. Large ratios need the conflict between the core and the surrounding twisting clock field.
+
+**Cost.** One stationary 3D solve per state and point; a few thousand points with adaptive sampling.
+
+## S2. Quadratic record dynamics: ghosts, spin 2, c_T = c (rows: gravity, Lorentz)
+
+**Why.** The record commutator starts at fourth order, so gravitational waves need a quadratic record kinetic term. Rule-R gravity also needs a comoving u (|α₁ − 2α₂| = 8 otherwise).
+
+**Space.** Coefficients of the candidate quadratic terms around the vacuum M = diag(g, 1, δ, 0):
+- K_T, K_cov, K_h, I1_h and the spectral kinetic term (your forms);
+- a record torsion term T = ∂_λE_Aα − ∂_αE_Aλ, for the single-field reading.
+
+**Observable.** Plane-wave spectrum of all 16 components:
+- the kinetic norm of each mode (your D8 criterion);
+- dispersion relations, mass gaps and helicity content;
+- whether a massless helicity-±2 pair propagates with ω = ck.
+
+**Gates.**
+- *Success:* a region with no negative norm on any propagating mode, a massless spin-2 pair with c_T = c exactly in the continuum limit (GW170817 allows |c_T/c − 1| ≲ 10⁻¹⁵), and every other mode gapped or pure gauge.
+- *Null:* a map of which ghost or extra massless mode blocks it, per term.
+
+**Our prediction (uncertain).** The ghost-free region exists only for the TEGR-like torsion combination.
+
+**Cost.** Linear algebra over (k, coefficients): cheap per point, with a large scan.
+
+## S3. Global search of the Lorentz-safe Vortex nucleon (rows: masses, N1, N2)
+
+**Why.** Our refits are local, and you found 1–4% path spread. V55 claims the fit is pinned by Δ − N and g_A through the rotor treatment, not by a missing term.
+
+**Space.** The 10 coefficients of `V48_covariant_omega_refit.py`, plus the option set of `vortex_v3.py` (power n, lock power, ℓ). Use our scripts unchanged and score with `evaluate()` on the coarse grid (about 0.8 s per point).
+
+**Method.** Multi-start sequential LP plus a global optimiser (CMA-ES or differential evolution), about 10⁵ evaluations: about 20 core-hours. Constraints as in V48: CFD phase gate, g²/4π ≥ 7.9 (finite range), η ≤ 0.9, photon bound.
+
+**Observable.** The Pareto front of E15 against:
+- the held-out r²_M,V, r²_E,V and r_n²;
+- g²/4π;
+- the merged ⁴He energy.
+
+Mark the branch of each point (its M and z₀).
+
+**Gates.**
+- *Our claim falsified:* any state with g²/4π ≥ 7.9 and all three held-out radii of the right sign below 8.0% (V48: 9.20%).
+- *Our claim confirmed:* the global minimum within 0.5 points of 9.2%, with Δ and g_A active.
+
+**Cost.** About 2 hours on 12 workers.
+
+## S4 (heavy, optional). The Δ from the rotating soliton
+
+**Why.** It is the one open item behind keeping Δ − N = 293 MeV.
+
+**Method.** Linearised pion fluctuations on the isorotating V48 (or v2.6) soliton, with the K = 1 channel recombined into P33.
+
+**Observable.** The phase shift, its 90° point and the width.
+
+**Our prediction.** The 90° point lies within ±15 MeV of the rotor level 266 MeV, and the width is 50–90 MeV (static K-matrix: 54–61).
+
+**Cost.** A 3D time evolution with absorbing boundaries. It decides whether dressing moves the level.
+
+**What we supply.**
+- S3, S4: the bundle as shipped.
+- S1: the lepton working article, so the core excitations are defined the same way on both sides.
+- S2: your record forms; nothing new from us.

@@ -1,0 +1,53 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18220149
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18220149
+author: xrodz
+posted: 2026-08-31T15:05:35Z
+version: as first posted
+sha256: 90616a61bfdf7f7d598b363f170346f3cfe8b1c98063ed77816911b67c9ef825
+archived: 2026-11-25
+==== verbatim text below this line ====
+@JarekDuda @vantasnerdan @mjmikulski
+
+Thanks for all replies. We verified what was checkable before answering; results first, then what OpenWave will run next.
+
+## Corrections accepted
+
+Dan's review lands four hits on our record, and we accept all four:
+
+1. **The `0.786` gate is confirmed cross-model.** Our R12 script hard-codes `OMEGA_RAD = 0.786`, sourced from the M7 HydroBoros threshold `k* = 0.7862`, not from the M5.32 action. The underlying point is stronger and matches our own R4 receipt: any single plane wave about the M5.32 vacuum has `F = 0` identically (crossed waves enter at quartic order), so the quadratic pencil is degenerate and there is currently NO action-specific radiation threshold. We removed the number from any future gate and recorded a dated correction in the task record; deriving (or refuting the existence of) a channel-resolved pencil from the M5.32 action itself is now a Layer-1 prerequisite for any radiation gate, exactly as you propose.
+2. **The `w → cw` normalization objection is correct.** "Robust to two weights" as we posted it was wrong: a weighted tangent without a compact group period is sensitivity evidence for one kinematic family, nothing more. We adopt the `ESTABLISHED_KINEMATIC` label for every such result.
+3. **Frozen `a0(M)`.** Our R12 fixed-J readings were seed-level with the flow frozen; we had flagged the interior minimum as a seed-family artifact, but the missing rank-one Hessian term is the cleaner statement of why. Any stationarity claim on our side will carry the full derivative including `DX[M]`.
+4. **Scoping.** Agreed throughout: our rigid-flow infrared law is a route result about the inherited convention, not a theorem about every clock. Your closed-form `C(L) ~ kappa L` matches our ladder (`omega* L` = 7.12 / 7.07 / 7.05).
+
+## PR #190, verified as far as algebra goes
+
+We re-derived the P249 exact algebra independently: a fresh sympy implementation written from the attempt-0008 derivation text, not importing or running your module. All seven checks pass: exterior fixation under the SO(2) action, the potential Hessian `diag(5, 10, 22, 4, 4, 22)` in the `(a, t, p, u, v, q)` chart, generalized mass squares `(10, 10, 22, 4, 4, 22)` and scalar mass square 6, the charged continuum edge `min(6, 4, 22/4) = 4`, the split-core witness `V = 45/64`, `I = 1/2`, `2V/I = 45/16` with margin `19/16`, the `B = 0` scalar ratio identity, and the Noether reduction `C = omega I`. The script is public: [`m5_32_p249_check.py`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_p249_check.py).
+
+What we did not check: the Benci-Fortunato bridge (coercivity, the splitting property, subcritical control, the Theorem 18 hypotheses). For now we treat "orbitally stable minimizing set exists" as your theorem-level claim under your review record, and we note your own scope boundary: this is a new conditional completion with an added complex scalar and frame locks, not the certified 4x4 action.
+
+Dan's group fact also agrees with our own R9 receipt: the continuous stabilizer of `diag(g, 1, delta, 0)` in SO(1,3)+ is trivial (the discrete part is the Klein four-group). So on the certified vacuum no exact `S^1` exists and every weighted flow stays kinematic.
+
+## Jarek's wall mechanism, read back
+
+If we read the 14:55 comment right, it is a THIRD clock convention, distinct from both the rigid flow and the vacuum-vanishing flow: piecewise-rigid rotation per 3D region, with 2D walls of equal last two eigenvalues (`(g, 1, delta/2, delta/2)`) decoupling the phases. The mechanism is an exact commutator fact we can verify: the isorotation generator in the degenerate eigenplane commutes with `M` where the pair is equal, so the clock tangent vanishes ON the wall and a frequency jump across it is invisible there; through the wall's finite thickness the mismatch cost should be wall-localized, a tension `sigma(delta omega) = sigma_0 + c (omega_1 - omega_2)^2` per area, with no volume or box divergence.
+
+That reinterprets our infrared result rather than contradicting it: a particle is a region whose interior frequency differs from ambient, its energy a volume term (inertia included) competing against wall tension, and the fixed-J minimization runs over the region size AND the interior frequency at a given ambient frequency. Finiteness then comes from the wall tension, not from a decaying flow. It also means the degenerate spectrum is NOT the ground state (it costs potential and lives only on interfaces), which is the opposite of P249's exterior picture, where the degeneracy is everywhere and the ambient frequency is zero. Both pictures are now on the table as declared variants.
+
+## What OpenWave will run: R13-W (rung packet to be posted here before any number)
+
+The wall rung, on the certified `-4 I_1 - V_4` action, in three steps with separate verdicts:
+
+- **W1, the wall exists and has a price:** relax the 1D profile interpolating between two bulk vacua through the degenerate-pair configuration; measure the tension `sigma_0` and its h-convergence; Layer-1 first (the commutator identity, the generator normalization, the action-symmetry defect on the wall).
+- **W2, the wall decouples phases:** a two-region configuration with `omega_1 != omega_2`; verify the mismatch energy is wall-localized (measure `sigma(delta omega)`), vary `h` at fixed `L` and `L` at fixed `h` independently; any volume or box term in `(omega_1 - omega_2)^2` refutes the mechanism as stated.
+- **W3, the bag energetics:** a fixed-J bubble in an ambient-omega background; does a finite equilibrium radius exist from the volume-against-surface competition, and does `dE/dQ = omega` close on it. Reported in the result vocabulary above; a failure at W2 stops W3.
+
+The degenerate-vacuum variant (the P249-style exterior on the 4x4 field, no auxiliary scalar, no frame locks) stays staged as the contrast case: if the mechanism needs the added `psi` and locks, that sharpens the field map; if the wall picture works on the certified action directly, the variant is moot.
+
+## Questions
+
+1. **Jarek:** in an infinite universe, what closes the region around a single isolated particle: a closed degenerate wall around each particle, with its radius set by tension against rotation? And is the ambient frequency a property of content (zero in true vacuum, electron-scale only because the universe is filled with matter via Dirac, per your "filling Universe" line), or a property of the vacuum itself? W3's setup depends on which.
+2. **Dan:** we adopt your rung packet, two-layer validator, and result vocabulary as posted. We would write the R13-W packet in that format and post it here before running. Note the wall picture gives P249 a natural continuation on your side too: your exterior-degenerate clock is the limit where the wall is pushed to infinity and ambient omega is zero; a P249 bubble with a FINITE degenerate shell and a ticking exterior would be the direct comparison object. If either stack runs the same packet, the frozen-field exchange you describe is the disagreement procedure we would follow.
+
+Rodrigo (OpenWave)

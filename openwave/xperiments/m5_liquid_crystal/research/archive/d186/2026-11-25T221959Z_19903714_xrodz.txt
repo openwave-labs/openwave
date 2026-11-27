@@ -1,0 +1,111 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19903714
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19903714
+author: xrodz
+posted: 2026-11-25T22:19:59Z
+version: as first posted
+sha256: 8cf49b9b60e1b0a6c87c54b58a656c4d090f39034100358b69c9f7f480cc15f9
+archived: 2026-11-25
+==== verbatim text below this line ====
+# The plan for the three runs you asked on the pair (M5.57), held for your changes, and a first reply on v4.6
+
+## TL;DR
+
+1. **Your runs (a), (b) and (c) are staged on OpenWave as M5.57.** The plan is frozen and no chain has been relaxed. It is posted before the run so that you can change it.
+2. **Reading fixed fields (the stored states of M5.56, no relaxation) changed three things**, and each is a question to you with a default:
+   - the first moment of the degree density moves in jumps on the lattice, so a descent cannot hold it. The plan holds a smooth moment of the ring line with the property you asked for (bounded per node, summing to 1 in each half) and reads the degree moment at every rung;
+   - the merged object on record is one ring lying across the mid-plane, at about the level of two rings 8 apart, so "from separated to merged" is not one ordered ladder. The plan runs two ladders and takes your number, the maximum of the energy above $E_{\min}$, over both;
+   - a collar about one ring fits only for separations of about 12.9 to 17.1 on half-box 18, so run (c) cannot reach contact.
+3. **Nine questions** are in section 5, each with a default that is used unless you change it.
+4. **v4.6.** The three runs you ask are filed as M5.58. One question on them is in section 6.
+
+No cell of [`MODELS.md`](https://github.com/openwave-labs/openwave/blob/main/MODELS.md) changes. Everything is in one pull request on OpenWave, [#756](https://github.com/openwave-labs/openwave/pull/756). The plan: [`m5_57_task_details.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_57_task_details.md).
+
+## 1. What the record of M5.56 holds, and what it does not
+
+- **One box.** The pair was run on half-box 18 at spacing 0.5 only. Two free descents ended as two rings 25.53 apart, each center 5.24 from the nearest face, both normals along the separation axis. The record does not say that the separation is set by the faces: that needs more than one box, and it is your run (a).
+- **The merged object.** One descent ended as one ring of radius 6.34 with its normal along $z$, 0.413 above the pair. It lies across the mid-plane between the two halves, which matters for the hold (section 2).
+
+## 2. The hold: what fixed fields show
+
+We write $x$ for the separation axis, $\lambda_1 \ge \lambda_2 \ge \lambda_3$ for the eigenvalues of $M$, $g_{12} = \lambda_1 - \lambda_2$, and take the degree density $\rho$ as your charge density, the one ported in M5.54: the divergence of the pulled-back area form of the lifted long axis. A half is the set of nodes with $x > 0$ or $x \lt 0$.
+
+$$
+Q_\pm = \frac{h^3}{4\pi} \sum_{\pm} \rho , \qquad D = \frac{h^3}{4\pi} \Big( \sum_{+} \lvert x \rvert \rho + \sum_{-} \lvert x \rvert \rho \Big)
+$$
+
+**The lift.** With the lift radial about each ring's center, the half that holds the second ring reads $Q_- = -0.500$ on the relaxed pair, with 1228 sign flips of the lift on its boundary: around that ring the field is the half-turn image of a hedgehog. With the lift taken from the long axis of the pair seed (the product of two stereographic maps, centers at the rings), both halves read 0.9992 with no flip, and $D = 25.48$ against a reader's separation of 25.53. So the density does integrate to 1 in each half, with that lift.
+
+**The staircase.** $\rho$ lives on the ring line, where $g_{12}$ closes. Moving the relaxed pair by one cell along $x$ on a straight path of fields, $D_+$ changes by 0.199 inside a displacement of 0.025, where the line crosses a row of nodes, and its gradient (taken with the lift fixed) misses the steps of the path by up to 0.119. A descent under a multiplier on $D$ would meet a staircase.
+
+**What the plan holds in its place.** A weight of the line that is bounded by 1 at every node and normalized to 1 in each half:
+
+$$
+w = \exp\big( -g_{12}^2 / g_0^2 \big) , \qquad D'_\pm = \frac{\sum_{\pm} \lvert x \rvert w}{\sum_{\pm} w} , \qquad D' = D'_+ + D'_- , \qquad E_\mu = U + \frac{\mu}{2} \big( D' - d \big)^2
+$$
+
+with $g_0 = 0.2$. $g_{12}^2$ is a smooth function of $M$ where $\lambda_2 > \lambda_3$, and on the same path $D'$ follows its gradient within $8.3 \times 10^{-6}$ at every step. On the relaxed pair $D' = 25.534$ against 25.525 from the reader. The multiplier is applied as this quadratic penalty: at rest $f = \mu (d - D')$ is the multiplier, the slope of $U$ along the branch, and the hold energy never enters $U$. $D$ is read at every rung end beside $D'$.
+
+**Against the failure of M5.50.** One far node with its gap closed moves $D'_+$ by 0.102 at a fixed-field cost of 1.67 in $U$, and drops the share of the weight that lies on the line from 0.999999 to 0.988; a rung whose share falls under 0.99 gives no point. Before any ladder, one control holds a single relaxed ring at a center moved by 1 and by 2: the fitted center must follow, the radius must stay that of the ring, the energy may rise by no more than a rigidly moved copy costs, the weight must stay on the line, and the released ring must return.
+
+**The merged end.** The merged ring reads $D' = 8.44$ ($D = 7.69$, outside the regime of that read, since the line crosses the plane that splits the halves). A held separation therefore does not place the merged object at the small end of a ladder that starts from the pair.
+
+## 3. The three rungs
+
+**A. The free pair in larger boxes (your (a)).** Half-boxes 24 and 30 at spacing 0.5 ($97^3$ and $121^3$), with half-box 18 as the point on record: three boxes, since one larger box alone cannot tell a separation that stops from one that follows the box. Two starts per box, one at the separation on record (25.5) and one with each ring 5.24 from its face (37.5 and 49.5), so that an end is start-independent before it gets a word. The faces hold the far field of two hedgehogs 14 apart, as on record; one control on half-box 24 holds the degree-2 map about the box center instead. Words: KEEPS SEPARATING (the separation grows by more than 1.0 at each box step, and the second step is at least half the first; FOLLOWS THE BOX is printed beside it when the mean distance of the rings to their faces stays within 0.5 of 5.24), STOPS (the two larger boxes agree within 1.0), MERGES (both larger boxes end as one object), or no label. A box counts only when its two starts end alike, and the control can withhold the word: if it ends more than 1.0 away from the other starts of its box, the word reads no label, the far field moving the separation.
+
+**B. The energy against a held separation (your (b)).** Half-box 18 at spacings 0.5 and 0.375. Two ladders of targets of $D'$: inward from the free pair (24 down to 2, fourteen rungs, each from the rung above), and outward from the merged object (10 up to 24, six rungs). At 0.375 each rung starts from its 0.5 parent, interpolated. Read at every rung: $U$, $f$, $D'$, $D$, the reader's separation, and whether the state is two rings or one object. Where both ladders hold a state at one level with different $U$, both are printed as branches. A second hold strength ($\mu = 1$ beside $\mu = 20$) at three targets checks that the curve does not depend on it.
+
+**The number.** Yours, from your post of 2026-11-24: the maximum along $d$ of the energy above $E_{\min}$, in units of the core energy. The plan reads it over the held levels with the merged end included, in units of half the free pair's $U$ on the same grid (questions 4 and 7):
+
+$$
+M_c = \frac{\max\big( \max_d E_{\mathrm{low}}(d) , \ U_{\mathrm{merged}} \big) - E_{\min}}{E_{\mathrm{ring}}}
+$$
+
+with $E_{\mathrm{low}}(d)$ the least energy found on the level $d$ by either ladder. It is read as found: a lower state on some level that neither ladder reaches would lower it. A profile that only rises to the merged object gives $M_c = 0.0207$ at spacing 0.5 from the record alone. Whether the largest level lies between the ends (an interior maximum) is printed beside it.
+
+**C. One ring turned at held separations (your (c)).** At up to three separations among the inward rungs where the collar fits (targets 13 to 16), at spacing 0.5: the table of $U$ along the turn from $2\pi$ to 0 on fixed fields, about the ring's normal and an in-plane axis, and one descent of the fully turned start under the same hold. A node-wise turn keeps every eigenvalue, so the turned start meets the hold exactly. With free cores the turn has a falling path (M5.56), so a turn that stays would be tabled as a stalled descent or a state the path does not reach, not as protection. The collar needs room between the ring's own tube, the other ring and the faces, which leaves separations of about 12.9 to 17.1: this rung cannot say what the turned class costs at contact.
+
+## 4. Your two predictions, as the plan scores them
+
+| Prediction | Met | Not met | Not scored |
+| --- | --- | --- | --- |
+| OW57-1 (60 percent) | KEEPS SEPARATING | STOPS or MERGES | no label |
+| OW57-2 (50 percent) | at both spacings $M_c \lt 0.1$ and the merged state a local minimum | at both spacings a word, and neither met | otherwise |
+
+- "The merged state is a local minimum" is read as: of the action with no hold (the merged state returns after a small kick). The other reading, a minimum of the held profile, is printed beside it (question 9).
+- The merged state at spacing 0.5 had already converged and returned after its kick in the record of M5.56, before OW57-2 was registered. That part of its second clause is a scoring after the fact; the contact maximum and everything at 0.375 are new.
+- With the merged end inside the maximum, a profile that only rises to the merged object scores the first clause as met ($M_c = 0.0207$ at 0.5) although it has no maximum before contact; at 0.5 it could read not met only through a level found 1.58 above the merged object. The interior word is printed beside the score, and question 8 offers the stricter scoring.
+- If rung A reads KEEPS SEPARATING, then $E_{\min}$ on half-box 18 belongs to a separation that its faces set, and that is printed beside the score.
+
+The plan also registers six expectations of its own, in its section 8.
+
+## 5. Nine questions, each with its default
+
+1. **The hold.** Hold $D'$ and read $D$ at every rung, since $D$ is a staircase on the lattice? Default: yes.
+2. **The lift** for the degree density of a pair: from the long axis of the pair seed, centers at the rings? Default: yes.
+3. **One multiplier** on the sum of the two halves, as you posted, applied as a quadratic penalty, or one per half, which would also fix the pair's center? Default: one, on the sum; the offset of the pair from the mid-plane is printed.
+4. **The contact maximum** over two ladders, the merged end included, as in section 3: is this the number you meant, given where the merged object sits? Default: yes.
+5. **The far field** on the faces: two hedgehogs 14 apart on every box, with one control? Default: yes.
+6. **Rung C** only at separations of about 12.9 to 17.1, about the ring's normal? Default: yes.
+7. **The ring energy** for $M_c$: half the free pair's $U$ on the same grid? Default: yes, with the one-ring energy of half-box 12 (19.498) printed beside.
+8. **The scoring** of section 4, or the first clause of OW57-2 met only with an interior maximum (a maximum before the merged end)? Default: as written, the interior word printed beside.
+9. **"A local minimum"**: of the action with no hold, or of the held profile? Default: of the action.
+
+The run is held for your answer. If none comes, we decide whether it runs on the defaults.
+
+## 6. v4.6 and the three runs you ask
+
+We read item 9 (p. 62), the registration of FD-1 (p. 76) and item 28 (pp. 81 to 82). What OpenWave holds on these runs:
+
+- **The decay film** ([M5.21.6](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_21_6_task_details.md), [M5.21.10](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_21_10_task_details.md)) and the tracer ([M5.23.2](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_23_2_task_details.md)): as your item 9 describes them. The tracer reads the core as one closed torus throughout and the ejected pair as two open filaments that evaporate; no closed loop pinched off at that grid.
+- **The neutron analog** ([M5.22.2](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_22_2_task_details.md)): twenty kicks of three families on the two neutral states, every one returning to its start.
+- **No reader** exists for the axis class of an ejectum, and no read of a precession mode or of a lock.
+- A detail for your reference [1309]: the ratios 1 : 4.2 : 16.0 are those of [M5.21.2b](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_21_2b_task_details.md), the census on the stencil-symmetrized functional.
+
+Your item 9 places the film in the 4.6 action, with the three states as three cores in one exterior, and says that the mechanism of our runs carries over while their numbers do not. Neither that action nor a heavy core in the electron's exterior is on OpenWave. So one question: **do you want the three reads on the action and the states where the film exists, or after a port of the 4.6 action?** For a port we would need what the ring's port had: the discrete action as code or as equations with its parameters, and one deposited reference state with its energy. Item 28 also registers three predictions on two relaxed cores against separation (TC-1 to TC-3). Rung B of M5.57 is a read of that kind on another action and another object, the rings of the action ported in M5.51, so it scores none of them. The runs are filed as [M5.58](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_58_task_details.md) and come after M5.57.
+
+## 7. What M5.57 cannot say
+
+Static states of one action at $\delta = 0.05$, in closed boxes with held faces. The hold is a constraint of the plan, and the held quantity is the plan's, not the degree moment. Two spacings give a trend, not the limit $h \to 0$ that your condition on a tie names. $M_c$ is read as found. Rung C does not reach contact. Nothing reads an exchange sign, a spin or a statistics.

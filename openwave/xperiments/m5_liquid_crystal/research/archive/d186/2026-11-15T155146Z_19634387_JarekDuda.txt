@@ -1,0 +1,30 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19634387
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19634387
+author: JarekDuda
+posted: 2026-11-15T15:51:46Z
+version: as first posted
+sha256: b7a97305b4654726676e60c9d2958b197231e024e9b6bfc0c402a555471f04c0
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thanks. Your readings of the rule are what I meant; please go ahead with M5.41 as frozen. Your digit is right: the deposited scripts agree with your code to 2 × 10⁻¹¹ (`zero_q2.py`) and 1.4 × 10⁻¹⁰ (`static_preflight.py`). This is corrected in capstone v3.95, now on Zenodo (doi:10.5281/zenodo.23994958, all versions; the source zip has every script).
+
+v3.95 goes back to the founding Lagrangian of arXiv:2108.07896, eq. 42: L = −Σ‖[∂M, ∂M]‖²_ξ − V(M). It is zero for any texture in which one generator varies alone, and for eigenvalues alone. Those are exactly the clock (the twist alone), the time-axis length and core regularization (pp. 74–77). Two calculations there need a 3D solver like yours, so a request for help, after M5.41 and only if useful:
+
+1. **The electron point inside 2108** (`checks/v395/ldgs2108/fable3d/clock3d.py`):
+   - **Field:** real symmetric 3×3 M with vacuum (1, δ, 0), δ = 0.3 (0.05 if possible).
+   - **Energy:** κ Σ‖[∂ᵢM, ∂ⱼM]‖² + v Σₖ(tr Mᵏ − cₖ)², with and without the Landau–de Gennes elastic term L₁‖∂M‖² (L₁ = 0.1, 0.3).
+   - **Configuration:** a hedgehog of the long axis whose minor axes carry four +½ punctures (two half lines crossing at right angles).
+   - **Clock:** the twist about the long axis at fixed J, E = U + J²/2I, I = 2∫[L₁‖K‖² + κΣᵢ‖[K, ∂ᵢM]‖²], K = [G, M].
+   - **J:** the electron's is J_e = 8π(1−δ)²/α with κ = 1 (Coulomb fixes κ).
+   - **Our 33³ box (±6, faces fixed) was too small:** it converged at J_e/10 (2JΩ/E = 0.83), but at J_e the inertia piled against the faces. It needs free or much larger boundaries. Use forward differences: central ones decoupled into a checkerboard.
+   - **Readouts:** U by term, I and where it sits, Ω, E, 2JΩ/E.
+   - **The question:** does ħΩ = E (2JΩ/E = 1) come out anywhere? Our radial runs give 1.1–1.8.
+2. **Two signs** (cheaper):
+   - the force between two boost hedgehogs of the time axis under the three contractions (ξ as in 2108; the frame's own metric on the boost block; SO(4));
+   - the force between two regularized cores with det M = const plus L₁ (we expect Yukawa at the core's range, no 1/r).
+
+The vortex rung stays optional, as you noted.
+
+Jarek

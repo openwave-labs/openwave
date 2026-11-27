@@ -1,0 +1,149 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19471704
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19471704
+author: JarekDuda
+posted: 2026-11-08T10:37:30Z
+version: as first posted
+sha256: 9097c40239bb72f0bd92a1c179375b8ac0f2d82c86c45d1902fccb762cd21c3b
+archived: 2026-11-25
+==== verbatim text below this line ====
+<html>
+<body>
+<!--StartFragment--><html><head></head><body><p><strong>LdGS update, 8 November: scorecard v1.7, leptons Release 2.3, capstone v2.8</strong></p>
+<p><strong>On R32</strong> (<a href="https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md">record</a>): thank you for the strand diagnostic, the independent reproduction of the anchor, and the updated lepton cell.</p>
+<ul>
+<li>
+<p><strong>"The host is mostly removed, and the jumps follow the host": agreed.</strong> It fits what Release 2.3 now says.</p>
+<ul>
+<li>The five-strand Z₃ shell is a static saddle. The channel triplet has to come from the Dirac operator on a relaxed core, not from strand lines.</li>
+<li>The capstone's criterion closes the classical route anyway. A core below 2.8×10⁻⁴ fm has natural energy ħc/r ≈ 0.7 TeV, so the electron would have to sit at about 7×10⁻⁷ of it. A Dirac electron binds to a core it empties only beyond 450 fm.</li>
+<li>So no S-run until a relaxed host binds Dirac states, as you say. When one does, L28 now gives the target it must hit: at m₁ = 0, TM1 needs seesaw columns that annihilate (j + k)/√2 in the channel basis.</li>
+</ul>
+</li>
+<li>
+<p><strong>The W ratio.</strong> The closed form is W_μ/W_e − 1 = −(δ_μ − δ_e)/2, which equals (κ_h,μ − κ_h,e)/4, with δᵢ = (b/M)² rᵢ²/(1 + rᵢ²)³. It is printed in Sec. 5 since Release 2.2 and computed by L24. It matches the exact SVD to six digits at both points:</p>
+<ul>
+<li>LB1: −5.718×10⁻¹⁰.</li>
+<li>Release 2.0 baseline (M = 10 TeV, b = 200 GeV, r_e = 0.0015984, r_μ = 0.022991): −0.10504 ppm.</li>
+</ul>
+<p>A factor-200 miss at the baseline most likely means the baseline's own amplitudes weren't used.</p>
+</li>
+<li>
+<p><strong>The dipole normalization.</strong> Your factor 4.36 is exactly e√(m_μ/m_e). The μ → eγ form uses the generic off-diagonal chirality factor, d_eμ = c_d √(m_e m_μ)/(16π² M²), with e kept in the rate, Γ = α m³(|d_L|² + |d_R|²)/4. The EDM form, d_e = e m_e c_d/(16π² M²), is the diagonal one. Both are stated in Sec. 12 (Release 2.2 onward, L24).</p>
+</li>
+<li>
+<p><strong>The lepton cell.</strong> Thank you; the ⚠️ is fair for the criterion as you read it. When convenient, please point it to Release 2.3. Its Dirac–core coupling is now CPT-even, and the old pseudoscalar twist coupling was CPT-odd.</p>
+</li>
+</ul>
+<p><strong>Releases.</strong> @xrodz @vantasnerdan @mjmikulski: three new releases, each with its scripts embedded in the PDF and in a zip:</p>
+<ul>
+<li><strong>Scorecard v1.7:</strong> https://zenodo.org/records/23811638/latest</li>
+<li><strong>Leptons, Release 2.3:</strong> https://zenodo.org/records/23879623/latest</li>
+<li><strong>Capstone v2.8:</strong> https://zenodo.org/records/23994958/latest</li>
+</ul>
+<p>All three use the same neutrino inputs: JUNO's 207-day splittings (preliminary) with NuFIT 6.0 angles.</p>
+<p><strong>1. Scorecard v1.7.</strong> Over the 31 shared criteria LdGS is now ✓9 !22 ✗0 (v1.6: ✓8 !23).</p>
+
+row | v1.6 → v1.7 | key number (script)
+-- | -- | --
+Neutrinos (neutral states) | ! → ✓ | Capstone R1 has a rank-two Yukawa, so m₁ = 0, m = (0, 8.60, 50.09) meV and Σmν = 58.69 meV. That is inside DESI DR2's 64.2 meV. With Lyα it sits at the edge (59.2 meV). \|m_ββ\| = 1.45–3.65 meV (V83). The loop branch R25c (115 meV) is kept but not scored.
+C5 dark radiation | ! → ✓ | ΔN_eff = 0, since the ν_R are heavy (V83).
+P1 CPT (proposed) | ✓ | A headless time axis enters only as u_μu_ν, so there is no CPT-odd background. BASE (16 ppt) and ALPHA (2 ppt) are met by construction (V83, L26).
+P2 weak C, P, T (proposed) | ! | Needs a clock pseudovector × polar texture term, Ω·V. Not computed yet.
+N3 σ_πN (proposed) | ✗ | The V48 state gives 133 MeV (fit) and 311 MeV (spurion). Vortex DN14 gives 52.2–89.4 MeV, as unmatched diagnostics (V84).
+N4 nucleon moments (proposed, new) | ! | Two profile-free identities: μ_VΔ₀ = M_p and μ_Sμ_V = (2/9)M_p²r_B². Both moments need r_B² = 0.82 fm²; the states give 0.32–0.43 fm². So the current must go beyond the rigid rotor (V84).
+Mesons, stability (notes) | ! | A 3-flavour NJL parent fixes π, K, η′. Its order parameter is Σ = HU: the Hermitian part H carries no baryon number, so U must be kept. At the physical strange mass the director is pinned to s (39.7 MeV/fm³, reproduced independently).
+
+
+<p><strong>2. Leptons, Release 2.3.</strong></p>
+<ul>
+<li><strong>L26:</strong> CPT-even Dirac–core couplings.</li>
+<li><strong>L27:</strong> the rank-two corner, plus a Koide-cone alternative with the same parameter count (Σmν = 59.05 meV).</li>
+<li><strong>L28:</strong> TM2 sits 5.8σ from JUNO's preliminary θ₁₂, so the Koide circulant does not predict the mixing. The constructive target: TM1 at m₁ = 0 holds exactly when the seesaw columns annihilate (j + k)/√2 in the channel basis.</li>
+<li><strong>L29:</strong> an EFT-ordered benchmark, LB1b. Every source scalar is at or below M/2; the electron tuning is 0.26.</li>
+<li><strong>L30:</strong> the geometry of Koide's angle, after Brannen. Spin-½ states on three orthogonal axes put the Gram matrix on Koide's cone at θ = π/12, where m_e = 0; the data sit at π/12 − 0.0396. A Z_n holonomy would need n ≥ 688 (1σ).</li>
+</ul>
+<p><strong>3. Capstone v2.8.</strong> The candidate final Lagrangian R1 comes with a parameter card, R1★, where every number is traced to data.</p>
+<ul>
+<li>R1★ is green on every row where SM + ΛCDM are green, and it replaces θ̄, m_τ, m₁ and one Majorana phase with relations.</li>
+<li>Four Lagrangian–parent pairs are ranked; only the family flavon can derive a row.</li>
+<li>Newest result: Koide's cone at m_e = 0 is a positivity boundary. An additive electron mass is excluded (Q = 0.649), and only one flux, ε = 0.0396, reaches the leptons.</li>
+</ul>
+<p><strong>Falsifiable now:</strong></p>
+<ul>
+<li>Σmν = 58.69 meV, against DESI and Euclid;</li>
+<li>|m_ββ| = 1.45–3.65 meV, beyond LEGEND-1000;</li>
+<li>TM1/Littlest θ₁₂, now +2.3σ from JUNO's preliminary value;</li>
+<li>m_τ = 1776.969 MeV, against Belle II and BESIII;</li>
+<li>exact CPT.</li>
+</ul>
+<p><strong>Open, stated as such:</strong> the proton lifetime, a native origin of the lepton masses, σ_πN, and P2.</p>
+<p><strong>Requests:</strong></p>
+<ul>
+<li>Could you rerun V83/V84 in-platform, as you did with V1–V57 and R32?</li>
+<li>Could you grade the proposed rows P1, P2 and N4 on your stack?</li>
+<li>Rung plans that touch the neutrino row are welcome. Data decide between the rank-two corner and the Koide cone.</li>
+</ul></body></html><!--EndFragment-->
+</body>
+</html>**LdGS update, 8 November: scorecard v1.7, leptons Release 2.3, capstone v2.8**
+
+**On R32** ([[record](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md)](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md)): thank you for the strand diagnostic, the independent reproduction of the anchor, and the updated lepton cell.
+
+- **"The host is mostly removed, and the jumps follow the host": agreed.** It fits what Release 2.3 now says.
+  - The five-strand Z₃ shell is a static saddle. The channel triplet has to come from the Dirac operator on a relaxed core, not from strand lines.
+  - The capstone's criterion closes the classical route anyway. A core below 2.8×10⁻⁴ fm has natural energy ħc/r ≈ 0.7 TeV, so the electron would have to sit at about 7×10⁻⁷ of it. A Dirac electron binds to a core it empties only beyond 450 fm.
+  - So no S-run until a relaxed host binds Dirac states, as you say. When one does, L28 now gives the target it must hit: at m₁ = 0, TM1 needs seesaw columns that annihilate (j + k)/√2 in the channel basis.
+- **The W ratio.** The closed form is W_μ/W_e − 1 = −(δ_μ − δ_e)/2, which equals (κ_h,μ − κ_h,e)/4, with δᵢ = (b/M)² rᵢ²/(1 + rᵢ²)³. It is printed in Sec. 5 since Release 2.2 and computed by L24. It matches the exact SVD to six digits at both points:
+  - LB1: −5.718×10⁻¹⁰.
+  - Release 2.0 baseline (M = 10 TeV, b = 200 GeV, r_e = 0.0015984, r_μ = 0.022991): −0.10504 ppm.
+  
+  A factor-200 miss at the baseline most likely means the baseline's own amplitudes weren't used.
+- **The dipole normalization.** Your factor 4.36 is exactly e√(m_μ/m_e). The μ → eγ form uses the generic off-diagonal chirality factor, d_eμ = c_d √(m_e m_μ)/(16π² M²), with e kept in the rate, Γ = α m³(|d_L|² + |d_R|²)/4. The EDM form, d_e = e m_e c_d/(16π² M²), is the diagonal one. Both are stated in Sec. 12 (Release 2.2 onward, L24).
+- **The lepton cell.** Thank you; the ⚠️ is fair for the criterion as you read it. When convenient, please point it to Release 2.3. Its Dirac–core coupling is now CPT-even, and the old pseudoscalar twist coupling was CPT-odd.
+
+**Releases.** @xrodz @vantasnerdan @mjmikulski: three new releases, each with its scripts embedded in the PDF and in a zip:
+
+- **Scorecard v1.7:** https://zenodo.org/records/23811638/latest
+- **Leptons, Release 2.3:** https://zenodo.org/records/23879623/latest
+- **Capstone v2.8:** https://zenodo.org/records/23994958/latest
+
+All three use the same neutrino inputs: JUNO's 207-day splittings (preliminary) with NuFIT 6.0 angles.
+
+**1. Scorecard v1.7.** Over the 31 shared criteria LdGS is now ✓9 !22 ✗0 (v1.6: ✓8 !23).
+
+| row | v1.6 → v1.7 | key number (script) |
+|---|---|---|
+| Neutrinos (neutral states) | ! → ✓ | Capstone R1 has a rank-two Yukawa, so m₁ = 0, m = (0, 8.60, 50.09) meV and Σmν = 58.69 meV. That is inside DESI DR2's 64.2 meV. With Lyα it sits at the edge (59.2 meV). \|m_ββ\| = 1.45–3.65 meV (V83). The loop branch R25c (115 meV) is kept but not scored. |
+| C5 dark radiation | ! → ✓ | ΔN_eff = 0, since the ν_R are heavy (V83). |
+| P1 CPT (proposed) | ✓ | A headless time axis enters only as u_μu_ν, so there is no CPT-odd background. BASE (16 ppt) and ALPHA (2 ppt) are met by construction (V83, L26). |
+| P2 weak C, P, T (proposed) | ! | Needs a clock pseudovector × polar texture term, Ω·V. Not computed yet. |
+| N3 σ_πN (proposed) | ✗ | The V48 state gives 133 MeV (fit) and 311 MeV (spurion). Vortex DN14 gives 52.2–89.4 MeV, as unmatched diagnostics (V84). |
+| N4 nucleon moments (proposed, new) | ! | Two profile-free identities: μ_VΔ₀ = M_p and μ_Sμ_V = (2/9)M_p²r_B². Both moments need r_B² = 0.82 fm²; the states give 0.32–0.43 fm². So the current must go beyond the rigid rotor (V84). |
+| Mesons, stability (notes) | ! | A 3-flavour NJL parent fixes π, K, η′. Its order parameter is Σ = HU: the Hermitian part H carries no baryon number, so U must be kept. At the physical strange mass the director is pinned to s (39.7 MeV/fm³, reproduced independently). |
+
+**2. Leptons, Release 2.3.**
+- **L26:** CPT-even Dirac–core couplings.
+- **L27:** the rank-two corner, plus a Koide-cone alternative with the same parameter count (Σmν = 59.05 meV).
+- **L28:** TM2 sits 5.8σ from JUNO's preliminary θ₁₂, so the Koide circulant does not predict the mixing. The constructive target: TM1 at m₁ = 0 holds exactly when the seesaw columns annihilate (j + k)/√2 in the channel basis.
+- **L29:** an EFT-ordered benchmark, LB1b. Every source scalar is at or below M/2; the electron tuning is 0.26.
+- **L30:** the geometry of Koide's angle, after Brannen. Spin-½ states on three orthogonal axes put the Gram matrix on Koide's cone at θ = π/12, where m_e = 0; the data sit at π/12 − 0.0396. A Z_n holonomy would need n ≥ 688 (1σ).
+
+**3. Capstone v2.8.** The candidate final Lagrangian R1 comes with a parameter card, R1★, where every number is traced to data.
+- R1★ is green on every row where SM + ΛCDM are green, and it replaces θ̄, m_τ, m₁ and one Majorana phase with relations.
+- Four Lagrangian–parent pairs are ranked; only the family flavon can derive a row.
+- Newest result: Koide's cone at m_e = 0 is a positivity boundary. An additive electron mass is excluded (Q = 0.649), and only one flux, ε = 0.0396, reaches the leptons.
+
+**Falsifiable now:**
+- Σmν = 58.69 meV, against DESI and Euclid;
+- \|m_ββ\| = 1.45–3.65 meV, beyond LEGEND-1000;
+- TM1/Littlest θ₁₂, now +2.3σ from JUNO's preliminary value;
+- m_τ = 1776.969 MeV, against Belle II and BESIII;
+- exact CPT.
+
+**Open, stated as such:** the proton lifetime, a native origin of the lepton masses, σ_πN, and P2.
+
+**Requests:**
+- Could you rerun V83/V84 in-platform, as you did with V1–V57 and R32?
+- Could you grade the proposed rows P1, P2 and N4 on your stack?
+- Rung plans that touch the neutrino row are welcome. Data decide between the rank-two corner and the Koide cone.

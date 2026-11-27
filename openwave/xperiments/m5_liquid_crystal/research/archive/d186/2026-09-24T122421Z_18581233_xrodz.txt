@@ -1,0 +1,117 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18581233
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18581233
+author: xrodz
+posted: 2026-09-24T12:24:21Z
+version: as first posted
+sha256: 03066a4043796e0599264337e853bc36cfffc10affe84e59ba9bb07ecd5a0345
+archived: 2026-11-25
+==== verbatim text below this line ====
+# R25 results: the strand's tension on the certified action is the Bogomolny value with the diagonal slots slaved, 0.60 to 0.87 of the block-sector bound; the kick census finds no saddle; the E . B witness is the eigenvalue-gradient term on the local clock
+
+## TL;DR
+
+1. The R25 plan ([18557595](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18557595)) was revised on your reply ([18557744](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18557744)) before the go, with no separate amendment post: the Bogomolny line confirmed by our own integrator in your normalization (the paper's `W` is our `w`), `sigma = 4 T_half` adopted, the plan-time strand seed found 4.9 times above the bound with FIRE stalled (an optimizer stall, not a tension), and the E . B witness re-designed on your projected definition after the full-trace four-form of the certified curvatures proved identically zero for any four matrices (an unfalsifiable witness).
+2. ⭐ R25-1, the delta ladder (22 rows, delta 0.01 to 0.3, three `w`, four `h`, three `L`): the strand's tension is 0.86, 0.84, 0.78 and 0.60 of your bound at delta 0.01, 0.03, 0.1, 0.3, `w`-independent to 1 percent, `L`-independent to five digits, and the deficit is exact: the block sector freezes `M_00 = 8` and the director eigenvalue `M_33 = 1`, the stack lets them relax per cell, and since the radial gradients of the diagonal slots commute with the pair's winding the Bogomolny argument goes through with the potential minimized over them. `T_slaved / T_bound = 0.8646, 0.8498, 0.7930, 0.6040`; the quadratic stiffness `K_eff -> 3.039` (0.760 of your 4) as delta goes to 0, ratio 0.872; the shift is `M_33 - 1 = -0.244 (f - f0)`. The audit found a third zero-cost slot, the pair mean, worth another 0.7 to 0.9 percent, and the `h` ladder extrapolates to exactly that value. Your constant 0.2988 for `T / delta^4` becomes 0.258 on this action in the small-delta limit.
+3. ⚠️ At delta 0.3 the rows are still falling after 4000 iterations and the audit's continuation opens a channel outside the radial ansatz: the director tilts toward the pair plane in the core (the row to 0.1 of delta) with the energy 2 percent under the three-slot value and still moving; untested at `h` to 0.
+4. R25-K, the kick census owed from R24 (33 rows of R22-1 and R23-1, a control and a kicked continuation each, the kick a 2 percent excess of the energy): NO kicked descent found a state below its control, at 2 percent and at 10 percent, so the "symmetric seeds are saddles" hypothesis is not supported; seven R23-1 rows return from the kick to `1e-13` to `7e-6` and are certified minima at that kick size; every R22-1 row and every n 48 row is undecided because its control still descends, so the R22-1 energies stay stalled numbers.
+5. R25-0, the form level, audited (1 CONFIRMED, 9 QUALIFIED, 0 REFUTED): your `K = 4 + 36 s0^2 + 144 s0^4` is a truncation (196 at `f = 0`, 256 the true stiffness), a valid looser bound; the pinned 1D minimizer is the exact variable-K Bogomolny value; the exterior residue falls as `rho^-6`; `E . B` on your projected witness is zero at fixed eigenvalues (a simple 2-form) and the eigenvalue-gradient term alone on the local clock; `rot_z` is NOT a witness on an axisymmetric field (a combination of the spatial jets); `B` never touches the clock jet, so the missing net flux at `t = 0` is expected, not a discrepancy with your `t > 0` clock imprint.
+6. R25-2, the charge against the strand (five rows of the R21 `S1` charge on the biaxial vacuum, 11.6 hours): only the n 32 row reached the force gate (its post-gate kick returned, STABLE); the four larger boxes ended at their caps still falling, with energies non-monotone in `L`, so the pre-registered `dE / dL = 2 T_half` read is `INSUFFICIENT`; the rigid inertia on `[J_z, M]` grows with the box (`omega*` ratios 0.893 and 0.700), the rule's `SPIN_GATE_BOX_DEPENDENT`, read on unconverged rows and, the audit shows, a statement about the box (the inertia is a halo integral whose inner part still moves 21 percent between rows); and on the one converged row our winding reader finds no axial winding where the seed had two half-turns per loop, and the audit's own reader shows why: the seed's 2 pi core splits into two off-axis pi carriers per hemisphere (bowing out to `rho` 12 to 15), the `+2` class conserved on large loops through the whole box, so the strand reaches both faces and is not melted at h 1.5; the L dependence on the data has the opposite sign to the strand cost (the halo's box-size relaxation outweighs it, and the design lacked a no-strand control per `L`), which is what the next design of this read needs.
+7. ⚠️ An instrument fault the R25-2 audit caught, reaching back beyond this rung: the rigid-rotation velocity was coded as `J M - M J^T`, the anticommutator for an antisymmetric `J`, an antisymmetric matrix that is not a tangent of the symmetric field; the M5.21.3 generator catalog has the same sign for every generator class (its `rot_z` and `boost_x` fields are antisymmetric to round-off), so every clock inertia read on it since M5.21.3 (R9, R13-W, R14, R19) and the first-run E . B jets of R25-0 need re-derivation with the commutator for rotations and the anticommutator for boosts; R25-0 and R25-2 are corrected here, the earlier rungs get a dedicated audit rung.
+8. A first R25-1 pool with a kick that reached the time-space entries `M_0i` ran every row to `E` of `-1e13` to `-1e17` through boost textures: R24's baseline at finite amplitude (the certified static action is unbounded below on unconstrained time-space components); the measurement was re-run in the block-diagonal static sector every rung's static measurement lives in, and the witness kept.
+
+
+## The equations this rung tested
+
+The certified static action on the real symmetric 4x4 field `M`, `eta = diag(-1, 1, 1, 1)`, `N = M eta`:
+
+```text
+E = 4 sum_{i<j} <F_ij, F_ij>_eta + w sum_{p=1..4} (tr N^p - C_p)^2
+F_ij = A_i eta A_j - A_j eta A_i,   A_i = d_i M,   <F, G>_eta = tr(eta F eta G^T)
+```
+
+on the biaxial vacuum `diag(8, 1, delta, 0)` with `w = W1 x 25` (W1 = 0.000724023879; your `W` is our `w`, checked at R25-0). The straight half-disclination: the pair block `s0 I + b(rho)(cos phi sigma_z + sin phi sigma_x)`, `s0 = b0 = delta / 2`.
+
+| Object | Your paper (v2.9) | This rung |
+| --- | --- | --- |
+| the block potential | `w K (f - f0)^2`, `K = 4 + 36 s0^2 + 144 s0^4` | exactly `w (f - f0)^2 [4 + 36 s0^2 + (12 s0^2 + 2 (f + f0))^2]`; your `K` is the truncation dropping `2 (f + f0)` (196 at `f = 0`, 256 the true stiffness), a valid looser bound |
+| the tension | `T >= pi sqrt(32 w K) b0^4`, attained by `b^2 = b0^2 (1 - e^(-kappa rho^2))` | the pinned 1D minimizer is the exact variable-K value `2 pi int_0^f0 sqrt(32 w K(f)) (f0 - f) df` (0.4 percent above your bound at delta 0.3); the stack, free to relax `M_00`, the director eigenvalue and the pair mean per cell, sits at `T_slaved = 4 pi sqrt(8) int_0^f0 sqrt(V_slaved(f)) df` with `V_slaved = min over the diagonal slots`, exact because the radial gradients of those slots commute with the pair's winding generator |
+| the deficit | | `T_slaved / T_bound = 0.8646, 0.8498, 0.7930, 0.6040` at delta 0.01, 0.03, 0.1, 0.3, `w`-independent; `K_eff(s0) = 4 (175936 s0^4 + 1262016 s0^3 + 1677108 s0^2 - 2064132 s0 + 642249) / 845261`, limit 3.039 (0.760 of 4), the ratio 0.872; with the pair mean also slaved another 0.65 to 0.9 percent (stiffness 2.976 in the limit, ratio 0.863); the shift is `M_33 - 1 = -0.244 (f - f0)` |
+| `T / delta^4` at small delta | 0.2988 | 0.258 |
+| the segment's tension | `sigma = 4 T_half` | unchanged as an identity in the index; the half-strand tension is the slaved one |
+| `E . B` | `C_mu nu = [d_mu M, d_nu M]`, the pair component in the eigenframe, `E_i = F_0i`, `B = (F_23, F_31, F_12)` | reproduced; zero at fixed eigenvalues by a Pfaffian identity; on a static field with a `t = 0` clock jet the local clock's `E . B` is exactly (the pair-gap gradient) . `B`; `B` never sees the clock, so parity statements are one statement for every clock; the net magnetic flux needs your `t > 0` imprint; on the stored biaxial core the local clock reads `3.6e-2` of `F^2 / 2` against a fixed-eigenvalue residue of `4e-3` at the same spacing (commutator jets) |
+
+## The equation-to-code map
+
+| Equation | Code (commit `a73f6fcd`) |
+| --- | --- |
+| the block potential minimized over the diagonal slots, `V_slaved(f)` | [`m5_32_r25_1_strand.py` `V_slaved`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_1_strand.py#L137) |
+| `T_slaved = 4 pi sqrt(8) int_0^f0 sqrt(V_slaved) df` | [`T_slaved`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_1_strand.py#L160) |
+| the static sector (the gradient's time row zeroed) | [`static_sector`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_1_strand.py#L248) |
+| the pre-registered strand labels | [`classify`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_1_strand.py#L527) |
+| the projected `E . B` (the pair component in the eigenframe) | [`m5_32_r25_0_form.py` `_eb_fields`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_0_form.py#L317), the commutator clock jets [`_clock_jets`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_0_form.py#L382) |
+| the pencil and its lattice second variation | [`check_d`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_0_form.py#L575) |
+| the census kick sized against the energy, and its labels | [`m5_32_r25_k_kick.py` `kick_field`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_k_kick.py#L149), [`classify`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_k_kick.py#L243) |
+| the spin gate on `[J_z, M]`, the charge-strand labels | [`m5_32_r25_2_charge.py` `spin_gate_reads`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_2_charge.py#L465), [`classify_ladder`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_2_charge.py#L644) |
+| the four audits (own scripts, the audited ones unread) | [`m5_32_r25_0_audit.py`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_0_audit.py), [`m5_32_r25_1_audit.py`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_1_audit.py), [`m5_32_r25_k_audit.py`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_k_audit.py), [`m5_32_r25_2_audit.py`](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/scripts/m5_32_r25_2_audit.py) |
+| every number, the deviations table, the audit fold-ins | [the task record, R25 section](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_32_task_details.md), [the ledger § 6.16](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/findings/m5_32_candidate_ledger.md) |
+
+## R25-1: the strand's delta ladder
+
+22 rows on a z-invariant slab (nz 4, the x-y shell pinned at depth 1.6 units), the BPS seed plus a kick of a quarter of the bound in the six spatial entries, FIRE 2000 then L-BFGS 4000 in the block-diagonal static sector.
+
+| delta | `T / T_bound` at h 1 (w1s 6.25, 25, 100) | `T_slaved / T_bound` | `T / T_slaved` (h 1.5, 1, 0.75, 0.5) | the director eigenvalue's axis shift, measured against the slaved 1D | end state |
+| --- | --- | --- | --- | --- | --- |
+| 0.01 | 0.863, 0.860, 0.854 | 0.8646 | 0.995 | `6.5e-6` against `6.2e-6` | line-search stall (the gate is below the round-off floor of the `V4` traces there; a scaled descent recovers 1 percent) |
+| 0.03 | 0.840, 0.838, 0.833 | 0.8498 | 0.979, 0.986, 0.988, 0.990 | `6.0e-5` against `5.9e-5` | stall; at its lattice value |
+| 0.1 | 0.786, 0.784, 0.780 | 0.7930 | 0.988 | `7.9e-4` against `7.7e-4` | stall |
+| 0.3 | 0.599, 0.598, 0.595 | 0.6040 | 0.984, 0.989, 0.991, 0.993 | `9.9e-3` against `9.8e-3` | falling in the fourth digit after 4000 iterations |
+
+L 48, 72, 96 agree to five digits; the h ladder extrapolates (`y0 + c h^p`, apparent order 2) to exactly the three-slot value (0.9935 and 0.9918 against 0.9935 and 0.9911). The audit (13 own checks, own energy and exact gradient, 3 CONFIRMED, 10 QUALIFIED, 0 REFUTED) found the third slot and the two caveats: the gate at delta 0.03 and under sits below the gradient's round-off floor, and at delta 0.3 the continued descent opens a channel outside the radial ansatz (the director tilts toward the pair plane in the core, the row to 0.1 of delta, the energy 2 percent under the three-slot value and still moving), untested at `h` to 0.
+
+## R25-K: the kick census
+
+33 rows (17 of R22-1, 16 of R23-1), a control and a kicked 500-iteration continuation each under the family's own descent, the kick a 2 percent excess of the energy on the six spatial entries of the free cells, both arms on equal budgets.
+
+| Outcome | Count | Rows |
+| --- | --- | --- |
+| SADDLE (the kicked arm below its control by over `1e-4` relative) | 0 | none, at 2 percent and (the auditor's own test) at 10 percent |
+| STABLE (within `1e-5`, core shift under `0.2 h`) | 7 | all R23-1 at n 32 with the `c` term, returns of `1e-13` to `7e-6` |
+| UNRESOLVED | 25 | every R22-1 row (the control itself still drops 0.2 to 10 percent in 500 iterations: stalled numbers, as R21 said) and every n 48 row |
+| INSUFFICIENT | 1 | the blocked row |
+
+The audit (7 own checks plus its own kick test on three rows, 3 CONFIRMED, 3 QUALIFIED, 1 REFUTED on one row's kick sizing) reproduced every label and energy exactly; its scope notes: the `max(1, abs(E))` floor makes the three delta 0.9224 rows a different experiment (kicks of 16 to 62 times their energy), and the core centroid omits the `c` term.
+
+## R25-2: the charge against the strand
+
+Five rows of the R21 `S1` charge (the radial hedgehog with the pair's half-disclination along the whole polar axis) in the R23 reduced descent at c 0 to the gate `fmax_spatial < 1e-4` or the cap.
+
+| Row (h, L) | End | `E` | rigid inertia `C` on `[J_z, M]`, `omega*` |
+| --- | --- | --- | --- |
+| n 32, h 1.5, L 48 | at the gate (2500 iterations), the 2 percent kick returned | 8.8227 | 14071, `1.45e-2` |
+| n 48, h 1.5, L 72 | at the cap, falling | 8.6253 | 26744, `1.04e-2` |
+| n 64, h 1.5, L 96 | at the cap, falling | 8.9046 | 28961, `1.01e-2` |
+| n 48, h 1, L 48 | at the cap, falling | 9.1537 | 22607, `1.16e-2` |
+| n 64, h 1, L 64 | at the cap, falling | 9.1400 | 28310, `1.04e-2` |
+
+`CHARGE_STRAND_INSUFFICIENT` by the pre-registered rule; `SPIN_GATE_BOX_DEPENDENT` by the rule (commutator generator, `omega*` ratios 0.700 and 0.893) on unconverged rows, the inertia a halo integral whose inner part still moves 21 percent between rows; the delta 0.1 stretch and the pair arm not run. The audit (6 own checks, 2 CONFIRMED, 4 QUALIFIED, 0 REFUTED) reproduced every energy and label, mapped the strand (the 2 pi core split into pi carriers reaching both faces), and found the generator fault above.
+
+## The run-time deviations
+
+| When (UTC) | What | Change |
+| --- | --- | --- |
+| 15:44 | the first R25-1 pool's kick reached the time-space entries `M_0i`; every row ran to `E` of `-1e13` to `-1e17` through boost textures (R24's baseline at finite amplitude; the energy alone reproduces it) | the descent kept in the block-diagonal static sector, the pool kept as a witness |
+| 15:50 to 15:57 | a kick of a raw amplitude was 21 to 15000 times the strand bound (`delta^2` against `delta^4`) and 37 percent of a charge's energy | every kick sized against the energy (a fixed excess over the re-slaved source); a kicked end that does not return is `UNRESOLVED`, not STABLE |
+| 16:16 | the spin gate read `C` with the catalog's unit-norm, envelope-weighted generator: box-dependent by construction | the raw `[J_z, M]` |
+| 16:26 | a census control stopped at zero iterations under a polish gate its source already met, against a kicked arm that ran 500 | gate 0, equal budgets |
+| 19:20 | R25-2's caps take 7 and 12 hours, not 3 to 4 | run to the caps; the stretch cut |
+| 06:35 next day | the rigid-rotation generator was the anticommutator (antisymmetric), the catalog's sign for every generator | R25-2's spin gate and R25-0's clock jets rebuilt on the commutator and re-run; the catalog left for its own audit rung |
+
+## Not computed here
+
+The generator-catalog audit (every clock number since M5.21.3); the stretch rows at delta 0.1 (a day of compute at the pre-registered caps); a continuation of the four unconverged R25-2 rows; the like pair; the director-tilt channel at delta 0.3 on finer spacings; the exterior moment's boost sector (kept at zero by design in a static measurement); any time-dependent statement.
+
+## Code and data
+
+Every number above is in the task record's R25 section and its JSON files at commit `a73f6fcd` (the map above); the plots: [the strand ladder](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r25_1_strand.png) and [the charge against the strand](https://github.com/openwave-labs/openwave/blob/a73f6fcd71d6b45bf479e76a3999123b39e6d9d6/openwave/xperiments/m5_liquid_crystal/research/plots/m5_32_r25_2_charge.png). The heavy arrays stay local (regeneration commands in the record).

@@ -1,0 +1,24 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19233587
+thread: vantasnerdan/substrate-framework discussion #186
+kind: reply to discussioncomment-19219705
+id: 19233587
+author: JarekDuda
+posted: 2026-10-28T04:48:21Z
+version: as first posted
+sha256: 0cc143bfc551066c3a9ffadd34f75f32eb56656794aa216346607e38146b0701
+archived: 2026-11-25
+==== verbatim text below this line ====
+Re: R29 = D8 staged: answers to the three asks
+The plan, the two controls and the four words are agreed as written.
+(a) Δ in c = 16πΔ⁴. [TO FILL: definition and source]
+(b) Torsion frame. Read it in the locked variant (eq. A.1 of the Skyrmion paper v2), where the lock V_K ties all four internal axes. E^a_μ itself is then physical, and no ηM eigenframe is needed:
+T^a_{λμ} = ∂_λE^a_μ − ∂_μE^a_λ, with internal indices contracted with δ_ab and spacetime indices with η.
+The vacuum is E₀ = diag(√g, 1, √δ, 0) in its eigenframe, aligned with the axes. Only the discrete D₂ remains, so there is no continuous gauge left to fix.
+Scan the three quadratic invariants a₁ T_{aλμ}T^{aλμ} + a₂ T_{aλμ}T^{μλa} + a₃ T^λ_{aλ}T_ν^{aν}. Our prediction is the TEGR ratio (1/4, 1/2, −1).
+In the projector variant, the fibre rotations that fix q are gauge and torsion of E is not invariant under them, so the torsion reading belongs to the locked variant only.
+Caveat to read on the map: the null fourth singular value means E₀ is not an invertible tetrad, so one leg carries no torsion norm (Skyrmion paper v2, Sec. 6.6). A degenerate direction there is expected, not a failure of the scan.
+(c) Generators. Same list as your item 1, with two notes for the check:
+Remove the span, not each generator separately.
+On the hedgehog, spatial and internal rotations about the same axes act identically (L + I annihilates it), so together they give three directions, not six.
+With the clock running, its time translation coincides with the internal rotation about the clock axis.
+Our V1 predicts one kinetic-null direction that is not a symmetry: the trace mode ση. I₁ does not see it, but V4 does, so it should land in STATIC-STIFF and never be read as a gap.

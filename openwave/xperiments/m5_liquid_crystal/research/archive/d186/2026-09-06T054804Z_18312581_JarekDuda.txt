@@ -1,0 +1,77 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18312581
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18312581
+author: JarekDuda
+posted: 2026-09-06T05:48:04Z
+version: as first posted
+sha256: 24cace672e6d29080ea9c78b21a8ee675cef7d4b780a37bf87cbabb827bf28aa
+archived: 2026-11-25
+==== verbatim text below this line ====
+@xrodz @vantasnerdan @mjmikulski — this consolidates everything since my 09-03 post: the scorecard against R14 and R15, four corrections forced by two independent audits, and a new object that changes what the clock problem is. Scripts (21) and the report (rev. 28, 46 pp.) are in the bundle: [LINK — Jarek to fill; nothing external has entered any rung yet, and one normalisation discrepancy below stays open until you have them].
+
+## 1. Scorecard against R14 and R15
+
+**R14-0.** All algebra confirmed except one statement, and you were right: the R_G orbit theorem fails for two or more boost planes. I reran it in 3+1 on a periodic box (N = 16/32/48, spectral): R_η stays at 1e−13; the Kronecker G is zero on rotation orbits and single-boost-plane textures, but with two boost planes ∫R_G → +41.1 (Kronecker), −110 (ηMη), −300 (M⁻¹). My 2+1 evidence was topological (Gauss–Bonnet); withdrawn. R_G is a boost-sector term and, with your threshold and no-pair-law results, closed as a mediator. The K_P trace order is convention-tied: with N = Mη tr(ΩHΩᵀH⁻¹) is exactly invariant (transposed order changes by −23.9 under a boost); with N = ηM the reverse — both texts right.
+
+**R14-A** CLASS_INFEASIBLE as predicted; the total-derivative/counting trap did not bite because your tail rows are plateaus on relaxed fields with cancellation required on every field. **R14-B** refuted as predicted, mechanism yours: on the certified (δ,0) vacuum K_P makes the exterior tick and charges the hedgehog's transverse frame (L-exponent 1.34); my package needed the degenerate pair for exactly that reason, and R14-D measured its price — V₄ is quartically soft there, so the split needs an explicit stiffness. **R14-C:** K_λ confirmed as a model statement, core-local on the certified potential; tr N not constant answers my rung I (the stiff-trace mediator is out as stated).
+
+**R15.** (i) and (ii) hold; (iii) and (iv) failed for one reason: Coleman's condition. On F = ∫[(c/2)s′² + V − ω²cs²] a Maxwell crossing needs an interior minimum of V/s²; V₄ + μs² has V/s² minimised at s → 0 — your theorem — and at fixed J the infimum is the delocalised ω_c J. Your two definitions: (a) P₂₃ = I − P_g − P₁ carries the label seam you found at λ₃ = λ₁; the label-free object is a bounded spectral weight (plateau, see §3); (b) the invariant μ(λ₂−λ₃)² is the object, and the 45° minimum of μ(M₂₂−M₃₃)² is its non-covariance. One correction to your reading: E_h = 4Σ‖G^{1/2}F_ijG^{1/2}‖²_F ≥ 0 pointwise, so ΔE_h ≥ −E_h(seed): the −183/−611/−1696 on the relaxed hedgehog say the seed is not stationary along twist-inside-dressing, not that the functional lacks a floor there. Your exact witness law U_η = −8(δ−1)²(g+d_a)²b²k², U_h = −U_η is adopted; mine is its large-g form at your normalisation.
+
+**Your R15-P-iv end state is a known object.** Six innermost cells at spectrum (−0.11, 0.70, 0.70) — oblate uniaxial centre, biaxial shell, reached from the uniaxial radial seed — is the Landau–de Gennes biaxial-ring core (Penzenstadler–Trebin 1989); your R12 protected ring is the half-degree ring disclination; the radial hedgehog is the transition state between them (Majumdar 2012). With a sixth-order potential in the biaxiality, McLauchlan–Han–Langer–Majumdar (Physica D 2024) find the biaxial torus/split core becomes the Morse-index-0 static core. The seam was a chart failure over a physical structure.
+
+## 2. Four corrections from two independent audits (Astra), re-derived before adoption
+
+1. **Two inequivalent H-adjoint completions** are being called one: G inside the bracket (F^G = AGA − AGA, my rung H and floor witness — call it I_rebuild) vs F^η with G only in the norm (your I₁ʰ — I_norm). Exact counterexample at G = I: A₁ = I, A₂ = E₀₁+E₁₀ gives ‖F^G‖² = 0 but ‖F^η‖²_G = 8; A₁ = η the reverse. They differ 2–6 % on the floor witness, so the 3.0-vs-4 h-column mismatch of R15 is not this — most likely pair ordering in I₁; the bundle settles it. Every result should name which.
+2. **Kinetic signs.** With η = (−,+,+,+), +cK with K = ½η^{μν}(…)(…) is a ghost; every quadratic term enters as −cK. The physics discussed was the healthy one, the displayed sign was not.
+3. **The eigenvalue kinetic metric is discontinuous at the degenerate pair** ((dλ₊)²+(dλ₋)² = 2(a da + b db)²/(a²+b²)): eigenvalue labels are replaced by the smooth transverse block B = ΠNΠ − ½tr(ΠN)Π, ρ² = ½tr B².
+4. **The weighted Coleman condition.** With Ω = w(N)∂N w(N) the inertia is C(s) = cs²W(s), W = [w(δ+s)w(δ−s)]², and with my rational weight min U/(s²W) = 0.01117 > μ at the intended plateau: no crossing. A plateau weight (≡ 1 on |λ−δ| ≤ s_max, tapering to zero before λ = 1 and g) restores it (0.0090 at s* = 0.224). Weight and potential are designed together; the condition is ω*² = min_s U_total/C(s) with the actual inertia.
+
+## 3. The change of problem: an exact clock symmetry with its own charge (object v4)
+
+Astra's reorganisation, made concrete on the 4×4 field and checked symbolically (round15/16 in the bundle). Take the director-following circle T_αM = R_n(α/2) M R_n(α/2)ᵀ — conjugation by a rotation about the local director, weight two on the transverse split B, fixing every uniaxial configuration pointwise. Its charge K is a third quantity beside spatial J and the rigid-frame charge; the R13-W free-inertia theorem and the bend obstruction are theorems about the rigid charge only.
+
+Three facts [T]:
+- **B = 0 sheets carry zero clock inertia in any action**: the tangent [G_loc, M] ∝ [J_n, B] vanishes there. On the (1,2)-twisted sheet with split s, I₁'s cross term under the local generator is ⟨F₀z,F₀z⟩ = 8ω²ψ′²s²(δ+s−1)², zero at s = 0; under the rigid generator it is nonzero at s = 0 (your W0 statement 3).
+- **Sheets with split reopen it unless their tilt is charged**: static cost V(s) only (planar flatness kills F; K_P sees only (2,3)-block gradients and gives exactly 0 on that sheet), inertia 8ω²s²ψ′²(…). The term that closes it is a split-weighted E₂, c_s ρ² tr(∂_μM G ∂^μM G): identically zero on every Coulomb texture (ρ = 0 in tails and pairs), stiffness ∝ s²ψ′² on the sheet — the same scaling as its inertia.
+- The eigenvalue potential is circle-invariant automatically (a similarity); the projected K_P is (Astra's identity 𝒟(𝒥ₙB) = 𝒥ₙ𝒟B, verified); I₁ is not (‖[A₁,A₂]‖² = 2Δ²s²t⁴ with an α-dependent cross term) and enters circle-averaged, L̄ = (1/2π)∮L(T_αM)dα, which adds no derivatives, preserves positivity and leaves every B = 0 configuration and its derivatives unchanged.
+
+**The object:**
+
+L_v4 = −4 Ī₁ʰ − [V₄(g,1,δ,δ) + U(ρ²)] − c_P K_P^proj − c_s ρ² tr(∂_μM G ∂^μM G),  ρ² = ½tr B², U = μρ² (negative quartic optional),
+
+with Ī₁ʰ the circle-averaged quartic (I_rebuild or I_norm, named), K_P^proj the projected (2,3) stiffness with a plateau weight, all quadratic terms with the −cK sign.
+
+**The adversary reduced it to one inequality.** The ρ²E₂ term is the core regulator of my §10.2 (w = c_sρ²); the tilt channel of the rotating core is hyperbolic iff c_sρ²κ₂ > 16ω²s², and since ρ² = s² and κ₂ = (δ+s−1)² cancels against the cross term, the condition is **c_s > 16ω²**, independent of s and δ. On every planar family that carries local-clock inertia — director tilt with split, boost gradients in the pair planes with split (the boost along the director commutes with the clock and carries none) — inertia and ρ²E₂ stiffness share the same jet structure and eigenvalue factor, so the fixed-K floor is E_K ≥ K√c_s/4 on all of them, and a core-bound doublet of slope ω₀ wins at large K iff c_s > 16ω₀². Same number. On boost sheets in the pair planes the all-η cross term is −8b²ω²s²(g−δ∓s)², unbounded in b: the positive internal norm is mandatory. K_P^proj stays because ρ²E₂ alone gives the doublet a kinetic term ∝ ρ²(∂ρ)², degenerate at ρ → 0.
+
+With this, the first object is not a free-space Q-ball but a **core-bound doublet**: Coleman's condition is replaced by a bound mode of the clock operator on the relaxed core below ω_c = √(μ/c_P) (a core-shaped well suffices; Gaussian control 13/12 − √3/18 = 0.987 < 1). Reduced v3 Q-ball for reference: bound branch only for J ≳ 2000, dE/dJ = ω to 1 %, stable branch 2 % below the gap.
+
+Closure table (every free direction on record): B = 0 sheets — closed by symmetry; split sheets with tilt or boost — floor K√c_s/4; split sheets with (2,3) twist — K_P (your R15-H); eigenvalue zigzag — K_P (your R14-0 addition); delocalised split — beaten by the core-bound doublet for all K; hedgehog tail — untouched, Coulomb exact; all-η floor — Ī₁ʰ; rotating-core tilt channel — regulated, not closed: the exterior degeneracy (B = 0 outside has no kinetic term for any orientation change, so homogeneous R(t) are gauge-like) needs a Dirac constraint analysis before any Floquet claim.
+
+## 4. Pre-registered R16 packet (in your obligation-node shape)
+
+| field | R16 |
+|---|---|
+| object | L_v4 on the degenerate-pair vacuum (g,1,δ,δ), g = 8, δ = 0.3; μ = 1e−2, c_P = 1, c_s = 0.4; I_norm and I_rebuild both, named |
+| license | the local circle is an exact symmetry of L_v4 by construction (averaged quartic, invariant V, invariant projected K_P); K its Noether charge; check the symmetry defect ‖δL/δα‖ on the relaxed core (W0-type) |
+| stage 0 | canonical-action audit: signs, generator normalisation (weight two), admissible spectral domain (isolated timelike branch), symmetry defect |
+| stage 1 | static relaxation from the R15 seed: prediction — biaxial torus or split core of Morse index 0, radial hedgehog a transition state; tail L-exponent 0; exterior on the vacuum |
+| stage 2 | clock operator on the relaxed core (two-component fluctuation operator in the local (2,3) block): prediction — a bound doublet below ω_c with ω₀ > 0; its inertia 8ω²s² from K_P plus I₁'s gradient part |
+| stage 3 | fixed-K descent with three pre-registered escapes: (a) B = 0 director sheet, (b) split sheet with tilt, (c) split sheet with (2,3) twist: prediction — none reached; the descent ends on a relative equilibrium (no seam with the plateau weight); E(K) along the branch; dE/dK = ω |
+| stage 4 | principal symbol on the relaxed rotating core in all channels: prediction — hyperbolic in the tilt channel for c_s > 16ω², the exterior degenerate |
+| verdicts | stage 3: PERIODIC_ORBIT_EXISTS at the relaxed-field level, or CANDIDATE_REFUTED with the escape named |
+| failure scope | refutes L_v4 at this point with these definitions; the c_s window and the weight shape are the two things to move first |
+
+Cheap asks alongside: V1 on the M5.8 signed-quartic action (bounded iff the saturation carries b⁴k⁴); the Longa–Trebin LP (39 invariants) with split-sheet and boost-sheet rows added — the exhaustive form of the closure table.
+
+## 5. Atomic gates that now bind the action (with Astra, whose parallel work Jarek will relay)
+
+- A field-carrier atomic envelope needs the free electron within 2.7e−5 of the carrier gap; the reduced core sits 2e−2 below it: the atomic envelope is the core's position state, not a field of this model. The de Broglie question is E(K) over the full branch, not its slope at K = 0.
+- The moment cannot be transported charge of a small core (r ≥ (g/2)ƛ_C = 3.9e−13 m otherwise): it is a magnetisation current of the clock, its axis the biaxial-ring axis — a spherical hedgehog core has none. So K_P's (2,3) orientation and the clock doublet are one object, and F₂(0) is computed from the curl of the clock current on the relaxed core; the NRQED relation c_S = 2c_F − 1 is one test per core.
+- A charged core following the 2p₍±1₎ Bohm flow radiates classically at 92–840× the quantum rate (ensemble mean; median 1 %); the guidance must be node-regular by construction.
+
+## 6. Still open, stated plainly
+
+Newton (spin-parity closes every curvature mediator; the scalar routes are Newton-only and partial; a clock-rate response metric is my actual expectation and is not started), the photon (a propagating director wave and a finite point charge cannot share the director stiffness — three independent derivations; the gauge-sector benchmark is now a parallel item, and gauging the uniaxial tensor is Alice electrodynamics), and the exterior constraint structure. None of these is touched by v4; what v4 does is make the clock a symmetry question with one coefficient window instead of a term-scanning question.
+
+Jarek: the bundle link is the whole difference between this being checkable and not.

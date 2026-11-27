@@ -1,0 +1,41 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-18604313
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 18604313
+author: JarekDuda
+posted: 2026-09-25T19:04:13Z
+version: as first posted
+sha256: f62c365aa9220211df38c94b08ddc126124ac259b3f4709a79d714c7d3380d35
+archived: 2026-11-25
+==== verbatim text below this line ====
+Thank you — a day of audited work, and two results that change the picture.
+
+## The norm: R25's boost pool was the eta contraction
+Your witness fields settle the question from the 017 reply: on all 22, the eta energy is negative and the Frobenius one positive, with the M_0i sector carrying the whole sign flip. So R25's runaway to -1e17 is not evidence that the time-space sector is unbounded; under the Frobenius (delta_M) contraction those fields have positive energy. The open question moves to report 016's saddle: does descent from the frozen sector terminate under that norm?
+
+## 0.258: accepted
+`T / T_slaved3 = 1.000 +- 0.001` at every delta, with the telescoped brackets. Taking the audit's reading over the pre-registered rule is the right call, and both gate corrections go into the next ladder.
+
+## The saddle: rank-one walls, and what the smoothness term should be
+The walls have a clean explanation. Across a pi-jump wall that is constant along its own plane, M varies in one direction only, so the field is locally a rank-one texture and F_ij vanishes identically however sharp the jump (`r26_checks.py`: F_xy = 0 exactly on a lattice wall with |dM/dx| = 0.3). It is the same degeneracy the 09-22 paper uses positively — every rank-one texture has zero energy, and on those textures the field is linear Maxwell for one polarisation. So the quartic action does not control a single gradient, it is not coercive, and the Bogomolny floor presupposes a continuity the functional does not enforce. Your h/2 re-relaxation, back to 0.26 T_bps, says the walls are not a lattice artefact.
+
+On "yours to say": yes to a smoothness arm, and I would make it the two-derivative term `kappa |dM|^2`:
+1. It penalises the walls. With no potential cost along the orbit they spread into a smooth winding, which restores a floor.
+2. It makes a sharp prediction on your 2D slab. A smooth pair-block winding costs `16 pi kappa k^2 b0^2 ln(L/xi)` per unit length on top of the quartic core — quadratic in k. That lifts the linear-in-k degeneracy and orders the partitions by the sum of k^2 over the rays: {1,1,1,1} (1.0) < {2,1,1} (1.5) < {2,2} (2.0) < {3,1} (2.5) < {4} (4.0). Your kappa = 0 order is different, so this is a falsifiable test of the term.
+3. For a charge, ungauged kappa is excluded by the global-monopole linear divergence (M5 §11), but the gauge-covariant `kappa tr(DM DM)` is not: in the gauged radial reduction the energy stays finite for every kappa. That is the same term, with the same connection, that supplies the two missing Maxwell equations, so the repair of the strand and the repair of electromagnetism may be one term.
+
+One constructive possibility to keep on record. If the wall tension goes to zero in the continuum — T_wall at h, h/2 and h/4, each relaxed, would say — then the quartic action puts no free-charge bound on delta at all. In that case delta = 0.2307, where your reader gives the vacuum the Koide biaxiality 0.382, is no longer excluded by free charge.
+
+## The census
+Accepted as INSUFFICIENT, with two interior classes. The near-degeneracy, 0.1 to 5 percent and at the level of the boundary field, is what the quartic tension predicts: T ∝ k makes every positive partition cost the same at string level. A topological label at fixed charge that is nearly free is what an approximate family label looks like; the kappa arm is the natural way to split it, and the free-shell twin the way to count it.
+
+## The moment channel: one number worth a second look
+Agreed that {3,1} is not a tail. But {1,1,1,1} reads 0.013 with slope -2.0, which is the falloff the moment criterion asks for. Before reading anything into it: a gap-zero line piercing a sphere removes a footprint of fixed area, a fraction ∝ r^-2 of the sphere, so a z-asymmetric pair of lines gives an l = 1 coefficient ∝ r^-2 by geometry alone. Masking a tube around each line and re-reading separates the two. If slope -2 survives outside the tubes with m = 0 content, it is the first field-derived moment candidate on a charged configuration; if it vanishes, it was footprint.
+
+## The spin gate: why the physical generator cannot cancel here
+On a relaxed charge in a biaxial vacuum the forced lines are off-axis and run to the boundary, so a physical rotation drags them round and their inertia scales with their length. That fits the halo fraction (0.5 to 0.7) and L96/L48 ≈ 2.04. Together with 017 it gives a dichotomy: for delta > 0 the strands make rotational inertia extensive, and for delta = 0 physical rotation is a symmetry with no collective coordinate. Either way, rigid rotation is not a normalisable spin. The explanation predicts C_rigid falling with the strand tension at smaller delta; your delta arm is non-monotone but capped, so it will test this once converged. One further question: the director's charge <r^2> grows with the box (206, 347, 395) — is that charge carried by the lines?
+
+## The catalog
+Correction accepted, and the "found" is withdrawn on our side too. Your `G M + M G^T` with `G eta + eta G^T = 0` is the same formula as the reply's lower-index form.
+
+Pinned scripts for every number we have cited here are attached to the reply to the harvest receipt.
