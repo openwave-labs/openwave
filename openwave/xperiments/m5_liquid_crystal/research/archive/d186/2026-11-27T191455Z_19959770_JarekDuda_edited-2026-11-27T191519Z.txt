@@ -1,0 +1,67 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19959770
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19959770
+author: JarekDuda
+posted: 2026-11-27T19:14:55Z
+version: edited 2026-11-27T19:15:19Z
+sha256: 2036913a632654aa9464af807ebd2f61aa5e0cab1969a763acdcb8210ebbeaab
+archived: 2026-11-27
+==== verbatim text below this line ====
+<p><strong>Capstone 4.8 is out</strong> (all versions: doi:10.5281/zenodo.23994958). The native single field is now the coframe E = UΣV^T, whose Grams are the 2108 tensor. Below is where it stands, and the road we've set after three reviews (Sol, Neon, Qwen), with the places where your stacks could decide things faster than ours.</p>
+<p><strong>1. What the single field gives and lacks.</strong></p>
+
+  | status
+-- | --
+gravity on the right frame (teleparallel, with a khronon) | works, effective
+charge as the time line's Chern number, α anchored | works
+baryon number as the winding of the doublet block | conserved only on the spectator reduction
+a photon with linear waves from curvature alone | no; a fully induced photon gives 1/α ≈ 32–76
+proton stability | the winding can rotate into the charged plane; only a spectator-curvature floor 16π²κ_s protects it, and 152 needs κ_s ≥ 0.96
+three lepton families | a 4D coframe has room for one hedgehog family beside a Skyrmion; μ and τ need a label conserved to 10⁻¹¹–10⁻¹⁶ (MEG II)
+
+
+<p><strong>2. κ_s is now pinned down to a fork</strong> (Sol, replayed independently).</p>
+<ul>
+<li>An induced hadronic value is 0.009, far too small.</li>
+<li>Standard-Model-size matter over a Planck window gives 2.0, and the measured weak coupling 1/g₂² gives 2.35.</li>
+<li>So the proton is protected only if the spectator curvature has weak, not hadronic, strength. The selection rule is then B − L together with B mod 3 (ΔB = ΔL = 3), as in the Standard Model.</li>
+<li>Hence the fork: give the coframe's left index independent gauge links with the measured couplings, or induce them, which needs charged matter beyond the Standard Model.</li>
+</ul>
+<p><strong>3. The road</strong> (each step's pass criterion is written down before it runs):</p>
+<ul>
+<li><strong>Stage 0, the charge frame.</strong> Neon found that our photon step and charge step sat in opposite duality frames, so this comes first.
+<ul>
+<li><strong>(i) Topological, 2108-faithful:</strong> charges are Chern classes and monopoles of a dual link.</li>
+<li><strong>(ii) Noether, Standard-Model-like:</strong> charges from a generator, with hedgehogs as heavy monopoles.</li>
+<li>The test for (i): a neutral B = 1 core must carry time-line Chern density, zero in total, that gives the neutron's r_n² = −0.1155 fm² and μ_n = −1.913 μ_N. Our current core has none, so (i) fails as it stands.</li>
+</ul>
+</li>
+<li><strong>A, define the action:</strong>
+<ul>
+<li><strong>A1:</strong> the photon link in the chosen frame, with a Coulomb-phase test (in (i): monopole density against the hedgehog core action, Coulomb only above ~ln 7 per link) and then the retarded Green tensor.</li>
+<li><strong>A2:</strong> the charge assignment, with both chiralities and the anomaly traces.</li>
+<li><strong>A3:</strong> done, above.</li>
+<li><strong>A4:</strong> the symmetry behind the electron's clock rate, with no spin-½ doubling.</li>
+</ul>
+</li>
+<li><strong>B, solve it (cluster):</strong> a neutral B = 1 with a positive Hessian; one nucleon model instead of two; the proton.</li>
+<li><strong>C, quantization:</strong> the fermion sign and Weyl modes; the emission selection rule, tested in the atomic suite; the family label against MEG II, μ→3e and μ→e conversion.</li>
+<li><strong>D, frozen predictions for 5.0, starting now:</strong>
+<ul>
+<li>the fractional-charge string's tension and stress profile against lattice QCD;</li>
+<li>the ⁶Li/¹²C EMC slope ratio;</li>
+<li>later, the deuteron.</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. Where OpenWave could decide most.</strong></p>
+<ul>
+<li><strong>Stage 0's test on your configurations.</strong> In your relaxed B = 1 and ring states of the tensor, compute the Berry-flux (Chern) density of the time-like eigenvector. Do any neutral states carry it distributed (zero in total) and rotating with the frame? That is the one thing frame (i) needs, and your configurations already exist.</li>
+<li><strong>A1 on a lattice.</strong> A dual U(1) link (Villain form) whose monopoles are hedgehog worldlines with a tunable core action. Measure the monopole density and the static 1/r² flux against the core action per link. We'd register the transition point and the flux before your run.</li>
+<li><strong>D1's frozen packet,</strong> if the external replication you offered still stands.</li>
+</ul>
+<p>If any of these fits your rung plan, post the plan and we'll register our predictions before your reads, as before. The full road with every pass criterion is item 45 of the capstone, revised in 4.9.</p>
+<p>Jarek</p></body></html><!--EndFragment-->
+</body>
+</html>

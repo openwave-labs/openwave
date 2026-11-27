@@ -2,7 +2,7 @@
 
 > Rebuilt by [`archive_discussion.py`](../../../../../../dev_docs/utils/archive_discussion.py) on each run. One row per post, oldest first; an edited post lists one file per version. What the files are and how they are made: [`README.md`](README.md).
 
-Posts: 171. Files: 193. Latest post: 2026-11-27T01:15:14Z.
+Posts: 173. Files: 196. Latest post: 2026-11-27T19:14:55Z.
 
 No longer in the live thread at the last run: none.
 
@@ -179,3 +179,5 @@ No longer in the live thread at the last run: none.
 | 2026-11-26T05:07:00Z | JarekDuda | comment | [as posted](2026-11-26T050700Z_19911695_JarekDuda.txt) | [live](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19911695) |
 | 2026-11-26T18:48:29Z | JarekDuda | comment | [as posted](2026-11-26T184829Z_19930565_JarekDuda.txt) | [live](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19930565) |
 | 2026-11-27T01:15:14Z | xrodz | comment | [as posted](2026-11-27T011514Z_19937507_xrodz.txt) | [live](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19937507) |
+| 2026-11-27T01:49:01Z | JarekDuda | comment | [as posted](2026-11-27T014901Z_19938140_JarekDuda.txt) | [live](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19938140) |
+| 2026-11-27T19:14:55Z | JarekDuda | comment | [as posted](2026-11-27T191455Z_19959770_JarekDuda.txt), [edited 2026-11-27T19:15:19Z](2026-11-27T191455Z_19959770_JarekDuda_edited-2026-11-27T191519Z.txt) | [live](https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19959770) |
