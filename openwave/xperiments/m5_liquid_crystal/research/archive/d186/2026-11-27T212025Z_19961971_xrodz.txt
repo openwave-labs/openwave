@@ -1,0 +1,50 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19961971
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19961971
+author: xrodz
+posted: 2026-11-27T21:20:25Z
+version: as first posted
+sha256: 3aee4618bc43fba62e3144cf2e181d384fb9bf6944c00cba45a310f847a6c28d
+archived: 2026-11-27
+==== verbatim text below this line ====
+# Before a plan: two points on your posts of 2026-11-27 (the order, and the Chern density on a real tensor)
+
+Thank you for the answer on M5.57 and for capstone 4.8. Both posts are recorded on OpenWave, and two points need your word before we write a plan.
+
+## 1. What is filed
+
+- **The held ladder** is filed as [M5.60](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_60_task_details.md) with your rule as written: the same moment $D'$; a held state accepted when it is stationary, the fitted separation is a monotone, reproducible function of the target, and release returns to the free state; the energy read against the fitted separation; the control repeated on a ring moved along its normal and on the pair; OW57-1 scored on the lowest converged end of each box, with the angle as a read. If you meant the ends of M5.57 themselves: they keep the words its frozen rule gave them, and the new rule scores the runs of M5.60.
+- **The three asks of the 4.8 post** are filed as [M5.61](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_61_task_details.md), opened and not staged. Capstone 4.8 was read for it: item 45, SL-1 in item 36, the passage on FB-7, and the passages on the frozen packets.
+
+## 2. The order
+
+Your post of 01:49 UTC asked: the Coulomb-phase test of [M5.59](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_59_task_details.md) (Berry plaquettes on $CP^3$ with a cost on the charge of each cube and a short-range disordering weight), then its linear cost $\pi K_2$, then the held ladder, then M5.58. Your post of 19:14 UTC puts the charge frame first and asks A1 as a dual $U(1)$ link in Villain form, and item 45 gives a reason why the earlier scans found two phases only.
+
+1. Does the Villain lattice of A1 replace run 1 of M5.59, or do you want both?
+2. The linear cost: SL-1 reports the linear growth on the charge for a stiffness acting on every line (slope 9.32 against 9.36), and the covariant stiffness of item 36 is blind to the charge, so that it gives no 135.9 MeV/fm string. Is a replication of $\pi K_2$ on OpenWave still useful?
+3. Where do the three new asks sit against M5.60 and M5.58?
+
+If you have no preference we would start with the stage-0 read, which needs no new sampler.
+
+## 3. What the stage-0 read is, on a real tensor
+
+The fields on OpenWave are real and symmetric: the $4 \times 4$ tensor $M$ in runs of the lepton series, and a $3 \times 3$ field, with no time-like eigenvector, in the ring states of M5.51, M5.56 and M5.57 and in the baryon analogs of M5.22. Where its eigenvalue is not degenerate, an eigenvector of a real symmetric tensor is real and defined up to a sign, so its Berry connection vanishes and only a sign holonomy is left. In capstone 4.8 the charge is a Chern-1 hedgehog of the time line in the $(t, p)$ plane (SL-1), and the document keeps the complex coframe apart from the real one and from the tensor $M$. The charge instrument on record on OpenWave ([`m5_theory_canonical.md`](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/m5_theory_canonical.md)) is the dual curvature of the oriented long axis $\hat n$:
+
+```math
+E_k = \frac{1}{2} \epsilon_{kij} \hat n \cdot \left( \partial_i \hat n \times \partial_j \hat n \right)
+```
+
+It is Coulomb on the hedgehog, and its flux over $4 \pi$ reads $\pm 1$ on every charged state of the record. Where $\hat n$ is smooth its divergence vanishes, so as a charge density it sits only where the long axis is degenerate (the cores and the lines).
+
+1. **Which density do you mean on our states?** (a) The instrument above on the neutral states: whether its charge, zero in total, is spread over separate cores and lines. (b) A complex line built from the time-like eigenvector of the $4 \times 4$ tensor and the spatial line $p$ of SL-1: then which eigenvector of ours is $p$, and with which phase. (c) A lift of a stored $M$ to the complex coframe $E$: then the map from $M$ to $E$.
+2. **Which states count?** On record: single rings and pairs of rings ($3 \times 3$, static; the far field of the pair has degree 2); the baryon analogs of [M5.22](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_22_task_details.md), a $3 \times 3$ census with a neutral state ($Q = 0$, a column and two rings) beside a charged one; and the states of the lepton series, one of them carried at fixed angular momentum (M5.21.9). Which of these is a neutral $B = 1$ state in your sense?
+3. **"Rotating with the frame."** The reading under FB-7 takes the proton and the neutron as two isospin states of one rotating core. Is the read then on a state carried at fixed rotation, or is it the change of the density under a rigid rotation of a static state?
+
+With (a) the read is a fixed-field read on existing states and its plan is short. With (b) or (c) the plan starts from your definition, with a known-answer control on the hedgehog.
+
+## 4. The packet of D1
+
+By your post of 2026-11-13 the STRING calculation went to the other external team and OpenWave took the complement, the Card C track of [M5.39](https://github.com/openwave-labs/openwave/blob/main/openwave/xperiments/m5_liquid_crystal/research/tasks/m5_39_task_details.md). Its integrity pass checked the checksums of the STRING packet and reproduced the value of its strand script (0.240 MeV/fm); no STRING ladder is planned on OpenWave. Capstone 4.8 lists the endpoint and profile arrays of sector (b) and the freeze certification as still missing. Do you now want the STRING ladder from OpenWave as well, and where will the completed packet be?
+
+When these are answered we post the plan of the first read, and you register your predictions before any read, as before.

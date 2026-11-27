@@ -1,0 +1,94 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19959770
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19959770
+author: JarekDuda
+posted: 2026-11-27T19:14:55Z
+version: edited 2026-11-27T19:35:52Z
+sha256: 2a8945782a65d55d6a8b4eab875b498b4655eab5cc289c58d0b866d0324e7e9b
+archived: 2026-11-27
+==== verbatim text below this line ====
+<p><strong>Capstone 4.8 is out</strong> (all versions: doi:10.5281/zenodo.23994958). The native single field is now the coframe E = UΣV^T, whose Grams are the 2108 tensor. Below is where it stands, and the road we've set after three reviews (Sol, Neon, Qwen), with the places where your stacks could decide things faster than ours. <em>(Edited 20:40: section 4 on light added after today's discussion, and a new first ask.)</em></p>
+<p><strong>1. What the single field gives and lacks.</strong></p>
+
+  | status
+-- | --
+gravity on the right frame (teleparallel, with a khronon) | works, effective
+charge as the time line's Chern number, α anchored | works; Coulomb between two hedgehogs, E(d) ≈ 1590 + 25/d (2108, Fig. 2)
+baryon number as the winding of the doublet block | conserved only on the spectator reduction
+a photon with linear waves | not yet; a candidate below (section 4)
+proton stability | the winding can rotate into the charged plane; only a spectator-curvature floor 16π²κ_s protects it, and 152 needs κ_s ≥ 0.96
+three lepton families | a 4D coframe has room for one hedgehog family beside a Skyrmion; μ and τ need a label conserved to 10⁻¹¹–10⁻¹⁶ (MEG II)
+
+
+<p><strong>2. κ_s is now pinned down to a fork</strong> (Sol, replayed independently).</p>
+<ul>
+<li>An induced hadronic value is 0.009, far too small.</li>
+<li>Standard-Model-size matter over a Planck window gives 2.0, and the measured weak coupling gives 2.35.</li>
+<li>So the proton is protected only if the spectator curvature has weak strength, with B − L and B mod 3 as the selection rule (ΔB = ΔL = 3).</li>
+<li>Hence the fork: independent gauge links on the coframe's left index, or induced couplings, which need charged matter beyond the Standard Model.</li>
+</ul>
+<p><strong>3. The road</strong> (each step's pass criterion is written down before it runs):</p>
+<ul>
+<li><strong>Stage 0, the charge frame.</strong> (i) Topological, 2108-faithful: charges are Chern classes of a dual link. (ii) Noether, Standard-Model-like. The test for (i): the neutral nucleon must carry time-line Chern density that gives the neutron's r_n² and μ_n, which is 2108's positive-core, negative-shell neutron.</li>
+<li><strong>A, define the action:</strong>
+<ul>
+<li><strong>A1:</strong> the photon (section 4);</li>
+<li><strong>A2:</strong> the charge assignment, with both chiralities and the anomaly traces;</li>
+<li><strong>A3:</strong> done, above;</li>
+<li><strong>A4:</strong> the symmetry behind the electron's clock rate, with no spin-½ doubling.</li>
+</ul>
+</li>
+<li><strong>B, solve it (cluster):</strong> a neutral B = 1 with a positive Hessian; one nucleon model instead of two; the proton.</li>
+<li><strong>C, quantization:</strong> the fermion sign; the emission pin (section 4); the family label against MEG II, μ→3e and μ→e conversion.</li>
+<li><strong>D, frozen predictions for 5.0, starting now:</strong> the fractional-charge string against lattice QCD, the ⁶Li/¹²C EMC slope ratio, and later the deuteron.</li>
+</ul>
+<p><strong>4. Light, after today's discussion.</strong></p>
+<ul>
+<li><strong>Why 2108's Maxwell derivation doesn't give radiation yet.</strong>
+<ul>
+<li>The Euler–Lagrange equations for A_μ = [M, ∂_μM] give Maxwell exactly if A is varied freely (2108, Sec. IV.A).</li>
+<li>But A is built from M. For any plane wave M(k·x), A_μ = k_μ[M, M′] is a pure gradient, so F = 0.</li>
+<li>The proper M-variation (Eq. 38) has no linear part around the uniform vacuum.</li>
+<li>Statics and Coulomb are unaffected. Radiation needs a field linear in the rotations.</li>
+</ul>
+</li>
+<li><strong>A candidate, in liquid-crystal terms.</strong>
+<ul>
+<li><strong>The term:</strong> a quadratic elastic term with zero splay and equal twist and bend (K₁ = 0, K₂ = K₃), i.e. K|∇×n|². This is MacCullagh's rotational aether, which is Maxwell's equations in temporal gauge.</li>
+<li><strong>What it fixes:</strong> the radial hedgehog is pure splay (∇×r̂ = 0), so this term costs it nothing. That removes the 16πL₁-per-box cost we found on 18 Nov.</li>
+<li><strong>What it gives:</strong> transverse tilts propagate; longitudinal ones have no restoring force.</li>
+<li><strong>What it needs:</strong>
+<ul>
+<li>three tilt components, so that every direction has two polarizations, e.g. the biaxial frame or the time axis's three tilts;</li>
+<li>a covariant form, F = du for the time axis, which is the photon as the Nambu–Goldstone mode of the time axis;</li>
+<li>one Maxwell field: the curvature's Coulomb field and the curl term's radiation must join.</li>
+</ul>
+</li>
+<li>If it is linear, Coulomb (2108, Fig. 2) and Lorentz-invariant, Feynman's argument then gives Maxwell.</li>
+</ul>
+</li>
+<li><strong>The quantum side.</strong>
+<ul>
+<li><strong>Single photons:</strong> a linear wake plus an indivisible unit carrying ħω and ħ, guided by it, accounts for them locally (Grangier's anticorrelation, delayed choice, average photon trajectories).</li>
+<li><strong>Correlations:</strong> these come from one pin per registration, forced by Born's rule at a constant rate (BellSolitons v6.0, doi:10.5281/zenodo.23860500). The two-atom cascade's selection rule is such a pin, and the first photon's colour then predicts the second's.</li>
+</ul>
+</li>
+</ul>
+<p><strong>5. Where OpenWave could decide most.</strong></p>
+<ul>
+<li><strong>The splay-free elastic term on your tensor stack.</strong> This is the newest and most direct ask.
+<ul>
+<li><strong>Relax a hedgehog with K₁ = 0, K₂ = K₃.</strong> Its energy should stay flat with box size, unlike L₁'s.</li>
+<li><strong>Drive a rotating tilt source.</strong> Look for transverse waves falling as 1/r, and check both handednesses travel at the same speed.</li>
+<li><strong>A caveat for the Q-tensor form:</strong> with only quadratic gradient terms (L₁, L₂, L₃), splay and bend come out equal. Splitting them needs a cubic L₆-type term, or frame variables.</li>
+</ul>
+</li>
+<li><strong>Stage 0's test on your configurations.</strong> In your relaxed B = 1 and ring states, compute the Berry-flux (Chern) density of the time-like eigenvector. Is any neutral state's density zero in total but distributed and rotating?</li>
+<li><strong>A1 on a lattice,</strong> if the frame stays topological: a dual U(1) link (Villain) whose monopoles are hedgehog worldlines with a tunable core action. We'd register the transition point before your run.</li>
+<li><strong>D1's frozen packet,</strong> if the external replication still stands.</li>
+</ul>
+<p>If any of these fits your rung plan, post the plan and we'll register our predictions before your reads. The full road is item 45 of the capstone, revised in 4.9.</p>
+<p>Jarek</p></body></html><!--EndFragment-->
+</body>
+</html>

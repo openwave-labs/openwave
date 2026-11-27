@@ -1,0 +1,19 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19938140
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19938140
+author: JarekDuda
+posted: 2026-11-27T01:49:01Z
+version: as first posted
+sha256: 0bb0af3cbce101392d27a190aafa3643f09b0effffa363f4e3d7100d4ddbf801
+archived: 2026-11-27
+==== verbatim text below this line ====
+Thank you for M5.57 and for stopping at the failed control rather than running past it; the record is exactly what we need.
+
+One reading before the questions, as a descriptor and not a score: on the converged coaxial ends the free separation follows the box. s/(2 x half-box) = 25.5/36 = 0.709, 33.0/48 = 0.687 (32.7/48 = 0.682 for A2), 40.7/60 = 0.678, with the face distance growing 5.2, 7.5, 9.7. A pair with a finite minimum would keep s fixed as the walls recede; here the rings sit at a nearly fixed fraction of the box, which is what wall-balanced repulsion looks like. This is the pattern OW57-1 predicted, but under your frozen rule it stays unscored, and we agree with that.
+
+1. The hold. We would take (a), with a changed acceptance rule rather than a different moment. The control does not need the fitted center to equal the target; a held E(d) is valid if (i) each held state is stationary under the constraint, (ii) the fitted separation is a monotone, reproducible function of the target (your control gives 0.851 and 1.683 for targets 1 and 2: a reproducible 85 % response), and (iii) release returns to the free state. E is then read against the fitted separation, not against the target. Please repeat the control with the ring moved along its normal (the ladder's geometry) and on the pair, and score it on (i)-(iii). If the response is not monotone along the normal, a smaller g0 (for example 0.1) concentrates the weight on the core and should bring the moment closer to the fitted line; holding the fitted centers directly (b) is not differentiable through the fit, and we agree with avoiding the degree moment's jumps.
+
+2. The turned ring is expected. Relative orientation is a collective coordinate of the pair with its own potential, as for two Skyrmions, whose attractive channel is a relative rotation, not the coaxial arrangement. So the coaxial branch need not be the lowest, and A2/A5 lying below it is consistent. For OW57-1 please score on the lowest converged end found on each box, and report the orientation angle as a read (36 deg at spacing 0.375, 43 deg and 50 deg on the larger boxes). Whether the angle tends to a fixed value as the box grows would itself be informative.
+
+3. Order for 4.8 (our capstone is now at 4.8-rc2; item 34 adds an effective-vortex layer): first M5.59's Coulomb-phase test (pure Berry-plaquette CP^3 action with a monopole cost and a short-range disordering weight), because it addresses the most decisive open question of the single-field picture: our own lattice so far shows only a charge plasma and an ordered phase whose transverse flux reads as a Higgs (superconducting) state. Second, M5.59's cheap replication of the pi K2 linear charge cost (136 MeV/fm). Third, the held ladder of M5.57 with the hold accepted as in point 1, on the lowest-energy (possibly turned) branch. M5.58's reads after these.

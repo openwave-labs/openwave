@@ -217,6 +217,7 @@ Entries are ordered by year (ascending; undated last); the Bibliography is the r
 | Duda (2026) | `duda_2026-11-24_sm_gravity_effective_ldgs_v4_5/SM_gravity_effective_LdGS_v4.5.pdf` (md5 `0fcd1bd6cfc7bfcd9a99d30ae7b8d010`) and `article.txt` (pdftotext); the release's source archive was not downloaded | 18 MB pdf |
 | Duda (2026) | `duda_2026-11-25_sm_gravity_effective_ldgs_v4_6/SM_gravity_effective_LdGS_v4.6.pdf` (md5 `bc7187c99ac10b306155b21f9515b32b`) and `article.txt` (pdftotext); the record holds the PDF alone | 19 MB pdf |
 | Duda (2026) | `duda_2026-11-26_sm_gravity_effective_ldgs_v4_7/SM_gravity_effective_LdGS_v4_7.pdf` (md5 `85dab37c68efeb19a182e17867ee54fa`, Zenodo record 24568913 under the DOI of all versions 10.5281/zenodo.23994958) and `article.txt` (pdftotext); the record holds the PDF alone | 20 MB pdf |
+| Duda (2026) | `duda_2026-11-27_sm_gravity_effective_ldgs_v4_8/SM_gravity_effective_LdGS_v4_8.pdf` (md5 `cf8833d636242798618984ffaa67cb0a`, Zenodo record 24601193 under the DOI of all versions 10.5281/zenodo.23994958) and `article.txt` (pdftotext); the record holds the PDF alone | 20 MB pdf |
 | Duda (2026) | `duda_2026-10-27_vortex_model_of_the_nucleus/Vortex_Model_of_the_Nucleus_v3_2_Full.pdf` | 20 MB |
 | Duda (2026) | `duda_2026-08-20_current_4x4_lagrangian.png` | 28 KB |
 | Duda (2026) | `duda_2026-08-23_models_scoreboard_screenshot.png` | 69 KB |
