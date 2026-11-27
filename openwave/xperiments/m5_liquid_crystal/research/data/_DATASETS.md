@@ -1,6 +1,6 @@
 # Local-only datasets manifest
 
-> AUTO-GENERATED, do not hand-edit the table: `gen-datasets-manifest openwave/xperiments/m5_liquid_crystal/research/data --write`
+> AUTO-GENERATED, do not hand-edit the table: `gen-datasets-manifest data --write`
 
 Heavy binary arrays in this folder are **local-only**: gitignored, never deleted (policy 2026-07-20, which supersedes the earlier "delete raw data > 1 MB" rule). They stay on the working machine so later tasks can consume them directly, and they stay OUT of the repo so clones stay light. What IS tracked in git and readable on GitHub: the summary `.json` / `.csv` / `.txt` in this same folder, the plots, and the scripts that rebuild everything here.
 

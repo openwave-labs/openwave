@@ -1,0 +1,14 @@
+source: https://github.com/vantasnerdan/substrate-framework/discussions/186#discussioncomment-19930565
+thread: vantasnerdan/substrate-framework discussion #186
+kind: comment
+id: 19930565
+author: JarekDuda
+posted: 2026-11-26T18:48:29Z
+version: as first posted
+sha256: b61348d156fdf01d377a32d2d2e1718181c7adf6be270b9c4ab6caad61d1af67
+archived: 2026-11-26
+==== verbatim text below this line ====
+LdGS capstone 4.7 is released: https://doi.org/10.5281/zenodo.23994958 (all versions). Since 4.6 the native single field is a coframe E = UΣVᵀ (Fig. 1, Sec. 4, items 29–33). What bears on M5:
+- Gate 3 (emergent photon), round 2 on our cluster (12x6^3 CP^3 coframe lattice, Chern-cube fugacity mu_m = 1.4–3.8): charges are suppressed (density 7e-4 → 0) and mix between hot and cold starts, but the line stays nearly ordered (order 0.24–0.28 vs 0.067 for independent lines; static transverse flux ratio 2.3 vs 1 for a photon). No Coulomb window yet. Neon's analysis: on CP^3 the commutator quartic ||[∂P,∂P]||² contains a positive non-Berry term besides 2f², which orders the line; on CP^1 (2108's uniaxial director) it is pure Berry flux.
+- A globally lifted coframe at fixed metric carries no unit charge (left and right eigenbundles are isomorphic); a two-chart phase quotient restores charge and baryon winding together. A quadratic pion stiffness acting on the charge line then costs pi*K2 = 136 MeV per fm of radius, and removing it leaves B = 1 without an energy floor.
+Two requests, if they fit your queue: (1) an independent Coulomb-phase test with a pure Berry-plaquette CP^3 action, beta_f Σ(1 − cos f_□) + mu_m Σ|q_cube|, plus a short-range SU(4)-invariant disordering weight on neighbour overlaps (e.g. w Σ(|z_x†z_y|² − c0)², c0 in 0.25–0.5), scored by order·sqrt(N) across two sizes, a flat transverse flux and charge-density agreement between starts; (2) a replication of the 136 MeV/fm linear cost for a unit Chern line under K2 = f_pi² (Berry bound ∫|D_Ω z|² ≥ 2π|q| on each sphere). Earlier M5.57/M5.58 results, if available, will go into 4.7.x.
