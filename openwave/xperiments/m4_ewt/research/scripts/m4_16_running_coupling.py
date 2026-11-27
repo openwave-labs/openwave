@@ -1,218 +1,291 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
+M4.16: Boundary Onset and Scale Emergence of Gravitational Coupling
 From manuscript version: not in manuscript yet
 
-M4.16 - Running gravitational coupling (scale dependence).
+Models the boundary emergence of G and alpha_G across x = r / r_e = 1.
+For x < 1 (interior push-out zone), outward EMC push-out from K_WC wave
+centers compounded by restoring medium equilibrium dominates -- analogous to
+asking how a uniform statutory background N_stat self-gravitates -- so no
+local interior G(r) is defined (NaN).
 
-OpenWave criterion:
-    Running coupling
-    Test: coupling varies with scale (onset at the core radius).
-
-Mechanism:
-    In the BCC vacuum framework, the asymptotic dimensionless gravitational
-    coupling alpha_G emerges purely from lattice geometry:
-
-        alpha_G_geom = 1 / [ A_pi^5 * (1 - eps_M/A_pi) * N_geom^3 * K_WC * sqrt(N_eff) ]
-
-    which yields alpha_G_geom = 1.752633e-45 (~0.047% from CODATA 2022).
-    At macroscopic scales (r >> r_e), the effective vacuum density settles
-    at N_eff and both alpha_G(r) and G(r) remain constant. Near and inside
-    the soliton core radius (r <= r_e), local lattice compression / core
-    structure modifies the effective local density N(r), causing alpha_G(r)
-    and G(r) to run with scale (onset at r ~ r_e).
-
-ASCII only. No BOM.
+Epistemic status in this script:
+- Engine-derived invariants (G_EWT, alpha_G_EWT, N_nu_eff, N_nu_statutory,
+  X_eff) come from m4_7_ewt_emergence_engine.py.
+- All radial onset profiles Phi_onset(x) for x >= 1 are working hypotheses /
+  ansatzes for boundary emergence and are NOT derived from BCC lattice
+  mechanics or a first-principles interior field equation.
 """
 
-import math
-import os
+from pathlib import Path
+import matplotlib
 import numpy as np
-import matplotlib.pyplot as plt
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
 
 try:
     from m4_7_ewt_emergence_engine import (
         PI,
+        G_CODATA,
+        ALPHA_G_CODATA,
         C0,
         M_E,
-        ALPHA_G_CODATA,
-        G_CODATA,
+        R_E,
+        E_CHARGE_CODATA,
         BCC_IDEAL_PROJECTION_LP,
         compute_alpha_core,
         compute_alpha_geometric,
         derive_eps_M_from_BCC,
-        derive_lambda_l_geometric,
         derive_planck_charge_from_e,
         derive_neutrino_radius,
-        derive_alpha_G_pure_geom,
+        derive_lambda_l_geometric,
         gravity_sector,
     )
 except ImportError:
     raise ImportError(
-        "This script requires m4_7_ewt_emergence_engine.py in the same directory."
+        "This module requires m4_7_ewt_emergence_engine.py in the same directory."
     )
 
 
-def main():
-    print("=" * 76)
-    print("M4.16 - Running Gravitational Coupling (Scale Dependence)")
-    print("=" * 76)
-    print()
+# ---------------------------------------------------------------------------
+# 1. Reference invariants computed from m4_7_ewt_emergence_engine
+# ---------------------------------------------------------------------------
+K_WC = 10
 
-    # --- 1. Geometric Decomposition of Asymptotic alpha_G ---
-    K_WC = 10
-    bcc = derive_eps_M_from_BCC(8.0 * PI**4)
-    N_geom = bcc["N_geom"]
-    eps_M = bcc["eps_M"]
+_A_PI = compute_alpha_core()
+_BCC = derive_eps_M_from_BCC(8.0 * PI**4)
+_EPS_M = _BCC["eps_M"]
+_N_GEOM = _BCC["N_geom"]
+_ALPHA_INV = compute_alpha_geometric(_EPS_M)
+_ALPHA_GEOM = 1.0 / _ALPHA_INV
+_Q_PLANCK = derive_planck_charge_from_e(_ALPHA_GEOM, E_CHARGE_CODATA)
+_R_NU = derive_neutrino_radius(_ALPHA_GEOM, _Q_PLANCK)["r_nu"]
+_LAMBDA_L = derive_lambda_l_geometric(
+    alpha_geom=_ALPHA_GEOM,
+    r_e=R_E,
+    r_nu=_R_NU,
+    N_geom=_N_GEOM,
+    L_p_geom=BCC_IDEAL_PROJECTION_LP,
+    K_WC=K_WC,
+)
+_GRAV = gravity_sector(
+    alpha_geom=_ALPHA_GEOM,
+    r_nu=_R_NU,
+    N_geom=_N_GEOM,
+    L_p_geom=BCC_IDEAL_PROJECTION_LP,
+    K_WC=K_WC,
+    lambda_l=_LAMBDA_L,
+    r_e=R_E,
+    m_e=M_E,
+    c0=C0,
+)
 
-    alpha_inv = compute_alpha_geometric(eps_M)
-    alpha_geom = 1.0 / alpha_inv
-    A_pi = compute_alpha_core()
+G_EWT = _GRAV["G_EWT"]
+N_NU_EFF = _GRAV["N_nu_eff"]
+N_NU_STAT = _GRAV["N_nu_statutory"]
+X_EFF = _GRAV["X_eff"]
+ALPHA_G_EWT = _ALPHA_GEOM / (
+    (_A_PI**4) * (_N_GEOM**3) * K_WC * np.sqrt(N_NU_EFF)
+)
 
-    q_P = derive_planck_charge_from_e(alpha_geom, 1.602176634e-19)
-    r_nu = derive_neutrino_radius(alpha_geom, q_P)["r_nu"]
-    r_e = 100.0 * r_nu
 
-    lambda_l = derive_lambda_l_geometric(
-        alpha_geom, r_e, r_nu, N_geom, BCC_IDEAL_PROJECTION_LP, K_WC
+# ---------------------------------------------------------------------------
+# 2. Boundary onset ansatzes Phi_onset(x) for x = r / r_e
+#    WORKING HYPOTHESES / ANSATZES (NOT derived from BCC lattice dynamics):
+#    - For x < 1: NaN (push-out zone; no local interior G(r) defined).
+#    - For x >= 1: phenomenological / working onset profiles that recover
+#      Phi_onset -> 1 asymptotically (G -> G_EWT, alpha_G -> ALPHA_G_EWT).
+# ---------------------------------------------------------------------------
+def phi_step_boundary(x: np.ndarray) -> np.ndarray:
+    """Working ansatz: ideal sharp boundary onset at x = 1 (not derived from BCC)."""
+    out = np.full_like(x, np.nan, dtype=float)
+    out[x >= 1.0] = 1.0
+    return out
+
+
+def phi_emc_wall_step(x: np.ndarray, wall_jump: float = 1.0) -> np.ndarray:
+    """
+    Working hypothesis: step/abrupt Degraded EMC Wall onset at x >= 1.
+    Treats the boundary wall as producing an immediate jump at x = 1 rather
+    than a gradual radial ramp; NOT derived from BCC lattice equations.
+    """
+    out = np.full_like(x, np.nan, dtype=float)
+    out[x >= 1.0] = float(wall_jump)
+    return out
+
+
+def phi_monotonic_shell(x: np.ndarray) -> np.ndarray:
+    """
+    Working ansatz (Scenario A closure shape): monotonic onset across x >= 1
+    using 1 - exp(-K_WC * (x - 1)). The exponential form and K_WC decay scale
+    are a modeling ansatz, NOT a derivation from BCC lattice mechanics.
+    """
+    out = np.full_like(x, np.nan, dtype=float)
+    mask = x >= 1.0
+    dx = x[mask] - 1.0
+    out[mask] = 1.0 - np.exp(-K_WC * dx)
+    return out
+
+
+def phi_emc_wall_peak(x: np.ndarray, wall_excess: float = 0.12) -> np.ndarray:
+    """
+    Working ansatz (Scenario B shell profile): adds a localized bump
+    wall_excess * (K_WC * dx) * exp(-K_WC * dx) on top of the monotonic onset.
+    Both the functional form and wall_excess are working assumptions, NOT
+    derived from BCC lattice dynamics.
+    """
+    out = np.full_like(x, np.nan, dtype=float)
+    mask = x >= 1.0
+    dx = x[mask] - 1.0
+    base_closure = 1.0 - np.exp(-K_WC * dx)
+    shell_bump = wall_excess * (K_WC * dx) * np.exp(-K_WC * dx)
+    out[mask] = base_closure + shell_bump
+    return out
+
+
+VARIANTS = {
+    "step_boundary": phi_step_boundary,
+    "emc_wall_step": phi_emc_wall_step,
+    "monotonic_shell": phi_monotonic_shell,
+    "emc_wall_peak": phi_emc_wall_peak,
+}
+
+
+def compute_profiles(x: np.ndarray) -> dict[str, dict[str, np.ndarray]]:
+    """Evaluate Phi_onset(x), alpha_G(x), and G(x) across radial grid x = r / r_e."""
+    results: dict[str, dict[str, np.ndarray]] = {}
+    for name, fn in VARIANTS.items():
+        phi = fn(x)
+        results[name] = {
+            "phi": phi,
+            "alpha_g": ALPHA_G_EWT * phi,
+            "g": G_EWT * phi,
+        }
+    return results
+
+
+def print_summary() -> None:
+    """Print engine invariants and representative values at key radii."""
+    rel_err_g = abs(G_EWT - G_CODATA) / G_CODATA * 100.0
+    rel_err_ag = abs(ALPHA_G_EWT - ALPHA_G_CODATA) / ALPHA_G_CODATA * 100.0
+
+    print("=== M4.16 Boundary Onset & Scale Emergence Summary ===")
+    print("Note: Phi_onset(x) variants for x >= 1 are working ansatzes, NOT BCC derivations.")
+    print(f"X_eff           = {X_EFF:.10f}")
+    print(f"N_nu_stat       = {N_NU_STAT:.10e}")
+    print(f"N_nu_eff        = {N_NU_EFF:.10e}")
+    print(
+        f"G_EWT (x >= 1)  = {G_EWT:.10e} m^3 kg^-1 s^-2 "
+        f"(rel. diff vs CODATA: {rel_err_g:.6f}%)"
     )
-
-    gravity_res = gravity_sector(
-        alpha_geom=alpha_geom,
-        r_nu=r_nu,
-        N_geom=N_geom,
-        L_p_geom=BCC_IDEAL_PROJECTION_LP,
-        K_WC=K_WC,
-        lambda_l=lambda_l,
-        r_e=r_e,
-        m_e=M_E,
-        c0=C0,
+    print(
+        f"alpha_G_EWT     = {ALPHA_G_EWT:.10e} "
+        f"(rel. diff vs CODATA: {rel_err_ag:.6f}%)"
     )
+    print("Interior x < 1  : push-out dominated (no local interior G(r) defined)\n")
 
-    N_stat = gravity_res["N_nu_statutory"]
-    N_eff = gravity_res["N_nu_eff"]
-    X_eff = N_stat / N_eff
-    G_Base = gravity_res["G_Base"]
-    G_EWT_asymp = gravity_res["G_EWT"]
+    sample_x = np.array([0.5, 1.0, 1.1, 1.5, 10.0, 100.0])
+    profiles = compute_profiles(sample_x)
 
-    alpha_G_asymp = derive_alpha_G_pure_geom(eps_M, A_pi, N_geom, K_WC, N_eff)
-    rel_err_asymp = abs(alpha_G_asymp - ALPHA_G_CODATA) / ALPHA_G_CODATA * 100.0
+    header = f"{'Variant':<18} | " + " | ".join([f"x={val:<5g}" for val in sample_x])
+    print(header)
+    print("-" * len(header))
+    for name, data in profiles.items():
+        row_vals = [
+            f"{'push-out':<9}" if np.isnan(g_val) else f"{g_val:.3e}"
+            for g_val in data["g"]
+        ]
+        print(f"{name:<18} | " + " | ".join(row_vals))
 
-    print("[1/3] Geometric Origin of Asymptotic alpha_G (~1.753e-45):")
-    print("  Formula: alpha_G = 1 / [ A_pi^5 * (1 - eps_M/A_pi) * N_geom^3 * K_WC * sqrt(N_eff) ]")
-    print(f"    A_pi                 = {A_pi:.12f}")
-    print(f"    A_pi^5               = {A_pi**5:.6e}  (5D geometric ladder)")
-    print(f"    (1 - eps_M / A_pi)   = {1.0 - eps_M / A_pi:.12f}  (vacuum correction)")
-    print(f"    N_geom^3             = {N_geom**3:.6e}  (BCC lattice stiffness)")
-    print(f"    K_WC                 = {K_WC}             (wave-center count)")
-    print(f"    N_stat               = {N_stat:.6e} (dimensionless)")
-    print(f"    X_eff = N_stat/N_eff = {X_eff:.6f}      (volume deficit factor)")
-    print(f"    N_eff                = {N_eff:.6e} (dimensionless)")
-    print(f"    sqrt(N_eff)          = {math.sqrt(N_eff):.6e} (dimensionless)")
-    print("  ------------------------------------------------------------------------")
-    print(f"    alpha_G (EWT geom)   = {alpha_G_asymp:.6e}")
-    print(f"    alpha_G (CODATA)     = {ALPHA_G_CODATA:.6e}")
-    print(f"    Relative error       = {rel_err_asymp:.6f} %")
-    print(f"    G_EWT (asymptotic)   = {G_EWT_asymp:.6e} m^3 kg^-1 s^-2")
-    print(f"    Core radius r_e      = {r_e:.6e} m")
-    print()
 
-    # --- 2. Scale-Dependent Effective Density Profile N(r) ---
-    # For r >> r_e, N(r) -> N_eff (recovering exact asymptotic alpha_G and G_EWT).
-    # For r <= r_e, core lattice compression increases local density toward N_stat,
-    # producing a smooth running of alpha_G(r) and G(r) with onset at r ~ r_e.
-    def N_local(r):
-        core_envelope = np.exp(-((r / r_e) ** 2))
-        return N_eff + (N_stat - N_eff) * core_envelope
+def generate_plot(output_path: Path) -> None:
+    """Generate two-panel plot of boundary onset and far-field convergence."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    x = np.logspace(-1, 2, 1200)
+    profiles = compute_profiles(x)
 
-    def alpha_G_running(r):
-        N_r = N_local(r)
-        return 1.0 / (
-            (A_pi**5) * (1.0 - eps_M / A_pi) * (N_geom**3) * K_WC * math.sqrt(N_r)
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8.5, 7.2), sharex=True)
+
+    for ax in (ax1, ax2):
+        ax.axvspan(
+            x.min(),
+            1.0,
+            color="#f2e6e6",
+            alpha=0.65,
+            label="Interior push-out zone (r < r_e)",
+        )
+        ax.axvline(
+            1.0,
+            color="#333333",
+            linestyle="--",
+            linewidth=1.1,
+            label="Boundary onset (r = r_e)",
         )
 
-    def G_running(r):
-        # Since alpha_G = alpha_geom * (G / G_Base), G(r) scales directly with alpha_G(r)
-        return G_Base * (alpha_G_running(r) / alpha_geom)
+    styles = {
+        "step_boundary": ("-", "#1f77b4", "Step boundary onset (ansatz, not BCC)"),
+        "emc_wall_step": (":", "#9467bd", "Degraded EMC Wall jump (hypothesis, not BCC)"),
+        "monotonic_shell": ("--", "#2ca02c", "Monotonic exp(-K_WC*(x-1)) (ansatz, not BCC)"),
+        "emc_wall_peak": ("-.", "#d62728", "EMC Wall bump profile (ansatz, not BCC)"),
+    }
 
-    # --- 3. Evaluate Across Scales ---
-    scales = np.logspace(-1, 2, 61)  # 0.1 r_e to 100 r_e
-    alpha_G_vals = [alpha_G_running(s * r_e) for s in scales]
-    G_vals = [G_running(s * r_e) for s in scales]
-
-    print("[2/3] Scale Dependence of alpha_G(r) and G(r):")
-    print(f"  {'r / r_e':>10} {'N(r) [-]':>16} {'alpha_G(r)':>16} {'G(r) [SI]':>16}")
-    print("  " + "-" * 64)
-
-    sample_indices = [0, 10, 15, 20, 25, 30, 40, 60]
-    for idx in sample_indices:
-        s = scales[idx]
-        r = s * r_e
-        print(
-            f"  {s:>10.2f} {N_local(r):>16.6e} {alpha_G_vals[idx]:>16.6e} {G_vals[idx]:>16.6e}"
+    for name, (ls, color, label) in styles.items():
+        ax1.plot(
+            x,
+            profiles[name]["g"],
+            linestyle=ls,
+            color=color,
+            linewidth=1.8,
+            label=label,
+        )
+        ax2.plot(
+            x,
+            profiles[name]["alpha_g"],
+            linestyle=ls,
+            color=color,
+            linewidth=1.8,
+            label=label,
         )
 
-    alpha_G_far = alpha_G_vals[-1]
-    err_far = abs(alpha_G_far - ALPHA_G_CODATA) / ALPHA_G_CODATA * 100.0
-    ratio_core_to_far = alpha_G_vals[0] / alpha_G_far
-
-    print("  " + "-" * 64)
-    print(f"  Asymptotic alpha_G (r = 100 r_e) = {alpha_G_far:.6e}")
-    print(f"  CODATA 2022 reference            = {ALPHA_G_CODATA:.6e}")
-    print(f"  Asymptotic relative error        = {err_far:.6f} %")
-    print(f"  Core-to-asymptotic ratio (0.1r_e)= {ratio_core_to_far:.6e}")
-    print("  By construction: the profile's width is r_e and its r = 0 value is N_stat.")
-    print()
-
-    # --- 4. Plotting ---
-    print("[3/3] Generating plot...")
-    fig, ax1 = plt.subplots(figsize=(8.5, 5.2))
-
-    color1 = "tab:blue"
-    ax1.plot(scales, alpha_G_vals, "-", color=color1, linewidth=2.0, label=r"$\alpha_G(r)$ (EWT)")
     ax1.axhline(
-        ALPHA_G_CODATA,
-        color="tab:red",
-        linestyle="--",
-        linewidth=1.4,
-        label=r"$\alpha_G$ CODATA 2022",
-    )
-    ax1.axvline(
-        1.0,
+        G_CODATA,
         color="black",
-        linestyle=":",
-        linewidth=1.5,
-        label=r"Core Radius ($r = r_e$)",
+        linestyle="-.",
+        linewidth=1.0,
+        alpha=0.75,
+        label="G_CODATA",
     )
     ax1.set_xscale("log")
-    ax1.set_xlabel(r"Normalized Scale $r / r_e$")
-    ax1.set_ylabel(r"Gravitational Coupling $\alpha_G(r)$", color=color1)
-    ax1.tick_params(axis="y", labelcolor=color1)
+    ax1.set_ylabel(r"Emergent $G(r)$ [$\mathrm{m^3\,kg^{-1}\,s^{-2}}$]")
+    ax1.set_title("M4.16: Boundary Emergence of Gravitational Coupling at $r = r_e$")
+    ax1.set_ylim(0.0, G_EWT * 1.18)
     ax1.grid(True, which="both", alpha=0.25)
+    ax1.legend(loc="lower right", fontsize=8.0)
 
-    # Secondary y-axis showing G(r) directly
-    ax2 = ax1.twinx()
-    color2 = "tab:green"
-    ax2.plot(scales, G_vals, "--", color=color2, linewidth=1.2, alpha=0.75, label=r"$G(r)$")
-    ax2.axhline(G_CODATA, color="gray", linestyle="-.", linewidth=1.0, alpha=0.6)
-    ax2.set_ylabel(r"Effective Newton Constant $G(r)$ [$\mathrm{m^3\,kg^{-1}\,s^{-2}}$]", color=color2)
-    ax2.tick_params(axis="y", labelcolor=color2)
+    ax2.axhline(
+        ALPHA_G_CODATA,
+        color="black",
+        linestyle="-.",
+        linewidth=1.0,
+        alpha=0.75,
+        label=r"$\alpha_G^{\mathrm{CODATA}}$",
+    )
+    ax2.set_xscale("log")
+    ax2.set_xlabel(r"Normalized radius $x = r / r_e$")
+    ax2.set_ylabel(r"Dimensionless $\alpha_G(r)$")
+    ax2.set_ylim(0.0, ALPHA_G_EWT * 1.18)
+    ax2.grid(True, which="both", alpha=0.25)
 
-    # Combine legends cleanly
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc="lower right")
-
-    plt.title(r"Running Gravitational Coupling $\alpha_G(r)$ and $G(r)$ (Onset at $r_e$)")
-    fig.tight_layout()
-
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    out_dir = os.path.normpath(os.path.join(script_dir, "..", "plots"))
-    plot_path = os.path.join(out_dir, "m4_16_running_coupling.png")
-    plt.savefig(plot_path, dpi=150)
-    print(f"  Plot saved to: {plot_path}")
-    plt.close()
+    plt.tight_layout()
+    with open(output_path, "wb") as fh:
+        fig.savefig(fh, format="png", dpi=180)
+    plt.close(fig)
 
 
 if __name__ == "__main__":
-    main()
+    print_summary()
+    plot_file = (
+        Path(__file__).resolve().parent.parent / "plots" / "m4_16_running_coupling.png"
+    )
+    generate_plot(plot_file)
