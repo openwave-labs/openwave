@@ -22,6 +22,6 @@ The post names one more read as a bonus: the split of the energy between the ele
 
 **Definition of done.** Written with the plan.
 
-**Gating.** [M5.57](m5_57_task_details.md) closed, a plan with its audit, and the user's go. The author's answer on the action and the states was given on 2026-11-26 (above).
+**Gating.** [M5.59](m5_59_task_details.md) and [M5.60](m5_60_task_details.md) first, by the order the author asked on 2026-11-27 ([thread record](m5_32_convo.md)); then a plan with its audit, and the user's go. The author's answer on the action and the states was given on 2026-11-26 (above).
 
 **Blindspot pass, consumers, research body.** Written with the plan.
