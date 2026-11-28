@@ -15,10 +15,11 @@
 In Enhanced Energy Wave Theory (EWT), gravity is a **boundary-emergent phenomenon** rather than a local interior field $G(r)$ defined inside the soliton core ($r < r_e$):
 
 * **Dominance of Outward Push-Out in the Interior ($x = r / r_e < 1$):** Inside the core radius $r_e$, outward Electromagnetic Core (EMC) push-out driven by $K_{WC} = 10$ interacting wave centers dominates the local medium dynamics, balanced against restoring medium equilibrium. Because outward push-out governs the interior—and asking for a local interior $G(r)$ inside the core is analogous to asking how a uniform statutory vacuum background $N_{\text{stat}}$ self-gravitates—no local gravitational coupling $G(r)$ or $\alpha_G(r)$ exists for $x < 1$ (represented as `NaN` on the radial grid).
-* **Boundary Emergence ($x \ge 1$) and the Origin of $\sqrt{N_{\nu,\text{eff}}}$:** Gravity emerges at the spherical soliton interface $r = r_e$ through a surface projection of the cumulative internal volume deficit (a reading, not a derived step: see section 2). Because the effective volume deficit $N_{\nu,\text{eff}} = N_{\nu,\text{statutory}} / X_{\text{eff}}$ is a volumetric count distributed across the 3D core while gravitational emergence acts as a 2D boundary/surface projection on the shell of radius $r_e$ across $K_{WC}$ wave centers, the effective linear/surface projection factor enters as $\left(K_{WC}\sqrt{N_{\nu,\text{eff}}}\right)^{-1}$ in the gravitational constant:
+- **Boundary Emergence ($x \ge 1$) and the Role of $\sqrt{N_{\nu,\text{eff}}}$:** Gravity is treated in this note as emerging from the boundary $r = r_e$ outward rather than as a local interior field. In the engine's expressions,
   $$G_{\text{EWT}} = \left(\frac{G_{\text{Base}}}{A_\pi}\right)\left(\frac{1}{N_{\text{geom}} A_\pi}\right)^3 \left(\frac{1}{K_{WC}\sqrt{N_{\nu,\text{eff}}}}\right)$$
-  and in the dimensionless gravitational coupling:
+  and
   $$\alpha_G^{\text{EWT}} = \frac{\alpha_{\text{geom}}}{A_\pi^4 N_{\text{geom}}^3 K_{WC}\sqrt{N_{\nu,\text{eff}}}}$$
+  the factor $\sqrt{N_{\nu,\text{eff}}}$ comes from $N_{\nu,\text{eff}} = N_{\nu,\text{statutory}} / X_{\text{eff}}$ with $N_{\nu,\text{statutory}}$ scaling as a cubic length ratio ($L^3$), giving an $L^{3/2}$ length scaling (weighted by $X_{\text{eff}}^{-1/2}$)—algebraically the geometric mean of $L^1$ and $L^2$ powers rather than a literal $N^{2/3}$ volume-to-surface projection. Reading this factor as an effective coupling between radial push-out and the boundary at $r = r_e$ is a phenomenological interpretation, not a derived step (see section 2).
 
 ---
 
@@ -61,5 +62,13 @@ In Enhanced Energy Wave Theory (EWT), gravity is a **boundary-emergent phenomeno
 ## 5. Key Takeaways
 
 1. **Interior Push-Out Dominance ($r < r_e$):** Outward EMC push-out from $K_{WC} = 10$ wave centers dominates the core interior, so no local gravitational coupling $G(r)$ is defined inside $r_e$; gravity exists only from the boundary outward ($x \ge 1$).
-2. **Surface Projection Origin of $\sqrt{N_{\nu,\text{eff}}}$:** The square root in $\left(K_{WC}\sqrt{N_{\nu,\text{eff}}}\right)^{-1}$ reflects the geometric projection of the cumulative internal volume deficit onto the spherical boundary surface at $r = r_e$, rather than a bulk local density law. This reading is an interpretation, not a derived step (section 2).
+2. **Phenomenological Reading of $\sqrt{N_{\nu,\text{eff}}}$:** Treating $\sqrt{N_{\nu,\text{eff}}}$ (with its $L^{3/2}$ length scaling from $N_{\nu,\text{statutory}} \propto L^3$ and dilution factor $X_{\text{eff}}$) as an effective coupling between radial push-out and the $r = r_e$ boundary rather than a bulk interior law or a literal $N^{2/3}$ volume-to-surface projection is an interpretation, not a derivation from M4's equations (section 2).
 3. **Asymptotic Consistency:** Regardless of whether boundary onset is modeled as an ideal step (`step_boundary`), an abrupt Degraded EMC Wall jump (`emc_wall_step`), or a smooth exponential shell closure (`monotonic_shell`, `emc_wall_peak`), all working onset profiles converge cleanly to $G_{\text{EWT}}$ and $\alpha_G^{\text{EWT}}$ in the far field ($x \gg 1$) without artificial clamping.
+
+## 6. Road to Partial Validation (`Running coupling`)
+
+While M4.16 establishes post-hoc evaluations across onset ansatzes on engine invariants, moving the `Running coupling` cell beyond `🚧` toward partial validation (comparable to the M5 benchmark) requires:
+
+- **Equation-driven onset rather than a chosen $\Phi(x)$:** Compute the onset/variation from M4's own equations instead of prescribing $\Phi(x)$ as a chosen ansatz or hypothesis.
+- **Prescribed core is acceptable without a full interior solve:** A solved interior profile is not required; computing the coupling variation/onset from M4's equations on a prescribed core is sufficient to be evaluated against the M5 cell.
+- **Separate review of the resulting mark:** Whether that result earns `⚠️` or another mark is decided when the equation-computed onset output is reviewed.
